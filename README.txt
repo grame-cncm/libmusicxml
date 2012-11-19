@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------
 
-   MusicXML library version 2
+   MusicXML library version 3
 
 ----------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  Grame Research Laboratory, 9 rue du Garet, 69001 Lyon - France
+  Grame Research Laboratory, 11, cours de Verdun - Gensoul, 69002 Lyon - France
   research@grame.fr
 
 

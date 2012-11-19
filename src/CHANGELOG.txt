@@ -1,5 +1,9 @@
 MusicXML Library
 
+Version 3.00
+- update to MusicXML version 3
+
+----------------------------------------------------------------------------------------------------
 Version 2.10
 - new xmlfactory interface
 - correct a bug in xml parser (element content = '=')
