@@ -19,7 +19,7 @@
 #include "transposition.h"
 
 using namespace std;
-using namespace MusicXML;
+using namespace MusicXML2;
 
 //------------------------------------------------------------------------
 static void usage(char * name)

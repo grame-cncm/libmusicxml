@@ -20,7 +20,7 @@
 #include "unrolled_xml_tree_browser.h"
 
 using namespace std;
-using namespace MusicXML;
+using namespace MusicXML2;
 
 
 class measurevisitor : 

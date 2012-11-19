@@ -16,7 +16,7 @@
 #include "libmusicxml.h"
 
 using namespace std;
-using namespace MusicXML;
+using namespace MusicXML2;
 
 void usage() {
 	cerr << "usage: musicxml2guido [options]  <musicxml file>" << endl;

@@ -24,7 +24,7 @@
 #include "xml.h"
 #include "xmlfile.h"
 
-using namespace MusicXML;
+using namespace MusicXML2;
 using namespace std;
 
 #define kDivision	4

@@ -19,7 +19,7 @@
 #include "xmlreader.h"
 
 using namespace std;
-using namespace MusicXML;
+using namespace MusicXML2;
 
 //#define STRREAD
 

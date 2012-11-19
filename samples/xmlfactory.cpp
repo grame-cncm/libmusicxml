@@ -23,7 +23,7 @@
 #include "libmusicxml.h"
 #include "elements.h"
 
-using namespace MusicXML;
+using namespace MusicXML2;
 using namespace std;
 
 
