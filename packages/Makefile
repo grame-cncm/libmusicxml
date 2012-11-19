@@ -1,4 +1,4 @@
-VERSION  := 2.00
+VERSION  := 3.00
 TAG      :=-D tomorrow
 ROOTDIR  := ..
 SRCDIR   := $(ROOTDIR)/src
@@ -20,7 +20,7 @@ TOOLS    = xml2guido xmltranspose
 WINTOOLS = $(TOOLS:%=$(CMAKEDIR)/release/%.exe)
 MACTOOLS = $(TOOLS:%=$(CMAKEDIR)/Release/%)
 LINUXTOOLS = $(TOOLS:%=$(CMAKEDIR)/%)
-DTDS     = $(wildcard $(ROOTDIR)/dtds/*.*)
+DTDS     = $(wildcard $(ROOTDIR)/dtds/current/*.*)
 SAMPLES  = $(wildcard $(ROOTDIR)/samples/*.cpp)
 DOC      = $(ROOTDIR)/doc/presentation/libmusicxml2.pdf
 
@@ -39,7 +39,7 @@ srcpack:
 macos:
 	make common DEST=$(MACOSDIR)
 	make exe DEST=$(MACOSDIR) TOOLS="$(MACTOOLS)"
-	cp -R $(CMAKEDIR)/Release/libmusicxml2.framework $(MACOSDIR)
+	cp -R $(CMAKEDIR)/Release/libmusicxml3.framework $(MACOSDIR)
 	tar czf $(MACOSLIB).tgz $(MACOSLIB)
 
 
