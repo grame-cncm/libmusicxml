@@ -1,7 +1,7 @@
 #######################################
-# CMAKE libmusicxml2
+# CMAKE libmusicxml3
 #######################################
-project(libmusicxml2)
+project(libmusicxml3)
 cmake_minimum_required(VERSION 2.4)
 if(CMAKE_CONFIGURATION_TYPES)
 	set(CMAKE_CONFIGURATION_TYPES Debug Release)
@@ -9,9 +9,9 @@ endif()
 
 #######################################
 # versions management
-set (VERSION 2.10)
-set (STRVERS "v.2.10")
-set (SSTRVERS "2.10")
+set (VERSION 3.00)
+set (STRVERS "v.3.00")
+set (SSTRVERS "3.00")
 
 if(UNIX)
 	add_definitions(-Wall -DGCC)
@@ -72,9 +72,9 @@ set_source_files_properties (${COREH} PROPERTIES HEADER_FILE_ONLY TRUE)
 #######################################
 # set library target
 if(APPLE OR MSVC)
-	set(target libmusicxml2)
+	set(target libmusicxml3)
 else(APPLE OR MSVC)
-	set(target musicxml2)
+	set(target musicxml3)
 endif(APPLE OR MSVC)
 
 if(MSVC)

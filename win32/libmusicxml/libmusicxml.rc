@@ -53,8 +53,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,1,0,0
- PRODUCTVERSION 2,1,0,0
+ FILEVERSION 3.0,0,0
+ PRODUCTVERSION 3.0,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -70,13 +70,13 @@ BEGIN
         BLOCK "040c04b0"
         BEGIN
             VALUE "CompanyName", "Grame"
-            VALUE "FileDescription", "Bibliothèque de liens dynamiques libmusicxml"
-            VALUE "FileVersion", "2, 1, 0, 0"
+            VALUE "FileDescription", "libmusicxml library"
+            VALUE "FileVersion", "3, 0, 0, 0"
             VALUE "InternalName", "libmusicxml"
-            VALUE "LegalCopyright", "Copyright (C) GRAME 2008-2010"
-            VALUE "OriginalFilename", "libmusicxml2.dll"
-            VALUE "ProductName", " Bibliothèque de liens dynamiques libmusicxml"
-            VALUE "ProductVersion", "2, 1, 0, 0"
+            VALUE "LegalCopyright", "Copyright (C) GRAME 2008-2012"
+            VALUE "OriginalFilename", "libmusicxml3.dll"
+            VALUE "ProductName", " libmusicxml"
+            VALUE "ProductVersion", "3, 0, 0, 0"
         END
     END
     BLOCK "VarFileInfo"
