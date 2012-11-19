@@ -34,7 +34,7 @@
 #include "elements.h"
 #include "types.h"
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 typedef SMARTP<musicxml<kComment> >					S_comment;

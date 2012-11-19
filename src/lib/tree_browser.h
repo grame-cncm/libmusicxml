@@ -30,7 +30,7 @@
 #include "browser.h"
 #include "ctree.h"
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 //______________________________________________________________________________

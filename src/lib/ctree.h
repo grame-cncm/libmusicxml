@@ -32,7 +32,7 @@
 #include "smartpointer.h"
 #include "visitable.h"
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 //______________________________________________________________________________

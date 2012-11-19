@@ -31,7 +31,7 @@
 #ifndef __elements__
 #define __elements__
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 enum {	

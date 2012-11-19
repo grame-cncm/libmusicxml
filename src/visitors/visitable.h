@@ -25,7 +25,7 @@
 
 #include "basevisitor.h"
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 /*!
@@ -39,7 +39,7 @@ class visitable
 		virtual void acceptOut(basevisitor& visitor) {}
 };
 
-} // namespace MusicXML
+} // namespace MusicXML2
 
 
 #endif

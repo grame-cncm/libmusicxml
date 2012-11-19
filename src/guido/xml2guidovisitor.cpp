@@ -39,7 +39,7 @@
 
 using namespace std;
 
-namespace MusicXML
+namespace MusicXML2
 {
 
 //______________________________________________________________________________

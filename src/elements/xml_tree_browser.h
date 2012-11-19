@@ -28,7 +28,7 @@
 #include "tree_browser.h"
 #include "xml.h"
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 /*!

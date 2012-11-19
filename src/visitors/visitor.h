@@ -25,7 +25,7 @@
 
 #include "basevisitor.h"
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 /*!
@@ -43,7 +43,7 @@ template<class C> class visitor : virtual public basevisitor
 
 /*! @} */
 
-} // namespace MusicXML
+} // namespace MusicXML2
 
 
 #endif

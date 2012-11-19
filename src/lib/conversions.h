@@ -32,7 +32,7 @@
 
 using namespace std;
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 /*!
@@ -171,6 +171,6 @@ class EXP NoteType {
 	static string 	fTypeStrings[];        
 };
 
-} // namespace MusicXML
+} // namespace MusicXML2
 
 #endif

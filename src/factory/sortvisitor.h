@@ -29,7 +29,7 @@
 #include "typedefs.h"
 #include "xml.h"
 
-namespace MusicXML 
+namespace MusicXML2 
 {   
 
 /*!

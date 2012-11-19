@@ -33,7 +33,7 @@
 #include "versions.h"
 
 using namespace std;
-namespace MusicXML
+namespace MusicXML2
 {
 
 

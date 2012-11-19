@@ -28,8 +28,8 @@
 #include "tree_browser.h"
 
 using namespace std; 
-using namespace MusicXML; 
-namespace MusicXML 
+using namespace MusicXML2; 
+namespace MusicXML2 
 {
 
 //______________________________________________________________________________

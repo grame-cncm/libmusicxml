@@ -39,7 +39,7 @@ static inline long max(long v1, long v2) {return (v1 < v2) ? v2 : v1;}
 
 using namespace std;
 
-namespace MusicXML {
+namespace MusicXML2 {
 
 //________________________________________________________________________
 // score-instrument element suppport

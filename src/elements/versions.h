@@ -27,7 +27,7 @@
 
 #include "exports.h"
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 /*!

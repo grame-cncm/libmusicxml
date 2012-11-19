@@ -30,7 +30,7 @@
 #include "typedefs.h"
 #include "visitor.h"
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 /*!

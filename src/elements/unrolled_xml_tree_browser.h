@@ -31,7 +31,7 @@
 #include "browser.h"
 #include "typedefs.h"
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 /*!
@@ -113,7 +113,7 @@ class EXP unrolled_xml_tree_browser : public browser<xmlelement>,
 
 /*! @} */
 
-} // namespace MusicXML
+} // namespace MusicXML2
 
 
 #endif

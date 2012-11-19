@@ -25,7 +25,7 @@
 #ifndef __functor__
 #define __functor__
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 template <typename R>

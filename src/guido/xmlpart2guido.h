@@ -42,7 +42,7 @@
 #include "visitor.h"
 #include "xml.h"
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 /*!
@@ -186,7 +186,7 @@ class EXP xmlpart2guido :
 };
 
 
-} // namespace MusicXML
+} // namespace MusicXML2
 
 
 #endif

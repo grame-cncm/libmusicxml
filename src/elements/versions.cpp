@@ -24,7 +24,7 @@
 
 #include "versions.h"
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 //______________________________________________________________________________
 int			versions::libVersion()				{ return 210; }

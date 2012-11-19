@@ -25,9 +25,9 @@
 #include "conversions.h"
 
 using namespace std;
-using namespace MusicXML;
+using namespace MusicXML2;
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 //--------------------------------------------------------------------------------

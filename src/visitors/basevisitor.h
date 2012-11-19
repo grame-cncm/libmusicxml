@@ -23,7 +23,7 @@
 #ifndef __basevisitor__
 #define __basevisitor__
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 class basevisitor 

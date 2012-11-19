@@ -28,7 +28,7 @@
 #include <vector>
 #include "smartpointer.h"
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 /*

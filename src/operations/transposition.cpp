@@ -45,7 +45,7 @@ inline int round(float v) {
 
 using namespace std;
 
-namespace MusicXML
+namespace MusicXML2
 {
 
 //________________________________________________________________________

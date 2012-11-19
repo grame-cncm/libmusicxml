@@ -32,7 +32,7 @@
 #include "notevisitor.h"
 
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 /*!
@@ -140,7 +140,7 @@ class EXP transposition :
 
 /*! @} */
 
-} // namespace MusicXML
+} // namespace MusicXML2
 
 
 #endif

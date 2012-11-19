@@ -33,7 +33,7 @@
 #include "notevisitor.h"
 #include "transposevisitor.h"
 
-namespace MusicXML 
+namespace MusicXML2 
 {
 
 /*!
