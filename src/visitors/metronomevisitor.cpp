@@ -1,0 +1,66 @@
+/*
+  Copyright © Grame 2003,2007
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2.1 of the License, or (at your option) any later version.
+    
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+    
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+    Grame Research Laboratory, 9, rue du Garet 69001 Lyon - France
+    research@grame.fr
+
+*/
+
+
+#include "metronomevisitor.h"
+
+using namespace std;
+
+namespace MusicXML2 {
+
+//________________________________________________________________________
+void metronomevisitor::reset ()
+{
+	fBeats.clear();
+	fPerMinute = 0;
+	reset(fCurrentBeat);
+}
+
+//________________________________________________________________________
+void metronomevisitor::reset (beat& b)
+{
+	b.fUnit = "";
+	b.fDots = 0;
+}
+
+void metronomevisitor::visitStart ( S_metronome& elt )		{ reset(); }
+void metronomevisitor::visitEnd ( S_metronome& elt )		
+{ 
+	if (fCurrentBeat.fUnit.size()) {
+		fBeats.push_back(fCurrentBeat); 
+		reset (fCurrentBeat);
+	}
+}
+
+void metronomevisitor::visitStart ( S_beat_unit& elt )		
+{ 
+	if (fCurrentBeat.fUnit.size()) {
+		fBeats.push_back(fCurrentBeat); 
+		reset (fCurrentBeat);
+	}
+	fCurrentBeat.fUnit = elt->getValue();
+}
+
+void metronomevisitor::visitStart ( S_beat_unit_dot& elt )	{ fCurrentBeat.fDots++; }
+void metronomevisitor::visitStart ( S_per_minute& elt )		{ fPerMinute = (int)(*elt); }
+
+}
