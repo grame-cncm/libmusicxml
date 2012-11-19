@@ -9,7 +9,7 @@ SVN      := svn
 SRC 	 := libmusicxml-$(VERSION)-src
 MACOSLIB := libmusicxml-$(VERSION)-macosx
 MACOSDIR := $(MACOSLIB)
-LINUXLIB := libmusicxml-$(VERSION)-linux-x86
+LINUXLIB := libmusicxml-$(VERSION)-linux-x86_64
 LINUXDIR := $(LINUXLIB)
 WINLIB   := libmusicxml-$(VERSION)-win32
 WINDIR   := $(WINLIB)
@@ -47,15 +47,15 @@ linux:
 	make common DEST=$(LINUXDIR)
 	make incl DEST=$(LINUXDIR)
 	make exe DEST=$(LINUXDIR) TOOLS="$(LINUXTOOLS)"
-	cp  $(CMAKEDIR)/libmusicxml2.so $(LINUXDIR)
+	cp  $(CMAKEDIR)/libmusicxml3.so $(LINUXDIR)
 	tar czf $(LINUXLIB).tgz $(LINUXLIB)
 
 windows:
 	make common DEST=$(WINDIR)
 	make incl DEST=$(WINDIR) 
 	make exe DEST=$(WINDIR) TOOLS="$(WINTOOLS)"
-	cp  $(CMAKEDIR)/release/libmusicxml2.dll $(WINDIR)
-	cp  $(CMAKEDIR)/release/libmusicxml2.lib $(WINDIR)
+	cp  $(CMAKEDIR)/release/libmusicxml3.dll $(WINDIR)
+	cp  $(CMAKEDIR)/release/libmusicxml3.lib $(WINDIR)
 
 exe:
 	cp $(TOOLS) $(DEST)
