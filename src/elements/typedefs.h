@@ -1,7 +1,7 @@
 /*
 
   MusicXML Library
-  Copyright (C) 2006,2007  Grame
+  Copyright (C) 2006,2007,2012  Grame
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -17,7 +17,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  Grame Research Laboratory, 9 rue du Garet, 69001 Lyon - France
+  Grame Research Laboratory, 11 cours de Verdun - Gensoul 69002 Lyon - France
   research@grame.fr
 
 */
@@ -34,7 +34,7 @@
 #include "elements.h"
 #include "types.h"
 
-namespace MusicXML2 
+namespace MusicXML 
 {
 
 typedef SMARTP<musicxml<kComment> >					S_comment;
@@ -53,6 +53,9 @@ typedef SMARTP<musicxml<k_actual_notes> >		S_actual_notes;
 typedef SMARTP<musicxml<k_alter> >		S_alter;
 typedef SMARTP<musicxml<k_appearance> >		S_appearance;
 typedef SMARTP<musicxml<k_arpeggiate> >		S_arpeggiate;
+typedef SMARTP<musicxml<k_arrow> >		S_arrow;
+typedef SMARTP<musicxml<k_arrow_direction> >		S_arrow_direction;
+typedef SMARTP<musicxml<k_arrow_style> >		S_arrow_style;
 typedef SMARTP<musicxml<k_articulations> >		S_articulations;
 typedef SMARTP<musicxml<k_artificial> >		S_artificial;
 typedef SMARTP<musicxml<k_attributes> >		S_attributes;
@@ -69,6 +72,7 @@ typedef SMARTP<musicxml<k_beat_repeat> >		S_beat_repeat;
 typedef SMARTP<musicxml<k_beat_type> >		S_beat_type;
 typedef SMARTP<musicxml<k_beat_unit> >		S_beat_unit;
 typedef SMARTP<musicxml<k_beat_unit_dot> >		S_beat_unit_dot;
+typedef SMARTP<musicxml<k_beater> >		S_beater;
 typedef SMARTP<musicxml<k_beats> >		S_beats;
 typedef SMARTP<musicxml<k_bend> >		S_bend;
 typedef SMARTP<musicxml<k_bend_alter> >		S_bend_alter;
@@ -81,12 +85,14 @@ typedef SMARTP<musicxml<k_cancel> >		S_cancel;
 typedef SMARTP<musicxml<k_capo> >		S_capo;
 typedef SMARTP<musicxml<k_chord> >		S_chord;
 typedef SMARTP<musicxml<k_chromatic> >		S_chromatic;
+typedef SMARTP<musicxml<k_circular_arrow> >		S_circular_arrow;
 typedef SMARTP<musicxml<k_clef> >		S_clef;
 typedef SMARTP<musicxml<k_clef_octave_change> >		S_clef_octave_change;
 typedef SMARTP<musicxml<k_coda> >		S_coda;
 typedef SMARTP<musicxml<k_creator> >		S_creator;
 typedef SMARTP<musicxml<k_credit> >		S_credit;
 typedef SMARTP<musicxml<k_credit_image> >		S_credit_image;
+typedef SMARTP<musicxml<k_credit_type> >		S_credit_type;
 typedef SMARTP<musicxml<k_credit_words> >		S_credit_words;
 typedef SMARTP<musicxml<k_cue> >		S_cue;
 typedef SMARTP<musicxml<k_damp> >		S_damp;
@@ -97,6 +103,7 @@ typedef SMARTP<musicxml<k_degree> >		S_degree;
 typedef SMARTP<musicxml<k_degree_alter> >		S_degree_alter;
 typedef SMARTP<musicxml<k_degree_type> >		S_degree_type;
 typedef SMARTP<musicxml<k_degree_value> >		S_degree_value;
+typedef SMARTP<musicxml<k_delayed_inverted_turn> >		S_delayed_inverted_turn;
 typedef SMARTP<musicxml<k_delayed_turn> >		S_delayed_turn;
 typedef SMARTP<musicxml<k_detached_legato> >		S_detached_legato;
 typedef SMARTP<musicxml<k_diatonic> >		S_diatonic;
@@ -106,6 +113,7 @@ typedef SMARTP<musicxml<k_directive> >		S_directive;
 typedef SMARTP<musicxml<k_display_octave> >		S_display_octave;
 typedef SMARTP<musicxml<k_display_step> >		S_display_step;
 typedef SMARTP<musicxml<k_display_text> >		S_display_text;
+typedef SMARTP<musicxml<k_distance> >		S_distance;
 typedef SMARTP<musicxml<k_divisions> >		S_divisions;
 typedef SMARTP<musicxml<k_doit> >		S_doit;
 typedef SMARTP<musicxml<k_dot> >		S_dot;
@@ -114,6 +122,7 @@ typedef SMARTP<musicxml<k_double_tongue> >		S_double_tongue;
 typedef SMARTP<musicxml<k_down_bow> >		S_down_bow;
 typedef SMARTP<musicxml<k_duration> >		S_duration;
 typedef SMARTP<musicxml<k_dynamics> >		S_dynamics;
+typedef SMARTP<musicxml<k_effect> >		S_effect;
 typedef SMARTP<musicxml<k_elevation> >		S_elevation;
 typedef SMARTP<musicxml<k_elision> >		S_elision;
 typedef SMARTP<musicxml<k_encoder> >		S_encoder;
@@ -152,6 +161,7 @@ typedef SMARTP<musicxml<k_frame_strings> >		S_frame_strings;
 typedef SMARTP<musicxml<k_fret> >		S_fret;
 typedef SMARTP<musicxml<k_function> >		S_function;
 typedef SMARTP<musicxml<k_fz> >		S_fz;
+typedef SMARTP<musicxml<k_glass> >		S_glass;
 typedef SMARTP<musicxml<k_glissando> >		S_glissando;
 typedef SMARTP<musicxml<k_grace> >		S_grace;
 typedef SMARTP<musicxml<k_group> >		S_group;
@@ -164,26 +174,36 @@ typedef SMARTP<musicxml<k_group_symbol> >		S_group_symbol;
 typedef SMARTP<musicxml<k_group_time> >		S_group_time;
 typedef SMARTP<musicxml<k_grouping> >		S_grouping;
 typedef SMARTP<musicxml<k_hammer_on> >		S_hammer_on;
+typedef SMARTP<musicxml<k_handbell> >		S_handbell;
 typedef SMARTP<musicxml<k_harmonic> >		S_harmonic;
 typedef SMARTP<musicxml<k_harmony> >		S_harmony;
 typedef SMARTP<musicxml<k_harp_pedals> >		S_harp_pedals;
 typedef SMARTP<musicxml<k_heel> >		S_heel;
+typedef SMARTP<musicxml<k_hole> >		S_hole;
+typedef SMARTP<musicxml<k_hole_closed> >		S_hole_closed;
+typedef SMARTP<musicxml<k_hole_shape> >		S_hole_shape;
+typedef SMARTP<musicxml<k_hole_type> >		S_hole_type;
 typedef SMARTP<musicxml<k_humming> >		S_humming;
 typedef SMARTP<musicxml<k_identification> >		S_identification;
 typedef SMARTP<musicxml<k_image> >		S_image;
 typedef SMARTP<musicxml<k_instrument> >		S_instrument;
 typedef SMARTP<musicxml<k_instrument_abbreviation> >		S_instrument_abbreviation;
 typedef SMARTP<musicxml<k_instrument_name> >		S_instrument_name;
+typedef SMARTP<musicxml<k_instrument_sound> >		S_instrument_sound;
 typedef SMARTP<musicxml<k_instruments> >		S_instruments;
+typedef SMARTP<musicxml<k_interchangeable> >		S_interchangeable;
 typedef SMARTP<musicxml<k_inversion> >		S_inversion;
 typedef SMARTP<musicxml<k_inverted_mordent> >		S_inverted_mordent;
 typedef SMARTP<musicxml<k_inverted_turn> >		S_inverted_turn;
+typedef SMARTP<musicxml<k_ipa> >		S_ipa;
 typedef SMARTP<musicxml<k_key> >		S_key;
+typedef SMARTP<musicxml<k_key_accidental> >		S_key_accidental;
 typedef SMARTP<musicxml<k_key_alter> >		S_key_alter;
 typedef SMARTP<musicxml<k_key_octave> >		S_key_octave;
 typedef SMARTP<musicxml<k_key_step> >		S_key_step;
 typedef SMARTP<musicxml<k_kind> >		S_kind;
 typedef SMARTP<musicxml<k_laughing> >		S_laughing;
+typedef SMARTP<musicxml<k_left_divider> >		S_left_divider;
 typedef SMARTP<musicxml<k_left_margin> >		S_left_margin;
 typedef SMARTP<musicxml<k_level> >		S_level;
 typedef SMARTP<musicxml<k_line> >		S_line;
@@ -198,6 +218,8 @@ typedef SMARTP<musicxml<k_measure_layout> >		S_measure_layout;
 typedef SMARTP<musicxml<k_measure_numbering> >		S_measure_numbering;
 typedef SMARTP<musicxml<k_measure_repeat> >		S_measure_repeat;
 typedef SMARTP<musicxml<k_measure_style> >		S_measure_style;
+typedef SMARTP<musicxml<k_membrane> >		S_membrane;
+typedef SMARTP<musicxml<k_metal> >		S_metal;
 typedef SMARTP<musicxml<k_metronome> >		S_metronome;
 typedef SMARTP<musicxml<k_metronome_beam> >		S_metronome_beam;
 typedef SMARTP<musicxml<k_metronome_dot> >		S_metronome_dot;
@@ -223,6 +245,7 @@ typedef SMARTP<musicxml<k_movement_title> >		S_movement_title;
 typedef SMARTP<musicxml<k_mp> >		S_mp;
 typedef SMARTP<musicxml<k_multiple_rest> >		S_multiple_rest;
 typedef SMARTP<musicxml<k_music_font> >		S_music_font;
+typedef SMARTP<musicxml<k_mute> >		S_mute;
 typedef SMARTP<musicxml<k_natural> >		S_natural;
 typedef SMARTP<musicxml<k_non_arpeggiate> >		S_non_arpeggiate;
 typedef SMARTP<musicxml<k_normal_dot> >		S_normal_dot;
@@ -232,6 +255,7 @@ typedef SMARTP<musicxml<k_notations> >		S_notations;
 typedef SMARTP<musicxml<k_note> >		S_note;
 typedef SMARTP<musicxml<k_note_size> >		S_note_size;
 typedef SMARTP<musicxml<k_notehead> >		S_notehead;
+typedef SMARTP<musicxml<k_notehead_text> >		S_notehead_text;
 typedef SMARTP<musicxml<k_octave> >		S_octave;
 typedef SMARTP<musicxml<k_octave_change> >		S_octave_change;
 typedef SMARTP<musicxml<k_octave_shift> >		S_octave_shift;
@@ -245,6 +269,8 @@ typedef SMARTP<musicxml<k_other_direction> >		S_other_direction;
 typedef SMARTP<musicxml<k_other_dynamics> >		S_other_dynamics;
 typedef SMARTP<musicxml<k_other_notation> >		S_other_notation;
 typedef SMARTP<musicxml<k_other_ornament> >		S_other_ornament;
+typedef SMARTP<musicxml<k_other_percussion> >		S_other_percussion;
+typedef SMARTP<musicxml<k_other_play> >		S_other_play;
 typedef SMARTP<musicxml<k_other_technical> >		S_other_technical;
 typedef SMARTP<musicxml<k_p> >		S_p;
 typedef SMARTP<musicxml<k_page_height> >		S_page_height;
@@ -265,7 +291,10 @@ typedef SMARTP<musicxml<k_pedal_alter> >		S_pedal_alter;
 typedef SMARTP<musicxml<k_pedal_step> >		S_pedal_step;
 typedef SMARTP<musicxml<k_pedal_tuning> >		S_pedal_tuning;
 typedef SMARTP<musicxml<k_per_minute> >		S_per_minute;
+typedef SMARTP<musicxml<k_percussion> >		S_percussion;
 typedef SMARTP<musicxml<k_pitch> >		S_pitch;
+typedef SMARTP<musicxml<k_pitched> >		S_pitched;
+typedef SMARTP<musicxml<k_play> >		S_play;
 typedef SMARTP<musicxml<k_plop> >		S_plop;
 typedef SMARTP<musicxml<k_pluck> >		S_pluck;
 typedef SMARTP<musicxml<k_pp> >		S_pp;
@@ -275,6 +304,7 @@ typedef SMARTP<musicxml<k_ppppp> >		S_ppppp;
 typedef SMARTP<musicxml<k_pppppp> >		S_pppppp;
 typedef SMARTP<musicxml<k_pre_bend> >		S_pre_bend;
 typedef SMARTP<musicxml<k_prefix> >		S_prefix;
+typedef SMARTP<musicxml<k_principal_voice> >		S_principal_voice;
 typedef SMARTP<musicxml<k_print> >		S_print;
 typedef SMARTP<musicxml<k_pull_off> >		S_pull_off;
 typedef SMARTP<musicxml<k_rehearsal> >		S_rehearsal;
@@ -284,6 +314,7 @@ typedef SMARTP<musicxml<k_repeat> >		S_repeat;
 typedef SMARTP<musicxml<k_rest> >		S_rest;
 typedef SMARTP<musicxml<k_rf> >		S_rf;
 typedef SMARTP<musicxml<k_rfz> >		S_rfz;
+typedef SMARTP<musicxml<k_right_divider> >		S_right_divider;
 typedef SMARTP<musicxml<k_right_margin> >		S_right_margin;
 typedef SMARTP<musicxml<k_rights> >		S_rights;
 typedef SMARTP<musicxml<k_root> >		S_root;
@@ -298,6 +329,7 @@ typedef SMARTP<musicxml<k_score_part> >		S_score_part;
 typedef SMARTP<musicxml<k_score_partwise> >		S_score_partwise;
 typedef SMARTP<musicxml<k_score_timewise> >		S_score_timewise;
 typedef SMARTP<musicxml<k_segno> >		S_segno;
+typedef SMARTP<musicxml<k_semi_pitched> >		S_semi_pitched;
 typedef SMARTP<musicxml<k_senza_misura> >		S_senza_misura;
 typedef SMARTP<musicxml<k_sf> >		S_sf;
 typedef SMARTP<musicxml<k_sffz> >		S_sffz;
@@ -331,14 +363,20 @@ typedef SMARTP<musicxml<k_staff_type> >		S_staff_type;
 typedef SMARTP<musicxml<k_staves> >		S_staves;
 typedef SMARTP<musicxml<k_stem> >		S_stem;
 typedef SMARTP<musicxml<k_step> >		S_step;
+typedef SMARTP<musicxml<k_stick> >		S_stick;
+typedef SMARTP<musicxml<k_stick_location> >		S_stick_location;
+typedef SMARTP<musicxml<k_stick_material> >		S_stick_material;
+typedef SMARTP<musicxml<k_stick_type> >		S_stick_type;
 typedef SMARTP<musicxml<k_stopped> >		S_stopped;
 typedef SMARTP<musicxml<k_stress> >		S_stress;
 typedef SMARTP<musicxml<k_string> >		S_string;
+typedef SMARTP<musicxml<k_string_mute> >		S_string_mute;
 typedef SMARTP<musicxml<k_strong_accent> >		S_strong_accent;
 typedef SMARTP<musicxml<k_suffix> >		S_suffix;
 typedef SMARTP<musicxml<k_supports> >		S_supports;
 typedef SMARTP<musicxml<k_syllabic> >		S_syllabic;
 typedef SMARTP<musicxml<k_system_distance> >		S_system_distance;
+typedef SMARTP<musicxml<k_system_dividers> >		S_system_dividers;
 typedef SMARTP<musicxml<k_system_layout> >		S_system_layout;
 typedef SMARTP<musicxml<k_system_margins> >		S_system_margins;
 typedef SMARTP<musicxml<k_tap> >		S_tap;
@@ -351,6 +389,8 @@ typedef SMARTP<musicxml<k_tie> >		S_tie;
 typedef SMARTP<musicxml<k_tied> >		S_tied;
 typedef SMARTP<musicxml<k_time> >		S_time;
 typedef SMARTP<musicxml<k_time_modification> >		S_time_modification;
+typedef SMARTP<musicxml<k_time_relation> >		S_time_relation;
+typedef SMARTP<musicxml<k_timpani> >		S_timpani;
 typedef SMARTP<musicxml<k_toe> >		S_toe;
 typedef SMARTP<musicxml<k_top_margin> >		S_top_margin;
 typedef SMARTP<musicxml<k_top_system_distance> >		S_top_system_distance;
@@ -373,11 +413,16 @@ typedef SMARTP<musicxml<k_type> >		S_type;
 typedef SMARTP<musicxml<k_unpitched> >		S_unpitched;
 typedef SMARTP<musicxml<k_unstress> >		S_unstress;
 typedef SMARTP<musicxml<k_up_bow> >		S_up_bow;
+typedef SMARTP<musicxml<k_vertical_turn> >		S_vertical_turn;
+typedef SMARTP<musicxml<k_virtual_instrument> >		S_virtual_instrument;
+typedef SMARTP<musicxml<k_virtual_library> >		S_virtual_library;
+typedef SMARTP<musicxml<k_virtual_name> >		S_virtual_name;
 typedef SMARTP<musicxml<k_voice> >		S_voice;
 typedef SMARTP<musicxml<k_volume> >		S_volume;
 typedef SMARTP<musicxml<k_wavy_line> >		S_wavy_line;
 typedef SMARTP<musicxml<k_wedge> >		S_wedge;
 typedef SMARTP<musicxml<k_with_bar> >		S_with_bar;
+typedef SMARTP<musicxml<k_wood> >		S_wood;
 typedef SMARTP<musicxml<k_word_font> >		S_word_font;
 typedef SMARTP<musicxml<k_words> >		S_words;
 typedef SMARTP<musicxml<k_work> >		S_work;

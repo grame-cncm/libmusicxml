@@ -5,9 +5,9 @@ function kname() {
 	echo k_$1 | tr '-' '_'
 }
 
-case $2 in
+case $3 in
 	'constants')
-		cat templates/license.txt templates/elements.txt
+		cat $2/license.txt $2/elements.txt
 		for a in $(cat $1 | cut -d'	' -f1 | sort -u )
 		do
 			echo "	$(kname $a),"
@@ -23,7 +23,7 @@ case $2 in
 		;;
 
 	'map')
-		cat templates/license.txt templates/factory.txt
+		cat $2/license.txt $2/factory.txt
 		for a in $(cat $1 | cut -d'	' -f1 | sort -u)
 		do
 			echo "	fMap[\"$a\"] 	= new newElementFunctor<$(kname $a)>;"
@@ -38,7 +38,7 @@ case $2 in
 		;;
 
 	'typemap')
-		cat templates/license.txt templates/typeMap.txt
+		cat $2/license.txt $2/typeMap.txt
 		for a in $(cat $1 | cut -d'	' -f1 | sort -u)
 		do
 			echo "   fMap[$(kname $a)] 	= \"$a\";"
@@ -49,7 +49,7 @@ case $2 in
 
 
 	'types')
-		cat templates/license.txt templates/typedefs.txt
+		cat $2/license.txt $2/typedefs.txt
 		for a in $(cat $1 | cut -d'	' -f1 | sort -u)
 		do
 			echo "typedef SMARTP<musicxml<$(kname $a)> >		S_$(echo $a | tr '-' '_');"
@@ -59,7 +59,7 @@ case $2 in
 		;;
 
 	*)
-		echo "usage: elements eltsfile [constants | map | types]"
+		echo "usage: elements eltsfile templatedir [constants | map | types]"
 		exit 1
 		;;
 esac	
