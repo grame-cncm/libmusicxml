@@ -29,7 +29,7 @@
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML {
 
 //________________________________________________________________________
 // transpose element suppport

@@ -26,7 +26,7 @@
 #include "xml_tree_browser.h"
 
 using namespace std;
-namespace MusicXML2 
+namespace MusicXML 
 {
 
 void xml_tree_browser::browse (xmlelement& t) {

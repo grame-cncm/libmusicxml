@@ -25,7 +25,7 @@
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML {
 
 //________________________________________________________________________
 void metronomevisitor::reset ()

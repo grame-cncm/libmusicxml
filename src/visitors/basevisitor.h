@@ -1,5 +1,5 @@
 /*
-  Copyright © Grame 2006
+  Copyright ï¿½ Grame 2006
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -23,7 +23,7 @@
 #ifndef __basevisitor__
 #define __basevisitor__
 
-namespace MusicXML2 
+namespace MusicXML 
 {
 
 class basevisitor 

@@ -29,7 +29,7 @@
 #include "versions.h"
 
 using namespace std;
-namespace MusicXML2
+namespace MusicXML
 {
 
 EXP int			musicxmllibVersion()			{ return versions::libVersion(); }

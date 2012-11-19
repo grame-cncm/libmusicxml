@@ -31,7 +31,7 @@
 #include "rational.h"
 #include "visitor.h"
 
-namespace MusicXML2 
+namespace MusicXML 
 {
 
 /*!

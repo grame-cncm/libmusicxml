@@ -30,7 +30,7 @@
 #include "unrolled_clonevisitor.h"
 
 using namespace std;
-namespace MusicXML2
+namespace MusicXML
 {
 
 //______________________________________________________________________________

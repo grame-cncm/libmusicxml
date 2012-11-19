@@ -32,7 +32,7 @@
 #include "ctree.h"
 #include "smartpointer.h"
 
-namespace MusicXML2
+namespace MusicXML
 {
 
 /*!

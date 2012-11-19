@@ -29,7 +29,7 @@
 #include "clonevisitor.h"
 #include "typedefs.h"
 
-namespace MusicXML2 
+namespace MusicXML 
 {
 
 /*!
@@ -83,7 +83,7 @@ class EXP unrolled_clonevisitor : public clonevisitor,
 
 /*! @} */
 
-} // namespace MusicXML2
+} // namespace MusicXML
 
 
 #endif

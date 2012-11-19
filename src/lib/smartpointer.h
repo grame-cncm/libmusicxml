@@ -28,7 +28,7 @@
 #include <cassert>
 #include "exports.h"
 
-namespace MusicXML2 
+namespace MusicXML 
 {
 
 /*!

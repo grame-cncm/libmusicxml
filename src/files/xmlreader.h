@@ -31,7 +31,7 @@
 #include "xmlfile.h"
 #include "reader.h"
 
-namespace MusicXML2 
+namespace MusicXML 
 {
 
 //______________________________________________________________________________

@@ -31,7 +31,7 @@
 #include "unrolled_xml_tree_browser.h"
 
 using namespace std;
-namespace MusicXML2
+namespace MusicXML
 {
 
 //______________________________________________________________________________

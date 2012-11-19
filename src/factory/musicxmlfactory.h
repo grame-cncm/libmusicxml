@@ -30,7 +30,7 @@
 #include "elements.h"
 
 using namespace std;
-namespace MusicXML2
+namespace MusicXML
 {
 
 //------------------------------------------------------------------------
@@ -45,9 +45,9 @@ class musicxmlfactory
 	protected:
 		void			sort ();
 		Sxmlelement		getSubElement (Sxmlelement elt, int type) const;
-		Sxmlelement		getNotations (Sxmlelement elt) const		{ return getSubElement (elt, k_notations); }
-		Sxmlelement		getAttributes (Sxmlelement elt) const		{ return getSubElement (elt, k_attributes); }
-		Sxmlelement		getArticulations (Sxmlelement elt) const	{ return getSubElement (getNotations(elt), k_articulations); }
+		Sxmlelement		getNotations (Sxmlelement elt) const		{ return getSubElement (elt, MusicXML::k_notations); }
+		Sxmlelement		getAttributes (Sxmlelement elt) const		{ return getSubElement (elt, MusicXML::k_attributes); }
+		Sxmlelement		getArticulations (Sxmlelement elt) const	{ return getSubElement (getNotations(elt), MusicXML::k_articulations); }
 //		Sxmlelement		getDynamics (Sxmlelement elt) const			{ return getSubElement (getNotations(elt), k_dynamics); }
 		
 	public:

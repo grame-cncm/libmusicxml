@@ -27,7 +27,7 @@
 
 #include "ctree.h"
 
-namespace MusicXML2 
+namespace MusicXML 
 {
 
 //______________________________________________________________________________

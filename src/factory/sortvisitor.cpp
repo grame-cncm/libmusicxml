@@ -34,7 +34,7 @@
 
 using namespace std;
 
-namespace MusicXML2
+namespace MusicXML
 {
 
 // a set of maps to manage the xml elements order _ one map for each container

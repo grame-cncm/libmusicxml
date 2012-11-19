@@ -33,7 +33,7 @@
 #include "visitor.h"
 #include "xml.h"
 
-namespace MusicXML2 
+namespace MusicXML 
 {   
 
 /*!

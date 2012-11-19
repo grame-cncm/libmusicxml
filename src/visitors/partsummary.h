@@ -31,7 +31,7 @@
 #include "notevisitor.h"
 #include "smartlist.h"
 
-namespace MusicXML2
+namespace MusicXML
 {
 
 /*!

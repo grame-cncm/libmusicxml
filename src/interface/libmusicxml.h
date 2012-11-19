@@ -31,7 +31,7 @@
 #include <stdio.h>
 #include "exports.h"
 
-namespace MusicXML2 
+namespace MusicXML 
 {
 enum xmlErr { kNoErr, kInvalidFile };
 

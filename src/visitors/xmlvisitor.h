@@ -30,7 +30,7 @@
 #include "visitor.h"
 #include "xml.h"
 
-namespace MusicXML2 
+namespace MusicXML 
 {
 
 //______________________________________________________________________________
@@ -74,7 +74,7 @@ class xmlvisitor :
 		virtual void visitStart ( S_processing_instruction& elt);
 };
 
-} // namespace MusicXML2
+} // namespace MusicXML
 
 
 #endif

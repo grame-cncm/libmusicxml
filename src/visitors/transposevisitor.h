@@ -28,7 +28,7 @@
 #include "typedefs.h"
 #include "visitor.h"
 
-namespace MusicXML2 
+namespace MusicXML 
 {
 
 /*!

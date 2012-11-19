@@ -30,7 +30,7 @@
 #include "exports.h"
 #include "smartpointer.h"
 
-namespace MusicXML2 
+namespace MusicXML 
 {
 
 class guidovisitor;
