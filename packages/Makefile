@@ -1,12 +1,8 @@
 
-system := $(shell uname -o)
-ifeq ($(system), Msys)
-    CURRENT = 3.0
-else
-    CURRENT = current
-endif
+# current dtds and schema version
+CURRENT = 3.0
 
-VERSION  := 3.00
+VERSION  := 2.00
 TAG      :=-D tomorrow
 ROOTDIR  := ..
 SRCDIR   := $(ROOTDIR)/src
@@ -41,12 +37,15 @@ nothing:
 	@ echo "  'windows': builds an archive with doc, dtds, includes, dll and lib"
 
 srcpack:
-	@ echo src pack should be made manually from git
+	-[ -d $(SRC) ] && rm -rf $(SRC)
+	git clone .. $(SRC)
+	rm -rf $(SRC)/.git
+	tar czf $(SRC).tgz $(SRC)
 
 macos:
 	make common DEST=$(MACOSDIR)
 	make exe DEST=$(MACOSDIR) TOOLS="$(MACTOOLS)"
-	cp -R $(CMAKEDIR)/Release/libmusicxml3.framework $(MACOSDIR)
+	cp -R $(CMAKEDIR)/Release/libmusicxml2.framework $(MACOSDIR)
 	tar czf $(MACOSLIB).tgz $(MACOSLIB)
 
 
@@ -54,7 +53,7 @@ linux:
 	make common DEST=$(LINUXDIR)
 	make incl DEST=$(LINUXDIR)
 	make exe DEST=$(LINUXDIR) TOOLS="$(LINUXTOOLS)"
-	cp  $(CMAKEDIR)/libmusicxml3.so $(LINUXDIR)
+	cp  $(CMAKEDIR)/libmusicxml2.so $(LINUXDIR)
 	tar czf $(LINUXLIB).tgz $(LINUXLIB)
 
 windows:
@@ -64,10 +63,10 @@ windows:
 	make common DEST=$(WINDIR64)
 	make incl DEST=$(WINDIR64)
 	make exe DEST=$(WINDIR64) TOOLS="$(WINTOOLS64)"
-	cp  ../w32/release/libmusicxml3.dll $(WINDIR32)
-	cp  ../w32/release/libmusicxml3.lib $(WINDIR32)
-	cp  ../w64/release/libmusicxml3.dll $(WINDIR64)
-	cp  ../w64/release/libmusicxml3.lib $(WINDIR64)
+	cp  ../w32/release/libmusicxml2.dll $(WINDIR32)
+	cp  ../w32/release/libmusicxml2.lib $(WINDIR32)
+	cp  ../w64/release/libmusicxml2.dll $(WINDIR64)
+	cp  ../w64/release/libmusicxml2.lib $(WINDIR64)
 
 exe:
 	cp $(TOOLS) $(DEST)
