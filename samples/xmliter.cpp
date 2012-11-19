@@ -22,7 +22,7 @@
 #include "xmlreader.h"
 
 using namespace std;
-using namespace MusicXML2;
+using namespace MusicXML;
 
 #define debug	0
 

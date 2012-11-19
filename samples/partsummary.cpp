@@ -22,7 +22,7 @@
 #include "xml_tree_browser.h"
 
 using namespace std;
-using namespace MusicXML2;
+using namespace MusicXML;
 
 //_______________________________________________________________________________
 class mypartsummary : public partsummary

@@ -24,7 +24,7 @@
 #include "unrolled_xml_tree_browser.h"
 
 using namespace std;
-using namespace MusicXML2;
+using namespace MusicXML;
 
 //_______________________________________________________________________________
 void usage() {
