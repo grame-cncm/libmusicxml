@@ -1,7 +1,8 @@
 
-xsdir := .
-schema := musicxml.xsd
-elts  := elements.txt
+schema 		:= current/musicxml.xsd
+template	:= ../src/elements/templates
+
+elts  	:= elements.txt
 eltname := '[-a-zA-Z0-9_.:]*'
 
 SRC := $(wildcard *.cpp) 
@@ -9,30 +10,17 @@ OBJ = $(patsubst %.cpp, %.o, $(SRC))
 
 all : $(elts) elements.h typedefs.h factory.cpp
 
-test = xmltest
-
-elements : $(elts)
-
-$(test): $(OBJ)
-	gcc $(OBJ) -lstdc++ -o $(TARGET)
-
 $(elts) : $(schema)
 	grep "<xs:element" $(schema) | sed -e 's/^.*name="//' | sed -e 's/"..*//' | sort -u > $(elts)
 
-elements.h : templates/elements.txt $(elts)
-	templates/elements $(elts) constants > elements.h
+elements.h : $(template)/elements.txt $(elts)
+	$(template)/elements $(elts) $(template) constants > elements.h  || rm -f elements.h
 
-factory.cpp : templates/factory.txt $(elts)
-	templates/elements $(elts) map > factory.cpp
+factory.cpp : $(template)/factory.txt $(elts)
+	$(template)/elements $(elts) $(template) map > factory.cpp || rm -f factory.cpp
 
-typedefs.h :  templates/typedefs.txt $(elts)
-	templates/elements $(elts) types > typedefs.h
-
-eltsclean :
-	rm -f $(elts) elements.h factory.cpp typedefs.h
+typedefs.h :  $(template)/typedefs.txt $(elts)
+	$(template)/elements $(elts) $(template) types > typedefs.h  || rm -f typedefs.h
 
 clean :
-	rm -f $(test) $(OBJ)
-
-dep:
-	makedepend -- $(CXXFLAGS) -- $(SRC)
+	rm -f $(elts) elements.h factory.cpp typedefs.h
