@@ -27,3 +27,8 @@
 Platform specific makefiles are included for historic reasons but they are 
 not maintained any more. Please use cmake to generate native projects and makefiles.
 
+Note: the library is still named libmusicxml2. It doesn't refer to the version 
+number but to the significant architecture change that has been introduced with 
+the version 2 of the library. The name has been kept for compatibility reasons 
+and because there is no change from architecture viewpoint.
+
