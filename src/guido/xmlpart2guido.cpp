@@ -527,7 +527,7 @@ void xmlpart2guido::visitEnd ( S_time& elt )
 			for (unsigned int i = 0; i < timesignvisitor::fTimeSign.size(); i++) {
 				s << sep << timesignvisitor::fTimeSign[i].first << "/" << timesignvisitor::fTimeSign[i].second;
 				sep = "+";
-				rational ts = timesignvisitor::timesign(i);
+//				rational ts = timesignvisitor::timesign(i);
 				fCurrentTimeSign += timesignvisitor::timesign(i);
 			}
 			s >> timesign;
