@@ -45,7 +45,10 @@ MacOS
 Windows
 	copy the libmusicxml2.dll along with your application
 Linux
-	
+	copy the library to /usr/local/lib or to /usr/lib
+	binaries are compiled for 64 bits architectures on Ubuntu 11.10
+	you should get the src code (from the package of from git) 
+	and compile on your platform
 
 ----------------------------------------------------------------------------
 

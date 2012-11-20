@@ -12,7 +12,7 @@ DEST     := .
 SRC 	 := libmusicxml-$(VERSION)-src
 MACOSLIB := libmusicxml-$(VERSION)-macosx
 MACOSDIR := $(MACOSLIB)
-LINUXLIB := libmusicxml-$(VERSION)-linux-x86_64
+LINUXLIB := libmusicxml-$(VERSION)-ubuntu-x86_64
 LINUXDIR := $(LINUXLIB)
 WINDIR32 := libmusicxml-$(VERSION)-win32
 WINDIR64 := libmusicxml-$(VERSION)-win64
@@ -50,12 +50,12 @@ macos:
 	cd $(MACOSDIR) && ../macdeploy libmusicxml2.framework/libmusicxml2 $(TOOLS)
 	tar czf $(MACOSLIB).tgz $(MACOSLIB)
 
-
 linux:
 	make common DEST=$(LINUXDIR)
 	make incl DEST=$(LINUXDIR)
 	make exe DEST=$(LINUXDIR) TOOLS="$(LINUXTOOLS)"
-	cp  $(CMAKEDIR)/libmusicxml2.so $(LINUXDIR)
+	cp  $(CMAKEDIR)/libmusicxml2.so.$(VERSION) $(LINUXDIR)
+	cd  $(LINUXDIR) && ln -sf libmusicxml2.so.$(VERSION) libmusicxml2.so
 	tar czf $(LINUXLIB).tgz $(LINUXLIB)
 
 windows:
