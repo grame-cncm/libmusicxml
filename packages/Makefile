@@ -89,8 +89,4 @@ common:
 	cp  $(DTDS) $(DEST)/dtds
 	cp  $(SCHEMA) $(DEST)/schema
 	cp  $(SAMPLES) $(DEST)/samples
-
-upload:
-	./googlecode-upload.py -s "libmusicxml package for Mac OS" -p libmusicxml -u dfober@gmail.com -w Ns5sz2aT9xc2 $(MACOSLIB).tgz
-	./googlecode-upload.py -s "libmusicxml package for Ubuntu" -p libmusicxml -u dfober@gmail.com -w Ns5sz2aT9xc2 $(MACOSLIB).tgz
 	
