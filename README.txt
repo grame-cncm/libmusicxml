@@ -21,14 +21,39 @@
   Grame Research Laboratory, 11, cours de Verdun - Gensoul, 69002 Lyon - France
   research@grame.fr
 
+----------------------------------------------------------------------------
+
+CONTENT
+	
+	doc		: the library architecture documentation
+			  MusicXML format is documented in the dtds or schema
+	dtds	: the MusicXML DTDs
+	schema	: the MusicXML schema
+	samples	: sample code
+	
+	musicxml library and tools (names dependent on the platform)
+
+For more information, files, see at the MusicXML web site:
+	http://www.makemusic.com/musicxml/
+
+----------------------------------------------------------------------------
+
+INSTALL
+
+MacOS
+	copy the libmusicxml2.framework to /Library/Frameworks 
+Windows
+	copy the libmusicxml2.dll along with your application
+Linux
+	
 
 ----------------------------------------------------------------------------
 
 Platform specific makefiles are included for historic reasons but they are 
 not maintained any more. Please use cmake to generate native projects and makefiles.
 
-Note: the library is still named libmusicxml2. It doesn't refer to the version 
-number but to the significant architecture change that has been introduced with 
-the version 2 of the library. The name has been kept for compatibility reasons 
-and because there is no change from architecture viewpoint.
-
+Note: 
+ the library is still named libmusicxml2. It doesn't refer to the version 
+ number but to the significant architecture change that has been introduced with 
+ the version 2 of the library. The name has been kept for compatibility reasons 
+ and because there is no change from architecture viewpoint.

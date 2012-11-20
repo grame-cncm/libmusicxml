@@ -24,7 +24,8 @@ WINTOOLS32 = $(TOOLS:%=../w32/release/%.exe)
 WINTOOLS64 = $(TOOLS:%=../w64/release/%.exe)
 MACTOOLS = $(TOOLS:%=$(CMAKEDIR)/Release/%)
 LINUXTOOLS = $(TOOLS:%=$(CMAKEDIR)/%)
-DTDS     := $(wildcard $(ROOTDIR)/dtds/$(CURRENT)/*.*)
+DTDS     = $(wildcard $(ROOTDIR)/dtds/$(CURRENT)/*.*)
+SCHEMA   = $(wildcard $(ROOTDIR)/schema/$(CURRENT)/*.xsd)
 SAMPLES  = $(wildcard $(ROOTDIR)/samples/*.cpp)
 DOC      = $(ROOTDIR)/doc/presentation/libmusicxml2.pdf
 
@@ -46,6 +47,7 @@ macos:
 	make common DEST=$(MACOSDIR)
 	make exe DEST=$(MACOSDIR) TOOLS="$(MACTOOLS)"
 	cp -R $(CMAKEDIR)/Release/libmusicxml2.framework $(MACOSDIR)
+	cd $(MACOSDIR) && ../macdeploy libmusicxml2.framework/libmusicxml2 $(TOOLS)
 	tar czf $(MACOSLIB).tgz $(MACOSLIB)
 
 
@@ -80,8 +82,10 @@ common:
 	rm -rf $(DEST)
 	mkdir -p $(DEST)/doc
 	mkdir -p $(DEST)/dtds
+	mkdir -p $(DEST)/schema
 	mkdir -p $(DEST)/samples
 	cp  $(DOC) $(DEST)/doc
 	cp  $(FILES) $(DEST)
 	cp  $(DTDS) $(DEST)/dtds
+	cp  $(SCHEMA) $(DEST)/schema
 	cp  $(SAMPLES) $(DEST)/samples
