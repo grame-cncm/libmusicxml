@@ -194,7 +194,7 @@ extern FILE *libmxmlin, *libmxmlout;
      */
     #define  YY_LESS_LINENO(n) \
             do { \
-                int yyl;\
+                yy_size_t yyl;\
                 for ( yyl = n; yyl < libmxmlleng; ++yyl )\
                     if ( libmxmltext[yyl] == '\n' )\
                         --libmxmllineno;\
@@ -1082,7 +1082,7 @@ yy_find_action:
 
 		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
 			{
-			int yyl;
+			yy_size_t yyl;
 			for ( yyl = 0; yyl < libmxmlleng; ++yyl )
 				if ( libmxmltext[yyl] == '\n' )
 					   
