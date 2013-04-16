@@ -18,7 +18,6 @@ if(UNIX)
 endif(UNIX)
 
 set (libtype SHARED)
-set (framework "FRAMEWORK TRUE")
 if(APPLE)
 	if ( IOS STREQUAL "yes" )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")
@@ -26,7 +25,6 @@ if(APPLE)
 		set (CMAKE_OSX_ARCHITECTURES "armv6 armv7")
 		set (CMAKE_OSX_SYSROOT "iphoneos5.1")
 		set (libtype STATIC)
-		set (framework "")
 	else ()
 		set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
 		if (${CMAKE_SYSTEM_VERSION} VERSION_LESS 9.0.0)
@@ -97,13 +95,12 @@ endif()
 if(MSVC)
 	enable_language(RC)
 	set(LIBCONTENT ${CORESRC} ${COREH} ${LXML}/win32/libmusicxml/libmusicxml.rc)
-else(MSVC)
+else()
 	set(LIBCONTENT ${CORESRC} ${COREH})
-endif(MSVC)
+endif()
 
 add_library(${target} ${libtype} ${LIBCONTENT})
 set_target_properties (${target} PROPERTIES 
-			${framework} 
 			VERSION ${VERSION}
 			FRAMEWORK_VERSION ${VERSION}
 			PUBLIC_HEADER "${COREH}"
@@ -111,7 +108,9 @@ set_target_properties (${target} PROPERTIES
 			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
 			MACOSX_FRAMEWORK_BUNDLE_VERSION ${SSTRVERS}
 )
-
+if ( IOS STREQUAL "no" )
+	set_target_properties (${target} PROPERTIES  FRAMEWORK TRUE )
+endif()
 
 #######################################
 # set sample targets
