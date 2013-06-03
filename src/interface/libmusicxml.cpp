@@ -24,6 +24,9 @@ EXP int			musicxmllibVersion()			{ return versions::libVersion(); }
 EXP const char* musicxmllibVersionStr()			{ return versions::libVersionStr(); }
 EXP int			musicxml2guidoVersion()			{ return versions::xml2guidoVersion(); }
 EXP	const char* musicxml2guidoVersionStr()		{ return versions::xml2guidoVersionStr(); }
+EXP int			musicxml2antescofoVersion()			{ return versions::xml2antescofoVersion(); }
+EXP	const char* musicxml2antescofoVersionStr()		{ return versions::xml2antescofoVersionStr(); }
+ 
 
 //------------------------------------------------------------------------
 EXP TFactory factoryOpen  ()						{ return new musicxmlfactory(); }
