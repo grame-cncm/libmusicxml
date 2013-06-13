@@ -55,7 +55,7 @@ endif(WIN32)
 set (LXML 		${CMAKE_CURRENT_SOURCE_DIR}/..)
 set (LXMLSRC 	${LXML}/src)
 set (LXMLSAMPLE ${LXML}/samples)
-set (SRCFOLDERS  factory files interface elements guido lib operations parser visitors)
+set (SRCFOLDERS  factory files interface elements guido lib operations parser visitors antescofo)
 
 foreach(folder ${SRCFOLDERS})
 	set(SRC ${SRC} "${LXMLSRC}/${folder}/*.cpp")			# add source files
