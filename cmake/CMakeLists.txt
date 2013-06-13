@@ -9,9 +9,9 @@ endif()
 
 #######################################
 # versions management
-set (VERSION 3.00)
-set (STRVERS "v.3.00")
-set (SSTRVERS "3.00")
+set (VERSION 3.10)
+set (STRVERS "v.3.10")
+set (SSTRVERS "3.10")
 
 if(UNIX)
 	add_definitions(-Wall -DGCC)
