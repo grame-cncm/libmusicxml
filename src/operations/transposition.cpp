@@ -222,12 +222,12 @@ void transposition::visitEnd ( S_note& elt )
 	int keyAccident = getAccidental (step, fCurrentKeySign);
 	float alter = notevisitor::getAlter();
 	string accident;		// next computes the accidental data
-	if (alter) {
-		if (alter != keyAccident)
-			accident = getAccident (alter);
-	}
-	else if (keyAccident)
-		accident = "natural";
+//	if (alter) {
+//		if (alter != keyAccident)
+//			accident = getAccident (alter);
+//	}
+//	else if (keyAccident)
+//		accident = "natural";
 
 	ctree<xmlelement>::iterator next;
 	for (ctree<xmlelement>::iterator i = elt->begin(); i != elt->end(); ) {
@@ -342,7 +342,7 @@ void transposition::visitEnd ( S_encoding& elt )
 					if (attr->getValue() == "accidental") {
 						Sxmlattribute type = i->getAttribute("type");
 						if (type) {
-							type->setValue ("yes");
+							type->setValue ("no");
 							doacc = true;
 						}
 					}
@@ -352,7 +352,7 @@ void transposition::visitEnd ( S_encoding& elt )
 		i = next;
 	}
 	if (!doacc)
-		elt->push(buildSupport("accidental", true));
+		elt->push(buildSupport("accidental", false));
 	if (!nostem)
 		elt->push(buildSupport("stem", false));
 }
