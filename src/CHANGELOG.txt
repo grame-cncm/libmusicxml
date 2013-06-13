@@ -3,9 +3,9 @@ MusicXML Library
 ----------------------------------------------------------------------------------------------------
 Version 3.10
 - transpose operation corrected and improved:
-	correctly generates accidental elements
+	remove accidental elements
 	removes stem information
-	manage support element for stems and accidentals
+	generate support elements for stems and accidentals
 - new export to IRCAM antescofo format
 
 Version 3.00
