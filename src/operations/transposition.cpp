@@ -79,7 +79,7 @@ void transposition::transpose ( string& pitch, float& alter, int& octave, int ta
 	int ialter = round(alter);
 	float diff = alter - ialter;
 	int pitch1 = notevisitor::step2i(pitch);
-	for (unsigned int i=0; i < fFifthCycle.size(); i++) {
+	for (int i=0; i < fFifthCycle.size(); i++) {
 		if ((fFifthCycle[i].second == ialter) && (fFifthCycle[i].first == pitch)) {
 			i += tableshift;
 			if (i > fFifthCycle.size()) i -= 12;
@@ -222,8 +222,10 @@ void transposition::visitEnd ( S_note& elt )
 	int keyAccident = getAccidental (step, fCurrentKeySign);
 	float alter = notevisitor::getAlter();
 	string accident;		// next computes the accidental data
-	if (alter)
-		accident = getAccident (alter);
+	if (alter) {
+		if (alter != keyAccident)
+			accident = getAccident (alter);
+	}
 	else if (keyAccident)
 		accident = "natural";
 
@@ -253,7 +255,6 @@ void transposition::visitEnd ( S_note& elt )
 				break;
 
 			case k_time_modification:
-			case k_stem:
 			case k_notehead:
 			case k_staff:
 			case k_beam:
@@ -263,6 +264,9 @@ void transposition::visitEnd ( S_note& elt )
 					next = insertAccident(elt, i, accident)++;
 					accidentDone = true;
 				}
+				break;
+			case k_stem:
+				next = elt->erase(i);		// stems are not handled 
 				break;
 		}
 		i = next;
@@ -298,4 +302,60 @@ void transposition::visitStart ( S_part& elt ) {
 	fTableShift = getKey (getOctaveStep(fChromaticSteps));
 }
 
+//________________________________________________________________________
+Sxmlelement	transposition::buildSupport ( const string& elt, bool val) const
+{
+	Sxmlelement support = factory::instance().create(k_supports);
+	Sxmlattribute attr = xmlattribute::create();
+	attr->setName("element");
+	attr->setValue(elt);
+	support->add(attr);
+	attr = xmlattribute::create();
+	attr->setName("type");
+	attr->setValue(val ? "yes" : "no");
+	support->add(attr);
+	return support;
 }
+
+//________________________________________________________________________
+void transposition::visitEnd ( S_encoding& elt )
+{
+	bool nostem = false;
+	bool doacc = false;
+	ctree<xmlelement>::iterator next;
+	for (ctree<xmlelement>::iterator i = elt->begin(); i != elt->end(); ) {
+		next = i;
+		next++;
+		switch (i->getType()) {
+
+			case k_supports:
+				Sxmlattribute attr = i->getAttribute("element");
+				if (attr) {
+					if (attr->getValue() == "stem") {
+						Sxmlattribute type = i->getAttribute("type");
+						if (type) {
+							type->setValue ("no");
+							nostem = true;
+						}
+						else next = elt->erase(i);
+					}
+					if (attr->getValue() == "accidental") {
+						Sxmlattribute type = i->getAttribute("type");
+						if (type) {
+							type->setValue ("yes");
+							doacc = true;
+						}
+					}
+				}
+				break;
+		}
+		i = next;
+	}
+	if (!doacc)
+		elt->push(buildSupport("accidental", true));
+	if (!nostem)
+		elt->push(buildSupport("stem", false));
+}
+
+
+}   // end namespace
