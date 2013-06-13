@@ -35,7 +35,9 @@ class EXP versions {
 
 		static int			xml2guidoVersion();
 		static const char*	xml2guidoVersionStr();
-
+		
+		static int			xml2antescofoVersion();
+		static const char*	xml2antescofoVersionStr();
 };
 
 }
