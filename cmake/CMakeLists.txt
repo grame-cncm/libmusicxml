@@ -14,7 +14,7 @@ set (STRVERS "v.3.10")
 set (SSTRVERS "3.10")
 
 if(UNIX)
-	add_definitions(-Wall -DGCC)
+	add_definitions(-Wall -DGCC -Wno-overloaded-virtual)
 endif(UNIX)
 
 set (libtype SHARED)
