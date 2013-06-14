@@ -33,7 +33,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar) :
 	fGenerateComments(generateComments), fGenerateStem(generateStem),
-	fGenerateBars(generateBar), fGeneratePositions(false),
+	fGenerateBars(generateBar), fGeneratePositions(true),
 	fCurrentStaffIndex(0)
 {}
 
@@ -169,6 +169,7 @@ void xml2guidovisitor::visitStart ( S_part& elt )
 //______________________________________________________________________________
 void xml2guidovisitor::addPosition	( Sxmlelement elt, Sguidoelement& tag, int yoffset)
 {
+cerr << "xml2guidovisitor::addPosition " << elt->getName() << " -> " << tag->getName() << endl;
 	float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
 	if (posx) {
 		posx = (posx / 10) * 2;   // convert to half spaces
