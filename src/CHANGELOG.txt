@@ -7,6 +7,7 @@ Version 3.10
 	removes stem information
 	generate support elements for stems and accidentals
 - new export to IRCAM antescofo format
+- xml2guido generates positions by default (version 2.10)
 
 Version 3.00
 - update to MusicXML version 3
