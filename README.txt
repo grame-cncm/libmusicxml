@@ -54,3 +54,11 @@ Note:
  number but to the significant architecture change that has been introduced with 
  the version 2 of the library. The name has been kept for compatibility reasons 
  and because there is no change from architecture viewpoint.
+
+Note for windows developers: 
+ You must be carefull with the runtime boundary issue : you can't allocate memory 
+ (either explicitly with new or malloc, or implicitly) and then pass a pointer across 
+ a DLL boundary to be freed (see at http://msdn.microsoft.com/en-us/library/ms235460.aspx).
+ The rule is to use the same runtime library than libmusicxml.dll. You can look at the 
+ runtime it uses using depends.exe. The easy way is to use the same development environment.
+ Otherwise, you should get the source code and recompile the library using your compiler.
