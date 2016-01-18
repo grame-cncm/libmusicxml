@@ -1,6 +1,10 @@
 MusicXML Library
 
 ----------------------------------------------------------------------------------------------------
+Version 3.11
+- specific MacoS version, compiled using C++11
+
+----------------------------------------------------------------------------------------------------
 Version 3.10
 - transpose operation corrected and improved:
 	remove accidental elements

@@ -9,9 +9,13 @@ endif()
 
 #######################################
 # versions management
-set (VERSION 3.10)
-set (STRVERS "v.3.10")
-set (SSTRVERS "3.10")
+set (VERSION 3.11)
+set (STRVERS "v.3.11")
+set (SSTRVERS "3.11")
+
+#######################################
+option ( C++11 	"C++11 support" off )
+
 
 if(UNIX)
 	add_definitions(-Wall -DGCC -Wno-overloaded-virtual)
@@ -26,6 +30,12 @@ if(APPLE)
 		set (CMAKE_OSX_SYSROOT "iphoneos")
 		set (libtype STATIC)
 	else ()
+		if ( C++11 )
+			message (STATUS "Generates project using C++11 - Use -DC++11=no to change.")
+			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+		else()
+			message (STATUS "Generates project without C++11 - Use -DC++11=yes to change.")
+		endif()
 		set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
 	endif()
 endif(APPLE)
@@ -91,6 +101,7 @@ endif()
 
 add_library(${target} ${libtype} ${LIBCONTENT})
 set_target_properties (${target} PROPERTIES 
+			FRAMEWORK TRUE
 			VERSION ${VERSION}
 			FRAMEWORK_VERSION ${VERSION}
 			PUBLIC_HEADER "${COREH}"
