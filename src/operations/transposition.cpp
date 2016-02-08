@@ -23,12 +23,12 @@
 #include "xml_tree_browser.h"
 
 #ifdef WIN32
-inline int round(float v) {
-	int n = int(v);
-	if ( (v-n) >= 0.5)  n++;
-	if ( (v-n) <= -0.5) n--;
-	return n;
-}
+//inline int round(float v) {
+//	int n = int(v);
+//	if ( (v-n) >= 0.5)  n++;
+//	if ( (v-n) <= -0.5) n--;
+//	return n;
+//}
 #endif
 
 using namespace std;
