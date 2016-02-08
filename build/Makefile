@@ -79,16 +79,16 @@ $(MACX)/Release/libmusicxml2.framework :
 
 $(MACX)/libmusicxml2.xcodeproj : CMakeLists.txt
 	[ -d $(MACX) ] || mkdir $(MACX)
-	cd $(MACX) && cmake .. -G Xcode $(CMAKEOPT)
+	cd $(MACX) && cmake .. -G Xcode $(CMAKEOPT)  -Wno-dev
 
 libmusicxml2.tgz : libmusicxml2.framework
 	tar czf libmusicxml2.tgz libmusicxml2.framework
 
-macc++11:  macc++11/libmusicxml2.xcodeproj macc++11/Release/libmusicxml2.framework
+macc++11:  macc++11/libmusicxml2.xcodeproj macc++11/Release/libmusicxml2.dylib
 	make MACX=macc++11 CMAKEOPT=-DC++11=yes
-	tar czf libmusicxml2-c++11.tgz --directory=macc++11/Release libmusicxml2.framework
+	cp macc++11/Release/libmusicxml2.*.dylib macc++11
 
-macc++11/Release/libmusicxml2.framework:
+macc++11/Release/libmusicxml2.dylib:
 	xcodebuild -jobs 8 -project macc++11/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
 
 #===============================================================

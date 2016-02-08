@@ -23,6 +23,7 @@ endif(UNIX)
 
 set (libtype SHARED)
 if(APPLE)
+	set (FMWK "true")
 	if ( IOS STREQUAL "yes" )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
@@ -33,6 +34,7 @@ if(APPLE)
 		if ( C++11 )
 			message (STATUS "Generates project using C++11 - Use -DC++11=no to change.")
 			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+			set (FMWK "false")
 		else()
 			message (STATUS "Generates project without C++11 - Use -DC++11=yes to change.")
 		endif()
@@ -81,7 +83,7 @@ set_source_files_properties (${COREH} PROPERTIES HEADER_FILE_ONLY TRUE)
 #######################################
 # set library target
 if(APPLE)
-	if (IOS STREQUAL "yes")
+	if (IOS OR C++11)
 		set(target musicxml2)
 	else()
 		set(target libmusicxml2)
@@ -101,7 +103,7 @@ endif()
 
 add_library(${target} ${libtype} ${LIBCONTENT})
 set_target_properties (${target} PROPERTIES 
-			FRAMEWORK TRUE
+			FRAMEWORK ${FMWK}
 			VERSION ${VERSION}
 			FRAMEWORK_VERSION ${VERSION}
 			PUBLIC_HEADER "${COREH}"
