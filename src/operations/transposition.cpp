@@ -219,7 +219,7 @@ void transposition::visitEnd ( S_note& elt )
 	setPitch (*this);		// computes the new pitch according to the current note data
 
 	Diatonic step = notevisitor::step2i(notevisitor::getStep());
-	int keyAccident = getAccidental (step, fCurrentKeySign);
+	/*int keyAccident =*/ getAccidental (step, fCurrentKeySign);
 	float alter = notevisitor::getAlter();
 	string accident;		// next computes the accidental data
 //	if (alter) {

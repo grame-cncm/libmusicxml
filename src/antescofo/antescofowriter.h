@@ -53,17 +53,17 @@ namespace MusicXML2
 
 class measure_elt {
 	public:
-		measure_elt() : bFermata(false), bpm(""), nMeasure(0), m_pos(rational(0)), type(0) { pitches.reserve(12); }
+		measure_elt() : bFermata(false), bpm(""), nMeasure(0), type(0), m_pos(rational(0)) { pitches.reserve(12); }
+		bool			bFermata;
+		string			bpm;
+		int				nMeasure; // measure number
 		int 			type;
 		rational 		duration;
 		vector<int>		pitches;
 		vector<int>		grace_pitches;
-		int			nMeasure; // measure number
 		rational		m_pos; // position in part, in beats unit
-		int                 	flags; // handles tied notes..
-		string			bpm;
+		int             flags; // handles tied notes..
 		string  		rehearsal;
-		bool			bFermata;
 		string			jump_dests;
 
 		bool operator<(const measure_elt& rhs) const { return (m_pos < rhs.m_pos); }
@@ -76,7 +76,7 @@ class antescofowriter {
 	public:
 		enum pedalType { kDamperPedal, kSoftpedal, kSostenutoPedal };
 
-		antescofowriter() : fLastBPM("0"), fBPM("120"), nBeats(4), print_notes_names(true) { }
+		antescofowriter() : nBeats(4), fBPM("120"), fLastBPM("0"), print_notes_names(true) { }
 		~antescofowriter() {}
 
 		map<rational, measure_elt> v_Notes;

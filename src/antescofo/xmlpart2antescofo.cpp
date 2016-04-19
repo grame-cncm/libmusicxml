@@ -28,11 +28,11 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 xmlpart2antescofo::xmlpart2antescofo(antescofowriter& _w, bool generateComments, bool
-		generateStem, bool generateBar) : w(_w),
+		generateStem, bool generateBar) :
 	fGenerateComments(generateComments), fGenerateStem(generateStem), 
 	fGenerateBars(generateBar),
 	fNotesOnly(false), fCurrentStaffIndex(0), fCurrentStaff(0),
-	fTargetStaff(0), fTargetVoice(0)
+	fTargetStaff(0), fTargetVoice(0), w(_w)
 {
 	fGeneratePositions = true;
 	fRepeatForward = fRepeatBackward = false;
@@ -523,7 +523,7 @@ void xmlpart2antescofo::visitEnd ( S_time& elt )
 			for (unsigned int i = 0; i < timesignvisitor::fTimeSign.size(); i++) {
 				s << sep << timesignvisitor::fTimeSign[i].first << "/" << timesignvisitor::fTimeSign[i].second;
 				sep = "+";
-				rational ts = timesignvisitor::timesign(i);
+//				rational ts = timesignvisitor::timesign(i);
 				fCurrentTimeSign += timesignvisitor::timesign(i);
 			}
 			s >> timesign;

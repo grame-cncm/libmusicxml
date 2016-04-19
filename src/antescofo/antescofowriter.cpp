@@ -477,7 +477,7 @@ void antescofowriter::writestream(ostream &out, bool with_header) {
 	fLastBPM = fBPM;
 	out << "BPM " << fBPM << endl;
 	int cur_meas = 0;
-	rational fCurrBeat = rational(1);
+//	rational fCurrBeat = rational(1);
 
 	int last_glissando_pitch = 0;
 	for (map<rational, measure_elt>::iterator i = v_Notes.begin(); i != v_Notes.end(); i++) { 
