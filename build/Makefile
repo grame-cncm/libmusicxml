@@ -85,7 +85,8 @@ libmusicxml2.tgz : libmusicxml2.framework
 	tar czf libmusicxml2.tgz libmusicxml2.framework
 
 macc++11:  macc++11/libmusicxml2.xcodeproj macc++11/Release/libmusicxml2.dylib
-	make MACX=macc++11 CMAKEOPT=-DC++11=yes
+	cd macc++11 && cmake .. -G Xcode -DC++11=yes  -Wno-dev
+	xcodebuild -jobs 8 -project macc++11/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
 	cp macc++11/Release/libmusicxml2.*.dylib macc++11
 
 macc++11/Release/libmusicxml2.dylib:
