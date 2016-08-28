@@ -44,20 +44,26 @@ class EXP guidoparam : public smartable {
 	public:
         static SMARTP<guidoparam> create(std::string value, bool quote=true);
         static SMARTP<guidoparam> create(long value, bool quote=true);
+        static SMARTP<guidoparam> create(std::string name, std::string value, bool quote=true);
+    static SMARTP<guidoparam> create(std::string name, long value, bool quote=true);
 
 		//! the parameter value
 		void set (std::string value, bool quote=true);
 		void set (long value, bool quote=true);
 		std::string get () const 						{ return fValue; }
+    std::string name() const { return fName; }
 		bool   quote () const 						{ return fQuote; }
         
     protected:
 		guidoparam(std::string value, bool quote);
 		guidoparam(long value, bool quote);
+    guidoparam(std::string name, std::string value, bool quote);
+    guidoparam(std::string name, long value, bool quote);
 		virtual ~guidoparam ();
         
     private:
 		std::string 	fValue;
+    std::string 	fName;
 		bool	fQuote;
 };
 

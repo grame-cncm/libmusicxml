@@ -23,6 +23,11 @@ Sguidoparam guidoparam::create(string value, bool quote)
     { guidoparam * o = new guidoparam(value, quote); assert(o!=0); return o; }
 Sguidoparam guidoparam::create(long value, bool quote) 
     { guidoparam * o = new guidoparam(value, quote); assert(o!=0); return o; }
+Sguidoparam guidoparam::create(string name, string value, bool quote)
+    { guidoparam * o = new guidoparam(name, value, quote); assert(o!=0); return o; }
+Sguidoparam guidoparam::create(string name, long value, bool quote)
+    { guidoparam * o = new guidoparam(name, value, quote); assert(o!=0); return o; }
+
 
 Sguidoelement guidoelement::create(string name, string sep)	
 		{  guidoelement * o = new guidoelement(name, sep); assert(o!=0); return o; }
@@ -105,6 +110,9 @@ void guidoelement::print(ostream& os)
         os << "<";
         vector<Sguidoparam>::const_iterator param;
         for (param = fParams.begin(); param != fParams.end(); ) {
+            if(! (*param)->name().empty() ){
+                os << (*param)->name() << "=";
+            }
             if ((*param)->quote())
 				os << "\"" << (*param)->get() << "\"";
 			else
@@ -200,6 +208,8 @@ guidoelement::~guidoelement() {}
 //______________________________________________________________________________
 guidoparam::guidoparam(string value, bool quote) : fValue(value), fQuote(quote) {}
 guidoparam::guidoparam(long value, bool quote)   { set(value, quote); }
+    guidoparam::guidoparam(string name, string value, bool quote) :  fValue(value), fName(name), fQuote(quote) {}
+    guidoparam::guidoparam(string name, long value, bool quote) : fName(name) { set(value, quote); }
 guidoparam::~guidoparam () {}
 
 //______________________________________________________________________________

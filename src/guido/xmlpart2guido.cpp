@@ -929,5 +929,26 @@ void xmlpart2guido::visitStart ( S_divisions& elt )
 	fCurrentDivision = (long)(*elt);
 }
 
+
+
+//______________________________________________________________________________
+// chord symbols
+//______________________________________________________________________________
+
+void xmlpart2guido::visitStart ( S_harmony& elt ){
+}
+
+void xmlpart2guido::visitEnd ( S_harmony& elt )
+{
+    // we convert harmony (=chord symbols)  to text tags
+    Sguidoelement tag = guidotag::create("text");
+    tag->add (guidoparam::create("text", harmonyvisitor::fRoot + harmonyvisitor::fAlteration + harmonyvisitor::fText));
+    // TODO read dy offset from global settings
+    tag->add (guidoparam::create("dy", 14L, false));
+    // TODO add global settings for font type and font size
+    add (tag);
+    // TODO insert as range tag with next note/chord as range, or make sure that notes get not shifted to right by chord symbol
+
+}
 }
 

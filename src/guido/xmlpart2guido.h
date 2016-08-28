@@ -26,6 +26,7 @@
 #include "notevisitor.h"
 #include "rational.h"
 #include "timesignvisitor.h"
+#include "harmonyvisitor.h"
 #include "typedefs.h"
 #include "visitor.h"
 #include "xml.h"
@@ -48,6 +49,7 @@ class EXP xmlpart2guido :
 	public metronomevisitor,
 	public notevisitor,
 	public keysignvisitor,
+    public harmonyvisitor,
 	public visitor<S_backup>,
 	public visitor<S_barline>,
 	public visitor<S_coda>,
@@ -152,6 +154,8 @@ class EXP xmlpart2guido :
 		virtual void visitStart( S_part& elt);
 		virtual void visitStart( S_segno& elt);
 		virtual void visitStart( S_wedge& elt);
+        virtual void visitStart( S_harmony& elt);
+
 		virtual void visitEnd  ( S_clef& elt);
 		virtual void visitEnd  ( S_direction& elt);
 		virtual void visitEnd  ( S_ending& elt);
@@ -162,6 +166,9 @@ class EXP xmlpart2guido :
 		virtual void visitEnd  ( S_repeat& elt);
 		virtual void visitEnd  ( S_sound& elt);
 		virtual void visitEnd  ( S_time& elt);
+        virtual void visitEnd  ( S_harmony& elt);
+
+
 
     public:
 				 xmlpart2guido(bool generateComments, bool generateStem, bool generateBar=true);
