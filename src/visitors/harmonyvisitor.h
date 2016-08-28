@@ -25,7 +25,7 @@ namespace MusicXML2
 */
 
 /*!
-\brief key element data
+\brief harmony element data
 */
 class EXP harmonyvisitor :
 	public visitor<S_harmony>,
@@ -50,7 +50,6 @@ class EXP harmonyvisitor :
         std::string	fRoot;
         std::string	fAlteration;
 };
-
 
 /*! @} */
 

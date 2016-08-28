@@ -17,7 +17,8 @@ using namespace std;
 namespace MusicXML2 {
 
     //________________________________________________________________________
-    // transpose element suppport
+    // harmony element suppport
+    // element denotes chord symbols
     //________________________________________________________________________
     void harmonyvisitor::reset ()
     {
