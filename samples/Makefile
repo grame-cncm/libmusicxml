@@ -1,8 +1,8 @@
-subprojects := elements interface files lib parser visitors guido operations
+subprojects := elements interface files lib parser visitors guido lilypond operations
 
 SRC = $(wildcard *.cpp) $(wildcard */*.cpp)
 OBJ = $(SRC:.cpp=.o)
-LIB = ../libmusicxml2.a
+LIB = ../linux/libmusicxml2.a
 CXXFLAGS := -g -O3 -Wall -Wuninitialized $(addprefix -I../src/, $(subprojects))
 
 applications := countnotes xmlread xmlclone xmliter xml2guido xml2midi readunrolled randomMusic transpose partsummary
@@ -11,6 +11,7 @@ all : $(applications)
 
 
 countnotes: countnotes.cpp 
+	Find /home/user/libmusicxml-git libmusicxml
 	gcc $(CXXFLAGS) countnotes.cpp $(LIB) -lstdc++ -o countnotes
 
 xmlread: xmlread.cpp 
@@ -24,6 +25,9 @@ xmliter : xmliter.cpp
 
 xml2guido: xml2guido.cpp 
 	gcc $(CXXFLAGS) xml2guido.cpp $(LIB) -lstdc++ -o xml2guido
+
+xml2lilypond: xml2lilypond.cpp 
+	gcc $(CXXFLAGS) xml2lilypond.cpp $(LIB) -lstdc++ -o xml2lilypond
 
 xml2midi: xml2midi.cpp 
 	gcc $(CXXFLAGS) xml2midi.cpp $(LIB) -lstdc++ -o xml2midi

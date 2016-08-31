@@ -10,6 +10,9 @@ clean :
 %.gmn: %.xml
 	xml2guido $< > $@
 
+%.ly: %.xml
+	xml2lilypond $< > $@
+
 ActorPreludeSample.gmn : ActorPreludeSample.xml
 BeetAnGeSample.gmn : BeetAnGeSample.xml
 Binchois20.gmn : Binchois20.xml
