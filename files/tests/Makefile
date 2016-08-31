@@ -10,6 +10,9 @@ clean :
 %.gmn: %.xml
 	xml2guido $< > $@
 
+%.ly: %.xml
+	xml2lilypond $< > $@
+
 
 
 00a-Basics-Pitches.gmn : 00a-Basics-Pitches.xml
