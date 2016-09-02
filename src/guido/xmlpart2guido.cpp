@@ -690,6 +690,87 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
 */
 }
 
+// ------------------- LYRICS Functions
+
+    void xmlpart2guido::checkLyricBegin	 ( const std::vector<S_lyric>& lyrics )
+    {
+        // sample: \lyrics<"Jude  don't take it",-6>(\tieBegin a0/2 \beam( a/8 \tieEnd a c1 d)) \bar
+        if ( (notevisitor::getSyllabic()== "begin") ) {
+                std::string tagtxt("lyrics");
+                lyricParams = "";
+                // replaces Spaces in text by '~' to avoid event progression!
+                std::string newTxt = notevisitor::getLyricText();
+                std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
+                lyricParams += newTxt;
+                //tagtxt += "<\"";
+                //tagtxt += notevisitor::getLyricText();
+                Sguidoelement tag = guidotag::create(tagtxt);
+                push (tag);
+                fLyricOpened = fStack.top();
+                //cout << "Got Lyric BEGIN with Text " << notevisitor::getLyricText() <<"\n";
+        }
+        
+        if (notevisitor::getSyllabic()== "single")
+        {
+            Sguidoelement tag = guidotag::create("lyrics");
+            // replaces Spaces in text by '~' to avoid event progression!
+            std::string newTxt = notevisitor::getLyricText();
+            std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
+            tag->add (guidoparam::create(newTxt, true));
+            tag->add (guidoparam::create(-3, false));
+            push (tag);
+            //cout << "Got Lyric SINGLE with Text " << notevisitor::getLyricText() <<"\n";
+        }
+        
+        if (notevisitor::getSyllabic()== "middle")
+        {
+            // Should ONLY update tag parameter here!
+            lyricParams += " ";     // space after a word (or syllable) progresses to the following event
+            // replaces Spaces in text by '~' to avoid event progression!
+            std::string newTxt = notevisitor::getLyricText();
+            std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
+            lyricParams += newTxt;
+
+            //cout << "Got Lyric MIDDLE with Text " << notevisitor::getLyricText() <<"\n"
+            //        << "      Overall txt: \""<<lyricParams<<"\"\n";
+        }
+    }
+    
+    void xmlpart2guido::checkLyricEnd	 ( const std::vector<S_lyric>& lyrics )
+    {
+        if ( (notevisitor::getSyllabic()== "end") )
+        {
+            lyricParams += " ";     // space after a word (or syllable) progresses to the following event
+            // replaces Spaces in text by '~' to avoid event progression!
+            std::string newTxt = notevisitor::getLyricText();
+            std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
+            lyricParams += newTxt;
+            
+            fLyricOpened->add((guidoparam::create(lyricParams, true)));
+            fLyricOpened->add(guidoparam::create(-3, false));
+            
+            pop();
+            fLyricOpened = NULL;
+            lyricParams="";
+        }
+        
+        if (notevisitor::getSyllabic()== "single")
+        {
+            pop();
+        }
+    }
+    
+    vector<S_lyric>::const_iterator xmlpart2guido::findValue ( const std::vector<S_lyric>& lyrics,
+                                                              const string& val ) const
+    {
+        std::vector<S_lyric>::const_iterator i;
+        for (i = lyrics.begin(); i != lyrics.end(); i++) {
+            if ((*i)->getValue() == val) break;
+        }
+        return i;
+    }
+
+    
 //______________________________________________________________________________
 void xmlpart2guido::checkStem ( const S_stem& stem ) 
 {
@@ -890,6 +971,7 @@ void xmlpart2guido::visitEnd ( S_note& elt )
 	checkGrace(*this);
 	checkSlurBegin (notevisitor::getSlur());
 	checkBeamBegin (notevisitor::getBeam());
+    checkLyricBegin (notevisitor::getLyric());
 	
 	int pendingPops  = checkFermata(*this);
 	pendingPops += checkArticulation(*this);
@@ -918,6 +1000,9 @@ void xmlpart2guido::visitEnd ( S_note& elt )
 		add(tag);
 	}
 
+    checkLyricEnd (notevisitor::getLyric());
+
+    
     fMeasureEmpty = false;
 }
 
