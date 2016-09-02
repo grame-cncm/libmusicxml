@@ -8,7 +8,7 @@ VPATH = $(subprojects)
 
 CXXFLAGS := -g -O3 -Wall -Wuninitialized $(addprefix -I, $(subprojects))
 
-lib := libmusicxml2.a
+lib := ../libmusicxml2.a
 
 all : $(lib) samples
 
@@ -20,8 +20,7 @@ $(lib): $(OBJ)
 	ranlib $(lib)
 
 clean :
-# JMI	rm -f $(lib) $(OBJ)
-	rm -f $(OBJ)
+	rm -f $(lib) $(OBJ)
 
 dep:
 	makedepend -- $(CXXFLAGS) -- $(SRC)

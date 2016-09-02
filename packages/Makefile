@@ -19,7 +19,7 @@ WINDIR64 := libmusicxml-$(VERSION)-win64
 
 HEADERS  = $(wildcard .$(SRCDIR)/*.h) $(wildcard $(SRCDIR)/*/*.h)
 FILES    = $(SRCDIR)/CHANGELOG.txt ../README.txt ../license.txt
-TOOLS    = xml2guido xml2lilypond xmltranspose
+TOOLS    = xml2guido xmltranspose
 WINTOOLS32 = $(TOOLS:%=../w32/release/%.exe)
 WINTOOLS64 = $(TOOLS:%=../w64/release/%.exe)
 MACTOOLS = $(TOOLS:%=$(CMAKEDIR)/Release/%)

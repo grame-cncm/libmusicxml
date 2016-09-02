@@ -27,30 +27,30 @@ namespace MusicXML2
 
 template <int elt> class musicxml : public xmlelement
 { 
-    protected:  
-    musicxml() { fType = elt; }
+    protected:	
+		musicxml() { fType = elt; }
 
-  public:
-    static SMARTP<musicxml<elt> > new_musicxml()  
-      { musicxml<elt>* o = new musicxml<elt>; assert(o!=0); return o; }
-    static SMARTP<musicxml<elt> > new_musicxml(const std::vector<Sxmlelement>& elts)  
-      { musicxml<elt>* o = new musicxml<elt>(elts); assert(o!=0); return o; }
+	public:
+		static SMARTP<musicxml<elt> > new_musicxml()	
+			{ musicxml<elt>* o = new musicxml<elt>; assert(o!=0); return o; }
+		static SMARTP<musicxml<elt> > new_musicxml(const std::vector<Sxmlelement>& elts)	
+			{ musicxml<elt>* o = new musicxml<elt>(elts); assert(o!=0); return o; }
 
-    virtual void acceptIn(basevisitor& v) {
-      if (visitor<SMARTP<musicxml<elt> > >* p = dynamic_cast<visitor<SMARTP<musicxml<elt> > >*>(&v)) {
-        SMARTP<musicxml<elt> > sptr = this;
-        p->visitStart(sptr);
-      }
-      else xmlelement::acceptIn(v);
-    }
+        virtual void acceptIn(basevisitor& v) {
+			if (visitor<SMARTP<musicxml<elt> > >* p = dynamic_cast<visitor<SMARTP<musicxml<elt> > >*>(&v)) {
+				SMARTP<musicxml<elt> > sptr = this;
+				p->visitStart(sptr);
+			}
+			else xmlelement::acceptIn(v);
+		}
 
-    virtual void acceptOut(basevisitor& v) {
-      if (visitor<SMARTP<musicxml<elt> > >* p = dynamic_cast<visitor<SMARTP<musicxml<elt> > >*>(&v)) {
-        SMARTP<musicxml<elt> > sptr = this;
-        p->visitEnd(sptr);
-      }
-      else xmlelement::acceptOut(v);
-    }
+        virtual void acceptOut(basevisitor& v) {
+			if (visitor<SMARTP<musicxml<elt> > >* p = dynamic_cast<visitor<SMARTP<musicxml<elt> > >*>(&v)) {
+				SMARTP<musicxml<elt> > sptr = this;
+				p->visitEnd(sptr);
+			}
+			else xmlelement::acceptOut(v);
+		}
 };
 
 /*! @} */
