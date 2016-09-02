@@ -62,7 +62,10 @@ class EXP notevisitor :
 	public visitor<S_time_modification>,
 	public visitor<S_type>,
 	public visitor<S_unpitched>,
-	public visitor<S_voice>
+	public visitor<S_voice>,
+    public visitor<S_lyric>,         // added by AC
+    public visitor<S_syllabic>,         // added by AC
+    public visitor<S_text>         // added by AC
 {
  public:
 		S_stem			fStem;
@@ -117,8 +120,11 @@ class EXP notevisitor :
 		virtual const std::vector<S_tied>&	getTied() const	{ return fTied; }
 		virtual const std::vector<S_slur>&	getSlur() const	{ return fSlur; }
 		virtual const std::vector<S_beam>&	getBeam() const	{ return fBeam; }
+        virtual const std::vector<S_lyric>&	getLyric() const	{ return fLyric; }
+        virtual const std::string&  getSyllabic() const		{ return fSyllabic; }
+        virtual const std::string&  getLyricText() const		{ return fLyricText; }
 
-        static int			step2i(const std::string& step); 
+        static int			step2i(const std::string& step);
 		static std::string	i2step(int i);
 
     protected:
@@ -157,6 +163,10 @@ class EXP notevisitor :
 		virtual void visitStart( S_type& elt )			{ if (fInNote) fGraphicType = elt->getValue(); }
 		virtual void visitStart( S_unpitched& elt )		{ if (fInNote) fType = kUnpitched; }
 		virtual void visitStart( S_voice& elt )			{ fVoice = int(*elt); }
+        virtual void visitStart( S_lyric& elt )			{ fLyric.push_back (elt); }
+        virtual void visitStart( S_syllabic& elt )		{ fSyllabic = elt->getValue(); }
+        virtual void visitStart( S_text& elt )		{ fLyricText = elt->getValue(); }
+
 
 	private:
 		bool	fGrace, fCue, fChord, fFermata;
@@ -173,7 +183,10 @@ class EXP notevisitor :
 
 		std::vector<S_tied>	fTied;
 		std::vector<S_slur>	fSlur;
-		std::vector<S_beam>	fBeam;
+        std::vector<S_beam>	fBeam;
+		std::vector<S_lyric>	fLyric;
+        std::string fSyllabic;
+        std::string fLyricText;
 };
 
 EXP std::ostream& operator<< (std::ostream& os, const notevisitor& elt);

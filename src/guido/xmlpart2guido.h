@@ -77,6 +77,8 @@ class EXP xmlpart2guido :
 
 	// internal parsing state
 	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending;
+    
+    Sguidoelement fLyricOpened;
 	
 	S_measure	fCurrentMeasure;  
 
@@ -132,6 +134,14 @@ class EXP xmlpart2guido :
 	std::vector<S_beam>::const_iterator findValue ( const std::vector<S_beam>& beams, const std::string& val ) const;
 	std::vector<S_slur>::const_iterator findTypeValue ( const std::vector<S_slur>& slurs, const std::string& val ) const;
 	std::vector<S_tied>::const_iterator findTypeValue ( const std::vector<S_tied>& tied, const std::string& val ) const;
+    
+    /// Lyrics handling by AC
+    void checkLyricBegin	 ( const std::vector<S_lyric>& lyrics );
+    void checkLyricEnd	 ( const std::vector<S_lyric>& lyrics );
+    std::vector<S_lyric>::const_iterator findValue ( const std::vector<S_lyric>& lyrics,
+                                                    const std::string& val ) const;
+    std::string lyricParams;
+
 	
 	static std::string alter2accident ( float alter );
 

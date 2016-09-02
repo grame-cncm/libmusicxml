@@ -64,6 +64,10 @@ void notevisitor::reset ()
 	fTied.clear();
 	fSlur.clear();
 	fBeam.clear();
+    
+    fLyric.clear();
+    fSyllabic = "";
+    fLyricText="";
 }
 
 //________________________________________________________________________
