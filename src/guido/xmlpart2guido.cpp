@@ -941,7 +941,7 @@ void xmlpart2guido::visitStart ( S_harmony& elt ){
 void xmlpart2guido::visitEnd ( S_harmony& elt )
 {
     // we convert harmony (=chord symbols)  to text tags
-    Sguidoelement tag = guidotag::create("text");
+    Sguidoelement tag = guidotag::create("harmony");
     tag->add (guidoparam::create("text", harmonyvisitor::fRoot + harmonyvisitor::fAlteration + harmonyvisitor::fText));
     // TODO read dy offset from global settings
     tag->add (guidoparam::create("dy", 14L, false));
