@@ -29,26 +29,26 @@ namespace MusicXML2
 \brief A visitor that clones a musicxml tree
 */
 class EXP clonevisitor : 
-	public visitor<Sxmlelement>
+  public visitor<Sxmlelement>
 {
-    public:
-				 clonevisitor() : fClone(true) {}
-       	virtual ~clonevisitor() {}
-              
-		virtual void visitStart( Sxmlelement& elt );
-		virtual void visitEnd  ( Sxmlelement& elt );
-		
-		virtual Sxmlelement clone()	{ return fStack.top(); }
+  public:
+    clonevisitor() : fClone(true) {}
+    virtual ~clonevisitor() {}
+            
+    virtual void visitStart( Sxmlelement& elt );
+    virtual void visitEnd  ( Sxmlelement& elt );
+    
+    virtual Sxmlelement clone() { return fStack.top(); }
 
-	protected:
-		virtual void			clone(bool state)	{ fClone = state; }
-		virtual void			copyAttributes (const Sxmlelement& src, Sxmlelement& dst);
-		virtual Sxmlelement		copy (const Sxmlelement& elt);
-		virtual Sxmlelement&	lastCopy ()	{ return fLastCopy; }
+  protected:
+    virtual void          clone(bool state) { fClone = state; }
+    virtual void          copyAttributes (const Sxmlelement& src, Sxmlelement& dst);
+    virtual Sxmlelement   copy (const Sxmlelement& elt);
+    virtual Sxmlelement&  lastCopy () { return fLastCopy; }
 
-		bool					fClone;
-		Sxmlelement				fLastCopy;
-		std::stack<Sxmlelement> fStack;
+    bool                    fClone;
+    Sxmlelement             fLastCopy;
+    std::stack<Sxmlelement> fStack;
 };
 
 /*! @} */

@@ -31,8 +31,8 @@ class musicxmlfactory;
 class xmlelement;
 class xmlattribute;
 
-typedef xmlelement*   TElement;
-typedef xmlattribute* TAttribute;
+typedef xmlelement*      TElement;
+typedef xmlattribute*    TAttribute;
 typedef musicxmlfactory* TFactory;
 
 

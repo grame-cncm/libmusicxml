@@ -14,7 +14,7 @@ set (STRVERS "v.3.00")
 set (SSTRVERS "3.00")
 
 if(UNIX)
-  add_definitions(-Wall -DGCC)
+  add_definitions(-Wall -DGCC -ggdb3)
 endif(UNIX)
 
 set (libtype SHARED)

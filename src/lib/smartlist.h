@@ -20,17 +20,17 @@ namespace MusicXML2
 {
 
 /*
-	smartlist are provided only to exchange container (vector, list,...) with clients 
-	while avoiding the runtime library issue with windows visual c++
+  smartlist are provided only to exchange container (vector, list,...) with clients 
+  while avoiding the runtime library issue with windows visual c++
 */
 template <typename T, typename L=std::vector<T> >
 class smartlist  : public smartable, public L {
-	protected:
-				 smartlist() {}
-		virtual ~smartlist() {}
-	public:
-		typedef SMARTP<smartlist<T> >	ptr;
-		static ptr create() { smartlist<T> * o = new smartlist<T>; assert(o!=0); return o; }
+  protected:
+    smartlist() {}
+    virtual ~smartlist() {}
+  public:
+    typedef SMARTP<smartlist<T> > ptr;
+    static ptr create() { smartlist<T> * o = new smartlist<T>; assert(o!=0); return o; }
 };
 
 }

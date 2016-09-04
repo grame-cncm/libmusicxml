@@ -20,12 +20,12 @@ using namespace std;
 namespace MusicXML2
 {
 
-EXP int     musicxmllibVersion()      { return versions::libVersion(); }
-EXP const char* musicxmllibVersionStr()     { return versions::libVersionStr(); }
+EXP int         musicxmllibVersion()      { return versions::libVersion(); }
+EXP const char* musicxmllibVersionStr()   { return versions::libVersionStr(); }
 
 //------------------------------------------------------------------------
 EXP TFactory factoryOpen  ()            { return new musicxmlfactory(); }
-EXP void  factoryClose (TFactory f)       { delete f; }
+EXP void  factoryClose (TFactory f)     { delete f; }
 EXP void  factoryPrint (TFactory f, ostream& out) { f->print(out); }
 
 
