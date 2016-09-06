@@ -11,6 +11,7 @@
 */
 
 #include <iostream>
+
 #include "notevisitor.h"
 
 //#define PRINTNOTE
@@ -64,6 +65,10 @@ void notevisitor::reset ()
   fTied.clear();
   fSlur.clear();
   fBeam.clear();
+  
+  fLastLyric = 0;
+  fLastSyllabic = 0;
+  fStanzas.clear();
 }
 
 //________________________________________________________________________
@@ -114,7 +119,9 @@ float notevisitor::getMidiPitch() const
 //________________________________________________________________________
 void notevisitor::visitStart ( S_time_modification& elt )
 {
-  fTimeModification.set ( elt->getIntValue(k_normal_notes,1), elt->getIntValue(k_actual_notes,1));
+  fTimeModification.set ( 
+    elt->getIntValue(k_normal_notes,1), 
+    elt->getIntValue(k_actual_notes,1) );
 }
 
 //________________________________________________________________________
@@ -126,6 +133,61 @@ void notevisitor::visitStart ( S_tie& elt )
   if (value == "start") fTie |= kTieStart;
   else if (value == "stop") fTie |= kTieStop; 
 */
+}
+
+//________________________________________________________________________
+void notevisitor::visitStart( S_text& elt ) 
+{
+  /*
+        <lyric number="2">
+          <syllabic>single</syllabic>
+          <text>2. For</text>
+        </lyric>
+  */
+
+  S_lyric     lastLyric =    getLastLyric();
+  S_syllabic  lastSyllabic = getLastSyllabic();
+  std::map<std::string, std::list<std::list<std::string> > > 
+              stanzas =      getStanzas();
+  string      text =         elt->getValue();
+  
+  std::string lastLyricNumber  = lastLyric->getAttributeValue("number");
+  std::string lastLyricNumber2  = 
+    lastLyric
+      ? lastLyric->getAttributeValue("number")
+      : "1";
+  std::string lastSyllabicValue = lastSyllabic->getValue();
+  
+  cout <<
+    "--> lastLyricNumber = " << lastLyricNumber <<
+    ", lastSyllabicValue = " << lastSyllabicValue <<
+    ", text = " << text << endl <<
+    flush;
+    
+  std::map<std::string, std::list<std::list<std::string> > >::iterator it;
+  
+  it = stanzas.find(lastLyricNumber);
+  if (it != stanzas.end()) {
+    // stanzas[lastLyricNumber] has already been created
+  }
+  else {
+    // create stanzas[lastLyricNumber]
+    stanzas[lastLyricNumber] = std::list<std::list<std::string> >();
+  }
+    
+  if (lastSyllabicValue == "single") {
+    stanzas[lastLyricNumber].push_back(std::list<std::string>());
+    stanzas[lastLyricNumber].back().push_back(text);
+  }
+  else if (lastSyllabicValue == "begin") {
+ //   stanzas.push_back(text);
+  }
+  else if (lastSyllabicValue == "middle") {
+//    stanzas.back() += " -- "+text;
+  }
+  else if (lastSyllabicValue == "end") {
+//    stanzas.back() += " -- "+text;
+  }
 }
 
 //________________________________________________________________________
