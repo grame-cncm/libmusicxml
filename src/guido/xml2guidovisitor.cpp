@@ -34,7 +34,7 @@ namespace MusicXML2
 xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar) :
 	fGenerateComments(generateComments), fGenerateStem(generateStem),
 	fGenerateBars(generateBar), fGeneratePositions(false),
-	fCurrentStaffIndex(0)
+	fCurrentStaffIndex(0), previousStaffHasLyrics(false)
 {}
 
 //______________________________________________________________________________
@@ -133,9 +133,10 @@ void xml2guidovisitor::visitStart ( S_part& elt )
 	int targetStaff = 0xffff;	// initialized to a value we'll unlikely encounter
 	bool notesOnly = false;
 	rational currentTimeSign (0,1);
+    
 	// browse the parts voice by voice: allows to describe voices that spans over several staves
 	for (unsigned int i = 0; i < voices->size(); i++) {
-		int targetVoice = (*voices)[i];
+        int targetVoice = (*voices)[i];
 		int mainstaff = ps.getMainStaff(targetVoice);
 		if (targetStaff == mainstaff) {
 			notesOnly = true;
@@ -152,6 +153,16 @@ void xml2guidovisitor::visitStart ( S_part& elt )
 		Sguidoelement tag = guidotag::create("staff");
 		tag->add (guidoparam::create(fCurrentStaffIndex, false));
 		add (tag);
+        
+        //// Add staffFormat if needed
+        // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
+        if (previousStaffHasLyrics)
+        {
+            Sguidoelement tag2 = guidotag::create("staffFormat");
+            tag2->add (guidoparam::create("dy=-5", false));
+            add (tag2);
+        }
+        ////
 
 		flushHeader (fHeader);
 		flushPartHeader (fPartHeaders[elt->getAttributeValue("id")]);
@@ -163,6 +174,7 @@ void xml2guidovisitor::visitStart ( S_part& elt )
 		browser.browse(*elt);
 		pop();
 		currentTimeSign = pv.getTimeSign();
+        previousStaffHasLyrics = pv.hasLyrics();
 	}
 }
 

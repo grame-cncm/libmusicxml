@@ -83,6 +83,8 @@ class EXP xml2guidovisitor :
 		virtual void visitStart( S_part& elt);
 
 		Sguidoelement& current ()				{ return fStack.top(); }
+    
+        bool previousStaffHasLyrics;
 
     public:
 				 xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar=true);

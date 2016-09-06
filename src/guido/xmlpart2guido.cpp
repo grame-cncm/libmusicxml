@@ -36,6 +36,7 @@ xmlpart2guido::xmlpart2guido(bool generateComments, bool generateStem, bool gene
 {
 	fGeneratePositions = true;
 	xmlpart2guido::reset();
+    fHasLyrics = false;
 }
 
 //______________________________________________________________________________
@@ -62,6 +63,7 @@ void xmlpart2guido::initialize (Sguidoelement seq, int staff, int guidostaff, in
 	fNotesOnly = notesonly;					// prevent multiple output for keys, clefs etc... 
 	fCurrentTimeSign = defaultTimeSign;		// a default time signature
 	fCurrentStaffIndex = guidostaff;		// the current guido staff index
+    fHasLyrics = false;
 	start (seq);
 }
 
@@ -127,6 +129,12 @@ void xmlpart2guido::checkStaff (int staff) {
         fCurrentStaffIndex += offset;
 		tag->add (guidoparam::create(fCurrentStaffIndex, false));
         add (tag);
+        
+        cout<<"Creating Staff "<<fCurrentStaffIndex<<" from xmlpart2guido"<<endl;
+
+        
+        //// Add staffFormat if needed
+        // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
     }
 }
 
@@ -791,9 +799,8 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
             tag->add (guidoparam::create(newTxt, true));
             tag->add (guidoparam::create(-5, false));
             push (tag);
-            //cout << "Got Lyric SINGLE with Text " << notevisitor::getLyricText() <<"\n";
-            //cout<< "Adding Lyrics1 on note of duration "<< getDuration()<<endl;
 
+            fHasLyrics = true;
         }
         
         if ((notevisitor::getSyllabic()== "end")
@@ -813,7 +820,7 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
             tag->add (guidoparam::create(-5, false));
             push (tag);
             
-            //cout<< "Adding Lyrics2 \"" << notevisitor::getLyricText()<<"\" on note of dur "<< getDuration()<<endl;
+            fHasLyrics = true;
         }
         
         // Alternative 2: Make MIDDLE and BEGIN also a SINGLE
@@ -865,7 +872,7 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
         if (notevisitor::getSyllabic()== "single")
         {
             pop();
-            cout<< "Lyric \""<<notevisitor::getLyricText()<<"\" dur "<< getDuration()<<" size:"<<notevisitor::getLyricText().size() <<" measure "<<fMeasNum <<endl;
+            //cout<< "Lyric \""<<notevisitor::getLyricText()<<"\" dur "<< getDuration()<<" size:"<<notevisitor::getLyricText().size() <<" measure "<<fMeasNum <<endl;
             
             if ( (getDuration()< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
             {
@@ -882,7 +889,7 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
                  ||(notevisitor::getSyllabic()== "begin"))
         {
             pop();
-            cout<< "Lyric \""<<notevisitor::getLyricText()<<"\" dur "<< getDuration()<<" size:"<<notevisitor::getLyricText().size() <<" measure "<<fMeasNum <<endl;
+            //cout<< "Lyric \""<<notevisitor::getLyricText()<<"\" dur "<< getDuration()<<" size:"<<notevisitor::getLyricText().size() <<" measure "<<fMeasNum <<endl;
             
             if ( (getDuration()< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
             {

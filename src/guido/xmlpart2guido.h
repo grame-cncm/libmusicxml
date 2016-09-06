@@ -188,6 +188,9 @@ class EXP xmlpart2guido :
 		void	initialize (Sguidoelement seq, int staff, int guidostaff, int voice, bool notesonly, rational defaultTimeSign);
 		void	generatePositions (bool state)		{ fGeneratePositions = state; }
 		const rational& getTimeSign () const		{ return fCurrentTimeSign; }
+        bool fHasLyrics;
+        bool hasLyrics() const {return fHasLyrics;}
+
 };
 
 
