@@ -867,18 +867,21 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
             lyricParams="";
         }*/
         
-        int minDur4Space = 2, minStringSize4Space = 2;
+        float minDur4Space = 1;
+        int minStringSize4Space = 2;
+        
+        float thisDuration = (float)(getDuration()) / (float)(fCurrentDivision*1);
         
         if (notevisitor::getSyllabic()== "single")
         {
             pop();
-            //cout<< "Lyric \""<<notevisitor::getLyricText()<<"\" dur "<< getDuration()<<" size:"<<notevisitor::getLyricText().size() <<" measure "<<fMeasNum <<endl;
+            //cout<< "Lyric \""<<notevisitor::getLyricText()<<"\" dur "<< thisDuration<<" size:"<<notevisitor::getLyricText().size() <<" measure "<<fMeasNum <<endl;
             
-            if ( (getDuration()< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
+            if ( (thisDuration< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
             {
-                //cout<< "\t Adding space..."<<endl;
                 Sguidoelement tag = guidotag::create("space");
                 int additionalSpace = notevisitor::getLyricText().size() - minStringSize4Space;
+                //cout<< "\t Adding space "<<additionalSpace <<"..."<<endl;
                 tag->add (guidoparam::create(8 + additionalSpace, false));
                 add(tag);
             }
@@ -889,13 +892,13 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
                  ||(notevisitor::getSyllabic()== "begin"))
         {
             pop();
-            //cout<< "Lyric \""<<notevisitor::getLyricText()<<"\" dur "<< getDuration()<<" size:"<<notevisitor::getLyricText().size() <<" measure "<<fMeasNum <<endl;
+            //cout<< "Lyric \""<<notevisitor::getLyricText()<<"\" dur "<< thisDuration<<" size:"<<notevisitor::getLyricText().size() <<" measure "<<fMeasNum <<endl;
             
-            if ( (getDuration()< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
+            if ( (thisDuration< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
             {
-                //cout<< "\t Adding space..."<<endl;
                 Sguidoelement tag = guidotag::create("space");
                 int additionalSpace = notevisitor::getLyricText().size() - minStringSize4Space;
+                //cout<< "\t Adding space "<<additionalSpace <<"..."<<endl;
                 tag->add (guidoparam::create(8 + additionalSpace, false));
                 add(tag);
             }
