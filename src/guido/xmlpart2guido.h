@@ -62,7 +62,8 @@ class EXP xmlpart2guido :
 	public visitor<S_repeat>,
 	public visitor<S_segno>,
 	public visitor<S_sound>,
-	public visitor<S_wedge>
+    public visitor<S_wedge>,
+	public visitor<S_words>     // for direction-type tempo wording (added by AC)
 {
 	// the guido elements stack
 	std::stack<Sguidoelement>	fStack;
@@ -77,6 +78,10 @@ class EXP xmlpart2guido :
 
 	// internal parsing state
 	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending;
+    
+    string tempoWord, tempoMetronome, wordParams;
+    bool fGenerateTempo, directionPlacementAbove, directionWord;
+    S_words wordPointer;
     
     Sguidoelement fLyricOpened;
 	
@@ -153,6 +158,7 @@ class EXP xmlpart2guido :
 		virtual void visitStart( S_barline& elt);
 		virtual void visitStart( S_coda& elt);
 		virtual void visitStart( S_direction& elt);
+        virtual void visitStart( S_words& elt);
 		virtual void visitStart( S_divisions& elt);
 		virtual void visitStart( S_dynamics& elt);
 		virtual void visitStart( S_forward& elt);
@@ -164,6 +170,7 @@ class EXP xmlpart2guido :
 		virtual void visitStart( S_wedge& elt);
 		virtual void visitEnd  ( S_clef& elt);
 		virtual void visitEnd  ( S_direction& elt);
+        virtual void visitEnd  ( S_words& elt);
 		virtual void visitEnd  ( S_ending& elt);
 		virtual void visitEnd  ( S_key& elt);
 		virtual void visitEnd  ( S_measure& elt);

@@ -264,14 +264,97 @@ void xmlpart2guido::visitStart ( S_direction& elt )
 	else {
 		fCurrentOffset = elt->getLongValue(k_offset, 0);
 	}
+    
+    string placement = elt->getAttributeValue("placement");
+    if (placement == "above")
+    {
+        directionPlacementAbove = true;
+    }else
+        directionPlacementAbove = false;
 }
+    
+    void xmlpart2guido::visitStart ( S_words& elt )
+    {
+        if (fSkipDirection) return;
+        
+        tempoWord = elt->getValue();
+        
+        string font_family = elt->getAttributeValue("font-family");
+        string font_size = elt->getAttributeValue("font-size");
+        string font_weight = elt->getAttributeValue("font-weight");
+        string font_style = elt->getAttributeValue("font-style");
+        wordParams = "\""+tempoWord+"\"";
+        if (font_family.size())
+            wordParams += ",font=\""+font_family+"\"";
+        if (font_size.size())
+            wordParams += ",fsize="+font_size+"pt";
+        
+        // Add font styles
+        string fattrib;
+        if (font_weight=="bold")
+            fattrib +="b";
+        if (font_style=="italic")
+            fattrib +="i";
+        if (fattrib.size())
+            wordParams += ",fattrib=\""+fattrib+"\"";
+        
+        wordPointer = elt;
+        
+        //cout<<"S_DIRECTION_TYPE Got WORDS "<<tempoWord<<" with Offset "<<fCurrentOffset <<endl;
+        
+        directionWord = true;
+    }
 
 //______________________________________________________________________________
-void xmlpart2guido::visitEnd ( S_direction& elt ) 
+void xmlpart2guido::visitEnd ( S_direction& elt )
 {
+    // Generate Tempo tag here to take into account WORDS and Metronome alltogether in Tempo tag
+    if (fGenerateTempo)
+    {
+        Sguidoelement tag = guidotag::create("tempo");
+        string tempoParams;
+        if (directionPlacementAbove && directionWord)
+        {
+            tempoParams = "\""+tempoWord+" "+tempoMetronome+"\"";
+            directionWord = false;
+        }
+        else
+            tempoParams = tempoMetronome;
+        tag->add (guidoparam::create(tempoParams.c_str(), false));
+        if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
+        //cout<<"Added TEMPO tag "<< tempoParams<<"at position "<< fCurrentMeasurePosition.toDouble()<<endl;
+        add (tag);
+    }
+    
+    if (directionWord)
+    {
+        Sguidoelement tag = guidotag::create("text");
+        tag->add (guidoparam::create(wordParams.c_str(), false));
+        xml2guidovisitor::addPosition(wordPointer, tag, 11);
+        add (tag);
+        //cout<<"Added WORD tag "<< wordParams<<"at position "<< fCurrentMeasurePosition.toDouble()<<endl;
+        
+        // add an additional SPACE<0> tag in case
+        Sguidoelement tag2 = guidotag::create("space");
+        tag2->add (guidoparam::create(0, false));
+        add (tag2);
+    }
+    
+    
 	fSkipDirection = false;
 	fCurrentOffset = 0;
+    tempoWord.clear();
+    tempoMetronome.clear();
+    wordParams.clear();
+    fGenerateTempo = false;
+    directionWord = false;
+    wordPointer = NULL;
 }
+    
+    void xmlpart2guido::visitEnd ( S_words& elt )
+    {
+        // Nothing to do here?
+    }
 
 //______________________________________________________________________________
 void xmlpart2guido::visitEnd ( S_key& elt ) 
@@ -332,7 +415,7 @@ void xmlpart2guido::visitEnd ( S_metronome& elt )
 	if (fBeats.size() != 1) return;					// support per minute tempo only (for now)
 	if (!metronomevisitor::fPerMinute) return;		// support per minute tempo only (for now)
 
-	Sguidoelement tag = guidotag::create("tempo");
+	//Sguidoelement tag = guidotag::create("tempo");
 	beat b = fBeats[0];
 	rational r = NoteType::type2rational(NoteType::xml(b.fUnit)), rdot(3,2);
 	while (b.fDots-- > 0) {
@@ -342,9 +425,12 @@ void xmlpart2guido::visitEnd ( S_metronome& elt )
 
 	stringstream s;
 	s << "[" << (string)r << "] = " << metronomevisitor::fPerMinute;
-	tag->add (guidoparam::create("tempo=\""+s.str()+"\"", false));
-	if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
-	add (tag);
+	//tag->add (guidoparam::create("tempo=\""+s.str()+"\"", false));
+    tempoMetronome = s.str();
+	//if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
+	//add (tag);
+    
+    fGenerateTempo = true;
 }
 
 //______________________________________________________________________________
@@ -695,20 +781,6 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
     void xmlpart2guido::checkLyricBegin	 ( const std::vector<S_lyric>& lyrics )
     {
         // sample: \lyrics<"Jude  don't take it",-6>(\tieBegin a0/2 \beam( a/8 \tieEnd a c1 d)) \bar
-        if ( (notevisitor::getSyllabic()== "begin") ) {
-                std::string tagtxt("lyrics");
-                lyricParams = "";
-                // replaces Spaces in text by '~' to avoid event progression!
-                std::string newTxt = notevisitor::getLyricText();
-                std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
-                lyricParams += newTxt;
-                //tagtxt += "<\"";
-                //tagtxt += notevisitor::getLyricText();
-                Sguidoelement tag = guidotag::create(tagtxt);
-                push (tag);
-                fLyricOpened = fStack.top();
-                //cout << "Got Lyric BEGIN with Text " << notevisitor::getLyricText() <<"\n";
-        }
         
         if (notevisitor::getSyllabic()== "single")
         {
@@ -717,30 +789,64 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
             std::string newTxt = notevisitor::getLyricText();
             std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
             tag->add (guidoparam::create(newTxt, true));
-            tag->add (guidoparam::create(-3, false));
+            tag->add (guidoparam::create(-5, false));
             push (tag);
             //cout << "Got Lyric SINGLE with Text " << notevisitor::getLyricText() <<"\n";
+            //cout<< "Adding Lyrics1 on note of duration "<< getDuration()<<endl;
+
+        }
+        
+        if ((notevisitor::getSyllabic()== "end")
+            ||(notevisitor::getSyllabic()== "middle")
+            ||(notevisitor::getSyllabic()== "begin"))
+        {
+            Sguidoelement tag = guidotag::create("lyrics");
+            // replaces Spaces in text by '~' to avoid event progression!
+            std::string newTxt = notevisitor::getLyricText();
+            std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
+            if (!(notevisitor::getSyllabic()== "end"))
+            {
+                // Add a '-' only for Begin/Middle and at the end
+                newTxt.append("-");
+            }
+            tag->add (guidoparam::create(newTxt, true));
+            tag->add (guidoparam::create(-5, false));
+            push (tag);
+            
+            //cout<< "Adding Lyrics2 \"" << notevisitor::getLyricText()<<"\" on note of dur "<< getDuration()<<endl;
+        }
+        
+        // Alternative 2: Make MIDDLE and BEGIN also a SINGLE
+        
+        /// Alternative 1: The following code corresponds to time-spanned Lyric definition
+        /*if ( (notevisitor::getSyllabic()== "begin") ) {
+                std::string tagtxt("lyrics");
+                lyricParams = "";
+                // replaces Spaces in text by '~' to avoid event progression!
+                std::string newTxt = notevisitor::getLyricText();
+                std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
+                lyricParams += newTxt;
+                Sguidoelement tag = guidotag::create(tagtxt);
+                push (tag);
+                fLyricOpened = fStack.top();
         }
         
         if (notevisitor::getSyllabic()== "middle")
         {
             // Should ONLY update tag parameter here!
-            lyricParams += " ";     // space after a word (or syllable) progresses to the following event
+            lyricParams += "-";     // space after a word (or syllable) progresses to the following event
             // replaces Spaces in text by '~' to avoid event progression!
             std::string newTxt = notevisitor::getLyricText();
             std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
             lyricParams += newTxt;
-
-            //cout << "Got Lyric MIDDLE with Text " << notevisitor::getLyricText() <<"\n"
-            //        << "      Overall txt: \""<<lyricParams<<"\"\n";
-        }
+        }*/
     }
     
     void xmlpart2guido::checkLyricEnd	 ( const std::vector<S_lyric>& lyrics )
     {
-        if ( (notevisitor::getSyllabic()== "end") )
+        /*if ( (notevisitor::getSyllabic()== "end") )
         {
-            lyricParams += " ";     // space after a word (or syllable) progresses to the following event
+            lyricParams += "-";     // space after a word (or syllable) progresses to the following event
             // replaces Spaces in text by '~' to avoid event progression!
             std::string newTxt = notevisitor::getLyricText();
             std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
@@ -752,11 +858,41 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
             pop();
             fLyricOpened = NULL;
             lyricParams="";
-        }
+        }*/
+        
+        int minDur4Space = 2, minStringSize4Space = 2;
         
         if (notevisitor::getSyllabic()== "single")
         {
             pop();
+            cout<< "Lyric \""<<notevisitor::getLyricText()<<"\" dur "<< getDuration()<<" size:"<<notevisitor::getLyricText().size() <<" measure "<<fMeasNum <<endl;
+            
+            if ( (getDuration()< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
+            {
+                //cout<< "\t Adding space..."<<endl;
+                Sguidoelement tag = guidotag::create("space");
+                int additionalSpace = notevisitor::getLyricText().size() - minStringSize4Space;
+                tag->add (guidoparam::create(8 + additionalSpace, false));
+                add(tag);
+            }
+            
+        }
+        else if ((notevisitor::getSyllabic()== "end")
+                 ||(notevisitor::getSyllabic()== "middle")
+                 ||(notevisitor::getSyllabic()== "begin"))
+        {
+            pop();
+            cout<< "Lyric \""<<notevisitor::getLyricText()<<"\" dur "<< getDuration()<<" size:"<<notevisitor::getLyricText().size() <<" measure "<<fMeasNum <<endl;
+            
+            if ( (getDuration()< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
+            {
+                //cout<< "\t Adding space..."<<endl;
+                Sguidoelement tag = guidotag::create("space");
+                int additionalSpace = notevisitor::getLyricText().size() - minStringSize4Space;
+                tag->add (guidoparam::create(8 + additionalSpace, false));
+                add(tag);
+            }
+
         }
     }
     
