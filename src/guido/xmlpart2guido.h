@@ -63,7 +63,8 @@ class EXP xmlpart2guido :
 	public visitor<S_segno>,
 	public visitor<S_sound>,
     public visitor<S_wedge>,
-	public visitor<S_words>     // for direction-type tempo wording (added by AC)
+    public visitor<S_words>,     // for direction-type tempo wording (added by AC)
+	public visitor<S_rehearsal>     // for rehearsal Markup
 {
 	// the guido elements stack
 	std::stack<Sguidoelement>	fStack;
@@ -167,7 +168,8 @@ class EXP xmlpart2guido :
 		virtual void visitStart( S_octave_shift& elt);
 		virtual void visitStart( S_part& elt);
 		virtual void visitStart( S_segno& elt);
-		virtual void visitStart( S_wedge& elt);
+        virtual void visitStart( S_wedge& elt);
+		virtual void visitStart( S_rehearsal& elt);
 		virtual void visitEnd  ( S_clef& elt);
 		virtual void visitEnd  ( S_direction& elt);
         virtual void visitEnd  ( S_words& elt);

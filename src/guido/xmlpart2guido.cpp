@@ -315,6 +315,62 @@ void xmlpart2guido::visitStart ( S_direction& elt )
             //cout<<"S_DIRECTION_TYPE Got WORDS "<<tempoWord<<" with Offset "<<fCurrentOffset<<" ("<<(int)(wordPointer==NULL)<<")" <<endl;
         }
     }
+    
+    void xmlpart2guido::visitStart ( S_rehearsal& elt )
+    {
+        if (fSkipDirection) return;
+        
+        string rehearsalValue = elt->getValue();
+        rehearsalValue = "\""+rehearsalValue+"\"";
+        
+        string enclosure = elt->getAttributeValue("enclosure");
+        string font_size = elt->getAttributeValue("font-size");
+        string font_weight = elt->getAttributeValue("font-weight");
+        string font_style = elt->getAttributeValue("font-style");
+        
+        cout<<"Got rehearsal "<<rehearsalValue<<" on measure "<<fMeasNum <<endl;
+        
+        /// NOTE:
+        /*
+            We should ideally use the MARK tag of Guido. However MARK does not have
+            text styling, nor enclosure, nor positioning parameters.
+         
+            For now, we use the TEXT tag which ignores only Enclosure.
+         */
+        
+        if (rehearsalValue.size())
+        {
+            //// Using MARK tag:
+            /*Sguidoelement tag = guidotag::create("mark");
+            tag->add (guidoparam::create(rehearsalValue.c_str(), false));
+            add(tag);*/
+            
+            
+            //// Using TEXT tag:
+            if (font_size.size())
+                wordParams += ",fsize="+font_size+"pt";
+            
+            // Add font styles
+            string fattrib;
+            if (font_weight=="bold")
+                fattrib +="b";
+            if (font_style=="italic")
+                fattrib +="i";
+            if (fattrib.size())
+                wordParams += ",fattrib=\""+fattrib+"\"";
+            
+            
+            Sguidoelement tag = guidotag::create("text");
+            tag->add (guidoparam::create(rehearsalValue.c_str(), false));
+            xml2guidovisitor::addPosition(elt, tag, 11);
+            add (tag);
+            
+            // add an additional SPACE<0> tag in case
+            Sguidoelement tag2 = guidotag::create("space");
+            tag2->add (guidoparam::create(0, false));
+            add (tag2);
+        }
+    }
 
 //______________________________________________________________________________
 void xmlpart2guido::visitEnd ( S_direction& elt )
@@ -336,7 +392,7 @@ void xmlpart2guido::visitEnd ( S_direction& elt )
         {
             tag->add (guidoparam::create(tempoParams.c_str(), false));
             if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
-            cout<<"Added TEMPO tag \""<< tempoParams<<"\" at measure "<<fMeasNum<<" at position "<< fCurrentMeasurePosition.toDouble()<<endl;
+            //cout<<"Added TEMPO tag \""<< tempoParams<<"\" at measure "<<fMeasNum<<" at position "<< fCurrentMeasurePosition.toDouble()<<endl;
             add (tag);
         }
     }
