@@ -37,6 +37,7 @@ xmlpart2guido::xmlpart2guido(bool generateComments, bool generateStem, bool gene
 	fGeneratePositions = true;
 	xmlpart2guido::reset();
     fHasLyrics = false;
+    directionWord = false;
 }
 
 //______________________________________________________________________________
@@ -308,9 +309,11 @@ void xmlpart2guido::visitStart ( S_direction& elt )
         
         wordPointer = elt;
         
-        //cout<<"S_DIRECTION_TYPE Got WORDS "<<tempoWord<<" with Offset "<<fCurrentOffset <<endl;
-        
-        directionWord = true;
+        if (wordParams.size())
+        {
+            directionWord = true;
+            //cout<<"S_DIRECTION_TYPE Got WORDS "<<tempoWord<<" with Offset "<<fCurrentOffset<<" ("<<(int)(wordPointer==NULL)<<")" <<endl;
+        }
     }
 
 //______________________________________________________________________________
@@ -328,10 +331,14 @@ void xmlpart2guido::visitEnd ( S_direction& elt )
         }
         else
             tempoParams = tempoMetronome;
-        tag->add (guidoparam::create(tempoParams.c_str(), false));
-        if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
-        //cout<<"Added TEMPO tag "<< tempoParams<<"at position "<< fCurrentMeasurePosition.toDouble()<<endl;
-        add (tag);
+        
+        if (tempoParams.size())
+        {
+            tag->add (guidoparam::create(tempoParams.c_str(), false));
+            if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
+            cout<<"Added TEMPO tag \""<< tempoParams<<"\" at measure "<<fMeasNum<<" at position "<< fCurrentMeasurePosition.toDouble()<<endl;
+            add (tag);
+        }
     }
     
     if (directionWord)
