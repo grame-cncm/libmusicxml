@@ -13,6 +13,7 @@
 #ifndef __lilypond__
 #define __lilypond__
 
+#include <sstream>
 #include <vector>
 #include <string>
 
@@ -34,6 +35,35 @@ EXP std::ostream& operator<< (std::ostream& os, const Slilypondelement& elt);
 \addtogroup lilypond
 @{
 */
+
+/*!
+\brief A utility to escape quotes in strings.
+*/
+//______________________________________________________________________________
+struct stringquoteescaper
+{
+  std::string& target;
+  explicit stringquoteescaper( std::string& t ) : target( t ) {}
+
+  void operator()( char ch ) const
+  {
+     if( ch == '\'') // or switch on any character that 
+                     // needs escaping like \ itself
+     {
+        target.push_back('\\');
+     }
+     target.push_back( ch );
+  }
+};
+
+//std::string dest;
+//std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+
+/*!
+\brief A utility to convert small positive integers to English words.
+*/
+//______________________________________________________________________________
+std::string int2EnglishWord (int n);
 
 /*!
 \brief A lilypondcmd parameter representation.

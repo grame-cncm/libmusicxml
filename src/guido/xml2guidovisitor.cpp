@@ -125,7 +125,7 @@ void xml2guidovisitor::visitStart ( S_part_name& elt )      { fPartHeaders[fCurr
 //______________________________________________________________________________
 void xml2guidovisitor::visitStart ( S_part& elt )
 {
-  partsummary ps;
+  partsummaryvisitor ps;
   xml_tree_browser browser(&ps);
   browser.browse(*elt);
 

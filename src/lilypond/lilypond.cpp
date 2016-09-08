@@ -10,13 +10,119 @@
   research@grame.fr
 */
 
-#include <sstream>
 #include "lilypond.h"
 
 using namespace std;
 
 namespace MusicXML2 
 {
+
+//______________________________________________________________________________
+std::string int2EnglishWord (int n) {
+  if (n < 1) return "<1";
+  if (n > 99) return ">99";
+  
+  std::stringstream s;
+
+  switch (n) {
+    case 1:
+      s << "One";
+      break;
+    case 2:
+      s << "Two";
+      break;
+    case 3:
+      s << "Three";
+      break;
+    case 4:
+      s << "Four";
+      break;
+    case 5:
+      s << "Five";
+      break;
+    case 6:
+      s << "Six";
+      break;
+    case 7:
+      s << "Seven";
+      break;
+    case 8:
+      s << "Eight";
+      break;
+    case 9:
+      s << "Nine";
+      break;
+   case 10:
+      s << "Ten";
+      break;
+    case 11:
+      s << "Eleven";
+      break;
+    case 12:
+      s << "Twelve";
+      break;
+    case 13:
+      s << "Thirteen";
+      break;
+    case 14:
+      s << "Fourteen";
+      break;
+    case 15:
+      s << "Fifteen";
+      break;
+    case 16:
+      s << "Sixteen";
+      break;
+    case 17:
+      s << "Seventeen";
+      break;
+    case 18:
+      s << "Eighteen";
+      break;
+    case 19:
+      s << "Nineteen";
+      break;
+      
+    default: {
+      // n >= 20
+      int digit1 = n / 10;
+      int digit2 = n % 10;
+      
+      switch (digit1) {
+        case 2:
+          s << "Twenty";
+          break;
+        case 3:
+          s << "Thirty";
+          break;
+        case 4:
+          s << "Fourty";
+          break;
+        case 5:
+          s << "Fifty";
+          break;
+        case 6:
+          s << "Sixty";
+          break;
+        case 7:
+          s << "Seventy";
+          break;
+        case 8:
+          s << "Eighty";
+          break;
+        case 9:
+          s << "Ninety";
+          break;
+      } // switch
+      s << int2EnglishWord(digit2);
+    } // default
+  } // switch
+
+  std::string result;
+  
+  s >> result;
+  return result;
+}
 
 //______________________________________________________________________________
 Slilypondparam lilypondparam::create(string value, bool quote) 
@@ -97,21 +203,22 @@ void lilypondelement::print(ostream& os)
       else
         os << (*param)->get();
       if (++param != fParams.end())
-        os << ", ";
+        os << ", PARAMS ";
     } // for
     os << "\n"; // USER
   }
 
   bool isSeq    = dynamic_cast<const lilypondseq *>(this) != 0;
   bool isChord  = dynamic_cast<const lilypondchord *>(this) != 0;
-  bool prevNote = false;
-  bool prevSeq  = false;
   
   // print the optional contained elements
   if (!fElements.empty()) {
     os << fStartList;
     vector<Slilypondelement>::const_iterator ielt;
     for (ielt = fElements.begin(); ielt != fElements.end(); ielt++) {
+      bool prevNote = false;
+      bool prevSeq  = false;
+
       Slilypondseq seq;
       seq.cast((lilypondelement *)(*ielt));
       Slilypondnote note;
@@ -119,11 +226,13 @@ void lilypondelement::print(ostream& os)
 
       if (isChord) {
         if (note) {
-          os << (prevNote ? ", " : " ");
+          // USER os << (prevNote ? ", CHORD " : " ");
+          os << " ";
           prevNote = true;
         }
         else if (seq) {
-          os << (prevSeq ? ", " : " ");
+          // USER os << (prevSeq ? ", SEQ " : " ");
+          os << std::endl;
           prevSeq = true;
         }
       } // isChord
@@ -317,7 +426,7 @@ Slilypondchord lilypondchord::create()
   return o;
 }
 
-lilypondchord::lilypondchord () : lilypondelement("", ", ") 
+lilypondchord::lilypondchord () : lilypondelement("") 
 { 
   fStartList=""; // USER ???
   fEndList="";

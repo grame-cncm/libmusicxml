@@ -85,15 +85,15 @@ class EXP notevisitor :
     notevisitor();
     virtual ~notevisitor() {}
 
-    bool isGrace() const    { return fGrace; }
-    bool isCue() const      { return fCue; }
-    bool inChord() const    { return fChord; }
+    bool isGrace()   const { return fGrace; }
+    bool isCue()     const { return fCue; }
+    bool inChord()   const { return fChord; }
     bool inFermata() const  { return fFermata; }
 
-    type  getType() const   { return fType; }
-    int   getTie() const    { return fTie; }
-    int   getStaff() const  { return fStaff; }
-    int   getVoice() const  { return fVoice; }
+    type  getType()  const { return fType; }
+    int   getTie()   const { return fTie; }
+    int   getStaff() const { return fStaff; }
+    int   getVoice() const { return fVoice; }
 
     /*!
     \brief Compute the note MIDI pitch.
@@ -108,7 +108,7 @@ class EXP notevisitor :
     virtual const std::string&  getStep() const           { return fStep; }
     virtual const std::string&  getInstrument() const     { return fInstrument; }
     virtual const std::string&  getGraphicType() const    { return fGraphicType; }
-    virtual const rational&   getTimeModification() const { return fTimeModification; }
+    virtual const rational&     getTimeModification() const { return fTimeModification; }
  
     virtual void setStep (const std::string& step)  { fStep = step; }
     virtual void setOctave (int oct)      { fOctave = oct; }
@@ -117,17 +117,13 @@ class EXP notevisitor :
     // returns the dynamics value (kUndefinedDynamics when undefined)
     virtual long getDynamics() const  { return fDynamics; }
     virtual long getDuration() const  { return fDuration; }
-    virtual int  getDots() const      { return fDots; }
-    virtual void print (std::ostream& out) const;
-
+    virtual int  getDots()     const  { return fDots; }
+ 
     virtual const std::vector<S_tied>&  getTied() const { return fTied; }
     virtual const std::vector<S_slur>&  getSlur() const { return fSlur; }
     virtual const std::vector<S_beam>&  getBeam() const { return fBeam; }
 
-    virtual const S_lyric&              getLastLyric() const { return fLastLyric; }
-    virtual const S_syllabic&           getLastSyllabic() const { return fLastSyllabic; }
-    virtual const std::map<std::string, std::list<std::list<std::string> > >&  
-                                        getStanzas() const { return fStanzas; }
+    virtual void print (std::ostream& out) const;
 
     static int          step2i(const std::string& step); 
     static std::string  i2step(int i);
@@ -154,9 +150,6 @@ class EXP notevisitor :
     virtual void visitStart( S_note& elt );
     virtual void visitStart( S_octave& elt )    { if (fInNote) fOctave = (int)(*elt); }
     virtual void visitStart( S_pitch& elt )     { fType = kPitched; }
-    virtual void visitStart( S_lyric& elt )     { fLastLyric = elt; }
-    virtual void visitStart( S_syllabic& elt )  { fLastSyllabic = elt; }
-    virtual void visitStart( S_text& elt );
     virtual void visitStart( S_rest& elt )      { fType = kRest; }
     virtual void visitStart( S_slur& elt )      { fSlur.push_back (elt); }
     virtual void visitStart( S_staccato& elt)   { fStaccato = elt; }
@@ -188,17 +181,7 @@ class EXP notevisitor :
     std::vector<S_tied> fTied;
     std::vector<S_slur> fSlur;
     std::vector<S_beam> fBeam;
-    
-    // the last lyric number, i.e. stanza number
-    S_lyric             fLastLyric;
-    // the last sysllabic spec met (single, begin, middle or end)
-    S_syllabic          fLastSyllabic; 
- 
-    // the stanzas are referred to by number and contains list of lists of strings
-    // in the case of "single", the list contains only one string
-    std::map<std::string, std::list<std::list<std::string> > > 
-                        fStanzas;    // <text /> occurs after <syllabic />
-};
+ };
 
 EXP std::ostream& operator<< (std::ostream& os, const notevisitor& elt);
 

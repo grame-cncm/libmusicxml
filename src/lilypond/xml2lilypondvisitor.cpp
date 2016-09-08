@@ -36,7 +36,9 @@ namespace MusicXML2
 xml2lilypondvisitor::xml2lilypondvisitor( translationSwitches& sw ) :
   fSwitches(sw), 
   fCurrentStaffIndex(0)
-  {}
+{
+  fGlobalHeaderHasBeenFlushed = false;
+}
 
 //______________________________________________________________________________
 Slilypondelement xml2lilypondvisitor::convert (const Sxmlelement& xml )
@@ -199,53 +201,6 @@ void xml2lilypondvisitor::flushPartHeader ( partHeader& header )
   }
 }
 
-
-/*
-  movement-title
-   instrument
-   
-  score-part
-score-partwise
-
-senza-misura 
-  
-  staccato
-  * 
-  * 
-  * accent
-  * strong-accent
-tenuto
-
-breath-mark
-* 
-* coda
-creator
-
-ending
-fermata
-
-grace
-* 
-* metronome
-per-minute
-* 
-* octave
-octave-shift
-* 
-part
-part
-part-name
-
-sign
-* 
-* time-modification
-type
-unpitched
-voice
-
-
-  */
-
 //______________________________________________________________________________
 void xml2lilypondvisitor::visitStart ( S_score_partwise& elt )
 {
@@ -293,12 +248,31 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
   
   // browse the part contents for the first time with a partsummary visitor
   if (fSwitches.fTrace) cerr << "Extracting part \"" << partid << "\" summary information" << endl;
-  partsummary ps;
+  partsummaryvisitor ps;
   xml_tree_browser browser(&ps);
   browser.browse(*elt);
 
   flushGlobalHeader (fGlobalHeader);
-  
+
+  std::map<std::string, std::list<std::list<std::string> > > 
+        stanzas = ps.getStanzas();
+          
+  // show lyrics
+  if (fSwitches.fTrace) cerr << "Extracting part \"" << partid << "\" lyrics information" << endl;
+  for (std::map<std::string, std::list<std::list<std::string> > > ::iterator 
+      it1=stanzas.begin(); it1!=stanzas.end(); ++it1) {
+    std::cout << "Lyrics" << int2EnglishWord(atoi(it1->first.c_str())) << " = { " << std::endl;
+    for (std::list<std::list<std::string> > ::iterator 
+        it2=it1->second.begin(); it2!=it1->second.end(); ++it2) {    
+      for (std::list<std::string> ::iterator 
+          it3=it2->begin(); it3!=it2->end(); ++it3) {    
+        std::cout << *it3;
+        if (it3!=it2->end()) std::cout << " -- ";
+      }
+    }
+    std::cout << std::endl << "}" << std::endl << std::endl;
+  }
+
   if (fSwitches.fTrace) cerr << "Extracting part \"" << partid << "\" voices information" << endl;
   smartlist<int>::ptr voices = ps.getVoices ();
   int targetStaff = 0xffff; // initialized to a value we'll unlikely encounter
@@ -309,20 +283,21 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
   // this allows to describe voices that spans over several staves
   for (unsigned int i = 0; i < voices->size(); i++) {
     int targetVoice = (*voices)[i];
-    int mainstaff = ps.getMainStaff(targetVoice);
-    if (targetStaff == mainstaff) {
+    int mainStaff = ps.getMainStaff(targetVoice);
+    if (targetStaff == mainStaff) {
       notesOnly = true;
     }
     else {
       notesOnly = false;
-      targetStaff = mainstaff;
+      targetStaff = mainStaff;
       fCurrentStaffIndex++;
     }
 
     if (fSwitches.fTrace)
       cerr << 
         "Handling part \"" << partid << 
-        "\" contents, voice " << targetVoice << endl;
+        "\" contents, mainStaff = " << mainStaff <<
+        " voice " << targetVoice << endl;
 
     Slilypondelement seq = lilypondseq::create();
     pushToScoreStack (seq);
@@ -377,3 +352,49 @@ void xml2lilypondvisitor::addPosition (
 
 }
 
+
+/*
+  movement-title
+   instrument
+   
+  score-part
+score-partwise
+
+senza-misura 
+  
+  staccato
+  * 
+  * 
+  * accent
+  * strong-accent
+tenuto
+
+breath-mark
+* 
+* coda
+creator
+
+ending
+fermata
+
+grace
+* 
+* metronome
+per-minute
+* 
+* octave
+octave-shift
+* 
+part
+part
+part-name
+
+sign
+* 
+* time-modification
+type
+unpitched
+voice
+
+
+  */

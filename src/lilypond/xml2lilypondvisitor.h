@@ -78,7 +78,7 @@ class EXP xml2lilypondvisitor :
   std::stack<Slilypondelement>  fScoreStack;
    
   globalHeader  fGlobalHeader; // musicxml header elements (should be flushed at the beginning of the generated code)
-  bool          fGlobalHeaderHasBeenFlushed = false;
+  bool          fGlobalHeaderHasBeenFlushed;
   
   partHeaderMap fPartHeader;   // musicxml score-part elements (should be flushed at the beginning of each part)
   
@@ -122,8 +122,8 @@ class EXP xml2lilypondvisitor :
     // ie converts relative-x/-y into dx/dy attributes
     void generatePositions (bool state) { fSwitches.fGeneratePositions = state; }
 
-  static void addPosition ( 
-    Sxmlelement elt, Slilypondelement& tag, int yoffset);
+    static void addPosition ( 
+      Sxmlelement elt, Slilypondelement& tag, int yoffset);
 };
 
 

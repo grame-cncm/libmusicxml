@@ -129,8 +129,8 @@ class EXP xmlelement : public ctree<xmlelement>, public visitable
     long add (const Sxmlattribute& attr);
 
     // getting information about attributes
-        const std::vector<Sxmlattribute>& attributes() const { return fAttributes; }
-        const Sxmlattribute getAttribute      (const std::string& attrname) const;
+    const std::vector<Sxmlattribute>& attributes() const { return fAttributes; }
+    const Sxmlattribute getAttribute      (const std::string& attrname) const;
     const std::string getAttributeValue   (const std::string& attrname) const;
     long        getAttributeLongValue (const std::string& attrname, long defaultvalue) const;
     int         getAttributeIntValue  (const std::string& attrname, int defaultvalue) const;
