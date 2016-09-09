@@ -18,113 +18,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-std::string int2EnglishWord (int n) {
-  if (n < 1) return "<1";
-  if (n > 99) return ">99";
-  
-  std::stringstream s;
-
-  switch (n) {
-    case 1:
-      s << "One";
-      break;
-    case 2:
-      s << "Two";
-      break;
-    case 3:
-      s << "Three";
-      break;
-    case 4:
-      s << "Four";
-      break;
-    case 5:
-      s << "Five";
-      break;
-    case 6:
-      s << "Six";
-      break;
-    case 7:
-      s << "Seven";
-      break;
-    case 8:
-      s << "Eight";
-      break;
-    case 9:
-      s << "Nine";
-      break;
-   case 10:
-      s << "Ten";
-      break;
-    case 11:
-      s << "Eleven";
-      break;
-    case 12:
-      s << "Twelve";
-      break;
-    case 13:
-      s << "Thirteen";
-      break;
-    case 14:
-      s << "Fourteen";
-      break;
-    case 15:
-      s << "Fifteen";
-      break;
-    case 16:
-      s << "Sixteen";
-      break;
-    case 17:
-      s << "Seventeen";
-      break;
-    case 18:
-      s << "Eighteen";
-      break;
-    case 19:
-      s << "Nineteen";
-      break;
-      
-    default: {
-      // n >= 20
-      int digit1 = n / 10;
-      int digit2 = n % 10;
-      
-      switch (digit1) {
-        case 2:
-          s << "Twenty";
-          break;
-        case 3:
-          s << "Thirty";
-          break;
-        case 4:
-          s << "Fourty";
-          break;
-        case 5:
-          s << "Fifty";
-          break;
-        case 6:
-          s << "Sixty";
-          break;
-        case 7:
-          s << "Seventy";
-          break;
-        case 8:
-          s << "Eighty";
-          break;
-        case 9:
-          s << "Ninety";
-          break;
-      } // switch
-      s << int2EnglishWord(digit2);
-    } // default
-  } // switch
-
-  std::string result;
-  
-  s >> result;
-  return result;
-}
-
-//______________________________________________________________________________
 Slilypondparam lilypondparam::create(string value, bool quote) 
 { 
   lilypondparam * o = new lilypondparam(value, quote); assert(o!=0); 
@@ -378,6 +271,11 @@ std::string lilypondnote::octaveRepresentation (char octave)
   return s.str();
 }
 
+void lilypondnote::print(ostream& os)
+{
+  lilypondelement::print(os);
+}
+
 //______________________________________________________________________________
 lilypondnotestatus* lilypondnotestatus::fInstances[kMaxInstances] = { 0 };
 lilypondnotestatus* lilypondnotestatus::get (unsigned short voice)
@@ -419,6 +317,11 @@ lilypondseq::lilypondseq() : lilypondelement("")
   }
 lilypondseq::~lilypondseq() {}
 
+void lilypondseq::print(ostream& os)
+{
+  lilypondelement::print(os);
+}
+
 //______________________________________________________________________________
 Slilypondchord lilypondchord::create()
 {
@@ -432,6 +335,11 @@ lilypondchord::lilypondchord () : lilypondelement("")
   fEndList="";
 }
 lilypondchord::~lilypondchord() {}
+
+void lilypondchord::print(ostream& os)
+{
+  lilypondelement::print(os);
+}
 
 //______________________________________________________________________________
 Slilypondcmd lilypondcmd::create(string name, BackSlashPrefix backslashPrefix)
@@ -452,18 +360,50 @@ lilypondcmd::lilypondcmd(string name, BackSlashPrefix backslashPrefix) :
 }
 lilypondcmd::~lilypondcmd() {}
 
-//______________________________________________________________________________
-Slilypondwedge lilypondwedge::create(WedgeKind kind)
+void lilypondcmd::print(ostream& os)
 {
-  lilypondwedge* o = new lilypondwedge(kind); assert(o!=0);
+  lilypondelement::print(os);
+}
+
+//______________________________________________________________________________
+Slilypondwedge lilypondwedge::create(WedgeKind wedgeKind)
+{
+  lilypondwedge* o = new lilypondwedge(wedgeKind); assert(o!=0);
   return o;
 }
 
-lilypondwedge::lilypondwedge(WedgeKind kind) : lilypondelement("")
+lilypondwedge::lilypondwedge(WedgeKind wedgeKind) : lilypondelement("")
 {
-  fWedgeKind=kind; 
+  fWedgeKind=wedgeKind; 
 }
 lilypondwedge::~lilypondwedge() {}
+
+void lilypondwedge::print(ostream& os)
+{
+  lilypondelement::print(os);
+}
+
+//______________________________________________________________________________
+Slilypondlyrics lilypondlyrics::create(std::string name, std::string contents)
+{
+  lilypondlyrics* o = new lilypondlyrics(name, contents); assert(o!=0);
+  return o;
+}
+
+lilypondlyrics::lilypondlyrics(std::string name, std::string contents) : lilypondelement("")
+{
+  fName = name;
+  fContents=contents; 
+}
+lilypondlyrics::~lilypondlyrics() {}
+
+void lilypondlyrics::print(ostream& os)
+{
+  os <<
+    fName << " = \\lyricmode {" << std::endl <<
+    fContents << std::endl <<
+    "}" << std::endl << std::endl;
+}
 
 
 }

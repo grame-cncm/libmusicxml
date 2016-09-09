@@ -45,13 +45,13 @@ typedef struct {
   S_rights                fRights;
   std::vector<S_software> fSoftwares;
   S_encoding_date         fEncodingDate;
+  S_score_instrument      fScoreInstrument;
 } globalHeader;
 
 typedef struct {
   S_part_name             fPartName;
 } partHeader;
 typedef std::map<std::string, partHeader> partHeaderMap;
-
 
 /*!
 \brief A score visitor to produce a LilyPond representation.
@@ -67,32 +67,35 @@ class EXP xml2lilypondvisitor :
   public visitor<S_rights>,
   public visitor<S_software>,
   public visitor<S_encoding_date>,
+  public visitor<S_instrument_name>,
   public visitor<S_score_part>,
   public visitor<S_part_name>,
   public visitor<S_part>
 {
-  // the translation switches
-  translationSwitches fSwitches;
+  private:
   
-  // the lilypond elements stack
-  std::stack<Slilypondelement>  fScoreStack;
-   
-  globalHeader  fGlobalHeader; // musicxml header elements (should be flushed at the beginning of the generated code)
-  bool          fGlobalHeaderHasBeenFlushed;
+    // the translation switches
+    translationSwitches fSwitches;
+    
+    // the lilypond elements stack
+    std::stack<Slilypondelement>  fScoreStack;
+     
+    globalHeader  fGlobalHeader; // musicxml header elements (should be flushed at the beginning of the generated code)
+    bool          fGlobalHeaderHasBeenFlushed;
+    
+    partHeaderMap fPartHeader;   // musicxml score-part elements (should be flushed at the beginning of each part)
+    
+    std::string   fCurrentPartID;
+    int           fCurrentStaffIndex;   // the index of the current lilypond staff
   
-  partHeaderMap fPartHeader;   // musicxml score-part elements (should be flushed at the beginning of each part)
+    void startScoreStack   (Slilypondelement& elt) { fScoreStack.push(elt); }
+    void addToScoreStack   (Slilypondelement& elt) { fScoreStack.top()->add(elt); }
+    void pushToScoreStack  (Slilypondelement& elt) { addToScoreStack(elt); fScoreStack.push(elt); }
+    void popFromScoreStack ()                      { fScoreStack.pop(); }
   
-  std::string   fCurrentPartID;
-  int           fCurrentStaffIndex;   // the index of the current lilypond staff
-
-  void startScoreStack   (Slilypondelement& elt) { fScoreStack.push(elt); }
-  void addToScoreStack   (Slilypondelement& elt) { fScoreStack.top()->add(elt); }
-  void pushToScoreStack  (Slilypondelement& elt) { addToScoreStack(elt); fScoreStack.push(elt); }
-  void popFromScoreStack ()                      { fScoreStack.pop(); }
-
-  void flushGlobalHeader ( globalHeader& header );
-  void flushPartHeader   ( partHeader& header );
-
+    void flushGlobalHeader ( globalHeader& header );
+    void flushPartHeader   ( partHeader& header );
+  
   protected:
 
     virtual void visitStart( S_score_partwise& elt);
@@ -104,6 +107,7 @@ class EXP xml2lilypondvisitor :
     virtual void visitStart( S_rights& elt);
     virtual void visitStart( S_software& elt);
     virtual void visitStart( S_encoding_date& elt);
+    virtual void visitStart( S_instrument_name& elt);
     virtual void visitStart( S_score_part& elt);
     virtual void visitStart( S_part_name& elt);
     virtual void visitStart( S_part& elt);
@@ -123,7 +127,7 @@ class EXP xml2lilypondvisitor :
     void generatePositions (bool state) { fSwitches.fGeneratePositions = state; }
 
     static void addPosition ( 
-      Sxmlelement elt, Slilypondelement& tag, int yoffset);
+      Sxmlelement elt, Slilypondelement& cmd, int yoffset);
 };
 
 

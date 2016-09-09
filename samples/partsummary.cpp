@@ -17,7 +17,7 @@
 #include "xml.h"
 #include "xmlfile.h"
 #include "xmlreader.h"
-#include "partsummary.h"
+#include "partsummaryvisitor.h"
 #include "smartlist.h"
 #include "xml_tree_browser.h"
 
@@ -41,7 +41,7 @@ void mypartsummaryvisitor::visitEnd ( S_part& elt)
   smartlist<int>::ptr voices;
   smartlist<int>::ptr staves = getStaves();
   for (vector<int>::const_iterator i = staves->begin(); i != staves->end(); i++) {
-    cout << "    staff \"" << *i << "\": " << getStaffNotes(*i) << " notes - "
+    cout << "    staff \"" << *i << "\": " << getStaffNotesCount(*i) << " notes - "
        << countVoices(*i) << " voices [";
 
     bool sep = false;
@@ -49,14 +49,14 @@ void mypartsummaryvisitor::visitEnd ( S_part& elt)
     for (vector<int>::const_iterator v = voices->begin(); v != voices->end(); v++) {
       if (sep) cout << ", ";
       else sep = true;
-      cout << *v << ":" << getVoiceNotes(*i, *v);
+      cout << *v << ":" << getVoiceNotesCount(*i, *v);
     }
     cout << "]" << endl;
   }
   cout << "  total voices : " << countVoices() << endl;
   voices = getVoices();
   for (vector<int>::const_iterator i = voices->begin(); i != voices->end(); i++) {
-    cout << "    voice \"" << *i << "\": " << getVoiceNotes(*i) << " notes - ";
+    cout << "    voice \"" << *i << "\": " << getVoiceNotesCount(*i) << " notes - ";
     staves = getStaves(*i);
     cout << staves->size() << (staves->size() > 1 ? " staves" :" staff") << " [";
     bool sep = false;

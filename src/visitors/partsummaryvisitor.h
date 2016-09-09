@@ -39,19 +39,22 @@ namespace MusicXML2
 class EXP partsummaryvisitor : 
   public visitor<S_part>,
   public visitor<S_staves>,
+  public visitor<S_staff>,
+  public visitor<S_voice>,
   public visitor<S_note>,
   public visitor<S_lyric>,
   public visitor<S_syllabic>,
   public visitor<S_text>
 {
   public:
+  
     partsummaryvisitor() : fStavesCount(1) {};
     virtual ~partsummaryvisitor() {};
     
     //! returns the number of staves for the part
     int countStaves () const        { return fStavesCount; }
     //! returns the number of voices 
-    int countVoices () const        { return fVoices.size(); }
+    int countVoices () const        { return fVoicesNotesCount.size(); }
     //! returns the number of voices on a staff 
     int countVoices (int staff) const;
 
@@ -60,7 +63,7 @@ class EXP partsummaryvisitor :
     //! returns the staff ids list for one voice
     smartlist<int>::ptr getStaves (int voice) const;
     //! returns the count of notes on a staff
-    int getStaffNotes (int id) const;
+    int getStaffNotesCount (int id) const;
 
     //! returns the voices ids list
     smartlist<int>::ptr getVoices () const;
@@ -69,18 +72,26 @@ class EXP partsummaryvisitor :
     //! returns the id of the staff that contains the more of the voice notes
     int getMainStaff (int voiceid) const;
     //! returns the count of notes on a voice
-    int getVoiceNotes (int voiceid) const;
+    int getVoiceNotesCount (int voiceid) const;
     //! returns the count of notes on a voice and a staff
-    int getVoiceNotes (int staffid, int voiceid) const;
+    int getVoiceNotesCount (int staffid, int voiceid) const;
     
- //   virtual const S_lyric&              getLastLyric() const { return fLastLyric; }
- //   virtual const S_syllabic&           getLastSyllabic() const { return fLastSyllabic; }
-    virtual const std::map<std::string, std::list<std::list<std::string> > >&  
-                                getStanzas() const { return fStanzas; }
-                                        
+    // a stanza is represented as a list words,
+    // represented as a list of their components
+    typedef std::list<std::list<std::string> > stanzaContents;
+
+    virtual std::map<std::string, partsummaryvisitor::stanzaContents>& 
+                  getStanzas();
+    void          clearStanzas ();
+    virtual std::string 
+                  getStanza (std::string name, std::string separator) const;
+                                       
   protected:
+  
     virtual void visitStart ( S_part& elt);
     virtual void visitStart ( S_staves& elt);
+    virtual void visitStart ( S_staff& elt)      { fStaff = int(*elt); }
+    virtual void visitStart ( S_voice& elt )     { fVoice = int(*elt); }
     virtual void visitEnd   ( S_note& elt);
 
     virtual void visitStart ( S_lyric& elt);
@@ -88,12 +99,13 @@ class EXP partsummaryvisitor :
     virtual void visitEnd   ( S_text& elt );
     
   private:
+  
     // count of staves (from the staves element)
     int                 fStavesCount;
     // staves and corresponding count of notes
-    std::map<int, int>  fStaves;
+    std::map<int, int>  fStavesNotesCount;
     // voices and corresponding count of notes
-    std::map<int, int>  fVoices;
+    std::map<int, int>  fVoicesNotesCount;
     // staves and corresponding voices + count of notes
     std::map<int, std::map<int, int> >  fStaffVoices;
 
@@ -106,7 +118,7 @@ class EXP partsummaryvisitor :
     
     // the stanzas are referred to by number and contains list of lists of strings
     // in the case of "single", the list contains only one string
-    std::map<std::string, std::list<std::list<std::string> > > 
+    std::map<std::string, stanzaContents> 
                         fStanzas;    // <text /> occurs after <syllabic />
 };
 

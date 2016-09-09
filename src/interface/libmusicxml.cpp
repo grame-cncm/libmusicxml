@@ -11,6 +11,7 @@
 */
 
 #include <vector>
+//#include <sstream>
 
 #include "libmusicxml.h"
 #include "musicxmlfactory.h"
@@ -157,7 +158,5 @@ EXP TAttribute  factoryFloatAttribute (TFactory f, const char * name, float valu
 //------------------------------------------------------------------------
 EXP void    factoryFreeElement    (TFactory f, TElement elt)    { elt->removeReference(); }
 EXP void    factoryFreeAttribute  (TFactory f, TAttribute attr) { attr->removeReference(); }
-
-
 
 }

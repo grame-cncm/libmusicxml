@@ -52,23 +52,23 @@ endif(WIN32)
 
 #######################################
 # set directories, src and headers.
-set (LXML     ${CMAKE_CURRENT_SOURCE_DIR}/..)
-set (LXMLSRC  ${LXML}/src)
-set (LXMLSAMPLE ${LXML}/samples)
+set (LXML        ${CMAKE_CURRENT_SOURCE_DIR}/..)
+set (LXMLSRC     ${LXML}/src)
+set (LXMLSAMPLES ${LXML}/samples)
 set (SRCFOLDERS  factory files interface elements guido lilypond lib operations parser visitors)
 
 foreach(folder ${SRCFOLDERS})
-  set(SRC ${SRC} "${LXMLSRC}/${folder}/*.cpp")      # add source files
+  set(SRC ${SRC} "${LXMLSRC}/${folder}/*.cpp")       # add source files
 endforeach(folder)
 file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
 
 foreach(folder ${SRCFOLDERS})
-  set(HEADERS ${HEADERS} "${LXMLSRC}/${folder}/*.h")    # add header files
+  set(HEADERS ${HEADERS} "${LXMLSRC}/${folder}/*.h") # add header files
 endforeach(folder)
 file (GLOB COREH RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS})
 
 foreach(folder ${SRCFOLDERS})
-  set(INCL ${INCL} "${LXMLSRC}/${folder}")        # add include folders
+  set(INCL ${INCL} "${LXMLSRC}/${folder}")           # add include folders
 endforeach(folder)
 
 
@@ -118,7 +118,7 @@ set (SAMPLES RandomMusic xmlfactory partsummary xml2guido xml2lilypond xmliter c
 set (TOOLS  xml2guido xml2lilypond xmltranspose)
 
 foreach(sample ${SAMPLES})
-  add_executable( ${sample} ${LXMLSAMPLE}/${sample}.cpp )
+  add_executable( ${sample} ${LXMLSAMPLES}/${sample}.cpp )
   target_link_libraries( ${sample} ${target})
   add_dependencies(${sample} ${target})
 endforeach(sample)

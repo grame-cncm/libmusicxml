@@ -14,7 +14,10 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include "partsummary.h"
+#include <sstream>
+
+#include "utilities.h"
+#include "partsummaryvisitor.h"
 
 using namespace std;
 
@@ -25,10 +28,13 @@ namespace MusicXML2
 void partsummaryvisitor::visitStart ( S_part& elt)
 {
   fStavesCount = 1;
-  fStaves.clear();
-  fVoices.clear();
+  fStavesNotesCount.clear();
+  fVoicesNotesCount.clear();
   fStaffVoices.clear();
 
+  fVoice = 0;
+  fStaff = 0;
+  
   fLastLyric = 0;
   fLastSyllabic = 0;
   fStanzas.clear();
@@ -43,9 +49,17 @@ void partsummaryvisitor::visitStart ( S_staves& elt)
 //________________________________________________________________________
 void partsummaryvisitor::visitEnd ( S_note& elt)
 {
-  fStaves[fStaff]++;
-  fVoices[fVoice]++;
+  fStavesNotesCount[fStaff]++;
+  fVoicesNotesCount[fVoice]++;
   fStaffVoices[fStaff][fVoice]++;
+  /*
+  cout << 
+    "fStaff = " << fStaff << 
+    ", fVoice = " << fVoice <<
+    ", fStavesNotesCount[fStaff] = " << fStavesNotesCount[fStaff] << std::endl <<
+    ", fVoicesNotesCount[fVoice] = " << fVoicesNotesCount[fVoice] <<
+    ", fStaffVoices[fStaff][fVoice] = " << fStaffVoices[fStaff][fVoice] << endl;
+  */
 }
 
 //________________________________________________________________________
@@ -60,25 +74,10 @@ void partsummaryvisitor::visitStart ( S_syllabic& elt ) {
 void partsummaryvisitor::visitEnd ( S_text& elt ) 
 {
   /*
-      <note default-x="129.06" default-y="-40.00">
-        <pitch>
-          <step>E</step>
-          <alter>-1</alter>
-          <octave>4</octave>
-          </pitch>
-        <duration>1</duration>
-        <voice>1</voice>
-        <type>eighth</type>
-        <stem>up</stem>
-        <beam number="1">begin</beam>
         <lyric number="1">
           <syllabic>single</syllabic>
           <text>1. Sing</text>
           </lyric>
-        <lyric number="2">
-          <syllabic>single</syllabic>
-          <text>2. For</text>
-        </lyric>
   */
 
   string      text = elt->getValue();
@@ -122,7 +121,7 @@ void partsummaryvisitor::visitEnd ( S_text& elt )
 smartlist<int>::ptr partsummaryvisitor::getStaves() const
 {
   smartlist<int>::ptr sl = smartlist<int>::create();
-  for ( map<int, int>::const_iterator i = fStaves.begin(); i != fStaves.end(); i++) {
+  for ( map<int, int>::const_iterator i = fStavesNotesCount.begin(); i != fStavesNotesCount.end(); i++) {
     sl->push_back (i->first);
   }
   return sl;
@@ -144,7 +143,12 @@ smartlist<int>::ptr partsummaryvisitor::getStaves (int voice) const
 smartlist<int>::ptr partsummaryvisitor::getVoices () const
 {
   smartlist<int>::ptr sl = smartlist<int>::create();
-  for ( map<int, int>::const_iterator i = fVoices.begin(); i != fVoices.end(); i++) {
+  for ( map<int, int>::const_iterator i = fVoicesNotesCount.begin(); i != fVoicesNotesCount.end(); i++) {
+    /*
+    cout <<
+      "i->first = " << i->first <<
+      std::endl;
+    */
     sl->push_back (i->first);
   }
   return sl;
@@ -175,11 +179,11 @@ int partsummaryvisitor::countVoices (int staff) const
 }
 
 //________________________________________________________________________
-int partsummaryvisitor::getStaffNotes (int id) const
+int partsummaryvisitor::getStaffNotesCount (int id) const
 {
   int count = 0;
-  map<int, int>::const_iterator i = fStaves.find( id );
-  if (i != fStaves.end()) {
+  map<int, int>::const_iterator i = fStavesNotesCount.find( id );
+  if (i != fStavesNotesCount.end()) {
     count = i->second;
   }
   return count;
@@ -192,28 +196,35 @@ int partsummaryvisitor::getMainStaff (int voiceid) const
   int staffid = 0;
   int maxnotes = 0;
   for (vector<int>::const_iterator i = v->begin(); i != v->end(); i++) {
-    int n = getVoiceNotes (*i, voiceid);
+    int n = getVoiceNotesCount (*i, voiceid);
     if (n > maxnotes) {
       maxnotes = n;
       staffid = *i;
     }
+    /*
+    cout <<
+      "*i = " << *i <<
+      ", maxnotes = " << maxnotes <<
+      ", staffid = " << staffid <<
+      std::endl;
+    */
   }
   return staffid;
 }
 
 //________________________________________________________________________
-int partsummaryvisitor::getVoiceNotes (int voiceid) const
+int partsummaryvisitor::getVoiceNotesCount (int voiceid) const
 {
   int count = 0;
-  map<int, int>::const_iterator i = fVoices.find( voiceid );
-  if (i != fVoices.end()) {
+  map<int, int>::const_iterator i = fVoicesNotesCount.find( voiceid );
+  if (i != fVoicesNotesCount.end()) {
     count = i->second;
   }
   return count;
 }
 
 //________________________________________________________________________
-int partsummaryvisitor::getVoiceNotes (int staffid, int voiceid) const
+int partsummaryvisitor::getVoiceNotesCount (int staffid, int voiceid) const
 {
   int count = 0;
   map<int, map<int, int> >::const_iterator i = fStaffVoices.find( staffid );
@@ -224,6 +235,51 @@ int partsummaryvisitor::getVoiceNotes (int staffid, int voiceid) const
     }
   }
   return count;
+}
+
+//______________________________________________________________________________
+std::map<std::string, partsummaryvisitor::stanzaContents> & partsummaryvisitor::getStanzas() { 
+  return fStanzas;
+}
+
+void partsummaryvisitor::clearStanzas () {
+  fStanzas.clear();
+}
+
+std::string partsummaryvisitor::getStanza (std::string name, std::string separator) const {
+//  if (fSwitches.fTrace) cerr << "Extracting part \"" << partid << "\" lyrics information" << endl;
+//  std::map<std::string, std::list<std::list<std::string> > > stanzas = ps.getStanzas();
+  std::string result = "";
+  
+  std::map<std::string, stanzaContents> ::const_iterator
+    it1 = fStanzas.find(name);
+  
+  if (it1 != fStanzas.end()) {
+    stringstream s;
+    string       lyricsName = "Lyrics"+int2EnglishWord(atoi(it1->first.c_str())); // JMI +partName;
+    s << lyricsName << " = \\lyricmode { " << std::endl;
+
+    for (stanzaContents::const_iterator 
+        it2=it1->second.begin(); it2!=it1->second.end(); ++it2) { 
+      std::list<std::string> ::const_iterator 
+        it2Begin = it2->begin(),
+        it2End   = it2->end(),
+        it3      = it2Begin;
+
+      for ( ; ; ) {
+        s << *it3;
+        if (++it3 == it2End) break;
+        s << separator;
+      } // for
+      cout << " ";
+    } // for
+      
+    s << std::endl << "}" << std::endl << std::endl;
+    } else {
+    result = "Can't find stanza \""+name+"\"";
+  } // if
+  
+  return result;
 }
 
 

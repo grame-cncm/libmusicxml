@@ -18,7 +18,7 @@
 #include <sstream>
 #include <string>
 
-#include "partsummary.h"
+#include "partsummaryvisitor.h"
 #include "rational.h"
 #include "xml_tree_browser.h"
 #include "xml2guidovisitor.h"
