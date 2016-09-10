@@ -88,10 +88,10 @@ class EXP xml2lilypondvisitor :
     std::string   fCurrentPartID;
     int           fCurrentStaffIndex;   // the index of the current lilypond staff
   
-    void startScoreStack   (Slilypondelement& elt) { fScoreStack.push(elt); }
-    void addToScoreStack   (Slilypondelement& elt) { fScoreStack.top()->add(elt); }
-    void pushToScoreStack  (Slilypondelement& elt) { addToScoreStack(elt); fScoreStack.push(elt); }
-    void popFromScoreStack ()                      { fScoreStack.pop(); }
+    void startScoreStack   (Slilypondelement& elt);
+    void addToScoreStack   (Slilypondelement& elt);
+    void pushToScoreStack  (Slilypondelement& elt);
+    void popFromScoreStack ();
   
     void flushGlobalHeader ( globalHeader& header );
     void flushPartHeader   ( partHeader& header );
@@ -112,7 +112,7 @@ class EXP xml2lilypondvisitor :
     virtual void visitStart( S_part_name& elt);
     virtual void visitStart( S_part& elt);
 
-    Slilypondelement& scoreStackTop () { return fScoreStack.top(); }
+    Slilypondelement& scoreStackTop ();
 
   public:
     

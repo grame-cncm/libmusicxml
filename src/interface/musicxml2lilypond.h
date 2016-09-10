@@ -59,6 +59,7 @@ typedef struct {
   bool fGenerateBars;
   bool fGenerateStems;
   bool fGeneratePositions;
+  bool fDebug;
 } translationSwitches;
 
 /*!

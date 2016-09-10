@@ -27,10 +27,12 @@ namespace MusicXML2
 
 template <int elt> class musicxml : public xmlelement
 { 
-    protected:  
+  protected:  
+  
     musicxml() { fType = elt; }
 
   public:
+  
     static SMARTP<musicxml<elt> > new_musicxml()  
       { musicxml<elt>* o = new musicxml<elt>; assert(o!=0); return o; }
     static SMARTP<musicxml<elt> > new_musicxml(const std::vector<Sxmlelement>& elts)  

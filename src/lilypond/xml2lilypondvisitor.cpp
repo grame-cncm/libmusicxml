@@ -57,6 +57,43 @@ Slilypondelement xml2lilypondvisitor::convert (const Sxmlelement& xml )
 }
 
 //______________________________________________________________________________
+void xml2lilypondvisitor::startScoreStack   (Slilypondelement& elt) {
+  bool doDebug = fSwitches.fDebug;
+//  bool doDebug = false;
+
+  if (doDebug) cout << "!!! fScoreStack.push(elt) :" << std::endl;
+  fScoreStack.push(elt);
+  }
+void xml2lilypondvisitor::addToScoreStack   (Slilypondelement& elt) {
+  bool doDebug = fSwitches.fDebug;
+//  bool doDebug = false;
+
+  if (doDebug) cout << "!!! fScoreStack.top()->add(elt) :" << std::endl;
+  fScoreStack.top()->addElement (elt);
+}
+void xml2lilypondvisitor::pushToScoreStack  (Slilypondelement& elt) {
+  bool doDebug = fSwitches.fDebug;
+//  bool doDebug = false;
+
+  if (doDebug) cout << "!!!* addToScoreStack(elt); fScoreStack.push(elt) :" << std::endl;
+  addToScoreStack(elt); fScoreStack.push(elt);
+}
+void xml2lilypondvisitor::popFromScoreStack () {
+  bool doDebug = fSwitches.fDebug;
+//  bool doDebug = false;
+
+  if (doDebug) cout << "!!! fScoreStack.pop() :" << std::endl;
+ fScoreStack.pop();
+}
+Slilypondelement& xml2lilypondvisitor::scoreStackTop () {
+  bool doDebug = fSwitches.fDebug;
+//  bool doDebug = false;
+
+  if (doDebug) cout << "*** return fScoreStack.top() :" << std::endl;
+  return fScoreStack.top();
+}
+
+//______________________________________________________________________________
 // the score header contains information like title, author etc..
 // it must be written only once, at the beginning of the generated code,
 // thus the function clears the data 
@@ -72,7 +109,7 @@ void xml2lilypondvisitor::flushGlobalHeader ( globalHeader& header )
       Slilypondelement cmd =
         lilypondcmd::create("%MusicXMl_version =", lilypondcmd::kWithoutBackslash);
       string musicXMLVersion = header.fScorePartwise->getAttributeValue("version");
-      cmd->add (lilypondparam::create(musicXMLVersion));
+      cmd->addParam (lilypondparam::create(musicXMLVersion));
       addToScoreStack (cmd);
       header.fScorePartwise = 0;
      }
@@ -81,7 +118,7 @@ void xml2lilypondvisitor::flushGlobalHeader ( globalHeader& header )
       Slilypondelement cmd =
         lilypondcmd::create("%work_number =", lilypondcmd::kWithoutBackslash);
       string workNumber = header.fWorkNumber->getValue();
-      cmd->add (lilypondparam::create(workNumber));
+      cmd->addParam (lilypondparam::create(workNumber));
       addToScoreStack (cmd);
       header.fWorkNumber = 0;
     }
@@ -95,7 +132,7 @@ void xml2lilypondvisitor::flushGlobalHeader ( globalHeader& header )
         workTitle = workTitle.replace (pos, 1, "'");
         pos = workTitle.find ('"', pos);
       }
-      cmd->add (lilypondparam::create(workTitle));
+      cmd->addParam (lilypondparam::create(workTitle));
       addToScoreStack (cmd);
       header.fWorkTitle = 0;
     }
@@ -104,7 +141,7 @@ void xml2lilypondvisitor::flushGlobalHeader ( globalHeader& header )
       Slilypondelement cmd =
         lilypondcmd::create("%movement_number =", lilypondcmd::kWithoutBackslash);
       string movementNumber = header.fMovementNumber->getValue();
-      cmd->add (lilypondparam::create(movementNumber));
+      cmd->addParam (lilypondparam::create(movementNumber));
       addToScoreStack (cmd);
       header.fMovementNumber = 0;
     }
@@ -118,7 +155,7 @@ void xml2lilypondvisitor::flushGlobalHeader ( globalHeader& header )
         movementTitle = movementTitle.replace (pos, 1, "'");
         pos = movementTitle.find ('"', pos);
       }
-      cmd->add (lilypondparam::create(movementTitle));
+      cmd->addParam (lilypondparam::create(movementTitle));
       addToScoreStack (cmd);
       header.fMovementTitle = 0;
     }
@@ -133,7 +170,7 @@ void xml2lilypondvisitor::flushGlobalHeader ( globalHeader& header )
       std::transform(type.begin(), type.end(), type.begin(), ::tolower);
       Slilypondelement cmd =
         lilypondcmd::create(type+" = ", lilypondcmd::kWithoutBackslash);
-      cmd->add (lilypondparam::create((*i1)->getValue())); // quotes
+      cmd->addParam (lilypondparam::create((*i1)->getValue())); // quotes
       addToScoreStack (cmd);
     } // for
     header.fCreators.clear();
@@ -142,7 +179,7 @@ void xml2lilypondvisitor::flushGlobalHeader ( globalHeader& header )
       Slilypondelement cmd =
         lilypondcmd::create("%rights =", lilypondcmd::kWithoutBackslash);
       string rights = header.fRights->getValue();
-      cmd->add (lilypondparam::create(rights));
+      cmd->addParam (lilypondparam::create(rights));
       addToScoreStack (cmd);
       header.fRights = 0;
     }
@@ -151,7 +188,7 @@ void xml2lilypondvisitor::flushGlobalHeader ( globalHeader& header )
     for (i2=header.fSoftwares.begin(); i2!=header.fSoftwares.end(); i2++) {
       Slilypondelement cmd =
         lilypondcmd::create("%software =", lilypondcmd::kWithoutBackslash);
-      cmd->add (lilypondparam::create((*i2)->getValue())); // quotes
+      cmd->addParam (lilypondparam::create((*i2)->getValue())); // quotes
       addToScoreStack (cmd);
     }
     header.fSoftwares.clear();
@@ -160,7 +197,7 @@ void xml2lilypondvisitor::flushGlobalHeader ( globalHeader& header )
       Slilypondelement cmd =
         lilypondcmd::create("%encoding_date =", lilypondcmd::kWithoutBackslash);
       string encodingDate = header.fEncodingDate->getValue();
-      cmd->add (lilypondparam::create(encodingDate));
+      cmd->addParam (lilypondparam::create(encodingDate));
       addToScoreStack (cmd);
       header.fEncodingDate = 0;
     }
@@ -187,7 +224,7 @@ void xml2lilypondvisitor::flushPartHeader ( partHeader& header )
     // int offset = instr.size() * 2;
 
     // USER s1 << "dx=-" << offset << "hs";
-    cmd->add (lilypondparam::create(instr));
+    cmd->addParam (lilypondparam::create(instr));
     //cmd->add (lilypondparam::create(s1.str(), false));
     //cmd->add (lilypondparam::create("dy=-5hs", false));
     addToScoreStack (cmd);
@@ -320,18 +357,20 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
         ", targetStaff = " << targetStaff <<
         ", targetVoice = " << targetVoice << endl;
 
-    Slilypondelement seq = lilypondseq::create();
-    pushToScoreStack (seq);
-
     stringstream s1;
     s1 << "Part" << partID << "Voice" << targetVoice;
     string partName = s1.str();
+    
+    Slilypondelement part = lilypondpart::create(partName, fSwitches.fGenerateAbsoluteCode);
+    pushToScoreStack (part);
+    // JMI2 addToScoreStack(part);
+    
     stringstream s2;
-    s2 << partName << " = { " << endl;
+    s2 << partName << " = { \%xml2lilypondvisitor::visitStart ( S_part" << endl;
     string partHeader = s2.str();
     Slilypondelement cmd = lilypondcmd::create(partHeader, lilypondcmd::kWithoutBackslash);
     //cmd->add (lilypondparam::create(comment, false)); // no quotes
-    addToScoreStack (cmd);
+    addToScoreStack (cmd); // JMI
   
     flushPartHeader (fPartHeader[partID]);
 
@@ -339,7 +378,7 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
     xmlpart2lilypondvisitor pv(fSwitches);
     pv.generatePositions (fSwitches.fGeneratePositions);
     xml_tree_browser browser(&pv);
-    pv.initialize(seq, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
+    pv.initialize(part, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
     browser.browse(*elt);
     popFromScoreStack();
     currentTimeSign = pv.getTimeSign();

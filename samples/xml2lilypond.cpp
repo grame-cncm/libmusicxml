@@ -26,13 +26,14 @@ void usage(int exitStatus) {
     "--> Usage:    musicxml2lilypond [options] <MusicXMLFile>" << endl <<
     "    Action:   reads <MusicXMLFile> or stdin if <MusicXMLFile> is '-'" << endl <<
     endl <<
-    "    Options: -a,--absolute:  generates absolute code" << endl <<
-    "                   (default: generate relative code)" << endl <<
-    "             -c,--comments:  don't generate comments" << endl <<
-    "             -b,--autobars:  don't generate barlines" << endl <<
-    "             -s,--stems:     don't generate stems commands" << endl <<
-    "             -p,--positions: don't generate positions" << endl <<
-    "             -t,--trace:     don't generate a trace of the activity" << endl <<
+    "    Options: -a,--absolute:    generates absolute code" << endl <<
+    "                   (default:   generate relative code)" << endl <<
+    "             -c,--nocomments:  don't generate comments" << endl <<
+    "             -b,--noautobars:  don't generate barlines" << endl <<
+    "             -s,--nostems:     don't generate stems commands" << endl <<
+    "             -p,--nopositions: don't generate positions" << endl <<
+    "             -t,--notrace:     don't generate a trace of the activity" << endl <<
+    "             -d,--debug  :     print debugging information" << endl <<
     endl;
   exit(exitStatus);
 }
@@ -53,6 +54,7 @@ int main(int argc, char *argv[])
   bool generateStems =        false;
   bool generatePositions =    false;
   bool trace =                true;
+  bool debug =                false;
   
    static struct option long_options [] =
     {
@@ -63,7 +65,8 @@ int main(int argc, char *argv[])
     {"autobars",  no_argument,       0, 'b'},
     {"stems",     no_argument,       0, 's'},
     {"positions", no_argument,       0, 'p'},
-    {"trace", no_argument,           0, 't'},
+    {"trace",     no_argument,       0, 't'},
+    {"debug",     no_argument,       0, 'd'},
     {0, 0, 0, 0}
     };
 
@@ -100,6 +103,9 @@ int main(int argc, char *argv[])
       case 't' :
         trace = false;
         break;
+      case 'd' :
+        debug = true;
+        break;
       } // switch
     } // while
  
@@ -128,6 +134,7 @@ int main(int argc, char *argv[])
   sw.fGenerateStems =        generateStems;
   sw.fGeneratePositions =    generatePositions;
   sw.fTrace =                trace;
+  sw.fDebug =                debug;
 
   if (sw.fTrace)
     cerr << 

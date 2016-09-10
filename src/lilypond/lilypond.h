@@ -29,6 +29,7 @@ class lilypondparam;
 typedef SMARTP<lilypondelement>   Slilypondelement;
 typedef SMARTP<lilypondparam>     Slilypondparam;
 
+EXP std::ostream& operator<< (std::ostream& os, const Slilypondparam&   param);
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondelement& elt);
 
 /*!
@@ -45,23 +46,28 @@ EXP std::ostream& operator<< (std::ostream& os, const Slilypondelement& elt);
 //______________________________________________________________________________
 class EXP lilypondparam : public smartable {
   public:
-        static SMARTP<lilypondparam> create(std::string value, bool quote=true);
-        static SMARTP<lilypondparam> create(long value, bool quote=true);
+    
+    static SMARTP<lilypondparam> create(std::string value, bool quote=true);
+    static SMARTP<lilypondparam> create(long value, bool quote=true);
 
     //! the parameter value
-    void set (std::string value, bool quote=true);
-    void set (long value, bool quote=true);
-    std::string get () const          { return fValue; }
-    bool   quote () const             { return fQuote; }
+    void        set (std::string value, bool quote=true);
+    void        set (long value, bool quote=true);
+    std::string get () const        { return fValue; }
+    bool        quote () const      { return fQuote; }
+
+    virtual void print (std::ostream& os);
         
   protected:
+ 
     lilypondparam(std::string value, bool quote);
     lilypondparam(long value, bool quote);
     virtual ~lilypondparam ();
         
   private:
+
     std::string   fValue;
-    bool  fQuote;
+    bool          fQuote;
 };
 
 /*!
@@ -74,23 +80,26 @@ class EXP lilypondparam : public smartable {
 class EXP lilypondelement : public smartable {
   public:
  
-        static SMARTP<lilypondelement> create(std::string name, std::string sep=" ");
+    static SMARTP<lilypondelement> create(std::string name, std::string sep=" ");
     
-    long add (Slilypondelement& elt);
-    long add (Slilypondparam& param);
-    long add (Slilypondparam param);
+    long addElement (Slilypondelement& elt);
+
+    long addParam   (Slilypondparam& param);
+    long addParam   (Slilypondparam param);
     
     virtual void print (std::ostream& os);
 
     //! the element name
-    void  setName (std::string name)      { fName = name; }
-    std::string   getName () const        { return fName; }
-    std::string   getStart () const       { return fStartList; }
-    std::string   getEnd () const         { return fEndList; }
-    std::string   getSep () const         { return fSep; }
-    std::vector<Slilypondelement>& elements()   { return fElements; }
-    const std::vector<Slilypondelement>& elements() const   { return fElements; }
-    const std::vector<Slilypondparam>& parameters() const   { return fParams; }
+    void          setName (std::string name) { fName = name; }
+    std::string   getName () const           { return fName; }
+
+    std::string   getStart () const          { return fStartList; }
+    std::string   getEnd () const            { return fEndList; }
+    std::string   getSep () const            { return fSep; }
+    
+    std::vector<Slilypondelement>& elements()             { return fElements; }
+    const std::vector<Slilypondelement>& elements() const { return fElements; }
+    const std::vector<Slilypondparam>& parameters() const { return fParams; }
     
     bool empty () const { return fElements.empty(); }
 
@@ -100,16 +109,25 @@ class EXP lilypondelement : public smartable {
     virtual ~lilypondelement();
 
     std::string fName;
-    //! the contained element start marker (default to empty)
+    
+    //! the contained element start marker (defaults to empty)
     std::string fStartList;
-    //! the contained element end marker (default to empty)
+    //! the contained element end marker (defaults to empty)
     std::string fEndList;
-    //! the element separator (default to space)
+    //! the element separator (defaults to space)
     std::string fSep;
+    
     //! list of the enclosed elements
     std::vector<Slilypondelement> fElements;
+    
     //! list of optional parameters
-    std::vector<Slilypondparam> fParams;    
+    std::vector<Slilypondparam> fParams;  
+    
+  private:
+  
+    bool fDebug;
+    void dumpElements(); // DEBUG
+    void dumpParams();   // DEBUG
 };
 
 /*!
@@ -124,18 +142,19 @@ class EXP lilypondelement : public smartable {
 //______________________________________________________________________________
 class EXP lilypondnoteduration {
   public:
+  
     lilypondnoteduration(long num, long denom, long dots=0) 
             { set (num, denom, dots); }
     virtual ~lilypondnoteduration() {}
         
-        void set (long num, long denom, long dots=0) 
-            { fNum=num; fDenom=denom; fDots=dots; }
-        lilypondnoteduration& operator= (const lilypondnoteduration& dur) 
-            { fNum=dur.fNum; fDenom=dur.fDenom; fDots=dur.fDots; return *this; }
-        bool operator!= (const lilypondnoteduration& dur) const 
-            { return (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots); }
+    void set (long num, long denom, long dots=0) 
+        { fNum=num; fDenom=denom; fDots=dots; }
+    lilypondnoteduration& operator= (const lilypondnoteduration& dur) 
+        { fNum=dur.fNum; fDenom=dur.fDenom; fDots=dur.fDots; return *this; }
+    bool operator!= (const lilypondnoteduration& dur) const 
+        { return (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots); }
 
-        long  fNum;
+    long  fNum;
     long  fDenom;
     long  fDots;
 };
@@ -150,10 +169,10 @@ class EXP lilypondnoteduration {
 class EXP lilypondnote : public lilypondelement {
   public:
 
-        static SMARTP<lilypondnote> create(unsigned short voice);
-        static SMARTP<lilypondnote> create(unsigned short voice, std::string name, char octave,
-                                                lilypondnoteduration& dur, std::string acc="");
-    
+    static SMARTP<lilypondnote> create(unsigned short voice);
+    static SMARTP<lilypondnote> create(unsigned short voice, std::string name, char octave,
+                                            lilypondnoteduration& dur, std::string acc="");
+
     void set (unsigned short voice, std::string name, char octave, lilypondnoteduration& dur, std::string acc);
     void setName (const std::string name)     { fNote = name; } 
     void setOctave (char octave)          { fOctave = octave; }
@@ -203,7 +222,8 @@ typedef SMARTP<lilypondnote> Slilypondnote;
 //______________________________________________________________________________
 class EXP lilypondnotestatus {
   public:
-        enum { kMaxInstances=128 };
+    
+    enum { kMaxInstances=128 };
         
     static lilypondnotestatus* get(unsigned short voice);
     static void resetall();
@@ -220,8 +240,11 @@ class EXP lilypondnotestatus {
 //    char        fBeat;
 
   protected:
+  
     lilypondnotestatus() :  fOctave(defoctave), fDur(defnum, defdenom, 0) {}
+    
   private:
+  
     static lilypondnotestatus * fInstances[kMaxInstances];
 };
 
@@ -231,7 +254,8 @@ class EXP lilypondnotestatus {
 //______________________________________________________________________________
 class EXP lilypondseq : public lilypondelement {
   public:
-        static SMARTP<lilypondseq> create();
+    
+    static SMARTP<lilypondseq> create();
 
     virtual void print (std::ostream& os);
 
@@ -249,7 +273,8 @@ typedef SMARTP<lilypondseq> Slilypondseq;
 class EXP lilypondchord : public lilypondelement {
   public:
 
-        static SMARTP<lilypondchord> create();
+    static SMARTP<lilypondchord> create();
+    
     virtual void print (std::ostream& os);
 
   protected:
@@ -337,6 +362,34 @@ class EXP lilypondlyrics : public lilypondelement {
     std::string fName, fContents;
 };
 typedef SMARTP<lilypondlyrics> Slilypondlyrics;
+
+/*!
+\brief A lilypond part representation.
+
+  A part is represented by a its string contents
+*/
+//______________________________________________________________________________
+class EXP lilypondpart : public lilypondelement {
+  public:
+
+    static SMARTP<lilypondpart> create(std::string name, bool absoluteCode);
+    
+    // JMI std::string getContents () const        { return fContents; }
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondpart(std::string name, bool absoluteCode);
+    virtual ~lilypondpart();
+  
+  private:
+
+    std::string  fName;
+    bool         fAbsoluteCode;
+
+};
+typedef SMARTP<lilypondpart> Slilypondpart;
 
 
 /*! @} */
