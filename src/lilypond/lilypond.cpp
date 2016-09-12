@@ -11,6 +11,7 @@
 */
 
 #include <iostream>
+#include <algorithm>
 
 #include "lilypond.h"
 
@@ -100,22 +101,22 @@ void lilypondelement::dumpParams() {
 }
 
 long lilypondelement::addParam (Slilypondparam& param) { 
-  bool doDebug = fDebug;
-//  bool doDebug = false;
+//  bool doDebug = fDebug;
+  bool doDebug = false;
 
- if (doDebug) cout << "fParams.push_back(param) & : ";
+ if (doDebug) cout << "addParam & : ";
   fParams.push_back(param);
-  if (doDebug) cout << param; //dumpParams();
+  if (doDebug) cout << param << std::endl; //dumpParams();
   return fParams.size()-1;
 }
 
 long lilypondelement::addParam (Slilypondparam param) { 
-  bool doDebug = fDebug;
-//  bool doDebug = false;
+//  bool doDebug = fDebug;
+  bool doDebug = false;
 
-  if (doDebug) cout << "fParams.push_back(param) : ";
+  if (doDebug) cout << "addParam : ";
   fParams.push_back(param);
-  if (doDebug) cout << param; //dumpParams();
+  if (doDebug) cout << param << std::endl; //dumpParams();
   return fParams.size()-1;
 }
 
@@ -126,11 +127,11 @@ void lilypondelement::dumpElements() {
   */
   
   // print the optional contained elements
-  if (!fElements.empty()) {
+  if (!fSubElements.empty()) {
     cout << std::endl << "<-------------------------" << std::endl;
     //cout << fStartList;
     vector<Slilypondelement>::const_iterator ielt;
-    for (ielt = fElements.begin(); ielt != fElements.end(); ielt++) {
+    for (ielt = fSubElements.begin(); ielt != fSubElements.end(); ielt++) {
       /*
       bool prevNote = false;
       bool prevSeq  = false;
@@ -152,7 +153,7 @@ void lilypondelement::dumpElements() {
           prevSeq = true;
         }
       } // isChord
-      //if (ielt = fElements.end()) 
+      //if (ielt = fSubElements.end()) 
       */
     cout << *ielt << " ";            
     } // for
@@ -162,14 +163,14 @@ void lilypondelement::dumpElements() {
   // if (isSeq) cout << std::endl;
 }
 
-long lilypondelement::addElement (Slilypondelement& elt) {
+long lilypondelement::addSubElement (Slilypondelement& elt) {
   bool doDebug = fDebug;
 //  bool doDebug = false;
 
-  if (doDebug) cout << "fElements.push_back(elt) : ";
-  fElements.push_back(elt); 
+  if (doDebug) cout << "addSubElement : ";
+  fSubElements.push_back(elt); 
   if (doDebug) cout << elt << std::endl; //dumpElements();
-  return fElements.size()-1;
+  return fSubElements.size()-1;
 }
 
 //______________________________________________________________________________
@@ -200,10 +201,10 @@ void lilypondelement::print(ostream& os)
   bool isChord  = dynamic_cast<const lilypondchord *>(this) != 0;
   
   // print the optional contained elements
-  if (!fElements.empty()) {
+  if (!fSubElements.empty()) {
     os << fStartList;
     vector<Slilypondelement>::const_iterator ielt;
-    for (ielt = fElements.begin(); ielt != fElements.end(); ielt++) {
+    for (ielt = fSubElements.begin(); ielt != fSubElements.end(); ielt++) {
       bool prevNote = false;
       bool prevSeq  = false;
 
@@ -224,7 +225,7 @@ void lilypondelement::print(ostream& os)
           prevSeq = true;
         }
       } // isChord
-    //if (ielt = fElements.end()) 
+    //if (ielt = fSubElements.end()) 
     os << *ielt << " ";            
     } // for
   os << fEndList;
@@ -412,9 +413,18 @@ lilypondseq::lilypondseq() : lilypondelement("")
   }
 lilypondseq::~lilypondseq() {}
 
+ostream& operator<< (ostream& os, const Slilypondseq& elt)
+{
+  elt->print(os);
+  return os;
+}
+
 void lilypondseq::print(ostream& os)
 {
-  lilypondelement::print(os);
+  vector<Slilypondelement>::const_iterator i;
+  for (i=fSequenceElements.begin(); i!=fSequenceElements.end(); i++) {
+    os << (*i) << std::endl;
+  } // for
 }
 
 //______________________________________________________________________________
@@ -507,23 +517,36 @@ Slilypondpart lilypondpart::create(std::string name, bool absoluteCode)
   return o;
 }
 
-lilypondpart::lilypondpart(std::string name, bool absoluteCode) : lilypondelement("")
+lilypondpart::lilypondpart(std::string name, bool absoluteCode)
+  : lilypondelement("")
 {
-  fName = name;
-  fAbsoluteCode = absoluteCode;
+  fPartName = name;
+  fPartAbsoluteCode = absoluteCode;
+  
+  // create the implicit lilypondseq element
+  fPartLilypondseq = lilypondseq::create();
 }
 lilypondpart::~lilypondpart() {}
 
 void lilypondpart::print(ostream& os)
 {
-  os << fName << " = ";
-  if (!fAbsoluteCode) os << "\\relative ";
+  /*
+  lilypondelement cmd = lilypondcmd::create("set Staff.instrumentName ="); // USER
+  stringstream s1, s2;
+  string instr = header.fPartName->getValue();
+  */
+  
+  os << fPartName << " = ";
+  if (!fPartAbsoluteCode) os << "\\relative ";
   os <<
-    "{ \%lilypondpart::print" << std::endl <<
-    "}" << std::endl << std::endl;
+    "{" << std::endl <<
+    "% instrumentName" << std::endl <<
+    fPartLilypondseq << std::endl <<
+    "}" << std::endl;
   
-  lilypondelement::print(os);
-  
+  //lilypondelement::print(os);
+}
+
   /*
 
   // print the optional parameters section
@@ -545,10 +568,10 @@ void lilypondpart::print(ostream& os)
   bool isChord  = dynamic_cast<const lilypondchord *>(this) != 0;
   
   // print the optional contained elements
-  if (!fElements.empty()) {
+  if (!fSubElements.empty()) {
     os << fStartList;
     vector<Slilypondelement>::const_iterator ielt;
-    for (ielt = fElements.begin(); ielt != fElements.end(); ielt++) {
+    for (ielt = fSubElements.begin(); ielt != fSubElements.end(); ielt++) {
       bool prevNote = false;
       bool prevSeq  = false;
 
@@ -569,13 +592,142 @@ void lilypondpart::print(ostream& os)
           prevSeq = true;
         }
       } // isChord
-    //if (ielt = fElements.end()) 
+    //if (ielt = fSubElements.end()) 
     os << *ielt << " ";            
     } // for
   os << fEndList;
   } // if
   if (isSeq) os << std::endl;
   */
+
+//______________________________________________________________________________
+Slilypondpaper lilypondpaper::create()
+{
+  lilypondpaper* o = new lilypondpaper(); assert(o!=0);
+  return o;
+}
+
+lilypondpaper::lilypondpaper() : lilypondelement("")
+{
+}
+lilypondpaper::~lilypondpaper() {}
+
+void lilypondpaper::print(ostream& os)
+{
+  os << "\\paper {" << std::endl;
+  os << "}" << std::endl;
+}
+
+//______________________________________________________________________________
+Slilypondheader lilypondheader::create()
+{
+  lilypondheader* o = new lilypondheader(); assert(o!=0);
+  return o;
+}
+
+lilypondheader::lilypondheader() : lilypondelement("")
+{
+}
+lilypondheader::~lilypondheader() {}
+
+void lilypondheader::print(ostream& os)
+{
+  /*
+    S_score_partwise        fScorePartwise; // may contain MusicXML version
+    S_work_number           fWorkNumber;
+    S_work_title            fWorkTitle;
+    S_movement_number       fMovementNumber;
+    S_movement_title        fMovementTitle;
+    std::vector<S_creator>  fCreators;
+    S_rights                fRights;
+    std::vector<S_software> fSoftwares;
+    S_encoding_date         fEncodingDate;
+    S_score_instrument      fScoreInstrument;
+*/
+  os << "\\header {" << std::endl;
+  
+  if (fScorePartwise) {
+    os << "  %MusicXMl_version = " << fScorePartwise->getAttributeValue("version") << std::endl;
+  }
+  
+  if (fWorkNumber) {
+    os << "  %work_number = " << fWorkNumber->getValue() << std::endl;
+  }
+  
+  if (fWorkTitle) {
+     /*
+      string workTitle = fWorkTitle->getValue();
+      unsigned int pos = workTitle.find ('"');
+      while (pos != string::npos) {
+        workTitle = workTitle.replace (pos, 1, "'");
+        pos = workTitle.find ('"', pos);
+      }
+    */
+   os << "  %work_title = " << fWorkTitle->getValue() << std::endl;
+  }
+    
+  if (fMovementNumber) {
+    os << "  %movement_number = " << fMovementNumber->getValue() << std::endl;
+  }
+    
+  if (fMovementTitle) {
+    /*
+      string movementTitle = fMovementTitle->getValue();
+      unsigned int pos = movementTitle.find ('"');
+      while (pos != string::npos) {
+        movementTitle = movementTitle.replace (pos, 1, "'");
+        pos = movementTitle.find ('"', pos);
+      }
+  */
+    os << "  %movement_title = " << fMovementTitle->getValue() << std::endl;
+  }
+    
+  if (!fCreators.empty()) {
+    vector<S_creator>::const_iterator i1;
+    for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
+      string type = (*i1)->getAttributeValue("type");
+      std::transform(type.begin(), type.end(), type.begin(), ::tolower);
+      if (type == "composer")
+        os << "  " << type << " = " << (*i1)->getValue() << std::endl;
+      else
+        os << "  %" << type << " = " << (*i1)->getValue() << std::endl;
+    } // for
+  }
+    
+  if (fRights) {
+    os << "  %rights = " << fRights->getValue() << std::endl;
+  }
+    
+  if (!fSoftwares.empty()) {
+    vector<S_software>::const_iterator i2;
+    for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
+     os << "  %software = " << (*i2)->getValue() << std::endl;
+    } // for
+  }
+    
+  if (fEncodingDate) {
+    os << "  %encoding_date = " << fEncodingDate->getValue() << std::endl;
+  }
+  
+  os << "}" << std::endl; 
+}
+
+//______________________________________________________________________________
+Slilypondlayout lilypondlayout::create()
+{
+  lilypondlayout* o = new lilypondlayout(); assert(o!=0);
+  return o;
+}
+
+lilypondlayout::lilypondlayout() : lilypondelement("")
+{
+}
+lilypondlayout::~lilypondlayout() {}
+
+void lilypondlayout::print(ostream& os)
+{
+  os << "\\layout {" << std::endl;
+  os << "}" << std::endl;
 }
 
 

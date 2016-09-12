@@ -16,21 +16,31 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include <map>
 
 #include "exports.h"
+#include "typedefs.h"
 #include "smartpointer.h"
 
 namespace MusicXML2 
 {
 
 class lilypondvisitor;
-class lilypondelement;
+
 class lilypondparam;
-typedef SMARTP<lilypondelement>   Slilypondelement;
-typedef SMARTP<lilypondparam>     Slilypondparam;
+class lilypondelement;
+class lilypondpart;
+class lilypondlyrics;
+
+typedef SMARTP<lilypondparam>    Slilypondparam;
+typedef SMARTP<lilypondelement>  Slilypondelement;
+typedef SMARTP<lilypondpart>     Slilypondpart;
+typedef SMARTP<lilypondlyrics>   Slilypondlyrics;
 
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondparam&   param);
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondelement& elt);
+//EXP std::ostream& operator<< (std::ostream& os, const Slilypondpart& elt);
+//EXP std::ostream& operator<< (std::ostream& os, const Slilypondlyrics& elt);
 
 /*!
 \addtogroup lilypond
@@ -82,7 +92,7 @@ class EXP lilypondelement : public smartable {
  
     static SMARTP<lilypondelement> create(std::string name, std::string sep=" ");
     
-    long addElement (Slilypondelement& elt);
+    long addSubElement (Slilypondelement& elt);
 
     long addParam   (Slilypondparam& param);
     long addParam   (Slilypondparam param);
@@ -97,11 +107,11 @@ class EXP lilypondelement : public smartable {
     std::string   getEnd () const            { return fEndList; }
     std::string   getSep () const            { return fSep; }
     
-    std::vector<Slilypondelement>& elements()             { return fElements; }
-    const std::vector<Slilypondelement>& elements() const { return fElements; }
+    std::vector<Slilypondelement>& elements()             { return fSubElements; }
+    const std::vector<Slilypondelement>& elements() const { return fSubElements; }
     const std::vector<Slilypondparam>& parameters() const { return fParams; }
     
-    bool empty () const { return fElements.empty(); }
+    bool empty () const { return fSubElements.empty(); }
 
   protected:
  
@@ -118,7 +128,7 @@ class EXP lilypondelement : public smartable {
     std::string fSep;
     
     //! list of the enclosed elements
-    std::vector<Slilypondelement> fElements;
+    std::vector<Slilypondelement> fSubElements;
     
     //! list of optional parameters
     std::vector<Slilypondparam> fParams;  
@@ -235,7 +245,7 @@ class EXP lilypondnotestatus {
     lilypondnotestatus& operator= (const lilypondnoteduration& dur) { fDur = dur; return *this; }
     bool operator!= (const lilypondnoteduration& dur) const   { return fDur!= dur; }
             
-    char        fOctave;
+    char                  fOctave;
     lilypondnoteduration  fDur;
 //    char        fBeat;
 
@@ -257,12 +267,19 @@ class EXP lilypondseq : public lilypondelement {
     
     static SMARTP<lilypondseq> create();
 
+    void addElementToSequence (Slilypondelement elem) { fSequenceElements.push_back(elem); }
+
     virtual void print (std::ostream& os);
 
   protected:
 
     lilypondseq();
     virtual ~lilypondseq();
+    
+  private:
+  
+    std::vector<Slilypondelement> fSequenceElements;
+
 };
 typedef SMARTP<lilypondseq> Slilypondseq;
 
@@ -310,6 +327,151 @@ class EXP lilypondcmd : public lilypondelement {
 typedef SMARTP<lilypondcmd> Slilypondcmd;
 
 /*!
+\brief A lilypond header representation.
+
+  A header is represented by variable/value pairs
+*/
+//______________________________________________________________________________
+class EXP lilypondheader : public lilypondelement {
+  public:
+
+    static SMARTP<lilypondheader> create();
+    
+    void                    setScorePartwise   (S_score_partwise val)   { fScorePartwise = val; }
+    S_score_partwise        getScorePartwise   () const                 { return fScorePartwise; }
+
+    void                    setWorkNumber      (S_work_number val)      { fWorkNumber = val; }
+    S_work_number           getWorkNumber      () const                 { return fWorkNumber; }
+
+    void                    setWorkTitle       (S_work_title val)       { fWorkTitle = val; }
+    S_work_title            getWorkTitle       () const                 { return fWorkTitle; }
+
+    void                    setMovementNumber  (S_movement_number val)  { fMovementNumber = val; }
+    S_movement_number       getMovementNumber  () const                 { return fMovementNumber; }
+
+    void                    setMovementTitle   (S_movement_title val)   { fMovementTitle = val; }
+    S_movement_title        getMovementTitle   () const                 { return fMovementTitle; }
+
+    void                    addCreator         (S_creator val)          { fCreators.push_back(val); }
+    std::vector<S_creator>  getCreators        () const                 { return fCreators; };
+
+    void                    setRights          (S_rights val)           { fRights = val; }
+    S_rights                getRights          () const                 { return fRights; }
+
+    void                    addSoftware        (S_software val)         { fSoftwares.push_back(val); }
+    std::vector<S_software> getSoftwares       () const                 { return fSoftwares; };
+
+    void                    setEncodingDate    (S_encoding_date val)    { fEncodingDate = val; }
+    S_encoding_date         getEncodingDate    () const                 { return fEncodingDate; }
+
+    void                    setScoreInstrument (S_score_instrument val) { fScoreInstrument = val; }
+    S_score_instrument      getScoreInstrument () const                 { return fScoreInstrument; }
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondheader();
+    virtual ~lilypondheader();
+  
+  private:
+
+    S_score_partwise        fScorePartwise; // may contain MusicXML version
+    S_work_number           fWorkNumber;
+    S_work_title            fWorkTitle;
+    S_movement_number       fMovementNumber;
+    S_movement_title        fMovementTitle;
+    std::vector<S_creator>  fCreators;
+    S_rights                fRights;
+    std::vector<S_software> fSoftwares;
+    S_encoding_date         fEncodingDate;
+    S_score_instrument      fScoreInstrument;
+
+};
+typedef SMARTP<lilypondheader> Slilypondheader;
+
+/*!
+\brief A lilypond paper representation.
+
+  A paper is represented by variable/value pairs
+*/
+//______________________________________________________________________________
+class EXP lilypondpaper : public lilypondelement {
+  public:
+
+    static SMARTP<lilypondpaper> create();
+    
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondpaper();
+    virtual ~lilypondpaper();
+  
+  private:
+
+ 
+};
+typedef SMARTP<lilypondpaper> Slilypondpaper;
+
+/*!
+\brief A lilypond layout representation.
+
+  A layout is represented by variable/value pairs
+*/
+//______________________________________________________________________________
+class EXP lilypondlayout : public lilypondelement {
+  public:
+
+    static SMARTP<lilypondlayout> create();
+    
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondlayout();
+    virtual ~lilypondlayout();
+  
+  private:
+
+ 
+};
+typedef SMARTP<lilypondlayout> Slilypondlayout;
+
+/*!
+\brief A lilypond part representation.
+
+  A part is represented by a its string contents
+*/
+//______________________________________________________________________________
+class EXP lilypondpart : public lilypondelement {
+  public:
+
+    static SMARTP<lilypondpart> create(std::string name, bool absoluteCode);
+    
+    std::string      getPartName () const         { return fPartName; }
+    bool             getAbsoluteCode () const     { return fPartAbsoluteCode; }
+    Slilypondseq     getPartLilypondseq () const  { return fPartLilypondseq; }
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondpart(std::string name, bool absoluteCode);
+    virtual ~lilypondpart();
+  
+  private:
+
+    std::string      fPartName;
+    bool             fPartAbsoluteCode;
+    
+    // the implicit sequence containing the code generated for the part
+    Slilypondseq     fPartLilypondseq;
+};
+typedef SMARTP<lilypondpart> Slilypondpart;
+typedef std::map<std::string, Slilypondpart> lilypondpartsmap;
+
+/*!
 \brief A lilypond wedge representation.
 
   A wedge is represented by a WedgeKind value (hairpins in LilyPond)
@@ -348,7 +510,7 @@ class EXP lilypondlyrics : public lilypondelement {
 
     static SMARTP<lilypondlyrics> create(std::string name, std::string contents);
     
-    std::string getContents () const        { return fContents; }
+    std::string getContents () const { return fContents; }
 
     virtual void print (std::ostream& os);
 
@@ -362,34 +524,6 @@ class EXP lilypondlyrics : public lilypondelement {
     std::string fName, fContents;
 };
 typedef SMARTP<lilypondlyrics> Slilypondlyrics;
-
-/*!
-\brief A lilypond part representation.
-
-  A part is represented by a its string contents
-*/
-//______________________________________________________________________________
-class EXP lilypondpart : public lilypondelement {
-  public:
-
-    static SMARTP<lilypondpart> create(std::string name, bool absoluteCode);
-    
-    // JMI std::string getContents () const        { return fContents; }
-
-    virtual void print (std::ostream& os);
-
-  protected:
-
-    lilypondpart(std::string name, bool absoluteCode);
-    virtual ~lilypondpart();
-  
-  private:
-
-    std::string  fName;
-    bool         fAbsoluteCode;
-
-};
-typedef SMARTP<lilypondpart> Slilypondpart;
 
 
 /*! @} */

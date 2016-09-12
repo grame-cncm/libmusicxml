@@ -34,6 +34,7 @@ namespace MusicXML2
 @{
 */
 
+/*
 //______________________________________________________________________________
 typedef struct {
   S_score_partwise        fScorePartwise; // may contain MusicXML version
@@ -47,11 +48,7 @@ typedef struct {
   S_encoding_date         fEncodingDate;
   S_score_instrument      fScoreInstrument;
 } globalHeader;
-
-typedef struct {
-  S_part_name             fPartName;
-} partHeader;
-typedef std::map<std::string, partHeader> partHeaderMap;
+*/
 
 /*!
 \brief A score visitor to produce a LilyPond representation.
@@ -72,29 +69,20 @@ class EXP xml2lilypondvisitor :
   public visitor<S_part_name>,
   public visitor<S_part>
 {
-  private:
-  
-    // the translation switches
-    translationSwitches fSwitches;
+  public:
     
-    // the lilypond elements stack
-    std::stack<Slilypondelement>  fScoreStack;
-     
-    globalHeader  fGlobalHeader; // musicxml header elements (should be flushed at the beginning of the generated code)
-    bool          fGlobalHeaderHasBeenFlushed;
-    
-    partHeaderMap fPartHeader;   // musicxml score-part elements (should be flushed at the beginning of each part)
-    
-    std::string   fCurrentPartID;
-    int           fCurrentStaffIndex;   // the index of the current lilypond staff
-  
-    void startScoreStack   (Slilypondelement& elt);
-    void addToScoreStack   (Slilypondelement& elt);
-    void pushToScoreStack  (Slilypondelement& elt);
-    void popFromScoreStack ();
-  
-    void flushGlobalHeader ( globalHeader& header );
-    void flushPartHeader   ( partHeader& header );
+    xml2lilypondvisitor( translationSwitches& sw );
+    virtual ~xml2lilypondvisitor() {}
+
+    Slilypondelement convert (const Sxmlelement& xml);
+
+    // this is to control exact positionning of elements 
+    // when information is present
+    // ie converts relative-x/-y into dx/dy attributes
+    void generatePositions (bool state) { fSwitches.fGeneratePositions = state; }
+
+    static void addPosition ( 
+      Sxmlelement elt, Slilypondelement& cmd, int yoffset);
   
   protected:
 
@@ -112,22 +100,26 @@ class EXP xml2lilypondvisitor :
     virtual void visitStart( S_part_name& elt);
     virtual void visitStart( S_part& elt);
 
-    Slilypondelement& scoreStackTop ();
-
-  public:
+  private:
+  
+    // the translation switches
+    translationSwitches fSwitches;
     
-    xml2lilypondvisitor( translationSwitches& sw );
-    virtual ~xml2lilypondvisitor() {}
-
-    Slilypondelement convert (const Sxmlelement& xml);
-
-    // this is to control exact positionning of elements 
-    // when information is present
-    // ie converts relative-x/-y into dx/dy attributes
-    void generatePositions (bool state) { fSwitches.fGeneratePositions = state; }
-
-    static void addPosition ( 
-      Sxmlelement elt, Slilypondelement& cmd, int yoffset);
+    // the implicit sequence containing all the generated code
+    Slilypondseq     fLilypondseq; 
+    
+    // the header, paper and layout blocks to be generated
+    Slilypondheader  fLilypondheader;
+    Slilypondpaper   fLilypondpaper;
+    Slilypondlayout  fLilypondlayout;
+    
+    // the parts
+    lilypondpartsmap fLilypondpartsMap;
+    
+    std::string      fCurrentPartID;
+    int              fCurrentStaffIndex;   // the index of the current lilypond staff
+  
+    void addElementToSequence (Slilypondelement& elt);
 };
 
 
