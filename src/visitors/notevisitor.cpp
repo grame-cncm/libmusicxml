@@ -166,6 +166,17 @@ void notevisitor::print (ostream& out) const
 		if (getDynamics() >= 0) out << "dynamics " << getDynamics();
 }
 
+    
+    //________________________________________________________________________
+    void notevisitor::visitStart ( S_lyric& elt )
+    {
+        fLyric.push_back (elt);
+        // get attributes
+        float posy = elt->getAttributeFloatValue("default-y", 0) + elt->getAttributeFloatValue("relative-y", 0);
+        fLyricsDy = (posy / 10) * 2;   // convert to half spaces
+        fLyricsDy += 8;		  // anchor point convertion (defaults to upper line in xml)        
+    }
+    
 //________________________________________________________________________
 void notevisitor::visitStart ( S_note& elt )
 {

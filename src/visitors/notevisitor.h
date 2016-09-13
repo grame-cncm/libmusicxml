@@ -123,6 +123,7 @@ class EXP notevisitor :
         virtual const std::vector<S_lyric>&	getLyric() const	{ return fLyric; }
         virtual const std::string&  getSyllabic() const		{ return fSyllabic; }
         virtual const std::string&  getLyricText() const		{ return fLyricText; }
+        virtual const float&  getLyricDy() const		{ return fLyricsDy; }
 
         static int			step2i(const std::string& step);
 		static std::string	i2step(int i);
@@ -163,7 +164,7 @@ class EXP notevisitor :
 		virtual void visitStart( S_type& elt )			{ if (fInNote) fGraphicType = elt->getValue(); }
 		virtual void visitStart( S_unpitched& elt )		{ if (fInNote) fType = kUnpitched; }
 		virtual void visitStart( S_voice& elt )			{ fVoice = int(*elt); }
-        virtual void visitStart( S_lyric& elt )			{ fLyric.push_back (elt); }
+    virtual void visitStart( S_lyric& elt );
         virtual void visitStart( S_syllabic& elt )		{ fSyllabic = elt->getValue(); }
         virtual void visitStart( S_text& elt )		{ fLyricText = elt->getValue(); }
 
@@ -187,6 +188,7 @@ class EXP notevisitor :
 		std::vector<S_lyric>	fLyric;
         std::string fSyllabic;
         std::string fLyricText;
+        float fLyricsDy;
 };
 
 EXP std::ostream& operator<< (std::ostream& os, const notevisitor& elt);

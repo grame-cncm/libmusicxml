@@ -327,9 +327,7 @@ void xmlpart2guido::visitStart ( S_direction& elt )
         string font_size = elt->getAttributeValue("font-size");
         string font_weight = elt->getAttributeValue("font-weight");
         string font_style = elt->getAttributeValue("font-style");
-        
-        cout<<"Got rehearsal "<<rehearsalValue<<" on measure "<<fMeasNum <<endl;
-        
+                
         /// NOTE:
         /*
             We should ideally use the MARK tag of Guido. However MARK does not have
@@ -341,15 +339,23 @@ void xmlpart2guido::visitStart ( S_direction& elt )
         if (rehearsalValue.size())
         {
             //// Using MARK tag:
-            /*Sguidoelement tag = guidotag::create("mark");
-            tag->add (guidoparam::create(rehearsalValue.c_str(), false));
-            add(tag);*/
+            Sguidoelement tag = guidotag::create("mark");
+            if (enclosure.size())
+            {
+                rehearsalValue += ", enclosure=\""+enclosure+"\"";
+            }else
+            {
+                // declare rectangle by default
+                rehearsalValue += ", enclosure=\"rectangle\"";
+            }
+            if (font_size.size())
+                rehearsalValue += ", fsize="+font_size+"pt";
             
+            tag->add (guidoparam::create(rehearsalValue.c_str(), false));
+            xml2guidovisitor::addPosition(elt, tag, -2, -4);
             
             //// Using TEXT tag:
-            if (font_size.size())
-                wordParams += ",fsize="+font_size+"pt";
-            
+            /*
             // Add font styles
             string fattrib;
             if (font_weight=="bold")
@@ -357,12 +363,11 @@ void xmlpart2guido::visitStart ( S_direction& elt )
             if (font_style=="italic")
                 fattrib +="i";
             if (fattrib.size())
-                wordParams += ",fattrib=\""+fattrib+"\"";
-            
-            
+                rehearsalValue += ",fattrib=\""+fattrib+"\"";
             Sguidoelement tag = guidotag::create("text");
             tag->add (guidoparam::create(rehearsalValue.c_str(), false));
-            xml2guidovisitor::addPosition(elt, tag, 11);
+             xml2guidovisitor::addPosition(elt, tag, 11);
+            */
             add (tag);
             
             // add an additional SPACE<0> tag in case
@@ -471,6 +476,7 @@ void xmlpart2guido::visitStart ( S_wedge& elt )
 		tag = guidotag::create(fCrescPending ? "crescEnd" : "dimEnd");
 	}
 	if (tag) {
+        xml2guidovisitor::addPosition(elt, tag, 18);
 		if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
 		else add (tag);
 	}
@@ -851,16 +857,17 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
 
     void xmlpart2guido::checkLyricBegin	 ( const std::vector<S_lyric>& lyrics )
     {
-        // sample: \lyrics<"Jude  don't take it",-6>(\tieBegin a0/2 \beam( a/8 \tieEnd a c1 d)) \bar
-        
         if (notevisitor::getSyllabic()== "single")
         {
             Sguidoelement tag = guidotag::create("lyrics");
-            // replaces Spaces in text by '~' to avoid event progression!
+            /// replaces Spaces in text by '~' to avoid event progression!
             std::string newTxt = notevisitor::getLyricText();
             std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
             tag->add (guidoparam::create(newTxt, true));
-            tag->add (guidoparam::create(-5, false));
+            
+            /// Adjust Y-Position by infering from XML
+            tag->add (guidoparam::create(notevisitor::getLyricDy(), false));
+
             push (tag);
 
             fHasLyrics = true;
@@ -880,7 +887,7 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
                 newTxt.append("-");
             }
             tag->add (guidoparam::create(newTxt, true));
-            tag->add (guidoparam::create(-5, false));
+            tag->add (guidoparam::create(notevisitor::getLyricDy(), false));
             push (tag);
             
             fHasLyrics = true;
@@ -1020,21 +1027,25 @@ int xmlpart2guido::checkArticulation ( const notevisitor& note )
 	Sguidoelement tag;
 	if (note.fAccent) {
 		tag = guidotag::create("accent");
+        //if (fGeneratePositions) xml2guidovisitor::addPosition(note.fAccent, tag, 0);
 		push(tag);
 		n++;
 	}
 	if (note.fStrongAccent) {
 		tag = guidotag::create("marcato");
+        //if (fGeneratePositions) xml2guidovisitor::addPosition(note.fStrongAccent, tag, 0);
 		push(tag);
 		n++;
 	}
 	if (note.fStaccato) {
 		tag = guidotag::create("stacc");
+        //if (fGeneratePositions) xml2guidovisitor::addPosition(note.fStaccato, tag, 0);
 		push(tag);
 		n++;
 	}
 	if (note.fTenuto) {
 		tag = guidotag::create("ten");
+        if (fGeneratePositions) xml2guidovisitor::addPosition(note.fTenuto, tag, 0);
 		push(tag);
 		n++;
 	}
@@ -1150,8 +1161,12 @@ void xmlpart2guido::newNote ( const notevisitor& nv )
 	string accident = alter2accident(nv.getAlter());
 	string name = noteName(nv);
 	guidonoteduration dur = noteDuration(nv);
+    //int artPops=0;
+    //if (!nv.inChord())
+    //    artPops = checkArticulation(nv);     // Add articulation ONLY on the first Note of a chord
 	Sguidoelement note = guidonote::create(fTargetVoice, name, octave, dur, accident);
 	add (note);
+    //while (artPops--) pop();
 
 	checkTiedEnd (nv.getTied());
 }

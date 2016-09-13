@@ -33,7 +33,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar) :
 	fGenerateComments(generateComments), fGenerateStem(generateStem),
-	fGenerateBars(generateBar), fGeneratePositions(false),
+	fGenerateBars(generateBar), fGeneratePositions(true),
 	fCurrentStaffIndex(0), previousStaffHasLyrics(false)
 {}
 
@@ -197,6 +197,40 @@ void xml2guidovisitor::addPosition	( Sxmlelement elt, Sguidoelement& tag, int yo
 		tag->add (guidoparam::create(s.str(), false));
 	}
 }
+    
+    //______________________________________________________________________________
+    void xml2guidovisitor::addPosition	( Sxmlelement elt, Sguidoelement& tag, int yoffset, int xoffset)
+    {
+        float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
+        if (posx) {
+            posx = (posx / 10) * 2;   // convert to half spaces
+            posx += xoffset;
+            stringstream s;
+            s << "dx=" << posx << "hs";
+            tag->add (guidoparam::create(s.str(), false));
+        }
+        float posy = elt->getAttributeFloatValue("default-y", 0) + elt->getAttributeFloatValue("relative-y", 0);
+        if (posy) {
+            posy = (posy / 10) * 2;   // convert to half spaces
+            posy += yoffset;		  // anchor point convertion (defaults to upper line in xml)
+            stringstream s;
+            s << "dy=" << posy << "hs";
+            tag->add (guidoparam::create(s.str(), false));
+        }
+    }
+    
+    //______________________________________________________________________________
+    void xml2guidovisitor::addPosY	( Sxmlelement elt, Sguidoelement& tag, int yoffset)
+    {
+        float posy = elt->getAttributeFloatValue("default-y", 0) + elt->getAttributeFloatValue("relative-y", 0);
+        if (posy) {
+            posy = (posy / 10) * 2;   // convert to half spaces
+            posy += yoffset;		  // anchor point convertion (defaults to upper line in xml)
+            stringstream s;
+            s << "dy=" << posy << "hs";
+            tag->add (guidoparam::create(s.str(), false));
+        }
+    }
 
 }
 

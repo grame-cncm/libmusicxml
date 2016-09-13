@@ -96,7 +96,9 @@ class EXP xml2guidovisitor :
 		// ie converts relative-x/-y into dx/dy attributes
 		void generatePositions (bool state)		{ fGeneratePositions = state; }
 
-	static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, int yoffset);
+    static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, int yoffset);
+	static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, int yoffset, int xoffset);
+    static void addPosY	( Sxmlelement elt, Sguidoelement& tag, int yoffset);
 };
 
 
