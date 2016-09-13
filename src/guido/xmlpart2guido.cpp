@@ -520,7 +520,7 @@ void xmlpart2guido::visitStart( S_dynamics& elt)
 		if ((*iter)->getType() != k_other_dynamics) {
 			Sguidoelement tag = guidotag::create("intens");
 			tag->add (guidoparam::create((*iter)->getName()));
-			if (fGeneratePositions) xml2guidovisitor::addPosition(elt, tag, 12);
+			if (fGeneratePositions) xml2guidovisitor::addPosY(elt, tag, 12);
 			if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
 			else add (tag);
 		}
@@ -1051,6 +1051,59 @@ int xmlpart2guido::checkArticulation ( const notevisitor& note )
 	}
 	return n;
 }
+    
+    Sguidoelement xmlpart2guido::createArticulatedNote( const notevisitor& note )
+    {
+        int n = 0;
+        Sguidoelement tag;
+        
+        int octave = note.getOctave() - 3;			// octave offset between MusicXML and GUIDO is -3
+        string accident = alter2accident(note.getAlter());
+        string name = noteName(note);
+        guidonoteduration dur = noteDuration(note);
+        
+        Sguidoelement thisnote = guidonote::create(fTargetVoice, name, octave, dur, accident);
+        
+        if (!note.inChord())
+        {
+            
+            if (note.fAccent) {
+                tag = guidotag::create("accent");
+                if (fGeneratePositions) xml2guidovisitor::addPosY(note.fAccent, tag, 0);
+                n++;
+            }
+            if (note.fStrongAccent) {
+                tag = guidotag::create("marcato");
+                if (fGeneratePositions) xml2guidovisitor::addPosY(note.fStrongAccent, tag, 0);
+                n++;
+            }
+            if (note.fStaccato) {
+                tag = guidotag::create("stacc");
+                if (fGeneratePositions) xml2guidovisitor::addPosY(note.fStaccato, tag, 5);
+                n++;
+            }
+            if (note.fTenuto) {
+                tag = guidotag::create("ten");
+                if (fGeneratePositions) xml2guidovisitor::addPosY(note.fTenuto, tag, 6);
+                n++;
+            }
+            
+            // If we are processing chord, then the Sguidoelement separater should be ","
+            if (isProcessingChord)
+            {
+                tag->setEnd("),");
+            }
+            
+            // embed note inside the articulation tag
+            if (n)
+                tag->add(thisnote);
+        }
+        
+        if (n)
+            return tag;
+        else
+            return thisnote;
+    }
 
 //______________________________________________________________________________
 vector<Sxmlelement> xmlpart2guido::getChord ( const S_note& elt ) 
@@ -1161,13 +1214,17 @@ void xmlpart2guido::newNote ( const notevisitor& nv )
 	string accident = alter2accident(nv.getAlter());
 	string name = noteName(nv);
 	guidonoteduration dur = noteDuration(nv);
-    //int artPops=0;
-    //if (!nv.inChord())
-    //    artPops = checkArticulation(nv);     // Add articulation ONLY on the first Note of a chord
-	Sguidoelement note = guidonote::create(fTargetVoice, name, octave, dur, accident);
+    
+    Sguidoelement note;
+    if (!nv.inChord())
+    {
+        note = createArticulatedNote(nv);
+    }else
+    {
+        note = guidonote::create(fTargetVoice, name, octave, dur, accident);
+    }
+    //Sguidoelement note = guidonote::create(fTargetVoice, name, octave, dur, accident);
 	add (note);
-    //while (artPops--) pop();
-
 	checkTiedEnd (nv.getTied());
 }
 
@@ -1177,6 +1234,8 @@ void xmlpart2guido::visitEnd ( S_note& elt )
 	notevisitor::visitEnd ( elt );
 
 	if (inChord()) return;					// chord notes have already been handled
+    
+    isProcessingChord = false;
 
 	bool scanVoice = (notevisitor::getVoice() == fTargetVoice);
 	if (!isGrace()) {
@@ -1198,13 +1257,14 @@ void xmlpart2guido::visitEnd ( S_note& elt )
     checkLyricBegin (notevisitor::getLyric());
 	
 	int pendingPops  = checkFermata(*this);
-	pendingPops += checkArticulation(*this);
+	//pendingPops += checkArticulation(*this);
 
 	vector<Sxmlelement> chord = getChord(elt);
 	if (chord.size()) {
 		Sguidoelement chord = guidochord::create();
 		push (chord);
 		pendingPops++;
+        isProcessingChord = true;
 	}
 	newNote (*this);
 	for (vector<Sxmlelement>::const_iterator iter = chord.begin(); iter != chord.end(); iter++) {
@@ -1214,7 +1274,8 @@ void xmlpart2guido::visitEnd ( S_note& elt )
 		browser.browse(*note);
 		checkStaff(nv.getStaff());
 		newNote (nv);		
-	} 
+	}
+    isProcessingChord = false;
 	while (pendingPops--) pop();
 	
 	checkBeamEnd (notevisitor::getBeam());

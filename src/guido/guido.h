@@ -82,6 +82,7 @@ class EXP guidoelement : public smartable {
 		std::string 	getStart () const				{ return fStartList; }
 		std::string 	getEnd () const					{ return fEndList; }
 		std::string 	getSep () const					{ return fSep; }
+        void            setEnd (std::string end) 		{ fEndList=end; }
         std::vector<Sguidoelement>& elements()		{ return fElements; }
 		const std::vector<Sguidoelement>& elements() const 	{ return fElements; }
         const std::vector<Sguidoparam>& parameters() const 	{ return fParams; }
@@ -240,6 +241,7 @@ typedef SMARTP<guidochord> Sguidochord;
 class EXP guidotag : public guidoelement {
 	public:
         static SMARTP<guidotag> create(std::string name);
+
 	protected:
 		guidotag(std::string name);
 		virtual ~guidotag();

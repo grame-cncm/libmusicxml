@@ -85,6 +85,8 @@ class EXP xmlpart2guido :
     S_words wordPointer;
     
     Sguidoelement fLyricOpened;
+    
+    bool isProcessingChord;
 	
 	S_measure	fCurrentMeasure;  
 
@@ -119,6 +121,8 @@ class EXP xmlpart2guido :
 	void stackClean	();
 
 	int  checkArticulation ( const notevisitor& note );			// returns the count of articulations pushed on the stack
+    Sguidoelement createArticulatedNote ( const notevisitor& note );
+    
 	std::vector<Sxmlelement>  getChord ( const S_note& note );	// build a chord vector
 	void checkStaff		 (int staff );					// check for staff change
 	void checkStem		 ( const S_stem& stem );
