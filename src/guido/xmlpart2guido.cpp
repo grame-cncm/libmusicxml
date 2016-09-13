@@ -1088,15 +1088,16 @@ int xmlpart2guido::checkArticulation ( const notevisitor& note )
                 n++;
             }
             
-            // If we are processing chord, then the Sguidoelement separater should be ","
-            if (isProcessingChord)
-            {
-                tag->setEnd("),");
-            }
-            
-            // embed note inside the articulation tag
             if (n)
+            {
+                // If we are processing chord, then the Sguidoelement separater should be ","
+                if (isProcessingChord)
+                {
+                    tag->setEnd("),");
+                }
+                // embed note inside the articulation tag
                 tag->add(thisnote);
+            }
         }
         
         if (n)
