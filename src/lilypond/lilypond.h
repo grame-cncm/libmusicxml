@@ -365,12 +365,14 @@ class EXP lilypondvariablevalueassociation : public lilypondelement {
   public:
 
     enum VarValSeparator   { kSpace, kEqualSign };
+    enum QuotesKind        { kQuotesAroundValue, kNoQuotesAroundValue };
     enum CommentedKind     { kCommented, kUncommented };
 
     static SMARTP<lilypondvariablevalueassociation> create(
               std::string     variableName,
               std::string     value, 
               VarValSeparator varValSeparator,
+              QuotesKind      quotesKind,
               CommentedKind   commentKind );
     
     void    changeAssociation (std::string value);
@@ -385,6 +387,7 @@ class EXP lilypondvariablevalueassociation : public lilypondelement {
               std::string     variableName,
               std::string     value, 
               VarValSeparator varValSeparator,
+              QuotesKind      quotesKind,
               CommentedKind   commentedKind );
     virtual ~lilypondvariablevalueassociation();
   
@@ -393,6 +396,7 @@ class EXP lilypondvariablevalueassociation : public lilypondelement {
     std::string     fVariableName;
     std::string     fVariableValue;
     VarValSeparator fVarValSeparator;
+    QuotesKind      fQuotesKind;
     CommentedKind   fCommentedKind;
 };
 typedef SMARTP<lilypondvariablevalueassociation> Slilypondvariablevalueassociation;
@@ -666,6 +670,33 @@ class EXP lilypondbarline : public lilypondelement {
     int fNextBarNumber;
 };
 typedef SMARTP<lilypondbarline> Slilypondbarline;
+
+/*!
+\brief A lilypond comment representation.
+
+  A comment is represented by its contents
+*/
+//______________________________________________________________________________
+class EXP lilypondcomment : public lilypondelement {
+  public:
+    
+    enum GapKind { kGapAfterwards, kNoGapAfterwards };
+
+    static SMARTP<lilypondcomment> create(std::string contents, GapKind gapKind = kNoGapAfterwards);
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondcomment(std::string contents, GapKind gapKind = kNoGapAfterwards);
+    virtual ~lilypondcomment();
+  
+  private:
+
+    std::string fContents;
+    GapKind     fGapKind;
+};
+typedef SMARTP<lilypondcomment> Slilypondcomment;
 
 /*!
 \brief A lilypond break representation.

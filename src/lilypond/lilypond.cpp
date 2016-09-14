@@ -519,6 +519,34 @@ void lilypondbarline::print(ostream& os)
 }
 
 //______________________________________________________________________________
+Slilypondcomment lilypondcomment::create(std::string contents, GapKind gapKind)
+{
+  lilypondcomment* o = new lilypondcomment(contents, gapKind); assert(o!=0);
+  return o;
+}
+
+lilypondcomment::lilypondcomment(std::string contents, GapKind gapKind)
+  : lilypondelement("")
+{
+  fContents=contents;
+  fGapKind=gapKind;
+}
+lilypondcomment::~lilypondcomment() {}
+
+ostream& operator<< (ostream& os, const Slilypondcomment& elt)
+{
+  elt->print(os);
+  return os;
+}
+void lilypondcomment::print(ostream& os)
+{
+  hdl++;
+  os << "% " << fContents;
+  if (fGapKind == kGapAfterwards) os << hdl;
+  hdl--;
+}
+
+//______________________________________________________________________________
 Slilypondbreak lilypondbreak::create(int nextBarNumber)
 {
   lilypondbreak* o = new lilypondbreak(nextBarNumber); assert(o!=0);
@@ -538,8 +566,10 @@ ostream& operator<< (ostream& os, const Slilypondbreak& elt)
 }
 void lilypondbreak::print(ostream& os)
 {
-  os << "\\myBreak | % " << fNextBarNumber << std::endl <<
-  "\\barNumberCheck #" << fNextBarNumber << std::endl;
+  hdl++;
+  os << "\\myBreak | % " << fNextBarNumber << hdl;
+  hdl--;
+  os << "\\barNumberCheck #" << fNextBarNumber << hdl;
 }
 
 //______________________________________________________________________________
@@ -797,10 +827,11 @@ Slilypondvariablevalueassociation lilypondvariablevalueassociation::create(
       std::string     variableName,
       std::string     value, 
       VarValSeparator varValSeparator,
+      QuotesKind      quotesKind,
       CommentedKind   commentedKind )
 {
   lilypondvariablevalueassociation* o = new lilypondvariablevalueassociation(
-    variableName, value, varValSeparator, commentedKind);
+    variableName, value, varValSeparator, quotesKind, commentedKind);
   assert(o!=0);
   return o;
 }
@@ -809,12 +840,14 @@ lilypondvariablevalueassociation::lilypondvariablevalueassociation(
       std::string     variableName,
       std::string     value, 
       VarValSeparator varValSeparator,
+      QuotesKind      quotesKind,
       CommentedKind   commentedKind )
   : lilypondelement("")
 {
   fVariableName=variableName;
   fVariableValue=value;
   fVarValSeparator=varValSeparator;
+  fQuotesKind=quotesKind;
   fCommentedKind=commentedKind;
 }
 
@@ -831,7 +864,10 @@ void lilypondvariablevalueassociation::print(ostream& os)
   os << fVariableName;
   if (fVarValSeparator == kEqualSign) os << " = ";
   else os << " ";
-  os << "\"" << fVariableValue << "\"" << std::endl;
+  if (fQuotesKind == kQuotesAroundValue) os << "\"";
+  os << fVariableValue;
+  if (fQuotesKind == kQuotesAroundValue) os << "\"";
+  os << std::endl;
 }
 
 //______________________________________________________________________________

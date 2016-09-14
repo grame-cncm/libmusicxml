@@ -69,9 +69,13 @@ void xml2lilypondvisitor::addPreamble () {
         lilypondvariablevalueassociation:: create(
           "\\version", "2.19",
           lilypondvariablevalueassociation::kSpace,
+          lilypondvariablevalueassociation::kQuotesAroundValue,
           lilypondvariablevalueassociation::kUncommented);
   fLilypondseq->addElementToSequence (vva1);
 
+  Slilypondcomment com = lilypondcomment::create("uncomment the following to keep original scores global size");
+  fLilypondseq->addElementToSequence (com);
+  
   Slilypondschemevariablevalueassociation svva1 =
         lilypondschemevariablevalueassociation:: create(
           "set-global-staff-size", "26",
@@ -79,6 +83,27 @@ void xml2lilypondvisitor::addPreamble () {
   fLilypondseq->addElementToSequence (svva1);
 }
 void xml2lilypondvisitor::addPostamble () {
+  Slilypondcomment com1 = lilypondcomment::create("choose \\break below to keep the original line breaks");
+  fLilypondseq->addElementToSequence (com1);
+
+  Slilypondvariablevalueassociation vva1 =
+        lilypondvariablevalueassociation:: create(
+          "myBreak", "{ \\break }",
+          lilypondvariablevalueassociation::kEqualSign,
+          lilypondvariablevalueassociation::kNoQuotesAroundValue,
+          lilypondvariablevalueassociation::kCommented);
+  fLilypondseq->addElementToSequence (vva1);
+
+  Slilypondcomment com2 = lilypondcomment::create("choose {} below to let lilypond determine where to break lines");
+  fLilypondseq->addElementToSequence (com2);
+
+  Slilypondvariablevalueassociation vva2 =
+        lilypondvariablevalueassociation:: create(
+          "myBreak", "{}",
+          lilypondvariablevalueassociation::kEqualSign,
+          lilypondvariablevalueassociation::kNoQuotesAroundValue,
+          lilypondvariablevalueassociation::kUncommented);
+  fLilypondseq->addElementToSequence (vva2);
 }
 
 //______________________________________________________________________________
