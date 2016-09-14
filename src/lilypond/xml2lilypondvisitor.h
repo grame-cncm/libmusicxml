@@ -120,6 +120,9 @@ class EXP xml2lilypondvisitor :
     int              fCurrentStaffIndex;   // the index of the current lilypond staff
   
     void addElementToSequence (Slilypondelement& elt);
+    
+    void addPreamble ();
+    void addPostamble ();
 };
 
 

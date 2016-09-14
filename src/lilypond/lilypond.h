@@ -25,6 +25,11 @@
 namespace MusicXML2 
 {
 
+/*!
+\addtogroup lilypond
+@{
+*/
+
 class lilypondvisitor;
 
 class lilypondparam;
@@ -42,11 +47,32 @@ EXP std::ostream& operator<< (std::ostream& os, const Slilypondelement& elt);
 //EXP std::ostream& operator<< (std::ostream& os, const Slilypondpart& elt);
 //EXP std::ostream& operator<< (std::ostream& os, const Slilypondlyrics& elt);
 
+//______________________________________________________________________________
 /*!
-\addtogroup lilypond
-@{
+\internal
+\brief To be used in place of std::endl
+  to provide easy indentation of text output.
+  The name is a pun on endl...
 */
+class haendel {
+  public:
 
+    haendel(std::string spcr = "  ") : fIndent(0), fSpacer(spcr) {}
+    virtual ~haendel() {}
+
+    //! increase the indentation
+    haendel& operator++ (int)  { fIndent++; return *this; }
+    //! decrease the indentation
+    haendel& operator-- (int)  { fIndent--; return *this; }
+    //! reset the indentation to none
+    void print(std::ostream& os) const;
+
+  private:
+
+    int         fIndent;
+    std::string fSpacer;
+};
+std::ostream& operator<< (std::ostream& os, const haendel& eol);
 
 /*!
 \brief A lilypondcmd parameter representation.
@@ -115,6 +141,8 @@ class EXP lilypondelement : public smartable {
 
   protected:
  
+    static haendel hdl;
+    
     lilypondelement(std::string name, std::string sep=" ");
     virtual ~lilypondelement();
 
@@ -265,7 +293,9 @@ class EXP lilypondnotestatus {
 class EXP lilypondseq : public lilypondelement {
   public:
     
-    static SMARTP<lilypondseq> create();
+    enum ElementsSeparator { kEndOfLine, kSpace };
+
+    static SMARTP<lilypondseq> create(ElementsSeparator elementsSeparator);
 
     void addElementToSequence (Slilypondelement elem) { fSequenceElements.push_back(elem); }
 
@@ -273,12 +303,13 @@ class EXP lilypondseq : public lilypondelement {
 
   protected:
 
-    lilypondseq();
+    lilypondseq(ElementsSeparator elementsSeparator);
     virtual ~lilypondseq();
     
   private:
   
     std::vector<Slilypondelement> fSequenceElements;
+    ElementsSeparator             fElementsSeparator;
 
 };
 typedef SMARTP<lilypondseq> Slilypondseq;
@@ -325,6 +356,149 @@ class EXP lilypondcmd : public lilypondelement {
     virtual ~lilypondcmd();
 };
 typedef SMARTP<lilypondcmd> Slilypondcmd;
+
+/*!
+\brief A lilypond variable/value association representation.
+*/
+//______________________________________________________________________________
+class EXP lilypondvariablevalueassociation : public lilypondelement {
+  public:
+
+    enum VarValSeparator   { kSpace, kEqualSign };
+    enum CommentedKind     { kCommented, kUncommented };
+
+    static SMARTP<lilypondvariablevalueassociation> create(
+              std::string     variableName,
+              std::string     value, 
+              VarValSeparator varValSeparator,
+              CommentedKind   commentKind );
+    
+    void    changeAssociation (std::string value);
+    
+    std::string getVariableValue () const { return fVariableValue; };
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondvariablevalueassociation(
+              std::string     variableName,
+              std::string     value, 
+              VarValSeparator varValSeparator,
+              CommentedKind   commentedKind );
+    virtual ~lilypondvariablevalueassociation();
+  
+  private:
+
+    std::string     fVariableName;
+    std::string     fVariableValue;
+    VarValSeparator fVarValSeparator;
+    CommentedKind   fCommentedKind;
+};
+typedef SMARTP<lilypondvariablevalueassociation> Slilypondvariablevalueassociation;
+
+/*!
+\brief A lilypond Scheme variable/value association representation.
+*/
+//______________________________________________________________________________
+class EXP lilypondschemevariablevalueassociation : public lilypondelement {
+  public:
+
+    enum CommentedKind     { kCommented, kUncommented };
+
+    static SMARTP<lilypondschemevariablevalueassociation> create(
+              std::string     variableName,
+              std::string     value, 
+              CommentedKind   commentKind );
+    
+    void    changeAssociation (std::string value);
+    
+    std::string getVariableValue () const { return fVariableValue; };
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondschemevariablevalueassociation(
+              std::string     variableName,
+              std::string     value, 
+              CommentedKind   commentedKind );
+    virtual ~lilypondschemevariablevalueassociation();
+  
+  private:
+
+    std::string     fVariableName;
+    std::string     fVariableValue;
+    CommentedKind   fCommentedKind;
+};
+typedef SMARTP<lilypondschemevariablevalueassociation> Slilypondschemevariablevalueassociation;
+
+/*!
+\brief A lilypond global settings representation.
+
+  A global setting is represented by a variable/value association
+*/
+//______________________________________________________________________________
+class EXP lilypondglobalsettings : public lilypondelement {
+  public:
+
+    enum VarValSeparator { kSpace, kEqualSign };
+
+    static SMARTP<lilypondglobalsettings> create(VarValSeparator varValSeparator);
+    
+    void    setAssociation    (std::string var, std::string val);
+    void    changeAssociation (std::string var, std::string val);
+    
+    std::map<std::string, std::string>
+            getAssociations () const { return fAssociations; };
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondglobalsettings(VarValSeparator varValSeparator);
+    virtual ~lilypondglobalsettings();
+  
+  private:
+
+    std::map<std::string, std::string> fAssociations;
+    VarValSeparator                    fVarValSeparator;
+ 
+};
+typedef SMARTP<lilypondglobalsettings> Slilypondglobalsettings;
+
+/*!
+\brief A lilypond Scheme global settings representation.
+
+  A Scheme global setting is represented by a variable/value association
+*/
+//______________________________________________________________________________
+class EXP lilypondschemeglobalsettings : public lilypondelement {
+  public:
+
+    enum VarValSeparator { kSpace, kEqualSign };
+
+    static SMARTP<lilypondschemeglobalsettings> create();
+    
+    void    setAssociation    (std::string var, std::string val);
+    void    changeAssociation (std::string var, std::string val);
+    
+    std::map<std::string, std::string>
+            getAssociations () const { return fAssociations; };
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondschemeglobalsettings();
+    virtual ~lilypondschemeglobalsettings();
+  
+  private:
+
+    std::map<std::string, std::string> fAssociations;
+ 
+};
+typedef SMARTP<lilypondschemeglobalsettings> Slilypondschemeglobalsettings;
 
 /*!
 \brief A lilypond header representation.
@@ -433,8 +607,6 @@ class EXP lilypondlayout : public lilypondelement {
     virtual ~lilypondlayout();
   
   private:
-
- 
 };
 typedef SMARTP<lilypondlayout> Slilypondlayout;
 
@@ -470,6 +642,54 @@ class EXP lilypondpart : public lilypondelement {
 };
 typedef SMARTP<lilypondpart> Slilypondpart;
 typedef std::map<std::string, Slilypondpart> lilypondpartsmap;
+
+/*!
+\brief A lilypond barline representation.
+
+  A barline is represented by the number of the next bar
+*/
+//______________________________________________________________________________
+class EXP lilypondbarline : public lilypondelement {
+  public:
+    
+    static SMARTP<lilypondbarline> create(int nextBarNumber);
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondbarline(int nextBarNumber);
+    virtual ~lilypondbarline();
+  
+  private:
+
+    int fNextBarNumber;
+};
+typedef SMARTP<lilypondbarline> Slilypondbarline;
+
+/*!
+\brief A lilypond break representation.
+
+  A break is represented by the number of the next bar
+*/
+//______________________________________________________________________________
+class EXP lilypondbreak : public lilypondelement {
+  public:
+    
+    static SMARTP<lilypondbreak> create(int nextBarNumber);
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondbreak(int nextBarNumber);
+    virtual ~lilypondbreak();
+  
+  private:
+
+    int fNextBarNumber;
+};
+typedef SMARTP<lilypondbreak> Slilypondbreak;
 
 /*!
 \brief A lilypond wedge representation.
@@ -524,6 +744,83 @@ class EXP lilypondlyrics : public lilypondelement {
     std::string fName, fContents;
 };
 typedef SMARTP<lilypondlyrics> Slilypondlyrics;
+
+
+
+/*!
+\brief A lilypond time representation.
+
+  A time is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP lilypondtime : public lilypondelement {
+  public:
+    
+    static SMARTP<lilypondtime> create(int numerator, int denominator);
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondtime(int numerator, int denominator);
+    virtual ~lilypondtime();
+  
+  private:
+
+    int fNumerator, fDenominator;
+};
+typedef SMARTP<lilypondtime> Slilypondtime;
+
+/*!
+\brief A lilypond clef representation.
+
+  A clef is represented by its name
+*/
+//______________________________________________________________________________
+class EXP lilypondclef : public lilypondelement {
+  public:
+    
+    static SMARTP<lilypondclef> create(std::string clefName);
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondclef(std::string clefName);
+    virtual ~lilypondclef();
+  
+  private:
+
+    std::string fClefName;
+};
+typedef SMARTP<lilypondclef> Slilypondclef;
+
+/*!
+\brief A lilypond key representation.
+
+  A key is represented by the tonic and major/minor
+*/
+//______________________________________________________________________________
+class EXP lilypondkey : public lilypondelement {
+  public:
+    
+    enum KeyMode { kMajor, kMinor };
+
+    static SMARTP<lilypondkey> create(std::string tonicNote, KeyMode keyMode);
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondkey(std::string tonicNote, KeyMode keyMode);
+    virtual ~lilypondkey();
+  
+  private:
+
+    std::string   fTonicNote;
+    KeyMode       fKeyMode;
+};
+typedef SMARTP<lilypondkey> Slilypondkey;
 
 
 /*! @} */

@@ -64,11 +64,31 @@ void xml2lilypondvisitor::addElementToSequence (Slilypondelement& elt) {
 }
 
 //______________________________________________________________________________
+void xml2lilypondvisitor::addPreamble () {
+  Slilypondvariablevalueassociation vva1 =
+        lilypondvariablevalueassociation:: create(
+          "\\version", "2.19",
+          lilypondvariablevalueassociation::kSpace,
+          lilypondvariablevalueassociation::kUncommented);
+  fLilypondseq->addElementToSequence (vva1);
+
+  Slilypondschemevariablevalueassociation svva1 =
+        lilypondschemevariablevalueassociation:: create(
+          "set-global-staff-size", "26",
+          lilypondschemevariablevalueassociation::kCommented);
+  fLilypondseq->addElementToSequence (svva1);
+}
+void xml2lilypondvisitor::addPostamble () {
+}
+
+//______________________________________________________________________________
 void xml2lilypondvisitor::visitStart ( S_score_partwise& elt )
 {
-  // create the implicit lilypondseq element
-  fLilypondseq = lilypondseq::create();
-  
+  // create the implicit lilypondseq element FIRST THING!
+  fLilypondseq = lilypondseq::create(lilypondseq::kEndOfLine);
+    
+  addPreamble ();
+
   // create the header element
   fLilypondheader = lilypondheader::create();
   fLilypondheader->setScorePartwise(elt);
@@ -87,6 +107,9 @@ void xml2lilypondvisitor::visitStart ( S_score_partwise& elt )
   // add it as the third lilypondseq element
   Slilypondelement layout = fLilypondlayout;
   fLilypondseq->addElementToSequence (layout);
+  
+  addPostamble ();
+
 }
 
 //______________________________________________________________________________
@@ -157,14 +180,19 @@ void xml2lilypondvisitor::visitStart ( S_score_part& elt )
 
 void xml2lilypondvisitor::visitStart ( S_part_name& elt )
   {
+    /* JMI
   std::string partName = elt->getAttributeValue("id");
  
-  Slilypondpart part = lilypondpart::create(partName, fSwitches.fGenerateAbsoluteCode);
-  
-  fLilypondpartsMap[fCurrentPartID] = part; 
-
+  // create the part description
+  Slilypondpart part = lilypondpart::create(partName+"BOF", fSwitches.fGenerateAbsoluteCode);
   Slilypondelement p = part;
+  
+  // register it
+  fLilypondpartsMap[fCurrentPartID] = part; 
+  
+  // add it to the lilypondelement sequence
   fLilypondseq->addElementToSequence (p);
+  */
 }
 
 void xml2lilypondvisitor::visitStart ( S_part& elt )
