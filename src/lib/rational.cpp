@@ -183,8 +183,8 @@ long int rational::gcd(long int a1, long int b1)
 {
     long int r;
 
-    long int a = ::abs(a1);
-    long int b = ::abs(b1);
+    long int a = std::abs(a1);
+    long int b = std::abs(b1);
 
     if (!(a == 0) || (b == 0)){
         while (b > 0){

@@ -70,7 +70,7 @@ void xmlvisitor::visitEnd ( Sxmlelement& elt )
 	if (!elt->empty()) {
 		if (elt->size()) {
 			fendl--;
-			cout << fendl;
+			fOut << fendl;
 		}
 		fOut << "</" << elt->getName() << ">";
 	}

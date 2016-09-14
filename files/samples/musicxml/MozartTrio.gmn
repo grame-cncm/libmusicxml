@@ -1,0 +1,101 @@
+(*
+  gmn code converted from 'MozartTrio.xml'
+  using libmusicxml v.3.1.1
+  and the embedded xml2guido converter v.2.1.0
+*)
+{ [ \staff<1> \title<"Menuetto (Excerpt from Second Trio)"> \composer<"Wolfgang Amadeus Mozart", dy=4hs> \instr<"clarinet in A", dx=-26hs, dy=-5hs> \systemFormat<"", dx=26hs> 
+   (* meas. 1 *)  \key<0> \meter<"3/4", autoBarlines="off"> \clef<"g2"> \intens<"p", dx=-2.8hs, dy=13.2hs> \stemsDown \slurBegin:1 \beam( c2/8 e) \bar 
+   (* meas. 2 *)  \beam( g e) c3/4 \slurEnd:1 \slurBegin:1 \beam( g2/8 e) \bar 
+   (* meas. 3 *)  \beam( d f) a/4 \slurEnd:1 \slurBegin:1 \beam( f/8 d) \bar 
+   (* meas. 4 *)  \beam( c b1 e2 d g f) \slurEnd:1 \bar 
+   (* meas. 5 *)  \slurBegin:1 d#/4 e \slurEnd:1 \slurBegin:1 \beam( c/8 e) \bar 
+   (* meas. 6 *)  \beam( g e) c3/4 \slurEnd:1 \slurBegin:1 \beam( g2/8 e) \bar 
+   (* meas. 7 *)  \beam( d f) a/4 \slurEnd:1 _ \bar 
+   (* meas. 8 *)  _*3/4 \bar 
+   (* meas. 9 *)  _/4 _ \stemsUp \slurBegin:1 \beam( d1/12 a0 f) \bar 
+   (* meas. 10 *)  \beam( a/8 \slurEnd:1 \stacc( d1) \stacc( f) \stacc( a) \stacc( d2) \stacc( f)) \bar 
+   (* meas. 11 *)  \stemsDown \slurBegin:1 \beam( a g f e f d) \slurEnd:1 \bar 
+   (* meas. 12 *)  \slurBegin:1 c/2 \beam( e/8 d) \slurEnd:1 \bar 
+   (* meas. 13 *)  c/4 _ \repeatEnd 
+   (* meas. 14 *)  \repeatBegin _ \bar 
+   (* meas. 15 *)  _*3/4 \bar 
+   (* meas. 16 *)  _ \bar 
+   (* meas. 17 *)  _ \bar 
+   (* meas. 18 *)  _/4 _ \slurBegin:1 g ]
+, [ \staff<2> \instr<"violino I", dx=-18hs, dy=-5hs> \systemFormat<"", dx=18hs> 
+   (* meas. 1 *)  \key<3> \meter<"3/4", autoBarlines="off"> \clef<"g2"> _ \bar 
+   (* meas. 2 *)  \intens<"p"> _ \stemsUp a a \bar 
+   (* meas. 3 *)  _ a a \bar 
+   (* meas. 4 *)  _ g# g# \bar 
+   (* meas. 5 *)  _ a a \bar 
+   (* meas. 6 *)  _ a a \bar 
+   (* meas. 7 *)  f# _ \stemsDown \slurBegin:1 \beam( c#2/8 a#1) \bar 
+   (* meas. 8 *)  \beam( b d2) f#/4 \slurEnd:1 \slurBegin:1 \beam( c#/8 a#1) \bar 
+   (* meas. 9 *)  \beam( b d2) f#/4 \slurEnd:1 _ \bar 
+   (* meas. 10 *)  _*3/4 \bar 
+   (* meas. 11 *)  _ \bar 
+   (* meas. 12 *)  \stemsUp \slurBegin:1 \beam( c#1/8 e c# e d e) \slurEnd:1 \bar 
+   (* meas. 13 *)  c#/4 _ \repeatEnd 
+   (* meas. 14 *)  \repeatBegin \slurBegin:1 \beam( e/8 g#) \bar 
+   (* meas. 15 *)  \beam( b g#) \stemsDown e2/4 \slurEnd:1 \stemsUp \slurBegin:1 \beam( e1/8 a) \bar 
+   (* meas. 16 *)  \stemsDown \beam( c#2 a1) e2/4 \slurEnd:1 \stemsUp \slurBegin:1 \beam( e1/8 b) \bar 
+   (* meas. 17 *)  \stemsDown \beam( d2 b1 e2 d c# a1) \slurEnd:1 \bar 
+   (* meas. 18 *)  \stemsUp \slurBegin:1 \beam( g# b) \stemsDown e2/4 \slurEnd:1 \stemsUp \slurBegin:1 \beam( e1/8 g#) ]
+, [ \staff<3> \instr<"violino II", dx=-20hs, dy=-5hs> \systemFormat<"", dx=20hs> 
+   (* meas. 1 *)  \key<3> \meter<"3/4", autoBarlines="off"> \clef<"g2"> _ \bar 
+   (* meas. 2 *)  \intens<"p"> _ \stemsUp e e \bar 
+   (* meas. 3 *)  _ f# f# \bar 
+   (* meas. 4 *)  _ d d \bar 
+   (* meas. 5 *)  _ c# c# \bar 
+   (* meas. 6 *)  _ e e \bar 
+   (* meas. 7 *)  d _ \slurBegin:1 g \bar 
+   (* meas. 8 *)  f#/2 g/4 \bar 
+   (* meas. 9 *)  f#/2 \slurEnd:1 _/4 \bar 
+   (* meas. 10 *)  _*3/4 \bar 
+   (* meas. 11 *)  _ \bar 
+   (* meas. 12 *)  \slurBegin:1 a0/2 g#/4 \slurEnd:1 \bar 
+   (* meas. 13 *)  a _ \repeatEnd 
+   (* meas. 14 *)  \repeatBegin _ \bar 
+   (* meas. 15 *)  \intens<"p"> { b, g#1 } { b0, g#1 } _ \bar 
+   (* meas. 16 *)  { a0, a1 } { a0, a1 } _ \bar 
+   (* meas. 17 *)  { g#, b } { g#, b } \stemsDown { a, c#2 } \bar 
+   (* meas. 18 *)  \stemsUp { g#1, b } { g#, b } _ ]
+, [ \staff<4> \instr<"viola", dx=-10hs, dy=-5hs> \systemFormat<"", dx=10hs> 
+   (* meas. 1 *)  \key<3> \meter<"3/4", autoBarlines="off"> \clef<"c3"> _ \bar 
+   (* meas. 2 *)  \intens<"p"> _ \stemsDown c# c# \bar 
+   (* meas. 3 *)  _ \stemsUp b0 b \bar 
+   (* meas. 4 *)  _ b b \bar 
+   (* meas. 5 *)  _ a a \bar 
+   (* meas. 6 *)  _ \stemsDown c#1 c# \bar 
+   (* meas. 7 *)  \stemsUp b0 _ \stemsDown \slurBegin:1 e1 \bar 
+   (* meas. 8 *)  d/2 e/4 \bar 
+   (* meas. 9 *)  d/2 \slurEnd:1 _/4 \bar 
+   (* meas. 10 *)  _*3/4 \bar 
+   (* meas. 11 *)  _ \bar 
+   (* meas. 12 *)  \stemsUp \tieBegin e0/2. \bar 
+   (* meas. 13 *)  e/4 \tieEnd _ \repeatEnd 
+   (* meas. 14 *)  \repeatBegin _ \bar 
+   (* meas. 15 *)  \intens<"p"> \stemsDown { d1, e } { d, e } _ \bar 
+   (* meas. 16 *)  { c#, e } { c#, e } _ \bar 
+   (* meas. 17 *)  e e e \bar 
+   (* meas. 18 *)  e e _ ]
+, [ \staff<5> \instr<"violoncello", dx=-22hs, dy=-5hs> \systemFormat<"", dx=22hs> 
+   (* meas. 1 *)  \key<3> \meter<"3/4", autoBarlines="off"> \clef<"f4"> _ \bar 
+   (* meas. 2 *)  \intens<"p", dy=13.6hs> \stemsDown a0 _ _ \bar 
+   (* meas. 3 *)  d _ _ \bar 
+   (* meas. 4 *)  e _ _ \bar 
+   (* meas. 5 *)  f# _ _ \bar 
+   (* meas. 6 *)  \stemsUp c# _ _ \bar 
+   (* meas. 7 *)  \stemsDown d _ _ \bar 
+   (* meas. 8 *)  _*3/4 \bar 
+   (* meas. 9 *)  _ \bar 
+   (* meas. 10 *)  _ \bar 
+   (* meas. 11 *)  _ \bar 
+   (* meas. 12 *)  \stemsUp \slurBegin:1 \stacc( e-1/4) \stacc( e) \stacc( e) \slurEnd:1 \bar 
+   (* meas. 13 *)  a _ \repeatEnd 
+   (* meas. 14 *)  \repeatBegin _ \bar 
+   (* meas. 15 *)  \intens<"p"> \stemsDown e0 e _ \bar 
+   (* meas. 16 *)  e e _ \bar 
+   (* meas. 17 *)  e e e \bar 
+   (* meas. 18 *)  e \stemsUp e-1 _ ]
+ }

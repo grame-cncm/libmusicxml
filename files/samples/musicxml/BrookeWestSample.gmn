@@ -1,0 +1,42 @@
+(*
+  gmn code converted from 'BrookeWestSample.xml'
+  using libmusicxml v.3.1.1
+  and the embedded xml2guido converter v.2.1.0
+*)
+{ [ \staff<1> \title<"West Point"> \composer<"Jonatha Brooke", dy=4hs> \instr<"Voice", dx=-10hs, dy=-5hs> \systemFormat<"", dx=10hs> 
+   (* meas. 1 *)  \key<6> \meter<"C", autoBarlines="off"> \clef<"g2"> _/1 \bar 
+   (* meas. 2 *)  _ \bar 
+   (* meas. 3 *)  _ \bar 
+   (* meas. 4 *)  _ \bar 
+   (* meas. 5 *)  _ \bar 
+   (* meas. 6 *)  _ \bar 
+   (* meas. 7 *)  _ \bar 
+   (* meas. 8 *)  _ \bar 
+   (* meas. 9 *)  _ \bar 
+   (* meas. 10 *)  _/2 _/4 \stemsUp \beam( f#/8 a#) \bar 
+   (* meas. 11 *)  \beam( g#/16 g#/8 g# g# \tieBegin g#/16) \beam( g# \tieEnd f#/8.) \beam( f#/8 a#) \bar 
+   (* meas. 12 *)  \beam( g#/8. \tieBegin f#/16) \beam( f#/8 \tieEnd \tieBegin e#) e#/4 \tieEnd _/8 \beam( d#/16 e#) \bar 
+   (* meas. 13 *)  \beam( f# e#/8 f# a#0 \tieBegin g#/16) \beam( g# \tieEnd f#/8.) _/8 \beam( d#1/16 e#) \bar 
+   (* meas. 14 *)  \beam( f# e#) _/8 d#/4 \beam( a#0/16 g#/8 f# b a#/16) \bar 
+   (* meas. 15 *)  a#/8 _ \beam( f#1/16 g# \tieBegin a#/8) \tieBegin a#/2 \tieEnd \bar 
+   (* meas. 16 *)  a# \tieEnd _*3/16 a#0/16 \beam( a# a#/8 \tieBegin a#/16) \bar 
+   (* meas. 17 *)  \beam( a# \tieEnd g#/8 \tieBegin f#/16) f#/2. \tieEnd ]
+, [ \staff<2> \instr<"Guitar", dx=-12hs, dy=-5hs> \systemFormat<"", dx=12hs> 
+   (* meas. 1 *)  \key<6> \clef<"TAB5"> \stemsOff c#0/16 d#/8 b a#/16 d#/8. b/8 a#/16 d# c#/8. \bar 
+   (* meas. 2 *)  c#/16 d#/8 b a#/16 d#/8. b/8 a#/16 d# c#/8. \bar 
+   (* meas. 3 *)  { b-1., f#0., a#., b. } { f#1., f#. } { b-1., f#0., a#., b. } { f#1., f#. } { b-1/16, f#0, a#, b } d#1/8. \bar 
+   (* meas. 4 *)  { b-1., f#0., a#., b. } { f#1., f#. } { b-1/16, f#0, a# } f#/8 f# f#/16 e# c#/8. \bar 
+   (* meas. 5 *)  f#-1/16 g#/8 { a#0/8., b., d#1., f#. } { g#-1., d#0., a#., b. } { a#., b., d#1., f#. } { g#-1/16, d#0, a#, b } { a#/8, b, d#1, f# } g#-1/16 \bar 
+   (* meas. 6 *)  f# g#/8 { g#/8., d#0., a#. } { g#-1., d#0., a#., b. } { a#., b., d#1., f#. } { g#-1/16, d#0, a#, b } { a#/8, b, d#1, f# } g#-1/16 \bar 
+   (* meas. 7 *)  { f#/8., c#0. } a#. { c#., g#., b. } { g#., b., f#1., f#. } { c#0/16, g#, b } f#/8. \bar 
+   (* meas. 8 *)  { f#-1., c#0. } a#. { c#., g#., b. } { g#., b., f#1., f#. } { c#0/16, g#, b } f#/8. \bar 
+   (* meas. 9 *)  { f#-1., c#0. } a#. { c#., g#., b. } { g#., b., f#1., f#. } { c#0/16, g#, b } f#/8. \bar 
+   (* meas. 10 *)  { f#-1., c#0. } a#. { c#., g#., b. } { g#., b., f#1., f#. } { c#0/16, g#, b } f#/8. \bar 
+   (* meas. 11 *)  c#/16 d#/8 b a#/16 d#/8. b/8 a#/16 d# c#/8. \bar 
+   (* meas. 12 *)  c#/16 d#/8 b a#/16 d#/8. b/8 a#/16 d# c#/8. \bar 
+   (* meas. 13 *)  { b-1., f#0., a#., b. } { f#1., f#. } { b-1., f#0., a#., b. } { f#1., f#. } { b-1/16, f#0, a#, b } d#1/8. \bar 
+   (* meas. 14 *)  { b-1., f#0., a#., b. } { f#1., f#. } { b-1/16, f#0, a# } f#/8 f# f#/16 e# c#/8. \bar 
+   (* meas. 15 *)  f#-1/16 g#/8 { a#0/8., b., d#1., f#. } { g#-1., d#0., a#., b. } { a#., b., d#1., f#. } { g#-1/16, d#0, a#, b } { a#/8, b, d#1, f# } g#-1/16 \bar 
+   (* meas. 16 *)  f# g#/8 { g#/8., d#0., a#. } { g#-1., d#0., a#., b. } { a#., b., d#1., f#. } { g#-1/16, d#0, a#, b } { a#/8, b, d#1, f# } g#-1/16 \bar 
+   (* meas. 17 *)  { f#/8., c#0. } a#. { c#., g#., b. } { g#., b., f#1., f#. } { c#0/16, g#, b } f#/8. ]
+ }

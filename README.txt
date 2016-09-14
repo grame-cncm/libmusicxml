@@ -5,18 +5,12 @@
 ----------------------------------------------------------------------------
 
   This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+  modify it under the terms of the Mozilla Public License Version 2.0.
 
   This library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
   Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
   Grame Research Laboratory, 11, cours de Verdun - Gensoul, 69002 Lyon - France
   research@grame.fr
@@ -60,3 +54,11 @@ Note:
  number but to the significant architecture change that has been introduced with 
  the version 2 of the library. The name has been kept for compatibility reasons 
  and because there is no change from architecture viewpoint.
+
+Note for windows developers: 
+ You must be carefull with the runtime boundary issue : you can't allocate memory 
+ (either explicitly with new or malloc, or implicitly) and then pass a pointer across 
+ a DLL boundary to be freed (see at http://msdn.microsoft.com/en-us/library/ms235460.aspx).
+ The rule is to use the same runtime library than libmusicxml.dll. You can look at the 
+ runtime it uses using depends.exe. The easy way is to use the same development environment.
+ Otherwise, you should get the source code and recompile the library using your compiler.

@@ -16,6 +16,10 @@
 #include <string>
 #include <vector>
 
+#ifdef WIN32
+#pragma warning (disable : 4275)
+#endif
+
 #include "exports.h"
 #include "ctree.h"
 #include "smartpointer.h"

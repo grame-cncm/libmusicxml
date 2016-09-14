@@ -1,0 +1,33 @@
+(*
+  gmn code converted from 'SchbAvMaSample.xml'
+  using libmusicxml v.3.1.1
+  and the embedded xml2guido converter v.2.1.0
+*)
+{ [ \staff<1> \composer<"Franz Schubert", dy=4hs> \instr<"Voice", dx=-10hs, dy=-5hs> \systemFormat<"", dx=10hs> 
+   (* meas. 1 *)  \key<-2> \meter<"C", autoBarlines="off"> \clef<"g2"> _/1 \bar 
+   (* meas. 2 *)  _ 
+   (* meas. 3 *)  \repeatBegin \stemsDown b&/4. \stemsUp \beam( a/16 b&) \stemsDown \slurBegin:1 d2/4.. c/16 \slurEnd:1 \bar 
+   (* meas. 4 *)  b&1/4 _ \slurBegin:1 c2 \stemsUp \grace( \beam( d/32 c)) \beam( b&1/16 a \slurEnd:1 \slurBegin:1<curve="down"> g a) \slurEnd:1 \bar 
+   (* meas. 5 *)  \stemsDown b&/4 _/8 d2 \beam( d/8. \slurBegin:1 c/32 b&1) \slurEnd:1 \stemsUp \beam( a/16 g) \stemsDown \beam( d2 e) \bar 
+   (* meas. 6 *)  d/4 \beam( c#/8. a1/16) \beam( c2/8. b&1/16) \slurBegin:1 \beam( a/24 c2 \slurEnd:1 d \slurBegin:1 e& c \slurEnd:1 a1) \bar 
+   (* meas. 7 *)  b&/4. \slurBegin:1 \beam( d2/16 c) \slurEnd:1 \beam( c/8. a1/16) \slurBegin:1 \beam( g/24 b \slurEnd:1 d2) \slurBegin:1 \beam( f d \slurEnd:1 b1) \bar 
+   (* meas. 8 *)  \slurBegin:1 \tieBegin c2/4 \stemsUp \beam( c/24 \tieEnd g1 a b& \stemsDown \grace( c2/16 b&1) \stemsUp) a/24 g \slurEnd:1 f/4 _/8 f ]
+, [ \staff<2> \instr<"Piano", dx=-10hs, dy=-5hs> \systemFormat<"", dx=10hs> 
+   (* meas. 1 *)  \key<-2> \meter<"C", autoBarlines="off"> \clef<"g2"> \intens<"pp", dx=-2.2hs, dy=-6.2hs> _/24 \stemsUp \slurBegin:1<curve="down"> \beam( \stacc( { d, f }) \stacc( { f, b& }) \accent( \stacc( { b&, d2 })) \stacc( { f1, b& }) \stacc( { d, f })) \slurEnd:1 _ \slurBegin:1<curve="down"> \beam( \stacc( { d, f }) \stacc( { f, b& }) \accent( \stacc( { b&, d2 })) \stacc( { f1, b& }) \stacc( { d, f })) \slurEnd:1 \crescBegin _ \stemsDown \slurBegin:1 \beam( \stacc( { f, b& }) \stacc( { b&, d2 }) \accent( \stacc( { d, f })) \stacc( { b&1, d2 }) \stacc( { f1, b& })) \slurEnd:1 _ \slurBegin:1 \beam( \stacc( { a&, d2 }) \stacc( { d, f }) \accent( \stacc( { f, a& })) \stacc( { d, f }) \crescEnd \stacc( { a&1, d2 })) \slurEnd:1 \bar 
+   (* meas. 2 *)  \dimBegin _ \slurBegin:1 \beam( \stacc( { g1, b& }) \stacc( { b&, e&2 }) \accent( \stacc( { e&, g })) \stacc( { b&1, e&2 }) \stacc( { g1, b& })) \slurEnd:1 _ \slurBegin:1 \beam( \stacc( { g&, a }) \stacc( { a, e&2 }) \accent( \stacc( { e&, g& })) \stacc( { a1, e&2 }) \dimEnd \stacc( { g&1, a })) \slurEnd:1 _ \slurBegin:1 \beam( \stacc( { f, b& }) \stacc( { b&, d2 }) \accent( \stacc( { d, f })) \stacc( { b&1, d2 }) \stacc( { f1, b& })) \slurEnd:1 _ \stemsUp \slurBegin:1<curve="down"> \beam( \stacc( { d, f }) \stacc( { f, b& }) \accent( \stacc( { b&, d2 })) \stacc( { f1, b& }) \stacc( { d, f })) \slurEnd:1 
+   (* meas. 3 *)  \repeatBegin _ \beam( { d, f } { f, b& } { b&, d2 } { f1, b& } { d, f }) _ \beam( { d, e } { e, b& } { b&, d2 } { e1, b& } { d, e }) _ \beam( { d, f } { f, b& } { b&, d2 } { f1, b& } { d, f }) _ \beam( { e&, a } { a, c2 } { c, e& } { a1, c2 } { e&1, a }) \bar 
+   (* meas. 4 *)  _ \beam( { d, g } { g, b& } { b&, d2 } { g1, b& } { d, g }) _ \beam( { d, g } { g, b& } { b&, d2 } { g1, b& } { d, g }) _ \beam( { e&, g } { g, c2 } { c, e& } { g1, c2 } { e&1, g }) _ \beam( { e&, f } { f, a } { a, c2 } { f1, a } { e&, f }) \bar 
+   (* meas. 5 *)  _ \beam( { d, f } { f, b& } { b&, d2 } { f1, b& } { d, f }) _ \beam( { d, f } { f, b& } { b&, d2 } { f1, b& } { d, f }) \crescBegin _ \beam( { d, f# } { f#, b& } { b&, d2 } { f#1, b& } { d, f# }) _ \beam( { d, g } { g, b& } { b&, d2 } { g1, b& } \crescEnd { d, g }) \bar 
+   (* meas. 6 *)  \dimBegin _ \beam( { e, g } { g, b& } { b&, d2 } { g1, b& } { e, g }) _ \beam( { e, g } { g, a } { a, c#2 } { g1, a } { e, g }) \dimEnd _ \beam( { e&, a } { a, c2 } { c, e& } { a1, c2 } { e&1, a }) _ \beam( { e&, a } { a, c2 } { c, e& } { a1, c2 } { e&1, a }) \bar 
+   (* meas. 7 *)  _ \beam( { d, g } { g, b& } { b&, d2 } { g1, b& } { d, g }) _ \beam( { d, e } { e, b& } { b&, d2 } { e1, b& } { d, e }) _ \beam( { c, f } { f, a } { a, c2 } { f1, a } { c, f }) _ \stemsDown \beam( { f, g } { g, b } { b, f2 } { g1, b } { f, g }) \bar 
+   (* meas. 8 *)  _ \beam( { f, a } { a, c2 } { c, f } { a1, c2 } { f1, a }) _ \stemsUp \beam( { e, b& } { b&, c2 } { c, e } { b&1, c2 } { e1, b& }) _ \stemsDown \beam( { f, a } { a, c2 } { c, f } { a1, c2 } { f1, a }) _ \beam( { f, a } { a, c2 } { c, f } { a1, c2 } { f1, a }) ]
+, [ \staff<3> 
+   (* meas. 1 *)  \key<-2> \meter<"C", autoBarlines="off"> \clef<"f4"> \intens<"pp", dx=-2.2hs, dy=-6.2hs> \stemsUp { b&-2/8, b&-1 } _ { b&-2, b&-1 } _ { b&-2, b&-1 } _ { b&-2, b&-1 } _ \bar 
+   (* meas. 2 *)  { b&-2, b&-1 } _ { b&-2, b&-1 } _ { b&-2, b&-1 } _ { b&-2, b&-1 } _ 
+   (* meas. 3 *)  \repeatBegin { b&-2, b&-1 } _ { g-2, g-1 } _ { f-2, f-1 } _ { f-2, f-1 } _ \bar 
+   (* meas. 4 *)  { g-2, g-1 } _ { g-2, g-1 } _ { e&-2, e&-1 } _ { f-2, f-1 } _ \bar 
+   (* meas. 5 *)  { b&-2, b&-1 } _ { b&-2, b&-1 } _ { b&-2, b&-1 } _ { b&-2, b&-1 } _ \bar 
+   (* meas. 6 *)  { a-2, a-1 } _ { a-2, a-1 } _ { f#-2, f#-1 } _ { f#-2, f#-1 } _ \bar 
+   (* meas. 7 *)  { g-2, g-1 } _ { g-2, g-1 } _ { a-2, a-1 } _ { d, d0 } _ \bar 
+   (* meas. 8 *)  { c-1, c0 } _ { c-1, c0 } _ { f-1, f0 } _ { f-1, f0 } _ ]
+ }

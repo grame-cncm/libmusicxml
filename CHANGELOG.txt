@@ -1,5 +1,18 @@
 MusicXML Library
 
+----------------------------------------------------------------------------------------------------
+Version 3.11
+- specific MacoS version, compiled using C++11
+
+----------------------------------------------------------------------------------------------------
+Version 3.10
+- transpose operation corrected and improved:
+	remove accidental elements
+	removes stem information
+	generate support elements for stems and accidentals
+- new export to IRCAM antescofo format
+- xml2guido generates positions by default (version 2.10)
+
 Version 3.00
 - update to MusicXML version 3
 

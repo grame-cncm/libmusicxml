@@ -18,6 +18,10 @@
 #include "bimap.h"
 #include <string>
 
+#ifdef WIN32
+#pragma warning (disable : 4251)
+#endif
+
 using namespace std;
 
 namespace MusicXML2 

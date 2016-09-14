@@ -17,6 +17,11 @@
 #include <stack>
 #include <vector>
 #include <iterator>
+
+#ifdef WIN32
+#pragma warning (disable : 4251)
+#endif
+
 #include "smartpointer.h"
 #include "visitable.h"
 
