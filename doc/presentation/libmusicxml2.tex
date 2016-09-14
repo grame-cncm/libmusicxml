@@ -41,7 +41,7 @@
 \institute[Grame] % (optional, but mostly needed)
 {
 Grame - Research Lab.\\
-Centre national de création musicale\\
+Centre national de crÃ©ation musicale\\
 FR - Lyon
 }
 
@@ -89,7 +89,7 @@ FR - Lyon
 	The main issues in designing a C++ library to support the format are related to the significant 
 	the number of MusicXML elements.
 	\begin{enumerate}
-		\item cost of describing all the MusicXML element,
+		\item cost of describing all the MusicXML elements,
 		\item design of an adequate and efficient memory representation,
 		\item avoiding additional complexity to the MusicXML format,
 		\item easiness to maintain and to update to new versions of the format.
@@ -115,7 +115,7 @@ FR - Lyon
 		\item designed using a single homogeneous \texttt{xmlelement} class and automatic 
 		typing using templates,
 		\item provides STL iterators to browse the memory representation,
-		\item is \alert{not compatible} with libmusicxml version 1.xx,
+		\item is \alert{not compatible} with libmusicxml version 1.xx.
 	\end{itemize}
 	\begin{block}{}
 	The main point is the simplified design: 4 classes instead of 150 to build a MusicXML 
@@ -211,8 +211,8 @@ FR - Lyon
 		  \begin{block}{} 
 			{\scriptsize 
 			\begin{itemize}
-				\item Element and attributes names and values are available as string
-					but support also automatic conversion to numeric types.
+				\item Elements and attributes names and values are available as strings
+					but also support automatic conversion to numeric types.
 				\item Supports xml comments and processing instruction as well.
 		   	\end{itemize}
 			}

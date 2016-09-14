@@ -13,6 +13,11 @@
 #ifndef __basevisitor__
 #define __basevisitor__
 
+
+#ifdef WIN32
+#pragma warning (disable : 4251 4275)
+#endif
+
 namespace MusicXML2 
 {
 

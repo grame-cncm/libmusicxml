@@ -9,34 +9,36 @@ endif()
 
 #######################################
 # versions management
-set (VERSION 3.00)
-set (STRVERS "v.3.00")
-set (SSTRVERS "3.00")
+set (VERSION 3.11)
+set (STRVERS "v.3.11")
+set (SSTRVERS "3.11")
+
+#######################################
+option ( C++11 	"C++11 support" off )
+
 
 if(UNIX)
-	add_definitions(-Wall -DGCC)
+	add_definitions(-Wall -DGCC -Wno-overloaded-virtual)
 endif(UNIX)
 
+set (FMWK "true")
 set (libtype SHARED)
 if(APPLE)
 	if ( IOS STREQUAL "yes" )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
 		set (CMAKE_OSX_ARCHITECTURES "armv6 armv7")
-		set (CMAKE_OSX_SYSROOT "iphoneos5.1")
+		set (CMAKE_OSX_SYSROOT "iphoneos")
 		set (libtype STATIC)
 	else ()
+		if ( C++11 )
+			message (STATUS "Generates project using C++11 - Use -DC++11=no to change.")
+			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+			set (FMWK "false")
+		else()
+			message (STATUS "Generates project without C++11 - Use -DC++11=yes to change.")
+		endif()
 		set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
-		if (${CMAKE_SYSTEM_VERSION} VERSION_LESS 9.0.0)
-			set (CMAKE_OSX_SYSROOT /Developer/SDKs/MacOSX10.4u.sdk)
-		elseif (${CMAKE_SYSTEM_VERSION} VERSION_LESS 10.8.0)
-			set (CMAKE_OSX_SYSROOT /Developer/SDKs/MacOSX10.5.sdk)
-		elseif (${XCODE_VERSION} VERSION_LESS 4.0.0)
-			set (CMAKE_OSX_SYSROOT /Developer/SDKs/MacOSX10.6.sdk)
-		else ()
-			set (CMAKE_OSX_SYSROOT "macosx10.7")
-		endif ()
-		set (CMAKE_C++_FLAGS -mmacosx-version-min=10.4)
 	endif()
 endif(APPLE)
 
@@ -55,7 +57,7 @@ endif(WIN32)
 set (LXML 		${CMAKE_CURRENT_SOURCE_DIR}/..)
 set (LXMLSRC 	${LXML}/src)
 set (LXMLSAMPLE ${LXML}/samples)
-set (SRCFOLDERS  factory files interface elements guido lib operations parser visitors)
+set (SRCFOLDERS  factory files interface elements guido lib operations parser visitors antescofo)
 
 foreach(folder ${SRCFOLDERS})
 	set(SRC ${SRC} "${LXMLSRC}/${folder}/*.cpp")			# add source files
@@ -81,7 +83,7 @@ set_source_files_properties (${COREH} PROPERTIES HEADER_FILE_ONLY TRUE)
 #######################################
 # set library target
 if(APPLE)
-	if (IOS STREQUAL "yes")
+	if (IOS OR C++11)
 		set(target musicxml2)
 	else()
 		set(target libmusicxml2)
@@ -101,6 +103,7 @@ endif()
 
 add_library(${target} ${libtype} ${LIBCONTENT})
 set_target_properties (${target} PROPERTIES 
+			FRAMEWORK ${FMWK}
 			VERSION ${VERSION}
 			FRAMEWORK_VERSION ${VERSION}
 			PUBLIC_HEADER "${COREH}"
@@ -117,11 +120,13 @@ endif()
 set (SAMPLES RandomMusic xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
 set (TOOLS  xml2guido xmltranspose)
 
+if(NOT APPLE OR NOT IOS STREQUAL "yes" )
 foreach(sample ${SAMPLES})
 	add_executable( ${sample} ${LXMLSAMPLE}/${sample}.cpp )
 	target_link_libraries( ${sample} ${target})
 	add_dependencies(${sample} ${target})
 endforeach(sample)
+endif()
 
 
 #######################################

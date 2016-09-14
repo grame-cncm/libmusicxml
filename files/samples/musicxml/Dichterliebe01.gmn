@@ -1,0 +1,174 @@
+(*
+  gmn code converted from 'Dichterliebe01.xml'
+  using libmusicxml v.3.1.1
+  and the embedded xml2guido converter v.2.1.0
+*)
+{ [ \staff<1> \title<"Im wunderschönen Monat Mai"> \composer<"Robert Schumann", dy=4hs> \instr<"Voice", dx=-10hs, dy=-5hs> \systemFormat<"", dx=10hs> 
+   (* meas. 1 *)  \key<3> \meter<"2/4", autoBarlines="off"> \clef<"g2"> _/16 \bar 
+   (* meas. 2 *)  _/2 \bar 
+   (* meas. 3 *)  _ \bar 
+   (* meas. 4 *)  _ \bar 
+   (* meas. 5 *)  _/4 _/8 _/16 \intens<"p", dx=-2.6hs, dy=14hs> \stemsDown c#2 \bar 
+   (* meas. 6 *)  \beam( c#/8. b1/16) \stemsUp \beam( b d2 f#1 g#) \bar 
+   (* meas. 7 *)  a/4 _/8 _/16 \stemsDown c#2 \bar 
+   (* meas. 8 *)  \beam( c#/8. b1/16) \stemsUp \slurBegin:1<curve="down"> \beam( b d2 f#1 \slurEnd:1 g#) \bar 
+   (* meas. 9 *)  \beam( a/8 a) _ _/16 a \bar 
+   (* meas. 10 *)  \stemsDown \beam( b/8. \crescBegin b/16) \beam( c#2/8. \crescEnd c#/16) \bar 
+   (* meas. 11 *)  \beam( e/8 d) _ _/16 d \bar 
+   (* meas. 12 *)  \beam( d/8. \crescBegin d/16) \beam( e/8. \crescEnd e/16) \bar 
+   (* meas. 13 *)  \beam( g/8 f#) _/4 \bar 
+   (* meas. 14 *)  _/2 \bar 
+   (* meas. 15 *)  _ \bar 
+   (* meas. 16 *)  _/4 _/8 _/16 \intens<"p", dx=-2.8hs, dy=14hs> c# \bar 
+   (* meas. 17 *)  \beam( c#/8. b1/16) \stemsUp \beam( b d2 f#1 g#) \bar 
+   (* meas. 18 *)  a/4 _/8 _/16 \stemsDown c#2 \bar 
+   (* meas. 19 *)  \beam( c#/8. b1/16) \stemsUp \slurBegin:1<curve="down"> \beam( b d2 f#1 \slurEnd:1 g#) \bar 
+   (* meas. 20 *)  \beam( a/8 a) _ _/16 a \bar 
+   (* meas. 21 *)  \stemsDown \beam( b/8. b/16) \crescBegin \beam( c#2/8. \crescEnd c#/16) \bar 
+   (* meas. 22 *)  \beam( e/8 d) _ _/16 d \bar 
+   (* meas. 23 *)  \crescBegin \beam( d/8. d/16) \beam( e/8. \crescEnd e/16) \bar 
+   (* meas. 24 *)  \beam( g/8 f#) _/4 \bar 
+   (* meas. 25 *)  _/2 \bar 
+   (* meas. 26 *)  _ \bar 
+   (* meas. 27 *)  \fermata( _) ]
+, [ \staff<2> \instr<"Piano", dx=-10hs, dy=-5hs> \systemFormat<"", dx=10hs> 
+   (* meas. 1 *)  \key<3> \meter<"2/4", autoBarlines="off"> \clef<"g2"> \intens<"p", dx=-0.6hs, dy=-3hs> \stemsUp \slurBegin:1 \tieBegin c#2/16 \bar 
+   (* meas. 2 *)  \tieBegin c#/4 \tieEnd \beam( c#/16 \tieEnd b1 g#2 f#) \bar 
+   (* meas. 3 *)  e#/4 \slurEnd:1 _/16 \slurBegin:1 \beam( b1 d2/16. \tieBegin c#/32) \slurEnd:1 \bar 
+   (* meas. 4 *)  \tieBegin c#/4 \tieEnd \slurBegin:1 \beam( c#/16 \tieEnd b1 g#2 f#) \bar 
+   (* meas. 5 *)  e#/4 \slurEnd:1 _/16 \slurBegin:1 \beam( b1 d2 \tieBegin c#) \slurEnd:1 \bar 
+   (* meas. 6 *)  c#/4 \tieEnd \slurBegin:1 \beam( b1/16 d2 f#1 g#) \bar 
+   (* meas. 7 *)  \tieBegin a/4 \slurEnd:1 \beam( a/16 \tieEnd \slurBegin:1 a d2 \tieBegin c#) \slurEnd:1 \bar 
+   (* meas. 8 *)  c#/4 \tieEnd \slurBegin:1 \beam( b1/16 d2 f#1 g#) \bar 
+   (* meas. 9 *)  \tieBegin a/4 \slurEnd:1 \beam( a/16 \tieEnd \slurBegin:1 a d2 c#) \slurEnd:1 \bar 
+   (* meas. 10 *)  _/8 _/16 \tieBegin b1 \crescBegin b/8 \tieEnd _/16 \crescEnd \tieBegin c#2 \bar 
+   (* meas. 11 *)  c#/8 \tieEnd _ \stemsDown \beam( a#1/16 b g2 f#) \slurEnd:1 \bar 
+   (* meas. 12 *)  _/8 _/16 \stemsUp \tieBegin d \crescBegin d/8 \tieEnd _/16 \crescEnd \tieBegin e \bar 
+   (* meas. 13 *)  e/8 \tieEnd _ \stemsDown \beam( a1/16 d2 g# f#) \bar 
+   (* meas. 14 *)  \stemsUp e#/4 \slurEnd:1 _/16 \slurBegin:1 \beam( b1 d2 \tieBegin c#) \slurEnd:1 \bar 
+   (* meas. 15 *)  \tieBegin c#/4 \tieEnd \slurBegin:1 \beam( c#/16 \tieEnd b1 g#2 f#) \bar 
+   (* meas. 16 *)  e#/4 \slurEnd:1 _/16 \slurBegin:1 \beam( b1 d2 \tieBegin c#) \slurEnd:1 \bar 
+   (* meas. 17 *)  c#/4 \tieEnd \slurBegin:1 \beam( b1/16 d2 f#1 g#) \bar 
+   (* meas. 18 *)  \tieBegin a/4 \slurEnd:1 \beam( a/16 \tieEnd \slurBegin:1 a d2 \tieBegin c#) \slurEnd:1 \bar 
+   (* meas. 19 *)  c#/4 \tieEnd \slurBegin:1 \beam( b1/16 d2 f#1 g#) \bar 
+   (* meas. 20 *)  \tieBegin a/4 \slurEnd:1 \beam( a/16 \tieEnd \slurBegin:1 a d2 c#) \slurEnd:1 \bar 
+   (* meas. 21 *)  _/8 _/16 \crescBegin \tieBegin b1 b/8 \tieEnd \crescEnd _/16 \tieBegin c#2 \bar 
+   (* meas. 22 *)  c#/8 \tieEnd _ \stemsDown \beam( a#1/16 b g2 f#) \slurEnd:1 \bar 
+   (* meas. 23 *)  _/8 _/16 \crescBegin \stemsUp \tieBegin d d/8 \tieEnd \crescEnd _/16 \tieBegin e \bar 
+   (* meas. 24 *)  e/8 \tieEnd _ \stemsDown \beam( a1/16 d2 g# f#) \bar 
+   (* meas. 25 *)  \stemsUp e#/4 \slurEnd:1 _/16 \slurBegin:1 \beam( b1 d2 \tieBegin c#) \bar 
+   (* meas. 26 *)  \tieBegin c#/4 \tieEnd \beam( c#/16 \tieEnd b1 g#2 f#) \bar 
+   (* meas. 27 *)  \fermata( e#/2) \slurEnd:1 ]
+, [ \staff<2> 
+   (* meas. 1 *)  empty/16 \bar 
+   (* meas. 2 *)  empty/4 \stemsDown f# \slurEnd:2 \bar 
+   (* meas. 3 *)  empty g# \slurEnd:1 \bar 
+   (* meas. 4 *)  empty f# \slurEnd:2 \bar 
+   (* meas. 5 *)  empty g# \slurEnd:1 \bar 
+   (* meas. 6 *)  empty empty/8 \beam( f#/16 \tieBegin d) \bar 
+   (* meas. 7 *)  \beam( d/8. \tieEnd c#/16) e/4 \bar 
+   (* meas. 8 *)  empty empty/8 \beam( f#/16 \tieBegin d) \bar 
+   (* meas. 9 *)  \beam( d/8. \tieEnd c#/16) e/4 \bar 
+   (* meas. 10 *)  empty/2 \bar 
+   (* meas. 11 *)  empty \bar 
+   (* meas. 12 *)  empty \bar 
+   (* meas. 13 *)  empty \bar 
+   (* meas. 14 *)  empty/4 g# \slurEnd:1 \bar 
+   (* meas. 15 *)  empty f# \slurEnd:2 \bar 
+   (* meas. 16 *)  empty g# \slurEnd:1 \bar 
+   (* meas. 17 *)  empty empty/8 \beam( f#/16 \tieBegin d) \bar 
+   (* meas. 18 *)  \beam( d/8. \tieEnd c#/16) e/4 \bar 
+   (* meas. 19 *)  empty empty/8 \beam( f#/16 \tieBegin d) \bar 
+   (* meas. 20 *)  \beam( d/8. \tieEnd c#/16) e/4 \bar 
+   (* meas. 21 *)  empty/2 \bar 
+   (* meas. 22 *)  empty \bar 
+   (* meas. 23 *)  empty \bar 
+   (* meas. 24 *)  empty \bar 
+   (* meas. 25 *)  empty/4 g# \slurEnd:2 \bar 
+   (* meas. 26 *)  empty f# \bar 
+   (* meas. 27 *)  empty/2 ]
+, [ \staff<3> 
+   (* meas. 1 *)  \key<3> \meter<"2/4", autoBarlines="off"> \clef<"f4"> _/16 \bar 
+   (* meas. 2 *)  \stemsUp \slurBegin:2 \beam( d0 a# b \tieBegin d1) \stemsDown d/4 \tieEnd \bar 
+   (* meas. 3 *)  \stemsUp \slurBegin:1 \beam( c#0/16 b c#1 \staff<2> \stemsDown e#) empty/4 \staff<3> \bar 
+   (* meas. 4 *)  \stemsUp \slurBegin:2 \beam( d0/16 a# b \tieBegin d1) \stemsDown d/4 \tieEnd \bar 
+   (* meas. 5 *)  \stemsUp \slurBegin:1 \beam( c#0/16 b c#1 \staff<2> \stemsDown e#) empty/4 \staff<3> \bar 
+   (* meas. 6 *)  \stemsUp \slurBegin:2<curve="down"> \beam( d0/16 b d1 \staff<2> \stemsDown f#) \slurEnd:2 empty/8 \staff<3> \stemsUp \tieBegin e0 \bar 
+   (* meas. 7 *)  \beam( e/16 \tieEnd e a \staff<2> \stemsDown c#1) empty/4 \staff<3> \bar 
+   (* meas. 8 *)  \stemsUp \slurBegin:2<curve="down"> \beam( d0/16 b d1 \staff<2> \stemsDown f#) \slurEnd:2 empty/8 \staff<3> \tieBegin e0 \bar 
+   (* meas. 9 *)  \stemsUp \beam( e/16 \tieEnd e a \staff<2> \stemsDown c#1) empty/4 \staff<3> \bar 
+   (* meas. 10 *)  \stemsUp \slurBegin:1<curve="down"> \beam( g0/16 b e1 \staff<2> \stemsDown b) \slurEnd:1 \staff<3> \stemsUp \slurBegin:1<curve="down"> \beam( f#0 a# e1 \staff<2> \stemsDown c#2) \slurEnd:1 \staff<3> \bar 
+   (* meas. 11 *)  \stemsUp \slurBegin:1 \beam( b0 d1 e# \staff<2> \stemsDown f#) empty/4 \staff<3> \bar 
+   (* meas. 12 *)  \stemsUp \slurBegin:1<curve="down"> \beam( b&0/16 d1 g \staff<2> \stemsDown d2) \slurEnd:1 \staff<3> \stemsUp \slurBegin:1<curve="down"> \beam( a0 c#1 g \staff<2> \stemsDown e2) \slurEnd:1 \staff<3> \bar 
+   (* meas. 13 *)  \stemsUp \slurBegin:1 \beam( d0 a d1 \staff<2> \stemsDown f#) empty/4 \staff<3> \bar 
+   (* meas. 14 *)  \stemsUp \slurBegin:1 \beam( c#0/16 b c#1 \staff<2> \stemsDown e#) empty/4 \staff<3> \bar 
+   (* meas. 15 *)  \stemsUp \slurBegin:2 \beam( d0/16 a# b \tieBegin d1) \stemsDown d/8 \tieEnd empty \bar 
+   (* meas. 16 *)  \stemsUp \slurBegin:1 \beam( c#0/16 b c#1 \staff<2> \stemsDown e#) empty/4 \staff<3> \bar 
+   (* meas. 17 *)  \stemsUp \slurBegin:2<curve="down"> \beam( d0/16 b d1 \staff<2> \stemsDown f#) \slurEnd:2 empty/8 \staff<3> \stemsUp \tieBegin e0 \bar 
+   (* meas. 18 *)  \beam( e/16 \tieEnd e a \staff<2> \stemsDown c#1) empty/4 \staff<3> \bar 
+   (* meas. 19 *)  \stemsUp \slurBegin:2<curve="down"> \beam( d0/16 b d1 \staff<2> \stemsDown f#) \slurEnd:2 empty/8 \staff<3> \tieBegin e0 \bar 
+   (* meas. 20 *)  \stemsUp \beam( e/16 \tieEnd e a \staff<2> \stemsDown c#1) empty/4 \staff<3> \bar 
+   (* meas. 21 *)  \stemsUp \slurBegin:1<curve="down"> \beam( g0/16 b e1 \staff<2> \stemsDown b) \slurEnd:1 \staff<3> \stemsUp \slurBegin:1<curve="down"> \beam( f#0 a# e1 \staff<2> \stemsDown c#2) \slurEnd:1 \staff<3> \bar 
+   (* meas. 22 *)  \stemsUp \slurBegin:1 \beam( b0 d1 e# \staff<2> \stemsDown f#) empty/4 \staff<3> \bar 
+   (* meas. 23 *)  \stemsUp \slurBegin:1<curve="down"> \beam( b&0/16 d1 g \staff<2> \stemsDown d2) \slurEnd:1 \staff<3> \stemsUp \slurBegin:1<curve="down"> \beam( a0 c#1 g \staff<2> \stemsDown e2) \slurEnd:1 \staff<3> \bar 
+   (* meas. 24 *)  \stemsUp \slurBegin:1 \beam( d0 a d1 \staff<2> \stemsDown f#) empty/4 \staff<3> \bar 
+   (* meas. 25 *)  \stemsUp \slurBegin:2 \beam( c#0/16 b c#1 \staff<2> \stemsDown e#) empty/4 \staff<3> \bar 
+   (* meas. 26 *)  \stemsUp \slurBegin:2 \beam( d0/16 a# b \tieBegin d1) \slurEnd:2 \stemsDown d/8 \tieEnd empty \bar 
+   (* meas. 27 *)  \stemsUp \slurBegin:1 \beam( c#0/16 g# c#1 \staff<2> \stemsDown \tieBegin e#) \fermata( { e#/4 \tieEnd, b }) \slurEnd:1 ]
+, [ \staff<3> 
+   (* meas. 1 *)  empty/16 \bar 
+   (* meas. 2 *)  \stemsDown \tieBegin d0/4 d \tieEnd \bar 
+   (* meas. 3 *)  \tieBegin c# c# \tieEnd \bar 
+   (* meas. 4 *)  \tieBegin d d \tieEnd \bar 
+   (* meas. 5 *)  \tieBegin c# c# \tieEnd \bar 
+   (* meas. 6 *)  d _/16 \slurBegin:2<curve="down"> \beam( b-1 e0 e-1) \bar 
+   (* meas. 7 *)  a/4 \slurEnd:2 empty \bar 
+   (* meas. 8 *)  d0 _/16 \stemsUp \slurBegin:2<curve="down"> \beam( b-1 e0 e-1) \slurEnd:2 \bar 
+   (* meas. 9 *)  \stemsDown \beam( a/8 \tieBegin a0) \beam( a/8. \tieEnd a/16) \bar 
+   (* meas. 10 *)  g/4 f# \bar 
+   (* meas. 11 *)  b/4. _/8 \bar 
+   (* meas. 12 *)  b&/4 a \bar 
+   (* meas. 13 *)  d _/8 _/16 b-1 \bar 
+   (* meas. 14 *)  c#0/4. _/16 c# \bar 
+   (* meas. 15 *)  d/4. _/16 b-1 \bar 
+   (* meas. 16 *)  \tieBegin c#0/4 c# \tieEnd \bar 
+   (* meas. 17 *)  d _/16 \slurBegin:2<curve="down"> \beam( b-1 e0 e-1) \bar 
+   (* meas. 18 *)  a/4 \slurEnd:2 empty \bar 
+   (* meas. 19 *)  empty _/16 \stemsUp \slurBegin:2<curve="down"> \beam( b e0 e-1) \slurEnd:2 \bar 
+   (* meas. 20 *)  \stemsDown \beam( a/8 \tieBegin a0) \beam( a/8. \tieEnd a/16) \bar 
+   (* meas. 21 *)  g/4 f# \bar 
+   (* meas. 22 *)  b/4. _/8 \bar 
+   (* meas. 23 *)  b&/4 a \bar 
+   (* meas. 24 *)  d _/8 _/16 b-1 \bar 
+   (* meas. 25 *)  c#0/4. _/16 c# \bar 
+   (* meas. 26 *)  d/4. _/16 b-1 \bar 
+   (* meas. 27 *)  \fermata( c#0/2) ]
+, [ \staff<3> 
+   (* meas. 1 *)  empty/16 \bar 
+   (* meas. 2 *)  empty/2 \bar 
+   (* meas. 3 *)  empty/8 \stemsDown \tieBegin c# c#/4 \tieEnd \bar 
+   (* meas. 4 *)  empty/2 \bar 
+   (* meas. 5 *)  empty/8 \tieBegin c# c#/4 \tieEnd \bar 
+   (* meas. 6 *)  empty/2 \bar 
+   (* meas. 7 *)  empty/8 \tieBegin a0 a \tieEnd _/16 a \bar 
+   (* meas. 8 *)  empty/2 \bar 
+   (* meas. 9 *)  empty \bar 
+   (* meas. 10 *)  empty \bar 
+   (* meas. 11 *)  empty \bar 
+   (* meas. 12 *)  empty \bar 
+   (* meas. 13 *)  empty \bar 
+   (* meas. 14 *)  empty \bar 
+   (* meas. 15 *)  empty/8 \tieBegin b b \tieEnd empty \bar 
+   (* meas. 16 *)  empty \tieBegin c#1 c#/4 \tieEnd \bar 
+   (* meas. 17 *)  empty/2 \bar 
+   (* meas. 18 *)  empty/8 \tieBegin a0 a \tieEnd _/16 a \bar 
+   (* meas. 19 *)  empty/2 \bar 
+   (* meas. 20 *)  empty \bar 
+   (* meas. 21 *)  empty \bar 
+   (* meas. 22 *)  empty \bar 
+   (* meas. 23 *)  empty \bar 
+   (* meas. 24 *)  empty \bar 
+   (* meas. 25 *)  empty \bar 
+   (* meas. 26 *)  empty/8 \tieBegin b b \tieEnd empty \bar 
+   (* meas. 27 *)  empty \tieBegin c#1 \fermata( c#/4 \tieEnd) ]
+ }

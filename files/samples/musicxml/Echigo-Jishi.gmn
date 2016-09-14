@@ -1,0 +1,54 @@
+(*
+  gmn code converted from 'Echigo-Jishi.xml'
+  using libmusicxml v.3.1.1
+  and the embedded xml2guido converter v.2.1.0
+*)
+{ [ \staff<1> \title<"越後獅子"> \instr<"MusicXML Part", dx=-26hs, dy=-5hs> \systemFormat<"", dx=26hs> 
+   (* meas. 1 *)  \key<0> \meter<"2/4", autoBarlines="off"> \clef<"g2"> \intens<"f", dx=-2hs, dy=-1.4hs> \stemsUp \beam( a/8 a b a) \bar 
+   (* meas. 2 *)  \stemsDown \beam( b a b c2) \bar 
+   (* meas. 3 *)  \beam( e c b1 a) \bar 
+   (* meas. 4 *)  \stemsUp f/4. _/8 \bar 
+   (* meas. 5 *)  \beam( f a b a) \bar 
+   (* meas. 6 *)  f/4. e/8 \bar 
+   (* meas. 7 *)  \beam( f a f e) \bar 
+   (* meas. 8 *)  \beam( d d d e) \bar 
+   (* meas. 9 *)  \intens<"f", dx=-2.4hs, dy=-2.4hs> \beam( f e b0 d1) \bar 
+   (* meas. 10 *)  e/4. _/8 \bar 
+   (* meas. 11 *)  \intens<"mf", dx=-0.6hs, dy=-2.8hs> d d/4 e/8 \bar 
+   (* meas. 12 *)  f f/4 e/8 \bar 
+   (* meas. 13 *)  \beam( a a b a) \bar 
+   (* meas. 14 *)  \stemsDown b/4 \beam( c2/8 e) \bar 
+   (* meas. 15 *)  f# f#/4 e/8 \bar 
+   (* meas. 16 *)  \beam( c c c e) \bar 
+   (* meas. 17 *)  f# f#/4 e/8 \bar 
+   (* meas. 18 *)  \beam( c e/16 c) \stemsUp \beam( b1/8 a) \bar 
+   (* meas. 19 *)  \stemsDown \beam( b c2 e a1) \bar 
+   (* meas. 20 *)  \stemsUp \beam( c2 b1 a f) \bar 
+   (* meas. 21 *)  e/4. f/8 \bar 
+   (* meas. 22 *)  \beam( a b) \stemsDown c2/4 \bar 
+   (* meas. 23 *)  e \beam( c/8 b1) \bar 
+   (* meas. 24 *)  \stemsUp a/4 \beam( a/8 f) \bar 
+   (* meas. 25 *)  a/4. \stemsDown b/8 \bar 
+   (* meas. 26 *)  \stemsUp \beam( c2 b1 a f) \bar 
+   (* meas. 27 *)  e/4. e/8 \bar 
+   (* meas. 28 *)  \stemsDown \beam( b c2 c b1) \bar 
+   (* meas. 29 *)  \beam( c2 e c b1) \bar 
+   (* meas. 30 *)  \stemsUp \beam( a b c2 a1) \bar 
+   (* meas. 31 *)  \beam( f a/16 f) \beam( e/8 d) \bar 
+   (* meas. 32 *)  \beam( e f) \beam( a/16 a a a) \bar 
+   (* meas. 33 *)  \stemsDown \beam( b/8 b) \beam( c2 c/16 c) \bar 
+   (* meas. 34 *)  \beam( b1/8 c2/16 b1) \stemsUp \beam( a/8 b/16 a) \bar 
+   (* meas. 35 *)  \beam( f/8 e d d) \bar 
+   (* meas. 36 *)  _ \beam( e f a) \bar 
+   (* meas. 37 *)  \beam( f e) \beam( b0 b/16 b) \bar 
+   (* meas. 38 *)  \beam( b/8 d1) e/4 \bar 
+   (* meas. 39 *)  _/8 \stemsDown \slurBegin:1 c2 e/4 \slurEnd:1 \bar 
+   (* meas. 40 *)  \beam( c/8 b1 a b) \bar 
+   (* meas. 41 *)  \slurBegin:1 \beam( c2 a1) \slurEnd:1 \stemsUp f/4 \bar 
+   (* meas. 42 *)  \beam( e/8 d e a) \bar 
+   (* meas. 43 *)  f/4. e/8 \bar 
+   (* meas. 44 *)  \beam( f f/16 f) \beam( e/8 d) \bar 
+   (* meas. 45 *)  \beam( d e) _ \slurBegin:1<curve="down"> \beam( b/16. a/32) \bar 
+   (* meas. 46 *)  f/4 \slurEnd:1 \slurBegin:1<curve="down"> f \bar 
+   (* meas. 47 *)  e \slurEnd:1 _ ]
+ }

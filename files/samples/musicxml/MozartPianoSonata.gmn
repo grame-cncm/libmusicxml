@@ -1,0 +1,24 @@
+(*
+  gmn code converted from 'MozartPianoSonata.xml'
+  using libmusicxml v.3.1.1
+  and the embedded xml2guido converter v.2.1.0
+*)
+{ [ \staff<1> \composer<"Wolfgang Amadeus Mozart", dy=4hs> \instr<"Piano", dx=-10hs, dy=-5hs> \systemFormat<"", dx=10hs> 
+   (* meas. 1 *)  \key<3> \meter<"2/4", autoBarlines="off"> \clef<"g2"> \stemsUp c#3/2 \bar 
+   (* meas. 2 *)  \stemsDown \slurBegin:1 \beam( d/16 c# \slurEnd:1 \stacc( b2) \stacc( c#3)) \slurBegin:1 \beam( d c# \slurEnd:1 \stacc( b2) \stacc( c#3)) \bar 
+   (* meas. 3 *)  { f#2/2, a, d3 } \bar 
+   (* meas. 4 *)  \stemsUp \grace( \slurBegin:1<curve="down"> d/16 \stemsDown) \beam( { e2/8, a, c#3 } \slurEnd:1 \stemsUp \grace( \slurBegin:1<curve="down"> d/16 \stemsDown) { e2/8, a, c#3 } \slurEnd:1 \stemsUp \grace( \slurBegin:1<curve="down"> d/16 \stemsDown) { e2/8, a, c#3 } \slurEnd:1 \stemsUp \grace( \slurBegin:1<curve="down"> d/16 \stemsDown) { e2/8, a, c#3 }) \slurEnd:1 \bar 
+   (* meas. 5 *)  \stemsUp \slurBegin:1 b2/4. e3/8 \slurEnd:1 ]
+, [ \staff<1> 
+   (* meas. 1 *)  \stemsDown { c#2, e, a } empty \bar 
+   (* meas. 2 *)  empty/2 \bar 
+   (* meas. 3 *)  empty \bar 
+   (* meas. 4 *)  empty \bar 
+   (* meas. 5 *)  { e, g# } ]
+, [ \staff<2> 
+   (* meas. 1 *)  \key<3> \meter<"2/4", autoBarlines="off"> \clef<"f4"> \stemsUp \grace( \slurBegin:1 \beam( a-1/16 c#0 e) \stemsDown) \beam( a/8 \slurEnd:1 a a a) \bar 
+   (* meas. 2 *)  \stemsUp \grace( \slurBegin:1 \beam( a-1/16 c#0 e) \stemsDown) \beam( a/8 \slurEnd:1 a a a) \bar 
+   (* meas. 3 *)  \stemsUp \grace( \slurBegin:1 \beam( d-1/16 f# a) \stemsDown) \beam( d0/8 \slurEnd:1 d d d) \bar 
+   (* meas. 4 *)  \stemsUp \grace( \slurBegin:1 \beam( a-1/16 c#0 e) \stemsDown) \beam( a/8 \slurEnd:1 a a a) \bar 
+   (* meas. 5 *)  \stemsUp \grace( \slurBegin:1 \beam( e-1/16 g# b) \stemsDown) \beam( e0/8 \slurEnd:1 e e e) ]
+ }

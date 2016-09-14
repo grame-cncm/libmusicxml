@@ -47,9 +47,10 @@ class EXP transposition :
 	public notevisitor,
 	public visitor<S_cancel>,
 	public visitor<S_fifths>,
+	public visitor<S_encoding>,
 	public visitor<S_part>
 {
-    protected:
+    protected:		
 		Chromatic	fChromaticSteps;			// the target transposing interval
 
 		std::vector<pair<std::string,int> >	fFifthCycle;	// the fifth cycle table
@@ -60,6 +61,13 @@ class EXP transposition :
 		int		fCurrentKeySign;		// the current key signature
 
 		void	initialize	();
+
+		/*! Create a support element
+			\param elt the target element name
+			\param val a boolean denoting support
+			\return a musicxml support element
+		*/
+		Sxmlelement	buildSupport ( const string& elt, bool val) const;
 
 		/*! Transpose a pitch expressed as a diatonic value + alteration + octave
 			\param pitch on input a diatonic pitch value (where C=1), on output the new pitch value
@@ -80,6 +88,7 @@ class EXP transposition :
 		// non standard keys are not yet supported
 		virtual void visitStart ( S_cancel& elt );
 		virtual void visitStart ( S_fifths& elt );
+		virtual void visitEnd	( S_encoding& elt );
 		
     public:
 				 transposition(int steps);
