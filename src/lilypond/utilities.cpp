@@ -14,11 +14,38 @@
 # pragma warning (disable : 4786)
 #endif
 
+#include <iostream>
 #include <sstream>
+#include <stdlib.h>     /* abort, NULL */
+
+#include <utilities.h>
 
 using namespace std;
 
 namespace MusicXML2 {
+
+//______________________________________________________________________________
+void assertLilypond (bool condition, std::string messageIfFalse) {
+  if (! condition) {
+    std::cout << std::flush;
+    std::cerr <<
+      std::endl <<"--> assertLilypond() causes exit, " << messageIfFalse << std::endl << std::flush;
+    abort();
+  }
+}
+
+//______________________________________________________________________________
+ostream& operator<< (ostream& os, const haendel& endl)
+{
+  endl.print(os);
+  return os;
+}
+
+void haendel::print(std::ostream& os) const { 
+  int i = fIndent;
+  os << std::endl;
+  while (i-- > 0)  os << fSpacer;
+}
 
 //______________________________________________________________________________
 std::string int2EnglishWord (int n) {

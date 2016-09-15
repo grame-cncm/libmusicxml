@@ -18,6 +18,7 @@
 #include <string>
 #include <map>
 
+#include "utilities.h"
 #include "exports.h"
 #include "typedefs.h"
 #include "smartpointer.h"
@@ -46,33 +47,6 @@ EXP std::ostream& operator<< (std::ostream& os, const Slilypondparam&   param);
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondelement& elt);
 //EXP std::ostream& operator<< (std::ostream& os, const Slilypondpart& elt);
 //EXP std::ostream& operator<< (std::ostream& os, const Slilypondlyrics& elt);
-
-//______________________________________________________________________________
-/*!
-\internal
-\brief To be used in place of std::endl
-  to provide easy indentation of text output.
-  The name is a pun on endl...
-*/
-class haendel {
-  public:
-
-    haendel(std::string spcr = "  ") : fIndent(0), fSpacer(spcr) {}
-    virtual ~haendel() {}
-
-    //! increase the indentation
-    haendel& operator++ (int)  { fIndent++; return *this; }
-    //! decrease the indentation
-    haendel& operator-- (int)  { fIndent--; return *this; }
-    //! reset the indentation to none
-    void print(std::ostream& os) const;
-
-  private:
-
-    int         fIndent;
-    std::string fSpacer;
-};
-std::ostream& operator<< (std::ostream& os, const haendel& eol);
 
 /*!
 \brief A lilypondcmd parameter representation.
@@ -208,7 +182,7 @@ class EXP lilypondnote : public lilypondelement {
   public:
 
     enum DiatonicNote {
-      kA, kB, kC, kD, kE, kF, kG, kNoDiatonicNote};
+      kA, kB, kC, kD, kE, kF, kG, kRest, kNoDiatonicNote};
     
     enum Alteration { // -2 as in MusicXML, to help testing
       kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp, kNoAlteration};
@@ -232,6 +206,7 @@ class EXP lilypondnote : public lilypondelement {
     static SMARTP<lilypondnote> create();// JMI  Note note, int voice) 
 
     void update(
+          bool         fCurrentStepIsRest,
           DiatonicNote diatonicNote,
           Alteration   alteration,
           int          octave,
@@ -275,6 +250,7 @@ class EXP lilypondnote : public lilypondelement {
   private:
 
     // MusicXML informations
+    bool         fCurrentStepIsRest;
     DiatonicNote fDiatonicNote;
     Alteration   fAlteration;
     int          fOctave;
@@ -319,7 +295,7 @@ class EXP lilypondnotestatus {
     enum { kMaxInstances=128 };
         
     static lilypondnotestatus* get(unsigned short voice);
-    static void resetall();
+    static void resetalllilypondnotestatus();
     static void freeall();
 
     enum { defoctave=1, defnum=1, defdenom=4 };

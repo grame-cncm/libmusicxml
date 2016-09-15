@@ -18,6 +18,40 @@
 namespace MusicXML2 
 {
 
+//______________________________________________________________________________
+/*!
+\internal
+\brief A function to exit under certain circumstances
+*/
+void assertLilypond (bool condition, std::string messageIfFalse);
+
+//______________________________________________________________________________
+/*!
+\internal
+\brief To be used in place of std::endl
+  to provide easy indentation of text output.
+  The name is a pun on endl...
+*/
+class haendel {
+  public:
+
+    haendel(std::string spcr = "  ") : fIndent(0), fSpacer(spcr) {}
+    virtual ~haendel() {}
+
+    //! increase the indentation
+    haendel& operator++ (int)  { fIndent++; return *this; }
+    //! decrease the indentation
+    haendel& operator-- (int)  { fIndent--; return *this; }
+    //! reset the indentation to none
+    void print(std::ostream& os) const;
+
+  private:
+
+    int         fIndent;
+    std::string fSpacer;
+};
+std::ostream& operator<< (std::ostream& os, const haendel& eol);
+
 /*!
 \brief A utility to escape quotes in strings.
 */
