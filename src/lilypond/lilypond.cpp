@@ -11,6 +11,7 @@
 */
 
 #include <iostream>
+#include <list>
 #include <algorithm>
 
 #include "lilypond.h"
@@ -284,16 +285,242 @@ ostream& operator<< (ostream& os, const Slilypondelement& elt)
 }
 
 //______________________________________________________________________________
-Slilypondnote lilypondnote::create(unsigned short voice) 
+Slilypondnote lilypondnote::create()// JMI  Note note, int voice) 
 {
-  lilypondnotestatus * status = lilypondnotestatus::get(voice);
-  lilypondnote * o = new lilypondnote (
-    voice,"", status->fOctave, status->fDur, ""); 
+  // JMI lilypondnotestatus status = lilypondnotestatus::get(voice);
+  
+  int voice=-17;
+  
+  lilypondnote * o = new lilypondnote ();// JMI note, voice);
+ //   voice,"", status->fOctave, status->fDur, ""); 
   assert(o!=0); 
   return o;
 }
+
+lilypondnote::lilypondnote() : lilypondelement("")
+{
+  fDiatonicNote=lilypondnote::kNoDiatonicNote;
+  fAlteration=lilypondnote::kNoAlteration;
+  fOctave=-1;
+  fDuration=lilypondnote::kNoDuration;
+  fVoice=-1;
+}
+
+void lilypondnote::update(
+  DiatonicNote diatonicNote,
+  Alteration   alteration,
+  int          octave,
+  int          duration,
+  int          dotsNumber,
+  LilypondNote lilypondNote,
+  int          voice)
+{
+  fDiatonicNote=diatonicNote;
+  fAlteration=alteration;
+  fOctave=octave;
+  fDuration=duration;
+  fLilypondNote=lilypondNote;
+  fVoice=voice;
+}
+lilypondnote::~lilypondnote() {}
+
+ostream& operator<< (ostream& os, const Slilypondnote& elt)
+{
+  elt->print(os);
+  return os;
+}
+
+void lilypondnote::print(ostream& os)
+{
+  /*
+  os <<
+    "note(fDiatonicNote = " << fDiatonicNote << ", " <<
+    "fAlteration = " << fAlteration << ", " << ", " <<
+    "fOctave = " << fOctave << ", " << ", " <<
+    "fDuration = " << fDuration << ", " << ", " <<
+    "fVoice = " << fVoice << ", " << ", " <<
+    std::endl;
+    
+  
+   *     enum LilypondNote {
+      k_aeseh, k_aes, k_aeh, k_a, k_aih, k_ais, k_aisih,
+      k_beseh, k_bes, k_beh, k_b, k_bih, k_bis, k_bisih, 
+      k_ceseh, k_ces, k_ceh, k_c, k_cih, k_cis, k_cisih,
+      k_deseh, k_des, k_deh, k_d, k_dih, k_dis, k_disih,
+      k_eeseh, k_ees, k_eeh, k_e, k_eih, k_eis, k_eisih, 
+      k_feseh, k_fes, k_feh, k_f, k_fih, k_fis, k_fisih,
+      k_geseh, k_ges, k_geh, k_g, k_gih, k_gis, k_gisih,
+      k_NoLilypondNote};
+
+*/
+
+  // print the note name
+  assert(fLilypondNote != k_NoLilypondNote);
+  switch (fLilypondNote) {
+    case k_aeseh:
+      os << "aeseh";
+      break;
+    case k_aes:
+      os << "aes";
+      break;
+    case k_aeh:
+      os << "aeh";
+      break;
+    case k_a:
+      os << "a";
+      break;
+    case k_aih:
+      os << "aih";
+      break;
+    case k_ais:
+      os << "ais";
+      break;
+    case k_aisih:
+      os << "aisih";
+      break;
+      
+    case k_beseh:
+      os << "beseh";
+      break;
+    case k_bes:
+      os << "bes";
+      break;
+    case k_beh:
+      os << "beh";
+      break;
+    case k_b:
+      os << "b";
+      break;
+    case k_bih:
+      os << "bih";
+      break;
+    case k_bis:
+      os << "bis";
+      break;
+    case k_bisih:
+      os << "bisih";
+      break;
+      
+    case k_ceseh:
+      os << "ceseh";
+      break;
+    case k_ces:
+      os << "ces";
+      break;
+    case k_ceh:
+      os << "ceh";
+      break;
+    case k_c:
+      os << "c";
+      break;
+    case k_cih:
+      os << "cih";
+      break;
+    case k_cis:
+      os << "cis";
+      break;
+    case k_cisih:
+      os << "cisih";
+      break;
+      
+    case k_deseh:
+      os << "deseh";
+      break;
+    case k_des:
+      os << "des";
+      break;
+    case k_deh:
+      os << "deh";
+      break;
+    case k_d:
+      os << "d";
+      break;
+    case k_dih:
+      os << "dih";
+      break;
+    case k_dis:
+      os << "dis";
+      break;
+    case k_disih:
+      os << "disih";
+      break;
+
+    case k_eeseh:
+      os << "eeseh";
+      break;
+    case k_ees:
+      os << "ees";
+      break;
+    case k_eeh:
+      os << "eeh";
+      break;
+    case k_e:
+      os << "e";
+      break;
+    case k_eih:
+      os << "eih";
+      break;
+    case k_eis:
+      os << "eis";
+      break;
+    case k_eisih:
+      os << "eisih";
+      break;
+      
+    case k_feseh:
+      os << "feseh";
+      break;
+    case k_fes:
+      os << "fes";
+      break;
+    case k_feh:
+      os << "feh";
+      break;
+    case k_f:
+      os << "f";
+      break;
+    case k_fih:
+      os << "fih";
+      break;
+    case k_fis:
+      os << "fis";
+      break;
+    case k_fisih:
+      os << "fisih";
+      break;
+      
+    case k_geseh:
+      os << "geseh";
+      break;
+    case k_ges:
+      os << "ges";
+      break;
+    case k_geh:
+      os << "geh";
+      break;
+    case k_g:
+      os << "g";
+      break;
+    case k_gih:
+      os << "gih";
+      break;
+    case k_gis:
+      os << "gis";
+      break;
+    case k_gisih:
+      os << "gisih";
+      break;
+  } // switch
+  
+  // print the dots if any  
+  while (fDotsNumber-- > 0) {
+    os << ".";
+  } // while
+}
+
+/*
 Slilypondnote lilypondnote::create(
-  unsigned short voice, 
+  unsigned short voice
   string name,
   char oct, 
   lilypondnoteduration& dur, string acc)
@@ -312,7 +539,6 @@ lilypondnote::lilypondnote(
 {
   set(voice, name, octave, dur, acc); 
 }
-lilypondnote::~lilypondnote() {}
 
 void lilypondnote::set (
   unsigned short voice, 
@@ -339,7 +565,7 @@ void lilypondnote::set (
       s << acc;
     if (name != "empty" || octave != 0) { // JMI USER
       s << lilypondnote::octaveRepresentation(octave); // clean absolute/relative later
-      /*
+      / *
       if (!status) {
         // USER s << (int)octave;
         s << lilypondnote::octaveRepresentation(octave);
@@ -348,7 +574,7 @@ void lilypondnote::set (
         s << lilypondnote::octaveRepresentation(octave);
         status->fOctave = octave;
       }
-      */
+      * /
     } // name != "empty"
   } // non rest
   
@@ -385,12 +611,7 @@ std::string lilypondnote::octaveRepresentation (char octave)
   }
   return s.str();
 }
-
-void lilypondnote::print(ostream& os)
-{
-  // print the note name
-  os << fName << " ";
-}
+  */
 
 //______________________________________________________________________________
 lilypondnotestatus* lilypondnotestatus::fInstances[kMaxInstances] = { 0 };

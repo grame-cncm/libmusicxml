@@ -71,7 +71,7 @@ class EXP xml2lilypondvisitor :
 {
   public:
     
-    xml2lilypondvisitor( translationSwitches& sw );
+    xml2lilypondvisitor( translationSwitches& ts );
     virtual ~xml2lilypondvisitor() {}
 
     Slilypondelement convert (const Sxmlelement& xml);

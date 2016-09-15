@@ -34,8 +34,8 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-xml2lilypondvisitor::xml2lilypondvisitor( translationSwitches& sw ) :
-  fSwitches(sw), 
+xml2lilypondvisitor::xml2lilypondvisitor( translationSwitches& ts ) :
+  fSwitches(ts), 
   fCurrentStaffIndex(0)
 {}
 

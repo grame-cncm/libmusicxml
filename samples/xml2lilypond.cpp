@@ -127,16 +127,16 @@ int main(int argc, char *argv[])
 
   int   remainingArgs = nonOptionArgs;
 
-  translationSwitches sw;
-  sw.fGenerateAbsoluteCode = generateAbsoluteCode;
-  sw.fGenerateComments =     generateComments;
-  sw.fGenerateBars =         generateBars;
-  sw.fGenerateStems =        generateStems;
-  sw.fGeneratePositions =    generatePositions;
-  sw.fTrace =                trace;
-  sw.fDebug =                debug;
+  translationSwitches  ts;
+  ts.fGenerateAbsoluteCode = generateAbsoluteCode;
+  ts.fGenerateComments =     generateComments;
+  ts.fGenerateBars =         generateBars;
+  ts.fGenerateStems =        generateStems;
+  ts.fGeneratePositions =    generatePositions;
+  ts.fTrace =                trace;
+  ts.fDebug =                debug;
 
-  if (sw.fTrace)
+  if (ts.fTrace)
     cerr << 
       "Launching conversion to LilyPond with libmusicxml2 v" << 
       musicxmllibVersionStr() <<
@@ -146,9 +146,9 @@ int main(int argc, char *argv[])
   
   xmlErr err = kNoErr;
   if (!strcmp(file, "-"))
-    err = musicxmlfd2lilypond(stdin, sw, cout);
+    err = musicxmlfd2lilypond(stdin, ts, cout);
   else
-    err = musicxmlfile2lilypond(file, sw, cout);
+    err = musicxmlfile2lilypond(file, ts, cout);
   if (err) {
     cout << "conversion failed" << endl;
   }

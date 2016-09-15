@@ -207,9 +207,44 @@ class EXP lilypondnoteduration {
 class EXP lilypondnote : public lilypondelement {
   public:
 
-    static SMARTP<lilypondnote> create(unsigned short voice);
-    static SMARTP<lilypondnote> create(unsigned short voice, std::string name, char octave,
-                                            lilypondnoteduration& dur, std::string acc="");
+    enum DiatonicNote {
+      kA, kB, kC, kD, kE, kF, kG, kNoDiatonicNote};
+    
+    enum Alteration { // -2 as in MusicXML, to help testing
+      kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp, kNoAlteration};
+      
+    enum Duration {
+      kWhole, kHalf, kQuarter, kEighth, kSixteenth, kNoDuration};
+    
+    // the following is a series of Cs with increasing pitches:
+    // \relative c'' { ceseh ces ceh c cih cis cisih }
+
+    enum LilypondNote {
+      k_aeseh, k_aes, k_aeh, k_a, k_aih, k_ais, k_aisih,
+      k_beseh, k_bes, k_beh, k_b, k_bih, k_bis, k_bisih, 
+      k_ceseh, k_ces, k_ceh, k_c, k_cih, k_cis, k_cisih,
+      k_deseh, k_des, k_deh, k_d, k_dih, k_dis, k_disih,
+      k_eeseh, k_ees, k_eeh, k_e, k_eih, k_eis, k_eisih, 
+      k_feseh, k_fes, k_feh, k_f, k_fih, k_fis, k_fisih,
+      k_geseh, k_ges, k_geh, k_g, k_gih, k_gis, k_gisih,
+      k_NoLilypondNote};
+      
+    static SMARTP<lilypondnote> create();// JMI  Note note, int voice) 
+
+    void update(
+          DiatonicNote diatonicNote,
+          Alteration   alteration,
+          int          octave,
+          int          duration,
+          int          dotsNumber,
+          LilypondNote lilypondNote,
+          int          voice);
+        
+  
+    /*
+    static SMARTP<lilypondnote> create(
+          unsigned short voice, std::string name, char octave,
+          lilypondnoteduration& dur, std::string acc="");
 
     void set (unsigned short voice, std::string name, char octave, lilypondnoteduration& dur, std::string acc);
     void setName (const std::string name)     { fNote = name; } 
@@ -221,25 +256,45 @@ class EXP lilypondnote : public lilypondelement {
     const char *  accidental() const  { return fAccidental.c_str(); }
     char      octave() const    { return fOctave; }
     const lilypondnoteduration& duration() const { return fDuration; }
+    */
 
     virtual void print (std::ostream& os);
 
   protected:
  
-    lilypondnote(unsigned short voice);
-    lilypondnote(unsigned short voice, std::string name, char octave, 
-                    lilypondnoteduration& dur, std::string acc="");
+    /*
+    lilypondnote(
+          unsigned short voice, std::string name, char octave, 
+          lilypondnoteduration& dur, std::string acc="");
+    */
+    
+    lilypondnote();
+    
     virtual ~lilypondnote();
     
   private:
 
+    // MusicXML informations
+    DiatonicNote fDiatonicNote;
+    Alteration   fAlteration;
+    int          fOctave;
+    int          fDuration;
+    int          fDotsNumber;
+
+    // LilyPond informations
+    LilypondNote fLilypondNote;
+    
+    int          fVoice;
+
+
+    /*
     std::string octaveRepresentation (char octave);
   
     std::string   fNote;
     std::string   fAccidental;
     char  fOctave;
     lilypondnoteduration fDuration;
-
+    */
 };
 typedef SMARTP<lilypondnote> Slilypondnote;
 
