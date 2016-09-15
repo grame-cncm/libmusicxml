@@ -29,7 +29,7 @@ class EXP rational {
     long int fNumerator;
     long int fDenominator;        
     
-    // Used by rationalise()
+    // Uued by rationalise()
     long int gcd(long int a, long int b); 
  
   public:    
@@ -38,9 +38,9 @@ class EXP rational {
     rational(const rational& d);
     rational(const string &str);
 
-    long int getNumerator() const   { return fNumerator; }
+    long int getNumerator() const     { return fNumerator; }
     long int getDenominator() const   { return fDenominator; }
-    void setNumerator(long int d)   { fNumerator = d; }
+    void setNumerator(long int d)     { fNumerator = d; }
     void setDenominator(long int d)   { fDenominator = d; }
     void set(long int n, long int d)  { fNumerator = n; fDenominator = d; }
 
@@ -66,7 +66,7 @@ class EXP rational {
 
     rational& operator =(const rational& dur);
 
-    bool operator >(const rational &dur) const;
+    bool operator > (const rational &dur) const;
     bool operator >=(const rational &dur) const   {return !(*this < dur);}
     bool operator <(const rational &dur) const;
     bool operator <=(const rational &dur) const   {return !(*this > dur);}
@@ -80,19 +80,19 @@ class EXP rational {
     bool operator <=(double num) const;    
     bool operator ==(double) const;
 
-    // Used to "rationalise" rational.
+    // used to "rationalise" rational.
     void rationalise();
    
     operator string () const;
     operator double () const;
-    operator float () const;
-    operator int () const; 
+    operator float ()  const;
+    operator int ()    const; 
 
-    //virtual string toString() const;  Why ?? SL
+    // virtual string toString() const;  Why ?? SL
     string toString() const;
     double toDouble() const;
-    float  toFloat() const;
-    int    toInt() const;
+    float  toFloat()  const;
+    int    toInt()    const;
 };
 
 #endif

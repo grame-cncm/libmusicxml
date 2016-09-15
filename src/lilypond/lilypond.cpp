@@ -272,6 +272,18 @@ ostream& operator<< (ostream& os, const Slilypondelement& elt)
 }
 
 //______________________________________________________________________________
+ostream& operator<< (ostream& os, const Slilypondnoteduration& dur)
+{
+  dur->print(os);
+  return os;
+}
+
+void lilypondnoteduration::print(ostream& os)
+{
+  os << fNum << "/" << fDenom;
+}
+
+//______________________________________________________________________________
 Slilypondnote lilypondnote::create()// JMI  Note note, int voice) 
 {
   // JMI lilypondnotestatus status = lilypondnotestatus::get(voice);
@@ -284,31 +296,32 @@ Slilypondnote lilypondnote::create()// JMI  Note note, int voice)
   return o;
 }
 
-lilypondnote::lilypondnote() : lilypondelement("")
+lilypondnote::lilypondnote() :
+  lilypondelement(""),
+  fLilypondnoteduration(0, 0)
 {
-  fDiatonicNote=lilypondnote::kNoDiatonicNote;
-  fAlteration=lilypondnote::kNoAlteration;
-  fOctave=-1;
-  fDuration=lilypondnote::kNoDuration;
-  fVoice=-1;
+  fDiatonicNote         = lilypondnote::kNoDiatonicNote;
+  fAlteration           = lilypondnote::kNoAlteration;
+  fOctave               = -1;
+  fVoice                = -1;
 }
 
 void lilypondnote::update(
-  bool         currentStepIsRest,
-  DiatonicNote diatonicNote,
-  Alteration   alteration,
-  int          octave,
-  int          duration,
-  int          dotsNumber,
-  LilypondNote lilypondNote,
-  int          voice)
+    bool                 currentStepIsRest,
+    DiatonicNote         diatonicNote,
+    Alteration           alteration,
+    int                  octave,
+    int                  dotsNumber,
+    lilypondnoteduration dur,
+    LilypondNote         lilypondNote,
+    int                  voice)
 {
   fCurrentStepIsRest = currentStepIsRest;
   fDiatonicNote = diatonicNote;
   fAlteration = alteration;
   fOctave = octave;
-  fDuration = duration;
   fDotsNumber = dotsNumber;
+  fLilypondnoteduration = dur;
   fLilypondNote = lilypondNote;
   fVoice = voice;
 }
@@ -327,7 +340,6 @@ void lilypondnote::print(ostream& os)
     "note(fDiatonicNote = " << fDiatonicNote << ", " <<
     "fAlteration = " << fAlteration << ", " << ", " <<
     "fOctave = " << fOctave << ", " << ", " <<
-    "fDuration = " << fDuration << ", " << ", " <<
     "fVoice = " << fVoice << ", " << ", " <<
     std::endl;
  */
@@ -493,7 +505,11 @@ void lilypondnote::print(ostream& os)
         break;
     } // switch
   }
-    
+  
+  // print the note duration
+  //os << fLilypondnoteduration;
+  os << fLilypondnoteduration.fNum << "/" << fLilypondnoteduration.fDenom;
+
   // print the dots if any  
   if (fDotsNumber > 0) {
     while (fDotsNumber-- > 0) {
@@ -601,6 +617,7 @@ std::string lilypondnote::octaveRepresentation (char octave)
 
 //______________________________________________________________________________
 lilypondnotestatus* lilypondnotestatus::fInstances[kMaxInstances] = { 0 };
+
 lilypondnotestatus* lilypondnotestatus::get (unsigned short voice)
 { 
   if (voice < kMaxInstances) {

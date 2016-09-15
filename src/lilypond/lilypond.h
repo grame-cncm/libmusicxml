@@ -37,14 +37,18 @@ class lilypondparam;
 class lilypondelement;
 class lilypondpart;
 class lilypondlyrics;
+class lilypondnoteduration;
 
-typedef SMARTP<lilypondparam>    Slilypondparam;
-typedef SMARTP<lilypondelement>  Slilypondelement;
-typedef SMARTP<lilypondpart>     Slilypondpart;
-typedef SMARTP<lilypondlyrics>   Slilypondlyrics;
+typedef SMARTP<lilypondparam>        Slilypondparam;
+typedef SMARTP<lilypondelement>      Slilypondelement;
+typedef SMARTP<lilypondpart>         Slilypondpart;
+typedef SMARTP<lilypondlyrics>       Slilypondlyrics;
+typedef SMARTP<lilypondnoteduration> Slilypondnoteduration;
 
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondparam&   param);
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondelement& elt);
+EXP std::ostream& operator<< (std::ostream& os, const Slilypondnoteduration& dur);
+
 //EXP std::ostream& operator<< (std::ostream& os, const Slilypondpart& elt);
 //EXP std::ostream& operator<< (std::ostream& os, const Slilypondlyrics& elt);
 
@@ -156,20 +160,32 @@ class EXP lilypondnoteduration {
   public:
   
     lilypondnoteduration(long num, long denom, long dots=0) 
-            { set (num, denom, dots); }
+          { set (num, denom, dots); }
     virtual ~lilypondnoteduration() {}
         
     void set (long num, long denom, long dots=0) 
-        { fNum=num; fDenom=denom; fDots=dots; }
-    lilypondnoteduration& operator= (const lilypondnoteduration& dur) 
-        { fNum=dur.fNum; fDenom=dur.fDenom; fDots=dur.fDots; return *this; }
+          { fNum=num; fDenom=denom; fDots=dots; }
+        
+    lilypondnoteduration& operator= (const lilypondnoteduration& dur)
+          {
+            fNum=dur.fNum; fDenom=dur.fDenom; fDots=dur.fDots; 
+            return *this;
+          }
     bool operator!= (const lilypondnoteduration& dur) const 
-        { return (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots); }
+          { 
+            return
+             (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots);
+          }
+    
+    virtual void print (std::ostream& os);
+
+    // private: JMI
 
     long  fNum;
     long  fDenom;
     long  fDots;
 };
+typedef SMARTP<lilypondnoteduration> Slilypondnoteduration;
 
 /*!
 \brief A lilypond note representation.
@@ -186,10 +202,7 @@ class EXP lilypondnote : public lilypondelement {
     
     enum Alteration { // -2 as in MusicXML, to help testing
       kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp, kNoAlteration};
-      
-    enum Duration {
-      kWhole, kHalf, kQuarter, kEighth, kSixteenth, kNoDuration};
-    
+        
     // the following is a series of Cs with increasing pitches:
     // \relative c'' { ceseh ces ceh c cih cis cisih }
 
@@ -206,14 +219,14 @@ class EXP lilypondnote : public lilypondelement {
     static SMARTP<lilypondnote> create();// JMI  Note note, int voice) 
 
     void update(
-          bool         fCurrentStepIsRest,
-          DiatonicNote diatonicNote,
-          Alteration   alteration,
-          int          octave,
-          int          duration,
-          int          dotsNumber,
-          LilypondNote lilypondNote,
-          int          voice);
+          bool                 fCurrentStepIsRest,
+          DiatonicNote         diatonicNote,
+          Alteration           alteration,
+          int                  octave,
+          int                  dotsNumber,
+          lilypondnoteduration dur,
+          LilypondNote         lilypondNote,
+          int                  voice);
         
   
     /*
@@ -250,27 +263,18 @@ class EXP lilypondnote : public lilypondelement {
   private:
 
     // MusicXML informations
-    bool         fCurrentStepIsRest;
-    DiatonicNote fDiatonicNote;
-    Alteration   fAlteration;
-    int          fOctave;
-    int          fDuration;
-    int          fDotsNumber;
+    bool                 fCurrentStepIsRest;
+    DiatonicNote         fDiatonicNote;
+    Alteration           fAlteration;
+    int                  fOctave;
+    int                  fDotsNumber;
+
+    lilypondnoteduration fLilypondnoteduration;
 
     // LilyPond informations
-    LilypondNote fLilypondNote;
+    LilypondNote         fLilypondNote;
     
-    int          fVoice;
-
-
-    /*
-    std::string octaveRepresentation (char octave);
-  
-    std::string   fNote;
-    std::string   fAccidental;
-    char  fOctave;
-    lilypondnoteduration fDuration;
-    */
+    int                  fVoice;
 };
 typedef SMARTP<lilypondnote> Slilypondnote;
 
@@ -300,9 +304,11 @@ class EXP lilypondnotestatus {
 
     enum { defoctave=1, defnum=1, defdenom=4 };
         
-    void reset()  { fOctave=defoctave; fDur.set(defnum, defdenom, 0); }
+    void reset() { fOctave=defoctave; fDur.set(defnum, defdenom, 0); }
+    
     lilypondnotestatus& operator= (const lilypondnoteduration& dur) { fDur = dur; return *this; }
-    bool operator!= (const lilypondnoteduration& dur) const   { return fDur!= dur; }
+    
+    bool operator !=(const lilypondnoteduration& dur) const { return fDur!= dur; }
             
     char                  fOctave;
     lilypondnoteduration  fDur;
