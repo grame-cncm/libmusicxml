@@ -3,6 +3,7 @@ MusicXML Library
 ----------------------------------------------------------------------------------------------------
 Version 3.11
 - specific MacoS version, compiled using C++11
+- xml2guido enhancement: visitors for lyrics, staves, articulation on chord, rehearsal markup (with enclosure)
 
 ----------------------------------------------------------------------------------------------------
 Version 3.10
