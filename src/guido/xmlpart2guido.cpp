@@ -32,9 +32,10 @@ xmlpart2guido::xmlpart2guido(bool generateComments, bool generateStem, bool gene
 	fGenerateComments(generateComments), fGenerateStem(generateStem), 
 	fGenerateBars(generateBar),
 	fNotesOnly(false), fCurrentStaffIndex(0), fCurrentStaff(0),
-	fTargetStaff(0), fTargetVoice(0)
+	fTargetStaff(0), fTargetVoice(0), fCurrentAccoladeIndex(0)
 {
 	fGeneratePositions = true;
+    fGenerateAutoMeasureNum = true;
 	xmlpart2guido::reset();
     fHasLyrics = false;
     directionWord = false;
@@ -561,6 +562,22 @@ void xmlpart2guido::visitStart ( S_note& elt )
 	notevisitor::visitStart ( elt );
 }
 
+    
+//______________________________________________________________________________
+    void xmlpart2guido::visitStart ( S_staves& elt )
+    {
+        // staves in XML is a potential candidate for Accolade!
+        Sguidoelement tag = guidotag::create("accol");
+        fCurrentAccoladeIndex++;
+        std::string accolParams = "id="+std::to_string(fCurrentAccoladeIndex)+", range=\"";
+        string nStavesStr = elt->getValue();
+        int nStaves = atoi(nStavesStr.c_str());
+        int rangeEnd = fCurrentStaffIndex + nStaves - 1;
+        accolParams += std::to_string(fCurrentStaffIndex)+"-"+std::to_string(rangeEnd)+"\"";        
+        tag->add (guidoparam::create(accolParams, false));
+        add (tag);
+    }
+
 //______________________________________________________________________________
 string xmlpart2guido::alter2accident ( float alter ) 
 {
@@ -690,6 +707,7 @@ void xmlpart2guido::visitEnd ( S_time& elt )
 	Sguidoelement tag = guidotag::create("meter");
     tag->add (guidoparam::create(timesign));
 	if (fGenerateBars) tag->add (guidoparam::create("autoBarlines=\"off\"", false));
+    if (fGenerateAutoMeasureNum) tag->add (guidoparam::create("autoMeasuresNum=\"page\"", false));
 	add(tag);
 }
 

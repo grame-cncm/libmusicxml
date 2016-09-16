@@ -1,3 +1,5 @@
+xcode/
+.DS_Store
 build/android/libmusicxml2.so
 build/libmusicxml2*
 build/android/libs
