@@ -64,7 +64,8 @@ class EXP xmlpart2guido :
 	public visitor<S_sound>,
     public visitor<S_wedge>,
     public visitor<S_words>,     // for direction-type tempo wording (added by AC)
-	public visitor<S_rehearsal>     // for rehearsal Markup
+	public visitor<S_rehearsal>,     // for rehearsal Markup
+    public visitor<S_staves>         // for Accolade in Guido
 {
 	// the guido elements stack
 	std::stack<Sguidoelement>	fStack;
@@ -75,7 +76,7 @@ class EXP xmlpart2guido :
 	} delayedElement;
 	vector<delayedElement>	fDelayed;
 	// fields to controls the guido output generation
-	bool	fGenerateComments, fGenerateStem, fGenerateBars, fGeneratePositions;
+	bool	fGenerateComments, fGenerateStem, fGenerateBars, fGeneratePositions, fGenerateAutoMeasureNum;
 
 	// internal parsing state
 	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending;
@@ -96,6 +97,7 @@ class EXP xmlpart2guido :
 	int		fCurrentStaff;			// the staff we're currently generating events for (0 by default)
 	int		fTargetStaff;			// the musicxml target staff (0 by default)
 	int		fTargetVoice;			// the musicxml target voice (0 by default)
+    int     fCurrentAccoladeIndex;  // Accolade id counter
 
 	long	fCurrentDivision;		// the current measure division, expresses the time unit in division of the quarter note
 	long	fCurrentOffset;			// the current direction offset: represents an element relative displacement in current division unit
@@ -174,6 +176,8 @@ class EXP xmlpart2guido :
 		virtual void visitStart( S_segno& elt);
         virtual void visitStart( S_wedge& elt);
 		virtual void visitStart( S_rehearsal& elt);
+        virtual void visitStart( S_staves& elt);
+
 		virtual void visitEnd  ( S_clef& elt);
 		virtual void visitEnd  ( S_direction& elt);
         virtual void visitEnd  ( S_words& elt);
