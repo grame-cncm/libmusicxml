@@ -55,6 +55,7 @@ EXP const char*   musicxml2lilypondVersionStr();
 typedef struct {
   bool fTrace;
   bool fGenerateAbsoluteCode;
+  bool fGenerateNumericalTime;
   bool fGenerateComments;
   bool fGenerateBars;
   bool fGenerateStems;

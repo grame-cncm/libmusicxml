@@ -24,16 +24,19 @@ void usage(int exitStatus) {
   cerr <<
     endl <<
     "--> Usage:    musicxml2lilypond [options] <MusicXMLFile>" << endl <<
-    "    Action:   reads <MusicXMLFile> or stdin if <MusicXMLFile> is '-'" << endl <<
+    "    Action:   reads <MusicXMLFile> or stdin if <MusicXMLFile> is '-'," << endl <<
+    "              and converts it to LilyPond source code written to standard output" << endl <<
     endl <<
-    "    Options: -a,--absolute:    generates absolute code" << endl <<
-    "                   (default:   generate relative code)" << endl <<
-    "             -c,--nocomments:  don't generate comments" << endl <<
-    "             -b,--noautobars:  don't generate barlines" << endl <<
-    "             -s,--nostems:     don't generate stems commands" << endl <<
-    "             -p,--nopositions: don't generate positions" << endl <<
-    "             -t,--notrace:     don't generate a trace of the activity" << endl <<
-    "             -d,--debug  :     print debugging information" << endl <<
+    "    Options: --help:          display this help" << endl <<
+    "             --absolute:      generate absolute code" << endl <<
+    "                   (default:  generate relative code)" << endl <<
+    "             --numericaltime  use C and such numerical time signatures" << endl <<
+    "             --nocomments:    don't generate comments" << endl <<
+    "             --noautobars:    don't generate barlines" << endl <<
+    "             --nostems:       don't generate stems commands" << endl <<
+    "             --nopositions:   don't generate positions" << endl <<
+    "             --notrace:       don't generate a trace of the activity to standard error" << endl <<
+    "             --debug  :       print debugging information" << endl <<
     endl;
   exit(exitStatus);
 }
@@ -48,25 +51,37 @@ int main(int argc, char *argv[])
   }
   */
   
-  bool generateAbsoluteCode = false;
-  bool generateComments =     true;
-  bool generateBars =         true;
-  bool generateStems =        false;
-  bool generatePositions =    false;
-  bool trace =                true;
-  bool debug =                false;
+  int helpPresent =          0;
+  int absolutePresent =      0;
+  int numericaltimePresent = 0;
+  int nocommentsPresent =    0;
+  int noautobarsPresent =    0;
+  int stemsPresent =         0;
+  int positionsPresent =     0;
+  int notracePresent =       0;
+  int debugPresent =         0;
+  
+  bool generateAbsoluteCode =  false;
+  bool generateNumericalTime = false;
+  bool generateComments =      true;
+  bool generateBars =          true;
+  bool generateStems =         false;
+  bool generatePositions =     false;
+  bool trace =                 true;
+  bool debug =                 false;
   
    static struct option long_options [] =
     {
     /* These options set a flag. */
-    {"help",      no_argument,       0, 'h'},
-    {"absolute",  no_argument,       0, 'a'},
-    {"comments",  no_argument,       0, 'c'},
-    {"autobars",  no_argument,       0, 'b'},
-    {"stems",     no_argument,       0, 's'},
-    {"positions", no_argument,       0, 'p'},
-    {"trace",     no_argument,       0, 't'},
-    {"debug",     no_argument,       0, 'd'},
+    {"help",          no_argument,   &helpPresent, 1},
+    {"absolute",      no_argument,   &absolutePresent, 1},
+    {"numericaltime", no_argument,   &numericaltimePresent, 1},
+    {"nocomments",    no_argument,   &nocommentsPresent, 1},
+    {"noautobars",    no_argument,   &noautobarsPresent, 1},
+    {"stems",         no_argument,   &stemsPresent, 1},
+    {"positions",     no_argument,   &positionsPresent, 1},
+    {"notrace",       no_argument,   &notracePresent, 1},
+    {"debug",         no_argument,   &debugPresent, 1},
     {0, 0, 0, 0}
     };
 
@@ -85,26 +100,47 @@ int main(int argc, char *argv[])
     {
     switch (c)
       {
-      case 'h' :
-        usage (0);
+      case 0 :
+        if (helpPresent) {
+          usage (0);
+          break;
+        }
+        if (absolutePresent) {
+          generateAbsoluteCode = true;
+          break;
+        }
+        if (numericaltimePresent) {
+          generateNumericalTime = true;
+          break;
+        }
+        if (nocommentsPresent) {
+          generateComments = false;
+          break;
+        }
+        if (noautobarsPresent) {
+          generateBars = false;
+          break;
+        }
+        if (stemsPresent) {
+          generateStems = true;
+          break;
+        }
+        if (positionsPresent) {
+          generatePositions = true;
+          break;
+        }
+        if (notracePresent) {
+          trace = false;
+          break;
+        }
+        if (debugPresent) {
+          debug = true;
+          break;
+        }
         break;
-      case 'a' :
-        generateAbsoluteCode = true;
-        break;
-      case 'b' :
-        generateBars = false;
-        break;
-      case 's' :
-        generateStems = true;
-        break;
-      case 'p' :
-        generatePositions = true;
-        break;
-      case 't' :
-        trace = false;
-        break;
-      case 'd' :
-        debug = true;
+        
+       default:
+        usage (1);
         break;
       } // switch
     } // while
@@ -120,21 +156,25 @@ int main(int argc, char *argv[])
       break;
 
     default:
+      /*
       std::cerr <<
         "--> nonOptionArgs = " << nonOptionArgs << std::endl;
       usage (1);
+      */
+      break;
     } //  switch
 
   int   remainingArgs = nonOptionArgs;
 
   translationSwitches  ts;
-  ts.fGenerateAbsoluteCode = generateAbsoluteCode;
-  ts.fGenerateComments =     generateComments;
-  ts.fGenerateBars =         generateBars;
-  ts.fGenerateStems =        generateStems;
-  ts.fGeneratePositions =    generatePositions;
-  ts.fTrace =                trace;
-  ts.fDebug =                debug;
+  ts.fGenerateAbsoluteCode =  generateAbsoluteCode;
+  ts.fGenerateNumericalTime = generateNumericalTime;
+  ts.fGenerateComments =      generateComments;
+  ts.fGenerateBars =          generateBars;
+  ts.fGenerateStems =         generateStems;
+  ts.fGeneratePositions =     generatePositions;
+  ts.fTrace =                 trace;
+  ts.fDebug =                 debug;
 
   if (ts.fTrace)
     cerr << 
@@ -142,7 +182,16 @@ int main(int argc, char *argv[])
       musicxmllibVersionStr() <<
       " / xml2lilypond v" <<
       musicxml2lilypondVersionStr() << 
-      endl;
+      endl <<
+      "The options are:" << endl <<
+      "  generateAbsoluteCode:  " << string(generateAbsoluteCode ? "true" : "false") << endl <<
+      "  generateNumericalTime: " << string(generateNumericalTime ? "true" : "false") << endl <<
+      "  generateComments:      " << string(generateComments ? "true" : "false") << endl <<
+      "  generateBars:          " << string(generateBars ? "true" : "false") << endl <<
+      "  generateStems:         " << string(generateStems ? "true" : "false") << endl <<
+      "  generatePositions:     " << string(generatePositions ? "true" : "false") << endl <<
+      "  trace:                 " << string(trace ? "true" : "false") << endl <<
+      "  debug:                 " << string(debug ? "true" : "false") << endl;
   
   xmlErr err = kNoErr;
   if (!strcmp(file, "-"))

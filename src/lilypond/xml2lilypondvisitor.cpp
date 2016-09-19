@@ -263,7 +263,8 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
     string partName = s1.str();
         
     // create the lilypondpart
-    Slilypondpart part = lilypondpart::create(partName, fSwitches.fGenerateAbsoluteCode);
+    Slilypondpart part = lilypondpart::create(
+      partName, fSwitches.fGenerateAbsoluteCode, fSwitches.fGenerateNumericalTime);
     // register it
     fLilypondpartsMap[partID] = part;
     // add it to the lilypondelement sequence
@@ -271,14 +272,14 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
     addElementToSequence (p);
     
    // browse the part contents for the second time with an xmlpart2lilypondvisitor
-    xmlpart2lilypondvisitor pv(fSwitches, part);
-    pv.generatePositions (fSwitches.fGeneratePositions);
-    xml_tree_browser browser(&pv);
-    pv.initialize(part, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
+    xmlpart2lilypondvisitor xp2lv(fSwitches, part);
+    xp2lv.generatePositions (fSwitches.fGeneratePositions);
+    xml_tree_browser browser(&xp2lv);
+    xp2lv.initialize(part, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
     browser.browse(*elt);
     //popFromScoreStack();
 
-    currentTimeSign = pv.getTimeSign();
+    currentTimeSign = xp2lv.getTimeSign();
 
     if (fSwitches.fTrace) cerr << "Extracting part \"" << partID << "\" lyrics information" << endl;
     std::map<std::string, partsummaryvisitor::stanzaContents> 

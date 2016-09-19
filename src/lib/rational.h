@@ -80,7 +80,7 @@ class EXP rational {
     bool operator <=(double num) const;    
     bool operator ==(double) const;
 
-    // used to "rationalise" rational.
+    // used to "rationalise" rational
     void rationalise();
    
     operator string () const;

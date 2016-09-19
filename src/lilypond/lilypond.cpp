@@ -838,20 +838,27 @@ void lilypondlyrics::print(ostream& os)
 }
 
 //______________________________________________________________________________
-Slilypondpart lilypondpart::create(std::string name, bool absoluteCode)
+Slilypondpart lilypondpart::create(std::string name, bool absoluteCode, bool generateNumericalTime)
 {
-  lilypondpart* o = new lilypondpart(name, absoluteCode); assert(o!=0);
+  lilypondpart* o = new lilypondpart(name, absoluteCode, generateNumericalTime); assert(o!=0);
   return o;
 }
 
-lilypondpart::lilypondpart(std::string name, bool absoluteCode)
+lilypondpart::lilypondpart(std::string name, bool absoluteCode, bool generateNumericalTime)
   : lilypondelement("")
 {
   fPartName = name;
   fPartAbsoluteCode = absoluteCode;
+  fGenerateNumericalTime = generateNumericalTime;
   
   // create the implicit lilypondseq element
   fPartLilypondseq = lilypondseq::create(lilypondseq::kSpace);
+  
+  // add the default 4/4 time signature
+  Slilypondtime time = lilypondtime::create(4, 4, fGenerateNumericalTime);
+  Slilypondelement t = time;
+  fPartLilypondseq->addElementToSequence (t);
+
 }
 lilypondpart::~lilypondpart() {}
 
@@ -1227,22 +1234,28 @@ void lilypondlayout::print(ostream& os)
 }
 
 //______________________________________________________________________________
-Slilypondtime lilypondtime::create(int numerator, int denominator)
+Slilypondtime lilypondtime::create(int numerator, int denominator, bool generateNumericalTime)
 {
-  lilypondtime* o = new lilypondtime(numerator, denominator); assert(o!=0);
+  lilypondtime* o = new lilypondtime(numerator, denominator, generateNumericalTime); assert(o!=0);
   return o;
 }
 
-lilypondtime::lilypondtime(int numerator, int denominator) : lilypondelement("")
+lilypondtime::lilypondtime(int numerator, int denominator, bool generateNumericalTime)
+  : lilypondelement("")
 {
-  fNumerator=numerator; 
-  fDenominator=denominator;
+  fRational = rational(numerator, denominator);
+// JMI  fNumerator=numerator; 
+  //fDenominator=denominator;
+  fGenerateNumericalTime = generateNumericalTime;
 }
 lilypondtime::~lilypondtime() {}
 
 void lilypondtime::print(ostream& os)
 {
-  os << fName << "\\time \"" << fNumerator << "/" << fDenominator << "\"" << std::endl;
+//  os << fName << "\\time \"" << fNumerator << "/" << fDenominator << "\"" << std::endl;
+  if (fGenerateNumericalTime)
+    os << "\\numericTimeSignature ";
+  os << "\\time " << fRational.getNumerator() << "/" << fRational.getDenominator() << hdl;
 }
 
 //______________________________________________________________________________

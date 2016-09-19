@@ -22,6 +22,7 @@
 #include "exports.h"
 #include "typedefs.h"
 #include "smartpointer.h"
+#include "rational.h"
 
 namespace MusicXML2 
 {
@@ -660,7 +661,8 @@ typedef SMARTP<lilypondlayout> Slilypondlayout;
 class EXP lilypondpart : public lilypondelement {
   public:
 
-    static SMARTP<lilypondpart> create(std::string name, bool absoluteCode);
+    static SMARTP<lilypondpart> create(
+      std::string name, bool absoluteCode, bool generateNumericalTime);
     
     std::string      getPartName () const         { return fPartName; }
     bool             getAbsoluteCode () const     { return fPartAbsoluteCode; }
@@ -670,13 +672,14 @@ class EXP lilypondpart : public lilypondelement {
 
   protected:
 
-    lilypondpart(std::string name, bool absoluteCode);
+    lilypondpart(std::string name, bool absoluteCode, bool generateNumericalTime);
     virtual ~lilypondpart();
   
   private:
 
     std::string      fPartName;
     bool             fPartAbsoluteCode;
+    bool             fGenerateNumericalTime;
     
     // the implicit sequence containing the code generated for the part
     Slilypondseq     fPartLilypondseq;
@@ -824,18 +827,20 @@ typedef SMARTP<lilypondlyrics> Slilypondlyrics;
 class EXP lilypondtime : public lilypondelement {
   public:
     
-    static SMARTP<lilypondtime> create(int numerator, int denominator);
+    static SMARTP<lilypondtime> create(int numerator, int denominator, bool generateNumericalTime);
 
     virtual void print (std::ostream& os);
 
   protected:
 
-    lilypondtime(int numerator, int denominator);
+    lilypondtime(int numerator, int denominator, bool generateNumericalTime);
     virtual ~lilypondtime();
   
   private:
 
-    int fNumerator, fDenominator;
+    // JMI int fNumerator, fDenominator;
+    rational fRational;
+    bool     fGenerateNumericalTime;
 };
 typedef SMARTP<lilypondtime> Slilypondtime;
 
