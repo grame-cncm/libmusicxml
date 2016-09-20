@@ -347,7 +347,7 @@ void lilypondnote::print(ostream& os)
   if (fCurrentStepIsRest) os << "r";
   else {
     // print the note name
-    assertLilypond(fLilypondNote != k_NoLilypondNote, "fLilypondNote != k_NoLilypondNote");
+    //JMI assertLilypond(fLilypondNote != k_NoLilypondNote, "fLilypondNote != k_NoLilypondNote");
     switch (fLilypondNote) {
       
       case k_aeseh:
@@ -503,6 +503,8 @@ void lilypondnote::print(ostream& os)
       case k_gisih:
         os << "gisih";
         break;
+      default:
+        os << "Note???";
     } // switch
   }
   
@@ -667,7 +669,8 @@ void lilypondseq::print(ostream& os)
   vector<Slilypondelement>::const_iterator i;
   for (i=fSequenceElements.begin(); i!=fSequenceElements.end(); i++) {
     os << (*i);
-    if (fElementsSeparator == kEndOfLine) os << std::endl;
+    if (fElementsSeparator == kEndOfLine) os << hdl;
+    // JMI
     else os << " ";
   } // for
 }
@@ -738,8 +741,9 @@ ostream& operator<< (ostream& os, const Slilypondbarline& elt)
 void lilypondbarline::print(ostream& os)
 {
   hdl++;
-  os << "| % " << fNextBarNumber << hdl;
+  os << "| % ";
   hdl--;
+  os << fNextBarNumber << hdl;
 }
 
 //______________________________________________________________________________
@@ -1098,7 +1102,7 @@ void lilypondvariablevalueassociation::print(ostream& os)
   if (fQuotesKind == kQuotesAroundValue) os << "\"";
   os << fVariableValue;
   if (fQuotesKind == kQuotesAroundValue) os << "\"";
-  os << std::endl;
+  os << hdl;
 }
 
 //______________________________________________________________________________
@@ -1134,7 +1138,7 @@ void lilypondschemevariablevalueassociation::changeAssociation (std::string valu
 void lilypondschemevariablevalueassociation::print(ostream& os)
 {
   if (fCommentedKind == kCommented) os << "\%";
-  os << "#(" << fVariableName << " " << fVariableValue << ")" << std::endl;
+  os << "#(" << fVariableName << " " << fVariableValue << ")" << hdl;
 }
 
 //______________________________________________________________________________
@@ -1172,7 +1176,7 @@ void lilypondglobalsettings::print(ostream& os)
       os << var;
       if (fVarValSeparator == kEqualSign) os << " = ";
       else os << " ";
-      os << "\"" << val << "\"" << std::endl;
+      os << "\"" << val << "\"" << hdl;
     } // for
   }
 }
@@ -1207,7 +1211,7 @@ void lilypondschemeglobalsettings::print(ostream& os)
       string   var=it->first.c_str();
       string   val=it->second.c_str();
       
-      os << "#(" << var << " " << val << ")" << std::endl;
+      os << "#(" << var << " " << val << ")" << hdl;
     } // for
   }
 }
@@ -1273,7 +1277,7 @@ lilypondclef::~lilypondclef() {}
 
 void lilypondclef::print(ostream& os)
 {
-  os << fName << "\\clef \"" << fClefName << "\"" << std::endl;
+  os << fName << "\\clef \"" << fClefName << "\"" << hdl;
 }
 
 //______________________________________________________________________________
@@ -1300,9 +1304,8 @@ void lilypondkey::print(ostream& os)
   os << "\\key " << fTonicNote << " ";
   if (fKeyMode == kMajor) os << "\"major";
   else os << "\"minor";
-  os << std::endl;
+  os << hdl;
 }
-
 
 
 }

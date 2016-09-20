@@ -24,13 +24,13 @@ void usage(int exitStatus) {
   cerr <<
     endl <<
     "--> Usage:    musicxml2lilypond [options] <MusicXMLFile>" << endl <<
-    "    Action:   reads <MusicXMLFile> or stdin if <MusicXMLFile> is '-'," << endl <<
+    endl <<
+    "    Effect:   reads the contents of <MusicXMLFile>, or stdin if <MusicXMLFile> is '-'," << endl <<
     "              and converts it to LilyPond source code written to standard output" << endl <<
     endl <<
     "    Options: --help:          display this help" << endl <<
-    "             --absolute:      generate absolute code" << endl <<
-    "                   (default:  generate relative code)" << endl <<
-    "             --numericaltime  use C and such numerical time signatures" << endl <<
+    "             --absolute:      generate absolute code (default: relative code)" << endl <<
+    "             --numericaltime  don't generate 'C' or such numerical time signatures" << endl <<
     "             --nocomments:    don't generate comments" << endl <<
     "             --noautobars:    don't generate barlines" << endl <<
     "             --nostems:       don't generate stems commands" << endl <<
@@ -156,11 +156,7 @@ int main(int argc, char *argv[])
       break;
 
     default:
-      /*
-      std::cerr <<
-        "--> nonOptionArgs = " << nonOptionArgs << std::endl;
       usage (1);
-      */
       break;
     } //  switch
 
