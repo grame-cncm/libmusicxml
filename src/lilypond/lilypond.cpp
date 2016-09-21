@@ -330,22 +330,10 @@ void lilypondnote::updateNote(
 }
 
 void lilypondnote::addDynamics (Slilyponddynamics dyn) {
-  cout << "addDynamics(" << dyn << ")" << endl;
   fNoteDynamics.push_back(dyn);
-  std::vector<Slilyponddynamics>::const_iterator i1;
-  for (i1=fNoteDynamics.begin(); i1!=fNoteDynamics.end(); i1++) {
-    cout << " " << (*i1);
-  } // for
-  cout << endl;
 }
 void lilypondnote::addWedge (Slilypondwedge wdg) {
-  cout << "addWedge(" << wdg << ")" << endl;
   fNoteWedges.push_back(wdg);
-  std::vector<Slilypondwedge>::const_iterator i2;
-  for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
-    cout << " " << (*i2);
-  } // for
-  cout << endl;
 }
 
 ostream& operator<< (ostream& os, const Slilypondnote& elt)
@@ -582,6 +570,7 @@ void lilypondnote::print(ostream& os)
     while (fDotsNumber-- > 0) {
       os << ".";  
     } // while
+  }
   
   // print the dynamics if any
   std::vector<Slilyponddynamics>::const_iterator i1;
@@ -594,7 +583,6 @@ void lilypondnote::print(ostream& os)
   for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
     os << " " << (*i2);
   } // for
- }
 }
 
 /*
@@ -1114,11 +1102,11 @@ void lilypondheader::print(ostream& os)
   os << "\\header {" << hdl;
   
   if (fScorePartwise) {
-    os << "%MusicXMl_version = " << fScorePartwise->getAttributeValue("version") << hdl;
+    os << "%MusicXMl_version = \"" << fScorePartwise->getAttributeValue("version") << "\"" << hdl;
   }
   
   if (fWorkNumber) {
-    os << "%work_number = " << fWorkNumber->getValue() << hdl;
+    os << "%work_number = \""  << fWorkNumber->getValue() << "\"" << hdl;
   }
   
   if (fWorkTitle) {
@@ -1130,11 +1118,11 @@ void lilypondheader::print(ostream& os)
         pos = workTitle.find ('"', pos);
       }
     */
-   os << "%work_title = " << fWorkTitle->getValue() << hdl;
+   os << "%work_title = \""  << fWorkTitle->getValue() << "\"" << hdl;
   }
     
   if (fMovementNumber) {
-    os << "%movement_number = " << fMovementNumber->getValue() << hdl;
+    os << "%movement_number = \""  << fMovementNumber->getValue() << "\"" << hdl;
   }
     
   if (fMovementTitle) {
@@ -1146,7 +1134,7 @@ void lilypondheader::print(ostream& os)
         pos = movementTitle.find ('"', pos);
       }
   */
-    os << "%movement_title = " << fMovementTitle->getValue() << hdl;
+    os << "%movement_title = \""  << fMovementTitle->getValue() << "\"" << hdl;
   }
     
   if (!fCreators.empty()) {
@@ -1155,27 +1143,27 @@ void lilypondheader::print(ostream& os)
       string type = (*i1)->getAttributeValue("type");
       std::transform(type.begin(), type.end(), type.begin(), ::tolower);
       if (type == "composer")
-        os << "" << type << " = " << (*i1)->getValue() << hdl;
+        os << "" << type << " = \""  << (*i1)->getValue() << "\"" << hdl;
       else
-        os << "%" << type << " = " << (*i1)->getValue() << hdl;
+        os << "%" << type << " = \""  << (*i1)->getValue() << "\"" << hdl;
     } // for
   }
     
   if (fRights) {
-    os << "%rights = " << fRights->getValue() << hdl;
+    os << "%rights = \""  << fRights->getValue() << "\"" << hdl;
   }
     
   if (!fSoftwares.empty()) {
     vector<S_software>::const_iterator i2;
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
-     os << "%software = " << (*i2)->getValue() << hdl;
+     os << "%software = \""  << (*i2)->getValue() << "\"" << hdl;
     } // for
   }
     
   hdl--;
 
   if (fEncodingDate) {
-    os << "%encoding_date = " << fEncodingDate->getValue() << hdl;
+    os << "%encoding_date = \""  << fEncodingDate->getValue() << "\"" << hdl;
   }
   
   os << "}" << hdl; 
