@@ -39,16 +39,22 @@ class lilypondelement;
 class lilypondpart;
 class lilypondlyrics;
 class lilypondnoteduration;
+class lilyponddynamics;
+class lilypondwedge;
 
 typedef SMARTP<lilypondparam>        Slilypondparam;
 typedef SMARTP<lilypondelement>      Slilypondelement;
 typedef SMARTP<lilypondpart>         Slilypondpart;
 typedef SMARTP<lilypondlyrics>       Slilypondlyrics;
 typedef SMARTP<lilypondnoteduration> Slilypondnoteduration;
+typedef SMARTP<lilyponddynamics>     Slilyponddynamics;
+typedef SMARTP<lilypondwedge>        Slilypondwedge;
 
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondparam&   param);
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondelement& elt);
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondnoteduration& dur);
+EXP std::ostream& operator<< (std::ostream& os, const Slilyponddynamics& dyn);
+EXP std::ostream& operator<< (std::ostream& os, const Slilypondwedge& wdg);
 
 //EXP std::ostream& operator<< (std::ostream& os, const Slilypondpart& elt);
 //EXP std::ostream& operator<< (std::ostream& os, const Slilypondlyrics& elt);
@@ -63,11 +69,11 @@ class EXP lilypondparam : public smartable {
   public:
     
     static SMARTP<lilypondparam> create(std::string value, bool quote=true);
-    static SMARTP<lilypondparam> create(long value, bool quote=true);
+    static SMARTP<lilypondparam> create(int value, bool quote=true);
 
     //! the parameter value
     void        set (std::string value, bool quote=true);
-    void        set (long value, bool quote=true);
+    void        set (int value, bool quote=true);
     std::string get () const        { return fValue; }
     bool        quote () const      { return fQuote; }
 
@@ -76,7 +82,7 @@ class EXP lilypondparam : public smartable {
   protected:
  
     lilypondparam(std::string value, bool quote);
-    lilypondparam(long value, bool quote);
+    lilypondparam(int value, bool quote);
     virtual ~lilypondparam ();
         
   private:
@@ -97,10 +103,10 @@ class EXP lilypondelement : public smartable {
  
     static SMARTP<lilypondelement> create(std::string name, std::string sep=" ");
     
-    long addSubElement (Slilypondelement& elt);
+    int  addSubElement (Slilypondelement& elt);
 
-    long addParam   (Slilypondparam& param);
-    long addParam   (Slilypondparam param);
+    int  addParam   (Slilypondparam& param);
+    int  addParam   (Slilypondparam param);
     
     virtual void print (std::ostream& os);
 
@@ -160,11 +166,11 @@ class EXP lilypondelement : public smartable {
 class EXP lilypondnoteduration {
   public:
   
-    lilypondnoteduration(long num, long denom, long dots=0) 
+    lilypondnoteduration(int num, int denom, int dots=0) 
           { set (num, denom, dots); }
     virtual ~lilypondnoteduration() {}
         
-    void set (long num, long denom, long dots=0) 
+    void set (int num, int denom, int dots=0) 
           { fNum=num; fDenom=denom; fDots=dots; }
         
     lilypondnoteduration& operator= (const lilypondnoteduration& dur)
@@ -182,9 +188,9 @@ class EXP lilypondnoteduration {
 
     // private: JMI
 
-    long  fNum;
-    long  fDenom;
-    long  fDots;
+    int  fNum;
+    int  fDenom;
+    int  fDots;
 };
 typedef SMARTP<lilypondnoteduration> Slilypondnoteduration;
 
@@ -201,7 +207,7 @@ class EXP lilypondnote : public lilypondelement {
     enum DiatonicNote {
       kA, kB, kC, kD, kE, kF, kG, kRest, kNoDiatonicNote};
     
-    enum Alteration { // -2 as in MusicXML, to help testing
+    enum Alteration { // kDoubleFlat=-2 as in MusicXML, to help testing
       kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp, kNoAlteration};
         
     // the following is a series of Cs with increasing pitches:
@@ -219,7 +225,7 @@ class EXP lilypondnote : public lilypondelement {
       
     static SMARTP<lilypondnote> create();// JMI  Note note, int voice) 
 
-    void update(
+    void updateNote(
           bool                 fCurrentStepIsRest,
           DiatonicNote         diatonicNote,
           Alteration           alteration,
@@ -229,7 +235,9 @@ class EXP lilypondnote : public lilypondelement {
           LilypondNote         lilypondNote,
           int                  voice);
         
-  
+    void addDynamics (Slilyponddynamics dyn);
+    void addWedge    (Slilypondwedge    wdg);
+    
     /*
     static SMARTP<lilypondnote> create(
           unsigned short voice, std::string name, char octave,
@@ -270,10 +278,16 @@ class EXP lilypondnote : public lilypondelement {
     int                  fOctave;
     int                  fDotsNumber;
 
+    // MusicXML durations are in in divisions per quarter note,
+    // LilyPond durations are in whole notes, hence the "*4" multiplication
     lilypondnoteduration fLilypondnoteduration;
 
     // LilyPond informations
     LilypondNote         fLilypondNote;
+    
+    std::vector<Slilyponddynamics> fNoteDynamics;
+    std::vector<Slilypondwedge>    fNoteWedges;
+
     
     int                  fVoice;
 };
@@ -761,6 +775,36 @@ class EXP lilypondbreak : public lilypondelement {
     int fNextBarNumber;
 };
 typedef SMARTP<lilypondbreak> Slilypondbreak;
+
+/*!
+\brief A lilypond dynamics representation.
+
+  A dynamics is represented by a DynamicsKind value
+*/
+//______________________________________________________________________________
+class EXP lilyponddynamics : public lilypondelement {
+  public:
+
+    enum DynamicsKind {
+            kFDynamics, kPDynamics, 
+            k_NoDynamics };
+    
+    static SMARTP<lilyponddynamics> create(DynamicsKind kind);
+
+    DynamicsKind getDynamicsKind () const { return fDynamicsKind; }
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilyponddynamics(DynamicsKind kind);
+    virtual ~lilyponddynamics();
+  
+  private:
+
+    DynamicsKind fDynamicsKind;
+};
+typedef SMARTP<lilyponddynamics> Slilyponddynamics;
 
 /*!
 \brief A lilypond wedge representation.

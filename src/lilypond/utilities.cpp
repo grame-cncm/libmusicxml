@@ -17,6 +17,7 @@
 #include <iostream>
 #include <sstream>
 #include <stdlib.h>     /* abort, NULL */
+#include <cassert>
 
 #include <utilities.h>
 
@@ -30,7 +31,8 @@ void assertLilypond (bool condition, std::string messageIfFalse) {
     std::cout << std::flush;
     std::cerr <<
       std::endl <<"--> assertLilypond() causes exit, " << messageIfFalse << std::endl << std::flush;
-    abort();
+    // abort with code source line information
+    assert(condition);
   }
 }
 

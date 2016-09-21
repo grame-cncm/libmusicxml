@@ -30,7 +30,7 @@ Slilypondparam lilypondparam::create(string value, bool quote)
   lilypondparam * o = new lilypondparam(value, quote); assert(o!=0); 
   return o;
 }
-Slilypondparam lilypondparam::create(long value, bool quote) 
+Slilypondparam lilypondparam::create(int value, bool quote) 
 {
  lilypondparam * o = new lilypondparam(value, quote); assert(o!=0);
  return o; 
@@ -39,7 +39,7 @@ Slilypondparam lilypondparam::create(long value, bool quote)
 lilypondparam::lilypondparam(string value, bool quote) : 
     fValue(value), fQuote(quote) 
   {}
-lilypondparam::lilypondparam(long value, bool quote) 
+lilypondparam::lilypondparam(int value, bool quote) 
 {
   set(value, quote);
 }
@@ -52,7 +52,7 @@ void lilypondparam::set (string value, bool quote)
   fQuote = quote;
 }
 
-void lilypondparam::set (long value, bool quote)
+void lilypondparam::set (int value, bool quote)
 {
   stringstream s;
   s << value;
@@ -103,7 +103,7 @@ void lilypondelement::dumpParams() {
   } // if
 }
 
-long lilypondelement::addParam (Slilypondparam& param) { 
+int lilypondelement::addParam (Slilypondparam& param) { 
 //  bool doDebug = fDebug;
   bool doDebug = false;
 
@@ -113,7 +113,7 @@ long lilypondelement::addParam (Slilypondparam& param) {
   return fParams.size()-1;
 }
 
-long lilypondelement::addParam (Slilypondparam param) { 
+int lilypondelement::addParam (Slilypondparam param) { 
 //  bool doDebug = fDebug;
   bool doDebug = false;
 
@@ -166,7 +166,7 @@ void lilypondelement::dumpElements() {
   // if (isSeq) cout << std::endl;
 }
 
-long lilypondelement::addSubElement (Slilypondelement& elt) {
+int lilypondelement::addSubElement (Slilypondelement& elt) {
   bool doDebug = fDebug;
 //  bool doDebug = false;
 
@@ -280,7 +280,7 @@ ostream& operator<< (ostream& os, const Slilypondnoteduration& dur)
 
 void lilypondnoteduration::print(ostream& os)
 {
-  os << fNum << "/" << fDenom;
+  os << fNum << "///" << fDenom;
 }
 
 //______________________________________________________________________________
@@ -293,6 +293,7 @@ Slilypondnote lilypondnote::create()// JMI  Note note, int voice)
   lilypondnote * o = new lilypondnote ();// JMI note, voice);
  //   voice,"", status->fOctave, status->fDur, ""); 
   assert(o!=0); 
+  
   return o;
 }
 
@@ -303,10 +304,12 @@ lilypondnote::lilypondnote() :
   fDiatonicNote         = lilypondnote::kNoDiatonicNote;
   fAlteration           = lilypondnote::kNoAlteration;
   fOctave               = -1;
+  fDotsNumber           = 0;
   fVoice                = -1;
 }
+lilypondnote::~lilypondnote() {}
 
-void lilypondnote::update(
+void lilypondnote::updateNote(
     bool                 currentStepIsRest,
     DiatonicNote         diatonicNote,
     Alteration           alteration,
@@ -325,7 +328,25 @@ void lilypondnote::update(
   fLilypondNote = lilypondNote;
   fVoice = voice;
 }
-lilypondnote::~lilypondnote() {}
+
+void lilypondnote::addDynamics (Slilyponddynamics dyn) {
+  cout << "addDynamics(" << dyn << ")" << endl;
+  fNoteDynamics.push_back(dyn);
+  std::vector<Slilyponddynamics>::const_iterator i1;
+  for (i1=fNoteDynamics.begin(); i1!=fNoteDynamics.end(); i1++) {
+    cout << " " << (*i1);
+  } // for
+  cout << endl;
+}
+void lilypondnote::addWedge (Slilypondwedge wdg) {
+  cout << "addWedge(" << wdg << ")" << endl;
+  fNoteWedges.push_back(wdg);
+  std::vector<Slilypondwedge>::const_iterator i2;
+  for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
+    cout << " " << (*i2);
+  } // for
+  cout << endl;
+}
 
 ostream& operator<< (ostream& os, const Slilypondnote& elt)
 {
@@ -504,22 +525,76 @@ void lilypondnote::print(ostream& os)
         os << "gisih";
         break;
       default:
-        os << "Note???";
+        os << "Note" << fLilypondNote << "???";
     } // switch
   }
   
   // print the note duration
-  //os << fLilypondnoteduration;
-  os << fLilypondnoteduration.fNum << "/" << fLilypondnoteduration.fDenom;
+  // divisions are per quater, Lilypond durations are in whole notes
+  //os << "|"  << fLilypondnoteduration.fNum << "|" << fLilypondnoteduration.fDenom;
 
+  int noteDivisions         = fLilypondnoteduration.fNum;
+  int divisionsPerWholeNote = fLilypondnoteduration.fDenom ;
+  
+  div_t divresult = div (noteDivisions, divisionsPerWholeNote);  
+  int   div = divresult.quot;
+  int   mod = divresult.rem;
+  
+  switch (div) {
+    case 8:
+    case 7:
+    case 6:
+    case 5:
+      os << "\\maxima";
+      break;
+    case 4:
+    case 3:
+      os << "\\longa";
+      break;
+    case 2:
+      os << "\\breva";
+      break;
+    case 1:
+      os << "1";
+      break;
+    case 0:
+      {
+      // shorter than a whole note
+      //os << "(shorter than a whole note) ";
+      int weight = 2; // half note
+      int n = noteDivisions*2;
+
+      while (n < divisionsPerWholeNote) {
+         weight *= 2;
+         n *= 2;
+      } // while
+      os << weight;
+      }
+      break;
+    default:
+      cerr <<
+        "*** ERROR, MusicXML note duration " << noteDivisions << "/" << 
+        divisionsPerWholeNote << " is too large" << std::endl;
+  } // switch
+  
   // print the dots if any  
   if (fDotsNumber > 0) {
     while (fDotsNumber-- > 0) {
-      os << ".";
- // cout << "--> fDotsNumber = " << fDotsNumber << std::endl;
- // assertLilypond(false, "test");
+      os << ".";  
     } // while
-  }
+  
+  // print the dynamics if any
+  std::vector<Slilyponddynamics>::const_iterator i1;
+  for (i1=fNoteDynamics.begin(); i1!=fNoteDynamics.end(); i1++) {
+    os << " " << (*i1);
+  } // for
+
+  // print the wedges if any
+  std::vector<Slilypondwedge>::const_iterator i2;
+  for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
+    os << " " << (*i2);
+  } // for
+ }
 }
 
 /*
@@ -553,7 +628,7 @@ void lilypondnote::set (
 {
   lilypondnotestatus * status = lilypondnotestatus::get(voice);
   stringstream s;
-  long dots = dur.fDots;
+  int dots = dur.fDots;
     
   fNote       = name;
   fAccidental = acc;
@@ -801,6 +876,39 @@ void lilypondbreak::print(ostream& os)
 }
 
 //______________________________________________________________________________
+Slilyponddynamics lilyponddynamics::create(DynamicsKind dynamicsKind)
+{
+  lilyponddynamics* o = new lilyponddynamics(dynamicsKind); assert(o!=0);
+  return o;
+}
+
+lilyponddynamics::lilyponddynamics(DynamicsKind dynamicsKind) : lilypondelement("")
+{
+  fDynamicsKind = dynamicsKind; 
+}
+lilyponddynamics::~lilyponddynamics() {}
+
+ostream& operator<< (ostream& os, const Slilyponddynamics& dyn)
+{
+  dyn->print(os);
+  return os;
+}
+
+void lilyponddynamics::print(ostream& os)
+{
+  switch (fDynamicsKind) {
+    case kFDynamics:
+      os << "\\f";
+      break;
+    case kPDynamics:
+      os << "\\p";
+      break;
+    default:
+      os << "Dynamics " << fDynamicsKind << "???";
+  } // switch
+}
+
+//______________________________________________________________________________
 Slilypondwedge lilypondwedge::create(WedgeKind wedgeKind)
 {
   lilypondwedge* o = new lilypondwedge(wedgeKind); assert(o!=0);
@@ -813,9 +921,25 @@ lilypondwedge::lilypondwedge(WedgeKind wedgeKind) : lilypondelement("")
 }
 lilypondwedge::~lilypondwedge() {}
 
+ostream& operator<< (ostream& os, const Slilypondwedge& wdg)
+{
+  wdg->print(os);
+  return os;
+}
+
 void lilypondwedge::print(ostream& os)
 {
-  lilypondelement::print(os);
+  switch (fWedgeKind) {
+    case lilypondwedge::kCrescendoWedge:
+      cout << "\\<";
+      break;
+    case lilypondwedge::kDecrescendoWedge:
+      cout << "\\>";
+      break;
+    case lilypondwedge::kStopWedge:
+      cout << "\\!";
+      break;
+  } // switch
 }
 
 //______________________________________________________________________________

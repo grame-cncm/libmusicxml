@@ -279,7 +279,7 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
     browser.browse(*elt);
     //popFromScoreStack();
 
-    currentTimeSign = xp2lv.getTimeSign();
+    // JMI currentTimeSign = xp2lv.getTimeSign();
 
     if (fSwitches.fTrace) cerr << "Extracting part \"" << partID << "\" lyrics information" << endl;
     std::map<std::string, partsummaryvisitor::stanzaContents> 
