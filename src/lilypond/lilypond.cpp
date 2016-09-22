@@ -937,6 +937,43 @@ void lilypondbreak::print(ostream& os)
 }
 
 //______________________________________________________________________________
+Slilypondbeam lilypondbeam::create(int number, BeamKind beamKind)
+{
+  lilypondbeam* o = new lilypondbeam(number, beamKind); assert(o!=0);
+  return o;
+}
+
+lilypondbeam::lilypondbeam(int number, BeamKind beamKind)
+  : lilypondelement("")
+{
+  fBeamNumber = number;
+  fBeamKind   = beamKind; 
+}
+lilypondbeam::~lilypondbeam() {}
+
+ostream& operator<< (ostream& os, const Slilypondbeam& dyn)
+{
+  dyn->print(os);
+  return os;
+}
+
+void lilypondbeam::print(ostream& os)
+{
+  switch (fBeamKind) {
+    case kBeginBeam:
+      os << "[ ";
+      break;
+    case kContinueBeam:
+      break;
+    case kEndBeam:
+      os << "] ";
+      break;
+    default:
+      os << "Beam " << fBeamKind << "???";
+  } // switch
+}
+
+//______________________________________________________________________________
 Slilyponddynamics lilyponddynamics::create(DynamicsKind dynamicsKind)
 {
   lilyponddynamics* o = new lilyponddynamics(dynamicsKind); assert(o!=0);
@@ -1175,23 +1212,24 @@ void lilypondheader::print(ostream& os)
   os << "\\header {" << hdl;
   
   if (fScorePartwise) {
-    os << "%MusicXMl_version = \"" << fScorePartwise->getAttributeValue("version") << "\"" << hdl;
+    std::string source = fScorePartwise->getAttributeValue("version");
+    std::string dest;
+    std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+    os << "%MusicXMl_version = \"" << dest << "\"" << hdl;
   }
   
   if (fWorkNumber) {
-    os << "%work_number = \""  << fWorkNumber->getValue() << "\"" << hdl;
+    std::string source = fWorkNumber->getValue();
+    std::string dest;
+    std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+    os << "%work_number = \""  << dest << "\"" << hdl;
   }
   
   if (fWorkTitle) {
-     /*
-      string workTitle = fWorkTitle->getValue();
-      unsigned int pos = workTitle.find ('"');
-      while (pos != string::npos) {
-        workTitle = workTitle.replace (pos, 1, "'");
-        pos = workTitle.find ('"', pos);
-      }
-    */
-   os << "%work_title = \""  << fWorkTitle->getValue() << "\"" << hdl;
+    std::string source = fWorkTitle->getValue();
+    std::string dest;
+    std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+    os << "%work_title = \""  << dest << "\"" << hdl;
   }
     
   if (fMovementNumber) {
@@ -1199,15 +1237,10 @@ void lilypondheader::print(ostream& os)
   }
     
   if (fMovementTitle) {
-    /*
-      string movementTitle = fMovementTitle->getValue();
-      unsigned int pos = movementTitle.find ('"');
-      while (pos != string::npos) {
-        movementTitle = movementTitle.replace (pos, 1, "'");
-        pos = movementTitle.find ('"', pos);
-      }
-  */
-    os << "%movement_title = \""  << fMovementTitle->getValue() << "\"" << hdl;
+    std::string source = fMovementTitle->getValue();
+    std::string dest;
+    std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+    os << "%movement_title = \""  << dest << "\"" << hdl;
   }
     
   if (!fCreators.empty()) {
@@ -1223,20 +1256,29 @@ void lilypondheader::print(ostream& os)
   }
     
   if (fRights) {
-    os << "%rights = \""  << fRights->getValue() << "\"" << hdl;
+    std::string source = fRights->getValue();
+    std::string dest;
+    std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+    os << "%rights = \""  << dest << "\"" << hdl;
   }
     
   if (!fSoftwares.empty()) {
     vector<S_software>::const_iterator i2;
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
-     os << "%software = \""  << (*i2)->getValue() << "\"" << hdl;
+      std::string source = (*i2)->getValue();
+      std::string dest;
+      std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+      os << "%software = \""  << dest << "\"" << hdl;
     } // for
   }
     
   hdl--;
 
   if (fEncodingDate) {
-    os << "%encoding_date = \""  << fEncodingDate->getValue() << "\"" << hdl;
+    std::string source = fEncodingDate->getValue();
+    std::string dest;
+    std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+    os << "%encoding_date = \""  << dest << "\"" << hdl;
   }
   
   os << "}" << hdl; 

@@ -30,7 +30,8 @@ void assertLilypond (bool condition, std::string messageIfFalse) {
   if (! condition) {
     std::cout << std::flush;
     std::cerr <<
-      std::endl <<"--> assertLilypond() causes exit, " << messageIfFalse << std::endl << std::flush;
+      std::endl <<"--> assertLilypond() causes exit, " << 
+      messageIfFalse << std::endl << std::flush;
     // abort with code source line information
     assert(condition);
   }

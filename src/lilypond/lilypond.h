@@ -810,6 +810,37 @@ class EXP lilypondbreak : public lilypondelement {
 typedef SMARTP<lilypondbreak> Slilypondbreak;
 
 /*!
+\brief A lilypond beam representation.
+
+  A beam is represented by a BeamKind value
+*/
+//______________________________________________________________________________
+class EXP lilypondbeam : public lilypondelement {
+  public:
+
+    enum BeamKind {
+            kBeginBeam, kContinueBeam, kEndBeam, 
+            k_NoBeam };
+    
+    static SMARTP<lilypondbeam> create(int number, BeamKind kind);
+
+    BeamKind getBeamKind () const { return fBeamKind; }
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondbeam(int number, BeamKind kind);
+    virtual ~lilypondbeam();
+  
+  private:
+
+    int      fBeamNumber;
+    BeamKind fBeamKind;
+};
+typedef SMARTP<lilypondbeam> Slilypondbeam;
+
+/*!
 \brief A lilypond dynamics representation.
 
   A dynamics is represented by a DynamicsKind value
