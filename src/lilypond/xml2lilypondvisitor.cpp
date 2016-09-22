@@ -91,7 +91,7 @@ void xml2lilypondvisitor::addPostamble () {
           "myBreak", "{ \\break }",
           lilypondvariablevalueassociation::kEqualSign,
           lilypondvariablevalueassociation::kNoQuotesAroundValue,
-          lilypondvariablevalueassociation::kCommented);
+          lilypondvariablevalueassociation::kUncommented);
   fLilypondseq->addElementToSequence (vva1);
 
   Slilypondcomment com2 = lilypondcomment::create("choose {} below to let lilypond determine where to break lines");
@@ -102,7 +102,7 @@ void xml2lilypondvisitor::addPostamble () {
           "myBreak", "{}",
           lilypondvariablevalueassociation::kEqualSign,
           lilypondvariablevalueassociation::kNoQuotesAroundValue,
-          lilypondvariablevalueassociation::kUncommented);
+          lilypondvariablevalueassociation::kCommented);
   fLilypondseq->addElementToSequence (vva2);
 }
 

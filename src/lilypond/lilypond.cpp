@@ -280,7 +280,52 @@ ostream& operator<< (ostream& os, const Slilypondnoteduration& dur)
 
 void lilypondnoteduration::print(ostream& os)
 {
-  os << fNum << "///" << fDenom;
+  // divisions are per quater, Lilypond durations are in whole notes
+  //os << "|"  << fLilypondnoteduration.fNum << "|" << fLilypondnoteduration.fDenom;
+
+  int noteDivisions         = fNum;
+  int divisionsPerWholeNote = fDenom ;
+  
+  div_t divresult = div (noteDivisions, divisionsPerWholeNote);  
+  int   div = divresult.quot;
+  int   mod = divresult.rem;
+  
+  switch (div) {
+    case 8:
+    case 7:
+    case 6:
+    case 5:
+      os << "\\maxima";
+      break;
+    case 4:
+    case 3:
+      os << "\\longa";
+      break;
+    case 2:
+      os << "\\breva";
+      break;
+    case 1:
+      os << "1";
+      break;
+    case 0:
+      {
+      // shorter than a whole note
+      //os << "(shorter than a whole note) ";
+      int weight = 2; // half note
+      int n = noteDivisions*2;
+
+      while (n < divisionsPerWholeNote) {
+         weight *= 2;
+         n *= 2;
+      } // while
+      os << weight;
+      }
+      break;
+    default:
+      cerr <<
+        "*** ERROR, MusicXML note duration " << noteDivisions << "/" << 
+        divisionsPerWholeNote << " is too large" << std::endl;
+  } // switch
 }
 
 //______________________________________________________________________________
@@ -317,7 +362,8 @@ void lilypondnote::updateNote(
     int                  dotsNumber,
     lilypondnoteduration dur,
     LilypondNote         lilypondNote,
-    int                  voice)
+    int                  voice,
+    bool                 noteBelongsToAChord)
 {
   fCurrentStepIsRest = currentStepIsRest;
   fDiatonicNote = diatonicNote;
@@ -327,6 +373,11 @@ void lilypondnote::updateNote(
   fLilypondnoteduration = dur;
   fLilypondNote = lilypondNote;
   fVoice = voice;
+  fNoteBelongsToAChord = noteBelongsToAChord;
+}
+
+void lilypondnote::setNoteBelongsToAChord () {
+  fNoteBelongsToAChord = true;
 }
 
 void lilypondnote::addDynamics (Slilyponddynamics dyn) {
@@ -334,6 +385,17 @@ void lilypondnote::addDynamics (Slilyponddynamics dyn) {
 }
 void lilypondnote::addWedge (Slilypondwedge wdg) {
   fNoteWedges.push_back(wdg);
+}
+
+Slilyponddynamics lilypondnote::removeFirstDynamics () {
+  Slilyponddynamics dyn = fNoteDynamics.front();
+  fNoteDynamics.pop_front();
+  return dyn;
+}
+Slilypondwedge lilypondnote::removeFirstWedge () {
+  Slilypondwedge wdg = fNoteWedges.front();
+  fNoteWedges.pop_front();
+  return wdg;
 }
 
 ostream& operator<< (ostream& os, const Slilypondnote& elt)
@@ -517,72 +579,29 @@ void lilypondnote::print(ostream& os)
     } // switch
   }
   
-  // print the note duration
-  // divisions are per quater, Lilypond durations are in whole notes
-  //os << "|"  << fLilypondnoteduration.fNum << "|" << fLilypondnoteduration.fDenom;
-
-  int noteDivisions         = fLilypondnoteduration.fNum;
-  int divisionsPerWholeNote = fLilypondnoteduration.fDenom ;
-  
-  div_t divresult = div (noteDivisions, divisionsPerWholeNote);  
-  int   div = divresult.quot;
-  int   mod = divresult.rem;
-  
-  switch (div) {
-    case 8:
-    case 7:
-    case 6:
-    case 5:
-      os << "\\maxima";
-      break;
-    case 4:
-    case 3:
-      os << "\\longa";
-      break;
-    case 2:
-      os << "\\breva";
-      break;
-    case 1:
-      os << "1";
-      break;
-    case 0:
-      {
-      // shorter than a whole note
-      //os << "(shorter than a whole note) ";
-      int weight = 2; // half note
-      int n = noteDivisions*2;
-
-      while (n < divisionsPerWholeNote) {
-         weight *= 2;
-         n *= 2;
+  if (! fNoteBelongsToAChord) {
+    // print the note duration
+    os << fLilypondnoteduration;
+    
+    // print the dots if any  
+    if (fDotsNumber > 0) {
+      while (fDotsNumber-- > 0) {
+        os << ".";  
       } // while
-      os << weight;
-      }
-      break;
-    default:
-      cerr <<
-        "*** ERROR, MusicXML note duration " << noteDivisions << "/" << 
-        divisionsPerWholeNote << " is too large" << std::endl;
-  } // switch
+    }
+    
+    // print the dynamics if any
+    std::list<Slilyponddynamics>::const_iterator i1;
+    for (i1=fNoteDynamics.begin(); i1!=fNoteDynamics.end(); i1++) {
+      os << " " << (*i1);
+    } // for
   
-  // print the dots if any  
-  if (fDotsNumber > 0) {
-    while (fDotsNumber-- > 0) {
-      os << ".";  
-    } // while
+    // print the wedges if any
+    std::list<Slilypondwedge>::const_iterator i2;
+    for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
+      os << " " << (*i2);
+    } // for
   }
-  
-  // print the dynamics if any
-  std::vector<Slilyponddynamics>::const_iterator i1;
-  for (i1=fNoteDynamics.begin(); i1!=fNoteDynamics.end(); i1++) {
-    os << " " << (*i1);
-  } // for
-
-  // print the wedges if any
-  std::vector<Slilypondwedge>::const_iterator i2;
-  for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
-    os << " " << (*i2);
-  } // for
 }
 
 /*
@@ -739,22 +758,56 @@ void lilypondseq::print(ostream& os)
 }
 
 //______________________________________________________________________________
-Slilypondchord lilypondchord::create()
+Slilypondchord lilypondchord::create(lilypondnoteduration chordduration)
 {
-  lilypondchord* o = new lilypondchord(); assert(o!=0);
+  lilypondchord* o = new lilypondchord(chordduration); assert(o!=0);
   return o;
 }
 
-lilypondchord::lilypondchord () : lilypondelement("") 
-{ 
-  fStartList=""; // USER ???
-  fEndList="";
-}
+lilypondchord::lilypondchord (lilypondnoteduration chordduration) :
+  lilypondelement(""),
+  fChordduration(chordduration)
+{}
 lilypondchord::~lilypondchord() {}
+
+void lilypondchord::addDynamics (Slilyponddynamics dyn) {
+  fChordDynamics.push_back(dyn);
+}
+void lilypondchord::addWedge (Slilypondwedge wdg) {
+  fChordWedges.push_back(wdg);
+}
+
+ostream& operator<< (ostream& os, const Slilypondchord& chrd)
+{
+  chrd->print(os);
+  return os;
+}
 
 void lilypondchord::print(ostream& os)
 {
-  lilypondelement::print(os);
+  std::vector<Slilypondnote>::const_iterator
+    iBegin = fChordNotes.begin(),
+    iEnd   = fChordNotes.end(),
+    i      = iBegin;
+  os << "<";
+  for ( ; ; ) {
+    os << (*i);
+    if (++i == iEnd) break;
+    os << " ";
+  } // for
+  os << ">";
+  
+  // print the dynamics if any
+  std::list<Slilyponddynamics>::const_iterator i1;
+  for (i1=fChordDynamics.begin(); i1!=fChordDynamics.end(); i1++) {
+    os << " " << (*i1);
+  } // for
+
+  // print the wedges if any
+  std::list<Slilypondwedge>::const_iterator i2;
+  for (i2=fChordWedges.begin(); i2!=fChordWedges.end(); i2++) {
+    os << " " << (*i2);
+  } // for
 }
 
 //______________________________________________________________________________
@@ -1414,8 +1467,8 @@ ostream& operator<< (ostream& os, const Slilypondkey& key)
 void lilypondkey::print(ostream& os)
 {
   os << "\\key " << fTonicNote << " ";
-  if (fKeyMode == kMajor) os << "\"major";
-  else os << "\"minor";
+  if (fKeyMode == kMajor) os << "\"major\"";
+  else os << "\"minor\"";
   os << hdl;
 }
 

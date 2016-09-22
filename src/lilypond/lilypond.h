@@ -16,6 +16,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include <list>
 #include <map>
 
 #include "utilities.h"
@@ -41,6 +42,7 @@ class lilypondlyrics;
 class lilypondnoteduration;
 class lilyponddynamics;
 class lilypondwedge;
+class lilypondchord;
 
 typedef SMARTP<lilypondparam>        Slilypondparam;
 typedef SMARTP<lilypondelement>      Slilypondelement;
@@ -49,12 +51,14 @@ typedef SMARTP<lilypondlyrics>       Slilypondlyrics;
 typedef SMARTP<lilypondnoteduration> Slilypondnoteduration;
 typedef SMARTP<lilyponddynamics>     Slilyponddynamics;
 typedef SMARTP<lilypondwedge>        Slilypondwedge;
+typedef SMARTP<lilypondchord>        Slilypondchord;
 
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondparam&   param);
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondelement& elt);
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondnoteduration& dur);
 EXP std::ostream& operator<< (std::ostream& os, const Slilyponddynamics& dyn);
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondwedge& wdg);
+EXP std::ostream& operator<< (std::ostream& os, const Slilypondchord& chrd);
 
 //EXP std::ostream& operator<< (std::ostream& os, const Slilypondpart& elt);
 //EXP std::ostream& operator<< (std::ostream& os, const Slilypondlyrics& elt);
@@ -166,27 +170,32 @@ class EXP lilypondelement : public smartable {
 class EXP lilypondnoteduration {
   public:
   
-    lilypondnoteduration(int num, int denom, int dots=0) 
+    static SMARTP<lilypondnoteduration> create(int num, int denom, int dots=0);
+    
+    lilypondnoteduration(int num, int denom, int dots=0);
           { set (num, denom, dots); }
     virtual ~lilypondnoteduration() {}
         
-    void set (int num, int denom, int dots=0) 
-          { fNum=num; fDenom=denom; fDots=dots; }
+    void set (int num, int denom, int dots=0);
+    void lilypondnoteduration::set (int num, int denom, int dots=0) {
+          fNum=num; fDenom=denom; fDots=dots; 
+          }
         
     lilypondnoteduration& operator= (const lilypondnoteduration& dur)
           {
             fNum=dur.fNum; fDenom=dur.fDenom; fDots=dur.fDots; 
             return *this;
           }
+          
     bool operator!= (const lilypondnoteduration& dur) const 
           { 
             return
-             (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots);
+              (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots);
           }
     
     virtual void print (std::ostream& os);
 
-    // private: JMI
+  private:
 
     int  fNum;
     int  fDenom;
@@ -233,11 +242,21 @@ class EXP lilypondnote : public lilypondelement {
           int                  dotsNumber,
           lilypondnoteduration dur,
           LilypondNote         lilypondNote,
-          int                  voice);
-        
-    void addDynamics (Slilyponddynamics dyn);
-    void addWedge    (Slilypondwedge    wdg);
+          int                  voice,
+          bool                 noteBelongsToAChord);
     
+    void setNoteBelongsToAChord ();
+
+    
+    void              addDynamics (Slilyponddynamics dyn);
+    void              addWedge    (Slilypondwedge    wdg);
+
+    Slilyponddynamics removeFirstDynamics ();
+    Slilypondwedge    removeFirstWedge ();
+
+    std::list<Slilyponddynamics> getNoteDynamics () { return fNoteDynamics; };
+    std::list<Slilypondwedge>    getNoteWedges   () { return fNoteWedges; };
+
     /*
     static SMARTP<lilypondnote> create(
           unsigned short voice, std::string name, char octave,
@@ -285,10 +304,11 @@ class EXP lilypondnote : public lilypondelement {
     // LilyPond informations
     LilypondNote         fLilypondNote;
     
-    std::vector<Slilyponddynamics> fNoteDynamics;
-    std::vector<Slilypondwedge>    fNoteWedges;
-
+    std::list<Slilyponddynamics> fNoteDynamics;
+    std::list<Slilypondwedge>    fNoteWedges;
     
+    bool                 fNoteBelongsToAChord;
+
     int                  fVoice;
 };
 typedef SMARTP<lilypondnote> Slilypondnote;
@@ -349,7 +369,9 @@ class EXP lilypondseq : public lilypondelement {
 
     static SMARTP<lilypondseq> create(ElementsSeparator elementsSeparator);
 
-    void addElementToSequence (Slilypondelement elem) { fSequenceElements.push_back(elem); }
+    void             addElementToSequence (Slilypondelement elem) { fSequenceElements.push_back(elem); }
+    Slilypondelement getLastElementOfSequence() { return fSequenceElements.back(); }
+    void             removeLastElementOfSequence () { fSequenceElements.pop_back(); }
 
     virtual void print (std::ostream& os);
 
@@ -373,14 +395,29 @@ typedef SMARTP<lilypondseq> Slilypondseq;
 class EXP lilypondchord : public lilypondelement {
   public:
 
-    static SMARTP<lilypondchord> create();
+    static SMARTP<lilypondchord> create(lilypondnoteduration chordduration);
     
+    void addNoteToChord (Slilypondnote note) { fChordNotes.push_back(note); }
+
+    void addDynamics (Slilyponddynamics dyn);
+    void addWedge    (Slilypondwedge    wdg);
+
     virtual void print (std::ostream& os);
 
   protected:
 
-    lilypondchord ();
+    lilypondchord (lilypondnoteduration chordduration);
     virtual ~lilypondchord();
+  
+  private:
+  
+    std::vector<Slilypondnote>   fChordNotes;
+    
+    lilypondnoteduration         fChordduration;
+
+    
+    std::list<Slilyponddynamics> fChordDynamics;
+    std::list<Slilypondwedge>    fChordWedges;
 };
 typedef SMARTP<lilypondchord> Slilypondchord;
 
