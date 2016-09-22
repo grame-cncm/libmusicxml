@@ -355,6 +355,36 @@ class EXP lilypondnotestatus {
 };
 
 /*!
+\brief The lilypond parallel element
+*/
+//______________________________________________________________________________
+class EXP lilypondpar : public lilypondelement {
+  public:
+    
+    enum ElementsSeparator { kEndOfLine, kSpace };
+
+    static SMARTP<lilypondpar> create(ElementsSeparator elementsSeparator);
+
+    void             addElementToParallel (Slilypondelement elem) { fParallelElements.push_back(elem); }
+    Slilypondelement getLastElementOfParallel() { return fParallelElements.back(); }
+    void             removeLastElementOfParallel () { fParallelElements.pop_back(); }
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondpar(ElementsSeparator elementsSeparator);
+    virtual ~lilypondpar();
+    
+  private:
+  
+    std::vector<Slilypondelement> fParallelElements;
+    ElementsSeparator             fElementsSeparator;
+
+};
+typedef SMARTP<lilypondpar> Slilypondpar;
+
+/*!
 \brief The lilypond sequence element
 */
 //______________________________________________________________________________
@@ -1002,6 +1032,56 @@ class EXP lilypondkey : public lilypondelement {
     KeyMode       fKeyMode;
 };
 typedef SMARTP<lilypondkey> Slilypondkey;
+
+/*!
+\brief A lilypond score representation.
+
+  A score is represented by parallel music, score layout and midi
+*/
+//______________________________________________________________________________
+class EXP lilypondscore : public lilypondelement {
+  public:
+
+    static SMARTP<lilypondscore> create();
+    
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondscore();
+    virtual ~lilypondscore();
+  
+  private:
+  
+    Slilypondpar    fScoreParallelMusic;
+    Slilypondlayout fScoreLayout;
+    Slilypondmidi   fScoreMidi;    
+};
+typedef SMARTP<lilypondscore> Slilypondscore;
+
+/*!
+\brief A lilypond midi representation.
+
+  A midi is represented by variable/value pairs
+
+*/
+//______________________________________________________________________________
+class EXP lilypondmidi : public lilypondelement {
+  public:
+
+    static SMARTP<lilypondmidi> create();
+    
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondmidi();
+    virtual ~lilypondmidi();
+  
+  private:
+  
+};
+typedef SMARTP<lilypondmidi> Slilypondmidi;
 
 
 /*! @} */

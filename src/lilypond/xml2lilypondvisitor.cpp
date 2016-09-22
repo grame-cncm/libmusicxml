@@ -259,7 +259,9 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
         ", targetVoice = " << targetVoice << endl;
 
     stringstream s1;
-    s1 << "Part" << partID << "Voice" << int2EnglishWord(targetVoice);
+    s1 <<
+      "Part" << stringnumberstoenglishwords(partID) <<
+      "Voice" << int2EnglishWord(targetVoice);
     string partName = s1.str();
         
     // create the lilypondpart

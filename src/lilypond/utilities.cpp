@@ -18,6 +18,7 @@
 #include <sstream>
 #include <stdlib.h>     /* abort, NULL */
 #include <cassert>
+#include <vector>
 
 #include <utilities.h>
 
@@ -157,5 +158,69 @@ std::string int2EnglishWord (int n) {
   return result;
 }
 
+//______________________________________________________________________________
+std::string stringnumberstoenglishwords (std::string str) {
+  typedef enum { kInitialState, kWorkingOnDigits, kWorkingOnNonDigits } workState;
+      
+  std::vector<std::string> chunks;
+  std::vector<int>         states;
+    
+  workState state = kInitialState;
+  
+  std::string::const_iterator
+    iBegin = str.begin(),
+    iEnd   = str.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    char ch = *i;
+    if( isdigit(ch)) {
+      // digit
+      if (state != kWorkingOnDigits) {
+        // create a new chunck for digits
+        chunks.push_back("");
+        states.push_back(kWorkingOnDigits);
+        state = kWorkingOnDigits;
+      }
+      chunks.back().push_back(ch);
+    }
+    else {
+      // non digit
+      if (state != kWorkingOnNonDigits) {
+        // create a new chunck for non digits
+        chunks.push_back("");
+        states.push_back(kWorkingOnNonDigits);
+        state = kWorkingOnNonDigits;
+      }
+      chunks.back().push_back(ch);
+    }
+    if (++i == iEnd) break;
+  } // for
+   
+  std::string result = "";
 
+  for (int i = 0; i < chunks.size(); i++) {
+    if (states[i] == kWorkingOnDigits)
+      result += int2EnglishWord(atoi(chunks[i].c_str()));
+    else
+      result += chunks[i];
+  } // for
+    
+  return result;
+};
+/*
+ *   std::pair <int,int> foo;
+  std::pair <int,int> bar;
+
+  foo = std::make_pair (10,20);
+  bar = std::make_pair (10.5,'A'); // ok: implicit conversion from pair<double,char>
+
+  std::cout << "foo: " << foo.first << ", " << foo.second << '\n';
+  std::cout << "bar: " << bar.first << ", " << bar.second << '\n';
+
+
+  std::list<Slilyponddynamics>::const_iterator i1;
+  for (i1=fChordDynamics.begin(); i1!=fChordDynamics.end(); i1++) {
+    os << " " << (*i1);
+  } // for
+*/
 }

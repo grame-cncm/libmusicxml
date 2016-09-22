@@ -78,35 +78,16 @@ struct stringquoteescaper
 };
 
 /*!
-\brief A utility to escape quotes in strings.
-*/
-//______________________________________________________________________________
-struct stringnumberstoenglishwords
-{
-  /* usage:
-      std::string dest;
-      std::for_each( source.begin(), source.end(), stringnumberstoenglishwords(dest));
-  */
-
-  std::string& target;
-  explicit     stringnumberstoenglishwords( std::string& t ) : target( t ) {}
-
-  void operator()( char ch ) const
-  {
-     if( ch == '\'') // or switch on any character that 
-                     // needs escaping like \ itself
-     {
-        target.push_back('\\');
-     }
-     target.push_back( ch );
-  }
-};
-
-/*!
 \brief A utility to convert small positive integers to English words.
 */
 //______________________________________________________________________________
 std::string int2EnglishWord (int n);
+
+/*!
+\brief A utility to escape quotes in strings.
+*/
+//______________________________________________________________________________
+std::string stringnumberstoenglishwords (std::string str);
 
 
 } // namespace MusicXML2

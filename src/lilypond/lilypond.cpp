@@ -774,6 +774,36 @@ void lilypondseq::print(ostream& os)
 }
 
 //______________________________________________________________________________
+Slilypondpar lilypondpar::create(ElementsSeparator elementsSeparator)
+{
+  lilypondpar* o = new lilypondpar(elementsSeparator); assert(o!=0);
+  return o;
+}
+
+lilypondpar::lilypondpar(ElementsSeparator elementsSeparator) : lilypondelement("")
+{
+  fElementsSeparator=elementsSeparator;
+}
+lilypondpar::~lilypondpar() {}
+
+ostream& operator<< (ostream& os, const Slilypondpar& elt)
+{
+  elt->print(os);
+  return os;
+}
+
+void lilypondpar::print(ostream& os)
+{
+  vector<Slilypondelement>::const_iterator i;
+  for (i=fParallelElements.begin(); i!=fParallelElements.end(); i++) {
+    os << (*i);
+    if (fElementsSeparator == kEndOfLine) os << hdl;
+    // JMI
+    else os << " ";
+  } // for
+}
+
+//______________________________________________________________________________
 Slilypondchord lilypondchord::create(Slilypondnoteduration chordduration)
 {
   lilypondchord* o = new lilypondchord(chordduration); assert(o!=0);
