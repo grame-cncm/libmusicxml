@@ -272,6 +272,23 @@ ostream& operator<< (ostream& os, const Slilypondelement& elt)
 }
 
 //______________________________________________________________________________
+Slilypondnoteduration lilypondnoteduration::create(int num, int denom, int dots) {
+  lilypondnoteduration * o = new lilypondnoteduration (num, denom, dots);
+  assert(o!=0); 
+  return o;
+}
+
+lilypondnoteduration::lilypondnoteduration (int num, int denom, int dots)
+  : lilypondelement("")
+{
+  fNum=num; fDenom=denom; fDots=dots; 
+}
+lilypondnoteduration::~lilypondnoteduration() {}
+
+void lilypondnoteduration::sett (int num, int denom, int dots) {
+  fNum=num; fDenom=denom; fDots=dots; 
+}
+
 ostream& operator<< (ostream& os, const Slilypondnoteduration& dur)
 {
   dur->print(os);
@@ -326,6 +343,13 @@ void lilypondnoteduration::print(ostream& os)
         "*** ERROR, MusicXML note duration " << noteDivisions << "/" << 
         divisionsPerWholeNote << " is too large" << std::endl;
   } // switch
+  
+  // print the dots if any  
+  if (fDots > 0) {
+    while (fDots-- > 0) {
+      os << ".";  
+    } // while
+  }
 }
 
 //______________________________________________________________________________
@@ -342,28 +366,27 @@ Slilypondnote lilypondnote::create()// JMI  Note note, int voice)
   return o;
 }
 
-lilypondnote::lilypondnote() :
-  lilypondelement(""),
-  fLilypondnoteduration(0, 0)
+lilypondnote::lilypondnote() : lilypondelement("")
 {
   fDiatonicNote         = lilypondnote::kNoDiatonicNote;
   fAlteration           = lilypondnote::kNoAlteration;
   fOctave               = -1;
+  fLilypondnoteduration = lilypondnoteduration::create(0, 0, 0);
   fDotsNumber           = 0;
   fVoice                = -1;
 }
 lilypondnote::~lilypondnote() {}
 
 void lilypondnote::updateNote(
-    bool                 currentStepIsRest,
-    DiatonicNote         diatonicNote,
-    Alteration           alteration,
-    int                  octave,
-    int                  dotsNumber,
-    lilypondnoteduration dur,
-    LilypondNote         lilypondNote,
-    int                  voice,
-    bool                 noteBelongsToAChord)
+    bool                  currentStepIsRest,
+    DiatonicNote          diatonicNote,
+    Alteration            alteration,
+    int                   octave,
+    int                   dotsNumber,
+    Slilypondnoteduration dur,
+    LilypondNote          lilypondNote,
+    int                   voice,
+    bool                  noteBelongsToAChord)
 {
   fCurrentStepIsRest = currentStepIsRest;
   fDiatonicNote = diatonicNote;
@@ -583,13 +606,6 @@ void lilypondnote::print(ostream& os)
     // print the note duration
     os << fLilypondnoteduration;
     
-    // print the dots if any  
-    if (fDotsNumber > 0) {
-      while (fDotsNumber-- > 0) {
-        os << ".";  
-      } // while
-    }
-    
     // print the dynamics if any
     std::list<Slilyponddynamics>::const_iterator i1;
     for (i1=fNoteDynamics.begin(); i1!=fNoteDynamics.end(); i1++) {
@@ -758,16 +774,17 @@ void lilypondseq::print(ostream& os)
 }
 
 //______________________________________________________________________________
-Slilypondchord lilypondchord::create(lilypondnoteduration chordduration)
+Slilypondchord lilypondchord::create(Slilypondnoteduration chordduration)
 {
   lilypondchord* o = new lilypondchord(chordduration); assert(o!=0);
   return o;
 }
 
-lilypondchord::lilypondchord (lilypondnoteduration chordduration) :
-  lilypondelement(""),
-  fChordduration(chordduration)
-{}
+lilypondchord::lilypondchord (Slilypondnoteduration chordduration)
+  : lilypondelement("")
+{
+  fChordDuration = chordduration;
+}
 lilypondchord::~lilypondchord() {}
 
 void lilypondchord::addDynamics (Slilyponddynamics dyn) {
@@ -797,6 +814,9 @@ void lilypondchord::print(ostream& os)
   } // for
   os << ">";
   
+  // print the chord duration
+  os << fChordDuration;
+
   // print the dynamics if any
   std::list<Slilyponddynamics>::const_iterator i1;
   for (i1=fChordDynamics.begin(); i1!=fChordDynamics.end(); i1++) {

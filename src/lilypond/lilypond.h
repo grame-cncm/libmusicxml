@@ -167,19 +167,15 @@ class EXP lilypondelement : public smartable {
      are handled analogously.
 */
 //______________________________________________________________________________
-class EXP lilypondnoteduration {
+class EXP lilypondnoteduration : public lilypondelement {
   public:
   
     static SMARTP<lilypondnoteduration> create(int num, int denom, int dots=0);
     
     lilypondnoteduration(int num, int denom, int dots=0);
-          { set (num, denom, dots); }
-    virtual ~lilypondnoteduration() {}
+    virtual ~lilypondnoteduration();
         
-    void set (int num, int denom, int dots=0);
-    void lilypondnoteduration::set (int num, int denom, int dots=0) {
-          fNum=num; fDenom=denom; fDots=dots; 
-          }
+    void sett (int num, int denom, int dots=0);
         
     lilypondnoteduration& operator= (const lilypondnoteduration& dur)
           {
@@ -235,15 +231,15 @@ class EXP lilypondnote : public lilypondelement {
     static SMARTP<lilypondnote> create();// JMI  Note note, int voice) 
 
     void updateNote(
-          bool                 fCurrentStepIsRest,
-          DiatonicNote         diatonicNote,
-          Alteration           alteration,
-          int                  octave,
-          int                  dotsNumber,
-          lilypondnoteduration dur,
-          LilypondNote         lilypondNote,
-          int                  voice,
-          bool                 noteBelongsToAChord);
+          bool                  fCurrentStepIsRest,
+          DiatonicNote          diatonicNote,
+          Alteration            alteration,
+          int                   octave,
+          int                   dotsNumber,
+          Slilypondnoteduration dur,
+          LilypondNote          lilypondNote,
+          int                   voice,
+          bool                  noteBelongsToAChord);
     
     void setNoteBelongsToAChord ();
 
@@ -299,7 +295,7 @@ class EXP lilypondnote : public lilypondelement {
 
     // MusicXML durations are in in divisions per quarter note,
     // LilyPond durations are in whole notes, hence the "*4" multiplication
-    lilypondnoteduration fLilypondnoteduration;
+    Slilypondnoteduration fLilypondnoteduration;
 
     // LilyPond informations
     LilypondNote         fLilypondNote;
@@ -339,7 +335,7 @@ class EXP lilypondnotestatus {
 
     enum { defoctave=1, defnum=1, defdenom=4 };
         
-    void reset() { fOctave=defoctave; fDur.set(defnum, defdenom, 0); }
+    void reset() { fOctave=defoctave; fDur.sett(defnum, defdenom, 0); }
     
     lilypondnotestatus& operator= (const lilypondnoteduration& dur) { fDur = dur; return *this; }
     
@@ -395,7 +391,7 @@ typedef SMARTP<lilypondseq> Slilypondseq;
 class EXP lilypondchord : public lilypondelement {
   public:
 
-    static SMARTP<lilypondchord> create(lilypondnoteduration chordduration);
+    static SMARTP<lilypondchord> create(Slilypondnoteduration chordduration);
     
     void addNoteToChord (Slilypondnote note) { fChordNotes.push_back(note); }
 
@@ -406,14 +402,14 @@ class EXP lilypondchord : public lilypondelement {
 
   protected:
 
-    lilypondchord (lilypondnoteduration chordduration);
+    lilypondchord (Slilypondnoteduration chordduration);
     virtual ~lilypondchord();
   
   private:
   
     std::vector<Slilypondnote>   fChordNotes;
     
-    lilypondnoteduration         fChordduration;
+    Slilypondnoteduration        fChordDuration;
 
     
     std::list<Slilyponddynamics> fChordDynamics;
