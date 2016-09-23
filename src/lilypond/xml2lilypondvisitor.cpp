@@ -109,8 +109,8 @@ void xml2lilypondvisitor::addPostamble () {
 //______________________________________________________________________________
 void xml2lilypondvisitor::visitStart ( S_score_partwise& elt )
 {
-  // create the implicit lilypondseq element FIRST THING!
-  fLilypondseq = lilypondseq::create(lilypondseq::kEndOfLine);
+  // create the implicit lilypondsequence element FIRST THING!
+  fLilypondseq = lilypondsequence::create(lilypondsequence::kEndOfLine);
   
   // add standard preamble
   addPreamble ();
@@ -118,19 +118,19 @@ void xml2lilypondvisitor::visitStart ( S_score_partwise& elt )
   // create the header element
   fLilypondheader = lilypondheader::create();
   fLilypondheader->setScorePartwise(elt);
-  // add is as the second lilypondseq element
+  // add is as the second lilypondsequence element
   Slilypondelement header = fLilypondheader;
   fLilypondseq->addElementToSequence (header);
 
   // create the paper element
   fLilypondpaper = lilypondpaper::create();
-  // add is as the second lilypondseq element
+  // add is as the second lilypondsequence element
   Slilypondelement paper = fLilypondpaper;
   fLilypondseq->addElementToSequence (paper);
 
   // create the layout element
   fLilypondlayout = lilypondlayout::create();
-  // add it as the third lilypondseq element
+  // add it as the third lilypondsequence element
   Slilypondelement layout = fLilypondlayout;
   fLilypondseq->addElementToSequence (layout);
   
@@ -143,7 +143,7 @@ void xml2lilypondvisitor::visitEnd ( S_score_partwise& elt )
 {
   // create the score element
   fLilypondscore = lilypondscore::create();
-  // add is as the last lilypondseq element
+  // add is as the last lilypondsequence element
   Slilypondelement score = fLilypondscore;
   fLilypondseq->addElementToSequence (score);
   
@@ -155,8 +155,8 @@ void xml2lilypondvisitor::visitEnd ( S_score_partwise& elt )
   for (i = fLilypondpartsMap.begin(); i != fLilypondpartsMap.end(); i++) {
     // get part
     Slilypondpart part = (*i).second;
-    // create a new staff
-    Slilypondnewstaff nstf = lilypondnewstaff::create();
+    // create a new staff comaand
+    Slilypondnewstaffcmd nstf = lilypondnewstaffcmd::create();
     // add it to the score parallel music
     par->addElementToParallel(nstf);
     // add the part name to the new staff
@@ -301,7 +301,7 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
     Slilypondelement p = part;
     addElementToSequence (p);
     
-   // browse the part contents for the second time with an xmlpart2lilypondvisitor
+    // browse the part contents for the second time with an xmlpart2lilypondvisitor
     xmlpart2lilypondvisitor xp2lv(fSwitches, part);
     xp2lv.generatePositions (fSwitches.fGeneratePositions);
     xml_tree_browser browser(&xp2lv);
@@ -311,6 +311,7 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
 
     // JMI currentTimeSign = xp2lv.getTimeSign();
 
+    // extract the part lyrics
     if (fSwitches.fTrace) cerr << "Extracting part \"" << partID << "\" lyrics information" << endl;
     std::map<std::string, partsummaryvisitor::stanzaContents> 
       stanzas = ps.getStanzas();
@@ -338,9 +339,13 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
         result+=" ";
       } // for
  
-      Slilypondelement lyrics = lilypondlyrics::create(lyricsName, result);
-      //addToScoreStackTop (lyrics);   
-      addElementToSequence (lyrics);
+      // create lyrics
+      Slilypondlyrics lyrics = lilypondlyrics::create(lyricsName, result);
+      // add it to the sequence
+      Slilypondelement elem = lyrics;  
+      addElementToSequence (elem);
+      // add the lyrics to the part
+      part->addLyricsToPart(lyrics);
     } // for
 
   ps.clearStanzas(); // for next voice

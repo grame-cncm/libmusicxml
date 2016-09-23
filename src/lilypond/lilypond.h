@@ -395,12 +395,12 @@ typedef SMARTP<lilypondparallel> Slilypondparallel;
 \brief The lilypond sequence element
 */
 //______________________________________________________________________________
-class EXP lilypondseq : public lilypondelement {
+class EXP lilypondsequence : public lilypondelement {
   public:
     
     enum ElementsSeparator { kEndOfLine, kSpace };
 
-    static SMARTP<lilypondseq> create(ElementsSeparator elementsSeparator);
+    static SMARTP<lilypondsequence> create(ElementsSeparator elementsSeparator);
 
     void             addElementToSequence (Slilypondelement elem) { fSequenceElements.push_back(elem); }
     Slilypondelement getLastElementOfSequence() { return fSequenceElements.back(); }
@@ -410,8 +410,8 @@ class EXP lilypondseq : public lilypondelement {
 
   protected:
 
-    lilypondseq(ElementsSeparator elementsSeparator);
-    virtual ~lilypondseq();
+    lilypondsequence(ElementsSeparator elementsSeparator);
+    virtual ~lilypondsequence();
     
   private:
   
@@ -419,7 +419,7 @@ class EXP lilypondseq : public lilypondelement {
     ElementsSeparator             fElementsSeparator;
 
 };
-typedef SMARTP<lilypondseq> Slilypondseq;
+typedef SMARTP<lilypondsequence> Slilypondsequence;
 
 /*!
 \brief The lilypond chord element
@@ -748,10 +748,12 @@ class EXP lilypondpart : public lilypondelement {
     static SMARTP<lilypondpart> create(
       std::string name, bool absoluteCode, bool generateNumericalTime);
     
-    std::string      getPartName () const         { return fPartName; }
-    bool             getAbsoluteCode () const     { return fPartAbsoluteCode; }
-    Slilypondseq     getPartLilypondseq () const  { return fPartLilypondseq; }
+    std::string       getPartName () const         { return fPartName; }
+    bool              getAbsoluteCode () const     { return fPartAbsoluteCode; }
+    Slilypondsequence getPartLilypondsequence () const  { return fPartLilypondsequence; }
 
+    void              addLyricsToPart (Slilypondlyrics lyr) { fPartLyrics.push_back(lyr); }
+    
     virtual void print (std::ostream& os);
 
   protected:
@@ -761,12 +763,15 @@ class EXP lilypondpart : public lilypondelement {
   
   private:
 
-    std::string      fPartName;
-    bool             fPartAbsoluteCode;
-    bool             fGenerateNumericalTime;
+    std::string       fPartName;
+    bool              fPartAbsoluteCode;
+    bool              fGenerateNumericalTime;
     
     // the implicit sequence containing the code generated for the part
-    Slilypondseq     fPartLilypondseq;
+    Slilypondsequence fPartLilypondsequence;
+    
+    // the lyrics stanzas, if any, associated with the part
+    std::vector<Slilypondlyrics> fPartLyrics;
 };
 typedef SMARTP<lilypondpart> Slilypondpart;
 typedef std::map<std::string, Slilypondpart> lilypondpartsmap;
@@ -1100,10 +1105,10 @@ typedef SMARTP<lilypondscore> Slilypondscore;
   A new staff is represented by a sequence of elements
 */
 //______________________________________________________________________________
-class EXP lilypondnewstaff : public lilypondelement {
+class EXP lilypondnewstaffcmd : public lilypondelement {
   public:
 
-    static SMARTP<lilypondnewstaff> create();
+    static SMARTP<lilypondnewstaffcmd> create();
      
     void addElementToNewStaff (Slilypondelement elem) { fNewStaffElements.push_back(elem); }
 
@@ -1111,14 +1116,40 @@ class EXP lilypondnewstaff : public lilypondelement {
 
   protected:
 
-    lilypondnewstaff();
-    virtual ~lilypondnewstaff();
+    lilypondnewstaffcmd();
+    virtual ~lilypondnewstaffcmd();
   
   private:
   
     std::vector<Slilypondelement> fNewStaffElements;
 };
-typedef SMARTP<lilypondnewstaff> Slilypondnewstaff;
+typedef SMARTP<lilypondnewstaffcmd> Slilypondnewstaffcmd;
+
+/*!
+\brief A lilypond new lyrics representation.
+
+  A new lyrics is represented by a sequence of strings
+*/
+//______________________________________________________________________________
+class EXP lilypondnewlyricscmd : public lilypondelement {
+  public:
+
+    static SMARTP<lilypondnewlyricscmd> create();
+     
+    void addElementToNewStaff (Slilypondelement elem) { fNewStaffElements.push_back(elem); }
+
+    virtual void print (std::ostream& os);
+
+  protected:
+
+    lilypondnewlyricscmd();
+    virtual ~lilypondnewlyricscmd();
+  
+  private:
+  
+    std::vector<Slilypondelement> fNewStaffElements;
+};
+typedef SMARTP<lilypondnewlyricscmd> Slilypondnewlyricscmd;
 
 
 /*! @} */

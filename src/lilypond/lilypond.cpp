@@ -124,7 +124,7 @@ int lilypondelement::addParam (Slilypondparam param) {
 
 void lilypondelement::dumpElements() {
   /*
-  bool isSeq    = dynamic_cast<const lilypondseq *>(this) != 0;
+  bool isSeq    = dynamic_cast<const lilypondsequence *>(this) != 0;
   bool isChord  = dynamic_cast<const lilypondchord *>(this) != 0;
   */
   
@@ -138,7 +138,7 @@ void lilypondelement::dumpElements() {
       bool prevNote = false;
       bool prevSeq  = false;
 
-      Slilypondseq seq;
+      Slilypondsequence seq;
       seq.cast((lilypondelement *)(*ielt));
       Slilypondnote note;
       note.cast((lilypondelement *)(*ielt));
@@ -201,7 +201,7 @@ void lilypondelement::print(ostream& os)
     */
   }
 
-  bool isSeq    = dynamic_cast<const lilypondseq *>(this) != 0;
+  bool isSeq    = dynamic_cast<const lilypondsequence *>(this) != 0;
   bool isChord  = dynamic_cast<const lilypondchord *>(this) != 0;
   
   // print the optional contained elements
@@ -213,7 +213,7 @@ void lilypondelement::print(ostream& os)
       bool prevNote = false;
       bool prevSeq  = false;
 
-      Slilypondseq seq;
+      Slilypondsequence seq;
       seq.cast((lilypondelement *)(*ielt));
       Slilypondnote note;
       note.cast((lilypondelement *)(*ielt));
@@ -740,25 +740,25 @@ void lilypondnotestatus::freeall ()
 }
 
 //______________________________________________________________________________
-Slilypondseq lilypondseq::create(ElementsSeparator elementsSeparator)
+Slilypondsequence lilypondsequence::create(ElementsSeparator elementsSeparator)
 {
-  lilypondseq* o = new lilypondseq(elementsSeparator); assert(o!=0);
+  lilypondsequence* o = new lilypondsequence(elementsSeparator); assert(o!=0);
   return o;
 }
 
-lilypondseq::lilypondseq(ElementsSeparator elementsSeparator) : lilypondelement("")
+lilypondsequence::lilypondsequence(ElementsSeparator elementsSeparator) : lilypondelement("")
 {
   fElementsSeparator=elementsSeparator;
 }
-lilypondseq::~lilypondseq() {}
+lilypondsequence::~lilypondsequence() {}
 
-ostream& operator<< (ostream& os, const Slilypondseq& elt)
+ostream& operator<< (ostream& os, const Slilypondsequence& elt)
 {
   elt->print(os);
   return os;
 }
 
-void lilypondseq::print(ostream& os)
+void lilypondsequence::print(ostream& os)
 {
   vector<Slilypondelement>::const_iterator i;
   for (i=fSequenceElements.begin(); i!=fSequenceElements.end(); i++) {
@@ -1121,13 +1121,13 @@ lilypondpart::lilypondpart(std::string name, bool absoluteCode, bool generateNum
   fPartAbsoluteCode = absoluteCode;
   fGenerateNumericalTime = generateNumericalTime;
   
-  // create the implicit lilypondseq element
-  fPartLilypondseq = lilypondseq::create(lilypondseq::kSpace);
+  // create the implicit lilypondsequence element
+  fPartLilypondsequence = lilypondsequence::create(lilypondsequence::kSpace);
   
   // add the default 4/4 time signature
   Slilypondtime time = lilypondtime::create(4, 4, fGenerateNumericalTime);
   Slilypondelement t = time;
-  fPartLilypondseq->addElementToSequence (t);
+  fPartLilypondsequence->addElementToSequence (t);
 
 }
 lilypondpart::~lilypondpart() {}
@@ -1143,7 +1143,7 @@ void lilypondpart::print(ostream& os)
   hdl++;
   os << fPartName << " = ";
   if (!fPartAbsoluteCode) os << "\\relative ";
-  os << "{" << hdl << fPartLilypondseq << hdl;
+  os << "{" << hdl << fPartLilypondsequence << hdl;
   hdl--;
   os << "}" << hdl;
   
@@ -1167,7 +1167,7 @@ void lilypondpart::print(ostream& os)
     os << "\n"; // USER
   }
 
-  bool isSeq    = dynamic_cast<const lilypondseq *>(this) != 0;
+  bool isSeq    = dynamic_cast<const lilypondsequence *>(this) != 0;
   bool isChord  = dynamic_cast<const lilypondchord *>(this) != 0;
   
   // print the optional contained elements
@@ -1178,7 +1178,7 @@ void lilypondpart::print(ostream& os)
       bool prevNote = false;
       bool prevSeq  = false;
 
-      Slilypondseq seq;
+      Slilypondsequence seq;
       seq.cast((lilypondelement *)(*ielt));
       Slilypondnote note;
       note.cast((lilypondelement *)(*ielt));
@@ -1661,23 +1661,23 @@ void lilypondscore::print(ostream& os)
 }
 
 //______________________________________________________________________________
-Slilypondnewstaff lilypondnewstaff::create()
+Slilypondnewstaffcmd lilypondnewstaffcmd::create()
 {
-  lilypondnewstaff* o = new lilypondnewstaff(); assert(o!=0);
+  lilypondnewstaffcmd* o = new lilypondnewstaffcmd(); assert(o!=0);
   return o;
 }
 
-lilypondnewstaff::lilypondnewstaff() : lilypondelement("")
+lilypondnewstaffcmd::lilypondnewstaffcmd() : lilypondelement("")
 {}
-lilypondnewstaff::~lilypondnewstaff() {}
+lilypondnewstaffcmd::~lilypondnewstaffcmd() {}
 
-ostream& operator<< (ostream& os, const Slilypondnewstaff& nstf)
+ostream& operator<< (ostream& os, const Slilypondnewstaffcmd& nstf)
 {
   nstf->print(os);
   return os;
 }
 
-void lilypondnewstaff::print(ostream& os)
+void lilypondnewstaffcmd::print(ostream& os)
 {
   hdl++;
   
@@ -1699,6 +1699,55 @@ void lilypondnewstaff::print(ostream& os)
       os << hdl;
     } // for
   }
+  
+  os << hdl;
+  
+  hdl--;
+  
+  os << ">>" << hdl;
+}
+
+//______________________________________________________________________________
+Slilypondnewlyricscmd lilypondnewlyricscmd::create()
+{
+  lilypondnewlyricscmd* o = new lilypondnewlyricscmd(); assert(o!=0);
+  return o;
+}
+
+lilypondnewlyricscmd::lilypondnewlyricscmd() : lilypondelement("")
+{}
+lilypondnewlyricscmd::~lilypondnewlyricscmd() {}
+
+ostream& operator<< (ostream& os, const Slilypondnewlyricscmd& nstf)
+{
+  nstf->print(os);
+  return os;
+}
+
+void lilypondnewlyricscmd::print(ostream& os)
+{
+  hdl++;
+  
+  os << "\\new Staff <<" << hdl;
+  
+  if (fNewStaffElements.empty()) {
+    cerr <<
+      "%ERROR, lilypond newstaff is empty" << std::endl;
+    cout <<
+      "%ERROR, lilypond newstaff is empty" << std::endl;
+  } else {
+    vector<Slilypondelement>::const_iterator
+    iBegin = fNewStaffElements.begin(),
+    iEnd   = fNewStaffElements.end(),
+    i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << hdl;
+    } // for
+  }
+  
+  os << hdl;
   
   hdl--;
   

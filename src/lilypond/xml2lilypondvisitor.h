@@ -108,21 +108,21 @@ class EXP xml2lilypondvisitor :
     translationSwitches fSwitches;
     
     // the implicit sequence containing all the generated code
-    Slilypondseq     fLilypondseq; 
+    Slilypondsequence   fLilypondseq; 
     
     // the header, paper and layout blocks to be generated
-    Slilypondheader  fLilypondheader;
-    Slilypondpaper   fLilypondpaper;
-    Slilypondlayout  fLilypondlayout;
+    Slilypondheader     fLilypondheader;
+    Slilypondpaper      fLilypondpaper;
+    Slilypondlayout     fLilypondlayout;
     
     // the parts
-    lilypondpartsmap fLilypondpartsMap;
+    lilypondpartsmap    fLilypondpartsMap;
     
     // the score block to be generated
-    Slilypondscore   fLilypondscore;
+    Slilypondscore      fLilypondscore;
     
-    std::string      fCurrentPartID;
-    int              fCurrentStaffIndex;   // the index of the current lilypond staff
+    std::string         fCurrentPartID;
+    int                 fCurrentStaffIndex;   // the index of the current lilypond staff
   
     void addElementToSequence (Slilypondelement& elt);
     
