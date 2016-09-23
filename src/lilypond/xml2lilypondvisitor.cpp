@@ -111,7 +111,8 @@ void xml2lilypondvisitor::visitStart ( S_score_partwise& elt )
 {
   // create the implicit lilypondseq element FIRST THING!
   fLilypondseq = lilypondseq::create(lilypondseq::kEndOfLine);
-    
+  
+  // add standard preamble
   addPreamble ();
 
   // create the header element
@@ -133,8 +134,35 @@ void xml2lilypondvisitor::visitStart ( S_score_partwise& elt )
   Slilypondelement layout = fLilypondlayout;
   fLilypondseq->addElementToSequence (layout);
   
+  // add standard postamble
   addPostamble ();
+}
 
+//______________________________________________________________________________
+void xml2lilypondvisitor::visitEnd ( S_score_partwise& elt )
+{
+  // create the score element
+  fLilypondscore = lilypondscore::create();
+  // add is as the last lilypondseq element
+  Slilypondelement score = fLilypondscore;
+  fLilypondseq->addElementToSequence (score);
+  
+  // get score parallel music
+  Slilypondparallel par = fLilypondscore->getScoreParallelMusic();
+  
+  // add the parts and lyrics to it
+  lilypondpartsmap::const_iterator i;
+  for (i = fLilypondpartsMap.begin(); i != fLilypondpartsMap.end(); i++) {
+    // get part
+    Slilypondpart part = (*i).second;
+    // create a new staff
+    Slilypondnewstaff nstf = lilypondnewstaff::create();
+    // add it to the score parallel music
+    par->addElementToParallel(nstf);
+    // add the part name to the new staff
+    Slilypondcmd cmd = lilypondcmd::create(part->getPartName());
+    nstf->addElementToNewStaff(cmd);
+  } // for
 }
 
 //______________________________________________________________________________
@@ -260,7 +288,7 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
 
     stringstream s1;
     s1 <<
-      "Part" << stringnumberstoenglishwords(partID) <<
+      "Part" << stringNumbersToEnglishWords(partID) <<
       "Voice" << int2EnglishWord(targetVoice);
     string partName = s1.str();
         
@@ -292,7 +320,9 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
       string   lyricsName;
       string   result;
       
-      lyricsName = "LyricsForPart"+partID+"Stanza"+int2EnglishWord(atoi(it1->first.c_str()));
+      lyricsName =
+        "Part"+stringNumbersToEnglishWords(partID)+
+        "LyricsStanza"+int2EnglishWord(atoi(it1->first.c_str()));
       for (std::list<std::list<std::string> > ::iterator 
           it2=it1->second.begin(); it2!=it1->second.end(); ++it2) {    
         std::list<std::string> ::const_iterator 

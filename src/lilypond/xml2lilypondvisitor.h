@@ -87,6 +87,8 @@ class EXP xml2lilypondvisitor :
   protected:
 
     virtual void visitStart( S_score_partwise& elt);
+    virtual void visitEnd  ( S_score_partwise& elt);
+    
     virtual void visitStart( S_work_number& elt);
     virtual void visitStart( S_work_title& elt);
     virtual void visitStart( S_movement_number& elt);
@@ -115,6 +117,9 @@ class EXP xml2lilypondvisitor :
     
     // the parts
     lilypondpartsmap fLilypondpartsMap;
+    
+    // the score block to be generated
+    Slilypondscore   fLilypondscore;
     
     std::string      fCurrentPartID;
     int              fCurrentStaffIndex;   // the index of the current lilypond staff

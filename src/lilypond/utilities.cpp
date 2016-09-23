@@ -159,7 +159,7 @@ std::string int2EnglishWord (int n) {
 }
 
 //______________________________________________________________________________
-std::string stringnumberstoenglishwords (std::string str) {
+std::string stringNumbersToEnglishWords (std::string str) {
   typedef enum { kInitialState, kWorkingOnDigits, kWorkingOnNonDigits } workState;
       
   std::vector<std::string> chunks;

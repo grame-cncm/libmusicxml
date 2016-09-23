@@ -87,7 +87,7 @@ std::string int2EnglishWord (int n);
 \brief A utility to escape quotes in strings.
 */
 //______________________________________________________________________________
-std::string stringnumberstoenglishwords (std::string str);
+std::string stringNumbersToEnglishWords (std::string str);
 
 
 } // namespace MusicXML2

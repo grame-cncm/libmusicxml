@@ -50,7 +50,8 @@ static xmlErr xml2lilypond(
     xml2lilypondvisitor v(sw);
     
     // use the visitor to convert the xmlelement tree into a lilypondelement tree
-    if (sw.fTrace) cerr << "Launching conversion of xmlelement tree to lilypondelement tree" << endl;
+    if (sw.fTrace)
+      cerr << "Launching conversion of xmlelement tree to lilypondelement tree" << endl;
     Slilypondelement    ly = v.convert(st);
     
     string separator = "%----------------------------------------";
@@ -80,8 +81,7 @@ static xmlErr xml2lilypond(
     out << ly << endl;
     
     if (sw.fTrace) 
-      cerr << 
-        separator << endl;
+      cerr << separator << endl;
    
     return kNoErr;
   }

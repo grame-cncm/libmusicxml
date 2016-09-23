@@ -60,7 +60,6 @@ void lilypondparam::set (int value, bool quote)
   fQuote = quote;
 }
 
-//______________________________________________________________________________
 void lilypondparam::print(ostream& os)
 {
   if (fQuote) os << "\"";
@@ -372,7 +371,6 @@ lilypondnote::lilypondnote() : lilypondelement("")
   fAlteration           = lilypondnote::kNoAlteration;
   fOctave               = -1;
   fLilypondnoteduration = lilypondnoteduration::create(0, 0, 0);
-  fDotsNumber           = 0;
   fVoice                = -1;
 }
 lilypondnote::~lilypondnote() {}
@@ -382,7 +380,6 @@ void lilypondnote::updateNote(
     DiatonicNote          diatonicNote,
     Alteration            alteration,
     int                   octave,
-    int                   dotsNumber,
     Slilypondnoteduration dur,
     LilypondNote          lilypondNote,
     int                   voice,
@@ -392,7 +389,6 @@ void lilypondnote::updateNote(
   fDiatonicNote = diatonicNote;
   fAlteration = alteration;
   fOctave = octave;
-  fDotsNumber = dotsNumber;
   fLilypondnoteduration = dur;
   fLilypondNote = lilypondNote;
   fVoice = voice;
@@ -774,33 +770,51 @@ void lilypondseq::print(ostream& os)
 }
 
 //______________________________________________________________________________
-Slilypondpar lilypondpar::create(ElementsSeparator elementsSeparator)
+Slilypondparallel lilypondparallel::create(ElementsSeparator elementsSeparator)
 {
-  lilypondpar* o = new lilypondpar(elementsSeparator); assert(o!=0);
+  lilypondparallel* o = new lilypondparallel(elementsSeparator); assert(o!=0);
   return o;
 }
 
-lilypondpar::lilypondpar(ElementsSeparator elementsSeparator) : lilypondelement("")
+lilypondparallel::lilypondparallel(ElementsSeparator elementsSeparator) : lilypondelement("")
 {
   fElementsSeparator=elementsSeparator;
 }
-lilypondpar::~lilypondpar() {}
+lilypondparallel::~lilypondparallel() {}
 
-ostream& operator<< (ostream& os, const Slilypondpar& elt)
+ostream& operator<< (ostream& os, const Slilypondparallel& elt)
 {
   elt->print(os);
   return os;
 }
 
-void lilypondpar::print(ostream& os)
+void lilypondparallel::print(ostream& os)
 {
-  vector<Slilypondelement>::const_iterator i;
-  for (i=fParallelElements.begin(); i!=fParallelElements.end(); i++) {
-    os << (*i);
-    if (fElementsSeparator == kEndOfLine) os << hdl;
-    // JMI
-    else os << " ";
-  } // for
+  hdl++;
+  
+  os << "<<" << hdl;
+  
+  if (fParallelElements.empty()) {
+    cerr <<
+      "%ERROR, lilypond parallel music is empty" << std::endl;
+    cout <<
+      "%ERROR, lilypond parallel music is empty" << std::endl;
+  } else {
+    vector<Slilypondelement>::const_iterator
+    iBegin = fParallelElements.begin(),
+    iEnd   = fParallelElements.end(),
+    i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      if (fElementsSeparator == kEndOfLine) os << hdl;
+      else os << " ";
+    } // for
+  }
+  
+  hdl--;
+  
+  os << ">>" << hdl;
 }
 
 //______________________________________________________________________________
@@ -1201,6 +1215,12 @@ lilypondpaper::lilypondpaper() : lilypondelement("")
 }
 lilypondpaper::~lilypondpaper() {}
 
+ostream& operator<< (ostream& os, const Slilypondpaper& pap)
+{
+  pap->print(os);
+  return os;
+}
+
 void lilypondpaper::print(ostream& os)
 {  
   hdl++;
@@ -1481,9 +1501,14 @@ Slilypondlayout lilypondlayout::create()
 }
 
 lilypondlayout::lilypondlayout() : lilypondelement("")
-{
-}
+{}
 lilypondlayout::~lilypondlayout() {}
+
+ostream& operator<< (ostream& os, const Slilypondlayout& lay)
+{
+  lay->print(os);
+  return os;
+}
 
 void lilypondlayout::print(ostream& os)
 {  
@@ -1556,12 +1581,128 @@ ostream& operator<< (ostream& os, const Slilypondkey& key)
   key->print(os);
   return os;
 }
+
 void lilypondkey::print(ostream& os)
 {
   os << "\\key " << fTonicNote << " ";
-  if (fKeyMode == kMajor) os << "\"major\"";
-  else os << "\"minor\"";
+  if (fKeyMode == kMajor) os << "\\major";
+  else os << "\\minor";
   os << hdl;
+}
+
+//______________________________________________________________________________
+Slilypondmidi lilypondmidi::create()
+{
+  lilypondmidi* o = new lilypondmidi(); assert(o!=0);
+  return o;
+}
+
+lilypondmidi::lilypondmidi() : lilypondelement("")
+{}
+lilypondmidi::~lilypondmidi() {}
+
+ostream& operator<< (ostream& os, const Slilypondmidi& mid)
+{
+  mid->print(os);
+  return os;
+}
+
+void lilypondmidi::print(ostream& os)
+{
+  hdl++;
+  
+  os << "\\midi {" << hdl;
+  
+  os << "% to be completed" << hdl;
+
+  hdl++;
+  
+  os << "}";
+}
+
+//______________________________________________________________________________
+Slilypondscore lilypondscore::create()
+{
+  lilypondscore* o = new lilypondscore(); assert(o!=0);
+  return o;
+}
+
+lilypondscore::lilypondscore() : lilypondelement("")
+{
+  // create the parallel music element
+  fScoreParallelMusic = lilypondparallel::create(lilypondparallel::kEndOfLine);
+  
+  // create the layout element
+  fScoreLayout = lilypondlayout::create();
+  
+  // create the midi element
+  fScoreMidi = lilypondmidi::create();
+}
+lilypondscore::~lilypondscore() {}
+
+ostream& operator<< (ostream& os, const Slilypondscore& scr)
+{
+  scr->print(os);
+  return os;
+}
+
+void lilypondscore::print(ostream& os)
+{
+  hdl++;
+  
+  os << "\\score {" << hdl;
+  os << fScoreParallelMusic << hdl;
+  os << fScoreLayout << hdl;
+
+  hdl--;
+
+  os << fScoreMidi << hdl;
+  os << "}" << hdl; 
+}
+
+//______________________________________________________________________________
+Slilypondnewstaff lilypondnewstaff::create()
+{
+  lilypondnewstaff* o = new lilypondnewstaff(); assert(o!=0);
+  return o;
+}
+
+lilypondnewstaff::lilypondnewstaff() : lilypondelement("")
+{}
+lilypondnewstaff::~lilypondnewstaff() {}
+
+ostream& operator<< (ostream& os, const Slilypondnewstaff& nstf)
+{
+  nstf->print(os);
+  return os;
+}
+
+void lilypondnewstaff::print(ostream& os)
+{
+  hdl++;
+  
+  os << "\\new Staff <<" << hdl;
+  
+  if (fNewStaffElements.empty()) {
+    cerr <<
+      "%ERROR, lilypond newstaff is empty" << std::endl;
+    cout <<
+      "%ERROR, lilypond newstaff is empty" << std::endl;
+  } else {
+    vector<Slilypondelement>::const_iterator
+    iBegin = fNewStaffElements.begin(),
+    iEnd   = fNewStaffElements.end(),
+    i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << hdl;
+    } // for
+  }
+  
+  hdl--;
+  
+  os << ">>" << hdl;
 }
 
 
