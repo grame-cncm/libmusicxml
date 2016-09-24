@@ -68,6 +68,11 @@ lilypondnoteduration::lilypondnoteduration (int num, int denom, int dots)
 }
 lilypondnoteduration::~lilypondnoteduration() {}
 
+void lilypondnoteduration::scaleNumByFraction (int num, int denom)
+{
+  fNum *= num/denom;
+}
+
 void lilypondnoteduration::sett (int num, int denom, int dots) {
   fNum=num; fDenom=denom; fDots=dots; 
 }
@@ -167,14 +172,14 @@ lilypondnote::lilypondnote() : lilypondelement("")
 lilypondnote::~lilypondnote() {}
 
 void lilypondnote::updateNote(
-    bool                  currentStepIsRest,
-    DiatonicNote          diatonicNote,
-    Alteration            alteration,
-    int                   octave,
-    Slilypondnoteduration dur,
-    LilypondNote          lilypondNote,
-    int                   voice,
-    bool                  noteBelongsToAChord)
+  bool                  currentStepIsRest,
+  DiatonicNote          diatonicNote,
+  Alteration            alteration,
+  int                   octave,
+  Slilypondnoteduration dur,
+  LilypondNote          lilypondNote,
+  int                   voice,
+  bool                  noteBelongsToAChord)
 {
   fCurrentStepIsRest = currentStepIsRest;
   fDiatonicNote = diatonicNote;
@@ -184,6 +189,11 @@ void lilypondnote::updateNote(
   fLilypondNote = lilypondNote;
   fVoice = voice;
   fNoteBelongsToAChord = noteBelongsToAChord;
+}
+
+void lilypondnote::updateNoteDuration(int actualNotes, int normalNotes)
+{
+  fLilypondnoteduration->scaleNumByFraction(actualNotes, normalNotes);
 }
 
 void lilypondnote::setNoteBelongsToAChord () {

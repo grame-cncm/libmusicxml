@@ -114,7 +114,8 @@ class EXP lilypondnoteduration : public lilypondelement {
     
     lilypondnoteduration(int num, int denom, int dots=0);
     virtual ~lilypondnoteduration();
-        
+    
+    void scaleNumByFraction (int num, int denom);
     void sett (int num, int denom, int dots=0);
         
     lilypondnoteduration& operator= (const lilypondnoteduration& dur)
@@ -171,7 +172,8 @@ class EXP lilypondnote : public lilypondelement {
       
     static SMARTP<lilypondnote> create();// JMI  Note note, int voice) 
 
-    void updateNote(
+    // for regular notes
+    void updateNote( 
           bool                  fCurrentStepIsRest,
           DiatonicNote          diatonicNote,
           Alteration            alteration,
@@ -181,8 +183,10 @@ class EXP lilypondnote : public lilypondelement {
           int                   voice,
           bool                  noteBelongsToAChord);
     
+    // for tuplet elements
+    void updateNoteDuration (int actualNotes, int normalNotes);
+          
     void setNoteBelongsToAChord ();
-
     
     void              addDynamics (Slilyponddynamics dyn);
     void              addWedge    (Slilypondwedge    wdg);
