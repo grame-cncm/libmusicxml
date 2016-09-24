@@ -87,6 +87,11 @@ static xmlErr xml2lilypond(
       
     // output the lilypondelement tree resulting from the conversion 
     // thru lilypondelement::printLilyPondCode()
+    ly->printStructure(out);
+    out << endl << endl;
+
+    // output the lilypondelement tree resulting from the conversion 
+    // thru lilypondelement::printLilyPondCode()
     out << ly << endl;
     
     if (ts.fTrace) 

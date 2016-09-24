@@ -446,7 +446,19 @@ ostream& operator<< (ostream& os, const Slilypondsequence& elt)
 
 void lilypondsequence::printStructure(ostream& os)
 {
+//  hdl++;
+  
   os << "\%{ lilypondsequence??? \%}" << hdl;
+  /*
+  vector<Slilypondelement>::const_iterator i;
+  for (i=fSequenceElements.begin(); i!=fSequenceElements.end(); i++) {
+    os << (*i);
+    if (fElementsSeparator == kEndOfLine) os << hdl;
+    // JMI
+    else os << " ";
+  } // for
+  */
+ // hdl--;
 }
 
 void lilypondsequence::printLilyPondCode(ostream& os)
@@ -596,7 +608,7 @@ ostream& operator<< (ostream& os, const Slilypondbarline& elt)
 
 void lilypondbarline::printStructure(ostream& os)
 {
-  os << "\%{ lilypondbarline??? \%}" << hdl;
+  os << "lilypondbarline " << fNextBarNumber << hdl;
 }
 
 void lilypondbarline::printLilyPondCode(ostream& os)
@@ -662,15 +674,107 @@ ostream& operator<< (ostream& os, const Slilypondbreak& elt)
 
 void lilypondbreak::printStructure(ostream& os)
 {
-  os << "\%{ lilypondbreak??? \%}" << hdl;
+  os << "lilypondbreak " << fNextBarNumber << hdl;
 }
 
 void lilypondbreak::printLilyPondCode(ostream& os)
 {
-  hdl++;
-  os << "\\myBreak | % " << fNextBarNumber << hdl;
-  hdl--;
+  os << "\\myBreak | % " << fNextBarNumber << hdl << hdl;
+}
+
+//______________________________________________________________________________
+Slilypondbarnumbercheck lilypondbarnumbercheck::create(int nextBarNumber)
+{
+  lilypondbarnumbercheck* o = new lilypondbarnumbercheck(nextBarNumber); assert(o!=0);
+  return o;
+}
+
+lilypondbarnumbercheck::lilypondbarnumbercheck(int nextBarNumber) : lilypondelement("")
+{
+  fNextBarNumber=nextBarNumber; 
+}
+lilypondbarnumbercheck::~lilypondbarnumbercheck() {}
+
+ostream& operator<< (ostream& os, const Slilypondbarnumbercheck& elt)
+{
+  elt->printLilyPondCode(os);
+  return os;
+}
+
+void lilypondbarnumbercheck::printStructure(ostream& os)
+{
+  os << "lilypondbarnumbercheck " << fNextBarNumber << hdl;
+}
+
+void lilypondbarnumbercheck::printLilyPondCode(ostream& os)
+{
   os << "\\barNumberCheck #" << fNextBarNumber << hdl;
+}
+
+//______________________________________________________________________________
+Slilypondtuplet lilypondtuplet::create()
+{
+  lilypondtuplet* o = new lilypondtuplet(); assert(o!=0);
+  return o;
+}
+
+lilypondtuplet::lilypondtuplet() : lilypondelement("")
+{
+  fTupletNumber = k_NoTuplet;
+  
+  fActualNotes = -1;
+  fNormalNotes = -1;
+}
+lilypondtuplet::~lilypondtuplet() {}
+
+void lilypondtuplet::updateTuplet (int number, int actualNotes, int normalNotes)
+{
+  fTupletNumber = number;
+  
+  fActualNotes = actualNotes;
+  fNormalNotes = normalNotes;  
+}
+
+ostream& operator<< (ostream& os, const Slilypondtuplet& elt)
+{
+  elt->printLilyPondCode(os);
+  return os;
+}
+
+void lilypondtuplet::printStructure(ostream& os)
+{
+  os << "lilypondtuplet " << fActualNotes << "/" << fNormalNotes << hdl;
+
+  hdl++;
+
+  std::vector<Slilypondelement>::const_iterator
+    iBegin = fTupletContents.begin(),
+    iEnd   = fTupletContents.end(),
+    i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << hdl;
+    } // for
+
+  hdl--;
+}
+
+void lilypondtuplet::printLilyPondCode(ostream& os)
+{
+  os << "\\tuplet " << fActualNotes << "/" << fNormalNotes << " { ";
+
+  std::vector<Slilypondelement>::const_iterator
+    iBegin = fTupletContents.begin(),
+    iEnd   = fTupletContents.end(),
+    i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+  
+  os << " }" << hdl;
 }
 
 //______________________________________________________________________________

@@ -42,6 +42,7 @@ class lilypondnoteduration;
 class lilyponddynamics;
 class lilypondwedge;
 class lilypondchord;
+class lilypondnote;
 
 class lilypondpaper;
 class lilypondlayout;
@@ -53,6 +54,7 @@ typedef SMARTP<lilypondnoteduration> Slilypondnoteduration;
 typedef SMARTP<lilyponddynamics>     Slilyponddynamics;
 typedef SMARTP<lilypondwedge>        Slilypondwedge;
 typedef SMARTP<lilypondchord>        Slilypondchord;
+typedef SMARTP<lilypondnote>         Slilypondnote;
 
 typedef SMARTP<lilypondpaper>        Slilypondpaper;
 typedef SMARTP<lilypondlayout>       Slilypondlayout;
@@ -62,6 +64,7 @@ EXP std::ostream& operator<< (std::ostream& os, const Slilypondnoteduration& dur
 EXP std::ostream& operator<< (std::ostream& os, const Slilyponddynamics& dyn);
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondwedge& wdg);
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondchord& chrd);
+EXP std::ostream& operator<< (std::ostream& os, const Slilypondnote& chrd);
 
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondpaper& chrd);
 EXP std::ostream& operator<< (std::ostream& os, const Slilypondlayout& chrd);
@@ -729,6 +732,73 @@ class EXP lilypondbreak : public lilypondelement {
 typedef SMARTP<lilypondbreak> Slilypondbreak;
 
 /*!
+\brief A lilypond barnumbercheck representation.
+
+  A barnumbercheck is represented by the number of the next bar
+*/
+//______________________________________________________________________________
+class EXP lilypondbarnumbercheck : public lilypondelement {
+  public:
+    
+    static SMARTP<lilypondbarnumbercheck> create(int nextBarNumber);
+
+    virtual void printStructure (std::ostream& os);
+    virtual void printLilyPondCode (std::ostream& os);
+
+  protected:
+
+    lilypondbarnumbercheck(int nextBarNumber);
+    virtual ~lilypondbarnumbercheck();
+  
+  private:
+
+    int fNextBarNumber;
+};
+typedef SMARTP<lilypondbarnumbercheck> Slilypondbarnumbercheck;
+
+/*!
+\brief A lilypond tuplet representation.
+
+  A tuplet is represented by the number of actual notes and
+  normal notes, i.e. a triplet is a tuplet with 3 actual notes
+  played for the duration of 2 actual notes
+*/
+//______________________________________________________________________________
+class EXP lilypondtuplet : public lilypondelement {
+  public:
+    
+    static SMARTP<lilypondtuplet> create();
+
+    enum TupletKind {
+      kStartTuplet, kContinueTuplet, kStopTuplet, 
+      k_NoTuplet };
+
+    void updateTuplet (int number, int actualNotes, int normalNotes);
+    
+    int getTupletNumber () const { return fTupletNumber; }
+
+    void addElementToTuplet (Slilypondelement elem) { fTupletContents.push_back(elem); }
+
+    virtual void printStructure (std::ostream& os);
+    virtual void printLilyPondCode (std::ostream& os);
+
+  protected:
+
+    lilypondtuplet();
+    virtual ~lilypondtuplet();
+  
+  private:
+
+    int fTupletNumber;
+    
+    int fActualNotes;
+    int fNormalNotes;
+    
+    std::vector<Slilypondelement> fTupletContents;
+};
+typedef SMARTP<lilypondtuplet> Slilypondtuplet;
+
+/*!
 \brief A lilypond beam representation.
 
   A beam is represented by a BeamKind value
@@ -1069,5 +1139,15 @@ typedef SMARTP<lilypondvariableusecmd> Slilypondvariableusecmd;
 
 }
 
+  /*
+  Duration is a positive number specified in division units.
+ 
+  Musical notation duration is commonly represented as fractions. 
+  The divisions element indicates how many divisions per quarter note are used to indicate a note's duration. 
+  For example, if duration = 1 and divisions = 2, this is an eighth note duration. 
+  */ 
+   
+  // MusicXML durations are in in divisions per quarter note,
+  // LilyPond durations are in whole notes, hence the "*4" multiplication
 
 #endif
