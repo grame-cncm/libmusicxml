@@ -34,21 +34,6 @@ namespace MusicXML2
 @{
 */
 
-/*
-//______________________________________________________________________________
-typedef struct {
-  S_score_partwise        fScorePartwise; // may contain MusicXML version
-  S_work_number           fWorkNumber;
-  S_work_title            fWorkTitle;
-  S_movement_number       fMovementNumber;
-  S_movement_title        fMovementTitle;
-  std::vector<S_creator>  fCreators;
-  S_rights                fRights;
-  std::vector<S_software> fSoftwares;
-  S_encoding_date         fEncodingDate;
-  S_score_instrument      fScoreInstrument;
-} globalHeader;
-*/
 
 /*!
 \brief A score visitor to produce a LilyPond representation.
@@ -74,7 +59,7 @@ class EXP xml2lilypondvisitor :
     xml2lilypondvisitor( translationSwitches& ts );
     virtual ~xml2lilypondvisitor() {}
 
-    Slilypondelement convert (const Sxmlelement& xml);
+    Slilypondelement convertToLilyPond (const Sxmlelement& xml);
 
     // this is to control exact positionning of elements 
     // when information is present
@@ -122,7 +107,9 @@ class EXP xml2lilypondvisitor :
     Slilypondscore      fLilypondscore;
     
     std::string         fCurrentPartID;
-    int                 fCurrentStaffIndex;   // the index of the current lilypond staff
+   
+    // the index of the current lilypond staff
+    int                 fCurrentStaffIndex;
   
     void addElementToSequence (Slilypondelement& elt);
     

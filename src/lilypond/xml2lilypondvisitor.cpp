@@ -40,7 +40,7 @@ xml2lilypondvisitor::xml2lilypondvisitor( translationSwitches& ts ) :
 {}
 
 //______________________________________________________________________________
-Slilypondelement xml2lilypondvisitor::convert (const Sxmlelement& xml )
+Slilypondelement xml2lilypondvisitor::convertToLilyPond (const Sxmlelement& xml )
 {
   Slilypondelement ly;
   if (xml) {
@@ -155,12 +155,15 @@ void xml2lilypondvisitor::visitEnd ( S_score_partwise& elt )
   for (i = fLilypondpartsMap.begin(); i != fLilypondpartsMap.end(); i++) {
     // get part
     Slilypondpart part = (*i).second;
+    
     // create a new staff comaand
     Slilypondnewstaffcmd nstf = lilypondnewstaffcmd::create();
+    
     // add it to the score parallel music
     par->addElementToParallel(nstf);
+    
     // add the part name to the new staff
-    Slilypondcmd cmd = lilypondcmd::create(part->getPartName());
+    Slilypondvariableusecmd cmd = lilypondvariableusecmd::create(part->getPartName());
     nstf->addElementToNewStaff(cmd);
   } // for
 }
@@ -192,61 +195,13 @@ void xml2lilypondvisitor::visitStart ( S_encoding_date& elt )
 
 //______________________________________________________________________________
 void xml2lilypondvisitor::visitStart ( S_instrument_name& elt )
-  { 
-    // JMI fCurrentPartID = elt->getAttributeValue("id"); 
-    }
+{}
 
 void xml2lilypondvisitor::visitStart ( S_score_part& elt )
   { fCurrentPartID = elt->getAttributeValue("id"); }
 
-/*
-  <part-list>
-    <score-part id="P1">
-      <part-name print-object="no">Violins 1</part-name>
-      <score-instrument id="P1-I1">
-        <instrument-name>Violins 1</instrument-name>
-        </score-instrument>
-      <midi-device id="P1-I1" port="1"></midi-device>
-      <midi-instrument id="P1-I1">
-        <midi-channel>1</midi-channel>
-        <midi-program>49</midi-program>
-        <volume>78.7402</volume>
-        <pan>0</pan>
-        </midi-instrument>
-      </score-part>
-    <score-part id="P2">
-      <part-name print-object="no">Violoncellos</part-name>
-      <score-instrument id="P2-I1">
-        <instrument-name>Violoncellos</instrument-name>
-        </score-instrument>
-      <midi-device id="P2-I1" port="1"></midi-device>
-      <midi-instrument id="P2-I1">
-        <midi-channel>4</midi-channel>
-        <midi-program>49</midi-program>
-        <volume>78.7402</volume>
-        <pan>0</pan>
-        </midi-instrument>
-      </score-part>
-    </part-list>
-  <part id="P1">
-*/
-
 void xml2lilypondvisitor::visitStart ( S_part_name& elt )
-  {
-    /* JMI
-  std::string partName = elt->getAttributeValue("id");
- 
-  // create the part description
-  Slilypondpart part = lilypondpart::create(partName+"BOF", fSwitches.fGenerateAbsoluteCode);
-  Slilypondelement p = part;
-  
-  // register it
-  fLilypondpartsMap[fCurrentPartID] = part; 
-  
-  // add it to the lilypondelement sequence
-  fLilypondseq->addElementToSequence (p);
-  */
-}
+{}
 
 void xml2lilypondvisitor::visitStart ( S_part& elt )
 {
@@ -361,7 +316,6 @@ void xml2lilypondvisitor::addPosition (
     posx = (posx / 10) * 2;   // convert to half spaces
     stringstream s;
     s << "dx=" << posx << "hs";
-    // cmd->add (lilypondparam::create(s.str(), false)); // USER
   }
   
   float posy = elt->getAttributeFloatValue("default-y", 0) + elt->getAttributeFloatValue("relative-y", 0);
@@ -370,7 +324,6 @@ void xml2lilypondvisitor::addPosition (
     posy += yoffset;      // anchor point convertion (defaults to upper line in xml)
     stringstream s;
     s << "dy=" << posy << "hs";
-    // cmd->add (lilypondparam::create(s.str(), false)); // USER
   }
 }
 

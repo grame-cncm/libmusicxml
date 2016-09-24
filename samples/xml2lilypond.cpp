@@ -61,6 +61,8 @@ int main(int argc, char *argv[])
   int notracePresent =       0;
   int debugPresent =         0;
   
+  std::string selectedOptions = "";
+  
   bool generateAbsoluteCode =  false;
   bool generateNumericalTime = false;
   bool generateComments =      true;
@@ -107,34 +109,42 @@ int main(int argc, char *argv[])
         }
         if (absolutePresent) {
           generateAbsoluteCode = true;
+          selectedOptions += "--absolute ";
           break;
         }
         if (numericaltimePresent) {
           generateNumericalTime = true;
+          selectedOptions += "--numericaltime ";
           break;
         }
         if (nocommentsPresent) {
           generateComments = false;
+          selectedOptions += "--nocomments ";
           break;
         }
         if (noautobarsPresent) {
           generateBars = false;
+          selectedOptions += "--noautobars ";
           break;
         }
         if (stemsPresent) {
           generateStems = true;
+          selectedOptions += "--stems ";
           break;
         }
         if (positionsPresent) {
           generatePositions = true;
+          selectedOptions += "--positions ";
           break;
         }
         if (notracePresent) {
           trace = false;
+          selectedOptions += "--notrace ";
           break;
         }
         if (debugPresent) {
           debug = true;
+          selectedOptions += "--debug ";
           break;
         }
         break;
@@ -171,6 +181,7 @@ int main(int argc, char *argv[])
   ts.fGeneratePositions =     generatePositions;
   ts.fTrace =                 trace;
   ts.fDebug =                 debug;
+  ts.fSelectedOptions =       selectedOptions;
 
   if (ts.fTrace)
     cerr << 

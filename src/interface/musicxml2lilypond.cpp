@@ -38,7 +38,7 @@ EXP const char* musicxml2lilypondVersionStr() { return "0.1.0"; }
 */
 static xmlErr xml2lilypond(
   SXMLFile& xmlfile,
-  translationSwitches sw,
+  translationSwitches ts,
   ostream& out,
   const char* file) 
 {
@@ -47,18 +47,18 @@ static xmlErr xml2lilypond(
   
   if (st) {
     // create an xml2lilypondvisitor
-    xml2lilypondvisitor v(sw);
+    xml2lilypondvisitor v(ts);
     
     // use the visitor to convert the xmlelement tree into a lilypondelement tree
-    if (sw.fTrace)
+    if (ts.fTrace)
       cerr << "Launching conversion of xmlelement tree to lilypondelement tree" << endl;
-    Slilypondelement    ly = v.convert(st);
+    Slilypondelement    ly = v.convertToLilyPond(st);
     
     string separator = "%----------------------------------------";
-    if (sw.fTrace) 
+    if (ts.fTrace) 
       cerr << 
         "Outputting LilyPond source code" << endl <<
-        separator << endl;
+        separator << endl << endl;
 
     // output the general information about the conversion
     out << "%{" << std::endl;
@@ -70,17 +70,26 @@ static xmlErr xml2lilypond(
       out << 
         "  LilyPond code converted from standard input" << std::endl; 
     out << 
-      "  using libmusicxml2" << //<< musicxmllibVersionStr() <<
-      " and its embedded xml2lilypond converter " << //<< musicxml2lilypondVersionStr() <<
+      "  using libmusicxml2" << 
+      //<< musicxmllibVersionStr() <<
+      " and its embedded xml2lilypond converter " <<
+      //<< musicxml2lilypondVersionStr() <<
+      std::endl <<
+      "  Options were: ";
+    if (ts.fSelectedOptions.size() == 0)
+      out << "none";
+    else
+      out << std::endl << "    " << ts.fSelectedOptions;
+    out <<
       std::endl <<
       "%}" << 
       std::endl << std::endl;
       
     // output the lilypondelement tree resulting from the conversion 
-    // thru lilypondelement::print()
+    // thru lilypondelement::printLilyPondCode()
     out << ly << endl;
     
-    if (sw.fTrace) 
+    if (ts.fTrace) 
       cerr << separator << endl;
    
     return kNoErr;
@@ -90,15 +99,15 @@ static xmlErr xml2lilypond(
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlfile2lilypond(
-  const char *file, translationSwitches sw, ostream& out) 
+  const char *file, translationSwitches ts, ostream& out) 
 {
-  if (sw.fTrace) cerr << "Building xmlemement tree from \"" << file << "\"" << endl;
+  if (ts.fTrace) cerr << "Building xmlemement tree from \"" << file << "\"" << endl;
   xmlreader r;
   SXMLFile xmlfile;
   xmlfile = r.read(file);
   
   if (xmlfile) {
-    return xml2lilypond(xmlfile, sw, out, file);
+    return xml2lilypond(xmlfile, ts, out, file);
   }
   
   return kInvalidFile;
@@ -106,15 +115,15 @@ EXP xmlErr musicxmlfile2lilypond(
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlfd2lilypond(
-  FILE * fd, translationSwitches sw, ostream& out) 
+  FILE * fd, translationSwitches ts, ostream& out) 
 {
-  if (sw.fTrace) cerr << "Building xmlemement tree from standard input" << endl;
+  if (ts.fTrace) cerr << "Building xmlemement tree from standard input" << endl;
  xmlreader r;
   SXMLFile xmlfile;
   xmlfile = r.read(fd);
   
   if (xmlfile) {
-    return xml2lilypond(xmlfile, sw, out, 0);
+    return xml2lilypond(xmlfile, ts, out, 0);
   }
   
   return kInvalidFile;
@@ -122,15 +131,15 @@ EXP xmlErr musicxmlfd2lilypond(
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlstring2lilypond(
-  const char * buffer, translationSwitches sw, ostream& out) 
+  const char * buffer, translationSwitches ts, ostream& out) 
 {
-  if (sw.fTrace) cerr << "Building xmlemement tree from a buffer" << endl;
+  if (ts.fTrace) cerr << "Building xmlemement tree from a buffer" << endl;
   xmlreader r;
   SXMLFile xmlfile;
   xmlfile = r.readbuff(buffer);
   
   if (xmlfile) {
-    return xml2lilypond(xmlfile, sw, out, 0);
+    return xml2lilypond(xmlfile, ts, out, 0);
   }
   
   return kInvalidFile;

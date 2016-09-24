@@ -24,250 +24,34 @@ namespace MusicXML2
 //______________________________________________________________________________
 haendel lilypondelement::hdl;
 
-//______________________________________________________________________________
-Slilypondparam lilypondparam::create(string value, bool quote) 
-{ 
-  lilypondparam * o = new lilypondparam(value, quote); assert(o!=0); 
-  return o;
-}
-Slilypondparam lilypondparam::create(int value, bool quote) 
-{
- lilypondparam * o = new lilypondparam(value, quote); assert(o!=0);
- return o; 
-}
-
-lilypondparam::lilypondparam(string value, bool quote) : 
-    fValue(value), fQuote(quote) 
-  {}
-lilypondparam::lilypondparam(int value, bool quote) 
-{
-  set(value, quote);
-}
-lilypondparam::~lilypondparam () 
-  {}
-
-void lilypondparam::set (string value, bool quote)
-{
-  fValue = value;
-  fQuote = quote;
-}
-
-void lilypondparam::set (int value, bool quote)
-{
-  stringstream s;
-  s << value;
-  s >> fValue;
-  fQuote = quote;
-}
-
-void lilypondparam::print(ostream& os)
-{
-  if (fQuote) os << "\"";
-  os << fValue;
-  if (fQuote) os << "\"";
-}
-ostream& operator<< (ostream& os, const Slilypondparam& param)
-{
-  param->print(os);
-  return os;
-}
 
 //______________________________________________________________________________
-Slilypondelement lilypondelement::create(string name, string sep) 
+Slilypondelement lilypondelement::create(bool debug) 
 {
-  lilypondelement * o = new lilypondelement(name, sep); assert(o!=0);
+  lilypondelement * o = new lilypondelement(debug); assert(o!=0);
   return o; 
 }
 
-lilypondelement::lilypondelement(string name, string sep) :
-  fName(name), fSep(sep), fDebug(true)
-  {}
+lilypondelement::lilypondelement(bool debug)
+{
+  fDebug = debug;
+}
 lilypondelement::~lilypondelement() {}
 
-void lilypondelement::dumpParams() {
-  // print the optional parameters section
-  if (!fParams.empty()) {
-    cout << std::endl << "<========================" << std::endl;
-    vector<Slilypondparam>::const_iterator param;
-    for (param = fParams.begin(); param != fParams.end(); ) {
-      cout << " ";
-      if ((*param)->quote())
-        cout << "\"" << (*param)->get() << "\"";
-      else
-        cout << (*param)->get();
-      if (++param != fParams.end())
-        cout << ", PARAMS ";
-    } // for
-    cout << "========================>" << std::endl;
-  } // if
-}
-
-int lilypondelement::addParam (Slilypondparam& param) { 
-//  bool doDebug = fDebug;
-  bool doDebug = false;
-
- if (doDebug) cout << "addParam & : ";
-  fParams.push_back(param);
-  if (doDebug) cout << param << std::endl; //dumpParams();
-  return fParams.size()-1;
-}
-
-int lilypondelement::addParam (Slilypondparam param) { 
-//  bool doDebug = fDebug;
-  bool doDebug = false;
-
-  if (doDebug) cout << "addParam : ";
-  fParams.push_back(param);
-  if (doDebug) cout << param << std::endl; //dumpParams();
-  return fParams.size()-1;
-}
-
-void lilypondelement::dumpElements() {
-  /*
-  bool isSeq    = dynamic_cast<const lilypondsequence *>(this) != 0;
-  bool isChord  = dynamic_cast<const lilypondchord *>(this) != 0;
-  */
-  
-  // print the optional contained elements
-  if (!fSubElements.empty()) {
-    cout << std::endl << "<-------------------------" << std::endl;
-    //cout << fStartList;
-    vector<Slilypondelement>::const_iterator ielt;
-    for (ielt = fSubElements.begin(); ielt != fSubElements.end(); ielt++) {
-      /*
-      bool prevNote = false;
-      bool prevSeq  = false;
-
-      Slilypondsequence seq;
-      seq.cast((lilypondelement *)(*ielt));
-      Slilypondnote note;
-      note.cast((lilypondelement *)(*ielt));
-
-      if (isChord) {
-        if (note) {
-          // USER cout << (prevNote ? ", CHORD " : " ");
-          cout << " ";
-          prevNote = true;
-        }
-        else if (seq) {
-          // USER cout << (prevSeq ? ", SEQ " : " ");
-          cout << std::endl;
-          prevSeq = true;
-        }
-      } // isChord
-      //if (ielt = fSubElements.end()) 
-      */
-    cout << *ielt << " ";            
-    } // for
-  //cout << fEndList;
-  cout << "------------------------->" << std::endl;
-  } // if
-  // if (isSeq) cout << std::endl;
-}
-
-int lilypondelement::addSubElement (Slilypondelement& elt) {
-  bool doDebug = fDebug;
-//  bool doDebug = false;
-
-  if (doDebug) cout << "addSubElement : ";
-  fSubElements.push_back(elt); 
-  if (doDebug) cout << elt << std::endl; //dumpElements();
-  return fSubElements.size()-1;
-}
-
-//______________________________________________________________________________
-/*
- * The method that writes LilyPond code for the given element to the output stream
-*/
-void lilypondelement::print(ostream& os)
-{
-  // print the name
-  os << fName;
-
-  // print the optional parameters section
-  if (!fParams.empty()) {
-    /*
-    vector<Slilypondparam>::const_iterator param;
-    for (param = fParams.begin(); param != fParams.end(); ) {
-      os << " ";
-      if ((*param)->quote())
-        os << "\"" << (*param)->get() << "\"";
-      else
-        os << (*param)->get();
-      if (++param != fParams.end())
-        os << ", PARAMS ";
-    } // for
-    os << "\n"; // USER
-    */
-  }
-
-  bool isSeq    = dynamic_cast<const lilypondsequence *>(this) != 0;
-  bool isChord  = dynamic_cast<const lilypondchord *>(this) != 0;
-  
-  // print the optional contained elements
-  if (!fSubElements.empty()) {
-    /*
-    os << fStartList;
-    vector<Slilypondelement>::const_iterator ielt;
-    for (ielt = fSubElements.begin(); ielt != fSubElements.end(); ielt++) {
-      bool prevNote = false;
-      bool prevSeq  = false;
-
-      Slilypondsequence seq;
-      seq.cast((lilypondelement *)(*ielt));
-      Slilypondnote note;
-      note.cast((lilypondelement *)(*ielt));
-
-      if (isChord) {
-        if (note) {
-          // USER os << (prevNote ? ", CHORD " : " ");
-          os << " ";
-          prevNote = true;
-        }
-        else if (seq) {
-          // USER os << (prevSeq ? ", SEQ " : " ");
-          os << std::endl;
-          prevSeq = true;
-        }
-      } // isChord
-    //if (ielt = fSubElements.end()) 
-    os << *ielt << " ";            
-    } // for
-  os << fEndList;
-  */
-  } // if
-  //if (isSeq) os << std::endl;
-  
-  /*
-   *   if (fPendingWedges.size()) {
-    while (fPendingWedges.size()) {
-      cout << "% FOO ";
-      Slilypondwedge wedg = fPendingWedges.front();
-      if (wedg) {
-        switch (wedg->getWedgeKind()) {
-          case lilypondwedge::kCrescendoWedge:
-            cout << "\\<";
-            break;
-          case lilypondwedge::kDecrescendoWedge:
-            cout << "\\>";
-            break;
-          case lilypondwedge::kStopWedge:
-            cout << "\\!";
-            break;
-        } // switch
-      } // while
-      fPendingWedges.pop_front();
-    }
-    cout << endl;
-  }
-*/
-}
-
-//______________________________________________________________________________
 ostream& operator<< (ostream& os, const Slilypondelement& elt)
 {
-  elt->print(os);
+  elt->printLilyPondCode(os);
   return os;
+}
+
+void lilypondelement::printStructure(ostream& os)
+{
+  os << "\%{ lilypondelement??? \%}" << hdl;
+}
+
+void lilypondelement::printLilyPondCode(ostream& os)
+{
+  os << "\%{ lilypondelement??? \%}" << hdl;
 }
 
 //______________________________________________________________________________
@@ -290,17 +74,31 @@ void lilypondnoteduration::sett (int num, int denom, int dots) {
 
 ostream& operator<< (ostream& os, const Slilypondnoteduration& dur)
 {
-  dur->print(os);
+  dur->printLilyPondCode(os);
   return os;
 }
 
-void lilypondnoteduration::print(ostream& os)
+void lilypondnoteduration::printStructure(ostream& os)
+{
+  os << "\%{ lilypondnoteduration??? \%}" << hdl;
+}
+
+void lilypondnoteduration::printLilyPondCode(ostream& os)
 {
   // divisions are per quater, Lilypond durations are in whole notes
   //os << "|"  << fLilypondnoteduration.fNum << "|" << fLilypondnoteduration.fDenom;
 
   int noteDivisions         = fNum;
   int divisionsPerWholeNote = fDenom ;
+  
+  if (divisionsPerWholeNote == 0)
+    {
+    os << 
+      std::endl << 
+      "%--> lilypondnoteduration::printLilyPondCode, noteDivisions = " << noteDivisions <<
+      ", divisionsPerWholeNote = " << divisionsPerWholeNote << std::endl;
+    return;
+  }
   
   div_t divresult = div (noteDivisions, divisionsPerWholeNote);  
   int   div = divresult.quot;
@@ -352,16 +150,9 @@ void lilypondnoteduration::print(ostream& os)
 }
 
 //______________________________________________________________________________
-Slilypondnote lilypondnote::create()// JMI  Note note, int voice) 
-{
-  // JMI lilypondnotestatus status = lilypondnotestatus::get(voice);
-  
-  int voice=-17;
-  
-  lilypondnote * o = new lilypondnote ();// JMI note, voice);
- //   voice,"", status->fOctave, status->fDur, ""); 
-  assert(o!=0); 
-  
+Slilypondnote lilypondnote::create() 
+{  
+  lilypondnote * o = new lilypondnote (); assert(o!=0); 
   return o;
 }
 
@@ -370,7 +161,7 @@ lilypondnote::lilypondnote() : lilypondelement("")
   fDiatonicNote         = lilypondnote::kNoDiatonicNote;
   fAlteration           = lilypondnote::kNoAlteration;
   fOctave               = -1;
-  fLilypondnoteduration = lilypondnoteduration::create(0, 0, 0);
+//  fLilypondnoteduration = lilypondnoteduration::create(0, 0, 0);
   fVoice                = -1;
 }
 lilypondnote::~lilypondnote() {}
@@ -419,21 +210,17 @@ Slilypondwedge lilypondnote::removeFirstWedge () {
 
 ostream& operator<< (ostream& os, const Slilypondnote& elt)
 {
-  elt->print(os);
+  elt->printLilyPondCode(os);
   return os;
 }
 
-void lilypondnote::print(ostream& os)
+void lilypondnote::printStructure(ostream& os)
 {
-  /*
-  os <<
-    "note(fDiatonicNote = " << fDiatonicNote << ", " <<
-    "fAlteration = " << fAlteration << ", " << ", " <<
-    "fOctave = " << fOctave << ", " << ", " <<
-    "fVoice = " << fVoice << ", " << ", " <<
-    std::endl;
- */
+  os << "\%{ lilypondnote??? \%}" << hdl;
+}
 
+void lilypondnote::printLilyPondCode(ostream& os)
+{
   if (fCurrentStepIsRest) os << "r";
   else {
     // print the note name
@@ -617,79 +404,6 @@ void lilypondnote::print(ostream& os)
 }
 
 /*
-Slilypondnote lilypondnote::create(
-  unsigned short voice
-  string name,
-  char oct, 
-  lilypondnoteduration& dur, string acc)
-{
-  lilypondnote * o = 
-    new lilypondnote (voice, name, oct, dur, acc); assert(o!=0);
-  return o;
-}
-
-lilypondnote::lilypondnote(
-  unsigned short voice, 
-  string name, 
-  char octave, 
-  lilypondnoteduration& dur, string acc) : 
-    lilypondelement(""), fDuration(1,4) 
-{
-  set(voice, name, octave, dur, acc); 
-}
-
-void lilypondnote::set (
-  unsigned short voice, 
-  string name, 
-  char octave, 
-  lilypondnoteduration& dur, 
-  string acc)
-{
-  lilypondnotestatus * status = lilypondnotestatus::get(voice);
-  stringstream s;
-  int dots = dur.fDots;
-    
-  fNote       = name;
-  fAccidental = acc;
-  fOctave     = octave;
-  fDuration   = dur;
-  
-  s << 
-  //"\%\{ octave = " << octave << "\%\} " <<
-  name;
-  // octave and accidentals are ignored in case of rests
-  if (name[0] != 'r' && name[0] != 'R') {
-    if (!acc.empty())
-      s << acc;
-    if (name != "empty" || octave != 0) { // JMI USER
-      s << lilypondnote::octaveRepresentation(octave); // clean absolute/relative later
-      / *
-      if (!status) {
-        // USER s << (int)octave;
-        s << lilypondnote::octaveRepresentation(octave);
-      } else if (status->fOctave != octave) {
-        // USER s << (int)octave;
-        s << lilypondnote::octaveRepresentation(octave);
-        status->fOctave = octave;
-      }
-      * /
-    } // name != "empty"
-  } // non rest
-  
-  if (!status || (*status != dur)) {
-    if (dur.fNum != 1) {
-      s << "*" << (int)dur.fNum;
-    }
-  s << 
-  //USER "/" << 
-  (int)dur.fDenom;
-  if (status) *status = dur;
-  }
-  
-  while (dots-- > 0)
-    s << ".";
-  s >> fName;
-}
 
 std::string lilypondnote::octaveRepresentation (char octave)
 {
@@ -712,34 +426,6 @@ std::string lilypondnote::octaveRepresentation (char octave)
   */
 
 //______________________________________________________________________________
-lilypondnotestatus* lilypondnotestatus::fInstances[kMaxInstances] = { 0 };
-
-lilypondnotestatus* lilypondnotestatus::get (unsigned short voice)
-{ 
-  if (voice < kMaxInstances) {
-    if (!fInstances[voice])
-      fInstances[voice] = new lilypondnotestatus; 
-    return fInstances[voice];
-  }
-  return 0;
-}
-
-void lilypondnotestatus::resetalllilypondnotestatus ()
-{ 
-  for (int i=0; i<kMaxInstances; i++) {
-    if (fInstances[i]) fInstances[i]->reset();
-  }
-}
-
-void lilypondnotestatus::freeall ()
-{ 
-  for (int i=0; i<kMaxInstances; i++) {
-    delete fInstances[i];
-  fInstances[i] = 0;
-  }
-}
-
-//______________________________________________________________________________
 Slilypondsequence lilypondsequence::create(ElementsSeparator elementsSeparator)
 {
   lilypondsequence* o = new lilypondsequence(elementsSeparator); assert(o!=0);
@@ -754,11 +440,16 @@ lilypondsequence::~lilypondsequence() {}
 
 ostream& operator<< (ostream& os, const Slilypondsequence& elt)
 {
-  elt->print(os);
+  elt->printLilyPondCode(os);
   return os;
 }
 
-void lilypondsequence::print(ostream& os)
+void lilypondsequence::printStructure(ostream& os)
+{
+  os << "\%{ lilypondsequence??? \%}" << hdl;
+}
+
+void lilypondsequence::printLilyPondCode(ostream& os)
 {
   vector<Slilypondelement>::const_iterator i;
   for (i=fSequenceElements.begin(); i!=fSequenceElements.end(); i++) {
@@ -784,11 +475,16 @@ lilypondparallel::~lilypondparallel() {}
 
 ostream& operator<< (ostream& os, const Slilypondparallel& elt)
 {
-  elt->print(os);
+  elt->printLilyPondCode(os);
   return os;
 }
 
-void lilypondparallel::print(ostream& os)
+void lilypondparallel::printStructure(ostream& os)
+{
+  os << "\%{ lilypondparallel??? \%}" << hdl;
+}
+
+void lilypondparallel::printLilyPondCode(ostream& os)
 {
   hdl++;
   
@@ -840,11 +536,16 @@ void lilypondchord::addWedge (Slilypondwedge wdg) {
 
 ostream& operator<< (ostream& os, const Slilypondchord& chrd)
 {
-  chrd->print(os);
+  chrd->printLilyPondCode(os);
   return os;
 }
 
-void lilypondchord::print(ostream& os)
+void lilypondchord::printStructure(ostream& os)
+{
+  os << "\%{ lilypondchord??? \%}" << hdl;
+}
+
+void lilypondchord::printLilyPondCode(ostream& os)
 {
   std::vector<Slilypondnote>::const_iterator
     iBegin = fChordNotes.begin(),
@@ -875,32 +576,6 @@ void lilypondchord::print(ostream& os)
 }
 
 //______________________________________________________________________________
-Slilypondcmd lilypondcmd::create(string name, BackSlashPrefix backslashPrefix)
-{
-  lilypondcmd* o = new lilypondcmd(name, backslashPrefix); assert(o!=0);
-  return o;
-}
-
-lilypondcmd::lilypondcmd(string name, BackSlashPrefix backslashPrefix) : 
-    lilypondelement(
-      backslashPrefix == kWithBackslash
-        ? "\\"+name
-        : name
-        )
-{
-  fStartList=""; // "{";  // USER 
-  fEndList=""; // "}"; // USER
-}
-lilypondcmd::~lilypondcmd() {}
-
-void lilypondcmd::print(ostream& os)
-{
-  // print the cmd name
-  os << fName << " ";
- // jMI lilypondelement::print(os);
-}
-
-//______________________________________________________________________________
 Slilypondbarline lilypondbarline::create(int nextBarNumber)
 {
   lilypondbarline* o = new lilypondbarline(nextBarNumber); assert(o!=0);
@@ -915,10 +590,16 @@ lilypondbarline::~lilypondbarline() {}
 
 ostream& operator<< (ostream& os, const Slilypondbarline& elt)
 {
-  elt->print(os);
+  elt->printLilyPondCode(os);
   return os;
 }
-void lilypondbarline::print(ostream& os)
+
+void lilypondbarline::printStructure(ostream& os)
+{
+  os << "\%{ lilypondbarline??? \%}" << hdl;
+}
+
+void lilypondbarline::printLilyPondCode(ostream& os)
 {
   hdl++;
   os << "| % ";
@@ -943,10 +624,16 @@ lilypondcomment::~lilypondcomment() {}
 
 ostream& operator<< (ostream& os, const Slilypondcomment& elt)
 {
-  elt->print(os);
+  elt->printLilyPondCode(os);
   return os;
 }
-void lilypondcomment::print(ostream& os)
+
+void lilypondcomment::printStructure(ostream& os)
+{
+  os << "\%{ lilypondcomment??? \%}" << hdl;
+}
+
+void lilypondcomment::printLilyPondCode(ostream& os)
 {
   hdl++;
   os << "% " << fContents;
@@ -969,10 +656,16 @@ lilypondbreak::~lilypondbreak() {}
 
 ostream& operator<< (ostream& os, const Slilypondbreak& elt)
 {
-  elt->print(os);
+  elt->printLilyPondCode(os);
   return os;
 }
-void lilypondbreak::print(ostream& os)
+
+void lilypondbreak::printStructure(ostream& os)
+{
+  os << "\%{ lilypondbreak??? \%}" << hdl;
+}
+
+void lilypondbreak::printLilyPondCode(ostream& os)
 {
   hdl++;
   os << "\\myBreak | % " << fNextBarNumber << hdl;
@@ -997,11 +690,16 @@ lilypondbeam::~lilypondbeam() {}
 
 ostream& operator<< (ostream& os, const Slilypondbeam& dyn)
 {
-  dyn->print(os);
+  dyn->printLilyPondCode(os);
   return os;
 }
 
-void lilypondbeam::print(ostream& os)
+void lilypondbeam::printStructure(ostream& os)
+{
+  os << "\%{ lilypondbeam??? \%}" << hdl;
+}
+
+void lilypondbeam::printLilyPondCode(ostream& os)
 {
   switch (fBeamKind) {
     case kBeginBeam:
@@ -1032,11 +730,16 @@ lilyponddynamics::~lilyponddynamics() {}
 
 ostream& operator<< (ostream& os, const Slilyponddynamics& dyn)
 {
-  dyn->print(os);
+  dyn->printLilyPondCode(os);
   return os;
 }
 
-void lilyponddynamics::print(ostream& os)
+void lilyponddynamics::printStructure(ostream& os)
+{
+  os << "\%{ lilyponddynamics??? \%}" << hdl;
+}
+
+void lilyponddynamics::printLilyPondCode(ostream& os)
 {
   switch (fDynamicsKind) {
     case kFDynamics:
@@ -1065,11 +768,16 @@ lilypondwedge::~lilypondwedge() {}
 
 ostream& operator<< (ostream& os, const Slilypondwedge& wdg)
 {
-  wdg->print(os);
+  wdg->printLilyPondCode(os);
   return os;
 }
 
-void lilypondwedge::print(ostream& os)
+void lilypondwedge::printStructure(ostream& os)
+{
+  os << "\%{ lilypondwedge??? \%}" << hdl;
+}
+
+void lilypondwedge::printLilyPondCode(ostream& os)
 {
   switch (fWedgeKind) {
     case lilypondwedge::kCrescendoWedge:
@@ -1093,17 +801,25 @@ Slilypondlyrics lilypondlyrics::create(std::string name, std::string contents)
 
 lilypondlyrics::lilypondlyrics(std::string name, std::string contents) : lilypondelement("")
 {
-  fName = name;
-  fContents=contents; 
+  fLyricsName = name;
+  fLyricsContents=contents; 
 }
 lilypondlyrics::~lilypondlyrics() {}
 
-void lilypondlyrics::print(ostream& os)
+void lilypondlyrics::printStructure(ostream& os)
 {  
   hdl++;
-  os << fName << " = \\lyricmode {" << hdl;
+  os << "lilypondlyrics " << fLyricsName << hdl;
   hdl--;
-  os << fContents << hdl;
+  os << fLyricsContents << hdl;
+}
+
+void lilypondlyrics::printLilyPondCode(ostream& os)
+{  
+  hdl++;
+  os << fLyricsName << " = \\lyricmode {" << hdl;
+  hdl--;
+  os << fLyricsContents << hdl;
   os << "}" << hdl;
 }
 
@@ -1132,7 +848,12 @@ lilypondpart::lilypondpart(std::string name, bool absoluteCode, bool generateNum
 }
 lilypondpart::~lilypondpart() {}
 
-void lilypondpart::print(ostream& os)
+void lilypondpart::printStructure(ostream& os)
+{
+  os << "\%{ lilypondpart??? \%}" << hdl;
+}
+
+void lilypondpart::printLilyPondCode(ostream& os)
 {
   /*
   lilypondelement cmd = lilypondcmd::create("set Staff.instrumentName ="); // USER
@@ -1146,62 +867,7 @@ void lilypondpart::print(ostream& os)
   os << "{" << hdl << fPartLilypondsequence << hdl;
   hdl--;
   os << "}" << hdl;
-  
-  //lilypondelement::print(os);
 }
-
-  /*
-
-  // print the optional parameters section
-  if (!fParams.empty()) {
-    vector<Slilypondparam>::const_iterator param;
-    for (param = fParams.begin(); param != fParams.end(); ) {
-      os << " ";
-      if ((*param)->quote())
-        os << "\"" << (*param)->get() << "\"";
-      else
-        os << (*param)->get();
-      if (++param != fParams.end())
-        os << ", PARAMS ";
-    } // for
-    os << "\n"; // USER
-  }
-
-  bool isSeq    = dynamic_cast<const lilypondsequence *>(this) != 0;
-  bool isChord  = dynamic_cast<const lilypondchord *>(this) != 0;
-  
-  // print the optional contained elements
-  if (!fSubElements.empty()) {
-    os << fStartList;
-    vector<Slilypondelement>::const_iterator ielt;
-    for (ielt = fSubElements.begin(); ielt != fSubElements.end(); ielt++) {
-      bool prevNote = false;
-      bool prevSeq  = false;
-
-      Slilypondsequence seq;
-      seq.cast((lilypondelement *)(*ielt));
-      Slilypondnote note;
-      note.cast((lilypondelement *)(*ielt));
-
-      if (isChord) {
-        if (note) {
-          // USER os << (prevNote ? ", CHORD " : " ");
-          os << " ";
-          prevNote = true;
-        }
-        else if (seq) {
-          // USER os << (prevSeq ? ", SEQ " : " ");
-          os << std::endl;
-          prevSeq = true;
-        }
-      } // isChord
-    //if (ielt = fSubElements.end()) 
-    os << *ielt << " ";            
-    } // for
-  os << fEndList;
-  } // if
-  if (isSeq) os << std::endl;
-  */
 
 //______________________________________________________________________________
 Slilypondpaper lilypondpaper::create()
@@ -1217,11 +883,16 @@ lilypondpaper::~lilypondpaper() {}
 
 ostream& operator<< (ostream& os, const Slilypondpaper& pap)
 {
-  pap->print(os);
+  pap->printLilyPondCode(os);
   return os;
 }
 
-void lilypondpaper::print(ostream& os)
+void lilypondpaper::printStructure(ostream& os)
+{
+  os << "\%{ lilypondpaper??? \%}" << hdl;
+}
+
+void lilypondpaper::printLilyPondCode(ostream& os)
 {  
   hdl++;
   os << "\\paper {" << hdl;
@@ -1242,21 +913,13 @@ lilypondheader::lilypondheader() : lilypondelement("")
 }
 lilypondheader::~lilypondheader() {}
 
-void lilypondheader::print(ostream& os)
+void lilypondheader::printStructure(ostream& os)
 {
-  /*
-    S_score_partwise        fScorePartwise; // may contain MusicXML version
-    S_work_number           fWorkNumber;
-    S_work_title            fWorkTitle;
-    S_movement_number       fMovementNumber;
-    S_movement_title        fMovementTitle;
-    std::vector<S_creator>  fCreators;
-    S_rights                fRights;
-    std::vector<S_software> fSoftwares;
-    S_encoding_date         fEncodingDate;
-    S_score_instrument      fScoreInstrument;
-*/
-  
+  os << "\%{ lilypondheader??? \%}" << hdl;
+}
+
+void lilypondheader::printLilyPondCode(ostream& os)
+{
   hdl++;
   
   os << "\\header {" << hdl;
@@ -1370,7 +1033,12 @@ void lilypondvariablevalueassociation::changeAssociation (std::string value)
   fVariableValue=value;
 }
 
-void lilypondvariablevalueassociation::print(ostream& os)
+void lilypondvariablevalueassociation::printStructure(ostream& os)
+{
+  os << "\%{ lilypondvariablevalueassociation??? \%}" << hdl;
+}
+
+void lilypondvariablevalueassociation::printLilyPondCode(ostream& os)
 {
   if (fCommentedKind == kCommented) os << "\%";
   os << fVariableName;
@@ -1412,7 +1080,12 @@ void lilypondschemevariablevalueassociation::changeAssociation (std::string valu
   fVariableValue=value;
 }
 
-void lilypondschemevariablevalueassociation::print(ostream& os)
+void lilypondschemevariablevalueassociation::printStructure(ostream& os)
+{
+  os << "\%{ lilypondschemevariablevalueassociation??? \%}" << hdl;
+}
+
+void lilypondschemevariablevalueassociation::printLilyPondCode(ostream& os)
 {
   if (fCommentedKind == kCommented) os << "\%";
   os << "#(" << fVariableName << " " << fVariableValue << ")" << hdl;
@@ -1441,7 +1114,12 @@ void lilypondglobalsettings::changeAssociation (std::string var, std::string val
   fAssociations[var]=val;
 }
 
-void lilypondglobalsettings::print(ostream& os)
+void lilypondglobalsettings::printStructure(ostream& os)
+{
+  os << "\%{ lilypondglobalsettings??? \%}" << hdl;
+}
+
+void lilypondglobalsettings::printLilyPondCode(ostream& os)
 {
   if (!fAssociations.empty()) {
     for (std::map<std::string, std::string> ::iterator 
@@ -1479,7 +1157,12 @@ void lilypondschemeglobalsettings::changeAssociation (std::string var, std::stri
   fAssociations[var]=val;
 }
 
-void lilypondschemeglobalsettings::print(ostream& os)
+void lilypondschemeglobalsettings::printStructure(ostream& os)
+{
+  os << "\%{ lilypondschemeglobalsettings??? \%}" << hdl;
+}
+
+void lilypondschemeglobalsettings::printLilyPondCode(ostream& os)
 {
   if (!fAssociations.empty()) {
     for (std::map<std::string, std::string> ::iterator 
@@ -1506,11 +1189,16 @@ lilypondlayout::~lilypondlayout() {}
 
 ostream& operator<< (ostream& os, const Slilypondlayout& lay)
 {
-  lay->print(os);
+  lay->printLilyPondCode(os);
   return os;
 }
 
-void lilypondlayout::print(ostream& os)
+void lilypondlayout::printStructure(ostream& os)
+{
+  os << "\%{ lilypondlayout??? \%}" << hdl;
+}
+
+void lilypondlayout::printLilyPondCode(ostream& os)
 {  
   hdl++;
   os << "\\layout {" << hdl;
@@ -1536,7 +1224,12 @@ lilypondtime::lilypondtime(int numerator, int denominator, bool generateNumerica
 }
 lilypondtime::~lilypondtime() {}
 
-void lilypondtime::print(ostream& os)
+void lilypondtime::printStructure(ostream& os)
+{
+  os << "\%{ lilypondtime??? \%}" << hdl;
+}
+
+void lilypondtime::printLilyPondCode(ostream& os)
 {
 //  os << fName << "\\time \"" << fNumerator << "/" << fDenominator << "\"" << std::endl;
   if (fGenerateNumericalTime)
@@ -1557,9 +1250,14 @@ lilypondclef::lilypondclef(std::string clefName) : lilypondelement("")
 }
 lilypondclef::~lilypondclef() {}
 
-void lilypondclef::print(ostream& os)
+void lilypondclef::printStructure(ostream& os)
 {
-  os << fName << "\\clef \"" << fClefName << "\"" << hdl;
+  os << "\%{ lilypondclef??? \%}" << hdl;
+}
+
+void lilypondclef::printLilyPondCode(ostream& os)
+{
+  os << "\\clef \"" << fClefName << "\"" << hdl;
 }
 
 //______________________________________________________________________________
@@ -1578,11 +1276,16 @@ lilypondkey::~lilypondkey() {}
 
 ostream& operator<< (ostream& os, const Slilypondkey& key)
 {
-  key->print(os);
+  key->printLilyPondCode(os);
   return os;
 }
 
-void lilypondkey::print(ostream& os)
+void lilypondkey::printStructure(ostream& os)
+{
+  os << "\%{ lilypondkey??? \%}" << hdl;
+}
+
+void lilypondkey::printLilyPondCode(ostream& os)
 {
   os << "\\key " << fTonicNote << " ";
   if (fKeyMode == kMajor) os << "\\major";
@@ -1603,11 +1306,16 @@ lilypondmidi::~lilypondmidi() {}
 
 ostream& operator<< (ostream& os, const Slilypondmidi& mid)
 {
-  mid->print(os);
+  mid->printLilyPondCode(os);
   return os;
 }
 
-void lilypondmidi::print(ostream& os)
+void lilypondmidi::printStructure(ostream& os)
+{
+  os << "\%{ lilypondmidi??? \%}" << hdl;
+}
+
+void lilypondmidi::printLilyPondCode(ostream& os)
 {
   hdl++;
   
@@ -1642,11 +1350,16 @@ lilypondscore::~lilypondscore() {}
 
 ostream& operator<< (ostream& os, const Slilypondscore& scr)
 {
-  scr->print(os);
+  scr->printLilyPondCode(os);
   return os;
 }
 
-void lilypondscore::print(ostream& os)
+void lilypondscore::printStructure(ostream& os)
+{
+  os << "\%{ lilypondscore??? \%}" << hdl;
+}
+
+void lilypondscore::printLilyPondCode(ostream& os)
 {
   hdl++;
   
@@ -1673,11 +1386,16 @@ lilypondnewstaffcmd::~lilypondnewstaffcmd() {}
 
 ostream& operator<< (ostream& os, const Slilypondnewstaffcmd& nstf)
 {
-  nstf->print(os);
+  nstf->printLilyPondCode(os);
   return os;
 }
 
-void lilypondnewstaffcmd::print(ostream& os)
+void lilypondnewstaffcmd::printStructure(ostream& os)
+{
+  os << "\%{ lilypondnewstaffcmd??? \%}" << hdl;
+}
+
+void lilypondnewstaffcmd::printLilyPondCode(ostream& os)
 {
   hdl++;
   
@@ -1720,11 +1438,16 @@ lilypondnewlyricscmd::~lilypondnewlyricscmd() {}
 
 ostream& operator<< (ostream& os, const Slilypondnewlyricscmd& nstf)
 {
-  nstf->print(os);
+  nstf->printLilyPondCode(os);
   return os;
 }
 
-void lilypondnewlyricscmd::print(ostream& os)
+void lilypondnewlyricscmd::printStructure(ostream& os)
+{
+  os << "\%{ lilypondnewlyricscmd??? \%}" << hdl;
+}
+
+void lilypondnewlyricscmd::printLilyPondCode(ostream& os)
 {
   hdl++;
   
@@ -1752,6 +1475,35 @@ void lilypondnewlyricscmd::print(ostream& os)
   hdl--;
   
   os << ">>" << hdl;
+}
+
+//______________________________________________________________________________
+Slilypondvariableusecmd lilypondvariableusecmd::create(std::string variableName)
+{
+  lilypondvariableusecmd* o = new lilypondvariableusecmd(variableName); assert(o!=0);
+  return o;
+}
+
+lilypondvariableusecmd::lilypondvariableusecmd(std::string variableName)
+  : lilypondelement("")
+{ fVariableName = variableName; }
+lilypondvariableusecmd::~lilypondvariableusecmd() {}
+
+ostream& operator<< (ostream& os, const Slilypondvariableusecmd& nstf)
+{
+  nstf->printLilyPondCode(os);
+  return os;
+}
+
+void lilypondvariableusecmd::printStructure(ostream& os)
+{
+  os << "lilypondvariableusecmd" << fVariableName << hdl;
+}
+
+void lilypondvariableusecmd::printLilyPondCode(ostream& os)
+{
+  hdl++;
+  os << "\\" << fVariableName << hdl;
 }
 
 

@@ -53,33 +53,35 @@ EXP const char*   musicxml2lilypondVersionStr();
   to the various methods that need them.
 */
 typedef struct {
-  bool fTrace;
-  bool fGenerateAbsoluteCode;
-  bool fGenerateNumericalTime;
-  bool fGenerateComments;
-  bool fGenerateBars;
-  bool fGenerateStems;
-  bool fGeneratePositions;
-  bool fDebug;
+  bool        fTrace;
+  bool        fGenerateAbsoluteCode;
+  bool        fGenerateNumericalTime;
+  bool        fGenerateComments;
+  bool        fGenerateBars;
+  bool        fGenerateStems;
+  bool        fGeneratePositions;
+  bool        fDebug;
+  // to be displayed in the LilyPond output as a comment
+  std::string fSelectedOptions;
 } translationSwitches;
 
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
   \param file a file name 
-  \param sw the translation switches to be used
+  \param ts the translation switches to be used
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfile2lilypond  (const char *file, translationSwitches sw, std::ostream& out);
+EXP xmlErr musicxmlfile2lilypond  (const char *file, translationSwitches ts, std::ostream& out);
 
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
   \param fd a file descriptor 
-  \param sw the translation switches to be used
+  \param ts the translation switches to be used
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfd2lilypond  (FILE* fd, translationSwitches sw, std::ostream& out);
+EXP xmlErr musicxmlfd2lilypond  (FILE* fd, translationSwitches ts, std::ostream& out);
 
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
@@ -88,7 +90,7 @@ EXP xmlErr      musicxmlfd2lilypond  (FILE* fd, translationSwitches sw, std::ost
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlstring2lilypond(const char *buff, translationSwitches sw, std::ostream& out);
+EXP xmlErr musicxmlstring2lilypond(const char *buff, translationSwitches sw, std::ostream& out);
 
 
 /*! @} */
