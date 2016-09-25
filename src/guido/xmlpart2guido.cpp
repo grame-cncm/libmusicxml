@@ -942,9 +942,13 @@ void xmlpart2guido::visitEnd ( S_harmony& elt )
 {
     // we convert harmony (=chord symbols)  to text tags
     Sguidoelement tag = guidotag::create("harmony");
-    tag->add (guidoparam::create("text", harmonyvisitor::fRoot + harmonyvisitor::fAlteration + harmonyvisitor::fText));
+    std::string chordText = harmonyvisitor::fText;
+    if(chordText == "dim") {
+        chordText = "0"; 
+    }
+    tag->add (guidoparam::create("text", harmonyvisitor::fRoot + harmonyvisitor::fAlteration + chordText));
     // TODO read dy offset from global settings
-    tag->add (guidoparam::create("dy", 14L, false));
+    tag->add (guidoparam::create("dy", 18L, false));
     // TODO add global settings for font type and font size
     add (tag);
     // TODO insert as range tag with next note/chord as range, or make sure that notes get not shifted to right by chord symbol

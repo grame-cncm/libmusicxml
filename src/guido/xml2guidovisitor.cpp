@@ -153,6 +153,12 @@ void xml2guidovisitor::visitStart ( S_part& elt )
 		tag->add (guidoparam::create(fCurrentStaffIndex, false));
 		add (tag);
 
+        // we need some space between the systems to place chord symbols
+        Sguidoelement staffFormat = guidotag::create("staffFormat");
+        staffFormat->add (guidoparam::create("dy", -8L, false));
+        add (staffFormat);
+
+
 		flushHeader (fHeader);
 		flushPartHeader (fPartHeaders[elt->getAttributeValue("id")]);
 
