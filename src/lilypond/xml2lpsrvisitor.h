@@ -160,10 +160,10 @@ class EXP xml2lpsrvisitor :
     int             fTopSystemDistance; //fPageTopSpace;
 */
     // the parts
-    lpsrPartsmap    fLpsrpartsMap;
+    lpsrPartsmap    fLpsrPartsMap;
     
     // the score block to be generated
-    SlpsrScore      fLpsrscore;
+    SlpsrScore      fLpsrScore;
     
     std::string     fCurrentPartID;
    

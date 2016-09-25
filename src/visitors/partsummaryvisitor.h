@@ -114,7 +114,9 @@ class EXP partsummaryvisitor :
     // the last lyric number, i.e. stanza number
     S_lyric             fLastLyric;
     // the last sysllabic spec met (single, begin, middle or end)
-    S_syllabic          fLastSyllabic; 
+    S_syllabic          fLastSyllabic;
+    // allow for the creation of skips in lyrics
+    bool                fOnGoingLyrics;
     
     // the stanzas are referred to by number and contains list of lists of strings
     // in the case of "single", the list contains only one string

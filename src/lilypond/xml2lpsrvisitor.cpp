@@ -147,17 +147,17 @@ void xml2lpsrvisitor::visitStart ( S_score_partwise& elt )
 void xml2lpsrvisitor::visitEnd ( S_score_partwise& elt )
 {
   // create the score element
-  fLpsrscore = lpsrScore::create();
+  fLpsrScore = lpsrScore::create();
   // add is as the last lpsrSequence element
-  SlpsrElement score = fLpsrscore;
+  SlpsrElement score = fLpsrScore;
   fLpsrseq->appendElementToSequence (score);
   
   // get score parallel music
-  SlpsrParallel par = fLpsrscore->getScoreParallelMusic();
+  SlpsrParallel par = fLpsrScore->getScoreParallelMusic();
   
   // add the parts and lyrics to it
   lpsrPartsmap::const_iterator i;
-  for (i = fLpsrpartsMap.begin(); i != fLpsrpartsMap.end(); i++) {
+  for (i = fLpsrPartsMap.begin(); i != fLpsrPartsMap.end(); i++) {
     // get part
     SlpsrPart part = (*i).second;
     
@@ -344,7 +344,7 @@ void xml2lpsrvisitor::visitStart ( S_part& elt )
     SlpsrPart part = lpsrPart::create(
       partName, fSwitches.fGenerateAbsoluteCode, fSwitches.fGenerateNumericalTime);
     // register it
-    fLpsrpartsMap[partID] = part;
+    fLpsrPartsMap[partID] = part;
     // append it to the lpsrElement sequence
     SlpsrElement p = part;
     appendElementToSequence (p);
@@ -359,7 +359,8 @@ void xml2lpsrvisitor::visitStart ( S_part& elt )
     // JMI currentTimeSign = xp2lv.getTimeSign();
 
     // extract the part lyrics
-    if (fSwitches.fTrace) cerr << "Extracting part \"" << partID << "\" lyrics information" << endl;
+    if (fSwitches.fTrace)
+      cerr << "Extracting part \"" << partID << "\" lyrics information" << endl;
     std::map<std::string, partsummaryvisitor::stanzaContents> 
       stanzas = ps.getStanzas();
     for (std::map<std::string, partsummaryvisitor::stanzaContents> ::iterator 
@@ -371,8 +372,10 @@ void xml2lpsrvisitor::visitStart ( S_part& elt )
       lyricsName =
         "Part"+stringNumbersToEnglishWords(partID)+
         "LyricsStanza"+int2EnglishWord(atoi(it1->first.c_str()));
+        
       for (std::list<std::list<std::string> > ::iterator 
           it2=it1->second.begin(); it2!=it1->second.end(); ++it2) {    
+
         std::list<std::string> ::const_iterator 
           it2Begin = it2->begin(),
           it2End   = it2->end(),
@@ -383,6 +386,7 @@ void xml2lpsrvisitor::visitStart ( S_part& elt )
           if (++it3 == it2End) break;
           result+=" -- ";
         } // for
+
         result+=" ";
       } // for
  

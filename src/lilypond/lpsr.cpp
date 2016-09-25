@@ -167,7 +167,8 @@ lpsrNote::lpsrNote() : lpsrElement("")
   fDiatonicPitch         = lpsrNote::kNoDiatonicPitch;
   fAlteration           = lpsrNote::kNoAlteration;
   fOctave               = -1;
-// JMI   fLpsrDuration = lpsrElement::create(0, 0, 0);
+// JMI   
+  fLpsrDuration = lpsrDuration::create(99, 99, 0);
   fVoice                = -1;
 }
 lpsrNote::~lpsrNote() {}
@@ -1087,21 +1088,21 @@ void lpsrHeader::printLilyPondCode(ostream& os)
   if (fScorePartwise) {
     std::string source = fScorePartwise->getAttributeValue("version");
     std::string dest;
-    std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+    std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
     os << "%MusicXMl_version = \"" << dest << "\"" << hdl;
   }
   
   if (fWorkNumber) {
     std::string source = fWorkNumber->getValue();
     std::string dest;
-    std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+    std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
     os << "%work_number = \""  << dest << "\"" << hdl;
   }
   
   if (fWorkTitle) {
     std::string source = fWorkTitle->getValue();
     std::string dest;
-    std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+    std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
     os << "%work_title = \""  << dest << "\"" << hdl;
   }
     
@@ -1112,7 +1113,7 @@ void lpsrHeader::printLilyPondCode(ostream& os)
   if (fMovementTitle) {
     std::string source = fMovementTitle->getValue();
     std::string dest;
-    std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+    std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
     os << "%movement_title = \""  << dest << "\"" << hdl;
     os << "title = \""  << dest << "\"" << hdl;
   }
@@ -1132,7 +1133,7 @@ void lpsrHeader::printLilyPondCode(ostream& os)
   if (fRights) {
     std::string source = fRights->getValue();
     std::string dest;
-    std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+    std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
 //    os << "%rights = \""  << dest << "\"" << hdl;
     os << "copyright = \""  << dest << "\"" << hdl;
   }
@@ -1142,7 +1143,7 @@ void lpsrHeader::printLilyPondCode(ostream& os)
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
       std::string source = (*i2)->getValue();
       std::string dest;
-      std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+      std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
 //      os << "%software = \""  << dest << "\"" << hdl;
       os << "encodingsoftware = \""  << dest << "\"" << hdl;
     } // for
@@ -1153,7 +1154,7 @@ void lpsrHeader::printLilyPondCode(ostream& os)
   if (fEncodingDate) {
     std::string source = fEncodingDate->getValue();
     std::string dest;
-    std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+    std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
 //    os << "%encoding_date = \""  << dest << "\"" << hdl;
     os << "encodingdate = \""  << dest << "\"" << hdl;
   }
@@ -1534,9 +1535,9 @@ void lpsrNewlyricsCommand::printLilyPondCode(ostream& os)
   
   if (fNewStaffElements.empty()) {
     cerr <<
-      "%ERROR, lpsr newstaff is empty" << std::endl;
+      "%ERROR, fNewStaffElements is empty" << std::endl;
     cout <<
-      "%ERROR, lpsr newstaff is empty" << std::endl;
+      "%ERROR, fNewStaffElements is empty" << std::endl;
   } else {
     vector<SlpsrElement>::const_iterator
     iBegin = fNewStaffElements.begin(),

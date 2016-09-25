@@ -69,6 +69,15 @@ void partsummaryvisitor::visitStart ( S_lyric& elt ) {
 
 void partsummaryvisitor::visitStart ( S_syllabic& elt ) {
   fLastSyllabic = elt;
+
+  std::string syllabicValue = fLastSyllabic->getValue();
+
+  if (syllabicValue == "begin") {
+    fOnGoingLyrics = true;
+  }
+  else if (syllabicValue == "end") {
+    fOnGoingLyrics = true;
+  }
 }
 
 void partsummaryvisitor::visitEnd ( S_text& elt ) 
@@ -83,6 +92,7 @@ void partsummaryvisitor::visitEnd ( S_text& elt )
   string      text = elt->getValue();
   
   std::size_t spacefound=text.find(" ");
+  
   if (spacefound!=std::string::npos) text = "\""+text+"\"";
   
   std::string lastLyricNumber = fLastLyric->getAttributeValue("number");

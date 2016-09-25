@@ -56,15 +56,15 @@ std::ostream& operator<< (std::ostream& os, const haendel& eol);
 \brief A utility to escape quotes in strings.
 */
 //______________________________________________________________________________
-struct stringquoteescaper
+struct stringQuoteEscaper
 {
   /* usage:
       std::string dest;
-      std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
+      std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
   */
 
   std::string& target;
-  explicit     stringquoteescaper( std::string& t ) : target( t ) {}
+  explicit     stringQuoteEscaper( std::string& t ) : target( t ) {}
 
   void operator()( char ch ) const
   {
