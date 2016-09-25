@@ -27,7 +27,7 @@ using namespace std;
 namespace MusicXML2 {
 
 //______________________________________________________________________________
-void assertLilypond (bool condition, std::string messageIfFalse) {
+void lpsrAssert (bool condition, std::string messageIfFalse) {
   if (! condition) {
     std::cout << std::flush;
     std::cerr <<
@@ -218,7 +218,7 @@ std::string stringNumbersToEnglishWords (std::string str) {
   std::cout << "bar: " << bar.first << ", " << bar.second << '\n';
 
 
-  std::list<Slilyponddynamics>::const_iterator i1;
+  std::list<Slpsrdynamics>::const_iterator i1;
   for (i1=fChordDynamics.begin(); i1!=fChordDynamics.end(); i1++) {
     os << " " << (*i1);
   } // for

@@ -24,8 +24,8 @@
 #include "partsummaryvisitor.h"
 #include "rational.h"
 #include "xml_tree_browser.h"
-#include "xml2lilypondvisitor.h"
-#include "xmlpart2lilypondvisitor.h"
+#include "xml2lpsrvisitor.h"
+#include "xmlpart2lpsrvisitor.h"
 #include "tree_browser.h"
 
 using namespace std;
@@ -34,176 +34,176 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-xml2lilypondvisitor::xml2lilypondvisitor( translationSwitches& ts ) :
+xml2lpsrvisitor::xml2lpsrvisitor( translationSwitches& ts ) :
   fSwitches(ts), 
   fCurrentStaffIndex(0)
 {}
 
 //______________________________________________________________________________
-Slilypondelement xml2lilypondvisitor::convertToLilyPond (const Sxmlelement& xml )
+SlpsrElement xml2lpsrvisitor::convertToLilyPond (const Sxmlelement& xml )
 {
-  Slilypondelement ly;
+  SlpsrElement ly;
   if (xml) {
-    // create a browser on this xml2lilypondvisitor
+    // create a browser on this xml2lpsrvisitor
     tree_browser<xmlelement> browser(this);
     // browse the xmlelement tree
     browser.browse(*xml);
-    // the stack top contains the resulting lilypondelement tree
-    ly = fLilypondseq;
+    // the stack top contains the resulting lpsrElement tree
+    ly = fLpsrseq;
   }
   return ly;
 }
 
 //______________________________________________________________________________
-void xml2lilypondvisitor::addElementToSequence (Slilypondelement& elt) {
+void xml2lpsrvisitor::addElementToSequence (SlpsrElement& elt) {
   bool doDebug = fSwitches.fDebug;
 //  bool doDebug = false;
 
   if (doDebug) cout << "!!! addElementToSequence : " << elt << std::endl;
-  fLilypondseq->addElementToSequence (elt);
+  fLpsrseq->addElementToSequence (elt);
 }
 
 //______________________________________________________________________________
-void xml2lilypondvisitor::addPreamble () {
-  Slilypondvariablevalueassociation vva1 =
-        lilypondvariablevalueassociation:: create(
+void xml2lpsrvisitor::addPreamble () {
+  SlpsrVariableValueAssociation vva1 =
+        lpsrVariableValueAssociation:: create(
           "\\version", "2.19",
-          lilypondvariablevalueassociation::kSpace,
-          lilypondvariablevalueassociation::kQuotesAroundValue,
-          lilypondvariablevalueassociation::kUncommented);
-  fLilypondseq->addElementToSequence (vva1);
+          lpsrVariableValueAssociation::kSpace,
+          lpsrVariableValueAssociation::kQuotesAroundValue,
+          lpsrVariableValueAssociation::kUncommented);
+  fLpsrseq->addElementToSequence (vva1);
 
-  Slilypondcomment com = lilypondcomment::create("uncomment the following to keep original scores global size");
-  fLilypondseq->addElementToSequence (com);
+  SlpsrComment com = lpsrComment::create("uncomment the following to keep original scores global size");
+  fLpsrseq->addElementToSequence (com);
   
-  Slilypondschemevariablevalueassociation svva1 =
-        lilypondschemevariablevalueassociation:: create(
+  SlpsrSchemeVariableValueAssociation svva1 =
+        lpsrSchemeVariableValueAssociation:: create(
           "set-global-staff-size", "26",
-          lilypondschemevariablevalueassociation::kCommented);
-  fLilypondseq->addElementToSequence (svva1);
+          lpsrSchemeVariableValueAssociation::kCommented);
+  fLpsrseq->addElementToSequence (svva1);
 }
-void xml2lilypondvisitor::addPostamble () {
-  Slilypondcomment com1 = lilypondcomment::create("choose \\break below to keep the original line breaks");
-  fLilypondseq->addElementToSequence (com1);
+void xml2lpsrvisitor::addPostamble () {
+  SlpsrComment com1 = lpsrComment::create("choose \\break below to keep the original line breaks");
+  fLpsrseq->addElementToSequence (com1);
 
-  Slilypondvariablevalueassociation vva1 =
-        lilypondvariablevalueassociation:: create(
+  SlpsrVariableValueAssociation vva1 =
+        lpsrVariableValueAssociation:: create(
           "myBreak", "{ \\break }",
-          lilypondvariablevalueassociation::kEqualSign,
-          lilypondvariablevalueassociation::kNoQuotesAroundValue,
-          lilypondvariablevalueassociation::kUncommented);
-  fLilypondseq->addElementToSequence (vva1);
+          lpsrVariableValueAssociation::kEqualSign,
+          lpsrVariableValueAssociation::kNoQuotesAroundValue,
+          lpsrVariableValueAssociation::kUncommented);
+  fLpsrseq->addElementToSequence (vva1);
 
-  Slilypondcomment com2 = lilypondcomment::create("choose {} below to let lilypond determine where to break lines");
-  fLilypondseq->addElementToSequence (com2);
+  SlpsrComment com2 = lpsrComment::create("choose {} below to let lpsr determine where to break lines");
+  fLpsrseq->addElementToSequence (com2);
 
-  Slilypondvariablevalueassociation vva2 =
-        lilypondvariablevalueassociation:: create(
+  SlpsrVariableValueAssociation vva2 =
+        lpsrVariableValueAssociation:: create(
           "myBreak", "{}",
-          lilypondvariablevalueassociation::kEqualSign,
-          lilypondvariablevalueassociation::kNoQuotesAroundValue,
-          lilypondvariablevalueassociation::kCommented);
-  fLilypondseq->addElementToSequence (vva2);
+          lpsrVariableValueAssociation::kEqualSign,
+          lpsrVariableValueAssociation::kNoQuotesAroundValue,
+          lpsrVariableValueAssociation::kCommented);
+  fLpsrseq->addElementToSequence (vva2);
 }
 
 //______________________________________________________________________________
-void xml2lilypondvisitor::visitStart ( S_score_partwise& elt )
+void xml2lpsrvisitor::visitStart ( S_score_partwise& elt )
 {
-  // create the implicit lilypondsequence element FIRST THING!
-  fLilypondseq = lilypondsequence::create(lilypondsequence::kEndOfLine);
+  // create the implicit lpsrSequence element FIRST THING!
+  fLpsrseq = lpsrSequence::create(lpsrSequence::kEndOfLine);
   
   // add standard preamble
   addPreamble ();
 
   // create the header element
-  fLilypondheader = lilypondheader::create();
-  fLilypondheader->setScorePartwise(elt);
-  // add is as the second lilypondsequence element
-  Slilypondelement header = fLilypondheader;
-  fLilypondseq->addElementToSequence (header);
+  flpsrHeader = lpsrHeader::create();
+  flpsrHeader->setScorePartwise(elt);
+  // add is as the second lpsrSequence element
+  SlpsrElement header = flpsrHeader;
+  fLpsrseq->addElementToSequence (header);
 
   // create the paper element
-  fLilypondpaper = lilypondpaper::create();
-  // add is as the second lilypondsequence element
-  Slilypondelement paper = fLilypondpaper;
-  fLilypondseq->addElementToSequence (paper);
+  fLpsrpaper = lpsrPaper::create();
+  // add is as the second lpsrSequence element
+  SlpsrElement paper = fLpsrpaper;
+  fLpsrseq->addElementToSequence (paper);
 
   // create the layout element
-  fLilypondlayout = lilypondlayout::create();
-  // add it as the third lilypondsequence element
-  Slilypondelement layout = fLilypondlayout;
-  fLilypondseq->addElementToSequence (layout);
+  fLpsrlayout = lpsrLayout::create();
+  // add it as the third lpsrSequence element
+  SlpsrElement layout = fLpsrlayout;
+  fLpsrseq->addElementToSequence (layout);
   
   // add standard postamble
   addPostamble ();
 }
 
 //______________________________________________________________________________
-void xml2lilypondvisitor::visitEnd ( S_score_partwise& elt )
+void xml2lpsrvisitor::visitEnd ( S_score_partwise& elt )
 {
   // create the score element
-  fLilypondscore = lilypondscore::create();
-  // add is as the last lilypondsequence element
-  Slilypondelement score = fLilypondscore;
-  fLilypondseq->addElementToSequence (score);
+  fLpsrscore = lpsrScore::create();
+  // add is as the last lpsrSequence element
+  SlpsrElement score = fLpsrscore;
+  fLpsrseq->addElementToSequence (score);
   
   // get score parallel music
-  Slilypondparallel par = fLilypondscore->getScoreParallelMusic();
+  SlpsrParallel par = fLpsrscore->getScoreParallelMusic();
   
   // add the parts and lyrics to it
-  lilypondpartsmap::const_iterator i;
-  for (i = fLilypondpartsMap.begin(); i != fLilypondpartsMap.end(); i++) {
+  lpsrPartsmap::const_iterator i;
+  for (i = fLpsrpartsMap.begin(); i != fLpsrpartsMap.end(); i++) {
     // get part
-    Slilypondpart part = (*i).second;
+    SlpsrPart part = (*i).second;
     
     // create a new staff comaand
-    Slilypondnewstaffcmd nstf = lilypondnewstaffcmd::create();
+    SlpsrNewstaffCommand nstf = lpsrNewstaffCommand::create();
     
     // add it to the score parallel music
     par->addElementToParallel(nstf);
     
     // add the part name to the new staff
-    Slilypondvariableusecmd cmd = lilypondvariableusecmd::create(part->getPartName());
+    SlpsrVariableUseCommand cmd = lpsrVariableUseCommand::create(part->getPartName());
     nstf->addElementToNewStaff(cmd);
   } // for
 }
 
 //______________________________________________________________________________
-void xml2lilypondvisitor::visitStart ( S_work_number& elt )
-  { fLilypondheader->setWorkNumber(elt); }
+void xml2lpsrvisitor::visitStart ( S_work_number& elt )
+  { flpsrHeader->setWorkNumber(elt); }
 
-void xml2lilypondvisitor::visitStart ( S_work_title& elt )
-  { fLilypondheader->setWorkTitle(elt); }
+void xml2lpsrvisitor::visitStart ( S_work_title& elt )
+  { flpsrHeader->setWorkTitle(elt); }
   
-void xml2lilypondvisitor::visitStart ( S_movement_number& elt )
-  { fLilypondheader->setMovementNumber(elt); }
+void xml2lpsrvisitor::visitStart ( S_movement_number& elt )
+  { flpsrHeader->setMovementNumber(elt); }
 
-void xml2lilypondvisitor::visitStart ( S_movement_title& elt )
-  { fLilypondheader->setMovementTitle(elt); }
+void xml2lpsrvisitor::visitStart ( S_movement_title& elt )
+  { flpsrHeader->setMovementTitle(elt); }
 
-void xml2lilypondvisitor::visitStart ( S_creator& elt )
-  { fLilypondheader->addCreator(elt); }
+void xml2lpsrvisitor::visitStart ( S_creator& elt )
+  { flpsrHeader->addCreator(elt); }
 
-void xml2lilypondvisitor::visitStart ( S_rights& elt )
-  { fLilypondheader->setRights(elt); }
+void xml2lpsrvisitor::visitStart ( S_rights& elt )
+  { flpsrHeader->setRights(elt); }
 
-void xml2lilypondvisitor::visitStart ( S_software& elt )
-  { fLilypondheader->addSoftware(elt); }
+void xml2lpsrvisitor::visitStart ( S_software& elt )
+  { flpsrHeader->addSoftware(elt); }
 
-void xml2lilypondvisitor::visitStart ( S_encoding_date& elt )
-  { fLilypondheader->setEncodingDate(elt); }
+void xml2lpsrvisitor::visitStart ( S_encoding_date& elt )
+  { flpsrHeader->setEncodingDate(elt); }
 
 //______________________________________________________________________________
-void xml2lilypondvisitor::visitStart ( S_instrument_name& elt )
+void xml2lpsrvisitor::visitStart ( S_instrument_name& elt )
 {}
 
-void xml2lilypondvisitor::visitStart ( S_score_part& elt )
+void xml2lpsrvisitor::visitStart ( S_score_part& elt )
   { fCurrentPartID = elt->getAttributeValue("id"); }
 
-void xml2lilypondvisitor::visitStart ( S_part_name& elt )
+void xml2lpsrvisitor::visitStart ( S_part_name& elt )
 {}
 
-void xml2lilypondvisitor::visitStart ( S_part& elt )
+void xml2lpsrvisitor::visitStart ( S_part& elt )
 {
   std::string partID = elt->getAttributeValue("id");
   
@@ -247,17 +247,17 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
       "Voice" << int2EnglishWord(targetVoice);
     string partName = s1.str();
         
-    // create the lilypondpart
-    Slilypondpart part = lilypondpart::create(
+    // create the lpsrPart
+    SlpsrPart part = lpsrPart::create(
       partName, fSwitches.fGenerateAbsoluteCode, fSwitches.fGenerateNumericalTime);
     // register it
-    fLilypondpartsMap[partID] = part;
-    // add it to the lilypondelement sequence
-    Slilypondelement p = part;
+    fLpsrpartsMap[partID] = part;
+    // add it to the lpsrElement sequence
+    SlpsrElement p = part;
     addElementToSequence (p);
     
-    // browse the part contents for the second time with an xmlpart2lilypondvisitor
-    xmlpart2lilypondvisitor xp2lv(fSwitches, part);
+    // browse the part contents for the second time with an xmlpart2lpsrvisitor
+    xmlpart2lpsrvisitor xp2lv(fSwitches, part);
     xp2lv.generatePositions (fSwitches.fGeneratePositions);
     xml_tree_browser browser(&xp2lv);
     xp2lv.initialize(part, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
@@ -295,9 +295,9 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
       } // for
  
       // create lyrics
-      Slilypondlyrics lyrics = lilypondlyrics::create(lyricsName, result);
+      SlpsrLyrics lyrics = lpsrLyrics::create(lyricsName, result);
       // add it to the sequence
-      Slilypondelement elem = lyrics;  
+      SlpsrElement elem = lyrics;  
       addElementToSequence (elem);
       // add the lyrics to the part
       part->addLyricsToPart(lyrics);
@@ -308,8 +308,8 @@ void xml2lilypondvisitor::visitStart ( S_part& elt )
 }
 
 //______________________________________________________________________________
-void xml2lilypondvisitor::addPosition ( 
-  Sxmlelement elt, Slilypondelement& cmd, int yoffset)
+void xml2lpsrvisitor::addPosition ( 
+  Sxmlelement elt, SlpsrElement& cmd, int yoffset)
 {
   float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
   if (posx) {

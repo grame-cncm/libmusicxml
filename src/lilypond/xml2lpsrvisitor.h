@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __xml2lilypondvisitor__
-#define __xml2lilypondvisitor__
+#ifndef __xml2lpsrvisitor__
+#define __xml2lpsrvisitor__
 
 #include <ostream>
 #include <stack>
@@ -19,18 +19,18 @@
 #include <string>
 
 #include "exports.h"
-#include "lilypond.h"
+#include "lpsr.h"
 #include "typedefs.h"
 #include "visitor.h"
 #include "xml.h"
 
-#include "musicxml2lilypond.h"
+#include "musicxml2lpsr.h"
 
 namespace MusicXML2 
 {
 
 /*!
-\ingroup visitors lilypond
+\ingroup visitors lpsr
 @{
 */
 
@@ -39,7 +39,7 @@ namespace MusicXML2
 \brief A score visitor to produce a LilyPond representation.
 */
 //______________________________________________________________________________
-class EXP xml2lilypondvisitor : 
+class EXP xml2lpsrvisitor : 
   public visitor<S_score_partwise>,
   public visitor<S_work_number>,
   public visitor<S_work_title>,
@@ -56,10 +56,10 @@ class EXP xml2lilypondvisitor :
 {
   public:
     
-    xml2lilypondvisitor( translationSwitches& ts );
-    virtual ~xml2lilypondvisitor() {}
+    xml2lpsrvisitor( translationSwitches& ts );
+    virtual ~xml2lpsrvisitor() {}
 
-    Slilypondelement convertToLilyPond (const Sxmlelement& xml);
+    SlpsrElement convertToLilyPond (const Sxmlelement& xml);
 
     // this is to control exact positionning of elements 
     // when information is present
@@ -67,7 +67,7 @@ class EXP xml2lilypondvisitor :
     void generatePositions (bool state) { fSwitches.fGeneratePositions = state; }
 
     static void addPosition ( 
-      Sxmlelement elt, Slilypondelement& cmd, int yoffset);
+      Sxmlelement elt, SlpsrElement& cmd, int yoffset);
   
   protected:
 
@@ -93,25 +93,25 @@ class EXP xml2lilypondvisitor :
     translationSwitches fSwitches;
     
     // the implicit sequence containing all the generated code
-    Slilypondsequence   fLilypondseq; 
+    SlpsrSequence   fLpsrseq; 
     
     // the header, paper and layout blocks to be generated
-    Slilypondheader     fLilypondheader;
-    Slilypondpaper      fLilypondpaper;
-    Slilypondlayout     fLilypondlayout;
+    SlpsrHeader     flpsrHeader;
+    SlpsrPaper      fLpsrpaper;
+    SlpsrLayout     fLpsrlayout;
     
     // the parts
-    lilypondpartsmap    fLilypondpartsMap;
+    lpsrPartsmap    fLpsrpartsMap;
     
     // the score block to be generated
-    Slilypondscore      fLilypondscore;
+    SlpsrScore      fLpsrscore;
     
     std::string         fCurrentPartID;
    
-    // the index of the current lilypond staff
+    // the index of the current lpsr staff
     int                 fCurrentStaffIndex;
   
-    void addElementToSequence (Slilypondelement& elt);
+    void addElementToSequence (SlpsrElement& elt);
     
     void addPreamble ();
     void addPostamble ();

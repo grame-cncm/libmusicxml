@@ -15,7 +15,7 @@
 #include <string.h>
 #include <getopt.h>
 
-#include "musicxml2lilypond.h"
+#include "musicxml2lpsr.h"
 
 using namespace std;
 using namespace MusicXML2;
@@ -23,7 +23,7 @@ using namespace MusicXML2;
 void usage(int exitStatus) {
   cerr <<
     endl <<
-    "--> Usage:    musicxml2lilypond [options] <MusicXMLFile>" << endl <<
+    "--> Usage:    musicxml2lpsr [options] <MusicXMLFile>" << endl <<
     endl <<
     "    Effect:   reads the contents of <MusicXMLFile>, or stdin if <MusicXMLFile> is '-'," << endl <<
     "              and converts it to LilyPond source code written to standard output" << endl <<
@@ -187,8 +187,8 @@ int main(int argc, char *argv[])
     cerr << 
       "Launching conversion to LilyPond with libmusicxml2 v" << 
       musicxmllibVersionStr() <<
-      " / xml2lilypond v" <<
-      musicxml2lilypondVersionStr() << 
+      " / xml2lpsr v" <<
+      musicxml2lpsrVersionStr() << 
       endl <<
       "The options are:" << endl <<
       "  generateAbsoluteCode:  " << string(generateAbsoluteCode ? "true" : "false") << endl <<
@@ -202,9 +202,9 @@ int main(int argc, char *argv[])
   
   xmlErr err = kNoErr;
   if (!strcmp(file, "-"))
-    err = musicxmlfd2lilypond(stdin, ts, cout);
+    err = musicxmlfd2lpsr(stdin, ts, cout);
   else
-    err = musicxmlfile2lilypond(file, ts, cout);
+    err = musicxmlfile2lpsr(file, ts, cout);
   if (err) {
     cout << "conversion failed" << endl;
   }

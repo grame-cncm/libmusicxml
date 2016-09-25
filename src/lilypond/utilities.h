@@ -23,7 +23,7 @@ namespace MusicXML2
 \internal
 \brief A function to exit under certain circumstances
 */
-void assertLilypond (bool condition, std::string messageIfFalse);
+void lpsrAssert (bool condition, std::string messageIfFalse);
 
 //______________________________________________________________________________
 /*!
