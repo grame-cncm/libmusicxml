@@ -255,13 +255,13 @@ class EXP xmlpart2lpsrvisitor :
     std::string         fCurrentStem;
     int                 fCurrentStaff;    // the staff we're currently generating events for (0 by default)
    
-    lpsrNote::LpsrPitch computeNoteLpsrPitch(
+    lpsrNote::LpsrPitch computeNoteLpsrPitch (
                           int                  noteQuatertonesFromA,
                           lpsrNote::Alteration alteration);
                           
-    void                createChord(SlpsrDuration noteDuration);
+    void                createChord (SlpsrDuration noteDuration);
     
-    void                createTuplet (SlpsrNote note);
+    void                createTuplet   (SlpsrNote note);
     void                finalizeTuplet (SlpsrNote note);
     
     int                 fCurrentFifths;

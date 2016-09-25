@@ -293,7 +293,7 @@ class EXP lpsrSequence : public lpsrElement {
 
     static SMARTP<lpsrSequence> create(ElementsSeparator elementsSeparator);
 
-    void         addElementToSequence (SlpsrElement elem) { fSequenceElements.push_back(elem); }
+    void         appendElementToSequence (SlpsrElement elem) { fSequenceElements.push_back(elem); }
     SlpsrElement getLastElementOfSequence() { return fSequenceElements.back(); }
     void         removeLastElementOfSequence () { fSequenceElements.pop_back(); }
 
@@ -505,6 +505,30 @@ class EXP lpsrPaper : public lpsrElement {
 
     static SMARTP<lpsrPaper> create();
     
+    void    setPaperWidth         (float val) { fPaperWidth = val; }
+    float   getPaperWidth         () const    { return fPaperWidth; }
+
+    void    setPaperHeight        (float val) { fPaperHeight = val; }
+    float   getPaperHeight        () const    { return fPaperHeight; }
+
+    void    setTopMargin          (float val) { fTopMargin = val; }
+    float   getTopMargin          () const    { return fTopMargin; }
+
+    void    setBottomMargin       (float val) { fBottomMargin = val; }
+    float   getBottomMargin       () const    { return fBottomMargin; }
+
+    void    setLeftMargin         (float val) { fLeftMargin = val; }
+    float   getLeftMargin         () const    { return fLeftMargin; }
+
+    void    setRightMargin        (float val) { fRightMargin = val; }
+    float   getRightMargin        () const    { return fRightMargin; }
+
+    void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
+    float   getBetweenSystemSpace () const    { return fBetweenSystemSpace; }
+
+    void    setPageTopSpace       (float val) { fPageTopSpace = val; }
+    float   getPageTopSpace       () const    { return fPageTopSpace; }
+
     virtual void printStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
@@ -515,7 +539,16 @@ class EXP lpsrPaper : public lpsrElement {
   
   private:
 
- 
+    // page height, margins and the like in centimeters are in centimeters
+    float             fPaperWidth;
+    float             fPaperHeight;
+    float             fTopMargin;
+    float             fBottomMargin;
+    float             fLeftMargin;
+    float             fRightMargin;
+    
+    float             fBetweenSystemSpace;
+    float             fPageTopSpace; 
 };
 typedef SMARTP<lpsrPaper> SlpsrPaper;
 

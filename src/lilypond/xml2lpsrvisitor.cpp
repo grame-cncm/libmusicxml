@@ -37,7 +37,12 @@ namespace MusicXML2
 xml2lpsrvisitor::xml2lpsrvisitor( translationSwitches& ts ) :
   fSwitches(ts), 
   fCurrentStaffIndex(0)
-{}
+{
+  fMillimeters = -1;
+  fTenths      = -1;
+  
+  fVisitingPageLayout = false;
+}
 
 //______________________________________________________________________________
 SlpsrElement xml2lpsrvisitor::convertToLilyPond (const Sxmlelement& xml )
@@ -55,12 +60,12 @@ SlpsrElement xml2lpsrvisitor::convertToLilyPond (const Sxmlelement& xml )
 }
 
 //______________________________________________________________________________
-void xml2lpsrvisitor::addElementToSequence (SlpsrElement& elt) {
+void xml2lpsrvisitor::appendElementToSequence (SlpsrElement& elt) {
   bool doDebug = fSwitches.fDebug;
 //  bool doDebug = false;
 
-  if (doDebug) cout << "!!! addElementToSequence : " << elt << std::endl;
-  fLpsrseq->addElementToSequence (elt);
+  if (doDebug) cout << "!!! appendElementToSequence : " << elt << std::endl;
+  fLpsrseq->appendElementToSequence (elt);
 }
 
 //______________________________________________________________________________
@@ -71,20 +76,20 @@ void xml2lpsrvisitor::addPreamble () {
           lpsrVariableValueAssociation::kSpace,
           lpsrVariableValueAssociation::kQuotesAroundValue,
           lpsrVariableValueAssociation::kUncommented);
-  fLpsrseq->addElementToSequence (vva1);
+  fLpsrseq->appendElementToSequence (vva1);
 
   SlpsrComment com = lpsrComment::create("uncomment the following to keep original scores global size");
-  fLpsrseq->addElementToSequence (com);
+  fLpsrseq->appendElementToSequence (com);
   
   SlpsrSchemeVariableValueAssociation svva1 =
         lpsrSchemeVariableValueAssociation:: create(
           "set-global-staff-size", "26",
           lpsrSchemeVariableValueAssociation::kCommented);
-  fLpsrseq->addElementToSequence (svva1);
+  fLpsrseq->appendElementToSequence (svva1);
 }
 void xml2lpsrvisitor::addPostamble () {
   SlpsrComment com1 = lpsrComment::create("choose \\break below to keep the original line breaks");
-  fLpsrseq->addElementToSequence (com1);
+  fLpsrseq->appendElementToSequence (com1);
 
   SlpsrVariableValueAssociation vva1 =
         lpsrVariableValueAssociation:: create(
@@ -92,10 +97,10 @@ void xml2lpsrvisitor::addPostamble () {
           lpsrVariableValueAssociation::kEqualSign,
           lpsrVariableValueAssociation::kNoQuotesAroundValue,
           lpsrVariableValueAssociation::kUncommented);
-  fLpsrseq->addElementToSequence (vva1);
+  fLpsrseq->appendElementToSequence (vva1);
 
   SlpsrComment com2 = lpsrComment::create("choose {} below to let lpsr determine where to break lines");
-  fLpsrseq->addElementToSequence (com2);
+  fLpsrseq->appendElementToSequence (com2);
 
   SlpsrVariableValueAssociation vva2 =
         lpsrVariableValueAssociation:: create(
@@ -103,7 +108,7 @@ void xml2lpsrvisitor::addPostamble () {
           lpsrVariableValueAssociation::kEqualSign,
           lpsrVariableValueAssociation::kNoQuotesAroundValue,
           lpsrVariableValueAssociation::kCommented);
-  fLpsrseq->addElementToSequence (vva2);
+  fLpsrseq->appendElementToSequence (vva2);
 }
 
 //______________________________________________________________________________
@@ -116,23 +121,23 @@ void xml2lpsrvisitor::visitStart ( S_score_partwise& elt )
   addPreamble ();
 
   // create the header element
-  flpsrHeader = lpsrHeader::create();
-  flpsrHeader->setScorePartwise(elt);
+  fLpsrHeader = lpsrHeader::create();
+  fLpsrHeader->setScorePartwise(elt);
   // add is as the second lpsrSequence element
-  SlpsrElement header = flpsrHeader;
-  fLpsrseq->addElementToSequence (header);
+  SlpsrElement header = fLpsrHeader;
+  fLpsrseq->appendElementToSequence (header);
 
   // create the paper element
-  fLpsrpaper = lpsrPaper::create();
+  fLpsrPaper = lpsrPaper::create();
   // add is as the second lpsrSequence element
-  SlpsrElement paper = fLpsrpaper;
-  fLpsrseq->addElementToSequence (paper);
+  SlpsrElement paper = fLpsrPaper;
+  fLpsrseq->appendElementToSequence (paper);
 
   // create the layout element
   fLpsrlayout = lpsrLayout::create();
   // add it as the third lpsrSequence element
   SlpsrElement layout = fLpsrlayout;
-  fLpsrseq->addElementToSequence (layout);
+  fLpsrseq->appendElementToSequence (layout);
   
   // add standard postamble
   addPostamble ();
@@ -145,7 +150,7 @@ void xml2lpsrvisitor::visitEnd ( S_score_partwise& elt )
   fLpsrscore = lpsrScore::create();
   // add is as the last lpsrSequence element
   SlpsrElement score = fLpsrscore;
-  fLpsrseq->addElementToSequence (score);
+  fLpsrseq->appendElementToSequence (score);
   
   // get score parallel music
   SlpsrParallel par = fLpsrscore->getScoreParallelMusic();
@@ -170,28 +175,114 @@ void xml2lpsrvisitor::visitEnd ( S_score_partwise& elt )
 
 //______________________________________________________________________________
 void xml2lpsrvisitor::visitStart ( S_work_number& elt )
-  { flpsrHeader->setWorkNumber(elt); }
+  { fLpsrHeader->setWorkNumber(elt); }
 
 void xml2lpsrvisitor::visitStart ( S_work_title& elt )
-  { flpsrHeader->setWorkTitle(elt); }
+  { fLpsrHeader->setWorkTitle(elt); }
   
 void xml2lpsrvisitor::visitStart ( S_movement_number& elt )
-  { flpsrHeader->setMovementNumber(elt); }
+  { fLpsrHeader->setMovementNumber(elt); }
 
 void xml2lpsrvisitor::visitStart ( S_movement_title& elt )
-  { flpsrHeader->setMovementTitle(elt); }
+  { fLpsrHeader->setMovementTitle(elt); }
 
 void xml2lpsrvisitor::visitStart ( S_creator& elt )
-  { flpsrHeader->addCreator(elt); }
+  { fLpsrHeader->addCreator(elt); }
 
 void xml2lpsrvisitor::visitStart ( S_rights& elt )
-  { flpsrHeader->setRights(elt); }
+  { fLpsrHeader->setRights(elt); }
 
 void xml2lpsrvisitor::visitStart ( S_software& elt )
-  { flpsrHeader->addSoftware(elt); }
+  { fLpsrHeader->addSoftware(elt); }
 
 void xml2lpsrvisitor::visitStart ( S_encoding_date& elt )
-  { flpsrHeader->setEncodingDate(elt); }
+  { fLpsrHeader->setEncodingDate(elt); }
+
+//______________________________________________________________________________
+void xml2lpsrvisitor::visitStart ( S_millimeters& elt )
+{ 
+  fMillimeters = (int)(*elt);
+  cout << "--> fMillimeters = " << fMillimeters << endl;
+}
+void xml2lpsrvisitor::visitStart ( S_tenths& elt )
+{
+  fTenths = (int)(*elt);
+  cout << "--> fTenths = " << fTenths << endl;
+}
+
+//______________________________________________________________________________
+void xml2lpsrvisitor::visitStart ( S_system_distance& elt )
+{
+  int systemDistance = (int)(*elt);
+//  cout << "--> systemDistance = " << systemDistance << endl;
+  fLpsrPaper->setBetweenSystemSpace (1.0*systemDistance*fMillimeters/fTenths/10);  
+}
+void xml2lpsrvisitor::visitStart ( S_top_system_distance& elt )
+{
+  int topSystemDistance = (int)(*elt);
+//  cout << "--> fTopSystemDistance = " << topSystemDistance << endl;
+  fLpsrPaper->setPageTopSpace (1.0*topSystemDistance*fMillimeters/fTenths/10);  
+}
+
+//______________________________________________________________________________
+void xml2lpsrvisitor::visitStart ( S_page_layout& elt )
+{
+  fVisitingPageLayout = true;
+}
+void xml2lpsrvisitor::visitEnd ( S_page_layout& elt )
+{
+  fVisitingPageLayout = false;
+}
+
+void xml2lpsrvisitor::visitStart ( S_page_height& elt )
+{
+  if (fVisitingPageLayout) {
+    int pageHeight = (int)(*elt);
+    cout << "--> pageHeight = " << pageHeight << endl;
+    fLpsrPaper->setPaperHeight (1.0*pageHeight*fMillimeters/fTenths/10);  
+  }
+}
+void xml2lpsrvisitor::visitStart ( S_page_width& elt )
+{
+  if (fVisitingPageLayout) {
+    int pageWidth = (int)(*elt);
+    cout << "--> pageWidth = " << pageWidth << endl;
+    fLpsrPaper->setPaperWidth (1.0*pageWidth*fMillimeters/fTenths/10);
+  }
+}
+
+void xml2lpsrvisitor::visitStart ( S_left_margin& elt )
+{
+  if (fVisitingPageLayout) {
+    int leftMargin = (int)(*elt);
+    cout << "--> leftMargin = " << leftMargin << endl;
+    fLpsrPaper->setLeftMargin (1.0*leftMargin*fMillimeters/fTenths/10);  
+  }
+}
+void xml2lpsrvisitor::visitStart ( S_right_margin& elt )
+{
+  if (fVisitingPageLayout) {
+    int rightMargin = (int)(*elt);
+    cout << "--> rightMargin = " << rightMargin << endl;
+    fLpsrPaper->setRightMargin (1.0*rightMargin*fMillimeters/fTenths/10);  
+  }
+}
+void xml2lpsrvisitor::visitStart ( S_top_margin& elt )
+{
+  if (fVisitingPageLayout) {
+    int topMargin = (int)(*elt);
+    cout << "--> topMargin = " << topMargin << endl;
+    fLpsrPaper->setTopMargin (1.0*topMargin*fMillimeters/fTenths/10);  
+  }
+}
+void xml2lpsrvisitor::visitStart ( S_bottom_margin& elt )
+{
+  if (fVisitingPageLayout) {
+    int bottomMargin = (int)(*elt);
+    cout << "--> bottomMargin = " << bottomMargin << endl;
+    fLpsrPaper->setBottomMargin (1.0*bottomMargin*fMillimeters/fTenths/10);  
+  }
+}
 
 //______________________________________________________________________________
 void xml2lpsrvisitor::visitStart ( S_instrument_name& elt )
@@ -208,12 +299,14 @@ void xml2lpsrvisitor::visitStart ( S_part& elt )
   std::string partID = elt->getAttributeValue("id");
   
   // browse the part contents for the first time with a partsummaryvisitor
-  if (fSwitches.fTrace) cerr << "Extracting part \"" << partID << "\" summary information" << endl;
+  if (fSwitches.fTrace)
+    cerr << "Extracting part \"" << partID << "\" summary information" << endl;
   partsummaryvisitor ps;
   xml_tree_browser browser(&ps);
   browser.browse(*elt);
 
-  if (fSwitches.fTrace) cerr << "Extracting part \"" << partID << "\" voices information" << endl;
+  if (fSwitches.fTrace)
+    cerr << "Extracting part \"" << partID << "\" voices information" << endl;
   smartlist<int>::ptr voices = ps.getVoices ();
   int targetStaff = 0xffff; // initialized to a value we'll unlikely encounter
   bool notesOnly = false;
@@ -252,17 +345,16 @@ void xml2lpsrvisitor::visitStart ( S_part& elt )
       partName, fSwitches.fGenerateAbsoluteCode, fSwitches.fGenerateNumericalTime);
     // register it
     fLpsrpartsMap[partID] = part;
-    // add it to the lpsrElement sequence
+    // append it to the lpsrElement sequence
     SlpsrElement p = part;
-    addElementToSequence (p);
+    appendElementToSequence (p);
     
-    // browse the part contents for the second time with an xmlpart2lpsrvisitor
+    // browse the part contents once more with an xmlpart2lpsrvisitor
     xmlpart2lpsrvisitor xp2lv(fSwitches, part);
     xp2lv.generatePositions (fSwitches.fGeneratePositions);
     xml_tree_browser browser(&xp2lv);
     xp2lv.initialize(part, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
     browser.browse(*elt);
-    //popFromScoreStack();
 
     // JMI currentTimeSign = xp2lv.getTimeSign();
 
@@ -296,9 +388,9 @@ void xml2lpsrvisitor::visitStart ( S_part& elt )
  
       // create lyrics
       SlpsrLyrics lyrics = lpsrLyrics::create(lyricsName, result);
-      // add it to the sequence
+      // append it to the sequence
       SlpsrElement elem = lyrics;  
-      addElementToSequence (elem);
+      appendElementToSequence (elem);
       // add the lyrics to the part
       part->addLyricsToPart(lyrics);
     } // for

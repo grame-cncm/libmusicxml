@@ -153,7 +153,7 @@ void xmlpart2lpsrvisitor::addElementToPartSequence (SlpsrElement& elt) {
   bool doDebug = false;
 
   if (doDebug) cout << "!!! addElementToPartSequence : " << elt << std::endl;
-  fLpsrpart->getPartLpsrsequence()->addElementToSequence (elt);
+  fLpsrpart->getPartLpsrsequence()->appendElementToSequence (elt);
 }
 
 SlpsrElement xmlpart2lpsrvisitor::getLastElementOfPartSequence() {
@@ -1030,7 +1030,7 @@ lpsrNote::LpsrPitch xmlpart2lpsrvisitor::computeNoteLpsrPitch(
   return lpsrPitch;
 }
 
-void xmlpart2lpsrvisitor::createChord(SlpsrDuration noteDuration) {
+void xmlpart2lpsrvisitor::createChord (SlpsrDuration noteDuration) {
   // cout << "--> creating a chord on its 2nd note" << endl;
   
   // fCurrentNote has been registered standalone in the part element sequence,
@@ -1090,7 +1090,7 @@ void xmlpart2lpsrvisitor::createTuplet (SlpsrNote note) {
   fCurrentTuplet->addElementToTuplet(note);
 }
 
-void xmlpart2lpsrvisitor::finalizeTuplet(SlpsrNote note) {
+void xmlpart2lpsrvisitor::finalizeTuplet (SlpsrNote note) {
   // get tuplet from top of tuplet stack
   SlpsrTuplet tup = fCurrentTupletsStack.top();
 
@@ -1131,20 +1131,6 @@ void xmlpart2lpsrvisitor::visitEnd ( S_note& elt )
   SlpsrDuration noteDuration =
     lpsrDuration::create(fCurrentDuration, fCurrentDivisions*4, fCurrentDotsNumber);
 
-  // attach the pending dynamics if any to the note
-  while (! fPendingDynamics.empty()) {
-    SlpsrDynamics dyn = fPendingDynamics.front();
-    note->addDynamics(dyn);
-    fPendingDynamics.pop_front();
-  } // while
- 
-  // attach the pending wedges if any to the note
-  while (! fPendingWedges.empty()) {
-    SlpsrWedge wdg = fPendingWedges.front();
-    note->addWedge(wdg);
-    fPendingWedges.pop_front();
-  } // while
-  
   // now we know more, update the various informations
   
   // diatonic note
@@ -1202,6 +1188,20 @@ void xmlpart2lpsrvisitor::visitEnd ( S_note& elt )
   lpsrNote::LpsrPitch lpsrPitch = 
     computeNoteLpsrPitch(noteQuatertonesFromA, alteration);
 
+  // attach the pending dynamics if any to the note
+  while (! fPendingDynamics.empty()) {
+    SlpsrDynamics dyn = fPendingDynamics.front();
+    note->addDynamics(dyn);
+    fPendingDynamics.pop_front();
+  } // while
+ 
+  // attach the pending wedges if any to the note
+  while (! fPendingWedges.empty()) {
+    SlpsrWedge wdg = fPendingWedges.front();
+    note->addWedge(wdg);
+    fPendingWedges.pop_front();
+  } // while
+  
   int voice = 37;
   
   // update note with the computed information

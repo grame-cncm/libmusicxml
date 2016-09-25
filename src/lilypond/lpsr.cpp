@@ -13,6 +13,7 @@
 #include <iostream>
 #include <list>
 #include <algorithm>
+#include <iomanip>      // std::setw
 
 #include "lpsr.h"
 
@@ -957,7 +958,7 @@ lpsrPart::lpsrPart(std::string name, bool absoluteCode, bool generateNumericalTi
   // add the default 4/4 time signature
   SlpsrTime time = lpsrTime::create(4, 4, fGenerateNumericalTime);
   SlpsrElement t = time;
-  fPartLpsrSequence->addElementToSequence (t);
+  fPartLpsrSequence->appendElementToSequence (t);
 
 }
 lpsrPart::~lpsrPart() {}
@@ -992,6 +993,15 @@ SlpsrPaper lpsrPaper::create()
 
 lpsrPaper::lpsrPaper() : lpsrElement("")
 {
+  fPaperWidth = -1.0;
+  fPaperHeight = -1.0;
+  fTopMargin = -1.0;
+  fBottomMargin = -1.0;
+  fLeftMargin = -1.0;
+  fRightMargin = -1.0;
+    
+  fBetweenSystemSpace = -1.0;
+  fPageTopSpace = -1.0;
 }
 lpsrPaper::~lpsrPaper() {}
 
@@ -1009,9 +1019,45 @@ void lpsrPaper::printStructure(ostream& os)
 void lpsrPaper::printLilyPondCode(ostream& os)
 {  
   hdl++;
+
   os << "\\paper {" << hdl;
+
+  if (fPaperWidth > 0) {
+    os << "paper-width = " << std::setprecision(4) << fPaperWidth << "\\cm" << hdl;
+  }
+
+  if (fPaperHeight > 0) {
+    os << "paper-height = " << std::setprecision(4) << fPaperHeight << "\\cm" << hdl;
+  }
+
+  if (fTopMargin > 0) {
+    os << "top-margin = " << std::setprecision(4) << fTopMargin << "\\cm" << hdl;
+  }
+
+  if (fBottomMargin > 0) {
+    os << "bottom-margin = " << std::setprecision(4) << fBottomMargin << "\\cm" << hdl;
+  }
+
+  if (fLeftMargin > 0) {
+    os << "left-margin = " << std::setprecision(4) << fLeftMargin << "\\cm" << hdl;
+  }
+
   hdl--;
-  os << "% to be completed" << hdl;
+
+  if (fRightMargin > 0) {
+    os << "right-margin = " << std::setprecision(4) << fRightMargin << "\\cm" << hdl;
+  }
+
+/*
+  if (fBetweenSystemSpace > 0) {
+    os << "between-system-space = " << std::setprecision(4) << fBetweenSystemSpace << "\\cm" << hdl;
+  }
+
+  if (fPageTopSpace > 0) {
+    os << "page-top-space = " << std::setprecision(4) << fPageTopSpace << "\\cm" << hdl;
+  }
+*/
+
   os << "}" << hdl;
 }
 
@@ -1068,6 +1114,7 @@ void lpsrHeader::printLilyPondCode(ostream& os)
     std::string dest;
     std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
     os << "%movement_title = \""  << dest << "\"" << hdl;
+    os << "title = \""  << dest << "\"" << hdl;
   }
     
   if (!fCreators.empty()) {
@@ -1075,7 +1122,7 @@ void lpsrHeader::printLilyPondCode(ostream& os)
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
       string type = (*i1)->getAttributeValue("type");
       std::transform(type.begin(), type.end(), type.begin(), ::tolower);
-      if (type == "composer")
+      if (type == "composer" || type == "arranger")
         os << "" << type << " = \""  << (*i1)->getValue() << "\"" << hdl;
       else
         os << "%" << type << " = \""  << (*i1)->getValue() << "\"" << hdl;
@@ -1086,7 +1133,8 @@ void lpsrHeader::printLilyPondCode(ostream& os)
     std::string source = fRights->getValue();
     std::string dest;
     std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
-    os << "%rights = \""  << dest << "\"" << hdl;
+//    os << "%rights = \""  << dest << "\"" << hdl;
+    os << "copyright = \""  << dest << "\"" << hdl;
   }
     
   if (!fSoftwares.empty()) {
@@ -1095,7 +1143,8 @@ void lpsrHeader::printLilyPondCode(ostream& os)
       std::string source = (*i2)->getValue();
       std::string dest;
       std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
-      os << "%software = \""  << dest << "\"" << hdl;
+//      os << "%software = \""  << dest << "\"" << hdl;
+      os << "encodingsoftware = \""  << dest << "\"" << hdl;
     } // for
   }
     
@@ -1105,7 +1154,8 @@ void lpsrHeader::printLilyPondCode(ostream& os)
     std::string source = fEncodingDate->getValue();
     std::string dest;
     std::for_each( source.begin(), source.end(), stringquoteescaper(dest));
-    os << "%encoding_date = \""  << dest << "\"" << hdl;
+//    os << "%encoding_date = \""  << dest << "\"" << hdl;
+    os << "encodingdate = \""  << dest << "\"" << hdl;
   }
   
   os << "}" << hdl; 
