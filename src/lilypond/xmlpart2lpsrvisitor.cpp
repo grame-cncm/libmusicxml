@@ -881,6 +881,234 @@ void xmlpart2lpsrvisitor::visitStart ( S_note& elt )
 }
 
 //______________________________________________________________________________
+
+lpsrNote::LpsrPitch xmlpart2lpsrvisitor::computeNoteLpsrPitch(
+  int                  noteQuatertonesFromA,
+  lpsrNote::Alteration alteration)
+{
+  // computing the lpsr pitch
+  /*
+  Alter values of -2 and 2 can be used for double-flat and double-sharp. Decimal values can be used for microtones (e.g., 0.5 for a quarter-tone sharp), but not all programs may convert this into MIDI pitch-bend data.
+
+  For rests, a rest element is used instead of the pitch element. The whole rest in 3/4 that begins the voice part is represented as:
+    <note>
+      <rest/>
+      <duration>72</duration>
+    </note>
+  
+  Quarter tones may be added; the following is a series of Cs with increasing pitches:
+    \relative c'' { ceseh ces ceh c cih cis cisih }
+   */
+  lpsrNote::LpsrPitch lpsrPitch = lpsrNote::k_NoLpsrPitch;
+  
+  switch (noteQuatertonesFromA) {
+    case 0:
+      lpsrPitch = lpsrNote::k_a;
+      break;
+    case 1:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_aih
+          : lpsrNote::k_beseh;
+      break;
+    case 2:
+      lpsrPitch =
+        alteration == lpsrNote::kSharp
+          ? lpsrNote::k_ais
+          : lpsrNote::k_bes;
+      break;
+    case 3:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_aisih
+          : lpsrNote::k_beh;
+      break;
+    case 4:
+      lpsrPitch = lpsrNote::k_b;
+      break;
+    case 5:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_bih
+          : lpsrNote::k_ceseh;
+      break;
+    case 6:
+      lpsrPitch = lpsrNote::k_c;
+      break;
+    case 7:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_cih
+          : lpsrNote::k_deseh;
+      break;
+    case 8:
+      lpsrPitch =
+        alteration == lpsrNote::kSharp
+          ? lpsrNote::k_cis
+          : lpsrNote::k_des;
+      break;
+    case 9:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_cisih
+          : lpsrNote::k_deh;
+      break;
+    case 10:
+      lpsrPitch = lpsrNote::k_d;
+      break;
+    case 11:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_dih
+          : lpsrNote::k_eeseh;
+      break;
+    case 12:
+      lpsrPitch =
+        alteration == lpsrNote::kSharp
+          ? lpsrNote::k_dis
+          : lpsrNote::k_ees;
+      break;
+    case 13:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_disih
+          : lpsrNote::k_eeh;
+      break;
+    case 14:
+      lpsrPitch = lpsrNote::k_e;
+      break;
+    case 15:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_eih
+          : lpsrNote::k_feseh;
+      break;
+    case 16:
+      lpsrPitch = lpsrNote::k_f;
+      break;
+    case 17:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_fih
+          : lpsrNote::k_geseh;
+      break;
+    case 18:
+      lpsrPitch =
+        alteration == lpsrNote::kSharp
+          ? lpsrNote::k_fis
+          : lpsrNote::k_ges;
+      break;
+    case 19:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_fisih
+          : lpsrNote::k_geh;
+      break;
+    case 20:
+      lpsrPitch = lpsrNote::k_g;
+      break;
+    case 21:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_gih
+          : lpsrNote::k_aeseh;
+      break;
+    case 22:
+      lpsrPitch =
+        alteration == lpsrNote::kSharp
+          ? lpsrNote::k_gis
+          : lpsrNote::k_aes;
+      break;
+    case 23:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_gisih
+          : lpsrNote::k_aeh;
+      break;
+  } // switch
+  
+  return lpsrPitch;
+}
+
+void xmlpart2lpsrvisitor::createChord(SlpsrDuration noteDuration) {
+  // cout << "--> creating a chord on its 2nd note" << endl;
+  
+  // fCurrentNote has been registered standalone in the part element sequence,
+  // but it is actually the first note of a chord
+  
+   // create a chord
+  fCurrentChord = lpsrChord::create(noteDuration);
+  fCurrentElement = fCurrentChord; // another name for it
+   
+  //cout << "--> adding first note to fCurrentChord" << endl;
+  // register fCurrentNote as first member of fCurrentChord
+  fCurrentChord->addNoteToChord(fCurrentNote);
+  fCurrentNote->setNoteBelongsToAChord();
+  
+  // move the pending dynamics if any from the first note to the chord
+  std::list<SlpsrDynamics> noteDynamics = fCurrentNote->getNoteDynamics();
+  while (! noteDynamics.empty()) {
+    //cout << "--> moving dynamics from fCurrentNote to fCurrentChord" << endl;
+    SlpsrDynamics dyn = noteDynamics.front();
+    fCurrentChord->addDynamics(dyn);
+    noteDynamics.pop_front();
+  } // while
+ 
+  // move the pending wedges if any from the first note to the chord
+  std::list<SlpsrWedge> noteWedges = fCurrentNote->getNoteWedges();
+  while (! noteWedges.empty()) {
+    //cout << "--> moving wedge from fCurrentNote to fCurrentChord" << endl;
+    SlpsrWedge wdg = noteWedges.front();
+    fCurrentChord->addWedge(wdg);
+    noteWedges.pop_front();
+  } // while
+}
+
+void xmlpart2lpsrvisitor::createTuplet (SlpsrNote note) {
+  // create a tuplet element
+  SlpsrTuplet fCurrentTuplet = lpsrTuplet::create();
+  fCurrentElement = fCurrentNote; // another name for it
+
+  // populate it
+  fCurrentTuplet->updateTuplet(
+    fCurrentTupletNumber,
+    fCurrentActualNotes,
+    fCurrentNormalNotes);
+
+  // register it in this visitor
+  cout << "--> pushing tuplet to tuplets stack" << std::endl;
+  fCurrentTupletsStack.push(fCurrentTuplet);
+  
+  // update note duration
+  cout
+    << "--> updating note duration by " << fCurrentActualNotes << 
+    "/" << fCurrentNormalNotes << std::endl;
+  note->updateNoteDuration(fCurrentActualNotes, fCurrentNormalNotes);
+
+  // add note to the tuplet
+  cout << "--> adding note " << note << " to tuplets stack top" << std::endl;
+  fCurrentTuplet->addElementToTuplet(note);
+}
+
+void xmlpart2lpsrvisitor::finalizeTuplet(SlpsrNote note) {
+  // get tuplet from top of tuplet stack
+  SlpsrTuplet tup = fCurrentTupletsStack.top();
+
+  // add note to the tuplet
+  cout << "--> adding note " << note << " to tuplets stack top" << std::endl;
+  tup->addElementToTuplet(note);
+
+  // pop from the tuplets stack
+  cout << "--> popping from tuplets stack" << std::endl;
+  fCurrentTupletsStack.pop();        
+
+  // add tuplet to the part
+  cout << "=== adding tuplet to the part sequence" << std::endl;
+  SlpsrElement elem = tup;
+  addElementToPartSequence(elem);
+}          
+
+//______________________________________________________________________________
 void xmlpart2lpsrvisitor::visitEnd ( S_note& elt ) 
 {
   //  cout << "<-- xmlpart2lpsrvisitor::visitEnd ( S_note& elt ) " << std::endl;
@@ -971,145 +1199,8 @@ void xmlpart2lpsrvisitor::visitEnd ( S_note& elt )
       cout << "fCurrentAlter = " << fCurrentAlter << std::endl << std::flush;
   } // switch
 
-  // computing the lylypondNote
-  /*
-  Alter values of -2 and 2 can be used for double-flat and double-sharp. Decimal values can be used for microtones (e.g., 0.5 for a quarter-tone sharp), but not all programs may convert this into MIDI pitch-bend data.
-
-  For rests, a rest element is used instead of the pitch element. The whole rest in 3/4 that begins the voice part is represented as:
-    <note>
-      <rest/>
-      <duration>72</duration>
-    </note>
-  
-  Quarter tones may be added; the following is a series of Cs with increasing pitches:
-    \relative c'' { ceseh ces ceh c cih cis cisih }
-   */
-  lpsrNote::LpsrPitch lpsrNote = lpsrNote::k_NoLpsrPitch;
-  switch (noteQuatertonesFromA) {
-    case 0:
-      lpsrNote = lpsrNote::k_a;
-      break;
-    case 1:
-      lpsrNote =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_aih
-          : lpsrNote::k_beseh;
-      break;
-    case 2:
-      lpsrNote =
-        alteration == lpsrNote::kSharp
-          ? lpsrNote::k_ais
-          : lpsrNote::k_bes;
-      break;
-    case 3:
-      lpsrNote =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_aisih
-          : lpsrNote::k_beh;
-      break;
-    case 4:
-      lpsrNote = lpsrNote::k_b;
-      break;
-    case 5:
-      lpsrNote =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_bih
-          : lpsrNote::k_ceseh;
-      break;
-    case 6:
-      lpsrNote = lpsrNote::k_c;
-      break;
-    case 7:
-      lpsrNote =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_cih
-          : lpsrNote::k_deseh;
-      break;
-    case 8:
-      lpsrNote =
-        alteration == lpsrNote::kSharp
-          ? lpsrNote::k_cis
-          : lpsrNote::k_des;
-      break;
-    case 9:
-      lpsrNote =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_cisih
-          : lpsrNote::k_deh;
-      break;
-    case 10:
-      lpsrNote = lpsrNote::k_d;
-      break;
-    case 11:
-      lpsrNote =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_dih
-          : lpsrNote::k_eeseh;
-      break;
-    case 12:
-      lpsrNote =
-        alteration == lpsrNote::kSharp
-          ? lpsrNote::k_dis
-          : lpsrNote::k_ees;
-      break;
-    case 13:
-      lpsrNote =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_disih
-          : lpsrNote::k_eeh;
-      break;
-    case 14:
-      lpsrNote = lpsrNote::k_e;
-      break;
-    case 15:
-      lpsrNote =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_eih
-          : lpsrNote::k_feseh;
-      break;
-    case 16:
-      lpsrNote = lpsrNote::k_f;
-      break;
-    case 17:
-      lpsrNote =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_fih
-          : lpsrNote::k_geseh;
-      break;
-    case 18:
-      lpsrNote =
-        alteration == lpsrNote::kSharp
-          ? lpsrNote::k_fis
-          : lpsrNote::k_ges;
-      break;
-    case 19:
-      lpsrNote =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_fisih
-          : lpsrNote::k_geh;
-      break;
-    case 20:
-      lpsrNote = lpsrNote::k_g;
-      break;
-    case 21:
-      lpsrNote =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_gih
-          : lpsrNote::k_aeseh;
-      break;
-    case 22:
-      lpsrNote =
-        alteration == lpsrNote::kSharp
-          ? lpsrNote::k_gis
-          : lpsrNote::k_aes;
-      break;
-    case 23:
-      lpsrNote =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_gisih
-          : lpsrNote::k_aeh;
-      break;
-  } // switch
+  lpsrNote::LpsrPitch lpsrPitch = 
+    computeNoteLpsrPitch(noteQuatertonesFromA, alteration);
 
   int voice = 37;
   
@@ -1120,7 +1211,7 @@ void xmlpart2lpsrvisitor::visitEnd ( S_note& elt )
     alteration, 
     fCurrentOctave,
     noteDuration,
-    lpsrNote, 
+    lpsrPitch, 
     voice,
     fCurrentNoteBelongsToAChord);
 
@@ -1128,42 +1219,14 @@ void xmlpart2lpsrvisitor::visitEnd ( S_note& elt )
   
   // keep track of note in this visitor
   fCurrentNote = note;
+  fCurrentElement = fCurrentNote; // another name for it
   
   if (fCurrentNoteBelongsToAChord) {
     if (! fCurrentChordIsBeingBuilt) {
-      // cout << "--> creating a chord on its 2nd note" << endl;
-      
-      // fCurrentNote has been registered standalone in the part element sequence,
-      // but it is actually the first note of a chord
-      
-       // create a chord
-      fCurrentChord = lpsrChord::create(noteDuration);
-       
+      createChord (noteDuration);
+
       // account for chord being built
       fCurrentChordIsBeingBuilt = true;
-
-      //cout << "--> adding first note to fCurrentChord" << endl;
-      // register fCurrentNote as first member of fCurrentChord
-      fCurrentChord->addNoteToChord(fCurrentNote);
-      fCurrentNote->setNoteBelongsToAChord();
-      
-      // move the pending dynamics if any from the first note to the chord
-      std::list<SlpsrDynamics> noteDynamics = fCurrentNote->getNoteDynamics();
-      while (! noteDynamics.empty()) {
-        //cout << "--> moving dynamics from fCurrentNote to fCurrentChord" << endl;
-        SlpsrDynamics dyn = noteDynamics.front();
-        fCurrentChord->addDynamics(dyn);
-        noteDynamics.pop_front();
-      } // while
-     
-      // move the pending wedges if any from the first note to the chord
-      std::list<SlpsrWedge> noteWedges = fCurrentNote->getNoteWedges();
-      while (! noteWedges.empty()) {
-        //cout << "--> moving wedge from fCurrentNote to fCurrentChord" << endl;
-        SlpsrWedge wdg = noteWedges.front();
-        fCurrentChord->addWedge(wdg);
-        noteWedges.pop_front();
-      } // while
     }
 
     //cout << "--> adding note to fCurrentChord" << endl;
@@ -1183,60 +1246,29 @@ void xmlpart2lpsrvisitor::visitEnd ( S_note& elt )
     switch (fCurrentTupletKind) {
       case lpsrTuplet::kStartTuplet:
         {
-        // create a tuplet element
-        SlpsrTuplet tup = lpsrTuplet::create();
+          createTuplet(note);
         
-        // populate it
-        tup->updateTuplet(
-          fCurrentTupletNumber,
-          fCurrentActualNotes,
-          fCurrentNormalNotes);
- 
-        // register it in this visitor
-        cout << "--> pushing tuplet to tuplets stack" << std::endl;
-        fCurrentTupletsStack.push(tup);
-        
-        // update note duration
-        cout
-          << "--> updating note duration by " << fCurrentActualNotes << 
-          "/" << fCurrentNormalNotes << std::endl;
-        note->updateNoteDuration(fCurrentActualNotes, fCurrentNormalNotes);
-
-        // add note to the tuplet
-        cout << "--> adding note " << note << " to tuplets stack top" << std::endl;
-        tup->addElementToTuplet(note);
-        
-        // swith to continuation mode
-        fCurrentTupletKind = lpsrTuplet::kContinueTuplet;
+          // swith to continuation mode
+          // this is handy in case the forthcoming tuplet members
+          // are not explictly of the "continue" type
+          fCurrentTupletKind = lpsrTuplet::kContinueTuplet;
         }
         break;
   
       case lpsrTuplet::kContinueTuplet:
-        // add note to the tuplet stack top
-        cout << "--> adding note " << note << " to tuplets stack top" << std::endl;
-        fCurrentTupletsStack.top()->addElementToTuplet(note);
+        {
+          // populate the tuplet at the top of the stack
+          cout << "--> adding note " << note << " to tuplets stack top" << std::endl;
+          fCurrentTupletsStack.top()->addElementToTuplet(note);
+        }
         break;
   
       case lpsrTuplet::kStopTuplet:
         {
-        // get tuplet from top of tuplet stack
-        SlpsrTuplet tup = fCurrentTupletsStack.top();
+          finalizeTuplet(note);
 
-        // add note to the tuplet
-        cout << "--> adding note " << note << " to tuplets stack top" << std::endl;
-        tup->addElementToTuplet(note);
-
-        // pop from the tuplets stack
-        cout << "--> popping from tuplets stack" << std::endl;
-        fCurrentTupletsStack.pop();        
-
-        // add tuplet to the part
-        cout << "=== adding tuplet to the part sequence" << std::endl;
-        SlpsrElement elem = tup;
-        addElementToPartSequence(elem);
-        
-        // indicate the end of the tuplet
-        fCurrentNoteBelongsToATuplet = false;
+          // indicate the end of the tuplet
+          fCurrentNoteBelongsToATuplet = false;
         }
         break;
     } // switch

@@ -21,9 +21,10 @@
 
 #include "smartpointer.h"
 #include "rational.h"
-#include "utilities.h"
 #include "exports.h"
 #include "typedefs.h"
+
+#include "utilities.h"
 
 namespace MusicXML2 
 {

@@ -232,15 +232,16 @@ class EXP xmlpart2lpsrvisitor :
       \param index an index into fTimeSignatures vector
       \return the time signature as a rational or rational(0,1)
     */
-    rational timeSignatureFromIndex(int index);
+    rational            timeSignatureFromIndex(int index);
     
-    std::vector<std::pair<std::string,std::string> > fTimeSignatures;
+    std::vector<std::pair<std::string,std::string> >
+                        fTimeSignatures;
     std::string         fSymbol;
     int                 fStaffNumber;
     bool                fSenzaMisura;
 
     // the part containing the generated code for the part
-    SlpsrPart       fLpsrpart; 
+    SlpsrPart           fLpsrpart; 
 
     // MusicXML informations
     std::string         fCurrentStep;     // the note name, diatonic
@@ -254,6 +255,15 @@ class EXP xmlpart2lpsrvisitor :
     std::string         fCurrentStem;
     int                 fCurrentStaff;    // the staff we're currently generating events for (0 by default)
    
+    lpsrNote::LpsrPitch computeNoteLpsrPitch(
+                          int                  noteQuatertonesFromA,
+                          lpsrNote::Alteration alteration);
+                          
+    void                createChord(SlpsrDuration noteDuration);
+    
+    void                createTuplet (SlpsrNote note);
+    void                finalizeTuplet (SlpsrNote note);
+    
     int                 fCurrentFifths;
     int                 fCurrentCancel;
     std::string         fCurrentMode;
@@ -275,27 +285,32 @@ class EXP xmlpart2lpsrvisitor :
     static std::map<std::string, int> fQuatertonesFromA;
 
     // description of the current note
-    SlpsrNote       fCurrentNote;
-    SlpsrBeam       fCurrentBeam;
-    SlpsrChord      fCurrentChord;
+    SlpsrNote           fCurrentNote;
+    SlpsrBeam           fCurrentBeam;
+    SlpsrChord          fCurrentChord;
     bool                fCurrentChordIsBeingBuilt;
     bool                fCurrentNoteBelongsToAChord;
     
-    // descriptin of current tuplets
+    // description of current tuplets
     int                 fCurrentActualNotes;
     int                 fCurrentNormalNotes;
     int                 fCurrentTupletNumber; // embedded tuplets are numbered 1, 2, ...
-    lpsrTuplet::TupletKind  fCurrentTupletKind;
+    lpsrTuplet::TupletKind  
+                        fCurrentTupletKind;
     
     // remains true until a S_tuplet of type "stop" is met
     bool                fCurrentNoteBelongsToATuplet;
 
+    SlpsrTuplet             fCurrentTuplet;
     std::stack<SlpsrTuplet> fCurrentTupletsStack;
+    
+    // another name for fCurrentNote, fCurrentChord, fCurrentTuplet and the like
+    SlpsrElement        fCurrentElement;
     
     // structure to store delayed elements ie elements enclosed in direction with offset
     typedef struct {
-      int                  fDelay;
-      SlpsrElement     fElement;
+      int                fDelay;
+      SlpsrElement       fElement;
     } delayedElement;
     vector<delayedElement> fDelayed;
     
