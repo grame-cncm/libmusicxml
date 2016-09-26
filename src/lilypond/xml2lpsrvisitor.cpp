@@ -20,13 +20,14 @@
 #include <string>
 #include <locale>         // std::locale, std::tolower
 
-#include "utilities.h"
-#include "partsummaryvisitor.h"
-#include "rational.h"
-#include "xml_tree_browser.h"
-#include "xml2lpsrvisitor.h"
-#include "xmlpart2lpsrvisitor.h"
 #include "tree_browser.h"
+#include "xml_tree_browser.h"
+
+#include "utilities.h"
+#include "rational.h"
+#include "xml2lpsrvisitor.h"
+#include "xmlPartSummaryVisitor.h"
+#include "xmlpart2lpsrvisitor.h"
 
 using namespace std;
 
@@ -35,7 +36,7 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 xml2lpsrvisitor::xml2lpsrvisitor( translationSwitches& ts ) :
-  fSwitches(ts), 
+  fTranslationSwitches(ts), 
   fCurrentStaffIndex(0)
 {
   fMillimeters = -1;
@@ -45,7 +46,7 @@ xml2lpsrvisitor::xml2lpsrvisitor( translationSwitches& ts ) :
 }
 
 //______________________________________________________________________________
-SlpsrElement xml2lpsrvisitor::convertToLilyPond (const Sxmlelement& xml )
+SlpsrElement xml2lpsrvisitor::convertToLpsr (const Sxmlelement& xml )
 {
   SlpsrElement ly;
   if (xml) {
@@ -61,7 +62,7 @@ SlpsrElement xml2lpsrvisitor::convertToLilyPond (const Sxmlelement& xml )
 
 //______________________________________________________________________________
 void xml2lpsrvisitor::appendElementToSequence (SlpsrElement& elt) {
-  bool doDebug = fSwitches.fDebug;
+  bool doDebug = fTranslationSwitches.fDebug;
 //  bool doDebug = false;
 
   if (doDebug) cout << "!!! appendElementToSequence : " << elt << std::endl;
@@ -298,14 +299,14 @@ void xml2lpsrvisitor::visitStart ( S_part& elt )
 {
   std::string partID = elt->getAttributeValue("id");
   
-  // browse the part contents for the first time with a partsummaryvisitor
-  if (fSwitches.fTrace)
+  // browse the part contents for the first time with a xmlPartSummaryVisitor
+  if (fTranslationSwitches.fTrace)
     cerr << "Extracting part \"" << partID << "\" summary information" << endl;
-  partsummaryvisitor ps;
+  xmlPartSummaryVisitor ps(fTranslationSwitches);
   xml_tree_browser browser(&ps);
   browser.browse(*elt);
 
-  if (fSwitches.fTrace)
+  if (fTranslationSwitches.fTrace)
     cerr << "Extracting part \"" << partID << "\" voices information" << endl;
   smartlist<int>::ptr voices = ps.getVoices ();
   int targetStaff = 0xffff; // initialized to a value we'll unlikely encounter
@@ -327,7 +328,7 @@ void xml2lpsrvisitor::visitStart ( S_part& elt )
       fCurrentStaffIndex++;
     }
 
-    if (fSwitches.fTrace)
+    if (fTranslationSwitches.fTrace)
       cerr << 
         "Handling part \"" << partID << 
         "\" contents, mainStaff = " << mainStaff <<
@@ -342,7 +343,9 @@ void xml2lpsrvisitor::visitStart ( S_part& elt )
         
     // create the lpsrPart
     SlpsrPart part = lpsrPart::create(
-      partName, fSwitches.fGenerateAbsoluteCode, fSwitches.fGenerateNumericalTime);
+      partName,
+      fTranslationSwitches.fGenerateAbsoluteCode,
+      fTranslationSwitches.fGenerateNumericalTime);
     // register it
     fLpsrPartsMap[partID] = part;
     // append it to the lpsrElement sequence
@@ -350,8 +353,8 @@ void xml2lpsrvisitor::visitStart ( S_part& elt )
     appendElementToSequence (p);
     
     // browse the part contents once more with an xmlpart2lpsrvisitor
-    xmlpart2lpsrvisitor xp2lv(fSwitches, part);
-    xp2lv.generatePositions (fSwitches.fGeneratePositions);
+    xmlpart2lpsrvisitor xp2lv(fTranslationSwitches, part);
+    xp2lv.generatePositions (fTranslationSwitches.fGeneratePositions);
     xml_tree_browser browser(&xp2lv);
     xp2lv.initialize(part, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
     browser.browse(*elt);
@@ -359,11 +362,11 @@ void xml2lpsrvisitor::visitStart ( S_part& elt )
     // JMI currentTimeSign = xp2lv.getTimeSign();
 
     // extract the part lyrics
-    if (fSwitches.fTrace)
+    if (fTranslationSwitches.fTrace)
       cerr << "Extracting part \"" << partID << "\" lyrics information" << endl;
-    std::map<std::string, partsummaryvisitor::stanzaContents> 
+    std::map<std::string, xmlPartSummaryVisitor::stanzaContents> 
       stanzas = ps.getStanzas();
-    for (std::map<std::string, partsummaryvisitor::stanzaContents> ::iterator 
+    for (std::map<std::string, xmlPartSummaryVisitor::stanzaContents> ::iterator 
         it1=stanzas.begin(); it1!=stanzas.end(); ++it1) {
   
       string   lyricsName;

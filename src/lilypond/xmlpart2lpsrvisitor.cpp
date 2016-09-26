@@ -18,13 +18,12 @@
 
 #include "xml_tree_browser.h"
 
-#include "partsummaryvisitor.h"
-
 #include "utilities.h"
 #include "conversions.h"
 
 #include "lpsr.h"
 #include "xml2lpsrvisitor.h"
+#include "xmlPartSummaryVisitor.h"
 #include "xmlpart2lpsrvisitor.h"
 
 using namespace std;
@@ -44,6 +43,9 @@ xmlpart2lpsrvisitor::xmlpart2lpsrvisitor( translationSwitches& ts, SlpsrPart par
   fTargetVoice(0)
 {
   fTranslationSwitches = ts;
+  
+  fCurrentDivisions = 0;
+
   fLpsrpart = part;
 
   fCurrentDuration = -8;

@@ -10,6 +10,9 @@
   research@grame.fr
 */
 
+#ifndef __libmusicxml__
+#define __libmusicxml__
+
 #ifdef VC6
 # pragma warning (disable : 4786)
 #endif
@@ -17,6 +20,7 @@
 #include <iostream>
 #include <string>
 #include <stdio.h>
+
 #include "exports.h"
 
 namespace MusicXML2 
@@ -422,3 +426,5 @@ EXP void    factoryFreeAttribute  (TFactory f, TAttribute attr);
 #endif
 
 }
+
+#endif

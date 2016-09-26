@@ -18,13 +18,15 @@
 #include <map>
 #include <string>
 
+#include "xml.h"
 #include "exports.h"
-#include "lpsr.h"
+
 #include "typedefs.h"
 #include "visitor.h"
-#include "xml.h"
 
 #include "musicxml2lpsr.h"
+
+#include "lpsr.h"
 
 namespace MusicXML2 
 {
@@ -40,6 +42,7 @@ namespace MusicXML2
 */
 //______________________________________________________________________________
 class EXP xml2lpsrvisitor : 
+
   public visitor<S_score_partwise>,
   
   public visitor<S_work_number>,
@@ -77,12 +80,13 @@ class EXP xml2lpsrvisitor :
     xml2lpsrvisitor( translationSwitches& ts );
     virtual ~xml2lpsrvisitor() {}
 
-    SlpsrElement convertToLilyPond (const Sxmlelement& xml);
+    SlpsrElement convertToLpsr (const Sxmlelement& xml);
 
     // this is to control exact positionning of elements 
     // when information is present
     // ie converts relative-x/-y into dx/dy attributes
-    void generatePositions (bool state) { fSwitches.fGeneratePositions = state; }
+    // JMI
+    void generatePositions (bool state) { fTranslationSwitches.fGeneratePositions = state; }
 
     static void addPosition ( 
       Sxmlelement elt, SlpsrElement& cmd, int yoffset);
@@ -125,7 +129,7 @@ class EXP xml2lpsrvisitor :
   private:
   
     // the translation switches
-    translationSwitches fSwitches;
+    translationSwitches fTranslationSwitches;
     
     // the implicit sequence containing all the generated code
     SlpsrSequence   fLpsrseq; 
