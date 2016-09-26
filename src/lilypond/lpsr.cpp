@@ -521,39 +521,39 @@ void lpsrSequence::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-SlpsrParallel lpsrParallel::create(ElementsSeparator elementsSeparator)
+SlpsrParallelMusic lpsrParallelMusic::create(ElementsSeparator elementsSeparator)
 {
-  lpsrParallel* o = new lpsrParallel(elementsSeparator); assert(o!=0);
+  lpsrParallelMusic* o = new lpsrParallelMusic(elementsSeparator); assert(o!=0);
   return o;
 }
 
-lpsrParallel::lpsrParallel(ElementsSeparator elementsSeparator) : lpsrElement("")
+lpsrParallelMusic::lpsrParallelMusic(ElementsSeparator elementsSeparator) : lpsrElement("")
 {
   fElementsSeparator=elementsSeparator;
 }
-lpsrParallel::~lpsrParallel() {}
+lpsrParallelMusic::~lpsrParallelMusic() {}
 
-ostream& operator<< (ostream& os, const SlpsrParallel& elt)
+ostream& operator<< (ostream& os, const SlpsrParallelMusic& elt)
 {
   elt->printLilyPondCode(os);
   return os;
 }
 
-void lpsrParallel::printLpsrStructure(ostream& os)
+void lpsrParallelMusic::printLpsrStructure(ostream& os)
 {
-  os << "\%{ lpsrParallel??? \%}" << std::endl;
+  os << "\%{ lpsrParallelMusic??? \%}" << std::endl;
 }
 
-void lpsrParallel::printLilyPondCode(ostream& os)
+void lpsrParallelMusic::printLilyPondCode(ostream& os)
 {      
   os << idtr << "<<" << std::endl;
   
   idtr++;
   
-  int size = fParallelElements.size();
+  int size = fParallelMusicElements.size();
   
   for (int i = 0; i < size; i++ ) {
-    os << idtr << fParallelElements[i];
+    os << idtr << fParallelMusicElements[i];
   } // for
   
   idtr--;
@@ -1463,34 +1463,13 @@ SlpsrScore lpsrScore::create()
 lpsrScore::lpsrScore() : lpsrElement("")
 {
   // create the parallel music element
-  fScoreParallelMusic = lpsrParallel::create(lpsrParallel::kEndOfLine);
+  fScoreParallelMusic = lpsrParallelMusic::create(lpsrParallelMusic::kEndOfLine);
   
   // create the layout element
   fScoreLayout = lpsrLayout::create();
   
   // create the midi element
   fScoreMidi = lpsrMidi::create();
-  
-  // add the "indent" association to the layout
-  /*
-
-  SlpsrComment com =
-    lpsrComment::create("uncomment the following to keep original scores global size");
-  fLpsrSeq->prependElementToSequence (com);
-
-  stringstream s;
-  std::string globalSfaffSizeAsString;
-
-  s << fGlobalStaffSize;
-  s >> globalSfaffSizeAsString;
-
-  */
-
-  SlpsrSchemeVarValAssoc staffSize =
-    lpsrSchemeVarValAssoc::create (
-      "layout-set-staff-size", "14",
-      lpsrSchemeVarValAssoc::kCommented);
-  fScoreLayout->addLpsrSchemeVarValAssoc (staffSize);  
 }
 lpsrScore::~lpsrScore() {}
 

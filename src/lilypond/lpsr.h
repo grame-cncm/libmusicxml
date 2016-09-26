@@ -263,35 +263,35 @@ class EXP lpsrNote : public lpsrElement {
 typedef SMARTP<lpsrNote> SlpsrNote;
 
 /*!
-\brief The lpsr parallel element
+\brief The lpsr parallel music element
 */
 //______________________________________________________________________________
-class EXP lpsrParallel : public lpsrElement {
+class EXP lpsrParallelMusic : public lpsrElement {
   public:
     
     enum ElementsSeparator { kEndOfLine, kSpace };
 
-    static SMARTP<lpsrParallel> create(ElementsSeparator elementsSeparator);
+    static SMARTP<lpsrParallelMusic> create(ElementsSeparator elementsSeparator);
 
-    void         addElementToParallel (SlpsrElement elem) { fParallelElements.push_back(elem); }
-    SlpsrElement getLastElementOfParallel() { return fParallelElements.back(); }
-    void         removeLastElementOfParallel () { fParallelElements.pop_back(); }
+    void         addElementToParallelMusic (SlpsrElement elem) { fParallelMusicElements.push_back(elem); }
+    SlpsrElement getLastElementOfParallelMusic() { return fParallelMusicElements.back(); }
+    void         removeLastElementOfParallelMusic () { fParallelMusicElements.pop_back(); }
 
     virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
 
-    lpsrParallel(ElementsSeparator elementsSeparator);
-    virtual ~lpsrParallel();
+    lpsrParallelMusic(ElementsSeparator elementsSeparator);
+    virtual ~lpsrParallelMusic();
     
   private:
   
-    std::vector<SlpsrElement> fParallelElements;
+    std::vector<SlpsrElement> fParallelMusicElements;
     ElementsSeparator         fElementsSeparator;
 
 };
-typedef SMARTP<lpsrParallel> SlpsrParallel;
+typedef SMARTP<lpsrParallelMusic> SlpsrParallelMusic;
 
 /*!
 \brief The lpsr sequence element
@@ -1023,7 +1023,7 @@ class EXP lpsrScore : public lpsrElement {
 
     static SMARTP<lpsrScore> create();
      
-    SlpsrParallel getScoreParallelMusic () const { return fScoreParallelMusic; }
+    SlpsrParallelMusic getScoreParallelMusic () const { return fScoreParallelMusic; }
     SlpsrLayout   getScoreLayout        () const { return fScoreLayout; }
     SlpsrMidi     getScoreMidi          () const { return fScoreMidi; }
 
@@ -1037,7 +1037,7 @@ class EXP lpsrScore : public lpsrElement {
   
   private:
   
-    SlpsrParallel fScoreParallelMusic;
+    SlpsrParallelMusic fScoreParallelMusic;
     SlpsrLayout   fScoreLayout;
     SlpsrMidi     fScoreMidi;    
 };

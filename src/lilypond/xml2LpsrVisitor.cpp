@@ -132,16 +132,10 @@ void xml2LpsrVisitor::appendElementToSequence (SlpsrElement& elt) {
 //______________________________________________________________________________
 void xml2LpsrVisitor::prependPreamble () {
   // prepending elements in reverse order
-  
-  stringstream s;
-  std::string globalSfaffSizeAsString;
 
-  s << fGlobalStaffSize;
-  s >> globalSfaffSizeAsString;
-  
   SlpsrSchemeVarValAssoc staffSize =
         lpsrSchemeVarValAssoc:: create(
-          "set-global-staff-size", globalSfaffSizeAsString,
+          "set-global-staff-size", fGlobalSfaffSizeAsString,
           lpsrSchemeVarValAssoc::kCommented);
   fLpsrSeq->prependElementToSequence (staffSize);
 
@@ -194,13 +188,33 @@ void xml2LpsrVisitor::visitStart ( S_score_partwise& elt )
 //______________________________________________________________________________
 void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
 {
+  // now we can insert the global staff size where needed
+  stringstream s;
+
+  s << fGlobalStaffSize;
+  s >> fGlobalSfaffSizeAsString;
+  
   // add standard preamble ahead of the part element sequence
   // only now because set-global-staff-size needs information
   // from the <scaling> element
   prependPreamble ();
 
+  // get score layout
+  SlpsrLayout layout = fLpsrScore->getScoreLayout();
+
+  // add the "layout-set-staff-size" scheme variable to the score layout
+  SlpsrComment com =
+    lpsrComment::create("uncomment the following to keep original scores global size");
+  fLpsrSeq->prependElementToSequence (com);
+
+  SlpsrSchemeVarValAssoc staffSize =
+    lpsrSchemeVarValAssoc::create (
+      "layout-set-staff-size", fGlobalSfaffSizeAsString,
+      lpsrSchemeVarValAssoc::kCommented);
+  layout->addLpsrSchemeVarValAssoc (staffSize);  
+
   // get score parallel music
-  SlpsrParallel par = fLpsrScore->getScoreParallelMusic();
+  SlpsrParallelMusic parallel = fLpsrScore->getScoreParallelMusic();
   
   // add the parts and lyrics to it
   lpsrPartsmap::const_iterator i;
@@ -212,13 +226,15 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     SlpsrNewstaffCommand nstf = lpsrNewstaffCommand::create();
     
     // add it to the score parallel music
-    par->addElementToParallel(nstf);
-    par->addElementToParallel(nstf); // JMI TEST
-    par->addElementToParallel(nstf); // JMI TEST
+    SlpsrParallelMusic parallelMusic = fLpsrScore->getScoreParallelMusic();
+    parallelMusic->addElementToParallelMusic(nstf);
+    parallelMusic->addElementToParallelMusic(nstf); // JMI TEST
+    parallelMusic->addElementToParallelMusic(nstf); // JMI TEST
     
     // add the part name to the new staff
-    SlpsrVariableUseCommand cmd = lpsrVariableUseCommand::create(part->getPartName());
-    nstf->addElementToNewStaff(cmd);
+    SlpsrVariableUseCommand variableUse =
+      lpsrVariableUseCommand::create(part->getPartName());
+    nstf->addElementToNewStaff(variableUse);
   } // for
   
   // append the score to the lpsrSequence
