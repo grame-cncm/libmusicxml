@@ -556,21 +556,32 @@ void lpsrParallel::printLilyPondCode(ostream& os)
     
   os << "<<" << hdl;
   
-  if (fParallelElements.empty()) {
-    cerr <<
-      "%ERROR, lpsr parallel music is empty" << std::endl;
-    cout <<
-      "%ERROR, lpsr parallel music is empty" << std::endl;
-  } else {
+  int size = fParallelElements.size();
 
-    int n = fParallelElements.size();
-    for (int i = 0; i < n; i++ ) {
-      hdl++;
-      os << fParallelElements[i];
-      hdl--;
-  //    if (i == n-2) hdl--;
-    } // for
-  }
+  switch (size) {
+    case 0:
+      {
+      std::string message = "ERROR, lpsr parallel music is empty";
+      cerr << "-->" << message << std::endl;
+      cout << "%" << message << std::endl;
+      }
+      break;
+      
+    case 1:
+ //     hdl++;
+      os << fParallelElements[0];
+ //     hdl--;
+      break;
+      
+    default:
+    //  hdl++;
+      for (int i = 0; i < size; i++ ) {
+    //    if (i == size-2) hdl--;
+        hdl++;
+        os << fParallelElements[i];
+        hdl--;
+      } // for
+  } // switch
   
   hdl--;
   
@@ -1201,7 +1212,7 @@ void lpsrHeader::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-SlpsrVarValAssociation lpsrVarValAssociation::create(
+SlpsrLilypondVarValAssoc lpsrLilypondVarValAssoc::create(
       std::string     variableName,
       std::string     value, 
       VarValSeparator varValSeparator,
@@ -1209,15 +1220,15 @@ SlpsrVarValAssociation lpsrVarValAssociation::create(
       CommentedKind   commentedKind,
       std::string     unit)
 {
-  lpsrVarValAssociation* o =
-    new lpsrVarValAssociation(
+  lpsrLilypondVarValAssoc* o =
+    new lpsrLilypondVarValAssoc(
     variableName, value, varValSeparator, 
     quotesKind, commentedKind, unit);
   assert(o!=0);
   return o;
 }
 
-lpsrVarValAssociation::lpsrVarValAssociation(
+lpsrLilypondVarValAssoc::lpsrLilypondVarValAssoc(
       std::string     variableName,
       std::string     value, 
       VarValSeparator varValSeparator,
@@ -1234,25 +1245,25 @@ lpsrVarValAssociation::lpsrVarValAssociation(
   fUnit = unit;
 }
 
-lpsrVarValAssociation::~lpsrVarValAssociation() {}
+lpsrLilypondVarValAssoc::~lpsrLilypondVarValAssoc() {}
 
-void lpsrVarValAssociation::changeAssociation (std::string value)
+void lpsrLilypondVarValAssoc::changeAssoc (std::string value)
 {
   fVariableValue=value;
 }
 
-ostream& operator<< (ostream& os, const SlpsrVarValAssociation& assoc)
+ostream& operator<< (ostream& os, const SlpsrLilypondVarValAssoc& assoc)
 {
   assoc->printLilyPondCode(os);
   return os;
 }
 
-void lpsrVarValAssociation::printLpsrStructure(ostream& os)
+void lpsrLilypondVarValAssoc::printLpsrStructure(ostream& os)
 {
-  os << "\%{ lpsrVarValAssociation??? \%}" << hdl;
+  os << "\%{ lpsrLilypondVarValAssoc??? \%}" << hdl;
 }
 
-void lpsrVarValAssociation::printLilyPondCode(ostream& os)
+void lpsrLilypondVarValAssoc::printLilyPondCode(ostream& os)
 {
   if (fCommentedKind == kCommented) os << "\%";
   os << fVariableName;
@@ -1265,18 +1276,18 @@ void lpsrVarValAssociation::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-SlpsrSchemeVariableValueAssociation lpsrSchemeVariableValueAssociation::create(
+SlpsrSchemeVarValAssoc lpsrSchemeVarValAssoc::create(
       std::string     variableName,
       std::string     value, 
       CommentedKind   commentedKind )
 {
-  lpsrSchemeVariableValueAssociation* o = new lpsrSchemeVariableValueAssociation(
+  lpsrSchemeVarValAssoc* o = new lpsrSchemeVarValAssoc(
     variableName, value, commentedKind);
   assert(o!=0);
   return o;
 }
 
-lpsrSchemeVariableValueAssociation::lpsrSchemeVariableValueAssociation(
+lpsrSchemeVarValAssoc::lpsrSchemeVarValAssoc(
       std::string     variableName,
       std::string     value, 
       CommentedKind   commentedKind )
@@ -1287,19 +1298,25 @@ lpsrSchemeVariableValueAssociation::lpsrSchemeVariableValueAssociation(
   fCommentedKind=commentedKind;
 }
 
-lpsrSchemeVariableValueAssociation::~lpsrSchemeVariableValueAssociation() {}
+lpsrSchemeVarValAssoc::~lpsrSchemeVarValAssoc() {}
 
-void lpsrSchemeVariableValueAssociation::changeAssociation (std::string value)
+void lpsrSchemeVarValAssoc::changeAssoc (std::string value)
 {
   fVariableValue=value;
 }
 
-void lpsrSchemeVariableValueAssociation::printLpsrStructure(ostream& os)
+ostream& operator<< (ostream& os, const SlpsrSchemeVarValAssoc& assoc)
 {
-  os << "\%{ lpsrSchemeVariableValueAssociation??? \%}" << hdl;
+  assoc->printLilyPondCode(os);
+  return os;
 }
 
-void lpsrSchemeVariableValueAssociation::printLilyPondCode(ostream& os)
+void lpsrSchemeVarValAssoc::printLpsrStructure(ostream& os)
+{
+  os << "\%{ lpsrSchemeVarValAssoc??? \%}" << hdl;
+}
+
+void lpsrSchemeVarValAssoc::printLilyPondCode(ostream& os)
 {
   if (fCommentedKind == kCommented) os << "\%";
   os << "#(" << fVariableName << " " << fVariableValue << ")" << hdl;
@@ -1312,8 +1329,7 @@ SlpsrLayout lpsrLayout::create()
   return o;
 }
 
-lpsrLayout::lpsrLayout() : lpsrElement("")
-{}
+lpsrLayout::lpsrLayout() : lpsrElement("") {}
 lpsrLayout::~lpsrLayout() {}
 
 ostream& operator<< (ostream& os, const SlpsrLayout& lay)
@@ -1333,10 +1349,16 @@ void lpsrLayout::printLilyPondCode(ostream& os)
   
   os << "\\layout {" << hdl;
 
-  int n = fContents.size();
-  for (int i = 0; i < n; i++ ) {
-    os << fContents[i];
-    if (i == n-2) hdl--;
+  int n1 = fLpsrLilypondVarValAssocs.size();
+  for (int i = 0; i < n1; i++ ) {
+    os << fLpsrLilypondVarValAssocs[i];
+    if (i == n1 - 2) hdl--;
+  } // for
+    
+  int n2 = fLpsrSchemeVarValAssocs.size();
+  for (int i = 0; i < n2; i++ ) {
+    os << fLpsrSchemeVarValAssocs[i];
+    if (i == n2 - 2) hdl--;
   } // for
     
   os << "}" << hdl;
@@ -1483,6 +1505,27 @@ lpsrScore::lpsrScore() : lpsrElement("")
   
   // create the midi element
   fScoreMidi = lpsrMidi::create();
+  
+  // add the "indent" association to the layout
+  /*
+
+  SlpsrComment com =
+    lpsrComment::create("uncomment the following to keep original scores global size");
+  fLpsrSeq->prependElementToSequence (com);
+
+  stringstream s;
+  std::string globalSfaffSizeAsString;
+
+  s << fGlobalStaffSize;
+  s >> globalSfaffSizeAsString;
+
+  */
+
+  SlpsrSchemeVarValAssoc staffSize =
+    lpsrSchemeVarValAssoc::create (
+      "layout-set-staff-size", "14",
+      lpsrSchemeVarValAssoc::kCommented);
+  fScoreLayout->addLpsrSchemeVarValAssoc (staffSize);  
 }
 lpsrScore::~lpsrScore() {}
 
@@ -1538,29 +1581,40 @@ void lpsrNewstaffCommand::printLpsrStructure(ostream& os)
 
 void lpsrNewstaffCommand::printLilyPondCode(ostream& os)
 {  
-  hdl++;
+//  hdl++;
     
   os << "\\new Staff <<" << hdl;
   
-  if (fNewStaffElements.empty()) {
-    cerr <<
-      "%ERROR, lpsr newstaff is empty" << std::endl;
-    cout <<
-      "%ERROR, lpsr newstaff is empty" << std::endl;
-  } else {
-    
-    hdl++;
+  int size = fNewStaffElements.size();
 
-    int n = fNewStaffElements.size();
-    for (int i = 0; i < n; i++ ) {
-      if (i == n-1) hdl--;
-      os << fNewStaffElements[i];
-    } // for
-  }
+  switch (size) {
+    case 0:
+      {
+      std::string message = "ERROR, \\new Staff music is empty";
+      cerr << "-->" << message << std::endl;
+      cout << "%" << message << std::endl;
+      }
+      break;
+      
+    case 1:
+  //    hdl++;
+      os << fNewStaffElements[0];
+  //    hdl--;
+      break;
+      
+    default:
+   //   hdl++;
+      for (int i = 0; i < size; i++ ) {
+  //      if (i == size-1) hdl--;
+        hdl++;
+        os << fNewStaffElements[i];
+        hdl--;
+      } // for
+  } // switch
   
-  hdl--;
+ // hdl--;
   
-  os << ">>" << hdl;
+  os << ">>" << hdl;  
 }
 
 //______________________________________________________________________________

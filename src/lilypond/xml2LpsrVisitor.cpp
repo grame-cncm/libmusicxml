@@ -72,32 +72,32 @@ xml2LpsrVisitor::xml2LpsrVisitor( translationSwitches& ts ) :
   fLpsrSeq->appendElementToSequence (layout);
 
   // add the "indent" association to the layout
-  SlpsrVarValAssociation indent =
-    lpsrVarValAssociation::create (
+  SlpsrLilypondVarValAssoc indent =
+    lpsrLilypondVarValAssoc::create (
       "indent", "0",
-      lpsrVarValAssociation::kEqualSign,
-      lpsrVarValAssociation::kNoQuotesAroundValue,
-      lpsrVarValAssociation::kUncommented,
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kUncommented,
       "\\cm");
-  fLpsrLayout->addLpsrVarValAssociation (indent);
+  fLpsrLayout->addlpsrLilypondVarValAssoc (indent);
   
   // add the "indent" association to the layout
-  SlpsrVarValAssociation pageCount =
-    lpsrVarValAssociation::create (
+  SlpsrLilypondVarValAssoc pageCount =
+    lpsrLilypondVarValAssoc::create (
       "page-cout", "0",
-      lpsrVarValAssociation::kEqualSign,
-      lpsrVarValAssociation::kNoQuotesAroundValue,
-      lpsrVarValAssociation::kCommented);
-  fLpsrLayout->addLpsrVarValAssociation (pageCount);
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kCommented);
+  fLpsrLayout->addlpsrLilypondVarValAssoc (pageCount);
   
   // add the "indent" association to the layout
-  SlpsrVarValAssociation systemCount =
-    lpsrVarValAssociation::create (
+  SlpsrLilypondVarValAssoc systemCount =
+    lpsrLilypondVarValAssoc::create (
       "system-count", "0",
-      lpsrVarValAssociation::kEqualSign,
-      lpsrVarValAssociation::kNoQuotesAroundValue,
-      lpsrVarValAssociation::kCommented);
-  fLpsrLayout->addLpsrVarValAssociation (systemCount);
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kCommented);
+  fLpsrLayout->addlpsrLilypondVarValAssoc (systemCount);
   
   // add standard postamble
   appendPostamble ();
@@ -134,28 +134,28 @@ void xml2LpsrVisitor::prependPreamble () {
   // prepending elements in reverse order
   
   stringstream s;
-  std::string globalSfaffSize;
+  std::string globalSfaffSizeAsString;
 
   s << fGlobalStaffSize;
-  s >> globalSfaffSize;
+  s >> globalSfaffSizeAsString;
   
-  SlpsrSchemeVariableValueAssociation svva1 =
-        lpsrSchemeVariableValueAssociation:: create(
-          "set-global-staff-size", globalSfaffSize,
-          lpsrSchemeVariableValueAssociation::kCommented);
-  fLpsrSeq->prependElementToSequence (svva1);
+  SlpsrSchemeVarValAssoc staffSize =
+        lpsrSchemeVarValAssoc:: create(
+          "set-global-staff-size", globalSfaffSizeAsString,
+          lpsrSchemeVarValAssoc::kCommented);
+  fLpsrSeq->prependElementToSequence (staffSize);
 
   SlpsrComment com =
     lpsrComment::create("uncomment the following to keep original scores global size");
   fLpsrSeq->prependElementToSequence (com);
   
-  SlpsrVarValAssociation vva1 =
-        lpsrVarValAssociation:: create(
+  SlpsrLilypondVarValAssoc version =
+        lpsrLilypondVarValAssoc:: create(
           "\\version", "2.19",
-          lpsrVarValAssociation::kSpace,
-          lpsrVarValAssociation::kQuotesAroundValue,
-          lpsrVarValAssociation::kUncommented);
-  fLpsrSeq->prependElementToSequence (vva1);
+          lpsrLilypondVarValAssoc::kSpace,
+          lpsrLilypondVarValAssoc::kQuotesAroundValue,
+          lpsrLilypondVarValAssoc::kUncommented);
+  fLpsrSeq->prependElementToSequence (version);
 }
  
 void xml2LpsrVisitor::appendPostamble () {
@@ -163,25 +163,25 @@ void xml2LpsrVisitor::appendPostamble () {
     lpsrComment::create("choose \\break below to keep the original line breaks");
   fLpsrSeq->appendElementToSequence (com1);
 
-  SlpsrVarValAssociation vva1 =
-        lpsrVarValAssociation:: create(
+  SlpsrLilypondVarValAssoc myBreak1 =
+        lpsrLilypondVarValAssoc:: create(
           "myBreak", "{ \\break }",
-          lpsrVarValAssociation::kEqualSign,
-          lpsrVarValAssociation::kNoQuotesAroundValue,
-          lpsrVarValAssociation::kUncommented);
-  fLpsrSeq->appendElementToSequence (vva1);
+          lpsrLilypondVarValAssoc::kEqualSign,
+          lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+          lpsrLilypondVarValAssoc::kUncommented);
+  fLpsrSeq->appendElementToSequence (myBreak1);
 
   SlpsrComment com2 =
     lpsrComment::create("choose {} below to let lpsr determine where to break lines");
   fLpsrSeq->appendElementToSequence (com2);
 
-  SlpsrVarValAssociation vva2 =
-        lpsrVarValAssociation:: create(
+  SlpsrLilypondVarValAssoc myBreak2 =
+        lpsrLilypondVarValAssoc:: create(
           "myBreak", "{}",
-          lpsrVarValAssociation::kEqualSign,
-          lpsrVarValAssociation::kNoQuotesAroundValue,
-          lpsrVarValAssociation::kCommented);
-  fLpsrSeq->appendElementToSequence (vva2);
+          lpsrLilypondVarValAssoc::kEqualSign,
+          lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+          lpsrLilypondVarValAssoc::kCommented);
+  fLpsrSeq->appendElementToSequence (myBreak2);
 }
 
 //______________________________________________________________________________

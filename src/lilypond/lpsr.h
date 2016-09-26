@@ -47,7 +47,8 @@ class lpsrVisitor;
 
 class lpsrElement;
 
-class lpsrVarValAssociation;
+class lpsrLilypondVarValAssoc;
+class lpsrSchemeVarValAssoc;
 
 class lpsrPart;
 class lpsrLyrics;
@@ -60,24 +61,26 @@ class lpsrNote;
 class lpsrPaper;
 class lpsrLayout;
 
-typedef SMARTP<lpsrElement>           SlpsrElement;
+typedef SMARTP<lpsrElement>             SlpsrElement;
 
-typedef SMARTP<lpsrVarValAssociation> SlpsrVarValAssociation;
+typedef SMARTP<lpsrLilypondVarValAssoc> SlpsrLilypondVarValAssoc;
+typedef SMARTP<lpsrSchemeVarValAssoc>   SlpsrSchemeVarValAssoc;
 
-typedef SMARTP<lpsrPart>              SlpsrPart;
-typedef SMARTP<lpsrLyrics>            SlpsrLyrics;
-typedef SMARTP<lpsrDuration>          SlpsrDuration;
-typedef SMARTP<lpsrDynamics>          SlpsrDynamics;
-typedef SMARTP<lpsrWedge>             SlpsrWedge;
-typedef SMARTP<lpsrChord>             SlpsrChord;
-typedef SMARTP<lpsrNote>              SlpsrNote;
+typedef SMARTP<lpsrPart>                SlpsrPart;
+typedef SMARTP<lpsrLyrics>              SlpsrLyrics;
+typedef SMARTP<lpsrDuration>            SlpsrDuration;
+typedef SMARTP<lpsrDynamics>            SlpsrDynamics;
+typedef SMARTP<lpsrWedge>               SlpsrWedge;
+typedef SMARTP<lpsrChord>               SlpsrChord;
+typedef SMARTP<lpsrNote>                SlpsrNote;
 
-typedef SMARTP<lpsrPaper>             SlpsrPaper;
-typedef SMARTP<lpsrLayout>            SlpsrLayout;
+typedef SMARTP<lpsrPaper>               SlpsrPaper;
+typedef SMARTP<lpsrLayout>              SlpsrLayout;
 
 EXP std::ostream& operator<< (std::ostream& os, const SlpsrElement& elt);
 
-EXP std::ostream& operator<< (std::ostream& os, const SlpsrVarValAssociation& elt);
+EXP std::ostream& operator<< (std::ostream& os, const SlpsrLilypondVarValAssoc& elt);
+EXP std::ostream& operator<< (std::ostream& os, const SlpsrSchemeVarValAssoc& elt);
 
 EXP std::ostream& operator<< (std::ostream& os, const SlpsrDuration& dur);
 EXP std::ostream& operator<< (std::ostream& os, const SlpsrDynamics& dyn);
@@ -358,17 +361,17 @@ class EXP lpsrChord : public lpsrElement {
 typedef SMARTP<lpsrChord> SlpsrChord;
 
 /*!
-\brief A lpsr variable/value association representation.
+\brief A lpsr LilyPond variable/value association representation.
 */
 //______________________________________________________________________________
-class EXP lpsrVarValAssociation : public lpsrElement {
+class EXP lpsrLilypondVarValAssoc : public lpsrElement {
   public:
 
     enum VarValSeparator   { kSpace, kEqualSign };
     enum QuotesKind        { kQuotesAroundValue, kNoQuotesAroundValue };
     enum CommentedKind     { kCommented, kUncommented };
 
-    static SMARTP<lpsrVarValAssociation> create(
+    static SMARTP<lpsrLilypondVarValAssoc> create(
               std::string     variableName,
               std::string     value, 
               VarValSeparator varValSeparator,
@@ -376,7 +379,7 @@ class EXP lpsrVarValAssociation : public lpsrElement {
               CommentedKind   commentKind,
               std::string     unit = "");
     
-    void    changeAssociation (std::string value);
+    void    changeAssoc (std::string value);
     
     std::string getVariableValue () const { return fVariableValue; };
 
@@ -385,14 +388,14 @@ class EXP lpsrVarValAssociation : public lpsrElement {
 
   protected:
 
-    lpsrVarValAssociation(
+    lpsrLilypondVarValAssoc(
               std::string     variableName,
               std::string     value, 
               VarValSeparator varValSeparator,
               QuotesKind      quotesKind,
               CommentedKind   commentedKind,
               std::string     unit = "");
-    virtual ~lpsrVarValAssociation();
+    virtual ~lpsrLilypondVarValAssoc();
   
   private:
 
@@ -403,23 +406,23 @@ class EXP lpsrVarValAssociation : public lpsrElement {
     CommentedKind   fCommentedKind;
     std::string     fUnit;
 };
-typedef SMARTP<lpsrVarValAssociation> SlpsrVarValAssociation;
+typedef SMARTP<lpsrLilypondVarValAssoc> SlpsrLilypondVarValAssoc;
 
 /*!
 \brief A lpsr Scheme variable/value association representation.
 */
 //______________________________________________________________________________
-class EXP lpsrSchemeVariableValueAssociation : public lpsrElement {
+class EXP lpsrSchemeVarValAssoc : public lpsrElement {
   public:
 
     enum CommentedKind     { kCommented, kUncommented };
 
-    static SMARTP<lpsrSchemeVariableValueAssociation> create(
+    static SMARTP<lpsrSchemeVarValAssoc> create(
               std::string     variableName,
               std::string     value, 
               CommentedKind   commentKind );
     
-    void    changeAssociation (std::string value);
+    void    changeAssoc (std::string value);
     
     std::string getVariableValue () const { return fVariableValue; };
 
@@ -428,11 +431,11 @@ class EXP lpsrSchemeVariableValueAssociation : public lpsrElement {
 
   protected:
 
-    lpsrSchemeVariableValueAssociation(
+    lpsrSchemeVarValAssoc(
               std::string     variableName,
               std::string     value, 
               CommentedKind   commentedKind );
-    virtual ~lpsrSchemeVariableValueAssociation();
+    virtual ~lpsrSchemeVarValAssoc();
   
   private:
 
@@ -440,7 +443,7 @@ class EXP lpsrSchemeVariableValueAssociation : public lpsrElement {
     std::string     fVariableValue;
     CommentedKind   fCommentedKind;
 };
-typedef SMARTP<lpsrSchemeVariableValueAssociation> SlpsrSchemeVariableValueAssociation;
+typedef SMARTP<lpsrSchemeVarValAssoc> SlpsrSchemeVarValAssoc;
 
 /*!
 \brief A lpsr header representation.
@@ -576,8 +579,11 @@ class EXP lpsrLayout : public lpsrElement {
 
     static SMARTP<lpsrLayout> create();
     
-    void addLpsrVarValAssociation (SlpsrVarValAssociation assoc)
-      { fContents.push_back(assoc); }
+    void addlpsrLilypondVarValAssoc (SlpsrLilypondVarValAssoc assoc)
+      { fLpsrLilypondVarValAssocs.push_back(assoc); }
+      
+    void addLpsrSchemeVarValAssoc (SlpsrSchemeVarValAssoc assoc)
+      { fLpsrSchemeVarValAssocs.push_back(assoc); }
     
     virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
@@ -589,7 +595,8 @@ class EXP lpsrLayout : public lpsrElement {
   
   private:
   
-    std::vector<SlpsrVarValAssociation> fContents;
+    std::vector<SlpsrLilypondVarValAssoc> fLpsrLilypondVarValAssocs;
+    std::vector<SlpsrSchemeVarValAssoc>   fLpsrSchemeVarValAssocs;
 };
 typedef SMARTP<lpsrLayout> SlpsrLayout;
 
