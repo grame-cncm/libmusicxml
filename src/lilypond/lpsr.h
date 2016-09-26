@@ -109,7 +109,7 @@ class EXP lpsrElement : public smartable {
 
   protected:
  
-    static haendel hdl;
+    static indenter idtr;
     
     lpsrElement(bool debug);
     virtual ~lpsrElement();
