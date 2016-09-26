@@ -23,7 +23,6 @@
 #include "rational.h"
 #include "exports.h"
 #include "typedefs.h"
-
 #include "utilities.h"
 
 namespace MusicXML2 
@@ -40,13 +39,16 @@ namespace MusicXML2
               LPSR (LilyPond Semantic Representation)
               
     - the base class is lpsrElement
-    - printStructure() methods produce a text of the lpsrElement tree
+    - printLpsrStructure() methods produce a text of the lpsrElement tree
     - printLilypondCode() methods produce the LilyPond code
 */
 
 class lpsrVisitor;
 
 class lpsrElement;
+
+class lpsrVarValAssociation;
+
 class lpsrPart;
 class lpsrLyrics;
 class lpsrDuration;
@@ -58,19 +60,25 @@ class lpsrNote;
 class lpsrPaper;
 class lpsrLayout;
 
-typedef SMARTP<lpsrElement>      SlpsrElement;
-typedef SMARTP<lpsrPart>         SlpsrPart;
-typedef SMARTP<lpsrLyrics>       SlpsrLyrics;
-typedef SMARTP<lpsrDuration> SlpsrDuration;
-typedef SMARTP<lpsrDynamics>     SlpsrDynamics;
-typedef SMARTP<lpsrWedge>        SlpsrWedge;
-typedef SMARTP<lpsrChord>        SlpsrChord;
-typedef SMARTP<lpsrNote>         SlpsrNote;
+typedef SMARTP<lpsrElement>           SlpsrElement;
 
-typedef SMARTP<lpsrPaper>        SlpsrPaper;
-typedef SMARTP<lpsrLayout>       SlpsrLayout;
+typedef SMARTP<lpsrVarValAssociation> SlpsrVarValAssociation;
+
+typedef SMARTP<lpsrPart>              SlpsrPart;
+typedef SMARTP<lpsrLyrics>            SlpsrLyrics;
+typedef SMARTP<lpsrDuration>          SlpsrDuration;
+typedef SMARTP<lpsrDynamics>          SlpsrDynamics;
+typedef SMARTP<lpsrWedge>             SlpsrWedge;
+typedef SMARTP<lpsrChord>             SlpsrChord;
+typedef SMARTP<lpsrNote>              SlpsrNote;
+
+typedef SMARTP<lpsrPaper>             SlpsrPaper;
+typedef SMARTP<lpsrLayout>            SlpsrLayout;
 
 EXP std::ostream& operator<< (std::ostream& os, const SlpsrElement& elt);
+
+EXP std::ostream& operator<< (std::ostream& os, const SlpsrVarValAssociation& elt);
+
 EXP std::ostream& operator<< (std::ostream& os, const SlpsrDuration& dur);
 EXP std::ostream& operator<< (std::ostream& os, const SlpsrDynamics& dyn);
 EXP std::ostream& operator<< (std::ostream& os, const SlpsrWedge& wdg);
@@ -93,7 +101,7 @@ class EXP lpsrElement : public smartable {
  
     static SMARTP<lpsrElement> create(bool debug);
     
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -151,7 +159,7 @@ class EXP lpsrDuration : public lpsrElement {
           (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots);
       }
     
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   private:
@@ -218,7 +226,7 @@ class EXP lpsrNote : public lpsrElement {
     std::list<SlpsrDynamics> getNoteDynamics () { return fNoteDynamics; };
     std::list<SlpsrWedge>    getNoteWedges   () { return fNoteWedges; };
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -266,7 +274,7 @@ class EXP lpsrParallel : public lpsrElement {
     SlpsrElement getLastElementOfParallel() { return fParallelElements.back(); }
     void         removeLastElementOfParallel () { fParallelElements.pop_back(); }
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -299,7 +307,7 @@ class EXP lpsrSequence : public lpsrElement {
     SlpsrElement getLastElementOfSequence() { return fSequenceElements.back(); }
     void         removeLastElementOfSequence () { fSequenceElements.pop_back(); }
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -329,7 +337,7 @@ class EXP lpsrChord : public lpsrElement {
     void addDynamics (SlpsrDynamics dyn);
     void addWedge    (SlpsrWedge    wdg);
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -353,36 +361,38 @@ typedef SMARTP<lpsrChord> SlpsrChord;
 \brief A lpsr variable/value association representation.
 */
 //______________________________________________________________________________
-class EXP lpsrVariableValueAssociation : public lpsrElement {
+class EXP lpsrVarValAssociation : public lpsrElement {
   public:
 
     enum VarValSeparator   { kSpace, kEqualSign };
     enum QuotesKind        { kQuotesAroundValue, kNoQuotesAroundValue };
     enum CommentedKind     { kCommented, kUncommented };
 
-    static SMARTP<lpsrVariableValueAssociation> create(
+    static SMARTP<lpsrVarValAssociation> create(
               std::string     variableName,
               std::string     value, 
               VarValSeparator varValSeparator,
               QuotesKind      quotesKind,
-              CommentedKind   commentKind );
+              CommentedKind   commentKind,
+              std::string     unit = "");
     
     void    changeAssociation (std::string value);
     
     std::string getVariableValue () const { return fVariableValue; };
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
 
-    lpsrVariableValueAssociation(
+    lpsrVarValAssociation(
               std::string     variableName,
               std::string     value, 
               VarValSeparator varValSeparator,
               QuotesKind      quotesKind,
-              CommentedKind   commentedKind );
-    virtual ~lpsrVariableValueAssociation();
+              CommentedKind   commentedKind,
+              std::string     unit = "");
+    virtual ~lpsrVarValAssociation();
   
   private:
 
@@ -391,8 +401,9 @@ class EXP lpsrVariableValueAssociation : public lpsrElement {
     VarValSeparator fVarValSeparator;
     QuotesKind      fQuotesKind;
     CommentedKind   fCommentedKind;
+    std::string     fUnit;
 };
-typedef SMARTP<lpsrVariableValueAssociation> SlpsrVariableValueAssociation;
+typedef SMARTP<lpsrVarValAssociation> SlpsrVarValAssociation;
 
 /*!
 \brief A lpsr Scheme variable/value association representation.
@@ -412,7 +423,7 @@ class EXP lpsrSchemeVariableValueAssociation : public lpsrElement {
     
     std::string getVariableValue () const { return fVariableValue; };
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -472,7 +483,7 @@ class EXP lpsrHeader : public lpsrElement {
     void                    setScoreInstrument (S_score_instrument val) { fScoreInstrument = val; }
     S_score_instrument      getScoreInstrument () const                 { return fScoreInstrument; }
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -531,7 +542,7 @@ class EXP lpsrPaper : public lpsrElement {
     void    setPageTopSpace       (float val) { fPageTopSpace = val; }
     float   getPageTopSpace       () const    { return fPageTopSpace; }
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -565,7 +576,10 @@ class EXP lpsrLayout : public lpsrElement {
 
     static SMARTP<lpsrLayout> create();
     
-    virtual void printStructure (std::ostream& os);
+    void addLpsrVarValAssociation (SlpsrVarValAssociation assoc)
+      { fContents.push_back(assoc); }
+    
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -574,6 +588,8 @@ class EXP lpsrLayout : public lpsrElement {
     virtual ~lpsrLayout();
   
   private:
+  
+    std::vector<SlpsrVarValAssociation> fContents;
 };
 typedef SMARTP<lpsrLayout> SlpsrLayout;
 
@@ -595,7 +611,7 @@ class EXP lpsrPart : public lpsrElement {
 
     void          addLyricsToPart (SlpsrLyrics lyr) { fPartLyrics.push_back(lyr); }
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -629,7 +645,7 @@ class EXP lpsrBarLine : public lpsrElement {
     
     static SMARTP<lpsrBarLine> create(int nextBarNumber);
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -656,7 +672,7 @@ class EXP lpsrComment : public lpsrElement {
 
     static SMARTP<lpsrComment> create(std::string contents, GapKind gapKind = kNoGapAfterwards);
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -682,7 +698,7 @@ class EXP lpsrBreak : public lpsrElement {
     
     static SMARTP<lpsrBreak> create(int nextBarNumber);
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -707,7 +723,7 @@ class EXP lpsrBarNumberCheck : public lpsrElement {
     
     static SMARTP<lpsrBarNumberCheck> create(int nextBarNumber);
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -744,7 +760,7 @@ class EXP lpsrTuplet : public lpsrElement {
 
     void addElementToTuplet (SlpsrElement elem) { fTupletContents.push_back(elem); }
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -780,7 +796,7 @@ class EXP lpsrBeam : public lpsrElement {
 
     BeamKind getBeamKind () const { return fBeamKind; }
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -812,7 +828,7 @@ class EXP lpsrDynamics : public lpsrElement {
 
     DynamicsKind getDynamicsKind () const { return fDynamicsKind; }
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -841,7 +857,7 @@ class EXP lpsrWedge : public lpsrElement {
 
     WedgeKind getWedgeKind () const        { return fWedgeKind; }
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -868,7 +884,7 @@ class EXP lpsrLyrics : public lpsrElement {
     
     std::string getContents () const { return fLyricsContents; }
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -896,7 +912,7 @@ class EXP lpsrTime : public lpsrElement {
     
     static SMARTP<lpsrTime> create(int numerator, int denominator, bool generateNumericalTime);
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -922,7 +938,7 @@ class EXP lpsrClef : public lpsrElement {
     
     static SMARTP<lpsrClef> create(std::string clefName);
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -949,7 +965,7 @@ class EXP lpsrKey : public lpsrElement {
 
     static SMARTP<lpsrKey> create(std::string tonic, KeyMode keyMode);
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -976,7 +992,7 @@ class EXP lpsrMidi : public lpsrElement {
 
     static SMARTP<lpsrMidi> create();
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -1004,7 +1020,7 @@ class EXP lpsrScore : public lpsrElement {
     SlpsrLayout   getScoreLayout        () const { return fScoreLayout; }
     SlpsrMidi     getScoreMidi          () const { return fScoreMidi; }
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -1033,7 +1049,7 @@ class EXP lpsrNewstaffCommand : public lpsrElement {
      
     void addElementToNewStaff (SlpsrElement elem) { fNewStaffElements.push_back(elem); }
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -1060,7 +1076,7 @@ class EXP lpsrNewlyricsCommand : public lpsrElement {
      
     void addElementToNewStaff (SlpsrElement elem) { fNewStaffElements.push_back(elem); }
 
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:
@@ -1085,7 +1101,7 @@ class EXP lpsrVariableUseCommand : public lpsrElement {
 
     static SMARTP<lpsrVariableUseCommand> create(std::string variableName);
     
-    virtual void printStructure (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode (std::ostream& os);
 
   protected:

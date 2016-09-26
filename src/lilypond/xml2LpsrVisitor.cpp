@@ -23,8 +23,9 @@
 #include "tree_browser.h"
 #include "xml_tree_browser.h"
 
-#include "utilities.h"
 #include "rational.h"
+#include "utilities.h"
+
 #include "xml2LpsrVisitor.h"
 #include "xmlPartSummaryVisitor.h"
 #include "xmlPart2LpsrVisitor.h"
@@ -39,8 +40,67 @@ xml2LpsrVisitor::xml2LpsrVisitor( translationSwitches& ts ) :
   fTranslationSwitches(ts), 
   fCurrentStaffIndex(0)
 {
-  fMillimeters = -1;
-  fTenths      = -1;
+  fMillimeters     = -1;
+  fGlobalStaffSize = -1.0;
+  fTenths          = -1;
+  
+  // create the header element
+  fLpsrHeader = lpsrHeader::create();
+
+  // create the paper element
+  fLpsrPaper = lpsrPaper::create();
+  
+  // create the layout element
+  fLpsrLayout = lpsrLayout::create();
+   
+  // create the score element
+  fLpsrScore = lpsrScore::create();
+
+   // create the implicit lpsrSequence element FIRST THING!
+  fLpsrSeq = lpsrSequence::create(lpsrSequence::kEndOfLine);
+    
+  // append the header to the lpsrSequence
+  SlpsrElement header = fLpsrHeader;
+  fLpsrSeq->appendElementToSequence (header);
+
+  // append the paper to the lpsrSequence
+  SlpsrElement paper = fLpsrPaper;
+  fLpsrSeq->appendElementToSequence (paper);
+
+  // append the layout to the lpsrSequence
+  SlpsrElement layout = fLpsrLayout;
+  fLpsrSeq->appendElementToSequence (layout);
+
+  // add the "indent" association to the layout
+  SlpsrVarValAssociation indent =
+    lpsrVarValAssociation::create (
+      "indent", "0",
+      lpsrVarValAssociation::kEqualSign,
+      lpsrVarValAssociation::kNoQuotesAroundValue,
+      lpsrVarValAssociation::kUncommented,
+      "\\cm");
+  fLpsrLayout->addLpsrVarValAssociation (indent);
+  
+  // add the "indent" association to the layout
+  SlpsrVarValAssociation pageCount =
+    lpsrVarValAssociation::create (
+      "page-cout", "0",
+      lpsrVarValAssociation::kEqualSign,
+      lpsrVarValAssociation::kNoQuotesAroundValue,
+      lpsrVarValAssociation::kCommented);
+  fLpsrLayout->addLpsrVarValAssociation (pageCount);
+  
+  // add the "indent" association to the layout
+  SlpsrVarValAssociation systemCount =
+    lpsrVarValAssociation::create (
+      "system-count", "0",
+      lpsrVarValAssociation::kEqualSign,
+      lpsrVarValAssociation::kNoQuotesAroundValue,
+      lpsrVarValAssociation::kCommented);
+  fLpsrLayout->addLpsrVarValAssociation (systemCount);
+  
+  // add standard postamble
+  appendPostamble ();
   
   fVisitingPageLayout = false;
 }
@@ -55,7 +115,7 @@ SlpsrElement xml2LpsrVisitor::convertToLpsr (const Sxmlelement& xml )
     // browse the xmlelement tree
     browser.browse(*xml);
     // the stack top contains the resulting lpsrElement tree
-    ly = fLpsrseq;
+    ly = fLpsrSeq;
   }
   return ly;
 }
@@ -66,85 +126,69 @@ void xml2LpsrVisitor::appendElementToSequence (SlpsrElement& elt) {
 //  bool doDebug = false;
 
   if (doDebug) cout << "!!! appendElementToSequence : " << elt << std::endl;
-  fLpsrseq->appendElementToSequence (elt);
+  fLpsrSeq->appendElementToSequence (elt);
 }
 
 //______________________________________________________________________________
 void xml2LpsrVisitor::prependPreamble () {
   // prepending elements in reverse order
   
+  stringstream s;
+  std::string globalSfaffSize;
+
+  s << fGlobalStaffSize;
+  s >> globalSfaffSize;
+  
   SlpsrSchemeVariableValueAssociation svva1 =
         lpsrSchemeVariableValueAssociation:: create(
-          "set-global-staff-size", "26",
+          "set-global-staff-size", globalSfaffSize,
           lpsrSchemeVariableValueAssociation::kCommented);
-  fLpsrseq->prependElementToSequence (svva1);
+  fLpsrSeq->prependElementToSequence (svva1);
 
   SlpsrComment com =
     lpsrComment::create("uncomment the following to keep original scores global size");
-  fLpsrseq->prependElementToSequence (com);
+  fLpsrSeq->prependElementToSequence (com);
   
-  SlpsrVariableValueAssociation vva1 =
-        lpsrVariableValueAssociation:: create(
+  SlpsrVarValAssociation vva1 =
+        lpsrVarValAssociation:: create(
           "\\version", "2.19",
-          lpsrVariableValueAssociation::kSpace,
-          lpsrVariableValueAssociation::kQuotesAroundValue,
-          lpsrVariableValueAssociation::kUncommented);
-  fLpsrseq->prependElementToSequence (vva1);
+          lpsrVarValAssociation::kSpace,
+          lpsrVarValAssociation::kQuotesAroundValue,
+          lpsrVarValAssociation::kUncommented);
+  fLpsrSeq->prependElementToSequence (vva1);
 }
  
 void xml2LpsrVisitor::appendPostamble () {
   SlpsrComment com1 =
     lpsrComment::create("choose \\break below to keep the original line breaks");
-  fLpsrseq->appendElementToSequence (com1);
+  fLpsrSeq->appendElementToSequence (com1);
 
-  SlpsrVariableValueAssociation vva1 =
-        lpsrVariableValueAssociation:: create(
+  SlpsrVarValAssociation vva1 =
+        lpsrVarValAssociation:: create(
           "myBreak", "{ \\break }",
-          lpsrVariableValueAssociation::kEqualSign,
-          lpsrVariableValueAssociation::kNoQuotesAroundValue,
-          lpsrVariableValueAssociation::kUncommented);
-  fLpsrseq->appendElementToSequence (vva1);
+          lpsrVarValAssociation::kEqualSign,
+          lpsrVarValAssociation::kNoQuotesAroundValue,
+          lpsrVarValAssociation::kUncommented);
+  fLpsrSeq->appendElementToSequence (vva1);
 
   SlpsrComment com2 =
     lpsrComment::create("choose {} below to let lpsr determine where to break lines");
-  fLpsrseq->appendElementToSequence (com2);
+  fLpsrSeq->appendElementToSequence (com2);
 
-  SlpsrVariableValueAssociation vva2 =
-        lpsrVariableValueAssociation:: create(
+  SlpsrVarValAssociation vva2 =
+        lpsrVarValAssociation:: create(
           "myBreak", "{}",
-          lpsrVariableValueAssociation::kEqualSign,
-          lpsrVariableValueAssociation::kNoQuotesAroundValue,
-          lpsrVariableValueAssociation::kCommented);
-  fLpsrseq->appendElementToSequence (vva2);
+          lpsrVarValAssociation::kEqualSign,
+          lpsrVarValAssociation::kNoQuotesAroundValue,
+          lpsrVarValAssociation::kCommented);
+  fLpsrSeq->appendElementToSequence (vva2);
 }
 
 //______________________________________________________________________________
 void xml2LpsrVisitor::visitStart ( S_score_partwise& elt )
 {
-   // create the implicit lpsrSequence element FIRST THING!
-  fLpsrseq = lpsrSequence::create(lpsrSequence::kEndOfLine);
-  
-  // create the header element
-  fLpsrHeader = lpsrHeader::create();
+  // store the element in the header
   fLpsrHeader->setScorePartwise(elt);
-  // add is as the second lpsrSequence element
-  SlpsrElement header = fLpsrHeader;
-  fLpsrseq->appendElementToSequence (header);
-
-  // create the paper element
-  fLpsrPaper = lpsrPaper::create();
-  // add is as the second lpsrSequence element
-  SlpsrElement paper = fLpsrPaper;
-  fLpsrseq->appendElementToSequence (paper);
-
-  // create the layout element
-  fLpsrlayout = lpsrLayout::create();
-  // add it as the third lpsrSequence element
-  SlpsrElement layout = fLpsrlayout;
-  fLpsrseq->appendElementToSequence (layout);
-  
-  // add standard postamble
-  appendPostamble ();
 }
 
 //______________________________________________________________________________
@@ -155,12 +199,6 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
   // from the <scaling> element
   prependPreamble ();
 
-  // create the score element
-  fLpsrScore = lpsrScore::create();
-  // add is as the last lpsrSequence element
-  SlpsrElement score = fLpsrScore;
-  fLpsrseq->appendElementToSequence (score);
-  
   // get score parallel music
   SlpsrParallel par = fLpsrScore->getScoreParallelMusic();
   
@@ -175,11 +213,18 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     
     // add it to the score parallel music
     par->addElementToParallel(nstf);
+    par->addElementToParallel(nstf); // JMI TEST
+    par->addElementToParallel(nstf); // JMI TEST
     
     // add the part name to the new staff
     SlpsrVariableUseCommand cmd = lpsrVariableUseCommand::create(part->getPartName());
     nstf->addElementToNewStaff(cmd);
   } // for
+  
+  // append the score to the lpsrSequence
+  // only now to place it after the postamble
+  SlpsrElement score = fLpsrScore;
+  fLpsrSeq->appendElementToSequence (score);
 }
 
 //______________________________________________________________________________
@@ -212,6 +257,9 @@ void xml2LpsrVisitor::visitStart ( S_millimeters& elt )
 { 
   fMillimeters = (int)(*elt);
   cout << "--> fMillimeters = " << fMillimeters << endl;
+  
+  fGlobalStaffSize = fMillimeters*72.27/25.4;
+  cout << "--> fGlobalStaffSize = " << fGlobalStaffSize << endl;
 }
 void xml2LpsrVisitor::visitStart ( S_tenths& elt )
 {
@@ -345,8 +393,8 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
 
     stringstream s1;
     s1 <<
-      "Part" << stringNumbersToEnglishWords(partID) <<
-      "Voice" << int2EnglishWord(targetVoice);
+      "Part" << stringNumbersToEnglishWords (partID) <<
+      "Voice" << int2EnglishWord (targetVoice);
     string partName = s1.str();
         
     // create the lpsrPart
@@ -354,8 +402,10 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
       partName,
       fTranslationSwitches.fGenerateAbsoluteCode,
       fTranslationSwitches.fGenerateNumericalTime);
-    // register it
+      
+    // register it in this visitors's map
     fLpsrPartsMap[partID] = part;
+    
     // append it to the lpsrElement sequence
     SlpsrElement p = part;
     appendElementToSequence (p);
@@ -401,11 +451,13 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
         result+=" ";
       } // for
  
-      // create lyrics
+      // create the lyrics
       SlpsrLyrics lyrics = lpsrLyrics::create(lyricsName, result);
+      
       // append it to the sequence
       SlpsrElement elem = lyrics;  
       appendElementToSequence (elem);
+      
       // add the lyrics to the part
       part->addLyricsToPart(lyrics);
     } // for

@@ -18,6 +18,7 @@
 #include <stdlib.h>     /* abort, NULL */
 
 #include "utilities.h"
+
 #include "lpsr.h"
 #include "xmlPartSummaryVisitor.h"
 

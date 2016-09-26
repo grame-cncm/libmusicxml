@@ -132,17 +132,18 @@ class EXP xml2LpsrVisitor :
     translationSwitches fTranslationSwitches;
     
     // the implicit sequence containing all the generated code
-    SlpsrSequence   fLpsrseq; 
+    SlpsrSequence   fLpsrSeq; 
     
     // the header, paper and layout blocks to be generated
     SlpsrHeader     fLpsrHeader;
     SlpsrPaper      fLpsrPaper;
-    SlpsrLayout     fLpsrlayout;
+    SlpsrLayout     fLpsrLayout;
         
     // geometry of the page
     //   - everything in MusicXML is measured with integers in tenths of interline staff space
     //   - the <scaling> element specifies how many millimeters are equal to how many tenths
     int             fMillimeters;
+    float           fGlobalStaffSize;
     int             fTenths;
 
     // preventing top-margin and the like to be taken from <system-layout>
