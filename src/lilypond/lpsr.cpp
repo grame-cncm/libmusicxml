@@ -475,7 +475,7 @@ void lpsrSequence::printStructure(ostream& os)
 
 void lpsrSequence::printLilyPondCode(ostream& os)
 {
-  vector<SlpsrElement>::const_iterator i;
+  std::list<SlpsrElement>::const_iterator i;
   for (i=fSequenceElements.begin(); i!=fSequenceElements.end(); i++) {
     os << (*i);
     if (fElementsSeparator == kEndOfLine) os << hdl;

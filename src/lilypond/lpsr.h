@@ -293,7 +293,9 @@ class EXP lpsrSequence : public lpsrElement {
 
     static SMARTP<lpsrSequence> create(ElementsSeparator elementsSeparator);
 
-    void         appendElementToSequence (SlpsrElement elem) { fSequenceElements.push_back(elem); }
+    void         prependElementToSequence (SlpsrElement elem) { fSequenceElements.push_front(elem); }
+    void         appendElementToSequence  (SlpsrElement elem) { fSequenceElements.push_back(elem); }
+    
     SlpsrElement getLastElementOfSequence() { return fSequenceElements.back(); }
     void         removeLastElementOfSequence () { fSequenceElements.pop_back(); }
 
@@ -307,8 +309,8 @@ class EXP lpsrSequence : public lpsrElement {
     
   private:
   
-    std::vector<SlpsrElement> fSequenceElements;
-    ElementsSeparator         fElementsSeparator;
+    std::list<SlpsrElement> fSequenceElements;
+    ElementsSeparator       fElementsSeparator;
 
 };
 typedef SMARTP<lpsrSequence> SlpsrSequence;

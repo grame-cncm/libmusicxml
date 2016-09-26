@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
       break;
     } //  switch
 
-  int   remainingArgs = nonOptionArgs;
+  // int   remainingArgs = nonOptionArgs;
 
   translationSwitches  ts;
   ts.fGenerateAbsoluteCode =  generateAbsoluteCode;
@@ -187,8 +187,8 @@ int main(int argc, char *argv[])
     cerr << 
       "Launching conversion to LilyPond with libmusicxml2 v" << 
       musicxmllibVersionStr() <<
-      " / xml2lpsr v" <<
-      musicxml2lpsrVersionStr() << 
+      " / xml2Lpsr v" <<
+      musicxml2LpsrVersionStr() << 
       endl <<
       "The options are:" << endl <<
       "  generateAbsoluteCode:  " << string(generateAbsoluteCode ? "true" : "false") << endl <<
@@ -202,9 +202,9 @@ int main(int argc, char *argv[])
   
   xmlErr err = kNoErr;
   if (!strcmp(file, "-"))
-    err = musicxmlfd2lpsr(stdin, ts, cout);
+    err = musicxmlFd2Lpsr (stdin, ts, cout);
   else
-    err = musicxmlfile2lpsr(file, ts, cout);
+    err = musicxmlFile2Lpsr (file, ts, cout);
   if (err) {
     cout << "conversion failed" << endl;
   }
