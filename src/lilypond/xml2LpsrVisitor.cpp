@@ -36,9 +36,10 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-xml2LpsrVisitor::xml2LpsrVisitor( translationSwitches& ts ) :
-  fTranslationSwitches(ts), 
-  fCurrentStaffIndex(0)
+xml2LpsrVisitor::xml2LpsrVisitor( translationSwitches& ts )
+  :
+    fTranslationSwitches(ts), 
+    fCurrentStaffIndex(0)
 {
   fMillimeters     = -1;
   fGlobalStaffSize = -1.0;
@@ -182,7 +183,7 @@ void xml2LpsrVisitor::appendPostamble () {
 void xml2LpsrVisitor::visitStart ( S_score_partwise& elt )
 {
   // store the element in the header
-  fLpsrHeader->setScorePartwise(elt);
+// JMI  fLpsrHeader->setScorePartwise(elt);
 }
 
 //______________________________________________________________________________
@@ -245,28 +246,28 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
 
 //______________________________________________________________________________
 void xml2LpsrVisitor::visitStart ( S_work_number& elt )
-  { fLpsrHeader->setWorkNumber(elt); }
+  { fLpsrHeader->setWorkNumber(elt->getValue()); }
 
 void xml2LpsrVisitor::visitStart ( S_work_title& elt )
-  { fLpsrHeader->setWorkTitle(elt); }
+  { fLpsrHeader->setWorkTitle(elt->getValue()); }
   
 void xml2LpsrVisitor::visitStart ( S_movement_number& elt )
-  { fLpsrHeader->setMovementNumber(elt); }
+  { fLpsrHeader->setMovementNumber(elt->getValue()); }
 
 void xml2LpsrVisitor::visitStart ( S_movement_title& elt )
-  { fLpsrHeader->setMovementTitle(elt); }
+  { fLpsrHeader->setMovementTitle(elt->getValue()); }
 
 void xml2LpsrVisitor::visitStart ( S_creator& elt )
-  { fLpsrHeader->addCreator(elt); }
+  { fLpsrHeader->addCreator(elt->getValue()); }
 
 void xml2LpsrVisitor::visitStart ( S_rights& elt )
-  { fLpsrHeader->setRights(elt); }
+  { fLpsrHeader->setRights(elt->getValue()); }
 
 void xml2LpsrVisitor::visitStart ( S_software& elt )
-  { fLpsrHeader->addSoftware(elt); }
+  { fLpsrHeader->addSoftware(elt->getValue()); }
 
 void xml2LpsrVisitor::visitStart ( S_encoding_date& elt )
-  { fLpsrHeader->setEncodingDate(elt); }
+  { fLpsrHeader->setEncodingDate(elt->getValue()); }
 
 //______________________________________________________________________________
 void xml2LpsrVisitor::visitStart ( S_millimeters& elt )

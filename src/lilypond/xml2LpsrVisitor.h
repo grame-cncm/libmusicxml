@@ -86,11 +86,12 @@ class EXP xml2LpsrVisitor :
     // when information is present
     // ie converts relative-x/-y into dx/dy attributes
     // JMI
-    void generatePositions (bool state) { fTranslationSwitches.fGeneratePositions = state; }
+    void generatePositions (bool state)
+                  { fTranslationSwitches.fGeneratePositions = state; }
 
     static void addPosition ( 
       Sxmlelement elt, SlpsrElement& cmd, int yoffset);
-  
+      
   protected:
 
     virtual void visitStart ( S_score_partwise& elt);
@@ -125,6 +126,8 @@ class EXP xml2LpsrVisitor :
     virtual void visitStart ( S_score_part& elt);
     virtual void visitStart ( S_part_name& elt);
     virtual void visitStart ( S_part& elt);
+    
+    static indenter idtr;
 
   private:
   
@@ -188,3 +191,20 @@ class EXP xml2LpsrVisitor :
 
 
 #endif
+
+
+/*
+indent
+
+<part id="P1">
+  <measure number="1" width="234.76">
+    <print>
+      <system-layout>
+        <system-margins>
+          <left-margin>233.57</left-margin>
+          <right-margin>0.00</right-margin>
+          </system-margins>
+        <top-system-distance>188.31</top-system-distance>
+        </system-layout>
+      </print>
+*/

@@ -39,8 +39,10 @@ namespace MusicXML2
               LPSR (LilyPond Semantic Representation)
               
     - the base class is lpsrElement
-    - printLpsrStructure() methods produce a text of the lpsrElement tree
-    - printLilypondCode() methods produce the LilyPond code
+    - the lpsrElement tree can be converted to:
+        - a text description with         printLpsrStructure()
+        - a MusicXML text equivalent with printMusicXML()
+        - LilyPond source code with       printLilypondCode()
 */
 
 class lpsrVisitor;
@@ -93,6 +95,29 @@ EXP std::ostream& operator<< (std::ostream& os, const SlpsrLayout& chrd);
 
 
 /*!
+\brief Global variables.
+
+  An global variable is implemented as a static member of this class.
+*/
+//______________________________________________________________________________
+class EXP lpsrGlobalVariables {
+  public:
+    
+    enum CodeGenerationKind {
+      kLpsrStructure, kMusicXML, kLilypondCode};
+
+    static CodeGenerationKind getCodeGenerationKind ()
+      { return sCodeGenerationKind; }
+      
+    static void setCodeGenerationKind (CodeGenerationKind kind)
+      { sCodeGenerationKind = kind; }
+  
+  private:
+  
+    static CodeGenerationKind sCodeGenerationKind;
+};
+
+/*!
 \brief A generic lpsr element representation.
 
   An element is represented by its name and the
@@ -104,13 +129,16 @@ class EXP lpsrElement : public smartable {
  
     static SMARTP<lpsrElement> create(bool debug);
     
-    virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void print              (std::ostream& os);
 
-  protected:
- 
+    virtual void printMusicXML      (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
+
     static indenter idtr;
     
+  protected:
+     
     lpsrElement(bool debug);
     virtual ~lpsrElement();
 
@@ -162,8 +190,9 @@ class EXP lpsrDuration : public lpsrElement {
           (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots);
       }
     
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   private:
 
@@ -229,8 +258,9 @@ class EXP lpsrNote : public lpsrElement {
     std::list<SlpsrDynamics> getNoteDynamics () { return fNoteDynamics; };
     std::list<SlpsrWedge>    getNoteWedges   () { return fNoteWedges; };
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
  
@@ -277,8 +307,9 @@ class EXP lpsrParallelMusic : public lpsrElement {
     SlpsrElement getLastElementOfParallelMusic() { return fParallelMusicElements.back(); }
     void         removeLastElementOfParallelMusic () { fParallelMusicElements.pop_back(); }
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -310,8 +341,9 @@ class EXP lpsrSequence : public lpsrElement {
     SlpsrElement getLastElementOfSequence() { return fSequenceElements.back(); }
     void         removeLastElementOfSequence () { fSequenceElements.pop_back(); }
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -340,8 +372,9 @@ class EXP lpsrChord : public lpsrElement {
     void addDynamics (SlpsrDynamics dyn);
     void addWedge    (SlpsrWedge    wdg);
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -381,10 +414,12 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement {
     
     void    changeAssoc (std::string value);
     
+    std::string getVariableName  () const { return fVariableName; };
     std::string getVariableValue () const { return fVariableValue; };
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -426,8 +461,9 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement {
     
     std::string getVariableValue () const { return fVariableValue; };
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -456,38 +492,38 @@ class EXP lpsrHeader : public lpsrElement {
 
     static SMARTP<lpsrHeader> create();
     
-    void                    setScorePartwise   (S_score_partwise val)   { fScorePartwise = val; }
-    S_score_partwise        getScorePartwise   () const                 { return fScorePartwise; }
+    void                     setWorkNumber      (std::string val);
+    SlpsrLilypondVarValAssoc getWorkNumber      () const;
 
-    void                    setWorkNumber      (S_work_number val)      { fWorkNumber = val; }
-    S_work_number           getWorkNumber      () const                 { return fWorkNumber; }
+    void                     setWorkTitle       (std::string val);
+    SlpsrLilypondVarValAssoc getWorkTitle       () const;
 
-    void                    setWorkTitle       (S_work_title val)       { fWorkTitle = val; }
-    S_work_title            getWorkTitle       () const                 { return fWorkTitle; }
+    void                     setMovementNumber  (std::string val);
+    SlpsrLilypondVarValAssoc getMovementNumber  () const;
 
-    void                    setMovementNumber  (S_movement_number val)  { fMovementNumber = val; }
-    S_movement_number       getMovementNumber  () const                 { return fMovementNumber; }
+    void                     setMovementTitle   (std::string val);
+    SlpsrLilypondVarValAssoc getMovementTitle   () const;
 
-    void                    setMovementTitle   (S_movement_title val)   { fMovementTitle = val; }
-    S_movement_title        getMovementTitle   () const                 { return fMovementTitle; }
+    void                     addCreator         (std::string val);
+    std::vector<SlpsrLilypondVarValAssoc>
+                             getCreators        () const;
 
-    void                    addCreator         (S_creator val)          { fCreators.push_back(val); }
-    std::vector<S_creator>  getCreators        () const                 { return fCreators; };
+    void                     setRights          (std::string val);
+    SlpsrLilypondVarValAssoc getRights          () const;
 
-    void                    setRights          (S_rights val)           { fRights = val; }
-    S_rights                getRights          () const                 { return fRights; }
+    void                     addSoftware        (std::string val);
+    std::vector<SlpsrLilypondVarValAssoc>
+                             getSoftwares       () const;
 
-    void                    addSoftware        (S_software val)         { fSoftwares.push_back(val); }
-    std::vector<S_software> getSoftwares       () const                 { return fSoftwares; };
+    void                     setEncodingDate    (std::string val);
+    SlpsrLilypondVarValAssoc getEncodingDate    () const;
 
-    void                    setEncodingDate    (S_encoding_date val)    { fEncodingDate = val; }
-    S_encoding_date         getEncodingDate    () const                 { return fEncodingDate; }
+    void                     setScoreInstrument (std::string val);
+    SlpsrLilypondVarValAssoc getScoreInstrument () const;
 
-    void                    setScoreInstrument (S_score_instrument val) { fScoreInstrument = val; }
-    S_score_instrument      getScoreInstrument () const                 { return fScoreInstrument; }
-
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -496,16 +532,16 @@ class EXP lpsrHeader : public lpsrElement {
   
   private:
 
-    S_score_partwise        fScorePartwise; // may contain MusicXML version
-    S_work_number           fWorkNumber;
-    S_work_title            fWorkTitle;
-    S_movement_number       fMovementNumber;
-    S_movement_title        fMovementTitle;
-    std::vector<S_creator>  fCreators;
-    S_rights                fRights;
-    std::vector<S_software> fSoftwares;
-    S_encoding_date         fEncodingDate;
-    S_score_instrument      fScoreInstrument;
+//    SlsprLilypondVarValAssoc              fScorePartwise; // may contain MusicXML version
+    SlpsrLilypondVarValAssoc              fWorkNumber;
+    SlpsrLilypondVarValAssoc              fWorkTitle;
+    SlpsrLilypondVarValAssoc              fMovementNumber;
+    SlpsrLilypondVarValAssoc              fMovementTitle;
+    std::vector<SlpsrLilypondVarValAssoc> fCreators;
+    SlpsrLilypondVarValAssoc              fRights;
+    std::vector<SlpsrLilypondVarValAssoc> fSoftwares;
+    SlpsrLilypondVarValAssoc              fEncodingDate;
+    SlpsrLilypondVarValAssoc              fScoreInstrument;
 
 };
 typedef SMARTP<lpsrHeader> SlpsrHeader;
@@ -545,8 +581,10 @@ class EXP lpsrPaper : public lpsrElement {
     void    setPageTopSpace       (float val) { fPageTopSpace = val; }
     float   getPageTopSpace       () const    { return fPageTopSpace; }
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
+
 
   protected:
 
@@ -585,8 +623,9 @@ class EXP lpsrLayout : public lpsrElement {
     void addLpsrSchemeVarValAssoc (SlpsrSchemeVarValAssoc assoc)
       { fLpsrSchemeVarValAssocs.push_back(assoc); }
     
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -618,8 +657,9 @@ class EXP lpsrPart : public lpsrElement {
 
     void          addLyricsToPart (SlpsrLyrics lyr) { fPartLyrics.push_back(lyr); }
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -652,8 +692,9 @@ class EXP lpsrBarLine : public lpsrElement {
     
     static SMARTP<lpsrBarLine> create(int nextBarNumber);
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -679,8 +720,9 @@ class EXP lpsrComment : public lpsrElement {
 
     static SMARTP<lpsrComment> create(std::string contents, GapKind gapKind = kNoGapAfterwards);
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -705,8 +747,9 @@ class EXP lpsrBreak : public lpsrElement {
     
     static SMARTP<lpsrBreak> create(int nextBarNumber);
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -730,8 +773,9 @@ class EXP lpsrBarNumberCheck : public lpsrElement {
     
     static SMARTP<lpsrBarNumberCheck> create(int nextBarNumber);
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -767,8 +811,9 @@ class EXP lpsrTuplet : public lpsrElement {
 
     void addElementToTuplet (SlpsrElement elem) { fTupletContents.push_back(elem); }
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -803,8 +848,9 @@ class EXP lpsrBeam : public lpsrElement {
 
     BeamKind getBeamKind () const { return fBeamKind; }
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -835,8 +881,9 @@ class EXP lpsrDynamics : public lpsrElement {
 
     DynamicsKind getDynamicsKind () const { return fDynamicsKind; }
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -864,8 +911,9 @@ class EXP lpsrWedge : public lpsrElement {
 
     WedgeKind getWedgeKind () const        { return fWedgeKind; }
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -891,8 +939,9 @@ class EXP lpsrLyrics : public lpsrElement {
     
     std::string getContents () const { return fLyricsContents; }
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -919,8 +968,9 @@ class EXP lpsrTime : public lpsrElement {
     
     static SMARTP<lpsrTime> create(int numerator, int denominator, bool generateNumericalTime);
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -945,8 +995,9 @@ class EXP lpsrClef : public lpsrElement {
     
     static SMARTP<lpsrClef> create(std::string clefName);
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -972,8 +1023,9 @@ class EXP lpsrKey : public lpsrElement {
 
     static SMARTP<lpsrKey> create(std::string tonic, KeyMode keyMode);
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -999,8 +1051,9 @@ class EXP lpsrMidi : public lpsrElement {
 
     static SMARTP<lpsrMidi> create();
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -1027,8 +1080,9 @@ class EXP lpsrScore : public lpsrElement {
     SlpsrLayout   getScoreLayout        () const { return fScoreLayout; }
     SlpsrMidi     getScoreMidi          () const { return fScoreMidi; }
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -1056,8 +1110,9 @@ class EXP lpsrNewstaffCommand : public lpsrElement {
      
     void addElementToNewStaff (SlpsrElement elem) { fNewStaffElements.push_back(elem); }
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -1083,8 +1138,9 @@ class EXP lpsrNewlyricsCommand : public lpsrElement {
      
     void addElementToNewStaff (SlpsrElement elem) { fNewStaffElements.push_back(elem); }
 
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
@@ -1108,8 +1164,9 @@ class EXP lpsrVariableUseCommand : public lpsrElement {
 
     static SMARTP<lpsrVariableUseCommand> create(std::string variableName);
     
+    virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
