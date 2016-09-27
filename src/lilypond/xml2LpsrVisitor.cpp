@@ -322,7 +322,7 @@ void xml2LpsrVisitor::visitStart ( S_page_height& elt )
 {
   if (fVisitingPageLayout) {
     int pageHeight = (int)(*elt);
-    cout << "--> pageHeight = " << pageHeight << endl;
+    //cout << "--> pageHeight = " << pageHeight << endl;
     fLpsrPaper->setPaperHeight (1.0*pageHeight*fMillimeters/fTenths/10);  
   }
 }
@@ -330,7 +330,7 @@ void xml2LpsrVisitor::visitStart ( S_page_width& elt )
 {
   if (fVisitingPageLayout) {
     int pageWidth = (int)(*elt);
-    cout << "--> pageWidth = " << pageWidth << endl;
+    //cout << "--> pageWidth = " << pageWidth << endl;
     fLpsrPaper->setPaperWidth (1.0*pageWidth*fMillimeters/fTenths/10);
   }
 }
@@ -339,7 +339,7 @@ void xml2LpsrVisitor::visitStart ( S_left_margin& elt )
 {
   if (fVisitingPageLayout) {
     int leftMargin = (int)(*elt);
-    cout << "--> leftMargin = " << leftMargin << endl;
+    //cout << "--> leftMargin = " << leftMargin << endl;
     fLpsrPaper->setLeftMargin (1.0*leftMargin*fMillimeters/fTenths/10);  
   }
 }
@@ -347,7 +347,7 @@ void xml2LpsrVisitor::visitStart ( S_right_margin& elt )
 {
   if (fVisitingPageLayout) {
     int rightMargin = (int)(*elt);
-    cout << "--> rightMargin = " << rightMargin << endl;
+    //cout << "--> rightMargin = " << rightMargin << endl;
     fLpsrPaper->setRightMargin (1.0*rightMargin*fMillimeters/fTenths/10);  
   }
 }
@@ -355,7 +355,7 @@ void xml2LpsrVisitor::visitStart ( S_top_margin& elt )
 {
   if (fVisitingPageLayout) {
     int topMargin = (int)(*elt);
-    cout << "--> topMargin = " << topMargin << endl;
+    //cout << "--> topMargin = " << topMargin << endl;
     fLpsrPaper->setTopMargin (1.0*topMargin*fMillimeters/fTenths/10);  
   }
 }
@@ -363,7 +363,7 @@ void xml2LpsrVisitor::visitStart ( S_bottom_margin& elt )
 {
   if (fVisitingPageLayout) {
     int bottomMargin = (int)(*elt);
-    cout << "--> bottomMargin = " << bottomMargin << endl;
+    //cout << "--> bottomMargin = " << bottomMargin << endl;
     fLpsrPaper->setBottomMargin (1.0*bottomMargin*fMillimeters/fTenths/10);  
   }
 }

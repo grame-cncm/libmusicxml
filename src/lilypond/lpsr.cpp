@@ -1081,7 +1081,7 @@ void lpsrLyrics::printMusicXML(ostream& os)
 
 void lpsrLyrics::printLpsrStructure(ostream& os)
 {  
-  os << idtr << "Lyrics" << std::endl;
+  os << "Lyrics" << std::endl;
   idtr++;
   os << idtr << fLyricsName << std::endl;
   os << idtr << fLyricsContents << std::endl;
