@@ -640,6 +640,55 @@ class EXP lpsrLayout : public lpsrElement {
 typedef SMARTP<lpsrLayout> SlpsrLayout;
 
 /*!
+\brief A lpsr repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common part
+    - a vector os sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
+class EXP lpsrRepeat: public lpsrElement {
+  public:
+
+    static SMARTP<lpsrRepeat> create();
+    
+    void    appendElementToCommonPart (SlpsrElement elem)
+              { fCommonPart->appendElementToSequence (elem); }
+              
+    void    appendElementToLastAlternateEnding  (SlpsrElement elem)
+              { fAlternateEndings.back()->appendElementToSequence (elem); }
+                    
+    void    appendNewAlternateEnding ()
+              {
+                fAlternateEndings.push_back(
+                  lpsrSequence::create (lpsrSequence::kSpace));
+              }
+
+    void    setActuallyUsed ()
+              { fActuallyUsed = true; }
+    
+    virtual void printMusicXML      (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
+
+  protected:
+
+    lpsrRepeat();
+    virtual ~lpsrRepeat();
+  
+  private:
+  
+    SlpsrSequence              fCommonPart;
+    std::vector<SlpsrSequence> fAlternateEndings;
+    
+    // the implicit lpsrRepeat is not used unless there are
+    // actual repeats in the part
+    bool                       fActuallyUsed;
+};
+typedef SMARTP<lpsrRepeat> SlpsrRepeat;
+
+/*!
+/*!
 \brief A lpsr part representation.
 
   A part is represented by a its string contents
@@ -674,6 +723,10 @@ class EXP lpsrPart : public lpsrElement {
     
     // the implicit sequence containing the code generated for the part
     SlpsrSequence     fPartLpsrSequence;
+  
+    // the implicit repeat at the beginning of the part
+    // will be ignored if the part has no repeats at all
+    SlpsrRepeat       fPartLpsrRepeat;
     
     // the lyrics stanzas, if any, associated with the part
     std::vector<SlpsrLyrics> fPartLyrics;
@@ -1100,7 +1153,7 @@ typedef SMARTP<lpsrScore> SlpsrScore;
 /*!
 \brief A lpsr new staff representation.
 
-  A new staff is represented by a sequence of elements
+  A new staff is represented by a vactor of elements
 */
 //______________________________________________________________________________
 class EXP lpsrNewstaffCommand : public lpsrElement {
@@ -1128,7 +1181,7 @@ typedef SMARTP<lpsrNewstaffCommand> SlpsrNewstaffCommand;
 /*!
 \brief A lpsr new lyrics representation.
 
-  A new lyrics is represented by a sequence of strings
+  A new lyrics is represented by a vector of elements
 */
 //______________________________________________________________________________
 class EXP lpsrNewlyricsCommand : public lpsrElement {
@@ -1154,9 +1207,9 @@ class EXP lpsrNewlyricsCommand : public lpsrElement {
 typedef SMARTP<lpsrNewlyricsCommand> SlpsrNewlyricsCommand;
 
 /*!
-\brief A lpsr new lyrics representation.
+\brief A lpsr variable use representation.
 
-  A new lyrics is represented by a sequence of strings
+  A new lyrics is represented by the variable name
 */
 //______________________________________________________________________________
 class EXP lpsrVariableUseCommand : public lpsrElement {

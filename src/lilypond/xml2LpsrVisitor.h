@@ -56,6 +56,7 @@ class EXP xml2LpsrVisitor :
   
   public visitor<S_millimeters>,
   public visitor<S_tenths>,
+  public visitor<S_scaling>,
   
   public visitor<S_system_distance>,
   public visitor<S_top_system_distance>,
@@ -108,6 +109,7 @@ class EXP xml2LpsrVisitor :
     
     virtual void visitStart ( S_millimeters& elt);
     virtual void visitStart ( S_tenths& elt);
+    virtual void visitEnd   ( S_scaling& elt);
 
     virtual void visitStart ( S_system_distance& elt);
     virtual void visitStart ( S_top_system_distance& elt);

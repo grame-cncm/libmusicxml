@@ -273,15 +273,25 @@ void xml2LpsrVisitor::visitStart ( S_encoding_date& elt )
 void xml2LpsrVisitor::visitStart ( S_millimeters& elt )
 { 
   fMillimeters = (int)(*elt);
-  cout << "--> fMillimeters = " << fMillimeters << endl;
+//  cout << "--> fMillimeters = " << fMillimeters << endl;
   
   fGlobalStaffSize = fMillimeters*72.27/25.4;
-  cout << "--> fGlobalStaffSize = " << fGlobalStaffSize << endl;
+//  cout << "--> fGlobalStaffSize = " << fGlobalStaffSize << endl;
 }
+
 void xml2LpsrVisitor::visitStart ( S_tenths& elt )
 {
   fTenths = (int)(*elt);
-  cout << "--> fTenths = " << fTenths << endl;
+//  cout << "--> fTenths = " << fTenths << endl;
+}
+
+void xml2LpsrVisitor::visitEnd ( S_scaling& elt)
+{
+  if (fTranslationSwitches.fTrace)
+    cerr <<
+      "There are " << fTenths << " tenths for " << 
+      fMillimeters << " millimeters, hence a global staff size of " <<
+      fGlobalStaffSize << std::endl;
 }
 
 //______________________________________________________________________________
