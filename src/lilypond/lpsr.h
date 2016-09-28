@@ -170,9 +170,9 @@ class EXP lpsrElement : public smartable {
 class EXP lpsrDuration : public lpsrElement {
   public:
   
-    static SMARTP<lpsrDuration> create(int num, int denom, int dots=0);
+    static SMARTP<lpsrDuration> create(int num, int denom, int dots);
     
-    lpsrDuration(int num, int denom, int dots=0);
+    lpsrDuration(int num, int denom, int dots);
     virtual ~lpsrDuration();
     
     void scaleNumByFraction (int num, int denom);

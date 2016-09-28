@@ -330,6 +330,7 @@ std::string xmlPartSummaryVisitor::getStanza (std::string name, std::string sepa
   if (it1 != fStanzas.end()) {
     stringstream s;
     string       lyricsName = "Lyrics"+int2EnglishWord(atoi(it1->first.c_str())); // JMI +partName;
+
     s << lyricsName << " = \\lyricmode { " << std::endl;
 
     for (stanzaContents::const_iterator 

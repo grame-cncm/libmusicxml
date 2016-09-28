@@ -96,6 +96,9 @@ lpsrDuration::lpsrDuration (int num, int denom, int dots)
   : lpsrElement("")
 {
   fNum=num; fDenom=denom; fDots=dots; 
+  cout <<
+    "lpsrDuration::lpsrDuration (), fNum = " << fNum << 
+    ", fDenom = " << fDenom << ", fDots = " << fDots << std:endl;
 }
 lpsrDuration::~lpsrDuration() {}
 
@@ -647,7 +650,7 @@ void lpsrNote::printLpsrStructure(ostream& os)
 
   } else {
     os <<
-      "note" << " " << 
+      "Note" << " " << 
       notePitchAsLilypondString () << fLpsrDuration << std::endl;
     
     // print the dynamics if any
@@ -858,8 +861,40 @@ void lpsrChord::printMusicXML(ostream& os)
 void lpsrChord::printLpsrStructure(ostream& os)
 {
   os << "Chord" << " ";
-  this->printLilyPondCode (os);
-  os << std::endl;
+  std::vector<SlpsrNote>::const_iterator
+    iBegin = fChordNotes.begin(),
+    iEnd   = fChordNotes.end(),
+    i      = iBegin;
+  os << "<";
+  for ( ; ; ) {
+    os << (*i);
+    if (++i == iEnd) break;
+    os << " ";
+  } // for
+  os << ">";
+  
+  // print the chord duration
+  os << fChordDuration << std::endl;
+
+  // print the dynamics if any
+  if (fChordDynamics.size()) {
+    idtr++;
+    std::list<SlpsrDynamics>::const_iterator i1;
+    for (i1=fChordDynamics.begin(); i1!=fChordDynamics.end(); i1++) {
+      os << idtr << (*i1);
+    } // for
+    idtr--;
+  }
+
+  // print the wedges if any
+  if (fChordWedges.size()) {
+    idtr++;
+    std::list<SlpsrWedge>::const_iterator i2;
+    for (i2=fChordWedges.begin(); i2!=fChordWedges.end(); i2++) {
+      os << idtr << (*i2);
+    } // for
+    idtr--;
+  }
 }
 
 void lpsrChord::printLilyPondCode(ostream& os)
@@ -880,16 +915,20 @@ void lpsrChord::printLilyPondCode(ostream& os)
   os << fChordDuration;
 
   // print the dynamics if any
-  std::list<SlpsrDynamics>::const_iterator i1;
-  for (i1=fChordDynamics.begin(); i1!=fChordDynamics.end(); i1++) {
-    os << " " << (*i1);
-  } // for
+  if (fChordDynamics.size()) {
+    std::list<SlpsrDynamics>::const_iterator i1;
+    for (i1=fChordDynamics.begin(); i1!=fChordDynamics.end(); i1++) {
+      os << " " << (*i1);
+    } // for
+  }
 
   // print the wedges if any
-  std::list<SlpsrWedge>::const_iterator i2;
-  for (i2=fChordWedges.begin(); i2!=fChordWedges.end(); i2++) {
-    os << " " << (*i2);
-  } // for
+  if (fChordWedges.size()) {
+    std::list<SlpsrWedge>::const_iterator i2;
+    for (i2=fChordWedges.begin(); i2!=fChordWedges.end(); i2++) {
+      os << " " << (*i2);
+    } // for
+  }
 }
 
 //______________________________________________________________________________
@@ -1401,7 +1440,7 @@ void lpsrHeader::setWorkNumber (std::string val)
     lpsrLilypondVarValAssoc::create (
       "work-number", val,
       lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       lpsrLilypondVarValAssoc::kUncommented);
   }
 SlpsrLilypondVarValAssoc lpsrHeader::getWorkNumber () const
@@ -1413,7 +1452,7 @@ void lpsrHeader::setWorkTitle (std::string val)
     lpsrLilypondVarValAssoc::create (
       "work-title", val,
       lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       lpsrLilypondVarValAssoc::kUncommented);
   }
 SlpsrLilypondVarValAssoc lpsrHeader::getWorkTitle () const
@@ -1425,7 +1464,7 @@ void lpsrHeader::setMovementNumber (std::string val)
     lpsrLilypondVarValAssoc::create (
       "movement-number", val,
       lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       lpsrLilypondVarValAssoc::kUncommented);
   }
 SlpsrLilypondVarValAssoc lpsrHeader::getMovementNumber () const
@@ -1437,7 +1476,7 @@ void lpsrHeader::setMovementTitle (std::string val)
     lpsrLilypondVarValAssoc::create (
       "movement-title", val,
       lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       lpsrLilypondVarValAssoc::kUncommented);
 }
 SlpsrLilypondVarValAssoc lpsrHeader::getMovementTitle () const
@@ -1449,7 +1488,7 @@ void lpsrHeader::addCreator (std::string val)
     lpsrLilypondVarValAssoc::create (
       "creator", val,
       lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       lpsrLilypondVarValAssoc::kUncommented)
   );
 }
@@ -1462,7 +1501,7 @@ void lpsrHeader::setRights (std::string val)
     lpsrLilypondVarValAssoc::create (
       "rights", val,
       lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       lpsrLilypondVarValAssoc::kUncommented);
   }
 SlpsrLilypondVarValAssoc lpsrHeader::getRights () const
@@ -1474,7 +1513,7 @@ void lpsrHeader::addSoftware (std::string val)
     lpsrLilypondVarValAssoc::create (
       "software", val,
       lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       lpsrLilypondVarValAssoc::kUncommented)
   );
 }
@@ -1487,7 +1526,7 @@ void lpsrHeader::setEncodingDate (std::string val)
     lpsrLilypondVarValAssoc::create (
       "encodingdate", val,
       lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       lpsrLilypondVarValAssoc::kUncommented);
 }
 SlpsrLilypondVarValAssoc lpsrHeader::getEncodingDate () const
@@ -1499,7 +1538,7 @@ void lpsrHeader::setScoreInstrument (std::string val)
     lpsrLilypondVarValAssoc::create (
       "score-instrument", val,
       lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       lpsrLilypondVarValAssoc::kUncommented);
 }
 SlpsrLilypondVarValAssoc lpsrHeader::getScoreInstrument () const

@@ -244,7 +244,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_forward& elt )
   if (duration) {   
     rational r(duration, fCurrentDivisions*4);
     r.rationalise();
-    lpsrDuration dur (r.getNumerator(), r.getDenominator());
+    lpsrDuration dur (r.getNumerator(), r.getDenominator(), 57); // JMI
     SlpsrElement note = 
       lpsrNote::create();//(fTargetVoice); // JMI , "empty", 0, dur, "");
     addElementToPartSequence (note);
@@ -850,7 +850,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_octave& elt)
 void xmlpart2lpsrvisitor::visitStart ( S_duration& elt )
 {
   fCurrentDuration=(int)(*elt);
-//  cout << "=== xmlpart2lpsrvisitor::visitStart ( S_duration& elt ), fCurrentDuration = " << fCurrentDuration << std::endl;
+  cout << "=== xmlpart2lpsrvisitor::visitStart ( S_duration& elt ), fCurrentDuration = " << fCurrentDuration << std::endl;
 }
 
 void xmlpart2lpsrvisitor::visitStart ( S_dot& elt )
@@ -1179,18 +1179,21 @@ void xmlpart2lpsrvisitor::visitEnd ( S_note& elt )
       std::endl << 
       "%--> xmlpart2lpsrvisitor::visitEnd, fCurrentDuration = " << fCurrentDuration <<
       ", fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
-    //return;
+    //return; JMI
   }
 
   SlpsrDuration noteDuration =
     lpsrDuration::create(fCurrentDuration, fCurrentDivisions*4, fCurrentDotsNumber);
 
+  cout << "noteDuration = " << noteDuration << std::endl;
+  
   // now we know more, update the various informations
   
   // diatonic note
   lpsrNote::DiatonicPitch diatonicNote = lpsrNote::kNoDiatonicPitch;
 
-  if (fCurrentStepIsARest) diatonicNote = lpsrNote::kRest;
+  if (fCurrentStepIsARest)
+    diatonicNote = lpsrNote::kRest;
   else {
     //std::transform(fCurrentStep.begin(), fCurrentStep.end(), fCurrentStep.begin(), ::toupper);
     
@@ -1271,18 +1274,19 @@ void xmlpart2lpsrvisitor::visitEnd ( S_note& elt )
 
   //cout << "::: creating note " << note << std::endl;
   
-  // keep track of note in this visitor
-  fCurrentNote = note;
-  fCurrentElement = fCurrentNote; // another name for it
+  // a note can be standalone
+  // or a member of a chord,
+  // and the latter can belong a to tuplet
   
   if (fCurrentNoteBelongsToAChord) {
     if (! fCurrentChordIsBeingBuilt) {
+      // create a chord with fCurrentNote as its first note
       createChord (noteDuration);
 
       // account for chord being built
       fCurrentChordIsBeingBuilt = true;
     }
-
+    
     //cout << "--> adding note to fCurrentChord" << endl;
     // register note as a member of fCurrentChord
     fCurrentChord->addNoteToChord(note);
@@ -1337,6 +1341,10 @@ void xmlpart2lpsrvisitor::visitEnd ( S_note& elt )
     // account for chord not being built
     fCurrentChordIsBeingBuilt = false;
   }
+  
+   // keep track of note in this visitor
+  fCurrentNote = note;
+  fCurrentElement = fCurrentNote; // another name for it
 }
 
 //______________________________________________________________________________
