@@ -612,13 +612,65 @@ void xmlpart2lpsrvisitor::visitStart( S_dynamics& elt)
 
 void xmlpart2lpsrvisitor::visitStart( S_f& elt)
 {        
-  SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFDynamics);
+  SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kF);
+  fPendingDynamics.push_back(dyn);
+ }
+void xmlpart2lpsrvisitor::visitStart( S_ff& elt)
+{        
+  SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFF);
+  fPendingDynamics.push_back(dyn);
+ }
+void xmlpart2lpsrvisitor::visitStart( S_fff& elt)
+{        
+  SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFF);
+  fPendingDynamics.push_back(dyn);
+ }
+void xmlpart2lpsrvisitor::visitStart( S_ffff& elt)
+{        
+  SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFF);
+  fPendingDynamics.push_back(dyn);
+ }
+void xmlpart2lpsrvisitor::visitStart( S_fffff& elt)
+{        
+  SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFFF);
+  fPendingDynamics.push_back(dyn);
+ }
+void xmlpart2lpsrvisitor::visitStart( S_ffffff& elt)
+{        
+  SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFFFF);
   fPendingDynamics.push_back(dyn);
  }
 
+
+
 void xmlpart2lpsrvisitor::visitStart( S_p& elt)
 {        
-  SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPDynamics);
+  SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kP);
+  fPendingDynamics.push_back(dyn);
+}
+void xmlpart2lpsrvisitor::visitStart( S_pp& elt)
+{        
+  SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPP);
+  fPendingDynamics.push_back(dyn);
+}
+void xmlpart2lpsrvisitor::visitStart( S_ppp& elt)
+{        
+  SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPP);
+  fPendingDynamics.push_back(dyn);
+}
+void xmlpart2lpsrvisitor::visitStart( S_pppp& elt)
+{        
+  SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPP);
+  fPendingDynamics.push_back(dyn);
+}
+void xmlpart2lpsrvisitor::visitStart( S_ppppp& elt)
+{        
+  SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPPP);
+  fPendingDynamics.push_back(dyn);
+}
+void xmlpart2lpsrvisitor::visitStart( S_pppppp& elt)
+{        
+  SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPPPP);
   fPendingDynamics.push_back(dyn);
 }
 

@@ -208,6 +208,189 @@ void lpsrDuration::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
+SlpsrDynamics lpsrDynamics::create(DynamicsKind dynamicsKind)
+{
+  lpsrDynamics* o = new lpsrDynamics(dynamicsKind); assert(o!=0);
+  return o;
+}
+
+lpsrDynamics::lpsrDynamics(DynamicsKind dynamicsKind)
+  : lpsrElement("")
+{
+  fDynamicsKind = dynamicsKind; 
+}
+lpsrDynamics::~lpsrDynamics() {}
+
+ostream& operator<< (ostream& os, const SlpsrDynamics& dyn)
+{
+  dyn->print(os);
+  return os;
+}
+
+std::string lpsrDynamics::dynamicsKindAsLilypondString ()
+{
+  stringstream s;
+  
+  switch (fDynamicsKind) {
+    case kF:
+      s << "\\f";
+      break;
+    case kFF:
+      s << "\\ff";
+      break;
+    case kFFF:
+      s << "\\fff";
+      break;
+    case kFFFF:
+      s << "\\ffff";
+      break;
+    case kFFFFF:
+      s << "\\fffff";
+      break;
+    case kFFFFFF:
+      s << "\\ffffff";
+      break;
+
+    case kP:
+      s << "\\p";
+      break;
+    case kPP:
+      s << "\\pp";
+      break;
+    case kPPP:
+      s << "\\ppp";
+      break;
+    case kPPPP:
+      s << "\\pppp";
+      break;
+    case kPPPPP:
+      s << "\\ppppp";
+      break;
+    case kPPPPPP:
+      s << "\\pppppp";
+      break;
+
+     case kMF:
+      s << "\\mf";
+      break;
+    case kMP:
+      s << "\\mp";
+      break;
+    case kFP:
+      s << "\\fp";
+      break;
+    case kFZ:
+      s << "\\fz";
+      break;
+    case kRF:
+      s << "\\rf";
+      break;
+    case kSF:
+      s << "\\sf";
+      break;
+
+   case kRFZ:
+      s << "\\rfz";
+      break;
+    case kSFZ:
+      s << "\\sfz";
+      break;
+    case kSFP:
+      s << "\\sfp";
+      break;
+    case kSFPP:
+      s << "\\sfpp";
+      break;
+    case kSFFZ:
+      s << "\\sffz";
+      break;
+
+    default:
+      s << "Dynamics " << fDynamicsKind << "???";
+  } // switch
+  
+  std::string result;
+  
+  s >> result;
+  return result;
+}
+
+void lpsrDynamics::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrDynamics??? -->" << std::endl;
+}
+
+void lpsrDynamics::printLpsrStructure(ostream& os)
+{
+  os <<
+    "Dynamics" << " " << dynamicsKindAsLilypondString () << std::endl;
+}
+
+void lpsrDynamics::printLilyPondCode(ostream& os)
+{
+  os << dynamicsKindAsLilypondString ();
+}
+
+//______________________________________________________________________________
+SlpsrWedge lpsrWedge::create(WedgeKind wedgeKind)
+{
+  lpsrWedge* o = new lpsrWedge(wedgeKind); assert(o!=0);
+  return o;
+}
+
+lpsrWedge::lpsrWedge(WedgeKind wedgeKind)
+  : lpsrElement("")
+{
+  fWedgeKind=wedgeKind; 
+}
+lpsrWedge::~lpsrWedge() {}
+
+ostream& operator<< (ostream& os, const SlpsrWedge& wdg)
+{
+  wdg->print(os);
+  return os;
+}
+
+std::string lpsrWedge::wedgeKinsAsString ()
+{
+  stringstream s;
+  
+  switch (fWedgeKind) {
+    case lpsrWedge::kCrescendoWedge:
+      s << "\\<";
+      break;
+    case lpsrWedge::kDecrescendoWedge:
+      s << "\\>";
+      break;
+    case lpsrWedge::kStopWedge:
+      s << "\\!";
+      break;
+    default:
+      s << "Wedge" << fWedgeKind << "???";
+  } // switch
+  
+  std::string result;
+  
+  s >> result;
+  return result;
+}
+
+void lpsrWedge::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrWedge??? -->" << std::endl;
+}
+
+void lpsrWedge::printLpsrStructure(ostream& os)
+{
+  os << "Wedge" << " " << wedgeKinsAsString () << std::endl;
+}
+
+void lpsrWedge::printLilyPondCode(ostream& os)
+{
+  os << wedgeKinsAsString ();
+}
+
+//______________________________________________________________________________
 SlpsrNote lpsrNote::create() 
 {  
   lpsrNote * o = new lpsrNote (); assert(o!=0); 
@@ -282,7 +465,8 @@ std::string lpsrNote::notePitchAsLilypondString ()
 {
   stringstream s;
   
-  if (fCurrentStepIsRest) s << "r";
+  if (fCurrentStepIsRest)
+    s << "r";
   else {
     //JMI assertLpsr(fLpsrPitch != k_NoLpsrPitch, "fLpsrPitch != k_NoLpsrPitch");
     switch (fLpsrPitch) {
@@ -458,27 +642,33 @@ void lpsrNote::printMusicXML(ostream& os)
 
 void lpsrNote::printLpsrStructure(ostream& os)
 {
-  os <<
-    "Note" << " " << notePitchAsLilypondString ();
+  // print the note name
+  os << notePitchAsLilypondString ();
 
   if (! fNoteBelongsToAChord) {
-    // print the note duration
-    os << fLpsrDuration;
+    os << notePitchAsLilypondString () << fLpsrDuration << std::endl;
     
     // print the dynamics if any
-    std::list<SlpsrDynamics>::const_iterator i1;
-    for (i1=fNoteDynamics.begin(); i1!=fNoteDynamics.end(); i1++) {
-      os << " " << (*i1);
-    } // for
+    if (fNoteDynamics.size()) {
+      idtr++;
+      std::list<SlpsrDynamics>::const_iterator i1;
+      for (i1=fNoteDynamics.begin(); i1!=fNoteDynamics.end(); i1++) {
+        os << idtr << (*i1);
+      } // for
+      idtr--;
+    }
   
     // print the wedges if any
-    std::list<SlpsrWedge>::const_iterator i2;
-    for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
-      os << " " << (*i2);
-    } // for
+    if (fNoteWedges.size()) {
+      os << std::endl;
+      idtr++;
+      std::list<SlpsrWedge>::const_iterator i2;
+      for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
+        os << idtr << (*i2);
+      } // for
+      idtr--;
+    }
   }
-  
-  os << std::endl;
 }
 
 void lpsrNote::printLilyPondCode(ostream& os)
@@ -964,107 +1154,6 @@ void lpsrBeam::printLilyPondCode(ostream& os)
       break;
     default:
       os << "Beam " << fBeamKind << "???";
-  } // switch
-}
-
-//______________________________________________________________________________
-SlpsrDynamics lpsrDynamics::create(DynamicsKind dynamicsKind)
-{
-  lpsrDynamics* o = new lpsrDynamics(dynamicsKind); assert(o!=0);
-  return o;
-}
-
-lpsrDynamics::lpsrDynamics(DynamicsKind dynamicsKind)
-  : lpsrElement("")
-{
-  fDynamicsKind = dynamicsKind; 
-}
-lpsrDynamics::~lpsrDynamics() {}
-
-ostream& operator<< (ostream& os, const SlpsrDynamics& dyn)
-{
-  dyn->print(os);
-  return os;
-}
-
-void lpsrDynamics::printMusicXML(ostream& os)
-{
-  os << "<!-- lpsrDynamics??? -->" << std::endl;
-}
-
-void lpsrDynamics::printLpsrStructure(ostream& os)
-{
-  os << "Dynamics???" << std::endl;
-}
-
-void lpsrDynamics::printLilyPondCode(ostream& os)
-{
-  switch (fDynamicsKind) {
-    case kFDynamics:
-      os << "\\f";
-      break;
-    case kPDynamics:
-      os << "\\p";
-      break;
-    default:
-      os << "Dynamics " << fDynamicsKind << "???";
-  } // switch
-}
-
-//______________________________________________________________________________
-SlpsrWedge lpsrWedge::create(WedgeKind wedgeKind)
-{
-  lpsrWedge* o = new lpsrWedge(wedgeKind); assert(o!=0);
-  return o;
-}
-
-lpsrWedge::lpsrWedge(WedgeKind wedgeKind)
-  : lpsrElement("")
-{
-  fWedgeKind=wedgeKind; 
-}
-lpsrWedge::~lpsrWedge() {}
-
-ostream& operator<< (ostream& os, const SlpsrWedge& wdg)
-{
-  wdg->print(os);
-  return os;
-}
-
-void lpsrWedge::printMusicXML(ostream& os)
-{
-  os << "<!-- lpsrWedge??? -->" << std::endl;
-}
-
-void lpsrWedge::printLpsrStructure(ostream& os)
-{
-  os << "Wedge" << " ";
-  switch (fWedgeKind) {
-    case lpsrWedge::kCrescendoWedge:
-      os << "\\<";
-      break;
-    case lpsrWedge::kDecrescendoWedge:
-      os << "\\>";
-      break;
-    case lpsrWedge::kStopWedge:
-      os << "\\!";
-      break;
-  } // switch
-  os << std::endl;
-}
-
-void lpsrWedge::printLilyPondCode(ostream& os)
-{
-  switch (fWedgeKind) {
-    case lpsrWedge::kCrescendoWedge:
-      os << "\\<";
-      break;
-    case lpsrWedge::kDecrescendoWedge:
-      os << "\\>";
-      break;
-    case lpsrWedge::kStopWedge:
-      os << "\\!";
-      break;
   } // switch
 }
 

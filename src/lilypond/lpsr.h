@@ -959,13 +959,17 @@ class EXP lpsrDynamics : public lpsrElement {
   public:
 
     enum DynamicsKind {
-            kFDynamics, kPDynamics, 
-            k_NoDynamics };
+          kF, kFF, kFFF, kFFFF, kFFFFF, kFFFFFF,
+          kP, kPP, kPPP, kPPPP, kPPPPP, kPPPPPP,
+          kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
+          k_NoDynamics };
     
     static SMARTP<lpsrDynamics> create(DynamicsKind kind);
 
     DynamicsKind getDynamicsKind () const { return fDynamicsKind; }
 
+    std::string  dynamicsKindAsLilypondString ();
+    
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode  (std::ostream& os);
@@ -995,6 +999,8 @@ class EXP lpsrWedge : public lpsrElement {
     static SMARTP<lpsrWedge> create(WedgeKind kind);
 
     WedgeKind getWedgeKind () const        { return fWedgeKind; }
+
+    std::string  wedgeKinsAsString ();
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);

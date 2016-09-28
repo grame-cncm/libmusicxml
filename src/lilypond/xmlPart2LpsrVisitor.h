@@ -103,7 +103,18 @@ class EXP xmlpart2lpsrvisitor :
   public visitor<S_sound>,
 
   public visitor<S_f>,
+  public visitor<S_ff>,
+  public visitor<S_fff>,
+  public visitor<S_ffff>,
+  public visitor<S_fffff>,
+  public visitor<S_ffffff>,
+
   public visitor<S_p>,
+  public visitor<S_pp>,
+  public visitor<S_ppp>,
+  public visitor<S_pppp>,
+  public visitor<S_ppppp>,
+  public visitor<S_pppppp>,
 
   public visitor<S_wedge>
 {
@@ -195,7 +206,18 @@ class EXP xmlpart2lpsrvisitor :
     virtual void visitStart ( S_trill_mark& elt);
 
     virtual void visitStart ( S_f& elt);
+    virtual void visitStart ( S_ff& elt);
+    virtual void visitStart ( S_fff& elt);
+    virtual void visitStart ( S_ffff& elt);
+    virtual void visitStart ( S_fffff& elt);
+    virtual void visitStart ( S_ffffff& elt);
+
     virtual void visitStart ( S_p& elt);
+    virtual void visitStart ( S_pp& elt);
+    virtual void visitStart ( S_ppp& elt);
+    virtual void visitStart ( S_pppp& elt);
+    virtual void visitStart ( S_ppppp& elt);
+    virtual void visitStart ( S_pppppp& elt);
 
     virtual void visitStart ( S_wedge& elt);
 
