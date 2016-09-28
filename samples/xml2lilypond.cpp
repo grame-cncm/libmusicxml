@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
   */
   
   int helpPresent =          0;
+  int languagePresent =      0;
   int absolutePresent =      0;
   int numericaltimePresent = 0;
   int nocommentsPresent =    0;
@@ -63,27 +64,30 @@ int main(int argc, char *argv[])
   
   std::string selectedOptions = "";
   
-  bool generateAbsoluteCode =  false;
-  bool generateNumericalTime = false;
-  bool generateComments =      true;
-  bool generateBars =          true;
-  bool generateStems =         false;
-  bool generatePositions =     false;
-  bool trace =                 true;
-  bool debug =                 false;
+  std::string noteNamesLanguageName =             "dutch";
+  lpsrNote::NoteNamesLanguage noteNamesLanguage = lpsrNote::kNederlands;
+  bool generateAbsoluteCode =                     false;
+  bool generateNumericalTime =                    false;
+  bool generateComments =                         true;
+  bool generateBars =                             true;
+  bool generateStems =                            false;
+  bool generatePositions =                        false;
+  bool trace =                                    true;
+  bool debug =                                    false;
   
    static struct option long_options [] =
     {
     /* These options set a flag. */
-    {"help",          no_argument,   &helpPresent, 1},
-    {"absolute",      no_argument,   &absolutePresent, 1},
-    {"numericaltime", no_argument,   &numericaltimePresent, 1},
-    {"nocomments",    no_argument,   &nocommentsPresent, 1},
-    {"noautobars",    no_argument,   &noautobarsPresent, 1},
-    {"stems",         no_argument,   &stemsPresent, 1},
-    {"positions",     no_argument,   &positionsPresent, 1},
-    {"notrace",       no_argument,   &notracePresent, 1},
-    {"debug",         no_argument,   &debugPresent, 1},
+    {"help",          no_argument,       &helpPresent, 1},
+    {"language",      required_argument, &languagePresent, 1},
+    {"absolute",      no_argument,       &absolutePresent, 1},
+    {"numericaltime", no_argument,       &numericaltimePresent, 1},
+    {"nocomments",    no_argument,       &nocommentsPresent, 1},
+    {"noautobars",    no_argument,       &noautobarsPresent, 1},
+    {"stems",         no_argument,       &stemsPresent, 1},
+    {"positions",     no_argument,       &positionsPresent, 1},
+    {"notrace",       no_argument,       &notracePresent, 1},
+    {"debug",         no_argument,       &debugPresent, 1},
     {0, 0, 0, 0}
     };
 
@@ -107,6 +111,22 @@ int main(int argc, char *argv[])
           usage (0);
           break;
         }
+        if (languagePresent) {
+          // optarg contains the language name
+          if (lpsrNote::sStringToNoteNamesLanguage.count(optarg)) {
+            noteNamesLanguageName = optarg;
+        // JMI   noteNamesLanguage =
+        //      lpsrNote::sStringToNoteNamesLanguage[optarg].second;
+          } else {
+            cerr
+              << "--> Unknown language name \"" << optarg <<
+              "\", using \"dutch\" instead" << std::endl;
+            noteNamesLanguageName = "dutch";
+            noteNamesLanguage = lpsrNote::kNederlands;
+          }
+          selectedOptions += "--language "+noteNamesLanguageName;
+          }
+          break;        
         if (absolutePresent) {
           generateAbsoluteCode = true;
           selectedOptions += "--absolute ";
@@ -172,16 +192,20 @@ int main(int argc, char *argv[])
 
   // int   remainingArgs = nonOptionArgs;
 
+  // populate the translation switches
   translationSwitches  ts;
-  ts.fGenerateAbsoluteCode =  generateAbsoluteCode;
-  ts.fGenerateNumericalTime = generateNumericalTime;
-  ts.fGenerateComments =      generateComments;
-  ts.fGenerateBars =          generateBars;
-  ts.fGenerateStems =         generateStems;
-  ts.fGeneratePositions =     generatePositions;
-  ts.fTrace =                 trace;
-  ts.fDebug =                 debug;
-  ts.fSelectedOptions =       selectedOptions;
+  
+  ts.fNoteNamesLanguageAsString = noteNamesLanguageName;
+  ts.fNoteNamesLanguage =         noteNamesLanguage;
+  ts.fGenerateAbsoluteCode =      generateAbsoluteCode;
+  ts.fGenerateNumericalTime =     generateNumericalTime;
+  ts.fGenerateComments =          generateComments;
+  ts.fGenerateBars =              generateBars;
+  ts.fGenerateStems =             generateStems;
+  ts.fGeneratePositions =         generatePositions;
+  ts.fTrace =                     trace;
+  ts.fDebug =                     debug;
+  ts.fSelectedOptions =           selectedOptions;
 
   if (ts.fTrace)
     cerr << 
@@ -191,6 +215,7 @@ int main(int argc, char *argv[])
       musicxml2LpsrVersionStr() << 
       endl <<
       "The options are:" << endl <<
+      "  noteNamesLanguageName: \"" << noteNamesLanguageName << "\"" << endl <<
       "  generateAbsoluteCode:  " << string(generateAbsoluteCode ? "true" : "false") << endl <<
       "  generateNumericalTime: " << string(generateNumericalTime ? "true" : "false") << endl <<
       "  generateComments:      " << string(generateComments ? "true" : "false") << endl <<

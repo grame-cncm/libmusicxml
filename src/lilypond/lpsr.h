@@ -190,6 +190,8 @@ class EXP lpsrDuration : public lpsrElement {
           (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots);
       }
     
+    std::string  durationhAsLilypondString ();
+
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode  (std::ostream& os);
@@ -218,6 +220,32 @@ class EXP lpsrNote : public lpsrElement {
     enum Alteration { // kDoubleFlat=-2 as in MusicXML, to help testing
       kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp, kNoAlteration};
         
+    // the LilyPond note names language
+    enum NoteNamesLanguage {
+      kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
+      kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
+
+    class stringToNoteNamesLanguage : public std::map<std::string, NoteNamesLanguage>
+    {
+      public:
+        stringToNoteNamesLanguage()
+          {
+            //either insert(make_pair(1, 2)); or (*this)[1] = 2;
+            (*this)["dutch"] =     kNederlands;
+            (*this)["catalan"] =   kCatalan;
+            (*this)["deutsch"] =   kDeutsch;
+            (*this)["english"] =   kEnglish;
+            (*this)["espanol"] =   kEspanol;
+            (*this)["italiano"] =  kItaliano;
+            (*this)["francais"] =  kFrancais;
+            (*this)["norsk"] =     kNorsk;
+            (*this)["portugues"] = kPortugues;
+            (*this)["suomi"] =     kSuomi;
+            (*this)["svenska"] =   kSvenska;
+            (*this)["vlaams"] =    kVlaams;
+          }
+    } const static sStringToNoteNamesLanguage;
+  
     // the following is a series of Cs with increasing pitches:
     // \relative c'' { ceseh ces ceh c cih cis cisih }
 
@@ -230,7 +258,9 @@ class EXP lpsrNote : public lpsrElement {
       k_feseh, k_fes, k_feh, k_f, k_fih, k_fis, k_fisih,
       k_geseh, k_ges, k_geh, k_g, k_gih, k_gis, k_gisih,
       k_NoLpsrPitch};
-      
+    
+    static std::map<LpsrPitch, std::string> sDutchLilypondPitches;
+    
     static SMARTP<lpsrNote> create();// JMI  Note note, int voice) 
 
     // for regular notes
@@ -258,6 +288,8 @@ class EXP lpsrNote : public lpsrElement {
     std::list<SlpsrDynamics> getNoteDynamics () { return fNoteDynamics; };
     std::list<SlpsrWedge>    getNoteWedges   () { return fNoteWedges; };
 
+    std::string  notePitchAsLilypondString ();
+    
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode  (std::ostream& os);

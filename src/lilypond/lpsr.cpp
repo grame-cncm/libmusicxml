@@ -24,11 +24,16 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 // global variables
-indenter lpsrElement::idtr;
+
+lpsrNote::stringToNoteNamesLanguage const lpsrNote::sStringToNoteNamesLanguage;
+
+std::map<lpsrNote::LpsrPitch, std::string> lpsrNote::sDutchLilypondPitches;
 
 lpsrGlobalVariables::CodeGenerationKind
   lpsrGlobalVariables::sCodeGenerationKind =
     lpsrGlobalVariables::kLilypondCode;
+
+indenter lpsrElement::idtr;
 
 //______________________________________________________________________________
 SlpsrElement lpsrElement::create(bool debug)
@@ -120,90 +125,48 @@ void lpsrDuration::printLpsrStructure(ostream& os)
   this->printLilyPondCode (os);
 }
 
-void lpsrDuration::printLilyPondCode(ostream& os)
+std::string lpsrDuration::durationhAsLilypondString ()
 {
   // divisions are per quater, Lpsr durations are in whole notes
   //os << "|"  << fLpsrDuration.fNum << "|" << fLpsrDuration.fDenom;
 
+  stringstream s;
+  
   int noteDivisions         = fNum;
   int divisionsPerWholeNote = fDenom ;
   
-  if (divisionsPerWholeNote == 0)
-    {
-    os << 
+  if (divisionsPerWholeNote == 0) {
+    cerr << 
       std::endl << 
       "%--> lpsrDuration::printLilyPondCode, noteDivisions = " << noteDivisions <<
       ", divisionsPerWholeNote = " << divisionsPerWholeNote << std::endl;
-    return;
   }
   
   div_t divresult = div (noteDivisions, divisionsPerWholeNote);  
   int   div = divresult.quot;
   int   mod = divresult.rem;
   
-  /*
-   1024th   
-
-
-512th   
-
-
-256th   
-
-
-128th   
-
-
-64th  
-
-
-32nd  
-
-
-16th  
-
-
-eighth  
-
-
-quarter   
-
-
-half  
-
-
-whole   
-
-
-breve   
-
-
-long  
-
-
-*/
-
   switch (div) {
     case 8:
     case 7:
     case 6:
     case 5:
-      os << "\\maxima";
+      s << "\\maxima";
       break;
     case 4:
     case 3:
-      os << "\\longa";
+      s << "\\longa";
       break;
     case 2:
-      os << "\\breve";
+      s << "\\breve";
       break;
     case 1:
-      os << "1";
+      s << "1";
       break;
     case 0:
       {
       // shorter than a whole note
-      //os << "(shorter than a whole note) ";
+      //s << "(shorter than a whole note) ";
       int weight = 2; // half note
       int n = noteDivisions*2;
 
@@ -211,7 +174,7 @@ long
          weight *= 2;
          n *= 2;
       } // while
-      os << weight;
+      s << weight;
       }
       break;
     default:
@@ -223,9 +186,25 @@ long
   // print the dots if any  
   if (fDots > 0) {
     while (fDots-- > 0) {
-      os << ".";  
+      s << ".";  
     } // while
   }
+  
+  std::string  result;
+  
+  s >> result;
+  return result;
+}
+
+void lpsrDuration::printLilyPondCode(ostream& os)
+{
+  /*
+  enum NoteFigures = {
+    k1024th, k512th, 256th, k128th, k64th, k32nd, k16th, 
+    kEighth, kQuarter, kHalf, kWhole, kBreve, kLong, kMaxima};
+*/
+
+  os << durationhAsLilypondString ();
 }
 
 //______________________________________________________________________________
@@ -299,6 +278,179 @@ ostream& operator<< (ostream& os, const SlpsrNote& elt)
   return os;
 }
 
+std::string lpsrNote::notePitchAsLilypondString ()
+{
+  stringstream s;
+  
+  if (fCurrentStepIsRest) s << "r";
+  else {
+    //JMI assertLpsr(fLpsrPitch != k_NoLpsrPitch, "fLpsrPitch != k_NoLpsrPitch");
+    switch (fLpsrPitch) {
+      
+      case k_aeseh:
+        s << "aeseh";
+        break;
+      case k_aes:
+        s << "aes";
+        break;
+      case k_aeh:
+        s << "aeh";
+        break;
+      case k_a:
+        s << "a";
+        break;
+      case k_aih:
+        s << "aih";
+        break;
+      case k_ais:
+        s << "ais";
+        break;
+      case k_aisih:
+        s << "aisih";
+        break;
+        
+      case k_beseh:
+        s << "beseh";
+        break;
+      case k_bes:
+        s << "bes";
+        break;
+      case k_beh:
+        s << "beh";
+        break;
+      case k_b:
+        s << "b";
+        break;
+      case k_bih:
+        s << "bih";
+        break;
+      case k_bis:
+        s << "bis";
+        break;
+      case k_bisih:
+        s << "bisih";
+        break;
+        
+      case k_ceseh:
+        s << "ceseh";
+        break;
+      case k_ces:
+        s << "ces";
+        break;
+      case k_ceh:
+        s << "ceh";
+        break;
+      case k_c:
+        s << "c";
+        break;
+      case k_cih:
+        s << "cih";
+        break;
+      case k_cis:
+        s << "cis";
+        break;
+      case k_cisih:
+        s << "cisih";
+        break;
+        
+      case k_deseh:
+        s << "deseh";
+        break;
+      case k_des:
+        s << "des";
+        break;
+      case k_deh:
+        s << "deh";
+        break;
+      case k_d:
+        s << "d";
+        break;
+      case k_dih:
+        s << "dih";
+        break;
+      case k_dis:
+        s << "dis";
+        break;
+      case k_disih:
+        s << "disih";
+        break;
+  
+      case k_eeseh:
+        s << "eeseh";
+        break;
+      case k_ees:
+        s << "ees";
+        break;
+      case k_eeh:
+        s << "eeh";
+        break;
+      case k_e:
+        s << "e";
+        break;
+      case k_eih:
+        s << "eih";
+        break;
+      case k_eis:
+        s << "eis";
+        break;
+      case k_eisih:
+        s << "eisih";
+        break;
+        
+      case k_feseh:
+        s << "feseh";
+        break;
+      case k_fes:
+        s << "fes";
+        break;
+      case k_feh:
+        s << "feh";
+        break;
+      case k_f:
+        s << "f";
+        break;
+      case k_fih:
+        s << "fih";
+        break;
+      case k_fis:
+        s << "fis";
+        break;
+      case k_fisih:
+        s << "fisih";
+        break;
+        
+      case k_geseh:
+        s << "geseh";
+        break;
+      case k_ges:
+        s << "ges";
+        break;
+      case k_geh:
+        s << "geh";
+        break;
+      case k_g:
+        s << "g";
+        break;
+      case k_gih:
+        s << "gih";
+        break;
+      case k_gis:
+        s << "gis";
+        break;
+      case k_gisih:
+        s << "gisih";
+        break;
+      default:
+        s << "Note" << fLpsrPitch << "???";
+    } // switch
+  }
+  
+  std::string  result;
+  
+  s >> result;
+  return result;
+}
+
 void lpsrNote::printMusicXML(ostream& os)
 {
   os << "<!-- lpsrNote??? -->" << std::endl;
@@ -306,176 +458,33 @@ void lpsrNote::printMusicXML(ostream& os)
 
 void lpsrNote::printLpsrStructure(ostream& os)
 {
-  os << "Note" << " ";
-  this->printLilyPondCode (os);
+  os <<
+    "Note" << " " << notePitchAsLilypondString ();
+
+  if (! fNoteBelongsToAChord) {
+    // print the note duration
+    os << fLpsrDuration;
+    
+    // print the dynamics if any
+    std::list<SlpsrDynamics>::const_iterator i1;
+    for (i1=fNoteDynamics.begin(); i1!=fNoteDynamics.end(); i1++) {
+      os << " " << (*i1);
+    } // for
+  
+    // print the wedges if any
+    std::list<SlpsrWedge>::const_iterator i2;
+    for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
+      os << " " << (*i2);
+    } // for
+  }
+  
   os << std::endl;
 }
 
 void lpsrNote::printLilyPondCode(ostream& os)
 {
-  if (fCurrentStepIsRest) os << "r";
-  else {
-    // print the note name
-    //JMI assertLpsr(fLpsrPitch != k_NoLpsrPitch, "fLpsrPitch != k_NoLpsrPitch");
-    switch (fLpsrPitch) {
-      
-      case k_aeseh:
-        os << "aeseh";
-        break;
-      case k_aes:
-        os << "aes";
-        break;
-      case k_aeh:
-        os << "aeh";
-        break;
-      case k_a:
-        os << "a";
-        break;
-      case k_aih:
-        os << "aih";
-        break;
-      case k_ais:
-        os << "ais";
-        break;
-      case k_aisih:
-        os << "aisih";
-        break;
-        
-      case k_beseh:
-        os << "beseh";
-        break;
-      case k_bes:
-        os << "bes";
-        break;
-      case k_beh:
-        os << "beh";
-        break;
-      case k_b:
-        os << "b";
-        break;
-      case k_bih:
-        os << "bih";
-        break;
-      case k_bis:
-        os << "bis";
-        break;
-      case k_bisih:
-        os << "bisih";
-        break;
-        
-      case k_ceseh:
-        os << "ceseh";
-        break;
-      case k_ces:
-        os << "ces";
-        break;
-      case k_ceh:
-        os << "ceh";
-        break;
-      case k_c:
-        os << "c";
-        break;
-      case k_cih:
-        os << "cih";
-        break;
-      case k_cis:
-        os << "cis";
-        break;
-      case k_cisih:
-        os << "cisih";
-        break;
-        
-      case k_deseh:
-        os << "deseh";
-        break;
-      case k_des:
-        os << "des";
-        break;
-      case k_deh:
-        os << "deh";
-        break;
-      case k_d:
-        os << "d";
-        break;
-      case k_dih:
-        os << "dih";
-        break;
-      case k_dis:
-        os << "dis";
-        break;
-      case k_disih:
-        os << "disih";
-        break;
-  
-      case k_eeseh:
-        os << "eeseh";
-        break;
-      case k_ees:
-        os << "ees";
-        break;
-      case k_eeh:
-        os << "eeh";
-        break;
-      case k_e:
-        os << "e";
-        break;
-      case k_eih:
-        os << "eih";
-        break;
-      case k_eis:
-        os << "eis";
-        break;
-      case k_eisih:
-        os << "eisih";
-        break;
-        
-      case k_feseh:
-        os << "feseh";
-        break;
-      case k_fes:
-        os << "fes";
-        break;
-      case k_feh:
-        os << "feh";
-        break;
-      case k_f:
-        os << "f";
-        break;
-      case k_fih:
-        os << "fih";
-        break;
-      case k_fis:
-        os << "fis";
-        break;
-      case k_fisih:
-        os << "fisih";
-        break;
-        
-      case k_geseh:
-        os << "geseh";
-        break;
-      case k_ges:
-        os << "ges";
-        break;
-      case k_geh:
-        os << "geh";
-        break;
-      case k_g:
-        os << "g";
-        break;
-      case k_gih:
-        os << "gih";
-        break;
-      case k_gis:
-        os << "gis";
-        break;
-      case k_gisih:
-        os << "gisih";
-        break;
-      default:
-        os << "Note" << fLpsrPitch << "???";
-    } // switch
-  }
+  // print the note name
+  os << notePitchAsLilypondString ();
   
   if (! fNoteBelongsToAChord) {
     // print the note duration
