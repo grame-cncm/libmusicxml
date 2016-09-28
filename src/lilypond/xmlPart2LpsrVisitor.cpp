@@ -122,6 +122,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_beat_type& elt )
 void xmlpart2lpsrvisitor::visitStart ( S_senza_misura& elt )
   { fSenzaMisura = true; }
 
+/*
 rational xmlpart2lpsrvisitor::timeSignatureFromIndex(int index)
 {
   rational r(0,1);
@@ -133,7 +134,7 @@ rational xmlpart2lpsrvisitor::timeSignatureFromIndex(int index)
   }
   return r;
 }
-
+*/
 //______________________________________________________________________________
 void xmlpart2lpsrvisitor::visitEnd ( S_time& elt ) 
 {
@@ -820,7 +821,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_step& elt )
   fCurrentStep=elt->getValue();
 //  cout << "=== xmlpart2lpsrvisitor::visitStart ( S_step& elt ) " << fCurrentStep << std::endl;
 
-  lpsrNote::DiatonicPitch diatonicNote = lpsrNote::kNoDiatonicPitch;
+  lpsrNote::DiatonicPitch diatonicNote = lpsrNote::k_NoDiatonicPitch;
 
   std::transform(fCurrentStep.begin(), fCurrentStep.end(), fCurrentStep.begin(), ::toupper);
 
@@ -850,7 +851,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_octave& elt)
 void xmlpart2lpsrvisitor::visitStart ( S_duration& elt )
 {
   fCurrentDuration=(int)(*elt);
-  cout << "=== xmlpart2lpsrvisitor::visitStart ( S_duration& elt ), fCurrentDuration = " << fCurrentDuration << std::endl;
+//  cout << "=== xmlpart2lpsrvisitor::visitStart ( S_duration& elt ), fCurrentDuration = " << fCurrentDuration << std::endl;
 }
 
 void xmlpart2lpsrvisitor::visitStart ( S_dot& elt )
@@ -858,6 +859,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_dot& elt )
   fCurrentDotsNumber++;
 }
        
+//______________________________________________________________________________
 void xmlpart2lpsrvisitor::visitStart ( S_voice& elt )
 {
   fCurrentVoice=(int)(*elt);
@@ -865,12 +867,12 @@ void xmlpart2lpsrvisitor::visitStart ( S_voice& elt )
 
 void xmlpart2lpsrvisitor::visitStart ( S_type& elt )
 {
-  fCurrentType=elt->getValue();
+ // fCurrentType=elt->getValue();
 }
 
 void xmlpart2lpsrvisitor::visitStart ( S_stem& elt )
 {
-  fCurrentStem=elt->getValue();
+//  fCurrentStem=elt->getValue();
 }
 
 void xmlpart2lpsrvisitor::visitStart ( S_staff& elt )
@@ -1184,31 +1186,16 @@ void xmlpart2lpsrvisitor::visitEnd ( S_note& elt )
 
   SlpsrDuration noteDuration =
     lpsrDuration::create(fCurrentDuration, fCurrentDivisions*4, fCurrentDotsNumber);
-
-  cout << "noteDuration = " << noteDuration << std::endl;
+  //cout << "noteDuration = " << noteDuration << std::endl;
   
   // now we know more, update the various informations
   
   // diatonic note
-  lpsrNote::DiatonicPitch diatonicNote = lpsrNote::kNoDiatonicPitch;
+  lpsrNote::DiatonicPitch diatonicNote = lpsrNote::k_NoDiatonicPitch;
 
+  // take rests into account
   if (fCurrentStepIsARest)
     diatonicNote = lpsrNote::kRest;
-  else {
-    //std::transform(fCurrentStep.begin(), fCurrentStep.end(), fCurrentStep.begin(), ::toupper);
-    
-    if      (fCurrentStep == "A") diatonicNote = lpsrNote::kA;
-    else if (fCurrentStep == "B") diatonicNote = lpsrNote::kB;
-    else if (fCurrentStep == "C") diatonicNote = lpsrNote::kC;
-    else if (fCurrentStep == "D") diatonicNote = lpsrNote::kD;
-    else if (fCurrentStep == "E") diatonicNote = lpsrNote::kE;
-    else if (fCurrentStep == "F") diatonicNote = lpsrNote::kF;
-    else if (fCurrentStep == "G") diatonicNote = lpsrNote::kG;
-    else
-      lpsrAssert(false, 
-        "xmlpart2lpsrvisitor::visitEnd. step '"+fCurrentStep+
-        "' is not a letter from A to G");
-  }
  
   int noteQuatertonesFromA = fQuatertonesFromA[fCurrentStep];
   
@@ -1262,7 +1249,7 @@ void xmlpart2lpsrvisitor::visitEnd ( S_note& elt )
   int voice = 37;
   
   // update note with the computed information
-  note->updateNote(
+  note->updateNote (
     fCurrentStepIsARest,
     diatonicNote, 
     alteration, 

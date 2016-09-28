@@ -190,7 +190,7 @@ class EXP lpsrDuration : public lpsrElement {
           (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots);
       }
     
-    std::string  durationhAsLilypondString ();
+    std::string  durationAsLilypondString ();
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -215,10 +215,10 @@ class EXP lpsrNote : public lpsrElement {
   public:
 
     enum DiatonicPitch {
-      kA, kB, kC, kD, kE, kF, kG, kRest, kNoDiatonicPitch};
+      kA, kB, kC, kD, kE, kF, kG, kRest, k_NoDiatonicPitch};
     
     enum Alteration { // kDoubleFlat=-2 as in MusicXML, to help testing
-      kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp, kNoAlteration};
+      kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp, k_NoAlteration};
         
     // the LilyPond note names language
     enum NoteNamesLanguage {

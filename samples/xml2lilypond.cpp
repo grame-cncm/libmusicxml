@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
   
   std::string noteNamesLanguageName =             "dutch";
   lpsrNote::NoteNamesLanguage noteNamesLanguage = lpsrNote::kNederlands;
-  bool generateAbsoluteCode =                     false;
+  bool generateAbsoluteCode =                     true;
   bool generateNumericalTime =                    false;
   bool generateComments =                         true;
   bool generateBars =                             true;
@@ -211,7 +211,7 @@ int main(int argc, char *argv[])
     cerr << 
       "Launching conversion to LilyPond with libmusicxml2 v" << 
       musicxmllibVersionStr() <<
-      " / xml2Lpsr v" <<
+      " / xml2Lilypond v" <<
       musicxml2LpsrVersionStr() << 
       endl <<
       "The options are:" << endl <<
@@ -226,6 +226,7 @@ int main(int argc, char *argv[])
       "  debug:                 " << string(debug ? "true" : "false") << endl;
   
   xmlErr err = kNoErr;
+  
   if (!strcmp(file, "-"))
     err = musicxmlFd2Lpsr (stdin, ts, cout);
   else
@@ -233,5 +234,6 @@ int main(int argc, char *argv[])
   if (err) {
     cout << "conversion failed" << endl;
   }
+  
   return 0;
 }

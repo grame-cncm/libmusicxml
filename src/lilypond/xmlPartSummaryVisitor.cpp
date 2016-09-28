@@ -61,7 +61,7 @@ void xmlPartSummaryVisitor::visitStart ( S_part& elt)
   
 //JMI  fCurrentDuration = -8;
   fCurrentStepIsARest = false;
-  fCurrentLpsrDuration = lpsrDuration::create(0, 0, 0);
+ // JMI fCurrentLpsrDuration = lpsrDuration::create(0, 0, 0);
   
   fLastLyric = 0;
   fLastSyllabic = 0;
@@ -100,8 +100,8 @@ void xmlPartSummaryVisitor::visitStart ( S_rest& elt)
 void xmlPartSummaryVisitor::visitStart ( S_duration& elt )
 {
   int duration=(int)(*elt);
-//  cout << "=== xmlpart2lpsrvisitor::visitStart ( S_duration& elt ), duration = " << duration << std::endl;
-/*
+//  cout << "=== xmlPartSummaryVisitor::visitStart ( S_duration& elt ), duration = " << duration << std::endl;
+/* JMI
   if (fTranslationSwitches.fDebug)
     std::cerr << "duration = " << duration << ", " << 
     "fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
@@ -196,7 +196,7 @@ smartlist<int>::ptr xmlPartSummaryVisitor::getStaves() const
   smartlist<int>::ptr sl = smartlist<int>::create();
   for ( map<int, int>::const_iterator i = fStavesNotesCount.begin(); i != fStavesNotesCount.end(); i++) {
     sl->push_back (i->first);
-  }
+  } // for
   return sl;
 }
 
@@ -208,7 +208,7 @@ smartlist<int>::ptr xmlPartSummaryVisitor::getStaves (int voice) const
     map<int, int>::const_iterator l = i->second.find( voice );
     if (l != i->second.end())
       sl->push_back (i->first);
-  }
+  } // for
   return sl;
 }
 
@@ -216,14 +216,19 @@ smartlist<int>::ptr xmlPartSummaryVisitor::getStaves (int voice) const
 smartlist<int>::ptr xmlPartSummaryVisitor::getVoices () const
 {
   smartlist<int>::ptr sl = smartlist<int>::create();
-  for ( map<int, int>::const_iterator i = fVoicesNotesCount.begin(); i != fVoicesNotesCount.end(); i++) {
+  
+  for (
+    map<int, int>::const_iterator i = fVoicesNotesCount.begin();
+    i != fVoicesNotesCount.end();
+    i++) {
     /*
     cout <<
       "i->first = " << i->first <<
       std::endl;
     */
     sl->push_back (i->first);
-  }
+  } // for
+  
   return sl;
 }
 
@@ -231,12 +236,15 @@ smartlist<int>::ptr xmlPartSummaryVisitor::getVoices () const
 smartlist<int>::ptr xmlPartSummaryVisitor::getVoices (int staff) const
 {
   smartlist<int>::ptr sl = smartlist<int>::create();
+  
   map<int, map<int, int> >::const_iterator i = fStaffVoices.find( staff );
+  
   if (i != fStaffVoices.end()) {
     for ( map<int, int>::const_iterator v = i->second.begin(); v != i->second.end(); v++) {
       sl->push_back (v->first);
-    }
+    } // for
   }
+  
   return sl;
 }
 
@@ -266,10 +274,12 @@ int xmlPartSummaryVisitor::getStaffNotesCount (int id) const
 int xmlPartSummaryVisitor::getMainStaff (int voiceid) const
 {
   smartlist<int>::ptr v = getStaves (voiceid);
-  int staffid = 0;
-  int maxnotes = 0;
+  int                 staffid = 0;
+  int                 maxnotes = 0;
+  
   for (vector<int>::const_iterator i = v->begin(); i != v->end(); i++) {
     int n = getVoiceNotesCount (*i, voiceid);
+    
     if (n > maxnotes) {
       maxnotes = n;
       staffid = *i;
@@ -281,7 +291,8 @@ int xmlPartSummaryVisitor::getMainStaff (int voiceid) const
       ", staffid = " << staffid <<
       std::endl;
     */
-  }
+  } // for
+  
   return staffid;
 }
 
@@ -289,10 +300,12 @@ int xmlPartSummaryVisitor::getMainStaff (int voiceid) const
 int xmlPartSummaryVisitor::getVoiceNotesCount (int voiceid) const
 {
   int count = 0;
+  
   map<int, int>::const_iterator i = fVoicesNotesCount.find( voiceid );
   if (i != fVoicesNotesCount.end()) {
     count = i->second;
   }
+  
   return count;
 }
 
@@ -301,12 +314,14 @@ int xmlPartSummaryVisitor::getVoiceNotesCount (int staffid, int voiceid) const
 {
   int count = 0;
   map<int, map<int, int> >::const_iterator i = fStaffVoices.find( staffid );
+  
   if (i != fStaffVoices.end()) {
     map<int, int>::const_iterator v = i->second.find( voiceid );
     if (v != i->second.end()) {
       count = v->second;
     }
   }
+  
   return count;
 }
 

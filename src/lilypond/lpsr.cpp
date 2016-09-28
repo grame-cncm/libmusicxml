@@ -95,10 +95,14 @@ SlpsrDuration lpsrDuration::create(int num, int denom, int dots)
 lpsrDuration::lpsrDuration (int num, int denom, int dots)
   : lpsrElement("")
 {
-  fNum=num; fDenom=denom; fDots=dots; 
+  fNum   = num;
+  fDenom = denom;
+  fDots  = dots; 
+  /*
   cout <<
     "lpsrDuration::lpsrDuration (), fNum = " << fNum << 
-    ", fDenom = " << fDenom << ", fDots = " << fDots << std:endl;
+    ", fDenom = " << fDenom << ", fDots = " << fDots << std::endl;
+    */
 }
 lpsrDuration::~lpsrDuration() {}
 
@@ -128,7 +132,7 @@ void lpsrDuration::printLpsrStructure(ostream& os)
   this->printLilyPondCode (os);
 }
 
-std::string lpsrDuration::durationhAsLilypondString ()
+std::string lpsrDuration::durationAsLilypondString ()
 {
   // divisions are per quater, Lpsr durations are in whole notes
   //os << "|"  << fLpsrDuration.fNum << "|" << fLpsrDuration.fDenom;
@@ -186,9 +190,12 @@ std::string lpsrDuration::durationhAsLilypondString ()
         divisionsPerWholeNote << " is too large" << std::endl;
   } // switch
   
-  // print the dots if any  
-  if (fDots > 0) {
-    while (fDots-- > 0) {
+  //cout << "--> fDots = " << fDots << std::endl;
+  
+  // print the dots if any 
+  int n = fDots; 
+  if (n > 0) {
+    while (n-- > 0) {
       s << ".";  
     } // while
   }
@@ -207,7 +214,7 @@ void lpsrDuration::printLilyPondCode(ostream& os)
     kEighth, kQuarter, kHalf, kWhole, kBreve, kLong, kMaxima};
 */
 
-  os << durationhAsLilypondString ();
+  os << durationAsLilypondString ();
 }
 
 //______________________________________________________________________________
@@ -402,11 +409,10 @@ SlpsrNote lpsrNote::create()
 
 lpsrNote::lpsrNote() : lpsrElement("")
 {
-  fDiatonicPitch         = lpsrNote::kNoDiatonicPitch;
-  fAlteration           = lpsrNote::kNoAlteration;
+  fDiatonicPitch        = lpsrNote::k_NoDiatonicPitch;
+  fAlteration           = lpsrNote::k_NoAlteration;
   fOctave               = -1;
-// JMI   
-  fLpsrDuration = lpsrDuration::create(99, 99, 0);
+  // leave fLpsrDuration as it is, will be set on S_note
   fVoice                = -1;
 }
 lpsrNote::~lpsrNote() {}
@@ -746,9 +752,13 @@ void lpsrSequence::printLpsrStructure(ostream& os)
   
   idtr++;
 
-  std::list<SlpsrElement>::const_iterator i;
-  for (i=fSequenceElements.begin(); i!=fSequenceElements.end(); i++) {
+  std::list<SlpsrElement>::const_iterator
+    iBegin = fSequenceElements.begin(),
+    iEnd   = fSequenceElements.end(),
+    i      = iBegin;
+  for ( ; ; ) {
     os << idtr << (*i);
+    if (++i == iEnd) break;
     if (fElementsSeparator == kEndOfLine) os << std::endl;
   } // for
   
@@ -762,9 +772,13 @@ void lpsrSequence::printMusicXML(ostream& os)
 
 void lpsrSequence::printLilyPondCode(ostream& os)
 {
-  std::list<SlpsrElement>::const_iterator i;
-  for (i=fSequenceElements.begin(); i!=fSequenceElements.end(); i++) {
+  std::list<SlpsrElement>::const_iterator
+    iBegin = fSequenceElements.begin(),
+    iEnd   = fSequenceElements.end(),
+    i      = iBegin;
+  for ( ; ; ) {
     os << idtr << (*i);
+    if (++i == iEnd) break;
     if (fElementsSeparator == kEndOfLine) os << std::endl;
   } // for
 }
@@ -1277,9 +1291,9 @@ void lpsrPart::printLpsrStructure(ostream& os)
   idtr++;
 
   os << idtr << fPartName << std::endl;
-  if (! fPartAbsoluteCode)
-    os << idtr << "\\relative " << std::endl;
-  os << idtr << fPartLpsrSequence << std::endl;
+// JMI  if (! fPartAbsoluteCode)
+  //  os << idtr << "\\relative " << std::endl;
+  os << idtr << fPartLpsrSequence;
 
   idtr--;
 }
@@ -1557,60 +1571,41 @@ void lpsrHeader::printLpsrStructure(ostream& os)
   idtr++;
   
   if (fWorkNumber) {
-    os << idtr << fWorkNumber << std::endl;
+    os << idtr << fWorkNumber;
   }
   
   if (fWorkTitle) {
-    os << idtr << fWorkTitle << std::endl;
+    os << idtr << fWorkTitle;
   }
     
   if (fMovementNumber) {
-    os << idtr << fMovementNumber << std::endl;
+    os << idtr << fMovementNumber;
   }
     
   if (fMovementTitle) {
-    os << idtr << fMovementTitle << std::endl;
+    os << idtr << fMovementTitle;
   }
     
   if (!fCreators.empty()) {
     std::vector<SlpsrLilypondVarValAssoc>::const_iterator i1;
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
-      os << idtr << (*i1) << std::endl;
-      /*
-      string type = (*i1)->getAttributeValue("type");
-      std::transform(type.begin(), type.end(), type.begin(), ::tolower);
-      if (type == "composer" || type == "arranger")
-        os
-          << idtr << type << " = \""  << (*i1)->getValue() << "\"" << std::endl;
-      else
-        os <<
-          idtr << "%" << type << " = \""  << (*i1)->getValue() << "\"" << std::endl;
-          */
+      os << idtr << (*i1);
     } // for
   }
     
   if (fRights) {
-    os << idtr << fRights << std::endl;
-//    os << idtr << "%rights = \""  << dest << "\"" << std::endl;
+    os << idtr << fRights;
   }
     
   if (!fSoftwares.empty()) {
     std::vector<SlpsrLilypondVarValAssoc>::const_iterator i2;
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
-      os << idtr << (*i2) << std::endl;
-      /*
-      std::string source = (*i2)->getValue();
-      std::string dest;
-      std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
-//      os << idtr << "%software = \""  << dest << "\"" << std::endl;
-      os << idtr << "encodingsoftware = \""  << dest << "\"" << std::endl;
-      */
+      os << idtr << (*i2);
     } // for
   }
     
   if (fEncodingDate) {
-    os << idtr << fEncodingDate << std::endl;
-//    os << idtr << "%encoding_date = \""  << dest << "\"" << std::endl;
+    os << idtr << fEncodingDate;
   }
   
   idtr--;
@@ -1626,44 +1621,42 @@ void lpsrHeader::printLilyPondCode(ostream& os)
     std::string source = fWorkNumber->getVariableValue();
     std::string dest;
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
-    os << idtr << "%" << fWorkNumber->getVariableName() << " = \""  << dest << "\"" << std::endl;
+    os << idtr << 
+      "%" << fWorkNumber->getVariableName() << " = \""  << 
+      dest << "\"" << std::endl;
   }
   
   if (fWorkTitle) {
     std::string source = fWorkTitle->getVariableValue();
     std::string dest;
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
-    os << idtr << "%" << fWorkTitle->getVariableName() << " = \""  << dest << "\"" << std::endl;
+    os << idtr << 
+      "%" << fWorkTitle->getVariableName() << " = \""  << 
+      dest << "\"" << std::endl;
   }
     
   if (fMovementNumber) {
     std::string source = fMovementNumber->getVariableValue();
     std::string dest;
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
-    os << idtr << "%" << fMovementNumber->getVariableName() << " = \""  << dest << "\"" << std::endl;
+    os << idtr << 
+      "%" << fMovementNumber->getVariableName() << " = \""  << 
+      dest << "\"" << std::endl;
   }
     
   if (fMovementTitle) {
     std::string source = fMovementTitle->getVariableValue();
     std::string dest;
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
-    os << idtr << "%" << fMovementTitle->getVariableName() << " = \""  << dest << "\"" << std::endl;
+    os << idtr << 
+      "%" << fMovementTitle->getVariableName() << " = \""  << 
+      dest << "\"" << std::endl;
   }
     
   if (!fCreators.empty()) {
     vector<SlpsrLilypondVarValAssoc>::const_iterator i1;
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
-      os << idtr << (*i1) << std::endl;
-      /*
-      string type = (*i1)->getAttributeValue("type");
-      std::transform(type.begin(), type.end(), type.begin(), ::tolower);
-      if (type == "composer" || type == "arranger")
-        os
-          << idtr << type << " = \""  << (*i1)->getValue() << "\"" << std::endl;
-      else
-        os <<
-          idtr << "%" << type << " = \""  << (*i1)->getValue() << "\"" << std::endl;
-          */
+      os << idtr << (*i1);
     } // for
   }
     
@@ -1671,35 +1664,34 @@ void lpsrHeader::printLilyPondCode(ostream& os)
     std::string source = fRights->getVariableValue();
     std::string dest;
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
-    os << idtr << "%" << fRights->getVariableName() << " = \""  << dest << "\"" << std::endl;
+    os << idtr << 
+      "%" << fRights->getVariableName() << " = \""  << 
+      dest << "\"" << std::endl;
   }
     
   if (!fSoftwares.empty()) {
     vector<SlpsrLilypondVarValAssoc>::const_iterator i2;
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
-      os << idtr << (*i2) << std::endl;
-      /*
-      std::string source = (*i2)->getValue();
-      std::string dest;
-      std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
-//      os << idtr << "%software = \""  << dest << "\"" << std::endl;
-      os << idtr << "encodingsoftware = \""  << dest << "\"" << std::endl;
-      */
-    } // for
+      os << idtr << (*i2);
+     } // for
   }
     
   if (fEncodingDate) {
     std::string source = fEncodingDate->getVariableValue();
     std::string dest;
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
-    os << idtr << "%" << fEncodingDate->getVariableName() << " = \""  << dest << "\"" << std::endl;
+    os << idtr << 
+      "%" << fEncodingDate->getVariableName() << " = \""  << 
+      dest << "\"" << std::endl;
   }
   
   if (fScoreInstrument) {
     std::string source = fScoreInstrument->getVariableValue();
     std::string dest;
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
-    os << idtr << "%" << fScoreInstrument->getVariableName() << " = \""  << dest << "\"" << std::endl;
+    os << idtr << 
+      "%" << fScoreInstrument->getVariableName() << " = \""  << 
+      dest << "\"" << std::endl;
   }
   
   os << "}" << std::endl;
@@ -2093,9 +2085,9 @@ void lpsrScore::printLpsrStructure(ostream& os)
 
   idtr++;
 
-  os << idtr << fScoreParallelMusic << std::endl;
-  os << idtr << fScoreLayout << std::endl;
-  os << idtr << fScoreMidi << std::endl;
+  os << idtr << fScoreParallelMusic;
+  os << idtr << fScoreLayout;
+  os << idtr << fScoreMidi;
 
   idtr--;
 }

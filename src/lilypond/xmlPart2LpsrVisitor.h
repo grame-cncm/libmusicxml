@@ -254,7 +254,7 @@ class EXP xmlpart2lpsrvisitor :
       \param index an index into fTimeSignatures vector
       \return the time signature as a rational or rational(0,1)
     */
-    rational            timeSignatureFromIndex(int index);
+  // JMI  rational            timeSignatureFromIndex(int index);
     
     std::vector<std::pair<std::string,std::string> >
                         fTimeSignatures;
@@ -272,9 +272,10 @@ class EXP xmlpart2lpsrvisitor :
     int                 fCurrentOctave;
     int                 fCurrentDuration;
     int                 fCurrentDotsNumber;
+    
     int                 fCurrentVoice;
-    std::string         fCurrentType;
-    std::string         fCurrentStem;
+//    std::string         fCurrentType;
+//    std::string         fCurrentStem;
     int                 fCurrentStaff;    // the staff we're currently generating events for (0 by default)
    
     lpsrNote::LpsrPitch computeNoteLpsrPitch (

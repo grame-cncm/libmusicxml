@@ -131,7 +131,7 @@ class EXP xmlPartSummaryVisitor :
     int                 fStaff, fVoice;
 
     bool                fCurrentStepIsARest;
-    SlpsrDuration       fCurrentLpsrDuration;
+ // JMI   SlpsrDuration       fCurrentLpsrDuration;
     
     // the last lyric number, i.e. stanza number
     S_lyric             fLastLyric;

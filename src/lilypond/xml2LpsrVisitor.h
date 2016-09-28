@@ -160,14 +160,7 @@ class EXP xml2LpsrVisitor :
     
     // page height, margins and the like in centimeters are computed as:
     //   value*millimeters/tenths/10
-/*
-    int             fPageWidth; //paper-width
-    int             fPageHeight; //paper-height
-    int             fTopMargin;
-    int             fBottomMargin;
-    int             fLeftMargin;
-    int             fRightMargin;
-    
+/* JMI
     int             fSystemDistance; //fBetweenSystemSpace;
     int             fTopSystemDistance; //fPageTopSpace;
 */
@@ -178,6 +171,10 @@ class EXP xml2LpsrVisitor :
     SlpsrScore      fLpsrScore;
     
     std::string     fCurrentPartID;
+    std::string     fCurrentPartName;
+    
+    std::string     fCurrentInstrumentName;
+    
    
     // the index of the current lpsr staff
     int             fCurrentStaffIndex;
