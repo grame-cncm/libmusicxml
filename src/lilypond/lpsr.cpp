@@ -642,11 +642,13 @@ void lpsrNote::printMusicXML(ostream& os)
 
 void lpsrNote::printLpsrStructure(ostream& os)
 {
-  // print the note name
-  os << notePitchAsLilypondString ();
+  if (fNoteBelongsToAChord) {
+    os << notePitchAsLilypondString () << fLpsrDuration;
 
-  if (! fNoteBelongsToAChord) {
-    os << notePitchAsLilypondString () << fLpsrDuration << std::endl;
+  } else {
+    os <<
+      "note" << " " << 
+      notePitchAsLilypondString () << fLpsrDuration << std::endl;
     
     // print the dynamics if any
     if (fNoteDynamics.size()) {
@@ -660,7 +662,6 @@ void lpsrNote::printLpsrStructure(ostream& os)
   
     // print the wedges if any
     if (fNoteWedges.size()) {
-      os << std::endl;
       idtr++;
       std::list<SlpsrWedge>::const_iterator i2;
       for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
