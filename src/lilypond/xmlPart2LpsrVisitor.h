@@ -266,14 +266,14 @@ class EXP xmlpart2lpsrvisitor :
     SlpsrPart           fLpsrpart; 
 
     // MusicXML informations
-    std::string         fCurrentStep;     // the note name, diatonic
-    bool                fCurrentStepIsARest;
-    int                 fCurrentAlter;
-    int                 fCurrentOctave;
-    int                 fCurrentDuration;
+    std::string         fCurrentMusicXMLStep;     // the note name, diatonic
+    bool                fCurrentMusicXMLStepIsARest;
+    int                 fCurrentMusicXMLAlteration;
+    int                 fCurrentMusicXMLOctave;
+    int                 fCurrentMusicXMLDuration;
     int                 fCurrentDotsNumber;
     
-    int                 fCurrentVoice;
+    int                 fCurrentVoiceNumber;
 //    std::string         fCurrentType;
 //    std::string         fCurrentStem;
     int                 fCurrentStaff;    // the staff we're currently generating events for (0 by default)
@@ -304,8 +304,6 @@ class EXP xmlpart2lpsrvisitor :
 
     void                resetMetronome();
     virtual void        resetMetronome(beat& b);
-
-    static std::map<std::string, int> fQuatertonesFromA;
 
     // description of the current note
     SlpsrNote           fCurrentNote;

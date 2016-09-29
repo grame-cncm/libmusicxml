@@ -42,7 +42,9 @@ void xmlPartSummaryVisitor::visitStart ( S_divisions& elt )
     if (fCurrentDivisions == 1)
       cerr << "There is 1 division per quater note" << std::endl;
     else
-      cerr << "There are " << fCurrentDivisions << " divisions per quater note" << std::endl;
+      cerr <<
+        "There are " << fCurrentDivisions << 
+        " divisions per quater note" << std::endl;
   }
 }
 

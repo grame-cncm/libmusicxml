@@ -148,6 +148,41 @@ class EXP lpsrElement : public smartable {
 };
 
 /*!
+\brief A lpsr absolute octave representation.
+*/
+//______________________________________________________________________________
+class EXP lpsrAbsoluteOctave : public lpsrElement {
+  public:
+  
+    static SMARTP<lpsrAbsoluteOctave> create(int musicxmlOctave);
+    
+    lpsrAbsoluteOctave(int musicxmlOctave);
+    virtual ~lpsrAbsoluteOctave();
+    
+    lpsrAbsoluteOctave& operator= (const lpsrAbsoluteOctave& absOct)
+      {
+        fLpsrOctave = absOct.fLpsrOctave;
+        return *this;
+      }
+          
+    bool operator!= (const lpsrAbsoluteOctave& otherAbsOct) const 
+      { 
+        return fLpsrOctave != otherAbsOct.fLpsrOctave;
+      }
+    
+    std::string  absoluteOctaveAsLilypondString ();
+
+    virtual void printMusicXML      (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
+
+  private:
+
+    int  fLpsrOctave;
+};
+typedef SMARTP<lpsrAbsoluteOctave> SlpsrAbsoluteOctave;
+
+/*!
 \brief A lpsr note duration representation.
 
   Musical notation duration is commonly represented as fractions. 
@@ -214,21 +249,22 @@ typedef SMARTP<lpsrDuration> SlpsrDuration;
 class EXP lpsrNote : public lpsrElement {
   public:
 
-    enum DiatonicPitch {
+    enum MusicXMLDiatonicPitch {
       kA, kB, kC, kD, kE, kF, kG, kRest, k_NoDiatonicPitch};
     
-    enum Alteration { // kDoubleFlat=-2 as in MusicXML, to help testing
+    enum MusicXMLAlteration { // kDoubleFlat=-2 as in MusicXML, to help testing
       kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp, k_NoAlteration};
         
     // the LilyPond note names language
-    enum NoteNamesLanguage {
+    enum LpsrNoteNamesLanguage {
       kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
       kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
 
-    class stringToNoteNamesLanguage : public std::map<std::string, NoteNamesLanguage>
+    class stringToLpsrNoteNamesLanguage 
+      : public std::map<std::string, LpsrNoteNamesLanguage>
     {
       public:
-        stringToNoteNamesLanguage()
+        stringToLpsrNoteNamesLanguage ()
           {
             //either insert(make_pair(1, 2)); or (*this)[1] = 2;
             (*this)["dutch"] =     kNederlands;
@@ -244,7 +280,7 @@ class EXP lpsrNote : public lpsrElement {
             (*this)["svenska"] =   kSvenska;
             (*this)["vlaams"] =    kVlaams;
           }
-    } const static sStringToNoteNamesLanguage;
+    } const static sStringToLpsrNoteNamesLanguage;
   
     // the following is a series of Cs with increasing pitches:
     // \relative c'' { ceseh ces ceh c cih cis cisih }
@@ -259,35 +295,39 @@ class EXP lpsrNote : public lpsrElement {
       k_geseh, k_ges, k_geh, k_g, k_gih, k_gis, k_gisih,
       k_NoLpsrPitch};
     
+    static std::map<std::string, int> sQuatertonesFromA;
+
     static std::map<LpsrPitch, std::string> sDutchLilypondPitches;
     
     static SMARTP<lpsrNote> create();// JMI  Note note, int voice) 
 
-    // for regular notes
-    void updateNote( 
-          bool              currentStepIsRest,
-          DiatonicPitch     diatonicNote,
-          Alteration        alteration,
-          int               octave,
-          SlpsrDuration     dur,
-          LpsrPitch         lpsrPitch,
-          int               voice,
-          bool              noteBelongsToAChord);
+    // for standalone notes
+    static SMARTP<lpsrNote> createFromMusicXMLData(
+      bool   currentStepIsARest,
+      int    musicXMLAlteration,
+      int    musicxmlOctave,
+      int    musicxmlDuration,
+      int    voiceNumber,
+      bool   noteBelongsToAChord);
     
-    // for tuplet elements
-    void updateNoteDuration (int actualNotes, int normalNotes);
-          
+    // for chord members
     void setNoteBelongsToAChord ();
     
+    // for tuplet members
+    void updateNoteDuration (int actualNotes, int normalNotes);
+    
+    // dynamics and wedges
     void              addDynamics (SlpsrDynamics dyn);
     void              addWedge    (SlpsrWedge    wdg);
-
-    SlpsrDynamics     removeFirstDynamics ();
-    SlpsrWedge        removeFirstWedge ();
 
     std::list<SlpsrDynamics> getNoteDynamics () { return fNoteDynamics; };
     std::list<SlpsrWedge>    getNoteWedges   () { return fNoteWedges; };
 
+    SlpsrDynamics     removeFirstDynamics ();
+    SlpsrWedge        removeFirstWedge ();
+
+//    void octaveRelativeTo (const lpsrAbsoluteOctave& otherAbsOct);
+        
     std::string  notePitchAsLilypondString ();
     
     virtual void printMusicXML      (std::ostream& os);
@@ -296,31 +336,37 @@ class EXP lpsrNote : public lpsrElement {
 
   protected:
  
-    lpsrNote();
+    lpsrNote(
+      bool   currentStepIsARest,
+      int    musicXMLAlteration,
+      int    musicxmlOctave,
+      int    musicxmlDuration,
+      int    voiceNumber,
+      bool   noteBelongsToAChord);
     
     virtual ~lpsrNote();
     
   private:
 
     // MusicXML informations
-    bool                 fCurrentStepIsRest;
-    DiatonicPitch        fDiatonicPitch;
-    Alteration           fAlteration;
-    int                  fOctave;
+    bool                     fCurrentStepIsARest;
+    MusicXMLDiatonicPitch    fMusicXMLDiatonicPitch;
+    MusicXMLAlteration       fMusicXMLAlteration;
+    int                      fMusicXMLOctave;
 
     // MusicXML durations are in in divisions per quarter note,
     // LilyPond durations are in whole notes, hence the "*4" multiplication
-    SlpsrDuration        fLpsrDuration;
+    SlpsrDuration            fLpsrDuration;
 
     // LilyPond informations
-    LpsrPitch            fLpsrPitch;
+    LpsrPitch                fLpsrPitch;
     
     std::list<SlpsrDynamics> fNoteDynamics;
     std::list<SlpsrWedge>    fNoteWedges;
     
-    bool                 fNoteBelongsToAChord;
+    bool                     fNoteBelongsToAChord;
 
-    int                  fVoice;
+    int                      fVoiceNumber;
 };
 typedef SMARTP<lpsrNote> SlpsrNote;
 
@@ -719,7 +765,6 @@ class EXP lpsrRepeat: public lpsrElement {
 };
 typedef SMARTP<lpsrRepeat> SlpsrRepeat;
 
-/*!
 /*!
 \brief A lpsr part representation.
 

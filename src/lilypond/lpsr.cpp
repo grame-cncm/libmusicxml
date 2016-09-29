@@ -25,7 +25,8 @@ namespace MusicXML2
 //______________________________________________________________________________
 // global variables
 
-lpsrNote::stringToNoteNamesLanguage const lpsrNote::sStringToNoteNamesLanguage;
+lpsrNote::stringToLpsrNoteNamesLanguage const
+  lpsrNote::sStringToLpsrNoteNamesLanguage;
 
 std::map<lpsrNote::LpsrPitch, std::string> lpsrNote::sDutchLilypondPitches;
 
@@ -82,6 +83,63 @@ void lpsrElement::printLpsrStructure(ostream& os)
 void lpsrElement::printLilyPondCode(ostream& os)
 {
   os << "\%{ lpsrElement??? \%}" << std::endl;
+}
+
+//______________________________________________________________________________
+SlpsrAbsoluteOctave lpsrAbsoluteOctave::create(int musicxmlOctave)
+{
+  lpsrAbsoluteOctave * o = new lpsrAbsoluteOctave (musicxmlOctave);
+  assert(o!=0); 
+  return o;
+}
+
+lpsrAbsoluteOctave::lpsrAbsoluteOctave (int musicxmlOctave)
+  : lpsrElement("")
+{
+  fLpsrOctave = musicxmlOctave - 3;
+  /*
+  cout <<
+    "lpsrAbsoluteOctave::lpsrAbsoluteOctave (), musicxmlOctave = " << musicxmlOctave << 
+    ", fLpsrOctave = " << fLpsrOctave << std::endl;
+    */
+}
+lpsrAbsoluteOctave::~lpsrAbsoluteOctave() {}
+
+ostream& operator<< (ostream& os, const SlpsrAbsoluteOctave& dur)
+{
+  dur->print(os);
+  return os;
+}
+
+void lpsrAbsoluteOctave::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrAbsoluteOctave??? -->" << std::endl;
+}
+
+std::string lpsrAbsoluteOctave::absoluteOctaveAsLilypondString ()
+{
+  stringstream s;
+  std::string  result;
+  
+  s << fLpsrOctave;
+  s >> result;
+  return result;
+}
+
+void lpsrAbsoluteOctave::printLpsrStructure(ostream& os)
+{
+  this->printLilyPondCode (os);
+}
+
+void lpsrAbsoluteOctave::printLilyPondCode(ostream& os)
+{
+  /*
+  enum NoteFigures = {
+    k1024th, k512th, 256th, k128th, k64th, k32nd, k16th, 
+    kEighth, kQuarter, kHalf, kWhole, kBreve, kLong, kMaxima};
+*/
+
+  os << absoluteOctaveAsLilypondString ();
 }
 
 //______________________________________________________________________________
@@ -401,20 +459,126 @@ void lpsrWedge::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-SlpsrNote lpsrNote::create() 
+SlpsrNote lpsrNote::createFromMusicXMLData (
+  bool   currentStepIsARest,
+  int    musicXMLAlteration,
+  int    musicxmlOctave,
+  int    musicxmlDuration,
+  int    voiceNumber,
+  bool   noteBelongsToAChord)
 {  
-  lpsrNote * o = new lpsrNote (); assert(o!=0); 
+  lpsrNote * o =
+    new lpsrNote (
+      currentStepIsARest,
+      musicXMLAlteration,
+      musicxmlOctave,
+      musicxmlDuration,
+      voiceNumber,
+      noteBelongsToAChord);
+  assert(o!=0); 
   return o;
 }
 
-lpsrNote::lpsrNote() : lpsrElement("")
+lpsrNote::lpsrNote (
+    bool   currentStepIsARest,
+    int    musicXMLAlteration,
+    int    musicxmlOctave,
+    int    musicxmlDuration,
+    int    voiceNumber,
+    bool   noteBelongsToAChord)
+  : lpsrElement("")
 {
+  /*
   fDiatonicPitch        = lpsrNote::k_NoDiatonicPitch;
   fAlteration           = lpsrNote::k_NoAlteration;
   fOctave               = -1;
   // leave fLpsrDuration as it is, will be set on S_note
-  fVoice                = -1;
+  fVoiceNumber          = -1;
+*/
+
+  sQuatertonesFromA["A"]=0;
+  sQuatertonesFromA["B"]=4;
+  sQuatertonesFromA["C"]=6;
+  sQuatertonesFromA["D"]=10;
+  sQuatertonesFromA["E"]=14;
+  sQuatertonesFromA["F"]=16;
+  sQuatertonesFromA["G"]=20;
+  
+
+
+  fCurrentStepIsARest = currentStepIsARest;
+ // fDiatonicPitch = diatonicNote;
+ // fAlteration = alteration;
+  //fOctave = octave;
+ // fLpsrDuration = dur;
+
+  // take rests into account
+  if (fCurrentStepIsARest)
+    fMusicXMLDiatonicPitch = lpsrNote::kRest;
+ 
+  int noteQuatertonesFromA = sQuatertonesFromA[fCurrentMusicXMLStep];
+  
+  // flat or sharp
+  lpsrNote::Alteration alteration;
+  
+  assert(fCurrentAlter>=-2 && fCurrentAlter<=+2);
+  switch (fCurrentAlter) {
+    case -2:
+      alteration = lpsrNote::kDoubleFlat;
+      noteQuatertonesFromA-=3;
+      if (noteQuatertonesFromA < 0) noteQuatertonesFromA += 24; // it is below A
+      break;
+    case -1:
+      alteration = lpsrNote::kFlat;
+      noteQuatertonesFromA-=2;
+      if (noteQuatertonesFromA < 0) noteQuatertonesFromA += 24; // it is below A
+      break;
+    case 0:
+      alteration = lpsrNote::kNatural;
+      break;
+    case 1:
+      alteration = lpsrNote::kSharp;
+      noteQuatertonesFromA+=2;
+      break;
+    case 2:
+      alteration = lpsrNote::kDoubleSharp;
+      noteQuatertonesFromA+=3;
+      break;
+    default:
+      cout << "fCurrentAlter = " << fCurrentAlter << std::endl << std::flush;
+  } // switch
+
+
+
+  fLpsrPitch = 
+    computeNoteLpsrPitch (noteQuatertonesFromA, musicXMLAlteration);
+
+  fVoiceNumber = voice;
+  fNoteBelongsToAChord = noteBelongsToAChord;
+  
+    if (fTranslationSwitches.fDebug)
+    std::cerr << "fCurrentDuration = " << fCurrentDuration << ", " << 
+    "fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
+  if (fCurrentDivisions*4 == 0)
+    {
+    std::cerr << 
+      std::endl << 
+      "%--> xmlpart2lpsrvisitor::visitEnd, fCurrentDuration = " << fCurrentDuration <<
+      ", fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
+    //return; JMI
+  }
+
+  SlpsrDuration noteDuration =
+    lpsrDuration::create(fCurrentDuration, fCurrentDivisions*4, fCurrentDotsNumber);
+  //cout << "noteDuration = " << noteDuration << std::endl;
+  
+  // now we know more, update the various informations
+  
+  // diatonic note
+  lpsrNote::DiatonicPitch diatonicNote = lpsrNote::k_NoDiatonicPitch;
+
 }
+
 lpsrNote::~lpsrNote() {}
 
 void lpsrNote::updateNote(
@@ -433,7 +597,7 @@ void lpsrNote::updateNote(
   fOctave = octave;
   fLpsrDuration = dur;
   fLpsrPitch = lpsrPitch;
-  fVoice = voice;
+  fVoiceNumber = voice;
   fNoteBelongsToAChord = noteBelongsToAChord;
 }
 
