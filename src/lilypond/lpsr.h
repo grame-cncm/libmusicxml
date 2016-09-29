@@ -255,7 +255,34 @@ class EXP lpsrNote : public lpsrElement {
     enum MusicXMLAlteration { // kDoubleFlat=-2 as in MusicXML, to help testing
       kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp, k_NoAlteration};
         
-    // the LilyPond note names language
+    static std::map<char, int> sQuatertonesFromA;
+    
+    static SMARTP<lpsrNote> create();
+
+    typedef struct {
+      char   fMusicxmlStep;
+      bool   fMusicxmlStepIsARest;
+      int    fMusicXMLAlteration;
+      int    fMusicxmlOctave;
+      int    fMusicxmlDivisions;
+      int    fMusicxmlDuration;
+      int    fDotsNumber;
+      int    fVoiceNumber;
+      bool   fNoteBelongsToAChord;
+    } musicXMLNoteData;
+    
+    // for standalone notes
+    static SMARTP<lpsrNote> createFromMusicXMLData (
+      musicXMLNoteData& mxmldat);
+    
+    // for chord members
+    void setNoteBelongsToAChord ();
+    
+    // for tuplet members
+    void updateNoteDuration (int actualNotes, int normalNotes);
+    
+
+   // the LilyPond note names language
     enum LpsrNoteNamesLanguage {
       kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
       kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
@@ -282,6 +309,7 @@ class EXP lpsrNote : public lpsrElement {
           }
     } const static sStringToLpsrNoteNamesLanguage;
   
+    // we use dutch pitches names for the enumeration below
     // the following is a series of Cs with increasing pitches:
     // \relative c'' { ceseh ces ceh c cih cis cisih }
 
@@ -295,27 +323,8 @@ class EXP lpsrNote : public lpsrElement {
       k_geseh, k_ges, k_geh, k_g, k_gih, k_gis, k_gisih,
       k_NoLpsrPitch};
     
-    static std::map<std::string, int> sQuatertonesFromA;
-
     static std::map<LpsrPitch, std::string> sDutchLilypondPitches;
-    
-    static SMARTP<lpsrNote> create();// JMI  Note note, int voice) 
 
-    // for standalone notes
-    static SMARTP<lpsrNote> createFromMusicXMLData(
-      bool   currentStepIsARest,
-      int    musicXMLAlteration,
-      int    musicxmlOctave,
-      int    musicxmlDuration,
-      int    voiceNumber,
-      bool   noteBelongsToAChord);
-    
-    // for chord members
-    void setNoteBelongsToAChord ();
-    
-    // for tuplet members
-    void updateNoteDuration (int actualNotes, int normalNotes);
-    
     // dynamics and wedges
     void              addDynamics (SlpsrDynamics dyn);
     void              addWedge    (SlpsrWedge    wdg);
@@ -336,17 +345,13 @@ class EXP lpsrNote : public lpsrElement {
 
   protected:
  
-    lpsrNote(
-      bool   currentStepIsARest,
-      int    musicXMLAlteration,
-      int    musicxmlOctave,
-      int    musicxmlDuration,
-      int    voiceNumber,
-      bool   noteBelongsToAChord);
+    lpsrNote(musicXMLNoteData& mxmldat);
     
     virtual ~lpsrNote();
     
   private:
+  
+    musicXMLNoteData         fMusicXMLNoteData;
 
     // MusicXML informations
     bool                     fCurrentStepIsARest;

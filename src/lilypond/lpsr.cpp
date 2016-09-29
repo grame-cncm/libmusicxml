@@ -459,33 +459,13 @@ void lpsrWedge::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-SlpsrNote lpsrNote::createFromMusicXMLData (
-  bool   currentStepIsARest,
-  int    musicXMLAlteration,
-  int    musicxmlOctave,
-  int    musicxmlDuration,
-  int    voiceNumber,
-  bool   noteBelongsToAChord)
+SlpsrNote lpsrNote::createFromMusicXMLData (musicXMLNoteData& mxmldat)
 {  
-  lpsrNote * o =
-    new lpsrNote (
-      currentStepIsARest,
-      musicXMLAlteration,
-      musicxmlOctave,
-      musicxmlDuration,
-      voiceNumber,
-      noteBelongsToAChord);
-  assert(o!=0); 
+  lpsrNote * o = new lpsrNote (mxmldat); assert(o!=0); 
   return o;
 }
 
-lpsrNote::lpsrNote (
-    bool   currentStepIsARest,
-    int    musicXMLAlteration,
-    int    musicxmlOctave,
-    int    musicxmlDuration,
-    int    voiceNumber,
-    bool   noteBelongsToAChord)
+lpsrNote::lpsrNote (musicXMLNoteData& mxmldat)
   : lpsrElement("")
 {
   /*
@@ -496,84 +476,89 @@ lpsrNote::lpsrNote (
   fVoiceNumber          = -1;
 */
 
-  sQuatertonesFromA["A"]=0;
-  sQuatertonesFromA["B"]=4;
-  sQuatertonesFromA["C"]=6;
-  sQuatertonesFromA["D"]=10;
-  sQuatertonesFromA["E"]=14;
-  sQuatertonesFromA["F"]=16;
-  sQuatertonesFromA["G"]=20;
+  sQuatertonesFromA['A']=0;
+  sQuatertonesFromA['B']=4;
+  sQuatertonesFromA['C']=6;
+  sQuatertonesFromA['D']=10;
+  sQuatertonesFromA['E']=14;
+  sQuatertonesFromA['F']=16;
+  sQuatertonesFromA['G']=20;
   
-
-
-  fCurrentStepIsARest = currentStepIsARest;
- // fDiatonicPitch = diatonicNote;
- // fAlteration = alteration;
-  //fOctave = octave;
- // fLpsrDuration = dur;
-
+  fMusicXMLNoteData = mxmldat;
+ 
   // take rests into account
-  if (fCurrentStepIsARest)
+  if (fMusicXMLNoteData.fMusicxmlStep)
     fMusicXMLDiatonicPitch = lpsrNote::kRest;
  
-  int noteQuatertonesFromA = sQuatertonesFromA[fCurrentMusicXMLStep];
+  // how many quater tones from A?s
+  int noteQuatertonesFromA =
+    sQuatertonesFromA[fMusicXMLNoteData.fMusicxmlStep];
   
-  // flat or sharp
-  lpsrNote::Alteration alteration;
+  // flat or sharp,possibly double?
+  lpsrNote::MusicXMLAlteration mxmlAlteration;
   
-  assert(fCurrentAlter>=-2 && fCurrentAlter<=+2);
-  switch (fCurrentAlter) {
+  int alter = fMusicXMLNoteData.fMusicXMLAlteration;
+  
+  stringstream s;
+  std::string  message;
+  s << "MusicXML alteration " << alter << " is not between -2 and +2";
+  s >> message;
+  assertLpsr(alter>=-2 && alter<=+2, message);
+  
+  switch (alter) {
     case -2:
-      alteration = lpsrNote::kDoubleFlat;
+      mxmlAlteration = lpsrNote::kDoubleFlat;
       noteQuatertonesFromA-=3;
-      if (noteQuatertonesFromA < 0) noteQuatertonesFromA += 24; // it is below A
+      if (noteQuatertonesFromA < 0)
+        noteQuatertonesFromA += 24; // it is below A
       break;
     case -1:
-      alteration = lpsrNote::kFlat;
+      mxmlAlteration = lpsrNote::kFlat;
       noteQuatertonesFromA-=2;
-      if (noteQuatertonesFromA < 0) noteQuatertonesFromA += 24; // it is below A
+      if (noteQuatertonesFromA < 0)
+        noteQuatertonesFromA += 24; // it is below A
       break;
     case 0:
-      alteration = lpsrNote::kNatural;
+      mxmlAlteration = lpsrNote::kNatural;
       break;
     case 1:
-      alteration = lpsrNote::kSharp;
+      mxmlAlteration = lpsrNote::kSharp;
       noteQuatertonesFromA+=2;
       break;
     case 2:
-      alteration = lpsrNote::kDoubleSharp;
+      mxmlAlteration = lpsrNote::kDoubleSharp;
       noteQuatertonesFromA+=3;
       break;
-    default:
-      cout << "fCurrentAlter = " << fCurrentAlter << std::endl << std::flush;
-  } // switch
-
-
+   } // switch
 
   fLpsrPitch = 
-    computeNoteLpsrPitch (noteQuatertonesFromA, musicXMLAlteration);
-
-  fVoiceNumber = voice;
-  fNoteBelongsToAChord = noteBelongsToAChord;
+    computeNoteLpsrPitch (noteQuatertonesFromA, mxmlAlteration);
   
-    if (fTranslationSwitches.fDebug)
-    std::cerr << "fCurrentDuration = " << fCurrentDuration << ", " << 
-    "fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
-  if (fCurrentDivisions*4 == 0)
-    {
+  int divisions             = fMusicXMLNoteData.fMusicxmlDivisions;
+  int divisionsPerWholeNote = divisionsPerWholeNote*4;
+  
+  if (fTranslationSwitches.fDebug)
+    std::cerr << 
+    "divisions = " << divisions << ", " << 
+    "divisionsPerWholeNote = " << divisionsPerWholeNote << std::endl;
+    
+  int durat = fMusicXMLNoteData.fMusicxmlDuration;
+
+  if (divisionsPerWholeNote == 0) {
     std::cerr << 
       std::endl << 
-      "%--> xmlpart2lpsrvisitor::visitEnd, fCurrentDuration = " << fCurrentDuration <<
-      ", fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
-    //return; JMI
+      "%--> durat = " << durat <<
+      ", durat = " << durat << std::endl;
+    assertLpsr(false, "There cannot be 0 divisions per MusicXML note");
   }
 
   SlpsrDuration noteDuration =
-    lpsrDuration::create(fCurrentDuration, fCurrentDivisions*4, fCurrentDotsNumber);
-  //cout << "noteDuration = " << noteDuration << std::endl;
-  
-  // now we know more, update the various informations
-  
+    lpsrDuration::create (
+      durat,
+      divisionsPerWholeNote,
+      fMusicXMLNoteData.fCurrentDotsNumber);
+  //cout << "durat = " << durat << std::endl;
+    
   // diatonic note
   lpsrNote::DiatonicPitch diatonicNote = lpsrNote::k_NoDiatonicPitch;
 
