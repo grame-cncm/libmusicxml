@@ -15,6 +15,8 @@
 #include <string.h>
 #include <getopt.h>
 
+#include "utilities.h"
+
 #include "musicxml2lpsr.h"
 
 using namespace std;
@@ -64,16 +66,16 @@ int main(int argc, char *argv[])
   
   std::string selectedOptions = "";
   
-  std::string noteNamesLanguageName =             "dutch";
-  lpsrNote::NoteNamesLanguage noteNamesLanguage = lpsrNote::kNederlands;
-  bool generateAbsoluteCode =                     true;
-  bool generateNumericalTime =                    false;
-  bool generateComments =                         true;
-  bool generateBars =                             true;
-  bool generateStems =                            false;
-  bool generatePositions =                        false;
-  bool trace =                                    true;
-  bool debug =                                    false;
+  std::string           noteNamesLanguageName = "dutch";
+  LpsrNoteNamesLanguage noteNamesLanguage =     kNederlands;
+  bool                  generateAbsoluteCode =  true;
+  bool                  generateNumericalTime = false;
+  bool                  generateComments =      true;
+  bool                  generateBars =          true;
+  bool                  generateStems =         false;
+  bool                  generatePositions =     false;
+  bool                  trace =                 true;
+  bool                  debug =                 false;
   
   static struct option long_options [] =
     {
@@ -113,16 +115,14 @@ int main(int argc, char *argv[])
         }
         if (languagePresent) {
           // optarg contains the language name
-          if (lpsrNote::sStringToNoteNamesLanguage.count(optarg)) {
+          if (sLpsrNoteNamesLanguageMap.count(optarg)) {
             noteNamesLanguageName = optarg;
-        // JMI   noteNamesLanguage =
-        //      lpsrNote::sStringToNoteNamesLanguage[optarg].second;
           } else {
             cerr
               << "--> Unknown language name \"" << optarg <<
               "\", using \"dutch\" instead" << std::endl;
             noteNamesLanguageName = "dutch";
-            noteNamesLanguage = lpsrNote::kNederlands;
+            noteNamesLanguage = kNederlands;
           }
           selectedOptions += "--language "+noteNamesLanguageName;
           }
@@ -193,21 +193,21 @@ int main(int argc, char *argv[])
   // int   remainingArgs = nonOptionArgs;
 
   // create the translation switches
-  translationSwitches  ts = translationSwitches::create();
+  S_translationSwitches ts = translationSwitches::create();
   assert(ts != 0);
   
   // populate them
-  ts->fNoteNamesLanguageAsString = noteNamesLanguageName;
-  ts->fNoteNamesLanguage =         noteNamesLanguage;
-  ts->fGenerateAbsoluteCode =      generateAbsoluteCode;
-  ts->fGenerateNumericalTime =     generateNumericalTime;
-  ts->fGenerateComments =          generateComments;
-  ts->fGenerateBars =              generateBars;
-  ts->fGenerateStems =             generateStems;
-  ts->fGeneratePositions =         generatePositions;
-  ts->fTrace =                     trace;
-  ts->fDebug =                     debug;
-  ts->fSelectedOptions =           selectedOptions;
+  ts->fLpsrNoteNamesLanguageAsString = noteNamesLanguageName;
+  ts->fLpsrNoteNamesLanguage =         noteNamesLanguage;
+  ts->fGenerateAbsoluteCode =          generateAbsoluteCode;
+  ts->fGenerateNumericalTime =         generateNumericalTime;
+  ts->fGenerateComments =              generateComments;
+  ts->fGenerateBars =                  generateBars;
+  ts->fGenerateStems =                 generateStems;
+  ts->fGeneratePositions =             generatePositions;
+  ts->fTrace =                         trace;
+  ts->fDebug =                         debug;
+  ts->fSelectedOptions =               selectedOptions;
 
   if (ts->fTrace)
     cerr << 

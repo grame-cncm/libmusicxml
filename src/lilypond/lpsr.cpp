@@ -25,11 +25,6 @@ namespace MusicXML2
 //______________________________________________________________________________
 // global variables
 
-lpsrNote::stringToLpsrNoteNamesLanguage const
-  lpsrNote::sStringToLpsrNoteNamesLanguage;
-
-std::map<lpsrNote::LpsrPitch, std::string> lpsrNote::sDutchLilypondPitches;
-
 lpsrGlobalVariables::CodeGenerationKind
   lpsrGlobalVariables::sCodeGenerationKind =
     lpsrGlobalVariables::kLilypondCode;
@@ -57,7 +52,12 @@ ostream& operator<< (ostream& os, const SlpsrElement& elt)
 
 void lpsrElement::print(ostream& os)
 {
-  switch (lpsrGlobalVariables::getCodeGenerationKind()) {
+  // a global variable is needed so that lpsr::Element.print() 
+  // can decide whether to print:
+  //   - the LPSR structure
+  //   - MusicXML text
+  //   - LilyPond source code
+switch (lpsrGlobalVariables::getCodeGenerationKind()) {
     case lpsrGlobalVariables::kLpsrStructure:
       this->printLpsrStructure (os);
       break;
@@ -86,7 +86,7 @@ void lpsrElement::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-SlpsrAbsoluteOctave lpsrAbsoluteOctave::create(int musicxmlOctave)
+SlpsrAbsoluteOctave lpsrAbsoluteOctave::create (int musicxmlOctave)
 {
   lpsrAbsoluteOctave * o = new lpsrAbsoluteOctave (musicxmlOctave);
   assert(o!=0); 
@@ -103,7 +103,7 @@ lpsrAbsoluteOctave::lpsrAbsoluteOctave (int musicxmlOctave)
     ", fLpsrOctave = " << fLpsrOctave << std::endl;
     */
 }
-lpsrAbsoluteOctave::~lpsrAbsoluteOctave() {}
+lpsrAbsoluteOctave::~lpsrAbsoluteOctave () {}
 
 ostream& operator<< (ostream& os, const SlpsrAbsoluteOctave& dur)
 {
@@ -111,7 +111,7 @@ ostream& operator<< (ostream& os, const SlpsrAbsoluteOctave& dur)
   return os;
 }
 
-void lpsrAbsoluteOctave::printMusicXML(ostream& os)
+void lpsrAbsoluteOctave::printMusicXML (ostream& os)
 {
   os << "<!-- lpsrAbsoluteOctave??? -->" << std::endl;
 }
@@ -156,11 +156,11 @@ lpsrDuration::lpsrDuration (int num, int denom, int dots)
   fNum   = num;
   fDenom = denom;
   fDots  = dots; 
-  /*
+ // /*
   cout <<
     "lpsrDuration::lpsrDuration (), fNum = " << fNum << 
     ", fDenom = " << fDenom << ", fDots = " << fDots << std::endl;
-    */
+   // */
 }
 lpsrDuration::~lpsrDuration() {}
 
@@ -185,15 +185,12 @@ void lpsrDuration::printMusicXML(ostream& os)
   os << "<!-- lpsrDuration??? -->" << std::endl;
 }
 
-void lpsrDuration::printLpsrStructure(ostream& os)
-{
-  this->printLilyPondCode (os);
-}
-
 std::string lpsrDuration::durationAsLilypondString ()
 {
+  return "DARAT";
+  
   // divisions are per quater, Lpsr durations are in whole notes
-  //os << "|"  << fLpsrDuration.fNum << "|" << fLpsrDuration.fDenom;
+  cout << "|"  << fNum << "|" << fDenom << "|" << fDots << "|" << std::endl;
 
   stringstream s;
   
@@ -261,7 +258,13 @@ std::string lpsrDuration::durationAsLilypondString ()
   std::string  result;
   
   s >> result;
+  cout << "*** Exiting durationAsLilypondString(), result = " << result << endl;
   return result;
+}
+
+void lpsrDuration::printLpsrStructure(ostream& os)
+{
+  os << durationAsLilypondString () << flush; // JMI
 }
 
 void lpsrDuration::printLilyPondCode(ostream& os)
@@ -470,32 +473,34 @@ SlpsrNote lpsrNote::createFromMusicXMLData (
 lpsrNote::lpsrNote (
   S_translationSwitches& ts,
   musicXMLNoteData&      mxmldat)
-  :  lpsrElement("")
+  :
+    lpsrElement(""),
+    fMusicXMLNoteData(mxmldat)
 {
   fTranslationSwitches = ts;
 
-  sQuatertonesFromA['A']= 0;
-  sQuatertonesFromA['B']= 4;
-  sQuatertonesFromA['C']= 6;
-  sQuatertonesFromA['D']=10;
-  sQuatertonesFromA['E']=14;
-  sQuatertonesFromA['F']=16;
-  sQuatertonesFromA['G']=20;
-  
-  fMusicXMLNoteData = mxmldat;
- 
   // take rests into account
   if (fMusicXMLNoteData.fMusicxmlStep)
     fMusicXMLDiatonicPitch = lpsrNote::kRest;
  
   // how many quater tones from A?s
-  int noteQuatertonesFromA =
-    sQuatertonesFromA[fMusicXMLNoteData.fMusicxmlStep];
+  int noteQuatertonesFromA;
+  
+  switch (fMusicXMLNoteData.fMusicxmlStep) {
+    case 'A': noteQuatertonesFromA =  0; break;
+    case 'B': noteQuatertonesFromA =  4; break;
+    case 'C': noteQuatertonesFromA =  6; break;
+    case 'D': noteQuatertonesFromA = 10; break;
+    case 'E': noteQuatertonesFromA = 14; break;
+    case 'F': noteQuatertonesFromA = 16; break;
+    case 'G': noteQuatertonesFromA = 20; break;
+    default: {}    
+  } // switch
   
   // flat or sharp,possibly double?
   lpsrNote::MusicXMLAlteration mxmlAlteration;
   
-  int alter = fMusicXMLNoteData.fMusicXMLAlteration;
+  int alter = fMusicXMLNoteData.fMusicxmlAlteration;
   
   stringstream s;
   std::string  message;
@@ -529,33 +534,31 @@ lpsrNote::lpsrNote (
       break;
    } // switch
 
-  fLpsrPitch = 
+  fNoteLpsrPitch = 
     computeNoteLpsrPitch (noteQuatertonesFromA, mxmlAlteration);
   
   int divisions             = fMusicXMLNoteData.fMusicxmlDivisions;
-  int divisionsPerWholeNote = divisionsPerWholeNote*4;
+  int divisionsPerWholeNote = divisions*4;
   
-  if (fTranslationSwitches->fDebug)
+  if (fTranslationSwitches->fDebug || true) // jMI
     std::cerr << 
-    "divisions = " << divisions << ", " << 
-    "divisionsPerWholeNote = " << divisionsPerWholeNote << std::endl;
+      "--> divisions = " << divisions << ", " << 
+      "divisionsPerWholeNote = " << divisionsPerWholeNote << std::endl;
     
-  int durat = fMusicXMLNoteData.fMusicxmlDuration;
-
   if (divisionsPerWholeNote == 0) {
     std::cerr << 
       std::endl << 
-      "%--> durat = " << durat <<
-      ", durat = " << durat << std::endl;
+      "--> divisions = " << divisions << ", " << 
+      "divisionsPerWholeNote = " << divisionsPerWholeNote << std::endl;
     lpsrAssert(false, "There cannot be 0 divisions per MusicXML note");
   }
 
-  SlpsrDuration noteDuration =
+  SlpsrDuration fLpsrDuration =
     lpsrDuration::create (
-      durat,
+      fMusicXMLNoteData.fMusicxmlDuration,
       divisionsPerWholeNote,
       fMusicXMLNoteData.fDotsNumber);
-  //cout << "durat = " << durat << std::endl;
+  cout << "fLpsrDuration = " << fLpsrDuration << std::endl;
     
   // diatonic note
   lpsrNote::MusicXMLDiatonicPitch diatonicNote =
@@ -567,7 +570,7 @@ lpsrNote::~lpsrNote() {}
 
 void lpsrNote::updateNoteDuration(int actualNotes, int normalNotes)
 {
-  fLpsrDuration->scaleNumByFraction(actualNotes, normalNotes);
+  fNoteLpsrDuration->scaleNumByFraction(actualNotes, normalNotes);
 }
 
 void lpsrNote::setNoteBelongsToAChord () {
@@ -752,167 +755,76 @@ std::string lpsrNote::notePitchAsLilypondString ()
 {
   stringstream s;
   
+  /*
+  cout << "lpsrNote::notePitchAsLilypondString (), isRest = " <<
+    fMusicXMLNoteData.fMusicxmlStepIsARest <<
+    ", fLpsrPitch = " << fLpsrPitch << endl;
+  */
+  
   if (fMusicXMLNoteData.fMusicxmlStepIsARest)
     s << "r";
+
   else {
     //JMI assertLpsr(fLpsrPitch != k_NoLpsrPitch, "fLpsrPitch != k_NoLpsrPitch");
-    switch (fLpsrPitch) {
+    switch (fNoteLpsrPitch) {
       
-      case k_aeseh:
-        s << "aeseh";
-        break;
-      case k_aes:
-        s << "aes";
-        break;
-      case k_aeh:
-        s << "aeh";
-        break;
-      case k_a:
-        s << "a";
-        break;
-      case k_aih:
-        s << "aih";
-        break;
-      case k_ais:
-        s << "ais";
-        break;
-      case k_aisih:
-        s << "aisih";
-        break;
+      case k_aeseh: s << "aeseh"; break;
+      case k_aes:   s << "aes"; break;
+      case k_aeh:   s << "aeh"; break;
+      case k_a:     s << "a"; break;
+      case k_aih:   s << "aih"; break;
+      case k_ais:   s << "ais"; break;
+      case k_aisih: s << "aisih"; break;
         
-      case k_beseh:
-        s << "beseh";
-        break;
-      case k_bes:
-        s << "bes";
-        break;
-      case k_beh:
-        s << "beh";
-        break;
-      case k_b:
-        s << "b";
-        break;
-      case k_bih:
-        s << "bih";
-        break;
-      case k_bis:
-        s << "bis";
-        break;
-      case k_bisih:
-        s << "bisih";
-        break;
+      case k_beseh: s << "beseh"; break;
+      case k_bes:   s << "bes"; break;
+      case k_beh:   s << "beh"; break;
+      case k_b:     s << "b"; break;
+      case k_bih:   s << "bih"; break;
+      case k_bis:   s << "bis"; break;
+      case k_bisih: s << "bisih"; break;
         
-      case k_ceseh:
-        s << "ceseh";
-        break;
-      case k_ces:
-        s << "ces";
-        break;
-      case k_ceh:
-        s << "ceh";
-        break;
-      case k_c:
-        s << "c";
-        break;
-      case k_cih:
-        s << "cih";
-        break;
-      case k_cis:
-        s << "cis";
-        break;
-      case k_cisih:
-        s << "cisih";
-        break;
+      case k_ceseh: s << "ceseh"; break;
+      case k_ces:   s << "ces"; break;
+      case k_ceh:   s << "ceh"; break;
+      case k_c:     s << "c"; break;
+      case k_cih:   s << "cih"; break;
+      case k_cis:   s << "cis"; break;
+      case k_cisih: s << "cisih"; break;
         
-      case k_deseh:
-        s << "deseh";
-        break;
-      case k_des:
-        s << "des";
-        break;
-      case k_deh:
-        s << "deh";
-        break;
-      case k_d:
-        s << "d";
-        break;
-      case k_dih:
-        s << "dih";
-        break;
-      case k_dis:
-        s << "dis";
-        break;
-      case k_disih:
-        s << "disih";
-        break;
+      case k_deseh: s << "deseh"; break;
+      case k_des:   s << "des"; break;
+      case k_deh:   s << "deh"; break;
+      case k_d:     s << "d"; break;
+      case k_dih:   s << "dih"; break;
+      case k_dis:   s << "dis"; break;
+      case k_disih: s << "disih"; break;
   
-      case k_eeseh:
-        s << "eeseh";
-        break;
-      case k_ees:
-        s << "ees";
-        break;
-      case k_eeh:
-        s << "eeh";
-        break;
-      case k_e:
-        s << "e";
-        break;
-      case k_eih:
-        s << "eih";
-        break;
-      case k_eis:
-        s << "eis";
-        break;
-      case k_eisih:
-        s << "eisih";
-        break;
+      case k_eeseh: s << "eeseh"; break;
+      case k_ees:   s << "ees"; break;
+      case k_eeh:   s << "eeh"; break;
+      case k_e:     s << "e"; break;
+      case k_eih:   s << "eih"; break;
+      case k_eis:   s << "eis"; break;
+      case k_eisih: s << "eisih"; break;
         
-      case k_feseh:
-        s << "feseh";
-        break;
-      case k_fes:
-        s << "fes";
-        break;
-      case k_feh:
-        s << "feh";
-        break;
-      case k_f:
-        s << "f";
-        break;
-      case k_fih:
-        s << "fih";
-        break;
-      case k_fis:
-        s << "fis";
-        break;
-      case k_fisih:
-        s << "fisih";
-        break;
+      case k_feseh: s << "feseh"; break;
+      case k_fes:   s << "fes"; break;
+      case k_feh:   s << "feh"; break;
+      case k_f:     s << "f"; break;
+      case k_fih:   s << "fih"; break;
+      case k_fis:   s << "fis"; break;
+      case k_fisih: s << "fisih"; break;
         
-      case k_geseh:
-        s << "geseh";
-        break;
-      case k_ges:
-        s << "ges";
-        break;
-      case k_geh:
-        s << "geh";
-        break;
-      case k_g:
-        s << "g";
-        break;
-      case k_gih:
-        s << "gih";
-        break;
-      case k_gis:
-        s << "gis";
-        break;
-      case k_gisih:
-        s << "gisih";
-        break;
-      default:
-        s << "Note" << fLpsrPitch << "???";
+      case k_geseh: s << "geseh"; break;
+      case k_ges:   s << "ges"; break;
+      case k_geh:   s << "geh"; break;
+      case k_g:     s << "g"; break;
+      case k_gih:   s << "gih"; break;
+      case k_gis:   s << "gis"; break;
+      case k_gisih: s << "gisih"; break;
+      
+      default: s << "Note" << fNoteLpsrPitch << "???";
     } // switch
   }
   
@@ -929,13 +841,19 @@ void lpsrNote::printMusicXML(ostream& os)
 
 void lpsrNote::printLpsrStructure(ostream& os)
 {
+  /*
+  cout <<
+    "lpsrNote::printLpsrStructure(), fNoteBelongsToAChord = " << 
+    fNoteBelongsToAChord << endl;
+  */
+  
   if (fNoteBelongsToAChord) {
-    os << notePitchAsLilypondString () << fLpsrDuration;
+    os << notePitchAsLilypondString () << fNoteLpsrDuration;
 
   } else {
     os <<
       "Note" << " " << 
-      notePitchAsLilypondString () << fLpsrDuration << std::endl;
+      notePitchAsLilypondString () << "DURAT" << std::endl; // JMI << fLpsrDuration; fLpsrDuration << std::endl;
     
     // print the dynamics if any
     if (fNoteDynamics.size()) {
@@ -966,7 +884,7 @@ void lpsrNote::printLilyPondCode(ostream& os)
   
   if (! fNoteBelongsToAChord) {
     // print the note duration
-    os << fLpsrDuration;
+    os << "DURAT"; // JMI fLpsrDuration;
     
     // print the dynamics if any
     std::list<SlpsrDynamics>::const_iterator i1;
@@ -1119,7 +1037,7 @@ void lpsrParallelMusic::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-SlpsrChord lpsrChord::create(SlpsrDuration chordduration)
+SlpsrChord lpsrChord::create (SlpsrDuration chordduration)
 {
   lpsrChord* o = new lpsrChord(chordduration); assert(o!=0);
   return o;
@@ -1166,7 +1084,7 @@ void lpsrChord::printLpsrStructure(ostream& os)
   os << ">";
   
   // print the chord duration
-  os << fChordDuration << std::endl;
+  os << "CHORDDURAT" << std::endl; // fChordDuration << std::endl;
 
   // print the dynamics if any
   if (fChordDynamics.size()) {
@@ -1204,7 +1122,7 @@ void lpsrChord::printLilyPondCode(ostream& os)
   os << ">";
   
   // print the chord duration
-  os << fChordDuration;
+  os << "CHORDDURAT" << std::endl; // fChordDuration << std::endl;
 
   // print the dynamics if any
   if (fChordDynamics.size()) {

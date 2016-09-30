@@ -32,35 +32,36 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-// jMI std::map<std::string, int> xmlpart2lpsrvisitor::fQuatertonesFromA;
+// JMI std::map<std::string, int> xmlPart2LpsrVisitor::fQuatertonesFromA;
 
 
 //______________________________________________________________________________
-xmlpart2lpsrvisitor::xmlpart2lpsrvisitor( S_translationSwitches& ts, SlpsrPart part ) : 
-  fCurrentStaffIndex(0),
-  fCurrentStaff(0),
-  fTargetStaff(0),
-  fTargetVoice(0)
+xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
+  S_translationSwitches& ts, SlpsrPart part )
 {
   fTranslationSwitches = ts;
-  
-  fCurrentDivisions = 0;
-
   fLpsrpart = part;
 
-  fCurrentMusicXMLDuration = -8;
+  fMusicXMLNoteData.fMusicxmlDuration = -8;
 
-  fCurrentChordIsBeingBuilt = false;
-  fCurrentNoteBelongsToAChord = false;  
+  fAChordIsBeingBuilt = false;
+  fMusicXMLNoteData.fNoteBelongsToAChord = false;  
   
-  fCurrentNoteBelongsToATuplet = false;
+  fMusicXMLNoteData.fNoteBelongsToATuplet = false;
   
   fCurrentTupletNumber = -1;
   fCurrentTupletKind = lpsrTuplet::k_NoTuplet;
+
+  fCurrentDivisions = -1;
+
+  fCurrentStaffIndex = 0;
+  fCurrentStaff = 0;
+  fTargetStaff = 0;
+  fTargetVoice = 0;
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::initialize (
+void xmlPart2LpsrVisitor::initialize (
   SlpsrElement seq,
   int staff,
   int lpsrstaff, 
@@ -78,7 +79,7 @@ void xmlpart2lpsrvisitor::initialize (
 //______________________________________________________________________________
 // time management
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_divisions& elt ) 
+void xmlPart2LpsrVisitor::visitStart ( S_divisions& elt ) 
 {
   fCurrentDivisions = (int)(*elt);
   if (fTranslationSwitches->fTrace) {
@@ -91,7 +92,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_divisions& elt )
   }
 }
 
-void xmlpart2lpsrvisitor::resetCurrentTime ()
+void xmlPart2LpsrVisitor::resetCurrentTime ()
 {
   fStaffNumber = kNoStaffNumber;
 
@@ -104,23 +105,23 @@ void xmlpart2lpsrvisitor::resetCurrentTime ()
   fSymbol = "";
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_time& elt ) {
+void xmlPart2LpsrVisitor::visitStart ( S_time& elt ) {
   resetCurrentTime();
   fStaffNumber = elt->getAttributeIntValue("number", kNoStaffNumber);
   fSymbol = elt->getAttributeValue("symbol");
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_beats& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_beats& elt )
   { fCurrentBeats = (int)(*elt); }
   
-void xmlpart2lpsrvisitor::visitStart ( S_beat_type& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_beat_type& elt )
    { fCurrentBeatType = (int)(*elt); }
  
-void xmlpart2lpsrvisitor::visitStart ( S_senza_misura& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_senza_misura& elt )
   { fSenzaMisura = true; }
 
 /*
-rational xmlpart2lpsrvisitor::timeSignatureFromIndex(int index)
+rational xmlPart2LpsrVisitor::timeSignatureFromIndex(int index)
 {
   rational r(0,1);
   if (index < fTimeSignatures.size()) {
@@ -133,7 +134,7 @@ rational xmlpart2lpsrvisitor::timeSignatureFromIndex(int index)
 }
 */
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitEnd ( S_time& elt ) 
+void xmlPart2LpsrVisitor::visitEnd ( S_time& elt ) 
 {
   SlpsrTime time = lpsrTime::create(
     fCurrentBeats, fCurrentBeatType, fTranslationSwitches->fGenerateNumericalTime);
@@ -142,13 +143,13 @@ void xmlpart2lpsrvisitor::visitEnd ( S_time& elt )
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_part& elt ) 
+void xmlPart2LpsrVisitor::visitStart ( S_part& elt ) 
 {
   fMeasureNumber = 0;
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::addElementToPartSequence (SlpsrElement& elt) {
+void xmlPart2LpsrVisitor::addElementToPartSequence (SlpsrElement& elt) {
 //  bool doDebug = fTranslationSwitches->fDebug;
   bool doDebug = false;
 
@@ -156,12 +157,12 @@ void xmlpart2lpsrvisitor::addElementToPartSequence (SlpsrElement& elt) {
   fLpsrpart->getPartLpsrsequence()->appendElementToSequence (elt);
 }
 
-SlpsrElement xmlpart2lpsrvisitor::getLastElementOfPartSequence() {
+SlpsrElement xmlPart2LpsrVisitor::getLastElementOfPartSequence() {
   return
     fLpsrpart->getPartLpsrsequence()->getLastElementOfSequence ();
 }
 
-void xmlpart2lpsrvisitor::removeLastElementOfPartSequence () {
+void xmlPart2LpsrVisitor::removeLastElementOfPartSequence () {
 //  bool doDebug = fTranslationSwitches->fDebug;
   bool doDebug = false;
 
@@ -177,7 +178,7 @@ void xmlpart2lpsrvisitor::removeLastElementOfPartSequence () {
 // Time units are <division> time units 
 //________________________________________________________________________
 // add an element to the list of delayed elements
-void xmlpart2lpsrvisitor::addDelayed (SlpsrElement elt, int offset) 
+void xmlPart2LpsrVisitor::addDelayed (SlpsrElement elt, int offset) 
 {
   /* JMI
   addToPartStack(elt);
@@ -197,7 +198,7 @@ void xmlpart2lpsrvisitor::addDelayed (SlpsrElement elt, int offset)
 // checks ready elements in the list of delayed elements
 // 'time' is the time elapsed since the last check, it is expressed in
 // <division> time units
-void xmlpart2lpsrvisitor::checkDelayed (int time)
+void xmlPart2LpsrVisitor::checkDelayed (int time)
 {
   /*
   vector<delayedElement>::iterator it = fDelayed.begin();
@@ -213,7 +214,7 @@ void xmlpart2lpsrvisitor::checkDelayed (int time)
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_backup& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_backup& elt )
 {
 //  stackClean(); // closes pending chords, cue and grace
   int duration = elt->getIntValue(k_duration, 0);
@@ -226,7 +227,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_backup& elt )
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_forward& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_forward& elt )
 {
   bool scanElement = 
     (elt->getIntValue(k_voice, 0) == fTargetVoice) 
@@ -253,7 +254,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_forward& elt )
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_measure& elt ) 
+void xmlPart2LpsrVisitor::visitStart ( S_measure& elt ) 
 {
   const string& implicit = elt->getAttributeValue ("implicit");
   /*
@@ -287,7 +288,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_measure& elt )
   }
 }
 
-void xmlpart2lpsrvisitor::visitEnd ( S_measure& elt ) 
+void xmlPart2LpsrVisitor::visitEnd ( S_measure& elt ) 
 {
 //  stackClean(); // closes pending chords, cue and grace
 //  checkVoiceTime (fCurrentMeasureLength, fCurrentVoicePosition);  
@@ -315,7 +316,7 @@ void xmlpart2lpsrvisitor::visitEnd ( S_measure& elt )
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_direction& elt ) 
+void xmlPart2LpsrVisitor::visitStart ( S_direction& elt ) 
 {
   /*
   if (fNotesOnly || (elt->getIntValue(k_staff, 0) != fTargetStaff)) {
@@ -327,7 +328,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_direction& elt )
   */
 }
 
-void xmlpart2lpsrvisitor::visitEnd ( S_direction& elt ) 
+void xmlPart2LpsrVisitor::visitEnd ( S_direction& elt ) 
 {
  // fSkipDirection = false;
   fCurrentOffset = 0;
@@ -335,20 +336,20 @@ void xmlpart2lpsrvisitor::visitEnd ( S_direction& elt )
 
 //______________________________________________________________________________
 
-void xmlpart2lpsrvisitor::visitStart ( S_key& elt ) {
+void xmlPart2LpsrVisitor::visitStart ( S_key& elt ) {
   fCurrentFifths = fCurrentCancel = 0;
   fCurrentMode = "";
 }
-void xmlpart2lpsrvisitor::visitStart ( S_cancel& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_cancel& elt )
   { fCurrentCancel = (int)(*elt); }
   
-void xmlpart2lpsrvisitor::visitStart ( S_fifths& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_fifths& elt )
   { fCurrentFifths = (int)(*elt); }
   
-void xmlpart2lpsrvisitor::visitStart ( S_mode& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_mode& elt )
   { fCurrentMode = elt->getValue(); }
 
-void xmlpart2lpsrvisitor::visitEnd ( S_key& elt ) 
+void xmlPart2LpsrVisitor::visitEnd ( S_key& elt ) 
 {    
   std::string          tonicNote;
   lpsrKey::KeyMode keyMode;
@@ -427,7 +428,7 @@ void xmlpart2lpsrvisitor::visitEnd ( S_key& elt )
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_clef& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_clef& elt )
 { 
   fLine = kStandardLine;
   fOctaveChange = 0;
@@ -437,17 +438,17 @@ void xmlpart2lpsrvisitor::visitStart ( S_clef& elt )
   fNumber = elt->getAttributeIntValue("number", kNoNumber); 
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_clef_octave_change& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_clef_octave_change& elt )
   { fOctaveChange = (int)(*elt); }
   
-void xmlpart2lpsrvisitor::visitStart ( S_line& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_line& elt )
   { fLine = (int)(*elt); }
   
-void xmlpart2lpsrvisitor::visitStart ( S_sign& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_sign& elt )
   { fSign = elt->getValue(); }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitEnd ( S_clef& elt ) 
+void xmlPart2LpsrVisitor::visitEnd ( S_clef& elt ) 
 {
   int staffnum = elt->getAttributeIntValue("number", 0);
   
@@ -528,23 +529,23 @@ void xmlpart2lpsrvisitor::visitEnd ( S_clef& elt )
 }
 
 //________________________________________________________________________
-void xmlpart2lpsrvisitor::resetMetronome ()
+void xmlPart2LpsrVisitor::resetMetronome ()
 {
   fBeats.clear();
   fPerMinute = 0;
   resetMetronome(fCurrentBeat);
 }
 
-void xmlpart2lpsrvisitor::resetMetronome (beat& b)
+void xmlPart2LpsrVisitor::resetMetronome (beat& b)
 {
   b.fUnit = "";
   b.fDots = 0;
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_metronome& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_metronome& elt )
   { resetMetronome(); }
   
-void xmlpart2lpsrvisitor::visitEnd ( S_metronome& elt ) { 
+void xmlPart2LpsrVisitor::visitEnd ( S_metronome& elt ) { 
  // if (fSkipDirection) return;
 
   if (fCurrentBeat.fUnit.size()) {
@@ -570,7 +571,7 @@ void xmlpart2lpsrvisitor::visitEnd ( S_metronome& elt ) {
  // addElementToPartSequence (cmd);
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_beat_unit& elt ) { 
+void xmlPart2LpsrVisitor::visitStart ( S_beat_unit& elt ) { 
   if (fCurrentBeat.fUnit.size()) {
     fBeats.push_back(fCurrentBeat); 
     resetMetronome (fCurrentBeat);
@@ -578,13 +579,13 @@ void xmlpart2lpsrvisitor::visitStart ( S_beat_unit& elt ) {
   fCurrentBeat.fUnit = elt->getValue();
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_beat_unit_dot& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_beat_unit_dot& elt )
   { fCurrentBeat.fDots++; }
-void xmlpart2lpsrvisitor::visitStart ( S_per_minute& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_per_minute& elt )
   { fPerMinute = (int)(*elt); }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_coda& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_coda& elt )
 {
 //  if (fSkipDirection) return;
 //  SlpsrElement cmd = lpsrcmd::create("coda");
@@ -592,7 +593,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_coda& elt )
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_segno& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_segno& elt )
 {
 //  if (fSkipDirection) return;
 //  SlpsrElement cmd = lpsrcmd::create("segno");
@@ -600,42 +601,42 @@ void xmlpart2lpsrvisitor::visitStart ( S_segno& elt )
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_trill_mark& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_trill_mark& elt )
 {
 //  SlpsrElement cmd = lpsrcmd::create("\\trill");
 //  addElementToPartSequence(cmd);
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart( S_dynamics& elt)
+void xmlPart2LpsrVisitor::visitStart( S_dynamics& elt)
 {}
 
-void xmlpart2lpsrvisitor::visitStart( S_f& elt)
+void xmlPart2LpsrVisitor::visitStart( S_f& elt)
 {        
   SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kF);
   fPendingDynamics.push_back(dyn);
  }
-void xmlpart2lpsrvisitor::visitStart( S_ff& elt)
+void xmlPart2LpsrVisitor::visitStart( S_ff& elt)
 {        
   SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFF);
   fPendingDynamics.push_back(dyn);
  }
-void xmlpart2lpsrvisitor::visitStart( S_fff& elt)
+void xmlPart2LpsrVisitor::visitStart( S_fff& elt)
 {        
   SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFF);
   fPendingDynamics.push_back(dyn);
  }
-void xmlpart2lpsrvisitor::visitStart( S_ffff& elt)
+void xmlPart2LpsrVisitor::visitStart( S_ffff& elt)
 {        
   SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFF);
   fPendingDynamics.push_back(dyn);
  }
-void xmlpart2lpsrvisitor::visitStart( S_fffff& elt)
+void xmlPart2LpsrVisitor::visitStart( S_fffff& elt)
 {        
   SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFFF);
   fPendingDynamics.push_back(dyn);
  }
-void xmlpart2lpsrvisitor::visitStart( S_ffffff& elt)
+void xmlPart2LpsrVisitor::visitStart( S_ffffff& elt)
 {        
   SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFFFF);
   fPendingDynamics.push_back(dyn);
@@ -643,39 +644,39 @@ void xmlpart2lpsrvisitor::visitStart( S_ffffff& elt)
 
 
 
-void xmlpart2lpsrvisitor::visitStart( S_p& elt)
+void xmlPart2LpsrVisitor::visitStart( S_p& elt)
 {        
   SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kP);
   fPendingDynamics.push_back(dyn);
 }
-void xmlpart2lpsrvisitor::visitStart( S_pp& elt)
+void xmlPart2LpsrVisitor::visitStart( S_pp& elt)
 {        
   SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPP);
   fPendingDynamics.push_back(dyn);
 }
-void xmlpart2lpsrvisitor::visitStart( S_ppp& elt)
+void xmlPart2LpsrVisitor::visitStart( S_ppp& elt)
 {        
   SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPP);
   fPendingDynamics.push_back(dyn);
 }
-void xmlpart2lpsrvisitor::visitStart( S_pppp& elt)
+void xmlPart2LpsrVisitor::visitStart( S_pppp& elt)
 {        
   SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPP);
   fPendingDynamics.push_back(dyn);
 }
-void xmlpart2lpsrvisitor::visitStart( S_ppppp& elt)
+void xmlPart2LpsrVisitor::visitStart( S_ppppp& elt)
 {        
   SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPPP);
   fPendingDynamics.push_back(dyn);
 }
-void xmlpart2lpsrvisitor::visitStart( S_pppppp& elt)
+void xmlPart2LpsrVisitor::visitStart( S_pppppp& elt)
 {        
   SlpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPPPP);
   fPendingDynamics.push_back(dyn);
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_beam& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_beam& elt )
 {
   int number = atoi(elt->getAttributeValue("number").c_str());
   std::string value = elt->getValue();
@@ -697,7 +698,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_beam& elt )
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_wedge& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_wedge& elt )
 {
   string type = elt->getAttributeValue("type");
   lpsrWedge::WedgeKind wk;
@@ -717,7 +718,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_wedge& elt )
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart( S_octave_shift& elt)
+void xmlPart2LpsrVisitor::visitStart( S_octave_shift& elt)
 {
 //  if (fSkipDirection) return;
 
@@ -738,7 +739,7 @@ void xmlpart2lpsrvisitor::visitStart( S_octave_shift& elt)
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitEnd ( S_sound& elt )
+void xmlPart2LpsrVisitor::visitEnd ( S_sound& elt )
 {
  // if (fNotesOnly) return;
 
@@ -748,7 +749,7 @@ void xmlpart2lpsrvisitor::visitEnd ( S_sound& elt )
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitEnd ( S_ending& elt )
+void xmlPart2LpsrVisitor::visitEnd ( S_ending& elt )
 {
   string type = elt->getAttributeValue("type");
   
@@ -764,7 +765,7 @@ void xmlpart2lpsrvisitor::visitEnd ( S_ending& elt )
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitEnd ( S_repeat& elt ) 
+void xmlPart2LpsrVisitor::visitEnd ( S_repeat& elt ) 
 {
   SlpsrElement cmd;
   string direction = elt->getAttributeValue("direction");
@@ -780,7 +781,7 @@ void xmlpart2lpsrvisitor::visitEnd ( S_repeat& elt )
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_barline& elt ) 
+void xmlPart2LpsrVisitor::visitStart ( S_barline& elt ) 
 {
   const string& location = elt->getAttributeValue("location");
   if (location == "middle") {
@@ -798,7 +799,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_barline& elt )
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_print& elt ) 
+void xmlPart2LpsrVisitor::visitStart ( S_print& elt ) 
 {
   const string& newSystem = elt->getAttributeValue("new-system");
   if (newSystem == "yes") {
@@ -815,7 +816,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_print& elt )
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_step& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_step& elt )
 {
   std::string value = elt->getValue();
   
@@ -827,19 +828,19 @@ void xmlpart2lpsrvisitor::visitStart ( S_step& elt )
     lpsrMusicXMLError (message);
   }
 
-  fCurrentMusicXMLStep = value[0];
+  char step = value[0];
 
-  if (fCurrentMusicXMLStep <'A' || fCurrentMusicXMLStep > 'G') {
+  if (step <'A' || step > 'G') {
     stringstream s;
     std::string  message;
-    s << "step value " << fCurrentMusicXMLStep << " is not a letter from A to G";
+    s << "step value " << step << " is not a letter from A to G";
     s >> message;
     lpsrMusicXMLError (message);
   }
 
-//  cout << "=== xmlpart2lpsrvisitor::visitStart ( S_step& elt ) " << fCurrentMusicXMLStep << std::endl;
+//  cout << "=== xmlPart2LpsrVisitor::visitStart ( S_step& elt ) " << fCurrentMusicXMLStep << std::endl;
 
-  switch (fCurrentMusicXMLStep) {
+  switch (step) {
     case 'A': fMusicXMLDiatonicPitch = lpsrNote::kA; break;
     case 'B': fMusicXMLDiatonicPitch = lpsrNote::kB; break;
     case 'C': fMusicXMLDiatonicPitch = lpsrNote::kC; break;
@@ -849,77 +850,79 @@ void xmlpart2lpsrvisitor::visitStart ( S_step& elt )
     case 'G': fMusicXMLDiatonicPitch = lpsrNote::kG; break;
     default: {}
   } // switch
+
+  fMusicXMLNoteData.fMusicxmlStep = step;
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_alter& elt)
+void xmlPart2LpsrVisitor::visitStart ( S_alter& elt)
 {
-  fCurrentMusicXMLAlteration = (int)(*elt);
+  fMusicXMLNoteData.fMusicxmlAlteration = (int)(*elt);
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_octave& elt)
+void xmlPart2LpsrVisitor::visitStart ( S_octave& elt)
 {
-  fCurrentMusicXMLOctave = (int)(*elt);
+  fMusicXMLNoteData.fMusicxmlOctave = (int)(*elt);
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_duration& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_duration& elt )
 {
-  fCurrentMusicXMLDuration = (int)(*elt);
-//  cout << "=== xmlpart2lpsrvisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << std::endl;
+  fMusicXMLNoteData.fMusicxmlDuration = (int)(*elt);
+//  cout << "=== xmlPart2LpsrVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << std::endl;
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_dot& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_dot& elt )
 {
-  fCurrentDotsNumber++;
+  fMusicXMLNoteData.fDotsNumber++;
 }
        
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_voice& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_voice& elt )
 {
-  fCurrentVoiceNumber = (int)(*elt);
+  fMusicXMLNoteData.fVoiceNumber = (int)(*elt);
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_type& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_type& elt )
 {
  // fCurrentType=elt->getValue(); JMI
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_stem& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_stem& elt )
 {
 //  fCurrentStem = elt->getValue();
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_staff& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_staff& elt )
 {
   fCurrentStaff = (int)(*elt);
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_chord& elt)
+void xmlPart2LpsrVisitor::visitStart ( S_chord& elt)
 {
-  fCurrentNoteBelongsToAChord = true;
+  fMusicXMLNoteData.fNoteBelongsToAChord = true;
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_actual_notes& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_actual_notes& elt )
 {
   fCurrentActualNotes = (int)(*elt);
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_normal_notes& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_normal_notes& elt )
 {
   fCurrentNormalNotes = (int)(*elt);
 }
 
-void xmlpart2lpsrvisitor::visitStart ( S_tuplet& elt )
+void xmlPart2LpsrVisitor::visitStart ( S_tuplet& elt )
 {
-  fCurrentNoteBelongsToATuplet = true;
+  fMusicXMLNoteData.fNoteBelongsToATuplet = true;
 
   fCurrentTupletNumber = atoi(elt->getAttributeValue("number").c_str());
   std::string type     = elt->getAttributeValue("type");
   
   /*
   cout <<
-    "xmlpart2lpsrvisitor::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
+    "xmlPart2LpsrVisitor::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
     fCurrentTupletNumber << ", type = " << type <<std::endl;
   */
   
@@ -931,25 +934,34 @@ void xmlpart2lpsrvisitor::visitStart ( S_tuplet& elt )
     fCurrentTupletKind = lpsrTuplet::kContinueTuplet;
   else if (type == "stop")
     fCurrentTupletKind = lpsrTuplet::kStopTuplet;
-  else
+  else {
+    stringstream s;
+    std::string  message;
+    s << "stuplet type " << type << " is unknown";
+    s >> message;
+    lpsrMusicXMLError (message);
     cerr << "ERROR, unknown tuplet type " << type <<std::endl;
+  }
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_note& elt ) 
+void xmlPart2LpsrVisitor::visitStart ( S_note& elt ) 
 {
-  //  cout << "--> xmlpart2lpsrvisitor::visitStart ( S_note& elt ) " << std::endl;
-  fCurrentMusicXMLStep = '_';
-  fCurrentMusicXMLStepIsARest = false;
-  fCurrentMusicXMLAlteration = 0; // natural notes
-  fCurrentMusicXMLOctave = -13;
-  fCurrentDotsNumber = 0;
+  //  cout << "--> xmlPart2LpsrVisitor::visitStart ( S_note& elt ) " << std::endl;
+  fMusicXMLNoteData.fMusicxmlStep = '_';
+  fMusicXMLNoteData.fMusicxmlStepIsARest = false;
+  fMusicXMLNoteData.fMusicxmlAlteration = 0; // natural notes
+  fMusicXMLNoteData.fMusicxmlOctave = -13;
+  fMusicXMLNoteData.fDotsNumber = 0;
    
   // assume this note doesn't belong to a chord until S_chord is met
-  fCurrentNoteBelongsToAChord = false;
+  fMusicXMLNoteData.fNoteBelongsToAChord = false;
+
+  // assume this note doesn't belong to a tuplet until S_chord is met
+  fMusicXMLNoteData.fNoteBelongsToATuplet = false;
 }
 
-void xmlpart2lpsrvisitor::createChord (SlpsrDuration noteDuration) {
+void xmlPart2LpsrVisitor::createChord (SlpsrDuration noteDuration) {
   // cout << "--> creating a chord on its 2nd note" << endl;
   
   // fCurrentNote has been registered standalone in the part element sequence,
@@ -983,7 +995,7 @@ void xmlpart2lpsrvisitor::createChord (SlpsrDuration noteDuration) {
   } // while
 }
 
-void xmlpart2lpsrvisitor::createTuplet (SlpsrNote note) {
+void xmlPart2LpsrVisitor::createTuplet (SlpsrNote note) {
   // create a tuplet element
   SlpsrTuplet fCurrentTuplet = lpsrTuplet::create();
   fCurrentElement = fCurrentNote; // another name for it
@@ -1009,7 +1021,7 @@ void xmlpart2lpsrvisitor::createTuplet (SlpsrNote note) {
   fCurrentTuplet->addElementToTuplet(note);
 }
 
-void xmlpart2lpsrvisitor::finalizeTuplet (SlpsrNote note) {
+void xmlPart2LpsrVisitor::finalizeTuplet (SlpsrNote note) {
   // get tuplet from top of tuplet stack
   SlpsrTuplet tup = fCurrentTupletsStack.top();
 
@@ -1028,110 +1040,68 @@ void xmlpart2lpsrvisitor::finalizeTuplet (SlpsrNote note) {
 }          
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitEnd ( S_note& elt ) 
+void xmlPart2LpsrVisitor::visitEnd ( S_note& elt ) 
 {
-  //  cout << "<-- xmlpart2lpsrvisitor::visitEnd ( S_note& elt ) " << std::endl;
-
-  SlpsrNote note = lpsrNote::createFromMusicXMLData (  
-    fCurrentMusicXMLStepIsARest,
-    fCurrentMusicXMLStep, 
-    fCurrentMusicXMLAlteration, 
-    fCurrentMusicXMLOctave,
-    fCurrentMusicXMLDuration,
-    fCurrentVoiceNumber,
-    fCurrentNoteBelongsToAChord);
-  );
-  
-  // create an empty lpsr (with default values) until we know more
-  SlpsrNote note = lpsrNote::create();//(fTargetVoice); // JMI , "s", 0, dur, "");
+  //  cout << "<-- xmlPart2LpsrVisitor::visitEnd ( S_note& elt ) " << std::endl;
 
   if (fTranslationSwitches->fDebug)
-    std::cerr << "fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << ", " << 
-    "fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
-  if (fCurrentDivisions*4 == 0)
-    {
-    std::cerr << 
-      std::endl << 
-      "%--> xmlpart2lpsrvisitor::visitEnd, fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration <<
-      ", fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
-    //return; JMI
-  }
-
-  SlpsrDuration noteDuration =
-    lpsrDuration::create(fCurrentMusicXMLDuration, fCurrentDivisions*4, fCurrentDotsNumber);
-  //cout << "noteDuration = " << noteDuration << std::endl;
+    std::cerr <<
+      "fMusicXMLNoteData.fMusicxmlDuration = " << 
+      fMusicXMLNoteData.fMusicxmlDuration << ", " << 
+      "fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
+      
+  if (fCurrentDivisions == 0)
+    lpsrMusicXMLError ("divisions cannot be 0");
   
-  // now we know more, update the various informations
-  
-  // diatonic note
-  lpsrNote::DiatonicPitch diatonicNote = lpsrNote::k_NoDiatonicPitch;
+  fMusicXMLNoteData.fMusicxmlDivisions = fCurrentDivisions;
 
-  // take rests into account
-  if (fCurrentMusicXMLStepIsARest)
-    diatonicNote = lpsrNote::kRest;
- 
-  int noteQuatertonesFromA = fQuatertonesFromA[fCurrentMusicXMLStep];
-  
-  // flat or sharp
-  lpsrNote::Alteration alteration;
-  
-  assertLpsr(fCurrentMusicXMLAlteration>=-2 && fCurrentMusicXMLAlteration<=+2);
-  switch (fCurrentMusicXMLAlteration) {
-    case -2:
-      alteration = lpsrNote::kDoubleFlat;
-      noteQuatertonesFromA-=3;
-      if (noteQuatertonesFromA < 0) noteQuatertonesFromA += 24; // it is below A
-      break;
-    case -1:
-      alteration = lpsrNote::kFlat;
-      noteQuatertonesFromA-=2;
-      if (noteQuatertonesFromA < 0) noteQuatertonesFromA += 24; // it is below A
-      break;
-    case 0:
-      alteration = lpsrNote::kNatural;
-      break;
-    case 1:
-      alteration = lpsrNote::kSharp;
-      noteQuatertonesFromA+=2;
-      break;
-    case 2:
-      alteration = lpsrNote::kDoubleSharp;
-      noteQuatertonesFromA+=3;
-      break;
-    default:
-      cout << "fCurrentMusicXMLAlteration = " << fCurrentMusicXMLAlteration << std::endl << std::flush;
-  } // switch
-
-  lpsrNote::LpsrPitch lpsrPitch = 
-    computeNoteLpsrPitch(noteQuatertonesFromA, alteration);
-
+  //cout << "::: creating a note" << std::endl;
+  SlpsrNote note =
+    lpsrNote::createFromMusicXMLData (
+      fTranslationSwitches, fMusicXMLNoteData);
+    
   // attach the pending dynamics if any to the note
-  while (! fPendingDynamics.empty()) {
-    SlpsrDynamics dyn = fPendingDynamics.front();
-    note->addDynamics(dyn);
-    fPendingDynamics.pop_front();
-  } // while
- 
+  if (! fPendingDynamics.empty()) {
+    if (fMusicXMLNoteData.fMusicxmlStepIsARest)
+      lpsrMusicXMLError (
+        "dynamics cannot be attached to a rest, delayed until next note");
+    else
+      while (! fPendingDynamics.empty()) {
+        SlpsrDynamics dyn = fPendingDynamics.front();
+        note->addDynamics(dyn);
+        fPendingDynamics.pop_front();
+      } // while
+  }
+  
   // attach the pending wedges if any to the note
-  while (! fPendingWedges.empty()) {
-    SlpsrWedge wdg = fPendingWedges.front();
-    note->addWedge(wdg);
-    fPendingWedges.pop_front();
-  } // while
-  
-  //cout << "::: creating note " << note << std::endl;
-  
+  if (! fPendingWedges.empty()) {
+    if (fMusicXMLNoteData.fMusicxmlStepIsARest)
+      lpsrMusicXMLError (
+        "wedges cannot be attached to a rest, delayed until next note");
+    else
+      while (! fPendingWedges.empty()) {
+        SlpsrWedge wdg = fPendingWedges.front();
+        note->addWedge(wdg);
+        fPendingWedges.pop_front();
+      } // while
+  }
+          
   // a note can be standalone
   // or a member of a chord,
-  // and the latter can belong a to tuplet
+  // and the latter can belong to a tuplet
+  // a rest can be standalone or belong to a tuplet
   
-  if (fCurrentNoteBelongsToAChord) {
-    if (! fCurrentChordIsBeingBuilt) {
+  if (fMusicXMLNoteData.fNoteBelongsToAChord) {
+    if (fMusicXMLNoteData.fMusicxmlStepIsARest)
+      lpsrMusicXMLError (
+        "a rest cannot belong to a chord");
+        
+    if (! fAChordIsBeingBuilt) {
       // create a chord with fCurrentNote as its first note
-      createChord (noteDuration);
+      createChord (note->getNoteLpsrDuration());
 
       // account for chord being built
-      fCurrentChordIsBeingBuilt = true;
+      fAChordIsBeingBuilt = true;
     }
     
     //cout << "--> adding note to fCurrentChord" << endl;
@@ -1145,7 +1115,7 @@ void xmlpart2lpsrvisitor::visitEnd ( S_note& elt )
     SlpsrElement elem = fCurrentChord;
     addElementToPartSequence(elem);
 
-  } else if (fCurrentNoteBelongsToATuplet) {
+  } else if (fMusicXMLNoteData.fNoteBelongsToATuplet) {
 
     // handle tuplet
     switch (fCurrentTupletKind) {
@@ -1182,25 +1152,25 @@ void xmlpart2lpsrvisitor::visitEnd ( S_note& elt )
 
   } else {
 
-    // cout << "--> adding standalone note to part sequence" << endl;
+    // cout << "--> adding standalone note/rest to part sequence" << endl;
     // register note as standalone
     SlpsrElement n = note;
     addElementToPartSequence(n);
   
     // account for chord not being built
-    fCurrentChordIsBeingBuilt = false;
+    fAChordIsBeingBuilt = false;
   }
   
-   // keep track of note in this visitor
-  fCurrentNote = note;
+   // keep track of note/rest in this visitor
+  fCurrentNote    = note;
   fCurrentElement = fCurrentNote; // another name for it
 }
 
 //______________________________________________________________________________
-void xmlpart2lpsrvisitor::visitStart ( S_rest& elt)
+void xmlPart2LpsrVisitor::visitStart ( S_rest& elt)
 {
-  //  cout << "--> xmlpart2lpsrvisitor::visitStart ( S_rest& elt ) " << std::endl;
-  fCurrentMusicXMLStepIsARest = true;
+  //  cout << "--> xmlPart2LpsrVisitor::visitStart ( S_rest& elt ) " << std::endl;
+  fMusicXMLNoteData.fMusicxmlStepIsARest = true;
 }
 
 

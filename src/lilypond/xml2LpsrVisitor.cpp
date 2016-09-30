@@ -451,9 +451,8 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     SlpsrElement p = part;
     appendElementToSequence (p);
     
-    // browse the part contents once more with an xmlpart2lpsrvisitor
-    xmlpart2lpsrvisitor xp2lv (fTranslationSwitches, part);
-    xp2lv.generatePositions (fTranslationSwitches->fGeneratePositions);
+    // browse the part contents once more with an xmlPart2LpsrVisitor
+    xmlPart2LpsrVisitor xp2lv (fTranslationSwitches, part);
     
     xml_tree_browser browser (&xp2lv);
  

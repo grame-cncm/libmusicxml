@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __xmlpart2lpsrvisitor__
-#define __xmlpart2lpsrvisitor__
+#ifndef __xmlPart2LpsrVisitor__
+#define __xmlPart2LpsrVisitor__
 
 #include <ostream>
 #include <stack>
@@ -39,7 +39,7 @@ namespace MusicXML2
 \brief A part visitor to produce a LilyPond representation.
 */
 //______________________________________________________________________________
-class EXP xmlpart2lpsrvisitor : 
+class EXP xmlPart2LpsrVisitor : 
   
   public visitor<S_divisions>,
 
@@ -123,8 +123,8 @@ class EXP xmlpart2lpsrvisitor :
   
     enum type { kUndefinedType, kPitched, kUnpitched, kRest };
 
-    xmlpart2lpsrvisitor( S_translationSwitches& ts, SlpsrPart part);
-    virtual ~xmlpart2lpsrvisitor() {}
+    xmlPart2LpsrVisitor( S_translationSwitches& ts, SlpsrPart part);
+    virtual ~xmlPart2LpsrVisitor() {}
     
     void  initialize (
       SlpsrElement seq, 
@@ -139,9 +139,6 @@ class EXP xmlpart2lpsrvisitor :
     void           addElementToPartSequence (SlpsrElement& elt);
     SlpsrElement   getLastElementOfPartSequence();
     void           removeLastElementOfPartSequence ();
-
-    void  generatePositions (bool state) // JMI
-            { fTranslationSwitches->fGeneratePositions = state; }
     
   protected:
   
@@ -241,16 +238,36 @@ class EXP xmlpart2lpsrvisitor :
   private:
   
     // fields to controls the lpsr output generation
-    S_translationSwitches fTranslationSwitches;
+    S_translationSwitches   fTranslationSwitches;
   
     // the current measure divisions, expresses the time unit in division of the quarter note
     enum { kNoStaffNumber = -1 };
 
     void resetCurrentTime();
 
-    int                 fCurrentDivisions;
-    int                 fCurrentBeats;
-    int                 fCurrentBeatType;
+    int                     fCurrentDivisions;
+    
+    // description of the current MusicXML note
+    musicXMLNoteData        fMusicXMLNoteData;
+/*
+typedef struct musicXMLNoteData {
+  char   fMusicxmlStep;
+  bool   fMusicxmlStepIsARest;
+  int    fMusicxmlAlteration;
+  int    fMusicxmlOctave;
+  int    fMusicxmlDivisions;
+  int    fMusicxmlDuration;
+  
+  int    fDotsNumber;
+  int    fVoiceNumber;
+  bool   fNoteBelongsToAChord;
+};
+*/    
+    // description of the current chord
+    SlpsrChord              fCurrentChord;
+    bool                    fAChordIsBeingBuilt = false;
+    int                     fCurrentBeats;
+    int                     fCurrentBeatType;
      
     /*! gives the time sign as a rational
       \param index an index into fTimeSignatures vector
@@ -262,97 +279,96 @@ class EXP xmlpart2lpsrvisitor :
 //                        fTimeSignatures;
   
     // staff handling
-    int                 fStaffNumber;
+    int                     fCurrentStaff;    
+    // the staff we're currently generating events for (0 by default)
+    int                     fCurrentVoiceNumber;
+    int                     fStaffNumber;
+    int                     fCurrentStaffIndex;   // the index of the current lpsr staff
+
+    int                     fTargetStaff;     // the musicxml target staff (0 by default)
+    int                     fTargetVoice;     // the musicxml target voice (0 by default)
   
     // time handling
-    std::string         fSymbol;
-    bool                fSenzaMisura;
+    std::string             fSymbol;
+    bool                    fSenzaMisura;
 
     // the part containing the generated code for the part
-    SlpsrPart           fLpsrpart; 
+    SlpsrPart               fLpsrpart; 
 
-    // MusicXML informations
-    char                fCurrentMusicXMLStep;     // the note name, diatonic
-    bool                fCurrentMusicXMLStepIsARest;
-    int                 fCurrentMusicXMLAlteration;
-    int                 fCurrentMusicXMLOctave;
-    int                 fCurrentMusicXMLDuration;
-    int                 fCurrentDotsNumber;
+    // description of the current LPSR note
+    SlpsrNote               fCurrentNote;
     
-    int                 fCurrentVoiceNumber;
-//    std::string         fCurrentType;
-//    std::string         fCurrentStem;
-    int                 fCurrentStaff;    // the staff we're currently generating events for (0 by default)
-   
-    // LPSR informations
-    lpsrNote::MusicXMLDiatonicPitch
-                        fMusicXMLDiatonicPitch;
-    
-    void                createChord (SlpsrDuration noteDuration);
-    
-    void                createTuplet   (SlpsrNote note);
-    void                finalizeTuplet (SlpsrNote note);
-    
-    int                 fCurrentFifths;
-    int                 fCurrentCancel;
-    std::string         fCurrentMode;
 
-    std::string         fSign;
-    int                 fLine;
-    int                 fOctaveChange;
-    int                 fNumber;
+    SlpsrBeam               fCurrentBeam;
 
-    typedef struct { std::string fUnit; int fDots; } beat;
 
-    std::vector<beat>   fBeats;
-    int                 fPerMinute;
-    beat                fCurrentBeat;
-
-    void                resetMetronome();
-    virtual void        resetMetronome(beat& b);
-
-    // description of the current note
-    SlpsrNote           fCurrentNote;
-    SlpsrBeam           fCurrentBeam;
-    SlpsrChord          fCurrentChord;
-    bool                fCurrentChordIsBeingBuilt;
-    bool                fCurrentNoteBelongsToAChord;
-    
-    // description of current tuplets
-    int                 fCurrentActualNotes;
-    int                 fCurrentNormalNotes;
-    int                 fCurrentTupletNumber; // embedded tuplets are numbered 1, 2, ...
-    lpsrTuplet::TupletKind  
-                        fCurrentTupletKind;
-    
+    // description of current tuplet
+    int                     fCurrentActualNotes;
+    int                     fCurrentNormalNotes;
+    // embedded tuplets are numbered 1, 2, ...
+    int                     fCurrentTupletNumber;
+    lpsrTuplet::TupletKind  fCurrentTupletKind;
     // remains true until a S_tuplet of type "stop" is met
-    bool                fCurrentNoteBelongsToATuplet;
+    bool                    fCurrentNoteBelongsToATuplet = false;
 
     SlpsrTuplet             fCurrentTuplet;
     std::stack<SlpsrTuplet> fCurrentTupletsStack;
+         
+//    std::string         fCurrentType;
+//    std::string         fCurrentStem;
+   
+    // LPSR informations
+    lpsrNote::MusicXMLDiatonicPitch
+                            fMusicXMLDiatonicPitch;
+    
+    // chord handling
+    void                    createChord (SlpsrDuration noteDuration);
+    
+    // tuplet handling
+    void                    createTuplet   (SlpsrNote note);
+    void                    finalizeTuplet (SlpsrNote note);
+    
+    // key handling
+    int                     fCurrentFifths;
+    int                     fCurrentCancel;
+    std::string             fCurrentMode;
+
+    std::string             fSign;
+    int                     fLine;
+    int                     fOctaveChange;
+    int                     fNumber;
+
+    // metronome handling
+    typedef struct {
+      std::string           fUnit;
+      int                   fDots;
+    } beat;
+
+    std::vector<beat>       fBeats;
+    int                     fPerMinute;
+    beat                    fCurrentBeat;
+
+    void                    resetMetronome();
+    virtual void            resetMetronome(beat& b);
     
     // another name for fCurrentNote, fCurrentChord, fCurrentTuplet and the like
-    SlpsrElement        fCurrentElement;
+    SlpsrElement            fCurrentElement;
     
     // structure to store delayed elements ie elements enclosed in direction with offset
     typedef struct {
-      int                fDelay;
-      SlpsrElement       fElement;
+      int                   fDelay;
+      SlpsrElement          fElement;
     } delayedElement;
-    vector<delayedElement> fDelayed;
+    vector<delayedElement>  fDelayed;
     
     // dynamics and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
     std::list<SlpsrDynamics> fPendingDynamics;
     std::list<SlpsrWedge>    fPendingWedges;
        
-    int       fMeasureNumber;
-    S_measure fCurrentMeasure;  
+    int                      fMeasureNumber;
+    S_measure                fCurrentMeasure;  
   
-    int       fCurrentStaffIndex;   // the index of the current lpsr staff
-
-    int       fTargetStaff;     // the musicxml target staff (0 by default)
-    int       fTargetVoice;     // the musicxml target voice (0 by default)
   
     int       fCurrentOffset;     // the current direction offset: represents an element relative displacement in current division unit
 
