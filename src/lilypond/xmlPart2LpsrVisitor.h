@@ -249,20 +249,7 @@ class EXP xmlPart2LpsrVisitor :
     
     // description of the current MusicXML note
     musicXMLNoteData        fMusicXMLNoteData;
-/*
-typedef struct musicXMLNoteData {
-  char   fMusicxmlStep;
-  bool   fMusicxmlStepIsARest;
-  int    fMusicxmlAlteration;
-  int    fMusicxmlOctave;
-  int    fMusicxmlDivisions;
-  int    fMusicxmlDuration;
-  
-  int    fDotsNumber;
-  int    fVoiceNumber;
-  bool   fNoteBelongsToAChord;
-};
-*/    
+
     // description of the current chord
     SlpsrChord              fCurrentChord;
     bool                    fAChordIsBeingBuilt = false;
@@ -281,7 +268,6 @@ typedef struct musicXMLNoteData {
     // staff handling
     int                     fCurrentStaff;    
     // the staff we're currently generating events for (0 by default)
-    int                     fCurrentVoiceNumber;
     int                     fStaffNumber;
     int                     fCurrentStaffIndex;   // the index of the current lpsr staff
 

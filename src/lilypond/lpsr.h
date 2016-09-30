@@ -155,17 +155,25 @@ typedef SMARTP<lpsrElement> S_lpsrElement;
 */
 //______________________________________________________________________________
 typedef struct musicXMLNoteData {
-  char   fMusicxmlStep;
-  bool   fMusicxmlStepIsARest;
-  int    fMusicxmlAlteration;
-  int    fMusicxmlOctave;
-  int    fMusicxmlDivisions;
-  int    fMusicxmlDuration;
+  public:
   
-  int    fDotsNumber;
-  int    fVoiceNumber;
-  bool   fNoteBelongsToAChord;
-  bool   fNoteBelongsToATuplet;
+    static indenter idtr;
+
+     virtual void print              (std::ostream& os);
+ 
+  public:
+  
+    char   fMusicxmlStep;
+    bool   fMusicxmlStepIsARest;
+    int    fMusicxmlAlteration;
+    int    fMusicxmlOctave;
+    int    fMusicxmlDivisions;
+    int    fMusicxmlDuration;
+    
+    int    fDotsNumber;
+    int    fVoiceNumber;
+    bool   fNoteBelongsToAChord;
+    bool   fNoteBelongsToATuplet;
 };
   
 /*!
@@ -357,10 +365,6 @@ class EXP lpsrNote : public lpsrElement {
     
     std::list<SlpsrDynamics> fNoteDynamics;
     std::list<SlpsrWedge>    fNoteWedges;
-    
-    bool                     fNoteBelongsToAChord;
-
-    int                      fVoiceNumber;
 };
 typedef SMARTP<lpsrNote> SlpsrNote;
 

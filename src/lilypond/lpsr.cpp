@@ -31,6 +31,8 @@ lpsrGlobalVariables::CodeGenerationKind
 
 indenter lpsrElement::idtr;
 
+indenter musicXMLNoteData::idtr;
+
 //______________________________________________________________________________
 SlpsrElement lpsrElement::create(bool debug)
 {
@@ -84,6 +86,31 @@ void lpsrElement::printLilyPondCode(ostream& os)
 {
   os << "\%{ lpsrElement??? \%}" << std::endl;
 }
+
+//______________________________________________________________________________
+ostream& operator<< (ostream& os, musicXMLNoteData& data)
+{
+  data.print(os);
+  return os;
+}
+
+void musicXMLNoteData::print (std::ostream& os)
+{
+  idtr++;
+  os <<
+    idtr << std::left << setw(26) << "fMusicxmlStep = " << fMusicxmlStep <<  std::endl <<
+    idtr << std::left << setw(26) << "fMusicxmlStepIsARest = " << fMusicxmlStepIsARest <<  std::endl <<
+    idtr << std::left << setw(26) << "fMusicxmlAlteration = " << fMusicxmlAlteration <<  std::endl <<
+    idtr << std::left << setw(26) << "fMusicxmlOctave = " << fMusicxmlOctave <<  std::endl <<
+    idtr << std::left << setw(26) << "fMusicxmlDivisions = " << fMusicxmlDivisions <<  std::endl <<
+    idtr << std::left << setw(26) << "fMusicxmlDuration = " << fMusicxmlDuration <<  std::endl <<
+    idtr << std::endl <<
+    idtr << std::left << setw(26) << "fDotsNumber = " << fDotsNumber <<  std::endl <<
+    idtr << std::left << setw(26) << "fVoiceNumber = " << fVoiceNumber <<  std::endl <<
+    idtr << std::left << setw(26) << "fNoteBelongsToAChord = " << fNoteBelongsToAChord <<  std::endl <<
+    idtr << std::left << setw(26) << "fNoteBelongsToATuplet = " << fNoteBelongsToATuplet <<  std::endl;
+  idtr--;
+};
 
 //______________________________________________________________________________
 SlpsrAbsoluteOctave lpsrAbsoluteOctave::create (int musicxmlOctave)
@@ -475,8 +502,13 @@ lpsrNote::lpsrNote (
   musicXMLNoteData&      mxmldat)
   :
     lpsrElement(""),
-    fMusicXMLNoteData(mxmldat)
+    fMusicXMLNoteData (mxmldat)
 {
+  cout << "==> fMusicXMLNoteData:" << std::endl;
+  idtr++;
+  cout << fMusicXMLNoteData << std::endl;
+  idtr++;
+  
   fTranslationSwitches = ts;
 
   // take rests into account
