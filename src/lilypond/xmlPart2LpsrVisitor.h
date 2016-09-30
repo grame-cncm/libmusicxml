@@ -20,11 +20,12 @@
 #include <list>
 
 #include "exports.h"
-#include "lpsr.h"
 #include "rational.h"
 #include "typedefs.h"
 #include "visitor.h"
 #include "xml.h"
+
+#include "lpsr.h"
 
 namespace MusicXML2 
 {
@@ -122,7 +123,7 @@ class EXP xmlpart2lpsrvisitor :
   
     enum type { kUndefinedType, kPitched, kUnpitched, kRest };
 
-    xmlpart2lpsrvisitor( translationSwitches& ts, SlpsrPart part);
+    xmlpart2lpsrvisitor( S_translationSwitches& ts, SlpsrPart part);
     virtual ~xmlpart2lpsrvisitor() {}
     
     void  initialize (
@@ -135,11 +136,12 @@ class EXP xmlpart2lpsrvisitor :
       
     SlpsrPart&     getLilypondpart () { return fLpsrpart; };
     
-    void               addElementToPartSequence (SlpsrElement& elt);
+    void           addElementToPartSequence (SlpsrElement& elt);
     SlpsrElement   getLastElementOfPartSequence();
-    void               removeLastElementOfPartSequence ();
+    void           removeLastElementOfPartSequence ();
 
-    void  generatePositions (bool state) { fTranslationSwitches.fGeneratePositions = state; }
+    void  generatePositions (bool state) // JMI
+            { fTranslationSwitches->fGeneratePositions = state; }
     
   protected:
   
@@ -239,7 +241,7 @@ class EXP xmlpart2lpsrvisitor :
   private:
   
     // fields to controls the lpsr output generation
-    translationSwitches fTranslationSwitches;
+    S_translationSwitches fTranslationSwitches;
   
     // the current measure divisions, expresses the time unit in division of the quarter note
     enum { kNoStaffNumber = -1 };
@@ -256,17 +258,21 @@ class EXP xmlpart2lpsrvisitor :
     */
   // JMI  rational            timeSignatureFromIndex(int index);
     
-    std::vector<std::pair<std::string,std::string> >
-                        fTimeSignatures;
-    std::string         fSymbol;
+ //   std::vector<std::pair<std::string,std::string> >
+//                        fTimeSignatures;
+  
+    // staff handling
     int                 fStaffNumber;
+  
+    // time handling
+    std::string         fSymbol;
     bool                fSenzaMisura;
 
     // the part containing the generated code for the part
     SlpsrPart           fLpsrpart; 
 
     // MusicXML informations
-    std::string         fCurrentMusicXMLStep;     // the note name, diatonic
+    char                fCurrentMusicXMLStep;     // the note name, diatonic
     bool                fCurrentMusicXMLStepIsARest;
     int                 fCurrentMusicXMLAlteration;
     int                 fCurrentMusicXMLOctave;
@@ -278,10 +284,10 @@ class EXP xmlpart2lpsrvisitor :
 //    std::string         fCurrentStem;
     int                 fCurrentStaff;    // the staff we're currently generating events for (0 by default)
    
-    lpsrNote::LpsrPitch computeNoteLpsrPitch (
-                          int                  noteQuatertonesFromA,
-                          lpsrNote::Alteration alteration);
-                          
+    // LPSR informations
+    lpsrNote::MusicXMLDiatonicPitch
+                        fMusicXMLDiatonicPitch;
+    
     void                createChord (SlpsrDuration noteDuration);
     
     void                createTuplet   (SlpsrNote note);

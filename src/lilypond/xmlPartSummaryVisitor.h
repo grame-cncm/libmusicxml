@@ -16,10 +16,10 @@
 #include <map>
 #include <vector>
 
-#include "musicxml2lpsr.h"
-
 #include "smartlist.h"
+
 #include "lpsr.h"
+#include "musicxml2lpsr.h"
 
 namespace MusicXML2
 {
@@ -57,7 +57,7 @@ class EXP xmlPartSummaryVisitor :
 {
   public:
   
-    xmlPartSummaryVisitor (translationSwitches& ts);
+    xmlPartSummaryVisitor (S_translationSwitches& ts);
     virtual ~xmlPartSummaryVisitor ();
     
     //! returns the number of staves for the part
@@ -115,35 +115,35 @@ class EXP xmlPartSummaryVisitor :
     
   private:
   
-    translationSwitches fTranslationSwitches;
+    S_translationSwitches fTranslationSwitches;
     
-    int                 fCurrentDivisions;
+    int                   fCurrentDivisions;
     
     // count of staves (from the staves element)
-    int                 fStavesCount;
+    int                   fStavesCount;
     // staves and corresponding count of notes
-    std::map<int, int>  fStavesNotesCount;
+    std::map<int, int>    fStavesNotesCount;
     // voices and corresponding count of notes
-    std::map<int, int>  fVoicesNotesCount;
+    std::map<int, int>    fVoicesNotesCount;
     // staves and corresponding voices + count of notes
     std::map<int, std::map<int, int> >  fStaffVoices;
 
-    int                 fStaff, fVoice;
+    int                   fStaff, fVoice;
 
-    bool                fCurrentStepIsARest;
+    bool                  fCurrentStepIsARest;
  // JMI   SlpsrDuration       fCurrentLpsrDuration;
     
     // the last lyric number, i.e. stanza number
-    S_lyric             fLastLyric;
+    S_lyric               fLastLyric;
     // the last sysllabic spec met (single, begin, middle or end)
-    S_syllabic          fLastSyllabic;
+    S_syllabic            fLastSyllabic;
     // allow for the creation of skips in lyrics
-    bool                fOnGoingLyrics;
+    bool                  fOnGoingLyrics;
     
     // the stanzas are referred to by number and contains list of lists of strings
     // in the case of "single", the list contains only one string
     std::map<std::string, stanzaContents> 
-                        fStanzas;    // <text /> occurs after <syllabic />
+                          fStanzas;    // <text /> occurs after <syllabic />
 };
 
 /*! @} */

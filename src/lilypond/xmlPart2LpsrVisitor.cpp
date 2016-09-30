@@ -32,11 +32,11 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-std::map<std::string, int> xmlpart2lpsrvisitor::fQuatertonesFromA;
+// jMI std::map<std::string, int> xmlpart2lpsrvisitor::fQuatertonesFromA;
 
 
 //______________________________________________________________________________
-xmlpart2lpsrvisitor::xmlpart2lpsrvisitor( translationSwitches& ts, SlpsrPart part ) : 
+xmlpart2lpsrvisitor::xmlpart2lpsrvisitor( S_translationSwitches& ts, SlpsrPart part ) : 
   fCurrentStaffIndex(0),
   fCurrentStaff(0),
   fTargetStaff(0),
@@ -81,7 +81,7 @@ void xmlpart2lpsrvisitor::initialize (
 void xmlpart2lpsrvisitor::visitStart ( S_divisions& elt ) 
 {
   fCurrentDivisions = (int)(*elt);
-  if (fTranslationSwitches.fTrace) {
+  if (fTranslationSwitches->fTrace) {
     if (fCurrentDivisions == 1)
       cerr << "There is 1 division per quater note" << std::endl;
     else
@@ -93,11 +93,14 @@ void xmlpart2lpsrvisitor::visitStart ( S_divisions& elt )
 
 void xmlpart2lpsrvisitor::resetCurrentTime ()
 {
+  fStaffNumber = kNoStaffNumber;
+
   fSenzaMisura = false;
+
   fCurrentBeats = 0;
   fCurrentBeatType = 0;
-  fTimeSignatures.clear();
-  fStaffNumber = kNoStaffNumber;
+  
+//  fTimeSignatures.clear();
   fSymbol = "";
 }
 
@@ -133,7 +136,7 @@ rational xmlpart2lpsrvisitor::timeSignatureFromIndex(int index)
 void xmlpart2lpsrvisitor::visitEnd ( S_time& elt ) 
 {
   SlpsrTime time = lpsrTime::create(
-    fCurrentBeats, fCurrentBeatType, fTranslationSwitches.fGenerateNumericalTime);
+    fCurrentBeats, fCurrentBeatType, fTranslationSwitches->fGenerateNumericalTime);
   SlpsrElement t = time;
   addElementToPartSequence (t);
 }
@@ -146,7 +149,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_part& elt )
 
 //______________________________________________________________________________
 void xmlpart2lpsrvisitor::addElementToPartSequence (SlpsrElement& elt) {
-//  bool doDebug = fTranslationSwitches.fDebug;
+//  bool doDebug = fTranslationSwitches->fDebug;
   bool doDebug = false;
 
   if (doDebug) cout << "!!! addElementToPartSequence : " << elt << std::endl;
@@ -159,7 +162,7 @@ SlpsrElement xmlpart2lpsrvisitor::getLastElementOfPartSequence() {
 }
 
 void xmlpart2lpsrvisitor::removeLastElementOfPartSequence () {
-//  bool doDebug = fTranslationSwitches.fDebug;
+//  bool doDebug = fTranslationSwitches->fDebug;
   bool doDebug = false;
 
   if (doDebug) cout << "!!! removeLastElementOfPartSequence" << std::endl;
@@ -240,10 +243,12 @@ void xmlpart2lpsrvisitor::visitStart ( S_forward& elt )
     rational r(duration, fCurrentDivisions*4);
     r.rationalise();
     lpsrDuration dur (r.getNumerator(), r.getDenominator(), 57); // JMI
+    /*
     SlpsrElement note = 
       lpsrNote::create();//(fTargetVoice); // JMI , "empty", 0, dur, "");
     addElementToPartSequence (note);
  //   fMeasureEmpty = false;
+ */
   }
 }
 
@@ -275,7 +280,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_measure& elt )
  // fPendingPops = 0;
  // fMeasureEmpty = true;
   
-  if (fTranslationSwitches.fGenerateComments) {
+  if (fTranslationSwitches->fGenerateComments) {
     SlpsrBarLine barline = lpsrBarLine::create(fMeasureNumber); // JMI
     SlpsrElement b = barline;
     addElementToPartSequence(b);
@@ -289,7 +294,7 @@ void xmlpart2lpsrvisitor::visitEnd ( S_measure& elt )
 
 /*
   if (!fInhibitNextBar) {
-    if (fTranslationSwitches.fGenerateBars) fPendingBar = true;
+    if (fTranslationSwitches->fGenerateBars) fPendingBar = true;
     else if (!fMeasureEmpty) {
       if (fCurrentVoicePosition < fCurrentMeasureLength)
         fPendingBar = true;
@@ -812,27 +817,38 @@ void xmlpart2lpsrvisitor::visitStart ( S_print& elt )
 //______________________________________________________________________________
 void xmlpart2lpsrvisitor::visitStart ( S_step& elt )
 {
-  fCurrentMusicXMLStep=elt->getValue();
+  std::string value = elt->getValue();
+  
+  if (value.length() != 1) {
+    stringstream s;
+    std::string  message;
+    s << "step value " << value << " is not a letter from A to G";
+    s >> message;
+    lpsrMusicXMLError (message);
+  }
+
+  fCurrentMusicXMLStep = value[0];
+
+  if (fCurrentMusicXMLStep <'A' || fCurrentMusicXMLStep > 'G') {
+    stringstream s;
+    std::string  message;
+    s << "step value " << fCurrentMusicXMLStep << " is not a letter from A to G";
+    s >> message;
+    lpsrMusicXMLError (message);
+  }
+
 //  cout << "=== xmlpart2lpsrvisitor::visitStart ( S_step& elt ) " << fCurrentMusicXMLStep << std::endl;
 
-  lpsrNote::DiatonicPitch diatonicNote = lpsrNote::k_NoDiatonicPitch;
-
-/*
-  std::transform(
-    fCurrentMusicXMLStep.begin(), fCurrentMusicXMLStep.end(),
-    fCurrentMusicXMLStep.begin(), ::toupper);
-*/
-  if      (fCurrentMusicXMLStep == "A") diatonicNote = lpsrNote::kA;
-  else if (fCurrentMusicXMLStep == "B") diatonicNote = lpsrNote::kB;
-  else if (fCurrentMusicXMLStep == "C") diatonicNote = lpsrNote::kC;
-  else if (fCurrentMusicXMLStep == "D") diatonicNote = lpsrNote::kD;
-  else if (fCurrentMusicXMLStep == "E") diatonicNote = lpsrNote::kE;
-  else if (fCurrentMusicXMLStep == "F") diatonicNote = lpsrNote::kF;
-  else if (fCurrentMusicXMLStep == "G") diatonicNote = lpsrNote::kG;
-  else 
-    lpsrAssert(false, 
-      "xmlpart2lpsrvisitor::visitStart, fCurrentMusicXMLStep '"+fCurrentMusicXMLStep+
-      "' is not a letter from A to G");
+  switch (fCurrentMusicXMLStep) {
+    case 'A': fMusicXMLDiatonicPitch = lpsrNote::kA; break;
+    case 'B': fMusicXMLDiatonicPitch = lpsrNote::kB; break;
+    case 'C': fMusicXMLDiatonicPitch = lpsrNote::kC; break;
+    case 'D': fMusicXMLDiatonicPitch = lpsrNote::kD; break;
+    case 'E': fMusicXMLDiatonicPitch = lpsrNote::kE; break;
+    case 'F': fMusicXMLDiatonicPitch = lpsrNote::kF; break;
+    case 'G': fMusicXMLDiatonicPitch = lpsrNote::kG; break;
+    default: {}
+  } // switch
 }
 
 void xmlpart2lpsrvisitor::visitStart ( S_alter& elt)
@@ -859,12 +875,12 @@ void xmlpart2lpsrvisitor::visitStart ( S_dot& elt )
 //______________________________________________________________________________
 void xmlpart2lpsrvisitor::visitStart ( S_voice& elt )
 {
-  fCurrentVoiceNumber = int)(*elt);
+  fCurrentVoiceNumber = (int)(*elt);
 }
 
 void xmlpart2lpsrvisitor::visitStart ( S_type& elt )
 {
- // fCurrentType=elt->getValue();
+ // fCurrentType=elt->getValue(); JMI
 }
 
 void xmlpart2lpsrvisitor::visitStart ( S_stem& elt )
@@ -923,7 +939,7 @@ void xmlpart2lpsrvisitor::visitStart ( S_tuplet& elt )
 void xmlpart2lpsrvisitor::visitStart ( S_note& elt ) 
 {
   //  cout << "--> xmlpart2lpsrvisitor::visitStart ( S_note& elt ) " << std::endl;
-  fCurrentMusicXMLStep = "_";
+  fCurrentMusicXMLStep = '_';
   fCurrentMusicXMLStepIsARest = false;
   fCurrentMusicXMLAlteration = 0; // natural notes
   fCurrentMusicXMLOctave = -13;
@@ -931,156 +947,6 @@ void xmlpart2lpsrvisitor::visitStart ( S_note& elt )
    
   // assume this note doesn't belong to a chord until S_chord is met
   fCurrentNoteBelongsToAChord = false;
-}
-
-//______________________________________________________________________________
-
-lpsrNote::LpsrPitch xmlpart2lpsrvisitor::computeNoteLpsrPitch(
-  int                  noteQuatertonesFromA,
-  lpsrNote::Alteration alteration)
-{
-  // computing the lpsr pitch
-  /*
-  Alter values of -2 and 2 can be used for double-flat and double-sharp. Decimal values can be used for microtones (e.g., 0.5 for a quarter-tone sharp), but not all programs may convert this into MIDI pitch-bend data.
-
-  For rests, a rest element is used instead of the pitch element. The whole rest in 3/4 that begins the voice part is represented as:
-    <note>
-      <rest/>
-      <duration>72</duration>
-    </note>
-  
-  Quarter tones may be added; the following is a series of Cs with increasing pitches:
-    \relative c'' { ceseh ces ceh c cih cis cisih }
-   */
-  lpsrNote::LpsrPitch lpsrPitch = lpsrNote::k_NoLpsrPitch;
-  
-  switch (noteQuatertonesFromA) {
-    case 0:
-      lpsrPitch = lpsrNote::k_a;
-      break;
-    case 1:
-      lpsrPitch =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_aih
-          : lpsrNote::k_beseh;
-      break;
-    case 2:
-      lpsrPitch =
-        alteration == lpsrNote::kSharp
-          ? lpsrNote::k_ais
-          : lpsrNote::k_bes;
-      break;
-    case 3:
-      lpsrPitch =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_aisih
-          : lpsrNote::k_beh;
-      break;
-    case 4:
-      lpsrPitch = lpsrNote::k_b;
-      break;
-    case 5:
-      lpsrPitch =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_bih
-          : lpsrNote::k_ceseh;
-      break;
-    case 6:
-      lpsrPitch = lpsrNote::k_c;
-      break;
-    case 7:
-      lpsrPitch =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_cih
-          : lpsrNote::k_deseh;
-      break;
-    case 8:
-      lpsrPitch =
-        alteration == lpsrNote::kSharp
-          ? lpsrNote::k_cis
-          : lpsrNote::k_des;
-      break;
-    case 9:
-      lpsrPitch =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_cisih
-          : lpsrNote::k_deh;
-      break;
-    case 10:
-      lpsrPitch = lpsrNote::k_d;
-      break;
-    case 11:
-      lpsrPitch =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_dih
-          : lpsrNote::k_eeseh;
-      break;
-    case 12:
-      lpsrPitch =
-        alteration == lpsrNote::kSharp
-          ? lpsrNote::k_dis
-          : lpsrNote::k_ees;
-      break;
-    case 13:
-      lpsrPitch =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_disih
-          : lpsrNote::k_eeh;
-      break;
-    case 14:
-      lpsrPitch = lpsrNote::k_e;
-      break;
-    case 15:
-      lpsrPitch =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_eih
-          : lpsrNote::k_feseh;
-      break;
-    case 16:
-      lpsrPitch = lpsrNote::k_f;
-      break;
-    case 17:
-      lpsrPitch =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_fih
-          : lpsrNote::k_geseh;
-      break;
-    case 18:
-      lpsrPitch =
-        alteration == lpsrNote::kSharp
-          ? lpsrNote::k_fis
-          : lpsrNote::k_ges;
-      break;
-    case 19:
-      lpsrPitch =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_fisih
-          : lpsrNote::k_geh;
-      break;
-    case 20:
-      lpsrPitch = lpsrNote::k_g;
-      break;
-    case 21:
-      lpsrPitch =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_gih
-          : lpsrNote::k_aeseh;
-      break;
-    case 22:
-      lpsrPitch =
-        alteration == lpsrNote::kSharp
-          ? lpsrNote::k_gis
-          : lpsrNote::k_aes;
-      break;
-    case 23:
-      lpsrPitch =
-        alteration == lpsrNote::kDoubleSharp
-          ? lpsrNote::k_gisih
-          : lpsrNote::k_aeh;
-      break;
-  } // switch
-  
-  return lpsrPitch;
 }
 
 void xmlpart2lpsrvisitor::createChord (SlpsrDuration noteDuration) {
@@ -1179,7 +1045,7 @@ void xmlpart2lpsrvisitor::visitEnd ( S_note& elt )
   // create an empty lpsr (with default values) until we know more
   SlpsrNote note = lpsrNote::create();//(fTargetVoice); // JMI , "s", 0, dur, "");
 
-  if (fTranslationSwitches.fDebug)
+  if (fTranslationSwitches->fDebug)
     std::cerr << "fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << ", " << 
     "fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
   if (fCurrentDivisions*4 == 0)

@@ -36,10 +36,10 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-xml2LpsrVisitor::xml2LpsrVisitor( translationSwitches& ts )
-  :
-    fTranslationSwitches(ts)
+xml2LpsrVisitor::xml2LpsrVisitor( S_translationSwitches& ts )
 {
+  fTranslationSwitches = ts;
+  
   fMillimeters     = -1;
   fGlobalStaffSize = -1.0;
   fTenths          = -1;
@@ -124,7 +124,7 @@ SlpsrElement xml2LpsrVisitor::convertToLpsr (const Sxmlelement& xml )
 
 //______________________________________________________________________________
 void xml2LpsrVisitor::appendElementToSequence (SlpsrElement& elt) {
-  bool doDebug = fTranslationSwitches.fDebug;
+  bool doDebug = fTranslationSwitches->fDebug;
 //  bool doDebug = false;
 
   if (doDebug) cout << "!!! appendElementToSequence : " << elt << std::endl;
@@ -294,7 +294,7 @@ void xml2LpsrVisitor::visitStart ( S_tenths& elt )
 
 void xml2LpsrVisitor::visitEnd ( S_scaling& elt)
 {
-  if (fTranslationSwitches.fTrace)
+  if (fTranslationSwitches->fTrace)
     cerr <<
       "There are " << fTenths << " tenths for " << 
       fMillimeters << " millimeters, hence a global staff size of " <<
@@ -390,7 +390,7 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   std::string partID = elt->getAttributeValue ("id");
   
   // browse the part contents for the first time with a xmlPartSummaryVisitor
-  if (fTranslationSwitches.fTrace)
+  if (fTranslationSwitches->fTrace)
     cerr << "Extracting part \"" << partID << "\" summary information" << endl;
 
   xmlPartSummaryVisitor xpsv (fTranslationSwitches);
@@ -398,7 +398,7 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
 
   browser.browse(*elt);
 
-  if (fTranslationSwitches.fTrace)
+  if (fTranslationSwitches->fTrace)
     cerr << "Extracting part \"" << partID << "\" voices information" << endl;
 
   smartlist<int>::ptr voices = xpsv.getVoices ();
@@ -425,7 +425,7 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
       fCurrentStaffIndex++;
     }
 
-    if (fTranslationSwitches.fTrace)
+    if (fTranslationSwitches->fTrace)
       cerr << 
         "Handling part \"" << partID << 
         "\" contents, mainStaff = " << mainStaff <<
@@ -441,8 +441,8 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     // create the lpsrPart
     SlpsrPart part = lpsrPart::create (
       partName,
-      fTranslationSwitches.fGenerateAbsoluteCode,
-      fTranslationSwitches.fGenerateNumericalTime);
+      fTranslationSwitches->fGenerateAbsoluteCode,
+      fTranslationSwitches->fGenerateNumericalTime);
       
     // register it in this visitors's map
     fLpsrPartsMap[partID] = part;
@@ -453,7 +453,7 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     
     // browse the part contents once more with an xmlpart2lpsrvisitor
     xmlpart2lpsrvisitor xp2lv (fTranslationSwitches, part);
-    xp2lv.generatePositions (fTranslationSwitches.fGeneratePositions);
+    xp2lv.generatePositions (fTranslationSwitches->fGeneratePositions);
     
     xml_tree_browser browser (&xp2lv);
  
@@ -465,7 +465,7 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     // JMI currentTimeSign = xp2lv.getTimeSign();
 
     // extract the part lyrics
-    if (fTranslationSwitches.fTrace)
+    if (fTranslationSwitches->fTrace)
       cerr << "Extracting part \"" << partID << "\" lyrics information" << endl;
 
     std::map<std::string, xmlPartSummaryVisitor::stanzaContents> 

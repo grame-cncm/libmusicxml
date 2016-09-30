@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
   bool trace =                                    true;
   bool debug =                                    false;
   
-   static struct option long_options [] =
+  static struct option long_options [] =
     {
     /* These options set a flag. */
     {"help",          no_argument,       &helpPresent, 1},
@@ -192,22 +192,24 @@ int main(int argc, char *argv[])
 
   // int   remainingArgs = nonOptionArgs;
 
-  // populate the translation switches
-  translationSwitches  ts;
+  // create the translation switches
+  translationSwitches  ts = translationSwitches::create();
+  assert(ts != 0);
   
-  ts.fNoteNamesLanguageAsString = noteNamesLanguageName;
-  ts.fNoteNamesLanguage =         noteNamesLanguage;
-  ts.fGenerateAbsoluteCode =      generateAbsoluteCode;
-  ts.fGenerateNumericalTime =     generateNumericalTime;
-  ts.fGenerateComments =          generateComments;
-  ts.fGenerateBars =              generateBars;
-  ts.fGenerateStems =             generateStems;
-  ts.fGeneratePositions =         generatePositions;
-  ts.fTrace =                     trace;
-  ts.fDebug =                     debug;
-  ts.fSelectedOptions =           selectedOptions;
+  // populate them
+  ts->fNoteNamesLanguageAsString = noteNamesLanguageName;
+  ts->fNoteNamesLanguage =         noteNamesLanguage;
+  ts->fGenerateAbsoluteCode =      generateAbsoluteCode;
+  ts->fGenerateNumericalTime =     generateNumericalTime;
+  ts->fGenerateComments =          generateComments;
+  ts->fGenerateBars =              generateBars;
+  ts->fGenerateStems =             generateStems;
+  ts->fGeneratePositions =         generatePositions;
+  ts->fTrace =                     trace;
+  ts->fDebug =                     debug;
+  ts->fSelectedOptions =           selectedOptions;
 
-  if (ts.fTrace)
+  if (ts->fTrace)
     cerr << 
       "Launching conversion to LilyPond with libmusicxml2 v" << 
       musicxmllibVersionStr() <<

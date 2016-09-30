@@ -28,7 +28,7 @@ namespace MusicXML2
 {
 //________________________________________________________________________
 
-xmlPartSummaryVisitor::xmlPartSummaryVisitor (translationSwitches& ts)
+xmlPartSummaryVisitor::xmlPartSummaryVisitor (S_translationSwitches& ts)
   : fStavesCount(1)
   { fTranslationSwitches = ts; }
 
@@ -38,7 +38,7 @@ xmlPartSummaryVisitor::~xmlPartSummaryVisitor () {}
 void xmlPartSummaryVisitor::visitStart ( S_divisions& elt ) 
 {
   fCurrentDivisions = (int)(*elt);
-  if (fTranslationSwitches.fTrace) {
+  if (fTranslationSwitches->fTrace) {
     if (fCurrentDivisions == 1)
       cerr << "There is 1 division per quater note" << std::endl;
     else
@@ -104,7 +104,7 @@ void xmlPartSummaryVisitor::visitStart ( S_duration& elt )
   int duration=(int)(*elt);
 //  cout << "=== xmlPartSummaryVisitor::visitStart ( S_duration& elt ), duration = " << duration << std::endl;
 /* JMI
-  if (fTranslationSwitches.fDebug)
+  if (fTranslationSwitches->fDebug)
     std::cerr << "duration = " << duration << ", " << 
     "fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
   if (fCurrentDivisions*4 == 0)
@@ -337,7 +337,7 @@ void xmlPartSummaryVisitor::clearStanzas () {
 }
 
 std::string xmlPartSummaryVisitor::getStanza (std::string name, std::string separator) const {
-//  if (fTranslationSwitches.fTrace) cerr << "Extracting part \"" << partid << "\" lyrics information" << endl;
+//  if (fTranslationSwitches->fTrace) cerr << "Extracting part \"" << partid << "\" lyrics information" << endl;
 //  std::map<std::string, std::list<std::list<std::string> > > stanzas = ps.getStanzas();
   std::string result = "";
   

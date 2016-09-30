@@ -25,6 +25,8 @@
 #include "typedefs.h"
 #include "utilities.h"
 
+#include "musicxml2lpsr.h"
+
 namespace MusicXML2 
 {
 
@@ -117,6 +119,23 @@ class EXP lpsrGlobalVariables {
     static CodeGenerationKind sCodeGenerationKind;
 };
 
+/*!
+\brief Note description for MusicXML.
+*/
+//______________________________________________________________________________
+class musicXMLNoteData {
+  public:
+    char   fMusicxmlStep;
+    bool   fMusicxmlStepIsARest;
+    int    fMusicXMLAlteration;
+    int    fMusicxmlOctave;
+    int    fMusicxmlDivisions;
+    int    fMusicxmlDuration;
+    int    fDotsNumber;
+    int    fVoiceNumber;
+    bool   fNoteBelongsToAChord;
+};
+    
 /*!
 \brief A generic lpsr element representation.
 
@@ -240,6 +259,52 @@ class EXP lpsrDuration : public lpsrElement {
 typedef SMARTP<lpsrDuration> SlpsrDuration;
 
 /*!
+\brief A lpsr rest representation.
+
+  A note is represented by its
+    duration (in the form of numerator/denominator)
+    and optional dots.
+*/
+//______________________________________________________________________________
+class EXP lpsrRest : public lpsrElement {
+  public:
+    
+//JMI    static SMARTP<lpsrRest> create();
+
+    // for standalone rests
+    static SMARTP<lpsrRest> createFromMusicXMLData (
+                              S_translationSwitches& ts,
+                              musicXMLNoteData&      mxmldat);
+    
+    // for tuplet members
+    void updateNoteDuration (int actualNotes, int normalNotes);
+        
+    virtual void printMusicXML      (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
+
+  protected:
+ 
+    lpsrRest (
+      S_translationSwitches& ts,
+      musicXMLNoteData&      mxmldat);
+    
+    virtual ~lpsrRest();
+    
+  private:
+  
+    S_translationSwitches    fTranslationSwitches;
+    musicXMLNoteData         fMusicXMLNoteData;
+
+    // MusicXML durations are in in divisions per quarter note,
+    // LilyPond durations are in whole notes, hence the "*4" multiplication
+    SlpsrDuration            fLpsrDuration;
+    
+    int                      fVoiceNumber;
+};
+typedef SMARTP<lpsrRest> SlpsrRest;
+
+/*!
 \brief A lpsr note representation.
 
   A note is represented by its name, optional accidentals,
@@ -252,28 +317,18 @@ class EXP lpsrNote : public lpsrElement {
     enum MusicXMLDiatonicPitch {
       kA, kB, kC, kD, kE, kF, kG, kRest, k_NoDiatonicPitch};
     
-    enum MusicXMLAlteration { // kDoubleFlat=-2 as in MusicXML, to help testing
+    enum MusicXMLAlteration {
+      // kDoubleFlat=-2 as in MusicXML, to faciliting testing
       kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp, k_NoAlteration};
         
     static std::map<char, int> sQuatertonesFromA;
     
-    static SMARTP<lpsrNote> create();
+//JMI    static SMARTP<lpsrNote> create();
 
-    typedef struct {
-      char   fMusicxmlStep;
-      bool   fMusicxmlStepIsARest;
-      int    fMusicXMLAlteration;
-      int    fMusicxmlOctave;
-      int    fMusicxmlDivisions;
-      int    fMusicxmlDuration;
-      int    fDotsNumber;
-      int    fVoiceNumber;
-      bool   fNoteBelongsToAChord;
-    } musicXMLNoteData;
-    
     // for standalone notes
     static SMARTP<lpsrNote> createFromMusicXMLData (
-      musicXMLNoteData& mxmldat);
+                              S_translationSwitches& ts,
+                              musicXMLNoteData&      mxmldat);
     
     // for chord members
     void setNoteBelongsToAChord ();
@@ -281,12 +336,7 @@ class EXP lpsrNote : public lpsrElement {
     // for tuplet members
     void updateNoteDuration (int actualNotes, int normalNotes);
     
-
-   // the LilyPond note names language
-    enum LpsrNoteNamesLanguage {
-      kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
-      kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
-
+    // the LilyPond note names language
     class stringToLpsrNoteNamesLanguage 
       : public std::map<std::string, LpsrNoteNamesLanguage>
     {
@@ -323,6 +373,10 @@ class EXP lpsrNote : public lpsrElement {
       k_geseh, k_ges, k_geh, k_g, k_gih, k_gis, k_gisih,
       k_NoLpsrPitch};
     
+    LpsrPitch computeNoteLpsrPitch (
+                int                          noteQuatertonesFromA,
+                lpsrNote::MusicXMLAlteration alteration);
+                          
     static std::map<LpsrPitch, std::string> sDutchLilypondPitches;
 
     // dynamics and wedges
@@ -345,12 +399,15 @@ class EXP lpsrNote : public lpsrElement {
 
   protected:
  
-    lpsrNote(musicXMLNoteData& mxmldat);
+    lpsrNote (
+      S_translationSwitches& ts,
+      musicXMLNoteData&      mxmldat);
     
     virtual ~lpsrNote();
     
   private:
   
+    S_translationSwitches    fTranslationSwitches;
     musicXMLNoteData         fMusicXMLNoteData;
 
     // MusicXML informations

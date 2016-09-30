@@ -459,26 +459,24 @@ void lpsrWedge::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-SlpsrNote lpsrNote::createFromMusicXMLData (musicXMLNoteData& mxmldat)
+SlpsrNote lpsrNote::createFromMusicXMLData (
+  S_translationSwitches& ts,
+  musicXMLNoteData&      mxmldat)
 {  
-  lpsrNote * o = new lpsrNote (mxmldat); assert(o!=0); 
+  lpsrNote * o = new lpsrNote (ts, mxmldat); assert(o!=0); 
   return o;
 }
 
-lpsrNote::lpsrNote (musicXMLNoteData& mxmldat)
-  : lpsrElement("")
+lpsrNote::lpsrNote (
+  S_translationSwitches& ts,
+  musicXMLNoteData&      mxmldat)
+  :  lpsrElement("")
 {
-  /*
-  fDiatonicPitch        = lpsrNote::k_NoDiatonicPitch;
-  fAlteration           = lpsrNote::k_NoAlteration;
-  fOctave               = -1;
-  // leave fLpsrDuration as it is, will be set on S_note
-  fVoiceNumber          = -1;
-*/
+  fTranslationSwitches = ts;
 
-  sQuatertonesFromA['A']=0;
-  sQuatertonesFromA['B']=4;
-  sQuatertonesFromA['C']=6;
+  sQuatertonesFromA['A']= 0;
+  sQuatertonesFromA['B']= 4;
+  sQuatertonesFromA['C']= 6;
   sQuatertonesFromA['D']=10;
   sQuatertonesFromA['E']=14;
   sQuatertonesFromA['F']=16;
@@ -503,7 +501,7 @@ lpsrNote::lpsrNote (musicXMLNoteData& mxmldat)
   std::string  message;
   s << "MusicXML alteration " << alter << " is not between -2 and +2";
   s >> message;
-  assertLpsr(alter>=-2 && alter<=+2, message);
+  lpsrAssert(alter>=-2 && alter<=+2, message);
   
   switch (alter) {
     case -2:
@@ -537,7 +535,7 @@ lpsrNote::lpsrNote (musicXMLNoteData& mxmldat)
   int divisions             = fMusicXMLNoteData.fMusicxmlDivisions;
   int divisionsPerWholeNote = divisionsPerWholeNote*4;
   
-  if (fTranslationSwitches.fDebug)
+  if (fTranslationSwitches->fDebug)
     std::cerr << 
     "divisions = " << divisions << ", " << 
     "divisionsPerWholeNote = " << divisionsPerWholeNote << std::endl;
@@ -549,42 +547,23 @@ lpsrNote::lpsrNote (musicXMLNoteData& mxmldat)
       std::endl << 
       "%--> durat = " << durat <<
       ", durat = " << durat << std::endl;
-    assertLpsr(false, "There cannot be 0 divisions per MusicXML note");
+    lpsrAssert(false, "There cannot be 0 divisions per MusicXML note");
   }
 
   SlpsrDuration noteDuration =
     lpsrDuration::create (
       durat,
       divisionsPerWholeNote,
-      fMusicXMLNoteData.fCurrentDotsNumber);
+      fMusicXMLNoteData.fDotsNumber);
   //cout << "durat = " << durat << std::endl;
     
   // diatonic note
-  lpsrNote::DiatonicPitch diatonicNote = lpsrNote::k_NoDiatonicPitch;
+  lpsrNote::MusicXMLDiatonicPitch diatonicNote =
+    lpsrNote::k_NoDiatonicPitch;
 
 }
 
 lpsrNote::~lpsrNote() {}
-
-void lpsrNote::updateNote(
-  bool              currentStepIsRest,
-  DiatonicPitch     diatonicNote,
-  Alteration        alteration,
-  int               octave,
-  SlpsrDuration     dur,
-  LpsrPitch         lpsrPitch,
-  int               voice,
-  bool              noteBelongsToAChord)
-{
-  fCurrentStepIsRest = currentStepIsRest;
-  fDiatonicPitch = diatonicNote;
-  fAlteration = alteration;
-  fOctave = octave;
-  fLpsrDuration = dur;
-  fLpsrPitch = lpsrPitch;
-  fVoiceNumber = voice;
-  fNoteBelongsToAChord = noteBelongsToAChord;
-}
 
 void lpsrNote::updateNoteDuration(int actualNotes, int normalNotes)
 {
@@ -593,6 +572,156 @@ void lpsrNote::updateNoteDuration(int actualNotes, int normalNotes)
 
 void lpsrNote::setNoteBelongsToAChord () {
   fNoteBelongsToAChord = true;
+}
+
+//______________________________________________________________________________
+
+lpsrNote::LpsrPitch lpsrNote::computeNoteLpsrPitch(
+  int                          noteQuatertonesFromA,
+  lpsrNote::MusicXMLAlteration alteration)
+{
+  // computing the lpsr pitch
+  /*
+  Alter values of -2 and 2 can be used for double-flat and double-sharp. Decimal values can be used for microtones (e.g., 0.5 for a quarter-tone sharp), but not all programs may convert this into MIDI pitch-bend data.
+
+  For rests, a rest element is used instead of the pitch element. The whole rest in 3/4 that begins the voice part is represented as:
+    <note>
+      <rest/>
+      <duration>72</duration>
+    </note>
+  
+  Quarter tones may be added; the following is a series of Cs with increasing pitches:
+    \relative c'' { ceseh ces ceh c cih cis cisih }
+   */
+  lpsrNote::LpsrPitch lpsrPitch = lpsrNote::k_NoLpsrPitch;
+  
+  switch (noteQuatertonesFromA) {
+    case 0:
+      lpsrPitch = lpsrNote::k_a;
+      break;
+    case 1:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_aih
+          : lpsrNote::k_beseh;
+      break;
+    case 2:
+      lpsrPitch =
+        alteration == lpsrNote::kSharp
+          ? lpsrNote::k_ais
+          : lpsrNote::k_bes;
+      break;
+    case 3:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_aisih
+          : lpsrNote::k_beh;
+      break;
+    case 4:
+      lpsrPitch = lpsrNote::k_b;
+      break;
+    case 5:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_bih
+          : lpsrNote::k_ceseh;
+      break;
+    case 6:
+      lpsrPitch = lpsrNote::k_c;
+      break;
+    case 7:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_cih
+          : lpsrNote::k_deseh;
+      break;
+    case 8:
+      lpsrPitch =
+        alteration == lpsrNote::kSharp
+          ? lpsrNote::k_cis
+          : lpsrNote::k_des;
+      break;
+    case 9:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_cisih
+          : lpsrNote::k_deh;
+      break;
+    case 10:
+      lpsrPitch = lpsrNote::k_d;
+      break;
+    case 11:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_dih
+          : lpsrNote::k_eeseh;
+      break;
+    case 12:
+      lpsrPitch =
+        alteration == lpsrNote::kSharp
+          ? lpsrNote::k_dis
+          : lpsrNote::k_ees;
+      break;
+    case 13:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_disih
+          : lpsrNote::k_eeh;
+      break;
+    case 14:
+      lpsrPitch = lpsrNote::k_e;
+      break;
+    case 15:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_eih
+          : lpsrNote::k_feseh;
+      break;
+    case 16:
+      lpsrPitch = lpsrNote::k_f;
+      break;
+    case 17:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_fih
+          : lpsrNote::k_geseh;
+      break;
+    case 18:
+      lpsrPitch =
+        alteration == lpsrNote::kSharp
+          ? lpsrNote::k_fis
+          : lpsrNote::k_ges;
+      break;
+    case 19:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_fisih
+          : lpsrNote::k_geh;
+      break;
+    case 20:
+      lpsrPitch = lpsrNote::k_g;
+      break;
+    case 21:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_gih
+          : lpsrNote::k_aeseh;
+      break;
+    case 22:
+      lpsrPitch =
+        alteration == lpsrNote::kSharp
+          ? lpsrNote::k_gis
+          : lpsrNote::k_aes;
+      break;
+    case 23:
+      lpsrPitch =
+        alteration == lpsrNote::kDoubleSharp
+          ? lpsrNote::k_gisih
+          : lpsrNote::k_aeh;
+      break;
+  } // switch
+  
+  return lpsrPitch;
 }
 
 void lpsrNote::addDynamics (SlpsrDynamics dyn) {
@@ -623,7 +752,7 @@ std::string lpsrNote::notePitchAsLilypondString ()
 {
   stringstream s;
   
-  if (fCurrentStepIsRest)
+  if (fMusicXMLNoteData.fMusicxmlStepIsARest)
     s << "r";
   else {
     //JMI assertLpsr(fLpsrPitch != k_NoLpsrPitch, "fLpsrPitch != k_NoLpsrPitch");

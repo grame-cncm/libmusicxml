@@ -78,7 +78,7 @@ class EXP xml2LpsrVisitor :
 {
   public:
     
-    xml2LpsrVisitor( translationSwitches& ts );
+    xml2LpsrVisitor ( S_translationSwitches& ts );
     virtual ~xml2LpsrVisitor() {}
 
     SlpsrElement convertToLpsr (const Sxmlelement& xml);
@@ -88,7 +88,7 @@ class EXP xml2LpsrVisitor :
     // ie converts relative-x/-y into dx/dy attributes
     // JMI
     void generatePositions (bool state)
-                  { fTranslationSwitches.fGeneratePositions = state; }
+          { fTranslationSwitches->fGeneratePositions = state; }
 
     static void addPosition ( 
       Sxmlelement elt, SlpsrElement& cmd, int yoffset);
@@ -134,7 +134,7 @@ class EXP xml2LpsrVisitor :
   private:
   
     // the translation switches
-    translationSwitches fTranslationSwitches;
+    S_translationSwitches fTranslationSwitches;
     
     // the implicit sequence containing all the generated code
     SlpsrSequence   fLpsrSeq; 
