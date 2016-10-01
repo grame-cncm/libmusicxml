@@ -958,7 +958,6 @@ void xmlPart2LpsrVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fMusicxmlAlteration = 0; // natural notes
   fMusicXMLNoteData.fMusicxmlOctave = -13;
   fMusicXMLNoteData.fDotsNumber = 0;
-// JMI  fMusicXMLNoteData.fTupletMemberType = "";
    
   // assume this note doesn't belong to a chord until S_chord is met
   fMusicXMLNoteData.fNoteBelongsToAChord = false;
@@ -1016,14 +1015,6 @@ void xmlPart2LpsrVisitor::createTuplet (S_lpsrNote note) {
   cout << "--> pushing tuplet to tuplets stack" << std::endl;
   fCurrentTupletsStack.push(fCurrentTuplet);
   
-  // update note duration
-  /* JMI
-  cout
-    << "--> updating note duration by " << fCurrentActualNotes << 
-    "/" << fCurrentNormalNotes << std::endl;
-  note->updateNoteDuration(fCurrentActualNotes, fCurrentNormalNotes);
-  */
-
   // add note to the tuplet
   cout << "--> adding note " << note << " to tuplets stack top" << std::endl;
   fCurrentTuplet->addElementToTuplet(note);
@@ -1062,12 +1053,13 @@ void xmlPart2LpsrVisitor::visitEnd ( S_note& elt )
     lpsrMusicXMLError ("divisions cannot be 0");
   
   fMusicXMLNoteData.fMusicxmlDivisions = fCurrentDivisions;
-
+  fMusicXMLNoteData.fTupletMemberType = fCurrentType;
+  
   //cout << "::: creating a note" << std::endl;
   S_lpsrNote note =
     lpsrNote::createFromMusicXMLData (
       fTranslationSettings, fMusicXMLNoteData);
-    
+
   // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {
     if (fMusicXMLNoteData.fMusicxmlStepIsARest)

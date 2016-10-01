@@ -236,7 +236,8 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     S_lpsrNewstaffCommand nstf = lpsrNewstaffCommand::create();
     
     // add it to the score parallel music
-    S_lpsrParallelMusic parallelMusic = fLpsrScore->getScoreParallelMusic();
+    S_lpsrParallelMusic parallelMusic =
+      fLpsrScore->getScoreParallelMusic();
     parallelMusic->addElementToParallelMusic (nstf);
     
     // add the part name to the new staff

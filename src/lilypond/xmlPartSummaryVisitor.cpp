@@ -165,7 +165,7 @@ void xmlPartSummaryVisitor::visitEnd ( S_text& elt )
   
   if (spacefound!=std::string::npos) text = "\""+text+"\"";
   
-  std::string lastLyricNumber = fLastLyric->getAttributeValue("number");
+  std::string lastLyricNumber   = fLastLyric->getAttributeValue ("number");
   std::string lastSyllabicValue = fLastSyllabic->getValue();
   
   /*
@@ -176,7 +176,7 @@ void xmlPartSummaryVisitor::visitEnd ( S_text& elt )
     flush;
   */
       
-  // create fStanzas[lastLyricNumber] on first visit
+  // create fStanzas [lastLyricNumber] on first visit
   if (! fStanzas.count(lastLyricNumber)) {
     fStanzas[lastLyricNumber] = std::list<std::list<std::string> >();
   }

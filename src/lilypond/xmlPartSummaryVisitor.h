@@ -85,15 +85,14 @@ class EXP xmlPartSummaryVisitor :
     //! returns the count of notes on a voice and a staff
     int getVoiceNotesCount (int staffid, int voiceid) const;
     
-    // a stanza is represented as a list words,
-    // represented as a list of their components
+    // a stanza is represented by a list words,
+    // which are represented by a list of their components
     typedef std::list<std::list<std::string> > stanzaContents;
 
     virtual std::map<std::string, xmlPartSummaryVisitor::stanzaContents>& 
                   getStanzas();
     void          clearStanzas ();
-    virtual std::string 
-                  getStanza (std::string name, std::string separator) const;
+    virtual std::string   getStanza (std::string name, std::string separator) const;
                                        
   protected:
   

@@ -302,9 +302,6 @@ class EXP lpsrNote : public lpsrElement {
     // for chord members
     void setNoteBelongsToAChord ();
     
-    // for tuplet members
-    void updateNoteDuration (int actualNotes, int normalNotes);
-    
     // we use dutch pitches names for the enumeration below
     // the following is a series of Cs with increasing pitches:
     // \relative c'' { ceseh ces ceh c cih cis cisih }
@@ -783,11 +780,12 @@ class EXP lpsrPart : public lpsrElement {
     static SMARTP<lpsrPart> create(
       std::string name, bool absoluteCode, bool generateNumericalTime);
     
-    std::string   getPartName () const         { return fPartName; }
-    bool          getAbsoluteCode () const     { return fPartAbsoluteCode; }
+    std::string    getPartName () const         { return fPartName; }
+    bool           getAbsoluteCode () const     { return fPartAbsoluteCode; }
     S_lpsrSequence getPartLpsrsequence () const { return fPartLpsrSequence; }
 
-    void          addLyricsToPart (S_lpsrLyrics lyr) { fPartLyrics.push_back(lyr); }
+    void           addLyricsToPart (S_lpsrLyrics lyr)
+                      { fPartLyrics.push_back(lyr); }
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -800,9 +798,9 @@ class EXP lpsrPart : public lpsrElement {
   
   private:
 
-    std::string       fPartName;
-    bool              fPartAbsoluteCode;
-    bool              fGenerateNumericalTime;
+    std::string        fPartName;
+    bool               fPartAbsoluteCode;
+    bool               fGenerateNumericalTime;
     
     // the implicit sequence containing the code generated for the part
     S_lpsrSequence     fPartLpsrSequence;
@@ -1278,7 +1276,8 @@ class EXP lpsrNewlyricsCommand : public lpsrElement {
 
     static SMARTP<lpsrNewlyricsCommand> create();
      
-    void addElementToNewStaff (S_lpsrElement elem) { fNewStaffElements.push_back(elem); }
+    void addElementToNewStaff (S_lpsrElement elem)
+            { fNewStaffElements.push_back(elem); }
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1298,13 +1297,13 @@ typedef SMARTP<lpsrNewlyricsCommand> S_lpsrNewlyricsCommand;
 /*!
 \brief A lpsr variable use representation.
 
-  A new lyrics is represented by the variable name
+  A variable use is represented by the name of the variable to use
 */
 //______________________________________________________________________________
 class EXP lpsrVariableUseCommand : public lpsrElement {
   public:
 
-    static SMARTP<lpsrVariableUseCommand> create(std::string variableName);
+    static SMARTP<lpsrVariableUseCommand> create (std::string variableName);
     
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1320,6 +1319,84 @@ class EXP lpsrVariableUseCommand : public lpsrElement {
     std::string fVariableName;
 };
 typedef SMARTP<lpsrVariableUseCommand> S_lpsrVariableUseCommand;
+
+/*!
+\brief A lpsr voice representation.
+
+  A voice is represented by the name of the variable name
+*/
+//______________________________________________________________________________
+class EXP lpsrVoice : public lpsrElement {
+  public:
+
+    static SMARTP<lpsrVoice> create (std::string variableName);
+    
+    virtual void printMusicXML      (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
+
+  protected:
+
+    lpsrVoice(std::string variableName);
+    virtual ~lpsrVoice();
+  
+  private:
+  
+    std::string fVariableName;
+};
+typedef SMARTP<lpsrVoice> S_lpsrVoice;
+
+/*!
+\brief A lyrics use representation.
+
+  A lyrics use is represented by the lyrics to use
+*/
+//______________________________________________________________________________
+class EXP lpsrUseLyricsCommand : public lpsrElement {
+  public:
+
+    static SMARTP<lpsrUseLyricsCommand> create (std::string lyricsName);
+    
+    virtual void printMusicXML      (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
+
+  protected:
+
+    lpsrUseLyricsCommand(std::string variableName);
+    virtual ~lpsrUseLyricsCommand();
+  
+  private:
+  
+    std::string lyricsName;
+};
+typedef SMARTP<lpsrUseLyricsCommand> S_lpsrUseLyricsCommand;
+
+/*!
+\brief A context representation.
+
+  A contextis represented by its name and contents
+*/
+//______________________________________________________________________________
+class EXP lpsrContext : public lpsrElement {
+  public:
+
+    static SMARTP<lpsrContext> create (std::string variableName);
+    
+    virtual void printMusicXML      (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
+
+  protected:
+
+    lpsrContext(std::string variableName);
+    virtual ~lpsrContext();
+  
+  private:
+  
+    std::string fLyricsName;
+};
+typedef SMARTP<lpsrContext> S_lpsrContext;
 
 
 /*! @} */

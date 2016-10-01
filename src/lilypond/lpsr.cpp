@@ -230,7 +230,8 @@ std::string lpsrDuration::durationAsLilypondString ()
     s << 
       std::endl << 
       "%--> lpsrDuration::printLilyPondCode, noteDivisions = " << noteDivisions <<
-      ", divisionsPerWholeNote = " << divisionsPerWholeNote << std::endl;
+      ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
+      std::endl;
     s >> message;
     lpsrMusicXMLError(message);
   }
@@ -239,8 +240,29 @@ std::string lpsrDuration::durationAsLilypondString ()
 
   if (fTupletMemberType.size()) {
 
-    s << fTupletMemberType;
-    
+    if      (fTupletMemberType == "256th")   { s << "256"; }
+    else if (fTupletMemberType == "128th")   { s << "128"; } 
+    else if (fTupletMemberType == "64th")    { s << "64"; } 
+    else if (fTupletMemberType == "32nd")    { s << "32"; } 
+    else if (fTupletMemberType == "16th")    { s << "16"; } 
+    else if (fTupletMemberType == "eighth")  { s << "8"; } 
+    else if (fTupletMemberType == "quarter") { s << "4"; } 
+    else if (fTupletMemberType == "half")    { s << "2"; } 
+    else if (fTupletMemberType == "whole")   { s << "1"; } 
+    else if (fTupletMemberType == "breve")   { s << "breve"; } 
+    else if (fTupletMemberType == "long")    { s << "long"; }
+    else
+      {
+        stringstream s;
+      std::string  message;
+      s << 
+        std::endl << 
+        "--> unknown tuplet member type " << fTupletMemberType <<
+        std::endl;
+      s >> message;
+      lpsrMusicXMLError(message);
+      }
+        
   } else {
     
     div_t divresult = div (noteDivisions, divisionsPerWholeNote);  
@@ -309,7 +331,7 @@ std::string lpsrDuration::durationAsLilypondString ()
 
 void lpsrDuration::printLpsrStructure(ostream& os)
 {
-  os << durationAsLilypondString () << flush; // JMI
+  os << durationAsLilypondString () << flush;
 }
 
 void lpsrDuration::printLilyPondCode(ostream& os)
@@ -607,11 +629,6 @@ lpsrNote::lpsrNote (
 }
 
 lpsrNote::~lpsrNote() {}
-
-void lpsrNote::updateNoteDuration(int actualNotes, int normalNotes)
-{
- // JMI fNoteLpsrDuration->scaleNumByFraction(actualNotes, normalNotes);
-}
 
 void lpsrNote::setNoteBelongsToAChord () {
   fMusicXMLNoteData.fNoteBelongsToAChord = true;
@@ -1504,11 +1521,13 @@ void lpsrLyrics::printLilyPondCode(ostream& os)
 S_lpsrPart lpsrPart::create(
   std::string name, bool absoluteCode, bool generateNumericalTime)
 {
-  lpsrPart* o = new lpsrPart(name, absoluteCode, generateNumericalTime); assert(o!=0);
+  lpsrPart* o =
+    new lpsrPart(name, absoluteCode, generateNumericalTime); assert(o!=0);
   return o;
 }
 
-lpsrPart::lpsrPart(std::string name, bool absoluteCode, bool generateNumericalTime)
+lpsrPart::lpsrPart(
+    std::string name, bool absoluteCode, bool generateNumericalTime)
   : lpsrElement("")
 {
   fPartName = name;
@@ -1522,7 +1541,7 @@ lpsrPart::lpsrPart(std::string name, bool absoluteCode, bool generateNumericalTi
 // JMI  fPartLpsrRepeat = lpsrRepeat::create ();
 //  fPartLpsrSequence->appendElementToSequence (fPartLpsrRepeat);
   
-  // add the default 4/4 time signature
+  // add the implicit 4/4 time signature
   S_lpsrTime time = lpsrTime::create (4, 4, fGenerateNumericalTime);
   S_lpsrElement t = time;
   fPartLpsrSequence->appendElementToSequence (t);
@@ -1546,12 +1565,6 @@ void lpsrPart::printLpsrStructure(ostream& os)
 
 void lpsrPart::printLilyPondCode(ostream& os)
 {
-  /*
-  lpsrElement cmd = lpsrcmd::create("set Staff.instrumentName ="); // USER
-  stringstream s1, s2;
-  string instr = header.fPartName->getValue();
-  */
-  
   os << idtr << fPartName << " = ";
   if (! fPartAbsoluteCode) os << "\\relative ";
   os << "{" << std::endl;
