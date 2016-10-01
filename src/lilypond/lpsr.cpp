@@ -111,6 +111,13 @@ void musicXMLNoteData::print (std::ostream& os)
     "  " << std::left << setw(26) << "fVoiceNumber = " << fVoiceNumber <<  std::endl;
 };
 
+void musicXMLBeatData::print (std::ostream& os)
+{
+  os <<
+    "  " << std::left << setw(26) << "fBeatUnit = " << fBeatUnit <<  std::endl <<
+    "  " << std::left << setw(26) << "fDots = " << fDots <<  std::endl;
+};
+
 //______________________________________________________________________________
 S_lpsrAbsoluteOctave lpsrAbsoluteOctave::create (int musicxmlOctave)
 {
@@ -2527,6 +2534,49 @@ void lpsrVariableUseCommand::printLpsrStructure(ostream& os)
 void lpsrVariableUseCommand::printLilyPondCode(ostream& os)
 {
   os << "\\" << fVariableName << std::endl;
+}
+
+//______________________________________________________________________________
+S_lpsrTempoCommand lpsrTempoCommand::create (
+  int tempoUnit, int perMinute)
+{
+  lpsrTempoCommand* o =
+    new lpsrTempoCommand(tempoUnit, perMinute); assert(o!=0);
+  return o;
+}
+
+lpsrTempoCommand::lpsrTempoCommand(
+    int tempoUnit, int perMinute)
+  : lpsrElement("")
+{
+  fTempoUnit = tempoUnit;
+  fPerMinute = perMinute;
+}
+lpsrTempoCommand::~lpsrTempoCommand() {}
+
+ostream& operator<< (ostream& os, const S_lpsrTempoCommand& nstf)
+{
+  nstf->print(os);
+  return os;
+}
+
+void lpsrTempoCommand::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrTempoCommand??? -->" << std::endl;
+}
+
+void lpsrTempoCommand::printLpsrStructure(ostream& os)
+{
+  os <<
+    "TempoCommand" << " " <<
+    fTempoUnit << " " << fPerMinute << std::endl;
+}
+
+void lpsrTempoCommand::printLilyPondCode(ostream& os)
+{
+  os <<
+    "\\tempo" << " " <<
+    fTempoUnit << " = " << fPerMinute << std::endl;
 }
 
 //______________________________________________________________________________

@@ -1398,6 +1398,47 @@ class EXP lpsrContext : public lpsrElement {
 };
 typedef SMARTP<lpsrContext> S_lpsrContext;
 
+//______________________________________________________________________________
+class musicXMLBeatData {
+  public:
+  
+     virtual void print              (std::ostream& os);
+ 
+  public:
+  
+    std::string fBeatUnit;
+    int         fDots;
+};
+
+/*!
+\brief A tempo command representation.
+
+  A tempo command is represented by the lyrics to use
+*/
+//______________________________________________________________________________
+class EXP lpsrTempoCommand : public lpsrElement {
+  public:
+
+    static SMARTP<lpsrTempoCommand> create (
+        int tempoUnit, int perMinute);
+    
+    virtual void printMusicXML      (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
+
+  protected:
+
+    lpsrTempoCommand (
+        int tempoUnit, int perMinute);
+    virtual ~lpsrTempoCommand();
+  
+  private:
+  
+    int  fTempoUnit;
+    int  fPerMinute;
+};
+typedef SMARTP<lpsrTempoCommand> S_lpsrTempoCommand;
+
 
 /*! @} */
 

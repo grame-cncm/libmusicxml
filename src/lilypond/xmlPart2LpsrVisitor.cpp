@@ -451,7 +451,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_sign& elt )
 //______________________________________________________________________________
 void xmlPart2LpsrVisitor::visitEnd ( S_clef& elt ) 
 {
-  int staffnum = elt->getAttributeIntValue("number", 0);
+  int staffnum = elt->getAttributeIntValue("number", 0); // JMI
   
   // JMI if ((staffnum != fTargetStaff) || fNotesOnly) return;
 
@@ -530,58 +530,77 @@ void xmlPart2LpsrVisitor::visitEnd ( S_clef& elt )
 }
 
 //________________________________________________________________________
-void xmlPart2LpsrVisitor::resetMetronome ()
-{
-  fBeats.clear();
-  fPerMinute = 0;
-  resetMetronome(fCurrentBeat);
-}
-
-void xmlPart2LpsrVisitor::resetMetronome (beat& b)
-{
-  b.fUnit = "";
-  b.fDots = 0;
-}
-
 void xmlPart2LpsrVisitor::visitStart ( S_metronome& elt )
-  { resetMetronome(); }
+{
+  std::string parentheses = elt->getAttributeValue("parentheses");
+  
+  fBeatsData.clear();
+  fPerMinute = 0;
+  fCurrentBeat.fBeatUnit = "";
+  fCurrentBeat.fDots = 0;
+
+  if (parentheses == "yes") 
+    fParentheses = true;
+  else if (parentheses == "no")
+    fParentheses = true;
+  else {
+    stringstream s;
+    std::string  message;
+    s << "parentheses value " << parentheses << " should be 'yes' or 'no'";
+    s >> message;
+    lpsrMusicXMLError (message);
+  }
+}
   
 void xmlPart2LpsrVisitor::visitEnd ( S_metronome& elt ) { 
  // if (fSkipDirection) return;
 
-  if (fCurrentBeat.fUnit.size()) {
-    fBeats.push_back(fCurrentBeat); 
-    resetMetronome (fCurrentBeat);
+  if (fCurrentBeat.fBeatUnit.size()) {
+    fBeatsData.push_back(fCurrentBeat);
+    fCurrentBeat.fBeatUnit = "";
+    fCurrentBeat.fDots = 0;
   }
   
-  if (fBeats.size() != 1) return;         // support per minute tempo only (for now)
-  if (! fPerMinute) return;    // support per minute tempo only (for now)
+  if (fBeatsData.size() != 1) {
+    lpsrMusicXMLWarning(
+      "multiple beats found, but only per-minute tempos is supported");
+    return;         // support per minute tempo only (for now)
+  }
+  
+  if (! fPerMinute) {
+    lpsrMusicXMLWarning(
+      "per-minute not found, only per-minute tempos is supported");
+    return;    // support per minute tempo only (for now)
+  }
 
-  beat b = fBeats[0];
-  rational r = 
-    NoteType::type2rational(NoteType::xml(b.fUnit)), rdot(3,2);
+  musicXMLBeatData b = fBeatsData[0];
+  rational         r = 
+    NoteType::type2rational(NoteType::xml(b.fBeatUnit)), rdot(3,2);
   
   while (b.fDots-- > 0) {
     r *= rdot;
   }
   r.rationalise();
 
-  stringstream s;
-  s << r.getDenominator() << " = " << fPerMinute; // USER
- // if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
- // addElementToPartSequence (cmd);
+  S_lpsrTempoCommand tempo =
+    lpsrTempoCommand::create (r.getDenominator(), fPerMinute);
+  fLpsrpart->getPartLpsrsequence()->appendElementToSequence (tempo);
+  
+ // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
 
 void xmlPart2LpsrVisitor::visitStart ( S_beat_unit& elt ) { 
-  if (fCurrentBeat.fUnit.size()) {
-    fBeats.push_back(fCurrentBeat); 
-    resetMetronome (fCurrentBeat);
+  if (fCurrentBeat.fBeatUnit.size()) {
+    fBeatsData.push_back (fCurrentBeat); 
+    fCurrentBeat.fBeatUnit = "";
+    fCurrentBeat.fDots = 0;
   }
-  fCurrentBeat.fUnit = elt->getValue();
+  fCurrentBeat.fBeatUnit = elt->getValue();
 }
 
 void xmlPart2LpsrVisitor::visitStart ( S_beat_unit_dot& elt )
   { fCurrentBeat.fDots++; }
+  
 void xmlPart2LpsrVisitor::visitStart ( S_per_minute& elt )
   { fPerMinute = (int)(*elt); }
 
@@ -1062,10 +1081,12 @@ void xmlPart2LpsrVisitor::visitEnd ( S_note& elt )
 
   // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {
+/* JMI
     if (fMusicXMLNoteData.fMusicxmlStepIsARest)
       lpsrMusicXMLError (
         "dynamics cannot be attached to a rest, delayed until next note");
     else
+*/
       while (! fPendingDynamics.empty()) {
         S_lpsrDynamics dyn = fPendingDynamics.front();
         note->addDynamics(dyn);
@@ -1075,10 +1096,12 @@ void xmlPart2LpsrVisitor::visitEnd ( S_note& elt )
   
   // attach the pending wedges if any to the note
   if (! fPendingWedges.empty()) {
+/* JMI
     if (fMusicXMLNoteData.fMusicxmlStepIsARest)
       lpsrMusicXMLError (
         "wedges cannot be attached to a rest, delayed until next note");
     else
+*/
       while (! fPendingWedges.empty()) {
         S_lpsrWedge wdg = fPendingWedges.front();
         note->addWedge(wdg);

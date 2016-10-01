@@ -255,7 +255,7 @@ class EXP xmlPart2LpsrVisitor :
 
     // description of the current chord
     S_lpsrChord             fCurrentChord;
-    bool                    fAChordIsBeingBuilt = false;
+    bool                    fAChordIsBeingBuilt;
     int                     fCurrentBeats;
     int                     fCurrentBeatType;
      
@@ -300,7 +300,7 @@ class EXP xmlPart2LpsrVisitor :
     int                     fCurrentTupletNumber;
     lpsrTuplet::TupletKind  fCurrentTupletKind;
     // remains true until a S_tuplet of type "stop" is met
-    bool                    fATupletIsBeingBuilt = false;
+    bool                    fATupletIsBeingBuilt;
 
     S_lpsrTuplet             fCurrentTuplet;
     std::stack<S_lpsrTuplet> fCurrentTupletsStack;
@@ -329,17 +329,11 @@ class EXP xmlPart2LpsrVisitor :
     int                     fNumber;
 
     // metronome handling
-    typedef struct {
-      std::string           fUnit;
-      int                   fDots;
-    } beat;
-
-    std::vector<beat>       fBeats;
+    std::vector<musicXMLBeatData>
+                            fBeatsData;
     int                     fPerMinute;
-    beat                    fCurrentBeat;
-
-    void                    resetMetronome();
-    virtual void            resetMetronome(beat& b);
+    musicXMLBeatData        fCurrentBeat;
+    bool                    fParentheses;
     
     // another name for fCurrentNote, fCurrentChord, fCurrentTuplet and the like
     S_lpsrElement           fCurrentElement;
