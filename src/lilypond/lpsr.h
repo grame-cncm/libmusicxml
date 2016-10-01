@@ -65,35 +65,35 @@ class lpsrNote;
 class lpsrPaper;
 class lpsrLayout;
 
-typedef SMARTP<lpsrElement>             SlpsrElement;
+typedef SMARTP<lpsrElement>             S_lpsrElement;
 
-typedef SMARTP<lpsrLilypondVarValAssoc> SlpsrLilypondVarValAssoc;
-typedef SMARTP<lpsrSchemeVarValAssoc>   SlpsrSchemeVarValAssoc;
+typedef SMARTP<lpsrLilypondVarValAssoc> S_lpsrLilypondVarValAssoc;
+typedef SMARTP<lpsrSchemeVarValAssoc>   S_lpsrSchemeVarValAssoc;
 
-typedef SMARTP<lpsrPart>                SlpsrPart;
-typedef SMARTP<lpsrLyrics>              SlpsrLyrics;
-typedef SMARTP<lpsrDuration>            SlpsrDuration;
-typedef SMARTP<lpsrDynamics>            SlpsrDynamics;
-typedef SMARTP<lpsrWedge>               SlpsrWedge;
-typedef SMARTP<lpsrChord>               SlpsrChord;
-typedef SMARTP<lpsrNote>                SlpsrNote;
+typedef SMARTP<lpsrPart>                S_lpsrPart;
+typedef SMARTP<lpsrLyrics>              S_lpsrLyrics;
+typedef SMARTP<lpsrDuration>            S_lpsrDuration;
+typedef SMARTP<lpsrDynamics>            S_lpsrDynamics;
+typedef SMARTP<lpsrWedge>               S_lpsrWedge;
+typedef SMARTP<lpsrChord>               S_lpsrChord;
+typedef SMARTP<lpsrNote>                S_lpsrNote;
 
-typedef SMARTP<lpsrPaper>               SlpsrPaper;
-typedef SMARTP<lpsrLayout>              SlpsrLayout;
+typedef SMARTP<lpsrPaper>               S_lpsrPaper;
+typedef SMARTP<lpsrLayout>              S_lpsrLayout;
 
-EXP std::ostream& operator<< (std::ostream& os, const SlpsrElement& elt);
+EXP std::ostream& operator<< (std::ostream& os, const S_lpsrElement& elt);
 
-EXP std::ostream& operator<< (std::ostream& os, const SlpsrLilypondVarValAssoc& elt);
-EXP std::ostream& operator<< (std::ostream& os, const SlpsrSchemeVarValAssoc& elt);
+EXP std::ostream& operator<< (std::ostream& os, const S_lpsrLilypondVarValAssoc& elt);
+EXP std::ostream& operator<< (std::ostream& os, const S_lpsrSchemeVarValAssoc& elt);
 
-EXP std::ostream& operator<< (std::ostream& os, const SlpsrDuration& dur);
-EXP std::ostream& operator<< (std::ostream& os, const SlpsrDynamics& dyn);
-EXP std::ostream& operator<< (std::ostream& os, const SlpsrWedge& wdg);
-EXP std::ostream& operator<< (std::ostream& os, const SlpsrChord& chrd);
-EXP std::ostream& operator<< (std::ostream& os, const SlpsrNote& chrd);
+EXP std::ostream& operator<< (std::ostream& os, const S_lpsrDuration& dur);
+EXP std::ostream& operator<< (std::ostream& os, const S_lpsrDynamics& dyn);
+EXP std::ostream& operator<< (std::ostream& os, const S_lpsrWedge& wdg);
+EXP std::ostream& operator<< (std::ostream& os, const S_lpsrChord& chrd);
+EXP std::ostream& operator<< (std::ostream& os, const S_lpsrNote& chrd);
 
-EXP std::ostream& operator<< (std::ostream& os, const SlpsrPaper& chrd);
-EXP std::ostream& operator<< (std::ostream& os, const SlpsrLayout& chrd);
+EXP std::ostream& operator<< (std::ostream& os, const S_lpsrPaper& chrd);
+EXP std::ostream& operator<< (std::ostream& os, const S_lpsrLayout& chrd);
 
 
 /*!
@@ -136,9 +136,9 @@ class EXP lpsrElement : public smartable {
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode  (std::ostream& os);
-
-    static indenter idtr;
     
+    static indenter idtr;
+
   protected:
      
     lpsrElement(bool debug);
@@ -154,11 +154,9 @@ typedef SMARTP<lpsrElement> S_lpsrElement;
 \brief A note description for MusicXML.
 */
 //______________________________________________________________________________
-typedef struct musicXMLNoteData {
+class musicXMLNoteData {
   public:
   
-    static indenter idtr;
-
      virtual void print              (std::ostream& os);
  
   public:
@@ -209,7 +207,7 @@ class EXP lpsrAbsoluteOctave : public lpsrElement {
 
     int  fLpsrOctave;
 };
-typedef SMARTP<lpsrAbsoluteOctave> SlpsrAbsoluteOctave;
+typedef SMARTP<lpsrAbsoluteOctave> S_lpsrAbsoluteOctave;
 
 /*!
 \brief A lpsr note duration representation.
@@ -266,7 +264,7 @@ class EXP lpsrDuration : public lpsrElement {
     int  fDenom;
     int  fDots;
 };
-typedef SMARTP<lpsrDuration> SlpsrDuration;
+typedef SMARTP<lpsrDuration> S_lpsrDuration;
 
 /*!
 \brief A lpsr note representation.
@@ -287,7 +285,7 @@ class EXP lpsrNote : public lpsrElement {
             
     // for standalone notes
     static SMARTP<lpsrNote> createFromMusicXMLData (
-                              S_translationSwitches& ts,
+                              S_translationSettings& ts,
                               musicXMLNoteData&      mxmldat);
     
     // for chord members
@@ -316,19 +314,19 @@ class EXP lpsrNote : public lpsrElement {
                           
     static std::map<LpsrPitch, std::string> sDutchLilypondPitches;
 
-    SlpsrDuration    getNoteLpsrDuration () { return fNoteLpsrDuration; }   
+    S_lpsrDuration getNoteLpsrDuration () { return fNoteLpsrDuration; }   
 
      std::string  notePitchAsLilypondString ();
     
    // dynamics and wedges
-    void              addDynamics (SlpsrDynamics dyn);
-    void              addWedge    (SlpsrWedge    wdg);
+    void              addDynamics (S_lpsrDynamics dyn);
+    void              addWedge    (S_lpsrWedge    wdg);
 
-    std::list<SlpsrDynamics> getNoteDynamics () { return fNoteDynamics; };
-    std::list<SlpsrWedge>    getNoteWedges   () { return fNoteWedges; };
+    std::list<S_lpsrDynamics> getNoteDynamics () { return fNoteDynamics; };
+    std::list<S_lpsrWedge>    getNoteWedges   () { return fNoteWedges; };
 
-    SlpsrDynamics     removeFirstDynamics ();
-    SlpsrWedge        removeFirstWedge ();
+    S_lpsrDynamics     removeFirstDynamics ();
+    S_lpsrWedge        removeFirstWedge ();
 
 //    void octaveRelativeTo (const lpsrAbsoluteOctave& otherAbsOct);
         
@@ -339,18 +337,18 @@ class EXP lpsrNote : public lpsrElement {
   protected:
  
     lpsrNote (
-      S_translationSwitches& ts,
+      S_translationSettings& ts,
       musicXMLNoteData&      mxmldat);
     
     virtual ~lpsrNote();
     
   private:
   
-    S_translationSwitches    fTranslationSwitches;
+    S_translationSettings     fTranslationSettings;
 
     // MusicXML informations
-    musicXMLNoteData         fMusicXMLNoteData;
-    MusicXMLDiatonicPitch    fMusicXMLDiatonicPitch;
+    musicXMLNoteData          fMusicXMLNoteData;
+    MusicXMLDiatonicPitch     fMusicXMLDiatonicPitch;
 
  //   bool                     fCurrentStepIsARest;
  //   MusicXMLAlteration       fMusicXMLAlteration;
@@ -358,15 +356,15 @@ class EXP lpsrNote : public lpsrElement {
 
     // MusicXML durations are in in divisions per quarter note,
     // LilyPond durations are in whole notes, hence the "*4" multiplication
-    SlpsrDuration            fNoteLpsrDuration;
+    S_lpsrDuration            fNoteLpsrDuration;
 
     // LilyPond informations
-    LpsrPitch                fNoteLpsrPitch;
+    LpsrPitch                 fNoteLpsrPitch;
     
-    std::list<SlpsrDynamics> fNoteDynamics;
-    std::list<SlpsrWedge>    fNoteWedges;
+    std::list<S_lpsrDynamics> fNoteDynamics;
+    std::list<S_lpsrWedge>    fNoteWedges;
 };
-typedef SMARTP<lpsrNote> SlpsrNote;
+typedef SMARTP<lpsrNote> S_lpsrNote;
 
 /*!
 \brief The lpsr parallel music element
@@ -379,8 +377,8 @@ class EXP lpsrParallelMusic : public lpsrElement {
 
     static SMARTP<lpsrParallelMusic> create(ElementsSeparator elementsSeparator);
 
-    void         addElementToParallelMusic (SlpsrElement elem) { fParallelMusicElements.push_back(elem); }
-    SlpsrElement getLastElementOfParallelMusic() { return fParallelMusicElements.back(); }
+    void         addElementToParallelMusic (S_lpsrElement elem) { fParallelMusicElements.push_back(elem); }
+    S_lpsrElement getLastElementOfParallelMusic() { return fParallelMusicElements.back(); }
     void         removeLastElementOfParallelMusic () { fParallelMusicElements.pop_back(); }
 
     virtual void printMusicXML      (std::ostream& os);
@@ -394,11 +392,11 @@ class EXP lpsrParallelMusic : public lpsrElement {
     
   private:
   
-    std::vector<SlpsrElement> fParallelMusicElements;
+    std::vector<S_lpsrElement> fParallelMusicElements;
     ElementsSeparator         fElementsSeparator;
 
 };
-typedef SMARTP<lpsrParallelMusic> SlpsrParallelMusic;
+typedef SMARTP<lpsrParallelMusic> S_lpsrParallelMusic;
 
 /*!
 \brief The lpsr sequence element
@@ -411,10 +409,10 @@ class EXP lpsrSequence : public lpsrElement {
 
     static SMARTP<lpsrSequence> create(ElementsSeparator elementsSeparator);
 
-    void         prependElementToSequence (SlpsrElement elem) { fSequenceElements.push_front(elem); }
-    void         appendElementToSequence  (SlpsrElement elem) { fSequenceElements.push_back(elem); }
+    void         prependElementToSequence (S_lpsrElement elem) { fSequenceElements.push_front(elem); }
+    void         appendElementToSequence  (S_lpsrElement elem) { fSequenceElements.push_back(elem); }
     
-    SlpsrElement getLastElementOfSequence() { return fSequenceElements.back(); }
+    S_lpsrElement getLastElementOfSequence() { return fSequenceElements.back(); }
     void         removeLastElementOfSequence () { fSequenceElements.pop_back(); }
 
     virtual void printMusicXML      (std::ostream& os);
@@ -428,11 +426,11 @@ class EXP lpsrSequence : public lpsrElement {
     
   private:
   
-    std::list<SlpsrElement> fSequenceElements;
+    std::list<S_lpsrElement> fSequenceElements;
     ElementsSeparator       fElementsSeparator;
 
 };
-typedef SMARTP<lpsrSequence> SlpsrSequence;
+typedef SMARTP<lpsrSequence> S_lpsrSequence;
 
 /*!
 \brief The lpsr chord element
@@ -441,12 +439,12 @@ typedef SMARTP<lpsrSequence> SlpsrSequence;
 class EXP lpsrChord : public lpsrElement {
   public:
 
-    static SMARTP<lpsrChord> create(SlpsrDuration chordduration);
+    static SMARTP<lpsrChord> create(S_lpsrDuration chordDuration);
     
-    void addNoteToChord (SlpsrNote note) { fChordNotes.push_back(note); }
+    void addNoteToChord (S_lpsrNote note) { fChordNotes.push_back(note); }
 
-    void addDynamics (SlpsrDynamics dyn);
-    void addWedge    (SlpsrWedge    wdg);
+    void addDynamics (S_lpsrDynamics dyn);
+    void addWedge    (S_lpsrWedge    wdg);
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -454,20 +452,20 @@ class EXP lpsrChord : public lpsrElement {
 
   protected:
 
-    lpsrChord (SlpsrDuration chordduration);
+    lpsrChord (S_lpsrDuration chordDuration);
     virtual ~lpsrChord();
   
   private:
   
-    std::vector<SlpsrNote>   fChordNotes;
+    std::vector<S_lpsrNote>   fChordNotes;
     
-    SlpsrDuration            fChordDuration;
+    S_lpsrDuration            fChordDuration;
 
     
-    std::list<SlpsrDynamics> fChordDynamics;
-    std::list<SlpsrWedge>    fChordWedges;
+    std::list<S_lpsrDynamics> fChordDynamics;
+    std::list<S_lpsrWedge>    fChordWedges;
 };
-typedef SMARTP<lpsrChord> SlpsrChord;
+typedef SMARTP<lpsrChord> S_lpsrChord;
 
 /*!
 \brief A lpsr LilyPond variable/value association representation.
@@ -517,7 +515,7 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement {
     CommentedKind   fCommentedKind;
     std::string     fUnit;
 };
-typedef SMARTP<lpsrLilypondVarValAssoc> SlpsrLilypondVarValAssoc;
+typedef SMARTP<lpsrLilypondVarValAssoc> S_lpsrLilypondVarValAssoc;
 
 /*!
 \brief A lpsr Scheme variable/value association representation.
@@ -555,7 +553,7 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement {
     std::string     fVariableValue;
     CommentedKind   fCommentedKind;
 };
-typedef SMARTP<lpsrSchemeVarValAssoc> SlpsrSchemeVarValAssoc;
+typedef SMARTP<lpsrSchemeVarValAssoc> S_lpsrSchemeVarValAssoc;
 
 /*!
 \brief A lpsr header representation.
@@ -569,33 +567,33 @@ class EXP lpsrHeader : public lpsrElement {
     static SMARTP<lpsrHeader> create();
     
     void                     setWorkNumber      (std::string val);
-    SlpsrLilypondVarValAssoc getWorkNumber      () const;
+    S_lpsrLilypondVarValAssoc getWorkNumber      () const;
 
     void                     setWorkTitle       (std::string val);
-    SlpsrLilypondVarValAssoc getWorkTitle       () const;
+    S_lpsrLilypondVarValAssoc getWorkTitle       () const;
 
     void                     setMovementNumber  (std::string val);
-    SlpsrLilypondVarValAssoc getMovementNumber  () const;
+    S_lpsrLilypondVarValAssoc getMovementNumber  () const;
 
     void                     setMovementTitle   (std::string val);
-    SlpsrLilypondVarValAssoc getMovementTitle   () const;
+    S_lpsrLilypondVarValAssoc getMovementTitle   () const;
 
     void                     addCreator         (std::string val);
-    std::vector<SlpsrLilypondVarValAssoc>
+    std::vector<S_lpsrLilypondVarValAssoc>
                              getCreators        () const;
 
     void                     setRights          (std::string val);
-    SlpsrLilypondVarValAssoc getRights          () const;
+    S_lpsrLilypondVarValAssoc getRights          () const;
 
     void                     addSoftware        (std::string val);
-    std::vector<SlpsrLilypondVarValAssoc>
+    std::vector<S_lpsrLilypondVarValAssoc>
                              getSoftwares       () const;
 
     void                     setEncodingDate    (std::string val);
-    SlpsrLilypondVarValAssoc getEncodingDate    () const;
+    S_lpsrLilypondVarValAssoc getEncodingDate    () const;
 
     void                     setScoreInstrument (std::string val);
-    SlpsrLilypondVarValAssoc getScoreInstrument () const;
+    S_lpsrLilypondVarValAssoc getScoreInstrument () const;
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -608,18 +606,18 @@ class EXP lpsrHeader : public lpsrElement {
   
   private:
 
-    SlpsrLilypondVarValAssoc              fWorkNumber;
-    SlpsrLilypondVarValAssoc              fWorkTitle;
-    SlpsrLilypondVarValAssoc              fMovementNumber;
-    SlpsrLilypondVarValAssoc              fMovementTitle;
-    std::vector<SlpsrLilypondVarValAssoc> fCreators;
-    SlpsrLilypondVarValAssoc              fRights;
-    std::vector<SlpsrLilypondVarValAssoc> fSoftwares;
-    SlpsrLilypondVarValAssoc              fEncodingDate;
-    SlpsrLilypondVarValAssoc              fScoreInstrument;
+    S_lpsrLilypondVarValAssoc              fWorkNumber;
+    S_lpsrLilypondVarValAssoc              fWorkTitle;
+    S_lpsrLilypondVarValAssoc              fMovementNumber;
+    S_lpsrLilypondVarValAssoc              fMovementTitle;
+    std::vector<S_lpsrLilypondVarValAssoc> fCreators;
+    S_lpsrLilypondVarValAssoc              fRights;
+    std::vector<S_lpsrLilypondVarValAssoc> fSoftwares;
+    S_lpsrLilypondVarValAssoc              fEncodingDate;
+    S_lpsrLilypondVarValAssoc              fScoreInstrument;
 
 };
-typedef SMARTP<lpsrHeader> SlpsrHeader;
+typedef SMARTP<lpsrHeader> S_lpsrHeader;
 
 /*!
 \brief A lpsr paper representation.
@@ -679,7 +677,7 @@ class EXP lpsrPaper : public lpsrElement {
     float             fBetweenSystemSpace;
     float             fPageTopSpace; 
 };
-typedef SMARTP<lpsrPaper> SlpsrPaper;
+typedef SMARTP<lpsrPaper> S_lpsrPaper;
 
 /*!
 \brief A lpsr layout representation.
@@ -692,10 +690,10 @@ class EXP lpsrLayout : public lpsrElement {
 
     static SMARTP<lpsrLayout> create();
     
-    void addlpsrLilypondVarValAssoc (SlpsrLilypondVarValAssoc assoc)
+    void addlpsrLilypondVarValAssoc (S_lpsrLilypondVarValAssoc assoc)
       { fLpsrLilypondVarValAssocs.push_back(assoc); }
       
-    void addLpsrSchemeVarValAssoc (SlpsrSchemeVarValAssoc assoc)
+    void addLpsrSchemeVarValAssoc (S_lpsrSchemeVarValAssoc assoc)
       { fLpsrSchemeVarValAssocs.push_back(assoc); }
     
     virtual void printMusicXML      (std::ostream& os);
@@ -709,10 +707,10 @@ class EXP lpsrLayout : public lpsrElement {
   
   private:
   
-    std::vector<SlpsrLilypondVarValAssoc> fLpsrLilypondVarValAssocs;
-    std::vector<SlpsrSchemeVarValAssoc>   fLpsrSchemeVarValAssocs;
+    std::vector<S_lpsrLilypondVarValAssoc> fLpsrLilypondVarValAssocs;
+    std::vector<S_lpsrSchemeVarValAssoc>   fLpsrSchemeVarValAssocs;
 };
-typedef SMARTP<lpsrLayout> SlpsrLayout;
+typedef SMARTP<lpsrLayout> S_lpsrLayout;
 
 /*!
 \brief A lpsr repeat representation.
@@ -727,10 +725,10 @@ class EXP lpsrRepeat: public lpsrElement {
 
     static SMARTP<lpsrRepeat> create();
     
-    void    appendElementToCommonPart (SlpsrElement elem)
+    void    appendElementToCommonPart (S_lpsrElement elem)
               { fCommonPart->appendElementToSequence (elem); }
               
-    void    appendElementToLastAlternateEnding  (SlpsrElement elem)
+    void    appendElementToLastAlternateEnding  (S_lpsrElement elem)
               { fAlternateEndings.back()->appendElementToSequence (elem); }
                     
     void    appendNewAlternateEnding ()
@@ -753,14 +751,14 @@ class EXP lpsrRepeat: public lpsrElement {
   
   private:
   
-    SlpsrSequence              fCommonPart;
-    std::vector<SlpsrSequence> fAlternateEndings;
+    S_lpsrSequence              fCommonPart;
+    std::vector<S_lpsrSequence> fAlternateEndings;
     
     // the implicit lpsrRepeat is not used unless there are
     // actual repeats in the part
     bool                       fActuallyUsed;
 };
-typedef SMARTP<lpsrRepeat> SlpsrRepeat;
+typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
 
 /*!
 \brief A lpsr part representation.
@@ -776,9 +774,9 @@ class EXP lpsrPart : public lpsrElement {
     
     std::string   getPartName () const         { return fPartName; }
     bool          getAbsoluteCode () const     { return fPartAbsoluteCode; }
-    SlpsrSequence getPartLpsrsequence () const { return fPartLpsrSequence; }
+    S_lpsrSequence getPartLpsrsequence () const { return fPartLpsrSequence; }
 
-    void          addLyricsToPart (SlpsrLyrics lyr) { fPartLyrics.push_back(lyr); }
+    void          addLyricsToPart (S_lpsrLyrics lyr) { fPartLyrics.push_back(lyr); }
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -796,17 +794,17 @@ class EXP lpsrPart : public lpsrElement {
     bool              fGenerateNumericalTime;
     
     // the implicit sequence containing the code generated for the part
-    SlpsrSequence     fPartLpsrSequence;
+    S_lpsrSequence     fPartLpsrSequence;
   
     // the implicit repeat at the beginning of the part
     // will be ignored if the part has no repeats at all
-    SlpsrRepeat       fPartLpsrRepeat;
+    S_lpsrRepeat       fPartLpsrRepeat;
     
     // the lyrics stanzas, if any, associated with the part
-    std::vector<SlpsrLyrics> fPartLyrics;
+    std::vector<S_lpsrLyrics> fPartLyrics;
 };
-typedef SMARTP<lpsrPart> SlpsrPart;
-typedef std::map<std::string, SlpsrPart> lpsrPartsmap;
+typedef SMARTP<lpsrPart> S_lpsrPart;
+typedef std::map<std::string, S_lpsrPart> lpsrPartsmap;
 
 /*!
 \brief A lpsr barline representation.
@@ -832,7 +830,7 @@ class EXP lpsrBarLine : public lpsrElement {
 
     int fNextBarNumber;
 };
-typedef SMARTP<lpsrBarLine> SlpsrBarLine;
+typedef SMARTP<lpsrBarLine> S_lpsrBarLine;
 
 /*!
 \brief A lpsr comment representation.
@@ -861,7 +859,7 @@ class EXP lpsrComment : public lpsrElement {
     std::string fContents;
     GapKind     fGapKind;
 };
-typedef SMARTP<lpsrComment> SlpsrComment;
+typedef SMARTP<lpsrComment> S_lpsrComment;
 
 /*!
 \brief A lpsr break representation.
@@ -887,7 +885,7 @@ class EXP lpsrBreak : public lpsrElement {
 
     int fNextBarNumber;
 };
-typedef SMARTP<lpsrBreak> SlpsrBreak;
+typedef SMARTP<lpsrBreak> S_lpsrBreak;
 
 /*!
 \brief A lpsr barnumbercheck representation.
@@ -913,7 +911,7 @@ class EXP lpsrBarNumberCheck : public lpsrElement {
 
     int fNextBarNumber;
 };
-typedef SMARTP<lpsrBarNumberCheck> SlpsrBarNumberCheck;
+typedef SMARTP<lpsrBarNumberCheck> S_lpsrBarNumberCheck;
 
 /*!
 \brief A lpsr tuplet representation.
@@ -936,7 +934,7 @@ class EXP lpsrTuplet : public lpsrElement {
     
     int getTupletNumber () const { return fTupletNumber; }
 
-    void addElementToTuplet (SlpsrElement elem) { fTupletContents.push_back(elem); }
+    void addElementToTuplet (S_lpsrElement elem) { fTupletContents.push_back(elem); }
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -954,9 +952,9 @@ class EXP lpsrTuplet : public lpsrElement {
     int fActualNotes;
     int fNormalNotes;
     
-    std::vector<SlpsrElement> fTupletContents;
+    std::vector<S_lpsrElement> fTupletContents;
 };
-typedef SMARTP<lpsrTuplet> SlpsrTuplet;
+typedef SMARTP<lpsrTuplet> S_lpsrTuplet;
 
 /*!
 \brief A lpsr beam representation.
@@ -989,7 +987,7 @@ class EXP lpsrBeam : public lpsrElement {
     int      fBeamNumber;
     BeamKind fBeamKind;
 };
-typedef SMARTP<lpsrBeam> SlpsrBeam;
+typedef SMARTP<lpsrBeam> S_lpsrBeam;
 
 /*!
 \brief A lpsr dynamics representation.
@@ -1025,7 +1023,7 @@ class EXP lpsrDynamics : public lpsrElement {
 
     DynamicsKind fDynamicsKind;
 };
-typedef SMARTP<lpsrDynamics> SlpsrDynamics;
+typedef SMARTP<lpsrDynamics> S_lpsrDynamics;
 
 /*!
 \brief A lpsr wedge representation.
@@ -1057,7 +1055,7 @@ class EXP lpsrWedge : public lpsrElement {
 
     WedgeKind fWedgeKind;
 };
-typedef SMARTP<lpsrWedge> SlpsrWedge;
+typedef SMARTP<lpsrWedge> S_lpsrWedge;
 
 /*!
 \brief A lpsr lyrics representation.
@@ -1086,7 +1084,7 @@ class EXP lpsrLyrics : public lpsrElement {
     std::string fLyricsName;
     std::string fLyricsContents;
 };
-typedef SMARTP<lpsrLyrics> SlpsrLyrics;
+typedef SMARTP<lpsrLyrics> S_lpsrLyrics;
 
 
 
@@ -1115,7 +1113,7 @@ class EXP lpsrTime : public lpsrElement {
     rational fRational;
     bool     fGenerateNumericalTime;
 };
-typedef SMARTP<lpsrTime> SlpsrTime;
+typedef SMARTP<lpsrTime> S_lpsrTime;
 
 /*!
 \brief A lpsr clef representation.
@@ -1141,7 +1139,7 @@ class EXP lpsrClef : public lpsrElement {
 
     std::string fClefName;
 };
-typedef SMARTP<lpsrClef> SlpsrClef;
+typedef SMARTP<lpsrClef> S_lpsrClef;
 
 /*!
 \brief A lpsr key representation.
@@ -1170,7 +1168,7 @@ class EXP lpsrKey : public lpsrElement {
     std::string   fTonic;
     KeyMode       fKeyMode;
 };
-typedef SMARTP<lpsrKey> SlpsrKey;
+typedef SMARTP<lpsrKey> S_lpsrKey;
 
 /*!
 \brief A lpsr midi representation.
@@ -1196,7 +1194,7 @@ class EXP lpsrMidi : public lpsrElement {
   private:
   
 };
-typedef SMARTP<lpsrMidi> SlpsrMidi;
+typedef SMARTP<lpsrMidi> S_lpsrMidi;
 
 /*!
 \brief A lpsr score representation.
@@ -1209,9 +1207,9 @@ class EXP lpsrScore : public lpsrElement {
 
     static SMARTP<lpsrScore> create();
      
-    SlpsrParallelMusic getScoreParallelMusic () const { return fScoreParallelMusic; }
-    SlpsrLayout   getScoreLayout        () const { return fScoreLayout; }
-    SlpsrMidi     getScoreMidi          () const { return fScoreMidi; }
+    S_lpsrParallelMusic getScoreParallelMusic () const { return fScoreParallelMusic; }
+    S_lpsrLayout   getScoreLayout        () const { return fScoreLayout; }
+    S_lpsrMidi     getScoreMidi          () const { return fScoreMidi; }
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1224,11 +1222,11 @@ class EXP lpsrScore : public lpsrElement {
   
   private:
   
-    SlpsrParallelMusic fScoreParallelMusic;
-    SlpsrLayout   fScoreLayout;
-    SlpsrMidi     fScoreMidi;    
+    S_lpsrParallelMusic fScoreParallelMusic;
+    S_lpsrLayout   fScoreLayout;
+    S_lpsrMidi     fScoreMidi;    
 };
-typedef SMARTP<lpsrScore> SlpsrScore;
+typedef SMARTP<lpsrScore> S_lpsrScore;
 
 /*!
 \brief A lpsr new staff representation.
@@ -1241,7 +1239,7 @@ class EXP lpsrNewstaffCommand : public lpsrElement {
 
     static SMARTP<lpsrNewstaffCommand> create();
      
-    void addElementToNewStaff (SlpsrElement elem) { fNewStaffElements.push_back(elem); }
+    void addElementToNewStaff (S_lpsrElement elem) { fNewStaffElements.push_back(elem); }
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1254,9 +1252,9 @@ class EXP lpsrNewstaffCommand : public lpsrElement {
   
   private:
   
-    std::vector<SlpsrElement> fNewStaffElements;
+    std::vector<S_lpsrElement> fNewStaffElements;
 };
-typedef SMARTP<lpsrNewstaffCommand> SlpsrNewstaffCommand;
+typedef SMARTP<lpsrNewstaffCommand> S_lpsrNewstaffCommand;
 
 /*!
 \brief A lpsr new lyrics representation.
@@ -1269,7 +1267,7 @@ class EXP lpsrNewlyricsCommand : public lpsrElement {
 
     static SMARTP<lpsrNewlyricsCommand> create();
      
-    void addElementToNewStaff (SlpsrElement elem) { fNewStaffElements.push_back(elem); }
+    void addElementToNewStaff (S_lpsrElement elem) { fNewStaffElements.push_back(elem); }
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1282,9 +1280,9 @@ class EXP lpsrNewlyricsCommand : public lpsrElement {
   
   private:
   
-    std::vector<SlpsrElement> fNewStaffElements;
+    std::vector<S_lpsrElement> fNewStaffElements;
 };
-typedef SMARTP<lpsrNewlyricsCommand> SlpsrNewlyricsCommand;
+typedef SMARTP<lpsrNewlyricsCommand> S_lpsrNewlyricsCommand;
 
 /*!
 \brief A lpsr variable use representation.
@@ -1310,7 +1308,7 @@ class EXP lpsrVariableUseCommand : public lpsrElement {
   
     std::string fVariableName;
 };
-typedef SMARTP<lpsrVariableUseCommand> SlpsrVariableUseCommand;
+typedef SMARTP<lpsrVariableUseCommand> S_lpsrVariableUseCommand;
 
 
 /*! @} */

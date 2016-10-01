@@ -36,9 +36,9 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-xml2LpsrVisitor::xml2LpsrVisitor( S_translationSwitches& ts )
+xml2LpsrVisitor::xml2LpsrVisitor( S_translationSettings& ts )
 {
-  fTranslationSwitches = ts;
+  fTranslationSettings = ts;
   
   fMillimeters     = -1;
   fGlobalStaffSize = -1.0;
@@ -62,19 +62,19 @@ xml2LpsrVisitor::xml2LpsrVisitor( S_translationSwitches& ts )
   fLpsrSeq = lpsrSequence::create (lpsrSequence::kEndOfLine);
     
   // append the header to the lpsrSequence
-  SlpsrElement header = fLpsrHeader;
+  S_lpsrElement header = fLpsrHeader;
   fLpsrSeq->appendElementToSequence (header);
 
   // append the paper to the lpsrSequence
-  SlpsrElement paper = fLpsrPaper;
+  S_lpsrElement paper = fLpsrPaper;
   fLpsrSeq->appendElementToSequence (paper);
 
   // append the layout to the lpsrSequence
-  SlpsrElement layout = fLpsrLayout;
+  S_lpsrElement layout = fLpsrLayout;
   fLpsrSeq->appendElementToSequence (layout);
 
   // add the "indent" association to the layout
-  SlpsrLilypondVarValAssoc indent =
+  S_lpsrLilypondVarValAssoc indent =
     lpsrLilypondVarValAssoc::create (
       "indent", "0",
       lpsrLilypondVarValAssoc::kEqualSign,
@@ -84,7 +84,7 @@ xml2LpsrVisitor::xml2LpsrVisitor( S_translationSwitches& ts )
   fLpsrLayout->addlpsrLilypondVarValAssoc (indent);
   
   // add the "indent" association to the layout
-  SlpsrLilypondVarValAssoc pageCount =
+  S_lpsrLilypondVarValAssoc pageCount =
     lpsrLilypondVarValAssoc::create (
       "page-cout", "0",
       lpsrLilypondVarValAssoc::kEqualSign,
@@ -93,7 +93,7 @@ xml2LpsrVisitor::xml2LpsrVisitor( S_translationSwitches& ts )
   fLpsrLayout->addlpsrLilypondVarValAssoc (pageCount);
   
   // add the "indent" association to the layout
-  SlpsrLilypondVarValAssoc systemCount =
+  S_lpsrLilypondVarValAssoc systemCount =
     lpsrLilypondVarValAssoc::create (
       "system-count", "0",
       lpsrLilypondVarValAssoc::kEqualSign,
@@ -108,9 +108,9 @@ xml2LpsrVisitor::xml2LpsrVisitor( S_translationSwitches& ts )
 }
 
 //______________________________________________________________________________
-SlpsrElement xml2LpsrVisitor::convertToLpsr (const Sxmlelement& xml )
+S_lpsrElement xml2LpsrVisitor::convertToLpsr (const Sxmlelement& xml )
 {
-  SlpsrElement ly;
+  S_lpsrElement ly;
   if (xml) {
     // create a browser on this xml2LpsrVisitor
     tree_browser<xmlelement> browser(this);
@@ -123,8 +123,8 @@ SlpsrElement xml2LpsrVisitor::convertToLpsr (const Sxmlelement& xml )
 }
 
 //______________________________________________________________________________
-void xml2LpsrVisitor::appendElementToSequence (SlpsrElement& elt) {
-  bool doDebug = fTranslationSwitches->fDebug;
+void xml2LpsrVisitor::appendElementToSequence (S_lpsrElement& elt) {
+  bool doDebug = fTranslationSettings->fDebug;
 //  bool doDebug = false;
 
   if (doDebug) cout << "!!! appendElementToSequence : " << elt << std::endl;
@@ -136,19 +136,19 @@ void xml2LpsrVisitor::prependPreamble () {
   // prepending elements in reverse order
 
   if (fGlobalStaffSize > 0.0) {
-    SlpsrSchemeVarValAssoc staffSize =
+    S_lpsrSchemeVarValAssoc staffSize =
           lpsrSchemeVarValAssoc:: create(
             "set-global-staff-size", fGlobalSfaffSizeAsString,
             lpsrSchemeVarValAssoc::kCommented);
     fLpsrSeq->prependElementToSequence (staffSize);
   
-    SlpsrComment com =
+    S_lpsrComment com =
       lpsrComment::create (
         "uncomment the following to keep original score global size");
     fLpsrSeq->prependElementToSequence (com);
   }
   
-  SlpsrLilypondVarValAssoc version =
+  S_lpsrLilypondVarValAssoc version =
         lpsrLilypondVarValAssoc:: create(
           "\\version", "2.19",
           lpsrLilypondVarValAssoc::kSpace,
@@ -158,12 +158,12 @@ void xml2LpsrVisitor::prependPreamble () {
 }
  
 void xml2LpsrVisitor::appendPostamble () {
-  SlpsrComment com1 =
+  S_lpsrComment com1 =
     lpsrComment::create (
       "choose \\break below to keep the original line breaks");
   fLpsrSeq->appendElementToSequence (com1);
 
-  SlpsrLilypondVarValAssoc myBreak1 =
+  S_lpsrLilypondVarValAssoc myBreak1 =
         lpsrLilypondVarValAssoc:: create(
           "myBreak", "{ \\break }",
           lpsrLilypondVarValAssoc::kEqualSign,
@@ -171,12 +171,12 @@ void xml2LpsrVisitor::appendPostamble () {
           lpsrLilypondVarValAssoc::kUncommented);
   fLpsrSeq->appendElementToSequence (myBreak1);
 
-  SlpsrComment com2 =
+  S_lpsrComment com2 =
     lpsrComment::create (
       "choose {} below to let lpsr determine where to break lines");
   fLpsrSeq->appendElementToSequence (com2);
 
-  SlpsrLilypondVarValAssoc myBreak2 =
+  S_lpsrLilypondVarValAssoc myBreak2 =
         lpsrLilypondVarValAssoc:: create(
           "myBreak", "{}",
           lpsrLilypondVarValAssoc::kEqualSign,
@@ -207,10 +207,10 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
   prependPreamble ();
 
   // get score layout
-  SlpsrLayout layout = fLpsrScore->getScoreLayout();
+  S_lpsrLayout layout = fLpsrScore->getScoreLayout();
 
   if (fGlobalStaffSize > 0.0) {
-    SlpsrSchemeVarValAssoc staffSize =
+    S_lpsrSchemeVarValAssoc staffSize =
       lpsrSchemeVarValAssoc::create (
         "layout-set-staff-size", fGlobalSfaffSizeAsString,
         lpsrSchemeVarValAssoc::kCommented);
@@ -218,7 +218,7 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
   }
 
   // get score parallel music
-  SlpsrParallelMusic parallel = fLpsrScore->getScoreParallelMusic();
+  S_lpsrParallelMusic parallel = fLpsrScore->getScoreParallelMusic();
   
   // add the parts and lyrics to it
   cout << 
@@ -228,26 +228,26 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
   lpsrPartsmap::const_iterator i;
   for (i = fLpsrPartsMap.begin(); i != fLpsrPartsMap.end(); i++) {
     // get part
-    SlpsrPart part = (*i).second;
+    S_lpsrPart part = (*i).second;
     
     // create a new staff comaand
     cout << "--> creating a new staff" << std::endl;
     
-    SlpsrNewstaffCommand nstf = lpsrNewstaffCommand::create();
+    S_lpsrNewstaffCommand nstf = lpsrNewstaffCommand::create();
     
     // add it to the score parallel music
-    SlpsrParallelMusic parallelMusic = fLpsrScore->getScoreParallelMusic();
+    S_lpsrParallelMusic parallelMusic = fLpsrScore->getScoreParallelMusic();
     parallelMusic->addElementToParallelMusic (nstf);
     
     // add the part name to the new staff
-    SlpsrVariableUseCommand variableUse =
+    S_lpsrVariableUseCommand variableUse =
       lpsrVariableUseCommand::create (part->getPartName());
     nstf->addElementToNewStaff (variableUse);
   } // for
   
   // append the score to the lpsrSequence
   // only now to place it after the postamble
-  SlpsrElement score = fLpsrScore;
+  S_lpsrElement score = fLpsrScore;
   fLpsrSeq->appendElementToSequence (score);
 }
 
@@ -294,7 +294,7 @@ void xml2LpsrVisitor::visitStart ( S_tenths& elt )
 
 void xml2LpsrVisitor::visitEnd ( S_scaling& elt)
 {
-  if (fTranslationSwitches->fTrace)
+  if (fTranslationSettings->fTrace)
     cerr <<
       "There are " << fTenths << " tenths for " << 
       fMillimeters << " millimeters, hence a global staff size of " <<
@@ -390,18 +390,17 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   std::string partID = elt->getAttributeValue ("id");
   
   // browse the part contents for the first time with a xmlPartSummaryVisitor
-  if (fTranslationSwitches->fTrace)
+  if (fTranslationSettings->fTrace)
     cerr << "Extracting part \"" << partID << "\" summary information" << endl;
 
-  xmlPartSummaryVisitor xpsv (fTranslationSwitches);
+  xmlPartSummaryVisitor xpsv (fTranslationSettings);
   xml_tree_browser      browser (&xpsv);
+  browser.browse (*elt);
 
-  browser.browse(*elt);
-
-  if (fTranslationSwitches->fTrace)
+  if (fTranslationSettings->fTrace)
     cerr << "Extracting part \"" << partID << "\" voices information" << endl;
 
-  smartlist<int>::ptr voices = xpsv.getVoices ();
+  smartlist<int>::ptr partSummaryVoices = xpsv.getVoices ();
   int                 targetStaff = -1;
   bool                notesOnly = false;
   rational            currentTimeSign (0,1);
@@ -410,11 +409,11 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   // this allows to describe voices that spans over several staves
   // and to collect the voice's lyrics
   
-  cout << "--> voices->size() = " << voices->size() << std::endl;
+  cout << "--> partSummaryVoices->size() = " << partSummaryVoices->size() << std::endl;
   
-  for (unsigned int i = 0; i < voices->size(); i++) {
-    int targetVoice = (*voices)[i];
-    int mainStaff   = xpsv.getMainStaff(targetVoice);
+  for (unsigned int i = 0; i < partSummaryVoices->size(); i++) {
+    int targetVoice = (*partSummaryVoices) [i];
+    int mainStaff   = xpsv.getMainStaff (targetVoice);
 
     if (targetStaff == mainStaff) {
       notesOnly = true;
@@ -425,7 +424,7 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
       fCurrentStaffIndex++;
     }
 
-    if (fTranslationSwitches->fTrace)
+    if (fTranslationSettings->fTrace)
       cerr << 
         "Handling part \"" << partID << 
         "\" contents, mainStaff = " << mainStaff <<
@@ -439,32 +438,30 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     string partName = s1.str();
         
     // create the lpsrPart
-    SlpsrPart part = lpsrPart::create (
+    S_lpsrPart part = lpsrPart::create (
       partName,
-      fTranslationSwitches->fGenerateAbsoluteCode,
-      fTranslationSwitches->fGenerateNumericalTime);
+      fTranslationSettings->fGenerateAbsoluteCode,
+      fTranslationSettings->fGenerateNumericalTime);
       
     // register it in this visitors's map
     fLpsrPartsMap[partID] = part;
     
     // append it to the lpsrElement sequence
-    SlpsrElement p = part;
+    S_lpsrElement p = part;
     appendElementToSequence (p);
     
     // browse the part contents once more with an xmlPart2LpsrVisitor
-    xmlPart2LpsrVisitor xp2lv (fTranslationSwitches, part);
-    
-    xml_tree_browser browser (&xp2lv);
- 
-    xp2lv.initialize (
+    xmlPart2LpsrVisitor xp2lv (
+      fTranslationSettings, part,
       part, targetStaff, fCurrentStaffIndex,
       targetVoice, notesOnly, currentTimeSign);
+    xml_tree_browser browser (&xp2lv);
     browser.browse (*elt);
 
     // JMI currentTimeSign = xp2lv.getTimeSign();
 
     // extract the part lyrics
-    if (fTranslationSwitches->fTrace)
+    if (fTranslationSettings->fTrace)
       cerr << "Extracting part \"" << partID << "\" lyrics information" << endl;
 
     std::map<std::string, xmlPartSummaryVisitor::stanzaContents> 
@@ -497,10 +494,10 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
       } // for
  
       // create the lyrics
-      SlpsrLyrics lyrics = lpsrLyrics::create(lyricsName, result);
+      S_lpsrLyrics lyrics = lpsrLyrics::create(lyricsName, result);
       
       // append it to the sequence
-      SlpsrElement elem = lyrics;  
+      S_lpsrElement elem = lyrics;  
       appendElementToSequence (elem);
       
       // add the lyrics to the part
@@ -513,7 +510,7 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
 
 //______________________________________________________________________________
 void xml2LpsrVisitor::addPosition ( 
-  Sxmlelement elt, SlpsrElement& cmd, int yoffset)
+  Sxmlelement elt, S_lpsrElement& cmd, int yoffset)
 {
   float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
   if (posx) {

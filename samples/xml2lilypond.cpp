@@ -25,20 +25,38 @@ using namespace MusicXML2;
 void usage(int exitStatus) {
   cerr <<
     endl <<
-    "--> Usage:    musicxml2lpsr [options] <MusicXMLFile>" << endl <<
+    "This is xml2lilypond, the MusicXML to LilyPond translator embedded in the libmusicxml2 library." << endl <<
     endl <<
-    "    Effect:   reads the contents of <MusicXMLFile>, or stdin if <MusicXMLFile> is '-'," << endl <<
-    "              and converts it to LilyPond source code written to standard output" << endl <<
+    "Usage:" << endl <<
+    "    xml2lilypond [options] [MusicXMLFile|-]" << endl <<
     endl <<
-    "    Options: --help:          display this help" << endl <<
-    "             --absolute:      generate absolute code (default: relative code)" << endl <<
-    "             --numericaltime  don't generate 'C' or such numerical time signatures" << endl <<
-    "             --nocomments:    don't generate comments" << endl <<
-    "             --noautobars:    don't generate barlines" << endl <<
-    "             --nostems:       don't generate stems commands" << endl <<
-    "             --nopositions:   don't generate positions" << endl <<
-    "             --notrace:       don't generate a trace of the activity to standard error" << endl <<
-    "             --debug  :       print debugging information" << endl <<
+    "What it does:" << endl <<
+    "    Read the contents of MusicXMLFile or stdin ('-')," << endl <<
+    "    convert it to LilyPond Semantic Representation (LPSR) internally" << endl <<
+    "    and write LilyPond source code to standard output." << endl <<
+    "    The activity log and warning or error messages go to standard error." << endl <<
+    endl <<
+    "Options:" << endl <<
+    "  --help'" << endl <<
+    "        display this help" << endl <<
+    endl <<
+    "  --absolute" << endl <<
+    "        generate absolute code (default: relative code)" << endl <<
+    "  --numericalTime" << endl <<
+    "        don't generate non numerical time signatures such as 'C'" << endl <<
+    "  --noComments" << endl <<
+    "        don't generate comments" << endl <<
+    "  --noAutobars" << endl <<
+    "        don't generate barlines" << endl <<
+    "  --noStems" << endl <<
+    "        don't generate stems commands" << endl <<
+    "  --noPositions" << endl <<
+    "        don't generate positions" << endl <<
+    endl <<
+    "  --noTrace" << endl <<
+    "        don't generate a trace of the activity to standard error" << endl <<
+    "   --debug  " << endl <<
+    "        print debugging information to standard error" << endl <<
     endl;
   exit(exitStatus);
 }
@@ -83,12 +101,12 @@ int main(int argc, char *argv[])
     {"help",          no_argument,       &helpPresent, 1},
     {"language",      required_argument, &languagePresent, 1},
     {"absolute",      no_argument,       &absolutePresent, 1},
-    {"numericaltime", no_argument,       &numericaltimePresent, 1},
-    {"nocomments",    no_argument,       &nocommentsPresent, 1},
-    {"noautobars",    no_argument,       &noautobarsPresent, 1},
+    {"numericalTime", no_argument,       &numericaltimePresent, 1},
+    {"noComments",    no_argument,       &nocommentsPresent, 1},
+    {"noAutobars",    no_argument,       &noautobarsPresent, 1},
     {"stems",         no_argument,       &stemsPresent, 1},
     {"positions",     no_argument,       &positionsPresent, 1},
-    {"notrace",       no_argument,       &notracePresent, 1},
+    {"noTrace",       no_argument,       &notracePresent, 1},
     {"debug",         no_argument,       &debugPresent, 1},
     {0, 0, 0, 0}
     };
@@ -115,7 +133,7 @@ int main(int argc, char *argv[])
         }
         if (languagePresent) {
           // optarg contains the language name
-          if (sLpsrNoteNamesLanguageMap.count(optarg)) {
+          if (gLpsrNoteNamesLanguageMap.count(optarg)) {
             noteNamesLanguageName = optarg;
           } else {
             cerr
@@ -193,7 +211,7 @@ int main(int argc, char *argv[])
   // int   remainingArgs = nonOptionArgs;
 
   // create the translation switches
-  S_translationSwitches ts = translationSwitches::create();
+  S_translationSettings ts = translationSettings::create();
   assert(ts != 0);
   
   // populate them
@@ -216,7 +234,7 @@ int main(int argc, char *argv[])
       " / xml2Lilypond v" <<
       musicxml2LpsrVersionStr() << 
       endl <<
-      "The options are:" << endl <<
+      "The settings are:" << endl <<
       "  noteNamesLanguageName: \"" << noteNamesLanguageName << "\"" << endl <<
       "  generateAbsoluteCode:  " << string(generateAbsoluteCode ? "true" : "false") << endl <<
       "  generateNumericalTime: " << string(generateNumericalTime ? "true" : "false") << endl <<

@@ -57,7 +57,7 @@ class EXP xmlPartSummaryVisitor :
 {
   public:
   
-    xmlPartSummaryVisitor (S_translationSwitches& ts);
+    xmlPartSummaryVisitor (S_translationSettings& ts);
     virtual ~xmlPartSummaryVisitor ();
     
     //! returns the number of staves for the part
@@ -115,7 +115,7 @@ class EXP xmlPartSummaryVisitor :
     
   private:
   
-    S_translationSwitches fTranslationSwitches;
+    S_translationSettings fTranslationSettings;
     
     int                   fCurrentDivisions;
     
@@ -131,7 +131,7 @@ class EXP xmlPartSummaryVisitor :
     int                   fStaff, fVoice;
 
     bool                  fCurrentStepIsARest;
- // JMI   SlpsrDuration       fCurrentLpsrDuration;
+ // JMI   S_lpsrDuration       fCurrentLpsrDuration;
     
     // the last lyric number, i.e. stanza number
     S_lyric               fLastLyric;

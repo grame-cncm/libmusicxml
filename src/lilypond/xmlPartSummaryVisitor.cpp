@@ -28,9 +28,9 @@ namespace MusicXML2
 {
 //________________________________________________________________________
 
-xmlPartSummaryVisitor::xmlPartSummaryVisitor (S_translationSwitches& ts)
+xmlPartSummaryVisitor::xmlPartSummaryVisitor (S_translationSettings& ts)
   : fStavesCount(1)
-  { fTranslationSwitches = ts; }
+  { fTranslationSettings = ts; }
 
 xmlPartSummaryVisitor::~xmlPartSummaryVisitor () {}
 
@@ -38,7 +38,7 @@ xmlPartSummaryVisitor::~xmlPartSummaryVisitor () {}
 void xmlPartSummaryVisitor::visitStart ( S_divisions& elt ) 
 {
   fCurrentDivisions = (int)(*elt);
-  if (fTranslationSwitches->fTrace) {
+  if (fTranslationSettings->fTrace) {
     if (fCurrentDivisions == 1)
       cerr << "There is 1 division per quater note" << std::endl;
     else
@@ -80,9 +80,14 @@ void xmlPartSummaryVisitor::visitStart ( S_staves& elt)
 //________________________________________________________________________
 void xmlPartSummaryVisitor::visitEnd ( S_note& elt)
 {
-  fStavesNotesCount[fStaff]++;
-  fVoicesNotesCount[fVoice]++;
-  fStaffVoices[fStaff][fVoice]++;
+  // account for note in staff
+  fStavesNotesCount [fStaff] ++;
+  
+  // account for note in voice
+  fVoicesNotesCount [fVoice] ++;
+  
+  // account for voice in staff
+  fStaffVoices [fStaff] [fVoice]++;
   /*
   cout << 
     "fStaff = " << fStaff << 
@@ -104,7 +109,7 @@ void xmlPartSummaryVisitor::visitStart ( S_duration& elt )
   int duration=(int)(*elt);
 //  cout << "=== xmlPartSummaryVisitor::visitStart ( S_duration& elt ), duration = " << duration << std::endl;
 /* JMI
-  if (fTranslationSwitches->fDebug)
+  if (fTranslationSettings->fDebug)
     std::cerr << "duration = " << duration << ", " << 
     "fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
   if (fCurrentDivisions*4 == 0)
@@ -116,7 +121,7 @@ void xmlPartSummaryVisitor::visitStart ( S_duration& elt )
     //return;
   }
 
-  SlpsrDuration noteDuration =
+  S_lpsrDuration noteDuration =
     lpsrDuration::create(duration, fCurrentDivisions*4, fCurrentDotsNumber);
  */
 }
@@ -206,7 +211,10 @@ smartlist<int>::ptr xmlPartSummaryVisitor::getStaves() const
 smartlist<int>::ptr xmlPartSummaryVisitor::getStaves (int voice) const
 {
   smartlist<int>::ptr sl = smartlist<int>::create();
-  for ( map<int, map<int, int> >::const_iterator i = fStaffVoices.begin(); i != fStaffVoices.end(); i++) {
+  for (
+      map<int, map<int, int> >::const_iterator i = fStaffVoices.begin();
+      i != fStaffVoices.end();
+      i++) {
     map<int, int>::const_iterator l = i->second.find( voice );
     if (l != i->second.end())
       sl->push_back (i->first);
@@ -220,9 +228,9 @@ smartlist<int>::ptr xmlPartSummaryVisitor::getVoices () const
   smartlist<int>::ptr sl = smartlist<int>::create();
   
   for (
-    map<int, int>::const_iterator i = fVoicesNotesCount.begin();
-    i != fVoicesNotesCount.end();
-    i++) {
+      map<int, int>::const_iterator i = fVoicesNotesCount.begin();
+      i != fVoicesNotesCount.end();
+      i++) {
     /*
     cout <<
       "i->first = " << i->first <<
@@ -242,7 +250,10 @@ smartlist<int>::ptr xmlPartSummaryVisitor::getVoices (int staff) const
   map<int, map<int, int> >::const_iterator i = fStaffVoices.find( staff );
   
   if (i != fStaffVoices.end()) {
-    for ( map<int, int>::const_iterator v = i->second.begin(); v != i->second.end(); v++) {
+    for (
+        map<int, int>::const_iterator v = i->second.begin();
+        v != i->second.end();
+        v++) {
       sl->push_back (v->first);
     } // for
   }
@@ -279,7 +290,10 @@ int xmlPartSummaryVisitor::getMainStaff (int voiceid) const
   int                 staffid = 0;
   int                 maxnotes = 0;
   
-  for (vector<int>::const_iterator i = v->begin(); i != v->end(); i++) {
+  for (
+      vector<int>::const_iterator i = v->begin();
+      i != v->end();
+      i++) {
     int n = getVoiceNotesCount (*i, voiceid);
     
     if (n > maxnotes) {
@@ -337,7 +351,7 @@ void xmlPartSummaryVisitor::clearStanzas () {
 }
 
 std::string xmlPartSummaryVisitor::getStanza (std::string name, std::string separator) const {
-//  if (fTranslationSwitches->fTrace) cerr << "Extracting part \"" << partid << "\" lyrics information" << endl;
+//  if (fTranslationSettings->fTrace) cerr << "Extracting part \"" << partid << "\" lyrics information" << endl;
 //  std::map<std::string, std::list<std::list<std::string> > > stanzas = ps.getStanzas();
   std::string result = "";
   
@@ -346,7 +360,8 @@ std::string xmlPartSummaryVisitor::getStanza (std::string name, std::string sepa
   
   if (it1 != fStanzas.end()) {
     stringstream s;
-    string       lyricsName = "Lyrics"+int2EnglishWord(atoi(it1->first.c_str())); // JMI +partName;
+    string       lyricsName =
+                  "Lyrics" + int2EnglishWord (atoi (it1->first.c_str()));
 
     s << lyricsName << " = \\lyricmode { " << std::endl;
 

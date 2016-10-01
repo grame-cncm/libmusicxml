@@ -78,20 +78,20 @@ class EXP xml2LpsrVisitor :
 {
   public:
     
-    xml2LpsrVisitor ( S_translationSwitches& ts );
+    xml2LpsrVisitor ( S_translationSettings& ts );
     virtual ~xml2LpsrVisitor() {}
 
-    SlpsrElement convertToLpsr (const Sxmlelement& xml);
+    S_lpsrElement convertToLpsr (const Sxmlelement& xml);
 
     // this is to control exact positionning of elements 
     // when information is present
     // ie converts relative-x/-y into dx/dy attributes
     // JMI
     void generatePositions (bool state)
-          { fTranslationSwitches->fGeneratePositions = state; }
+          { fTranslationSettings->fGeneratePositions = state; }
 
     static void addPosition ( 
-      Sxmlelement elt, SlpsrElement& cmd, int yoffset);
+      Sxmlelement elt, S_lpsrElement& cmd, int yoffset);
       
   protected:
 
@@ -133,16 +133,16 @@ class EXP xml2LpsrVisitor :
 
   private:
   
-    // the translation switches
-    S_translationSwitches fTranslationSwitches;
+    // the translation Settings
+    S_translationSettings fTranslationSettings;
     
     // the implicit sequence containing all the generated code
-    SlpsrSequence   fLpsrSeq; 
+    S_lpsrSequence   fLpsrSeq; 
     
     // the header, paper and layout blocks to be generated
-    SlpsrHeader     fLpsrHeader;
-    SlpsrPaper      fLpsrPaper;
-    SlpsrLayout     fLpsrLayout;
+    S_lpsrHeader     fLpsrHeader;
+    S_lpsrPaper      fLpsrPaper;
+    S_lpsrLayout     fLpsrLayout;
         
     // geometry of the page
     //   - everything in MusicXML is measured with integers in tenths of interline staff space
@@ -168,7 +168,7 @@ class EXP xml2LpsrVisitor :
     lpsrPartsmap    fLpsrPartsMap;
     
     // the score block to be generated
-    SlpsrScore      fLpsrScore;
+    S_lpsrScore      fLpsrScore;
     
     std::string     fCurrentPartID;
     std::string     fCurrentPartName;
@@ -179,7 +179,7 @@ class EXP xml2LpsrVisitor :
     // the index of the current lpsr staff
     int             fCurrentStaffIndex;
   
-    void appendElementToSequence (SlpsrElement& elt);
+    void appendElementToSequence (S_lpsrElement& elt);
     
     void prependPreamble ();
     void appendPostamble ();
