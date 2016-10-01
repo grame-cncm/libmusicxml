@@ -65,6 +65,7 @@ class EXP xmlPart2LpsrVisitor :
 
   public visitor<S_actual_notes>,
   public visitor<S_normal_notes>,
+  public visitor<S_normal_type>,
   public visitor<S_tuplet>,
   
   public visitor<S_staff>,
@@ -175,6 +176,7 @@ class EXP xmlPart2LpsrVisitor :
     
     virtual void visitStart ( S_actual_notes& elt);
     virtual void visitStart ( S_normal_notes& elt);
+    virtual void visitStart ( S_normal_type& elt);
     virtual void visitStart ( S_tuplet& elt);
 
 
@@ -290,18 +292,19 @@ class EXP xmlPart2LpsrVisitor :
 
 
     // description of current tuplet
+    std::string             fCurrentType;
     int                     fCurrentActualNotes;
     int                     fCurrentNormalNotes;
+    std::string             fCurrentNormalType;
     // embedded tuplets are numbered 1, 2, ...
     int                     fCurrentTupletNumber;
     lpsrTuplet::TupletKind  fCurrentTupletKind;
     // remains true until a S_tuplet of type "stop" is met
-    bool                    fCurrentNoteBelongsToATuplet = false;
+    bool                    fATupletIsBeingBuilt = false;
 
     S_lpsrTuplet             fCurrentTuplet;
     std::stack<S_lpsrTuplet> fCurrentTupletsStack;
          
-//    std::string         fCurrentType;
 //    std::string         fCurrentStem;
    
     // LPSR informations

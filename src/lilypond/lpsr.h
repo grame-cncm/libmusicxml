@@ -161,17 +161,20 @@ class musicXMLNoteData {
  
   public:
   
-    char   fMusicxmlStep;
-    bool   fMusicxmlStepIsARest;
-    int    fMusicxmlAlteration;
-    int    fMusicxmlOctave;
-    int    fMusicxmlDivisions;
-    int    fMusicxmlDuration;
+    char        fMusicxmlStep;
+    bool        fMusicxmlStepIsARest;
+    int         fMusicxmlAlteration;
+    int         fMusicxmlOctave;
+    int         fMusicxmlDivisions;
+    int         fMusicxmlDuration;
+    int         fDotsNumber;
     
-    int    fDotsNumber;
-    int    fVoiceNumber;
-    bool   fNoteBelongsToAChord;
-    bool   fNoteBelongsToATuplet;
+    bool        fNoteBelongsToAChord;
+    
+    bool        fNoteBelongsToATuplet;
+    std::string fTupletMemberType;
+
+    int         fVoiceNumber;
 };
   
 /*!
@@ -232,13 +235,20 @@ typedef SMARTP<lpsrAbsoluteOctave> S_lpsrAbsoluteOctave;
 class EXP lpsrDuration : public lpsrElement {
   public:
   
-    static SMARTP<lpsrDuration> create(int num, int denom, int dots);
+    static SMARTP<lpsrDuration> create (
+        int num,
+        int denom,
+        int dots,
+        std::string tupletMemberType);
     
-    lpsrDuration(int num, int denom, int dots);
+    lpsrDuration(
+        int num,
+        int denom,
+        int dots,
+        std::string tupletMemberType);
     virtual ~lpsrDuration();
     
     void scaleNumByFraction (int num, int denom);
-    void sett (int num, int denom, int dots=0);
         
     lpsrDuration& operator= (const lpsrDuration& dur)
       {
@@ -260,9 +270,10 @@ class EXP lpsrDuration : public lpsrElement {
 
   private:
 
-    int  fNum;
-    int  fDenom;
-    int  fDots;
+    int         fNum;
+    int         fDenom;
+    int         fDots;
+    std::string fTupletMemberType;
 };
 typedef SMARTP<lpsrDuration> S_lpsrDuration;
 
@@ -566,33 +577,33 @@ class EXP lpsrHeader : public lpsrElement {
 
     static SMARTP<lpsrHeader> create();
     
-    void                     setWorkNumber      (std::string val);
+    void                      setWorkNumber      (std::string val);
     S_lpsrLilypondVarValAssoc getWorkNumber      () const;
 
-    void                     setWorkTitle       (std::string val);
+    void                      setWorkTitle       (std::string val);
     S_lpsrLilypondVarValAssoc getWorkTitle       () const;
 
-    void                     setMovementNumber  (std::string val);
+    void                      setMovementNumber  (std::string val);
     S_lpsrLilypondVarValAssoc getMovementNumber  () const;
 
-    void                     setMovementTitle   (std::string val);
+    void                      setMovementTitle   (std::string val);
     S_lpsrLilypondVarValAssoc getMovementTitle   () const;
 
-    void                     addCreator         (std::string val);
+    void                      addCreator         (std::string val);
     std::vector<S_lpsrLilypondVarValAssoc>
-                             getCreators        () const;
+                              getCreators        () const;
 
-    void                     setRights          (std::string val);
+    void                      setRights          (std::string val);
     S_lpsrLilypondVarValAssoc getRights          () const;
 
-    void                     addSoftware        (std::string val);
+    void                      addSoftware        (std::string val);
     std::vector<S_lpsrLilypondVarValAssoc>
-                             getSoftwares       () const;
+                              getSoftwares       () const;
 
-    void                     setEncodingDate    (std::string val);
+    void                      setEncodingDate    (std::string val);
     S_lpsrLilypondVarValAssoc getEncodingDate    () const;
 
-    void                     setScoreInstrument (std::string val);
+    void                      setScoreInstrument (std::string val);
     S_lpsrLilypondVarValAssoc getScoreInstrument () const;
 
     virtual void printMusicXML      (std::ostream& os);

@@ -238,7 +238,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_forward& elt )
   if (duration) {   
     rational r(duration, fCurrentDivisions*4);
     r.rationalise();
-    lpsrDuration dur (r.getNumerator(), r.getDenominator(), 57); // JMI
+    lpsrDuration dur (r.getNumerator(), r.getDenominator(), 57, "////"); // JMI
     /*
     S_lpsrElement note = 
       lpsrNote::create();//(fTargetVoice); // JMI , "empty", 0, dur, "");
@@ -884,7 +884,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_voice& elt )
 
 void xmlPart2LpsrVisitor::visitStart ( S_type& elt )
 {
- // fCurrentType=elt->getValue(); JMI
+  fCurrentType=elt->getValue();
 }
 
 void xmlPart2LpsrVisitor::visitStart ( S_stem& elt )
@@ -912,6 +912,11 @@ void xmlPart2LpsrVisitor::visitStart ( S_actual_notes& elt )
 void xmlPart2LpsrVisitor::visitStart ( S_normal_notes& elt )
 {
   fCurrentNormalNotes = (int)(*elt);
+}
+
+void xmlPart2LpsrVisitor::visitStart ( S_normal_type& elt )
+{
+  fCurrentNormalType = elt->getValue();
 }
 
 void xmlPart2LpsrVisitor::visitStart ( S_tuplet& elt )
@@ -953,12 +958,13 @@ void xmlPart2LpsrVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fMusicxmlAlteration = 0; // natural notes
   fMusicXMLNoteData.fMusicxmlOctave = -13;
   fMusicXMLNoteData.fDotsNumber = 0;
+// JMI  fMusicXMLNoteData.fTupletMemberType = "";
    
   // assume this note doesn't belong to a chord until S_chord is met
   fMusicXMLNoteData.fNoteBelongsToAChord = false;
 
   // assume this note doesn't belong to a tuplet until S_chord is met
-  fMusicXMLNoteData.fNoteBelongsToATuplet = false;
+  fMusicXMLNoteData.fNoteBelongsToATuplet = fATupletIsBeingBuilt;
 }
 
 void xmlPart2LpsrVisitor::createChord (S_lpsrDuration noteDuration) {
@@ -998,7 +1004,7 @@ void xmlPart2LpsrVisitor::createChord (S_lpsrDuration noteDuration) {
 void xmlPart2LpsrVisitor::createTuplet (S_lpsrNote note) {
   // create a tuplet element
   S_lpsrTuplet fCurrentTuplet = lpsrTuplet::create();
-  fCurrentElement = fCurrentNote; // another name for it
+  fCurrentElement = fCurrentTuplet; // another name for it
 
   // populate it
   fCurrentTuplet->updateTuplet(
@@ -1011,10 +1017,12 @@ void xmlPart2LpsrVisitor::createTuplet (S_lpsrNote note) {
   fCurrentTupletsStack.push(fCurrentTuplet);
   
   // update note duration
+  /* JMI
   cout
     << "--> updating note duration by " << fCurrentActualNotes << 
     "/" << fCurrentNormalNotes << std::endl;
   note->updateNoteDuration(fCurrentActualNotes, fCurrentNormalNotes);
+  */
 
   // add note to the tuplet
   cout << "--> adding note " << note << " to tuplets stack top" << std::endl;
@@ -1092,6 +1100,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_note& elt )
   // a rest can be standalone or belong to a tuplet
   
   if (fMusicXMLNoteData.fNoteBelongsToAChord) {
+    
     if (fMusicXMLNoteData.fMusicxmlStepIsARest)
       lpsrMusicXMLError (
         "a rest cannot belong to a chord");
@@ -1117,11 +1126,13 @@ void xmlPart2LpsrVisitor::visitEnd ( S_note& elt )
 
   } else if (fMusicXMLNoteData.fNoteBelongsToATuplet) {
 
-    // handle tuplet
+    fMusicXMLNoteData.fTupletMemberType = fCurrentType;
+    
     switch (fCurrentTupletKind) {
       case lpsrTuplet::kStartTuplet:
         {
           createTuplet(note);
+          fATupletIsBeingBuilt = true;
         
           // swith to continuation mode
           // this is handy in case the forthcoming tuplet members
@@ -1143,7 +1154,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_note& elt )
           finalizeTuplet(note);
 
           // indicate the end of the tuplet
-          fCurrentNoteBelongsToATuplet = false;
+          fATupletIsBeingBuilt = false;
         }
         break;
       default:

@@ -101,11 +101,14 @@ void musicXMLNoteData::print (std::ostream& os)
     "  " << std::left << setw(26) << "fMusicxmlOctave = " << fMusicxmlOctave <<  std::endl <<
     "  " << std::left << setw(26) << "fMusicxmlDivisions = " << fMusicxmlDivisions <<  std::endl <<
     "  " << std::left << setw(26) << "fMusicxmlDuration = " << fMusicxmlDuration <<  std::endl <<
-    "  " << std::endl <<
     "  " << std::left << setw(26) << "fDotsNumber = " << fDotsNumber <<  std::endl <<
-    "  " << std::left << setw(26) << "fVoiceNumber = " << fVoiceNumber <<  std::endl <<
+    "  " << std::endl <<    
     "  " << std::left << setw(26) << "fNoteBelongsToAChord = " << fNoteBelongsToAChord <<  std::endl <<
-    "  " << std::left << setw(26) << "fNoteBelongsToATuplet = " << fNoteBelongsToATuplet <<  std::endl;
+    "  " << std::endl <<
+    "  " << std::left << setw(26) << "fNoteBelongsToATuplet = " << fNoteBelongsToATuplet <<  std::endl <<
+    "  " << std::left << setw(26) << "fTupletMemberType = " << fTupletMemberType <<  std::endl <<
+    "  " << std::endl <<
+    "  " << std::left << setw(26) << "fVoiceNumber = " << fVoiceNumber <<  std::endl;
 };
 
 //______________________________________________________________________________
@@ -166,19 +169,29 @@ void lpsrAbsoluteOctave::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrDuration lpsrDuration::create(int num, int denom, int dots)
+S_lpsrDuration lpsrDuration::create (
+  int num,
+  int denom,
+  int dots,
+  std::string tupletMemberType)
 {
-  lpsrDuration * o = new lpsrDuration (num, denom, dots);
+  lpsrDuration * o =
+    new lpsrDuration (num, denom, dots, tupletMemberType);
   assert(o!=0); 
   return o;
 }
 
-lpsrDuration::lpsrDuration (int num, int denom, int dots)
+lpsrDuration::lpsrDuration (
+    int num,
+    int denom,
+    int dots,
+    std::string tupletMemberType)
   : lpsrElement("")
 {
   fNum   = num;
   fDenom = denom;
-  fDots  = dots; 
+  fDots  = dots;
+  fTupletMemberType = tupletMemberType;
   /*
   cout <<
     "lpsrDuration::lpsrDuration (), fNum = " << fNum << 
@@ -190,11 +203,6 @@ lpsrDuration::~lpsrDuration() {}
 void lpsrDuration::scaleNumByFraction (int num, int denom)
 {
   fNum *= num/denom;
-}
-
-void lpsrDuration::sett (int num, int denom, int dots)
-{
-  fNum=num; fDenom=denom; fDots=dots; 
 }
 
 ostream& operator<< (ostream& os, const S_lpsrDuration& dur)
@@ -226,55 +234,62 @@ std::string lpsrDuration::durationAsLilypondString ()
     s >> message;
     lpsrMusicXMLError(message);
   }
-  
-  div_t divresult = div (noteDivisions, divisionsPerWholeNote);  
-  int   div = divresult.quot;
-  int   mod = divresult.rem;
-  
-  stringstream s;
-  
-  switch (div) {
-    case 8:
-    case 7:
-    case 6:
-    case 5:
-      s << "\\maxima";
-      break;
-    case 4:
-    case 3:
-      s << "\\longa";
-      break;
-    case 2:
-      s << "\\breve";
-      break;
-    case 1:
-      s << "1";
-      break;
-    case 0:
-      {
-      // shorter than a whole note
-      //s << "(shorter than a whole note) ";
-      int weight = 2; // half note
-      int n = noteDivisions*2;
 
-      while (n < divisionsPerWholeNote) {
-         weight *= 2;
-         n *= 2;
-      } // while
-      s << weight;
-      }
-      break;
-    default:
-      {
-      stringstream s;
-      std::string  message;
-      s <<
-        "*** ERROR, MusicXML note duration " << noteDivisions << "/" << 
-        divisionsPerWholeNote << " is too large" << std::endl;
-      s >> message;
-      lpsrMusicXMLError(message);
-      }
-  } // switch
+  stringstream s;
+
+  if (fTupletMemberType.size()) {
+
+    s << fTupletMemberType;
+    
+  } else {
+    
+    div_t divresult = div (noteDivisions, divisionsPerWholeNote);  
+    int   div = divresult.quot;
+    int   mod = divresult.rem;
+        
+    switch (div) {
+      case 8:
+      case 7:
+      case 6:
+      case 5:
+        s << "\\maxima";
+        break;
+      case 4:
+      case 3:
+        s << "\\longa";
+        break;
+      case 2:
+        s << "\\breve";
+        break;
+      case 1:
+        s << "1";
+        break;
+      case 0:
+        {
+        // shorter than a whole note
+        //s << "(shorter than a whole note) ";
+        int weight = 2; // half note
+        int n = noteDivisions*2;
+  
+        while (n < divisionsPerWholeNote) {
+           weight *= 2;
+           n *= 2;
+        } // while
+        s << weight;
+        }
+        break;
+      default:
+        {
+        stringstream s;
+        std::string  message;
+        s <<
+          "*** ERROR, MusicXML note duration " << noteDivisions << "/" << 
+          divisionsPerWholeNote << " is too large" << std::endl;
+        s >> message;
+        lpsrMusicXMLError(message);
+        }
+    } // switch
+  }
   
   //cout << "--> fDots = " << fDots << std::endl;
   
@@ -493,8 +508,8 @@ lpsrNote::lpsrNote (
 {
   fTranslationSettings = ts;
 
-//  if (true || fTranslationSettings->fDebug) {
-  if (fTranslationSettings->fDebug) {
+  if (true || fTranslationSettings->fDebug) {
+//  if (fTranslationSettings->fDebug) {
     cout << "==> fMusicXMLNoteData:" << std::endl;
     cout << fMusicXMLNoteData << std::endl;
   }
@@ -582,7 +597,8 @@ lpsrNote::lpsrNote (
     lpsrDuration::create (
       fMusicXMLNoteData.fMusicxmlDuration,
       divisionsPerWholeNote,
-      fMusicXMLNoteData.fDotsNumber);
+      fMusicXMLNoteData.fDotsNumber,
+      fMusicXMLNoteData.fTupletMemberType);
 //  cout << "fNoteLpsrDuration = " << fNoteLpsrDuration << std::endl;
     
   // diatonic note
@@ -594,7 +610,7 @@ lpsrNote::~lpsrNote() {}
 
 void lpsrNote::updateNoteDuration(int actualNotes, int normalNotes)
 {
-  fNoteLpsrDuration->scaleNumByFraction(actualNotes, normalNotes);
+ // JMI fNoteLpsrDuration->scaleNumByFraction(actualNotes, normalNotes);
 }
 
 void lpsrNote::setNoteBelongsToAChord () {
