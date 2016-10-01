@@ -1248,7 +1248,8 @@ class EXP lpsrNewstaffCommand : public lpsrElement {
 
     static SMARTP<lpsrNewstaffCommand> create();
      
-    void addElementToNewStaff (S_lpsrElement elem) { fNewStaffElements.push_back(elem); }
+    void addElementToNewStaff (S_lpsrElement elem)
+        { fNewStaffElements.push_back(elem); }
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1268,29 +1269,31 @@ typedef SMARTP<lpsrNewstaffCommand> S_lpsrNewstaffCommand;
 /*!
 \brief A lpsr new lyrics representation.
 
-  A new lyrics is represented by a vector of elements
+  A new lyrics is represented by the voice name and the part name
 */
 //______________________________________________________________________________
 class EXP lpsrNewlyricsCommand : public lpsrElement {
   public:
 
-    static SMARTP<lpsrNewlyricsCommand> create();
+    static SMARTP<lpsrNewlyricsCommand> create(
+        std::string lyricsName,
+        std::string partName);
      
-    void addElementToNewStaff (S_lpsrElement elem)
-            { fNewStaffElements.push_back(elem); }
-
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
-    lpsrNewlyricsCommand();
+    lpsrNewlyricsCommand(
+        std::string lyricsName,
+        std::string partName);
     virtual ~lpsrNewlyricsCommand();
   
   private:
   
-    std::vector<S_lpsrElement> fNewStaffElements;
+    std::string fLyricsName;
+    std::string fPartName;
 };
 typedef SMARTP<lpsrNewlyricsCommand> S_lpsrNewlyricsCommand;
 
@@ -1311,7 +1314,7 @@ class EXP lpsrVariableUseCommand : public lpsrElement {
 
   protected:
 
-    lpsrVariableUseCommand(std::string variableName);
+    lpsrVariableUseCommand (std::string variableName);
     virtual ~lpsrVariableUseCommand();
   
   private:
@@ -1375,26 +1378,36 @@ typedef SMARTP<lpsrUseLyricsCommand> S_lpsrUseLyricsCommand;
 /*!
 \brief A context representation.
 
-  A contextis represented by its name and contents
+  A context is represented by its type, name and contents
 */
 //______________________________________________________________________________
 class EXP lpsrContext : public lpsrElement {
   public:
 
-    static SMARTP<lpsrContext> create (std::string variableName);
+    static SMARTP<lpsrContext> create (
+        std::string    contextType,
+        std::string    contextName);
     
+    void addElementToContext (S_lpsrElement elem)
+        { fContextElements.push_back(elem); }
+
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
     virtual void printLilyPondCode  (std::ostream& os);
 
   protected:
 
-    lpsrContext(std::string variableName);
+    lpsrContext(
+        std::string    contextType,
+        std::string    contextName);
     virtual ~lpsrContext();
   
   private:
   
-    std::string fLyricsName;
+    std::string    fContextType;
+    std::string    fContextName;
+    std::vector<S_lpsrElement>
+                   fContextElements;
 };
 typedef SMARTP<lpsrContext> S_lpsrContext;
 

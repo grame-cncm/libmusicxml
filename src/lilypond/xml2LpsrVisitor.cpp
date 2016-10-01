@@ -210,10 +210,11 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
   S_lpsrLayout layout = fLpsrScore->getScoreLayout();
 
   if (fGlobalStaffSize > 0.0) {
-    S_lpsrSchemeVarValAssoc staffSize =
-      lpsrSchemeVarValAssoc::create (
-        "layout-set-staff-size", fGlobalSfaffSizeAsString,
-        lpsrSchemeVarValAssoc::kCommented);
+    S_lpsrSchemeVarValAssoc
+      staffSize =
+        lpsrSchemeVarValAssoc::create (
+          "layout-set-staff-size", fGlobalSfaffSizeAsString,
+          lpsrSchemeVarValAssoc::kCommented);
     layout->addLpsrSchemeVarValAssoc (staffSize);  
   }
 
@@ -227,28 +228,69 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
   
   lpsrPartsmap::const_iterator i;
   for (i = fLpsrPartsMap.begin(); i != fLpsrPartsMap.end(); i++) {
-    // get part
-    S_lpsrPart part = (*i).second;
+    
+    // get part and part name
+    S_lpsrPart  part     = (*i).second;
+    std::string partName = part->getPartName ();
     
     // create a new staff comaand
     cout << "--> creating a new staff" << std::endl;
     
-    S_lpsrNewstaffCommand nstf = lpsrNewstaffCommand::create();
+    S_lpsrNewstaffCommand
+      nstf =
+        lpsrNewstaffCommand::create();
     
-    // add it to the score parallel music
-    S_lpsrParallelMusic parallelMusic =
-      fLpsrScore->getScoreParallelMusic();
+    // create the Voice context
+    S_lpsrContext
+      voiceContext =
+        lpsrContext::create ("Voice", partName);
+        
+    // add a use of the part name to the context
+    S_lpsrVariableUseCommand
+      variableUse =
+        lpsrVariableUseCommand::create (part->getPartName());
+    voiceContext->addElementToContext (variableUse);
+
+    // add the Voice context to the new staff
+    nstf->addElementToNewStaff (voiceContext);
+
+    // create the new lyrics command
+    S_lpsrNewlyricsCommand
+      nlc =
+        lpsrNewlyricsCommand::create (
+          "PartPOneLyricsStanzaOne", "PartPOneVoiceOne");
+          
+    // add the new lyrics command to the new staff
+    nstf->addElementToNewStaff (nlc);
+    
+    // add the new staff to the score parallel music
+    S_lpsrParallelMusic
+      parallelMusic =
+        fLpsrScore->getScoreParallelMusic ();
     parallelMusic->addElementToParallelMusic (nstf);
-    
-    // add the part name to the new staff
-    S_lpsrVariableUseCommand variableUse =
-      lpsrVariableUseCommand::create (part->getPartName());
-    nstf->addElementToNewStaff (variableUse);
+
+
+    /*
+       \new Staff <<
+            \set Staff.instrumentName = "Violins 1"
+            \context Staff << 
+                \context Voice = "PartPOneVoiceOne" { \voiceOne \PartPOneVoiceOne }
+                \new Lyrics \lyricsto "PartPOneVoiceOne" \PartPOneVoiceOneLyricsOne
+                \new Lyrics \lyricsto "PartPOneVoiceOne" \PartPOneVoiceOneLyricsTwo
+                \new Lyrics \lyricsto "PartPOneVoiceOne" \PartPOneVoiceOneLyricsThree
+                \new Lyrics \lyricsto "PartPOneVoiceOne" \PartPOneVoiceOneLyricsFour
+                \new Lyrics \lyricsto "PartPOneVoiceOne" \PartPOneVoiceOneLyricsFive
+                \new Lyrics \lyricsto "PartPOneVoiceOne" \PartPOneVoiceOneLyricsSix
+                \context Voice = "PartPOneVoiceTwo" { \voiceTwo \PartPOneVoiceTwo }
+                >>
+            >>
+      */
   } // for
   
   // append the score to the lpsrSequence
   // only now to place it after the postamble
-  S_lpsrElement score = fLpsrScore;
+  S_lpsrElement
+    score = fLpsrScore;
   fLpsrSeq->appendElementToSequence (score);
 }
 

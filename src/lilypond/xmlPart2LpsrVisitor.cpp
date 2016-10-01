@@ -66,7 +66,9 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   fCurrentDivisions = -1;
 
   fAChordIsBeingBuilt = false;
+
   
+  fATupletIsBeingBuilt = false;
   fCurrentTupletNumber = -1;
   fCurrentTupletKind = lpsrTuplet::k_NoTuplet;
 }
@@ -539,16 +541,20 @@ void xmlPart2LpsrVisitor::visitStart ( S_metronome& elt )
   fCurrentBeat.fBeatUnit = "";
   fCurrentBeat.fDots = 0;
 
-  if (parentheses == "yes") 
-    fParentheses = true;
-  else if (parentheses == "no")
-    fParentheses = true;
-  else {
-    stringstream s;
-    std::string  message;
-    s << "parentheses value " << parentheses << " should be 'yes' or 'no'";
-    s >> message;
-    lpsrMusicXMLError (message);
+  if (parentheses.size()) {
+    cout << "S_metronome, parentheses = " << parentheses << std::endl;
+    
+    if (parentheses == "yes") 
+      fParentheses = true;
+    else if (parentheses == "no")
+      fParentheses = true;
+    else {
+      stringstream s;
+      std::string  message;
+      s << "parentheses value " << parentheses << " should be 'yes' or 'no'";
+      s >> message;
+      lpsrMusicXMLError (message);
+    }
   }
 }
   
