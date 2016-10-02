@@ -67,7 +67,6 @@ void xmlPartSummaryVisitor::visitStart ( S_part& elt)
   
   fLastLyric = 0;
   fLastSyllabic = 0;
-  fStanzas.clear();
   fOnGoingLyrics = false;
 }
 
@@ -177,17 +176,36 @@ void xmlPartSummaryVisitor::visitEnd ( S_text& elt )
   */
       
   // create fStanzas [lastLyricNumber] on first visit
+
+  fPartLyrics
+
+  
   if (! fStanzas.count(lastLyricNumber)) {
     fStanzas[lastLyricNumber] = std::list<std::list<std::string> >();
   }
     
   if (lastSyllabicValue == "single") {
-    fStanzas[lastLyricNumber].push_back(std::list<std::string>());
-    fStanzas[lastLyricNumber].back().push_back(text);
+    // create chunk
+    S_lpsrLyricsStanzaChunk
+      chunk =
+        lpsrLyricsStanzaChunk::create (kWordChunk, text);
+
+    // add it to current lyrics
+    fCurrentLyrics -> addChunkToStanza (chunk);
+          
+ //   fStanzas[lastLyricNumber].push_back(std::list<std::string>());
+ //   fStanzas[lastLyricNumber].back().push_back(text);
   }
   else if (lastSyllabicValue == "begin") {
-    fStanzas[lastLyricNumber].push_back(std::list<std::string>());
-    fStanzas[lastLyricNumber].back().push_back(text);
+    // create chunk
+    S_lpsrLyricsStanzaChunk
+      chunk =
+        lpsrLyricsStanzaChunk::create (kWordChunk, text);
+
+    // add it to current lyrics
+    fCurrentLyrics -> addChunkToStanza (chunk);
+//    fStanzas[lastLyricNumber].push_back(std::list<std::string>());
+ //   fStanzas[lastLyricNumber].back().push_back(text);
   }
   else if (lastSyllabicValue == "middle") {
     fStanzas[lastLyricNumber].back().push_back(text);

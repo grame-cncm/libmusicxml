@@ -150,14 +150,14 @@ class EXP xml2LpsrVisitor :
     // geometry of the page
     //   - everything in MusicXML is measured with integers in tenths of interline staff space
     //   - the <scaling> element specifies how many millimeters are equal to how many tenths
-    int             fMillimeters;
-    int             fTenths;
+    int              fMillimeters;
+    int              fTenths;
 
-    float           fGlobalStaffSize;
-    std::string     fGlobalSfaffSizeAsString;
+    float            fGlobalStaffSize;
+    std::string      fGlobalSfaffSizeAsString;
 
     // preventing top-margin and the like to be taken from <system-layout>
-    bool            fVisitingPageLayout;
+    bool              fVisitingPageLayout;
     
      // the global staff size is fMillimeters*72.27/25.4
     
@@ -168,19 +168,19 @@ class EXP xml2LpsrVisitor :
     int             fTopSystemDistance; //fPageTopSpace;
 */
     // the parts
-    lpsrPartsmap    fLpsrPartsMap;
+    lpsrPartsmap     fLpsrPartsMap;
     
     // the score block to be generated
     S_lpsrScore      fLpsrScore;
     
-    std::string     fCurrentPartID;
-    std::string     fCurrentPartName;
+    std::string      fCurrentPartID;
+    std::string      fCurrentPartName;
     
-    std::string     fCurrentInstrumentName;
+    std::string      fCurrentInstrumentName;
     
    
     // the index of the current lpsr staff
-    int             fCurrentStaffIndex;
+    int              fCurrentStaffIndex;
   
     void appendElementToSequence (S_lpsrElement& elt);
     

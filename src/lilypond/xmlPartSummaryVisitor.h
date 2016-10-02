@@ -127,6 +127,9 @@ class EXP xmlPartSummaryVisitor :
     S_lyric               fLastLyric;
     // the last sysllabic spec met (single, begin, middle or end)
     S_syllabic            fLastSyllabic;
+
+    // the current lyrics
+    S_lyrics              fCurrentLyrics;
     // allow for the creation of skips in lyrics
     bool                  fOnGoingLyrics;
     };

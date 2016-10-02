@@ -819,7 +819,8 @@ class EXP lpsrStanza : public lpsrElement {
 //    std::string getStanzaName     () const { return fStanzaName; }
 //    std::string getStanzaContents () const { return fStanzaContents; }
 
-    void addWordToStanza (std::string word);
+    void addChunkToStanza (S_lpsrStanzaChunk chunk)
+            { fStanzaChunks.push_back (chunk);
           
 
     virtual void printMusicXML      (std::ostream& os);
@@ -878,7 +879,7 @@ class EXP lpsrLyrics : public lpsrElement {
                 getLyricsStanzas () const { return fLyricsStanzas; }
 
     void addStanzaToLyrics (S_lpsrStanza stanza)
-        { fLyricsStanzas.push_back (stanza); }
+            { fLyricsStanzas.push_back (stanza); }
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -947,7 +948,7 @@ class EXP lpsrPart : public lpsrElement {
     static SMARTP<lpsrPart> create(
       std::string name, bool absoluteCode, bool generateNumericalTime);
     
-    void           addVoiceToPart (S_lpsrVoice voice)
+    void          addVoiceToPart (S_lpsrVoice voice)
                       { fPartVoices.push_back (voice); }
     std::vector<S_lpsrVoice>
                   getPartVoices ()
