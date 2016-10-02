@@ -56,7 +56,7 @@ void lpsrMusicXMLWarning (std::string message);
 #define lpsrMusicXMLError( errorMessage ) \
 { \
   std::cerr << \
-    "!!! MusicXML ERROR : " << errorMessage << " !!!" << std::endl; \
+    "--> MusicXML ERROR : " << errorMessage << " !!!" << std::endl; \
   assert(false); \
 }
 

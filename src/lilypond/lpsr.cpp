@@ -1633,10 +1633,6 @@ lpsrStanza::lpsrStanza (
 }
 lpsrStanza::~lpsrStanza() {}
 
-void lpsrStanza::addWordToStanza (std::string word)
-{
-}
-
 ostream& operator<< (ostream& os, const S_lpsrStanza& lyr)
 {
   lyr->print(os);

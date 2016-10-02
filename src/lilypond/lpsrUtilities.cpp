@@ -31,7 +31,7 @@ namespace MusicXML2 {
 void lpsrMusicXMLWarning (std::string message)
 {
   cerr <<
-    "??? MusicXML WARNING : " << message << " ???" << std::endl;
+    "--> MusicXML WARNING : " << message << " ???" << std::endl;
 }
 
 //______________________________________________________________________________

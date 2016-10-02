@@ -820,7 +820,7 @@ class EXP lpsrStanza : public lpsrElement {
 //    std::string getStanzaContents () const { return fStanzaContents; }
 
     void addChunkToStanza (S_lpsrStanzaChunk chunk)
-            { fStanzaChunks.push_back (chunk);
+            { fStanzaChunks.push_back (chunk); }
           
 
     virtual void printMusicXML      (std::ostream& os);
@@ -842,24 +842,6 @@ class EXP lpsrStanza : public lpsrElement {
                        fStanzaChunks;
 };
 typedef SMARTP<lpsrStanza> S_lpsrStanza;
-
-//    std::string fStanzaName;
-//    std::string fStanzaContents;
-
-
- /*   
-    std::map<std::string, stanzaContents> 
-                          fStanzas;    // <text /> occurs after <syllabic />
-
-    // a stanza is represented by a list words,
-    // which are represented by a list of their components
-    typedef std::list<std::list<std::string> > stanzaContents;
-
-    virtual std::map<std::string, xmlPartSummaryVisitor::stanzaContents>& 
-                  getStanzas();
-    void          clearStanzas ();
-    virtual std::string   getStanza (std::string name, std::string separator) const;
-*/
 
 /*!
 \brief A lpsr lyrics representation.

@@ -60,40 +60,52 @@ class EXP xmlPartSummaryVisitor :
     xmlPartSummaryVisitor (S_translationSettings& ts);
     virtual ~xmlPartSummaryVisitor ();
     
-    //! returns the number of staves for the part
-    int countStaves () const        { return fStavesCount; }
-    //! returns the number of voices 
-    int countVoices () const        { return fVoicesNotesCount.size(); }
-    //! returns the number of voices on a staff 
-    int countVoices (int staff) const;
+    // returns the number of staves for the part
+    int getStavesNumber () const;
+    
+    // returns the total number of voices 
+    int getTotalVoicesNumber () const;
+    
+    // returns the number of voices on a staff 
+    int staffVoicesNumber (int staff) const;
 
-    //! returns the staff ids list
+    // returns the staff ids list
     smartlist<int>::ptr getStaves() const;
-    //! returns the staff ids list for one voice
+    
+    // returns the staff ids list for one voice
     smartlist<int>::ptr getStaves (int voice) const;
-    //! returns the count of notes on a staff
-    int getStaffNotesCount (int id) const;
+    
+    // returns the count of notes on a staff
+    int getStaffNotesNumber (int staffID) const;
 
-    //! returns the voices ids list
-    smartlist<int>::ptr getVoices () const;
-    //! returns the voices ids list for one staff
+    // returns the voices ids list
+    smartlist<int>::ptr getVoicesIDsList () const;
+    
+    // returns the voices ids list for one staff
     smartlist<int>::ptr getVoices (int staff) const;
-    //! returns the id of the staff that contains the more of the voice notes
-    int getMainStaff (int voiceid) const;
-    //! returns the count of notes on a voice
-    int getVoiceNotesCount (int voiceid) const;
-    //! returns the count of notes on a voice and a staff
-    int getVoiceNotesCount (int staffid, int voiceid) const;
+    
+    // returns the id of the staff that contains the more of the voice notes
+    int getVoiceMainStaffID (int voiceID) const;
+    
+    // returns the number of notes in a voice
+    int getVoiceNotesNumber (int voiceID) const;
+    
+    // returns the number of notes on a voice and a staff
+    int getStaffVoiceNotesNumber (int staffID, int voiceID) const;
+
+    S_lpsrLyrics getCurrentLyrics () const { return fCurrentLyrics; }
                                           
   protected:
   
     virtual void visitStart ( S_divisions& elt);
 
     virtual void visitStart ( S_part& elt);
+    
     virtual void visitStart ( S_staves& elt);
-    virtual void visitStart ( S_staff& elt)      { fStaff = int(*elt); }
-    virtual void visitStart ( S_voice& elt )     { fVoice = int(*elt); }
-
+    virtual void visitStart ( S_staff& elt);
+    
+    virtual void visitStart ( S_voice& elt );
+    
     virtual void visitEnd   ( S_note& elt);
     virtual void visitStart ( S_rest& elt);
     virtual void visitStart ( S_duration& elt);
@@ -106,19 +118,32 @@ class EXP xmlPartSummaryVisitor :
   private:
   
     S_translationSettings fTranslationSettings;
-    
+
+    // quarter note divisions
     int                   fCurrentDivisions;
     
-    // count of staves (from the staves element)
-    int                   fStavesCount;
+    // number of staves (from the staves element)
+    int                   fStavesNumber; // JMI UNUSED
+    
+    // number of voices (from the staves element)
+ //   int                   fVoicesNumber;
+    
     // staves and corresponding count of notes
     std::map<int, int>    fStavesNotesCount;
-    // voices and corresponding count of notes
+    
+    // voices and their number of notes
+    // one entry per voice, hence size is the number of voices
     std::map<int, int>    fVoicesNotesCount;
+    
     // staves and corresponding voices + count of notes
-    std::map<int, std::map<int, int> >  fStaffVoices;
+    std::map<int, std::map<int, int> >
+                          fStaffVoicesAndNotesNumber;
 
-    int                   fStaff, fVoice;
+    // the current staff, in case a voice uses several
+    int                   fCurrentStaff;
+
+    // the current voice
+    int                   fCurrentVoice;
 
     bool                  fCurrentStepIsARest;
  // JMI   S_lpsrDuration       fCurrentLpsrDuration;
@@ -128,8 +153,10 @@ class EXP xmlPartSummaryVisitor :
     // the last sysllabic spec met (single, begin, middle or end)
     S_syllabic            fLastSyllabic;
 
-    // the current lyrics
-    S_lyrics              fCurrentLyrics;
+    // the current lyrics and stanza
+    S_lpsrLyrics          fCurrentLyrics;
+    S_lpsrStanza          fCurrentLyricsStanza;
+    
     // allow for the creation of skips in lyrics
     bool                  fOnGoingLyrics;
     };

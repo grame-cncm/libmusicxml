@@ -110,16 +110,18 @@ xml2LpsrVisitor::xml2LpsrVisitor( S_translationSettings& ts )
 //______________________________________________________________________________
 S_lpsrElement xml2LpsrVisitor::convertToLpsr (const Sxmlelement& xml )
 {
-  S_lpsrElement ly;
+  S_lpsrElement lpsr;
   if (xml) {
     // create a browser on this xml2LpsrVisitor
-    tree_browser<xmlelement> browser(this);
+    tree_browser<xmlelement> browser (this);
+    
     // browse the xmlelement tree
-    browser.browse(*xml);
+    browser.browse (*xml);
+    
     // the stack top contains the resulting lpsrElement tree
-    ly = fLpsrSeq;
+    lpsr = fLpsrSeq;
   }
-  return ly;
+  return lpsr;
 }
 
 //______________________________________________________________________________
@@ -199,6 +201,166 @@ void xml2LpsrVisitor::visitStart ( S_score_partwise& elt )
 }
 
 //______________________________________________________________________________
+void xml2LpsrVisitor::visitStart ( S_part& elt )
+{
+  std::string partID = elt->getAttributeValue ("id");
+  
+  // browse the part contents for the first time with a xmlPartSummaryVisitor
+  if (fTranslationSettings->fTrace)
+    cerr << "Extracting part \"" << partID << "\" summary information" << endl;
+
+  xmlPartSummaryVisitor xpsv (fTranslationSettings);
+  xml_tree_browser      browser (&xpsv);
+  browser.browse (*elt);
+
+  if (fTranslationSettings->fTrace)
+    cerr << "Extracting part \"" << partID << "\" voices information" << endl;
+
+
+  if (fTranslationSettings->fTrace)
+    cerr << "Getting the part voices IDs" << endl;
+    
+  smartlist<int>::ptr partSummaryVoiceIDsList =
+    xpsv.getVoicesIDsList ();
+
+  int size = partSummaryVoiceIDsList->size();
+
+  if (size > 1)
+    cerr << "Theare are " << size << " voices" << std::endl;
+  else
+    cerr << "There is 1 voice" << std::endl;
+    
+  int      targetStaff = -1;
+  bool     notesOnly = false;
+  rational currentTimeSign (0,1);
+  
+  // browse the parts voice by voice: 
+  // this allows to describe voices that spans over several staves
+  // and to collect the voice's lyrics
+    
+  for (unsigned int i = 0; i < partSummaryVoiceIDsList->size(); i++) {
+    
+    int targetVoice            = (*partSummaryVoiceIDsList) [i];
+    int targetVoiceMainStaffID = xpsv.getVoiceMainStaffID (targetVoice);
+
+    if (targetStaff == targetVoiceMainStaffID) {
+      notesOnly = true;
+    }
+    else {
+      notesOnly = false;
+      targetStaff = targetVoiceMainStaffID;
+      fCurrentStaffIndex++;
+    }
+
+    if (fTranslationSettings->fTrace)
+      cerr << 
+        "Handling part \"" << partID << 
+        "\" contents, targetVoiceMainStaffID = " << targetVoiceMainStaffID <<
+        ", targetStaff = " << targetStaff <<
+        ", targetVoice = " << targetVoice << endl;
+
+    std::string
+      partName =
+        "Part" + stringNumbersToEnglishWords (partID);
+    
+    std::string
+      voiceName =
+        partName + "Voice" + int2EnglishWord (targetVoice);
+        
+    // create the lpsrPart
+    S_lpsrPart
+      part =
+        lpsrPart::create (
+          partName,
+          fTranslationSettings->fGenerateAbsoluteCode,
+          fTranslationSettings->fGenerateNumericalTime);
+      
+    // register it in this visitors's part map
+    fLpsrPartsMap[partID] = part;
+    
+    // append it to the lpsrElement sequence
+    S_lpsrElement p = part;
+    appendElementToSequence (p);
+    
+    // browse the part contents once more with an xmlPart2LpsrVisitor
+    xmlPart2LpsrVisitor
+      xp2lv (
+        fTranslationSettings, part,
+        part, targetStaff, fCurrentStaffIndex,
+        targetVoice, notesOnly, currentTimeSign);
+    xml_tree_browser browser (&xp2lv);
+    browser.browse (*elt);
+
+    // JMI currentTimeSign = xp2lv.getTimeSign();
+
+    // create a voice
+    S_lpsrVoice
+      voice =
+        lpsrVoice::create (voiceName);
+
+    // add the voice to the part
+    part->addVoiceToPart (voice);
+        
+    // extract the part lyrics
+    if (fTranslationSettings->fTrace)
+      cerr << "Extracting part \"" << partID << "\" lyrics information" << endl;
+
+    S_lpsrLyrics
+      lyrics =
+        xpsv.getCurrentLyrics ();
+/*
+    std::map<std::string, xmlPartSummaryVisitor::stanzaContents> 
+      stanzas = xpsv.getStanzas();
+    for (std::map<std::string, xmlPartSummaryVisitor::stanzaContents> ::iterator 
+        it1=stanzas.begin(); it1!=stanzas.end(); ++it1) {
+
+      std::string 
+        lyricsName =
+          voiceName + 
+          "LyricsStanza"+
+          int2EnglishWord (atoi(it1->first.c_str()));
+      std::string result;
+      
+      for (std::list<std::list<std::string> > ::iterator 
+          it2=it1->second.begin(); it2!=it1->second.end(); ++it2) {    
+
+        std::list<std::string> ::const_iterator 
+          it2Begin = it2->begin(),
+          it2End   = it2->end(),
+          it3      = it2Begin;
+  
+        for ( ; ; ) {
+          result+=*it3;
+          if (++it3 == it2End) break;
+          result+=" -- ";
+        } // for
+
+        result+=" ";
+      } // for
+ */
+      // create the lyrics
+      /*
+      S_lpsrLyrics
+        lyrics =
+          lpsrLyrics::create(lyricsName, result);
+      */
+      
+      // append lyrics to the sequence
+      S_lpsrElement elem = lyrics;  
+      appendElementToSequence (elem);
+      
+      // add the lyrics to the voice
+      cout << // JMIJMI
+        "--> adding lyrics " << lyrics->getLyricsName() <<
+        " to voice " << voiceName << std::endl;
+      voice->addLyricsToVoice (lyrics);
+    } // for
+
+//  xpsv.clearStanzas(); // for next voice
+  //} // for
+}
+
+//______________________________________________________________________________
 void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
 {
   // now we can insert the global staff size where needed
@@ -232,10 +394,16 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
       fLpsrScore->getScoreParallelMusic();
   
   // add the parts and lyrics to the score parallel music
-  cout << 
-    "--> xml2LpsrVisitor::visitEnd ( S_score_partwise, fLpsrPartsMap.size() = " <<
-    fLpsrPartsMap.size() << std::endl;
-  
+
+  if (fTranslationSettings->fTrace) {
+    int size = fLpsrPartsMap.size();
+
+    if (size > 1)
+      cerr << "Theare are " << size << " parts" << std::endl;
+    else
+      cerr << "There is 1 part" << std::endl;
+  }
+
   lpsrPartsmap::const_iterator i;
   for (i = fLpsrPartsMap.begin(); i != fLpsrPartsMap.end(); i++) {
     
@@ -461,145 +629,6 @@ void xml2LpsrVisitor::visitStart ( S_score_part& elt )
 
 void xml2LpsrVisitor::visitStart ( S_part_name& elt )
   { fCurrentPartName = elt->getValue(); }
-
-void xml2LpsrVisitor::visitStart ( S_part& elt )
-{
-  std::string partID = elt->getAttributeValue ("id");
-  
-  // browse the part contents for the first time with a xmlPartSummaryVisitor
-  if (fTranslationSettings->fTrace)
-    cerr << "Extracting part \"" << partID << "\" summary information" << endl;
-
-  xmlPartSummaryVisitor xpsv (fTranslationSettings);
-  xml_tree_browser      browser (&xpsv);
-  browser.browse (*elt);
-
-  if (fTranslationSettings->fTrace)
-    cerr << "Extracting part \"" << partID << "\" voices information" << endl;
-
-  smartlist<int>::ptr partSummaryVoices = xpsv.getVoices ();
-  int                 targetStaff = -1;
-  bool                notesOnly = false;
-  rational            currentTimeSign (0,1);
-  
-  // browse the parts voice by voice: 
-  // this allows to describe voices that spans over several staves
-  // and to collect the voice's lyrics
-  
-  cout << "--> partSummaryVoices->size() = " << partSummaryVoices->size() << std::endl;
-  
-  for (unsigned int i = 0; i < partSummaryVoices->size(); i++) {
-    int targetVoice = (*partSummaryVoices) [i];
-    int mainStaff   = xpsv.getMainStaff (targetVoice);
-
-    if (targetStaff == mainStaff) {
-      notesOnly = true;
-    }
-    else {
-      notesOnly = false;
-      targetStaff = mainStaff;
-      fCurrentStaffIndex++;
-    }
-
-    if (fTranslationSettings->fTrace)
-      cerr << 
-        "Handling part \"" << partID << 
-        "\" contents, mainStaff = " << mainStaff <<
-        ", targetStaff = " << targetStaff <<
-        ", targetVoice = " << targetVoice << endl;
-
-    std::string
-      partName =
-        "Part" + stringNumbersToEnglishWords (partID);
-    
-    std::string
-      voiceName =
-        partName + "Voice" + int2EnglishWord (targetVoice);
-        
-    // create the lpsrPart
-    S_lpsrPart
-      part =
-        lpsrPart::create (
-          partName,
-          fTranslationSettings->fGenerateAbsoluteCode,
-          fTranslationSettings->fGenerateNumericalTime);
-      
-    // register it in this visitors's map
-    fLpsrPartsMap[partID] = part;
-    
-    // append it to the lpsrElement sequence
-    S_lpsrElement p = part;
-    appendElementToSequence (p);
-    
-    // browse the part contents once more with an xmlPart2LpsrVisitor
-    xmlPart2LpsrVisitor
-      xp2lv (
-        fTranslationSettings, part,
-        part, targetStaff, fCurrentStaffIndex,
-        targetVoice, notesOnly, currentTimeSign);
-    xml_tree_browser browser (&xp2lv);
-    browser.browse (*elt);
-
-    // JMI currentTimeSign = xp2lv.getTimeSign();
-
-    // create a voice
-    S_lpsrVoice
-      voice =
-        lpsrVoice::create (voiceName);
-
-    // add the voice to the part
-    part->addVoiceToPart (voice);
-        
-    // extract the part lyrics
-    if (fTranslationSettings->fTrace)
-      cerr << "Extracting part \"" << partID << "\" lyrics information" << endl;
-
-    std::map<std::string, xmlPartSummaryVisitor::stanzaContents> 
-      stanzas = xpsv.getStanzas();
-    for (std::map<std::string, xmlPartSummaryVisitor::stanzaContents> ::iterator 
-        it1=stanzas.begin(); it1!=stanzas.end(); ++it1) {
-  
-      std::string 
-        lyricsName =
-          voiceName + 
-          "LyricsStanza"+
-          int2EnglishWord (atoi(it1->first.c_str()));
-      std::string result;
-      
-      for (std::list<std::list<std::string> > ::iterator 
-          it2=it1->second.begin(); it2!=it1->second.end(); ++it2) {    
-
-        std::list<std::string> ::const_iterator 
-          it2Begin = it2->begin(),
-          it2End   = it2->end(),
-          it3      = it2Begin;
-  
-        for ( ; ; ) {
-          result+=*it3;
-          if (++it3 == it2End) break;
-          result+=" -- ";
-        } // for
-
-        result+=" ";
-      } // for
- 
-      // create the lyrics
-      S_lpsrLyrics
-        lyrics =
-          lpsrLyrics::create(lyricsName, result);
-      
-      // append it to the sequence
-      S_lpsrElement elem = lyrics;  
-      appendElementToSequence (elem);
-      
-      // add the lyrics to the part
-      cout << "--> adding lyrics " << lyricsName << " to voice " << voiceName << std::endl;
-      voice->addLyricsToVoice (lyrics);
-    } // for
-
-  xpsv.clearStanzas(); // for next voice
-  } // for
-}
 
 //______________________________________________________________________________
 void xml2LpsrVisitor::addPosition ( 
