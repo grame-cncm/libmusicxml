@@ -84,16 +84,7 @@ class EXP xmlPartSummaryVisitor :
     int getVoiceNotesCount (int voiceid) const;
     //! returns the count of notes on a voice and a staff
     int getVoiceNotesCount (int staffid, int voiceid) const;
-    
-    // a stanza is represented by a list words,
-    // which are represented by a list of their components
-    typedef std::list<std::list<std::string> > stanzaContents;
-
-    virtual std::map<std::string, xmlPartSummaryVisitor::stanzaContents>& 
-                  getStanzas();
-    void          clearStanzas ();
-    virtual std::string   getStanza (std::string name, std::string separator) const;
-                                       
+                                          
   protected:
   
     virtual void visitStart ( S_divisions& elt);
@@ -138,12 +129,7 @@ class EXP xmlPartSummaryVisitor :
     S_syllabic            fLastSyllabic;
     // allow for the creation of skips in lyrics
     bool                  fOnGoingLyrics;
-    
-    // the stanzas are referred to by number and contains list of lists of strings
-    // in the case of "single", the list contains only one string
-    std::map<std::string, stanzaContents> 
-                          fStanzas;    // <text /> occurs after <syllabic />
-};
+    };
 
 /*! @} */
 

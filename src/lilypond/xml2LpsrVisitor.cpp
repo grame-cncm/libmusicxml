@@ -278,7 +278,8 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
         "--> add the lyrics to the staff, " << voiceName << std::endl;
 
       std::vector<S_lpsrLyrics>
-        voiceLyrics   = (*i)->getVoiceLyrics ();
+        voiceLyrics =
+          (*i)->getVoiceLyrics ();
 
       std::vector<S_lpsrLyrics>::const_iterator i;
       for (i = voiceLyrics.begin(); i != voiceLyrics.end(); i++) {

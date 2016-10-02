@@ -1489,6 +1489,136 @@ void lpsrBeam::printLilyPondCode(ostream& os)
   } // switch
 }
 
+
+
+//______________________________________________________________________________
+/*
+std::map<std::string, xmlPartSummaryVisitor::stanzaContents> & xmlPartSummaryVisitor::getStanzas() { 
+  return fStanzas;
+}
+
+void xmlPartSummaryVisitor::clearStanzas () {
+  fStanzas.clear();
+}
+*/
+
+/*
+std::string xmlPartSummaryVisitor::stanzaAsString (std::string separator) const {
+//  if (fTranslationSettings->fTrace) cerr << "Extracting part \"" << partid << "\" lyrics information" << endl;
+//  std::map<std::string, std::list<std::list<std::string> > > stanzas = ps.getStanzas();
+
+
+  std::map<std::string, stanzaContents> ::const_iterator
+    it1 = fStanzas.find(name);
+  
+  if (it1 != fStanzas.end()) {
+    stringstream s;
+    string       lyricsName =
+                  "Lyrics" + int2EnglishWord (atoi (it1->first.c_str()));
+
+    s << lyricsName << " = \\lyricmode { " << std::endl;
+
+    for (stanzaContents::const_iterator 
+        it2=it1->second.begin(); it2!=it1->second.end(); ++it2) { 
+      std::list<std::string> ::const_iterator 
+        it2Begin = it2->begin(),
+        it2End   = it2->end(),
+        it3      = it2Begin;
+
+      for ( ; ; ) {
+        s << *it3;
+        if (++it3 == it2End) break;
+        s << separator;
+      } // for
+      cout << " ";
+    } // for
+      
+    s << std::endl << "}" << std::endl << std::endl;
+    } else {
+    result = "Can't find stanza \""+name+"\"";
+  } // if
+  */
+}
+
+
+
+
+//______________________________________________________________________________
+S_lpsrStanza lpsrStanza::create (
+  std::string lyricsName,
+  std::string voiceName)
+{
+  lpsrStanza* o = new lpsrStanza (lyricsName, voiceName); assert(o!=0);
+  return o;
+}
+
+lpsrStanza::lpsrStanza (
+  std::string lyricsName,
+  std::string voiceName)
+  : lpsrElement("")
+{
+  fLyricsName = lyricsName;
+  fVoiceName  = voiceName; 
+}
+lpsrStanza::~lpsrStanza() {}
+
+void S_lpsrStanza::addWordToStanza (std::string word)
+{
+}
+
+ostream& operator<< (ostream& os, const S_lpsrStanza& lyr)
+{
+  lyr->print(os);
+  return os;
+}
+
+void lpsrStanza::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrStanza??? -->" << std::endl;
+}
+
+void lpsrStanza::printLpsrStructure(ostream& os)
+{  
+  os << "Stanza" << " " << voiceName << std::endl;
+  idtr++;
+  os << idtr << fStanzaContents << std::endl;
+  idtr--;
+}
+
+void lpsrStanza::printLilyPondCode(ostream& os)
+{  
+  stringstream s;
+  
+  std::vector<chunk>::const_iterator
+    iBegin = i->begin(),
+    iEnd   = i->end(),
+    i      = iBegin;
+    
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << "--";
+    } // for
+
+  std::string result;
+
+  s >> result;
+  return result;
+
+
+
+  os <<
+    idtr << "\\new Stanza" << " " <<
+    "\\Stanzato " << fVoiceName << " = \\lyricmode {" << fStanzaName << std::endl;
+
+  idtr++;
+      std::vector<chunk> fStanzaChunks;
+
+  os << idtr << fStanzaContents << std::endl;
+  idtr--;
+  os << idtr << "}" << std::endl;
+}
+
 //______________________________________________________________________________
 S_lpsrLyrics lpsrLyrics::create(std::string name, std::string contents)
 {

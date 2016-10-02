@@ -341,52 +341,5 @@ int xmlPartSummaryVisitor::getVoiceNotesCount (int staffid, int voiceid) const
   return count;
 }
 
-//______________________________________________________________________________
-std::map<std::string, xmlPartSummaryVisitor::stanzaContents> & xmlPartSummaryVisitor::getStanzas() { 
-  return fStanzas;
-}
-
-void xmlPartSummaryVisitor::clearStanzas () {
-  fStanzas.clear();
-}
-
-std::string xmlPartSummaryVisitor::getStanza (std::string name, std::string separator) const {
-//  if (fTranslationSettings->fTrace) cerr << "Extracting part \"" << partid << "\" lyrics information" << endl;
-//  std::map<std::string, std::list<std::list<std::string> > > stanzas = ps.getStanzas();
-  std::string result = "";
-  
-  std::map<std::string, stanzaContents> ::const_iterator
-    it1 = fStanzas.find(name);
-  
-  if (it1 != fStanzas.end()) {
-    stringstream s;
-    string       lyricsName =
-                  "Lyrics" + int2EnglishWord (atoi (it1->first.c_str()));
-
-    s << lyricsName << " = \\lyricmode { " << std::endl;
-
-    for (stanzaContents::const_iterator 
-        it2=it1->second.begin(); it2!=it1->second.end(); ++it2) { 
-      std::list<std::string> ::const_iterator 
-        it2Begin = it2->begin(),
-        it2End   = it2->end(),
-        it3      = it2Begin;
-
-      for ( ; ; ) {
-        s << *it3;
-        if (++it3 == it2End) break;
-        s << separator;
-      } // for
-      cout << " ";
-    } // for
-      
-    s << std::endl << "}" << std::endl << std::endl;
-    } else {
-    result = "Can't find stanza \""+name+"\"";
-  } // if
-  
-  return result;
-}
-
 
 } // namespace
