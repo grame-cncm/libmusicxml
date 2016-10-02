@@ -231,7 +231,7 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     parallel =
       fLpsrScore->getScoreParallelMusic();
   
-  // add the parts and lyrics to it
+  // add the parts and lyrics to the score parallel music
   cout << 
     "--> xml2LpsrVisitor::visitEnd ( S_score_partwise, fLpsrPartsMap.size() = " <<
     fLpsrPartsMap.size() << std::endl;
@@ -242,12 +242,9 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     // get part and part name
     S_lpsrPart   part     = (*i).second;
     std::string  partName = part->getPartName ();
-    std::vector<S_lpsrLyrics>
-                 partLyrics   = part->getPartLyrics ();
-    
-    // create a staff comaand
+     
+    // create a staff
     cout << "--> creating a staff" << std::endl;
-    
     S_lpsrNewstaffCommand
       staff =
         lpsrNewstaffCommand::create();
@@ -263,22 +260,40 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
         lpsrVariableUseCommand::create (part->getPartName());
     voice->addElementToContext (variableUse);
 
-    // add the Voice context to the staff
+    // add the voice to the staff
     staff->addElementToNewStaff (voice);
 
-    // add the lyrics to the staff
-    cout << "--> add the lyrics to the staff, " << partLyrics.size() << " lyrics found" << std::endl;
-    std::vector<S_lpsrLyrics>::const_iterator i;
-    for (i = partLyrics.begin(); i != partLyrics.end(); i++) {
-      cout << "--> add the lyrics to the staff, " << (*i)->getfLyricsName() << std::endl;
-      // create the lyrics command
-      S_lpsrNewlyricsCommand
-        lyrics =
-          lpsrNewlyricsCommand::create (
-            (*i)->getfLyricsName(), "PartPOneVoiceOne");
+    // get the part voices
+    std::vector<S_lpsrVoice>
+                 partVoices   = part->getPartVoices ();
+ 
+    // add the voices lyrics to the staff
+    cout <<
+      "--> add the lyrics to the staff, " << partVoices.size() << " voices found" << std::endl;
+
+    std::vector<S_lpsrVoice>::const_iterator i;
+    for (i = partVoices.begin(); i != partVoices.end(); i++) {
+      std::string voiceName = (*i)->getVoiceName();
+      cout <<
+        "--> add the lyrics to the staff, " << voiceName << std::endl;
+
+      std::vector<S_lpsrLyrics>
+        voiceLyrics   = (*i)->getVoiceLyrics ();
+
+      std::vector<S_lpsrLyrics>::const_iterator i;
+      for (i = voiceLyrics.begin(); i != voiceLyrics.end(); i++) {
+        S_lpsrLyrics lyrics     = (*i);
+        std::string  lyricsName = lyrics->getLyricsName();
             
-      // add the  lyrics command to the  staff
-      staff->addElementToNewStaff (lyrics);
+        // create the lyrics command
+        S_lpsrNewlyricsCommand
+          lyricsUse =
+            lpsrNewlyricsCommand::create (
+              lyricsName, voiceName);
+              
+        // add the lyrics use to the  staff
+        staff->addElementToNewStaff (lyricsUse);
+      } // for
     } // for
     
     // add the staff to the score parallel music
@@ -492,11 +507,13 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
         ", targetStaff = " << targetStaff <<
         ", targetVoice = " << targetVoice << endl;
 
-    stringstream s1;
-    s1 <<
-      "Part" << stringNumbersToEnglishWords (partID) <<
-      "Voice" << int2EnglishWord (targetVoice);
-    string partName = s1.str();
+    std::string
+      partName =
+        "Part" + stringNumbersToEnglishWords (partID);
+    
+    std::string
+      voiceName =
+        partName + "Voice" + int2EnglishWord (targetVoice);
         
     // create the lpsrPart
     S_lpsrPart
@@ -524,6 +541,14 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
 
     // JMI currentTimeSign = xp2lv.getTimeSign();
 
+    // create a voice
+    S_lpsrVoice
+      voice =
+        lpsrVoice::create (voiceName);
+
+    // add the voice to the part
+    part->addVoiceToPart (voice);
+        
     // extract the part lyrics
     if (fTranslationSettings->fTrace)
       cerr << "Extracting part \"" << partID << "\" lyrics information" << endl;
@@ -533,13 +558,13 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     for (std::map<std::string, xmlPartSummaryVisitor::stanzaContents> ::iterator 
         it1=stanzas.begin(); it1!=stanzas.end(); ++it1) {
   
-      string   lyricsName;
-      string   result;
+      std::string 
+        lyricsName =
+          voiceName + 
+          "LyricsStanza"+
+          int2EnglishWord (atoi(it1->first.c_str()));
+      std::string result;
       
-      lyricsName =
-        "Part"+stringNumbersToEnglishWords(partID)+
-        "LyricsStanza"+int2EnglishWord(atoi(it1->first.c_str()));
-        
       for (std::list<std::list<std::string> > ::iterator 
           it2=it1->second.begin(); it2!=it1->second.end(); ++it2) {    
 
@@ -567,8 +592,8 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
       appendElementToSequence (elem);
       
       // add the lyrics to the part
-      cout << "--> adding lyrics " << lyricsName << " to part " << partName << std::endl;
-      part->addLyricsToPart(lyrics);
+      cout << "--> adding lyrics " << lyricsName << " to voice " << voiceName << std::endl;
+      voice->addLyricsToVoice (lyrics);
     } // for
 
   xpsv.clearStanzas(); // for next voice

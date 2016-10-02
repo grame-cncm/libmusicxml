@@ -1020,7 +1020,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_octave& elt)
 void xmlPart2LpsrVisitor::visitStart ( S_duration& elt )
 {
   fMusicXMLNoteData.fMusicxmlDuration = (int)(*elt);
-//  cout << "=== xmlPart2LpsrVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << std::endl;
+//  cout << "=== xmlPart2LpsrVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << std::endl; JMI
 }
 
 void xmlPart2LpsrVisitor::visitStart ( S_dot& elt )
@@ -1078,7 +1078,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_tuplet& elt )
   fCurrentTupletNumber = atoi(elt->getAttributeValue("number").c_str());
   std::string type     = elt->getAttributeValue("type");
   
-  /*
+  /* JMI
   cout <<
     "xmlPart2LpsrVisitor::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
     fCurrentTupletNumber << ", type = " << type <<std::endl;

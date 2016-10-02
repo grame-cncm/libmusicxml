@@ -577,7 +577,9 @@ lpsrNote::lpsrNote (
     " is not between -2 and +2";
   s >> message;
   lpsrAssert(
-    fMusicXMLNoteData.fMusicxmlAlteration>=-2 && fMusicXMLNoteData.fMusicxmlAlteration<=+2,
+    fMusicXMLNoteData.fMusicxmlAlteration>=-2
+      &&
+    fMusicXMLNoteData.fMusicxmlAlteration<=+2,
     message);
   
   switch (fMusicXMLNoteData.fMusicxmlAlteration) {
@@ -1502,6 +1504,12 @@ lpsrLyrics::lpsrLyrics(std::string name, std::string contents)
 }
 lpsrLyrics::~lpsrLyrics() {}
 
+ostream& operator<< (ostream& os, const S_lpsrLyrics& lyr)
+{
+  lyr->print(os);
+  return os;
+}
+
 void lpsrLyrics::printMusicXML(ostream& os)
 {
   os << "<!-- lpsrLyrics??? -->" << std::endl;
@@ -1517,11 +1525,90 @@ void lpsrLyrics::printLpsrStructure(ostream& os)
 
 void lpsrLyrics::printLilyPondCode(ostream& os)
 {  
-  os << idtr << fLyricsName << " = \\lyricmode {" << std::endl;
+  os <<
+    idtr << "\\new Lyrics" << " " <<
+    "\\lyricsto " << fVoiceName << " = \\lyricmode {" << fLyricsName << std::endl;
+
   idtr++;
   os << idtr << fLyricsContents << std::endl;
   idtr--;
   os << idtr << "}" << std::endl;
+}
+
+/*
+void lpsrLyrics::printLilyPondCode(ostream& os)
+{      
+  os << "\\new Staff <<" << std::endl;
+  
+  idtr++;
+  
+  int size = fNewStaffElements.size();
+
+  for (int i = 0; i < size; i++ ) {
+    os << idtr << fNewStaffElements[i];
+  } // for
+  
+  idtr--;
+  
+  os << idtr << ">>" << std::endl;  
+}
+*/
+
+//______________________________________________________________________________
+S_lpsrVoice lpsrVoice::create (std::string voiceName)
+{
+  lpsrVoice* o = new lpsrVoice (voiceName); assert(o!=0);
+  return o;
+}
+
+lpsrVoice::lpsrVoice (std::string voiceName)
+   : lpsrElement("")
+{
+  fVoiceName = voiceName;
+}
+
+lpsrVoice::~lpsrVoice() {}
+
+ostream& operator<< (ostream& os, const S_lpsrVoice& vce)
+{
+  vce->print(os);
+  return os;
+}
+
+void lpsrVoice::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrVoice??? -->" << std::endl;
+}
+
+void lpsrVoice::printLpsrStructure(ostream& os)
+{
+  os << "Voice" << " " << fVoiceName << std::endl;
+  
+  idtr++;
+  
+  int size = fVoiceLyrics.size ();
+  for (int i = 0; i < size; i++) {
+    os << idtr << fVoiceLyrics[i];
+  } // for
+  
+  idtr--;  
+}
+
+void lpsrVoice::printLilyPondCode(ostream& os)
+{  
+  os <<
+    "\\new Voice" << " = " <<
+    " \"" << fVoiceName << "\"" << " {" << std::endl;
+
+  idtr++;
+  
+  os << idtr << "\\" << fVoiceName << std::endl;
+  
+  idtr--;
+  
+  os << idtr << "}" << std::endl;
+  //                  \new Voice = "PartPOneVoiceOne" { \voiceOne \PartPOneVoiceOne }
+
 }
 
 //______________________________________________________________________________
@@ -2453,34 +2540,24 @@ ostream& operator<< (ostream& os, const S_lpsrNewlyricsCommand& nlc)
   return os;
 }
 
-void lpsrNewlyricsCommand::printMusicXML(ostream& os)
+void lpsrNewlyricsCommand::printMusicXML (ostream& os)
 {
   os << "<!-- lpsrNewlyricsCommand??? -->" << std::endl;
 }
 
-void lpsrNewlyricsCommand::printLpsrStructure(ostream& os)
+void lpsrNewlyricsCommand::printLpsrStructure (ostream& os)
 {
   os <<
     "NewlyricsCommand" << " " <<
     fLyricsName << " " << fPartName << std::endl;
 }
 
-void lpsrNewlyricsCommand::printLilyPondCode(ostream& os)
-{  
+void lpsrNewlyricsCommand::printLilyPondCode (ostream& os)
+{
   os <<
-    "\\new Lyrics" << " " << "\\lyricsto" <<
-    " \"" << fPartName << "\"" << "{" << std::endl;
-
-  idtr++;
-  
-  os << idtr << "\\" << fLyricsName << std::endl;
-  
-  idtr--;
-  
-  os << idtr << "}" << std::endl;
-  //                  \new Lyrics \lyricsto "PartPOneVoiceOne" \PartPOneVoiceOneLyricsOne
+    "NewlyricsCommand" << " " <<
+    fLyricsName << " " << fPartName << std::endl;
 }
-   //   \new Lyrics \lyricsto"PartPOneVoiceOne"\PartPOneLyricsStanzaOne}
 
 //______________________________________________________________________________
 S_lpsrVariableUseCommand lpsrVariableUseCommand::create(std::string variableName)

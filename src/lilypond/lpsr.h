@@ -769,6 +769,72 @@ class EXP lpsrRepeat: public lpsrElement {
 typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
 
 /*!
+\brief A lpsr lyrics representation.
+
+  A lyrics is represented by a its string contents
+*/
+//______________________________________________________________________________
+class EXP lpsrLyrics : public lpsrElement {
+  public:
+
+    static SMARTP<lpsrLyrics> create(std::string name, std::string contents);
+    
+    std::string getLyricsName     () const { return fLyricsName; }
+    std::string getLyricsContents () const { return fLyricsContents; }
+
+    virtual void printMusicXML      (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
+
+  protected:
+
+    lpsrLyrics(std::string name, std::string contents);
+    virtual ~lpsrLyrics();
+  
+  private:
+
+    std::string fLyricsName;
+    std::string fLyricsContents;
+};
+typedef SMARTP<lpsrLyrics> S_lpsrLyrics;
+
+/*!
+\brief A lpsr voice representation.
+
+  A voice is represented by its name and lyrics
+*/
+//______________________________________________________________________________
+class EXP lpsrVoice : public lpsrElement {
+  public:
+
+    static SMARTP<lpsrVoice> create (std::string voiceName);
+
+    std::string    getVoiceName () { return fVoiceName; }
+    
+    void           addLyricsToVoice (S_lpsrLyrics lyr)
+                      { fVoiceLyrics.push_back(lyr); }
+                      
+    std::vector<S_lpsrLyrics>
+                   getVoiceLyrics () const
+                      { return fVoiceLyrics; }
+
+    virtual void printMusicXML      (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
+
+  protected:
+
+    lpsrVoice(std::string voiceName);
+    virtual ~lpsrVoice();
+  
+  private:
+  
+    std::string               fVoiceName;
+    std::vector<S_lpsrLyrics> fVoiceLyrics;
+};
+typedef SMARTP<lpsrVoice> S_lpsrVoice;
+
+/*!
 \brief A lpsr part representation.
 
   A part is represented by a its string contents
@@ -780,16 +846,15 @@ class EXP lpsrPart : public lpsrElement {
     static SMARTP<lpsrPart> create(
       std::string name, bool absoluteCode, bool generateNumericalTime);
     
+    void           addVoiceToPart (S_lpsrVoice voice)
+                      { fPartVoices.push_back (voice); }
+    std::vector<S_lpsrVoice>
+                  getPartVoices ()
+                      { return fPartVoices; }
+
     std::string    getPartName () const         { return fPartName; }
     bool           getAbsoluteCode () const     { return fPartAbsoluteCode; }
     S_lpsrSequence getPartLpsrSequence () const { return fPartLpsrSequence; }
-
-    void           addLyricsToPart (S_lpsrLyrics lyr)
-                      { fPartLyrics.push_back(lyr); }
-                      
-    std::vector<S_lpsrLyrics>
-                   getPartLyrics () const       { return fPartLyrics; }
-
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -805,17 +870,17 @@ class EXP lpsrPart : public lpsrElement {
     std::string        fPartName;
     bool               fPartAbsoluteCode;
     bool               fGenerateNumericalTime;
-    
+
+    // the part voices
+    std::vector<S_lpsrVoice>
+                       fPartVoices;
+                       
     // the implicit sequence containing the code generated for the part
     S_lpsrSequence     fPartLpsrSequence;
   
     // the implicit repeat at the beginning of the part
     // will be ignored if the part has no repeats at all
     S_lpsrRepeat       fPartLpsrRepeat;
-    
-    // the lyrics stanzas, if any, associated with the part
-    std::vector<S_lpsrLyrics>
-                       fPartLyrics;
 };
 typedef SMARTP<lpsrPart> S_lpsrPart;
 typedef std::map<std::string, S_lpsrPart> lpsrPartsmap;
@@ -1072,38 +1137,6 @@ class EXP lpsrWedge : public lpsrElement {
 typedef SMARTP<lpsrWedge> S_lpsrWedge;
 
 /*!
-\brief A lpsr lyrics representation.
-
-  A lyrics is represented by a its string contents
-*/
-//______________________________________________________________________________
-class EXP lpsrLyrics : public lpsrElement {
-  public:
-
-    static SMARTP<lpsrLyrics> create(std::string name, std::string contents);
-    
-    std::string getfLyricsName () const { return fLyricsName; }
-    std::string getContents    () const { return fLyricsContents; }
-
-    virtual void printMusicXML      (std::ostream& os);
-    virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode  (std::ostream& os);
-
-  protected:
-
-    lpsrLyrics(std::string name, std::string contents);
-    virtual ~lpsrLyrics();
-  
-  private:
-
-    std::string fLyricsName;
-    std::string fLyricsContents;
-};
-typedef SMARTP<lpsrLyrics> S_lpsrLyrics;
-
-
-
-/*!
 \brief A lpsr time representation.
 
   A time is represented by the numerator and denominator
@@ -1328,32 +1361,6 @@ class EXP lpsrVariableUseCommand : public lpsrElement {
     std::string fVariableName;
 };
 typedef SMARTP<lpsrVariableUseCommand> S_lpsrVariableUseCommand;
-
-/*!
-\brief A lpsr voice representation.
-
-  A voice is represented by the name of the variable name
-*/
-//______________________________________________________________________________
-class EXP lpsrVoice : public lpsrElement {
-  public:
-
-    static SMARTP<lpsrVoice> create (std::string variableName);
-    
-    virtual void printMusicXML      (std::ostream& os);
-    virtual void printLpsrStructure (std::ostream& os);
-    virtual void printLilyPondCode  (std::ostream& os);
-
-  protected:
-
-    lpsrVoice(std::string variableName);
-    virtual ~lpsrVoice();
-  
-  private:
-  
-    std::string fVariableName;
-};
-typedef SMARTP<lpsrVoice> S_lpsrVoice;
 
 /*!
 \brief A lyrics use representation.
