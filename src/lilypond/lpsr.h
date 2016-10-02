@@ -775,17 +775,23 @@ typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
   In the case of "single", the list contains only one string
 */
 //______________________________________________________________________________
-// we want to end the line in the LilyPond code at a break
-typedef enum { kWordChunk, kSkipChunk, kBreakChunk } stanzaChunkType;
 
-class lpsrStanzaChunk : public lpsrElement {
+class EXP lpsrStanzaChunk : public lpsrElement {
   public:
 
-   static SMARTP<lpsrStanza> create (
-      std::string lyricsName,
-      std::string voiceName);
+    // we want to end the line in the LilyPond code at a break
+    typedef enum { kWordChunk, kSkipChunk, kBreakChunk } stanzaChunkType;
 
+    static SMARTP<lpsrStanzaChunk> create (
+        stanzaChunkType chunkType,
+        std::string     chunkText);
+     
   protected:
+
+    lpsrStanzaChunk (
+        stanzaChunkType chunkType,
+        std::string     chunkText);
+    virtual ~lpsrStanzaChunk();
 
   private:
   
@@ -830,7 +836,11 @@ class EXP lpsrStanza : public lpsrElement {
 
     std::string        fLyricsName;
     std::string        fVoiceName;
-    std::vector<chunk> fStanzaChunks;
+    std::vector<S_lpsrStanzaChunk>
+                       fStanzaChunks;
+};
+typedef SMARTP<lpsrStanza> S_lpsrStanza;
+
 //    std::string fStanzaName;
 //    std::string fStanzaContents;
 
@@ -848,9 +858,6 @@ class EXP lpsrStanza : public lpsrElement {
     void          clearStanzas ();
     virtual std::string   getStanza (std::string name, std::string separator) const;
 */
-
-};
-typedef SMARTP<lpsrStanza> S_lpsrStanza;
 
 /*!
 \brief A lpsr lyrics representation.

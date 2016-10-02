@@ -1540,8 +1540,104 @@ std::string xmlPartSummaryVisitor::stanzaAsString (std::string separator) const 
   */
 }
 
+/*
+class lpsrStanzaChunk : public lpsrElement {
+  public:
+
+    // we want to end the line in the LilyPond code at a break
+    typedef enum { kWordChunk, kSkipChunk, kBreakChunk } stanzaChunkType;
+
+    static SMARTP<lpsrStanzaChunk> create (stanzaChunkType type);
+     
+  protected:
+
+   lpsrStanza (stanzaChunkType type);
+    virtual ~lpsrStanza();
+
+  private:
+  
+    stanzaChunkType fStanzaChunkType;
+    std::string     fChunkText;
+}
+*/
 
 
+//______________________________________________________________________________
+S_lpsrStanzaChunk lpsrStanzaChunk::create (
+  stanzaChunkType chunkType,
+  std::string    chunkText)
+{
+  lpsrStanzaChunk* o =
+    new lpsrStanzaChunk (chunkType, chunkText); assert(o!=0);
+  return o;
+}
+
+lpsrStanzaChunk::lpsrStanzaChunk (
+  stanzaChunkType chunkType,
+  std::string     chunkText)
+  : lpsrElement("")
+{
+  fStanzaChunkType = chunkType;
+  fChunkText       = chunkText; 
+}
+lpsrStanzaChunk::~lpsrStanzaChunk() {}
+
+void S_lpsrStanzaChunk::addWordToStanza (std::string word)
+{
+}
+
+ostream& operator<< (ostream& os, const S_lpsrStanzaChunk& lyr)
+{
+  lyr->print(os);
+  return os;
+}
+
+void lpsrStanzaChunk::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrStanzaChunk??? -->" << std::endl;
+}
+
+void lpsrStanzaChunk::printLpsrStructure(ostream& os)
+{  
+  os << "Stanza" << " " << voiceName << std::endl;
+  idtr++;
+  os << idtr << fStanzaContents << std::endl;
+  idtr--;
+}
+
+void lpsrStanzaChunk::printLilyPondCode(ostream& os)
+{  
+  stringstream s;
+  
+  std::vector<chunk>::const_iterator
+    iBegin = i->begin(),
+    iEnd   = i->end(),
+    i      = iBegin;
+    
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << "--";
+    } // for
+
+  std::string result;
+
+  s >> result;
+  return result;
+
+
+
+  os <<
+    idtr << "\\new Stanza" << " " <<
+    "\\Stanzato " << fVoiceName << " = \\lyricmode {" << fStanzaName << std::endl;
+
+  idtr++;
+      std::vector<chunk> fStanzaChunks;
+
+  os << idtr << fStanzaContents << std::endl;
+  idtr--;
+  os << idtr << "}" << std::endl;
+}
 
 //______________________________________________________________________________
 S_lpsrStanza lpsrStanza::create (
