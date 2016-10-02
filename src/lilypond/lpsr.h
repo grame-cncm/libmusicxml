@@ -771,21 +771,24 @@ typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
 /*!
 \brief A lpsr stanza chunk representation.
 
-  A stanza chunk is represented by a list of strings.
+  A stanza chunk is represented by a type and and a string.
   In the case of "single", the list contains only one string
 */
 //______________________________________________________________________________
-
 class EXP lpsrStanzaChunk : public lpsrElement {
   public:
 
     // we want to end the line in the LilyPond code at a break
-    typedef enum { kWordChunk, kSkipChunk, kBreakChunk } stanzaChunkType;
+    enum stanzaChunkType { kWordChunk, kSkipChunk, kBreakChunk };
 
     static SMARTP<lpsrStanzaChunk> create (
         stanzaChunkType chunkType,
         std::string     chunkText);
      
+    virtual void printMusicXML      (std::ostream& os);
+    virtual void printLpsrStructure (std::ostream& os);
+    virtual void printLilyPondCode  (std::ostream& os);
+
   protected:
 
     lpsrStanzaChunk (
@@ -797,15 +800,13 @@ class EXP lpsrStanzaChunk : public lpsrElement {
   
     stanzaChunkType fStanzaChunkType;
     std::string     fChunkText;
-}
+};
 typedef SMARTP<lpsrStanzaChunk> S_lpsrStanzaChunk;
-  
+
 /*!
 \brief A lpsr stanza representation.
 
   A stanza is represented by a list of stanza chunks,
-  each one represented as a list of strings.
-  In the case of "single", the list contains only one string
 */
 //______________________________________________________________________________
 class EXP lpsrStanza : public lpsrElement {
@@ -868,10 +869,9 @@ typedef SMARTP<lpsrStanza> S_lpsrStanza;
 class EXP lpsrLyrics : public lpsrElement {
   public:
 
-    static SMARTP<lpsrLyrics> create(
+    static SMARTP<lpsrLyrics> create (
         std::string lyricsName,
-        std::string  voiceName,
-        std::string contents);
+        std::string voiceName);
     
     std::string getLyricsName    () const { return fLyricsName; }
     std::vector<S_lpsrStanza>
@@ -886,15 +886,16 @@ class EXP lpsrLyrics : public lpsrElement {
 
   protected:
 
-    lpsrLyrics(std::string name, std::string contents);
+    lpsrLyrics (
+        std::string lyricsName,
+        std::string voiceName);
     virtual ~lpsrLyrics();
   
   private:
 
     std::string               fLyricsName;
+    std::string               fVoiceName;
     std::vector<S_lpsrStanza> fLyricsStanzas;
-
-
 };
 typedef SMARTP<lpsrLyrics> S_lpsrLyrics;
 

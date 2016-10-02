@@ -1537,8 +1537,8 @@ std::string xmlPartSummaryVisitor::stanzaAsString (std::string separator) const 
     } else {
     result = "Can't find stanza \""+name+"\"";
   } // if
-  */
 }
+  */
 
 /*
 class lpsrStanzaChunk : public lpsrElement {
@@ -1565,7 +1565,7 @@ class lpsrStanzaChunk : public lpsrElement {
 //______________________________________________________________________________
 S_lpsrStanzaChunk lpsrStanzaChunk::create (
   stanzaChunkType chunkType,
-  std::string    chunkText)
+  std::string     chunkText)
 {
   lpsrStanzaChunk* o =
     new lpsrStanzaChunk (chunkType, chunkText); assert(o!=0);
@@ -1582,10 +1582,6 @@ lpsrStanzaChunk::lpsrStanzaChunk (
 }
 lpsrStanzaChunk::~lpsrStanzaChunk() {}
 
-void S_lpsrStanzaChunk::addWordToStanza (std::string word)
-{
-}
-
 ostream& operator<< (ostream& os, const S_lpsrStanzaChunk& lyr)
 {
   lyr->print(os);
@@ -1599,44 +1595,23 @@ void lpsrStanzaChunk::printMusicXML(ostream& os)
 
 void lpsrStanzaChunk::printLpsrStructure(ostream& os)
 {  
-  os << "Stanza" << " " << voiceName << std::endl;
-  idtr++;
-  os << idtr << fStanzaContents << std::endl;
-  idtr--;
+  os << "StanzaChunk" << " ";
+  switch (fStanzaChunkType) {
+    case kWordChunk:  os << "Word"; break;
+    case kSkipChunk:  os << "Skip"; break;
+    case kBreakChunk: os << "Break"; break;
+  } // switch
+  if (fChunkText.size()) os << " " << fChunkText;
+  os << std::endl;
 }
 
 void lpsrStanzaChunk::printLilyPondCode(ostream& os)
 {  
-  stringstream s;
-  
-  std::vector<chunk>::const_iterator
-    iBegin = i->begin(),
-    iEnd   = i->end(),
-    i      = iBegin;
-    
-    for ( ; ; ) {
-      s << (*i);
-      if (++i == iEnd) break;
-      s << "--";
-    } // for
-
-  std::string result;
-
-  s >> result;
-  return result;
-
-
-
-  os <<
-    idtr << "\\new Stanza" << " " <<
-    "\\Stanzato " << fVoiceName << " = \\lyricmode {" << fStanzaName << std::endl;
-
-  idtr++;
-      std::vector<chunk> fStanzaChunks;
-
-  os << idtr << fStanzaContents << std::endl;
-  idtr--;
-  os << idtr << "}" << std::endl;
+  switch (fStanzaChunkType) {
+    case kWordChunk:  os << fChunkText; break;
+    case kSkipChunk:  os << "\\skip"; break;
+    case kBreakChunk: os << "\\myBreak"; break;
+  } // switch
 }
 
 //______________________________________________________________________________
@@ -1658,7 +1633,7 @@ lpsrStanza::lpsrStanza (
 }
 lpsrStanza::~lpsrStanza() {}
 
-void S_lpsrStanza::addWordToStanza (std::string word)
+void lpsrStanza::addWordToStanza (std::string word)
 {
 }
 
@@ -1675,58 +1650,47 @@ void lpsrStanza::printMusicXML(ostream& os)
 
 void lpsrStanza::printLpsrStructure(ostream& os)
 {  
-  os << "Stanza" << " " << voiceName << std::endl;
+  os << "Stanza" << " " << fLyricsName << "fVoiceName" << std::endl;
   idtr++;
-  os << idtr << fStanzaContents << std::endl;
+  int n = fStanzaChunks.size();
+  for (int i = 0; i < n; i++) {
+    os << idtr << fStanzaChunks[i] << std::endl;
+  } // for
   idtr--;
 }
 
 void lpsrStanza::printLilyPondCode(ostream& os)
 {  
-  stringstream s;
-  
-  std::vector<chunk>::const_iterator
-    iBegin = i->begin(),
-    iEnd   = i->end(),
+  std::vector<S_lpsrStanzaChunk>::const_iterator
+    iBegin = fStanzaChunks.begin(),
+    iEnd   = fStanzaChunks.end(),
     i      = iBegin;
     
-    for ( ; ; ) {
-      s << (*i);
-      if (++i == iEnd) break;
-      s << "--";
-    } // for
-
-  std::string result;
-
-  s >> result;
-  return result;
-
-
-
-  os <<
-    idtr << "\\new Stanza" << " " <<
-    "\\Stanzato " << fVoiceName << " = \\lyricmode {" << fStanzaName << std::endl;
-
-  idtr++;
-      std::vector<chunk> fStanzaChunks;
-
-  os << idtr << fStanzaContents << std::endl;
-  idtr--;
-  os << idtr << "}" << std::endl;
+  for ( ; ; ) {
+    os << (*i);
+    if (++i == iEnd) break;
+    os << "--";
+  } // for
 }
 
 //______________________________________________________________________________
-S_lpsrLyrics lpsrLyrics::create(std::string name, std::string contents)
+S_lpsrLyrics lpsrLyrics::create (
+  std::string lyricsName,
+  std::string voiceName)
 {
-  lpsrLyrics* o = new lpsrLyrics(name, contents); assert(o!=0);
+  lpsrLyrics* o =
+    new lpsrLyrics (lyricsName, voiceName);
+  assert(o!=0);
   return o;
 }
 
-lpsrLyrics::lpsrLyrics(std::string name, std::string contents)
+lpsrLyrics::lpsrLyrics(
+  std::string lyricsName,
+  std::string voiceName)
   : lpsrElement("")
 {
-  fLyricsName = name;
-  fLyricsContents=contents; 
+  fLyricsName = lyricsName;
+  fVoiceName  = voiceName;
 }
 lpsrLyrics::~lpsrLyrics() {}
 
@@ -1743,9 +1707,13 @@ void lpsrLyrics::printMusicXML(ostream& os)
 
 void lpsrLyrics::printLpsrStructure(ostream& os)
 {  
-  os << "Lyrics" << " " << fLyricsName << std::endl;
+  os <<
+    "Lyrics" << " " << fLyricsName << " " << fVoiceName << std::endl;
   idtr++;
-  os << idtr << fLyricsContents << std::endl;
+  int n = fLyricsStanzas.size();
+  for (int i = 0; i < n; i++) {
+    os << idtr << fLyricsStanzas[i] << std::endl;
+  } // for
   idtr--;
 }
 
@@ -1753,12 +1721,19 @@ void lpsrLyrics::printLilyPondCode(ostream& os)
 {  
   os <<
     idtr << "\\new Lyrics" << " " <<
-    "\\lyricsto " << fVoiceName << " = \\lyricmode {" << fLyricsName << std::endl;
+    "\\lyricsto " << fVoiceName <<
+    " = \\lyricmode {" << fLyricsName << std::endl;
 
-  idtr++;
-  os << idtr << fLyricsContents << std::endl;
-  idtr--;
-  os << idtr << "}" << std::endl;
+  std::vector<S_lpsrStanza>::const_iterator
+    iBegin = fLyricsStanzas.begin(),
+    iEnd   = fLyricsStanzas.end(),
+    i      = iBegin;
+    
+  for ( ; ; ) {
+    os << (*i);
+    if (++i == iEnd) break;
+    os << "--";
+  } // for
 }
 
 /*
