@@ -23,8 +23,8 @@
 #include "rational.h"
 #include "exports.h"
 #include "typedefs.h"
-#include "utilities.h"
 
+#include "lpsrUtilities.h"
 #include "musicxml2lpsr.h"
 
 namespace MusicXML2 
@@ -782,10 +782,14 @@ class EXP lpsrPart : public lpsrElement {
     
     std::string    getPartName () const         { return fPartName; }
     bool           getAbsoluteCode () const     { return fPartAbsoluteCode; }
-    S_lpsrSequence getPartLpsrsequence () const { return fPartLpsrSequence; }
+    S_lpsrSequence getPartLpsrSequence () const { return fPartLpsrSequence; }
 
     void           addLyricsToPart (S_lpsrLyrics lyr)
                       { fPartLyrics.push_back(lyr); }
+                      
+    std::vector<S_lpsrLyrics>
+                   getPartLyrics () const       { return fPartLyrics; }
+
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -810,7 +814,8 @@ class EXP lpsrPart : public lpsrElement {
     S_lpsrRepeat       fPartLpsrRepeat;
     
     // the lyrics stanzas, if any, associated with the part
-    std::vector<S_lpsrLyrics> fPartLyrics;
+    std::vector<S_lpsrLyrics>
+                       fPartLyrics;
 };
 typedef SMARTP<lpsrPart> S_lpsrPart;
 typedef std::map<std::string, S_lpsrPart> lpsrPartsmap;
@@ -1077,7 +1082,8 @@ class EXP lpsrLyrics : public lpsrElement {
 
     static SMARTP<lpsrLyrics> create(std::string name, std::string contents);
     
-    std::string getContents () const { return fLyricsContents; }
+    std::string getfLyricsName () const { return fLyricsName; }
+    std::string getContents    () const { return fLyricsContents; }
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);

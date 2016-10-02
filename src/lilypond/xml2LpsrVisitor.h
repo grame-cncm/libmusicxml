@@ -43,6 +43,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 class EXP xml2LpsrVisitor : 
 
+  public visitor<S_score_timewise>,
   public visitor<S_score_partwise>,
   
   public visitor<S_work_number>,
@@ -95,6 +96,8 @@ class EXP xml2LpsrVisitor :
       
   protected:
 
+    virtual void visitStart ( S_score_timewise& elt);
+    
     virtual void visitStart ( S_score_partwise& elt);
     virtual void visitEnd   ( S_score_partwise& elt);
     

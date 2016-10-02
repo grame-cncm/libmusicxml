@@ -15,7 +15,7 @@
 #include <string.h>
 #include <getopt.h>
 
-#include "utilities.h"
+#include "lpsrUtilities.h"
 
 #include "musicxml2lpsr.h"
 
@@ -231,7 +231,7 @@ int main(int argc, char *argv[])
     cerr << 
       "Launching conversion to LilyPond with libmusicxml2 v" << 
       musicxmllibVersionStr() <<
-      " / xml2Lilypond v" <<
+      " & xml2Lilypond v" <<
       musicxml2LpsrVersionStr() << 
       endl <<
       "The settings are:" << endl <<

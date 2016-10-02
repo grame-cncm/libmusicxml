@@ -106,6 +106,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_time& elt ) {
   resetCurrentTime();
   fStaffNumber = elt->getAttributeIntValue("number", kNoStaffNumber);
   fSymbol = elt->getAttributeValue("symbol");
+  // time symbol="cut" JMI
 }
 
 void xmlPart2LpsrVisitor::visitStart ( S_beats& elt )
@@ -151,12 +152,12 @@ void xmlPart2LpsrVisitor::addElementToPartSequence (S_lpsrElement& elt) {
   bool doDebug = false;
 
   if (doDebug) cout << "!!! addElementToPartSequence : " << elt << std::endl;
-  fLpsrpart->getPartLpsrsequence()->appendElementToSequence (elt);
+  fLpsrpart->getPartLpsrSequence()->appendElementToSequence (elt);
 }
 
 S_lpsrElement xmlPart2LpsrVisitor::getLastElementOfPartSequence() {
   return
-    fLpsrpart->getPartLpsrsequence()->getLastElementOfSequence ();
+    fLpsrpart->getPartLpsrSequence()->getLastElementOfSequence ();
 }
 
 void xmlPart2LpsrVisitor::removeLastElementOfPartSequence () {
@@ -164,7 +165,7 @@ void xmlPart2LpsrVisitor::removeLastElementOfPartSequence () {
   bool doDebug = false;
 
   if (doDebug) cout << "!!! removeLastElementOfPartSequence" << std::endl;
-  fLpsrpart->getPartLpsrsequence()->removeLastElementOfSequence ();
+  fLpsrpart->getPartLpsrSequence()->removeLastElementOfSequence ();
 }
 
 //________________________________________________________________________
@@ -222,6 +223,80 @@ void xmlPart2LpsrVisitor::visitStart ( S_backup& elt )
     //  moveMeasureTime (-duration, false);
   }
 }
+/*
+      </attributes>
+      <direction placement="above">
+        <direction-type>
+          <words font-weight="bold" relative-x="-32">Allegretto</words>
+        </direction-type>
+        <staff>1</staff>
+        <sound tempo="126"/>
+      </direction>
+      <direction placement="below">
+        <direction-type>
+          <dynamics relative-y="14" relative-x="-13">
+            <p/>
+          </dynamics>
+        </direction-type>
+        <staff>1</staff>
+        <sound dynamics="54"/>
+      </direction>
+      <note>
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>up</stem>
+        <staff>1</staff>
+        <beam number="1">begin</beam>
+        <notations>
+          <slur type="start" number="1"/>
+        </notations>
+      </note>
+      <note>
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>up</stem>
+        <staff>1</staff>
+        <beam number="1">end</beam>
+        <notations>
+          <slur type="stop" number="1"/>
+        </notations>
+      </note>
+      <backup>
+        <duration>24</duration>
+      </backup>
+      <note>
+        <rest/>
+        <duration>24</duration>
+        <voice>3</voice>
+        <type>quarter</type>
+        <staff>2</staff>
+      </note>
+    </measure>
+    <measure number="1">
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>down</stem>
+        <staff>1</staff>
+      </note>
+*/
 
 //______________________________________________________________________________
 void xmlPart2LpsrVisitor::visitStart ( S_forward& elt )
@@ -325,6 +400,24 @@ void xmlPart2LpsrVisitor::visitStart ( S_direction& elt )
   }
   */
 }
+/* JMI
+      <direction placement="above">
+        <direction-type>
+          <words font-weight="bold" relative-x="-32">Allegretto</words>
+        </direction-type>
+        <staff>1</staff>
+        <sound tempo="126"/>
+      </direction>
+      <direction placement="below">
+        <direction-type>
+          <dynamics relative-y="14" relative-x="-13">
+            <p/>
+          </dynamics>
+        </direction-type>
+        <staff>1</staff>
+        <sound dynamics="54"/>
+      </direction>
+*/
 
 void xmlPart2LpsrVisitor::visitEnd ( S_direction& elt ) 
 {
@@ -590,7 +683,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_metronome& elt ) {
 
   S_lpsrTempoCommand tempo =
     lpsrTempoCommand::create (r.getDenominator(), fPerMinute);
-  fLpsrpart->getPartLpsrsequence()->appendElementToSequence (tempo);
+  fLpsrpart->getPartLpsrSequence()->appendElementToSequence (tempo);
   
  // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
@@ -704,6 +797,40 @@ void xmlPart2LpsrVisitor::visitStart( S_pppppp& elt)
 //______________________________________________________________________________
 void xmlPart2LpsrVisitor::visitStart ( S_beam& elt )
 {
+  /*
+        <note>
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>up</stem>
+        <staff>1</staff>
+        <beam number="1">begin</beam>
+        <notations>
+          <slur type="start" number="1"/>
+        </notations>
+      </note>
+      <note>
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>up</stem>
+        <staff>1</staff>
+        <beam number="1">end</beam>
+        <notations>
+          <slur type="stop" number="1"/>
+        </notations>
+      </note>
+*/
+
   int number = atoi(elt->getAttributeValue("number").c_str());
   std::string value = elt->getValue();
   

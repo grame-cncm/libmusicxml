@@ -24,8 +24,8 @@
 #include "xml_tree_browser.h"
 
 #include "rational.h"
-#include "utilities.h"
 
+#include "lpsrUtilities.h"
 #include "xml2LpsrVisitor.h"
 #include "xmlPartSummaryVisitor.h"
 #include "xmlPart2LpsrVisitor.h"
@@ -186,6 +186,12 @@ void xml2LpsrVisitor::appendPostamble () {
 }
 
 //______________________________________________________________________________
+void xml2LpsrVisitor::visitStart ( S_score_timewise& elt )
+{
+  lpsrMusicXMLError("score-timewise MusicXML data is not supported");
+}
+
+//______________________________________________________________________________
 void xml2LpsrVisitor::visitStart ( S_score_partwise& elt )
 {
   // store the element in the header
@@ -207,7 +213,9 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
   prependPreamble ();
 
   // get score layout
-  S_lpsrLayout layout = fLpsrScore->getScoreLayout();
+  S_lpsrLayout
+    layout =
+      fLpsrScore->getScoreLayout();
 
   if (fGlobalStaffSize > 0.0) {
     S_lpsrSchemeVarValAssoc
@@ -219,7 +227,9 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
   }
 
   // get score parallel music
-  S_lpsrParallelMusic parallel = fLpsrScore->getScoreParallelMusic();
+  S_lpsrParallelMusic
+    parallel =
+      fLpsrScore->getScoreParallelMusic();
   
   // add the parts and lyrics to it
   cout << 
@@ -230,44 +240,52 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
   for (i = fLpsrPartsMap.begin(); i != fLpsrPartsMap.end(); i++) {
     
     // get part and part name
-    S_lpsrPart  part     = (*i).second;
-    std::string partName = part->getPartName ();
+    S_lpsrPart   part     = (*i).second;
+    std::string  partName = part->getPartName ();
+    std::vector<S_lpsrLyrics>
+                 partLyrics   = part->getPartLyrics ();
     
-    // create a new staff comaand
-    cout << "--> creating a new staff" << std::endl;
+    // create a staff comaand
+    cout << "--> creating a staff" << std::endl;
     
     S_lpsrNewstaffCommand
-      nstf =
+      staff =
         lpsrNewstaffCommand::create();
     
-    // create the Voice context
+    // create the voice
     S_lpsrContext
-      voiceContext =
+      voice =
         lpsrContext::create ("Voice", partName);
         
-    // add a use of the part name to the context
+    // add a use of the part name to the voice
     S_lpsrVariableUseCommand
       variableUse =
         lpsrVariableUseCommand::create (part->getPartName());
-    voiceContext->addElementToContext (variableUse);
+    voice->addElementToContext (variableUse);
 
-    // add the Voice context to the new staff
-    nstf->addElementToNewStaff (voiceContext);
+    // add the Voice context to the staff
+    staff->addElementToNewStaff (voice);
 
-    // create the new lyrics command
-    S_lpsrNewlyricsCommand
-      nlc =
-        lpsrNewlyricsCommand::create (
-          "PartPOneLyricsStanzaOne", "PartPOneVoiceOne");
-          
-    // add the new lyrics command to the new staff
-    nstf->addElementToNewStaff (nlc);
+    // add the lyrics to the staff
+    cout << "--> add the lyrics to the staff, " << partLyrics.size() << " lyrics found" << std::endl;
+    std::vector<S_lpsrLyrics>::const_iterator i;
+    for (i = partLyrics.begin(); i != partLyrics.end(); i++) {
+      cout << "--> add the lyrics to the staff, " << (*i)->getfLyricsName() << std::endl;
+      // create the lyrics command
+      S_lpsrNewlyricsCommand
+        lyrics =
+          lpsrNewlyricsCommand::create (
+            (*i)->getfLyricsName(), "PartPOneVoiceOne");
+            
+      // add the  lyrics command to the  staff
+      staff->addElementToNewStaff (lyrics);
+    } // for
     
-    // add the new staff to the score parallel music
+    // add the staff to the score parallel music
     S_lpsrParallelMusic
       parallelMusic =
         fLpsrScore->getScoreParallelMusic ();
-    parallelMusic->addElementToParallelMusic (nstf);
+    parallelMusic->addElementToParallelMusic (staff);
 
 
     /*
@@ -481,10 +499,12 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     string partName = s1.str();
         
     // create the lpsrPart
-    S_lpsrPart part = lpsrPart::create (
-      partName,
-      fTranslationSettings->fGenerateAbsoluteCode,
-      fTranslationSettings->fGenerateNumericalTime);
+    S_lpsrPart
+      part =
+        lpsrPart::create (
+          partName,
+          fTranslationSettings->fGenerateAbsoluteCode,
+          fTranslationSettings->fGenerateNumericalTime);
       
     // register it in this visitors's map
     fLpsrPartsMap[partID] = part;
@@ -494,10 +514,11 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     appendElementToSequence (p);
     
     // browse the part contents once more with an xmlPart2LpsrVisitor
-    xmlPart2LpsrVisitor xp2lv (
-      fTranslationSettings, part,
-      part, targetStaff, fCurrentStaffIndex,
-      targetVoice, notesOnly, currentTimeSign);
+    xmlPart2LpsrVisitor
+      xp2lv (
+        fTranslationSettings, part,
+        part, targetStaff, fCurrentStaffIndex,
+        targetVoice, notesOnly, currentTimeSign);
     xml_tree_browser browser (&xp2lv);
     browser.browse (*elt);
 
@@ -537,13 +558,16 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
       } // for
  
       // create the lyrics
-      S_lpsrLyrics lyrics = lpsrLyrics::create(lyricsName, result);
+      S_lpsrLyrics
+        lyrics =
+          lpsrLyrics::create(lyricsName, result);
       
       // append it to the sequence
       S_lpsrElement elem = lyrics;  
       appendElementToSequence (elem);
       
       // add the lyrics to the part
+      cout << "--> adding lyrics " << lyricsName << " to part " << partName << std::endl;
       part->addLyricsToPart(lyrics);
     } // for
 

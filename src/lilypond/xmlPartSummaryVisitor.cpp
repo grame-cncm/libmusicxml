@@ -17,7 +17,7 @@
 #include <sstream>
 #include <stdlib.h>     /* abort, NULL */
 
-#include "utilities.h"
+#include "lpsrUtilities.h"
 
 #include "lpsr.h"
 #include "xmlPartSummaryVisitor.h"
