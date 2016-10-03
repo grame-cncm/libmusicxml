@@ -32,22 +32,20 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-// JMI std::map<std::string, int> xmlPart2LpsrVisitor::fQuatertonesFromA;
-
-
-//______________________________________________________________________________
 xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   S_translationSettings& ts,
-  S_lpsrPart part,
-  S_lpsrElement seq,
-  int staff,
-  int lpsrstaff, 
-  int targetVoice, 
-  bool notesonly,
-  rational defaultTimeSign) 
+  S_lpsrPart             part,
+  S_lpsrVoice            voice, 
+  int                    targetStaff,
+  int                    currentStaffID,
+  int                    targetVoiceID,  // JMI
+  bool                   notesonly,
+  rational               defaultTimeSign) 
 {
   fTranslationSettings = ts;
-  fLpsrpart = part;
+  
+  fLpsrPart  = part;
+  fLpsrVoice = voice;
 
   fMusicXMLNoteData.fMusicxmlDuration = -8;
   fMusicXMLNoteData.fNoteBelongsToAChord = false;    
@@ -57,8 +55,8 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
 //  fCurrentStaffIndex = 0;
   fCurrentStaff = 0; // JMI ???
 
-  fCurrentStaff = fTargetStaff = staff; // the current and target staff
-  fTargetVoice = targetVoice;                 // the target voice
+  fCurrentStaff = fTargetStaff = targetStaff; // the current and target staff
+  fTargetVoice = targetVoiceID;                 // the target voice
 //  fNotesOnly = notesonly;               // prevent multiple output for keys, clefs etc... 
 //  fCurrentTimeSign = defaultTimeSign;   // a default time signature
 //  fCurrentStaffIndex = lpsrstaff;   // the current lpsr staff index
@@ -71,6 +69,10 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   fATupletIsBeingBuilt = false;
   fCurrentTupletNumber = -1;
   fCurrentTupletKind = lpsrTuplet::k_NoTuplet;
+
+  fLastLyric = 0;
+  fLastSyllabic = 0;
+  fOnGoingLyrics = false;
 }
 
 //______________________________________________________________________________
@@ -152,12 +154,12 @@ void xmlPart2LpsrVisitor::addElementToPartSequence (S_lpsrElement& elt) {
   bool doDebug = false;
 
   if (doDebug) cout << "!!! addElementToPartSequence : " << elt << std::endl;
-  fLpsrpart->getPartLpsrSequence()->appendElementToSequence (elt);
+  fLpsrVoice->getVoiceLpsrSequence()->appendElementToSequence (elt);
 }
 
 S_lpsrElement xmlPart2LpsrVisitor::getLastElementOfPartSequence() {
   return
-    fLpsrpart->getPartLpsrSequence()->getLastElementOfSequence ();
+    fLpsrVoice->getVoiceLpsrSequence()->getLastElementOfSequence ();
 }
 
 void xmlPart2LpsrVisitor::removeLastElementOfPartSequence () {
@@ -165,7 +167,7 @@ void xmlPart2LpsrVisitor::removeLastElementOfPartSequence () {
   bool doDebug = false;
 
   if (doDebug) cout << "!!! removeLastElementOfPartSequence" << std::endl;
-  fLpsrpart->getPartLpsrSequence()->removeLastElementOfSequence ();
+  fLpsrVoice->getVoiceLpsrSequence()->removeLastElementOfSequence ();
 }
 
 //________________________________________________________________________
@@ -683,7 +685,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_metronome& elt ) {
 
   S_lpsrTempoCommand tempo =
     lpsrTempoCommand::create (r.getDenominator(), fPerMinute);
-  fLpsrpart->getPartLpsrSequence()->appendElementToSequence (tempo);
+  fLpsrVoice->getVoiceLpsrSequence()->appendElementToSequence (tempo);
   
  // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
@@ -1331,6 +1333,116 @@ void xmlPart2LpsrVisitor::visitStart ( S_rest& elt)
   //  cout << "--> xmlPart2LpsrVisitor::visitStart ( S_rest& elt ) " << std::endl;
   fMusicXMLNoteData.fMusicxmlStepIsARest = true;
 }
+
+
+
+
+/*
+void xmlPartSummaryVisitor::visitStart ( S_rest& elt)
+{
+  //  cout << "--> xmlpart2lpsrvisitor::visitStart ( S_rest& elt ) " << std::endl;
+  fCurrentStepIsARest = true;
+}
+*/
+
+//________________________________________________________________________
+void xmlPart2LpsrVisitor::visitStart ( S_lyric& elt ) { 
+  fLastLyric = elt;
+  fOnGoingLyrics = true;
+}
+
+void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) { 
+  fOnGoingLyrics = false;
+}
+
+void xmlPart2LpsrVisitor::visitStart ( S_syllabic& elt ) {
+  fLastSyllabic = elt;
+  std::string syllabicValue = fLastSyllabic->getValue();
+
+  if (syllabicValue == "begin") {
+    fOnGoingLyrics = true;
+  }
+  else if (syllabicValue == "end") {
+    fOnGoingLyrics = true;
+  }
+}
+
+void xmlPart2LpsrVisitor::visitEnd ( S_text& elt ) 
+{
+  /*
+        <lyric number="1">
+          <syllabic>single</syllabic>
+          <text>1. Sing</text>
+          </lyric>
+  */
+
+  string      text = elt->getValue();
+
+  cout << "--> text = |" << text << "|" << std::endl;
+  
+  std::size_t spacefound=text.find(" ");
+  
+  if (spacefound!=std::string::npos) text = "\""+text+"\"";
+  
+  std::string lastLyricNumber   = fLastLyric->getAttributeValue ("number");
+  std::string lastSyllabicValue = fLastSyllabic->getValue();
+  
+  /*
+  cout <<
+    "--> lastLyricNumber = " << lastLyricNumber <<
+    ", lastSyllabicValue = " << lastSyllabicValue <<
+    ", text = " << text << endl <<
+    flush;
+  */
+      
+  // create fStanzas [lastLyricNumber] on first visit
+
+
+
+  std::string fLyricsName = "foo";
+  std::string fVoiceName = "faa";
+  
+  if (! fCurrentLyricsStanza) {
+    // create lyrics on first visit
+    fCurrentLyrics =
+      lpsrLyrics::create ("myLyrics", "myVoice");
+      
+    // create stanza on first visit
+    fCurrentLyricsStanza =
+      lpsrStanza::create (fLyricsName, fVoiceName);
+ //   fStanzas[lastLyricNumber] = std::list<std::list<std::string> >();
+  }
+    
+  // create stanza chunk
+  S_lpsrStanzaChunk
+    chunk =
+      lpsrStanzaChunk::create (lpsrStanzaChunk::kWordChunk, text);
+
+  if (lastSyllabicValue == "single" || lastSyllabicValue == "begin") {
+    // add stanza chunk to current lyrics
+    fCurrentLyricsStanza -> addChunkToStanza (chunk);
+          
+ //   fStanzas[lastLyricNumber].push_back(std::list<std::string>());
+ //   fStanzas[lastLyricNumber].back().push_back(text);
+  }
+  else if (lastSyllabicValue == "middle" || lastSyllabicValue == "end") {
+    // add chunk to current stanza
+    fCurrentLyricsStanza -> addChunkToStanza (chunk);
+ //   fStanzas[lastLyricNumber].back().push_back(text);
+  }
+  else {
+    stringstream s;
+    std::string  result;
+  
+    s << "--> text value " << text << " unknown";
+    s >> result;
+    lpsrMusicXMLError(result);
+  }
+}
+
+
+
+
 
 
 }

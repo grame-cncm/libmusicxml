@@ -71,12 +71,18 @@ void haendel::print(std::ostream& os) const {
 //______________________________________________________________________________
 std::string int2EnglishWord (int n)
 {
-  if (n < 1) return "SmallerThanOne";
+  if (n <= 0)
+    lpsrMusicXMLError("int2EnglishWord, n <= 0");
+
+  if (n < 1)  return "SmallerThanOne";
   if (n > 99) return "LargerThanNinetyNine";
   
   std::stringstream s;
 
   switch (n) {
+    case 0:
+      s << "Zero";
+      break;
     case 1:
       s << "One";
       break;

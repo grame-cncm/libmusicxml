@@ -1752,32 +1752,32 @@ void lpsrLyrics::printLilyPondCode(ostream& os)
 */
 
 //______________________________________________________________________________
-S_lpsrVoice lpsrVoice::create (std::string voiceName)
+S_lpsrVoiceBOF lpsrVoiceBOF::create (std::string voiceName)
 {
-  lpsrVoice* o = new lpsrVoice (voiceName); assert(o!=0);
+  lpsrVoiceBOF* o = new lpsrVoiceBOF (voiceName); assert(o!=0);
   return o;
 }
 
-lpsrVoice::lpsrVoice (std::string voiceName)
+lpsrVoiceBOF::lpsrVoiceBOF (std::string voiceName)
    : lpsrElement("")
 {
   fVoiceName = voiceName;
 }
 
-lpsrVoice::~lpsrVoice() {}
+lpsrVoiceBOF::~lpsrVoiceBOF() {}
 
-ostream& operator<< (ostream& os, const S_lpsrVoice& vce)
+ostream& operator<< (ostream& os, const S_lpsrVoiceBOF& vce)
 {
   vce->print(os);
   return os;
 }
 
-void lpsrVoice::printMusicXML(ostream& os)
+void lpsrVoiceBOF::printMusicXML(ostream& os)
 {
-  os << "<!-- lpsrVoice??? -->" << std::endl;
+  os << "<!-- lpsrVoiceBOF??? -->" << std::endl;
 }
 
-void lpsrVoice::printLpsrStructure(ostream& os)
+void lpsrVoiceBOF::printLpsrStructure(ostream& os)
 {
   os << "Voice" << " " << fVoiceName << std::endl;
   
@@ -1791,7 +1791,7 @@ void lpsrVoice::printLpsrStructure(ostream& os)
   idtr--;  
 }
 
-void lpsrVoice::printLilyPondCode(ostream& os)
+void lpsrVoiceBOF::printLilyPondCode(ostream& os)
 {  
   os <<
     "\\new Voice" << " = " <<
@@ -1809,34 +1809,90 @@ void lpsrVoice::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrPart lpsrPart::create(
-  std::string name, bool absoluteCode, bool generateNumericalTime)
+S_lpsrVoice lpsrVoice::create(
+  std::string name,
+  bool absoluteCode,
+  bool generateNumericalTime)
 {
-  lpsrPart* o =
-    new lpsrPart(name, absoluteCode, generateNumericalTime); assert(o!=0);
+  lpsrVoice* o =
+    new lpsrVoice (name, absoluteCode, generateNumericalTime);
+  assert(o!=0);
   return o;
 }
 
-lpsrPart::lpsrPart(
-    std::string name, bool absoluteCode, bool generateNumericalTime)
-  : lpsrElement("")
+lpsrVoice::lpsrVoice(
+  std::string name,
+  bool absoluteCode,
+  bool generateNumericalTime)
+    : lpsrElement("")
 {
-  fPartName = name;
-  fPartAbsoluteCode = absoluteCode;
+  fVoiceName = name;
+  fVoiceAbsoluteCode = absoluteCode;
   fGenerateNumericalTime = generateNumericalTime;
   
   // create the implicit lpsrSequence element
-  fPartLpsrSequence = lpsrSequence::create (lpsrSequence::kSpace);
+  fVoiceLpsrSequence = lpsrSequence::create (lpsrSequence::kSpace);
   
   // add the implicit lpsrRepeat element
-// JMI  fPartLpsrRepeat = lpsrRepeat::create ();
-//  fPartLpsrSequence->appendElementToSequence (fPartLpsrRepeat);
+// JMI  fVoiceLpsrRepeat = lpsrRepeat::create ();
+//  fVoiceLpsrSequence->appendElementToSequence (fVoiceLpsrRepeat);
   
   // add the implicit 4/4 time signature
   S_lpsrTime time = lpsrTime::create (4, 4, fGenerateNumericalTime);
   S_lpsrElement t = time;
-  fPartLpsrSequence->appendElementToSequence (t);
+  fVoiceLpsrSequence->appendElementToSequence (t);
 
+}
+lpsrVoice::~lpsrVoice() {}
+
+void lpsrVoice::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrVoice??? -->" << std::endl;
+}
+
+void lpsrVoice::printLpsrStructure(ostream& os)
+{
+  os << "Voice" << " " << fVoiceName << std::endl;
+
+  idtr++;
+  os << idtr << fVoiceLpsrSequence;
+  idtr--;
+}
+
+void lpsrVoice::printLilyPondCode(ostream& os)
+{
+  os << fVoiceName << " = ";
+  if (! fVoiceAbsoluteCode) os << "\\relative ";
+  os << "{" << std::endl;
+
+  idtr++;
+  os << fVoiceLpsrSequence << std::endl;
+  idtr--;
+
+  os << idtr << "}" << std::endl;
+}
+
+//______________________________________________________________________________
+S_lpsrPart lpsrPart::create(
+  std::string name,
+  bool absoluteCode,
+  bool generateNumericalTime)
+{
+  lpsrPart* o =
+    new lpsrPart(name, absoluteCode, generateNumericalTime);
+  assert(o!=0);
+  return o;
+}
+
+lpsrPart::lpsrPart(
+  std::string name,
+  bool absoluteCode,
+  bool generateNumericalTime)
+    : lpsrElement("")
+{
+  fPartName = name;
+  fPartAbsoluteCode = absoluteCode;
+  fGenerateNumericalTime = generateNumericalTime;
 }
 lpsrPart::~lpsrPart() {}
 
@@ -1850,20 +1906,18 @@ void lpsrPart::printLpsrStructure(ostream& os)
   os << "Part" << " " << fPartName << std::endl;
 
   idtr++;
-  os << idtr << fPartLpsrSequence;
+// JMI  os << idtr << fPartLpsrSequence;
   idtr--;
 }
 
 void lpsrPart::printLilyPondCode(ostream& os)
 {
-  os << idtr << fPartName << " = ";
+  os << fPartName << " = ";
   if (! fPartAbsoluteCode) os << "\\relative ";
   os << "{" << std::endl;
 
   idtr++;
-
-  os << fPartLpsrSequence << std::endl;
-
+// JMI  os << fPartLpsrSequence << std::endl;
   idtr--;
 
   os << idtr << "}" << std::endl;
@@ -2046,11 +2100,11 @@ void lpsrHeader::setMovementTitle (std::string val)
 S_lpsrLilypondVarValAssoc lpsrHeader::getMovementTitle () const
   { return fMovementTitle; }
 
-void lpsrHeader::addCreator (std::string val)
+void lpsrHeader::addCreator (std::string type, std::string val)
 {
   fCreators.push_back(
     lpsrLilypondVarValAssoc::create (
-      "creator", val,
+      type, val,
       lpsrLilypondVarValAssoc::kEqualSign,
       lpsrLilypondVarValAssoc::kQuotesAroundValue,
       lpsrLilypondVarValAssoc::kUncommented)
@@ -2183,6 +2237,9 @@ void lpsrHeader::printLilyPondCode(ostream& os)
     os << idtr << 
       "%" << fWorkTitle->getVariableName() << " = \""  << 
       dest << "\"" << std::endl;
+    os << idtr << 
+      "title" << " = \""  << 
+      dest << "\"" << std::endl;
   }
     
   if (fMovementNumber) {
@@ -2201,12 +2258,19 @@ void lpsrHeader::printLilyPondCode(ostream& os)
     os << idtr << 
       "%" << fMovementTitle->getVariableName() << " = \""  << 
       dest << "\"" << std::endl;
+    os << idtr << 
+      "subtitle" << " = \""  << 
+      dest << "\"" << std::endl;
   }
     
   if (!fCreators.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i1;
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
       os << idtr << (*i1);
+      if ((*i1)->getVariableName() == "composer")
+      os << idtr << 
+        "composer" << " = \""  << 
+        (*i1)->getVariableValue() << "\"" << std::endl;
     } // for
   }
     
@@ -2241,6 +2305,9 @@ void lpsrHeader::printLilyPondCode(ostream& os)
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
     os << idtr << 
       "%" << fScoreInstrument->getVariableName() << " = \""  << 
+      dest << "\"" << std::endl;
+    os << idtr << 
+      "instrument" << " = \""  << 
       dest << "\"" << std::endl;
   }
   

@@ -45,7 +45,7 @@ int xmlPartSummaryVisitor::getTotalVoicesNumber () const
   { return fVoicesNotesCount.size(); }
 
 //________________________________________________________________________
-smartlist<int>::ptr xmlPartSummaryVisitor::getStaves() const
+smartlist<int>::ptr xmlPartSummaryVisitor::getAllStaves() const
 {
   smartlist<int>::ptr sl = smartlist<int>::create();
   for (
@@ -59,7 +59,7 @@ smartlist<int>::ptr xmlPartSummaryVisitor::getStaves() const
 }
 
 //________________________________________________________________________
-smartlist<int>::ptr xmlPartSummaryVisitor::getStaves (int voice) const
+smartlist<int>::ptr xmlPartSummaryVisitor::getVoiceStaves (int voice) const
 {
   smartlist<int>::ptr sl = smartlist<int>::create();
   for (
@@ -98,7 +98,7 @@ smartlist<int>::ptr xmlPartSummaryVisitor::getVoicesIDsList () const
 }
 
 //________________________________________________________________________
-smartlist<int>::ptr xmlPartSummaryVisitor::getVoices (int staff) const
+smartlist<int>::ptr xmlPartSummaryVisitor::getStaffVoices (int staff) const
 {
   smartlist<int>::ptr sl = smartlist<int>::create();
   
@@ -149,14 +149,15 @@ int xmlPartSummaryVisitor::getStaffNotesNumber (int staffID) const
 //________________________________________________________________________
 int xmlPartSummaryVisitor::getVoiceMainStaffID (int voiceID) const
 {
-  smartlist<int>::ptr staves   = getStaves (voiceID);
+  smartlist<int>::ptr voiceStaves = getVoiceStaves (voiceID);
+  
   int                 staffID  = 0;
   int                 maxNotes = 0;
   
   for (
       vector<int>::const_iterator i =
-        staves->begin();
-      i != staves->end();
+        voiceStaves->begin();
+      i != voiceStaves->end();
       i++) {
     int n = getStaffVoiceNotesNumber ((*i), voiceID);
     
@@ -213,24 +214,8 @@ int xmlPartSummaryVisitor::getStaffVoiceNotesNumber (
 }
 
 //________________________________________________________________________
-void xmlPartSummaryVisitor::visitStart ( S_divisions& elt ) 
-{
-  fCurrentDivisions = (int)(*elt);
-  if (fTranslationSettings->fTrace) {
-    if (fCurrentDivisions == 1)
-      cerr << "There is 1 division per quater note" << std::endl;
-    else
-      cerr <<
-        "There are " << fCurrentDivisions << 
-        " divisions per quater note" << std::endl;
-  }
-}
-
-//________________________________________________________________________
 void xmlPartSummaryVisitor::visitStart ( S_part& elt)
 {
-  fCurrentDivisions = 0;
-  
   fStavesNumber = 1; // default if there are no <staves> element
   
   fStavesNotesCount.clear();
@@ -239,15 +224,7 @@ void xmlPartSummaryVisitor::visitStart ( S_part& elt)
 
   fCurrentVoice = 0;
   fCurrentStaff = 0;
-  
-//JMI  fCurrentDuration = -8;
-  fCurrentStepIsARest = false;
- // JMI fCurrentLpsrDuration = lpsrDuration::create(0, 0, 0);
-  
-  fLastLyric = 0;
-  fLastSyllabic = 0;
-  fOnGoingLyrics = false;
-}
+    }
 
 //________________________________________________________________________
 void xmlPartSummaryVisitor::visitStart ( S_staves& elt)
@@ -285,132 +262,6 @@ void xmlPartSummaryVisitor::visitEnd ( S_note& elt)
     "  fVoicesNotesCount[fCurrentVoice] = " << fVoicesNotesCount[fCurrentVoice] << std::endl <<
     "  fStaffVoicesAndNotesNumber[fCurrentStaff][fCurrentVoice] = " <<
     fStaffVoicesAndNotesNumber [fCurrentStaff][fCurrentVoice] << endl;
-
-}
-
-void xmlPartSummaryVisitor::visitStart ( S_rest& elt)
-{
-  //  cout << "--> xmlpart2lpsrvisitor::visitStart ( S_rest& elt ) " << std::endl;
-  fCurrentStepIsARest = true;
-}
-
-void xmlPartSummaryVisitor::visitStart ( S_duration& elt )
-{
-  int duration=(int)(*elt);
-//  cout << "=== xmlPartSummaryVisitor::visitStart ( S_duration& elt ), duration = " << duration << std::endl;
-/* JMI
-  if (fTranslationSettings->fDebug)
-    std::cerr << "duration = " << duration << ", " << 
-    "fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
-  if (fCurrentDivisions*4 == 0)
-    {
-    std::cerr << 
-      std::endl << 
-      "%--> xmlpart2lpsrvisitor::visitEnd, duration = " << duration <<
-      ", fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
-    //return;
-  }
-
-  S_lpsrDuration noteDuration =
-    lpsrDuration::create(duration, fCurrentDivisions*4, fCurrentDotsNumber);
- */
-}
-
-//________________________________________________________________________
-void xmlPartSummaryVisitor::visitStart ( S_lyric& elt ) { 
-  fLastLyric = elt;
-  fOnGoingLyrics = true;
-}
-
-void xmlPartSummaryVisitor::visitEnd ( S_lyric& elt ) { 
-  fOnGoingLyrics = false;
-}
-
-void xmlPartSummaryVisitor::visitStart ( S_syllabic& elt ) {
-  fLastSyllabic = elt;
-/* JMI
-  std::string syllabicValue = fLastSyllabic->getValue();
-
-  if (syllabicValue == "begin") {
-    fOnGoingLyrics = true;
-  }
-  else if (syllabicValue == "end") {
-    fOnGoingLyrics = true;
-  }
-  */
-}
-
-void xmlPartSummaryVisitor::visitEnd ( S_text& elt ) 
-{
-  /*
-        <lyric number="1">
-          <syllabic>single</syllabic>
-          <text>1. Sing</text>
-          </lyric>
-  */
-
-  string      text = elt->getValue();
-
-  cout << "--> text = |" << text << "|" << std::endl;
-  
-  std::size_t spacefound=text.find(" ");
-  
-  if (spacefound!=std::string::npos) text = "\""+text+"\"";
-  
-  std::string lastLyricNumber   = fLastLyric->getAttributeValue ("number");
-  std::string lastSyllabicValue = fLastSyllabic->getValue();
-  
-  /*
-  cout <<
-    "--> lastLyricNumber = " << lastLyricNumber <<
-    ", lastSyllabicValue = " << lastSyllabicValue <<
-    ", text = " << text << endl <<
-    flush;
-  */
-      
-  // create fStanzas [lastLyricNumber] on first visit
-
-
-
-  std::string fLyricsName = "foo";
-  std::string fVoiceName = "faa";
-  
-  if (! fCurrentLyricsStanza) {
-    // create lyrics on first visit
-    fCurrentLyrics =
-      lpsrLyrics::create ("myLyrics", "myVoice");
-      
-    // create stanza on first visit
-    fCurrentLyricsStanza =
-      lpsrStanza::create (fLyricsName, fVoiceName);
- //   fStanzas[lastLyricNumber] = std::list<std::list<std::string> >();
-  }
-    
-  // create stanza chunk
-  S_lpsrStanzaChunk
-    chunk =
-      lpsrStanzaChunk::create (lpsrStanzaChunk::kWordChunk, text);
-
-  if (lastSyllabicValue == "single" || lastSyllabicValue == "begin") {
-    // add stanza chunk to current lyrics
-    fCurrentLyricsStanza -> addChunkToStanza (chunk);
-          
- //   fStanzas[lastLyricNumber].push_back(std::list<std::string>());
- //   fStanzas[lastLyricNumber].back().push_back(text);
-  }
-  else if (lastSyllabicValue == "middle" || lastSyllabicValue == "end") {
-    // add chunk to current stanza
-    fCurrentLyricsStanza -> addChunkToStanza (chunk);
- //   fStanzas[lastLyricNumber].back().push_back(text);
-  }
-  else {
-    stringstream s;
-    std::string  result;
-  
-    s << "--> text value " << text << " unknown";
-    s >> result;
-    lpsrMusicXMLError(result);
-  }
 }
 
 

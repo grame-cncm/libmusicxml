@@ -266,37 +266,45 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     std::string
       voiceName =
         partName + "Voice" + int2EnglishWord (targetVoice);
-        
-    // create the lpsrPart
+      
+    // create the part
     S_lpsrPart
       part =
         lpsrPart::create (
-          partName,
+          voiceName,
           fTranslationSettings->fGenerateAbsoluteCode,
           fTranslationSettings->fGenerateNumericalTime);
       
     // register it in this visitors's part map
     fLpsrPartsMap[partID] = part;
     
+    // create the voice
+    S_lpsrVoice
+      voice =
+        lpsrVoice::create (
+          voiceName,
+          fTranslationSettings->fGenerateAbsoluteCode,
+          fTranslationSettings->fGenerateNumericalTime);
+
     // append it to the lpsrElement sequence
-    S_lpsrElement p = part;
-    appendElementToSequence (p);
+    S_lpsrElement v = voice;
+    appendElementToSequence (v);
     
     // browse the part contents once more with an xmlPart2LpsrVisitor
     xmlPart2LpsrVisitor
       xp2lv (
-        fTranslationSettings, part,
-        part, targetStaff, fCurrentStaffIndex,
-        targetVoice, notesOnly, currentTimeSign);
+        fTranslationSettings,
+        part,
+        voice,
+        targetStaff,
+        fCurrentStaffIndex,
+        targetVoice,
+        notesOnly,
+        currentTimeSign);
     xml_tree_browser browser (&xp2lv);
     browser.browse (*elt);
 
     // JMI currentTimeSign = xp2lv.getTimeSign();
-
-    // create a voice
-    S_lpsrVoice
-      voice =
-        lpsrVoice::create (voiceName);
 
     // add the voice to the part
     part->addVoiceToPart (voice);
@@ -305,9 +313,6 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     if (fTranslationSettings->fTrace)
       cerr << "Extracting part \"" << partID << "\" lyrics information" << endl;
 
-    S_lpsrLyrics
-      lyrics =
-        xpsv.getCurrentLyrics ();
 /*
     std::map<std::string, xmlPartSummaryVisitor::stanzaContents> 
       stanzas = xpsv.getStanzas();
@@ -337,13 +342,11 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
 
         result+=" ";
       } // for
- */
+
       // create the lyrics
-      /*
       S_lpsrLyrics
         lyrics =
           lpsrLyrics::create(lyricsName, result);
-      */
       
       // append lyrics to the sequence
       S_lpsrElement elem = lyrics;  
@@ -354,6 +357,7 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
         "--> adding lyrics " << lyrics->getLyricsName() <<
         " to voice " << voiceName << std::endl;
       voice->addLyricsToVoice (lyrics);
+ */
     } // for
 
 //  xpsv.clearStanzas(); // for next voice
@@ -433,7 +437,8 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
 
     // get the part voices
     std::vector<S_lpsrVoice>
-                 partVoices   = part->getPartVoices ();
+      partVoices =
+        part->getPartVoices ();
  
     // add the voices lyrics to the staff
     cout <<
@@ -498,28 +503,31 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
 
 //______________________________________________________________________________
 void xml2LpsrVisitor::visitStart ( S_work_number& elt )
-  { fLpsrHeader->setWorkNumber(elt->getValue()); }
+  { fLpsrHeader->setWorkNumber (elt->getValue()); }
 
 void xml2LpsrVisitor::visitStart ( S_work_title& elt )
-  { fLpsrHeader->setWorkTitle(elt->getValue()); }
+  { fLpsrHeader->setWorkTitle (elt->getValue()); }
   
 void xml2LpsrVisitor::visitStart ( S_movement_number& elt )
-  { fLpsrHeader->setMovementNumber(elt->getValue()); }
+  { fLpsrHeader->setMovementNumber (elt->getValue()); }
 
 void xml2LpsrVisitor::visitStart ( S_movement_title& elt )
-  { fLpsrHeader->setMovementTitle(elt->getValue()); }
+  { fLpsrHeader->setMovementTitle (elt->getValue()); }
 
 void xml2LpsrVisitor::visitStart ( S_creator& elt )
-  { fLpsrHeader->addCreator(elt->getValue()); }
+{
+  std::string type = elt->getAttributeValue ("type");
+  fLpsrHeader->addCreator (type, elt->getValue());
+}
 
 void xml2LpsrVisitor::visitStart ( S_rights& elt )
-  { fLpsrHeader->setRights(elt->getValue()); }
+  { fLpsrHeader->setRights (elt->getValue()); }
 
 void xml2LpsrVisitor::visitStart ( S_software& elt )
-  { fLpsrHeader->addSoftware(elt->getValue()); }
+  { fLpsrHeader->addSoftware (elt->getValue()); }
 
 void xml2LpsrVisitor::visitStart ( S_encoding_date& elt )
-  { fLpsrHeader->setEncodingDate(elt->getValue()); }
+  { fLpsrHeader->setEncodingDate (elt->getValue()); }
 
 //______________________________________________________________________________
 void xml2LpsrVisitor::visitStart ( S_millimeters& elt )
@@ -650,18 +658,13 @@ void xml2LpsrVisitor::addPosition (
   }
 }
 
+
 }
 
 
 /*
-  movement-title
    instrument
-   
-  score-part
-score-partwise
-
-senza-misura 
-  
+     
   staccato
   * 
   * 
@@ -679,15 +682,10 @@ fermata
 
 grace
 * 
-* metronome
-per-minute
 * 
 * octave
 octave-shift
 * 
-part
-part
-part-name
 
 sign
 * 

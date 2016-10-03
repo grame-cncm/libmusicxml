@@ -59,6 +59,10 @@ class EXP xmlPart2LpsrVisitor :
   
   public visitor<S_rest>,
 
+  public visitor<S_lyric>,
+  public visitor<S_syllabic>,
+  public visitor<S_text>,
+
   public visitor<S_beam>,
 
   public visitor<S_chord>,
@@ -124,19 +128,19 @@ class EXP xmlPart2LpsrVisitor :
   
     enum type { kUndefinedType, kPitched, kUnpitched, kRest };
 
-    xmlPart2LpsrVisitor(
+    xmlPart2LpsrVisitor (
       S_translationSettings& ts,
-      S_lpsrPart part,
-      S_lpsrElement seq, 
-      int staff,
-      int lpsrstaff,
-      int voice, 
-      bool notesonly,
-      rational defaultTimeSign);
+      S_lpsrPart             part,
+      S_lpsrVoice            voice, 
+      int                    targetStaff,
+      int                    currentStaffID,
+      int                    targetVoiceID,  // JMI
+      bool                   notesonly,
+      rational               defaultTimeSign);
 
-    virtual ~xmlPart2LpsrVisitor() {}
+     virtual ~xmlPart2LpsrVisitor() {}
 
-    S_lpsrPart&     getLilypondpart () { return fLpsrpart; };
+    S_lpsrPart&    getLpsrPart () { return fLpsrPart; };
     
     void           addElementToPartSequence (S_lpsrElement& elt);
     S_lpsrElement  getLastElementOfPartSequence ();
@@ -169,6 +173,11 @@ class EXP xmlPart2LpsrVisitor :
     virtual void visitEnd   ( S_note& elt);
 
     virtual void visitStart ( S_rest& elt);
+
+    virtual void visitStart ( S_lyric& elt);
+    virtual void visitEnd   ( S_lyric& elt);
+    virtual void visitStart ( S_syllabic& elt);
+    virtual void visitEnd   ( S_text& elt );
 
     virtual void visitStart ( S_beam& elt);
 
@@ -281,14 +290,30 @@ class EXP xmlPart2LpsrVisitor :
     std::string             fSymbol;
     bool                    fSenzaMisura;
 
-    // the part containing the generated code for the part
-    S_lpsrPart               fLpsrpart; 
+    // the part containing the LPSR data
+    S_lpsrPart              fLpsrPart; // JMI
+
+    // the voice containing the LPSR data
+    S_lpsrVoice             fLpsrVoice;
 
     // description of the current LPSR note
-    S_lpsrNote               fCurrentNote;
+    S_lpsrNote              fCurrentNote;
     
 
-    S_lpsrBeam               fCurrentBeam;
+    // the last lyric number, i.e. stanza number
+    S_lyric                 fLastLyric;
+    // the last sysllabic spec met (single, begin, middle or end)
+    S_syllabic              fLastSyllabic;
+
+    // the current lyrics and stanza
+    S_lpsrLyrics            fCurrentLyrics;
+    S_lpsrStanza            fCurrentLyricsStanza;
+    
+    // allow for the creation of skips in lyrics
+    bool                    fOnGoingLyrics;
+
+
+    S_lpsrBeam              fCurrentBeam;
 
 
     // description of current tuplet
@@ -367,5 +392,8 @@ class EXP xmlPart2LpsrVisitor :
 
 } // namespace MusicXML2
 
+
+// JMI    S_lpsrLyrics getCurrentLyrics () const { return fCurrentLyrics; }
+                                          
 
 #endif

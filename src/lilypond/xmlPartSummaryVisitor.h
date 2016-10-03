@@ -49,11 +49,7 @@ class EXP xmlPartSummaryVisitor :
   
   public visitor<S_note>,
   public visitor<S_rest>,
-  public visitor<S_duration>,
-
-  public visitor<S_lyric>,
-  public visitor<S_syllabic>,
-  public visitor<S_text>
+  public visitor<S_duration>
 {
   public:
   
@@ -69,20 +65,17 @@ class EXP xmlPartSummaryVisitor :
     // returns the number of voices on a staff 
     int staffVoicesNumber (int staff) const;
 
-    // returns the staff ids list
-    smartlist<int>::ptr getStaves() const;
+    // returns all the staff ids list
+    smartlist<int>::ptr getAllStaves() const;
     
     // returns the staff ids list for one voice
-    smartlist<int>::ptr getStaves (int voice) const;
+    smartlist<int>::ptr getVoiceStaves (int voice) const;
     
     // returns the count of notes on a staff
     int getStaffNotesNumber (int staffID) const;
 
-    // returns the voices ids list
-    smartlist<int>::ptr getVoicesIDsList () const;
-    
     // returns the voices ids list for one staff
-    smartlist<int>::ptr getVoices (int staff) const;
+    smartlist<int>::ptr getStaffVoices (int staff) const;
     
     // returns the id of the staff that contains the more of the voice notes
     int getVoiceMainStaffID (int voiceID) const;
@@ -93,12 +86,11 @@ class EXP xmlPartSummaryVisitor :
     // returns the number of notes on a voice and a staff
     int getStaffVoiceNotesNumber (int staffID, int voiceID) const;
 
-    S_lpsrLyrics getCurrentLyrics () const { return fCurrentLyrics; }
-                                          
+    // returns the voices ids list
+    smartlist<int>::ptr getVoicesIDsList () const;
+    
   protected:
   
-    virtual void visitStart ( S_divisions& elt);
-
     virtual void visitStart ( S_part& elt);
     
     virtual void visitStart ( S_staves& elt);
@@ -107,21 +99,11 @@ class EXP xmlPartSummaryVisitor :
     virtual void visitStart ( S_voice& elt );
     
     virtual void visitEnd   ( S_note& elt);
-    virtual void visitStart ( S_rest& elt);
-    virtual void visitStart ( S_duration& elt);
 
-    virtual void visitStart ( S_lyric& elt);
-    virtual void visitEnd   ( S_lyric& elt);
-    virtual void visitStart ( S_syllabic& elt);
-    virtual void visitEnd   ( S_text& elt );
-    
   private:
   
     S_translationSettings fTranslationSettings;
 
-    // quarter note divisions
-    int                   fCurrentDivisions;
-    
     // number of staves (from the staves element)
     int                   fStavesNumber; // JMI UNUSED
     
@@ -143,23 +125,8 @@ class EXP xmlPartSummaryVisitor :
     int                   fCurrentStaff;
 
     // the current voice
-    int                   fCurrentVoice;
-
-    bool                  fCurrentStepIsARest;
- // JMI   S_lpsrDuration       fCurrentLpsrDuration;
-    
-    // the last lyric number, i.e. stanza number
-    S_lyric               fLastLyric;
-    // the last sysllabic spec met (single, begin, middle or end)
-    S_syllabic            fLastSyllabic;
-
-    // the current lyrics and stanza
-    S_lpsrLyrics          fCurrentLyrics;
-    S_lpsrStanza          fCurrentLyricsStanza;
-    
-    // allow for the creation of skips in lyrics
-    bool                  fOnGoingLyrics;
-    };
+    int                   fCurrentVoice;    
+};
 
 /*! @} */
 
