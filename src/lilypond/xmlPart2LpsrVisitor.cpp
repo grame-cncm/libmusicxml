@@ -64,7 +64,6 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   fCurrentDivisions = -1;
 
   fAChordIsBeingBuilt = false;
-
   
   fATupletIsBeingBuilt = false;
   fCurrentTupletNumber = -1;
@@ -76,7 +75,27 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
 }
 
 //______________________________________________________________________________
-// time management
+void xmlPart2LpsrVisitor::addElementToPartSequence (S_lpsrElement& elt) {
+//  bool doDebug = fTranslationSettings->fDebug;
+  bool doDebug = false;
+
+  if (doDebug) cout << "!!! addElementToPartSequence : " << elt << std::endl;
+  fLpsrVoice->getVoiceLpsrSequence()->appendElementToSequence (elt);
+}
+
+S_lpsrElement xmlPart2LpsrVisitor::getLastElementOfPartSequence() {
+  return
+    fLpsrVoice->getVoiceLpsrSequence()->getLastElementOfSequence ();
+}
+
+void xmlPart2LpsrVisitor::removeLastElementOfPartSequence () {
+//  bool doDebug = fTranslationSettings->fDebug;
+  bool doDebug = false;
+
+  if (doDebug) cout << "!!! removeLastElementOfPartSequence" << std::endl;
+  fLpsrVoice->getVoiceLpsrSequence()->removeLastElementOfSequence ();
+}
+
 //______________________________________________________________________________
 void xmlPart2LpsrVisitor::visitStart ( S_divisions& elt ) 
 {
@@ -104,6 +123,7 @@ void xmlPart2LpsrVisitor::resetCurrentTime ()
   fSymbol = "";
 }
 
+//______________________________________________________________________________
 void xmlPart2LpsrVisitor::visitStart ( S_time& elt ) {
   resetCurrentTime();
   fStaffNumber = elt->getAttributeIntValue("number", kNoStaffNumber);
@@ -133,7 +153,7 @@ rational xmlPart2LpsrVisitor::timeSignatureFromIndex(int index)
   return r;
 }
 */
-//______________________________________________________________________________
+
 void xmlPart2LpsrVisitor::visitEnd ( S_time& elt ) 
 {
   S_lpsrTime time = lpsrTime::create(
@@ -148,27 +168,12 @@ void xmlPart2LpsrVisitor::visitStart ( S_part& elt )
   fMeasureNumber = 0;
 }
 
-//______________________________________________________________________________
-void xmlPart2LpsrVisitor::addElementToPartSequence (S_lpsrElement& elt) {
-//  bool doDebug = fTranslationSettings->fDebug;
-  bool doDebug = false;
+void xmlPart2LpsrVisitor::visitStart ( S_score_part& elt )
+  { fCurrentPartID = elt->getAttributeValue("id"); }
 
-  if (doDebug) cout << "!!! addElementToPartSequence : " << elt << std::endl;
-  fLpsrVoice->getVoiceLpsrSequence()->appendElementToSequence (elt);
-}
+void xmlPart2LpsrVisitor::visitStart ( S_part_name& elt )
+  { fCurrentPartName = elt->getValue(); }
 
-S_lpsrElement xmlPart2LpsrVisitor::getLastElementOfPartSequence() {
-  return
-    fLpsrVoice->getVoiceLpsrSequence()->getLastElementOfSequence ();
-}
-
-void xmlPart2LpsrVisitor::removeLastElementOfPartSequence () {
-//  bool doDebug = fTranslationSettings->fDebug;
-  bool doDebug = false;
-
-  if (doDebug) cout << "!!! removeLastElementOfPartSequence" << std::endl;
-  fLpsrVoice->getVoiceLpsrSequence()->removeLastElementOfSequence ();
-}
 
 //________________________________________________________________________
 // some code for the delayed elements management

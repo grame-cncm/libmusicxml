@@ -989,16 +989,17 @@ class EXP lpsrPart : public lpsrElement {
 
     static SMARTP<lpsrPart> create (
         std::string name,
-        bool absoluteCode,
-        bool generateNumericalTime);
+        std::string partInstrumentName,
+        bool        absoluteCode,
+        bool        generateNumericalTime);
     
     void          addVoiceToPart (S_lpsrVoice voice)
                       { fPartVoices.push_back (voice); }
     std::vector<S_lpsrVoice>
                   getPartVoices ()              { return fPartVoices; }
 
-    std::string    getPartName () const         { return fPartName; }
-    bool           getAbsoluteCode () const     { return fPartAbsoluteCode; }
+    std::string   getPartName () const         { return fPartName; }
+    bool          getAbsoluteCode () const     { return fPartAbsoluteCode; }
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1008,13 +1009,15 @@ class EXP lpsrPart : public lpsrElement {
 
     lpsrPart (
         std::string name,
-        bool absoluteCode,
-        bool generateNumericalTime);
+        std::string partInstrumentName,
+        bool        absoluteCode,
+        bool        generateNumericalTim);
     virtual ~lpsrPart();
   
   private:
 
     std::string        fPartName;
+    std::string        fPartInstrumentName;
     bool               fPartAbsoluteCode;
     bool               fGenerateNumericalTime;
 

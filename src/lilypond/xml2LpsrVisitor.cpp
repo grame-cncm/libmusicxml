@@ -270,7 +270,8 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     S_lpsrPart
       part =
         lpsrPart::create (
-          voiceName,
+          partName,
+          fCurrentInstrumentName,
           fTranslationSettings->fGenerateAbsoluteCode,
           fTranslationSettings->fGenerateNumericalTime);
       

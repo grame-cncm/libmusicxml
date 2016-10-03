@@ -44,6 +44,8 @@ class EXP xmlPart2LpsrVisitor :
   public visitor<S_divisions>,
 
   public visitor<S_part>,
+  public visitor<S_score_part>,
+  public visitor<S_part_name>,
 
   public visitor<S_barline>,
 
@@ -150,7 +152,11 @@ class EXP xmlPart2LpsrVisitor :
   
     enum { kStemUndefined, kStemUp, kStemDown, kStemNone };
 
-    virtual void visitStart ( S_backup& elt);
+    virtual void visitStart ( S_part& elt);
+    virtual void visitStart ( S_score_part& elt);
+    virtual void visitStart ( S_part_name& elt);
+
+   virtual void visitStart ( S_backup& elt);
     virtual void visitStart ( S_barline& elt);
     virtual void visitStart ( S_print& elt);
     virtual void visitStart ( S_coda& elt);
@@ -211,7 +217,6 @@ class EXP xmlPart2LpsrVisitor :
     virtual void visitStart ( S_per_minute& elt );
 
     virtual void visitStart ( S_octave_shift& elt);
-    virtual void visitStart ( S_part& elt);
     virtual void visitStart ( S_segno& elt);
 
     virtual void visitStart ( S_trill_mark& elt);
@@ -257,6 +262,9 @@ class EXP xmlPart2LpsrVisitor :
 
     void resetCurrentTime();
 
+    // the current part
+    std::string             fCurrentPartID;
+    std::string             fCurrentPartName;
     int                     fCurrentDivisions;
     
     // description of the current MusicXML note

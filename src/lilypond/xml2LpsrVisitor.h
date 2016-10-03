@@ -172,7 +172,8 @@ class EXP xml2LpsrVisitor :
     
     // the score block to be generated
     S_lpsrScore      fLpsrScore;
-    
+
+    // the current part
     std::string      fCurrentPartID;
     std::string      fCurrentPartName;
     

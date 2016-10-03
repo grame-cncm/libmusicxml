@@ -1873,24 +1873,31 @@ void lpsrVoice::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrPart lpsrPart::create(
+S_lpsrPart lpsrPart::create (
   std::string name,
-  bool absoluteCode,
-  bool generateNumericalTime)
+  std::string partInstrumentName,
+  bool        absoluteCode,
+  bool        generateNumericalTime)
 {
   lpsrPart* o =
-    new lpsrPart(name, absoluteCode, generateNumericalTime);
+    new lpsrPart(
+      name,
+      partInstrumentName,
+      absoluteCode,
+      generateNumericalTime);
   assert(o!=0);
   return o;
 }
 
-lpsrPart::lpsrPart(
+lpsrPart::lpsrPart (
   std::string name,
-  bool absoluteCode,
-  bool generateNumericalTime)
+  std::string partInstrumentName,
+  bool        absoluteCode,
+  bool        generateNumericalTime)
     : lpsrElement("")
 {
   fPartName = name;
+  fPartInstrumentName = partInstrumentName;
   fPartAbsoluteCode = absoluteCode;
   fGenerateNumericalTime = generateNumericalTime;
 }
@@ -1903,7 +1910,9 @@ void lpsrPart::printMusicXML(ostream& os)
 
 void lpsrPart::printLpsrStructure(ostream& os)
 {
-  os << "Part" << " " << fPartName << std::endl;
+  os <<
+    "Part" << " " << fPartName << " " <<
+    fPartInstrumentName << std::endl;
 
   idtr++;
 // JMI  os << idtr << fPartLpsrSequence;
@@ -1912,7 +1921,9 @@ void lpsrPart::printLpsrStructure(ostream& os)
 
 void lpsrPart::printLilyPondCode(ostream& os)
 {
-  os << fPartName << " = ";
+  os <<
+    "Part" << " " << fPartName << " " <<
+    fPartInstrumentName << std::endl;
   if (! fPartAbsoluteCode) os << "\\relative ";
   os << "{" << std::endl;
 
