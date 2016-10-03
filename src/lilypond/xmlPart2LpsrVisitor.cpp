@@ -34,6 +34,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   S_translationSettings& ts,
+  S_lpsrScore            score,
   S_lpsrSequence         implicitSequence,
   S_lpsrPart             part,
   S_lpsrVoice            voice,
@@ -44,6 +45,8 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   rational               defaultTimeSign) 
 {
   fTranslationSettings = ts;
+
+  fScore = score;
 
   fImplicitSequence = implicitSequence;
   
@@ -1183,17 +1186,12 @@ void xmlPart2LpsrVisitor::visitStart ( S_syllabic& elt ) {
 void xmlPart2LpsrVisitor::visitEnd ( S_text& elt ) 
 {
   fCurrentText = elt->getValue();
-//  cout << "--> fCurrentText = |" << fCurrentText << "|" << endl;
-
-/*  
-  size_t spacefound=text.find(" ");
-  if (spacefound!=string::npos) text = "\""+text+"\"";
- */ 
-  
+/*
   cout <<
     "--> fCurrentLyricNumber = " << fCurrentLyricNumber <<
     ", fCurrentSyllabic = " << fCurrentSyllabic <<
     ", fCurrentText = |" << fCurrentText << "|" << endl;
+*/
 }
 
 void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) { 
@@ -1234,12 +1232,36 @@ void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) {
     // add stanza to current lyrics
     fCurrentLyrics->addStanzaToLyrics(
       fCurrentLyricNumber, fCurrentLyricsStanza);
+
+    // create the new lyrics command
+    cout <<
+      "--> create a new lyrics command, " <<
+      lyricsName << ", " << voiceName << endl;
+    S_lpsrNewlyricsCommand
+      lyricsUse =
+        lpsrNewlyricsCommand::create (
+          lyricsName, voiceName);
+
+    // get score parallel music
+    S_lpsrParallelMusic
+      scoreParallelMusic =
+        fScore->getScoreParallelMusic();
+  
+    // add the lyrics use to the score parallel music
+    cout <<
+      "--> add the lyrics to the score parallel music, " <<
+      lyricsName << endl;
+    scoreParallelMusic->addElementToParallelMusic (lyricsUse);
+
+ // JMI   newStaffCommand->addElementToNewStaff (lyricsUse);
   }
     
   // create stanza chunk
+  /*
   cout <<
       "--> creating stanza word chunk  containing " <<
       fCurrentText << endl;
+  */
   S_lpsrStanzaChunk
     chunk =
       lpsrStanzaChunk::create (
@@ -1248,14 +1270,10 @@ void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) {
   if (fCurrentSyllabic == "single" || fCurrentSyllabic == "begin") {
     // add stanza chunk to current lyrics
     fCurrentLyricsStanza -> addChunkToStanza (chunk);
-          
-    //   fStanzas[lastLyricNumber].push_back(list<string>());
-    //   fStanzas[lastLyricNumber].back().push_back(text);
-  }
+   }
   else if (fCurrentSyllabic == "middle" || fCurrentSyllabic == "end") {
     // add chunk to current stanza
     fCurrentLyricsStanza -> addChunkToStanza (chunk);
-    //   fStanzas[lastLyricNumber].back().push_back(text);
   }
   else {
     stringstream s;

@@ -296,6 +296,7 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     xmlPart2LpsrVisitor
       xp2lv (
         fTranslationSettings,
+        fLpsrScore,
         fImplicitSequence,
         part,
         voice,
@@ -344,13 +345,6 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     layout->addLpsrSchemeVarValAssoc (staffSize);  
   }
 
-  // get score parallel music
-  S_lpsrParallelMusic
-    parallel =
-      fLpsrScore->getScoreParallelMusic();
-  
-  // add the parts and lyrics to the score parallel music
-
   if (fTranslationSettings->fTrace) {
     int size = fLpsrPartsMap.size();
 
@@ -360,6 +354,7 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
       cerr << "There is 1 part" << endl;
   }
 
+  // add the voices and lyrics to the score parallel music
   lpsrPartsmap::const_iterator i;
   for (i = fLpsrPartsMap.begin(); i != fLpsrPartsMap.end(); i++) {
     
@@ -412,29 +407,13 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
   
       // add the voice to the staff
       newStaffCommand->addElementToNewStaff (voiceContext);
-  
-      cout <<
-        "--> add the lyrics to the staff, " << voiceName << endl;
-      vector<S_lpsrLyrics>::const_iterator i;
-      for (i = voiceLyrics.begin(); i != voiceLyrics.end(); i++) {
-        S_lpsrLyrics lyrics = (*i);
-            
-        // create the lyrics command
-        S_lpsrNewlyricsCommand
-          lyricsUse =
-            lpsrNewlyricsCommand::create (
-              "lyricsName???", voiceName);
-              
-        // add the lyrics use to the  staff
-        newStaffCommand->addElementToNewStaff (lyricsUse);
-      } // for
     } // for
     
-    // add the staff to the score parallel music
+    // add the new staff to the score parallel music
     S_lpsrParallelMusic
-      parallelMusic =
+      scoreParallelMusic =
         fLpsrScore->getScoreParallelMusic ();
-    parallelMusic->addElementToParallelMusic (newStaffCommand);
+    scoreParallelMusic->addElementToParallelMusic (newStaffCommand);
 
 
     /*

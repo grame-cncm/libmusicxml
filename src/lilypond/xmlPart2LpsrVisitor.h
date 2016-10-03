@@ -132,6 +132,7 @@ class EXP xmlPart2LpsrVisitor :
 
     xmlPart2LpsrVisitor (
       S_translationSettings& ts,
+      S_lpsrScore            score,
       S_lpsrSequence         implicitSequence,
       S_lpsrPart             part,
       S_lpsrVoice            voice,
@@ -259,6 +260,8 @@ class EXP xmlPart2LpsrVisitor :
     enum { kNoStaffNumber = -1 };
 
     void resetCurrentTime();
+
+    S_lpsrScore             fScore;
 
     S_lpsrSequence          fImplicitSequence;
 

@@ -1677,7 +1677,7 @@ void lpsrStanza::printLpsrStructure(ostream& os)
   idtr++;
   int n = fStanzaChunks.size();
   for (int i = 0; i < n; i++) {
-    os << idtr << fStanzaChunks[i] << endl;
+    os << idtr << fStanzaChunks[i];
   } // for
   idtr--;
 }
@@ -1776,7 +1776,7 @@ void lpsrLyrics::printLilyPondCode(ostream& os)
 
   idtr--;
 
-  os << idtr << "}" << endl;
+  os << endl << idtr << "}" << endl;
 }
 // PartPOneVoiceOneLyricsOne =  \lyricmode { \skip4 \skip4 \skip4 \skip4
 
