@@ -125,15 +125,6 @@ S_lpsrElement xml2LpsrVisitor::convertToLpsr (const Sxmlelement& xml )
 }
 
 //______________________________________________________________________________
-void xml2LpsrVisitor::appendElementToSequence (S_lpsrElement& elt) {
-  bool doDebug = fTranslationSettings->fDebug;
-//  bool doDebug = false;
-
-  if (doDebug) cout << "!!! appendElementToSequence : " << elt << endl;
-  fImplicitSequence->appendElementToSequence (elt);
-}
-
-//______________________________________________________________________________
 void xml2LpsrVisitor::prependPreamble () {
   // prepending elements in reverse order
 
@@ -299,12 +290,13 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     
     // append the voice to the part sequence
     S_lpsrElement elem = voice;
-    appendElementToSequence (elem);
+    fImplicitSequence->appendElementToSequence (elem);
 
     // browse the part contents once more with an xmlPart2LpsrVisitor
     xmlPart2LpsrVisitor
       xp2lv (
         fTranslationSettings,
+        fImplicitSequence,
         part,
         voice,
         targetStaff,
@@ -406,20 +398,6 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
         voiceLyrics =
           voice->getVoiceLyrics ();
 
-   
-/*
-      // create the voice
-      S_lpsrVoice
-        voice =
-          lpsrVoice::create (
-            voiceName,
-            fTranslationSettings->fGenerateAbsoluteCode,
-            fTranslationSettings->fGenerateNumericalTime);
-  
-      // append the voice to the lpsrElement sequence
-      S_lpsrElement v = voice;
-      appendElementToSequence (v);
-*/
       // create the voice context
       S_lpsrContext
         voiceContext =
@@ -439,14 +417,13 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
         "--> add the lyrics to the staff, " << voiceName << endl;
       vector<S_lpsrLyrics>::const_iterator i;
       for (i = voiceLyrics.begin(); i != voiceLyrics.end(); i++) {
-        S_lpsrLyrics lyrics     = (*i);
-        string  lyricsName = lyrics->getLyricsName();
+        S_lpsrLyrics lyrics = (*i);
             
         // create the lyrics command
         S_lpsrNewlyricsCommand
           lyricsUse =
             lpsrNewlyricsCommand::create (
-              lyricsName, voiceName);
+              "lyricsName???", voiceName);
               
         // add the lyrics use to the  staff
         newStaffCommand->addElementToNewStaff (lyricsUse);
@@ -477,7 +454,7 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
       */
   } // for
   
-  // append the score to the lpsrSequence
+  // append the score to the implicit Sequence
   // only now to place it after the postamble
   S_lpsrElement
     score = fLpsrScore;

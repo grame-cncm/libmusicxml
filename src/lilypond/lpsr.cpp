@@ -1075,15 +1075,17 @@ void lpsrSequence::printMusicXML(ostream& os)
 
 void lpsrSequence::printLilyPondCode(ostream& os)
 {
-  list<S_lpsrElement>::const_iterator
-    iBegin = fSequenceElements.begin(),
-    iEnd   = fSequenceElements.end(),
-    i      = iBegin;
-  for ( ; ; ) {
-    os << idtr << (*i);
-    if (++i == iEnd) break;
-    if (fElementsSeparator == kEndOfLine) os << endl;
-  } // for
+  if (fSequenceElements.size()) {
+    list<S_lpsrElement>::const_iterator
+      iBegin = fSequenceElements.begin(),
+      iEnd   = fSequenceElements.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      if (fElementsSeparator == kEndOfLine) os << endl;
+    } // for
+  }
 }
 
 //______________________________________________________________________________
@@ -1699,13 +1701,12 @@ S_lpsrLyrics lpsrLyrics::create (
   string lyricsName,
   string voiceName)
 {
-  lpsrLyrics* o =
-    new lpsrLyrics (lyricsName, voiceName);
+  lpsrLyrics* o = new lpsrLyrics (lyricsName, voiceName);
   assert(o!=0);
   return o;
 }
 
-lpsrLyrics::lpsrLyrics(
+lpsrLyrics::lpsrLyrics (
   string lyricsName,
   string voiceName)
   : lpsrElement("")
@@ -1730,112 +1731,107 @@ void lpsrLyrics::printLpsrStructure(ostream& os)
 {  
   os <<
     "Lyrics" << " " << fLyricsName << " " << fVoiceName << endl;
-  idtr++;
+
   int n = fLyricsStanzasMap.size();
-  for (int i = 0; i < n; i++) {
-    os << idtr << fLyricsStanzasMap[i] << endl;
-  } // for
-  idtr--;
+  
+  if (n) {
+    idtr++;
+
+    map<int, S_lpsrStanza>::const_iterator
+      iBegin = fLyricsStanzasMap.begin(),
+      iEnd   = fLyricsStanzasMap.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os << idtr << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    idtr--;
+  }
 }
  //   map<int, S_lpsrStanza> fLyricsStanzasMap;
 
 void lpsrLyrics::printLilyPondCode(ostream& os)
 {  
   os <<
-    idtr << "\\new Lyrics" << " " <<
-    "\\lyricsto " << fVoiceName <<
-    " = \\lyricmode {" << fLyricsName << endl;
+    fLyricsName << " = " <<
+    " = \\lyricmode {" << endl;
 
-  map<int, S_lpsrStanza>::const_iterator
-    iBegin = fLyricsStanzasMap.begin(),
-    iEnd   = fLyricsStanzasMap.end(),
-    i      = iBegin;
-    
-  for ( ; ; ) {
-    os << (*i).second;
-    if (++i == iEnd) break;
-    os << "--";
-  } // for
-}
-
-/*
-void lpsrLyrics::printLilyPondCode(ostream& os)
-{      
-  os << "\\new Staff <<" << endl;
-  
   idtr++;
-  
-  int size = fNewStaffElements.size();
 
-  for (int i = 0; i < size; i++ ) {
-    os << idtr << fNewStaffElements[i];
-  } // for
-  
+  if (fLyricsStanzasMap.size()) {
+    map<int, S_lpsrStanza>::const_iterator
+      iBegin = fLyricsStanzasMap.begin(),
+      iEnd   = fLyricsStanzasMap.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os << idtr << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
   idtr--;
-  
-  os << idtr << ">>" << endl;  
-}
-*/
 
-/*
+  os << idtr << "}" << endl;
+}
+// PartPOneVoiceOneLyricsOne =  \lyricmode { \skip4 \skip4 \skip4 \skip4
 
 //______________________________________________________________________________
-S_lpsrVoiceBOF lpsrVoiceBOF::create (string voiceName)
+S_lpsrNewlyricsCommand lpsrNewlyricsCommand::create (
+  string lyricsName,
+  string voiceName)
 {
-  lpsrVoiceBOF* o = new lpsrVoiceBOF (voiceName); assert(o!=0);
+  lpsrNewlyricsCommand* o =
+    new lpsrNewlyricsCommand (lyricsName, voiceName);
+  assert(o!=0);
   return o;
 }
 
-lpsrVoiceBOF::lpsrVoiceBOF (string voiceName)
+lpsrNewlyricsCommand::lpsrNewlyricsCommand (
+  string lyricsName,
+  string voiceName)
    : lpsrElement("")
 {
-  fVoiceName = voiceName;
+  fLyricsName = lyricsName;
+  fVoiceName  = voiceName;
 }
 
-lpsrVoiceBOF::~lpsrVoiceBOF() {}
+lpsrNewlyricsCommand::~lpsrNewlyricsCommand() {}
 
-ostream& operator<< (ostream& os, const S_lpsrVoiceBOF& vce)
+ostream& operator<< (ostream& os, const S_lpsrNewlyricsCommand& nlc)
 {
-  vce->print(os);
+  nlc->print(os);
   return os;
 }
 
-void lpsrVoiceBOF::printMusicXML(ostream& os)
+void lpsrNewlyricsCommand::printMusicXML (ostream& os)
 {
-  os << "<!-- lpsrVoiceBOF??? -->" << endl;
+  os << "<!-- lpsrNewlyricsCommand??? -->" << endl;
 }
 
-void lpsrVoiceBOF::printLpsrStructure(ostream& os)
+void lpsrNewlyricsCommand::printLpsrStructure (ostream& os)
 {
-  os << "Voice" << " " << fVoiceName << endl;
-  
-  idtr++;
-  
-  int size = fVoiceLyrics.size ();
-  for (int i = 0; i < size; i++) {
-    os << idtr << fVoiceLyrics[i];
-  } // for
-  
-  idtr--;  
-}
-
-void lpsrVoiceBOF::printLilyPondCode(ostream& os)
-{  
   os <<
-    "\\new Voice" << " = " <<
-    " \"" << fVoiceName << "\"" << " {" << endl;
-
-  idtr++;
-  
-  os << idtr << "\\" << fVoiceName << endl;
-  
-  idtr--;
-  
-  os << idtr << "}" << endl;
-  //                  \new Voice = "PartPOneVoiceOne" { \voiceOne \PartPOneVoiceOne }
-
+    "NewlyricsCommand" << " " <<
+    fLyricsName << " " << fVoiceName << endl;
 }
-* */
+
+void lpsrNewlyricsCommand::printLilyPondCode (ostream& os)
+{
+   os <<
+     idtr << "\\new Lyrics" << " " <<
+    "\\lyricsto \"" << fVoiceName <<
+    " " << "\\" << fLyricsName << endl;
+}
+
+/*
+ *
+ *                 \new Lyrics \lyricsto "PartPOneVoiceOne" \PartPOneVoiceOneLyricsOne
+*/
 
 //______________________________________________________________________________
 S_lpsrVoice lpsrVoice::create(
@@ -2974,53 +2970,6 @@ void lpsrNewstaffCommand::printLilyPondCode(ostream& os)
   idtr--;
   
   os << idtr << ">>" << endl;  
-}
-
-//______________________________________________________________________________
-S_lpsrNewlyricsCommand lpsrNewlyricsCommand::create (
-        string lyricsName,
-        string partName)
-{
-  lpsrNewlyricsCommand* o =
-    new lpsrNewlyricsCommand (lyricsName, partName);
-  assert(o!=0);
-  return o;
-}
-
-lpsrNewlyricsCommand::lpsrNewlyricsCommand (
-  string lyricsName,
-  string partName)
-   : lpsrElement("")
-{
-  fLyricsName = lyricsName;
-  fPartName   = partName;
-}
-
-lpsrNewlyricsCommand::~lpsrNewlyricsCommand() {}
-
-ostream& operator<< (ostream& os, const S_lpsrNewlyricsCommand& nlc)
-{
-  nlc->print(os);
-  return os;
-}
-
-void lpsrNewlyricsCommand::printMusicXML (ostream& os)
-{
-  os << "<!-- lpsrNewlyricsCommand??? -->" << endl;
-}
-
-void lpsrNewlyricsCommand::printLpsrStructure (ostream& os)
-{
-  os <<
-    "NewlyricsCommand" << " " <<
-    fLyricsName << " " << fPartName << endl;
-}
-
-void lpsrNewlyricsCommand::printLilyPondCode (ostream& os)
-{
-  os <<
-    "NewlyricsCommand" << " " <<
-    fLyricsName << " " << fPartName << endl;
 }
 
 //______________________________________________________________________________

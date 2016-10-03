@@ -34,6 +34,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   S_translationSettings& ts,
+  S_lpsrSequence         implicitSequence,
   S_lpsrPart             part,
   S_lpsrVoice            voice,
   int                    targetStaff,
@@ -43,6 +44,8 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   rational               defaultTimeSign) 
 {
   fTranslationSettings = ts;
+
+  fImplicitSequence = implicitSequence;
   
   fVisitedPart  =  part;
   fCurrentVoice = voice;
@@ -1195,7 +1198,89 @@ void xmlPart2LpsrVisitor::visitEnd ( S_text& elt )
 
 void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) { 
   fOnGoingLyrics = false;
+
+  if (! fCurrentLyricsStanza) {
+    string
+      voiceName = fCurrentVoice->getVoiceName();
+    string
+      lyricsName =
+        voiceName +
+        "_Lyrics" +
+        int2EnglishWord (fCurrentLyricNumber);
+
+    cout << "--> lyricsName = " << lyricsName << endl;
+    
+    // create lyrics on first visit
+    cout <<
+      "--> creating lyrics " << lyricsName <<
+      " for voice " << voiceName << endl;
+    fCurrentLyrics =
+      lpsrLyrics::create (
+        lyricsName,
+        voiceName);
+
+    // append lyrics to the implicit sequence
+    fImplicitSequence->appendElementToSequence (fCurrentLyrics);
+      
+    // create stanza on first visit
+    cout <<
+      "--> creating stanza " << lyricsName <<
+      " for lyrics " << lyricsName << endl;
+    fCurrentLyricsStanza =
+      lpsrStanza::create (
+        lyricsName,
+        voiceName);
+
+    // add stanza to current lyrics
+    fCurrentLyrics->addStanzaToLyrics(
+      fCurrentLyricNumber, fCurrentLyricsStanza);
+  }
+    
+  // create stanza chunk
+  cout <<
+      "--> creating stanza word chunk  containing " <<
+      fCurrentText << endl;
+  S_lpsrStanzaChunk
+    chunk =
+      lpsrStanzaChunk::create (
+        lpsrStanzaChunk::kWordChunk, fCurrentText);
+
+  if (fCurrentSyllabic == "single" || fCurrentSyllabic == "begin") {
+    // add stanza chunk to current lyrics
+    fCurrentLyricsStanza -> addChunkToStanza (chunk);
+          
+    //   fStanzas[lastLyricNumber].push_back(list<string>());
+    //   fStanzas[lastLyricNumber].back().push_back(text);
+  }
+  else if (fCurrentSyllabic == "middle" || fCurrentSyllabic == "end") {
+    // add chunk to current stanza
+    fCurrentLyricsStanza -> addChunkToStanza (chunk);
+    //   fStanzas[lastLyricNumber].back().push_back(text);
+  }
+  else {
+    stringstream s;
+    string  result;
+  
+    s << "--> fCurrentSyllabic = " << fCurrentSyllabic << " is unknown";
+    s >> result;
+    lpsrMusicXMLError(result);
+  }
 }
+
+/*
+  S_lpsrStanzaChunk
+    chunk =
+      lpsrStanzaChunk::create (
+        lpsrStanzaChunk::kWordChunk, fCurrentSyllabic);
+
+  // create stanza on first visit
+  fCurrentLyricsStanza =
+    lpsrStanza::create (
+      fCurrentLyrics->getLyricsName(), fCurrentVoice->getVoiceName());
+
+  fCurrentLyrics->addStanzaToLyrics (
+    fCurrentLyricNumber, fCurrentLyricsStanza);
+    */
 
  /*
         <lyric number="1">

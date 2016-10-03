@@ -182,9 +182,7 @@ class EXP xml2LpsrVisitor :
    
     // the index of the current lpsr staff
     int              fCurrentStaffIndex;
-  
-    void appendElementToSequence (S_lpsrElement& elt);
-    
+      
     void prependPreamble ();
     void appendPostamble ();
 };

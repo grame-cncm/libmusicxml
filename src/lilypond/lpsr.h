@@ -788,7 +788,7 @@ class EXP lpsrStanzaChunk : public lpsrElement {
 
     static SMARTP<lpsrStanzaChunk> create (
         stanzaChunkType chunkType,
-        string     chunkText);
+        string          chunkText);
      
     virtual void printMusicXML      (ostream& os);
     virtual void printLpsrStructure (ostream& os);
@@ -844,7 +844,7 @@ class EXP lpsrStanza : public lpsrElement {
     string        fLyricsName;
     string        fVoiceName;
     vector<S_lpsrStanzaChunk>
-                       fStanzaChunks;
+                  fStanzaChunks;
 };
 typedef SMARTP<lpsrStanza> S_lpsrStanza;
 
@@ -860,13 +860,14 @@ class EXP lpsrLyrics : public lpsrElement {
     static SMARTP<lpsrLyrics> create (
         string lyricsName,
         string voiceName);
+
+    string      getLyricsName () const { return fLyricsName; }
     
-    string      getLyricsName    () const { return fLyricsName; }
     map<int, S_lpsrStanza> 
                 getLyricsStanzasMap () const { return fLyricsStanzasMap; }
 
-    void addStanzaToLyrics (int number, S_lpsrStanza stanza)
-            { fLyricsStanzasMap[number] = stanza; }
+    void        addStanzaToLyrics (int number, S_lpsrStanza stanza)
+                  { fLyricsStanzasMap[number] = stanza; }
 
     virtual void printMusicXML      (ostream& os);
     virtual void printLpsrStructure (ostream& os);
@@ -1484,7 +1485,7 @@ class EXP lpsrNewlyricsCommand : public lpsrElement {
 
     static SMARTP<lpsrNewlyricsCommand> create(
         string lyricsName,
-        string partName);
+        string voiceName);
      
     virtual void printMusicXML      (ostream& os);
     virtual void printLpsrStructure (ostream& os);
@@ -1494,13 +1495,13 @@ class EXP lpsrNewlyricsCommand : public lpsrElement {
 
     lpsrNewlyricsCommand(
         string lyricsName,
-        string partName);
+        string voiceName);
     virtual ~lpsrNewlyricsCommand();
   
   private:
   
     string fLyricsName;
-    string fPartName;
+    string fVoiceName;
 };
 typedef SMARTP<lpsrNewlyricsCommand> S_lpsrNewlyricsCommand;
 
