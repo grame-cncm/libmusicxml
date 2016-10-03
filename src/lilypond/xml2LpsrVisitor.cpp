@@ -264,7 +264,7 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     
     std::string
       voiceName =
-        partName + "Voice" + int2EnglishWord (targetVoice);
+        partName + "_Voice" + int2EnglishWord (targetVoice);
       
     // create the part
     S_lpsrPart
@@ -314,9 +314,6 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
       cerr << "Extracting part \"" << partID << "\" lyrics information" << endl;
 
   } // for
-
-//  xpsv.clearStanzas(); // for next voice
-  //} // for
 }
 
 //______________________________________________________________________________
@@ -371,32 +368,17 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     std::string  partName = part->getPartName ();
      
     // create a staff
-    cout << "--> creating a staff" << std::endl;
+    cout << "--> creating a new staff command" << std::endl;
     S_lpsrNewstaffCommand
-      staff =
+      newStaffCommand =
         lpsrNewstaffCommand::create();
     
-    // create the voice
-    S_lpsrContext
-      voice =
-        lpsrContext::create (
-          lpsrContext::kNewContext, "Voice", partName); // JMI
-        
-    // add a use of the part name to the voice
-    S_lpsrVariableUseCommand
-      variableUse =
-        lpsrVariableUseCommand::create (part->getPartName());
-    voice->addElementToContext (variableUse);
-
-    // add the voice to the staff
-    staff->addElementToNewStaff (voice);
-
     // get the part voices
     std::vector<S_lpsrVoice>
       partVoices =
         part->getPartVoices ();
  
-    // add the voices lyrics to the staff
+    // add the voices lyrics to the staff command
     cout <<
       "--> add the lyrics to the staff, " << partVoices.size() << " voices found" << std::endl;
 
@@ -405,7 +387,22 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
       std::string voiceName = (*i)->getVoiceName();
       cout <<
         "--> add the lyrics to the staff, " << voiceName << std::endl;
-
+  
+      // create the voice
+      S_lpsrContext
+        voiceContext =
+          lpsrContext::create (
+            lpsrContext::kNewContext, "Voice", voiceName);
+          
+      // add a use of the part name to the voice
+      S_lpsrVariableUseCommand
+        variableUse =
+          lpsrVariableUseCommand::create (voiceName);
+      voiceContext->addElementToContext (variableUse);
+  
+      // add the voice to the staff
+      newStaffCommand->addElementToNewStaff (voiceContext);
+  
       std::vector<S_lpsrLyrics>
         voiceLyrics =
           (*i)->getVoiceLyrics ();
@@ -422,7 +419,7 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
               lyricsName, voiceName);
               
         // add the lyrics use to the  staff
-        staff->addElementToNewStaff (lyricsUse);
+        newStaffCommand->addElementToNewStaff (lyricsUse);
       } // for
     } // for
     
@@ -430,7 +427,7 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     S_lpsrParallelMusic
       parallelMusic =
         fLpsrScore->getScoreParallelMusic ();
-    parallelMusic->addElementToParallelMusic (staff);
+    parallelMusic->addElementToParallelMusic (newStaffCommand);
 
 
     /*

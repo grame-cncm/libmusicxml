@@ -264,5 +264,7 @@ void xmlPartSummaryVisitor::visitEnd ( S_note& elt)
     fStaffVoicesAndNotesNumber [fCurrentStaff][fCurrentVoice] << endl;
 }
 
+//     string       lyricsName =
+//                  "_Lyrics" + int2EnglishWord (atoi (it1->first.c_str()));
 
 } // namespace

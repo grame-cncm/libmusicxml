@@ -356,7 +356,7 @@ class EXP lpsrNote : public lpsrElement {
 
     // MusicXML informations
     musicXMLNoteData          fMusicXMLNoteData;
-    MusicXMLDiatonicPitch     fMusicXMLDiatonicPitch;
+    MusicXMLDiatonicPitch     fMusicXMLDiatonicPitch; // JMI
 
  //   bool                     fCurrentStepIsARest;
  //   MusicXMLAlteration       fMusicXMLAlteration;
@@ -1315,7 +1315,12 @@ typedef SMARTP<lpsrTime> S_lpsrTime;
 class EXP lpsrClef : public lpsrElement {
   public:
     
-    static SMARTP<lpsrClef> create(std::string clefName);
+    enum { kStandardLine, kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
+
+    static SMARTP<lpsrClef> create (
+      std::string sign,
+      int         line,
+      int         octaveChange);
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1323,12 +1328,17 @@ class EXP lpsrClef : public lpsrElement {
 
   protected:
 
-    lpsrClef(std::string clefName);
+    lpsrClef (
+      std::string clefName,
+      int         line,
+      int         octaveChange);
     virtual ~lpsrClef();
   
   private:
 
-    std::string fClefName;
+    std::string fSign;
+    int         fLine;
+    int         fOctaveChange;
 };
 typedef SMARTP<lpsrClef> S_lpsrClef;
 

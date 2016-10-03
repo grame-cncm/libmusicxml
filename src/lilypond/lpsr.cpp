@@ -546,7 +546,29 @@ lpsrNote::lpsrNote (
   // take rests into account
   if (fMusicXMLNoteData.fMusicxmlStep)
     fMusicXMLDiatonicPitch = lpsrNote::kRest;
- 
+
+  if (fMusicXMLNoteData.fMusicxmlStep <'A' || fMusicXMLNoteData.fMusicxmlStep > 'G') {
+    stringstream s;
+    std::string  message;
+    s << "step value " << fMusicXMLNoteData.fMusicxmlStep << " is not a letter from A to G";
+    s >> message;
+    lpsrMusicXMLError (message);
+  }
+
+//  cout << "=== xmlPart2LpsrVisitor::visitStart ( S_step& elt ) " << fCurrentMusicXMLStep << std::endl;
+// JMI
+
+  switch (fMusicXMLNoteData.fMusicxmlStep) {
+    case 'A': fMusicXMLDiatonicPitch = lpsrNote::kA; break;
+    case 'B': fMusicXMLDiatonicPitch = lpsrNote::kB; break;
+    case 'C': fMusicXMLDiatonicPitch = lpsrNote::kC; break;
+    case 'D': fMusicXMLDiatonicPitch = lpsrNote::kD; break;
+    case 'E': fMusicXMLDiatonicPitch = lpsrNote::kE; break;
+    case 'F': fMusicXMLDiatonicPitch = lpsrNote::kF; break;
+    case 'G': fMusicXMLDiatonicPitch = lpsrNote::kG; break;
+    default: {}
+  } // switch
+
   // how many quater tones from A?s
   int noteQuatertonesFromA;
   
@@ -1514,7 +1536,7 @@ std::string xmlPartSummaryVisitor::stanzaAsString (std::string separator) const 
   if (it1 != fStanzas.end()) {
     stringstream s;
     string       lyricsName =
-                  "Lyrics" + int2EnglishWord (atoi (it1->first.c_str()));
+                  "_Lyrics" + int2EnglishWord (atoi (it1->first.c_str()));
 
     s << lyricsName << " = \\lyricmode { " << std::endl;
 
@@ -2557,16 +2579,25 @@ void lpsrTime::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrClef lpsrClef::create(std::string clefName)
+S_lpsrClef lpsrClef::create (
+  std::string sign,
+  int         line,
+  int         octaveChange)
 {
-  lpsrClef* o = new lpsrClef(clefName); assert(o!=0);
+  lpsrClef* o =
+    new lpsrClef(sign, line, octaveChange); assert(o!=0);
   return o;
 }
 
-lpsrClef::lpsrClef(std::string clefName)
+lpsrClef::lpsrClef(
+  std::string sign,
+  int         line,
+  int         octaveChange)
   : lpsrElement("")
 {
-  fClefName=clefName;
+  fSign         = sign;
+  fLine         = line;
+  fOctaveChange = octaveChange;
 }
 lpsrClef::~lpsrClef() {}
 
@@ -2577,12 +2608,80 @@ void lpsrClef::printMusicXML(ostream& os)
 
 void lpsrClef::printLpsrStructure(ostream& os)
 {
-  os << "clef" << " \"" << fClefName << "\"" << std::endl;
+  os <<
+    "clef" << " \"" << fSign << "\"" <<
+    " " << fLine << " " << fOctaveChange << std::endl;
 }
 
 void lpsrClef::printLilyPondCode(ostream& os)
 {
-  os << "\\clef" << " \"" << fClefName << "\"" << std::endl;
+  stringstream s; 
+  string       result;
+
+  // USER
+//  checkStaff (staffnum);
+
+  if ( fSign == "G") {
+    if ( fLine == 2 )
+      s << "treble"; 
+    else { // unknown G clef line !!
+      cerr << 
+        "warning: unknown G clef line \"" << fLine << "\"" <<
+        endl;
+      return; 
+      }
+    }
+  else if ( fSign == "F") {
+    if ( fLine == 4 )
+      s << "bass"; 
+    else { // unknown F clef line !!
+      cerr << 
+        "warning: unknown F clef line \"" << fLine << "\"" <<
+        endl;
+      return; 
+      }
+    }
+  else if ( fSign == "C") {
+    if ( fLine == 4 )
+      s << "tenor"; 
+    else if ( fLine == 3 )
+      s << "alto"; 
+    else { // unknown C clef line !!
+      cerr << 
+        "warning: unknown C clef line \"" <<
+        fLine << 
+        "\"" <<
+        endl;
+      return; 
+      }
+    }
+  else if ( fSign == "percussion") {
+    s << "perc"; }
+  else if ( fSign == "TAB") {
+    s << "TAB"; }
+  else if ( fSign == "none") {
+    s << "none"; }
+  else { // unknown clef sign !!
+    cerr << 
+      "warning: unknown clef sign \"" <<
+       fSign << 
+       "\"" <<
+      endl;
+    return; 
+  }
+  
+  s >> result;
+  
+ // if (fLine != kStandardLine) 
+    // s << fLine; // USER
+//    s >> param;
+    
+  if (fOctaveChange == 1)
+    result += "^8"; // USER
+  else if (fOctaveChange == -1)
+    result += "_8";
+
+  os << "\\clef" << " \"" << result << "\"" << std::endl;
 }
 
 //______________________________________________________________________________

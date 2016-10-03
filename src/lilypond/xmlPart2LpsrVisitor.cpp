@@ -533,7 +533,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_key& elt )
 //______________________________________________________________________________
 void xmlPart2LpsrVisitor::visitStart ( S_clef& elt )
 { 
-  fLine = kStandardLine;
+  fLine = 0;;
   fOctaveChange = 0;
   fNumber = kNoNumber;
   fSign = "";
@@ -553,80 +553,11 @@ void xmlPart2LpsrVisitor::visitStart ( S_sign& elt )
 //______________________________________________________________________________
 void xmlPart2LpsrVisitor::visitEnd ( S_clef& elt ) 
 {
-  int staffnum = elt->getAttributeIntValue("number", 0); // JMI
+  int staffNum = elt->getAttributeIntValue("number", 0); // JMI
   
-  // JMI if ((staffnum != fTargetStaff) || fNotesOnly) return;
-
-  stringstream s; 
-
-  // USER
-//  checkStaff (staffnum);
-
-  if ( fSign == "G") {
-    if ( fLine == 2 )
-      s << "treble"; 
-    else { // unknown G clef line !!
-      cerr << 
-        "warning: unknown G clef line \"" <<
-        fLine << 
-        "\"" <<
-        endl;
-      return; 
-      }
-    }
-  else if ( fSign == "F") {
-    if ( fLine == 4 )
-      s << "bass"; 
-    else { // unknown F clef line !!
-      cerr << 
-        "warning: unknown F clef line \"" <<
-        fLine << 
-        "\"" <<
-        endl;
-      return; 
-      }
-    }
-  else if ( fSign == "C") {
-    if ( fLine == 4 )
-      s << "tenor"; 
-    else if ( fLine == 3 )
-      s << "alto"; 
-    else { // unknown C clef line !!
-      cerr << 
-        "warning: unknown C clef line \"" <<
-        fLine << 
-        "\"" <<
-        endl;
-      return; 
-      }
-    }
-  else if ( fSign == "percussion") {
-    s << "perc"; }
-  else if ( fSign == "TAB") {
-    s << "TAB"; }
-  else if ( fSign == "none") {
-    s << "none"; }
-  else { // unknown clef sign !!
-    cerr << 
-      "warning: unknown clef sign \"" <<
-       fSign << 
-       "\"" <<
-      endl;
-    return; 
-  }
-  
-  string param;
-  
-  if (fLine != kStandardLine) 
-    // s << fLine; // USER
-    s >> param;
-    
-  if (fOctaveChange == 1)
-    param += "^8"; // USER
-  else if (fOctaveChange == -1)
-    param += "_8";
-    
-  S_lpsrClef clef = lpsrClef::create(param);
+  S_lpsrClef
+    clef =
+      lpsrClef::create (fSign, fLine, staffNum);
   S_lpsrElement c = clef;
   addElementToPartSequence (c);
 }
@@ -978,40 +909,17 @@ void xmlPart2LpsrVisitor::visitStart ( S_print& elt )
 //______________________________________________________________________________
 void xmlPart2LpsrVisitor::visitStart ( S_step& elt )
 {
-  std::string value = elt->getValue();
+  std::string step = elt->getValue();
   
-  if (value.length() != 1) {
+   if (step.length() != 1) {
     stringstream s;
     std::string  message;
-    s << "step value " << value << " is not a letter from A to G";
+    s << "step value " << step << " should be a single letter from A to G";
     s >> message;
     lpsrMusicXMLError (message);
   }
 
-  char step = value[0];
-
-  if (step <'A' || step > 'G') {
-    stringstream s;
-    std::string  message;
-    s << "step value " << step << " is not a letter from A to G";
-    s >> message;
-    lpsrMusicXMLError (message);
-  }
-
-//  cout << "=== xmlPart2LpsrVisitor::visitStart ( S_step& elt ) " << fCurrentMusicXMLStep << std::endl;
-
-  switch (step) {
-    case 'A': fMusicXMLDiatonicPitch = lpsrNote::kA; break;
-    case 'B': fMusicXMLDiatonicPitch = lpsrNote::kB; break;
-    case 'C': fMusicXMLDiatonicPitch = lpsrNote::kC; break;
-    case 'D': fMusicXMLDiatonicPitch = lpsrNote::kD; break;
-    case 'E': fMusicXMLDiatonicPitch = lpsrNote::kE; break;
-    case 'F': fMusicXMLDiatonicPitch = lpsrNote::kF; break;
-    case 'G': fMusicXMLDiatonicPitch = lpsrNote::kG; break;
-    default: {}
-  } // switch
-
-  fMusicXMLNoteData.fMusicxmlStep = step;
+  fMusicXMLNoteData.fMusicxmlStep = step[0];
 }
 
 void xmlPart2LpsrVisitor::visitStart ( S_alter& elt)
@@ -1338,17 +1246,6 @@ void xmlPart2LpsrVisitor::visitStart ( S_rest& elt)
   //  cout << "--> xmlPart2LpsrVisitor::visitStart ( S_rest& elt ) " << std::endl;
   fMusicXMLNoteData.fMusicxmlStepIsARest = true;
 }
-
-
-
-
-/*
-void xmlPartSummaryVisitor::visitStart ( S_rest& elt)
-{
-  //  cout << "--> xmlpart2lpsrvisitor::visitStart ( S_rest& elt ) " << std::endl;
-  fCurrentStepIsARest = true;
-}
-*/
 
 //________________________________________________________________________
 void xmlPart2LpsrVisitor::visitStart ( S_lyric& elt ) { 

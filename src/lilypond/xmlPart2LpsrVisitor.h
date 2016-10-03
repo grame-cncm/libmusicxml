@@ -249,7 +249,6 @@ class EXP xmlPart2LpsrVisitor :
 
   public:
   
-    enum { kStandardLine, kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
     enum { kNoNumber = -1 };
 
   private:
