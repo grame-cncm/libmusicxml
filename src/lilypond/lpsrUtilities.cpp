@@ -20,7 +20,7 @@
 #include <cassert>
 #include <vector>
 
-#include <utilities.h>
+#include <lpsrUtilities.h>
 
 using namespace std;
 
@@ -71,10 +71,7 @@ void haendel::print(std::ostream& os) const {
 //______________________________________________________________________________
 std::string int2EnglishWord (int n)
 {
-  if (n <= 0)
-    lpsrMusicXMLError("int2EnglishWord, n <= 0");
-
-  if (n < 1)  return "SmallerThanOne";
+  if (n < 0)  return "None";
   if (n > 99) return "LargerThanNinetyNine";
   
   std::stringstream s;

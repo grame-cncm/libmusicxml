@@ -1532,12 +1532,18 @@ typedef SMARTP<lpsrUseLyricsCommand> S_lpsrUseLyricsCommand;
 \brief A context representation.
 
   A context is represented by its type, name and contents
+  It may be:
+    existing (such as an implicit Voice in a Score), \context Voice...
+    or a new one, \new Voice...
 */
 //______________________________________________________________________________
 class EXP lpsrContext : public lpsrElement {
   public:
 
+    enum ContextKind { kExistingContext, kNewContext };
+    
     static SMARTP<lpsrContext> create (
+        ContextKind    contextKind,
         std::string    contextType,
         std::string    contextName);
     
@@ -1551,14 +1557,17 @@ class EXP lpsrContext : public lpsrElement {
   protected:
 
     lpsrContext(
+        ContextKind    contextKind,
         std::string    contextType,
         std::string    contextName);
     virtual ~lpsrContext();
   
   private:
   
+    ContextKind    fContextKind;
     std::string    fContextType;
     std::string    fContextName;
+
     std::vector<S_lpsrElement>
                    fContextElements;
 };

@@ -41,10 +41,8 @@ class EXP partsummaryvisitor :
   public visitor<S_staves>,
   public visitor<S_staff>,
   public visitor<S_voice>,
-  public visitor<S_note>,
-  public visitor<S_lyric>,
-  public visitor<S_syllabic>,
-  public visitor<S_text>
+  
+  public visitor<S_note>
 {
   public:
   
@@ -75,28 +73,14 @@ class EXP partsummaryvisitor :
     int getVoiceNotesCount (int voiceid) const;
     //! returns the count of notes on a voice and a staff
     int getVoiceNotesCount (int staffid, int voiceid) const;
-    
-    // a stanza is represented as a list words,
-    // represented as a list of their components
-    typedef std::list<std::list<std::string> > stanzaContents;
-
-    virtual std::map<std::string, partsummaryvisitor::stanzaContents>& 
-                  getStanzas();
-    void          clearStanzas ();
-    virtual std::string 
-                  getStanza (std::string name, std::string separator) const;
-                                       
+                                           
   protected:
   
     virtual void visitStart ( S_part& elt);
     virtual void visitStart ( S_staves& elt);
-    virtual void visitStart ( S_staff& elt)      { fStaff = int(*elt); }
-    virtual void visitStart ( S_voice& elt )     { fVoice = int(*elt); }
+
     virtual void visitEnd   ( S_note& elt);
 
-    virtual void visitStart ( S_lyric& elt);
-    virtual void visitStart ( S_syllabic& elt);
-    virtual void visitEnd   ( S_text& elt );
     
   private:
   
@@ -110,18 +94,6 @@ class EXP partsummaryvisitor :
     std::map<int, std::map<int, int> >  fStaffVoices;
 
     int                 fStaff, fVoice;
-
-    // the last lyric number, i.e. stanza number
-    S_lyric             fLastLyric;
-    // the last sysllabic spec met (single, begin, middle or end)
-    S_syllabic          fLastSyllabic;
-    // allow for the creation of skips in lyrics
-    bool                fOnGoingLyrics;
-    
-    // the stanzas are referred to by number and contains list of lists of strings
-    // in the case of "single", the list contains only one string
-    std::map<std::string, stanzaContents> 
-                        fStanzas;    // <text /> occurs after <syllabic />
 };
 
 /*! @} */

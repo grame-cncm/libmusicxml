@@ -2950,19 +2950,23 @@ void lpsrRepeat::printLilyPondCode(ostream& os)
 
 //______________________________________________________________________________
 S_lpsrContext lpsrContext::create (
+  ContextKind    contextKind,
   std::string    contextType,
   std::string    contextName)
 {
   lpsrContext* o =
-    new lpsrContext(contextType, contextName); assert(o!=0);
+    new lpsrContext (contextKind, contextType, contextName);
+  assert(o!=0);
   return o;
 }
 
-lpsrContext::lpsrContext(
+lpsrContext::lpsrContext (
+  ContextKind    contextKind,
   std::string    contextType,
   std::string    contextName)
     : lpsrElement("")
 {
+  fContextKind = contextKind;
   fContextType = contextType;
   fContextName = contextName; 
 }
@@ -2975,7 +2979,16 @@ void lpsrContext::printMusicXML(ostream& os)
 
 void lpsrContext::printLpsrStructure(ostream& os)
 {  
-  os << "Context" << " " << fContextType;
+  os << "Context" << " ";
+  switch (fContextKind) {
+    case kExistingContext:
+      os << "existing";
+      break;
+    case kNewContext:
+      os << "new";
+      break;
+  } // switch
+  os << " " << fContextType;
   if (fContextName.size())
     os << " " << fContextName;
   os << std::endl;
@@ -2993,7 +3006,15 @@ void lpsrContext::printLpsrStructure(ostream& os)
 
 void lpsrContext::printLilyPondCode(ostream& os)
 {  
-  os << "\\context" << " " << fContextType;
+  switch (fContextKind) {
+    case kExistingContext:
+      os << "\\context";
+      break;
+    case kNewContext:
+      os << "\\new";
+      break;
+  } // switch
+  os << " " << fContextType;
   if (fContextName.size())
     os << " = \"" << fContextName << "\"";
   os << " {" << std::endl;

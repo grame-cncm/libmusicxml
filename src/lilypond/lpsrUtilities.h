@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __utilities__
-#define __utilities__
+#ifndef __lpsrUtilities__
+#define __lpsrUtilities__
 
 #include <string>
 

@@ -16,7 +16,6 @@
 
 #include <sstream>
 
-#include "utilities.h"
 #include "partsummaryvisitor.h"
 
 using namespace std;
@@ -34,10 +33,6 @@ void partsummaryvisitor::visitStart ( S_part& elt)
 
   fVoice = 0;
   fStaff = 0;
-  
-  fLastLyric = 0;
-  fLastSyllabic = 0;
-  fStanzas.clear();
 }
 
 //________________________________________________________________________
@@ -62,49 +57,8 @@ void partsummaryvisitor::visitEnd ( S_note& elt)
   */
 }
 
-//________________________________________________________________________
-void partsummaryvisitor::visitStart ( S_lyric& elt ) { 
-  fLastLyric = elt;
-}
 
-void partsummaryvisitor::visitStart ( S_syllabic& elt ) {
-  fLastSyllabic = elt;
-
-  std::string syllabicValue = fLastSyllabic->getValue();
-
-  if (syllabicValue == "begin") {
-    fOnGoingLyrics = true;
-  }
-  else if (syllabicValue == "end") {
-    fOnGoingLyrics = true;
-  }
-}
-
-void partsummaryvisitor::visitEnd ( S_text& elt ) 
-{
   /*
-        <lyric number="1">
-          <syllabic>single</syllabic>
-          <text>1. Sing</text>
-          </lyric>
-  */
-
-  string      text = elt->getValue();
-  
-  std::size_t spacefound=text.find(" ");
-  
-  if (spacefound!=std::string::npos) text = "\""+text+"\"";
-  
-  std::string lastLyricNumber = fLastLyric->getAttributeValue("number");
-  std::string lastSyllabicValue = fLastSyllabic->getValue();
-  
-  /*
-  cout <<
-    "--> lastLyricNumber = " << lastLyricNumber <<
-    ", lastSyllabicValue = " << lastSyllabicValue <<
-    ", text = " << text << endl <<
-    flush;
-  */
       
   // create fStanzas[lastLyricNumber] on first visit
   if (! fStanzas.count(lastLyricNumber)) {
@@ -125,7 +79,8 @@ void partsummaryvisitor::visitEnd ( S_text& elt )
   else if (lastSyllabicValue == "end") {
     fStanzas[lastLyricNumber].back().push_back(text);
   }
-}
+  */
+  
 
 //________________________________________________________________________
 smartlist<int>::ptr partsummaryvisitor::getStaves() const
@@ -245,51 +200,6 @@ int partsummaryvisitor::getVoiceNotesCount (int staffid, int voiceid) const
     }
   }
   return count;
-}
-
-//______________________________________________________________________________
-std::map<std::string, partsummaryvisitor::stanzaContents> & partsummaryvisitor::getStanzas() { 
-  return fStanzas;
-}
-
-void partsummaryvisitor::clearStanzas () {
-  fStanzas.clear();
-}
-
-std::string partsummaryvisitor::getStanza (std::string name, std::string separator) const {
-//  if (fSwitches.fTrace) cerr << "Extracting part \"" << partid << "\" lyrics information" << endl;
-//  std::map<std::string, std::list<std::list<std::string> > > stanzas = ps.getStanzas();
-  std::string result = "";
-  
-  std::map<std::string, stanzaContents> ::const_iterator
-    it1 = fStanzas.find(name);
-  
-  if (it1 != fStanzas.end()) {
-    stringstream s;
-    string       lyricsName = "Lyrics"+int2EnglishWord(atoi(it1->first.c_str())); // JMI +partName;
-    s << lyricsName << " = \\lyricmode { " << std::endl;
-
-    for (stanzaContents::const_iterator 
-        it2=it1->second.begin(); it2!=it1->second.end(); ++it2) { 
-      std::list<std::string> ::const_iterator 
-        it2Begin = it2->begin(),
-        it2End   = it2->end(),
-        it3      = it2Begin;
-
-      for ( ; ; ) {
-        s << *it3;
-        if (++it3 == it2End) break;
-        s << separator;
-      } // for
-      cout << " ";
-    } // for
-      
-    s << std::endl << "}" << std::endl << std::endl;
-    } else {
-    result = "Can't find stanza \""+name+"\"";
-  } // if
-  
-  return result;
 }
 
 

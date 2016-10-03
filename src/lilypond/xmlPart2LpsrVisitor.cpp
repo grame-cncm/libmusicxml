@@ -19,8 +19,8 @@
 #include "xml_tree_browser.h"
 
 #include "conversions.h"
-#include "utilities.h"
 
+#include "lpsrUtilities.h"
 #include "lpsr.h"
 #include "xml2LpsrVisitor.h"
 #include "xmlPartSummaryVisitor.h"

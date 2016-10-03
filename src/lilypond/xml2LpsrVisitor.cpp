@@ -214,10 +214,6 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   browser.browse (*elt);
 
   if (fTranslationSettings->fTrace)
-    cerr << "Extracting part \"" << partID << "\" voices information" << endl;
-
-
-  if (fTranslationSettings->fTrace)
     cerr << "Getting the part voices IDs" << endl;
     
   smartlist<int>::ptr partSummaryVoiceIDsList =
@@ -238,6 +234,9 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   // this allows to describe voices that spans over several staves
   // and to collect the voice's lyrics
     
+  if (fTranslationSettings->fTrace)
+    cerr << "Extracting part \"" << partID << "\" voices information" << endl;
+
   for (unsigned int i = 0; i < partSummaryVoiceIDsList->size(); i++) {
     
     int targetVoice            = (*partSummaryVoiceIDsList) [i];
@@ -286,7 +285,7 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
           fTranslationSettings->fGenerateAbsoluteCode,
           fTranslationSettings->fGenerateNumericalTime);
 
-    // append it to the lpsrElement sequence
+    // append the voice to the lpsrElement sequence
     S_lpsrElement v = voice;
     appendElementToSequence (v);
     
@@ -313,52 +312,7 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     if (fTranslationSettings->fTrace)
       cerr << "Extracting part \"" << partID << "\" lyrics information" << endl;
 
-/*
-    std::map<std::string, xmlPartSummaryVisitor::stanzaContents> 
-      stanzas = xpsv.getStanzas();
-    for (std::map<std::string, xmlPartSummaryVisitor::stanzaContents> ::iterator 
-        it1=stanzas.begin(); it1!=stanzas.end(); ++it1) {
-
-      std::string 
-        lyricsName =
-          voiceName + 
-          "LyricsStanza"+
-          int2EnglishWord (atoi(it1->first.c_str()));
-      std::string result;
-      
-      for (std::list<std::list<std::string> > ::iterator 
-          it2=it1->second.begin(); it2!=it1->second.end(); ++it2) {    
-
-        std::list<std::string> ::const_iterator 
-          it2Begin = it2->begin(),
-          it2End   = it2->end(),
-          it3      = it2Begin;
-  
-        for ( ; ; ) {
-          result+=*it3;
-          if (++it3 == it2End) break;
-          result+=" -- ";
-        } // for
-
-        result+=" ";
-      } // for
-
-      // create the lyrics
-      S_lpsrLyrics
-        lyrics =
-          lpsrLyrics::create(lyricsName, result);
-      
-      // append lyrics to the sequence
-      S_lpsrElement elem = lyrics;  
-      appendElementToSequence (elem);
-      
-      // add the lyrics to the voice
-      cout << // JMIJMI
-        "--> adding lyrics " << lyrics->getLyricsName() <<
-        " to voice " << voiceName << std::endl;
-      voice->addLyricsToVoice (lyrics);
- */
-    } // for
+  } // for
 
 //  xpsv.clearStanzas(); // for next voice
   //} // for
@@ -424,7 +378,8 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     // create the voice
     S_lpsrContext
       voice =
-        lpsrContext::create ("Voice", partName);
+        lpsrContext::create (
+          lpsrContext::kNewContext, "Voice", partName); // JMI
         
     // add a use of the part name to the voice
     S_lpsrVariableUseCommand
@@ -696,3 +651,51 @@ voice
 
 
   */
+
+
+
+/*
+    std::map<std::string, xmlPartSummaryVisitor::stanzaContents> 
+      stanzas = xpsv.getStanzas();
+    for (std::map<std::string, xmlPartSummaryVisitor::stanzaContents> ::iterator 
+        it1=stanzas.begin(); it1!=stanzas.end(); ++it1) {
+
+      std::string 
+        lyricsName =
+          voiceName + 
+          "LyricsStanza"+
+          int2EnglishWord (atoi(it1->first.c_str()));
+      std::string result;
+      
+      for (std::list<std::list<std::string> > ::iterator 
+          it2=it1->second.begin(); it2!=it1->second.end(); ++it2) {    
+
+        std::list<std::string> ::const_iterator 
+          it2Begin = it2->begin(),
+          it2End   = it2->end(),
+          it3      = it2Begin;
+  
+        for ( ; ; ) {
+          result+=*it3;
+          if (++it3 == it2End) break;
+          result+=" -- ";
+        } // for
+
+        result+=" ";
+      } // for
+
+      // create the lyrics
+      S_lpsrLyrics
+        lyrics =
+          lpsrLyrics::create(lyricsName, result);
+      
+      // append lyrics to the sequence
+      S_lpsrElement elem = lyrics;  
+      appendElementToSequence (elem);
+      
+      // add the lyrics to the voice
+      cout << // JMIJMI
+        "--> adding lyrics " << lyrics->getLyricsName() <<
+        " to voice " << voiceName << std::endl;
+      voice->addLyricsToVoice (lyrics);
+ */
