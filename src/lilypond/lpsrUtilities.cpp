@@ -31,7 +31,7 @@ namespace MusicXML2 {
 void lpsrMusicXMLWarning (string message)
 {
   cerr <<
-    "--> MusicXML WARNING : " << message << " ???" << std::endl;
+    "--> MusicXML WARNING : " << message << " ???" << endl;
 }
 
 //______________________________________________________________________________
@@ -42,12 +42,12 @@ indenter::indenter (string spacer)
 }
 indenter::~indenter () {}
 
-std::ostream& operator<< (std::ostream& os, const indenter& idtr) {
+ostream& operator<< (ostream& os, const indenter& idtr) {
   idtr.print(os);
   return os;
 }
 
-void indenter::print(std::ostream& os) const
+void indenter::print(ostream& os) const
 { 
   int i = fIndent;
   while (i-- > 0) os << fSpacer;
@@ -61,9 +61,9 @@ ostream& operator<< (ostream& os, const haendel& endl)
   return os;
 }
 
-void haendel::print(std::ostream& os) const { 
+void haendel::print(ostream& os) const { 
   int i = fIndent;
-  os << std::endl;
+  os << endl;
   while (i-- > 0)  os << fSpacer;
 }
 */
@@ -184,8 +184,8 @@ string stringNumbersToEnglishWords (string str)
 {
   typedef enum { kInitialState, kWorkingOnDigits, kWorkingOnNonDigits } workState;
       
-  std::vector<string> chunks;
-  std::vector<int>         states;
+  vector<string> chunks;
+  vector<int>         states;
     
   workState state = kInitialState;
   
@@ -230,17 +230,17 @@ string stringNumbersToEnglishWords (string str)
   return result;
 };
 /* JMI
- *   std::pair <int,int> foo;
-  std::pair <int,int> bar;
+ *   pair <int,int> foo;
+  pair <int,int> bar;
 
-  foo = std::make_pair (10,20);
-  bar = std::make_pair (10.5,'A'); // ok: implicit conversion from pair<double,char>
+  foo = make_pair (10,20);
+  bar = make_pair (10.5,'A'); // ok: implicit conversion from pair<double,char>
 
-  std::cout << "foo: " << foo.first << ", " << foo.second << '\n';
-  std::cout << "bar: " << bar.first << ", " << bar.second << '\n';
+  cout << "foo: " << foo.first << ", " << foo.second << '\n';
+  cout << "bar: " << bar.first << ", " << bar.second << '\n';
 
 
-  std::list<S_lpsrdynamics>::const_iterator i1;
+  list<S_lpsrdynamics>::const_iterator i1;
   for (i1=fChordDynamics.begin(); i1!=fChordDynamics.end(); i1++) {
     os << " " << (*i1);
   } // for

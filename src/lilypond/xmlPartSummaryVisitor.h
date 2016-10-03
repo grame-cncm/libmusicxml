@@ -111,14 +111,14 @@ class EXP xmlPartSummaryVisitor :
  //   int                   fVoicesNumber;
     
     // staves and corresponding count of notes
-    std::map<int, int>    fStavesNotesCount;
+    map<int, int>    fStavesNotesCount;
     
     // voices and their number of notes
     // one entry per voice, hence size is the number of voices
-    std::map<int, int>    fVoicesNotesCount;
+    map<int, int>    fVoicesNotesCount;
     
     // staves and corresponding voices + count of notes
-    std::map<int, std::map<int, int> >
+    map<int, map<int, int> >
                           fStaffVoicesAndNotesNumber;
 
     // the current staff, in case a voice uses several

@@ -18,7 +18,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <locale>         // std::locale, std::tolower
+#include <locale>         // locale, tolower
 
 #include "tree_browser.h"
 #include "xml_tree_browser.h"
@@ -129,7 +129,7 @@ void xml2LpsrVisitor::appendElementToSequence (S_lpsrElement& elt) {
   bool doDebug = fTranslationSettings->fDebug;
 //  bool doDebug = false;
 
-  if (doDebug) cout << "!!! appendElementToSequence : " << elt << std::endl;
+  if (doDebug) cout << "!!! appendElementToSequence : " << elt << endl;
   fImplicitSequence->appendElementToSequence (elt);
 }
 
@@ -241,9 +241,9 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   int size = partSummaryVoiceIDsList->size();
 
   if (size > 1)
-    cerr << "Theare are " << size << " voices" << std::endl;
+    cerr << "Theare are " << size << " voices" << endl;
   else
-    cerr << "There is 1 voice" << std::endl;
+    cerr << "There is 1 voice" << endl;
     
   int      targetStaff = -1;
   bool     notesOnly = false;
@@ -307,7 +307,6 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
         fTranslationSettings,
         part,
         voice,
-        fImplicitSequence,
         targetStaff,
         fCurrentStaffIndex,
         targetVoice,
@@ -364,9 +363,9 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     int size = fLpsrPartsMap.size();
 
     if (size > 1)
-      cerr << "Theare are " << size << " parts" << std::endl;
+      cerr << "Theare are " << size << " parts" << endl;
     else
-      cerr << "There is 1 part" << std::endl;
+      cerr << "There is 1 part" << endl;
   }
 
   lpsrPartsmap::const_iterator i;
@@ -377,7 +376,7 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     string  partName = part->getPartName ();
      
     // create a staff
-    cout << "--> creating a new staff command" << std::endl;
+    cout << "--> creating a new staff command" << endl;
     S_lpsrNewstaffCommand
       newStaffCommand =
         lpsrNewstaffCommand::create();
@@ -392,10 +391,10 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
 
     if (voicesNbr == 1)
       cout <<
-        "Handling part " << partName << " single voice" << std::endl;
+        "Handling part " << partName << " single voice" << endl;
     else
       cout <<
-        "Handling part " << partName << " " << voicesNbr << " voices" << std::endl;
+        "Handling part " << partName << " " << voicesNbr << " voices" << endl;
 
     map<int, S_lpsrVoice>::const_iterator i;
     for (i = partVoices.begin(); i != partVoices.end(); i++) {
@@ -403,7 +402,7 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
       S_lpsrVoice voice = (*i).second;
       string voiceName  = voice->getVoiceName();
 
-      std::vector<S_lpsrLyrics>
+      vector<S_lpsrLyrics>
         voiceLyrics =
           voice->getVoiceLyrics ();
 
@@ -437,8 +436,8 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
       newStaffCommand->addElementToNewStaff (voiceContext);
   
       cout <<
-        "--> add the lyrics to the staff, " << voiceName << std::endl;
-      std::vector<S_lpsrLyrics>::const_iterator i;
+        "--> add the lyrics to the staff, " << voiceName << endl;
+      vector<S_lpsrLyrics>::const_iterator i;
       for (i = voiceLyrics.begin(); i != voiceLyrics.end(); i++) {
         S_lpsrLyrics lyrics     = (*i);
         string  lyricsName = lyrics->getLyricsName();
@@ -535,7 +534,7 @@ void xml2LpsrVisitor::visitEnd ( S_scaling& elt)
     cerr <<
       "There are " << fTenths << " tenths for " << 
       fMillimeters << " millimeters, hence a global staff size of " <<
-      fGlobalStaffSize << std::endl;
+      fGlobalStaffSize << endl;
 }
 
 //______________________________________________________________________________
@@ -681,50 +680,3 @@ voice
 
   */
 
-
-
-/*
-    std::map<string, xmlPartSummaryVisitor::stanzaContents> 
-      stanzas = xpsv.getStanzas();
-    for (std::map<string, xmlPartSummaryVisitor::stanzaContents> ::iterator 
-        it1=stanzas.begin(); it1!=stanzas.end(); ++it1) {
-
-      string 
-        lyricsName =
-          voiceName + 
-          "LyricsStanza"+
-          int2EnglishWord (atoi(it1->first.c_str()));
-      string result;
-      
-      for (std::list<std::list<string> > ::iterator 
-          it2=it1->second.begin(); it2!=it1->second.end(); ++it2) {    
-
-        std::list<string> ::const_iterator 
-          it2Begin = it2->begin(),
-          it2End   = it2->end(),
-          it3      = it2Begin;
-  
-        for ( ; ; ) {
-          result+=*it3;
-          if (++it3 == it2End) break;
-          result+=" -- ";
-        } // for
-
-        result+=" ";
-      } // for
-
-      // create the lyrics
-      S_lpsrLyrics
-        lyrics =
-          lpsrLyrics::create(lyricsName, result);
-      
-      // append lyrics to the sequence
-      S_lpsrElement elem = lyrics;  
-      appendElementToSequence (elem);
-      
-      // add the lyrics to the voice
-      cout << // JMIJMI
-        "--> adding lyrics " << lyrics->getLyricsName() <<
-        " to voice " << voiceName << std::endl;
-      voice->addLyricsToVoice (lyrics);
- */

@@ -36,7 +36,6 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   S_translationSettings& ts,
   S_lpsrPart             part,
   S_lpsrVoice            voice,
-  S_lpsrSequence         sequence,
   int                    targetStaff,
   int                    currentStaffID,
   int                    targetVoiceID,  // JMI
@@ -47,10 +46,6 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   
   fVisitedPart  =  part;
   fCurrentVoice = voice;
-
-  fVisitorSequence = sequence;
-
-//  fVisitorSequence = fVisitedPart->getPartSequence();
 
   fMusicXMLNoteData.fMusicxmlDuration = -8;
   fMusicXMLNoteData.fNoteBelongsToAChord = false;    
@@ -72,36 +67,13 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   
   fATupletIsBeingBuilt = false;
   fCurrentTupletNumber = -1;
-  fCurrentTupletKind = lpsrTuplet::k_NoTuplet;
+  fCurrentTupletKind   = lpsrTuplet::k_NoTuplet;
 
-  fLastLyric = 0;
-  fLastSyllabic = 0;
-  fOnGoingLyrics = false;
+  fCurrentLyricNumber = -1;
+  fCurrentSyllabic    = "";
+  fCurrentText        = "";
+  fOnGoingLyrics      = false;
 }
-
-/*
-//______________________________________________________________________________
-void xmlPart2LpsrVisitor::addElementToPartSequence (S_lpsrElement& elt) {
-//  bool doDebug = fTranslationSettings->fDebug;
-  bool doDebug = false;
-
-  if (doDebug) cout << "!!! addElementToPartSequence : " << elt << std::endl;
-  fCurrentVoice->appendElementToVoiceSequence (elt);
-}
-
-S_lpsrElement xmlPart2LpsrVisitor::getLastElementOfPartSequence() {
-  return
-    fVisitorSequence->getLastElementOfSequence ();
-}
-
-void xmlPart2LpsrVisitor::removeLastElementOfPartSequence () {
-//  bool doDebug = fTranslationSettings->fDebug;
-  bool doDebug = false;
-
-  if (doDebug) cout << "!!! removeLastElementOfPartSequence" << std::endl;
-  fVisitorSequence->removeLastElementOfSequence ();
-}
-*/
 
 void xmlPart2LpsrVisitor::resetCurrentTime ()
 {
@@ -122,11 +94,11 @@ void xmlPart2LpsrVisitor::visitStart ( S_divisions& elt )
   fCurrentDivisions = (int)(*elt);
   if (fTranslationSettings->fTrace) {
     if (fCurrentDivisions == 1)
-      cerr << "There is 1 division per quater note" << std::endl;
+      cerr << "There is 1 division per quater note" << endl;
     else
       cerr <<
         "There are " << fCurrentDivisions <<
-        " divisions per quater note" << std::endl;
+        " divisions per quater note" << endl;
   }
 }
 
@@ -513,7 +485,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_metronome& elt )
   fCurrentBeat.fDots = 0;
 
   if (parentheses.size()) {
-    cout << "S_metronome, parentheses = " << parentheses << std::endl;
+    cout << "S_metronome, parentheses = " << parentheses << endl;
     
     if (parentheses == "yes") 
       fParentheses = true;
@@ -562,7 +534,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_metronome& elt ) {
   S_lpsrTempoCommand tempo =
     lpsrTempoCommand::create (r.getDenominator(), fPerMinute);
     
-  fVisitorSequence->appendElementToSequence (tempo);
+  fCurrentVoice->appendElementToVoiceSequence (tempo);
   
  // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
@@ -876,7 +848,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_octave& elt)
 void xmlPart2LpsrVisitor::visitStart ( S_duration& elt )
 {
   fMusicXMLNoteData.fMusicxmlDuration = (int)(*elt);
-//  cout << "=== xmlPart2LpsrVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << std::endl; JMI
+//  cout << "=== xmlPart2LpsrVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << endl; JMI
 }
 
 void xmlPart2LpsrVisitor::visitStart ( S_dot& elt )
@@ -937,7 +909,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_tuplet& elt )
   /* JMI
   cout <<
     "xmlPart2LpsrVisitor::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
-    fCurrentTupletNumber << ", type = " << type <<std::endl;
+    fCurrentTupletNumber << ", type = " << type <<endl;
   */
   
   fCurrentTupletKind = lpsrTuplet::k_NoTuplet;
@@ -960,7 +932,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_tuplet& elt )
 //______________________________________________________________________________
 void xmlPart2LpsrVisitor::visitStart ( S_note& elt ) 
 {
-  //  cout << "--> xmlPart2LpsrVisitor::visitStart ( S_note& elt ) " << std::endl;
+  //  cout << "--> xmlPart2LpsrVisitor::visitStart ( S_note& elt ) " << endl;
   fMusicXMLNoteData.fMusicxmlStep = '_';
   fMusicXMLNoteData.fMusicxmlStepIsARest = false;
   fMusicXMLNoteData.fMusicxmlAlteration = 0; // natural notes
@@ -990,7 +962,7 @@ void xmlPart2LpsrVisitor::createChord (S_lpsrDuration noteDuration) {
   fCurrentNote->setNoteBelongsToAChord();
   
   // move the pending dynamics if any from the first note to the chord
-  std::list<S_lpsrDynamics> noteDynamics = fCurrentNote->getNoteDynamics();
+  list<S_lpsrDynamics> noteDynamics = fCurrentNote->getNoteDynamics();
   while (! noteDynamics.empty()) {
     //cout << "--> moving dynamics from fCurrentNote to fCurrentChord" << endl;
     S_lpsrDynamics dyn = noteDynamics.front();
@@ -999,7 +971,7 @@ void xmlPart2LpsrVisitor::createChord (S_lpsrDuration noteDuration) {
   } // while
  
   // move the pending wedges if any from the first note to the chord
-  std::list<S_lpsrWedge> noteWedges = fCurrentNote->getNoteWedges();
+  list<S_lpsrWedge> noteWedges = fCurrentNote->getNoteWedges();
   while (! noteWedges.empty()) {
     //cout << "--> moving wedge from fCurrentNote to fCurrentChord" << endl;
     S_lpsrWedge wdg = noteWedges.front();
@@ -1020,11 +992,11 @@ void xmlPart2LpsrVisitor::createTuplet (S_lpsrNote note) {
     fCurrentNormalNotes);
 
   // register it in this visitor
-  cout << "--> pushing tuplet to tuplets stack" << std::endl;
+  cout << "--> pushing tuplet to tuplets stack" << endl;
   fCurrentTupletsStack.push(fCurrentTuplet);
   
   // add note to the tuplet
-  cout << "--> adding note " << note << " to tuplets stack top" << std::endl;
+  cout << "--> adding note " << note << " to tuplets stack top" << endl;
   fCurrentTuplet->addElementToTuplet(note);
 }
 
@@ -1033,15 +1005,15 @@ void xmlPart2LpsrVisitor::finalizeTuplet (S_lpsrNote note) {
   S_lpsrTuplet tup = fCurrentTupletsStack.top();
 
   // add note to the tuplet
-  cout << "--> adding note " << note << " to tuplets stack top" << std::endl;
+  cout << "--> adding note " << note << " to tuplets stack top" << endl;
   tup->addElementToTuplet(note);
 
   // pop from the tuplets stack
-  cout << "--> popping from tuplets stack" << std::endl;
+  cout << "--> popping from tuplets stack" << endl;
   fCurrentTupletsStack.pop();        
 
   // add tuplet to the part
-  cout << "=== adding tuplet to the part sequence" << std::endl;
+  cout << "=== adding tuplet to the part sequence" << endl;
   S_lpsrElement elem = tup;
   fCurrentVoice->appendElementToVoiceSequence (elem);
 }          
@@ -1049,13 +1021,13 @@ void xmlPart2LpsrVisitor::finalizeTuplet (S_lpsrNote note) {
 //______________________________________________________________________________
 void xmlPart2LpsrVisitor::visitEnd ( S_note& elt ) 
 {
-  //  cout << "<-- xmlPart2LpsrVisitor::visitEnd ( S_note& elt ) " << std::endl;
+  //  cout << "<-- xmlPart2LpsrVisitor::visitEnd ( S_note& elt ) " << endl;
 
   if (fTranslationSettings->fDebug)
-    std::cerr <<
+    cerr <<
       "fMusicXMLNoteData.fMusicxmlDuration = " << 
       fMusicXMLNoteData.fMusicxmlDuration << ", " << 
-      "fCurrentDivisions*4 = " << fCurrentDivisions*4 << std::endl;
+      "fCurrentDivisions*4 = " << fCurrentDivisions*4 << endl;
       
   if (fCurrentDivisions == 0)
     lpsrMusicXMLError ("divisions cannot be 0");
@@ -1063,7 +1035,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_note& elt )
   fMusicXMLNoteData.fMusicxmlDivisions = fCurrentDivisions;
   fMusicXMLNoteData.fTupletMemberType = fCurrentType;
   
-  //cout << "::: creating a note" << std::endl;
+  //cout << "::: creating a note" << endl;
   S_lpsrNote note =
     lpsrNote::createFromMusicXMLData (
       fTranslationSettings, fMusicXMLNoteData);
@@ -1148,7 +1120,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_note& elt )
       case lpsrTuplet::kContinueTuplet:
         {
           // populate the tuplet at the top of the stack
-          cout << "--> adding note " << note << " to tuplets stack top" << std::endl;
+          cout << "--> adding note " << note << " to tuplets stack top" << endl;
           fCurrentTupletsStack.top()->addElementToTuplet(note);
         }
         break;
@@ -1184,59 +1156,60 @@ void xmlPart2LpsrVisitor::visitEnd ( S_note& elt )
 //______________________________________________________________________________
 void xmlPart2LpsrVisitor::visitStart ( S_rest& elt)
 {
-  //  cout << "--> xmlPart2LpsrVisitor::visitStart ( S_rest& elt ) " << std::endl;
+  //  cout << "--> xmlPart2LpsrVisitor::visitStart ( S_rest& elt ) " << endl;
   fMusicXMLNoteData.fMusicxmlStepIsARest = true;
 }
 
 //________________________________________________________________________
 void xmlPart2LpsrVisitor::visitStart ( S_lyric& elt ) { 
-  fLastLyric = elt;
+  fCurrentLyricNumber = elt->getAttributeIntValue ("number", 0);
   fOnGoingLyrics = true;
 }
 
-void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) { 
-  fOnGoingLyrics = false;
-}
-
 void xmlPart2LpsrVisitor::visitStart ( S_syllabic& elt ) {
-  fLastSyllabic = elt;
-  string syllabicValue = fLastSyllabic->getValue();
+  fCurrentSyllabic = elt->getValue();
 
-  if (syllabicValue == "begin") {
+  if (fCurrentSyllabic == "begin") {
     fOnGoingLyrics = true;
   }
-  else if (syllabicValue == "end") {
+  else if (fCurrentSyllabic == "end") {
     fOnGoingLyrics = true;
   }
 }
 
 void xmlPart2LpsrVisitor::visitEnd ( S_text& elt ) 
 {
-  /*
+  fCurrentText = elt->getValue();
+//  cout << "--> fCurrentText = |" << fCurrentText << "|" << endl;
+
+/*  
+  size_t spacefound=text.find(" ");
+  if (spacefound!=string::npos) text = "\""+text+"\"";
+ */ 
+  
+  cout <<
+    "--> fCurrentLyricNumber = " << fCurrentLyricNumber <<
+    ", fCurrentSyllabic = " << fCurrentSyllabic <<
+    ", fCurrentText = |" << fCurrentText << "|" << endl;
+}
+
+void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) { 
+  fOnGoingLyrics = false;
+}
+
+ /*
         <lyric number="1">
           <syllabic>single</syllabic>
           <text>1. Sing</text>
           </lyric>
+          *
+          *     map<int, S_lpsrStanza> 
+                getLyricsStanzasMap () const { return fLyricsStanzasMap; }
+
   */
 
-  string      text = elt->getValue();
 
-  cout << "--> text = |" << text << "|" << std::endl;
-  
-  std::size_t spacefound=text.find(" ");
-  
-  if (spacefound!=string::npos) text = "\""+text+"\"";
-  
-  string lastLyricNumber   = fLastLyric->getAttributeValue ("number");
-  string lastSyllabicValue = fLastSyllabic->getValue();
-  
   /*
-  cout <<
-    "--> lastLyricNumber = " << lastLyricNumber <<
-    ", lastSyllabicValue = " << lastSyllabicValue <<
-    ", text = " << text << endl <<
-    flush;
-  */
       
   // create fStanzas [lastLyricNumber] on first visit
 
@@ -1253,7 +1226,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_text& elt )
     // create stanza on first visit
     fCurrentLyricsStanza =
       lpsrStanza::create (fLyricsName, fVoiceName);
- //   fStanzas[lastLyricNumber] = std::list<std::list<string> >();
+ //   fStanzas[lastLyricNumber] = list<list<string> >();
   }
     
   // create stanza chunk
@@ -1265,7 +1238,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_text& elt )
     // add stanza chunk to current lyrics
     fCurrentLyricsStanza -> addChunkToStanza (chunk);
           
- //   fStanzas[lastLyricNumber].push_back(std::list<string>());
+ //   fStanzas[lastLyricNumber].push_back(list<string>());
  //   fStanzas[lastLyricNumber].back().push_back(text);
   }
   else if (lastSyllabicValue == "middle" || lastSyllabicValue == "end") {
@@ -1281,8 +1254,56 @@ void xmlPart2LpsrVisitor::visitEnd ( S_text& elt )
     s >> result;
     lpsrMusicXMLError(result);
   }
-}
+  
+  */
 
+
+
+/*
+    map<string, xmlPartSummaryVisitor::stanzaContents> 
+      stanzas = xpsv.getStanzas();
+    for (map<string, xmlPartSummaryVisitor::stanzaContents> ::iterator 
+        it1=stanzas.begin(); it1!=stanzas.end(); ++it1) {
+
+      string 
+        lyricsName =
+          voiceName + 
+          "LyricsStanza"+
+          int2EnglishWord (atoi(it1->first.c_str()));
+      string result;
+      
+      for (list<list<string> > ::iterator 
+          it2=it1->second.begin(); it2!=it1->second.end(); ++it2) {    
+
+        list<string> ::const_iterator 
+          it2Begin = it2->begin(),
+          it2End   = it2->end(),
+          it3      = it2Begin;
+  
+        for ( ; ; ) {
+          result+=*it3;
+          if (++it3 == it2End) break;
+          result+=" -- ";
+        } // for
+
+        result+=" ";
+      } // for
+
+      // create the lyrics
+      S_lpsrLyrics
+        lyrics =
+          lpsrLyrics::create(lyricsName, result);
+      
+      // append lyrics to the sequence
+      S_lpsrElement elem = lyrics;  
+      appendElementToSequence (elem);
+      
+      // add the lyrics to the voice
+      cout << // JMIJMI
+        "--> adding lyrics " << lyrics->getLyricsName() <<
+        " to voice " << voiceName << endl;
+      voice->addLyricsToVoice (lyrics);
+ */
 
 
 

@@ -79,7 +79,7 @@ smartlist<int>::ptr xmlPartSummaryVisitor::getVoicesIDsList () const
 {
   smartlist<int>::ptr sl = smartlist<int>::create();
 
-//  cout << "--> getVoices () : " << std::endl;
+//  cout << "--> getVoices () : " << endl;
   for (
       map<int, int>::const_iterator i =
         fVoicesNotesCount.begin();
@@ -89,7 +89,7 @@ smartlist<int>::ptr xmlPartSummaryVisitor::getVoicesIDsList () const
     cout <<
       "i->first = " << i->first <<
       ", i->second = " << i->second <<
-      std::endl;
+      endl;
     */
     sl->push_back (i->first);
   } // for
@@ -170,7 +170,7 @@ int xmlPartSummaryVisitor::getVoiceMainStaffID (int voiceID) const
       "*i = " << *i <<
       ", maxnotes = " << maxnotes <<
       ", staffid = " << staffid <<
-      std::endl;
+      endl;
     */
   } // for
   
@@ -254,14 +254,16 @@ void xmlPartSummaryVisitor::visitEnd ( S_note& elt)
   // account for voice in staff
   fStaffVoicesAndNotesNumber [fCurrentStaff] [fCurrentVoice]++;
 
+/*
   cout <<
-    "--> xmlPartSummaryVisitor::visitEnd ( S_note& elt) :" << std::endl <<
-    "  fCurrentStaff = " << fCurrentStaff << std::endl <<
-    "  fCurrentVoice = " << fCurrentVoice << std::endl <<
-    "  fStavesNotesCount[fCurrentStaff] = " << fStavesNotesCount[fCurrentStaff] << std::endl <<
-    "  fVoicesNotesCount[fCurrentVoice] = " << fVoicesNotesCount[fCurrentVoice] << std::endl <<
+    "--> xmlPartSummaryVisitor::visitEnd ( S_note& elt) :" << endl <<
+    "  fCurrentStaff = " << fCurrentStaff << endl <<
+    "  fCurrentVoice = " << fCurrentVoice << endl <<
+    "  fStavesNotesCount[fCurrentStaff] = " << fStavesNotesCount[fCurrentStaff] << endl <<
+    "  fVoicesNotesCount[fCurrentVoice] = " << fVoicesNotesCount[fCurrentVoice] << endl <<
     "  fStaffVoicesAndNotesNumber[fCurrentStaff][fCurrentVoice] = " <<
     fStaffVoicesAndNotesNumber [fCurrentStaff][fCurrentVoice] << endl;
+*/
 }
 
 //     string       lyricsName =

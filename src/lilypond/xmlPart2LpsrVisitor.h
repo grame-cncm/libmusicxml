@@ -134,7 +134,6 @@ class EXP xmlPart2LpsrVisitor :
       S_translationSettings& ts,
       S_lpsrPart             part,
       S_lpsrVoice            voice,
-      S_lpsrSequence         sequence,
       int                    targetStaff,
       int                    currentStaffID,
       int                    targetVoiceID,  // JMI
@@ -261,7 +260,6 @@ class EXP xmlPart2LpsrVisitor :
     void resetCurrentTime();
 
     S_lpsrVoice             fCurrentVoice;
-    S_lpsrSequence          fVisitorSequence;
 
     // the current part
     string                  fCurrentPartID;
@@ -283,7 +281,7 @@ class EXP xmlPart2LpsrVisitor :
     */
   // JMI  rational            timeSignatureFromIndex(int index);
     
- //   std::vector<std::pair<string,string> >
+ //   vector<pair<string,string> >
 //                        fTimeSignatures;
   
     // staff handling
@@ -310,9 +308,11 @@ class EXP xmlPart2LpsrVisitor :
     
 
     // the last lyric number, i.e. stanza number
-    S_lyric                 fLastLyric;
+    int                     fCurrentLyricNumber;
     // the last sysllabic spec met (single, begin, middle or end)
-    S_syllabic              fLastSyllabic;
+    string                  fCurrentSyllabic;
+    // the last lyrics fragment met
+    string                  fCurrentText;
 
     // the current lyrics and stanza
     S_lpsrLyrics            fCurrentLyrics;
@@ -337,7 +337,7 @@ class EXP xmlPart2LpsrVisitor :
     bool                    fATupletIsBeingBuilt;
 
     S_lpsrTuplet             fCurrentTuplet;
-    std::stack<S_lpsrTuplet> fCurrentTupletsStack;
+    stack<S_lpsrTuplet> fCurrentTupletsStack;
          
 //    string         fCurrentStem;
    
@@ -363,7 +363,7 @@ class EXP xmlPart2LpsrVisitor :
     int                     fNumber;
 
     // metronome handling
-    std::vector<musicXMLBeatData>
+    vector<musicXMLBeatData>
                             fBeatsData;
     int                     fPerMinute;
     musicXMLBeatData        fCurrentBeat;
@@ -381,11 +381,11 @@ class EXP xmlPart2LpsrVisitor :
     
     // dynamics and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
-    std::list<S_lpsrDynamics> fPendingDynamics;
-    std::list<S_lpsrWedge>    fPendingWedges;
+    list<S_lpsrDynamics>    fPendingDynamics;
+    list<S_lpsrWedge>       fPendingWedges;
        
-    int                      fMeasureNumber;
-    S_measure                fCurrentMeasure;  
+    int                     fMeasureNumber;
+    S_measure               fCurrentMeasure;  
   
   
     int       fCurrentOffset;     // the current direction offset: represents an element relative displacement in current division unit
