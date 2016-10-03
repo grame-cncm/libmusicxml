@@ -149,10 +149,10 @@ void lpsrAbsoluteOctave::printMusicXML (ostream& os)
   os << "<!-- lpsrAbsoluteOctave??? -->" << std::endl;
 }
 
-std::string lpsrAbsoluteOctave::absoluteOctaveAsLilypondString ()
+string lpsrAbsoluteOctave::absoluteOctaveAsLilypondString ()
 {
   stringstream s;
-  std::string  result;
+  string  result;
   
   s << fLpsrOctave;
   s >> result;
@@ -180,7 +180,7 @@ S_lpsrDuration lpsrDuration::create (
   int num,
   int denom,
   int dots,
-  std::string tupletMemberType)
+  string tupletMemberType)
 {
   lpsrDuration * o =
     new lpsrDuration (num, denom, dots, tupletMemberType);
@@ -192,7 +192,7 @@ lpsrDuration::lpsrDuration (
     int num,
     int denom,
     int dots,
-    std::string tupletMemberType)
+    string tupletMemberType)
   : lpsrElement("")
 {
   fNum   = num;
@@ -223,7 +223,7 @@ void lpsrDuration::printMusicXML(ostream& os)
   os << "<!-- lpsrDuration??? -->" << std::endl;
 }
 
-std::string lpsrDuration::durationAsLilypondString ()
+string lpsrDuration::durationAsLilypondString ()
 {
   // divisions are per quater, Lpsr durations are in whole notes
 //  cout << "|"  << fNum << "|" << fDenom << "|" << fDots << "|" << std::endl;
@@ -233,7 +233,7 @@ std::string lpsrDuration::durationAsLilypondString ()
   
   if (divisionsPerWholeNote == 0) {
     stringstream s;
-    std::string  message;
+    string  message;
     s << 
       std::endl << 
       "%--> lpsrDuration::printLilyPondCode, noteDivisions = " << noteDivisions <<
@@ -261,7 +261,7 @@ std::string lpsrDuration::durationAsLilypondString ()
     else
       {
         stringstream s;
-      std::string  message;
+      string  message;
       s << 
         std::endl << 
         "--> unknown tuplet member type " << fTupletMemberType <<
@@ -310,7 +310,7 @@ std::string lpsrDuration::durationAsLilypondString ()
       default:
         {
         stringstream s;
-        std::string  message;
+        string  message;
         s <<
           "*** ERROR, MusicXML note duration " << noteDivisions << "/" << 
           divisionsPerWholeNote << " is too large" << std::endl;
@@ -330,7 +330,7 @@ std::string lpsrDuration::durationAsLilypondString ()
     } // while
   }
   
-  std::string  result;
+  string  result;
   
   s >> result;
   return result;
@@ -372,7 +372,7 @@ ostream& operator<< (ostream& os, const S_lpsrDynamics& dyn)
   return os;
 }
 
-std::string lpsrDynamics::dynamicsKindAsLilypondString ()
+string lpsrDynamics::dynamicsKindAsLilypondString ()
 {
   stringstream s;
   
@@ -431,14 +431,14 @@ std::string lpsrDynamics::dynamicsKindAsLilypondString ()
     default:
       {
       stringstream s;
-      std::string  message;
+      string  message;
       s << "Dynamics " << fDynamicsKind << " is unknown";
       s >> message;
       lpsrMusicXMLError(message);
       }
   } // switch
   
-  std::string result;
+  string result;
   
   s >> result;
   return result;
@@ -480,7 +480,7 @@ ostream& operator<< (ostream& os, const S_lpsrWedge& wdg)
   return os;
 }
 
-std::string lpsrWedge::wedgeKinsAsString ()
+string lpsrWedge::wedgeKinsAsString ()
 {
   stringstream s;
   
@@ -498,7 +498,7 @@ std::string lpsrWedge::wedgeKinsAsString ()
       s << "Wedge" << fWedgeKind << "???";
   } // switch
   
-  std::string result;
+  string result;
   
   s >> result;
   return result;
@@ -549,7 +549,7 @@ lpsrNote::lpsrNote (
 
   if (fMusicXMLNoteData.fMusicxmlStep <'A' || fMusicXMLNoteData.fMusicxmlStep > 'G') {
     stringstream s;
-    std::string  message;
+    string  message;
     s << "step value " << fMusicXMLNoteData.fMusicxmlStep << " is not a letter from A to G";
     s >> message;
     lpsrMusicXMLError (message);
@@ -593,7 +593,7 @@ lpsrNote::lpsrNote (
 */
   
   stringstream s;
-  std::string  message;
+  string  message;
   s <<
     "MusicXML alteration " << fMusicXMLNoteData.fMusicxmlAlteration <<
     " is not between -2 and +2";
@@ -839,7 +839,7 @@ ostream& operator<< (ostream& os, const S_lpsrNote& elt)
   return os;
 }
 
-std::string lpsrNote::notePitchAsLilypondString ()
+string lpsrNote::notePitchAsLilypondString ()
 {
   stringstream s;
   
@@ -916,7 +916,7 @@ std::string lpsrNote::notePitchAsLilypondString ()
     } // switch
   }
   
-  std::string  result;
+  string  result;
   
   s >> result;
   return result;
@@ -1006,7 +1006,7 @@ void lpsrNote::printLilyPondCode(ostream& os)
 
 /*
 
-std::string lpsrNote::octaveRepresentation (char octave)
+string lpsrNote::octaveRepresentation (char octave)
 {
   stringstream s;
   if (octave > 0) {
@@ -1281,13 +1281,13 @@ void lpsrBarLine::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrComment lpsrComment::create(std::string contents, GapKind gapKind)
+S_lpsrComment lpsrComment::create(string contents, GapKind gapKind)
 {
   lpsrComment* o = new lpsrComment(contents, gapKind); assert(o!=0);
   return o;
 }
 
-lpsrComment::lpsrComment(std::string contents, GapKind gapKind)
+lpsrComment::lpsrComment(string contents, GapKind gapKind)
   : lpsrElement("")
 {
   fContents=contents;
@@ -1515,7 +1515,7 @@ void lpsrBeam::printLilyPondCode(ostream& os)
 
 //______________________________________________________________________________
 /*
-std::map<std::string, xmlPartSummaryVisitor::stanzaContents> & xmlPartSummaryVisitor::getStanzas() { 
+std::map<string, xmlPartSummaryVisitor::stanzaContents> & xmlPartSummaryVisitor::getStanzas() { 
   return fStanzas;
 }
 
@@ -1525,12 +1525,12 @@ void xmlPartSummaryVisitor::clearStanzas () {
 */
 
 /*
-std::string xmlPartSummaryVisitor::stanzaAsString (std::string separator) const {
+string xmlPartSummaryVisitor::stanzaAsString (string separator) const {
 //  if (fTranslationSettings->fTrace) cerr << "Extracting part \"" << partid << "\" lyrics information" << endl;
-//  std::map<std::string, std::list<std::list<std::string> > > stanzas = ps.getStanzas();
+//  std::map<string, std::list<std::list<string> > > stanzas = ps.getStanzas();
 
 
-  std::map<std::string, stanzaContents> ::const_iterator
+  std::map<string, stanzaContents> ::const_iterator
     it1 = fStanzas.find(name);
   
   if (it1 != fStanzas.end()) {
@@ -1542,7 +1542,7 @@ std::string xmlPartSummaryVisitor::stanzaAsString (std::string separator) const 
 
     for (stanzaContents::const_iterator 
         it2=it1->second.begin(); it2!=it1->second.end(); ++it2) { 
-      std::list<std::string> ::const_iterator 
+      std::list<string> ::const_iterator 
         it2Begin = it2->begin(),
         it2End   = it2->end(),
         it3      = it2Begin;
@@ -1579,7 +1579,7 @@ class lpsrStanzaChunk : public lpsrElement {
   private:
   
     stanzaChunkType fStanzaChunkType;
-    std::string     fChunkText;
+    string     fChunkText;
 }
 */
 
@@ -1587,7 +1587,7 @@ class lpsrStanzaChunk : public lpsrElement {
 //______________________________________________________________________________
 S_lpsrStanzaChunk lpsrStanzaChunk::create (
   stanzaChunkType chunkType,
-  std::string     chunkText)
+  string     chunkText)
 {
   lpsrStanzaChunk* o =
     new lpsrStanzaChunk (chunkType, chunkText); assert(o!=0);
@@ -1596,7 +1596,7 @@ S_lpsrStanzaChunk lpsrStanzaChunk::create (
 
 lpsrStanzaChunk::lpsrStanzaChunk (
   stanzaChunkType chunkType,
-  std::string     chunkText)
+  string     chunkText)
   : lpsrElement("")
 {
   fStanzaChunkType = chunkType;
@@ -1638,16 +1638,16 @@ void lpsrStanzaChunk::printLilyPondCode(ostream& os)
 
 //______________________________________________________________________________
 S_lpsrStanza lpsrStanza::create (
-  std::string lyricsName,
-  std::string voiceName)
+  string lyricsName,
+  string voiceName)
 {
   lpsrStanza* o = new lpsrStanza (lyricsName, voiceName); assert(o!=0);
   return o;
 }
 
 lpsrStanza::lpsrStanza (
-  std::string lyricsName,
-  std::string voiceName)
+  string lyricsName,
+  string voiceName)
   : lpsrElement("")
 {
   fLyricsName = lyricsName;
@@ -1693,8 +1693,8 @@ void lpsrStanza::printLilyPondCode(ostream& os)
 
 //______________________________________________________________________________
 S_lpsrLyrics lpsrLyrics::create (
-  std::string lyricsName,
-  std::string voiceName)
+  string lyricsName,
+  string voiceName)
 {
   lpsrLyrics* o =
     new lpsrLyrics (lyricsName, voiceName);
@@ -1703,8 +1703,8 @@ S_lpsrLyrics lpsrLyrics::create (
 }
 
 lpsrLyrics::lpsrLyrics(
-  std::string lyricsName,
-  std::string voiceName)
+  string lyricsName,
+  string voiceName)
   : lpsrElement("")
 {
   fLyricsName = lyricsName;
@@ -1774,13 +1774,13 @@ void lpsrLyrics::printLilyPondCode(ostream& os)
 */
 
 //______________________________________________________________________________
-S_lpsrVoiceBOF lpsrVoiceBOF::create (std::string voiceName)
+S_lpsrVoiceBOF lpsrVoiceBOF::create (string voiceName)
 {
   lpsrVoiceBOF* o = new lpsrVoiceBOF (voiceName); assert(o!=0);
   return o;
 }
 
-lpsrVoiceBOF::lpsrVoiceBOF (std::string voiceName)
+lpsrVoiceBOF::lpsrVoiceBOF (string voiceName)
    : lpsrElement("")
 {
   fVoiceName = voiceName;
@@ -1832,7 +1832,7 @@ void lpsrVoiceBOF::printLilyPondCode(ostream& os)
 
 //______________________________________________________________________________
 S_lpsrVoice lpsrVoice::create(
-  std::string name,
+  string name,
   bool absoluteCode,
   bool generateNumericalTime)
 {
@@ -1843,7 +1843,7 @@ S_lpsrVoice lpsrVoice::create(
 }
 
 lpsrVoice::lpsrVoice(
-  std::string name,
+  string name,
   bool absoluteCode,
   bool generateNumericalTime)
     : lpsrElement("")
@@ -1896,8 +1896,8 @@ void lpsrVoice::printLilyPondCode(ostream& os)
 
 //______________________________________________________________________________
 S_lpsrPart lpsrPart::create (
-  std::string name,
-  std::string partInstrumentName,
+  string name,
+  string partInstrumentName,
   bool        absoluteCode,
   bool        generateNumericalTime)
 {
@@ -1912,8 +1912,8 @@ S_lpsrPart lpsrPart::create (
 }
 
 lpsrPart::lpsrPart (
-  std::string name,
-  std::string partInstrumentName,
+  string name,
+  string partInstrumentName,
   bool        absoluteCode,
   bool        generateNumericalTime)
     : lpsrElement("")
@@ -2085,7 +2085,7 @@ S_lpsrHeader lpsrHeader::create() {
 lpsrHeader::lpsrHeader() : lpsrElement("") {}
 lpsrHeader::~lpsrHeader() {}
 
-void lpsrHeader::setWorkNumber (std::string val)
+void lpsrHeader::setWorkNumber (string val)
   {
   fWorkNumber =
     lpsrLilypondVarValAssoc::create (
@@ -2097,7 +2097,7 @@ void lpsrHeader::setWorkNumber (std::string val)
 S_lpsrLilypondVarValAssoc lpsrHeader::getWorkNumber () const
  { return fWorkNumber; }
 
-void lpsrHeader::setWorkTitle (std::string val)
+void lpsrHeader::setWorkTitle (string val)
   {
   fWorkTitle =
     lpsrLilypondVarValAssoc::create (
@@ -2109,7 +2109,7 @@ void lpsrHeader::setWorkTitle (std::string val)
 S_lpsrLilypondVarValAssoc lpsrHeader::getWorkTitle () const
   { return fWorkTitle; }
 
-void lpsrHeader::setMovementNumber (std::string val)
+void lpsrHeader::setMovementNumber (string val)
   {
   fMovementNumber =
     lpsrLilypondVarValAssoc::create (
@@ -2121,7 +2121,7 @@ void lpsrHeader::setMovementNumber (std::string val)
 S_lpsrLilypondVarValAssoc lpsrHeader::getMovementNumber () const
   { return fMovementNumber; }
 
-void lpsrHeader::setMovementTitle (std::string val)
+void lpsrHeader::setMovementTitle (string val)
 {
   fMovementTitle =
     lpsrLilypondVarValAssoc::create (
@@ -2133,7 +2133,7 @@ void lpsrHeader::setMovementTitle (std::string val)
 S_lpsrLilypondVarValAssoc lpsrHeader::getMovementTitle () const
   { return fMovementTitle; }
 
-void lpsrHeader::addCreator (std::string type, std::string val)
+void lpsrHeader::addCreator (string type, string val)
 {
   fCreators.push_back(
     lpsrLilypondVarValAssoc::create (
@@ -2146,7 +2146,7 @@ void lpsrHeader::addCreator (std::string type, std::string val)
 std::vector<S_lpsrLilypondVarValAssoc> lpsrHeader::getCreators () const
   { return fCreators; };
 
-void lpsrHeader::setRights (std::string val)
+void lpsrHeader::setRights (string val)
   {
   fRights =
     lpsrLilypondVarValAssoc::create (
@@ -2158,7 +2158,7 @@ void lpsrHeader::setRights (std::string val)
 S_lpsrLilypondVarValAssoc lpsrHeader::getRights () const
   { return fRights; }
 
-void lpsrHeader::addSoftware (std::string val)
+void lpsrHeader::addSoftware (string val)
 {
   fSoftwares.push_back(
     lpsrLilypondVarValAssoc::create (
@@ -2171,7 +2171,7 @@ void lpsrHeader::addSoftware (std::string val)
 std::vector<S_lpsrLilypondVarValAssoc> lpsrHeader::getSoftwares () const
   { return fSoftwares; };
 
-void lpsrHeader::setEncodingDate (std::string val)
+void lpsrHeader::setEncodingDate (string val)
 {
   fEncodingDate =
     lpsrLilypondVarValAssoc::create (
@@ -2183,7 +2183,7 @@ void lpsrHeader::setEncodingDate (std::string val)
 S_lpsrLilypondVarValAssoc lpsrHeader::getEncodingDate () const
   { return fEncodingDate; }
 
-void lpsrHeader::setScoreInstrument (std::string val)
+void lpsrHeader::setScoreInstrument (string val)
 {
   fScoreInstrument =
     lpsrLilypondVarValAssoc::create (
@@ -2255,8 +2255,8 @@ void lpsrHeader::printLilyPondCode(ostream& os)
   idtr++;
     
   if (fWorkNumber) {
-    std::string source = fWorkNumber->getVariableValue();
-    std::string dest;
+    string source = fWorkNumber->getVariableValue();
+    string dest;
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
     os << idtr << 
       "%" << fWorkNumber->getVariableName() << " = \""  << 
@@ -2264,8 +2264,8 @@ void lpsrHeader::printLilyPondCode(ostream& os)
   }
   
   if (fWorkTitle) {
-    std::string source = fWorkTitle->getVariableValue();
-    std::string dest;
+    string source = fWorkTitle->getVariableValue();
+    string dest;
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
     os << idtr << 
       "%" << fWorkTitle->getVariableName() << " = \""  << 
@@ -2276,8 +2276,8 @@ void lpsrHeader::printLilyPondCode(ostream& os)
   }
     
   if (fMovementNumber) {
-    std::string source = fMovementNumber->getVariableValue();
-    std::string dest;
+    string source = fMovementNumber->getVariableValue();
+    string dest;
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
     os << idtr << 
       "%" << fMovementNumber->getVariableName() << " = \""  << 
@@ -2285,8 +2285,8 @@ void lpsrHeader::printLilyPondCode(ostream& os)
   }
     
   if (fMovementTitle) {
-    std::string source = fMovementTitle->getVariableValue();
-    std::string dest;
+    string source = fMovementTitle->getVariableValue();
+    string dest;
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
     os << idtr << 
       "%" << fMovementTitle->getVariableName() << " = \""  << 
@@ -2308,8 +2308,8 @@ void lpsrHeader::printLilyPondCode(ostream& os)
   }
     
   if (fRights) {
-    std::string source = fRights->getVariableValue();
-    std::string dest;
+    string source = fRights->getVariableValue();
+    string dest;
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
     os << idtr << 
       "%" << fRights->getVariableName() << " = \""  << 
@@ -2324,8 +2324,8 @@ void lpsrHeader::printLilyPondCode(ostream& os)
   }
     
   if (fEncodingDate) {
-    std::string source = fEncodingDate->getVariableValue();
-    std::string dest;
+    string source = fEncodingDate->getVariableValue();
+    string dest;
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
     os << idtr << 
       "%" << fEncodingDate->getVariableName() << " = \""  << 
@@ -2333,8 +2333,8 @@ void lpsrHeader::printLilyPondCode(ostream& os)
   }
   
   if (fScoreInstrument) {
-    std::string source = fScoreInstrument->getVariableValue();
-    std::string dest;
+    string source = fScoreInstrument->getVariableValue();
+    string dest;
     std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
     os << idtr << 
       "%" << fScoreInstrument->getVariableName() << " = \""  << 
@@ -2351,12 +2351,12 @@ void lpsrHeader::printLilyPondCode(ostream& os)
 
 //______________________________________________________________________________
 S_lpsrLilypondVarValAssoc lpsrLilypondVarValAssoc::create(
-      std::string     variableName,
-      std::string     value, 
+      string     variableName,
+      string     value, 
       VarValSeparator varValSeparator,
       QuotesKind      quotesKind,
       CommentedKind   commentedKind,
-      std::string     unit)
+      string     unit)
 {
   lpsrLilypondVarValAssoc* o =
     new lpsrLilypondVarValAssoc(
@@ -2367,12 +2367,12 @@ S_lpsrLilypondVarValAssoc lpsrLilypondVarValAssoc::create(
 }
 
 lpsrLilypondVarValAssoc::lpsrLilypondVarValAssoc(
-      std::string     variableName,
-      std::string     value, 
+      string     variableName,
+      string     value, 
       VarValSeparator varValSeparator,
       QuotesKind      quotesKind,
       CommentedKind   commentedKind,
-      std::string     unit)
+      string     unit)
   : lpsrElement("")
 {
   fVariableName=variableName;
@@ -2385,7 +2385,7 @@ lpsrLilypondVarValAssoc::lpsrLilypondVarValAssoc(
 
 lpsrLilypondVarValAssoc::~lpsrLilypondVarValAssoc() {}
 
-void lpsrLilypondVarValAssoc::changeAssoc (std::string value) {
+void lpsrLilypondVarValAssoc::changeAssoc (string value) {
   fVariableValue=value;
 }
 
@@ -2421,8 +2421,8 @@ void lpsrLilypondVarValAssoc::printLilyPondCode(ostream& os) {
 
 //______________________________________________________________________________
 S_lpsrSchemeVarValAssoc lpsrSchemeVarValAssoc::create(
-      std::string     variableName,
-      std::string     value, 
+      string     variableName,
+      string     value, 
       CommentedKind   commentedKind )
 {
   lpsrSchemeVarValAssoc* o = new lpsrSchemeVarValAssoc(
@@ -2432,8 +2432,8 @@ S_lpsrSchemeVarValAssoc lpsrSchemeVarValAssoc::create(
 }
 
 lpsrSchemeVarValAssoc::lpsrSchemeVarValAssoc(
-      std::string     variableName,
-      std::string     value, 
+      string     variableName,
+      string     value, 
       CommentedKind   commentedKind )
   : lpsrElement("")
 {
@@ -2444,7 +2444,7 @@ lpsrSchemeVarValAssoc::lpsrSchemeVarValAssoc(
 
 lpsrSchemeVarValAssoc::~lpsrSchemeVarValAssoc() {}
 
-void lpsrSchemeVarValAssoc::changeAssoc (std::string value)
+void lpsrSchemeVarValAssoc::changeAssoc (string value)
 {
   fVariableValue=value;
 }
@@ -2580,7 +2580,7 @@ void lpsrTime::printLilyPondCode(ostream& os)
 
 //______________________________________________________________________________
 S_lpsrClef lpsrClef::create (
-  std::string sign,
+  string sign,
   int         line,
   int         octaveChange)
 {
@@ -2590,7 +2590,7 @@ S_lpsrClef lpsrClef::create (
 }
 
 lpsrClef::lpsrClef(
-  std::string sign,
+  string sign,
   int         line,
   int         octaveChange)
   : lpsrElement("")
@@ -2685,18 +2685,101 @@ void lpsrClef::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrKey lpsrKey::create(std::string tonic, KeyMode keyMode)
+S_lpsrKey lpsrKey::create(
+  int fifths, string mode, int cancel)
 {
-  lpsrKey* o = new lpsrKey(tonic, keyMode); assert(o!=0);
+  lpsrKey* o = new lpsrKey(fifths, mode, cancel);
+  assert(o!=0);
   return o;
 }
 
-lpsrKey::lpsrKey(std::string tonic, KeyMode keyMode)
-  : lpsrElement("")
+lpsrKey::lpsrKey (
+  int fifths, string mode, int cancel)
+    : lpsrElement("")
 {
-  fTonic=tonic;
-  fKeyMode=keyMode; 
+  fFifths = fifths;
+  fMode   = mode;
+  fCancel = cancel;
+
+  string           tonicNote;
+  lpsrKey::KeyMode keyMode;
+  
+  switch (fFifths) {
+    case 0:
+      tonicNote = "c";
+      keyMode = lpsrKey::kMajor;
+      break;
+    case 1:
+      tonicNote = "g";
+      keyMode = lpsrKey::kMajor;
+      break;
+    case 2:
+      tonicNote = "d";
+      keyMode = lpsrKey::kMajor;
+      break;
+    case 3:
+      tonicNote = "a";
+      keyMode = lpsrKey::kMajor;
+      break;
+    case 4:
+      tonicNote = "e";
+      keyMode = lpsrKey::kMajor;
+      break;
+    case 5:
+      tonicNote = "b";
+      keyMode = lpsrKey::kMajor;
+      break;
+    case 6:
+       tonicNote = "fis";
+      keyMode = lpsrKey::kMajor;
+      break;
+    case 7:
+      tonicNote = "cis";
+      keyMode = lpsrKey::kMajor;
+      break;
+    case -1:
+      tonicNote = "f";
+      keyMode = lpsrKey::kMajor;
+      break;
+    case -2:
+      tonicNote = "bes";
+      keyMode = lpsrKey::kMajor;
+      break;
+    case -3:
+      tonicNote = "ees";
+      keyMode = lpsrKey::kMajor;
+      break;
+    case -4:
+      tonicNote = "aes";
+      keyMode = lpsrKey::kMajor;
+      break;
+    case -5:
+      tonicNote = "des";
+      keyMode = lpsrKey::kMajor;
+      break;
+    case -6:
+      tonicNote = "ges";
+      keyMode = lpsrKey::kMajor;
+      break;
+    case -7:
+      tonicNote = "ces";
+      keyMode = lpsrKey::kMajor;
+      break;
+    default: // unknown key sign !!
+      {
+      stringstream s;
+      string  message;
+      s << 
+        "ERROR: unknown key sign \"" << fFifths << "\"" << endl;
+      s >> message;
+      lpsrMusicXMLError(message);
+      }
+  } // switch
+  
+  fTonic   = tonicNote;
+  fKeyMode = keyMode; 
 }
+
 lpsrKey::~lpsrKey() {}
 
 ostream& operator<< (ostream& os, const S_lpsrKey& key)
@@ -2888,8 +2971,8 @@ void lpsrNewstaffCommand::printLilyPondCode(ostream& os)
 
 //______________________________________________________________________________
 S_lpsrNewlyricsCommand lpsrNewlyricsCommand::create (
-        std::string lyricsName,
-        std::string partName)
+        string lyricsName,
+        string partName)
 {
   lpsrNewlyricsCommand* o =
     new lpsrNewlyricsCommand (lyricsName, partName);
@@ -2898,8 +2981,8 @@ S_lpsrNewlyricsCommand lpsrNewlyricsCommand::create (
 }
 
 lpsrNewlyricsCommand::lpsrNewlyricsCommand (
-  std::string lyricsName,
-  std::string partName)
+  string lyricsName,
+  string partName)
    : lpsrElement("")
 {
   fLyricsName = lyricsName;
@@ -2934,7 +3017,7 @@ void lpsrNewlyricsCommand::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrVariableUseCommand lpsrVariableUseCommand::create(std::string variableName)
+S_lpsrVariableUseCommand lpsrVariableUseCommand::create(string variableName)
 {
   lpsrVariableUseCommand* o =
     new lpsrVariableUseCommand(variableName);
@@ -2942,7 +3025,7 @@ S_lpsrVariableUseCommand lpsrVariableUseCommand::create(std::string variableName
   return o;
 }
 
-lpsrVariableUseCommand::lpsrVariableUseCommand(std::string variableName)
+lpsrVariableUseCommand::lpsrVariableUseCommand(string variableName)
   : lpsrElement("")
 {
   fVariableName = variableName;
@@ -3061,8 +3144,8 @@ void lpsrRepeat::printLilyPondCode(ostream& os)
 //______________________________________________________________________________
 S_lpsrContext lpsrContext::create (
   ContextKind    contextKind,
-  std::string    contextType,
-  std::string    contextName)
+  string    contextType,
+  string    contextName)
 {
   lpsrContext* o =
     new lpsrContext (contextKind, contextType, contextName);
@@ -3072,8 +3155,8 @@ S_lpsrContext lpsrContext::create (
 
 lpsrContext::lpsrContext (
   ContextKind    contextKind,
-  std::string    contextType,
-  std::string    contextName)
+  string    contextType,
+  string    contextName)
     : lpsrElement("")
 {
   fContextKind = contextKind;

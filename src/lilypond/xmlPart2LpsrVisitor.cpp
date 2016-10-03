@@ -35,7 +35,6 @@ namespace MusicXML2
 xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   S_translationSettings& ts,
   S_lpsrPart             part,
-  S_lpsrVoice            voice, 
   int                    targetStaff,
   int                    currentStaffID,
   int                    targetVoiceID,  // JMI
@@ -45,7 +44,6 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   fTranslationSettings = ts;
   
   fLpsrPart  = part;
-  fLpsrVoice = voice;
 
   fMusicXMLNoteData.fMusicxmlDuration = -8;
   fMusicXMLNoteData.fNoteBelongsToAChord = false;    
@@ -80,12 +78,12 @@ void xmlPart2LpsrVisitor::addElementToPartSequence (S_lpsrElement& elt) {
   bool doDebug = false;
 
   if (doDebug) cout << "!!! addElementToPartSequence : " << elt << std::endl;
-  fLpsrVoice->getVoiceLpsrSequence()->appendElementToSequence (elt);
+  fCurrentVoice->getVoiceLpsrSequence()->appendElementToSequence (elt);
 }
 
 S_lpsrElement xmlPart2LpsrVisitor::getLastElementOfPartSequence() {
   return
-    fLpsrVoice->getVoiceLpsrSequence()->getLastElementOfSequence ();
+    fCurrentVoice->getVoiceLpsrSequence()->getLastElementOfSequence ();
 }
 
 void xmlPart2LpsrVisitor::removeLastElementOfPartSequence () {
@@ -93,7 +91,7 @@ void xmlPart2LpsrVisitor::removeLastElementOfPartSequence () {
   bool doDebug = false;
 
   if (doDebug) cout << "!!! removeLastElementOfPartSequence" << std::endl;
-  fLpsrVoice->getVoiceLpsrSequence()->removeLastElementOfSequence ();
+  fCurrentVoice->getVoiceLpsrSequence()->removeLastElementOfSequence ();
 }
 
 //______________________________________________________________________________
@@ -435,11 +433,10 @@ void xmlPart2LpsrVisitor::visitEnd ( S_direction& elt )
 //______________________________________________________________________________
 
 void xmlPart2LpsrVisitor::visitStart ( S_key& elt ) {
-  fCurrentFifths = fCurrentCancel = 0;
-  fCurrentMode = "";
+  fCurrentFifths = 0;
+  fCurrentCancel = 0;
+  fCurrentMode   = "";
 }
-void xmlPart2LpsrVisitor::visitStart ( S_cancel& elt )
-  { fCurrentCancel = (int)(*elt); }
   
 void xmlPart2LpsrVisitor::visitStart ( S_fifths& elt )
   { fCurrentFifths = (int)(*elt); }
@@ -447,85 +444,15 @@ void xmlPart2LpsrVisitor::visitStart ( S_fifths& elt )
 void xmlPart2LpsrVisitor::visitStart ( S_mode& elt )
   { fCurrentMode = elt->getValue(); }
 
+void xmlPart2LpsrVisitor::visitStart ( S_cancel& elt )
+  { fCurrentCancel = (int)(*elt); }
+
 void xmlPart2LpsrVisitor::visitEnd ( S_key& elt ) 
 {    
-  std::string          tonicNote;
-  lpsrKey::KeyMode keyMode;
-  
-  switch (fCurrentFifths) {
-    case 0:
-      tonicNote = "c";
-      keyMode = lpsrKey::kMajor;
-      break;
-    case 1:
-      tonicNote = "g";
-      keyMode = lpsrKey::kMajor;
-      break;
-    case 2:
-      tonicNote = "d";
-      keyMode = lpsrKey::kMajor;
-      break;
-    case 3:
-      tonicNote = "a";
-      keyMode = lpsrKey::kMajor;
-      break;
-    case 4:
-      tonicNote = "e";
-      keyMode = lpsrKey::kMajor;
-      break;
-    case 5:
-      tonicNote = "b";
-      keyMode = lpsrKey::kMajor;
-      break;
-    case 6:
-       tonicNote = "fis";
-      keyMode = lpsrKey::kMajor;
-      break;
-    case 7:
-      tonicNote = "cis";
-      keyMode = lpsrKey::kMajor;
-      break;
-    case -1:
-      tonicNote = "f";
-      keyMode = lpsrKey::kMajor;
-      break;
-    case -2:
-      tonicNote = "bes";
-      keyMode = lpsrKey::kMajor;
-      break;
-    case -3:
-      tonicNote = "ees";
-      keyMode = lpsrKey::kMajor;
-      break;
-    case -4:
-      tonicNote = "aes";
-      keyMode = lpsrKey::kMajor;
-      break;
-    case -5:
-      tonicNote = "des";
-      keyMode = lpsrKey::kMajor;
-      break;
-    case -6:
-      tonicNote = "ges";
-      keyMode = lpsrKey::kMajor;
-      break;
-    case -7:
-      tonicNote = "ces";
-      keyMode = lpsrKey::kMajor;
-      break;
-    default: // unknown key sign !!
-      {
-      stringstream s;
-      std::string  message;
-      s << 
-        "ERROR: unknown key sign \"" << fCurrentFifths << "\"" << endl;
-      s >> message;
-      lpsrMusicXMLError(message);
-      }
-  } // switch
-  
   // create lpsrKey and add it to part
-  S_lpsrElement key = lpsrKey::create(tonicNote, keyMode);
+  S_lpsrElement
+    key =
+      lpsrKey::create (fCurrentFifths, fCurrentMode, fCurrentCancel);
   S_lpsrElement k = key;
   addElementToPartSequence (k);
 }
@@ -535,10 +462,10 @@ void xmlPart2LpsrVisitor::visitStart ( S_clef& elt )
 { 
   fLine = 0;;
   fOctaveChange = 0;
-  fNumber = kNoNumber;
+  fNumber = -1;
   fSign = "";
 
-  fNumber = elt->getAttributeIntValue("number", kNoNumber); 
+  fNumber = elt->getAttributeIntValue("number", -1); 
 }
 
 void xmlPart2LpsrVisitor::visitStart ( S_clef_octave_change& elt )
@@ -565,7 +492,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_clef& elt )
 //________________________________________________________________________
 void xmlPart2LpsrVisitor::visitStart ( S_metronome& elt )
 {
-  std::string parentheses = elt->getAttributeValue("parentheses");
+  string parentheses = elt->getAttributeValue("parentheses");
   
   fBeatsData.clear();
   fPerMinute = 0;
@@ -581,7 +508,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_metronome& elt )
       fParentheses = true;
     else {
       stringstream s;
-      std::string  message;
+      string  message;
       s << "parentheses value " << parentheses << " should be 'yes' or 'no'";
       s >> message;
       lpsrMusicXMLError (message);
@@ -621,7 +548,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_metronome& elt ) {
 
   S_lpsrTempoCommand tempo =
     lpsrTempoCommand::create (r.getDenominator(), fPerMinute);
-  fLpsrVoice->getVoiceLpsrSequence()->appendElementToSequence (tempo);
+  fCurrentVoice->getVoiceLpsrSequence()->appendElementToSequence (tempo);
   
  // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
@@ -770,7 +697,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_beam& elt )
 */
 
   int number = atoi(elt->getAttributeValue("number").c_str());
-  std::string value = elt->getValue();
+  string value = elt->getValue();
   
   lpsrBeam::BeamKind bk = lpsrBeam::k_NoBeam;
 
@@ -909,11 +836,11 @@ void xmlPart2LpsrVisitor::visitStart ( S_print& elt )
 //______________________________________________________________________________
 void xmlPart2LpsrVisitor::visitStart ( S_step& elt )
 {
-  std::string step = elt->getValue();
+  string step = elt->getValue();
   
    if (step.length() != 1) {
     stringstream s;
-    std::string  message;
+    string  message;
     s << "step value " << step << " should be a single letter from A to G";
     s >> message;
     lpsrMusicXMLError (message);
@@ -991,7 +918,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_tuplet& elt )
   fMusicXMLNoteData.fNoteBelongsToATuplet = true;
 
   fCurrentTupletNumber = atoi(elt->getAttributeValue("number").c_str());
-  std::string type     = elt->getAttributeValue("type");
+  string type     = elt->getAttributeValue("type");
   
   /* JMI
   cout <<
@@ -1009,7 +936,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_tuplet& elt )
     fCurrentTupletKind = lpsrTuplet::kStopTuplet;
   else {
     stringstream s;
-    std::string  message;
+    string  message;
     s << "stuplet type " << type << " is unknown";
     s >> message;
     lpsrMusicXMLError (message);
@@ -1259,7 +1186,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) {
 
 void xmlPart2LpsrVisitor::visitStart ( S_syllabic& elt ) {
   fLastSyllabic = elt;
-  std::string syllabicValue = fLastSyllabic->getValue();
+  string syllabicValue = fLastSyllabic->getValue();
 
   if (syllabicValue == "begin") {
     fOnGoingLyrics = true;
@@ -1284,10 +1211,10 @@ void xmlPart2LpsrVisitor::visitEnd ( S_text& elt )
   
   std::size_t spacefound=text.find(" ");
   
-  if (spacefound!=std::string::npos) text = "\""+text+"\"";
+  if (spacefound!=string::npos) text = "\""+text+"\"";
   
-  std::string lastLyricNumber   = fLastLyric->getAttributeValue ("number");
-  std::string lastSyllabicValue = fLastSyllabic->getValue();
+  string lastLyricNumber   = fLastLyric->getAttributeValue ("number");
+  string lastSyllabicValue = fLastSyllabic->getValue();
   
   /*
   cout <<
@@ -1301,8 +1228,8 @@ void xmlPart2LpsrVisitor::visitEnd ( S_text& elt )
 
 
 
-  std::string fLyricsName = "foo";
-  std::string fVoiceName = "faa";
+  string fLyricsName = "foo";
+  string fVoiceName = "faa";
   
   if (! fCurrentLyricsStanza) {
     // create lyrics on first visit
@@ -1312,7 +1239,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_text& elt )
     // create stanza on first visit
     fCurrentLyricsStanza =
       lpsrStanza::create (fLyricsName, fVoiceName);
- //   fStanzas[lastLyricNumber] = std::list<std::list<std::string> >();
+ //   fStanzas[lastLyricNumber] = std::list<std::list<string> >();
   }
     
   // create stanza chunk
@@ -1324,7 +1251,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_text& elt )
     // add stanza chunk to current lyrics
     fCurrentLyricsStanza -> addChunkToStanza (chunk);
           
- //   fStanzas[lastLyricNumber].push_back(std::list<std::string>());
+ //   fStanzas[lastLyricNumber].push_back(std::list<string>());
  //   fStanzas[lastLyricNumber].back().push_back(text);
   }
   else if (lastSyllabicValue == "middle" || lastSyllabicValue == "end") {
@@ -1334,7 +1261,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_text& elt )
   }
   else {
     stringstream s;
-    std::string  result;
+    string  result;
   
     s << "--> text value " << text << " unknown";
     s >> result;

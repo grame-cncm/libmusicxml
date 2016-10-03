@@ -133,7 +133,6 @@ class EXP xmlPart2LpsrVisitor :
     xmlPart2LpsrVisitor (
       S_translationSettings& ts,
       S_lpsrPart             part,
-      S_lpsrVoice            voice, 
       int                    targetStaff,
       int                    currentStaffID,
       int                    targetVoiceID,  // JMI
@@ -247,10 +246,6 @@ class EXP xmlPart2LpsrVisitor :
     virtual void visitEnd   ( S_sound& elt);
     virtual void visitEnd   ( S_time& elt);
 
-  public:
-  
-    enum { kNoNumber = -1 };
-
   private:
   
     // fields to controls the lpsr output generation
@@ -262,8 +257,8 @@ class EXP xmlPart2LpsrVisitor :
     void resetCurrentTime();
 
     // the current part
-    std::string             fCurrentPartID;
-    std::string             fCurrentPartName;
+    string                  fCurrentPartID;
+    string                  fCurrentPartName;
     int                     fCurrentDivisions;
     
     // description of the current MusicXML note
@@ -281,7 +276,7 @@ class EXP xmlPart2LpsrVisitor :
     */
   // JMI  rational            timeSignatureFromIndex(int index);
     
- //   std::vector<std::pair<std::string,std::string> >
+ //   std::vector<std::pair<string,string> >
 //                        fTimeSignatures;
   
     // staff handling
@@ -294,14 +289,14 @@ class EXP xmlPart2LpsrVisitor :
     int                     fTargetVoice;     // the musicxml target voice (0 by default)
   
     // time handling
-    std::string             fSymbol;
+    string                  fSymbol;
     bool                    fSenzaMisura;
 
     // the part containing the LPSR data
     S_lpsrPart              fLpsrPart; // JMI
 
     // the voice containing the LPSR data
-    S_lpsrVoice             fLpsrVoice;
+    S_lpsrVoice             fCurrentVoice;
 
     // description of the current LPSR note
     S_lpsrNote              fCurrentNote;
@@ -324,10 +319,10 @@ class EXP xmlPart2LpsrVisitor :
 
 
     // description of current tuplet
-    std::string             fCurrentType;
+    string                  fCurrentType;
     int                     fCurrentActualNotes;
     int                     fCurrentNormalNotes;
-    std::string             fCurrentNormalType;
+    string                  fCurrentNormalType;
     // embedded tuplets are numbered 1, 2, ...
     int                     fCurrentTupletNumber;
     lpsrTuplet::TupletKind  fCurrentTupletKind;
@@ -337,7 +332,7 @@ class EXP xmlPart2LpsrVisitor :
     S_lpsrTuplet             fCurrentTuplet;
     std::stack<S_lpsrTuplet> fCurrentTupletsStack;
          
-//    std::string         fCurrentStem;
+//    string         fCurrentStem;
    
     // LPSR informations
     lpsrNote::MusicXMLDiatonicPitch
@@ -353,9 +348,9 @@ class EXP xmlPart2LpsrVisitor :
     // key handling
     int                     fCurrentFifths;
     int                     fCurrentCancel;
-    std::string             fCurrentMode;
+    string                  fCurrentMode;
 
-    std::string             fSign;
+    string                  fSign;
     int                     fLine;
     int                     fOctaveChange;
     int                     fNumber;

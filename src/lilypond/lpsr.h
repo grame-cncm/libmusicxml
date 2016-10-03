@@ -172,7 +172,7 @@ class musicXMLNoteData {
     bool        fNoteBelongsToAChord;
     
     bool        fNoteBelongsToATuplet;
-    std::string fTupletMemberType;
+    string fTupletMemberType;
 
     int         fVoiceNumber;
 };
@@ -200,7 +200,7 @@ class EXP lpsrAbsoluteOctave : public lpsrElement {
         return fLpsrOctave != otherAbsOct.fLpsrOctave;
       }
     
-    std::string  absoluteOctaveAsLilypondString ();
+    string  absoluteOctaveAsLilypondString ();
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -239,13 +239,13 @@ class EXP lpsrDuration : public lpsrElement {
         int num,
         int denom,
         int dots,
-        std::string tupletMemberType);
+        string tupletMemberType);
     
     lpsrDuration(
         int num,
         int denom,
         int dots,
-        std::string tupletMemberType);
+        string tupletMemberType);
     virtual ~lpsrDuration();
     
     void scaleNumByFraction (int num, int denom);
@@ -262,7 +262,7 @@ class EXP lpsrDuration : public lpsrElement {
           (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots);
       }
     
-    std::string  durationAsLilypondString ();
+    string  durationAsLilypondString ();
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -273,7 +273,7 @@ class EXP lpsrDuration : public lpsrElement {
     int         fNum;
     int         fDenom;
     int         fDots;
-    std::string fTupletMemberType;
+    string fTupletMemberType;
 };
 typedef SMARTP<lpsrDuration> S_lpsrDuration;
 
@@ -320,11 +320,11 @@ class EXP lpsrNote : public lpsrElement {
                 int                          noteQuatertonesFromA,
                 lpsrNote::MusicXMLAlteration alteration);
                           
-    static std::map<LpsrPitch, std::string> sDutchLilypondPitches;
+    static std::map<LpsrPitch, string> sDutchLilypondPitches;
 
     S_lpsrDuration getNoteLpsrDuration () { return fNoteLpsrDuration; }   
 
-     std::string  notePitchAsLilypondString ();
+     string  notePitchAsLilypondString ();
     
    // dynamics and wedges
     void              addDynamics (S_lpsrDynamics dyn);
@@ -487,17 +487,17 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement {
     enum CommentedKind     { kCommented, kUncommented };
 
     static SMARTP<lpsrLilypondVarValAssoc> create(
-              std::string     variableName,
-              std::string     value, 
+              string     variableName,
+              string     value, 
               VarValSeparator varValSeparator,
               QuotesKind      quotesKind,
               CommentedKind   commentKind,
-              std::string     unit = "");
+              string     unit = "");
     
-    void    changeAssoc (std::string value);
+    void    changeAssoc (string value);
     
-    std::string getVariableName  () const { return fVariableName; };
-    std::string getVariableValue () const { return fVariableValue; };
+    string getVariableName  () const { return fVariableName; };
+    string getVariableValue () const { return fVariableValue; };
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -506,22 +506,22 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement {
   protected:
 
     lpsrLilypondVarValAssoc(
-              std::string     variableName,
-              std::string     value, 
+              string     variableName,
+              string     value, 
               VarValSeparator varValSeparator,
               QuotesKind      quotesKind,
               CommentedKind   commentedKind,
-              std::string     unit = "");
+              string     unit = "");
     virtual ~lpsrLilypondVarValAssoc();
   
   private:
 
-    std::string     fVariableName;
-    std::string     fVariableValue;
+    string     fVariableName;
+    string     fVariableValue;
     VarValSeparator fVarValSeparator;
     QuotesKind      fQuotesKind;
     CommentedKind   fCommentedKind;
-    std::string     fUnit;
+    string     fUnit;
 };
 typedef SMARTP<lpsrLilypondVarValAssoc> S_lpsrLilypondVarValAssoc;
 
@@ -535,13 +535,13 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement {
     enum CommentedKind     { kCommented, kUncommented };
 
     static SMARTP<lpsrSchemeVarValAssoc> create(
-              std::string     variableName,
-              std::string     value, 
+              string     variableName,
+              string     value, 
               CommentedKind   commentKind );
     
-    void    changeAssoc (std::string value);
+    void    changeAssoc (string value);
     
-    std::string getVariableValue () const { return fVariableValue; };
+    string getVariableValue () const { return fVariableValue; };
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -550,15 +550,15 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement {
   protected:
 
     lpsrSchemeVarValAssoc(
-              std::string     variableName,
-              std::string     value, 
+              string     variableName,
+              string     value, 
               CommentedKind   commentedKind );
     virtual ~lpsrSchemeVarValAssoc();
   
   private:
 
-    std::string     fVariableName;
-    std::string     fVariableValue;
+    string     fVariableName;
+    string     fVariableValue;
     CommentedKind   fCommentedKind;
 };
 typedef SMARTP<lpsrSchemeVarValAssoc> S_lpsrSchemeVarValAssoc;
@@ -574,34 +574,34 @@ class EXP lpsrHeader : public lpsrElement {
 
     static SMARTP<lpsrHeader> create();
     
-    void                      setWorkNumber      (std::string val);
+    void                      setWorkNumber      (string val);
     S_lpsrLilypondVarValAssoc getWorkNumber      () const;
 
-    void                      setWorkTitle       (std::string val);
+    void                      setWorkTitle       (string val);
     S_lpsrLilypondVarValAssoc getWorkTitle       () const;
 
-    void                      setMovementNumber  (std::string val);
+    void                      setMovementNumber  (string val);
     S_lpsrLilypondVarValAssoc getMovementNumber  () const;
 
-    void                      setMovementTitle   (std::string val);
+    void                      setMovementTitle   (string val);
     S_lpsrLilypondVarValAssoc getMovementTitle   () const;
 
     void                      addCreator         (
-                                std::string type, std::string val);
+                                string type, string val);
     std::vector<S_lpsrLilypondVarValAssoc>
                               getCreators        () const;
 
-    void                      setRights          (std::string val);
+    void                      setRights          (string val);
     S_lpsrLilypondVarValAssoc getRights          () const;
 
-    void                      addSoftware        (std::string val);
+    void                      addSoftware        (string val);
     std::vector<S_lpsrLilypondVarValAssoc>
                               getSoftwares       () const;
 
-    void                      setEncodingDate    (std::string val);
+    void                      setEncodingDate    (string val);
     S_lpsrLilypondVarValAssoc getEncodingDate    () const;
 
-    void                      setScoreInstrument (std::string val);
+    void                      setScoreInstrument (string val);
     S_lpsrLilypondVarValAssoc getScoreInstrument () const;
 
     virtual void printMusicXML      (std::ostream& os);
@@ -784,7 +784,7 @@ class EXP lpsrStanzaChunk : public lpsrElement {
 
     static SMARTP<lpsrStanzaChunk> create (
         stanzaChunkType chunkType,
-        std::string     chunkText);
+        string     chunkText);
      
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -794,13 +794,13 @@ class EXP lpsrStanzaChunk : public lpsrElement {
 
     lpsrStanzaChunk (
         stanzaChunkType chunkType,
-        std::string     chunkText);
+        string     chunkText);
     virtual ~lpsrStanzaChunk();
 
   private:
   
     stanzaChunkType fStanzaChunkType;
-    std::string     fChunkText;
+    string     fChunkText;
 };
 typedef SMARTP<lpsrStanzaChunk> S_lpsrStanzaChunk;
 
@@ -814,11 +814,11 @@ class EXP lpsrStanza : public lpsrElement {
   public:
 
     static SMARTP<lpsrStanza> create (
-        std::string lyricsName,
-        std::string voiceName);
+        string lyricsName,
+        string voiceName);
     
-//    std::string getStanzaName     () const { return fStanzaName; }
-//    std::string getStanzaContents () const { return fStanzaContents; }
+//    string getStanzaName     () const { return fStanzaName; }
+//    string getStanzaContents () const { return fStanzaContents; }
 
     void addChunkToStanza (S_lpsrStanzaChunk chunk)
             { fStanzaChunks.push_back (chunk); }
@@ -831,14 +831,14 @@ class EXP lpsrStanza : public lpsrElement {
   protected:
 
     lpsrStanza (
-        std::string lyricsName,
-        std::string voiceName);
+        string lyricsName,
+        string voiceName);
     virtual ~lpsrStanza();
   
   private:
 
-    std::string        fLyricsName;
-    std::string        fVoiceName;
+    string        fLyricsName;
+    string        fVoiceName;
     std::vector<S_lpsrStanzaChunk>
                        fStanzaChunks;
 };
@@ -854,10 +854,10 @@ class EXP lpsrLyrics : public lpsrElement {
   public:
 
     static SMARTP<lpsrLyrics> create (
-        std::string lyricsName,
-        std::string voiceName);
+        string lyricsName,
+        string voiceName);
     
-    std::string getLyricsName    () const { return fLyricsName; }
+    string getLyricsName    () const { return fLyricsName; }
     std::vector<S_lpsrStanza>
                 getLyricsStanzas () const { return fLyricsStanzas; }
 
@@ -871,14 +871,14 @@ class EXP lpsrLyrics : public lpsrElement {
   protected:
 
     lpsrLyrics (
-        std::string lyricsName,
-        std::string voiceName);
+        string lyricsName,
+        string voiceName);
     virtual ~lpsrLyrics();
   
   private:
 
-    std::string               fLyricsName;
-    std::string               fVoiceName;
+    string               fLyricsName;
+    string               fVoiceName;
     std::vector<S_lpsrStanza> fLyricsStanzas;
 };
 typedef SMARTP<lpsrLyrics> S_lpsrLyrics;
@@ -892,9 +892,9 @@ typedef SMARTP<lpsrLyrics> S_lpsrLyrics;
 class EXP lpsrVoiceBOF : public lpsrElement {
   public:
 
-    static SMARTP<lpsrVoiceBOF> create (std::string voiceName);
+    static SMARTP<lpsrVoiceBOF> create (string voiceName);
 
-    std::string    getVoiceName () { return fVoiceName; }
+    string    getVoiceName () { return fVoiceName; }
     
     void           addLyricsToVoice (S_lpsrLyrics lyr)
                       { fVoiceLyrics.push_back(lyr); }
@@ -908,12 +908,12 @@ class EXP lpsrVoiceBOF : public lpsrElement {
 
   protected:
 
-    lpsrVoiceBOF(std::string voiceName);
+    lpsrVoiceBOF(string voiceName);
     virtual ~lpsrVoiceBOF();
   
   private:
   
-    std::string               fVoiceName;
+    string               fVoiceName;
     std::vector<S_lpsrLyrics> fVoiceLyrics;
 };
 typedef SMARTP<lpsrVoiceBOF> S_lpsrVoiceBOF;
@@ -928,7 +928,7 @@ class EXP lpsrVoice : public lpsrElement {
   public:
 
     static SMARTP<lpsrVoice> create (
-        std::string name,
+        string name,
         bool absoluteCode,
         bool generateNumericalTime);
     
@@ -938,7 +938,7 @@ class EXP lpsrVoice : public lpsrElement {
     std::vector<S_lpsrLyrics>
                    getVoiceLyrics () const { return fVoiceLyrics; }
 
-    std::string    getVoiceName () const         { return fVoiceName; }
+    string    getVoiceName () const         { return fVoiceName; }
     bool           getAbsoluteCode () const      { return fVoiceAbsoluteCode; }
 
     S_lpsrSequence getVoiceLpsrSequence () const { return fVoiceLpsrSequence; }
@@ -950,14 +950,14 @@ class EXP lpsrVoice : public lpsrElement {
   protected:
 
     lpsrVoice (
-        std::string name,
+        string name,
         bool absoluteCode,
         bool generateNumericalTime);
     virtual ~lpsrVoice();
   
   private:
 
-    std::string        fVoiceName;
+    string        fVoiceName;
     bool               fVoiceAbsoluteCode;
     bool               fGenerateNumericalTime;
 
@@ -976,7 +976,7 @@ class EXP lpsrVoice : public lpsrElement {
     S_lpsrRepeat       fVoiceLpsrRepeat;
 };
 typedef SMARTP<lpsrVoice> S_lpsrVoice;
-typedef std::map<std::string, S_lpsrVoice> lpsrVoicesmap;
+typedef std::map<string, S_lpsrVoice> lpsrVoicesmap;
 
 /*!
 \brief A lpsr part representation.
@@ -988,8 +988,8 @@ class EXP lpsrPart : public lpsrElement {
   public:
 
     static SMARTP<lpsrPart> create (
-        std::string name,
-        std::string partInstrumentName,
+        string name,
+        string partInstrumentName,
         bool        absoluteCode,
         bool        generateNumericalTime);
     
@@ -998,7 +998,7 @@ class EXP lpsrPart : public lpsrElement {
     std::vector<S_lpsrVoice>
                   getPartVoices ()              { return fPartVoices; }
 
-    std::string   getPartName () const         { return fPartName; }
+    string   getPartName () const         { return fPartName; }
     bool          getAbsoluteCode () const     { return fPartAbsoluteCode; }
 
     virtual void printMusicXML      (std::ostream& os);
@@ -1008,16 +1008,16 @@ class EXP lpsrPart : public lpsrElement {
   protected:
 
     lpsrPart (
-        std::string name,
-        std::string partInstrumentName,
+        string name,
+        string partInstrumentName,
         bool        absoluteCode,
         bool        generateNumericalTim);
     virtual ~lpsrPart();
   
   private:
 
-    std::string        fPartName;
-    std::string        fPartInstrumentName;
+    string        fPartName;
+    string        fPartInstrumentName;
     bool               fPartAbsoluteCode;
     bool               fGenerateNumericalTime;
 
@@ -1026,7 +1026,7 @@ class EXP lpsrPart : public lpsrElement {
                        fPartVoices;
 };
 typedef SMARTP<lpsrPart> S_lpsrPart;
-typedef std::map<std::string, S_lpsrPart> lpsrPartsmap;
+typedef std::map<string, S_lpsrPart> lpsrPartsmap;
 
 /*!
 \brief A lpsr barline representation.
@@ -1065,7 +1065,7 @@ class EXP lpsrComment : public lpsrElement {
     
     enum GapKind { kGapAfterwards, kNoGapAfterwards };
 
-    static SMARTP<lpsrComment> create(std::string contents, GapKind gapKind = kNoGapAfterwards);
+    static SMARTP<lpsrComment> create(string contents, GapKind gapKind = kNoGapAfterwards);
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1073,12 +1073,12 @@ class EXP lpsrComment : public lpsrElement {
 
   protected:
 
-    lpsrComment(std::string contents, GapKind gapKind = kNoGapAfterwards);
+    lpsrComment(string contents, GapKind gapKind = kNoGapAfterwards);
     virtual ~lpsrComment();
   
   private:
 
-    std::string fContents;
+    string fContents;
     GapKind     fGapKind;
 };
 typedef SMARTP<lpsrComment> S_lpsrComment;
@@ -1230,7 +1230,7 @@ class EXP lpsrDynamics : public lpsrElement {
 
     DynamicsKind getDynamicsKind () const { return fDynamicsKind; }
 
-    std::string  dynamicsKindAsLilypondString ();
+    string  dynamicsKindAsLilypondString ();
     
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1262,7 +1262,7 @@ class EXP lpsrWedge : public lpsrElement {
 
     WedgeKind getWedgeKind () const        { return fWedgeKind; }
 
-    std::string  wedgeKinsAsString ();
+    string  wedgeKinsAsString ();
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1318,7 +1318,7 @@ class EXP lpsrClef : public lpsrElement {
     enum { kStandardLine, kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
 
     static SMARTP<lpsrClef> create (
-      std::string sign,
+      string sign,
       int         line,
       int         octaveChange);
 
@@ -1329,14 +1329,14 @@ class EXP lpsrClef : public lpsrElement {
   protected:
 
     lpsrClef (
-      std::string clefName,
+      string clefName,
       int         line,
       int         octaveChange);
     virtual ~lpsrClef();
   
   private:
 
-    std::string fSign;
+    string fSign;
     int         fLine;
     int         fOctaveChange;
 };
@@ -1353,7 +1353,8 @@ class EXP lpsrKey : public lpsrElement {
     
     enum KeyMode { kMajor, kMinor };
 
-    static SMARTP<lpsrKey> create(std::string tonic, KeyMode keyMode);
+    static SMARTP<lpsrKey> create (
+        int fifths, string mode, int cancel);
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1361,13 +1362,18 @@ class EXP lpsrKey : public lpsrElement {
 
   protected:
 
-    lpsrKey(std::string tonic, KeyMode keyMode);
+    lpsrKey (
+        int fifths, string mode, int cancel);
     virtual ~lpsrKey();
   
   private:
 
-    std::string   fTonic;
-    KeyMode       fKeyMode;
+    int     fFifths;
+    string  fMode;
+    int     fCancel;
+
+    string  fTonic;
+    KeyMode fKeyMode;
 };
 typedef SMARTP<lpsrKey> S_lpsrKey;
 
@@ -1468,8 +1474,8 @@ class EXP lpsrNewlyricsCommand : public lpsrElement {
   public:
 
     static SMARTP<lpsrNewlyricsCommand> create(
-        std::string lyricsName,
-        std::string partName);
+        string lyricsName,
+        string partName);
      
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1478,14 +1484,14 @@ class EXP lpsrNewlyricsCommand : public lpsrElement {
   protected:
 
     lpsrNewlyricsCommand(
-        std::string lyricsName,
-        std::string partName);
+        string lyricsName,
+        string partName);
     virtual ~lpsrNewlyricsCommand();
   
   private:
   
-    std::string fLyricsName;
-    std::string fPartName;
+    string fLyricsName;
+    string fPartName;
 };
 typedef SMARTP<lpsrNewlyricsCommand> S_lpsrNewlyricsCommand;
 
@@ -1498,7 +1504,7 @@ typedef SMARTP<lpsrNewlyricsCommand> S_lpsrNewlyricsCommand;
 class EXP lpsrVariableUseCommand : public lpsrElement {
   public:
 
-    static SMARTP<lpsrVariableUseCommand> create (std::string variableName);
+    static SMARTP<lpsrVariableUseCommand> create (string variableName);
     
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1506,12 +1512,12 @@ class EXP lpsrVariableUseCommand : public lpsrElement {
 
   protected:
 
-    lpsrVariableUseCommand (std::string variableName);
+    lpsrVariableUseCommand (string variableName);
     virtual ~lpsrVariableUseCommand();
   
   private:
   
-    std::string fVariableName;
+    string fVariableName;
 };
 typedef SMARTP<lpsrVariableUseCommand> S_lpsrVariableUseCommand;
 
@@ -1524,7 +1530,7 @@ typedef SMARTP<lpsrVariableUseCommand> S_lpsrVariableUseCommand;
 class EXP lpsrUseLyricsCommand : public lpsrElement {
   public:
 
-    static SMARTP<lpsrUseLyricsCommand> create (std::string lyricsName);
+    static SMARTP<lpsrUseLyricsCommand> create (string lyricsName);
     
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -1532,12 +1538,12 @@ class EXP lpsrUseLyricsCommand : public lpsrElement {
 
   protected:
 
-    lpsrUseLyricsCommand(std::string variableName);
+    lpsrUseLyricsCommand(string variableName);
     virtual ~lpsrUseLyricsCommand();
   
   private:
   
-    std::string lyricsName;
+    string lyricsName;
 };
 typedef SMARTP<lpsrUseLyricsCommand> S_lpsrUseLyricsCommand;
 
@@ -1557,8 +1563,8 @@ class EXP lpsrContext : public lpsrElement {
     
     static SMARTP<lpsrContext> create (
         ContextKind    contextKind,
-        std::string    contextType,
-        std::string    contextName);
+        string    contextType,
+        string    contextName);
     
     void addElementToContext (S_lpsrElement elem)
         { fContextElements.push_back(elem); }
@@ -1571,15 +1577,15 @@ class EXP lpsrContext : public lpsrElement {
 
     lpsrContext(
         ContextKind    contextKind,
-        std::string    contextType,
-        std::string    contextName);
+        string    contextType,
+        string    contextName);
     virtual ~lpsrContext();
   
   private:
   
     ContextKind    fContextKind;
-    std::string    fContextType;
-    std::string    fContextName;
+    string    fContextType;
+    string    fContextName;
 
     std::vector<S_lpsrElement>
                    fContextElements;
@@ -1594,7 +1600,7 @@ class musicXMLBeatData {
  
   public:
   
-    std::string fBeatUnit;
+    string fBeatUnit;
     int         fDots;
 };
 

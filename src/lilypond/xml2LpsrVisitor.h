@@ -154,7 +154,7 @@ class EXP xml2LpsrVisitor :
     int              fTenths;
 
     float            fGlobalStaffSize;
-    std::string      fGlobalSfaffSizeAsString;
+    string      fGlobalSfaffSizeAsString;
 
     // preventing top-margin and the like to be taken from <system-layout>
     bool              fVisitingPageLayout;
@@ -174,10 +174,10 @@ class EXP xml2LpsrVisitor :
     S_lpsrScore      fLpsrScore;
 
     // the current part
-    std::string      fCurrentPartID;
-    std::string      fCurrentPartName;
+    string      fCurrentPartID;
+    string      fCurrentPartName;
     
-    std::string      fCurrentInstrumentName;
+    string      fCurrentInstrumentName;
     
    
     // the index of the current lpsr staff

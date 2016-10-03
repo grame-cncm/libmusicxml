@@ -203,7 +203,7 @@ void xml2LpsrVisitor::visitStart ( S_score_partwise& elt )
 //______________________________________________________________________________
 void xml2LpsrVisitor::visitStart ( S_part& elt )
 {
-  std::string partID = elt->getAttributeValue ("id");
+  string partID = elt->getAttributeValue ("id");
   
   // browse the part contents for the first time with a xmlPartSummaryVisitor
   if (fTranslationSettings->fTrace)
@@ -258,11 +258,11 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
         ", targetStaff = " << targetStaff <<
         ", targetVoice = " << targetVoice << endl;
 
-    std::string
+    string
       partName =
         "Part" + stringNumbersToEnglishWords (partID);
     
-    std::string
+    string
       voiceName =
         partName + "_Voice" + int2EnglishWord (targetVoice);
       
@@ -277,7 +277,8 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
       
     // register it in this visitors's part map
     fLpsrPartsMap[partID] = part;
-    
+
+ /*   
     // create the voice
     S_lpsrVoice
       voice =
@@ -289,13 +290,12 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     // append the voice to the lpsrElement sequence
     S_lpsrElement v = voice;
     appendElementToSequence (v);
-    
+*/
     // browse the part contents once more with an xmlPart2LpsrVisitor
     xmlPart2LpsrVisitor
       xp2lv (
         fTranslationSettings,
         part,
-        voice,
         targetStaff,
         fCurrentStaffIndex,
         targetVoice,
@@ -306,8 +306,10 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
 
     // JMI currentTimeSign = xp2lv.getTimeSign();
 
+/*
     // add the voice to the part
     part->addVoiceToPart (voice);
+*/
         
     // extract the part lyrics
     if (fTranslationSettings->fTrace)
@@ -365,7 +367,7 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     
     // get part and part name
     S_lpsrPart   part     = (*i).second;
-    std::string  partName = part->getPartName ();
+    string  partName = part->getPartName ();
      
     // create a staff
     cout << "--> creating a new staff command" << std::endl;
@@ -384,7 +386,7 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
 
     std::vector<S_lpsrVoice>::const_iterator i;
     for (i = partVoices.begin(); i != partVoices.end(); i++) {
-      std::string voiceName = (*i)->getVoiceName();
+      string voiceName = (*i)->getVoiceName();
       cout <<
         "--> add the lyrics to the staff, " << voiceName << std::endl;
   
@@ -410,7 +412,7 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
       std::vector<S_lpsrLyrics>::const_iterator i;
       for (i = voiceLyrics.begin(); i != voiceLyrics.end(); i++) {
         S_lpsrLyrics lyrics     = (*i);
-        std::string  lyricsName = lyrics->getLyricsName();
+        string  lyricsName = lyrics->getLyricsName();
             
         // create the lyrics command
         S_lpsrNewlyricsCommand
@@ -469,7 +471,7 @@ void xml2LpsrVisitor::visitStart ( S_movement_title& elt )
 
 void xml2LpsrVisitor::visitStart ( S_creator& elt )
 {
-  std::string type = elt->getAttributeValue ("type");
+  string type = elt->getAttributeValue ("type");
   fLpsrHeader->addCreator (type, elt->getValue());
 }
 
@@ -653,22 +655,22 @@ voice
 
 
 /*
-    std::map<std::string, xmlPartSummaryVisitor::stanzaContents> 
+    std::map<string, xmlPartSummaryVisitor::stanzaContents> 
       stanzas = xpsv.getStanzas();
-    for (std::map<std::string, xmlPartSummaryVisitor::stanzaContents> ::iterator 
+    for (std::map<string, xmlPartSummaryVisitor::stanzaContents> ::iterator 
         it1=stanzas.begin(); it1!=stanzas.end(); ++it1) {
 
-      std::string 
+      string 
         lyricsName =
           voiceName + 
           "LyricsStanza"+
           int2EnglishWord (atoi(it1->first.c_str()));
-      std::string result;
+      string result;
       
-      for (std::list<std::list<std::string> > ::iterator 
+      for (std::list<std::list<string> > ::iterator 
           it2=it1->second.begin(); it2!=it1->second.end(); ++it2) {    
 
-        std::list<std::string> ::const_iterator 
+        std::list<string> ::const_iterator 
           it2Begin = it2->begin(),
           it2End   = it2->end(),
           it3      = it2Begin;

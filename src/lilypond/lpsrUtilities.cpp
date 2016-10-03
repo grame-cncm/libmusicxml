@@ -28,14 +28,14 @@ namespace MusicXML2 {
 
 
 //______________________________________________________________________________
-void lpsrMusicXMLWarning (std::string message)
+void lpsrMusicXMLWarning (string message)
 {
   cerr <<
     "--> MusicXML WARNING : " << message << " ???" << std::endl;
 }
 
 //______________________________________________________________________________
-indenter::indenter (std::string spacer)
+indenter::indenter (string spacer)
 {
   fIndent = 0;
   fSpacer = spacer;
@@ -69,12 +69,12 @@ void haendel::print(std::ostream& os) const {
 */
 
 //______________________________________________________________________________
-std::string int2EnglishWord (int n)
+string int2EnglishWord (int n)
 {
   if (n < 0)  return "None";
   if (n > 99) return "LargerThanNinetyNine";
   
-  std::stringstream s;
+  stringstream s;
 
   switch (n) {
     case 0:
@@ -173,23 +173,23 @@ std::string int2EnglishWord (int n)
     } // default
   } // switch
 
-  std::string result;
+  string result;
   
   s >> result;
   return result;
 }
 
 //______________________________________________________________________________
-std::string stringNumbersToEnglishWords (std::string str)
+string stringNumbersToEnglishWords (string str)
 {
   typedef enum { kInitialState, kWorkingOnDigits, kWorkingOnNonDigits } workState;
       
-  std::vector<std::string> chunks;
+  std::vector<string> chunks;
   std::vector<int>         states;
     
   workState state = kInitialState;
   
-  std::string::const_iterator
+  string::const_iterator
     iBegin = str.begin(),
     iEnd   = str.end(),
     i      = iBegin;
@@ -218,7 +218,7 @@ std::string stringNumbersToEnglishWords (std::string str)
     if (++i == iEnd) break;
   } // for
    
-  std::string result = "";
+  string result = "";
 
   for (unsigned int i = 0; i < chunks.size(); i++) {
     if (states[i] == kWorkingOnDigits)
