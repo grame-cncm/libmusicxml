@@ -413,15 +413,19 @@ typedef SMARTP<lpsrParallelMusic> S_lpsrParallelMusic;
 class EXP lpsrSequence : public lpsrElement {
   public:
     
-    enum ElementsSeparator { kEndOfLine, kSpace };
+   enum ElementsSeparator { kEndOfLine, kSpace };
 
     static SMARTP<lpsrSequence> create(ElementsSeparator elementsSeparator);
 
-    void         prependElementToSequence (S_lpsrElement elem) { fSequenceElements.push_front(elem); }
-    void         appendElementToSequence  (S_lpsrElement elem) { fSequenceElements.push_back(elem); }
+    void          prependElementToSequence (S_lpsrElement elem)
+                      { fSequenceElements.push_front(elem); }
+    void          appendElementToSequence  (S_lpsrElement elem)
+                      { fSequenceElements.push_back(elem); }
     
-    S_lpsrElement getLastElementOfSequence() { return fSequenceElements.back(); }
-    void         removeLastElementOfSequence () { fSequenceElements.pop_back(); }
+    S_lpsrElement getLastElementOfSequence()
+                      { return fSequenceElements.back(); }
+    void          removeLastElementOfVoiceSequence ()
+                      { fSequenceElements.pop_back(); }
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -434,8 +438,8 @@ class EXP lpsrSequence : public lpsrElement {
     
   private:
   
-    std::list<S_lpsrElement> fSequenceElements;
-    ElementsSeparator       fElementsSeparator;
+    list<S_lpsrElement> fSequenceElements;
+    ElementsSeparator   fElementsSeparator;
 
 };
 typedef SMARTP<lpsrSequence> S_lpsrSequence;
@@ -929,19 +933,25 @@ class EXP lpsrVoice : public lpsrElement {
 
     static SMARTP<lpsrVoice> create (
         string name,
-        bool absoluteCode,
-        bool generateNumericalTime);
+        bool   absoluteCode,
+        bool   generateNumericalTime);
     
     void           addLyricsToVoice (S_lpsrLyrics lyr)
                       { fVoiceLyrics.push_back(lyr); }
                       
-    std::vector<S_lpsrLyrics>
+    vector<S_lpsrLyrics>
                    getVoiceLyrics () const { return fVoiceLyrics; }
 
-    string    getVoiceName () const         { return fVoiceName; }
+    string         getVoiceName () const         { return fVoiceName; }
     bool           getAbsoluteCode () const      { return fVoiceAbsoluteCode; }
 
-    S_lpsrSequence getVoiceLpsrSequence () const { return fVoiceLpsrSequence; }
+    void           appendElementToVoiceSequence (S_lpsrElement elem)
+                      { fVoiceSequence->appendElementToSequence(elem); }
+                      
+    void           removeLastElementOfVoiceSequence ()
+                      { fVoiceSequence->removeLastElementOfVoiceSequence(); }
+
+    S_lpsrSequence getVoiceSequence () const { return fVoiceSequence; }
 
     virtual void printMusicXML      (std::ostream& os);
     virtual void printLpsrStructure (std::ostream& os);
@@ -951,13 +961,13 @@ class EXP lpsrVoice : public lpsrElement {
 
     lpsrVoice (
         string name,
-        bool absoluteCode,
-        bool generateNumericalTime);
+        bool   absoluteCode,
+        bool   generateNumericalTime);
     virtual ~lpsrVoice();
   
   private:
 
-    string        fVoiceName;
+    string             fVoiceName;
     bool               fVoiceAbsoluteCode;
     bool               fGenerateNumericalTime;
 
@@ -966,10 +976,11 @@ class EXP lpsrVoice : public lpsrElement {
                        fVoiceVoices;
                        
     // the implicit sequence containing the code generated for the voice
-    S_lpsrSequence     fVoiceLpsrSequence;
+    S_lpsrSequence     fVoiceSequence;
   
     // there can be lyrics associated to the voice
-    std::vector<S_lpsrLyrics> fVoiceLyrics;
+    std::vector<S_lpsrLyrics>
+                       fVoiceLyrics;
 
     // the implicit repeat at the beginning of the voice
     // will be ignored if the voice has no repeats at all
@@ -990,15 +1001,15 @@ class EXP lpsrPart : public lpsrElement {
     static SMARTP<lpsrPart> create (
         string name,
         string partInstrumentName,
-        bool        absoluteCode,
-        bool        generateNumericalTime);
+        bool   absoluteCode,
+        bool   generateNumericalTime);
     
-    void          addVoiceToPart (S_lpsrVoice voice)
-                      { fPartVoices.push_back (voice); }
-    std::vector<S_lpsrVoice>
-                  getPartVoices ()              { return fPartVoices; }
+    void          addVoiceToPart (int voiceID, S_lpsrVoice voice)
+                      { fPartVoicesMap[voiceID] = (voice); }
+    map<int, S_lpsrVoice>
+                  getPartVoicesMap ()          { return fPartVoicesMap; }
 
-    string   getPartName () const         { return fPartName; }
+    string        getPartName () const         { return fPartName; }
     bool          getAbsoluteCode () const     { return fPartAbsoluteCode; }
 
     virtual void printMusicXML      (std::ostream& os);
@@ -1010,20 +1021,20 @@ class EXP lpsrPart : public lpsrElement {
     lpsrPart (
         string name,
         string partInstrumentName,
-        bool        absoluteCode,
-        bool        generateNumericalTim);
+        bool   absoluteCode,
+        bool   generateNumericalTim);
     virtual ~lpsrPart();
   
   private:
 
-    string        fPartName;
-    string        fPartInstrumentName;
+    string             fPartName;
+    string             fPartInstrumentName;
     bool               fPartAbsoluteCode;
     bool               fGenerateNumericalTime;
 
     // the part voices
-    std::vector<S_lpsrVoice>
-                       fPartVoices;
+    map<int, S_lpsrVoice>
+                       fPartVoicesMap;
 };
 typedef SMARTP<lpsrPart> S_lpsrPart;
 typedef std::map<string, S_lpsrPart> lpsrPartsmap;

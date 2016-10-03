@@ -552,7 +552,7 @@ lpsrNote::lpsrNote (
     string  message;
     s << "step value " << fMusicXMLNoteData.fMusicxmlStep << " is not a letter from A to G";
     s >> message;
-    lpsrMusicXMLError (message);
+  // JMI  lpsrMusicXMLError (message);
   }
 
 //  cout << "=== xmlPart2LpsrVisitor::visitStart ( S_step& elt ) " << fCurrentMusicXMLStep << std::endl;
@@ -1833,8 +1833,8 @@ void lpsrVoiceBOF::printLilyPondCode(ostream& os)
 //______________________________________________________________________________
 S_lpsrVoice lpsrVoice::create(
   string name,
-  bool absoluteCode,
-  bool generateNumericalTime)
+  bool   absoluteCode,
+  bool   generateNumericalTime)
 {
   lpsrVoice* o =
     new lpsrVoice (name, absoluteCode, generateNumericalTime);
@@ -1844,8 +1844,8 @@ S_lpsrVoice lpsrVoice::create(
 
 lpsrVoice::lpsrVoice(
   string name,
-  bool absoluteCode,
-  bool generateNumericalTime)
+  bool   absoluteCode,
+  bool   generateNumericalTime)
     : lpsrElement("")
 {
   fVoiceName = name;
@@ -1853,16 +1853,16 @@ lpsrVoice::lpsrVoice(
   fGenerateNumericalTime = generateNumericalTime;
   
   // create the implicit lpsrSequence element
-  fVoiceLpsrSequence = lpsrSequence::create (lpsrSequence::kSpace);
+  fVoiceSequence = lpsrSequence::create (lpsrSequence::kSpace);
   
   // add the implicit lpsrRepeat element
 // JMI  fVoiceLpsrRepeat = lpsrRepeat::create ();
-//  fVoiceLpsrSequence->appendElementToSequence (fVoiceLpsrRepeat);
+//  fVoiceSequence->appendElementToSequence (fVoiceLpsrRepeat);
   
   // add the implicit 4/4 time signature
   S_lpsrTime time = lpsrTime::create (4, 4, fGenerateNumericalTime);
   S_lpsrElement t = time;
-  fVoiceLpsrSequence->appendElementToSequence (t);
+  fVoiceSequence->appendElementToSequence (t);
 
 }
 lpsrVoice::~lpsrVoice() {}
@@ -1877,7 +1877,7 @@ void lpsrVoice::printLpsrStructure(ostream& os)
   os << "Voice" << " " << fVoiceName << std::endl;
 
   idtr++;
-  os << idtr << fVoiceLpsrSequence;
+  os << idtr << fVoiceSequence;
   idtr--;
 }
 
@@ -1888,7 +1888,7 @@ void lpsrVoice::printLilyPondCode(ostream& os)
   os << "{" << std::endl;
 
   idtr++;
-  os << fVoiceLpsrSequence << std::endl;
+  os << fVoiceSequence << std::endl;
   idtr--;
 
   os << idtr << "}" << std::endl;

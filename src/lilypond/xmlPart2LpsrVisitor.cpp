@@ -35,6 +35,8 @@ namespace MusicXML2
 xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   S_translationSettings& ts,
   S_lpsrPart             part,
+  S_lpsrVoice            voice,
+  S_lpsrSequence         sequence,
   int                    targetStaff,
   int                    currentStaffID,
   int                    targetVoiceID,  // JMI
@@ -43,7 +45,12 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
 {
   fTranslationSettings = ts;
   
-  fLpsrPart  = part;
+  fVisitedPart  =  part;
+  fCurrentVoice = voice;
+
+  fVisitorSequence = sequence;
+
+//  fVisitorSequence = fVisitedPart->getPartSequence();
 
   fMusicXMLNoteData.fMusicxmlDuration = -8;
   fMusicXMLNoteData.fNoteBelongsToAChord = false;    
@@ -72,18 +79,19 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   fOnGoingLyrics = false;
 }
 
+/*
 //______________________________________________________________________________
 void xmlPart2LpsrVisitor::addElementToPartSequence (S_lpsrElement& elt) {
 //  bool doDebug = fTranslationSettings->fDebug;
   bool doDebug = false;
 
   if (doDebug) cout << "!!! addElementToPartSequence : " << elt << std::endl;
-  fCurrentVoice->getVoiceLpsrSequence()->appendElementToSequence (elt);
+  fCurrentVoice->appendElementToVoiceSequence (elt);
 }
 
 S_lpsrElement xmlPart2LpsrVisitor::getLastElementOfPartSequence() {
   return
-    fCurrentVoice->getVoiceLpsrSequence()->getLastElementOfSequence ();
+    fVisitorSequence->getLastElementOfSequence ();
 }
 
 void xmlPart2LpsrVisitor::removeLastElementOfPartSequence () {
@@ -91,7 +99,21 @@ void xmlPart2LpsrVisitor::removeLastElementOfPartSequence () {
   bool doDebug = false;
 
   if (doDebug) cout << "!!! removeLastElementOfPartSequence" << std::endl;
-  fCurrentVoice->getVoiceLpsrSequence()->removeLastElementOfSequence ();
+  fVisitorSequence->removeLastElementOfSequence ();
+}
+*/
+
+void xmlPart2LpsrVisitor::resetCurrentTime ()
+{
+  fStaffNumber = kNoStaffNumber;
+
+  fSenzaMisura = false;
+
+  fCurrentBeats = 0;
+  fCurrentBeatType = 0;
+  
+//  fTimeSignatures.clear();
+  fSymbol = "";
 }
 
 //______________________________________________________________________________
@@ -106,19 +128,6 @@ void xmlPart2LpsrVisitor::visitStart ( S_divisions& elt )
         "There are " << fCurrentDivisions <<
         " divisions per quater note" << std::endl;
   }
-}
-
-void xmlPart2LpsrVisitor::resetCurrentTime ()
-{
-  fStaffNumber = kNoStaffNumber;
-
-  fSenzaMisura = false;
-
-  fCurrentBeats = 0;
-  fCurrentBeatType = 0;
-  
-//  fTimeSignatures.clear();
-  fSymbol = "";
 }
 
 //______________________________________________________________________________
@@ -154,10 +163,14 @@ rational xmlPart2LpsrVisitor::timeSignatureFromIndex(int index)
 
 void xmlPart2LpsrVisitor::visitEnd ( S_time& elt ) 
 {
-  S_lpsrTime time = lpsrTime::create(
-    fCurrentBeats, fCurrentBeatType, fTranslationSettings->fGenerateNumericalTime);
+  S_lpsrTime
+    time =
+      lpsrTime::create (
+        fCurrentBeats,
+        fCurrentBeatType,
+        fTranslationSettings->fGenerateNumericalTime);
   S_lpsrElement t = time;
-  addElementToPartSequence (t);
+  fCurrentVoice->appendElementToVoiceSequence (t);
 }
 
 //______________________________________________________________________________
@@ -324,7 +337,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_forward& elt )
     /*
     S_lpsrElement note = 
       lpsrNote::create();//(fTargetVoice); // JMI , "empty", 0, dur, "");
-    addElementToPartSequence (note);
+    fCurrentVoice->appendElementToVoiceSequence (note);
  //   fMeasureEmpty = false;
  */
   }
@@ -343,7 +356,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_measure& elt )
     if ((repeat == elt->end()) || (repeat->getAttributeValue("direction") != "forward")) {
       checkStaff (fTargetStaff);
       // JMI S_lpsrElement cmd = lpsrcmd::create("|", lpsrcmd::kWithoutBackslash);
-      //addElementToPartSequence (cmd);
+      //fCurrentVoice->appendElementToVoiceSequence (cmd);
     }
   }
   */
@@ -362,7 +375,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_measure& elt )
   if (fTranslationSettings->fGenerateComments) {
     S_lpsrBarLine barline = lpsrBarLine::create(fMeasureNumber); // JMI
     S_lpsrElement b = barline;
-    addElementToPartSequence(b);
+    fCurrentVoice->appendElementToVoiceSequence (b);
   }
 }
 
@@ -388,7 +401,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_measure& elt )
       // to announce number of first measure on next line
     string comment=s.str()+"\n";
     S_lpsrElement elt = lpsrElement ::create(comment);
-    addElementToPartSequence (elt);
+    fCurrentVoice->appendElementToVoiceSequence (elt);
   }
   */
 }
@@ -454,7 +467,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_key& elt )
     key =
       lpsrKey::create (fCurrentFifths, fCurrentMode, fCurrentCancel);
   S_lpsrElement k = key;
-  addElementToPartSequence (k);
+  fCurrentVoice->appendElementToVoiceSequence (k);
 }
 
 //______________________________________________________________________________
@@ -486,7 +499,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_clef& elt )
     clef =
       lpsrClef::create (fSign, fLine, staffNum);
   S_lpsrElement c = clef;
-  addElementToPartSequence (c);
+  fCurrentVoice->appendElementToVoiceSequence (c);
 }
 
 //________________________________________________________________________
@@ -548,7 +561,8 @@ void xmlPart2LpsrVisitor::visitEnd ( S_metronome& elt ) {
 
   S_lpsrTempoCommand tempo =
     lpsrTempoCommand::create (r.getDenominator(), fPerMinute);
-  fCurrentVoice->getVoiceLpsrSequence()->appendElementToSequence (tempo);
+    
+  fVisitorSequence->appendElementToSequence (tempo);
   
  // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
@@ -573,7 +587,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_coda& elt )
 {
 //  if (fSkipDirection) return;
 //  S_lpsrElement cmd = lpsrcmd::create("coda");
- // addElementToPartSequence(cmd);
+ // fCurrentVoice->appendElementToVoiceSequence (cmd);
 }
 
 //______________________________________________________________________________
@@ -581,14 +595,14 @@ void xmlPart2LpsrVisitor::visitStart ( S_segno& elt )
 {
 //  if (fSkipDirection) return;
 //  S_lpsrElement cmd = lpsrcmd::create("segno");
-//  addElementToPartSequence(cmd);
+//  fCurrentVoice->appendElementToVoiceSequence (cmd);
 }
 
 //______________________________________________________________________________
 void xmlPart2LpsrVisitor::visitStart ( S_trill_mark& elt )
 {
 //  S_lpsrElement cmd = lpsrcmd::create("\\trill");
-//  addElementToPartSequence(cmd);
+//  fCurrentVoice->appendElementToVoiceSequence (cmd);
 }
 
 //______________________________________________________________________________
@@ -775,7 +789,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_ending& elt )
     stringstream s; // USER
     string num = elt->getAttributeValue ("number");
     s << "repeat volta " << num << " {\n";
-  //  addElementToPartSequence(cmd);
+  //  fCurrentVoice->appendElementToVoiceSequence (cmd);
   }
   else {
  // JMI    if (type == "discontinue")
@@ -794,7 +808,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_repeat& elt )
   //  cmd = lpsrcmd::create("\n} %repeatEnd \n");
  //   fInhibitNextBar = true;
   }
- // if (cmd) addElementToPartSequence(cmd);  
+ // if (cmd) fCurrentVoice->appendElementToVoiceSequence (cmd);  
  */
 }
 
@@ -806,7 +820,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_barline& elt )
     // todo: handling bar-style (not yet supported in lpsr)
     S_lpsrBarLine barline = lpsrBarLine::create(1544442); // JMI
     S_lpsrElement b = barline;
-    addElementToPartSequence(b);
+    fCurrentVoice->appendElementToVoiceSequence (b);
   }
   // TODO: support for left and right bars
   // currently automatically handled at measure boundaries
@@ -824,12 +838,12 @@ void xmlPart2LpsrVisitor::visitStart ( S_print& elt )
     // create a barnumbercheck command
     S_lpsrBarNumberCheck barnumbercheck_ = lpsrBarNumberCheck::create(fMeasureNumber);
     S_lpsrElement b2 = barnumbercheck_;
-    addElementToPartSequence(b2);
+    fCurrentVoice->appendElementToVoiceSequence (b2);
 
     // create a break command
     S_lpsrBreak break_ = lpsrBreak::create(fMeasureNumber);
     S_lpsrElement b1 = break_;
-    addElementToPartSequence(b1);
+    fCurrentVoice->appendElementToVoiceSequence (b1);
   }
 }
 
@@ -1029,7 +1043,7 @@ void xmlPart2LpsrVisitor::finalizeTuplet (S_lpsrNote note) {
   // add tuplet to the part
   cout << "=== adding tuplet to the part sequence" << std::endl;
   S_lpsrElement elem = tup;
-  addElementToPartSequence(elem);
+  fCurrentVoice->appendElementToVoiceSequence (elem);
 }          
 
 //______________________________________________________________________________
@@ -1108,11 +1122,11 @@ void xmlPart2LpsrVisitor::visitEnd ( S_note& elt )
     fCurrentChord->addNoteToChord(note);
       
     // remove (previous) fCurrentNote that is the last element of the part sequence
-    removeLastElementOfPartSequence();
+    fCurrentVoice->removeLastElementOfVoiceSequence ();
 
     // add fCurrentChord to the part sequence instead
     S_lpsrElement elem = fCurrentChord;
-    addElementToPartSequence(elem);
+    fCurrentVoice->appendElementToVoiceSequence (elem);
 
   } else if (fMusicXMLNoteData.fNoteBelongsToATuplet) {
 
@@ -1156,7 +1170,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_note& elt )
     // cout << "--> adding standalone note/rest to part sequence" << endl;
     // register note as standalone
     S_lpsrElement n = note;
-    addElementToPartSequence(n);
+    fCurrentVoice->appendElementToVoiceSequence (n);
   
     // account for chord not being built
     fAChordIsBeingBuilt = false;

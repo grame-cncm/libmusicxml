@@ -133,6 +133,8 @@ class EXP xmlPart2LpsrVisitor :
     xmlPart2LpsrVisitor (
       S_translationSettings& ts,
       S_lpsrPart             part,
+      S_lpsrVoice            voice,
+      S_lpsrSequence         sequence,
       int                    targetStaff,
       int                    currentStaffID,
       int                    targetVoiceID,  // JMI
@@ -141,11 +143,13 @@ class EXP xmlPart2LpsrVisitor :
 
      virtual ~xmlPart2LpsrVisitor() {}
 
-    S_lpsrPart&    getLpsrPart () { return fLpsrPart; };
-    
+    S_lpsrPart&    getLpsrPart () { return fVisitedPart; };
+
+    /*
     void           addElementToPartSequence (S_lpsrElement& elt);
     S_lpsrElement  getLastElementOfPartSequence ();
     void           removeLastElementOfPartSequence ();
+    */
     
   protected:
   
@@ -155,7 +159,7 @@ class EXP xmlPart2LpsrVisitor :
     virtual void visitStart ( S_score_part& elt);
     virtual void visitStart ( S_part_name& elt);
 
-   virtual void visitStart ( S_backup& elt);
+    virtual void visitStart ( S_backup& elt);
     virtual void visitStart ( S_barline& elt);
     virtual void visitStart ( S_print& elt);
     virtual void visitStart ( S_coda& elt);
@@ -256,6 +260,9 @@ class EXP xmlPart2LpsrVisitor :
 
     void resetCurrentTime();
 
+    S_lpsrVoice             fCurrentVoice;
+    S_lpsrSequence          fVisitorSequence;
+
     // the current part
     string                  fCurrentPartID;
     string                  fCurrentPartName;
@@ -293,10 +300,10 @@ class EXP xmlPart2LpsrVisitor :
     bool                    fSenzaMisura;
 
     // the part containing the LPSR data
-    S_lpsrPart              fLpsrPart; // JMI
+    S_lpsrPart              fVisitedPart; // JMI
 
     // the voice containing the LPSR data
-    S_lpsrVoice             fCurrentVoice;
+    S_lpsrVoice             fVisitedVoice;
 
     // description of the current LPSR note
     S_lpsrNote              fCurrentNote;

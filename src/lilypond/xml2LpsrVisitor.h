@@ -140,7 +140,7 @@ class EXP xml2LpsrVisitor :
     S_translationSettings fTranslationSettings;
     
     // the implicit sequence containing all the generated code
-    S_lpsrSequence   fLpsrSeq; 
+    S_lpsrSequence   fImplicitSequence; 
     
     // the header, paper and layout blocks to be generated
     S_lpsrHeader     fLpsrHeader;
@@ -154,10 +154,10 @@ class EXP xml2LpsrVisitor :
     int              fTenths;
 
     float            fGlobalStaffSize;
-    string      fGlobalSfaffSizeAsString;
+    string           fGlobalSfaffSizeAsString;
 
     // preventing top-margin and the like to be taken from <system-layout>
-    bool              fVisitingPageLayout;
+    bool             fVisitingPageLayout;
     
      // the global staff size is fMillimeters*72.27/25.4
     
@@ -174,10 +174,10 @@ class EXP xml2LpsrVisitor :
     S_lpsrScore      fLpsrScore;
 
     // the current part
-    string      fCurrentPartID;
-    string      fCurrentPartName;
+    string           fCurrentPartID;
+    string           fCurrentPartName;
     
-    string      fCurrentInstrumentName;
+    string           fCurrentInstrumentName;
     
    
     // the index of the current lpsr staff
