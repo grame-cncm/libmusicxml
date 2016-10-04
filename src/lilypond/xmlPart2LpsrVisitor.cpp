@@ -809,23 +809,6 @@ void xmlPart2LpsrVisitor::visitStart ( S_barline& elt )
 }
 
 //______________________________________________________________________________
-void xmlPart2LpsrVisitor::visitStart ( S_print& elt ) 
-{
-  const string& newSystem = elt->getAttributeValue("new-system");
-  if (newSystem == "yes") {
-    // create a barnumbercheck command
-    S_lpsrBarNumberCheck barnumbercheck_ = lpsrBarNumberCheck::create(fMeasureNumber);
-    S_lpsrElement b2 = barnumbercheck_;
-    fCurrentVoice->appendElementToVoiceSequence (b2);
-
-    // create a break command
-    S_lpsrBreak break_ = lpsrBreak::create(fMeasureNumber);
-    S_lpsrElement b1 = break_;
-    fCurrentVoice->appendElementToVoiceSequence (b1);
-  }
-}
-
-//______________________________________________________________________________
 void xmlPart2LpsrVisitor::visitStart ( S_step& elt )
 {
   string step = elt->getValue();
@@ -1164,6 +1147,45 @@ void xmlPart2LpsrVisitor::visitStart ( S_rest& elt)
 {
   //  cout << "--> xmlPart2LpsrVisitor::visitStart ( S_rest& elt ) " << endl;
   fMusicXMLNoteData.fMusicxmlStepIsARest = true;
+
+  // create a skip chunk
+  S_lpsrStanzaChunk
+  chunk =
+    lpsrStanzaChunk::create (
+      lpsrStanzaChunk::kSkipChunk, "");
+
+  // add the chunk to the stanza
+  fCurrentLyricsStanzasMap[fCurrentLyricNumber] ->
+    addChunkToStanza (chunk);
+}
+
+//______________________________________________________________________________
+void xmlPart2LpsrVisitor::visitStart ( S_print& elt ) 
+{
+  const string& newSystem = elt->getAttributeValue("new-system");
+  if (newSystem == "yes") {
+    // create a barnumbercheck command
+    S_lpsrBarNumberCheck barnumbercheck_ = lpsrBarNumberCheck::create(fMeasureNumber);
+    S_lpsrElement b2 = barnumbercheck_;
+    fCurrentVoice->appendElementToVoiceSequence (b2);
+
+    // create a break command
+    S_lpsrBreak break_ = lpsrBreak::create(fMeasureNumber);
+    S_lpsrElement b1 = break_;
+    fCurrentVoice->appendElementToVoiceSequence (b1);
+
+    if (fOnGoingLyrics) {
+      // create a skip chunk
+      S_lpsrStanzaChunk
+      chunk =
+        lpsrStanzaChunk::create (
+          lpsrStanzaChunk::kBreakChunk, "");
+    
+      // add the chunk to the stanza
+      fCurrentLyricsStanzasMap[fCurrentLyricNumber] ->
+        addChunkToStanza (chunk);
+    }
+  }
 }
 
 //________________________________________________________________________
@@ -1197,17 +1219,17 @@ void xmlPart2LpsrVisitor::visitEnd ( S_text& elt )
 void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) { 
   fOnGoingLyrics = false;
 
-  if (! fCurrentLyricsStanza) {
-    string
-      voiceName = fCurrentVoice->getVoiceName();
-    string
-      lyricsName =
-        voiceName +
-        "_Lyrics" +
-        int2EnglishWord (fCurrentLyricNumber);
+  string
+    voiceName = fCurrentVoice->getVoiceName();
+  string
+    lyricsName =
+      voiceName +
+      "_Lyrics" +
+      int2EnglishWord (fCurrentLyricNumber);
 
-    cout << "--> lyricsName = " << lyricsName << endl;
+  cout << "--> lyricsName = " << lyricsName << endl;
     
+  if (! fCurrentLyricsStanzasMap[fCurrentLyricNumber]) {
     // create lyrics on first visit
     cout <<
       "--> creating lyrics " << lyricsName <<
@@ -1224,14 +1246,16 @@ void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) {
     cout <<
       "--> creating stanza " << lyricsName <<
       " for lyrics " << lyricsName << endl;
-    fCurrentLyricsStanza =
+    fCurrentLyricsStanzasMap[fCurrentLyricNumber] =
       lpsrStanza::create (
         lyricsName,
         voiceName);
 
     // add stanza to current lyrics
-    fCurrentLyrics->addStanzaToLyrics(
-      fCurrentLyricNumber, fCurrentLyricsStanza);
+    fCurrentLyrics->
+      addStanzaToLyrics(
+        fCurrentLyricNumber,
+        fCurrentLyricsStanzasMap[fCurrentLyricNumber]);
 
     // create the new lyrics command
     cout <<
@@ -1255,26 +1279,27 @@ void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) {
 
  // JMI   newStaffCommand->addElementToNewStaff (lyricsUse);
   }
+
+
     
   // create stanza chunk
   /*
   cout <<
       "--> creating stanza word chunk  containing " <<
       fCurrentText << endl;
-  */
-  S_lpsrStanzaChunk
-    chunk =
-      lpsrStanzaChunk::create (
-        lpsrStanzaChunk::kWordChunk, fCurrentText);
 
-  if (fCurrentSyllabic == "single" || fCurrentSyllabic == "begin") {
-    // add stanza chunk to current lyrics
-    fCurrentLyricsStanza -> addChunkToStanza (chunk);
-   }
-  else if (fCurrentSyllabic == "middle" || fCurrentSyllabic == "end") {
-    // add chunk to current stanza
-    fCurrentLyricsStanza -> addChunkToStanza (chunk);
-  }
+      enum stanzaChunkType {
+      kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
+      kSkipChunk, kBreakChunk };
+
+  */
+  
+  lpsrStanzaChunk::stanzaChunkType chunkType;
+  
+  if      (fCurrentSyllabic == "single") chunkType = lpsrStanzaChunk::kSingleChunk;
+  else if (fCurrentSyllabic == "begin")  chunkType = lpsrStanzaChunk::kBeginChunk;
+  else if (fCurrentSyllabic == "middle") chunkType = lpsrStanzaChunk::kMiddleChunk;
+  else if (fCurrentSyllabic == "end")    chunkType = lpsrStanzaChunk::kEndChunk;
   else {
     stringstream s;
     string  result;
@@ -1283,6 +1308,39 @@ void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) {
     s >> result;
     lpsrMusicXMLError(result);
   }
+
+  switch (chunkType) {
+    case lpsrStanzaChunk::kSingleChunk:
+    case lpsrStanzaChunk::kBeginChunk:
+      {
+      // create new stanza on first visit
+      S_lpsrStanza // ???
+        newStanza =
+          lpsrStanza::create (lyricsName, voiceName);
+  
+      // add the new stanza to the current lyrics
+   //   fCurrentLyrics->
+    //    addStanzaToLyrics (fCurrentLyricNumber, newStanza);
+    //  fCurrentLyricsStanzasMap[fCurrentLyricNumber] = newStanza;
+  
+      fCurrentChunk =
+        lpsrStanzaChunk::create (
+          chunkType, fCurrentText);
+  
+  
+      // add stanza chunk to current lyrics
+      fCurrentLyricsStanzasMap[fCurrentLyricNumber]->
+        addChunkToStanza (fCurrentChunk);
+     }
+     break;
+
+    case lpsrStanzaChunk::kMiddleChunk:
+    case lpsrStanzaChunk::kEndChunk:
+      // add chunk to current stanza
+      fCurrentLyricsStanzasMap[fCurrentLyricNumber]->
+        addChunkToStanza (fCurrentChunk);
+      break;
+  } // switch
 }
 
 /*

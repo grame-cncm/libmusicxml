@@ -784,7 +784,9 @@ class EXP lpsrStanzaChunk : public lpsrElement {
   public:
 
     // we want to end the line in the LilyPond code at a break
-    enum stanzaChunkType { kWordChunk, kSkipChunk, kBreakChunk };
+    enum stanzaChunkType {
+      kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
+      kSkipChunk, kBreakChunk };
 
     static SMARTP<lpsrStanzaChunk> create (
         stanzaChunkType chunkType,

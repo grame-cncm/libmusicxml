@@ -1624,9 +1624,12 @@ void lpsrStanzaChunk::printLpsrStructure(ostream& os)
 {  
   os << "StanzaChunk" << " ";
   switch (fStanzaChunkType) {
-    case kWordChunk:  os << "Word"; break;
-    case kSkipChunk:  os << "Skip"; break;
-    case kBreakChunk: os << "Break"; break;
+    case kSingleChunk: os << "single"; break;
+    case kBeginChunk:  os << "begin"; break;
+    case kMiddleChunk: os << "middle"; break;
+    case kEndChunk:    os << "end"; break;
+    case kSkipChunk:   os << "skip"; break;
+    case kBreakChunk:  os << "break"; break;
   } // switch
   if (fChunkText.size()) os << " " << fChunkText;
   os << endl;
@@ -1635,9 +1638,12 @@ void lpsrStanzaChunk::printLpsrStructure(ostream& os)
 void lpsrStanzaChunk::printLilyPondCode(ostream& os)
 {  
   switch (fStanzaChunkType) {
-    case kWordChunk:  os << fChunkText; break;
-    case kSkipChunk:  os << "\\skip"; break;
-    case kBreakChunk: os << "\\myBreak"; break;
+    case kSingleChunk: os << fChunkText; break;
+    case kBeginChunk:  os << fChunkText << " -- "; break;
+    case kMiddleChunk: os << fChunkText << " -- "; break;
+    case kEndChunk:    os << fChunkText; break;
+    case kSkipChunk:   os << "\\skip"; break;
+    case kBreakChunk:  os << "\\break" << endl << idtr; break;
   } // switch
 }
 
@@ -1683,17 +1689,19 @@ void lpsrStanza::printLpsrStructure(ostream& os)
 }
 
 void lpsrStanza::printLilyPondCode(ostream& os)
-{  
-  vector<S_lpsrStanzaChunk>::const_iterator
-    iBegin = fStanzaChunks.begin(),
-    iEnd   = fStanzaChunks.end(),
-    i      = iBegin;
-    
-  for ( ; ; ) {
-    os << (*i);
-    if (++i == iEnd) break;
-    os << "--";
-  } // for
+{
+  if (fStanzaChunks.size()) {
+    vector<S_lpsrStanzaChunk>::const_iterator
+      iBegin = fStanzaChunks.begin(),
+      iEnd   = fStanzaChunks.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " -- ";
+    } // for
+  }
 }
 
 //______________________________________________________________________________
@@ -1756,8 +1764,7 @@ void lpsrLyrics::printLpsrStructure(ostream& os)
 void lpsrLyrics::printLilyPondCode(ostream& os)
 {  
   os <<
-    fLyricsName << " = " <<
-    " = \\lyricmode {" << endl;
+    fLyricsName << " = " << "\\lyricmode {" << endl;
 
   idtr++;
 
@@ -1824,7 +1831,7 @@ void lpsrNewlyricsCommand::printLilyPondCode (ostream& os)
 {
    os <<
      idtr << "\\new Lyrics" << " " <<
-    "\\lyricsto \"" << fVoiceName <<
+    "\\lyricsto " << fVoiceName <<
     " " << "\\" << fLyricsName << endl;
 }
 

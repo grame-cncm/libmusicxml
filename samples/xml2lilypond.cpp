@@ -25,7 +25,8 @@ using namespace MusicXML2;
 void usage(int exitStatus) {
   cerr <<
     endl <<
-    "This is xml2lilypond, the MusicXML to LilyPond translator embedded in the libmusicxml2 library." << endl <<
+    "This is xml2lilypond, the MusicXML to LilyPond translator" << endl <<
+    "embedded in the libmusicxml2 library." << endl <<
     endl <<
     "Usage:" << endl <<
     "    xml2lilypond [options] [MusicXMLFile|-]" << endl <<
@@ -34,29 +35,30 @@ void usage(int exitStatus) {
     "    Read the contents of MusicXMLFile or stdin ('-')," << endl <<
     "    convert it to LilyPond Semantic Representation (LPSR) internally" << endl <<
     "    and write LilyPond source code to standard output." << endl <<
-    "    The activity log and warning or error messages go to standard error." << endl <<
+    "    The activity log and warning/error messages go to standard error." << endl <<
     endl <<
     "Options:" << endl <<
     "  --help'" << endl <<
-    "        display this help" << endl <<
+    "        Display this help" << endl <<
     endl <<
-    "  --absolute" << endl <<
-    "        generate absolute code (default: relative code)" << endl <<
+    "  --abs, --absolute" << endl <<
+    "        Generate LilyPond absolute code. The default is to generate relative code" << endl <<
+    endl <<
     "  --numericalTime" << endl <<
-    "        don't generate non numerical time signatures such as 'C'" << endl <<
+    "        Don't generate non-numerical time signatures such as 'C'" << endl <<
     "  --noComments" << endl <<
-    "        don't generate comments" << endl <<
+    "        Don't generate comments" << endl <<
     "  --noAutobars" << endl <<
-    "        don't generate barlines" << endl <<
+    "        Don't generate barlines" << endl <<
     "  --noStems" << endl <<
-    "        don't generate stems commands" << endl <<
+    "        Don't generate stems commands" << endl <<
     "  --noPositions" << endl <<
-    "        don't generate positions" << endl <<
+    "        Don't generate positions" << endl <<
     endl <<
-    "  --noTrace" << endl <<
-    "        don't generate a trace of the activity to standard error" << endl <<
-    "   --debug  " << endl <<
-    "        print debugging information to standard error" << endl <<
+    "  --nt, --noTrace" << endl <<
+    "        Don't generate a trace of the activity to standard error" << endl <<
+    "  --d, --debug  " << endl <<
+    "        Print debugging information to standard error" << endl <<
     endl;
   exit(exitStatus);
 }
@@ -100,14 +102,17 @@ int main(int argc, char *argv[])
     /* These options set a flag. */
     {"help",          no_argument,       &helpPresent, 1},
     {"language",      required_argument, &languagePresent, 1},
+    {"abs",           no_argument,       &absolutePresent, 1},
     {"absolute",      no_argument,       &absolutePresent, 1},
     {"numericalTime", no_argument,       &numericaltimePresent, 1},
     {"noComments",    no_argument,       &nocommentsPresent, 1},
     {"noAutobars",    no_argument,       &noautobarsPresent, 1},
     {"stems",         no_argument,       &stemsPresent, 1},
     {"positions",     no_argument,       &positionsPresent, 1},
+    {"nt",            no_argument,       &notracePresent, 1},
     {"noTrace",       no_argument,       &notracePresent, 1},
     {"debug",         no_argument,       &debugPresent, 1},
+    {"d",            no_argument,       &debugPresent, 1},
     {0, 0, 0, 0}
     };
 
