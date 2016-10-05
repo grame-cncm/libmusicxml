@@ -227,7 +227,8 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   if (fTranslationSettings->fTrace)
     cerr << "Getting the part voices IDs" << endl;
     
-  vector<int> voiceIDsList = xpsv.getVoicesIDsList ();
+  vector<int> voiceIDsList      = xpsv.getAllVoicesIDs ();
+  int         totalVoicesNumber = xpsv.getTotalVoicesNumber ();
 
   int size = voiceIDsList.size();
 
@@ -248,7 +249,8 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   if (fTranslationSettings->fTrace)
     cerr << "Extracting part \"" << partID << "\" voices information" << endl;
 
-  vector<S_lpsrVoice> partVoices;
+  if (fTranslationSettings->fTrace)
+    cerr << "There are " << totalVoicesNumber << " voices altogether" << endl;
 
   for (unsigned int i = 0; i < voiceIDsList.size(); i++) {
     
@@ -373,25 +375,26 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     
     // get the part voices
     map<int, S_lpsrVoice>
-      partVoices =
+      partVoicesMap =
         part->getPartVoicesMap ();
  
     // add the voices lyrics to the staff command
-    int voicesNbr = partVoices.size();
+    int voicesNbr = partVoicesMap.size();
 
     if (voicesNbr > 1)
       cerr << "Theare are " << voicesNbr << " voices";
     else
       cerr << "There is 1 voice";
-    cerr << " in part " << partName << "\" (" << partID << ")" << endl;
+    cerr << " in part " << partName << " (" << partID << ") BOF" << endl;
 
     map<int, S_lpsrVoice>::const_iterator i;
-    for (i = partVoices.begin(); i != partVoices.end(); i++) {
+    for (i = partVoicesMap.begin(); i != partVoicesMap.end(); i++) {
 
       S_lpsrVoice voice = (*i).second;
       string voiceName  = voice->getVoiceName();
 
       // create the voice context
+      cout << "--> creating voice " << voiceName << endl;
       S_lpsrContext
         voiceContext =
           lpsrContext::create (
@@ -408,6 +411,7 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     } // for
     
     // add the new staff to the score parallel music
+    cout << "--> add the new staff to the score parallel music" << endl;
     S_lpsrParallelMusic
       scoreParallelMusic =
         fLpsrScore->getScoreParallelMusic ();

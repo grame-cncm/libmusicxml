@@ -68,7 +68,10 @@ class EXP xmlPartSummaryVisitor :
     // returns the voicesIDs list for one staff
     list<int> getStaffVoices (int staff) const;
 
-        
+
+    // returns the total number of voices
+    int getTotalVoicesNumber () { return fVoicesNumber; }
+    
     // returns the number of voices on a staff 
     int staffVoicesNumber (int staff) const;
 
@@ -91,7 +94,7 @@ class EXP xmlPartSummaryVisitor :
     int getTotalVoicesNumber () const;
     
     // returns the voicesIDs list
-    vector<int> getVoicesIDsList () const;
+    vector<int> getAllVoicesIDs () const;
     
   protected:
   
@@ -113,14 +116,13 @@ class EXP xmlPartSummaryVisitor :
     // number of staves (from the staves element)
     int               fStavesNumber; // JMI UNUSED
     
-    // number of voices (from the staves element)
- //   int                   fVoicesNumber;
-    
     // staves and corresponding number of notes
     map<int, int>     fStavesNotesNumbersMap;
     
+    // number of voices (from the staves element)
+    int               fVoicesNumber;
+    
     // voices and their number of notes
-    // one entry per voice, hence size is the number of voices
     map<int, int>     fVoicesNotesNumbersMap;
     
     // voices and their number of lyrics

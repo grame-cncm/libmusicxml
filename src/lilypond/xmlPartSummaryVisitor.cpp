@@ -32,6 +32,8 @@ xmlPartSummaryVisitor::xmlPartSummaryVisitor (S_translationSettings& ts)
   fTranslationSettings = ts;
   
   fStavesNumber = 1;
+
+  fVoicesNumber = 0;
 }
 
 xmlPartSummaryVisitor::~xmlPartSummaryVisitor () {}
@@ -75,7 +77,7 @@ list<int> xmlPartSummaryVisitor::getVoiceStaves (int voice) const
 }
 
 //________________________________________________________________________
-vector<int> xmlPartSummaryVisitor::getVoicesIDsList () const
+vector<int> xmlPartSummaryVisitor::getAllVoicesIDs () const
 {
   vector<int> sl;
 
@@ -256,6 +258,11 @@ void xmlPartSummaryVisitor::visitStart ( S_staff& elt)
 void xmlPartSummaryVisitor::visitStart ( S_voice& elt )
 {
   fCurrentVoice = int(*elt);
+  if (fCurrentVoice > fVoicesNumber)
+    fVoicesNumber = fCurrentVoice;
+  cout <<
+    "--> S_voice, fCurrentVoice = " << fCurrentVoice <<
+    ", fVoicesNumber = " << endl;
 }
 
 //________________________________________________________________________
