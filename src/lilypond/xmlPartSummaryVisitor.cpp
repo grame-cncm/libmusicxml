@@ -47,6 +47,86 @@ int xmlPartSummaryVisitor::getTotalVoicesNumber () const
   { return fVoicesNotesNumbersMap.size(); }
 
 //________________________________________________________________________
+int xmlPartSummaryVisitor::getPartVoicesNumber (string partID) const
+{
+/*
+    map<string, map<int, int> >
+                      fPartVoicesLyricsNumbersMap;
+                      // fPartVoicesLyricsNumbersMap ["partP1"][2] == 4
+                      // means there are 4 lyrics in part P1 / voice 2
+*/
+  int result = 0;
+  
+  map<string, map<int, int> >::const_iterator i =
+    fPartVoicesLyricsNumbersMap.find (partID);
+  
+  if (i != fPartVoicesLyricsNumbersMap.end())
+    result = (*i).second.size();
+
+  return result;
+}
+
+//________________________________________________________________________
+vector<int> xmlPartSummaryVisitor::getPartVoicesIDs (string partID) const
+{
+/*
+    map<string, map<int, int> >
+                      fPartVoicesLyricsNumbersMap;
+                      // fPartVoicesLyricsNumbersMap ["partP1"][2] == 4
+                      // means there are 4 lyrics in part P1 / voice 2
+*/
+  cout <<
+    "--> getPartVoicesIDs, partid = " << partID << endl;
+    
+  vector<int> result;
+  
+  map<string, map<int, int> >::const_iterator i =
+    fPartVoicesLyricsNumbersMap.find (partID);
+  
+  if (i != fPartVoicesLyricsNumbersMap.end()) {
+    cout <<
+      "--> getPartVoicesIDs, found " << partID <<
+      " in fPartVoicesLyricsNumbersMap" << endl;
+      
+    map<int, int>::const_iterator j;
+
+    for (j = (*i).second.begin(); j != (*i).second.end(); i++)
+      result.push_back ((*j).first);
+  } else {
+    cout <<
+      "--> getPartVoicesIDs, NOT found " << partID <<
+      " in fPartVoicesLyricsNumbersMap" << endl;
+  }
+  
+    return result;
+}
+
+//________________________________________________________________________
+int xmlPartSummaryVisitor::getPartVoiceLyricsNumber
+  (string partID, int voiceID) const
+{
+/*
+    map<string, map<int, int> >
+                      fPartVoicesLyricsNumbersMap;
+                      // fPartVoicesLyricsNumbersMap ["partP1"][2] == 4
+                      // means there are 4 lyrics in part P1 / voice 2
+*/
+  int result = 0;
+  
+  map<string, map<int, int> >::const_iterator i =
+    fPartVoicesLyricsNumbersMap.find (partID);
+  
+  if (i != fPartVoicesLyricsNumbersMap.end()) {
+    map<int, int>::const_iterator j = (*i).second.find (voiceID);
+  
+    if (j != (*i).second.end())
+      result = (*j).second;
+  }
+  
+  return result;
+}
+
+//________________________________________________________________________
 list<int> xmlPartSummaryVisitor::getAllStavesIDs() const
 {
   list<int> sl;
@@ -196,39 +276,6 @@ int xmlPartSummaryVisitor::getVoiceNotesNumber (int voiceID) const
 }
 
 //________________________________________________________________________
-int xmlPartSummaryVisitor::getPartVoiceLyricsNumber
-  (string partID, int voiceID) //const
-{
-/*
-    map<string, map<int, int> >
-                      fPartVoicesLyricsNumbersMap;
-                      // fPartVoicesLyricsNumbersMap ["partP1"][2] == 4
-                      // indicates there are 4 lyrics in partP1 / voice 2
-*/
-
-  int result = 0;
-
-  try
-    {
-    result = fPartVoicesLyricsNumbersMap [partID][voiceID];
-    }
-  catch (int e)
-    {
-      cout << "--> An exception occurred. Exception Nr. " << e << '\n';
-    }
-  /*
-  map<int, int>::const_iterator i =
-    fPartVoicesLyricsNumbersMap [partID].find( voiceID );
-    
-  if (i != fPartVoicesLyricsNumbersMap.end()) {
-    result = i->second;
-  }
-  */
-  
-  return result;
-}
-
-//________________________________________________________________________
 int xmlPartSummaryVisitor::getStaffVoiceNotesNumber (
   int staffID, int voiceID) const
 {
@@ -283,9 +330,11 @@ void xmlPartSummaryVisitor::visitStart ( S_voice& elt )
   fCurrentVoice = int(*elt);
   if (fCurrentVoice > fVoicesNumber)
     fVoicesNumber = fCurrentVoice;
+  /*
   cout <<
     "--> S_voice, fCurrentVoice = " << fCurrentVoice <<
     ", fVoicesNumber = " << fVoicesNumber << endl;
+  */
 }
 
 //________________________________________________________________________

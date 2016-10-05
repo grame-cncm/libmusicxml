@@ -62,13 +62,13 @@ class EXP xmlPartSummaryVisitor :
     int         getStaffVoiceNotesNumber (int staffID, int voiceID) const;
     
     int         getVoiceNotesNumber (int voiceID) const;
-    int         getPartVoiceLyricsNumber (string partID, int voiceID); // const;
+    int         getPartVoiceLyricsNumber (string partID, int voiceID) const;
 
 
     list<int>   getAllStavesIDs() const; // JMI
     list<int>   getStaffVoices (int staff) const;
     vector<int> getAllVoicesIDs () const;
-    vector<int> getPartVoicesIDs () const; // JMI
+    vector<int> getPartVoicesIDs ( string partID) const;
 
 
     int         getPartVoicesNumber (string partID) const;
@@ -115,13 +115,13 @@ class EXP xmlPartSummaryVisitor :
     map<string, map<int, int> >
                       fPartVoicesLyricsNumbersMap;
                       // fPartVoicesLyricsNumbersMap ["partP1"][2] == 4
-                      // indicates there are 4 lyrics in partP1 / voice 2
+                      // means there are 4 lyrics in part P1 / voice 2
     
     // staves and corresponding voices + number of notes
     map<int, map<int, int> >
                       fStaffVoicesAndNotesNumbersMap;
                       // fStaffVoicesAndNotesNumbersMap [2][3] == 5
-                      // indicates there are 5 notes in staff 2 / voice 3
+                      // means there are 5 notes in staff 2 / voice 3
 
     string            fCurrentPartID;
   

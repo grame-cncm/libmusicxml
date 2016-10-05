@@ -200,8 +200,9 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   if (fTranslationSettings->fTrace)
     cerr << "Extracting part \"" << partID << "\" summary information" << endl;
 
-  xmlPartSummaryVisitor xpsv (fTranslationSettings);
-  xml_tree_browser      browser (&xpsv);
+  xmlPartSummaryVisitor partSummaryVisitor (fTranslationSettings);
+  
+  xml_tree_browser      browser (&partSummaryVisitor);
   browser.browse (*elt);
 
   // create the part
@@ -228,7 +229,7 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     cerr << "Getting the part voices IDs" << endl;
 
   int         partVoicesNumber =
-                xpsv.getPartVoiceLyricsNumber (partID, voiceID);
+                partSummaryVisitor.getPartVoicesNumber (partID);
   
   if (partVoicesNumber > 1)
     cerr << "Theare are " << partVoicesNumber << " voices";
@@ -236,8 +237,6 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     cerr << "There is 1 voice";
   cerr << " in part " << partName << "\" (" << partID << ")" << endl;
   
-  vector<int> voiceIDsList     = xpsv.getAllVoicesIDs ();
-
   int      targetStaff = -1;
   bool     notesOnly = false;
   rational currentTimeSign (0,1);
@@ -257,22 +256,24 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
     cerr << "  in part" << partID << endl;
   }
   
+  vector<int>
+    partVoicesIDs =
+      partSummaryVisitor.getPartVoicesIDs (partID);
+
   if (fTranslationSettings->fTrace)
-    cerr << "--> voiceIDsList.size() = " << voiceIDsList.size() << endl;
+    cerr << "--> partVoicesIDs.size() = " << partVoicesIDs.size() << endl;
 
-  for (unsigned int i = 0; i < voiceIDsList.size(); i++) {
-/*
-      vector<int> voiceIDsList     = xpsv.getAllVoicesIDs ();
-  int         partVoicesNumber =
-                xpsv.getVoiceLyricsNumber (partID);
-*/
+  for (unsigned int i = 0; i < partVoicesIDs.size(); i++) {
 
-    int targetVoice = voiceIDsList [i];
+    int voiceID     = i;
+    int targetVoice = partVoicesIDs [i];
+    
     string
       voiceName =
         partName + "_Voice" + int2EnglishWord (targetVoice);
       
-    int targetVoiceMainStaffID = xpsv.getVoiceMainStaffID (targetVoice);
+    int targetVoiceMainStaffID =
+          partSummaryVisitor.getVoiceMainStaffID (targetVoice);
   
     if (targetStaff == targetVoiceMainStaffID) {
       notesOnly = true;
@@ -282,6 +283,9 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
       targetStaff = targetVoiceMainStaffID;
       fCurrentStaffIndex++;
     }
+
+    int partVoiceLyricsNumber =
+          partSummaryVisitor.getPartVoiceLyricsNumber (partID, voiceID);
 
     if (fTranslationSettings->fTrace)
       cerr << 

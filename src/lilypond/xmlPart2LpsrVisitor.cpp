@@ -1381,6 +1381,10 @@ void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) {
       fCurrentVoiceLyricsMap [fCurrentLyricNumber]->
         addChunkToLyrics (fCurrentChunk);
       break;
+    case lpsrLyricsChunk::kSkipChunk:
+    case lpsrLyricsChunk::kBreakChunk:
+      {}
+      break;
   } // switch
 }
 
