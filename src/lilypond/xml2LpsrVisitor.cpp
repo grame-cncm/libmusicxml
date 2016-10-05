@@ -263,6 +263,13 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   if (fTranslationSettings->fTrace)
     cerr << "--> partVoicesIDs.size() = " << partVoicesIDs.size() << endl;
 
+  vector<int>
+    allVoicesIDs =
+      partSummaryVisitor.getAllVoicesIDs ();
+
+  if (fTranslationSettings->fTrace)
+    cerr << "--> allVoicesIDs.size() = " << allVoicesIDs.size() << endl;
+
   for (unsigned int i = 0; i < partVoicesIDs.size(); i++) {
 
     int voiceID     = i;

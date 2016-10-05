@@ -90,15 +90,45 @@ vector<int> xmlPartSummaryVisitor::getPartVoicesIDs (string partID) const
       
     map<int, int>::const_iterator j;
 
-    for (j = (*i).second.begin(); j != (*i).second.end(); i++)
+    for (j = (*i).second.begin(); j != (*i).second.end(); j++) {
       result.push_back ((*j).first);
+    } // for
   } else {
     cout <<
       "--> getPartVoicesIDs, NOT found " << partID <<
       " in fPartVoicesLyricsNumbersMap" << endl;
   }
   
-    return result;
+  return result;
+}
+
+//________________________________________________________________________
+vector<int> xmlPartSummaryVisitor::getAllVoicesIDs () const
+{
+/*
+    map<string, map<int, int> >
+                      fPartVoicesLyricsNumbersMap;
+                      // fPartVoicesLyricsNumbersMap ["partP1"][2] == 4
+                      // means there are 4 lyrics in part P1 / voice 2
+*/
+  vector<int> result;
+
+  cout << "--> getAllVoicesIDs () : " << endl;
+  for (
+      map<int, int>::const_iterator i =
+        fVoicesNotesNumbersMap.begin();
+      i != fVoicesNotesNumbersMap.end();
+      i++) {
+    
+    cout <<
+      "i->first = " << i->first <<
+      ", i->second = " << i->second <<
+      endl;
+    
+    result.push_back (i->first);
+  } // for
+  
+  return result;
 }
 
 //________________________________________________________________________
@@ -157,28 +187,6 @@ list<int> xmlPartSummaryVisitor::getVoiceStaves (int voice) const
   return sl;
 }
 */
-//________________________________________________________________________
-vector<int> xmlPartSummaryVisitor::getAllVoicesIDs () const
-{
-  vector<int> sl;
-
-//  cout << "--> getVoices () : " << endl;
-  for (
-      map<int, int>::const_iterator i =
-        fVoicesNotesNumbersMap.begin();
-      i != fVoicesNotesNumbersMap.end();
-      i++) {
-    /*
-    cout <<
-      "i->first = " << i->first <<
-      ", i->second = " << i->second <<
-      endl;
-    */
-    sl.push_back (i->first);
-  } // for
-  
-  return sl;
-}
 
 //________________________________________________________________________
 list<int> xmlPartSummaryVisitor::getStaffVoices (int staff) const
@@ -299,7 +307,7 @@ int xmlPartSummaryVisitor::getStaffVoiceNotesNumber (
 //________________________________________________________________________
 void xmlPartSummaryVisitor::visitStart ( S_part& elt)
 {
-  fCurrentPartID = elt->getValue();
+  fCurrentPartID = elt->getAttributeValue ("id");
   
   fStavesNumber = 1; // default if there are no <staves> element
 
@@ -339,7 +347,16 @@ void xmlPartSummaryVisitor::visitStart ( S_voice& elt )
 
 //________________________________________________________________________
 void xmlPartSummaryVisitor::visitStart ( S_lyric& elt ) { 
-  int lyricNumber = int(*elt);
+  int lyricNumber = elt->getAttributeIntValue ("number", 0);
+
+/*
+  cout <<
+    "--> S_voice, lyricNumber = " << lyricNumber <<
+    ", fCurrentPartID = " << fCurrentPartID <<
+    ", fCurrentVoice = " << fCurrentVoice <<
+    ", fPartVoicesLyricsNumbersMap [\"" << fCurrentPartID << "\"][" << fCurrentVoice << "] = "
+    << fPartVoicesLyricsNumbersMap [fCurrentPartID][fCurrentVoice] << endl;
+*/
 
   if (
       lyricNumber

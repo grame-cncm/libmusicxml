@@ -1022,8 +1022,8 @@ void xmlPart2LpsrVisitor::visitEnd ( S_note& elt )
       fMusicXMLNoteData.fMusicxmlDuration << ", " << 
       "fCurrentDivisions*4 = " << fCurrentDivisions*4 << endl;
       
-  if (fCurrentDivisions == 0)
-    lpsrMusicXMLError ("divisions cannot be 0");
+  if (fCurrentDivisions <= 0)
+    lpsrMusicXMLError ("divisions cannot be 0 nor negative");
   
   fMusicXMLNoteData.fMusicxmlDivisions = fCurrentDivisions;
   fMusicXMLNoteData.fTupletMemberType = fCurrentType;
