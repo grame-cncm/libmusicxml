@@ -36,7 +36,7 @@ namespace MusicXML2
   - a count of staves
   - a map that associates each stave with the corresponding number of notes
   - a map that associates each stave with the corresponding voices and notes
-  - a map that associates each stave with the correcponding stanzas
+  - a map that associates each stave with the correcponding lyricss
 */
 class EXP xmlPartSummaryVisitor : 
 

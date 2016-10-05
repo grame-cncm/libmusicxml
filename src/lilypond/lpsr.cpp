@@ -1516,114 +1516,41 @@ void lpsrBeam::printLilyPondCode(ostream& os)
   } // switch
 }
 
-
-
 //______________________________________________________________________________
-/*
-map<string, xmlPartSummaryVisitor::stanzaContents> & xmlPartSummaryVisitor::getStanzas() { 
-  return fStanzas;
-}
-
-void xmlPartSummaryVisitor::clearStanzas () {
-  fStanzas.clear();
-}
-*/
-
-/*
-string xmlPartSummaryVisitor::stanzaAsString (string separator) const {
-//  if (fTranslationSettings->fTrace) cerr << "Extracting part \"" << partid << "\" lyrics information" << endl;
-//  map<string, list<list<string> > > stanzas = ps.getStanzas();
-
-
-  map<string, stanzaContents> ::const_iterator
-    it1 = fStanzas.find(name);
-  
-  if (it1 != fStanzas.end()) {
-    stringstream s;
-    string       lyricsName =
-                  "_Lyrics" + int2EnglishWord (atoi (it1->first.c_str()));
-
-    s << lyricsName << " = \\lyricmode { " << endl;
-
-    for (stanzaContents::const_iterator 
-        it2=it1->second.begin(); it2!=it1->second.end(); ++it2) { 
-      list<string> ::const_iterator 
-        it2Begin = it2->begin(),
-        it2End   = it2->end(),
-        it3      = it2Begin;
-
-      for ( ; ; ) {
-        s << *it3;
-        if (++it3 == it2End) break;
-        s << separator;
-      } // for
-      cout << " ";
-    } // for
-      
-    s << endl << "}" << endl << endl;
-    } else {
-    result = "Can't find stanza \""+name+"\"";
-  } // if
-}
-  */
-
-/*
-class lpsrStanzaChunk : public lpsrElement {
-  public:
-
-    // we want to end the line in the LilyPond code at a break
-    typedef enum { kWordChunk, kSkipChunk, kBreakChunk } stanzaChunkType;
-
-    static SMARTP<lpsrStanzaChunk> create (stanzaChunkType type);
-     
-  protected:
-
-   lpsrStanza (stanzaChunkType type);
-    virtual ~lpsrStanza();
-
-  private:
-  
-    stanzaChunkType fStanzaChunkType;
-    string     fChunkText;
-}
-*/
-
-
-//______________________________________________________________________________
-S_lpsrStanzaChunk lpsrStanzaChunk::create (
-  stanzaChunkType chunkType,
+S_lpsrLyricsChunk lpsrLyricsChunk::create (
+  LyricsChunkType chunkType,
   string     chunkText)
 {
-  lpsrStanzaChunk* o =
-    new lpsrStanzaChunk (chunkType, chunkText); assert(o!=0);
+  lpsrLyricsChunk* o =
+    new lpsrLyricsChunk (chunkType, chunkText); assert(o!=0);
   return o;
 }
 
-lpsrStanzaChunk::lpsrStanzaChunk (
-  stanzaChunkType chunkType,
+lpsrLyricsChunk::lpsrLyricsChunk (
+  LyricsChunkType chunkType,
   string     chunkText)
   : lpsrElement("")
 {
-  fStanzaChunkType = chunkType;
+  fLyricsChunkType = chunkType;
   fChunkText       = chunkText; 
 }
-lpsrStanzaChunk::~lpsrStanzaChunk() {}
+lpsrLyricsChunk::~lpsrLyricsChunk() {}
 
-ostream& operator<< (ostream& os, const S_lpsrStanzaChunk& lyr)
+ostream& operator<< (ostream& os, const S_lpsrLyricsChunk& lyr)
 {
   lyr->print(os);
   return os;
 }
 
-void lpsrStanzaChunk::printMusicXML(ostream& os)
+void lpsrLyricsChunk::printMusicXML(ostream& os)
 {
-  os << "<!-- lpsrStanzaChunk??? -->" << endl;
+  os << "<!-- lpsrLyricsChunk??? -->" << endl;
 }
 
-void lpsrStanzaChunk::printLPSR(ostream& os)
+void lpsrLyricsChunk::printLPSR(ostream& os)
 {  
-  os << "StanzaChunk" << " ";
-  switch (fStanzaChunkType) {
+  os << "LyricsChunk" << " ";
+  switch (fLyricsChunkType) {
     case kSingleChunk: os << "single"; break;
     case kBeginChunk:  os << "begin "; break;
     case kMiddleChunk: os << "middle"; break;
@@ -1635,9 +1562,9 @@ void lpsrStanzaChunk::printLPSR(ostream& os)
   os << endl;
 }
 
-void lpsrStanzaChunk::printLilyPondCode(ostream& os)
+void lpsrLyricsChunk::printLilyPondCode(ostream& os)
 {  
-  switch (fStanzaChunkType) {
+  switch (fLyricsChunkType) {
     case kSingleChunk: os << fChunkText;           break;
     case kBeginChunk:  os << fChunkText;           break;
     case kMiddleChunk: os << " -- " << fChunkText; break;
@@ -1648,15 +1575,15 @@ void lpsrStanzaChunk::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrStanza lpsrStanza::create (
+S_lpsrLyrics lpsrLyrics::create (
   string lyricsName,
   string voiceName)
 {
-  lpsrStanza* o = new lpsrStanza (lyricsName, voiceName); assert(o!=0);
+  lpsrLyrics* o = new lpsrLyrics (lyricsName, voiceName); assert(o!=0);
   return o;
 }
 
-lpsrStanza::lpsrStanza (
+lpsrLyrics::lpsrLyrics (
   string lyricsName,
   string voiceName)
   : lpsrElement("")
@@ -1664,41 +1591,41 @@ lpsrStanza::lpsrStanza (
   fLyricsName = lyricsName;
   fVoiceName  = voiceName; 
 }
-lpsrStanza::~lpsrStanza() {}
+lpsrLyrics::~lpsrLyrics() {}
 
-ostream& operator<< (ostream& os, const S_lpsrStanza& stan)
+ostream& operator<< (ostream& os, const S_lpsrLyrics& stan)
 {
   stan->print(os);
   return os;
 }
 
-void lpsrStanza::printMusicXML(ostream& os)
+void lpsrLyrics::printMusicXML(ostream& os)
 {
-  os << "<!-- lpsrStanza??? -->" << endl;
+  os << "<!-- lpsrLyrics??? -->" << endl;
 }
 
-void lpsrStanza::printLPSR(ostream& os)
+void lpsrLyrics::printLPSR(ostream& os)
 {  
-  os << "Stanza" << " " << fLyricsName << " " << fVoiceName << endl;
+  os << "Lyrics" << " " << fLyricsName << " " << fVoiceName << endl;
   idtr++;
-  int n = fStanzaChunks.size();
+  int n = fLyricsChunks.size();
   for (int i = 0; i < n; i++) {
-    os << idtr << fStanzaChunks[i];
+    os << idtr << fLyricsChunks[i];
   } // for
   idtr--;
 }
 
-void lpsrStanza::printLilyPondCode(ostream& os)
+void lpsrLyrics::printLilyPondCode(ostream& os)
 {
   os <<
     fLyricsName << " = " << "\\lyricmode {" << endl;
 
   idtr++;
 
-  if (fStanzaChunks.size()) {
-    vector<S_lpsrStanzaChunk>::const_iterator
-      iBegin = fStanzaChunks.begin(),
-      iEnd   = fStanzaChunks.end(),
+  if (fLyricsChunks.size()) {
+    vector<S_lpsrLyricsChunk>::const_iterator
+      iBegin = fLyricsChunks.begin(),
+      iEnd   = fLyricsChunks.end(),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -1712,90 +1639,6 @@ void lpsrStanza::printLilyPondCode(ostream& os)
 
   os << endl << idtr << "}" << endl;
 }
-
-/*
-//______________________________________________________________________________
-S_lpsrLyrics lpsrLyrics::create (
-  string lyricsName,
-  string voiceName)
-{
-  lpsrLyrics* o = new lpsrLyrics (lyricsName, voiceName);
-  assert(o!=0);
-  return o;
-}
-
-lpsrLyrics::lpsrLyrics (
-  string lyricsName,
-  string voiceName)
-  : lpsrElement("")
-{
-  fLyricsName = lyricsName;
-  fVoiceName  = voiceName;
-}
-lpsrLyrics::~lpsrLyrics() {}
-
-ostream& operator<< (ostream& os, const S_lpsrLyrics& lyr)
-{
-  lyr->print(os);
-  return os;
-}
-
-void lpsrLyrics::printMusicXML(ostream& os)
-{
-  os << "<!-- lpsrLyrics??? -->" << endl;
-}
-
-void lpsrLyrics::printLPSR(ostream& os)
-{  
-  os <<
-    "Lyrics" << " " << fLyricsName << " " << fVoiceName << endl;
-
-  int n = fLyricsStanzasMap.size();
-  
-  if (n) {
-    idtr++;
-
-    map<int, S_lpsrStanza>::const_iterator
-      iBegin = fLyricsStanzasMap.begin(),
-      iEnd   = fLyricsStanzasMap.end(),
-      i      = iBegin;
-      
-    for ( ; ; ) {
-      os << idtr << (*i).second;
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-
-    idtr--;
-  }
-}
- //   map<int, S_lpsrStanza> fLyricsStanzasMap;
-
-void lpsrLyrics::printLilyPondCode(ostream& os)
-{  
-  os <<
-    fLyricsName << " = " << "\\lyricmode {" << endl;
-
-  idtr++;
-
-  if (fLyricsStanzasMap.size()) {
-    map<int, S_lpsrStanza>::const_iterator
-      iBegin = fLyricsStanzasMap.begin(),
-      iEnd   = fLyricsStanzasMap.end(),
-      i      = iBegin;
-      
-    for ( ; ; ) {
-      os << idtr << (*i).second;
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-  }
-
-  idtr--;
-
-  os << endl << idtr << "}" << endl;
-}
-*/
 
 //______________________________________________________________________________
 S_lpsrNewlyricsCommand lpsrNewlyricsCommand::create (

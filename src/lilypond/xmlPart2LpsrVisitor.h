@@ -313,19 +313,19 @@ class EXP xmlPart2LpsrVisitor :
     S_lpsrNote              fCurrentNote;
     
 
-    // the last lyric number, i.e. stanza number, met
+    // the last lyric number, i.e. lyrics number, met
     int                     fCurrentLyricNumber;
     // the last sysllabic spec met (single, begin, middle or end)
     string                  fCurrentSyllabic;
     // the last lyrics fragment met
     string                  fCurrentText;
 
-    // the current lyrics and stanza
+    // the current lyrics and lyrics
 //    S_lpsrLyrics            fCurrentLyrics;
-//    S_lpsrStanza            fCurrentStanza;
-    map<int, S_lpsrStanza>
-                            fCurrentVoiceStanzasMap;
-    S_lpsrStanzaChunk       fCurrentChunk;
+//    S_lpsrLyrics            fCurrentLyrics;
+    map<int, S_lpsrLyrics>
+                            fCurrentVoiceLyricssMap;
+    S_lpsrLyricsChunk       fCurrentChunk;
     
     // allow for the creation of skips in lyrics
     bool                    fOnGoingLyrics;

@@ -774,22 +774,22 @@ class EXP lpsrRepeat: public lpsrElement {
 typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
 
 /*!
-\brief A lpsr stanza chunk representation.
+\brief A lpsr lyrics chunk representation.
 
-  A stanza chunk is represented by a type and and a string.
+  A lyrics chunk is represented by a type and and a string.
   In the case of "single", the list contains only one string
 */
 //______________________________________________________________________________
-class EXP lpsrStanzaChunk : public lpsrElement {
+class EXP lpsrLyricsChunk : public lpsrElement {
   public:
 
     // we want to end the line in the LilyPond code at a break
-    enum stanzaChunkType {
+    enum LyricsChunkType {
       kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
       kSkipChunk, kBreakChunk };
 
-    static SMARTP<lpsrStanzaChunk> create (
-        stanzaChunkType chunkType,
+    static SMARTP<lpsrLyricsChunk> create (
+        LyricsChunkType chunkType,
         string          chunkText);
      
     virtual void printMusicXML      (ostream& os);
@@ -798,79 +798,37 @@ class EXP lpsrStanzaChunk : public lpsrElement {
 
   protected:
 
-    lpsrStanzaChunk (
-        stanzaChunkType chunkType,
+    lpsrLyricsChunk (
+        LyricsChunkType chunkType,
         string     chunkText);
-    virtual ~lpsrStanzaChunk();
+    virtual ~lpsrLyricsChunk();
 
   private:
   
-    stanzaChunkType fStanzaChunkType;
+    LyricsChunkType fLyricsChunkType;
     string     fChunkText;
 };
-typedef SMARTP<lpsrStanzaChunk> S_lpsrStanzaChunk;
-
-/*!
-\brief A lpsr stanza representation.
-
-  A stanza is represented by a list of stanza chunks,
-*/
-//______________________________________________________________________________
-class EXP lpsrStanza : public lpsrElement {
-  public:
-
-    static SMARTP<lpsrStanza> create (
-        string lyricsName,
-        string voiceName);
-    
-//    string getStanzaName     () const { return fStanzaName; }
-//    string getStanzaContents () const { return fStanzaContents; }
-
-    void addChunkToStanza (S_lpsrStanzaChunk chunk)
-            { fStanzaChunks.push_back (chunk); }
-          
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printLPSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  protected:
-
-    lpsrStanza (
-        string lyricsName,
-        string voiceName);
-    virtual ~lpsrStanza();
-  
-  private:
-
-    string        fLyricsName;
-    string        fVoiceName;
-    vector<S_lpsrStanzaChunk>
-                  fStanzaChunks;
-};
-typedef SMARTP<lpsrStanza> S_lpsrStanza;
+typedef SMARTP<lpsrLyricsChunk> S_lpsrLyricsChunk;
 
 /*!
 \brief A lpsr lyrics representation.
 
-  A lyrics is represented by a its string contents
+  A lyrics is represented by a list of lyrics chunks,
 */
 //______________________________________________________________________________
-/*
 class EXP lpsrLyrics : public lpsrElement {
   public:
 
     static SMARTP<lpsrLyrics> create (
-                                string lyricsName,
-                                string voiceName);
-
-    string      getLyricsName () const { return fLyricsName; }
+        string lyricsName,
+        string voiceName);
     
-    map<int, S_lpsrStanza> 
-                getLyricsStanzasMap () const { return fLyricsStanzasMap; }
+//    string getLyricsName     () const { return fLyricsName; }
+//    string getLyricsContents () const { return fLyricsContents; }
 
-    void        addStanzaToLyrics (int number, S_lpsrStanza stanza)
-                  { fLyricsStanzasMap [number] = stanza; }
+    void addChunkToLyrics (S_lpsrLyricsChunk chunk)
+            { fLyricsChunks.push_back (chunk); }
+          
 
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
@@ -885,12 +843,12 @@ class EXP lpsrLyrics : public lpsrElement {
   
   private:
 
-    string                 fLyricsName;
-    string                 fVoiceName;
-    map<int, S_lpsrStanza> fLyricsStanzasMap;
+    string        fLyricsName;
+    string        fVoiceName;
+    vector<S_lpsrLyricsChunk>
+                  fLyricsChunks;
 };
 typedef SMARTP<lpsrLyrics> S_lpsrLyrics;
-*/
 
 /*!
 \brief A lpsr voice representation.
@@ -905,17 +863,12 @@ class EXP lpsrVoice : public lpsrElement {
         string name,
         bool   absoluteCode,
         bool   generateNumericalTime);
-    
-//    void     addLyricsToVoice (S_lpsrLyrics lyr)
-//                { fVoiceLyrics.push_back(lyr); }
-                      
-    void      addStanzaToVoice (int number, S_lpsrStanza stanza)
-                { fVoiceStanzasMap [number] = stanza; }
+                          
+    void      addLyricsToVoice (int number, S_lpsrLyrics lyrics)
+                { fVoiceLyricssMap [number] = lyrics; }
 
- //   vector<S_lpsrLyrics>
-   //                getVoiceLyrics () const { return fVoiceLyrics; }
-    map<int, S_lpsrStanza>
-              getVoiceStanzasMap () const { return fVoiceStanzasMap; }
+    map<int, S_lpsrLyrics>
+              getVoiceLyricssMap () const { return fVoiceLyricssMap; }
 
     string    getVoiceName () const       { return fVoiceName; }
     bool        getAbsoluteCode () const    { return fVoiceAbsoluteCode; }
@@ -950,10 +903,8 @@ class EXP lpsrVoice : public lpsrElement {
     S_lpsrSequence    fVoiceSequence;
   
     // there can be lyrics associated to the voice
-    map<int, S_lpsrStanza>
-                      fVoiceStanzasMap;
-//    vector<S_lpsrLyrics>
-//                       fVoiceLyrics;
+    map<int, S_lpsrLyrics>
+                      fVoiceLyricssMap;
 
     // the implicit repeat at the beginning of the voice
     // will be ignored if the voice has no repeats at all
