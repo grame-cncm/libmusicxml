@@ -211,31 +211,32 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   
   if (fTranslationSettings->fTrace)
     cerr << "Creating part \"" << partName << "\" (" << partID << ")" << endl;
-
+  
   S_lpsrPart
     part =
       lpsrPart::create (
+        partID,
         partName,
         fCurrentInstrumentName,
         fTranslationSettings->fGenerateAbsoluteCode,
-        fTranslationSettings->fGenerateNumericalTime);
+        fTranslationSettings->fGenerateNumericalTime );
     
   // register part in this visitors's part map
-  fLpsrPartsMap[partID] = part;
+  fLpsrPartsMap [partID] = part;
 
   if (fTranslationSettings->fTrace)
     cerr << "Getting the part voices IDs" << endl;
     
-  smartlist<int>::ptr partSummaryVoiceIDsList =
-    xpsv.getVoicesIDsList ();
+  vector<int> voiceIDsList = xpsv.getVoicesIDsList ();
 
-  int size = partSummaryVoiceIDsList->size();
+  int size = voiceIDsList.size();
 
   if (size > 1)
-    cerr << "Theare are " << size << " voices" << endl;
+    cerr << "Theare are " << size << " voices";
   else
-    cerr << "There is 1 voice" << endl;
-    
+    cerr << "There is 1 voice";
+  cerr << " in part " << partName << "\" (" << partID << ")" << endl;
+  
   int      targetStaff = -1;
   bool     notesOnly = false;
   rational currentTimeSign (0,1);
@@ -249,9 +250,9 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
 
   vector<S_lpsrVoice> partVoices;
 
-  for (unsigned int i = 0; i < partSummaryVoiceIDsList->size(); i++) {
+  for (unsigned int i = 0; i < voiceIDsList.size(); i++) {
     
-    int targetVoice            = (*partSummaryVoiceIDsList) [i];
+    int targetVoice = voiceIDsList [i];
     string
       voiceName =
         partName + "_Voice" + int2EnglishWord (targetVoice);
@@ -349,18 +350,20 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     int size = fLpsrPartsMap.size();
 
     if (size > 1)
-      cerr << "Theare are " << size << " parts" << endl;
+      cerr << "Theare are " << size << " parts";
     else
-      cerr << "There is 1 part" << endl;
+      cerr << "There is 1 part";
+    cerr << " in the score" << endl;
   }
 
   // add the voices and lyrics to the score parallel music
-  lpsrPartsmap::const_iterator i;
+  lpsrPartsMap::const_iterator i;
   for (i = fLpsrPartsMap.begin(); i != fLpsrPartsMap.end(); i++) {
     
     // get part and part name
-    S_lpsrPart   part     = (*i).second;
-    string  partName = part->getPartName ();
+    S_lpsrPart part     = (*i).second;
+    string     partName = part->getPartName ();
+    string     partID   = part->getPartID();
      
     // create a staff
     cout << "--> creating a new staff command" << endl;
@@ -376,12 +379,11 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     // add the voices lyrics to the staff command
     int voicesNbr = partVoices.size();
 
-    if (voicesNbr == 1)
-      cout <<
-        "Handling part " << partName << " single voice" << endl;
+    if (voicesNbr > 1)
+      cerr << "Theare are " << voicesNbr << " voices";
     else
-      cout <<
-        "Handling part " << partName << " " << voicesNbr << " voices" << endl;
+      cerr << "There is 1 voice";
+    cerr << " in part " << partName << "\" (" << partID << ")" << endl;
 
     map<int, S_lpsrVoice>::const_iterator i;
     for (i = partVoices.begin(); i != partVoices.end(); i++) {

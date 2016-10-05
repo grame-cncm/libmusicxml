@@ -865,10 +865,10 @@ class EXP lpsrVoice : public lpsrElement {
         bool   generateNumericalTime);
                           
     void      addLyricsToVoice (int number, S_lpsrLyrics lyrics)
-                { fVoiceLyricssMap [number] = lyrics; }
+                { fVoiceLyricsMap [number] = lyrics; }
 
     map<int, S_lpsrLyrics>
-              getVoiceLyricssMap () const { return fVoiceLyricssMap; }
+              getVoiceLyricsMap () const { return fVoiceLyricsMap; }
 
     string    getVoiceName () const       { return fVoiceName; }
     bool        getAbsoluteCode () const    { return fVoiceAbsoluteCode; }
@@ -904,14 +904,14 @@ class EXP lpsrVoice : public lpsrElement {
   
     // there can be lyrics associated to the voice
     map<int, S_lpsrLyrics>
-                      fVoiceLyricssMap;
+                      fVoiceLyricsMap;
 
     // the implicit repeat at the beginning of the voice
     // will be ignored if the voice has no repeats at all
     S_lpsrRepeat      fVoiceLpsrRepeat;
 };
 typedef SMARTP<lpsrVoice> S_lpsrVoice;
-typedef map<string, S_lpsrVoice> lpsrVoicesmap;
+typedef map<string, S_lpsrVoice> lpsrVoicesMap;
 
 /*!
 \brief A lpsr part representation.
@@ -923,18 +923,20 @@ class EXP lpsrPart : public lpsrElement {
   public:
 
     static SMARTP<lpsrPart> create (
-        string name,
-        string partInstrumentName,
-        bool   absoluteCode,
-        bool   generateNumericalTime);
+                    string partID,
+                    string partName,
+                    string partInstrumentName,
+                    bool   absoluteCode,
+                    bool   generateNumericalTime);
     
     void          addVoiceToPart (int voiceID, S_lpsrVoice voice)
                       { fPartVoicesMap [voiceID] = (voice); }
     map<int, S_lpsrVoice>
-                  getPartVoicesMap ()          { return fPartVoicesMap; }
+                  getPartVoicesMap ()      { return fPartVoicesMap; }
 
-    string        getPartName () const         { return fPartName; }
-    bool          getAbsoluteCode () const     { return fPartAbsoluteCode; }
+    string        getPartID () const       { return fPartID; }
+    string        getPartName () const     { return fPartName; }
+    bool          getAbsoluteCode () const { return fPartAbsoluteCode; }
 
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
@@ -943,7 +945,8 @@ class EXP lpsrPart : public lpsrElement {
   protected:
 
     lpsrPart (
-        string name,
+        string partID,
+        string partName,
         string partInstrumentName,
         bool   absoluteCode,
         bool   generateNumericalTim);
@@ -951,6 +954,7 @@ class EXP lpsrPart : public lpsrElement {
   
   private:
 
+    string             fPartID;
     string             fPartName;
     string             fPartInstrumentName;
     bool               fPartAbsoluteCode;
@@ -961,7 +965,7 @@ class EXP lpsrPart : public lpsrElement {
                        fPartVoicesMap;
 };
 typedef SMARTP<lpsrPart> S_lpsrPart;
-typedef map<string, S_lpsrPart> lpsrPartsmap;
+typedef map<string, S_lpsrPart> lpsrPartsMap;
 
 /*!
 \brief A lpsr barline representation.

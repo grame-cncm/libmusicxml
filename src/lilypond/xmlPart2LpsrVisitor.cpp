@@ -53,8 +53,6 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
   fVisitedPart  = part;
   fCurrentVoice = voice;
 
-
-
   fCurrentVoiceName =
     fCurrentVoice->getVoiceName();
   fCurrentLyricsName =
@@ -74,7 +72,7 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
 */
 
 //  fCurrentLyricsLyricssMap = fCurrentLyrics->getLyricsLyricssMap ();
-  fCurrentVoiceLyricssMap = fCurrentVoice->getVoiceLyricssMap ();
+  fCurrentVoiceLyricsMap = fCurrentVoice->getVoiceLyricsMap ();
 
   fMusicXMLNoteData.fMusicxmlDuration = -8;
   fMusicXMLNoteData.fNoteBelongsToAChord = false;    
@@ -1181,13 +1179,13 @@ void xmlPart2LpsrVisitor::initiateLyrics ()
       fCurrentVoiceName);
 
   // register lyrics in the voice
-  fCurrentVoiceLyricssMap [fCurrentLyricNumber] = lyrics;
+  fCurrentVoiceLyricsMap [fCurrentLyricNumber] = lyrics;
 
   // add lyrics to current voice
   fCurrentVoice->
     addLyricsToVoice (
       fCurrentLyricNumber,
-      fCurrentVoiceLyricssMap [fCurrentLyricNumber]);
+      fCurrentVoiceLyricsMap [fCurrentLyricNumber]);
 
   // append lyrics to the implicit sequence
   fImplicitSequence->appendElementToSequence (lyrics);
@@ -1242,7 +1240,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_rest& elt)
   //  cout << "--> xmlPart2LpsrVisitor::visitStart ( S_rest& elt ) " << endl;
   fMusicXMLNoteData.fMusicxmlStepIsARest = true;
 
-  if (! fCurrentVoiceLyricssMap [fCurrentLyricNumber]) {
+  if (! fCurrentVoiceLyricsMap [fCurrentLyricNumber]) {
     // create lyrics on first visit
     initiateLyrics ();
   }
@@ -1254,7 +1252,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_rest& elt)
       lpsrLyricsChunk::kSkipChunk, "");
 
   // add the chunk to the lyrics
-  fCurrentVoiceLyricssMap [fCurrentLyricNumber] ->
+  fCurrentVoiceLyricsMap [fCurrentLyricNumber] ->
     addChunkToLyrics (chunk);
 }
 
@@ -1282,7 +1280,7 @@ void xmlPart2LpsrVisitor::visitStart ( S_print& elt )
           lpsrLyricsChunk::kBreakChunk, "");
     
       // add the chunk to the lyrics
-      fCurrentVoiceLyricssMap [fCurrentLyricNumber] ->
+      fCurrentVoiceLyricsMap [fCurrentLyricNumber] ->
         addChunkToLyrics (chunk);
     }
   }
@@ -1321,7 +1319,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_text& elt )
 void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) { 
   fOnGoingLyrics = false;
 
-  if (! fCurrentVoiceLyricssMap [fCurrentLyricNumber]) {
+  if (! fCurrentVoiceLyricsMap [fCurrentLyricNumber]) {
     // create lyrics on first visit
     initiateLyrics ();
   }
@@ -1364,7 +1362,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) {
       // add the new lyrics to the current lyrics
    //   fCurrentLyrics->
     //    addLyricsToLyrics (fCurrentLyricNumber, newLyrics);
-    //  fCurrentVoiceLyricssMap [fCurrentLyricNumber] = newLyrics;
+    //  fCurrentVoiceLyricsMap [fCurrentLyricNumber] = newLyrics;
   
       fCurrentChunk =
         lpsrLyricsChunk::create (
@@ -1372,7 +1370,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) {
   
   
       // add lyrics chunk to current lyrics
-      fCurrentVoiceLyricssMap [fCurrentLyricNumber]->
+      fCurrentVoiceLyricsMap [fCurrentLyricNumber]->
         addChunkToLyrics (fCurrentChunk);
      }
      break;
@@ -1380,7 +1378,7 @@ void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) {
     case lpsrLyricsChunk::kMiddleChunk:
     case lpsrLyricsChunk::kEndChunk:
       // add chunk to current lyrics
-      fCurrentVoiceLyricssMap [fCurrentLyricNumber]->
+      fCurrentVoiceLyricsMap [fCurrentLyricNumber]->
         addChunkToLyrics (fCurrentChunk);
       break;
   } // switch
@@ -1395,23 +1393,23 @@ void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) {
  \set lyrics = #"1. "
  *
  * 
-  // create fLyricss[lastLyricNumber] on first visit
-  if (! fLyricss.count(lastLyricNumber)) {
-    fLyricss[lastLyricNumber] = std::list<std::list<std::string> >();
+  // create fLyrics[lastLyricNumber] on first visit
+  if (! fLyrics.count(lastLyricNumber)) {
+    fLyrics[lastLyricNumber] = std::list<std::list<std::string> >();
   }
     
   if (lastSyllabicValue == "single") {
-    fLyricss[lastLyricNumber].push_back(std::list<std::string>());
-    fLyricss[lastLyricNumber].back().push_back(text);
+    fLyrics[lastLyricNumber].push_back(std::list<std::string>());
+    fLyrics[lastLyricNumber].back().push_back(text);
   }
   else if (lastSyllabicValue == "begin") {
-    fLyricss[lastLyricNumber].push_back(std::list<std::string>());
-    fLyricss[lastLyricNumber].back().push_back(text);
+    fLyrics[lastLyricNumber].push_back(std::list<std::string>());
+    fLyrics[lastLyricNumber].back().push_back(text);
   }
   else if (lastSyllabicValue == "middle") {
-    fLyricss[lastLyricNumber].back().push_back(text);
+    fLyrics[lastLyricNumber].back().push_back(text);
   }
   else if (lastSyllabicValue == "end") {
-    fLyricss[lastLyricNumber].back().push_back(text);
+    fLyrics[lastLyricNumber].back().push_back(text);
   }
  */

@@ -1759,15 +1759,17 @@ void lpsrVoice::printLilyPondCode(ostream& os)
 
 //______________________________________________________________________________
 S_lpsrPart lpsrPart::create (
-  string name,
+  string partID,
+  string partName,
   string partInstrumentName,
-  bool        absoluteCode,
-  bool        generateNumericalTime)
+  bool   absoluteCode,
+  bool   generateNumericalTime)
 {
   lpsrPart* o =
     new lpsrPart(
-      name,
-      partInstrumentName,
+      partID,
+      partName,
+      partName,
       absoluteCode,
       generateNumericalTime);
   assert(o!=0);
@@ -1775,13 +1777,15 @@ S_lpsrPart lpsrPart::create (
 }
 
 lpsrPart::lpsrPart (
-  string name,
+  string partID,
+  string partName,
   string partInstrumentName,
-  bool        absoluteCode,
-  bool        generateNumericalTime)
+  bool   absoluteCode,
+  bool   generateNumericalTime)
     : lpsrElement("")
 {
-  fPartName = name;
+  fPartID = partID;
+  fPartName = partName;
   fPartInstrumentName = partInstrumentName;
   fPartAbsoluteCode = absoluteCode;
   fGenerateNumericalTime = generateNumericalTime;

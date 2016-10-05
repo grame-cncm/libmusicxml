@@ -16,8 +16,6 @@
 #include <map>
 #include <vector>
 
-#include "smartlist.h"
-
 #include "lpsr.h"
 #include "musicxml2lpsr.h"
 
@@ -33,7 +31,7 @@ namespace MusicXML2
 \brief Produces a summary of a MusicXML part.
 
   A part summary consists in 
-  - a count of staves
+  - a number of staves
   - a map that associates each stave with the corresponding number of notes
   - a map that associates each stave with the corresponding voices and notes
   - a map that associates each stave with the correcponding lyricss
@@ -47,9 +45,11 @@ class EXP xmlPartSummaryVisitor :
   public visitor<S_staff>,
   public visitor<S_voice>,
   
-  public visitor<S_note>,
-  public visitor<S_rest>,
-  public visitor<S_duration>
+//  public visitor<S_note>,
+//  public visitor<S_rest>,
+//  public visitor<S_duration>,
+
+  public visitor<S_lyric>
 {
   public:
   
@@ -59,35 +59,39 @@ class EXP xmlPartSummaryVisitor :
     // returns the number of staves for the part
     int getStavesNumber () const;
     
-    // returns the total number of voices 
-    int getTotalVoicesNumber () const;
+    // returns all the staffIDs list
+    list<int> getAllStaves() const;
     
+    // returns the number of notes on a staff
+    int getStaffNotesNumber (int staffID) const;
+    
+    // returns the voicesIDs list for one staff
+    list<int> getStaffVoices (int staff) const;
+
+        
     // returns the number of voices on a staff 
     int staffVoicesNumber (int staff) const;
 
-    // returns all the staff ids list
-    smartlist<int>::ptr getAllStaves() const;
+    // returns the staffIDs list for one voice
+    list<int> getVoiceStaves (int voice) const;
     
-    // returns the staff ids list for one voice
-    smartlist<int>::ptr getVoiceStaves (int voice) const;
-    
-    // returns the count of notes on a staff
-    int getStaffNotesNumber (int staffID) const;
-
-    // returns the voices ids list for one staff
-    smartlist<int>::ptr getStaffVoices (int staff) const;
-    
-    // returns the id of the staff that contains the more of the voice notes
+    // returns the staffID of the staff that contains the max of the voice notes
     int getVoiceMainStaffID (int voiceID) const;
-    
+
     // returns the number of notes in a voice
     int getVoiceNotesNumber (int voiceID) const;
-    
-    // returns the number of notes on a voice and a staff
+
+    // returns the number of lyrics in a voice
+    int getVoiceLyricsNumber (int voiceID) const;
+
+    // returns the number of notes on a voice of a staff
     int getStaffVoiceNotesNumber (int staffID, int voiceID) const;
 
-    // returns the voices ids list
-    smartlist<int>::ptr getVoicesIDsList () const;
+    // returns the total number of voices 
+    int getTotalVoicesNumber () const;
+    
+    // returns the voicesIDs list
+    vector<int> getVoicesIDsList () const;
     
   protected:
   
@@ -100,32 +104,37 @@ class EXP xmlPartSummaryVisitor :
     
     virtual void visitEnd   ( S_note& elt);
 
+    virtual void visitStart ( S_lyric& elt);
+
   private:
   
     S_translationSettings fTranslationSettings;
 
     // number of staves (from the staves element)
-    int                   fStavesNumber; // JMI UNUSED
+    int               fStavesNumber; // JMI UNUSED
     
     // number of voices (from the staves element)
  //   int                   fVoicesNumber;
     
-    // staves and corresponding count of notes
-    map<int, int>    fStavesNotesCount;
+    // staves and corresponding number of notes
+    map<int, int>     fStavesNotesNumbersMap;
     
     // voices and their number of notes
     // one entry per voice, hence size is the number of voices
-    map<int, int>    fVoicesNotesCount;
+    map<int, int>     fVoicesNotesNumbersMap;
     
-    // staves and corresponding voices + count of notes
+    // voices and their number of lyrics
+    map<int, int>     fVoicesLyricsNumbersMap;
+    
+    // staves and corresponding voices + number of notes
     map<int, map<int, int> >
-                          fStaffVoicesAndNotesNumber;
+                      fStaffVoicesAndNotesNumbersMap;
 
     // the current staff, in case a voice uses several
-    int                   fCurrentStaff;
+    int               fCurrentStaff;
 
     // the current voice
-    int                   fCurrentVoice;    
+    int               fCurrentVoice;    
 };
 
 /*! @} */

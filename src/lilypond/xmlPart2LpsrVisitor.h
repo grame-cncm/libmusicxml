@@ -324,7 +324,7 @@ class EXP xmlPart2LpsrVisitor :
 //    S_lpsrLyrics            fCurrentLyrics;
 //    S_lpsrLyrics            fCurrentLyrics;
     map<int, S_lpsrLyrics>
-                            fCurrentVoiceLyricssMap;
+                            fCurrentVoiceLyricsMap;
     S_lpsrLyricsChunk       fCurrentChunk;
     
     // allow for the creation of skips in lyrics

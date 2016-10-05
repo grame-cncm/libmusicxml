@@ -168,7 +168,7 @@ class EXP xml2LpsrVisitor :
     int             fTopSystemDistance; //fPageTopSpace;
 */
     // the parts
-    lpsrPartsmap     fLpsrPartsMap;
+    lpsrPartsMap     fLpsrPartsMap;
     
     // the score block to be generated
     S_lpsrScore      fLpsrScore;

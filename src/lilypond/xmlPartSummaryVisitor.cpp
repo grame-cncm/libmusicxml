@@ -42,48 +42,48 @@ int xmlPartSummaryVisitor::getStavesNumber () const
 
 //________________________________________________________________________
 int xmlPartSummaryVisitor::getTotalVoicesNumber () const
-  { return fVoicesNotesCount.size(); }
+  { return fVoicesNotesNumbersMap.size(); }
 
 //________________________________________________________________________
-smartlist<int>::ptr xmlPartSummaryVisitor::getAllStaves() const
+list<int> xmlPartSummaryVisitor::getAllStaves() const
 {
-  smartlist<int>::ptr sl = smartlist<int>::create();
+  list<int> sl;
   for (
     map<int, int>::const_iterator i =
-      fStavesNotesCount.begin();
-      i != fStavesNotesCount.end();
+      fStavesNotesNumbersMap.begin();
+      i != fStavesNotesNumbersMap.end();
       i++) {
-    sl->push_back (i->first);
+    sl.push_back (i->first);
   } // for
   return sl;
 }
 
 //________________________________________________________________________
-smartlist<int>::ptr xmlPartSummaryVisitor::getVoiceStaves (int voice) const
+list<int> xmlPartSummaryVisitor::getVoiceStaves (int voice) const
 {
-  smartlist<int>::ptr sl = smartlist<int>::create();
+  list<int> sl;
   for (
       map<int, map<int, int> >::const_iterator i =
-        fStaffVoicesAndNotesNumber.begin();
-      i != fStaffVoicesAndNotesNumber.end();
+        fStaffVoicesAndNotesNumbersMap.begin();
+      i != fStaffVoicesAndNotesNumbersMap.end();
       i++) {
     map<int, int>::const_iterator l = i->second.find( voice );
     if (l != i->second.end())
-      sl->push_back (i->first);
+      sl.push_back (i->first);
   } // for
   return sl;
 }
 
 //________________________________________________________________________
-smartlist<int>::ptr xmlPartSummaryVisitor::getVoicesIDsList () const
+vector<int> xmlPartSummaryVisitor::getVoicesIDsList () const
 {
-  smartlist<int>::ptr sl = smartlist<int>::create();
+  vector<int> sl;
 
 //  cout << "--> getVoices () : " << endl;
   for (
       map<int, int>::const_iterator i =
-        fVoicesNotesCount.begin();
-      i != fVoicesNotesCount.end();
+        fVoicesNotesNumbersMap.begin();
+      i != fVoicesNotesNumbersMap.end();
       i++) {
     /*
     cout <<
@@ -91,27 +91,27 @@ smartlist<int>::ptr xmlPartSummaryVisitor::getVoicesIDsList () const
       ", i->second = " << i->second <<
       endl;
     */
-    sl->push_back (i->first);
+    sl.push_back (i->first);
   } // for
   
   return sl;
 }
 
 //________________________________________________________________________
-smartlist<int>::ptr xmlPartSummaryVisitor::getStaffVoices (int staff) const
+list<int> xmlPartSummaryVisitor::getStaffVoices (int staff) const
 {
-  smartlist<int>::ptr sl = smartlist<int>::create();
+  list<int> sl;
   
   map<int, map<int, int> >::const_iterator i =
-    fStaffVoicesAndNotesNumber.find (staff);
+    fStaffVoicesAndNotesNumbersMap.find (staff);
   
-  if (i != fStaffVoicesAndNotesNumber.end()) {
+  if (i != fStaffVoicesAndNotesNumbersMap.end()) {
     for (
         map<int, int>::const_iterator v =
           i->second.begin();
         v != i->second.end();
         v++) {
-      sl->push_back (v->first);
+      sl.push_back (v->first);
     } // for
   }
   
@@ -124,9 +124,9 @@ int xmlPartSummaryVisitor::staffVoicesNumber (int staff) const
   int result = 0;
   
   map<int, map<int, int> >::const_iterator i =
-    fStaffVoicesAndNotesNumber.find (staff);
+    fStaffVoicesAndNotesNumbersMap.find (staff);
 
-  if (i != fStaffVoicesAndNotesNumber.end()) {
+  if (i != fStaffVoicesAndNotesNumbersMap.end()) {
     result = i->second.size();
   }
   return result;
@@ -138,9 +138,9 @@ int xmlPartSummaryVisitor::getStaffNotesNumber (int staffID) const
   int result = 0;
   
   map<int, int>::const_iterator i =
-    fStavesNotesCount.find (staffID);
+    fStavesNotesNumbersMap.find (staffID);
     
-  if (i != fStavesNotesCount.end()) {
+  if (i != fStavesNotesNumbersMap.end()) {
     result = i->second;
   }
   return result;
@@ -149,15 +149,15 @@ int xmlPartSummaryVisitor::getStaffNotesNumber (int staffID) const
 //________________________________________________________________________
 int xmlPartSummaryVisitor::getVoiceMainStaffID (int voiceID) const
 {
-  smartlist<int>::ptr voiceStaves = getVoiceStaves (voiceID);
+  list<int> voiceStaves = getVoiceStaves (voiceID);
   
   int                 staffID  = 0;
   int                 maxNotes = 0;
   
   for (
-      vector<int>::const_iterator i =
-        voiceStaves->begin();
-      i != voiceStaves->end();
+      list<int>::const_iterator i =
+        voiceStaves.begin();
+      i != voiceStaves.end();
       i++) {
     int n = getStaffVoiceNotesNumber ((*i), voiceID);
     
@@ -183,9 +183,24 @@ int xmlPartSummaryVisitor::getVoiceNotesNumber (int voiceID) const
   int result = 0;
   
   map<int, int>::const_iterator i =
-    fVoicesNotesCount.find( voiceID );
+    fVoicesNotesNumbersMap.find( voiceID );
     
-  if (i != fVoicesNotesCount.end()) {
+  if (i != fVoicesNotesNumbersMap.end()) {
+    result = i->second;
+  }
+  
+  return result;
+}
+
+//________________________________________________________________________
+int xmlPartSummaryVisitor::getVoiceLyricsNumber (int voiceID) const
+{
+  int result = 0;
+  
+  map<int, int>::const_iterator i =
+    fVoicesLyricsNumbersMap.find( voiceID );
+    
+  if (i != fVoicesLyricsNumbersMap.end()) {
     result = i->second;
   }
   
@@ -199,9 +214,9 @@ int xmlPartSummaryVisitor::getStaffVoiceNotesNumber (
   int result = 0;
   
   map<int, map<int, int> >::const_iterator i =
-    fStaffVoicesAndNotesNumber.find (staffID);
+    fStaffVoicesAndNotesNumbersMap.find (staffID);
   
-  if (i != fStaffVoicesAndNotesNumber.end()) {
+  if (i != fStaffVoicesAndNotesNumbersMap.end()) {
     map<int, int>::const_iterator v =
       i->second.find (voiceID);
       
@@ -217,14 +232,15 @@ int xmlPartSummaryVisitor::getStaffVoiceNotesNumber (
 void xmlPartSummaryVisitor::visitStart ( S_part& elt)
 {
   fStavesNumber = 1; // default if there are no <staves> element
-  
-  fStavesNotesCount.clear();
-  fVoicesNotesCount.clear();
-  fStaffVoicesAndNotesNumber.clear();
+
+  fStavesNotesNumbersMap.clear();
+  fVoicesNotesNumbersMap.clear();
+  fVoicesLyricsNumbersMap.clear();
+  fStaffVoicesAndNotesNumbersMap.clear();
 
   fCurrentVoice = 0;
   fCurrentStaff = 0;
-    }
+}
 
 //________________________________________________________________________
 void xmlPartSummaryVisitor::visitStart ( S_staves& elt)
@@ -243,26 +259,35 @@ void xmlPartSummaryVisitor::visitStart ( S_voice& elt )
 }
 
 //________________________________________________________________________
+void xmlPartSummaryVisitor::visitStart ( S_lyric& elt ) { 
+  int lyricNumber = int(*elt);
+
+//  if (lyricNumber > fVoicesLyricsNumbersMap [fCurrentVoice] )
+//    fVoicesLyricsNumbersMap [fCurrentVoice] = lyricNumber;
+}
+
+//________________________________________________________________________
 void xmlPartSummaryVisitor::visitEnd ( S_note& elt)
 {
   // account for note in staff
-  fStavesNotesCount [fCurrentStaff] ++;
+  fStavesNotesNumbersMap [fCurrentStaff] ++;
   
   // account for note in voice
-  fVoicesNotesCount [fCurrentVoice] ++;
+  fVoicesNotesNumbersMap [fCurrentVoice] ++;
   
   // account for voice in staff
-  fStaffVoicesAndNotesNumber [fCurrentStaff] [fCurrentVoice]++;
+  fStaffVoicesAndNotesNumbersMap [fCurrentStaff] [fCurrentVoice]++;
 
 /*
   cout <<
     "--> xmlPartSummaryVisitor::visitEnd ( S_note& elt) :" << endl <<
     "  fCurrentStaff = " << fCurrentStaff << endl <<
     "  fCurrentVoice = " << fCurrentVoice << endl <<
-    "  fStavesNotesCount[fCurrentStaff] = " << fStavesNotesCount[fCurrentStaff] << endl <<
-    "  fVoicesNotesCount[fCurrentVoice] = " << fVoicesNotesCount[fCurrentVoice] << endl <<
-    "  fStaffVoicesAndNotesNumber[fCurrentStaff][fCurrentVoice] = " <<
-    fStaffVoicesAndNotesNumber [fCurrentStaff][fCurrentVoice] << endl;
+    "  fStavesNotesNumbersMap [fCurrentStaff] = " << fStavesNotesNumbersMap [fCurrentStaff] << endl <<
+    "  fStavesNotesNumbersMap [fCurrentStaff] = " << fStavesNotesNumbersMap [fCurrentStaff] << endl <<
+    "  fVoicesLyrisNumbersMap [fCurrentVoice] = " << fVoicesLyrisNumbersMap [fCurrentVoice] << endl <<
+    "  fStaffVoicesAndNotesNumbersMap [fCurrentStaff][fCurrentVoice] = " <<
+    fStaffVoicesAndNotesNumbersMap  [fCurrentStaff][fCurrentVoice] << endl;
 */
 }
 
