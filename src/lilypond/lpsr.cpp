@@ -58,8 +58,8 @@ void lpsrElement::print(ostream& os)
   //   - MusicXML text
   //   - LilyPond source code
 switch (lpsrGlobalVariables::getCodeGenerationKind()) {
-    case lpsrGlobalVariables::kLpsrStructure:
-      this->printLpsrStructure (os);
+    case lpsrGlobalVariables::kLPSR:
+      this->printLPSR (os);
       break;
     case lpsrGlobalVariables::kMusicXML:
       this->printMusicXML (os);
@@ -75,7 +75,7 @@ void lpsrElement::printMusicXML(ostream& os)
   os << "<!-- lpsrElement??? -->" << endl;
 }
 
-void lpsrElement::printLpsrStructure(ostream& os)
+void lpsrElement::printLPSR(ostream& os)
 {
   os << "Element???" << endl;
 }
@@ -159,7 +159,7 @@ string lpsrAbsoluteOctave::absoluteOctaveAsLilypondString ()
   return result;
 }
 
-void lpsrAbsoluteOctave::printLpsrStructure(ostream& os)
+void lpsrAbsoluteOctave::printLPSR(ostream& os)
 {
   this->printLilyPondCode (os);
 }
@@ -336,7 +336,7 @@ string lpsrDuration::durationAsLilypondString ()
   return result;
 }
 
-void lpsrDuration::printLpsrStructure(ostream& os)
+void lpsrDuration::printLPSR(ostream& os)
 {
   os << durationAsLilypondString () << flush;
 }
@@ -449,7 +449,7 @@ void lpsrDynamics::printMusicXML(ostream& os)
   os << "<!-- lpsrDynamics??? -->" << endl;
 }
 
-void lpsrDynamics::printLpsrStructure(ostream& os)
+void lpsrDynamics::printLPSR(ostream& os)
 {
   os <<
     "Dynamics" << " " << dynamicsKindAsLilypondString () << endl;
@@ -509,7 +509,7 @@ void lpsrWedge::printMusicXML(ostream& os)
   os << "<!-- lpsrWedge??? -->" << endl;
 }
 
-void lpsrWedge::printLpsrStructure(ostream& os)
+void lpsrWedge::printLPSR(ostream& os)
 {
   os << "Wedge" << " " << wedgeKinsAsString () << endl;
 }
@@ -930,11 +930,11 @@ void lpsrNote::printMusicXML(ostream& os)
   os << "<!-- lpsrNote??? -->" << endl;
 }
 
-void lpsrNote::printLpsrStructure(ostream& os)
+void lpsrNote::printLPSR(ostream& os)
 {
   /*
   cout <<
-    "lpsrNote::printLpsrStructure(), fNoteBelongsToAChord = " << 
+    "lpsrNote::printLPSR(), fNoteBelongsToAChord = " << 
     fNoteBelongsToAChord << endl;
   */
   
@@ -1049,7 +1049,7 @@ ostream& operator<< (ostream& os, const S_lpsrSequence& elt)
   return os;
 }
 
-void lpsrSequence::printLpsrStructure(ostream& os)
+void lpsrSequence::printLPSR(ostream& os)
 {  
   os << "Sequence" << endl;
   
@@ -1113,7 +1113,7 @@ void lpsrParallelMusic::printMusicXML(ostream& os)
   os << "<!-- lpsrParallelMusic??? -->" << endl;
 }
 
-void lpsrParallelMusic::printLpsrStructure(ostream& os)
+void lpsrParallelMusic::printLPSR(ostream& os)
 {
   os << "ParallelMusic" << endl;
   
@@ -1177,7 +1177,7 @@ void lpsrChord::printMusicXML(ostream& os)
   os << "<!-- lpsrChord??? -->" << endl;
 }
 
-void lpsrChord::printLpsrStructure(ostream& os)
+void lpsrChord::printLPSR(ostream& os)
 {
   os << "Chord" << " ";
   vector<S_lpsrNote>::const_iterator
@@ -1275,7 +1275,7 @@ void lpsrBarLine::printMusicXML(ostream& os)
   os << "<!-- lpsrBarLine??? -->" << endl;
 }
 
-void lpsrBarLine::printLpsrStructure(ostream& os)
+void lpsrBarLine::printLPSR(ostream& os)
 {
   os << "BarLine" << " " << fNextBarNumber << endl;
 }
@@ -1311,7 +1311,7 @@ void lpsrComment::printMusicXML(ostream& os)
   os << "<!-- lpsrComment??? -->" << endl;
 }
 
-void lpsrComment::printLpsrStructure(ostream& os)
+void lpsrComment::printLPSR(ostream& os)
 {
   os << "Comment" << endl;
   idtr++;
@@ -1351,7 +1351,7 @@ void lpsrBreak::printMusicXML(ostream& os)
   os << "<!-- lpsrBreak??? -->" << endl;
 }
 
-void lpsrBreak::printLpsrStructure(ostream& os)
+void lpsrBreak::printLPSR(ostream& os)
 {
   os <<
     "Break" << " " << fNextBarNumber << endl <<
@@ -1390,7 +1390,7 @@ void lpsrBarNumberCheck::printMusicXML(ostream& os)
   os << "<!-- lpsrBarNumberCheck??? -->" << endl;
 }
 
-void lpsrBarNumberCheck::printLpsrStructure(ostream& os)
+void lpsrBarNumberCheck::printLPSR(ostream& os)
 {
   os << "BarNumberCheck" << " " << fNextBarNumber << endl;
 }
@@ -1436,7 +1436,7 @@ void lpsrTuplet::printMusicXML(ostream& os)
   os << "<!-- lpsrTuplet??? -->" << endl;
 }
 
-void lpsrTuplet::printLpsrStructure(ostream& os)
+void lpsrTuplet::printLPSR(ostream& os)
 {
   os <<
     "Tuplet " << fActualNotes << "/" << fNormalNotes << endl;
@@ -1495,7 +1495,7 @@ void lpsrBeam::printMusicXML(ostream& os)
   os << "<!-- lpsrBeam??? -->" << endl;
 }
 
-void lpsrBeam::printLpsrStructure(ostream& os)
+void lpsrBeam::printLPSR(ostream& os)
 {
   os << "Beam???" << endl;
 }
@@ -1620,16 +1620,16 @@ void lpsrStanzaChunk::printMusicXML(ostream& os)
   os << "<!-- lpsrStanzaChunk??? -->" << endl;
 }
 
-void lpsrStanzaChunk::printLpsrStructure(ostream& os)
+void lpsrStanzaChunk::printLPSR(ostream& os)
 {  
   os << "StanzaChunk" << " ";
   switch (fStanzaChunkType) {
     case kSingleChunk: os << "single"; break;
-    case kBeginChunk:  os << "begin"; break;
+    case kBeginChunk:  os << "begin "; break;
     case kMiddleChunk: os << "middle"; break;
-    case kEndChunk:    os << "end"; break;
-    case kSkipChunk:   os << "skip"; break;
-    case kBreakChunk:  os << "break"; break;
+    case kEndChunk:    os << "end   "; break;
+    case kSkipChunk:   os << "skip  "; break;
+    case kBreakChunk:  os << "break "; break;
   } // switch
   if (fChunkText.size()) os << " " << fChunkText;
   os << endl;
@@ -1638,12 +1638,12 @@ void lpsrStanzaChunk::printLpsrStructure(ostream& os)
 void lpsrStanzaChunk::printLilyPondCode(ostream& os)
 {  
   switch (fStanzaChunkType) {
-    case kSingleChunk: os << fChunkText; break;
-    case kBeginChunk:  os << fChunkText << " -- "; break;
-    case kMiddleChunk: os << fChunkText << " -- "; break;
-    case kEndChunk:    os << fChunkText; break;
-    case kSkipChunk:   os << "\\skip"; break;
-    case kBreakChunk:  os << "\\break" << endl << idtr; break;
+    case kSingleChunk: os << fChunkText;           break;
+    case kBeginChunk:  os << fChunkText;           break;
+    case kMiddleChunk: os << " -- " << fChunkText; break;
+    case kEndChunk:    os << " ++ " << fChunkText; break;
+    case kSkipChunk:   os << "\\skip";             break;
+    case kBreakChunk:  os << endl << idtr;         break;
   } // switch
 }
 
@@ -1677,9 +1677,9 @@ void lpsrStanza::printMusicXML(ostream& os)
   os << "<!-- lpsrStanza??? -->" << endl;
 }
 
-void lpsrStanza::printLpsrStructure(ostream& os)
+void lpsrStanza::printLPSR(ostream& os)
 {  
-  os << "Stanza" << " " << fLyricsName << "fVoiceName" << endl;
+  os << "Stanza" << " " << fLyricsName << " " << fVoiceName << endl;
   idtr++;
   int n = fStanzaChunks.size();
   for (int i = 0; i < n; i++) {
@@ -1690,6 +1690,11 @@ void lpsrStanza::printLpsrStructure(ostream& os)
 
 void lpsrStanza::printLilyPondCode(ostream& os)
 {
+  os <<
+    fLyricsName << " = " << "\\lyricmode {" << endl;
+
+  idtr++;
+
   if (fStanzaChunks.size()) {
     vector<S_lpsrStanzaChunk>::const_iterator
       iBegin = fStanzaChunks.begin(),
@@ -1697,13 +1702,18 @@ void lpsrStanza::printLilyPondCode(ostream& os)
       i      = iBegin;
       
     for ( ; ; ) {
-      os << (*i);
+      os << idtr << (*i);
       if (++i == iEnd) break;
-      os << " -- ";
+      os << " ";
     } // for
   }
+
+  idtr--;
+
+  os << endl << idtr << "}" << endl;
 }
 
+/*
 //______________________________________________________________________________
 S_lpsrLyrics lpsrLyrics::create (
   string lyricsName,
@@ -1735,7 +1745,7 @@ void lpsrLyrics::printMusicXML(ostream& os)
   os << "<!-- lpsrLyrics??? -->" << endl;
 }
 
-void lpsrLyrics::printLpsrStructure(ostream& os)
+void lpsrLyrics::printLPSR(ostream& os)
 {  
   os <<
     "Lyrics" << " " << fLyricsName << " " << fVoiceName << endl;
@@ -1785,7 +1795,7 @@ void lpsrLyrics::printLilyPondCode(ostream& os)
 
   os << endl << idtr << "}" << endl;
 }
-// PartPOneVoiceOneLyricsOne =  \lyricmode { \skip4 \skip4 \skip4 \skip4
+*/
 
 //______________________________________________________________________________
 S_lpsrNewlyricsCommand lpsrNewlyricsCommand::create (
@@ -1820,7 +1830,7 @@ void lpsrNewlyricsCommand::printMusicXML (ostream& os)
   os << "<!-- lpsrNewlyricsCommand??? -->" << endl;
 }
 
-void lpsrNewlyricsCommand::printLpsrStructure (ostream& os)
+void lpsrNewlyricsCommand::printLPSR (ostream& os)
 {
   os <<
     "NewlyricsCommand" << " " <<
@@ -1882,7 +1892,7 @@ void lpsrVoice::printMusicXML(ostream& os)
   os << "<!-- lpsrVoice??? -->" << endl;
 }
 
-void lpsrVoice::printLpsrStructure(ostream& os)
+void lpsrVoice::printLPSR(ostream& os)
 {
   os << "Voice" << " " << fVoiceName << endl;
 
@@ -1940,7 +1950,7 @@ void lpsrPart::printMusicXML(ostream& os)
   os << "<!-- lpsrPart??? -->" << endl;
 }
 
-void lpsrPart::printLpsrStructure(ostream& os)
+void lpsrPart::printLPSR(ostream& os)
 {
   os <<
     "Part" << " " << fPartName << " " <<
@@ -1997,7 +2007,7 @@ void lpsrPaper::printMusicXML(ostream& os)
   os << "<!-- lpsrPaper??? -->" << endl;
 }
 
-void lpsrPaper::printLpsrStructure(ostream& os) {
+void lpsrPaper::printLPSR(ostream& os) {
   os << "Paper" << endl;
 
   idtr++;
@@ -2211,7 +2221,7 @@ void lpsrHeader::printMusicXML(ostream& os)
   os << "<!-- lpsrHeader??? -->" << endl;
 }
 
-void lpsrHeader::printLpsrStructure(ostream& os)
+void lpsrHeader::printLPSR(ostream& os)
 {
   os << "Header" << endl;
 
@@ -2409,7 +2419,7 @@ void lpsrLilypondVarValAssoc::printMusicXML(ostream& os)
   os << "<!-- lpsrLilypondVarValAssoc??? -->" << endl;
 }
 
-void lpsrLilypondVarValAssoc::printLpsrStructure(ostream& os)
+void lpsrLilypondVarValAssoc::printLPSR(ostream& os)
 {
   os << "LilypondVarValAssoc" << endl;
   idtr++;
@@ -2470,7 +2480,7 @@ void lpsrSchemeVarValAssoc::printMusicXML(ostream& os)
   os << "<!-- lpsrSchemeVarValAssoc??? -->" << endl;
 }
 
-void lpsrSchemeVarValAssoc::printLpsrStructure(ostream& os)
+void lpsrSchemeVarValAssoc::printLPSR(ostream& os)
 {
   os << "SchemeVarValAssoc" << endl;
   idtr++;
@@ -2508,7 +2518,7 @@ void lpsrLayout::printMusicXML(ostream& os)
   os << "<!-- lpsrLayout??? -->" << endl;
 }
 
-void lpsrLayout::printLpsrStructure(ostream& os)
+void lpsrLayout::printLPSR(ostream& os)
 {
   os << "Layout" << endl;
 
@@ -2570,7 +2580,7 @@ void lpsrTime::printMusicXML(ostream& os)
   os << "<!-- lpsrTime??? -->" << endl;
 }
 
-void lpsrTime::printLpsrStructure(ostream& os)
+void lpsrTime::printLPSR(ostream& os)
 {
   os <<
     "Time " << 
@@ -2616,7 +2626,7 @@ void lpsrClef::printMusicXML(ostream& os)
   os << "<!-- lpsrClef??? -->" << endl;
 }
 
-void lpsrClef::printLpsrStructure(ostream& os)
+void lpsrClef::printLPSR(ostream& os)
 {
   os <<
     "clef" << " \"" << fSign << "\"" <<
@@ -2803,7 +2813,7 @@ void lpsrKey::printMusicXML(ostream& os)
   os << "<!-- lpsrKey??? -->" << endl;
 }
 
-void lpsrKey::printLpsrStructure(ostream& os)
+void lpsrKey::printLPSR(ostream& os)
 {
   os << "Key " << fTonic << " ";
   if (fKeyMode == kMajor) os << "\\major";
@@ -2843,7 +2853,7 @@ void lpsrMidi::printMusicXML(ostream& os)
   os << "<!-- lpsrMidi??? -->" << endl;
 }
 
-void lpsrMidi::printLpsrStructure(ostream& os)
+void lpsrMidi::printLPSR(ostream& os)
 {
   os << "Midi" << endl;
 
@@ -2899,7 +2909,7 @@ void lpsrScore::printMusicXML(ostream& os)
   os << "<!-- lpsrScore??? -->" << endl;
 }
 
-void lpsrScore::printLpsrStructure(ostream& os)
+void lpsrScore::printLPSR(ostream& os)
 {
   os << "Score" << endl;
 
@@ -2947,7 +2957,7 @@ void lpsrNewstaffCommand::printMusicXML(ostream& os)
   os << "<!-- lpsrNewstaffCommand??? -->" << endl;
 }
 
-void lpsrNewstaffCommand::printLpsrStructure(ostream& os)
+void lpsrNewstaffCommand::printLPSR(ostream& os)
 {
   os << "NewstaffCommand" << endl;
 
@@ -3007,7 +3017,7 @@ void lpsrVariableUseCommand::printMusicXML(ostream& os)
   os << "<!-- lpsrVariableUseCommand??? -->" << endl;
 }
 
-void lpsrVariableUseCommand::printLpsrStructure(ostream& os)
+void lpsrVariableUseCommand::printLPSR(ostream& os)
 {
   os << "VariableUseCommand" << endl;
   idtr++;
@@ -3049,7 +3059,7 @@ void lpsrTempoCommand::printMusicXML(ostream& os)
   os << "<!-- lpsrTempoCommand??? -->" << endl;
 }
 
-void lpsrTempoCommand::printLpsrStructure(ostream& os)
+void lpsrTempoCommand::printLPSR(ostream& os)
 {
   os <<
     "TempoCommand" << " " <<
@@ -3087,7 +3097,7 @@ void lpsrRepeat::printMusicXML(ostream& os)
   os << "<!-- lpsrRepeat??? -->" << endl;
 }
 
-void lpsrRepeat::printLpsrStructure(ostream& os)
+void lpsrRepeat::printLPSR(ostream& os)
 {
   os << "Repeat" << endl;
   idtr++;
@@ -3133,7 +3143,7 @@ void lpsrContext::printMusicXML(ostream& os)
   os << "<!-- context??? -->" << endl;
 }
 
-void lpsrContext::printLpsrStructure(ostream& os)
+void lpsrContext::printLPSR(ostream& os)
 {  
   os << "Context" << " ";
   switch (fContextKind) {

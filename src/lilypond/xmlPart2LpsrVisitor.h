@@ -321,13 +321,19 @@ class EXP xmlPart2LpsrVisitor :
     string                  fCurrentText;
 
     // the current lyrics and stanza
-    S_lpsrLyrics            fCurrentLyrics;
+//    S_lpsrLyrics            fCurrentLyrics;
+//    S_lpsrStanza            fCurrentStanza;
     map<int, S_lpsrStanza>
-                            fCurrentLyricsStanzasMap;
+                            fCurrentVoiceStanzasMap;
     S_lpsrStanzaChunk       fCurrentChunk;
     
     // allow for the creation of skips in lyrics
     bool                    fOnGoingLyrics;
+
+    string                  fCurrentLyricsName;
+    string                  fCurrentVoiceName;
+    bool                    fCurrentNoteHasLyrics;
+    void                    initiateLyrics ();
 
 
     S_lpsrBeam              fCurrentBeam;
@@ -344,8 +350,8 @@ class EXP xmlPart2LpsrVisitor :
     // remains true until a S_tuplet of type "stop" is met
     bool                    fATupletIsBeingBuilt;
 
-    S_lpsrTuplet             fCurrentTuplet;
-    stack<S_lpsrTuplet> fCurrentTupletsStack;
+    S_lpsrTuplet            fCurrentTuplet;
+    stack<S_lpsrTuplet>     fCurrentTupletsStack;
          
 //    string         fCurrentStem;
    

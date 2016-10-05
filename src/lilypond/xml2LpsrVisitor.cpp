@@ -389,10 +389,6 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
       S_lpsrVoice voice = (*i).second;
       string voiceName  = voice->getVoiceName();
 
-      vector<S_lpsrLyrics>
-        voiceLyrics =
-          voice->getVoiceLyrics ();
-
       // create the voice context
       S_lpsrContext
         voiceContext =
