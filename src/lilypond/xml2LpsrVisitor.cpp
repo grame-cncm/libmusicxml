@@ -236,17 +236,24 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   if (fTranslationSettings->fTrace)
     cerr << "Getting the part voices IDs" << endl;
 
-  int         partVoicesNumber =
-                partSummaryVisitor.getPartVoicesNumber (partID);
+  int       partVoicesNumber =
+              partSummaryVisitor.getPartVoicesNumber (partID);
   
   if (fTranslationSettings->fTrace)
-    cerr << "Extracting part \"" << partID << "\" voices information" << endl;
+    cerr <<
+      "Extracting part \"" << partID << "\" voices information" << endl;
 
   if (fTranslationSettings->fTrace) {
-    if (partVoicesNumber > 1)
-      cerr << "There are " << partVoicesNumber << " voices";
-    else
-      cerr << "There is 1 voice";
+    switch (partVoicesNumber) {
+      case 0:
+        cerr << "There isn't any voice";
+        break;
+      case 1:
+        cerr << "There is 1 voice";
+        break;
+      default:
+        cerr << "There are " << partVoicesNumber << " voices";
+    } // switch
     cerr << " in part " << partID << " (" << partName << ") BIF" << endl;
   }
 
@@ -271,8 +278,7 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   if (fTranslationSettings->fTrace)
     cerr << "--> allVoicesIDs.size() = " << allVoicesIDs.size() << endl;
   */
-  
-  
+    
   for (int i = 1; i <= partVoicesNumber; i++) {
 
     cerr << "*** i = " << i << endl;
@@ -381,10 +387,16 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
   if (fTranslationSettings->fTrace) {
     int size = fLpsrPartsMap.size();
 
-    if (size > 1)
-      cerr << "Theare are " << size << " parts";
-    else
-      cerr << "There is 1 part";
+    switch (size) {
+      case 0:
+        cerr << "There isn't any part";
+        break;
+      case 1:
+        cerr << "There is 1 part";
+        break;
+      default:
+        cerr << "There are " << size << " parts";
+    } // switch
     cerr << " in the score" << endl;
   }
 
@@ -412,11 +424,19 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     // add the voices lyrics to the staff command
     int voicesNbr = partVoicesMap.size();
 
-    if (voicesNbr > 1)
-      cerr << "There are " << voicesNbr << " voices";
-    else
-      cerr << "There is 1 voice";
-    cerr << " in part " << partID << " (" << partName << ") BOF" << endl;
+    if (fTranslationSettings->fTrace) {
+      switch (voicesNbr) {
+        case 0:
+          cerr << "There isn't any voice";
+          break;
+        case 1:
+          cerr << "There is 1 voice";
+          break;
+        default:
+          cerr << "There are " << voicesNbr << " voices";
+      } // switch
+      cerr << " in part " << partID << " (" << partName << ") BOF" << endl;
+    }
 
     map<int, S_lpsrVoice>::const_iterator i;
     for (i = partVoicesMap.begin(); i != partVoicesMap.end(); i++) {
