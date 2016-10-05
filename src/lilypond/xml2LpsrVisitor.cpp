@@ -225,37 +225,38 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   // register part in this visitors's part map
   fLpsrPartsMap [partID] = part;
 
+
+
+  int      targetStaff = -1;
+  bool     notesOnly = false;
+  rational currentTimeSign (0,1);
+  
+
+
   if (fTranslationSettings->fTrace)
     cerr << "Getting the part voices IDs" << endl;
 
   int         partVoicesNumber =
                 partSummaryVisitor.getPartVoicesNumber (partID);
   
-  if (partVoicesNumber > 1)
-    cerr << "Theare are " << partVoicesNumber << " voices";
-  else
-    cerr << "There is 1 voice";
-  cerr << " in part " << partName << "\" (" << partID << ")" << endl;
-  
-  int      targetStaff = -1;
-  bool     notesOnly = false;
-  rational currentTimeSign (0,1);
-  
-  // browse the parts voice by voice: 
-  // this allows to describe voices that spans over several staves
-  // and to collect the voice's lyrics
-    
   if (fTranslationSettings->fTrace)
     cerr << "Extracting part \"" << partID << "\" voices information" << endl;
 
   if (fTranslationSettings->fTrace) {
     if (partVoicesNumber > 1)
-      cerr << "Theare are " << partVoicesNumber << " voices";
+      cerr << "There are " << partVoicesNumber << " voices";
     else
       cerr << "There is 1 voice";
-    cerr << "  in part" << partID << endl;
+    cerr << " in part " << partID << " (" << partName << ") BIF" << endl;
   }
+
   
+  // browse the parts voice by voice: 
+  // this allows to describe voices that spans over several staves
+  // and to collect the voice's lyrics
+    
+
+  /*
   vector<int>
     partVoicesIDs =
       partSummaryVisitor.getPartVoicesIDs (partID);
@@ -269,11 +270,15 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
 
   if (fTranslationSettings->fTrace)
     cerr << "--> allVoicesIDs.size() = " << allVoicesIDs.size() << endl;
+  */
+  
+  
+  for (int i = 1; i <= partVoicesNumber; i++) {
 
-  for (unsigned int i = 0; i < partVoicesIDs.size(); i++) {
-
+    cerr << "*** i = " << i << endl;
+     
     int voiceID     = i;
-    int targetVoice = partVoicesIDs [i];
+    int targetVoice = i; // JMI partVoicesIDs [i];
     
     string
       voiceName =
@@ -299,7 +304,8 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
         "Handling part \"" << partID << 
         "\" contents, targetVoiceMainStaffID = " << targetVoiceMainStaffID <<
         ", targetStaff = " << targetStaff <<
-        ", targetVoice = " << targetVoice << endl;
+        ", targetVoice = " << targetVoice <<
+        ", partVoiceLyricsNumber = " << partVoiceLyricsNumber << endl;
 
     // create the voice
     if (fTranslationSettings->fTrace)
@@ -407,10 +413,10 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     int voicesNbr = partVoicesMap.size();
 
     if (voicesNbr > 1)
-      cerr << "Theare are " << voicesNbr << " voices";
+      cerr << "There are " << voicesNbr << " voices";
     else
       cerr << "There is 1 voice";
-    cerr << " in part " << partName << " (" << partID << ") BOF" << endl;
+    cerr << " in part " << partID << " (" << partName << ") BOF" << endl;
 
     map<int, S_lpsrVoice>::const_iterator i;
     for (i = partVoicesMap.begin(); i != partVoicesMap.end(); i++) {
@@ -419,7 +425,11 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
       string voiceName  = voice->getVoiceName();
 
       // create the voice context
-      cout << "--> creating voice " << voiceName << endl;
+      if (fTranslationSettings->fTrace) {
+        cout <<
+          "Creating voice " << voiceName <<
+          " in part " << partName << endl;
+      }
       S_lpsrContext
         voiceContext =
           lpsrContext::create (
