@@ -55,24 +55,76 @@ xmlPart2LpsrVisitor::xmlPart2LpsrVisitor(
 
   fCurrentVoiceName =
     fCurrentVoice->getVoiceName();
-  fCurrentLyricsName =
-    fCurrentVoiceName +
-    "_Lyrics" +
-    int2EnglishWord (fCurrentLyricNumber);
 
-  cout << "--> fCurrentLyricsName = " << fCurrentLyricsName << endl;
-    /*
-  cout <<
-    "--> creating lyrics " << fCurrentLyricsName <<
-    " for voice " << fCurrentVoiceName << endl;
-  fCurrentLyrics =
-    lpsrLyrics::create (
-      fCurrentLyricsName,
-      fCurrentVoiceName);
-*/
-
-//  fCurrentLyricsLyricssMap = fCurrentLyrics->getLyricsLyricssMap ();
   fCurrentVoiceLyricsMap = fCurrentVoice->getVoiceLyricsMap ();
+
+  int voiceLyricsNumber = fCurrentVoice->getVoiceLyricsNumber();
+  
+  if (fTranslationSettings->fTrace)
+    switch (voiceLyricsNumber) {
+      case 0:
+        break;
+      case 1:
+        cerr <<
+          "Creating all the single lyrics for voice " <<
+          fCurrentVoiceName << endl;
+        break;
+      default:
+        cerr <<
+          "Creating all the lyrics for voice " <<
+          fCurrentVoiceName << endl;
+    } // switch
+    
+  for (int i = 1; i <= voiceLyricsNumber; i++) {
+    string
+      lyricsName =
+        fCurrentVoiceName +
+        "_Lyrics" +
+        int2EnglishWord (i);
+  
+    cout << "--> fCurrentLyricsName = " << fCurrentLyricsName << endl;
+    
+    cout <<
+      "--> creating lyrics " << lyricsName <<
+      " for voice " << fCurrentVoiceName << endl;
+    S_lpsrLyrics
+      lyrics =
+        lpsrLyrics::create (
+          lyricsName,
+          fCurrentVoiceName);
+
+    // register lyrics in the voice
+    fCurrentVoiceLyricsMap [i] = lyrics;
+  
+    // add lyrics to current voice
+    fCurrentVoice->
+      addLyricsToVoice (i, lyrics);
+
+    // append lyrics to the implicit sequence
+    fImplicitSequence->appendElementToSequence (lyrics);
+
+    // create the new lyrics command
+    cout <<
+      "--> create a new lyrics command, " <<
+      fCurrentLyricsName << ", " << fCurrentVoiceName << endl;
+    S_lpsrNewlyricsCommand
+      lyricsUse =
+        lpsrNewlyricsCommand::create (
+          fCurrentLyricsName, fCurrentVoiceName);
+  
+    // get score parallel music
+    S_lpsrParallelMusic
+      scoreParallelMusic =
+        fScore->getScoreParallelMusic();
+  
+    // add the lyrics use to the score parallel music
+    cout <<
+      "--> add the lyrics to the score parallel music, " <<
+      fCurrentLyricsName << endl;
+    scoreParallelMusic->addElementToParallelMusic (lyricsUse);
+  
+  } // for
+
 
   fMusicXMLNoteData.fMusicxmlDuration = -8;
   fMusicXMLNoteData.fNoteBelongsToAChord = false;    
@@ -1166,10 +1218,9 @@ void xmlPart2LpsrVisitor::initiateLyrics ()
       fCurrentLyricsName,
       fCurrentVoiceName);
 
-  // append lyrics to the implicit sequence
-  fImplicitSequence->appendElementToSequence (fCurrentLyrics);
 */    
   // create lyrics on first visit
+  /*
   cout <<
     "--> creating lyrics " << fCurrentLyricsName <<
     " for lyrics " << fCurrentLyricsName << endl;
@@ -1178,39 +1229,11 @@ void xmlPart2LpsrVisitor::initiateLyrics ()
       fCurrentLyricsName,
       fCurrentVoiceName);
 
-  // register lyrics in the voice
-  fCurrentVoiceLyricsMap [fCurrentLyricNumber] = lyrics;
-
-  // add lyrics to current voice
-  fCurrentVoice->
-    addLyricsToVoice (
-      fCurrentLyricNumber,
-      fCurrentVoiceLyricsMap [fCurrentLyricNumber]);
-
   // append lyrics to the implicit sequence
   fImplicitSequence->appendElementToSequence (lyrics);
-
-  // create the new lyrics command
-  cout <<
-    "--> create a new lyrics command, " <<
-    fCurrentLyricsName << ", " << fCurrentVoiceName << endl;
-  S_lpsrNewlyricsCommand
-    lyricsUse =
-      lpsrNewlyricsCommand::create (
-        fCurrentLyricsName, fCurrentVoiceName);
-
-  // get score parallel music
-  S_lpsrParallelMusic
-    scoreParallelMusic =
-      fScore->getScoreParallelMusic();
-
-  // add the lyrics use to the score parallel music
-  cout <<
-    "--> add the lyrics to the score parallel music, " <<
-    fCurrentLyricsName << endl;
-  scoreParallelMusic->addElementToParallelMusic (lyricsUse);
-
+*/
  // JMI   newStaffCommand->addElementToNewStaff (lyricsUse);
+
 }
 
 //______________________________________________________________________________
@@ -1240,20 +1263,26 @@ void xmlPart2LpsrVisitor::visitStart ( S_rest& elt)
   //  cout << "--> xmlPart2LpsrVisitor::visitStart ( S_rest& elt ) " << endl;
   fMusicXMLNoteData.fMusicxmlStepIsARest = true;
 
+ // JMI
+ // fCurrentLyricNumber = 1; // ready for test that come before the actual lyrics
+
+/*
   if (! fCurrentVoiceLyricsMap [fCurrentLyricNumber]) {
     // create lyrics on first visit
     initiateLyrics ();
   }
-
+*/
+/*
   // create a skip chunk
   S_lpsrLyricsChunk
-  chunk =
-    lpsrLyricsChunk::create (
-      lpsrLyricsChunk::kSkipChunk, "");
+    lyricsChunk =
+      lpsrLyricsChunk::create (
+        lpsrLyricsChunk::kSkipChunk, "");
 
   // add the chunk to the lyrics
   fCurrentVoiceLyricsMap [fCurrentLyricNumber] ->
-    addChunkToLyrics (chunk);
+    addChunkToLyrics (lyricsChunk);
+    */
 }
 
 //______________________________________________________________________________
@@ -1355,10 +1384,11 @@ void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) {
     case lpsrLyricsChunk::kBeginChunk:
       {
       // create new lyrics on first visit
+      /*
       S_lpsrLyrics // ???
         newLyrics =
           lpsrLyrics::create (fCurrentLyricsName, fCurrentVoiceName);
-  
+  */
       // add the new lyrics to the current lyrics
    //   fCurrentLyrics->
     //    addLyricsToLyrics (fCurrentLyricNumber, newLyrics);
@@ -1367,7 +1397,10 @@ void xmlPart2LpsrVisitor::visitEnd ( S_lyric& elt ) {
       fCurrentChunk =
         lpsrLyricsChunk::create (
           chunkType, fCurrentText);
-  
+
+      cout <<
+        "==> fCurrentSyllabic = " << fCurrentSyllabic <<
+        ", fCurrentLyricNumber = " << fCurrentLyricNumber << endl;
   
       // add lyrics chunk to current lyrics
       fCurrentVoiceLyricsMap [fCurrentLyricNumber]->

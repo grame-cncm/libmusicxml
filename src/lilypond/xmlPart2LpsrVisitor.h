@@ -320,9 +320,7 @@ class EXP xmlPart2LpsrVisitor :
     // the last lyrics fragment met
     string                  fCurrentText;
 
-    // the current lyrics and lyrics
-//    S_lpsrLyrics            fCurrentLyrics;
-//    S_lpsrLyrics            fCurrentLyrics;
+    // the current lyrics map and chunk
     map<int, S_lpsrLyrics>
                             fCurrentVoiceLyricsMap;
     S_lpsrLyricsChunk       fCurrentChunk;

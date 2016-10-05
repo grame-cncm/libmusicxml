@@ -392,10 +392,11 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     string     partID   = part->getPartID();
      
     // create a staff
-    cout << "--> creating a new staff command" << endl;
-    S_lpsrNewstaffCommand
-      newStaffCommand =
-        lpsrNewstaffCommand::create();
+    cout << "--> creating a new staff context" << endl;
+    S_lpsrContext
+      newStaffContext=
+        lpsrContext::create (
+          lpsrContext::kNewContext, "Staff", "");
     
     // get the part voices
     map<int, S_lpsrVoice>
@@ -430,8 +431,8 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
           lpsrVariableUseCommand::create (voiceName);
       voiceContext->addElementToContext (variableUse);
   
-      // add the voice to the staff
-      newStaffCommand->addElementToNewStaff (voiceContext);
+      // add the voice context to the staff
+      newStaffContext->addElementToContext (voiceContext);
     } // for
     
     // add the new staff to the score parallel music
@@ -439,7 +440,7 @@ void xml2LpsrVisitor::visitEnd ( S_score_partwise& elt )
     S_lpsrParallelMusic
       scoreParallelMusic =
         fLpsrScore->getScoreParallelMusic ();
-    scoreParallelMusic->addElementToParallelMusic (newStaffCommand);
+    scoreParallelMusic->addElementToParallelMusic (newStaffContext);
 
 
     /*

@@ -1606,7 +1606,7 @@ void lpsrLyrics::printMusicXML(ostream& os)
 
 void lpsrLyrics::printLPSR(ostream& os)
 {  
-  os << "Lyrics" << " " << fLyricsName << " " << fVoiceName << endl;
+  os << "Lyrics" << " " << fLyricsName << endl; //" " << fVoiceName << endl;
   idtr++;
   int n = fLyricsChunks.size();
   for (int i = 0; i < n; i++) {

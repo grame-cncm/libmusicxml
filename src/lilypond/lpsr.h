@@ -868,7 +868,11 @@ class EXP lpsrVoice : public lpsrElement {
                 { fVoiceLyricsMap [number] = lyrics; }
 
     map<int, S_lpsrLyrics>
-              getVoiceLyricsMap () const { return fVoiceLyricsMap; }
+              getVoiceLyricsMap () const
+                { return fVoiceLyricsMap; }
+
+    int       getVoiceLyricsNumber () const
+                { return fVoiceLyricsMap.size(); }
 
     string    getVoiceName () const       { return fVoiceName; }
     bool        getAbsoluteCode () const    { return fVoiceAbsoluteCode; }
