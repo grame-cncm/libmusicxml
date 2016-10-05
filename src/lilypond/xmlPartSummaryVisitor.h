@@ -56,46 +56,32 @@ class EXP xmlPartSummaryVisitor :
     xmlPartSummaryVisitor (S_translationSettings& ts);
     virtual ~xmlPartSummaryVisitor ();
     
-    // returns the number of staves for the part
-    int getStavesNumber () const;
+    int         getStavesNumber () const;
+    int         staffVoicesNumber (int staff) const;
+    int         getStaffNotesNumber (int staffID) const;
+    int         getStaffVoiceNotesNumber (int staffID, int voiceID) const;
     
-    // returns all the staffIDs list
-    list<int> getAllStaves() const;
-    
-    // returns the number of notes on a staff
-    int getStaffNotesNumber (int staffID) const;
-    
-    // returns the voicesIDs list for one staff
-    list<int> getStaffVoices (int staff) const;
+    int         getVoiceNotesNumber (int voiceID) const;
+    int         getPartVoiceLyricsNumber (string partID, int voiceID); // const;
 
 
-    // returns the total number of voices
-    int getTotalVoicesNumber () { return fVoicesNumber; }
-    
-    // returns the number of voices on a staff 
-    int staffVoicesNumber (int staff) const;
+    list<int>   getAllStavesIDs() const; // JMI
+    list<int>   getStaffVoices (int staff) const;
+    vector<int> getAllVoicesIDs () const;
+    vector<int> getPartVoicesIDs () const; // JMI
 
-    // returns the staffIDs list for one voice
-    list<int> getVoiceStaves (int voice) const;
+
+    int         getPartVoicesNumber (string partID) const;
+    int         getTotalVoicesNumber () { return fVoicesNumber; }
+    
+    list<int>   getVoiceStavesNumber (int voice) const; // JMI
+
+    int         getTotalVoicesNumber () const;
+
     
     // returns the staffID of the staff that contains the max of the voice notes
-    int getVoiceMainStaffID (int voiceID) const;
+    int         getVoiceMainStaffID (int voiceID) const;
 
-    // returns the number of notes in a voice
-    int getVoiceNotesNumber (int voiceID) const;
-
-    // returns the number of lyrics in a voice
-    int getVoiceLyricsNumber (int voiceID) const;
-
-    // returns the number of notes on a voice of a staff
-    int getStaffVoiceNotesNumber (int staffID, int voiceID) const;
-
-    // returns the total number of voices 
-    int getTotalVoicesNumber () const;
-    
-    // returns the voicesIDs list
-    vector<int> getAllVoicesIDs () const;
-    
   protected:
   
     virtual void visitStart ( S_part& elt);
@@ -126,12 +112,19 @@ class EXP xmlPartSummaryVisitor :
     map<int, int>     fVoicesNotesNumbersMap;
     
     // voices and their number of lyrics
-    map<int, int>     fVoicesLyricsNumbersMap;
+    map<string, map<int, int> >
+                      fPartVoicesLyricsNumbersMap;
+                      // fPartVoicesLyricsNumbersMap ["partP1"][2] == 4
+                      // indicates there are 4 lyrics in partP1 / voice 2
     
     // staves and corresponding voices + number of notes
     map<int, map<int, int> >
                       fStaffVoicesAndNotesNumbersMap;
+                      // fStaffVoicesAndNotesNumbersMap [2][3] == 5
+                      // indicates there are 5 notes in staff 2 / voice 3
 
+    string            fCurrentPartID;
+  
     // the current staff, in case a voice uses several
     int               fCurrentStaff;
 

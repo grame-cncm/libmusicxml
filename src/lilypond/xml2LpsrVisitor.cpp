@@ -226,18 +226,18 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
 
   if (fTranslationSettings->fTrace)
     cerr << "Getting the part voices IDs" << endl;
-    
-  vector<int> voiceIDsList      = xpsv.getAllVoicesIDs ();
-  int         totalVoicesNumber = xpsv.getTotalVoicesNumber ();
 
-  int size = voiceIDsList.size();
-
-  if (size > 1)
-    cerr << "Theare are " << size << " voices";
+  int         partVoicesNumber =
+                xpsv.getPartVoiceLyricsNumber (partID, voiceID);
+  
+  if (partVoicesNumber > 1)
+    cerr << "Theare are " << partVoicesNumber << " voices";
   else
     cerr << "There is 1 voice";
   cerr << " in part " << partName << "\" (" << partID << ")" << endl;
   
+  vector<int> voiceIDsList     = xpsv.getAllVoicesIDs ();
+
   int      targetStaff = -1;
   bool     notesOnly = false;
   rational currentTimeSign (0,1);
@@ -249,11 +249,24 @@ void xml2LpsrVisitor::visitStart ( S_part& elt )
   if (fTranslationSettings->fTrace)
     cerr << "Extracting part \"" << partID << "\" voices information" << endl;
 
+  if (fTranslationSettings->fTrace) {
+    if (partVoicesNumber > 1)
+      cerr << "Theare are " << partVoicesNumber << " voices";
+    else
+      cerr << "There is 1 voice";
+    cerr << "  in part" << partID << endl;
+  }
+  
   if (fTranslationSettings->fTrace)
-    cerr << "There are " << totalVoicesNumber << " voices altogether" << endl;
+    cerr << "--> voiceIDsList.size() = " << voiceIDsList.size() << endl;
 
   for (unsigned int i = 0; i < voiceIDsList.size(); i++) {
-    
+/*
+      vector<int> voiceIDsList     = xpsv.getAllVoicesIDs ();
+  int         partVoicesNumber =
+                xpsv.getVoiceLyricsNumber (partID);
+*/
+
     int targetVoice = voiceIDsList [i];
     string
       voiceName =

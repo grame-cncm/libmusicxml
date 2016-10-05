@@ -47,7 +47,7 @@ int xmlPartSummaryVisitor::getTotalVoicesNumber () const
   { return fVoicesNotesNumbersMap.size(); }
 
 //________________________________________________________________________
-list<int> xmlPartSummaryVisitor::getAllStaves() const
+list<int> xmlPartSummaryVisitor::getAllStavesIDs() const
 {
   list<int> sl;
   for (
@@ -61,6 +61,7 @@ list<int> xmlPartSummaryVisitor::getAllStaves() const
 }
 
 //________________________________________________________________________
+/*
 list<int> xmlPartSummaryVisitor::getVoiceStaves (int voice) const
 {
   list<int> sl;
@@ -75,7 +76,7 @@ list<int> xmlPartSummaryVisitor::getVoiceStaves (int voice) const
   } // for
   return sl;
 }
-
+*/
 //________________________________________________________________________
 vector<int> xmlPartSummaryVisitor::getAllVoicesIDs () const
 {
@@ -151,7 +152,7 @@ int xmlPartSummaryVisitor::getStaffNotesNumber (int staffID) const
 //________________________________________________________________________
 int xmlPartSummaryVisitor::getVoiceMainStaffID (int voiceID) const
 {
-  list<int> voiceStaves = getVoiceStaves (voiceID);
+  list<int> voiceStaves; // JMI  = getVoiceStaves (voiceID);
   
   int                 staffID  = 0;
   int                 maxNotes = 0;
@@ -195,16 +196,34 @@ int xmlPartSummaryVisitor::getVoiceNotesNumber (int voiceID) const
 }
 
 //________________________________________________________________________
-int xmlPartSummaryVisitor::getVoiceLyricsNumber (int voiceID) const
+int xmlPartSummaryVisitor::getPartVoiceLyricsNumber
+  (string partID, int voiceID) //const
 {
+/*
+    map<string, map<int, int> >
+                      fPartVoicesLyricsNumbersMap;
+                      // fPartVoicesLyricsNumbersMap ["partP1"][2] == 4
+                      // indicates there are 4 lyrics in partP1 / voice 2
+*/
+
   int result = 0;
-  
+
+  try
+    {
+    result = fPartVoicesLyricsNumbersMap [partID][voiceID];
+    }
+  catch (int e)
+    {
+      cout << "--> An exception occurred. Exception Nr. " << e << '\n';
+    }
+  /*
   map<int, int>::const_iterator i =
-    fVoicesLyricsNumbersMap.find( voiceID );
+    fPartVoicesLyricsNumbersMap [partID].find( voiceID );
     
-  if (i != fVoicesLyricsNumbersMap.end()) {
+  if (i != fPartVoicesLyricsNumbersMap.end()) {
     result = i->second;
   }
+  */
   
   return result;
 }
@@ -233,14 +252,18 @@ int xmlPartSummaryVisitor::getStaffVoiceNotesNumber (
 //________________________________________________________________________
 void xmlPartSummaryVisitor::visitStart ( S_part& elt)
 {
+  fCurrentPartID = elt->getValue();
+  
   fStavesNumber = 1; // default if there are no <staves> element
 
   fStavesNotesNumbersMap.clear();
   fVoicesNotesNumbersMap.clear();
-  fVoicesLyricsNumbersMap.clear();
+  fPartVoicesLyricsNumbersMap.clear();
   fStaffVoicesAndNotesNumbersMap.clear();
 
   fCurrentVoice = 0;
+  fPartVoicesLyricsNumbersMap [fCurrentPartID].clear ();
+
   fCurrentStaff = 0;
 }
 
@@ -262,15 +285,19 @@ void xmlPartSummaryVisitor::visitStart ( S_voice& elt )
     fVoicesNumber = fCurrentVoice;
   cout <<
     "--> S_voice, fCurrentVoice = " << fCurrentVoice <<
-    ", fVoicesNumber = " << endl;
+    ", fVoicesNumber = " << fVoicesNumber << endl;
 }
 
 //________________________________________________________________________
 void xmlPartSummaryVisitor::visitStart ( S_lyric& elt ) { 
   int lyricNumber = int(*elt);
 
-//  if (lyricNumber > fVoicesLyricsNumbersMap [fCurrentVoice] )
-//    fVoicesLyricsNumbersMap [fCurrentVoice] = lyricNumber;
+  if (
+      lyricNumber
+        >
+      fPartVoicesLyricsNumbersMap [fCurrentPartID][fCurrentVoice])
+    fPartVoicesLyricsNumbersMap [fCurrentPartID][fCurrentVoice] =
+      lyricNumber;
 }
 
 //________________________________________________________________________
