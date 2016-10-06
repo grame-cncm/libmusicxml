@@ -2869,7 +2869,7 @@ lpsrLyrics::lpsrLyrics (
   fLyricsNumber = lyricsNumber;
   fLyricsVoice  = lyricsVoice; 
 
-  fLyricsName =
+  // coin the lyrics LPSR name
     fLyricsVoice->getVoiceName()+"_Lyrics"+int2EnglishWord (fLyricsNumber);
 }
 lpsrLyrics::~lpsrLyrics() {}
@@ -2943,6 +2943,7 @@ lpsrVoice::lpsrVoice (
   fVoiceNumber = voiceNumber;
   fVoiceStaff  = voiceStaff;
   
+  // coin the voice LPSR name
   fVoiceName =
     fVoiceStaff->getStaffName()+"_Voice"+int2EnglishWord (fVoiceNumber);
 
@@ -2960,8 +2961,14 @@ lpsrVoice::lpsrVoice (
 }
 lpsrVoice::~lpsrVoice() {}
 
-void lpsrVoice::printMusicXML(ostream& os)
+ostream& operator<< (ostream& os, const S_lpsrVoice& elt)
 {
+  elt->print(os);
+  return os;
+}
+
+void lpsrVoice::printMusicXML(ostream& os)
+{ 
   os << "<!-- lpsrVoice??? -->" << endl;
 }
 
@@ -2970,7 +2977,14 @@ void lpsrVoice::printLPSR(ostream& os)
   os << "Voice" << " " << fVoiceName << endl;
 
   idtr++;
-  os << idtr << fVoiceSequence;
+
+  for (
+    map<int, S_lpsrLyrics>::const_iterator i = fVoiceLyricsMap.begin();
+    i != fVoiceLyricsMap.end();
+    i++) {
+    os << idtr << (*i).second;
+  } // for
+
   idtr--;
 }
 
@@ -3009,35 +3023,49 @@ lpsrStaff::lpsrStaff (
   fStaffNumber = staffNumber;
   fStaffPart   = staffPart;
   
+  // coin the staff LPSR name
   fStaffName =
-    fStaffPart->getPartName()+"_Staff"+int2EnglishWord (fStaffNumber);
+    fStaffPart->getPartLPSRName()+"_Staff"+int2EnglishWord (fStaffNumber);
 
   fStaffInstrumentName = "staffInstrumentName???";
 }
 lpsrStaff::~lpsrStaff() {}
 
-void lpsrStaff::printMusicXML(ostream& os)
+ostream& operator<< (ostream& os, const S_lpsrStaff& elt)
+{
+  elt->print(os);
+  return os;
+}
+
+void lpsrStaff::printMusicXML (ostream& os)
 {
   os << "<!-- lpsrStaff??? -->" << endl;
 }
 
-void lpsrStaff::printLPSR(ostream& os)
+void lpsrStaff::printLPSR (ostream& os)
 {
   os <<
-    "Staff" << " " << fStaffLPSRName << " " <<
+    "Staff" << " " << fStaffName << " " <<
     fStaffInstrumentName << endl;
 
   idtr++;
-// JMI  os << idtr << fStaffLpsrSequence;
+  
+  for (
+    map<int, S_lpsrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    os << idtr << (*i).second;
+  } // for
+
   idtr--;
 }
 
-void lpsrStaff::printLilyPondCode(ostream& os)
+void lpsrStaff::printLilyPondCode (ostream& os)
 {
   os <<
-    "Staff" << " " << fStaffLPSRName << " " <<
+    "Staff" << " " << fStaffName << " " <<
     fStaffInstrumentName << endl;
-  if (! fTranslationSettings->fGenerateAbsoluteCode) os << "\\relative "; // JMI
+ // if (! fTranslationSettings->fGenerateAbsoluteCode) os << "\\relative "; // JMI
   os << "{" << endl;
 
   idtr++;
@@ -3065,12 +3093,24 @@ lpsrPart::lpsrPart (
   
   fPartMusicXMLName = partMusicXMLName;
 
+  // coin the part LPSR name
   fPartLPSRName =
     "Part"+stringNumbersToEnglishWords (fPartMusicXMLName);
     
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "Creating part \"" << partMusicXMLName << "\"" <<
+      " (" << fPartLPSRName << ")" << endl;
+  
   fPartInstrumentName = "partInstrumentName???";
 }
 lpsrPart::~lpsrPart() {}
+
+ostream& operator<< (ostream& os, const S_lpsrPart& elt)
+{
+  elt->print(os);
+  return os;
+}
 
 void lpsrPart::printMusicXML(ostream& os)
 {
@@ -3080,11 +3120,18 @@ void lpsrPart::printMusicXML(ostream& os)
 void lpsrPart::printLPSR(ostream& os)
 {
   os <<
-    "Part" << " " << fPartMusicXMLName << " " <<
-    fPartInstrumentName << endl;
+    "Part " << fPartMusicXMLName << " \"" <<
+    " (" << fPartLPSRName << ")" << endl;
 
   idtr++;
-// JMI  os << idtr << fPartLpsrSequence;
+  
+  for (
+    map<int, S_lpsrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    os << idtr << (*i).second;
+  } // for
+  
   idtr--;
 }
 
@@ -3103,9 +3150,6 @@ void lpsrPart::printLilyPondCode(ostream& os)
   os << idtr << "}" << endl;
 }
 
-
-
-
 //______________________________________________________________________________
 S_lpsrDictionary lpsrDictionary::create (
   S_translationSettings& ts)
@@ -3123,23 +3167,36 @@ lpsrDictionary::lpsrDictionary (
 }
 lpsrDictionary::~lpsrDictionary() {}
 
-void lpsrDictionary::printMusicXML(ostream& os)
+void lpsrDictionary::printMusicXML (ostream& os)
 {
   os << "<!-- lpsrDictionary??? -->" << endl;
 }
 
-void lpsrDictionary::printLPSR(ostream& os)
+ostream& operator<< (ostream& os, const S_lpsrDictionary& elt)
+{
+  elt->print(os);
+  return os;
+}
+
+void lpsrDictionary::printLPSR (ostream& os)
 {
   os << "Dictionary" << endl;
 
   idtr++;
-// JMI  os << idtr << fDictionaryLpsrSequence;
+  
+  for (
+    map<string, S_lpsrPart>::iterator i = fDictionaryPartsMap.begin();
+    i != fDictionaryPartsMap.end();
+    i++) {
+    os << idtr << (*i).second;
+  } // for
+  
   idtr--;
 }
 
-void lpsrDictionary::printLilyPondCode(ostream& os)
+void lpsrDictionary::printLilyPondCode (ostream& os)
 {
-  os << "Dictionary" << endl;
+  printLPSR (os);
 }
 
 void lpsrDictionary::addPartToDictionary (string partMusicXMLName)
@@ -3149,31 +3206,30 @@ void lpsrDictionary::addPartToDictionary (string partMusicXMLName)
       "### Internal error: partMusicXMLName " << partMusicXMLName <<
       "already exists in this dictionary" << endl;
 
-  // coin the part LPSR name
-  string
-    partLPSRName =
-      "Part" + stringNumbersToEnglishWords (partMusicXMLName);
-  
   // create the part
-  if (fTranslationSettings->fTrace)
-    cerr << "Creating part \"" << partMusicXMLName << "\" (" <<
-    partMusicXMLName << ")" << endl;
-  
   S_lpsrPart
     part =
       lpsrPart::create (
-        fTranslationSettings, partMusicXMLName, partLPSRName);
+        fTranslationSettings, partMusicXMLName);
 
    fDictionaryPartsMap [partMusicXMLName] = part;
 }
   
-void lpsrDictionary::addVoiceToDictionaryPart (
-  string partMusicXMLName, int voiceNumber)
+void lpsrDictionary::addStaffToDictionary (
+  string partMusicXMLName,
+  int    staffNumber)
 {
 }
 
-void  lpsrDictionary::addLyricsToDictionaryVoice (
+void lpsrDictionary::addVoiceToDictionary (
   string partMusicXMLName,
+  int    staffNumber,
+  int    voiceNumber)
+{
+}
+void lpsrDictionary::addLyricsToDictionary (
+  string partMusicXMLName,
+  int    staffNumber,
   int    voiceNumber,
   int    lyricsNumber)
 {

@@ -54,6 +54,7 @@ class lpsrElement;
 class lpsrLilypondVarValAssoc;
 class lpsrSchemeVarValAssoc;
 
+class lpsrDictionary;
 class lpsrPart;
 class lpsrStaff;
 class lpsrVoice;
@@ -74,6 +75,7 @@ typedef SMARTP<lpsrElement>             S_lpsrElement;
 typedef SMARTP<lpsrLilypondVarValAssoc> S_lpsrLilypondVarValAssoc;
 typedef SMARTP<lpsrSchemeVarValAssoc>   S_lpsrSchemeVarValAssoc;
 
+typedef SMARTP<lpsrDictionary>          S_lpsrDictionary;
 typedef SMARTP<lpsrPart>                S_lpsrPart;
 typedef SMARTP<lpsrStaff>               S_lpsrStaff;
 typedef SMARTP<lpsrVoice>               S_lpsrVoice;
@@ -91,6 +93,8 @@ typedef SMARTP<lpsrPaper>               S_lpsrPaper;
 typedef SMARTP<lpsrLayout>              S_lpsrLayout;
 
 EXP ostream& operator<< (ostream& os, const S_lpsrElement& elt);
+
+EXP ostream& operator<< (ostream& os, const S_lpsrDictionary& elt);
 
 EXP ostream& operator<< (ostream& os, const S_lpsrLilypondVarValAssoc& elt);
 EXP ostream& operator<< (ostream& os, const S_lpsrSchemeVarValAssoc& elt);
