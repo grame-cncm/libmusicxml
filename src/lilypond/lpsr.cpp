@@ -2978,9 +2978,7 @@ void lpsrVoice::printLilyPondCode(ostream& os)
 
 //______________________________________________________________________________
 S_lpsrStaff::create (
-    S_translationSettings& ts,
-    string                 staffMusicXMLName,
-    string                 staffLPSRName)
+    S_translationSettings& ts)
 {
   lpsrStaff* o =
     new lpsrStaff( ts, staffMusicXMLName, staffLPSRName);
