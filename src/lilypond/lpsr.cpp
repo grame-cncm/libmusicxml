@@ -2851,20 +2851,26 @@ void lpsrLyricsChunk::printLilyPondCode(ostream& os)
 
 //______________________________________________________________________________
 S_lpsrLyrics lpsrLyrics::create (
-  string lyricsName,
-  string voiceName)
+  S_translationSettings& ts,
+  int                    lyricsNumber,
+  S_lpsrVoice            lyricsVoice)
 {
-  lpsrLyrics* o = new lpsrLyrics (lyricsName, voiceName); assert(o!=0);
+  lpsrLyrics* o = new lpsrLyrics (ts, lyricsNumber, lyricsVoice);
+  assert(o!=0);
   return o;
 }
 
 lpsrLyrics::lpsrLyrics (
-  string lyricsName,
-  string voiceName)
-  : lpsrElement("")
+  S_translationSettings& ts,
+  int                    lyricsNumber,
+  S_lpsrVoice            lyricsVoice)
+    : lpsrElement("")
 {
-  fLyricsName = lyricsName;
-  fVoiceName  = voiceName; 
+  fLyricsNumber = lyricsNumber;
+  fLyricsVoice  = lyricsVoice; 
+
+  fLyricsName =
+    fLyricsVoice->getVoiceName()+"_Lyrics"+int2EnglishWord (fLyricsNumber);
 }
 lpsrLyrics::~lpsrLyrics() {}
 
@@ -2881,7 +2887,7 @@ void lpsrLyrics::printMusicXML(ostream& os)
 
 void lpsrLyrics::printLPSR(ostream& os)
 {  
-  os << "Lyrics" << " " << fLyricsName << endl; //" " << fVoiceName << endl;
+  os << "Lyrics" << " " << fLyricsName << endl;
   idtr++;
   int n = fLyricsChunks.size();
   for (int i = 0; i < n; i++) {
@@ -2918,23 +2924,28 @@ void lpsrLyrics::printLilyPondCode(ostream& os)
 //______________________________________________________________________________
 S_lpsrVoice lpsrVoice::create (
   S_translationSettings& ts,
-  string                 voiceName)
+  int                    voiceNumber,
+  S_lpsrStaff            voiceStaff)
 {
-  lpsrVoice* o =
-    new lpsrVoice (ts, voiceName);
+  lpsrVoice* o = new lpsrVoice (ts, voiceNumber, voiceStaff);
   assert(o!=0);
   return o;
 }
 
 lpsrVoice::lpsrVoice (
   S_translationSettings& ts,
-  string                 voiceName)
+  int                    voiceNumber,
+  S_lpsrStaff            voiceStaff)
     : lpsrElement("")
 {
   fTranslationSettings = ts;
 
-  fVoiceName = voiceName;
+  fVoiceNumber = voiceNumber;
+  fVoiceStaff  = voiceStaff;
   
+  fVoiceName =
+    fVoiceStaff->getStaffName()+"_Voice"+int2EnglishWord (fVoiceNumber);
+
   // create the implicit lpsrSequence element
   fVoiceSequence = lpsrSequence::create (lpsrSequence::kSpace);
   
@@ -2942,10 +2953,10 @@ lpsrVoice::lpsrVoice (
 // JMI  fVoiceLpsrRepeat = lpsrRepeat::create ();
 //  fVoiceSequence->appendElementToSequence (fVoiceLpsrRepeat);
   
-  // add the implicit 4/4 time signature
-  S_lpsrTime time = lpsrTime::create (4, 4, fGenerateNumericalTime);
-  S_lpsrElement t = time;
-  fVoiceSequence->appendElementToSequence (t);
+  // add the implicit 4/4 time signature JMI
+ // S_lpsrTime time = lpsrTime::create (4, 4, fGenerateNumericalTime);
+ // S_lpsrElement t = time;
+  //fVoiceSequence->appendElementToSequence (t);
 }
 lpsrVoice::~lpsrVoice() {}
 
@@ -2966,7 +2977,7 @@ void lpsrVoice::printLPSR(ostream& os)
 void lpsrVoice::printLilyPondCode(ostream& os)
 {
   os << fVoiceName << " = ";
-  if (! fVoiceAbsoluteCode) os << "\\relative ";
+// JMI  if (! fVoiceAbsoluteCode) os << "\\relative ";
   os << "{" << endl;
 
   idtr++;
@@ -2977,25 +2988,29 @@ void lpsrVoice::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrStaff::create (
-    S_translationSettings& ts)
+S_lpsrStaff lpsrStaff::create (
+  S_translationSettings& ts,
+  int                    staffNumber,
+  S_lpsrPart             staffPart)
 {
-  lpsrStaff* o =
-    new lpsrStaff( ts, staffMusicXMLName, staffLPSRName);
+  lpsrStaff* o = new lpsrStaff( ts, staffNumber, staffPart);
   assert(o!=0);
   return o;
 }
 
 lpsrStaff::lpsrStaff (
   S_translationSettings& ts,
-  string                 staffMusicXMLName,
-  string                 staffLPSRName)
+  int                    staffNumber,
+  S_lpsrPart             staffPart)
     : lpsrElement("")
 {
   fTranslationSettings = ts;
   
-  fStaffMusicXMLName = staffMusicXMLName;
-  fStaffLPSRName = staffLPSRName;
+  fStaffNumber = staffNumber;
+  fStaffPart   = staffPart;
+  
+  fStaffName =
+    fStaffPart->getPartName()+"_Staff"+int2EnglishWord (fStaffNumber);
 
   fStaffInstrumentName = "staffInstrumentName???";
 }
@@ -3009,7 +3024,7 @@ void lpsrStaff::printMusicXML(ostream& os)
 void lpsrStaff::printLPSR(ostream& os)
 {
   os <<
-    "Staff" << " " << fStaffMusicXMLName << " " <<
+    "Staff" << " " << fStaffLPSRName << " " <<
     fStaffInstrumentName << endl;
 
   idtr++;
@@ -3026,7 +3041,6 @@ void lpsrStaff::printLilyPondCode(ostream& os)
   os << "{" << endl;
 
   idtr++;
-// JMI  os << fStaffLpsrSequence << endl;
   idtr--;
 
   os << idtr << "}" << endl;
@@ -3035,26 +3049,25 @@ void lpsrStaff::printLilyPondCode(ostream& os)
 //______________________________________________________________________________
 S_lpsrPart lpsrPart::create (
     S_translationSettings& ts,
-    string                 partMusicXMLName,
-    string                 partLPSRName)
+    string                 partMusicXMLName)
 {
-  lpsrPart* o =
-    new lpsrPart( ts, partMusicXMLName, partLPSRName);
+  lpsrPart* o = new lpsrPart( ts, partMusicXMLName);
   assert(o!=0);
   return o;
 }
 
 lpsrPart::lpsrPart (
   S_translationSettings& ts,
-  string                 partMusicXMLName,
-  string                 partLPSRName)
+  string                 partMusicXMLName)
     : lpsrElement("")
 {
   fTranslationSettings = ts;
   
   fPartMusicXMLName = partMusicXMLName;
-  fPartLPSRName = partLPSRName;
 
+  fPartLPSRName =
+    "Part"+stringNumbersToEnglishWords (fPartMusicXMLName);
+    
   fPartInstrumentName = "partInstrumentName???";
 }
 lpsrPart::~lpsrPart() {}

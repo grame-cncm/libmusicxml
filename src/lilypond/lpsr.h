@@ -55,6 +55,10 @@ class lpsrLilypondVarValAssoc;
 class lpsrSchemeVarValAssoc;
 
 class lpsrPart;
+class lpsrStaff;
+class lpsrVoice;
+class lpsrLyrics;
+
 class lpsrLyrics;
 class lpsrDuration;
 class lpsrDynamics;
@@ -71,6 +75,11 @@ typedef SMARTP<lpsrLilypondVarValAssoc> S_lpsrLilypondVarValAssoc;
 typedef SMARTP<lpsrSchemeVarValAssoc>   S_lpsrSchemeVarValAssoc;
 
 typedef SMARTP<lpsrPart>                S_lpsrPart;
+typedef SMARTP<lpsrStaff>               S_lpsrStaff;
+typedef SMARTP<lpsrVoice>               S_lpsrVoice;
+typedef SMARTP<lpsrLyrics>              S_lpsrLyrics;
+
+
 typedef SMARTP<lpsrLyrics>              S_lpsrLyrics;
 typedef SMARTP<lpsrDuration>            S_lpsrDuration;
 typedef SMARTP<lpsrDynamics>            S_lpsrDynamics;
@@ -1429,17 +1438,22 @@ class EXP lpsrLyrics : public lpsrElement {
             int                    lyricsNumber,
             S_lpsrVoice            lyricsVoice);
     
+    int     getLyricsNumber () const
+                { return fLyricsNumber; }
+                
     string  getLyricsName () const
                 { return fLyricsName; }
                 
-    string  getLyricsVoice () const
+    S_lpsrVoice
+            getLyricsVoice () const
                 { return fLyricsVoice; }
                 
     vector<S_lpsrLyricsChunk>
             getLyricsChunks () const
                 { return fLyricsChunks; }
 
-    void    addChunkToLyrics (S_lpsrLyricsChunk chunk)
+    void    addChunkToLyrics (
+              S_lpsrLyricsChunk chunk)
                 { fLyricsChunks.push_back (chunk); }
 
     virtual void printMusicXML      (ostream& os);
@@ -1450,15 +1464,18 @@ class EXP lpsrLyrics : public lpsrElement {
 
     lpsrLyrics (
         S_translationSettings& ts,
+        int                    lyricsNumber,
         S_lpsrVoice            lyricsVoice);
     virtual ~lpsrLyrics();
   
   private:
 
-    string                    fLyricsName;
+    int                       fLyricsNumber;
     S_lpsrVoice               fLyricsVoice;
     
     vector<S_lpsrLyricsChunk> fLyricsChunks;
+
+    string                    fLyricsName; // computed in constructor
 };
 typedef SMARTP<lpsrLyrics> S_lpsrLyrics;
 
@@ -1473,18 +1490,22 @@ class EXP lpsrVoice : public lpsrElement {
 
     static SMARTP<lpsrVoice> create (
             S_translationSettings& ts,
-            int                    voiceNumber
+            int                    voiceNumber,
             S_lpsrStaff            voiceStaff);
                           
-    string  getVoiceNumber () const
+    int     getVoiceNumber () const
                 { return fVoiceNumber; }
                 
-    string  getVoiceStaff () const
+    S_lpsrStaff
+            getVoiceStaff () const
                 { return fVoiceStaff; }
                 
     map<int, S_lpsrLyrics>
             getVoiceLyricsMap () const
                 { return fVoiceLyricsMap; }
+
+    string  getVoiceName () const
+                { return fVoiceName; }
 
     void    addLyricsToVoice (
               int lyricsNumber, S_lpsrLyrics lyrics)
@@ -1508,27 +1529,28 @@ class EXP lpsrVoice : public lpsrElement {
 
     lpsrVoice (
         S_translationSettings& ts,
-        int                    voiceNumber
+        int                    voiceNumber,
         S_lpsrStaff            voiceStaff);
     virtual ~lpsrVoice();
   
   private:
 
-    S_translationSettings   fTranslationSettings;
+    S_translationSettings     fTranslationSettings;
 
-    int                     fVoiceNumber;
-    S_lpsrStaff             fVoiceStaff;
+    int                       fVoiceNumber;
+    S_lpsrStaff               fVoiceStaff;
 
-    map<int, S_lpsrLyrics>  fVoiceLyricsMap;
+    map<int, S_lpsrLyrics>    fVoiceLyricsMap;
 
+    string                    fVoiceName; // computed in constructor
 
     // the implicit sequence containing the code generated for the voice
-    S_lpsrSequence          fVoiceSequence;
+    S_lpsrSequence            fVoiceSequence;
   
 
     // the implicit repeat at the beginning of the voice
     // will be ignored if the voice has no repeats at all
-    S_lpsrRepeat            fVoiceLpsrRepeat;
+    S_lpsrRepeat              fVoiceLpsrRepeat;
 };
 typedef SMARTP<lpsrVoice> S_lpsrVoice;
 typedef map<string, S_lpsrVoice> lpsrVoicesMap;
@@ -1548,20 +1570,25 @@ class EXP lpsrStaff : public lpsrElement {
 
     static SMARTP<lpsrStaff> create (
         S_translationSettings& ts,
-        int                    staffNumber
+        int                    staffNumber,
         S_lpsrPart             staffPart);
     
-    string  getStaffNumber () const
+    int     getStaffNumber () const
                 { return fStaffNumber; }
                 
-    string  getStaffPart () const
-                { return fStaffLPSRName; }
+    S_lpsrPart
+            getStaffPart () const
+                { return fStaffPart; }
 
     map<int, S_lpsrVoice> getStaffVoicesMap ()
                 { return fStaffVoicesMap; }
 
-    void    addVoiceToStaff (S_lpsrVoice voice)
-                { fStaffVoicesMap [voiceID] = (voice); }
+    string  getStaffName () const
+                { return fStaffName; }
+
+    void    addVoiceToStaff (
+              int voiceNumber, S_lpsrVoice voice)
+                { fStaffVoicesMap [voiceNumber] = voice; }
                 
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
@@ -1571,20 +1598,22 @@ class EXP lpsrStaff : public lpsrElement {
 
     lpsrStaff (
         S_translationSettings& ts,
-        int                    staffNumber
+        int                    staffNumber,
         S_lpsrPart             staffPart);
     virtual ~lpsrStaff();
   
   private:
 
-    S_translationSettings   fTranslationSettings;
+    S_translationSettings     fTranslationSettings;
 
-    int                     fStaffNumber;
-    S_lpsrPart              fStaffPart;
+    int                       fStaffNumber;
+    S_lpsrPart                fStaffPart;
     
-    map<int, S_lpsrVoice>   fStaffVoicesMap;
+    map<int, S_lpsrVoice>     fStaffVoicesMap;
 
-    string                  fStaffInstrumentName;
+    string                    fStaffName; // computed in constructor
+
+    string                    fStaffInstrumentName;
  };
 typedef SMARTP<lpsrStaff> S_lpsrStaff;
 typedef map<string, S_lpsrStaff> lpsrStaffsMap;
@@ -1599,22 +1628,23 @@ class EXP lpsrPart : public lpsrElement {
   public:
 
     static SMARTP<lpsrPart> create (
-        S_translationSettings& ts,
-        string                 partMusicXMLName,
-        string                 partLPSRName);
+            S_translationSettings& ts,
+            string                 partMusicXMLName);
     
-    string  getpartMusicXMLName () const
+    string  getPartMusicXMLName () const
                 { return fPartMusicXMLName; }
+                
+    map<int, S_lpsrStaff>
+            getPartStavesMap ()
+                { return fPartStavesMap; }
+
     string  getPartLPSRName     () const
                 { return fPartLPSRName; }
 
-    void    addVoiceToPart (
-              int voiceID, S_lpsrVoice voice)
-                { fPartStavesMap [voiceID] = (voice); }
+    void    addStaffToPart (
+              int staffNumber, S_lpsrStaff staff)
+                { fPartStavesMap [staffNumber] = staff; }
                 
-    map<int, S_lpsrVoice> getPartStavesMap ()
-                { return fPartStavesMap; }
-
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
@@ -1623,8 +1653,7 @@ class EXP lpsrPart : public lpsrElement {
 
     lpsrPart (
         S_translationSettings& ts,
-        string                 partMusicXMLName,
-        string                 partLPSRName);
+        string                 partMusicXMLName);
     virtual ~lpsrPart();
   
   private:
@@ -1632,8 +1661,9 @@ class EXP lpsrPart : public lpsrElement {
     S_translationSettings   fTranslationSettings;
 
     string                  fPartMusicXMLName;
-    string                  fPartLPSRName;
-    map<int, S_lpsrVoice>   fPartStavesMap;
+    map<int, S_lpsrStaff>   fPartStavesMap;
+
+    string                  fPartLPSRName; // computed in constructor
     
     string                  fPartInstrumentName;
 };
