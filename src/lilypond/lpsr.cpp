@@ -3120,7 +3120,7 @@ void lpsrPart::printMusicXML(ostream& os)
 void lpsrPart::printLPSR(ostream& os)
 {
   os <<
-    "Part " << fPartMusicXMLName << " \"" <<
+    "Part" << " \"" << fPartMusicXMLName << "\"" <<
     " (" << fPartLPSRName << ")" << endl;
 
   idtr++;
