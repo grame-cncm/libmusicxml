@@ -1517,130 +1517,6 @@ void lpsrBeam::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrLyricsChunk lpsrLyricsChunk::create (
-  LyricsChunkType chunkType,
-  string     chunkText)
-{
-  lpsrLyricsChunk* o =
-    new lpsrLyricsChunk (chunkType, chunkText); assert(o!=0);
-  return o;
-}
-
-lpsrLyricsChunk::lpsrLyricsChunk (
-  LyricsChunkType chunkType,
-  string     chunkText)
-  : lpsrElement("")
-{
-  fLyricsChunkType = chunkType;
-  fChunkText       = chunkText; 
-}
-lpsrLyricsChunk::~lpsrLyricsChunk() {}
-
-ostream& operator<< (ostream& os, const S_lpsrLyricsChunk& lyr)
-{
-  lyr->print(os);
-  return os;
-}
-
-void lpsrLyricsChunk::printMusicXML(ostream& os)
-{
-  os << "<!-- lpsrLyricsChunk??? -->" << endl;
-}
-
-void lpsrLyricsChunk::printLPSR(ostream& os)
-{  
-  os << "LyricsChunk" << " ";
-  switch (fLyricsChunkType) {
-    case kSingleChunk: os << "single"; break;
-    case kBeginChunk:  os << "begin "; break;
-    case kMiddleChunk: os << "middle"; break;
-    case kEndChunk:    os << "end   "; break;
-    case kSkipChunk:   os << "skip  "; break;
-    case kBreakChunk:  os << "break "; break;
-  } // switch
-  if (fChunkText.size()) os << " " << fChunkText;
-  os << endl;
-}
-
-void lpsrLyricsChunk::printLilyPondCode(ostream& os)
-{  
-  switch (fLyricsChunkType) {
-    case kSingleChunk: os << fChunkText;           break;
-    case kBeginChunk:  os << fChunkText;           break;
-    case kMiddleChunk: os << " -- " << fChunkText; break;
-    case kEndChunk:    os << " ++ " << fChunkText; break;
-    case kSkipChunk:   os << "\\skip";             break;
-    case kBreakChunk:  os << endl << idtr;         break;
-  } // switch
-}
-
-//______________________________________________________________________________
-S_lpsrLyrics lpsrLyrics::create (
-  string lyricsName,
-  string voiceName)
-{
-  lpsrLyrics* o = new lpsrLyrics (lyricsName, voiceName); assert(o!=0);
-  return o;
-}
-
-lpsrLyrics::lpsrLyrics (
-  string lyricsName,
-  string voiceName)
-  : lpsrElement("")
-{
-  fLyricsName = lyricsName;
-  fVoiceName  = voiceName; 
-}
-lpsrLyrics::~lpsrLyrics() {}
-
-ostream& operator<< (ostream& os, const S_lpsrLyrics& stan)
-{
-  stan->print(os);
-  return os;
-}
-
-void lpsrLyrics::printMusicXML(ostream& os)
-{
-  os << "<!-- lpsrLyrics??? -->" << endl;
-}
-
-void lpsrLyrics::printLPSR(ostream& os)
-{  
-  os << "Lyrics" << " " << fLyricsName << endl; //" " << fVoiceName << endl;
-  idtr++;
-  int n = fLyricsChunks.size();
-  for (int i = 0; i < n; i++) {
-    os << idtr << fLyricsChunks[i];
-  } // for
-  idtr--;
-}
-
-void lpsrLyrics::printLilyPondCode(ostream& os)
-{
-  os <<
-    fLyricsName << " = " << "\\lyricmode {" << endl;
-
-  idtr++;
-
-  if (fLyricsChunks.size()) {
-    vector<S_lpsrLyricsChunk>::const_iterator
-      iBegin = fLyricsChunks.begin(),
-      iEnd   = fLyricsChunks.end(),
-      i      = iBegin;
-      
-    for ( ; ; ) {
-      os << idtr << (*i);
-      if (++i == iEnd) break;
-      os << " ";
-    } // for
-  }
-
-  idtr--;
-
-  os << endl << idtr << "}" << endl;
-}
-
-//______________________________________________________________________________
 S_lpsrNewlyricsCommand lpsrNewlyricsCommand::create (
   string lyricsName,
   string voiceName)
@@ -1692,125 +1568,6 @@ void lpsrNewlyricsCommand::printLilyPondCode (ostream& os)
  *
  *                 \new Lyrics \lyricsto "PartPOneVoiceOne" \PartPOneVoiceOneLyricsOne
 */
-
-//______________________________________________________________________________
-S_lpsrVoice lpsrVoice::create (
-  S_translationSettings& ts,
-  string                 voiceName)
-{
-  lpsrVoice* o =
-    new lpsrVoice (ts, voiceName);
-  assert(o!=0);
-  return o;
-}
-
-lpsrVoice::lpsrVoice (
-  S_translationSettings& ts,
-  string                 voiceName)
-    : lpsrElement("")
-{
-  fTranslationSettings = ts;
-
-  fVoiceName = voiceName;
-  
-  // create the implicit lpsrSequence element
-  fVoiceSequence = lpsrSequence::create (lpsrSequence::kSpace);
-  
-  // add the implicit lpsrRepeat element
-// JMI  fVoiceLpsrRepeat = lpsrRepeat::create ();
-//  fVoiceSequence->appendElementToSequence (fVoiceLpsrRepeat);
-  
-  // add the implicit 4/4 time signature
-  S_lpsrTime time = lpsrTime::create (4, 4, fGenerateNumericalTime);
-  S_lpsrElement t = time;
-  fVoiceSequence->appendElementToSequence (t);
-}
-lpsrVoice::~lpsrVoice() {}
-
-void lpsrVoice::printMusicXML(ostream& os)
-{
-  os << "<!-- lpsrVoice??? -->" << endl;
-}
-
-void lpsrVoice::printLPSR(ostream& os)
-{
-  os << "Voice" << " " << fVoiceName << endl;
-
-  idtr++;
-  os << idtr << fVoiceSequence;
-  idtr--;
-}
-
-void lpsrVoice::printLilyPondCode(ostream& os)
-{
-  os << fVoiceName << " = ";
-  if (! fVoiceAbsoluteCode) os << "\\relative ";
-  os << "{" << endl;
-
-  idtr++;
-  os << fVoiceSequence << endl;
-  idtr--;
-
-  os << idtr << "}" << endl;
-}
-
-//______________________________________________________________________________
-S_lpsrPart lpsrPart::create (
-    S_translationSettings& ts,
-    string                 partMusicXMLName,
-    string                 partLPSRName)
-{
-  lpsrPart* o =
-    new lpsrPart( ts, partMusicXMLName, partLPSRName);
-  assert(o!=0);
-  return o;
-}
-
-lpsrPart::lpsrPart (
-  S_translationSettings& ts,
-  string                 partMusicXMLName,
-  string                 partLPSRName)
-    : lpsrElement("")
-{
-  fTranslationSettings = ts;
-  
-  fPartMusicXMLName = partMusicXMLName;
-  fPartLPSRName = partLPSRName;
-
-  fPartInstrumentName = "partInstrumentName???";
-}
-lpsrPart::~lpsrPart() {}
-
-void lpsrPart::printMusicXML(ostream& os)
-{
-  os << "<!-- lpsrPart??? -->" << endl;
-}
-
-void lpsrPart::printLPSR(ostream& os)
-{
-  os <<
-    "Part" << " " << fPartMusicXMLName << " " <<
-    fPartInstrumentName << endl;
-
-  idtr++;
-// JMI  os << idtr << fPartLpsrSequence;
-  idtr--;
-}
-
-void lpsrPart::printLilyPondCode(ostream& os)
-{
-  os <<
-    "Part" << " " << fPartLPSRName << " " <<
-    fPartInstrumentName << endl;
-  if (! fTranslationSettings->fGenerateAbsoluteCode) os << "\\relative "; // JMI
-  os << "{" << endl;
-
-  idtr++;
-// JMI  os << fPartLpsrSequence << endl;
-  idtr--;
-
-  os << idtr << "}" << endl;
-}
 
 //______________________________________________________________________________
 S_lpsrPaper lpsrPaper::create() {
@@ -3034,6 +2791,309 @@ void lpsrContext::printLilyPondCode(ostream& os)
   os << idtr << "}" << endl;
 }
 
+//______________________________________________________________________________
+S_lpsrLyricsChunk lpsrLyricsChunk::create (
+  LyricsChunkType chunkType,
+  string     chunkText)
+{
+  lpsrLyricsChunk* o =
+    new lpsrLyricsChunk (chunkType, chunkText); assert(o!=0);
+  return o;
+}
+
+lpsrLyricsChunk::lpsrLyricsChunk (
+  LyricsChunkType chunkType,
+  string     chunkText)
+  : lpsrElement("")
+{
+  fLyricsChunkType = chunkType;
+  fChunkText       = chunkText; 
+}
+lpsrLyricsChunk::~lpsrLyricsChunk() {}
+
+ostream& operator<< (ostream& os, const S_lpsrLyricsChunk& lyr)
+{
+  lyr->print(os);
+  return os;
+}
+
+void lpsrLyricsChunk::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrLyricsChunk??? -->" << endl;
+}
+
+void lpsrLyricsChunk::printLPSR(ostream& os)
+{  
+  os << "LyricsChunk" << " ";
+  switch (fLyricsChunkType) {
+    case kSingleChunk: os << "single"; break;
+    case kBeginChunk:  os << "begin "; break;
+    case kMiddleChunk: os << "middle"; break;
+    case kEndChunk:    os << "end   "; break;
+    case kSkipChunk:   os << "skip  "; break;
+    case kBreakChunk:  os << "break "; break;
+  } // switch
+  if (fChunkText.size()) os << " " << fChunkText;
+  os << endl;
+}
+
+void lpsrLyricsChunk::printLilyPondCode(ostream& os)
+{  
+  switch (fLyricsChunkType) {
+    case kSingleChunk: os << fChunkText;           break;
+    case kBeginChunk:  os << fChunkText;           break;
+    case kMiddleChunk: os << " -- " << fChunkText; break;
+    case kEndChunk:    os << " ++ " << fChunkText; break;
+    case kSkipChunk:   os << "\\skip";             break;
+    case kBreakChunk:  os << endl << idtr;         break;
+  } // switch
+}
+
+//______________________________________________________________________________
+S_lpsrLyrics lpsrLyrics::create (
+  string lyricsName,
+  string voiceName)
+{
+  lpsrLyrics* o = new lpsrLyrics (lyricsName, voiceName); assert(o!=0);
+  return o;
+}
+
+lpsrLyrics::lpsrLyrics (
+  string lyricsName,
+  string voiceName)
+  : lpsrElement("")
+{
+  fLyricsName = lyricsName;
+  fVoiceName  = voiceName; 
+}
+lpsrLyrics::~lpsrLyrics() {}
+
+ostream& operator<< (ostream& os, const S_lpsrLyrics& stan)
+{
+  stan->print(os);
+  return os;
+}
+
+void lpsrLyrics::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrLyrics??? -->" << endl;
+}
+
+void lpsrLyrics::printLPSR(ostream& os)
+{  
+  os << "Lyrics" << " " << fLyricsName << endl; //" " << fVoiceName << endl;
+  idtr++;
+  int n = fLyricsChunks.size();
+  for (int i = 0; i < n; i++) {
+    os << idtr << fLyricsChunks[i];
+  } // for
+  idtr--;
+}
+
+void lpsrLyrics::printLilyPondCode(ostream& os)
+{
+  os <<
+    fLyricsName << " = " << "\\lyricmode {" << endl;
+
+  idtr++;
+
+  if (fLyricsChunks.size()) {
+    vector<S_lpsrLyricsChunk>::const_iterator
+      iBegin = fLyricsChunks.begin(),
+      iEnd   = fLyricsChunks.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+  }
+
+  idtr--;
+
+  os << endl << idtr << "}" << endl;
+}
+
+//______________________________________________________________________________
+S_lpsrVoice lpsrVoice::create (
+  S_translationSettings& ts,
+  string                 voiceName)
+{
+  lpsrVoice* o =
+    new lpsrVoice (ts, voiceName);
+  assert(o!=0);
+  return o;
+}
+
+lpsrVoice::lpsrVoice (
+  S_translationSettings& ts,
+  string                 voiceName)
+    : lpsrElement("")
+{
+  fTranslationSettings = ts;
+
+  fVoiceName = voiceName;
+  
+  // create the implicit lpsrSequence element
+  fVoiceSequence = lpsrSequence::create (lpsrSequence::kSpace);
+  
+  // add the implicit lpsrRepeat element
+// JMI  fVoiceLpsrRepeat = lpsrRepeat::create ();
+//  fVoiceSequence->appendElementToSequence (fVoiceLpsrRepeat);
+  
+  // add the implicit 4/4 time signature
+  S_lpsrTime time = lpsrTime::create (4, 4, fGenerateNumericalTime);
+  S_lpsrElement t = time;
+  fVoiceSequence->appendElementToSequence (t);
+}
+lpsrVoice::~lpsrVoice() {}
+
+void lpsrVoice::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrVoice??? -->" << endl;
+}
+
+void lpsrVoice::printLPSR(ostream& os)
+{
+  os << "Voice" << " " << fVoiceName << endl;
+
+  idtr++;
+  os << idtr << fVoiceSequence;
+  idtr--;
+}
+
+void lpsrVoice::printLilyPondCode(ostream& os)
+{
+  os << fVoiceName << " = ";
+  if (! fVoiceAbsoluteCode) os << "\\relative ";
+  os << "{" << endl;
+
+  idtr++;
+  os << fVoiceSequence << endl;
+  idtr--;
+
+  os << idtr << "}" << endl;
+}
+
+//______________________________________________________________________________
+S_lpsrStaff::create (
+    S_translationSettings& ts,
+    string                 staffMusicXMLName,
+    string                 staffLPSRName)
+{
+  lpsrStaff* o =
+    new lpsrStaff( ts, staffMusicXMLName, staffLPSRName);
+  assert(o!=0);
+  return o;
+}
+
+lpsrStaff::lpsrStaff (
+  S_translationSettings& ts,
+  string                 staffMusicXMLName,
+  string                 staffLPSRName)
+    : lpsrElement("")
+{
+  fTranslationSettings = ts;
+  
+  fStaffMusicXMLName = staffMusicXMLName;
+  fStaffLPSRName = staffLPSRName;
+
+  fStaffInstrumentName = "staffInstrumentName???";
+}
+lpsrStaff::~lpsrStaff() {}
+
+void lpsrStaff::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrStaff??? -->" << endl;
+}
+
+void lpsrStaff::printLPSR(ostream& os)
+{
+  os <<
+    "Staff" << " " << fStaffMusicXMLName << " " <<
+    fStaffInstrumentName << endl;
+
+  idtr++;
+// JMI  os << idtr << fStaffLpsrSequence;
+  idtr--;
+}
+
+void lpsrStaff::printLilyPondCode(ostream& os)
+{
+  os <<
+    "Staff" << " " << fStaffLPSRName << " " <<
+    fStaffInstrumentName << endl;
+  if (! fTranslationSettings->fGenerateAbsoluteCode) os << "\\relative "; // JMI
+  os << "{" << endl;
+
+  idtr++;
+// JMI  os << fStaffLpsrSequence << endl;
+  idtr--;
+
+  os << idtr << "}" << endl;
+}
+
+//______________________________________________________________________________
+S_lpsrPart lpsrPart::create (
+    S_translationSettings& ts,
+    string                 partMusicXMLName,
+    string                 partLPSRName)
+{
+  lpsrPart* o =
+    new lpsrPart( ts, partMusicXMLName, partLPSRName);
+  assert(o!=0);
+  return o;
+}
+
+lpsrPart::lpsrPart (
+  S_translationSettings& ts,
+  string                 partMusicXMLName,
+  string                 partLPSRName)
+    : lpsrElement("")
+{
+  fTranslationSettings = ts;
+  
+  fPartMusicXMLName = partMusicXMLName;
+  fPartLPSRName = partLPSRName;
+
+  fPartInstrumentName = "partInstrumentName???";
+}
+lpsrPart::~lpsrPart() {}
+
+void lpsrPart::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrPart??? -->" << endl;
+}
+
+void lpsrPart::printLPSR(ostream& os)
+{
+  os <<
+    "Part" << " " << fPartMusicXMLName << " " <<
+    fPartInstrumentName << endl;
+
+  idtr++;
+// JMI  os << idtr << fPartLpsrSequence;
+  idtr--;
+}
+
+void lpsrPart::printLilyPondCode(ostream& os)
+{
+  os <<
+    "Part" << " " << fPartLPSRName << " " <<
+    fPartInstrumentName << endl;
+  if (! fTranslationSettings->fGenerateAbsoluteCode) os << "\\relative "; // JMI
+  os << "{" << endl;
+
+  idtr++;
+// JMI  os << fPartLpsrSequence << endl;
+  idtr--;
+
+  os << idtr << "}" << endl;
+}
+
+
+
 
 //______________________________________________________________________________
 S_lpsrDictionary lpsrDictionary::create (
@@ -3107,7 +3167,6 @@ void  lpsrDictionary::addLyricsToDictionaryVoice (
   int    lyricsNumber)
 {
 }
-
 
 
 }

@@ -774,197 +774,6 @@ class EXP lpsrRepeat: public lpsrElement {
 typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
 
 /*!
-\brief A lpsr lyrics chunk representation.
-
-  A lyrics chunk is represented by a type and and a string.
-  In the case of "single", the list contains only one string
-*/
-//______________________________________________________________________________
-class EXP lpsrLyricsChunk : public lpsrElement {
-  public:
-
-    // we want to end the line in the LilyPond code at a break
-    enum LyricsChunkType {
-      kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
-      kSkipChunk, kBreakChunk };
-
-    static SMARTP<lpsrLyricsChunk> create (
-        LyricsChunkType chunkType,
-        string          chunkText);
-     
-    virtual void printMusicXML      (ostream& os);
-    virtual void printLPSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  protected:
-
-    lpsrLyricsChunk (
-        LyricsChunkType chunkType,
-        string     chunkText);
-    virtual ~lpsrLyricsChunk();
-
-  private:
-  
-    LyricsChunkType fLyricsChunkType;
-    string     fChunkText;
-};
-typedef SMARTP<lpsrLyricsChunk> S_lpsrLyricsChunk;
-
-/*!
-\brief A lpsr lyrics representation.
-
-  A lyrics is represented by a list of lyrics chunks,
-*/
-//______________________________________________________________________________
-class EXP lpsrLyrics : public lpsrElement {
-  public:
-
-    static SMARTP<lpsrLyrics> create (
-        string lyricsName,
-        string voiceName);
-    
-//    string getLyricsName     () const { return fLyricsName; }
-//    string getLyricsContents () const { return fLyricsContents; }
-
-    void addChunkToLyrics (S_lpsrLyricsChunk chunk)
-            { fLyricsChunks.push_back (chunk); }
-          
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printLPSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  protected:
-
-    lpsrLyrics (
-        string lyricsName,
-        string voiceName);
-    virtual ~lpsrLyrics();
-  
-  private:
-
-    string        fLyricsName;
-    string        fVoiceName;
-    vector<S_lpsrLyricsChunk>
-                  fLyricsChunks;
-};
-typedef SMARTP<lpsrLyrics> S_lpsrLyrics;
-
-/*!
-\brief A lpsr voice representation.
-
-  A vpoce is represented by a its string contents
-*/
-//______________________________________________________________________________
-class EXP lpsrVoice : public lpsrElement {
-  public:
-
-    static SMARTP<lpsrVoice> create (
-        S_translationSettings& ts,
-        string                 voiceName);
-                          
-    void      addLyricsToVoice (int number, S_lpsrLyrics lyrics)
-                { fVoiceLyricsMap [number] = lyrics; }
-
-    map<int, S_lpsrLyrics>
-              getVoiceLyricsMap () const
-                { return fVoiceLyricsMap; }
-
-    int       getVoiceLyricsNumber () const
-                { return fVoiceLyricsMap.size(); }
-
-    string    getVoiceName () const       { return fVoiceName; }
-    bool        getAbsoluteCode () const    { return fVoiceAbsoluteCode; }
-
-    void      appendElementToVoiceSequence (S_lpsrElement elem)
-                { fVoiceSequence->appendElementToSequence(elem); }
-                
-    void      removeLastElementOfVoiceSequence ()
-                { fVoiceSequence->removeLastElementOfVoiceSequence(); }
-
-    S_lpsrSequence getVoiceSequence () const { return fVoiceSequence; }
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printLPSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  protected:
-
-    lpsrVoice (
-        S_translationSettings& ts,
-        string                 voiceName);
-    virtual ~lpsrVoice();
-  
-  private:
-
-    S_translationSettings   fTranslationSettings;
-
-    string                  fVoiceName;
-    bool                    fVoiceAbsoluteCode;
-    bool                    fGenerateNumericalTime;
-                       
-    // the implicit sequence containing the code generated for the voice
-    S_lpsrSequence    fVoiceSequence;
-  
-    // there can be lyrics associated to the voice
-    map<int, S_lpsrLyrics>  fVoiceLyricsMap;
-
-    // the implicit repeat at the beginning of the voice
-    // will be ignored if the voice has no repeats at all
-    S_lpsrRepeat            fVoiceLpsrRepeat;
-};
-typedef SMARTP<lpsrVoice> S_lpsrVoice;
-typedef map<string, S_lpsrVoice> lpsrVoicesMap;
-
-/*!
-\brief A lpsr part representation.
-
-  A part is represented by a its string contents
-*/
-//______________________________________________________________________________
-class EXP lpsrPart : public lpsrElement {
-  public:
-
-    static SMARTP<lpsrPart> create (
-        S_translationSettings& ts,
-        string                 partMusicXMLName,
-        string                 partLPSRName);
-    
-    void    addVoiceToPart (int voiceID, S_lpsrVoice voice)
-                { fPartVoicesMap [voiceID] = (voice); }
-    map<int, S_lpsrVoice>
-            getPartVoicesMap ()      { return fPartVoicesMap; }
-
-    string  getpartMusicXMLName () const { return fPartMusicXMLName; }
-    string  getPartLPSRName     () const { return fPartLPSRName; }
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printLPSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  protected:
-
-    lpsrPart (
-        S_translationSettings& ts,
-        string                 partMusicXMLName,
-        string                 partLPSRName);
-    virtual ~lpsrPart();
-  
-  private:
-
-    S_translationSettings   fTranslationSettings;
-
-    string                  fPartMusicXMLName;
-    string                  fPartLPSRName;
-    string                  fPartInstrumentName;
- 
-    // the part voices
-    map<int, S_lpsrVoice>   fPartVoicesMap;
-};
-typedef SMARTP<lpsrPart> S_lpsrPart;
-typedef map<string, S_lpsrPart> lpsrPartsMap;
-
-/*!
 \brief A lpsr barline representation.
 
   A barline is represented by the number of the next bar
@@ -1569,6 +1378,256 @@ class EXP lpsrTempoCommand : public lpsrElement {
 };
 typedef SMARTP<lpsrTempoCommand> S_lpsrTempoCommand;
 
+/*!
+\brief A lpsr lyrics chunk representation.
+
+  A lyrics chunk is represented by a type and and a string.
+  In the case of "single", the list contains only one string
+*/
+//______________________________________________________________________________
+class EXP lpsrLyricsChunk : public lpsrElement {
+  public:
+
+    // we want to end the line in the LilyPond code at a break
+    enum LyricsChunkType {
+      kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
+      kSkipChunk, kBreakChunk };
+
+    static SMARTP<lpsrLyricsChunk> create (
+        LyricsChunkType chunkType,
+        string          chunkText);
+     
+    virtual void printMusicXML      (ostream& os);
+    virtual void printLPSR          (ostream& os);
+    virtual void printLilyPondCode  (ostream& os);
+
+  protected:
+
+    lpsrLyricsChunk (
+        LyricsChunkType chunkType,
+        string     chunkText);
+    virtual ~lpsrLyricsChunk();
+
+  private:
+  
+    LyricsChunkType fLyricsChunkType;
+    string     fChunkText;
+};
+typedef SMARTP<lpsrLyricsChunk> S_lpsrLyricsChunk;
+
+/*!
+\brief A lpsr lyrics representation.
+
+  A lyrics is represented by a list of lyrics chunks,
+*/
+//______________________________________________________________________________
+class EXP lpsrLyrics : public lpsrElement {
+  public:
+
+    static SMARTP<lpsrLyrics> create (
+        string      lyricsName,
+        S_lpsrVoice lyricsVoice);
+    
+    string  getLyricsName   () const
+                { return fLyricsName; }
+    vector<S_lpsrLyricsChunk>
+            getLyricsChunks () const
+                { return fLyricsChunks; }
+
+    void    addChunkToLyrics (S_lpsrLyricsChunk chunk)
+                { fLyricsChunks.push_back (chunk); }
+          
+
+    virtual void printMusicXML      (ostream& os);
+    virtual void printLPSR          (ostream& os);
+    virtual void printLilyPondCode  (ostream& os);
+
+  protected:
+
+    lpsrLyrics (
+        string      lyricsName,
+        S_lpsrVoice lyricsVoice);
+    virtual ~lpsrLyrics();
+  
+  private:
+
+    string                    fLyricsName;
+    S_lpsrVoice               fLyricsVoice;
+    vector<S_lpsrLyricsChunk> fLyricsChunks;
+};
+typedef SMARTP<lpsrLyrics> S_lpsrLyrics;
+
+/*!
+\brief A lpsr voice representation.
+
+  A vpoce is represented by a its string contents
+*/
+//______________________________________________________________________________
+class EXP lpsrVoice : public lpsrElement {
+  public:
+
+    static SMARTP<lpsrVoice> create (
+        S_translationSettings& ts,
+        string                 voiceName);
+                          
+    void      addLyricsToVoice (
+                int number, S_lpsrLyrics lyrics)
+                  { fVoiceLyricsMap [number] = lyrics; }
+
+    map<int, S_lpsrLyrics>
+              getVoiceLyricsMap () const
+                  { return fVoiceLyricsMap; }
+
+    int       getVoiceLyricsNumber () const
+                  { return fVoiceLyricsMap.size(); }
+
+    string    getVoiceName () const
+                  { return fVoiceName; }
+    bool      getAbsoluteCode () const
+                  { return fVoiceAbsoluteCode; }
+
+    void      appendElementToVoiceSequence (S_lpsrElement elem)
+                  { fVoiceSequence->appendElementToSequence(elem); }
+                
+    void      removeLastElementOfVoiceSequence ()
+                  { fVoiceSequence->removeLastElementOfVoiceSequence(); }
+
+    S_lpsrSequence getVoiceSequence () const
+                  { return fVoiceSequence; }
+
+    virtual void printMusicXML      (ostream& os);
+    virtual void printLPSR          (ostream& os);
+    virtual void printLilyPondCode  (ostream& os);
+
+  protected:
+
+    lpsrVoice (
+        S_translationSettings& ts,
+        string                 voiceName);
+    virtual ~lpsrVoice();
+  
+  private:
+
+    S_translationSettings   fTranslationSettings;
+
+    string                  fVoiceName;
+                       
+    // the implicit sequence containing the code generated for the voice
+    S_lpsrSequence          fVoiceSequence;
+  
+    // there can be lyrics associated to the voice
+    map<int, S_lpsrLyrics>  fVoiceLyricsMap;
+
+    // the implicit repeat at the beginning of the voice
+    // will be ignored if the voice has no repeats at all
+    S_lpsrRepeat            fVoiceLpsrRepeat;
+};
+typedef SMARTP<lpsrVoice> S_lpsrVoice;
+typedef map<string, S_lpsrVoice> lpsrVoicesMap;
+
+/*!
+\brief A lpsr staff representation.
+
+  A staff is represented by a its string contents
+*/
+
+/*
+Staff assignment is only needed for music notated on multiple staves. Used by both notes and directions. Staff values are numbers, with 1 referring to the top-most staff in a part.
+*/
+//______________________________________________________________________________
+class EXP lpsrStaff : public lpsrElement {
+  public:
+
+    static SMARTP<lpsrStaff> create (
+        S_translationSettings& ts,
+        string                 partMusicXMLName,
+        string                 partLPSRName);
+    
+    void    addVoiceToStaff (int voiceID, S_lpsrVoice voice)
+                { fStaffVoicesMap [voiceID] = (voice); }
+    map<int, S_lpsrVoice> getStaffVoicesMap ()
+                { return fStaffVoicesMap; }
+
+    string  getStaffMusicXMLName () const
+                { return fStaffMusicXMLName; }
+    string  getStaffLPSRName     () const
+                { return fStaffLPSRName; }
+
+    virtual void printMusicXML      (ostream& os);
+    virtual void printLPSR          (ostream& os);
+    virtual void printLilyPondCode  (ostream& os);
+
+  protected:
+
+    lpsrStaff (
+        S_translationSettings& ts,
+        string                 partMusicXMLName,
+        string                 partLPSRName);
+    virtual ~lpsrStaff();
+  
+  private:
+
+    S_translationSettings   fTranslationSettings;
+
+    string                  fStaffMusicXMLName;
+    string                  fStaffLPSRName;
+    string                  fStaffInstrumentName;
+ 
+    // the staff voices
+    map<int, S_lpsrVoice>   fStaffVoicesMap;
+};
+typedef SMARTP<lpsrStaff> S_lpsrStaff;
+typedef map<string, S_lpsrStaff> lpsrStaffsMap;
+
+/*!
+\brief A lpsr part representation.
+
+  A part is represented by a its string contents
+*/
+//______________________________________________________________________________
+class EXP lpsrPart : public lpsrElement {
+  public:
+
+    static SMARTP<lpsrPart> create (
+        S_translationSettings& ts,
+        string                 partMusicXMLName,
+        string                 partLPSRName);
+    
+    void    addVoiceToPart (int voiceID, S_lpsrVoice voice)
+                { fPartStavesMap [voiceID] = (voice); }
+    map<int, S_lpsrVoice> getPartStavesMap ()
+                { return fPartStavesMap; }
+
+    string  getpartMusicXMLName () const
+                { return fPartMusicXMLName; }
+    string  getPartLPSRName     () const
+                { return fPartLPSRName; }
+
+    virtual void printMusicXML      (ostream& os);
+    virtual void printLPSR          (ostream& os);
+    virtual void printLilyPondCode  (ostream& os);
+
+  protected:
+
+    lpsrPart (
+        S_translationSettings& ts,
+        string                 partMusicXMLName,
+        string                 partLPSRName);
+    virtual ~lpsrPart();
+  
+  private:
+
+    S_translationSettings   fTranslationSettings;
+
+    string                  fPartMusicXMLName;
+    string                  fPartLPSRName;
+    string                  fPartInstrumentName;
+ 
+    // the part voices
+    map<int, S_lpsrVoice>   fPartStavesMap;
+};
+typedef SMARTP<lpsrPart> S_lpsrPart;
+typedef map<string, S_lpsrPart> lpsrPartsMap;
 
 /*!
 \brief A lpsr dictionary representation.
@@ -1580,26 +1639,25 @@ class EXP lpsrDictionary : public lpsrElement {
   public:
 
     static SMARTP<lpsrDictionary> create (
-                      S_translationSettings& ts);
+                S_translationSettings& ts);
     
-    void          addPartToDictionary (string partMusicXMLName);
+    void        addPartToDictionary (
+                    string partMusicXMLName);
                       
-    void          addVoiceToDictionaryPart (
-                      string partMusicXMLName, int voiceNumber);
+    void        addStaffToDictionary (
+                    string partMusicXMLName,
+                    int    staffNumber);
 
-    void          addLyricsToDictionaryVoice (
-                      string partMusicXMLName,
-                      int    voiceNumber,
-                      int    lyricsNumber);
+    void        addVoiceToDictionary (
+                    string partMusicXMLName,
+                    int    staffNumber,
+                    int    voiceNumber);
 
-    /*
-    map<int, S_lpsrVoice>
-                  getDictionaryVoicesMap ()      { return fDictionaryVoicesMap; }
-
-    string        getDictionaryID () const       { return fDictionaryID; }
-    string        getDictionaryName () const     { return fDictionaryName; }
-    bool          getAbsoluteCode () const { return fDictionaryAbsoluteCode; }
-*/
+    void        addLyricsToDictionary (
+                    string partMusicXMLName,
+                    int    staffNumber,
+                    int    voiceNumber,
+                    int    lyricsNumber);
 
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
@@ -1616,10 +1674,6 @@ class EXP lpsrDictionary : public lpsrElement {
     S_translationSettings   fTranslationSettings;
 
     map<string, S_lpsrPart> fDictionaryPartsMap;
-    
-    // the dictionary voices
-    map<int, S_lpsrVoice>
-                       fDictionaryVoicesMap;
 };
 typedef SMARTP<lpsrDictionary> S_lpsrDictionary;
 

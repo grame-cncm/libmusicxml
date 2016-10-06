@@ -252,12 +252,12 @@ int main(int argc, char *argv[])
   
   xmlErr err = kNoErr;
   
-  if (!strcmp(file, "-"))
+  if (!strcmp (file, "-"))
     err = musicxmlFd2Lpsr (stdin, ts, cout);
   else
     err = musicxmlFile2Lpsr (file, ts, cout);
   if (err) {
-    cout << "conversion failed" << endl;
+    cout << "### Conversion from MusicCML to LilyPond failed ###" << endl;
   }
   
   return 0;
