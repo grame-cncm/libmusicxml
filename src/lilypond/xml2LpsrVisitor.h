@@ -138,6 +138,8 @@ class EXP xml2LpsrVisitor :
   
     // the translation Settings
     S_translationSettings fTranslationSettings;
+
+    S_lpsrDictionary      fDictionary;
     
     // the implicit sequence containing all the generated code
     S_lpsrSequence   fImplicitSequence; 

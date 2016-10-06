@@ -860,9 +860,8 @@ class EXP lpsrVoice : public lpsrElement {
   public:
 
     static SMARTP<lpsrVoice> create (
-        string name,
-        bool   absoluteCode,
-        bool   generateNumericalTime);
+        S_translationSettings& ts,
+        string                 voiceName);
                           
     void      addLyricsToVoice (int number, S_lpsrLyrics lyrics)
                 { fVoiceLyricsMap [number] = lyrics; }
@@ -892,27 +891,27 @@ class EXP lpsrVoice : public lpsrElement {
   protected:
 
     lpsrVoice (
-        string name,
-        bool   absoluteCode,
-        bool   generateNumericalTime);
+        S_translationSettings& ts,
+        string                 voiceName);
     virtual ~lpsrVoice();
   
   private:
 
-    string            fVoiceName;
-    bool              fVoiceAbsoluteCode;
-    bool              fGenerateNumericalTime;
+    S_translationSettings   fTranslationSettings;
+
+    string                  fVoiceName;
+    bool                    fVoiceAbsoluteCode;
+    bool                    fGenerateNumericalTime;
                        
     // the implicit sequence containing the code generated for the voice
     S_lpsrSequence    fVoiceSequence;
   
     // there can be lyrics associated to the voice
-    map<int, S_lpsrLyrics>
-                      fVoiceLyricsMap;
+    map<int, S_lpsrLyrics>  fVoiceLyricsMap;
 
     // the implicit repeat at the beginning of the voice
     // will be ignored if the voice has no repeats at all
-    S_lpsrRepeat      fVoiceLpsrRepeat;
+    S_lpsrRepeat            fVoiceLpsrRepeat;
 };
 typedef SMARTP<lpsrVoice> S_lpsrVoice;
 typedef map<string, S_lpsrVoice> lpsrVoicesMap;
@@ -927,20 +926,17 @@ class EXP lpsrPart : public lpsrElement {
   public:
 
     static SMARTP<lpsrPart> create (
-                    string partID,
-                    string partName,
-                    string partInstrumentName,
-                    bool   absoluteCode,
-                    bool   generateNumericalTime);
+        S_translationSettings& ts,
+        string                 partMusicXMLName,
+        string                 partLPSRName);
     
-    void          addVoiceToPart (int voiceID, S_lpsrVoice voice)
-                      { fPartVoicesMap [voiceID] = (voice); }
+    void    addVoiceToPart (int voiceID, S_lpsrVoice voice)
+                { fPartVoicesMap [voiceID] = (voice); }
     map<int, S_lpsrVoice>
-                  getPartVoicesMap ()      { return fPartVoicesMap; }
+            getPartVoicesMap ()      { return fPartVoicesMap; }
 
-    string        getPartID () const       { return fPartID; }
-    string        getPartName () const     { return fPartName; }
-    bool          getAbsoluteCode () const { return fPartAbsoluteCode; }
+    string  getpartMusicXMLName () const { return fPartMusicXMLName; }
+    string  getPartLPSRName     () const { return fPartLPSRName; }
 
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
@@ -949,24 +945,21 @@ class EXP lpsrPart : public lpsrElement {
   protected:
 
     lpsrPart (
-        string partID,
-        string partName,
-        string partInstrumentName,
-        bool   absoluteCode,
-        bool   generateNumericalTim);
+        S_translationSettings& ts,
+        string                 partMusicXMLName,
+        string                 partLPSRName);
     virtual ~lpsrPart();
   
   private:
 
-    string             fPartID;
-    string             fPartName;
-    string             fPartInstrumentName;
-    bool               fPartAbsoluteCode;
-    bool               fGenerateNumericalTime;
+    S_translationSettings   fTranslationSettings;
 
+    string                  fPartMusicXMLName;
+    string                  fPartLPSRName;
+    string                  fPartInstrumentName;
+ 
     // the part voices
-    map<int, S_lpsrVoice>
-                       fPartVoicesMap;
+    map<int, S_lpsrVoice>   fPartVoicesMap;
 };
 typedef SMARTP<lpsrPart> S_lpsrPart;
 typedef map<string, S_lpsrPart> lpsrPartsMap;
@@ -1575,6 +1568,60 @@ class EXP lpsrTempoCommand : public lpsrElement {
     int  fPerMinute;
 };
 typedef SMARTP<lpsrTempoCommand> S_lpsrTempoCommand;
+
+
+/*!
+\brief A lpsr dictionary representation.
+
+  A dictionary is represented by a its string contents
+*/
+//______________________________________________________________________________
+class EXP lpsrDictionary : public lpsrElement {
+  public:
+
+    static SMARTP<lpsrDictionary> create (
+                      S_translationSettings& ts);
+    
+    void          addPartToDictionary (string partMusicXMLName);
+                      
+    void          addVoiceToDictionaryPart (
+                      string partMusicXMLName, int voiceNumber);
+
+    void          addLyricsToDictionaryVoice (
+                      string partMusicXMLName,
+                      int    voiceNumber,
+                      int    lyricsNumber);
+
+    /*
+    map<int, S_lpsrVoice>
+                  getDictionaryVoicesMap ()      { return fDictionaryVoicesMap; }
+
+    string        getDictionaryID () const       { return fDictionaryID; }
+    string        getDictionaryName () const     { return fDictionaryName; }
+    bool          getAbsoluteCode () const { return fDictionaryAbsoluteCode; }
+*/
+
+    virtual void printMusicXML      (ostream& os);
+    virtual void printLPSR          (ostream& os);
+    virtual void printLilyPondCode  (ostream& os);
+
+  protected:
+
+    lpsrDictionary (
+        S_translationSettings& ts);
+    virtual ~lpsrDictionary();
+  
+  private:
+
+    S_translationSettings   fTranslationSettings;
+
+    map<string, S_lpsrPart> fDictionaryPartsMap;
+    
+    // the dictionary voices
+    map<int, S_lpsrVoice>
+                       fDictionaryVoicesMap;
+};
+typedef SMARTP<lpsrDictionary> S_lpsrDictionary;
 
 
 /*! @} */

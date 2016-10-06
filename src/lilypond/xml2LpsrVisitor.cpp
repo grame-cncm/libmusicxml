@@ -27,7 +27,7 @@
 
 #include "lpsrUtilities.h"
 #include "xml2LpsrVisitor.h"
-#include "xmlPartSummaryVisitor.h"
+#include "xml2LpsrDictionaryVisitor.h"
 #include "xmlPart2LpsrVisitor.h"
 
 using namespace std;
@@ -36,10 +36,15 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-xml2LpsrVisitor::xml2LpsrVisitor( S_translationSettings& ts )
+xml2LpsrVisitor::xml2LpsrVisitor (
+  S_translationSettings& ts,
+  S_lpsrDictionary       dictionary;
+)
 {
   fTranslationSettings = ts;
-  
+
+  fDictionary = dictionary;
+
   fMillimeters     = -1;
   fGlobalStaffSize = -1.0;
   fTenths          = -1;

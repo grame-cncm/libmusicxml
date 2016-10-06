@@ -274,7 +274,7 @@ string lpsrDuration::durationAsLilypondString ()
     
     div_t divresult = div (noteDivisions, divisionsPerWholeNote);  
     int   div = divresult.quot;
-    int   mod = divresult.rem;
+//    int   mod = divresult.rem; not yet used JMI
         
     switch (div) {
       case 8:
@@ -657,7 +657,7 @@ lpsrNote::lpsrNote (
       fMusicXMLNoteData.fTupletMemberType);
 //  cout << "fNoteLpsrDuration = " << fNoteLpsrDuration << endl;
     
-  // diatonic note
+  // diatonic note JMI forelative code
   lpsrNote::MusicXMLDiatonicPitch diatonicNote =
     lpsrNote::k_NoDiatonicPitch;
 }
@@ -1694,26 +1694,24 @@ void lpsrNewlyricsCommand::printLilyPondCode (ostream& os)
 */
 
 //______________________________________________________________________________
-S_lpsrVoice lpsrVoice::create(
-  string name,
-  bool   absoluteCode,
-  bool   generateNumericalTime)
+S_lpsrVoice lpsrVoice::create (
+  S_translationSettings& ts,
+  string                 voiceName)
 {
   lpsrVoice* o =
-    new lpsrVoice (name, absoluteCode, generateNumericalTime);
+    new lpsrVoice (ts, voiceName);
   assert(o!=0);
   return o;
 }
 
-lpsrVoice::lpsrVoice(
-  string name,
-  bool   absoluteCode,
-  bool   generateNumericalTime)
+lpsrVoice::lpsrVoice (
+  S_translationSettings& ts,
+  string                 voiceName)
     : lpsrElement("")
 {
-  fVoiceName = name;
-  fVoiceAbsoluteCode = absoluteCode;
-  fGenerateNumericalTime = generateNumericalTime;
+  fTranslationSettings = ts;
+
+  fVoiceName = voiceName;
   
   // create the implicit lpsrSequence element
   fVoiceSequence = lpsrSequence::create (lpsrSequence::kSpace);
@@ -1726,7 +1724,6 @@ lpsrVoice::lpsrVoice(
   S_lpsrTime time = lpsrTime::create (4, 4, fGenerateNumericalTime);
   S_lpsrElement t = time;
   fVoiceSequence->appendElementToSequence (t);
-
 }
 lpsrVoice::~lpsrVoice() {}
 
@@ -1759,36 +1756,28 @@ void lpsrVoice::printLilyPondCode(ostream& os)
 
 //______________________________________________________________________________
 S_lpsrPart lpsrPart::create (
-  string partID,
-  string partName,
-  string partInstrumentName,
-  bool   absoluteCode,
-  bool   generateNumericalTime)
+    S_translationSettings& ts,
+    string                 partMusicXMLName,
+    string                 partLPSRName)
 {
   lpsrPart* o =
-    new lpsrPart(
-      partID,
-      partName,
-      partName,
-      absoluteCode,
-      generateNumericalTime);
+    new lpsrPart( ts, partMusicXMLName, partLPSRName);
   assert(o!=0);
   return o;
 }
 
 lpsrPart::lpsrPart (
-  string partID,
-  string partName,
-  string partInstrumentName,
-  bool   absoluteCode,
-  bool   generateNumericalTime)
+  S_translationSettings& ts,
+  string                 partMusicXMLName,
+  string                 partLPSRName)
     : lpsrElement("")
 {
-  fPartID = partID;
-  fPartName = partName;
-  fPartInstrumentName = partInstrumentName;
-  fPartAbsoluteCode = absoluteCode;
-  fGenerateNumericalTime = generateNumericalTime;
+  fTranslationSettings = ts;
+  
+  fPartMusicXMLName = partMusicXMLName;
+  fPartLPSRName = partLPSRName;
+
+  fPartInstrumentName = "partInstrumentName???";
 }
 lpsrPart::~lpsrPart() {}
 
@@ -1800,7 +1789,7 @@ void lpsrPart::printMusicXML(ostream& os)
 void lpsrPart::printLPSR(ostream& os)
 {
   os <<
-    "Part" << " " << fPartName << " " <<
+    "Part" << " " << fPartMusicXMLName << " " <<
     fPartInstrumentName << endl;
 
   idtr++;
@@ -1811,9 +1800,9 @@ void lpsrPart::printLPSR(ostream& os)
 void lpsrPart::printLilyPondCode(ostream& os)
 {
   os <<
-    "Part" << " " << fPartName << " " <<
+    "Part" << " " << fPartLPSRName << " " <<
     fPartInstrumentName << endl;
-  if (! fPartAbsoluteCode) os << "\\relative ";
+  if (! fTranslationSettings->fGenerateAbsoluteCode) os << "\\relative "; // JMI
   os << "{" << endl;
 
   idtr++;
@@ -3044,6 +3033,81 @@ void lpsrContext::printLilyPondCode(ostream& os)
   
   os << idtr << "}" << endl;
 }
+
+
+//______________________________________________________________________________
+S_lpsrDictionary lpsrDictionary::create (
+  S_translationSettings& ts)
+{
+  lpsrDictionary* o = new lpsrDictionary (ts);
+  assert(o!=0);
+  return o;
+}
+
+lpsrDictionary::lpsrDictionary (
+  S_translationSettings& ts)
+    : lpsrElement("")
+{
+  fTranslationSettings = ts;
+}
+lpsrDictionary::~lpsrDictionary() {}
+
+void lpsrDictionary::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrDictionary??? -->" << endl;
+}
+
+void lpsrDictionary::printLPSR(ostream& os)
+{
+  os << "Dictionary" << endl;
+
+  idtr++;
+// JMI  os << idtr << fDictionaryLpsrSequence;
+  idtr--;
+}
+
+void lpsrDictionary::printLilyPondCode(ostream& os)
+{
+  os << "Dictionary" << endl;
+}
+
+void lpsrDictionary::addPartToDictionary (string partMusicXMLName)
+{
+  if (fDictionaryPartsMap.count (partMusicXMLName))
+    cerr <<
+      "### Internal error: partMusicXMLName " << partMusicXMLName <<
+      "already exists in this dictionary" << endl;
+
+  // coin the part LPSR name
+  string
+    partLPSRName =
+      "Part" + stringNumbersToEnglishWords (partMusicXMLName);
+  
+  // create the part
+  if (fTranslationSettings->fTrace)
+    cerr << "Creating part \"" << partMusicXMLName << "\" (" <<
+    partMusicXMLName << ")" << endl;
+  
+  S_lpsrPart
+    part =
+      lpsrPart::create (
+        fTranslationSettings, partMusicXMLName, partLPSRName);
+
+   fDictionaryPartsMap [partMusicXMLName] = part;
+}
+  
+void lpsrDictionary::addVoiceToDictionaryPart (
+  string partMusicXMLName, int voiceNumber)
+{
+}
+
+void  lpsrDictionary::addLyricsToDictionaryVoice (
+  string partMusicXMLName,
+  int    voiceNumber,
+  int    lyricsNumber)
+{
+}
+
 
 
 }
