@@ -1645,9 +1645,12 @@ class EXP lpsrPart : public lpsrElement {
     string  getPartLPSRName     () const
                 { return fPartLPSRName; }
 
-    void    addStaffToPart (
-              int staffNumber, S_lpsrStaff staff)
-                { fPartStavesMap [staffNumber] = staff; }
+    S_lpsrStaff
+            addStaffToPart (
+                int staffNumber);
+
+    void    setPartInstrumentName (string partInstrumentName)
+                { fPartInstrumentName = partInstrumentName; }
                 
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
@@ -1686,7 +1689,8 @@ class EXP lpsrDictionary : public lpsrElement {
     static SMARTP<lpsrDictionary> create (
             S_translationSettings& ts);
     
-    void    addPartToDictionary (
+    S_lpsrPart
+            addPartToDictionary (
                 string partMusicXMLName);
                       
     void    addStaffToDictionary (

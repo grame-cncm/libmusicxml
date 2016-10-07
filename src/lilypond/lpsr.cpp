@@ -3121,7 +3121,8 @@ void lpsrPart::printLPSR(ostream& os)
 {
   os <<
     "Part" << " \"" << fPartMusicXMLName << "\"" <<
-    " (" << fPartLPSRName << ")" << endl;
+    " (" << fPartLPSRName << ") " <<
+    "\"" << fPartInstrumentName << "\"" << endl;
 
   idtr++;
   
@@ -3139,7 +3140,8 @@ void lpsrPart::printLilyPondCode(ostream& os)
 {
   os <<
     "Part" << " " << fPartLPSRName << " " <<
-    fPartInstrumentName << endl;
+    " (" << fPartLPSRName << ")" << endl <<
+    "\"" << fPartInstrumentName << "\"" << endl;
   if (! fTranslationSettings->fGenerateAbsoluteCode) os << "\\relative "; // JMI
   os << "{" << endl;
 
@@ -3148,6 +3150,32 @@ void lpsrPart::printLilyPondCode(ostream& os)
   idtr--;
 
   os << idtr << "}" << endl;
+}
+
+S_lpsrStaff lpsrPart::addStaffToPart (
+  int staffNumber)
+{
+  if (fPartStavesMap.count (staffNumber)) {
+    cerr <<
+      "### Internal error: staffNumber " << staffNumber <<
+      " already exists in part " << " " << fPartLPSRName << " " <<
+      " (" << fPartLPSRName << ")" << endl;
+
+    return fPartStavesMap [staffNumber];
+  }
+
+  // create the staff
+  S_lpsrStaff
+    staff =
+      lpsrStaff::create (
+        fTranslationSettings,
+        staffNumber,
+        fPartStavesMap [staffNumber]);
+
+  // register it in this part
+  fPartStavesMap [staffNumber] = staff;
+
+  return staff;
 }
 
 //______________________________________________________________________________
@@ -3199,12 +3227,15 @@ void lpsrDictionary::printLilyPondCode (ostream& os)
   printLPSR (os);
 }
 
-void lpsrDictionary::addPartToDictionary (string partMusicXMLName)
+S_lpsrPart lpsrDictionary::addPartToDictionary (string partMusicXMLName)
 {
-  if (fDictionaryPartsMap.count (partMusicXMLName))
+  if (fDictionaryPartsMap.count (partMusicXMLName)) {
     cerr <<
       "### Internal error: partMusicXMLName " << partMusicXMLName <<
-      "already exists in this dictionary" << endl;
+      " already exists in this dictionary" << endl;
+
+    return fDictionaryPartsMap [partMusicXMLName];
+  }
 
   // create the part
   S_lpsrPart
@@ -3212,7 +3243,10 @@ void lpsrDictionary::addPartToDictionary (string partMusicXMLName)
       lpsrPart::create (
         fTranslationSettings, partMusicXMLName);
 
+  // register it in this dictionary
    fDictionaryPartsMap [partMusicXMLName] = part;
+
+   return part;
 }
   
 void lpsrDictionary::addStaffToDictionary (
