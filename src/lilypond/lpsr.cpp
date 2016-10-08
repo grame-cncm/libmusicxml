@@ -2471,65 +2471,6 @@ void lpsrMidi::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrScore lpsrScore::create()
-{
-  lpsrScore* o = new lpsrScore(); assert(o!=0);
-  return o;
-}
-
-lpsrScore::lpsrScore()
-  : lpsrElement("")
-{
-  // create the parallel music element
-  fScoreParallelMusic = lpsrParallelMusic::create(lpsrParallelMusic::kEndOfLine);
-  
-  // create the layout element
-  fScoreLayout = lpsrLayout::create();
-  
-  // create the midi element
-  fScoreMidi = lpsrMidi::create();
-}
-lpsrScore::~lpsrScore() {}
-
-ostream& operator<< (ostream& os, const S_lpsrScore& scr)
-{
-  scr->print(os);
-  return os;
-}
-
-void lpsrScore::printMusicXML(ostream& os)
-{
-  os << "<!-- lpsrScore??? -->" << endl;
-}
-
-void lpsrScore::printLPSR(ostream& os)
-{
-  os << "Score" << endl;
-
-  idtr++;
-
-  os << idtr << fScoreParallelMusic;
-  os << idtr << fScoreLayout;
-  os << idtr << fScoreMidi;
-
-  idtr--;
-}
-
-void lpsrScore::printLilyPondCode(ostream& os) {  
-  os << "\\score {" << endl;
-
-  idtr++;
-
-  os << fScoreParallelMusic << endl;
-  os << fScoreLayout << endl;
-  os << fScoreMidi;
-
-  idtr--;
-
-  os << "}" << endl;
-}
-
-//______________________________________________________________________________
 S_lpsrNewstaffCommand lpsrNewstaffCommand::create()
 {
   lpsrNewstaffCommand* o = new lpsrNewstaffCommand(); assert(o!=0);
@@ -3272,6 +3213,65 @@ void lpsrDictionary::addLyricsToDictionary (
   int    voiceNumber,
   int    lyricsNumber)
 {
+}
+
+//______________________________________________________________________________
+S_lpsrScore lpsrScore::create()
+{
+  lpsrScore* o = new lpsrScore(); assert(o!=0);
+  return o;
+}
+
+lpsrScore::lpsrScore()
+  : lpsrElement("")
+{
+  // create the parallel music element
+  fScoreParallelMusic = lpsrParallelMusic::create(lpsrParallelMusic::kEndOfLine);
+  
+  // create the layout element
+  fScoreLayout = lpsrLayout::create();
+  
+  // create the midi element
+  fScoreMidi = lpsrMidi::create();
+}
+lpsrScore::~lpsrScore() {}
+
+ostream& operator<< (ostream& os, const S_lpsrScore& scr)
+{
+  scr->print(os);
+  return os;
+}
+
+void lpsrScore::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrScore??? -->" << endl;
+}
+
+void lpsrScore::printLPSR(ostream& os)
+{
+  os << "Score" << endl;
+
+  idtr++;
+
+  os << idtr << fScoreParallelMusic;
+  os << idtr << fScoreLayout;
+  os << idtr << fScoreMidi;
+
+  idtr--;
+}
+
+void lpsrScore::printLilyPondCode(ostream& os) {  
+  os << "\\score {" << endl;
+
+  idtr++;
+
+  os << fScoreParallelMusic << endl;
+  os << fScoreLayout << endl;
+  os << fScoreMidi;
+
+  idtr--;
+
+  os << "}" << endl;
 }
 
 

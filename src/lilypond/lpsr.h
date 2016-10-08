@@ -1162,38 +1162,6 @@ class EXP lpsrMidi : public lpsrElement {
 typedef SMARTP<lpsrMidi> S_lpsrMidi;
 
 /*!
-\brief A lpsr score representation.
-
-  A score is represented by parallel music, score layout and midi
-*/
-//______________________________________________________________________________
-class EXP lpsrScore : public lpsrElement {
-  public:
-
-    static SMARTP<lpsrScore> create();
-     
-    S_lpsrParallelMusic getScoreParallelMusic () const { return fScoreParallelMusic; }
-    S_lpsrLayout   getScoreLayout        () const { return fScoreLayout; }
-    S_lpsrMidi     getScoreMidi          () const { return fScoreMidi; }
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printLPSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  protected:
-
-    lpsrScore();
-    virtual ~lpsrScore();
-  
-  private:
-  
-    S_lpsrParallelMusic fScoreParallelMusic;
-    S_lpsrLayout   fScoreLayout;
-    S_lpsrMidi     fScoreMidi;    
-};
-typedef SMARTP<lpsrScore> S_lpsrScore;
-
-/*!
 \brief A lpsr new staff representation.
 
   A new staff is represented by a vactor of elements
@@ -1733,6 +1701,38 @@ class EXP lpsrDictionary : public lpsrElement {
     map<string, S_lpsrPart> fDictionaryPartsMap;
 };
 typedef SMARTP<lpsrDictionary> S_lpsrDictionary;
+
+/*!
+\brief A lpsr score representation.
+
+  A score is represented by parallel music, score layout and midi
+*/
+//______________________________________________________________________________
+class EXP lpsrScore : public lpsrElement {
+  public:
+
+    static SMARTP<lpsrScore> create();
+     
+    S_lpsrParallelMusic getScoreParallelMusic () const { return fScoreParallelMusic; }
+    S_lpsrLayout   getScoreLayout        () const { return fScoreLayout; }
+    S_lpsrMidi     getScoreMidi          () const { return fScoreMidi; }
+
+    virtual void printMusicXML      (ostream& os);
+    virtual void printLPSR          (ostream& os);
+    virtual void printLilyPondCode  (ostream& os);
+
+  protected:
+
+    lpsrScore();
+    virtual ~lpsrScore();
+  
+  private:
+  
+    S_lpsrParallelMusic fScoreParallelMusic;
+    S_lpsrLayout   fScoreLayout;
+    S_lpsrMidi     fScoreMidi;    
+};
+typedef SMARTP<lpsrScore> S_lpsrScore;
 
 
 /*! @} */
