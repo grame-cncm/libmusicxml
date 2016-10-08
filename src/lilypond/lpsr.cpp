@@ -3104,6 +3104,7 @@ lpsrPart::lpsrPart (
   
   fPartInstrumentName = "partInstrumentName???";
 }
+
 lpsrPart::~lpsrPart() {}
 
 ostream& operator<< (ostream& os, const S_lpsrPart& elt)
@@ -3121,11 +3122,15 @@ void lpsrPart::printLPSR(ostream& os)
 {
   os <<
     "Part" << " \"" << fPartMusicXMLName << "\"" <<
-    " (" << fPartLPSRName << ") " <<
-    "\"" << fPartInstrumentName << "\"" << endl;
-
+    " (" << fPartLPSRName << ") " << endl;
+    
   idtr++;
   
+  os <<
+    idtr << "PartName          : \"" << fPartName << "\"" << endl <<
+    idtr << "PartAbbrevation   : \"" << fPartAbbreviation << "\"" << endl  <<
+    idtr << "PartInstrumentName: \"" << fPartInstrumentName << "\"" << endl;
+
   for (
     map<int, S_lpsrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -3170,7 +3175,7 @@ S_lpsrStaff lpsrPart::addStaffToPart (
       lpsrStaff::create (
         fTranslationSettings,
         staffNumber,
-        fPartStavesMap [staffNumber]);
+        this);
 
   // register it in this part
   fPartStavesMap [staffNumber] = staff;

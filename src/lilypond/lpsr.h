@@ -1649,6 +1649,12 @@ class EXP lpsrPart : public lpsrElement {
             addStaffToPart (
                 int staffNumber);
 
+    void    setPartName (string partName)
+                { fPartName = partName; }
+                
+    void    setPartAbbreviation (string partAbbreviation)
+                { fPartAbbreviation = partAbbreviation; }
+                
     void    setPartInstrumentName (string partInstrumentName)
                 { fPartInstrumentName = partInstrumentName; }
                 
@@ -1671,7 +1677,9 @@ class EXP lpsrPart : public lpsrElement {
     map<int, S_lpsrStaff>   fPartStavesMap;
 
     string                  fPartLPSRName; // computed in constructor
-    
+
+    string                  fPartName;
+    string                  fPartAbbreviation;
     string                  fPartInstrumentName;
 };
 typedef SMARTP<lpsrPart> S_lpsrPart;
