@@ -2967,8 +2967,6 @@ lpsrStaff::lpsrStaff (
   // coin the staff LPSR name
   fStaffName =
     fStaffPart->getPartLPSRName()+"_Staff"+int2EnglishWord (fStaffNumber);
-
-  fStaffInstrumentName = "staffInstrumentName???";
 }
 lpsrStaff::~lpsrStaff() {}
 
@@ -3042,8 +3040,6 @@ lpsrPart::lpsrPart (
     cerr <<
       "Creating part \"" << partMusicXMLName << "\"" <<
       " (" << fPartLPSRName << ")" << endl;
-  
-  fPartInstrumentName = "partInstrumentName???";
 }
 
 lpsrPart::~lpsrPart() {}
@@ -3146,9 +3142,6 @@ lpsrPartGroup::lpsrPartGroup (
   if (fTranslationSettings->fTrace)
     cerr <<
       "Creating part group " << fPartGroupNumber << endl;
-  
-  fPartGroupName = "partGroupName???";
-  fPartGroupAbbreviation = "partGroupAbbreviation???";
 }
 
 lpsrPartGroup::~lpsrPartGroup() {}
@@ -3197,19 +3190,17 @@ void lpsrPartGroup::printLPSR(ostream& os)
     
   idtr++;
 
-  /*
   os <<
     idtr << "PartGroupName          : \"" << fPartGroupName << "\"" << endl <<
-    idtr << "PartGroupAbbrevation   : \"" << fPartGroupAbbreviation << "\"" << endl  <<
-    idtr << "PartGroupInstrumentName: \"" << fPartGroupInstrumentName << "\"" << endl;
+    idtr << "PartGroupAbbrevation   : \"" << fPartGroupAbbreviation << "\"" << endl; //  <<
+ // JMI   idtr << "PartGroupInstrumentName: \"" << fPartGroupInstrumentName << "\"" << endl;
 
   for (
-    map<int, S_lpsrStaff>::iterator i = fPartGroupStavesMap.begin();
-    i != fPartGroupStavesMap.end();
+    lpsrPartsMap::iterator i = fPartGroupPartsMap.begin();
+    i != fPartGroupPartsMap.end();
     i++) {
     os << idtr << (*i).second;
   } // for
-  */
   
   idtr--;
 }
