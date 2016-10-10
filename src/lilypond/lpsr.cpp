@@ -3127,43 +3127,28 @@ S_lpsrStaff lpsrPart::addStaffToPart (
 //______________________________________________________________________________
 S_lpsrPartGroup lpsrPartGroup::create (
   S_translationSettings& ts,
-  int                    partGroupNumber,
-  string                 partGroupType,
-  string                 partGroupSymbol,
-  string                 partGroupBarline)
+  int                    partGroupNumber)
 {
-  lpsrPartGroup* o = new lpsrPartGroup( ts, partGroupMusicXMLName);
+  lpsrPartGroup* o = new lpsrPartGroup( ts, partGroupNumber);
   assert(o!=0);
   return o;
 }
 
 lpsrPartGroup::lpsrPartGroup (
   S_translationSettings& ts,
-  int                    partGroupNumber,
-  string                 partGroupType,
-  string                 partGroupSymbol,
-  string                 partGroupBarline)
+  int                    partGroupNumber)
     : lpsrElement("")
 {
   fTranslationSettings = ts;
 
   fPartGroupNumber = partGroupNumber;
-  fPartGroupType = partGroupType;
-  fPartGroupSymbol = partGroupSymbol;
-  fPartGroupBarline = partGroupBarline;
   
-  fPartMusicXMLName = partGroupMusicXMLName;
-
-  // coin the part group LPSR name
-  fPartLPSRName =
-    "PartGroup"+stringNumbersToEnglishWords (fPartMusicXMLName);
-    
   if (fTranslationSettings->fTrace)
     cerr <<
-      "Creating part group \"" << partGroupMusicXMLName << "\"" <<
-      " (" << fPartLPSRName << ")" << endl;
+      "Creating part group " << fPartGroupNumber << endl;
   
-  fPartInstrumentName = "partGroupInstrumentName???";
+  fPartGroupName = "partGroupName???";
+  fPartGroupAbbreviation = "partGroupAbbreviation???";
 }
 
 lpsrPartGroup::~lpsrPartGroup() {}
@@ -3173,58 +3158,8 @@ S_lpsrPart addPartToPartGroup (
 {
 }
 
-ostream& operator<< (ostream& os, const S_lpsrPartGroup& elt)
-{
-  elt->print(os);
-  return os;
-}
-
-void lpsrPartGroup::printMusicXML(ostream& os)
-{
-  os << "<!-- lpsrPartGroup??? -->" << endl;
-}
-
-void lpsrPartGroup::printLPSR(ostream& os)
-{
-  os <<
-    "PartGroup" << " \"" << fPartMusicXMLName << "\"" <<
-    " (" << fPartLPSRName << ") " << endl;
-    
-  idtr++;
-  
-  os <<
-    idtr << "PartGroupName          : \"" << fPartGroupName << "\"" << endl <<
-    idtr << "PartGroupAbbrevation   : \"" << fPartGroupAbbreviation << "\"" << endl  <<
-    idtr << "PartGroupInstrumentName: \"" << fPartGroupInstrumentName << "\"" << endl;
-
-  for (
-    map<int, S_lpsrStaff>::iterator i = fPartGroupStavesMap.begin();
-    i != fPartGroupStavesMap.end();
-    i++) {
-    os << idtr << (*i).second;
-  } // for
-  
-  idtr--;
-}
-
-void lpsrPartGroup::printLilyPondCode(ostream& os)
-{
-  os <<
-    "PartGroup" << " " << fPartGroupLPSRName << " " <<
-    " (" << fPartGroupLPSRName << ")" << endl <<
-    "\"" << fPartGroupInstrumentName << "\"" << endl;
-  if (! fTranslationSettings->fGenerateAbsoluteCode) os << "\\relative "; // JMI
-  os << "{" << endl;
-
-  idtr++;
-// JMI  os << fPartGroupLpsrSequence << endl;
-  idtr--;
-
-  os << idtr << "}" << endl;
-}
-
-S_lpsrStaff lpsrPartGroup::addStaffToPartGroup (
-  int staffNumber)
+S_lpsrPart lpsrPartGroup::addPartToPartGroup (
+  int partNumber)
 {
   if (fPartGroupStavesMap.count (staffNumber)) {
     cerr <<
@@ -3247,6 +3182,53 @@ S_lpsrStaff lpsrPartGroup::addStaffToPartGroup (
   fPartStavesMap [staffNumber] = staff;
 
   return staff;
+}
+
+ostream& operator<< (ostream& os, const S_lpsrPartGroup& elt)
+{
+  elt->print(os);
+  return os;
+}
+
+void lpsrPartGroup::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrPartGroup??? -->" << endl;
+}
+
+void lpsrPartGroup::printLPSR(ostream& os)
+{
+  os <<
+    "PartGroup" << " " << fPartGroupNumber << endl;
+    
+  idtr++;
+
+  /*
+  os <<
+    idtr << "PartGroupName          : \"" << fPartGroupName << "\"" << endl <<
+    idtr << "PartGroupAbbrevation   : \"" << fPartGroupAbbreviation << "\"" << endl  <<
+    idtr << "PartGroupInstrumentName: \"" << fPartGroupInstrumentName << "\"" << endl;
+
+  for (
+    map<int, S_lpsrStaff>::iterator i = fPartGroupStavesMap.begin();
+    i != fPartGroupStavesMap.end();
+    i++) {
+    os << idtr << (*i).second;
+  } // for
+  */
+  
+  idtr--;
+}
+
+void lpsrPartGroup::printLilyPondCode(ostream& os)
+{
+  os <<
+    "PartGroup" << " " << fPartGroupNumber << endl;
+
+  idtr++;
+// JMI  os << fPartGroupLpsrSequence << endl;
+  idtr--;
+
+  os << idtr << "}" << endl;
 }
 
 //______________________________________________________________________________

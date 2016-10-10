@@ -1667,8 +1667,7 @@ class EXP lpsrPartGroup : public lpsrElement {
           
     static SMARTP<lpsrPartGroup> create (
             S_translationSettings& ts,
-            int                    partGroupNumber,
-            string                 partGroupType);
+            int                    partGroupNumber);
             
     S_lpsrPart
             addPartToPartGroup (
@@ -1687,16 +1686,20 @@ class EXP lpsrPartGroup : public lpsrElement {
                 { fPartGroupAbbreviation = partGroupAbbreviation; }
                 
     string  getPartGroupSymbol () const
-                { return partGroupSymbol; }
+                { return fPartGroupSymbol; }
 
     string  getPartGroupBarline () const
-                { return partGroupBarline; }
+                { return fPartGroupBarline; }
 
     string  getPartGroupName () const
                 { return fPartGroupName; }
 
     string  getPartGroupAbbreviation () const
                 { return fPartGroupAbbreviation; }
+
+    S_lpsrPart
+            addPartToPartGroup (
+                int partNumber);
 
     /*
     string  getPartGroupMusicXMLName () const
@@ -1721,8 +1724,7 @@ class EXP lpsrPartGroup : public lpsrElement {
 
     lpsrPartGroup (
             S_translationSettings& ts,
-            int                    partGroupNumber,
-            string                 partGroupType);
+            int                    partGroupNumber);
             
     virtual ~lpsrPartGroup();
   
@@ -1756,7 +1758,7 @@ class EXP lpsrPartGroup : public lpsrElement {
     S_translationSettings   fTranslationSettings;
     
     int                     fPartGroupNumber;
-    string                  fPartGroupType;
+
     string                  fPartGroupSymbol;
     string                  fPartGroupBarline;
 
@@ -1772,7 +1774,7 @@ class EXP lpsrPartGroup : public lpsrElement {
 // ???    string                  fPartGroupInstrumentName;
 };
 typedef SMARTP<lpsrPartGroup> S_lpsrPartGroup;
-typedef stack<string, S_lpsrPartGroup> lpsrPartGroupsStack;
+typedef stack<S_lpsrPartGroup> lpsrPartGroupsStack;
 typedef map<string, S_lpsrPartGroup> lpsrPartGroupsMap;
 
 /*!
@@ -1789,7 +1791,7 @@ class EXP lpsrDictionary : public lpsrElement {
 
     S_lpsrPartGroup
             addPartGroupToDictionary (
-              partGroupNumber, partGroupType);
+              string partGroupNumber, string partGroupType);
 
     S_lpsrPart
             addPartToDictionary (
