@@ -1651,6 +1651,7 @@ class EXP lpsrPart : public lpsrElement {
     string                  fPartInstrumentName;
 };
 typedef SMARTP<lpsrPart> S_lpsrPart;
+typedef stack<S_lpsrPart> lpsrPartsStack;
 typedef map<string, S_lpsrPart> lpsrPartsMap;
 
 /*!
@@ -1667,11 +1668,17 @@ class EXP lpsrPartGroup : public lpsrElement {
           
     static SMARTP<lpsrPartGroup> create (
             S_translationSettings& ts,
-            int                    partGroupNumber);
+            string                 partGroupNumber);
             
     S_lpsrPart
             addPartToPartGroup (
                 string partMusicXMLName);
+
+    void    getPartGroupPartsStackTop ()
+                { fPartGroupPartsStack.top (); }
+
+    void    popPartGroupPartsStackTop ()
+                { fPartGroupPartsStack.pop (); }
 
     void    setPartGroupSymbol (string partGroupSymbol)
                 { fPartGroupSymbol = partGroupSymbol; }
@@ -1724,7 +1731,7 @@ class EXP lpsrPartGroup : public lpsrElement {
 
     lpsrPartGroup (
             S_translationSettings& ts,
-            int                    partGroupNumber);
+            string                 partGroupNumber);
             
     virtual ~lpsrPartGroup();
   
@@ -1757,7 +1764,7 @@ class EXP lpsrPartGroup : public lpsrElement {
 
     S_translationSettings   fTranslationSettings;
     
-    int                     fPartGroupNumber;
+    string                  fPartGroupNumber;
 
     string                  fPartGroupSymbol;
     string                  fPartGroupBarline;
@@ -1768,6 +1775,7 @@ class EXP lpsrPartGroup : public lpsrElement {
     string                  fPartGroupAbbreviation;
 
     lpsrPartsMap            fPartGroupPartsMap;
+    lpsrPartsStack          fPartGroupPartsStack;
 
  //   string                  fPartGroupLPSRName;
 
@@ -1791,7 +1799,7 @@ class EXP lpsrDictionary : public lpsrElement {
 
     S_lpsrPartGroup
             addPartGroupToDictionary (
-              string partGroupNumber, string partGroupType);
+              string partGroupNumber);
 
     S_lpsrPart
             addPartToDictionary (
@@ -1826,7 +1834,7 @@ class EXP lpsrDictionary : public lpsrElement {
 
     S_translationSettings   fTranslationSettings;
 
-    lpsrPartGroupsStack     fDictionaryPartGroupsStack;
+//    lpsrPartGroupsStack     fDictionaryPartGroupsStack;
     lpsrPartGroupsMap       fDictionaryPartGroupsMap;
 };
 typedef SMARTP<lpsrDictionary> S_lpsrDictionary;

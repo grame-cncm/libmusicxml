@@ -3127,7 +3127,7 @@ S_lpsrStaff lpsrPart::addStaffToPart (
 //______________________________________________________________________________
 S_lpsrPartGroup lpsrPartGroup::create (
   S_translationSettings& ts,
-  int                    partGroupNumber)
+  string                 partGroupNumber)
 {
   lpsrPartGroup* o = new lpsrPartGroup( ts, partGroupNumber);
   assert(o!=0);
@@ -3136,7 +3136,7 @@ S_lpsrPartGroup lpsrPartGroup::create (
 
 lpsrPartGroup::lpsrPartGroup (
   S_translationSettings& ts,
-  int                    partGroupNumber)
+  string                 partGroupNumber)
     : lpsrElement("")
 {
   fTranslationSettings = ts;
@@ -3153,35 +3153,30 @@ lpsrPartGroup::lpsrPartGroup (
 
 lpsrPartGroup::~lpsrPartGroup() {}
 
-S_lpsrPart addPartToPartGroup (
+S_lpsrPart lpsrPartGroup::addPartToPartGroup (
   string partMusicXMLName)
 {
-}
-
-S_lpsrPart lpsrPartGroup::addPartToPartGroup (
-  int partNumber)
-{
-  if (fPartGroupStavesMap.count (staffNumber)) {
+  if (fPartGroupPartsMap.count (partMusicXMLName)) {
     cerr <<
-      "### Internal error: staffNumber " << staffNumber <<
-      " already exists in part group " << " " << fPartGroupLPSRName << " " <<
-      " (" << fPartGroupLPSRName << ")" << endl;
+      "### Internal error: partMusicXMLName " << partMusicXMLName <<
+      " already exists in this part group" << endl;
 
-    return fPartGroupStavesMap [staffNumber];
+    return fPartGroupPartsMap [partMusicXMLName];
   }
 
-  // create the staff
-  S_lpsrStaff
-    staff =
-      lpsrStaff::create (
-        fTranslationSettings,
-        staffNumber,
-        this);
+  // create the part
+  S_lpsrPart
+    part =
+      lpsrPart::create (
+        fTranslationSettings, partMusicXMLName);
 
   // register it in this part group
-  fPartStavesMap [staffNumber] = staff;
+  fPartGroupPartsMap [partMusicXMLName] = part;
 
-  return staff;
+  // push it on top the this part group's stack
+  fPartGroupPartsStack.push (part);
+  
+  return part;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrPartGroup& elt)
@@ -3249,7 +3244,45 @@ lpsrDictionary::lpsrDictionary (
 lpsrDictionary::~lpsrDictionary() {}
 
 S_lpsrPartGroup lpsrDictionary::addPartGroupToDictionary (
-  partGroupNumber, partGroupType)
+  string partGroupNumber)
+{
+  if (fDictionaryPartGroupsMap.count (partGroupNumber)) {
+    cerr <<
+      "### Internal error: part group " << partGroupNumber <<
+      " already exists in this dictionary" << endl;
+
+    return fDictionaryPartGroupsMap [partGroupNumber];
+  }
+
+  // create the part group
+  S_lpsrPartGroup
+    partGroup =
+      lpsrPartGroup::create (
+        fTranslationSettings, partGroupNumber);
+
+  // register it in this dictionary
+  fDictionaryPartGroupsMap [partGroupNumber] = partGroup;
+
+   return partGroup;
+}
+  
+void lpsrDictionary::addStaffToDictionary (
+  string partMusicXMLName,
+  int    staffNumber)
+{
+}
+
+void lpsrDictionary::addVoiceToDictionary (
+  string partMusicXMLName,
+  int    staffNumber,
+  int    voiceNumber)
+{
+}
+void lpsrDictionary::addLyricsToDictionary (
+  string partMusicXMLName,
+  int    staffNumber,
+  int    voiceNumber,
+  int    lyricsNumber)
 {
 }
 
@@ -3271,8 +3304,8 @@ void lpsrDictionary::printLPSR (ostream& os)
   idtr++;
   
   for (
-    map<string, S_lpsrPart>::iterator i = fDictionaryPartsMap.begin();
-    i != fDictionaryPartsMap.end();
+    map<string, S_lpsrPartGroup>::iterator i = fDictionaryPartGroupsMap.begin();
+    i != fDictionaryPartGroupsMap.end();
     i++) {
     os << idtr << (*i).second;
   } // for
@@ -3283,48 +3316,6 @@ void lpsrDictionary::printLPSR (ostream& os)
 void lpsrDictionary::printLilyPondCode (ostream& os)
 {
   printLPSR (os);
-}
-
-S_lpsrPart lpsrDictionary::addPartToDictionary (string partMusicXMLName)
-{
-  if (fDictionaryPartsMap.count (partMusicXMLName)) {
-    cerr <<
-      "### Internal error: partMusicXMLName " << partMusicXMLName <<
-      " already exists in this dictionary" << endl;
-
-    return fDictionaryPartsMap [partMusicXMLName];
-  }
-
-  // create the part
-  S_lpsrPart
-    part =
-      lpsrPart::create (
-        fTranslationSettings, partMusicXMLName);
-
-  // register it in this dictionary
-   fDictionaryPartsMap [partMusicXMLName] = part;
-
-   return part;
-}
-  
-void lpsrDictionary::addStaffToDictionary (
-  string partMusicXMLName,
-  int    staffNumber)
-{
-}
-
-void lpsrDictionary::addVoiceToDictionary (
-  string partMusicXMLName,
-  int    staffNumber,
-  int    voiceNumber)
-{
-}
-void lpsrDictionary::addLyricsToDictionary (
-  string partMusicXMLName,
-  int    staffNumber,
-  int    voiceNumber,
-  int    lyricsNumber)
-{
 }
 
 //______________________________________________________________________________
