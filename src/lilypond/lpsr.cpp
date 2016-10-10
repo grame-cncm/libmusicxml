@@ -3125,6 +3125,131 @@ S_lpsrStaff lpsrPart::addStaffToPart (
 }
 
 //______________________________________________________________________________
+S_lpsrPartGroup lpsrPartGroup::create (
+  S_translationSettings& ts,
+  int                    partGroupNumber,
+  string                 partGroupType,
+  string                 partGroupSymbol,
+  string                 partGroupBarline)
+{
+  lpsrPartGroup* o = new lpsrPartGroup( ts, partGroupMusicXMLName);
+  assert(o!=0);
+  return o;
+}
+
+lpsrPartGroup::lpsrPartGroup (
+  S_translationSettings& ts,
+  int                    partGroupNumber,
+  string                 partGroupType,
+  string                 partGroupSymbol,
+  string                 partGroupBarline)
+    : lpsrElement("")
+{
+  fTranslationSettings = ts;
+
+  fPartGroupNumber = partGroupNumber;
+  fPartGroupType = partGroupType;
+  fPartGroupSymbol = partGroupSymbol;
+  fPartGroupBarline = partGroupBarline;
+  
+  fPartMusicXMLName = partGroupMusicXMLName;
+
+  // coin the part group LPSR name
+  fPartLPSRName =
+    "PartGroup"+stringNumbersToEnglishWords (fPartMusicXMLName);
+    
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "Creating part group \"" << partGroupMusicXMLName << "\"" <<
+      " (" << fPartLPSRName << ")" << endl;
+  
+  fPartInstrumentName = "partGroupInstrumentName???";
+}
+
+lpsrPartGroup::~lpsrPartGroup() {}
+
+S_lpsrPart addPartToPartGroup (
+  string partMusicXMLName)
+{
+}
+
+ostream& operator<< (ostream& os, const S_lpsrPartGroup& elt)
+{
+  elt->print(os);
+  return os;
+}
+
+void lpsrPartGroup::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrPartGroup??? -->" << endl;
+}
+
+void lpsrPartGroup::printLPSR(ostream& os)
+{
+  os <<
+    "PartGroup" << " \"" << fPartMusicXMLName << "\"" <<
+    " (" << fPartLPSRName << ") " << endl;
+    
+  idtr++;
+  
+  os <<
+    idtr << "PartGroupName          : \"" << fPartGroupName << "\"" << endl <<
+    idtr << "PartGroupAbbrevation   : \"" << fPartGroupAbbreviation << "\"" << endl  <<
+    idtr << "PartGroupInstrumentName: \"" << fPartGroupInstrumentName << "\"" << endl;
+
+  for (
+    map<int, S_lpsrStaff>::iterator i = fPartGroupStavesMap.begin();
+    i != fPartGroupStavesMap.end();
+    i++) {
+    os << idtr << (*i).second;
+  } // for
+  
+  idtr--;
+}
+
+void lpsrPartGroup::printLilyPondCode(ostream& os)
+{
+  os <<
+    "PartGroup" << " " << fPartGroupLPSRName << " " <<
+    " (" << fPartGroupLPSRName << ")" << endl <<
+    "\"" << fPartGroupInstrumentName << "\"" << endl;
+  if (! fTranslationSettings->fGenerateAbsoluteCode) os << "\\relative "; // JMI
+  os << "{" << endl;
+
+  idtr++;
+// JMI  os << fPartGroupLpsrSequence << endl;
+  idtr--;
+
+  os << idtr << "}" << endl;
+}
+
+S_lpsrStaff lpsrPartGroup::addStaffToPartGroup (
+  int staffNumber)
+{
+  if (fPartGroupStavesMap.count (staffNumber)) {
+    cerr <<
+      "### Internal error: staffNumber " << staffNumber <<
+      " already exists in part group " << " " << fPartGroupLPSRName << " " <<
+      " (" << fPartGroupLPSRName << ")" << endl;
+
+    return fPartGroupStavesMap [staffNumber];
+  }
+
+  // create the staff
+  S_lpsrStaff
+    staff =
+      lpsrStaff::create (
+        fTranslationSettings,
+        staffNumber,
+        this);
+
+  // register it in this part group
+  fPartStavesMap [staffNumber] = staff;
+
+  return staff;
+}
+
+//______________________________________________________________________________
 S_lpsrDictionary lpsrDictionary::create (
   S_translationSettings& ts)
 {
@@ -3140,6 +3265,11 @@ lpsrDictionary::lpsrDictionary (
   fTranslationSettings = ts;
 }
 lpsrDictionary::~lpsrDictionary() {}
+
+S_lpsrPartGroup lpsrDictionary::addPartGroupToDictionary (
+  partGroupNumber, partGroupType)
+{
+}
 
 void lpsrDictionary::printMusicXML (ostream& os)
 {

@@ -1654,6 +1654,128 @@ typedef SMARTP<lpsrPart> S_lpsrPart;
 typedef map<string, S_lpsrPart> lpsrPartsMap;
 
 /*!
+\brief A lpsr part group representation.
+
+  A part group is represented by a its string contents
+*/
+//______________________________________________________________________________
+class EXP lpsrPartGroup : public lpsrElement {
+  public:
+
+    enum PartGroupKind {
+          kBracesPartGroupKind, kBracketPartGroupKind };
+          
+    static SMARTP<lpsrPartGroup> create (
+            S_translationSettings& ts,
+            int                    partGroupNumber,
+            string                 partGroupType);
+            
+    S_lpsrPart
+            addPartToPartGroup (
+                string partMusicXMLName);
+
+    void    setPartGroupSymbol (string partGroupSymbol)
+                { fPartGroupSymbol = partGroupSymbol; }
+                
+    void    setPartGroupBarline (string partGroupBarline)
+                { fPartGroupBarline = partGroupBarline; }
+                
+    void    setPartGroupName (string partGroupName)
+                { fPartGroupName = partGroupName; }
+                
+    void    setPartGroupAbbreviation (string partGroupAbbreviation)
+                { fPartGroupAbbreviation = partGroupAbbreviation; }
+                
+    string  getPartGroupSymbol () const
+                { return partGroupSymbol; }
+
+    string  getPartGroupBarline () const
+                { return partGroupBarline; }
+
+    string  getPartGroupName () const
+                { return fPartGroupName; }
+
+    string  getPartGroupAbbreviation () const
+                { return fPartGroupAbbreviation; }
+
+    /*
+    string  getPartGroupMusicXMLName () const
+                { return fPartGroupMusicXMLName; }
+                
+    map<int, S_lpsrPart>
+            getPartGroupPartsMap ()
+                { return fPartGroupPartsMap; }
+
+    string  getPartGroupLPSRName     () const
+                { return fPartGroupLPSRName; }
+
+    void    setPartGroupInstrumentName (string partInstrumentName)
+                { fPartGroupInstrumentName = partInstrumentName; }
+         */
+                
+    virtual void printMusicXML      (ostream& os);
+    virtual void printLPSR          (ostream& os);
+    virtual void printLilyPondCode  (ostream& os);
+
+  protected:
+
+    lpsrPartGroup (
+            S_translationSettings& ts,
+            int                    partGroupNumber,
+            string                 partGroupType);
+            
+    virtual ~lpsrPartGroup();
+  
+  private:
+
+/*
+  <part-list>
+    <part-group number="1" type="start">
+      <group-symbol default-x="-7">bracket</group-symbol>
+      <group-barline>yes</group-barline>
+    </part-group>
+    <score-part id="P1">
+      <part-name>Piccolo</part-name>
+      <part-abbreviation>Picc.</part-abbreviation>
+      <score-instrument id="P1-I18">
+        <instrument-name>Picc.</instrument-name>
+      </score-instrument>
+      <midi-instrument id="P1-I18">
+        <midi-channel>1</midi-channel>
+        <midi-program>73</midi-program>
+      </midi-instrument>
+    </score-part>
+    <part-group number="2" type="start">
+      <group-name>1
+2</group-name>
+      <group-barline>yes</group-barline>
+    </part-group>
+    <score-part id="P2">
+*/
+
+    S_translationSettings   fTranslationSettings;
+    
+    int                     fPartGroupNumber;
+    string                  fPartGroupType;
+    string                  fPartGroupSymbol;
+    string                  fPartGroupBarline;
+
+    PartGroupKind           fPartGroupKind; // computed in constructor
+
+    string                  fPartGroupName;
+    string                  fPartGroupAbbreviation;
+
+    lpsrPartsMap            fPartGroupPartsMap;
+
+ //   string                  fPartGroupLPSRName;
+
+// ???    string                  fPartGroupInstrumentName;
+};
+typedef SMARTP<lpsrPartGroup> S_lpsrPartGroup;
+typedef stack<string, S_lpsrPartGroup> lpsrPartGroupsStack;
+typedef map<string, S_lpsrPartGroup> lpsrPartGroupsMap;
+
+/*!
 \brief A lpsr dictionary representation.
 
   A dictionary is represented by a its string contents
@@ -1664,7 +1786,11 @@ class EXP lpsrDictionary : public lpsrElement {
 
     static SMARTP<lpsrDictionary> create (
             S_translationSettings& ts);
-    
+
+    S_lpsrPartGroup
+            addPartGroupToDictionary (
+              partGroupNumber, partGroupType);
+
     S_lpsrPart
             addPartToDictionary (
                 string partMusicXMLName);
@@ -1698,7 +1824,8 @@ class EXP lpsrDictionary : public lpsrElement {
 
     S_translationSettings   fTranslationSettings;
 
-    map<string, S_lpsrPart> fDictionaryPartsMap;
+    lpsrPartGroupsStack     fDictionaryPartGroupsStack;
+    lpsrPartGroupsMap       fDictionaryPartGroupsMap;
 };
 typedef SMARTP<lpsrDictionary> S_lpsrDictionary;
 
