@@ -558,6 +558,7 @@ lpsrNote::lpsrNote (
     }
   }
 
+
 //  cout << "=== xmlPart2LpsrVisitor::visitStart ( S_step& elt ) " << fCurrentMusicXMLStep << endl;
 // JMI
 
@@ -595,18 +596,6 @@ lpsrNote::lpsrNote (
     fMusicXMLNoteData.fMusicxmlAlteration <<  endl;
 */
   
-  stringstream s;
-  string  message;
-  s <<
-    "MusicXML alteration " << fMusicXMLNoteData.fMusicxmlAlteration <<
-    " is not between -2 and +2";
-  s >> message;
-  lpsrAssert(
-    fMusicXMLNoteData.fMusicxmlAlteration>=-2
-      &&
-    fMusicXMLNoteData.fMusicxmlAlteration<=+2,
-    message);
-  
   switch (fMusicXMLNoteData.fMusicxmlAlteration) {
     case -2:
       mxmlAlteration = lpsrNote::kDoubleFlat;
@@ -631,6 +620,22 @@ lpsrNote::lpsrNote (
       mxmlAlteration = lpsrNote::kDoubleSharp;
       noteQuatertonesFromA+=3;
       break;
+    default:
+      {
+      stringstream s;
+      string       message;
+      s <<
+        "MusicXML alteration " << fMusicXMLNoteData.fMusicxmlAlteration <<
+        " is not between -2 and +2";
+      s >> message;
+      cout << "message = |" << message << "|" << endl;
+      
+      lpsrAssert(
+        fMusicXMLNoteData.fMusicxmlAlteration>=-2
+          &&
+        fMusicXMLNoteData.fMusicxmlAlteration<=+2,
+        message);
+      }
    } // switch
 
   fNoteLpsrPitch = 

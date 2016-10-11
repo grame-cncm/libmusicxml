@@ -139,11 +139,15 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_divisions& elt )
   
   if (fTranslationSettings->fTrace) {
     if (fCurrentMusicXMLDivisions == 1)
-      cerr << "There is 1 division per quater note" << endl;
+      cerr << "There is 1 division";
     else
       cerr <<
         "There are " << fCurrentMusicXMLDivisions <<
-        " divisions per quater note" << endl;
+        " divisions";
+    cerr <<
+      " per quater note in part \"" <<
+      fCurrentPart->getPartMusicXMLName () << "\" (" <<
+      fCurrentPart->getPartLPSRName () << ")" << endl;
   }
 }
 
@@ -735,7 +739,7 @@ void xml2LpsrDictionaryVisitor::finalizeTuplet (S_lpsrNote note) {
 void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt ) 
 {
   //  cout << "<-- xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt ) " << endl;
-/*
+
   if (fTranslationSettings->fDebug)
     cerr <<
       "fMusicXMLNoteData.fMusicxmlDuration = " << 
@@ -745,7 +749,6 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
       
   if (fCurrentMusicXMLDivisions <= 0)
     lpsrMusicXMLError ("divisions cannot be 0 nor negative");
-  */
   
   fMusicXMLNoteData.fMusicxmlDivisions = fCurrentMusicXMLDivisions;
   fMusicXMLNoteData.fTupletMemberType = fCurrentType;
@@ -754,7 +757,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
   S_lpsrNote note =
     lpsrNote::createFromMusicXMLData (
       fTranslationSettings, fMusicXMLNoteData);
-/*
+
   // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {
 /* JMI
@@ -762,7 +765,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
       lpsrMusicXMLError (
         "dynamics cannot be attached to a rest, delayed until next note");
     else
-* /
+*/
       while (! fPendingDynamics.empty()) {
         S_lpsrDynamics dyn = fPendingDynamics.front();
         note->addDynamics(dyn);
@@ -777,14 +780,14 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
       lpsrMusicXMLError (
         "wedges cannot be attached to a rest, delayed until next note");
     else
-* /
+*/
       while (! fPendingWedges.empty()) {
         S_lpsrWedge wdg = fPendingWedges.front();
         note->addWedge(wdg);
         fPendingWedges.pop_front();
       } // while
   }
-
+          
   // a note can be standalone
   // or a member of a chord,
   // and the latter can belong to a tuplet
@@ -862,7 +865,6 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
     // account for chord not being built
     fAChordIsBeingBuilt = false;
   }
-  */
   
    // keep track of note/rest in this visitor
   fCurrentNote    = note;
