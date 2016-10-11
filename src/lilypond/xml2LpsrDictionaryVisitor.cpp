@@ -69,7 +69,7 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
     fCurrentVoice->
       addLyricsToVoice (fCurrentLyricNumber); // JMI ???
   
-  fStavesNumber = -1;
+  fCurrentMeasureNumber = 0;
 }
 
 xml2LpsrDictionaryVisitor::~xml2LpsrDictionaryVisitor () {}
@@ -95,8 +95,16 @@ xml2LpsrDictionaryVisitor::buildDictionaryFromXMLElementTree (
   return result;
 }
 
+void xml2LpsrDictionaryVisitor::internalError (
+  string message)
+{
+  cerr <<
+    "### Internal error: measure " << fCurrentMeasureNumber << endl <<
+    message << endl;
+}                        
+
 //________________________________________________________________________
-void xml2LpsrDictionaryVisitor::visitStart ( S_part_list& elt)
+void xml2LpsrDictionaryVisitor::visitStart (S_part_list& elt)
 {
 }
 /*
@@ -131,7 +139,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_part_list& elt)
     </part-group>
     <part-group type="stop" number="1"/>
  */
-void xml2LpsrDictionaryVisitor::visitStart ( S_part_group& elt)
+void xml2LpsrDictionaryVisitor::visitStart (S_part_group& elt)
 {
   // the part group number indicates nested/overlapping groups
   fCurrentPartGroupNumber = elt->getAttributeIntValue ("number", 0);
@@ -161,7 +169,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_part_group& elt)
   }
 }
 
-void xml2LpsrDictionaryVisitor::visitStart ( S_group_symbol& elt)
+void xml2LpsrDictionaryVisitor::visitStart (S_group_symbol& elt)
 {
   fCurrentGroupSymbol = elt->getValue ();
 
@@ -177,7 +185,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_group_barline& elt)
 }
 
 //________________________________________________________________________
-void xml2LpsrDictionaryVisitor::visitStart ( S_score_part& elt)
+void xml2LpsrDictionaryVisitor::visitStart (S_score_part& elt)
 {
   fCurrentPartMusicXMLName = elt->getAttributeValue ("id");
 /*
@@ -196,7 +204,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_score_part& elt)
           fCurrentPartMusicXMLName);
 }
 
-void xml2LpsrDictionaryVisitor::visitStart ( S_part_name& elt)
+void xml2LpsrDictionaryVisitor::visitStart (S_part_name& elt)
 {
   string fCurrentPartName = elt->getValue ();
 
@@ -204,7 +212,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_part_name& elt)
     setPartName (fCurrentPartName);
 }
 
-void xml2LpsrDictionaryVisitor::visitStart ( S_part_abbreviation& elt)
+void xml2LpsrDictionaryVisitor::visitStart (S_part_abbreviation& elt)
 {
   string fCurrentPartAbbreviation = elt->getValue ();
 
@@ -212,7 +220,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_part_abbreviation& elt)
     setPartAbbreviation (fCurrentPartAbbreviation);
 }
 
-void xml2LpsrDictionaryVisitor::visitStart ( S_instrument_name& elt)
+void xml2LpsrDictionaryVisitor::visitStart (S_instrument_name& elt)
 {
   string fCurrentPartInstrumentName = elt->getValue(); // jMI
 
@@ -221,17 +229,17 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_instrument_name& elt)
 }
 
 //________________________________________________________________________
-void xml2LpsrDictionaryVisitor::visitStart ( S_part& elt)
+void xml2LpsrDictionaryVisitor::visitStart (S_part& elt)
 {
-  fStavesNumber = 1; // default if there are no <staves> element
-
   fCurrentStaffNumber = 1; // default if there are no <staff> element
 
   fCurrentVoiceNumber = -1 ;
+
+  fCurrentMeasureNumber = 0; // in case of an anacrusis
 }
 
 //________________________________________________________________________
-void xml2LpsrDictionaryVisitor::visitStart ( S_staves& elt)
+void xml2LpsrDictionaryVisitor::visitStart (S_staves& elt)
 {
   /* by S_measure in fact!
   fStavesNumber = int(*elt);
@@ -254,7 +262,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_staves& elt)
   */
 }
 
-void xml2LpsrDictionaryVisitor::visitStart ( S_staff& elt)
+void xml2LpsrDictionaryVisitor::visitStart (S_staff& elt)
 {
   fCurrentStaffNumber = int(*elt);
 
@@ -272,7 +280,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_staff& elt)
 }
     
 //________________________________________________________________________
-void xml2LpsrDictionaryVisitor::visitStart ( S_voice& elt )
+void xml2LpsrDictionaryVisitor::visitStart (S_voice& elt )
 {
   fCurrentVoiceNumber = int(*elt);
   /*
@@ -295,7 +303,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_voice& elt )
 }
 
 //________________________________________________________________________
-void xml2LpsrDictionaryVisitor::visitStart ( S_lyric& elt ) { 
+void xml2LpsrDictionaryVisitor::visitStart (S_lyric& elt ) { 
   fCurrentLyricNumber =
     elt->getAttributeIntValue ("number", 0);
 
@@ -313,7 +321,14 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_lyric& elt ) {
 }
 
 //________________________________________________________________________
-void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt)
+void xml2LpsrDictionaryVisitor::visitStart (S_measure& elt)
+{
+  fCurrentMeasureNumber =
+    elt->getAttributeIntValue ("number", 0);
+}
+
+//________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitEnd (S_note& elt)
 {
   // account for note in staff
   //fStavesNotesNumbersMap [fCurrentStaffNumber] ++;

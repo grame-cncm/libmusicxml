@@ -85,7 +85,14 @@ class EXP xml2LpsrDictionaryVisitor :
 
   public visitor<S_voice>,
   
-  public visitor<S_lyric>
+  public visitor<S_lyric>,
+
+  public visitor<S_measure>,
+  public visitor<S_barline>,
+  public visitor<S_bar_style>,
+  public visitor<S_repeat>,
+
+  public visitor<S_note>
 {
   public:
   
@@ -119,12 +126,17 @@ class EXP xml2LpsrDictionaryVisitor :
     
     virtual void visitStart ( S_voice& elt );
     
+    virtual void visitStart ( S_lyric& elt);
+    
+    virtual void visitStart ( S_measure& elt);
+
     virtual void visitEnd   ( S_note& elt);
 
-    virtual void visitStart ( S_lyric& elt);
-
   private:
-  
+
+    void         internalError (
+                    string message);
+                     
     S_translationSettings fTranslationSettings;
 
     S_lpsrDictionary      fDictionary;
@@ -151,6 +163,20 @@ class EXP xml2LpsrDictionaryVisitor :
     
     int                   fCurrentLyricNumber;
     S_lpsrLyrics          fCurrentLyrics;
+
+/*
+  <barline location="left">
+    <bar-style>heavy-light</bar-style>
+    <repeat direction="forward"/>
+  </barline>
+  *
+  *   <barline location="right">
+    <bar-style>light-heavy</bar-style>
+    <repeat direction="backward"/>
+  </barline>
+  * 
+  */
+    int                   fCurrentMeasureNumber;
 };
 
 
