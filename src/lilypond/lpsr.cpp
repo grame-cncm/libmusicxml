@@ -2886,7 +2886,9 @@ lpsrVoice::lpsrVoice (
   
   // coin the voice LPSR name
   fVoiceName =
-    fVoiceStaff->getStaffName()+"_Voice"+int2EnglishWord (fVoiceNumber);
+    fVoiceStaff->getStaffName() +
+    "_Voice_" +
+    int2EnglishWord (fVoiceNumber);
 
   // create the implicit lpsrSequence element
   fVoiceSequence = lpsrSequence::create (lpsrSequence::kSpace);
@@ -2966,9 +2968,51 @@ lpsrStaff::lpsrStaff (
   
   // coin the staff LPSR name
   fStaffName =
-    fStaffPart->getPartLPSRName()+"_Staff"+int2EnglishWord (fStaffNumber);
+    fStaffPart->getPartLPSRName() +
+    "_Staff_" +
+    int2EnglishWord (fStaffNumber);
 }
+
 lpsrStaff::~lpsrStaff() {}
+
+S_lpsrVoice lpsrStaff::addVoiceToStaff (
+  int voiceNumber)
+{
+  if (fStaffVoicesMap.count (voiceNumber)) {
+    cerr <<
+      "### Internal error: voice " << voiceNumber <<
+      " already exists in this staff" << endl;
+
+    return fStaffVoicesMap [voiceNumber];
+  }
+
+  // create the voice
+  S_lpsrVoice
+    voice =
+      lpsrVoice::create (
+        fTranslationSettings,
+        voiceNumber,
+        this);
+
+  // register it in this staff
+  fStaffVoicesMap [voiceNumber] = voice;
+
+  // return it
+  return voice;
+}
+              
+S_lpsrVoice lpsrStaff::staffContainsVoice (
+  int voiceNumber)
+{
+  S_lpsrVoice result;
+  
+  if (fStaffVoicesMap.count (voiceNumber)) {
+    result = fStaffVoicesMap [voiceNumber];
+  }
+
+  return result;
+}
+
 
 ostream& operator<< (ostream& os, const S_lpsrStaff& elt)
 {
@@ -3034,7 +3078,7 @@ lpsrPart::lpsrPart (
 
   // coin the part LPSR name
   fPartLPSRName =
-    "Part"+stringNumbersToEnglishWords (fPartMusicXMLName);
+    "Part_"+stringNumbersToEnglishWords (fPartMusicXMLName);
     
   if (fTranslationSettings->fTrace)
     cerr <<
@@ -3117,22 +3161,23 @@ S_lpsrStaff lpsrPart::addStaffToPart (
   // register it in this part
   fPartStavesMap [staffNumber] = staff;
 
+  // return it
   return staff;
 }
 
 //______________________________________________________________________________
 S_lpsrPartGroup lpsrPartGroup::create (
   S_translationSettings& ts,
-  string                 partGroupNumber)
+  int                    partGroupNumber)
 {
-  lpsrPartGroup* o = new lpsrPartGroup( ts, partGroupNumber);
+  lpsrPartGroup* o = new lpsrPartGroup (ts, partGroupNumber);
   assert(o!=0);
   return o;
 }
 
 lpsrPartGroup::lpsrPartGroup (
   S_translationSettings& ts,
-  string                 partGroupNumber)
+  int                    partGroupNumber)
     : lpsrElement("")
 {
   fTranslationSettings = ts;
@@ -3168,7 +3213,8 @@ S_lpsrPart lpsrPartGroup::addPartToPartGroup (
 
   // push it on top the this part group's stack
   fPartGroupPartsStack.push (part);
-  
+
+  // return it
   return part;
 }
 
@@ -3235,7 +3281,7 @@ lpsrDictionary::lpsrDictionary (
 lpsrDictionary::~lpsrDictionary() {}
 
 S_lpsrPartGroup lpsrDictionary::addPartGroupToDictionary (
-  string partGroupNumber)
+  int partGroupNumber)
 {
   if (fDictionaryPartGroupsMap.count (partGroupNumber)) {
     cerr <<
@@ -3257,6 +3303,19 @@ S_lpsrPartGroup lpsrDictionary::addPartGroupToDictionary (
    return partGroup;
 }
   
+S_lpsrPartGroup lpsrDictionary::dictionaryContainsPartGroup (
+  int partGroupNumber)
+{
+  S_lpsrPartGroup result;
+  
+  if (fDictionaryPartGroupsMap.count (partGroupNumber)) {
+    result = fDictionaryPartGroupsMap [partGroupNumber];
+  }
+
+  return result;
+}
+
+
 void lpsrDictionary::addStaffToDictionary (
   string partMusicXMLName,
   int    staffNumber)
@@ -3295,7 +3354,7 @@ void lpsrDictionary::printLPSR (ostream& os)
   idtr++;
   
   for (
-    map<string, S_lpsrPartGroup>::iterator i = fDictionaryPartGroupsMap.begin();
+    lpsrPartGroupsMap::iterator i = fDictionaryPartGroupsMap.begin();
     i != fDictionaryPartGroupsMap.end();
     i++) {
     os << idtr << (*i).second;

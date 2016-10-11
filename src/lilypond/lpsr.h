@@ -1450,6 +1450,7 @@ class EXP lpsrLyrics : public lpsrElement {
     string                    fLyricsName; // computed in constructor
 };
 typedef SMARTP<lpsrLyrics> S_lpsrLyrics;
+typedef map<int, S_lpsrLyrics> lpsrLyricsMap;
 
 /*!
 \brief A lpsr voice representation.
@@ -1472,7 +1473,7 @@ class EXP lpsrVoice : public lpsrElement {
             getVoiceStaff () const
                 { return fVoiceStaff; }
                 
-    map<int, S_lpsrLyrics>
+    lpsrLyricsMap
             getVoiceLyricsMap () const
                 { return fVoiceLyricsMap; }
 
@@ -1512,7 +1513,7 @@ class EXP lpsrVoice : public lpsrElement {
     int                       fVoiceNumber;
     S_lpsrStaff               fVoiceStaff;
 
-    map<int, S_lpsrLyrics>    fVoiceLyricsMap;
+    lpsrLyricsMap             fVoiceLyricsMap;
 
     string                    fVoiceName; // computed in constructor
 
@@ -1525,7 +1526,7 @@ class EXP lpsrVoice : public lpsrElement {
     S_lpsrRepeat              fVoiceLpsrRepeat;
 };
 typedef SMARTP<lpsrVoice> S_lpsrVoice;
-typedef map<string, S_lpsrVoice> lpsrVoicesMap;
+typedef map<int, S_lpsrVoice> lpsrVoicesMap;
 
 /*!
 \brief A lpsr staff representation.
@@ -1552,16 +1553,21 @@ class EXP lpsrStaff : public lpsrElement {
             getStaffPart () const
                 { return fStaffPart; }
 
-    map<int, S_lpsrVoice> getStaffVoicesMap ()
+    lpsrVoicesMap
+            getStaffVoicesMap ()
                 { return fStaffVoicesMap; }
 
     string  getStaffName () const
                 { return fStaffName; }
 
-    void    addVoiceToStaff (
-              int voiceNumber, S_lpsrVoice voice)
-                { fStaffVoicesMap [voiceNumber] = voice; }
-                
+    S_lpsrVoice
+            addVoiceToStaff (
+              int voiceNumber);
+              
+    S_lpsrVoice
+            staffContainsVoice (
+              int voiceNumber);
+                              
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
@@ -1581,14 +1587,14 @@ class EXP lpsrStaff : public lpsrElement {
     int                       fStaffNumber;
     S_lpsrPart                fStaffPart;
     
-    map<int, S_lpsrVoice>     fStaffVoicesMap;
+    lpsrVoicesMap             fStaffVoicesMap;
 
     string                    fStaffName; // computed in constructor
 
     string                    fStaffInstrumentName;
  };
 typedef SMARTP<lpsrStaff> S_lpsrStaff;
-typedef map<string, S_lpsrStaff> lpsrStaffsMap;
+typedef map<int, S_lpsrStaff> lpsrStaffsMap;
 
 /*!
 \brief A lpsr part representation.
@@ -1606,7 +1612,7 @@ class EXP lpsrPart : public lpsrElement {
     string  getPartMusicXMLName () const
                 { return fPartMusicXMLName; }
                 
-    map<int, S_lpsrStaff>
+    lpsrStaffsMap
             getPartStavesMap ()
                 { return fPartStavesMap; }
 
@@ -1642,7 +1648,7 @@ class EXP lpsrPart : public lpsrElement {
     S_translationSettings   fTranslationSettings;
 
     string                  fPartMusicXMLName;
-    map<int, S_lpsrStaff>   fPartStavesMap;
+    lpsrStaffsMap           fPartStavesMap;
 
     string                  fPartLPSRName; // computed in constructor
 
@@ -1668,7 +1674,7 @@ class EXP lpsrPartGroup : public lpsrElement {
           
     static SMARTP<lpsrPartGroup> create (
             S_translationSettings& ts,
-            string                 partGroupNumber);
+            int                    partGroupNumber);
             
     S_lpsrPart
             addPartToPartGroup (
@@ -1708,6 +1714,7 @@ class EXP lpsrPartGroup : public lpsrElement {
             addPartToPartGroup (
                 int partNumber);
 
+    
     /*
     string  getPartGroupMusicXMLName () const
                 { return fPartGroupMusicXMLName; }
@@ -1731,7 +1738,7 @@ class EXP lpsrPartGroup : public lpsrElement {
 
     lpsrPartGroup (
             S_translationSettings& ts,
-            string                 partGroupNumber);
+            int                    partGroupNumber);
             
     virtual ~lpsrPartGroup();
   
@@ -1764,7 +1771,8 @@ class EXP lpsrPartGroup : public lpsrElement {
 
     S_translationSettings   fTranslationSettings;
     
-    string                  fPartGroupNumber;
+    // the part group number indicates nested/overlapping groups
+    int                     fPartGroupNumber;
 
     string                  fPartGroupSymbol;
     string                  fPartGroupBarline;
@@ -1783,7 +1791,7 @@ class EXP lpsrPartGroup : public lpsrElement {
 };
 typedef SMARTP<lpsrPartGroup> S_lpsrPartGroup;
 typedef stack<S_lpsrPartGroup> lpsrPartGroupsStack;
-typedef map<string, S_lpsrPartGroup> lpsrPartGroupsMap;
+typedef map<int, S_lpsrPartGroup> lpsrPartGroupsMap;
 
 /*!
 \brief A lpsr dictionary representation.
@@ -1799,7 +1807,11 @@ class EXP lpsrDictionary : public lpsrElement {
 
     S_lpsrPartGroup
             addPartGroupToDictionary (
-              string partGroupNumber);
+                int partGroupNumber);
+
+    S_lpsrPartGroup
+            dictionaryContainsPartGroup (
+                int partGroupNumber);
 
     S_lpsrPart
             addPartToDictionary (
