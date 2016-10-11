@@ -186,7 +186,7 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part_group& elt)
   } else {
     
     lpsrMusicXMLError (
-      "unkown part group type \"" + fCurrentPartGroupType + "\"");
+      "unknown part group type \"" + fCurrentPartGroupType + "\"");
   }
 }
 

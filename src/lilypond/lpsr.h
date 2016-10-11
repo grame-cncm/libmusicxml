@@ -437,7 +437,7 @@ class EXP lpsrSequence : public lpsrElement {
     
     S_lpsrElement getLastElementOfSequence()
                       { return fSequenceElements.back(); }
-    void          removeLastElementOfVoiceSequence ()
+    void          removeLastElementOfSequence ()
                       { fSequenceElements.pop_back(); }
 
     virtual void printMusicXML      (ostream& os);
@@ -1492,7 +1492,7 @@ class EXP lpsrVoice : public lpsrElement {
                 { fVoiceSequence->appendElementToSequence(elem); }
                 
     void    removeLastElementOfVoiceSequence ()
-                { fVoiceSequence->removeLastElementOfVoiceSequence(); }
+                { fVoiceSequence->removeLastElementOfSequence(); }
 
     S_lpsrSequence
             getVoiceSequence () const
@@ -1623,6 +1623,12 @@ class EXP lpsrPart : public lpsrElement {
     string  getPartLPSRName     () const
                 { return fPartLPSRName; }
 
+    string  getPartCombinedName () const
+                { return
+                    "\"" + fPartMusicXMLName + "\"" +
+                    " (" + fPartLPSRName + ")";
+                }
+                    
     S_lpsrStaff
             addStaffToPart (
                 int staffNumber);
@@ -1688,11 +1694,10 @@ class EXP lpsrPartGroup : public lpsrElement {
             addPartToPartGroup (
                 string partMusicXMLName);
 
+    void    popPartGroupPartsStackTop ();
+
     void    getPartGroupPartsStackTop ()
                 { fPartGroupPartsStack.top (); }
-
-    void    popPartGroupPartsStackTop ()
-                { fPartGroupPartsStack.pop (); }
 
     void    setPartGroupSymbol (string partGroupSymbol)
                 { fPartGroupSymbol = partGroupSymbol; }

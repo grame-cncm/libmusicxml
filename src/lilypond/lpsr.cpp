@@ -558,7 +558,6 @@ lpsrNote::lpsrNote (
     }
   }
 
-
 //  cout << "=== xmlPart2LpsrVisitor::visitStart ( S_step& elt ) " << fCurrentMusicXMLStep << endl;
 // JMI
 
@@ -1035,13 +1034,13 @@ string lpsrNote::octaveRepresentation (char octave)
   */
 
 //______________________________________________________________________________
-S_lpsrSequence lpsrSequence::create(ElementsSeparator elementsSeparator)
+S_lpsrSequence lpsrSequence::create (ElementsSeparator elementsSeparator)
 {
-  lpsrSequence* o = new lpsrSequence(elementsSeparator); assert(o!=0);
+  lpsrSequence* o = new lpsrSequence (elementsSeparator); assert(o!=0);
   return o;
 }
 
-lpsrSequence::lpsrSequence(ElementsSeparator elementsSeparator)
+lpsrSequence::lpsrSequence (ElementsSeparator elementsSeparator)
   : lpsrElement("")
 {
   fElementsSeparator=elementsSeparator;
@@ -1056,21 +1055,25 @@ ostream& operator<< (ostream& os, const S_lpsrSequence& elt)
 
 void lpsrSequence::printLPSR(ostream& os)
 {  
-  os << "Sequence" << endl;
+  os << "Sequence";
   
-  idtr++;
+  if (fSequenceElements.size()) {
+    os << endl;
 
-  list<S_lpsrElement>::const_iterator
-    iBegin = fSequenceElements.begin(),
-    iEnd   = fSequenceElements.end(),
-    i      = iBegin;
-  for ( ; ; ) {
-    os << idtr << (*i);
-    if (++i == iEnd) break;
-    if (fElementsSeparator == kEndOfLine) os << endl;
-  } // for
+    idtr++;
   
-  idtr--;
+    list<S_lpsrElement>::const_iterator
+      iBegin = fSequenceElements.begin(),
+      iEnd   = fSequenceElements.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      if (fElementsSeparator == kEndOfLine) os << endl;
+    } // for
+    
+    idtr--;
+  }
 }
 
 void lpsrSequence::printMusicXML(ostream& os)
@@ -1184,17 +1187,18 @@ void lpsrChord::printMusicXML(ostream& os)
 
 void lpsrChord::printLPSR(ostream& os)
 {
-  os << "Chord" << " ";
-  vector<S_lpsrNote>::const_iterator
-    iBegin = fChordNotes.begin(),
-    iEnd   = fChordNotes.end(),
-    i      = iBegin;
-  os << "<";
-  for ( ; ; ) {
-    os << (*i);
-    if (++i == iEnd) break;
-    os << " ";
-  } // for
+  os << "Chord" << " " << "<";
+  if (fChordNotes.size()) {
+    vector<S_lpsrNote>::const_iterator
+      iBegin = fChordNotes.begin(),
+      iEnd   = fChordNotes.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+  }
   os << ">";
   
   // print the chord duration
@@ -1223,16 +1227,18 @@ void lpsrChord::printLPSR(ostream& os)
 
 void lpsrChord::printLilyPondCode(ostream& os)
 {
-  vector<S_lpsrNote>::const_iterator
-    iBegin = fChordNotes.begin(),
-    iEnd   = fChordNotes.end(),
-    i      = iBegin;
   os << "<";
-  for ( ; ; ) {
-    os << (*i);
-    if (++i == iEnd) break;
-    os << " ";
-  } // for
+  if (fChordNotes.size()) {
+    vector<S_lpsrNote>::const_iterator
+      iBegin = fChordNotes.begin(),
+      iEnd   = fChordNotes.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+  }
   os << ">";
   
   // print the chord duration
@@ -1457,19 +1463,21 @@ void lpsrTuplet::printLilyPondCode(ostream& os)
 {
   os << "\\tuplet " << fActualNotes << "/" << fNormalNotes << " { ";
 
-  idtr++;
-  
-  vector<S_lpsrElement>::const_iterator
-    iBegin = fTupletContents.begin(),
-    iEnd   = fTupletContents.end(),
-    i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << " ";
-    } // for
-  
-  idtr--;
+  if (fTupletContents.size()) {
+    idtr++;
+    
+    vector<S_lpsrElement>::const_iterator
+      iBegin = fTupletContents.begin(),
+      iEnd   = fTupletContents.end(),
+      i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        os << " ";
+      } // for
+    
+    idtr--;
+  }
   
   os << " }" << endl;
 }
@@ -3278,6 +3286,20 @@ S_lpsrPart lpsrPartGroup::addPartToPartGroup (
 
   // return it
   return part;
+}
+
+void lpsrPartGroup::popPartGroupPartsStackTop ()
+{
+  if (fTranslationSettings->fTrace) {
+    S_lpsrPart
+      stackTopPart = fPartGroupPartsStack.top ();
+      
+    cerr <<
+      "Popping part " << stackTopPart->getPartCombinedName () <<
+      " from part group " << fPartGroupNumber << " stack" << endl;
+  }
+  
+  fPartGroupPartsStack.pop ();
 }
 
 ostream& operator<< (ostream& os, const S_lpsrPartGroup& elt)
