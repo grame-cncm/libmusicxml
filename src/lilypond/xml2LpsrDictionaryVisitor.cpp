@@ -142,8 +142,10 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part_list& elt)
 void xml2LpsrDictionaryVisitor::visitStart (S_part_group& elt)
 {
   // the part group number indicates nested/overlapping groups
-  fCurrentPartGroupNumber = elt->getAttributeIntValue ("number", 0);
-  fCurrentPartGroupType = elt->getAttributeValue ("type");
+  fCurrentPartGroupNumber =
+    elt->getAttributeIntValue ("number", 0);
+  fCurrentPartGroupType =
+    elt->getAttributeValue ("type");
 
   if (fCurrentPartGroupType == "start") {
 
@@ -327,32 +329,427 @@ void xml2LpsrDictionaryVisitor::visitStart (S_measure& elt)
     elt->getAttributeIntValue ("number", 0);
 }
 
-//________________________________________________________________________
-void xml2LpsrDictionaryVisitor::visitEnd (S_note& elt)
+/*
+  <barline location="left">
+    <bar-style>heavy-light</bar-style>
+    <repeat direction="forward"/>
+  </barline>
+  *
+  *   <barline location="right">
+    <bar-style>light-heavy</bar-style>
+    <repeat direction="backward"/>
+  </barline>
+  * 
+  */
+
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_barline& elt ) 
 {
-  // account for note in staff
-  //fStavesNotesNumbersMap [fCurrentStaffNumber] ++;
+  fCurrentBarlineLocation =
+    elt->getAttributeValue ("location");
   
-  // account for note in voice
- // fVoicesNotesNumbersMap [fCurrentVoiceNumber] ++;
-  
-  // account for voice in staff
- // fStaffVoicesAndNotesNumbersMap [fCurrentStaffNumber] [fCurrentVoiceNumber]++;
+  if (fCurrentBarlineLocation == "left") {
+
+    
+  } else  if (fCurrentBarlineLocation == "middle") {
+    
+    S_lpsrBarLine
+      barline =
+        lpsrBarLine::create (fCurrentMeasureNumber+1);
+    S_lpsrElement b = barline;
+    fCurrentVoice->appendElementToVoiceSequence (b);
+    
+  } else if (fCurrentBarlineLocation == "right") {
+
+    
+  } else {
+
+  }
+}
+
+void xml2LpsrDictionaryVisitor::visitEnd ( S_barline& elt ) 
+{
+ /*
+  *       <barline location="right">
+        <bar-style>light-heavy</bar-style>
+      </barline>
+*/
+  if (
+      fCurrentBarlineLocation == "right"
+        &&
+      fCurrentBarStyle == "light-heavy") {
+    S_lpsrBarCommand
+      barCommand =
+        lpsrBarCommand::create ();
+    S_lpsrElement b = barCommand;
+    fCurrentVoice->appendElementToVoiceSequence (b);
+      
+  }
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_bar_style& elt ) 
+{
+  fCurrentBarStyle = elt->getValue();
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_repeat& elt ) 
+{
+  fCurrentRepeatDirection =
+    elt->getAttributeValue ("direction");  
 }
 
 /*
-  cout <<
-    "--> xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt) :" << endl <<
-    "  fCurrentStaffNumber = " << fCurrentStaffNumber << endl <<
-    "  fCurrentVoiceNumber = " << fCurrentVoiceNumber << endl <<
-    "  fStavesNotesNumbersMap [fCurrentStaffNumber] = " << fStavesNotesNumbersMap [fCurrentStaffNumber] << endl <<
-    "  fStavesNotesNumbersMap [fCurrentStaffNumber] = " << fStavesNotesNumbersMap [fCurrentStaffNumber] << endl <<
-    "  fVoicesLyrisNumbersMap [fCurrentVoiceNumber] = " << fVoicesLyrisNumbersMap [fCurrentVoiceNumber] << endl <<
-    "  fStaffVoicesAndNotesNumbersMap [fCurrentStaffNumber][fCurrentVoiceNumber] = " <<
-    fStaffVoicesAndNotesNumbersMap  [fCurrentStaffNumber][fCurrentVoiceNumber] << endl;
+ *   <barline location="left">
+    <ending type="start" number="1"/>
+  </barline>
+
 */
 
-//     string       lyricsName =
-//                  "_Lyrics" + int2EnglishWord (atoi (it1->first.c_str()));
+void xml2LpsrDictionaryVisitor::visitStart ( S_ending& elt ) 
+{
+  // start, stop, discontinue
+  
+  fCurrentEndingType =
+    elt->getAttributeValue ("type");  
+
+  fCurrentEndingNumber =
+    elt->getAttributeIntValue ("number", 0);
+}
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_step& elt )
+{
+  string step = elt->getValue();
+  
+   if (step.length() != 1) {
+    stringstream s;
+    string  message;
+    s << "step value " << step << " should be a single letter from A to G";
+    s >> message;
+    lpsrMusicXMLError (message);
+  }
+
+  fMusicXMLNoteData.fMusicxmlStep = step[0];
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_alter& elt)
+{
+  fMusicXMLNoteData.fMusicxmlAlteration = (int)(*elt);
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_octave& elt)
+{
+  fMusicXMLNoteData.fMusicxmlOctave = (int)(*elt);
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_duration& elt )
+{
+  fMusicXMLNoteData.fMusicxmlDuration = (int)(*elt);
+//  cout << "=== xml2LpsrDictionaryVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << endl; JMI
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_dot& elt )
+{
+  fMusicXMLNoteData.fDotsNumber++;
+}
+       
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_voice& elt )
+{
+  fMusicXMLNoteData.fVoiceNumber = (int)(*elt);
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_type& elt )
+{
+  fCurrentType=elt->getValue();
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_stem& elt )
+{
+//  fCurrentStem = elt->getValue();
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_staff& elt )
+{
+  fCurrentStaff = (int)(*elt);
+}
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_chord& elt)
+{
+  fMusicXMLNoteData.fNoteBelongsToAChord = true;
+}
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_actual_notes& elt )
+{
+  fCurrentActualNotes = (int)(*elt);
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_normal_notes& elt )
+{
+  fCurrentNormalNotes = (int)(*elt);
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_normal_type& elt )
+{
+  fCurrentNormalType = elt->getValue();
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_tuplet& elt )
+{
+  fMusicXMLNoteData.fNoteBelongsToATuplet = true;
+
+  fCurrentTupletNumber = atoi(elt->getAttributeValue("number").c_str());
+  string type     = elt->getAttributeValue("type");
+  
+  /* JMI
+  cout <<
+    "xml2LpsrDictionaryVisitor::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
+    fCurrentTupletNumber << ", type = " << type <<endl;
+  */
+  
+  fCurrentTupletKind = lpsrTuplet::k_NoTuplet;
+  
+  if (type == "start")
+    fCurrentTupletKind = lpsrTuplet::kStartTuplet;
+  else if (type == "continue")
+    fCurrentTupletKind = lpsrTuplet::kContinueTuplet;
+  else if (type == "stop")
+    fCurrentTupletKind = lpsrTuplet::kStopTuplet;
+  else {
+    stringstream s;
+    string  message;
+    s << "stuplet type " << type << " is unknown";
+    s >> message;
+    lpsrMusicXMLError (message);
+  }
+}
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_note& elt ) 
+{
+  //  cout << "--> xml2LpsrDictionaryVisitor::visitStart ( S_note& elt ) " << endl;
+  fMusicXMLNoteData.fMusicxmlStep = '_';
+  fMusicXMLNoteData.fMusicxmlStepIsARest = false;
+  fMusicXMLNoteData.fMusicxmlAlteration = 0; // natural notes
+  fMusicXMLNoteData.fMusicxmlOctave = -13;
+  fMusicXMLNoteData.fDotsNumber = 0;
+   
+  // assume this note doesn't belong to a chord until S_chord is met
+  fMusicXMLNoteData.fNoteBelongsToAChord = false;
+
+  // assume this note doesn't belong to a tuplet until S_chord is met
+  fMusicXMLNoteData.fNoteBelongsToATuplet = fATupletIsBeingBuilt;
+}
+
+void xml2LpsrDictionaryVisitor::createChord (S_lpsrDuration noteDuration) {
+  // cout << "--> creating a chord on its 2nd note" << endl;
+  
+  // fCurrentNote has been registered standalone in the part element sequence,
+  // but it is actually the first note of a chord
+  
+   // create a chord
+  fCurrentChord = lpsrChord::create(noteDuration);
+  fCurrentElement = fCurrentChord; // another name for it
+   
+  //cout << "--> adding first note to fCurrentChord" << endl;
+  // register fCurrentNote as first member of fCurrentChord
+  fCurrentChord->addNoteToChord(fCurrentNote);
+  fCurrentNote->setNoteBelongsToAChord();
+  
+  // move the pending dynamics if any from the first note to the chord
+  list<S_lpsrDynamics> noteDynamics = fCurrentNote->getNoteDynamics();
+  while (! noteDynamics.empty()) {
+    //cout << "--> moving dynamics from fCurrentNote to fCurrentChord" << endl;
+    S_lpsrDynamics dyn = noteDynamics.front();
+    fCurrentChord->addDynamics(dyn);
+    noteDynamics.pop_front();
+  } // while
+ 
+  // move the pending wedges if any from the first note to the chord
+  list<S_lpsrWedge> noteWedges = fCurrentNote->getNoteWedges();
+  while (! noteWedges.empty()) {
+    //cout << "--> moving wedge from fCurrentNote to fCurrentChord" << endl;
+    S_lpsrWedge wdg = noteWedges.front();
+    fCurrentChord->addWedge(wdg);
+    noteWedges.pop_front();
+  } // while
+}
+
+void xml2LpsrDictionaryVisitor::createTuplet (S_lpsrNote note) {
+  // create a tuplet element
+  S_lpsrTuplet fCurrentTuplet = lpsrTuplet::create();
+  fCurrentElement = fCurrentTuplet; // another name for it
+
+  // populate it
+  fCurrentTuplet->updateTuplet(
+    fCurrentTupletNumber,
+    fCurrentActualNotes,
+    fCurrentNormalNotes);
+
+  // register it in this visitor
+  cout << "--> pushing tuplet to tuplets stack" << endl;
+  fCurrentTupletsStack.push(fCurrentTuplet);
+  
+  // add note to the tuplet
+  cout << "--> adding note " << note << " to tuplets stack top" << endl;
+  fCurrentTuplet->addElementToTuplet(note);
+}
+
+void xml2LpsrDictionaryVisitor::finalizeTuplet (S_lpsrNote note) {
+  // get tuplet from top of tuplet stack
+  S_lpsrTuplet tup = fCurrentTupletsStack.top();
+
+  // add note to the tuplet
+  cout << "--> adding note " << note << " to tuplets stack top" << endl;
+  tup->addElementToTuplet(note);
+
+  // pop from the tuplets stack
+  cout << "--> popping from tuplets stack" << endl;
+  fCurrentTupletsStack.pop();        
+
+  // add tuplet to the part
+  cout << "=== adding tuplet to the part sequence" << endl;
+  S_lpsrElement elem = tup;
+  fCurrentVoice->appendElementToVoiceSequence (elem);
+}          
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt ) 
+{
+  //  cout << "<-- xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt ) " << endl;
+
+  if (fTranslationSettings->fDebug)
+    cerr <<
+      "fMusicXMLNoteData.fMusicxmlDuration = " << 
+      fMusicXMLNoteData.fMusicxmlDuration << ", " << 
+      "fCurrentDivisions*4 = " << fCurrentDivisions*4 << endl;
+      
+  if (fCurrentDivisions <= 0)
+    lpsrMusicXMLError ("divisions cannot be 0 nor negative");
+  
+  fMusicXMLNoteData.fMusicxmlDivisions = fCurrentDivisions;
+  fMusicXMLNoteData.fTupletMemberType = fCurrentType;
+  
+  //cout << "::: creating a note" << endl;
+  S_lpsrNote note =
+    lpsrNote::createFromMusicXMLData (
+      fTranslationSettings, fMusicXMLNoteData);
+
+  // attach the pending dynamics if any to the note
+  if (! fPendingDynamics.empty()) {
+/* JMI
+    if (fMusicXMLNoteData.fMusicxmlStepIsARest)
+      lpsrMusicXMLError (
+        "dynamics cannot be attached to a rest, delayed until next note");
+    else
+*/
+      while (! fPendingDynamics.empty()) {
+        S_lpsrDynamics dyn = fPendingDynamics.front();
+        note->addDynamics(dyn);
+        fPendingDynamics.pop_front();
+      } // while
+  }
+  
+  // attach the pending wedges if any to the note
+  if (! fPendingWedges.empty()) {
+/* JMI
+    if (fMusicXMLNoteData.fMusicxmlStepIsARest)
+      lpsrMusicXMLError (
+        "wedges cannot be attached to a rest, delayed until next note");
+    else
+*/
+      while (! fPendingWedges.empty()) {
+        S_lpsrWedge wdg = fPendingWedges.front();
+        note->addWedge(wdg);
+        fPendingWedges.pop_front();
+      } // while
+  }
+          
+  // a note can be standalone
+  // or a member of a chord,
+  // and the latter can belong to a tuplet
+  // a rest can be standalone or belong to a tuplet
+  
+  if (fMusicXMLNoteData.fNoteBelongsToAChord) {
+    
+    if (fMusicXMLNoteData.fMusicxmlStepIsARest)
+      lpsrMusicXMLError (
+        "a rest cannot belong to a chord");
+        
+    if (! fAChordIsBeingBuilt) {
+      // create a chord with fCurrentNote as its first note
+      createChord (note->getNoteLpsrDuration());
+
+      // account for chord being built
+      fAChordIsBeingBuilt = true;
+    }
+    
+    //cout << "--> adding note to fCurrentChord" << endl;
+    // register note as a member of fCurrentChord
+    fCurrentChord->addNoteToChord(note);
+      
+    // remove (previous) fCurrentNote that is the last element of the part sequence
+    fCurrentVoice->removeLastElementOfVoiceSequence ();
+
+    // add fCurrentChord to the part sequence instead
+    S_lpsrElement elem = fCurrentChord;
+    fCurrentVoice->appendElementToVoiceSequence (elem);
+
+  } else if (fMusicXMLNoteData.fNoteBelongsToATuplet) {
+
+    fMusicXMLNoteData.fTupletMemberType = fCurrentType;
+    
+    switch (fCurrentTupletKind) {
+      case lpsrTuplet::kStartTuplet:
+        {
+          createTuplet(note);
+          fATupletIsBeingBuilt = true;
+        
+          // swith to continuation mode
+          // this is handy in case the forthcoming tuplet members
+          // are not explictly of the "continue" type
+          fCurrentTupletKind = lpsrTuplet::kContinueTuplet;
+        }
+        break;
+  
+      case lpsrTuplet::kContinueTuplet:
+        {
+          // populate the tuplet at the top of the stack
+          cout << "--> adding note " << note << " to tuplets stack top" << endl;
+          fCurrentTupletsStack.top()->addElementToTuplet(note);
+        }
+        break;
+  
+      case lpsrTuplet::kStopTuplet:
+        {
+          finalizeTuplet(note);
+
+          // indicate the end of the tuplet
+          fATupletIsBeingBuilt = false;
+        }
+        break;
+      default:
+        {}
+    } // switch
+
+  } else {
+
+    // cout << "--> adding standalone note/rest to part sequence" << endl;
+    // register note as standalone
+    S_lpsrElement n = note;
+    fCurrentVoice->appendElementToVoiceSequence (n);
+  
+    // account for chord not being built
+    fAChordIsBeingBuilt = false;
+  }
+  
+   // keep track of note/rest in this visitor
+  fCurrentNote    = note;
+  fCurrentElement = fCurrentNote; // another name for it
+}
+
 
 } // namespace

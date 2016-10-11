@@ -795,7 +795,7 @@ typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
 class EXP lpsrBarLine : public lpsrElement {
   public:
     
-    static SMARTP<lpsrBarLine> create(int nextBarNumber);
+    static SMARTP<lpsrBarLine> create (int nextBarNumber);
 
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
@@ -803,7 +803,7 @@ class EXP lpsrBarLine : public lpsrElement {
 
   protected:
 
-    lpsrBarLine(int nextBarNumber);
+    lpsrBarLine (int nextBarNumber);
     virtual ~lpsrBarLine();
   
   private:
@@ -1839,6 +1839,30 @@ class EXP lpsrDictionary : public lpsrElement {
     lpsrPartGroupsMap       fDictionaryPartGroupsMap;
 };
 typedef SMARTP<lpsrDictionary> S_lpsrDictionary;
+
+/*!
+\brief A lpsr bar representation.
+
+  A bar is represented by a vactor of elements
+*/
+//______________________________________________________________________________
+class EXP lpsrBarCommand : public lpsrElement {
+  public:
+
+    static SMARTP<lpsrBarCommand> create();
+     
+    virtual void printMusicXML      (ostream& os);
+    virtual void printLPSR          (ostream& os);
+    virtual void printLilyPondCode  (ostream& os);
+
+  protected:
+
+    lpsrBarCommand();
+    virtual ~lpsrBarCommand();
+  
+  private:
+};
+typedef SMARTP<lpsrBarCommand> S_lpsrBarCommand;
 
 /*!
 \brief A lpsr score representation.

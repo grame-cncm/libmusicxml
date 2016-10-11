@@ -1251,13 +1251,13 @@ void lpsrChord::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrBarLine lpsrBarLine::create(int nextBarNumber)
+S_lpsrBarLine lpsrBarLine::create (int nextBarNumber)
 {
-  lpsrBarLine* o = new lpsrBarLine(nextBarNumber); assert(o!=0);
+  lpsrBarLine* o = new lpsrBarLine (nextBarNumber); assert(o!=0);
   return o;
 }
 
-lpsrBarLine::lpsrBarLine(int nextBarNumber)
+lpsrBarLine::lpsrBarLine (int nextBarNumber)
   : lpsrElement("")
 {
   fNextBarNumber=nextBarNumber; 
@@ -2894,7 +2894,8 @@ lpsrVoice::lpsrVoice (
     int2EnglishWord (fVoiceNumber);
 
   // create the implicit lpsrSequence element
-  fVoiceSequence = lpsrSequence::create (lpsrSequence::kSpace);
+  fVoiceSequence =
+    lpsrSequence::create (lpsrSequence::kSpace);
   
   // add the implicit lpsrRepeat element
 // JMI  fVoiceLpsrRepeat = lpsrRepeat::create ();
@@ -2963,6 +2964,8 @@ void lpsrVoice::printLPSR(ostream& os)
 
   idtr++;
 
+  os << idtr << fVoiceSequence << endl;
+
   for (
     map<int, S_lpsrLyrics>::const_iterator i = fVoiceLyricsMap.begin();
     i != fVoiceLyricsMap.end();
@@ -2980,7 +2983,7 @@ void lpsrVoice::printLilyPondCode(ostream& os)
   os << "{" << endl;
 
   idtr++;
-  os << fVoiceSequence << endl;
+  os << fVoiceSequence;
   idtr--;
 
   os << idtr << "}" << endl;
@@ -3399,6 +3402,37 @@ void lpsrDictionary::printLPSR (ostream& os)
 void lpsrDictionary::printLilyPondCode (ostream& os)
 {
   printLPSR (os);
+}
+
+//______________________________________________________________________________
+S_lpsrBarCommand lpsrBarCommand::create()
+{
+  lpsrBarCommand* o = new lpsrBarCommand(); assert(o!=0);
+  return o;
+}
+
+lpsrBarCommand::lpsrBarCommand(): lpsrElement("") {}
+lpsrBarCommand::~lpsrBarCommand() {}
+
+ostream& operator<< (ostream& os, const S_lpsrBarCommand& nstf)
+{
+  nstf->print(os);
+  return os;
+}
+
+void lpsrBarCommand::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrBarCommand??? -->" << endl;
+}
+
+void lpsrBarCommand::printLPSR(ostream& os)
+{
+  os << "BarCommand" << " " << "\"|.\"";
+}
+
+void lpsrBarCommand::printLilyPondCode(ostream& os)
+{      
+  os << "\\bar" << " " << "\"|.\"" << endl;
 }
 
 //______________________________________________________________________________

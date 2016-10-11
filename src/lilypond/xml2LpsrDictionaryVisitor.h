@@ -86,13 +86,36 @@ class EXP xml2LpsrDictionaryVisitor :
   public visitor<S_voice>,
   
   public visitor<S_lyric>,
+  public visitor<S_syllabic>,
+  public visitor<S_text>,
 
   public visitor<S_measure>,
+  
   public visitor<S_barline>,
   public visitor<S_bar_style>,
   public visitor<S_repeat>,
+  public visitor<S_ending>,
 
-  public visitor<S_note>
+  public visitor<S_note>,
+  public visitor<S_step>,
+  public visitor<S_alter>,
+  public visitor<S_octave>,
+  public visitor<S_duration>,
+  public visitor<S_dot>,
+  public visitor<S_voice>,
+  public visitor<S_type>,
+  public visitor<S_stem>,
+  
+  public visitor<S_rest>,
+
+  public visitor<S_beam>,
+
+  public visitor<S_chord>,
+
+  public visitor<S_actual_notes>,
+  public visitor<S_normal_notes>,
+  public visitor<S_normal_type>,
+  public visitor<S_tuplet>
 {
   public:
   
@@ -127,10 +150,40 @@ class EXP xml2LpsrDictionaryVisitor :
     virtual void visitStart ( S_voice& elt );
     
     virtual void visitStart ( S_lyric& elt);
+    virtual void visitEnd   ( S_lyric& elt);
+    virtual void visitStart ( S_syllabic& elt);
+    virtual void visitEnd   ( S_text& elt );
     
     virtual void visitStart ( S_measure& elt);
+    
+    virtual void visitStart ( S_barline& elt);
+    virtual void visitStart ( S_bar_style& elt);
+    virtual void visitStart ( S_repeat& elt);
+    virtual void visitStart ( S_ending& elt);
+    virtual void visitEnd   ( S_barline& elt);
 
+    virtual void visitStart ( S_note& elt);
+    virtual void visitStart ( S_step& elt);
+    virtual void visitStart ( S_alter& elt);
+    virtual void visitStart ( S_octave& elt);
+    virtual void visitStart ( S_duration& elt);
+    virtual void visitStart ( S_dot& elt );
+    virtual void visitStart ( S_voice& elt);
+    virtual void visitStart ( S_type& elt);
+    virtual void visitStart ( S_stem& elt);
+    virtual void visitStart ( S_staff& elt);
     virtual void visitEnd   ( S_note& elt);
+
+    virtual void visitStart ( S_rest& elt);
+
+    virtual void visitStart ( S_beam& elt);
+
+    virtual void visitStart ( S_chord& elt);
+    
+    virtual void visitStart ( S_actual_notes& elt);
+    virtual void visitStart ( S_normal_notes& elt);
+    virtual void visitStart ( S_normal_type& elt);
+    virtual void visitStart ( S_tuplet& elt);
 
   private:
 
@@ -164,19 +217,13 @@ class EXP xml2LpsrDictionaryVisitor :
     int                   fCurrentLyricNumber;
     S_lpsrLyrics          fCurrentLyrics;
 
-/*
-  <barline location="left">
-    <bar-style>heavy-light</bar-style>
-    <repeat direction="forward"/>
-  </barline>
-  *
-  *   <barline location="right">
-    <bar-style>light-heavy</bar-style>
-    <repeat direction="backward"/>
-  </barline>
-  * 
-  */
     int                   fCurrentMeasureNumber;
+
+    string                fCurrentBarlineLocation;
+    string                fCurrentBarStyle;
+    string                fCurrentRepeatDirection;
+    string                fCurrentEndingType;
+    int                   fCurrentEndingNumber;
 };
 
 
