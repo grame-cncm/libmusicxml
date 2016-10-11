@@ -132,6 +132,21 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part_list& elt)
     <score-part id="P2">
 */
 
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_divisions& elt ) 
+{
+  fCurrentMusicXMLDivisions = (int)(*elt);
+  
+  if (fTranslationSettings->fTrace) {
+    if (fCurrentMusicXMLDivisions == 1)
+      cerr << "There is 1 division per quater note" << endl;
+    else
+      cerr <<
+        "There are " << fCurrentMusicXMLDivisions <<
+        " divisions per quater note" << endl;
+  }
+}
+
 //________________________________________________________________________
 
 /*
@@ -302,6 +317,8 @@ void xml2LpsrDictionaryVisitor::visitStart (S_voice& elt )
       fCurrentStaff->
         addVoiceToStaff (
           fCurrentVoiceNumber);
+
+  fMusicXMLNoteData.fVoiceNumber = fCurrentVoiceNumber;
 }
 
 //________________________________________________________________________
@@ -320,6 +337,108 @@ void xml2LpsrDictionaryVisitor::visitStart (S_lyric& elt ) {
     fCurrentVoice->
       addLyricsToVoice (
         fCurrentLyricNumber);
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_syllabic& elt ) {
+  fCurrentSyllabic = elt->getValue();
+  /*
+
+  if (fCurrentSyllabic == "begin") {
+    fOnGoingLyrics = true;
+  }
+  else if (fCurrentSyllabic == "end") {
+    fOnGoingLyrics = true;
+  }
+  * */
+}
+
+void xml2LpsrDictionaryVisitor::visitEnd ( S_text& elt ) 
+{
+  fCurrentText = elt->getValue();
+/*
+  cout <<
+    "--> fCurrentLyricNumber = " << fCurrentLyricNumber <<
+    ", fCurrentSyllabic = " << fCurrentSyllabic <<
+    ", fCurrentText = |" << fCurrentText << "|" << endl;
+*/
+}
+
+void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
+  /*
+ // fOnGoingLyrics = false;
+
+  if (! fCurrentVoiceLyricsMap [fCurrentLyricNumber]) {
+    // create lyrics on first visit
+    initiateLyrics ();
+  }
+
+  // create lyrics chunk
+  / *
+  cout <<
+      "--> creating lyrics word chunk  containing " <<
+      fCurrentText << endl;
+
+      enum LyricsChunkType {
+      kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
+      kSkipChunk, kBreakChunk };
+  * /
+  
+  lpsrLyricsChunk::LyricsChunkType chunkType;
+  
+  if      (fCurrentSyllabic == "single") chunkType = lpsrLyricsChunk::kSingleChunk;
+  else if (fCurrentSyllabic == "begin")  chunkType = lpsrLyricsChunk::kBeginChunk;
+  else if (fCurrentSyllabic == "middle") chunkType = lpsrLyricsChunk::kMiddleChunk;
+  else if (fCurrentSyllabic == "end")    chunkType = lpsrLyricsChunk::kEndChunk;
+  else {
+    stringstream s;
+    string  result;
+  
+    s << "--> fCurrentSyllabic = " << fCurrentSyllabic << " is unknown";
+    s >> result;
+    lpsrMusicXMLError(result);
+  }
+
+  switch (chunkType) {
+    case lpsrLyricsChunk::kSingleChunk:
+    case lpsrLyricsChunk::kBeginChunk:
+      {
+      // create new lyrics on first visit
+      /*
+      S_lpsrLyrics // ???
+        newLyrics =
+          lpsrLyrics::create (fCurrentLyricsName, fCurrentVoiceName);
+  * /
+      // add the new lyrics to the current lyrics
+   //   fCurrentLyrics->
+    //    addLyricsToLyrics (fCurrentLyricNumber, newLyrics);
+    //  fCurrentVoiceLyricsMap [fCurrentLyricNumber] = newLyrics;
+  
+      fCurrentChunk =
+        lpsrLyricsChunk::create (
+          chunkType, fCurrentText);
+
+      cout <<
+        "==> fCurrentSyllabic = " << fCurrentSyllabic <<
+        ", fCurrentLyricNumber = " << fCurrentLyricNumber << endl;
+  
+      // add lyrics chunk to current lyrics
+      fCurrentVoiceLyricsMap [fCurrentLyricNumber]->
+        addChunkToLyrics (fCurrentChunk);
+     }
+     break;
+
+    case lpsrLyricsChunk::kMiddleChunk:
+    case lpsrLyricsChunk::kEndChunk:
+      // add chunk to current lyrics
+      fCurrentVoiceLyricsMap [fCurrentLyricNumber]->
+        addChunkToLyrics (fCurrentChunk);
+      break;
+    case lpsrLyricsChunk::kSkipChunk:
+    case lpsrLyricsChunk::kBreakChunk:
+      {}
+      break;
+  } // switch
+  */
 }
 
 //________________________________________________________________________
@@ -454,12 +573,6 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_dot& elt )
   fMusicXMLNoteData.fDotsNumber++;
 }
        
-//______________________________________________________________________________
-void xml2LpsrDictionaryVisitor::visitStart ( S_voice& elt )
-{
-  fMusicXMLNoteData.fVoiceNumber = (int)(*elt);
-}
-
 void xml2LpsrDictionaryVisitor::visitStart ( S_type& elt )
 {
   fCurrentType=elt->getValue();
@@ -468,11 +581,6 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_type& elt )
 void xml2LpsrDictionaryVisitor::visitStart ( S_stem& elt )
 {
 //  fCurrentStem = elt->getValue();
-}
-
-void xml2LpsrDictionaryVisitor::visitStart ( S_staff& elt )
-{
-  fCurrentStaff = (int)(*elt);
 }
 
 //______________________________________________________________________________
@@ -542,6 +650,13 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_note& elt )
 
   // assume this note doesn't belong to a tuplet until S_chord is met
   fMusicXMLNoteData.fNoteBelongsToATuplet = fATupletIsBeingBuilt;
+}
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_rest& elt)
+{
+  //  cout << "--> xmlPart2LpsrVisitor::visitStart ( S_rest& elt ) " << endl;
+  fMusicXMLNoteData.fMusicxmlStepIsARest = true;
 }
 
 void xml2LpsrDictionaryVisitor::createChord (S_lpsrDuration noteDuration) {
@@ -620,24 +735,26 @@ void xml2LpsrDictionaryVisitor::finalizeTuplet (S_lpsrNote note) {
 void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt ) 
 {
   //  cout << "<-- xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt ) " << endl;
-
+/*
   if (fTranslationSettings->fDebug)
     cerr <<
       "fMusicXMLNoteData.fMusicxmlDuration = " << 
       fMusicXMLNoteData.fMusicxmlDuration << ", " << 
-      "fCurrentDivisions*4 = " << fCurrentDivisions*4 << endl;
+      "fCurrentMusicXMLDivisions*4 = " <<
+      fCurrentMusicXMLDivisions*4 << endl;
       
-  if (fCurrentDivisions <= 0)
+  if (fCurrentMusicXMLDivisions <= 0)
     lpsrMusicXMLError ("divisions cannot be 0 nor negative");
+  */
   
-  fMusicXMLNoteData.fMusicxmlDivisions = fCurrentDivisions;
+  fMusicXMLNoteData.fMusicxmlDivisions = fCurrentMusicXMLDivisions;
   fMusicXMLNoteData.fTupletMemberType = fCurrentType;
   
   //cout << "::: creating a note" << endl;
   S_lpsrNote note =
     lpsrNote::createFromMusicXMLData (
       fTranslationSettings, fMusicXMLNoteData);
-
+/*
   // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {
 /* JMI
@@ -645,7 +762,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
       lpsrMusicXMLError (
         "dynamics cannot be attached to a rest, delayed until next note");
     else
-*/
+* /
       while (! fPendingDynamics.empty()) {
         S_lpsrDynamics dyn = fPendingDynamics.front();
         note->addDynamics(dyn);
@@ -660,14 +777,14 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
       lpsrMusicXMLError (
         "wedges cannot be attached to a rest, delayed until next note");
     else
-*/
+* /
       while (! fPendingWedges.empty()) {
         S_lpsrWedge wdg = fPendingWedges.front();
         note->addWedge(wdg);
         fPendingWedges.pop_front();
       } // while
   }
-          
+
   // a note can be standalone
   // or a member of a chord,
   // and the latter can belong to a tuplet
@@ -745,6 +862,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
     // account for chord not being built
     fAChordIsBeingBuilt = false;
   }
+  */
   
    // keep track of note/rest in this visitor
   fCurrentNote    = note;

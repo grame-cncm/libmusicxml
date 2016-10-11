@@ -38,8 +38,6 @@ namespace MusicXML2
 */
 class EXP xml2LpsrDictionaryVisitor : 
 
-  public visitor<S_divisions>,
-
 /*
   <part-list>
   
@@ -79,6 +77,7 @@ class EXP xml2LpsrDictionaryVisitor :
   public visitor<S_instrument_name>,
   
   public visitor<S_part>,
+  public visitor<S_divisions>,
 
   public visitor<S_staves>,
   public visitor<S_staff>,
@@ -102,13 +101,13 @@ class EXP xml2LpsrDictionaryVisitor :
   public visitor<S_octave>,
   public visitor<S_duration>,
   public visitor<S_dot>,
-  public visitor<S_voice>,
+//  public visitor<S_voice>,
   public visitor<S_type>,
   public visitor<S_stem>,
   
   public visitor<S_rest>,
 
-  public visitor<S_beam>,
+//  public visitor<S_beam>,
 
   public visitor<S_chord>,
 
@@ -143,7 +142,9 @@ class EXP xml2LpsrDictionaryVisitor :
     virtual void visitStart ( S_instrument_name& elt);
     
     virtual void visitStart ( S_part& elt);
+    virtual void visitStart ( S_divisions& elt);
     
+  
     virtual void visitStart ( S_staves& elt);
     virtual void visitStart ( S_staff& elt);
     
@@ -168,15 +169,15 @@ class EXP xml2LpsrDictionaryVisitor :
     virtual void visitStart ( S_octave& elt);
     virtual void visitStart ( S_duration& elt);
     virtual void visitStart ( S_dot& elt );
-    virtual void visitStart ( S_voice& elt);
+//    virtual void visitStart ( S_voice& elt);
     virtual void visitStart ( S_type& elt);
     virtual void visitStart ( S_stem& elt);
-    virtual void visitStart ( S_staff& elt);
+//    virtual void visitStart ( S_staff& elt);
     virtual void visitEnd   ( S_note& elt);
 
     virtual void visitStart ( S_rest& elt);
 
-    virtual void visitStart ( S_beam& elt);
+//    virtual void visitStart ( S_beam& elt);
 
     virtual void visitStart ( S_chord& elt);
     
@@ -214,7 +215,12 @@ class EXP xml2LpsrDictionaryVisitor :
     int                   fCurrentVoiceNumber;
     S_lpsrVoice           fCurrentVoice;
     
-    int                   fCurrentLyricNumber;
+    // the last lyric number, i.e. lyrics number, met
+    int                     fCurrentLyricNumber;
+    // the last sysllabic spec met (single, begin, middle or end)
+    string                  fCurrentSyllabic;
+    // the last lyrics fragment met
+    string                  fCurrentText;
     S_lpsrLyrics          fCurrentLyrics;
 
     int                   fCurrentMeasureNumber;
@@ -224,6 +230,52 @@ class EXP xml2LpsrDictionaryVisitor :
     string                fCurrentRepeatDirection;
     string                fCurrentEndingType;
     int                   fCurrentEndingNumber;
+
+    // dividing quater notes in MusicXML
+    int                     fCurrentMusicXMLDivisions;
+
+    // description of the current MusicXML note
+    musicXMLNoteData        fMusicXMLNoteData;    
+
+    // description of the current chord
+    S_lpsrChord             fCurrentChord;
+    bool                    fAChordIsBeingBuilt;
+    int                     fCurrentBeats;
+    int                     fCurrentBeatType;
+     
+    // dynamics and wedges remain pending until the next note
+    // (they precede the note in MusicXML but follow it in LilyPond)
+    list<S_lpsrDynamics>    fPendingDynamics;
+    list<S_lpsrWedge>       fPendingWedges;
+       
+    // description of the current LPSR note
+    S_lpsrNote              fCurrentNote;
+
+    // description of current tuplet
+    string                  fCurrentType;
+    int                     fCurrentActualNotes;
+    int                     fCurrentNormalNotes;
+    string                  fCurrentNormalType;
+    // embedded tuplets are numbered 1, 2, ...
+    int                     fCurrentTupletNumber;
+    lpsrTuplet::TupletKind  fCurrentTupletKind;
+    // remains true until a S_tuplet of type "stop" is met
+    bool                    fATupletIsBeingBuilt;
+
+    S_lpsrTuplet            fCurrentTuplet;
+    stack<S_lpsrTuplet>     fCurrentTupletsStack;
+         
+    // chord handling
+    void                    createChord (S_lpsrDuration noteDuration);
+    
+    // tuplet handling
+    void                    createTuplet   (S_lpsrNote note);
+    void                    finalizeTuplet (S_lpsrNote note);
+    
+    // another name for fCurrentNote, fCurrentChord, fCurrentTuplet and the like
+    S_lpsrElement           fCurrentElement;
+
+
 };
 
 
