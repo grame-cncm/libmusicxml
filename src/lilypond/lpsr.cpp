@@ -2811,7 +2811,10 @@ lpsrLyrics::lpsrLyrics (
   fLyricsVoice  = lyricsVoice; 
 
   // coin the lyrics LPSR name
-    fLyricsVoice->getVoiceName()+"_Lyrics"+int2EnglishWord (fLyricsNumber);
+  fLyricsName =
+    fLyricsVoice->getVoiceName() +
+    "_Lyrics_" +
+    int2EnglishWord (fLyricsNumber);
 }
 lpsrLyrics::~lpsrLyrics() {}
 
@@ -2902,7 +2905,46 @@ lpsrVoice::lpsrVoice (
  // S_lpsrElement t = time;
   //fVoiceSequence->appendElementToSequence (t);
 }
+
 lpsrVoice::~lpsrVoice() {}
+
+S_lpsrLyrics lpsrVoice::addLyricsToVoice (
+  int lyricsNumber)
+{
+  if (fVoiceLyricsMap.count (lyricsNumber)) {
+    cerr <<
+      "### Internal error: lyrics " << lyricsNumber <<
+      " already exists in this voice" << endl;
+
+    return fVoiceLyricsMap [lyricsNumber];
+  }
+
+  // create the lyrics
+  S_lpsrLyrics
+    lyrics =
+      lpsrLyrics::create (
+        fTranslationSettings,
+        lyricsNumber,
+        this);
+
+  // register it in this staff
+  fVoiceLyricsMap [lyricsNumber] = lyrics;
+
+  // return it
+  return lyrics;
+}
+
+S_lpsrLyrics lpsrVoice::voiceContainsLyrics (
+  int lyricsNumber)
+{
+  S_lpsrLyrics result;
+  
+  if (fVoiceLyricsMap.count (lyricsNumber)) {
+    result = fVoiceLyricsMap [lyricsNumber];
+  }
+
+  return result;
+}
 
 ostream& operator<< (ostream& os, const S_lpsrVoice& elt)
 {
@@ -3165,6 +3207,18 @@ S_lpsrStaff lpsrPart::addStaffToPart (
   return staff;
 }
 
+S_lpsrStaff lpsrPart::partContainsStaff (
+  int staffNumber)
+{
+  S_lpsrStaff result;
+  
+  if (fPartStavesMap.count (staffNumber)) {
+    result = fPartStavesMap [staffNumber];
+  }
+
+  return result;
+}
+
 //______________________________________________________________________________
 S_lpsrPartGroup lpsrPartGroup::create (
   S_translationSettings& ts,
@@ -3313,27 +3367,6 @@ S_lpsrPartGroup lpsrDictionary::dictionaryContainsPartGroup (
   }
 
   return result;
-}
-
-
-void lpsrDictionary::addStaffToDictionary (
-  string partMusicXMLName,
-  int    staffNumber)
-{
-}
-
-void lpsrDictionary::addVoiceToDictionary (
-  string partMusicXMLName,
-  int    staffNumber,
-  int    voiceNumber)
-{
-}
-void lpsrDictionary::addLyricsToDictionary (
-  string partMusicXMLName,
-  int    staffNumber,
-  int    voiceNumber,
-  int    lyricsNumber)
-{
 }
 
 void lpsrDictionary::printMusicXML (ostream& os)

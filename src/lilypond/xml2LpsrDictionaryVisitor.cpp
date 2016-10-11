@@ -56,6 +56,18 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
   fCurrentStaff =
     fCurrentPart->
       addStaffToPart (fCurrentStaffNumber); // JMI ???
+
+  // add the implicit voice to the implicit staff
+  fCurrentVoiceNumber = 1;
+  fCurrentVoice =
+    fCurrentStaff->
+      addVoiceToStaff (fCurrentVoiceNumber); // JMI ???
+
+  // add the implicit lyrics to the implicit voice
+  fCurrentLyricNumber = 1;
+  fCurrentLyrics =
+    fCurrentVoice->
+      addLyricsToVoice (fCurrentLyricNumber); // JMI ???
   
   fStavesNumber = -1;
 }
@@ -82,35 +94,6 @@ xml2LpsrDictionaryVisitor::buildDictionaryFromXMLElementTree (
 
   return result;
 }
-
-//________________________________________________________________________
-
-/*
-  <part-list>
-  
-    <part-group number="1" type="start">
-      <group-symbol default-x="-7">bracket</group-symbol>
-      <group-barline>yes</group-barline>
-    </part-group>
-    
-    <score-part id="P1">
-      <part-name>Piccolo</part-name>
-      <part-abbreviation>Picc.</part-abbreviation>
-      <score-instrument id="P1-I18">
-        <instrument-name>Picc.</instrument-name>
-      </score-instrument>
-      <midi-instrument id="P1-I18">
-        <midi-channel>1</midi-channel>
-        <midi-program>73</midi-program>
-      </midi-instrument>
-    </score-part>
-    
-    <part-group number="2" type="start">
-      <group-name>1
-2</group-name>
-      <group-barline>yes</group-barline>
-    </part-group>
-*/
 
 //________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart ( S_part_list& elt)
@@ -197,9 +180,20 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_group_barline& elt)
 void xml2LpsrDictionaryVisitor::visitStart ( S_score_part& elt)
 {
   fCurrentPartMusicXMLName = elt->getAttributeValue ("id");
-
+/*
+  // is this part already present?
   fCurrentPart =
-    fCurrentPartGroup->addPartToPartGroup (fCurrentPartMusicXMLName);
+    fCurrentPart->
+      partContainsStaff (
+        fCurrentPartMusicXMLName);
+
+  // no, add it to the current JMI ???
+  if (! fCurrentPart)
+  */
+    fCurrentPart =
+      fCurrentPartGroup->
+        addPartToPartGroup (
+          fCurrentPartMusicXMLName);
 }
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_part_name& elt)
@@ -220,7 +214,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_part_abbreviation& elt)
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_instrument_name& elt)
 {
-  string fCurrentPartInstrumentName = elt->getValue();
+  string fCurrentPartInstrumentName = elt->getValue(); // jMI
 
   fCurrentPart->
     setPartInstrumentName (fCurrentPartInstrumentName);
@@ -264,8 +258,17 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_staff& elt)
 {
   fCurrentStaffNumber = int(*elt);
 
+  // is this staff already present?
   fCurrentStaff =
-    fCurrentPart->addStaffToPart (fCurrentStaffNumber);
+    fCurrentPart->
+      partContainsStaff (
+        fCurrentStaffNumber);
+
+  // no, add it to the current part
+  if (! fCurrentStaff) 
+    fCurrentStaff =
+      fCurrentPart->
+        addStaffToPart (fCurrentStaffNumber);
 }
     
 //________________________________________________________________________
@@ -279,43 +282,34 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_voice& elt )
 
   // is this voice already present?
   fCurrentVoice =
-    fCurrentStaff->staffContainsVoice (
-      fCurrentPartGroupNumber);
+    fCurrentStaff->
+      staffContainsVoice (
+        fCurrentPartGroupNumber);
 
   // no, add it to the current staff
   if (! fCurrentVoice) 
-  fCurrentVoice =
-    fCurrentStaff->addVoiceToStaff (
-      fCurrentVoiceNumber);
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (
+          fCurrentVoiceNumber);
 }
 
 //________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart ( S_lyric& elt ) { 
-  int fCurrentLyricNumber = elt->getAttributeIntValue ("number", 0);
+  fCurrentLyricNumber =
+    elt->getAttributeIntValue ("number", 0);
 
-    fDictionary->addLyricsToDictionary (
-      fCurrentPartMusicXMLName,
-      fCurrentStaffNumber, fCurrentVoiceNumber, fCurrentLyricNumber);
+  // is this lyrics already present?
+  fCurrentLyrics =
+    fCurrentVoice->voiceContainsLyrics (
+      fCurrentLyricNumber);
 
-/*
-  cout <<
-    "--> S_voice, lyricNumber = " << lyricNumber <<
-    ", fCurrentPartID = " << fCurrentPartID <<
-    ", fCurrentVoiceNumber = " << fCurrentVoiceNumber <<
-    ", fPartVoicesLyricsNumbersMap [\"" << fCurrentPartID << "\"][" << fCurrentVoiceNumber << "] = "
-    << fPartVoicesLyricsNumbersMap [fCurrentPartID][fCurrentVoiceNumber] << endl;
-
-  fPartVoicesLyricsNumbersMap [fCurrentPartID][fCurrentVoiceNumber] =
-    1;
-
-  if (
-      lyricNumber
-        >
-      fPartVoicesLyricsNumbersMap [fCurrentPartID][fCurrentVoiceNumber])
-    fPartVoicesLyricsNumbersMap [fCurrentPartID][fCurrentVoiceNumber] =
-      lyricNumber;
-      * */
-
+  // no, add it to the current staff
+  if (! fCurrentLyrics) 
+  fCurrentLyrics =
+    fCurrentVoice->
+      addLyricsToVoice (
+        fCurrentLyricNumber);
 }
 
 //________________________________________________________________________

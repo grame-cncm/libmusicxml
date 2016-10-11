@@ -150,6 +150,7 @@ class EXP xml2LpsrDictionaryVisitor :
     S_lpsrVoice           fCurrentVoice;
     
     int                   fCurrentLyricNumber;
+    S_lpsrLyrics          fCurrentLyrics;
 };
 
 

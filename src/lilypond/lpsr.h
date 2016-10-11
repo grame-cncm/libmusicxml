@@ -1480,10 +1480,14 @@ class EXP lpsrVoice : public lpsrElement {
     string  getVoiceName () const
                 { return fVoiceName; }
 
-    void    addLyricsToVoice (
-              int lyricsNumber, S_lpsrLyrics lyrics)
-                { fVoiceLyricsMap [lyricsNumber] = lyrics; }
-
+    S_lpsrLyrics
+            addLyricsToVoice (
+              int lyricsNumber);
+              
+    S_lpsrLyrics
+            voiceContainsLyrics (
+              int lyricsNumber);
+               
     void    appendElementToVoiceSequence (S_lpsrElement elem)
                 { fVoiceSequence->appendElementToSequence(elem); }
                 
@@ -1621,6 +1625,10 @@ class EXP lpsrPart : public lpsrElement {
 
     S_lpsrStaff
             addStaffToPart (
+                int staffNumber);
+
+    S_lpsrStaff
+            partContainsStaff (
                 int staffNumber);
 
     void    setPartName (string partName)
@@ -1812,25 +1820,6 @@ class EXP lpsrDictionary : public lpsrElement {
     S_lpsrPartGroup
             dictionaryContainsPartGroup (
                 int partGroupNumber);
-
-    S_lpsrPart
-            addPartToDictionary (
-                string partMusicXMLName);
-                      
-    void    addStaffToDictionary (
-                string partMusicXMLName,
-                int    staffNumber);
-
-    void    addVoiceToDictionary (
-                string partMusicXMLName,
-                int    staffNumber,
-                int    voiceNumber);
-
-    void    addLyricsToDictionary (
-                string partMusicXMLName,
-                int    staffNumber,
-                int    voiceNumber,
-                int    lyricsNumber);
 
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
