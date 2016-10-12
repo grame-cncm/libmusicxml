@@ -45,10 +45,11 @@ xmlpart2guido::xmlpart2guido(bool generateComments, bool generateStem, bool gene
 void xmlpart2guido::reset ()
 {
 	guidonotestatus::resetall();
-	fCurrentBeamNumber = 0;
+    fCurrentBeamNumber = 0;
+	fCurrentTupletNumber = 0;
 	fMeasNum = 0;
 	fInCue = fInGrace = fInhibitNextBar = fPendingBar 
-		   = fBeamOpened = fCrescPending = fSkipDirection = false;
+		   = fBeamOpened = fCrescPending = fSkipDirection = fTupletOpened = false;
 	fCurrentStemDirection = kStemUndefined;
 	fCurrentDivision = 1;
 	fCurrentOffset = 0;
@@ -815,7 +816,7 @@ void xmlpart2guido::visitEnd ( S_time& elt )
                 
                 Sguidoelement tag = guidotag::create("accol");
                 tag->add (guidoparam::create(accolParams, false));
-                tag->print(cout);
+                //tag->print(cout);
                 add (tag);
             }
         }
@@ -1042,6 +1043,41 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
 	}
 */
 }
+    
+    //_______________________Tuplets___________________________________
+    void xmlpart2guido::checkTupletBegin ( const std::vector<S_tuplet>& tuplets )
+    {
+        std::vector<S_tuplet>::const_iterator i;
+        
+        for (i = tuplets.begin(); i != tuplets.end(); i++) {
+            if ( (*i)->getAttributeValue("type") == "start") break;
+        }
+        
+        if (i != tuplets.end()) {
+            if (!fTupletOpened ) {
+                fCurrentTupletNumber = (*i)->getAttributeIntValue("number", 1);
+                Sguidoelement tag = guidotag::create("tuplet");
+                // ADD PARAMETERS!
+                push (tag);
+                fTupletOpened = true;
+            }
+        }
+    }
+    
+    void xmlpart2guido::checkTupletEnd ( const std::vector<S_tuplet>& tuplets )
+    {
+        std::vector<S_tuplet>::const_iterator i;
+        for (i = tuplets.begin(); (i != tuplets.end()) && fTupletOpened; i++) {
+            if (((*i)->getAttributeValue("type") == "stop") && ((*i)->getAttributeIntValue("number", 1) == fCurrentTupletNumber)) {
+                fCurrentTupletNumber = 0;
+                pop();
+                fTupletOpened = false;
+            }
+        }
+    }
+    
+    
+    
 
 // ------------------- LYRICS Functions
 
@@ -1436,6 +1472,7 @@ void xmlpart2guido::visitEnd ( S_note& elt )
 //	checkCue(*this);    // inhibited due to poor support in guido (including crashes)
 	checkGrace(*this);
 	checkSlurBegin (notevisitor::getSlur());
+    checkTupletBegin(notevisitor::getTuplet());
 	checkBeamBegin (notevisitor::getBeam());
     checkLyricBegin (notevisitor::getLyric());
 	
@@ -1465,6 +1502,7 @@ void xmlpart2guido::visitEnd ( S_note& elt )
     isProcessingChord = false;
 	while (pendingPops--) pop();
 	
+    checkTupletEnd(notevisitor::getTuplet());
 	checkBeamEnd (notevisitor::getBeam());
 	checkSlurEnd (notevisitor::getSlur());
 	if (notevisitor::fBreathMark) {

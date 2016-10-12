@@ -67,7 +67,8 @@ class EXP notevisitor :
     public visitor<S_lyric>,         // added by AC
     public visitor<S_trill_mark>,
     public visitor<S_inverted_mordent>,
-    public visitor<S_mordent>
+    public visitor<S_mordent>,
+    public visitor<S_tuplet>
 {
  public:
 		S_stem			fStem;
@@ -125,7 +126,8 @@ class EXP notevisitor :
 
 		virtual const std::vector<S_tied>&	getTied() const	{ return fTied; }
 		virtual const std::vector<S_slur>&	getSlur() const	{ return fSlur; }
-		virtual const std::vector<S_beam>&	getBeam() const	{ return fBeam; }
+        virtual const std::vector<S_beam>&	getBeam() const	{ return fBeam; }
+		virtual const std::vector<S_tuplet>&	getTuplet() const	{ return fTuplet; }
         virtual const std::vector<S_lyric>&	getLyric() const	{ return fLyric; }
         virtual const std::string&  getSyllabic() const		{ return fSyllabic; }
         virtual const std::string&  getLyricText() const		{ return fLyricText; }
@@ -143,7 +145,8 @@ class EXP notevisitor :
 
 		virtual void visitStart( S_accent& elt)			{ fAccent = elt; }
 		virtual void visitStart( S_alter& elt )			{ if (fInNote) fAlter = (float)(*elt); }
-		virtual void visitStart( S_beam& elt )			{ fBeam.push_back (elt); }
+        virtual void visitStart( S_beam& elt )			{ fBeam.push_back (elt); }
+		virtual void visitStart( S_tuplet& elt )		{ fTuplet.push_back (elt); }
 		virtual void visitStart( S_breath_mark& elt)	{ fBreathMark = elt; }
 		virtual void visitStart( S_chord& elt )			{ fChord = true; }
 		virtual void visitStart( S_cue& elt )			{ fCue = true; }
@@ -192,6 +195,7 @@ class EXP notevisitor :
 		std::vector<S_tied>	fTied;
 		std::vector<S_slur>	fSlur;
         std::vector<S_beam>	fBeam;
+        std::vector<S_tuplet>	fTuplet;
 		std::vector<S_lyric>	fLyric;
         std::string fSyllabic;
         std::string fLyricText;

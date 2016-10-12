@@ -80,7 +80,7 @@ class EXP xmlpart2guido :
 	bool	fGenerateComments, fGenerateStem, fGenerateBars, fGeneratePositions, fGenerateAutoMeasureNum;
 
 	// internal parsing state
-	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending;
+	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending, fTupletOpened;
     
     string tempoWord, tempoMetronome, wordParams;
     bool fGenerateTempo, directionPlacementAbove, directionWord;
@@ -108,7 +108,8 @@ class EXP xmlpart2guido :
 	rational fCurrentTimeSign;		// the current time signature
 	int		fMeasNum;
 
-	int		fCurrentBeamNumber;		// number attribute of the current beam
+    int		fCurrentBeamNumber;		// number attribute of the current beam
+	int		fCurrentTupletNumber;		// number attribute of the current tuplet
 	int		fCurrentStemDirection;	// the current stems direction, used for stem direction changes
 	int		fPendingPops;			// elements to be popped at chord exit (like fermata, articulations...)
 
@@ -129,7 +130,9 @@ class EXP xmlpart2guido :
 	void checkStaff		 (int staff );					// check for staff change
 	void checkStem		 ( const S_stem& stem );
 	void checkBeamBegin	 ( const std::vector<S_beam>& beams );
-	void checkBeamEnd	 ( const std::vector<S_beam>& beams );
+    void checkBeamEnd	 ( const std::vector<S_beam>& beams );
+    void checkTupletBegin	 ( const std::vector<S_tuplet>& tuplets );
+    void checkTupletEnd	 ( const std::vector<S_tuplet>& tuplets );
 	void checkCue		 ( const notevisitor& nv );
 	void checkGrace		 ( const notevisitor& nv );
 	int  checkFermata	 ( const notevisitor& stem );
