@@ -2835,7 +2835,8 @@ lpsrLyrics::~lpsrLyrics() {}
 
 void lpsrLyrics::addChunkToLyrics (
   string syllabic,
-  string text)
+  string text,
+  bool   elision)
 {
   lpsrLyricsChunk::LyricsChunkType chunkType;
   
@@ -2857,9 +2858,11 @@ void lpsrLyrics::addChunkToLyrics (
 
   // create lyrics chunk
   if (fTranslationSettings->fTrace)
-    cerr <<
-      "--> creating lyrics word chunk \"" << syllabic <<
-      "\" containing " << text << endl;
+    cout <<
+      "--> creating lyrics " << fLyricsNumber <<
+      " word chunk \"" << syllabic <<
+      "\" containing \"" << text <<
+      "\", elision = " << elision << endl;
 
   S_lpsrLyricsChunk // JMI
     chunk =

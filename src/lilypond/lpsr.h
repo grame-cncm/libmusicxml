@@ -1425,8 +1425,9 @@ class EXP lpsrLyrics : public lpsrElement {
                 { return fLyricsChunks; }
 
     void    addChunkToLyrics (
-              string fCurrentSyllabic,
-              string fCurrentText);
+              string syllabic,
+              string text,
+              bool   elision);
       
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);

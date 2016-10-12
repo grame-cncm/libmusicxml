@@ -87,6 +87,7 @@ class EXP xml2LpsrDictionaryVisitor :
   public visitor<S_lyric>,
   public visitor<S_syllabic>,
   public visitor<S_text>,
+  public visitor<S_elision>,
 
   public visitor<S_measure>,
   
@@ -154,6 +155,7 @@ class EXP xml2LpsrDictionaryVisitor :
     virtual void visitEnd   ( S_lyric& elt);
     virtual void visitStart ( S_syllabic& elt);
     virtual void visitEnd   ( S_text& elt );
+    virtual void visitEnd   ( S_elision& elt );
     
     virtual void visitStart ( S_measure& elt);
     
@@ -222,6 +224,7 @@ class EXP xml2LpsrDictionaryVisitor :
     string                  fCurrentSyllabic;
     // the last lyrics fragment met
     string                  fCurrentText;
+    bool                    fCurrentElision;
 
     // the current lyrics map and chunk
 //    map<int, S_lpsrLyrics>
