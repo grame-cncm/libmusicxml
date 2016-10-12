@@ -1424,11 +1424,15 @@ class EXP lpsrLyrics : public lpsrElement {
             getLyricsChunks () const
                 { return fLyricsChunks; }
 
-    void    addChunkToLyrics (
+    void    addWordChunkToLyrics (
               string syllabic,
               string text,
               bool   elision);
       
+    void    addBreakChunkToLyrics ();
+    
+    void    addSkipChunkToLyrics ();
+
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
     virtual void printLilyPondCode  (ostream& os);

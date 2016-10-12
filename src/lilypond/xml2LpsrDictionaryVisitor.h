@@ -84,12 +84,33 @@ class EXP xml2LpsrDictionaryVisitor :
 
   public visitor<S_voice>,
   
+  public visitor<S_time>,
+  public visitor<S_beats>,
+  public visitor<S_beat_type>,
+  public visitor<S_senza_misura>,
+
+  public visitor<S_key>,
+  public visitor<S_cancel>,
+  public visitor<S_fifths>,
+  public visitor<S_mode>,
+
+  public visitor<S_clef>,
+  public visitor<S_sign>,
+  public visitor<S_line>,
+  public visitor<S_clef_octave_change>,
+
+  public visitor<S_metronome>,
+  public visitor<S_beat_unit>,
+  public visitor<S_beat_unit_dot>,
+  public visitor<S_per_minute>,
+
   public visitor<S_lyric>,
   public visitor<S_syllabic>,
   public visitor<S_text>,
   public visitor<S_elision>,
 
   public visitor<S_measure>,
+  public visitor<S_print>,
   
   public visitor<S_barline>,
   public visitor<S_bar_style>,
@@ -144,13 +165,36 @@ class EXP xml2LpsrDictionaryVisitor :
     
     virtual void visitStart ( S_part& elt);
     virtual void visitStart ( S_divisions& elt);
-    
   
     virtual void visitStart ( S_staves& elt);
     virtual void visitStart ( S_staff& elt);
     
     virtual void visitStart ( S_voice& elt );
     
+    virtual void visitStart ( S_time& elt );
+    virtual void visitEnd   ( S_time& elt );
+    virtual void visitStart ( S_beats& elt );
+    virtual void visitStart ( S_beat_type& elt );
+    virtual void visitStart ( S_senza_misura& elt );
+
+    virtual void visitStart ( S_key& elt );
+    virtual void visitEnd   ( S_key& elt );
+    virtual void visitStart ( S_cancel& elt );
+    virtual void visitStart ( S_fifths& elt );
+    virtual void visitStart ( S_mode& elt );
+
+    virtual void visitStart ( S_clef& elt );
+    virtual void visitEnd   ( S_clef& elt );
+    virtual void visitStart ( S_sign& elt );
+    virtual void visitStart ( S_line& elt );
+    virtual void visitStart ( S_clef_octave_change& elt );
+
+    virtual void visitStart ( S_metronome& elt );
+    virtual void visitEnd   ( S_metronome& elt );
+    virtual void visitStart ( S_beat_unit& elt );
+    virtual void visitStart ( S_beat_unit_dot& elt );
+    virtual void visitStart ( S_per_minute& elt );
+
     virtual void visitStart ( S_lyric& elt);
     virtual void visitEnd   ( S_lyric& elt);
     virtual void visitStart ( S_syllabic& elt);
@@ -158,6 +202,7 @@ class EXP xml2LpsrDictionaryVisitor :
     virtual void visitEnd   ( S_elision& elt );
     
     virtual void visitStart ( S_measure& elt);
+    virtual void visitStart ( S_print& elt);
     
     virtual void visitStart ( S_barline& elt);
     virtual void visitStart ( S_bar_style& elt);
@@ -193,6 +238,8 @@ class EXP xml2LpsrDictionaryVisitor :
     void         internalError (
                     string message);
                      
+    void         resetCurrentTime();
+
     S_translationSettings fTranslationSettings;
 
     S_lpsrDictionary      fDictionary;
@@ -217,6 +264,28 @@ class EXP xml2LpsrDictionaryVisitor :
     int                   fCurrentVoiceNumber;
     S_lpsrVoice           fCurrentVoice;
     
+    // key handling
+    int                     fCurrentFifths;
+    int                     fCurrentCancel;
+    string                  fCurrentMode;
+
+    string                  fSign;
+    int                     fLine;
+    int                     fOctaveChange;
+    int                     fNumber;
+
+    // metronome handling
+    vector<musicXMLBeatData>
+                            fBeatsData;
+    int                     fPerMinute;
+    musicXMLBeatData        fCurrentBeat;
+    bool                    fParentheses;
+
+    // time handling
+    int                     fCurrentTimeStaffNumber; // ??? JMI
+    string                  fSymbol;
+    bool                    fSenzaMisura;
+
     // lyrics handling
     // the last lyric number, i.e. lyrics number, met
     int                     fCurrentLyricNumber;

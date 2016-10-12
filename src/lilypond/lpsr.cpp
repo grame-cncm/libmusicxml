@@ -2833,7 +2833,7 @@ lpsrLyrics::lpsrLyrics (
 
 lpsrLyrics::~lpsrLyrics() {}
 
-void lpsrLyrics::addChunkToLyrics (
+void lpsrLyrics::addWordChunkToLyrics (
   string syllabic,
   string text,
   bool   elision)
@@ -2891,6 +2891,38 @@ void lpsrLyrics::addChunkToLyrics (
       }
       break;
   } // switch
+}
+
+void lpsrLyrics::addBreakChunkToLyrics ()
+{
+  if (fTranslationSettings->fTrace)
+    cout <<
+      "--> creating a lyrics break chunk" << endl;
+
+  // create lyrics break chunk
+  S_lpsrLyricsChunk
+    chunk =
+      lpsrLyricsChunk::create (
+        lpsrLyricsChunk::kBreakChunk, "");
+        
+  // add chunk to this lyrics
+  fLyricsChunks.push_back (chunk);
+}
+
+void lpsrLyrics::addSkipChunkToLyrics ()
+{
+  if (fTranslationSettings->fTrace)
+    cout <<
+      "--> creating a lyrics skip chunk" << endl;
+
+  // create lyrics skip chunk
+  S_lpsrLyricsChunk
+    chunk =
+      lpsrLyricsChunk::create (
+        lpsrLyricsChunk::kSkipChunk, "");
+        
+  // add chunk to this lyrics
+  fLyricsChunks.push_back (chunk);
 }
 
 ostream& operator<< (ostream& os, const S_lpsrLyrics& stan)

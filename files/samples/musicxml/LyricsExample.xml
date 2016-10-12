@@ -562,7 +562,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <stem default-y="-10">up</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>m1/1</text>
+          <text>m11/1</text>
         </lyric>
       </note>
       <note default-x="143">
@@ -576,7 +576,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <stem default-y="-5">up</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>m1/2</text>
+          <text>m11/2</text>
         </lyric>
       </note>
     </measure>
@@ -593,7 +593,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <stem default-y="0">up</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ス</text>
+          <text>m12/1</text>
         </lyric>
       </note>
       <note default-x="67">
@@ -640,7 +640,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ハ</text>
+          <text>m13/1</text>
         </lyric>
       </note>
       <note default-x="97">
@@ -702,7 +702,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <stem default-y="-55">down</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>テ</text>
+          <text>m14/1</text>
           <extend/>
         </lyric>
       </note>
@@ -744,7 +744,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <stem default-y="-35">down</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>　</text>
+          <text>　EMPTY </text>
         </lyric>
       </note>
       <note default-x="56">
@@ -788,7 +788,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ワ</text>
+          <text>m16/1</text>
           <extend/>
         </lyric>
       </note>
@@ -846,7 +846,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <stem default-y="-35">down</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>　</text>
+          <text>　EMPTY </text>
         </lyric>
       </note>
       <note default-x="64">
@@ -890,7 +890,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>タ</text>
+          <text>m18/1</text>
           <extend/>
         </lyric>
       </note>
@@ -1020,7 +1020,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>セ</text>
+          <text>m20/1</text>
           <extend/>
         </lyric>
       </note>
@@ -1077,7 +1077,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <stem default-y="-5">up</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>リ</text>
+          <text>m21/1</text>
         </lyric>
       </note>
       <note default-x="95">
@@ -1109,7 +1109,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>コ</text>
+          <text>m22/1</text>
         </lyric>
       </note>
       <note default-x="55">
@@ -1155,7 +1155,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <stem default-y="-40">down</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ケ</text>
+          <text>m23/1</text>
         </lyric>
       </note>
       <note default-x="73">
@@ -1199,7 +1199,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <stem default-y="10">up</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ニ</text>
+          <text>m24/1</text>
         </lyric>
       </note>
       <note default-x="79">
@@ -1248,7 +1248,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <stem default-y="10">up</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>コ</text>
+          <text>m25/1</text>
         </lyric>
       </note>
       <note default-x="127">
@@ -1280,7 +1280,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>イ</text>
+          <text>m26/1</text>
           <extend/>
         </lyric>
       </note>
@@ -1337,7 +1337,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <stem default-y="-5">up</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>レ</text>
+          <text>m27/1</text>
         </lyric>
       </note>
       <note default-x="77">
@@ -1376,7 +1376,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">continue</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ネ</text>
+          <text>m28/1</text>
         </lyric>
       </note>
       <note default-x="92">
@@ -1424,7 +1424,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ネ</text>
+          <text>m29/1</text>
         </lyric>
       </note>
       <note default-x="60">
@@ -1487,7 +1487,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>マ</text>
+          <text>m30/1</text>
         </lyric>
       </note>
       <note default-x="60">
@@ -1551,7 +1551,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ス</text>
+          <text>m31/1</text>
         </lyric>
       </note>
       <note default-x="83">
@@ -1619,7 +1619,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ザ</text>
+          <text>m32/1</text>
         </lyric>
       </note>
       <note default-x="58">
@@ -1716,7 +1716,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ショ</text>
+          <text>m33/1</text>
         </lyric>
       </note>
       <note default-x="63">
@@ -1796,7 +1796,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ツ</text>
+          <text>m34/1</text>
         </lyric>
       </note>
       <note default-x="51">
@@ -1886,7 +1886,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ゲ</text>
+          <text>m35/1</text>
         </lyric>
       </note>
       <note default-x="47">
@@ -1941,7 +1941,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <type>eighth</type>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ツ</text>
+          <text>m36/1</text>
         </lyric>
       </note>
       <note default-x="94">
@@ -2004,7 +2004,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ヨ</text>
+          <text>m37/1</text>
         </lyric>
       </note>
       <note default-x="70">
@@ -2084,7 +2084,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ヤ</text>
+          <text>m38/1</text>
         </lyric>
       </note>
       <note default-x="50">
@@ -2139,7 +2139,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         </notations>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ヒ</text>
+          <text>m39/1</text>
         </lyric>
       </note>
       <note default-x="71">
@@ -2174,7 +2174,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>テ</text>
+          <text>m40/1</text>
           <extend/>
         </lyric>
       </note>
@@ -2233,7 +2233,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         </notations>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ト</text>
+          <text>m41/1</text>
           <extend/>
         </lyric>
       </note>
@@ -2277,7 +2277,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ヤ</text>
+          <text>m42/1</text>
           <extend/>
         </lyric>
       </note>
@@ -2333,7 +2333,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <stem default-y="0">up</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>シ</text>
+          <text>m43/1</text>
           <extend/>
         </lyric>
       </note>
@@ -2362,7 +2362,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <beam number="1">begin</beam>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ノ</text>
+          <text>m44/1</text>
           <extend/>
         </lyric>
       </note>
@@ -2511,7 +2511,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         </notations>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>ク</text>
+          <text>m46/1</text>
           <extend/>
         </lyric>
       </note>

@@ -19,6 +19,8 @@
 
 #include "xml_tree_browser.h"
 
+#include "conversions.h"
+
 #include "lpsrUtilities.h"
 
 #include "lpsr.h"
@@ -113,6 +115,20 @@ void xml2LpsrDictionaryVisitor::internalError (
     "### Internal error: measure " << fCurrentMeasureNumber << endl <<
     message << endl;
 }                        
+
+//________________________________________________________________________
+void xml2LpsrDictionaryVisitor::resetCurrentTime ()
+{
+  fCurrentTimeStaffNumber = -1;
+  
+  fSenzaMisura = false;
+
+  fCurrentBeats = 0;
+  fCurrentBeatType = 0;
+  
+//  fTimeSignatures.clear();
+  fSymbol = "";
+}
 
 //________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart (S_part_list& elt)
@@ -336,6 +352,192 @@ void xml2LpsrDictionaryVisitor::visitStart (S_voice& elt )
   fMusicXMLNoteData.fVoiceNumber = fCurrentVoiceNumber;
 }
 
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_time& elt ) {
+  resetCurrentTime();
+  
+  fCurrentTimeStaffNumber =
+    elt->getAttributeIntValue ("number", -1);
+    
+  fSymbol =
+    elt->getAttributeValue ("symbol");
+  // time symbol="cut" JMI
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_beats& elt )
+  { fCurrentBeats = (int)(*elt); }
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_beat_type& elt )
+  { fCurrentBeatType = (int)(*elt); }
+ 
+void xml2LpsrDictionaryVisitor::visitStart ( S_senza_misura& elt )
+  { fSenzaMisura = true; }
+
+/*
+rational xml2LpsrDictionaryVisitor::timeSignatureFromIndex(int index)
+{
+  rational r(0,1);
+  if (index < fTimeSignatures.size()) {
+    const pair<string,string>& ts = fTimeSignatures[index];
+    int   num = strtol (ts.first.c_str(), 0, 10);
+    int   denum = strtol (ts.second.c_str(), 0, 10);
+    if (num && denum) r.set(num, denum);
+  }
+  return r;
+}
+*/
+
+void xml2LpsrDictionaryVisitor::visitEnd ( S_time& elt ) 
+{
+  S_lpsrTime
+    time =
+      lpsrTime::create (
+        fCurrentBeats,
+        fCurrentBeatType,
+        fTranslationSettings->fGenerateNumericalTime);
+  S_lpsrElement t = time;
+  fCurrentVoice->appendElementToVoiceSequence (t);
+}
+
+//______________________________________________________________________________
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_key& elt ) {
+  fCurrentFifths = 0;
+  fCurrentCancel = 0;
+  fCurrentMode   = "";
+}
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_fifths& elt )
+  { fCurrentFifths = (int)(*elt); }
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_mode& elt )
+  { fCurrentMode = elt->getValue(); }
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_cancel& elt )
+  { fCurrentCancel = (int)(*elt); }
+
+void xml2LpsrDictionaryVisitor::visitEnd ( S_key& elt ) 
+{    
+  // create lpsrKey and add it to part
+  S_lpsrElement
+    key =
+      lpsrKey::create (fCurrentFifths, fCurrentMode, fCurrentCancel);
+  S_lpsrElement k = key;
+  fCurrentVoice->appendElementToVoiceSequence (k);
+}
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_clef& elt )
+{ 
+  fLine = 0;;
+  fOctaveChange = 0;
+  fNumber = -1;
+  fSign = "";
+
+  fNumber = elt->getAttributeIntValue("number", -1); 
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_clef_octave_change& elt )
+  { fOctaveChange = (int)(*elt); }
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_line& elt )
+  { fLine = (int)(*elt); }
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_sign& elt )
+  { fSign = elt->getValue(); }
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitEnd ( S_clef& elt ) 
+{
+  int staffNum = elt->getAttributeIntValue("number", 0); // JMI
+  
+  S_lpsrClef
+    clef =
+      lpsrClef::create (fSign, fLine, staffNum);
+  S_lpsrElement c = clef;
+  fCurrentVoice->appendElementToVoiceSequence (c);
+}
+
+//________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_metronome& elt )
+{
+  string parentheses = elt->getAttributeValue("parentheses");
+  
+  fBeatsData.clear();
+  fPerMinute = 0;
+  fCurrentBeat.fBeatUnit = "";
+  fCurrentBeat.fDots = 0;
+
+  if (parentheses.size()) {
+    cout << "S_metronome, parentheses = " << parentheses << endl;
+    
+    if (parentheses == "yes") 
+      fParentheses = true;
+    else if (parentheses == "no")
+      fParentheses = true;
+    else {
+      stringstream s;
+      string  message;
+      s << "parentheses value " << parentheses << " should be 'yes' or 'no'";
+      s >> message;
+      lpsrMusicXMLError (message);
+    }
+  }
+}
+  
+void xml2LpsrDictionaryVisitor::visitEnd ( S_metronome& elt ) { 
+ // if (fSkipDirection) return;
+
+  if (fCurrentBeat.fBeatUnit.size()) {
+    fBeatsData.push_back(fCurrentBeat);
+    fCurrentBeat.fBeatUnit = "";
+    fCurrentBeat.fDots = 0;
+  }
+  
+  if (fBeatsData.size() != 1) {
+    lpsrMusicXMLWarning(
+      "multiple beats found, but only per-minute tempos is supported");
+    return;         // support per minute tempo only (for now)
+  }
+  
+  if (! fPerMinute) {
+    lpsrMusicXMLWarning(
+      "per-minute not found, only per-minute tempos is supported");
+    return;    // support per minute tempo only (for now)
+  }
+
+  musicXMLBeatData b = fBeatsData[0];
+  rational         r = 
+    NoteType::type2rational(NoteType::xml(b.fBeatUnit)), rdot(3,2);
+  
+  while (b.fDots-- > 0) {
+    r *= rdot;
+  }
+  r.rationalise();
+
+  S_lpsrTempoCommand tempo =
+    lpsrTempoCommand::create (r.getDenominator(), fPerMinute);
+    
+  fCurrentVoice->appendElementToVoiceSequence (tempo);
+  
+ // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_beat_unit& elt ) { 
+  if (fCurrentBeat.fBeatUnit.size()) {
+    fBeatsData.push_back (fCurrentBeat); 
+    fCurrentBeat.fBeatUnit = "";
+    fCurrentBeat.fDots = 0;
+  }
+  fCurrentBeat.fBeatUnit = elt->getValue();
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_beat_unit_dot& elt )
+  { fCurrentBeat.fDots++; }
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_per_minute& elt )
+  { fPerMinute = (int)(*elt); }
+
 //________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart (S_lyric& elt ) { 
   fCurrentLyricNumber =
@@ -449,7 +651,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
 */
 
   fCurrentLyrics->
-    addChunkToLyrics (
+    addWordChunkToLyrics (
       fCurrentSyllabic, fCurrentText, fCurrentElision);
 /*
   lpsrLyricsChunk::LyricsChunkType chunkType;
@@ -521,6 +723,32 @@ void xml2LpsrDictionaryVisitor::visitStart (S_measure& elt)
 {
   fCurrentMeasureNumber =
     elt->getAttributeIntValue ("number", 0);
+    
+  if (fTranslationSettings->fTrace)
+    cerr << "MEASURE: " << fCurrentMeasureNumber << endl;
+}
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_print& elt ) 
+{
+  const string& newSystem = elt->getAttributeValue ("new-system");
+  
+  if (newSystem == "yes") {
+    // create a barnumbercheck command
+    S_lpsrBarNumberCheck barnumbercheck_ =
+      lpsrBarNumberCheck::create (fCurrentMeasureNumber);
+    S_lpsrElement b2 = barnumbercheck_;
+    fCurrentVoice->appendElementToVoiceSequence (b2);
+
+    // create a break command
+    S_lpsrBreak break_ = lpsrBreak::create(fCurrentMeasureNumber);
+    S_lpsrElement b1 = break_;
+    fCurrentVoice->appendElementToVoiceSequence (b1);
+  
+    // add a break chunk to the lyrics
+    fCurrentLyrics->
+      addBreakChunkToLyrics ();
+  }
 }
 
 /*
@@ -535,7 +763,6 @@ void xml2LpsrDictionaryVisitor::visitStart (S_measure& elt)
   </barline>
   * 
   */
-
 
 //______________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart ( S_barline& elt ) 
@@ -730,7 +957,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_note& elt )
 //______________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart ( S_rest& elt)
 {
-  //  cout << "--> xmlPart2LpsrVisitor::visitStart ( S_rest& elt ) " << endl;
+  //  cout << "--> xml2LpsrDictionaryVisitor::visitStart ( S_rest& elt ) " << endl;
   fMusicXMLNoteData.fMusicxmlStepIsARest = true;
 }
 
