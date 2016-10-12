@@ -439,7 +439,7 @@ void xmlpart2guido::visitEnd ( S_key& elt )
 	if (fNotesOnly) return;
 	Sguidoelement tag = guidotag::create("key");
 	tag->add (guidoparam::create(keysignvisitor::fFifths, false));
-    add (tag);
+    //add (tag);
 }
 
 //______________________________________________________________________________
@@ -575,7 +575,7 @@ void xmlpart2guido::visitStart ( S_note& elt )
         int rangeEnd = fCurrentStaffIndex + nStaves - 1;
         accolParams += std::to_string(fCurrentStaffIndex)+"-"+std::to_string(rangeEnd)+"\"";        
         tag->add (guidoparam::create(accolParams, false));
-        add (tag);
+        //add (tag);
     }
 
 //______________________________________________________________________________
@@ -708,7 +708,7 @@ void xmlpart2guido::visitEnd ( S_time& elt )
     tag->add (guidoparam::create(timesign));
 	if (fGenerateBars) tag->add (guidoparam::create("autoBarlines=\"off\"", false));
     if (fGenerateAutoMeasureNum) tag->add (guidoparam::create("autoMeasuresNum=\"page\"", false));
-	add(tag);
+	//add(tag);
 }
 
     //______________________________________________________________________________
@@ -736,11 +736,18 @@ void xmlpart2guido::visitEnd ( S_time& elt )
          </clef>
          *****/
         
-        cout<<"Starting S_attribute visit:"<<endl;
+        /*cout<<endl<<endl<<"Starting S_attribute visit: GeneratinStaff="<<fCurrentStaff<<
+        " xmlTargetStaff="<<fTargetStaff<<
+        " fTargetVoice="<<fTargetVoice <<endl;*/
         
         ctree<xmlelement>::iterator iter = elt->begin();
         
-        // Clef first
+        // set division
+        int divisions = (elt)->getIntValue(k_divisions, -1);
+        if (divisions != -1)
+            fCurrentDivision = divisions;
+        
+        // Generate Clef first
         iter = elt->find(k_clef);
         while (iter != elt->end())
         {
@@ -748,7 +755,7 @@ void xmlpart2guido::visitEnd ( S_time& elt )
             string clefsign = iter->getValue(k_sign);
             int clefline = iter->getIntValue(k_line, 0);
             int clefoctavechange = iter->getIntValue(k_clef_octave_change, 0);
-            cout << "\tS_attribute visitor: Got Clef "<<clefsign<<clefline<<endl;
+            //cout << "\tS_attribute visitor: Got Clef "<<clefsign<<clefline<<endl;
             
             /// Actions:
             int staffnum = iter->getAttributeIntValue("number", 0);
@@ -777,57 +784,102 @@ void xmlpart2guido::visitEnd ( S_time& elt )
             Sguidoelement tag = guidotag::create("clef");
             checkStaff (staffnum);
             tag->add (guidoparam::create(param));
-            //add(tag);
-            
+            //tag->print(cout);
+            add(tag);
             
             /// Search again for other clefs:
             iter++;
             iter = elt->find(k_clef, iter);
         }
         
-        // set division
-        int divisions = (elt)->getIntValue(k_divisions, -1);
-        if (divisions != -1)
-            fCurrentDivision = divisions;
-        
-        // set staves
+        // Generate Accolades if staves is present
         int staves = (elt)->getIntValue(k_staves, -1);
-        if (staves != -1)
+        if ((staves != -1)&& (!fNotesOnly))
         {
-            /*
-            Sguidoelement tag = guidotag::create("accol");
-            fCurrentAccoladeIndex++;
-            std::string accolParams = "id="+std::to_string(fCurrentAccoladeIndex)+", range=\"";
-            string nStavesStr = elt->getValue();
-            int nStaves = atoi(nStavesStr.c_str());
-            int rangeEnd = fCurrentStaffIndex + nStaves - 1;
-            accolParams += std::to_string(fCurrentStaffIndex)+"-"+std::to_string(rangeEnd)+"\"";
-            tag->add (guidoparam::create(accolParams, false));
-            add (tag);
-            */
+            // generate accolade only for the entering staff in XML
+            // TODO: Avoid this for the second (or other) staffs visitors...
+            if (true)
+            {
+                fCurrentAccoladeIndex++;
+                
+                /*cout<<endl<<"\t GeneratinStaff="<<fCurrentStaff<<
+                " GuidoStaffIndex="<<fCurrentStaffIndex<<
+                " accoladeIndex="<<fCurrentAccoladeIndex<<
+                " xmlTargetStaff="<<fTargetStaff<<
+                " fTargetVoice="<<fTargetVoice <<endl;*/
+                
+                std::string accolParams = "id="+std::to_string(fCurrentAccoladeIndex)+", range=\"";
+                int rangeEnd = fCurrentStaffIndex + staves - 1;
+                
+                accolParams += std::to_string(fCurrentStaffIndex)+"-"+std::to_string(rangeEnd)+"\"";
+                
+                Sguidoelement tag = guidotag::create("accol");
+                tag->add (guidoparam::create(accolParams, false));
+                tag->print(cout);
+                add (tag);
+            }
         }
         
-        // add key
+        // Generate key
         iter = elt->find(k_key);
-        if (iter != elt->end())
+        if ((iter != elt->end())&&(!fNotesOnly))
         {
             string keymode = iter->getValue(k_mode);
             int keyfifths = iter->getIntValue(k_fifths, 0);
-            cout << "\tS_attribute visitor: Got key "<<keymode<<keyfifths<<endl;
-            /*if (fNotesOnly) return;
             Sguidoelement tag = guidotag::create("key");
             tag->add (guidoparam::create(keyfifths, false));
-            add (tag);*/
+            //tag->print(cout);
+            add (tag);
         }
         
-        // add Time
+        // Generate Time Signature info and METER info
         iter = elt->find(k_time);
-        if (iter != elt->end())
+        if ((iter != elt->end())&&(!fNotesOnly))
         {
-            int timebeat_type = iter->getIntValue(k_beat_type, 0);
-            int timebeats = iter->getIntValue(k_beats, 0);
-            cout << "\tS_attribute visitor: Got Time "<<timebeat_type<<timebeats<<endl;
-            // see S_time visitEnd for actions
+            //int timebeat_type = iter->getIntValue(k_beat_type, 0);
+            //int timebeats = iter->getIntValue(k_beats, 0);
+            bool senzamesura = (iter->find(k_senza_misura) != iter->end());
+            string timesymbol = iter->getAttributeValue("symbol");
+            std::vector<std::pair<std::string,std::string> > fTimeSignInternal ;
+            fTimeSignInternal.push_back(make_pair(iter->getValue(k_beats), iter->getValue(k_beat_type)));
+            
+            //cout << "\tS_attribute visitor: Got Time "<<timebeat_type<<timebeats<<endl;
+            //// Actions:
+            string timesign;
+            if (!senzamesura) {
+                if (timesymbol == "common") {
+                    rational ts = timesignvisitor::timesign(0);
+                    if ((ts.getDenominator() == 2) && (ts.getNumerator() == 2))
+                        timesign = "C/";
+                    else if ((ts.getDenominator() == 4) && (ts.getNumerator() == 4))
+                        timesign = "C";
+                    else
+                        timesign = string(ts);
+                    fCurrentTimeSign = ts;
+                }
+                else if (timesymbol == "cut") {
+                    timesign = "C/";
+                    fCurrentTimeSign = rational(2,2);
+                }
+                else {
+                    stringstream s; string sep ="";
+                    fCurrentTimeSign.set(0,1);
+                    for (unsigned int i = 0; i < fTimeSignInternal.size(); i++) {
+                        s << sep << fTimeSignInternal[i].first << "/" << fTimeSignInternal[i].second;
+                        sep = "+";
+                        fCurrentTimeSign += timesignvisitor::timesign(i);
+                    }
+                    s >> timesign;
+                }
+                
+            }
+            
+            Sguidoelement tag = guidotag::create("meter");
+            tag->add (guidoparam::create(timesign));
+            if (fGenerateBars) tag->add (guidoparam::create("autoBarlines=\"off\"", false));
+            if (fGenerateAutoMeasureNum) tag->add (guidoparam::create("autoMeasuresNum=\"page\"", false));
+            //tag->print(cout);
+            add(tag);
         }
     }
     
@@ -860,7 +912,7 @@ void xmlpart2guido::visitEnd ( S_clef& elt )
 	Sguidoelement tag = guidotag::create("clef");
 	checkStaff (staffnum);
     tag->add (guidoparam::create(param));
-    add(tag);
+    //add(tag);
 }
 
 //______________________________________________________________________________

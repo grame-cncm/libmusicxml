@@ -191,9 +191,6 @@ class EXP xmlpart2guido :
 		virtual void visitEnd  ( S_repeat& elt);
 		virtual void visitEnd  ( S_sound& elt);
 		virtual void visitEnd  ( S_time& elt);
-    
-    virtual void visitEnd( S_attributes& elt){cout<<"S_attribute visit end"<<endl;};
-
 
     public:
 				 xmlpart2guido(bool generateComments, bool generateStem, bool generateBar=true);
