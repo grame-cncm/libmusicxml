@@ -21,6 +21,7 @@
 #include "visitor.h"
 #include "xml.h"
 
+
 namespace MusicXML2 
 {   
 
@@ -32,7 +33,7 @@ namespace MusicXML2
 /*!
 \brief A note visitor.
 */
-class EXP notevisitor : 
+class EXP notevisitor :
 	public visitor<S_accent>,
 	public visitor<S_alter>,
 	public visitor<S_beam>,
@@ -64,8 +65,9 @@ class EXP notevisitor :
 	public visitor<S_unpitched>,
 	public visitor<S_voice>,
     public visitor<S_lyric>,         // added by AC
-    public visitor<S_syllabic>,         // added by AC
-    public visitor<S_text>         // added by AC
+    public visitor<S_trill_mark>,
+    public visitor<S_inverted_mordent>,
+    public visitor<S_mordent>
 {
  public:
 		S_stem			fStem;
@@ -74,6 +76,9 @@ class EXP notevisitor :
 		S_staccato		fStaccato;
 		S_tenuto		fTenuto;
 		S_breath_mark	fBreathMark;
+        S_trill_mark		fTrill;
+        S_inverted_mordent		fInvertedMordent;
+        S_mordent		fMordent;
 
 		enum	  { C, D, E, F, G, A, B, last=B, diatonicSteps=last };
 		enum type { kUndefinedType, kPitched, kUnpitched, kRest };
@@ -91,6 +96,7 @@ class EXP notevisitor :
         int		getTie() const		{ return fTie; }
         int		getStaff() const	{ return fStaff; }
         int		getVoice() const	{ return fVoice; }
+        float getRestFormatDy(string fCurClef) const;
 
 		/*!
 		\brief Compute the note MIDI pitch.
@@ -133,6 +139,7 @@ class EXP notevisitor :
         void reset();   
 
 		virtual void visitEnd  ( S_note& elt );
+        //virtual void visitEnd  ( S_rest& elt );
 
 		virtual void visitStart( S_accent& elt)			{ fAccent = elt; }
 		virtual void visitStart( S_alter& elt )			{ if (fInNote) fAlter = (float)(*elt); }
@@ -150,7 +157,7 @@ class EXP notevisitor :
 		virtual void visitStart( S_note& elt );
 		virtual void visitStart( S_octave& elt )		{ if (fInNote) fOctave = (int)(*elt); }
 		virtual void visitStart( S_pitch& elt )			{ fType = kPitched; }
-		virtual void visitStart( S_rest& elt )			{ fType = kRest; }
+        virtual void visitStart( S_rest& elt )          { fType = kRest; }
 		virtual void visitStart( S_slur& elt )			{ fSlur.push_back (elt); }
 		virtual void visitStart( S_staccato& elt)		{ fStaccato = elt; }
 		virtual void visitStart( S_staff& elt)			{ fStaff = int(*elt); }
@@ -164,11 +171,11 @@ class EXP notevisitor :
 		virtual void visitStart( S_type& elt )			{ if (fInNote) fGraphicType = elt->getValue(); }
 		virtual void visitStart( S_unpitched& elt )		{ if (fInNote) fType = kUnpitched; }
 		virtual void visitStart( S_voice& elt )			{ fVoice = int(*elt); }
-    virtual void visitStart( S_lyric& elt );
-        virtual void visitStart( S_syllabic& elt )		{ fSyllabic = elt->getValue(); }
-        virtual void visitStart( S_text& elt )		{ fLyricText = elt->getValue(); }
-
-
+        virtual void visitStart( S_lyric& elt );
+        virtual void visitStart( S_trill_mark& elt )    { fTrill = elt; }
+        virtual void visitStart( S_inverted_mordent& elt )    { fInvertedMordent = elt; }
+        virtual void visitStart( S_mordent& elt )    { fMordent = elt; }
+    
 	private:
 		bool	fGrace, fCue, fChord, fFermata;
 		type	fType;

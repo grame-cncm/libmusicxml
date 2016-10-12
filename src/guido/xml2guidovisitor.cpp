@@ -59,14 +59,14 @@ void xml2guidovisitor::flushHeader ( scoreHeader& header )
 	if (header.fTitle) {
 		Sguidoelement tag = guidotag::create("title");
 		string title = header.fTitle->getValue();
-		size_t pos = title.find ('"');
+		int pos = title.find ('"');
 		while (pos != string::npos) {
 			title = title.replace (pos, 1, "'");
 			pos = title.find ('"', pos);
 		}
 		tag->add (guidoparam::create(title));
 		add (tag);
-		header.fTitle = (void*)0;
+		header.fTitle = 0;
 	}
 	vector<S_creator>::const_iterator i;
 	for (i=header.fCreators.begin(); i!=header.fCreators.end(); i++) {
@@ -105,7 +105,7 @@ void xml2guidovisitor::flushPartHeader ( partHeader& header )
 		s2 << "dx=" << offset << "hs";
 		tag->add (guidoparam::create(s2.str(), false));
 		add (tag);
-		header.fPartName = (void*)0;
+		header.fPartName = 0;
 	}
 }
 
@@ -228,6 +228,18 @@ void xml2guidovisitor::addPosition	( Sxmlelement elt, Sguidoelement& tag, int yo
             posy += yoffset;		  // anchor point convertion (defaults to upper line in xml)
             stringstream s;
             s << "dy=" << posy << "hs";
+            tag->add (guidoparam::create(s.str(), false));
+        }
+    }
+    
+    void xml2guidovisitor::addPlacement	( Sxmlelement elt, Sguidoelement& tag)
+    {
+        string placement = elt->getAttributeValue("placement");
+        
+        if (placement.size()) {
+            
+            stringstream s;
+            s << "position=\"" << placement << "\"";
             tag->add (guidoparam::create(s.str(), false));
         }
     }

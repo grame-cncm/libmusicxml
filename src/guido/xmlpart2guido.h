@@ -65,7 +65,8 @@ class EXP xmlpart2guido :
     public visitor<S_wedge>,
     public visitor<S_words>,     // for direction-type tempo wording (added by AC)
 	public visitor<S_rehearsal>,     // for rehearsal Markup
-    public visitor<S_staves>         // for Accolade in Guido
+    public visitor<S_staves>,         // for Accolade in Guido
+    public visitor<S_attributes>         // to get clef, division, staves, time and key in order!
 {
 	// the guido elements stack
 	std::stack<Sguidoelement>	fStack;
@@ -123,7 +124,6 @@ class EXP xmlpart2guido :
 	void stackClean	();
 
 	int  checkArticulation ( const notevisitor& note );			// returns the count of articulations pushed on the stack
-    Sguidoelement createArticulatedNote ( const notevisitor& note );
     
 	std::vector<Sxmlelement>  getChord ( const S_note& note );	// build a chord vector
 	void checkStaff		 (int staff );					// check for staff change
@@ -138,6 +138,7 @@ class EXP xmlpart2guido :
 	void checkTiedBegin	 ( const std::vector<S_tied>& tied );
 	void checkTiedEnd	 ( const std::vector<S_tied>& tied );
 	void checkVoiceTime	 ( const rational& currTime, const rational& voiceTime);
+    int  checkRestFormat	 ( const notevisitor& stem );
 	void newNote		 ( const notevisitor& nv );
 
 	std::string			noteName		( const notevisitor& nv );
@@ -177,6 +178,7 @@ class EXP xmlpart2guido :
         virtual void visitStart( S_wedge& elt);
 		virtual void visitStart( S_rehearsal& elt);
         virtual void visitStart( S_staves& elt);
+    virtual void visitStart( S_attributes& elt);
 
 		virtual void visitEnd  ( S_clef& elt);
 		virtual void visitEnd  ( S_direction& elt);
@@ -189,6 +191,9 @@ class EXP xmlpart2guido :
 		virtual void visitEnd  ( S_repeat& elt);
 		virtual void visitEnd  ( S_sound& elt);
 		virtual void visitEnd  ( S_time& elt);
+    
+    virtual void visitEnd( S_attributes& elt){cout<<"S_attribute visit end"<<endl;};
+
 
     public:
 				 xmlpart2guido(bool generateComments, bool generateStem, bool generateBar=true);

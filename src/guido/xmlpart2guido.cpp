@@ -132,7 +132,7 @@ void xmlpart2guido::checkStaff (int staff) {
 		tag->add (guidoparam::create(fCurrentStaffIndex, false));
         add (tag);
         
-        cout<<"Creating Staff "<<fCurrentStaffIndex<<" from xmlpart2guido"<<endl;
+        //cout<<"Creating Staff "<<fCurrentStaffIndex<<" from xmlpart2guido"<<endl;
 
         
         //// Add staffFormat if needed
@@ -392,7 +392,7 @@ void xmlpart2guido::visitEnd ( S_direction& elt )
             directionWord = false;
         }
         else
-            tempoParams = tempoMetronome;
+            tempoParams = "\""+tempoMetronome+"\"";
         
         if (tempoParams.size())
         {
@@ -711,6 +711,126 @@ void xmlpart2guido::visitEnd ( S_time& elt )
 	add(tag);
 }
 
+    //______________________________________________________________________________
+    void xmlpart2guido::visitStart ( S_attributes& elt )
+    {
+        // get clef, key, division, staves, time and key in order!
+        /* Example:
+         <divisions>2</divisions>
+         <key>
+            <fifths>1</fifths>
+            <mode>major</mode>
+         </key>
+         <time>
+            <beats>3</beats>
+            <beat-type>2</beat-type>
+         </time>
+         <staves>2</staves>
+         <clef number="1">
+            <sign>G</sign>
+            <line>2</line>
+         </clef>
+         <clef number="2">
+            <sign>F</sign>
+            <line>4</line>
+         </clef>
+         *****/
+        
+        cout<<"Starting S_attribute visit:"<<endl;
+        
+        ctree<xmlelement>::iterator iter = elt->begin();
+        
+        // Clef first
+        iter = elt->find(k_clef);
+        while (iter != elt->end())
+        {
+            // There is a clef!
+            string clefsign = iter->getValue(k_sign);
+            int clefline = iter->getIntValue(k_line, 0);
+            int clefoctavechange = iter->getIntValue(k_clef_octave_change, 0);
+            cout << "\tS_attribute visitor: Got Clef "<<clefsign<<clefline<<endl;
+            
+            /// Actions:
+            int staffnum = iter->getAttributeIntValue("number", 0);
+            if ((staffnum != fTargetStaff) || fNotesOnly) break;
+            
+            stringstream s;
+            if ( clefsign == "G")			s << "g";
+            else if ( clefsign == "F")	s << "f";
+            else if ( clefsign == "C")	s << "c";
+            else if ( clefsign == "percussion")	s << "perc";
+            else if ( clefsign == "TAB")	s << "TAB";
+            else if ( clefsign == "none")	s << "none";
+            else {													// unknown clef sign !!
+                cerr << "warning: unknown clef sign \"" << clefsign << "\"" << endl;
+                return;
+            }
+            
+            string param;
+            if (clefline != 0)  // was clefvisitor::kStandardLine
+                s << clefline;
+            s >> param;
+            if (clefoctavechange == 1)
+                param += "+8";
+            else if (clefoctavechange == -1)
+                param += "-8";
+            Sguidoelement tag = guidotag::create("clef");
+            checkStaff (staffnum);
+            tag->add (guidoparam::create(param));
+            //add(tag);
+            
+            
+            /// Search again for other clefs:
+            iter++;
+            iter = elt->find(k_clef, iter);
+        }
+        
+        // set division
+        int divisions = (elt)->getIntValue(k_divisions, -1);
+        if (divisions != -1)
+            fCurrentDivision = divisions;
+        
+        // set staves
+        int staves = (elt)->getIntValue(k_staves, -1);
+        if (staves != -1)
+        {
+            /*
+            Sguidoelement tag = guidotag::create("accol");
+            fCurrentAccoladeIndex++;
+            std::string accolParams = "id="+std::to_string(fCurrentAccoladeIndex)+", range=\"";
+            string nStavesStr = elt->getValue();
+            int nStaves = atoi(nStavesStr.c_str());
+            int rangeEnd = fCurrentStaffIndex + nStaves - 1;
+            accolParams += std::to_string(fCurrentStaffIndex)+"-"+std::to_string(rangeEnd)+"\"";
+            tag->add (guidoparam::create(accolParams, false));
+            add (tag);
+            */
+        }
+        
+        // add key
+        iter = elt->find(k_key);
+        if (iter != elt->end())
+        {
+            string keymode = iter->getValue(k_mode);
+            int keyfifths = iter->getIntValue(k_fifths, 0);
+            cout << "\tS_attribute visitor: Got key "<<keymode<<keyfifths<<endl;
+            /*if (fNotesOnly) return;
+            Sguidoelement tag = guidotag::create("key");
+            tag->add (guidoparam::create(keyfifths, false));
+            add (tag);*/
+        }
+        
+        // add Time
+        iter = elt->find(k_time);
+        if (iter != elt->end())
+        {
+            int timebeat_type = iter->getIntValue(k_beat_type, 0);
+            int timebeats = iter->getIntValue(k_beats, 0);
+            cout << "\tS_attribute visitor: Got Time "<<timebeat_type<<timebeats<<endl;
+            // see S_time visitEnd for actions
+        }
+    }
+    
 //______________________________________________________________________________
 void xmlpart2guido::visitEnd ( S_clef& elt ) 
 {
@@ -901,7 +1021,7 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
             std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
             if (!(notevisitor::getSyllabic()== "end"))
             {
-                // Add a '-' only for Begin/Middle and at the end
+                // Add a '-' only for Begin/Middle and not at the end
                 newTxt.append("-");
             }
             tag->add (guidoparam::create(newTxt, true));
@@ -985,7 +1105,13 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
             if ( (thisDuration< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
             {
                 Sguidoelement tag = guidotag::create("space");
-                int additionalSpace = notevisitor::getLyricText().size() - minStringSize4Space;
+                int lyricStringSize = 0;
+                if (notevisitor::getSyllabic()=="end")
+                    lyricStringSize = notevisitor::getLyricText().size();
+                else
+                    lyricStringSize = notevisitor::getLyricText().size() +1;
+                
+                int additionalSpace =  lyricStringSize - minStringSize4Space;
                 //cout<< "\t Adding space "<<additionalSpace <<"..."<<endl;
                 tag->add (guidoparam::create(8 + additionalSpace, false));
                 add(tag);
@@ -1045,84 +1171,54 @@ int xmlpart2guido::checkArticulation ( const notevisitor& note )
 	Sguidoelement tag;
 	if (note.fAccent) {
 		tag = guidotag::create("accent");
-        //if (fGeneratePositions) xml2guidovisitor::addPosition(note.fAccent, tag, 0);
+        if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fAccent, tag);
 		push(tag);
 		n++;
 	}
 	if (note.fStrongAccent) {
 		tag = guidotag::create("marcato");
-        //if (fGeneratePositions) xml2guidovisitor::addPosition(note.fStrongAccent, tag, 0);
+        if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fStrongAccent, tag);
 		push(tag);
 		n++;
 	}
 	if (note.fStaccato) {
 		tag = guidotag::create("stacc");
-        //if (fGeneratePositions) xml2guidovisitor::addPosition(note.fStaccato, tag, 0);
+        if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fStaccato, tag);
 		push(tag);
 		n++;
 	}
 	if (note.fTenuto) {
 		tag = guidotag::create("ten");
-        if (fGeneratePositions) xml2guidovisitor::addPosition(note.fTenuto, tag, 0);
+        if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fTenuto, tag);
 		push(tag);
 		n++;
 	}
+    
+    /// Also check ornaments
+    if (note.fTrill) {
+        tag = guidotag::create("trill");
+        if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fTrill, tag);
+        push(tag);
+        n++;
+    }
+    
+    if (note.fMordent) {
+        tag = guidotag::create("mordent");
+        if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fMordent, tag);
+        push(tag);
+        n++;
+    }
+    
+    // TODO: distinguish between mordent and inverted mordent!!!
+    if (note.fInvertedMordent) {
+        tag = guidotag::create("mordent");
+        if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fInvertedMordent, tag);
+        push(tag);
+        n++;
+    }
+    
 	return n;
 }
-    
-    Sguidoelement xmlpart2guido::createArticulatedNote( const notevisitor& note )
-    {
-        int n = 0;
-        Sguidoelement tag;
-        
-        int octave = note.getOctave() - 3;			// octave offset between MusicXML and GUIDO is -3
-        string accident = alter2accident(note.getAlter());
-        string name = noteName(note);
-        guidonoteduration dur = noteDuration(note);
-        
-        Sguidoelement thisnote = guidonote::create(fTargetVoice, name, octave, dur, accident);
-        
-        if (!note.inChord())
-        {
-            
-            if (note.fAccent) {
-                tag = guidotag::create("accent");
-                if (fGeneratePositions) xml2guidovisitor::addPosY(note.fAccent, tag, 0);
-                n++;
-            }
-            if (note.fStrongAccent) {
-                tag = guidotag::create("marcato");
-                if (fGeneratePositions) xml2guidovisitor::addPosY(note.fStrongAccent, tag, 0);
-                n++;
-            }
-            if (note.fStaccato) {
-                tag = guidotag::create("stacc");
-                if (fGeneratePositions) xml2guidovisitor::addPosY(note.fStaccato, tag, 5);
-                n++;
-            }
-            if (note.fTenuto) {
-                tag = guidotag::create("ten");
-                if (fGeneratePositions) xml2guidovisitor::addPosY(note.fTenuto, tag, 6);
-                n++;
-            }
-            
-            if (n)
-            {
-                // If we are processing chord, then the Sguidoelement separater should be ","
-                if (isProcessingChord)
-                {
-                    tag->setEnd("),");
-                }
-                // embed note inside the articulation tag
-                tag->add(thisnote);
-            }
-        }
-        
-        if (n)
-            return tag;
-        else
-            return thisnote;
-    }
 
 //______________________________________________________________________________
 vector<Sxmlelement> xmlpart2guido::getChord ( const S_note& elt ) 
@@ -1234,18 +1330,34 @@ void xmlpart2guido::newNote ( const notevisitor& nv )
 	string name = noteName(nv);
 	guidonoteduration dur = noteDuration(nv);
     
-    Sguidoelement note;
-    if (!nv.inChord())
-    {
-        note = createArticulatedNote(nv);
-    }else
-    {
-        note = guidonote::create(fTargetVoice, name, octave, dur, accident);
-    }
-    //Sguidoelement note = guidonote::create(fTargetVoice, name, octave, dur, accident);
-	add (note);
+    Sguidoelement note = guidonote::create(fTargetVoice, name, octave, dur, accident);
+    
+    add (note);
 	checkTiedEnd (nv.getTied());
 }
+    
+    int xmlpart2guido::checkRestFormat	 ( const notevisitor& nv )
+    {
+        if (nv.getStep().size())
+        {
+            //cout<<"Rest measure="<<fMeasNum<<" voice="<<fTargetVoice<<" staff="<<fCurrentStaffIndex<<endl;
+            float restformatDy = nv.getRestFormatDy(clefvisitor::fSign);
+            //cout<<"\tcheckRestFormat with display-step:"<<nv.getStep()<<" octave:"<<nv.getOctave()<<" with current clef "<<clefvisitor::fSign<<" dy="<<restformatDy<<endl;
+
+            if (restformatDy!=0.0)
+            {
+                Sguidoelement restFormatTag = guidotag::create("restFormat");
+                stringstream s;
+                s << "dy=" << restformatDy;
+                restFormatTag->add (guidoparam::create(s.str(), false));
+                push(restFormatTag);
+                //cout<<"\t\t Added restFormatTag ";restFormatTag->print(cout);cout<<endl;
+                return 1;
+            }
+        }
+        
+        return 0;
+    }
 
 //______________________________________________________________________________
 void xmlpart2guido::visitEnd ( S_note& elt ) 
@@ -1276,7 +1388,11 @@ void xmlpart2guido::visitEnd ( S_note& elt )
     checkLyricBegin (notevisitor::getLyric());
 	
 	int pendingPops  = checkFermata(*this);
-	//pendingPops += checkArticulation(*this);
+	pendingPops += checkArticulation(*this);
+    
+    ///////// restFormat
+    if (notevisitor::getType()==kRest)
+        pendingPops += checkRestFormat(*this);
 
 	vector<Sxmlelement> chord = getChord(elt);
 	if (chord.size()) {
