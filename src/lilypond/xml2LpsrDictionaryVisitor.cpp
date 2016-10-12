@@ -557,6 +557,8 @@ void xml2LpsrDictionaryVisitor::visitStart (S_lyric& elt ) {
         fCurrentLyricNumber);
 
   fCurrentElision = false;
+
+  fCurrentNoteHasLyrics = true;
 }
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_syllabic& elt ) {
@@ -946,7 +948,10 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fMusicxmlAlteration = 0; // natural notes
   fMusicXMLNoteData.fMusicxmlOctave = -13;
   fMusicXMLNoteData.fDotsNumber = 0;
-   
+
+  // assume this note hasn't got lyrics until S_lyric is met
+  fCurrentNoteHasLyrics = false;
+  
   // assume this note doesn't belong to a chord until S_chord is met
   fMusicXMLNoteData.fNoteBelongsToAChord = false;
 
@@ -1196,9 +1201,14 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
     fAChordIsBeingBuilt = false;
   }
   
-   // keep track of note/rest in this visitor
+  // keep track of note/rest in this visitor
   fCurrentNote    = note;
   fCurrentElement = fCurrentNote; // another name for it
+
+  // add a skip chunk for notes/rests without lyrics
+  if (! fCurrentNoteHasLyrics)
+    fCurrentLyrics->
+      addSkipChunkToLyrics ();
 }
 
 

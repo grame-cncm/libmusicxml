@@ -2236,7 +2236,7 @@ void lpsrClef::printLPSR(ostream& os)
 {
   os <<
     "clef" << " \"" << fSign << "\"" <<
-    " " << fLine << " " << fOctaveChange << endl;
+    " line: " << fLine << " octaveChange: " << fOctaveChange << endl;
 }
 
 void lpsrClef::printLilyPondCode(ostream& os)
@@ -2780,12 +2780,12 @@ void lpsrLyricsChunk::printLPSR(ostream& os)
 {  
   os << "LyricsChunk" << " ";
   switch (fLyricsChunkType) {
-    case kSingleChunk: os << "single"; break;
-    case kBeginChunk:  os << "begin "; break;
-    case kMiddleChunk: os << "middle"; break;
-    case kEndChunk:    os << "end   "; break;
-    case kSkipChunk:   os << "skip  "; break;
-    case kBreakChunk:  os << "break "; break;
+    case kSingleChunk: os << "single";        break;
+    case kBeginChunk:  os << "begin";         break;
+    case kMiddleChunk: os << "middle";        break;
+    case kEndChunk:    os << "end";           break;
+    case kSkipChunk:   os << "skip";          break;
+    case kBreakChunk:  os << "break" << endl; break;
   } // switch
   if (fChunkText.size()) os << " " << fChunkText;
   os << endl;

@@ -744,7 +744,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <stem default-y="-35">down</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>　EMPTY </text>
+          <text> </text>
         </lyric>
       </note>
       <note default-x="56">
@@ -846,7 +846,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <stem default-y="-35">down</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>　EMPTY </text>
+          <text> </text>
         </lyric>
       </note>
       <note default-x="64">
