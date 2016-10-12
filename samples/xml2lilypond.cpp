@@ -55,6 +55,10 @@ void usage(int exitStatus) {
     "  --noPositions" << endl <<
     "        Don't generate positions" << endl <<
     endl <<
+    "  --drd, --delayRestsDynamics" << endl <<
+    "        Don't generate dynamics and wedges on rests," << endl <<
+    "        but delay them until the next actual note instead" << endl <<
+    endl <<
     "  --nt, --noTrace" << endl <<
     "        Don't generate a trace of the activity to standard error" << endl <<
     "  --d, --debug  " << endl <<
@@ -73,46 +77,64 @@ int main(int argc, char *argv[])
   }
   */
   
-  int helpPresent =          0;
-  int languagePresent =      0;
-  int absolutePresent =      0;
-  int numericaltimePresent = 0;
-  int nocommentsPresent =    0;
-  int noautobarsPresent =    0;
-  int stemsPresent =         0;
-  int positionsPresent =     0;
-  int notracePresent =       0;
-  int debugPresent =         0;
+  int helpPresent =                 0;
+  
+  int languagePresent =           0;
+  
+  int absolutePresent =           0;
+  int numericaltimePresent =      0;
+  int nocommentsPresent =         0;
+  int noautobarsPresent =         0;
+  int stemsPresent =              0;
+  int positionsPresent =          0;
+
+  int delayRestsDynamicsPresent = 0;
+  
+  int notracePresent =            0;
+  int debugPresent =              0;
   
   std::string selectedOptions = "";
   
   std::string           noteNamesLanguageName = "dutch";
   LpsrNoteNamesLanguage noteNamesLanguage =     kNederlands;
+  
   bool                  generateAbsoluteCode =  true;
+  
   bool                  generateNumericalTime = false;
   bool                  generateComments =      true;
   bool                  generateBars =          true;
   bool                  generateStems =         false;
   bool                  generatePositions =     false;
+
+  bool                  delayRestsDynamics =    false;
+  
   bool                  trace =                 true;
   bool                  debug =                 false;
   
   static struct option long_options [] =
     {
     /* These options set a flag. */
-    {"help",          no_argument,       &helpPresent, 1},
-    {"language",      required_argument, &languagePresent, 1},
-    {"abs",           no_argument,       &absolutePresent, 1},
-    {"absolute",      no_argument,       &absolutePresent, 1},
-    {"numericalTime", no_argument,       &numericaltimePresent, 1},
-    {"noComments",    no_argument,       &nocommentsPresent, 1},
-    {"noAutobars",    no_argument,       &noautobarsPresent, 1},
-    {"stems",         no_argument,       &stemsPresent, 1},
-    {"positions",     no_argument,       &positionsPresent, 1},
-    {"nt",            no_argument,       &notracePresent, 1},
-    {"noTrace",       no_argument,       &notracePresent, 1},
-    {"debug",         no_argument,       &debugPresent, 1},
-    {"d",            no_argument,       &debugPresent, 1},
+    {"help",               no_argument,       &helpPresent, 1},
+    
+    {"language",           required_argument, &languagePresent, 1},
+    
+    {"abs",                no_argument,       &absolutePresent, 1},
+    {"absolute",           no_argument,       &absolutePresent, 1},
+    
+    {"numericalTime",      no_argument,       &numericaltimePresent, 1},
+    {"noComments",         no_argument,       &nocommentsPresent, 1},
+    {"noAutobars",         no_argument,       &noautobarsPresent, 1},
+    {"stems",              no_argument,       &stemsPresent, 1},
+    {"positions",          no_argument,       &positionsPresent, 1},
+
+    {"drd",                no_argument,       &notracePresent, 1},
+    {"delayRestsDynamics", no_argument,       &notracePresent, 1},
+   
+    {"nt",                 no_argument,       &notracePresent, 1},
+    {"noTrace",            no_argument,       &notracePresent, 1},
+    {"d",                  no_argument,       &debugPresent, 1},
+    {"debug",              no_argument,       &debugPresent, 1},
+    
     {0, 0, 0, 0}
     };
 
@@ -136,6 +158,7 @@ int main(int argc, char *argv[])
           usage (0);
           break;
         }
+        
         if (languagePresent) {
           // optarg contains the language name
           if (gLpsrNoteNamesLanguageMap.count(optarg)) {
@@ -149,25 +172,27 @@ int main(int argc, char *argv[])
           }
           selectedOptions += "--language "+noteNamesLanguageName;
           }
-          break;        
+          break;
+             
         if (absolutePresent) {
           generateAbsoluteCode = true;
           selectedOptions += "--absolute ";
           break;
         }
+        
         if (numericaltimePresent) {
           generateNumericalTime = true;
-          selectedOptions += "--numericaltime ";
+          selectedOptions += "--numericalTime ";
           break;
         }
         if (nocommentsPresent) {
           generateComments = false;
-          selectedOptions += "--nocomments ";
+          selectedOptions += "--noComments ";
           break;
         }
         if (noautobarsPresent) {
           generateBars = false;
-          selectedOptions += "--noautobars ";
+          selectedOptions += "--noAutobars ";
           break;
         }
         if (stemsPresent) {
@@ -180,9 +205,16 @@ int main(int argc, char *argv[])
           selectedOptions += "--positions ";
           break;
         }
+        
+        if (delayRestsDynamicsPresent) {
+          delayRestsDynamics = true;
+          selectedOptions += "--delayRestsDynamics ";
+          break;
+        }
+        
         if (notracePresent) {
           trace = false;
-          selectedOptions += "--notrace ";
+          selectedOptions += "--noTrace ";
           break;
         }
         if (debugPresent) {
@@ -222,14 +254,20 @@ int main(int argc, char *argv[])
   // populate them
   ts->fLpsrNoteNamesLanguageAsString = noteNamesLanguageName;
   ts->fLpsrNoteNamesLanguage =         noteNamesLanguage;
+  
   ts->fGenerateAbsoluteCode =          generateAbsoluteCode;
+  
   ts->fGenerateNumericalTime =         generateNumericalTime;
   ts->fGenerateComments =              generateComments;
   ts->fGenerateBars =                  generateBars;
   ts->fGenerateStems =                 generateStems;
   ts->fGeneratePositions =             generatePositions;
+
+  ts->fDelayRestsDynamics  =           delayRestsDynamics;
+  
   ts->fTrace =                         trace;
   ts->fDebug =                         debug;
+  
   ts->fSelectedOptions =               selectedOptions;
 
   if (ts->fTrace)

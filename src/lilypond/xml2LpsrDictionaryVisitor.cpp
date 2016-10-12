@@ -39,6 +39,14 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
   fDictionary =
     lpsrDictionary::create (fTranslationSettings);
 
+  /*
+  A first part is created with an empty name and
+  all the nneded contents.
+  It will be reused when the first actual part is met,
+  changing its name on the fly
+  in lpsrPartGroup::tryAndReUseInitialAnonymousPart()
+  */
+  
   // add the implicit part group to the dictionary
   fCurrentPartGroupNumber = 1;
   fCurrentPartGroup =
@@ -46,28 +54,28 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
       addPartGroupToDictionary (fCurrentPartGroupNumber);
 
   // add the implicit part to the implicit part group
-  string partXMLName = "implicit";
+  string partXMLName = "";
   fCurrentPart =
     fCurrentPartGroup->
-      addPartToPartGroup (partXMLName); // JMI ???
+      addPartToPartGroup (partXMLName);
 
   // add the implicit staff to the implicit part
   fCurrentStaffNumber = 1;
   fCurrentStaff =
     fCurrentPart->
-      addStaffToPart (fCurrentStaffNumber); // JMI ???
+      addStaffToPart (fCurrentStaffNumber);
 
   // add the implicit voice to the implicit staff
   fCurrentVoiceNumber = 1;
   fCurrentVoice =
     fCurrentStaff->
-      addVoiceToStaff (fCurrentVoiceNumber); // JMI ???
+      addVoiceToStaff (fCurrentVoiceNumber);
 
   // add the implicit lyrics to the implicit voice
   fCurrentLyricNumber = 1;
   fCurrentLyrics =
     fCurrentVoice->
-      addLyricsToVoice (fCurrentLyricNumber); // JMI ???
+      addLyricsToVoice (fCurrentLyricNumber);
   
   fCurrentMeasureNumber = 0;
 }
@@ -709,11 +717,13 @@ void xml2LpsrDictionaryVisitor::createTuplet (S_lpsrNote note) {
     fCurrentNormalNotes);
 
   // register it in this visitor
-  cout << "--> pushing tuplet to tuplets stack" << endl;
+  if (fTranslationSettings->fDebug)
+    cout << "--> pushing tuplet to tuplets stack" << endl;
   fCurrentTupletsStack.push(fCurrentTuplet);
   
   // add note to the tuplet
-  cout << "--> adding note " << note << " to tuplets stack top" << endl;
+  if (fTranslationSettings->fDebug)
+    cout << "--> adding note " << note << " to tuplets stack top" << endl;
   fCurrentTuplet->addElementToTuplet(note);
 }
 
@@ -722,15 +732,18 @@ void xml2LpsrDictionaryVisitor::finalizeTuplet (S_lpsrNote note) {
   S_lpsrTuplet tup = fCurrentTupletsStack.top();
 
   // add note to the tuplet
-  cout << "--> adding note " << note << " to tuplets stack top" << endl;
+  if (fTranslationSettings->fDebug)
+    cout << "--> adding note " << note << " to tuplets stack top" << endl;
   tup->addElementToTuplet(note);
 
   // pop from the tuplets stack
-  cout << "--> popping from tuplets stack" << endl;
+  if (fTranslationSettings->fDebug)
+    cout << "--> popping from tuplets stack" << endl;
   fCurrentTupletsStack.pop();        
 
   // add tuplet to the part
-  cout << "=== adding tuplet to the part sequence" << endl;
+  if (fTranslationSettings->fDebug)
+    cout << "=== adding tuplet to the part sequence" << endl;
   S_lpsrElement elem = tup;
   fCurrentVoice->appendElementToVoiceSequence (elem);
 }          
@@ -738,8 +751,16 @@ void xml2LpsrDictionaryVisitor::finalizeTuplet (S_lpsrNote note) {
 //______________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt ) 
 {
-  //  cout << "<-- xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt ) " << endl;
-
+  if (fTranslationSettings->fDebug)
+    cout <<
+      "<-- xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt ) " << endl;
+      
+  /*
+  This is a complex method, due to the fact that
+  dynamics, wedges, chords and tuplets
+  are not ordered in the same way in MusicXML and LilyPond
+  */
+  
   if (fTranslationSettings->fDebug)
     cerr <<
       "fMusicXMLNoteData.fMusicxmlDuration = " << 
@@ -760,32 +781,36 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
 
   // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {
-/* JMI
-    if (fMusicXMLNoteData.fMusicxmlStepIsARest)
-      lpsrMusicXMLError (
-        "dynamics cannot be attached to a rest, delayed until next note");
-    else
-*/
+    if (
+        fMusicXMLNoteData.fMusicxmlStepIsARest
+          &&
+        fTranslationSettings->fDelayRestsDynamics) {
+      cerr <<
+        "delaying dynamics attached to a rest until next note";
+    } else {
       while (! fPendingDynamics.empty()) {
         S_lpsrDynamics dyn = fPendingDynamics.front();
         note->addDynamics(dyn);
         fPendingDynamics.pop_front();
       } // while
+    }
   }
   
   // attach the pending wedges if any to the note
   if (! fPendingWedges.empty()) {
-/* JMI
-    if (fMusicXMLNoteData.fMusicxmlStepIsARest)
-      lpsrMusicXMLError (
-        "wedges cannot be attached to a rest, delayed until next note");
-    else
-*/
+    if (
+        fMusicXMLNoteData.fMusicxmlStepIsARest
+          &&
+        fTranslationSettings->fDelayRestsDynamics) {
+      cerr <<
+        "delaying wedge attached to a rest until next note";
+    } else {
       while (! fPendingWedges.empty()) {
         S_lpsrWedge wdg = fPendingWedges.front();
         note->addWedge(wdg);
         fPendingWedges.pop_front();
       } // while
+    }
   }
           
   // a note can be standalone
@@ -807,7 +832,8 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
       fAChordIsBeingBuilt = true;
     }
     
-    //cout << "--> adding note to fCurrentChord" << endl;
+    if (fTranslationSettings->fDebug)
+      cout << "--> adding note to fCurrentChord" << endl;
     // register note as a member of fCurrentChord
     fCurrentChord->addNoteToChord(note);
       
@@ -838,7 +864,8 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
       case lpsrTuplet::kContinueTuplet:
         {
           // populate the tuplet at the top of the stack
-          cout << "--> adding note " << note << " to tuplets stack top" << endl;
+          if (fTranslationSettings->fDebug)
+            cout << "--> adding note " << note << " to tuplets stack top" << endl;
           fCurrentTupletsStack.top()->addElementToTuplet(note);
         }
         break;

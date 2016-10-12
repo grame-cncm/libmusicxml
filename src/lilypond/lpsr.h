@@ -1610,9 +1610,12 @@ class EXP lpsrPart : public lpsrElement {
   public:
 
     static SMARTP<lpsrPart> create (
-            S_translationSettings& ts,
-            string                 partMusicXMLName);
-    
+              S_translationSettings& ts,
+              string                 partMusicXMLName);
+
+    void    changePartMusicXMLName (
+              string newPartMusicXMLName);
+              
     string  getPartMusicXMLName () const
                 { return fPartMusicXMLName; }
                 
@@ -1631,11 +1634,11 @@ class EXP lpsrPart : public lpsrElement {
                     
     S_lpsrStaff
             addStaffToPart (
-                int staffNumber);
+              int staffNumber);
 
     S_lpsrStaff
             partContainsStaff (
-                int staffNumber);
+              int staffNumber);
 
     void    setPartName (string partName)
                 { fPartName = partName; }
@@ -1726,7 +1729,6 @@ class EXP lpsrPartGroup : public lpsrElement {
     S_lpsrPart
             addPartToPartGroup (
                 int partNumber);
-
     
     /*
     string  getPartGroupMusicXMLName () const
@@ -1756,6 +1758,10 @@ class EXP lpsrPartGroup : public lpsrElement {
     virtual ~lpsrPartGroup();
   
   private:
+
+    S_lpsrPart
+            tryAndReUseInitialAnonymousPart (
+                string partMusicXMLName);
 
 /*
   <part-list>

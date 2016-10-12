@@ -182,10 +182,13 @@ string int2EnglishWord (int n)
 //______________________________________________________________________________
 string stringNumbersToEnglishWords (string str)
 {
+  if (! str.size ())
+    return "None";
+  
   typedef enum { kInitialState, kWorkingOnDigits, kWorkingOnNonDigits } workState;
       
   vector<string> chunks;
-  vector<int>         states;
+  vector<int>    states;
     
   workState state = kInitialState;
   

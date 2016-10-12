@@ -101,6 +101,9 @@ class EXP translationSettings : public smartable {
     bool                            fGenerateBars;
     bool                            fGenerateStems;
     bool                            fGeneratePositions;
+
+    // advanced settings
+    bool                            fDelayRestsDynamics;
     
     // debug and trace
     bool                            fDebug;

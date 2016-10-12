@@ -3140,11 +3140,27 @@ lpsrPart::lpsrPart (
     
   if (fTranslationSettings->fTrace)
     cerr <<
-      "Creating part \"" << partMusicXMLName << "\"" <<
-      " (" << fPartLPSRName << ")" << endl;
+      "Creating part \"" << getPartCombinedName () << endl;
 }
 
 lpsrPart::~lpsrPart() {}
+
+void lpsrPart::changePartMusicXMLName (
+  string newPartMusicXMLName)
+{
+  string oldCombinedName = getPartCombinedName ();
+  
+  fPartMusicXMLName = newPartMusicXMLName;
+
+  // coin the part LPSR name
+  fPartLPSRName =
+    "Part_"+stringNumbersToEnglishWords (fPartMusicXMLName);
+    
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "Re-using part " << oldCombinedName <<
+      " as " << getPartCombinedName () << endl;
+}
 
 ostream& operator<< (ostream& os, const S_lpsrPart& elt)
 {
@@ -3160,8 +3176,7 @@ void lpsrPart::printMusicXML(ostream& os)
 void lpsrPart::printLPSR(ostream& os)
 {
   os <<
-    "Part" << " \"" << fPartMusicXMLName << "\"" <<
-    " (" << fPartLPSRName << ") " << endl;
+    "Part" << " \"" << getPartCombinedName () << endl;
     
   idtr++;
   
@@ -3183,8 +3198,7 @@ void lpsrPart::printLPSR(ostream& os)
 void lpsrPart::printLilyPondCode(ostream& os)
 {
   os <<
-    "Part" << " " << fPartLPSRName << " " <<
-    " (" << fPartLPSRName << ")" << endl <<
+    "Part" << " " << getPartCombinedName () << " " << endl <<
     "\"" << fPartInstrumentName << "\"" << endl;
   if (! fTranslationSettings->fGenerateAbsoluteCode) os << "\\relative "; // JMI
   os << "{" << endl;
@@ -3202,8 +3216,7 @@ S_lpsrStaff lpsrPart::addStaffToPart (
   if (fPartStavesMap.count (staffNumber)) {
     cerr <<
       "### Internal error: staffNumber " << staffNumber <<
-      " already exists in part " << " " << fPartLPSRName << " " <<
-      " (" << fPartLPSRName << ")" << endl;
+      " already exists in part " << " " << getPartCombinedName () << endl;
 
     return fPartStavesMap [staffNumber];
   }
@@ -3273,19 +3286,57 @@ S_lpsrPart lpsrPartGroup::addPartToPartGroup (
   }
 
   // create the part
-  S_lpsrPart
+  S_lpsrPart part;
+
+  part =
+    tryAndReUseInitialAnonymousPart (partMusicXMLName);
+
+  if (part) {
+    
+    // the anonymous part is being re-used
+    return part;
+
+  } else {
     part =
       lpsrPart::create (
         fTranslationSettings, partMusicXMLName);
 
-  // register it in this part group
-  fPartGroupPartsMap [partMusicXMLName] = part;
+    // register it in this part group
+    fPartGroupPartsMap [partMusicXMLName] = part;
+  
+    // push it on top the this part group's stack
+    if (fTranslationSettings->fTrace) {
+      cerr <<
+        "Pushing part " << part->getPartCombinedName () <<
+        " onto part group " << fPartGroupNumber << " stack" << endl;
+    }
 
-  // push it on top the this part group's stack
-  fPartGroupPartsStack.push (part);
+    // register it in this part group
+    fPartGroupPartsStack.push (part);
+  }
 
   // return it
   return part;
+}
+
+S_lpsrPart lpsrPartGroup::tryAndReUseInitialAnonymousPart (
+  string partMusicXMLName)
+{
+  S_lpsrPart result;
+
+  if (fPartGroupPartsStack.size ()) {
+    S_lpsrPart stackTopPart = fPartGroupPartsStack.top ();
+    
+    if (! stackTopPart->getPartMusicXMLName().size()) {
+      // this is the first true part, re-use the one
+      // created with an empty name initially
+      stackTopPart->
+        changePartMusicXMLName (partMusicXMLName);
+      result = stackTopPart;
+    }
+  }
+
+  return result;
 }
 
 void lpsrPartGroup::popPartGroupPartsStackTop ()
