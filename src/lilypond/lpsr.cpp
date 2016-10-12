@@ -2748,7 +2748,7 @@ void lpsrContext::printLilyPondCode(ostream& os)
 //______________________________________________________________________________
 S_lpsrLyricsChunk lpsrLyricsChunk::create (
   LyricsChunkType chunkType,
-  string     chunkText)
+  string          chunkText)
 {
   lpsrLyricsChunk* o =
     new lpsrLyricsChunk (chunkType, chunkText); assert(o!=0);
@@ -2757,7 +2757,7 @@ S_lpsrLyricsChunk lpsrLyricsChunk::create (
 
 lpsrLyricsChunk::lpsrLyricsChunk (
   LyricsChunkType chunkType,
-  string     chunkText)
+  string          chunkText)
   : lpsrElement("")
 {
   fLyricsChunkType = chunkType;
@@ -2820,8 +2820,9 @@ lpsrLyrics::lpsrLyrics (
   S_lpsrVoice            lyricsVoice)
     : lpsrElement("")
 {
-  fLyricsNumber = lyricsNumber;
-  fLyricsVoice  = lyricsVoice; 
+  fTranslationSettings = ts;
+  fLyricsNumber        = lyricsNumber;
+  fLyricsVoice         = lyricsVoice; 
 
   // coin the lyrics LPSR name
   fLyricsName =
@@ -2829,7 +2830,65 @@ lpsrLyrics::lpsrLyrics (
     "_Lyrics_" +
     int2EnglishWord (fLyricsNumber);
 }
+
 lpsrLyrics::~lpsrLyrics() {}
+
+void lpsrLyrics::addChunkToLyrics (
+  string syllabic,
+  string text)
+{
+  lpsrLyricsChunk::LyricsChunkType chunkType;
+  
+  if      (syllabic == "single")
+    chunkType = lpsrLyricsChunk::kSingleChunk;
+  else if (syllabic == "begin")
+    chunkType = lpsrLyricsChunk::kBeginChunk;
+  else if (syllabic == "middle")
+    chunkType = lpsrLyricsChunk::kMiddleChunk;
+  else if (syllabic == "end")
+    chunkType = lpsrLyricsChunk::kEndChunk;
+  else {
+    stringstream s;
+    string  result;
+    s << "--> syllabic = " << syllabic << " is unknown";
+    s >> result;
+    lpsrMusicXMLError(result);
+  }
+
+  // create lyrics chunk
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "--> creating lyrics word chunk \"" << syllabic <<
+      "\" containing " << text << endl;
+
+  S_lpsrLyricsChunk // JMI
+    chunk =
+      lpsrLyricsChunk::create (
+        chunkType, text);
+  
+  switch (chunkType) {
+    case lpsrLyricsChunk::kSingleChunk:
+    case lpsrLyricsChunk::kBeginChunk:
+      {  
+      // add lyrics chunk to this lyrics
+      fLyricsChunks.push_back (chunk);
+      }
+      break;
+
+    case lpsrLyricsChunk::kMiddleChunk:
+    case lpsrLyricsChunk::kEndChunk:
+      // add chunk to this lyrics
+      fLyricsChunks.push_back (chunk);
+      break;
+      
+    case lpsrLyricsChunk::kSkipChunk:
+    case lpsrLyricsChunk::kBreakChunk:
+      {
+        // internalError (); JMI
+      }
+      break;
+  } // switch
+}
 
 ostream& operator<< (ostream& os, const S_lpsrLyrics& stan)
 {

@@ -1425,9 +1425,9 @@ class EXP lpsrLyrics : public lpsrElement {
                 { return fLyricsChunks; }
 
     void    addChunkToLyrics (
-              S_lpsrLyricsChunk chunk)
-                { fLyricsChunks.push_back (chunk); }
-
+              string fCurrentSyllabic,
+              string fCurrentText);
+      
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
@@ -1441,6 +1441,8 @@ class EXP lpsrLyrics : public lpsrElement {
     virtual ~lpsrLyrics();
   
   private:
+
+    S_translationSettings     fTranslationSettings;
 
     int                       fLyricsNumber;
     S_lpsrVoice               fLyricsVoice;

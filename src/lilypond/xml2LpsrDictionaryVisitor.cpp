@@ -357,13 +357,14 @@ void xml2LpsrDictionaryVisitor::visitStart (S_lyric& elt ) {
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_syllabic& elt ) {
   fCurrentSyllabic = elt->getValue();
-
+/* JMI
   if (fCurrentSyllabic == "begin") {
     fOnGoingLyrics = true;
   }
   else if (fCurrentSyllabic == "end") {
     fOnGoingLyrics = true;
   }
+  */
 }
 
 void xml2LpsrDictionaryVisitor::visitEnd ( S_text& elt ) 
@@ -378,26 +379,27 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_text& elt )
 }
 
 void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
-
-  fOnGoingLyrics = false;
-
-/* JMI
-  if (! fCurrentVoiceLyricsMap [fCurrentLyricNumber]) {
-    // create lyrics on first visit
-    initiateLyrics ();
-  }
+/*
+      <note default-x="61">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="-10">up</stem>
+        <lyric default-y="-80" number="1">
+          <syllabic>single</syllabic>
+          <text>オノ</text>
+        </lyric>
+      </note>
 */
 
-  // create lyrics chunk
-  if (fTranslationSettings->fDebug)
-    cerr <<
-      "--> creating lyrics word chunk  containing " <<
-      fCurrentText << endl;
-
-  enum LyricsChunkType {
-      kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
-      kSkipChunk, kBreakChunk };
-  
+  fCurrentLyrics->
+    addChunkToLyrics (
+      fCurrentSyllabic, fCurrentText);
+/*
   lpsrLyricsChunk::LyricsChunkType chunkType;
   
   if      (fCurrentSyllabic == "single")
@@ -421,7 +423,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
     case lpsrLyricsChunk::kSingleChunk:
     case lpsrLyricsChunk::kBeginChunk:
       {
-        /* JMI
+        // JMI
       // create new lyrics on first visit
       S_lpsrLyrics // ???
         newLyrics =
@@ -431,7 +433,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
       fCurrentLyrics->
         addLyricsToLyrics (fCurrentLyricNumber, newLyrics);
       fCurrentVoiceLyricsMap [fCurrentLyricNumber] = newLyrics;
-  */
+  
   
       fCurrentChunk =
         lpsrLyricsChunk::create (
@@ -443,7 +445,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
           ", fCurrentLyricNumber = " << fCurrentLyricNumber << endl;
   
       // add lyrics chunk to current lyrics
-      fCurrentVoiceLyricsMap [fCurrentLyricNumber]->
+      fCurrentLyrics->
         addChunkToLyrics (fCurrentChunk);
      }
      break;
@@ -459,6 +461,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
       {}
       break;
   } // switch
+  */
 }
 
 //________________________________________________________________________
