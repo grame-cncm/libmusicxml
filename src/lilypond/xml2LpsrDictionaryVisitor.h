@@ -215,13 +215,25 @@ class EXP xml2LpsrDictionaryVisitor :
     int                   fCurrentVoiceNumber;
     S_lpsrVoice           fCurrentVoice;
     
-    // the last lyric number, i.e. lyrics number, met
+    // lyrics handling
+  bool fOnGoingLyrics; // TEMP JMI
+   // the last lyric number, i.e. lyrics number, met
     int                     fCurrentLyricNumber;
     // the last sysllabic spec met (single, begin, middle or end)
     string                  fCurrentSyllabic;
     // the last lyrics fragment met
     string                  fCurrentText;
-    S_lpsrLyrics          fCurrentLyrics;
+
+    // the current lyrics map and chunk
+    map<int, S_lpsrLyrics>
+                            fCurrentVoiceLyricsMap;
+    S_lpsrLyricsChunk       fCurrentChunk;
+    
+    string                  fCurrentLyricsName;
+    string                  fCurrentVoiceName;
+    bool                    fCurrentNoteHasLyrics;
+    void                    initiateLyrics ();
+    S_lpsrLyrics            fCurrentLyrics;
 
     int                   fCurrentMeasureNumber;
 
@@ -266,7 +278,7 @@ class EXP xml2LpsrDictionaryVisitor :
     stack<S_lpsrTuplet>     fCurrentTupletsStack;
          
     // chord handling
-    void                    createChord (S_lpsrDuration noteDuration);
+    S_lpsrChord             createChord (S_lpsrDuration noteDuration);
     
     // tuplet handling
     void                    createTuplet   (S_lpsrNote note);

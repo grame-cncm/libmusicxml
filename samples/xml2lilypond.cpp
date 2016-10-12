@@ -42,7 +42,8 @@ void usage(int exitStatus) {
     "        Display this help" << endl <<
     endl <<
     "  --abs, --absolute" << endl <<
-    "        Generate LilyPond absolute code. The default is to generate relative code" << endl <<
+    "        Generate LilyPond absolute code. " << endl <<
+    "        By default relative code is generated" << endl <<
     endl <<
     "  --numericalTime" << endl <<
     "        Don't generate non-numerical time signatures such as 'C'" << endl <<

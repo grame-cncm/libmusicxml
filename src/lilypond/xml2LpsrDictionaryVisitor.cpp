@@ -47,37 +47,40 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
   in lpsrPartGroup::tryAndReUseInitialAnonymousPart()
   */
   
-  // add the implicit part group to the dictionary
+  // add the anonymous part group to the dictionary
   fCurrentPartGroupNumber = 1;
   fCurrentPartGroup =
     fDictionary->
       addPartGroupToDictionary (fCurrentPartGroupNumber);
 
-  // add the implicit part to the implicit part group
+  // add the anonymous part to the anonymous part group
   string partXMLName = "";
   fCurrentPart =
     fCurrentPartGroup->
       addPartToPartGroup (partXMLName);
 
-  // add the implicit staff to the implicit part
+  // add the anonymous staff to the anonymous part
   fCurrentStaffNumber = 1;
   fCurrentStaff =
     fCurrentPart->
       addStaffToPart (fCurrentStaffNumber);
 
-  // add the implicit voice to the implicit staff
+  // add the anonymous voice to the anonymous staff
   fCurrentVoiceNumber = 1;
   fCurrentVoice =
     fCurrentStaff->
       addVoiceToStaff (fCurrentVoiceNumber);
 
-  // add the implicit lyrics to the implicit voice
+  // add the anonymous lyrics to the anonymous voice
   fCurrentLyricNumber = 1;
   fCurrentLyrics =
     fCurrentVoice->
       addLyricsToVoice (fCurrentLyricNumber);
   
   fCurrentMeasureNumber = 0;
+
+  fAChordIsBeingBuilt = false;
+  fATupletIsBeingBuilt = false;
 }
 
 xml2LpsrDictionaryVisitor::~xml2LpsrDictionaryVisitor () {}
@@ -340,8 +343,9 @@ void xml2LpsrDictionaryVisitor::visitStart (S_lyric& elt ) {
 
   // is this lyrics already present?
   fCurrentLyrics =
-    fCurrentVoice->voiceContainsLyrics (
-      fCurrentLyricNumber);
+    fCurrentVoice->
+      voiceContainsLyrics (
+        fCurrentLyricNumber);
 
   // no, add it to the current staff
   if (! fCurrentLyrics) 
@@ -353,7 +357,6 @@ void xml2LpsrDictionaryVisitor::visitStart (S_lyric& elt ) {
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_syllabic& elt ) {
   fCurrentSyllabic = elt->getValue();
-  /*
 
   if (fCurrentSyllabic == "begin") {
     fOnGoingLyrics = true;
@@ -361,7 +364,6 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_syllabic& elt ) {
   else if (fCurrentSyllabic == "end") {
     fOnGoingLyrics = true;
   }
-  * */
 }
 
 void xml2LpsrDictionaryVisitor::visitEnd ( S_text& elt ) 
@@ -376,31 +378,36 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_text& elt )
 }
 
 void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
-  /*
- // fOnGoingLyrics = false;
 
+  fOnGoingLyrics = false;
+
+/* JMI
   if (! fCurrentVoiceLyricsMap [fCurrentLyricNumber]) {
     // create lyrics on first visit
     initiateLyrics ();
   }
+*/
 
   // create lyrics chunk
-  / *
-  cout <<
+  if (fTranslationSettings->fDebug)
+    cerr <<
       "--> creating lyrics word chunk  containing " <<
       fCurrentText << endl;
 
-      enum LyricsChunkType {
+  enum LyricsChunkType {
       kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
       kSkipChunk, kBreakChunk };
-  * /
   
   lpsrLyricsChunk::LyricsChunkType chunkType;
   
-  if      (fCurrentSyllabic == "single") chunkType = lpsrLyricsChunk::kSingleChunk;
-  else if (fCurrentSyllabic == "begin")  chunkType = lpsrLyricsChunk::kBeginChunk;
-  else if (fCurrentSyllabic == "middle") chunkType = lpsrLyricsChunk::kMiddleChunk;
-  else if (fCurrentSyllabic == "end")    chunkType = lpsrLyricsChunk::kEndChunk;
+  if      (fCurrentSyllabic == "single")
+    chunkType = lpsrLyricsChunk::kSingleChunk;
+  else if (fCurrentSyllabic == "begin")
+    chunkType = lpsrLyricsChunk::kBeginChunk;
+  else if (fCurrentSyllabic == "middle")
+    chunkType = lpsrLyricsChunk::kMiddleChunk;
+  else if (fCurrentSyllabic == "end")
+    chunkType = lpsrLyricsChunk::kEndChunk;
   else {
     stringstream s;
     string  result;
@@ -414,24 +421,26 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
     case lpsrLyricsChunk::kSingleChunk:
     case lpsrLyricsChunk::kBeginChunk:
       {
+        /* JMI
       // create new lyrics on first visit
-      /*
       S_lpsrLyrics // ???
         newLyrics =
           lpsrLyrics::create (fCurrentLyricsName, fCurrentVoiceName);
-  * /
+
       // add the new lyrics to the current lyrics
-   //   fCurrentLyrics->
-    //    addLyricsToLyrics (fCurrentLyricNumber, newLyrics);
-    //  fCurrentVoiceLyricsMap [fCurrentLyricNumber] = newLyrics;
+      fCurrentLyrics->
+        addLyricsToLyrics (fCurrentLyricNumber, newLyrics);
+      fCurrentVoiceLyricsMap [fCurrentLyricNumber] = newLyrics;
+  */
   
       fCurrentChunk =
         lpsrLyricsChunk::create (
           chunkType, fCurrentText);
 
-      cout <<
-        "==> fCurrentSyllabic = " << fCurrentSyllabic <<
-        ", fCurrentLyricNumber = " << fCurrentLyricNumber << endl;
+      if (fTranslationSettings->fDebug)
+        cerr <<
+          "==> fCurrentSyllabic = " << fCurrentSyllabic <<
+          ", fCurrentLyricNumber = " << fCurrentLyricNumber << endl;
   
       // add lyrics chunk to current lyrics
       fCurrentVoiceLyricsMap [fCurrentLyricNumber]->
@@ -450,7 +459,6 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
       {}
       break;
   } // switch
-  */
 }
 
 //________________________________________________________________________
@@ -671,38 +679,50 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_rest& elt)
   fMusicXMLNoteData.fMusicxmlStepIsARest = true;
 }
 
-void xml2LpsrDictionaryVisitor::createChord (S_lpsrDuration noteDuration) {
+S_lpsrChord xml2LpsrDictionaryVisitor::createChord (S_lpsrDuration noteDuration) {
   // cout << "--> creating a chord on its 2nd note" << endl;
   
   // fCurrentNote has been registered standalone in the part element sequence,
   // but it is actually the first note of a chord
   
-   // create a chord
-  fCurrentChord = lpsrChord::create(noteDuration);
-  fCurrentElement = fCurrentChord; // another name for it
+  // create a chord
+  S_lpsrChord chord;
+  
+  chord = lpsrChord::create (noteDuration);
+  fCurrentElement = chord; // another name for it
    
-  //cout << "--> adding first note to fCurrentChord" << endl;
-  // register fCurrentNote as first member of fCurrentChord
-  fCurrentChord->addNoteToChord(fCurrentNote);
-  fCurrentNote->setNoteBelongsToAChord();
+  if (fTranslationSettings->fDebug)
+    cerr << "--> adding first note to chord" << endl;
+    
+  // register fCurrentNote as first member of chord
+  chord->addNoteToChord (fCurrentNote);
+  fCurrentNote->setNoteBelongsToAChord ();
   
   // move the pending dynamics if any from the first note to the chord
-  list<S_lpsrDynamics> noteDynamics = fCurrentNote->getNoteDynamics();
+  list<S_lpsrDynamics>
+    noteDynamics = fCurrentNote->getNoteDynamics();
+    
   while (! noteDynamics.empty()) {
-    //cout << "--> moving dynamics from fCurrentNote to fCurrentChord" << endl;
-    S_lpsrDynamics dyn = noteDynamics.front();
-    fCurrentChord->addDynamics(dyn);
-    noteDynamics.pop_front();
+    //cout << "--> moving dynamics from fCurrentNote to chord" << endl;
+    S_lpsrDynamics
+      dyn = noteDynamics.front();
+    chord->addDynamics (dyn);
+    noteDynamics.pop_front ();
   } // while
  
   // move the pending wedges if any from the first note to the chord
-  list<S_lpsrWedge> noteWedges = fCurrentNote->getNoteWedges();
+  list<S_lpsrWedge>
+    noteWedges = fCurrentNote->getNoteWedges();
+    
   while (! noteWedges.empty()) {
-    //cout << "--> moving wedge from fCurrentNote to fCurrentChord" << endl;
-    S_lpsrWedge wdg = noteWedges.front();
-    fCurrentChord->addWedge(wdg);
+    //cout << "--> moving wedge from fCurrentNote to chord" << endl;
+    S_lpsrWedge
+      wdg = noteWedges.front();
+    chord->addWedge (wdg);
     noteWedges.pop_front();
   } // while
+
+  return chord;
 }
 
 void xml2LpsrDictionaryVisitor::createTuplet (S_lpsrNote note) {
@@ -826,7 +846,8 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
         
     if (! fAChordIsBeingBuilt) {
       // create a chord with fCurrentNote as its first note
-      createChord (note->getNoteLpsrDuration());
+      fCurrentChord =
+        createChord (note->getNoteLpsrDuration ());
 
       // account for chord being built
       fAChordIsBeingBuilt = true;
@@ -835,7 +856,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
     if (fTranslationSettings->fDebug)
       cout << "--> adding note to fCurrentChord" << endl;
     // register note as a member of fCurrentChord
-    fCurrentChord->addNoteToChord(note);
+    fCurrentChord->addNoteToChord (note);
       
     // remove (previous) fCurrentNote that is the last element of the part sequence
     fCurrentVoice->removeLastElementOfVoiceSequence ();
