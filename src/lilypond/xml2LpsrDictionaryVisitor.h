@@ -83,6 +83,9 @@ class EXP xml2LpsrDictionaryVisitor :
   public visitor<S_staff>,
 
   public visitor<S_voice>,
+
+  public visitor<S_backup>,
+  public visitor<S_forward>,
   
   public visitor<S_time>,
   public visitor<S_beats>,
@@ -127,7 +130,7 @@ class EXP xml2LpsrDictionaryVisitor :
   public visitor<S_octave>,
   public visitor<S_duration>,
   public visitor<S_dot>,
-//  public visitor<S_voice>,
+
   public visitor<S_type>,
   public visitor<S_stem>,
   
@@ -172,6 +175,10 @@ class EXP xml2LpsrDictionaryVisitor :
     virtual void visitStart ( S_staff& elt);
     
     virtual void visitStart ( S_voice& elt );
+    
+    virtual void visitStart ( S_backup& elt );
+    virtual void visitEnd   ( S_backup& elt );
+    virtual void visitStart ( S_forward& elt );
     
     virtual void visitStart ( S_time& elt );
     virtual void visitEnd   ( S_time& elt );
@@ -382,6 +389,10 @@ class EXP xml2LpsrDictionaryVisitor :
     string                  fCurrentSlurNumber;
     string                  fCurrentSlurType;
     string                  fCurrentSlurPlacement;
+
+    // backup and forward handling
+    bool                    fOnGoingBackup;
+    int                     fCurrentBackupDuration;
 
 };
 

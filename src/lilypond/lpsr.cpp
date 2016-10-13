@@ -2786,19 +2786,19 @@ void lpsrLyricsChunk::printLPSR(ostream& os)
   switch (fLyricsChunkType) {
     case kSingleChunk:
       os << "single" << " duration: " << fChunkDuration;
-      if (fChunkText.size()) os << " " << fChunkText;
+      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
     case kBeginChunk:
       os << "begin" << " duration: " << fChunkDuration;
-      if (fChunkText.size()) os << " " << fChunkText;
+      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
     case kMiddleChunk:
       os << "middle" << " duration: " << fChunkDuration;
-      if (fChunkText.size()) os << " " << fChunkText;
+      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
     case kEndChunk:
       os << "end" << " duration: " << fChunkDuration;
-      if (fChunkText.size()) os << " " << fChunkText;
+      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
       
     case kSkipChunk:

@@ -84,6 +84,9 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
 
   fAChordIsBeingBuilt = false;
   fATupletIsBeingBuilt = false;
+
+  fOnGoingBackup = false;
+  fCurrentBackupDuration = -1;
 }
 
 xml2LpsrDictionaryVisitor::~xml2LpsrDictionaryVisitor () {}
@@ -284,6 +287,8 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part& elt)
   fCurrentVoiceNumber = -1 ;
 
   fCurrentMeasureNumber = 0; // in case of an anacrusis
+
+  fOnGoingBackup = false;
 }
 
 //________________________________________________________________________
@@ -352,6 +357,71 @@ void xml2LpsrDictionaryVisitor::visitStart (S_voice& elt )
   fMusicXMLNoteData.fVoiceNumber = fCurrentVoiceNumber;
 
   fCurrentStemDirection = kStemNeutral;
+}
+
+//________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart (S_backup& elt )
+{
+    fOnGoingBackup = true;
+
+  /*
+
+      <backup>
+        <duration>288</duration>
+      </backup>
+
+//  stackClean(); // closes pending chords, cue and grace
+  int duration = elt->getIntValue(k_duration, 0);
+  
+  if (duration) {   
+    // backup is supposed to be used only for moving between voices
+    // thus we don't move the voice time (which is supposed to be 0)
+    //  moveMeasureTime (-duration, false);
+
+
+  }
+  */
+}
+
+void xml2LpsrDictionaryVisitor::visitEnd (S_backup& elt )
+{
+    fOnGoingBackup = false;
+}
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_forward& elt )
+{
+  /*
+
+         <forward>
+        <duration>96</duration>
+        <voice>1</voice>
+        <staff>1</staff>
+      </forward>
+
+
+  bool scanElement = 
+    (elt->getIntValue(k_voice, 0) == fTargetVoice) 
+      && 
+    (elt->getIntValue(k_staff, 0) == fTargetStaff);
+  int duration = elt->getIntValue(k_duration, 0);
+  
+ // moveMeasureTime(duration, scanElement);
+  if (!scanElement) return;
+
+ // stackClean(); // closes pending chords, cue and grace
+
+  if (duration) {   
+    rational r(duration, fCurrentDivisions*4);
+    r.rationalise();
+    lpsrDuration dur (r.getNumerator(), r.getDenominator(), 57, "////"); // JMI
+    /*
+    S_lpsrElement note = 
+      lpsrNote::create();//(fTargetVoice); // JMI , "empty", 0, dur, "");
+    fCurrentVoice->appendElementToVoiceSequence (note);
+ //   fMeasureEmpty = false;
+  }
+ */
 }
 
 //______________________________________________________________________________
@@ -889,7 +959,13 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_octave& elt)
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_duration& elt )
 {
-  fMusicXMLNoteData.fMusicxmlDuration = (int)(*elt);
+  int musicXMLduration = (int)(*elt);
+  
+  if (! fOnGoingBackup)
+    fMusicXMLNoteData.fMusicxmlDuration = musicXMLduration;
+  else
+    fCurrentBackupDuration = musicXMLduration;
+    
 //  cout << "=== xml2LpsrDictionaryVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << endl; JMI
 }
 
