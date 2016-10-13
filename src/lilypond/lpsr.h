@@ -249,15 +249,15 @@ class EXP lpsrDuration : public lpsrElement {
   public:
   
     static SMARTP<lpsrDuration> create (
-        int num,
-        int denom,
-        int dots,
+        int    num,
+        int    denom,
+        int    dots,
         string tupletMemberType);
     
     lpsrDuration(
-        int num,
-        int denom,
-        int dots,
+        int    num,
+        int    denom,
+        int    dots,
         string tupletMemberType);
     virtual ~lpsrDuration();
     
@@ -1376,7 +1376,8 @@ class EXP lpsrLyricsChunk : public lpsrElement {
 
     static SMARTP<lpsrLyricsChunk> create (
             LyricsChunkType chunkType,
-            string          chunkText);
+            string          chunkText,
+            S_lpsrDuration  lpsrDuration);
      
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
@@ -1386,7 +1387,8 @@ class EXP lpsrLyricsChunk : public lpsrElement {
 
     lpsrLyricsChunk (
         LyricsChunkType chunkType,
-        string          chunkText);
+        string          chunkText,
+        S_lpsrDuration  lpsrDuration);
         
     virtual ~lpsrLyricsChunk();
 
@@ -1394,6 +1396,7 @@ class EXP lpsrLyricsChunk : public lpsrElement {
   
     LyricsChunkType fLyricsChunkType;
     string          fChunkText;
+    S_lpsrDuration  fChunkDuration;
 };
 typedef SMARTP<lpsrLyricsChunk> S_lpsrLyricsChunk;
 
@@ -1426,15 +1429,19 @@ class EXP lpsrLyrics : public lpsrElement {
                 { return fLyricsChunks; }
 
     void    addTextChunkToLyrics (
-              string syllabic,
-              string text,
-              bool   elision);
+              string          syllabic,
+              string          text,
+              bool            elision,
+              S_lpsrDuration  duration);
       
+    void    addSkipChunkToLyrics (
+              S_lpsrDuration  duration);
+
     void    addBreakChunkToLyrics (
               int nextMeasureNumber);
-    
-    void    addSkipChunkToLyrics ();
 
+    int     getLyricsTextPresent() { return fLyricsTextPresent; }
+    
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
@@ -1457,6 +1464,8 @@ class EXP lpsrLyrics : public lpsrElement {
     vector<S_lpsrLyricsChunk> fLyricsChunks;
 
     string                    fLyricsName; // computed in constructor
+
+    bool                      fLyricsTextPresent;
 };
 typedef SMARTP<lpsrLyrics> S_lpsrLyrics;
 typedef map<int, S_lpsrLyrics> lpsrLyricsMap;

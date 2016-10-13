@@ -106,7 +106,8 @@ class EXP xml2LpsrDictionaryVisitor :
 
   public visitor<S_tied>,
   public visitor<S_slur>,
-  
+  public visitor<S_beam>,
+
   public visitor<S_lyric>,
   public visitor<S_syllabic>,
   public visitor<S_text>,
@@ -131,8 +132,6 @@ class EXP xml2LpsrDictionaryVisitor :
   public visitor<S_stem>,
   
   public visitor<S_rest>,
-
-//  public visitor<S_beam>,
 
   public visitor<S_chord>,
 
@@ -200,7 +199,8 @@ class EXP xml2LpsrDictionaryVisitor :
 
     virtual void visitStart ( S_tied& elt);
     virtual void visitStart ( S_slur& elt);
-    
+    virtual void visitStart ( S_beam& elt);
+
     virtual void visitStart ( S_lyric& elt);
     virtual void visitEnd   ( S_lyric& elt);
     virtual void visitStart ( S_syllabic& elt);
@@ -230,8 +230,6 @@ class EXP xml2LpsrDictionaryVisitor :
 
     virtual void visitStart ( S_rest& elt);
 
-//    virtual void visitStart ( S_beam& elt);
-
     virtual void visitStart ( S_chord& elt);
     
     virtual void visitStart ( S_actual_notes& elt);
@@ -246,29 +244,29 @@ class EXP xml2LpsrDictionaryVisitor :
                      
     void         resetCurrentTime();
 
-    S_translationSettings fTranslationSettings;
+    S_translationSettings   fTranslationSettings;
 
-    S_lpsrDictionary      fDictionary;
+    S_lpsrDictionary        fDictionary;
 
     // the current part group, if any
     // the part group number indicates nested/overlapping groups
-    int                   fCurrentPartGroupNumber;
-    string                fCurrentPartGroupType;
-    S_lpsrPartGroup       fCurrentPartGroup;
-    string                fCurrentGroupSymbol;
-    string                fCurrentGroupBarline;
+    int                     fCurrentPartGroupNumber;
+    string                  fCurrentPartGroupType;
+    S_lpsrPartGroup         fCurrentPartGroup;
+    string                  fCurrentGroupSymbol;
+    string                  fCurrentGroupBarline;
     
     // number of staves (from the staves element)
-    int                   fStavesNumber;
+    int                     fStavesNumber;
     
-    int                   fCurrentStaffNumber;
-    S_lpsrStaff           fCurrentStaff;
+    int                     fCurrentStaffNumber;
+    S_lpsrStaff             fCurrentStaff;
 
-    string                fCurrentPartMusicXMLName;
-    S_lpsrPart            fCurrentPart;
+    string                  fCurrentPartMusicXMLName;
+    S_lpsrPart              fCurrentPart;
 
-    int                   fCurrentVoiceNumber;
-    S_lpsrVoice           fCurrentVoice;
+    int                     fCurrentVoiceNumber;
+    S_lpsrVoice             fCurrentVoice;
     
     // key handling
     int                     fCurrentFifths;
@@ -306,19 +304,20 @@ class EXP xml2LpsrDictionaryVisitor :
 //                            fCurrentVoiceLyricsMap;
 //    S_lpsrLyricsChunk       fCurrentChunk;
     
+    void                    initiateLyrics ();
+
     string                  fCurrentLyricsName;
     string                  fCurrentVoiceName;
     bool                    fCurrentNoteHasLyrics;
-    void                    initiateLyrics ();
     S_lpsrLyrics            fCurrentLyrics;
 
-    int                   fCurrentMeasureNumber;
+    int                     fCurrentMeasureNumber;
 
-    string                fCurrentBarlineLocation;
-    string                fCurrentBarStyle;
-    string                fCurrentRepeatDirection;
-    string                fCurrentEndingType;
-    int                   fCurrentEndingNumber;
+    string                  fCurrentBarlineLocation;
+    string                  fCurrentBarStyle;
+    string                  fCurrentRepeatDirection;
+    string                  fCurrentEndingType;
+    int                     fCurrentEndingNumber;
 
     // dividing quater notes in MusicXML
     int                     fCurrentMusicXMLDivisions;
@@ -327,7 +326,11 @@ class EXP xml2LpsrDictionaryVisitor :
     musicXMLNoteData        fMusicXMLNoteData;
 
     // stem handling
-    string                  fCurrentStem; 
+    string                  fCurrentStem;
+
+    // beam handling
+    string                  fCurrentBeam;
+    int                     fCurrentBeamNumber; 
 
     // description of the current chord
     S_lpsrChord             fCurrentChord;

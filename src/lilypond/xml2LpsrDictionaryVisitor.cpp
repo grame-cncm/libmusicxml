@@ -510,7 +510,8 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_metronome& elt )
 
   musicXMLBeatData b = fBeatsData[0];
   rational         r = 
-    NoteType::type2rational(NoteType::xml(b.fBeatUnit)), rdot(3,2);
+    NoteType::type2rational(
+      NoteType::xml(b.fBeatUnit)), rdot(3,2);
   
   while (b.fDots-- > 0) {
     r *= rdot;
@@ -689,9 +690,29 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
       </note>
 */
 
+
+  S_lpsrDuration
+    lyricLpsrDuration =
+      lpsrDuration::create (
+        fMusicXMLNoteData.fMusicxmlDuration,
+        fCurrentMusicXMLDivisions,
+        fMusicXMLNoteData.fDotsNumber,
+        ""); // HMI
+/*
+create (
+        int    num,
+        int    denom,
+        int    dots,
+        string tupletMemberType);
+*/
+
   fCurrentLyrics->
     addTextChunkToLyrics (
-      fCurrentSyllabic, fCurrentText, fCurrentElision);
+      fCurrentSyllabic,
+      fCurrentText,
+      fCurrentElision,
+      lyricLpsrDuration);
+      
 /*
   lpsrLyricsChunk::LyricsChunkType chunkType;
   
@@ -927,6 +948,16 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_stem& elt )
   fCurrentStem = elt->getValue();
 }
 
+void xml2LpsrDictionaryVisitor::visitStart ( S_beam& elt )
+{
+  //        <beam number="1">begin</beam>
+
+  fCurrentBeam = elt->getValue();
+
+  fCurrentBeamNumber = 
+    elt->getAttributeIntValue ("number", 0);
+}
+
 //______________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart ( S_chord& elt)
 {
@@ -1015,7 +1046,9 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_rest& elt)
   fMusicXMLNoteData.fMusicxmlStepIsARest = true;
 }
 
-S_lpsrChord xml2LpsrDictionaryVisitor::createChord (S_lpsrDuration noteDuration) {
+S_lpsrChord xml2LpsrDictionaryVisitor::createChord (
+  S_lpsrDuration noteDuration)
+{
   // cout << "--> creating a chord on its 2nd note" << endl;
   
   // fCurrentNote has been registered standalone in the part element sequence,
@@ -1061,7 +1094,8 @@ S_lpsrChord xml2LpsrDictionaryVisitor::createChord (S_lpsrDuration noteDuration)
   return chord;
 }
 
-void xml2LpsrDictionaryVisitor::createTuplet (S_lpsrNote note) {
+void xml2LpsrDictionaryVisitor::createTuplet (S_lpsrNote note)
+{
   // create a tuplet element
   S_lpsrTuplet fCurrentTuplet = lpsrTuplet::create();
   fCurrentElement = fCurrentTuplet; // another name for it
@@ -1127,8 +1161,10 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
   if (fCurrentMusicXMLDivisions <= 0)
     lpsrMusicXMLError ("divisions cannot be 0 nor negative");
   
-  fMusicXMLNoteData.fMusicxmlDivisions = fCurrentMusicXMLDivisions;
-  fMusicXMLNoteData.fTupletMemberType = fCurrentType;
+  fMusicXMLNoteData.fMusicxmlDivisions =
+    fCurrentMusicXMLDivisions;
+  fMusicXMLNoteData.fTupletMemberType =
+    fCurrentType;
   
   //cout << "::: creating a note" << endl;
   S_lpsrNote note =
@@ -1257,7 +1293,8 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
   // add a skip chunk for notes/rests without lyrics
   if (! fCurrentNoteHasLyrics)
     fCurrentLyrics->
-      addSkipChunkToLyrics ();
+      addSkipChunkToLyrics (
+        note->getNoteLpsrDuration ());
 }
 
 

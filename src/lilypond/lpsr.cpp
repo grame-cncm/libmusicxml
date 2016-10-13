@@ -177,9 +177,9 @@ void lpsrAbsoluteOctave::printLilyPondCode(ostream& os)
 
 //______________________________________________________________________________
 S_lpsrDuration lpsrDuration::create (
-  int num,
-  int denom,
-  int dots,
+  int     num,
+  int    denom,
+  int    dots,
   string tupletMemberType)
 {
   lpsrDuration * o =
@@ -189,11 +189,11 @@ S_lpsrDuration lpsrDuration::create (
 }
 
 lpsrDuration::lpsrDuration (
-    int num,
-    int denom,
-    int dots,
-    string tupletMemberType)
-  : lpsrElement("")
+  int    num,
+  int    denom,
+  int    dots,
+  string tupletMemberType)
+    : lpsrElement("")
 {
   fNum   = num;
   fDenom = denom;
@@ -2748,20 +2748,24 @@ void lpsrContext::printLilyPondCode(ostream& os)
 //______________________________________________________________________________
 S_lpsrLyricsChunk lpsrLyricsChunk::create (
   LyricsChunkType chunkType,
-  string          chunkText)
+  string          chunkText,
+  S_lpsrDuration  duration)
 {
   lpsrLyricsChunk* o =
-    new lpsrLyricsChunk (chunkType, chunkText); assert(o!=0);
+    new lpsrLyricsChunk (chunkType, chunkText, duration);
+  assert(o!=0);
   return o;
 }
 
 lpsrLyricsChunk::lpsrLyricsChunk (
   LyricsChunkType chunkType,
-  string          chunkText)
+  string          chunkText,
+  S_lpsrDuration  duration)
   : lpsrElement("")
 {
   fLyricsChunkType = chunkType;
-  fChunkText       = chunkText; 
+  fChunkText       = chunkText;
+  fChunkDuration   = duration;
 }
 lpsrLyricsChunk::~lpsrLyricsChunk() {}
 
@@ -2781,24 +2785,24 @@ void lpsrLyricsChunk::printLPSR(ostream& os)
   os << "LyricsChunk" << " ";
   switch (fLyricsChunkType) {
     case kSingleChunk:
-      os << "single";
+      os << "single" << " duration: " << fChunkDuration;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
     case kBeginChunk:
-      os << "begin";
+      os << "begin" << " duration: " << fChunkDuration;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
     case kMiddleChunk:
-      os << "middle";
+      os << "middle" << " duration: " << fChunkDuration;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
     case kEndChunk:
-      os << "end";
+      os << "end" << " duration: " << fChunkDuration;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
       
     case kSkipChunk:
-      os << "skip";
+      os << "skip" << " duration: " << fChunkDuration;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
       
@@ -2849,14 +2853,17 @@ lpsrLyrics::lpsrLyrics (
     fLyricsVoice->getVoiceName() +
     "_Lyrics_" +
     int2EnglishWord (fLyricsNumber);
+
+  fLyricsTextPresent = false;
 }
 
 lpsrLyrics::~lpsrLyrics() {}
 
 void lpsrLyrics::addTextChunkToLyrics (
-  string syllabic,
-  string text,
-  bool   elision)
+  string          syllabic,
+  string          text,
+  bool            elision,
+  S_lpsrDuration  lpsrDuration)
 {
   lpsrLyricsChunk::LyricsChunkType chunkType;
   
@@ -2884,10 +2891,10 @@ void lpsrLyrics::addTextChunkToLyrics (
       "\" containing \"" << text <<
       "\", elision = " << elision << endl;
 
-  S_lpsrLyricsChunk // JMI
+  S_lpsrLyricsChunk
     chunk =
       lpsrLyricsChunk::create (
-        chunkType, text);
+        chunkType, text, lpsrDuration);
   
   switch (chunkType) {
     case lpsrLyricsChunk::kSingleChunk:
@@ -2911,6 +2918,25 @@ void lpsrLyrics::addTextChunkToLyrics (
       }
       break;
   } // switch
+
+  fLyricsTextPresent = true;
+}
+
+void lpsrLyrics::addSkipChunkToLyrics (
+  S_lpsrDuration  lpsrDuration)
+{
+  if (fTranslationSettings->fTrace)
+    cout <<
+      "--> creating a lyrics skip chunk" << endl;
+
+  // create lyrics skip chunk
+  S_lpsrLyricsChunk
+    chunk =
+      lpsrLyricsChunk::create (
+        lpsrLyricsChunk::kSkipChunk, "", lpsrDuration);
+        
+  // add chunk to this lyrics
+  fLyricsChunks.push_back (chunk);
 }
 
 void lpsrLyrics::addBreakChunkToLyrics (
@@ -2927,26 +2953,15 @@ void lpsrLyrics::addBreakChunkToLyrics (
   s >> str;
   
   // create lyrics break chunk
-  S_lpsrLyricsChunk
-    chunk =
-      lpsrLyricsChunk::create (
-        lpsrLyricsChunk::kBreakChunk, str);
+
+  S_lpsrDuration
+    nullLpsrDuration =
+      lpsrDuration::create (0, 0, 0, "");
         
-  // add chunk to this lyrics
-  fLyricsChunks.push_back (chunk);
-}
-
-void lpsrLyrics::addSkipChunkToLyrics ()
-{
-  if (fTranslationSettings->fTrace)
-    cout <<
-      "--> creating a lyrics skip chunk" << endl;
-
-  // create lyrics skip chunk
   S_lpsrLyricsChunk
     chunk =
       lpsrLyricsChunk::create (
-        lpsrLyricsChunk::kSkipChunk, "");
+        lpsrLyricsChunk::kBreakChunk, str, nullLpsrDuration);
         
   // add chunk to this lyrics
   fLyricsChunks.push_back (chunk);
@@ -2965,7 +2980,10 @@ void lpsrLyrics::printMusicXML(ostream& os)
 
 void lpsrLyrics::printLPSR(ostream& os)
 {  
-  os << "Lyrics" << " " << fLyricsName << endl;
+  os << "Lyrics" << " " << fLyricsName;
+  if (! fLyricsTextPresent)
+    os << " (No actual text)";
+  os << endl;
   idtr++;
   int n = fLyricsChunks.size();
   for (int i = 0; i < n; i++) {
