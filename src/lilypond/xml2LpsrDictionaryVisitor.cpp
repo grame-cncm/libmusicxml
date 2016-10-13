@@ -174,8 +174,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_divisions& elt )
         " divisions";
     cerr <<
       " per quater note in part \"" <<
-      fCurrentPart->getPartMusicXMLName () << "\" (" <<
-      fCurrentPart->getPartLPSRName () << ")" << endl;
+      fCurrentPart->getPartCombinedName () << endl;
   }
 }
 
@@ -690,20 +689,27 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
       </note>
 */
 
-
   S_lpsrDuration
     lyricLpsrDuration =
       lpsrDuration::create (
         fMusicXMLNoteData.fMusicxmlDuration,
         fCurrentMusicXMLDivisions,
         fMusicXMLNoteData.fDotsNumber,
-        ""); // HMI
+        fMusicXMLNoteData.fTupletMemberType);
 /*
 create (
         int    num,
         int    denom,
         int    dots,
         string tupletMemberType);
+        *
+        *   fNoteLpsrDuration =
+    lpsrDuration::create (
+      fMusicXMLNoteData.fMusicxmlDuration,
+      divisionsPerWholeNote,
+      fMusicXMLNoteData.fDotsNumber,
+      fMusicXMLNoteData.fTupletMemberType);
+
 */
 
   fCurrentLyrics->
@@ -712,70 +718,6 @@ create (
       fCurrentText,
       fCurrentElision,
       lyricLpsrDuration);
-      
-/*
-  lpsrLyricsChunk::LyricsChunkType chunkType;
-  
-  if      (fCurrentSyllabic == "single")
-    chunkType = lpsrLyricsChunk::kSingleChunk;
-  else if (fCurrentSyllabic == "begin")
-    chunkType = lpsrLyricsChunk::kBeginChunk;
-  else if (fCurrentSyllabic == "middle")
-    chunkType = lpsrLyricsChunk::kMiddleChunk;
-  else if (fCurrentSyllabic == "end")
-    chunkType = lpsrLyricsChunk::kEndChunk;
-  else {
-    stringstream s;
-    string  result;
-  
-    s << "--> fCurrentSyllabic = " << fCurrentSyllabic << " is unknown";
-    s >> result;
-    lpsrMusicXMLError(result);
-  }
-
-  switch (chunkType) {
-    case lpsrLyricsChunk::kSingleChunk:
-    case lpsrLyricsChunk::kBeginChunk:
-      {
-        // JMI
-      // create new lyrics on first visit
-      S_lpsrLyrics // ???
-        newLyrics =
-          lpsrLyrics::create (fCurrentLyricsName, fCurrentVoiceName);
-
-      // add the new lyrics to the current lyrics
-      fCurrentLyrics->
-        addLyricsToLyrics (fCurrentLyricNumber, newLyrics);
-      fCurrentVoiceLyricsMap [fCurrentLyricNumber] = newLyrics;
-  
-  
-      fCurrentChunk =
-        lpsrLyricsChunk::create (
-          chunkType, fCurrentText);
-
-      if (fTranslationSettings->fDebug)
-        cerr <<
-          "==> fCurrentSyllabic = " << fCurrentSyllabic <<
-          ", fCurrentLyricNumber = " << fCurrentLyricNumber << endl;
-  
-      // add lyrics chunk to current lyrics
-      fCurrentLyrics->
-        addChunkToLyrics (fCurrentChunk);
-     }
-     break;
-
-    case lpsrLyricsChunk::kMiddleChunk:
-    case lpsrLyricsChunk::kEndChunk:
-      // add chunk to current lyrics
-      fCurrentVoiceLyricsMap [fCurrentLyricNumber]->
-        addChunkToLyrics (fCurrentChunk);
-      break;
-    case lpsrLyricsChunk::kSkipChunk:
-    case lpsrLyricsChunk::kBreakChunk:
-      {}
-      break;
-  } // switch
-  */
 }
 
 //________________________________________________________________________
@@ -786,7 +728,8 @@ void xml2LpsrDictionaryVisitor::visitStart (S_measure& elt)
     
   if (fTranslationSettings->fTrace)
     cerr <<
-      "=== MEASURE " << fCurrentMeasureNumber << " ===" << endl;
+      "=== MEASURE " << fCurrentMeasureNumber << " === " <<
+      "PART " << fCurrentPart->getPartCombinedName () <<" ===" << endl;
 }
 
 //______________________________________________________________________________
