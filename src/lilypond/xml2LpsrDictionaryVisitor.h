@@ -310,6 +310,7 @@ class EXP xml2LpsrDictionaryVisitor :
     string                  fCurrentVoiceName;
     bool                    fCurrentNoteHasLyrics;
     S_lpsrLyrics            fCurrentLyrics;
+    bool                    fCurrentLyricsHasText;
 
     int                     fCurrentMeasureNumber;
 
@@ -326,7 +327,10 @@ class EXP xml2LpsrDictionaryVisitor :
     musicXMLNoteData        fMusicXMLNoteData;
 
     // stem handling
+    enum StemDirection { kStemNeutral, kStemUp, kStemDown };
+    
     string                  fCurrentStem;
+    StemDirection           fCurrentStemDirection;
 
     // beam handling
     string                  fCurrentBeam;

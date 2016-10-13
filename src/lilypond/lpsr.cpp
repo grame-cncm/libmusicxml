@@ -2889,7 +2889,8 @@ void lpsrLyrics::addTextChunkToLyrics (
       "--> creating lyrics " << fLyricsNumber <<
       " text chunk \"" << syllabic <<
       "\" containing \"" << text <<
-      "\", elision = " << elision << endl;
+      "\", elision: " << elision <<
+      ", duration: " << lpsrDuration << endl;
 
   S_lpsrLyricsChunk
     chunk =
@@ -2927,7 +2928,8 @@ void lpsrLyrics::addSkipChunkToLyrics (
 {
   if (fTranslationSettings->fTrace)
     cout <<
-      "--> creating a lyrics skip chunk" << endl;
+      "--> creating a lyrics skip chunk, duration: " <<
+      lpsrDuration << endl;
 
   // create lyrics skip chunk
   S_lpsrLyricsChunk

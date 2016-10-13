@@ -350,6 +350,8 @@ void xml2LpsrDictionaryVisitor::visitStart (S_voice& elt )
           fCurrentVoiceNumber);
 
   fMusicXMLNoteData.fVoiceNumber = fCurrentVoiceNumber;
+
+  fCurrentStemDirection = kStemNeutral;
 }
 
 //______________________________________________________________________________
@@ -586,6 +588,8 @@ void xml2LpsrDictionaryVisitor::visitStart (S_lyric& elt )
       addLyricsToVoice (
         fCurrentLyricNumber);
 
+  fCurrentLyricsHasText = false;
+  fCurrentText = "";
   fCurrentElision = false;
 
   fCurrentNoteHasLyrics = true;
@@ -609,9 +613,16 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_text& elt )
   string text = elt->getValue();
 
   // text may be composed of only spaces, so:
-  fCurrentText = "";
+  string dest;
   std::for_each (
-    text.begin(), text.end(), stringSpaceRemover (fCurrentText));
+    text.begin(), text.end(), stringSpaceRemover (dest));
+
+  if (fCurrentElision)
+    fCurrentText += " "+dest;
+  else
+    fCurrentText = dest;
+
+  fCurrentLyricsHasText = true;
 
 /*
   cout <<
@@ -689,35 +700,43 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
       </note>
 */
 
-  S_lpsrDuration
-    lyricLpsrDuration =
-      lpsrDuration::create (
-        fMusicXMLNoteData.fMusicxmlDuration,
-        fCurrentMusicXMLDivisions,
-        fMusicXMLNoteData.fDotsNumber,
-        fMusicXMLNoteData.fTupletMemberType);
-/*
-create (
-        int    num,
-        int    denom,
-        int    dots,
-        string tupletMemberType);
-        *
-        *   fNoteLpsrDuration =
-    lpsrDuration::create (
-      fMusicXMLNoteData.fMusicxmlDuration,
-      divisionsPerWholeNote,
-      fMusicXMLNoteData.fDotsNumber,
-      fMusicXMLNoteData.fTupletMemberType);
-
+/* JMI lyric without text
+        <lyric name="verse" number="3">
+          <extend type="stop"/>
+        </lyric>
 */
 
-  fCurrentLyrics->
-    addTextChunkToLyrics (
-      fCurrentSyllabic,
-      fCurrentText,
-      fCurrentElision,
-      lyricLpsrDuration);
+  if (fCurrentLyricsHasText) {
+    S_lpsrDuration
+      lyricLpsrDuration =
+        lpsrDuration::create (
+          fMusicXMLNoteData.fMusicxmlDuration,
+          fCurrentMusicXMLDivisions,
+          fMusicXMLNoteData.fDotsNumber,
+          fMusicXMLNoteData.fTupletMemberType);
+  /*
+  create (
+          int    num,
+          int    denom,
+          int    dots,
+          string tupletMemberType);
+          *
+          *   fNoteLpsrDuration =
+      lpsrDuration::create (
+        fMusicXMLNoteData.fMusicxmlDuration,
+        divisionsPerWholeNote,
+        fMusicXMLNoteData.fDotsNumber,
+        fMusicXMLNoteData.fTupletMemberType);
+  
+  */
+  
+    fCurrentLyrics->
+      addTextChunkToLyrics (
+        fCurrentSyllabic,
+        fCurrentText,
+        fCurrentElision,
+        lyricLpsrDuration);
+  }
 }
 
 //________________________________________________________________________
@@ -888,7 +907,34 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_stem& elt )
 {
   //         <stem default-y="28.5">up</stem>
 
-  fCurrentStem = elt->getValue();
+  string        stem = elt->getValue();
+  StemDirection stemDirection;
+  
+  if (stem == "up")
+    stemDirection = kStemUp;
+  else if (stem == "down")
+    stemDirection = kStemDown;
+  else
+    stemDirection = kStemNeutral; // JMI
+
+  if (stemDirection != fCurrentStemDirection) {
+    if (fTranslationSettings->fGenerateStems) {
+      switch (stemDirection) {
+        case kStemNeutral:
+          // \stemNeutral JMI
+          break;
+        case kStemUp:
+          // \stemUp JMI
+          break;
+        case kStemDown:
+          // \stemDown JMI
+          break;
+      } // switch
+    }
+    fCurrentStemDirection = stemDirection;
+  }
+  
+  fCurrentStem = stem;
 }
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_beam& elt )
@@ -1116,12 +1162,14 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
 
   // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {
-    if (
-        fMusicXMLNoteData.fMusicxmlStepIsARest
-          &&
-        fTranslationSettings->fDelayRestsDynamics) {
+    if (fMusicXMLNoteData.fMusicxmlStepIsARest) {
+      if (fTranslationSettings->fDelayRestsDynamics) {
       cerr <<
-        "delaying dynamics attached to a rest until next note";
+        "--> Delaying dynamics attached to a rest until next note";
+     } else {
+       cerr <<
+          "--> There is dynamics attached to a rest";
+    }
     } else {
       while (! fPendingDynamics.empty()) {
         S_lpsrDynamics dyn = fPendingDynamics.front();
@@ -1133,12 +1181,14 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
   
   // attach the pending wedges if any to the note
   if (! fPendingWedges.empty()) {
-    if (
-        fMusicXMLNoteData.fMusicxmlStepIsARest
-          &&
-        fTranslationSettings->fDelayRestsDynamics) {
+    if (fMusicXMLNoteData.fMusicxmlStepIsARest) {
+      if (fTranslationSettings->fDelayRestsDynamics) {
       cerr <<
-        "delaying wedge attached to a rest until next note";
+        "--> Delaying wedge attached to a rest until next note";
+     } else {
+       cerr <<
+          "--> There is a wedge attached to a rest";
+    }
     } else {
       while (! fPendingWedges.empty()) {
         S_lpsrWedge wdg = fPendingWedges.front();
@@ -1234,10 +1284,22 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
   fCurrentElement = fCurrentNote; // another name for it
 
   // add a skip chunk for notes/rests without lyrics
-  if (! fCurrentNoteHasLyrics)
+  // do a copy, not to share things! JMI ???
+  if (! fCurrentNoteHasLyrics) {
+    /*
+    lpsrDuration
+      lyricsLpsrDuration =
+        lpsrDuration (*(note->getNoteLpsrDuration ()));
+    */
+    
+    S_lpsrDuration
+      lyricsLpsrDuration =
+        note->getNoteLpsrDuration ();
+
     fCurrentLyrics->
       addSkipChunkToLyrics (
-        note->getNoteLpsrDuration ());
+        lyricsLpsrDuration);
+  }
 }
 
 
