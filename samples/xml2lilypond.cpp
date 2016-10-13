@@ -280,12 +280,17 @@ int main(int argc, char *argv[])
       endl <<
       "The settings are:" << endl <<
       "  noteNamesLanguageName: \"" << noteNamesLanguageName << "\"" << endl <<
+      
       "  generateAbsoluteCode:  " << string(generateAbsoluteCode ? "true" : "false") << endl <<
+      
       "  generateNumericalTime: " << string(generateNumericalTime ? "true" : "false") << endl <<
       "  generateComments:      " << string(generateComments ? "true" : "false") << endl <<
       "  generateBars:          " << string(generateBars ? "true" : "false") << endl <<
       "  generateStems:         " << string(generateStems ? "true" : "false") << endl <<
       "  generatePositions:     " << string(generatePositions ? "true" : "false") << endl <<
+
+      "  delayRestsDynamics:    " << string(delayRestsDynamics ? "true" : "false") << endl <<
+    
       "  trace:                 " << string(trace ? "true" : "false") << endl <<
       "  debug:                 " << string(debug ? "true" : "false") << endl;
   

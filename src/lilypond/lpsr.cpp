@@ -3646,7 +3646,7 @@ void lpsrBarCommand::printMusicXML(ostream& os)
 
 void lpsrBarCommand::printLPSR(ostream& os)
 {
-  os << "BarCommand" << " " << "\"|.\"";
+  os << "BarCommand" << " " << "\"|.\"" << endl;
 }
 
 void lpsrBarCommand::printLilyPondCode(ostream& os)
