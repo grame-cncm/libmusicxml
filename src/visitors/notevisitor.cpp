@@ -526,8 +526,9 @@ void notevisitor::visitEnd ( S_note& elt )
         }
         */
             
-            // Got it reversed!!!
-            restFormatDy = -1.0 * restFormatDy;
+            // Got it reversed for F clef
+            if (fCurClef == "G")
+                restFormatDy = -1.0 * restFormatDy;
         }
         
         return restFormatDy;

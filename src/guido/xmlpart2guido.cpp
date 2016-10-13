@@ -849,7 +849,17 @@ void xmlpart2guido::visitEnd ( S_time& elt )
             string timesign;
             if (!senzamesura) {
                 if (timesymbol == "common") {
-                    rational ts = timesignvisitor::timesign(0);
+                    // simulation of timesignvisitor::timesign function
+                    //rational ts = timesignvisitor::timesign(0);
+                    int index = 0;
+                    rational ts(0,1);
+                    if (index < fTimeSignInternal.size()) {
+                        const pair<string,string>& tss = fTimeSignInternal[index];
+                        long num = strtol (tss.first.c_str(), 0, 10);
+                        long denum = strtol (tss.second.c_str(), 0, 10);
+                        if (num && denum) ts.set(num, denum);
+                    }
+                    ///
                     if ((ts.getDenominator() == 2) && (ts.getNumerator() == 2))
                         timesign = "C/";
                     else if ((ts.getDenominator() == 4) && (ts.getNumerator() == 4))
@@ -868,7 +878,19 @@ void xmlpart2guido::visitEnd ( S_time& elt )
                     for (unsigned int i = 0; i < fTimeSignInternal.size(); i++) {
                         s << sep << fTimeSignInternal[i].first << "/" << fTimeSignInternal[i].second;
                         sep = "+";
-                        fCurrentTimeSign += timesignvisitor::timesign(i);
+                        //fCurrentTimeSign += timesignvisitor::timesign(i);
+                        // simulation of timesignvisitor::timesign function
+                        //rational ts = timesignvisitor::timesign(i);
+                        int index = i;
+                        rational ts(0,1);
+                        if (index < fTimeSignInternal.size()) {
+                            const pair<string,string>& tss = fTimeSignInternal[index];
+                            long num = strtol (tss.first.c_str(), 0, 10);
+                            long denum = strtol (tss.second.c_str(), 0, 10);
+                            if (num && denum) ts.set(num, denum);
+                        }
+                        ///
+                        fCurrentTimeSign += ts;
                     }
                     s >> timesign;
                 }
