@@ -16,6 +16,7 @@
 
 #include <sstream>
 #include <stdlib.h>     /* abort, NULL */
+#include <algorithm>    /* for_each */
 
 #include "xml_tree_browser.h"
 
@@ -485,7 +486,8 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_metronome& elt )
   }
 }
   
-void xml2LpsrDictionaryVisitor::visitEnd ( S_metronome& elt ) { 
+void xml2LpsrDictionaryVisitor::visitEnd ( S_metronome& elt )
+{ 
  // if (fSkipDirection) return;
 
   if (fCurrentBeat.fBeatUnit.size()) {
@@ -523,7 +525,8 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_metronome& elt ) {
  // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
 
-void xml2LpsrDictionaryVisitor::visitStart ( S_beat_unit& elt ) { 
+void xml2LpsrDictionaryVisitor::visitStart ( S_beat_unit& elt )
+{ 
   if (fCurrentBeat.fBeatUnit.size()) {
     fBeatsData.push_back (fCurrentBeat); 
     fCurrentBeat.fBeatUnit = "";
@@ -538,8 +541,35 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_beat_unit_dot& elt )
 void xml2LpsrDictionaryVisitor::visitStart ( S_per_minute& elt )
   { fPerMinute = (int)(*elt); }
 
+
 //________________________________________________________________________
-void xml2LpsrDictionaryVisitor::visitStart (S_lyric& elt ) { 
+void xml2LpsrDictionaryVisitor::visitStart (S_tied& elt )
+{
+//           <tied orientation="over" type="start"/>
+
+fCurrentTiedType =
+  elt->getAttributeValue ("type");
+
+fCurrentTiedOrientation =
+  elt->getAttributeValue ("orientation");
+}
+
+void xml2LpsrDictionaryVisitor::visitStart (S_slur& elt )
+{
+//          <slur number="1" placement="above" type="start"/>
+  fCurrentSlurNumber =
+    elt->getAttributeIntValue ("number", 0);
+
+  fCurrentSlurType =
+    elt->getAttributeValue ("type");
+
+  fCurrentSlurPlacement =
+    elt->getAttributeValue ("placement");
+}
+
+//________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart (S_lyric& elt )
+{ 
   fCurrentLyricNumber =
     elt->getAttributeIntValue ("number", 0);
 
@@ -561,7 +591,8 @@ void xml2LpsrDictionaryVisitor::visitStart (S_lyric& elt ) {
   fCurrentNoteHasLyrics = true;
 }
 
-void xml2LpsrDictionaryVisitor::visitStart ( S_syllabic& elt ) {
+void xml2LpsrDictionaryVisitor::visitStart ( S_syllabic& elt )
+{
   fCurrentSyllabic = elt->getValue();
 /* JMI
   if (fCurrentSyllabic == "begin") {
@@ -575,7 +606,13 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_syllabic& elt ) {
 
 void xml2LpsrDictionaryVisitor::visitEnd ( S_text& elt ) 
 {
-  fCurrentText = elt->getValue();
+  string text = elt->getValue();
+
+  // text may be composed of only spaces, so:
+  fCurrentText = "";
+  std::for_each (
+    text.begin(), text.end(), stringSpaceRemover (fCurrentText));
+
 /*
   cout <<
     "--> fCurrentLyricNumber = " << fCurrentLyricNumber <<
@@ -653,7 +690,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
 */
 
   fCurrentLyrics->
-    addWordChunkToLyrics (
+    addTextChunkToLyrics (
       fCurrentSyllabic, fCurrentText, fCurrentElision);
 /*
   lpsrLyricsChunk::LyricsChunkType chunkType;
@@ -727,7 +764,8 @@ void xml2LpsrDictionaryVisitor::visitStart (S_measure& elt)
     elt->getAttributeIntValue ("number", 0);
     
   if (fTranslationSettings->fTrace)
-    cerr << "MEASURE: " << fCurrentMeasureNumber << endl;
+    cerr <<
+      "=== MEASURE " << fCurrentMeasureNumber << " ===" << endl;
 }
 
 //______________________________________________________________________________
@@ -749,7 +787,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_print& elt )
   
     // add a break chunk to the lyrics
     fCurrentLyrics->
-      addBreakChunkToLyrics ();
+      addBreakChunkToLyrics (fCurrentMeasureNumber);
   }
 }
 
@@ -884,7 +922,9 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_type& elt )
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_stem& elt )
 {
-//  fCurrentStem = elt->getValue();
+  //         <stem default-y="28.5">up</stem>
+
+  fCurrentStem = elt->getValue();
 }
 
 //______________________________________________________________________________
@@ -949,6 +989,8 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fMusicxmlOctave = -13;
   fMusicXMLNoteData.fDotsNumber = 0;
 
+  fCurrentStem = "";
+
   // assume this note hasn't got lyrics until S_lyric is met
   fCurrentNoteHasLyrics = false;
   
@@ -957,6 +999,13 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_note& elt )
 
   // assume this note doesn't belong to a tuplet until S_chord is met
   fMusicXMLNoteData.fNoteBelongsToATuplet = fATupletIsBeingBuilt;
+
+  fCurrentTiedType = "";
+  fCurrentTiedOrientation = "";
+
+  fCurrentSlurNumber = "";
+  fCurrentSlurType = "";
+  fCurrentSlurPlacement = "";
 }
 
 //______________________________________________________________________________

@@ -1387,6 +1387,7 @@ class EXP lpsrLyricsChunk : public lpsrElement {
     lpsrLyricsChunk (
         LyricsChunkType chunkType,
         string          chunkText);
+        
     virtual ~lpsrLyricsChunk();
 
   private:
@@ -1424,12 +1425,13 @@ class EXP lpsrLyrics : public lpsrElement {
             getLyricsChunks () const
                 { return fLyricsChunks; }
 
-    void    addWordChunkToLyrics (
+    void    addTextChunkToLyrics (
               string syllabic,
               string text,
               bool   elision);
       
-    void    addBreakChunkToLyrics ();
+    void    addBreakChunkToLyrics (
+              int nextMeasureNumber);
     
     void    addSkipChunkToLyrics ();
 

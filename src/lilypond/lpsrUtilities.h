@@ -94,8 +94,8 @@ std::ostream& operator<< (std::ostream& os, const indenter& number);
 struct stringQuoteEscaper
 {
   /* usage:
-      std::string dest;
-      std::for_each( source.begin(), source.end(), stringQuoteEscaper(dest));
+      std::string dest = "";
+      std::for_each( source.begin(), source.end(), stringQuoteEscaper (dest));
   */
 
   std::string& target;
@@ -113,6 +113,28 @@ struct stringQuoteEscaper
 };
 
 /*!
+\brief A utility to remove spaces in strings.
+*/
+//______________________________________________________________________________
+struct stringSpaceRemover
+{
+  /* usage:
+      std::string dest = "";
+      std::for_each( source.begin(), source.end(), stringSpaceRemover (dest));
+  */
+
+  std::string& target;
+  explicit     stringSpaceRemover( std::string& t ) : target( t ) {}
+
+  void operator()( char ch ) const
+  {
+     if( ch != ' ') {
+       target.push_back( ch );
+     }
+  }
+};
+
+/*!
 \brief A utility to convert small positive integers to English words.
 */
 //______________________________________________________________________________
@@ -123,6 +145,21 @@ std::string int2EnglishWord (int n);
 */
 //______________________________________________________________________________
 std::string stringNumbersToEnglishWords (std::string str);
+
+
+
+/*!
+\brief A utility to build a list of number from a specification.
+  A specification can be:
+    7,15-19,^16-17,
+    meaning that 7, 15, 18 and 19 have to enlisted
+*/
+//______________________________________________________________________________
+void DecipherNumbersSpecification (
+  char*  theString,
+  int    theSelectedNodes [],
+  int    theNodesNumber,
+  bool   debugMode = false);
 
 
 } // namespace MusicXML2

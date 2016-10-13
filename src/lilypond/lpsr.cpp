@@ -2780,14 +2780,32 @@ void lpsrLyricsChunk::printLPSR(ostream& os)
 {  
   os << "LyricsChunk" << " ";
   switch (fLyricsChunkType) {
-    case kSingleChunk: os << "single";        break;
-    case kBeginChunk:  os << "begin";         break;
-    case kMiddleChunk: os << "middle";        break;
-    case kEndChunk:    os << "end";           break;
-    case kSkipChunk:   os << "skip";          break;
-    case kBreakChunk:  os << "break" << endl; break;
+    case kSingleChunk:
+      os << "single";
+      if (fChunkText.size()) os << " " << fChunkText;
+      break;
+    case kBeginChunk:
+      os << "begin";
+      if (fChunkText.size()) os << " " << fChunkText;
+      break;
+    case kMiddleChunk:
+      os << "middle";
+      if (fChunkText.size()) os << " " << fChunkText;
+      break;
+    case kEndChunk:
+      os << "end";
+      if (fChunkText.size()) os << " " << fChunkText;
+      break;
+      
+    case kSkipChunk:
+      os << "skip";
+      if (fChunkText.size()) os << " " << fChunkText;
+      break;
+      
+    case kBreakChunk:
+      os << "break" << " " << fChunkText << endl;
+      break;
   } // switch
-  if (fChunkText.size()) os << " " << fChunkText;
   os << endl;
 }
 
@@ -2799,7 +2817,9 @@ void lpsrLyricsChunk::printLilyPondCode(ostream& os)
     case kMiddleChunk: os << " -- " << fChunkText; break;
     case kEndChunk:    os << " ++ " << fChunkText; break;
     case kSkipChunk:   os << "\\skip";             break;
-    case kBreakChunk:  os << endl << idtr;         break;
+    case kBreakChunk:
+      os << "%{ " << fChunkText << " %}" << endl << idtr;
+      break;
   } // switch
 }
 
@@ -2833,7 +2853,7 @@ lpsrLyrics::lpsrLyrics (
 
 lpsrLyrics::~lpsrLyrics() {}
 
-void lpsrLyrics::addWordChunkToLyrics (
+void lpsrLyrics::addTextChunkToLyrics (
   string syllabic,
   string text,
   bool   elision)
@@ -2860,7 +2880,7 @@ void lpsrLyrics::addWordChunkToLyrics (
   if (fTranslationSettings->fTrace)
     cout <<
       "--> creating lyrics " << fLyricsNumber <<
-      " word chunk \"" << syllabic <<
+      " text chunk \"" << syllabic <<
       "\" containing \"" << text <<
       "\", elision = " << elision << endl;
 
@@ -2893,17 +2913,24 @@ void lpsrLyrics::addWordChunkToLyrics (
   } // switch
 }
 
-void lpsrLyrics::addBreakChunkToLyrics ()
+void lpsrLyrics::addBreakChunkToLyrics (
+  int nextMeasureNumber)
 {
   if (fTranslationSettings->fTrace)
     cout <<
       "--> creating a lyrics break chunk" << endl;
 
+  // convert nextMeasureNumber to string
+  stringstream s;
+  string       str;
+  s << nextMeasureNumber;
+  s >> str;
+  
   // create lyrics break chunk
   S_lpsrLyricsChunk
     chunk =
       lpsrLyricsChunk::create (
-        lpsrLyricsChunk::kBreakChunk, "");
+        lpsrLyricsChunk::kBreakChunk, str);
         
   // add chunk to this lyrics
   fLyricsChunks.push_back (chunk);

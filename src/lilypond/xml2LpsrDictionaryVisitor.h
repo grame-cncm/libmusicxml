@@ -104,6 +104,9 @@ class EXP xml2LpsrDictionaryVisitor :
   public visitor<S_beat_unit_dot>,
   public visitor<S_per_minute>,
 
+  public visitor<S_tied>,
+  public visitor<S_slur>,
+  
   public visitor<S_lyric>,
   public visitor<S_syllabic>,
   public visitor<S_text>,
@@ -195,6 +198,9 @@ class EXP xml2LpsrDictionaryVisitor :
     virtual void visitStart ( S_beat_unit_dot& elt );
     virtual void visitStart ( S_per_minute& elt );
 
+    virtual void visitStart ( S_tied& elt);
+    virtual void visitStart ( S_slur& elt);
+    
     virtual void visitStart ( S_lyric& elt);
     virtual void visitEnd   ( S_lyric& elt);
     virtual void visitStart ( S_syllabic& elt);
@@ -318,7 +324,10 @@ class EXP xml2LpsrDictionaryVisitor :
     int                     fCurrentMusicXMLDivisions;
 
     // description of the current MusicXML note
-    musicXMLNoteData        fMusicXMLNoteData;    
+    musicXMLNoteData        fMusicXMLNoteData;
+
+    // stem handling
+    string                  fCurrentStem; 
 
     // description of the current chord
     S_lpsrChord             fCurrentChord;
@@ -358,6 +367,14 @@ class EXP xml2LpsrDictionaryVisitor :
     // another name for fCurrentNote, fCurrentChord, fCurrentTuplet and the like
     S_lpsrElement           fCurrentElement;
 
+    // ties handling
+    string                  fCurrentTiedType;
+    string                  fCurrentTiedOrientation;
+
+    // slurs handling
+    string                  fCurrentSlurNumber;
+    string                  fCurrentSlurType;
+    string                  fCurrentSlurPlacement;
 
 };
 

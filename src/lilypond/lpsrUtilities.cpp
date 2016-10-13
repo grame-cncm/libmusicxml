@@ -248,4 +248,99 @@ string stringNumbersToEnglishWords (string str)
     os << " " << (*i1);
   } // for
 */
+
+//______________________________________________________________________________
+int ConsumeDecimalNumber (
+  char *theString, char ** remainingString, int theNodesNumber)
+{
+  char*  cursor = theString;
+  int    res = 0;
+
+  if (! isdigit (*cursor))
+    cout <<
+      "ConsumeDecimalNumber (" << cursor <<
+      "), " << *cursor << " is no decimal digit!";
+
+  while (isdigit (* cursor)) {
+//    printf ("--> ConsumeDecimalNumber: cursor = |%s|\n", cursor);
+
+    res = res * 10 + (* cursor - '0');
+    ++ cursor;
+  } // while
+
+  *remainingString = cursor;
+
+/*
+  printf (
+    "--> ConsumeDecimalNumber: res = %d, * remainingString = |%s|\n",
+    res, * remainingString );
+*/
+
+  return res;
+} // ConsumeDecimalNumber
+
+void DecipherNumbersSpecification (
+  char*  theString,
+  int    theSelectedNodes [],
+  int    theNodesNumber,
+  bool   debugMode)
+{
+//  printf ("--> DecipherNodeNumbers, theString = |%s|\n", theString);
+
+//    "\n--> A nodesSpec sample is: %s -d 7,15-19,^16-17\n"
+
+  char * cursor = theString;
+
+  while (1) {
+    if (debugMode)
+      cout << "--> DecipherNodeNumbers: cursor = |" << cursor << "|" << endl;
+
+    int negated = 0;
+
+    if (* cursor == '^') {
+      ++ cursor;
+      negated = 1;
+    }
+
+    int startNodeNbr =
+      ConsumeDecimalNumber (cursor, & cursor, theNodesNumber);
+    int endNodeNbr;
+
+    if (* cursor == '-') {
+      ++ cursor;
+//      printf ("--> DecipherNodeNumbers after '-' : cursor = |%s|\n\n", cursor);
+
+      endNodeNbr = ConsumeDecimalNumber (cursor, & cursor, theNodesNumber);
+    } else {
+      endNodeNbr = startNodeNbr;
+    }
+
+    if (debugMode)
+      cout <<
+        "--> DecipherNodeNumbers, startNodeNbr = " << startNodeNbr <<
+        ", endNodeNbr = " << endNodeNbr <<
+        ": cursor = |" << cursor << "|" << endl;
+
+    for (int i = startNodeNbr; i <= endNodeNbr; i ++) {
+      theSelectedNodes [i] = ! negated;
+    } // for
+
+    if (* cursor != ',') {
+//      printf ("--> DecipherNodeNumbers, after non ',' : cursor = |%s|\n\n", cursor);
+      break;
+    }
+
+    ++ cursor;
+
+//    printf ("--> DecipherNodeNumbers after ',' : cursor = |%s|\n\n", cursor);
+  } // while 
+
+  if (* cursor != '\0') {
+    cout <<
+      "--> Extraneous characters |" << cursor <<
+      "| in numbers spec\n" << endl;
+  }
+} // DecipherNumbersSpecification
+
+
 }
