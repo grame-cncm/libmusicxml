@@ -82,7 +82,15 @@ S_lpsrDictionary buildLpsrDictionaryFromTree (
   // create an xml2LpsrVisitor
   xml2LpsrDictionaryVisitor visitor (ts);
       
+  // a global variable is needed so that lpsr::Element.print() 
+  // can decide whether to print:
+  //   - the LPSR structure
+  //   - MusicXML text
+  //   - LilyPond source code
   // use the visitor to build a LPSR dictionary from the xmlelement tree
+  // choosing kLPSR for the trace of the dictionary build
+  lpsrGlobalVariables::setCodeGenerationKind (lpsrGlobalVariables::kLPSR);
+
   S_lpsrDictionary dictionary =
     visitor.buildDictionaryFromXMLElementTree (xmlTree);
 
@@ -96,18 +104,13 @@ S_lpsrDictionary buildLpsrDictionaryFromTree (
       "%Outputting the LPSR dictionary" << endl <<
       separator << endl;
   
-  // a global variable is needed so that lpsr::Element.print() 
-  // can decide whether to print:
-  //   - the LPSR structure
-  //   - MusicXML text
-  //   - LilyPond source code
+  // choosing kLPSR to print the dictionary
   lpsrGlobalVariables::setCodeGenerationKind (lpsrGlobalVariables::kLPSR);
    
   if (ts->fTrace) cerr << "{%" << std::endl;
-  
   cerr << dictionary;
-    
   if (ts->fTrace) cerr << "%}" << std::endl;
+  
   cerr << separator << std::endl;
 
   return dictionary;

@@ -1050,33 +1050,6 @@ class EXP lpsrWedge : public lpsrElement {
 typedef SMARTP<lpsrWedge> S_lpsrWedge;
 
 /*!
-\brief A lpsr time representation.
-
-  A time is represented by the numerator and denominator
-*/
-//______________________________________________________________________________
-class EXP lpsrTime : public lpsrElement {
-  public:
-    
-    static SMARTP<lpsrTime> create(int numerator, int denominator, bool generateNumericalTime);
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printLPSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  protected:
-
-    lpsrTime(int numerator, int denominator, bool generateNumericalTime);
-    virtual ~lpsrTime();
-  
-  private:
-
-    rational fRational;
-    bool     fGenerateNumericalTime;
-};
-typedef SMARTP<lpsrTime> S_lpsrTime;
-
-/*!
 \brief A lpsr clef representation.
 
   A clef is represented by its name
@@ -1146,6 +1119,33 @@ class EXP lpsrKey : public lpsrElement {
     KeyMode fKeyMode;
 };
 typedef SMARTP<lpsrKey> S_lpsrKey;
+
+/*!
+\brief A lpsr time representation.
+
+  A time is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP lpsrTime : public lpsrElement {
+  public:
+    
+    static SMARTP<lpsrTime> create(int numerator, int denominator, bool generateNumericalTime);
+
+    virtual void printMusicXML      (ostream& os);
+    virtual void printLPSR          (ostream& os);
+    virtual void printLilyPondCode  (ostream& os);
+
+  protected:
+
+    lpsrTime(int numerator, int denominator, bool generateNumericalTime);
+    virtual ~lpsrTime();
+  
+  private:
+
+    rational fRational;
+    bool     fGenerateNumericalTime;
+};
+typedef SMARTP<lpsrTime> S_lpsrTime;
 
 /*!
 \brief A lpsr midi representation.

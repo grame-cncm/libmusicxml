@@ -432,6 +432,79 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_forward& elt )
 }
 
 //______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_clef& elt )
+{ 
+  fClefLine = 0;;
+  fClefOctaveChange = 0;
+  fClefNumber = -1;
+  fClefSign = "";
+
+  fClefNumber = elt->getAttributeIntValue("number", -1); 
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_clef_octave_change& elt )
+  { fClefOctaveChange = (int)(*elt); }
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_line& elt )
+  { fClefLine = (int)(*elt); }
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_sign& elt )
+  { fClefSign = elt->getValue(); }
+
+void xml2LpsrDictionaryVisitor::visitEnd ( S_clef& elt ) 
+{
+  //"number" is optional, use 1 if not present
+  int clefStaffNum = elt->getAttributeIntValue("number", 1);
+  
+  S_lpsrClef
+    clef =
+      lpsrClef::create (fClefSign, fClefLine, clefStaffNum);
+
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "--> adding clef " << clef <<
+      " to staff " << clefStaffNum << endl;
+
+  fCurrentStaff->setStaffClef (clef);
+//  S_lpsrElement c = clef; JMI
+//  fCurrentVoice->appendElementToVoiceSequence (c);
+}
+
+//______________________________________________________________________________
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_key& elt ) {
+  fCurrentFifths = 0;
+  fCurrentCancel = 0;
+  fCurrentMode   = "";
+}
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_fifths& elt )
+  { fCurrentFifths = (int)(*elt); }
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_mode& elt )
+  { fCurrentMode = elt->getValue(); }
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_cancel& elt )
+  { fCurrentCancel = (int)(*elt); }
+
+void xml2LpsrDictionaryVisitor::visitEnd ( S_key& elt ) 
+{    
+  // create lpsrKey and add it to part
+  S_lpsrKey
+    key =
+      lpsrKey::create (fCurrentFifths, fCurrentMode, fCurrentCancel);
+      
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "--> adding key " << key <<
+      " to staff " << fCurrentStaffNumber << endl;
+
+  fCurrentStaff->setStaffKey (key);
+//  S_lpsrElement k = key; JMI
+ // fCurrentVoice->appendElementToVoiceSequence (k);
+}
+
+//______________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart ( S_time& elt ) {
   resetCurrentTime();
   
@@ -484,79 +557,6 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_time& elt )
 
 //  S_lpsrElement t = time; JMI
 //  fCurrentVoice->appendElementToVoiceSequence (t);
-}
-
-//______________________________________________________________________________
-
-void xml2LpsrDictionaryVisitor::visitStart ( S_key& elt ) {
-  fCurrentFifths = 0;
-  fCurrentCancel = 0;
-  fCurrentMode   = "";
-}
-  
-void xml2LpsrDictionaryVisitor::visitStart ( S_fifths& elt )
-  { fCurrentFifths = (int)(*elt); }
-  
-void xml2LpsrDictionaryVisitor::visitStart ( S_mode& elt )
-  { fCurrentMode = elt->getValue(); }
-
-void xml2LpsrDictionaryVisitor::visitStart ( S_cancel& elt )
-  { fCurrentCancel = (int)(*elt); }
-
-void xml2LpsrDictionaryVisitor::visitEnd ( S_key& elt ) 
-{    
-  // create lpsrKey and add it to part
-  S_lpsrKey
-    key =
-      lpsrKey::create (fCurrentFifths, fCurrentMode, fCurrentCancel);
-      
-  if (fTranslationSettings->fTrace)
-    cerr <<
-      "--> adding key " << key <<
-      " to staff " << fCurrentStaffNumber << endl;
-
-  fCurrentStaff->setStaffKey (key);
-//  S_lpsrElement k = key; JMI
- // fCurrentVoice->appendElementToVoiceSequence (k);
-}
-
-//______________________________________________________________________________
-void xml2LpsrDictionaryVisitor::visitStart ( S_clef& elt )
-{ 
-  fClefLine = 0;;
-  fClefOctaveChange = 0;
-  fClefNumber = -1;
-  fClefSign = "";
-
-  fClefNumber = elt->getAttributeIntValue("number", -1); 
-}
-
-void xml2LpsrDictionaryVisitor::visitStart ( S_clef_octave_change& elt )
-  { fClefOctaveChange = (int)(*elt); }
-  
-void xml2LpsrDictionaryVisitor::visitStart ( S_line& elt )
-  { fClefLine = (int)(*elt); }
-  
-void xml2LpsrDictionaryVisitor::visitStart ( S_sign& elt )
-  { fClefSign = elt->getValue(); }
-
-void xml2LpsrDictionaryVisitor::visitEnd ( S_clef& elt ) 
-{
-  //"number" is optional, use 1 if not present
-  int clefStaffNum = elt->getAttributeIntValue("number", 1);
-  
-  S_lpsrClef
-    clef =
-      lpsrClef::create (fClefSign, fClefLine, clefStaffNum);
-
-  if (fTranslationSettings->fTrace)
-    cerr <<
-      "--> adding clef " << clef <<
-      " to staff " << clefStaffNum << endl;
-
-  fCurrentStaff->setStaffClef (clef);
-//  S_lpsrElement c = clef; JMI
-//  fCurrentVoice->appendElementToVoiceSequence (c);
 }
 
 //________________________________________________________________________

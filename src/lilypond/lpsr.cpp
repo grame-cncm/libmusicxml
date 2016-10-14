@@ -2165,57 +2165,6 @@ void lpsrLayout::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrTime lpsrTime::create (
-  int numerator, int denominator, bool generateNumericalTime)
-{
-  lpsrTime* o =
-    new lpsrTime (numerator, denominator, generateNumericalTime);
-    assert (o!=0);
-  return o;
-}
-
-lpsrTime::lpsrTime(
-  int numerator, int denominator, bool generateNumericalTime)
-  : lpsrElement("")
-{
-  fRational = rational (numerator, denominator);
-// JMI  fNumerator=numerator; 
-  //fDenominator=denominator;
-  fGenerateNumericalTime = generateNumericalTime;
-}
-lpsrTime::~lpsrTime() {}
-
-
-ostream& operator<< (ostream& os, const S_lpsrTime& elt)
-{
-  elt->print(os);
-  return os;
-}
-
-void lpsrTime::printMusicXML(ostream& os)
-{
-  os << "<!-- lpsrTime??? -->" << endl;
-}
-
-void lpsrTime::printLPSR(ostream& os)
-{
-  os <<
-    "Time " << 
-    fRational.getNumerator() << "/" << fRational.getDenominator() <<endl;
-}
-
-void lpsrTime::printLilyPondCode(ostream& os)
-{
-//  os << fName << "\\time \"" << fNumerator << "/" << fDenominator << "\"" << endl;
-  if (fGenerateNumericalTime)
-    os << "\\numericTimeSignature ";
-  os <<
-    "\\time " <<
-    fRational.getNumerator() << "/" << fRational.getDenominator() <<
-    endl;
-}
-
-//______________________________________________________________________________
 S_lpsrClef lpsrClef::create (
   string sign,
   int    line,
@@ -2254,7 +2203,7 @@ void lpsrClef::printLPSR(ostream& os)
 {
   os <<
     "Clef" << " \"" << fSign << "\"" <<
-    " line: " << fLine << " octaveChange: " << fOctaveChange << endl;
+    " line: " << fLine << " octaveChange: " << fOctaveChange;
 }
 
 void lpsrClef::printLilyPondCode(ostream& os)
@@ -2442,7 +2391,6 @@ void lpsrKey::printLPSR(ostream& os)
   os << "Key " << fTonic << " ";
   if (fKeyMode == kMajor) os << "\\major";
   else os << "\\minor";
-  os << endl;
 }
 
 void lpsrKey::printLilyPondCode(ostream& os)
@@ -2451,6 +2399,57 @@ void lpsrKey::printLilyPondCode(ostream& os)
   if (fKeyMode == kMajor) os << "\\major";
   else os << "\\minor";
   os << endl;
+}
+
+//______________________________________________________________________________
+S_lpsrTime lpsrTime::create (
+  int numerator, int denominator, bool generateNumericalTime)
+{
+  lpsrTime* o =
+    new lpsrTime (numerator, denominator, generateNumericalTime);
+    assert (o!=0);
+  return o;
+}
+
+lpsrTime::lpsrTime(
+  int numerator, int denominator, bool generateNumericalTime)
+  : lpsrElement("")
+{
+  fRational = rational (numerator, denominator);
+// JMI  fNumerator=numerator; 
+  //fDenominator=denominator;
+  fGenerateNumericalTime = generateNumericalTime;
+}
+lpsrTime::~lpsrTime() {}
+
+
+ostream& operator<< (ostream& os, const S_lpsrTime& elt)
+{
+  elt->print(os);
+  return os;
+}
+
+void lpsrTime::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrTime??? -->" << endl;
+}
+
+void lpsrTime::printLPSR(ostream& os)
+{
+  os <<
+    "Time " << 
+    fRational.getNumerator() << "/" << fRational.getDenominator();
+}
+
+void lpsrTime::printLilyPondCode(ostream& os)
+{
+//  os << fName << "\\time \"" << fNumerator << "/" << fDenominator << "\"" << endl;
+  if (fGenerateNumericalTime)
+    os << "\\numericTimeSignature ";
+  os <<
+    "\\time " <<
+    fRational.getNumerator() << "/" << fRational.getDenominator() <<
+    endl;
 }
 
 //______________________________________________________________________________
