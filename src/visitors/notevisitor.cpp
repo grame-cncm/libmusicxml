@@ -390,129 +390,6 @@ void notevisitor::visitEnd ( S_note& elt )
                             break;
                         case 2:
                             restFormatDy = -4.0;
-                        default:
-                            restFormatDy = 0.0;
-                            break;
-                    }
-                    break;
-                    
-                default:
-                    break;
-            }
-            
-        /* F-clef case treated separately
-        {
-            switch (display_step[0]) {
-                case 'A':
-                    switch (display_octave) {
-                        case 3:
-                            restFormatDy = 4.0;
-                            break;
-                        case 2:
-                            restFormatDy = -3.0;
-                            break;
-                            
-                        case 1:
-                            restFormatDy = -10.0;
-                            break;
-                            
-                        default:
-                            restFormatDy = 0.0;
-                            break;
-                    }
-                    break;
-                    
-                case 'B':
-                    switch (display_octave) {
-                        case 3:
-                            restFormatDy = 5.0;
-                            break;
-                        case 2:
-                            restFormatDy = -2.0;
-                            break;
-                            
-                        case 1:
-                            restFormatDy = -9.0;
-                            break;
-                        default:
-                            restFormatDy = 0.0;
-                            break;
-                    }
-                    break;
-                case 'C':
-                    switch (display_octave) {
-                        case 4:
-                            restFormatDy = 6.0;
-                            break;
-                        case 3:
-                            restFormatDy = -1.0;
-                            break;
-                        case 2:
-                            restFormatDy = -8.0;
-                            break;
-                        default:
-                            restFormatDy = 0.0;
-                            break;
-                    }
-                    break;
-                    
-                case 'D':
-                    switch (display_octave) {
-                        case 4:
-                            restFormatDy = 7.0;
-                            break;
-                        case 3:
-                            restFormatDy = 0.0;
-                            break;
-                        case 2:
-                            restFormatDy = -7.0;
-                            break;
-                            
-                        default:
-                            restFormatDy = 0.0;
-                            break;
-                    }
-                    break;
-                case 'E':
-                    switch (display_octave) {
-                        case 4:
-                            restFormatDy = 8.0;
-                            break;
-                        case 3:
-                            restFormatDy = 1.0;
-                            break;
-                        case 2:
-                            restFormatDy = -6.0;
-                            break;
-                        default:
-                            restFormatDy = 0.0;
-                            break;
-                    }
-                    break;
-                case 'F':
-                    switch (display_octave) {
-                        case 4:
-                            restFormatDy = 9.0;
-                            break;
-                        case 3:
-                            restFormatDy = 2.0;
-                            break;
-                        case 2:
-                            restFormatDy = -5.0;
-                            break;
-                            
-                        default:
-                            restFormatDy = 0.0;
-                            break;
-                    }
-                    break;
-                case 'G':
-                    switch (display_octave) {
-                        case 3:
-                            restFormatDy = 3.0;
-                            break;
-                        case 2:
-                            restFormatDy = -4.0;
                             break;
                         default:
                             restFormatDy = 0.0;
@@ -523,12 +400,11 @@ void notevisitor::visitEnd ( S_note& elt )
                 default:
                     break;
             }
-        }
-        */
             
             // Got it reversed for F clef
-            if (fCurClef == "G")
-                restFormatDy = -1.0 * restFormatDy;
+            restFormatDy = -1.0 * restFormatDy;
+            
+            //cout<<"resFormat "<<display_step<<display_octave<<" on clef "<<fCurClef<<" gives "<<restFormatDy<<endl;
         }
         
         return restFormatDy;
