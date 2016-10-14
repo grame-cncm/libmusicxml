@@ -1429,8 +1429,7 @@ class EXP lpsrLyrics : public lpsrElement {
     int     getLyricsNumber () const
                 { return fLyricsNumber; }
                 
-    string  getLyricsName () const
-                { return fLyricsName; }
+    string  getLyricsName () const;
                 
     S_lpsrVoice
             getLyricsVoice () const
@@ -1474,8 +1473,6 @@ class EXP lpsrLyrics : public lpsrElement {
     S_lpsrVoice               fLyricsVoice;
     
     vector<S_lpsrLyricsChunk> fLyricsChunks;
-
-    string                    fLyricsName; // coined in constructor
 
     bool                      fLyricsTextPresent;
 };

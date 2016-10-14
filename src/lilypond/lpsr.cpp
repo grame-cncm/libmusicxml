@@ -2864,14 +2864,19 @@ lpsrLyrics::lpsrLyrics (
   fTranslationSettings = ts;
   fLyricsNumber        = lyricsNumber;
   fLyricsVoice         = lyricsVoice; 
+ 
+  fLyricsTextPresent = false;
+}
 
-  // coin the lyrics LPSR name
-  fLyricsName =
-    fLyricsVoice->getVoiceName() +
+string lpsrLyrics::getLyricsName () const
+{
+  // not stored in a field,
+  // because the lyrics voice and staff may change name
+  // when the part they belong to is re-used
+  return
+   fLyricsVoice->getVoiceName() +
     "_Lyrics_" +
     int2EnglishWord (fLyricsNumber);
-
-  fLyricsTextPresent = false;
 }
 
 lpsrLyrics::~lpsrLyrics() {}
@@ -3020,22 +3025,25 @@ void lpsrLyrics::printMusicXML(ostream& os)
 
 void lpsrLyrics::printLPSR(ostream& os)
 {  
-  os << "Lyrics" << " " << fLyricsName;
+  os << "Lyrics" << " " << getLyricsName ();
   if (! fLyricsTextPresent)
     os << " (No actual text)";
   os << endl;
-  idtr++;
-  int n = fLyricsChunks.size();
-  for (int i = 0; i < n; i++) {
-    os << idtr << fLyricsChunks[i];
-  } // for
-  idtr--;
+
+  if (fLyricsTextPresent) {  
+    idtr++;
+    int n = fLyricsChunks.size();
+    for (int i = 0; i < n; i++) {
+      os << idtr << fLyricsChunks[i];
+    } // for
+    idtr--;
+  }
 }
 
 void lpsrLyrics::printLilyPondCode(ostream& os)
 {
   os <<
-    fLyricsName << " = " << "\\lyricmode {" << endl;
+    getLyricsName () << " = " << "\\lyricmode {" << endl;
 
   idtr++;
 
@@ -3157,19 +3165,22 @@ void lpsrVoice::printMusicXML(ostream& os)
 
 void lpsrVoice::printLPSR(ostream& os)
 {
-  os << "Voice" << " " << getVoiceName () << endl;
+  os << "Voice" << " " << getVoiceName () << endl << endl;
 
   idtr++;
 
   os << idtr << fVoiceSequence << endl;
 
-  for (
-    map<int, S_lpsrLyrics>::const_iterator i = fVoiceLyricsMap.begin();
-    i != fVoiceLyricsMap.end();
-    i++) {
-    os << idtr << (*i).second;
-  } // for
-
+  if (fVoiceLyricsMap.size()) {
+    for (
+      map<int, S_lpsrLyrics>::const_iterator i = fVoiceLyricsMap.begin();
+      i != fVoiceLyricsMap.end();
+      i++) {
+      os << idtr << (*i).second;
+    } // for
+    os << endl;
+  }
+  
   idtr--;
 }
 
