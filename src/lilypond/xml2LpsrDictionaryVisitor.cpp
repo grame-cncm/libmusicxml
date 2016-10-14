@@ -1053,6 +1053,68 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_beam& elt )
 }
 
 //______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_staccato& elt )
+{
+
+  /*
+
+Component   Type  Occurs  Default   Description 
+    0..*    
+accent  empty-placement   1..1    
+
+The accent element indicates a regular horizontal accent mark.
+breath-mark   breath-mark   1..1    
+
+The breath-mark element indicates a place to take a breath.
+caesura   empty-placement   1..1    
+
+The caesura element indicates a slight pause. It is notated using a "railroad tracks" symbol.
+detached-legato   empty-placement   1..1    
+
+The detached-legato element indicates the combination of a tenuto line and staccato dot symbol.
+doit  empty-line  1..1    
+
+The doit element is an indeterminate slide attached to a single note. The doit element appears after the main note and goes above the main pitch.
+falloff   empty-line  1..1    
+
+The falloff element is an indeterminate slide attached to a single note. The falloff element appears before the main note and goes below the main pitch.
+other-articulation  placement-text  1..1    The other-articulation element is used to define any articulations not yet in the MusicXML format. This allows extended representation, though without application interoperability.
+plop  empty-line  1..1    
+
+The plop element is an indeterminate slide attached to a single note. The plop element appears before the main note and comes from above the main pitch.
+scoop   empty-line  1..1    
+
+The scoop element is an indeterminate slide attached to a single note. The scoop element appears before the main note and comes from below the main pitch.
+spiccato  empty-placement   1..1    
+
+The spiccato element is used for a stroke articulation, as opposed to a dot or a wedge.
+staccatissimo   empty-placement   1..1    
+
+The staccatissimo element is used for a wedge articulation, as opposed to a dot or a stroke.
+staccato  empty-placement   1..1    
+
+The staccato element is used for a dot articulation, as opposed to a stroke or a wedge.
+stress  empty-placement   1..1    
+
+The stress element indicates a stressed note.
+strong-accent   strong-accent   1..1    
+
+The strong-accent element indicates a vertical accent mark.
+tenuto  empty-placement   1..1    
+
+The tenuto element indicates a tenuto line symbol.
+unstress
+  */
+  
+}
+       
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_grace& elt )
+{
+  fCurrentNoteIsGraceNote = true;;
+}
+       
+//______________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart ( S_chord& elt)
 {
   fMusicXMLNoteData.fNoteBelongsToAChord = true;
@@ -1113,6 +1175,8 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fMusicxmlAlteration = 0; // natural notes
   fMusicXMLNoteData.fMusicxmlOctave = -13;
   fMusicXMLNoteData.fDotsNumber = 0;
+
+  fCurrentNoteIsGraceNote = false;;
 
   fCurrentStem = "";
 
@@ -1264,6 +1328,11 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
   S_lpsrNote note =
     lpsrNote::createFromMusicXMLData (
       fTranslationSettings, fMusicXMLNoteData);
+
+  // take grace note into account
+  if (fCurrentNoteIsGraceNote) {
+    // JMI
+  }
 
   // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {

@@ -130,6 +130,8 @@ class EXP xml2LpsrDictionaryVisitor :
   public visitor<S_octave>,
   public visitor<S_duration>,
   public visitor<S_dot>,
+  
+  public visitor<S_grace>,
 
   public visitor<S_type>,
   public visitor<S_stem>,
@@ -229,6 +231,9 @@ class EXP xml2LpsrDictionaryVisitor :
     virtual void visitStart ( S_octave& elt);
     virtual void visitStart ( S_duration& elt);
     virtual void visitStart ( S_dot& elt );
+    
+    virtual void visitStart ( S_grace& elt );
+    
 //    virtual void visitStart ( S_voice& elt);
     virtual void visitStart ( S_type& elt);
     virtual void visitStart ( S_stem& elt);
@@ -349,7 +354,12 @@ class EXP xml2LpsrDictionaryVisitor :
     bool                    fAChordIsBeingBuilt;
     int                     fCurrentBeats;
     int                     fCurrentBeatType;
-     
+
+    // articulations
+    
+    // grace notes
+    bool                    fCurrentNoteIsGraceNote;
+
     // dynamics and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
     list<S_lpsrDynamics>    fPendingDynamics;
