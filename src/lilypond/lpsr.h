@@ -303,6 +303,38 @@ class EXP lpsrDuration : public lpsrElement {
 typedef SMARTP<lpsrDuration> S_lpsrDuration;
 
 /*!
+\brief A lpsr articulation representation.
+
+  An articulation is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP lpsrArticulation : public lpsrElement {
+  public:
+    
+    enum ArticulationKind {
+        kStaccato, kStaccatissimo };
+
+    static SMARTP<lpsrArticulation> create (
+              ArticulationKind articulationKink);
+
+    virtual void printMusicXML      (ostream& os);
+    virtual void printLPSR          (ostream& os);
+    virtual void printLilyPondCode  (ostream& os);
+
+  protected:
+
+    lpsrArticulation (
+        ArticulationKind articulationKink);
+    virtual ~lpsrArticulation();
+  
+  private:
+
+    ArticulationKind
+          fArticulationKind;
+};
+typedef SMARTP<lpsrArticulation> S_lpsrArticulation;
+
+/*!
 \brief A lpsr note representation.
 
   A note is represented by its name, optional accidentals,
@@ -349,9 +381,12 @@ class EXP lpsrNote : public lpsrElement {
 
     S_lpsrDuration getNoteLpsrDuration () { return fNoteLpsrDuration; }   
 
-     string  notePitchAsLilypondString ();
+    string  notePitchAsLilypondString ();
+
+    // articulations
+    void              addArticulation (S_lpsrArticulation art);
     
-   // dynamics and wedges
+    // dynamics and wedges
     void              addDynamics (S_lpsrDynamics dyn);
     void              addWedge    (S_lpsrWedge    wdg);
 
@@ -393,9 +428,11 @@ class EXP lpsrNote : public lpsrElement {
 
     // LilyPond informations
     LpsrPitch                 fNoteLpsrPitch;
+
+    vector<S_lpsrArticulation>  fNoteArticulations;
     
-    list<S_lpsrDynamics> fNoteDynamics;
-    list<S_lpsrWedge>    fNoteWedges;
+    list<S_lpsrDynamics>      fNoteDynamics;
+    list<S_lpsrWedge>         fNoteWedges;
 };
 typedef SMARTP<lpsrNote> S_lpsrNote;
 
@@ -1129,7 +1166,8 @@ typedef SMARTP<lpsrKey> S_lpsrKey;
 class EXP lpsrTime : public lpsrElement {
   public:
     
-    static SMARTP<lpsrTime> create(int numerator, int denominator, bool generateNumericalTime);
+    static SMARTP<lpsrTime> create (
+              int numerator, int denominator, bool generateNumericalTime);
 
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
@@ -1146,6 +1184,11 @@ class EXP lpsrTime : public lpsrElement {
     bool     fGenerateNumericalTime;
 };
 typedef SMARTP<lpsrTime> S_lpsrTime;
+
+/*!
+\brief A lpsr midi representation.
+
+  A midi is represented by variable/value pairs
 
 /*!
 \brief A lpsr midi representation.

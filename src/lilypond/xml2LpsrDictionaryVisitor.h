@@ -131,6 +131,25 @@ class EXP xml2LpsrDictionaryVisitor :
   public visitor<S_duration>,
   public visitor<S_dot>,
   
+  public visitor<S_staccato>,
+  public visitor<S_staccatissimo>,
+
+  public visitor<S_f>,
+  public visitor<S_ff>,
+  public visitor<S_fff>,
+  public visitor<S_ffff>,
+  public visitor<S_fffff>,
+  public visitor<S_ffffff>,
+
+  public visitor<S_p>,
+  public visitor<S_pp>,
+  public visitor<S_ppp>,
+  public visitor<S_pppp>,
+  public visitor<S_ppppp>,
+  public visitor<S_pppppp>,
+
+  public visitor<S_wedge>,
+  
   public visitor<S_grace>,
 
   public visitor<S_type>,
@@ -232,6 +251,25 @@ class EXP xml2LpsrDictionaryVisitor :
     virtual void visitStart ( S_duration& elt);
     virtual void visitStart ( S_dot& elt );
     
+    virtual void visitStart ( S_staccato& elt );
+    virtual void visitStart ( S_staccatissimo& elt );
+    
+    virtual void visitStart ( S_f& elt);
+    virtual void visitStart ( S_ff& elt);
+    virtual void visitStart ( S_fff& elt);
+    virtual void visitStart ( S_ffff& elt);
+    virtual void visitStart ( S_fffff& elt);
+    virtual void visitStart ( S_ffffff& elt);
+
+    virtual void visitStart ( S_p& elt);
+    virtual void visitStart ( S_pp& elt);
+    virtual void visitStart ( S_ppp& elt);
+    virtual void visitStart ( S_pppp& elt);
+    virtual void visitStart ( S_ppppp& elt);
+    virtual void visitStart ( S_pppppp& elt);
+
+    virtual void visitStart ( S_wedge& elt);
+
     virtual void visitStart ( S_grace& elt );
     
 //    virtual void visitStart ( S_voice& elt);
@@ -356,15 +394,16 @@ class EXP xml2LpsrDictionaryVisitor :
     int                     fCurrentBeatType;
 
     // articulations
+    list<S_lpsrArticulation> fCurrentArticulations;
     
-    // grace notes
-    bool                    fCurrentNoteIsGraceNote;
-
     // dynamics and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
     list<S_lpsrDynamics>    fPendingDynamics;
     list<S_lpsrWedge>       fPendingWedges;
        
+    // grace notes
+    bool                    fCurrentNoteIsGraceNote;
+
     // description of the current LPSR note
     S_lpsrNote              fCurrentNote;
 

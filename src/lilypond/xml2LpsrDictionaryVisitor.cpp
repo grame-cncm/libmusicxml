@@ -1055,6 +1055,21 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_beam& elt )
 //______________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart ( S_staccato& elt )
 {
+  S_lpsrArticulation
+    articulation =
+      lpsrArticulation::create (lpsrArticulation::kStaccato);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_staccatissimo& elt )
+{
+  S_lpsrArticulation
+    articulation =
+      lpsrArticulation::create (lpsrArticulation::kStaccatissimo);
+      
+  fCurrentArticulations.push_back (articulation);
+}
 
   /*
 
@@ -1105,9 +1120,91 @@ tenuto  empty-placement   1..1
 The tenuto element indicates a tenuto line symbol.
 unstress
   */
-  
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart( S_f& elt)
+{        
+  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kF);
+  fPendingDynamics.push_back(dyn);
+ }
+void xml2LpsrDictionaryVisitor::visitStart( S_ff& elt)
+{        
+  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFF);
+  fPendingDynamics.push_back(dyn);
+ }
+void xml2LpsrDictionaryVisitor::visitStart( S_fff& elt)
+{        
+  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFF);
+  fPendingDynamics.push_back(dyn);
+ }
+void xml2LpsrDictionaryVisitor::visitStart( S_ffff& elt)
+{        
+  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFF);
+  fPendingDynamics.push_back(dyn);
+ }
+void xml2LpsrDictionaryVisitor::visitStart( S_fffff& elt)
+{        
+  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFFF);
+  fPendingDynamics.push_back(dyn);
+ }
+void xml2LpsrDictionaryVisitor::visitStart( S_ffffff& elt)
+{        
+  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFFFF);
+  fPendingDynamics.push_back(dyn);
+ }
+
+
+void xml2LpsrDictionaryVisitor::visitStart( S_p& elt)
+{        
+  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kP);
+  fPendingDynamics.push_back(dyn);
 }
-       
+void xml2LpsrDictionaryVisitor::visitStart( S_pp& elt)
+{        
+  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPP);
+  fPendingDynamics.push_back(dyn);
+}
+void xml2LpsrDictionaryVisitor::visitStart( S_ppp& elt)
+{        
+  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPP);
+  fPendingDynamics.push_back(dyn);
+}
+void xml2LpsrDictionaryVisitor::visitStart( S_pppp& elt)
+{        
+  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPP);
+  fPendingDynamics.push_back(dyn);
+}
+void xml2LpsrDictionaryVisitor::visitStart( S_ppppp& elt)
+{        
+  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPPP);
+  fPendingDynamics.push_back(dyn);
+}
+void xml2LpsrDictionaryVisitor::visitStart( S_pppppp& elt)
+{        
+  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPPPP);
+  fPendingDynamics.push_back(dyn);
+}
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_wedge& elt )
+{
+  string type = elt->getAttributeValue("type");
+  lpsrWedge::WedgeKind wk;
+
+  if (type == "crescendo") {
+    wk = lpsrWedge::kCrescendoWedge;
+  }
+  else if (type == "diminuendo") {
+    wk = lpsrWedge::kDecrescendoWedge;
+  }
+  else if (type == "stop") {
+    wk = lpsrWedge::kStopWedge;
+  }
+  
+  S_lpsrWedge wedg = lpsrWedge::create(wk);;
+  fPendingWedges.push_back(wedg);
+}
+    
 //______________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart ( S_grace& elt )
 {
@@ -1334,6 +1431,13 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
     // JMI
   }
 
+  // attach the articulations if any to the note
+  while (! fCurrentArticulations.empty()) {
+    S_lpsrArticulation art = fCurrentArticulations.front();
+    note->addArticulation (art);
+    fCurrentArticulations.pop_front();
+  } // while
+   
   // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {
     if (fMusicXMLNoteData.fMusicxmlStepIsARest) {

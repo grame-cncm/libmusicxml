@@ -520,6 +520,64 @@ void lpsrWedge::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
+S_lpsrArticulation lpsrArticulation::create (
+  ArticulationKind articulationKind)
+{
+  lpsrArticulation* o =
+    new lpsrArticulation (articulationKind);
+  assert (o!=0);
+  return o;
+}
+
+lpsrArticulation::lpsrArticulation (
+  ArticulationKind articulationKind)
+    : lpsrElement("")
+{
+  fArticulationKind = articulationKind;
+}
+
+lpsrArticulation::~lpsrArticulation() {}
+
+
+ostream& operator<< (ostream& os, const S_lpsrArticulation& elt)
+{
+  elt->print(os);
+  return os;
+}
+
+void lpsrArticulation::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrTime??? -->" << endl;
+}
+
+void lpsrArticulation::printLPSR(ostream& os)
+{
+  os <<
+    "Articulation " << " ";
+
+  switch (fArticulationKind) {
+    case kStaccato:
+      os << "Staccato";
+      break;
+    case kStaccatissimo:
+      os << "Staccatissimo";
+      break;
+  } // switch
+}
+
+void lpsrArticulation::printLilyPondCode(ostream& os)
+{
+  switch (fArticulationKind) {
+    case kStaccato:
+      os << "-.";
+      break;
+    case kStaccatissimo:
+      os << "-^";
+      break;
+  } // switch
+}
+
+//______________________________________________________________________________
 S_lpsrNote lpsrNote::createFromMusicXMLData (
   S_translationSettings& ts,
   musicXMLNoteData&      mxmldat)
@@ -822,6 +880,11 @@ lpsrNote::LpsrPitch lpsrNote::computeNoteLpsrPitch(
   return lpsrPitch;
 }
 
+void lpsrNote::addArticulation (S_lpsrArticulation art)
+{
+  fNoteArticulations.push_back(art);
+}
+
 void lpsrNote::addDynamics (S_lpsrDynamics dyn) {
   fNoteDynamics.push_back(dyn);
 }
@@ -943,12 +1006,24 @@ void lpsrNote::printLPSR(ostream& os)
   */
   
   if (fMusicXMLNoteData.fNoteBelongsToAChord) {
+    
     os << notePitchAsLilypondString () << fNoteLpsrDuration;
 
   } else {
+    
     os <<
       "Note" << " " << 
       notePitchAsLilypondString () << fNoteLpsrDuration << endl;
+
+    // print the alterations if any
+    if (fNoteArticulations.size()) {
+      idtr++;
+      vector<S_lpsrArticulation>::const_iterator i;
+      for (i=fNoteArticulations.begin(); i!=fNoteArticulations.end(); i++) {
+        os << idtr << (*i);
+      } // for
+      idtr--;
+    }
     
     // print the dynamics if any
     if (fNoteDynamics.size()) {
@@ -2407,7 +2482,7 @@ S_lpsrTime lpsrTime::create (
 {
   lpsrTime* o =
     new lpsrTime (numerator, denominator, generateNumericalTime);
-    assert (o!=0);
+  assert (o!=0);
   return o;
 }
 
