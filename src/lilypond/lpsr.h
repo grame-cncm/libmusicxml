@@ -55,8 +55,12 @@ class lpsrLilypondVarValAssoc;
 class lpsrSchemeVarValAssoc;
 
 class lpsrDictionary;
+
 class lpsrPart;
 class lpsrStaff;
+class lpsrClef;
+class lpsrKey;
+class lpsrTime;
 class lpsrVoice;
 class lpsrLyrics;
 
@@ -76,8 +80,12 @@ typedef SMARTP<lpsrLilypondVarValAssoc> S_lpsrLilypondVarValAssoc;
 typedef SMARTP<lpsrSchemeVarValAssoc>   S_lpsrSchemeVarValAssoc;
 
 typedef SMARTP<lpsrDictionary>          S_lpsrDictionary;
+
 typedef SMARTP<lpsrPart>                S_lpsrPart;
 typedef SMARTP<lpsrStaff>               S_lpsrStaff;
+typedef SMARTP<lpsrClef>                S_lpsrClef;
+typedef SMARTP<lpsrKey>                 S_lpsrKey;
+typedef SMARTP<lpsrTime>                S_lpsrTime;
 typedef SMARTP<lpsrVoice>               S_lpsrVoice;
 typedef SMARTP<lpsrLyrics>              S_lpsrLyrics;
 
@@ -95,6 +103,10 @@ typedef SMARTP<lpsrLayout>              S_lpsrLayout;
 EXP ostream& operator<< (ostream& os, const S_lpsrElement& elt);
 
 EXP ostream& operator<< (ostream& os, const S_lpsrDictionary& elt);
+
+EXP ostream& operator<< (ostream& os, const S_lpsrClef& elt);
+EXP ostream& operator<< (ostream& os, const S_lpsrKey& elt);
+EXP ostream& operator<< (ostream& os, const S_lpsrTime& elt);
 
 EXP ostream& operator<< (ostream& os, const S_lpsrLilypondVarValAssoc& elt);
 EXP ostream& operator<< (ostream& os, const S_lpsrSchemeVarValAssoc& elt);
@@ -1077,8 +1089,8 @@ class EXP lpsrClef : public lpsrElement {
 
     static SMARTP<lpsrClef> create (
       string sign,
-      int         line,
-      int         octaveChange);
+      int    line,
+      int    octaveChange);
 
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
@@ -1088,15 +1100,15 @@ class EXP lpsrClef : public lpsrElement {
 
     lpsrClef (
       string clefName,
-      int         line,
-      int         octaveChange);
+      int    line,
+      int    octaveChange);
     virtual ~lpsrClef();
   
   private:
 
     string fSign;
-    int         fLine;
-    int         fOctaveChange;
+    int    fLine;
+    int    fOctaveChange;
 };
 typedef SMARTP<lpsrClef> S_lpsrClef;
 
@@ -1578,13 +1590,17 @@ class EXP lpsrStaff : public lpsrElement {
 
     string  getStaffName () const;
 
-    S_lpsrVoice
-            addVoiceToStaff (
-              int voiceNumber);
+    void    setStaffClef (S_lpsrClef clef) { fStaffClef = clef; }
+              
+    void    setStaffKey  (S_lpsrKey  key)  { fStaffKey = key; }
+              
+    void    setStaffTime (S_lpsrTime time) { fStaffTime = time; }
               
     S_lpsrVoice
-            staffContainsVoice (
-              int voiceNumber);
+            addVoiceToStaff (int voiceNumber);
+              
+    S_lpsrVoice
+            staffContainsVoice (int voiceNumber);
                               
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
@@ -1604,6 +1620,10 @@ class EXP lpsrStaff : public lpsrElement {
 
     int                       fStaffNumber;
     S_lpsrPart                fStaffPart;
+
+    S_lpsrClef                fStaffClef;
+    S_lpsrKey                 fStaffKey;
+    S_lpsrTime                fStaffTime;
     
     lpsrVoicesMap             fStaffVoicesMap;
 

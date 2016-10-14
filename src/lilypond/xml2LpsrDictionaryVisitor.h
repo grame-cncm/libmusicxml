@@ -281,10 +281,10 @@ class EXP xml2LpsrDictionaryVisitor :
     int                     fCurrentCancel;
     string                  fCurrentMode;
 
-    string                  fSign;
-    int                     fLine;
-    int                     fOctaveChange;
-    int                     fNumber;
+    string                  fClefSign;
+    int                     fClefLine;
+    int                     fClefOctaveChange;
+    int                     fClefNumber;
 
     // metronome handling
     vector<musicXMLBeatData>

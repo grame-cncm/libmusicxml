@@ -2165,21 +2165,32 @@ void lpsrLayout::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrTime lpsrTime::create(int numerator, int denominator, bool generateNumericalTime)
+S_lpsrTime lpsrTime::create (
+  int numerator, int denominator, bool generateNumericalTime)
 {
-  lpsrTime* o = new lpsrTime(numerator, denominator, generateNumericalTime); assert(o!=0);
+  lpsrTime* o =
+    new lpsrTime (numerator, denominator, generateNumericalTime);
+    assert (o!=0);
   return o;
 }
 
-lpsrTime::lpsrTime(int numerator, int denominator, bool generateNumericalTime)
+lpsrTime::lpsrTime(
+  int numerator, int denominator, bool generateNumericalTime)
   : lpsrElement("")
 {
-  fRational = rational(numerator, denominator);
+  fRational = rational (numerator, denominator);
 // JMI  fNumerator=numerator; 
   //fDenominator=denominator;
   fGenerateNumericalTime = generateNumericalTime;
 }
 lpsrTime::~lpsrTime() {}
+
+
+ostream& operator<< (ostream& os, const S_lpsrTime& elt)
+{
+  elt->print(os);
+  return os;
+}
 
 void lpsrTime::printMusicXML(ostream& os)
 {
@@ -2207,8 +2218,8 @@ void lpsrTime::printLilyPondCode(ostream& os)
 //______________________________________________________________________________
 S_lpsrClef lpsrClef::create (
   string sign,
-  int         line,
-  int         octaveChange)
+  int    line,
+  int    octaveChange)
 {
   lpsrClef* o =
     new lpsrClef(sign, line, octaveChange); assert(o!=0);
@@ -2217,15 +2228,22 @@ S_lpsrClef lpsrClef::create (
 
 lpsrClef::lpsrClef(
   string sign,
-  int         line,
-  int         octaveChange)
+  int    line,
+  int    octaveChange)
   : lpsrElement("")
 {
   fSign         = sign;
   fLine         = line;
   fOctaveChange = octaveChange;
 }
+
 lpsrClef::~lpsrClef() {}
+
+ostream& operator<< (ostream& os, const S_lpsrClef& clef)
+{
+  clef->print(os);
+  return os;
+}
 
 void lpsrClef::printMusicXML(ostream& os)
 {
@@ -2235,7 +2253,7 @@ void lpsrClef::printMusicXML(ostream& os)
 void lpsrClef::printLPSR(ostream& os)
 {
   os <<
-    "clef" << " \"" << fSign << "\"" <<
+    "Clef" << " \"" << fSign << "\"" <<
     " line: " << fLine << " octaveChange: " << fOctaveChange << endl;
 }
 
@@ -2311,11 +2329,11 @@ void lpsrClef::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrKey lpsrKey::create(
+S_lpsrKey lpsrKey::create (
   int fifths, string mode, int cancel)
 {
-  lpsrKey* o = new lpsrKey(fifths, mode, cancel);
-  assert(o!=0);
+  lpsrKey* o = new lpsrKey (fifths, mode, cancel);
+  assert (o!=0);
   return o;
 }
 
@@ -3249,7 +3267,6 @@ S_lpsrVoice lpsrStaff::staffContainsVoice (
   return result;
 }
 
-
 ostream& operator<< (ostream& os, const S_lpsrStaff& elt)
 {
   elt->print(os);
@@ -3263,11 +3280,28 @@ void lpsrStaff::printMusicXML (ostream& os)
 
 void lpsrStaff::printLPSR (ostream& os)
 {
-  os <<
-    "Staff" << " " << getStaffName () << " " <<
-    fStaffInstrumentName << endl;
+  os << "Staff" << " " << getStaffName () << endl;
 
   idtr++;
+
+  if (fStaffClef)
+    os << idtr << fStaffClef << endl;
+  else
+    os << idtr << "NO_CLEF" << endl;
+
+  if (fStaffKey)
+    os << idtr << fStaffKey << endl;
+  else
+    os << idtr << "NO_KEY" << endl;
+
+  if (fStaffTime)
+    os << idtr << fStaffTime << endl;
+  else
+    os << idtr << "NO_TIME" << endl;
+
+  os <<
+    idtr << "StaffInstrumentName: \"" <<
+    fStaffInstrumentName << "\"" << endl;
   
   for (
     map<int, S_lpsrVoice>::iterator i = fStaffVoicesMap.begin();
