@@ -402,7 +402,7 @@ class EXP xml2LpsrDictionaryVisitor :
     list<S_lpsrWedge>       fPendingWedges;
        
     // grace notes
-    bool                    fCurrentNoteIsGraceNote;
+    bool                    fCurrentNoteIsAGraceNote;
 
     // description of the current LPSR note
     S_lpsrNote              fCurrentNote;
@@ -436,9 +436,10 @@ class EXP xml2LpsrDictionaryVisitor :
     string                  fCurrentTiedOrientation;
 
     // slurs handling
-    string                  fCurrentSlurNumber;
-    string                  fCurrentSlurType;
-    string                  fCurrentSlurPlacement;
+    string                  fCurrentSlurNumber; // JMI
+    string                  fCurrentSlurType; // JMI
+    string                  fCurrentSlurPlacement; // JMI
+    lpsrSlur::SlurKind      fCurrentSlurKind;
 
     // backup and forward handling
     bool                    fOnGoingBackup;

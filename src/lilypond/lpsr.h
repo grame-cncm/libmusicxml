@@ -335,6 +335,38 @@ class EXP lpsrArticulation : public lpsrElement {
 typedef SMARTP<lpsrArticulation> S_lpsrArticulation;
 
 /*!
+\brief A lpsr slur representation.
+
+  A slur is represented by a SlurKind value (hairpins in LilyPond)
+*/
+//______________________________________________________________________________
+class EXP lpsrSlur : public lpsrElement {
+  public:
+
+    enum SlurKind { kStartSlur, kContinueSlur, kStopSlur, kNo_Slur };
+    
+    static SMARTP<lpsrSlur> create (SlurKind kind);
+
+    SlurKind getSlurKind () const        { return fSlurKind; }
+
+    string  slurKindAsString ();
+
+    virtual void printMusicXML      (ostream& os);
+    virtual void printLPSR          (ostream& os);
+    virtual void printLilyPondCode  (ostream& os);
+
+  protected:
+
+    lpsrSlur (SlurKind kind);
+    virtual ~lpsrSlur();
+  
+  private:
+
+    SlurKind fSlurKind;
+};
+typedef SMARTP<lpsrSlur> S_lpsrSlur;
+
+/*!
 \brief A lpsr note representation.
 
   A note is represented by its name, optional accidentals,
@@ -354,7 +386,9 @@ class EXP lpsrNote : public lpsrElement {
     // for standalone notes
     static SMARTP<lpsrNote> createFromMusicXMLData (
                               S_translationSettings& ts,
-                              musicXMLNoteData&      mxmldat);
+                              musicXMLNoteData&      mxmldat,
+                              lpsrSlur::SlurKind     slurKind,
+                              bool                   noteIsGraceNote);
     
     // for chord members
     void setNoteBelongsToAChord ();
@@ -406,7 +440,9 @@ class EXP lpsrNote : public lpsrElement {
  
     lpsrNote (
       S_translationSettings& ts,
-      musicXMLNoteData&      mxmldat);
+      musicXMLNoteData&      mxmldat,
+      lpsrSlur::SlurKind     slurKind,
+      bool                   noteIsAGraceNote);
     
     virtual ~lpsrNote();
     
@@ -433,6 +469,10 @@ class EXP lpsrNote : public lpsrElement {
     
     list<S_lpsrDynamics>      fNoteDynamics;
     list<S_lpsrWedge>         fNoteWedges;
+
+    lpsrSlur::SlurKind        fNoteSlurKind;
+
+    bool                      fNoteIsAGraceNote;
 };
 typedef SMARTP<lpsrNote> S_lpsrNote;
 
@@ -1065,11 +1105,11 @@ class EXP lpsrWedge : public lpsrElement {
 
     enum WedgeKind { kCrescendoWedge, kDecrescendoWedge, kStopWedge };
     
-    static SMARTP<lpsrWedge> create(WedgeKind kind);
+    static SMARTP<lpsrWedge> create (WedgeKind kind);
 
     WedgeKind getWedgeKind () const        { return fWedgeKind; }
 
-    string  wedgeKinsAsString ();
+    string  wedgeKindAsString ();
 
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
@@ -1077,7 +1117,7 @@ class EXP lpsrWedge : public lpsrElement {
 
   protected:
 
-    lpsrWedge(WedgeKind kind);
+    lpsrWedge (WedgeKind kind);
     virtual ~lpsrWedge();
   
   private:

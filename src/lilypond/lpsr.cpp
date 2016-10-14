@@ -353,6 +353,66 @@ void lpsrDuration::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
+S_lpsrArticulation lpsrArticulation::create (
+  ArticulationKind articulationKind)
+{
+  lpsrArticulation* o =
+    new lpsrArticulation (articulationKind);
+  assert (o!=0);
+  return o;
+}
+
+lpsrArticulation::lpsrArticulation (
+  ArticulationKind articulationKind)
+    : lpsrElement("")
+{
+  fArticulationKind = articulationKind;
+}
+
+lpsrArticulation::~lpsrArticulation() {}
+
+
+ostream& operator<< (ostream& os, const S_lpsrArticulation& elt)
+{
+  elt->print(os);
+  return os;
+}
+
+void lpsrArticulation::printMusicXML(ostream& os)
+{
+  os << "<!-- lpsrTime??? -->" << endl;
+}
+
+void lpsrArticulation::printLPSR(ostream& os)
+{
+  os <<
+    "Articulation " << " ";
+
+  switch (fArticulationKind) {
+    case kStaccato:
+      os << "staccato";
+      break;
+    case kStaccatissimo:
+      os << "staccatissimo";
+      break;
+  } // switch
+  
+  os << endl;
+}
+
+void lpsrArticulation::printLilyPondCode(ostream& os)
+{
+  switch (fArticulationKind) {
+    case kStaccato:
+      os << "-.";
+      break;
+    case kStaccatissimo:
+      os << "-^";
+      break;
+  } // switch
+}
+
+//______________________________________________________________________________
 S_lpsrDynamics lpsrDynamics::create(DynamicsKind dynamicsKind)
 {
   lpsrDynamics* o = new lpsrDynamics(dynamicsKind); assert(o!=0);
@@ -480,19 +540,19 @@ ostream& operator<< (ostream& os, const S_lpsrWedge& wdg)
   return os;
 }
 
-string lpsrWedge::wedgeKinsAsString ()
+string lpsrWedge::wedgeKindAsString ()
 {
   stringstream s;
   
   switch (fWedgeKind) {
     case lpsrWedge::kCrescendoWedge:
-      s << "\\<";
+      s << "crescendo";
       break;
     case lpsrWedge::kDecrescendoWedge:
-      s << "\\>";
+      s << "decrescendo";
       break;
     case lpsrWedge::kStopWedge:
-      s << "\\!";
+      s << "stop";
       break;
     default:
       s << "Wedge" << fWedgeKind << "???";
@@ -511,89 +571,100 @@ void lpsrWedge::printMusicXML(ostream& os)
 
 void lpsrWedge::printLPSR(ostream& os)
 {
-  os << "Wedge" << " " << wedgeKinsAsString () << endl;
+  os << "Wedge" << " " << wedgeKindAsString () << endl;
 }
 
 void lpsrWedge::printLilyPondCode(ostream& os)
 {
-  os << wedgeKinsAsString ();
+  os << wedgeKindAsString ();
 }
 
 //______________________________________________________________________________
-S_lpsrArticulation lpsrArticulation::create (
-  ArticulationKind articulationKind)
+S_lpsrSlur lpsrSlur::create(SlurKind slurKind)
 {
-  lpsrArticulation* o =
-    new lpsrArticulation (articulationKind);
-  assert (o!=0);
+  lpsrSlur* o = new lpsrSlur(slurKind); assert(o!=0);
   return o;
 }
 
-lpsrArticulation::lpsrArticulation (
-  ArticulationKind articulationKind)
-    : lpsrElement("")
+lpsrSlur::lpsrSlur(SlurKind slurKind)
+  : lpsrElement("")
 {
-  fArticulationKind = articulationKind;
+  fSlurKind=slurKind; 
 }
+lpsrSlur::~lpsrSlur() {}
 
-lpsrArticulation::~lpsrArticulation() {}
-
-
-ostream& operator<< (ostream& os, const S_lpsrArticulation& elt)
+ostream& operator<< (ostream& os, const S_lpsrSlur& wdg)
 {
-  elt->print(os);
+  wdg->print(os);
   return os;
 }
 
-void lpsrArticulation::printMusicXML(ostream& os)
+string lpsrSlur::slurKindAsString ()
 {
-  os << "<!-- lpsrTime??? -->" << endl;
+  stringstream s;
+  
+  switch (fSlurKind) {
+    case lpsrSlur::kStartSlur:
+      s << "crescendo";
+      break;
+    case lpsrSlur::kContinueSlur:
+      s << "decrescendo";
+      break;
+    case lpsrSlur::kStopSlur:
+      s << "stop";
+      break;
+    default:
+      s << "Slur" << fSlurKind << "???";
+  } // switch
+  
+  string result;
+  
+  s >> result;
+  return result;
 }
 
-void lpsrArticulation::printLPSR(ostream& os)
+void lpsrSlur::printMusicXML(ostream& os)
 {
-  os <<
-    "Articulation " << " ";
-
-  switch (fArticulationKind) {
-    case kStaccato:
-      os << "Staccato";
-      break;
-    case kStaccatissimo:
-      os << "Staccatissimo";
-      break;
-  } // switch
+  os << "<!-- lpsrSlur??? -->" << endl;
 }
 
-void lpsrArticulation::printLilyPondCode(ostream& os)
+void lpsrSlur::printLPSR(ostream& os)
 {
-  switch (fArticulationKind) {
-    case kStaccato:
-      os << "-.";
-      break;
-    case kStaccatissimo:
-      os << "-^";
-      break;
-  } // switch
+  os << "Slur" << " " << slurKindAsString () << endl;
+}
+
+void lpsrSlur::printLilyPondCode(ostream& os)
+{
+  os << slurKindAsString ();
 }
 
 //______________________________________________________________________________
 S_lpsrNote lpsrNote::createFromMusicXMLData (
   S_translationSettings& ts,
-  musicXMLNoteData&      mxmldat)
+  musicXMLNoteData&      mxmldat,
+  lpsrSlur::SlurKind     slurKind,
+  bool                   noteIsAGraceNote)
 {  
-  lpsrNote * o = new lpsrNote (ts, mxmldat); assert(o!=0); 
+  lpsrNote * o = new lpsrNote (
+    ts, mxmldat, slurKind, noteIsAGraceNote);
+  assert(o!=0); 
   return o;
 }
 
 lpsrNote::lpsrNote (
   S_translationSettings& ts,
-  musicXMLNoteData&      mxmldat)
+  musicXMLNoteData&      mxmldat,
+  lpsrSlur::SlurKind     slurKind,
+  bool                   noteIsAGraceNote)
   :
     lpsrElement(""),
     fMusicXMLNoteData (mxmldat)
 {
   fTranslationSettings = ts;
+
+  fNoteSlurKind = slurKind;
+
+  fNoteIsAGraceNote = noteIsAGraceNote;
 
 //  if (true || fTranslationSettings->fDebug) {
   if (fTranslationSettings->fDebug) {
@@ -1013,8 +1084,11 @@ void lpsrNote::printLPSR(ostream& os)
     
     os <<
       "Note" << " " << 
-      notePitchAsLilypondString () << fNoteLpsrDuration << endl;
-
+      notePitchAsLilypondString () << fNoteLpsrDuration;
+    if (fNoteIsAGraceNote)
+      os << " " << "grace";
+    os << endl;
+    
     // print the alterations if any
     if (fNoteArticulations.size()) {
       idtr++;
@@ -1042,6 +1116,26 @@ void lpsrNote::printLPSR(ostream& os)
       for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
         os << idtr << (*i2);
       } // for
+      idtr--;
+    }
+
+    // print the slur if any
+    if (fNoteSlurKind != lpsrSlur::kNo_Slur) {
+      idtr++;
+      switch (fNoteSlurKind) {
+        case lpsrSlur::kStartSlur:
+          os << idtr << "Slur start";
+          break;
+        case lpsrSlur::kContinueSlur:
+          os << idtr << "Slur continue";
+          break;
+        case lpsrSlur::kStopSlur:
+          os << idtr << "Slur stop";
+          break;
+        default:
+          os << idtr << "Slur" << fNoteSlurKind << "???";
+      } // switch
+      os << endl;
       idtr--;
     }
   }

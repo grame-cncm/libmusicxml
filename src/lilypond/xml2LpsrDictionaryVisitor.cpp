@@ -666,6 +666,20 @@ void xml2LpsrDictionaryVisitor::visitStart (S_slur& elt )
 
   fCurrentSlurPlacement =
     elt->getAttributeValue ("placement");
+
+  if (fCurrentSlurType == "start")
+    fCurrentSlurKind = lpsrSlur::kStartSlur;
+  if (fCurrentSlurType == "continue")
+    fCurrentSlurKind = lpsrSlur::kContinueSlur;
+  if (fCurrentSlurType == "stop")
+    fCurrentSlurKind = lpsrSlur::kStopSlur;
+  else {
+    stringstream s;
+    string       message;
+    s << "slur type" << fCurrentSlurType << "unknown";
+    s >> message;
+    // JMI lpsrMusicXMLError (message);
+  }
 }
 
 //________________________________________________________________________
@@ -1208,7 +1222,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_wedge& elt )
 //______________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart ( S_grace& elt )
 {
-  fCurrentNoteIsGraceNote = true;;
+  fCurrentNoteIsAGraceNote = true;;
 }
        
 //______________________________________________________________________________
@@ -1273,7 +1287,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fMusicxmlOctave = -13;
   fMusicXMLNoteData.fDotsNumber = 0;
 
-  fCurrentNoteIsGraceNote = false;;
+  fCurrentNoteIsAGraceNote = false;;
 
   fCurrentStem = "";
 
@@ -1292,6 +1306,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_note& elt )
   fCurrentSlurNumber = "";
   fCurrentSlurType = "";
   fCurrentSlurPlacement = "";
+  fCurrentSlurKind = lpsrSlur::kNo_Slur;
 }
 
 //______________________________________________________________________________
@@ -1424,12 +1439,10 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
   //cout << "::: creating a note" << endl;
   S_lpsrNote note =
     lpsrNote::createFromMusicXMLData (
-      fTranslationSettings, fMusicXMLNoteData);
-
-  // take grace note into account
-  if (fCurrentNoteIsGraceNote) {
-    // JMI
-  }
+      fTranslationSettings,
+      fMusicXMLNoteData,
+      fCurrentSlurKind,
+      fCurrentNoteIsAGraceNote);
 
   // attach the articulations if any to the note
   while (! fCurrentArticulations.empty()) {
