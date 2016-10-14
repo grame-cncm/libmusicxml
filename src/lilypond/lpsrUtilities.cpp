@@ -71,7 +71,7 @@ void haendel::print(ostream& os) const {
 //______________________________________________________________________________
 string int2EnglishWord (int n)
 {
-  if (n < 0)  return "None";
+  if (n < 0)  return "Negative";
   if (n > 99) return "LargerThanNinetyNine";
   
   stringstream s;
@@ -183,7 +183,7 @@ string int2EnglishWord (int n)
 string stringNumbersToEnglishWords (string str)
 {
   if (! str.size ())
-    return "None";
+    return "NONE";
   
   typedef enum { kInitialState, kWorkingOnDigits, kWorkingOnNonDigits } workState;
       

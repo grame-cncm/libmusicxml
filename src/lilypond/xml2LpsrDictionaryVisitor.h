@@ -271,6 +271,7 @@ class EXP xml2LpsrDictionaryVisitor :
 
     string                  fCurrentPartMusicXMLName;
     S_lpsrPart              fCurrentPart;
+    string                  fCurrentPartName;
 
     int                     fCurrentVoiceNumber;
     S_lpsrVoice             fCurrentVoice;

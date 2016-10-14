@@ -176,7 +176,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_divisions& elt )
         "There are " << fCurrentMusicXMLDivisions <<
         " divisions";
     cerr <<
-      " per quater note in part \"" <<
+      " per quater note in part " <<
       fCurrentPart->getPartCombinedName () << endl;
   }
 }
@@ -257,7 +257,7 @@ void xml2LpsrDictionaryVisitor::visitStart (S_score_part& elt)
 
 void xml2LpsrDictionaryVisitor::visitStart (S_part_name& elt)
 {
-  string fCurrentPartName = elt->getValue ();
+  fCurrentPartName = elt->getValue ();
 
   fCurrentPart->
     setPartName (fCurrentPartName);
@@ -294,13 +294,12 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part& elt)
 //________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart (S_staves& elt)
 {
-  /* by S_measure in fact!
-  fStavesNumber = int(*elt);
+   fStavesNumber = int(*elt);
 
   if (fTranslationSettings->fTrace) {
     switch (fStavesNumber) {
       case 0:
-        cerr << "There isn't any explicit staff (hence 1 by default)";
+        cerr << "There isn't any explicit staff (hence 1 by default)"; // JMI
         break;
       case 1:
         cerr << "There is 1 staff";
@@ -309,10 +308,18 @@ void xml2LpsrDictionaryVisitor::visitStart (S_staves& elt)
         cerr << "There are " << fStavesNumber << " staves";
     } // switch
     cerr <<
-      " in part " << fCurrentPart->getPartMusicXMLName() <<
-      " (" << fCurrentPart->getPartLPSRName() << ")" << endl;
+      " in part " << fCurrentPart->getPartCombinedName() << endl;
   }
-  */
+
+  if (fStavesNumber > 1) {
+    // add n-1 staves to current part
+    int n = 2;
+    
+    while (n <= fStavesNumber) {
+      fCurrentPart->addStaffToPart (n);
+      n++;
+    } // while
+  }
 }
 
 void xml2LpsrDictionaryVisitor::visitStart (S_staff& elt)

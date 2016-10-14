@@ -2883,14 +2883,21 @@ void lpsrLyrics::addTextChunkToLyrics (
     lpsrMusicXMLError(result);
   }
 
-  // create lyrics chunk
-  if (fTranslationSettings->fTrace)
+  // create a lyrics text chunk
+  if (fTranslationSettings->fDebug) {
+    S_lpsrStaff staff = fLyricsVoice->getVoiceStaff();
+    S_lpsrPart  part  = staff-> getStaffPart();
+    
     cout <<
-      "--> creating lyrics " << fLyricsNumber <<
+      "--> creating a lyrics " << fLyricsNumber <<
       " text chunk \"" << syllabic <<
-      "\" containing \"" << text <<
+      "\" in voice " << fLyricsVoice->getVoiceNumber() <<
+      " of staff " << staff->getStaffNumber() <<
+      " in part "  << part->getPartCombinedName() <<
+      ", containing \"" << text <<
       "\", elision: " << elision <<
       ", duration: " << lpsrDuration << endl;
+  }
 
   S_lpsrLyricsChunk
     chunk =
@@ -2926,11 +2933,18 @@ void lpsrLyrics::addTextChunkToLyrics (
 void lpsrLyrics::addSkipChunkToLyrics (
   S_lpsrDuration  lpsrDuration)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug) {
+    S_lpsrStaff staff = fLyricsVoice->getVoiceStaff();
+    S_lpsrPart  part  = staff-> getStaffPart();
+    
     cout <<
       "--> creating a lyrics skip chunk, duration: " <<
-      lpsrDuration << endl;
-
+      lpsrDuration <<
+      " in voice " << fLyricsVoice->getVoiceNumber() <<
+      " of staff " << staff->getStaffNumber() <<
+      " in part "  << part->getPartCombinedName() << endl;
+  }
+  
   // create lyrics skip chunk
   S_lpsrLyricsChunk
     chunk =
@@ -2944,9 +2958,16 @@ void lpsrLyrics::addSkipChunkToLyrics (
 void lpsrLyrics::addBreakChunkToLyrics (
   int nextMeasureNumber)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug) {
+    S_lpsrStaff staff = fLyricsVoice->getVoiceStaff();
+    S_lpsrPart  part  = staff-> getStaffPart();
+    
     cout <<
-      "--> creating a lyrics break chunk" << endl;
+      "--> creating a lyrics break chunk" <<
+      " in voice " << fLyricsVoice->getVoiceNumber() <<
+      " of staff " << staff->getStaffNumber() <<
+      " in part "  << part->getPartCombinedName() << endl;
+  }
 
   // convert nextMeasureNumber to string
   stringstream s;
@@ -3041,12 +3062,6 @@ lpsrVoice::lpsrVoice (
   fVoiceNumber = voiceNumber;
   fVoiceStaff  = voiceStaff;
   
-  // coin the voice LPSR name
-  fVoiceName =
-    fVoiceStaff->getStaffName() +
-    "_Voice_" +
-    int2EnglishWord (fVoiceNumber);
-
   // create the implicit lpsrSequence element
   fVoiceSequence =
     lpsrSequence::create (lpsrSequence::kSpace);
@@ -3062,6 +3077,17 @@ lpsrVoice::lpsrVoice (
 }
 
 lpsrVoice::~lpsrVoice() {}
+
+string lpsrVoice::getVoiceName () const
+{
+  // not stored in a field,
+  // because the voice staff may change name
+  // when the part it belongs to is re-used
+  return
+    fVoiceStaff->getStaffName() +
+    "_Voice_" +
+    int2EnglishWord (fVoiceNumber);
+}
 
 S_lpsrLyrics lpsrVoice::addLyricsToVoice (
   int lyricsNumber)
@@ -3114,7 +3140,7 @@ void lpsrVoice::printMusicXML(ostream& os)
 
 void lpsrVoice::printLPSR(ostream& os)
 {
-  os << "Voice" << " " << fVoiceName << endl;
+  os << "Voice" << " " << getVoiceName () << endl;
 
   idtr++;
 
@@ -3132,7 +3158,7 @@ void lpsrVoice::printLPSR(ostream& os)
 
 void lpsrVoice::printLilyPondCode(ostream& os)
 {
-  os << fVoiceName << " = ";
+  os << getVoiceName () << " = ";
 // JMI  if (! fVoiceAbsoluteCode) os << "\\relative ";
   os << "{" << endl;
 
@@ -3164,15 +3190,20 @@ lpsrStaff::lpsrStaff (
   
   fStaffNumber = staffNumber;
   fStaffPart   = staffPart;
-  
-  // coin the staff LPSR name
-  fStaffName =
-    fStaffPart->getPartLPSRName() +
-    "_Staff_" +
-    int2EnglishWord (fStaffNumber);
 }
 
 lpsrStaff::~lpsrStaff() {}
+
+string lpsrStaff::getStaffName () const
+  {
+  // not stored in a field,
+  // because the staff part may change name
+  // when it is re-used
+  return
+    fStaffPart->getPartLPSRName() +
+    "_Staff_" +
+    int2EnglishWord (fStaffNumber);
+  }
 
 S_lpsrVoice lpsrStaff::addVoiceToStaff (
   int voiceNumber)
@@ -3185,6 +3216,12 @@ S_lpsrVoice lpsrStaff::addVoiceToStaff (
     return fStaffVoicesMap [voiceNumber];
   }
 
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "Adding voice " << voiceNumber <<
+      " to staff " << fStaffNumber <<
+      " in part " << fStaffPart->getPartCombinedName () << endl;
+  
   // create the voice
   S_lpsrVoice
     voice =
@@ -3227,7 +3264,7 @@ void lpsrStaff::printMusicXML (ostream& os)
 void lpsrStaff::printLPSR (ostream& os)
 {
   os <<
-    "Staff" << " " << fStaffName << " " <<
+    "Staff" << " " << getStaffName () << " " <<
     fStaffInstrumentName << endl;
 
   idtr++;
@@ -3245,7 +3282,7 @@ void lpsrStaff::printLPSR (ostream& os)
 void lpsrStaff::printLilyPondCode (ostream& os)
 {
   os <<
-    "Staff" << " " << fStaffName << " " <<
+    "Staff" << " " << getStaffName () << " " <<
     fStaffInstrumentName << endl;
  // if (! fTranslationSettings->fGenerateAbsoluteCode) os << "\\relative "; // JMI
   os << "{" << endl;
@@ -3281,7 +3318,7 @@ lpsrPart::lpsrPart (
     
   if (fTranslationSettings->fTrace)
     cerr <<
-      "Creating part \"" << getPartCombinedName () << endl;
+      "Creating part " << getPartCombinedName () << endl;
 }
 
 lpsrPart::~lpsrPart() {}
@@ -3293,7 +3330,7 @@ void lpsrPart::changePartMusicXMLName (
   
   fPartMusicXMLName = newPartMusicXMLName;
 
-  // coin the part LPSR name
+  // coin the new part LPSR name
   fPartLPSRName =
     "Part_"+stringNumbersToEnglishWords (fPartMusicXMLName);
     
@@ -3362,6 +3399,11 @@ S_lpsrStaff lpsrPart::addStaffToPart (
     return fPartStavesMap [staffNumber];
   }
 
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "Adding staff " << staffNumber <<
+      " to part " << getPartCombinedName () << endl;
+  
   // create the staff
   S_lpsrStaff
     staff =
@@ -3438,10 +3480,16 @@ S_lpsrPart lpsrPartGroup::addPartToPartGroup (
     return part;
 
   } else {
+    
+  if (fTranslationSettings->fTrace)
     part =
       lpsrPart::create (
         fTranslationSettings, partMusicXMLName);
 
+    cerr <<
+      "Adding part " << part->getPartCombinedName () <<
+      " to part group " << fPartGroupNumber << endl;
+  
     // register it in this part group
     fPartGroupPartsMap [partMusicXMLName] = part;
   

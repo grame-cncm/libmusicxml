@@ -1463,7 +1463,7 @@ class EXP lpsrLyrics : public lpsrElement {
     
     vector<S_lpsrLyricsChunk> fLyricsChunks;
 
-    string                    fLyricsName; // computed in constructor
+    string                    fLyricsName; // coined in constructor
 
     bool                      fLyricsTextPresent;
 };
@@ -1495,8 +1495,7 @@ class EXP lpsrVoice : public lpsrElement {
             getVoiceLyricsMap () const
                 { return fVoiceLyricsMap; }
 
-    string  getVoiceName () const
-                { return fVoiceName; }
+    string  getVoiceName () const;
 
     S_lpsrLyrics
             addLyricsToVoice (
@@ -1536,8 +1535,6 @@ class EXP lpsrVoice : public lpsrElement {
     S_lpsrStaff               fVoiceStaff;
 
     lpsrLyricsMap             fVoiceLyricsMap;
-
-    string                    fVoiceName; // computed in constructor
 
     // the implicit sequence containing the code generated for the voice
     S_lpsrSequence            fVoiceSequence;
@@ -1579,8 +1576,7 @@ class EXP lpsrStaff : public lpsrElement {
             getStaffVoicesMap ()
                 { return fStaffVoicesMap; }
 
-    string  getStaffName () const
-                { return fStaffName; }
+    string  getStaffName () const;
 
     S_lpsrVoice
             addVoiceToStaff (
@@ -1610,8 +1606,6 @@ class EXP lpsrStaff : public lpsrElement {
     S_lpsrPart                fStaffPart;
     
     lpsrVoicesMap             fStaffVoicesMap;
-
-    string                    fStaffName; // computed in constructor
 
     string                    fStaffInstrumentName;
  };
@@ -1685,7 +1679,7 @@ class EXP lpsrPart : public lpsrElement {
     string                  fPartMusicXMLName;
     lpsrStaffsMap           fPartStavesMap;
 
-    string                  fPartLPSRName; // computed in constructor
+    string                  fPartLPSRName; // coined in constructor
 
     string                  fPartName;
     string                  fPartAbbreviation;
