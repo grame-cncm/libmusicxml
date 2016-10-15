@@ -3783,8 +3783,11 @@ void lpsrPartGroup::printLPSR(ostream& os)
   idtr++;
 
   os <<
-    idtr << "PartGroupName          : \"" << fPartGroupName << "\"" << endl <<
-    idtr << "PartGroupAbbrevation   : \"" << fPartGroupAbbreviation << "\"" << endl; //  <<
+    idtr << "PartGroupName        : \"" << fPartGroupName << "\"" << endl <<
+    idtr << "PartGroupAbbrevation : \"" << fPartGroupAbbreviation << "\"" << endl <<
+    idtr << "PartGroupSymbol      : \"" << fPartGroupSymbol << "\"" << endl <<
+    idtr << "PartGroupBarline     : \"" << fPartGroupBarline << "\"" << endl;
+
  // JMI   idtr << "PartGroupInstrumentName: \"" << fPartGroupInstrumentName << "\"" << endl;
 
   for (
@@ -3796,6 +3799,9 @@ void lpsrPartGroup::printLPSR(ostream& os)
   
   idtr--;
 }
+    string                  fPartGroupSymbol;
+    string                  fPartGroupBarline;
+
 
 void lpsrPartGroup::printLilyPondCode(ostream& os)
 {

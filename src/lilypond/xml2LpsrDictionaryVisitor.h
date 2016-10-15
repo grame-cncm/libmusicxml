@@ -68,6 +68,8 @@ class EXP xml2LpsrDictionaryVisitor :
   public visitor<S_part_list>,
   
   public visitor<S_part_group>,
+  public visitor<S_group_name>,
+  public visitor<S_group_abbreviation>,
   public visitor<S_group_symbol>,
   public visitor<S_group_barline>,
   
@@ -181,6 +183,8 @@ class EXP xml2LpsrDictionaryVisitor :
     virtual void visitStart ( S_part_list& elt);
     
     virtual void visitStart ( S_part_group& elt);
+    virtual void visitStart ( S_group_name& elt);
+    virtual void visitStart ( S_group_abbreviation& elt);
     virtual void visitStart ( S_group_symbol& elt);
     virtual void visitStart ( S_group_barline& elt);
     
@@ -300,6 +304,7 @@ class EXP xml2LpsrDictionaryVisitor :
     S_lpsrDictionary         fDictionary;
 
     // part group handling
+    lpsrPartGroupsMap        fPartGroupsMap;
     S_lpsrPartGroup          fCurrentPartGroup;
 
     // staff handling

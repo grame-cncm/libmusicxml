@@ -188,9 +188,19 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_divisions& elt )
  */
 void xml2LpsrDictionaryVisitor::visitStart (S_part_group& elt)
 {
+  /*
+    <part-group number="1" type="start">
+    <group-name>Trombones</group-name>
+    <group-abbreviation>Trb.</group-abbreviation>
+    <group-symbol default-x="-12">brace</group-symbol>
+    <group-barline>yes</group-barline>
+    </part-group>
+  */
+  
   // the part group number indicates nested/overlapping groups
   int partGroupNumber =
     elt->getAttributeIntValue ("number", 0);
+    
   string partGroupType =
     elt->getAttributeValue ("type");
 
@@ -206,6 +216,9 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part_group& elt)
     fCurrentPartGroup =
       fDictionary->addPartGroupToDictionary (
         partGroupNumber);
+
+    // add it to the vector/stack of this visitor
+    fPartGroupsMap [partGroupNumber] = fCurrentPartGroup;
         
   } else if (partGroupType == "stop") {
 
@@ -218,12 +231,28 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part_group& elt)
   }
 }
 
+void xml2LpsrDictionaryVisitor::visitStart (S_group_name& elt)
+{
+  string groupName = elt->getValue();
+
+  fCurrentPartGroup->setPartGroupName (groupName);
+}
+
+void xml2LpsrDictionaryVisitor::visitStart (S_group_abbreviation& elt)
+{
+  string groupAbbreviation = elt->getValue ();
+
+  fCurrentPartGroup->setPartGroupAbbreviation (groupAbbreviation);
+}
+
 void xml2LpsrDictionaryVisitor::visitStart (S_group_symbol& elt)
 {
+  // occurs after "<part-group number="nnn" type="start"> in MusicXML
+  // that has set fCurrentPartGroup
+
   string partGroupSymbol = elt->getValue ();
 
-  fCurrentPartGroup->
-    setPartGroupSymbol (partGroupSymbol);
+  fCurrentPartGroup->setPartGroupSymbol (partGroupSymbol);
 }
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_group_barline& elt)
@@ -624,7 +653,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_metronome& elt )
   S_lpsrTempoCommand tempo =
     lpsrTempoCommand::create (r.getDenominator(), fPerMinute);
     
-  fCurrentVoice->appendElementToVoiceSequence (tempo);
+ // JMI fCurrentVoice->appendElementToVoiceSequence (tempo);
   
  // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
@@ -1527,7 +1556,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
     fCurrentChord->addNoteToChord (note);
       
     // remove (previous) fCurrentNote that is the last element of the part sequence
-    fCurrentVoice->removeLastElementOfVoiceSequence ();
+ // JMI   fCurrentVoice->removeLastElementOfVoiceSequence ();
 
     // add fCurrentChord to the part sequence instead
     S_lpsrElement elem = fCurrentChord;

@@ -1827,29 +1827,29 @@ class EXP lpsrPartGroup : public lpsrElement {
     void    getPartGroupPartsStackTop ()
                 { fPartGroupPartsStack.top (); }
 
-    void    setPartGroupSymbol (string partGroupSymbol)
-                { fPartGroupSymbol = partGroupSymbol; }
-                
-    void    setPartGroupBarline (string partGroupBarline)
-                { fPartGroupBarline = partGroupBarline; }
-                
     void    setPartGroupName (string partGroupName)
                 { fPartGroupName = partGroupName; }
                 
     void    setPartGroupAbbreviation (string partGroupAbbreviation)
                 { fPartGroupAbbreviation = partGroupAbbreviation; }
                 
-    string  getPartGroupSymbol () const
-                { return fPartGroupSymbol; }
-
-    string  getPartGroupBarline () const
-                { return fPartGroupBarline; }
-
+    void    setPartGroupSymbol (string partGroupSymbol)
+                { fPartGroupSymbol = partGroupSymbol; }
+                
+    void    setPartGroupBarline (string partGroupBarline)
+                { fPartGroupBarline = partGroupBarline; }
+                
     string  getPartGroupName () const
                 { return fPartGroupName; }
 
     string  getPartGroupAbbreviation () const
                 { return fPartGroupAbbreviation; }
+
+    string  getPartGroupSymbol () const
+                { return fPartGroupSymbol; }
+
+    string  getPartGroupBarline () const
+                { return fPartGroupBarline; }
 
     S_lpsrPart
             addPartToPartGroup (
