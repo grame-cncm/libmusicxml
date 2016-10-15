@@ -294,144 +294,137 @@ class EXP xml2LpsrDictionaryVisitor :
                      
     void         resetCurrentTime();
 
-    S_translationSettings   fTranslationSettings;
+    S_translationSettings    fTranslationSettings;
 
-    S_lpsrDictionary        fDictionary;
+    // the dictionary we're building
+    S_lpsrDictionary         fDictionary;
 
-    // the current part group, if any
-    S_lpsrPartGroup         fCurrentPartGroup;
-        
-    int                     fCurrentStaffNumber;
-    S_lpsrStaff             fCurrentStaff;
+    // part group handling
+    S_lpsrPartGroup          fCurrentPartGroup;
 
-    S_lpsrPart              fCurrentPart;
+    // staff handling
+    int                      fCurrentStaffNumber;
+    S_lpsrStaff              fCurrentStaff;
 
-    S_lpsrVoice             fCurrentVoice;
+    // part handling
+    S_lpsrPart               fCurrentPart;
+
+    // voice handling
+    S_lpsrVoice              fCurrentVoice;
     
     // key handling
-    int                     fCurrentFifths;
-    int                     fCurrentCancel;
-    string                  fCurrentMode;
+    int                      fCurrentFifths;
+    int                      fCurrentCancel;
+    string                   fCurrentMode;
 
-    string                  fCurrentClefSign;
-    int                     fCurrentClefLine;
-    int                     fCurrentClefOctaveChange; // JMI
-    int                     fCurrentClefStaffNumber;
+    string                   fCurrentClefSign;
+    int                      fCurrentClefLine;
+    int                      fCurrentClefOctaveChange; // JMI
+    int                      fCurrentClefStaffNumber;
 
     // metronome handling
     vector<musicXMLBeatData>
-                            fBeatsData;
-    int                     fPerMinute;
-    musicXMLBeatData        fCurrentBeat;
-    bool                    fParentheses;
+                             fBeatsData;
+    int                      fPerMinute;
+    musicXMLBeatData         fCurrentBeat;
+    bool                     fParentheses;
 
     // time handling
-    int                     fCurrentTimeStaffNumber; // ??? JMI
-    string                  fCurrentTimeSymbol;
-    bool                    fCurrentSenzaMisura;
+    int                      fCurrentTimeStaffNumber; // ??? JMI
+    string                   fCurrentTimeSymbol;
+    int                      fCurrentTimeBeats;
+    int                      fCurrentTimeBeatType;
+    bool                     fCurrentTimeSenzaMisura;
 
     // lyrics handling
     // the last sysllabic spec met (single, begin, middle or end)
-    string                  fCurrentSyllabic;
+    string                   fCurrentSyllabic;
     // the last lyrics fragment met
-    string                  fCurrentText;
-    bool                    fCurrentElision;
+    string                   fCurrentText;
+    bool                     fCurrentElision;
 
     // the current lyrics map and chunk
 //    map<int, S_lpsrLyrics>
-//                            fCurrentVoiceLyricsMap;
+//                            fCurrentVoiceLyricsMap; JMI
 //    S_lpsrLyricsChunk       fCurrentChunk;
     
-    void                    initiateLyrics ();
+    bool                     fCurrentNoteHasLyrics;
+    S_lpsrLyrics             fCurrentLyrics;
+    bool                     fCurrentLyricsHasText;
 
-    string                  fCurrentLyricsName;
-    string                  fCurrentVoiceName;
-    bool                    fCurrentNoteHasLyrics;
-    S_lpsrLyrics            fCurrentLyrics;
-    bool                    fCurrentLyricsHasText;
+    int                      fCurrentMeasureNumber;
 
-    int                     fCurrentMeasureNumber;
-
-    string                  fCurrentBarlineLocation;
-    string                  fCurrentBarStyle;
-    string                  fCurrentRepeatDirection;
-    string                  fCurrentEndingType;
-    int                     fCurrentEndingNumber;
+    string                   fCurrentBarlineLocation;
+    string                   fCurrentBarStyle;
+    string                   fCurrentRepeatDirection;
+    string                   fCurrentEndingType;
+    int                      fCurrentEndingNumber;
 
     // dividing quater notes in MusicXML
-    int                     fCurrentMusicXMLDivisions;
+    int                      fCurrentMusicXMLDivisions;
 
     // description of the current MusicXML note
-    musicXMLNoteData        fMusicXMLNoteData;
+    musicXMLNoteData         fMusicXMLNoteData;
 
     // stem handling
     enum StemDirection { kStemNeutral, kStemUp, kStemDown };
     
-    string                  fCurrentStem;
-    StemDirection           fCurrentStemDirection;
+    string                   fCurrentStem;
+    StemDirection            fCurrentStemDirection;
 
     // beam handling
-    string                  fCurrentBeam;
-    int                     fCurrentBeamNumber; 
+    string                   fCurrentBeam;
+    int                      fCurrentBeamNumber; 
 
-    // description of the current chord
-    S_lpsrChord             fCurrentChord;
-    bool                    fAChordIsBeingBuilt;
-    int                     fCurrentBeats;
-    int                     fCurrentBeatType;
+    // chord handling
+    S_lpsrChord              fCurrentChord; // cannot be local to a method? JMI
+    bool                     fAChordIsBeingBuilt;
 
-    // articulations
+    S_lpsrChord              createChordFromCurrentNote ();
+    
+    // articulations handling
     list<S_lpsrArticulation> fCurrentArticulations;
     
     // dynamics and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
-    list<S_lpsrDynamics>    fPendingDynamics;
-    list<S_lpsrWedge>       fPendingWedges;
+    list<S_lpsrDynamics>     fPendingDynamics;
+    list<S_lpsrWedge>        fPendingWedges;
        
-    // grace notes
-    bool                    fCurrentNoteIsAGraceNote;
-
     // description of the current LPSR note
-    S_lpsrNote              fCurrentNote;
+    string                   fCurrentNoteType;
+    S_lpsrNote               fCurrentNote;
 
-    // description of current tuplet
-    string                  fCurrentType;
-    int                     fCurrentActualNotes;
-    int                     fCurrentNormalNotes;
-    string                  fCurrentNormalType;
-    // embedded tuplets are numbered 1, 2, ...
-    int                     fCurrentTupletNumber;
-    lpsrTuplet::TupletKind  fCurrentTupletKind;
-    // remains true until a S_tuplet of type "stop" is met
-    bool                    fATupletIsBeingBuilt;
-
-    S_lpsrTuplet            fCurrentTuplet;
-    stack<S_lpsrTuplet>     fCurrentTupletsStack;
-         
-    // chord handling
-    S_lpsrChord             createChordFromCurrentNote ();
-    
     // tuplet handling
-    void                    createTuplet   (S_lpsrNote note);
-    void                    finalizeTuplet (S_lpsrNote note);
-    
+    int                      fCurrentActualNotes;
+    int                      fCurrentNormalNotes;
+    string                   fCurrentNormalNoteType;
+    // embedded tuplets are numbered 1, 2, ...
+    int                      fCurrentTupletNumber;
+    lpsrTuplet::TupletKind   fCurrentTupletKind;
+    // remains true until a S_tuplet of type "stop" is met
+    bool                     fATupletIsBeingBuilt;
+    stack<S_lpsrTuplet>      fCurrentTupletsStack;
+
+    void                     createTuplet   (S_lpsrNote note);
+    void                     finalizeTuplet (S_lpsrNote note);
+         
     // another name for fCurrentNote, fCurrentChord, fCurrentTuplet
     // and the like
-    S_lpsrElement           fCurrentElement;
+// JMI    S_lpsrElement           fCurrentElement;
 
     // ties handling
-    string                  fCurrentTiedType;
-    string                  fCurrentTiedOrientation;
+    string                   fCurrentTiedType;
+    string                   fCurrentTiedOrientation;
 
     // slurs handling
-    string                  fCurrentSlurNumber; // JMI
-    string                  fCurrentSlurType; // JMI
-    string                  fCurrentSlurPlacement; // JMI
-    lpsrSlur::SlurKind      fCurrentSlurKind;
+    string                   fCurrentSlurNumber; // JMI
+    string                   fCurrentSlurType; // JMI
+    string                   fCurrentSlurPlacement; // JMI
+    lpsrSlur::SlurKind       fCurrentSlurKind;
 
     // backup and forward handling
-    bool                    fOnGoingBackup;  // S_duration disambiguation
-    int                     fCurrentBackupDuration;
+    bool                     fOnGoingBackup;  // for S_duration disambiguation
+    int                      fCurrentBackupDuration;
 
 };
 

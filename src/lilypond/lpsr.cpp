@@ -106,7 +106,7 @@ void musicXMLNoteData::print (ostream& os)
     "  " << left << setw(26) << "fNoteBelongsToAChord = " << fNoteBelongsToAChord <<  endl <<
     "  " << endl <<
     "  " << left << setw(26) << "fNoteBelongsToATuplet = " << fNoteBelongsToATuplet <<  endl <<
-    "  " << left << setw(26) << "fTupletMemberType = " << fTupletMemberType <<  endl <<
+    "  " << left << setw(26) << "fTupletMemberNoteType = " << fTupletMemberNoteType <<  endl <<
     "  " << endl <<
     "  " << left << setw(26) << "fVoiceNumber = " << fVoiceNumber <<  endl;
 };
@@ -198,7 +198,7 @@ lpsrDuration::lpsrDuration (
   fNum   = num;
   fDenom = denom;
   fDots  = dots;
-  fTupletMemberType = tupletMemberType;
+  fTupletMemberNoteType = tupletMemberType;
   /*
   cout <<
     "lpsrDuration::lpsrDuration (), fNum = " << fNum << 
@@ -245,26 +245,26 @@ string lpsrDuration::durationAsLilypondString ()
 
   stringstream s;
 
-  if (fTupletMemberType.size()) {
+  if (fTupletMemberNoteType.size()) {
 
-    if      (fTupletMemberType == "256th")   { s << "256"; }
-    else if (fTupletMemberType == "128th")   { s << "128"; } 
-    else if (fTupletMemberType == "64th")    { s << "64"; } 
-    else if (fTupletMemberType == "32nd")    { s << "32"; } 
-    else if (fTupletMemberType == "16th")    { s << "16"; } 
-    else if (fTupletMemberType == "eighth")  { s << "8"; } 
-    else if (fTupletMemberType == "quarter") { s << "4"; } 
-    else if (fTupletMemberType == "half")    { s << "2"; } 
-    else if (fTupletMemberType == "whole")   { s << "1"; } 
-    else if (fTupletMemberType == "breve")   { s << "breve"; } 
-    else if (fTupletMemberType == "long")    { s << "long"; }
+    if      (fTupletMemberNoteType == "256th")   { s << "256"; }
+    else if (fTupletMemberNoteType == "128th")   { s << "128"; } 
+    else if (fTupletMemberNoteType == "64th")    { s << "64"; } 
+    else if (fTupletMemberNoteType == "32nd")    { s << "32"; } 
+    else if (fTupletMemberNoteType == "16th")    { s << "16"; } 
+    else if (fTupletMemberNoteType == "eighth")  { s << "8"; } 
+    else if (fTupletMemberNoteType == "quarter") { s << "4"; } 
+    else if (fTupletMemberNoteType == "half")    { s << "2"; } 
+    else if (fTupletMemberNoteType == "whole")   { s << "1"; } 
+    else if (fTupletMemberNoteType == "breve")   { s << "breve"; } 
+    else if (fTupletMemberNoteType == "long")    { s << "long"; }
     else
       {
         stringstream s;
       string  message;
       s << 
         endl << 
-        "--> unknown tuplet member type " << fTupletMemberType <<
+        "--> unknown tuplet member type " << fTupletMemberNoteType <<
         endl;
       s >> message;
       lpsrMusicXMLError(message);
@@ -781,7 +781,7 @@ lpsrNote::lpsrNote (
       fMusicXMLNoteData.fMusicxmlDuration,
       divisionsPerWholeNote,
       fMusicXMLNoteData.fDotsNumber,
-      fMusicXMLNoteData.fTupletMemberType);
+      fMusicXMLNoteData.fTupletMemberNoteType);
 //  cout << "fNoteLpsrDuration = " << fNoteLpsrDuration << endl;
     
   // diatonic note JMI forelative code

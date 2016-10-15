@@ -80,6 +80,7 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
   fCurrentMeasureNumber = 0;
 
   fAChordIsBeingBuilt = false;
+  
   fATupletIsBeingBuilt = false;
 
   fOnGoingBackup = false;
@@ -122,10 +123,10 @@ void xml2LpsrDictionaryVisitor::resetCurrentTime ()
 {
   fCurrentTimeStaffNumber = -1;
   
-  fCurrentSenzaMisura = false;
+  fCurrentTimeSenzaMisura = false;
 
-  fCurrentBeats = 0;
-  fCurrentBeatType = 0;
+  fCurrentTimeBeats = 0;
+  fCurrentTimeBeatType = 0;
   
 //  fTimeSignatures.clear();
   fCurrentTimeSymbol = "";
@@ -208,7 +209,7 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part_group& elt)
         
   } else if (partGroupType == "stop") {
 
-      fCurrentPartGroup->popPartGroupPartsStackTop ();
+    fCurrentPartGroup->popPartGroupPartsStackTop ();
     
   } else {
     
@@ -518,16 +519,16 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_time& elt ) {
 }
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_beats& elt )
-  { fCurrentBeats = (int)(*elt); }
+  { fCurrentTimeBeats = (int)(*elt); }
   
 void xml2LpsrDictionaryVisitor::visitStart ( S_beat_type& elt )
-  { fCurrentBeatType = (int)(*elt); }
+  { fCurrentTimeBeatType = (int)(*elt); }
  
 void xml2LpsrDictionaryVisitor::visitStart ( S_senza_misura& elt )
-  { fCurrentSenzaMisura = true; }
+  { fCurrentTimeSenzaMisura = true; }
 
 /*
-rational xml2LpsrDictionaryVisitor::timeSignatureFromIndex(int index)
+rational xml2LpsrDictionaryVisitor::timeSignatureFromIndex(int index) JMI
 {
   rational r(0,1);
   if (index < fTimeSignatures.size()) {
@@ -545,8 +546,8 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_time& elt )
   S_lpsrTime
     time =
       lpsrTime::create (
-        fCurrentBeats,
-        fCurrentBeatType,
+        fCurrentTimeBeats,
+        fCurrentTimeBeatType,
         fTranslationSettings->fGenerateNumericalTime);
 
   if (fTranslationSettings->fTrace)
@@ -712,7 +713,7 @@ void xml2LpsrDictionaryVisitor::visitStart (S_lyric& elt )
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_syllabic& elt )
 {
-  string fCurrentSyllabic = elt->getValue();
+  fCurrentSyllabic = elt->getValue();
 /* JMI
   if (fCurrentSyllabic == "begin") {
     fOnGoingLyrics = true;
@@ -800,7 +801,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt )
           fMusicXMLNoteData.fMusicxmlDuration,
           fCurrentMusicXMLDivisions,
           fMusicXMLNoteData.fDotsNumber,
-          fMusicXMLNoteData.fTupletMemberType);
+          fMusicXMLNoteData.fTupletMemberNoteType);
   
     fCurrentLyrics->
       addTextChunkToLyrics (
@@ -859,7 +860,8 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_print& elt )
     fCurrentVoice->appendElementToVoiceSequence (b2);
 
     // create a break command
-    S_lpsrBreak break_ = lpsrBreak::create(fCurrentMeasureNumber);
+    S_lpsrBreak break_ =
+      lpsrBreak::create(fCurrentMeasureNumber);
     S_lpsrElement b1 = break_;
     fCurrentVoice->appendElementToVoiceSequence (b1);
   
@@ -1001,7 +1003,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_dot& elt )
        
 void xml2LpsrDictionaryVisitor::visitStart ( S_type& elt )
 {
-  fCurrentType=elt->getValue();
+  fCurrentNoteType=elt->getValue();
 }
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_stem& elt )
@@ -1059,7 +1061,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_beam& elt )
     bk = lpsrBeam::kEndBeam;
   }
   
-//  S_lpsrBeam beam = lpsrBeam::create(number, bk);;
+//  S_lpsrBeam beam = lpsrBeam::create(number, bk); // JMI
 //  fCurrentBeam = beam;
 }
 
@@ -1241,15 +1243,17 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_normal_notes& elt )
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_normal_type& elt )
 {
-  fCurrentNormalType = elt->getValue();
+  fCurrentNormalNoteType = elt->getValue();
 }
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_tuplet& elt )
 {
   fMusicXMLNoteData.fNoteBelongsToATuplet = true;
 
-  fCurrentTupletNumber = atoi(elt->getAttributeValue("number").c_str());
-  string type     = elt->getAttributeValue("type");
+  fCurrentTupletNumber =
+    elt->getAttributeIntValue ("number", 0);
+  string tupletType =
+    elt->getAttributeValue("type");
   
   /* JMI
   cout <<
@@ -1259,16 +1263,16 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_tuplet& elt )
   
   fCurrentTupletKind = lpsrTuplet::k_NoTuplet;
   
-  if (type == "start")
+  if (tupletType == "start")
     fCurrentTupletKind = lpsrTuplet::kStartTuplet;
-  else if (type == "continue")
+  else if (tupletType == "continue")
     fCurrentTupletKind = lpsrTuplet::kContinueTuplet;
-  else if (type == "stop")
+  else if (tupletType == "stop")
     fCurrentTupletKind = lpsrTuplet::kStopTuplet;
   else {
     stringstream s;
     string  message;
-    s << "stuplet type " << type << " is unknown";
+    s << "tuplet type " << tupletType << " is unknown";
     s >> message;
     lpsrMusicXMLError (message);
   }
@@ -1324,7 +1328,7 @@ S_lpsrChord xml2LpsrDictionaryVisitor::createChordFromCurrentNote ()
   
   chord = lpsrChord::create (
     fCurrentNote->getNoteLpsrDuration ());
-  fCurrentElement = chord; // another name for it
+// JMI  fCurrentElement = chord; // another name for it
    
   if (fTranslationSettings->fDebug)
     cerr << "--> adding first note to chord" << endl;
@@ -1375,11 +1379,11 @@ S_lpsrChord xml2LpsrDictionaryVisitor::createChordFromCurrentNote ()
 void xml2LpsrDictionaryVisitor::createTuplet (S_lpsrNote note)
 {
   // create a tuplet element
-  S_lpsrTuplet fCurrentTuplet = lpsrTuplet::create();
-  fCurrentElement = fCurrentTuplet; // another name for it
+  S_lpsrTuplet tuplet = lpsrTuplet::create();
+// JMI  fCurrentElement = tuplet; // another name for it
 
   // populate it
-  fCurrentTuplet->updateTuplet(
+  tuplet->updateTuplet (
     fCurrentTupletNumber,
     fCurrentActualNotes,
     fCurrentNormalNotes);
@@ -1387,12 +1391,12 @@ void xml2LpsrDictionaryVisitor::createTuplet (S_lpsrNote note)
   // register it in this visitor
   if (fTranslationSettings->fDebug)
     cout << "--> pushing tuplet to tuplets stack" << endl;
-  fCurrentTupletsStack.push(fCurrentTuplet);
+  fCurrentTupletsStack.push(tuplet);
   
   // add note to the tuplet
   if (fTranslationSettings->fDebug)
     cout << "--> adding note " << note << " to tuplets stack top" << endl;
-  fCurrentTuplet->addElementToTuplet(note);
+  tuplet->addElementToTuplet (note);
 }
 
 void xml2LpsrDictionaryVisitor::finalizeTuplet (S_lpsrNote note) {
@@ -1441,8 +1445,8 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
   
   fMusicXMLNoteData.fMusicxmlDivisions =
     fCurrentMusicXMLDivisions;
-  fMusicXMLNoteData.fTupletMemberType =
-    fCurrentType;
+  fMusicXMLNoteData.fTupletMemberNoteType =
+    fCurrentNoteType;
   
   //cout << "::: creating a note" << endl;
   S_lpsrNote note =
@@ -1531,7 +1535,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
 
   } else if (fMusicXMLNoteData.fNoteBelongsToATuplet) {
 
-    fMusicXMLNoteData.fTupletMemberType = fCurrentType;
+    fMusicXMLNoteData.fTupletMemberNoteType = fCurrentNoteType;
     
     switch (fCurrentTupletKind) {
       case lpsrTuplet::kStartTuplet:
@@ -1550,8 +1554,10 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
         {
           // populate the tuplet at the top of the stack
           if (fTranslationSettings->fDebug)
-            cout << "--> adding note " << note << " to tuplets stack top" << endl;
-          fCurrentTupletsStack.top()->addElementToTuplet(note);
+            cout <<
+              "--> adding note " << note <<
+              " to tuplets stack top" << endl;
+          fCurrentTupletsStack.top()->addElementToTuplet (note);
         }
         break;
   
@@ -1580,17 +1586,10 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
   
   // keep track of note/rest in this visitor
   fCurrentNote    = note;
-  fCurrentElement = fCurrentNote; // another name for it
+// JMI  fCurrentElement = fCurrentNote; // another name for it
 
   // add a skip chunk for notes/rests without lyrics
-  // do a copy, not to share things! JMI ???
   if (! fCurrentNoteHasLyrics) {
-    /*
-    lpsrDuration
-      lyricsLpsrDuration =
-        lpsrDuration (*(note->getNoteLpsrDuration ()));
-    */
-    
     S_lpsrDuration
       lyricsLpsrDuration =
         note->getNoteLpsrDuration ();

@@ -199,7 +199,7 @@ class musicXMLNoteData {
     bool        fNoteBelongsToAChord;
     
     bool        fNoteBelongsToATuplet;
-    string      fTupletMemberType;
+    string      fTupletMemberNoteType;
 
     int         fVoiceNumber;
 };
@@ -300,7 +300,7 @@ class EXP lpsrDuration : public lpsrElement {
     int         fNum;
     int         fDenom;
     int         fDots;
-    string fTupletMemberType;
+    string      fTupletMemberNoteType;
 };
 typedef SMARTP<lpsrDuration> S_lpsrDuration;
 
@@ -1007,9 +1007,10 @@ class EXP lpsrTuplet : public lpsrElement {
 
     void updateTuplet (int number, int actualNotes, int normalNotes);
     
-    int getTupletNumber () const { return fTupletNumber; }
+    int  getTupletNumber () const { return fTupletNumber; }
 
-    void addElementToTuplet (S_lpsrElement elem) { fTupletContents.push_back(elem); }
+    void addElementToTuplet (S_lpsrElement elem)
+            { fTupletContents.push_back(elem); }
 
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
