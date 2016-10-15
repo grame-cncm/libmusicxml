@@ -385,8 +385,7 @@ void lpsrArticulation::printMusicXML(ostream& os)
 
 void lpsrArticulation::printLPSR(ostream& os)
 {
-  os <<
-    "Articulation " << " ";
+  os << "Articulation" << " ";
 
   switch (fArticulationKind) {
     case kStaccato:
@@ -642,11 +641,9 @@ void lpsrSlur::printLilyPondCode(ostream& os)
 S_lpsrNote lpsrNote::createFromMusicXMLData (
   S_translationSettings& ts,
   musicXMLNoteData&      mxmldat,
-  lpsrSlur::SlurKind     slurKind,
-  bool                   noteIsAGraceNote)
+  lpsrSlur::SlurKind     slurKind)
 {  
-  lpsrNote * o = new lpsrNote (
-    ts, mxmldat, slurKind, noteIsAGraceNote);
+  lpsrNote * o = new lpsrNote (ts, mxmldat, slurKind);
   assert(o!=0); 
   return o;
 }
@@ -654,8 +651,7 @@ S_lpsrNote lpsrNote::createFromMusicXMLData (
 lpsrNote::lpsrNote (
   S_translationSettings& ts,
   musicXMLNoteData&      mxmldat,
-  lpsrSlur::SlurKind     slurKind,
-  bool                   noteIsAGraceNote)
+  lpsrSlur::SlurKind     slurKind)
   :
     lpsrElement(""),
     fMusicXMLNoteData (mxmldat)
@@ -663,8 +659,6 @@ lpsrNote::lpsrNote (
   fTranslationSettings = ts;
 
   fNoteSlurKind = slurKind;
-
-  fNoteIsAGraceNote = noteIsAGraceNote;
 
 //  if (true || fTranslationSettings->fDebug) {
   if (fTranslationSettings->fDebug) {
@@ -1085,14 +1079,14 @@ void lpsrNote::printLPSR(ostream& os)
     os <<
       "Note" << " " << 
       notePitchAsLilypondString () << fNoteLpsrDuration;
-    if (fNoteIsAGraceNote)
+    if (fMusicXMLNoteData.fNoteIsAGraceNote)
       os << " " << "grace";
     os << endl;
     
     // print the alterations if any
     if (fNoteArticulations.size()) {
       idtr++;
-      vector<S_lpsrArticulation>::const_iterator i;
+      list<S_lpsrArticulation>::const_iterator i;
       for (i=fNoteArticulations.begin(); i!=fNoteArticulations.end(); i++) {
         os << idtr << (*i);
       } // for
@@ -1336,13 +1330,6 @@ lpsrChord::lpsrChord (S_lpsrDuration chordDuration)
 }
 lpsrChord::~lpsrChord() {}
 
-void lpsrChord::addDynamics (S_lpsrDynamics dyn) {
-  fChordDynamics.push_back(dyn);
-}
-void lpsrChord::addWedge (S_lpsrWedge wdg) {
-  fChordWedges.push_back(wdg);
-}
-
 ostream& operator<< (ostream& os, const S_lpsrChord& chrd)
 {
   chrd->print(os);
@@ -1371,14 +1358,24 @@ void lpsrChord::printLPSR(ostream& os)
   os << ">";
   
   // print the chord duration
-  os << fChordDuration << endl;
+  os << fChordDuration << endl; 
+
+  // print the articulations if any
+  if (fChordArticulations.size()) {
+    idtr++;
+    list<S_lpsrArticulation>::const_iterator i;
+    for (i=fChordArticulations.begin(); i!=fChordArticulations.end(); i++) {
+      os << idtr << (*i);
+    } // for
+    idtr--;
+  }
 
   // print the dynamics if any
   if (fChordDynamics.size()) {
     idtr++;
-    list<S_lpsrDynamics>::const_iterator i1;
-    for (i1=fChordDynamics.begin(); i1!=fChordDynamics.end(); i1++) {
-      os << idtr << (*i1);
+    list<S_lpsrDynamics>::const_iterator i;
+    for (i=fChordDynamics.begin(); i!=fChordDynamics.end(); i++) {
+      os << idtr << (*i);
     } // for
     idtr--;
   }
@@ -1386,9 +1383,9 @@ void lpsrChord::printLPSR(ostream& os)
   // print the wedges if any
   if (fChordWedges.size()) {
     idtr++;
-    list<S_lpsrWedge>::const_iterator i2;
-    for (i2=fChordWedges.begin(); i2!=fChordWedges.end(); i2++) {
-      os << idtr << (*i2);
+    list<S_lpsrWedge>::const_iterator i;
+    for (i=fChordWedges.begin(); i!=fChordWedges.end(); i++) {
+      os << idtr << (*i);
     } // for
     idtr--;
   }
@@ -3719,6 +3716,18 @@ S_lpsrPart lpsrPartGroup::addPartToPartGroup (
 
   // return it
   return part;
+}
+
+S_lpsrPart lpsrPartGroup::partGroupContainsPart (
+  string partMusicXMLName)
+{
+  S_lpsrPart result;
+  
+  if (fPartGroupPartsMap.count (partMusicXMLName)) {
+    result = fPartGroupPartsMap [partMusicXMLName];
+  }
+
+  return result;
 }
 
 S_lpsrPart lpsrPartGroup::tryAndReUseInitialAnonymousPart (

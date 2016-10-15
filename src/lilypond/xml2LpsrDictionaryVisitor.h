@@ -299,24 +299,13 @@ class EXP xml2LpsrDictionaryVisitor :
     S_lpsrDictionary        fDictionary;
 
     // the current part group, if any
-    // the part group number indicates nested/overlapping groups
-    int                     fCurrentPartGroupNumber;
-    string                  fCurrentPartGroupType;
     S_lpsrPartGroup         fCurrentPartGroup;
-    string                  fCurrentGroupSymbol;
-    string                  fCurrentGroupBarline;
-    
-    // number of staves (from the staves element)
-    int                     fStavesNumber;
-    
+        
     int                     fCurrentStaffNumber;
     S_lpsrStaff             fCurrentStaff;
 
-    string                  fCurrentPartMusicXMLName;
     S_lpsrPart              fCurrentPart;
-    string                  fCurrentPartName;
 
-    int                     fCurrentVoiceNumber;
     S_lpsrVoice             fCurrentVoice;
     
     // key handling
@@ -324,10 +313,10 @@ class EXP xml2LpsrDictionaryVisitor :
     int                     fCurrentCancel;
     string                  fCurrentMode;
 
-    string                  fClefSign;
-    int                     fClefLine;
-    int                     fClefOctaveChange;
-    int                     fClefNumber;
+    string                  fCurrentClefSign;
+    int                     fCurrentClefLine;
+    int                     fCurrentClefOctaveChange; // JMI
+    int                     fCurrentClefStaffNumber;
 
     // metronome handling
     vector<musicXMLBeatData>
@@ -338,12 +327,10 @@ class EXP xml2LpsrDictionaryVisitor :
 
     // time handling
     int                     fCurrentTimeStaffNumber; // ??? JMI
-    string                  fSymbol;
-    bool                    fSenzaMisura;
+    string                  fCurrentTimeSymbol;
+    bool                    fCurrentSenzaMisura;
 
     // lyrics handling
-    // the last lyric number, i.e. lyrics number, met
-    int                     fCurrentLyricNumber;
     // the last sysllabic spec met (single, begin, middle or end)
     string                  fCurrentSyllabic;
     // the last lyrics fragment met
@@ -422,13 +409,14 @@ class EXP xml2LpsrDictionaryVisitor :
     stack<S_lpsrTuplet>     fCurrentTupletsStack;
          
     // chord handling
-    S_lpsrChord             createChord (S_lpsrDuration noteDuration);
+    S_lpsrChord             createChordFromCurrentNote ();
     
     // tuplet handling
     void                    createTuplet   (S_lpsrNote note);
     void                    finalizeTuplet (S_lpsrNote note);
     
-    // another name for fCurrentNote, fCurrentChord, fCurrentTuplet and the like
+    // another name for fCurrentNote, fCurrentChord, fCurrentTuplet
+    // and the like
     S_lpsrElement           fCurrentElement;
 
     // ties handling
@@ -442,7 +430,7 @@ class EXP xml2LpsrDictionaryVisitor :
     lpsrSlur::SlurKind      fCurrentSlurKind;
 
     // backup and forward handling
-    bool                    fOnGoingBackup;
+    bool                    fOnGoingBackup;  // S_duration disambiguation
     int                     fCurrentBackupDuration;
 
 };

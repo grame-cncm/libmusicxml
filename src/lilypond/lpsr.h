@@ -194,10 +194,12 @@ class musicXMLNoteData {
     int         fMusicxmlDuration;
     int         fDotsNumber;
     
+    bool        fNoteIsAGraceNote;
+    
     bool        fNoteBelongsToAChord;
     
     bool        fNoteBelongsToATuplet;
-    string fTupletMemberType;
+    string      fTupletMemberType;
 
     int         fVoiceNumber;
 };
@@ -381,14 +383,14 @@ class EXP lpsrNote : public lpsrElement {
     
     enum MusicXMLAlteration {
       // kDoubleFlat=-2 as in MusicXML, to faciliting testing
-      kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp, k_NoAlteration};
+      kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp,
+      k_NoAlteration};
             
     // for standalone notes
     static SMARTP<lpsrNote> createFromMusicXMLData (
-                              S_translationSettings& ts,
-                              musicXMLNoteData&      mxmldat,
-                              lpsrSlur::SlurKind     slurKind,
-                              bool                   noteIsGraceNote);
+        S_translationSettings& ts,
+        musicXMLNoteData&      mxmldat,
+        lpsrSlur::SlurKind     slurKind);
     
     // for chord members
     void setNoteBelongsToAChord ();
@@ -408,27 +410,31 @@ class EXP lpsrNote : public lpsrElement {
       k_NoLpsrPitch};
     
     LpsrPitch computeNoteLpsrPitch (
-                int                          noteQuatertonesFromA,
-                lpsrNote::MusicXMLAlteration alteration);
+        int                          noteQuatertonesFromA,
+        lpsrNote::MusicXMLAlteration alteration);
                           
     static map<LpsrPitch, string> sDutchLilypondPitches;
 
-    S_lpsrDuration getNoteLpsrDuration () { return fNoteLpsrDuration; }   
+    S_lpsrDuration       getNoteLpsrDuration ()
+                            { return fNoteLpsrDuration; }   
 
-    string  notePitchAsLilypondString ();
+    string               notePitchAsLilypondString ();
 
     // articulations
-    void              addArticulation (S_lpsrArticulation art);
+    void                 addArticulation (S_lpsrArticulation art);
+    list<S_lpsrArticulation>
+                         getNoteArticulations () const
+                           { return fNoteArticulations; }
     
     // dynamics and wedges
-    void              addDynamics (S_lpsrDynamics dyn);
-    void              addWedge    (S_lpsrWedge    wdg);
+    void                 addDynamics (S_lpsrDynamics dyn);
+    void                 addWedge    (S_lpsrWedge    wdg);
 
     list<S_lpsrDynamics> getNoteDynamics () { return fNoteDynamics; };
     list<S_lpsrWedge>    getNoteWedges   () { return fNoteWedges; };
 
-    S_lpsrDynamics     removeFirstDynamics ();
-    S_lpsrWedge        removeFirstWedge ();
+    S_lpsrDynamics       removeFirstDynamics ();
+    S_lpsrWedge          removeFirstWedge ();
 
 //    void octaveRelativeTo (const lpsrAbsoluteOctave& otherAbsOct);
         
@@ -439,40 +445,33 @@ class EXP lpsrNote : public lpsrElement {
   protected:
  
     lpsrNote (
-      S_translationSettings& ts,
-      musicXMLNoteData&      mxmldat,
-      lpsrSlur::SlurKind     slurKind,
-      bool                   noteIsAGraceNote);
+        S_translationSettings& ts,
+        musicXMLNoteData&      mxmldat,
+        lpsrSlur::SlurKind     slurKind);
     
     virtual ~lpsrNote();
     
   private:
   
-    S_translationSettings     fTranslationSettings;
+    S_translationSettings      fTranslationSettings;
 
     // MusicXML informations
-    musicXMLNoteData          fMusicXMLNoteData;
-    MusicXMLDiatonicPitch     fMusicXMLDiatonicPitch; // JMI
-
- //   bool                     fCurrentStepIsARest;
- //   MusicXMLAlteration       fMusicXMLAlteration;
-  //  int                      fMusicXMLOctave;
+    musicXMLNoteData           fMusicXMLNoteData;
+    MusicXMLDiatonicPitch      fMusicXMLDiatonicPitch; // JMI
 
     // MusicXML durations are in in divisions per quarter note,
     // LilyPond durations are in whole notes, hence the "*4" multiplication
-    S_lpsrDuration            fNoteLpsrDuration;
+    S_lpsrDuration             fNoteLpsrDuration;
 
     // LilyPond informations
-    LpsrPitch                 fNoteLpsrPitch;
+    LpsrPitch                  fNoteLpsrPitch;
 
-    vector<S_lpsrArticulation>  fNoteArticulations;
+    list<S_lpsrArticulation>   fNoteArticulations;
     
-    list<S_lpsrDynamics>      fNoteDynamics;
-    list<S_lpsrWedge>         fNoteWedges;
+    list<S_lpsrDynamics>       fNoteDynamics;
+    list<S_lpsrWedge>          fNoteWedges;
 
-    lpsrSlur::SlurKind        fNoteSlurKind;
-
-    bool                      fNoteIsAGraceNote;
+    lpsrSlur::SlurKind         fNoteSlurKind;
 };
 typedef SMARTP<lpsrNote> S_lpsrNote;
 
@@ -555,10 +554,16 @@ class EXP lpsrChord : public lpsrElement {
 
     static SMARTP<lpsrChord> create(S_lpsrDuration chordDuration);
     
-    void addNoteToChord (S_lpsrNote note) { fChordNotes.push_back(note); }
+    void         addNoteToChord (S_lpsrNote note)
+                    { fChordNotes.push_back(note); }
 
-    void addDynamics (S_lpsrDynamics dyn);
-    void addWedge    (S_lpsrWedge    wdg);
+    void         addArticulation (S_lpsrArticulation art)
+                    { fChordArticulations.push_back(art); }
+    
+    void         addDynamics (S_lpsrDynamics dyn)
+                    { fChordDynamics.push_back(dyn); }
+    void         addWedge    (S_lpsrWedge    wdg)
+                    { fChordWedges.push_back(wdg); }
 
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
@@ -571,13 +576,14 @@ class EXP lpsrChord : public lpsrElement {
   
   private:
   
-    vector<S_lpsrNote>   fChordNotes;
+    vector<S_lpsrNote>         fChordNotes;
     
-    S_lpsrDuration            fChordDuration;
+    S_lpsrDuration             fChordDuration;
 
+    list<S_lpsrArticulation>   fChordArticulations;
     
-    list<S_lpsrDynamics> fChordDynamics;
-    list<S_lpsrWedge>    fChordWedges;
+    list<S_lpsrDynamics>       fChordDynamics;
+    list<S_lpsrWedge>          fChordWedges;
 };
 typedef SMARTP<lpsrChord> S_lpsrChord;
 
@@ -1807,6 +1813,10 @@ class EXP lpsrPartGroup : public lpsrElement {
             
     S_lpsrPart
             addPartToPartGroup (
+                string partMusicXMLName);
+
+    S_lpsrPart
+            partGroupContainsPart (
                 string partMusicXMLName);
 
     void    popPartGroupPartsStackTop ();

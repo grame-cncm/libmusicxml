@@ -5,7 +5,7 @@
   <identification>
     <encoding>
       <software>Frescobaldi 2.18.1</software>
-      <encoding-date>2016-09-28</encoding-date>
+      <encoding-date>2016-10-15</encoding-date>
     </encoding>
   </identification>
   <part-list>
@@ -41,6 +41,11 @@
         <duration>1</duration>
         <voice>1</voice>
         <type>eighth</type>
+        <notations>
+          <articulations>
+            <staccatissimo />
+          </articulations>
+        </notations>
       </note>
       <note>
         <chord />
@@ -143,6 +148,12 @@
         <duration>4</duration>
         <voice>1</voice>
         <type>half</type>
+        <notations>
+          <articulations>
+            <staccato />
+            <detached-legato />
+          </articulations>
+        </notations>
       </note>
       <note>
         <chord />
@@ -165,6 +176,5 @@
         <type>half</type>
       </note>
     </measure>
-    <measure number="3" />
   </part>
 </score-partwise>

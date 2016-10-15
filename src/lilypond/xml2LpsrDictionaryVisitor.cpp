@@ -51,10 +51,9 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
   */
   
   // add the anonymous part group to the dictionary
-  fCurrentPartGroupNumber = 1;
   fCurrentPartGroup =
     fDictionary->
-      addPartGroupToDictionary (fCurrentPartGroupNumber);
+      addPartGroupToDictionary (1);
 
   // add the anonymous part to the anonymous part group
   string partXMLName = "";
@@ -69,16 +68,14 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
       addStaffToPart (fCurrentStaffNumber);
 
   // add the anonymous voice to the anonymous staff
-  fCurrentVoiceNumber = 1;
   fCurrentVoice =
     fCurrentStaff->
-      addVoiceToStaff (fCurrentVoiceNumber);
+      addVoiceToStaff (1);
 
   // add the anonymous lyrics to the anonymous voice
-  fCurrentLyricNumber = 1;
   fCurrentLyrics =
     fCurrentVoice->
-      addLyricsToVoice (fCurrentLyricNumber);
+      addLyricsToVoice (1);
   
   fCurrentMeasureNumber = 0;
 
@@ -125,13 +122,13 @@ void xml2LpsrDictionaryVisitor::resetCurrentTime ()
 {
   fCurrentTimeStaffNumber = -1;
   
-  fSenzaMisura = false;
+  fCurrentSenzaMisura = false;
 
   fCurrentBeats = 0;
   fCurrentBeatType = 0;
   
 //  fTimeSignatures.clear();
-  fSymbol = "";
+  fCurrentTimeSymbol = "";
 }
 
 //________________________________________________________________________
@@ -191,76 +188,77 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_divisions& elt )
 void xml2LpsrDictionaryVisitor::visitStart (S_part_group& elt)
 {
   // the part group number indicates nested/overlapping groups
-  fCurrentPartGroupNumber =
+  int partGroupNumber =
     elt->getAttributeIntValue ("number", 0);
-  fCurrentPartGroupType =
+  string partGroupType =
     elt->getAttributeValue ("type");
 
-  if (fCurrentPartGroupType == "start") {
+  if (partGroupType == "start") {
 
     // is this part group number already present?
     fCurrentPartGroup =
       fDictionary->dictionaryContainsPartGroup (
-        fCurrentPartGroupNumber);
+        partGroupNumber);
 
     // no, add it to the dictionary
     if (! fCurrentPartGroup) 
     fCurrentPartGroup =
       fDictionary->addPartGroupToDictionary (
-        fCurrentPartGroupNumber);
+        partGroupNumber);
         
-  } else if (fCurrentPartGroupType == "stop") {
+  } else if (partGroupType == "stop") {
 
       fCurrentPartGroup->popPartGroupPartsStackTop ();
     
   } else {
     
     lpsrMusicXMLError (
-      "unknown part group type \"" + fCurrentPartGroupType + "\"");
+      "unknown part group type \"" + partGroupType + "\"");
   }
 }
 
 void xml2LpsrDictionaryVisitor::visitStart (S_group_symbol& elt)
 {
-  fCurrentGroupSymbol = elt->getValue ();
+  string partGroupSymbol = elt->getValue ();
 
-  fCurrentPartGroup->setPartGroupSymbol (fCurrentGroupSymbol);
+  fCurrentPartGroup->
+    setPartGroupSymbol (partGroupSymbol);
 }
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_group_barline& elt)
 {
-  fCurrentGroupBarline = elt->getValue ();
+  string groupBarline = elt->getValue ();
 
   fCurrentPartGroup->
-    setPartGroupBarline (fCurrentGroupBarline);
+    setPartGroupBarline (groupBarline);
 }
 
 //________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart (S_score_part& elt)
 {
-  fCurrentPartMusicXMLName = elt->getAttributeValue ("id");
-/*
-  // is this part already present?
-  fCurrentPart =
-    fCurrentPart->
-      partContainsStaff (
-        fCurrentPartMusicXMLName);
+  string partMusicXMLName = elt->getAttributeValue ("id");
 
-  // no, add it to the current JMI ???
-  if (! fCurrentPart)
-  */
+  // is this part already present in the current part group?
+  fCurrentPart =
+    fCurrentPartGroup->
+      partGroupContainsPart (
+        partMusicXMLName);
+
+  // no, add it to the current part group
+  if (! fCurrentPart) {
     fCurrentPart =
       fCurrentPartGroup->
         addPartToPartGroup (
-          fCurrentPartMusicXMLName);
+          partMusicXMLName);
+  }
 }
 
 void xml2LpsrDictionaryVisitor::visitStart (S_part_name& elt)
 {
-  fCurrentPartName = elt->getValue ();
+  string partName = elt->getValue ();
 
   fCurrentPart->
-    setPartName (fCurrentPartName);
+    setPartName (partName);
 }
 
 void xml2LpsrDictionaryVisitor::visitStart (S_part_abbreviation& elt)
@@ -284,8 +282,6 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part& elt)
 {
   fCurrentStaffNumber = 1; // default if there are no <staff> element
 
-  fCurrentVoiceNumber = -1 ;
-
   fCurrentMeasureNumber = 0; // in case of an anacrusis
 
   fOnGoingBackup = false;
@@ -294,10 +290,10 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part& elt)
 //________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart (S_staves& elt)
 {
-   fStavesNumber = int(*elt);
+  int stavesNumber = int(*elt);
 
   if (fTranslationSettings->fTrace) {
-    switch (fStavesNumber) {
+    switch (stavesNumber) {
       case 0:
         cerr << "There isn't any explicit staff (hence 1 by default)"; // JMI
         break;
@@ -305,17 +301,17 @@ void xml2LpsrDictionaryVisitor::visitStart (S_staves& elt)
         cerr << "There is 1 staff";
         break;
       default:
-        cerr << "There are " << fStavesNumber << " staves";
+        cerr << "There are " << stavesNumber << " staves";
     } // switch
     cerr <<
       " in part " << fCurrentPart->getPartCombinedName() << endl;
   }
 
-  if (fStavesNumber > 1) {
+  if (stavesNumber > 1) {
     // add n-1 staves to current part
     int n = 2;
     
-    while (n <= fStavesNumber) {
+    while (n <= stavesNumber) {
       fCurrentPart->addStaffToPart (n);
       n++;
     } // while
@@ -324,7 +320,11 @@ void xml2LpsrDictionaryVisitor::visitStart (S_staves& elt)
 
 void xml2LpsrDictionaryVisitor::visitStart (S_staff& elt)
 {
-  fCurrentStaffNumber = int(*elt);
+  /*
+  Staff assignment is only needed for music notated on multiple staves. Used by both notes and directions. Staff values are numbers, with 1 referring to the top-most staff in a part.
+  */
+  
+  fCurrentStaffNumber = int(*elt); // JMI
 
   // is this staff already present?
   fCurrentStaff =
@@ -342,26 +342,26 @@ void xml2LpsrDictionaryVisitor::visitStart (S_staff& elt)
 //________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart (S_voice& elt )
 {
-  fCurrentVoiceNumber = int(*elt);
+  int voiceNumber = int(*elt);
   /*
   cout <<
-    "--> S_voice, fCurrentVoiceNumber = " << fCurrentVoiceNumber << endl;
+    "--> S_voice, voiceNumber = " << voiceNumber << endl;
   */
 
   // is this voice already present?
   fCurrentVoice =
     fCurrentStaff->
       staffContainsVoice (
-        fCurrentVoiceNumber);
+        voiceNumber);
 
   // no, add it to the current staff
   if (! fCurrentVoice) 
     fCurrentVoice =
       fCurrentStaff->
         addVoiceToStaff (
-          fCurrentVoiceNumber);
+          voiceNumber);
 
-  fMusicXMLNoteData.fVoiceNumber = fCurrentVoiceNumber;
+  fMusicXMLNoteData.fVoiceNumber = voiceNumber;
 
   fCurrentStemDirection = kStemNeutral;
 }
@@ -434,22 +434,22 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_forward& elt )
 //______________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart ( S_clef& elt )
 { 
-  fClefLine = 0;;
-  fClefOctaveChange = 0;
-  fClefNumber = -1;
-  fClefSign = "";
+  fCurrentClefStaffNumber =
+    elt->getAttributeIntValue("number", -1); 
 
-  fClefNumber = elt->getAttributeIntValue("number", -1); 
+  fCurrentClefLine = 0;;
+  fCurrentClefOctaveChange = 0;
+  fCurrentClefSign = "";
 }
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_clef_octave_change& elt )
-  { fClefOctaveChange = (int)(*elt); }
+  { fCurrentClefOctaveChange = (int)(*elt); }
   
 void xml2LpsrDictionaryVisitor::visitStart ( S_line& elt )
-  { fClefLine = (int)(*elt); }
+  { fCurrentClefLine = (int)(*elt); }
   
 void xml2LpsrDictionaryVisitor::visitStart ( S_sign& elt )
-  { fClefSign = elt->getValue(); }
+  { fCurrentClefSign = elt->getValue(); }
 
 void xml2LpsrDictionaryVisitor::visitEnd ( S_clef& elt ) 
 {
@@ -458,7 +458,8 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_clef& elt )
   
   S_lpsrClef
     clef =
-      lpsrClef::create (fClefSign, fClefLine, clefStaffNum);
+      lpsrClef::create (
+        fCurrentClefSign, fCurrentClefLine, clefStaffNum);
 
   if (fTranslationSettings->fTrace)
     cerr <<
@@ -511,9 +512,9 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_time& elt ) {
   fCurrentTimeStaffNumber =
     elt->getAttributeIntValue ("number", -1);
     
-  fSymbol =
+  fCurrentTimeSymbol =
     elt->getAttributeValue ("symbol");
-  // time symbol="cut" JMI
+  // time symbol="cut" or "common" JMI
 }
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_beats& elt )
@@ -523,7 +524,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_beat_type& elt )
   { fCurrentBeatType = (int)(*elt); }
  
 void xml2LpsrDictionaryVisitor::visitStart ( S_senza_misura& elt )
-  { fSenzaMisura = true; }
+  { fCurrentSenzaMisura = true; }
 
 /*
 rational xml2LpsrDictionaryVisitor::timeSignatureFromIndex(int index)
@@ -590,7 +591,8 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_metronome& elt )
 { 
  // if (fSkipDirection) return;
 
-  if (fCurrentBeat.fBeatUnit.size()) {
+  // fParentheses ??? JMI
+  if (fCurrentBeat.fBeatUnit.size()) { // JMI
     fBeatsData.push_back(fCurrentBeat);
     fCurrentBeat.fBeatUnit = "";
     fCurrentBeat.fDots = 0;
@@ -611,7 +613,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_metronome& elt )
   musicXMLBeatData b = fBeatsData[0];
   rational         r = 
     NoteType::type2rational(
-      NoteType::xml(b.fBeatUnit)), rdot(3,2);
+      NoteType::xml (b.fBeatUnit)), rdot(3,2);
   
   while (b.fDots-- > 0) {
     r *= rdot;
@@ -685,21 +687,21 @@ void xml2LpsrDictionaryVisitor::visitStart (S_slur& elt )
 //________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart (S_lyric& elt )
 { 
-  fCurrentLyricNumber =
+  int lyricNumber =
     elt->getAttributeIntValue ("number", 0);
 
   // is this lyrics already present?
   fCurrentLyrics =
     fCurrentVoice->
       voiceContainsLyrics (
-        fCurrentLyricNumber);
+        lyricNumber);
 
   // no, add it to the current staff
   if (! fCurrentLyrics) 
   fCurrentLyrics =
     fCurrentVoice->
       addLyricsToVoice (
-        fCurrentLyricNumber);
+        lyricNumber);
 
   fCurrentLyricsHasText = false;
   fCurrentText = "";
@@ -710,7 +712,7 @@ void xml2LpsrDictionaryVisitor::visitStart (S_lyric& elt )
 
 void xml2LpsrDictionaryVisitor::visitStart ( S_syllabic& elt )
 {
-  fCurrentSyllabic = elt->getValue();
+  string fCurrentSyllabic = elt->getValue();
 /* JMI
   if (fCurrentSyllabic == "begin") {
     fOnGoingLyrics = true;
@@ -736,14 +738,14 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_text& elt )
     fCurrentText = dest;
 
   fCurrentLyricsHasText = true;
+}
 
 /*
   cout <<
-    "--> fCurrentLyricNumber = " << fCurrentLyricNumber <<
+    "--> lyricNumber = " << lyricNumber <<
     ", fCurrentSyllabic = " << fCurrentSyllabic <<
     ", fCurrentText = |" << fCurrentText << "|" << endl;
 */
-}
 
 /*
       <note default-x="143">
@@ -787,15 +789,27 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_text& elt )
 void xml2LpsrDictionaryVisitor::visitEnd ( S_elision& elt ) 
 {
   fCurrentElision = true;
-/*
-  cout <<
-    "--> fCurrentLyricNumber = " << fCurrentLyricNumber <<
-    ", fCurrentSyllabic = " << fCurrentSyllabic <<
-    ", fCurrentText = |" << fCurrentText << "|" << endl;
-*/
 }
 
-void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
+void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt )
+{
+  if (fCurrentLyricsHasText) {
+    S_lpsrDuration
+      lyricLpsrDuration =
+        lpsrDuration::create (
+          fMusicXMLNoteData.fMusicxmlDuration,
+          fCurrentMusicXMLDivisions,
+          fMusicXMLNoteData.fDotsNumber,
+          fMusicXMLNoteData.fTupletMemberType);
+  
+    fCurrentLyrics->
+      addTextChunkToLyrics (
+        fCurrentSyllabic,
+        fCurrentText,
+        fCurrentElision,
+        lyricLpsrDuration);
+}
+
 /*
       <note default-x="61">
         <pitch>
@@ -818,38 +832,6 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_lyric& elt ) {
           <extend type="stop"/>
         </lyric>
 */
-
-  if (fCurrentLyricsHasText) {
-    S_lpsrDuration
-      lyricLpsrDuration =
-        lpsrDuration::create (
-          fMusicXMLNoteData.fMusicxmlDuration,
-          fCurrentMusicXMLDivisions,
-          fMusicXMLNoteData.fDotsNumber,
-          fMusicXMLNoteData.fTupletMemberType);
-  /*
-  create (
-          int    num,
-          int    denom,
-          int    dots,
-          string tupletMemberType);
-          *
-          *   fNoteLpsrDuration =
-      lpsrDuration::create (
-        fMusicXMLNoteData.fMusicxmlDuration,
-        divisionsPerWholeNote,
-        fMusicXMLNoteData.fDotsNumber,
-        fMusicXMLNoteData.fTupletMemberType);
-  
-  */
-  
-    fCurrentLyrics->
-      addTextChunkToLyrics (
-        fCurrentSyllabic,
-        fCurrentText,
-        fCurrentElision,
-        lyricLpsrDuration);
-  }
 }
 
 //________________________________________________________________________
@@ -1064,6 +1046,21 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_beam& elt )
 
   fCurrentBeamNumber = 
     elt->getAttributeIntValue ("number", 0);
+  
+  lpsrBeam::BeamKind bk = lpsrBeam::k_NoBeam;
+
+  if (fCurrentBeam == "begin") {
+    bk = lpsrBeam::kBeginBeam;
+  }
+  else if (fCurrentBeam == "continue") {
+    bk = lpsrBeam::kContinueBeam;
+  }
+  else if (fCurrentBeam == "end") {
+    bk = lpsrBeam::kEndBeam;
+  }
+  
+//  S_lpsrBeam beam = lpsrBeam::create(number, bk);;
+//  fCurrentBeam = beam;
 }
 
 //______________________________________________________________________________
@@ -1222,7 +1219,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_wedge& elt )
 //______________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart ( S_grace& elt )
 {
-  fCurrentNoteIsAGraceNote = true;;
+  fMusicXMLNoteData.fNoteIsAGraceNote = true;;
 }
        
 //______________________________________________________________________________
@@ -1286,8 +1283,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fMusicxmlAlteration = 0; // natural notes
   fMusicXMLNoteData.fMusicxmlOctave = -13;
   fMusicXMLNoteData.fDotsNumber = 0;
-
-  fCurrentNoteIsAGraceNote = false;;
+  fMusicXMLNoteData.fNoteIsAGraceNote = false;;
 
   fCurrentStem = "";
 
@@ -1316,8 +1312,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_rest& elt)
   fMusicXMLNoteData.fMusicxmlStepIsARest = true;
 }
 
-S_lpsrChord xml2LpsrDictionaryVisitor::createChord (
-  S_lpsrDuration noteDuration)
+S_lpsrChord xml2LpsrDictionaryVisitor::createChordFromCurrentNote ()
 {
   // cout << "--> creating a chord on its 2nd note" << endl;
   
@@ -1327,7 +1322,8 @@ S_lpsrChord xml2LpsrDictionaryVisitor::createChord (
   // create a chord
   S_lpsrChord chord;
   
-  chord = lpsrChord::create (noteDuration);
+  chord = lpsrChord::create (
+    fCurrentNote->getNoteLpsrDuration ());
   fCurrentElement = chord; // another name for it
    
   if (fTranslationSettings->fDebug)
@@ -1336,6 +1332,18 @@ S_lpsrChord xml2LpsrDictionaryVisitor::createChord (
   // register fCurrentNote as first member of chord
   chord->addNoteToChord (fCurrentNote);
   fCurrentNote->setNoteBelongsToAChord ();
+
+  // move the pending articulations if any from the first note to the chord
+  list<S_lpsrArticulation>
+    noteArticulations = fCurrentNote->getNoteArticulations ();
+
+  while (! noteArticulations.empty()) {
+    //cout << "--> moving dynamics from fCurrentNote to chord" << endl;
+    S_lpsrArticulation
+      art = noteArticulations.front();
+    chord->addArticulation (art);
+    noteArticulations.pop_front ();
+  } // while
   
   // move the pending dynamics if any from the first note to the chord
   list<S_lpsrDynamics>
@@ -1441,8 +1449,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
     lpsrNote::createFromMusicXMLData (
       fTranslationSettings,
       fMusicXMLNoteData,
-      fCurrentSlurKind,
-      fCurrentNoteIsAGraceNote);
+      fCurrentSlurKind);
 
   // attach the articulations if any to the note
   while (! fCurrentArticulations.empty()) {
@@ -1503,7 +1510,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
     if (! fAChordIsBeingBuilt) {
       // create a chord with fCurrentNote as its first note
       fCurrentChord =
-        createChord (note->getNoteLpsrDuration ());
+        createChordFromCurrentNote ();
 
       // account for chord being built
       fAChordIsBeingBuilt = true;
