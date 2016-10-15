@@ -1306,7 +1306,7 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_note& elt )
   fCurrentSlurNumber = "";
   fCurrentSlurType = "";
   fCurrentSlurPlacement = "";
-  fCurrentSlurKind = lpsrSlur::kNo_Slur;
+  fCurrentSlurKind = lpsrSlur::k_NoSlur;
 }
 
 //______________________________________________________________________________

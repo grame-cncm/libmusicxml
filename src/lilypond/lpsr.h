@@ -345,7 +345,7 @@ typedef SMARTP<lpsrArticulation> S_lpsrArticulation;
 class EXP lpsrSlur : public lpsrElement {
   public:
 
-    enum SlurKind { kStartSlur, kContinueSlur, kStopSlur, kNo_Slur };
+    enum SlurKind { kStartSlur, kContinueSlur, kStopSlur, k_NoSlur };
     
     static SMARTP<lpsrSlur> create (SlurKind kind);
 
@@ -918,7 +918,8 @@ class EXP lpsrComment : public lpsrElement {
     
     enum GapKind { kGapAfterwards, kNoGapAfterwards };
 
-    static SMARTP<lpsrComment> create(string contents, GapKind gapKind = kNoGapAfterwards);
+    static SMARTP<lpsrComment> create (
+              string contents, GapKind gapKind = kNoGapAfterwards);
 
     virtual void printMusicXML      (ostream& os);
     virtual void printLPSR          (ostream& os);
@@ -926,7 +927,8 @@ class EXP lpsrComment : public lpsrElement {
 
   protected:
 
-    lpsrComment(string contents, GapKind gapKind = kNoGapAfterwards);
+    lpsrComment (
+        string contents, GapKind gapKind = kNoGapAfterwards);
     virtual ~lpsrComment();
   
   private:

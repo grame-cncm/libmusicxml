@@ -1114,7 +1114,7 @@ void lpsrNote::printLPSR(ostream& os)
     }
 
     // print the slur if any
-    if (fNoteSlurKind != lpsrSlur::kNo_Slur) {
+    if (fNoteSlurKind != lpsrSlur::k_NoSlur) {
       idtr++;
       switch (fNoteSlurKind) {
         case lpsrSlur::kStartSlur:
