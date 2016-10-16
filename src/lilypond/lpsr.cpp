@@ -797,7 +797,7 @@ void lpsrNote::setNoteBelongsToAChord () {
 
 //______________________________________________________________________________
 
-lpsrNote::LpsrPitch lpsrNote::computeNoteLpsrPitch(
+lpsrNote::LpsrPitch lpsrNote::computeNoteLpsrPitch (
   int                          noteQuatertonesFromA,
   lpsrNote::MusicXMLAlteration alteration)
 {
@@ -1049,8 +1049,10 @@ string lpsrNote::notePitchAsLilypondString ()
       
       default: s << "Note" << fNoteLpsrPitch << "???";
     } // switch
+
+    s << fMusicXMLNoteData.fMusicxmlOctave;
   }
-  
+
   string  result;
   
   s >> result;
@@ -1072,13 +1074,16 @@ void lpsrNote::printLPSR(ostream& os)
   
   if (fMusicXMLNoteData.fNoteBelongsToAChord) {
     
-    os << notePitchAsLilypondString () << fNoteLpsrDuration;
+    os <<
+      notePitchAsLilypondString () <<
+      ":" << fNoteLpsrDuration;
 
   } else {
     
     os <<
-      "Note" << " " << 
-      notePitchAsLilypondString () << fNoteLpsrDuration;
+      "Note" << " " <<
+      notePitchAsLilypondString () <<
+      ":" << fNoteLpsrDuration;
     if (fMusicXMLNoteData.fNoteIsAGraceNote)
       os << " " << "grace";
     os << endl;

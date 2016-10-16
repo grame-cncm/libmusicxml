@@ -1556,7 +1556,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
     fCurrentChord->addNoteToChord (note);
       
     // remove (previous) fCurrentNote that is the last element of the part sequence
- // JMI   fCurrentVoice->removeLastElementOfVoiceSequence ();
+//    fCurrentVoice->removeLastElementOfVoiceSequence (); // JMI ?
 
     // add fCurrentChord to the part sequence instead
     S_lpsrElement elem = fCurrentChord;
