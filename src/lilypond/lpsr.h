@@ -1687,12 +1687,6 @@ class EXP lpsrStaff : public lpsrElement {
 
     string  getStaffName () const;
 
-    void    setStaffClef (S_lpsrClef clef) { fStaffClef = clef; }
-              
-    void    setStaffKey  (S_lpsrKey  key)  { fStaffKey = key; }
-              
-    void    setStaffTime (S_lpsrTime time) { fStaffTime = time; }
-              
     S_lpsrVoice
             addVoiceToStaff (int voiceNumber);
               
@@ -1718,10 +1712,6 @@ class EXP lpsrStaff : public lpsrElement {
     int                       fStaffNumber;
     S_lpsrPart                fStaffPart;
 
-    S_lpsrClef                fStaffClef;
-    S_lpsrKey                 fStaffKey;
-    S_lpsrTime                fStaffTime;
-    
     lpsrVoicesMap             fStaffVoicesMap;
 
     string                    fStaffInstrumentName;
@@ -1761,6 +1751,18 @@ class EXP lpsrPart : public lpsrElement {
                     " (" + fPartLPSRName + ")";
                 }
                     
+    void    setPartDivisions (int  musicXMLDivisions)
+                { fPartMusicXMLDivisions = musicXMLDivisions; }
+    
+    void    setPartKey       (S_lpsrKey  key)
+                { fPartKey = key; }
+              
+    void    setPartTime      (S_lpsrTime time)
+                { fPartTime = time; }
+              
+    void    setPartClef      (S_lpsrClef clef)
+                { fPartClef = clef; }
+              
     S_lpsrStaff
             addStaffToPart (
               int staffNumber);
@@ -1801,6 +1803,11 @@ class EXP lpsrPart : public lpsrElement {
     string                  fPartName;
     string                  fPartAbbreviation;
     string                  fPartInstrumentName;
+
+    int                     fPartMusicXMLDivisions;
+    S_lpsrClef              fPartClef;
+    S_lpsrKey               fPartKey;
+    S_lpsrTime              fPartTime;
 };
 typedef SMARTP<lpsrPart> S_lpsrPart;
 typedef stack<S_lpsrPart> lpsrPartsStack;

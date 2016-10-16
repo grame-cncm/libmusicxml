@@ -2374,7 +2374,7 @@ void lpsrClef::printLPSR(ostream& os)
 {
   os <<
     "Clef" << " \"" << fSign << "\"" <<
-    " line: " << fLine << " octaveChange: " << fOctaveChange;
+    " line: " << fLine << ", octaveChange: " << fOctaveChange;
 }
 
 void lpsrClef::printLilyPondCode(ostream& os)
@@ -3465,21 +3465,6 @@ void lpsrStaff::printLPSR (ostream& os)
 
   idtr++;
 
-  if (fStaffClef)
-    os << idtr << fStaffClef << endl;
-  else
-    os << idtr << "NO_CLEF" << endl;
-
-  if (fStaffKey)
-    os << idtr << fStaffKey << endl;
-  else
-    os << idtr << "NO_KEY" << endl;
-
-  if (fStaffTime)
-    os << idtr << fStaffTime << endl;
-  else
-    os << idtr << "NO_TIME" << endl;
-
   os <<
     idtr << "StaffInstrumentName: \"" <<
     fStaffInstrumentName << "\"" << endl;
@@ -3575,8 +3560,28 @@ void lpsrPart::printLPSR(ostream& os)
   
   os <<
     idtr << "PartName          : \"" << fPartName << "\"" << endl <<
-    idtr << "PartAbbrevation   : \"" << fPartAbbreviation << "\"" << endl  <<
-    idtr << "PartInstrumentName: \"" << fPartInstrumentName << "\"" << endl;
+    idtr << "PartAbbrevation   : \"" << fPartAbbreviation << "\"" << endl;
+  
+  os << idtr <<
+    "fPartMusicXMLDivisions: " << fPartMusicXMLDivisions << endl;
+
+  if (fPartClef)
+    os << idtr << fPartClef << endl;
+  else
+    os << idtr << "NO_CLEF" << endl;
+
+  if (fPartKey)
+    os << idtr << fPartKey << endl;
+  else
+    os << idtr << "NO_KEY" << endl;
+
+  if (fPartTime)
+    os << idtr << fPartTime << endl;
+  else
+    os << idtr << "NO_TIME" << endl;
+
+  os << idtr <<
+    "PartInstrumentName: \"" << fPartInstrumentName << "\"" << endl;
 
   for (
     map<int, S_lpsrStaff>::iterator i = fPartStavesMap.begin();
@@ -3686,8 +3691,8 @@ S_lpsrPart lpsrPartGroup::addPartToPartGroup (
   // create the part
   S_lpsrPart part;
 
-  part =
-    tryAndReUseInitialAnonymousPart (partMusicXMLName);
+//  part =
+  // JMI  tryAndReUseInitialAnonymousPart (partMusicXMLName);
 
   if (part) {
     
@@ -3696,14 +3701,14 @@ S_lpsrPart lpsrPartGroup::addPartToPartGroup (
 
   } else {
     
-  if (fTranslationSettings->fTrace)
     part =
       lpsrPart::create (
         fTranslationSettings, partMusicXMLName);
 
-    cerr << idtr <<
-      "Adding part " << part->getPartCombinedName () <<
-      " to part group " << fPartGroupNumber << endl;
+    if (fTranslationSettings->fTrace)
+      cerr << idtr <<
+        "Adding part " << part->getPartCombinedName () <<
+        " to part group " << fPartGroupNumber << endl;
   
     // register it in this part group
     fPartGroupPartsMap [partMusicXMLName] = part;
@@ -3719,6 +3724,19 @@ S_lpsrPart lpsrPartGroup::addPartToPartGroup (
     fPartGroupPartsStack.push (part);
   }
 
+  if (fTranslationSettings->fTrace) {
+    cerr << idtr << "==> After addPartToPartGroup, fPartGroupPartsMap contains:" << endl;
+    for (
+        lpsrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
+        i != fPartGroupPartsMap.end();
+        i++) {
+      cerr << idtr <<
+        "\"" << (*i).first << "\" ----> " <<
+        (*i).second->getPartCombinedName() << endl;
+    } // for
+    cerr << idtr << "<== partGroupContainsPart" << endl;
+  }
+
   // return it
   return part;
 }
@@ -3726,6 +3744,19 @@ S_lpsrPart lpsrPartGroup::addPartToPartGroup (
 S_lpsrPart lpsrPartGroup::partGroupContainsPart (
   string partMusicXMLName)
 {
+  /*
+  cerr << idtr << "==> partGroupContainsPart, fPartGroupPartsMap contains:" << endl;
+  for (
+      lpsrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
+      i != fPartGroupPartsMap.end();
+      i++) {
+    cerr << idtr <<
+      (*i).first << " ----> " <<
+      (*i).second->getPartCombinedName() << endl;
+  } // for
+  cerr << idtr << "<== partGroupContainsPart" << endl;
+  */
+  
   S_lpsrPart result;
   
   if (fPartGroupPartsMap.count (partMusicXMLName)) {
@@ -3738,19 +3769,50 @@ S_lpsrPart lpsrPartGroup::partGroupContainsPart (
 S_lpsrPart lpsrPartGroup::tryAndReUseInitialAnonymousPart (
   string partMusicXMLName)
 {
+  /*
+  cerr << idtr << "==> tryAndReUseInitialAnonymousPart, fPartGroupPartsMap contains:" << endl;
+  for (
+      lpsrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
+      i != fPartGroupPartsMap.end();
+      i++) {
+    cerr << idtr <<
+      (*i).first << " ----> " <<
+      (*i).second->getPartCombinedName() << endl;
+  } // for
+  cerr << idtr << "<== tryAndReUseInitialAnonymousPart" << endl;
+  */
+
   S_lpsrPart result;
 
   if (fPartGroupPartsStack.size ()) {
-    S_lpsrPart stackTopPart = fPartGroupPartsStack.top ();
-    
-    if (! stackTopPart->getPartMusicXMLName().size()) {
+ //   S_lpsrPart stackTopPart = fPartGroupPartsStack.top ();
+
+    lpsrPartsMap::iterator i =
+      fPartGroupPartsMap.find (partMusicXMLName);
+      
+//    if (! stackTopPart->getPartMusicXMLName().size()) {
+    if (i != fPartGroupPartsMap.end()) {
       // this is the first true part, re-use the one
       // created with an empty name initially
-      stackTopPart->
+      (*i).second->
         changePartMusicXMLName (partMusicXMLName);
-      result = stackTopPart;
+//      result = stackTopPart;
+      result = (*i).second;
     }
   }
+
+/*
+  cerr << idtr << "==> tryAndReUseInitialAnonymousPart, fPartGroupPartsMap contains:" << endl;
+  for (
+      lpsrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
+      i != fPartGroupPartsMap.end();
+      i++) {
+    cerr << idtr <<
+      (*i).first << " ----> " <<
+      (*i).second->getPartCombinedName() << endl;
+  } // for
+  cerr << idtr << "<== tryAndReUseInitialAnonymousPart" << endl;
+*/
 
   return result;
 }
@@ -3804,9 +3866,6 @@ void lpsrPartGroup::printLPSR(ostream& os)
   
   idtr--;
 }
-    string                  fPartGroupSymbol;
-    string                  fPartGroupBarline;
-
 
 void lpsrPartGroup::printLilyPondCode(ostream& os)
 {

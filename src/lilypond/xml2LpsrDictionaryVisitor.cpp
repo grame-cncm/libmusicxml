@@ -51,6 +51,7 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
   in lpsrPartGroup::tryAndReUseInitialAnonymousPart()
   */
 
+/* JMI
   cerr <<
     "Creating anonymous data structures" << endl;
     
@@ -82,6 +83,7 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
   fCurrentLyrics =
     fCurrentVoice->
       addLyricsToVoice (1);
+  */
   
   fCurrentMeasureNumber = 0;
 
@@ -178,25 +180,6 @@ void xml2LpsrDictionaryVisitor::visitEnd (S_part_list& elt)
   idtr--;
 }
 
-//______________________________________________________________________________
-void xml2LpsrDictionaryVisitor::visitStart ( S_divisions& elt ) 
-{
-  fCurrentMusicXMLDivisions = (int)(*elt);
-  
-  if (fTranslationSettings->fTrace) {
-    cerr << idtr;
-    if (fCurrentMusicXMLDivisions == 1)
-      cerr << "There is 1 division";
-    else
-      cerr <<
-        "There are " << fCurrentMusicXMLDivisions <<
-        " divisions";
-    cerr <<
-      " per quater note in part " <<
-      fCurrentPart->getPartCombinedName () << endl;
-  }
-}
-
 //________________________________________________________________________
 
 /*
@@ -225,7 +208,7 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part_group& elt)
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
       "Handling part group " << partGroupNumber <<
-      ", type \"" << partGroupType << "\""  << endl;
+      ", type: \"" << partGroupType << "\""  << endl;
 
   idtr++;
   
@@ -298,6 +281,10 @@ void xml2LpsrDictionaryVisitor::visitStart (S_score_part& elt)
 {
   string partMusicXMLName = elt->getAttributeValue ("id");
 
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Found part name \"" << partMusicXMLName << "\"" << endl;
+
   // is this part already present in the current part group?
   fCurrentPart =
     fCurrentPartGroup->
@@ -348,9 +335,12 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part& elt)
         partGroupContainsPart (
           partID);
 
-  cerr <<
-    "Analyzing part " << fCurrentPart->getPartCombinedName() << endl;
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Analyzing part " << part->getPartCombinedName() << endl;
 
+  fCurrentPart = part; // JMI
+  
   fCurrentStaffNumber = 1; // default if there are no <staff> element
 
   fCurrentMeasureNumber = 0; // in case of an anacrusis
@@ -363,6 +353,156 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part& elt)
 void xml2LpsrDictionaryVisitor::visitEnd (S_part& elt)
 {
   idtr--;
+}
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_divisions& elt ) 
+{
+  fCurrentMusicXMLDivisions = (int)(*elt);
+  
+  if (fTranslationSettings->fTrace) {
+    cerr << idtr;
+    if (fCurrentMusicXMLDivisions == 1)
+      cerr << "There is 1 division";
+    else
+      cerr <<
+        "There are " << fCurrentMusicXMLDivisions <<
+        " divisions";
+    cerr <<
+      " per quater note in part " <<
+      fCurrentPart->getPartCombinedName() << endl;
+  }
+
+  fCurrentPart->setPartDivisions (fCurrentMusicXMLDivisions);
+}
+
+//______________________________________________________________________________
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_key& elt ) {
+  fCurrentFifths = 0;
+  fCurrentCancel = 0;
+  fCurrentMode   = "";
+}
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_fifths& elt )
+  { fCurrentFifths = (int)(*elt); }
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_mode& elt )
+  { fCurrentMode = elt->getValue(); }
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_cancel& elt )
+  { fCurrentCancel = (int)(*elt); }
+
+void xml2LpsrDictionaryVisitor::visitEnd ( S_key& elt ) 
+{    
+  // create lpsrKey and add it to part
+  S_lpsrKey
+    key =
+      lpsrKey::create (fCurrentFifths, fCurrentMode, fCurrentCancel);
+      
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "--> adding key \"" << key <<
+      " to part " << fCurrentPart->getPartCombinedName() << endl;
+      
+  fCurrentPart->setPartKey (key);
+//  S_lpsrElement k = key; JMI
+ // fCurrentVoice->appendElementToVoiceSequence (k);
+}
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_time& elt ) {
+  resetCurrentTime();
+  
+  fCurrentTimeStaffNumber =
+    elt->getAttributeIntValue ("number", -1);
+    
+  fCurrentTimeSymbol =
+    elt->getAttributeValue ("symbol");
+  // time symbol="cut" or "common" JMI
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_beats& elt )
+  { fCurrentTimeBeats = (int)(*elt); }
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_beat_type& elt )
+  { fCurrentTimeBeatType = (int)(*elt); }
+ 
+void xml2LpsrDictionaryVisitor::visitStart ( S_senza_misura& elt )
+  { fCurrentTimeSenzaMisura = true; }
+
+/*
+rational xml2LpsrDictionaryVisitor::timeSignatureFromIndex(int index) JMI
+{
+  rational r(0,1);
+  if (index < fTimeSignatures.size()) {
+    const pair<string,string>& ts = fTimeSignatures[index];
+    int   num = strtol (ts.first.c_str(), 0, 10);
+    int   denum = strtol (ts.second.c_str(), 0, 10);
+    if (num && denum) r.set(num, denum);
+  }
+  return r;
+}
+*/
+
+void xml2LpsrDictionaryVisitor::visitEnd ( S_time& elt ) 
+{
+  S_lpsrTime
+    time =
+      lpsrTime::create (
+        fCurrentTimeBeats,
+        fCurrentTimeBeatType,
+        fTranslationSettings->fGenerateNumericalTime);
+
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "--> adding time " << time <<
+      " to part " << fCurrentPart->getPartCombinedName() << endl;
+
+  fCurrentPart->setPartTime (time);
+
+//  S_lpsrElement t = time; JMI
+//  fCurrentVoice->appendElementToVoiceSequence (t);
+}
+
+//______________________________________________________________________________
+void xml2LpsrDictionaryVisitor::visitStart ( S_clef& elt )
+{ 
+  fCurrentClefStaffNumber =
+    elt->getAttributeIntValue("number", -1); 
+
+  fCurrentClefLine = 0;;
+  fCurrentClefOctaveChange = 0;
+  fCurrentClefSign = "";
+}
+
+void xml2LpsrDictionaryVisitor::visitStart ( S_clef_octave_change& elt )
+  { fCurrentClefOctaveChange = (int)(*elt); }
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_line& elt )
+  { fCurrentClefLine = (int)(*elt); }
+  
+void xml2LpsrDictionaryVisitor::visitStart ( S_sign& elt )
+  { fCurrentClefSign = elt->getValue(); }
+
+void xml2LpsrDictionaryVisitor::visitEnd ( S_clef& elt ) 
+{
+  //"number" is optional, use 1 if not present
+  int clefStaffNum = elt->getAttributeIntValue("number", 1);
+  
+  S_lpsrClef
+    clef =
+      lpsrClef::create (
+        fCurrentClefSign, fCurrentClefLine, clefStaffNum);
+
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "--> adding clef " << clef <<
+      " to part " << fCurrentPart->getPartCombinedName() << endl;
+
+  fCurrentPart->setPartClef (clef);
+//  S_lpsrElement c = clef; JMI
+//  fCurrentVoice->appendElementToVoiceSequence (c);
 }
 
 //________________________________________________________________________
@@ -510,135 +650,6 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_forward& elt )
  //   fMeasureEmpty = false;
   }
  */
-}
-
-//______________________________________________________________________________
-void xml2LpsrDictionaryVisitor::visitStart ( S_clef& elt )
-{ 
-  fCurrentClefStaffNumber =
-    elt->getAttributeIntValue("number", -1); 
-
-  fCurrentClefLine = 0;;
-  fCurrentClefOctaveChange = 0;
-  fCurrentClefSign = "";
-}
-
-void xml2LpsrDictionaryVisitor::visitStart ( S_clef_octave_change& elt )
-  { fCurrentClefOctaveChange = (int)(*elt); }
-  
-void xml2LpsrDictionaryVisitor::visitStart ( S_line& elt )
-  { fCurrentClefLine = (int)(*elt); }
-  
-void xml2LpsrDictionaryVisitor::visitStart ( S_sign& elt )
-  { fCurrentClefSign = elt->getValue(); }
-
-void xml2LpsrDictionaryVisitor::visitEnd ( S_clef& elt ) 
-{
-  //"number" is optional, use 1 if not present
-  int clefStaffNum = elt->getAttributeIntValue("number", 1);
-  
-  S_lpsrClef
-    clef =
-      lpsrClef::create (
-        fCurrentClefSign, fCurrentClefLine, clefStaffNum);
-
-  if (fTranslationSettings->fTrace)
-    cerr << idtr <<
-      "--> adding clef " << clef <<
-      " to staff " << clefStaffNum << endl;
-
-  fCurrentStaff->setStaffClef (clef);
-//  S_lpsrElement c = clef; JMI
-//  fCurrentVoice->appendElementToVoiceSequence (c);
-}
-
-//______________________________________________________________________________
-
-void xml2LpsrDictionaryVisitor::visitStart ( S_key& elt ) {
-  fCurrentFifths = 0;
-  fCurrentCancel = 0;
-  fCurrentMode   = "";
-}
-  
-void xml2LpsrDictionaryVisitor::visitStart ( S_fifths& elt )
-  { fCurrentFifths = (int)(*elt); }
-  
-void xml2LpsrDictionaryVisitor::visitStart ( S_mode& elt )
-  { fCurrentMode = elt->getValue(); }
-
-void xml2LpsrDictionaryVisitor::visitStart ( S_cancel& elt )
-  { fCurrentCancel = (int)(*elt); }
-
-void xml2LpsrDictionaryVisitor::visitEnd ( S_key& elt ) 
-{    
-  // create lpsrKey and add it to part
-  S_lpsrKey
-    key =
-      lpsrKey::create (fCurrentFifths, fCurrentMode, fCurrentCancel);
-      
-  if (fTranslationSettings->fTrace)
-    cerr << idtr <<
-      "--> adding key " << key <<
-      " to staff " << fCurrentStaffNumber << endl;
-
-  fCurrentStaff->setStaffKey (key);
-//  S_lpsrElement k = key; JMI
- // fCurrentVoice->appendElementToVoiceSequence (k);
-}
-
-//______________________________________________________________________________
-void xml2LpsrDictionaryVisitor::visitStart ( S_time& elt ) {
-  resetCurrentTime();
-  
-  fCurrentTimeStaffNumber =
-    elt->getAttributeIntValue ("number", -1);
-    
-  fCurrentTimeSymbol =
-    elt->getAttributeValue ("symbol");
-  // time symbol="cut" or "common" JMI
-}
-
-void xml2LpsrDictionaryVisitor::visitStart ( S_beats& elt )
-  { fCurrentTimeBeats = (int)(*elt); }
-  
-void xml2LpsrDictionaryVisitor::visitStart ( S_beat_type& elt )
-  { fCurrentTimeBeatType = (int)(*elt); }
- 
-void xml2LpsrDictionaryVisitor::visitStart ( S_senza_misura& elt )
-  { fCurrentTimeSenzaMisura = true; }
-
-/*
-rational xml2LpsrDictionaryVisitor::timeSignatureFromIndex(int index) JMI
-{
-  rational r(0,1);
-  if (index < fTimeSignatures.size()) {
-    const pair<string,string>& ts = fTimeSignatures[index];
-    int   num = strtol (ts.first.c_str(), 0, 10);
-    int   denum = strtol (ts.second.c_str(), 0, 10);
-    if (num && denum) r.set(num, denum);
-  }
-  return r;
-}
-*/
-
-void xml2LpsrDictionaryVisitor::visitEnd ( S_time& elt ) 
-{
-  S_lpsrTime
-    time =
-      lpsrTime::create (
-        fCurrentTimeBeats,
-        fCurrentTimeBeatType,
-        fTranslationSettings->fGenerateNumericalTime);
-
-  if (fTranslationSettings->fTrace)
-    cerr << idtr <<
-      "--> adding time " << time <<
-      " to staff " << fCurrentStaffNumber << endl;
-
-  fCurrentStaff->setStaffTime (time);
-
-//  S_lpsrElement t = time; JMI
-//  fCurrentVoice->appendElementToVoiceSequence (t);
 }
 
 //________________________________________________________________________
