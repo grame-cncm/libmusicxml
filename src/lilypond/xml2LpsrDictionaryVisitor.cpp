@@ -285,6 +285,15 @@ void xml2LpsrDictionaryVisitor::visitStart (S_score_part& elt)
     cerr << idtr <<
       "Found part name \"" << partMusicXMLName << "\"" << endl;
 
+  if (! fCurrentPartGroup) {
+    cerr << idtr <<
+      "Adding an implicit part group to the dictionary" << endl;
+      
+    fCurrentPartGroup =
+      fDictionary->
+        addPartGroupToDictionary (1);
+  }
+
   // is this part already present in the current part group?
   fCurrentPart =
     fCurrentPartGroup->
@@ -402,8 +411,8 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_key& elt )
       
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "--> adding key \"" << key <<
-      " to part " << fCurrentPart->getPartCombinedName() << endl;
+      "--> adding key '" << key <<
+      "' to part " << fCurrentPart->getPartCombinedName() << endl;
       
   fCurrentPart->setPartKey (key);
 //  S_lpsrElement k = key; JMI
@@ -456,8 +465,8 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_time& elt )
 
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "--> adding time " << time <<
-      " to part " << fCurrentPart->getPartCombinedName() << endl;
+      "--> adding time '" << time <<
+      "' to part " << fCurrentPart->getPartCombinedName() << endl;
 
   fCurrentPart->setPartTime (time);
 
@@ -497,8 +506,8 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_clef& elt )
 
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "--> adding clef " << clef <<
-      " to part " << fCurrentPart->getPartCombinedName() << endl;
+      "--> adding clef '" << clef <<
+      "' to part " << fCurrentPart->getPartCombinedName() << endl;
 
   fCurrentPart->setPartClef (clef);
 //  S_lpsrElement c = clef; JMI
