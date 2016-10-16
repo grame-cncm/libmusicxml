@@ -184,6 +184,7 @@ class EXP xml2LpsrDictionaryVisitor :
     virtual void visitEnd   ( S_part_list& elt);
     
     virtual void visitStart ( S_part_group& elt);
+    virtual void visitEnd   ( S_part_group& elt);
     virtual void visitStart ( S_group_name& elt);
     virtual void visitStart ( S_group_abbreviation& elt);
     virtual void visitStart ( S_group_symbol& elt);
@@ -195,6 +196,7 @@ class EXP xml2LpsrDictionaryVisitor :
     virtual void visitStart ( S_instrument_name& elt);
     
     virtual void visitStart ( S_part& elt);
+    virtual void visitEnd   ( S_part& elt);
     virtual void visitStart ( S_divisions& elt);
   
     virtual void visitStart ( S_staves& elt);

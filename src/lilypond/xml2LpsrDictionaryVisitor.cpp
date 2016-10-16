@@ -38,8 +38,6 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
   S_translationSettings& ts)
 {
   fTranslationSettings = ts;
-
-  idtr++;
   
   // create the dictionary
   fDictionary =
@@ -53,9 +51,11 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
   in lpsrPartGroup::tryAndReUseInitialAnonymousPart()
   */
 
-  cerr << idtr <<
+  cerr <<
     "Creating anonymous data structures" << endl;
     
+  idtr++;
+
   // add the anonymous part group to the dictionary
   fCurrentPartGroup =
     fDictionary->
@@ -91,12 +91,12 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
 
   fOnGoingBackup = false;
   fCurrentBackupDuration = -1;
+
+  idtr--;
 }
 
 xml2LpsrDictionaryVisitor::~xml2LpsrDictionaryVisitor ()
-{
-  idtr--;
-}
+{}
 
 //________________________________________________________________________
 S_lpsrDictionary
@@ -184,13 +184,14 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_divisions& elt )
   fCurrentMusicXMLDivisions = (int)(*elt);
   
   if (fTranslationSettings->fTrace) {
+    cerr << idtr;
     if (fCurrentMusicXMLDivisions == 1)
       cerr << "There is 1 division";
     else
-      cerr << idtr <<
+      cerr <<
         "There are " << fCurrentMusicXMLDivisions <<
         " divisions";
-    cerr << idtr <<
+    cerr <<
       " per quater note in part " <<
       fCurrentPart->getPartCombinedName () << endl;
   }
@@ -221,6 +222,13 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part_group& elt)
   string partGroupType =
     elt->getAttributeValue ("type");
 
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Handling part group " << partGroupNumber <<
+      ", type \"" << partGroupType << "\""  << endl;
+
+  idtr++;
+  
   if (partGroupType == "start") {
 
     // is this part group number already present?
@@ -246,6 +254,11 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part_group& elt)
     lpsrMusicXMLError (
       "unknown part group type \"" + partGroupType + "\"");
   }
+}
+
+void xml2LpsrDictionaryVisitor::visitEnd (S_part_group& elt)
+{
+  idtr--;
 }
 
 void xml2LpsrDictionaryVisitor::visitStart (S_group_name& elt)
@@ -327,11 +340,29 @@ void xml2LpsrDictionaryVisitor::visitStart (S_instrument_name& elt)
 //________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart (S_part& elt)
 {
+  string partID = elt->getAttributeValue ("id");
+
+  S_lpsrPart
+    part =
+      fCurrentPartGroup->
+        partGroupContainsPart (
+          partID);
+
+  cerr <<
+    "Analyzing part " << fCurrentPart->getPartCombinedName() << endl;
+
   fCurrentStaffNumber = 1; // default if there are no <staff> element
 
   fCurrentMeasureNumber = 0; // in case of an anacrusis
 
   fOnGoingBackup = false;
+
+  idtr++;
+}
+
+void xml2LpsrDictionaryVisitor::visitEnd (S_part& elt)
+{
+  idtr--;
 }
 
 //________________________________________________________________________
