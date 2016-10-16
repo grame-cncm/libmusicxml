@@ -154,7 +154,7 @@ class EXP lpsrGlobalVariables {
 class EXP lpsrElement : public smartable {
   public:
  
-    static SMARTP<lpsrElement> create(bool debug);
+    static SMARTP<lpsrElement> create (bool debug);
     
     virtual void print              (ostream& os);
 
@@ -166,7 +166,7 @@ class EXP lpsrElement : public smartable {
 
   protected:
      
-    lpsrElement(bool debug);
+    lpsrElement (bool debug);
     virtual ~lpsrElement();
 
   private:
@@ -174,6 +174,14 @@ class EXP lpsrElement : public smartable {
     bool fDebug;
 };
 typedef SMARTP<lpsrElement> S_lpsrElement;
+
+//______________________________________________________________________________
+/*!
+\internal
+\brief A macro to simplify indentation
+*/
+
+#define idtr lpsrElement::idtr
 
 /*!
 \brief A note description for MusicXML.

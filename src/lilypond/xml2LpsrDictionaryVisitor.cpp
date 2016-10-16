@@ -32,12 +32,15 @@ using namespace std;
 
 namespace MusicXML2
 {
+
 //________________________________________________________________________
 xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
   S_translationSettings& ts)
 {
   fTranslationSettings = ts;
 
+  idtr++;
+  
   // create the dictionary
   fDictionary =
     lpsrDictionary::create (fTranslationSettings);
@@ -49,7 +52,10 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
   changing its name on the fly
   in lpsrPartGroup::tryAndReUseInitialAnonymousPart()
   */
-  
+
+  cerr << idtr <<
+    "Creating anonymous data structures" << endl;
+    
   // add the anonymous part group to the dictionary
   fCurrentPartGroup =
     fDictionary->
@@ -87,7 +93,10 @@ xml2LpsrDictionaryVisitor::xml2LpsrDictionaryVisitor (
   fCurrentBackupDuration = -1;
 }
 
-xml2LpsrDictionaryVisitor::~xml2LpsrDictionaryVisitor () {}
+xml2LpsrDictionaryVisitor::~xml2LpsrDictionaryVisitor ()
+{
+  idtr--;
+}
 
 //________________________________________________________________________
 S_lpsrDictionary
@@ -135,6 +144,9 @@ void xml2LpsrDictionaryVisitor::resetCurrentTime ()
 //________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart (S_part_list& elt)
 {
+  cerr << "Analysing part list" << endl;
+
+  idtr++;
 }
 /*
   <part-list>
@@ -161,6 +173,11 @@ void xml2LpsrDictionaryVisitor::visitStart (S_part_list& elt)
     <score-part id="P2">
 */
 
+void xml2LpsrDictionaryVisitor::visitEnd (S_part_list& elt)
+{
+  idtr--;
+}
+
 //______________________________________________________________________________
 void xml2LpsrDictionaryVisitor::visitStart ( S_divisions& elt ) 
 {
@@ -170,10 +187,10 @@ void xml2LpsrDictionaryVisitor::visitStart ( S_divisions& elt )
     if (fCurrentMusicXMLDivisions == 1)
       cerr << "There is 1 division";
     else
-      cerr <<
+      cerr << idtr <<
         "There are " << fCurrentMusicXMLDivisions <<
         " divisions";
-    cerr <<
+    cerr << idtr <<
       " per quater note in part " <<
       fCurrentPart->getPartCombinedName () << endl;
   }
@@ -325,13 +342,16 @@ void xml2LpsrDictionaryVisitor::visitStart (S_staves& elt)
   if (fTranslationSettings->fTrace) {
     switch (stavesNumber) {
       case 0:
-        cerr << "There isn't any explicit staff (hence 1 by default)"; // JMI
+        cerr << idtr <<
+          "There isn't any explicit staff (hence 1 by default)"; // JMI
         break;
       case 1:
-        cerr << "There is 1 staff";
+        cerr << idtr <<
+          "There is 1 staff";
         break;
       default:
-        cerr << "There are " << stavesNumber << " staves";
+        cerr << idtr <<
+          "There are " << stavesNumber << " staves";
     } // switch
     cerr <<
       " in part " << fCurrentPart->getPartCombinedName() << endl;
@@ -492,7 +512,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_clef& elt )
         fCurrentClefSign, fCurrentClefLine, clefStaffNum);
 
   if (fTranslationSettings->fTrace)
-    cerr <<
+    cerr << idtr <<
       "--> adding clef " << clef <<
       " to staff " << clefStaffNum << endl;
 
@@ -526,7 +546,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_key& elt )
       lpsrKey::create (fCurrentFifths, fCurrentMode, fCurrentCancel);
       
   if (fTranslationSettings->fTrace)
-    cerr <<
+    cerr << idtr <<
       "--> adding key " << key <<
       " to staff " << fCurrentStaffNumber << endl;
 
@@ -580,7 +600,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_time& elt )
         fTranslationSettings->fGenerateNumericalTime);
 
   if (fTranslationSettings->fTrace)
-    cerr <<
+    cerr << idtr <<
       "--> adding time " << time <<
       " to staff " << fCurrentStaffNumber << endl;
 
@@ -871,7 +891,7 @@ void xml2LpsrDictionaryVisitor::visitStart (S_measure& elt)
     elt->getAttributeIntValue ("number", 0);
     
   if (fTranslationSettings->fTrace)
-    cerr <<
+    cerr << idtr << 
       "=== MEASURE " << fCurrentMeasureNumber << " === " <<
       "PART " << fCurrentPart->getPartCombinedName () <<" ===" << endl;
 }
@@ -1360,7 +1380,8 @@ S_lpsrChord xml2LpsrDictionaryVisitor::createChordFromCurrentNote ()
 // JMI  fCurrentElement = chord; // another name for it
    
   if (fTranslationSettings->fDebug)
-    cerr << "--> adding first note to chord" << endl;
+    cerr << idtr <<
+      "--> adding first note to chord" << endl;
     
   // register fCurrentNote as first member of chord
   chord->addNoteToChord (fCurrentNote);
@@ -1424,7 +1445,8 @@ void xml2LpsrDictionaryVisitor::createTuplet (S_lpsrNote note)
   
   // add note to the tuplet
   if (fTranslationSettings->fDebug)
-    cout << "--> adding note " << note << " to tuplets stack top" << endl;
+    cout << idtr <<
+      "--> adding note " << note << " to tuplets stack top" << endl;
   tuplet->addElementToTuplet (note);
 }
 
@@ -1434,7 +1456,8 @@ void xml2LpsrDictionaryVisitor::finalizeTuplet (S_lpsrNote note) {
 
   // add note to the tuplet
   if (fTranslationSettings->fDebug)
-    cout << "--> adding note " << note << " to tuplets stack top" << endl;
+    cout << idtr <<
+      "--> adding note " << note << " to tuplets stack top" << endl;
   tup->addElementToTuplet(note);
 
   // pop from the tuplets stack
@@ -1495,10 +1518,10 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
   if (! fPendingDynamics.empty()) {
     if (fMusicXMLNoteData.fMusicxmlStepIsARest) {
       if (fTranslationSettings->fDelayRestsDynamics) {
-      cerr <<
+      cerr << idtr <<
         "--> Delaying dynamics attached to a rest until next note";
      } else {
-       cerr <<
+       cerr << idtr <<
           "--> There is dynamics attached to a rest";
     }
     } else {
@@ -1514,10 +1537,10 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
   if (! fPendingWedges.empty()) {
     if (fMusicXMLNoteData.fMusicxmlStepIsARest) {
       if (fTranslationSettings->fDelayRestsDynamics) {
-      cerr <<
+      cerr << idtr <<
         "--> Delaying wedge attached to a rest until next note";
      } else {
-       cerr <<
+       cerr << idtr <<
           "--> There is a wedge attached to a rest";
     }
     } else {
@@ -1550,7 +1573,8 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
     }
     
     if (fTranslationSettings->fDebug)
-      cout << "--> adding note to current chord" << endl;
+      cout << idtr <<
+        "--> adding note to current chord" << endl;
       
     // register note as a member of fCurrentChord
     fCurrentChord->addNoteToChord (note);
@@ -1583,7 +1607,7 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
         {
           // populate the tuplet at the top of the stack
           if (fTranslationSettings->fDebug)
-            cout <<
+            cout << idtr <<
               "--> adding note " << note <<
               " to tuplets stack top" << endl;
           fCurrentTupletsStack.top()->addElementToTuplet (note);
@@ -1602,9 +1626,9 @@ void xml2LpsrDictionaryVisitor::visitEnd ( S_note& elt )
         {}
     } // switch
 
-  } else {
+  } else { // standalone note/rest
 
-    // cout << "--> adding standalone note/rest to part sequence" << endl;
+    // cout <<  idtr << "--> adding standalone note/rest to part sequence" << endl;
     // register note as standalone
     S_lpsrElement n = note;
     fCurrentVoice->appendElementToVoiceSequence (n);

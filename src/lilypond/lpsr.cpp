@@ -3081,7 +3081,7 @@ void lpsrLyrics::addTextChunkToLyrics (
     S_lpsrStaff staff = fLyricsVoice->getVoiceStaff();
     S_lpsrPart  part  = staff-> getStaffPart();
     
-    cout <<
+    cout << idtr <<
       "--> creating a lyrics " << fLyricsNumber <<
       " text chunk \"" << syllabic <<
       "\" in voice " << fLyricsVoice->getVoiceNumber() <<
@@ -3130,7 +3130,7 @@ void lpsrLyrics::addSkipChunkToLyrics (
     S_lpsrStaff staff = fLyricsVoice->getVoiceStaff();
     S_lpsrPart  part  = staff-> getStaffPart();
     
-    cout <<
+    cout << idtr <<
       "--> creating a lyrics skip chunk, duration: " <<
       lpsrDuration <<
       " in voice " << fLyricsVoice->getVoiceNumber() <<
@@ -3155,7 +3155,7 @@ void lpsrLyrics::addBreakChunkToLyrics (
     S_lpsrStaff staff = fLyricsVoice->getVoiceStaff();
     S_lpsrPart  part  = staff-> getStaffPart();
     
-    cout <<
+    cout << idtr <<
       "--> creating a lyrics break chunk" <<
       " in voice " << fLyricsVoice->getVoiceNumber() <<
       " of staff " << staff->getStaffNumber() <<
@@ -3289,7 +3289,7 @@ S_lpsrLyrics lpsrVoice::addLyricsToVoice (
   int lyricsNumber)
 {
   if (fVoiceLyricsMap.count (lyricsNumber)) {
-    cerr <<
+    cerr << idtr <<
       "### Internal error: lyrics " << lyricsNumber <<
       " already exists in this voice" << endl;
 
@@ -3408,7 +3408,7 @@ S_lpsrVoice lpsrStaff::addVoiceToStaff (
   int voiceNumber)
 {
   if (fStaffVoicesMap.count (voiceNumber)) {
-    cerr <<
+    cerr << idtr <<
       "### Internal error: voice " << voiceNumber <<
       " already exists in this staff" << endl;
 
@@ -3416,7 +3416,7 @@ S_lpsrVoice lpsrStaff::addVoiceToStaff (
   }
 
   if (fTranslationSettings->fTrace)
-    cerr <<
+    cerr << idtr <<
       "Adding voice " << voiceNumber <<
       " to staff " << fStaffNumber <<
       " in part " << fStaffPart->getPartCombinedName () << endl;
@@ -3532,7 +3532,7 @@ lpsrPart::lpsrPart (
     "Part_"+stringNumbersToEnglishWords (fPartMusicXMLName);
     
   if (fTranslationSettings->fTrace)
-    cerr <<
+    cerr << idtr <<
       "Creating part " << getPartCombinedName () << endl;
 }
 
@@ -3550,7 +3550,7 @@ void lpsrPart::changePartMusicXMLName (
     "Part_"+stringNumbersToEnglishWords (fPartMusicXMLName);
     
   if (fTranslationSettings->fTrace)
-    cerr <<
+    cerr << idtr <<
       "Re-using part " << oldCombinedName <<
       " as " << getPartCombinedName () << endl;
 }
@@ -3607,7 +3607,7 @@ S_lpsrStaff lpsrPart::addStaffToPart (
   int staffNumber)
 {
   if (fPartStavesMap.count (staffNumber)) {
-    cerr <<
+    cerr << idtr <<
       "### Internal error: staffNumber " << staffNumber <<
       " already exists in part " << " " << getPartCombinedName () << endl;
 
@@ -3615,7 +3615,7 @@ S_lpsrStaff lpsrPart::addStaffToPart (
   }
 
   if (fTranslationSettings->fTrace)
-    cerr <<
+    cerr << idtr <<
       "Adding staff " << staffNumber <<
       " to part " << getPartCombinedName () << endl;
   
@@ -3666,7 +3666,7 @@ lpsrPartGroup::lpsrPartGroup (
   fPartGroupNumber = partGroupNumber;
   
   if (fTranslationSettings->fTrace)
-    cerr <<
+    cerr << idtr <<
       "Creating part group " << fPartGroupNumber << endl;
 }
 
@@ -3676,7 +3676,7 @@ S_lpsrPart lpsrPartGroup::addPartToPartGroup (
   string partMusicXMLName)
 {
   if (fPartGroupPartsMap.count (partMusicXMLName)) {
-    cerr <<
+    cerr << idtr <<
       "### Internal error: partMusicXMLName " << partMusicXMLName <<
       " already exists in this part group" << endl;
 
@@ -3701,7 +3701,7 @@ S_lpsrPart lpsrPartGroup::addPartToPartGroup (
       lpsrPart::create (
         fTranslationSettings, partMusicXMLName);
 
-    cerr <<
+    cerr << idtr <<
       "Adding part " << part->getPartCombinedName () <<
       " to part group " << fPartGroupNumber << endl;
   
@@ -3710,7 +3710,7 @@ S_lpsrPart lpsrPartGroup::addPartToPartGroup (
   
     // push it on top the this part group's stack
     if (fTranslationSettings->fTrace) {
-      cerr <<
+      cerr << idtr <<
         "Pushing part " << part->getPartCombinedName () <<
         " onto part group " << fPartGroupNumber << " stack" << endl;
     }
@@ -3761,7 +3761,7 @@ void lpsrPartGroup::popPartGroupPartsStackTop ()
     S_lpsrPart
       stackTopPart = fPartGroupPartsStack.top ();
       
-    cerr <<
+    cerr << idtr <<
       "Popping part " << stackTopPart->getPartCombinedName () <<
       " from part group " << fPartGroupNumber << " stack" << endl;
   }
@@ -3841,7 +3841,7 @@ S_lpsrPartGroup lpsrDictionary::addPartGroupToDictionary (
   int partGroupNumber)
 {
   if (fDictionaryPartGroupsMap.count (partGroupNumber)) {
-    cerr <<
+    cerr << idtr <<
       "### Internal error: part group " << partGroupNumber <<
       " already exists in this dictionary" << endl;
 

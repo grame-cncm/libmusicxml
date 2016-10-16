@@ -181,6 +181,7 @@ class EXP xml2LpsrDictionaryVisitor :
   protected:
       
     virtual void visitStart ( S_part_list& elt);
+    virtual void visitEnd   ( S_part_list& elt);
     
     virtual void visitStart ( S_part_group& elt);
     virtual void visitStart ( S_group_name& elt);
@@ -293,10 +294,10 @@ class EXP xml2LpsrDictionaryVisitor :
 
   private:
 
-    void         internalError (
-                    string message);
+    void                     internalError (
+                              string message);
                      
-    void         resetCurrentTime();
+    void                     resetCurrentTime();
 
     S_translationSettings    fTranslationSettings;
 
