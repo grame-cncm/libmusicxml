@@ -15,7 +15,7 @@
 #include <string.h>
 #include <getopt.h>
 
-#include "lpsrUtilities.h"
+#include "msrUtilities.h"
 
 #include "musicxml2lpsr.h"
 
