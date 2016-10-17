@@ -32,7 +32,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-xml2LpsrScoreVisitor::xml2LpsrScoreVisitor (
+xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   S_translationSettings& ts)
 {
   fTranslationSettings = ts;
@@ -95,12 +95,12 @@ xml2LpsrScoreVisitor::xml2LpsrScoreVisitor (
   idtr--;
 }
 
-xml2LpsrScoreVisitor::~xml2LpsrScoreVisitor ()
+xml2MsrScoreVisitor::~xml2MsrScoreVisitor ()
 {}
 
 //________________________________________________________________________
 S_lpsrScore
-xml2LpsrScoreVisitor::buildMsrScoreFromXMLElementTree (
+xml2MsrScoreVisitor::buildMsrScoreFromXMLElementTree (
   const Sxmlelement& xmlTree)
 {
   S_lpsrScore result;
@@ -119,7 +119,7 @@ xml2LpsrScoreVisitor::buildMsrScoreFromXMLElementTree (
   return result;
 }
 
-void xml2LpsrScoreVisitor::internalError (
+void xml2MsrScoreVisitor::internalError (
   string message)
 {
   cerr <<
@@ -128,7 +128,7 @@ void xml2LpsrScoreVisitor::internalError (
 }                        
 
 //________________________________________________________________________
-void xml2LpsrScoreVisitor::resetCurrentTime ()
+void xml2MsrScoreVisitor::resetCurrentTime ()
 {
   fCurrentTimeStaffNumber = -1;
   
@@ -142,7 +142,7 @@ void xml2LpsrScoreVisitor::resetCurrentTime ()
 }
 
 //________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart (S_part_list& elt)
+void xml2MsrScoreVisitor::visitStart (S_part_list& elt)
 {
   cerr << "Analysing part list" << endl;
 
@@ -173,7 +173,7 @@ void xml2LpsrScoreVisitor::visitStart (S_part_list& elt)
     <score-part id="P2">
 */
 
-void xml2LpsrScoreVisitor::visitEnd (S_part_list& elt)
+void xml2MsrScoreVisitor::visitEnd (S_part_list& elt)
 {
   idtr--;
 }
@@ -185,7 +185,7 @@ void xml2LpsrScoreVisitor::visitEnd (S_part_list& elt)
     </part-group>
     <part-group type="stop" number="1"/>
  */
-void xml2LpsrScoreVisitor::visitStart (S_part_group& elt)
+void xml2MsrScoreVisitor::visitStart (S_part_group& elt)
 {
   /*
     <part-group number="1" type="start">
@@ -237,26 +237,26 @@ void xml2LpsrScoreVisitor::visitStart (S_part_group& elt)
   }
 }
 
-void xml2LpsrScoreVisitor::visitEnd (S_part_group& elt)
+void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
 {
   idtr--;
 }
 
-void xml2LpsrScoreVisitor::visitStart (S_group_name& elt)
+void xml2MsrScoreVisitor::visitStart (S_group_name& elt)
 {
   string groupName = elt->getValue();
 
   fCurrentPartGroup->setPartGroupName (groupName);
 }
 
-void xml2LpsrScoreVisitor::visitStart (S_group_abbreviation& elt)
+void xml2MsrScoreVisitor::visitStart (S_group_abbreviation& elt)
 {
   string groupAbbreviation = elt->getValue ();
 
   fCurrentPartGroup->setPartGroupAbbreviation (groupAbbreviation);
 }
 
-void xml2LpsrScoreVisitor::visitStart (S_group_symbol& elt)
+void xml2MsrScoreVisitor::visitStart (S_group_symbol& elt)
 {
   // occurs after "<part-group number="nnn" type="start"> in MusicXML
   // that has set fCurrentPartGroup
@@ -266,7 +266,7 @@ void xml2LpsrScoreVisitor::visitStart (S_group_symbol& elt)
   fCurrentPartGroup->setPartGroupSymbol (partGroupSymbol);
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_group_barline& elt)
+void xml2MsrScoreVisitor::visitStart ( S_group_barline& elt)
 {
   string groupBarline = elt->getValue ();
 
@@ -275,7 +275,7 @@ void xml2LpsrScoreVisitor::visitStart ( S_group_barline& elt)
 }
 
 //________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart (S_score_part& elt)
+void xml2MsrScoreVisitor::visitStart (S_score_part& elt)
 {
   string partMusicXMLName = elt->getAttributeValue ("id");
 
@@ -307,7 +307,7 @@ void xml2LpsrScoreVisitor::visitStart (S_score_part& elt)
   }
 }
 
-void xml2LpsrScoreVisitor::visitStart (S_part_name& elt)
+void xml2MsrScoreVisitor::visitStart (S_part_name& elt)
 {
   string partName = elt->getValue ();
 
@@ -315,7 +315,7 @@ void xml2LpsrScoreVisitor::visitStart (S_part_name& elt)
     setPartName (partName);
 }
 
-void xml2LpsrScoreVisitor::visitStart (S_part_abbreviation& elt)
+void xml2MsrScoreVisitor::visitStart (S_part_abbreviation& elt)
 {
   string fCurrentPartAbbreviation = elt->getValue ();
 
@@ -323,7 +323,7 @@ void xml2LpsrScoreVisitor::visitStart (S_part_abbreviation& elt)
     setPartAbbreviation (fCurrentPartAbbreviation);
 }
 
-void xml2LpsrScoreVisitor::visitStart (S_instrument_name& elt)
+void xml2MsrScoreVisitor::visitStart (S_instrument_name& elt)
 {
   string fCurrentPartInstrumentName = elt->getValue(); // jMI
 
@@ -332,7 +332,7 @@ void xml2LpsrScoreVisitor::visitStart (S_instrument_name& elt)
 }
 
 //________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart (S_part& elt)
+void xml2MsrScoreVisitor::visitStart (S_part& elt)
 {
   string partID = elt->getAttributeValue ("id");
 
@@ -357,13 +357,13 @@ void xml2LpsrScoreVisitor::visitStart (S_part& elt)
   idtr++;
 }
 
-void xml2LpsrScoreVisitor::visitEnd (S_part& elt)
+void xml2MsrScoreVisitor::visitEnd (S_part& elt)
 {
   idtr--;
 }
 
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_divisions& elt ) 
+void xml2MsrScoreVisitor::visitStart ( S_divisions& elt ) 
 {
   fCurrentMusicXMLDivisions = (int)(*elt);
   
@@ -385,22 +385,22 @@ void xml2LpsrScoreVisitor::visitStart ( S_divisions& elt )
 
 //______________________________________________________________________________
 
-void xml2LpsrScoreVisitor::visitStart ( S_key& elt ) {
+void xml2MsrScoreVisitor::visitStart ( S_key& elt ) {
   fCurrentFifths = 0;
   fCurrentCancel = 0;
   fCurrentMode   = "";
 }
   
-void xml2LpsrScoreVisitor::visitStart ( S_fifths& elt )
+void xml2MsrScoreVisitor::visitStart ( S_fifths& elt )
   { fCurrentFifths = (int)(*elt); }
   
-void xml2LpsrScoreVisitor::visitStart ( S_mode& elt )
+void xml2MsrScoreVisitor::visitStart ( S_mode& elt )
   { fCurrentMode = elt->getValue(); }
 
-void xml2LpsrScoreVisitor::visitStart ( S_cancel& elt )
+void xml2MsrScoreVisitor::visitStart ( S_cancel& elt )
   { fCurrentCancel = (int)(*elt); }
 
-void xml2LpsrScoreVisitor::visitEnd ( S_key& elt ) 
+void xml2MsrScoreVisitor::visitEnd ( S_key& elt ) 
 {    
   // create lpsrKey and add it to part
   S_lpsrKey
@@ -418,7 +418,7 @@ void xml2LpsrScoreVisitor::visitEnd ( S_key& elt )
 }
 
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_time& elt ) {
+void xml2MsrScoreVisitor::visitStart ( S_time& elt ) {
   resetCurrentTime();
   
   fCurrentTimeStaffNumber =
@@ -429,17 +429,17 @@ void xml2LpsrScoreVisitor::visitStart ( S_time& elt ) {
   // time symbol="cut" or "common" JMI
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_beats& elt )
+void xml2MsrScoreVisitor::visitStart ( S_beats& elt )
   { fCurrentTimeBeats = (int)(*elt); }
   
-void xml2LpsrScoreVisitor::visitStart ( S_beat_type& elt )
+void xml2MsrScoreVisitor::visitStart ( S_beat_type& elt )
   { fCurrentTimeBeatType = (int)(*elt); }
  
-void xml2LpsrScoreVisitor::visitStart ( S_senza_misura& elt )
+void xml2MsrScoreVisitor::visitStart ( S_senza_misura& elt )
   { fCurrentTimeSenzaMisura = true; }
 
 /*
-rational xml2LpsrScoreVisitor::timeSignatureFromIndex(int index) JMI
+rational xml2MsrScoreVisitor::timeSignatureFromIndex(int index) JMI
 {
   rational r(0,1);
   if (index < fTimeSignatures.size()) {
@@ -452,7 +452,7 @@ rational xml2LpsrScoreVisitor::timeSignatureFromIndex(int index) JMI
 }
 */
 
-void xml2LpsrScoreVisitor::visitEnd ( S_time& elt ) 
+void xml2MsrScoreVisitor::visitEnd ( S_time& elt ) 
 {
   S_lpsrTime
     time =
@@ -473,7 +473,7 @@ void xml2LpsrScoreVisitor::visitEnd ( S_time& elt )
 }
 
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_clef& elt )
+void xml2MsrScoreVisitor::visitStart ( S_clef& elt )
 { 
   fCurrentClefStaffNumber =
     elt->getAttributeIntValue("number", -1); 
@@ -483,16 +483,16 @@ void xml2LpsrScoreVisitor::visitStart ( S_clef& elt )
   fCurrentClefSign = "";
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_clef_octave_change& elt )
+void xml2MsrScoreVisitor::visitStart ( S_clef_octave_change& elt )
   { fCurrentClefOctaveChange = (int)(*elt); }
   
-void xml2LpsrScoreVisitor::visitStart ( S_line& elt )
+void xml2MsrScoreVisitor::visitStart ( S_line& elt )
   { fCurrentClefLine = (int)(*elt); }
   
-void xml2LpsrScoreVisitor::visitStart ( S_sign& elt )
+void xml2MsrScoreVisitor::visitStart ( S_sign& elt )
   { fCurrentClefSign = elt->getValue(); }
 
-void xml2LpsrScoreVisitor::visitEnd ( S_clef& elt ) 
+void xml2MsrScoreVisitor::visitEnd ( S_clef& elt ) 
 {
   //"number" is optional, use 1 if not present
   int clefStaffNum = elt->getAttributeIntValue("number", 1);
@@ -513,7 +513,7 @@ void xml2LpsrScoreVisitor::visitEnd ( S_clef& elt )
 }
 
 //________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart (S_staves& elt)
+void xml2MsrScoreVisitor::visitStart (S_staves& elt)
 {
   int stavesNumber = int(*elt);
 
@@ -546,7 +546,7 @@ void xml2LpsrScoreVisitor::visitStart (S_staves& elt)
   }
 }
 
-void xml2LpsrScoreVisitor::visitStart (S_staff& elt)
+void xml2MsrScoreVisitor::visitStart (S_staff& elt)
 {
   /*
   Staff assignment is only needed for music notated on multiple staves. Used by both notes and directions. Staff values are numbers, with 1 referring to the top-most staff in a part.
@@ -568,7 +568,7 @@ void xml2LpsrScoreVisitor::visitStart (S_staff& elt)
 }
     
 //________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart (S_voice& elt )
+void xml2MsrScoreVisitor::visitStart (S_voice& elt )
 {
   int voiceNumber = int(*elt);
   /*
@@ -595,7 +595,7 @@ void xml2LpsrScoreVisitor::visitStart (S_voice& elt )
 }
 
 //________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart (S_backup& elt )
+void xml2MsrScoreVisitor::visitStart (S_backup& elt )
 {
     fOnGoingBackup = true;
 
@@ -618,13 +618,13 @@ void xml2LpsrScoreVisitor::visitStart (S_backup& elt )
   */
 }
 
-void xml2LpsrScoreVisitor::visitEnd (S_backup& elt )
+void xml2MsrScoreVisitor::visitEnd (S_backup& elt )
 {
     fOnGoingBackup = false;
 }
 
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_forward& elt )
+void xml2MsrScoreVisitor::visitStart ( S_forward& elt )
 {
   /*
 
@@ -660,7 +660,7 @@ void xml2LpsrScoreVisitor::visitStart ( S_forward& elt )
 }
 
 //________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_metronome& elt )
+void xml2MsrScoreVisitor::visitStart ( S_metronome& elt )
 {
   string parentheses = elt->getAttributeValue("parentheses");
   
@@ -686,7 +686,7 @@ void xml2LpsrScoreVisitor::visitStart ( S_metronome& elt )
   }
 }
   
-void xml2LpsrScoreVisitor::visitEnd ( S_metronome& elt )
+void xml2MsrScoreVisitor::visitEnd ( S_metronome& elt )
 { 
  // if (fSkipDirection) return;
 
@@ -727,7 +727,7 @@ void xml2LpsrScoreVisitor::visitEnd ( S_metronome& elt )
  // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_beat_unit& elt )
+void xml2MsrScoreVisitor::visitStart ( S_beat_unit& elt )
 { 
   if (fCurrentBeat.fBeatUnit.size()) {
     fBeatsData.push_back (fCurrentBeat); 
@@ -737,15 +737,15 @@ void xml2LpsrScoreVisitor::visitStart ( S_beat_unit& elt )
   fCurrentBeat.fBeatUnit = elt->getValue();
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_beat_unit_dot& elt )
+void xml2MsrScoreVisitor::visitStart ( S_beat_unit_dot& elt )
   { fCurrentBeat.fDots++; }
   
-void xml2LpsrScoreVisitor::visitStart ( S_per_minute& elt )
+void xml2MsrScoreVisitor::visitStart ( S_per_minute& elt )
   { fPerMinute = (int)(*elt); }
 
 
 //________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart (S_tied& elt )
+void xml2MsrScoreVisitor::visitStart (S_tied& elt )
 {
 //           <tied orientation="over" type="start"/>
 
@@ -756,7 +756,7 @@ fCurrentTiedOrientation =
   elt->getAttributeValue ("orientation");
 }
 
-void xml2LpsrScoreVisitor::visitStart (S_slur& elt )
+void xml2MsrScoreVisitor::visitStart (S_slur& elt )
 {
 //          <slur number="1" placement="above" type="start"/>
   fCurrentSlurNumber =
@@ -784,7 +784,7 @@ void xml2LpsrScoreVisitor::visitStart (S_slur& elt )
 }
 
 //________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart (S_lyric& elt )
+void xml2MsrScoreVisitor::visitStart (S_lyric& elt )
 { 
   int lyricNumber =
     elt->getAttributeIntValue ("number", 0);
@@ -809,7 +809,7 @@ void xml2LpsrScoreVisitor::visitStart (S_lyric& elt )
   fCurrentNoteHasLyrics = true;
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_syllabic& elt )
+void xml2MsrScoreVisitor::visitStart ( S_syllabic& elt )
 {
   fCurrentSyllabic = elt->getValue();
 /* JMI
@@ -822,7 +822,7 @@ void xml2LpsrScoreVisitor::visitStart ( S_syllabic& elt )
   */
 }
 
-void xml2LpsrScoreVisitor::visitEnd ( S_text& elt ) 
+void xml2MsrScoreVisitor::visitEnd ( S_text& elt ) 
 {
   string text = elt->getValue();
 
@@ -885,16 +885,16 @@ void xml2LpsrScoreVisitor::visitEnd ( S_text& elt )
         </lyric>
 */
 
-void xml2LpsrScoreVisitor::visitEnd ( S_elision& elt ) 
+void xml2MsrScoreVisitor::visitEnd ( S_elision& elt ) 
 {
   fCurrentElision = true;
 }
 
-void xml2LpsrScoreVisitor::visitEnd ( S_lyric& elt )
+void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
 {
   if (fCurrentLyricsHasText) {
     S_lpsrDuration
-      lyricLpsrDuration =
+      lyricMsrDuration =
         lpsrDuration::create (
           fMusicXMLNoteData.fMusicxmlDuration,
           fCurrentMusicXMLDivisions,
@@ -906,7 +906,7 @@ void xml2LpsrScoreVisitor::visitEnd ( S_lyric& elt )
         fCurrentSyllabic,
         fCurrentText,
         fCurrentElision,
-        lyricLpsrDuration);
+        lyricMsrDuration);
 }
 
 /*
@@ -934,7 +934,7 @@ void xml2LpsrScoreVisitor::visitEnd ( S_lyric& elt )
 }
 
 //________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart (S_measure& elt)
+void xml2MsrScoreVisitor::visitStart (S_measure& elt)
 {
   fCurrentMeasureNumber =
     elt->getAttributeIntValue ("number", 0);
@@ -946,7 +946,7 @@ void xml2LpsrScoreVisitor::visitStart (S_measure& elt)
 }
 
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_print& elt ) 
+void xml2MsrScoreVisitor::visitStart ( S_print& elt ) 
 {
   const string& newSystem = elt->getAttributeValue ("new-system");
   
@@ -984,7 +984,7 @@ void xml2LpsrScoreVisitor::visitStart ( S_print& elt )
   */
 
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_barline& elt ) 
+void xml2MsrScoreVisitor::visitStart ( S_barline& elt ) 
 {
   fCurrentBarlineLocation =
     elt->getAttributeValue ("location");
@@ -1008,7 +1008,7 @@ void xml2LpsrScoreVisitor::visitStart ( S_barline& elt )
   }
 }
 
-void xml2LpsrScoreVisitor::visitEnd ( S_barline& elt ) 
+void xml2MsrScoreVisitor::visitEnd ( S_barline& elt ) 
 {
  /*
   *       <barline location="right">
@@ -1030,12 +1030,12 @@ void xml2LpsrScoreVisitor::visitEnd ( S_barline& elt )
   }
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_bar_style& elt ) 
+void xml2MsrScoreVisitor::visitStart ( S_bar_style& elt ) 
 {
   fCurrentBarStyle = elt->getValue();
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_repeat& elt ) 
+void xml2MsrScoreVisitor::visitStart ( S_repeat& elt ) 
 {
   fCurrentRepeatDirection =
     elt->getAttributeValue ("direction");  
@@ -1048,7 +1048,7 @@ void xml2LpsrScoreVisitor::visitStart ( S_repeat& elt )
 
 */
 
-void xml2LpsrScoreVisitor::visitStart ( S_ending& elt ) 
+void xml2MsrScoreVisitor::visitStart ( S_ending& elt ) 
 {
   // start, stop, discontinue
   
@@ -1060,7 +1060,7 @@ void xml2LpsrScoreVisitor::visitStart ( S_ending& elt )
 }
 
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_step& elt )
+void xml2MsrScoreVisitor::visitStart ( S_step& elt )
 {
   string step = elt->getValue();
   
@@ -1075,17 +1075,17 @@ void xml2LpsrScoreVisitor::visitStart ( S_step& elt )
   fMusicXMLNoteData.fMusicxmlStep = step[0];
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_alter& elt)
+void xml2MsrScoreVisitor::visitStart ( S_alter& elt)
 {
   fMusicXMLNoteData.fMusicxmlAlteration = (int)(*elt);
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_octave& elt)
+void xml2MsrScoreVisitor::visitStart ( S_octave& elt)
 {
   fMusicXMLNoteData.fMusicxmlOctave = (int)(*elt);
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_duration& elt )
+void xml2MsrScoreVisitor::visitStart ( S_duration& elt )
 {
   int musicXMLduration = (int)(*elt);
   
@@ -1094,20 +1094,20 @@ void xml2LpsrScoreVisitor::visitStart ( S_duration& elt )
   else
     fCurrentBackupDuration = musicXMLduration;
     
-//  cout << "=== xml2LpsrScoreVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << endl; JMI
+//  cout << "=== xml2MsrScoreVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << endl; JMI
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_dot& elt )
+void xml2MsrScoreVisitor::visitStart ( S_dot& elt )
 {
   fMusicXMLNoteData.fDotsNumber++;
 }
        
-void xml2LpsrScoreVisitor::visitStart ( S_type& elt )
+void xml2MsrScoreVisitor::visitStart ( S_type& elt )
 {
   fCurrentNoteType=elt->getValue();
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_stem& elt )
+void xml2MsrScoreVisitor::visitStart ( S_stem& elt )
 {
   //         <stem default-y="28.5">up</stem>
 
@@ -1141,7 +1141,7 @@ void xml2LpsrScoreVisitor::visitStart ( S_stem& elt )
   fCurrentStem = stem;
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_beam& elt )
+void xml2MsrScoreVisitor::visitStart ( S_beam& elt )
 {
   //        <beam number="1">begin</beam>
 
@@ -1167,7 +1167,7 @@ void xml2LpsrScoreVisitor::visitStart ( S_beam& elt )
 }
 
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_staccato& elt )
+void xml2MsrScoreVisitor::visitStart ( S_staccato& elt )
 {
   S_lpsrArticulation
     articulation =
@@ -1176,7 +1176,7 @@ void xml2LpsrScoreVisitor::visitStart ( S_staccato& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_staccatissimo& elt )
+void xml2MsrScoreVisitor::visitStart ( S_staccatissimo& elt )
 {
   S_lpsrArticulation
     articulation =
@@ -1236,71 +1236,71 @@ unstress
   */
 
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart( S_f& elt)
+void xml2MsrScoreVisitor::visitStart( S_f& elt)
 {        
   S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kF);
   fPendingDynamics.push_back(dyn);
  }
-void xml2LpsrScoreVisitor::visitStart( S_ff& elt)
+void xml2MsrScoreVisitor::visitStart( S_ff& elt)
 {        
   S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFF);
   fPendingDynamics.push_back(dyn);
  }
-void xml2LpsrScoreVisitor::visitStart( S_fff& elt)
+void xml2MsrScoreVisitor::visitStart( S_fff& elt)
 {        
   S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFF);
   fPendingDynamics.push_back(dyn);
  }
-void xml2LpsrScoreVisitor::visitStart( S_ffff& elt)
+void xml2MsrScoreVisitor::visitStart( S_ffff& elt)
 {        
   S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFF);
   fPendingDynamics.push_back(dyn);
  }
-void xml2LpsrScoreVisitor::visitStart( S_fffff& elt)
+void xml2MsrScoreVisitor::visitStart( S_fffff& elt)
 {        
   S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFFF);
   fPendingDynamics.push_back(dyn);
  }
-void xml2LpsrScoreVisitor::visitStart( S_ffffff& elt)
+void xml2MsrScoreVisitor::visitStart( S_ffffff& elt)
 {        
   S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFFFF);
   fPendingDynamics.push_back(dyn);
  }
 
 
-void xml2LpsrScoreVisitor::visitStart( S_p& elt)
+void xml2MsrScoreVisitor::visitStart( S_p& elt)
 {        
   S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kP);
   fPendingDynamics.push_back(dyn);
 }
-void xml2LpsrScoreVisitor::visitStart( S_pp& elt)
+void xml2MsrScoreVisitor::visitStart( S_pp& elt)
 {        
   S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPP);
   fPendingDynamics.push_back(dyn);
 }
-void xml2LpsrScoreVisitor::visitStart( S_ppp& elt)
+void xml2MsrScoreVisitor::visitStart( S_ppp& elt)
 {        
   S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPP);
   fPendingDynamics.push_back(dyn);
 }
-void xml2LpsrScoreVisitor::visitStart( S_pppp& elt)
+void xml2MsrScoreVisitor::visitStart( S_pppp& elt)
 {        
   S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPP);
   fPendingDynamics.push_back(dyn);
 }
-void xml2LpsrScoreVisitor::visitStart( S_ppppp& elt)
+void xml2MsrScoreVisitor::visitStart( S_ppppp& elt)
 {        
   S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPPP);
   fPendingDynamics.push_back(dyn);
 }
-void xml2LpsrScoreVisitor::visitStart( S_pppppp& elt)
+void xml2MsrScoreVisitor::visitStart( S_pppppp& elt)
 {        
   S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPPPP);
   fPendingDynamics.push_back(dyn);
 }
 
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_wedge& elt )
+void xml2MsrScoreVisitor::visitStart ( S_wedge& elt )
 {
   string type = elt->getAttributeValue("type");
   lpsrWedge::WedgeKind wk;
@@ -1320,34 +1320,34 @@ void xml2LpsrScoreVisitor::visitStart ( S_wedge& elt )
 }
     
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_grace& elt )
+void xml2MsrScoreVisitor::visitStart ( S_grace& elt )
 {
   fMusicXMLNoteData.fNoteIsAGraceNote = true;;
 }
        
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_chord& elt)
+void xml2MsrScoreVisitor::visitStart ( S_chord& elt)
 {
   fMusicXMLNoteData.fNoteBelongsToAChord = true;
 }
 
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_actual_notes& elt )
+void xml2MsrScoreVisitor::visitStart ( S_actual_notes& elt )
 {
   fCurrentActualNotes = (int)(*elt);
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_normal_notes& elt )
+void xml2MsrScoreVisitor::visitStart ( S_normal_notes& elt )
 {
   fCurrentNormalNotes = (int)(*elt);
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_normal_type& elt )
+void xml2MsrScoreVisitor::visitStart ( S_normal_type& elt )
 {
   fCurrentNormalNoteType = elt->getValue();
 }
 
-void xml2LpsrScoreVisitor::visitStart ( S_tuplet& elt )
+void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
 {
   fMusicXMLNoteData.fNoteBelongsToATuplet = true;
 
@@ -1358,7 +1358,7 @@ void xml2LpsrScoreVisitor::visitStart ( S_tuplet& elt )
   
   /* JMI
   cout <<
-    "xml2LpsrScoreVisitor::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
+    "xml2MsrScoreVisitor::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
     fCurrentTupletNumber << ", type = " << type <<endl;
   */
   
@@ -1380,9 +1380,9 @@ void xml2LpsrScoreVisitor::visitStart ( S_tuplet& elt )
 }
 
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_note& elt ) 
+void xml2MsrScoreVisitor::visitStart ( S_note& elt ) 
 {
-  //  cout << "--> xml2LpsrScoreVisitor::visitStart ( S_note& elt ) " << endl;
+  //  cout << "--> xml2MsrScoreVisitor::visitStart ( S_note& elt ) " << endl;
   fMusicXMLNoteData.fMusicxmlStep = '_';
   fMusicXMLNoteData.fMusicxmlStepIsARest = false;
   fMusicXMLNoteData.fMusicxmlAlteration = 0; // natural notes
@@ -1411,13 +1411,13 @@ void xml2LpsrScoreVisitor::visitStart ( S_note& elt )
 }
 
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitStart ( S_rest& elt)
+void xml2MsrScoreVisitor::visitStart ( S_rest& elt)
 {
-  //  cout << "--> xml2LpsrScoreVisitor::visitStart ( S_rest& elt ) " << endl;
+  //  cout << "--> xml2MsrScoreVisitor::visitStart ( S_rest& elt ) " << endl;
   fMusicXMLNoteData.fMusicxmlStepIsARest = true;
 }
 
-S_lpsrChord xml2LpsrScoreVisitor::createChordFromCurrentNote ()
+S_lpsrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
 {
   // cout << "--> creating a chord on its 2nd note" << endl;
   
@@ -1428,7 +1428,7 @@ S_lpsrChord xml2LpsrScoreVisitor::createChordFromCurrentNote ()
   S_lpsrChord chord;
   
   chord = lpsrChord::create (
-    fCurrentNote->getNoteLpsrDuration ());
+    fCurrentNote->getNoteMsrDuration ());
 // JMI  fCurrentElement = chord; // another name for it
    
   if (fTranslationSettings->fDebug)
@@ -1478,7 +1478,7 @@ S_lpsrChord xml2LpsrScoreVisitor::createChordFromCurrentNote ()
   return chord;
 }
 
-void xml2LpsrScoreVisitor::createTuplet (S_lpsrNote note)
+void xml2MsrScoreVisitor::createTuplet (S_lpsrNote note)
 {
   // create a tuplet element
   S_lpsrTuplet tuplet = lpsrTuplet::create();
@@ -1502,7 +1502,7 @@ void xml2LpsrScoreVisitor::createTuplet (S_lpsrNote note)
   tuplet->addElementToTuplet (note);
 }
 
-void xml2LpsrScoreVisitor::finalizeTuplet (S_lpsrNote note) {
+void xml2MsrScoreVisitor::finalizeTuplet (S_lpsrNote note) {
   // get tuplet from top of tuplet stack
   S_lpsrTuplet tup = fCurrentTupletsStack.top();
 
@@ -1525,11 +1525,11 @@ void xml2LpsrScoreVisitor::finalizeTuplet (S_lpsrNote note) {
 }          
 
 //______________________________________________________________________________
-void xml2LpsrScoreVisitor::visitEnd ( S_note& elt ) 
+void xml2MsrScoreVisitor::visitEnd ( S_note& elt ) 
 {
   if (fTranslationSettings->fDebug)
     cout <<
-      "<-- xml2LpsrScoreVisitor::visitEnd ( S_note& elt ) " << endl;
+      "<-- xml2MsrScoreVisitor::visitEnd ( S_note& elt ) " << endl;
       
   /*
   This is a complex method, due to the fact that
@@ -1696,12 +1696,12 @@ void xml2LpsrScoreVisitor::visitEnd ( S_note& elt )
   // add a skip chunk for notes/rests without lyrics
   if (! fCurrentNoteHasLyrics) {
     S_lpsrDuration
-      lyricsLpsrDuration =
-        note->getNoteLpsrDuration ();
+      lyricsMsrDuration =
+        note->getNoteMsrDuration ();
 
     fCurrentLyrics->
       addSkipChunkToLyrics (
-        lyricsLpsrDuration);
+        lyricsMsrDuration);
   }
 }
 

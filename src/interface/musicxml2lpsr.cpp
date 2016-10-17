@@ -33,29 +33,29 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-EXP int         musicxml2LpsrVersionNbr () { return 010; }
-EXP const char* musicxml2LpsrVersionStr () { return "0.1.0"; }
+EXP int         musicxml2MsrVersionNbr () { return 010; }
+EXP const char* musicxml2MsrVersionStr () { return "0.1.0"; }
 
 //_______________________________________________________________________________
-void initializeStringToLpsrNoteNamesLanguage ()
+void initializeStringToMsrNoteNamesLanguage ()
 {
-  gLpsrNoteNamesLanguageMap["dutch"] =     kNederlands;
-  gLpsrNoteNamesLanguageMap["catalan"] =   kCatalan;
-  gLpsrNoteNamesLanguageMap["deutsch"] =   kDeutsch;
-  gLpsrNoteNamesLanguageMap["english"] =   kEnglish;
-  gLpsrNoteNamesLanguageMap["espanol"] =   kEspanol;
-  gLpsrNoteNamesLanguageMap["italiano"] =  kItaliano;
-  gLpsrNoteNamesLanguageMap["francais"] =  kFrancais;
-  gLpsrNoteNamesLanguageMap["norsk"] =     kNorsk;
-  gLpsrNoteNamesLanguageMap["portugues"] = kPortugues;
-  gLpsrNoteNamesLanguageMap["suomi"] =     kSuomi;
-  gLpsrNoteNamesLanguageMap["svenska"] =   kSvenska;
-  gLpsrNoteNamesLanguageMap["vlaams"] =    kVlaams;
+  gMsrNoteNamesLanguageMap["dutch"] =     kNederlands;
+  gMsrNoteNamesLanguageMap["catalan"] =   kCatalan;
+  gMsrNoteNamesLanguageMap["deutsch"] =   kDeutsch;
+  gMsrNoteNamesLanguageMap["english"] =   kEnglish;
+  gMsrNoteNamesLanguageMap["espanol"] =   kEspanol;
+  gMsrNoteNamesLanguageMap["italiano"] =  kItaliano;
+  gMsrNoteNamesLanguageMap["francais"] =  kFrancais;
+  gMsrNoteNamesLanguageMap["norsk"] =     kNorsk;
+  gMsrNoteNamesLanguageMap["portugues"] = kPortugues;
+  gMsrNoteNamesLanguageMap["suomi"] =     kSuomi;
+  gMsrNoteNamesLanguageMap["svenska"] =   kSvenska;
+  gMsrNoteNamesLanguageMap["vlaams"] =    kVlaams;
 }
 
-LpsrNoteNamesLanguage getLpsrNoteNamesLanguage (std::string lang)
+MsrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang)
 {
-  return gLpsrNoteNamesLanguageMap[lang];
+  return gMsrNoteNamesLanguageMap[lang];
 }
 
 //_______________________________________________________________________________
@@ -70,25 +70,25 @@ translationSettings::~translationSettings() {}
 
 //_______________________________________________________________________________
 
-S_lpsrScore buildLpsrScoreFromTree (
+S_lpsrScore buildMsrScoreFromTree (
   S_translationSettings& ts,
   Sxmlelement            xmlTree)
 {
-    // browse the part contents for the first time with a xml2LpsrScoreVisitor
+    // browse the part contents for the first time with a xml2MsrScoreVisitor
   if (ts->fTrace)
-    cerr << "Building a LPSR score from the MusicXML tree" << endl;
+    cerr << "Building a MSR score from the MusicXML tree" << endl;
 
-  // create an xml2LpsrVisitor
-  xml2LpsrScoreVisitor visitor (ts);
+  // create an xml2MsrVisitor
+  xml2MsrScoreVisitor visitor (ts);
       
   // a global variable is needed so that lpsr::Element.print() 
   // can decide whether to print:
-  //   - the LPSR structure
+  //   - the MSR structure
   //   - MusicXML text
   //   - LilyPond source code
-  // use the visitor to build a LPSR score from the xmlelement tree
-  // choosing kLPSR for the trace of the score build
-  lpsrGlobalVariables::setCodeGenerationKind (lpsrGlobalVariables::kLPSR);
+  // use the visitor to build a MSR score from the xmlelement tree
+  // choosing kMSR for the trace of the score build
+  lpsrGlobalVariables::setCodeGenerationKind (lpsrGlobalVariables::kMSR);
 
   S_lpsrScore score =
     visitor.buildMsrScoreFromXMLElementTree (xmlTree);
@@ -96,15 +96,15 @@ S_lpsrScore buildLpsrScoreFromTree (
   string separator = "%----------------------------------------";
 
   // output the score resulting from the conversion 
-  // thru lpsrElement::printLpsrStructure()
+  // thru lpsrElement::printMsrStructure()
   if (ts->fTrace) 
     cerr << 
       separator << endl <<
-      "%Outputting the LPSR ccore" << endl <<
+      "%Outputting the MSR ccore" << endl <<
       separator << endl;
   
-  // choosing kLPSR to print the score
-  lpsrGlobalVariables::setCodeGenerationKind (lpsrGlobalVariables::kLPSR);
+  // choosing kMSR to print the score
+  lpsrGlobalVariables::setCodeGenerationKind (lpsrGlobalVariables::kMSR);
    
   if (ts->fTrace) cerr << "{%" << std::endl;
   cerr << score;
@@ -120,7 +120,7 @@ S_lpsrScore buildLpsrScoreFromTree (
  * The method that converts the file contents to LilyPond code
  * and  writes the result to the output stream
 */
-static xmlErr xml2Lpsr(
+static xmlErr xml2Msr(
   SXMLFile&              xmlfile,
   S_translationSettings& ts,
   ostream&               out,
@@ -131,21 +131,21 @@ static xmlErr xml2Lpsr(
   
   if (elemsTree) {
     S_lpsrScore score =
-      buildLpsrScoreFromTree (ts, elemsTree);
+      buildMsrScoreFromTree (ts, elemsTree);
       
     /*
-    // create an xml2LpsrVisitor
-    xml2LpsrVisitor v(ts);
+    // create an xml2MsrVisitor
+    xml2MsrVisitor v(ts);
     
     // use the visitor to convert the xmlelement tree into a lpsrElement tree
     if (ts->fTrace)
       cerr << "Launching conversion of xmlelement tree to LilyPond semantic representation tree" << endl;
-    S_lpsrElement    lpsr = v.convertToLpsr(elemsTree);
+    S_lpsrElement    lpsr = v.convertToMsr(elemsTree);
     
     string separator = "%----------------------------------------";
  
     // output the structure of the lpsrElement tree resulting from the conversion 
-    // thru lpsrElement::printLpsrStructure()
+    // thru lpsrElement::printMsrStructure()
     if (ts->fTrace) 
       cerr << 
         separator << endl <<
@@ -154,10 +154,10 @@ static xmlErr xml2Lpsr(
     
     // a global variable is needed so that lpsr::Element.print() 
     // can decide whether to print:
-    //   - the LPSR structure
+    //   - the MSR structure
     //   - MusicXML text
     //   - LilyPond source code
-    lpsrGlobalVariables::setCodeGenerationKind (lpsrGlobalVariables::kLPSR);
+    lpsrGlobalVariables::setCodeGenerationKind (lpsrGlobalVariables::kMSR);
     if (ts->fTrace) cerr << "{%" << std::endl;
     std::cerr << 
       lpsr << std::endl;
@@ -208,7 +208,7 @@ static xmlErr xml2Lpsr(
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlFile2Lpsr(
+EXP xmlErr musicxmlFile2Msr(
   const char             *file,
   S_translationSettings& ts,
   ostream&               out) 
@@ -221,14 +221,14 @@ EXP xmlErr musicxmlFile2Lpsr(
   xmlFile = r.read(file);
   
   if (xmlFile) {
-    return xml2Lpsr (xmlFile, ts, out, file);
+    return xml2Msr (xmlFile, ts, out, file);
   }
   
   return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlFd2Lpsr(
+EXP xmlErr musicxmlFd2Msr(
   FILE                   *fd,
   S_translationSettings& ts,
   ostream&               out) 
@@ -241,14 +241,14 @@ EXP xmlErr musicxmlFd2Lpsr(
   xmlFile = r.read(fd);
   
   if (xmlFile) {
-    return xml2Lpsr (xmlFile, ts, out, 0);
+    return xml2Msr (xmlFile, ts, out, 0);
   }
   
   return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlString2Lpsr(
+EXP xmlErr musicxmlString2Msr(
   const char             *buffer,
   S_translationSettings& ts,
   ostream&               out) 
@@ -261,7 +261,7 @@ EXP xmlErr musicxmlString2Lpsr(
   xmlFile = r.readbuff(buffer);
   
   if (xmlFile) {
-    return xml2Lpsr (xmlFile, ts, out, 0);
+    return xml2Msr (xmlFile, ts, out, 0);
   }
   
   return kInvalidFile;

@@ -25,45 +25,50 @@ using namespace MusicXML2;
 void usage(int exitStatus) {
   cerr <<
     endl <<
-    "This is xml2lilypond, the MusicXML to LilyPond translator" << endl <<
-    "embedded in the libmusicxml2 library." << endl <<
+    "                   Welcome to xml2lilypond, " << endl <<
+    "              the MusicXML to LilyPond translator" << endl <<
+    "          delivered as part of the libmusicxml2 library." << endl <<
     endl <<
     "Usage:" << endl <<
     "    xml2lilypond [options] [MusicXMLFile|-]" << endl <<
     endl <<
     "What it does:" << endl <<
-    "    Read the contents of MusicXMLFile or stdin ('-')," << endl <<
-    "    convert it to LilyPond Semantic Representation (LPSR) internally" << endl <<
-    "    and write LilyPond source code to standard output." << endl <<
-    "    The activity log and warning/error messages go to standard error." << endl <<
+    "    This multi-pass translator features:" << endl <<
+    "        Pass 1: read the contents of MusicXMLFile or stdin ('-')" << endl <<
+    "                and convert it to a MusicXML tree;" << endl <<
+    "        Pass 2: convert that tree to Music Score Representation (MSR);" << endl <<
+    "        Pass 3: convert the MSR to LilyPond Score Representation (LPSR);" << endl <<
+    "        Pass 4: write the LPSR as LilyPond source code to standard output." << endl <<
+    "        The activity log and warning/error messages go to standard error." << endl <<
     endl <<
     "Options:" << endl <<
     "  --help'" << endl <<
-    "        Display this help" << endl <<
+    "        Display this help." << endl <<
     endl <<
     "  --abs, --absolute" << endl <<
     "        Generate LilyPond absolute code. " << endl <<
-    "        By default relative code is generated" << endl <<
+    "        By default, relative code is generated." << endl <<
     endl <<
     "  --numericalTime" << endl <<
-    "        Don't generate non-numerical time signatures such as 'C'" << endl <<
+    "        Don't generate non-numerical time signatures such as 'C'." << endl <<
     "  --noComments" << endl <<
-    "        Don't generate comments" << endl <<
+    "        Don't generate comments." << endl <<
     "  --noAutobars" << endl <<
-    "        Don't generate barlines" << endl <<
+    "        Don't generate barlines." << endl <<
     "  --noStems" << endl <<
-    "        Don't generate stems commands" << endl <<
+    "        Don't generate stems commands." << endl <<
     "  --noPositions" << endl <<
-    "        Don't generate positions" << endl <<
+    "        Don't generate positions." << endl <<
     endl <<
     "  --drd, --delayRestsDynamics" << endl <<
     "        Don't generate dynamics and wedges on rests," << endl <<
-    "        but delay them until the next actual note instead" << endl <<
+    "        but delay them until the next actual note instead." << endl <<
     endl <<
     "  --nt, --noTrace" << endl <<
-    "        Don't generate a trace of the activity to standard error" << endl <<
+    "        Don't generate a trace of the activity to standard error." << endl <<
     "  --d, --debug  " << endl <<
-    "        Print debugging information to standard error" << endl <<
+    "        Generate a trace of the activity and print additional" << endl <<
+    "        debugging information to standard error." << endl <<
     endl;
   exit(exitStatus);
 }
@@ -97,20 +102,20 @@ int main(int argc, char *argv[])
   std::string selectedOptions = "";
   
   std::string           noteNamesLanguageName = "dutch";
-  LpsrNoteNamesLanguage noteNamesLanguage =     kNederlands;
+  MsrNoteNamesLanguage  noteNamesLanguage     = kNederlands;
   
-  bool                  generateAbsoluteCode =  true;
+  bool                  generateAbsoluteCode  = true;
   
   bool                  generateNumericalTime = false;
-  bool                  generateComments =      true;
-  bool                  generateBars =          true;
-  bool                  generateStems =         false;
-  bool                  generatePositions =     false;
+  bool                  generateComments      = true;
+  bool                  generateBars          = true;
+  bool                  generateStems         = false;
+  bool                  generatePositions     = false;
 
-  bool                  delayRestsDynamics =    false;
+  bool                  delayRestsDynamics    = false;
   
-  bool                  trace =                 true;
-  bool                  debug =                 false;
+  bool                  trace                 = true;
+  bool                  debug                 = false;
   
   static struct option long_options [] =
     {
@@ -162,7 +167,7 @@ int main(int argc, char *argv[])
         
         if (languagePresent) {
           // optarg contains the language name
-          if (gLpsrNoteNamesLanguageMap.count(optarg)) {
+          if (gMsrNoteNamesLanguageMap.count(optarg)) {
             noteNamesLanguageName = optarg;
           } else {
             cerr
@@ -219,6 +224,7 @@ int main(int argc, char *argv[])
           break;
         }
         if (debugPresent) {
+          trace = true;
           debug = true;
           selectedOptions += "--debug ";
           break;
@@ -253,8 +259,8 @@ int main(int argc, char *argv[])
   assert(ts != 0);
   
   // populate them
-  ts->fLpsrNoteNamesLanguageAsString = noteNamesLanguageName;
-  ts->fLpsrNoteNamesLanguage =         noteNamesLanguage;
+  ts->fMsrNoteNamesLanguageAsString = noteNamesLanguageName;
+  ts->fMsrNoteNamesLanguage =         noteNamesLanguage;
   
   ts->fGenerateAbsoluteCode =          generateAbsoluteCode;
   
@@ -276,7 +282,7 @@ int main(int argc, char *argv[])
       "Launching conversion to LilyPond with libmusicxml2 v" << 
       musicxmllibVersionStr() <<
       " & xml2Lilypond v" <<
-      musicxml2LpsrVersionStr() << 
+      musicxml2MsrVersionStr() << 
       endl <<
       "The settings are:" << endl <<
       "  noteNamesLanguageName: \"" << noteNamesLanguageName << "\"" << endl <<
@@ -297,9 +303,9 @@ int main(int argc, char *argv[])
   xmlErr err = kNoErr;
   
   if (!strcmp (file, "-"))
-    err = musicxmlFd2Lpsr (stdin, ts, cout);
+    err = musicxmlFd2Msr (stdin, ts, cout);
   else
-    err = musicxmlFile2Lpsr (file, ts, cout);
+    err = musicxmlFile2Msr (file, ts, cout);
   if (err) {
     cout << "### Conversion from MusicCML to LilyPond failed ###" << endl;
   }

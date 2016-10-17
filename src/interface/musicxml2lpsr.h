@@ -47,29 +47,29 @@ see  http://www.lpsr.org
   \brief Gives the lpsr converter version number.
   \return a version number as an integer (e.g. version 1.0.0 is returned as 100)
 */
-EXP int           musicxml2LpsrVersionNbr();
+EXP int           musicxml2MsrVersionNbr();
 
 /*!
   \brief Gives the lpsr converter version as a string.
   \return a string
 */
-EXP const char*   musicxml2LpsrVersionStr();
+EXP const char*   musicxml2MsrVersionStr();
 
 //______________________________________________________________________________
 /*!
   \brief The LilyPond note names language.
 */
-enum LpsrNoteNamesLanguage {
+enum MsrNoteNamesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
   kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
 
-typedef std::map<std::string, LpsrNoteNamesLanguage>
-  LpsrNoteNamesLanguageMap;
+typedef std::map<std::string, MsrNoteNamesLanguage>
+  MsrNoteNamesLanguageMap;
   
-static LpsrNoteNamesLanguageMap gLpsrNoteNamesLanguageMap;
+static MsrNoteNamesLanguageMap gMsrNoteNamesLanguageMap;
 
-void                  initializeLpsrNoteNamesLanguage ();
-LpsrNoteNamesLanguage getLpsrNoteNamesLanguage (std::string lang);
+void                  initializeMsrNoteNamesLanguage ();
+MsrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang);
   
 //______________________________________________________________________________
 /*!
@@ -91,8 +91,8 @@ class EXP translationSettings : public smartable {
   public:
 
     // languages
-    std::string                     fLpsrNoteNamesLanguageAsString;
-    LpsrNoteNamesLanguage           fLpsrNoteNamesLanguage;
+    std::string                     fMsrNoteNamesLanguageAsString;
+    MsrNoteNamesLanguage            fMsrNoteNamesLanguage;
     
     // LilyPond code generation
     bool                            fGenerateAbsoluteCode;
@@ -122,7 +122,7 @@ typedef SMARTP<translationSettings> S_translationSettings;
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr musicxmlFile2Lpsr (
+EXP xmlErr musicxmlFile2Msr (
   const char *file, S_translationSettings& ts, std::ostream& out);
 
 /*!
@@ -132,7 +132,7 @@ EXP xmlErr musicxmlFile2Lpsr (
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr musicxmlFd2Lpsr (
+EXP xmlErr musicxmlFd2Msr (
   FILE* fd, S_translationSettings& ts, std::ostream& out);
 
 /*!
@@ -142,7 +142,7 @@ EXP xmlErr musicxmlFd2Lpsr (
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr musicxmlString2Lpsr (
+EXP xmlErr musicxmlString2Msr (
   const char *buff, S_translationSettings& ts, std::ostream& out);
 
 

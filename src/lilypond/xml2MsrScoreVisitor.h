@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __xml2LpsrScoreVisitor__
-#define __xml2LpsrScoreVisitor__
+#ifndef __xml2MsrScoreVisitor__
+#define __xml2MsrScoreVisitor__
 
 #include <map>
 #include <vector>
@@ -36,7 +36,7 @@ namespace MusicXML2
   - a map that associates each stave with the corresponding voices and notes
   - a map that associates each stave with the correcponding lyricss
 */
-class EXP xml2LpsrScoreVisitor : 
+class EXP xml2MsrScoreVisitor : 
 
 /*
   <part-list>
@@ -168,9 +168,9 @@ class EXP xml2LpsrScoreVisitor :
 {
   public:
   
-    xml2LpsrScoreVisitor (
+    xml2MsrScoreVisitor (
         S_translationSettings& ts);
-    virtual ~xml2LpsrScoreVisitor ();
+    virtual ~xml2MsrScoreVisitor ();
 
     S_lpsrScore buildMsrScoreFromXMLElementTree (
         const Sxmlelement& xmlTree);
@@ -398,7 +398,7 @@ class EXP xml2LpsrScoreVisitor :
     list<S_lpsrDynamics>     fPendingDynamics;
     list<S_lpsrWedge>        fPendingWedges;
        
-    // description of the current LPSR note
+    // description of the current MSR note
     string                   fCurrentNoteType;
     S_lpsrNote               fCurrentNote;
 
