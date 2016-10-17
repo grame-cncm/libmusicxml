@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrUtilities__
-#define __lpsrUtilities__
+#ifndef __msrUtilities__
+#define __msrUtilities__
 
 #include <string>
 
@@ -28,7 +28,7 @@ namespace MusicXML2
 // a macro to abort with code source line information,
 // as assert() itself
 
-#define lpsrAssert( condition, messageIfFalse ) \
+#define msrAssert( condition, messageIfFalse ) \
 { \
   if (! condition) { \
     std::cout << std::flush; \
@@ -45,7 +45,7 @@ namespace MusicXML2
 \brief A function to emit warning messages regarding MusicXML data
 */
 
-void lpsrMusicXMLWarning (std::string message);
+void msrMusicXMLWarning (std::string message);
 
 //______________________________________________________________________________
 /*!
@@ -53,7 +53,7 @@ void lpsrMusicXMLWarning (std::string message);
 \brief A macro to emit error messages regarding MusicXML data and exit
 */
 
-#define lpsrMusicXMLError( errorMessage ) \
+#define msrMusicXMLError( errorMessage ) \
 { \
   std::cerr << \
     "--> MusicXML ERROR : " << errorMessage << " !!!" << std::endl; \

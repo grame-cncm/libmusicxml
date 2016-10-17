@@ -28,7 +28,7 @@ namespace MusicXML2 {
 
 
 //______________________________________________________________________________
-void lpsrMusicXMLWarning (string message)
+void msrMusicXMLWarning (string message)
 {
   cerr <<
     "--> MusicXML WARNING : " << message << " ???" << endl;
@@ -243,7 +243,7 @@ string stringNumbersToEnglishWords (string str)
   cout << "bar: " << bar.first << ", " << bar.second << '\n';
 
 
-  list<S_lpsrdynamics>::const_iterator i1;
+  list<S_msrdynamics>::const_iterator i1;
   for (i1=fChordDynamics.begin(); i1!=fChordDynamics.end(); i1++) {
     os << " " << (*i1);
   } // for

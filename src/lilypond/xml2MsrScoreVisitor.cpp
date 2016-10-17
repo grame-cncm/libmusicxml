@@ -39,14 +39,14 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   
   // create the score
   fMsrScore =
-    lpsrScore::create (fTranslationSettings);
+    msrScore::create (fTranslationSettings);
 
   /*
   A first part is created with an empty name and
   all the nneded contents.
   It will be reused when the first actual part is met,
   changing its name on the fly
-  in lpsrPartGroup::tryAndReUseInitialAnonymousPart()
+  in msrPartGroup::tryAndReUseInitialAnonymousPart()
   */
 
 /* JMI
@@ -99,11 +99,11 @@ xml2MsrScoreVisitor::~xml2MsrScoreVisitor ()
 {}
 
 //________________________________________________________________________
-S_lpsrScore
+S_msrScore
 xml2MsrScoreVisitor::buildMsrScoreFromXMLElementTree (
   const Sxmlelement& xmlTree)
 {
-  S_lpsrScore result;
+  S_msrScore result;
   
   if (xmlTree) {
     // create a tree browser on this visitor
@@ -232,7 +232,7 @@ void xml2MsrScoreVisitor::visitStart (S_part_group& elt)
     
   } else {
     
-    lpsrMusicXMLError (
+    msrMusicXMLError (
       "unknown part group type \"" + partGroupType + "\"");
   }
 }
@@ -336,7 +336,7 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
 {
   string partID = elt->getAttributeValue ("id");
 
-  S_lpsrPart
+  S_msrPart
     part =
       fCurrentPartGroup->
         partGroupContainsPart (
@@ -402,10 +402,10 @@ void xml2MsrScoreVisitor::visitStart ( S_cancel& elt )
 
 void xml2MsrScoreVisitor::visitEnd ( S_key& elt ) 
 {    
-  // create lpsrKey and add it to part
-  S_lpsrKey
+  // create msrKey and add it to part
+  S_msrKey
     key =
-      lpsrKey::create (fCurrentFifths, fCurrentMode, fCurrentCancel);
+      msrKey::create (fCurrentFifths, fCurrentMode, fCurrentCancel);
       
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
@@ -413,7 +413,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_key& elt )
       "' to part " << fCurrentPart->getPartCombinedName() << endl;
       
   fCurrentPart->setPartKey (key);
-//  S_lpsrElement k = key; JMI
+//  S_msrElement k = key; JMI
  // fCurrentVoice->appendElementToVoiceSequence (k);
 }
 
@@ -454,9 +454,9 @@ rational xml2MsrScoreVisitor::timeSignatureFromIndex(int index) JMI
 
 void xml2MsrScoreVisitor::visitEnd ( S_time& elt ) 
 {
-  S_lpsrTime
+  S_msrTime
     time =
-      lpsrTime::create (
+      msrTime::create (
         fCurrentTimeBeats,
         fCurrentTimeBeatType,
         fTranslationSettings->fGenerateNumericalTime);
@@ -468,7 +468,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_time& elt )
 
   fCurrentPart->setPartTime (time);
 
-//  S_lpsrElement t = time; JMI
+//  S_msrElement t = time; JMI
 //  fCurrentVoice->appendElementToVoiceSequence (t);
 }
 
@@ -497,9 +497,9 @@ void xml2MsrScoreVisitor::visitEnd ( S_clef& elt )
   //"number" is optional, use 1 if not present
   int clefStaffNum = elt->getAttributeIntValue("number", 1);
   
-  S_lpsrClef
+  S_msrClef
     clef =
-      lpsrClef::create (
+      msrClef::create (
         fCurrentClefSign, fCurrentClefLine, clefStaffNum);
 
   if (fTranslationSettings->fTrace)
@@ -508,7 +508,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_clef& elt )
       "' to part " << fCurrentPart->getPartCombinedName() << endl;
 
   fCurrentPart->setPartClef (clef);
-//  S_lpsrElement c = clef; JMI
+//  S_msrElement c = clef; JMI
 //  fCurrentVoice->appendElementToVoiceSequence (c);
 }
 
@@ -649,10 +649,10 @@ void xml2MsrScoreVisitor::visitStart ( S_forward& elt )
   if (duration) {   
     rational r(duration, fCurrentDivisions*4);
     r.rationalise();
-    lpsrDuration dur (r.getNumerator(), r.getDenominator(), 57, "////"); // JMI
+    msrDuration dur (r.getNumerator(), r.getDenominator(), 57, "////"); // JMI
     / *
-    S_lpsrElement note = 
-      lpsrNote::create();//(fTargetVoice); // JMI , "empty", 0, dur, "");
+    S_msrElement note = 
+      msrNote::create();//(fTargetVoice); // JMI , "empty", 0, dur, "");
     fCurrentVoice->appendElementToVoiceSequence (note);
  //   fMeasureEmpty = false;
   }
@@ -681,7 +681,7 @@ void xml2MsrScoreVisitor::visitStart ( S_metronome& elt )
       string  message;
       s << "parentheses value " << parentheses << " should be 'yes' or 'no'";
       s >> message;
-      lpsrMusicXMLError (message);
+      msrMusicXMLError (message);
     }
   }
 }
@@ -698,13 +698,13 @@ void xml2MsrScoreVisitor::visitEnd ( S_metronome& elt )
   }
   
   if (fBeatsData.size() != 1) {
-    lpsrMusicXMLWarning(
+    msrMusicXMLWarning(
       "multiple beats found, but only per-minute tempos is supported");
     return;         // support per minute tempo only (for now)
   }
   
   if (! fPerMinute) {
-    lpsrMusicXMLWarning(
+    msrMusicXMLWarning(
       "per-minute not found, only per-minute tempos is supported");
     return;    // support per minute tempo only (for now)
   }
@@ -719,8 +719,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_metronome& elt )
   }
   r.rationalise();
 
-//  S_lpsrTempoCommand tempo =
-  //  lpsrTempoCommand::create (r.getDenominator(), fPerMinute);
+//  S_msrTempoCommand tempo =
+  //  msrTempoCommand::create (r.getDenominator(), fPerMinute);
     
  // JMI fCurrentVoice->appendElementToVoiceSequence (tempo);
   
@@ -769,17 +769,17 @@ void xml2MsrScoreVisitor::visitStart (S_slur& elt )
     elt->getAttributeValue ("placement");
 
   if (fCurrentSlurType == "start")
-    fCurrentSlurKind = lpsrSlur::kStartSlur;
+    fCurrentSlurKind = msrSlur::kStartSlur;
   if (fCurrentSlurType == "continue")
-    fCurrentSlurKind = lpsrSlur::kContinueSlur;
+    fCurrentSlurKind = msrSlur::kContinueSlur;
   if (fCurrentSlurType == "stop")
-    fCurrentSlurKind = lpsrSlur::kStopSlur;
+    fCurrentSlurKind = msrSlur::kStopSlur;
   else {
     stringstream s;
     string       message;
     s << "slur type" << fCurrentSlurType << "unknown";
     s >> message;
-    // JMI lpsrMusicXMLError (message);
+    // JMI msrMusicXMLError (message);
   }
 }
 
@@ -893,9 +893,9 @@ void xml2MsrScoreVisitor::visitEnd ( S_elision& elt )
 void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
 {
   if (fCurrentLyricsHasText) {
-    S_lpsrDuration
+    S_msrDuration
       lyricMsrDuration =
-        lpsrDuration::create (
+        msrDuration::create (
           fMusicXMLNoteData.fMusicxmlDuration,
           fCurrentMusicXMLDivisions,
           fMusicXMLNoteData.fDotsNumber,
@@ -953,15 +953,15 @@ void xml2MsrScoreVisitor::visitStart ( S_print& elt )
   if (newSystem == "yes") {
     /* JMI
     // create a barnumbercheck command
-    S_lpsrBarNumberCheck barnumbercheck_ =
-      lpsrBarNumberCheck::create (fCurrentMeasureNumber);
-    S_lpsrElement b2 = barnumbercheck_;
+    S_msrBarNumberCheck barnumbercheck_ =
+      msrBarNumberCheck::create (fCurrentMeasureNumber);
+    S_msrElement b2 = barnumbercheck_;
     fCurrentVoice->appendElementToVoiceSequence (b2);
 
     // create a break command
-    S_lpsrBreak break_ =
-      lpsrBreak::create(fCurrentMeasureNumber);
-    S_lpsrElement b1 = break_;
+    S_msrBreak break_ =
+      msrBreak::create(fCurrentMeasureNumber);
+    S_msrElement b1 = break_;
     fCurrentVoice->appendElementToVoiceSequence (b1);
   */
     // add a break chunk to the lyrics
@@ -994,10 +994,10 @@ void xml2MsrScoreVisitor::visitStart ( S_barline& elt )
     
   } else  if (fCurrentBarlineLocation == "middle") {
     
-    S_lpsrBarLine
+    S_msrBarLine
       barline =
-        lpsrBarLine::create (fCurrentMeasureNumber+1);
-    S_lpsrElement b = barline;
+        msrBarLine::create (fCurrentMeasureNumber+1);
+    S_msrElement b = barline;
     fCurrentVoice->appendElementToVoiceSequence (b);
     
   } else if (fCurrentBarlineLocation == "right") {
@@ -1020,10 +1020,10 @@ void xml2MsrScoreVisitor::visitEnd ( S_barline& elt )
         &&
       fCurrentBarStyle == "light-heavy") {
         /* JMI
-    S_lpsrBarCommand
+    S_msrBarCommand
       barCommand =
-        lpsrBarCommand::create ();
-    S_lpsrElement b = barCommand;
+        msrBarCommand::create ();
+    S_msrElement b = barCommand;
     fCurrentVoice->appendElementToVoiceSequence (b);
     */
       
@@ -1069,7 +1069,7 @@ void xml2MsrScoreVisitor::visitStart ( S_step& elt )
     string  message;
     s << "step value " << step << " should be a single letter from A to G";
     s >> message;
-    lpsrMusicXMLError (message);
+    msrMusicXMLError (message);
   }
 
   fMusicXMLNoteData.fMusicxmlStep = step[0];
@@ -1150,37 +1150,37 @@ void xml2MsrScoreVisitor::visitStart ( S_beam& elt )
   fCurrentBeamNumber = 
     elt->getAttributeIntValue ("number", 0);
   
-  lpsrBeam::BeamKind bk = lpsrBeam::k_NoBeam;
+  msrBeam::BeamKind bk = msrBeam::k_NoBeam;
 
   if (fCurrentBeam == "begin") {
-    bk = lpsrBeam::kBeginBeam;
+    bk = msrBeam::kBeginBeam;
   }
   else if (fCurrentBeam == "continue") {
-    bk = lpsrBeam::kContinueBeam;
+    bk = msrBeam::kContinueBeam;
   }
   else if (fCurrentBeam == "end") {
-    bk = lpsrBeam::kEndBeam;
+    bk = msrBeam::kEndBeam;
   }
   
-//  S_lpsrBeam beam = lpsrBeam::create(number, bk); // JMI
+//  S_msrBeam beam = msrBeam::create(number, bk); // JMI
 //  fCurrentBeam = beam;
 }
 
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_staccato& elt )
 {
-  S_lpsrArticulation
+  S_msrArticulation
     articulation =
-      lpsrArticulation::create (lpsrArticulation::kStaccato);
+      msrArticulation::create (msrArticulation::kStaccato);
       
   fCurrentArticulations.push_back (articulation);
 }
 
 void xml2MsrScoreVisitor::visitStart ( S_staccatissimo& elt )
 {
-  S_lpsrArticulation
+  S_msrArticulation
     articulation =
-      lpsrArticulation::create (lpsrArticulation::kStaccatissimo);
+      msrArticulation::create (msrArticulation::kStaccatissimo);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -1238,64 +1238,64 @@ unstress
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart( S_f& elt)
 {        
-  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kF);
+  S_msrDynamics dyn = msrDynamics::create(msrDynamics::kF);
   fPendingDynamics.push_back(dyn);
  }
 void xml2MsrScoreVisitor::visitStart( S_ff& elt)
 {        
-  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFF);
+  S_msrDynamics dyn = msrDynamics::create(msrDynamics::kFF);
   fPendingDynamics.push_back(dyn);
  }
 void xml2MsrScoreVisitor::visitStart( S_fff& elt)
 {        
-  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFF);
+  S_msrDynamics dyn = msrDynamics::create(msrDynamics::kFFF);
   fPendingDynamics.push_back(dyn);
  }
 void xml2MsrScoreVisitor::visitStart( S_ffff& elt)
 {        
-  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFF);
+  S_msrDynamics dyn = msrDynamics::create(msrDynamics::kFFFF);
   fPendingDynamics.push_back(dyn);
  }
 void xml2MsrScoreVisitor::visitStart( S_fffff& elt)
 {        
-  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFFF);
+  S_msrDynamics dyn = msrDynamics::create(msrDynamics::kFFFFF);
   fPendingDynamics.push_back(dyn);
  }
 void xml2MsrScoreVisitor::visitStart( S_ffffff& elt)
 {        
-  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kFFFFFF);
+  S_msrDynamics dyn = msrDynamics::create(msrDynamics::kFFFFFF);
   fPendingDynamics.push_back(dyn);
  }
 
 
 void xml2MsrScoreVisitor::visitStart( S_p& elt)
 {        
-  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kP);
+  S_msrDynamics dyn = msrDynamics::create(msrDynamics::kP);
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrScoreVisitor::visitStart( S_pp& elt)
 {        
-  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPP);
+  S_msrDynamics dyn = msrDynamics::create(msrDynamics::kPP);
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrScoreVisitor::visitStart( S_ppp& elt)
 {        
-  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPP);
+  S_msrDynamics dyn = msrDynamics::create(msrDynamics::kPP);
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrScoreVisitor::visitStart( S_pppp& elt)
 {        
-  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPP);
+  S_msrDynamics dyn = msrDynamics::create(msrDynamics::kPPPP);
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrScoreVisitor::visitStart( S_ppppp& elt)
 {        
-  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPPP);
+  S_msrDynamics dyn = msrDynamics::create(msrDynamics::kPPPPP);
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrScoreVisitor::visitStart( S_pppppp& elt)
 {        
-  S_lpsrDynamics dyn = lpsrDynamics::create(lpsrDynamics::kPPPPPP);
+  S_msrDynamics dyn = msrDynamics::create(msrDynamics::kPPPPPP);
   fPendingDynamics.push_back(dyn);
 }
 
@@ -1303,19 +1303,19 @@ void xml2MsrScoreVisitor::visitStart( S_pppppp& elt)
 void xml2MsrScoreVisitor::visitStart ( S_wedge& elt )
 {
   string type = elt->getAttributeValue("type");
-  lpsrWedge::WedgeKind wk;
+  msrWedge::WedgeKind wk;
 
   if (type == "crescendo") {
-    wk = lpsrWedge::kCrescendoWedge;
+    wk = msrWedge::kCrescendoWedge;
   }
   else if (type == "diminuendo") {
-    wk = lpsrWedge::kDecrescendoWedge;
+    wk = msrWedge::kDecrescendoWedge;
   }
   else if (type == "stop") {
-    wk = lpsrWedge::kStopWedge;
+    wk = msrWedge::kStopWedge;
   }
   
-  S_lpsrWedge wedg = lpsrWedge::create(wk);;
+  S_msrWedge wedg = msrWedge::create(wk);;
   fPendingWedges.push_back(wedg);
 }
     
@@ -1362,20 +1362,20 @@ void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
     fCurrentTupletNumber << ", type = " << type <<endl;
   */
   
-  fCurrentTupletKind = lpsrTuplet::k_NoTuplet;
+  fCurrentTupletKind = msrTuplet::k_NoTuplet;
   
   if (tupletType == "start")
-    fCurrentTupletKind = lpsrTuplet::kStartTuplet;
+    fCurrentTupletKind = msrTuplet::kStartTuplet;
   else if (tupletType == "continue")
-    fCurrentTupletKind = lpsrTuplet::kContinueTuplet;
+    fCurrentTupletKind = msrTuplet::kContinueTuplet;
   else if (tupletType == "stop")
-    fCurrentTupletKind = lpsrTuplet::kStopTuplet;
+    fCurrentTupletKind = msrTuplet::kStopTuplet;
   else {
     stringstream s;
     string  message;
     s << "tuplet type " << tupletType << " is unknown";
     s >> message;
-    lpsrMusicXMLError (message);
+    msrMusicXMLError (message);
   }
 }
 
@@ -1407,7 +1407,7 @@ void xml2MsrScoreVisitor::visitStart ( S_note& elt )
   fCurrentSlurNumber = "";
   fCurrentSlurType = "";
   fCurrentSlurPlacement = "";
-  fCurrentSlurKind = lpsrSlur::k_NoSlur;
+  fCurrentSlurKind = msrSlur::k_NoSlur;
 }
 
 //______________________________________________________________________________
@@ -1417,7 +1417,7 @@ void xml2MsrScoreVisitor::visitStart ( S_rest& elt)
   fMusicXMLNoteData.fMusicxmlStepIsARest = true;
 }
 
-S_lpsrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
+S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
 {
   // cout << "--> creating a chord on its 2nd note" << endl;
   
@@ -1425,9 +1425,9 @@ S_lpsrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
   // but it is actually the first note of a chord
   
   // create a chord
-  S_lpsrChord chord;
+  S_msrChord chord;
   
-  chord = lpsrChord::create (
+  chord = msrChord::create (
     fCurrentNote->getNoteMsrDuration ());
 // JMI  fCurrentElement = chord; // another name for it
    
@@ -1440,36 +1440,36 @@ S_lpsrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
   fCurrentNote->setNoteBelongsToAChord ();
 
   // move the pending articulations if any from the first note to the chord
-  list<S_lpsrArticulation>
+  list<S_msrArticulation>
     noteArticulations = fCurrentNote->getNoteArticulations ();
 
   while (! noteArticulations.empty()) {
     //cout << "--> moving dynamics from fCurrentNote to chord" << endl;
-    S_lpsrArticulation
+    S_msrArticulation
       art = noteArticulations.front();
     chord->addArticulation (art);
     noteArticulations.pop_front ();
   } // while
   
   // move the pending dynamics if any from the first note to the chord
-  list<S_lpsrDynamics>
+  list<S_msrDynamics>
     noteDynamics = fCurrentNote->getNoteDynamics();
     
   while (! noteDynamics.empty()) {
     //cout << "--> moving dynamics from fCurrentNote to chord" << endl;
-    S_lpsrDynamics
+    S_msrDynamics
       dyn = noteDynamics.front();
     chord->addDynamics (dyn);
     noteDynamics.pop_front ();
   } // while
  
   // move the pending wedges if any from the first note to the chord
-  list<S_lpsrWedge>
+  list<S_msrWedge>
     noteWedges = fCurrentNote->getNoteWedges();
     
   while (! noteWedges.empty()) {
     //cout << "--> moving wedge from fCurrentNote to chord" << endl;
-    S_lpsrWedge
+    S_msrWedge
       wdg = noteWedges.front();
     chord->addWedge (wdg);
     noteWedges.pop_front();
@@ -1478,10 +1478,10 @@ S_lpsrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
   return chord;
 }
 
-void xml2MsrScoreVisitor::createTuplet (S_lpsrNote note)
+void xml2MsrScoreVisitor::createTuplet (S_msrNote note)
 {
   // create a tuplet element
-  S_lpsrTuplet tuplet = lpsrTuplet::create();
+  S_msrTuplet tuplet = msrTuplet::create();
 // JMI  fCurrentElement = tuplet; // another name for it
 
   // populate it
@@ -1502,9 +1502,9 @@ void xml2MsrScoreVisitor::createTuplet (S_lpsrNote note)
   tuplet->addElementToTuplet (note);
 }
 
-void xml2MsrScoreVisitor::finalizeTuplet (S_lpsrNote note) {
+void xml2MsrScoreVisitor::finalizeTuplet (S_msrNote note) {
   // get tuplet from top of tuplet stack
-  S_lpsrTuplet tup = fCurrentTupletsStack.top();
+  S_msrTuplet tup = fCurrentTupletsStack.top();
 
   // add note to the tuplet
   if (fTranslationSettings->fDebug)
@@ -1520,7 +1520,7 @@ void xml2MsrScoreVisitor::finalizeTuplet (S_lpsrNote note) {
   // add tuplet to the part
   if (fTranslationSettings->fDebug)
     cout << "=== adding tuplet to the part sequence" << endl;
-  S_lpsrElement elem = tup;
+  S_msrElement elem = tup;
   fCurrentVoice->appendElementToVoiceSequence (elem);
 }          
 
@@ -1545,7 +1545,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
       fCurrentMusicXMLDivisions*4 << endl;
       
   if (fCurrentMusicXMLDivisions <= 0)
-    lpsrMusicXMLError ("divisions cannot be 0 nor negative");
+    msrMusicXMLError ("divisions cannot be 0 nor negative");
   
   fMusicXMLNoteData.fMusicxmlDivisions =
     fCurrentMusicXMLDivisions;
@@ -1553,15 +1553,15 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     fCurrentNoteType;
   
   //cout << "::: creating a note" << endl;
-  S_lpsrNote note =
-    lpsrNote::createFromMusicXMLData (
+  S_msrNote note =
+    msrNote::createFromMusicXMLData (
       fTranslationSettings,
       fMusicXMLNoteData,
       fCurrentSlurKind);
 
   // attach the articulations if any to the note
   while (! fCurrentArticulations.empty()) {
-    S_lpsrArticulation art = fCurrentArticulations.front();
+    S_msrArticulation art = fCurrentArticulations.front();
     note->addArticulation (art);
     fCurrentArticulations.pop_front();
   } // while
@@ -1578,7 +1578,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     }
     } else {
       while (! fPendingDynamics.empty()) {
-        S_lpsrDynamics dyn = fPendingDynamics.front();
+        S_msrDynamics dyn = fPendingDynamics.front();
         note->addDynamics(dyn);
         fPendingDynamics.pop_front();
       } // while
@@ -1597,7 +1597,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     }
     } else {
       while (! fPendingWedges.empty()) {
-        S_lpsrWedge wdg = fPendingWedges.front();
+        S_msrWedge wdg = fPendingWedges.front();
         note->addWedge(wdg);
         fPendingWedges.pop_front();
       } // while
@@ -1612,7 +1612,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   if (fMusicXMLNoteData.fNoteBelongsToAChord) {
     
     if (fMusicXMLNoteData.fMusicxmlStepIsARest)
-      lpsrMusicXMLError (
+      msrMusicXMLError (
         "a rest cannot belong to a chord");
         
     if (! fAChordIsBeingBuilt) {
@@ -1635,7 +1635,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
 //    fCurrentVoice->removeLastElementOfVoiceSequence (); // JMI ?
 
     // add fCurrentChord to the part sequence instead
-    S_lpsrElement elem = fCurrentChord;
+    S_msrElement elem = fCurrentChord;
     fCurrentVoice->appendElementToVoiceSequence (elem);
 
   } else if (fMusicXMLNoteData.fNoteBelongsToATuplet) {
@@ -1643,7 +1643,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     fMusicXMLNoteData.fTupletMemberNoteType = fCurrentNoteType;
     
     switch (fCurrentTupletKind) {
-      case lpsrTuplet::kStartTuplet:
+      case msrTuplet::kStartTuplet:
         {
           createTuplet(note);
           fATupletIsBeingBuilt = true;
@@ -1651,11 +1651,11 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
           // swith to continuation mode
           // this is handy in case the forthcoming tuplet members
           // are not explictly of the "continue" type
-          fCurrentTupletKind = lpsrTuplet::kContinueTuplet;
+          fCurrentTupletKind = msrTuplet::kContinueTuplet;
         }
         break;
   
-      case lpsrTuplet::kContinueTuplet:
+      case msrTuplet::kContinueTuplet:
         {
           // populate the tuplet at the top of the stack
           if (fTranslationSettings->fDebug)
@@ -1666,7 +1666,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
         }
         break;
   
-      case lpsrTuplet::kStopTuplet:
+      case msrTuplet::kStopTuplet:
         {
           finalizeTuplet(note);
 
@@ -1682,7 +1682,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
 
     // cout <<  idtr << "--> adding standalone note/rest to part sequence" << endl;
     // register note as standalone
-    S_lpsrElement n = note;
+    S_msrElement n = note;
     fCurrentVoice->appendElementToVoiceSequence (n);
   
     // account for chord not being built
@@ -1695,7 +1695,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
 
   // add a skip chunk for notes/rests without lyrics
   if (! fCurrentNoteHasLyrics) {
-    S_lpsrDuration
+    S_msrDuration
       lyricsMsrDuration =
         note->getNoteMsrDuration ();
 

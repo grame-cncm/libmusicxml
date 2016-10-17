@@ -17,7 +17,8 @@
 #include <vector>
 
 #include "msr.h"
-#include "musicxml2lpsr.h"
+
+#include "musicxml2msr.h"
 
 namespace MusicXML2
 {
@@ -172,10 +173,10 @@ class EXP xml2MsrScoreVisitor :
         S_translationSettings& ts);
     virtual ~xml2MsrScoreVisitor ();
 
-    S_lpsrScore buildMsrScoreFromXMLElementTree (
+    S_msrScore buildMsrScoreFromXMLElementTree (
         const Sxmlelement& xmlTree);
 
-    S_lpsrScore getMSRScore () const
+    S_msrScore getMSRScore () const
         { return fMsrScore; };
     
   protected:
@@ -304,21 +305,21 @@ class EXP xml2MsrScoreVisitor :
     S_translationSettings    fTranslationSettings;
 
     // the score we're building
-    S_lpsrScore              fMsrScore;
+    S_msrScore              fMsrScore;
 
     // part group handling
-    lpsrPartGroupsMap        fPartGroupsMap;
-    S_lpsrPartGroup          fCurrentPartGroup;
+    msrPartGroupsMap        fPartGroupsMap;
+    S_msrPartGroup          fCurrentPartGroup;
 
     // staff handling
     int                      fCurrentStaffNumber;
-    S_lpsrStaff              fCurrentStaff;
+    S_msrStaff              fCurrentStaff;
 
     // part handling
-    S_lpsrPart               fCurrentPart;
+    S_msrPart               fCurrentPart;
 
     // voice handling
-    S_lpsrVoice              fCurrentVoice;
+    S_msrVoice              fCurrentVoice;
     
     // key handling
     int                      fCurrentFifths;
@@ -352,12 +353,12 @@ class EXP xml2MsrScoreVisitor :
     bool                     fCurrentElision;
 
     // the current lyrics map and chunk
-//    map<int, S_lpsrLyrics>
+//    map<int, S_msrLyrics>
 //                            fCurrentVoiceLyricsMap; JMI
-//    S_lpsrLyricsChunk       fCurrentChunk;
+//    S_msrLyricsChunk       fCurrentChunk;
     
     bool                     fCurrentNoteHasLyrics;
-    S_lpsrLyrics             fCurrentLyrics;
+    S_msrLyrics             fCurrentLyrics;
     bool                     fCurrentLyricsHasText;
 
     int                      fCurrentMeasureNumber;
@@ -385,22 +386,22 @@ class EXP xml2MsrScoreVisitor :
     int                      fCurrentBeamNumber; 
 
     // chord handling
-    S_lpsrChord              fCurrentChord; // cannot be local to a method? JMI
+    S_msrChord              fCurrentChord; // cannot be local to a method? JMI
     bool                     fAChordIsBeingBuilt;
 
-    S_lpsrChord              createChordFromCurrentNote ();
+    S_msrChord              createChordFromCurrentNote ();
     
     // articulations handling
-    list<S_lpsrArticulation> fCurrentArticulations;
+    list<S_msrArticulation> fCurrentArticulations;
     
     // dynamics and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
-    list<S_lpsrDynamics>     fPendingDynamics;
-    list<S_lpsrWedge>        fPendingWedges;
+    list<S_msrDynamics>     fPendingDynamics;
+    list<S_msrWedge>        fPendingWedges;
        
     // description of the current MSR note
     string                   fCurrentNoteType;
-    S_lpsrNote               fCurrentNote;
+    S_msrNote               fCurrentNote;
 
     // tuplet handling
     int                      fCurrentActualNotes;
@@ -408,17 +409,17 @@ class EXP xml2MsrScoreVisitor :
     string                   fCurrentNormalNoteType;
     // embedded tuplets are numbered 1, 2, ...
     int                      fCurrentTupletNumber;
-    lpsrTuplet::TupletKind   fCurrentTupletKind;
+    msrTuplet::TupletKind   fCurrentTupletKind;
     // remains true until a S_tuplet of type "stop" is met
     bool                     fATupletIsBeingBuilt;
-    stack<S_lpsrTuplet>      fCurrentTupletsStack;
+    stack<S_msrTuplet>      fCurrentTupletsStack;
 
-    void                     createTuplet   (S_lpsrNote note);
-    void                     finalizeTuplet (S_lpsrNote note);
+    void                     createTuplet   (S_msrNote note);
+    void                     finalizeTuplet (S_msrNote note);
          
     // another name for fCurrentNote, fCurrentChord, fCurrentTuplet
     // and the like
-// JMI    S_lpsrElement           fCurrentElement;
+// JMI    S_msrElement           fCurrentElement;
 
     // ties handling
     string                   fCurrentTiedType;
@@ -428,7 +429,7 @@ class EXP xml2MsrScoreVisitor :
     string                   fCurrentSlurNumber; // JMI
     string                   fCurrentSlurType; // JMI
     string                   fCurrentSlurPlacement; // JMI
-    lpsrSlur::SlurKind       fCurrentSlurKind;
+    msrSlur::SlurKind       fCurrentSlurKind;
 
     // backup and forward handling
     bool                     fOnGoingBackup;  // for S_duration disambiguation

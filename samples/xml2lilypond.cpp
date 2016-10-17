@@ -17,7 +17,7 @@
 
 #include "msrUtilities.h"
 
-#include "musicxml2lpsr.h"
+#include "musicxml2msr.h"
 
 using namespace std;
 using namespace MusicXML2;
