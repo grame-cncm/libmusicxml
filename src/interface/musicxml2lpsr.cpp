@@ -22,11 +22,10 @@
 #include "xml_tree_browser.h"
 
 #include "versions.h"
+#include "msr.h"
 #include "musicxml2lpsr.h"
-#include "lpsr.h"
-#include "xml2LpsrDictionaryVisitor.h"
+#include "xml2MsrScoreVisitor.h"
 
-//#include "xml2LpsrVisitor.h"
 
 using namespace std;
 
@@ -71,49 +70,49 @@ translationSettings::~translationSettings() {}
 
 //_______________________________________________________________________________
 
-S_lpsrDictionary buildLpsrDictionaryFromTree (
+S_lpsrScore buildLpsrScoreFromTree (
   S_translationSettings& ts,
   Sxmlelement            xmlTree)
 {
-    // browse the part contents for the first time with a xml2LpsrDictionaryVisitor
+    // browse the part contents for the first time with a xml2LpsrScoreVisitor
   if (ts->fTrace)
-    cerr << "Building a LPSR dictionary from the MusicXML tree" << endl;
+    cerr << "Building a LPSR score from the MusicXML tree" << endl;
 
   // create an xml2LpsrVisitor
-  xml2LpsrDictionaryVisitor visitor (ts);
+  xml2LpsrScoreVisitor visitor (ts);
       
   // a global variable is needed so that lpsr::Element.print() 
   // can decide whether to print:
   //   - the LPSR structure
   //   - MusicXML text
   //   - LilyPond source code
-  // use the visitor to build a LPSR dictionary from the xmlelement tree
-  // choosing kLPSR for the trace of the dictionary build
+  // use the visitor to build a LPSR score from the xmlelement tree
+  // choosing kLPSR for the trace of the score build
   lpsrGlobalVariables::setCodeGenerationKind (lpsrGlobalVariables::kLPSR);
 
-  S_lpsrDictionary dictionary =
-    visitor.buildDictionaryFromXMLElementTree (xmlTree);
+  S_lpsrScore score =
+    visitor.buildMsrScoreFromXMLElementTree (xmlTree);
 
   string separator = "%----------------------------------------";
 
-  // output the dictionary resulting from the conversion 
+  // output the score resulting from the conversion 
   // thru lpsrElement::printLpsrStructure()
   if (ts->fTrace) 
     cerr << 
       separator << endl <<
-      "%Outputting the LPSR dictionary" << endl <<
+      "%Outputting the LPSR ccore" << endl <<
       separator << endl;
   
-  // choosing kLPSR to print the dictionary
+  // choosing kLPSR to print the score
   lpsrGlobalVariables::setCodeGenerationKind (lpsrGlobalVariables::kLPSR);
    
   if (ts->fTrace) cerr << "{%" << std::endl;
-  cerr << dictionary;
+  cerr << score;
   if (ts->fTrace) cerr << "%}" << std::endl;
   
   cerr << separator << std::endl;
 
-  return dictionary;
+  return score;
 }
 
 //_______________________________________________________________________________
@@ -131,8 +130,8 @@ static xmlErr xml2Lpsr(
   Sxmlelement elemsTree = xmlfile->elements();
   
   if (elemsTree) {
-    S_lpsrDictionary dictionary =
-      buildLpsrDictionaryFromTree (ts, elemsTree);
+    S_lpsrScore score =
+      buildLpsrScoreFromTree (ts, elemsTree);
       
     /*
     // create an xml2LpsrVisitor
