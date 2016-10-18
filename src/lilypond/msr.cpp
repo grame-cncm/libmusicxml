@@ -3166,7 +3166,7 @@ S_msrVoice msrStaff::addVoiceToStaff (
   return voice;
 }
               
-S_msrVoice msrStaff::staffContainsVoice (
+S_msrVoice msrStaff::fetchVoiceFromStaff (
   int voiceNumber)
 {
   S_msrVoice result;
@@ -3369,7 +3369,7 @@ S_msrStaff msrPart::addStaffToPart (
   return staff;
 }
 
-S_msrStaff msrPart::partContainsStaff (
+S_msrStaff msrPart::fetchStaffFromPart (
   int staffNumber)
 {
   S_msrStaff result;
@@ -3421,8 +3421,8 @@ S_msrPart msrPartGroup::addPartToPartGroup (
   // create the part
   S_msrPart part;
 
-//  part =
-  // JMI  tryAndReUseInitialAnonymousPart (partMusicXMLName);
+  part =
+    tryAndReUseInitialAnonymousPart (partMusicXMLName);
 
   if (part) {
     
@@ -3454,8 +3454,9 @@ S_msrPart msrPartGroup::addPartToPartGroup (
     fPartGroupPartsStack.push (part);
   }
 
-  if (fTranslationSettings->fTrace) {
-    cerr << idtr << "==> After addPartToPartGroup, fPartGroupPartsMap contains:" << endl;
+  if (fTranslationSettings->fDebug) {
+    cerr << idtr <<
+      "==> After addPartToPartGroup, fPartGroupPartsMap contains:" << endl;
     for (
         msrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
         i != fPartGroupPartsMap.end();
@@ -3464,18 +3465,18 @@ S_msrPart msrPartGroup::addPartToPartGroup (
         "\"" << (*i).first << "\" ----> " <<
         (*i).second->getPartCombinedName() << endl;
     } // for
-    cerr << idtr << "<== partGroupContainsPart" << endl;
+    cerr << idtr << "<== addPartToPartGroup" << endl;
   }
 
   // return it
   return part;
 }
 
-S_msrPart msrPartGroup::partGroupContainsPart (
+S_msrPart msrPartGroup::fetchPartFromPartGroup (
   string partMusicXMLName)
 {
   /*
-  cerr << idtr << "==> partGroupContainsPart, fPartGroupPartsMap contains:" << endl;
+  cerr << idtr << "==> fetchPartFromPartGroup, fPartGroupPartsMap contains:" << endl;
   for (
       msrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
       i != fPartGroupPartsMap.end();
@@ -3484,7 +3485,7 @@ S_msrPart msrPartGroup::partGroupContainsPart (
       (*i).first << " ----> " <<
       (*i).second->getPartCombinedName() << endl;
   } // for
-  cerr << idtr << "<== partGroupContainsPart" << endl;
+  cerr << idtr << "<== fetchPartFromPartGroup" << endl;
   */
   
   S_msrPart result;
@@ -3499,18 +3500,19 @@ S_msrPart msrPartGroup::partGroupContainsPart (
 S_msrPart msrPartGroup::tryAndReUseInitialAnonymousPart (
   string partMusicXMLName)
 {
-  /*
-  cerr << idtr << "==> tryAndReUseInitialAnonymousPart, fPartGroupPartsMap contains:" << endl;
-  for (
-      msrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
-      i != fPartGroupPartsMap.end();
-      i++) {
+  if (fTranslationSettings->fDebug) {
     cerr << idtr <<
-      (*i).first << " ----> " <<
-      (*i).second->getPartCombinedName() << endl;
-  } // for
-  cerr << idtr << "<== tryAndReUseInitialAnonymousPart" << endl;
-  */
+      "==> START tryAndReUseInitialAnonymousPart, fPartGroupPartsMap contains:" << endl;
+    for (
+        msrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
+        i != fPartGroupPartsMap.end();
+        i++) {
+      cerr << idtr <<
+        "\"" << (*i).first << "\" ----> " <<
+        (*i).second->getPartCombinedName() << endl;
+    } // for
+    cerr << idtr << "<== tryAndReUseInitialAnonymousPart" << endl;
+  }
 
   S_msrPart result;
 
@@ -3518,31 +3520,36 @@ S_msrPart msrPartGroup::tryAndReUseInitialAnonymousPart (
  //   S_msrPart stackTopPart = fPartGroupPartsStack.top ();
 
     msrPartsMap::iterator i =
-      fPartGroupPartsMap.find (partMusicXMLName);
+      fPartGroupPartsMap.find ("");
       
-//    if (! stackTopPart->getPartMusicXMLName().size()) {
     if (i != fPartGroupPartsMap.end()) {
       // this is the first true part, re-use the one
       // created with an empty name initially
-      (*i).second->
+      S_msrPart partToBeReUsed = (*i).second;
+      
+      partToBeReUsed->
         changePartMusicXMLName (partMusicXMLName);
-//      result = stackTopPart;
-      result = (*i).second;
+
+      fPartGroupPartsMap [partMusicXMLName] = partToBeReUsed;
+      fPartGroupPartsMap.erase ("");
+      
+      result = partToBeReUsed;
     }
   }
 
-/*
-  cerr << idtr << "==> tryAndReUseInitialAnonymousPart, fPartGroupPartsMap contains:" << endl;
-  for (
-      msrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
-      i != fPartGroupPartsMap.end();
-      i++) {
+  if (fTranslationSettings->fDebug) {
     cerr << idtr <<
-      (*i).first << " ----> " <<
-      (*i).second->getPartCombinedName() << endl;
-  } // for
-  cerr << idtr << "<== tryAndReUseInitialAnonymousPart" << endl;
-*/
+      "==> END tryAndReUseInitialAnonymousPart, fPartGroupPartsMap contains:" << endl;
+    for (
+        msrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
+        i != fPartGroupPartsMap.end();
+        i++) {
+      cerr << idtr <<
+        "\"" << (*i).first << "\" ----> " <<
+        (*i).second->getPartCombinedName() << endl;
+    } // for
+    cerr << idtr << "<== tryAndReUseInitialAnonymousPart" << endl;
+  }
 
   return result;
 }

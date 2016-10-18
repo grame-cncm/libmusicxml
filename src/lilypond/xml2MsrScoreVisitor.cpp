@@ -49,9 +49,9 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   in msrPartGroup::tryAndReUseInitialAnonymousPart()
   */
 
-/* JMI
+
   cerr <<
-    "Creating anonymous data structures" << endl;
+    "Creating a full-fledged anonymous part group in case the MusicXML is poor" << endl;
     
   idtr++;
 
@@ -66,22 +66,21 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
     fCurrentPartGroup->
       addPartToPartGroup (partXMLName);
 
-  // add the anonymous staff to the anonymous part
+  // add a staff to the anonymous part
   fCurrentStaffNumber = 1;
   fCurrentStaff =
     fCurrentPart->
       addStaffToPart (fCurrentStaffNumber);
 
-  // add the anonymous voice to the anonymous staff
+  // add a voice to the staff
   fCurrentVoice =
     fCurrentStaff->
       addVoiceToStaff (1);
 
-  // add the anonymous lyrics to the anonymous voice
+  // add a lyrics to the voice
   fCurrentLyrics =
     fCurrentVoice->
       addLyricsToVoice (1);
-  */
   
   fCurrentMeasureNumber = 0;
 
@@ -89,7 +88,6 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   
   fATupletIsBeingBuilt = false;
 
-  fOnGoingBackup = false;
   fCurrentBackupDuration = -1;
 
   idtr--;
@@ -295,7 +293,7 @@ void xml2MsrScoreVisitor::visitStart (S_score_part& elt)
   // is this part already present in the current part group?
   fCurrentPart =
     fCurrentPartGroup->
-      partGroupContainsPart (
+      fetchPartFromPartGroup (
         partMusicXMLName);
 
   // no, add it to the current part group
@@ -339,8 +337,7 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
   S_msrPart
     part =
       fCurrentPartGroup->
-        partGroupContainsPart (
-          partID);
+        fetchPartFromPartGroup (partID);
 
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
@@ -350,9 +347,18 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
   
   fCurrentStaffNumber = 1; // default if there are no <staff> element
 
-  fCurrentMeasureNumber = 0; // in case of an anacrusis
+  // is this staff already present?
+  fCurrentStaff =
+    fCurrentPart->
+      fetchStaffFromPart (fCurrentStaffNumber);
 
-  fOnGoingBackup = false;
+  // no, add it to the current part
+  if (! fCurrentStaff) 
+    fCurrentStaff =
+      fCurrentPart->
+        addStaffToPart (fCurrentStaffNumber);
+
+  fCurrentMeasureNumber = 0; // in case of an anacrusis
 
   idtr++;
 }
@@ -557,8 +563,7 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
   // is this staff already present?
   fCurrentStaff =
     fCurrentPart->
-      partContainsStaff (
-        fCurrentStaffNumber);
+      fetchStaffFromPart (fCurrentStaffNumber);
 
   // no, add it to the current part
   if (! fCurrentStaff) 
@@ -570,26 +575,29 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_voice& elt )
 {
-  int voiceNumber = int(*elt);
-  /*
-  cout <<
-    "--> S_voice, voiceNumber = " << voiceNumber << endl;
-  */
+  fCurrentVoiceNumber = int(*elt);
+  
+  if (true || fTranslationSettings->fDebug)
+    cerr <<
+      idtr <<
+      "--> S_voice, fCurrentVoiceNumber = " << fCurrentVoiceNumber << endl <<
+      idtr <<
+      "--> S_voice, fCurrentStaffNumber = " << fCurrentStaffNumber << endl <<
+      idtr <<
+      "--> S_voice, current staff name  = " << fCurrentStaff->getStaffName() << endl;
 
   // is this voice already present?
   fCurrentVoice =
     fCurrentStaff->
-      staffContainsVoice (
-        voiceNumber);
+      fetchVoiceFromStaff (fCurrentVoiceNumber);
 
   // no, add it to the current staff
   if (! fCurrentVoice) 
     fCurrentVoice =
       fCurrentStaff->
-        addVoiceToStaff (
-          voiceNumber);
+        addVoiceToStaff (fCurrentVoiceNumber);
 
-  fMusicXMLNoteData.fVoiceNumber = voiceNumber;
+  fMusicXMLNoteData.fVoiceNumber = fCurrentVoiceNumber;
 
   fCurrentStemDirection = kStemNeutral;
 }
@@ -597,30 +605,30 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_backup& elt )
 {
-    fOnGoingBackup = true;
-
   /*
-
-      <backup>
-        <duration>288</duration>
-      </backup>
-
-//  stackClean(); // closes pending chords, cue and grace
-  int duration = elt->getIntValue(k_duration, 0);
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Handling <backup>, thus switching to next voice" << endl;
+      
+  // switch to next voice
+// JMI  fCurrentVoiceNumber++;
   
-  if (duration) {   
-    // backup is supposed to be used only for moving between voices
-    // thus we don't move the voice time (which is supposed to be 0)
-    //  moveMeasureTime (-duration, false);
+  // is this voice already present?
+  fCurrentVoice =
+    fCurrentStaff->
+      fetchVoiceFromStaff (fCurrentVoiceNumber);
 
-
-  }
-  */
+  // no, add it to the current staff
+  if (! fCurrentVoice) 
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (fCurrentVoiceNumber);
+        */
 }
 
 void xml2MsrScoreVisitor::visitEnd (S_backup& elt )
 {
-    fOnGoingBackup = false;
+// JMI
 }
 
 //______________________________________________________________________________
@@ -1089,10 +1097,7 @@ void xml2MsrScoreVisitor::visitStart ( S_duration& elt )
 {
   int musicXMLduration = (int)(*elt);
   
-  if (! fOnGoingBackup)
-    fMusicXMLNoteData.fMusicxmlDuration = musicXMLduration;
-  else
-    fCurrentBackupDuration = musicXMLduration;
+  fMusicXMLNoteData.fMusicxmlDuration = musicXMLduration;
     
 //  cout << "=== xml2MsrScoreVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << endl; JMI
 }
@@ -1527,10 +1532,6 @@ void xml2MsrScoreVisitor::finalizeTuplet (S_msrNote note) {
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitEnd ( S_note& elt ) 
 {
-  if (fTranslationSettings->fDebug)
-    cout <<
-      "<-- xml2MsrScoreVisitor::visitEnd ( S_note& elt ) " << endl;
-      
   /*
   This is a complex method, due to the fact that
   dynamics, wedges, chords and tuplets
@@ -1703,6 +1704,20 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
       addSkipChunkToLyrics (
         lyricsMsrDuration);
   }
+
+// if (true || fTranslationSettings->fDebug)
+  if (fTranslationSettings->fDebug)
+    cerr <<
+      idtr <<
+      "!!!! At note" << fCurrentNote << "we have:" << endl <<
+      idtr << idtr <<
+      "--> fCurrentVoiceNumber = " << fCurrentVoiceNumber << endl <<
+      idtr << idtr <<
+      "--> fCurrentVoice        = " << fCurrentVoice->getVoiceName() << endl <<
+      idtr << idtr <<
+      "--> fCurrentStaffNumber = " << fCurrentStaffNumber << endl <<
+      idtr << idtr <<
+      "--> current staff name  = " << fCurrentStaff->getStaffName() << endl;
 }
 
 

@@ -1510,7 +1510,7 @@ class EXP msrStaff : public msrElement {
             addVoiceToStaff (int voiceNumber);
               
     S_msrVoice
-            staffContainsVoice (int voiceNumber);
+            fetchVoiceFromStaff (int voiceNumber);
                               
     virtual void printMusicXML      (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1587,7 +1587,7 @@ class EXP msrPart : public msrElement {
               int staffNumber);
 
     S_msrStaff
-            partContainsStaff (
+            fetchStaffFromPart (
               int staffNumber);
 
     void    setPartName (string partName)
@@ -1653,7 +1653,7 @@ class EXP msrPartGroup : public msrElement {
                 string partMusicXMLName);
 
     S_msrPart
-            partGroupContainsPart (
+            fetchPartFromPartGroup (
                 string partMusicXMLName);
 
     void    popPartGroupPartsStackTop ();

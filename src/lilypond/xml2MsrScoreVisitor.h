@@ -305,21 +305,22 @@ class EXP xml2MsrScoreVisitor :
     S_translationSettings    fTranslationSettings;
 
     // the score we're building
-    S_msrScore              fMsrScore;
+    S_msrScore               fMsrScore;
 
     // part group handling
-    msrPartGroupsMap        fPartGroupsMap;
-    S_msrPartGroup          fCurrentPartGroup;
+    msrPartGroupsMap         fPartGroupsMap;
+    S_msrPartGroup           fCurrentPartGroup;
 
     // staff handling
     int                      fCurrentStaffNumber;
-    S_msrStaff              fCurrentStaff;
+    S_msrStaff               fCurrentStaff;
 
     // part handling
-    S_msrPart               fCurrentPart;
+    S_msrPart                fCurrentPart;
 
     // voice handling
-    S_msrVoice              fCurrentVoice;
+    int                      fCurrentVoiceNumber;
+    S_msrVoice               fCurrentVoice;
     
     // key handling
     int                      fCurrentFifths;
@@ -432,7 +433,6 @@ class EXP xml2MsrScoreVisitor :
     msrSlur::SlurKind       fCurrentSlurKind;
 
     // backup and forward handling
-    bool                     fOnGoingBackup;  // for S_duration disambiguation
     int                      fCurrentBackupDuration;
 
 };
