@@ -323,6 +323,7 @@ class EXP xml2MsrScoreVisitor :
     S_msrVoice               fCurrentVoice;
     
     // key handling
+    int                      fCurrentKeyStaffNumber;
     int                      fCurrentFifths;
     int                      fCurrentCancel;
     string                   fCurrentMode;
@@ -340,7 +341,7 @@ class EXP xml2MsrScoreVisitor :
     bool                     fParentheses;
 
     // time handling
-    int                      fCurrentTimeStaffNumber; // ??? JMI
+    int                      fCurrentTimeStaffNumber;
     string                   fCurrentTimeSymbol;
     int                      fCurrentTimeBeats;
     int                      fCurrentTimeBeatType;
@@ -387,22 +388,22 @@ class EXP xml2MsrScoreVisitor :
     int                      fCurrentBeamNumber; 
 
     // chord handling
-    S_msrChord              fCurrentChord; // cannot be local to a method? JMI
+    S_msrChord               fCurrentChord; // cannot be local to a method? JMI
     bool                     fAChordIsBeingBuilt;
 
-    S_msrChord              createChordFromCurrentNote ();
+    S_msrChord               createChordFromCurrentNote ();
     
     // articulations handling
-    list<S_msrArticulation> fCurrentArticulations;
+    list<S_msrArticulation>  fCurrentArticulations;
     
     // dynamics and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
-    list<S_msrDynamics>     fPendingDynamics;
-    list<S_msrWedge>        fPendingWedges;
+    list<S_msrDynamics>      fPendingDynamics;
+    list<S_msrWedge>         fPendingWedges;
        
     // description of the current MSR note
     string                   fCurrentNoteType;
-    S_msrNote               fCurrentNote;
+    S_msrNote                fCurrentNote;
 
     // tuplet handling
     int                      fCurrentActualNotes;
@@ -410,10 +411,10 @@ class EXP xml2MsrScoreVisitor :
     string                   fCurrentNormalNoteType;
     // embedded tuplets are numbered 1, 2, ...
     int                      fCurrentTupletNumber;
-    msrTuplet::TupletKind   fCurrentTupletKind;
+    msrTuplet::TupletKind    fCurrentTupletKind;
     // remains true until a S_tuplet of type "stop" is met
     bool                     fATupletIsBeingBuilt;
-    stack<S_msrTuplet>      fCurrentTupletsStack;
+    stack<S_msrTuplet>       fCurrentTupletsStack;
 
     void                     createTuplet   (S_msrNote note);
     void                     finalizeTuplet (S_msrNote note);

@@ -130,7 +130,9 @@ void xml2MsrScoreVisitor::internalError (
 //________________________________________________________________________
 void xml2MsrScoreVisitor::resetCurrentTime ()
 {
+  fCurrentKeyStaffNumber = -1;
   fCurrentTimeStaffNumber = -1;
+  fCurrentClefStaffNumber = -1;
   
   fCurrentTimeSenzaMisura = false;
 
@@ -395,6 +397,12 @@ void xml2MsrScoreVisitor::visitStart ( S_divisions& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_key& elt ) {
   // The optional number attribute refers to staff numbers.
+  fCurrentKeyStaffNumber =
+    elt->getAttributeIntValue ("number", -1);
+
+  if (fCurrentKeyStaffNumber < 0) {
+    // number was not found JMI
+  }
   
   fCurrentFifths = 0;
   fCurrentCancel = 0;
@@ -416,7 +424,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_key& elt )
   S_msrKey
     key =
       msrKey::create (fCurrentFifths, fCurrentMode, fCurrentCancel);
-      
+
+  
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
       "--> adding key '" << key <<
@@ -436,7 +445,7 @@ The optional number attribute refers to staff numbers within the part.
 If absent, the time signature applies to all staves in the part.
 */
   fCurrentTimeStaffNumber =
-    elt->getAttributeIntValue ("number", -1);
+    elt->getAttributeIntValue ("number", 1);
     
   fCurrentTimeSymbol =
     elt->getAttributeValue ("symbol");
