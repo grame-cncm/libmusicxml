@@ -394,6 +394,8 @@ void xml2MsrScoreVisitor::visitStart ( S_divisions& elt )
 //______________________________________________________________________________
 
 void xml2MsrScoreVisitor::visitStart ( S_key& elt ) {
+  // The optional number attribute refers to staff numbers.
+  
   fCurrentFifths = 0;
   fCurrentCancel = 0;
   fCurrentMode   = "";
@@ -420,7 +422,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_key& elt )
       "--> adding key '" << key <<
       "' to part " << fCurrentPart->getPartCombinedName() << endl;
       
-  fCurrentPart->setPartKey (key);
+  fCurrentPart->setAllPartStavesKey (key);
 //  S_msrElement k = key; JMI
  // fCurrentVoice->appendElementToVoiceSequence (k);
 }
@@ -429,6 +431,10 @@ void xml2MsrScoreVisitor::visitEnd ( S_key& elt )
 void xml2MsrScoreVisitor::visitStart ( S_time& elt ) {
   resetCurrentTime();
   
+/*
+The optional number attribute refers to staff numbers within the part.
+If absent, the time signature applies to all staves in the part.
+*/
   fCurrentTimeStaffNumber =
     elt->getAttributeIntValue ("number", -1);
     
@@ -438,7 +444,14 @@ void xml2MsrScoreVisitor::visitStart ( S_time& elt ) {
 }
 
 void xml2MsrScoreVisitor::visitStart ( S_beats& elt )
-  { fCurrentTimeBeats = (int)(*elt); }
+{
+  /*
+The optional number attribute refers to staff numbers,
+    from top to bottom on the system. If absent, the key
+    signature applies to all staves in the part.
+   */
+
+  fCurrentTimeBeats = (int)(*elt); }
   
 void xml2MsrScoreVisitor::visitStart ( S_beat_type& elt )
   { fCurrentTimeBeatType = (int)(*elt); }
@@ -474,7 +487,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_time& elt )
       "--> adding time '" << time <<
       "' to part " << fCurrentPart->getPartCombinedName() << endl;
 
-  fCurrentPart->setPartTime (time);
+  fCurrentPart->setAllPartStavesTime (time);
 
 //  S_msrElement t = time; JMI
 //  fCurrentVoice->appendElementToVoiceSequence (t);
@@ -483,8 +496,9 @@ void xml2MsrScoreVisitor::visitEnd ( S_time& elt )
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_clef& elt )
 { 
+  //"number" is optional, use 1 if not present
   fCurrentClefStaffNumber =
-    elt->getAttributeIntValue("number", -1); 
+    elt->getAttributeIntValue("number", 1); 
 
   fCurrentClefLine = 0;;
   fCurrentClefOctaveChange = 0;
@@ -501,21 +515,18 @@ void xml2MsrScoreVisitor::visitStart ( S_sign& elt )
   { fCurrentClefSign = elt->getValue(); }
 
 void xml2MsrScoreVisitor::visitEnd ( S_clef& elt ) 
-{
-  //"number" is optional, use 1 if not present
-  int clefStaffNum = elt->getAttributeIntValue("number", 1);
-  
+{  
   S_msrClef
     clef =
       msrClef::create (
-        fCurrentClefSign, fCurrentClefLine, clefStaffNum);
+        fCurrentClefSign, fCurrentClefLine, fCurrentClefStaffNumber);
 
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
       "--> adding clef '" << clef <<
       "' to part " << fCurrentPart->getPartCombinedName() << endl;
 
-  fCurrentPart->setPartClef (clef);
+  fCurrentPart->setAllPartStavesClef (clef);
 //  S_msrElement c = clef; JMI
 //  fCurrentVoice->appendElementToVoiceSequence (c);
 }
@@ -1648,7 +1659,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     fCurrentChord->addNoteToChord (note);
       
     // remove (previous) fCurrentNote that is the last element of the part sequence
-//    fCurrentVoice->removeLastElementOfVoiceSequence (); // JMI ?
+    fCurrentVoice->removeLastElementOfVoiceSequence (); // JMI ???
 
     // add fCurrentChord to the part sequence instead
     S_msrElement elem = fCurrentChord;
@@ -1724,7 +1735,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
 //  if (fTranslationSettings->fDebug)
     cerr <<
       idtr <<
-      "!!!! At note" << fCurrentNote << "we have:" << endl <<
+      "!!!! At note " << fCurrentNote << "we have:" << endl <<
       idtr << idtr <<
       "--> fCurrentVoiceNumber = " << fCurrentVoiceNumber << endl <<
       idtr << idtr <<

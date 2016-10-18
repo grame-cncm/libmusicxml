@@ -1512,6 +1512,15 @@ class EXP msrStaff : public msrElement {
     S_msrVoice
             fetchVoiceFromStaff (int voiceNumber);
                               
+    void    setStaffKey  (S_msrKey  key)
+                { fStaffKey = key; }
+              
+    void    setStaffTime (S_msrTime time)
+                { fStaffTime = time; }
+              
+    void    setStaffClef (S_msrClef clef)
+                { fStaffClef = clef; }
+              
     virtual void printMusicXML      (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
@@ -1521,20 +1530,24 @@ class EXP msrStaff : public msrElement {
     msrStaff (
         S_translationSettings& ts,
         int                    staffNumber,
-        S_msrPart             staffPart);
+        S_msrPart              staffPart);
     virtual ~msrStaff();
   
   private:
 
-    S_translationSettings     fTranslationSettings;
+    S_translationSettings   fTranslationSettings;
 
-    int                       fStaffNumber;
-    S_msrPart                fStaffPart;
+    int                     fStaffNumber;
+    S_msrPart               fStaffPart;
 
-    msrVoicesMap             fStaffVoicesMap;
+    msrVoicesMap            fStaffVoicesMap;
 
-    string                    fStaffInstrumentName;
- };
+    string                  fStaffInstrumentName;
+
+    S_msrKey                fStaffKey;
+    S_msrTime               fStaffTime;
+    S_msrClef               fStaffClef;
+};
 typedef SMARTP<msrStaff> S_msrStaff;
 typedef map<int, S_msrStaff> msrStaffsMap;
 
@@ -1573,14 +1586,11 @@ class EXP msrPart : public msrElement {
     void    setPartDivisions (int  musicXMLDivisions)
                 { fPartMusicXMLDivisions = musicXMLDivisions; }
     
-    void    setPartKey       (S_msrKey  key)
-                { fPartKey = key; }
+    void    setAllPartStavesKey  (S_msrKey  key);
               
-    void    setPartTime      (S_msrTime time)
-                { fPartTime = time; }
+    void    setAllPartStavesTime (S_msrTime time);
               
-    void    setPartClef      (S_msrClef clef)
-                { fPartClef = clef; }
+    void    setAllPartStavesClef (S_msrClef clef);
               
     S_msrStaff
             addStaffToPart (
@@ -1615,7 +1625,7 @@ class EXP msrPart : public msrElement {
     S_translationSettings   fTranslationSettings;
 
     string                  fPartMusicXMLName;
-    msrStaffsMap           fPartStavesMap;
+    msrStaffsMap            fPartStavesMap;
 
     string                  fPartMSRName; // coined in constructor
 
@@ -1624,9 +1634,6 @@ class EXP msrPart : public msrElement {
     string                  fPartInstrumentName;
 
     int                     fPartMusicXMLDivisions;
-    S_msrClef              fPartClef;
-    S_msrKey               fPartKey;
-    S_msrTime              fPartTime;
 };
 typedef SMARTP<msrPart> S_msrPart;
 typedef stack<S_msrPart> msrPartsStack;

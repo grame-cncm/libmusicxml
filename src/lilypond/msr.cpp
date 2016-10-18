@@ -1075,6 +1075,7 @@ void msrNote::printMSR(ostream& os)
   if (fMusicXMLNoteData.fNoteBelongsToAChord) {
 
     // do not print it, msrChord::printMSR() will do it
+    os << notePitchAsLilypondString() << " FOO";
 
   } else {
     
@@ -3193,6 +3194,21 @@ void msrStaff::printMSR (ostream& os)
 
   idtr++;
 
+  if (fStaffClef)
+    os << idtr << fStaffClef << endl;
+  else
+    os << idtr << "NO_CLEF" << endl;
+
+  if (fStaffKey)
+    os << idtr << fStaffKey << endl;
+  else
+    os << idtr << "NO_KEY" << endl;
+
+  if (fStaffTime)
+    os << idtr << fStaffTime << endl;
+  else
+    os << idtr << "NO_TIME" << endl;
+
   os <<
     idtr << "StaffInstrumentName: \"" <<
     fStaffInstrumentName << "\"" << endl;
@@ -3293,21 +3309,6 @@ void msrPart::printMSR(ostream& os)
   os << idtr <<
     "fPartMusicXMLDivisions: " << fPartMusicXMLDivisions << endl;
 
-  if (fPartClef)
-    os << idtr << fPartClef << endl;
-  else
-    os << idtr << "NO_CLEF" << endl;
-
-  if (fPartKey)
-    os << idtr << fPartKey << endl;
-  else
-    os << idtr << "NO_KEY" << endl;
-
-  if (fPartTime)
-    os << idtr << fPartTime << endl;
-  else
-    os << idtr << "NO_TIME" << endl;
-
   os << idtr <<
     "PartInstrumentName: \"" << fPartInstrumentName << "\"" << endl;
 
@@ -3334,6 +3335,36 @@ void msrPart::printLilyPondCode(ostream& os)
   idtr--;
 
   os << idtr << "}" << endl;
+}
+
+void msrPart::setAllPartStavesKey   (S_msrKey  key)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->setStaffKey (key);
+  } // for
+}
+          
+void msrPart::setAllPartStavesTime  (S_msrTime time)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->setStaffTime (time);
+  } // for
+}
+          
+void msrPart::setAllPartStavesClef (S_msrClef clef)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->setStaffClef (clef);
+  } // for
 }
 
 S_msrStaff msrPart::addStaffToPart (
