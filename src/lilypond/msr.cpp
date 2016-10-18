@@ -3144,12 +3144,6 @@ S_msrVoice msrStaff::addVoiceToStaff (
     return fStaffVoicesMap [voiceNumber];
   }
 
-  if (fTranslationSettings->fTrace)
-    cerr << idtr <<
-      "Adding voice " << voiceNumber <<
-      " to staff " << fStaffNumber <<
-      " in part " << fStaffPart->getPartCombinedName () << endl;
-  
   // create the voice
   S_msrVoice
     voice =
@@ -3159,6 +3153,12 @@ S_msrVoice msrStaff::addVoiceToStaff (
         this);
 
   // register it in this staff
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Adding voice " << voiceNumber << " " << voice->getVoiceName () <<
+      " to staff " << fStaffNumber <<
+      " in part " << fStaffPart->getPartCombinedName () << endl;
+  
   fStaffVoicesMap [voiceNumber] = voice;
 
   // return it
@@ -3175,6 +3175,39 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
   }
 
   return result;
+}
+
+void msrStaff::setStaffKey  (S_msrKey  key)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "--> adding key '" << key <<
+      " to staff " << fStaffNumber <<
+      " in part " << fStaffPart->getPartCombinedName () << endl;
+
+  fStaffKey = key;
+}
+
+void msrStaff::setStaffTime (S_msrTime time)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "--> adding time '" << time <<
+      " to staff " << fStaffNumber <<
+      " in part " << fStaffPart->getPartCombinedName () << endl;
+
+  fStaffTime = time;
+}
+      
+void msrStaff::setStaffClef (S_msrClef clef)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "--> adding clef '" << clef <<
+      " to staff " << fStaffNumber <<
+      " in part " << fStaffPart->getPartCombinedName () << endl;
+
+  fStaffClef = clef;
 }
 
 ostream& operator<< (ostream& os, const S_msrStaff& elt)

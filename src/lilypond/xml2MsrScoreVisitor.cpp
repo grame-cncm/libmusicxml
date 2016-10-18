@@ -397,6 +397,7 @@ void xml2MsrScoreVisitor::visitStart ( S_divisions& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_key& elt ) {
   // The optional number attribute refers to staff numbers.
+  // If absent (-1), apply to all part staves.
   fCurrentKeyStaffNumber =
     elt->getAttributeIntValue ("number", -1);
 
@@ -420,32 +421,30 @@ void xml2MsrScoreVisitor::visitStart ( S_cancel& elt )
 
 void xml2MsrScoreVisitor::visitEnd ( S_key& elt ) 
 {    
-  // create msrKey and add it to part
+  // create msrKey
   S_msrKey
     key =
       msrKey::create (fCurrentFifths, fCurrentMode, fCurrentCancel);
 
-  
-  if (fTranslationSettings->fTrace)
-    cerr << idtr <<
-      "--> adding key '" << key <<
-      "' to part " << fCurrentPart->getPartCombinedName() << endl;
-      
-  fCurrentPart->setAllPartStavesKey (key);
-//  S_msrElement k = key; JMI
- // fCurrentVoice->appendElementToVoiceSequence (k);
+  if (fCurrentKeyStaffNumber == -1)
+    fCurrentPart->setAllPartStavesKey (key);
+  else {
+    S_msrStaff
+      staff =
+        fCurrentPart->
+          fetchStaffFromPart (fCurrentKeyStaffNumber);
+    staff->setStaffKey (key);
+  }
 }
 
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_time& elt ) {
-  resetCurrentTime();
+  resetCurrentTime(); // JMI ???
   
-/*
-The optional number attribute refers to staff numbers within the part.
-If absent, the time signature applies to all staves in the part.
-*/
+  // The optional number attribute refers to staff numbers.
+  // If absent (-1), apply to all part staves.
   fCurrentTimeStaffNumber =
-    elt->getAttributeIntValue ("number", 1);
+    elt->getAttributeIntValue ("number", -1);
     
   fCurrentTimeSymbol =
     elt->getAttributeValue ("symbol");
@@ -491,23 +490,24 @@ void xml2MsrScoreVisitor::visitEnd ( S_time& elt )
         fCurrentTimeBeatType,
         fTranslationSettings->fGenerateNumericalTime);
 
-  if (fTranslationSettings->fTrace)
-    cerr << idtr <<
-      "--> adding time '" << time <<
-      "' to part " << fCurrentPart->getPartCombinedName() << endl;
-
-  fCurrentPart->setAllPartStavesTime (time);
-
-//  S_msrElement t = time; JMI
-//  fCurrentVoice->appendElementToVoiceSequence (t);
+  if (fCurrentTimeStaffNumber == -1)
+    fCurrentPart->setAllPartStavesTime (time);
+  else {
+    S_msrStaff
+      staff =
+        fCurrentPart->
+          fetchStaffFromPart (fCurrentTimeStaffNumber);
+    staff->setStaffTime (time);
+  }
 }
 
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_clef& elt )
 { 
-  //"number" is optional, use 1 if not present
+  // The optional number attribute refers to staff numbers.
+  // If absent (-1), apply to all part staves.
   fCurrentClefStaffNumber =
-    elt->getAttributeIntValue("number", 1); 
+    elt->getAttributeIntValue("number", -1); 
 
   fCurrentClefLine = 0;;
   fCurrentClefOctaveChange = 0;
@@ -530,14 +530,15 @@ void xml2MsrScoreVisitor::visitEnd ( S_clef& elt )
       msrClef::create (
         fCurrentClefSign, fCurrentClefLine, fCurrentClefStaffNumber);
 
-  if (fTranslationSettings->fTrace)
-    cerr << idtr <<
-      "--> adding clef '" << clef <<
-      "' to part " << fCurrentPart->getPartCombinedName() << endl;
-
-  fCurrentPart->setAllPartStavesClef (clef);
-//  S_msrElement c = clef; JMI
-//  fCurrentVoice->appendElementToVoiceSequence (c);
+  if (fCurrentClefStaffNumber == -1)
+    fCurrentPart->setAllPartStavesClef (clef);
+  else {
+    S_msrStaff
+      staff =
+        fCurrentPart->
+          fetchStaffFromPart (fCurrentClefStaffNumber);
+    staff->setStaffClef (clef);
+  }
 }
 
 //________________________________________________________________________

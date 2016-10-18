@@ -1512,14 +1512,9 @@ class EXP msrStaff : public msrElement {
     S_msrVoice
             fetchVoiceFromStaff (int voiceNumber);
                               
-    void    setStaffKey  (S_msrKey  key)
-                { fStaffKey = key; }
-              
-    void    setStaffTime (S_msrTime time)
-                { fStaffTime = time; }
-              
-    void    setStaffClef (S_msrClef clef)
-                { fStaffClef = clef; }
+    void    setStaffKey  (S_msrKey  key);
+    void    setStaffTime (S_msrTime time);
+    void    setStaffClef (S_msrClef clef);
               
     virtual void printMusicXML      (ostream& os);
     virtual void printMSR          (ostream& os);
