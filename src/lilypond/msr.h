@@ -443,17 +443,17 @@ class EXP msrNote : public msrElement {
     S_msrDuration       getNoteMsrDuration ()
                             { return fNoteMsrDuration; }   
 
-    string               notePitchAsLilypondString ();
+    string              notePitchAsLilypondString ();
 
     // articulations
-    void                 addArticulation (S_msrArticulation art);
+    void                addArticulation (S_msrArticulation art);
     list<S_msrArticulation>
-                         getNoteArticulations () const
-                           { return fNoteArticulations; }
+                        getNoteArticulations () const
+                            { return fNoteArticulations; }
     
     // dynamics and wedges
-    void                 addDynamics (S_msrDynamics dyn);
-    void                 addWedge    (S_msrWedge    wdg);
+    void                addDynamics (S_msrDynamics dyn);
+    void                addWedge    (S_msrWedge    wdg);
 
     list<S_msrDynamics> getNoteDynamics () { return fNoteDynamics; };
     list<S_msrWedge>    getNoteWedges   () { return fNoteWedges; };
@@ -464,7 +464,7 @@ class EXP msrNote : public msrElement {
 //    void octaveRelativeTo (const msrAbsoluteOctave& otherAbsOct);
         
     virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void printMSR           (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
 
   protected:
@@ -486,17 +486,17 @@ class EXP msrNote : public msrElement {
 
     // MusicXML durations are in in divisions per quarter note,
     // LilyPond durations are in whole notes, hence the "*4" multiplication
-    S_msrDuration             fNoteMsrDuration;
+    S_msrDuration              fNoteMsrDuration;
 
     // LilyPond informations
-    MsrPitch                  fNoteMsrPitch;
+    MsrPitch                   fNoteMsrPitch;
 
-    list<S_msrArticulation>   fNoteArticulations;
+    list<S_msrArticulation>    fNoteArticulations;
     
-    list<S_msrDynamics>       fNoteDynamics;
-    list<S_msrWedge>          fNoteWedges;
+    list<S_msrDynamics>        fNoteDynamics;
+    list<S_msrWedge>           fNoteWedges;
 
-    msrSlur::SlurKind         fNoteSlurKind;
+    msrSlur::SlurKind          fNoteSlurKind;
 };
 typedef SMARTP<msrNote> S_msrNote;
 

@@ -1073,10 +1073,8 @@ void msrNote::printMSR(ostream& os)
   */
   
   if (fMusicXMLNoteData.fNoteBelongsToAChord) {
-    
-    os <<
-      notePitchAsLilypondString () <<
-      ":" << fNoteMsrDuration;
+
+    // do not print it, msrChord::printMSR() will do it
 
   } else {
     
@@ -1355,7 +1353,7 @@ void msrChord::printMSR(ostream& os)
       iEnd   = fChordNotes.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << (*i);
+      os << (*i)->notePitchAsLilypondString();
       if (++i == iEnd) break;
       os << " ";
     } // for

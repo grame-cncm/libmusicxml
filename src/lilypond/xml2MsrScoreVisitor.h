@@ -430,7 +430,8 @@ class EXP xml2MsrScoreVisitor :
     string                   fCurrentSlurNumber; // JMI
     string                   fCurrentSlurType; // JMI
     string                   fCurrentSlurPlacement; // JMI
-    msrSlur::SlurKind       fCurrentSlurKind;
+    msrSlur::SlurKind        fCurrentSlurKind;
+    bool                     fOnGoingSlur;
 
     // backup and forward handling
     int                      fCurrentBackupDuration;

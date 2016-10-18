@@ -90,6 +90,8 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
 
   fCurrentBackupDuration = -1;
 
+  fOnGoingSlur = false;
+
   idtr--;
 }
 
@@ -577,7 +579,7 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
 {
   fCurrentVoiceNumber = int(*elt);
   
-  if (true || fTranslationSettings->fDebug)
+  if (fTranslationSettings->fDebug)
     cerr <<
       idtr <<
       "--> S_voice, fCurrentVoiceNumber = " << fCurrentVoiceNumber << endl <<
@@ -605,14 +607,13 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_backup& elt )
 {
-  /*
+  // switch to next voice
+  fCurrentVoiceNumber++;
+  
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "Handling <backup>, thus switching to next voice" << endl;
+      "Handling <backup>, thus switching to voice " << fCurrentVoiceNumber << endl;
       
-  // switch to next voice
-// JMI  fCurrentVoiceNumber++;
-  
   // is this voice already present?
   fCurrentVoice =
     fCurrentStaff->
@@ -623,7 +624,6 @@ void xml2MsrScoreVisitor::visitStart (S_backup& elt )
     fCurrentVoice =
       fCurrentStaff->
         addVoiceToStaff (fCurrentVoiceNumber);
-        */
 }
 
 void xml2MsrScoreVisitor::visitEnd (S_backup& elt )
@@ -776,18 +776,30 @@ void xml2MsrScoreVisitor::visitStart (S_slur& elt )
   fCurrentSlurPlacement =
     elt->getAttributeValue ("placement");
 
-  if (fCurrentSlurType == "start")
+  if (fCurrentSlurType == "start") {
+    
     fCurrentSlurKind = msrSlur::kStartSlur;
-  if (fCurrentSlurType == "continue")
+    fOnGoingSlur = true;
+    
+  } else if (fCurrentSlurType == "continue") {
+    
     fCurrentSlurKind = msrSlur::kContinueSlur;
-  if (fCurrentSlurType == "stop")
+    
+  } else if (fCurrentSlurType == "stop") {
+    
     fCurrentSlurKind = msrSlur::kStopSlur;
-  else {
-    stringstream s;
-    string       message;
-    s << "slur type" << fCurrentSlurType << "unknown";
-    s >> message;
-    // JMI msrMusicXMLError (message);
+    fOnGoingSlur = false;
+    
+  } else {
+
+    if (! (fOnGoingSlur && fCurrentSlurType.size())) {
+      stringstream s;
+      string       message;
+      s << "slur type" << fCurrentSlurType << "unknown";
+      s >> message;
+      msrMusicXMLError(message);
+    }
+    
   }
 }
 
@@ -1065,6 +1077,40 @@ void xml2MsrScoreVisitor::visitStart ( S_ending& elt )
 
   fCurrentEndingNumber =
     elt->getAttributeIntValue ("number", 0);
+}
+
+//______________________________________________________________________________
+void xml2MsrScoreVisitor::visitStart ( S_note& elt ) 
+{
+  //  cout << "--> xml2MsrScoreVisitor::visitStart ( S_note& elt ) " << endl;
+  fMusicXMLNoteData.fMusicxmlStep = '_';
+  fMusicXMLNoteData.fMusicxmlStepIsARest = false;
+  fMusicXMLNoteData.fMusicxmlAlteration = 0; // natural notes
+  fMusicXMLNoteData.fMusicxmlOctave = -13;
+  fMusicXMLNoteData.fDotsNumber = 0;
+  fMusicXMLNoteData.fNoteIsAGraceNote = false;;
+
+  // assuming staff number 1, unless S_staff states otherwise afterwards
+  fCurrentStaffNumber = 1;
+
+  fCurrentStem = "";
+
+  // assume this note hasn't got lyrics until S_lyric is met
+  fCurrentNoteHasLyrics = false;
+  
+  // assume this note doesn't belong to a chord until S_chord is met
+  fMusicXMLNoteData.fNoteBelongsToAChord = false;
+
+  // assume this note doesn't belong to a tuplet until S_chord is met
+  fMusicXMLNoteData.fNoteBelongsToATuplet = fATupletIsBeingBuilt;
+
+  fCurrentTiedType = "";
+  fCurrentTiedOrientation = "";
+
+  fCurrentSlurNumber = "";
+  fCurrentSlurType = "";
+  fCurrentSlurPlacement = "";
+  fCurrentSlurKind = msrSlur::k_NoSlur;
 }
 
 //______________________________________________________________________________
@@ -1385,37 +1431,6 @@ void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_note& elt ) 
-{
-  //  cout << "--> xml2MsrScoreVisitor::visitStart ( S_note& elt ) " << endl;
-  fMusicXMLNoteData.fMusicxmlStep = '_';
-  fMusicXMLNoteData.fMusicxmlStepIsARest = false;
-  fMusicXMLNoteData.fMusicxmlAlteration = 0; // natural notes
-  fMusicXMLNoteData.fMusicxmlOctave = -13;
-  fMusicXMLNoteData.fDotsNumber = 0;
-  fMusicXMLNoteData.fNoteIsAGraceNote = false;;
-
-  fCurrentStem = "";
-
-  // assume this note hasn't got lyrics until S_lyric is met
-  fCurrentNoteHasLyrics = false;
-  
-  // assume this note doesn't belong to a chord until S_chord is met
-  fMusicXMLNoteData.fNoteBelongsToAChord = false;
-
-  // assume this note doesn't belong to a tuplet until S_chord is met
-  fMusicXMLNoteData.fNoteBelongsToATuplet = fATupletIsBeingBuilt;
-
-  fCurrentTiedType = "";
-  fCurrentTiedOrientation = "";
-
-  fCurrentSlurNumber = "";
-  fCurrentSlurType = "";
-  fCurrentSlurPlacement = "";
-  fCurrentSlurKind = msrSlur::k_NoSlur;
-}
-
-//______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_rest& elt)
 {
   //  cout << "--> xml2MsrScoreVisitor::visitStart ( S_rest& elt ) " << endl;
@@ -1705,8 +1720,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
         lyricsMsrDuration);
   }
 
-// if (true || fTranslationSettings->fDebug)
-  if (fTranslationSettings->fDebug)
+ if (true || fTranslationSettings->fDebug)
+//  if (fTranslationSettings->fDebug)
     cerr <<
       idtr <<
       "!!!! At note" << fCurrentNote << "we have:" << endl <<

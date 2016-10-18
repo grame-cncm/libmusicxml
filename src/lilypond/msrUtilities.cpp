@@ -28,10 +28,17 @@ namespace MusicXML2 {
 
 
 //______________________________________________________________________________
-void msrMusicXMLWarning (string message)
+void msrMusicXMLWarning (std::string message)
 {
   cerr <<
     "--> MusicXML WARNING : " << message << " ???" << endl;
+}
+
+void msrMusicXMLError (std::string errorMessage)
+{
+  std::cerr <<
+    "--> MusicXML ERROR : " << errorMessage << " !!!" << std::endl;
+  assert(false);
 }
 
 //______________________________________________________________________________

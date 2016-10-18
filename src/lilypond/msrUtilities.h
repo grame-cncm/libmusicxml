@@ -53,13 +53,16 @@ void msrMusicXMLWarning (std::string message);
 \brief A macro to emit error messages regarding MusicXML data and exit
 */
 
+/*
 #define msrMusicXMLError( errorMessage ) \
 { \
   std::cerr << \
     "--> MusicXML ERROR : " << errorMessage << " !!!" << std::endl; \
   assert(false); \
 }
+*/
 
+void msrMusicXMLError (std::string errorMessage);
 //______________________________________________________________________________
 /*!
 \internal
