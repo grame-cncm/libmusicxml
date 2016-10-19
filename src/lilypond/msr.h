@@ -175,6 +175,7 @@ class EXP msrElement : public smartable {
     bool fDebug;
 };
 typedef SMARTP<msrElement> S_msrElement;
+typedef list<S_msrElement> msrElementList;
 
 //______________________________________________________________________________
 /*!
@@ -213,6 +214,7 @@ class musicXMLNoteData {
   
     char        fMusicxmlStep;
     bool        fMusicxmlStepIsARest;
+    bool        fMusicxmlStepIsUnpitched;
     int         fMusicxmlAlteration;
     int         fMusicxmlOctave;
     int         fMusicxmlDivisions;
@@ -314,7 +316,9 @@ class EXP msrDuration : public msrElement {
           (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots);
       }
     
-    string  durationAsMSRString ();
+    rational durationAsRational ();
+
+    string   durationAsMSRString ();
 
     virtual void printMusicXML      (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -544,17 +548,17 @@ class EXP msrSequence : public msrElement {
     static SMARTP<msrSequence> create(ElementsSeparator elementsSeparator);
 
     void          prependElementToSequence (S_msrElement elem)
-                      { fSequenceElements.push_front(elem); }
+                      { fSequenceElements.push_front (elem); }
     void          appendElementToSequence  (S_msrElement elem)
-                      { fSequenceElements.push_back(elem); }
+                      { fSequenceElements.push_back (elem); }
     
-    S_msrElement getLastElementOfSequence()
-                      { return fSequenceElements.back(); }
-    void          removeLastElementOfSequence ()
-                      { fSequenceElements.pop_back(); }
+    S_msrElement  getLastElementOfSequence()
+                      { return fSequenceElements.back (); }
+                      
+    void          removeElementFromSequence (S_msrElement elem);
 
     virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void printMSR           (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
 
   protected:
@@ -564,8 +568,8 @@ class EXP msrSequence : public msrElement {
     
   private:
   
-    list<S_msrElement> fSequenceElements;
-    ElementsSeparator   fElementsSeparator;
+    msrElementList     fSequenceElements;
+    ElementsSeparator  fElementsSeparator;
 
 };
 typedef SMARTP<msrSequence> S_msrSequence;
@@ -1434,10 +1438,11 @@ class EXP msrVoice : public msrElement {
               int lyricsNumber);
                
     void    appendElementToVoiceSequence (S_msrElement elem)
-                { fVoiceSequence->appendElementToSequence(elem); }
+                { fVoiceSequence->appendElementToSequence (elem); }
                 
-    void    removeLastElementOfVoiceSequence ()
-                { fVoiceSequence->removeLastElementOfSequence(); }
+    void    removeElementFromVoiceSequence (S_msrElement elem)
+                { fVoiceSequence->removeElementFromSequence (elem); }
+
 
     S_msrSequence
             getVoiceSequence () const
@@ -1452,7 +1457,7 @@ class EXP msrVoice : public msrElement {
     msrVoice (
         S_translationSettings& ts,
         int                    voiceNumber,
-        S_msrStaff            voiceStaff);
+        S_msrStaff             voiceStaff);
     virtual ~msrVoice();
   
   private:
@@ -1460,17 +1465,17 @@ class EXP msrVoice : public msrElement {
     S_translationSettings     fTranslationSettings;
 
     int                       fVoiceNumber;
-    S_msrStaff               fVoiceStaff;
+    S_msrStaff                fVoiceStaff;
 
-    msrLyricsMap             fVoiceLyricsMap;
+    msrLyricsMap              fVoiceLyricsMap;
 
     // the implicit sequence containing the code generated for the voice
-    S_msrSequence            fVoiceSequence;
+    S_msrSequence             fVoiceSequence;
   
 
     // the implicit repeat at the beginning of the voice
     // will be ignored if the voice has no repeats at all
-    S_msrRepeat              fVoiceMsrRepeat;
+    S_msrRepeat               fVoiceMsrRepeat;
 };
 typedef SMARTP<msrVoice> S_msrVoice;
 typedef map<int, S_msrVoice> msrVoicesMap;
@@ -1569,7 +1574,7 @@ class EXP msrPart : public msrElement {
             getPartStavesMap ()
                 { return fPartStavesMap; }
 
-    string  getPartMSRName     () const
+    string  getPartMSRName () const
                 { return fPartMSRName; }
 
     string  getPartCombinedName () const

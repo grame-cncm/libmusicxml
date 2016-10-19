@@ -159,6 +159,10 @@ class EXP xml2MsrScoreVisitor :
   public visitor<S_stem>,
   
   public visitor<S_rest>,
+  
+  public visitor<S_unpitched>,
+  public visitor<S_display_step>,
+  public visitor<S_display_octave>,
 
   public visitor<S_chord>,
 
@@ -289,6 +293,10 @@ class EXP xml2MsrScoreVisitor :
     virtual void visitEnd   ( S_note& elt);
 
     virtual void visitStart ( S_rest& elt);
+    
+    virtual void visitEnd   ( S_unpitched& elt);
+    virtual void visitStart ( S_display_step& elt);
+    virtual void visitStart ( S_display_octave& elt);
 
     virtual void visitStart ( S_chord& elt);
     
@@ -366,6 +374,7 @@ class EXP xml2MsrScoreVisitor :
     bool                     fCurrentLyricsHasText;
 
     int                      fCurrentMeasureNumber;
+    rational                 fCurrentPositionInMeasure;
 
     string                   fCurrentBarlineLocation;
     string                   fCurrentBarStyle;
@@ -378,6 +387,10 @@ class EXP xml2MsrScoreVisitor :
 
     // description of the current MusicXML note
     musicXMLNoteData         fMusicXMLNoteData;
+
+    // unpitched notes handling
+    char                     fDisplayStep;
+    int                      fDisplayOctave;
 
     // stem handling
     enum StemDirection { kStemNeutral, kStemUp, kStemDown };

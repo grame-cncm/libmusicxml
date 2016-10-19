@@ -345,17 +345,21 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
 {
   string partID = elt->getAttributeValue ("id");
 
-  S_msrPart
-    part =
+  // is this part already present?
+  fCurrentPart =
+    fCurrentPartGroup->
+      fetchPartFromPartGroup (partID);
+
+  // no, add it to the current part group
+  if (! fCurrentPart) 
+    fCurrentPart =
       fCurrentPartGroup->
-        fetchPartFromPartGroup (partID);
+        addPartToPartGroup (partID);
 
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "Analyzing part " << part->getPartCombinedName() << endl;
+      "Analyzing part " << fCurrentPart->getPartCombinedName() << endl;
 
-  fCurrentPart = part; // JMI
-  
   fCurrentStaffNumber = 1; // default if there are no <staff> element
 
   // is this staff already present?
@@ -621,11 +625,13 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
     
   } else {
     
+    cerr << "##### staff " << staffNumber << " is out of context" << endl;
+    
     stringstream s;
     string       message;
     s << "staff " << staffNumber << " is out of context";
     s >> message;
-    msrMusicXMLError (message);
+    // JMI msrMusicXMLError (message);
     
   }
 }
@@ -789,7 +795,7 @@ void xml2MsrScoreVisitor::visitStart ( S_metronome& elt )
   fCurrentBeat.fDots = 0;
 
   if (parentheses.size()) {
-    cout << "S_metronome, parentheses = " << parentheses << endl;
+    // cout << "--> S_metronome, parentheses = " << parentheses << endl;
     
     if (parentheses == "yes") 
       fParentheses = true;
@@ -1072,11 +1078,21 @@ void xml2MsrScoreVisitor::visitStart (S_measure& elt)
 {
   fCurrentMeasureNumber =
     elt->getAttributeIntValue ("number", 0);
+
+  fCurrentPositionInMeasure = rational (0, 0);
     
   if (fTranslationSettings->fTrace)
     cerr << idtr << 
       "=== MEASURE " << fCurrentMeasureNumber << " === " <<
       "PART " << fCurrentPart->getPartCombinedName () <<" ===" << endl;
+
+  if (
+    fCurrentPart->getPartMSRName() == "P17"
+      &&
+    fCurrentMeasureNumber == 26) {
+    fTranslationSettings->fTrace = true; // JMI pour tests
+    fTranslationSettings->fDebug = true; // JMI pour tests
+  }
 }
 
 //______________________________________________________________________________
@@ -1199,6 +1215,7 @@ void xml2MsrScoreVisitor::visitStart ( S_note& elt )
   //  cout << "--> xml2MsrScoreVisitor::visitStart ( S_note& elt ) " << endl;
   fMusicXMLNoteData.fMusicxmlStep = '_';
   fMusicXMLNoteData.fMusicxmlStepIsARest = false;
+  fMusicXMLNoteData.fMusicxmlStepIsUnpitched = false;
   fMusicXMLNoteData.fMusicxmlAlteration = 0; // natural notes
   fMusicXMLNoteData.fMusicxmlOctave = -13;
   fMusicXMLNoteData.fDotsNumber = 0;
@@ -1234,9 +1251,9 @@ void xml2MsrScoreVisitor::visitStart ( S_step& elt )
 {
   string step = elt->getValue();
   
-   if (step.length() != 1) {
+  if (step.length() != 1) {
     stringstream s;
-    string  message;
+    string       message;
     s << "step value " << step << " should be a single letter from A to G";
     s >> message;
     msrMusicXMLError (message);
@@ -1569,10 +1586,52 @@ void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_rest& elt)
 {
+  /*
+        <note>
+        <rest/>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+*/
   //  cout << "--> xml2MsrScoreVisitor::visitStart ( S_rest& elt ) " << endl;
   fMusicXMLNoteData.fMusicxmlStepIsARest = true;
 }
 
+//______________________________________________________________________________
+void xml2MsrScoreVisitor::visitStart ( S_display_step& elt)
+{
+  string displayStep = elt->getValue();
+  
+  if (displayStep.length() != 1) {
+    stringstream s;
+    string       message;
+    s << "sdisplay step value " << displayStep << " should be a single letter from A to G";
+    s >> message;
+    msrMusicXMLError (message);
+  }
+
+  fDisplayStep = displayStep[0];
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_display_octave& elt)
+{
+  fDisplayOctave = (int)(*elt);
+}
+
+void xml2MsrScoreVisitor::visitEnd ( S_unpitched& elt)
+{
+/*
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+*/
+  fMusicXMLNoteData.fMusicxmlStepIsUnpitched = true;
+  fMusicXMLNoteData.fMusicxmlStep = fDisplayStep;
+  fMusicXMLNoteData.fMusicxmlOctave = fDisplayOctave;
+}
+
+//______________________________________________________________________________
 S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
 {
   // cout << "--> creating a chord on its 2nd note" << endl;
@@ -1634,6 +1693,7 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
   return chord;
 }
 
+//______________________________________________________________________________
 void xml2MsrScoreVisitor::createTuplet (S_msrNote note)
 {
   // create a tuplet element
@@ -1785,7 +1845,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     if (fMusicXMLNoteData.fMusicxmlStepIsARest) {
       if (fTranslationSettings->fDelayRestsDynamics) {
       cerr << idtr <<
-        "--> Delaying dynamics attached to a rest until next note";
+        "--> Delaying dynamics attached to a rest until next note" << endl;
       } else {
         cerr << idtr <<
           "--> There is dynamics attached to a rest" << endl;
@@ -1804,10 +1864,10 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     if (fMusicXMLNoteData.fMusicxmlStepIsARest) {
       if (fTranslationSettings->fDelayRestsDynamics) {
       cerr << idtr <<
-        "--> Delaying wedge attached to a rest until next note";
+        "--> Delaying wedge attached to a rest until next note" << endl;
       } else {
         cerr << idtr <<
-          "--> There is a wedge attached to a rest";
+          "--> There is a wedge attached to a rest" << endl;
       }
     } else {
       while (! fPendingWedges.empty()) {
@@ -1848,8 +1908,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     // register note as a member of fCurrentChord
     fCurrentChord->addNoteToChord (note);
       
-    // remove (previous) fCurrentNote that is the last element of the part sequence
-    fCurrentVoice->removeLastElementOfVoiceSequence (); // JMI ???
+    // remove (previous) fCurrentNote from the current voice sequence
+    fCurrentVoice->removeElementFromVoiceSequence (fCurrentNote);
 
     // add fCurrentChord to the part sequence instead
     S_msrElement elem = fCurrentChord;
@@ -1908,6 +1968,10 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   
   // keep track of note/rest in this visitor
   fCurrentNote    = note;
+  fCurrentPositionInMeasure +=
+    fCurrentNote->
+      getNoteMsrDuration ()->durationAsRational ();
+    
 // JMI  fCurrentElement = fCurrentNote; // another name for it
 
   // add a skip chunk for notes/rests without lyrics

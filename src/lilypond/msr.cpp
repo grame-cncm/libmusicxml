@@ -223,6 +223,11 @@ void msrDuration::printMusicXML(ostream& os)
   os << "<!-- msrDuration??? -->" << endl;
 }
 
+rational msrDuration::durationAsRational ()
+{
+  return rational (fNum, fDenom); // TEMP JMI
+}
+
 string msrDuration::durationAsMSRString ()
 {
   // divisions are per quater, Msr durations are in whole notes
@@ -668,12 +673,13 @@ msrNote::msrNote (
     
   // take rests into account
   if (fMusicXMLNoteData.fMusicxmlStepIsARest) {
+    /*
     cout <<
-      "--> REST, fMusicxmlDuration = " <<
+      "--> REST, fMusicxmlDuration/fMusicxmlDivisions = " <<
       fMusicXMLNoteData.fMusicxmlDuration << 
-     ", fMusicxmlDivisions = " <<
+     "/" <<
      fMusicXMLNoteData.fMusicxmlDivisions << endl;
-     
+    */
     fMusicXMLDiatonicPitch = msrNote::kRest;
   }
 
@@ -1004,6 +1010,10 @@ string msrNote::notePitchAsLilypondString ()
 
   else {
     //JMI assertMsr(fMsrPitch != k_NoMsrPitch, "fMsrPitch != k_NoMsrPitch");
+
+    if (fMusicXMLNoteData.fMusicxmlStepIsUnpitched)
+      s << "unpitched ";
+      
     switch (fNoteMsrPitch) {
       
       case k_aeseh: s << "aeseh"; break;
@@ -1231,6 +1241,19 @@ msrSequence::msrSequence (ElementsSeparator elementsSeparator)
   fElementsSeparator=elementsSeparator;
 }
 msrSequence::~msrSequence() {}
+
+void msrSequence::removeElementFromSequence (S_msrElement elem)
+{
+  for (
+    msrElementList::iterator i = fSequenceElements.begin();
+    i != fSequenceElements.end();
+    i++) {
+    if ((*i) == elem) {
+      fSequenceElements.erase (i);
+      break;
+    }
+  } // for
+}
 
 ostream& operator<< (ostream& os, const S_msrSequence& elt)
 {
@@ -2342,7 +2365,7 @@ void msrClef::printMSR(ostream& os)
 {
   os <<
     "Clef" << " \"" << fSign << "\"" <<
-    " line: " << fLine << ", octaveChange: " << fOctaveChange;
+    " line " << fLine << ", " << fOctaveChange*8;
 }
 
 void msrClef::printLilyPondCode(ostream& os)
@@ -3173,7 +3196,8 @@ S_msrVoice msrStaff::addVoiceToStaff (
   // register it in this staff
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "Adding voice " << voiceNumber << " " << voice->getVoiceName () <<
+      "Adding voice " << voiceNumber <<
+      " " << voice->getVoiceName () <<
       " to staff " << fStaffNumber <<
       " in part " << fStaffPart->getPartCombinedName () << endl;
   
