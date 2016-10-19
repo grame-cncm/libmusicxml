@@ -1075,7 +1075,7 @@ void msrNote::printMSR(ostream& os)
   if (fMusicXMLNoteData.fNoteBelongsToAChord) {
 
     // do not print it, msrChord::printMSR() will do it
-    os << notePitchAsLilypondString() << " FOO";
+    os << notePitchAsLilypondString() << " (FOO) ";
 
   } else {
     

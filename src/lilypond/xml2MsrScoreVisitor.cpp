@@ -577,63 +577,90 @@ void xml2MsrScoreVisitor::visitStart (S_staves& elt)
 
 void xml2MsrScoreVisitor::visitStart (S_staff& elt)
 {
-  /*
-  Staff assignment is only needed for music notated on multiple staves. Used by both notes and directions. Staff values are numbers, with 1 referring to the top-most staff in a part.
-  */
-  
-  fCurrentStaffNumber = int(*elt); // JMI
+  int  staffNumber = int(*elt);
 
-  // is this staff already present?
-  fCurrentStaff =
-    fCurrentPart->
-      fetchStaffFromPart (fCurrentStaffNumber);
+  if (fOnGoingForward) {
 
-  // no, add it to the current part
-  if (! fCurrentStaff) 
+    fCurrentForwardStaffNumber = staffNumber;
+
+  } else {
+
+    // regular staff indication in note/rest
+    fCurrentStaffNumber = staffNumber;
+    
+    /*
+    Staff assignment is only needed for music notated on multiple staves.
+    Used by both notes and directions.
+    Staff values are numbers, with 1 referring to the top-most staff in a part.
+    */
+      
+    // is this staff already present?
     fCurrentStaff =
       fCurrentPart->
-        addStaffToPart (fCurrentStaffNumber);
+        fetchStaffFromPart (fCurrentStaffNumber);
+  
+    // no, add it to the current part
+    if (! fCurrentStaff) 
+      fCurrentStaff =
+        fCurrentPart->
+          addStaffToPart (fCurrentStaffNumber);
+
+  }
 }
     
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_voice& elt )
 {
-  fCurrentVoiceNumber = int(*elt);
+  int voiceNumber = int(*elt);
   
   if (fTranslationSettings->fDebug)
     cerr <<
       idtr <<
-      "--> S_voice, fCurrentVoiceNumber = " << fCurrentVoiceNumber << endl <<
+      "--> S_voice, voiceNumber         = " << voiceNumber << endl <<
       idtr <<
       "--> S_voice, fCurrentStaffNumber = " << fCurrentStaffNumber << endl <<
       idtr <<
       "--> S_voice, current staff name  = " << fCurrentStaff->getStaffName() << endl;
 
-  // is this voice already present?
-  fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
+  if (fOnGoingForward) {
 
-  // no, add it to the current staff
-  if (! fCurrentVoice) 
+    fCurrentForwardVoiceNumber = voiceNumber;
+
+  } else {
+
+    // regular voice indication in note/rest
+    fCurrentVoiceNumber = voiceNumber;
+    
+    // is this voice already present?
     fCurrentVoice =
       fCurrentStaff->
-        addVoiceToStaff (fCurrentVoiceNumber);
-
-  fMusicXMLNoteData.fVoiceNumber = fCurrentVoiceNumber;
-
-  fCurrentStemDirection = kStemNeutral;
+        fetchVoiceFromStaff (fCurrentVoiceNumber);
+  
+    // no, add it to the current staff
+    if (! fCurrentVoice) 
+      fCurrentVoice =
+        fCurrentStaff->
+          addVoiceToStaff (fCurrentVoiceNumber);
+  
+    fMusicXMLNoteData.fVoiceNumber = fCurrentVoiceNumber;
+  
+    fCurrentStemDirection = kStemNeutral;
+    
+  }
 }
 
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_backup& elt )
 {
+  int backupDuration = elt->getAttributeIntValue ("duration", -1);
+  
   // switch to next voice
   fCurrentVoiceNumber++;
   
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "Handling <backup>, thus switching to voice " << fCurrentVoiceNumber << endl;
+      "Handling 'backup " << backupDuration <<
+      " divisions', thus switching to voice " << fCurrentVoiceNumber << endl;
       
   // is this voice already present?
   fCurrentVoice =
@@ -655,14 +682,23 @@ void xml2MsrScoreVisitor::visitEnd (S_backup& elt )
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_forward& elt )
 {
-  /*
+  fCurrentForwardDuration = elt->getAttributeIntValue ("duration", -1);
 
+  fOnGoingForward = true;
+
+}
+
+void xml2MsrScoreVisitor::visitEnd ( S_forward& elt )
+{
+  fOnGoingForward = false;
+}
+
+  /*
          <forward>
         <duration>96</duration>
         <voice>1</voice>
         <staff>1</staff>
       </forward>
-
 
   bool scanElement = 
     (elt->getIntValue(k_voice, 0) == fTargetVoice) 
@@ -686,7 +722,6 @@ void xml2MsrScoreVisitor::visitStart ( S_forward& elt )
  //   fMeasureEmpty = false;
   }
  */
-}
 
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_metronome& elt )
@@ -813,15 +848,18 @@ void xml2MsrScoreVisitor::visitStart (S_slur& elt )
     
   } else {
 
-    if (! (fOnGoingSlur && fCurrentSlurType.size())) {
-      stringstream s;
-      string       message;
-      s << "slur type" << fCurrentSlurType << "unknown";
-      s >> message;
-      msrMusicXMLError(message);
+    // inner slur notes may miss the "continue" type:
+    // let' complain only outside of slurs 
+    if (! fOnGoingSlur)
+      if (fCurrentSlurType.size()) {
+        stringstream s;
+        string       message;
+        s << "slur type" << fCurrentSlurType << "unknown";
+        s >> message;
+        msrMusicXMLError(message);
+      }
+      
     }
-    
-  }
 }
 
 //________________________________________________________________________

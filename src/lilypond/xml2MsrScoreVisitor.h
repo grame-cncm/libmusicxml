@@ -201,13 +201,17 @@ class EXP xml2MsrScoreVisitor :
     virtual void visitStart ( S_divisions& elt);
   
     virtual void visitStart ( S_staves& elt);
+    
     virtual void visitStart ( S_staff& elt);
+    virtual void visitEnd   ( S_staff& elt);
     
     virtual void visitStart ( S_voice& elt );
+    virtual void visitEnd   ( S_voice& elt );
     
     virtual void visitStart ( S_backup& elt );
     virtual void visitEnd   ( S_backup& elt );
     virtual void visitStart ( S_forward& elt );
+    virtual void visitEnd   ( S_forward& elt );
     
     virtual void visitStart ( S_time& elt );
     virtual void visitEnd   ( S_time& elt );
@@ -360,7 +364,7 @@ class EXP xml2MsrScoreVisitor :
 //    S_msrLyricsChunk       fCurrentChunk;
     
     bool                     fCurrentNoteHasLyrics;
-    S_msrLyrics             fCurrentLyrics;
+    S_msrLyrics              fCurrentLyrics;
     bool                     fCurrentLyricsHasText;
 
     int                      fCurrentMeasureNumber;
@@ -436,6 +440,10 @@ class EXP xml2MsrScoreVisitor :
 
     // backup and forward handling
     int                      fCurrentBackupDuration;
+    int                      fCurrentForwardDuration;
+    int                      fCurrentForwardVoiceNumber;
+    int                      fCurrentForwardStaffNumber;
+    bool                     fOnGoingForward;
 
 };
 
