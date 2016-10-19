@@ -1636,7 +1636,7 @@ class EXP msrPart : public msrElement {
     int                     fPartMusicXMLDivisions;
 };
 typedef SMARTP<msrPart> S_msrPart;
-typedef stack<S_msrPart> msrPartsStack;
+typedef list<S_msrPart> msrPartsList;
 typedef map<string, S_msrPart> msrPartsMap;
 
 /*!
@@ -1655,46 +1655,42 @@ class EXP msrPartGroup : public msrElement {
             S_translationSettings& ts,
             int                    partGroupNumber);
             
-    S_msrPart
-            addPartToPartGroup (
+    S_msrPart addPartToPartGroup (
                 string partMusicXMLName);
 
-    S_msrPart
-            fetchPartFromPartGroup (
+    S_msrPart fetchPartFromPartGroup (
                 string partMusicXMLName);
 
-    void    popPartGroupPartsStackTop ();
+//    void    popPartGroupPartsStackTop ();
 
-    void    getPartGroupPartsStackTop ()
-                { fPartGroupPartsStack.top (); }
+//    void    getPartGroupPartsStackTop ()
+//                { fPartGroupPartsStack.top (); }
 
-    void    setPartGroupName (string partGroupName)
+    void      setPartGroupName (string partGroupName)
                 { fPartGroupName = partGroupName; }
                 
-    void    setPartGroupAbbreviation (string partGroupAbbreviation)
+    void      setPartGroupAbbreviation (string partGroupAbbreviation)
                 { fPartGroupAbbreviation = partGroupAbbreviation; }
                 
-    void    setPartGroupSymbol (string partGroupSymbol)
+    void      setPartGroupSymbol (string partGroupSymbol)
                 { fPartGroupSymbol = partGroupSymbol; }
                 
-    void    setPartGroupBarline (string partGroupBarline)
+    void      setPartGroupBarline (string partGroupBarline)
                 { fPartGroupBarline = partGroupBarline; }
                 
-    string  getPartGroupName () const
+    string    getPartGroupName () const
                 { return fPartGroupName; }
 
-    string  getPartGroupAbbreviation () const
+    string    getPartGroupAbbreviation () const
                 { return fPartGroupAbbreviation; }
 
-    string  getPartGroupSymbol () const
+    string    getPartGroupSymbol () const
                 { return fPartGroupSymbol; }
 
-    string  getPartGroupBarline () const
+    string    getPartGroupBarline () const
                 { return fPartGroupBarline; }
 
-    S_msrPart
-            addPartToPartGroup (
-                int partNumber);
+    S_msrPart addPartToPartGroup (int partNumber);
     
     /*
     string  getPartGroupMusicXMLName () const
@@ -1718,15 +1714,14 @@ class EXP msrPartGroup : public msrElement {
   protected:
 
     msrPartGroup (
-            S_translationSettings& ts,
-            int                    partGroupNumber);
+        S_translationSettings& ts,
+        int                    partGroupNumber);
             
     virtual ~msrPartGroup();
   
   private:
 
-    S_msrPart
-            tryAndReUseInitialAnonymousPart (
+    S_msrPart tryAndReUseInitialAnonymousPart (
                 string partMusicXMLName);
 
 /*
@@ -1768,14 +1763,14 @@ class EXP msrPartGroup : public msrElement {
     string                  fPartGroupAbbreviation;
 
     msrPartsMap             fPartGroupPartsMap;
-    msrPartsStack           fPartGroupPartsStack;
+    msrPartsList            fPartGroupPartsList;
 
  //   string                  fPartGroupMSRName;
 
 // ???    string                  fPartGroupInstrumentName;
 };
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
-typedef stack<S_msrPartGroup> msrPartGroupsStack;
+typedef list<S_msrPartGroup> msrPartGroupsList;
 typedef map<int, S_msrPartGroup> msrPartGroupsMap;
 
 /*!
@@ -1791,12 +1786,10 @@ class EXP msrScore : public msrElement {
             S_translationSettings& ts);
 
     S_msrPartGroup
-            addPartGroupToScore (
-                int partGroupNumber);
+            addPartGroupToScore (int partGroupNumber);
 
-    S_msrPartGroup
-            ScoreContainsPartGroup (
-                int partGroupNumber);
+//    S_msrPartGroup
+//            fetchScorePartGroup (int partGroupNumber);
 
     virtual void printMusicXML      (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1812,8 +1805,10 @@ class EXP msrScore : public msrElement {
 
     S_translationSettings   fTranslationSettings;
 
-//    msrPartGroupsStack     fScorePartGroupsStack;
-    msrPartGroupsMap        fScorePartGroupsMap;
+    msrPartGroupsList       fPartGroupsList;
+    
+//    msrPartGroupsStack     fScorePartGroupsStack; JMI
+//    msrPartGroupsMap        fScorePartGroupsMap;
 };
 typedef SMARTP<msrScore> S_msrScore;
 

@@ -3505,7 +3505,7 @@ msrPartGroup::msrPartGroup (
   fPartGroupNumber = partGroupNumber;
   
   if (fTranslationSettings->fTrace)
-    cerr << idtr <<
+    cerr <<
       "Creating part group " << fPartGroupNumber << endl;
 }
 
@@ -3534,7 +3534,8 @@ S_msrPart msrPartGroup::addPartToPartGroup (
     return part;
 
   } else {
-    
+
+    // create the part
     part =
       msrPart::create (
         fTranslationSettings, partMusicXMLName);
@@ -3545,22 +3546,20 @@ S_msrPart msrPartGroup::addPartToPartGroup (
         " to part group " << fPartGroupNumber << endl;
   
     // register it in this part group
-    fPartGroupPartsMap [partMusicXMLName] = part;
-  
-    // push it on top the this part group's stack
     if (fTranslationSettings->fTrace) {
       cerr << idtr <<
-        "Pushing part " << part->getPartCombinedName () <<
-        " onto part group " << fPartGroupNumber << " stack" << endl;
+        "Adding part " << part->getPartCombinedName () <<
+        " to part group " << fPartGroupNumber << endl;
     }
-
-    // register it in this part group
-    fPartGroupPartsStack.push (part);
+    fPartGroupPartsMap [partMusicXMLName] = part;
+    fPartGroupPartsList.push_back (part);
   }
 
-  if (fTranslationSettings->fDebug) {
+  if (true || fTranslationSettings->fDebug) {
+//  if (fTranslationSettings->fDebug) {
     cerr << idtr <<
       "==> After addPartToPartGroup, fPartGroupPartsMap contains:" << endl;
+    idtr++;
     for (
         msrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
         i != fPartGroupPartsMap.end();
@@ -3569,10 +3568,27 @@ S_msrPart msrPartGroup::addPartToPartGroup (
         "\"" << (*i).first << "\" ----> " <<
         (*i).second->getPartCombinedName() << endl;
     } // for
+    idtr--;
     cerr << idtr << "<== addPartToPartGroup" << endl;
   }
 
-  // return it
+  if (true || fTranslationSettings->fDebug) {
+//  if (fTranslationSettings->fDebug) {
+    cerr << idtr <<
+      "==> After addPartToPartGroup, fPartGroupPartsList contains:" << endl;
+    idtr++;
+    for (
+        msrPartsList::const_iterator i = fPartGroupPartsList.begin();
+        i != fPartGroupPartsList.end();
+        i++) {
+      cerr << idtr <<
+        (*i)->getPartCombinedName() << endl;
+    } // for
+    idtr--;
+    cerr << idtr << "<== addPartToPartGroup" << endl;
+  }
+
+  // return the part
   return part;
 }
 
@@ -3620,8 +3636,7 @@ S_msrPart msrPartGroup::tryAndReUseInitialAnonymousPart (
 
   S_msrPart result;
 
-  if (fPartGroupPartsStack.size ()) {
- //   S_msrPart stackTopPart = fPartGroupPartsStack.top ();
+  if (fPartGroupPartsMap.size ()) {
 
     msrPartsMap::iterator i =
       fPartGroupPartsMap.find ("");
@@ -3658,6 +3673,7 @@ S_msrPart msrPartGroup::tryAndReUseInitialAnonymousPart (
   return result;
 }
 
+/*
 void msrPartGroup::popPartGroupPartsStackTop ()
 {
   if (fTranslationSettings->fTrace) {
@@ -3671,6 +3687,7 @@ void msrPartGroup::popPartGroupPartsStackTop ()
   
   fPartGroupPartsStack.pop ();
 }
+*/
 
 ostream& operator<< (ostream& os, const S_msrPartGroup& elt)
 {
@@ -3740,6 +3757,7 @@ msrScore::~msrScore() {}
 S_msrPartGroup msrScore::addPartGroupToScore (
   int partGroupNumber)
 {
+  /* JMI
   if (fScorePartGroupsMap.count (partGroupNumber)) {
     cerr << idtr <<
       "### Internal error: part group " << partGroupNumber <<
@@ -3747,6 +3765,7 @@ S_msrPartGroup msrScore::addPartGroupToScore (
 
     return fScorePartGroupsMap [partGroupNumber];
   }
+*/
 
   // create the part group
   S_msrPartGroup
@@ -3755,12 +3774,13 @@ S_msrPartGroup msrScore::addPartGroupToScore (
         fTranslationSettings, partGroupNumber);
 
   // register it in this score
-  fScorePartGroupsMap [partGroupNumber] = partGroup;
+  fPartGroupsList.push_back (partGroup);
 
    return partGroup;
 }
-  
-S_msrPartGroup msrScore::ScoreContainsPartGroup (
+
+/*
+S_msrPartGroup msrScore::fetchScorePartGroup (
   int partGroupNumber)
 {
   S_msrPartGroup result;
@@ -3771,6 +3791,7 @@ S_msrPartGroup msrScore::ScoreContainsPartGroup (
 
   return result;
 }
+*/
 
 void msrScore::printMusicXML (ostream& os)
 {
@@ -3790,10 +3811,10 @@ void msrScore::printMSR (ostream& os)
   idtr++;
   
   for (
-    msrPartGroupsMap::iterator i = fScorePartGroupsMap.begin();
-    i != fScorePartGroupsMap.end();
+    msrPartGroupsList::iterator i = fPartGroupsList.begin();
+    i != fPartGroupsList.end();
     i++) {
-    os << idtr << (*i).second;
+    os << idtr << (*i);
   } // for
   
   idtr--;

@@ -318,8 +318,10 @@ class EXP xml2MsrScoreVisitor :
     S_msrScore               fMsrScore;
 
     // part group handling
+    S_msrPartGroup           fCurrentPartGroup; // JMI ???
+    // part groups numbers can be re-used, they're no identifier
     msrPartGroupsMap         fPartGroupsMap;
-    S_msrPartGroup           fCurrentPartGroup;
+    S_msrPartGroup           fetchScorePartGroup (int partGroupNumber);
 
     // staff handling
     int                      fCurrentStaffNumber;
