@@ -391,7 +391,7 @@ class EXP xml2MsrScoreVisitor :
 
     // chord handling
     S_msrChord               fCurrentChord; // cannot be local to a method? JMI
-    bool                     fAChordIsBeingBuilt;
+    bool                     fOnGoingChord;
 
     S_msrChord               createChordFromCurrentNote ();
     
@@ -416,7 +416,7 @@ class EXP xml2MsrScoreVisitor :
     int                      fCurrentTupletNumber;
     msrTuplet::TupletKind    fCurrentTupletKind;
     // remains true until a S_tuplet of type "stop" is met
-    bool                     fATupletIsBeingBuilt;
+    bool                     fOnGoingTuplet;
     stack<S_msrTuplet>       fCurrentTupletsStack;
 
     void                     createTuplet   (S_msrNote note);
@@ -431,9 +431,9 @@ class EXP xml2MsrScoreVisitor :
     string                   fCurrentTiedOrientation;
 
     // slurs handling
-    string                   fCurrentSlurNumber; // JMI
-    string                   fCurrentSlurType; // JMI
-    string                   fCurrentSlurPlacement; // JMI
+    int                      fCurrentSlurNumber;
+    string                   fCurrentSlurType;
+    string                   fCurrentSlurPlacement;
     msrSlur::SlurKind        fCurrentSlurKind;
     bool                     fOnGoingSlur;
 

@@ -84,13 +84,20 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   
   fCurrentMeasureNumber = 0;
 
-  fAChordIsBeingBuilt = false;
+  fOnGoingChord = false;
   
-  fATupletIsBeingBuilt = false;
+  fOnGoingTuplet = false;
 
   fCurrentBackupDuration = -1;
 
+  fOnGoingNote = false;
+
+  fOnGoingChord = false;
+  
   fOnGoingSlur = false;
+
+  fOnGoingBackup  = false;
+  fOnGoingForward = false;
 
   idtr--;
 }
@@ -577,7 +584,30 @@ void xml2MsrScoreVisitor::visitStart (S_staves& elt)
 
 void xml2MsrScoreVisitor::visitStart (S_staff& elt)
 {
+  /*
+        <note>
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>3</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+        <staff>2</staff>
+        <beam number="1">end</beam>
+      </note>
+*/
   int  staffNumber = int(*elt);
+
+  if (true || fTranslationSettings->fDebug)
+    cerr <<
+      idtr <<
+      "--> S_staff, staffNumber         = " << staffNumber << endl <<
+      idtr <<
+      "--> S_staff, fCurrentStaffNumber = " << fCurrentStaffNumber << endl <<
+      idtr <<
+      "--> S_staff, current staff name  = " << fCurrentStaff->getStaffName() << endl;
 
   if (fOnGoingForward) {
 
@@ -588,23 +618,6 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
     // regular staff indication in note/rest
     fCurrentStaffNumber = staffNumber;
     
-    /*
-    Staff assignment is only needed for music notated on multiple staves.
-    Used by both notes and directions.
-    Staff values are numbers, with 1 referring to the top-most staff in a part.
-    */
-      
-    // is this staff already present?
-    fCurrentStaff =
-      fCurrentPart->
-        fetchStaffFromPart (fCurrentStaffNumber);
-  
-    // no, add it to the current part
-    if (! fCurrentStaff) 
-      fCurrentStaff =
-        fCurrentPart->
-          addStaffToPart (fCurrentStaffNumber);
-
   } else {
     
     stringstream s;
@@ -619,9 +632,23 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_voice& elt )
 {
+  /*
+        <note>
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>3</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+        <staff>2</staff>
+        <beam number="1">end</beam>
+      </note>
+*/
   int voiceNumber = int(*elt);
   
-  if (fTranslationSettings->fDebug)
+  if (true || fTranslationSettings->fDebug)
     cerr <<
       idtr <<
       "--> S_voice, voiceNumber         = " << voiceNumber << endl <<
@@ -638,21 +665,6 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
 
     // regular voice indication in note/rest
     fCurrentVoiceNumber = voiceNumber;
-    
-    // is this voice already present?
-    fCurrentVoice =
-      fCurrentStaff->
-        fetchVoiceFromStaff (fCurrentVoiceNumber);
-  
-    // no, add it to the current staff
-    if (! fCurrentVoice) 
-      fCurrentVoice =
-        fCurrentStaff->
-          addVoiceToStaff (fCurrentVoiceNumber);
-  
-    fMusicXMLNoteData.fVoiceNumber = fCurrentVoiceNumber;
-  
-    fCurrentStemDirection = kStemNeutral;
     
   } else {
     
@@ -890,7 +902,7 @@ void xml2MsrScoreVisitor::visitStart (S_slur& elt )
   } else {
 
     // inner slur notes may miss the "continue" type:
-    // let' complain only outside of slurs 
+    // let' complain on slur notes outside of slurs 
     if (! fOnGoingSlur)
       if (fCurrentSlurType.size()) {
         stringstream s;
@@ -1202,12 +1214,12 @@ void xml2MsrScoreVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fNoteBelongsToAChord = false;
 
   // assume this note doesn't belong to a tuplet until S_chord is met
-  fMusicXMLNoteData.fNoteBelongsToATuplet = fATupletIsBeingBuilt;
+  fMusicXMLNoteData.fNoteBelongsToATuplet = fOnGoingTuplet;
 
   fCurrentTiedType = "";
   fCurrentTiedOrientation = "";
 
-  fCurrentSlurNumber = "";
+  fCurrentSlurNumber = -1;
   fCurrentSlurType = "";
   fCurrentSlurPlacement = "";
   fCurrentSlurKind = msrSlur::k_NoSlur;
@@ -1672,8 +1684,70 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   /*
   This is a complex method, due to the fact that
   dynamics, wedges, chords and tuplets
-  are not ordered in the same way in MusicXML and LilyPond
+  are not ordered in the same way in MusicXML and LilyPond.
+
+  Staff number is analyzed before voice number but occurs
+  after it in the MusicXML tree.
+  That's why the treatment below has been postponed until this method
   */
+
+
+  /*
+  Staff assignment is only needed for music notated on multiple staves.
+  Used by both notes and directions.
+  Staff values are numbers, with 1 referring to the top-most staff in a part.
+  */
+  
+  // is fCurrentStaffNumber already present in fCurrentPart?
+  fCurrentStaff =
+    fCurrentPart->
+      fetchStaffFromPart (fCurrentStaffNumber);
+
+  // no, add it to the current part
+  if (! fCurrentStaff) 
+    fCurrentStaff =
+      fCurrentPart->
+        addStaffToPart (fCurrentStaffNumber);
+
+  // is fCurrentStaffNumber already present in fCurrentPart?
+  /* JMI
+  if (
+    fCurrentVoiceNumber
+      >
+    fCurrentPart->getPartStavesMap().size()) {
+
+    // yes, switch to next staff
+    fCurrentStaffNumber++;
+
+    fCurrentStaff =
+      fCurrentPart->
+        fetchStaffFromPart (fCurrentStaffNumber);
+    
+    if (true || fTranslationSettings->fDebug)
+      cerr <<
+        idtr <<
+        "--> overflowing voice " << fCurrentVoiceNumber <<
+       " to staff " << fCurrentStaffNumber << endl <<
+       " in part " << fCurrentPart->getPartCombinedName() << endl;
+       
+  }
+  * */
+    
+  // is fCurrentVoiceNumber voice already present in fCurrentStaff?
+  fCurrentVoice =
+    fCurrentStaff->
+      fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+  // no, add it to the current staff
+  if (! fCurrentVoice) 
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (fCurrentVoiceNumber);
+
+  // store voice number in MusicXML note data
+  fMusicXMLNoteData.fVoiceNumber = fCurrentVoiceNumber;
+
+  fCurrentStemDirection = kStemNeutral;
   
   if (fTranslationSettings->fDebug)
     cerr <<
@@ -1753,13 +1827,13 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
       msrMusicXMLError (
         "a rest cannot belong to a chord");
         
-    if (! fAChordIsBeingBuilt) {
+    if (! fOnGoingChord) {
       // create a chord with fCurrentNote as its first note
       fCurrentChord =
         createChordFromCurrentNote ();
 
       // account for chord being built
-      fAChordIsBeingBuilt = true;
+      fOnGoingChord = true;
     }
     
     if (fTranslationSettings->fDebug)
@@ -1784,7 +1858,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
       case msrTuplet::kStartTuplet:
         {
           createTuplet(note);
-          fATupletIsBeingBuilt = true;
+          fOnGoingTuplet = true;
         
           // swith to continuation mode
           // this is handy in case the forthcoming tuplet members
@@ -1809,7 +1883,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
           finalizeTuplet(note);
 
           // indicate the end of the tuplet
-          fATupletIsBeingBuilt = false;
+          fOnGoingTuplet = false;
         }
         break;
       default:
@@ -1824,7 +1898,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     fCurrentVoice->appendElementToVoiceSequence (n);
   
     // account for chord not being built
-    fAChordIsBeingBuilt = false;
+    fOnGoingChord = false;
   }
   
   // keep track of note/rest in this visitor
