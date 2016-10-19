@@ -203,10 +203,8 @@ class EXP xml2MsrScoreVisitor :
     virtual void visitStart ( S_staves& elt);
     
     virtual void visitStart ( S_staff& elt);
-    virtual void visitEnd   ( S_staff& elt);
     
     virtual void visitStart ( S_voice& elt );
-    virtual void visitEnd   ( S_voice& elt );
     
     virtual void visitStart ( S_backup& elt );
     virtual void visitEnd   ( S_backup& elt );
@@ -408,6 +406,7 @@ class EXP xml2MsrScoreVisitor :
     // description of the current MSR note
     string                   fCurrentNoteType;
     S_msrNote                fCurrentNote;
+    bool                     fOnGoingNote;
 
     // tuplet handling
     int                      fCurrentActualNotes;
@@ -438,8 +437,11 @@ class EXP xml2MsrScoreVisitor :
     msrSlur::SlurKind        fCurrentSlurKind;
     bool                     fOnGoingSlur;
 
-    // backup and forward handling
+    // backup handling
     int                      fCurrentBackupDuration;
+    bool                     fOnGoingBackup;
+
+    // forward handling
     int                      fCurrentForwardDuration;
     int                      fCurrentForwardVoiceNumber;
     int                      fCurrentForwardStaffNumber;
