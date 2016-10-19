@@ -600,7 +600,8 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
 */
   int  staffNumber = int(*elt);
 
-  if (true || fTranslationSettings->fDebug)
+//  if (true || fTranslationSettings->fDebug)
+  if (fTranslationSettings->fDebug)
     cerr <<
       idtr <<
       "--> S_staff, staffNumber         = " << staffNumber << endl <<
@@ -648,7 +649,8 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
 */
   int voiceNumber = int(*elt);
   
-  if (true || fTranslationSettings->fDebug)
+//  if (true || fTranslationSettings->fDebug)
+  if (fTranslationSettings->fDebug)
     cerr <<
       idtr <<
       "--> S_voice, voiceNumber         = " << voiceNumber << endl <<
@@ -1784,10 +1786,10 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
       if (fTranslationSettings->fDelayRestsDynamics) {
       cerr << idtr <<
         "--> Delaying dynamics attached to a rest until next note";
-     } else {
-       cerr << idtr <<
-          "--> There is dynamics attached to a rest";
-    }
+      } else {
+        cerr << idtr <<
+          "--> There is dynamics attached to a rest" << endl;
+      }
     } else {
       while (! fPendingDynamics.empty()) {
         S_msrDynamics dyn = fPendingDynamics.front();
@@ -1803,10 +1805,10 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
       if (fTranslationSettings->fDelayRestsDynamics) {
       cerr << idtr <<
         "--> Delaying wedge attached to a rest until next note";
-     } else {
-       cerr << idtr <<
+      } else {
+        cerr << idtr <<
           "--> There is a wedge attached to a rest";
-    }
+      }
     } else {
       while (! fPendingWedges.empty()) {
         S_msrWedge wdg = fPendingWedges.front();
@@ -1815,11 +1817,14 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
       } // while
     }
   }
-          
-  // a note can be standalone
-  // or a member of a chord,
-  // and the latter can belong to a tuplet
-  // a rest can be standalone or belong to a tuplet
+
+  /*
+  A note can be standalone
+  or a member of a chord,
+  and the latter can belong to a tuplet.
+  
+  A rest can be standalone or belong to a tuplet
+  */
   
   if (fMusicXMLNoteData.fNoteBelongsToAChord) {
     
@@ -1916,8 +1921,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
         lyricsMsrDuration);
   }
 
-  if (true || fTranslationSettings->fDebug)
-//  if (fTranslationSettings->fDebug)
+//  if (true || fTranslationSettings->fDebug)
+  if (fTranslationSettings->fDebug)
     cerr <<
       idtr <<
       "!!!! At note " << fCurrentNote << "we have:" << endl <<

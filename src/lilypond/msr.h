@@ -314,7 +314,7 @@ class EXP msrDuration : public msrElement {
           (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots);
       }
     
-    string  durationAsLilypondString ();
+    string  durationAsMSRString ();
 
     virtual void printMusicXML      (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -415,7 +415,7 @@ class EXP msrNote : public msrElement {
     static SMARTP<msrNote> createFromMusicXMLData (
         S_translationSettings& ts,
         musicXMLNoteData&      mxmldat,
-        msrSlur::SlurKind     slurKind);
+        msrSlur::SlurKind      slurKind);
     
     // for chord members
     void setNoteBelongsToAChord ();
@@ -435,7 +435,7 @@ class EXP msrNote : public msrElement {
       k_NoMsrPitch};
     
     MsrPitch computeNoteMsrPitch (
-        int                          noteQuatertonesFromA,
+        int                         noteQuatertonesFromA,
         msrNote::MusicXMLAlteration alteration);
                           
     static map<MsrPitch, string> sDutchLilypondPitches;
@@ -472,7 +472,7 @@ class EXP msrNote : public msrElement {
     msrNote (
         S_translationSettings& ts,
         musicXMLNoteData&      mxmldat,
-        msrSlur::SlurKind     slurKind);
+        msrSlur::SlurKind      slurKind);
     
     virtual ~msrNote();
     

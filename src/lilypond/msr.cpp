@@ -223,7 +223,7 @@ void msrDuration::printMusicXML(ostream& os)
   os << "<!-- msrDuration??? -->" << endl;
 }
 
-string msrDuration::durationAsLilypondString ()
+string msrDuration::durationAsMSRString ()
 {
   // divisions are per quater, Msr durations are in whole notes
 //  cout << "|"  << fNum << "|" << fDenom << "|" << fDots << "|" << endl;
@@ -260,8 +260,8 @@ string msrDuration::durationAsLilypondString ()
     else if (fTupletMemberNoteType == "long")    { s << "long"; }
     else
       {
-        stringstream s;
-      string  message;
+      stringstream s;
+      string       message;
       s << 
         endl << 
         "--> unknown tuplet member type " << fTupletMemberNoteType <<
@@ -273,8 +273,8 @@ string msrDuration::durationAsLilypondString ()
   } else {
     
     div_t divresult = div (noteDivisions, divisionsPerWholeNote);  
-    int   div = divresult.quot;
-//    int   mod = divresult.rem; not yet used JMI
+    int   div       = divresult.quot;
+    //int   mod       = divresult.rem; not yet used JMI
         
     switch (div) {
       case 8:
@@ -338,7 +338,7 @@ string msrDuration::durationAsLilypondString ()
 
 void msrDuration::printMSR(ostream& os)
 {
-  os << durationAsLilypondString () << flush;
+  os << durationAsMSRString () << flush;
 }
 
 void msrDuration::printLilyPondCode(ostream& os)
@@ -349,7 +349,7 @@ void msrDuration::printLilyPondCode(ostream& os)
     kEighth, kQuarter, kHalf, kWhole, kBreve, kLong, kMaxima};
 */
 
-  os << durationAsLilypondString ();
+  os << durationAsMSRString ();
 }
 
 //______________________________________________________________________________
@@ -641,7 +641,7 @@ void msrSlur::printLilyPondCode(ostream& os)
 S_msrNote msrNote::createFromMusicXMLData (
   S_translationSettings& ts,
   musicXMLNoteData&      mxmldat,
-  msrSlur::SlurKind     slurKind)
+  msrSlur::SlurKind      slurKind)
 {  
   msrNote * o = new msrNote (ts, mxmldat, slurKind);
   assert(o!=0); 
@@ -651,7 +651,7 @@ S_msrNote msrNote::createFromMusicXMLData (
 msrNote::msrNote (
   S_translationSettings& ts,
   musicXMLNoteData&      mxmldat,
-  msrSlur::SlurKind     slurKind)
+  msrSlur::SlurKind      slurKind)
   :
     msrElement(""),
     fMusicXMLNoteData (mxmldat)
@@ -667,14 +667,26 @@ msrNote::msrNote (
   }
     
   // take rests into account
-  if (fMusicXMLNoteData.fMusicxmlStep)
+  if (fMusicXMLNoteData.fMusicxmlStepIsARest) {
+    cout <<
+      "--> REST, fMusicxmlDuration = " <<
+      fMusicXMLNoteData.fMusicxmlDuration << 
+     ", fMusicxmlDivisions = " <<
+     fMusicXMLNoteData.fMusicxmlDivisions << endl;
+     
     fMusicXMLDiatonicPitch = msrNote::kRest;
+  }
 
-  if (fMusicXMLNoteData.fMusicxmlStep < 'A' || fMusicXMLNoteData.fMusicxmlStep > 'G') {
+  if (
+    fMusicXMLNoteData.fMusicxmlStep < 'A'
+      ||
+    fMusicXMLNoteData.fMusicxmlStep > 'G') {
     if (! fMusicXMLNoteData.fMusicxmlStepIsARest) {
       stringstream s;
-      string  message;
-      s << "step value " << fMusicXMLNoteData.fMusicxmlStep << " is not a letter from A to G";
+      string       message;
+      s <<
+        "step value " << fMusicXMLNoteData.fMusicxmlStep <<
+        " is not a letter from A to G";
       s >> message;
     //  msrMusicXMLError (message);
     msrMusicXMLWarning (message); // JMI
@@ -784,7 +796,7 @@ msrNote::msrNote (
       fMusicXMLNoteData.fTupletMemberNoteType);
 //  cout << "fNoteMsrDuration = " << fNoteMsrDuration << endl;
     
-  // diatonic note JMI forelative code
+  // diatonic note for relative code JMI
   msrNote::MusicXMLDiatonicPitch diatonicNote =
     msrNote::k_NoDiatonicPitch;
 }
@@ -798,14 +810,17 @@ void msrNote::setNoteBelongsToAChord () {
 //______________________________________________________________________________
 
 msrNote::MsrPitch msrNote::computeNoteMsrPitch (
-  int                          noteQuatertonesFromA,
+  int                         noteQuatertonesFromA,
   msrNote::MusicXMLAlteration alteration)
 {
   // computing the msr pitch
   /*
-  Alter values of -2 and 2 can be used for double-flat and double-sharp. Decimal values can be used for microtones (e.g., 0.5 for a quarter-tone sharp), but not all programs may convert this into MIDI pitch-bend data.
+  Alter values of -2 and 2 can be used for double-flat and double-sharp.
+  Decimal values can be used for microtones (e.g., 0.5 for a quarter-tone sharp),
+  but not all programs may convert this into MIDI pitch-bend data.
 
-  For rests, a rest element is used instead of the pitch element. The whole rest in 3/4 that begins the voice part is represented as:
+  For rests, a rest element is used instead of the pitch element.
+  The whole rest in 3/4 that begins the voice part is represented as:
     <note>
       <rest/>
       <duration>72</duration>
@@ -813,7 +828,7 @@ msrNote::MsrPitch msrNote::computeNoteMsrPitch (
   
   Quarter tones may be added; the following is a series of Cs with increasing pitches:
     \relative c'' { ceseh ces ceh c cih cis cisih }
-   */
+  */
   msrNote::MsrPitch msrPitch = msrNote::k_NoMsrPitch;
   
   switch (noteQuatertonesFromA) {
@@ -1078,10 +1093,13 @@ void msrNote::printMSR(ostream& os)
     os << notePitchAsLilypondString() << " (FOO) ";
 
   } else {
-    
+
+    if (fMusicXMLNoteData.fMusicxmlStepIsARest)
+      os << "Rest";
+    else
+      os << "Note";
     os <<
-      "Note" << " " <<
-      notePitchAsLilypondString () <<
+      " " << notePitchAsLilypondString () <<
       ":" << fNoteMsrDuration;
     if (fMusicXMLNoteData.fNoteIsAGraceNote)
       os << " " << "grace";
@@ -3181,8 +3199,8 @@ void msrStaff::setStaffKey  (S_msrKey  key)
 {
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "--> adding key '" << key <<
-      " to staff " << fStaffNumber <<
+      "Adding key '" << key <<
+      "' to staff " << fStaffNumber <<
       " in part " << fStaffPart->getPartCombinedName () << endl;
 
   fStaffKey = key;
@@ -3192,8 +3210,8 @@ void msrStaff::setStaffTime (S_msrTime time)
 {
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "--> adding time '" << time <<
-      " to staff " << fStaffNumber <<
+      "Adding time '" << time <<
+      "' to staff " << fStaffNumber <<
       " in part " << fStaffPart->getPartCombinedName () << endl;
 
   fStaffTime = time;
@@ -3203,8 +3221,8 @@ void msrStaff::setStaffClef (S_msrClef clef)
 {
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "--> adding clef '" << clef <<
-      " to staff " << fStaffNumber <<
+      "Adding clef '" << clef <<
+      "' to staff " << fStaffNumber <<
       " in part " << fStaffPart->getPartCombinedName () << endl;
 
   fStaffClef = clef;
@@ -3652,7 +3670,7 @@ void msrPartGroup::printMSR(ostream& os)
     idtr << "PartGroupName        : \"" << fPartGroupName << "\"" << endl <<
     idtr << "PartGroupAbbrevation : \"" << fPartGroupAbbreviation << "\"" << endl <<
     idtr << "PartGroupSymbol      : \"" << fPartGroupSymbol << "\"" << endl <<
-    idtr << "PartGroupBarline     : \"" << fPartGroupBarline << "\"" << endl;
+    idtr << "PartGroupBarline     : \"" << fPartGroupBarline << "\"" << endl << endl;
 
  // JMI   idtr << "PartGroupInstrumentName: \"" << fPartGroupInstrumentName << "\"" << endl;
 
