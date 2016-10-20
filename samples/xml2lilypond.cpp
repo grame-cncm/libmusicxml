@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
   }
   */
   
-  int helpPresent =                 0;
+  int helpPresent =               0;
   
   int languagePresent =           0;
   
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 
   int delayRestsDynamicsPresent = 0;
   
-  int notracePresent =            0;
+  int noTracePresent =            0;
   int debugPresent =              0;
   
   std::string selectedOptions = "";
@@ -133,11 +133,11 @@ int main(int argc, char *argv[])
     {"stems",              no_argument,       &stemsPresent, 1},
     {"positions",          no_argument,       &positionsPresent, 1},
 
-    {"drd",                no_argument,       &notracePresent, 1},
-    {"delayRestsDynamics", no_argument,       &notracePresent, 1},
+    {"drd",                no_argument,       &delayRestsDynamicsPresent, 1},
+    {"delayRestsDynamics", no_argument,       &delayRestsDynamicsPresent, 1},
    
-    {"nt",                 no_argument,       &notracePresent, 1},
-    {"noTrace",            no_argument,       &notracePresent, 1},
+    {"nt",                 no_argument,       &noTracePresent, 1},
+    {"noTrace",            no_argument,       &noTracePresent, 1},
     {"d",                  no_argument,       &debugPresent, 1},
     {"debug",              no_argument,       &debugPresent, 1},
     
@@ -170,8 +170,8 @@ int main(int argc, char *argv[])
           if (gMsrNoteNamesLanguageMap.count(optarg)) {
             noteNamesLanguageName = optarg;
           } else {
-            cerr
-              << "--> Unknown language name \"" << optarg <<
+            cerr <<
+              "--> Unknown language name \"" << optarg <<
               "\", using \"dutch\" instead" << std::endl;
             noteNamesLanguageName = "dutch";
             noteNamesLanguage = kNederlands;
@@ -218,7 +218,7 @@ int main(int argc, char *argv[])
           break;
         }
         
-        if (notracePresent) {
+        if (noTracePresent) {
           trace = false;
           selectedOptions += "--noTrace ";
           break;
@@ -257,6 +257,10 @@ int main(int argc, char *argv[])
   // create the translation switches
   S_translationSettings ts = translationSettings::create();
   assert(ts != 0);
+
+  // for TESTS
+  //trace = true;
+  //debug = true;
   
   // populate them
   ts->fMsrNoteNamesLanguageAsString = noteNamesLanguageName;

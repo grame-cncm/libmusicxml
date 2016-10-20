@@ -932,30 +932,6 @@ void xml2MsrScoreVisitor::visitEnd ( S_forward& elt )
   fOnGoingForward = false;
 }
 
-/*
-  bool scanElement = 
-    (elt->getIntValue(k_voice, 0) == fTargetVoice) 
-      && 
-    (elt->getIntValue(k_staff, 0) == fTargetStaff);
-  int duration = elt->getIntValue(k_duration, 0);
-  
- // moveMeasureTime(duration, scanElement);
-  if (!scanElement) return;
-
- // stackClean(); // closes pending chords, cue and grace
-
-  if (duration) {   
-    rational r(duration, fCurrentDivisions*4);
-    r.rationalise();
-    msrDuration dur (r.getNumerator(), r.getDenominator(), 57, "////"); // JMI
-    / *
-    S_msrElement note = 
-      msrNote::create();//(fTargetVoice); // JMI , "empty", 0, dur, "");
-    fCurrentVoice->appendElementToVoiceSequence (note);
- //   fMeasureEmpty = false;
-  }
- */
-
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_metronome& elt )
 {
@@ -1251,7 +1227,7 @@ void xml2MsrScoreVisitor::visitStart (S_measure& elt)
 
   fCurrentPositionInMeasure = rational (0, 0);
     
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr << 
       "=== MEASURE " << fCurrentMeasureNumber << " === " <<
       "PART " << fCurrentPart->getPartCombinedName () <<" ===" << endl;
@@ -1804,7 +1780,9 @@ void xml2MsrScoreVisitor::visitEnd ( S_unpitched& elt)
 //______________________________________________________________________________
 S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
 {
-  // cout << "--> creating a chord on its 2nd note" << endl;
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "--> creating a chord on its 2nd note" << endl;
   
   // fCurrentNote has been registered standalone in the part element sequence,
   // but it is actually the first note of a chord
@@ -1818,7 +1796,8 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
    
   if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "--> adding first note to chord" << endl;
+      "--> adding first note " << fCurrentNote->notePitchAsLilypondString() <<
+      "to chord" << endl;
     
   // register fCurrentNote as first member of chord
   chord->addNoteToChord (fCurrentNote);
@@ -1826,49 +1805,58 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
 
   // move the pending articulations if any from the first note to the chord
   list<S_msrArticulation>
-    noteArticulations = fCurrentNote->getNoteArticulations ();
+    noteArticulations =
+      fCurrentNote->getNoteArticulations ();
 
-  while (! noteArticulations.empty()) {
+  if (! noteArticulations.empty()) {
     if (fTranslationSettings->fDebug)
       cerr << idtr <<
-        "--> moving dynamics from fCurrentNote to chord" << endl;
+        "--> moving articulations from current note to chord" << endl;
         
-    S_msrArticulation
-      art = noteArticulations.front();
-    chord->addArticulation (art);
-    noteArticulations.pop_front ();
-  } // while
+    while (! noteArticulations.empty()) {
+      S_msrArticulation
+        art = noteArticulations.front();
+      chord->addArticulation (art);
+      noteArticulations.pop_front ();
+    } // while
+  }
   
   // move the pending dynamics if any from the first note to the chord
   list<S_msrDynamics>
-    noteDynamics = fCurrentNote->getNoteDynamics();
+    noteDynamics =
+      fCurrentNote->getNoteDynamics();
     
-  while (! noteDynamics.empty()) {
+  if (! noteDynamics.empty()) {
     if (fTranslationSettings->fDebug)
       cerr << idtr <<
-        "--> moving dynamics from fCurrentNote to chord" << endl;
+        "--> moving dynamics from current note to chord" << endl;
         
-    S_msrDynamics
-      dyn = noteDynamics.front();
-    chord->addDynamics (dyn);
-    noteDynamics.pop_front ();
-  } // while
+    while (! noteDynamics.empty()) {
+      S_msrDynamics
+        dyn = noteDynamics.front();
+      chord->addDynamics (dyn);
+      noteDynamics.pop_front ();
+    } // while
+  }
  
   // move the pending wedges if any from the first note to the chord
   list<S_msrWedge>
-    noteWedges = fCurrentNote->getNoteWedges();
+    noteWedges =
+      fCurrentNote->getNoteWedges();
     
-  while (! noteWedges.empty()) {
+  if (! noteWedges.empty()) {
     if (fTranslationSettings->fDebug)
       cerr << idtr <<
-        "--> moving wedge from fCurrentNote to chord" << endl;
+        "--> moving wedges from current note to chord" << endl;
         
-    S_msrWedge
-      wdg = noteWedges.front();
-    chord->addWedge (wdg);
-    noteWedges.pop_front();
-  } // while
-
+    while (! noteWedges.empty()) {
+      S_msrWedge
+        wdg = noteWedges.front();
+      chord->addWedge (wdg);
+      noteWedges.pop_front();
+    } // while
+  }
+  
   return chord;
 }
 
@@ -1893,7 +1881,8 @@ void xml2MsrScoreVisitor::createTuplet (S_msrNote note)
   // add note to the tuplet
   if (fTranslationSettings->fDebug)
     cout << idtr <<
-      "--> adding note " << note << " to tuplets stack top" << endl;
+      "--> adding note " << note->notePitchAsLilypondString() <<
+      " to tuplets stack top" << endl;
   tuplet->addElementToTuplet (note);
 }
 
@@ -1904,7 +1893,8 @@ void xml2MsrScoreVisitor::finalizeTuplet (S_msrNote note) {
   // add note to the tuplet
   if (fTranslationSettings->fDebug)
     cout << idtr <<
-      "--> adding note " << note << " to tuplets stack top" << endl;
+      "--> adding note " << note->notePitchAsLilypondString() <<
+      " to tuplets stack top" << endl;
   tup->addElementToTuplet(note);
 
   // pop from the tuplets stack
@@ -1974,7 +1964,6 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   That's why the treatment below has been postponed until this method
   */
 
-
   /*
   Staff assignment is only needed for music notated on multiple staves.
   Used by both notes and directions.
@@ -1991,30 +1980,6 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     fCurrentStaff =
       fCurrentPart->
         addStaffToPart (fCurrentStaffNumber);
-
-  // is fCurrentStaffNumber already present in fCurrentPart?
-  /* JMI
-  if (
-    fCurrentVoiceNumber
-      >
-    fCurrentPart->getPartStavesMap().size()) {
-
-    // yes, switch to next staff
-    fCurrentStaffNumber++;
-
-    fCurrentStaff =
-      fCurrentPart->
-        fetchStaffFromPart (fCurrentStaffNumber);
-    
-    if (true || fTranslationSettings->fDebug)
-      cerr <<
-        idtr <<
-        "--> overflowing voice " << fCurrentVoiceNumber <<
-       " to staff " << fCurrentStaffNumber << endl <<
-       " in part " << fCurrentPart->getPartCombinedName() << endl;
-       
-  }
-  * */
     
   // is fCurrentVoiceNumber voice already present in fCurrentStaff?
   fCurrentVoice =
@@ -2088,15 +2053,28 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     
     if (fTranslationSettings->fDebug)
       cout << idtr <<
-        "--> adding note to current chord" << endl;
+        "--> adding new note " << newNote->notePitchAsLilypondString() <<
+        " to current chord" << endl;
       
     // register note as a member of fCurrentChord
+    if (fTranslationSettings->fDebug)
+      cout << idtr <<
+        "--> registering new note " << newNote->notePitchAsLilypondString() <<
+        " as a member of current chord" << endl;
     fCurrentChord->addNoteToChord (newNote);
       
     // remove (previous) fCurrentNote from the current voice sequence
+    if (fTranslationSettings->fDebug)
+      cout << idtr <<
+        "--> removing previous note " << fCurrentNote->notePitchAsLilypondString() <<
+        " from current voice" << endl;
     fCurrentVoice->removeElementFromVoiceSequence (fCurrentNote);
 
     // add fCurrentChord to the part sequence instead
+    if (fTranslationSettings->fDebug)
+      cout << idtr <<
+        "--> appending chord " << fCurrentChord <<
+        " to current voice" << endl;
     S_msrElement elem = fCurrentChord;
     fCurrentVoice->appendElementToVoiceSequence (elem);
 

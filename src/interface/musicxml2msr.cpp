@@ -79,7 +79,7 @@ S_msrScore buildMsrScoreFromTree (
     // browse the part contents for the first time with a xml2MsrScoreVisitor
   if (ts->fTrace)
     cerr << idtr <<
-      "Building a MSR score from the MusicXML tree" << endl;
+      "Building a MSR score from the xmlelement tree" << endl;
 
   idtr++;
   
@@ -95,8 +95,9 @@ S_msrScore buildMsrScoreFromTree (
   // choosing kMSR for the trace of the score build
   msrGlobalVariables::setCodeGenerationKind (msrGlobalVariables::kMSR);
 
-  S_msrScore score =
-    visitor.buildMsrScoreFromXMLElementTree (xmlTree);
+  S_msrScore
+    score =
+      visitor.buildMsrScoreFromXMLElementTree (xmlTree);
 
   idtr--;
 
@@ -105,7 +106,7 @@ S_msrScore buildMsrScoreFromTree (
   // output the score resulting from the conversion 
   // thru msrElement::printMsrStructure()
   if (ts->fTrace) 
-    cerr << 
+    cerr << idtr <<
       separator << endl <<
       "%Outputting the MSR ccore" << endl <<
       separator << endl;
@@ -220,7 +221,9 @@ EXP xmlErr musicxmlFile2Msr(
   S_translationSettings& ts,
   ostream&               out) 
 {
-  if (ts->fTrace) cerr << "Building xmlemement tree from \"" << file << "\"" << endl;
+  if (ts->fTrace)
+    cerr << idtr <<
+      "Building xmlemement tree from \"" << file << "\"" << endl;
 
   xmlreader r;
   SXMLFile  xmlFile;
@@ -240,7 +243,9 @@ EXP xmlErr musicxmlFd2Msr(
   S_translationSettings& ts,
   ostream&               out) 
 {
-  if (ts->fTrace) cerr << "Building xmlemement tree from standard input" << endl;
+  if (ts->fTrace)
+    cerr << idtr <<
+      "Building xmlemement tree from standard input" << endl;
 
   xmlreader r;
   SXMLFile  xmlFile;
@@ -260,7 +265,9 @@ EXP xmlErr musicxmlString2Msr(
   S_translationSettings& ts,
   ostream&               out) 
 {
-  if (ts->fTrace) cerr << "Building xmlemement tree from a buffer" << endl;
+  if (ts->fTrace)
+    cerr << idtr <<
+      "Building xmlemement tree from a buffer" << endl;
   
   xmlreader r;
   SXMLFile  xmlFile;
@@ -273,5 +280,6 @@ EXP xmlErr musicxmlString2Msr(
   
   return kInvalidFile;
 }
+
 
 }
