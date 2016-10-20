@@ -78,8 +78,11 @@ S_msrScore buildMsrScoreFromTree (
 {
     // browse the part contents for the first time with a xml2MsrScoreVisitor
   if (ts->fTrace)
-    cerr << "Building a MSR score from the MusicXML tree" << endl;
+    cerr << idtr <<
+      "Building a MSR score from the MusicXML tree" << endl;
 
+  idtr++;
+  
   // create an xml2MsrVisitor
   xml2MsrScoreVisitor visitor (ts);
       
@@ -94,6 +97,8 @@ S_msrScore buildMsrScoreFromTree (
 
   S_msrScore score =
     visitor.buildMsrScoreFromXMLElementTree (xmlTree);
+
+  idtr--;
 
   string separator = "%----------------------------------------";
 

@@ -163,7 +163,8 @@ void xml2MsrScoreVisitor::resetCurrentTime ()
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_part_list& elt)
 {
-  cerr << "Analysing part list" << endl;
+  cerr << idtr <<
+    "Analysing part list" << endl;
 
   idtr++;
 }
@@ -427,13 +428,17 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
 {
   if (! fCurrentPartGroup) {
     // create an implicit part group
+    fCurrentPartGroupNumber = 1;
+    fCurrentVoiceNumber = 1;
+    
     cerr << idtr <<
-      "Adding an implicit part group to the score" << endl;
-  
+      "Creating an implicit part group with number " <<
+      fCurrentPartGroupNumber << endl;
+
     fCurrentPartGroup =
       msrPartGroup::create (
         fTranslationSettings,
-        1,
+        fCurrentPartGroupNumber,
         msrPartGroup::kStartPartGroupType,
         "Anonymous",
         "Anon.",
@@ -451,8 +456,8 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
 
     // add implicit part group to the map of this visitor
     if (fTranslationSettings->fTrace)
-      cerr <<
-        "Adding part group " << fCurrentPartGroupNumber <<
+      cerr << idtr <<
+        "Adding implicit part group " << fCurrentPartGroupNumber <<
         " to visitor's part group map" << endl;
     fPartGroupsMap [fCurrentPartGroupNumber] = fCurrentPartGroup;
   }
@@ -498,6 +503,8 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
     cerr << idtr <<
       "Analyzing part " << fCurrentPart->getPartCombinedName() << endl;
 
+  idtr++;
+
   fCurrentStaffNumber = 1; // default if there are no <staff> element
 
   // is this staff already present?
@@ -512,8 +519,6 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
         addStaffToPart (fCurrentStaffNumber);
 
   fCurrentMeasureNumber = 0; // in case of an anacrusis
-
-  idtr++;
 }
 
 void xml2MsrScoreVisitor::visitEnd (S_part& elt)
@@ -1228,8 +1233,8 @@ void xml2MsrScoreVisitor::visitStart (S_measure& elt)
     fCurrentPart->getPartMSRName() == "P17"
       &&
     fCurrentMeasureNumber == 26) {
-    fTranslationSettings->fTrace = true; // JMI pour tests
-    fTranslationSettings->fDebug = true; // JMI pour tests
+//    fTranslationSettings->fTrace = true; // JMI pour tests
+//    fTranslationSettings->fDebug = true; // JMI pour tests
   }
 }
 
@@ -2119,8 +2124,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
         note->getNoteMsrDuration ();
 
     fCurrentLyrics->
-      addSkipChunkToLyrics (
-        lyricsMsrDuration);
+      addSkipChunkToLyrics (lyricsMsrDuration);
   }
 
 //  if (true || fTranslationSettings->fDebug)

@@ -3557,7 +3557,7 @@ msrPartGroup::msrPartGroup (
   fPartGroupBarline = partGroupBarline;
   
   if (fTranslationSettings->fTrace)
-    cerr <<
+    cerr << idtr <<
       "Creating part group " << fPartGroupNumber << endl;
 }
 
