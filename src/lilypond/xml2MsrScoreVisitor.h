@@ -339,7 +339,8 @@ class EXP xml2MsrScoreVisitor :
     string                   fCurrentPartGroupSymbol;
     int                      fCurrentPartGroupSymbolDefaultX;
     string                   fCurrentPartGroupBarline;
-    S_msrPartGroup           fCurrentPartGroup; // JMI ???
+    S_msrPartGroup           fCurrentPartGroup;
+    void                     createImplicitMSRPartGroup ();
     
     // part groups numbers can be re-used, they're no identifier
     msrPartGroupsMap         fPartGroupsMap;
@@ -396,6 +397,7 @@ class EXP xml2MsrScoreVisitor :
 //                            fCurrentVoiceLyricsMap; JMI
 //    S_msrLyricsChunk       fCurrentChunk;
     
+    int                      fCurrentLyricsNumber;
     bool                     fCurrentNoteHasLyrics;
     S_msrLyrics              fCurrentLyrics;
     bool                     fCurrentLyricsHasText;
@@ -430,18 +432,20 @@ class EXP xml2MsrScoreVisitor :
     int                      fCurrentBeamNumber; 
 
     // chord handling
-    S_msrChord               fCurrentChord; // cannot be local to a method? JMI
-    bool                     fOnGoingChord;
+    S_msrChord              fCurrentChord; // cannot be local to a method? JMI
+    bool                    fOnGoingChord;
 
-    S_msrChord               createChordFromCurrentNote ();
+    S_msrChord              createChordFromCurrentNote ();
     
     // articulations handling
-    list<S_msrArticulation>  fCurrentArticulations;
+    list<S_msrArticulation> fCurrentArticulations;
     
     // dynamics and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
-    list<S_msrDynamics>      fPendingDynamics;
-    list<S_msrWedge>         fPendingWedges;
+    list<S_msrDynamics>     fPendingDynamics;
+    list<S_msrWedge>        fPendingWedges;
+    void                    attachPendingDynamicsAndWedgesToNote (
+                              S_msrNote note);
        
     // description of the current MSR note
     string                   fCurrentNoteType;

@@ -90,6 +90,10 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   fCurrentLyrics =
     fCurrentVoice->
       addLyricsToVoice (1);
+      *
+      *   idtr--;
+
+  */
   
   fCurrentMeasureNumber = 0;
 
@@ -107,9 +111,6 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
 
   fOnGoingBackup  = false;
   fOnGoingForward = false;
-
-  idtr--;
-  */
 }
 
 xml2MsrScoreVisitor::~xml2MsrScoreVisitor ()
@@ -331,16 +332,16 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
     
       // add it to the score
       if (fTranslationSettings->fTrace)
-        cerr <<
+        cerr << idtr <<
           "Adding part group " << fCurrentPartGroupNumber <<
-          " to visitor's part group map" << endl;
+          " to the score" << endl;
 
       fMsrScore->
         addPartGroupToScore (fCurrentPartGroup);
     
       // add it to the map of this visitor
       if (fTranslationSettings->fTrace)
-        cerr <<
+        cerr << idtr <<
           "Adding part group " << fCurrentPartGroupNumber <<
           " to visitor's part group map" << endl;
       fPartGroupsMap [fCurrentPartGroupNumber] = fCurrentPartGroup;
@@ -370,10 +371,10 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
       // remove part group from the map,
       // it remains is the score's part group list
       if (fTranslationSettings->fTrace)
-        cerr <<
+        cerr << idtr <<
           "Removing part group " << fCurrentPartGroupNumber <<
           " from visitor's part group map" << endl;
-    //  fPartGroupsMap.erase (fCurrentPartGroupNumber);
+      fPartGroupsMap.erase (fCurrentPartGroupNumber);
       
       if (true || fTranslationSettings->fDebug) {
     //  if (fTranslationSettings->fDebug) {
@@ -426,64 +427,70 @@ void xml2MsrScoreVisitor::visitStart (S_instrument_name& elt)
   fCurrentPartInstrumentName = elt->getValue(); // jMI
 }
 
+void xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
+{
+  // create an implicit part group
+  fCurrentPartGroupNumber = 1;
+  fCurrentVoiceNumber = 1;
+  
+  cerr << idtr <<
+    "Creating an implicit part group with number " <<
+    fCurrentPartGroupNumber << endl;
+
+  fCurrentPartGroup =
+    msrPartGroup::create (
+      fTranslationSettings,
+      fCurrentPartGroupNumber,
+      msrPartGroup::kStartPartGroupType,
+      "Anonymous",
+      "Anon.",
+      msrPartGroup::kBracketPartGroupSymbol,
+      -3,
+      true);
+
+  // add implicit part group to the score
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Adding the implicit part group to the score" << endl;
+    
+  fMsrScore->
+    addPartGroupToScore (fCurrentPartGroup);
+
+  // add implicit part group to the map of this visitor
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Adding implicit part group " << fCurrentPartGroupNumber <<
+      " to visitor's part group map" << endl;
+  fPartGroupsMap [fCurrentPartGroupNumber] = fCurrentPartGroup;
+
+  // create an implicit part in case none is specified in MusicXML
+  fCurrentPartMusicXMLName = "";
+  fCurrentPart =
+    msrPart::create (
+      fTranslationSettings, fCurrentPartMusicXMLName);
+  
+  // add a staff to the implicit part
+  fCurrentStaffNumber = 1;
+  fCurrentStaff =
+    fCurrentPart->
+      addStaffToPart (fCurrentStaffNumber);
+
+  // add a voice to the staff
+  fCurrentVoiceNumber = 1;
+  fCurrentVoice =
+    fCurrentStaff->
+      addVoiceToStaff (fCurrentVoiceNumber);
+
+  // add a lyrics to the voice
+  fCurrentLyrics =
+    fCurrentVoice->
+      addLyricsToVoice (1);
+}
+
 void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
 {
   if (! fCurrentPartGroup) {
-    // create an implicit part group
-    fCurrentPartGroupNumber = 1;
-    fCurrentVoiceNumber = 1;
-    
-    cerr << idtr <<
-      "Creating an implicit part group with number " <<
-      fCurrentPartGroupNumber << endl;
-
-    fCurrentPartGroup =
-      msrPartGroup::create (
-        fTranslationSettings,
-        fCurrentPartGroupNumber,
-        msrPartGroup::kStartPartGroupType,
-        "Anonymous",
-        "Anon.",
-        msrPartGroup::kBracketPartGroupSymbol,
-        -3,
-        true);
-  
-    // add implicit part group to the score
-    if (fTranslationSettings->fTrace)
-      cerr << idtr <<
-        "Adding the implicit part group to the score" << endl;
-      
-    fMsrScore->
-      addPartGroupToScore (fCurrentPartGroup);
-
-    // add implicit part group to the map of this visitor
-    if (fTranslationSettings->fTrace)
-      cerr << idtr <<
-        "Adding implicit part group " << fCurrentPartGroupNumber <<
-        " to visitor's part group map" << endl;
-    fPartGroupsMap [fCurrentPartGroupNumber] = fCurrentPartGroup;
-
-    // create an implicit part in case none is specified in MusicXML
-    fCurrentPartMusicXMLName = "";
-    fCurrentPart =
-      msrPart::create (
-        fTranslationSettings, fCurrentPartMusicXMLName);
-    
-    // add a staff to the implicit part
-    fCurrentStaffNumber = 1;
-    fCurrentStaff =
-      fCurrentPart->
-        addStaffToPart (fCurrentStaffNumber);
-  
-    // add a voice to the staff
-    fCurrentVoice =
-      fCurrentStaff->
-        addVoiceToStaff (1);
-  
-    // add a lyrics to the voice
-    fCurrentLyrics =
-      fCurrentVoice->
-        addLyricsToVoice (1);
+    createImplicitMSRPartGroup ();
   }
 
   // is this part already present in the current part group?
@@ -893,14 +900,12 @@ void xml2MsrScoreVisitor::visitEnd ( S_forward& elt )
   fCurrentVoiceNumber = fCurrentForwardVoiceNumber;
   fCurrentStaffNumber = fCurrentForwardStaffNumber;
 
-
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
       "Handling 'forward " << fCurrentForwardDuration <<
       "', thus switching to " <<
       "voice " << fCurrentVoiceNumber <<
       " in staff " << fCurrentStaffNumber << endl;
-
   
   // is the new voice already present?
   fCurrentVoice =
@@ -1093,21 +1098,19 @@ void xml2MsrScoreVisitor::visitStart (S_slur& elt )
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_lyric& elt )
 { 
-  int lyricNumber =
+  fCurrentLyricsNumber =
     elt->getAttributeIntValue ("number", 0);
 
   // is this lyrics already present?
   fCurrentLyrics =
     fCurrentVoice->
-      voiceContainsLyrics (
-        lyricNumber);
+      voiceContainsLyrics (fCurrentLyricsNumber);
 
   // no, add it to the current staff
   if (! fCurrentLyrics) 
-  fCurrentLyrics =
-    fCurrentVoice->
-      addLyricsToVoice (
-        lyricNumber);
+    fCurrentLyrics =
+      fCurrentVoice->
+        addLyricsToVoice (fCurrentLyricsNumber);
 
   fCurrentLyricsHasText = false;
   fCurrentText = "";
@@ -1826,7 +1829,10 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
     noteArticulations = fCurrentNote->getNoteArticulations ();
 
   while (! noteArticulations.empty()) {
-    //cout << "--> moving dynamics from fCurrentNote to chord" << endl;
+    if (fTranslationSettings->fDebug)
+      cerr << idtr <<
+        "--> moving dynamics from fCurrentNote to chord" << endl;
+        
     S_msrArticulation
       art = noteArticulations.front();
     chord->addArticulation (art);
@@ -1838,7 +1844,10 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
     noteDynamics = fCurrentNote->getNoteDynamics();
     
   while (! noteDynamics.empty()) {
-    //cout << "--> moving dynamics from fCurrentNote to chord" << endl;
+    if (fTranslationSettings->fDebug)
+      cerr << idtr <<
+        "--> moving dynamics from fCurrentNote to chord" << endl;
+        
     S_msrDynamics
       dyn = noteDynamics.front();
     chord->addDynamics (dyn);
@@ -1850,7 +1859,10 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
     noteWedges = fCurrentNote->getNoteWedges();
     
   while (! noteWedges.empty()) {
-    //cout << "--> moving wedge from fCurrentNote to chord" << endl;
+    if (fTranslationSettings->fDebug)
+      cerr << idtr <<
+        "--> moving wedge from fCurrentNote to chord" << endl;
+        
     S_msrWedge
       wdg = noteWedges.front();
     chord->addWedge (wdg);
@@ -1906,6 +1918,48 @@ void xml2MsrScoreVisitor::finalizeTuplet (S_msrNote note) {
   S_msrElement elem = tup;
   fCurrentVoice->appendElementToVoiceSequence (elem);
 }          
+
+void xml2MsrScoreVisitor::attachPendingDynamicsAndWedgesToNote (
+  S_msrNote note)
+{
+  // attach the pending dynamics if any to the note
+  if (! fPendingDynamics.empty()) {
+    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+      if (fTranslationSettings->fDelayRestsDynamics) {
+      cerr << idtr <<
+        "--> Delaying dynamics attached to a rest until next note" << endl;
+      } else {
+        cerr << idtr <<
+          "--> There is dynamics attached to a rest" << endl;
+      }
+    } else {
+      while (! fPendingDynamics.empty()) {
+        S_msrDynamics dyn = fPendingDynamics.front();
+        note->addDynamics (dyn);
+        fPendingDynamics.pop_front();
+      } // while
+    }
+  }
+  
+  // attach the pending wedges if any to the note
+  if (! fPendingWedges.empty()) {
+    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+      if (fTranslationSettings->fDelayRestsDynamics) {
+      cerr << idtr <<
+        "--> Delaying wedge attached to a rest until next note" << endl;
+      } else {
+        cerr << idtr <<
+          "--> There is a wedge attached to a rest" << endl;
+      }
+    } else {
+      while (! fPendingWedges.empty()) {
+        S_msrWedge wdg = fPendingWedges.front();
+        note->addWedge (wdg);
+        fPendingWedges.pop_front();
+      } // while
+    }
+  }
+}
 
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitEnd ( S_note& elt ) 
@@ -1994,7 +2048,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     fCurrentNoteType;
   
   //cout << "::: creating a note" << endl;
-  S_msrNote note =
+  S_msrNote newNote =
     msrNote::createFromMusicXMLData (
       fTranslationSettings,
       fMusicXMLNoteData,
@@ -2003,47 +2057,11 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   // attach the articulations if any to the note
   while (! fCurrentArticulations.empty()) {
     S_msrArticulation art = fCurrentArticulations.front();
-    note->addArticulation (art);
+    newNote->addArticulation (art);
     fCurrentArticulations.pop_front();
   } // while
    
-  // attach the pending dynamics if any to the note
-  if (! fPendingDynamics.empty()) {
-    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
-      if (fTranslationSettings->fDelayRestsDynamics) {
-      cerr << idtr <<
-        "--> Delaying dynamics attached to a rest until next note" << endl;
-      } else {
-        cerr << idtr <<
-          "--> There is dynamics attached to a rest" << endl;
-      }
-    } else {
-      while (! fPendingDynamics.empty()) {
-        S_msrDynamics dyn = fPendingDynamics.front();
-        note->addDynamics(dyn);
-        fPendingDynamics.pop_front();
-      } // while
-    }
-  }
-  
-  // attach the pending wedges if any to the note
-  if (! fPendingWedges.empty()) {
-    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
-      if (fTranslationSettings->fDelayRestsDynamics) {
-      cerr << idtr <<
-        "--> Delaying wedge attached to a rest until next note" << endl;
-      } else {
-        cerr << idtr <<
-          "--> There is a wedge attached to a rest" << endl;
-      }
-    } else {
-      while (! fPendingWedges.empty()) {
-        S_msrWedge wdg = fPendingWedges.front();
-        note->addWedge(wdg);
-        fPendingWedges.pop_front();
-      } // while
-    }
-  }
+  attachPendingDynamicsAndWedgesToNote (newNote);
 
   /*
   A note can be standalone
@@ -2073,7 +2091,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
         "--> adding note to current chord" << endl;
       
     // register note as a member of fCurrentChord
-    fCurrentChord->addNoteToChord (note);
+    fCurrentChord->addNoteToChord (newNote);
       
     // remove (previous) fCurrentNote from the current voice sequence
     fCurrentVoice->removeElementFromVoiceSequence (fCurrentNote);
@@ -2089,7 +2107,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     switch (fCurrentTupletKind) {
       case msrTuplet::kStartTuplet:
         {
-          createTuplet(note);
+          createTuplet (newNote);
           fOnGoingTuplet = true;
         
           // swith to continuation mode
@@ -2104,15 +2122,15 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
           // populate the tuplet at the top of the stack
           if (fTranslationSettings->fDebug)
             cout << idtr <<
-              "--> adding note " << note <<
+              "--> adding note " << newNote <<
               " to tuplets stack top" << endl;
-          fCurrentTupletsStack.top()->addElementToTuplet (note);
+          fCurrentTupletsStack.top()->addElementToTuplet (newNote);
         }
         break;
   
       case msrTuplet::kStopTuplet:
         {
-          finalizeTuplet(note);
+          finalizeTuplet(newNote);
 
           // indicate the end of the tuplet
           fOnGoingTuplet = false;
@@ -2126,7 +2144,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
 
     // cout <<  idtr << "--> adding standalone note/rest to part sequence" << endl;
     // register note as standalone
-    S_msrElement n = note;
+    S_msrElement n = newNote;
     fCurrentVoice->appendElementToVoiceSequence (n);
   
     // account for chord not being built
@@ -2134,7 +2152,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   }
   
   // keep track of note/rest in this visitor
-  fCurrentNote    = note;
+  fCurrentNote = newNote;
   fCurrentPositionInMeasure +=
     fCurrentNote->
       getNoteMsrDuration ()->durationAsRational ();
@@ -2145,7 +2163,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   if (! fCurrentNoteHasLyrics) {
     S_msrDuration
       lyricsMsrDuration =
-        note->getNoteMsrDuration ();
+        newNote->getNoteMsrDuration ();
 
     fCurrentLyrics->
       addSkipChunkToLyrics (lyricsMsrDuration);
