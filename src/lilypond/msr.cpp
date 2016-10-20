@@ -3740,7 +3740,7 @@ void msrPartGroup::printMSR(ostream& os)
   os <<
     idtr << "PartGroupName        : \"" << fPartGroupName << "\"" << endl <<
     idtr << "PartGroupAbbrevation : \"" << fPartGroupAbbreviation << "\"" << endl <<
-    idtr << "PartGroupSymbol      : \"" << fPartGroupSymbol << "\"" << endl <<
+    idtr << "fPartGroupSymbolKind : \"" << fPartGroupSymbolKind << "\"" << endl <<
     idtr << "PartGroupBarline     : \"" << fPartGroupBarline << "\"" << endl << endl;
 
  // JMI   idtr << "PartGroupInstrumentName: \"" << fPartGroupInstrumentName << "\"" << endl;

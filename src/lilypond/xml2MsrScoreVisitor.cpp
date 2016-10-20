@@ -253,80 +253,122 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
       "Handling part group " << fCurrentPartGroupNumber <<
       ", type: \"" << fCurrentPartGroupType << "\""  << endl;
 
-  idtr++;
+  msrPartGroup::PartGroupTypeKind partGroupType;
   
-  if (fCurrentPartGroupType == "start") {
-
-    // is this part group number already present?
-    fCurrentPartGroup =
-      fetchScorePartGroup (fCurrentPartGroupNumber);
-
-    // no, add it to the score
-    if (! fCurrentPartGroup) 
-    fCurrentPartGroup =
-      fMsrScore->
-        addPartGroupToScore (fCurrentPartGroupNumber);
-
-    // add it to the map of this visitor
-    if (fTranslationSettings->fTrace)
-      cerr <<
-        "Adding part group " << fCurrentPartGroupNumber <<
-        " to visitor's part group map" << endl;
-    fPartGroupsMap [fCurrentPartGroupNumber] = fCurrentPartGroup;
+  if (fCurrentPartGroupType == "start")
+    partGroupType = msrPartGroup::kStartPartGroupType;
     
-    if (true || fTranslationSettings->fDebug) {
-  //  if (fTranslationSettings->fDebug) {
-      cerr << idtr <<
-        "==> Now, fPartGroupsMap contains:" << endl;
-      idtr++;
-      for (
-          msrPartGroupsMap::const_iterator i = fPartGroupsMap.begin();
-          i != fPartGroupsMap.end();
-          i++) {
-        cerr << idtr <<
-          (*i).first << endl;
-    //      "\"" << (*i).first << "\" ----> " <<
-    //      (*i).second->getPartCombinedName() << endl;
-      } // for
-      idtr--;
-      cerr << idtr << "<== fPartGroupsMap" << endl;
-    }
-        
-  } else if (fCurrentPartGroupType == "stop") {
-
-    // remove part group from the map,
-    // it remains is the score's part group list
-    if (fTranslationSettings->fTrace)
-      cerr <<
-        "Removing part group " << fCurrentPartGroupNumber <<
-        " from visitor's part group map" << endl;
-  //  fPartGroupsMap.erase (fCurrentPartGroupNumber);
+  else if (fCurrentPartGroupType == "stop")
+    partGroupType = msrPartGroup::kStopPartGroupType;
     
-    if (true || fTranslationSettings->fDebug) {
-  //  if (fTranslationSettings->fDebug) {
-      cerr << idtr <<
-        "==> Now, fPartGroupsMap contains:" << endl;
-      idtr++;
-      for (
-          msrPartGroupsMap::const_iterator i = fPartGroupsMap.begin();
-          i != fPartGroupsMap.end();
-          i++) {
-        cerr << idtr <<
-          (*i).first << endl;
-    //      "\"" << (*i).first << "\" ----> " <<
-    //      (*i).second->getPartCombinedName() << endl;
-      } // for
-      idtr--;
-      cerr << idtr << "<== fPartGroupsMap" << endl;
-    }
-        
-  } else {
-    
+  else {
     msrMusicXMLError (
       "unknown part group type \"" + fCurrentPartGroupType + "\"");
+    partGroupType = msrPartGroup::k_NoPartGroupType;
   }
 
-  idtr--;
+  msrPartGroup::PartGroupSymbolKind partGroupSymbol;
+  
+  if (fCurrentGroupSymbol == "brace")
+    partGroupSymbol = msrPartGroup::kBracePartGroupSymbol;
+    
+  else if (fCurrentGroupSymbol == "barcket")
+    partGroupSymbol = msrPartGroup::kBracketPartGroupSymbol;
+    
+  else {
+    msrMusicXMLError (
+      "unknown part group type \"" + fCurrentGroupSymbol + "\"");
+    partGroupSymbol = msrPartGroup::k_NoPartGroupSymbol;
+  }
+
+  switch (partGroupType) {
+    
+    case msrPartGroup::kStartPartGroupType:
+      {
+      // is this part group number already present?
+      S_msrPartGroup partGroup;
+        partGroup =
+          fetchScorePartGroup (fCurrentPartGroupNumber);
+    
+      // no, create it
+      if (! fCurrentPartGroup) 
+        partGroup =
+          msrPartGroup::create (
+            fTranslationSettings,
+            fCurrentPartGroupNumber,
+            partGroupType,
+            fCurrentPartGroupName,
+            fCurrentPartGroupAbbreviation,
+            partGroupSymbol,
+            fCurrentPartGroupSymbolDefaultX,
+            fCurrentPartGroupBarline);
+    
+      // add it to the score
+      partGroup = // JMI ???
+        fMsrScore->
+          addPartGroupToScore (fCurrentPartGroupNumber);
+    
+      // add it to the map of this visitor
+      if (fTranslationSettings->fTrace)
+        cerr <<
+          "Adding part group " << fCurrentPartGroupNumber <<
+          " to visitor's part group map" << endl;
+      fPartGroupsMap [fCurrentPartGroupNumber] = fCurrentPartGroup;
+        
+      if (true || fTranslationSettings->fDebug) {
+      //  if (fTranslationSettings->fDebug) {
+        cerr << idtr <<
+          "==> Now, fPartGroupsMap contains:" << endl;
+        idtr++;
+        for (
+            msrPartGroupsMap::const_iterator i = fPartGroupsMap.begin();
+            i != fPartGroupsMap.end();
+            i++) {
+          cerr << idtr <<
+            (*i).first << endl;
+      //      "\"" << (*i).first << "\" ----> " <<
+      //      (*i).second->getPartCombinedName() << endl;
+        } // for
+        idtr--;
+        cerr << idtr << "<== fPartGroupsMap" << endl;
+      }
+      }
+      break;
+      
+    case msrPartGroup::kStopPartGroupType:
+      {
+      // remove part group from the map,
+      // it remains is the score's part group list
+      if (fTranslationSettings->fTrace)
+        cerr <<
+          "Removing part group " << fCurrentPartGroupNumber <<
+          " from visitor's part group map" << endl;
+    //  fPartGroupsMap.erase (fCurrentPartGroupNumber);
+      
+      if (true || fTranslationSettings->fDebug) {
+    //  if (fTranslationSettings->fDebug) {
+        cerr << idtr <<
+          "==> Now, fPartGroupsMap contains:" << endl;
+        idtr++;
+        for (
+            msrPartGroupsMap::const_iterator i = fPartGroupsMap.begin();
+            i != fPartGroupsMap.end();
+            i++) {
+          cerr << idtr <<
+            (*i).first << endl;
+      //      "\"" << (*i).first << "\" ----> " <<
+      //      (*i).second->getPartCombinedName() << endl;
+        } // for
+        idtr--;
+        cerr << idtr << "<== fPartGroupsMap" << endl;
+      }
+      }
+      break;
+      
+    case msrPartGroup::k_NoPartGroupType:
+      {}
+      break;
+  } // switch
 }
 
 //________________________________________________________________________

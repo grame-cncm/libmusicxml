@@ -515,9 +515,12 @@ class EXP msrParallelMusic : public msrElement {
 
     static SMARTP<msrParallelMusic> create(ElementsSeparator elementsSeparator);
 
-    void         addElementToParallelMusic (S_msrElement elem) { fParallelMusicElements.push_back(elem); }
-    S_msrElement getLastElementOfParallelMusic() { return fParallelMusicElements.back(); }
-    void         removeLastElementOfParallelMusic () { fParallelMusicElements.pop_back(); }
+    void         addElementToParallelMusic (S_msrElement elem)
+                    { fParallelMusicElements.push_back(elem); }
+    S_msrElement getLastElementOfParallelMusic()
+                    { return fParallelMusicElements.back(); }
+    void         removeLastElementOfParallelMusic ()
+                    { fParallelMusicElements.pop_back(); }
 
     virtual void printMusicXML      (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -840,8 +843,8 @@ class EXP msrLayout : public msrElement {
 
     static SMARTP<msrLayout> create();
     
-    void addmsrLilypondVarValAssoc (S_msrLilypondVarValAssoc assoc)
-      { fMsrLilypondVarValAssocs.push_back(assoc); }
+    void  addmsrLilypondVarValAssoc (S_msrLilypondVarValAssoc assoc)
+              { fMsrLilypondVarValAssocs.push_back(assoc); }
       
 //    void addMsrSchemeVarValAssoc (S_msrSchemeVarValAssoc assoc)
 //      { fMsrSchemeVarValAssocs.push_back(assoc); }
@@ -1414,7 +1417,7 @@ class EXP msrVoice : public msrElement {
     static SMARTP<msrVoice> create (
             S_translationSettings& ts,
             int                    voiceNumber,
-            S_msrStaff            voiceStaff);
+            S_msrStaff             voiceStaff);
                           
     int     getVoiceNumber () const
                 { return fVoiceNumber; }
@@ -1430,12 +1433,10 @@ class EXP msrVoice : public msrElement {
     string  getVoiceName () const;
 
     S_msrLyrics
-            addLyricsToVoice (
-              int lyricsNumber);
+            addLyricsToVoice (int lyricsNumber);
               
     S_msrLyrics
-            voiceContainsLyrics (
-              int lyricsNumber);
+            voiceContainsLyrics (int lyricsNumber);
                
     void    appendElementToVoiceSequence (S_msrElement elem)
                 { fVoiceSequence->appendElementToSequence (elem); }
@@ -1593,12 +1594,10 @@ class EXP msrPart : public msrElement {
     void    setAllPartStavesClef (S_msrClef clef);
               
     S_msrStaff
-            addStaffToPart (
-              int staffNumber);
+            addStaffToPart (int staffNumber);
 
     S_msrStaff
-            fetchStaffFromPart (
-              int staffNumber);
+            fetchStaffFromPart (int staffNumber);
 
     void    setPartName (string partName)
                 { fPartName = partName; }
@@ -1610,7 +1609,7 @@ class EXP msrPart : public msrElement {
                 { fPartInstrumentName = partInstrumentName; }
                 
     virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void printMSR           (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
 
   protected:
@@ -1663,20 +1662,22 @@ class EXP msrPartGroup : public msrElement {
     */
 
     enum PartGroupTypeKind {
-          kStartType, kStopType };
+        kStartPartGroupType, kStopPartGroupType,
+        k_NoPartGroupType };
           
     enum PartGroupSymbolKind {
-          kBraceSymbol, kBracketSymbol };
+        kBracePartGroupSymbol, kBracketPartGroupSymbol,
+         k_NoPartGroupSymbol };
           
     static SMARTP<msrPartGroup> create (
-            S_translationSettings& ts,
-            int                    partGroupNumber,
-            PartGroupTypeKind      partPartGroupTypeKind,
-            string                 partGroupName,
-            string                 partGroupAbbreviation,
-            PartGroupSymbolKind    partGroupSymbolKind,
-            string                 partGroupSymbolDefaultX,
-            bool                   partGroupBarline);
+        S_translationSettings& ts,
+        int                    partGroupNumber,
+        PartGroupTypeKind      partPartGroupTypeKind,
+        string                 partGroupName,
+        string                 partGroupAbbreviation,
+        PartGroupSymbolKind    partGroupSymbolKind,
+        string                 partGroupSymbolDefaultX,
+        bool                   partGroupBarline);
 
 /*            
     string    getPartGroupName () const
@@ -1694,11 +1695,9 @@ class EXP msrPartGroup : public msrElement {
 
     S_msrPart addPartToPartGroup (int partNumber);
     
-    S_msrPart addPartToPartGroup (
-                string partMusicXMLName);
+    S_msrPart addPartToPartGroup (string partMusicXMLName);
 
-    S_msrPart fetchPartFromPartGroup (
-                string partMusicXMLName);
+    S_msrPart fetchPartFromPartGroup (string partMusicXMLName);
 
     /* JMI
      map<int, S_msrPart>
@@ -1707,7 +1706,7 @@ class EXP msrPartGroup : public msrElement {
     */
                 
     virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void printMSR           (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
 
   protected:
@@ -1759,16 +1758,17 @@ class EXP msrScore : public msrElement {
   public:
 
     static SMARTP<msrScore> create (
-            S_translationSettings& ts);
+        S_translationSettings& ts);
 
-    S_msrPartGroup
-            addPartGroupToScore (int partGroupNumber);
+    S_msrPartGroup addPartGroupToScore (
+        S_translationSettings& ts,
+        S_msrPartGroup         group);
 
 //    S_msrPartGroup
 //            fetchScorePartGroup (int partGroupNumber);
 
     virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void printMSR           (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
 
   protected:
