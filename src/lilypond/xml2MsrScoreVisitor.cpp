@@ -188,12 +188,19 @@ void xml2MsrScoreVisitor::visitEnd (S_part_list& elt)
 }
 
 //________________________________________________________________________
-
 /*
-    <part-group type="start" number="1">
-    </part-group>
-    <part-group type="stop" number="1"/>
- */
+  There is no hierarchy implied in part-group elements.
+  All that matters is the sequence of part-group elements relative to score-part elements.
+  The sequencing of two consecutive part-group elements does not matter.
+  It is the default-x attribute that indicates the left-to-right ordering of the group symbols.
+
+  <part-group number="1" type="start">
+  <group-name>Trombones</group-name>
+  <group-abbreviation>Trb.</group-abbreviation>
+  <group-symbol default-x="-12">brace</group-symbol>
+  <group-barline>yes</group-barline>
+  </part-group>
+*/
 
 S_msrPartGroup xml2MsrScoreVisitor::fetchScorePartGroup (
   int partGroupNumber)
@@ -208,48 +215,64 @@ S_msrPartGroup xml2MsrScoreVisitor::fetchScorePartGroup (
 }
 
 void xml2MsrScoreVisitor::visitStart (S_part_group& elt)
-{
-  /*
-    <part-group number="1" type="start">
-    <group-name>Trombones</group-name>
-    <group-abbreviation>Trb.</group-abbreviation>
-    <group-symbol default-x="-12">brace</group-symbol>
-    <group-barline>yes</group-barline>
-    </part-group>
-  */
-  
-  // the part group number indicates nested/overlapping groups
-  int partGroupNumber =
+{  
+  fCurrentPartGroupNumber =
     elt->getAttributeIntValue ("number", 0);
     
-  string partGroupType =
+  fCurrentPartGroupType =
     elt->getAttributeValue ("type");
+}
 
+void xml2MsrScoreVisitor::visitStart (S_group_name& elt)
+{
+  fCurrentPartGroupName = elt->getValue();
+}
+
+void xml2MsrScoreVisitor::visitStart (S_group_abbreviation& elt)
+{
+  fCurrentGroupAbbreviation = elt->getValue ();
+}
+
+void xml2MsrScoreVisitor::visitStart (S_group_symbol& elt)
+{
+  fCurrentGroupSymbol = elt->getValue ();
+
+  fCurrentGroupSymbolDefaultX =
+    elt->getAttributeIntValue ("default-x", 0);
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_group_barline& elt)
+{
+  fCurrentGroupBarline = elt->getValue ();
+}
+
+void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
+{
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "Handling part group " << partGroupNumber <<
-      ", type: \"" << partGroupType << "\""  << endl;
+      "Handling part group " << fCurrentPartGroupNumber <<
+      ", type: \"" << fCurrentPartGroupType << "\""  << endl;
 
   idtr++;
   
-  if (partGroupType == "start") {
+  if (fCurrentPartGroupType == "start") {
 
     // is this part group number already present?
     fCurrentPartGroup =
-      fetchScorePartGroup (partGroupNumber);
+      fetchScorePartGroup (fCurrentPartGroupNumber);
 
     // no, add it to the score
     if (! fCurrentPartGroup) 
     fCurrentPartGroup =
       fMsrScore->
-        addPartGroupToScore (partGroupNumber);
+        addPartGroupToScore (fCurrentPartGroupNumber);
 
     // add it to the map of this visitor
     if (fTranslationSettings->fTrace)
       cerr <<
-        "Adding part group " << partGroupNumber <<
+        "Adding part group " << fCurrentPartGroupNumber <<
         " to visitor's part group map" << endl;
-    fPartGroupsMap [partGroupNumber] = fCurrentPartGroup;
+    fPartGroupsMap [fCurrentPartGroupNumber] = fCurrentPartGroup;
     
     if (true || fTranslationSettings->fDebug) {
   //  if (fTranslationSettings->fDebug) {
@@ -269,15 +292,15 @@ void xml2MsrScoreVisitor::visitStart (S_part_group& elt)
       cerr << idtr << "<== fPartGroupsMap" << endl;
     }
         
-  } else if (partGroupType == "stop") {
+  } else if (fCurrentPartGroupType == "stop") {
 
     // remove part group from the map,
     // it remains is the score's part group list
     if (fTranslationSettings->fTrace)
       cerr <<
-        "Removing part group " << partGroupNumber <<
+        "Removing part group " << fCurrentPartGroupNumber <<
         " from visitor's part group map" << endl;
-    fPartGroupsMap.erase (partGroupNumber);
+  //  fPartGroupsMap.erase (fCurrentPartGroupNumber);
     
     if (true || fTranslationSettings->fDebug) {
   //  if (fTranslationSettings->fDebug) {
@@ -300,45 +323,10 @@ void xml2MsrScoreVisitor::visitStart (S_part_group& elt)
   } else {
     
     msrMusicXMLError (
-      "unknown part group type \"" + partGroupType + "\"");
+      "unknown part group type \"" + fCurrentPartGroupType + "\"");
   }
-}
 
-void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
-{
   idtr--;
-}
-
-void xml2MsrScoreVisitor::visitStart (S_group_name& elt)
-{
-  string groupName = elt->getValue();
-
-  fCurrentPartGroup->setPartGroupName (groupName);
-}
-
-void xml2MsrScoreVisitor::visitStart (S_group_abbreviation& elt)
-{
-  string groupAbbreviation = elt->getValue ();
-
-  fCurrentPartGroup->setPartGroupAbbreviation (groupAbbreviation);
-}
-
-void xml2MsrScoreVisitor::visitStart (S_group_symbol& elt)
-{
-  // occurs after "<part-group number="nnn" type="start"> in MusicXML
-  // that has set fCurrentPartGroup
-
-  string partGroupSymbol = elt->getValue ();
-
-  fCurrentPartGroup->setPartGroupSymbol (partGroupSymbol);
-}
-
-void xml2MsrScoreVisitor::visitStart ( S_group_barline& elt)
-{
-  string groupBarline = elt->getValue ();
-
-  fCurrentPartGroup->
-    setPartGroupBarline (groupBarline);
 }
 
 //________________________________________________________________________

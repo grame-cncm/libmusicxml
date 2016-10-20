@@ -3488,21 +3488,51 @@ S_msrStaff msrPart::fetchStaffFromPart (
 //______________________________________________________________________________
 S_msrPartGroup msrPartGroup::create (
   S_translationSettings& ts,
-  int                    partGroupNumber)
+  int                    partGroupNumber,
+  PartGroupTypeKind      partPartGroupTypeKind,
+  string                 partGroupName,
+  string                 partGroupAbbreviation,
+  PartGroupSymbolKind    partGroupSymbolKind,
+  string                 partGroupSymbolDefaultX,
+  bool                   partGroupBarline)
 {
-  msrPartGroup* o = new msrPartGroup (ts, partGroupNumber);
+  msrPartGroup* o =
+    new msrPartGroup (
+      ts,
+      partGroupNumber,
+      partPartGroupTypeKind,
+      partGroupName,
+      partGroupAbbreviation,
+      partGroupSymbolKind,
+      partGroupSymbolDefaultX,
+      partGroupBarline);
   assert(o!=0);
   return o;
 }
 
 msrPartGroup::msrPartGroup (
   S_translationSettings& ts,
-  int                    partGroupNumber)
+  int                    partGroupNumber,
+  PartGroupTypeKind      partPartGroupTypeKind,
+  string                 partGroupName,
+  string                 partGroupAbbreviation,
+  PartGroupSymbolKind    partGroupSymbolKind,
+  string                 partGroupSymbolDefaultX,
+  bool                   partGroupBarline)
     : msrElement("")
 {
   fTranslationSettings = ts;
 
   fPartGroupNumber = partGroupNumber;
+  fPartPartGroupTypeKind = partPartGroupTypeKind;
+        
+  fPartGroupName = partGroupName;
+  fPartGroupAbbreviation = partGroupAbbreviation;
+
+  fPartGroupSymbolKind = partGroupSymbolKind;
+  fPartGroupSymbolDefaultX = partGroupSymbolDefaultX;
+
+  fPartGroupBarline = partGroupBarline;
   
   if (fTranslationSettings->fTrace)
     cerr <<

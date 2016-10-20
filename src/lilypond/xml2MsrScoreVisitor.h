@@ -318,7 +318,28 @@ class EXP xml2MsrScoreVisitor :
     S_msrScore               fMsrScore;
 
     // part group handling
+    /*
+      There is no hierarchy implied in part-group elements.
+      All that matters is the sequence of part-group elements relative to score-part elements.
+      The sequencing of two consecutive part-group elements does not matter.
+      It is the default-x attribute that indicates the left-to-right ordering of the group symbols.
+
+      <part-group number="1" type="start">
+      <group-name>Trombones</group-name>
+      <group-abbreviation>Trb.</group-abbreviation>
+      <group-symbol default-x="-12">brace</group-symbol>
+      <group-barline>yes</group-barline>
+      </part-group>
+    */
+    int                      fCurrentPartGroupNumber;
+    string                   fCurrentPartGroupType;
+    string                   fCurrentPartGroupName;
+    string                   fCurrentGroupAbbreviation;
+    string                   fCurrentGroupSymbol;
+    int                      fCurrentGroupSymbolDefaultX;
+    string                   fCurrentGroupBarline;
     S_msrPartGroup           fCurrentPartGroup; // JMI ???
+    
     // part groups numbers can be re-used, they're no identifier
     msrPartGroupsMap         fPartGroupsMap;
     S_msrPartGroup           fetchScorePartGroup (int partGroupNumber);

@@ -1648,36 +1648,37 @@ typedef map<string, S_msrPart> msrPartsMap;
 class EXP msrPartGroup : public msrElement {
   public:
 
-    enum PartGroupKind {
-          kBracesPartGroupKind, kBracketPartGroupKind };
+    /*
+      There is no hierarchy implied in part-group elements.
+      All that matters is the sequence of part-group elements relative to score-part elements.
+      The sequencing of two consecutive part-group elements does not matter.
+      It is the default-x attribute that indicates the left-to-right ordering of the group symbols.
+
+      <part-group number="1" type="start">
+      <group-name>Trombones</group-name>
+      <group-abbreviation>Trb.</group-abbreviation>
+      <group-symbol default-x="-12">brace</group-symbol>
+      <group-barline>yes</group-barline>
+      </part-group>
+    */
+
+    enum PartGroupTypeKind {
+          kStartType, kStopType };
+          
+    enum PartGroupSymbolKind {
+          kBraceSymbol, kBracketSymbol };
           
     static SMARTP<msrPartGroup> create (
             S_translationSettings& ts,
-            int                    partGroupNumber);
-            
-    S_msrPart addPartToPartGroup (
-                string partMusicXMLName);
+            int                    partGroupNumber,
+            PartGroupTypeKind      partPartGroupTypeKind,
+            string                 partGroupName,
+            string                 partGroupAbbreviation,
+            PartGroupSymbolKind    partGroupSymbolKind,
+            string                 partGroupSymbolDefaultX,
+            bool                   partGroupBarline);
 
-    S_msrPart fetchPartFromPartGroup (
-                string partMusicXMLName);
-
-//    void    popPartGroupPartsStackTop ();
-
-//    void    getPartGroupPartsStackTop ()
-//                { fPartGroupPartsStack.top (); }
-
-    void      setPartGroupName (string partGroupName)
-                { fPartGroupName = partGroupName; }
-                
-    void      setPartGroupAbbreviation (string partGroupAbbreviation)
-                { fPartGroupAbbreviation = partGroupAbbreviation; }
-                
-    void      setPartGroupSymbol (string partGroupSymbol)
-                { fPartGroupSymbol = partGroupSymbol; }
-                
-    void      setPartGroupBarline (string partGroupBarline)
-                { fPartGroupBarline = partGroupBarline; }
-                
+/*            
     string    getPartGroupName () const
                 { return fPartGroupName; }
 
@@ -1689,23 +1690,21 @@ class EXP msrPartGroup : public msrElement {
 
     string    getPartGroupBarline () const
                 { return fPartGroupBarline; }
+*/
 
     S_msrPart addPartToPartGroup (int partNumber);
     
-    /*
-    string  getPartGroupMusicXMLName () const
-                { return fPartGroupMusicXMLName; }
-                
-    map<int, S_msrPart>
+    S_msrPart addPartToPartGroup (
+                string partMusicXMLName);
+
+    S_msrPart fetchPartFromPartGroup (
+                string partMusicXMLName);
+
+    /* JMI
+     map<int, S_msrPart>
             getPartGroupPartsMap ()
                 { return fPartGroupPartsMap; }
-
-    string  getPartGroupMSRName     () const
-                { return fPartGroupMSRName; }
-
-    void    setPartGroupInstrumentName (string partInstrumentName)
-                { fPartGroupInstrumentName = partInstrumentName; }
-         */
+    */
                 
     virtual void printMusicXML      (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1715,7 +1714,13 @@ class EXP msrPartGroup : public msrElement {
 
     msrPartGroup (
         S_translationSettings& ts,
-        int                    partGroupNumber);
+        int                    partGroupNumber,
+        PartGroupTypeKind      partPartGroupTypeKind,
+        string                 partGroupName,
+        string                 partGroupAbbreviation,
+        PartGroupSymbolKind    partGroupSymbolKind,
+        string                 partGroupSymbolDefaultX,
+        bool                   partGroupBarline);
             
     virtual ~msrPartGroup();
   
@@ -1724,50 +1729,21 @@ class EXP msrPartGroup : public msrElement {
     S_msrPart tryAndReUseInitialAnonymousPart (
                 string partMusicXMLName);
 
-/*
-  <part-list>
-    <part-group number="1" type="start">
-      <group-symbol default-x="-7">bracket</group-symbol>
-      <group-barline>yes</group-barline>
-    </part-group>
-    <score-part id="P1">
-      <part-name>Piccolo</part-name>
-      <part-abbreviation>Picc.</part-abbreviation>
-      <score-instrument id="P1-I18">
-        <instrument-name>Picc.</instrument-name>
-      </score-instrument>
-      <midi-instrument id="P1-I18">
-        <midi-channel>1</midi-channel>
-        <midi-program>73</midi-program>
-      </midi-instrument>
-    </score-part>
-    <part-group number="2" type="start">
-      <group-name>1
-2</group-name>
-      <group-barline>yes</group-barline>
-    </part-group>
-    <score-part id="P2">
-*/
-
     S_translationSettings   fTranslationSettings;
     
-    // the part group number indicates nested/overlapping groups
     int                     fPartGroupNumber;
-
-    string                  fPartGroupSymbol;
-    string                  fPartGroupBarline;
-
-    PartGroupKind           fPartGroupKind; // computed in constructor
-
+    PartGroupTypeKind       fPartPartGroupTypeKind;
+        
     string                  fPartGroupName;
     string                  fPartGroupAbbreviation;
 
+    PartGroupSymbolKind     fPartGroupSymbolKind;
+    string                  fPartGroupSymbolDefaultX;
+
+    bool                    fPartGroupBarline;
+
     msrPartsMap             fPartGroupPartsMap;
     msrPartsList            fPartGroupPartsList;
-
- //   string                  fPartGroupMSRName;
-
-// ???    string                  fPartGroupInstrumentName;
 };
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
 typedef list<S_msrPartGroup> msrPartGroupsList;
