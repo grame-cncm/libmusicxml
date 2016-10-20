@@ -310,13 +310,12 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
     case msrPartGroup::kStartPartGroupType:
       {
       // is this part group number already present?
-      S_msrPartGroup
-        partGroup =
-          fetchScorePartGroup (fCurrentPartGroupNumber);
+      fCurrentPartGroup =
+        fetchScorePartGroup (fCurrentPartGroupNumber);
     
       // no, create it
       if (! fCurrentPartGroup) 
-        partGroup =
+        fCurrentPartGroup =
           msrPartGroup::create (
             fTranslationSettings,
             fCurrentPartGroupNumber,
@@ -334,7 +333,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
           " to visitor's part group map" << endl;
 
       fMsrScore->
-        addPartGroupToScore (partGroup);
+        addPartGroupToScore (fCurrentPartGroup);
     
       // add it to the map of this visitor
       if (fTranslationSettings->fTrace)
@@ -426,17 +425,38 @@ void xml2MsrScoreVisitor::visitStart (S_instrument_name& elt)
 
 void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
 {
-
-/*
   if (! fCurrentPartGroup) {
+    // create an implicit part group
     cerr << idtr <<
       "Adding an implicit part group to the score" << endl;
-      
+  
     fCurrentPartGroup =
-      fMsrScore->
-        addPartGroupToScore (1);
+      msrPartGroup::create (
+        fTranslationSettings,
+        1,
+        msrPartGroup::kStartPartGroupType,
+        "Anonymous",
+        "Anon.",
+        msrPartGroup::kBracketPartGroupSymbol,
+        -3,
+        true);
+  
+    // add implicit part group to the score
+    if (fTranslationSettings->fTrace)
+      cerr << idtr <<
+        "Adding the implicit part group to the score" << endl;
+      
+    fMsrScore->
+      addPartGroupToScore (fCurrentPartGroup);
+
+    // add implicit part group to the map of this visitor
+    if (fTranslationSettings->fTrace)
+      cerr <<
+        "Adding part group " << fCurrentPartGroupNumber <<
+        " to visitor's part group map" << endl;
+    fPartGroupsMap [fCurrentPartGroupNumber] = fCurrentPartGroup;
   }
-*/
+
   // is this part already present in the current part group?
   fCurrentPart =
     fCurrentPartGroup->
