@@ -232,6 +232,8 @@ void xml2MsrScoreVisitor::visitStart (S_part_group& elt)
     
   fCurrentPartGroupType =
     elt->getAttributeValue ("type");
+
+  fCurrentPartGroupBarline = "yes";
 }
 
 void xml2MsrScoreVisitor::visitStart (S_group_name& elt)
@@ -283,7 +285,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
   if (fCurrentPartGroupSymbol == "brace")
     partGroupSymbol = msrPartGroup::kBracePartGroupSymbol;
     
-  else if (fCurrentPartGroupSymbol == "barcket")
+  else if (fCurrentPartGroupSymbol == "bracket")
     partGroupSymbol = msrPartGroup::kBracketPartGroupSymbol;
     
   else {
@@ -302,7 +304,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
     
   else {
     msrMusicXMLError (
-      "unknown part group type \"" + fCurrentPartGroupSymbol + "\"");
+      "unknown part group barline \"" + fCurrentPartGroupBarline + "\"");
     partGroupBarline = false;
   }
 
@@ -460,6 +462,28 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
         "Adding implicit part group " << fCurrentPartGroupNumber <<
         " to visitor's part group map" << endl;
     fPartGroupsMap [fCurrentPartGroupNumber] = fCurrentPartGroup;
+
+    // create an implicit part in case none is specified in MusicXML
+    fCurrentPartMusicXMLName = "";
+    fCurrentPart =
+      msrPart::create (
+        fTranslationSettings, fCurrentPartMusicXMLName);
+    
+    // add a staff to the implicit part
+    fCurrentStaffNumber = 1;
+    fCurrentStaff =
+      fCurrentPart->
+        addStaffToPart (fCurrentStaffNumber);
+  
+    // add a voice to the staff
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (1);
+  
+    // add a lyrics to the voice
+    fCurrentLyrics =
+      fCurrentVoice->
+        addLyricsToVoice (1);
   }
 
   // is this part already present in the current part group?
