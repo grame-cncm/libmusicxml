@@ -196,6 +196,7 @@ class EXP xml2MsrScoreVisitor :
     virtual void visitStart ( S_group_barline& elt);
     
     virtual void visitStart ( S_score_part& elt);
+    virtual void visitEnd   ( S_score_part& elt);
     virtual void visitStart ( S_part_name& elt);
     virtual void visitStart ( S_part_abbreviation& elt);
     virtual void visitStart ( S_instrument_name& elt);
@@ -334,10 +335,10 @@ class EXP xml2MsrScoreVisitor :
     int                      fCurrentPartGroupNumber;
     string                   fCurrentPartGroupType;
     string                   fCurrentPartGroupName;
-    string                   fCurrentGroupAbbreviation;
-    string                   fCurrentGroupSymbol;
-    int                      fCurrentGroupSymbolDefaultX;
-    string                   fCurrentGroupBarline;
+    string                   fCurrentPartGroupAbbreviation;
+    string                   fCurrentPartGroupSymbol;
+    int                      fCurrentPartGroupSymbolDefaultX;
+    string                   fCurrentPartGroupBarline;
     S_msrPartGroup           fCurrentPartGroup; // JMI ???
     
     // part groups numbers can be re-used, they're no identifier
@@ -349,6 +350,9 @@ class EXP xml2MsrScoreVisitor :
     S_msrStaff               fCurrentStaff;
 
     // part handling
+    string                   fCurrentPartMusicXMLName;
+    string                   fCurrentPartAbbreviation;
+    string                   fCurrentPartInstrumentName;
     S_msrPart                fCurrentPart;
 
     // voice handling

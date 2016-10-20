@@ -212,23 +212,23 @@ class musicXMLNoteData {
  
   public:
   
-    char        fMusicxmlStep;
-    bool        fMusicxmlStepIsARest;
-    bool        fMusicxmlStepIsUnpitched;
-    int         fMusicxmlAlteration;
-    int         fMusicxmlOctave;
-    int         fMusicxmlDivisions;
-    int         fMusicxmlDuration;
-    int         fDotsNumber;
+    char        fMusicXMLStep;
+    bool        fMusicXMLStepIsARest;
+    bool        fMusicXMLStepIsUnpitched;
+    int         fMusicXMLAlteration;
+    int         fMusicXMLOctave;
+    int         fMusicXMLDivisions;
+    int         fMusicXMLDuration;
+    int         fMusicXMLDotsNumber;
     
-    bool        fNoteIsAGraceNote;
+    bool        fMusicXMLNoteIsAGraceNote;
     
-    bool        fNoteBelongsToAChord;
+    bool        fMusicXMLNoteBelongsToAChord;
     
-    bool        fNoteBelongsToATuplet;
-    string      fTupletMemberNoteType;
+    bool        fMusicXMLNoteBelongsToATuplet;
+    string      fMusicXMLTupletMemberNoteType;
 
-    int         fVoiceNumber;
+    int         fMusicXMLVoiceNumber;
 };
   
 /*!
@@ -1565,6 +1565,15 @@ class EXP msrPart : public msrElement {
               S_translationSettings& ts,
               string                 partMusicXMLName);
 
+    void    setPartName (string partName)
+                { fPartName = partName; }
+                
+    void    setPartAbbreviation (string partAbbreviation)
+                { fPartAbbreviation = partAbbreviation; }
+                
+    void    setPartInstrumentName (string partInstrumentName)
+                { fPartInstrumentName = partInstrumentName; }
+                
     void    changePartMusicXMLName (
               string newPartMusicXMLName);
               
@@ -1599,15 +1608,6 @@ class EXP msrPart : public msrElement {
     S_msrStaff
             fetchStaffFromPart (int staffNumber);
 
-    void    setPartName (string partName)
-                { fPartName = partName; }
-                
-    void    setPartAbbreviation (string partAbbreviation)
-                { fPartAbbreviation = partAbbreviation; }
-                
-    void    setPartInstrumentName (string partInstrumentName)
-                { fPartInstrumentName = partInstrumentName; }
-                
     virtual void printMusicXML      (ostream& os);
     virtual void printMSR           (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
@@ -1676,7 +1676,7 @@ class EXP msrPartGroup : public msrElement {
         string                 partGroupName,
         string                 partGroupAbbreviation,
         PartGroupSymbolKind    partGroupSymbolKind,
-        string                 partGroupSymbolDefaultX,
+        int                    partGroupSymbolDefaultX,
         bool                   partGroupBarline);
 
 /*            
@@ -1718,7 +1718,7 @@ class EXP msrPartGroup : public msrElement {
         string                 partGroupName,
         string                 partGroupAbbreviation,
         PartGroupSymbolKind    partGroupSymbolKind,
-        string                 partGroupSymbolDefaultX,
+        int                    partGroupSymbolDefaultX,
         bool                   partGroupBarline);
             
     virtual ~msrPartGroup();
@@ -1737,7 +1737,7 @@ class EXP msrPartGroup : public msrElement {
     string                  fPartGroupAbbreviation;
 
     PartGroupSymbolKind     fPartGroupSymbolKind;
-    string                  fPartGroupSymbolDefaultX;
+    int                     fPartGroupSymbolDefaultX;
 
     bool                    fPartGroupBarline;
 
@@ -1760,12 +1760,7 @@ class EXP msrScore : public msrElement {
     static SMARTP<msrScore> create (
         S_translationSettings& ts);
 
-    S_msrPartGroup addPartGroupToScore (
-        S_translationSettings& ts,
-        S_msrPartGroup         group);
-
-//    S_msrPartGroup
-//            fetchScorePartGroup (int partGroupNumber);
+    void addPartGroupToScore (S_msrPartGroup partGroup);
 
     virtual void printMusicXML      (ostream& os);
     virtual void printMSR           (ostream& os);

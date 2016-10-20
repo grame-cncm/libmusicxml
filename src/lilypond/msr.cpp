@@ -94,21 +94,43 @@ ostream& operator<< (ostream& os, musicXMLNoteData& data)
 
 void musicXMLNoteData::print (ostream& os)
 {
+  /*
+      char        fMusicXMLStep;
+    bool        fMusicXMLStepIsARest;
+    bool        fMusicXMLStepIsUnpitched;
+    int         fMusicXMLAlteration;
+    int         fMusicXMLOctave;
+    int         fMusicXMLDivisions;
+    int         fMusicXMLDuration;
+    int         fMusicXMLDotsNumber;
+    
+    bool        fMusicXMLNoteIsAGraceNote;
+    
+    bool        fMusicXMLNoteBelongsToAChord;
+    
+    bool        fMusicXMLNoteBelongsToATuplet;
+    string      fMusicXMLTupletMemberNoteType;
+
+    int         fMusicXMLVoiceNumber;
+*/
   os <<
-    "  " << left << setw(26) << "fMusicxmlStep = " << fMusicxmlStep <<  endl <<
-    "  " << left << setw(26) << "fMusicxmlStepIsARest = " << fMusicxmlStepIsARest <<  endl <<
-    "  " << left << setw(26) << "fMusicxmlAlteration = " << fMusicxmlAlteration <<  endl <<
-    "  " << left << setw(26) << "fMusicxmlOctave = " << fMusicxmlOctave <<  endl <<
-    "  " << left << setw(26) << "fMusicxmlDivisions = " << fMusicxmlDivisions <<  endl <<
-    "  " << left << setw(26) << "fMusicxmlDuration = " << fMusicxmlDuration <<  endl <<
-    "  " << left << setw(26) << "fDotsNumber = " << fDotsNumber <<  endl <<
+    "  " << left << setw(26) << "fMusicXMLStep = " << fMusicXMLStep <<  endl <<
+    "  " << left << setw(26) << "fMusicXMLStepIsARest = " << fMusicXMLStepIsARest <<  endl <<
+    "  " << left << setw(26) << "fMusicXMLAlteration = " << fMusicXMLAlteration <<  endl <<
+    "  " << left << setw(26) << "fMusicXMLOctave = " << fMusicXMLOctave <<  endl <<
+    "  " << left << setw(26) << "fMusicXMLDivisions = " << fMusicXMLDivisions <<  endl <<
+    "  " << left << setw(26) << "fMusicXMLDuration = " << fMusicXMLDuration <<  endl <<
+    "  " << left << setw(26) << "fMusicXMLDotsNumber = " << fMusicXMLDotsNumber <<  endl <<
     "  " << endl <<    
-    "  " << left << setw(26) << "fNoteBelongsToAChord = " << fNoteBelongsToAChord <<  endl <<
+    "  " << left << setw(26) << "fMusicXMLNoteBelongsToAChord = " <<
+                                fMusicXMLNoteBelongsToAChord <<  endl <<
     "  " << endl <<
-    "  " << left << setw(26) << "fNoteBelongsToATuplet = " << fNoteBelongsToATuplet <<  endl <<
-    "  " << left << setw(26) << "fTupletMemberNoteType = " << fTupletMemberNoteType <<  endl <<
+    "  " << left << setw(26) << "fMusicXMLNoteBelongsToATuplet = " <<
+                                fMusicXMLNoteBelongsToATuplet <<  endl <<
+    "  " << left << setw(26) << "fMusicXMLTupletMemberNoteType = " <<
+                                fMusicXMLTupletMemberNoteType <<  endl <<
     "  " << endl <<
-    "  " << left << setw(26) << "fVoiceNumber = " << fVoiceNumber <<  endl;
+    "  " << left << setw(26) << "fMusicXMLVoiceNumber = " << fMusicXMLVoiceNumber <<  endl;
 };
 
 void musicXMLBeatData::print (ostream& os)
@@ -672,26 +694,26 @@ msrNote::msrNote (
   }
     
   // take rests into account
-  if (fMusicXMLNoteData.fMusicxmlStepIsARest) {
+  if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
     /*
     cout <<
-      "--> REST, fMusicxmlDuration/fMusicxmlDivisions = " <<
-      fMusicXMLNoteData.fMusicxmlDuration << 
+      "--> REST, fMusicXMLDuration/fMusicXMLDivisions = " <<
+      fMusicXMLNoteData.fMusicXMLDuration << 
      "/" <<
-     fMusicXMLNoteData.fMusicxmlDivisions << endl;
+     fMusicXMLNoteData.fMusicXMLDivisions << endl;
     */
     fMusicXMLDiatonicPitch = msrNote::kRest;
   }
 
   if (
-    fMusicXMLNoteData.fMusicxmlStep < 'A'
+    fMusicXMLNoteData.fMusicXMLStep < 'A'
       ||
-    fMusicXMLNoteData.fMusicxmlStep > 'G') {
-    if (! fMusicXMLNoteData.fMusicxmlStepIsARest) {
+    fMusicXMLNoteData.fMusicXMLStep > 'G') {
+    if (! fMusicXMLNoteData.fMusicXMLStepIsARest) {
       stringstream s;
       string       message;
       s <<
-        "step value " << fMusicXMLNoteData.fMusicxmlStep <<
+        "step value " << fMusicXMLNoteData.fMusicXMLStep <<
         " is not a letter from A to G";
       s >> message;
     //  msrMusicXMLError (message);
@@ -702,7 +724,7 @@ msrNote::msrNote (
 //  cout << "=== xmlPart2MsrVisitor::visitStart ( S_step& elt ) " << fCurrentMusicXMLStep << endl;
 // JMI
 
-  switch (fMusicXMLNoteData.fMusicxmlStep) {
+  switch (fMusicXMLNoteData.fMusicXMLStep) {
     case 'A': fMusicXMLDiatonicPitch = msrNote::kA; break;
     case 'B': fMusicXMLDiatonicPitch = msrNote::kB; break;
     case 'C': fMusicXMLDiatonicPitch = msrNote::kC; break;
@@ -716,7 +738,7 @@ msrNote::msrNote (
   // how many quater tones from A?s
   int noteQuatertonesFromA;
   
-  switch (fMusicXMLNoteData.fMusicxmlStep) {
+  switch (fMusicXMLNoteData.fMusicXMLStep) {
     case 'A': noteQuatertonesFromA =  0; break;
     case 'B': noteQuatertonesFromA =  4; break;
     case 'C': noteQuatertonesFromA =  6; break;
@@ -732,11 +754,11 @@ msrNote::msrNote (
 
 /*
   cout <<
-    "--> fMusicXMLNoteData.fMusicxmlAlteration = " <<
-    fMusicXMLNoteData.fMusicxmlAlteration <<  endl;
+    "--> fMusicXMLNoteData.fMusicXMLAlteration = " <<
+    fMusicXMLNoteData.fMusicXMLAlteration <<  endl;
 */
   
-  switch (fMusicXMLNoteData.fMusicxmlAlteration) {
+  switch (fMusicXMLNoteData.fMusicXMLAlteration) {
     case -2:
       mxmlAlteration = msrNote::kDoubleFlat;
       noteQuatertonesFromA-=3;
@@ -765,15 +787,15 @@ msrNote::msrNote (
       stringstream s;
       string       message;
       s <<
-        "MusicXML alteration " << fMusicXMLNoteData.fMusicxmlAlteration <<
+        "MusicXML alteration " << fMusicXMLNoteData.fMusicXMLAlteration <<
         " is not between -2 and +2";
       s >> message;
       cout << "message = |" << message << "|" << endl;
       
       msrAssert(
-        fMusicXMLNoteData.fMusicxmlAlteration>=-2
+        fMusicXMLNoteData.fMusicXMLAlteration>=-2
           &&
-        fMusicXMLNoteData.fMusicxmlAlteration<=+2,
+        fMusicXMLNoteData.fMusicXMLAlteration<=+2,
         message);
       }
    } // switch
@@ -781,13 +803,13 @@ msrNote::msrNote (
   fNoteMsrPitch = 
     computeNoteMsrPitch (noteQuatertonesFromA, mxmlAlteration);
   
-  int divisionsPerWholeNote = fMusicXMLNoteData.fMusicxmlDivisions*4;
+  int divisionsPerWholeNote = fMusicXMLNoteData.fMusicXMLDivisions*4;
   
 //  if (true || fTranslationSettings->fDebug)
   if (fTranslationSettings->fDebug)
     cerr << 
-      "--> fMusicXMLNoteData.fMusicxmlDivisions = " <<
-      fMusicXMLNoteData.fMusicxmlDivisions << ", " << 
+      "--> fMusicXMLNoteData.fMusicXMLDivisions = " <<
+      fMusicXMLNoteData.fMusicXMLDivisions << ", " << 
       "divisionsPerWholeNote = " << divisionsPerWholeNote << endl;
     
   msrAssert(
@@ -796,10 +818,10 @@ msrNote::msrNote (
 
   fNoteMsrDuration =
     msrDuration::create (
-      fMusicXMLNoteData.fMusicxmlDuration,
+      fMusicXMLNoteData.fMusicXMLDuration,
       divisionsPerWholeNote,
-      fMusicXMLNoteData.fDotsNumber,
-      fMusicXMLNoteData.fTupletMemberNoteType);
+      fMusicXMLNoteData.fMusicXMLDotsNumber,
+      fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
 //  cout << "fNoteMsrDuration = " << fNoteMsrDuration << endl;
     
   // diatonic note for relative code JMI
@@ -810,7 +832,7 @@ msrNote::msrNote (
 msrNote::~msrNote() {}
 
 void msrNote::setNoteBelongsToAChord () {
-  fMusicXMLNoteData.fNoteBelongsToAChord = true;
+  fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = true;
 }
 
 //______________________________________________________________________________
@@ -1001,17 +1023,17 @@ string msrNote::notePitchAsLilypondString ()
   
   /*
   cout << "msrNote::notePitchAsLilypondString (), isRest = " <<
-    fMusicXMLNoteData.fMusicxmlStepIsARest <<
+    fMusicXMLNoteData.fMusicXMLStepIsARest <<
     ", fMsrPitch = " << fMsrPitch << endl;
   */
   
-  if (fMusicXMLNoteData.fMusicxmlStepIsARest)
+  if (fMusicXMLNoteData.fMusicXMLStepIsARest)
     s << "r";
 
   else {
     //JMI assertMsr(fMsrPitch != k_NoMsrPitch, "fMsrPitch != k_NoMsrPitch");
 
-    if (fMusicXMLNoteData.fMusicxmlStepIsUnpitched)
+    if (fMusicXMLNoteData.fMusicXMLStepIsUnpitched)
       s << "unpitched ";
       
     switch (fNoteMsrPitch) {
@@ -1075,7 +1097,7 @@ string msrNote::notePitchAsLilypondString ()
       default: s << "Note" << fNoteMsrPitch << "???";
     } // switch
 
-    s << fMusicXMLNoteData.fMusicxmlOctave;
+    s << fMusicXMLNoteData.fMusicXMLOctave;
   }
 
   string  result;
@@ -1097,21 +1119,21 @@ void msrNote::printMSR(ostream& os)
     fNoteBelongsToAChord << endl;
   */
   
-  if (fMusicXMLNoteData.fNoteBelongsToAChord) {
+  if (fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord) {
 
     // do not print it, msrChord::printMSR() will do it
     os << notePitchAsLilypondString() << " (FOO) ";
 
   } else {
 
-    if (fMusicXMLNoteData.fMusicxmlStepIsARest)
+    if (fMusicXMLNoteData.fMusicXMLStepIsARest)
       os << "Rest";
     else
       os << "Note";
     os <<
       " " << notePitchAsLilypondString () <<
       ":" << fNoteMsrDuration;
-    if (fMusicXMLNoteData.fNoteIsAGraceNote)
+    if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
       os << " " << "grace";
     os << endl;
     
@@ -1172,7 +1194,7 @@ void msrNote::printLilyPondCode(ostream& os)
   // print the note name
   os << notePitchAsLilypondString ();
   
-  if (! fMusicXMLNoteData.fNoteBelongsToAChord) {
+  if (! fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord) {
     // print the note duration
     os << fNoteMsrDuration;
     
@@ -3493,7 +3515,7 @@ S_msrPartGroup msrPartGroup::create (
   string                 partGroupName,
   string                 partGroupAbbreviation,
   PartGroupSymbolKind    partGroupSymbolKind,
-  string                 partGroupSymbolDefaultX,
+  int                    partGroupSymbolDefaultX,
   bool                   partGroupBarline)
 {
   msrPartGroup* o =
@@ -3517,7 +3539,7 @@ msrPartGroup::msrPartGroup (
   string                 partGroupName,
   string                 partGroupAbbreviation,
   PartGroupSymbolKind    partGroupSymbolKind,
-  string                 partGroupSymbolDefaultX,
+  int                    partGroupSymbolDefaultX,
   bool                   partGroupBarline)
     : msrElement("")
 {
@@ -3784,8 +3806,7 @@ msrScore::msrScore (
 }
 msrScore::~msrScore() {}
 
-S_msrPartGroup msrScore::addPartGroupToScore (
-  int partGroupNumber)
+void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 {
   /* JMI
   if (fScorePartGroupsMap.count (partGroupNumber)) {
@@ -3797,16 +3818,8 @@ S_msrPartGroup msrScore::addPartGroupToScore (
   }
 */
 
-  // create the part group
-  S_msrPartGroup
-    partGroup =
-      msrPartGroup::create (
-        fTranslationSettings, partGroupNumber);
-
   // register it in this score
   fPartGroupsList.push_back (partGroup);
-
-   return partGroup;
 }
 
 /*

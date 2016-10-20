@@ -49,19 +49,28 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   in msrPartGroup::tryAndReUseInitialAnonymousPart()
   */
 
+/*
 
   cerr <<
     "Creating a full-fledged anonymous part group in case the MusicXML is poor" << endl;
     
   idtr++;
 
+  // create an anonumous part group
+  fCurrentPartGroup =
+    msrPartGroup::create ();
+  
   // add the anonymous part group to the ccore
   fCurrentPartGroup =
     fMsrScore->
       addPartGroupToScore (1);
 
-  // add the anonymous part to the anonymous part group
+  // create an anonymous part in case none is specified in MusicXML
   string partXMLName = "";
+//  fCurrentPart = JMI
+//    msrPart::create ( fTranslationSettings, partMusicXMLName);
+    
+  // add the anonymous part to the anonymous part group
   fCurrentPart =
     fCurrentPartGroup->
       addPartToPartGroup (partXMLName);
@@ -100,6 +109,7 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   fOnGoingForward = false;
 
   idtr--;
+  */
 }
 
 xml2MsrScoreVisitor::~xml2MsrScoreVisitor ()
@@ -230,20 +240,20 @@ void xml2MsrScoreVisitor::visitStart (S_group_name& elt)
 
 void xml2MsrScoreVisitor::visitStart (S_group_abbreviation& elt)
 {
-  fCurrentGroupAbbreviation = elt->getValue ();
+  fCurrentPartGroupAbbreviation = elt->getValue ();
 }
 
 void xml2MsrScoreVisitor::visitStart (S_group_symbol& elt)
 {
-  fCurrentGroupSymbol = elt->getValue ();
+  fCurrentPartGroupSymbol = elt->getValue ();
 
-  fCurrentGroupSymbolDefaultX =
+  fCurrentPartGroupSymbolDefaultX =
     elt->getAttributeIntValue ("default-x", 0);
 }
 
 void xml2MsrScoreVisitor::visitStart ( S_group_barline& elt)
 {
-  fCurrentGroupBarline = elt->getValue ();
+  fCurrentPartGroupBarline = elt->getValue ();
 }
 
 void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
@@ -269,16 +279,30 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
 
   msrPartGroup::PartGroupSymbolKind partGroupSymbol;
   
-  if (fCurrentGroupSymbol == "brace")
+  if (fCurrentPartGroupSymbol == "brace")
     partGroupSymbol = msrPartGroup::kBracePartGroupSymbol;
     
-  else if (fCurrentGroupSymbol == "barcket")
+  else if (fCurrentPartGroupSymbol == "barcket")
     partGroupSymbol = msrPartGroup::kBracketPartGroupSymbol;
     
   else {
     msrMusicXMLError (
-      "unknown part group type \"" + fCurrentGroupSymbol + "\"");
+      "unknown part group type \"" + fCurrentPartGroupSymbol + "\"");
     partGroupSymbol = msrPartGroup::k_NoPartGroupSymbol;
+  }
+
+  bool partGroupBarline;
+  
+  if (fCurrentPartGroupBarline == "yes")
+    partGroupBarline = true;
+    
+  else if (fCurrentPartGroupBarline == "no")
+    partGroupBarline = false;
+    
+  else {
+    msrMusicXMLError (
+      "unknown part group type \"" + fCurrentPartGroupSymbol + "\"");
+    partGroupBarline = false;
   }
 
   switch (partGroupType) {
@@ -286,7 +310,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
     case msrPartGroup::kStartPartGroupType:
       {
       // is this part group number already present?
-      S_msrPartGroup partGroup;
+      S_msrPartGroup
         partGroup =
           fetchScorePartGroup (fCurrentPartGroupNumber);
     
@@ -301,12 +325,16 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
             fCurrentPartGroupAbbreviation,
             partGroupSymbol,
             fCurrentPartGroupSymbolDefaultX,
-            fCurrentPartGroupBarline);
+            partGroupBarline);
     
       // add it to the score
-      partGroup = // JMI ???
-        fMsrScore->
-          addPartGroupToScore (fCurrentPartGroupNumber);
+      if (fTranslationSettings->fTrace)
+        cerr <<
+          "Adding part group " << fCurrentPartGroupNumber <<
+          " to visitor's part group map" << endl;
+
+      fMsrScore->
+        addPartGroupToScore (partGroup);
     
       // add it to the map of this visitor
       if (fTranslationSettings->fTrace)
@@ -374,12 +402,32 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_score_part& elt)
 {
-  string partMusicXMLName = elt->getAttributeValue ("id");
+  fCurrentPartMusicXMLName = elt->getAttributeValue ("id");
 
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "Found part name \"" << partMusicXMLName << "\"" << endl;
+      "Found part name \"" << fCurrentPartMusicXMLName << "\"" << endl;
+}
 
+void xml2MsrScoreVisitor::visitStart (S_part_name& elt)
+{
+  string partName = elt->getValue ();
+}
+
+void xml2MsrScoreVisitor::visitStart (S_part_abbreviation& elt)
+{
+  fCurrentPartGroupAbbreviation = elt->getValue ();
+}
+
+void xml2MsrScoreVisitor::visitStart (S_instrument_name& elt)
+{
+  fCurrentPartInstrumentName = elt->getValue(); // jMI
+}
+
+void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
+{
+
+/*
   if (! fCurrentPartGroup) {
     cerr << idtr <<
       "Adding an implicit part group to the score" << endl;
@@ -388,42 +436,24 @@ void xml2MsrScoreVisitor::visitStart (S_score_part& elt)
       fMsrScore->
         addPartGroupToScore (1);
   }
-
+*/
   // is this part already present in the current part group?
   fCurrentPart =
     fCurrentPartGroup->
-      fetchPartFromPartGroup (
-        partMusicXMLName);
+      fetchPartFromPartGroup (fCurrentPartMusicXMLName);
 
   // no, add it to the current part group
   if (! fCurrentPart) {
     fCurrentPart =
       fCurrentPartGroup->
-        addPartToPartGroup (
-          partMusicXMLName);
+        addPartToPartGroup (fCurrentPartMusicXMLName);
   }
-}
 
-void xml2MsrScoreVisitor::visitStart (S_part_name& elt)
-{
-  string partName = elt->getValue ();
-
+  // populate current part
   fCurrentPart->
-    setPartName (partName);
-}
-
-void xml2MsrScoreVisitor::visitStart (S_part_abbreviation& elt)
-{
-  string fCurrentPartAbbreviation = elt->getValue ();
-
+    setPartName (fCurrentPartMusicXMLName);
   fCurrentPart->
     setPartAbbreviation (fCurrentPartAbbreviation);
-}
-
-void xml2MsrScoreVisitor::visitStart (S_instrument_name& elt)
-{
-  string fCurrentPartInstrumentName = elt->getValue(); // jMI
-
   fCurrentPart->
     setPartInstrumentName (fCurrentPartInstrumentName);
 }
@@ -1124,10 +1154,10 @@ void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
     S_msrDuration
       lyricMsrDuration =
         msrDuration::create (
-          fMusicXMLNoteData.fMusicxmlDuration,
+          fMusicXMLNoteData.fMusicXMLDuration,
           fCurrentMusicXMLDivisions,
-          fMusicXMLNoteData.fDotsNumber,
-          fMusicXMLNoteData.fTupletMemberNoteType);
+          fMusicXMLNoteData.fMusicXMLDotsNumber,
+          fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
   
     fCurrentLyrics->
       addTextChunkToLyrics (
@@ -1301,13 +1331,13 @@ void xml2MsrScoreVisitor::visitStart ( S_ending& elt )
 void xml2MsrScoreVisitor::visitStart ( S_note& elt ) 
 {
   //  cout << "--> xml2MsrScoreVisitor::visitStart ( S_note& elt ) " << endl;
-  fMusicXMLNoteData.fMusicxmlStep = '_';
-  fMusicXMLNoteData.fMusicxmlStepIsARest = false;
-  fMusicXMLNoteData.fMusicxmlStepIsUnpitched = false;
-  fMusicXMLNoteData.fMusicxmlAlteration = 0; // natural notes
-  fMusicXMLNoteData.fMusicxmlOctave = -13;
-  fMusicXMLNoteData.fDotsNumber = 0;
-  fMusicXMLNoteData.fNoteIsAGraceNote = false;;
+  fMusicXMLNoteData.fMusicXMLStep = '_';
+  fMusicXMLNoteData.fMusicXMLStepIsARest = false;
+  fMusicXMLNoteData.fMusicXMLStepIsUnpitched = false;
+  fMusicXMLNoteData.fMusicXMLAlteration = 0; // natural notes
+  fMusicXMLNoteData.fMusicXMLOctave = -13;
+  fMusicXMLNoteData.fMusicXMLDotsNumber = 0;
+  fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote = false;;
 
   // assuming staff number 1, unless S_staff states otherwise afterwards
   fCurrentStaffNumber = 1;
@@ -1318,10 +1348,10 @@ void xml2MsrScoreVisitor::visitStart ( S_note& elt )
   fCurrentNoteHasLyrics = false;
   
   // assume this note doesn't belong to a chord until S_chord is met
-  fMusicXMLNoteData.fNoteBelongsToAChord = false;
+  fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = false;
 
   // assume this note doesn't belong to a tuplet until S_chord is met
-  fMusicXMLNoteData.fNoteBelongsToATuplet = fOnGoingTuplet;
+  fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet = fOnGoingTuplet;
 
   fCurrentTiedType = "";
   fCurrentTiedOrientation = "";
@@ -1347,17 +1377,17 @@ void xml2MsrScoreVisitor::visitStart ( S_step& elt )
     msrMusicXMLError (message);
   }
 
-  fMusicXMLNoteData.fMusicxmlStep = step[0];
+  fMusicXMLNoteData.fMusicXMLStep = step[0];
 }
 
 void xml2MsrScoreVisitor::visitStart ( S_alter& elt)
 {
-  fMusicXMLNoteData.fMusicxmlAlteration = (int)(*elt);
+  fMusicXMLNoteData.fMusicXMLAlteration = (int)(*elt);
 }
 
 void xml2MsrScoreVisitor::visitStart ( S_octave& elt)
 {
-  fMusicXMLNoteData.fMusicxmlOctave = (int)(*elt);
+  fMusicXMLNoteData.fMusicXMLOctave = (int)(*elt);
 }
 
 void xml2MsrScoreVisitor::visitStart ( S_duration& elt )
@@ -1374,7 +1404,7 @@ void xml2MsrScoreVisitor::visitStart ( S_duration& elt )
     
   else if (fOnGoingNote)
   
-    fMusicXMLNoteData.fMusicxmlDuration = musicXMLduration;
+    fMusicXMLNoteData.fMusicXMLDuration = musicXMLduration;
     
   else {
     
@@ -1391,7 +1421,7 @@ void xml2MsrScoreVisitor::visitStart ( S_duration& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_dot& elt )
 {
-  fMusicXMLNoteData.fDotsNumber++;
+  fMusicXMLNoteData.fMusicXMLDotsNumber++;
 }
        
 void xml2MsrScoreVisitor::visitStart ( S_type& elt )
@@ -1614,13 +1644,13 @@ void xml2MsrScoreVisitor::visitStart ( S_wedge& elt )
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_grace& elt )
 {
-  fMusicXMLNoteData.fNoteIsAGraceNote = true;;
+  fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote = true;;
 }
        
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_chord& elt)
 {
-  fMusicXMLNoteData.fNoteBelongsToAChord = true;
+  fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = true;
 }
 
 //______________________________________________________________________________
@@ -1641,7 +1671,7 @@ void xml2MsrScoreVisitor::visitStart ( S_normal_type& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
 {
-  fMusicXMLNoteData.fNoteBelongsToATuplet = true;
+  fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet = true;
 
   fCurrentTupletNumber =
     elt->getAttributeIntValue ("number", 0);
@@ -1682,7 +1712,7 @@ void xml2MsrScoreVisitor::visitStart ( S_rest& elt)
       </note>
 */
   //  cout << "--> xml2MsrScoreVisitor::visitStart ( S_rest& elt ) " << endl;
-  fMusicXMLNoteData.fMusicxmlStepIsARest = true;
+  fMusicXMLNoteData.fMusicXMLStepIsARest = true;
 }
 
 //______________________________________________________________________________
@@ -1714,9 +1744,9 @@ void xml2MsrScoreVisitor::visitEnd ( S_unpitched& elt)
           <display-octave>5</display-octave>
         </unpitched>
 */
-  fMusicXMLNoteData.fMusicxmlStepIsUnpitched = true;
-  fMusicXMLNoteData.fMusicxmlStep = fDisplayStep;
-  fMusicXMLNoteData.fMusicxmlOctave = fDisplayOctave;
+  fMusicXMLNoteData.fMusicXMLStepIsUnpitched = true;
+  fMusicXMLNoteData.fMusicXMLStep = fDisplayStep;
+  fMusicXMLNoteData.fMusicXMLOctave = fDisplayOctave;
 }
 
 //______________________________________________________________________________
@@ -1895,23 +1925,23 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
         addVoiceToStaff (fCurrentVoiceNumber);
 
   // store voice number in MusicXML note data
-  fMusicXMLNoteData.fVoiceNumber = fCurrentVoiceNumber;
+  fMusicXMLNoteData.fMusicXMLVoiceNumber = fCurrentVoiceNumber;
 
   fCurrentStemDirection = kStemNeutral;
   
   if (fTranslationSettings->fDebug)
     cerr <<
-      "fMusicXMLNoteData.fMusicxmlDuration = " << 
-      fMusicXMLNoteData.fMusicxmlDuration << ", " << 
+      "fMusicXMLNoteData.fMusicXMLDuration = " << 
+      fMusicXMLNoteData.fMusicXMLDuration << ", " << 
       "fCurrentMusicXMLDivisions*4 = " <<
       fCurrentMusicXMLDivisions*4 << endl;
       
   if (fCurrentMusicXMLDivisions <= 0)
     msrMusicXMLError ("divisions cannot be 0 nor negative");
   
-  fMusicXMLNoteData.fMusicxmlDivisions =
+  fMusicXMLNoteData.fMusicXMLDivisions =
     fCurrentMusicXMLDivisions;
-  fMusicXMLNoteData.fTupletMemberNoteType =
+  fMusicXMLNoteData.fMusicXMLTupletMemberNoteType =
     fCurrentNoteType;
   
   //cout << "::: creating a note" << endl;
@@ -1930,7 +1960,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
    
   // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {
-    if (fMusicXMLNoteData.fMusicxmlStepIsARest) {
+    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
       if (fTranslationSettings->fDelayRestsDynamics) {
       cerr << idtr <<
         "--> Delaying dynamics attached to a rest until next note" << endl;
@@ -1949,7 +1979,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   
   // attach the pending wedges if any to the note
   if (! fPendingWedges.empty()) {
-    if (fMusicXMLNoteData.fMusicxmlStepIsARest) {
+    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
       if (fTranslationSettings->fDelayRestsDynamics) {
       cerr << idtr <<
         "--> Delaying wedge attached to a rest until next note" << endl;
@@ -1974,9 +2004,9 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   A rest can be standalone or belong to a tuplet
   */
   
-  if (fMusicXMLNoteData.fNoteBelongsToAChord) {
+  if (fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord) {
     
-    if (fMusicXMLNoteData.fMusicxmlStepIsARest)
+    if (fMusicXMLNoteData.fMusicXMLStepIsARest)
       msrMusicXMLError (
         "a rest cannot belong to a chord");
         
@@ -2003,9 +2033,9 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     S_msrElement elem = fCurrentChord;
     fCurrentVoice->appendElementToVoiceSequence (elem);
 
-  } else if (fMusicXMLNoteData.fNoteBelongsToATuplet) {
+  } else if (fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet) {
 
-    fMusicXMLNoteData.fTupletMemberNoteType = fCurrentNoteType;
+    fMusicXMLNoteData.fMusicXMLTupletMemberNoteType = fCurrentNoteType;
     
     switch (fCurrentTupletKind) {
       case msrTuplet::kStartTuplet:
