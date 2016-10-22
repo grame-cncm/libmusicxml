@@ -37,7 +37,7 @@ void usage(int exitStatus) {
     "        Pass 1: read the contents of MusicXMLFile or stdin ('-')" << endl <<
     "                and convert it to a MusicXML tree;" << endl <<
     "        Pass 2: convert that tree to Music Score Representation (MSR);" << endl <<
-    "        Pass 3: convert the MSR to LilyPond Score Representation (LPSR);" << endl <<
+    "        Pass 3: augment the MSR to obtain a LilyPond Score Representation (LPSR);" << endl <<
     "        Pass 4: write the LPSR as LilyPond source code to standard output." << endl <<
     "        The activity log and warning/error messages go to standard error." << endl <<
     endl <<
@@ -173,9 +173,24 @@ int main(int argc, char *argv[])
     -1
     )
     {
+    /*
+    cerr << "c = " << c << endl;
+    cerr << "option_index = " << option_index << endl;
+    
+    cerr <<
+      "option : " << long_options[option_index].name <<
+      " with flag " << long_options[option_index].flag;
+    if (optarg)
+      cerr << " and arg " << optarg << "\"";
+    cerr << endl;
+
+    //cerr << "debugPresent = " << debugPresent << endl;
+    */
+    
     switch (c)
       {
       case 0 :
+        {
         if (helpPresent) {
           usage (0);
           break;
@@ -195,67 +210,57 @@ int main(int argc, char *argv[])
           ts->fSelectedOptions +=
             "--language "+ts->fMsrNoteNamesLanguageAsString+" ";
           }
-          break;
              
         if (staffRelativeVoiceNumbersPresent) {
           ts->fGenerateStaffRelativeVoiceNumbers = true;
           ts->fSelectedOptions += "--staffRelativeVoiceNumbers ";
-          break;
         }
         
         if (absolutePresent) {
           ts->fGenerateAbsoluteCode = true;
           ts->fSelectedOptions += "--absolute ";
-          break;
         }
         
         if (numericaltimePresent) {
           ts->fGenerateNumericalTime = true;
           ts->fSelectedOptions += "--numericalTime ";
-          break;
         }
         if (noCommentsPresent) {
           ts->fGenerateComments = false;
           ts->fSelectedOptions += "--noComments ";
-          break;
         }
         if (stemsPresent) {
           ts->fGenerateStems = true;
           ts->fSelectedOptions += "--stems ";
-          break;
         }
         if (positionsPresent) {
           ts->fGeneratePositions = true;
           ts->fSelectedOptions += "--positions ";
-          break;
         }
         
         if (delayRestsDynamicsPresent) {
           ts->fDelayRestsDynamics = true;
           ts->fSelectedOptions += "--delayRestsDynamics ";
-          break;
         }
         
         if (displayMSRPresent) {
           ts->fDisplayMSR = true;
           ts->fSelectedOptions += "--noAutobars ";
-          break;
         }
 
         if (noTracePresent) {
           ts->fTrace = false;
           ts->fSelectedOptions += "--noTrace ";
-          break;
         }
         if (debugPresent) {
           ts->fTrace = true;
           ts->fDebug = true;
           ts->fSelectedOptions += "--debug ";
-          break;
+        }
         }
         break;
         
-       default:
+      default:
         usage (1);
         break;
       } // switch

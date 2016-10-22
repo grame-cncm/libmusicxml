@@ -555,10 +555,12 @@ class EXP msrSequence : public msrElement {
     void          appendElementToSequence  (S_msrElement elem)
                       { fSequenceElements.push_back (elem); }
     
-    S_msrElement  getLastElementOfSequence()
+    S_msrElement  getLastElementOfSequence ()
                       { return fSequenceElements.back (); }
                       
     void          removeElementFromSequence (S_msrElement elem);
+    void          removeLastElementFromSequence ()
+                      { fSequenceElements.pop_back () ; }
 
     virtual void printMusicXML      (ostream& os);
     virtual void printMSR           (ostream& os);
@@ -1441,7 +1443,14 @@ class EXP msrVoice : public msrElement {
                
     void    appendElementToVoiceSequence (S_msrElement elem)
                 { fVoiceSequence->appendElementToSequence (elem); }
-                
+
+    S_msrElement
+            getVoiceSequenceLastElement ()
+                { return fVoiceSequence->getLastElementOfSequence (); }
+                  
+    void    removeLastElementFromVoiceSequence ()
+                { fVoiceSequence->removeLastElementFromSequence (); }
+
     void    removeElementFromVoiceSequence (S_msrElement elem)
                 { fVoiceSequence->removeElementFromSequence (elem); }
 

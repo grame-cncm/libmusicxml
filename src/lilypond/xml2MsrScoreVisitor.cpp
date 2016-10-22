@@ -164,8 +164,9 @@ void xml2MsrScoreVisitor::resetCurrentTime ()
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_part_list& elt)
 {
-  cerr << idtr <<
-    "Analysing part list" << endl;
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Analysing part list" << endl;
 
   idtr++;
 }
@@ -433,9 +434,10 @@ void xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
   fCurrentPartGroupNumber = 1;
   fCurrentVoiceNumber = 1;
   
-  cerr << idtr <<
-    "Creating an implicit part group with number " <<
-    fCurrentPartGroupNumber << endl;
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Creating an implicit part group with number " <<
+      fCurrentPartGroupNumber << endl;
 
   fCurrentPartGroup =
     msrPartGroup::create (
@@ -1797,7 +1799,7 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
   if (fTranslationSettings->fDebug)
     cerr << idtr <<
       "--> adding first note " << fCurrentNote->notePitchAsLilypondString() <<
-      "to chord" << endl;
+      " to new chord" << endl;
     
   // register fCurrentNote as first member of chord
   chord->addNoteToChord (fCurrentNote);
@@ -2063,12 +2065,14 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
         " as a member of current chord" << endl;
     fCurrentChord->addNoteToChord (newNote);
       
-    // remove (previous) fCurrentNote from the current voice sequence
+    // remove previous current note or the previous state of the chord
+    // from the current voice sequence
     if (fTranslationSettings->fDebug)
       cout << idtr <<
-        "--> removing previous note " << fCurrentNote->notePitchAsLilypondString() <<
+        "--> removing last element " << fCurrentVoice->getVoiceSequenceLastElement() <<
         " from current voice" << endl;
-    fCurrentVoice->removeElementFromVoiceSequence (fCurrentNote);
+// JMI    fCurrentVoice->removeElementFromVoiceSequence (fCurrentNote);
+    fCurrentVoice->removeLastElementFromVoiceSequence ();
 
     // add fCurrentChord to the part sequence instead
     if (fTranslationSettings->fDebug)
