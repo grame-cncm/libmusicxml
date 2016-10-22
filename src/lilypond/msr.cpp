@@ -3087,7 +3087,7 @@ string msrVoice::getVoiceName () const
     
   return
     fVoiceStaff->getStaffName() +
-    "_Voice_" +
+    "_V_" +
     int2EnglishWord (voiceNumber);
 }
 
@@ -3208,7 +3208,7 @@ string msrStaff::getStaffName () const
   // when it is re-used
   return
     fStaffPart->getPartMSRName() +
-    "_Staff_" +
+    "_S_" +
     int2EnglishWord (fStaffNumber);
   }
 
@@ -3372,7 +3372,7 @@ msrPart::msrPart (
 
   // coin the part MSR name
   fPartMSRName =
-    "Part_"+stringNumbersToEnglishWords (fPartMusicXMLName);
+    "P_"+stringNumbersToEnglishWords (fPartMusicXMLName);
     
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
@@ -3390,7 +3390,7 @@ void msrPart::changePartMusicXMLName (
 
   // coin the new part MSR name
   fPartMSRName =
-    "Part_"+stringNumbersToEnglishWords (fPartMusicXMLName);
+    "P_"+stringNumbersToEnglishWords (fPartMusicXMLName);
     
   if (fTranslationSettings->fTrace)
     cerr << idtr <<

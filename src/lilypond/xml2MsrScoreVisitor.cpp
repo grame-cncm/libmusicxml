@@ -37,63 +37,9 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
 {
   fTranslationSettings = ts;
   
-  // create the score
+  // create the MSR score
   fMsrScore =
     msrScore::create (fTranslationSettings);
-
-  /*
-  A first part is created with an empty name and
-  all the nneded contents.
-  It will be reused when the first actual part is met,
-  changing its name on the fly
-  in msrPartGroup::tryAndReUseInitialAnonymousPart()
-  */
-
-/*
-
-  cerr <<
-    "Creating a full-fledged anonymous part group in case the MusicXML is poor" << endl;
-    
-  idtr++;
-
-  // create an anonumous part group
-  fCurrentPartGroup =
-    msrPartGroup::create ();
-  
-  // add the anonymous part group to the ccore
-  fCurrentPartGroup =
-    fMsrScore->
-      addPartGroupToScore (1);
-
-  // create an anonymous part in case none is specified in MusicXML
-  string partXMLName = "";
-//  fCurrentPart = JMI
-//    msrPart::create ( fTranslationSettings, partMusicXMLName);
-    
-  // add the anonymous part to the anonymous part group
-  fCurrentPart =
-    fCurrentPartGroup->
-      addPartToPartGroup (partXMLName);
-
-  // add a staff to the anonymous part
-  fCurrentStaffNumber = 1;
-  fCurrentStaff =
-    fCurrentPart->
-      addStaffToPart (fCurrentStaffNumber);
-
-  // add a voice to the staff
-  fCurrentVoice =
-    fCurrentStaff->
-      addVoiceToStaff (1);
-
-  // add a lyrics to the voice
-  fCurrentLyrics =
-    fCurrentVoice->
-      addLyricsToVoice (1);
-      *
-      *   idtr--;
-
-  */
   
   fCurrentMeasureNumber = 0;
 
@@ -430,6 +376,13 @@ void xml2MsrScoreVisitor::visitStart (S_instrument_name& elt)
 
 void xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
 {
+  /*
+  A first part group is created with all the nneded contents.
+  It single part will be reused when the first actual part is met,
+  changing its name on the fly
+  in msrPartGroup::tryAndReUseInitialAnonymousPart()
+  */
+
   // create an implicit part group
   fCurrentPartGroupNumber = 1;
   fCurrentVoiceNumber = 1;
