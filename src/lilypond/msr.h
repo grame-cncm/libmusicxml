@@ -1368,9 +1368,9 @@ class EXP msrLyrics : public msrElement {
                 { return fLyricsChunks; }
 
     void    addTextChunkToLyrics (
-              string          syllabic,
-              string          text,
-              bool            elision,
+              string         syllabic,
+              string         text,
+              bool           elision,
               S_msrDuration  duration);
       
     void    addSkipChunkToLyrics (
@@ -1382,7 +1382,7 @@ class EXP msrLyrics : public msrElement {
     int     getLyricsTextPresent() { return fLyricsTextPresent; }
     
     virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void printMSR           (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
 
   protected:
@@ -1390,7 +1390,7 @@ class EXP msrLyrics : public msrElement {
     msrLyrics (
         S_translationSettings& ts,
         int                    lyricsNumber,
-        S_msrVoice            lyricsVoice);
+        S_msrVoice             lyricsVoice);
     virtual ~msrLyrics();
   
   private:
@@ -1398,9 +1398,9 @@ class EXP msrLyrics : public msrElement {
     S_translationSettings     fTranslationSettings;
 
     int                       fLyricsNumber;
-    S_msrVoice               fLyricsVoice;
+    S_msrVoice                fLyricsVoice;
     
-    vector<S_msrLyricsChunk> fLyricsChunks;
+    vector<S_msrLyricsChunk>  fLyricsChunks;
 
     bool                      fLyricsTextPresent;
 };

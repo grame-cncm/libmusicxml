@@ -440,7 +440,7 @@ void xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
   fCurrentLyrics =
     fCurrentVoice->
       addLyricsToVoice (1);
-}
+} // xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
 
 void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
 {

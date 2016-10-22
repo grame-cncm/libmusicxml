@@ -2838,16 +2838,16 @@ string msrLyrics::getLyricsName () const
   // when the part they belong to is re-used
   return
    fLyricsVoice->getVoiceName() +
-    "_Lyrics_" +
+    "_L_" +
     int2EnglishWord (fLyricsNumber);
 }
 
 msrLyrics::~msrLyrics() {}
 
 void msrLyrics::addTextChunkToLyrics (
-  string          syllabic,
-  string          text,
-  bool            elision,
+  string         syllabic,
+  string         text,
+  bool           elision,
   S_msrDuration  msrDuration)
 {
   msrLyricsChunk::LyricsChunkType chunkType;
@@ -2869,16 +2869,14 @@ void msrLyrics::addTextChunkToLyrics (
   }
 
   // create a lyrics text chunk
-  if (fTranslationSettings->fDebug) {
+//  if (fTranslationSettings->fDebug) {
+  if (fTranslationSettings->fTrace) {
     S_msrStaff staff = fLyricsVoice->getVoiceStaff();
     S_msrPart  part  = staff-> getStaffPart();
     
     cout << idtr <<
-      "--> creating a lyrics " << fLyricsNumber <<
-      " text chunk \"" << syllabic <<
-      "\" in voice " << fLyricsVoice->getVoiceNumber() <<
-      " of staff " << staff->getStaffNumber() <<
-      " in part "  << part->getPartCombinedName() <<
+      "--> creating a text chunk \"" << syllabic <<
+      "\" in lyrics " << getLyricsName () <<
       ", containing \"" << text <<
       "\", elision: " << elision <<
       ", duration: " << msrDuration << endl;
