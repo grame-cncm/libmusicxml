@@ -1417,6 +1417,7 @@ class EXP msrVoice : public msrElement {
     static SMARTP<msrVoice> create (
             S_translationSettings& ts,
             int                    voiceNumber,
+            int                    staffRelativeVoiceNumber,
             S_msrStaff             voiceStaff);
                           
     int     getVoiceNumber () const
@@ -1458,6 +1459,7 @@ class EXP msrVoice : public msrElement {
     msrVoice (
         S_translationSettings& ts,
         int                    voiceNumber,
+        int                    staffRelativeVoiceNumber,
         S_msrStaff             voiceStaff);
     virtual ~msrVoice();
   
@@ -1466,6 +1468,7 @@ class EXP msrVoice : public msrElement {
     S_translationSettings     fTranslationSettings;
 
     int                       fVoiceNumber;
+    int                       fStaffRelativeVoiceNumber;
     S_msrStaff                fVoiceStaff;
 
     msrLyricsMap              fVoiceLyricsMap;
@@ -1548,6 +1551,8 @@ class EXP msrStaff : public msrElement {
     S_msrKey                fStaffKey;
     S_msrTime               fStaffTime;
     S_msrClef               fStaffClef;
+
+    int                     fNextRelativeStaffVoiceNumber;
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 typedef map<int, S_msrStaff> msrStaffsMap;

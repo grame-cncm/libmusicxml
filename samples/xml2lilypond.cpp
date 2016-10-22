@@ -83,63 +83,79 @@ int main(int argc, char *argv[])
   }
   */
   
-  int helpPresent =               0;
+  // create the translation switches
+  S_translationSettings ts = translationSettings::create();
+  assert(ts != 0);
   
-  int languagePresent =           0;
+  ts->fSelectedOptions                   = "";
   
-  int absolutePresent =           0;
-  int numericaltimePresent =      0;
-  int nocommentsPresent =         0;
-  int noautobarsPresent =         0;
-  int stemsPresent =              0;
-  int positionsPresent =          0;
+  ts->fMsrNoteNamesLanguageAsString      = "dutch";
+  ts->fMsrNoteNamesLanguage              = kNederlands;
+  
+  ts->fGenerateStaffRelativeVoiceNumbers = false;
+  
+  ts->fGenerateAbsoluteCode              = true;
 
-  int delayRestsDynamicsPresent = 0;
-  
-  int noTracePresent =            0;
-  int debugPresent =              0;
-  
-  std::string selectedOptions = "";
-  
-  std::string           noteNamesLanguageName = "dutch";
-  MsrNoteNamesLanguage  noteNamesLanguage     = kNederlands;
-  
-  bool                  generateAbsoluteCode  = true;
-  
-  bool                  generateNumericalTime = false;
-  bool                  generateComments      = true;
-  bool                  generateBars          = true;
-  bool                  generateStems         = false;
-  bool                  generatePositions     = false;
+  ts->fGenerateNumericalTime             = false;
+  ts->fGenerateComments                  = true;
+  ts->fGenerateStems                     = false;
+  ts->fGeneratePositions                 = false;
 
-  bool                  delayRestsDynamics    = false;
+  ts->fDelayRestsDynamics                = false;
   
-  bool                  trace                 = true;
-  bool                  debug                 = false;
+  ts->fDisplayMSR                        = false;
+
+  ts->fTrace                             = true;
+  ts->fDebug                             = false;
+
+  // to detect supplied options
+  int helpPresent                      = 0;
   
+  int languagePresent                  = 0;
+
+  int staffRelativeVoiceNumbersPresent = 0;
+  
+  int absolutePresent                  = 0;
+  int numericaltimePresent             = 0;
+  int noCommentsPresent                = 0;
+  int stemsPresent                     = 0;
+  int positionsPresent                 = 0;
+
+  int delayRestsDynamicsPresent        = 0;
+  
+  int displayMSRPresent                = 0;
+
+  int noTracePresent                   = 0;
+  int debugPresent                     = 0;
+
   static struct option long_options [] =
     {
     /* These options set a flag. */
-    {"help",               no_argument,       &helpPresent, 1},
+    {"help",                      no_argument,       &helpPresent, 1},
     
-    {"language",           required_argument, &languagePresent, 1},
+    {"language",                  required_argument, &languagePresent, 1},
     
-    {"abs",                no_argument,       &absolutePresent, 1},
-    {"absolute",           no_argument,       &absolutePresent, 1},
+    {"srvn",                      no_argument,       &staffRelativeVoiceNumbersPresent, 1},
+    {"staffRelativeVoiceNumbers", no_argument,       &staffRelativeVoiceNumbersPresent, 1},
     
-    {"numericalTime",      no_argument,       &numericaltimePresent, 1},
-    {"noComments",         no_argument,       &nocommentsPresent, 1},
-    {"noAutobars",         no_argument,       &noautobarsPresent, 1},
-    {"stems",              no_argument,       &stemsPresent, 1},
-    {"positions",          no_argument,       &positionsPresent, 1},
+    {"abs",                       no_argument,       &absolutePresent, 1},
+    {"absolute",                  no_argument,       &absolutePresent, 1},
+    
+    {"numericalTime",             no_argument,       &numericaltimePresent, 1},
+    {"noComments",                no_argument,       &noCommentsPresent, 1},
+    {"stems",                     no_argument,       &stemsPresent, 1},
+    {"positions",                 no_argument,       &positionsPresent, 1},
 
-    {"drd",                no_argument,       &delayRestsDynamicsPresent, 1},
-    {"delayRestsDynamics", no_argument,       &delayRestsDynamicsPresent, 1},
+    {"drd",                       no_argument,       &delayRestsDynamicsPresent, 1},
+    {"delayRestsDynamics",        no_argument,       &delayRestsDynamicsPresent, 1},
    
-    {"nt",                 no_argument,       &noTracePresent, 1},
-    {"noTrace",            no_argument,       &noTracePresent, 1},
-    {"d",                  no_argument,       &debugPresent, 1},
-    {"debug",              no_argument,       &debugPresent, 1},
+    {"msr",                       no_argument,       &displayMSRPresent, 1},
+    {"displayMSR",                no_argument,       &displayMSRPresent, 1},
+
+    {"nt",                        no_argument,       &noTracePresent, 1},
+    {"noTrace",                   no_argument,       &noTracePresent, 1},
+    {"d",                         no_argument,       &debugPresent, 1},
+    {"debug",                     no_argument,       &debugPresent, 1},
     
     {0, 0, 0, 0}
     };
@@ -168,65 +184,73 @@ int main(int argc, char *argv[])
         if (languagePresent) {
           // optarg contains the language name
           if (gMsrNoteNamesLanguageMap.count(optarg)) {
-            noteNamesLanguageName = optarg;
+            ts->fMsrNoteNamesLanguageAsString = optarg;
           } else {
             cerr <<
               "--> Unknown language name \"" << optarg <<
               "\", using \"dutch\" instead" << std::endl;
-            noteNamesLanguageName = "dutch";
-            noteNamesLanguage = kNederlands;
+            ts->fMsrNoteNamesLanguageAsString = "dutch";
+            ts->fMsrNoteNamesLanguage = kNederlands;
           }
-          selectedOptions += "--language "+noteNamesLanguageName;
+          ts->fSelectedOptions +=
+            "--language "+ts->fMsrNoteNamesLanguageAsString+" ";
           }
           break;
              
+        if (staffRelativeVoiceNumbersPresent) {
+          ts->fGenerateStaffRelativeVoiceNumbers = true;
+          ts->fSelectedOptions += "--staffRelativeVoiceNumbers ";
+          break;
+        }
+        
         if (absolutePresent) {
-          generateAbsoluteCode = true;
-          selectedOptions += "--absolute ";
+          ts->fGenerateAbsoluteCode = true;
+          ts->fSelectedOptions += "--absolute ";
           break;
         }
         
         if (numericaltimePresent) {
-          generateNumericalTime = true;
-          selectedOptions += "--numericalTime ";
+          ts->fGenerateNumericalTime = true;
+          ts->fSelectedOptions += "--numericalTime ";
           break;
         }
-        if (nocommentsPresent) {
-          generateComments = false;
-          selectedOptions += "--noComments ";
-          break;
-        }
-        if (noautobarsPresent) {
-          generateBars = false;
-          selectedOptions += "--noAutobars ";
+        if (noCommentsPresent) {
+          ts->fGenerateComments = false;
+          ts->fSelectedOptions += "--noComments ";
           break;
         }
         if (stemsPresent) {
-          generateStems = true;
-          selectedOptions += "--stems ";
+          ts->fGenerateStems = true;
+          ts->fSelectedOptions += "--stems ";
           break;
         }
         if (positionsPresent) {
-          generatePositions = true;
-          selectedOptions += "--positions ";
+          ts->fGeneratePositions = true;
+          ts->fSelectedOptions += "--positions ";
           break;
         }
         
         if (delayRestsDynamicsPresent) {
-          delayRestsDynamics = true;
-          selectedOptions += "--delayRestsDynamics ";
+          ts->fDelayRestsDynamics = true;
+          ts->fSelectedOptions += "--delayRestsDynamics ";
           break;
         }
         
+        if (displayMSRPresent) {
+          ts->fDisplayMSR = true;
+          ts->fSelectedOptions += "--noAutobars ";
+          break;
+        }
+
         if (noTracePresent) {
-          trace = false;
-          selectedOptions += "--noTrace ";
+          ts->fTrace = false;
+          ts->fSelectedOptions += "--noTrace ";
           break;
         }
         if (debugPresent) {
-          trace = true;
-          debug = true;
-          selectedOptions += "--debug ";
+          ts->fTrace = true;
+          ts->fDebug = true;
+          ts->fSelectedOptions += "--debug ";
           break;
         }
         break;
@@ -254,33 +278,11 @@ int main(int argc, char *argv[])
 
   // int   remainingArgs = nonOptionArgs;
 
-  // create the translation switches
-  S_translationSettings ts = translationSettings::create();
-  assert(ts != 0);
-
   // for TESTS
-  //trace = true;
-  //debug = true;
+  ts->fDisplayMSR                        = true;
+  //ts->fTrace = true;
+  //ts->fDebug = true;
   
-  // populate them
-  ts->fMsrNoteNamesLanguageAsString = noteNamesLanguageName;
-  ts->fMsrNoteNamesLanguage =         noteNamesLanguage;
-  
-  ts->fGenerateAbsoluteCode =          generateAbsoluteCode;
-  
-  ts->fGenerateNumericalTime =         generateNumericalTime;
-  ts->fGenerateComments =              generateComments;
-  ts->fGenerateBars =                  generateBars;
-  ts->fGenerateStems =                 generateStems;
-  ts->fGeneratePositions =             generatePositions;
-
-  ts->fDelayRestsDynamics  =           delayRestsDynamics;
-  
-  ts->fTrace =                         trace;
-  ts->fDebug =                         debug;
-  
-  ts->fSelectedOptions =               selectedOptions;
-
   if (ts->fTrace)
     cerr << 
       "Launching conversion to LilyPond with libmusicxml2 v" << 
@@ -289,20 +291,21 @@ int main(int argc, char *argv[])
       musicxml2MsrVersionStr() << 
       endl <<
       "The settings are:" << endl <<
-      "  noteNamesLanguageName: \"" << noteNamesLanguageName << "\"" << endl <<
+      "  noteNamesLanguageName: \"" << ts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
       
-      "  generateAbsoluteCode:  " << string(generateAbsoluteCode ? "true" : "false") << endl <<
-      
-      "  generateNumericalTime: " << string(generateNumericalTime ? "true" : "false") << endl <<
-      "  generateComments:      " << string(generateComments ? "true" : "false") << endl <<
-      "  generateBars:          " << string(generateBars ? "true" : "false") << endl <<
-      "  generateStems:         " << string(generateStems ? "true" : "false") << endl <<
-      "  generatePositions:     " << string(generatePositions ? "true" : "false") << endl <<
+      "  displayMSR:            " << string(ts->fDisplayMSR ? "true" : "false") << endl <<
 
-      "  delayRestsDynamics:    " << string(delayRestsDynamics ? "true" : "false") << endl <<
+      "  generateAbsoluteCode:  " << string(ts->fGenerateAbsoluteCode ? "true" : "false") << endl <<
+      
+      "  generateNumericalTime: " << string(ts->fGenerateNumericalTime ? "true" : "false") << endl <<
+      "  generateComments:      " << string(ts->fGenerateComments ? "true" : "false") << endl <<
+      "  generateStems:         " << string(ts->fGenerateStems ? "true" : "false") << endl <<
+      "  generatePositions:     " << string(ts->fGeneratePositions ? "true" : "false") << endl <<
+
+      "  delayRestsDynamics:    " << string(ts->fDelayRestsDynamics ? "true" : "false") << endl <<
     
-      "  trace:                 " << string(trace ? "true" : "false") << endl <<
-      "  debug:                 " << string(debug ? "true" : "false") << endl;
+      "  trace:                 " << string(ts->fTrace ? "true" : "false") << endl <<
+      "  debug:                 " << string(ts->fDebug ? "true" : "false") << endl;
   
   xmlErr err = kNoErr;
   

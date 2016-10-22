@@ -93,17 +93,22 @@ class EXP translationSettings : public smartable {
     // languages
     std::string                     fMsrNoteNamesLanguageAsString;
     MsrNoteNamesLanguage            fMsrNoteNamesLanguage;
+
+    // MSR
+    bool                            fGenerateStaffRelativeVoiceNumbers;
     
     // LilyPond code generation
     bool                            fGenerateAbsoluteCode;
     bool                            fGenerateNumericalTime;
     bool                            fGenerateComments;
-    bool                            fGenerateBars;
     bool                            fGenerateStems;
     bool                            fGeneratePositions;
 
     // advanced settings
     bool                            fDelayRestsDynamics;
+
+    // intermediate form
+    bool                            fDisplayMSR;
     
     // debug and trace
     bool                            fDebug;

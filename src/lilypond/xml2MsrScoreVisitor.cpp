@@ -875,7 +875,7 @@ void xml2MsrScoreVisitor::visitEnd (S_backup& elt )
 {
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "Handling 'backup " << fCurrentBackupDuration <<
+      "Handling 'backup <<< " << fCurrentBackupDuration <<
       " divisions'" << endl;
 
   fOnGoingBackup = false;
@@ -902,7 +902,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_forward& elt )
 
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "Handling 'forward " << fCurrentForwardDuration <<
+      "Handling 'forward >>> " << fCurrentForwardDuration <<
       "', thus switching to " <<
       "voice " << fCurrentVoiceNumber <<
       " in staff " << fCurrentStaffNumber << endl;

@@ -3032,9 +3032,15 @@ void msrLyrics::printLilyPondCode(ostream& os)
 S_msrVoice msrVoice::create (
   S_translationSettings& ts,
   int                    voiceNumber,
-  S_msrStaff            voiceStaff)
+  int                    staffRelativeVoiceNumber,
+  S_msrStaff             voiceStaff)
 {
-  msrVoice* o = new msrVoice (ts, voiceNumber, voiceStaff);
+  msrVoice* o =
+    new msrVoice (
+      ts,
+      voiceNumber,
+      staffRelativeVoiceNumber,
+      voiceStaff);
   assert(o!=0);
   return o;
 }
@@ -3042,12 +3048,14 @@ S_msrVoice msrVoice::create (
 msrVoice::msrVoice (
   S_translationSettings& ts,
   int                    voiceNumber,
-  S_msrStaff            voiceStaff)
+  int                    staffRelativeVoiceNumber,
+  S_msrStaff             voiceStaff)
     : msrElement("")
 {
   fTranslationSettings = ts;
 
   fVoiceNumber = voiceNumber;
+  fStaffRelativeVoiceNumber = staffRelativeVoiceNumber;
   fVoiceStaff  = voiceStaff;
   
   // create the implicit msrSequence element
@@ -3071,10 +3079,16 @@ string msrVoice::getVoiceName () const
   // not stored in a field,
   // because the voice staff may change name
   // when the part it belongs to is re-used
+
+  int voiceNumber =
+    fTranslationSettings-> fGenerateStaffRelativeVoiceNumbers
+      ? fStaffRelativeVoiceNumber
+      : fVoiceNumber;
+    
   return
     fVoiceStaff->getStaffName() +
     "_Voice_" +
-    int2EnglishWord (fVoiceNumber);
+    int2EnglishWord (voiceNumber);
 }
 
 S_msrLyrics msrVoice::addLyricsToVoice (
@@ -3164,7 +3178,7 @@ void msrVoice::printLilyPondCode(ostream& os)
 S_msrStaff msrStaff::create (
   S_translationSettings& ts,
   int                    staffNumber,
-  S_msrPart             staffPart)
+  S_msrPart              staffPart)
 {
   msrStaff* o = new msrStaff( ts, staffNumber, staffPart);
   assert(o!=0);
@@ -3174,13 +3188,15 @@ S_msrStaff msrStaff::create (
 msrStaff::msrStaff (
   S_translationSettings& ts,
   int                    staffNumber,
-  S_msrPart             staffPart)
+  S_msrPart              staffPart)
     : msrElement("")
 {
   fTranslationSettings = ts;
   
   fStaffNumber = staffNumber;
   fStaffPart   = staffPart;
+
+  fNextRelativeStaffVoiceNumber = 0;
 }
 
 msrStaff::~msrStaff() {}
@@ -3213,6 +3229,7 @@ S_msrVoice msrStaff::addVoiceToStaff (
       msrVoice::create (
         fTranslationSettings,
         voiceNumber,
+        fNextRelativeStaffVoiceNumber++,
         this);
 
   // register it in this staff
