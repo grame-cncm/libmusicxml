@@ -1012,7 +1012,7 @@ typedef SMARTP<msrBreak> S_msrBreak;
 class EXP msrBarNumberCheck : public msrElement {
   public:
     
-    static SMARTP<msrBarNumberCheck> create(int nextBarNumber);
+    static SMARTP<msrBarNumberCheck> create (int nextBarNumber);
 
     virtual void printMusicXML      (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1020,7 +1020,7 @@ class EXP msrBarNumberCheck : public msrElement {
 
   protected:
 
-    msrBarNumberCheck(int nextBarNumber);
+    msrBarNumberCheck (int nextBarNumber);
     virtual ~msrBarNumberCheck();
   
   private:
@@ -1125,6 +1125,7 @@ class EXP msrDynamics : public msrElement {
 
     DynamicsKind getDynamicsKind () const { return fDynamicsKind; }
 
+    string  dynamicsKindAsString ();
     string  dynamicsKindAsLilypondString ();
     
     virtual void printMusicXML      (ostream& os);

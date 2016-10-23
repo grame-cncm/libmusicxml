@@ -461,69 +461,67 @@ ostream& operator<< (ostream& os, const S_msrDynamics& dyn)
   return os;
 }
 
-string msrDynamics::dynamicsKindAsLilypondString ()
+string msrDynamics::dynamicsKindAsString ()
 {
   stringstream s;
   
   switch (fDynamicsKind) {
     case kF:
-      s << "\\f";
+      s << "f";
       break;
     case kFF:
-      s << "\\ff"; break;
+      s << "ff"; break;
     case kFFF:
-      s << "\\fff"; break;
+      s << "fff"; break;
     case kFFFF:
-      s << "\\ffff"; break;
+      s << "ffff"; break;
     case kFFFFF:
-      s << "\\fffff"; break;
+      s << "fffff"; break;
     case kFFFFFF:
-      s << "\\ffffff"; break;
+      s << "ffffff"; break;
 
     case kP:
-      s << "\\p"; break;
+      s << "p"; break;
     case kPP:
-      s << "\\pp"; break;
+      s << "pp"; break;
     case kPPP:
-      s << "\\ppp"; break;
+      s << "ppp"; break;
     case kPPPP:
-      s << "\\pppp"; break;
+      s << "pppp"; break;
     case kPPPPP:
-      s << "\\ppppp"; break;
+      s << "ppppp"; break;
     case kPPPPPP:
-      s << "\\pppppp"; break;
+      s << "pppppp"; break;
 
      case kMF:
-      s << "\\mf"; break;
+      s << "mf"; break;
     case kMP:
-      s << "\\mp"; break;
+      s << "mp"; break;
     case kFP:
-      s << "\\fp"; break;
+      s << "fp"; break;
     case kFZ:
-      s << "\\fz"; break;
+      s << "fz"; break;
     case kRF:
-      s << "\\rf"; break;
+      s << "rf"; break;
     case kSF:
-      s << "\\sf"; break;
+      s << "sf"; break;
 
    case kRFZ:
-      s << "\\rfz"; break;
+      s << "rfz"; break;
     case kSFZ:
-      s << "\\sfz"; break;
+      s << "sfz"; break;
     case kSFP:
-      s << "\\sfp"; break;
+      s << "sfp"; break;
     case kSFPP:
-      s << "\\sfpp"; break;
+      s << "sfpp"; break;
     case kSFFZ:
-      s << "\\sffz"; break;
+      s << "sffz"; break;
 
     default:
       {
       stringstream s;
-      string  message;
       s << "Dynamics " << fDynamicsKind << " is unknown";
-      s >> message;
-      msrMusicXMLError(message);
+      msrMusicXMLError (s.str());
       }
   } // switch
   
@@ -531,6 +529,11 @@ string msrDynamics::dynamicsKindAsLilypondString ()
   
   s >> result;
   return result;
+}
+
+string msrDynamics::dynamicsKindAsLilypondString ()
+{
+  return "\\"+dynamicsKindAsString ();
 }
 
 void msrDynamics::printMusicXML(ostream& os)
@@ -541,7 +544,7 @@ void msrDynamics::printMusicXML(ostream& os)
 void msrDynamics::printMSR(ostream& os)
 {
   os <<
-    "Dynamics" << " " << dynamicsKindAsLilypondString () << endl;
+    "Dynamics" << " " << dynamicsKindAsString () << endl;
 }
 
 void msrDynamics::printLilyPondCode(ostream& os)
@@ -1622,13 +1625,15 @@ void msrBreak::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrBarNumberCheck msrBarNumberCheck::create(int nextBarNumber)
+S_msrBarNumberCheck msrBarNumberCheck::create (int nextBarNumber)
 {
-  msrBarNumberCheck* o = new msrBarNumberCheck(nextBarNumber); assert(o!=0);
+  msrBarNumberCheck* o =
+    new msrBarNumberCheck(nextBarNumber);
+  assert(o!=0);
   return o;
 }
 
-msrBarNumberCheck::msrBarNumberCheck(int nextBarNumber)
+msrBarNumberCheck::msrBarNumberCheck (int nextBarNumber)
   : msrElement("")
 {
   fNextBarNumber=nextBarNumber; 
@@ -2399,7 +2404,7 @@ void msrClef::printMSR(ostream& os)
 {
   os <<
     "Clef" << " \"" << fSign << "\"" <<
-    " line " << fLine << ", " << fOctaveChange*8;
+    " line " << fLine << ", " << fOctaveChange << "*8";
 }
 
 void msrClef::printLilyPondCode(ostream& os)
@@ -3009,14 +3014,17 @@ void msrLyrics::printMSR(ostream& os)
     os << " (No actual text)";
   os << endl;
 
-  if (fLyricsTextPresent) {  
+//  if (fLyricsTextPresent) {  JMI
     idtr++;
+
     int n = fLyricsChunks.size();
     for (int i = 0; i < n; i++) {
       os << idtr << fLyricsChunks[i];
     } // for
+    os << endl;
+
     idtr--;
-  }
+ // }
 }
 
 void msrLyrics::printLilyPondCode(ostream& os)

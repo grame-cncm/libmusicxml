@@ -675,7 +675,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_clef& elt )
   S_msrClef
     clef =
       msrClef::create (
-        fCurrentClefSign, fCurrentClefLine, fCurrentClefStaffNumber);
+        fCurrentClefSign, fCurrentClefLine, fCurrentClefOctaveChange);
 
   if (fCurrentClefStaffNumber == -1)
     fCurrentPart->setAllPartStavesClef (clef);
@@ -1225,25 +1225,28 @@ void xml2MsrScoreVisitor::visitStart ( S_print& elt )
   const string& newSystem = elt->getAttributeValue ("new-system");
   
   if (newSystem == "yes") {
-    /* JMI
+
     // create a barnumbercheck command
-    S_msrBarNumberCheck barnumbercheck_ =
-      msrBarNumberCheck::create (fCurrentMeasureNumber);
-    S_msrElement b2 = barnumbercheck_;
-    fCurrentVoice->appendElementToVoiceSequence (b2);
+    S_msrBarNumberCheck
+      barnumbercheck_ =
+        msrBarNumberCheck::create (fCurrentMeasureNumber);
+    S_msrElement bnc = barnumbercheck_;
+    fCurrentVoice->
+      appendElementToVoice (bnc);
 
     // create a break command
-    S_msrBreak break_ =
-      msrBreak::create(fCurrentMeasureNumber);
-    S_msrElement b1 = break_;
-    fCurrentVoice->appendElementToVoiceSequence (b1);
-  */
+    S_msrBreak
+      break_ =
+        msrBreak::create(fCurrentMeasureNumber);
+    S_msrElement brk = break_;
+    fCurrentVoice->
+      appendElementToVoice (brk);
   
     // add a break chunk to the voice master lyrics
-  fCurrentVoice->
-    getMasterLyrics ()->
-      addBreakChunkToLyrics (fCurrentMeasureNumber);
-  }
+    fCurrentVoice->
+      getMasterLyrics ()->
+        addBreakChunkToLyrics (fCurrentMeasureNumber);
+    }
 }
 
 /*
@@ -1273,9 +1276,9 @@ void xml2MsrScoreVisitor::visitStart ( S_barline& elt )
     S_msrBarLine
       barline =
         msrBarLine::create (fCurrentMeasureNumber+1);
-    S_msrElement b = barline;
+    S_msrElement bar = barline;
     fCurrentVoice->
-      appendElementToVoice (b);
+      appendElementToVoice (bar);
     
   } else if (fCurrentBarlineLocation == "right") {
 
