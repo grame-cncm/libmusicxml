@@ -2111,9 +2111,10 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
             voiceContainsLyrics (fCurrentLyricsNumber);
 
         // no, add it to the voice
-        fCurrentLyrics =
-          fCurrentVoice->
-            addLyricsToVoice (fCurrentLyricsNumber);
+        if (! fCurrentLyrics)
+          fCurrentLyrics =
+            fCurrentVoice->
+              addLyricsToVoice (fCurrentLyricsNumber);
       
         S_msrDuration
           lyricMsrDuration =

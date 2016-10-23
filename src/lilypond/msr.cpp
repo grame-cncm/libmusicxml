@@ -2869,10 +2869,9 @@ void msrLyrics::addTextChunkToLyrics (
     chunkType = msrLyricsChunk::kEndChunk;
   else {
     stringstream s;
-    string  result;
-    s << "--> syllabic = " << syllabic << " is unknown";
-    s >> result;
-    msrMusicXMLError(result);
+    s << "--> syllabic \"" << syllabic << "\" is unknown";
+    cerr << s.str();
+    msrMusicXMLError (s.str());
   }
 
   // create a lyrics text chunk
