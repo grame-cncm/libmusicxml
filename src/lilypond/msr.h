@@ -420,6 +420,9 @@ class EXP msrNote : public msrElement {
         S_translationSettings& ts,
         musicXMLNoteData&      mxmldat,
         msrSlur::SlurKind      slurKind);
+
+    // for rest
+    bool getNoteIsARest ();
     
     // for chord members
     void setNoteBelongsToAChord ();
@@ -1481,6 +1484,8 @@ class EXP msrVoice : public msrElement {
     int                       fVoiceNumber;
     int                       fStaffRelativeVoiceNumber;
     S_msrStaff                fVoiceStaff;
+
+    bool                      fVoiceContainsActualNotes;
 
     // the lyrics map
     // [0] is used as a master lyrics, collecting skips along the way

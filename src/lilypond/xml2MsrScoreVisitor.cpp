@@ -1134,21 +1134,6 @@ void xml2MsrScoreVisitor::visitEnd ( S_elision& elt )
 
 void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
 {
-  if (fCurrentLyricsHasText) {
-    S_msrDuration
-      lyricMsrDuration =
-        msrDuration::create (
-          fMusicXMLNoteData.fMusicXMLDuration,
-          fCurrentMusicXMLDivisions,
-          fMusicXMLNoteData.fMusicXMLDotsNumber,
-          fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
-  
-    fCurrentLyrics->
-      addTextChunkToLyrics (
-        fCurrentSyllabic,
-        fCurrentText,
-        fCurrentElision,
-        lyricMsrDuration);
 }
 
 /*
@@ -1173,7 +1158,6 @@ void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
           <extend type="stop"/>
         </lyric>
 */
-}
 
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_measure& elt)
@@ -2117,8 +2101,35 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
         newNote->notePitchAsLilypondString () <<
         " to current voice" << endl;
 
-    fCurrentVoice->
-      appendNoteToVoice (newNote);
+      fCurrentVoice->
+        appendNoteToVoice (newNote);
+    
+      if (fCurrentLyricsHasText) {
+        // is lyrics fCurrentLyricsNumber present in current voice?
+        fCurrentLyrics =
+          fCurrentVoice->
+            voiceContainsLyrics (fCurrentLyricsNumber);
+
+        // no, add it to the voice
+        fCurrentLyrics =
+          fCurrentVoice->
+            addLyricsToVoice (fCurrentLyricsNumber);
+      
+        S_msrDuration
+          lyricMsrDuration =
+            msrDuration::create (
+              fMusicXMLNoteData.fMusicXMLDuration,
+              fCurrentMusicXMLDivisions,
+              fMusicXMLNoteData.fMusicXMLDotsNumber,
+              fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
+      
+        fCurrentLyrics->
+          addTextChunkToLyrics (
+            fCurrentSyllabic,
+            fCurrentText,
+            fCurrentElision,
+            lyricMsrDuration);
+      }
   
     // account for chord not being built
     fOnGoingChord = false;

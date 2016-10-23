@@ -831,6 +831,11 @@ msrNote::msrNote (
 
 msrNote::~msrNote() {}
 
+bool msrNote::getNoteIsARest ()
+{
+  return fMusicXMLNoteData.fMusicXMLStepIsARest;
+}
+
 void msrNote::setNoteBelongsToAChord () {
   fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = true;
 }
@@ -1287,9 +1292,11 @@ void msrSequence::printMSR(ostream& os)
 {  
   os << "Sequence";
   
-  if (fSequenceElements.size()) {
-    os << endl;
+  if (! fSequenceElements.size ())
+    os << " (No actual notes)";
+  os << endl;
 
+  if (fSequenceElements.size ()) {  
     idtr++;
   
     list<S_msrElement>::const_iterator
@@ -3055,6 +3062,8 @@ msrVoice::msrVoice (
   fVoiceNumber = voiceNumber;
   fStaffRelativeVoiceNumber = staffRelativeVoiceNumber;
   fVoiceStaff  = voiceStaff;
+
+  fVoiceContainsActualNotes = false;
   
   // create the implicit msrSequence element
   fVoiceSequence =
@@ -3138,6 +3147,9 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   S_msrElement n = note;
   fVoiceSequence->appendElementToSequence (n);
 
+  if (note->getNoteIsARest ())
+    fVoiceContainsActualNotes = true;
+    
   // add a skip chunk to the master lyrics JMI 
 //  if (! fCurrentNoteHasLyrics) {
     S_msrDuration
@@ -3177,7 +3189,8 @@ void msrVoice::printMusicXML(ostream& os)
 
 void msrVoice::printMSR(ostream& os)
 {
-  os << "Voice" << " " << getVoiceName () << endl << endl;
+  os << "Voice" << " " << getVoiceName () << endl;
+  os << endl;
 
   idtr++;
 
@@ -3402,6 +3415,8 @@ void msrStaff::printMSR (ostream& os)
   os <<
     idtr << "StaffInstrumentName: \"" <<
     fStaffInstrumentName << "\"" << endl;
+
+  os << endl;
   
   for (
     map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
@@ -3502,6 +3517,8 @@ void msrPart::printMSR(ostream& os)
   os << idtr <<
     "PartInstrumentName: \"" << fPartInstrumentName << "\"" << endl;
 
+  os << endl;
+  
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
