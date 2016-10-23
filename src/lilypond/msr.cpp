@@ -3889,10 +3889,44 @@ void msrPartGroup::printMSR(ostream& os)
   idtr++;
 
   os <<
-    idtr << "PartGroupName        : \"" << fPartGroupName << "\"" << endl <<
-    idtr << "PartGroupAbbrevation : \"" << fPartGroupAbbreviation << "\"" << endl <<
-    idtr << "fPartGroupSymbolKind : \"" << fPartGroupSymbolKind << "\"" << endl <<
-    idtr << "PartGroupBarline     : \"" << fPartGroupBarline << "\"" << endl << endl;
+    idtr << "PartGroupName            : \"" << fPartGroupName << "\"" << endl <<
+    idtr << "PartGroupAbbrevation     : \"" << fPartGroupAbbreviation << "\"" << endl;
+  os <<
+    idtr << "fPartPartGroupTypeKind   : \"";
+  switch (fPartPartGroupTypeKind) {
+    case kStartPartGroupType:
+      os << "start";
+      break;
+    case kStopPartGroupType:
+      os << "stop";
+      break;
+    case k_NoPartGroupType:
+      break;
+  } // switch
+  os << "\"" << endl;
+  os <<
+    idtr << "fPartGroupSymbolDefaultX : " << fPartGroupSymbolDefaultX << endl;
+  os <<
+    idtr << "fPartGroupSymbolKind     : \"";
+  switch (fPartGroupSymbolKind) {
+    case kBracePartGroupSymbol:
+      os << "brace";
+      break;
+    case kBracketPartGroupSymbol:
+      os << "bracket";
+      break;
+    case k_NoPartGroupSymbol:
+      break;
+  } // switch
+  os << "\"" << endl;
+  os <<
+    idtr << "PartGroupBarline         : \"";
+  if (fPartGroupBarline)
+    os << "true";
+  else
+    os << "false";
+  os << "\"" << endl;
+  os << endl;
 
  // JMI   idtr << "PartGroupInstrumentName: \"" << fPartGroupInstrumentName << "\"" << endl;
 
