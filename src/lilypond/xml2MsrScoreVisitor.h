@@ -136,6 +136,7 @@ class EXP xml2MsrScoreVisitor :
   
   public visitor<S_staccato>,
   public visitor<S_staccatissimo>,
+  public visitor<S_fermata>,
 
   public visitor<S_f>,
   public visitor<S_ff>,
@@ -268,6 +269,7 @@ class EXP xml2MsrScoreVisitor :
     
     virtual void visitStart ( S_staccato& elt );
     virtual void visitStart ( S_staccatissimo& elt );
+    virtual void visitStart ( S_fermata& elt );
     
     virtual void visitStart ( S_f& elt);
     virtual void visitStart ( S_ff& elt);

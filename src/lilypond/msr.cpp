@@ -421,6 +421,9 @@ void msrArticulation::printMSR(ostream& os)
     case kStaccatissimo:
       os << "staccatissimo";
       break;
+    case kFermata:
+      os << "fermata";
+      break;
   } // switch
   
   os << endl;
@@ -3968,6 +3971,7 @@ ostream& operator<< (ostream& os, const S_msrScore& elt)
 void msrScore::printMSR (ostream& os)
 {
   os << "Score" << endl;
+  os << endl;
 
   idtr++;
   

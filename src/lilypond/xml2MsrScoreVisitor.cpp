@@ -1071,6 +1071,17 @@ void xml2MsrScoreVisitor::visitStart (S_lyric& elt )
   fCurrentLyricsNumber =
     elt->getAttributeIntValue ("number", 0);
 
+  // is lyrics fCurrentLyricsNumber present in current voice?
+  fCurrentLyrics =
+    fCurrentVoice->
+      voiceContainsLyrics (fCurrentLyricsNumber);
+
+  // no, add it to the voice
+  if (! fCurrentLyrics)
+    fCurrentLyrics =
+      fCurrentVoice->
+        addLyricsToVoice (fCurrentLyricsNumber);
+        
   fCurrentLyricsHasText = false;
   fCurrentText = "";
   fCurrentElision = false;
@@ -1227,8 +1238,10 @@ void xml2MsrScoreVisitor::visitStart ( S_print& elt )
     S_msrElement b1 = break_;
     fCurrentVoice->appendElementToVoiceSequence (b1);
   */
-    // add a break chunk to the lyrics
-    fCurrentLyrics->
+  
+    // add a break chunk to the voice master lyrics
+  fCurrentVoice->
+    getMasterLyrics ()->
       addBreakChunkToLyrics (fCurrentMeasureNumber);
   }
 }
@@ -1503,6 +1516,15 @@ void xml2MsrScoreVisitor::visitStart ( S_staccatissimo& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (msrArticulation::kStaccatissimo);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_fermata& elt )
+{
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (msrArticulation::kFermata);
       
   fCurrentArticulations.push_back (articulation);
 }

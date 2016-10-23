@@ -345,7 +345,7 @@ class EXP msrArticulation : public msrElement {
   public:
     
     enum ArticulationKind {
-        kStaccato, kStaccatissimo };
+        kStaccato, kStaccatissimo, kFermata };
 
     static SMARTP<msrArticulation> create (
               ArticulationKind articulationKink);
@@ -1445,6 +1445,9 @@ class EXP msrVoice : public msrElement {
               
     S_msrLyrics
             voiceContainsLyrics (int lyricsNumber);
+
+    S_msrLyrics
+            getMasterLyrics () { return fMasterLyrics; }
                
     void    appendNoteToVoice       (S_msrNote note);
     void    appendChordToVoice      (S_msrChord chord);
