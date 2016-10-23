@@ -228,6 +228,8 @@ class musicXMLNoteData {
     bool        fMusicXMLNoteBelongsToATuplet;
     string      fMusicXMLTupletMemberNoteType;
 
+    bool        fMusicXMLNoteIsTied;
+
     int         fMusicXMLVoiceNumber;
 };
   

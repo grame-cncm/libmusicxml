@@ -994,6 +994,33 @@ fCurrentTiedType =
 
 fCurrentTiedOrientation =
   elt->getAttributeValue ("orientation");
+
+ if (fCurrentTiedType == "start") { // JMI
+    
+//    fCurrentTiedKind = msrTied::kStartTied;
+    
+  } else if (fCurrentTiedType == "continue") {
+    
+//    fCurrentTiedKind = msrTied::kContinueTied;
+    fMusicXMLNoteData.fMusicXMLNoteIsTied = true;
+    
+  } else if (fCurrentTiedType == "stop") {
+    
+//    fCurrentTiedKind = msrTied::kStopTied;
+    fMusicXMLNoteData.fMusicXMLNoteIsTied = true;
+    
+  } else {
+
+    // inner tied notes may miss the "continue" type:
+    // let' complain on slur notes outside of slurs 
+//    if (! fOnGoingSlur) JMI
+      if (fCurrentTiedType.size()) {
+        stringstream s;
+        s << "tied type" << fCurrentSlurType << "unknown";
+        msrMusicXMLError (s.str());
+      }
+      
+    }
 }
 
 void xml2MsrScoreVisitor::visitStart (S_slur& elt )
@@ -1306,7 +1333,8 @@ void xml2MsrScoreVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fMusicXMLAlteration = 0; // natural notes
   fMusicXMLNoteData.fMusicXMLOctave = -13;
   fMusicXMLNoteData.fMusicXMLDotsNumber = 0;
-  fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote = false;;
+  fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote = false;
+  fMusicXMLNoteData.fMusicXMLNoteIsTied = false;
 
   // assuming staff number 1, unless S_staff states otherwise afterwards
   fCurrentStaffNumber = 1;
@@ -2105,31 +2133,33 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
         appendNoteToVoice (newNote);
     
       if (fCurrentLyricsHasText) {
-        // is lyrics fCurrentLyricsNumber present in current voice?
-        fCurrentLyrics =
-          fCurrentVoice->
-            voiceContainsLyrics (fCurrentLyricsNumber);
-
-        // no, add it to the voice
-        if (! fCurrentLyrics)
+        if (! (fOnGoingSlur || fMusicXMLNoteData.fMusicXMLNoteIsTied)) {
+          // is lyrics fCurrentLyricsNumber present in current voice?
           fCurrentLyrics =
             fCurrentVoice->
-              addLyricsToVoice (fCurrentLyricsNumber);
-      
-        S_msrDuration
-          lyricMsrDuration =
-            msrDuration::create (
-              fMusicXMLNoteData.fMusicXMLDuration,
-              fCurrentMusicXMLDivisions,
-              fMusicXMLNoteData.fMusicXMLDotsNumber,
-              fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
-      
-        fCurrentLyrics->
-          addTextChunkToLyrics (
-            fCurrentSyllabic,
-            fCurrentText,
-            fCurrentElision,
-            lyricMsrDuration);
+              voiceContainsLyrics (fCurrentLyricsNumber);
+  
+          // no, add it to the voice
+          if (! fCurrentLyrics)
+            fCurrentLyrics =
+              fCurrentVoice->
+                addLyricsToVoice (fCurrentLyricsNumber);
+        
+          S_msrDuration
+            lyricMsrDuration =
+              msrDuration::create (
+                fMusicXMLNoteData.fMusicXMLDuration,
+                fCurrentMusicXMLDivisions,
+                fMusicXMLNoteData.fMusicXMLDotsNumber,
+                fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
+        
+          fCurrentLyrics->
+            addTextChunkToLyrics (
+              fCurrentSyllabic,
+              fCurrentText,
+              fCurrentElision,
+              lyricMsrDuration);
+        }
       }
   
     // account for chord not being built

@@ -1140,6 +1140,8 @@ void msrNote::printMSR(ostream& os)
       ":" << fNoteMsrDuration;
     if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
       os << " " << "grace";
+    if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
+      os << " " << "tied";
     os << endl;
     
     // print the alterations if any
@@ -2843,10 +2845,17 @@ string msrLyrics::getLyricsName () const
   // not stored in a field,
   // because the lyrics voice and staff may change name
   // when the part they belong to is re-used
+
+  string
+    lyricsNameSuffix =
+      fLyricsNumber == 0
+        ? "Master"
+        : int2EnglishWord (fLyricsNumber);
+        
   return
    fLyricsVoice->getVoiceName() +
     "_L_" +
-    int2EnglishWord (fLyricsNumber);
+    lyricsNameSuffix;
 }
 
 msrLyrics::~msrLyrics() {}
