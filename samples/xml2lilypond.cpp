@@ -41,29 +41,42 @@ void usage(int exitStatus) {
     "        Pass 4: write the LPSR as LilyPond source code to standard output." << endl <<
     "        The activity log and warning/error messages go to standard error." << endl <<
     endl <<
+
     "Options:" << endl <<
-    "  --help'" << endl <<
+    "  --help" << endl <<
     "        Display this help." << endl <<
     endl <<
+
+    "  --srvn, --staffRelativeVoiceNumbers" << endl <<
+    "        Generate voices names with numbers relative to their staff." << endl <<
+    "        By default, the voice numbers found are used, " << endl <<
+    "        which may be global to the score." << endl <<
+    endl <<
+    
     "  --abs, --absolute" << endl <<
     "        Generate LilyPond absolute code. " << endl <<
     "        By default, relative code is generated." << endl <<
     endl <<
+
     "  --numericalTime" << endl <<
     "        Don't generate non-numerical time signatures such as 'C'." << endl <<
     "  --noComments" << endl <<
     "        Don't generate comments." << endl <<
-    "  --noAutobars" << endl <<
-    "        Don't generate barlines." << endl <<
     "  --noStems" << endl <<
     "        Don't generate stems commands." << endl <<
     "  --noPositions" << endl <<
     "        Don't generate positions." << endl <<
     endl <<
+
     "  --drd, --delayRestsDynamics" << endl <<
     "        Don't generate dynamics and wedges on rests," << endl <<
     "        but delay them until the next actual note instead." << endl <<
     endl <<
+
+    "  --msr, --displayMSR" << endl <<
+    "        Write the contents of the MSR data to standard error." << endl <<
+    endl <<
+
     "  --nt, --noTrace" << endl <<
     "        Don't generate a trace of the activity to standard error." << endl <<
     "  --d, --debug  " << endl <<

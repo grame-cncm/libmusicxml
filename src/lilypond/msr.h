@@ -1441,8 +1441,10 @@ class EXP msrVoice : public msrElement {
     S_msrLyrics
             voiceContainsLyrics (int lyricsNumber);
                
-    void    appendElementToVoiceSequence (S_msrElement elem)
-                { fVoiceSequence->appendElementToSequence (elem); }
+    void    appendNoteToVoice       (S_msrNote note);
+    void    appendChordToVoice      (S_msrChord chord);
+    void    appendTupletToVoice     (S_msrTuplet tuplet);
+    void    appendElementToVoice    (S_msrElement elem);
 
     S_msrElement
             getVoiceSequenceLastElement ()
@@ -1480,7 +1482,11 @@ class EXP msrVoice : public msrElement {
     int                       fStaffRelativeVoiceNumber;
     S_msrStaff                fVoiceStaff;
 
+    // the lyrics map
+    // [0] is used as a master lyrics, collecting skips along the way
+    // to be used as a 'prelude' by actual lyrics that start at later points
     msrLyricsMap              fVoiceLyricsMap;
+    S_msrLyrics               fMasterLyrics;
 
     // the implicit sequence containing the code generated for the voice
     S_msrSequence             fVoiceSequence;
@@ -1549,6 +1555,8 @@ class EXP msrStaff : public msrElement {
   private:
 
     S_translationSettings   fTranslationSettings;
+
+    static int              gMaxStaffVoices;
 
     int                     fStaffNumber;
     S_msrPart               fStaffPart;

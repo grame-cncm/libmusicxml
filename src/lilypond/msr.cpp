@@ -3026,7 +3026,7 @@ void msrLyrics::printLilyPondCode(ostream& os)
   os << endl << idtr << "}" << endl;
 }
 
-//______________________________________________________________________________
+//______________________________________________________________________________ 
 S_msrVoice msrVoice::create (
   S_translationSettings& ts,
   int                    voiceNumber,
@@ -3059,6 +3059,10 @@ msrVoice::msrVoice (
   // create the implicit msrSequence element
   fVoiceSequence =
     msrSequence::create (msrSequence::kSpace);
+
+  // add the master lyrics to this voice, to
+  // collect skips along the way that are used as a 'prelude'
+  // by actual lyrics that start at later points
   
   // add the implicit msrRepeat element
 // JMI  fVoiceMsrRepeat = msrRepeat::create ();
@@ -3068,6 +3072,9 @@ msrVoice::msrVoice (
  // S_msrTime time = msrTime::create (4, 4, fGenerateNumericalTime);
  // S_msrElement t = time;
   //fVoiceSequence->appendElementToSequence (t);
+
+  fMasterLyrics =
+    addLyricsToVoice (0);
 }
 
 msrVoice::~msrVoice() {}
@@ -3127,6 +3134,36 @@ S_msrLyrics msrVoice::voiceContainsLyrics (
   return result;
 }
 
+void msrVoice::appendNoteToVoice (S_msrNote note) {
+  S_msrElement n = note;
+  fVoiceSequence->appendElementToSequence (n);
+
+  // add a skip chunk to the master lyrics JMI 
+//  if (! fCurrentNoteHasLyrics) {
+    S_msrDuration
+      lyricsMsrDuration =
+        note->getNoteMsrDuration ();
+
+    fMasterLyrics->
+      addSkipChunkToLyrics (lyricsMsrDuration);
+//  }
+}
+
+void msrVoice::appendChordToVoice (S_msrChord chord) {
+  S_msrElement c = chord;
+  fVoiceSequence->appendElementToSequence (c);
+}
+
+void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
+  S_msrElement t = tuplet;
+  fVoiceSequence->appendElementToSequence (t);
+}
+
+void msrVoice::appendElementToVoice (S_msrElement elem)
+{
+  fVoiceSequence->appendElementToSequence (elem);
+}
+
 ostream& operator<< (ostream& os, const S_msrVoice& elt)
 {
   elt->print(os);
@@ -3173,6 +3210,8 @@ void msrVoice::printLilyPondCode(ostream& os)
 }
 
 //______________________________________________________________________________
+int msrStaff::gMaxStaffVoices = 4;
+
 S_msrStaff msrStaff::create (
   S_translationSettings& ts,
   int                    staffNumber,
@@ -3195,6 +3234,15 @@ msrStaff::msrStaff (
   fStaffPart   = staffPart;
 
   fNextRelativeStaffVoiceNumber = 0;
+
+  // add the maximum number of empty voices
+  // those that turn out empty will be removed later
+  for (int i = 1; i <= gMaxStaffVoices; i++) {
+    S_msrVoice
+      dummyVoice =
+        addVoiceToStaff (i);
+  } // for
+  
 }
 
 msrStaff::~msrStaff() {}
@@ -3213,12 +3261,29 @@ string msrStaff::getStaffName () const
 S_msrVoice msrStaff::addVoiceToStaff (
   int voiceNumber)
 {
+  /* JMI
   if (fStaffVoicesMap.count (voiceNumber)) {
     cerr << idtr <<
       "### Internal error: voice " << voiceNumber <<
       " already exists in this staff" << endl;
 
     return fStaffVoicesMap [voiceNumber];
+  }
+*/
+
+  // take this new voice into account
+  fNextRelativeStaffVoiceNumber++;
+  
+  if (fNextRelativeStaffVoiceNumber > msrStaff::gMaxStaffVoices) {
+    stringstream s;
+    string       message;
+    
+    s <<
+      "staff " << getStaffName () <<
+      " is already filled up with" << msrStaff::gMaxStaffVoices <<
+      " voices, voice " << voiceNumber << " overflows it" << endl;
+    s >> message;
+    msrMusicXMLError (s.str());
   }
 
   // create the voice
@@ -3227,7 +3292,7 @@ S_msrVoice msrStaff::addVoiceToStaff (
       msrVoice::create (
         fTranslationSettings,
         voiceNumber,
-        fNextRelativeStaffVoiceNumber++,
+        fNextRelativeStaffVoiceNumber,
         this);
 
   // register it in this staff
@@ -3251,6 +3316,19 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
   
   if (fStaffVoicesMap.count (voiceNumber)) {
     result = fStaffVoicesMap [voiceNumber];
+  } else {
+    stringstream s;
+    string       message;
+
+    s <<
+      "staff " << getStaffName () <<
+      " has no voice number " << voiceNumber << endl;
+    s >> message;
+    cerr <<
+      "###### " <<
+      "staff " << getStaffName () <<
+      " has not voice number " << voiceNumber << endl;
+    msrMusicXMLError (message);
   }
 
   return result;
