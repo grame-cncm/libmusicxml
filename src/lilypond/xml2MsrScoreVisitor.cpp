@@ -460,8 +460,8 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
     fCurrentPartGroup->
       fetchPartFromPartGroup (fCurrentPartMusicXMLName);
 
-  // no, add it to the current part group
   if (! fCurrentPart) {
+    // no, add it to the current part group
     fCurrentPart =
       fCurrentPartGroup->
         addPartToPartGroup (fCurrentPartMusicXMLName);
@@ -486,8 +486,8 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
     fCurrentPartGroup->
       fetchPartFromPartGroup (partID);
 
-  // no, add it to the current part group
   if (! fCurrentPart) 
+    // no, add it to the current part group
     fCurrentPart =
       fCurrentPartGroup->
         addPartToPartGroup (partID);
@@ -505,8 +505,8 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
     fCurrentPart->
       fetchStaffFromPart (fCurrentStaffNumber);
 
-  // no, add it to the current part
   if (! fCurrentStaff) 
+    // no, add it to the current part
     fCurrentStaff =
       fCurrentPart->
         addStaffToPart (fCurrentStaffNumber);
@@ -865,8 +865,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_forward& elt )
     fCurrentPart->
       fetchStaffFromPart (fCurrentStaffNumber);
 
-  // no, add it to the current part
   if (! fCurrentStaff) 
+    // no, add it to the current part
     fCurrentStaff =
       fCurrentPart->
         addStaffToPart (fCurrentStaffNumber);
@@ -1063,13 +1063,24 @@ void xml2MsrScoreVisitor::visitStart (S_lyric& elt )
   fCurrentLyricsNumber =
     elt->getAttributeIntValue ("number", 0);
 
+  // is voice fCurrentVoiceNumber present in current staff?
+  fCurrentVoice =
+    fCurrentStaff->
+      fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+  if (! fCurrentVoice)
+    // no, add it to the staff
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (fCurrentVoiceNumber);
+        
   // is lyrics fCurrentLyricsNumber present in current voice?
   fCurrentLyrics =
     fCurrentVoice->
       voiceContainsLyrics (fCurrentLyricsNumber);
 
-  // no, add it to the voice
   if (! fCurrentLyrics)
+    // no, add it to the voice
     fCurrentLyrics =
       fCurrentVoice->
         addLyricsToVoice (fCurrentLyricsNumber);
@@ -1972,8 +1983,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     fCurrentPart->
       fetchStaffFromPart (fCurrentStaffNumber);
 
-  // no, add it to the current part
   if (! fCurrentStaff) 
+    // no, add it to the current part
     fCurrentStaff =
       fCurrentPart->
         addStaffToPart (fCurrentStaffNumber);
@@ -2138,6 +2149,17 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
         newNote->notePitchAsLilypondString () <<
         " to current voice" << endl;
 
+      // is voice fCurrentVoiceNumber present in current staff?
+      fCurrentVoice =
+        fCurrentStaff->
+          fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+      if (! fCurrentVoice)
+        // no, add it to the staff
+        fCurrentVoice =
+          fCurrentStaff->
+            addVoiceToStaff (fCurrentVoiceNumber);
+        
       fCurrentVoice->
         appendNoteToVoice (newNote);
     
@@ -2148,8 +2170,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
             fCurrentVoice->
               voiceContainsLyrics (fCurrentLyricsNumber);
   
-          // no, add it to the voice
           if (! fCurrentLyrics)
+            // no, add it to the voice
             fCurrentLyrics =
               fCurrentVoice->
                 addLyricsToVoice (fCurrentLyricsNumber);

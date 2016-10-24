@@ -347,11 +347,8 @@ string msrDuration::durationAsMSRString ()
       s << ".";  
     } // while
   }
-  
-  string  result;
-  
-  s >> result;
-  return result;
+    
+  return s.str();
 }
 
 void msrDuration::printMSR(ostream& os)
@@ -516,10 +513,7 @@ string msrDynamics::dynamicsKindAsString ()
       }
   } // switch
   
-  string result;
-  
-  s >> result;
-  return result;
+  return s.str();
 }
 
 string msrDynamics::dynamicsKindAsLilypondString ()
@@ -2755,24 +2749,24 @@ void msrLyricsChunk::printMSR(ostream& os)
   os << "LyricsChunk" << " ";
   switch (fLyricsChunkType) {
     case kSingleChunk:
-      os << "single" << " duration: " << fChunkDuration;
+      os << "single" << ":" << fChunkDuration;
       if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
     case kBeginChunk:
-      os << "begin" << " duration: " << fChunkDuration;
+      os << "begin" << ":" << fChunkDuration;
       if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
     case kMiddleChunk:
-      os << "middle" << " duration: " << fChunkDuration;
+      os << "middle" << ":" << fChunkDuration;
       if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
     case kEndChunk:
-      os << "end" << " duration: " << fChunkDuration;
+      os << "end" << ":" << fChunkDuration;
       if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
       
     case kSkipChunk:
-      os << "skip" << " duration: " << fChunkDuration;
+      os << "skip" << ":" << fChunkDuration;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
       
@@ -2864,17 +2858,16 @@ void msrLyrics::addTextChunkToLyrics (
   }
 
   // create a lyrics text chunk
-//  if (fTranslationSettings->fDebug) {
-  if (fTranslationSettings->fTrace) {
+  if (true || fTranslationSettings->fDebug) {
+//  if (fTranslationSettings->fDebug) { JMI
     S_msrStaff staff = fLyricsVoice->getVoiceStaff();
     S_msrPart  part  = staff-> getStaffPart();
     
-    cout << idtr <<
-      "--> creating a text chunk \"" << syllabic <<
-      "\" in lyrics " << getLyricsName () <<
-      ", containing \"" << text <<
-      "\", elision: " << elision <<
-      ", duration: " << msrDuration << endl;
+    cerr << idtr <<
+      "--> Adding text chunk \"" << syllabic <<
+      "\" \"" << text << "\":" << msrDuration << 
+      " in lyrics " << getLyricsName () <<
+      ", elision: " << elision << endl;
   }
 
   S_msrLyricsChunk
@@ -3239,12 +3232,13 @@ msrStaff::msrStaff (
 
   // add the maximum number of empty voices
   // those that turn out empty will be removed later
+  /*
   for (int i = 1; i <= gMaxStaffVoices; i++) {
     S_msrVoice
       dummyVoice =
         addVoiceToStaff (i);
   } // for
-  
+  */
 }
 
 msrStaff::~msrStaff() {}
@@ -3263,7 +3257,6 @@ string msrStaff::getStaffName () const
 S_msrVoice msrStaff::addVoiceToStaff (
   int voiceNumber)
 {
-  /* JMI
   if (fStaffVoicesMap.count (voiceNumber)) {
     cerr << idtr <<
       "### Internal error: voice " << voiceNumber <<
@@ -3271,7 +3264,6 @@ S_msrVoice msrStaff::addVoiceToStaff (
 
     return fStaffVoicesMap [voiceNumber];
   }
-*/
 
   // take this new voice into account
   fNextRelativeStaffVoiceNumber++;
@@ -3315,7 +3307,8 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
   
   if (fStaffVoicesMap.count (voiceNumber)) {
     result = fStaffVoicesMap [voiceNumber];
-  } else {
+  }
+  /* else {
     stringstream s;
     s <<
       "staff " << getStaffName () <<
@@ -3323,6 +3316,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
  //   msrMusicXMLError (s.str()); JMI
     msrMusicXMLWarning (s.str());
   }
+  */
 
   return result;
 }
