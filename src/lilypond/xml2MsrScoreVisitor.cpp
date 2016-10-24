@@ -1077,7 +1077,7 @@ void xml2MsrScoreVisitor::visitStart (S_lyric& elt )
   // is lyrics fCurrentLyricsNumber present in current voice?
   fCurrentLyrics =
     fCurrentVoice->
-      voiceContainsLyrics (fCurrentLyricsNumber);
+      fetchLyricsFromVoice (fCurrentLyricsNumber);
 
   if (! fCurrentLyrics)
     // no, add it to the voice
@@ -2114,13 +2114,14 @@ void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
     appendNoteToVoice (newNote);
 
   if (fCurrentLyricsHasText)
-    addLyricsToCurrentVoice ();
+    handleLyricsText ();
 
   // account for chord not being built
   fOnGoingChord = false;
-}
+} // handleStandaloneNoteOrRest
 
-void xml2MsrScoreVisitor::handleNoteBelongingToAChord (S_msrNote newNote)
+void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
+  S_msrNote newNote)
 {
   if (fMusicXMLNoteData.fMusicXMLStepIsARest)
     msrMusicXMLError (
@@ -2168,7 +2169,7 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (S_msrNote newNote)
       " to current voice" << endl;
   fCurrentVoice->
     appendChordToVoice (fCurrentChord);
-}
+} // handleNoteBelongingToAChord
 
 void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
   S_msrNote newNote)
@@ -2211,14 +2212,14 @@ void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
     default:
       {}
   } // switch
-}
+} // handleNoteBelongingToATuplet
 
-void xml2MsrScoreVisitor::addLyricsToCurrentVoice ()
+void xml2MsrScoreVisitor::handleLyricsText ()
 {
  // is lyrics fCurrentLyricsNumber present in current voice?
   fCurrentLyrics =
     fCurrentVoice->
-      voiceContainsLyrics (fCurrentLyricsNumber);
+      fetchLyricsFromVoice (fCurrentLyricsNumber);
 
   if (! fCurrentLyrics)
     // no, add it to the voice
@@ -2233,8 +2234,7 @@ void xml2MsrScoreVisitor::addLyricsToCurrentVoice ()
         fCurrentMusicXMLDivisions,
         fMusicXMLNoteData.fMusicXMLDotsNumber,
         fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
-  
- // JMI if (fOnGoingSlur) {
+
   if (
     fCurrentSlurKind == msrSlur::kContinueSlur
       ||
@@ -2252,14 +2252,77 @@ void xml2MsrScoreVisitor::addLyricsToCurrentVoice ()
         
   } else {
     
-    fCurrentLyrics->
-      addTextChunkToLyrics (
-        fCurrentSyllabic,
-        fCurrentText,
-        fCurrentElision,
-        lyricMsrDuration);
+    // there can be notes without any slur indication
+
+    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+      
+      fCurrentLyrics->
+        addSkipChunkToLyrics (
+          lyricMsrDuration);
+        
+    } else if (
+    // JMI fOnGoingSlur && JMI
+    ! fCurrentNoteHasLyrics) {
+
+      fCurrentLyrics->
+        addSlurChunkToLyrics (
+          lyricMsrDuration);
+
+    } else {
+      
+      fCurrentLyrics->
+        addTextChunkToLyrics (
+          fCurrentSyllabic,
+          fCurrentText,
+          fCurrentElision,
+          lyricMsrDuration);
+          
+    }
   }
-}
+} // handleLyricsText
+
+/*
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>up</stem>
+        <notations>
+          <slur type="start" number="1"/>
+        </notations>
+        <lyric number="1">
+          <syllabic>begin</syllabic>
+          <text>que</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>up</stem>
+      </note>
+      <note>
+        <pitch>
+          <step>E</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>up</stem>
+        <notations>
+          <slur type="stop" number="1"/>
+        </notations>
+      </note>
+*/
 
 
 } // namespace

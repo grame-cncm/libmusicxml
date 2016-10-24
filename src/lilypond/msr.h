@@ -1452,7 +1452,7 @@ class EXP msrVoice : public msrElement {
             addLyricsToVoice (int lyricsNumber);
               
     S_msrLyrics
-            voiceContainsLyrics (int lyricsNumber);
+            fetchLyricsFromVoice (int lyricsNumber);
 
     S_msrLyrics
             getMasterLyrics () { return fMasterLyrics; }

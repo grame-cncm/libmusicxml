@@ -3111,7 +3111,9 @@ msrVoice::msrVoice (
   // add the master lyrics to this voice, to
   // collect skips along the way that are used as a 'prelude'
   // by actual lyrics that start at later points
-  
+  fMasterLyrics =
+    addLyricsToVoice (0);
+
   // add the implicit msrRepeat element
 // JMI  fVoiceMsrRepeat = msrRepeat::create ();
 //  fVoiceSequence->appendElementToSequence (fVoiceMsrRepeat);
@@ -3120,9 +3122,6 @@ msrVoice::msrVoice (
  // S_msrTime time = msrTime::create (4, 4, fGenerateNumericalTime);
  // S_msrElement t = time;
   //fVoiceSequence->appendElementToSequence (t);
-
-  fMasterLyrics =
-    addLyricsToVoice (0);
 }
 
 msrVoice::~msrVoice() {}
@@ -3163,14 +3162,20 @@ S_msrLyrics msrVoice::addLyricsToVoice (
         lyricsNumber,
         this);
 
-  // register it in this staff
+  // register it in this voice
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Adding lyrics " << lyricsNumber <<
+      " " << lyrics->getLyricsName () <<
+      " to voice " << getVoiceName () << endl;
+
   fVoiceLyricsMap [lyricsNumber] = lyrics;
 
   // return it
   return lyrics;
 }
 
-S_msrLyrics msrVoice::voiceContainsLyrics (
+S_msrLyrics msrVoice::fetchLyricsFromVoice (
   int lyricsNumber)
 {
   S_msrLyrics result;

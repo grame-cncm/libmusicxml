@@ -411,7 +411,7 @@ class EXP xml2MsrScoreVisitor :
     bool                     fCurrentNoteHasLyrics;
     S_msrLyrics              fCurrentLyrics;
     bool                     fCurrentLyricsHasText;
-    void                     addLyricsToCurrentVoice ();
+    void                     handleLyricsText ();
 
     // positions handling
     // ------------------------------------------------------
