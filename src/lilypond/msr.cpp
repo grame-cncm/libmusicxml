@@ -2918,7 +2918,8 @@ void msrLyrics::addTextChunkToLyrics (
 void msrLyrics::addSkipChunkToLyrics (
   S_msrDuration  msrDuration)
 {
-  if (fTranslationSettings->fDebug) {
+  if (true || fTranslationSettings->fDebug) {
+//  if (fTranslationSettings->fDebug) { JMI
     S_msrStaff staff = fLyricsVoice->getVoiceStaff();
     S_msrPart  part  = staff-> getStaffPart();
     
@@ -2940,7 +2941,8 @@ void msrLyrics::addSkipChunkToLyrics (
 void msrLyrics::addSlurChunkToLyrics (
   S_msrDuration  msrDuration)
 {
-  if (fTranslationSettings->fDebug) {
+  if (true || fTranslationSettings->fDebug) {
+//  if (fTranslationSettings->fDebug) { JMI
     S_msrStaff staff = fLyricsVoice->getVoiceStaff();
     S_msrPart  part  = staff-> getStaffPart();
     
@@ -2962,7 +2964,8 @@ void msrLyrics::addSlurChunkToLyrics (
 void msrLyrics::addTiedChunkToLyrics (
   S_msrDuration  msrDuration)
 {
-  if (fTranslationSettings->fDebug) {
+  if (true || fTranslationSettings->fDebug) {
+//  if (fTranslationSettings->fDebug) { JMI
     S_msrStaff staff = fLyricsVoice->getVoiceStaff();
     S_msrPart  part  = staff-> getStaffPart();
     
@@ -2984,7 +2987,8 @@ void msrLyrics::addTiedChunkToLyrics (
 void msrLyrics::addBreakChunkToLyrics (
   int nextMeasureNumber)
 {
-  if (fTranslationSettings->fDebug) {
+  if (true || fTranslationSettings->fDebug) {
+//  if (fTranslationSettings->fDebug) { JMI
     S_msrStaff staff = fLyricsVoice->getVoiceStaff();
     S_msrPart  part  = staff-> getStaffPart();
     

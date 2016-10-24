@@ -1948,7 +1948,7 @@ void xml2MsrScoreVisitor::attachPendingDynamicsAndWedgesToNote (
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitEnd ( S_note& elt ) 
+void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
 {
   /*
   This is a complex method, due to the fact that
@@ -2050,166 +2050,19 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   */
   
   if (fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord) {
-    
-    if (fMusicXMLNoteData.fMusicXMLStepIsARest)
-      msrMusicXMLError (
-        "a rest cannot belong to a chord");
-        
-    if (! fOnGoingChord) {
-      // create a chord with fCurrentNote as its first note
-      fCurrentChord =
-        createChordFromCurrentNote ();
 
-      // account for chord being built
-      fOnGoingChord = true;
-    }
-    
-    if (fTranslationSettings->fDebug)
-      cout << idtr <<
-        "--> adding new note " <<
-        newNote->notePitchAsLilypondString() <<
-        " to current chord" << endl;
-      
-    // register note as a member of fCurrentChord
-    if (fTranslationSettings->fDebug)
-      cout << idtr <<
-        "--> registering new note " <<
-        newNote->notePitchAsLilypondString() <<
-        " as a member of current chord" << endl;
-    fCurrentChord->
-      addNoteToChord (newNote);
-      
-    // remove previous current note or the previous state of the chord
-    // from the current voice sequence
-    if (fTranslationSettings->fDebug)
-      cout << idtr <<
-        "--> removing last element " <<
-        fCurrentVoice->getVoiceSequenceLastElement () <<
-        " from current voice" << endl;
-// JMI    fCurrentVoice->removeElementFromVoiceSequence (fCurrentNote);
-    fCurrentVoice->
-      removeLastElementFromVoiceSequence ();
-
-    // add fCurrentChord to the part sequence instead
-    if (fTranslationSettings->fDebug)
-      cout << idtr <<
-        "--> appending chord " << fCurrentChord <<
-        " to current voice" << endl;
-    fCurrentVoice->
-      appendChordToVoice (fCurrentChord);
+    handleNoteBelongingToAChord (newNote);
 
   } else if (fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet) {
 
-    fMusicXMLNoteData.fMusicXMLTupletMemberNoteType = fCurrentNoteType;
+    handleNoteBelongingToATuplet (newNote);
     
-    switch (fCurrentTupletKind) {
-      case msrTuplet::kStartTuplet:
-        {
-          createTuplet (newNote);
-          fOnGoingTuplet = true;
-        
-          // swith to continuation mode
-          // this is handy in case the forthcoming tuplet members
-          // are not explictly of the "continue" type
-          fCurrentTupletKind = msrTuplet::kContinueTuplet;
-        }
-        break;
-  
-      case msrTuplet::kContinueTuplet:
-        {
-          // populate the tuplet at the top of the stack
-          if (fTranslationSettings->fDebug)
-            cout << idtr <<
-              "--> adding note " << newNote <<
-              " to tuplets stack top" << endl;
-          fCurrentTupletsStack.top()->
-            addElementToTuplet (newNote);
-        }
-        break;
-  
-      case msrTuplet::kStopTuplet:
-        {
-          finalizeTuplet(newNote);
-
-          // indicate the end of the tuplet
-          fOnGoingTuplet = false;
-        }
-        break;
-      default:
-        {}
-    } // switch
-
   } else { // standalone note/rest
 
-    // register note/rest as standalone
-  //  if (true || fTranslationSettings->fDebug)
-    if (fTranslationSettings->fDebug)
-      cerr <<  idtr <<
-        "--> adding standalone " <<
-        newNote->notePitchAsLilypondString () <<
-        " to current voice" << endl;
-
-    // is voice fCurrentVoiceNumber present in current staff?
-    fCurrentVoice =
-      fCurrentStaff->
-        fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-    if (! fCurrentVoice)
-      // no, add it to the staff
-      fCurrentVoice =
-        fCurrentStaff->
-          addVoiceToStaff (fCurrentVoiceNumber);
-      
-    fCurrentVoice->
-      appendNoteToVoice (newNote);
-  
-    if (fCurrentLyricsHasText) {
-      // is lyrics fCurrentLyricsNumber present in current voice?
-      fCurrentLyrics =
-        fCurrentVoice->
-          voiceContainsLyrics (fCurrentLyricsNumber);
-
-      if (! fCurrentLyrics)
-        // no, add it to the voice
-        fCurrentLyrics =
-          fCurrentVoice->
-            addLyricsToVoice (fCurrentLyricsNumber);
+    handleStandaloneNoteOrRest (newNote);
     
-      S_msrDuration
-        lyricMsrDuration =
-          msrDuration::create (
-            fMusicXMLNoteData.fMusicXMLDuration,
-            fCurrentMusicXMLDivisions,
-            fMusicXMLNoteData.fMusicXMLDotsNumber,
-            fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
-      
-      if (fOnGoingSlur) {
-        
-        fCurrentLyrics->
-          addSlurChunkToLyrics (
-            lyricMsrDuration);
-            
-      } else if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
-        
-        fCurrentLyrics->
-          addTiedChunkToLyrics (
-            lyricMsrDuration);
-            
-      } else {
-        
-        fCurrentLyrics->
-          addTextChunkToLyrics (
-            fCurrentSyllabic,
-            fCurrentText,
-            fCurrentElision,
-            lyricMsrDuration);
-      }
-    }
-
-    // account for chord not being built
-    fOnGoingChord = false;
   }
-  
+
   // keep track of note/rest in this visitor
   fCurrentNote = newNote;
   fCurrentPositionInMeasure +=
@@ -2233,6 +2086,179 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
       "--> fCurrentVoice        = " << fCurrentVoice->getVoiceName() << endl;
 
   fOnGoingNote = false;
+} // xml2MsrScoreVisitor::visitEnd ( S_note& elt )
+
+void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
+  S_msrNote newNote)
+{
+  // register note/rest as standalone
+//  if (true || fTranslationSettings->fDebug)
+  if (fTranslationSettings->fDebug)
+    cerr <<  idtr <<
+      "--> adding standalone " <<
+      newNote->notePitchAsLilypondString () <<
+      " to current voice" << endl;
+
+  // is voice fCurrentVoiceNumber present in current staff?
+  fCurrentVoice =
+    fCurrentStaff->
+      fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+  if (! fCurrentVoice)
+    // no, add it to the staff
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (fCurrentVoiceNumber);
+    
+  fCurrentVoice->
+    appendNoteToVoice (newNote);
+
+  if (fCurrentLyricsHasText)
+    addLyricsToCurrentVoice ();
+
+  // account for chord not being built
+  fOnGoingChord = false;
+}
+
+void xml2MsrScoreVisitor::handleNoteBelongingToAChord (S_msrNote newNote)
+{
+  if (fMusicXMLNoteData.fMusicXMLStepIsARest)
+    msrMusicXMLError (
+      "a rest cannot belong to a chord");
+      
+  if (! fOnGoingChord) {
+    // create a chord with fCurrentNote as its first note
+    fCurrentChord =
+      createChordFromCurrentNote ();
+
+    // account for chord being built
+    fOnGoingChord = true;
+  }
+  
+  if (fTranslationSettings->fDebug)
+    cout << idtr <<
+      "--> adding new note " <<
+      newNote->notePitchAsLilypondString() <<
+      " to current chord" << endl;
+    
+  // register note as a member of fCurrentChord
+  if (fTranslationSettings->fDebug)
+    cout << idtr <<
+      "--> registering new note " <<
+      newNote->notePitchAsLilypondString() <<
+      " as a member of current chord" << endl;
+  fCurrentChord->
+    addNoteToChord (newNote);
+    
+  // remove previous current note or the previous state of the chord
+  // from the current voice sequence
+  if (fTranslationSettings->fDebug)
+    cout << idtr <<
+      "--> removing last element " <<
+      fCurrentVoice->getVoiceSequenceLastElement () <<
+      " from current voice" << endl;
+// JMI    fCurrentVoice->removeElementFromVoiceSequence (fCurrentNote);
+  fCurrentVoice->
+    removeLastElementFromVoiceSequence ();
+
+  // add fCurrentChord to the part sequence instead
+  if (fTranslationSettings->fDebug)
+    cout << idtr <<
+      "--> appending chord " << fCurrentChord <<
+      " to current voice" << endl;
+  fCurrentVoice->
+    appendChordToVoice (fCurrentChord);
+}
+
+void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
+  S_msrNote newNote)
+{
+  fMusicXMLNoteData.fMusicXMLTupletMemberNoteType = fCurrentNoteType;
+  
+  switch (fCurrentTupletKind) {
+    case msrTuplet::kStartTuplet:
+      {
+        createTuplet (newNote);
+        fOnGoingTuplet = true;
+      
+        // swith to continuation mode
+        // this is handy in case the forthcoming tuplet members
+        // are not explictly of the "continue" type
+        fCurrentTupletKind = msrTuplet::kContinueTuplet;
+      }
+      break;
+
+    case msrTuplet::kContinueTuplet:
+      {
+        // populate the tuplet at the top of the stack
+        if (fTranslationSettings->fDebug)
+          cout << idtr <<
+            "--> adding note " << newNote <<
+            " to tuplets stack top" << endl;
+        fCurrentTupletsStack.top()->
+          addElementToTuplet (newNote);
+      }
+      break;
+
+    case msrTuplet::kStopTuplet:
+      {
+        finalizeTuplet(newNote);
+
+        // indicate the end of the tuplet
+        fOnGoingTuplet = false;
+      }
+      break;
+    default:
+      {}
+  } // switch
+}
+
+void xml2MsrScoreVisitor::addLyricsToCurrentVoice ()
+{
+ // is lyrics fCurrentLyricsNumber present in current voice?
+  fCurrentLyrics =
+    fCurrentVoice->
+      voiceContainsLyrics (fCurrentLyricsNumber);
+
+  if (! fCurrentLyrics)
+    // no, add it to the voice
+    fCurrentLyrics =
+      fCurrentVoice->
+        addLyricsToVoice (fCurrentLyricsNumber);
+
+  S_msrDuration
+    lyricMsrDuration =
+      msrDuration::create (
+        fMusicXMLNoteData.fMusicXMLDuration,
+        fCurrentMusicXMLDivisions,
+        fMusicXMLNoteData.fMusicXMLDotsNumber,
+        fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
+  
+ // JMI if (fOnGoingSlur) {
+  if (
+    fCurrentSlurKind == msrSlur::kContinueSlur
+      ||
+    fCurrentSlurKind == msrSlur::kStopSlur) {
+      
+    fCurrentLyrics->
+      addSlurChunkToLyrics (
+        lyricMsrDuration);
+        
+  } else if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
+    
+    fCurrentLyrics->
+      addTiedChunkToLyrics (
+        lyricMsrDuration);
+        
+  } else {
+    
+    fCurrentLyrics->
+      addTextChunkToLyrics (
+        fCurrentSyllabic,
+        fCurrentText,
+        fCurrentElision,
+        lyricMsrDuration);
+  }
 }
 
 

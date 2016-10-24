@@ -318,6 +318,7 @@ class EXP xml2MsrScoreVisitor :
     S_translationSettings    fTranslationSettings;
 
     // the score we're building
+    // ------------------------------------------------------
     S_msrScore               fMsrScore;
 
     // part group handling
@@ -334,6 +335,9 @@ class EXP xml2MsrScoreVisitor :
       <group-barline>yes</group-barline>
       </part-group>
     */
+
+    // part group handling
+    // ------------------------------------------------------
     int                      fCurrentPartGroupNumber;
     string                   fCurrentPartGroupType;
     string                   fCurrentPartGroupName;
@@ -349,31 +353,38 @@ class EXP xml2MsrScoreVisitor :
     S_msrPartGroup           fetchScorePartGroup (int partGroupNumber);
 
     // staff handling
+    // ------------------------------------------------------
     int                      fCurrentStaffNumber;
     S_msrStaff               fCurrentStaff;
 
     // part handling
+    // ------------------------------------------------------
     string                   fCurrentPartMusicXMLName;
     string                   fCurrentPartAbbreviation;
     string                   fCurrentPartInstrumentName;
     S_msrPart                fCurrentPart;
 
     // voice handling
+    // ------------------------------------------------------
     int                      fCurrentVoiceNumber;
     S_msrVoice               fCurrentVoice;
     
     // key handling
+    // ------------------------------------------------------
     int                      fCurrentKeyStaffNumber;
     int                      fCurrentFifths;
     int                      fCurrentCancel;
     string                   fCurrentMode;
 
+    // clef handling
+    // ------------------------------------------------------
     string                   fCurrentClefSign;
     int                      fCurrentClefLine;
     int                      fCurrentClefOctaveChange; // JMI
     int                      fCurrentClefStaffNumber;
 
     // metronome handling
+    // ------------------------------------------------------
     vector<musicXMLBeatData>
                              fBeatsData;
     int                      fPerMinute;
@@ -381,6 +392,7 @@ class EXP xml2MsrScoreVisitor :
     bool                     fParentheses;
 
     // time handling
+    // ------------------------------------------------------
     int                      fCurrentTimeStaffNumber;
     string                   fCurrentTimeSymbol;
     int                      fCurrentTimeBeats;
@@ -388,25 +400,26 @@ class EXP xml2MsrScoreVisitor :
     bool                     fCurrentTimeSenzaMisura;
 
     // lyrics handling
+    // ------------------------------------------------------
     // the last sysllabic spec met (single, begin, middle or end)
     string                   fCurrentSyllabic;
     // the last lyrics fragment met
     string                   fCurrentText;
     bool                     fCurrentElision;
-
-    // the current lyrics map and chunk
-//    map<int, S_msrLyrics>
-//                            fCurrentVoiceLyricsMap; JMI
-//    S_msrLyricsChunk       fCurrentChunk;
     
     int                      fCurrentLyricsNumber;
     bool                     fCurrentNoteHasLyrics;
     S_msrLyrics              fCurrentLyrics;
     bool                     fCurrentLyricsHasText;
+    void                     addLyricsToCurrentVoice ();
 
+    // positions handling
+    // ------------------------------------------------------
     int                      fCurrentMeasureNumber;
     rational                 fCurrentPositionInMeasure;
 
+    // repeat handling
+    // ------------------------------------------------------
     string                   fCurrentBarlineLocation;
     string                   fCurrentBarStyle;
     string                   fCurrentRepeatDirection;
@@ -414,31 +427,43 @@ class EXP xml2MsrScoreVisitor :
     int                      fCurrentEndingNumber;
 
     // dividing quater notes in MusicXML
+    // ------------------------------------------------------
     int                      fCurrentMusicXMLDivisions;
 
     // description of the current MusicXML note
     musicXMLNoteData         fMusicXMLNoteData;
 
     // unpitched notes handling
+    // ------------------------------------------------------
     char                     fDisplayStep;
     int                      fDisplayOctave;
 
     // stem handling
+    // ------------------------------------------------------
     enum StemDirection { kStemNeutral, kStemUp, kStemDown };
     
-    string                   fCurrentStem;
-    StemDirection            fCurrentStemDirection;
+    string                  fCurrentStem;
+    StemDirection           fCurrentStemDirection;
 
     // beam handling
-    string                   fCurrentBeam;
-    int                      fCurrentBeamNumber; 
+    // ------------------------------------------------------
+    string                  fCurrentBeam;
+    int                     fCurrentBeamNumber; 
 
+    // note/rest handling
+    // ------------------------------------------------------
+    void                    handleStandaloneNoteOrRest (
+                              S_msrNote newNote);
+
+    // ------------------------------------------------------
     // chord handling
     S_msrChord              fCurrentChord; // cannot be local to a method? JMI
     bool                    fOnGoingChord;
-
     S_msrChord              createChordFromCurrentNote ();
+    void                    handleNoteBelongingToAChord (
+                              S_msrNote newNote);
     
+    // ------------------------------------------------------
     // articulations handling
     list<S_msrArticulation> fCurrentArticulations;
     
@@ -450,33 +475,39 @@ class EXP xml2MsrScoreVisitor :
                               S_msrNote note);
        
     // description of the current MSR note
-    string                   fCurrentNoteType;
-    S_msrNote                fCurrentNote;
-    bool                     fOnGoingNote;
+    // ------------------------------------------------------
+    string                  fCurrentNoteType;
+    S_msrNote               fCurrentNote;
+    bool                    fOnGoingNote;
 
     // tuplet handling
-    int                      fCurrentActualNotes;
-    int                      fCurrentNormalNotes;
-    string                   fCurrentNormalNoteType;
+     // ------------------------------------------------------
+   int                      fCurrentActualNotes;
+    int                     fCurrentNormalNotes;
+    string                  fCurrentNormalNoteType;
     // embedded tuplets are numbered 1, 2, ...
-    int                      fCurrentTupletNumber;
-    msrTuplet::TupletKind    fCurrentTupletKind;
+    int                     fCurrentTupletNumber;
+    msrTuplet::TupletKind   fCurrentTupletKind;
     // remains true until a S_tuplet of type "stop" is met
-    bool                     fOnGoingTuplet;
-    stack<S_msrTuplet>       fCurrentTupletsStack;
+    bool                    fOnGoingTuplet;
+    stack<S_msrTuplet>      fCurrentTupletsStack;
 
-    void                     createTuplet   (S_msrNote note);
-    void                     finalizeTuplet (S_msrNote note);
+    void                    createTuplet   (S_msrNote note);
+    void                    finalizeTuplet (S_msrNote note);
+    void                    handleNoteBelongingToATuplet (
+                              S_msrNote newNote);
          
     // another name for fCurrentNote, fCurrentChord, fCurrentTuplet
     // and the like
 // JMI    S_msrElement           fCurrentElement;
 
     // ties handling
+    // ------------------------------------------------------
     string                   fCurrentTiedType;
     string                   fCurrentTiedOrientation;
 
     // slurs handling
+    // ------------------------------------------------------
     int                      fCurrentSlurNumber;
     string                   fCurrentSlurType;
     string                   fCurrentSlurPlacement;
@@ -484,10 +515,12 @@ class EXP xml2MsrScoreVisitor :
     bool                     fOnGoingSlur;
 
     // backup handling
+    // ------------------------------------------------------
     int                      fCurrentBackupDuration;
     bool                     fOnGoingBackup;
 
     // forward handling
+    // ------------------------------------------------------
     int                      fCurrentForwardDuration;
     int                      fCurrentForwardVoiceNumber;
     int                      fCurrentForwardStaffNumber;
