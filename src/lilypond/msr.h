@@ -1618,7 +1618,7 @@ class EXP msrPart : public msrElement {
     void    setPartInstrumentName (string partInstrumentName)
                 { fPartInstrumentName = partInstrumentName; }
                 
-    void    changePartMusicXMLName (
+    void    reusePartAs (
               string newPartMusicXMLName);
               
     string  getPartMusicXMLName () const

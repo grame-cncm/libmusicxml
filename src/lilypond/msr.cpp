@@ -2843,13 +2843,17 @@ S_msrLyrics msrLyrics::create (
 msrLyrics::msrLyrics (
   S_translationSettings& ts,
   int                    lyricsNumber,
-  S_msrVoice            lyricsVoice)
+  S_msrVoice             lyricsVoice)
     : msrElement("")
 {
   fTranslationSettings = ts;
   fLyricsNumber        = lyricsNumber;
   fLyricsVoice         = lyricsVoice; 
  
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Creating lyrics " << getLyricsName () << endl;
+
   fLyricsTextPresent = false;
 }
 
@@ -2896,8 +2900,8 @@ void msrLyrics::addTextChunkToLyrics (
   }
 
   // create a lyrics text chunk
-  if (true || fTranslationSettings->fDebug) {
-//  if (fTranslationSettings->fDebug) { JMI
+//  if (true || fTranslationSettings->fDebug) {
+  if (fTranslationSettings->fDebug) {
     S_msrStaff staff = fLyricsVoice->getVoiceStaff();
     S_msrPart  part  = staff-> getStaffPart();
     
@@ -2945,8 +2949,8 @@ void msrLyrics::addTextChunkToLyrics (
 void msrLyrics::addSkipChunkToLyrics (
   S_msrDuration  msrDuration)
 {
-  if (true || fTranslationSettings->fDebug) {
-//  if (fTranslationSettings->fDebug) { JMI
+//  if (true || fTranslationSettings->fDebug) {
+  if (fTranslationSettings->fDebug) {
     S_msrStaff staff = fLyricsVoice->getVoiceStaff();
     S_msrPart  part  = staff-> getStaffPart();
     
@@ -2968,8 +2972,8 @@ void msrLyrics::addSkipChunkToLyrics (
 void msrLyrics::addSlurChunkToLyrics (
   S_msrDuration  msrDuration)
 {
-  if (true || fTranslationSettings->fDebug) {
-//  if (fTranslationSettings->fDebug) { JMI
+//  if (true || fTranslationSettings->fDebug) {
+  if (fTranslationSettings->fDebug) {
     S_msrStaff staff = fLyricsVoice->getVoiceStaff();
     S_msrPart  part  = staff-> getStaffPart();
     
@@ -2991,8 +2995,8 @@ void msrLyrics::addSlurChunkToLyrics (
 void msrLyrics::addTiedChunkToLyrics (
   S_msrDuration  msrDuration)
 {
-  if (true || fTranslationSettings->fDebug) {
-//  if (fTranslationSettings->fDebug) { JMI
+//  if (true || fTranslationSettings->fDebug) {
+  if (fTranslationSettings->fDebug) {
     S_msrStaff staff = fLyricsVoice->getVoiceStaff();
     S_msrPart  part  = staff-> getStaffPart();
     
@@ -3014,8 +3018,8 @@ void msrLyrics::addTiedChunkToLyrics (
 void msrLyrics::addBreakChunkToLyrics (
   int nextMeasureNumber)
 {
-  if (true || fTranslationSettings->fDebug) {
-//  if (fTranslationSettings->fDebug) { JMI
+//  if (true || fTranslationSettings->fDebug) {
+  if (fTranslationSettings->fDebug) {
     S_msrStaff staff = fLyricsVoice->getVoiceStaff();
     S_msrPart  part  = staff-> getStaffPart();
     
@@ -3129,6 +3133,10 @@ msrVoice::msrVoice (
   fStaffRelativeVoiceNumber = staffRelativeVoiceNumber;
   fVoiceStaff  = voiceStaff;
 
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Creating voice " << getVoiceName () << endl;
+
   fVoiceContainsActualNotes = false;
   
   // create the implicit msrSequence element
@@ -3198,25 +3206,27 @@ S_msrLyrics msrVoice::addLyricsToVoice (
 
   fVoiceLyricsMap [lyricsNumber] = lyrics;
 
-  // catch up with fVoiceMasterLyrics in case the lyrics
-  // do not start upon the first voice note
+  // catch up with fVoiceMasterLyrics if non null
+  // in case the lyrics do not start upon the first voice note
 
-  msrLyricsChunksVector
-    masterChunks =
-      fVoiceMasterLyrics->getLyricsChunks ();
-
-  if (masterChunks.size()) {
-    if (fTranslationSettings->fTrace)
-      cerr << idtr <<
-        "Copying current contents of voice master lyrics to new lyrics" << endl;
-    for (
-      msrLyricsChunksVector::const_iterator i =
-        masterChunks.begin();
-      i != masterChunks.end();
-      i++) {
-      // add chunk to lyrics
-      lyrics->addChunkToLyrics ((*i));
-    } // for
+  if (fVoiceMasterLyrics) { // JMI
+    msrLyricsChunksVector
+      masterChunks =
+        fVoiceMasterLyrics->getLyricsChunks ();
+  
+    if (masterChunks.size()) {
+      if (fTranslationSettings->fTrace)
+        cerr << idtr <<
+          "Copying current contents of voice master lyrics to new lyrics" << endl;
+      for (
+        msrLyricsChunksVector::const_iterator i =
+          masterChunks.begin();
+        i != masterChunks.end();
+        i++) {
+        // add chunk to lyrics
+        lyrics->addChunkToLyrics ((*i));
+      } // for
+    }
   }
 
   // return it
@@ -3337,6 +3347,10 @@ msrStaff::msrStaff (
   fStaffPart   = staffPart;
 
   fNextRelativeStaffVoiceNumber = 0;
+
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Creating staff " << getStaffName () << endl;
 
   // add the maximum number of empty voices
   // those that turn out empty will be removed later
@@ -3554,7 +3568,7 @@ msrPart::msrPart (
 
 msrPart::~msrPart() {}
 
-void msrPart::changePartMusicXMLName (
+void msrPart::reusePartAs (
   string newPartMusicXMLName)
 {
   string oldCombinedName = getPartCombinedName ();
@@ -3891,7 +3905,7 @@ S_msrPart msrPartGroup::tryAndReUseInitialAnonymousPart (
       S_msrPart partToBeReUsed = (*i).second;
       
       partToBeReUsed->
-        changePartMusicXMLName (partMusicXMLName);
+        reusePartAs (partMusicXMLName);
 
       fPartGroupPartsMap [partMusicXMLName] = partToBeReUsed;
       fPartGroupPartsMap.erase ("");

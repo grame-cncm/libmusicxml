@@ -377,10 +377,11 @@ void xml2MsrScoreVisitor::visitStart (S_instrument_name& elt)
 void xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
 {
   /*
-  A first part group is created with all the nneded contents.
-  It single part will be reused when the first actual part is met,
-  changing its name on the fly
-  in msrPartGroup::tryAndReUseInitialAnonymousPart()
+  A first part group is created with all the nneded contents
+  if none is specified in the MusicXML data.
+  Its single part will be reused when the first actual part is met,
+  changing its name on the fly in method:
+    msrPartGroup::tryAndReUseInitialAnonymousPart()
   */
 
   // create an implicit part group
@@ -429,13 +430,13 @@ void xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
     fCurrentPart->
       addStaffToPart (fCurrentStaffNumber);
 
+/* JMI
   // fetch current voice
   fCurrentVoiceNumber = 1;
   fCurrentVoice =
     fCurrentStaff->
       fetchVoiceFromStaff (fCurrentVoiceNumber);
 
-/*
   // add a voice to the staff
   fCurrentVoiceNumber = 1;
   fCurrentVoice =
@@ -1175,6 +1176,70 @@ void xml2MsrScoreVisitor::visitEnd ( S_elision& elt )
 
 void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
 {
+  // is lyrics fCurrentLyricsNumber present in current voice?
+  fCurrentLyrics =
+    fCurrentVoice->
+      fetchLyricsFromVoice (fCurrentLyricsNumber);
+
+  if (! fCurrentLyrics)
+    // no, add it to the voice
+    fCurrentLyrics =
+      fCurrentVoice->
+        addLyricsToVoice (fCurrentLyricsNumber);
+
+  S_msrDuration
+    lyricMsrDuration =
+      msrDuration::create (
+        fMusicXMLNoteData.fMusicXMLDuration,
+        fCurrentMusicXMLDivisions,
+        fMusicXMLNoteData.fMusicXMLDotsNumber,
+        fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
+
+  if (
+    fCurrentSlurKind == msrSlur::kContinueSlur
+      ||
+    fCurrentSlurKind == msrSlur::kStopSlur) {
+      
+    fCurrentLyrics->
+      addSlurChunkToLyrics (
+        lyricMsrDuration);
+        
+  } else if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
+    
+    fCurrentLyrics->
+      addTiedChunkToLyrics (
+        lyricMsrDuration);
+        
+  } else {
+    
+    // there can be notes without any slur indication
+
+    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+      
+      fCurrentLyrics->
+        addSkipChunkToLyrics (
+          lyricMsrDuration);
+        
+    } else if (
+    // JMI fOnGoingSlur && JMI
+    ! fCurrentNoteHasLyrics) {
+
+      fCurrentLyrics->
+        addSlurChunkToLyrics ( 
+  //      addSkipChunkToLyrics (// JMI ???
+          lyricMsrDuration);
+
+    } else {
+      
+      fCurrentLyrics->
+        addTextChunkToLyrics (
+          fCurrentSyllabic,
+          fCurrentText,
+          fCurrentElision,
+          lyricMsrDuration);
+          
+    }
+  }
 }
 
 /*
@@ -2113,8 +2178,8 @@ void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
   fCurrentVoice->
     appendNoteToVoice (newNote);
 
-  if (fCurrentLyricsHasText)
-    handleLyricsText ();
+// JMI  if (fCurrentLyricsHasText)
+    //handleLyricsText ();
 
   // account for chord not being built
   fOnGoingChord = false;
@@ -2216,69 +2281,6 @@ void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
 
 void xml2MsrScoreVisitor::handleLyricsText ()
 {
- // is lyrics fCurrentLyricsNumber present in current voice?
-  fCurrentLyrics =
-    fCurrentVoice->
-      fetchLyricsFromVoice (fCurrentLyricsNumber);
-
-  if (! fCurrentLyrics)
-    // no, add it to the voice
-    fCurrentLyrics =
-      fCurrentVoice->
-        addLyricsToVoice (fCurrentLyricsNumber);
-
-  S_msrDuration
-    lyricMsrDuration =
-      msrDuration::create (
-        fMusicXMLNoteData.fMusicXMLDuration,
-        fCurrentMusicXMLDivisions,
-        fMusicXMLNoteData.fMusicXMLDotsNumber,
-        fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
-
-  if (
-    fCurrentSlurKind == msrSlur::kContinueSlur
-      ||
-    fCurrentSlurKind == msrSlur::kStopSlur) {
-      
-    fCurrentLyrics->
-      addSlurChunkToLyrics (
-        lyricMsrDuration);
-        
-  } else if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
-    
-    fCurrentLyrics->
-      addTiedChunkToLyrics (
-        lyricMsrDuration);
-        
-  } else {
-    
-    // there can be notes without any slur indication
-
-    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
-      
-      fCurrentLyrics->
-        addSkipChunkToLyrics (
-          lyricMsrDuration);
-        
-    } else if (
-    // JMI fOnGoingSlur && JMI
-    ! fCurrentNoteHasLyrics) {
-
-      fCurrentLyrics->
-        addSlurChunkToLyrics (
-          lyricMsrDuration);
-
-    } else {
-      
-      fCurrentLyrics->
-        addTextChunkToLyrics (
-          fCurrentSyllabic,
-          fCurrentText,
-          fCurrentElision,
-          lyricMsrDuration);
-          
-    }
-  }
 } // handleLyricsText
 
 /*
