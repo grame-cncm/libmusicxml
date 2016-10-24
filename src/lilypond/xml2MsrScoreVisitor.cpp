@@ -418,6 +418,7 @@ void xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
       " to visitor's part group map" << endl;
   fPartGroupsMap [fCurrentPartGroupNumber] = fCurrentPartGroup;
 
+/* JMI ???
   // create an implicit part in case none is specified in MusicXML
   fCurrentPartMusicXMLName = "";
   fCurrentPart =
@@ -429,6 +430,7 @@ void xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
   fCurrentStaff =
     fCurrentPart->
       addStaffToPart (fCurrentStaffNumber);
+*/
 
 /* JMI
   // fetch current voice
