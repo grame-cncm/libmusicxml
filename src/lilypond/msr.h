@@ -1346,6 +1346,7 @@ class EXP msrLyricsChunk : public msrElement {
     S_msrDuration  fChunkDuration;
 };
 typedef SMARTP<msrLyricsChunk> S_msrLyricsChunk;
+typedef vector<S_msrLyricsChunk> msrLyricsChunksVector;
 
 /*!
 \brief A msr lyrics representation.
@@ -1370,7 +1371,7 @@ class EXP msrLyrics : public msrElement {
             getLyricsVoice () const
                 { return fLyricsVoice; }
                 
-    vector<S_msrLyricsChunk>
+    msrLyricsChunksVector
             getLyricsChunks () const
                 { return fLyricsChunks; }
 
@@ -1392,6 +1393,9 @@ class EXP msrLyrics : public msrElement {
     void    addBreakChunkToLyrics (
               int nextMeasureNumber);
 
+    void    addChunkToLyrics (S_msrLyricsChunk chunk)
+                { fLyricsChunks.push_back (chunk); }
+                
     int     getLyricsTextPresent() { return fLyricsTextPresent; }
     
     virtual void printMusicXML      (ostream& os);
@@ -1413,7 +1417,7 @@ class EXP msrLyrics : public msrElement {
     int                       fLyricsNumber;
     S_msrVoice                fLyricsVoice;
     
-    vector<S_msrLyricsChunk>  fLyricsChunks;
+    msrLyricsChunksVector     fLyricsChunks;
 
     bool                      fLyricsTextPresent;
 };
@@ -1455,7 +1459,7 @@ class EXP msrVoice : public msrElement {
             fetchLyricsFromVoice (int lyricsNumber);
 
     S_msrLyrics
-            getMasterLyrics () { return fMasterLyrics; }
+            getVoiceMasterLyrics () { return fVoiceMasterLyrics; }
                
     void    appendNoteToVoice       (S_msrNote note);
     void    appendChordToVoice      (S_msrChord chord);
@@ -1478,7 +1482,7 @@ class EXP msrVoice : public msrElement {
                 { return fVoiceSequence; }
 
     virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void printMSR           (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
 
   protected:
@@ -1504,7 +1508,7 @@ class EXP msrVoice : public msrElement {
     // [0] is used as a master lyrics, collecting skips along the way
     // to be used as a 'prelude' by actual lyrics that start at later points
     msrLyricsMap              fVoiceLyricsMap;
-    S_msrLyrics               fMasterLyrics;
+    S_msrLyrics               fVoiceMasterLyrics;
 
     // the implicit sequence containing the code generated for the voice
     S_msrSequence             fVoiceSequence;

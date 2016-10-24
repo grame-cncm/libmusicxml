@@ -789,8 +789,8 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
 */
   int voiceNumber = int(*elt);
   
-//  if (true || fTranslationSettings->fDebug)
-  if (fTranslationSettings->fDebug)
+  if (false && fTranslationSettings->fDebug)
+//  if (fTranslationSettings->fDebug)
     cerr <<
       idtr <<
       "--> S_voice, voiceNumber         = " << voiceNumber << endl <<
@@ -1247,7 +1247,7 @@ void xml2MsrScoreVisitor::visitStart ( S_print& elt )
   
     // add a break chunk to the voice master lyrics
     fCurrentVoice->
-      getMasterLyrics ()->
+      getVoiceMasterLyrics ()->
         addBreakChunkToLyrics (fCurrentMeasureNumber);
     }
 }
@@ -1966,8 +1966,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   Staff values are numbers, with 1 referring to the top-most staff in a part.
   */
   
-//  if (true || fTranslationSettings->fDebug)
-  if (fTranslationSettings->fDebug)
+  if (false && fTranslationSettings->fDebug)
+//  if (fTranslationSettings->fDebug)
     cerr <<
       idtr <<
       "!!!! BEFORE visitEnd (S_note) we have:" << endl <<
@@ -2008,7 +2008,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   fCurrentStemDirection = kStemNeutral;
   
   if (fTranslationSettings->fDebug)
-    cerr <<
+    cerr << idtr <<
       "fMusicXMLNoteData.fMusicXMLDuration = " << 
       fMusicXMLNoteData.fMusicXMLDuration << ", " << 
       "fCurrentMusicXMLDivisions*4 = " <<

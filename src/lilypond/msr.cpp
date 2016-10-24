@@ -114,23 +114,48 @@ void musicXMLNoteData::print (ostream& os)
     int         fMusicXMLVoiceNumber;
 */
   os <<
-    "  " << left << setw(26) << "fMusicXMLStep = " << fMusicXMLStep <<  endl <<
-    "  " << left << setw(26) << "fMusicXMLStepIsARest = " << fMusicXMLStepIsARest <<  endl <<
-    "  " << left << setw(26) << "fMusicXMLAlteration = " << fMusicXMLAlteration <<  endl <<
-    "  " << left << setw(26) << "fMusicXMLOctave = " << fMusicXMLOctave <<  endl <<
-    "  " << left << setw(26) << "fMusicXMLDivisions = " << fMusicXMLDivisions <<  endl <<
-    "  " << left << setw(26) << "fMusicXMLDuration = " << fMusicXMLDuration <<  endl <<
-    "  " << left << setw(26) << "fMusicXMLDotsNumber = " << fMusicXMLDotsNumber <<  endl <<
-    "  " << endl <<    
-    "  " << left << setw(26) << "fMusicXMLNoteBelongsToAChord = " <<
-                                fMusicXMLNoteBelongsToAChord <<  endl <<
-    "  " << endl <<
-    "  " << left << setw(26) << "fMusicXMLNoteBelongsToATuplet = " <<
-                                fMusicXMLNoteBelongsToATuplet <<  endl <<
-    "  " << left << setw(26) << "fMusicXMLTupletMemberNoteType = " <<
-                                fMusicXMLTupletMemberNoteType <<  endl <<
-    "  " << endl <<
-    "  " << left << setw(26) << "fMusicXMLVoiceNumber = " << fMusicXMLVoiceNumber <<  endl;
+    idtr << "  " << left << setw(26) <<
+      "fMusicXMLStep = " <<
+      fMusicXMLStep <<  endl <<
+    idtr << "  " << left << setw(26) <<
+      "fMusicXMLStepIsARest = " <<
+      fMusicXMLStepIsARest <<  endl <<
+    idtr << "  " << left << setw(26) <<
+      "fMusicXMLAlteration = " <<
+      fMusicXMLAlteration <<  endl <<
+    idtr << "  " << left << setw(26) <<
+      "fMusicXMLOctave = " <<
+      fMusicXMLOctave <<  endl <<
+    idtr << "  " << left << setw(26) <<
+      "fMusicXMLDivisions = " <<
+      fMusicXMLDivisions <<  endl <<
+    idtr << "  " << left << setw(26) <<
+      "fMusicXMLDuration = " <<
+      fMusicXMLDuration <<  endl <<
+    idtr << "  " << left << setw(26) <<
+      "fMusicXMLDotsNumber = " <<
+      fMusicXMLDotsNumber <<  endl <<
+      
+//    idtr << endl <<
+    
+    idtr << "  " << left << setw(26) <<
+      "fMusicXMLNoteBelongsToAChord = " <<
+      fMusicXMLNoteBelongsToAChord <<  endl <<
+      
+//    idtr << endl <<
+    
+    idtr << "  " << left << setw(26) <<
+      "fMusicXMLNoteBelongsToATuplet = " <<
+      fMusicXMLNoteBelongsToATuplet <<  endl <<
+    idtr << "  " << left << setw(26) <<
+      "fMusicXMLTupletMemberNoteType = " <<
+      fMusicXMLTupletMemberNoteType <<  endl <<
+      
+//    idtr << endl <<
+    
+    idtr << "  " << left << setw(26) <<
+      "fMusicXMLVoiceNumber = " <<
+      fMusicXMLVoiceNumber <<  endl;
 };
 
 void musicXMLBeatData::print (ostream& os)
@@ -674,8 +699,10 @@ msrNote::msrNote (
 
 //  if (true || fTranslationSettings->fDebug) {
   if (fTranslationSettings->fDebug) {
-    cout << "==> fMusicXMLNoteData:" << endl;
-    cout << fMusicXMLNoteData << endl;
+    cerr << idtr <<
+      "==> fMusicXMLNoteData contains:" << endl;
+    cerr <<
+      fMusicXMLNoteData;
   }
     
   // take rests into account
@@ -788,7 +815,7 @@ msrNote::msrNote (
   
 //  if (true || fTranslationSettings->fDebug)
   if (fTranslationSettings->fDebug)
-    cerr << 
+    cerr << idtr <<
       "--> fMusicXMLNoteData.fMusicXMLDivisions = " <<
       fMusicXMLNoteData.fMusicXMLDivisions << ", " << 
       "divisionsPerWholeNote = " << divisionsPerWholeNote << endl;
@@ -3111,7 +3138,7 @@ msrVoice::msrVoice (
   // add the master lyrics to this voice, to
   // collect skips along the way that are used as a 'prelude'
   // by actual lyrics that start at later points
-  fMasterLyrics =
+  fVoiceMasterLyrics =
     addLyricsToVoice (0);
 
   // add the implicit msrRepeat element
@@ -3171,6 +3198,27 @@ S_msrLyrics msrVoice::addLyricsToVoice (
 
   fVoiceLyricsMap [lyricsNumber] = lyrics;
 
+  // catch up with fVoiceMasterLyrics in case the lyrics
+  // do not start upon the first voice note
+
+  msrLyricsChunksVector
+    masterChunks =
+      fVoiceMasterLyrics->getLyricsChunks ();
+
+  if (masterChunks.size()) {
+    if (fTranslationSettings->fTrace)
+      cerr << idtr <<
+        "Copying current contents of voice master lyrics to new lyrics" << endl;
+    for (
+      msrLyricsChunksVector::const_iterator i =
+        masterChunks.begin();
+      i != masterChunks.end();
+      i++) {
+      // add chunk to lyrics
+      lyrics->addChunkToLyrics ((*i));
+    } // for
+  }
+
   // return it
   return lyrics;
 }
@@ -3194,15 +3242,13 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   if (note->getNoteIsARest ())
     fVoiceContainsActualNotes = true;
     
-  // add a skip chunk to the master lyrics JMI 
-//  if (! fCurrentNoteHasLyrics) {
-    S_msrDuration
-      lyricsMsrDuration =
-        note->getNoteMsrDuration ();
+  // add a skip chunk to the master lyrics
+  S_msrDuration
+    lyricsMsrDuration =
+      note->getNoteMsrDuration ();
 
-    fMasterLyrics->
-      addSkipChunkToLyrics (lyricsMsrDuration);
-//  }
+  fVoiceMasterLyrics->
+    addSkipChunkToLyrics (lyricsMsrDuration);
 }
 
 void msrVoice::appendChordToVoice (S_msrChord chord) {
@@ -3753,7 +3799,7 @@ S_msrPart msrPartGroup::addPartToPartGroup (
     fPartGroupPartsList.push_back (part);
   }
 
-  if (true || fTranslationSettings->fDebug) {
+  if (false && fTranslationSettings->fDebug) {
 //  if (fTranslationSettings->fDebug) {
     cerr << idtr <<
       "==> After addPartToPartGroup, fPartGroupPartsMap contains:" << endl;
@@ -3770,7 +3816,7 @@ S_msrPart msrPartGroup::addPartToPartGroup (
     cerr << idtr << "<== addPartToPartGroup" << endl;
   }
 
-  if (true || fTranslationSettings->fDebug) {
+  if (false && fTranslationSettings->fDebug) {
 //  if (fTranslationSettings->fDebug) {
     cerr << idtr <<
       "==> After addPartToPartGroup, fPartGroupPartsList contains:" << endl;
@@ -3788,7 +3834,7 @@ S_msrPart msrPartGroup::addPartToPartGroup (
 
   // return the part
   return part;
-}
+} // addPartToPartGroup
 
 S_msrPart msrPartGroup::fetchPartFromPartGroup (
   string partMusicXMLName)
@@ -3818,7 +3864,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroup (
 S_msrPart msrPartGroup::tryAndReUseInitialAnonymousPart (
   string partMusicXMLName)
 {
-  if (fTranslationSettings->fDebug) {
+  if (false && fTranslationSettings->fDebug) {
     cerr << idtr <<
       "==> START tryAndReUseInitialAnonymousPart, fPartGroupPartsMap contains:" << endl;
     for (
@@ -3854,7 +3900,7 @@ S_msrPart msrPartGroup::tryAndReUseInitialAnonymousPart (
     }
   }
 
-  if (fTranslationSettings->fDebug) {
+  if (false && fTranslationSettings->fDebug) {
     cerr << idtr <<
       "==> END tryAndReUseInitialAnonymousPart, fPartGroupPartsMap contains:" << endl;
     for (
@@ -3869,7 +3915,7 @@ S_msrPart msrPartGroup::tryAndReUseInitialAnonymousPart (
   }
 
   return result;
-}
+} // tryAndReUseInitialAnonymousPart
 
 /*
 void msrPartGroup::popPartGroupPartsStackTop ()
