@@ -2746,7 +2746,7 @@ void msrLyricsChunk::printMusicXML(ostream& os)
 
 void msrLyricsChunk::printMSR(ostream& os)
 {  
-  os << "LyricsChunk" << " ";
+  os << "LyricsChunk" << " " << setw(6) << left;
   switch (fLyricsChunkType) {
     case kSingleChunk:
       os << "single" << ":" << fChunkDuration;
@@ -2770,6 +2770,15 @@ void msrLyricsChunk::printMSR(ostream& os)
       if (fChunkText.size()) os << " " << fChunkText;
       break;
       
+    case kSlurChunk:
+      os << "slur" << ":" << fChunkDuration;
+      if (fChunkText.size()) os << " " << fChunkText;
+      break;
+    case kTiedChunk:
+      os << "tied" << ":" << fChunkDuration;
+      if (fChunkText.size()) os << " " << fChunkText;
+      break;
+      
     case kBreakChunk:
       os << "break" << " " << fChunkText << endl;
       break;
@@ -2785,6 +2794,8 @@ void msrLyricsChunk::printLilyPondCode(ostream& os)
     case kMiddleChunk: os << " -- " << fChunkText; break;
     case kEndChunk:    os << " ++ " << fChunkText; break;
     case kSkipChunk:   os << "\\skip";             break;
+    case kSlurChunk:                               break;
+    case kTiedChunk:                               break;
     case kBreakChunk:
       os << "%{ " << fChunkText << " %}" << endl << idtr;
       break;
@@ -2864,10 +2875,11 @@ void msrLyrics::addTextChunkToLyrics (
     S_msrPart  part  = staff-> getStaffPart();
     
     cerr << idtr <<
-      "--> Adding text chunk \"" << syllabic <<
-      "\" \"" << text << "\":" << msrDuration << 
-      " in lyrics " << getLyricsName () <<
-      ", elision: " << elision << endl;
+      "--> Adding text chunk " <<
+      setw(8) << left << "\""+syllabic+"\"" <<
+      " \"" << text << "\" :" << msrDuration << 
+      " elision: " << elision << 
+      " to " << getLyricsName () << endl;
   }
 
   S_msrLyricsChunk
@@ -2891,6 +2903,8 @@ void msrLyrics::addTextChunkToLyrics (
       break;
       
     case msrLyricsChunk::kSkipChunk:
+    case msrLyricsChunk::kSlurChunk:
+    case msrLyricsChunk::kTiedChunk:
     case msrLyricsChunk::kBreakChunk:
       {
         // internalError (); JMI
@@ -2908,12 +2922,9 @@ void msrLyrics::addSkipChunkToLyrics (
     S_msrStaff staff = fLyricsVoice->getVoiceStaff();
     S_msrPart  part  = staff-> getStaffPart();
     
-    cout << idtr <<
-      "--> creating a lyrics skip chunk, duration: " <<
-      msrDuration <<
-      " in voice " << fLyricsVoice->getVoiceNumber() <<
-      " of staff " << staff->getStaffNumber() <<
-      " in part "  << part->getPartCombinedName() << endl;
+    cerr << idtr <<
+      "--> Adding skip chunk: " << msrDuration <<
+      " to " << getLyricsName () << endl;
   }
   
   // create lyrics skip chunk
@@ -2926,6 +2937,50 @@ void msrLyrics::addSkipChunkToLyrics (
   fLyricsChunks.push_back (chunk);
 }
 
+void msrLyrics::addSlurChunkToLyrics (
+  S_msrDuration  msrDuration)
+{
+  if (fTranslationSettings->fDebug) {
+    S_msrStaff staff = fLyricsVoice->getVoiceStaff();
+    S_msrPart  part  = staff-> getStaffPart();
+    
+    cerr << idtr <<
+      "--> Adding slur chunk: " << msrDuration <<
+      " to " << getLyricsName () << endl;
+  }
+  
+  // create lyrics slur chunk
+  S_msrLyricsChunk
+    chunk =
+      msrLyricsChunk::create (
+        msrLyricsChunk::kSlurChunk, "", msrDuration);
+        
+  // add chunk to this lyrics
+  fLyricsChunks.push_back (chunk);
+}
+
+void msrLyrics::addTiedChunkToLyrics (
+  S_msrDuration  msrDuration)
+{
+  if (fTranslationSettings->fDebug) {
+    S_msrStaff staff = fLyricsVoice->getVoiceStaff();
+    S_msrPart  part  = staff-> getStaffPart();
+    
+    cerr << idtr <<
+      "--> Adding tied chunk: " << msrDuration <<
+      " to " << getLyricsName () << endl;
+  }
+  
+  // create lyrics tied chunk
+  S_msrLyricsChunk
+    chunk =
+      msrLyricsChunk::create (
+        msrLyricsChunk::kTiedChunk, "", msrDuration);
+        
+  // add chunk to this lyrics
+  fLyricsChunks.push_back (chunk);
+}
+
 void msrLyrics::addBreakChunkToLyrics (
   int nextMeasureNumber)
 {
@@ -2933,11 +2988,9 @@ void msrLyrics::addBreakChunkToLyrics (
     S_msrStaff staff = fLyricsVoice->getVoiceStaff();
     S_msrPart  part  = staff-> getStaffPart();
     
-    cout << idtr <<
-      "--> creating a lyrics break chunk" <<
-      " in voice " << fLyricsVoice->getVoiceNumber() <<
-      " of staff " << staff->getStaffNumber() <<
-      " in part "  << part->getPartCombinedName() << endl;
+    cerr << idtr <<
+      "--> Adding break chunk" <<
+      " to " << getLyricsName () << endl;
   }
 
   // convert nextMeasureNumber to string

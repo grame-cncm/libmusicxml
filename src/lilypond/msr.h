@@ -1318,7 +1318,8 @@ class EXP msrLyricsChunk : public msrElement {
     // we want to end the line in the LilyPond code at a break
     enum LyricsChunkType {
       kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
-      kSkipChunk, kBreakChunk };
+      kSkipChunk, kSlurChunk, kTiedChunk,
+      kBreakChunk };
 
     static SMARTP<msrLyricsChunk> create (
             LyricsChunkType chunkType,
@@ -1380,6 +1381,12 @@ class EXP msrLyrics : public msrElement {
               S_msrDuration  duration);
       
     void    addSkipChunkToLyrics (
+              S_msrDuration  duration);
+
+    void    addSlurChunkToLyrics (
+              S_msrDuration  duration);
+
+    void    addTiedChunkToLyrics (
               S_msrDuration  duration);
 
     void    addBreakChunkToLyrics (

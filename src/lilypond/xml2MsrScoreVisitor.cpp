@@ -2149,50 +2149,63 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
         newNote->notePitchAsLilypondString () <<
         " to current voice" << endl;
 
-      // is voice fCurrentVoiceNumber present in current staff?
+    // is voice fCurrentVoiceNumber present in current staff?
+    fCurrentVoice =
+      fCurrentStaff->
+        fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+    if (! fCurrentVoice)
+      // no, add it to the staff
       fCurrentVoice =
         fCurrentStaff->
-          fetchVoiceFromStaff (fCurrentVoiceNumber);
+          addVoiceToStaff (fCurrentVoiceNumber);
+      
+    fCurrentVoice->
+      appendNoteToVoice (newNote);
+  
+    if (fCurrentLyricsHasText) {
+      // is lyrics fCurrentLyricsNumber present in current voice?
+      fCurrentLyrics =
+        fCurrentVoice->
+          voiceContainsLyrics (fCurrentLyricsNumber);
 
-      if (! fCurrentVoice)
-        // no, add it to the staff
-        fCurrentVoice =
-          fCurrentStaff->
-            addVoiceToStaff (fCurrentVoiceNumber);
-        
-      fCurrentVoice->
-        appendNoteToVoice (newNote);
+      if (! fCurrentLyrics)
+        // no, add it to the voice
+        fCurrentLyrics =
+          fCurrentVoice->
+            addLyricsToVoice (fCurrentLyricsNumber);
     
-      if (fCurrentLyricsHasText) {
-        if (! (fOnGoingSlur || fMusicXMLNoteData.fMusicXMLNoteIsTied)) {
-          // is lyrics fCurrentLyricsNumber present in current voice?
-          fCurrentLyrics =
-            fCurrentVoice->
-              voiceContainsLyrics (fCurrentLyricsNumber);
-  
-          if (! fCurrentLyrics)
-            // no, add it to the voice
-            fCurrentLyrics =
-              fCurrentVoice->
-                addLyricsToVoice (fCurrentLyricsNumber);
+      S_msrDuration
+        lyricMsrDuration =
+          msrDuration::create (
+            fMusicXMLNoteData.fMusicXMLDuration,
+            fCurrentMusicXMLDivisions,
+            fMusicXMLNoteData.fMusicXMLDotsNumber,
+            fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
+      
+      if (fOnGoingSlur) {
         
-          S_msrDuration
-            lyricMsrDuration =
-              msrDuration::create (
-                fMusicXMLNoteData.fMusicXMLDuration,
-                fCurrentMusicXMLDivisions,
-                fMusicXMLNoteData.fMusicXMLDotsNumber,
-                fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
+        fCurrentLyrics->
+          addSlurChunkToLyrics (
+            lyricMsrDuration);
+            
+      } else if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
         
-          fCurrentLyrics->
-            addTextChunkToLyrics (
-              fCurrentSyllabic,
-              fCurrentText,
-              fCurrentElision,
-              lyricMsrDuration);
-        }
+        fCurrentLyrics->
+          addTiedChunkToLyrics (
+            lyricMsrDuration);
+            
+      } else {
+        
+        fCurrentLyrics->
+          addTextChunkToLyrics (
+            fCurrentSyllabic,
+            fCurrentText,
+            fCurrentElision,
+            lyricMsrDuration);
       }
-  
+    }
+
     // account for chord not being built
     fOnGoingChord = false;
   }
