@@ -31,13 +31,17 @@ namespace MusicXML2 {
 void msrMusicXMLWarning (std::string message)
 {
   cerr <<
-    "--> MusicXML WARNING : " << message << " ???" << endl;
+    endl <<
+    "--> MusicXML WARNING : " << message << endl <<
+    endl;
 }
 
 void msrMusicXMLError (std::string errorMessage)
 {
   std::cerr <<
-    "--> MusicXML ERROR : " << errorMessage << " !!!" << std::endl;
+    endl <<
+    "--> MusicXML ERROR : " << errorMessage << endl <<
+    endl;
   assert(false);
 }
 
@@ -179,11 +183,8 @@ string int2EnglishWord (int n)
       s << int2EnglishWord(digit2);
     } // default
   } // switch
-
-  string result;
   
-  s >> result;
-  return result;
+  return s.str();
 }
 
 //______________________________________________________________________________

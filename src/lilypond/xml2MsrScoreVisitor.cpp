@@ -764,10 +764,8 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
     cerr << "##### staff " << staffNumber << " is out of context" << endl;
     
     stringstream s;
-    string       message;
     s << "staff " << staffNumber << " is out of context";
-    s >> message;
-    // JMI msrMusicXMLError (message);
+    msrMusicXMLError (s.str());
     
   }
 }
@@ -816,10 +814,8 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
   } else {
     
     stringstream s;
-    string       message;
     s << "voice " << voiceNumber << " is out of context";
-    s >> message;
-    msrMusicXMLError (message);
+    msrMusicXMLError (s.str());
     
   }
 }
@@ -918,10 +914,8 @@ void xml2MsrScoreVisitor::visitStart ( S_metronome& elt )
       fParentheses = true;
     else {
       stringstream s;
-      string  message;
       s << "parentheses value " << parentheses << " should be 'yes' or 'no'";
-      s >> message;
-      msrMusicXMLError (message);
+      msrMusicXMLError (s.str());
     }
   }
 }
@@ -1056,10 +1050,8 @@ void xml2MsrScoreVisitor::visitStart (S_slur& elt )
     if (! fOnGoingSlur)
       if (fCurrentSlurType.size()) {
         stringstream s;
-        string       message;
         s << "slur type" << fCurrentSlurType << "unknown";
-        s >> message;
-        msrMusicXMLError(message);
+        msrMusicXMLError (s.str());
       }
       
     }
@@ -1387,10 +1379,8 @@ void xml2MsrScoreVisitor::visitStart ( S_step& elt )
   
   if (step.length() != 1) {
     stringstream s;
-    string       message;
     s << "step value " << step << " should be a single letter from A to G";
-    s >> message;
-    msrMusicXMLError (message);
+    msrMusicXMLError (s.str());
   }
 
   fMusicXMLNoteData.fMusicXMLStep = step[0];
@@ -1425,10 +1415,8 @@ void xml2MsrScoreVisitor::visitStart ( S_duration& elt )
   else {
     
     stringstream s;
-    string       message;
     s << "duration " << musicXMLduration << " is out of context";
-    s >> message;
-    msrMusicXMLError (message);
+    msrMusicXMLError (s.str());
     
   }
     
@@ -1719,10 +1707,8 @@ void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
     fCurrentTupletKind = msrTuplet::kStopTuplet;
   else {
     stringstream s;
-    string  message;
     s << "tuplet type " << tupletType << " is unknown";
-    s >> message;
-    msrMusicXMLError (message);
+    msrMusicXMLError (s.str());
   }
 }
 
@@ -1747,10 +1733,8 @@ void xml2MsrScoreVisitor::visitStart ( S_display_step& elt)
   
   if (displayStep.length() != 1) {
     stringstream s;
-    string       message;
     s << "sdisplay step value " << displayStep << " should be a single letter from A to G";
-    s >> message;
-    msrMusicXMLError (message);
+    msrMusicXMLError (s.str());
   }
 
   fDisplayStep = displayStep[0];

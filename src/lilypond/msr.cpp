@@ -173,12 +173,9 @@ void msrAbsoluteOctave::printMusicXML (ostream& os)
 
 string msrAbsoluteOctave::absoluteOctaveAsLilypondString ()
 {
-  stringstream s;
-  string  result;
-  
+  stringstream s;  
   s << fMsrOctave;
-  s >> result;
-  return result;
+  return s.str();
 }
 
 void msrAbsoluteOctave::printMSR(ostream& os)
@@ -260,18 +257,16 @@ string msrDuration::durationAsMSRString ()
   
   if (divisionsPerWholeNote == 0) {
     stringstream s;
-    string  message;
     s << 
       endl << 
       "%--> msrDuration::printLilyPondCode, noteDivisions = " << noteDivisions <<
       ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
       endl;
-    s >> message;
-    msrMusicXMLError(message);
+    msrMusicXMLError (s.str());
   }
 
   stringstream s;
-
+  
   if (fTupletMemberNoteType.size()) {
 
     if      (fTupletMemberNoteType == "256th")   { s << "256"; }
@@ -288,13 +283,11 @@ string msrDuration::durationAsMSRString ()
     else
       {
       stringstream s;
-      string       message;
       s << 
         endl << 
         "--> unknown tuplet member type " << fTupletMemberNoteType <<
         endl;
-      s >> message;
-      msrMusicXMLError(message);
+      msrMusicXMLError (s.str());
       }
         
   } else {
@@ -337,12 +330,10 @@ string msrDuration::durationAsMSRString ()
       default:
         {
         stringstream s;
-        string  message;
         s <<
           "*** ERROR, MusicXML note duration " << noteDivisions << "/" << 
           divisionsPerWholeNote << " is too large" << endl;
-        s >> message;
-        msrMusicXMLError(message);
+        msrMusicXMLError (s.str());
         }
     } // switch
   }
@@ -589,11 +580,8 @@ string msrWedge::wedgeKindAsString ()
     default:
       s << "Wedge" << fWedgeKind << "???";
   } // switch
-  
-  string result;
-  
-  s >> result;
-  return result;
+    
+  return s.str();
 }
 
 void msrWedge::printMusicXML(ostream& os)
@@ -648,11 +636,8 @@ string msrSlur::slurKindAsString ()
     default:
       s << "Slur" << fSlurKind << "???";
   } // switch
-  
-  string result;
-  
-  s >> result;
-  return result;
+    
+  return s.str();
 }
 
 void msrSlur::printMusicXML(ostream& os)
@@ -717,13 +702,11 @@ msrNote::msrNote (
     fMusicXMLNoteData.fMusicXMLStep > 'G') {
     if (! fMusicXMLNoteData.fMusicXMLStepIsARest) {
       stringstream s;
-      string       message;
       s <<
         "step value " << fMusicXMLNoteData.fMusicXMLStep <<
         " is not a letter from A to G";
-      s >> message;
-    //  msrMusicXMLError (message);
-    msrMusicXMLWarning (message); // JMI
+    //  msrMusicXMLError (s.str());
+    msrMusicXMLWarning (s.str());
     }
   }
 
@@ -791,18 +774,16 @@ msrNote::msrNote (
     default:
       {
       stringstream s;
-      string       message;
       s <<
         "MusicXML alteration " << fMusicXMLNoteData.fMusicXMLAlteration <<
         " is not between -2 and +2";
-      s >> message;
-      cout << "message = |" << message << "|" << endl;
+      msrMusicXMLError (s.str());
       
-      msrAssert(
+      msrAssert ( // JMI
         fMusicXMLNoteData.fMusicXMLAlteration>=-2
           &&
         fMusicXMLNoteData.fMusicXMLAlteration<=+2,
-        message);
+        s.str());
       }
    } // switch
 
@@ -1110,11 +1091,8 @@ string msrNote::notePitchAsLilypondString ()
 
     s << fMusicXMLNoteData.fMusicXMLOctave;
   }
-
-  string  result;
   
-  s >> result;
-  return result;
+  return s.str();
 }
 
 void msrNote::printMusicXML(ostream& os)
@@ -2410,7 +2388,6 @@ void msrClef::printMSR(ostream& os)
 void msrClef::printLilyPondCode(ostream& os)
 {
   stringstream s; 
-  string       result;
 
   // USER
 //  checkStaff (staffnum);
@@ -2463,19 +2440,17 @@ void msrClef::printLilyPondCode(ostream& os)
       endl;
     return; 
   }
-  
-  s >> result;
-  
+    
  // if (fLine != kStandardLine) 
     // s << fLine; // USER
 //    s >> param;
     
   if (fOctaveChange == 1)
-    result += "^8"; // USER
+    s << "^8";
   else if (fOctaveChange == -1)
-    result += "_8";
+    s << "_8";
 
-  os << "\\clef" << " \"" << result << "\"" << endl;
+  os << "\\clef" << " \"" << s.str() << "\"" << endl;
 }
 
 //______________________________________________________________________________
@@ -2562,11 +2537,9 @@ msrKey::msrKey (
     default: // unknown key sign !!
       {
       stringstream s;
-      string  message;
       s << 
         "ERROR: unknown key sign \"" << fFifths << "\"" << endl;
-      s >> message;
-      msrMusicXMLError(message);
+      msrMusicXMLError (s.str());
       }
   } // switch
   
@@ -2887,7 +2860,6 @@ void msrLyrics::addTextChunkToLyrics (
   else {
     stringstream s;
     s << "--> syllabic \"" << syllabic << "\" is unknown";
-    cerr << s.str();
     msrMusicXMLError (s.str());
   }
 
@@ -2977,9 +2949,7 @@ void msrLyrics::addBreakChunkToLyrics (
 
   // convert nextMeasureNumber to string
   stringstream s;
-  string       str;
   s << nextMeasureNumber;
-  s >> str;
   
   // create lyrics break chunk
 
@@ -2990,7 +2960,7 @@ void msrLyrics::addBreakChunkToLyrics (
   S_msrLyricsChunk
     chunk =
       msrLyricsChunk::create (
-        msrLyricsChunk::kBreakChunk, str, nullMsrDuration);
+        msrLyricsChunk::kBreakChunk, s.str(), nullMsrDuration);
         
   // add chunk to this lyrics
   fLyricsChunks.push_back (chunk);
@@ -3307,14 +3277,11 @@ S_msrVoice msrStaff::addVoiceToStaff (
   fNextRelativeStaffVoiceNumber++;
   
   if (fNextRelativeStaffVoiceNumber > msrStaff::gMaxStaffVoices) {
-    stringstream s;
-    string       message;
-    
+    stringstream s;    
     s <<
       "staff " << getStaffName () <<
       " is already filled up with" << msrStaff::gMaxStaffVoices <<
       " voices, voice " << voiceNumber << " overflows it" << endl;
-    s >> message;
     msrMusicXMLError (s.str());
   }
 
@@ -3350,17 +3317,11 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
     result = fStaffVoicesMap [voiceNumber];
   } else {
     stringstream s;
-    string       message;
-
     s <<
       "staff " << getStaffName () <<
       " has no voice number " << voiceNumber << endl;
-    s >> message;
-    cerr <<
-      "###### " <<
-      "staff " << getStaffName () <<
-      " has not voice number " << voiceNumber << endl;
-    msrMusicXMLError (message);
+ //   msrMusicXMLError (s.str()); JMI
+    msrMusicXMLWarning (s.str());
   }
 
   return result;
