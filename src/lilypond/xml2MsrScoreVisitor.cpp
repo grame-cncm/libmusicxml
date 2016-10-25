@@ -1182,18 +1182,42 @@ void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
 //  if (fTranslationSettings->fDebug)
     cerr <<
       idtr <<
-        "Handling lyrics:" <<
-        fMusicXMLNoteData.fMusicXMLDuration <<
+        "Handling lyrics" <<
         ", fCurrentText = \"" << fCurrentText <<
-        "\", fCurrentElision = " << fCurrentElision << endl <<
+        "\":" << fMusicXMLNoteData.fMusicXMLDuration <<
+        ", fCurrentElision = " << fCurrentElision << endl <<
       idtr <<
-        "  fMusicXMLNoteData.fMusicXMLStepIsARest = " <<
-        fMusicXMLNoteData.fMusicXMLStepIsARest << endl <<
+        "  fMusicXMLNoteData.fMusicXMLStepIsARest = ";
+    if (fMusicXMLNoteData.fMusicXMLStepIsARest)
+      cerr << "true";
+    else
+      cerr << "false";
+    cerr <<
+      endl <<
       idtr <<
-        "  fMusicXMLNoteData.fMusicXMLNoteIsTied = " <<
-        fMusicXMLNoteData.fMusicXMLNoteIsTied << endl <<
+        "  fMusicXMLNoteData.fMusicXMLNoteIsTied  = ";
+    if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
+      cerr << "true";
+    else
+      cerr << "false";
+    cerr <<
+      endl <<
       idtr <<
-        "  fCurrentSlurKind = " << fCurrentSlurKind << endl;
+        "  fCurrentSlurKind = ";
+    switch (fCurrentSlurKind) {
+      case msrSlur::kStartSlur:
+        cerr << "start";
+        break;
+      case msrSlur::kContinueSlur:
+        cerr << "start";
+        break;
+      case msrSlur::kStopSlur:
+        cerr << "start";
+        break;
+      case msrSlur::k_NoSlur:
+        break;
+    } // switch
+    cerr << endl;
   
   // is lyrics fCurrentLyricsNumber present in current voice?
   fCurrentLyrics =
@@ -1236,18 +1260,18 @@ void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
 
       else {
 
-        if (
-          fCurrentSlurKind == msrSlur::kContinueSlur
-            ||
-          fCurrentSlurKind == msrSlur::kStopSlur)
+        switch (fCurrentSlurKind) {
+          case msrSlur::kStartSlur:
+            chunkTypeToBeCreated = msrLyricsChunk::kSingleChunk;
+            break;
+          case msrSlur::kContinueSlur:
+            chunkTypeToBeCreated = msrLyricsChunk::kSlurChunk;
+            break;
+          case msrSlur::kStopSlur:
+            chunkTypeToBeCreated = msrLyricsChunk::kSlurChunk;
+            break;
 
-          chunkTypeToBeCreated = msrLyricsChunk::kSlurChunk;
-
-        else {
-
-          chunkTypeToBeCreated = msrLyricsChunk::kSlurChunk;
-
-        }
+        } // switch
 
       }
       
@@ -1275,13 +1299,19 @@ void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
           lyricMsrDuration);
       break;
 
-    default:
+    case msrLyricsChunk::kSingleChunk:
+    case msrLyricsChunk::kBeginChunk:
+    case msrLyricsChunk::kMiddleChunk:
+    case msrLyricsChunk::kEndChunk:
       fCurrentLyrics->
         addTextChunkToLyrics (
           fCurrentSyllabic,
           fCurrentText,
           fCurrentElision,
           lyricMsrDuration);
+      break;
+      
+    default: // JMI
       break;
 
   } // switch
