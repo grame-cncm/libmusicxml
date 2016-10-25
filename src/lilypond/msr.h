@@ -1319,7 +1319,8 @@ class EXP msrLyricsChunk : public msrElement {
     enum LyricsChunkType {
       kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
       kSkipChunk, kSlurChunk, kTiedChunk,
-      kBreakChunk };
+      kBreakChunk,
+      k_NoChunk };
 
     static SMARTP<msrLyricsChunk> create (
             LyricsChunkType chunkType,

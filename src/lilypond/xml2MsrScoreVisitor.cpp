@@ -1178,6 +1178,23 @@ void xml2MsrScoreVisitor::visitEnd ( S_elision& elt )
 
 void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
 {
+  if (true || fTranslationSettings->fDebug)
+//  if (fTranslationSettings->fDebug)
+    cerr <<
+      idtr <<
+        "Handling lyrics:" <<
+        fMusicXMLNoteData.fMusicXMLDuration <<
+        ", fCurrentText = \"" << fCurrentText <<
+        "\", fCurrentElision = " << fCurrentElision << endl <<
+      idtr <<
+        "  fMusicXMLNoteData.fMusicXMLStepIsARest = " <<
+        fMusicXMLNoteData.fMusicXMLStepIsARest << endl <<
+      idtr <<
+        "  fMusicXMLNoteData.fMusicXMLNoteIsTied = " <<
+        fMusicXMLNoteData.fMusicXMLNoteIsTied << endl <<
+      idtr <<
+        "  fCurrentSlurKind = " << fCurrentSlurKind << endl;
+  
   // is lyrics fCurrentLyricsNumber present in current voice?
   fCurrentLyrics =
     fCurrentVoice->
@@ -1197,6 +1214,79 @@ void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
         fMusicXMLNoteData.fMusicXMLDotsNumber,
         fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
 
+  msrLyricsChunk::LyricsChunkType
+    chunkTypeToBeCreated =
+      msrLyricsChunk::k_NoChunk;
+
+  if (fMusicXMLNoteData.fMusicXMLStepIsARest)
+  
+    chunkTypeToBeCreated = msrLyricsChunk::kSkipChunk;
+
+  else {
+
+    if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
+
+      chunkTypeToBeCreated = msrLyricsChunk::kTiedChunk;
+      
+    else {
+
+      if (! fCurrentNoteHasLyrics)
+
+        chunkTypeToBeCreated = msrLyricsChunk::kSkipChunk;
+
+      else {
+
+        if (
+          fCurrentSlurKind == msrSlur::kContinueSlur
+            ||
+          fCurrentSlurKind == msrSlur::kStopSlur)
+
+          chunkTypeToBeCreated = msrLyricsChunk::kSlurChunk;
+
+        else {
+
+          chunkTypeToBeCreated = msrLyricsChunk::kSlurChunk;
+
+        }
+
+      }
+      
+    }
+    
+  }
+
+  switch (chunkTypeToBeCreated) {
+    
+    case msrLyricsChunk::kSkipChunk:
+      fCurrentLyrics->
+        addSkipChunkToLyrics (
+          lyricMsrDuration);
+      break;
+
+    case msrLyricsChunk::kSlurChunk:
+      fCurrentLyrics->
+        addSlurChunkToLyrics (
+          lyricMsrDuration);
+      break;
+
+    case msrLyricsChunk::kTiedChunk:
+      fCurrentLyrics->
+        addTiedChunkToLyrics (
+          lyricMsrDuration);
+      break;
+
+    default:
+      fCurrentLyrics->
+        addTextChunkToLyrics (
+          fCurrentSyllabic,
+          fCurrentText,
+          fCurrentElision,
+          lyricMsrDuration);
+      break;
+
+  } // switch
+  
+/*
   if (
     fCurrentSlurKind == msrSlur::kContinueSlur
       ||
@@ -1242,6 +1332,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
           
     }
   }
+  */
 }
 
 /*
@@ -2142,7 +2233,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   if (fTranslationSettings->fDebug)
     cerr <<
       idtr <<
-      "!!!! AFTER visitEnd (S_note) " << fCurrentNote << "we have:" << endl <<
+      "!!!! AFTER visitEnd (S_note) " << fCurrentNote->notePitchAsLilypondString () <<
+      "w e have:" << endl <<
       idtr << idtr <<
       "--> fCurrentStaffNumber = " << fCurrentStaffNumber << endl <<
       idtr << idtr <<
