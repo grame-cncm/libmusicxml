@@ -57,6 +57,8 @@ class msrSchemeVarValAssoc;
 
 class msrScore;
 
+class msrPartGroup;
+
 class msrPart;
 class msrStaff;
 class msrClef;
@@ -82,6 +84,8 @@ typedef SMARTP<msrSchemeVarValAssoc>   S_msrSchemeVarValAssoc;
 
 typedef SMARTP<msrScore>               S_msrScore;
 
+typedef SMARTP<msrPartGroup>               S_msrPartGroup;
+
 typedef SMARTP<msrPart>                S_msrPart;
 typedef SMARTP<msrStaff>               S_msrStaff;
 typedef SMARTP<msrClef>                S_msrClef;
@@ -104,6 +108,8 @@ typedef SMARTP<msrLayout>              S_msrLayout;
 EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
 
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
+
+EXP ostream& operator<< (ostream& os, const S_msrPartGroup& elt);
 
 EXP ostream& operator<< (ostream& os, const S_msrClef& elt);
 EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
@@ -1724,20 +1730,23 @@ class EXP msrPartGroup : public msrElement {
         PartGroupSymbolKind    partGroupSymbolKind,
         int                    partGroupSymbolDefaultX,
         bool                   partGroupBarline);
-
-/*            
+            
     string    getPartGroupName () const
-                { return fPartGroupName; }
+                 { return fPartGroupName; }
 
     string    getPartGroupAbbreviation () const
-                { return fPartGroupAbbreviation; }
+                 { return fPartGroupAbbreviation; }
 
-    string    getPartGroupSymbol () const
-                { return fPartGroupSymbol; }
+    PartGroupTypeKind
+              getPartGroupTypeKind () const
+                 { return fPartPartGroupTypeKind; }
 
-    string    getPartGroupBarline () const
-                { return fPartGroupBarline; }
-*/
+    PartGroupSymbolKind
+              getPartGroupSymbolKind () const
+                 { return fPartGroupSymbolKind; }
+
+    bool      getPartGroupBarline () const
+                 { return fPartGroupBarline; }
 
     S_msrPart addPartToPartGroup (int partNumber);
     

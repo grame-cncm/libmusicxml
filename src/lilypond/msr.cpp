@@ -3381,7 +3381,8 @@ S_msrVoice msrStaff::addVoiceToStaff (
       "staff " << getStaffName () <<
       " is already filled up with" << msrStaff::gMaxStaffVoices <<
       " voices, voice " << voiceNumber << " overflows it" << endl;
-    msrMusicXMLError (s.str());
+// JMI    msrMusicXMLError (s.str());
+    msrMusicXMLWarning (s.str());
   }
 
   // create the voice
@@ -3988,16 +3989,18 @@ void msrPartGroup::printMSR(ostream& os)
   else
     os << "false";
   os << "\"" << endl;
-  os << endl;
 
  // JMI   idtr << "PartGroupInstrumentName: \"" << fPartGroupInstrumentName << "\"" << endl;
 
-  for (
-    msrPartsMap::iterator i = fPartGroupPartsMap.begin();
-    i != fPartGroupPartsMap.end();
-    i++) {
-    os << idtr << (*i).second;
-  } // for
+  if (fPartGroupPartsMap.size()) {
+    os << endl;
+    for (
+      msrPartsMap::iterator i = fPartGroupPartsMap.begin();
+      i != fPartGroupPartsMap.end();
+      i++) {
+      os << idtr << (*i).second;
+    } // for
+  }
   
   idtr--;
 }

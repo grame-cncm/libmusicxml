@@ -305,9 +305,8 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
             i != fPartGroupsMap.end();
             i++) {
           cerr << idtr <<
-            (*i).first << endl;
-      //      "\"" << (*i).first << "\" ----> " <<
-      //      (*i).second->getPartCombinedName() << endl;
+            "\"" << (*i).first << "\" ----> " <<
+            (*i).second;
         } // for
         idtr--;
         cerr << idtr << "<== fPartGroupsMap" << endl;
@@ -363,12 +362,12 @@ void xml2MsrScoreVisitor::visitStart (S_score_part& elt)
 
 void xml2MsrScoreVisitor::visitStart (S_part_name& elt)
 {
-  string partName = elt->getValue ();
+  fCurrentPartName = elt->getValue ();
 }
 
 void xml2MsrScoreVisitor::visitStart (S_part_abbreviation& elt)
 {
-  fCurrentPartGroupAbbreviation = elt->getValue ();
+  fCurrentPartAbbreviation = elt->getValue ();
 }
 
 void xml2MsrScoreVisitor::visitStart (S_instrument_name& elt)
@@ -765,13 +764,10 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
     fCurrentStaffNumber = staffNumber;
     
   } else {
-    
-    cerr << "##### staff " << staffNumber << " is out of context" << endl;
-    
     stringstream s;
     s << "staff " << staffNumber << " is out of context";
-    msrMusicXMLError (s.str());
-    
+// JMI    msrMusicXMLError (s.str());
+    msrMusicXMLWarning (s.str());
   }
 }
     
@@ -1198,6 +1194,10 @@ void xml2MsrScoreVisitor::visitEnd ( S_elision& elt )
 void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
 {
   handleLyricsText ();
+
+  // avoiding handling of the same by visitEnd ( S_note )
+  fCurrentLyricsChunkType = msrLyricsChunk::k_NoChunk;
+
 }
 /*
   if (
@@ -1497,7 +1497,8 @@ void xml2MsrScoreVisitor::visitStart ( S_duration& elt )
     
     stringstream s;
     s << "duration " << musicXMLduration << " is out of context";
-    msrMusicXMLError (s.str());
+ // JMI   msrMusicXMLError (s.str());
+    msrMusicXMLWarning (s.str());
     
   }
     
@@ -1937,7 +1938,8 @@ void xml2MsrScoreVisitor::createTuplet (S_msrNote note)
 
   // register it in this visitor
   if (fTranslationSettings->fDebug)
-    cout << "--> pushing tuplet to tuplets stack" << endl;
+    cout << idtr <<
+      "--> pushing tuplet to tuplets stack" << endl;
   fCurrentTupletsStack.push(tuplet);
   
   // add note to the tuplet
@@ -1961,12 +1963,14 @@ void xml2MsrScoreVisitor::finalizeTuplet (S_msrNote note) {
 
   // pop from the tuplets stack
   if (fTranslationSettings->fDebug)
-    cout << "--> popping from tuplets stack" << endl;
+    cout << idtr <<
+      "--> popping from tuplets stack" << endl;
   fCurrentTupletsStack.pop();        
 
   // add tuplet to current voice
   if (fTranslationSettings->fDebug)
-    cout << "=== adding tuplet to the part sequence" << endl;
+    cout << idtr <<
+      "=== adding tuplet to the part sequence" << endl;
   fCurrentVoice->
     appendTupletToVoice (tup);
 }          
@@ -2184,8 +2188,8 @@ void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
   fCurrentVoice->
     appendNoteToVoice (newNote);
 
-  if (fCurrentLyricsHasText)
-    // lyrics may have to be handled anyway JMI
+  if (! fCurrentNoteHasLyrics)
+    // lyrics have to be handled anyway JMI
     handleLyricsText ();
 
   // account for chord not being built
@@ -2289,15 +2293,15 @@ void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
 
 void xml2MsrScoreVisitor::handleLyricsText ()
 {
-  if (true || fTranslationSettings->fDebug) {
-//  if (fTranslationSettings->fDebug) {
+//  if (true || fTranslationSettings->fDebug) {
+  if (fTranslationSettings->fDebug) {
     cerr <<
       idtr <<
-        "Handling lyrics on " << endl;
+        "Handling lyrics on:" << endl;
     fMusicXMLNoteData.print (cerr);
     cerr <<
       idtr <<
-        ", fCurrentText = \"" << fCurrentText <<
+        "fCurrentText = \"" << fCurrentText <<
         "\":" << fMusicXMLNoteData.fMusicXMLDuration <<
         ", fCurrentElision = " << fCurrentElision << endl <<
       idtr <<
