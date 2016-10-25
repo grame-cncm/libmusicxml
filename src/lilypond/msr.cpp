@@ -2878,27 +2878,12 @@ string msrLyrics::getLyricsName () const
 msrLyrics::~msrLyrics() {}
 
 void msrLyrics::addTextChunkToLyrics (
-  string         syllabic,
-  string         text,
-  bool           elision,
-  S_msrDuration  msrDuration)
+  string                          syllabic,
+  msrLyricsChunk::LyricsChunkType chunkType,
+  string                          text,
+  bool                            elision,
+  S_msrDuration                   msrDuration)
 {
-  msrLyricsChunk::LyricsChunkType chunkType;
-  
-  if      (syllabic == "single")
-    chunkType = msrLyricsChunk::kSingleChunk;
-  else if (syllabic == "begin")
-    chunkType = msrLyricsChunk::kBeginChunk;
-  else if (syllabic == "middle")
-    chunkType = msrLyricsChunk::kMiddleChunk;
-  else if (syllabic == "end")
-    chunkType = msrLyricsChunk::kEndChunk;
-  else {
-    stringstream s;
-    s << "--> syllabic \"" << syllabic << "\" is unknown";
-    msrMusicXMLError (s.str());
-  }
-
   // create a lyrics text chunk
 //  if (true || fTranslationSettings->fDebug) {
   if (fTranslationSettings->fDebug) {

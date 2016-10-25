@@ -1377,10 +1377,11 @@ class EXP msrLyrics : public msrElement {
                 { return fLyricsChunks; }
 
     void    addTextChunkToLyrics (
-              string         syllabic,
-              string         text,
-              bool           elision,
-              S_msrDuration  duration);
+              string                          syllabic, // JMI ???
+              msrLyricsChunk::LyricsChunkType chunkType,
+              string                          text,
+              bool                            elision,
+              S_msrDuration                   msrDuration);
       
     void    addSkipChunkToLyrics (
               S_msrDuration  duration);

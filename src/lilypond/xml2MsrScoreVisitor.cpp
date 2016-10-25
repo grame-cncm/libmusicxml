@@ -43,6 +43,8 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   
   fCurrentMeasureNumber = 0;
 
+  fCurrentLyricsChunkType = msrLyricsChunk::k_NoChunk;
+
   fOnGoingChord = false;
   
   fOnGoingTuplet = false;
@@ -1097,7 +1099,24 @@ void xml2MsrScoreVisitor::visitStart (S_lyric& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_syllabic& elt )
 {
-  fCurrentSyllabic = elt->getValue();
+  string syllabic = elt->getValue();
+  
+  if      (syllabic == "single")
+    fCurrentLyricsChunkType = msrLyricsChunk::kSingleChunk;
+  else if (syllabic == "begin")
+    fCurrentLyricsChunkType = msrLyricsChunk::kBeginChunk;
+  else if (syllabic == "middle")
+    fCurrentLyricsChunkType = msrLyricsChunk::kMiddleChunk;
+  else if (syllabic == "end")
+    fCurrentLyricsChunkType = msrLyricsChunk::kEndChunk;
+  else {
+    stringstream s;
+    s << "--> syllabic \"" << syllabic << "\" is unknown";
+    msrMusicXMLError (s.str());
+
+    fCurrentLyricsChunkType = msrLyricsChunk::k_NoChunk;
+  }
+
 /* JMI
   if (fCurrentSyllabic == "begin") {
     fOnGoingLyrics = true;
@@ -1178,11 +1197,14 @@ void xml2MsrScoreVisitor::visitEnd ( S_elision& elt )
 
 void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
 {
-  if (true || fTranslationSettings->fDebug)
-//  if (fTranslationSettings->fDebug)
+  if (true || fTranslationSettings->fDebug) {
+//  if (fTranslationSettings->fDebug) {
     cerr <<
       idtr <<
-        "Handling lyrics" <<
+        "Handling lyrics on " << endl;
+    fMusicXMLNoteData.print (cerr);
+    cerr <<
+      idtr <<
         ", fCurrentText = \"" << fCurrentText <<
         "\":" << fMusicXMLNoteData.fMusicXMLDuration <<
         ", fCurrentElision = " << fCurrentElision << endl <<
@@ -1192,18 +1214,42 @@ void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
       cerr << "true";
     else
       cerr << "false";
+    cerr << endl;
+
     cerr <<
-      endl <<
       idtr <<
         "  fMusicXMLNoteData.fMusicXMLNoteIsTied  = ";
     if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
       cerr << "true";
     else
       cerr << "false";
+    cerr << endl;
+    
     cerr <<
-      endl <<
       idtr <<
-        "  fCurrentSlurKind = ";
+        "  fCurrentLyricsChunkType                = \"";
+    switch (fCurrentLyricsChunkType) {
+      case msrLyricsChunk::kSingleChunk:
+        cerr << "single";
+        break;
+      case msrLyricsChunk::kBeginChunk:
+        cerr << "begin";
+        break;
+      case msrLyricsChunk::kMiddleChunk:
+        cerr << "middle";
+        break;
+      case msrLyricsChunk::kEndChunk:
+        cerr << "end";
+        break;
+      case msrLyricsChunk::k_NoChunk:
+        cerr << "NO_CHUNK";
+        break;
+    } // switch
+    cerr << "\"" << endl;
+    
+    cerr <<
+      idtr <<
+        "  fCurrentSlurKind                       = \"";
     switch (fCurrentSlurKind) {
       case msrSlur::kStartSlur:
         cerr << "start";
@@ -1215,9 +1261,11 @@ void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
         cerr << "start";
         break;
       case msrSlur::k_NoSlur:
+        cerr << "NO_SLUR";
         break;
     } // switch
-    cerr << endl;
+    cerr << "\"" << endl;
+  }
   
   // is lyrics fCurrentLyricsNumber present in current voice?
   fCurrentLyrics =
@@ -1243,40 +1291,49 @@ void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
       msrLyricsChunk::k_NoChunk;
 
   if (fMusicXMLNoteData.fMusicXMLStepIsARest)
-  
     chunkTypeToBeCreated = msrLyricsChunk::kSkipChunk;
 
   else {
 
-    if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
+    switch (fCurrentLyricsChunkType) {
+      case msrLyricsChunk::kSingleChunk:
+        chunkTypeToBeCreated = fCurrentLyricsChunkType;
+        break;
+      case msrLyricsChunk::kBeginChunk:
+        chunkTypeToBeCreated = fCurrentLyricsChunkType;
+        break;
+      case msrLyricsChunk::kMiddleChunk:
+        chunkTypeToBeCreated = fCurrentLyricsChunkType;
+        break;
+      case msrLyricsChunk::kEndChunk:
+        chunkTypeToBeCreated = fCurrentLyricsChunkType;
+        break;
 
-      chunkTypeToBeCreated = msrLyricsChunk::kTiedChunk;
-      
-    else {
-
-      if (! fCurrentNoteHasLyrics)
-
-        chunkTypeToBeCreated = msrLyricsChunk::kSkipChunk;
-
-      else {
-
-        switch (fCurrentSlurKind) {
-          case msrSlur::kStartSlur:
-            chunkTypeToBeCreated = msrLyricsChunk::kSingleChunk;
-            break;
-          case msrSlur::kContinueSlur:
-            chunkTypeToBeCreated = msrLyricsChunk::kSlurChunk;
-            break;
-          case msrSlur::kStopSlur:
-            chunkTypeToBeCreated = msrLyricsChunk::kSlurChunk;
-            break;
-
-        } // switch
-
-      }
-      
-    }
+ //     case msrLyricsChunk::k_NoChunk:
+      default:
+        {
+        if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
+          chunkTypeToBeCreated = msrLyricsChunk::kTiedChunk;
+          
+        else {
+          switch (fCurrentSlurKind) {
+            case msrSlur::kStartSlur:
+              chunkTypeToBeCreated = msrLyricsChunk::kSingleChunk;
+              break;
+            case msrSlur::kContinueSlur:
+              chunkTypeToBeCreated = msrLyricsChunk::kSlurChunk;
+              break;
+            case msrSlur::kStopSlur:
+              chunkTypeToBeCreated = msrLyricsChunk::kSlurChunk;
+              break;
     
+            default:
+              break;
+          } // switch
+        }
+        }
+        break;
+    } // switch
   }
 
   switch (chunkTypeToBeCreated) {
@@ -1306,6 +1363,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
       fCurrentLyrics->
         addTextChunkToLyrics (
           fCurrentSyllabic,
+          chunkTypeToBeCreated,
           fCurrentText,
           fCurrentElision,
           lyricMsrDuration);
@@ -2363,7 +2421,8 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
 void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
   S_msrNote newNote)
 {
-  fMusicXMLNoteData.fMusicXMLTupletMemberNoteType = fCurrentNoteType;
+  fMusicXMLNoteData.fMusicXMLTupletMemberNoteType =
+    fCurrentNoteType;
   
   switch (fCurrentTupletKind) {
     case msrTuplet::kStartTuplet:
