@@ -149,6 +149,85 @@ void xml2MsrScoreVisitor::visitEnd (S_part_list& elt)
 }
 
 //________________________________________________________________________
+void xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
+{
+  /*
+  A first part group is created with all the nneded contents
+  if none is specified in the MusicXML data.
+  Its single part will be reused when the first actual part is met,
+  changing its name on the fly in method:
+    msrPartGroup::tryAndReUseInitialAnonymousPart()
+  */
+
+  // create an implicit part group
+  fCurrentPartGroupNumber = 1;
+  
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Creating an implicit part group with number " <<
+      fCurrentPartGroupNumber << endl;
+
+  fCurrentPartGroup =
+    msrPartGroup::create (
+      fTranslationSettings,
+      fCurrentPartGroupNumber,
+      msrPartGroup::kStartPartGroupType,
+      "Anonymous",
+      "Anon.",
+      msrPartGroup::kBracketPartGroupSymbol,
+      -3,
+      true);
+
+  // add implicit part group to the score
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Adding the implicit part group to the score" << endl;
+    
+  fMsrScore->
+    addPartGroupToScore (fCurrentPartGroup);
+
+  // add implicit part group to the map of this visitor
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Adding implicit part group " << fCurrentPartGroupNumber <<
+      " to visitor's part group map" << endl;
+  fPartGroupsMap [fCurrentPartGroupNumber] = fCurrentPartGroup;
+
+/* JMI ???
+  // create an implicit part in case none is specified in MusicXML
+  fCurrentPartMusicXMLName = "";
+  fCurrentPart =
+    msrPart::create (
+      fTranslationSettings, fCurrentPartMusicXMLName);
+  
+  // add a staff to the implicit part
+  fCurrentStaffNumber = 1;
+  fCurrentStaff =
+    fCurrentPart->
+      addStaffToPart (fCurrentStaffNumber);
+*/
+
+/* JMI
+  // fetch current voice
+  fCurrentVoiceNumber = 1;
+  fCurrentVoice =
+    fCurrentStaff->
+      fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+  // add a voice to the staff
+  fCurrentVoiceNumber = 1;
+  fCurrentVoice =
+    fCurrentStaff->
+      addVoiceToStaff (fCurrentVoiceNumber);
+
+  // add a lyrics to the voice
+  fCurrentLyrics =
+    fCurrentVoice->
+      addLyricsToVoice (1);
+*/
+} // xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
+
+//________________________________________________________________________
 /*
   There is no hierarchy implied in part-group elements.
   All that matters is the sequence of part-group elements relative to score-part elements.
@@ -358,6 +437,10 @@ void xml2MsrScoreVisitor::visitStart (S_score_part& elt)
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
       "Found part name \"" << fCurrentPartMusicXMLName << "\"" << endl;
+
+  fCurrentPartName = "";
+  fCurrentPartAbbreviation = "";
+  fCurrentPartInstrumentName = "";
 }
 
 void xml2MsrScoreVisitor::visitStart (S_part_name& elt)
@@ -374,84 +457,6 @@ void xml2MsrScoreVisitor::visitStart (S_instrument_name& elt)
 {
   fCurrentPartInstrumentName = elt->getValue(); // jMI
 }
-
-void xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
-{
-  /*
-  A first part group is created with all the nneded contents
-  if none is specified in the MusicXML data.
-  Its single part will be reused when the first actual part is met,
-  changing its name on the fly in method:
-    msrPartGroup::tryAndReUseInitialAnonymousPart()
-  */
-
-  // create an implicit part group
-  fCurrentPartGroupNumber = 1;
-  
-  if (fTranslationSettings->fTrace)
-    cerr << idtr <<
-      "Creating an implicit part group with number " <<
-      fCurrentPartGroupNumber << endl;
-
-  fCurrentPartGroup =
-    msrPartGroup::create (
-      fTranslationSettings,
-      fCurrentPartGroupNumber,
-      msrPartGroup::kStartPartGroupType,
-      "Anonymous",
-      "Anon.",
-      msrPartGroup::kBracketPartGroupSymbol,
-      -3,
-      true);
-
-  // add implicit part group to the score
-  if (fTranslationSettings->fTrace)
-    cerr << idtr <<
-      "Adding the implicit part group to the score" << endl;
-    
-  fMsrScore->
-    addPartGroupToScore (fCurrentPartGroup);
-
-  // add implicit part group to the map of this visitor
-  if (fTranslationSettings->fTrace)
-    cerr << idtr <<
-      "Adding implicit part group " << fCurrentPartGroupNumber <<
-      " to visitor's part group map" << endl;
-  fPartGroupsMap [fCurrentPartGroupNumber] = fCurrentPartGroup;
-
-/* JMI ???
-  // create an implicit part in case none is specified in MusicXML
-  fCurrentPartMusicXMLName = "";
-  fCurrentPart =
-    msrPart::create (
-      fTranslationSettings, fCurrentPartMusicXMLName);
-  
-  // add a staff to the implicit part
-  fCurrentStaffNumber = 1;
-  fCurrentStaff =
-    fCurrentPart->
-      addStaffToPart (fCurrentStaffNumber);
-*/
-
-/* JMI
-  // fetch current voice
-  fCurrentVoiceNumber = 1;
-  fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-  // add a voice to the staff
-  fCurrentVoiceNumber = 1;
-  fCurrentVoice =
-    fCurrentStaff->
-      addVoiceToStaff (fCurrentVoiceNumber);
-
-  // add a lyrics to the voice
-  fCurrentLyrics =
-    fCurrentVoice->
-      addLyricsToVoice (1);
-*/
-} // xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
 
 void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
 {
@@ -473,7 +478,7 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
 
   // populate current part
   fCurrentPart->
-    setPartName (fCurrentPartMusicXMLName);
+    setPartName (fCurrentPartName);
   fCurrentPart->
     setPartAbbreviation (fCurrentPartAbbreviation);
   fCurrentPart->

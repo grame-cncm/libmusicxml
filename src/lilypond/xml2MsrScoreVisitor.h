@@ -360,6 +360,7 @@ class EXP xml2MsrScoreVisitor :
     // part handling
     // ------------------------------------------------------
     string                   fCurrentPartMusicXMLName;
+    string                   fCurrentPartName;
     string                   fCurrentPartAbbreviation;
     string                   fCurrentPartInstrumentName;
     S_msrPart                fCurrentPart;
