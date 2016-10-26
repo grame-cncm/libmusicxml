@@ -3525,6 +3525,9 @@ void msrStaff::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
+
+int msrPart::gPartCounter = 0;
+ 
 S_msrPart msrPart::create (
     S_translationSettings& ts,
     string                 partMusicXMLName)
@@ -3542,6 +3545,8 @@ msrPart::msrPart (
   fTranslationSettings = ts;
   
   fPartMusicXMLName = partMusicXMLName;
+
+  fPartNumber = gPartCounter++;
 
   // coin the part MSR name
   fPartMSRName =
@@ -3944,6 +3949,9 @@ void msrPartGroup::printMusicXML(ostream& os)
   os << "<!-- msrPartGroup??? -->" << endl;
 }
 
+bool comparePartsByNumber (S_msrPart& i, S_msrPart& j)
+  { return (i->getPartNumber() < j->getPartNumber()); }
+
 void msrPartGroup::printMSR(ostream& os)
 {
   os <<
@@ -3993,6 +4001,11 @@ void msrPartGroup::printMSR(ostream& os)
  // JMI   idtr << "PartGroupInstrumentName: \"" << fPartGroupInstrumentName << "\"" << endl;
 
   if (fPartGroupPartsMap.size()) {
+
+    std::sort (
+      fPartGroupPartsMap.begin(), fPartGroupPartsMap.end(),
+      comparePartsByNumber);
+
     os << endl;
     for (
       msrPartsMap::iterator i = fPartGroupPartsMap.begin();
