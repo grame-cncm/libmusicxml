@@ -146,6 +146,8 @@ void xml2MsrScoreVisitor::visitStart (S_part_list& elt)
 void xml2MsrScoreVisitor::visitEnd (S_part_list& elt)
 {
   idtr--;
+
+  fTranslationSettings->fDebug = false; // TEMP
 }
 
 //________________________________________________________________________
@@ -262,6 +264,10 @@ void xml2MsrScoreVisitor::visitStart (S_part_group& elt)
   fCurrentPartGroupType =
     elt->getAttributeValue ("type");
 
+  fCurrentPartGroupName = "";
+  fCurrentPartGroupAbbreviation = "";
+  fCurrentPartGroupSymbol = "";
+  fCurrentPartGroupSymbolDefaultX = 0;
   fCurrentPartGroupBarline = "yes";
 }
 
@@ -304,8 +310,10 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
     partGroupType = msrPartGroup::kStopPartGroupType;
     
   else {
-    msrMusicXMLError (
-      "unknown part group type \"" + fCurrentPartGroupType + "\"");
+    if (fCurrentPartGroupType.size())
+      // part group type may be absent
+      msrMusicXMLError (
+        "unknown part group type \"" + fCurrentPartGroupType + "\"");
     partGroupType = msrPartGroup::k_NoPartGroupType;
   }
 
@@ -318,8 +326,10 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
     partGroupSymbol = msrPartGroup::kBracketPartGroupSymbol;
     
   else {
-    msrMusicXMLError (
-      "unknown part group type \"" + fCurrentPartGroupSymbol + "\"");
+   if (fCurrentPartGroupSymbol.size())
+      // part group type may be absent
+      msrMusicXMLError (
+        "unknown part group symbol \"" + fCurrentPartGroupSymbol + "\"");
     partGroupSymbol = msrPartGroup::k_NoPartGroupSymbol;
   }
 

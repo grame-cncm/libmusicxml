@@ -1617,12 +1617,6 @@ class EXP msrPart : public msrElement {
               S_translationSettings& ts,
               string                 partMusicXMLName);
 
-    static int
-            gPartCounter;
-            
-    int     getPartNumber () const
-                { return fPartNumber; }
-    
     void    setPartName (string partName)
                 { fPartName = partName; }
                 
@@ -1680,9 +1674,6 @@ class EXP msrPart : public msrElement {
   private:
 
     S_translationSettings   fTranslationSettings;
-
-    // providing a sort in occurence order
-    int                     fPartNumber;
     
     string                  fPartMusicXMLName;
     msrStaffsMap            fPartStavesMap;
