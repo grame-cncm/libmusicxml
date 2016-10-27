@@ -40,6 +40,8 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   // create the MSR score
   fMsrScore =
     msrScore::create (fTranslationSettings);
+
+  fCurrentTimeStaffNumber = 1; // it may be absent
   
   fCurrentMeasureNumber = 0;
 
@@ -92,22 +94,6 @@ void xml2MsrScoreVisitor::internalError (
     "### Internal error: measure " << fCurrentMeasureNumber << endl <<
     message << endl;
 }                        
-
-//________________________________________________________________________
-void xml2MsrScoreVisitor::resetCurrentTime ()
-{
-  fCurrentKeyStaffNumber = -1;
-  fCurrentTimeStaffNumber = -1;
-  fCurrentClefStaffNumber = -1;
-  
-  fCurrentTimeSenzaMisura = false;
-
-  fCurrentTimeBeats = 0;
-  fCurrentTimeBeatType = 0;
-  
-//  fTimeSignatures.clear();
-  fCurrentTimeSymbol = "";
-}
 
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_part_list& elt)
@@ -563,6 +549,9 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
     setPartAbbreviation (fCurrentPartAbbreviation);
   fCurrentPart->
     setPartInstrumentName (fCurrentPartInstrumentName);
+
+  // register it in this visitor's parts map
+  fPartsMap [fCurrentPartMusicXMLName] = fCurrentPart;
 }
 
 //________________________________________________________________________
@@ -574,10 +563,9 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
   S_msrPartGroup fCurrentPartGroup; // JMI
 
   fCurrentPart =
-    fCurrentPartGroup->
-      fetchPartFromPartGroup (partID);
+    fPartsMap [partID];
 
-  if (! fCurrentPart) 
+  if (! fCurrentPart) // JMI
     // no, add it to the current part group
     fCurrentPart =
       fCurrentPartGroup->
@@ -678,26 +666,33 @@ void xml2MsrScoreVisitor::visitEnd ( S_key& elt )
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_time& elt ) {
-  resetCurrentTime(); // JMI ???
-  
+void xml2MsrScoreVisitor::visitStart ( S_time& elt )
+{  
   // The optional number attribute refers to staff numbers.
-  // If absent (-1), apply to all part staves.
+  // If absent (-1), apply to all part staves. JMI ???
   fCurrentTimeStaffNumber =
-    elt->getAttributeIntValue ("number", -1);
+    elt->getAttributeIntValue ("number", 1);
     
   fCurrentTimeSymbol =
     elt->getAttributeValue ("symbol");
   // time symbol="cut" or "common" JMI
+  
+  fCurrentTimeSenzaMisura = false;
+
+  fCurrentTimeBeats = 0;
+  fCurrentTimeBeatType = 0;
+  
+//  fTimeSignatures.clear();
+  fCurrentTimeSymbol = "";
 }
 
 void xml2MsrScoreVisitor::visitStart ( S_beats& elt )
 {
   /*
-The optional number attribute refers to staff numbers,
+    The optional number attribute refers to staff numbers,
     from top to bottom on the system. If absent, the key
     signature applies to all staves in the part.
-   */
+  */
 
   fCurrentTimeBeats = (int)(*elt); }
   
@@ -730,7 +725,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_time& elt )
         fCurrentTimeBeatType,
         fTranslationSettings->fGenerateNumericalTime);
 
-  if (fCurrentTimeStaffNumber == -1)
+  if (fCurrentTimeStaffNumber == -1) // JMI
     fCurrentPart->setAllPartStavesTime (time);
   else {
     S_msrStaff

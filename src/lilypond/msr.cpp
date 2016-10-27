@@ -2633,7 +2633,8 @@ void msrTime::printMSR(ostream& os)
 {
   os <<
     "Time " << 
-    fRational.getNumerator() << "/" << fRational.getDenominator();
+    fRational.getNumerator() << "/" << fRational.getDenominator() <<
+    endl;
 }
 
 void msrTime::printLilyPondCode(ostream& os)
@@ -3128,6 +3129,15 @@ msrVoice::msrVoice (
   fVoiceSequence =
     msrSequence::create (msrSequence::kSpace);
 
+  // add the implicit initial 4/4 time signature
+  S_msrTime
+    time =
+      msrTime::create (
+        4, 4,
+        fTranslationSettings->fGenerateNumericalTime);
+  S_msrElement t = time;
+  fVoiceSequence->appendElementToSequence (t);
+
   // add the master lyrics to this voice, to
   // collect skips along the way that are used as a 'prelude'
   // by actual lyrics that start at later points
@@ -3137,12 +3147,7 @@ msrVoice::msrVoice (
   // add the implicit msrRepeat element
 // JMI  fVoiceMsrRepeat = msrRepeat::create ();
 //  fVoiceSequence->appendElementToSequence (fVoiceMsrRepeat);
-  
-  // add the implicit 4/4 time signature JMI
- // S_msrTime time = msrTime::create (4, 4, fGenerateNumericalTime);
- // S_msrElement t = time;
-  //fVoiceSequence->appendElementToSequence (t);
-}
+  }
 
 msrVoice::~msrVoice() {}
 
@@ -3526,22 +3531,25 @@ void msrStaff::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________ 
 S_msrPart msrPart::create (
-    S_translationSettings& ts,
-    string                 partMusicXMLName)
+  S_translationSettings& ts,
+  string                 partMusicXMLName,
+  S_msrPartGroup         partPartGroup)
 {
-  msrPart* o = new msrPart( ts, partMusicXMLName);
+  msrPart* o = new msrPart( ts, partMusicXMLName, partPartGroup);
   assert(o!=0);
   return o;
 }
 
 msrPart::msrPart (
   S_translationSettings& ts,
-  string                 partMusicXMLName)
+  string                 partMusicXMLName,
+  S_msrPartGroup         partPartGroup)
     : msrElement("")
 {
   fTranslationSettings = ts;
   
   fPartMusicXMLName = partMusicXMLName;
+  fPartPartGroup    = partPartGroup;
 
   // coin the part MSR name
   fPartMSRName =
@@ -3782,7 +3790,7 @@ S_msrPart msrPartGroup::addPartToPartGroup (
     // create the part
     part =
       msrPart::create (
-        fTranslationSettings, partMusicXMLName);
+        fTranslationSettings, partMusicXMLName, this);
 
     // register it in this part group
     if (fTranslationSettings->fTrace) {
@@ -3827,8 +3835,6 @@ S_msrPart msrPartGroup::addPartToPartGroup (
     idtr--;
     cerr << idtr << "<== addPartToPartGroup" << endl;
   }
-
-  cerr << flush; // TEMP
   
   // return the part
   return part;

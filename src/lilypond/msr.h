@@ -1615,7 +1615,8 @@ class EXP msrPart : public msrElement {
 
     static SMARTP<msrPart> create (
               S_translationSettings& ts,
-              string                 partMusicXMLName);
+              string                 partMusicXMLName,
+              S_msrPartGroup         partPartGroup);
 
     void    setPartName (string partName)
                 { fPartName = partName; }
@@ -1631,6 +1632,10 @@ class EXP msrPart : public msrElement {
               
     string  getPartMusicXMLName () const
                 { return fPartMusicXMLName; }
+                
+    S_msrPartGroup
+            getPartPartGroup () const
+                { return fPartPartGroup; }
                 
     msrStaffsMap
             getPartStavesMap ()
@@ -1668,7 +1673,8 @@ class EXP msrPart : public msrElement {
 
     msrPart (
         S_translationSettings& ts,
-        string                 partMusicXMLName);
+        string                 partMusicXMLName,
+        S_msrPartGroup         partPartGroup);
     virtual ~msrPart();
   
   private:
@@ -1676,6 +1682,8 @@ class EXP msrPart : public msrElement {
     S_translationSettings   fTranslationSettings;
     
     string                  fPartMusicXMLName;
+    S_msrPartGroup          fPartPartGroup;
+
     msrStaffsMap            fPartStavesMap;
 
     string                  fPartMSRName; // coined in constructor

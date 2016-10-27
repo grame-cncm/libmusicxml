@@ -313,8 +313,6 @@ class EXP xml2MsrScoreVisitor :
     void                    internalError (
                               string message);
                      
-    void                    resetCurrentTime();
-
     S_translationSettings   fTranslationSettings;
 
     // the score we're building
@@ -368,6 +366,8 @@ class EXP xml2MsrScoreVisitor :
     string                  fCurrentPartName;
     string                  fCurrentPartAbbreviation;
     string                  fCurrentPartInstrumentName;
+
+    msrPartsMap             fPartsMap;
     S_msrPart               fCurrentPart;
 
     // voice handling
