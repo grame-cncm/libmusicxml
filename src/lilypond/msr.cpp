@@ -3784,22 +3784,19 @@ S_msrPart msrPartGroup::addPartToPartGroup (
       msrPart::create (
         fTranslationSettings, partMusicXMLName);
 
-    if (fTranslationSettings->fTrace)
-      cerr << idtr <<
-        "Adding part " << part->getPartCombinedName () <<
-        " to part group " << fPartGroupNumber << endl;
-  
     // register it in this part group
     if (fTranslationSettings->fTrace) {
       cerr << idtr <<
-        "Adding part " << part->getPartCombinedName () <<
-        " to part group " << fPartGroupNumber << endl;
+        "Adding part " <<
+        part->getPartCombinedName () <<
+        " to part group " << fPartGroupNumber <<
+        " *** addPartToPartGroup"  << endl;
     }
     fPartGroupPartsMap [partMusicXMLName] = part;
     fPartGroupElements.push_back (part);
   }
 
-  if (false && fTranslationSettings->fDebug) {
+  if (true || fTranslationSettings->fDebug) {
 //  if (fTranslationSettings->fDebug) {
     cerr << idtr <<
       "==> After addPartToPartGroup, fPartGroupPartsMap contains:" << endl;
@@ -3816,7 +3813,7 @@ S_msrPart msrPartGroup::addPartToPartGroup (
     cerr << idtr << "<== addPartToPartGroup" << endl;
   }
 
-  if (false && fTranslationSettings->fDebug) {
+  if (true || fTranslationSettings->fDebug) {
 //  if (fTranslationSettings->fDebug) {
     cerr << idtr <<
       "==> After addPartToPartGroup, fPartGroupPartsList contains:" << endl;
@@ -3831,16 +3828,19 @@ S_msrPart msrPartGroup::addPartToPartGroup (
     cerr << idtr << "<== addPartToPartGroup" << endl;
   }
 
+  cerr << flush; // TEMP
+  
   // return the part
   return part;
 } // addPartToPartGroup
 
-S_msrPart msrPartGroup::addPartGroupToPartGroup (S_msrPartGroup partGroup)
+S_msrPart msrPartGroup::addSubPartGroupToPartGroup (
+  S_msrPartGroup partGroup)
 {
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "Adding (sub-)part group " << partGroup->getPartGroupName () <<
-      " to part group " << fPartGroupNumber << endl;
+      "Adding (sub-)part group " << partGroup->getPartGroupNumber () <<
+      " to part group " << getPartGroupNumber ()  << endl;
 
   // register it in this part group
   fPartGroupElements.push_back (partGroup);

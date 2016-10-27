@@ -1730,27 +1730,30 @@ class EXP msrPartGroup : public msrElement {
         PartGroupSymbolKind    partGroupSymbolKind,
         int                    partGroupSymbolDefaultX,
         bool                   partGroupBarline);
-            
+
+    int       getPartGroupNumber () const
+                  { return fPartGroupNumber; }
+    
     string    getPartGroupName () const
-                 { return fPartGroupName; }
+                  { return fPartGroupName; }
 
     string    getPartGroupAbbreviation () const
-                 { return fPartGroupAbbreviation; }
+                  { return fPartGroupAbbreviation; }
 
     PartGroupTypeKind
               getPartGroupTypeKind () const
-                 { return fPartPartGroupTypeKind; }
+                  { return fPartPartGroupTypeKind; }
 
     PartGroupSymbolKind
               getPartGroupSymbolKind () const
-                 { return fPartGroupSymbolKind; }
+                  { return fPartGroupSymbolKind; }
 
     bool      getPartGroupBarline () const
-                 { return fPartGroupBarline; }
+                  { return fPartGroupBarline; }
     
     S_msrPart addPartToPartGroup (string partMusicXMLName);
     
-    S_msrPart addPartGroupToPartGroup (S_msrPartGroup partGroup);
+    S_msrPart addSubPartGroupToPartGroup (S_msrPartGroup partGroup);
 
     S_msrPart fetchPartFromPartGroup (string partMusicXMLName);
 

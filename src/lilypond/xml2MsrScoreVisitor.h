@@ -345,9 +345,9 @@ class EXP xml2MsrScoreVisitor :
     string                  fCurrentPartGroupSymbol;
     int                     fCurrentPartGroupSymbolDefaultX;
     string                  fCurrentPartGroupBarline;
-    void                    createImplicitMSRPartGroup ();
+    S_msrPartGroup          createImplicitMSRPartGroup ();
     
-    S_msrPartGroup          fCurrentPartGroup;
+// JMI    S_msrPartGroup          fCurrentPartGroup;
     // part groups numbers can be re-used, they're no identifier
     msrPartGroupsMap        fPartGroupsMap;
     S_msrPartGroup          fetchScorePartGroup (int partGroupNumber);
@@ -355,6 +355,7 @@ class EXP xml2MsrScoreVisitor :
     // part groups to overlap,
     // of which no realistic example seems to exist...
     msrPartGroupsList       fPartGroupList;
+    void                    showPartGroupsData (string context);
 
     // staff handling
     // ------------------------------------------------------
