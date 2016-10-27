@@ -4035,6 +4035,12 @@ void msrPartGroup::printMSR(ostream& os)
     case kBracketPartGroupSymbol:
       os << "bracket";
       break;
+    case kLinePartGroupSymbol:
+      os << "line";
+      break;
+    case kSquarePartGroupSymbol:
+      os << "square";
+      break;
     case k_NoPartGroupSymbol:
       break;
   } // switch
@@ -4048,7 +4054,6 @@ void msrPartGroup::printMSR(ostream& os)
   os << "\"" << endl;
 
  // JMI   idtr << "PartGroupInstrumentName: \"" << fPartGroupInstrumentName << "\"" << endl;
-
 
   if (fPartGroupElements.size()) {
     os << endl;

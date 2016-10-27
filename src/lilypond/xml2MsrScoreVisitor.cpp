@@ -345,11 +345,23 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
   msrPartGroup::PartGroupSymbolKind partGroupSymbol;
   
   // check part group symbol
+  // Values include none,
+  //  brace, line, bracket, and square; the default is none
+ 
   if (fCurrentPartGroupSymbol == "brace")
     partGroupSymbol = msrPartGroup::kBracePartGroupSymbol;
     
   else if (fCurrentPartGroupSymbol == "bracket")
     partGroupSymbol = msrPartGroup::kBracketPartGroupSymbol;
+    
+  else if (fCurrentPartGroupSymbol == "line")
+    partGroupSymbol = msrPartGroup::kLinePartGroupSymbol;
+    
+  else if (fCurrentPartGroupSymbol == "square")
+    partGroupSymbol = msrPartGroup::kSquarePartGroupSymbol;
+    
+  else if (fCurrentPartGroupSymbol == "none")
+    partGroupSymbol = msrPartGroup::k_NoPartGroupSymbol;
     
   else {
    if (fCurrentPartGroupSymbol.size())

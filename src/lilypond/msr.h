@@ -1727,7 +1727,8 @@ class EXP msrPartGroup : public msrElement {
           
     enum PartGroupSymbolKind {
         kBracePartGroupSymbol, kBracketPartGroupSymbol,
-         k_NoPartGroupSymbol };
+        kLinePartGroupSymbol, kSquarePartGroupSymbol,
+        k_NoPartGroupSymbol };
           
     static SMARTP<msrPartGroup> create (
         S_translationSettings& ts,
