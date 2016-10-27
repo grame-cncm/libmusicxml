@@ -178,7 +178,7 @@ msrAbsoluteOctave::msrAbsoluteOctave (int musicxmlOctave)
 {
   fMsrOctave = musicxmlOctave - 3;
   /*
-  cout <<
+  cerr <<
     "msrAbsoluteOctave::msrAbsoluteOctave (), musicxmlOctave = " << musicxmlOctave << 
     ", fMsrOctave = " << fMsrOctave << endl;
     */
@@ -244,7 +244,7 @@ msrDuration::msrDuration (
   fDots  = dots;
   fTupletMemberNoteType = tupletMemberType;
   /*
-  cout <<
+  cerr <<
     "msrDuration::msrDuration (), fNum = " << fNum << 
     ", fDenom = " << fDenom << ", fDots = " << fDots << endl;
   */
@@ -275,7 +275,7 @@ rational msrDuration::durationAsRational ()
 string msrDuration::durationAsMSRString ()
 {
   // divisions are per quater, Msr durations are in whole notes
-//  cout << "|"  << fNum << "|" << fDenom << "|" << fDots << "|" << endl;
+//  cerr << "|"  << fNum << "|" << fDenom << "|" << fDots << "|" << endl;
 
   int noteDivisions         = fNum;
   int divisionsPerWholeNote = fDenom ;
@@ -363,7 +363,7 @@ string msrDuration::durationAsMSRString ()
     } // switch
   }
   
-  //cout << "--> fDots = " << fDots << endl;
+  //cerr << "--> fDots = " << fDots << endl;
   
   // print the dots if any 
   int n = fDots; 
@@ -708,7 +708,7 @@ msrNote::msrNote (
   // take rests into account
   if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
     /*
-    cout <<
+    cerr <<
       "--> REST, fMusicXMLDuration/fMusicXMLDivisions = " <<
       fMusicXMLNoteData.fMusicXMLDuration << 
      "/" <<
@@ -731,7 +731,7 @@ msrNote::msrNote (
     }
   }
 
-//  cout << "=== xmlPart2MsrVisitor::visitStart ( S_step& elt ) " << fCurrentMusicXMLStep << endl;
+//  cerr << "=== xmlPart2MsrVisitor::visitStart ( S_step& elt ) " << fCurrentMusicXMLStep << endl;
 // JMI
 
   switch (fMusicXMLNoteData.fMusicXMLStep) {
@@ -763,7 +763,7 @@ msrNote::msrNote (
   msrNote::MusicXMLAlteration mxmlAlteration;
 
 /*
-  cout <<
+  cerr <<
     "--> fMusicXMLNoteData.fMusicXMLAlteration = " <<
     fMusicXMLNoteData.fMusicXMLAlteration <<  endl;
 */
@@ -830,7 +830,7 @@ msrNote::msrNote (
       divisionsPerWholeNote,
       fMusicXMLNoteData.fMusicXMLDotsNumber,
       fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
-//  cout << "fNoteMsrDuration = " << fNoteMsrDuration << endl;
+//  cerr << "fNoteMsrDuration = " << fNoteMsrDuration << endl;
     
   // diatonic note for relative code JMI
   msrNote::MusicXMLDiatonicPitch diatonicNote =
@@ -1035,7 +1035,7 @@ string msrNote::notePitchAsLilypondString ()
   stringstream s;
   
   /*
-  cout << "msrNote::notePitchAsLilypondString (), isRest = " <<
+  cerr << "msrNote::notePitchAsLilypondString (), isRest = " <<
     fMusicXMLNoteData.fMusicXMLStepIsARest <<
     ", fMsrPitch = " << fMsrPitch << endl;
   */
@@ -1124,7 +1124,7 @@ void msrNote::printMusicXML(ostream& os)
 void msrNote::printMSR(ostream& os)
 {
   /*
-  cout <<
+  cerr <<
     "msrNote::printMSR(), fNoteBelongsToAChord = " << 
     fNoteBelongsToAChord << endl;
   */
@@ -3626,15 +3626,16 @@ void msrPart::printMSR(ostream& os)
   os << idtr <<
     "PartInstrumentName: \"" << fPartInstrumentName << "\"" << endl;
 
-  os << endl;
-  
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    os << idtr << (*i).second;
-  } // for
-  
+  if (fPartStavesMap.size()) {
+    os << endl;
+    for (
+      map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+      i != fPartStavesMap.end();
+      i++) {
+      os << idtr << (*i).second;
+    } // for
+  }
+
   idtr--;
 }
 

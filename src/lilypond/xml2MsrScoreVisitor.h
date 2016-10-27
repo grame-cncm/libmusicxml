@@ -105,6 +105,10 @@ class EXP xml2MsrScoreVisitor :
   public visitor<S_line>,
   public visitor<S_clef_octave_change>,
 
+  public visitor<S_direction>,
+  public visitor<S_direction_type>,
+  public visitor<S_words>,
+  
   public visitor<S_metronome>,
   public visitor<S_beat_unit>,
   public visitor<S_beat_unit_dot>,
@@ -235,6 +239,11 @@ class EXP xml2MsrScoreVisitor :
     virtual void visitStart ( S_line& elt );
     virtual void visitStart ( S_clef_octave_change& elt );
 
+    virtual void visitStart ( S_direction& elt );
+    virtual void visitEnd   ( S_direction& elt );
+    virtual void visitStart ( S_direction_type& elt );
+    virtual void visitStart ( S_words& elt );
+    
     virtual void visitStart ( S_metronome& elt );
     virtual void visitEnd   ( S_metronome& elt );
     virtual void visitStart ( S_beat_unit& elt );
@@ -389,6 +398,12 @@ class EXP xml2MsrScoreVisitor :
     int                     fCurrentClefOctaveChange; // JMI
     int                     fCurrentClefStaffNumber;
 
+    // direction handling
+    // ------------------------------------------------------
+    string fCurrentDirectionPlacement;
+    string fCurrentDirectionWords;
+    bool   fOnGoingDirection;
+  
     // metronome handling
     // ------------------------------------------------------
     vector<musicXMLBeatData>

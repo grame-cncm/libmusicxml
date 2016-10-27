@@ -45,6 +45,7 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   
   fCurrentMeasureNumber = 0;
 
+  fCurrentLyricsNumber = 0;
   fCurrentLyricsChunkType = msrLyricsChunk::k_NoChunk;
 
   fOnGoingChord = false;
@@ -58,6 +59,8 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   fOnGoingChord = false;
   
   fOnGoingSlur = false;
+
+  fOnGoingDirection = false;
 
   fOnGoingBackup  = false;
   fOnGoingForward = false;
@@ -133,18 +136,15 @@ void xml2MsrScoreVisitor::visitEnd (S_part_list& elt)
 {
   idtr--;
 
-  fTranslationSettings->fDebug = false; // TEMP
+//  fTranslationSettings->fDebug = false; // TEMP JMI
 }
 
 //________________________________________________________________________
 S_msrPartGroup xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
 {
   /*
-  A first part group is created with all the nneded contents
+  A first part group is created with all the needed contents
   if none is specified in the MusicXML data.
-  Its single part will be reused when the first actual part is met,
-  changing its name on the fly in method:
-    msrPartGroup::tryAndReUseInitialAnonymousPart()
   */
 
   // create an implicit part group
@@ -165,7 +165,7 @@ S_msrPartGroup xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
       "Implicit",
       "Impl.",
       msrPartGroup::kBracketPartGroupSymbol,
-      -3,
+      0,
       true);
 
   // add implicit part group to the score
@@ -185,39 +185,6 @@ S_msrPartGroup xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
   fPartGroupList.push_front (fCurrentPartGroup);
 
   return fCurrentPartGroup;
-
-/* JMI ???
-  // create an implicit part in case none is specified in MusicXML
-  fCurrentPartMusicXMLName = "";
-  fCurrentPart =
-    msrPart::create (
-      fTranslationSettings, fCurrentPartMusicXMLName);
-  
-  // add a staff to the implicit part
-  fCurrentStaffNumber = 1;
-  fCurrentStaff =
-    fCurrentPart->
-      addStaffToPart (fCurrentStaffNumber);
-*/
-
-/* JMI
-  // fetch current voice
-  fCurrentVoiceNumber = 1;
-  fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-  // add a voice to the staff
-  fCurrentVoiceNumber = 1;
-  fCurrentVoice =
-    fCurrentStaff->
-      addVoiceToStaff (fCurrentVoiceNumber);
-
-  // add a lyrics to the voice
-  fCurrentLyrics =
-    fCurrentVoice->
-      addLyricsToVoice (1);
-*/
 } // xml2MsrScoreVisitor::createImplicitMSRPartGroup ()
 
 //________________________________________________________________________
@@ -356,6 +323,8 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
       "Handling part group " << fCurrentPartGroupNumber <<
       ", type: \"" << fCurrentPartGroupType << "\""  << endl;
 
+  idtr++;
+  
   msrPartGroup::PartGroupTypeKind partGroupType;
 
   // check part group type
@@ -508,6 +477,8 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
       {}
       break;
   } // switch
+
+  idtr--;
 } // visitEnd (S_part_group& elt)
 
 //________________________________________________________________________
@@ -545,6 +516,8 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
     cerr << idtr <<
       "Handling part \"" << fCurrentPartMusicXMLName << "\"" << endl;
 
+  idtr++;
+
   S_msrPartGroup fCurrentPartGroup; // JMI
 
   // is there a current part group?
@@ -581,6 +554,10 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
 
   // register it in this visitor's parts map
   fPartsMap [fCurrentPartMusicXMLName] = fCurrentPart;
+
+  showPartGroupsData ("AFTER handling part \""+fCurrentPartName+"\"");
+
+  idtr--;
 }
 
 //________________________________________________________________________
@@ -802,6 +779,38 @@ void xml2MsrScoreVisitor::visitEnd ( S_clef& elt )
 }
 
 //________________________________________________________________________
+void xml2MsrScoreVisitor::visitStart (S_direction& elt)
+{
+/*
+      <direction placement="above">
+        <direction-type>
+          <words default-y="48" font-size="10.5" font-weight="bold" relative-x="-40" xml:lang="de">Sehr langsam</words>
+        </direction-type>
+        <staff>1</staff>
+        <sound tempo="26"/>
+      </direction>
+*/
+}
+
+void xml2MsrScoreVisitor::visitStart (S_direction_type& elt)
+{
+  fCurrentDirectionPlacement =
+    elt->getAttributeValue ("placement"); //JMI
+
+  fOnGoingDirection = true;
+}
+
+void xml2MsrScoreVisitor::visitStart (S_words& elt)
+{
+  fCurrentDirectionWords = elt->getValue ();
+}
+
+void xml2MsrScoreVisitor::visitEnd (S_direction& elt)
+{
+  fOnGoingDirection = false;
+}
+
+//________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_staves& elt)
 {
   int stavesNumber = int(*elt);
@@ -871,12 +880,18 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
 
     // regular staff indication in note/rest
     fCurrentStaffNumber = staffNumber;
+
+  } else if (fOnGoingDirection) {
+
+    // JMI
     
   } else {
+    
     stringstream s;
     s << "staff " << staffNumber << " is out of context";
 // JMI    msrMusicXMLError (s.str());
     msrMusicXMLWarning (s.str());
+    
   }
 }
     
@@ -1016,7 +1031,7 @@ void xml2MsrScoreVisitor::visitStart ( S_metronome& elt )
   fCurrentBeat.fDots = 0;
 
   if (parentheses.size()) {
-    // cout << "--> S_metronome, parentheses = " << parentheses << endl;
+    // cerr << "--> S_metronome, parentheses = " << parentheses << endl;
     
     if (parentheses == "yes") 
       fParentheses = true;
@@ -1250,7 +1265,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_text& elt )
 }
 
 /*
-  cout <<
+  cerr <<
     "--> lyricNumber = " << lyricNumber <<
     ", fCurrentSyllabic = " << fCurrentSyllabic <<
     ", fCurrentText = |" << fCurrentText << "|" << endl;
@@ -1524,7 +1539,7 @@ void xml2MsrScoreVisitor::visitStart ( S_ending& elt )
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_note& elt ) 
 {
-  //  cout << "--> xml2MsrScoreVisitor::visitStart ( S_note& elt ) " << endl;
+  //  cerr << "--> xml2MsrScoreVisitor::visitStart ( S_note& elt ) " << endl;
   fMusicXMLNoteData.fMusicXMLStep = '_';
   fMusicXMLNoteData.fMusicXMLStepIsARest = false;
   fMusicXMLNoteData.fMusicXMLStepIsUnpitched = false;
@@ -1548,8 +1563,8 @@ void xml2MsrScoreVisitor::visitStart ( S_note& elt )
   // assume this note doesn't belong to a chord until S_chord is met
   fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = false;
 
-  // assume this note doesn't belong to a tuplet until S_chord is met
-  fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet = fOnGoingTuplet;
+  // assume this note doesn't belong to a tuplet until S_tuplet is met
+  fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet = false;
 
   fCurrentTiedType = "";
   fCurrentTiedOrientation = "";
@@ -1611,7 +1626,7 @@ void xml2MsrScoreVisitor::visitStart ( S_duration& elt )
     
   }
     
-//  cout << "=== xml2MsrScoreVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << endl; JMI
+//  cerr << "=== xml2MsrScoreVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << endl; JMI
 }
 
 void xml2MsrScoreVisitor::visitStart ( S_dot& elt )
@@ -1883,7 +1898,7 @@ void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
     elt->getAttributeValue("type");
   
   /* JMI
-  cout <<
+  cerr <<
     "xml2MsrScoreVisitor::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
     fCurrentTupletNumber << ", type = " << type <<endl;
   */
@@ -1913,7 +1928,7 @@ void xml2MsrScoreVisitor::visitStart ( S_rest& elt)
         <voice>1</voice>
       </note>
 */
-  //  cout << "--> xml2MsrScoreVisitor::visitStart ( S_rest& elt ) " << endl;
+  //  cerr << "--> xml2MsrScoreVisitor::visitStart ( S_rest& elt ) " << endl;
   fMusicXMLNoteData.fMusicXMLStepIsARest = true;
 }
 
@@ -2047,13 +2062,13 @@ void xml2MsrScoreVisitor::createTuplet (S_msrNote note)
 
   // register it in this visitor
   if (fTranslationSettings->fDebug)
-    cout << idtr <<
+    cerr << idtr <<
       "--> pushing tuplet to tuplets stack" << endl;
   fCurrentTupletsStack.push(tuplet);
   
   // add note to the tuplet
   if (fTranslationSettings->fDebug)
-    cout << idtr <<
+    cerr << idtr <<
       "--> adding note " << note->notePitchAsLilypondString() <<
       " to tuplets stack top" << endl;
   tuplet->addElementToTuplet (note);
@@ -2065,20 +2080,20 @@ void xml2MsrScoreVisitor::finalizeTuplet (S_msrNote note) {
 
   // add note to the tuplet
   if (fTranslationSettings->fDebug)
-    cout << idtr <<
+    cerr << idtr <<
       "--> adding note " << note->notePitchAsLilypondString () <<
       " to tuplets stack top" << endl;
   tup->addElementToTuplet(note);
 
   // pop from the tuplets stack
   if (fTranslationSettings->fDebug)
-    cout << idtr <<
+    cerr << idtr <<
       "--> popping from tuplets stack" << endl;
   fCurrentTupletsStack.pop();        
 
   // add tuplet to current voice
   if (fTranslationSettings->fDebug)
-    cout << idtr <<
+    cerr << idtr <<
       "=== adding tuplet to the part sequence" << endl;
   fCurrentVoice->
     appendTupletToVoice (tup);
@@ -2149,8 +2164,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   Staff values are numbers, with 1 referring to the top-most staff in a part.
   */
   
-  if (false && fTranslationSettings->fDebug)
-//  if (fTranslationSettings->fDebug)
+//  if (true || fTranslationSettings->fDebug)
+  if (fTranslationSettings->fDebug)
     cerr <<
       idtr <<
       "!!!! BEFORE visitEnd (S_note) we have:" << endl <<
@@ -2177,13 +2192,13 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     fCurrentStaff->
       fetchVoiceFromStaff (fCurrentVoiceNumber);
 
-/* JMI
+/* JMI*/
   // no, add it to the current staff
   if (! fCurrentVoice) 
     fCurrentVoice =
       fCurrentStaff->
         addVoiceToStaff (fCurrentVoiceNumber);
-*/
+/* */
 
   // store voice number in MusicXML note data
   fMusicXMLNoteData.fMusicXMLVoiceNumber = fCurrentVoiceNumber;
@@ -2205,12 +2220,13 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   fMusicXMLNoteData.fMusicXMLTupletMemberNoteType =
     fCurrentNoteType;
   
-  //cout << "::: creating a note" << endl;
-  S_msrNote newNote =
-    msrNote::createFromMusicXMLData (
-      fTranslationSettings,
-      fMusicXMLNoteData,
-      fCurrentSlurKind);
+  //cerr << "::: creating a note" << endl;
+  S_msrNote
+    newNote =
+      msrNote::createFromMusicXMLData (
+        fTranslationSettings,
+        fMusicXMLNoteData,
+        fCurrentSlurKind);
 
   // attach the articulations if any to the note
   while (! fCurrentArticulations.empty()) {
@@ -2322,14 +2338,14 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
   }
   
   if (fTranslationSettings->fDebug)
-    cout << idtr <<
+    cerr << idtr <<
       "--> adding new note " <<
       newNote->notePitchAsLilypondString() <<
       " to current chord" << endl;
     
   // register note as a member of fCurrentChord
   if (fTranslationSettings->fDebug)
-    cout << idtr <<
+    cerr << idtr <<
       "--> registering new note " <<
       newNote->notePitchAsLilypondString() <<
       " as a member of current chord" << endl;
@@ -2339,7 +2355,7 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
   // remove previous current note or the previous state of the chord
   // from the current voice sequence
   if (fTranslationSettings->fDebug)
-    cout << idtr <<
+    cerr << idtr <<
       "--> removing last element " <<
       fCurrentVoice->getVoiceSequenceLastElement () <<
       " from current voice" << endl;
@@ -2349,7 +2365,7 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
 
   // add fCurrentChord to the part sequence instead
   if (fTranslationSettings->fDebug)
-    cout << idtr <<
+    cerr << idtr <<
       "--> appending chord " << fCurrentChord <<
       " to current voice" << endl;
   fCurrentVoice->
@@ -2379,7 +2395,7 @@ void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
       {
         // populate the tuplet at the top of the stack
         if (fTranslationSettings->fDebug)
-          cout << idtr <<
+          cerr << idtr <<
             "--> adding note " << newNote <<
             " to tuplets stack top" << endl;
         fCurrentTupletsStack.top()->
