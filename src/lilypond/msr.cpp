@@ -3796,7 +3796,7 @@ S_msrPart msrPartGroup::addPartToPartGroup (
         " to part group " << fPartGroupNumber << endl;
     }
     fPartGroupPartsMap [partMusicXMLName] = part;
-    fPartGroupPartsList.push_back (part);
+    fPartGroupElements.push_back (part);
   }
 
   if (false && fTranslationSettings->fDebug) {
@@ -3822,11 +3822,10 @@ S_msrPart msrPartGroup::addPartToPartGroup (
       "==> After addPartToPartGroup, fPartGroupPartsList contains:" << endl;
     idtr++;
     for (
-        msrPartsList::const_iterator i = fPartGroupPartsList.begin();
-        i != fPartGroupPartsList.end();
+        msrElementList::const_iterator i = fPartGroupElements.begin();
+        i != fPartGroupElements.end();
         i++) {
-      cerr << idtr <<
-        (*i)->getPartCombinedName() << endl;
+      cerr << idtr << (*i) << endl;
     } // for
     idtr--;
     cerr << idtr << "<== addPartToPartGroup" << endl;
@@ -3835,6 +3834,17 @@ S_msrPart msrPartGroup::addPartToPartGroup (
   // return the part
   return part;
 } // addPartToPartGroup
+
+S_msrPart msrPartGroup::addPartGroupToPartGroup (S_msrPartGroup partGroup)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Adding (sub-)part group " << partGroup->getPartGroupName () <<
+      " to part group " << fPartGroupNumber << endl;
+
+  // register it in this part group
+  fPartGroupElements.push_back (partGroup);
+}
 
 S_msrPart msrPartGroup::fetchPartFromPartGroup (
   string partMusicXMLName)
@@ -3993,11 +4003,11 @@ void msrPartGroup::printMSR(ostream& os)
  // JMI   idtr << "PartGroupInstrumentName: \"" << fPartGroupInstrumentName << "\"" << endl;
 
 
-  if (fPartGroupPartsList.size()) {
+  if (fPartGroupElements.size()) {
     os << endl;
     for (
-      msrPartsList::iterator i = fPartGroupPartsList.begin();
-      i != fPartGroupPartsList.end();
+      msrElementList::iterator i = fPartGroupElements.begin();
+      i != fPartGroupElements.end();
       i++) {
       os << idtr << (*i);
     } // for

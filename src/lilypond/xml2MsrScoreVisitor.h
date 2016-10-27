@@ -310,16 +310,16 @@ class EXP xml2MsrScoreVisitor :
 
   private:
 
-    void                     internalError (
+    void                    internalError (
                               string message);
                      
-    void                     resetCurrentTime();
+    void                    resetCurrentTime();
 
-    S_translationSettings    fTranslationSettings;
+    S_translationSettings   fTranslationSettings;
 
     // the score we're building
     // ------------------------------------------------------
-    S_msrScore               fMsrScore;
+    S_msrScore              fMsrScore;
 
     // part group handling
     /*
@@ -338,108 +338,112 @@ class EXP xml2MsrScoreVisitor :
 
     // part group handling
     // ------------------------------------------------------
-    int                      fCurrentPartGroupNumber;
-    string                   fCurrentPartGroupType;
-    string                   fCurrentPartGroupName;
-    string                   fCurrentPartGroupAbbreviation;
-    string                   fCurrentPartGroupSymbol;
-    int                      fCurrentPartGroupSymbolDefaultX;
-    string                   fCurrentPartGroupBarline;
-    S_msrPartGroup           fCurrentPartGroup;
-    void                     createImplicitMSRPartGroup ();
+    int                     fCurrentPartGroupNumber;
+    string                  fCurrentPartGroupType;
+    string                  fCurrentPartGroupName;
+    string                  fCurrentPartGroupAbbreviation;
+    string                  fCurrentPartGroupSymbol;
+    int                     fCurrentPartGroupSymbolDefaultX;
+    string                  fCurrentPartGroupBarline;
+    void                    createImplicitMSRPartGroup ();
     
+    S_msrPartGroup          fCurrentPartGroup;
     // part groups numbers can be re-used, they're no identifier
-    msrPartGroupsMap         fPartGroupsMap;
-    S_msrPartGroup           fetchScorePartGroup (int partGroupNumber);
+    msrPartGroupsMap        fPartGroupsMap;
+    S_msrPartGroup          fetchScorePartGroup (int partGroupNumber);
+    // a stack should suffice in practise, but MusicXML allows
+    // part groups to overlap,
+    // of which no realistic example seems to exist...
+    msrPartGroupsList       fPartGroupList;
 
     // staff handling
     // ------------------------------------------------------
-    int                      fCurrentStaffNumber;
-    S_msrStaff               fCurrentStaff;
+    int                     fCurrentStaffNumber;
+    S_msrStaff              fCurrentStaff;
 
     // part handling
     // ------------------------------------------------------
-    string                   fCurrentPartMusicXMLName;
-    string                   fCurrentPartName;
-    string                   fCurrentPartAbbreviation;
-    string                   fCurrentPartInstrumentName;
-    S_msrPart                fCurrentPart;
+    string                  fCurrentPartMusicXMLName;
+    string                  fCurrentPartName;
+    string                  fCurrentPartAbbreviation;
+    string                  fCurrentPartInstrumentName;
+    S_msrPart               fCurrentPart;
 
     // voice handling
     // ------------------------------------------------------
-    int                      fCurrentVoiceNumber;
-    S_msrVoice               fCurrentVoice;
+    int                     fCurrentVoiceNumber;
+    S_msrVoice              fCurrentVoice;
     
     // key handling
     // ------------------------------------------------------
-    int                      fCurrentKeyStaffNumber;
-    int                      fCurrentFifths;
-    int                      fCurrentCancel;
-    string                   fCurrentMode;
+    int                     fCurrentKeyStaffNumber;
+    int                     fCurrentFifths;
+    int                     fCurrentCancel;
+    string                  fCurrentMode;
 
     // clef handling
     // ------------------------------------------------------
-    string                   fCurrentClefSign;
-    int                      fCurrentClefLine;
-    int                      fCurrentClefOctaveChange; // JMI
-    int                      fCurrentClefStaffNumber;
+    string                  fCurrentClefSign;
+    int                     fCurrentClefLine;
+    int                     fCurrentClefOctaveChange; // JMI
+    int                     fCurrentClefStaffNumber;
 
     // metronome handling
     // ------------------------------------------------------
     vector<musicXMLBeatData>
-                             fBeatsData;
-    int                      fPerMinute;
-    musicXMLBeatData         fCurrentBeat;
-    bool                     fParentheses;
+                            fBeatsData;
+    int                     fPerMinute;
+    musicXMLBeatData        fCurrentBeat;
+    bool                    fParentheses;
 
     // time handling
     // ------------------------------------------------------
-    int                      fCurrentTimeStaffNumber;
-    string                   fCurrentTimeSymbol;
-    int                      fCurrentTimeBeats;
-    int                      fCurrentTimeBeatType;
-    bool                     fCurrentTimeSenzaMisura;
+    int                     fCurrentTimeStaffNumber;
+    string                  fCurrentTimeSymbol;
+    int                     fCurrentTimeBeats;
+    int                     fCurrentTimeBeatType;
+    bool                    fCurrentTimeSenzaMisura;
 
     // lyrics handling
     // ------------------------------------------------------
     // the last sysllabic spec met (single, begin, middle or end)
-    string                   fCurrentSyllabic;
+    string                  fCurrentSyllabic;
     msrLyricsChunk::LyricsChunkType
-                              fCurrentLyricsChunkType;
+                            fCurrentLyricsChunkType;
     // the last lyrics fragment met
-    string                   fCurrentText;
-    bool                     fCurrentElision;
+    string                  fCurrentText;
+    bool                    fCurrentElision;
     
-    int                      fCurrentLyricsNumber;
-    bool                     fCurrentNoteHasLyrics;
-    S_msrLyrics              fCurrentLyrics;
-    bool                     fCurrentLyricsHasText;
-    void                     handleLyricsText ();
+    int                     fCurrentLyricsNumber;
+    bool                    fCurrentNoteHasLyrics;
+    S_msrLyrics             fCurrentLyrics;
+    bool                    fCurrentLyricsHasText;
+    void                    handleLyricsText ();
 
     // positions handling
     // ------------------------------------------------------
-    int                      fCurrentMeasureNumber;
-    rational                 fCurrentPositionInMeasure;
+    int                     fCurrentMeasureNumber;
+    rational                fCurrentPositionInMeasure;
 
     // repeat handling
     // ------------------------------------------------------
-    string                   fCurrentBarlineLocation;
-    string                   fCurrentBarStyle;
-    string                   fCurrentRepeatDirection;
-    string                   fCurrentEndingType;
-    int                      fCurrentEndingNumber;
+    string                  fCurrentBarlineLocation;
+    string                  fCurrentBarStyle;
+    string                  fCurrentRepeatDirection;
+    string                  fCurrentEndingType;
+    int                     fCurrentEndingNumber;
 
     // dividing quater notes in MusicXML
     // ------------------------------------------------------
-    int                      fCurrentMusicXMLDivisions;
+    int                     fCurrentMusicXMLDivisions;
 
     // description of the current MusicXML note
-    musicXMLNoteData         fMusicXMLNoteData;
+    musicXMLNoteData        fMusicXMLNoteData;
 
     // unpitched notes handling
     // ------------------------------------------------------
-    char                     fDisplayStep;
-    int                      fDisplayOctave;
+    char                    fDisplayStep;
+    int                     fDisplayOctave;
 
     // stem handling
     // ------------------------------------------------------
@@ -485,7 +489,7 @@ class EXP xml2MsrScoreVisitor :
 
     // tuplet handling
      // ------------------------------------------------------
-   int                      fCurrentActualNotes;
+    int                     fCurrentActualNotes;
     int                     fCurrentNormalNotes;
     string                  fCurrentNormalNoteType;
     // embedded tuplets are numbered 1, 2, ...
@@ -493,7 +497,7 @@ class EXP xml2MsrScoreVisitor :
     msrTuplet::TupletKind   fCurrentTupletKind;
     // remains true until a S_tuplet of type "stop" is met
     bool                    fOnGoingTuplet;
-    stack<S_msrTuplet>      fCurrentTupletsStack;
+    msrTupletsStack         fCurrentTupletsStack;
 
     void                    createTuplet   (S_msrNote note);
     void                    finalizeTuplet (S_msrNote note);
@@ -506,28 +510,28 @@ class EXP xml2MsrScoreVisitor :
 
     // ties handling
     // ------------------------------------------------------
-    string                   fCurrentTiedType;
-    string                   fCurrentTiedOrientation;
+    string                  fCurrentTiedType;
+    string                  fCurrentTiedOrientation;
 
     // slurs handling
     // ------------------------------------------------------
-    int                      fCurrentSlurNumber;
-    string                   fCurrentSlurType;
-    string                   fCurrentSlurPlacement;
-    msrSlur::SlurKind        fCurrentSlurKind;
-    bool                     fOnGoingSlur;
+    int                     fCurrentSlurNumber;
+    string                  fCurrentSlurType;
+    string                  fCurrentSlurPlacement;
+    msrSlur::SlurKind       fCurrentSlurKind;
+    bool                    fOnGoingSlur;
 
     // backup handling
     // ------------------------------------------------------
-    int                      fCurrentBackupDuration;
-    bool                     fOnGoingBackup;
+    int                     fCurrentBackupDuration;
+    bool                    fOnGoingBackup;
 
     // forward handling
     // ------------------------------------------------------
-    int                      fCurrentForwardDuration;
-    int                      fCurrentForwardVoiceNumber;
-    int                      fCurrentForwardStaffNumber;
-    bool                     fOnGoingForward;
+    int                     fCurrentForwardDuration;
+    int                     fCurrentForwardVoiceNumber;
+    int                     fCurrentForwardStaffNumber;
+    bool                    fOnGoingForward;
 
 };
 

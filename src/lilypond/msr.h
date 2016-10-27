@@ -1078,7 +1078,7 @@ class EXP msrTuplet : public msrElement {
     vector<S_msrElement> fTupletContents;
 };
 typedef SMARTP<msrTuplet> S_msrTuplet;
-
+typedef stack<S_msrTuplet> msrTupletsStack;
 /*!
 \brief A msr beam representation.
 
@@ -1747,10 +1747,10 @@ class EXP msrPartGroup : public msrElement {
 
     bool      getPartGroupBarline () const
                  { return fPartGroupBarline; }
-
-    S_msrPart addPartToPartGroup (int partNumber);
     
     S_msrPart addPartToPartGroup (string partMusicXMLName);
+    
+    S_msrPart addPartGroupToPartGroup (S_msrPartGroup partGroup);
 
     S_msrPart fetchPartFromPartGroup (string partMusicXMLName);
 
@@ -1796,8 +1796,12 @@ class EXP msrPartGroup : public msrElement {
 
     bool                    fPartGroupBarline;
 
+    // accessing parts by name
     msrPartsMap             fPartGroupPartsMap;
-    msrPartsList            fPartGroupPartsList;
+//    msrPartsList            fPartGroupPartsList;
+
+    // allowing for both parts and (sub-)part groups as elements
+    msrElementList          fPartGroupElements;
 };
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
 typedef list<S_msrPartGroup> msrPartGroupsList;
