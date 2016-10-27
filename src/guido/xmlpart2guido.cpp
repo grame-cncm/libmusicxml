@@ -32,7 +32,7 @@ xmlpart2guido::xmlpart2guido(bool generateComments, bool generateStem, bool gene
 	fGenerateComments(generateComments), fGenerateStem(generateStem), 
 	fGenerateBars(generateBar),
 	fNotesOnly(false), fCurrentStaffIndex(0), fCurrentStaff(0),
-	fTargetStaff(0), fTargetVoice(0), fCurrentAccoladeIndex(0)
+	fTargetStaff(0), fTargetVoice(0)
 {
 	fGeneratePositions = true;
     fGenerateAutoMeasureNum = true;
@@ -563,22 +563,6 @@ void xmlpart2guido::visitStart ( S_note& elt )
 	notevisitor::visitStart ( elt );
 }
 
-    
-//______________________________________________________________________________
-    void xmlpart2guido::visitStart ( S_staves& elt )
-    {
-        // staves in XML is a potential candidate for Accolade!
-        Sguidoelement tag = guidotag::create("accol");
-        fCurrentAccoladeIndex++;
-        std::string accolParams = "id="+std::to_string(fCurrentAccoladeIndex)+", range=\"";
-        string nStavesStr = elt->getValue();
-        int nStaves = atoi(nStavesStr.c_str());
-        int rangeEnd = fCurrentStaffIndex + nStaves - 1;
-        accolParams += std::to_string(fCurrentStaffIndex)+"-"+std::to_string(rangeEnd)+"\"";        
-        tag->add (guidoparam::create(accolParams, false));
-        //add (tag);
-    }
-
 //______________________________________________________________________________
 string xmlpart2guido::alter2accident ( float alter ) 
 {
@@ -793,33 +777,7 @@ void xmlpart2guido::visitEnd ( S_time& elt )
             iter = elt->find(k_clef, iter);
         }
         
-        // Generate Accolades if staves is present
-        int staves = (elt)->getIntValue(k_staves, -1);
-        if ((staves != -1)&& (!fNotesOnly))
-        {
-            // generate accolade only for the entering staff in XML
-            // TODO: Avoid this for the second (or other) staffs visitors...
-            if (true)
-            {
-                fCurrentAccoladeIndex++;
-                
-                /*cout<<endl<<"\t GeneratinStaff="<<fCurrentStaff<<
-                " GuidoStaffIndex="<<fCurrentStaffIndex<<
-                " accoladeIndex="<<fCurrentAccoladeIndex<<
-                " xmlTargetStaff="<<fTargetStaff<<
-                " fTargetVoice="<<fTargetVoice <<endl;*/
-                
-                std::string accolParams = "id="+std::to_string(fCurrentAccoladeIndex)+", range=\"";
-                int rangeEnd = fCurrentStaffIndex + staves - 1;
-                
-                accolParams += std::to_string(fCurrentStaffIndex)+"-"+std::to_string(rangeEnd)+"\"";
-                
-                Sguidoelement tag = guidotag::create("accol");
-                tag->add (guidoparam::create(accolParams, false));
-                //tag->print(cout);
-                add (tag);
-            }
-        }
+        // staves are treated at the S_Part level (see xml2guidovisitor) to create accolades
         
         // Generate key
         iter = elt->find(k_key);

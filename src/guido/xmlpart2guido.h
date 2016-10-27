@@ -65,7 +65,6 @@ class EXP xmlpart2guido :
     public visitor<S_wedge>,
     public visitor<S_words>,     // for direction-type tempo wording (added by AC)
 	public visitor<S_rehearsal>,     // for rehearsal Markup
-    public visitor<S_staves>,         // for Accolade in Guido
     public visitor<S_attributes>         // to get clef, division, staves, time and key in order!
 {
 	// the guido elements stack
@@ -98,7 +97,6 @@ class EXP xmlpart2guido :
 	int		fCurrentStaff;			// the staff we're currently generating events for (0 by default)
 	int		fTargetStaff;			// the musicxml target staff (0 by default)
 	int		fTargetVoice;			// the musicxml target voice (0 by default)
-    int     fCurrentAccoladeIndex;  // Accolade id counter
 
 	long	fCurrentDivision;		// the current measure division, expresses the time unit in division of the quarter note
 	long	fCurrentOffset;			// the current direction offset: represents an element relative displacement in current division unit
@@ -180,7 +178,6 @@ class EXP xmlpart2guido :
 		virtual void visitStart( S_segno& elt);
         virtual void visitStart( S_wedge& elt);
 		virtual void visitStart( S_rehearsal& elt);
-        virtual void visitStart( S_staves& elt);
     virtual void visitStart( S_attributes& elt);
 
 		virtual void visitEnd  ( S_clef& elt);

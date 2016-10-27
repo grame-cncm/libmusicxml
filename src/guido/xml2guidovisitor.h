@@ -85,6 +85,8 @@ class EXP xml2guidovisitor :
 		Sguidoelement& current ()				{ return fStack.top(); }
     
         bool previousStaffHasLyrics;
+    
+    int  fCurrentAccoladeIndex;
 
     public:
 				 xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar=true);

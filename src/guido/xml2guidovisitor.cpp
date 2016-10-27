@@ -34,7 +34,7 @@ namespace MusicXML2
 xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar) :
 	fGenerateComments(generateComments), fGenerateStem(generateStem),
 	fGenerateBars(generateBar), fGeneratePositions(true),
-	fCurrentStaffIndex(0), previousStaffHasLyrics(false)
+	fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0)
 {}
 
 //______________________________________________________________________________
@@ -146,6 +146,8 @@ void xml2guidovisitor::visitStart ( S_part& elt )
 			targetStaff = mainstaff;
 			fCurrentStaffIndex++;
 		}
+        
+        //cout<<"Generating PART with voice "<<targetVoice<<" staff "<<targetStaff<<" coveringStaffs: "<<ps.countStaves()<< " notesOnly="<<(int)(notesOnly) <<endl;
 
 		Sguidoelement seq = guidoseq::create();
 		push (seq);
@@ -161,6 +163,19 @@ void xml2guidovisitor::visitStart ( S_part& elt )
             Sguidoelement tag2 = guidotag::create("staffFormat");
             tag2->add (guidoparam::create("dy=-5", false));
             add (tag2);
+        }
+        //// Add Accolade if countStaves on this Part is >1, and we are entering span
+        if ((ps.countStaves()>1)&&(fCurrentStaffIndex>fCurrentAccoladeIndex))
+        {
+            std::string accolParams = "id="+std::to_string(fCurrentAccoladeIndex)+", range=\"";
+            int rangeEnd = fCurrentStaffIndex + ps.countStaves() - 1;
+        
+            accolParams += std::to_string(fCurrentStaffIndex)+"-"+std::to_string(rangeEnd)+"\"";
+        
+            Sguidoelement tag3 = guidotag::create("accol");
+            tag3->add (guidoparam::create(accolParams, false));
+            add (tag3);
+            fCurrentAccoladeIndex = rangeEnd;
         }
         ////
 
