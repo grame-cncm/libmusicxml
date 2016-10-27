@@ -288,6 +288,29 @@ void xml2MsrScoreVisitor::visitStart ( S_group_barline& elt)
 void xml2MsrScoreVisitor::showPartGroupsData (string context)
 {
   if (true || fTranslationSettings->fDebug) {
+  //  if (fTranslationSettings->fDebug) {
+    cerr << idtr <<
+      "==> " << context << ": fPartGroupsMap contains:" << endl;
+    if (fPartGroupsMap.size()) {
+      msrPartGroupsMap::const_iterator
+        iBegin = fPartGroupsMap.begin(),
+        iEnd   = fPartGroupsMap.end(),
+        i      = iBegin;
+        
+      idtr++;
+      for ( ; ; ) {
+        cerr << idtr <<
+          "\"" << (*i).first << "\" ----> " << (*i).second;
+        if (++i == iEnd) break;
+        cerr << endl;
+      } // for
+      idtr--;
+    }
+    cerr << idtr << "<== fPartGroupsMap" << endl;
+  }
+
+/*
+  if (true || fTranslationSettings->fDebug) {
 //  if (fTranslationSettings->fDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartGroupsMap contains:" << endl;
@@ -303,19 +326,25 @@ void xml2MsrScoreVisitor::showPartGroupsData (string context)
     idtr--;
     cerr << idtr << "<== fPartGroupsMap" << endl;
   }
-
+*/
   if (true || fTranslationSettings->fDebug) {
   //  if (fTranslationSettings->fDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartGroupList contains:" << endl;
-    idtr++;
-    for (
-        msrPartGroupsList::const_iterator i = fPartGroupList.begin();
-        i != fPartGroupList.end();
-        i++) {
-      cerr << idtr <<(*i) << endl;
-    } // for
-    idtr--;
+    if (fPartGroupList.size()) {
+      msrPartGroupsList::const_iterator
+        iBegin = fPartGroupList.begin(),
+        iEnd   = fPartGroupList.end(),
+        i      = iBegin;
+        
+      idtr++;
+      for ( ; ; ) {
+        cerr << idtr << (*i);
+        if (++i == iEnd) break;
+        cerr << endl;
+      } // for
+      idtr--;
+    }
     cerr << idtr << "<== fPartGroupList" << endl;
   }
 }
@@ -627,12 +656,8 @@ void xml2MsrScoreVisitor::visitStart ( S_key& elt ) {
   // The optional number attribute refers to staff numbers.
   // If absent (-1), apply to all part staves.
   fCurrentKeyStaffNumber =
-    elt->getAttributeIntValue ("number", -1);
+    elt->getAttributeIntValue ("number", 1);
 
-  if (fCurrentKeyStaffNumber < 0) {
-    // number was not found JMI
-  }
-  
   fCurrentFifths = 0;
   fCurrentCancel = 0;
   fCurrentMode   = "";

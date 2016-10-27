@@ -2403,7 +2403,8 @@ void msrClef::printMSR(ostream& os)
 {
   os <<
     "Clef" << " \"" << fSign << "\"" <<
-    " line " << fLine << ", " << fOctaveChange << "*8";
+    " line " << fLine << ", " << fOctaveChange << "*8" <<
+    endl;
 }
 
 void msrClef::printLilyPondCode(ostream& os)
@@ -3350,6 +3351,16 @@ msrStaff::msrStaff (
     cerr << idtr <<
       "Creating staff " << getStaffName () << endl;
 
+  // create the implicit initial C major key
+  fStaffKey =
+    msrKey::create (0, "major", 0);
+
+  // create the implicit initial 4/4 time signature
+  fStaffTime =
+    msrTime::create (
+      4, 4,
+      fTranslationSettings->fGenerateNumericalTime);
+
   // add the maximum number of empty voices
   // those that turn out empty will be removed later
   /*
@@ -3493,17 +3504,17 @@ void msrStaff::printMSR (ostream& os)
   idtr++;
 
   if (fStaffClef)
-    os << idtr << fStaffClef << endl;
+    os << idtr << fStaffClef;
   else
     os << idtr << "NO_CLEF" << endl;
 
   if (fStaffKey)
-    os << idtr << fStaffKey << endl;
+    os << idtr << fStaffKey;
   else
     os << idtr << "NO_KEY" << endl;
 
   if (fStaffTime)
-    os << idtr << fStaffTime << endl;
+    os << idtr << fStaffTime;
   else
     os << idtr << "NO_TIME" << endl;
 
@@ -3833,6 +3844,26 @@ S_msrPart msrPartGroup::addPartToPartGroup (
 //  if (fTranslationSettings->fDebug) {
     cerr << idtr <<
       "==> After addPartToPartGroup, fPartGroupPartsList contains:" << endl;
+    if (fPartGroupElements.size()) {
+      msrElementList::const_iterator
+        iBegin = fPartGroupElements.begin(),
+        iEnd   = fPartGroupElements.end(),
+        i      = iBegin;
+        
+      idtr++;
+      for ( ; ; ) {
+        cerr << idtr << (*i);
+        if (++i == iEnd) break;
+        cerr << endl;
+      } // for
+      idtr--;
+    }
+    cerr << idtr << "<== addPartToPartGroup" << endl;
+  }
+
+/*
+    cerr << idtr <<
+      "==> After addPartToPartGroup, fPartGroupPartsList contains:" << endl;
     idtr++;
     for (
         msrElementList::const_iterator i = fPartGroupElements.begin();
@@ -3843,6 +3874,7 @@ S_msrPart msrPartGroup::addPartToPartGroup (
     idtr--;
     cerr << idtr << "<== addPartToPartGroup" << endl;
   }
+  */
   
   // return the part
   return part;
