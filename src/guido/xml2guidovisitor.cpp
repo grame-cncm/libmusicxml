@@ -164,23 +164,25 @@ void xml2guidovisitor::visitStart ( S_part& elt )
             tag2->add (guidoparam::create("dy=-5", false));
             add (tag2);
         }
+        ////
+
+		flushHeader (fHeader);
+		flushPartHeader (fPartHeaders[elt->getAttributeValue("id")]);
+        
         //// Add Accolade if countStaves on this Part is >1, and we are entering span
         if ((ps.countStaves()>1)&&(fCurrentStaffIndex>fCurrentAccoladeIndex))
         {
             std::string accolParams = "id="+std::to_string(fCurrentAccoladeIndex)+", range=\"";
             int rangeEnd = fCurrentStaffIndex + ps.countStaves() - 1;
-        
+            
             accolParams += std::to_string(fCurrentStaffIndex)+"-"+std::to_string(rangeEnd)+"\"";
-        
+            
             Sguidoelement tag3 = guidotag::create("accol");
             tag3->add (guidoparam::create(accolParams, false));
             add (tag3);
             fCurrentAccoladeIndex = rangeEnd;
         }
         ////
-
-		flushHeader (fHeader);
-		flushPartHeader (fPartHeaders[elt->getAttributeValue("id")]);
 
 		xmlpart2guido pv(fGenerateComments, fGenerateStem, fGenerateBars);
 		pv.generatePositions (fGeneratePositions);
