@@ -2586,6 +2586,7 @@ void msrKey::printMSR(ostream& os)
   os << "Key " << fTonic << " ";
   if (fKeyMode == kMajor) os << "\\major";
   else os << "\\minor";
+  os << endl;
 }
 
 void msrKey::printLilyPondCode(ostream& os)
@@ -3128,6 +3129,13 @@ msrVoice::msrVoice (
   // create the implicit msrSequence element
   fVoiceSequence =
     msrSequence::create (msrSequence::kSpace);
+
+  // add the implicit initial C major key
+  S_msrKey
+    key =
+      msrKey::create (0, "major", 0);
+  S_msrElement k = key;
+  fVoiceSequence->appendElementToSequence (k);
 
   // add the implicit initial 4/4 time signature
   S_msrTime
