@@ -357,7 +357,8 @@ class EXP xml2MsrScoreVisitor :
 // JMI    S_msrPartGroup          fCurrentPartGroup;
     // part groups numbers can be re-used, they're no identifier
     msrPartGroupsMap        fPartGroupsMap;
-    S_msrPartGroup          fetchScorePartGroup (int partGroupNumber);
+    S_msrPartGroup          fetchPartGroupInThisVisitor (
+                              int partGroupNumber);
     // a stack should suffice in practise, but MusicXML allows
     // part groups to overlap,
     // of which no realistic example seems to exist...

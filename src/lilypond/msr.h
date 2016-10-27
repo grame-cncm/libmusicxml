@@ -1757,6 +1757,9 @@ class EXP msrPartGroup : public msrElement {
               getPartGroupSymbolKind () const
                   { return fPartGroupSymbolKind; }
 
+    int        getPartGroupSymbolDefaultX () const
+                  { return fPartGroupSymbolDefaultX; }
+
     bool      getPartGroupBarline () const
                   { return fPartGroupBarline; }
     
