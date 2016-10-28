@@ -57,7 +57,7 @@ class msrSchemeVarValAssoc;
 
 class msrScore;
 
-class msrPartGroup;
+class msrPartgroup;
 
 class msrPart;
 class msrStaff;
@@ -84,7 +84,7 @@ typedef SMARTP<msrSchemeVarValAssoc>   S_msrSchemeVarValAssoc;
 
 typedef SMARTP<msrScore>               S_msrScore;
 
-typedef SMARTP<msrPartGroup>               S_msrPartGroup;
+typedef SMARTP<msrPartgroup>               S_msrPartgroup;
 
 typedef SMARTP<msrPart>                S_msrPart;
 typedef SMARTP<msrStaff>               S_msrStaff;
@@ -109,7 +109,7 @@ EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
 
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
 
-EXP ostream& operator<< (ostream& os, const S_msrPartGroup& elt);
+EXP ostream& operator<< (ostream& os, const S_msrPartgroup& elt);
 
 EXP ostream& operator<< (ostream& os, const S_msrClef& elt);
 EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
@@ -1616,7 +1616,7 @@ class EXP msrPart : public msrElement {
     static SMARTP<msrPart> create (
               S_translationSettings& ts,
               string                 partMusicXMLName,
-              S_msrPartGroup         partPartGroup);
+              S_msrPartgroup         partPartgroup);
 
     void    setPartName (string partName)
                 { fPartName = partName; }
@@ -1633,9 +1633,9 @@ class EXP msrPart : public msrElement {
     string  getPartMusicXMLName () const
                 { return fPartMusicXMLName; }
                 
-    S_msrPartGroup
-            getPartPartGroup () const
-                { return fPartPartGroup; }
+    S_msrPartgroup
+            getPartPartgroup () const
+                { return fPartPartgroup; }
                 
     msrStaffsMap
             getPartStavesMap ()
@@ -1674,7 +1674,7 @@ class EXP msrPart : public msrElement {
     msrPart (
         S_translationSettings& ts,
         string                 partMusicXMLName,
-        S_msrPartGroup         partPartGroup);
+        S_msrPartgroup         partPartgroup);
     virtual ~msrPart();
   
   private:
@@ -1682,7 +1682,7 @@ class EXP msrPart : public msrElement {
     S_translationSettings   fTranslationSettings;
     
     string                  fPartMusicXMLName;
-    S_msrPartGroup          fPartPartGroup;
+    S_msrPartgroup          fPartPartgroup;
 
     msrStaffsMap            fPartStavesMap;
 
@@ -1704,7 +1704,7 @@ typedef map<string, S_msrPart> msrPartsMap;
   A part group is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrPartGroup : public msrElement {
+class EXP msrPartgroup : public msrElement {
   public:
 
     /*
@@ -1721,58 +1721,58 @@ class EXP msrPartGroup : public msrElement {
       </part-group>
     */
 
-    enum PartGroupTypeKind {
-        kStartPartGroupType, kStopPartGroupType,
-        k_NoPartGroupType };
+    enum PartgroupTypeKind {
+        kStartPartgroupType, kStopPartgroupType,
+        k_NoPartgroupType };
           
-    enum PartGroupSymbolKind {
-        kBracePartGroupSymbol, kBracketPartGroupSymbol,
-        kLinePartGroupSymbol, kSquarePartGroupSymbol,
-        k_NoPartGroupSymbol };
+    enum PartgroupSymbolKind {
+        kBracePartgroupSymbol, kBracketPartgroupSymbol,
+        kLinePartgroupSymbol, kSquarePartgroupSymbol,
+        k_NoPartgroupSymbol };
           
-    static SMARTP<msrPartGroup> create (
+    static SMARTP<msrPartgroup> create (
         S_translationSettings& ts,
         int                    partGroupNumber,
-        PartGroupTypeKind      partPartGroupTypeKind,
+        PartgroupTypeKind      partPartgroupTypeKind,
         string                 partGroupName,
         string                 partGroupAbbreviation,
-        PartGroupSymbolKind    partGroupSymbolKind,
+        PartgroupSymbolKind    partGroupSymbolKind,
         int                    partGroupSymbolDefaultX,
         bool                   partGroupBarline);
 
-    int       getPartGroupNumber () const
-                  { return fPartGroupNumber; }
+    int       getPartgroupNumber () const
+                  { return fPartgroupNumber; }
     
-    string    getPartGroupName () const
-                  { return fPartGroupName; }
+    string    getPartgroupName () const
+                  { return fPartgroupName; }
 
-    string    getPartGroupAbbreviation () const
-                  { return fPartGroupAbbreviation; }
+    string    getPartgroupAbbreviation () const
+                  { return fPartgroupAbbreviation; }
 
-    PartGroupTypeKind
-              getPartGroupTypeKind () const
-                  { return fPartPartGroupTypeKind; }
+    PartgroupTypeKind
+              getPartgroupTypeKind () const
+                  { return fPartPartgroupTypeKind; }
 
-    PartGroupSymbolKind
-              getPartGroupSymbolKind () const
-                  { return fPartGroupSymbolKind; }
+    PartgroupSymbolKind
+              getPartgroupSymbolKind () const
+                  { return fPartgroupSymbolKind; }
 
-    int        getPartGroupSymbolDefaultX () const
-                  { return fPartGroupSymbolDefaultX; }
+    int        getPartgroupSymbolDefaultX () const
+                  { return fPartgroupSymbolDefaultX; }
 
-    bool      getPartGroupBarline () const
-                  { return fPartGroupBarline; }
+    bool      getPartgroupBarline () const
+                  { return fPartgroupBarline; }
     
-    S_msrPart addPartToPartGroup (string partMusicXMLName);
+    S_msrPart addPartToPartgroup (string partMusicXMLName);
     
-    S_msrPart addSubPartGroupToPartGroup (S_msrPartGroup partGroup);
+    S_msrPart addSubPartgroupToPartgroup (S_msrPartgroup partGroup);
 
-    S_msrPart fetchPartFromPartGroup (string partMusicXMLName);
+    S_msrPart fetchPartFromPartgroup (string partMusicXMLName);
 
     /* JMI
      map<int, S_msrPart>
-            getPartGroupPartsMap ()
-                { return fPartGroupPartsMap; }
+            getPartgroupPartsMap ()
+                { return fPartgroupPartsMap; }
     */
                 
     virtual void printMusicXML      (ostream& os);
@@ -1781,17 +1781,17 @@ class EXP msrPartGroup : public msrElement {
 
   protected:
 
-    msrPartGroup (
+    msrPartgroup (
         S_translationSettings& ts,
         int                    partGroupNumber,
-        PartGroupTypeKind      partPartGroupTypeKind,
+        PartgroupTypeKind      partPartgroupTypeKind,
         string                 partGroupName,
         string                 partGroupAbbreviation,
-        PartGroupSymbolKind    partGroupSymbolKind,
+        PartgroupSymbolKind    partGroupSymbolKind,
         int                    partGroupSymbolDefaultX,
         bool                   partGroupBarline);
             
-    virtual ~msrPartGroup();
+    virtual ~msrPartgroup();
   
   private:
 
@@ -1800,27 +1800,27 @@ class EXP msrPartGroup : public msrElement {
 
     S_translationSettings   fTranslationSettings;
     
-    int                     fPartGroupNumber;
-    PartGroupTypeKind       fPartPartGroupTypeKind;
+    int                     fPartgroupNumber;
+    PartgroupTypeKind       fPartPartgroupTypeKind;
         
-    string                  fPartGroupName;
-    string                  fPartGroupAbbreviation;
+    string                  fPartgroupName;
+    string                  fPartgroupAbbreviation;
 
-    PartGroupSymbolKind     fPartGroupSymbolKind;
-    int                     fPartGroupSymbolDefaultX;
+    PartgroupSymbolKind     fPartgroupSymbolKind;
+    int                     fPartgroupSymbolDefaultX;
 
-    bool                    fPartGroupBarline;
+    bool                    fPartgroupBarline;
 
     // accessing parts by name
-    msrPartsMap             fPartGroupPartsMap;
-//    msrPartsList            fPartGroupPartsList;
+    msrPartsMap             fPartgroupPartsMap;
+//    msrPartsList            fPartgroupPartsList;
 
     // allowing for both parts and (sub-)part groups as elements
-    msrElementList          fPartGroupElements;
+    msrElementList          fPartgroupElements;
 };
-typedef SMARTP<msrPartGroup> S_msrPartGroup;
-typedef list<S_msrPartGroup> msrPartGroupsList;
-typedef map<int, S_msrPartGroup> msrPartGroupsMap;
+typedef SMARTP<msrPartgroup> S_msrPartgroup;
+typedef list<S_msrPartgroup> msrPartgroupsList;
+typedef map<int, S_msrPartgroup> msrPartgroupsMap;
 
 /*!
 \brief A msr score representation.
@@ -1834,7 +1834,7 @@ class EXP msrScore : public msrElement {
     static SMARTP<msrScore> create (
         S_translationSettings& ts);
 
-    void addPartGroupToScore (S_msrPartGroup partGroup);
+    void addPartgroupToScore (S_msrPartgroup partGroup);
 
     virtual void printMusicXML      (ostream& os);
     virtual void printMSR           (ostream& os);
@@ -1850,10 +1850,10 @@ class EXP msrScore : public msrElement {
 
     S_translationSettings   fTranslationSettings;
 
-    msrPartGroupsList       fPartGroupsList;
+    msrPartgroupsList       fPartgroupsList;
     
-//    msrPartGroupsStack     fScorePartGroupsStack; JMI
-//    msrPartGroupsMap        fScorePartGroupsMap;
+//    msrPartgroupsStack     fScorePartgroupsStack; JMI
+//    msrPartgroupsMap        fScorePartgroupsMap;
 };
 typedef SMARTP<msrScore> S_msrScore;
 

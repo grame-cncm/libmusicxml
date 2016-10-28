@@ -3552,9 +3552,9 @@ void msrStaff::printLilyPondCode (ostream& os)
 S_msrPart msrPart::create (
   S_translationSettings& ts,
   string                 partMusicXMLName,
-  S_msrPartGroup         partPartGroup)
+  S_msrPartgroup         partPartgroup)
 {
-  msrPart* o = new msrPart( ts, partMusicXMLName, partPartGroup);
+  msrPart* o = new msrPart( ts, partMusicXMLName, partPartgroup);
   assert(o!=0);
   return o;
 }
@@ -3562,13 +3562,13 @@ S_msrPart msrPart::create (
 msrPart::msrPart (
   S_translationSettings& ts,
   string                 partMusicXMLName,
-  S_msrPartGroup         partPartGroup)
+  S_msrPartgroup         partPartgroup)
     : msrElement("")
 {
   fTranslationSettings = ts;
   
   fPartMusicXMLName = partMusicXMLName;
-  fPartPartGroup    = partPartGroup;
+  fPartPartgroup    = partPartgroup;
 
   // coin the part MSR name
   fPartMSRName =
@@ -3728,21 +3728,21 @@ S_msrStaff msrPart::fetchStaffFromPart (
 }
 
 //______________________________________________________________________________
-S_msrPartGroup msrPartGroup::create (
+S_msrPartgroup msrPartgroup::create (
   S_translationSettings& ts,
   int                    partGroupNumber,
-  PartGroupTypeKind      partPartGroupTypeKind,
+  PartgroupTypeKind      partPartgroupTypeKind,
   string                 partGroupName,
   string                 partGroupAbbreviation,
-  PartGroupSymbolKind    partGroupSymbolKind,
+  PartgroupSymbolKind    partGroupSymbolKind,
   int                    partGroupSymbolDefaultX,
   bool                   partGroupBarline)
 {
-  msrPartGroup* o =
-    new msrPartGroup (
+  msrPartgroup* o =
+    new msrPartgroup (
       ts,
       partGroupNumber,
-      partPartGroupTypeKind,
+      partPartgroupTypeKind,
       partGroupName,
       partGroupAbbreviation,
       partGroupSymbolKind,
@@ -3752,46 +3752,46 @@ S_msrPartGroup msrPartGroup::create (
   return o;
 }
 
-msrPartGroup::msrPartGroup (
+msrPartgroup::msrPartgroup (
   S_translationSettings& ts,
   int                    partGroupNumber,
-  PartGroupTypeKind      partPartGroupTypeKind,
+  PartgroupTypeKind      partPartgroupTypeKind,
   string                 partGroupName,
   string                 partGroupAbbreviation,
-  PartGroupSymbolKind    partGroupSymbolKind,
+  PartgroupSymbolKind    partGroupSymbolKind,
   int                    partGroupSymbolDefaultX,
   bool                   partGroupBarline)
     : msrElement("")
 {
   fTranslationSettings = ts;
 
-  fPartGroupNumber = partGroupNumber;
-  fPartPartGroupTypeKind = partPartGroupTypeKind;
+  fPartgroupNumber = partGroupNumber;
+  fPartPartgroupTypeKind = partPartgroupTypeKind;
         
-  fPartGroupName = partGroupName;
-  fPartGroupAbbreviation = partGroupAbbreviation;
+  fPartgroupName = partGroupName;
+  fPartgroupAbbreviation = partGroupAbbreviation;
 
-  fPartGroupSymbolKind = partGroupSymbolKind;
-  fPartGroupSymbolDefaultX = partGroupSymbolDefaultX;
+  fPartgroupSymbolKind = partGroupSymbolKind;
+  fPartgroupSymbolDefaultX = partGroupSymbolDefaultX;
 
-  fPartGroupBarline = partGroupBarline;
+  fPartgroupBarline = partGroupBarline;
   
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "Creating part group " << fPartGroupNumber << endl;
+      "Creating part group " << fPartgroupNumber << endl;
 }
 
-msrPartGroup::~msrPartGroup() {}
+msrPartgroup::~msrPartgroup() {}
 
-S_msrPart msrPartGroup::addPartToPartGroup (
+S_msrPart msrPartgroup::addPartToPartgroup (
   string partMusicXMLName)
 {
-  if (fPartGroupPartsMap.count (partMusicXMLName)) {
+  if (fPartgroupPartsMap.count (partMusicXMLName)) {
     cerr << idtr <<
       "### Internal error: partMusicXMLName " << partMusicXMLName <<
       " already exists in this part group" << endl;
 
-    return fPartGroupPartsMap [partMusicXMLName];
+    return fPartgroupPartsMap [partMusicXMLName];
   }
 
   // create the part
@@ -3817,38 +3817,38 @@ S_msrPart msrPartGroup::addPartToPartGroup (
       cerr << idtr <<
         "Adding part " <<
         part->getPartCombinedName () <<
-        " to part group " << fPartGroupNumber <<
-        " *** addPartToPartGroup"  << endl;
+        " to part group " << fPartgroupNumber <<
+        " *** addPartToPartgroup"  << endl;
     }
-    fPartGroupPartsMap [partMusicXMLName] = part;
-    fPartGroupElements.push_back (part);
+    fPartgroupPartsMap [partMusicXMLName] = part;
+    fPartgroupElements.push_back (part);
   }
 
   if (true || fTranslationSettings->fDebug) {
 //  if (fTranslationSettings->fDebug) {
     cerr << idtr <<
-      "==> After addPartToPartGroup, fPartGroupPartsMap contains:" << endl;
+      "==> After addPartToPartgroup, fPartgroupPartsMap contains:" << endl;
     idtr++;
     for (
-        msrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
-        i != fPartGroupPartsMap.end();
+        msrPartsMap::const_iterator i = fPartgroupPartsMap.begin();
+        i != fPartgroupPartsMap.end();
         i++) {
       cerr << idtr <<
         "\"" << (*i).first << "\" ----> " <<
         (*i).second->getPartCombinedName() << endl;
     } // for
     idtr--;
-    cerr << idtr << "<== addPartToPartGroup" << endl;
+    cerr << idtr << "<== addPartToPartgroup" << endl;
   }
 
   if (true || fTranslationSettings->fDebug) {
 //  if (fTranslationSettings->fDebug) {
     cerr << idtr <<
-      "==> After addPartToPartGroup, fPartGroupPartsList contains:" << endl;
-    if (fPartGroupElements.size()) {
+      "==> After addPartToPartgroup, fPartgroupPartsList contains:" << endl;
+    if (fPartgroupElements.size()) {
       msrElementList::const_iterator
-        iBegin = fPartGroupElements.begin(),
-        iEnd   = fPartGroupElements.end(),
+        iBegin = fPartgroupElements.begin(),
+        iEnd   = fPartgroupElements.end(),
         i      = iBegin;
         
       idtr++;
@@ -3859,74 +3859,74 @@ S_msrPart msrPartGroup::addPartToPartGroup (
       } // for
       idtr--;
     }
-    cerr << idtr << "<== addPartToPartGroup" << endl;
+    cerr << idtr << "<== addPartToPartgroup" << endl;
   }
 
 /*
     cerr << idtr <<
-      "==> After addPartToPartGroup, fPartGroupPartsList contains:" << endl;
+      "==> After addPartToPartgroup, fPartgroupPartsList contains:" << endl;
     idtr++;
     for (
-        msrElementList::const_iterator i = fPartGroupElements.begin();
-        i != fPartGroupElements.end();
+        msrElementList::const_iterator i = fPartgroupElements.begin();
+        i != fPartgroupElements.end();
         i++) {
       cerr << idtr << (*i) << endl;
     } // for
     idtr--;
-    cerr << idtr << "<== addPartToPartGroup" << endl;
+    cerr << idtr << "<== addPartToPartgroup" << endl;
   }
   */
   
   // return the part
   return part;
-} // addPartToPartGroup
+} // addPartToPartgroup
 
-S_msrPart msrPartGroup::addSubPartGroupToPartGroup (
-  S_msrPartGroup partGroup)
+S_msrPart msrPartgroup::addSubPartgroupToPartgroup (
+  S_msrPartgroup partGroup)
 {
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "Adding (sub-)part group " << partGroup->getPartGroupNumber () <<
-      " to part group " << getPartGroupNumber ()  << endl;
+      "Adding (sub-)part group " << partGroup->getPartgroupNumber () <<
+      " to part group " << getPartgroupNumber ()  << endl;
 
   // register it in this part group
-  fPartGroupElements.push_back (partGroup);
+  fPartgroupElements.push_back (partGroup);
 }
 
-S_msrPart msrPartGroup::fetchPartFromPartGroup (
+S_msrPart msrPartgroup::fetchPartFromPartgroup (
   string partMusicXMLName)
 {
   /*
-  cerr << idtr << "==> fetchPartFromPartGroup, fPartGroupPartsMap contains:" << endl;
+  cerr << idtr << "==> fetchPartFromPartgroup, fPartgroupPartsMap contains:" << endl;
   for (
-      msrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
-      i != fPartGroupPartsMap.end();
+      msrPartsMap::const_iterator i = fPartgroupPartsMap.begin();
+      i != fPartgroupPartsMap.end();
       i++) {
     cerr << idtr <<
       (*i).first << " ----> " <<
       (*i).second->getPartCombinedName() << endl;
   } // for
-  cerr << idtr << "<== fetchPartFromPartGroup" << endl;
+  cerr << idtr << "<== fetchPartFromPartgroup" << endl;
   */
   
   S_msrPart result;
   
-  if (fPartGroupPartsMap.count (partMusicXMLName)) {
-    result = fPartGroupPartsMap [partMusicXMLName];
+  if (fPartgroupPartsMap.count (partMusicXMLName)) {
+    result = fPartgroupPartsMap [partMusicXMLName];
   }
 
   return result;
 }
 
-S_msrPart msrPartGroup::tryAndReUseInitialAnonymousPart (
+S_msrPart msrPartgroup::tryAndReUseInitialAnonymousPart (
   string partMusicXMLName)
 {
   if (false && fTranslationSettings->fDebug) {
     cerr << idtr <<
-      "==> START tryAndReUseInitialAnonymousPart, fPartGroupPartsMap contains:" << endl;
+      "==> START tryAndReUseInitialAnonymousPart, fPartgroupPartsMap contains:" << endl;
     for (
-        msrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
-        i != fPartGroupPartsMap.end();
+        msrPartsMap::const_iterator i = fPartgroupPartsMap.begin();
+        i != fPartgroupPartsMap.end();
         i++) {
       cerr << idtr <<
         "\"" << (*i).first << "\" ----> " <<
@@ -3937,12 +3937,12 @@ S_msrPart msrPartGroup::tryAndReUseInitialAnonymousPart (
 
   S_msrPart result;
 
-  if (fPartGroupPartsMap.size ()) {
+  if (fPartgroupPartsMap.size ()) {
 
     msrPartsMap::iterator i =
-      fPartGroupPartsMap.find ("");
+      fPartgroupPartsMap.find ("");
       
-    if (i != fPartGroupPartsMap.end()) {
+    if (i != fPartgroupPartsMap.end()) {
       // this is the first true part, re-use the one
       // created with an empty name initially
       S_msrPart partToBeReUsed = (*i).second;
@@ -3950,8 +3950,8 @@ S_msrPart msrPartGroup::tryAndReUseInitialAnonymousPart (
       partToBeReUsed->
         reusePartAs (partMusicXMLName);
 
-      fPartGroupPartsMap [partMusicXMLName] = partToBeReUsed;
-      fPartGroupPartsMap.erase ("");
+      fPartgroupPartsMap [partMusicXMLName] = partToBeReUsed;
+      fPartgroupPartsMap.erase ("");
       
       result = partToBeReUsed;
     }
@@ -3959,10 +3959,10 @@ S_msrPart msrPartGroup::tryAndReUseInitialAnonymousPart (
 
   if (false && fTranslationSettings->fDebug) {
     cerr << idtr <<
-      "==> END tryAndReUseInitialAnonymousPart, fPartGroupPartsMap contains:" << endl;
+      "==> END tryAndReUseInitialAnonymousPart, fPartgroupPartsMap contains:" << endl;
     for (
-        msrPartsMap::const_iterator i = fPartGroupPartsMap.begin();
-        i != fPartGroupPartsMap.end();
+        msrPartsMap::const_iterator i = fPartgroupPartsMap.begin();
+        i != fPartgroupPartsMap.end();
         i++) {
       cerr << idtr <<
         "\"" << (*i).first << "\" ----> " <<
@@ -3975,91 +3975,91 @@ S_msrPart msrPartGroup::tryAndReUseInitialAnonymousPart (
 } // tryAndReUseInitialAnonymousPart
 
 /*
-void msrPartGroup::popPartGroupPartsStackTop ()
+void msrPartgroup::popPartgroupPartsStackTop ()
 {
   if (fTranslationSettings->fTrace) {
     S_msrPart
-      stackTopPart = fPartGroupPartsStack.top ();
+      stackTopPart = fPartgroupPartsStack.top ();
       
     cerr << idtr <<
       "Popping part " << stackTopPart->getPartCombinedName () <<
-      " from part group " << fPartGroupNumber << " stack" << endl;
+      " from part group " << fPartgroupNumber << " stack" << endl;
   }
   
-  fPartGroupPartsStack.pop ();
+  fPartgroupPartsStack.pop ();
 }
 */
 
-ostream& operator<< (ostream& os, const S_msrPartGroup& elt)
+ostream& operator<< (ostream& os, const S_msrPartgroup& elt)
 {
   elt->print(os);
   return os;
 }
 
-void msrPartGroup::printMusicXML(ostream& os)
+void msrPartgroup::printMusicXML(ostream& os)
 {
-  os << "<!-- msrPartGroup??? -->" << endl;
+  os << "<!-- msrPartgroup??? -->" << endl;
 }
 
-void msrPartGroup::printMSR(ostream& os)
+void msrPartgroup::printMSR(ostream& os)
 {
   os <<
-    "PartGroup" << " " << fPartGroupNumber << endl;
+    "Partgroup" << " " << fPartgroupNumber << endl;
     
   idtr++;
 
   os <<
-    idtr << "PartGroupName            : \"" << fPartGroupName << "\"" << endl <<
-    idtr << "PartGroupAbbrevation     : \"" << fPartGroupAbbreviation << "\"" << endl;
+    idtr << "PartgroupName            : \"" << fPartgroupName << "\"" << endl <<
+    idtr << "PartgroupAbbrevation     : \"" << fPartgroupAbbreviation << "\"" << endl;
   os <<
-    idtr << "fPartPartGroupTypeKind   : \"";
-  switch (fPartPartGroupTypeKind) {
-    case kStartPartGroupType:
+    idtr << "fPartPartgroupTypeKind   : \"";
+  switch (fPartPartgroupTypeKind) {
+    case kStartPartgroupType:
       os << "start";
       break;
-    case kStopPartGroupType:
+    case kStopPartgroupType:
       os << "stop";
       break;
-    case k_NoPartGroupType:
+    case k_NoPartgroupType:
       break;
   } // switch
   os << "\"" << endl;
   os <<
-    idtr << "fPartGroupSymbolDefaultX : " << fPartGroupSymbolDefaultX << endl;
+    idtr << "fPartgroupSymbolDefaultX : " << fPartgroupSymbolDefaultX << endl;
   os <<
-    idtr << "fPartGroupSymbolKind     : \"";
-  switch (fPartGroupSymbolKind) {
-    case kBracePartGroupSymbol:
+    idtr << "fPartgroupSymbolKind     : \"";
+  switch (fPartgroupSymbolKind) {
+    case kBracePartgroupSymbol:
       os << "brace";
       break;
-    case kBracketPartGroupSymbol:
+    case kBracketPartgroupSymbol:
       os << "bracket";
       break;
-    case kLinePartGroupSymbol:
+    case kLinePartgroupSymbol:
       os << "line";
       break;
-    case kSquarePartGroupSymbol:
+    case kSquarePartgroupSymbol:
       os << "square";
       break;
-    case k_NoPartGroupSymbol:
+    case k_NoPartgroupSymbol:
       break;
   } // switch
   os << "\"" << endl;
   os <<
-    idtr << "PartGroupBarline         : \"";
-  if (fPartGroupBarline)
+    idtr << "PartgroupBarline         : \"";
+  if (fPartgroupBarline)
     os << "true";
   else
     os << "false";
   os << "\"" << endl;
 
- // JMI   idtr << "PartGroupInstrumentName: \"" << fPartGroupInstrumentName << "\"" << endl;
+ // JMI   idtr << "PartgroupInstrumentName: \"" << fPartgroupInstrumentName << "\"" << endl;
 
-  if (fPartGroupElements.size()) {
+  if (fPartgroupElements.size()) {
     os << endl;
     for (
-      msrElementList::iterator i = fPartGroupElements.begin();
-      i != fPartGroupElements.end();
+      msrElementList::iterator i = fPartgroupElements.begin();
+      i != fPartgroupElements.end();
       i++) {
       os << idtr << (*i);
     } // for
@@ -4068,13 +4068,13 @@ void msrPartGroup::printMSR(ostream& os)
   idtr--;
 }
 
-void msrPartGroup::printLilyPondCode(ostream& os)
+void msrPartgroup::printLilyPondCode(ostream& os)
 {
   os <<
-    "PartGroup" << " " << fPartGroupNumber << endl;
+    "Partgroup" << " " << fPartgroupNumber << endl;
 
   idtr++;
-// JMI  os << fPartGroupMsrSequence << endl;
+// JMI  os << fPartgroupMsrSequence << endl;
   idtr--;
 
   os << idtr << "}" << endl;
@@ -4097,30 +4097,30 @@ msrScore::msrScore (
 }
 msrScore::~msrScore() {}
 
-void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
+void msrScore::addPartgroupToScore (S_msrPartgroup partGroup)
 {
   /* JMI
-  if (fScorePartGroupsMap.count (partGroupNumber)) {
+  if (fScorePartgroupsMap.count (partGroupNumber)) {
     cerr << idtr <<
       "### Internal error: part group " << partGroupNumber <<
       " already exists in this score" << endl;
 
-    return fScorePartGroupsMap [partGroupNumber];
+    return fScorePartgroupsMap [partGroupNumber];
   }
 */
 
   // register it in this score
-  fPartGroupsList.push_back (partGroup);
+  fPartgroupsList.push_back (partGroup);
 }
 
 /*
-S_msrPartGroup msrScore::fetchScorePartGroup (
+S_msrPartgroup msrScore::fetchScorePartgroup (
   int partGroupNumber)
 {
-  S_msrPartGroup result;
+  S_msrPartgroup result;
   
-  if (fScorePartGroupsMap.count (partGroupNumber)) {
-    result = fScorePartGroupsMap [partGroupNumber];
+  if (fScorePartgroupsMap.count (partGroupNumber)) {
+    result = fScorePartgroupsMap [partGroupNumber];
   }
 
   return result;
@@ -4146,8 +4146,8 @@ void msrScore::printMSR (ostream& os)
   idtr++;
   
   for (
-    msrPartGroupsList::iterator i = fPartGroupsList.begin();
-    i != fPartGroupsList.end();
+    msrPartgroupsList::iterator i = fPartgroupsList.begin();
+    i != fPartgroupsList.end();
     i++) {
     os << idtr << (*i);
   } // for
