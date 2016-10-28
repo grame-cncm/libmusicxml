@@ -1025,7 +1025,8 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
 }
     
     //_______________________Tuplets___________________________________
-    void xmlpart2guido::checkTupletBegin ( const std::vector<S_tuplet>& tuplets )
+    void xmlpart2guido::checkTupletBegin ( const std::vector<S_tuplet>& tuplets,
+                                           const S_note& elt )
     {
         std::vector<S_tuplet>::const_iterator i;
         
@@ -1035,11 +1036,133 @@ void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
         
         if (i != tuplets.end()) {
             if (!fTupletOpened ) {
-                fCurrentTupletNumber = (*i)->getAttributeIntValue("number", 1);
-                Sguidoelement tag = guidotag::create("tuplet");
-                // ADD PARAMETERS!
-                push (tag);
-                fTupletOpened = true;
+                /// Determine whether we need Brackets or not
+                bool withBracket = ((*i)->getAttributeValue("bracket")=="yes");
+                /// Get Tuplet Number
+                int thisTupletNumber = (*i)->getAttributeIntValue("number", 1);
+                /// Get Tuplet Placement and graphic type
+                std::string tupletPlacement = (*i)->getAttributeValue("placement");
+                std::string tupletGraphicType;
+                /// Get the Tuplet number of notes for tag parameter and Graphic Type
+                int numberOfEventsInTuplet = 1;
+                ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), elt);
+                if (nextnote != fCurrentMeasure->end()) {
+                    tupletGraphicType = nextnote->getValue(k_type);
+                    nextnote++;	// advance one step
+                }
+                while (nextnote != fCurrentMeasure->end()) {
+                    // looking for the next note on the target voice
+                    if ((nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice)) {
+                        /// Don't count if this is part of a chord!
+                        ctree<xmlelement>::iterator iterChord;
+                        iterChord = nextnote->find(k_chord);
+                        if (iterChord == nextnote->end())
+                        {
+                            
+                            ctree<xmlelement>::iterator iter;
+                            iter = nextnote->find(k_notations);
+                            if (iter != nextnote->end())
+                            {
+                                // There is a notation tag. Now check if there's a tuplet END with the same tuplet number.
+                                //      If yes, then increment and break.
+                                ctree<xmlelement>::iterator iterTuplet;
+                                iterTuplet = iter->find(k_tuplet);
+                                if (iterTuplet != iter->end())
+                                {
+                                    // There is a tuplet tag!
+                                    int newTupletNumber = iterTuplet->getAttributeIntValue("number", 0);
+                                    if ((iterTuplet->getAttributeValue("type")=="stop")&&(newTupletNumber==thisTupletNumber))
+                                    {
+                                        numberOfEventsInTuplet++;
+                                        break;
+                                    }
+                                }
+                                
+                            }else {
+                                // no notation tag on next note. Just increment numberOfEventsInTuplet
+                                numberOfEventsInTuplet++;
+                            }
+                        }
+                    }
+                    nextnote++;
+                }
+                
+                /// Determine the graphical format inside Tuplet
+                std::string dispNotePar ;
+                int dy1offset = 10;
+                if (tupletGraphicType=="32nd")
+                {
+                    dispNotePar = "\"/32\"";
+                    dy1offset+=4;
+                }
+                else if (tupletGraphicType=="16th")
+                {
+                    dispNotePar = "\"/16\"";
+                    dy1offset+=3;
+                }
+                else if (tupletGraphicType=="eighth")
+                {
+                    dispNotePar = "\"/8\"";
+                    dy1offset+=2;
+                }
+                else if (tupletGraphicType=="quarter")
+                {
+                    dispNotePar = "\"/4\"";
+                    dy1offset+=1;
+                }
+                else if (tupletGraphicType=="half")
+                {
+                    dispNotePar = "\"/2\"";
+                }
+                else if (tupletGraphicType=="whole")
+                {
+                    dispNotePar = "\"/1\"";
+                    dy1offset-=5;
+                }
+                
+                /// Generate tag and parameters
+                // Avoid generating parameter for triplets since Guido does this automatically
+                if ((numberOfEventsInTuplet!=3)||(dispNotePar.size()))
+                {
+                    Sguidoelement tag = guidotag::create("tuplet");
+                    /// Add number visualiser
+                    std::string tupletParameters = (withBracket? "-" : "") + std::to_string(numberOfEventsInTuplet) + (withBracket? "-" : "");
+                    tag->add (guidoparam::create(tupletParameters));
+                    
+                    /// set dispNote, Possible values : "/1", "/2" "/4", "/8", "/16"
+                    if (dispNotePar.size())
+                    {
+                        tag->add(guidoparam::create(("dispNote="+dispNotePar),false));
+                    }
+                    
+                    /// Must also add dy1 (atleast): Use current stem direction.
+                    if (tupletPlacement.size())
+                    {
+                        tag->add(guidoparam::create(("position=\""+tupletPlacement+"\""),false));
+                    }
+                    
+                    if (fCurrentStemDirection == kStemDown)
+                    {
+                        if (tupletPlacement=="below")
+                        {
+                            dy1offset*=-1;
+                        }else
+                            dy1offset-=5;
+                        
+                        tag->add(guidoparam::create(("dy1="+std::to_string(dy1offset)),false));
+                    }else if (fCurrentStemDirection == kStemUp)
+                    {
+                        tag->add(guidoparam::create(("dy1="+std::to_string(dy1offset)),false));
+                    }else // kStemNone or kStemUndefined
+                    {
+                        tag->add(guidoparam::create(("dy1="+std::to_string(dy1offset)),false));
+                    }
+                    
+                    //tag->print(cout);
+                    push (tag);
+                    fTupletOpened = true;
+                    fCurrentTupletNumber = thisTupletNumber;
+                }
             }
         }
     }
@@ -1452,7 +1575,7 @@ void xmlpart2guido::visitEnd ( S_note& elt )
 //	checkCue(*this);    // inhibited due to poor support in guido (including crashes)
 	checkGrace(*this);
 	checkSlurBegin (notevisitor::getSlur());
-    checkTupletBegin(notevisitor::getTuplet());
+    checkTupletBegin(notevisitor::getTuplet(), elt);
 	checkBeamBegin (notevisitor::getBeam());
     checkLyricBegin (notevisitor::getLyric());
 	
