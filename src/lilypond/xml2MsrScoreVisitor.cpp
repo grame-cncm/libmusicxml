@@ -406,7 +406,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
       if (fTranslationSettings->fTrace)
         cerr << idtr <<
           "Adding part group " << fCurrentPartGroupNumber <<
-          " to visitor's part group list" << endl;
+          " to visitor's part groups list" << endl;
 
       if (! fPartGroupList.size())
       
@@ -417,15 +417,26 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
         // have them ordered by increasing order
         // (remember: they are all negative)
         msrPartGroupsList::iterator
-          i = fPartGroupList.begin ();
+          iBegin = fPartGroupList.begin(),
+          iEnd   = fPartGroupList.end(),
+          i      = iBegin;
 
-        while (
-          fCurrentPartGroupSymbolDefaultX
-            >
-          (*i)->getPartGroupSymbolDefaultX ())
+        while (true) {
+          if (i == iEnd) {
+            fPartGroupList.push_back (partGroupToBeStarted);
+            break;
+          }
+
+          if (
+              fCurrentPartGroupSymbolDefaultX
+                >
+              (*i)->getPartGroupSymbolDefaultX ()) {
+            fPartGroupList.insert (i, partGroupToBeStarted);
+            break;
+          }
+          
           i++;
-
-        fPartGroupList.insert (i, partGroupToBeStarted);
+        } // while
       }
       
       showPartGroupsData ("AFTER START");
@@ -446,18 +457,32 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
         cerr << idtr <<
           "Removing part group " <<
           partGroupToBeStopped->getPartGroupNumber () <<
-          " from visitor's part group list" << endl;
+          " from visitor's part groups list" << endl;
 
       msrPartGroupsList::iterator
-        i = fPartGroupList.begin ();
+        iBegin = fPartGroupList.begin(),
+        iEnd   = fPartGroupList.end(),
+        i      = iBegin;
 
-      while (
-        i != fPartGroupList.end ()
-          &&
-        (*i) != partGroupToBeStopped ) {
-          i++;
+      while (true) {
+        if (i == iEnd) {
+          stringstream s;
+          s <<
+            "part group " <<
+            fCurrentPartGroupNumber <<
+            " not found in part groups list";
+            
+          internalError (s.str());
+          break;
+        }
+
+        if ((*i) != partGroupToBeStopped) {
+          fPartGroupList.erase (i);
+          break;
+        }
+        
+        i++;
       } // while
-      fPartGroupList.erase (i);
 
       showPartGroupsData ("AFTER REMOVAL FROM LIST");
 
