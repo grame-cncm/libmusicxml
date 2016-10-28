@@ -1088,11 +1088,27 @@ void xml2MsrScoreVisitor::visitEnd ( S_forward& elt )
       fCurrentPart->
         addStaffToPart (fCurrentStaffNumber);
 
-  // fetch the new current voice
+  // is the new current voice known?
   fCurrentVoiceNumber = fCurrentForwardVoiceNumber;
   fCurrentVoice =
     fCurrentStaff->
       fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+  if (! fCurrentVoice) 
+    // no, add it to the current staff
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (fCurrentVoiceNumber);
+/* JMI
+  if (! fCurrentVoice) {
+    stringstream s;
+    s <<
+      "voice " << fCurrentVoiceNumber <<
+      " in forward not found (staff = " << fCurrentStaffNumber <<
+      ", duration = " << fCurrentForwardDuration << ")";
+    msrMusicXMLError (s.str());
+  }
+*/
 
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
@@ -1100,14 +1116,6 @@ void xml2MsrScoreVisitor::visitEnd ( S_forward& elt )
       "', thus switching to " <<
       "voice " << fCurrentVoice->getVoiceName () <<
       " in staff " << fCurrentStaff->getStaffName () << endl;
-
-/* JMI
-  // no, add it to the current staff
-  if (! fCurrentVoice) 
-    fCurrentVoice =
-      fCurrentStaff->
-        addVoiceToStaff (fCurrentVoiceNumber);
-*/
 
   fOnGoingForward = false;
 }
