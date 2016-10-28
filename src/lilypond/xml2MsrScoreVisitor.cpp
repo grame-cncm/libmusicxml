@@ -409,9 +409,8 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
           " to visitor's part groups list" << endl;
 
       if (! fPartGroupList.size())
-      
+        // insert first part group ahead of the list
         fPartGroupList.push_front (partGroupToBeStarted);
-        
       else {
         // place in the part groups list so as to
         // have them ordered by increasing order
@@ -427,9 +426,11 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
             break;
           }
 
+          // CAUTION: insert() inserts before the position
+          // indicated by its iterator argument
           if (
               fCurrentPartGroupSymbolDefaultX
-                >
+                <
               (*i)->getPartGroupSymbolDefaultX ()) {
             fPartGroupList.insert (i, partGroupToBeStarted);
             break;
@@ -476,7 +477,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
           break;
         }
 
-        if ((*i) != partGroupToBeStopped) {
+        if ((*i) == partGroupToBeStopped) {
           fPartGroupList.erase (i);
           break;
         }
@@ -487,15 +488,17 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
       showPartGroupsData ("AFTER REMOVAL FROM LIST");
 
       // place the current group where it belongs
+      // in the part groups list
       if (! fPartGroupList.size()) {
         
-        // we justs removed the only part group in the list:
+        // we just removed the only part group in the list:
         // append it to the MSR score
         if (fTranslationSettings->fTrace)
           cerr << idtr <<
             "Appending part group " <<
             partGroupToBeStopped->getPartGroupNumber () <<
             " to MSR score" << endl;
+            
         fMsrScore->
           addPartGroupToScore (partGroupToBeStopped);
           
