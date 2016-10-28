@@ -1547,17 +1547,110 @@ void xml2MsrScoreVisitor::visitStart ( S_print& elt )
 }
 
 /*
+  http://www.musicxml.com/for-developers/musicxml-dtd/barline-elements/
+ 
   <barline location="left">
     <bar-style>heavy-light</bar-style>
     <repeat direction="forward"/>
   </barline>
-  *
-  *   <barline location="right">
+  
+  <barline location="right">
     <bar-style>light-heavy</bar-style>
     <repeat direction="backward"/>
   </barline>
-  * 
-  */
+
+  Repeat start:
+      <barline location="left">
+        <bar-style>heavy-light</bar-style>
+        <repeat direction="forward"/>
+      </barline>
+
+  In the middle of a measure: (MozartTrio.xml)
+    <measure number="X1" implicit="yes">
+      <barline location="left">
+        <bar-style>heavy-light</bar-style>
+        <repeat direction="forward"/>
+      </barline>
+      <note>
+        <rest/>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+    </measure>
+
+  Repeat end:
+    implicit at end or part if nothing specified
+
+  In the middle of a measure: (MozartTrio.xml)
+    <measure number="12">
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>down</stem>
+      </note>
+      <note>
+        <rest/>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        <repeat direction="backward"/>
+      </barline>
+    </measure>
+  
+  Double bar:
+      <barline location="right">
+        <bar-style>light-light</bar-style>
+      </barline>
+
+  End of part:
+      <barline location="right">
+        <bar-style>light-light</bar-style>
+      </barline>
+
+(Saltarello.xml):
+      <barline location="left">
+        <ending type="start" number="1"/>
+      </barline>
+
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        <ending type="stop" number="1"/>
+        <repeat direction="backward"/>
+      </barline>
+
+    Endings refers to multiple (e.g. first and second) endings.
+    Typically, the start type is associated with the left
+    barline of the first measure in an ending. The stop and
+    discontinue types are associated with the right barline of
+    the last measure in an ending. Stop is used when the ending
+    mark concludes with a downward jog, as is typical for first
+    endings. Discontinue is used when there is no downward jog,
+    as is typical for second endings that do not conclude a
+    piece. The length of the jog can be specified using the
+    end-length attribute. The text-x and text-y attributes
+    are offsets that specify where the baseline of the start
+    of the ending text appears, relative to the start of the
+    ending line.
+
+    The number attribute reflects the numeric values of what
+    is under the ending line. Single endings such as "1" or
+    comma-separated multiple endings such as "1, 2" may be
+    used. The ending element text is used when the text
+    displayed in the ending is different than what appears in
+    the number attribute. The print-object element is used to
+    indicate when an ending is present but not printed, as is
+    often the case for many parts in a full score.
+    
+*/
 
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_barline& elt ) 
@@ -1585,31 +1678,23 @@ void xml2MsrScoreVisitor::visitStart ( S_barline& elt )
   }
 }
 
-void xml2MsrScoreVisitor::visitEnd ( S_barline& elt ) 
-{
- /*
-  *       <barline location="right">
-        <bar-style>light-heavy</bar-style>
-      </barline>
-*/
-  if (
-      fCurrentBarlineLocation == "right"
-        &&
-      fCurrentBarStyle == "light-heavy") {
-        /* JMI
-    S_msrBarCommand
-      barCommand =
-        msrBarCommand::create ();
-    S_msrElement b = barCommand;
-    fCurrentVoice->appendElementToVoiceSequence (b);
-    */
-      
-  }
-}
-
 void xml2MsrScoreVisitor::visitStart ( S_bar_style& elt ) 
 {
   fCurrentBarStyle = elt->getValue();
+  /*
+   * http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-bar-style.htm
+   * 
+   * regular
+   * dotted
+   * dashed
+   * heavy
+   * light-light
+   * light-heavy
+   * heavy-light
+   * heavy-heavy
+   * tick
+   * short
+   */
 }
 
 void xml2MsrScoreVisitor::visitStart ( S_repeat& elt ) 
@@ -1634,6 +1719,28 @@ void xml2MsrScoreVisitor::visitStart ( S_ending& elt )
 
   fCurrentEndingNumber =
     elt->getAttributeIntValue ("number", 0);
+}
+
+void xml2MsrScoreVisitor::visitEnd ( S_barline& elt ) 
+{
+ /*
+  *       <barline location="right">
+        <bar-style>light-heavy</bar-style>
+      </barline>
+*/
+  if (
+      fCurrentBarlineLocation == "right"
+        &&
+      fCurrentBarStyle == "light-heavy") {
+        /* JMI
+    S_msrBarCommand
+      barCommand =
+        msrBarCommand::create ();
+    S_msrElement b = barCommand;
+    fCurrentVoice->appendElementToVoiceSequence (b);
+    */
+      
+  }
 }
 
 //______________________________________________________________________________
