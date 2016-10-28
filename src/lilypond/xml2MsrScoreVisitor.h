@@ -352,6 +352,11 @@ class EXP xml2MsrScoreVisitor :
     string                  fCurrentPartgroupSymbol;
     int                     fCurrentPartgroupSymbolDefaultX;
     string                  fCurrentPartgroupBarline;
+
+    // an implicit part group has to be created
+    // if none is specified in the MusicXML data,
+    // in which case a part group "stop" has to be forced later
+    S_msrPartgroup          fImplicitPartgroup;
     S_msrPartgroup          createImplicitMSRPartgroup ();
     
     // part groups numbers can be re-used, they're no identifier
@@ -368,6 +373,11 @@ class EXP xml2MsrScoreVisitor :
     
     msrPartgroupsList       fPartgroupsList;
     void                    showPartgroupsData (string context);
+    void                    handlePartgroupStart (
+                              msrPartgroup::PartgroupTypeKind   partGroupType,
+                              msrPartgroup::PartgroupSymbolKind partGroupSymbol,
+                              bool                              partGroupBarline);
+    void                    handlePartgroupStop ();
 
     // staff handling
     // ------------------------------------------------------

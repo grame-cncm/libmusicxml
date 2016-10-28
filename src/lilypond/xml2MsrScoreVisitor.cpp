@@ -100,6 +100,55 @@ void xml2MsrScoreVisitor::internalError (
 }                        
 
 //________________________________________________________________________
+S_msrPartgroup xml2MsrScoreVisitor::createImplicitMSRPartgroup ()
+{
+  /*
+  A first part group is created with all the needed contents
+  if none is specified in the MusicXML data.
+  */
+
+  // create an implicit part group
+  fCurrentPartgroupNumber = 1;
+  
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Creating an implicit part fgroup with number " <<
+      fCurrentPartgroupNumber << endl;
+
+  S_msrPartgroup
+    partgroup =
+      msrPartgroup::create (
+        fTranslationSettings,
+        fCurrentPartgroupNumber,
+        msrPartgroup::kStartPartgroupType,
+        "Implicit",
+        "Impl.",
+        msrPartgroup::kBracketPartgroupSymbol,
+        0,
+        true);
+
+/* JMI
+  // add implicit part group to the score
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Adding the implicit part group to the score" << endl;
+    
+  fMsrScore->
+    addPartgroupToScore (partgroup);
+*/
+
+  // add implicit part group to the map of this visitor
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Adding implicit part group " << fCurrentPartgroupNumber <<
+      " to visitor's data" << endl;
+  fPartgroupsMap [fCurrentPartgroupNumber] = partgroup;
+  fPartgroupsList.push_front (partgroup);
+
+  return partgroup;
+} // xml2MsrScoreVisitor::createImplicitMSRPartgroup ()
+
+//________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_part_list& elt)
 {
   if (fTranslationSettings->fTrace)
@@ -137,56 +186,14 @@ void xml2MsrScoreVisitor::visitEnd (S_part_list& elt)
 {
   idtr--;
 
+  if (fImplicitPartgroup) {
+    // force an implicit part group "stop" on it
+    // fCurrentPartgroupNumber hold the value 1
+    handlePartgroupStop ();
+  }
+    
 //  fTranslationSettings->fDebug = false; // TEMP JMI
 }
-
-//________________________________________________________________________
-S_msrPartgroup xml2MsrScoreVisitor::createImplicitMSRPartgroup ()
-{
-  /*
-  A first part group is created with all the needed contents
-  if none is specified in the MusicXML data.
-  */
-
-  // create an implicit part group
-  fCurrentPartgroupNumber = 1;
-  
-  if (fTranslationSettings->fTrace)
-    cerr << idtr <<
-      "Creating an implicit part group with number " <<
-      fCurrentPartgroupNumber << endl;
-
-  S_msrPartgroup fCurrentPartgroup; // JMI
-
-  fCurrentPartgroup =
-    msrPartgroup::create (
-      fTranslationSettings,
-      fCurrentPartgroupNumber,
-      msrPartgroup::kStartPartgroupType,
-      "Implicit",
-      "Impl.",
-      msrPartgroup::kBracketPartgroupSymbol,
-      0,
-      true);
-
-  // add implicit part group to the score
-  if (fTranslationSettings->fTrace)
-    cerr << idtr <<
-      "Adding the implicit part group to the score" << endl;
-    
-  fMsrScore->
-    addPartgroupToScore (fCurrentPartgroup);
-
-  // add implicit part group to the map of this visitor
-  if (fTranslationSettings->fTrace)
-    cerr << idtr <<
-      "Adding implicit part group " << fCurrentPartgroupNumber <<
-      " to visitor's data" << endl;
-  fPartgroupsMap [fCurrentPartgroupNumber] = fCurrentPartgroup;
-  fPartgroupsList.push_front (fCurrentPartgroup);
-
-  return fCurrentPartgroup;
-} // xml2MsrScoreVisitor::createImplicitMSRPartgroup ()
 
 //________________________________________________________________________
 /*
@@ -228,6 +235,8 @@ void xml2MsrScoreVisitor::visitStart (S_part_group& elt)
   fCurrentPartgroupSymbol = "";
   fCurrentPartgroupSymbolDefaultX = INT_MIN;
   fCurrentPartgroupBarline = "yes";
+
+  cerr << "--> visitStart (S_part_group& elt)" << endl << flush;
 }
 
 void xml2MsrScoreVisitor::visitStart (S_group_name& elt)
@@ -299,8 +308,172 @@ void xml2MsrScoreVisitor::showPartgroupsData (string context)
   }
 }
 
+void xml2MsrScoreVisitor::handlePartgroupStart (
+  msrPartgroup::PartgroupTypeKind   partGroupType,
+  msrPartgroup::PartgroupSymbolKind partGroupSymbol,
+  bool                              partGroupBarline)
+{
+  showPartgroupsData ("BEFORE START");
+
+  // fetch part group to be started
+  S_msrPartgroup
+    partGroupToBeStarted =
+      fetchPartgroupInThisVisitor (fCurrentPartgroupNumber);
+
+  if (! partGroupToBeStarted) {
+    // no, create it
+    partGroupToBeStarted =
+      msrPartgroup::create (
+        fTranslationSettings,
+        fCurrentPartgroupNumber,
+        partGroupType,
+        fCurrentPartgroupName,
+        fCurrentPartgroupAbbreviation,
+        partGroupSymbol,
+        fCurrentPartgroupSymbolDefaultX,
+        partGroupBarline);
+
+    // add it to the part group map of this visitor
+    if (fTranslationSettings->fTrace)
+      cerr << idtr <<
+        "Adding part group " << fCurrentPartgroupNumber <<
+        " to visitor's part group map" << endl;
+    fPartgroupsMap [fCurrentPartgroupNumber] =
+      partGroupToBeStarted;
+  }
+  
+  // add it to the part group list of this visitor
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Adding part group " << fCurrentPartgroupNumber <<
+      " to visitor's part groups list" << endl;
+
+  if (! fPartgroupsList.size())
+    // insert first part group ahead of the list
+    fPartgroupsList.push_front (partGroupToBeStarted);
+  else {
+    // place in the part groups list so as to
+    // have them ordered by increasing order
+    // (all of them they are negative)
+    msrPartgroupsList::iterator
+      iBegin = fPartgroupsList.begin(),
+      iEnd   = fPartgroupsList.end(),
+      i      = iBegin;
+
+    while (true) {
+      if (i == iEnd) {
+        fPartgroupsList.push_back (partGroupToBeStarted);
+        break;
+      }
+
+      // CAUTION: insert() inserts before the position
+      // indicated by its iterator argument
+      if (
+          fCurrentPartgroupSymbolDefaultX
+            <
+          (*i)->getPartgroupSymbolDefaultX ()) {
+        fPartgroupsList.insert (i, partGroupToBeStarted);
+        break;
+      }
+      
+      i++;
+    } // while
+  }
+  
+  showPartgroupsData ("AFTER START");
+}
+  
+void xml2MsrScoreVisitor::handlePartgroupStop ()
+{
+  showPartgroupsData ("BEFORE STOP");
+
+  // fetch part group to be stopped
+  S_msrPartgroup
+    partGroupToBeStopped =
+      fetchPartgroupInThisVisitor (fCurrentPartgroupNumber);
+
+  // remove current part group from the part group list
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Removing part group " <<
+      partGroupToBeStopped->getPartgroupNumber () <<
+      " from visitor's part groups list" << endl;
+
+  msrPartgroupsList::iterator
+    iBegin = fPartgroupsList.begin(),
+    iEnd   = fPartgroupsList.end(),
+    i      = iBegin;
+
+  while (true) {
+    if (i == iEnd) {
+      stringstream s;
+      s <<
+        "part group " <<
+        fCurrentPartgroupNumber <<
+        " not found in part groups list";
+        
+      internalError (s.str());
+      break;
+    }
+
+    if ((*i) == partGroupToBeStopped) {
+      fPartgroupsList.erase (i);
+      break;
+    }
+    
+    i++;
+  } // while
+
+  showPartgroupsData ("AFTER REMOVAL FROM LIST");
+
+  // place the current group where it belongs
+  // in the part groups list
+  if (! fPartgroupsList.size()) {
+    
+    // we just removed the only part group in the list:
+    // append it to the MSR score
+    if (fTranslationSettings->fTrace)
+      cerr << idtr <<
+        "Appending part group " <<
+        partGroupToBeStopped->getPartgroupNumber () <<
+        " to MSR score" << endl;
+        
+    fMsrScore->
+      addPartgroupToScore (partGroupToBeStopped);
+      
+  } else {
+
+    S_msrPartgroup
+      newCurrentPartgroup =
+        fPartgroupsList.front ();
+
+    // insert current group into future current group
+    if (fTranslationSettings->fTrace)
+      cerr << idtr <<
+        "Appending (sub-)part group " <<
+        partGroupToBeStopped->getPartgroupNumber () <<
+        " at the end of part group " <<
+        newCurrentPartgroup->getPartgroupNumber () << endl;
+    newCurrentPartgroup->
+      addSubPartgroupToPartgroup (partGroupToBeStopped);
+    
+  }
+  
+  // remove part group from the map
+  // CAUTION: erase() destroys the element it removes!
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Removing part group " << fCurrentPartgroupNumber <<
+      " from visitor's part group map" << endl;
+  fPartgroupsMap.erase (fCurrentPartgroupNumber);
+
+  showPartgroupsData ("AFTER STOP");
+}
+
 void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
 {
+  cerr << "--> visitEnd (S_part_group& elt)" << endl << flush;
+
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
       "Handling part group " << fCurrentPartgroupNumber <<
@@ -372,165 +545,12 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
   switch (partGroupType) {
     
     case msrPartgroup::kStartPartgroupType:
-      {
-      showPartgroupsData ("BEFORE START");
-
-      // fetch part group to be started
-      S_msrPartgroup
-        partGroupToBeStarted =
-          fetchPartgroupInThisVisitor (fCurrentPartgroupNumber);
-    
-      if (! partGroupToBeStarted) {
-        // no, create it
-        partGroupToBeStarted =
-          msrPartgroup::create (
-            fTranslationSettings,
-            fCurrentPartgroupNumber,
-            partGroupType,
-            fCurrentPartgroupName,
-            fCurrentPartgroupAbbreviation,
-            partGroupSymbol,
-            fCurrentPartgroupSymbolDefaultX,
-            partGroupBarline);
-
-        // add it to the part group map of this visitor
-        if (fTranslationSettings->fTrace)
-          cerr << idtr <<
-            "Adding part group " << fCurrentPartgroupNumber <<
-            " to visitor's part group map" << endl;
-        fPartgroupsMap [fCurrentPartgroupNumber] =
-          partGroupToBeStarted;
-      }
-      
-      // add it to the part group list of this visitor
-      if (fTranslationSettings->fTrace)
-        cerr << idtr <<
-          "Adding part group " << fCurrentPartgroupNumber <<
-          " to visitor's part groups list" << endl;
-
-      if (! fPartgroupsList.size())
-        // insert first part group ahead of the list
-        fPartgroupsList.push_front (partGroupToBeStarted);
-      else {
-        // place in the part groups list so as to
-        // have them ordered by increasing order
-        // (all of them they are negative)
-        msrPartgroupsList::iterator
-          iBegin = fPartgroupsList.begin(),
-          iEnd   = fPartgroupsList.end(),
-          i      = iBegin;
-
-        while (true) {
-          if (i == iEnd) {
-            fPartgroupsList.push_back (partGroupToBeStarted);
-            break;
-          }
-
-          // CAUTION: insert() inserts before the position
-          // indicated by its iterator argument
-          if (
-              fCurrentPartgroupSymbolDefaultX
-                <
-              (*i)->getPartgroupSymbolDefaultX ()) {
-            fPartgroupsList.insert (i, partGroupToBeStarted);
-            break;
-          }
-          
-          i++;
-        } // while
-      }
-      
-      showPartgroupsData ("AFTER START");
-      }
+      handlePartgroupStart (
+        partGroupType, partGroupSymbol, partGroupBarline);
       break;
       
     case msrPartgroup::kStopPartgroupType:
-      {
-      showPartgroupsData ("BEFORE STOP");
- 
-      // fetch part group to be stopped
-      S_msrPartgroup
-        partGroupToBeStopped =
-          fetchPartgroupInThisVisitor (fCurrentPartgroupNumber);
-    
-      // remove current part group from the part group list
-      if (fTranslationSettings->fTrace)
-        cerr << idtr <<
-          "Removing part group " <<
-          partGroupToBeStopped->getPartgroupNumber () <<
-          " from visitor's part groups list" << endl;
-
-      msrPartgroupsList::iterator
-        iBegin = fPartgroupsList.begin(),
-        iEnd   = fPartgroupsList.end(),
-        i      = iBegin;
-
-      while (true) {
-        if (i == iEnd) {
-          stringstream s;
-          s <<
-            "part group " <<
-            fCurrentPartgroupNumber <<
-            " not found in part groups list";
-            
-          internalError (s.str());
-          break;
-        }
-
-        if ((*i) == partGroupToBeStopped) {
-          fPartgroupsList.erase (i);
-          break;
-        }
-        
-        i++;
-      } // while
-
-      showPartgroupsData ("AFTER REMOVAL FROM LIST");
-
-      // place the current group where it belongs
-      // in the part groups list
-      if (! fPartgroupsList.size()) {
-        
-        // we just removed the only part group in the list:
-        // append it to the MSR score
-        if (fTranslationSettings->fTrace)
-          cerr << idtr <<
-            "Appending part group " <<
-            partGroupToBeStopped->getPartgroupNumber () <<
-            " to MSR score" << endl;
-            
-        fMsrScore->
-          addPartgroupToScore (partGroupToBeStopped);
-          
-      } else {
-
-        S_msrPartgroup
-          newCurrentPartgroup =
-            fPartgroupsList.front ();
-
-        // insert current group into future current group
-        if (fTranslationSettings->fTrace)
-          cerr << idtr <<
-            "Appending (sub-)part group " <<
-            partGroupToBeStopped->getPartgroupNumber () <<
-            " at the end of part group " <<
-            newCurrentPartgroup->getPartgroupNumber () << endl;
-        newCurrentPartgroup->
-          addSubPartgroupToPartgroup (partGroupToBeStopped);
-        
-      }
-      
-      // remove part group from the map
-      // CAUTION: erase() destroys the element it removes!
-      if (fTranslationSettings->fTrace)
-        cerr << idtr <<
-          "Removing part group " << fCurrentPartgroupNumber <<
-          " from visitor's part group map" << endl;
-      fPartgroupsMap.erase (fCurrentPartgroupNumber);
-
-      showPartgroupsData ("AFTER STOP");
-
-      }
+      handlePartgroupStop ();
       break;
       
     case msrPartgroup::k_NoPartgroupType:
@@ -578,28 +598,27 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
 
   idtr++;
 
-  S_msrPartgroup fCurrentPartgroup; // JMI
+  S_msrPartgroup currentPartGroup;
 
   // is there a current part group?
-//  if (! fCurrentPartgroup) { // JMI
-  if (! fPartgroupsList.size()) { // JMI
+  if (! fPartgroupsList.size()) {
     // no, create an implicit one
-    fCurrentPartgroup =
+    fImplicitPartgroup =
       createImplicitMSRPartgroup ();
   }
 
   // fetch current part group
-  fCurrentPartgroup = fPartgroupsList.front ();
+  currentPartGroup = fPartgroupsList.front ();
 
   // is this part already present in the current part group?
   fCurrentPart =
-    fCurrentPartgroup->
+    currentPartGroup->
       fetchPartFromPartgroup (fCurrentPartMusicXMLName);
 
   if (! fCurrentPart) {
     // no, add it to the current part group
     fCurrentPart =
-      fCurrentPartgroup->
+      currentPartGroup->
         addPartToPartgroup (fCurrentPartMusicXMLName);
   }
 
@@ -624,17 +643,13 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
 {
   string partID = elt->getAttributeValue ("id");
 
-  // is this part already present?
-  S_msrPartgroup fCurrentPartgroup; // JMI
-
-  fCurrentPart =
-    fPartsMap [partID];
-
-  if (! fCurrentPart) // JMI
-    // no, add it to the current part group
+  // is this part already known?
+  if (fPartsMap.count (partID))
     fCurrentPart =
-      fCurrentPartgroup->
-        addPartToPartgroup (partID);
+      fPartsMap [partID];
+  else
+    internalError (
+      "part "+partID+" is not registered in this visitor's part map");
 
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
@@ -661,8 +676,6 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
 void xml2MsrScoreVisitor::visitEnd (S_part& elt)
 {
   idtr--;
-
-  
 }
 
 //______________________________________________________________________________
