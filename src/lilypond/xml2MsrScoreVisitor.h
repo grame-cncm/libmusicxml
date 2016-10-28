@@ -354,14 +354,18 @@ class EXP xml2MsrScoreVisitor :
     string                  fCurrentPartgroupBarline;
     S_msrPartgroup          createImplicitMSRPartgroup ();
     
-// JMI    S_msrPartgroup          fCurrentPartgroup;
     // part groups numbers can be re-used, they're no identifier
     msrPartgroupsMap        fPartgroupsMap;
     S_msrPartgroup          fetchPartgroupInThisVisitor (
                               int partGroupNumber);
-    // a stack should suffice in practise, but MusicXML allows
-    // part groups to overlap,
-    // of which no realistic example seems to exist...
+
+    // MusicXML allows part groups to overlap,
+    // so we use a list and not a stack
+    
+    // the current part group is the head of fPartgroupsList
+    // in which part groups are orderd by increasing
+    // part group <default-x> (all of them they are negative)
+    
     msrPartgroupsList       fPartgroupsList;
     void                    showPartgroupsData (string context);
 

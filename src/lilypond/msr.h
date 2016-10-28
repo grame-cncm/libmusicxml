@@ -1795,8 +1795,8 @@ class EXP msrPartgroup : public msrElement {
   
   private:
 
-    S_msrPart tryAndReUseInitialAnonymousPart (
-                string partMusicXMLName);
+// JMI    S_msrPart tryAndReUseInitialAnonymousPart (
+      //          string partMusicXMLName);
 
     S_translationSettings   fTranslationSettings;
     

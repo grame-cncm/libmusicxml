@@ -414,7 +414,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
       else {
         // place in the part groups list so as to
         // have them ordered by increasing order
-        // (remember: they are all negative)
+        // (all of them they are negative)
         msrPartgroupsList::iterator
           iBegin = fPartgroupsList.begin(),
           iEnd   = fPartgroupsList.end(),
@@ -594,7 +594,6 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
   // is this part already present in the current part group?
   fCurrentPart =
     fCurrentPartgroup->
- // ???       fPartgroupsList.front ();
       fetchPartFromPartgroup (fCurrentPartMusicXMLName);
 
   if (! fCurrentPart) {

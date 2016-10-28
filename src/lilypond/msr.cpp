@@ -3797,6 +3797,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
   // create the part
   S_msrPart part;
 
+/*
   part =
     tryAndReUseInitialAnonymousPart (partMusicXMLName);
 
@@ -3806,7 +3807,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
     return part;
 
   } else {
-
+*/
     // create the part
     part =
       msrPart::create (
@@ -3822,7 +3823,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
     }
     fPartgroupPartsMap [partMusicXMLName] = part;
     fPartgroupElements.push_back (part);
-  }
+// JMI  }
 
   if (true || fTranslationSettings->fDebug) {
 //  if (fTranslationSettings->fDebug) {
@@ -3917,6 +3918,7 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
 
   return result;
 }
+/*
 
 S_msrPart msrPartgroup::tryAndReUseInitialAnonymousPart (
   string partMusicXMLName)
@@ -3973,21 +3975,6 @@ S_msrPart msrPartgroup::tryAndReUseInitialAnonymousPart (
 
   return result;
 } // tryAndReUseInitialAnonymousPart
-
-/*
-void msrPartgroup::popPartgroupPartsStackTop ()
-{
-  if (fTranslationSettings->fTrace) {
-    S_msrPart
-      stackTopPart = fPartgroupPartsStack.top ();
-      
-    cerr << idtr <<
-      "Popping part " << stackTopPart->getPartCombinedName () <<
-      " from part group " << fPartgroupNumber << " stack" << endl;
-  }
-  
-  fPartgroupPartsStack.pop ();
-}
 */
 
 ostream& operator<< (ostream& os, const S_msrPartgroup& elt)
