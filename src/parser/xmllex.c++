@@ -66,6 +66,7 @@ typedef int16_t flex_int16_t;
 typedef uint16_t flex_uint16_t;
 typedef int32_t flex_int32_t;
 typedef uint32_t flex_uint32_t;
+typedef uint64_t flex_uint64_t;
 #else
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
@@ -385,7 +386,7 @@ static void yy_fatal_error (yyconst char msg[]  );
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
-	libmxmlleng = (size_t) (yy_cp - yy_bp); \
+	libmxmlleng = (yy_size_t) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
@@ -821,7 +822,7 @@ void lexend() {
 #define fread	wfread
 
 
-#line 825 "xmllex.c++"
+#line 826 "xmllex.c++"
 
 #define INITIAL 0
 #define COMMENTSECT 1
@@ -1012,7 +1013,7 @@ YY_DECL
 
 
 
-#line 1016 "xmllex.c++"
+#line 1017 "xmllex.c++"
 
 	if ( !(yy_init) )
 		{
@@ -1256,7 +1257,7 @@ YY_RULE_SETUP
 #line 128 "xml.l"
 ECHO;
 	YY_BREAK
-#line 1260 "xmllex.c++"
+#line 1261 "xmllex.c++"
 
 	case YY_END_OF_BUFFER:
 		{

@@ -9,8 +9,8 @@ PREFIX := libmxml
 
 code : $(OUT)
 
-xml : $(OBJ)
-	gcc $(DEBUG) $(OBJ) -lstdc++ -o $(APPL)
+xml : xmlparse.o
+	gcc $(CXXFLAGS) xmlparse.o -lstdc++ -o $(APPL)
 
 xmlparse.cpp : xml.y
 	$(YACC) -d -o xmlparse.cpp  -p $(PREFIX) xml.y
@@ -22,4 +22,4 @@ xmllex.cpp : xml.l xmlparse.hpp
 	$(LEX)  -oxmllex.c++ -I -P$(PREFIX) xml.l
 
 clean:
-	rm -f $(APPL) $(OUT) $(OBJ)
+	rm -f $(APPL) $(OUT) xmllex.c++ $(OBJ)

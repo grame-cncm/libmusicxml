@@ -217,7 +217,7 @@ void	yyerror(char *s)	{ gReader->error (s, libmxmllineno); }
 class testreader : public reader
 { 
 	public:
-		bool	xmlDecl (const char* version, const char *encoding, bool standalone) {
+		bool	xmlDecl (const char* version, const char *encoding, int standalone) {
 			cout << "xmlDecl: " << version << " " << encoding << " " << standalone << endl;
 			return true;
 		}
