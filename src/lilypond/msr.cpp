@@ -3818,8 +3818,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
       cerr << idtr <<
         "Adding part " <<
         part->getPartCombinedName () <<
-        " to part group " << fPartgroupNumber <<
-        " *** addPartToPartgroup"  << endl;
+        " to part group " << fPartgroupNumber << endl;
     }
     fPartgroupPartsMap [partMusicXMLName] = part;
     fPartgroupElements.push_back (part);
