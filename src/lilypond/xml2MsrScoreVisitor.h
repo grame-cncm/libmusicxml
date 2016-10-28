@@ -360,16 +360,16 @@ class EXP xml2MsrScoreVisitor :
     S_msrPartgroup          createImplicitMSRPartgroup ();
     
     // part groups numbers can be re-used, they're no identifier
+    // we use a map to access them by part group number
     msrPartgroupsMap        fPartgroupsMap;
     S_msrPartgroup          fetchPartgroupInThisVisitor (
                               int partGroupNumber);
 
     // MusicXML allows part groups to overlap,
-    // so we use a list and not a stack
-    
-    // the current part group is the head of fPartgroupsList
-    // in which part groups are orderd by increasing
-    // part group <default-x> (all of them they are negative)
+    // we use a list in which part groups are orderd by
+    // increasing part group <default-x>
+    // (all of them they are negative)    
+    // the current part group is the front of the list
     
     msrPartgroupsList       fPartgroupsList;
     void                    showPartgroupsData (string context);

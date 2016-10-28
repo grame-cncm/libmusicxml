@@ -3824,8 +3824,8 @@ S_msrPart msrPartgroup::addPartToPartgroup (
     fPartgroupElements.push_back (part);
 // JMI  }
 
-  if (true || fTranslationSettings->fDebug) {
-//  if (fTranslationSettings->fDebug) {
+//  if (true || fTranslationSettings->fDebug) {
+  if (fTranslationSettings->fDebug) {
     cerr << idtr <<
       "==> After addPartToPartgroup, fPartgroupPartsMap contains:" << endl;
     idtr++;
@@ -3841,8 +3841,8 @@ S_msrPart msrPartgroup::addPartToPartgroup (
     cerr << idtr << "<== addPartToPartgroup" << endl;
   }
 
-  if (true || fTranslationSettings->fDebug) {
-//  if (fTranslationSettings->fDebug) {
+//  if (true || fTranslationSettings->fDebug) {
+  if (fTranslationSettings->fDebug) {
     cerr << idtr <<
       "==> After addPartToPartgroup, fPartgroupPartsList contains:" << endl;
     if (fPartgroupElements.size()) {
