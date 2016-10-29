@@ -28,20 +28,49 @@ namespace MusicXML2 {
 
 
 //______________________________________________________________________________
-void msrMusicXMLWarning (std::string message)
+void msrMusicXMLWarning (
+  int         inputLineNumber,
+  int         measureNumber,
+  int         positionInMeasure,
+  std::string message)
 {
   cerr <<
     endl <<
-    "--> MusicXML WARNING : " << message << endl <<
+    "--> MusicXML WARNING, input line " << inputLineNumber  <<
+    ", measure " << measureNumber << ":" << positionInMeasure << endl <<
+    "      " << message << endl <<
     endl;
 }
 
-void msrMusicXMLError (std::string errorMessage)
+void msrMusicXMLError (
+  int         inputLineNumber,
+  int         measureNumber,
+  int         positionInMeasure,
+  std::string message)
 {
   std::cerr <<
     endl <<
-    "--> MusicXML ERROR : " << errorMessage << endl <<
+    "--> MusicXML ERROR, input line " << inputLineNumber  <<
+    ", measure " << measureNumber << ":" << positionInMeasure << endl <<
+    "      " << message << endl <<
     endl;
+    
+  assert(false);
+}
+
+void msrInternalError (
+  int         inputLineNumber,
+  int         measureNumber,
+  int         positionInMeasure,
+  std::string message)
+{
+  std::cerr <<
+    endl <<
+    "--> INTERNAL ERROR, input line " << inputLineNumber  <<
+    ", measure " << measureNumber << ":" << positionInMeasure << endl <<
+    "      " << message << endl <<
+    endl;
+    
   assert(false);
 }
 

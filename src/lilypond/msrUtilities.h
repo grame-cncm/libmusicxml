@@ -45,9 +45,12 @@ namespace MusicXML2
 \brief A function to emit warning messages regarding MusicXML data
 */
 
-void msrMusicXMLWarning (std::string message);
+void msrMusicXMLWarning (
+  int         inputLineNumber,
+  int         measureNumber,
+  int         positionInMeasure,
+  std::string message);
 
-//______________________________________________________________________________
 /*!
 \internal
 \brief A macro to emit error messages regarding MusicXML data and exit
@@ -62,7 +65,18 @@ void msrMusicXMLWarning (std::string message);
 }
 */
 
-void msrMusicXMLError (std::string errorMessage);
+void msrMusicXMLError (
+  int         inputLineNumber,
+  int         measureNumber,
+  int         positionInMeasure,
+  std::string message);
+  
+void msrInternalError (
+  int         inputLineNumber,
+  int         measureNumber,
+  int         positionInMeasure,
+  std::string message);
+  
 //______________________________________________________________________________
 /*!
 \internal

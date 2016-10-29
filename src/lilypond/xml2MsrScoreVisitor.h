@@ -324,6 +324,8 @@ class EXP xml2MsrScoreVisitor :
                      
     S_translationSettings   fTranslationSettings;
 
+    int                     fInputLineNumber;
+
     // the score we're building
     // ------------------------------------------------------
     S_msrScore              fMsrScore;

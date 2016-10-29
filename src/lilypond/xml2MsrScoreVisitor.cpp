@@ -36,9 +36,16 @@ namespace MusicXML2
 void xml2MsrScoreVisitor::internalError (
   string message)
 {
+  msrInternalError (
+    fInputLineNumber,
+    fCurrentMeasureNumber,
+    fCurrentPositionInMeasure,
+    message);
+  /*
   cerr <<
     endl <<
-    "### Internal error, measure " << fCurrentMeasureNumber <<
+    "### Internal error, input line " << fInputLineNumber  <<
+    ", measure " << fCurrentMeasureNumber <<
     ":" << fCurrentPositionInMeasure << "/" ;
   if (fCurrentMusicXMLDivisions > 0)
     cerr <<  fCurrentMusicXMLDivisions;
@@ -50,6 +57,7 @@ void xml2MsrScoreVisitor::internalError (
   endl << endl;
   
   assert (false);
+  */
 }                        
 
 //________________________________________________________________________
@@ -57,6 +65,8 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   S_translationSettings& ts)
 {
   fTranslationSettings = ts;
+
+  fInputLineNumber = 0;
   
   // create the MSR score
   fMsrScore =
@@ -153,6 +163,8 @@ S_msrPartgroup xml2MsrScoreVisitor::createImplicitMSRPartgroup ()
   fPartgroupsMap [fCurrentPartgroupNumber] = partgroup;
   fPartgroupsList.push_front (partgroup);
 
+  fImplicitPartgroup = partgroup;
+  
   return partgroup;
 } // xml2MsrScoreVisitor::createImplicitMSRPartgroup ()
 
@@ -198,6 +210,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_list& elt)
     // force an implicit part group "stop" on it
     // fCurrentPartgroupNumber hold the value 1
     handlePartgroupStop ();
+    fImplicitPartgroup = S_msrPartgroup (); // NULL contents
   }
     
 //  fTranslationSettings->fDebug = false; // TEMP JMI
@@ -506,7 +519,7 @@ void xml2MsrScoreVisitor::handlePartgroupStop ()
   }
 
   showPartgroupsData ("AFTER STOP");
-}
+} // handlePartgroupStop ()
 
 void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
 {
@@ -530,6 +543,9 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
     if (fCurrentPartgroupType.size())
       // part group type may be absent
       msrMusicXMLError (
+        fInputLineNumber,
+        fCurrentMeasureNumber,
+        fCurrentPositionInMeasure,
         "unknown part group type \"" + fCurrentPartgroupType + "\"");
     partGroupType = msrPartgroup::k_NoPartgroupType;
   }
@@ -559,6 +575,9 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
    if (fCurrentPartgroupSymbol.size())
       // part group type may be absent
       msrMusicXMLError (
+        fInputLineNumber,
+        fCurrentMeasureNumber,
+        fCurrentPositionInMeasure,
         "unknown part group symbol \"" + fCurrentPartgroupSymbol + "\"");
     partGroupSymbol = msrPartgroup::k_NoPartgroupSymbol;
   }
@@ -574,6 +593,9 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
     
   else {
     msrMusicXMLError (
+      fInputLineNumber,
+      fCurrentMeasureNumber,
+      fCurrentPositionInMeasure,
       "unknown part group barline \"" + fCurrentPartgroupBarline + "\"");
     partGroupBarline = false;
   }
@@ -639,7 +661,7 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
   // is there a current part group?
   if (! fPartgroupsList.size()) {
     // no, create an implicit one
-    fImplicitPartgroup =
+    currentPartGroup =
       createImplicitMSRPartgroup ();
   }
 
@@ -674,6 +696,13 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
   // register it in this visitor's parts map
   fPartsMap [fCurrentPartMusicXMLName] = fCurrentPart;
 
+  if (fImplicitPartgroup) {
+    // force an implicit part group "stop" on it
+    // fCurrentPartgroupNumber hold the value 1
+    handlePartgroupStop ();
+    fImplicitPartgroup = S_msrPartgroup (); // NULL contents
+  }
+    
   showPartgroupsData (
     "AFTER handling part \""+fCurrentPartMusicXMLName+"\"");
 
@@ -985,8 +1014,11 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
     stringstream s;
     s << "staff " << staffNumber << " is out of context";
 // JMI    msrMusicXMLError (s.str());
-    msrMusicXMLWarning (s.str());
-    
+    msrMusicXMLWarning (
+      fInputLineNumber,
+      fCurrentMeasureNumber,
+      fCurrentPositionInMeasure,
+      s.str());    
   }
 }
     
@@ -1035,7 +1067,11 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
     
     stringstream s;
     s << "voice " << voiceNumber << " is out of context";
-    msrMusicXMLError (s.str());
+    msrMusicXMLError (
+      fInputLineNumber,
+      fCurrentMeasureNumber,
+      fCurrentPositionInMeasure,
+      s.str());
     
   }
 }
@@ -1061,14 +1097,21 @@ void xml2MsrScoreVisitor::visitEnd (S_backup& elt )
       "Handling 'backup <<< " << fCurrentBackupDuration <<
       " divisions'" << endl;
 
+  int saveCurrentPositionInMeasure = fCurrentPositionInMeasure;
+  
   fCurrentPositionInMeasure =- fCurrentBackupDuration;
 
   if (fCurrentPositionInMeasure < 0) {
     stringstream s;
     s <<
       "backup divisions " << fCurrentBackupDuration <<
+      " from position " << saveCurrentPositionInMeasure <<
       " crosses measure left boundary";
-    msrMusicXMLError (s.str());
+    msrMusicXMLError (
+        fInputLineNumber,
+        fCurrentMeasureNumber,
+        fCurrentPositionInMeasure,
+      s.str());
   }
   
   fOnGoingBackup = false;
