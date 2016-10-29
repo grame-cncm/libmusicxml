@@ -408,67 +408,7 @@ void xml2MsrScoreVisitor::handlePartgroupStop ()
     internalError (s.str());
   }
 
-  // place the current group where it belongs
-  // in the part groups list
-  if (fPartgroupsList.size() == 1) {
-    
-    // we're about to remove the only part group in the list:
-    // append it to the MSR score
-    if (fTranslationSettings->fTrace)
-      cerr << idtr <<
-        "Appending part group " <<
-        partGroupToBeStopped->getPartgroupNumber () <<
-        " to MSR score" << endl;
-        
-    fMsrScore->
-      addPartgroupToScore (partGroupToBeStopped);
-      
-  } else {
-
-    // fetch the future current group (after this one
-    // has been removed) from the part group list
-    // is it the second element in the list
-    msrPartgroupsList::iterator i =
-      fPartgroupsList.begin();
-
-    i++; // fetch second element in the list
-    
-    S_msrPartgroup
-      futureCurrentPartgroup = (*i);
-
-    if (
-        partGroupToBeStopped->getPartgroupNumber ()
-          ==
-        futureCurrentPartgroup->getPartgroupNumber () ) {
-      stringstream s;
-      s <<
-        "cannot append part group " <<
-        partGroupToBeStopped->getPartgroupNumber () <<
-        " as sub part group of itself";
-      internalError (s.str());
-    }
-    
-    // insert current group into future current group
-    if (fTranslationSettings->fTrace)
-      cerr << idtr <<
-        "Appending (sub-)part group " <<
-        partGroupToBeStopped->getPartgroupNumber () <<
-        " at the end of part group " <<
-        futureCurrentPartgroup->getPartgroupNumber () << endl;
-
-    /*
-    cerr <<
-      "--> partGroupToBeStopped = " << partGroupToBeStopped <<
-      ", futureCurrentPartgroup = " << futureCurrentPartgroup << endl;
-    */
-    
-    futureCurrentPartgroup->
-      addSubPartgroupToPartgroup (partGroupToBeStopped);
-  }
-
-  showPartgroupsData ("AFTER PLACEMENT");
-
-  // remove current part group from the part group list
+  // remove the part group to be stopped from the part group list
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
       "Removing part group " <<
@@ -502,6 +442,56 @@ void xml2MsrScoreVisitor::handlePartgroupStop ()
 
   showPartgroupsData ("AFTER REMOVAL FROM LIST");
   
+  // take care of the part group to be stopped
+  // in the part groups list
+  if (! fPartgroupsList.size()) {
+    
+    // we're just removed the only part group in the list:
+    // append it to the MSR score
+    if (fTranslationSettings->fTrace)
+      cerr << idtr <<
+        "Appending part group " <<
+        partGroupToBeStopped->getPartgroupNumber () <<
+        " to MSR score" << endl;
+        
+    fMsrScore->
+      addPartgroupToScore (partGroupToBeStopped);
+      
+  } else {
+
+    // the front element in the part group list is
+    // the new current part group
+    S_msrPartgroup
+      newCurrentPartGroup = fPartgroupsList.front ();
+
+    if (
+        partGroupToBeStopped->getPartgroupNumber ()
+          ==
+        newCurrentPartGroup->getPartgroupNumber () ) {
+      cerr <<
+        "--> partGroupToBeStopped = " << partGroupToBeStopped <<
+        ", newCurrentPartGroup = " << newCurrentPartGroup << endl;
+
+      stringstream s;
+      s <<
+        "cannot append part group " <<
+        partGroupToBeStopped->getPartgroupNumber () <<
+        " as sub part group of itself";
+      internalError (s.str());
+    }
+    
+    // insert current group into future current group
+    if (fTranslationSettings->fTrace)
+      cerr << idtr <<
+        "Appending (sub-)part group " <<
+        partGroupToBeStopped->getPartgroupNumber () <<
+        " at the end of part group " <<
+        newCurrentPartGroup->getPartgroupNumber () << endl;
+
+    newCurrentPartGroup->
+      addSubPartgroupToPartgroup (partGroupToBeStopped);
+  }
+
   // remove part group from the map
   // CAUTION: erase() destroys the element it removes!
   if (fTranslationSettings->fTrace)
@@ -1053,8 +1043,10 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_backup& elt )
 {
-  /*
-        <backup>
+/*
+ The backup and forward elements are required to coordinate multiple voices in one part, including music on multiple staves. The backup type is generally used to move between voices and staves. Thus the backup element does not include voice or staff elements. Duration values should always be positive, and should not cross measure boundaries or mid-measure changes in the divisions value.
+ 
+      <backup>
         <duration>8</duration>
       </backup>
 */
@@ -1069,6 +1061,16 @@ void xml2MsrScoreVisitor::visitEnd (S_backup& elt )
       "Handling 'backup <<< " << fCurrentBackupDuration <<
       " divisions'" << endl;
 
+  fCurrentPositionInMeasure =- fCurrentBackupDuration;
+
+  if (fCurrentPositionInMeasure < 0) {
+    stringstream s;
+    s <<
+      "backup divisions " << fCurrentBackupDuration <<
+      " crosses measure left boundary";
+    msrMusicXMLError (s.str());
+  }
+  
   fOnGoingBackup = false;
 }
 
