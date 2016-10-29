@@ -3881,7 +3881,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
   return part;
 } // addPartToPartgroup
 
-S_msrPart msrPartgroup::addSubPartgroupToPartgroup (
+void msrPartgroup::addSubPartgroupToPartgroup (
   S_msrPartgroup partGroup)
 {
   if (fTranslationSettings->fTrace)
@@ -4032,12 +4032,12 @@ void msrPartgroup::printMSR(ostream& os)
   } // switch
   os << "\"" << endl;
   os <<
-    idtr << "PartgroupBarline         : \"";
+    idtr << "PartgroupBarline         : ";
   if (fPartgroupBarline)
     os << "true";
   else
     os << "false";
-  os << "\"" << endl;
+  os << endl;
 
  // JMI   idtr << "PartgroupInstrumentName: \"" << fPartgroupInstrumentName << "\"" << endl;
 

@@ -1765,7 +1765,7 @@ class EXP msrPartgroup : public msrElement {
     
     S_msrPart addPartToPartgroup (string partMusicXMLName);
     
-    S_msrPart addSubPartgroupToPartgroup (S_msrPartgroup partGroup);
+    void      addSubPartgroupToPartgroup (S_msrPartgroup partGroup);
 
     S_msrPart fetchPartFromPartgroup (string partMusicXMLName);
 

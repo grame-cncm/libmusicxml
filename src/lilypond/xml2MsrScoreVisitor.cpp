@@ -430,7 +430,11 @@ void xml2MsrScoreVisitor::handlePartgroupStop ()
         partGroupToBeStopped->getPartgroupNumber () <<
         " at the end of part group " <<
         futureCurrentPartgroup->getPartgroupNumber () << endl;
-    
+
+    cerr <<
+      "--> partGroupToBeStopped = " << partGroupToBeStopped <<
+      ", futureCurrentPartgroup = " << futureCurrentPartgroup << endl;
+      
     futureCurrentPartgroup->
       addSubPartgroupToPartgroup (partGroupToBeStopped);
   }
@@ -1694,6 +1698,17 @@ void xml2MsrScoreVisitor::visitStart ( S_bar_style& elt )
    * heavy-heavy
    * tick
    * short
+   *
+   *
+      <barline>
+        <segno default-y="16" relative-x="0"/>
+      </barline>
+
+      <barline>
+        <coda default-y="16" relative-x="0"/>
+      </barline>
+
+      * 
    */
 }
 
@@ -1926,6 +1941,7 @@ void xml2MsrScoreVisitor::visitStart ( S_staccatissimo& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_fermata& elt )
 {
+  // type : upright inverted  (Binchois20.xml)
   S_msrArticulation
     articulation =
       msrArticulation::create (msrArticulation::kFermata);
