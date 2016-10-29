@@ -3858,21 +3858,6 @@ S_msrPart msrPartgroup::addPartToPartgroup (
     }
     cerr << idtr << "<== addPartToPartgroup" << endl;
   }
-
-/*
-    cerr << idtr <<
-      "==> After addPartToPartgroup, fPartgroupPartsList contains:" << endl;
-    idtr++;
-    for (
-        msrElementList::const_iterator i = fPartgroupElements.begin();
-        i != fPartgroupElements.end();
-        i++) {
-      cerr << idtr << (*i) << endl;
-    } // for
-    idtr--;
-    cerr << idtr << "<== addPartToPartgroup" << endl;
-  }
-  */
   
   // return the part
   return part;

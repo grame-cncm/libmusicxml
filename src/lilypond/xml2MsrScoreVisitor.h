@@ -454,7 +454,7 @@ class EXP xml2MsrScoreVisitor :
     // positions handling
     // ------------------------------------------------------
     int                     fCurrentMeasureNumber;
-    rational                fCurrentPositionInMeasure;
+    int                     fCurrentPositionInMeasure; // in divisions
 
     // repeat handling
     // ------------------------------------------------------

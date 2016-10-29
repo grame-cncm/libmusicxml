@@ -39,9 +39,17 @@ void xml2MsrScoreVisitor::internalError (
   cerr <<
     endl <<
     "### Internal error, measure " << fCurrentMeasureNumber <<
-    ":" << endl <<
+    ":" << fCurrentPositionInMeasure << "/" ;
+  if (fCurrentMusicXMLDivisions > 0)
+    cerr <<  fCurrentMusicXMLDivisions;
+  else
+    cerr << "?";
+  cerr <<
+    endl <<
     "      " << message <<
-    endl;
+  endl << endl;
+  
+  assert (false);
 }                        
 
 //________________________________________________________________________
@@ -56,8 +64,9 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
 
   fCurrentTimeStaffNumber = 1; // it may be absent
   
-  fCurrentMeasureNumber = 0;
-
+  fCurrentMeasureNumber = 0; // in case of an anacrusis
+  fCurrentMusicXMLDivisions = 0;
+  
   fCurrentLyricsNumber = 0;
   fCurrentLyricsChunkType = msrLyricsChunk::k_NoChunk;
 
@@ -427,6 +436,18 @@ void xml2MsrScoreVisitor::handlePartgroupStop ()
     S_msrPartgroup
       futureCurrentPartgroup = (*i);
 
+    if (
+        partGroupToBeStopped->getPartgroupNumber ()
+          ==
+        futureCurrentPartgroup->getPartgroupNumber () ) {
+      stringstream s;
+      s <<
+        "cannot append part group " <<
+        partGroupToBeStopped->getPartgroupNumber () <<
+        " as sub part group of itself";
+      internalError (s.str());
+    }
+    
     // insert current group into future current group
     if (fTranslationSettings->fTrace)
       cerr << idtr <<
@@ -663,7 +684,8 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
   // register it in this visitor's parts map
   fPartsMap [fCurrentPartMusicXMLName] = fCurrentPart;
 
-  showPartgroupsData ("AFTER handling part \""+fCurrentPartName+"\"");
+  showPartgroupsData (
+    "AFTER handling part \""+fCurrentPartMusicXMLName+"\"");
 
   idtr--;
 }
@@ -733,9 +755,9 @@ void xml2MsrScoreVisitor::visitStart ( S_divisions& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_key& elt ) {
   // The optional number attribute refers to staff numbers.
-  // If absent (-1), apply to all part staves.
+  // If absent (0), apply to all part staves.
   fCurrentKeyStaffNumber =
-    elt->getAttributeIntValue ("number", 1);
+    elt->getAttributeIntValue ("number", 0);
 
   fCurrentFifths = 0;
   fCurrentCancel = 0;
@@ -758,7 +780,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_key& elt )
     key =
       msrKey::create (fCurrentFifths, fCurrentMode, fCurrentCancel);
 
-  if (fCurrentKeyStaffNumber == -1)
+  if (fCurrentKeyStaffNumber == 0)
     fCurrentPart->setAllPartStavesKey (key);
   else {
     S_msrStaff
@@ -772,10 +794,13 @@ void xml2MsrScoreVisitor::visitEnd ( S_key& elt )
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_time& elt )
 {  
-  // The optional number attribute refers to staff numbers.
-  // If absent (-1), apply to all part staves. JMI ???
+  /*
+    The optional number attribute refers to staff numbers,
+    from top to bottom on the system. If absent, the key
+    signature applies to all staves in the part.
+  */
   fCurrentTimeStaffNumber =
-    elt->getAttributeIntValue ("number", 1);
+    elt->getAttributeIntValue ("number", 0);
     
   fCurrentTimeSymbol =
     elt->getAttributeValue ("symbol");
@@ -786,39 +811,17 @@ void xml2MsrScoreVisitor::visitStart ( S_time& elt )
   fCurrentTimeBeats = 0;
   fCurrentTimeBeatType = 0;
   
-//  fTimeSignatures.clear();
   fCurrentTimeSymbol = "";
 }
 
 void xml2MsrScoreVisitor::visitStart ( S_beats& elt )
-{
-  /*
-    The optional number attribute refers to staff numbers,
-    from top to bottom on the system. If absent, the key
-    signature applies to all staves in the part.
-  */
-
-  fCurrentTimeBeats = (int)(*elt); }
+{ fCurrentTimeBeats = (int)(*elt); }
   
 void xml2MsrScoreVisitor::visitStart ( S_beat_type& elt )
   { fCurrentTimeBeatType = (int)(*elt); }
  
 void xml2MsrScoreVisitor::visitStart ( S_senza_misura& elt )
   { fCurrentTimeSenzaMisura = true; }
-
-/*
-rational xml2MsrScoreVisitor::timeSignatureFromIndex(int index) JMI
-{
-  rational r(0,1);
-  if (index < fTimeSignatures.size()) {
-    const pair<string,string>& ts = fTimeSignatures[index];
-    int   num = strtol (ts.first.c_str(), 0, 10);
-    int   denum = strtol (ts.second.c_str(), 0, 10);
-    if (num && denum) r.set(num, denum);
-  }
-  return r;
-}
-*/
 
 void xml2MsrScoreVisitor::visitEnd ( S_time& elt ) 
 {
@@ -829,7 +832,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_time& elt )
         fCurrentTimeBeatType,
         fTranslationSettings->fGenerateNumericalTime);
 
-  if (fCurrentTimeStaffNumber == -1) // JMI
+  if (fCurrentTimeStaffNumber == 0)
     fCurrentPart->setAllPartStavesTime (time);
   else {
     S_msrStaff
@@ -844,9 +847,9 @@ void xml2MsrScoreVisitor::visitEnd ( S_time& elt )
 void xml2MsrScoreVisitor::visitStart ( S_clef& elt )
 { 
   // The optional number attribute refers to staff numbers.
-  // If absent (-1), apply to all part staves.
+  // If absent (0), apply to all part staves.
   fCurrentClefStaffNumber =
-    elt->getAttributeIntValue("number", -1); 
+    elt->getAttributeIntValue("number", 0); 
 
   fCurrentClefLine = 0;;
   fCurrentClefOctaveChange = 0;
@@ -869,7 +872,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_clef& elt )
       msrClef::create (
         fCurrentClefSign, fCurrentClefLine, fCurrentClefOctaveChange);
 
-  if (fCurrentClefStaffNumber == -1)
+  if (fCurrentClefStaffNumber == 0)
     fCurrentPart->setAllPartStavesClef (clef);
   else {
     S_msrStaff
@@ -1510,7 +1513,7 @@ void xml2MsrScoreVisitor::visitStart (S_measure& elt)
   fCurrentMeasureNumber =
     elt->getAttributeIntValue ("number", 0);
 
-  fCurrentPositionInMeasure = rational (0, 0);
+  fCurrentPositionInMeasure = 0;
     
   if (fTranslationSettings->fDebug)
     cerr << idtr << 
@@ -1846,19 +1849,20 @@ void xml2MsrScoreVisitor::visitStart ( S_duration& elt )
 {
   int musicXMLduration = (int)(*elt);
 
-  if (fOnGoingBackup)
+  if (fOnGoingBackup) {
   
     fCurrentBackupDuration = musicXMLduration;
+    fCurrentPositionInMeasure -= fCurrentBackupDuration;
     
-  else if (fOnGoingForward)
+  } else if (fOnGoingForward) {
   
     fCurrentForwardDuration = musicXMLduration;
     
-  else if (fOnGoingNote)
+  } else if (fOnGoingNote) {
   
     fMusicXMLNoteData.fMusicXMLDuration = musicXMLduration;
     
-  else {
+  } else {
     
     stringstream s;
     s << "duration " << musicXMLduration << " is out of context";
@@ -1916,6 +1920,9 @@ void xml2MsrScoreVisitor::visitStart ( S_stem& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_beam& elt )
 {
+/*
+Each beam in a note is represented with a separate beam element, starting with the eighth note beam using a number attribute of 1. Note that the beam number does not distinguish sets of beams that overlap, as it does for slur and other elements.
+*/
   //        <beam number="1">begin</beam>
 
   fCurrentBeam = elt->getValue();
@@ -1935,8 +1942,9 @@ void xml2MsrScoreVisitor::visitStart ( S_beam& elt )
     bk = msrBeam::kEndBeam;
   }
   
-//  S_msrBeam beam = msrBeam::create(number, bk); // JMI
-//  fCurrentBeam = beam;
+  S_msrBeam
+    beam =
+      msrBeam::create (fCurrentBeamNumber, bk); // JMI
 }
 
 //______________________________________________________________________________
@@ -2508,7 +2516,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   fCurrentNote = newNote;
   fCurrentPositionInMeasure +=
     fCurrentNote->
-      getNoteMsrDuration ()->durationAsRational ();
+      getNoteMusicXMLDuration ();
     
 // JMI  fCurrentElement = fCurrentNote; // another name for it
 

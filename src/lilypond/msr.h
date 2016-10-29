@@ -329,7 +329,7 @@ class EXP msrDuration : public msrElement {
     string   durationAsMSRString ();
 
     virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void printMSR           (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
 
   private:
@@ -357,7 +357,7 @@ class EXP msrArticulation : public msrElement {
               ArticulationKind articulationKink);
 
     virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void printMSR           (ostream& os);
     virtual void printLilyPondCode  (ostream& os);
 
   protected:
@@ -455,6 +455,11 @@ class EXP msrNote : public msrElement {
                           
     static map<MsrPitch, string> sDutchLilypondPitches;
 
+    int                 getNoteMusicXMLDuration () const
+                            {
+                              return
+                                fMusicXMLNoteData.fMusicXMLDivisions;
+                            }
     S_msrDuration       getNoteMsrDuration ()
                             { return fNoteMsrDuration; }   
 
@@ -1284,12 +1289,6 @@ typedef SMARTP<msrTime> S_msrTime;
 \brief A msr midi representation.
 
   A midi is represented by variable/value pairs
-
-/*!
-\brief A msr midi representation.
-
-  A midi is represented by variable/value pairs
-
 */
 //______________________________________________________________________________
 class EXP msrMidi : public msrElement {
