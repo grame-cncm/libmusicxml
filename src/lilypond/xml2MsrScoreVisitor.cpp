@@ -33,6 +33,18 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
+void xml2MsrScoreVisitor::internalError (
+  string message)
+{
+  cerr <<
+    endl <<
+    "### Internal error, measure " << fCurrentMeasureNumber <<
+    ":" << endl <<
+    "      " << message <<
+    endl;
+}                        
+
+//________________________________________________________________________
 xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   S_translationSettings& ts)
 {
@@ -90,14 +102,6 @@ xml2MsrScoreVisitor::buildMsrScoreFromXMLElementTree (
 
   return result;
 }
-
-void xml2MsrScoreVisitor::internalError (
-  string message)
-{
-  cerr <<
-    "### Internal error: measure " << fCurrentMeasureNumber << endl <<
-    message << endl;
-}                        
 
 //________________________________________________________________________
 S_msrPartgroup xml2MsrScoreVisitor::createImplicitMSRPartgroup ()
