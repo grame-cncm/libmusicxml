@@ -2403,8 +2403,7 @@ void msrClef::printMSR(ostream& os)
 {
   os <<
     "Clef" << " \"" << fSign << "\"" <<
-    " line " << fLine << ", " << fOctaveChange << "*8" <<
-    endl;
+    " line " << fLine << ", " << fOctaveChange << "*8";
 }
 
 void msrClef::printLilyPondCode(ostream& os)
@@ -2587,7 +2586,6 @@ void msrKey::printMSR(ostream& os)
   os << "Key " << fTonic << " ";
   if (fKeyMode == kMajor) os << "\\major";
   else os << "\\minor";
-  os << endl;
 }
 
 void msrKey::printLilyPondCode(ostream& os)
@@ -2635,8 +2633,7 @@ void msrTime::printMSR(ostream& os)
 {
   os <<
     "Time " << 
-    fRational.getNumerator() << "/" << fRational.getDenominator() <<
-    endl;
+    fRational.getNumerator() << "/" << fRational.getDenominator();
 }
 
 void msrTime::printLilyPondCode(ostream& os)

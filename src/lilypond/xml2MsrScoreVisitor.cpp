@@ -431,10 +431,12 @@ void xml2MsrScoreVisitor::handlePartgroupStop ()
         " at the end of part group " <<
         futureCurrentPartgroup->getPartgroupNumber () << endl;
 
+    /*
     cerr <<
       "--> partGroupToBeStopped = " << partGroupToBeStopped <<
       ", futureCurrentPartgroup = " << futureCurrentPartgroup << endl;
-      
+    */
+    
     futureCurrentPartgroup->
       addSubPartgroupToPartgroup (partGroupToBeStopped);
   }
@@ -1562,6 +1564,19 @@ void xml2MsrScoreVisitor::visitStart ( S_print& elt )
     <bar-style>light-heavy</bar-style>
     <repeat direction="backward"/>
   </barline>
+
+http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-repeat.htm
+
+      <barline location="left">
+        <bar-style>heavy-light</bar-style>
+        <repeat direction="forward" winged="none"/>
+      </barline>
+      
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        <ending number="1, 2" type="stop"/>
+        <repeat direction="backward" winged="none"/>
+      </barline>
 
   Repeat start:
       <barline location="left">
