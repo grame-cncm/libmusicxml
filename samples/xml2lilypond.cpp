@@ -77,6 +77,14 @@ void usage(int exitStatus) {
     "        Write the contents of the MSR data to standard error." << endl <<
     endl <<
 
+    "  --sum, --displayScoreSummary" << endl <<
+    "        Write the contents of the MSR data to standard error." << endl <<
+    endl <<
+
+    "  --noLP, --dontDisplayLilyPondCode" << endl <<
+    "        Write the contents of the MSR data to standard error." << endl <<
+    endl <<
+
     "  --nt, --noTrace" << endl <<
     "        Don't generate a trace of the activity to standard error." << endl <<
     "  --d, --debug  " << endl <<
@@ -118,6 +126,10 @@ int main(int argc, char *argv[])
   
   ts->fDisplayMSR                        = false;
 
+  ts->fDisplayScoreSummary               = false;
+
+  ts->fDontDisplayLilyPondCode           = false;
+
   ts->fTrace                             = true;
   ts->fDebug                             = false;
 
@@ -137,6 +149,10 @@ int main(int argc, char *argv[])
   int delayRestsDynamicsPresent        = 0;
   
   int displayMSRPresent                = 0;
+  
+  int displayScoreSummaryPresent       = 0;
+  
+  int dontDisplayLilyPondCodePresent   = 0;
 
   int noTracePresent                   = 0;
   int debugPresent                     = 0;
@@ -164,6 +180,12 @@ int main(int argc, char *argv[])
    
     {"msr",                       no_argument,       &displayMSRPresent, 1},
     {"displayMSR",                no_argument,       &displayMSRPresent, 1},
+
+    {"sum",                       no_argument,       &displayScoreSummaryPresent, 1},
+    {"displayScoreSummary",       no_argument,       &displayScoreSummaryPresent, 1},
+
+    {"noLP",                      no_argument,       &dontDisplayLilyPondCodePresent, 1},
+    {"dontDisplayLilyPondCode",   no_argument,       &dontDisplayLilyPondCodePresent, 1},
 
     {"nt",                        no_argument,       &noTracePresent, 1},
     {"noTrace",                   no_argument,       &noTracePresent, 1},
@@ -258,7 +280,17 @@ int main(int argc, char *argv[])
         
         if (displayMSRPresent) {
           ts->fDisplayMSR = true;
-          ts->fSelectedOptions += "--noAutobars ";
+          ts->fSelectedOptions += "--displayMSR ";
+        }
+
+        if (displayScoreSummaryPresent) {
+          ts->fDisplayScoreSummary = true;
+          ts->fSelectedOptions += "--displayScoreSummary ";
+        }
+        
+        if (dontDisplayLilyPondCodePresent) {
+          ts->fDontDisplayLilyPondCode = true;
+          ts->fSelectedOptions += "--dontDisplayLilyPondCode ";
         }
 
         if (noTracePresent) {
@@ -309,21 +341,25 @@ int main(int argc, char *argv[])
       musicxml2MsrVersionStr() << 
       endl <<
       "The settings are:" << endl <<
-      "  noteNamesLanguageName: \"" << ts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
+      "  noteNamesLanguageName   : \"" << ts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
       
-      "  displayMSR:            " << string(ts->fDisplayMSR ? "true" : "false") << endl <<
+      "  displayMSR              : " << string(ts->fDisplayMSR ? "true" : "false") << endl <<
 
-      "  generateAbsoluteCode:  " << string(ts->fGenerateAbsoluteCode ? "true" : "false") << endl <<
+      "  generateAbsoluteCode    : " << string(ts->fGenerateAbsoluteCode ? "true" : "false") << endl <<
       
-      "  generateNumericalTime: " << string(ts->fGenerateNumericalTime ? "true" : "false") << endl <<
-      "  generateComments:      " << string(ts->fGenerateComments ? "true" : "false") << endl <<
-      "  generateStems:         " << string(ts->fGenerateStems ? "true" : "false") << endl <<
-      "  generatePositions:     " << string(ts->fGeneratePositions ? "true" : "false") << endl <<
+      "  generateNumericalTime   : " << string(ts->fGenerateNumericalTime ? "true" : "false") << endl <<
+      "  generateComments        : " << string(ts->fGenerateComments ? "true" : "false") << endl <<
+      "  generateStems           : " << string(ts->fGenerateStems ? "true" : "false") << endl <<
+      "  generatePositions       : " << string(ts->fGeneratePositions ? "true" : "false") << endl <<
 
-      "  delayRestsDynamics:    " << string(ts->fDelayRestsDynamics ? "true" : "false") << endl <<
+      "  displayMSR              : "         << string(ts->fDisplayMSR ? "true" : "false") << endl <<
+      
+      "  displayScoreSummary     : " << string(ts->fDisplayScoreSummary ? "true" : "false") << endl <<
+      
+      "  fDontDisplayLilyPondCode: " << string(ts->fDontDisplayLilyPondCode ? "true" : "false") << endl <<
     
-      "  trace:                 " << string(ts->fTrace ? "true" : "false") << endl <<
-      "  debug:                 " << string(ts->fDebug ? "true" : "false") << endl;
+      "  trace                   : " << string(ts->fTrace ? "true" : "false") << endl <<
+      "  debug                   : " << string(ts->fDebug ? "true" : "false") << endl;
   
   xmlErr err = kNoErr;
   

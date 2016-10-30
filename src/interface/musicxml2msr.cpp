@@ -101,6 +101,13 @@ S_msrScore buildMsrScoreFromTree (
 
   idtr--;
 
+  return score;
+}
+
+void displayMSRScore (
+  S_translationSettings& ts,
+  S_msrScore             score)
+{
   string separator = "%----------------------------------------";
 
   // output the score resulting from the conversion 
@@ -119,8 +126,6 @@ S_msrScore buildMsrScoreFromTree (
   if (ts->fTrace) cerr << "%}" << std::endl;
   
   cerr << separator << std::endl;
-
-  return score;
 }
 
 //_______________________________________________________________________________
@@ -140,7 +145,10 @@ static xmlErr xml2Msr(
   if (elemsTree) {
     S_msrScore score =
       buildMsrScoreFromTree (ts, elemsTree);
-      
+
+    if (ts->fDisplayMSR)
+      displayMSRScore (ts, score);
+
     /*
     // create an xml2MsrVisitor
     xml2MsrVisitor v(ts);

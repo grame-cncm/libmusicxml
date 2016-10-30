@@ -107,8 +107,14 @@ class EXP translationSettings : public smartable {
     // advanced settings
     bool                            fDelayRestsDynamics;
 
-    // intermediate form
+    // MSR intermediate form
     bool                            fDisplayMSR;
+
+    // score summary
+    bool                            fDisplayScoreSummary;
+
+    // LilyPond source code
+    bool                            fDontDisplayLilyPondCode;
     
     // debug and trace
     bool                            fDebug;
