@@ -1861,7 +1861,7 @@ void msrTuplet::printMSR (ostream& os)
   os <<
     "Tuplet " << fActualNotes << "/" << fNormalNotes << endl;
   idtr++;
-  vector<S_msrElement>::const_iterator i;
+  msrElementsVector::const_iterator i;
   for (i=fTupletContents.begin(); i!=fTupletContents.end(); i++) {
     os << idtr << (*i);
   } // for
@@ -1878,7 +1878,7 @@ void msrTuplet::printLilyPondCode (ostream& os)
   if (fTupletContents.size()) {
     idtr++;
     
-    vector<S_msrElement>::const_iterator
+    msrElementsVector::const_iterator
       iBegin = fTupletContents.begin(),
       iEnd   = fTupletContents.end(),
       i      = iBegin;

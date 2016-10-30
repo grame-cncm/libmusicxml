@@ -246,6 +246,7 @@ class EXP msrElement : public smartable {
     bool fDebug;
 };
 typedef SMARTP<msrElement> S_msrElement;
+typedef vector<S_msrElement> msrElementsVector;
 typedef list<S_msrElement> msrElementList;
 
 //______________________________________________________________________________
@@ -621,8 +622,8 @@ class EXP msrParallelMusic : public msrElement {
     
   private:
   
-    vector<S_msrElement> fParallelMusicElements;
-    ElementsSeparator         fElementsSeparator;
+    msrElementsVector fParallelMusicElements;
+    ElementsSeparator fElementsSeparator;
 
 };
 typedef SMARTP<msrParallelMusic> S_msrParallelMusic;
@@ -1165,7 +1166,7 @@ class EXP msrTuplet : public msrElement {
     int fActualNotes;
     int fNormalNotes;
     
-    vector<S_msrElement> fTupletContents;
+    msrElementsVector fTupletContents;
 };
 typedef SMARTP<msrTuplet> S_msrTuplet;
 typedef stack<S_msrTuplet> msrTupletsStack;
