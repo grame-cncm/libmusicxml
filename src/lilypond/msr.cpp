@@ -21,6 +21,9 @@ using namespace std;
 
 namespace MusicXML2 
 {
+    int         fInputLineNumber;
+    int         fMeasureNumber;
+    int         fPositionInMeasure; // divisions
 
 //______________________________________________________________________________
 // global variables
@@ -30,6 +33,57 @@ msrGlobalVariables::CodeGenerationKind
     msrGlobalVariables::kLilypondCode;
 
 indenter msrElement::idtr;
+
+//______________________________________________________________________________
+void musicXMLWarning (
+  musicXMLLocation location,
+  string           message)
+{
+  cerr <<
+    endl <<
+    "--> MusicXML WARNING, input line " << location.fInputLineNumber  <<
+    ", measure " << location.fMeasureNumber <<
+    ":" << location.fPositionInMeasure << endl <<
+    "      " << message << endl <<
+    endl;
+}
+
+void musicXMLError (
+  musicXMLLocation location,
+  string           message)
+{
+  std::cerr <<
+    endl <<
+    "--> MusicXML ERROR, input line " << location.fInputLineNumber  <<
+    ", measure " << location.fMeasureNumber <<
+    ":" << location.fPositionInMeasure << endl <<
+    "      " << message << endl <<
+    endl;
+    
+  assert(false);
+}
+
+void msrInternalError (
+  musicXMLLocation location,
+  string           message)
+{
+  cerr <<
+    endl <<
+    "--> MSR INTERNAL ERROR, input line " <<
+    location.fInputLineNumber  <<
+    ", measure " << location.fMeasureNumber <<
+    ":" << fCurrentPositionInMeasure << "/" ;
+  if (location.fPositionInMeasure > 0)
+    cerr <<  location.fPositionInMeasure;
+  else
+    cerr << "?";
+  cerr <<
+    endl <<
+    "      " << message <<
+    endl << endl;
+    
+  assert(false);
+}
 
 //______________________________________________________________________________
 S_msrElement msrElement::create(bool debug)
@@ -287,7 +341,7 @@ string msrDuration::durationAsMSRString ()
       "%--> msrDuration::printLilyPondCode, noteDivisions = " << noteDivisions <<
       ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
       endl;
-    msrMusicXMLError (s.str());
+    musicXMLError (s.str());
   }
 
   stringstream s;
@@ -312,7 +366,7 @@ string msrDuration::durationAsMSRString ()
         endl << 
         "--> unknown tuplet member type " << fTupletMemberNoteType <<
         endl;
-      msrMusicXMLError (s.str());
+      musicXMLError (s.str());
       }
         
   } else {
@@ -358,7 +412,7 @@ string msrDuration::durationAsMSRString ()
         s <<
           "*** ERROR, MusicXML note duration " << noteDivisions << "/" << 
           divisionsPerWholeNote << " is too large" << endl;
-        msrMusicXMLError (s.str());
+        musicXMLError (s.str());
         }
     } // switch
   }
@@ -534,7 +588,7 @@ string msrDynamics::dynamicsKindAsString ()
       {
       stringstream s;
       s << "Dynamics " << fDynamicsKind << " is unknown";
-      msrMusicXMLError (s.str());
+      musicXMLError (s.str());
       }
   } // switch
   
@@ -726,8 +780,8 @@ msrNote::msrNote (
       s <<
         "step value " << fMusicXMLNoteData.fMusicXMLStep <<
         " is not a letter from A to G";
-    //  msrMusicXMLError (s.str());
-    msrMusicXMLWarning (s.str());
+    //  musicXMLError (s.str());
+    musicXMLWarning (s.str());
     }
   }
 
@@ -798,7 +852,7 @@ msrNote::msrNote (
       s <<
         "MusicXML alteration " << fMusicXMLNoteData.fMusicXMLAlteration <<
         " is not between -2 and +2";
-      msrMusicXMLError (s.str());
+      musicXMLError (s.str());
       
       msrAssert ( // JMI
         fMusicXMLNoteData.fMusicXMLAlteration>=-2
@@ -2560,7 +2614,7 @@ msrKey::msrKey (
       stringstream s;
       s << 
         "ERROR: unknown key sign \"" << fFifths << "\"" << endl;
-      msrMusicXMLError (s.str());
+      musicXMLError (s.str());
       }
   } // switch
   
@@ -3402,8 +3456,8 @@ S_msrVoice msrStaff::addVoiceToStaff (
       "staff " << getStaffName () <<
       " is already filled up with" << msrStaff::gMaxStaffVoices <<
       " voices, voice " << voiceNumber << " overflows it" << endl;
-// JMI    msrMusicXMLError (s.str());
-    msrMusicXMLWarning (s.str());
+// JMI    musicXMLError (s.str());
+    musicXMLWarning (s.str());
   }
 
   // create the voice
@@ -3442,8 +3496,8 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
     s <<
       "staff " << getStaffName () <<
       " has no voice number " << voiceNumber << endl;
- //   msrMusicXMLError (s.str()); JMI
-    msrMusicXMLWarning (s.str());
+ //   musicXMLError (s.str()); JMI
+    musicXMLWarning (s.str());
   }
   */
 

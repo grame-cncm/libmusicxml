@@ -324,7 +324,20 @@ class EXP xml2MsrScoreVisitor :
                      
     S_translationSettings   fTranslationSettings;
 
-    int                     fInputLineNumber;
+    // location handling
+    // ------------------------------------------------------
+    musicXMLLocation        fCurrentMusicXMLLocation;
+
+    // warning and error messages
+    // ------------------------------------------------------    
+    void                    musicXMLWarning (
+                              std::string message)
+                                
+    void                    musicXMLError (
+                              std::string message);
+                                
+    void                    msrInternalError (
+                              std::string message);
 
     // the score we're building
     // ------------------------------------------------------
@@ -452,11 +465,6 @@ class EXP xml2MsrScoreVisitor :
     S_msrLyrics             fCurrentLyrics;
     bool                    fCurrentLyricsHasText;
     void                    handleLyricsText ();
-
-    // positions handling
-    // ------------------------------------------------------
-    int                     fCurrentMeasureNumber;
-    int                     fCurrentPositionInMeasure; // in divisions
 
     // repeat handling
     // ------------------------------------------------------

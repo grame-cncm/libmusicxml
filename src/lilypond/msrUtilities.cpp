@@ -28,53 +28,6 @@ namespace MusicXML2 {
 
 
 //______________________________________________________________________________
-void msrMusicXMLWarning (
-  int         inputLineNumber,
-  int         measureNumber,
-  int         positionInMeasure,
-  std::string message)
-{
-  cerr <<
-    endl <<
-    "--> MusicXML WARNING, input line " << inputLineNumber  <<
-    ", measure " << measureNumber << ":" << positionInMeasure << endl <<
-    "      " << message << endl <<
-    endl;
-}
-
-void msrMusicXMLError (
-  int         inputLineNumber,
-  int         measureNumber,
-  int         positionInMeasure,
-  std::string message)
-{
-  std::cerr <<
-    endl <<
-    "--> MusicXML ERROR, input line " << inputLineNumber  <<
-    ", measure " << measureNumber << ":" << positionInMeasure << endl <<
-    "      " << message << endl <<
-    endl;
-    
-  assert(false);
-}
-
-void msrInternalError (
-  int         inputLineNumber,
-  int         measureNumber,
-  int         positionInMeasure,
-  std::string message)
-{
-  std::cerr <<
-    endl <<
-    "--> INTERNAL ERROR, input line " << inputLineNumber  <<
-    ", measure " << measureNumber << ":" << positionInMeasure << endl <<
-    "      " << message << endl <<
-    endl;
-    
-  assert(false);
-}
-
-//______________________________________________________________________________
 indenter::indenter (string spacer)
 {
   fIndent = 0;

@@ -33,32 +33,29 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-void xml2MsrScoreVisitor::internalError (
-  string message)
+void xml2MsrScoreVisitor::musicXMLWarning (
+  std::string message)
 {
-  msrInternalError (
-    fInputLineNumber,
-    fCurrentMeasureNumber,
-    fCurrentPositionInMeasure,
+  ::musicXMLWarning (
+    fCurrentMusicXMLLocation,
     message);
-  /*
-  cerr <<
-    endl <<
-    "### Internal error, input line " << fInputLineNumber  <<
-    ", measure " << fCurrentMeasureNumber <<
-    ":" << fCurrentPositionInMeasure << "/" ;
-  if (fCurrentMusicXMLDivisions > 0)
-    cerr <<  fCurrentMusicXMLDivisions;
-  else
-    cerr << "?";
-  cerr <<
-    endl <<
-    "      " << message <<
-  endl << endl;
-  
-  assert (false);
-  */
-}                        
+}
+
+void xml2MsrScoreVisitor::musicXMLError (
+  std::string message)
+{
+  ::musicXMLError (
+    fCurrentMusicXMLLocation,
+    message);
+}
+
+void xml2MsrScoreVisitor::msrInternalError (
+  std::string message)
+{
+  ::msrInternalError (
+    fCurrentMusicXMLLocation,
+    message);
+}
 
 //________________________________________________________________________
 xml2MsrScoreVisitor::xml2MsrScoreVisitor (
@@ -66,7 +63,9 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
 {
   fTranslationSettings = ts;
 
-  fInputLineNumber = 0;
+  fCurrentMusicXMLLocation.fInputLineNumber = 0;
+  fCurrentMusicXMLLocation.fCurrentMeasureNumber = 0; // in case of an anacrusis
+  fCurrentMusicXMLLocation.fPositionInMeasure = 0;
   
   // create the MSR score
   fMsrScore =
@@ -74,8 +73,6 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
 
   fCurrentTimeStaffNumber = 1; // it may be absent
   
-  fCurrentMeasureNumber = 0; // in case of an anacrusis
-  fCurrentMusicXMLDivisions = 0;
   
   fCurrentLyricsNumber = 0;
   fCurrentLyricsChunkType = msrLyricsChunk::k_NoChunk;
@@ -542,9 +539,9 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
   else {
     if (fCurrentPartgroupType.size())
       // part group type may be absent
-      msrMusicXMLError (
-        fInputLineNumber,
-        fCurrentMeasureNumber,
+      musicXMLError (
+        ,
+        ,
         fCurrentPositionInMeasure,
         "unknown part group type \"" + fCurrentPartgroupType + "\"");
     partGroupType = msrPartgroup::k_NoPartgroupType;
@@ -574,9 +571,9 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
   else {
    if (fCurrentPartgroupSymbol.size())
       // part group type may be absent
-      msrMusicXMLError (
-        fInputLineNumber,
-        fCurrentMeasureNumber,
+      musicXMLError (
+        ,
+        ,
         fCurrentPositionInMeasure,
         "unknown part group symbol \"" + fCurrentPartgroupSymbol + "\"");
     partGroupSymbol = msrPartgroup::k_NoPartgroupSymbol;
@@ -592,9 +589,9 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
     partGroupBarline = false;
     
   else {
-    msrMusicXMLError (
-      fInputLineNumber,
-      fCurrentMeasureNumber,
+    musicXMLError (
+      ,
+      ,
       fCurrentPositionInMeasure,
       "unknown part group barline \"" + fCurrentPartgroupBarline + "\"");
     partGroupBarline = false;
@@ -741,7 +738,8 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
       fCurrentPart->
         addStaffToPart (fCurrentStaffNumber);
 
-  fCurrentMeasureNumber = 0; // in case of an anacrusis
+  // there can be an anacrusis
+  fCurrentMusicXMLLocation.fCurrentMeasureNumber = 0;
 }
 
 void xml2MsrScoreVisitor::visitEnd (S_part& elt)
@@ -752,22 +750,23 @@ void xml2MsrScoreVisitor::visitEnd (S_part& elt)
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_divisions& elt ) 
 {
-  fCurrentMusicXMLDivisions = (int)(*elt);
+  fCurrentMusicXMLLocation.fPositionInMeasure = (int)(*elt);
   
   if (fTranslationSettings->fTrace) {
     cerr << idtr;
-    if (fCurrentMusicXMLDivisions == 1)
+    if (fCurrentMusicXMLLocation.fPositionInMeasure == 1)
       cerr << "There is 1 division";
     else
       cerr <<
-        "There are " << fCurrentMusicXMLDivisions <<
+        "There are " << fCurrentMusicXMLLocation.fPositionInMeasure <<
         " divisions";
     cerr <<
       " per quater note in part " <<
       fCurrentPart->getPartCombinedName() << endl;
   }
 
-  fCurrentPart->setPartDivisions (fCurrentMusicXMLDivisions);
+  fCurrentPart->setPartDivisions (
+    fCurrentMusicXMLLocation.fPositionInMeasure);
 }
 
 //______________________________________________________________________________
@@ -1013,10 +1012,10 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
     
     stringstream s;
     s << "staff " << staffNumber << " is out of context";
-// JMI    msrMusicXMLError (s.str());
-    msrMusicXMLWarning (
-      fInputLineNumber,
-      fCurrentMeasureNumber,
+// JMI    musicXMLError (s.str());
+    musicXMLWarning (
+      ,
+      ,
       fCurrentPositionInMeasure,
       s.str());    
   }
@@ -1067,9 +1066,9 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
     
     stringstream s;
     s << "voice " << voiceNumber << " is out of context";
-    msrMusicXMLError (
-      fInputLineNumber,
-      fCurrentMeasureNumber,
+    musicXMLError (
+      ,
+      ,
       fCurrentPositionInMeasure,
       s.str());
     
@@ -1107,9 +1106,9 @@ void xml2MsrScoreVisitor::visitEnd (S_backup& elt )
       "backup divisions " << fCurrentBackupDuration <<
       " from position " << saveCurrentPositionInMeasure <<
       " crosses measure left boundary";
-    msrMusicXMLError (
-        fInputLineNumber,
-        fCurrentMeasureNumber,
+    musicXMLError (
+        ,
+        ,
         fCurrentPositionInMeasure,
       s.str());
   }
@@ -1164,7 +1163,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_forward& elt )
       "voice " << fCurrentVoiceNumber <<
       " in forward not found (staff = " << fCurrentStaffNumber <<
       ", duration = " << fCurrentForwardDuration << ")";
-    msrMusicXMLError (s.str());
+    musicXMLError (s.str());
   }
 */
 
@@ -1198,7 +1197,7 @@ void xml2MsrScoreVisitor::visitStart ( S_metronome& elt )
     else {
       stringstream s;
       s << "parentheses value " << parentheses << " should be 'yes' or 'no'";
-      msrMusicXMLError (s.str());
+      musicXMLError (s.str());
     }
   }
 }
@@ -1215,13 +1214,13 @@ void xml2MsrScoreVisitor::visitEnd ( S_metronome& elt )
   }
   
   if (fBeatsData.size() != 1) {
-    msrMusicXMLWarning(
+    musicXMLWarning(
       "multiple beats found, but only per-minute tempos is supported");
     return;         // support per minute tempo only (for now)
   }
   
   if (! fPerMinute) {
-    msrMusicXMLWarning(
+    musicXMLWarning(
       "per-minute not found, only per-minute tempos is supported");
     return;    // support per minute tempo only (for now)
   }
@@ -1294,7 +1293,7 @@ fCurrentTiedOrientation =
       if (fCurrentTiedType.size()) {
         stringstream s;
         s << "tied type" << fCurrentSlurType << "unknown";
-        msrMusicXMLError (s.str());
+        musicXMLError (s.str());
       }
       
     }
@@ -1334,7 +1333,7 @@ void xml2MsrScoreVisitor::visitStart (S_slur& elt )
       if (fCurrentSlurType.size()) {
         stringstream s;
         s << "slur type" << fCurrentSlurType << "unknown";
-        msrMusicXMLError (s.str());
+        musicXMLError (s.str());
       }
       
     }
@@ -1390,7 +1389,7 @@ void xml2MsrScoreVisitor::visitStart ( S_syllabic& elt )
   else {
     stringstream s;
     s << "--> syllabic \"" << syllabic << "\" is unknown";
-    msrMusicXMLError (s.str());
+    musicXMLError (s.str());
 
     fCurrentLyricsChunkType = msrLyricsChunk::k_NoChunk;
   }
@@ -1555,20 +1554,21 @@ void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_measure& elt)
 {
-  fCurrentMeasureNumber =
+  fCurrentMusicXMLLocation.fCurrentMeasureNumber =
     elt->getAttributeIntValue ("number", 0);
 
   fCurrentPositionInMeasure = 0;
     
   if (fTranslationSettings->fDebug)
     cerr << idtr << 
-      "=== MEASURE " << fCurrentMeasureNumber << " === " <<
+      "=== MEASURE " <<
+      fCurrentMusicXMLLocation.fCurrentMeasureNumber << " === " <<
       "PART " << fCurrentPart->getPartCombinedName () <<" ===" << endl;
 
   if (
     fCurrentPart->getPartMSRName() == "P17"
       &&
-    fCurrentMeasureNumber == 26) {
+    fCurrentMusicXMLLocation.fCurrentMeasureNumber == 26) {
 //    fTranslationSettings->fTrace = true; // JMI pour tests
 //    fTranslationSettings->fDebug = true; // JMI pour tests
   }
@@ -1584,7 +1584,8 @@ void xml2MsrScoreVisitor::visitStart ( S_print& elt )
     // create a barnumbercheck command
     S_msrBarNumberCheck
       barnumbercheck_ =
-        msrBarNumberCheck::create (fCurrentMeasureNumber);
+        msrBarNumberCheck::create (
+          fCurrentMusicXMLLocation.fCurrentMeasureNumber);
     S_msrElement bnc = barnumbercheck_;
     fCurrentVoice->
       appendElementToVoice (bnc);
@@ -1592,7 +1593,8 @@ void xml2MsrScoreVisitor::visitStart ( S_print& elt )
     // create a break command
     S_msrBreak
       break_ =
-        msrBreak::create(fCurrentMeasureNumber);
+        msrBreak::create(
+          fCurrentMusicXMLLocation.fCurrentMeasureNumber);
     S_msrElement brk = break_;
     fCurrentVoice->
       appendElementToVoice (brk);
@@ -1600,7 +1602,8 @@ void xml2MsrScoreVisitor::visitStart ( S_print& elt )
     // add a break chunk to the voice master lyrics
     fCurrentVoice->
       getVoiceMasterLyrics ()->
-        addBreakChunkToLyrics (fCurrentMeasureNumber);
+        addBreakChunkToLyrics (
+          fCurrentMusicXMLLocation.fCurrentMeasureNumber);
     }
 }
 
@@ -1736,7 +1739,8 @@ void xml2MsrScoreVisitor::visitStart ( S_barline& elt )
     
     S_msrBarLine
       barline =
-        msrBarLine::create (fCurrentMeasureNumber+1);
+        msrBarLine::create (
+          fCurrentMusicXMLLocation.fCurrentMeasureNumber+1);
     S_msrElement bar = barline;
     fCurrentVoice->
       appendElementToVoice (bar);
@@ -1874,7 +1878,7 @@ void xml2MsrScoreVisitor::visitStart ( S_step& elt )
   if (step.length() != 1) {
     stringstream s;
     s << "step value " << step << " should be a single letter from A to G";
-    msrMusicXMLError (s.str());
+    musicXMLError (s.str());
   }
 
   fMusicXMLNoteData.fMusicXMLStep = step[0];
@@ -1911,8 +1915,8 @@ void xml2MsrScoreVisitor::visitStart ( S_duration& elt )
     
     stringstream s;
     s << "duration " << musicXMLduration << " is out of context";
- // JMI   msrMusicXMLError (s.str());
-    msrMusicXMLWarning (s.str());
+ // JMI   musicXMLError (s.str());
+    musicXMLWarning (s.str());
     
   }
     
@@ -2209,7 +2213,7 @@ void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
   else {
     stringstream s;
     s << "tuplet type " << tupletType << " is unknown";
-    msrMusicXMLError (s.str());
+    musicXMLError (s.str());
   }
 }
 
@@ -2235,7 +2239,7 @@ void xml2MsrScoreVisitor::visitStart ( S_display_step& elt)
   if (displayStep.length() != 1) {
     stringstream s;
     s << "sdisplay step value " << displayStep << " should be a single letter from A to G";
-    msrMusicXMLError (s.str());
+    musicXMLError (s.str());
   }
 
   fDisplayStep = displayStep[0];
@@ -2504,14 +2508,14 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     cerr << idtr <<
       "fMusicXMLNoteData.fMusicXMLDuration = " << 
       fMusicXMLNoteData.fMusicXMLDuration << ", " << 
-      "fCurrentMusicXMLDivisions*4 = " <<
-      fCurrentMusicXMLDivisions*4 << endl;
+      "fCurrentMusicXMLLocation.fPositionInMeasure*4 = " <<
+      fCurrentMusicXMLLocation.fPositionInMeasure*4 << endl;
       
-  if (fCurrentMusicXMLDivisions <= 0)
-    msrMusicXMLError ("divisions cannot be 0 nor negative");
+  if (fCurrentMusicXMLLocation.fPositionInMeasure <= 0)
+    musicXMLError ("divisions cannot be 0 nor negative");
   
   fMusicXMLNoteData.fMusicXMLDivisions =
-    fCurrentMusicXMLDivisions;
+    fCurrentMusicXMLLocation.fPositionInMeasure;
   fMusicXMLNoteData.fMusicXMLTupletMemberNoteType =
     fCurrentNoteType;
   
@@ -2620,7 +2624,7 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
   S_msrNote newNote)
 {
   if (fMusicXMLNoteData.fMusicXMLStepIsARest)
-    msrMusicXMLError (
+    musicXMLError (
       "a rest cannot belong to a chord");
       
   if (! fOnGoingChord) {
@@ -2798,7 +2802,7 @@ void xml2MsrScoreVisitor::handleLyricsText ()
     lyricMsrDuration =
       msrDuration::create (
         fMusicXMLNoteData.fMusicXMLDuration,
-        fCurrentMusicXMLDivisions,
+        fCurrentMusicXMLLocation.fPositionInMeasure,
         fMusicXMLNoteData.fMusicXMLDotsNumber,
         fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
 

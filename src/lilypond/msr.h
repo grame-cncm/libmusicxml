@@ -128,6 +128,67 @@ EXP ostream& operator<< (ostream& os, const S_msrPaper& chrd);
 EXP ostream& operator<< (ostream& os, const S_msrLayout& chrd);
 
 
+//______________________________________________________________________________
+
+class musicXMLLocation
+{
+  public:
+
+    int         fInputLineNumber;
+    int         fMeasureNumber;
+    int         fPositionInMeasure; // divisions
+};
+  
+//______________________________________________________________________________
+/*!
+\internal
+\brief A macro to exit when a condition if false
+*/
+// a macro to abort with code source line information,
+// as assert() itself
+
+#define msrAssert( condition, messageIfFalse ) \
+{ \
+  if (! condition) { \
+    std::cout << std::flush; \
+    std::cerr << \
+      messageIfFalse << std::endl << std::flush; \
+    assert(condition); \
+  } \
+}
+// JMI       std::endl <<"--> assertLilypond() causes exit, " <<
+
+/*!
+\internal
+\brief A function to emit warning messages regarding MusicXML data
+*/
+//______________________________________________________________________________
+void musicXMLWarning (
+  musicXMLLocation location,
+  std::string      message);
+
+/*!
+\internal
+\brief A macro to emit error messages regarding MusicXML data and exit
+*/
+//______________________________________________________________________________
+/*
+#define msrMusicXMLError( errorMessage ) \
+{ \
+  std::cerr << \
+    "--> MusicXML ERROR : " << errorMessage << " !!!" << std::endl; \
+  assert(false); \
+}
+*/
+
+void musicXMLError (
+  musicXMLLocation location,
+  std::string      message);
+  
+void msrError (
+  musicXMLLocation location,
+  std::string      message);
+  
 /*!
 \brief Global variables.
 
