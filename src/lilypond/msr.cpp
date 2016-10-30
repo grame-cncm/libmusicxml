@@ -3088,7 +3088,7 @@ void msrLyrics::addBreakChunkToLyrics (
 
   S_msrDuration
     nullMsrDuration =
-      msrDuration::create (0, 0, 0, "");
+      msrDuration::create (0, 1, 0, "");
         
   S_msrLyricsChunk
     chunk =

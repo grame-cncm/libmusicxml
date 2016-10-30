@@ -78,15 +78,16 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
       0) // at the beginning of a measure
       */
   gCurrentMusicXMLLocation.fInputLineNumber = 0;
-  gCurrentMusicXMLLocation.fMeasureNumber = 0; 
-  gCurrentMusicXMLLocation.fPositionInMeasure = 0;
-  
+  gCurrentMusicXMLLocation.fMeasureNumber = 0; // in case of an anacrusis
+  gCurrentMusicXMLLocation.fPositionInMeasure = 1;
+
+  fCurrentMusicXMLDivisions = 0;
+
   // create the MSR score
   fMsrScore =
     msrScore::create (fTranslationSettings);
 
   fCurrentTimeStaffNumber = 1; // it may be absent
-  
   
   fCurrentLyricsNumber = 0;
   fCurrentLyricsChunkType = msrLyricsChunk::k_NoChunk;
@@ -755,15 +756,19 @@ void xml2MsrScoreVisitor::visitEnd (S_part& elt)
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_divisions& elt ) 
 {
-  gCurrentMusicXMLLocation.fPositionInMeasure = (int)(*elt);
+  fCurrentMusicXMLDivisions = (int)(*elt);
+  
+  if (fCurrentMusicXMLDivisions <= 0)
+    msrMusicXMLError (
+      "divisions per quarter note should be positive");
   
   if (fTranslationSettings->fTrace) {
     cerr << idtr;
-    if (gCurrentMusicXMLLocation.fPositionInMeasure == 1)
+    if (fCurrentMusicXMLDivisions== 1)
       cerr << "There is 1 division";
     else
       cerr <<
-        "There are " << gCurrentMusicXMLLocation.fPositionInMeasure <<
+        "There are " << fCurrentMusicXMLDivisions<<
         " divisions";
     cerr <<
       " per quater note in part " <<
@@ -1937,7 +1942,7 @@ void xml2MsrScoreVisitor::visitStart ( S_stem& elt )
   string        stem = elt->getValue();
   StemDirection stemDirection;
   
-  if (stem == "up")
+  if      (stem == "up")
     stemDirection = kStemUp;
   else if (stem == "down")
     stemDirection = kStemDown;
@@ -2201,7 +2206,7 @@ void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
   
   fCurrentTupletKind = msrTuplet::k_NoTuplet;
   
-  if (tupletType == "start")
+  if      (tupletType == "start")
     fCurrentTupletKind = msrTuplet::kStartTuplet;
   else if (tupletType == "continue")
     fCurrentTupletKind = msrTuplet::kContinueTuplet;
@@ -2505,14 +2510,11 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     cerr << idtr <<
       "fMusicXMLNoteData.fMusicXMLDuration = " << 
       fMusicXMLNoteData.fMusicXMLDuration << ", " << 
-      "gCurrentMusicXMLLocation.fPositionInMeasure*4 = " <<
-      gCurrentMusicXMLLocation.fPositionInMeasure*4 << endl;
+      "fCurrentMusicXMLDivisions*4 = " <<
+      fCurrentMusicXMLDivisions*4 << endl;
       
-  if (gCurrentMusicXMLLocation.fPositionInMeasure <= 0)
-    msrMusicXMLError ("divisions cannot be 0 nor negative");
-  
   fMusicXMLNoteData.fMusicXMLDivisions =
-    gCurrentMusicXMLLocation.fPositionInMeasure;
+    fCurrentMusicXMLDivisions;
   fMusicXMLNoteData.fMusicXMLTupletMemberNoteType =
     fCurrentNoteType;
   
@@ -2799,7 +2801,7 @@ void xml2MsrScoreVisitor::handleLyricsText ()
     lyricMsrDuration =
       msrDuration::create (
         fMusicXMLNoteData.fMusicXMLDuration,
-        gCurrentMusicXMLLocation.fPositionInMeasure,
+        fCurrentMusicXMLDivisions,
         fMusicXMLNoteData.fMusicXMLDotsNumber,
         fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
 

@@ -371,6 +371,7 @@ class EXP msrDuration : public msrElement {
         int    denom,
         int    dots,
         string tupletMemberType);
+        
     virtual ~msrDuration();
     
     void scaleNumByFraction (int num, int denom);
