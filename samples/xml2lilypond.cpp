@@ -330,7 +330,7 @@ int main(int argc, char *argv[])
   // int   remainingArgs = nonOptionArgs;
 
   // for TESTS
-  ts->fDisplayMSR                        = true;
+  //ts->fDisplayMSR                        = true;
   //ts->fTrace = true;
   //ts->fDebug = true;
   

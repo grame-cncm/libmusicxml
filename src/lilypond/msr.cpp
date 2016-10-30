@@ -1429,8 +1429,6 @@ void msrSequence::printScoreSummary (ostream& os)
 {  
   int sequenceElementsSize = fSequenceElements.size();
 
-  os << "Sequence";
-
   os <<
     "Sequence" <<
     " contains " << sequenceElementsSize;
@@ -3406,9 +3404,9 @@ void msrLyrics::printScoreSummary (ostream& os)
   os << "Lyrics" << " " << getLyricsName () <<
     " contains " << lyricsChunksSize;
   if (lyricsChunksSize == 1)
-    os << " chunks";
+    os << " chunk";
   else
-    os << " chunks:";
+    os << " chunks";
 
   if (! fLyricsTextPresent)
     os << " (No actual text)";
@@ -4417,8 +4415,12 @@ void msrPartgroup::printScoreSummary (ostream& os)
   
   os <<
     "Partgroup" << " " << fPartgroupNumber <<
-    " contains " << partgroupElementsSize <<
-    " parts and sub part groups" << endl;
+    " contains " << partgroupElementsSize;
+  if (partgroupElementsSize == 1)
+    os << " parts or sub part group";
+  else
+    os << " parts or sub part groups";
+  os << endl;
 
   idtr++;
 
