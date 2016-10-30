@@ -93,7 +93,8 @@ S_msrScore buildMsrScoreFromTree (
   //   - LilyPond source code
   // use the visitor to build a MSR score from the xmlelement tree
   // choosing kMSR for the trace of the score build
-  msrGlobalVariables::setCodeGenerationKind (msrGlobalVariables::kMSR);
+  msrGlobalVariables::setDisplayKind (
+    msrGlobalVariables::kMSR);
 
   S_msrScore
     score =
@@ -104,6 +105,7 @@ S_msrScore buildMsrScoreFromTree (
   return score;
 }
 
+//_______________________________________________________________________________
 void displayMSRScore (
   S_translationSettings& ts,
   S_msrScore             score)
@@ -115,11 +117,38 @@ void displayMSRScore (
   if (ts->fTrace) 
     cerr << idtr <<
       separator << endl <<
-      "%Outputting the MSR ccore" << endl <<
+      "%Outputting a hierarchical view of the MSR score" << endl <<
       separator << endl;
   
   // choosing kMSR to print the score
-  msrGlobalVariables::setCodeGenerationKind (msrGlobalVariables::kMSR);
+  msrGlobalVariables::setDisplayKind (
+    msrGlobalVariables::kMSR);
+   
+  if (ts->fTrace) cerr << "{%" << std::endl;
+  cerr << score;
+  if (ts->fTrace) cerr << "%}" << std::endl;
+  
+  cerr << separator << std::endl;
+}
+
+//_______________________________________________________________________________
+void displayScoreSummary (
+  S_translationSettings& ts,
+  S_msrScore             score)
+{
+  string separator = "%----------------------------------------";
+
+  // output the score resulting from the conversion 
+  // thru msrElement::printMsrStructure()
+  if (ts->fTrace) 
+    cerr << idtr <<
+      separator << endl <<
+      "%Outputting a summary of the MSR score" << endl <<
+      separator << endl;
+  
+  // choosing kScoreSummary to print the score
+  msrGlobalVariables::setDisplayKind (
+    msrGlobalVariables::kScoreSummary);
    
   if (ts->fTrace) cerr << "{%" << std::endl;
   cerr << score;
@@ -149,6 +178,7 @@ static xmlErr xml2Msr(
     if (ts->fDisplayMSR)
       displayMSRScore (ts, score);
 
+    
     /*
     // create an xml2MsrVisitor
     xml2MsrVisitor v(ts);
@@ -173,7 +203,7 @@ static xmlErr xml2Msr(
     //   - the MSR structure
     //   - MusicXML text
     //   - LilyPond source code
-    msrGlobalVariables::setCodeGenerationKind (msrGlobalVariables::kMSR);
+    msrGlobalVariables::setDisplayKind (msrGlobalVariables::kMSR);
     if (ts->fTrace) cerr << "{%" << std::endl;
     std::cerr << 
       msr << std::endl;
@@ -208,7 +238,7 @@ static xmlErr xml2Msr(
     out << "%}" << std::endl << std::endl;
       
     // output the LilyPond semantic representation tree resulting from the conversion 
-    msrGlobalVariables::setCodeGenerationKind (msrGlobalVariables::kLilypondCode);
+    msrGlobalVariables::setDisplayKind (msrGlobalVariables::kLilypondCode);
     out <<
       msr << endl;
     

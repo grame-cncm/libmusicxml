@@ -27,8 +27,8 @@ namespace MusicXML2
 
 musicXMLLocation  gCurrentMusicXMLLocation;
 
-msrGlobalVariables::CodeGenerationKind
-  msrGlobalVariables::sCodeGenerationKind =
+msrGlobalVariables::DisplayKind
+  msrGlobalVariables::sDisplayKind =
     msrGlobalVariables::kLilypondCode;
 
 indenter msrElement::idtr;
@@ -99,13 +99,14 @@ void msrInternalError (string message)
 }
 
 //______________________________________________________________________________
-S_msrElement msrElement::create(bool debug)
+S_msrElement msrElement::create (bool debug)
 {
-  msrElement * o = new msrElement(debug); assert(o!=0);
+  msrElement * o = new msrElement(debug);
+  assert(o!=0);
   return o; 
 }
 
-msrElement::msrElement(bool debug)
+msrElement::msrElement (bool debug)
 {
   fDebug = debug;
 }
@@ -117,37 +118,50 @@ ostream& operator<< (ostream& os, const S_msrElement& elt)
   return os;
 }
 
-void msrElement::print(ostream& os)
+void msrElement::print (ostream& os)
 {
   // a global variable is needed so that msr::Element.print() 
   // can decide whether to print:
   //   - the MSR structure
   //   - MusicXML text
   //   - LilyPond source code
-switch (msrGlobalVariables::getCodeGenerationKind()) {
+switch (msrGlobalVariables::getDisplayKind ()) {
     case msrGlobalVariables::kMSR:
       this->printMSR (os);
       break;
     case msrGlobalVariables::kMusicXML:
       this->printMusicXML (os);
       break;
+    case msrGlobalVariables::kScoreSummary:
+      this->printScoreSummary (os);
+      break;
     case msrGlobalVariables::kLilypondCode:
       this->printLilyPondCode (os);
       break;
+    case msrGlobalVariables::k_NoDisplay:
+      msrInternalError (
+        "global variable 'display', "
+        "used by msrElement::print(ostream& os), "
+        "has not been set ");
   } // switch
 }
 
-void msrElement::printMusicXML(ostream& os)
+void msrElement::printMusicXML (ostream& os)
 {
   os << "<!-- msrElement??? -->" << endl;
 }
 
-void msrElement::printMSR(ostream& os)
+void msrElement::printMSR (ostream& os)
 {
   os << "Element???" << endl;
 }
 
-void msrElement::printLilyPondCode(ostream& os)
+void msrElement::printScoreSummary (ostream& os)
+{
+  os << "Element???" << endl;
+}
+
+void msrElement::printLilyPondCode (ostream& os)
 {
   os << "\%{ msrElement??? \%}" << endl;
 }
@@ -270,12 +284,17 @@ string msrAbsoluteOctave::absoluteOctaveAsLilypondString ()
   return s.str();
 }
 
-void msrAbsoluteOctave::printMSR(ostream& os)
+void msrAbsoluteOctave::printMSR (ostream& os)
 {
   this->printLilyPondCode (os);
 }
 
-void msrAbsoluteOctave::printLilyPondCode(ostream& os)
+void msrAbsoluteOctave::printScoreSummary (ostream& os)
+{
+  this->printLilyPondCode (os);
+}
+
+void msrAbsoluteOctave::printLilyPondCode (ostream& os)
 {
   /*
   enum NoteFigures = {
@@ -339,7 +358,7 @@ ostream& operator<< (ostream& os, const S_msrDuration& dur)
   return os;
 }
 
-void msrDuration::printMusicXML(ostream& os)
+void msrDuration::printMusicXML (ostream& os)
 {
   os << "<!-- msrDuration??? -->" << endl;
 }
@@ -443,12 +462,17 @@ string msrDuration::durationAsMSRString ()
   return s.str();
 }
 
-void msrDuration::printMSR(ostream& os)
+void msrDuration::printMSR (ostream& os)
 {
   os << durationAsMSRString () << flush;
 }
 
-void msrDuration::printLilyPondCode(ostream& os)
+void msrDuration::printScoreSummary (ostream& os)
+{
+  os << durationAsMSRString () << flush;
+}
+
+void msrDuration::printLilyPondCode (ostream& os)
 {
   /*
   enum NoteFigures = {
@@ -485,12 +509,12 @@ ostream& operator<< (ostream& os, const S_msrArticulation& elt)
   return os;
 }
 
-void msrArticulation::printMusicXML(ostream& os)
+void msrArticulation::printMusicXML (ostream& os)
 {
   os << "<!-- msrTime??? -->" << endl;
 }
 
-void msrArticulation::printMSR(ostream& os)
+void msrArticulation::printMSR (ostream& os)
 {
   os << "Articulation" << " ";
 
@@ -509,7 +533,26 @@ void msrArticulation::printMSR(ostream& os)
   os << endl;
 }
 
-void msrArticulation::printLilyPondCode(ostream& os)
+void msrArticulation::printScoreSummary (ostream& os)
+{
+  os << "Articulation" << " ";
+
+  switch (fArticulationKind) {
+    case kStaccato:
+      os << "staccato";
+      break;
+    case kStaccatissimo:
+      os << "staccatissimo";
+      break;
+    case kFermata:
+      os << "fermata";
+      break;
+  } // switch
+  
+  os << endl;
+}
+
+void msrArticulation::printLilyPondCode (ostream& os)
 {
   switch (fArticulationKind) {
     case kStaccato:
@@ -517,6 +560,9 @@ void msrArticulation::printLilyPondCode(ostream& os)
       break;
     case kStaccatissimo:
       os << "-^";
+      break;
+    case kFermata:
+      os << "\fermata";
       break;
   } // switch
 }
@@ -613,18 +659,24 @@ string msrDynamics::dynamicsKindAsLilypondString ()
   return "\\"+dynamicsKindAsString ();
 }
 
-void msrDynamics::printMusicXML(ostream& os)
+void msrDynamics::printMusicXML (ostream& os)
 {
   os << "<!-- msrDynamics??? -->" << endl;
 }
 
-void msrDynamics::printMSR(ostream& os)
+void msrDynamics::printMSR (ostream& os)
 {
   os <<
     "Dynamics" << " " << dynamicsKindAsString () << endl;
 }
 
-void msrDynamics::printLilyPondCode(ostream& os)
+void msrDynamics::printScoreSummary (ostream& os)
+{
+  os <<
+    "Dynamics" << " " << dynamicsKindAsString () << endl;
+}
+
+void msrDynamics::printLilyPondCode (ostream& os)
 {
   os << dynamicsKindAsLilypondString ();
 }
@@ -670,17 +722,22 @@ string msrWedge::wedgeKindAsString ()
   return s.str();
 }
 
-void msrWedge::printMusicXML(ostream& os)
+void msrWedge::printMusicXML (ostream& os)
 {
   os << "<!-- msrWedge??? -->" << endl;
 }
 
-void msrWedge::printMSR(ostream& os)
+void msrWedge::printMSR (ostream& os)
 {
   os << "Wedge" << " " << wedgeKindAsString () << endl;
 }
 
-void msrWedge::printLilyPondCode(ostream& os)
+void msrWedge::printScoreSummary (ostream& os)
+{
+  os << "Wedge" << " " << wedgeKindAsString () << endl;
+}
+
+void msrWedge::printLilyPondCode (ostream& os)
 {
   os << wedgeKindAsString ();
 }
@@ -726,17 +783,22 @@ string msrSlur::slurKindAsString ()
   return s.str();
 }
 
-void msrSlur::printMusicXML(ostream& os)
+void msrSlur::printMusicXML (ostream& os)
 {
   os << "<!-- msrSlur??? -->" << endl;
 }
 
-void msrSlur::printMSR(ostream& os)
+void msrSlur::printMSR (ostream& os)
 {
   os << "Slur" << " " << slurKindAsString () << endl;
 }
 
-void msrSlur::printLilyPondCode(ostream& os)
+void msrSlur::printScoreSummary (ostream& os)
+{
+  os << "Slur" << " " << slurKindAsString () << endl;
+}
+
+void msrSlur::printLilyPondCode (ostream& os)
 {
   os << slurKindAsString ();
 }
@@ -900,8 +962,8 @@ msrNote::msrNote (
 //  cerr << "fNoteMsrDuration = " << fNoteMsrDuration << endl;
     
   // diatonic note for relative code JMI
-  msrNote::MusicXMLDiatonicPitch diatonicNote =
-    msrNote::k_NoDiatonicPitch;
+//  msrNote::MusicXMLDiatonicPitch diatonicNote =
+//    msrNote::k_NoDiatonicPitch;
 }
 
 msrNote::~msrNote() {}
@@ -1183,22 +1245,22 @@ string msrNote::notePitchAsLilypondString ()
   return s.str();
 }
 
-void msrNote::printMusicXML(ostream& os)
+void msrNote::printMusicXML (ostream& os)
 {
   os << "<!-- msrNote??? -->" << endl;
 }
 
-void msrNote::printMSR(ostream& os)
+void msrNote::printMSR (ostream& os)
 {
   /*
   cerr <<
-    "msrNote::printMSR(), fNoteBelongsToAChord = " << 
+    "msrNote::printMSR (), fNoteBelongsToAChord = " << 
     fNoteBelongsToAChord << endl;
   */
   
   if (fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord) {
 
-    // do not print it, msrChord::printMSR() will do it
+    // do not print it, msrChord::printMSR () will do it
     os << notePitchAsLilypondString() << " (FOO) ";
 
   } else {
@@ -1268,7 +1330,10 @@ void msrNote::printMSR(ostream& os)
   }
 }
 
-void msrNote::printLilyPondCode(ostream& os)
+void msrNote::printScoreSummary (ostream& os)
+{}
+
+void msrNote::printLilyPondCode (ostream& os)
 {
   // print the note name
   os << notePitchAsLilypondString ();
@@ -1362,7 +1427,7 @@ ostream& operator<< (ostream& os, const S_msrSequence& elt)
   return os;
 }
 
-void msrSequence::printMSR(ostream& os)
+void msrSequence::printMSR (ostream& os)
 {  
   os << "Sequence";
   
@@ -1387,12 +1452,37 @@ void msrSequence::printMSR(ostream& os)
   }
 }
 
-void msrSequence::printMusicXML(ostream& os)
+void msrSequence::printScoreSummary (ostream& os)
+{  
+  os << "Sequence";
+  
+  if (! fSequenceElements.size ())
+    os << " (No actual notes)";
+  os << endl;
+
+  if (fSequenceElements.size ()) {  
+    idtr++;
+  
+    list<S_msrElement>::const_iterator
+      iBegin = fSequenceElements.begin(),
+      iEnd   = fSequenceElements.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      if (fElementsSeparator == kEndOfLine) os << endl;
+    } // for
+    
+    idtr--;
+  }
+}
+
+void msrSequence::printMusicXML (ostream& os)
 {
   os << "<!-- msrSequence??? -->" << endl;
 }
 
-void msrSequence::printLilyPondCode(ostream& os)
+void msrSequence::printLilyPondCode (ostream& os)
 {
   if (fSequenceElements.size()) {
     list<S_msrElement>::const_iterator
@@ -1427,12 +1517,12 @@ ostream& operator<< (ostream& os, const S_msrParallelMusic& elt)
   return os;
 }
 
-void msrParallelMusic::printMusicXML(ostream& os)
+void msrParallelMusic::printMusicXML (ostream& os)
 {
   os << "<!-- msrParallelMusic??? -->" << endl;
 }
 
-void msrParallelMusic::printMSR(ostream& os)
+void msrParallelMusic::printMSR (ostream& os)
 {
   os << "ParallelMusic" << endl;
   
@@ -1447,7 +1537,22 @@ void msrParallelMusic::printMSR(ostream& os)
   idtr--;
 }
 
-void msrParallelMusic::printLilyPondCode(ostream& os)
+void msrParallelMusic::printScoreSummary (ostream& os)
+{
+  os << "ParallelMusic" << endl;
+  
+  idtr++;
+  
+  int size = fParallelMusicElements.size();
+  
+  for (int i = 0; i < size; i++ ) {
+    os << idtr << fParallelMusicElements[i];
+  } // for
+  
+  idtr--;
+}
+
+void msrParallelMusic::printLilyPondCode (ostream& os)
 {      
   os << idtr << "<<" << endl;
   
@@ -1484,12 +1589,12 @@ ostream& operator<< (ostream& os, const S_msrChord& chrd)
   return os;
 }
 
-void msrChord::printMusicXML(ostream& os)
+void msrChord::printMusicXML (ostream& os)
 {
   os << "<!-- msrChord??? -->" << endl;
 }
 
-void msrChord::printMSR(ostream& os)
+void msrChord::printMSR (ostream& os)
 {
   os << "Chord" << " " << "<";
   if (fChordNotes.size()) {
@@ -1539,7 +1644,10 @@ void msrChord::printMSR(ostream& os)
   }
 }
 
-void msrChord::printLilyPondCode(ostream& os)
+void msrChord::printScoreSummary (ostream& os)
+{}
+
+void msrChord::printLilyPondCode (ostream& os)
 {
   os << "<";
   if (fChordNotes.size()) {
@@ -1595,17 +1703,22 @@ ostream& operator<< (ostream& os, const S_msrBarLine& elt)
   return os;
 }
 
-void msrBarLine::printMusicXML(ostream& os)
+void msrBarLine::printMusicXML (ostream& os)
 {
   os << "<!-- msrBarLine??? -->" << endl;
 }
 
-void msrBarLine::printMSR(ostream& os)
+void msrBarLine::printMSR (ostream& os)
 {
   os << "BarLine" << " " << fNextBarNumber << endl;
 }
 
-void msrBarLine::printLilyPondCode(ostream& os)
+void msrBarLine::printScoreSummary (ostream& os)
+{
+  os << "BarLine" << " " << fNextBarNumber << endl;
+}
+
+void msrBarLine::printLilyPondCode (ostream& os)
 {
   os << "| % " << fNextBarNumber << endl;
 }
@@ -1631,12 +1744,12 @@ ostream& operator<< (ostream& os, const S_msrComment& elt)
   return os;
 }
 
-void msrComment::printMusicXML(ostream& os)
+void msrComment::printMusicXML (ostream& os)
 {
   os << "<!-- msrComment??? -->" << endl;
 }
 
-void msrComment::printMSR(ostream& os)
+void msrComment::printMSR (ostream& os)
 {
   os << "Comment" << endl;
   idtr++;
@@ -1645,7 +1758,16 @@ void msrComment::printMSR(ostream& os)
   idtr--;
 }
 
-void msrComment::printLilyPondCode(ostream& os)
+void msrComment::printScoreSummary (ostream& os)
+{
+  os << "Comment" << endl;
+  idtr++;
+  os << idtr << "% " << fContents << endl;
+  if (fGapKind == kGapAfterwards) os << idtr << endl;
+  idtr--;
+}
+
+void msrComment::printLilyPondCode (ostream& os)
 {
   os << "% " << fContents;
   if (fGapKind == kGapAfterwards) os << endl;
@@ -1671,19 +1793,26 @@ ostream& operator<< (ostream& os, const S_msrBreak& elt)
   return os;
 }
 
-void msrBreak::printMusicXML(ostream& os)
+void msrBreak::printMusicXML (ostream& os)
 {
   os << "<!-- msrBreak??? -->" << endl;
 }
 
-void msrBreak::printMSR(ostream& os)
+void msrBreak::printMSR (ostream& os)
 {
   os <<
     "Break" << " " << fNextBarNumber << endl <<
     endl;
 }
 
-void msrBreak::printLilyPondCode(ostream& os)
+void msrBreak::printScoreSummary (ostream& os)
+{
+  os <<
+    "Break" << " " << fNextBarNumber << endl <<
+    endl;
+}
+
+void msrBreak::printLilyPondCode (ostream& os)
 {
   os <<
     "\\myBreak | % " << fNextBarNumber << endl <<
@@ -1712,17 +1841,22 @@ ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt)
   return os;
 }
 
-void msrBarNumberCheck::printMusicXML(ostream& os)
+void msrBarNumberCheck::printMusicXML (ostream& os)
 {
   os << "<!-- msrBarNumberCheck??? -->" << endl;
 }
 
-void msrBarNumberCheck::printMSR(ostream& os)
+void msrBarNumberCheck::printMSR (ostream& os)
 {
   os << "BarNumberCheck" << " " << fNextBarNumber << endl;
 }
 
-void msrBarNumberCheck::printLilyPondCode(ostream& os)
+void msrBarNumberCheck::printScoreSummary (ostream& os)
+{
+  os << "BarNumberCheck" << " " << fNextBarNumber << endl;
+}
+
+void msrBarNumberCheck::printLilyPondCode (ostream& os)
 {
   os << "\\barNumberCheck #" << fNextBarNumber << endl;
 }
@@ -1758,12 +1892,12 @@ ostream& operator<< (ostream& os, const S_msrTuplet& elt)
   return os;
 }
 
-void msrTuplet::printMusicXML(ostream& os)
+void msrTuplet::printMusicXML (ostream& os)
 {
   os << "<!-- msrTuplet??? -->" << endl;
 }
 
-void msrTuplet::printMSR(ostream& os)
+void msrTuplet::printMSR (ostream& os)
 {
   os <<
     "Tuplet " << fActualNotes << "/" << fNormalNotes << endl;
@@ -1775,7 +1909,19 @@ void msrTuplet::printMSR(ostream& os)
   idtr--;
 }
 
-void msrTuplet::printLilyPondCode(ostream& os)
+void msrTuplet::printScoreSummary (ostream& os)
+{
+  os <<
+    "Tuplet " << fActualNotes << "/" << fNormalNotes << endl;
+  idtr++;
+  vector<S_msrElement>::const_iterator i;
+  for (i=fTupletContents.begin(); i!=fTupletContents.end(); i++) {
+    os << idtr << (*i);
+  } // for
+  idtr--;
+}
+
+void msrTuplet::printLilyPondCode (ostream& os)
 {
   os << "\\tuplet " << fActualNotes << "/" << fNormalNotes << " { ";
 
@@ -1819,17 +1965,22 @@ ostream& operator<< (ostream& os, const S_msrBeam& dyn)
   return os;
 }
 
-void msrBeam::printMusicXML(ostream& os)
+void msrBeam::printMusicXML (ostream& os)
 {
   os << "<!-- msrBeam??? -->" << endl;
 }
 
-void msrBeam::printMSR(ostream& os)
+void msrBeam::printMSR (ostream& os)
 {
   os << "Beam???" << endl;
 }
 
-void msrBeam::printLilyPondCode(ostream& os)
+void msrBeam::printScoreSummary (ostream& os)
+{
+  os << "Beam???" << endl;
+}
+
+void msrBeam::printLilyPondCode (ostream& os)
 {
   switch (fBeamKind) {
     case kBeginBeam:
@@ -1871,12 +2022,12 @@ ostream& operator<< (ostream& os, const S_msrPaper& pap) {
   return os;
 }
 
-void msrPaper::printMusicXML(ostream& os)
+void msrPaper::printMusicXML (ostream& os)
 {
   os << "<!-- msrPaper??? -->" << endl;
 }
 
-void msrPaper::printMSR(ostream& os) {
+void msrPaper::printMSR (ostream& os) {
   os << "Paper" << endl;
 
   idtr++;
@@ -1919,7 +2070,50 @@ void msrPaper::printMSR(ostream& os) {
   idtr--;
 }
 
-void msrPaper::printLilyPondCode(ostream& os)
+void msrPaper::printScoreSummary (ostream& os) {
+  os << "Paper" << endl;
+
+  idtr++;
+  
+  if (fPaperWidth > 0) {
+    os << 
+      idtr << "paper-width = " << setprecision(4) << fPaperWidth << "\\cm" << endl;
+  }
+  if (fPaperHeight > 0) {
+    os <<
+      idtr << "paper-height = " << setprecision(4) << fPaperHeight << "\\cm" << endl;
+  }
+  if (fTopMargin > 0) {
+    os <<
+      idtr << "top-margin = " << setprecision(4) << fTopMargin << "\\cm" << endl;
+  }
+  if (fBottomMargin > 0) {
+    os <<
+      idtr << "bottom-margin = " << setprecision(4) << fBottomMargin << "\\cm" << endl;
+  }
+  if (fLeftMargin > 0) {
+    os <<
+      idtr << "left-margin = " << setprecision(4) << fLeftMargin << "\\cm" << endl;
+  }
+
+  if (fRightMargin > 0) {
+    os << idtr << "right-margin = " << setprecision(4) << fRightMargin << "\\cm" << endl;
+  }
+
+/*
+  if (fBetweenSystemSpace > 0) {
+    os << idtr << "between-system-space = " << setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
+  }
+
+  if (fPageTopSpace > 0) {
+    os << idtr << "page-top-space = " << setprecision(4) << fPageTopSpace << "\\cm" << endl;
+  }
+*/
+
+  idtr--;
+}
+
+void msrPaper::printLilyPondCode (ostream& os)
 {  
   os << "\\paper {" << endl;
 
@@ -2085,12 +2279,12 @@ S_msrLilypondVarValAssoc msrHeader::getScoreInstrument () const
   { return fScoreInstrument; }
 
 
-void msrHeader::printMusicXML(ostream& os)
+void msrHeader::printMusicXML (ostream& os)
 {
   os << "<!-- msrHeader??? -->" << endl;
 }
 
-void msrHeader::printMSR(ostream& os)
+void msrHeader::printMSR (ostream& os)
 {
   os << "Header" << endl;
 
@@ -2137,7 +2331,54 @@ void msrHeader::printMSR(ostream& os)
   idtr--;
 }
 
-void msrHeader::printLilyPondCode(ostream& os)
+void msrHeader::printScoreSummary (ostream& os)
+{
+  os << "Header" << endl;
+
+  idtr++;
+  
+  if (fWorkNumber) {
+    os << idtr << fWorkNumber;
+  }
+  
+  if (fWorkTitle) {
+    os << idtr << fWorkTitle;
+  }
+    
+  if (fMovementNumber) {
+    os << idtr << fMovementNumber;
+  }
+    
+  if (fMovementTitle) {
+    os << idtr << fMovementTitle;
+  }
+    
+  if (!fCreators.empty()) {
+    vector<S_msrLilypondVarValAssoc>::const_iterator i1;
+    for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
+      os << idtr << (*i1);
+    } // for
+  }
+    
+  if (fRights) {
+    os << idtr << fRights;
+  }
+    
+  if (!fSoftwares.empty()) {
+    vector<S_msrLilypondVarValAssoc>::const_iterator i2;
+    for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
+      os << idtr << (*i2);
+    } // for
+  }
+    
+  if (fEncodingDate) {
+    os << idtr << fEncodingDate;
+  }
+  
+  idtr--;
+}
+
+void msrHeader::printLilyPondCode (ostream& os)
 {
   os << "\\header {" << endl;
   
@@ -2283,12 +2524,12 @@ ostream& operator<< (ostream& os, const S_msrLilypondVarValAssoc& assoc) {
   return os;
 }
 
-void msrLilypondVarValAssoc::printMusicXML(ostream& os)
+void msrLilypondVarValAssoc::printMusicXML (ostream& os)
 {
   os << "<!-- msrLilypondVarValAssoc??? -->" << endl;
 }
 
-void msrLilypondVarValAssoc::printMSR(ostream& os)
+void msrLilypondVarValAssoc::printMSR (ostream& os)
 {
   os << "LilypondVarValAssoc" << endl;
   idtr++;
@@ -2297,7 +2538,16 @@ void msrLilypondVarValAssoc::printMSR(ostream& os)
   idtr--;
 }
 
-void msrLilypondVarValAssoc::printLilyPondCode(ostream& os) {
+void msrLilypondVarValAssoc::printScoreSummary (ostream& os)
+{
+  os << "LilypondVarValAssoc" << endl;
+  idtr++;
+  os << idtr << fVariableName << endl;
+  os << idtr << fVariableValue <<endl;
+  idtr--;
+}
+
+void msrLilypondVarValAssoc::printLilyPondCode (ostream& os) {
   if (fCommentedKind == kCommented) os << "\%";
   os << fVariableName;
   if (fVarValSeparator == kEqualSign) os << " = ";
@@ -2344,12 +2594,12 @@ ostream& operator<< (ostream& os, const S_msrSchemeVarValAssoc& assoc)
   return os;
 }
 
-void msrSchemeVarValAssoc::printMusicXML(ostream& os)
+void msrSchemeVarValAssoc::printMusicXML (ostream& os)
 {
   os << "<!-- msrSchemeVarValAssoc??? -->" << endl;
 }
 
-void msrSchemeVarValAssoc::printMSR(ostream& os)
+void msrSchemeVarValAssoc::printMSR (ostream& os)
 {
   os << "SchemeVarValAssoc" << endl;
   idtr++;
@@ -2358,7 +2608,16 @@ void msrSchemeVarValAssoc::printMSR(ostream& os)
   idtr--;
 }
 
-void msrSchemeVarValAssoc::printLilyPondCode(ostream& os)
+void msrSchemeVarValAssoc::printScoreSummary (ostream& os)
+{
+  os << "SchemeVarValAssoc" << endl;
+  idtr++;
+  os << idtr << fVariableName << endl;
+  os << idtr << fVariableValue <<endl;
+  idtr--;
+}
+
+void msrSchemeVarValAssoc::printLilyPondCode (ostream& os)
 {
   if (fCommentedKind == kCommented) os << "\%";
   os <<
@@ -2382,12 +2641,12 @@ ostream& operator<< (ostream& os, const S_msrLayout& lay)
   return os;
 }
 
-void msrLayout::printMusicXML(ostream& os)
+void msrLayout::printMusicXML (ostream& os)
 {
   os << "<!-- msrLayout??? -->" << endl;
 }
 
-void msrLayout::printMSR(ostream& os)
+void msrLayout::printMSR (ostream& os)
 {
   os << "Layout" << endl;
 
@@ -2408,7 +2667,28 @@ void msrLayout::printMSR(ostream& os)
   idtr--;
 }
 
-void msrLayout::printLilyPondCode(ostream& os)
+void msrLayout::printScoreSummary (ostream& os)
+{
+  os << "Layout" << endl;
+
+  idtr++;
+
+  int n1 = fMsrLilypondVarValAssocs.size();
+  for (int i = 0; i < n1; i++ ) {
+    os << idtr << fMsrLilypondVarValAssocs[i];
+  } // for
+
+    /* JMI
+  int n2 = fMsrSchemeVarValAssocs.size();
+  for (int i = 0; i < n2; i++ ) {
+    os << idtr << fMsrSchemeVarValAssocs[i];
+  } // for
+  */
+  
+  idtr--;
+}
+
+void msrLayout::printLilyPondCode (ostream& os)
 {  
   os << idtr << "\\layout {" << endl;
 
@@ -2461,19 +2741,26 @@ ostream& operator<< (ostream& os, const S_msrClef& clef)
   return os;
 }
 
-void msrClef::printMusicXML(ostream& os)
+void msrClef::printMusicXML (ostream& os)
 {
   os << "<!-- msrClef??? -->" << endl;
 }
 
-void msrClef::printMSR(ostream& os)
+void msrClef::printMSR (ostream& os)
 {
   os <<
     "Clef" << " \"" << fSign << "\"" <<
     " line " << fLine << ", " << fOctaveChange << "*8";
 }
 
-void msrClef::printLilyPondCode(ostream& os)
+void msrClef::printScoreSummary (ostream& os)
+{
+  os <<
+    "Clef" << " \"" << fSign << "\"" <<
+    " line " << fLine << ", " << fOctaveChange << "*8";
+}
+
+void msrClef::printLilyPondCode (ostream& os)
 {
   stringstream s; 
 
@@ -2643,19 +2930,26 @@ ostream& operator<< (ostream& os, const S_msrKey& key)
   return os;
 }
 
-void msrKey::printMusicXML(ostream& os)
+void msrKey::printMusicXML (ostream& os)
 {
   os << "<!-- msrKey??? -->" << endl;
 }
 
-void msrKey::printMSR(ostream& os)
+void msrKey::printMSR (ostream& os)
 {
   os << "Key " << fTonic << " ";
   if (fKeyMode == kMajor) os << "\\major";
   else os << "\\minor";
 }
 
-void msrKey::printLilyPondCode(ostream& os)
+void msrKey::printScoreSummary (ostream& os)
+{
+  os << "Key " << fTonic << " ";
+  if (fKeyMode == kMajor) os << "\\major";
+  else os << "\\minor";
+}
+
+void msrKey::printLilyPondCode (ostream& os)
 {
   os << "\\key " << fTonic << " ";
   if (fKeyMode == kMajor) os << "\\major";
@@ -2691,19 +2985,26 @@ ostream& operator<< (ostream& os, const S_msrTime& elt)
   return os;
 }
 
-void msrTime::printMusicXML(ostream& os)
+void msrTime::printMusicXML (ostream& os)
 {
   os << "<!-- msrTime??? -->" << endl;
 }
 
-void msrTime::printMSR(ostream& os)
+void msrTime::printMSR (ostream& os)
 {
   os <<
     "Time " << 
     fRational.getNumerator() << "/" << fRational.getDenominator();
 }
 
-void msrTime::printLilyPondCode(ostream& os)
+void msrTime::printScoreSummary (ostream& os)
+{
+  os <<
+    "Time " << 
+    fRational.getNumerator() << "/" << fRational.getDenominator();
+}
+
+void msrTime::printLilyPondCode (ostream& os)
 {
 //  os << fName << "\\time \"" << fNumerator << "/" << fDenominator << "\"" << endl;
   if (fGenerateNumericalTime)
@@ -2733,12 +3034,12 @@ ostream& operator<< (ostream& os, const S_msrMidi& mid)
   return os;
 }
 
-void msrMidi::printMusicXML(ostream& os)
+void msrMidi::printMusicXML (ostream& os)
 {
   os << "<!-- msrMidi??? -->" << endl;
 }
 
-void msrMidi::printMSR(ostream& os)
+void msrMidi::printMSR (ostream& os)
 {
   os << "Midi" << endl;
 
@@ -2749,7 +3050,18 @@ void msrMidi::printMSR(ostream& os)
   idtr--;
 }
 
-void msrMidi::printLilyPondCode(ostream& os)
+void msrMidi::printScoreSummary (ostream& os)
+{
+  os << "Midi" << endl;
+
+  idtr++;
+  
+  os << idtr << "% to be completed" << endl;
+  
+  idtr--;
+}
+
+void msrMidi::printLilyPondCode (ostream& os)
 {  
   os << idtr << "\\midi {" << endl;
   
@@ -2781,12 +3093,12 @@ ostream& operator<< (ostream& os, const S_msrRepeat& rept)
   return os;
 }
 
-void msrRepeat::printMusicXML(ostream& os)
+void msrRepeat::printMusicXML (ostream& os)
 {
   os << "<!-- msrRepeat??? -->" << endl;
 }
 
-void msrRepeat::printMSR(ostream& os)
+void msrRepeat::printMSR (ostream& os)
 {
   os << "Repeat" << endl;
   idtr++;
@@ -2798,7 +3110,19 @@ void msrRepeat::printMSR(ostream& os)
   idtr--;
 }
 
-void msrRepeat::printLilyPondCode(ostream& os)
+void msrRepeat::printScoreSummary (ostream& os)
+{
+  os << "Repeat" << endl;
+  idtr++;
+    os << idtr << fCommonPart;
+    vector<S_msrSequence>::const_iterator i;
+    for (i=fAlternateEndings.begin(); i!=fAlternateEndings.end(); i++) {
+      os << idtr << (*i);
+    } // for
+  idtr--;
+}
+
+void msrRepeat::printLilyPondCode (ostream& os)
 {
   os << "Repeat" << endl;
 }
@@ -2833,12 +3157,12 @@ ostream& operator<< (ostream& os, const S_msrLyricsChunk& lyr)
   return os;
 }
 
-void msrLyricsChunk::printMusicXML(ostream& os)
+void msrLyricsChunk::printMusicXML (ostream& os)
 {
   os << "<!-- msrLyricsChunk??? -->" << endl;
 }
 
-void msrLyricsChunk::printMSR(ostream& os)
+void msrLyricsChunk::printMSR (ostream& os)
 {  
   os << "LyricsChunk" << " " << setw(6) << left;
   switch (fLyricsChunkType) {
@@ -2876,11 +3200,63 @@ void msrLyricsChunk::printMSR(ostream& os)
     case kBreakChunk:
       os << "break" << " " << fChunkText << endl;
       break;
+      
+    case k_NoChunk:
+      msrInternalError (
+        "lyrics chunk type has not been set");
+      break;
   } // switch
   os << endl;
 }
 
-void msrLyricsChunk::printLilyPondCode(ostream& os)
+void msrLyricsChunk::printScoreSummary (ostream& os)
+{  
+  os << "LyricsChunk" << " " << setw(6) << left;
+  switch (fLyricsChunkType) {
+    case kSingleChunk:
+      os << "single" << ":" << fChunkDuration;
+      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
+      break;
+    case kBeginChunk:
+      os << "begin" << ":" << fChunkDuration;
+      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
+      break;
+    case kMiddleChunk:
+      os << "middle" << ":" << fChunkDuration;
+      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
+      break;
+    case kEndChunk:
+      os << "end" << ":" << fChunkDuration;
+      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
+      break;
+      
+    case kSkipChunk:
+      os << "skip" << ":" << fChunkDuration;
+      if (fChunkText.size()) os << " " << fChunkText;
+      break;
+      
+    case kSlurChunk:
+      os << "slur" << ":" << fChunkDuration;
+      if (fChunkText.size()) os << " " << fChunkText;
+      break;
+    case kTiedChunk:
+      os << "tied" << ":" << fChunkDuration;
+      if (fChunkText.size()) os << " " << fChunkText;
+      break;
+      
+    case kBreakChunk:
+      os << "break" << " " << fChunkText << endl;
+      break;
+
+    case k_NoChunk:
+      msrInternalError (
+        "lyrics chunk type has not been set");
+      break;
+  } // switch
+  os << endl;
+}
+
+void msrLyricsChunk::printLilyPondCode (ostream& os)
 {  
   switch (fLyricsChunkType) {
     case kSingleChunk: os << fChunkText;           break;
@@ -2893,7 +3269,11 @@ void msrLyricsChunk::printLilyPondCode(ostream& os)
     case kBreakChunk:
       os << "%{ " << fChunkText << " %}" << endl << idtr;
       break;
-  } // switch
+    case k_NoChunk:
+      msrInternalError (
+        "lyrics chunk type has not been set");
+      break;
+ } // switch
 }
 
 //______________________________________________________________________________
@@ -2990,8 +3370,14 @@ void msrLyrics::addTextChunkToLyrics (
     case msrLyricsChunk::kTiedChunk:
     case msrLyricsChunk::kBreakChunk:
       {
-        // internalError (); JMI
+        msrInternalError (
+          "a text chunk type can only be "
+          "'single', 'begin', 'middle' or 'end'");
       }
+      break;
+    case msrLyricsChunk::k_NoChunk:
+      msrInternalError (
+        "lyrics chunk type has not been set");
       break;
   } // switch
 
@@ -3105,12 +3491,12 @@ ostream& operator<< (ostream& os, const S_msrLyrics& stan)
   return os;
 }
 
-void msrLyrics::printMusicXML(ostream& os)
+void msrLyrics::printMusicXML (ostream& os)
 {
   os << "<!-- msrLyrics??? -->" << endl;
 }
 
-void msrLyrics::printMSR(ostream& os)
+void msrLyrics::printMSR (ostream& os)
 {  
   os << "Lyrics" << " " << getLyricsName ();
   if (! fLyricsTextPresent)
@@ -3130,7 +3516,27 @@ void msrLyrics::printMSR(ostream& os)
  // }
 }
 
-void msrLyrics::printLilyPondCode(ostream& os)
+void msrLyrics::printScoreSummary (ostream& os)
+{  
+  os << "Lyrics" << " " << getLyricsName ();
+  if (! fLyricsTextPresent)
+    os << " (No actual text)";
+  os << endl;
+
+//  if (fLyricsTextPresent) {  JMI
+    idtr++;
+
+    int n = fLyricsChunks.size();
+    for (int i = 0; i < n; i++) {
+      os << idtr << fLyricsChunks[i];
+    } // for
+    os << endl;
+
+    idtr--;
+ // }
+}
+
+void msrLyrics::printLilyPondCode (ostream& os)
 {
   os <<
     getLyricsName () << " = " << "\\lyricmode {" << endl;
@@ -3345,12 +3751,12 @@ ostream& operator<< (ostream& os, const S_msrVoice& elt)
   return os;
 }
 
-void msrVoice::printMusicXML(ostream& os)
+void msrVoice::printMusicXML (ostream& os)
 { 
   os << "<!-- msrVoice??? -->" << endl;
 }
 
-void msrVoice::printMSR(ostream& os)
+void msrVoice::printMSR (ostream& os)
 {
   os << "Voice" << " " << getVoiceName () << endl;
   os << endl;
@@ -3372,7 +3778,29 @@ void msrVoice::printMSR(ostream& os)
   idtr--;
 }
 
-void msrVoice::printLilyPondCode(ostream& os)
+void msrVoice::printScoreSummary (ostream& os)
+{
+  os << "Voice" << " " << getVoiceName () << endl;
+  os << endl;
+
+  idtr++;
+
+  os << idtr << fVoiceSequence << endl;
+
+  if (fVoiceLyricsMap.size()) {
+    for (
+      map<int, S_msrLyrics>::const_iterator i = fVoiceLyricsMap.begin();
+      i != fVoiceLyricsMap.end();
+      i++) {
+      os << idtr << (*i).second;
+    } // for
+    os << endl;
+  }
+  
+  idtr--;
+}
+
+void msrVoice::printLilyPondCode (ostream& os)
 {
   os << getVoiceName () << " = ";
 // JMI  if (! fVoiceAbsoluteCode) os << "\\relative ";
@@ -3598,6 +4026,43 @@ void msrStaff::printMSR (ostream& os)
   idtr--;
 }
 
+void msrStaff::printScoreSummary (ostream& os)
+{
+  os << "Staff" << " " << getStaffName () << endl;
+
+  idtr++;
+
+  if (fStaffClef)
+    os << idtr << fStaffClef;
+  else
+    os << idtr << "NO_CLEF" << endl;
+
+  if (fStaffKey)
+    os << idtr << fStaffKey;
+  else
+    os << idtr << "NO_KEY" << endl;
+
+  if (fStaffTime)
+    os << idtr << fStaffTime;
+  else
+    os << idtr << "NO_TIME" << endl;
+
+  os <<
+    idtr << "StaffInstrumentName: \"" <<
+    fStaffInstrumentName << "\"" << endl;
+
+  os << endl;
+  
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    os << idtr << (*i).second;
+  } // for
+
+  idtr--;
+}
+
 void msrStaff::printLilyPondCode (ostream& os)
 {
   os <<
@@ -3668,12 +4133,12 @@ ostream& operator<< (ostream& os, const S_msrPart& elt)
   return os;
 }
 
-void msrPart::printMusicXML(ostream& os)
+void msrPart::printMusicXML (ostream& os)
 {
   os << "<!-- msrPart??? -->" << endl;
 }
 
-void msrPart::printMSR(ostream& os)
+void msrPart::printMSR (ostream& os)
 {
   os <<
     "Part" << " \"" << getPartCombinedName () << endl;
@@ -3703,7 +4168,37 @@ void msrPart::printMSR(ostream& os)
   idtr--;
 }
 
-void msrPart::printLilyPondCode(ostream& os)
+void msrPart::printScoreSummary (ostream& os)
+{
+  os <<
+    "Part" << " \"" << getPartCombinedName () << endl;
+    
+  idtr++;
+  
+  os <<
+    idtr << "PartName          : \"" << fPartName << "\"" << endl <<
+    idtr << "PartAbbrevation   : \"" << fPartAbbreviation << "\"" << endl;
+  
+  os << idtr <<
+    "fPartMusicXMLDivisions: " << fPartMusicXMLDivisions << endl;
+
+  os << idtr <<
+    "PartInstrumentName: \"" << fPartInstrumentName << "\"" << endl;
+
+  if (fPartStavesMap.size()) {
+    os << endl;
+    for (
+      map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+      i != fPartStavesMap.end();
+      i++) {
+      os << idtr << (*i).second;
+    } // for
+  }
+
+  idtr--;
+}
+
+void msrPart::printLilyPondCode (ostream& os)
 {
   os <<
     "Part" << " " << getPartCombinedName () << " " << endl <<
@@ -4031,12 +4526,12 @@ ostream& operator<< (ostream& os, const S_msrPartgroup& elt)
   return os;
 }
 
-void msrPartgroup::printMusicXML(ostream& os)
+void msrPartgroup::printMusicXML (ostream& os)
 {
   os << "<!-- msrPartgroup??? -->" << endl;
 }
 
-void msrPartgroup::printMSR(ostream& os)
+void msrPartgroup::printMSR (ostream& os)
 {
   os <<
     "Partgroup" << " " << fPartgroupNumber << endl;
@@ -4103,7 +4598,74 @@ void msrPartgroup::printMSR(ostream& os)
   idtr--;
 }
 
-void msrPartgroup::printLilyPondCode(ostream& os)
+void msrPartgroup::printScoreSummary (ostream& os)
+{
+  os <<
+    "Partgroup" << " " << fPartgroupNumber << endl;
+    
+  idtr++;
+
+  os <<
+    idtr << "PartgroupName            : \"" << fPartgroupName << "\"" << endl <<
+    idtr << "PartgroupAbbrevation     : \"" << fPartgroupAbbreviation << "\"" << endl;
+  os <<
+    idtr << "fPartPartgroupTypeKind   : \"";
+  switch (fPartPartgroupTypeKind) {
+    case kStartPartgroupType:
+      os << "start";
+      break;
+    case kStopPartgroupType:
+      os << "stop";
+      break;
+    case k_NoPartgroupType:
+      break;
+  } // switch
+  os << "\"" << endl;
+  os <<
+    idtr << "fPartgroupSymbolDefaultX : " << fPartgroupSymbolDefaultX << endl;
+  os <<
+    idtr << "fPartgroupSymbolKind     : \"";
+  switch (fPartgroupSymbolKind) {
+    case kBracePartgroupSymbol:
+      os << "brace";
+      break;
+    case kBracketPartgroupSymbol:
+      os << "bracket";
+      break;
+    case kLinePartgroupSymbol:
+      os << "line";
+      break;
+    case kSquarePartgroupSymbol:
+      os << "square";
+      break;
+    case k_NoPartgroupSymbol:
+      break;
+  } // switch
+  os << "\"" << endl;
+  os <<
+    idtr << "PartgroupBarline         : ";
+  if (fPartgroupBarline)
+    os << "true";
+  else
+    os << "false";
+  os << endl;
+
+ // JMI   idtr << "PartgroupInstrumentName: \"" << fPartgroupInstrumentName << "\"" << endl;
+
+  if (fPartgroupElements.size()) {
+    os << endl;
+    for (
+      msrElementList::iterator i = fPartgroupElements.begin();
+      i != fPartgroupElements.end();
+      i++) {
+      os << idtr << (*i);
+    } // for
+  }
+  
+  idtr--;
+}
+
+void msrPartgroup::printLilyPondCode (ostream& os)
 {
   os <<
     "Partgroup" << " " << fPartgroupNumber << endl;
@@ -4174,6 +4736,23 @@ ostream& operator<< (ostream& os, const S_msrScore& elt)
 }
 
 void msrScore::printMSR (ostream& os)
+{
+  os << "Score" << endl;
+  os << endl;
+
+  idtr++;
+  
+  for (
+    msrPartgroupsList::iterator i = fPartgroupsList.begin();
+    i != fPartgroupsList.end();
+    i++) {
+    os << idtr << (*i);
+  } // for
+  
+  idtr--;
+}
+
+void msrScore::printScoreSummary (ostream& os)
 {
   os << "Score" << endl;
   os << endl;

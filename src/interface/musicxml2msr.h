@@ -68,7 +68,7 @@ typedef std::map<std::string, MsrNoteNamesLanguage>
   
 static MsrNoteNamesLanguageMap gMsrNoteNamesLanguageMap;
 
-void                  initializeMsrNoteNamesLanguage ();
+void                 initializeMsrNoteNamesLanguage ();
 MsrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang);
   
 //______________________________________________________________________________

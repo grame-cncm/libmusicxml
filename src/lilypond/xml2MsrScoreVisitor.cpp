@@ -2760,6 +2760,18 @@ void xml2MsrScoreVisitor::handleLyricsText ()
       case msrLyricsChunk::kEndChunk:
         cerr << "end";
         break;
+      case msrLyricsChunk::kSkipChunk:
+        cerr << "skip";
+        break;
+      case msrLyricsChunk::kSlurChunk:
+        cerr << "slur";
+        break;
+      case msrLyricsChunk::kTiedChunk:
+        cerr << "tied";
+        break;
+      case msrLyricsChunk::kBreakChunk:
+        cerr << "break";
+        break;
       case msrLyricsChunk::k_NoChunk:
         cerr << "NO_CHUNK";
         break;
