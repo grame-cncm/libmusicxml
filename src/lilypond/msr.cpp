@@ -21,9 +21,6 @@ using namespace std;
 
 namespace MusicXML2 
 {
-    int         fInputLineNumber;
-    int         fMeasureNumber;
-    int         fPositionInMeasure; // divisions
 
 //______________________________________________________________________________
 // global variables
@@ -33,6 +30,17 @@ msrGlobalVariables::CodeGenerationKind
     msrGlobalVariables::kLilypondCode;
 
 indenter msrElement::idtr;
+
+//______________________________________________________________________________
+musicXMLLocation::musicXMLLocation (
+  int         inputLineNumber,
+  int         measureNumber,
+  int         positionInMeasure)
+{
+  fInputLineNumber   = inputLineNumber;
+  fMeasureNumber     = measureNumber;
+  fPositionInMeasure = positionInMeasure;
+}
 
 //______________________________________________________________________________
 void musicXMLWarning (
@@ -63,7 +71,7 @@ void musicXMLError (
   assert(false);
 }
 
-void msrInternalError (
+void internalError (
   musicXMLLocation location,
   string           message)
 {
@@ -72,7 +80,7 @@ void msrInternalError (
     "--> MSR INTERNAL ERROR, input line " <<
     location.fInputLineNumber  <<
     ", measure " << location.fMeasureNumber <<
-    ":" << fCurrentPositionInMeasure << "/" ;
+    ":" << location.fPositionInMeasure << "/" ;
   if (location.fPositionInMeasure > 0)
     cerr <<  location.fPositionInMeasure;
   else
@@ -302,7 +310,17 @@ msrDuration::msrDuration (
     "msrDuration::msrDuration (), fNum = " << fNum << 
     ", fDenom = " << fDenom << ", fDots = " << fDots << endl;
   */
+  if (fDenom == 0) {
+    stringstream s;
+    s << 
+      endl << 
+      "duration " << fNum << "/" << fDenom <<
+      " has 0 as denominator"
+      endl;
+    musicXMLError (s.str());
+  }
 }
+
 msrDuration::~msrDuration() {}
 
 void msrDuration::scaleNumByFraction (int num, int denom)
@@ -334,16 +352,6 @@ string msrDuration::durationAsMSRString ()
   int noteDivisions         = fNum;
   int divisionsPerWholeNote = fDenom ;
   
-  if (divisionsPerWholeNote == 0) {
-    stringstream s;
-    s << 
-      endl << 
-      "%--> msrDuration::printLilyPondCode, noteDivisions = " << noteDivisions <<
-      ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
-      endl;
-    musicXMLError (s.str());
-  }
-
   stringstream s;
   
   if (fTupletMemberNoteType.size()) {

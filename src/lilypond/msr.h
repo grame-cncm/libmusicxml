@@ -134,6 +134,13 @@ class musicXMLLocation
 {
   public:
 
+    musicXMLLocation (
+      int         inputLineNumber,
+      int         measureNumber,
+      int         positionInMeasure);
+      
+  public:
+
     int         fInputLineNumber;
     int         fMeasureNumber;
     int         fPositionInMeasure; // divisions
@@ -185,7 +192,7 @@ void musicXMLError (
   musicXMLLocation location,
   std::string      message);
   
-void msrError (
+void internalError (
   musicXMLLocation location,
   std::string      message);
   

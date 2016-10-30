@@ -318,9 +318,6 @@ class EXP xml2MsrScoreVisitor :
     virtual void visitStart ( S_tuplet& elt);
 
   private:
-
-    void                    internalError (
-                              string message);
                      
     S_translationSettings   fTranslationSettings;
 
@@ -330,10 +327,10 @@ class EXP xml2MsrScoreVisitor :
 
     // warning and error messages
     // ------------------------------------------------------    
-    void                    musicXMLWarning (
-                              std::string message)
+    void                    msrMusicXMLWarning (
+                              std::string message);
                                 
-    void                    musicXMLError (
+    void                    msrMusicXMLError (
                               std::string message);
                                 
     void                    msrInternalError (
