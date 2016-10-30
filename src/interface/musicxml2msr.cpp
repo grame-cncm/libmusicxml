@@ -178,7 +178,9 @@ static xmlErr xml2Msr(
     if (ts->fDisplayMSR)
       displayMSRScore (ts, score);
 
-    
+    if (ts->fDisplayScoreSummary)
+      displayScoreSummary (ts, score);
+
     /*
     // create an xml2MsrVisitor
     xml2MsrVisitor v(ts);

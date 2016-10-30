@@ -1427,13 +1427,24 @@ void msrSequence::printMSR (ostream& os)
 
 void msrSequence::printScoreSummary (ostream& os)
 {  
+  int sequenceElementsSize = fSequenceElements.size();
+
   os << "Sequence";
+
+  os <<
+    "Sequence" <<
+    " contains " << sequenceElementsSize;
+  if (sequenceElementsSize == 1)
+    os << " element";
+  else
+    os << " elements";
   
-  if (! fSequenceElements.size ())
+  if (! sequenceElementsSize)
     os << " (No actual notes)";
   os << endl;
 
-  if (fSequenceElements.size ()) {  
+/* JMI
+  if (sequenceElementsSize) {  
     idtr++;
   
     list<S_msrElement>::const_iterator
@@ -1443,11 +1454,12 @@ void msrSequence::printScoreSummary (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      if (fElementsSeparator == kEndOfLine) os << endl;
+      os << endl;
     } // for
     
     idtr--;
   }
+*/
 }
 
 void msrSequence::printMusicXML (ostream& os)
@@ -3389,9 +3401,15 @@ void msrLyrics::printMSR (ostream& os)
 
 void msrLyrics::printScoreSummary (ostream& os)
 {  
+  int lyricsChunksSize = fLyricsChunks.size();
+
   os << "Lyrics" << " " << getLyricsName () <<
-    " contains " << fLyricsChunks.size() <<
-    " lyric chunks:" << endl;
+    " contains " << lyricsChunksSize;
+  if (lyricsChunksSize == 1)
+    os << " chunks";
+  else
+    os << " chunks:";
+
   if (! fLyricsTextPresent)
     os << " (No actual text)";
   os << endl;
@@ -3641,17 +3659,22 @@ void msrVoice::printMSR (ostream& os)
 
 void msrVoice::printScoreSummary (ostream& os)
 {
+  int voiceLyricsMapSize = fVoiceLyricsMap.size();
+
   os <<
-    "Voice" << " " << getVoiceName () << endl <<
-    " has " << fVoiceLyricsMap.size() <<
-    " lyrics:" << endl;
+    "Voice" << " " << getVoiceName () <<
+    " has " << voiceLyricsMapSize;
+  if (voiceLyricsMapSize == 1)
+    os << " lyric";
+  else
+    os << " lyrics";
   os << endl;
 
   idtr++;
 
-  os << idtr << fVoiceSequence << endl;
+  os << idtr << fVoiceSequence;
 
-  if (fVoiceLyricsMap.size()) {
+  if (voiceLyricsMapSize) {
     for (
       map<int, S_msrLyrics>::const_iterator i = fVoiceLyricsMap.begin();
       i != fVoiceLyricsMap.end();
@@ -3892,27 +3915,34 @@ void msrStaff::printMSR (ostream& os)
 
 void msrStaff::printScoreSummary (ostream& os)
 {
-  os << "Staff" << " " << getStaffName () << endl <<
-    " contains " << fStaffVoicesMap.size() <<
-    " voices:" << endl;
+  int staffVoicesMapSize = fStaffVoicesMap.size();
+    
+  os << "Staff" << " " << getStaffName () <<
+    " contains " << staffVoicesMapSize;
+  if (staffVoicesMapSize == 1)
+    os << " voice";
+  else
+    os << " voices";
+  os << endl;
 
   idtr++;
-
+/*
   if (fStaffClef)
     os << idtr << fStaffClef;
   else
     os << idtr << "NO_CLEF" << endl;
-
+*/
   if (fStaffKey)
     os << idtr << fStaffKey;
   else
-    os << idtr << "NO_KEY" << endl;
-
+    os << idtr << "NO_KEY";
+  os << endl;
+/*
   if (fStaffTime)
     os << idtr << fStaffTime;
   else
     os << idtr << "NO_TIME" << endl;
-
+*/
   os <<
     idtr << "StaffInstrumentName: \"" <<
     fStaffInstrumentName << "\"" << endl;
@@ -3975,25 +4005,6 @@ msrPart::msrPart (
 }
 
 msrPart::~msrPart() {}
-
-/*
-void msrPart::reusePartAs (
-  string newPartMusicXMLName)
-{
-  string oldCombinedName = getPartCombinedName ();
-  
-  fPartMusicXMLName = newPartMusicXMLName;
-
-  // coin the new part MSR name
-  fPartMSRName =
-    "P_"+stringNumbersToEnglishWords (fPartMusicXMLName);
-    
-  if (fTranslationSettings->fTrace)
-    cerr << idtr <<
-      "Re-using part " << oldCombinedName <<
-      " as " << getPartCombinedName () << endl;
-}
-*/
 
 void msrPart::setAllPartStavesKey   (S_msrKey  key)
 {
@@ -4111,10 +4122,16 @@ void msrPart::printMSR (ostream& os)
 
 void msrPart::printScoreSummary (ostream& os)
 {
+  int partStavesMapSize = fPartStavesMap.size();
+  
   os <<
-    "Part" << " \"" << getPartCombinedName () << endl <<
-    " contains " << fPartStavesMap.size() <<
-    " staves:" << endl;
+    "Part" << " \"" << getPartCombinedName () <<
+    " contains " << partStavesMapSize;
+  if (partStavesMapSize == 1)
+    os << " staff";
+  else
+    os << " staves";
+  os << endl;
     
   idtr++;
   
@@ -4128,7 +4145,7 @@ void msrPart::printScoreSummary (ostream& os)
   os << idtr <<
     "PartInstrumentName: \"" << fPartInstrumentName << "\"" << endl;
 
-  if (fPartStavesMap.size()) {
+  if (partStavesMapSize) {
     os << endl;
     for (
       map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
@@ -4224,34 +4241,20 @@ S_msrPart msrPartgroup::addPartToPartgroup (
   }
 
   // create the part
-  S_msrPart part;
-
-/*
-  part =
-    tryAndReUseInitialAnonymousPart (partMusicXMLName);
-
-  if (part) {
-    
-    // the anonymous part is being re-used
-    return part;
-
-  } else {
-*/
-    // create the part
+  S_msrPart
     part =
       msrPart::create (
         fTranslationSettings, partMusicXMLName, this);
 
-    // register it in this part group
-    if (fTranslationSettings->fTrace) {
-      cerr << idtr <<
-        "Adding part " <<
-        part->getPartCombinedName () <<
-        " to part group " << fPartgroupNumber << endl;
-    }
-    fPartgroupPartsMap [partMusicXMLName] = part;
-    fPartgroupElements.push_back (part);
-// JMI  }
+  // register it in this part group
+  if (fTranslationSettings->fTrace) {
+    cerr << idtr <<
+      "Adding part " <<
+      part->getPartCombinedName () <<
+      " to part group " << fPartgroupNumber << endl;
+  }
+  fPartgroupPartsMap [partMusicXMLName] = part;
+  fPartgroupElements.push_back (part);
 
 //  if (true || fTranslationSettings->fDebug) {
   if (fTranslationSettings->fDebug) {
@@ -4331,64 +4334,6 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
 
   return result;
 }
-/*
-
-S_msrPart msrPartgroup::tryAndReUseInitialAnonymousPart (
-  string partMusicXMLName)
-{
-  if (false && fTranslationSettings->fDebug) {
-    cerr << idtr <<
-      "==> START tryAndReUseInitialAnonymousPart, fPartgroupPartsMap contains:" << endl;
-    for (
-        msrPartsMap::const_iterator i = fPartgroupPartsMap.begin();
-        i != fPartgroupPartsMap.end();
-        i++) {
-      cerr << idtr <<
-        "\"" << (*i).first << "\" ----> " <<
-        (*i).second->getPartCombinedName() << endl;
-    } // for
-    cerr << idtr << "<== tryAndReUseInitialAnonymousPart" << endl;
-  }
-
-  S_msrPart result;
-
-  if (fPartgroupPartsMap.size ()) {
-
-    msrPartsMap::iterator i =
-      fPartgroupPartsMap.find ("");
-      
-    if (i != fPartgroupPartsMap.end()) {
-      // this is the first true part, re-use the one
-      // created with an empty name initially
-      S_msrPart partToBeReUsed = (*i).second;
-      
-      partToBeReUsed->
-        reusePartAs (partMusicXMLName);
-
-      fPartgroupPartsMap [partMusicXMLName] = partToBeReUsed;
-      fPartgroupPartsMap.erase ("");
-      
-      result = partToBeReUsed;
-    }
-  }
-
-  if (false && fTranslationSettings->fDebug) {
-    cerr << idtr <<
-      "==> END tryAndReUseInitialAnonymousPart, fPartgroupPartsMap contains:" << endl;
-    for (
-        msrPartsMap::const_iterator i = fPartgroupPartsMap.begin();
-        i != fPartgroupPartsMap.end();
-        i++) {
-      cerr << idtr <<
-        "\"" << (*i).first << "\" ----> " <<
-        (*i).second->getPartCombinedName() << endl;
-    } // for
-    cerr << idtr << "<== tryAndReUseInitialAnonymousPart" << endl;
-  }
-
-  return result;
-} // tryAndReUseInitialAnonymousPart
-*/
 
 ostream& operator<< (ostream& os, const S_msrPartgroup& elt)
 {
@@ -4468,10 +4413,12 @@ void msrPartgroup::printMSR (ostream& os)
 
 void msrPartgroup::printScoreSummary (ostream& os)
 {
+  int partgroupElementsSize = fPartgroupElements.size();
+  
   os <<
-    "Partgroup" << " " << fPartgroupNumber << endl <<
-    " contains " << fPartgroupElements.size() <<
-    " sub part groups:" << endl;
+    "Partgroup" << " " << fPartgroupNumber <<
+    " contains " << partgroupElementsSize <<
+    " parts and sub part groups" << endl;
 
   idtr++;
 
@@ -4523,7 +4470,7 @@ void msrPartgroup::printScoreSummary (ostream& os)
     os << "false";
   os << endl;
 
-  if (fPartgroupElements.size()) {
+  if (partgroupElementsSize) {
     os << endl;
     for (
       msrElementList::iterator i = fPartgroupElements.begin();
@@ -4625,8 +4572,15 @@ void msrScore::printMSR (ostream& os)
 
 void msrScore::printScoreSummary (ostream& os)
 {
+  int partgroupsListSize = fPartgroupsList.size();
+  
   os <<
-    "Score has " << fPartgroupsList.size() << " part groups:" << endl;
+    "Score" <<
+    " contains " << partgroupsListSize;
+  if (partgroupsListSize == 1)
+    os << " part group";
+  else
+    os << " part groups";
   os << endl;
 
   idtr++;
