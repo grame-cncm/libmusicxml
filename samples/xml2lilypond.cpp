@@ -78,11 +78,12 @@ void usage(int exitStatus) {
     endl <<
 
     "  --sum, --displayScoreSummary" << endl <<
-    "        Write the contents of the MSR data to standard error." << endl <<
+    "        Write a summary of the MSR score to standard error." << endl <<
     endl <<
 
     "  --noLP, --dontDisplayLilyPondCode" << endl <<
-    "        Write the contents of the MSR data to standard error." << endl <<
+    "        Don't write the LilyPond code to standard output." << endl <<
+    "        This can be useful if only a summary of the score is needed." << endl <<
     endl <<
 
     "  --nt, --noTrace" << endl <<
@@ -352,7 +353,7 @@ int main(int argc, char *argv[])
       "  generateStems          : " << string(ts->fGenerateStems ? "true" : "false") << endl <<
       "  generatePositions      : " << string(ts->fGeneratePositions ? "true" : "false") << endl <<
 
-      "  displayMSR             : "         << string(ts->fDisplayMSR ? "true" : "false") << endl <<
+      "  displayMSR             : " << string(ts->fDisplayMSR ? "true" : "false") << endl <<
       
       "  displayScoreSummary    : " << string(ts->fDisplayScoreSummary ? "true" : "false") << endl <<
       

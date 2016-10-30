@@ -1722,8 +1722,8 @@ class EXP msrPart : public msrElement {
     void    setPartInstrumentName (string partInstrumentName)
                 { fPartInstrumentName = partInstrumentName; }
                 
-    void    reusePartAs (
-              string newPartMusicXMLName);
+// JMI    void    reusePartAs (
+      //        string newPartMusicXMLName);
               
     string  getPartMusicXMLName () const
                 { return fPartMusicXMLName; }

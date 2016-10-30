@@ -290,9 +290,7 @@ void msrAbsoluteOctave::printMSR (ostream& os)
 }
 
 void msrAbsoluteOctave::printScoreSummary (ostream& os)
-{
-  this->printLilyPondCode (os);
-}
+{}
 
 void msrAbsoluteOctave::printLilyPondCode (ostream& os)
 {
@@ -468,9 +466,7 @@ void msrDuration::printMSR (ostream& os)
 }
 
 void msrDuration::printScoreSummary (ostream& os)
-{
-  os << durationAsMSRString () << flush;
-}
+{}
 
 void msrDuration::printLilyPondCode (ostream& os)
 {
@@ -534,23 +530,7 @@ void msrArticulation::printMSR (ostream& os)
 }
 
 void msrArticulation::printScoreSummary (ostream& os)
-{
-  os << "Articulation" << " ";
-
-  switch (fArticulationKind) {
-    case kStaccato:
-      os << "staccato";
-      break;
-    case kStaccatissimo:
-      os << "staccatissimo";
-      break;
-    case kFermata:
-      os << "fermata";
-      break;
-  } // switch
-  
-  os << endl;
-}
+{}
 
 void msrArticulation::printLilyPondCode (ostream& os)
 {
@@ -671,10 +651,7 @@ void msrDynamics::printMSR (ostream& os)
 }
 
 void msrDynamics::printScoreSummary (ostream& os)
-{
-  os <<
-    "Dynamics" << " " << dynamicsKindAsString () << endl;
-}
+{}
 
 void msrDynamics::printLilyPondCode (ostream& os)
 {
@@ -733,9 +710,7 @@ void msrWedge::printMSR (ostream& os)
 }
 
 void msrWedge::printScoreSummary (ostream& os)
-{
-  os << "Wedge" << " " << wedgeKindAsString () << endl;
-}
+{}
 
 void msrWedge::printLilyPondCode (ostream& os)
 {
@@ -794,9 +769,7 @@ void msrSlur::printMSR (ostream& os)
 }
 
 void msrSlur::printScoreSummary (ostream& os)
-{
-  os << "Slur" << " " << slurKindAsString () << endl;
-}
+{}
 
 void msrSlur::printLilyPondCode (ostream& os)
 {
@@ -1538,19 +1511,7 @@ void msrParallelMusic::printMSR (ostream& os)
 }
 
 void msrParallelMusic::printScoreSummary (ostream& os)
-{
-  os << "ParallelMusic" << endl;
-  
-  idtr++;
-  
-  int size = fParallelMusicElements.size();
-  
-  for (int i = 0; i < size; i++ ) {
-    os << idtr << fParallelMusicElements[i];
-  } // for
-  
-  idtr--;
-}
+{}
 
 void msrParallelMusic::printLilyPondCode (ostream& os)
 {      
@@ -1714,9 +1675,7 @@ void msrBarLine::printMSR (ostream& os)
 }
 
 void msrBarLine::printScoreSummary (ostream& os)
-{
-  os << "BarLine" << " " << fNextBarNumber << endl;
-}
+{}
 
 void msrBarLine::printLilyPondCode (ostream& os)
 {
@@ -1759,13 +1718,7 @@ void msrComment::printMSR (ostream& os)
 }
 
 void msrComment::printScoreSummary (ostream& os)
-{
-  os << "Comment" << endl;
-  idtr++;
-  os << idtr << "% " << fContents << endl;
-  if (fGapKind == kGapAfterwards) os << idtr << endl;
-  idtr--;
-}
+{}
 
 void msrComment::printLilyPondCode (ostream& os)
 {
@@ -1806,11 +1759,7 @@ void msrBreak::printMSR (ostream& os)
 }
 
 void msrBreak::printScoreSummary (ostream& os)
-{
-  os <<
-    "Break" << " " << fNextBarNumber << endl <<
-    endl;
-}
+{}
 
 void msrBreak::printLilyPondCode (ostream& os)
 {
@@ -1852,9 +1801,7 @@ void msrBarNumberCheck::printMSR (ostream& os)
 }
 
 void msrBarNumberCheck::printScoreSummary (ostream& os)
-{
-  os << "BarNumberCheck" << " " << fNextBarNumber << endl;
-}
+{}
 
 void msrBarNumberCheck::printLilyPondCode (ostream& os)
 {
@@ -1910,16 +1857,7 @@ void msrTuplet::printMSR (ostream& os)
 }
 
 void msrTuplet::printScoreSummary (ostream& os)
-{
-  os <<
-    "Tuplet " << fActualNotes << "/" << fNormalNotes << endl;
-  idtr++;
-  vector<S_msrElement>::const_iterator i;
-  for (i=fTupletContents.begin(); i!=fTupletContents.end(); i++) {
-    os << idtr << (*i);
-  } // for
-  idtr--;
-}
+{}
 
 void msrTuplet::printLilyPondCode (ostream& os)
 {
@@ -1976,9 +1914,7 @@ void msrBeam::printMSR (ostream& os)
 }
 
 void msrBeam::printScoreSummary (ostream& os)
-{
-  os << "Beam???" << endl;
-}
+{}
 
 void msrBeam::printLilyPondCode (ostream& os)
 {
@@ -2754,11 +2690,7 @@ void msrClef::printMSR (ostream& os)
 }
 
 void msrClef::printScoreSummary (ostream& os)
-{
-  os <<
-    "Clef" << " \"" << fSign << "\"" <<
-    " line " << fLine << ", " << fOctaveChange << "*8";
-}
+{}
 
 void msrClef::printLilyPondCode (ostream& os)
 {
@@ -3051,15 +2983,7 @@ void msrMidi::printMSR (ostream& os)
 }
 
 void msrMidi::printScoreSummary (ostream& os)
-{
-  os << "Midi" << endl;
-
-  idtr++;
-  
-  os << idtr << "% to be completed" << endl;
-  
-  idtr--;
-}
+{}
 
 void msrMidi::printLilyPondCode (ostream& os)
 {  
@@ -3111,16 +3035,7 @@ void msrRepeat::printMSR (ostream& os)
 }
 
 void msrRepeat::printScoreSummary (ostream& os)
-{
-  os << "Repeat" << endl;
-  idtr++;
-    os << idtr << fCommonPart;
-    vector<S_msrSequence>::const_iterator i;
-    for (i=fAlternateEndings.begin(); i!=fAlternateEndings.end(); i++) {
-      os << idtr << (*i);
-    } // for
-  idtr--;
-}
+{}
 
 void msrRepeat::printLilyPondCode (ostream& os)
 {
@@ -3210,51 +3125,7 @@ void msrLyricsChunk::printMSR (ostream& os)
 }
 
 void msrLyricsChunk::printScoreSummary (ostream& os)
-{  
-  os << "LyricsChunk" << " " << setw(6) << left;
-  switch (fLyricsChunkType) {
-    case kSingleChunk:
-      os << "single" << ":" << fChunkDuration;
-      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
-      break;
-    case kBeginChunk:
-      os << "begin" << ":" << fChunkDuration;
-      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
-      break;
-    case kMiddleChunk:
-      os << "middle" << ":" << fChunkDuration;
-      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
-      break;
-    case kEndChunk:
-      os << "end" << ":" << fChunkDuration;
-      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
-      break;
-      
-    case kSkipChunk:
-      os << "skip" << ":" << fChunkDuration;
-      if (fChunkText.size()) os << " " << fChunkText;
-      break;
-      
-    case kSlurChunk:
-      os << "slur" << ":" << fChunkDuration;
-      if (fChunkText.size()) os << " " << fChunkText;
-      break;
-    case kTiedChunk:
-      os << "tied" << ":" << fChunkDuration;
-      if (fChunkText.size()) os << " " << fChunkText;
-      break;
-      
-    case kBreakChunk:
-      os << "break" << " " << fChunkText << endl;
-      break;
-
-    case k_NoChunk:
-      msrInternalError (
-        "lyrics chunk type has not been set");
-      break;
-  } // switch
-  os << endl;
-}
+{}
 
 void msrLyricsChunk::printLilyPondCode (ostream& os)
 {  
@@ -3518,22 +3389,12 @@ void msrLyrics::printMSR (ostream& os)
 
 void msrLyrics::printScoreSummary (ostream& os)
 {  
-  os << "Lyrics" << " " << getLyricsName ();
+  os << "Lyrics" << " " << getLyricsName () <<
+    " contains " << fLyricsChunks.size() <<
+    " lyric chunks:" << endl;
   if (! fLyricsTextPresent)
     os << " (No actual text)";
   os << endl;
-
-//  if (fLyricsTextPresent) {  JMI
-    idtr++;
-
-    int n = fLyricsChunks.size();
-    for (int i = 0; i < n; i++) {
-      os << idtr << fLyricsChunks[i];
-    } // for
-    os << endl;
-
-    idtr--;
- // }
 }
 
 void msrLyrics::printLilyPondCode (ostream& os)
@@ -3780,7 +3641,10 @@ void msrVoice::printMSR (ostream& os)
 
 void msrVoice::printScoreSummary (ostream& os)
 {
-  os << "Voice" << " " << getVoiceName () << endl;
+  os <<
+    "Voice" << " " << getVoiceName () << endl <<
+    " has " << fVoiceLyricsMap.size() <<
+    " lyrics:" << endl;
   os << endl;
 
   idtr++;
@@ -4028,7 +3892,9 @@ void msrStaff::printMSR (ostream& os)
 
 void msrStaff::printScoreSummary (ostream& os)
 {
-  os << "Staff" << " " << getStaffName () << endl;
+  os << "Staff" << " " << getStaffName () << endl <<
+    " contains " << fStaffVoicesMap.size() <<
+    " voices:" << endl;
 
   idtr++;
 
@@ -4110,6 +3976,7 @@ msrPart::msrPart (
 
 msrPart::~msrPart() {}
 
+/*
 void msrPart::reusePartAs (
   string newPartMusicXMLName)
 {
@@ -4126,92 +3993,7 @@ void msrPart::reusePartAs (
       "Re-using part " << oldCombinedName <<
       " as " << getPartCombinedName () << endl;
 }
-
-ostream& operator<< (ostream& os, const S_msrPart& elt)
-{
-  elt->print(os);
-  return os;
-}
-
-void msrPart::printMusicXML (ostream& os)
-{
-  os << "<!-- msrPart??? -->" << endl;
-}
-
-void msrPart::printMSR (ostream& os)
-{
-  os <<
-    "Part" << " \"" << getPartCombinedName () << endl;
-    
-  idtr++;
-  
-  os <<
-    idtr << "PartName          : \"" << fPartName << "\"" << endl <<
-    idtr << "PartAbbrevation   : \"" << fPartAbbreviation << "\"" << endl;
-  
-  os << idtr <<
-    "fPartMusicXMLDivisions: " << fPartMusicXMLDivisions << endl;
-
-  os << idtr <<
-    "PartInstrumentName: \"" << fPartInstrumentName << "\"" << endl;
-
-  if (fPartStavesMap.size()) {
-    os << endl;
-    for (
-      map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-      i != fPartStavesMap.end();
-      i++) {
-      os << idtr << (*i).second;
-    } // for
-  }
-
-  idtr--;
-}
-
-void msrPart::printScoreSummary (ostream& os)
-{
-  os <<
-    "Part" << " \"" << getPartCombinedName () << endl;
-    
-  idtr++;
-  
-  os <<
-    idtr << "PartName          : \"" << fPartName << "\"" << endl <<
-    idtr << "PartAbbrevation   : \"" << fPartAbbreviation << "\"" << endl;
-  
-  os << idtr <<
-    "fPartMusicXMLDivisions: " << fPartMusicXMLDivisions << endl;
-
-  os << idtr <<
-    "PartInstrumentName: \"" << fPartInstrumentName << "\"" << endl;
-
-  if (fPartStavesMap.size()) {
-    os << endl;
-    for (
-      map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-      i != fPartStavesMap.end();
-      i++) {
-      os << idtr << (*i).second;
-    } // for
-  }
-
-  idtr--;
-}
-
-void msrPart::printLilyPondCode (ostream& os)
-{
-  os <<
-    "Part" << " " << getPartCombinedName () << " " << endl <<
-    "\"" << fPartInstrumentName << "\"" << endl;
-  if (! fTranslationSettings->fGenerateAbsoluteCode) os << "\\relative "; // JMI
-  os << "{" << endl;
-
-  idtr++;
-// JMI  os << fPartMsrSequence << endl;
-  idtr--;
-
-  os << idtr << "}" << endl;
-}
+*/
 
 void msrPart::setAllPartStavesKey   (S_msrKey  key)
 {
@@ -4284,6 +4066,94 @@ S_msrStaff msrPart::fetchStaffFromPart (
   }
 
   return result;
+}
+
+ostream& operator<< (ostream& os, const S_msrPart& elt)
+{
+  elt->print(os);
+  return os;
+}
+
+void msrPart::printMusicXML (ostream& os)
+{
+  os << "<!-- msrPart??? -->" << endl;
+}
+
+void msrPart::printMSR (ostream& os)
+{
+  os <<
+    "Part" << " \"" << getPartCombinedName () << endl;
+    
+  idtr++;
+  
+  os <<
+    idtr << "PartName          : \"" << fPartName << "\"" << endl <<
+    idtr << "PartAbbrevation   : \"" << fPartAbbreviation << "\"" << endl;
+  
+  os << idtr <<
+    "fPartMusicXMLDivisions: " << fPartMusicXMLDivisions << endl;
+
+  os << idtr <<
+    "PartInstrumentName: \"" << fPartInstrumentName << "\"" << endl;
+
+  if (fPartStavesMap.size()) {
+    os << endl;
+    for (
+      map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+      i != fPartStavesMap.end();
+      i++) {
+      os << idtr << (*i).second;
+    } // for
+  }
+
+  idtr--;
+}
+
+void msrPart::printScoreSummary (ostream& os)
+{
+  os <<
+    "Part" << " \"" << getPartCombinedName () << endl <<
+    " contains " << fPartStavesMap.size() <<
+    " staves:" << endl;
+    
+  idtr++;
+  
+  os <<
+    idtr << "PartName          : \"" << fPartName << "\"" << endl <<
+    idtr << "PartAbbrevation   : \"" << fPartAbbreviation << "\"" << endl;
+  
+  os << idtr <<
+    "fPartMusicXMLDivisions: " << fPartMusicXMLDivisions << endl;
+
+  os << idtr <<
+    "PartInstrumentName: \"" << fPartInstrumentName << "\"" << endl;
+
+  if (fPartStavesMap.size()) {
+    os << endl;
+    for (
+      map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+      i != fPartStavesMap.end();
+      i++) {
+      os << idtr << (*i).second;
+    } // for
+  }
+
+  idtr--;
+}
+
+void msrPart::printLilyPondCode (ostream& os)
+{
+  os <<
+    "Part" << " " << getPartCombinedName () << " " << endl <<
+    "\"" << fPartInstrumentName << "\"" << endl;
+  if (! fTranslationSettings->fGenerateAbsoluteCode) os << "\\relative "; // JMI
+  os << "{" << endl;
+
+  idtr++;
+// JMI  os << fPartMsrSequence << endl;
+  idtr--;
+
+  os << idtr << "}" << endl;
 }
 
 //______________________________________________________________________________
@@ -4583,8 +4453,6 @@ void msrPartgroup::printMSR (ostream& os)
     os << "false";
   os << endl;
 
- // JMI   idtr << "PartgroupInstrumentName: \"" << fPartgroupInstrumentName << "\"" << endl;
-
   if (fPartgroupElements.size()) {
     os << endl;
     for (
@@ -4601,13 +4469,17 @@ void msrPartgroup::printMSR (ostream& os)
 void msrPartgroup::printScoreSummary (ostream& os)
 {
   os <<
-    "Partgroup" << " " << fPartgroupNumber << endl;
-    
+    "Partgroup" << " " << fPartgroupNumber << endl <<
+    " contains " << fPartgroupElements.size() <<
+    " sub part groups:" << endl;
+
   idtr++;
 
   os <<
-    idtr << "PartgroupName            : \"" << fPartgroupName << "\"" << endl <<
-    idtr << "PartgroupAbbrevation     : \"" << fPartgroupAbbreviation << "\"" << endl;
+    idtr << "PartgroupName            : \"" <<
+      fPartgroupName << "\"" << endl <<
+    idtr << "PartgroupAbbrevation     : \"" <<
+      fPartgroupAbbreviation << "\"" << endl;
   os <<
     idtr << "fPartPartgroupTypeKind   : \"";
   switch (fPartPartgroupTypeKind) {
@@ -4622,7 +4494,8 @@ void msrPartgroup::printScoreSummary (ostream& os)
   } // switch
   os << "\"" << endl;
   os <<
-    idtr << "fPartgroupSymbolDefaultX : " << fPartgroupSymbolDefaultX << endl;
+    idtr << "fPartgroupSymbolDefaultX : " <<
+      fPartgroupSymbolDefaultX << endl;
   os <<
     idtr << "fPartgroupSymbolKind     : \"";
   switch (fPartgroupSymbolKind) {
@@ -4649,8 +4522,6 @@ void msrPartgroup::printScoreSummary (ostream& os)
   else
     os << "false";
   os << endl;
-
- // JMI   idtr << "PartgroupInstrumentName: \"" << fPartgroupInstrumentName << "\"" << endl;
 
   if (fPartgroupElements.size()) {
     os << endl;
@@ -4754,7 +4625,8 @@ void msrScore::printMSR (ostream& os)
 
 void msrScore::printScoreSummary (ostream& os)
 {
-  os << "Score" << endl;
+  os <<
+    "Score has " << fPartgroupsList.size() << " part groups:" << endl;
   os << endl;
 
   idtr++;
