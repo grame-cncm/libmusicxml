@@ -155,7 +155,6 @@ S_msrPartgroup xml2MsrScoreVisitor::createImplicitMSRPartgroup ()
       msrPartgroup::create (
         fTranslationSettings,
         fCurrentPartgroupNumber,
-        msrPartgroup::kStartPartgroupType,
         "Implicit",
         "Impl.",
         msrPartgroup::kBracketPartgroupSymbol,
@@ -340,7 +339,6 @@ void xml2MsrScoreVisitor::showPartgroupsData (string context)
 }
 
 void xml2MsrScoreVisitor::handlePartgroupStart (
-  msrPartgroup::PartgroupTypeKind   partGroupType,
   msrPartgroup::PartgroupSymbolKind partGroupSymbol,
   bool                              partGroupBarline)
 {
@@ -357,7 +355,6 @@ void xml2MsrScoreVisitor::handlePartgroupStart (
       msrPartgroup::create (
         fTranslationSettings,
         fCurrentPartgroupNumber,
-        partGroupType,
         fCurrentPartgroupName,
         fCurrentPartgroupAbbreviation,
         partGroupSymbol,
@@ -542,21 +539,21 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
 
   idtr++;
   
-  msrPartgroup::PartgroupTypeKind partGroupType;
+  msrPartgroup::PartgroupTypeKind partGroupTypeKind;
 
   // check part group type
   if (fCurrentPartgroupType == "start")
-    partGroupType = msrPartgroup::kStartPartgroupType;
+    partGroupTypeKind = msrPartgroup::kStartPartgroupType;
     
   else if (fCurrentPartgroupType == "stop")
-    partGroupType = msrPartgroup::kStopPartgroupType;
+    partGroupTypeKind = msrPartgroup::kStopPartgroupType;
     
   else {
     if (fCurrentPartgroupType.size())
       // part group type may be absent
       msrMusicXMLError (
         "unknown part group type \"" + fCurrentPartgroupType + "\"");
-    partGroupType = msrPartgroup::k_NoPartgroupType;
+    partGroupTypeKind = msrPartgroup::k_NoPartgroupType;
   }
 
   msrPartgroup::PartgroupSymbolKind partGroupSymbol;
@@ -603,11 +600,11 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
     partGroupBarline = false;
   }
 
-  switch (partGroupType) {
+  switch (partGroupTypeKind) {
     
     case msrPartgroup::kStartPartgroupType:
       handlePartgroupStart (
-        partGroupType, partGroupSymbol, partGroupBarline);
+        partGroupSymbol, partGroupBarline);
       break;
       
     case msrPartgroup::kStopPartgroupType:

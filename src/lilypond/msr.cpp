@@ -4175,7 +4175,6 @@ void msrPart::printLilyPondCode (ostream& os)
 S_msrPartgroup msrPartgroup::create (
   S_translationSettings& ts,
   int                    partGroupNumber,
-  PartgroupTypeKind      partPartgroupTypeKind,
   string                 partGroupName,
   string                 partGroupAbbreviation,
   PartgroupSymbolKind    partGroupSymbolKind,
@@ -4186,7 +4185,6 @@ S_msrPartgroup msrPartgroup::create (
     new msrPartgroup (
       ts,
       partGroupNumber,
-      partPartgroupTypeKind,
       partGroupName,
       partGroupAbbreviation,
       partGroupSymbolKind,
@@ -4199,7 +4197,6 @@ S_msrPartgroup msrPartgroup::create (
 msrPartgroup::msrPartgroup (
   S_translationSettings& ts,
   int                    partGroupNumber,
-  PartgroupTypeKind      partPartgroupTypeKind,
   string                 partGroupName,
   string                 partGroupAbbreviation,
   PartgroupSymbolKind    partGroupSymbolKind,
@@ -4210,7 +4207,6 @@ msrPartgroup::msrPartgroup (
   fTranslationSettings = ts;
 
   fPartgroupNumber = partGroupNumber;
-  fPartPartgroupTypeKind = partPartgroupTypeKind;
         
   fPartgroupName = partGroupName;
   fPartgroupAbbreviation = partGroupAbbreviation;
@@ -4355,19 +4351,6 @@ void msrPartgroup::printMSR (ostream& os)
     idtr << "PartgroupName            : \"" << fPartgroupName << "\"" << endl <<
     idtr << "PartgroupAbbrevation     : \"" << fPartgroupAbbreviation << "\"" << endl;
   os <<
-    idtr << "fPartPartgroupTypeKind   : \"";
-  switch (fPartPartgroupTypeKind) {
-    case kStartPartgroupType:
-      os << "start";
-      break;
-    case kStopPartgroupType:
-      os << "stop";
-      break;
-    case k_NoPartgroupType:
-      break;
-  } // switch
-  os << "\"" << endl;
-  os <<
     idtr << "fPartgroupSymbolDefaultX : " << fPartgroupSymbolDefaultX << endl;
   os <<
     idtr << "fPartgroupSymbolKind     : \"";
@@ -4417,7 +4400,7 @@ void msrPartgroup::printScoreSummary (ostream& os)
     "Partgroup" << " " << fPartgroupNumber <<
     " contains " << partgroupElementsSize;
   if (partgroupElementsSize == 1)
-    os << " parts or sub part group";
+    os << " part or sub part group";
   else
     os << " parts or sub part groups";
   os << endl;
@@ -4429,19 +4412,6 @@ void msrPartgroup::printScoreSummary (ostream& os)
       fPartgroupName << "\"" << endl <<
     idtr << "PartgroupAbbrevation     : \"" <<
       fPartgroupAbbreviation << "\"" << endl;
-  os <<
-    idtr << "fPartPartgroupTypeKind   : \"";
-  switch (fPartPartgroupTypeKind) {
-    case kStartPartgroupType:
-      os << "start";
-      break;
-    case kStopPartgroupType:
-      os << "stop";
-      break;
-    case k_NoPartgroupType:
-      break;
-  } // switch
-  os << "\"" << endl;
   os <<
     idtr << "fPartgroupSymbolDefaultX : " <<
       fPartgroupSymbolDefaultX << endl;

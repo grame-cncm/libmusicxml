@@ -1830,7 +1830,6 @@ class EXP msrPartgroup : public msrElement {
     static SMARTP<msrPartgroup> create (
         S_translationSettings& ts,
         int                    partGroupNumber,
-        PartgroupTypeKind      partPartgroupTypeKind,
         string                 partGroupName,
         string                 partGroupAbbreviation,
         PartgroupSymbolKind    partGroupSymbolKind,
@@ -1845,10 +1844,6 @@ class EXP msrPartgroup : public msrElement {
 
     string    getPartgroupAbbreviation () const
                   { return fPartgroupAbbreviation; }
-
-    PartgroupTypeKind
-              getPartgroupTypeKind () const
-                  { return fPartPartgroupTypeKind; }
 
     PartgroupSymbolKind
               getPartgroupSymbolKind () const
@@ -1876,7 +1871,6 @@ class EXP msrPartgroup : public msrElement {
     msrPartgroup (
         S_translationSettings& ts,
         int                    partGroupNumber,
-        PartgroupTypeKind      partPartgroupTypeKind,
         string                 partGroupName,
         string                 partGroupAbbreviation,
         PartgroupSymbolKind    partGroupSymbolKind,
@@ -1893,7 +1887,6 @@ class EXP msrPartgroup : public msrElement {
     S_translationSettings   fTranslationSettings;
     
     int                     fPartgroupNumber;
-    PartgroupTypeKind       fPartPartgroupTypeKind;
         
     string                  fPartgroupName;
     string                  fPartgroupAbbreviation;

@@ -384,7 +384,6 @@ class EXP xml2MsrScoreVisitor :
     msrPartgroupsList       fPartgroupsList;
     void                    showPartgroupsData (string context);
     void                    handlePartgroupStart (
-                              msrPartgroup::PartgroupTypeKind   partGroupType,
                               msrPartgroup::PartgroupSymbolKind partGroupSymbol,
                               bool                              partGroupBarline);
     void                    handlePartgroupStop ();
