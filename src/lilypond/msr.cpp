@@ -25,6 +25,8 @@ namespace MusicXML2
 //______________________________________________________________________________
 // global variables
 
+musicXMLLocation  gCurrentMusicXMLLocation;
+
 msrGlobalVariables::CodeGenerationKind
   msrGlobalVariables::sCodeGenerationKind =
     msrGlobalVariables::kLilypondCode;
@@ -32,6 +34,7 @@ msrGlobalVariables::CodeGenerationKind
 indenter msrElement::idtr;
 
 //______________________________________________________________________________
+/* JMI
 musicXMLLocation::musicXMLLocation (
   int         inputLineNumber,
   int         measureNumber,
@@ -41,48 +44,50 @@ musicXMLLocation::musicXMLLocation (
   fMeasureNumber     = measureNumber;
   fPositionInMeasure = positionInMeasure;
 }
-
+*/
 //______________________________________________________________________________
-void musicXMLWarning (
-  musicXMLLocation location,
-  string           message)
+void msrMusicXMLWarning (string message)
 {
   cerr <<
     endl <<
-    "--> MusicXML WARNING, input line " << location.fInputLineNumber  <<
-    ", measure " << location.fMeasureNumber <<
-    ":" << location.fPositionInMeasure << endl <<
+    "--> MusicXML WARNING, input line " <<
+    gCurrentMusicXMLLocation.fInputLineNumber  <<
+    ", measure " <<
+    gCurrentMusicXMLLocation.fMeasureNumber <<
+    ":" <<
+    gCurrentMusicXMLLocation.fPositionInMeasure << endl <<
     "      " << message << endl <<
     endl;
 }
 
-void musicXMLError (
-  musicXMLLocation location,
-  string           message)
+void msrMusicXMLError (string message)
 {
-  std::cerr <<
+  cerr <<
     endl <<
-    "--> MusicXML ERROR, input line " << location.fInputLineNumber  <<
-    ", measure " << location.fMeasureNumber <<
-    ":" << location.fPositionInMeasure << endl <<
+    "--> MusicXML ERROR, input line " <<
+    gCurrentMusicXMLLocation.fInputLineNumber  <<
+    ", measure " <<
+    gCurrentMusicXMLLocation.fMeasureNumber <<
+    ":" <<
+    gCurrentMusicXMLLocation.fPositionInMeasure << endl <<
     "      " << message << endl <<
     endl;
     
   assert(false);
 }
 
-void internalError (
-  musicXMLLocation location,
-  string           message)
+void msrInternalError (string message)
 {
   cerr <<
     endl <<
     "--> MSR INTERNAL ERROR, input line " <<
-    location.fInputLineNumber  <<
-    ", measure " << location.fMeasureNumber <<
-    ":" << location.fPositionInMeasure << "/" ;
-  if (location.fPositionInMeasure > 0)
-    cerr <<  location.fPositionInMeasure;
+    gCurrentMusicXMLLocation.fInputLineNumber  <<
+    ", measure " <<
+    gCurrentMusicXMLLocation.fMeasureNumber <<
+    ":" <<
+    gCurrentMusicXMLLocation.fPositionInMeasure << "/" ;
+  if (gCurrentMusicXMLLocation.fPositionInMeasure > 0)
+    cerr <<  gCurrentMusicXMLLocation.fPositionInMeasure;
   else
     cerr << "?";
   cerr <<
@@ -315,9 +320,9 @@ msrDuration::msrDuration (
     s << 
       endl << 
       "duration " << fNum << "/" << fDenom <<
-      " has 0 as denominator"
+      " has 0 as denominator" <<
       endl;
-    musicXMLError (s.str());
+    msrMusicXMLError (s.str());
   }
 }
 
@@ -374,7 +379,7 @@ string msrDuration::durationAsMSRString ()
         endl << 
         "--> unknown tuplet member type " << fTupletMemberNoteType <<
         endl;
-      musicXMLError (s.str());
+      msrMusicXMLError (s.str());
       }
         
   } else {
@@ -420,7 +425,7 @@ string msrDuration::durationAsMSRString ()
         s <<
           "*** ERROR, MusicXML note duration " << noteDivisions << "/" << 
           divisionsPerWholeNote << " is too large" << endl;
-        musicXMLError (s.str());
+        msrMusicXMLError (s.str());
         }
     } // switch
   }
@@ -596,7 +601,7 @@ string msrDynamics::dynamicsKindAsString ()
       {
       stringstream s;
       s << "Dynamics " << fDynamicsKind << " is unknown";
-      musicXMLError (s.str());
+      msrMusicXMLError (s.str());
       }
   } // switch
   
@@ -788,8 +793,8 @@ msrNote::msrNote (
       s <<
         "step value " << fMusicXMLNoteData.fMusicXMLStep <<
         " is not a letter from A to G";
-    //  musicXMLError (s.str());
-    musicXMLWarning (s.str());
+    //  msrMusicXMLError (s.str());
+    msrMusicXMLWarning (s.str());
     }
   }
 
@@ -860,7 +865,7 @@ msrNote::msrNote (
       s <<
         "MusicXML alteration " << fMusicXMLNoteData.fMusicXMLAlteration <<
         " is not between -2 and +2";
-      musicXMLError (s.str());
+      msrMusicXMLError (s.str());
       
       msrAssert ( // JMI
         fMusicXMLNoteData.fMusicXMLAlteration>=-2
@@ -2622,7 +2627,7 @@ msrKey::msrKey (
       stringstream s;
       s << 
         "ERROR: unknown key sign \"" << fFifths << "\"" << endl;
-      musicXMLError (s.str());
+      msrMusicXMLError (s.str());
       }
   } // switch
   
@@ -3464,8 +3469,8 @@ S_msrVoice msrStaff::addVoiceToStaff (
       "staff " << getStaffName () <<
       " is already filled up with" << msrStaff::gMaxStaffVoices <<
       " voices, voice " << voiceNumber << " overflows it" << endl;
-// JMI    musicXMLError (s.str());
-    musicXMLWarning (s.str());
+// JMI    msrMusicXMLError (s.str());
+    msrMusicXMLWarning (s.str());
   }
 
   // create the voice
@@ -3504,8 +3509,8 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
     s <<
       "staff " << getStaffName () <<
       " has no voice number " << voiceNumber << endl;
- //   musicXMLError (s.str()); JMI
-    musicXMLWarning (s.str());
+ //   msrMusicXMLError (s.str()); JMI
+    msrMusicXMLWarning (s.str());
   }
   */
 

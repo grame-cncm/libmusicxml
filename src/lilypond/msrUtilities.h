@@ -28,7 +28,7 @@ namespace MusicXML2
 class indenter {
   public:
 
-    indenter(std::string spacer = "  ");
+    indenter (std::string spacer = "  ");
     virtual ~indenter();
 
     // increase the indentation

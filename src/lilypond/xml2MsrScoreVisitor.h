@@ -321,20 +321,18 @@ class EXP xml2MsrScoreVisitor :
                      
     S_translationSettings   fTranslationSettings;
 
-    // location handling
-    // ------------------------------------------------------
-    musicXMLLocation        fCurrentMusicXMLLocation;
-
     // warning and error messages
-    // ------------------------------------------------------    
+    // ------------------------------------------------------
+    /* JMI
     void                    msrMusicXMLWarning (
-                              std::string message);
+                              string message);
                                 
     void                    msrMusicXMLError (
-                              std::string message);
+                              string message);
                                 
     void                    msrInternalError (
-                              std::string message);
+                              string message);
+*/
 
     // the score we're building
     // ------------------------------------------------------

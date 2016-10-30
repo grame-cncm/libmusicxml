@@ -129,23 +129,24 @@ EXP ostream& operator<< (ostream& os, const S_msrLayout& chrd);
 
 
 //______________________________________________________________________________
-
 class musicXMLLocation
 {
   public:
-
+/* JMI
     musicXMLLocation (
       int         inputLineNumber,
       int         measureNumber,
       int         positionInMeasure);
-      
+      */
   public:
 
     int         fInputLineNumber;
     int         fMeasureNumber;
     int         fPositionInMeasure; // divisions
 };
-  
+
+extern musicXMLLocation  gCurrentMusicXMLLocation;
+
 //______________________________________________________________________________
 /*!
 \internal
@@ -157,22 +158,20 @@ class musicXMLLocation
 #define msrAssert( condition, messageIfFalse ) \
 { \
   if (! condition) { \
-    std::cout << std::flush; \
-    std::cerr << \
-      messageIfFalse << std::endl << std::flush; \
+    cout << flush; \
+    cerr << \
+      messageIfFalse << endl << flush; \
     assert(condition); \
   } \
 }
-// JMI       std::endl <<"--> assertLilypond() causes exit, " <<
+// JMI       endl <<"--> assertLilypond() causes exit, " <<
 
 /*!
 \internal
 \brief A function to emit warning messages regarding MusicXML data
 */
 //______________________________________________________________________________
-void musicXMLWarning (
-  musicXMLLocation location,
-  std::string      message);
+void msrMusicXMLWarning (string message);
 
 /*!
 \internal
@@ -182,19 +181,15 @@ void musicXMLWarning (
 /*
 #define msrMusicXMLError( errorMessage ) \
 { \
-  std::cerr << \
-    "--> MusicXML ERROR : " << errorMessage << " !!!" << std::endl; \
+  cerr << \
+    "--> MusicXML ERROR : " << errorMessage << " !!!" << endl; \
   assert(false); \
 }
 */
 
-void musicXMLError (
-  musicXMLLocation location,
-  std::string      message);
+void msrMusicXMLError (string message);
   
-void internalError (
-  musicXMLLocation location,
-  std::string      message);
+void msrInternalError (string message);
   
 /*!
 \brief Global variables.
