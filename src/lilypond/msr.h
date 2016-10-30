@@ -77,6 +77,8 @@ class msrNote;
 class msrPaper;
 class msrLayout;
 
+class msrMidi;
+
 typedef SMARTP<msrElement>             S_msrElement;
 
 typedef SMARTP<msrLilypondVarValAssoc> S_msrLilypondVarValAssoc;
@@ -105,6 +107,8 @@ typedef SMARTP<msrNote>                S_msrNote;
 typedef SMARTP<msrPaper>               S_msrPaper;
 typedef SMARTP<msrLayout>              S_msrLayout;
 
+typedef SMARTP<msrMidi>                S_msrMidi;
+
 EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
 
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
@@ -126,6 +130,8 @@ EXP ostream& operator<< (ostream& os, const S_msrNote& chrd);
 
 EXP ostream& operator<< (ostream& os, const S_msrPaper& chrd);
 EXP ostream& operator<< (ostream& os, const S_msrLayout& chrd);
+
+EXP ostream& operator<< (ostream& os, const S_msrMidi& chrd);
 
 
 //______________________________________________________________________________
