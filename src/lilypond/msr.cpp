@@ -1368,52 +1368,52 @@ string msrNote::octaveRepresentation (char octave)
   */
 
 //______________________________________________________________________________
-S_msrSequence msrSequence::create (ElementsSeparator elementsSeparator)
+S_msrSequentialMusic msrSequentialMusic::create (ElementsSeparator elementsSeparator)
 {
-  msrSequence* o = new msrSequence (elementsSeparator); assert(o!=0);
+  msrSequentialMusic* o = new msrSequentialMusic (elementsSeparator); assert(o!=0);
   return o;
 }
 
-msrSequence::msrSequence (ElementsSeparator elementsSeparator)
+msrSequentialMusic::msrSequentialMusic (ElementsSeparator elementsSeparator)
   : msrElement("")
 {
   fElementsSeparator=elementsSeparator;
 }
-msrSequence::~msrSequence() {}
+msrSequentialMusic::~msrSequentialMusic() {}
 
-void msrSequence::removeElementFromSequence (S_msrElement elem)
+void msrSequentialMusic::removeElementFromSequentialMusic (S_msrElement elem)
 {
   for (
-    msrElementList::iterator i = fSequenceElements.begin();
-    i != fSequenceElements.end();
+    msrElementList::iterator i = fSequentialMusicElements.begin();
+    i != fSequentialMusicElements.end();
     i++) {
     if ((*i) == elem) {
-      fSequenceElements.erase (i);
+      fSequentialMusicElements.erase (i);
       break;
     }
   } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrSequence& elt)
+ostream& operator<< (ostream& os, const S_msrSequentialMusic& elt)
 {
   elt->print(os);
   return os;
 }
 
-void msrSequence::printMSR (ostream& os)
+void msrSequentialMusic::printMSR (ostream& os)
 {  
-  os << "Sequence";
+  os << "SequentialMusic";
   
-  if (! fSequenceElements.size ())
+  if (! fSequentialMusicElements.size ())
     os << " (No actual notes)";
   os << endl;
 
-  if (fSequenceElements.size ()) {  
+  if (fSequentialMusicElements.size ()) {  
     idtr++;
   
     list<S_msrElement>::const_iterator
-      iBegin = fSequenceElements.begin(),
-      iEnd   = fSequenceElements.end(),
+      iBegin = fSequentialMusicElements.begin(),
+      iEnd   = fSequentialMusicElements.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -1425,12 +1425,12 @@ void msrSequence::printMSR (ostream& os)
   }
 }
 
-void msrSequence::printScoreSummary (ostream& os)
+void msrSequentialMusic::printScoreSummary (ostream& os)
 {  
-  int sequenceElementsSize = fSequenceElements.size();
+  int sequenceElementsSize = fSequentialMusicElements.size();
 
   os <<
-    "Sequence" <<
+    "SequentialMusic" <<
     " contains " << sequenceElementsSize;
   if (sequenceElementsSize == 1)
     os << " element";
@@ -1446,8 +1446,8 @@ void msrSequence::printScoreSummary (ostream& os)
     idtr++;
   
     list<S_msrElement>::const_iterator
-      iBegin = fSequenceElements.begin(),
-      iEnd   = fSequenceElements.end(),
+      iBegin = fSequentialMusicElements.begin(),
+      iEnd   = fSequentialMusicElements.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -1460,17 +1460,17 @@ void msrSequence::printScoreSummary (ostream& os)
 */
 }
 
-void msrSequence::printMusicXML (ostream& os)
+void msrSequentialMusic::printMusicXML (ostream& os)
 {
-  os << "<!-- msrSequence??? -->" << endl;
+  os << "<!-- msrSequentialMusic??? -->" << endl;
 }
 
-void msrSequence::printLilyPondCode (ostream& os)
+void msrSequentialMusic::printLilyPondCode (ostream& os)
 {
-  if (fSequenceElements.size()) {
+  if (fSequentialMusicElements.size()) {
     list<S_msrElement>::const_iterator
-      iBegin = fSequenceElements.begin(),
-      iEnd   = fSequenceElements.end(),
+      iBegin = fSequentialMusicElements.begin(),
+      iEnd   = fSequentialMusicElements.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -2958,6 +2958,52 @@ void msrTime::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrTempo msrTempo::create (
+  int tempoUnit, int perMinute)
+{
+  msrTempo* o =
+    new msrTempo(tempoUnit, perMinute); assert(o!=0);
+  return o;
+}
+
+msrTempo::msrTempo(
+    int tempoUnit, int perMinute)
+  : msrElement("")
+{
+  fTempoUnit = tempoUnit;
+  fPerMinute = perMinute;
+}
+msrTempo::~msrTempo() {}
+
+ostream& operator<< (ostream& os, const S_msrTempo& nstf)
+{
+  nstf->print(os);
+  return os;
+}
+
+void msrTempo::printMusicXML (ostream& os)
+{
+  os << "<!-- msrTempo??? -->" << endl;
+}
+
+void msrTempo::printMSR (ostream& os)
+{
+  os <<
+    "TempoCommand" << " " <<
+    fTempoUnit << " " << fPerMinute << endl;
+}
+
+void msrTempo::printScoreSummary (ostream& os)
+{}
+
+void msrTempo::printLilyPondCode (ostream& os)
+{
+  os <<
+    "\\tempo" << " " <<
+    fTempoUnit << " = " << fPerMinute << endl;
+}
+
+//______________________________________________________________________________
 S_msrMidi msrMidi::create()
 {
   msrMidi* o = new msrMidi(); assert(o!=0);
@@ -3037,7 +3083,7 @@ void msrRepeat::printMSR (ostream& os)
   os << "Repeat" << endl;
   idtr++;
     os << idtr << fCommonPart;
-    vector<S_msrSequence>::const_iterator i;
+    vector<S_msrSequentialMusic>::const_iterator i;
     for (i=fAlternateEndings.begin(); i!=fAlternateEndings.end(); i++) {
       os << idtr << (*i);
     } // for
@@ -3474,16 +3520,16 @@ msrVoice::msrVoice (
 
   fVoiceContainsActualNotes = false;
   
-  // create the implicit msrSequence element
-  fVoiceSequence =
-    msrSequence::create (msrSequence::kSpace);
+  // create the implicit msrSequentialMusic element
+  fVoiceSequentialMusic =
+    msrSequentialMusic::create (msrSequentialMusic::kSpace);
 
   // add the implicit initial C major key
   S_msrKey
     key =
       msrKey::create (0, "major", 0);
   S_msrElement k = key;
-  fVoiceSequence->appendElementToSequence (k);
+  fVoiceSequentialMusic->appendElementToSequentialMusic (k);
 
   // add the implicit initial 4/4 time signature
   S_msrTime
@@ -3492,7 +3538,7 @@ msrVoice::msrVoice (
         4, 4,
         fTranslationSettings->fGenerateNumericalTime);
   S_msrElement t = time;
-  fVoiceSequence->appendElementToSequence (t);
+  fVoiceSequentialMusic->appendElementToSequentialMusic (t);
 
   // add the master lyrics to this voice, to
   // collect skips along the way that are used as a 'prelude'
@@ -3502,7 +3548,7 @@ msrVoice::msrVoice (
 
   // add the implicit msrRepeat element
 // JMI  fVoiceMsrRepeat = msrRepeat::create ();
-//  fVoiceSequence->appendElementToSequence (fVoiceMsrRepeat);
+//  fVoiceSequentialMusic->appendElementToSequentialMusic (fVoiceMsrRepeat);
   }
 
 msrVoice::~msrVoice() {}
@@ -3593,7 +3639,7 @@ S_msrLyrics msrVoice::fetchLyricsFromVoice (
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
   S_msrElement n = note;
-  fVoiceSequence->appendElementToSequence (n);
+  fVoiceSequentialMusic->appendElementToSequentialMusic (n);
 
   if (note->getNoteIsARest ())
     fVoiceContainsActualNotes = true;
@@ -3609,17 +3655,17 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
 void msrVoice::appendChordToVoice (S_msrChord chord) {
   S_msrElement c = chord;
-  fVoiceSequence->appendElementToSequence (c);
+  fVoiceSequentialMusic->appendElementToSequentialMusic (c);
 }
 
 void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
   S_msrElement t = tuplet;
-  fVoiceSequence->appendElementToSequence (t);
+  fVoiceSequentialMusic->appendElementToSequentialMusic (t);
 }
 
 void msrVoice::appendElementToVoice (S_msrElement elem)
 {
-  fVoiceSequence->appendElementToSequence (elem);
+  fVoiceSequentialMusic->appendElementToSequentialMusic (elem);
 }
 
 ostream& operator<< (ostream& os, const S_msrVoice& elt)
@@ -3640,7 +3686,7 @@ void msrVoice::printMSR (ostream& os)
 
   idtr++;
 
-  os << idtr << fVoiceSequence << endl;
+  os << idtr << fVoiceSequentialMusic << endl;
 
   if (fVoiceLyricsMap.size()) {
     for (
@@ -3670,7 +3716,7 @@ void msrVoice::printScoreSummary (ostream& os)
 
   idtr++;
 
-  os << idtr << fVoiceSequence;
+  os << idtr << fVoiceSequentialMusic;
 
   if (voiceLyricsMapSize) {
     for (
@@ -3692,7 +3738,7 @@ void msrVoice::printLilyPondCode (ostream& os)
   os << "{" << endl;
 
   idtr++;
-  os << fVoiceSequence;
+  os << fVoiceSequentialMusic;
   idtr--;
 
   os << idtr << "}" << endl;
@@ -3883,17 +3929,20 @@ void msrStaff::printMSR (ostream& os)
   if (fStaffClef)
     os << idtr << fStaffClef;
   else
-    os << idtr << "NO_CLEF" << endl;
+    os << idtr << "NO_CLEF";
+  os << endl;
 
   if (fStaffKey)
     os << idtr << fStaffKey;
   else
-    os << idtr << "NO_KEY" << endl;
+    os << idtr << "NO_KEY";
+  os << endl;
 
   if (fStaffTime)
     os << idtr << fStaffTime;
   else
-    os << idtr << "NO_TIME" << endl;
+    os << idtr << "NO_TIME";
+  os << endl;
 
   os <<
     idtr << "StaffInstrumentName: \"" <<
@@ -4096,14 +4145,14 @@ void msrPart::printMSR (ostream& os)
   idtr++;
   
   os <<
-    idtr << "PartName          : \"" << fPartName << "\"" << endl <<
-    idtr << "PartAbbrevation   : \"" << fPartAbbreviation << "\"" << endl;
+    idtr << "PartName              : \"" << fPartName << "\"" << endl <<
+    idtr << "PartAbbrevation       : \"" << fPartAbbreviation << "\"" << endl;
   
   os << idtr <<
-    "fPartMusicXMLDivisions: " << fPartMusicXMLDivisions << endl;
+    "PartMusicXMLDivisions : " << fPartMusicXMLDivisions << endl;
 
   os << idtr <<
-    "PartInstrumentName: \"" << fPartInstrumentName << "\"" << endl;
+    "PartInstrumentName    : \"" << fPartInstrumentName << "\"" << endl;
 
   if (fPartStavesMap.size()) {
     os << endl;
@@ -4165,7 +4214,7 @@ void msrPart::printLilyPondCode (ostream& os)
   os << "{" << endl;
 
   idtr++;
-// JMI  os << fPartMsrSequence << endl;
+// JMI  os << fPartMsrSequentialMusic << endl;
   idtr--;
 
   os << idtr << "}" << endl;
@@ -4461,7 +4510,7 @@ void msrPartgroup::printLilyPondCode (ostream& os)
     "Partgroup" << " " << fPartgroupNumber << endl;
 
   idtr++;
-// JMI  os << fPartgroupMsrSequence << endl;
+// JMI  os << fPartgroupMsrSequentialMusic << endl;
   idtr--;
 
   os << idtr << "}" << endl;

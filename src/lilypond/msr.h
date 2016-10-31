@@ -638,24 +638,24 @@ typedef SMARTP<msrParallelMusic> S_msrParallelMusic;
 \brief The msr sequence element
 */
 //______________________________________________________________________________
-class EXP msrSequence : public msrElement {
+class EXP msrSequentialMusic : public msrElement {
   public:
     
    enum ElementsSeparator { kEndOfLine, kSpace };
 
-    static SMARTP<msrSequence> create(ElementsSeparator elementsSeparator);
+    static SMARTP<msrSequentialMusic> create(ElementsSeparator elementsSeparator);
 
-    void          prependElementToSequence (S_msrElement elem)
-                      { fSequenceElements.push_front (elem); }
-    void          appendElementToSequence  (S_msrElement elem)
-                      { fSequenceElements.push_back (elem); }
+    void          prependElementToSequentialMusic (S_msrElement elem)
+                      { fSequentialMusicElements.push_front (elem); }
+    void          appendElementToSequentialMusic  (S_msrElement elem)
+                      { fSequentialMusicElements.push_back (elem); }
     
-    S_msrElement  getLastElementOfSequence ()
-                      { return fSequenceElements.back (); }
+    S_msrElement  getLastElementOfSequentialMusic ()
+                      { return fSequentialMusicElements.back (); }
                       
-    void          removeElementFromSequence (S_msrElement elem);
-    void          removeLastElementFromSequence ()
-                      { fSequenceElements.pop_back () ; }
+    void          removeElementFromSequentialMusic (S_msrElement elem);
+    void          removeLastElementFromSequentialMusic ()
+                      { fSequentialMusicElements.pop_back () ; }
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -664,16 +664,16 @@ class EXP msrSequence : public msrElement {
 
   protected:
 
-    msrSequence(ElementsSeparator elementsSeparator);
-    virtual ~msrSequence();
+    msrSequentialMusic(ElementsSeparator elementsSeparator);
+    virtual ~msrSequentialMusic();
     
   private:
   
-    msrElementList     fSequenceElements;
+    msrElementList     fSequentialMusicElements;
     ElementsSeparator  fElementsSeparator;
 
 };
-typedef SMARTP<msrSequence> S_msrSequence;
+typedef SMARTP<msrSequentialMusic> S_msrSequentialMusic;
 
 /*!
 \brief The msr chord element
@@ -983,15 +983,15 @@ class EXP msrRepeat: public msrElement {
     static SMARTP<msrRepeat> create();
     
     void    appendElementToCommonPart (S_msrElement elem)
-              { fCommonPart->appendElementToSequence (elem); }
+              { fCommonPart->appendElementToSequentialMusic (elem); }
               
     void    appendElementToLastAlternateEnding  (S_msrElement elem)
-              { fAlternateEndings.back()->appendElementToSequence (elem); }
+              { fAlternateEndings.back()->appendElementToSequentialMusic (elem); }
                     
     void    appendNewAlternateEnding ()
               {
                 fAlternateEndings.push_back(
-                  msrSequence::create (msrSequence::kSpace));
+                  msrSequentialMusic::create (msrSequentialMusic::kSpace));
               }
 
     void    setActuallyUsed ()
@@ -1009,8 +1009,8 @@ class EXP msrRepeat: public msrElement {
   
   private:
   
-    S_msrSequence              fCommonPart;
-    vector<S_msrSequence> fAlternateEndings;
+    S_msrSequentialMusic              fCommonPart;
+    vector<S_msrSequentialMusic> fAlternateEndings;
     
     // the implicit msrRepeat is not used unless there are
     // actual repeats in the part
@@ -1384,6 +1384,36 @@ class EXP msrTime : public msrElement {
 typedef SMARTP<msrTime> S_msrTime;
 
 /*!
+\brief A tempo representation.
+
+  A tempo is represented by the lyrics to use
+*/
+//______________________________________________________________________________
+class EXP msrTempo : public msrElement {
+  public:
+
+    static SMARTP<msrTempo> create (
+            int tempoUnit, int perMinute);
+    
+    virtual void printMusicXML     (ostream& os);
+    virtual void printMSR          (ostream& os);
+    virtual void printScoreSummary (ostream& os);
+    virtual void printLilyPondCode (ostream& os);
+
+  protected:
+
+    msrTempo (
+        int tempoUnit, int perMinute);
+    virtual ~msrTempo();
+  
+  private:
+  
+    int  fTempoUnit;
+    int  fPerMinute;
+};
+typedef SMARTP<msrTempo> S_msrTempo;
+
+/*!
 \brief A msr midi representation.
 
   A midi is represented by variable/value pairs
@@ -1572,22 +1602,22 @@ class EXP msrVoice : public msrElement {
     void    appendNoteToVoice       (S_msrNote note);
     void    appendChordToVoice      (S_msrChord chord);
     void    appendTupletToVoice     (S_msrTuplet tuplet);
-    void    appendElementToVoice    (S_msrElement elem);
+    void    appendElementToVoice    (S_msrElement elem); // for others
 
     S_msrElement
-            getVoiceSequenceLastElement ()
-                { return fVoiceSequence->getLastElementOfSequence (); }
+            getVoiceSequentialMusicLastElement ()
+                { return fVoiceSequentialMusic->getLastElementOfSequentialMusic (); }
                   
-    void    removeLastElementFromVoiceSequence ()
-                { fVoiceSequence->removeLastElementFromSequence (); }
+    void    removeLastElementFromVoiceSequentialMusic ()
+                { fVoiceSequentialMusic->removeLastElementFromSequentialMusic (); }
 
-    void    removeElementFromVoiceSequence (S_msrElement elem)
-                { fVoiceSequence->removeElementFromSequence (elem); }
+    void    removeElementFromVoiceSequentialMusic (S_msrElement elem)
+                { fVoiceSequentialMusic->removeElementFromSequentialMusic (elem); }
 
 
-    S_msrSequence
-            getVoiceSequence () const
-                { return fVoiceSequence; }
+    S_msrSequentialMusic
+            getVoiceSequentialMusic () const
+                { return fVoiceSequentialMusic; }
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1620,7 +1650,7 @@ class EXP msrVoice : public msrElement {
     S_msrLyrics               fVoiceMasterLyrics;
 
     // the implicit sequence containing the code generated for the voice
-    S_msrSequence             fVoiceSequence;
+    S_msrSequentialMusic      fVoiceSequentialMusic;
   
 
     // the implicit repeat at the beginning of the voice

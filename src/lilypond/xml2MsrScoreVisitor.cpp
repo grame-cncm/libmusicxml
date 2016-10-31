@@ -1213,13 +1213,13 @@ void xml2MsrScoreVisitor::visitEnd ( S_metronome& elt )
   }
   
   if (fBeatsData.size() != 1) {
-    msrMusicXMLWarning(
+    msrMusicXMLWarning (
       "multiple beats found, but only per-minute tempos is supported");
-    return;         // support per minute tempo only (for now)
+    return;
   }
   
   if (! fPerMinute) {
-    msrMusicXMLWarning(
+    msrMusicXMLWarning (
       "per-minute not found, only per-minute tempos is supported");
     return;    // support per minute tempo only (for now)
   }
@@ -1229,17 +1229,18 @@ void xml2MsrScoreVisitor::visitEnd ( S_metronome& elt )
     NoteType::type2rational(
       NoteType::xml (b.fBeatUnit)), rdot(3,2);
   
-  while (b.fDots-- > 0) {
+  while (b.fDots-- > 0) { // JMI
     r *= rdot;
   }
-  r.rationalise();
+  r.rationalise ();
 
-//  S_msrTempoCommand tempo =
-  //  msrTempoCommand::create (r.getDenominator(), fPerMinute);
+  S_msrTempo
+    tempo =
+      msrTempo::create (r.getDenominator(), fPerMinute);
     
- // JMI fCurrentVoice->appendElementToVoiceSequence (tempo);
+ // fCurrentVoice->appendElementToVoice (tempo);
   
- // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
+  // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
 
 void xml2MsrScoreVisitor::visitStart ( S_beat_unit& elt )
@@ -1822,7 +1823,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_barline& elt )
       barCommand =
         msrBarCommand::create ();
     S_msrElement b = barCommand;
-    fCurrentVoice->appendElementToVoiceSequence (b);
+    fCurrentVoice->appendElementToVoiceSequentialMusic (b);
     */
       
   }
@@ -2652,11 +2653,10 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
   if (fTranslationSettings->fDebug)
     cerr << idtr <<
       "--> removing last element " <<
-      fCurrentVoice->getVoiceSequenceLastElement () <<
+      fCurrentVoice->getVoiceSequentialMusicLastElement () <<
       " from current voice" << endl;
-// JMI    fCurrentVoice->removeElementFromVoiceSequence (fCurrentNote);
   fCurrentVoice->
-    removeLastElementFromVoiceSequence ();
+    removeLastElementFromVoiceSequentialMusic ();
 
   // add fCurrentChord to the part sequence instead
   if (fTranslationSettings->fDebug)

@@ -342,25 +342,25 @@ int main(int argc, char *argv[])
       musicxml2MsrVersionStr() << 
       endl <<
       "The settings are:" << endl <<
-      "  noteNamesLanguageName  : \"" << ts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
+      "  noteNamesLanguageName   : \"" << ts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
       
-      "  displayMSR             : " << string(ts->fDisplayMSR ? "true" : "false") << endl <<
+      "  displayMSR              : " << string(ts->fDisplayMSR ? "true" : "false") << endl <<
 
-      "  generateAbsoluteCode   : " << string(ts->fGenerateAbsoluteCode ? "true" : "false") << endl <<
+      "  generateAbsoluteCode    : " << string(ts->fGenerateAbsoluteCode ? "true" : "false") << endl <<
       
-      "  generateNumericalTime  : " << string(ts->fGenerateNumericalTime ? "true" : "false") << endl <<
-      "  generateComments       : " << string(ts->fGenerateComments ? "true" : "false") << endl <<
-      "  generateStems          : " << string(ts->fGenerateStems ? "true" : "false") << endl <<
-      "  generatePositions      : " << string(ts->fGeneratePositions ? "true" : "false") << endl <<
+      "  generateNumericalTime   : " << string(ts->fGenerateNumericalTime ? "true" : "false") << endl <<
+      "  generateComments        : " << string(ts->fGenerateComments ? "true" : "false") << endl <<
+      "  generateStems           : " << string(ts->fGenerateStems ? "true" : "false") << endl <<
+      "  generatePositions       : " << string(ts->fGeneratePositions ? "true" : "false") << endl <<
 
-      "  displayMSR             : " << string(ts->fDisplayMSR ? "true" : "false") << endl <<
+      "  displayMSR              : " << string(ts->fDisplayMSR ? "true" : "false") << endl <<
       
-      "  displayScoreSummary    : " << string(ts->fDisplayScoreSummary ? "true" : "false") << endl <<
+      "  displayScoreSummary     : " << string(ts->fDisplayScoreSummary ? "true" : "false") << endl <<
       
-      "  dontDisplayLilyPondCode: " << string(ts->fDontDisplayLilyPondCode ? "true" : "false") << endl <<
+      "  dontDisplayLilyPondCode : " << string(ts->fDontDisplayLilyPondCode ? "true" : "false") << endl <<
     
-      "  trace                  : " << string(ts->fTrace ? "true" : "false") << endl <<
-      "  debug                  : " << string(ts->fDebug ? "true" : "false") << endl;
+      "  trace                   : " << string(ts->fTrace ? "true" : "false") << endl <<
+      "  debug                   : " << string(ts->fDebug ? "true" : "false") << endl;
   
   xmlErr err = kNoErr;
   
