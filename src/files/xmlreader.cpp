@@ -78,17 +78,21 @@ void xmlreader::newProcessingInstruction (const char* pi)
 bool xmlreader::newElement (const char* eltName)
 {
   debug("newElement", eltName);
+  
   Sxmlelement elt = factory::instance().create (eltName);
   if (!elt) return false;
+  
   if (!fFile->elements()) {
     debug("first element", eltName);
       fFile->set(elt);
   }
   else {
     debug("push element", eltName);
-      fStack.top()->push(elt);
+      fStack.top()->push (elt);
   }
+  
   fStack.push(elt);
+
   return true;
 }
 
@@ -96,8 +100,11 @@ bool xmlreader::newElement (const char* eltName)
 bool xmlreader::endElement (const char* eltName)
 {
   debug("endElement", eltName);
+  
   Sxmlelement top = fStack.top();
+  
   fStack.pop();
+  
   return top->getName() == eltName;
 }
 
@@ -105,13 +112,17 @@ bool xmlreader::endElement (const char* eltName)
 bool xmlreader::newAttribute (const char* name, const char *value)
 {
   debug("newAttribute", name);
+  
   Sxmlattribute attr = xmlattribute::create ();
+  
   if (attr) {
     attr->setName(name);
     attr->setValue(value);
+    
     fStack.top()->add(attr);
     return true;
   }
+  
   return false;
 }
 

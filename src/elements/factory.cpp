@@ -37,11 +37,11 @@ class newElementFunctor : public functor<Sxmlelement>
   public:
   
     Sxmlelement operator ()()
-        { return musicxml<elt>::new_musicxml (); }
+      { return musicxml<elt>::new_musicxml (114); }
 };
 
 
-Sxmlelement factory::create(const string& eltname) const
+Sxmlelement factory::create (const string& eltname) const
 { 
   map<std::string, functor<Sxmlelement>*>::const_iterator
     i =
@@ -52,7 +52,7 @@ Sxmlelement factory::create(const string& eltname) const
     
     if (f) {
       Sxmlelement elt = (*f)();
-      elt->setName(eltname);
+      elt->setName (eltname);
       return elt;
     }
   }
