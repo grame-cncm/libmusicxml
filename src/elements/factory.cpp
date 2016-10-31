@@ -21,6 +21,7 @@
 #endif
 
 #include <iostream>
+
 #include "elements.h"
 #include "factory.h"
 #include "types.h"
@@ -36,23 +37,34 @@ class newElementFunctor : public functor<Sxmlelement>
 {
   public:
   
-    Sxmlelement operator ()()
-      { return musicxml<elt>::new_musicxml (114); }
+    Sxmlelement operator ()(
+      //int inputLineNumber
+      )
+      {
+        return
+          musicxml<elt>::new_musicxml ( 333
+          //inputLineNumber
+          );
+      }
 };
 
 
-Sxmlelement factory::create (const string& eltname) const
+Sxmlelement factory::create (
+  const string& eltname, int inputLineNumber) const
 { 
   map<std::string, functor<Sxmlelement>*>::const_iterator
-    i =
-      fMap.find (eltname);
+    i = fMap.find (eltname);
       
   if (i != fMap.end()) {
     functor<Sxmlelement>* f = i->second;
     
     if (f) {
-      Sxmlelement elt = (*f)();
+      Sxmlelement elt = (*f)(
+      //inputLineNumber
+      );
+      
       elt->setName (eltname);
+
       return elt;
     }
   }
@@ -65,14 +77,14 @@ Sxmlelement factory::create (const string& eltname) const
   return 0;
 }
 
-Sxmlelement factory::create (int type) const
+Sxmlelement factory::create (int type, int inputLineNumber) const
 { 
   map<int, const char*>::const_iterator
     i =
       fType2Name.find (type);
       
   if (i != fType2Name.end()) {
-    return create (i->second);
+    return create (i->second, inputLineNumber);
   }
   
   cerr <<

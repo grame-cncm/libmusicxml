@@ -15,6 +15,7 @@
 #endif
 
 #include <iostream>
+
 #include "xml.h"
 #include "xmlfile.h"
 #include "xmlreader.h"
@@ -28,11 +29,12 @@ namespace MusicXML2
 {
   
 //_______________________________________________________________________________
-int     musicxml2guidoVersion()    { return 200; }
-const char* musicxml2guidoVersionStr()   { return "2.0.0"; }
+int         musicxml2guidoVersion()    { return 200; }
+const char* musicxml2guidoVersionStr() { return "2.0.0"; }
 
 //_______________________________________________________________________________
-static xmlErr xml2guido(SXMLFile& xmlfile, bool generateBars, ostream& out, const char* file) 
+static xmlErr xml2guido (
+  SXMLFile& xmlfile, bool generateBars, ostream& out, const char* file) 
 {
   Sxmlelement st = xmlfile->elements();
   if (st) {
@@ -52,7 +54,8 @@ static xmlErr xml2guido(SXMLFile& xmlfile, bool generateBars, ostream& out, cons
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfile2guido(const char *file, bool generateBars, ostream& out) 
+EXP xmlErr musicxmlfile2guido (
+  const char *file, bool generateBars, ostream& out) 
 {
   xmlreader r;
   SXMLFile xmlfile;
@@ -64,7 +67,8 @@ EXP xmlErr musicxmlfile2guido(const char *file, bool generateBars, ostream& out)
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfd2guido(FILE * fd, bool generateBars, ostream& out) 
+EXP xmlErr musicxmlfd2guido (
+  FILE * fd, bool generateBars, ostream& out) 
 {
   xmlreader r;
   SXMLFile xmlfile;
@@ -76,7 +80,8 @@ EXP xmlErr musicxmlfd2guido(FILE * fd, bool generateBars, ostream& out)
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlstring2guido(const char * buffer, bool generateBars, ostream& out) 
+EXP xmlErr musicxmlstring2guido (
+  const char * buffer, bool generateBars, ostream& out) 
 {
   xmlreader r;
   SXMLFile xmlfile;

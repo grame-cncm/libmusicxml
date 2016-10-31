@@ -15,6 +15,7 @@
 
 #include <string>
 #include <map>
+
 #include "functor.h"
 #include "singleton.h"
 #include "xml.h"
@@ -40,8 +41,10 @@ class EXP factory : public singleton<factory>
 
     virtual ~factory() {}
 
-    Sxmlelement create (const std::string& elt) const;  
-    Sxmlelement create (int type) const;  
+    Sxmlelement create (
+      const std::string& elt, int inputLineNumber) const;  
+    Sxmlelement create (
+      int type, int inputLineNumber) const;  
 };
 
 }

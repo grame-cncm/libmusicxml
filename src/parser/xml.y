@@ -120,12 +120,12 @@ eltstop   :
 emptyelt  :
     LT eltname ENDXMLE
       {
-        if (!gReader->endElement(eltName))
+        if (!gReader->endElement (eltName))
           ERROR("end element error")
       }
   | LT eltname SPACE attributes ENDXMLE
       {
-        if (!gReader->endElement(eltName))
+        if (!gReader->endElement (eltName))
           ERROR("end element error")
       }
 
@@ -133,13 +133,13 @@ eltname   :
   NAME
     {
       store(eltName, libmxmltext);
-      if (!gReader->newElement(libmxmltext))
+      if (!gReader->newElement (libmxmltext, libmxmllineno))
         ERROR("element error")
     }
 endname   :
   NAME
     {
-      if (!gReader->endElement(libmxmltext))
+      if (!gReader->endElement (libmxmltext))
         ERROR("end element error")
     }
 
@@ -157,7 +157,7 @@ attrname  :
 value   :
   QUOTEDSTR
     {
-      store(attributeVal, unquote(libmxmltext));
+      store(attributeVal, unquote (libmxmltext));
     }
 
 attributes  :
@@ -178,7 +178,7 @@ cdata   :
 procinstr :
   PI
     {
-      gReader->newProcessingInstruction (libmxmltext);
+      gReader->newProcessingInstruction (libmxmltext, libmxmllineno);
     }
 comment   :
   COMMENT
@@ -208,12 +208,12 @@ decl    :
 versiondec  :
   SPACE VERSION EQ QUOTEDSTR
     {
-      store(xmlversion, unquote(libmxmltext));
+      store (xmlversion, unquote (libmxmltext));
     }
 encodingdec :
   SPACE ENCODING EQ QUOTEDSTR
     {
-      store(xmlencoding, unquote(libmxmltext));
+      store (xmlencoding, unquote (libmxmltext));
     }
 stdalonedec :
   SPACE STANDALONE EQ bool

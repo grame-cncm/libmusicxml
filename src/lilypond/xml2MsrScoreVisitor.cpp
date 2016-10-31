@@ -1085,6 +1085,9 @@ void xml2MsrScoreVisitor::visitStart (S_backup& elt )
       </backup>
 */
   
+  gCurrentMusicXMLLocation.fInputLineNumber =
+    elt->getInputLineNumber ();
+  
   fOnGoingBackup = true;
 }
 

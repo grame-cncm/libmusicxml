@@ -40,16 +40,22 @@ typedef SMARTP<xmlelement>    Sxmlelement;
   An attribute is represented by its name and its value.
 */
 //______________________________________________________________________________
-class EXP xmlattribute : public smartable {
-  //! the attribute name
-  std::string fName;
-  //! the attribute value
-  std::string   fValue;
+class EXP xmlattribute : public smartable
+{
+  private:
+  
+    //! the attribute name
+    std::string fName;
+    //! the attribute value
+    std::string   fValue;
     
   protected:
+  
     xmlattribute() {}
     virtual ~xmlattribute() {}
-    public:
+    
+  public:
+  
     static SMARTP<xmlattribute> create();
 
     void setName (const std::string& name);
@@ -81,12 +87,14 @@ class EXP xmlattribute : public smartable {
 //______________________________________________________________________________
 class EXP xmlelement : public ctree<xmlelement>, public visitable
 {
-  //! the element name
-  std::string fName;
-  //! the element value
-  std::string fValue;
-  //! list of the element attributes
-  std::vector<Sxmlattribute> fAttributes;
+  private:
+  
+    //! the element name
+    std::string fName;
+    //! the element value
+    std::string fValue;
+    //! list of the element attributes
+    std::vector<Sxmlattribute> fAttributes;
 
   protected:
   
@@ -97,10 +105,10 @@ class EXP xmlelement : public ctree<xmlelement>, public visitable
     int fInputLineNumber;
 
     xmlelement (int inputLineNumber)
-    {
-      fType = 0;
-      fInputLineNumber = inputLineNumber;
-    }
+      {
+        fType            = 0;
+        fInputLineNumber = inputLineNumber;
+      }
 
     virtual ~xmlelement() {}
 
@@ -108,7 +116,7 @@ class EXP xmlelement : public ctree<xmlelement>, public visitable
   
     typedef ctree<xmlelement>::iterator     iterator;
 
-    static SMARTP<xmlelement> create(int inputLineNumber);
+    static SMARTP<xmlelement> create (int inputLineNumber);
 
     virtual void acceptIn  (basevisitor& visitor);
     virtual void acceptOut (basevisitor& visitor);

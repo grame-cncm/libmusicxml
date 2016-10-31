@@ -15,6 +15,7 @@
 #endif
 
 #include <iostream>
+
 #include "xmlreader.h"
 #include "factory.h"
 
@@ -59,27 +60,29 @@ SXMLFile xmlreader::read(FILE* file)
 }
 
 //_______________________________________________________________________________
-void xmlreader::newComment (const char* comment)
+void xmlreader::newComment (const char* comment, int inputLineNumber)
 {
-  Sxmlelement elt = factory::instance().create("comment");
+  Sxmlelement elt = factory::instance().create ("comment", inputLineNumber);
+  
   elt->setValue(comment);
   fStack.top()->push(elt);
 }
 
 //_______________________________________________________________________________
-void xmlreader::newProcessingInstruction (const char* pi)
+void xmlreader::newProcessingInstruction (const char* pi, int inputLineNumber)
 {
-  Sxmlelement elt = factory::instance().create("pi");
+  Sxmlelement elt = factory::instance().create ("pi", inputLineNumber);
+  
   elt->setValue(pi);
   fStack.top()->push(elt);
 }
 
 //_______________________________________________________________________________
-bool xmlreader::newElement (const char* eltName)
+bool xmlreader::newElement (const char* eltName, int inputLineNumber)
 {
   debug("newElement", eltName);
   
-  Sxmlelement elt = factory::instance().create (eltName);
+  Sxmlelement elt = factory::instance().create (eltName, inputLineNumber);
   if (!elt) return false;
   
   if (!fFile->elements()) {
