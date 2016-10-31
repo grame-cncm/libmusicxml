@@ -335,7 +335,7 @@ class testreader : public reader
       return true;
     }
     void  error (const char* s, int lineno) {
-      cerr << s  << " on line " << lineno << endl;
+      cerr << s << " on line " << lineno << endl;
     }
 
 };

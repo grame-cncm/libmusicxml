@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
       usage (1);
     } //  switch
 
-  int   remainingArgs = nonOptionArgs;
+  // int   remainingArgs = nonOptionArgs;
 
   xmlErr err = kNoErr;
   if (!strcmp(file, "-"))

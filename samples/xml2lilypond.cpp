@@ -373,7 +373,8 @@ int main(int argc, char *argv[])
     err = musicxmlFile2Msr (file, ts, cout);
     
   if (err) {
-    cout << "### Conversion from MusicCML to LilyPond failed ###" << endl;
+    cout << "### Conversion from MusicCML to LilyPond failed ###" << endl <<
+    endl;
   }
   
   return 0;
