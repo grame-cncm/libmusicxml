@@ -3718,12 +3718,16 @@ msrVoice::msrVoice (
   
   // create the implicit msrSequentialMusic element
   fVoiceSequentialMusic =
-    msrSequentialMusic::create (msrSequentialMusic::kSpace);
+    msrSequentialMusic::create (
+      ts, inputLineNumber,
+      msrSequentialMusic::kSpace);
 
   // add the implicit initial C major key
   S_msrKey
     key =
-      msrKey::create (0, "major", 0);
+      msrKey::create (
+        ts, inputLineNumber,
+        0, "major", 0);
   S_msrElement k = key;
   fVoiceSequentialMusic->appendElementToSequentialMusic (k);
 
@@ -3731,8 +3735,8 @@ msrVoice::msrVoice (
   S_msrTime
     time =
       msrTime::create (
-        4, 4,
-        fTranslationSettings->fGenerateNumericalTime);
+        ts, inputLineNumber,
+        4, 4);
   S_msrElement t = time;
   fVoiceSequentialMusic->appendElementToSequentialMusic (t);
 
@@ -3740,7 +3744,7 @@ msrVoice::msrVoice (
   // collect skips along the way that are used as a 'prelude'
   // by actual lyrics that start at later points
   fVoiceMasterLyrics =
-    addLyricsToVoice (0);
+    addLyricsToVoice (inputLineNumber, 0);
 
   // add the implicit msrRepeat element
 // JMI  fVoiceMsrRepeat = msrRepeat::create ();
@@ -3767,6 +3771,7 @@ string msrVoice::getVoiceName () const
 }
 
 S_msrLyrics msrVoice::addLyricsToVoice (
+  int inputLineNumber,
   int lyricsNumber)
 {
   if (fVoiceLyricsMap.count (lyricsNumber)) {
@@ -3782,6 +3787,7 @@ S_msrLyrics msrVoice::addLyricsToVoice (
     lyrics =
       msrLyrics::create (
         fTranslationSettings,
+        inputLineNumber,
         lyricsNumber,
         this);
 
@@ -3951,7 +3957,7 @@ S_msrStaff msrStaff::create (
 {
   msrStaff* o =
     new msrStaff (
-      ts, staffNumber, staffPart);
+      ts, inputLineNumber, staffNumber, staffPart);
   assert(o!=0);
   return o;
 }
@@ -3976,13 +3982,17 @@ msrStaff::msrStaff (
 
   // create the implicit initial C major key
   fStaffKey =
-    msrKey::create (0, "major", 0);
+    msrKey::create (
+      ts,
+      inputLineNumber,
+      0, "major", 0);
 
   // create the implicit initial 4/4 time signature
   fStaffTime =
     msrTime::create (
-      4, 4,
-      fTranslationSettings->fGenerateNumericalTime);
+      ts,
+      inputLineNumber,
+      4, 4);
 
   // add the maximum number of empty voices
   // those that turn out empty will be removed later
@@ -4009,6 +4019,7 @@ string msrStaff::getStaffName () const
   }
 
 S_msrVoice msrStaff::addVoiceToStaff (
+  int inputLineNumber,
   int voiceNumber)
 {
   if (fStaffVoicesMap.count (voiceNumber)) {
@@ -4037,6 +4048,7 @@ S_msrVoice msrStaff::addVoiceToStaff (
     voice =
       msrVoice::create (
         fTranslationSettings,
+        inputLineNumber,
         voiceNumber,
         fNextRelativeStaffVoiceNumber,
         this);
@@ -4229,7 +4241,7 @@ S_msrPart msrPart::create (
 {
   msrPart* o =
     new msrPart (
-      ts, partMusicXMLName, partPartgroup);
+      ts, inputLineNumber, partMusicXMLName, partPartgroup);
   assert(o!=0);
   return o;
 }
@@ -4288,6 +4300,7 @@ void msrPart::setAllPartStavesClef (S_msrClef clef)
 }
 
 S_msrStaff msrPart::addStaffToPart (
+  int inputLineNumber,
   int staffNumber)
 {
   if (fPartStavesMap.count (staffNumber)) {
@@ -4308,6 +4321,7 @@ S_msrStaff msrPart::addStaffToPart (
     staff =
       msrStaff::create (
         fTranslationSettings,
+        inputLineNumber,
         staffNumber,
         this);
 
@@ -4479,6 +4493,7 @@ msrPartgroup::msrPartgroup (
 msrPartgroup::~msrPartgroup() {}
 
 S_msrPart msrPartgroup::addPartToPartgroup (
+  int    inputLineNumber,
   string partMusicXMLName)
 {
   if (fPartgroupPartsMap.count (partMusicXMLName)) {
@@ -4493,7 +4508,10 @@ S_msrPart msrPartgroup::addPartToPartgroup (
   S_msrPart
     part =
       msrPart::create (
-        fTranslationSettings, partMusicXMLName, this);
+        fTranslationSettings,
+        inputLineNumber,
+        partMusicXMLName,
+        this);
 
   // register it in this part group
   if (fTranslationSettings->fTrace) {

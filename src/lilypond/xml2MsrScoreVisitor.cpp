@@ -687,7 +687,8 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
     // no, add it to the current part group
     fCurrentPart =
       currentPartGroup->
-        addPartToPartgroup (fCurrentPartMusicXMLName);
+        addPartToPartgroup (
+          elt->getInputLineNumber (), fCurrentPartMusicXMLName);
   }
 
   // populate current part
@@ -744,7 +745,8 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
     // no, add it to the current part
     fCurrentStaff =
       fCurrentPart->
-        addStaffToPart (fCurrentStaffNumber);
+        addStaffToPart (
+          elt->getInputLineNumber (), fCurrentStaffNumber);
 
   // there can be an anacrusis
   gCurrentMusicXMLLocation.fMeasureNumber = 0;
@@ -979,7 +981,9 @@ void xml2MsrScoreVisitor::visitStart (S_staves& elt)
     int n = 2;
     
     while (n <= stavesNumber) {
-      fCurrentPart->addStaffToPart (n);
+      fCurrentPart->
+        addStaffToPart (
+          elt->getInputLineNumber (), n);
       n++;
     } // while
   }
@@ -1158,7 +1162,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_forward& elt )
     // no, add it to the current part
     fCurrentStaff =
       fCurrentPart->
-        addStaffToPart (fCurrentStaffNumber);
+        addStaffToPart (
+          elt->getInputLineNumber (), fCurrentStaffNumber);
 
   // is the new current voice known?
   fCurrentVoiceNumber = fCurrentForwardVoiceNumber;
@@ -1170,7 +1175,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_forward& elt )
     // no, add it to the current staff
     fCurrentVoice =
       fCurrentStaff->
-        addVoiceToStaff (fCurrentVoiceNumber);
+        addVoiceToStaff (
+          elt->getInputLineNumber (), fCurrentVoiceNumber);
 /* JMI
   if (! fCurrentVoice) {
     stringstream s;
@@ -1375,7 +1381,8 @@ void xml2MsrScoreVisitor::visitStart (S_lyric& elt )
     // no, add it to the staff
     fCurrentVoice =
       fCurrentStaff->
-        addVoiceToStaff (fCurrentVoiceNumber);
+        addVoiceToStaff (
+          elt->getInputLineNumber (), fCurrentVoiceNumber);
         
   // is lyrics fCurrentLyricsNumber present in current voice?
   fCurrentLyrics =
@@ -1386,7 +1393,8 @@ void xml2MsrScoreVisitor::visitStart (S_lyric& elt )
     // no, add it to the voice
     fCurrentLyrics =
       fCurrentVoice->
-        addLyricsToVoice (fCurrentLyricsNumber);
+        addLyricsToVoice (
+          elt->getInputLineNumber (), fCurrentLyricsNumber);
         
   fCurrentLyricsHasText = false;
   fCurrentText = "";
@@ -2603,7 +2611,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     // no, add it to the current part
     fCurrentStaff =
       fCurrentPart->
-        addStaffToPart (fCurrentStaffNumber);
+        addStaffToPart (
+          elt->getInputLineNumber (), fCurrentStaffNumber);
     
   // fetch the note's voice in the current staff
   fCurrentVoice =
@@ -2615,7 +2624,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   if (! fCurrentVoice) 
     fCurrentVoice =
       fCurrentStaff->
-        addVoiceToStaff (fCurrentVoiceNumber);
+        addVoiceToStaff (
+          elt->getInputLineNumber (), fCurrentVoiceNumber);
 /* */
 
   // store voice number in MusicXML note data
@@ -2724,7 +2734,8 @@ void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
     // no, add it to the staff
     fCurrentVoice =
       fCurrentStaff->
-        addVoiceToStaff (fCurrentVoiceNumber);
+        addVoiceToStaff (
+          newNote->getInputLineNumber (), fCurrentVoiceNumber);
     
   fCurrentVoice->
     appendNoteToVoice (newNote);
@@ -2925,7 +2936,8 @@ void xml2MsrScoreVisitor::handleLyricsText (
     // no, add it to the voice
     fCurrentLyrics =
       fCurrentVoice->
-        addLyricsToVoice (fCurrentLyricsNumber);
+        addLyricsToVoice (
+          inputLineNumber, fCurrentLyricsNumber);
 
   S_msrDuration
     lyricMsrDuration =

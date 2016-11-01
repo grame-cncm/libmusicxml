@@ -1771,7 +1771,9 @@ class EXP msrVoice : public msrElement {
     string  getVoiceName () const;
 
     S_msrLyrics
-            addLyricsToVoice (int lyricsNumber);
+            addLyricsToVoice (
+              int inputLineNumber,
+              int lyricsNumber);
               
     S_msrLyrics
             fetchLyricsFromVoice (int lyricsNumber);
@@ -1872,7 +1874,9 @@ class EXP msrStaff : public msrElement {
     string  getStaffName () const;
 
     S_msrVoice
-            addVoiceToStaff (int voiceNumber);
+            addVoiceToStaff (
+              int inputLineNumber,
+              int voiceNumber);
               
     S_msrVoice
             fetchVoiceFromStaff (int voiceNumber);
@@ -1972,7 +1976,9 @@ class EXP msrPart : public msrElement {
     void    setAllPartStavesClef (S_msrClef clef);
               
     S_msrStaff
-            addStaffToPart (int staffNumber);
+            addStaffToPart (
+              int inputLineNumber,
+              int staffNumber);
 
     S_msrStaff
             fetchStaffFromPart (int staffNumber);
@@ -2072,7 +2078,9 @@ class EXP msrPartgroup : public msrElement {
     bool      getPartgroupBarline () const
                   { return fPartgroupBarline; }
     
-    S_msrPart addPartToPartgroup (string partMusicXMLName);
+    S_msrPart addPartToPartgroup (
+                int    inputLineNumber,
+                string partMusicXMLName);
     
     void      addSubPartgroupToPartgroup (S_msrPartgroup partGroup);
 
