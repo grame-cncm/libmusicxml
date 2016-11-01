@@ -367,7 +367,8 @@ class EXP xml2MsrScoreVisitor :
     // if none is specified in the MusicXML data,
     // in which case a part group "stop" has to be forced later
     S_msrPartgroup          fImplicitPartgroup;
-    S_msrPartgroup          createImplicitMSRPartgroup ();
+    S_msrPartgroup          createImplicitMSRPartgroup (
+                              int inputLineNumber);
     
     // part groups numbers can be re-used, they're no identifier
     // we use a map to access them by part group number
@@ -384,6 +385,7 @@ class EXP xml2MsrScoreVisitor :
     msrPartgroupsList       fPartgroupsList;
     void                    showPartgroupsData (string context);
     void                    handlePartgroupStart (
+                              int                               inputLineNumber,
                               msrPartgroup::PartgroupSymbolKind partGroupSymbol,
                               bool                              partGroupBarline);
     void                    handlePartgroupStop ();
@@ -458,7 +460,8 @@ class EXP xml2MsrScoreVisitor :
     bool                    fCurrentNoteHasLyrics;
     S_msrLyrics             fCurrentLyrics;
     bool                    fCurrentLyricsHasText;
-    void                    handleLyricsText ();
+    void                    handleLyricsText (
+                              int inputLineNumber);
 
     // repeat handling
     // ------------------------------------------------------
@@ -534,8 +537,10 @@ class EXP xml2MsrScoreVisitor :
     bool                    fOnGoingTuplet;
     msrTupletsStack         fCurrentTupletsStack;
 
-    void                    createTuplet   (S_msrNote note);
-    void                    finalizeTuplet (S_msrNote note);
+    void                    createTupletFromItsecondNote (
+                              S_msrNote note);
+    void                    finalizeTuplet (
+                              S_msrNote note);
     void                    handleNoteBelongingToATuplet (
                               S_msrNote newNote);
          
