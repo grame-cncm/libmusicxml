@@ -101,7 +101,9 @@ S_msrElement msrElement::create (
   S_translationSettings& ts, 
   int                    inputLineNumber)
 {
-  msrElement * o = new msrElement(ts, inputLineNumber);
+  msrElement * o =
+    new msrElement(
+      ts, inputLineNumber);
   assert(o!=0);
   return o; 
 }
@@ -256,7 +258,9 @@ S_msrAbsoluteOctave msrAbsoluteOctave::create (
   int                    inputLineNumber,
   int                    musicxmlOctave)
 {
-  msrAbsoluteOctave * o = new msrAbsoluteOctave (musicxmlOctave);
+  msrAbsoluteOctave * o =
+    new msrAbsoluteOctave (
+      ts, inputLineNumber, musicxmlOctave);
   assert(o!=0); 
   return o;
 }
@@ -321,7 +325,9 @@ S_msrDuration msrDuration::create (
   string tupletMemberType)
 {
   msrDuration * o =
-    new msrDuration (num, denom, dots, tupletMemberType);
+    new msrDuration (
+      ts, inputLineNumber,
+      num, denom, dots, tupletMemberType);
   assert(o!=0); 
   return o;
 }
@@ -494,7 +500,8 @@ S_msrArticulation msrArticulation::create (
   ArticulationKind articulationKind)
 {
   msrArticulation* o =
-    new msrArticulation (articulationKind);
+    new msrArticulation (
+      ts, inputLineNumber, articulationKind);
   assert (o!=0);
   return o;
 }
@@ -563,7 +570,10 @@ S_msrDynamics msrDynamics::create (
   int                    inputLineNumber,
   DynamicsKind           kind)
 {
-  msrDynamics* o = new msrDynamics(dynamicsKind); assert(o!=0);
+  msrDynamics* o =
+    new msrDynamics (
+      ts, inputLineNumber, dynamicsKind);
+    assert(o!=0);
   return o;
 }
 
@@ -680,7 +690,10 @@ S_msrWedge msrWedge::create (
   int                    inputLineNumber,
   WedgeKind              kind)
 {
-  msrWedge* o = new msrWedge(wedgeKind); assert(o!=0);
+  msrWedge* o =
+    new msrWedge (
+      ts, inputLineNumber, wedgeKind);
+  assert(o!=0);
   return o;
 }
 
@@ -745,7 +758,10 @@ S_msrSlur msrSlur::create (
   int                    inputLineNumber,
   SlurKind               kind))
 {
-  msrSlur* o = new msrSlur(slurKind); assert(o!=0);
+  msrSlur* o =
+    new msrSlur (
+      ts, inputLineNumber, slurKind);
+  assert(o!=0);
   return o;
 }
 
@@ -812,7 +828,8 @@ S_msrNote msrNote::createFromMusicXMLData (
   msrSlur::SlurKind      slurKind)
 {  
   msrNote * o =
-    new msrNote (ts, inputLineNumber, mxmldat, slurKind);
+    new msrNote (
+      ts, inputLineNumber, mxmldat, slurKind);
   assert(o!=0); 
   return o;
 }
@@ -1400,9 +1417,13 @@ string msrNote::octaveRepresentation (char octave)
   */
 
 //______________________________________________________________________________
-S_msrSequentialMusic msrSequentialMusic::create (ElementsSeparator elementsSeparator)
+S_msrSequentialMusic msrSequentialMusic::create (
+  ElementsSeparator elementsSeparator)
 {
-  msrSequentialMusic* o = new msrSequentialMusic (elementsSeparator); assert(o!=0);
+  msrSequentialMusic* o =
+    new msrSequentialMusic (
+      ts, inputLineNumber, elementsSeparator);
+  assert(o!=0);
   return o;
 }
 
@@ -1513,9 +1534,13 @@ void msrSequentialMusic::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrParallelMusic msrParallelMusic::create(ElementsSeparator elementsSeparator)
+S_msrParallelMusic msrParallelMusic::create(
+  ElementsSeparator elementsSeparator)
 {
-  msrParallelMusic* o = new msrParallelMusic(elementsSeparator); assert(o!=0);
+  msrParallelMusic* o =
+    new msrParallelMusic (
+      ts, inputLineNumber, elementsSeparator);
+  assert(o!=0);
   return o;
 }
 
@@ -1578,7 +1603,10 @@ S_msrChord msrChord::create (
   int                    inputLineNumber,
   S_msrDuration          chordDuration)
 {
-  msrChord* o = new msrChord(chordDuration); assert(o!=0);
+  msrChord* o =
+    new msrChord (
+      ts, inputLineNumber, chordDuration);
+  assert(o!=0);
   return o;
 }
 
@@ -1693,9 +1721,13 @@ void msrChord::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrBarLine msrBarLine::create (int nextBarNumber)
+S_msrBarLine msrBarLine::create (
+  int nextBarNumber)
 {
-  msrBarLine* o = new msrBarLine (nextBarNumber); assert(o!=0);
+  msrBarLine* o =
+    new msrBarLine (
+      ts, inputLineNumber, nextBarNumber);
+  assert(o!=0);
   return o;
 }
 
@@ -1731,9 +1763,13 @@ void msrBarLine::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrComment msrComment::create(string contents, GapKind gapKind)
+S_msrComment msrComment::create (
+  string contents, GapKind gapKind)
 {
-  msrComment* o = new msrComment(contents, gapKind); assert(o!=0);
+  msrComment* o =
+    new msrComment (
+      ts, inputLineNumber, contents, gapKind);
+  assert(o!=0);
   return o;
 }
 
@@ -1780,7 +1816,10 @@ S_msrBreak msrBreak::create (
   int                    inputLineNumber,
   int                    nextBarNumber)
 {
-  msrBreak* o = new msrBreak(nextBarNumber); assert(o!=0);
+  msrBreak* o =
+    new msrBreak (
+      ts, inputLineNumber, nextBarNumber);
+  assert(o!=0);
   return o;
 }
 
@@ -1829,7 +1868,8 @@ S_msrBarNumberCheck msrBarNumberCheck::create (
   int                    nextBarNumber)
 {
   msrBarNumberCheck* o =
-    new msrBarNumberCheck(nextBarNumber);
+    new msrBarNumberCheck (
+      ts, inputLineNumber, nextBarNumber);
   assert(o!=0);
   return o;
 }
@@ -1873,7 +1913,10 @@ S_msrTuplet msrTuplet::create (
   S_translationSettings& ts,
   int                    inputLineNumber)
 {
-  msrTuplet* o = new msrTuplet(); assert(o!=0);
+  msrTuplet* o =
+    new msrTuplet (
+      ts, inputLineNumber);
+  assert(o!=0);
   return o;
 }
 
@@ -1953,7 +1996,10 @@ S_msrBeam msrBeam::create (
   int                    number,
   BeamKind               kind)
 {
-  msrBeam* o = new msrBeam(number, beamKind); assert(o!=0);
+  msrBeam* o =
+    new msrBeam (
+      ts, inputLineNumber, number, beamKind);
+  assert(o!=0);
   return o;
 }
 
@@ -2007,7 +2053,10 @@ void msrBeam::printLilyPondCode (ostream& os)
 //______________________________________________________________________________
 S_msrPaper msrPaper::create ()
 {
-  msrPaper* o = new msrPaper(); assert(o!=0);
+  msrPaper* o =
+    new msrPaper (
+      ts, inputLineNumber);
+  assert(o!=0);
   return o;
 }
 
@@ -2170,7 +2219,10 @@ void msrPaper::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrHeader msrHeader::create () {
-  msrHeader* o = new msrHeader(); assert(o!=0);
+  msrHeader* o =
+    new msrHeader (
+      ts, inputLineNumber);
+  assert(o!=0);
   return o;
 }
 
@@ -2491,7 +2543,7 @@ void msrHeader::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrLilypondVarValAssoc msrLilypondVarValAssoc::create(
+S_msrLilypondVarValAssoc msrLilypondVarValAssoc::create (
   string     variableName,
   string     value, 
   VarValSeparator varValSeparator,
@@ -2570,7 +2622,7 @@ void msrLilypondVarValAssoc::printLilyPondCode (ostream& os) {
 }
 
 //______________________________________________________________________________
-S_msrSchemeVarValAssoc msrSchemeVarValAssoc::create(
+S_msrSchemeVarValAssoc msrSchemeVarValAssoc::create (
       string     variableName,
       string     value, 
       CommentedKind   commentedKind )
@@ -2642,7 +2694,9 @@ S_msrLayout msrLayout::create (
   S_translationSettings& ts, 
   int                    inputLineNumber)
 {
-  msrLayout* o = new msrLayout (ts, inputLineNumber);
+  msrLayout* o =
+    new msrLayout (
+      ts, inputLineNumber);
   assert(o!=0);
   return o;
 }
@@ -2739,7 +2793,9 @@ S_msrClef msrClef::create (
   int                    octaveChange)
 {
   msrClef* o =
-    new msrClef(sign, line, octaveChange); assert(o!=0);
+    new msrClef (
+      ts, inputLineNumber, sign, line, octaveChange);
+  assert(o!=0);
   return o;
 }
 
@@ -2855,7 +2911,9 @@ S_msrKey msrKey::create (
   string                 mode,
   int                    cancel)
 {
-  msrKey* o = new msrKey (fifths, mode, cancel);
+  msrKey* o =
+    new msrKey (
+      ts, inputLineNumber, fifths, mode, cancel);
   assert (o!=0);
   return o;
 }
@@ -2992,7 +3050,9 @@ S_msrTime msrTime::create (
   int                    denominator)
 {
   msrTime* o =
-    new msrTime (numerator, denominator, generateNumericalTime);
+    new msrTime (
+      ts, inputLineNumber,
+      numerator, denominator);
   assert (o!=0);
   return o;
 }
@@ -3056,7 +3116,9 @@ S_msrTempo msrTempo::create (
   int                    perMinute)
 {
   msrTempo* o =
-    new msrTempo(tempoUnit, perMinute); assert(o!=0);
+    new msrTempo (
+      ts, inputLineNumber, tempoUnit, perMinute);
+  assert(o!=0);
   return o;
 }
 
@@ -3105,7 +3167,9 @@ S_msrMidi msrMidi::create (
   S_translationSettings& ts, 
   int                    inputLineNumber)
 {
-  msrMidi* o = new msrMidi (ts, inputLineNumber);
+  msrMidi* o =
+    new msrMidi (
+      ts, inputLineNumber);
   assert(o!=0);
   return o;
 }
@@ -3159,7 +3223,10 @@ void msrMidi::printLilyPondCode (ostream& os)
 //______________________________________________________________________________
 S_msrRepeat msrRepeat::create ()
 {
-  msrRepeat* o = new msrRepeat(); assert(o!=0);
+  msrRepeat* o =
+    new msrRepeat (
+      ts, inputLineNumber, );
+  assert(o!=0);
   return o;
 }
 
@@ -3210,7 +3277,9 @@ S_msrLyricsChunk msrLyricsChunk::create (
   S_msrDuration          msrDuration)
 {
   msrLyricsChunk* o =
-    new msrLyricsChunk (chunkType, chunkText, duration);
+    new msrLyricsChunk (
+      ts, inputLineNumber,
+      chunkType, chunkText, duration);
   assert(o!=0);
   return o;
 }
@@ -3317,7 +3386,9 @@ S_msrLyrics msrLyrics::create (
   int                    lyricsNumber,
   S_msrVoice             lyricsVoice)
 {
-  msrLyrics* o = new msrLyrics (ts, lyricsNumber, lyricsVoice);
+  msrLyrics* o =
+    new msrLyrics (
+      ts, lyricsNumber, lyricsVoice);
   assert(o!=0);
   return o;
 }
@@ -3603,7 +3674,7 @@ S_msrVoice msrVoice::create (
 {
   msrVoice* o =
     new msrVoice (
-      ts,
+      ts, inputLineNumber,
       voiceNumber,
       staffRelativeVoiceNumber,
       voiceStaff);
@@ -3864,7 +3935,9 @@ S_msrStaff msrStaff::create (
   int                    staffNumber,
   S_msrPart              staffPart)
 {
-  msrStaff* o = new msrStaff( ts, staffNumber, staffPart);
+  msrStaff* o =
+    new msrStaff (
+      ts, staffNumber, staffPart);
   assert(o!=0);
   return o;
 }
@@ -4140,7 +4213,9 @@ S_msrPart msrPart::create (
   string                 partMusicXMLName,
   S_msrPartgroup         partPartgroup)
 {
-  msrPart* o = new msrPart( ts, partMusicXMLName, partPartgroup);
+  msrPart* o =
+    new msrPart (
+      ts, partMusicXMLName, partPartgroup);
   assert(o!=0);
   return o;
 }
@@ -4348,7 +4423,7 @@ S_msrPartgroup msrPartgroup::create (
 {
   msrPartgroup* o =
     new msrPartgroup (
-      ts,
+      ts, inputLineNumber,
       partGroupNumber,
       partGroupName,
       partGroupAbbreviation,
@@ -4638,7 +4713,9 @@ S_msrScore msrScore::create (
   S_translationSettings& ts, 
   int                    inputLineNumber)
 {
-  msrScore* o = new msrScore (ts);
+  msrScore* o =
+    new msrScore (
+      ts, inputLineNumber);
   assert(o!=0);
   return o;
 }
