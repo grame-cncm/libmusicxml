@@ -43,11 +43,11 @@ class EXP xmlreader : public reader
     bool  xmlDecl (const char* version, const char *encoding, int standalone);
     bool  docType (const char* start, bool status, const char *pub, const char *sys);
 
-    void  newComment (const char* comment, int inputLineNumber);
+    void  newComment (const char* comment);
     
-    void  newProcessingInstruction (const char* pi, int inputLineNumber);
+    void  newProcessingInstruction (const char* pi);
     
-    bool  newElement (const char* eltName, int inputLineNumber);
+    bool  newElement (const char* eltName);
     
     bool  newAttribute (const char* eltName, const char *val);
     

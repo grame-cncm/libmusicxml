@@ -32,16 +32,16 @@ musicxmlfactory::musicxmlfactory ()
 {
 //  init();
   fFile = TXMLFile::create();
-  fRoot = factory::instance().create(k_score_partwise, -999); // JMI
+  fRoot = factory::instance().create(k_score_partwise);
 
   fFile->set( new TXMLDecl("1.0", "", TXMLDecl::kNo));
   fFile->set( new TDocType("score-partwise"));
   fFile->set (fRoot);
   
-  fIdentification = factory::instance().create(k_identification, -999);
+  fIdentification = factory::instance().create(k_identification);
   fRoot->push (fIdentification);
   
-  fPartList = factory::instance().create(k_part_list, -999);
+  fPartList = factory::instance().create(k_part_list);
   fRoot->push (fPartList);
 }
 
@@ -295,19 +295,19 @@ void musicxmlfactory::add (
 //------------------------------------------------------------------------
 Sxmlelement musicxmlfactory::element (int type, const char * value) const
 {
-  Sxmlelement elt = factory::instance().create(type, -999);
+  Sxmlelement elt = factory::instance().create(type);
   if (value) elt->setValue (value);
   return elt;
 }
 Sxmlelement musicxmlfactory::element (int type, int value) const
 {
-  Sxmlelement elt = factory::instance().create(type, -999);
+  Sxmlelement elt = factory::instance().create(type);
   if (value) elt->setValue (value);
   return elt;
 }
 Sxmlelement musicxmlfactory::element (int type, float value) const
 {
-  Sxmlelement elt = factory::instance().create(type, -999);
+  Sxmlelement elt = factory::instance().create(type);
   if (value) elt->setValue (value);
   return elt;
 }

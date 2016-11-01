@@ -60,29 +60,29 @@ SXMLFile xmlreader::read(FILE* file)
 }
 
 //_______________________________________________________________________________
-void xmlreader::newComment (const char* comment, int inputLineNumber)
+void xmlreader::newComment (const char* comment)
 {
-  Sxmlelement elt = factory::instance().create ("comment", inputLineNumber);
+  Sxmlelement elt = factory::instance().create ("comment");
   
   elt->setValue(comment);
   fStack.top()->push(elt);
 }
 
 //_______________________________________________________________________________
-void xmlreader::newProcessingInstruction (const char* pi, int inputLineNumber)
+void xmlreader::newProcessingInstruction (const char* pi)
 {
-  Sxmlelement elt = factory::instance().create ("pi", inputLineNumber);
+  Sxmlelement elt = factory::instance().create ("pi");
   
   elt->setValue(pi);
   fStack.top()->push(elt);
 }
 
 //_______________________________________________________________________________
-bool xmlreader::newElement (const char* eltName, int inputLineNumber)
+bool xmlreader::newElement (const char* eltName)
 {
   debug("newElement", eltName);
   
-  Sxmlelement elt = factory::instance().create (eltName, inputLineNumber);
+  Sxmlelement elt = factory::instance().create (eltName);
   if (!elt) return false;
   
   if (!fFile->elements()) {

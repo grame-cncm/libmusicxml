@@ -39,14 +39,32 @@ class musicxmlfactory
     
     Sxmlelement   getSubElement (Sxmlelement elt, int type) const;
     Sxmlelement   getNotations (Sxmlelement elt) const
-                    { return getSubElement (elt, MusicXML2::k_notations); }
+                    {
+                      return
+                        getSubElement (
+                          elt, MusicXML2::k_notations);
+                    }
     Sxmlelement   getAttributes (Sxmlelement elt) const
-                    { return getSubElement (elt, MusicXML2::k_attributes); }
+                    {
+                      return
+                        getSubElement (
+                          elt, MusicXML2::k_attributes);
+                    }
     Sxmlelement   getArticulations (Sxmlelement elt) const
-                    { return getSubElement (getNotations(elt), MusicXML2::k_articulations); }
+                    {
+                      return
+                        getSubElement (
+                          getNotations(elt),
+                          MusicXML2::k_articulations);
+                    }
   // JMI
     Sxmlelement   getDynamics (Sxmlelement elt) const
-                    { return getSubElement (getNotations(elt), MusicXML2::k_dynamics); }
+                    {
+                      return
+                        getSubElement (
+                          getNotations(elt),
+                          MusicXML2::k_dynamics);
+                    }
     
   public:
   

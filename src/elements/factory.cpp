@@ -28,29 +28,31 @@
 
 using namespace std; 
 
+// libmxmllineno is outside of name space MusicXML2
+extern int libmxmllineno;
+
+
 namespace MusicXML2 
 {
 
-
+int currentInputLineNumber ()
+  { return libmxmllineno; }
+  
 template<int elt>
 class newElementFunctor : public functor<Sxmlelement>
 {
   public:
   
-    Sxmlelement operator ()(
-      //int inputLineNumber
-      )
+    Sxmlelement operator ()()
       {
         return
-          musicxml<elt>::new_musicxml ( 333
-          //inputLineNumber
-          );
+          musicxml<elt>::new_musicxml (
+            currentInputLineNumber ());
       }
 };
 
 
-Sxmlelement factory::create (
-  const string& eltname, int inputLineNumber) const
+Sxmlelement factory::create (const string& eltname) const
 { 
   map<std::string, functor<Sxmlelement>*>::const_iterator
     i = fMap.find (eltname);
@@ -59,9 +61,7 @@ Sxmlelement factory::create (
     functor<Sxmlelement>* f = i->second;
     
     if (f) {
-      Sxmlelement elt = (*f)(
-      //inputLineNumber
-      );
+      Sxmlelement elt = (*f)();
       
       elt->setName (eltname);
 
@@ -77,14 +77,14 @@ Sxmlelement factory::create (
   return 0;
 }
 
-Sxmlelement factory::create (int type, int inputLineNumber) const
+Sxmlelement factory::create (int type) const
 { 
   map<int, const char*>::const_iterator
     i =
       fType2Name.find (type);
       
   if (i != fType2Name.end()) {
-    return create (i->second, inputLineNumber);
+    return create (i->second);
   }
   
   cerr <<
