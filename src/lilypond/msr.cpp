@@ -4516,6 +4516,8 @@ void msrPart::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
+int msrPartgroup::gPartgroupsCounter = 0;
+
 S_msrPartgroup msrPartgroup::create (
   S_translationSettings& ts, 
   int                    inputLineNumber,
@@ -4550,6 +4552,8 @@ msrPartgroup::msrPartgroup (
   bool                   partGroupBarline)
     : msrElement (ts, inputLineNumber)
 {
+  fPartgroupAbsoluteNumber = ++gPartgroupsCounter;
+  
   fTranslationSettings = ts;
 
   fPartgroupNumber = partGroupNumber;
@@ -4568,6 +4572,17 @@ msrPartgroup::msrPartgroup (
 }
 
 msrPartgroup::~msrPartgroup() {}
+
+string msrPartgroup::getPartgroupCombinedName () const
+{
+  stringstream s;
+
+  s <<
+    "PG_" << fPartgroupAbsoluteNumber <<
+    " (" << fPartgroupNumber << ")";
+
+  return s.str();
+}
 
 S_msrPart msrPartgroup::addPartToPartgroup (
   int    inputLineNumber,
@@ -4642,7 +4657,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
   return part;
 } // addPartToPartgroup
 
-void msrPartgroup::addSubPartgroupToPartgroup (
+void msrPartgroup::prependSubPartgroupToPartgroup (
   S_msrPartgroup partGroup)
 {
   if (fTranslationSettings->fTrace)
@@ -4651,7 +4666,7 @@ void msrPartgroup::addSubPartgroupToPartgroup (
       " to part group " << getPartgroupNumber ()  << endl;
 
   // register it in this part group
-  fPartgroupElements.push_back (partGroup);
+  fPartgroupElements.push_front (partGroup);
 }
 
 S_msrPart msrPartgroup::fetchPartFromPartgroup (
@@ -4693,7 +4708,7 @@ void msrPartgroup::printMusicXML (ostream& os)
 void msrPartgroup::printMSR (ostream& os)
 {
   os <<
-    "Partgroup" << " " << fPartgroupNumber << endl;
+    "Partgroup" << " " << getPartgroupCombinedName () << endl;
     
   idtr++;
 
@@ -4747,7 +4762,7 @@ void msrPartgroup::printScoreSummary (ostream& os)
   int partgroupElementsSize = fPartgroupElements.size();
   
   os <<
-    "Partgroup" << " " << fPartgroupNumber <<
+    "Partgroup" << " " << getPartgroupCombinedName () <<
     " contains " << partgroupElementsSize;
   if (partgroupElementsSize == 1)
     os << " part or sub part group";

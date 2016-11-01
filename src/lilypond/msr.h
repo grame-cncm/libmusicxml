@@ -2107,6 +2107,8 @@ class EXP msrPartgroup : public msrElement {
       PartgroupSymbolKind    partGroupSymbolKind,
       int                    partGroupSymbolDefaultX,
       bool                   partGroupBarline);
+
+    static int gPartgroupsCounter;
     
     int       getPartgroupNumber () const
                   { return fPartgroupNumber; }
@@ -2121,17 +2123,20 @@ class EXP msrPartgroup : public msrElement {
               getPartgroupSymbolKind () const
                   { return fPartgroupSymbolKind; }
 
-    int        getPartgroupSymbolDefaultX () const
+    int       getPartgroupSymbolDefaultX () const
                   { return fPartgroupSymbolDefaultX; }
 
     bool      getPartgroupBarline () const
                   { return fPartgroupBarline; }
     
+    string    getPartgroupCombinedName () const;
+
     S_msrPart addPartToPartgroup (
                 int    inputLineNumber,
                 string partMusicXMLName);
     
-    void      addSubPartgroupToPartgroup (S_msrPartgroup partGroup);
+    void      prependSubPartgroupToPartgroup (
+                S_msrPartgroup partGroup);
 
     S_msrPart fetchPartFromPartgroup (string partMusicXMLName);
                 
@@ -2155,6 +2160,8 @@ class EXP msrPartgroup : public msrElement {
     virtual ~msrPartgroup();
   
   private:
+
+    int                     fPartgroupAbsoluteNumber;
     
     int                     fPartgroupNumber;
         

@@ -509,13 +509,14 @@ void xml2MsrScoreVisitor::handlePartgroupStop ()
     // insert current group into future current group
     if (fTranslationSettings->fTrace)
       cerr << idtr <<
-        "Appending (sub-)part group " <<
+        "Preending (sub-)part group " <<
         partGroupToBeStopped->getPartgroupNumber () <<
-        " at the end of part group " <<
+        " at the beginning of part group " <<
         newCurrentPartGroup->getPartgroupNumber () << endl;
 
     newCurrentPartGroup->
-      addSubPartgroupToPartgroup (partGroupToBeStopped);
+      prependSubPartgroupToPartgroup (
+        partGroupToBeStopped);
   }
 
   // remove part group from the map
