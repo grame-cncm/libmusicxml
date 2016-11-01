@@ -2008,7 +2008,7 @@ S_msrBeam msrBeam::create (
   S_translationSettings& ts, 
   int                    inputLineNumber,
   int                    number,
-  BeamKind               kind)
+  BeamKind               beamKind)
 {
   msrBeam* o =
     new msrBeam (
@@ -2021,7 +2021,7 @@ msrBeam::msrBeam (
   S_translationSettings& ts, 
   int                    inputLineNumber,
   int                    number,
-  BeamKind               kind)
+  BeamKind               beamKind)
     : msrElement (ts, inputLineNumber)
 {
   fBeamNumber = number;
@@ -2065,7 +2065,9 @@ void msrBeam::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrPaper msrPaper::create ()
+S_msrPaper msrPaper::create (
+  S_translationSettings& ts, 
+  int                    inputLineNumber)
 {
   msrPaper* o =
     new msrPaper (
@@ -2074,7 +2076,9 @@ S_msrPaper msrPaper::create ()
   return o;
 }
 
-msrPaper::msrPaper()
+msrPaper::msrPaper (
+  S_translationSettings& ts, 
+  int                    inputLineNumber)
     : msrElement (ts, inputLineNumber)
 {
   fPaperWidth = -1.0;
@@ -2232,7 +2236,10 @@ void msrPaper::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrHeader msrHeader::create () {
+S_msrHeader msrHeader::create (
+  S_translationSettings& ts, 
+  int                    inputLineNumber)
+{
   msrHeader* o =
     new msrHeader (
       ts, inputLineNumber);
@@ -2240,121 +2247,141 @@ S_msrHeader msrHeader::create () {
   return o;
 }
 
-msrHeader::msrHeader ()
+msrHeader::msrHeader (
+  S_translationSettings& ts, 
+  int                    inputLineNumber)
     : msrElement (ts, inputLineNumber)
 {}
 msrHeader::~msrHeader() {}
 
-void msrHeader::setWorkNumber (string val)
+void msrHeader::setWorkNumber (
+  int    inputLineNumber,
+  string val)
   {
   fWorkNumber =
     msrVarValAssoc::create (
+      fTranslationSettings,
+      inputLineNumber,
       "work-number", val,
       msrVarValAssoc::kEqualSign,
       msrVarValAssoc::kQuotesAroundValue,
       msrVarValAssoc::kUncommented);
   }
-S_msrVarValAssoc msrHeader::getWorkNumber () const
- { return fWorkNumber; }
 
-void msrHeader::setWorkTitle (string val)
+void msrHeader::setWorkTitle (
+  int    inputLineNumber,
+  string val)
   {
   fWorkTitle =
     msrVarValAssoc::create (
+      fTranslationSettings,
+      inputLineNumber,
       "work-title", val,
       msrVarValAssoc::kEqualSign,
       msrVarValAssoc::kQuotesAroundValue,
       msrVarValAssoc::kUncommented);
   }
-S_msrVarValAssoc msrHeader::getWorkTitle () const
-  { return fWorkTitle; }
 
-void msrHeader::setMovementNumber (string val)
+void msrHeader::setMovementNumber (
+  int    inputLineNumber,
+  string val)
   {
   fMovementNumber =
     msrVarValAssoc::create (
+      fTranslationSettings,
+      inputLineNumber,
       "movement-number", val,
       msrVarValAssoc::kEqualSign,
       msrVarValAssoc::kQuotesAroundValue,
       msrVarValAssoc::kUncommented);
   }
-S_msrVarValAssoc msrHeader::getMovementNumber () const
-  { return fMovementNumber; }
 
-void msrHeader::setMovementTitle (string val)
+void msrHeader::setMovementTitle (
+  int    inputLineNumber,
+  string val)
 {
   fMovementTitle =
     msrVarValAssoc::create (
+      fTranslationSettings,
+      inputLineNumber,
       "movement-title", val,
       msrVarValAssoc::kEqualSign,
       msrVarValAssoc::kQuotesAroundValue,
       msrVarValAssoc::kUncommented);
 }
-S_msrVarValAssoc msrHeader::getMovementTitle () const
-  { return fMovementTitle; }
 
-void msrHeader::addCreator (string type, string val)
+void msrHeader::addCreator (
+  int    inputLineNumber,
+  string type,
+  string val)
 {
   fCreators.push_back(
     msrVarValAssoc::create (
+      fTranslationSettings,
+      inputLineNumber,
       type, val,
       msrVarValAssoc::kEqualSign,
       msrVarValAssoc::kQuotesAroundValue,
       msrVarValAssoc::kUncommented)
   );
 }
-vector<S_msrVarValAssoc> msrHeader::getCreators () const
-  { return fCreators; };
 
-void msrHeader::setRights (string val)
+void msrHeader::setRights (
+  int    inputLineNumber,
+  string val)
   {
   fRights =
     msrVarValAssoc::create (
+      fTranslationSettings,
+      inputLineNumber,
       "rights", val,
       msrVarValAssoc::kEqualSign,
       msrVarValAssoc::kQuotesAroundValue,
       msrVarValAssoc::kUncommented);
   }
-S_msrVarValAssoc msrHeader::getRights () const
-  { return fRights; }
 
-void msrHeader::addSoftware (string val)
+void msrHeader::addSoftware (
+  int    inputLineNumber,
+  string val)
 {
   fSoftwares.push_back(
     msrVarValAssoc::create (
+      fTranslationSettings,
+      inputLineNumber,
       "software", val,
       msrVarValAssoc::kEqualSign,
       msrVarValAssoc::kQuotesAroundValue,
       msrVarValAssoc::kUncommented)
   );
 }
-vector<S_msrVarValAssoc> msrHeader::getSoftwares () const
-  { return fSoftwares; };
 
-void msrHeader::setEncodingDate (string val)
+void msrHeader::setEncodingDate (
+  int    inputLineNumber,
+  string val)
 {
   fEncodingDate =
     msrVarValAssoc::create (
+      fTranslationSettings,
+      inputLineNumber,
       "encodingdate", val,
       msrVarValAssoc::kEqualSign,
       msrVarValAssoc::kQuotesAroundValue,
       msrVarValAssoc::kUncommented);
 }
-S_msrVarValAssoc msrHeader::getEncodingDate () const
-  { return fEncodingDate; }
 
-void msrHeader::setScoreInstrument (string val)
+void msrHeader::setScoreInstrument (
+  int    inputLineNumber,
+  string val)
 {
   fScoreInstrument =
     msrVarValAssoc::create (
+      fTranslationSettings,
+      inputLineNumber,
       "score-instrument", val,
       msrVarValAssoc::kEqualSign,
       msrVarValAssoc::kQuotesAroundValue,
       msrVarValAssoc::kUncommented);
 }
-S_msrVarValAssoc msrHeader::getScoreInstrument () const
-  { return fScoreInstrument; }
-
 
 void msrHeader::printMusicXML (ostream& os)
 {

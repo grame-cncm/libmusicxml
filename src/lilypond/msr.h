@@ -886,36 +886,79 @@ class EXP msrHeader : public msrElement {
       S_translationSettings& ts, 
       int                    inputLineNumber);
     
-    void                      setWorkNumber      (string val);
-    S_msrVarValAssoc getWorkNumber      () const;
+    void        setWorkNumber (
+                  int    inputLineNumber,
+                  string val);
 
-    void                      setWorkTitle       (string val);
-    S_msrVarValAssoc getWorkTitle       () const;
+    void        setWorkTitle (
+                  int    inputLineNumber,
+                  string val);
 
-    void                      setMovementNumber  (string val);
-    S_msrVarValAssoc getMovementNumber  () const;
+    void        setMovementNumber (
+                  int    inputLineNumber,
+                  string vall);
 
-    void                      setMovementTitle   (string val);
-    S_msrVarValAssoc getMovementTitle   () const;
+    void        setMovementTitle (
+                  int    inputLineNumber,
+                  string val);
 
-    void                      addCreator         (
-                                string type, string val);
+    void        addCreator (
+                  int    inputLineNumber,
+                  string type,
+                  string val);
+
+    void        setRights (
+                  int    inputLineNumber,
+                  string val);
+
+    void        addSoftware (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setEncodingDate (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setScoreInstrument (
+                  int    inputLineNumber,
+                  string val);
+
+    S_msrVarValAssoc
+                getWorkNumber () const
+                    { return fWorkNumber; }
+    
+    S_msrVarValAssoc
+                getWorkTitle () const
+                    { return fWorkTitle; }
+    
+    S_msrVarValAssoc
+                getMovementNumber () const
+                    { return fMovementNumber; }
+    
+    S_msrVarValAssoc
+                getMovementTitle () const
+                    { return fMovementTitle; }
+    
     vector<S_msrVarValAssoc>
-                              getCreators        () const;
-
-    void                      setRights          (string val);
-    S_msrVarValAssoc getRights          () const;
-
-    void                      addSoftware        (string val);
+                getCreators () const
+                    { return fCreators; };
+    
+    S_msrVarValAssoc
+                getRights () const
+                    { return fRights; }
+    
     vector<S_msrVarValAssoc>
-                              getSoftwares       () const;
-
-    void                      setEncodingDate    (string val);
-    S_msrVarValAssoc getEncodingDate    () const;
-
-    void                      setScoreInstrument (string val);
-    S_msrVarValAssoc getScoreInstrument () const;
-
+                getSoftwares () const
+                    { return fSoftwares; };
+    
+    S_msrVarValAssoc
+                getEncodingDate () const
+                    { return fEncodingDate; }
+    
+    S_msrVarValAssoc
+                getScoreInstrument () const
+                    { return fScoreInstrument; }
+  
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -1311,7 +1354,7 @@ class EXP msrBeam : public msrElement {
       S_translationSettings& ts, 
       int                    inputLineNumber,
       int                    number,
-      BeamKind               kind);
+      BeamKind               beamKind);
 
     BeamKind getBeamKind () const { return fBeamKind; }
 
@@ -1326,7 +1369,7 @@ class EXP msrBeam : public msrElement {
       S_translationSettings& ts, 
       int                    inputLineNumber,
       int                    number,
-      BeamKind               kind);
+      BeamKind               beamKind);
       
     virtual ~msrBeam();
   
