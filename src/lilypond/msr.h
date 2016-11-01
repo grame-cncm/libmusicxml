@@ -328,7 +328,10 @@ class musicXMLNoteData {
 class EXP msrAbsoluteOctave : public msrElement {
   public:
   
-    static SMARTP<msrAbsoluteOctave> create(int musicxmlOctave);
+    static SMARTP<msrAbsoluteOctave> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    musicxmlOctave);
     
     msrAbsoluteOctave(int musicxmlOctave);
     virtual ~msrAbsoluteOctave();
@@ -381,10 +384,12 @@ class EXP msrDuration : public msrElement {
   public:
   
     static SMARTP<msrDuration> create (
-        int    num,
-        int    denom,
-        int    dots,
-        string tupletMemberType);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    num,
+      int                    denom,
+      int                    dots,
+      string                 tupletMemberType);
     
     msrDuration(
         int    num,
@@ -439,7 +444,9 @@ class EXP msrArticulation : public msrElement {
         kStaccato, kStaccatissimo, kFermata };
 
     static SMARTP<msrArticulation> create (
-              ArticulationKind articulationKink);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      ArticulationKind       articulationKink);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -470,7 +477,10 @@ class EXP msrSlur : public msrElement {
 
     enum SlurKind { kStartSlur, kContinueSlur, kStopSlur, k_NoSlur };
     
-    static SMARTP<msrSlur> create (SlurKind kind);
+    static SMARTP<msrSlur> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      SlurKind               kind);
 
     SlurKind getSlurKind () const        { return fSlurKind; }
 
@@ -588,8 +598,6 @@ class EXP msrNote : public msrElement {
     
   private:
   
-    S_translationSettings      fTranslationSettings;
-
     // MusicXML informations
     musicXMLNoteData           fMusicXMLNoteData;
     MusicXMLDiatonicPitch      fMusicXMLDiatonicPitch; // JMI
@@ -619,7 +627,10 @@ class EXP msrParallelMusic : public msrElement {
     
     enum ElementsSeparator { kEndOfLine, kSpace };
 
-    static SMARTP<msrParallelMusic> create(ElementsSeparator elementsSeparator);
+    static SMARTP<msrParallelMusic> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      ElementsSeparator      elementsSeparator);
 
     void         addElementToParallelMusic (S_msrElement elem)
                     { fParallelMusicElements.push_back(elem); }
@@ -655,7 +666,10 @@ class EXP msrSequentialMusic : public msrElement {
     
    enum ElementsSeparator { kEndOfLine, kSpace };
 
-    static SMARTP<msrSequentialMusic> create(ElementsSeparator elementsSeparator);
+    static SMARTP<msrSequentialMusic> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      ElementsSeparator      elementsSeparator);
 
     void          prependElementToSequentialMusic (S_msrElement elem)
                       { fSequentialMusicElements.push_front (elem); }
@@ -694,7 +708,10 @@ typedef SMARTP<msrSequentialMusic> S_msrSequentialMusic;
 class EXP msrChord : public msrElement {
   public:
 
-    static SMARTP<msrChord> create(S_msrDuration chordDuration);
+    static SMARTP<msrChord> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      S_msrDuration          chordDuration);
     
     void         addNoteToChord (S_msrNote note)
                     { fChordNotes.push_back(note); }
@@ -741,13 +758,15 @@ class EXP msrLilypondVarValAssoc : public msrElement {
     enum QuotesKind        { kQuotesAroundValue, kNoQuotesAroundValue };
     enum CommentedKind     { kCommented, kUncommented };
 
-    static SMARTP<msrLilypondVarValAssoc> create(
-              string     variableName,
-              string     value, 
-              VarValSeparator varValSeparator,
-              QuotesKind      quotesKind,
-              CommentedKind   commentKind,
-              string     unit = "");
+    static SMARTP<msrLilypondVarValAssoc> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      string                 variableName,
+      string                 value, 
+      VarValSeparator        varValSeparator,
+      QuotesKind             quotesKind,
+      CommentedKind          commentKind,
+      string                 unit = "");
     
     void    changeAssoc (string value);
     
@@ -761,13 +780,16 @@ class EXP msrLilypondVarValAssoc : public msrElement {
 
   protected:
 
-    msrLilypondVarValAssoc(
-              string     variableName,
-              string     value, 
-              VarValSeparator varValSeparator,
-              QuotesKind      quotesKind,
-              CommentedKind   commentedKind,
-              string     unit = "");
+    msrLilypondVarValAssoc (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      string                 variableName,
+      string                 value, 
+      VarValSeparator        varValSeparator,
+      QuotesKind             quotesKind,
+      CommentedKind          commentKind,
+      string                 unit = "");
+      
     virtual ~msrLilypondVarValAssoc();
   
   private:
@@ -790,10 +812,12 @@ class EXP msrSchemeVarValAssoc : public msrElement {
 
     enum CommentedKind     { kCommented, kUncommented };
 
-    static SMARTP<msrSchemeVarValAssoc> create(
-              string     variableName,
-              string     value, 
-              CommentedKind   commentKind );
+    static SMARTP<msrSchemeVarValAssoc> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      string                 variableName,
+      string                 value, 
+      CommentedKind          commentKind);
     
     void    changeAssoc (string value);
     
@@ -829,7 +853,9 @@ typedef SMARTP<msrSchemeVarValAssoc> S_msrSchemeVarValAssoc;
 class EXP msrHeader : public msrElement {
   public:
 
-    static SMARTP<msrHeader> create();
+    static SMARTP<msrHeader> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
     
     void                      setWorkNumber      (string val);
     S_msrLilypondVarValAssoc getWorkNumber      () const;
@@ -895,7 +921,9 @@ typedef SMARTP<msrHeader> S_msrHeader;
 class EXP msrPaper : public msrElement {
   public:
 
-    static SMARTP<msrPaper> create();
+    static SMARTP<msrPaper> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
     
     void    setPaperWidth         (float val) { fPaperWidth = val; }
     float   getPaperWidth         () const    { return fPaperWidth; }
@@ -956,7 +984,9 @@ typedef SMARTP<msrPaper> S_msrPaper;
 class EXP msrLayout : public msrElement {
   public:
 
-    static SMARTP<msrLayout> create();
+    static SMARTP<msrLayout> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
     
     void  addmsrLilypondVarValAssoc (S_msrLilypondVarValAssoc assoc)
               { fMsrLilypondVarValAssocs.push_back(assoc); }
@@ -971,7 +1001,10 @@ class EXP msrLayout : public msrElement {
 
   protected:
 
-    msrLayout();
+    msrLayout (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
+      
     virtual ~msrLayout();
   
   private:
@@ -992,7 +1025,9 @@ typedef SMARTP<msrLayout> S_msrLayout;
 class EXP msrRepeat: public msrElement {
   public:
 
-    static SMARTP<msrRepeat> create();
+    static SMARTP<msrRepeat> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
     
     void    appendElementToCommonPart (S_msrElement elem)
               { fCommonPart->appendElementToSequentialMusic (elem); }
@@ -1003,7 +1038,9 @@ class EXP msrRepeat: public msrElement {
     void    appendNewAlternateEnding ()
               {
                 fAlternateEndings.push_back(
-                  msrSequentialMusic::create (msrSequentialMusic::kSpace));
+                  msrSequentialMusic::create (
+                    fTranslationSettings, fInputLineNumber,
+                    msrSequentialMusic::kSpace));
               }
 
     void    setActuallyUsed ()
@@ -1039,7 +1076,10 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 class EXP msrBarLine : public msrElement {
   public:
     
-    static SMARTP<msrBarLine> create (int nextBarNumber);
+    static SMARTP<msrBarLine> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    nextBarNumber);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1069,7 +1109,10 @@ class EXP msrComment : public msrElement {
     enum GapKind { kGapAfterwards, kNoGapAfterwards };
 
     static SMARTP<msrComment> create (
-              string contents, GapKind gapKind = kNoGapAfterwards);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      string                 contents,
+      GapKind                gapKind = kNoGapAfterwards);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1098,7 +1141,10 @@ typedef SMARTP<msrComment> S_msrComment;
 class EXP msrBreak : public msrElement {
   public:
     
-    static SMARTP<msrBreak> create(int nextBarNumber);
+    static SMARTP<msrBreak> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    nextBarNumber);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1125,7 +1171,10 @@ typedef SMARTP<msrBreak> S_msrBreak;
 class EXP msrBarNumberCheck : public msrElement {
   public:
     
-    static SMARTP<msrBarNumberCheck> create (int nextBarNumber);
+    static SMARTP<msrBarNumberCheck> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    nextBarNumber);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1154,7 +1203,9 @@ typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
 class EXP msrTuplet : public msrElement {
   public:
     
-    static SMARTP<msrTuplet> create();
+    static SMARTP<msrTuplet> create (
+      S_translationSettings& ts,
+      int                    inputLineNumber);
 
     enum TupletKind {
       kStartTuplet, kContinueTuplet, kStopTuplet, 
@@ -1201,7 +1252,11 @@ class EXP msrBeam : public msrElement {
             kBeginBeam, kContinueBeam, kEndBeam, 
             k_NoBeam };
     
-    static SMARTP<msrBeam> create(int number, BeamKind kind);
+    static SMARTP<msrBeam> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    number,
+      BeamKind               kind);
 
     BeamKind getBeamKind () const { return fBeamKind; }
 
@@ -1237,7 +1292,10 @@ class EXP msrDynamics : public msrElement {
           kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
           k_NoDynamics };
     
-    static SMARTP<msrDynamics> create(DynamicsKind kind);
+    static SMARTP<msrDynamics> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      DynamicsKind           kind);
 
     DynamicsKind getDynamicsKind () const { return fDynamicsKind; }
 
@@ -1272,8 +1330,9 @@ class EXP msrWedge : public msrElement {
     enum WedgeKind { kCrescendoWedge, kDecrescendoWedge, kStopWedge };
     
     static SMARTP<msrWedge> create (
-      int       inputLineNumber,
-      WedgeKind kind);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      WedgeKind              kind);
 
     WedgeKind getWedgeKind () const        { return fWedgeKind; }
 
@@ -1308,9 +1367,11 @@ class EXP msrClef : public msrElement {
     enum { kStandardLine, kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
 
     static SMARTP<msrClef> create (
-      string sign,
-      int    line,
-      int    octaveChange);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      string                 sign,
+      int                    line,
+      int                    octaveChange);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1345,7 +1406,11 @@ class EXP msrKey : public msrElement {
     enum KeyMode { kMajor, kMinor };
 
     static SMARTP<msrKey> create (
-        int fifths, string mode, int cancel);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    fifths,
+      string                 mode,
+      int                   cancel);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1379,7 +1444,10 @@ class EXP msrTime : public msrElement {
   public:
     
     static SMARTP<msrTime> create (
-              int numerator, int denominator, bool generateNumericalTime);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    numerator,
+      int                    denominator);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1408,7 +1476,10 @@ class EXP msrTempo : public msrElement {
   public:
 
     static SMARTP<msrTempo> create (
-            int tempoUnit, int perMinute);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    tempoUnit,
+      int                    perMinute);
     
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1437,7 +1508,9 @@ typedef SMARTP<msrTempo> S_msrTempo;
 class EXP msrMidi : public msrElement {
   public:
 
-    static SMARTP<msrMidi> create();
+    static SMARTP<msrMidi> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1446,7 +1519,9 @@ class EXP msrMidi : public msrElement {
 
   protected:
 
-    msrMidi();
+    msrMidi (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
     virtual ~msrMidi();
   
   private:
@@ -1472,9 +1547,11 @@ class EXP msrLyricsChunk : public msrElement {
       k_NoChunk };
 
     static SMARTP<msrLyricsChunk> create (
-            LyricsChunkType chunkType,
-            string          chunkText,
-            S_msrDuration  msrDuration);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      LyricsChunkType        chunkType,
+      string                 chunkText,
+      S_msrDuration          msrDuration);
      
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1509,9 +1586,10 @@ class EXP msrLyrics : public msrElement {
   public:
 
     static SMARTP<msrLyrics> create (
-            S_translationSettings& ts,
-            int                    lyricsNumber,
-            S_msrVoice            lyricsVoice);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    lyricsNumber,
+      S_msrVoice             lyricsVoice);
     
     int     getLyricsNumber () const
                 { return fLyricsNumber; }
@@ -1565,8 +1643,6 @@ class EXP msrLyrics : public msrElement {
   
   private:
 
-    S_translationSettings     fTranslationSettings;
-
     int                       fLyricsNumber;
     S_msrVoice                fLyricsVoice;
     
@@ -1587,10 +1663,11 @@ class EXP msrVoice : public msrElement {
   public:
 
     static SMARTP<msrVoice> create (
-            S_translationSettings& ts,
-            int                    voiceNumber,
-            int                    staffRelativeVoiceNumber,
-            S_msrStaff             voiceStaff);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    voiceNumber,
+      int                    staffRelativeVoiceNumber,
+      S_msrStaff             voiceStaff);
                           
     int     getVoiceNumber () const
                 { return fVoiceNumber; }
@@ -1650,8 +1727,6 @@ class EXP msrVoice : public msrElement {
   
   private:
 
-    S_translationSettings     fTranslationSettings;
-
     int                       fVoiceNumber;
     int                       fStaffRelativeVoiceNumber;
     S_msrStaff                fVoiceStaff;
@@ -1689,9 +1764,10 @@ class EXP msrStaff : public msrElement {
   public:
 
     static SMARTP<msrStaff> create (
-        S_translationSettings& ts,
-        int                    staffNumber,
-        S_msrPart             staffPart);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    staffNumber,
+      S_msrPart              staffPart);
     
     int     getStaffNumber () const
                 { return fStaffNumber; }
@@ -1731,8 +1807,6 @@ class EXP msrStaff : public msrElement {
   
   private:
 
-    S_translationSettings   fTranslationSettings;
-
     static int              gMaxStaffVoices;
 
     int                     fStaffNumber;
@@ -1761,9 +1835,10 @@ class EXP msrPart : public msrElement {
   public:
 
     static SMARTP<msrPart> create (
-              S_translationSettings& ts,
-              string                 partMusicXMLName,
-              S_msrPartgroup         partPartgroup);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      string                 partMusicXMLName,
+      S_msrPartgroup         partPartgroup);
 
     void    setPartName (string partName)
                 { fPartName = partName; }
@@ -1826,8 +1901,6 @@ class EXP msrPart : public msrElement {
     virtual ~msrPart();
   
   private:
-
-    S_translationSettings   fTranslationSettings;
     
     string                  fPartMusicXMLName;
     S_msrPartgroup          fPartPartgroup;
@@ -1879,13 +1952,14 @@ class EXP msrPartgroup : public msrElement {
         k_NoPartgroupSymbol };
           
     static SMARTP<msrPartgroup> create (
-        S_translationSettings& ts,
-        int                    partGroupNumber,
-        string                 partGroupName,
-        string                 partGroupAbbreviation,
-        PartgroupSymbolKind    partGroupSymbolKind,
-        int                    partGroupSymbolDefaultX,
-        bool                   partGroupBarline);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    partGroupNumber,
+      string                 partGroupName,
+      string                 partGroupAbbreviation,
+      PartgroupSymbolKind    partGroupSymbolKind,
+      int                    partGroupSymbolDefaultX,
+      bool                   partGroupBarline);
     
     int       getPartgroupNumber () const
                   { return fPartgroupNumber; }
@@ -1931,11 +2005,6 @@ class EXP msrPartgroup : public msrElement {
     virtual ~msrPartgroup();
   
   private:
-
-// JMI    S_msrPart tryAndReUseInitialAnonymousPart (
-      //          string partMusicXMLName);
-
-    S_translationSettings   fTranslationSettings;
     
     int                     fPartgroupNumber;
         
@@ -1949,7 +2018,7 @@ class EXP msrPartgroup : public msrElement {
 
     // accessing parts by name
     msrPartsMap             fPartgroupPartsMap;
-//    msrPartsList            fPartgroupPartsList;
+//    msrPartsList            fPartgroupPartsList; JMI
 
     // allowing for both parts and (sub-)part groups as elements
     msrElementList          fPartgroupElements;
@@ -1968,7 +2037,8 @@ class EXP msrScore : public msrElement {
   public:
 
     static SMARTP<msrScore> create (
-        S_translationSettings& ts);
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
 
     void addPartgroupToScore (S_msrPartgroup partGroup);
 
@@ -1984,8 +2054,6 @@ class EXP msrScore : public msrElement {
     virtual ~msrScore();
   
   private:
-
-    S_translationSettings   fTranslationSettings;
 
     msrPartgroupsList       fPartgroupsList;
     

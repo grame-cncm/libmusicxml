@@ -2581,12 +2581,20 @@ void msrSchemeVarValAssoc::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrLayout msrLayout::create() {
-  msrLayout* o = new msrLayout(); assert(o!=0);
+S_msrLayout msrLayout::create (
+  S_translationSettings& ts, 
+  int                    inputLineNumber)
+{
+  msrLayout* o = new msrLayout (ts, inputLineNumber);
+  assert(o!=0);
   return o;
 }
 
-msrLayout::msrLayout() : msrElement("") {}
+msrLayout::msrLayout (
+  S_translationSettings& ts, 
+  int                    inputLineNumber)
+    : msrElement (ts, inputLineNumber)
+{}
 msrLayout::~msrLayout() {}
 
 ostream& operator<< (ostream& os, const S_msrLayout& lay)
@@ -3012,14 +3020,19 @@ void msrTempo::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrMidi msrMidi::create()
+S_msrMidi msrMidi::create (
+  S_translationSettings& ts, 
+  int                    inputLineNumber)
 {
-  msrMidi* o = new msrMidi(); assert(o!=0);
+  msrMidi* o = new msrMidi (ts, inputLineNumber);
+  assert(o!=0);
   return o;
 }
 
-msrMidi::msrMidi()
-  : msrElement("")
+msrMidi::msrMidi (
+  S_translationSettings& ts, 
+  int                    inputLineNumber)
+    : msrElement (ts, inputLineNumber)
 {
 }
 msrMidi::~msrMidi() {}
