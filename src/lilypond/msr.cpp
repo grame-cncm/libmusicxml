@@ -4467,7 +4467,7 @@ void msrPart::printScoreSummary (ostream& os)
   int partStavesMapSize = fPartStavesMap.size();
   
   os <<
-    "Part" << " \"" << getPartCombinedName () <<
+    "Part " << getPartCombinedName () <<
     " contains " << partStavesMapSize;
   if (partStavesMapSize == 1)
     os << " staff";
