@@ -52,8 +52,8 @@ class msrVisitor;
 
 class msrElement;
 
-class msrLilypondVarValAssoc;
-class msrSchemeVarValAssoc;
+class msrVarValAssoc;
+// JMI class msrSchemeVarValAssoc;
 
 class msrScore;
 
@@ -81,8 +81,8 @@ class msrMidi;
 
 typedef SMARTP<msrElement>             S_msrElement;
 
-typedef SMARTP<msrLilypondVarValAssoc> S_msrLilypondVarValAssoc;
-typedef SMARTP<msrSchemeVarValAssoc>   S_msrSchemeVarValAssoc;
+typedef SMARTP<msrVarValAssoc>         S_msrVarValAssoc;
+//typedef SMARTP<msrSchemeVarValAssoc>   S_msrSchemeVarValAssoc;
 
 typedef SMARTP<msrScore>               S_msrScore;
 
@@ -119,8 +119,8 @@ EXP ostream& operator<< (ostream& os, const S_msrClef& elt);
 EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
 EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
 
-EXP ostream& operator<< (ostream& os, const S_msrLilypondVarValAssoc& elt);
-EXP ostream& operator<< (ostream& os, const S_msrSchemeVarValAssoc& elt);
+EXP ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt);
+//EXP ostream& operator<< (ostream& os, const S_msrSchemeVarValAssoc& elt);
 
 EXP ostream& operator<< (ostream& os, const S_msrDuration& dur);
 EXP ostream& operator<< (ostream& os, const S_msrDynamics& dyn);
@@ -775,21 +775,21 @@ typedef SMARTP<msrChord> S_msrChord;
 \brief A msr LilyPond variable/value association representation.
 */
 //______________________________________________________________________________
-class EXP msrLilypondVarValAssoc : public msrElement {
+class EXP msrVarValAssoc : public msrElement {
   public:
 
     enum VarValSeparator   { kSpace, kEqualSign };
     enum QuotesKind        { kQuotesAroundValue, kNoQuotesAroundValue };
     enum CommentedKind     { kCommented, kUncommented };
 
-    static SMARTP<msrLilypondVarValAssoc> create (
+    static SMARTP<msrVarValAssoc> create (
       S_translationSettings& ts, 
       int                    inputLineNumber,
       string                 variableName,
       string                 value, 
       VarValSeparator        varValSeparator,
       QuotesKind             quotesKind,
-      CommentedKind          commentKind,
+      CommentedKind          commentedKind,
       string                 unit = "");
     
     void    changeAssoc (string value);
@@ -804,17 +804,17 @@ class EXP msrLilypondVarValAssoc : public msrElement {
 
   protected:
 
-    msrLilypondVarValAssoc (
+    msrVarValAssoc (
       S_translationSettings& ts, 
       int                    inputLineNumber,
       string                 variableName,
       string                 value, 
       VarValSeparator        varValSeparator,
       QuotesKind             quotesKind,
-      CommentedKind          commentKind,
+      CommentedKind          commentedKind,
       string                 unit = "");
       
-    virtual ~msrLilypondVarValAssoc();
+    virtual ~msrVarValAssoc();
   
   private:
 
@@ -825,12 +825,13 @@ class EXP msrLilypondVarValAssoc : public msrElement {
     CommentedKind   fCommentedKind;
     string     fUnit;
 };
-typedef SMARTP<msrLilypondVarValAssoc> S_msrLilypondVarValAssoc;
+typedef SMARTP<msrVarValAssoc> S_msrVarValAssoc;
 
 /*!
 \brief A msr Scheme variable/value association representation.
 */
 //______________________________________________________________________________
+/*
 class EXP msrSchemeVarValAssoc : public msrElement {
   public:
 
@@ -870,6 +871,7 @@ class EXP msrSchemeVarValAssoc : public msrElement {
     CommentedKind   fCommentedKind;
 };
 typedef SMARTP<msrSchemeVarValAssoc> S_msrSchemeVarValAssoc;
+*/
 
 /*!
 \brief A msr header representation.
@@ -885,34 +887,34 @@ class EXP msrHeader : public msrElement {
       int                    inputLineNumber);
     
     void                      setWorkNumber      (string val);
-    S_msrLilypondVarValAssoc getWorkNumber      () const;
+    S_msrVarValAssoc getWorkNumber      () const;
 
     void                      setWorkTitle       (string val);
-    S_msrLilypondVarValAssoc getWorkTitle       () const;
+    S_msrVarValAssoc getWorkTitle       () const;
 
     void                      setMovementNumber  (string val);
-    S_msrLilypondVarValAssoc getMovementNumber  () const;
+    S_msrVarValAssoc getMovementNumber  () const;
 
     void                      setMovementTitle   (string val);
-    S_msrLilypondVarValAssoc getMovementTitle   () const;
+    S_msrVarValAssoc getMovementTitle   () const;
 
     void                      addCreator         (
                                 string type, string val);
-    vector<S_msrLilypondVarValAssoc>
+    vector<S_msrVarValAssoc>
                               getCreators        () const;
 
     void                      setRights          (string val);
-    S_msrLilypondVarValAssoc getRights          () const;
+    S_msrVarValAssoc getRights          () const;
 
     void                      addSoftware        (string val);
-    vector<S_msrLilypondVarValAssoc>
+    vector<S_msrVarValAssoc>
                               getSoftwares       () const;
 
     void                      setEncodingDate    (string val);
-    S_msrLilypondVarValAssoc getEncodingDate    () const;
+    S_msrVarValAssoc getEncodingDate    () const;
 
     void                      setScoreInstrument (string val);
-    S_msrLilypondVarValAssoc getScoreInstrument () const;
+    S_msrVarValAssoc getScoreInstrument () const;
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -929,15 +931,15 @@ class EXP msrHeader : public msrElement {
   
   private:
 
-    S_msrLilypondVarValAssoc              fWorkNumber;
-    S_msrLilypondVarValAssoc              fWorkTitle;
-    S_msrLilypondVarValAssoc              fMovementNumber;
-    S_msrLilypondVarValAssoc              fMovementTitle;
-    vector<S_msrLilypondVarValAssoc> fCreators;
-    S_msrLilypondVarValAssoc              fRights;
-    vector<S_msrLilypondVarValAssoc> fSoftwares;
-    S_msrLilypondVarValAssoc              fEncodingDate;
-    S_msrLilypondVarValAssoc              fScoreInstrument;
+    S_msrVarValAssoc              fWorkNumber;
+    S_msrVarValAssoc              fWorkTitle;
+    S_msrVarValAssoc              fMovementNumber;
+    S_msrVarValAssoc              fMovementTitle;
+    vector<S_msrVarValAssoc> fCreators;
+    S_msrVarValAssoc              fRights;
+    vector<S_msrVarValAssoc> fSoftwares;
+    S_msrVarValAssoc              fEncodingDate;
+    S_msrVarValAssoc              fScoreInstrument;
 
 };
 typedef SMARTP<msrHeader> S_msrHeader;
@@ -1021,8 +1023,8 @@ class EXP msrLayout : public msrElement {
       S_translationSettings& ts, 
       int                    inputLineNumber);
     
-    void  addmsrLilypondVarValAssoc (S_msrLilypondVarValAssoc assoc)
-              { fMsrLilypondVarValAssocs.push_back(assoc); }
+    void  addmsrVarValAssoc (S_msrVarValAssoc assoc)
+              { fmsrVarValAssocs.push_back(assoc); }
       
 //    void addMsrSchemeVarValAssoc (S_msrSchemeVarValAssoc assoc)
 //      { fMsrSchemeVarValAssocs.push_back(assoc); }
@@ -1042,8 +1044,7 @@ class EXP msrLayout : public msrElement {
   
   private:
   
-    vector<S_msrLilypondVarValAssoc> fMsrLilypondVarValAssocs;
-// JMI    vector<S_msrSchemeVarValAssoc>   fMsrSchemeVarValAssocs;
+    vector<S_msrVarValAssoc> fmsrVarValAssocs;
 };
 typedef SMARTP<msrLayout> S_msrLayout;
 
@@ -1692,6 +1693,7 @@ class EXP msrLyrics : public msrElement {
                 { return fLyricsChunks; }
 
     void    addTextChunkToLyrics (
+              int                             inputLineNumber,
               string                          syllabic, // JMI ???
               msrLyricsChunk::LyricsChunkType chunkType,
               string                          text,
@@ -1699,15 +1701,19 @@ class EXP msrLyrics : public msrElement {
               S_msrDuration                   msrDuration);
       
     void    addSkipChunkToLyrics (
+              int            inputLineNumber,
               S_msrDuration  duration);
 
     void    addSlurChunkToLyrics (
+              int            inputLineNumber,
               S_msrDuration  duration);
 
     void    addTiedChunkToLyrics (
+              int            inputLineNumber,
               S_msrDuration  duration);
 
     void    addBreakChunkToLyrics (
+              int inputLineNumber,
               int nextMeasureNumber);
 
     void    addChunkToLyrics (S_msrLyricsChunk chunk)

@@ -2248,111 +2248,111 @@ msrHeader::~msrHeader() {}
 void msrHeader::setWorkNumber (string val)
   {
   fWorkNumber =
-    msrLilypondVarValAssoc::create (
+    msrVarValAssoc::create (
       "work-number", val,
-      msrLilypondVarValAssoc::kEqualSign,
-      msrLilypondVarValAssoc::kQuotesAroundValue,
-      msrLilypondVarValAssoc::kUncommented);
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented);
   }
-S_msrLilypondVarValAssoc msrHeader::getWorkNumber () const
+S_msrVarValAssoc msrHeader::getWorkNumber () const
  { return fWorkNumber; }
 
 void msrHeader::setWorkTitle (string val)
   {
   fWorkTitle =
-    msrLilypondVarValAssoc::create (
+    msrVarValAssoc::create (
       "work-title", val,
-      msrLilypondVarValAssoc::kEqualSign,
-      msrLilypondVarValAssoc::kQuotesAroundValue,
-      msrLilypondVarValAssoc::kUncommented);
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented);
   }
-S_msrLilypondVarValAssoc msrHeader::getWorkTitle () const
+S_msrVarValAssoc msrHeader::getWorkTitle () const
   { return fWorkTitle; }
 
 void msrHeader::setMovementNumber (string val)
   {
   fMovementNumber =
-    msrLilypondVarValAssoc::create (
+    msrVarValAssoc::create (
       "movement-number", val,
-      msrLilypondVarValAssoc::kEqualSign,
-      msrLilypondVarValAssoc::kQuotesAroundValue,
-      msrLilypondVarValAssoc::kUncommented);
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented);
   }
-S_msrLilypondVarValAssoc msrHeader::getMovementNumber () const
+S_msrVarValAssoc msrHeader::getMovementNumber () const
   { return fMovementNumber; }
 
 void msrHeader::setMovementTitle (string val)
 {
   fMovementTitle =
-    msrLilypondVarValAssoc::create (
+    msrVarValAssoc::create (
       "movement-title", val,
-      msrLilypondVarValAssoc::kEqualSign,
-      msrLilypondVarValAssoc::kQuotesAroundValue,
-      msrLilypondVarValAssoc::kUncommented);
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented);
 }
-S_msrLilypondVarValAssoc msrHeader::getMovementTitle () const
+S_msrVarValAssoc msrHeader::getMovementTitle () const
   { return fMovementTitle; }
 
 void msrHeader::addCreator (string type, string val)
 {
   fCreators.push_back(
-    msrLilypondVarValAssoc::create (
+    msrVarValAssoc::create (
       type, val,
-      msrLilypondVarValAssoc::kEqualSign,
-      msrLilypondVarValAssoc::kQuotesAroundValue,
-      msrLilypondVarValAssoc::kUncommented)
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented)
   );
 }
-vector<S_msrLilypondVarValAssoc> msrHeader::getCreators () const
+vector<S_msrVarValAssoc> msrHeader::getCreators () const
   { return fCreators; };
 
 void msrHeader::setRights (string val)
   {
   fRights =
-    msrLilypondVarValAssoc::create (
+    msrVarValAssoc::create (
       "rights", val,
-      msrLilypondVarValAssoc::kEqualSign,
-      msrLilypondVarValAssoc::kQuotesAroundValue,
-      msrLilypondVarValAssoc::kUncommented);
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented);
   }
-S_msrLilypondVarValAssoc msrHeader::getRights () const
+S_msrVarValAssoc msrHeader::getRights () const
   { return fRights; }
 
 void msrHeader::addSoftware (string val)
 {
   fSoftwares.push_back(
-    msrLilypondVarValAssoc::create (
+    msrVarValAssoc::create (
       "software", val,
-      msrLilypondVarValAssoc::kEqualSign,
-      msrLilypondVarValAssoc::kQuotesAroundValue,
-      msrLilypondVarValAssoc::kUncommented)
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented)
   );
 }
-vector<S_msrLilypondVarValAssoc> msrHeader::getSoftwares () const
+vector<S_msrVarValAssoc> msrHeader::getSoftwares () const
   { return fSoftwares; };
 
 void msrHeader::setEncodingDate (string val)
 {
   fEncodingDate =
-    msrLilypondVarValAssoc::create (
+    msrVarValAssoc::create (
       "encodingdate", val,
-      msrLilypondVarValAssoc::kEqualSign,
-      msrLilypondVarValAssoc::kQuotesAroundValue,
-      msrLilypondVarValAssoc::kUncommented);
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented);
 }
-S_msrLilypondVarValAssoc msrHeader::getEncodingDate () const
+S_msrVarValAssoc msrHeader::getEncodingDate () const
   { return fEncodingDate; }
 
 void msrHeader::setScoreInstrument (string val)
 {
   fScoreInstrument =
-    msrLilypondVarValAssoc::create (
+    msrVarValAssoc::create (
       "score-instrument", val,
-      msrLilypondVarValAssoc::kEqualSign,
-      msrLilypondVarValAssoc::kQuotesAroundValue,
-      msrLilypondVarValAssoc::kUncommented);
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented);
 }
-S_msrLilypondVarValAssoc msrHeader::getScoreInstrument () const
+S_msrVarValAssoc msrHeader::getScoreInstrument () const
   { return fScoreInstrument; }
 
 
@@ -2384,7 +2384,7 @@ void msrHeader::printMSR (ostream& os)
   }
     
   if (!fCreators.empty()) {
-    vector<S_msrLilypondVarValAssoc>::const_iterator i1;
+    vector<S_msrVarValAssoc>::const_iterator i1;
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
       os << idtr << (*i1);
     } // for
@@ -2395,7 +2395,7 @@ void msrHeader::printMSR (ostream& os)
   }
     
   if (!fSoftwares.empty()) {
-    vector<S_msrLilypondVarValAssoc>::const_iterator i2;
+    vector<S_msrVarValAssoc>::const_iterator i2;
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
       os << idtr << (*i2);
     } // for
@@ -2431,7 +2431,7 @@ void msrHeader::printScoreSummary (ostream& os)
   }
     
   if (!fCreators.empty()) {
-    vector<S_msrLilypondVarValAssoc>::const_iterator i1;
+    vector<S_msrVarValAssoc>::const_iterator i1;
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
       os << idtr << (*i1);
     } // for
@@ -2442,7 +2442,7 @@ void msrHeader::printScoreSummary (ostream& os)
   }
     
   if (!fSoftwares.empty()) {
-    vector<S_msrLilypondVarValAssoc>::const_iterator i2;
+    vector<S_msrVarValAssoc>::const_iterator i2;
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
       os << idtr << (*i2);
     } // for
@@ -2504,7 +2504,7 @@ void msrHeader::printLilyPondCode (ostream& os)
   }
     
   if (!fCreators.empty()) {
-    vector<S_msrLilypondVarValAssoc>::const_iterator i1;
+    vector<S_msrVarValAssoc>::const_iterator i1;
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
       os << idtr << (*i1);
       if ((*i1)->getVariableName() == "composer")
@@ -2524,7 +2524,7 @@ void msrHeader::printLilyPondCode (ostream& os)
   }
     
   if (!fSoftwares.empty()) {
-    vector<S_msrLilypondVarValAssoc>::const_iterator i2;
+    vector<S_msrVarValAssoc>::const_iterator i2;
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
       os << idtr << (*i2);
      } // for
@@ -2557,29 +2557,35 @@ void msrHeader::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrLilypondVarValAssoc msrLilypondVarValAssoc::create (
-  string     variableName,
-  string     value, 
-  VarValSeparator varValSeparator,
-  QuotesKind      quotesKind,
-  CommentedKind   commentedKind,
-  string     unit)
+
+S_msrVarValAssoc msrVarValAssoc::create (
+  S_translationSettings& ts, 
+  int                    inputLineNumber,
+  string                 variableName,
+  string                 value, 
+  VarValSeparator        varValSeparator,
+  QuotesKind             quotesKind,
+  CommentedKind          commentedKind,
+  string                 unit)
 {
-  msrLilypondVarValAssoc* o =
-    new msrLilypondVarValAssoc(
-    variableName, value, varValSeparator, 
-    quotesKind, commentedKind, unit);
+  msrVarValAssoc* o =
+    new msrVarValAssoc(
+      ts, inputLineNumber,
+      variableName, value, varValSeparator, 
+      quotesKind, commentedKind, unit);
   assert(o!=0);
   return o;
 }
 
-msrLilypondVarValAssoc::msrLilypondVarValAssoc(
-  string     variableName,
-  string     value, 
-  VarValSeparator varValSeparator,
-  QuotesKind      quotesKind,
-  CommentedKind   commentedKind,
-  string     unit)
+msrVarValAssoc::msrVarValAssoc (
+  S_translationSettings& ts, 
+  int                    inputLineNumber,
+  string                 variableName,
+  string                 value, 
+  VarValSeparator        varValSeparator,
+  QuotesKind             quotesKind,
+  CommentedKind          commentedKind,
+  string                 unit)
     : msrElement (ts, inputLineNumber)
 {
   fVariableName=variableName;
@@ -2590,32 +2596,23 @@ msrLilypondVarValAssoc::msrLilypondVarValAssoc(
   fUnit = unit;
 }
 
-msrLilypondVarValAssoc::~msrLilypondVarValAssoc() {}
+msrVarValAssoc::~msrVarValAssoc() {}
 
-void msrLilypondVarValAssoc::changeAssoc (string value) {
+void msrVarValAssoc::changeAssoc (string value) {
   fVariableValue=value;
 }
 
-ostream& operator<< (ostream& os, const S_msrLilypondVarValAssoc& assoc) {
+ostream& operator<< (ostream& os, const S_msrVarValAssoc& assoc) {
   assoc->print(os);
   return os;
 }
 
-void msrLilypondVarValAssoc::printMusicXML (ostream& os)
+void msrVarValAssoc::printMusicXML (ostream& os)
 {
-  os << "<!-- msrLilypondVarValAssoc??? -->" << endl;
+  os << "<!-- msrVarValAssoc??? -->" << endl;
 }
 
-void msrLilypondVarValAssoc::printMSR (ostream& os)
-{
-  os << "LilypondVarValAssoc" << endl;
-  idtr++;
-  os << idtr << fVariableName << endl;
-  os << idtr << fVariableValue <<endl;
-  idtr--;
-}
-
-void msrLilypondVarValAssoc::printScoreSummary (ostream& os)
+void msrVarValAssoc::printMSR (ostream& os)
 {
   os << "LilypondVarValAssoc" << endl;
   idtr++;
@@ -2624,7 +2621,16 @@ void msrLilypondVarValAssoc::printScoreSummary (ostream& os)
   idtr--;
 }
 
-void msrLilypondVarValAssoc::printLilyPondCode (ostream& os) {
+void msrVarValAssoc::printScoreSummary (ostream& os)
+{
+  os << "LilypondVarValAssoc" << endl;
+  idtr++;
+  os << idtr << fVariableName << endl;
+  os << idtr << fVariableValue <<endl;
+  idtr--;
+}
+
+void msrVarValAssoc::printLilyPondCode (ostream& os) {
   if (fCommentedKind == kCommented) os << "\%";
   os << fVariableName;
   if (fVarValSeparator == kEqualSign) os << " = ";
@@ -2635,6 +2641,7 @@ void msrLilypondVarValAssoc::printLilyPondCode (ostream& os) {
   os << endl;
 }
 
+/*
 //______________________________________________________________________________
 S_msrSchemeVarValAssoc msrSchemeVarValAssoc::create (
       string     variableName,
@@ -2702,7 +2709,7 @@ void msrSchemeVarValAssoc::printLilyPondCode (ostream& os)
     fVariableName << " " << fVariableValue << 
     ")" << endl;
 }
-
+*/
 //______________________________________________________________________________
 S_msrLayout msrLayout::create (
   S_translationSettings& ts, 
@@ -2739,9 +2746,9 @@ void msrLayout::printMSR (ostream& os)
 
   idtr++;
 
-  int n1 = fMsrLilypondVarValAssocs.size();
+  int n1 = fmsrVarValAssocs.size();
   for (int i = 0; i < n1; i++ ) {
-    os << idtr << fMsrLilypondVarValAssocs[i];
+    os << idtr << fmsrVarValAssocs[i];
   } // for
 
     /* JMI
@@ -2760,9 +2767,9 @@ void msrLayout::printScoreSummary (ostream& os)
 
   idtr++;
 
-  int n1 = fMsrLilypondVarValAssocs.size();
+  int n1 = fmsrVarValAssocs.size();
   for (int i = 0; i < n1; i++ ) {
-    os << idtr << fMsrLilypondVarValAssocs[i];
+    os << idtr << fmsrVarValAssocs[i];
   } // for
 
     /* JMI
@@ -2781,9 +2788,9 @@ void msrLayout::printLilyPondCode (ostream& os)
 
   idtr++;
 
-  int n1 = fMsrLilypondVarValAssocs.size();
+  int n1 = fmsrVarValAssocs.size();
   for (int i = 0; i < n1; i++ ) {
-    os << idtr << fMsrLilypondVarValAssocs[i];
+    os << idtr << fmsrVarValAssocs[i];
   } // for
   
     /* JMI
@@ -3081,7 +3088,6 @@ msrTime::msrTime (
   fRational = rational (numerator, denominator);
 // JMI  fNumerator=numerator; 
   //fDenominator=denominator;
-  fGenerateNumericalTime = generateNumericalTime;
 }
 msrTime::~msrTime() {}
 
@@ -3235,16 +3241,20 @@ void msrMidi::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrRepeat msrRepeat::create ()
+S_msrRepeat msrRepeat::create (
+  S_translationSettings& ts, 
+  int                    inputLineNumber)
 {
   msrRepeat* o =
     new msrRepeat (
-      ts, inputLineNumber, );
+      ts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
-msrRepeat::msrRepeat ()
+msrRepeat::msrRepeat (
+  S_translationSettings& ts, 
+  int                    inputLineNumber)
     : msrElement (ts, inputLineNumber)
 {
   fActuallyUsed = false;
@@ -3293,7 +3303,7 @@ S_msrLyricsChunk msrLyricsChunk::create (
   msrLyricsChunk* o =
     new msrLyricsChunk (
       ts, inputLineNumber,
-      chunkType, chunkText, duration);
+      chunkType, chunkText, msrDuration);
   assert(o!=0);
   return o;
 }
@@ -3308,7 +3318,7 @@ msrLyricsChunk::msrLyricsChunk (
 {
   fLyricsChunkType = chunkType;
   fChunkText       = chunkText;
-  fChunkDuration   = duration;
+  fChunkDuration   = msrDuration;
 }
 msrLyricsChunk::~msrLyricsChunk() {}
 
@@ -3402,7 +3412,7 @@ S_msrLyrics msrLyrics::create (
 {
   msrLyrics* o =
     new msrLyrics (
-      ts, lyricsNumber, lyricsVoice);
+      ts, inputLineNumber, lyricsNumber, lyricsVoice);
   assert(o!=0);
   return o;
 }
@@ -3446,6 +3456,7 @@ string msrLyrics::getLyricsName () const
 msrLyrics::~msrLyrics() {}
 
 void msrLyrics::addTextChunkToLyrics (
+  int                             inputLineNumber,
   string                          syllabic,
   msrLyricsChunk::LyricsChunkType chunkType,
   string                          text,
@@ -3469,6 +3480,8 @@ void msrLyrics::addTextChunkToLyrics (
   S_msrLyricsChunk
     chunk =
       msrLyricsChunk::create (
+        fTranslationSettings,
+        inputLineNumber,
         chunkType, text, msrDuration);
   
   switch (chunkType) {
@@ -3506,6 +3519,7 @@ void msrLyrics::addTextChunkToLyrics (
 }
 
 void msrLyrics::addSkipChunkToLyrics (
+  int            inputLineNumber,
   S_msrDuration  msrDuration)
 {
 //  if (true || fTranslationSettings->fDebug) {
@@ -3522,6 +3536,8 @@ void msrLyrics::addSkipChunkToLyrics (
   S_msrLyricsChunk
     chunk =
       msrLyricsChunk::create (
+        fTranslationSettings,
+        inputLineNumber,
         msrLyricsChunk::kSkipChunk, "", msrDuration);
         
   // add chunk to this lyrics
@@ -3529,6 +3545,7 @@ void msrLyrics::addSkipChunkToLyrics (
 }
 
 void msrLyrics::addSlurChunkToLyrics (
+  int            inputLineNumber,
   S_msrDuration  msrDuration)
 {
 //  if (true || fTranslationSettings->fDebug) {
@@ -3545,6 +3562,8 @@ void msrLyrics::addSlurChunkToLyrics (
   S_msrLyricsChunk
     chunk =
       msrLyricsChunk::create (
+        fTranslationSettings,
+        inputLineNumber,
         msrLyricsChunk::kSlurChunk, "", msrDuration);
         
   // add chunk to this lyrics
@@ -3552,6 +3571,7 @@ void msrLyrics::addSlurChunkToLyrics (
 }
 
 void msrLyrics::addTiedChunkToLyrics (
+  int            inputLineNumber,
   S_msrDuration  msrDuration)
 {
 //  if (true || fTranslationSettings->fDebug) {
@@ -3568,6 +3588,8 @@ void msrLyrics::addTiedChunkToLyrics (
   S_msrLyricsChunk
     chunk =
       msrLyricsChunk::create (
+        fTranslationSettings,
+        inputLineNumber,
         msrLyricsChunk::kTiedChunk, "", msrDuration);
         
   // add chunk to this lyrics
@@ -3575,6 +3597,7 @@ void msrLyrics::addTiedChunkToLyrics (
 }
 
 void msrLyrics::addBreakChunkToLyrics (
+  int inputLineNumber,
   int nextMeasureNumber)
 {
 //  if (true || fTranslationSettings->fDebug) {
@@ -3595,12 +3618,19 @@ void msrLyrics::addBreakChunkToLyrics (
 
   S_msrDuration
     nullMsrDuration =
-      msrDuration::create (0, 1, 0, "");
+      msrDuration::create (
+        fTranslationSettings,
+        inputLineNumber,
+        0, 1, 0, "");
         
   S_msrLyricsChunk
     chunk =
       msrLyricsChunk::create (
-        msrLyricsChunk::kBreakChunk, s.str(), nullMsrDuration);
+        fTranslationSettings,
+        inputLineNumber,
+        msrLyricsChunk::kBreakChunk,
+        s.str(),
+        nullMsrDuration);
         
   // add chunk to this lyrics
   fLyricsChunks.push_back (chunk);
@@ -3852,7 +3882,8 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       note->getNoteMsrDuration ();
 
   fVoiceMasterLyrics->
-    addSkipChunkToLyrics (lyricsMsrDuration);
+    addSkipChunkToLyrics (
+      note->getInputLineNumber (), lyricsMsrDuration);
 }
 
 void msrVoice::appendChordToVoice (S_msrChord chord) {

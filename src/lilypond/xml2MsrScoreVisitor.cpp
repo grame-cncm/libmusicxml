@@ -1636,6 +1636,7 @@ void xml2MsrScoreVisitor::visitStart ( S_print& elt )
     fCurrentVoice->
       getVoiceMasterLyrics ()->
         addBreakChunkToLyrics (
+          elt->getInputLineNumber (),
           gCurrentMusicXMLLocation.fMeasureNumber);
     }
 }
@@ -3004,18 +3005,21 @@ void xml2MsrScoreVisitor::handleLyricsText (
     case msrLyricsChunk::kSkipChunk:
       fCurrentLyrics->
         addSkipChunkToLyrics (
+          inputLineNumber,
           lyricMsrDuration);
       break;
 
     case msrLyricsChunk::kSlurChunk:
       fCurrentLyrics->
         addSlurChunkToLyrics (
+          inputLineNumber,
           lyricMsrDuration);
       break;
 
     case msrLyricsChunk::kTiedChunk:
       fCurrentLyrics->
         addTiedChunkToLyrics (
+          inputLineNumber,
           lyricMsrDuration);
       break;
 
@@ -3025,6 +3029,7 @@ void xml2MsrScoreVisitor::handleLyricsText (
     case msrLyricsChunk::kEndChunk:
       fCurrentLyrics->
         addTextChunkToLyrics (
+          inputLineNumber,
           fCurrentSyllabic,
           chunkTypeToBeCreated,
           fCurrentText,
