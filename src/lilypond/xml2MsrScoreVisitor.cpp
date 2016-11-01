@@ -490,7 +490,7 @@ void xml2MsrScoreVisitor::handlePartgroupStop ()
         partGroupToBeStopped->getPartgroupNumber ()
           ==
         newCurrentPartGroup->getPartgroupNumber () ) {
-      cerr <<
+      cerr << idtr <<
         "--> partGroupToBeStopped = " << partGroupToBeStopped <<
         ", newCurrentPartGroup = " << newCurrentPartGroup << endl;
 
@@ -1020,7 +1020,8 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
     stringstream s;
     s << "staff " << staffNumber << " is out of context";
 // JMI    msrMusicXMLError (s.str());
-    msrMusicXMLWarning (s.str());    
+    msrMusicXMLWarning (
+      elt->getInputLineNumber (), s.str());    
   }
 }
     
@@ -1112,7 +1113,8 @@ void xml2MsrScoreVisitor::visitEnd (S_backup& elt )
       " from position " << saveCurrentPositionInMeasure <<
       " crosses measure left boundary";
 // JMI    msrMusicXMLError (s.str());
-    msrMusicXMLWarning (s.str());
+    msrMusicXMLWarning (
+      elt->getInputLineNumber (), s.str());
   }
   
   fOnGoingBackup = false;
@@ -1217,12 +1219,14 @@ void xml2MsrScoreVisitor::visitEnd ( S_metronome& elt )
   
   if (fBeatsData.size() != 1) {
     msrMusicXMLWarning (
+      elt->getInputLineNumber (),
       "multiple beats found, but only per-minute tempos is supported");
     return;
   }
   
   if (! fPerMinute) {
     msrMusicXMLWarning (
+      elt->getInputLineNumber (),
       "per-minute not found, only per-minute tempos is supported");
     return;    // support per minute tempo only (for now)
   }
@@ -1920,7 +1924,8 @@ void xml2MsrScoreVisitor::visitStart ( S_duration& elt )
     stringstream s;
     s << "duration " << musicXMLduration << " is out of context";
  // JMI   msrMusicXMLError (s.str());
-    msrMusicXMLWarning (s.str());
+    msrMusicXMLWarning (
+      elt->getInputLineNumber (), s.str());
   }
     
 //  cerr << "=== xml2MsrScoreVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << endl; JMI
@@ -2158,7 +2163,8 @@ void xml2MsrScoreVisitor::visitStart ( S_wedge& elt )
     wk = msrWedge::kStopWedge;
   }
   
-  S_msrWedge wedg = msrWedge::create(wk);;
+  S_msrWedge wedg = msrWedge::create(
+    elt->getInputLineNumber (), wk);
   fPendingWedges.push_back(wedg);
 }
     
@@ -2411,8 +2417,9 @@ void xml2MsrScoreVisitor::attachPendingDynamicsAndWedgesToNote (
       cerr << idtr <<
         "--> Delaying dynamics attached to a rest until next note" << endl;
       } else {
-        cerr << idtr <<
-          "--> There is dynamics attached to a rest" << endl;
+        msrMusicXMLWarning (
+          note->getInputLineNumber (),
+          "there is dynamics attached to a rest");
       }
     } else {
       while (! fPendingDynamics.empty()) {
@@ -2432,8 +2439,14 @@ void xml2MsrScoreVisitor::attachPendingDynamicsAndWedgesToNote (
       cerr << idtr <<
         "--> Delaying wedge attached to a rest until next note" << endl;
       } else {
-        cerr << idtr <<
-          "--> There is a wedge attached to a rest" << endl;
+        for (
+            msrWedgesList::const_iterator i = fPendingWedges.begin();
+            i != fPendingWedges.end();
+            i++) {
+          msrMusicXMLWarning (
+            (*i)->getInputLineNumber (),
+            "there is a wedge attached to a rest");
+        } // for
       }
     } else {
       while (! fPendingWedges.empty()) {
@@ -2524,6 +2537,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     newNote =
       msrNote::createFromMusicXMLData (
         fTranslationSettings,
+        elt->getInputLineNumber (),
         fMusicXMLNoteData,
         fCurrentSlurKind);
 

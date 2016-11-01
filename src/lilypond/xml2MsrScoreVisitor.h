@@ -512,7 +512,7 @@ class EXP xml2MsrScoreVisitor :
     // dynamics and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
     list<S_msrDynamics>     fPendingDynamics;
-    list<S_msrWedge>        fPendingWedges;
+    msrWedgesList           fPendingWedges;
     void                    attachPendingDynamicsAndWedgesToNote (
                               S_msrNote note);
        

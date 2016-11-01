@@ -177,7 +177,7 @@ extern musicXMLLocation  gCurrentMusicXMLLocation;
 \brief A function to emit warning messages regarding MusicXML data
 */
 //______________________________________________________________________________
-void msrMusicXMLWarning (string message);
+void msrMusicXMLWarning (int inputLineNumber, string message);
 
 /*!
 \internal
@@ -231,8 +231,12 @@ class EXP msrGlobalVariables {
 class EXP msrElement : public smartable {
   public:
  
-    static SMARTP<msrElement> create (bool debug);
+    static SMARTP<msrElement> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
     
+    int getInputLineNumber () { return fInputLineNumber; }
+
     virtual void print             (ostream& os);
 
     virtual void printMusicXML     (ostream& os);
@@ -244,11 +248,17 @@ class EXP msrElement : public smartable {
 
   protected:
      
-    msrElement (bool debug);
+    S_translationSettings fTranslationSettings;
+    int                   fInputLineNumber;
+    
+    msrElement (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
+      
     virtual ~msrElement();
 
   private:
-  
+
     bool fDebug;
 };
 typedef SMARTP<msrElement> S_msrElement;
@@ -503,10 +513,11 @@ class EXP msrNote : public msrElement {
     // for standalone notes
     static SMARTP<msrNote> createFromMusicXMLData (
         S_translationSettings& ts,
+        int                    inputLineNumber,
         musicXMLNoteData&      mxmldat,
         msrSlur::SlurKind      slurKind);
-
-    // for rest
+    
+    // for rests
     bool getNoteIsARest ();
     
     // for chord members
@@ -569,6 +580,7 @@ class EXP msrNote : public msrElement {
  
     msrNote (
         S_translationSettings& ts,
+        int                    inputLineNumber,
         musicXMLNoteData&      mxmldat,
         msrSlur::SlurKind      slurKind);
     
@@ -1259,7 +1271,9 @@ class EXP msrWedge : public msrElement {
 
     enum WedgeKind { kCrescendoWedge, kDecrescendoWedge, kStopWedge };
     
-    static SMARTP<msrWedge> create (WedgeKind kind);
+    static SMARTP<msrWedge> create (
+      int       inputLineNumber,
+      WedgeKind kind);
 
     WedgeKind getWedgeKind () const        { return fWedgeKind; }
 
@@ -1280,6 +1294,7 @@ class EXP msrWedge : public msrElement {
     WedgeKind fWedgeKind;
 };
 typedef SMARTP<msrWedge> S_msrWedge;
+typedef list<S_msrWedge> msrWedgesList;
 
 /*!
 \brief A msr clef representation.

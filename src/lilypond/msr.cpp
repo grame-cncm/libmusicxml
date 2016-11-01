@@ -46,16 +46,14 @@ musicXMLLocation::musicXMLLocation (
 }
 */
 //______________________________________________________________________________
-void msrMusicXMLWarning (string message)
+void msrMusicXMLWarning (int inputLineNumber, string message)
 {
   cerr <<
     endl <<
-    "--> MusicXML WARNING, input line " <<
-    gCurrentMusicXMLLocation.fInputLineNumber  <<
-    ", measure " <<
-    gCurrentMusicXMLLocation.fMeasureNumber <<
-    ":" <<
-    gCurrentMusicXMLLocation.fPositionInMeasure << endl <<
+    "--> MusicXML WARNING, input line " << inputLineNumber <<
+   // JMI gCurrentMusicXMLLocation.fInputLineNumber  <<
+    ", measure " << gCurrentMusicXMLLocation.fMeasureNumber <<
+    ":" << gCurrentMusicXMLLocation.fPositionInMeasure << endl <<
     "      " << message << endl <<
     endl;
 }
@@ -99,17 +97,23 @@ void msrInternalError (string message)
 }
 
 //______________________________________________________________________________
-S_msrElement msrElement::create (bool debug)
+S_msrElement msrElement::create (
+  S_translationSettings& ts, 
+  int                    inputLineNumber)
 {
-  msrElement * o = new msrElement(debug);
+  msrElement * o = new msrElement(ts, inputLineNumber);
   assert(o!=0);
   return o; 
 }
 
-msrElement::msrElement (bool debug)
+msrElement::msrElement (
+  S_translationSettings& ts, 
+  int                    inputLineNumber)
 {
-  fDebug = debug;
+  fTranslationSettings = ts;
+  fInputLineNumber = inputLineNumber;  
 }
+
 msrElement::~msrElement() {}
 
 ostream& operator<< (ostream& os, const S_msrElement& elt)
@@ -779,16 +783,19 @@ void msrSlur::printLilyPondCode (ostream& os)
 //______________________________________________________________________________
 S_msrNote msrNote::createFromMusicXMLData (
   S_translationSettings& ts,
+  int                    inputLineNumber,
   musicXMLNoteData&      mxmldat,
   msrSlur::SlurKind      slurKind)
 {  
-  msrNote * o = new msrNote (ts, mxmldat, slurKind);
+  msrNote * o =
+    new msrNote (ts, inputLineNumber, mxmldat, slurKind);
   assert(o!=0); 
   return o;
 }
 
 msrNote::msrNote (
   S_translationSettings& ts,
+  int                    inputLineNumber,
   musicXMLNoteData&      mxmldat,
   msrSlur::SlurKind      slurKind)
   :
@@ -796,6 +803,7 @@ msrNote::msrNote (
     fMusicXMLNoteData (mxmldat)
 {
   fTranslationSettings = ts;
+  fInputLineNumber = inputLineNumber;
 
   fNoteSlurKind = slurKind;
 
@@ -828,8 +836,8 @@ msrNote::msrNote (
       s <<
         "step value " << fMusicXMLNoteData.fMusicXMLStep <<
         " is not a letter from A to G";
-    //  msrMusicXMLError (s.str());
-    msrMusicXMLWarning (s.str());
+    //  msrMusicXMLError (s.str()); JMI
+    msrMusicXMLWarning (fInputLineNumber, s.str());
     }
   }
 
@@ -3829,7 +3837,7 @@ S_msrVoice msrStaff::addVoiceToStaff (
       " is already filled up with" << msrStaff::gMaxStaffVoices <<
       " voices, voice " << voiceNumber << " overflows it" << endl;
 // JMI    msrMusicXMLError (s.str());
-    msrMusicXMLWarning (s.str());
+    msrMusicXMLWarning (999, s.str()); // JMI
   }
 
   // create the voice
