@@ -333,7 +333,11 @@ class EXP msrAbsoluteOctave : public msrElement {
       int                    inputLineNumber,
       int                    musicxmlOctave);
     
-    msrAbsoluteOctave(int musicxmlOctave);
+    msrAbsoluteOctave (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    musicxmlOctave);
+      
     virtual ~msrAbsoluteOctave();
     
     msrAbsoluteOctave& operator= (const msrAbsoluteOctave& absOct)
@@ -391,11 +395,13 @@ class EXP msrDuration : public msrElement {
       int                    dots,
       string                 tupletMemberType);
     
-    msrDuration(
-        int    num,
-        int    denom,
-        int    dots,
-        string tupletMemberType);
+    msrDuration (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    num,
+      int                    denom,
+      int                    dots,
+      string                 tupletMemberType);
         
     virtual ~msrDuration();
     
@@ -446,7 +452,7 @@ class EXP msrArticulation : public msrElement {
     static SMARTP<msrArticulation> create (
       S_translationSettings& ts, 
       int                    inputLineNumber,
-      ArticulationKind       articulationKink);
+      ArticulationKind       articulationKind);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -456,7 +462,10 @@ class EXP msrArticulation : public msrElement {
   protected:
 
     msrArticulation (
-        ArticulationKind articulationKink);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      ArticulationKind       articulationKind);
+      
     virtual ~msrArticulation();
   
   private:
@@ -493,7 +502,10 @@ class EXP msrSlur : public msrElement {
 
   protected:
 
-    msrSlur (SlurKind kind);
+    msrSlur (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      SlurKind               kind);
     virtual ~msrSlur();
   
   private:
@@ -646,7 +658,11 @@ class EXP msrParallelMusic : public msrElement {
 
   protected:
 
-    msrParallelMusic(ElementsSeparator elementsSeparator);
+    msrParallelMusic (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      ElementsSeparator      elementsSeparator);
+      
     virtual ~msrParallelMusic();
     
   private:
@@ -690,7 +706,11 @@ class EXP msrSequentialMusic : public msrElement {
 
   protected:
 
-    msrSequentialMusic(ElementsSeparator elementsSeparator);
+    msrSequentialMusic (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      ElementsSeparator      elementsSeparator);
+      
     virtual ~msrSequentialMusic();
     
   private:
@@ -731,7 +751,11 @@ class EXP msrChord : public msrElement {
 
   protected:
 
-    msrChord (S_msrDuration chordDuration);
+    msrChord (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      S_msrDuration          chordDuration);
+      
     virtual ~msrChord();
   
   private:
@@ -830,10 +854,13 @@ class EXP msrSchemeVarValAssoc : public msrElement {
 
   protected:
 
-    msrSchemeVarValAssoc(
-              string     variableName,
-              string     value, 
-              CommentedKind   commentedKind );
+    msrSchemeVarValAssoc (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      string                 variableName,
+      string                 value, 
+      CommentedKind          commentKind);
+      
     virtual ~msrSchemeVarValAssoc();
   
   private:
@@ -894,7 +921,10 @@ class EXP msrHeader : public msrElement {
 
   protected:
 
-    msrHeader();
+    msrHeader (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
+      
     virtual ~msrHeader();
   
   private:
@@ -957,7 +987,10 @@ class EXP msrPaper : public msrElement {
 
   protected:
 
-    msrPaper();
+    msrPaper (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
+      
     virtual ~msrPaper();
   
   private:
@@ -1053,17 +1086,20 @@ class EXP msrRepeat: public msrElement {
 
   protected:
 
-    msrRepeat();
+    msrRepeat (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
+      
     virtual ~msrRepeat();
   
   private:
   
-    S_msrSequentialMusic              fCommonPart;
+    S_msrSequentialMusic         fCommonPart;
     vector<S_msrSequentialMusic> fAlternateEndings;
     
     // the implicit msrRepeat is not used unless there are
     // actual repeats in the part
-    bool                       fActuallyUsed;
+    bool                         fActuallyUsed;
 };
 typedef SMARTP<msrRepeat> S_msrRepeat;
 
@@ -1088,7 +1124,10 @@ class EXP msrBarLine : public msrElement {
 
   protected:
 
-    msrBarLine (int nextBarNumber);
+    msrBarLine (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    nextBarNumber);
     virtual ~msrBarLine();
   
   private:
@@ -1122,7 +1161,11 @@ class EXP msrComment : public msrElement {
   protected:
 
     msrComment (
-        string contents, GapKind gapKind = kNoGapAfterwards);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      string                 contents,
+      GapKind                gapKind = kNoGapAfterwards);
+      
     virtual ~msrComment();
   
   private:
@@ -1153,7 +1196,11 @@ class EXP msrBreak : public msrElement {
 
   protected:
 
-    msrBreak(int nextBarNumber);
+    msrBreak (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    nextBarNumber);
+      
     virtual ~msrBreak();
   
   private:
@@ -1183,7 +1230,11 @@ class EXP msrBarNumberCheck : public msrElement {
 
   protected:
 
-    msrBarNumberCheck (int nextBarNumber);
+    msrBarNumberCheck (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    nextBarNumber);
+      
     virtual ~msrBarNumberCheck();
   
   private:
@@ -1225,7 +1276,10 @@ class EXP msrTuplet : public msrElement {
 
   protected:
 
-    msrTuplet();
+    msrTuplet (
+      S_translationSettings& ts,
+      int                    inputLineNumber);
+      
     virtual ~msrTuplet();
   
   private:
@@ -1267,7 +1321,12 @@ class EXP msrBeam : public msrElement {
 
   protected:
 
-    msrBeam(int number, BeamKind kind);
+    msrBeam (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    number,
+      BeamKind               kind);
+      
     virtual ~msrBeam();
   
   private:
@@ -1309,7 +1368,11 @@ class EXP msrDynamics : public msrElement {
 
   protected:
 
-    msrDynamics(DynamicsKind kind);
+    msrDynamics (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      DynamicsKind           kind);
+      
     virtual ~msrDynamics();
   
   private:
@@ -1345,7 +1408,11 @@ class EXP msrWedge : public msrElement {
 
   protected:
 
-    msrWedge (WedgeKind kind);
+    msrWedge (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      WedgeKind              kind);
+      
     virtual ~msrWedge();
   
   private:
@@ -1381,9 +1448,12 @@ class EXP msrClef : public msrElement {
   protected:
 
     msrClef (
-      string clefName,
-      int    line,
-      int    octaveChange);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      string                 sign,
+      int                    line,
+      int                    octaveChange);
+      
     virtual ~msrClef();
   
   private:
@@ -1410,7 +1480,7 @@ class EXP msrKey : public msrElement {
       int                    inputLineNumber,
       int                    fifths,
       string                 mode,
-      int                   cancel);
+      int                    cancel);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1420,7 +1490,12 @@ class EXP msrKey : public msrElement {
   protected:
 
     msrKey (
-        int fifths, string mode, int cancel);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    fifths,
+      string                 mode,
+      int                    cancel);
+      
     virtual ~msrKey();
   
   private:
@@ -1456,7 +1531,12 @@ class EXP msrTime : public msrElement {
 
   protected:
 
-    msrTime(int numerator, int denominator, bool generateNumericalTime);
+    msrTime (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    numerator,
+      int                    denominator);
+      
     virtual ~msrTime();
   
   private:
@@ -1489,7 +1569,11 @@ class EXP msrTempo : public msrElement {
   protected:
 
     msrTempo (
-        int tempoUnit, int perMinute);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    tempoUnit,
+      int                    perMinute);
+      
     virtual ~msrTempo();
   
   private:
@@ -1522,6 +1606,7 @@ class EXP msrMidi : public msrElement {
     msrMidi (
       S_translationSettings& ts, 
       int                    inputLineNumber);
+      
     virtual ~msrMidi();
   
   private:
@@ -1561,9 +1646,11 @@ class EXP msrLyricsChunk : public msrElement {
   protected:
 
     msrLyricsChunk (
-        LyricsChunkType chunkType,
-        string          chunkText,
-        S_msrDuration  msrDuration);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      LyricsChunkType        chunkType,
+      string                 chunkText,
+      S_msrDuration          msrDuration);
         
     virtual ~msrLyricsChunk();
 
@@ -1636,9 +1723,10 @@ class EXP msrLyrics : public msrElement {
   protected:
 
     msrLyrics (
-        S_translationSettings& ts,
-        int                    lyricsNumber,
-        S_msrVoice             lyricsVoice);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    lyricsNumber,
+      S_msrVoice             lyricsVoice);
     virtual ~msrLyrics();
   
   private:
@@ -1719,10 +1807,11 @@ class EXP msrVoice : public msrElement {
   protected:
 
     msrVoice (
-        S_translationSettings& ts,
-        int                    voiceNumber,
-        int                    staffRelativeVoiceNumber,
-        S_msrStaff             voiceStaff);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    voiceNumber,
+      int                    staffRelativeVoiceNumber,
+      S_msrStaff             voiceStaff);
     virtual ~msrVoice();
   
   private:
@@ -1800,9 +1889,10 @@ class EXP msrStaff : public msrElement {
   protected:
 
     msrStaff (
-        S_translationSettings& ts,
-        int                    staffNumber,
-        S_msrPart              staffPart);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    staffNumber,
+      S_msrPart              staffPart);
     virtual ~msrStaff();
   
   private:
@@ -1895,9 +1985,11 @@ class EXP msrPart : public msrElement {
   protected:
 
     msrPart (
-        S_translationSettings& ts,
-        string                 partMusicXMLName,
-        S_msrPartgroup         partPartgroup);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      string                 partMusicXMLName,
+      S_msrPartgroup         partPartgroup);
+      
     virtual ~msrPart();
   
   private:
@@ -1994,13 +2086,14 @@ class EXP msrPartgroup : public msrElement {
   protected:
 
     msrPartgroup (
-        S_translationSettings& ts,
-        int                    partGroupNumber,
-        string                 partGroupName,
-        string                 partGroupAbbreviation,
-        PartgroupSymbolKind    partGroupSymbolKind,
-        int                    partGroupSymbolDefaultX,
-        bool                   partGroupBarline);
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      int                    partGroupNumber,
+      string                 partGroupName,
+      string                 partGroupAbbreviation,
+      PartgroupSymbolKind    partGroupSymbolKind,
+      int                    partGroupSymbolDefaultX,
+      bool                   partGroupBarline);
             
     virtual ~msrPartgroup();
   
@@ -2050,7 +2143,9 @@ class EXP msrScore : public msrElement {
   protected:
 
     msrScore (
-        S_translationSettings& ts);
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
+      
     virtual ~msrScore();
   
   private:
