@@ -985,6 +985,8 @@ msrNote::msrNote (
 
   fNoteMsrDuration =
     msrDuration::create (
+      fTranslationSettings,
+      fInputLineNumber,
       fMusicXMLNoteData.fMusicXMLDuration,
       divisionsPerWholeNote,
       fMusicXMLNoteData.fMusicXMLDotsNumber,
@@ -1548,8 +1550,10 @@ void msrSequentialMusic::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrParallelMusic msrParallelMusic::create(
-  ElementsSeparator elementsSeparator)
+S_msrParallelMusic msrParallelMusic::create (
+  S_translationSettings& ts, 
+  int                    inputLineNumber,
+  ElementsSeparator      elementsSeparator)
 {
   msrParallelMusic* o =
     new msrParallelMusic (
@@ -1558,7 +1562,10 @@ S_msrParallelMusic msrParallelMusic::create(
   return o;
 }
 
-msrParallelMusic::msrParallelMusic(ElementsSeparator elementsSeparator)
+msrParallelMusic::msrParallelMusic (
+  S_translationSettings& ts, 
+  int                    inputLineNumber,
+  ElementsSeparator      elementsSeparator)
     : msrElement (ts, inputLineNumber)
 {
   fElementsSeparator=elementsSeparator;
@@ -1736,7 +1743,9 @@ void msrChord::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrBarLine msrBarLine::create (
-  int nextBarNumber)
+  S_translationSettings& ts, 
+  int                    inputLineNumber,
+  int                    nextBarNumber)
 {
   msrBarLine* o =
     new msrBarLine (
@@ -1745,7 +1754,10 @@ S_msrBarLine msrBarLine::create (
   return o;
 }
 
-msrBarLine::msrBarLine (int nextBarNumber)
+msrBarLine::msrBarLine (
+  S_translationSettings& ts, 
+  int                    inputLineNumber,
+  int                    nextBarNumber)
     : msrElement (ts, inputLineNumber)
 {
   fNextBarNumber=nextBarNumber; 
@@ -1778,7 +1790,10 @@ void msrBarLine::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrComment msrComment::create (
-  string contents, GapKind gapKind)
+  S_translationSettings& ts, 
+  int                    inputLineNumber,
+  string                 contents,
+  GapKind                gapKind)
 {
   msrComment* o =
     new msrComment (
@@ -1787,7 +1802,11 @@ S_msrComment msrComment::create (
   return o;
 }
 
-msrComment::msrComment(string contents, GapKind gapKind)
+msrComment::msrComment (
+  S_translationSettings& ts, 
+  int                    inputLineNumber,
+  string                 contents,
+  GapKind                gapKind)
     : msrElement (ts, inputLineNumber)
 {
   fContents=contents;
