@@ -319,10 +319,12 @@ void msrAbsoluteOctave::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrDuration msrDuration::create (
-  int     num,
-  int    denom,
-  int    dots,
-  string tupletMemberType)
+  S_translationSettings& ts, 
+  int                    inputLineNumber,
+  int                    num,
+  int                    denom,
+  int                    dots,
+  string                 tupletMemberType)
 {
   msrDuration * o =
     new msrDuration (
@@ -333,10 +335,12 @@ S_msrDuration msrDuration::create (
 }
 
 msrDuration::msrDuration (
-  int    num,
-  int    denom,
-  int    dots,
-  string tupletMemberType)
+  S_translationSettings& ts, 
+  int                    inputLineNumber,
+  int                    num,
+  int                    denom,
+  int                    dots,
+  string                 tupletMemberType)
     : msrElement (ts, inputLineNumber)
 {
   fNum   = num;
@@ -497,7 +501,9 @@ void msrDuration::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrArticulation msrArticulation::create (
-  ArticulationKind articulationKind)
+  S_translationSettings& ts, 
+  int                    inputLineNumber,
+  ArticulationKind       articulationKind)
 {
   msrArticulation* o =
     new msrArticulation (
@@ -507,7 +513,9 @@ S_msrArticulation msrArticulation::create (
 }
 
 msrArticulation::msrArticulation (
-  ArticulationKind articulationKind)
+  S_translationSettings& ts, 
+  int                    inputLineNumber,
+  ArticulationKind       articulationKind)
     : msrElement (ts, inputLineNumber)
 {
   fArticulationKind = articulationKind;
@@ -568,7 +576,7 @@ void msrArticulation::printLilyPondCode (ostream& os)
 S_msrDynamics msrDynamics::create (
   S_translationSettings& ts, 
   int                    inputLineNumber,
-  DynamicsKind           kind)
+  DynamicsKind           dynamicsKind)
 {
   msrDynamics* o =
     new msrDynamics (
@@ -580,7 +588,7 @@ S_msrDynamics msrDynamics::create (
 msrDynamics::msrDynamics (
   S_translationSettings& ts, 
   int                    inputLineNumber,
-  DynamicsKind           kind)
+  DynamicsKind           dynamicsKind)
     : msrElement (ts, inputLineNumber)
 {
   fDynamicsKind = dynamicsKind; 
@@ -688,7 +696,7 @@ void msrDynamics::printLilyPondCode (ostream& os)
 S_msrWedge msrWedge::create (
   S_translationSettings& ts, 
   int                    inputLineNumber,
-  WedgeKind              kind)
+  WedgeKind              wedgeKind)
 {
   msrWedge* o =
     new msrWedge (
@@ -700,10 +708,10 @@ S_msrWedge msrWedge::create (
 msrWedge::msrWedge (
   S_translationSettings& ts, 
   int                    inputLineNumber,
-  WedgeKind              kind)
+  WedgeKind              wedgeKind)
     : msrElement (ts, inputLineNumber)
 {
-  fWedgeKind=wedgeKind; 
+  fWedgeKind = wedgeKind; 
 }
 msrWedge::~msrWedge() {}
 
@@ -756,7 +764,7 @@ void msrWedge::printLilyPondCode (ostream& os)
 S_msrSlur msrSlur::create (
   S_translationSettings& ts, 
   int                    inputLineNumber,
-  SlurKind               kind))
+  SlurKind               slurKind)
 {
   msrSlur* o =
     new msrSlur (
@@ -768,10 +776,10 @@ S_msrSlur msrSlur::create (
 msrSlur::msrSlur (
   S_translationSettings& ts, 
   int                    inputLineNumber,
-  SlurKind               kind))
+  SlurKind               slurKind)
     : msrElement (ts, inputLineNumber)
 {
-  fSlurKind=slurKind; 
+  fSlurKind = slurKind; 
 }
 msrSlur::~msrSlur() {}
 
@@ -1418,7 +1426,9 @@ string msrNote::octaveRepresentation (char octave)
 
 //______________________________________________________________________________
 S_msrSequentialMusic msrSequentialMusic::create (
-  ElementsSeparator elementsSeparator)
+  S_translationSettings& ts, 
+  int                    inputLineNumber,
+  ElementsSeparator      elementsSeparator)
 {
   msrSequentialMusic* o =
     new msrSequentialMusic (
@@ -1427,14 +1437,18 @@ S_msrSequentialMusic msrSequentialMusic::create (
   return o;
 }
 
-msrSequentialMusic::msrSequentialMusic (ElementsSeparator elementsSeparator)
+msrSequentialMusic::msrSequentialMusic (
+  S_translationSettings& ts, 
+  int                    inputLineNumber,
+  ElementsSeparator      elementsSeparator)
     : msrElement (ts, inputLineNumber)
 {
   fElementsSeparator=elementsSeparator;
 }
 msrSequentialMusic::~msrSequentialMusic() {}
 
-void msrSequentialMusic::removeElementFromSequentialMusic (S_msrElement elem)
+void msrSequentialMusic::removeElementFromSequentialMusic (
+  S_msrElement elem)
 {
   for (
     msrElementList::iterator i = fSequentialMusicElements.begin();

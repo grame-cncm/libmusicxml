@@ -489,7 +489,7 @@ class EXP msrSlur : public msrElement {
     static SMARTP<msrSlur> create (
       S_translationSettings& ts, 
       int                    inputLineNumber,
-      SlurKind               kind);
+      SlurKind               slurKind);
 
     SlurKind getSlurKind () const        { return fSlurKind; }
 
@@ -505,7 +505,7 @@ class EXP msrSlur : public msrElement {
     msrSlur (
       S_translationSettings& ts, 
       int                    inputLineNumber,
-      SlurKind               kind);
+      SlurKind               slurKind);
     virtual ~msrSlur();
   
   private:
@@ -1354,7 +1354,7 @@ class EXP msrDynamics : public msrElement {
     static SMARTP<msrDynamics> create (
       S_translationSettings& ts, 
       int                    inputLineNumber,
-      DynamicsKind           kind);
+      DynamicsKind           dynamicsKind);
 
     DynamicsKind getDynamicsKind () const { return fDynamicsKind; }
 
@@ -1371,7 +1371,7 @@ class EXP msrDynamics : public msrElement {
     msrDynamics (
       S_translationSettings& ts, 
       int                    inputLineNumber,
-      DynamicsKind           kind);
+      DynamicsKind           dynamicsKind);
       
     virtual ~msrDynamics();
   
@@ -1395,7 +1395,7 @@ class EXP msrWedge : public msrElement {
     static SMARTP<msrWedge> create (
       S_translationSettings& ts, 
       int                    inputLineNumber,
-      WedgeKind              kind);
+      WedgeKind              wedgeKind);
 
     WedgeKind getWedgeKind () const        { return fWedgeKind; }
 
@@ -1411,7 +1411,7 @@ class EXP msrWedge : public msrElement {
     msrWedge (
       S_translationSettings& ts, 
       int                    inputLineNumber,
-      WedgeKind              kind);
+      WedgeKind              wedgeKind);
       
     virtual ~msrWedge();
   
