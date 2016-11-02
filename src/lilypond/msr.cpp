@@ -2683,29 +2683,41 @@ void msrVarValAssoc::printMusicXML (ostream& os)
 void msrVarValAssoc::printMSR (ostream& os)
 {
   os << "LilypondVarValAssoc" << endl;
+  
   idtr++;
+  
   os << idtr << fVariableName << endl;
   os << idtr << fVariableValue <<endl;
+  
   idtr--;
 }
 
 void msrVarValAssoc::printScoreSummary (ostream& os)
 {
   os << "LilypondVarValAssoc" << endl;
+  
   idtr++;
+  
   os << idtr << fVariableName << endl;
   os << idtr << fVariableValue <<endl;
+  
   idtr--;
 }
 
 void msrVarValAssoc::printLilyPondCode (ostream& os) {
   if (fCommentedKind == kCommented) os << "\%";
+  
   os << fVariableName;
+  
   if (fVarValSeparator == kEqualSign) os << " = ";
   else os << " ";
-  if (fQuotesKind == kQuotesAroundValue) os << "\"";
+  
+  if (fQuotesKind == kQuotesAroundValue)
+    os << "\"";
   os << fVariableValue << fUnit;
-  if (fQuotesKind == kQuotesAroundValue) os << "\"";
+  if (fQuotesKind == kQuotesAroundValue)
+    os << "\"";
+  
   os << endl;
 }
 
@@ -2922,7 +2934,11 @@ void msrClef::printMSR (ostream& os)
 }
 
 void msrClef::printScoreSummary (ostream& os)
-{}
+{
+  os <<
+    "Clef" << " \"" << fSign << "\"" <<
+    " line " << fLine << ", " << fOctaveChange << "*8";
+}
 
 void msrClef::printLilyPondCode (ostream& os)
 {
@@ -3237,12 +3253,16 @@ void msrTempo::printMusicXML (ostream& os)
 void msrTempo::printMSR (ostream& os)
 {
   os <<
-    "TempoCommand" << " " <<
+    "Tempo" << " " <<
     fTempoUnit << " " << fPerMinute << endl;
 }
 
 void msrTempo::printScoreSummary (ostream& os)
-{}
+{
+  os <<
+    "Tempo" << " " <<
+    fTempoUnit << " " << fPerMinute << endl;
+}
 
 void msrTempo::printLilyPondCode (ostream& os)
 {
@@ -3753,6 +3773,7 @@ void msrLyrics::printScoreSummary (ostream& os)
 
   if (! fLyricsTextPresent)
     os << " (No actual text)";
+    
   os << endl;
 }
 
@@ -3994,14 +4015,19 @@ void msrVoice::printMSR (ostream& os)
 
   os << idtr << fVoiceSequentialMusic << endl;
 
-  if (fVoiceLyricsMap.size()) {
-    for (
-      map<int, S_msrLyrics>::const_iterator i = fVoiceLyricsMap.begin();
-      i != fVoiceLyricsMap.end();
-      i++) {
-      os << idtr << (*i).second;
-    } // for
-    os << endl;
+  if (! fTranslationSettings->fDontGenerateLyrics) {
+    if (fVoiceLyricsMap.size()) {
+      map<int, S_msrLyrics>::const_iterator
+        iBegin = fVoiceLyricsMap.begin(),
+        iEnd   = fVoiceLyricsMap.end(),
+        i      = iBegin;
+        
+      for ( ; ; ) {
+        os << idtr << (*i).second;
+        if (++i == iEnd) break;
+        os << endl;
+      } // for
+    }
   }
   
   idtr--;
@@ -4024,16 +4050,19 @@ void msrVoice::printScoreSummary (ostream& os)
 
   os << idtr << fVoiceSequentialMusic;
 
-  if (! fTranslationSettings->fDontGenerateLyrics) {
-    if (voiceLyricsMapSize) {
-      for (
-        map<int, S_msrLyrics>::const_iterator i = fVoiceLyricsMap.begin();
-        i != fVoiceLyricsMap.end();
-        i++) {
+  // don't show voice master lyrics in summary
+  if (voiceLyricsMapSize > 1) {
+    map<int, S_msrLyrics>::const_iterator
+      iBegin = fVoiceLyricsMap.begin(),
+      iEnd   = fVoiceLyricsMap.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      if ((*i).first != 0)
         os << idtr << (*i).second;
-      } // for
+      if (++i == iEnd) break;
       os << endl;
-    }
+    } // for
   }
   
   idtr--;
@@ -4314,11 +4343,15 @@ void msrStaff::printScoreSummary (ostream& os)
 
   os << endl;
   
-  for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
-    i++) {
+  map<int, S_msrVoice>::const_iterator
+    iBegin = fStaffVoicesMap.begin(),
+    iEnd   = fStaffVoicesMap.end(),
+    i      = iBegin;
+    
+  for ( ; ; ) {
     os << idtr << (*i).second;
+    if (++i == iEnd) break;
+    os << endl;
   } // for
 
   idtr--;
@@ -4518,11 +4551,16 @@ void msrPart::printScoreSummary (ostream& os)
 
   if (partStavesMapSize) {
     os << endl;
-    for (
-      map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-      i != fPartStavesMap.end();
-      i++) {
+
+    map<int, S_msrStaff>::const_iterator
+      iBegin = fPartStavesMap.begin(),
+      iEnd   = fPartStavesMap.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
       os << idtr << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
     } // for
   }
 
@@ -4775,12 +4813,18 @@ void msrPartgroup::printMSR (ostream& os)
 
   if (fPartgroupElements.size()) {
     os << endl;
-    for (
-      msrElementList::iterator i = fPartgroupElements.begin();
-      i != fPartgroupElements.end();
-      i++) {
+    msrElementList::const_iterator
+      iBegin = fPartgroupElements.begin(),
+      iEnd   = fPartgroupElements.end(),
+      i      = iBegin;
+      
+    idtr++;
+    for ( ; ; ) {
       os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
     } // for
+    idtr--;
   }
   
   idtr--;
@@ -4838,12 +4882,19 @@ void msrPartgroup::printScoreSummary (ostream& os)
 
   if (partgroupElementsSize) {
     os << endl;
-    for (
-      msrElementList::iterator i = fPartgroupElements.begin();
-      i != fPartgroupElements.end();
-      i++) {
+
+    msrElementList::const_iterator
+      iBegin = fPartgroupElements.begin(),
+      iEnd   = fPartgroupElements.end(),
+      i      = iBegin;
+      
+    idtr++;
+    for ( ; ; ) {
       os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
     } // for
+    idtr--;
   }
   
   idtr--;
@@ -4955,11 +5006,16 @@ void msrScore::printScoreSummary (ostream& os)
 
   idtr++;
   
-  for (
-    msrPartgroupsList::iterator i = fPartgroupsList.begin();
-    i != fPartgroupsList.end();
-    i++) {
+  msrPartgroupsList::const_iterator
+    iBegin = fPartgroupsList.begin(),
+    iEnd   = fPartgroupsList.end(),
+    i      = iBegin;
+    
+  idtr++;
+  for ( ; ; ) {
     os << idtr << (*i);
+    if (++i == iEnd) break;
+    os << endl;
   } // for
   
   idtr--;
