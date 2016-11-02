@@ -22,7 +22,7 @@ cd cmake
 pwd
 echo
 
-if [ 0 -eq 1 ]; then
+if [ 1 -eq 1 ]; then
   echo '--> cmake .'
   echo
   cmake .

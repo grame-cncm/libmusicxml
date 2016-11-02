@@ -39,26 +39,26 @@ namespace MusicXML2
 */
 class EXP msr2SummaryVisitor : 
 
-  public visitor<S_part_list>,
-  
-  public visitor<S_tuplet>
+  public visitor<S_msrScore>
+
 {
   public:
   
     msr2SummaryVisitor (
         S_translationSettings& ts);
+        
     virtual ~msr2SummaryVisitor ();
 
-    S_msrScore buildMsrScoreFromXMLElementTree (
-        const Sxmlelement& xmlTree);
+    void printSummaryFromMsrElementTree (
+        const S_msrElement& msrTree);
 
-    S_msrScore getMSRScore () const
-        { return fMsrScore; };
+//    S_msrScore getMSRScore () const
+//        { return fMsrScore; };
     
   protected:
       
-    virtual void visitStart ( S_part_list& elt);
-    virtual void visitEnd   ( S_part_list& elt);
+    virtual void visitStart ( S_msrScore& elt);
+    virtual void visitEnd   ( S_msrScore& elt);
 
   private:
                      
