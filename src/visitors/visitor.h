@@ -25,10 +25,12 @@ namespace MusicXML2
 
 template<class C> class visitor : virtual public basevisitor
 {
-    public:
-		virtual ~visitor() {}
-		virtual void visitStart( C& elt ) {};
-		virtual void visitEnd  ( C& elt ) {};
+  public:
+  
+    virtual ~visitor() {}
+    
+    virtual void visitStart( C& elt ) {};
+    virtual void visitEnd  ( C& elt ) {};
 };
 
 /*! @} */

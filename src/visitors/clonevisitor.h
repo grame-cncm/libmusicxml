@@ -14,6 +14,7 @@
 #define __cloneVisitor__
 
 #include <stack>
+
 #include "visitor.h"
 #include "xml.h"
 
@@ -32,19 +33,27 @@ class EXP clonevisitor :
   public visitor<Sxmlelement>
 {
   public:
-    clonevisitor() : fClone(true) {}
+  
+    clonevisitor()
+      : fClone(true)
+      {}
     virtual ~clonevisitor() {}
             
     virtual void visitStart( Sxmlelement& elt );
     virtual void visitEnd  ( Sxmlelement& elt );
     
-    virtual Sxmlelement clone() { return fStack.top(); }
+    virtual Sxmlelement clone()
+      { return fStack.top(); }
 
   protected:
+  
     virtual void          clone(bool state) { fClone = state; }
-    virtual void          copyAttributes (const Sxmlelement& src, Sxmlelement& dst);
+    
+    virtual void          copyAttributes (
+                            const Sxmlelement& src, Sxmlelement& dst);
     virtual Sxmlelement   copy (const Sxmlelement& elt);
-    virtual Sxmlelement&  lastCopy () { return fLastCopy; }
+    virtual Sxmlelement&  lastCopy () {
+                            return fLastCopy; }
 
     bool                    fClone;
     Sxmlelement             fLastCopy;

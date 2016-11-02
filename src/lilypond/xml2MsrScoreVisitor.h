@@ -388,7 +388,8 @@ class EXP xml2MsrScoreVisitor :
                               int                               inputLineNumber,
                               msrPartgroup::PartgroupSymbolKind partGroupSymbol,
                               bool                              partGroupBarline);
-    void                    handlePartgroupStop ();
+    void                    handlePartgroupStop (
+                              int inputLineNumber);
 
     // staff handling
     // ------------------------------------------------------

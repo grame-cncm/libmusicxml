@@ -222,8 +222,9 @@ void xml2MsrScoreVisitor::visitEnd (S_part_list& elt)
   if (fImplicitPartgroup) {
     // force an implicit part group "stop" on it
     // fCurrentPartgroupNumber hold the value 1
-    handlePartgroupStop ();
-    fImplicitPartgroup = S_msrPartgroup (); // NULL contents
+    handlePartgroupStop (elt->getInputLineNumber ());
+    
+    fImplicitPartgroup = 0; // NULL contents
   }
     
 //  fTranslationSettings->fDebug = false; // TEMP JMI
@@ -415,7 +416,7 @@ void xml2MsrScoreVisitor::handlePartgroupStart (
   showPartgroupsData ("AFTER START");
 }
   
-void xml2MsrScoreVisitor::handlePartgroupStop ()
+void xml2MsrScoreVisitor::handlePartgroupStop (int inputLineNumber)
 {
   showPartgroupsData ("BEFORE STOP");
 
@@ -431,7 +432,8 @@ void xml2MsrScoreVisitor::handlePartgroupStop ()
     s <<
       "part group " << fCurrentPartgroupNumber <<
       " not found in this visitor's part groups map" << endl;
-    msrInternalError (s.str());
+    msrInternalError (
+      inputLineNumber, s.str());
   }
 
   // remove the part group to be stopped from the part group list
@@ -454,7 +456,8 @@ void xml2MsrScoreVisitor::handlePartgroupStop ()
         fCurrentPartgroupNumber <<
         " not found in part groups list";
         
-      msrInternalError (s.str());
+      msrInternalError (
+        inputLineNumber, s.str());
       break;
     }
 
@@ -503,7 +506,8 @@ void xml2MsrScoreVisitor::handlePartgroupStop ()
         "cannot append part group " <<
         partGroupToBeStopped->getPartgroupNumber () <<
         " as sub part group of itself";
-      msrInternalError (s.str());
+      msrInternalError (
+        inputLineNumber, s.str());
     }
     
     // insert current group into future current group
@@ -557,6 +561,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
     if (fCurrentPartgroupType.size())
       // part group type may be absent
       msrMusicXMLError (
+        elt->getInputLineNumber (),
         "unknown part group type \"" + fCurrentPartgroupType + "\"");
     partGroupTypeKind = msrPartgroup::k_NoPartgroupType;
   }
@@ -586,6 +591,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
    if (fCurrentPartgroupSymbol.size())
       // part group type may be absent
       msrMusicXMLError (
+        elt->getInputLineNumber (),
         "unknown part group symbol \"" + fCurrentPartgroupSymbol + "\"");
     partGroupSymbol = msrPartgroup::k_NoPartgroupSymbol;
   }
@@ -601,6 +607,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
     
   else {
     msrMusicXMLError (
+      elt->getInputLineNumber (),
       "unknown part group barline \"" + fCurrentPartgroupBarline + "\"");
     partGroupBarline = false;
   }
@@ -614,7 +621,8 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
       break;
       
     case msrPartgroup::kStopPartgroupType:
-      handlePartgroupStop ();
+      handlePartgroupStop (
+        elt->getInputLineNumber ());
       break;
       
     case msrPartgroup::k_NoPartgroupType:
@@ -706,8 +714,11 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
   if (fImplicitPartgroup) {
     // force an implicit part group "stop" on it
     // fCurrentPartgroupNumber hold the value 1
-    handlePartgroupStop ();
-    fImplicitPartgroup = S_msrPartgroup (); // NULL contents
+    handlePartgroupStop (
+      elt->getInputLineNumber ());
+
+    // forget the implicit group
+    fImplicitPartgroup = 0;
   }
     
   showPartgroupsData (
@@ -727,6 +738,7 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
       fPartsMap [partID];
   else
     msrInternalError (
+      elt->getInputLineNumber (),
       "part "+partID+" is not registered in this visitor's part map");
 
   if (fTranslationSettings->fTrace)
@@ -765,6 +777,7 @@ void xml2MsrScoreVisitor::visitStart ( S_divisions& elt )
   
   if (fCurrentMusicXMLDivisions <= 0)
     msrMusicXMLError (
+      elt->getInputLineNumber (),
       "divisions per quarter note should be positive");
   
   if (fTranslationSettings->fTrace) {
@@ -1086,7 +1099,8 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
     
     stringstream s;
     s << "voice " << voiceNumber << " is out of context";
-    msrMusicXMLError (s.str());
+    msrMusicXMLError (
+      elt->getInputLineNumber (), s.str());
     
   }
 }
@@ -1219,7 +1233,8 @@ void xml2MsrScoreVisitor::visitStart ( S_metronome& elt )
     else {
       stringstream s;
       s << "parentheses value " << parentheses << " should be 'yes' or 'no'";
-      msrMusicXMLError (s.str());
+      msrMusicXMLError (
+        elt->getInputLineNumber (), s.str());
     }
   }
 }
@@ -1321,7 +1336,8 @@ fCurrentTiedOrientation =
       if (fCurrentTiedType.size()) {
         stringstream s;
         s << "tied type" << fCurrentSlurType << "unknown";
-        msrMusicXMLError (s.str());
+        msrMusicXMLError (
+          elt->getInputLineNumber (), s.str());
       }
       
     }
@@ -1361,7 +1377,8 @@ void xml2MsrScoreVisitor::visitStart (S_slur& elt )
       if (fCurrentSlurType.size()) {
         stringstream s;
         s << "slur type" << fCurrentSlurType << "unknown";
-        msrMusicXMLError (s.str());
+        msrMusicXMLError (
+          elt->getInputLineNumber (), s.str());
       }
       
     }
@@ -1419,7 +1436,8 @@ void xml2MsrScoreVisitor::visitStart ( S_syllabic& elt )
   else {
     stringstream s;
     s << "--> syllabic \"" << syllabic << "\" is unknown";
-    msrMusicXMLError (s.str());
+    msrMusicXMLError (
+      elt->getInputLineNumber (), s.str());
 
     fCurrentLyricsChunkType = msrLyricsChunk::k_NoChunk;
   }
@@ -1915,7 +1933,8 @@ void xml2MsrScoreVisitor::visitStart ( S_step& elt )
   if (step.length() != 1) {
     stringstream s;
     s << "step value " << step << " should be a single letter from A to G";
-    msrMusicXMLError (s.str());
+    msrMusicXMLError (
+      elt->getInputLineNumber (), s.str());
   }
 
   fMusicXMLNoteData.fMusicXMLStep = step[0];
@@ -2328,7 +2347,8 @@ void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
   else {
     stringstream s;
     s << "tuplet type " << tupletType << " is unknown";
-    msrMusicXMLError (s.str());
+    msrMusicXMLError (
+      elt->getInputLineNumber (), s.str());
   }
 }
 
@@ -2354,7 +2374,8 @@ void xml2MsrScoreVisitor::visitStart ( S_display_step& elt)
   if (displayStep.length() != 1) {
     stringstream s;
     s << "sdisplay step value " << displayStep << " should be a single letter from A to G";
-    msrMusicXMLError (s.str());
+    msrMusicXMLError (
+      elt->getInputLineNumber (), s.str());
   }
 
   fDisplayStep = displayStep[0];
@@ -2755,6 +2776,7 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
 {
   if (fMusicXMLNoteData.fMusicXMLStepIsARest)
     msrMusicXMLError (
+      newNote->getInputLineNumber (),
       "a rest cannot belong to a chord");
       
   if (! fOnGoingChord) {

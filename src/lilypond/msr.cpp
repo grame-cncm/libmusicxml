@@ -49,48 +49,64 @@ musicXMLLocation::musicXMLLocation (
 void msrMusicXMLWarning (int inputLineNumber, string message)
 {
   cerr <<
+    idtr <<
+      "--> MusicXML WARNING, input line " <<
+        inputLineNumber <<
+      ", measure " <<
+        gCurrentMusicXMLLocation.fMeasureNumber <<
+      ":" <<
+        gCurrentMusicXMLLocation.fPositionInMeasure <<
+
     endl <<
-    "--> MusicXML WARNING, input line " << inputLineNumber <<
-   // JMI gCurrentMusicXMLLocation.fInputLineNumber  <<
-    ", measure " << gCurrentMusicXMLLocation.fMeasureNumber <<
-    ":" << gCurrentMusicXMLLocation.fPositionInMeasure << endl <<
-    "      " << message << endl <<
-    endl;
+    
+    idtr <<
+      "      " << message << endl;
 }
 
-void msrMusicXMLError (string message)
+void msrMusicXMLError (int inputLineNumber, string message)
 {
   cerr <<
+    idtr <<
+      endl <<
+      "--> MusicXML ERROR, input line " <<
+        inputLineNumber  <<
+      ", measure " <<
+        gCurrentMusicXMLLocation.fMeasureNumber <<
+      ":" <<
+        gCurrentMusicXMLLocation.fPositionInMeasure <<
+
     endl <<
-    "--> MusicXML ERROR, input line " <<
-    gCurrentMusicXMLLocation.fInputLineNumber  <<
-    ", measure " <<
-    gCurrentMusicXMLLocation.fMeasureNumber <<
-    ":" <<
-    gCurrentMusicXMLLocation.fPositionInMeasure << endl <<
-    "      " << message << endl <<
+      
+    idtr <<
+      "      " << message << endl <<
     endl;
     
   assert(false);
 }
 
-void msrInternalError (string message)
+void msrInternalError (int inputLineNumber, string message)
 {
   cerr <<
     endl <<
-    "--> MSR INTERNAL ERROR, input line " <<
-    gCurrentMusicXMLLocation.fInputLineNumber  <<
-    ", measure " <<
-    gCurrentMusicXMLLocation.fMeasureNumber <<
-    ":" <<
-    gCurrentMusicXMLLocation.fPositionInMeasure << "/" ;
+
+    idtr <<
+      "--> MSR INTERNAL ERROR, input line " <<
+        inputLineNumber  <<
+      ", measure " <<
+        gCurrentMusicXMLLocation.fMeasureNumber <<
+      ":" <<
+        gCurrentMusicXMLLocation.fPositionInMeasure << "/" ;
+      
   if (gCurrentMusicXMLLocation.fPositionInMeasure > 0)
-    cerr <<  gCurrentMusicXMLLocation.fPositionInMeasure;
+    cerr << gCurrentMusicXMLLocation.fPositionInMeasure;
   else
     cerr << "?";
+    
+  cerr << endl ;
+    
   cerr <<
-    endl <<
-    "      " << message <<
+    idtr <<
+      "      " << message <<
     endl << endl;
     
   assert(false);
@@ -3997,14 +4013,16 @@ void msrVoice::printScoreSummary (ostream& os)
 
   os << idtr << fVoiceSequentialMusic;
 
-  if (voiceLyricsMapSize) {
-    for (
-      map<int, S_msrLyrics>::const_iterator i = fVoiceLyricsMap.begin();
-      i != fVoiceLyricsMap.end();
-      i++) {
-      os << idtr << (*i).second;
-    } // for
-    os << endl;
+  if (! fTranslationSettings->fDontGenerateLyrics) {
+    if (voiceLyricsMapSize) {
+      for (
+        map<int, S_msrLyrics>::const_iterator i = fVoiceLyricsMap.begin();
+        i != fVoiceLyricsMap.end();
+        i++) {
+        os << idtr << (*i).second;
+      } // for
+      os << endl;
+    }
   }
   
   idtr--;

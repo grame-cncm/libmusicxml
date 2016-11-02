@@ -22,7 +22,7 @@
 using namespace std;
 using namespace MusicXML2;
 
-void usage(int exitStatus) {
+void usage (int exitStatus) {
   cerr <<
     endl <<
     "                   Welcome to xml2lilypond, " << endl <<
@@ -68,7 +68,11 @@ void usage(int exitStatus) {
     "        Don't generate positions." << endl <<
     endl <<
 
-    "  --drd, --delayRestsDynamics" << endl <<
+    "  --nol, --dontGenerateLyrics" << endl <<
+    "        Don't generate lyrics." << endl <<
+    endl <<
+
+   "  --drd, --delayRestsDynamics" << endl <<
     "        Don't generate dynamics and wedges on rests," << endl <<
     "        but delay them until the next actual note instead." << endl <<
     endl <<
@@ -96,7 +100,7 @@ void usage(int exitStatus) {
 }
 
 //_______________________________________________________________________________
-int main(int argc, char *argv[]) 
+int main (int argc, char *argv[]) 
 {
  /*
   cout << "argc = " << argc << endl;
@@ -122,6 +126,8 @@ int main(int argc, char *argv[])
   ts->fGenerateComments                  = true;
   ts->fGenerateStems                     = false;
   ts->fGeneratePositions                 = false;
+  
+  ts->fDontGenerateLyrics                = false;
 
   ts->fDelayRestsDynamics                = false;
   
@@ -146,6 +152,8 @@ int main(int argc, char *argv[])
   int noCommentsPresent                = 0;
   int stemsPresent                     = 0;
   int positionsPresent                 = 0;
+  
+  int dontGenerateLyricsPresent        = 0;
 
   int delayRestsDynamicsPresent        = 0;
   
@@ -175,6 +183,9 @@ int main(int argc, char *argv[])
     {"noComments",                no_argument,       &noCommentsPresent, 1},
     {"stems",                     no_argument,       &stemsPresent, 1},
     {"positions",                 no_argument,       &positionsPresent, 1},
+    
+    {"nol",                       no_argument,       &dontGenerateLyricsPresent, 1},
+    {"dontGenerateLyrics",        no_argument,       &dontGenerateLyricsPresent, 1},
 
     {"drd",                       no_argument,       &delayRestsDynamicsPresent, 1},
     {"delayRestsDynamics",        no_argument,       &delayRestsDynamicsPresent, 1},
@@ -274,6 +285,11 @@ int main(int argc, char *argv[])
           ts->fSelectedOptions += "--positions ";
         }
         
+        if (dontGenerateLyricsPresent) {
+          ts->fDontGenerateLyrics = true;
+          ts->fSelectedOptions += "--dontGenerateLyrics ";
+        }
+        
         if (delayRestsDynamicsPresent) {
           ts->fDelayRestsDynamics = true;
           ts->fSelectedOptions += "--delayRestsDynamics ";
@@ -342,25 +358,40 @@ int main(int argc, char *argv[])
       musicxml2MsrVersionStr() << 
       endl <<
       "The settings are:" << endl <<
-      "  noteNamesLanguageName   : \"" << ts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
+      "  noteNamesLanguageName   : \"" <<
+        ts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
       
-      "  displayMSR              : " << string(ts->fDisplayMSR ? "true" : "false") << endl <<
+      "  displayMSR              : " <<
+        string(ts->fDisplayMSR ? "true" : "false") << endl <<
 
-      "  generateAbsoluteCode    : " << string(ts->fGenerateAbsoluteCode ? "true" : "false") << endl <<
+      "  generateAbsoluteCode    : " <<
+        string(ts->fGenerateAbsoluteCode ? "true" : "false") << endl <<
       
-      "  generateNumericalTime   : " << string(ts->fGenerateNumericalTime ? "true" : "false") << endl <<
-      "  generateComments        : " << string(ts->fGenerateComments ? "true" : "false") << endl <<
-      "  generateStems           : " << string(ts->fGenerateStems ? "true" : "false") << endl <<
-      "  generatePositions       : " << string(ts->fGeneratePositions ? "true" : "false") << endl <<
+      "  generateNumericalTime   : " <<
+        string(ts->fGenerateNumericalTime ? "true" : "false") << endl <<
+      "  generateComments        : " <<
+        string(ts->fGenerateComments ? "true" : "false") << endl <<
+      "  generateStems           : " <<
+        string(ts->fGenerateStems ? "true" : "false") << endl <<
+      "  generatePositions       : " <<
+        string(ts->fGeneratePositions ? "true" : "false") << endl <<
 
-      "  displayMSR              : " << string(ts->fDisplayMSR ? "true" : "false") << endl <<
+      "  dontGenerateLyrics       : " <<
+        string(ts->fDontGenerateLyrics ? "true" : "false") << endl <<
+
+      "  displayMSR              : " <<
+        string(ts->fDisplayMSR ? "true" : "false") << endl <<
       
-      "  displayScoreSummary     : " << string(ts->fDisplayScoreSummary ? "true" : "false") << endl <<
+      "  displayScoreSummary     : " <<
+        string(ts->fDisplayScoreSummary ? "true" : "false") << endl <<
       
-      "  dontDisplayLilyPondCode : " << string(ts->fDontDisplayLilyPondCode ? "true" : "false") << endl <<
+      "  dontDisplayLilyPondCode : " <<
+        string(ts->fDontDisplayLilyPondCode ? "true" : "false") << endl <<
     
-      "  trace                   : " << string(ts->fTrace ? "true" : "false") << endl <<
-      "  debug                   : " << string(ts->fDebug ? "true" : "false") << endl;
+      "  trace                   : " <<
+        string(ts->fTrace ? "true" : "false") << endl <<
+      "  debug                   : " <<
+        string(ts->fDebug ? "true" : "false") << endl;
   
   xmlErr err = kNoErr;
   

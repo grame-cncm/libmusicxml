@@ -104,6 +104,9 @@ class EXP translationSettings : public smartable {
     bool                            fGenerateStems;
     bool                            fGeneratePositions;
 
+    // lyrics
+    bool                            fDontGenerateLyrics;
+    
     // advanced settings
     bool                            fDelayRestsDynamics;
 

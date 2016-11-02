@@ -28,8 +28,13 @@ namespace MusicXML2
 class EXP xml_tree_browser : public tree_browser<xmlelement> 
 {
   public:
-    xml_tree_browser(basevisitor* v) : tree_browser<xmlelement>(v) {}
+  
+    xml_tree_browser (basevisitor* v)
+      : tree_browser<xmlelement> (v)
+      {}
+      
     virtual ~xml_tree_browser() {}
+    
     virtual void browse (xmlelement& t);
 };
 
