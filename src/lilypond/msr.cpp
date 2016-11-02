@@ -162,6 +162,7 @@ switch (msrGlobalVariables::getDisplayKind ()) {
       break;
     case msrGlobalVariables::k_NoDisplay:
       msrInternalError (
+        fInputLineNumber,
         "global variable 'display', "
         "used by msrElement::print(ostream& os), "
         "has not been set ");
@@ -375,7 +376,8 @@ msrDuration::msrDuration (
       "duration " << fNum << "/" << fDenom <<
       " has 0 as denominator" <<
       endl;
-    msrMusicXMLError (s.str());
+    msrMusicXMLError (
+      fInputLineNumber, s.str());
   }
 }
 
@@ -432,7 +434,8 @@ string msrDuration::durationAsMSRString ()
         endl << 
         "--> unknown tuplet member type " << fTupletMemberNoteType <<
         endl;
-      msrMusicXMLError (s.str());
+      msrMusicXMLError (
+        fInputLineNumber, s.str());
       }
         
   } else {
@@ -478,7 +481,8 @@ string msrDuration::durationAsMSRString ()
         s <<
           "*** ERROR, MusicXML note duration " << noteDivisions << "/" << 
           divisionsPerWholeNote << " is too large" << endl;
-        msrMusicXMLError (s.str());
+        msrMusicXMLError (
+          fInputLineNumber, s.str());
         }
     } // switch
   }
@@ -677,7 +681,8 @@ string msrDynamics::dynamicsKindAsString ()
       {
       stringstream s;
       s << "Dynamics " << fDynamicsKind << " is unknown";
-      msrMusicXMLError (s.str());
+      msrMusicXMLError (
+        fInputLineNumber, s.str());
       }
   } // switch
   
@@ -973,7 +978,8 @@ msrNote::msrNote (
       s <<
         "MusicXML alteration " << fMusicXMLNoteData.fMusicXMLAlteration <<
         " is not between -2 and +2";
-      msrMusicXMLError (s.str());
+      msrMusicXMLError (
+        fInputLineNumber, s.str());
       
       msrAssert ( // JMI
         fMusicXMLNoteData.fMusicXMLAlteration>=-2
@@ -3082,7 +3088,8 @@ msrKey::msrKey (
       stringstream s;
       s << 
         "ERROR: unknown key sign \"" << fFifths << "\"" << endl;
-      msrMusicXMLError (s.str());
+      msrMusicXMLError (
+        fInputLineNumber, s.str());
       }
   } // switch
   
@@ -3436,6 +3443,7 @@ void msrLyricsChunk::printMSR (ostream& os)
       
     case k_NoChunk:
       msrInternalError (
+        fInputLineNumber,
         "lyrics chunk type has not been set");
       break;
   } // switch
@@ -3460,6 +3468,7 @@ void msrLyricsChunk::printLilyPondCode (ostream& os)
       break;
     case k_NoChunk:
       msrInternalError (
+        fInputLineNumber,
         "lyrics chunk type has not been set");
       break;
  } // switch
@@ -3567,12 +3576,14 @@ void msrLyrics::addTextChunkToLyrics (
     case msrLyricsChunk::kBreakChunk:
       {
         msrInternalError (
+          fInputLineNumber,
           "a text chunk type can only be "
           "'single', 'begin', 'middle' or 'end'");
       }
       break;
     case msrLyricsChunk::k_NoChunk:
       msrInternalError (
+        fInputLineNumber,
         "lyrics chunk type has not been set");
       break;
   } // switch

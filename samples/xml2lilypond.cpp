@@ -376,7 +376,7 @@ int main (int argc, char *argv[])
       "  generatePositions       : " <<
         string(ts->fGeneratePositions ? "true" : "false") << endl <<
 
-      "  dontGenerateLyrics       : " <<
+      "  dontGenerateLyrics      : " <<
         string(ts->fDontGenerateLyrics ? "true" : "false") << endl <<
 
       "  displayMSR              : " <<
