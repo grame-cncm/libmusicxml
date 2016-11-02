@@ -113,6 +113,40 @@ void msrInternalError (int inputLineNumber, string message)
 }
 
 //______________________________________________________________________________
+S_msrVisitable msrVisitable::create ()
+{
+  msrVisitable * o = new msrVisitable ();
+  assert(o!=0);
+  return o;
+}
+
+
+void msrVisitable::acceptIn (basevisitor& v) {
+  visitor<S_msrVisitable>*
+    p =
+      dynamic_cast<visitor<S_msrVisitable>*> (&v);
+  
+  if (p) {
+    S_msrVisitable xml = this;
+    
+    p->visitStart (xml);
+  }
+}
+
+void msrVisitable::acceptOut (basevisitor& v) {
+  visitor<S_msrVisitable>*
+    p =
+      dynamic_cast<visitor<S_msrVisitable>*> (&v);
+  
+  if (p) {
+    S_msrVisitable xml = this;
+    
+    p->visitEnd (xml);
+  }
+}
+
+
+//______________________________________________________________________________
 S_msrElement msrElement::create (
   S_translationSettings& ts, 
   int                    inputLineNumber)

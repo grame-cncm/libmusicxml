@@ -228,14 +228,66 @@ class EXP msrGlobalVariables {
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-class EXP msrElement : public smartable {
+class EXP msrVisitable : public ctree<msrVisitable>, public visitable
+{
+  protected:
+
+    int fType; // the element type
+
+    msrVisitable () : fType(0) {}
+  
+  public:
+   
+    virtual void acceptIn  (basevisitor& visitor);
+    virtual void acceptOut (basevisitor& visitor);
+
+    typedef ctree<msrVisitable>::iterator iterator;
+
+    static SMARTP<msrVisitable> create ();
+};
+typedef SMARTP<msrVisitable> S_msrVisitable;
+
+/*!
+\brief A generic msr element representation.
+
+  An element is represented by its name and the
+  list of its enclosed elements plus optional parameters.
+*/
+//______________________________________________________________________________
+class EXP msrElement : public msrVisitable
+{
   public:
  
     static SMARTP<msrElement> create (
       S_translationSettings& ts, 
       int                    inputLineNumber);
     
-    int getInputLineNumber () { return fInputLineNumber; }
+    int getInputLineNumber ()
+      { return fInputLineNumber; }
+
+    virtual void acceptIn(basevisitor& v)
+      {
+        if (visitor<SMARTP<msrElement > >*
+          p =
+            dynamic_cast<visitor<SMARTP<msrElement > >*> (&v)
+        ) {
+          SMARTP<msrElement > sptr = this;
+          p->visitStart (sptr);
+        }
+        else msrVisitable::acceptIn (v);
+       }
+
+    virtual void acceptOut (basevisitor& v)
+      {
+        if (visitor<SMARTP<msrElement > >*
+          p =
+            dynamic_cast<visitor<SMARTP<msrElement > >*> (&v)
+        ) {
+          SMARTP<msrElement > sptr = this;
+          p->visitEnd (sptr);
+        }
+        else msrVisitable::acceptOut (v);
+      }
 
     virtual void print             (ostream& os);
 
