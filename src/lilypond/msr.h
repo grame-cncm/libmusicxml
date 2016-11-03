@@ -293,7 +293,7 @@ class EXP msrElement : public msrVisitable, public smartable
 };
 typedef SMARTP<msrElement> S_msrElement;
 typedef vector<S_msrElement> msrElementsVector;
-typedef list<S_msrElement> msrElementList;
+typedef list<S_msrElement> msrElementsList;
 
 /*
   from ctree.h:
@@ -575,6 +575,7 @@ class EXP msrArticulation : public msrElement {
           fArticulationKind;
 };
 typedef SMARTP<msrArticulation> S_msrArticulation;
+typedef list<S_msrArticulation> msrArticulationsList;
 
 /*!
 \brief A msr slur representation.
@@ -614,6 +615,93 @@ class EXP msrSlur : public msrElement {
     SlurKind fSlurKind;
 };
 typedef SMARTP<msrSlur> S_msrSlur;
+
+/*!
+\brief A msr dynamics representation.
+
+  A dynamics is represented by a DynamicsKind value
+*/
+//______________________________________________________________________________
+class EXP msrDynamics : public msrElement {
+  public:
+
+    enum DynamicsKind {
+          kF, kFF, kFFF, kFFFF, kFFFFF, kFFFFFF,
+          kP, kPP, kPPP, kPPPP, kPPPPP, kPPPPPP,
+          kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
+          k_NoDynamics };
+    
+    static SMARTP<msrDynamics> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      DynamicsKind           dynamicsKind);
+
+    DynamicsKind getDynamicsKind () const { return fDynamicsKind; }
+
+    string  dynamicsKindAsString ();
+    string  dynamicsKindAsLilypondString ();
+    
+    virtual void printMusicXML     (ostream& os);
+    virtual void printMSR          (ostream& os);
+    virtual void printScoreSummary (ostream& os);
+    virtual void printLilyPondCode (ostream& os);
+
+  protected:
+
+    msrDynamics (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      DynamicsKind           dynamicsKind);
+      
+    virtual ~msrDynamics();
+  
+  private:
+
+    DynamicsKind fDynamicsKind;
+};
+typedef SMARTP<msrDynamics> S_msrDynamics;
+typedef list<S_msrDynamics> msrDynamicssList;
+
+/*!
+\brief A msr wedge representation.
+
+  A wedge is represented by a WedgeKind value (hairpins in LilyPond)
+*/
+//______________________________________________________________________________
+class EXP msrWedge : public msrElement {
+  public:
+
+    enum WedgeKind { kCrescendoWedge, kDecrescendoWedge, kStopWedge };
+    
+    static SMARTP<msrWedge> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      WedgeKind              wedgeKind);
+
+    WedgeKind getWedgeKind () const        { return fWedgeKind; }
+
+    string  wedgeKindAsString ();
+
+    virtual void printMusicXML     (ostream& os);
+    virtual void printMSR          (ostream& os);
+    virtual void printScoreSummary (ostream& os);
+    virtual void printLilyPondCode (ostream& os);
+
+  protected:
+
+    msrWedge (
+      S_translationSettings& ts, 
+      int                    inputLineNumber,
+      WedgeKind              wedgeKind);
+      
+    virtual ~msrWedge();
+  
+  private:
+
+    WedgeKind fWedgeKind;
+};
+typedef SMARTP<msrWedge> S_msrWedge;
+typedef list<S_msrWedge> msrWedgesList;
 
 /*!
 \brief A msr note representation.
@@ -678,7 +766,7 @@ class EXP msrNote : public msrElement {
 
     // articulations
     void                addArticulation (S_msrArticulation art);
-    list<S_msrArticulation>
+    msrArticulationsList
                         getNoteArticulations () const
                             { return fNoteArticulations; }
     
@@ -686,8 +774,8 @@ class EXP msrNote : public msrElement {
     void                addDynamics (S_msrDynamics dyn);
     void                addWedge    (S_msrWedge    wdg);
 
-    list<S_msrDynamics> getNoteDynamics () { return fNoteDynamics; };
-    list<S_msrWedge>    getNoteWedges   () { return fNoteWedges; };
+    msrDynamicssList    getNoteDynamics () { return fNoteDynamics; };
+    msrWedgesList       getNoteWedges   () { return fNoteWedges; };
 
     S_msrDynamics       removeFirstDynamics ();
     S_msrWedge          removeFirstWedge ();
@@ -722,14 +810,15 @@ class EXP msrNote : public msrElement {
     // LilyPond informations
     MsrPitch                   fNoteMsrPitch;
 
-    list<S_msrArticulation>    fNoteArticulations;
+    msrArticulationsList       fNoteArticulations;
     
-    list<S_msrDynamics>        fNoteDynamics;
-    list<S_msrWedge>           fNoteWedges;
+    msrDynamicssList           fNoteDynamics;
+    msrWedgesList              fNoteWedges;
 
     msrSlur::SlurKind          fNoteSlurKind;
 };
 typedef SMARTP<msrNote> S_msrNote;
+typedef vector<S_msrNote> msrNotesVector;
 
 /*!
 \brief The msr parallel music element
@@ -816,7 +905,7 @@ class EXP msrSequentialMusic : public msrElement {
     
   private:
   
-    msrElementList     fSequentialMusicElements;
+    msrElementsList    fSequentialMusicElements;
     ElementsSeparator  fElementsSeparator;
 
 };
@@ -861,14 +950,14 @@ class EXP msrChord : public msrElement {
   
   private:
   
-    vector<S_msrNote>         fChordNotes;
+    msrNotesVector            fChordNotes;
     
     S_msrDuration             fChordDuration;
-
-    list<S_msrArticulation>   fChordArticulations;
+                              
+    msrArticulationsList      fChordArticulations;
     
-    list<S_msrDynamics>       fChordDynamics;
-    list<S_msrWedge>          fChordWedges;
+    msrDynamicssList          fChordDynamics;
+    msrWedgesList             fChordWedges;
 };
 typedef SMARTP<msrChord> S_msrChord;
 
@@ -927,7 +1016,7 @@ class EXP msrVarValAssoc : public msrElement {
     string     fUnit;
 };
 typedef SMARTP<msrVarValAssoc> S_msrVarValAssoc;
-
+typedef vector<S_msrVarValAssoc> msrVarValAssocsVector;
 /*!
 \brief A msr Scheme variable/value association representation.
 */
@@ -1040,7 +1129,7 @@ class EXP msrHeader : public msrElement {
                 getMovementTitle () const
                     { return fMovementTitle; }
     
-    vector<S_msrVarValAssoc>
+    msrVarValAssocsVector
                 getCreators () const
                     { return fCreators; };
     
@@ -1048,7 +1137,7 @@ class EXP msrHeader : public msrElement {
                 getRights () const
                     { return fRights; }
     
-    vector<S_msrVarValAssoc>
+    msrVarValAssocsVector
                 getSoftwares () const
                     { return fSoftwares; };
     
@@ -1075,15 +1164,15 @@ class EXP msrHeader : public msrElement {
   
   private:
 
-    S_msrVarValAssoc              fWorkNumber;
-    S_msrVarValAssoc              fWorkTitle;
-    S_msrVarValAssoc              fMovementNumber;
-    S_msrVarValAssoc              fMovementTitle;
-    vector<S_msrVarValAssoc> fCreators;
-    S_msrVarValAssoc              fRights;
-    vector<S_msrVarValAssoc> fSoftwares;
-    S_msrVarValAssoc              fEncodingDate;
-    S_msrVarValAssoc              fScoreInstrument;
+    S_msrVarValAssoc      fWorkNumber;
+    S_msrVarValAssoc      fWorkTitle;
+    S_msrVarValAssoc      fMovementNumber;
+    S_msrVarValAssoc      fMovementTitle;
+    msrVarValAssocsVector fCreators;
+    S_msrVarValAssoc      fRights;
+    msrVarValAssocsVector fSoftwares;
+    S_msrVarValAssoc      fEncodingDate;
+    S_msrVarValAssoc      fScoreInstrument;
 
 };
 typedef SMARTP<msrHeader> S_msrHeader;
@@ -1188,7 +1277,7 @@ class EXP msrLayout : public msrElement {
   
   private:
   
-    vector<S_msrVarValAssoc> fmsrVarValAssocs;
+    msrVarValAssocsVector fmsrVarValAssocs;
 };
 typedef SMARTP<msrLayout> S_msrLayout;
 
@@ -1197,7 +1286,7 @@ typedef SMARTP<msrLayout> S_msrLayout;
 
   A repeat is represented by:
     - a sequence of elements for the common part
-    - a vector os sequences of elements for the alternate endings
+    - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
 class EXP msrRepeat: public msrElement {
@@ -1480,92 +1569,6 @@ class EXP msrBeam : public msrElement {
     BeamKind fBeamKind;
 };
 typedef SMARTP<msrBeam> S_msrBeam;
-
-/*!
-\brief A msr dynamics representation.
-
-  A dynamics is represented by a DynamicsKind value
-*/
-//______________________________________________________________________________
-class EXP msrDynamics : public msrElement {
-  public:
-
-    enum DynamicsKind {
-          kF, kFF, kFFF, kFFFF, kFFFFF, kFFFFFF,
-          kP, kPP, kPPP, kPPPP, kPPPPP, kPPPPPP,
-          kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
-          k_NoDynamics };
-    
-    static SMARTP<msrDynamics> create (
-      S_translationSettings& ts, 
-      int                    inputLineNumber,
-      DynamicsKind           dynamicsKind);
-
-    DynamicsKind getDynamicsKind () const { return fDynamicsKind; }
-
-    string  dynamicsKindAsString ();
-    string  dynamicsKindAsLilypondString ();
-    
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printScoreSummary (ostream& os);
-    virtual void printLilyPondCode (ostream& os);
-
-  protected:
-
-    msrDynamics (
-      S_translationSettings& ts, 
-      int                    inputLineNumber,
-      DynamicsKind           dynamicsKind);
-      
-    virtual ~msrDynamics();
-  
-  private:
-
-    DynamicsKind fDynamicsKind;
-};
-typedef SMARTP<msrDynamics> S_msrDynamics;
-
-/*!
-\brief A msr wedge representation.
-
-  A wedge is represented by a WedgeKind value (hairpins in LilyPond)
-*/
-//______________________________________________________________________________
-class EXP msrWedge : public msrElement {
-  public:
-
-    enum WedgeKind { kCrescendoWedge, kDecrescendoWedge, kStopWedge };
-    
-    static SMARTP<msrWedge> create (
-      S_translationSettings& ts, 
-      int                    inputLineNumber,
-      WedgeKind              wedgeKind);
-
-    WedgeKind getWedgeKind () const        { return fWedgeKind; }
-
-    string  wedgeKindAsString ();
-
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printScoreSummary (ostream& os);
-    virtual void printLilyPondCode (ostream& os);
-
-  protected:
-
-    msrWedge (
-      S_translationSettings& ts, 
-      int                    inputLineNumber,
-      WedgeKind              wedgeKind);
-      
-    virtual ~msrWedge();
-  
-  private:
-
-    WedgeKind fWedgeKind;
-};
-typedef SMARTP<msrWedge> S_msrWedge;
-typedef list<S_msrWedge> msrWedgesList;
 
 /*!
 \brief A msr clef representation.
@@ -1889,7 +1892,7 @@ class EXP msrLyrics : public msrElement {
     bool                      fLyricsTextPresent;
 };
 typedef SMARTP<msrLyrics> S_msrLyrics;
-typedef map<int, S_msrLyrics> msrLyricsMap;
+typedef map<int, S_msrLyrics> msrIntToLyricsMap;
 
 /*!
 \brief A msr voice representation.
@@ -1914,7 +1917,7 @@ class EXP msrVoice : public msrElement {
             getVoiceStaff () const
                 { return fVoiceStaff; }
                 
-    msrLyricsMap
+    map<int, S_msrVoice>
             getVoiceLyricsMap () const
                 { return fVoiceLyricsMap; }
 
@@ -1977,7 +1980,7 @@ class EXP msrVoice : public msrElement {
     // the lyrics map
     // [0] is used as a master lyrics, collecting skips along the way
     // to be used as a 'prelude' by actual lyrics that start at later points
-    msrLyricsMap              fVoiceLyricsMap;
+    map<int, S_msrVoice>      fVoiceLyricsMap;
     S_msrLyrics               fVoiceMasterLyrics;
 
     // the implicit sequence containing the code generated for the voice
@@ -1989,7 +1992,7 @@ class EXP msrVoice : public msrElement {
     S_msrRepeat               fVoiceMsrRepeat;
 };
 typedef SMARTP<msrVoice> S_msrVoice;
-typedef map<int, S_msrVoice> msrVoicesMap;
+typedef map<int, S_msrVoice> msrIntToVoicesMap;
 
 /*!
 \brief A msr staff representation.
@@ -2017,7 +2020,7 @@ class EXP msrStaff : public msrElement {
             getStaffPart () const
                 { return fStaffPart; }
 
-    msrVoicesMap
+    msrIntToVoicesMap
             getStaffVoicesMap ()
                 { return fStaffVoicesMap; }
 
@@ -2056,7 +2059,7 @@ class EXP msrStaff : public msrElement {
     int                     fStaffNumber;
     S_msrPart               fStaffPart;
 
-    msrVoicesMap            fStaffVoicesMap;
+    msrIntToVoicesMap       fStaffVoicesMap;
 
     string                  fStaffInstrumentName;
 
@@ -2279,7 +2282,7 @@ class EXP msrPartgroup : public msrElement {
 //    msrPartsList            fPartgroupPartsList; JMI
 
     // allowing for both parts and (sub-)part groups as elements
-    msrElementList          fPartgroupElements;
+    msrElementsList         fPartgroupElements;
 };
 typedef SMARTP<msrPartgroup> S_msrPartgroup;
 typedef list<S_msrPartgroup> msrPartgroupsList;

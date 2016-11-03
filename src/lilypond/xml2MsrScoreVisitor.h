@@ -434,7 +434,7 @@ class EXP xml2MsrScoreVisitor :
     // metronome handling
     // ------------------------------------------------------
     vector<musicXMLBeatData>
-                            fBeatsData;
+                            fBeatsData; // JMI
     int                     fPerMinute;
     musicXMLBeatData        fCurrentBeat;
     bool                    fParentheses;
@@ -511,11 +511,11 @@ class EXP xml2MsrScoreVisitor :
     
     // ------------------------------------------------------
     // articulations handling
-    list<S_msrArticulation> fCurrentArticulations;
+    msrArticulationsList   fCurrentArticulations;
     
     // dynamics and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
-    list<S_msrDynamics>     fPendingDynamics;
+    msrDynamicssList        fPendingDynamics;
     msrWedgesList           fPendingWedges;
     void                    attachPendingDynamicsAndWedgesToNote (
                               S_msrNote note);

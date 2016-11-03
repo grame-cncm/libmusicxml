@@ -2429,7 +2429,7 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
   fCurrentNote->setNoteBelongsToAChord ();
 
   // move the pending articulations if any from the first note to the chord
-  list<S_msrArticulation>
+  msrArticulationsList
     noteArticulations =
       fCurrentNote->getNoteArticulations ();
 
@@ -2447,7 +2447,7 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
   }
   
   // move the pending dynamics if any from the first note to the chord
-  list<S_msrDynamics>
+  msrDynamicssList
     noteDynamics =
       fCurrentNote->getNoteDynamics();
     
@@ -2465,7 +2465,7 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
   }
  
   // move the pending wedges if any from the first note to the chord
-  list<S_msrWedge>
+  msrWedgesList
     noteWedges =
       fCurrentNote->getNoteWedges();
     

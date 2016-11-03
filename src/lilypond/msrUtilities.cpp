@@ -222,22 +222,6 @@ string stringNumbersToEnglishWords (string str)
     
   return result;
 };
-/* JMI
- *   pair <int,int> foo;
-  pair <int,int> bar;
-
-  foo = make_pair (10,20);
-  bar = make_pair (10.5,'A'); // ok: implicit conversion from pair<double,char>
-
-  cout << "foo: " << foo.first << ", " << foo.second << '\n';
-  cout << "bar: " << bar.first << ", " << bar.second << '\n';
-
-
-  list<S_msrdynamics>::const_iterator i1;
-  for (i1=fChordDynamics.begin(); i1!=fChordDynamics.end(); i1++) {
-    os << " " << (*i1);
-  } // for
-*/
 
 //______________________________________________________________________________
 int ConsumeDecimalNumber (

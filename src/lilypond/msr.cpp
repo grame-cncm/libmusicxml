@@ -1392,7 +1392,7 @@ void msrNote::printMSR (ostream& os)
     // print the alterations if any
     if (fNoteArticulations.size()) {
       idtr++;
-      list<S_msrArticulation>::const_iterator i;
+      msrArticulationsList::const_iterator i;
       for (i=fNoteArticulations.begin(); i!=fNoteArticulations.end(); i++) {
         os << idtr << (*i);
       } // for
@@ -1402,7 +1402,7 @@ void msrNote::printMSR (ostream& os)
     // print the dynamics if any
     if (fNoteDynamics.size()) {
       idtr++;
-      list<S_msrDynamics>::const_iterator i1;
+      msrDynamicssList::const_iterator i1;
       for (i1=fNoteDynamics.begin(); i1!=fNoteDynamics.end(); i1++) {
         os << idtr << (*i1);
       } // for
@@ -1412,7 +1412,7 @@ void msrNote::printMSR (ostream& os)
     // print the wedges if any
     if (fNoteWedges.size()) {
       idtr++;
-      list<S_msrWedge>::const_iterator i2;
+      msrWedgesList::const_iterator i2;
       for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
         os << idtr << (*i2);
       } // for
@@ -1455,7 +1455,7 @@ void msrNote::printLilyPondCode (ostream& os)
     
     // print the dynamics if any
     if (fNoteDynamics.size()) {
-      list<S_msrDynamics>::const_iterator
+      msrDynamicssList::const_iterator
         i1Begin = fNoteDynamics.begin(),
         i1End   = fNoteDynamics.end(),
         i1      = i1Begin;
@@ -1469,7 +1469,7 @@ void msrNote::printLilyPondCode (ostream& os)
   
     // print the wedges if any
     if (fNoteWedges.size()) {
-      list<S_msrWedge>::const_iterator
+      msrWedgesList::const_iterator
         i2Begin = fNoteWedges.begin(),
         i2End   = fNoteWedges.end(),
         i2      = i2Begin;
@@ -1559,7 +1559,7 @@ void msrSequentialMusic::printMSR (ostream& os)
   if (fSequentialMusicElements.size ()) {  
     idtr++;
   
-    list<S_msrElement>::const_iterator
+    msrElementsList::const_iterator
       iBegin = fSequentialMusicElements.begin(),
       iEnd   = fSequentialMusicElements.end(),
       i      = iBegin;
@@ -1593,7 +1593,7 @@ void msrSequentialMusic::printScoreSummary (ostream& os)
   if (sequenceElementsSize) {  
     idtr++;
   
-    list<S_msrElement>::const_iterator
+    msrElementsList::const_iterator
       iBegin = fSequentialMusicElements.begin(),
       iEnd   = fSequentialMusicElements.end(),
       i      = iBegin;
@@ -1616,7 +1616,7 @@ void msrSequentialMusic::printMusicXML (ostream& os)
 void msrSequentialMusic::printLilyPondCode (ostream& os)
 {
   if (fSequentialMusicElements.size()) {
-    list<S_msrElement>::const_iterator
+    msrElementsList::const_iterator
       iBegin = fSequentialMusicElements.begin(),
       iEnd   = fSequentialMusicElements.end(),
       i      = iBegin;
@@ -1735,7 +1735,7 @@ void msrChord::printMSR (ostream& os)
 {
   os << "Chord" << " " << "<";
   if (fChordNotes.size()) {
-    vector<S_msrNote>::const_iterator
+    msrNotesVector::const_iterator
       iBegin = fChordNotes.begin(),
       iEnd   = fChordNotes.end(),
       i      = iBegin;
@@ -1753,7 +1753,7 @@ void msrChord::printMSR (ostream& os)
   // print the articulations if any
   if (fChordArticulations.size()) {
     idtr++;
-    list<S_msrArticulation>::const_iterator i;
+    msrArticulationsList::const_iterator i;
     for (i=fChordArticulations.begin(); i!=fChordArticulations.end(); i++) {
       os << idtr << (*i);
     } // for
@@ -1763,7 +1763,7 @@ void msrChord::printMSR (ostream& os)
   // print the dynamics if any
   if (fChordDynamics.size()) {
     idtr++;
-    list<S_msrDynamics>::const_iterator i;
+    msrDynamicssList::const_iterator i;
     for (i=fChordDynamics.begin(); i!=fChordDynamics.end(); i++) {
       os << idtr << (*i);
     } // for
@@ -1773,7 +1773,7 @@ void msrChord::printMSR (ostream& os)
   // print the wedges if any
   if (fChordWedges.size()) {
     idtr++;
-    list<S_msrWedge>::const_iterator i;
+    msrWedgesList::const_iterator i;
     for (i=fChordWedges.begin(); i!=fChordWedges.end(); i++) {
       os << idtr << (*i);
     } // for
@@ -1788,7 +1788,7 @@ void msrChord::printLilyPondCode (ostream& os)
 {
   os << "<";
   if (fChordNotes.size()) {
-    vector<S_msrNote>::const_iterator
+    msrNotesVector::const_iterator
       iBegin = fChordNotes.begin(),
       iEnd   = fChordNotes.end(),
       i      = iBegin;
@@ -1805,7 +1805,7 @@ void msrChord::printLilyPondCode (ostream& os)
 
   // print the dynamics if any
   if (fChordDynamics.size()) {
-    list<S_msrDynamics>::const_iterator i1;
+    msrDynamicssList::const_iterator i1;
     for (i1=fChordDynamics.begin(); i1!=fChordDynamics.end(); i1++) {
       os << " " << (*i1);
     } // for
@@ -1813,7 +1813,7 @@ void msrChord::printLilyPondCode (ostream& os)
 
   // print the wedges if any
   if (fChordWedges.size()) {
-    list<S_msrWedge>::const_iterator i2;
+    msrWedgesList::const_iterator i2;
     for (i2=fChordWedges.begin(); i2!=fChordWedges.end(); i2++) {
       os << " " << (*i2);
     } // for
@@ -2509,7 +2509,7 @@ void msrHeader::printMSR (ostream& os)
   }
     
   if (!fCreators.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i1;
+    msrVarValAssocsVector::const_iterator i1;
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
       os << idtr << (*i1);
     } // for
@@ -2520,7 +2520,7 @@ void msrHeader::printMSR (ostream& os)
   }
     
   if (!fSoftwares.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i2;
+    msrVarValAssocsVector::const_iterator i2;
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
       os << idtr << (*i2);
     } // for
@@ -2556,7 +2556,7 @@ void msrHeader::printScoreSummary (ostream& os)
   }
     
   if (!fCreators.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i1;
+    msrVarValAssocsVector::const_iterator i1;
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
       os << idtr << (*i1);
     } // for
@@ -2567,7 +2567,7 @@ void msrHeader::printScoreSummary (ostream& os)
   }
     
   if (!fSoftwares.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i2;
+    msrVarValAssocsVector::const_iterator i2;
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
       os << idtr << (*i2);
     } // for
@@ -2629,7 +2629,7 @@ void msrHeader::printLilyPondCode (ostream& os)
   }
     
   if (!fCreators.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i1;
+    msrVarValAssocsVector::const_iterator i1;
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
       os << idtr << (*i1);
       if ((*i1)->getVariableName() == "composer")
@@ -2649,7 +2649,7 @@ void msrHeader::printLilyPondCode (ostream& os)
   }
     
   if (!fSoftwares.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i2;
+    msrVarValAssocsVector::const_iterator i2;
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
       os << idtr << (*i2);
      } // for
@@ -3842,7 +3842,7 @@ void msrLyrics::printLilyPondCode (ostream& os)
   idtr++;
 
   if (fLyricsChunks.size()) {
-    vector<S_msrLyricsChunk>::const_iterator
+    msrLyricsChunksVector::const_iterator
       iBegin = fLyricsChunks.begin(),
       iEnd   = fLyricsChunks.end(),
       i      = iBegin;
@@ -4074,7 +4074,7 @@ void msrVoice::printMSR (ostream& os)
 
   if (! fTranslationSettings->fDontGenerateLyrics) {
     if (fVoiceLyricsMap.size()) {
-      map<int, S_msrLyrics>::const_iterator
+      msrIntToLyricsMap::const_iterator
         iBegin = fVoiceLyricsMap.begin(),
         iEnd   = fVoiceLyricsMap.end(),
         i      = iBegin;
@@ -4109,7 +4109,7 @@ void msrVoice::printScoreSummary (ostream& os)
 
   // don't show voice master lyrics in summary
   if (voiceLyricsMapSize > 1) {
-    map<int, S_msrLyrics>::const_iterator
+    msrIntToLyricsMap::const_iterator
       iBegin = fVoiceLyricsMap.begin(),
       iEnd   = fVoiceLyricsMap.end(),
       i      = iBegin;
@@ -4355,7 +4355,7 @@ void msrStaff::printMSR (ostream& os)
   os << endl;
   
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    msrIntToVoicesMap::iterator i = fStaffVoicesMap.begin();
     i != fStaffVoicesMap.end();
     i++) {
     os << idtr << (*i).second;
@@ -4400,7 +4400,7 @@ void msrStaff::printScoreSummary (ostream& os)
 
   os << endl;
   
-  map<int, S_msrVoice>::const_iterator
+  msrIntToVoicesMap::const_iterator
     iBegin = fStaffVoicesMap.begin(),
     iEnd   = fStaffVoicesMap.end(),
     i      = iBegin;
@@ -4468,7 +4468,7 @@ msrPart::~msrPart() {}
 void msrPart::setAllPartStavesKey   (S_msrKey  key)
 {
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    msrStaffsMap::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->setStaffKey (key);
@@ -4478,7 +4478,7 @@ void msrPart::setAllPartStavesKey   (S_msrKey  key)
 void msrPart::setAllPartStavesTime  (S_msrTime time)
 {
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    msrStaffsMap::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->setStaffTime (time);
@@ -4488,7 +4488,7 @@ void msrPart::setAllPartStavesTime  (S_msrTime time)
 void msrPart::setAllPartStavesClef (S_msrClef clef)
 {
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    msrStaffsMap::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->setStaffClef (clef);
@@ -4571,7 +4571,7 @@ void msrPart::printMSR (ostream& os)
   if (fPartStavesMap.size()) {
     os << endl;
     for (
-      map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+      msrStaffsMap::iterator i = fPartStavesMap.begin();
       i != fPartStavesMap.end();
       i++) {
       os << idtr << (*i).second;
@@ -4609,7 +4609,7 @@ void msrPart::printScoreSummary (ostream& os)
   if (partStavesMapSize) {
     os << endl;
 
-    map<int, S_msrStaff>::const_iterator
+    msrStaffsMap::const_iterator
       iBegin = fPartStavesMap.begin(),
       iEnd   = fPartStavesMap.end(),
       i      = iBegin;
