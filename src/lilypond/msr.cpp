@@ -113,13 +113,13 @@ void msrInternalError (int inputLineNumber, string message)
 }
 
 //______________________________________________________________________________
+
 S_msrVisitable msrVisitable::create ()
 {
   msrVisitable * o = new msrVisitable ();
   assert(o!=0);
   return o;
 }
-
 
 void msrVisitable::acceptIn (basevisitor& v) {
   visitor<S_msrVisitable>*
@@ -145,7 +145,6 @@ void msrVisitable::acceptOut (basevisitor& v) {
   }
 }
 
-
 //______________________________________________________________________________
 S_msrElement msrElement::create (
   S_translationSettings& ts, 
@@ -167,6 +166,30 @@ msrElement::msrElement (
 }
 
 msrElement::~msrElement() {}
+
+void msrElement::acceptIn (basevisitor& v) {
+  if (visitor<S_msrElement>*
+    p =
+      dynamic_cast<visitor<S_msrElement>*> (&v)) {
+        S_msrElement sptr = this;
+        
+        p->visitStart (sptr);
+  }
+  else
+    msrVisitable::acceptIn (v);
+}
+
+void msrElement::acceptOut (basevisitor& v) {
+  if (visitor<S_msrElement>*
+    p =
+      dynamic_cast<visitor<S_msrElement>*> (&v)) {
+      S_msrElement sptr = this;
+      
+      p->visitEnd (sptr);
+  }
+  else
+    msrVisitable::acceptOut (v);
+}
 
 ostream& operator<< (ostream& os, const S_msrElement& elt)
 {

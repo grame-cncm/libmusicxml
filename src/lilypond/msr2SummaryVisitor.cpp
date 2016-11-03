@@ -19,8 +19,6 @@
 #include <climits>      /* INT_MIN */
 #include <algorithm>    /* for_each */
 
-#include "xml_tree_browser.h"
-
 #include "conversions.h"
 
 #include "msr.h"
@@ -95,7 +93,7 @@ msr2SummaryVisitor::printSummaryFromMsrElementTree (
 {  
   if (msrTree) {
     // create a tree browser on this visitor
-    tree_browser<msrElement> browser (this);
+    msrBrowser browser (this);
     
     // browse the msrElement tree
     browser.browse (*msrTree);

@@ -228,22 +228,21 @@ class EXP msrGlobalVariables {
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-class EXP msrVisitable : public ctree<msrVisitable>, public visitable
+
+class EXP msrVisitable : public visitable
 {
+  public:
+   
+    static SMARTP<msrVisitable> create ();
+
+    virtual void acceptIn  (basevisitor& visitor);
+    virtual void acceptOut (basevisitor& visitor);
+
   protected:
 
     int fType; // the element type
 
     msrVisitable () : fType(0) {}
-  
-  public:
-   
-    virtual void acceptIn  (basevisitor& visitor);
-    virtual void acceptOut (basevisitor& visitor);
-
-    typedef ctree<msrVisitable>::iterator iterator;
-
-    static SMARTP<msrVisitable> create ();
 };
 typedef SMARTP<msrVisitable> S_msrVisitable;
 
@@ -254,7 +253,7 @@ typedef SMARTP<msrVisitable> S_msrVisitable;
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-class EXP msrElement : public msrVisitable
+class EXP msrElement : public msrVisitable, public smartable
 {
   public:
  
@@ -265,29 +264,8 @@ class EXP msrElement : public msrVisitable
     int getInputLineNumber ()
       { return fInputLineNumber; }
 
-    virtual void acceptIn(basevisitor& v)
-      {
-        if (visitor<SMARTP<msrElement > >*
-          p =
-            dynamic_cast<visitor<SMARTP<msrElement > >*> (&v)
-        ) {
-          SMARTP<msrElement > sptr = this;
-          p->visitStart (sptr);
-        }
-        else msrVisitable::acceptIn (v);
-       }
-
-    virtual void acceptOut (basevisitor& v)
-      {
-        if (visitor<SMARTP<msrElement > >*
-          p =
-            dynamic_cast<visitor<SMARTP<msrElement > >*> (&v)
-        ) {
-          SMARTP<msrElement > sptr = this;
-          p->visitEnd (sptr);
-        }
-        else msrVisitable::acceptOut (v);
-      }
+    virtual void acceptIn  (basevisitor& visitor);
+    virtual void acceptOut (basevisitor& visitor);
 
     virtual void print             (ostream& os);
 
@@ -316,6 +294,77 @@ class EXP msrElement : public msrVisitable
 typedef SMARTP<msrElement> S_msrElement;
 typedef vector<S_msrElement> msrElementsVector;
 typedef list<S_msrElement> msrElementList;
+
+/*
+  from ctree.h:
+ 
+    typedef SMARTP<T>                   treePtr;   ///< the node sub elements type
+    typedef std::vector<treePtr>        branches;  ///< the node sub elements container type
+    typedef typename branches::iterator literator; ///< the current level iterator type
+    typedef treeIterator<treePtr>       iterator;  ///< the top -> bottom iterator type
+
+    iterator begin ()
+      {
+        treePtr start=dynamic_cast<T*>(this);
+        return iterator(start);
+      }
+    iterator end ()
+      {
+        treePtr start=dynamic_cast<T*>(this);
+        return iterator(start, true);
+      }
+    iterator erase (iterator i)
+      {
+        return i.erase();
+      }
+    iterator insert (iterator before, const treePtr& value)
+      {
+        return before.insert(value);
+      }
+
+    literator lbegin () { return fElements.begin(); }
+    literator lend ()   { return fElements.end(); }
+
+*/
+
+/*!
+\brief A generic msr element representation.
+
+  An element is represented by its name and the
+  list of its enclosed elements plus optional parameters.
+*/
+//______________________________________________________________________________
+class EXP msrBrowser
+{
+  protected:
+  
+    basevisitor*  fVisitor;
+
+    virtual void enter (S_msrElement& elem)
+      { elem->acceptIn  (*fVisitor); }
+      
+    virtual void leave (S_msrElement& elem)
+      { elem->acceptOut (*fVisitor); }
+
+  public:
+      
+    msrBrowser (basevisitor* v) : fVisitor (v) {}
+    
+    virtual ~msrBrowser () {}
+
+    virtual void set (basevisitor* v) {  fVisitor = v; }
+    
+    virtual void browse (S_msrElement& t)
+    {
+      enter (t);
+      
+      typename ctree<T>::literator iter;
+      for (iter = t.lbegin(); iter != t.lend(); iter++)
+        browse (**iter);
+        
+      leave (t);
+    }
+};
 
 //______________________________________________________________________________
 /*!

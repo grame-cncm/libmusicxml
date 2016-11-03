@@ -30,7 +30,7 @@ template <typename T> class EXP treeIterator : public std::iterator<std::input_i
   protected:
   
     typedef typename std::vector<T>::iterator nodes_iterator;
-    typedef std::pair<nodes_iterator, T> state;
+    typedef std::pair<nodes_iterator, T>      state;
 
     std::stack<state> fStack;
     T                 fRootElement;
@@ -38,14 +38,17 @@ template <typename T> class EXP treeIterator : public std::iterator<std::input_i
 
   public:
   
-    treeIterator() {}
-    treeIterator(const T& t, bool end=false) {
+    treeIterator () {}
+    
+    treeIterator (const T& t, bool end=false)
+    {
       fRootElement = t;
       if (end) fCurrentIterator = t->elements().end();
       else forward_down (t);
     }
     
-    treeIterator(const treeIterator& a)  { *this = a; }
+    treeIterator (const treeIterator& a)
+      { *this = a; }
    
     virtual ~treeIterator() {}
     
@@ -145,28 +148,40 @@ template <typename T> class EXP ctree : virtual public smartable
 {
   public:
   
-    typedef SMARTP<T>                  treePtr;   ///< the node sub elements type
-    typedef std::vector<treePtr>       branchs;   ///< the node sub elements container type
-    typedef typename branchs::iterator literator; ///< the current level iterator type
-    typedef treeIterator<treePtr>      iterator;  ///< the top -> bottom iterator type
+    typedef SMARTP<T>                   treePtr;   ///< the node sub elements type
+    typedef std::vector<treePtr>        branches;  ///< the node sub elements container type
+    typedef typename branches::iterator literator; ///< the current level iterator type
+    typedef treeIterator<treePtr>       iterator;  ///< the top -> bottom iterator type
 
     static treePtr new_tree ()
       { ctree<T>* o = new ctree<T>; assert(o!=0); return o; }
     
-    branchs& elements ()                 { return fElements; }   
-    const branchs& elements () const     { return fElements; }   
+    branches& elements ()                { return fElements; }   
+    const branches& elements () const    { return fElements; }
+    
     virtual void push (const treePtr& t) { fElements.push_back(t); }
+    
     virtual int  size  () const          { return fElements.size(); }
     virtual bool empty () const          { return fElements.size()==0; }
 
     iterator begin ()
-      { treePtr start=dynamic_cast<T*>(this); return iterator(start); }
+      {
+        treePtr start=dynamic_cast<T*>(this);
+        return iterator(start);
+      }
     iterator end ()
-      { treePtr start=dynamic_cast<T*>(this); return iterator(start, true); }
+      {
+        treePtr start=dynamic_cast<T*>(this);
+        return iterator(start, true);
+      }
     iterator erase (iterator i)
-      { return i.erase(); }
+      {
+        return i.erase();
+      }
     iterator insert (iterator before, const treePtr& value)
-      { return before.insert(value); }
+      {
+        return before.insert(value);
+      }
     
     literator lbegin () { return fElements.begin(); }
     literator lend ()   { return fElements.end(); }
@@ -178,7 +193,7 @@ template <typename T> class EXP ctree : virtual public smartable
 
   private:
   
-    branchs  fElements;
+    branches  fElements;
 };
 
 
