@@ -25,24 +25,30 @@ namespace MusicXML2
 template <typename T> class EXP tree_browser : public browser<T> 
 {
   protected:
+  
     basevisitor*  fVisitor;
 
-    virtual void enter (T& t)   { t.acceptIn(*fVisitor); }
-    virtual void leave (T& t)   { t.acceptOut(*fVisitor); }
+    virtual void enter (T& t) { t.acceptIn  (*fVisitor); }
+    virtual void leave (T& t) { t.acceptOut (*fVisitor); }
 
   public:
     typedef typename ctree<T>::treePtr treePtr;
     
-    tree_browser(basevisitor* v) : fVisitor(v) {}
+    tree_browser (basevisitor* v) : fVisitor(v) {}
+    
     virtual ~tree_browser() {}
 
     virtual void set (basevisitor* v) {  fVisitor = v; }
+    
     virtual void browse (T& t) {
-      enter(t);
+      enter (t);
+      
       typename ctree<T>::literator iter;
+      
       for (iter = t.lbegin(); iter != t.lend(); iter++)
         browse(**iter);
-      leave(t);
+        
+      leave (t);
     }
 };
 

@@ -50,7 +50,8 @@ class EXP msr2SummaryVisitor :
     virtual ~msr2SummaryVisitor ();
 
     void printSummaryFromMsrElementTree (
-        const S_msrElement& msrTree);
+        // JMI const
+         S_msrVisitable& msrTree);
 
 //    S_msrScore getMSRScore () const
 //        { return fMsrScore; };

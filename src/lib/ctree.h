@@ -149,9 +149,12 @@ template <typename T> class EXP ctree : virtual public smartable
   public:
   
     typedef SMARTP<T>                   treePtr;   ///< the node sub elements type
+    
     typedef std::vector<treePtr>        branches;  ///< the node sub elements container type
-    typedef typename branches::iterator literator; ///< the current level iterator type
+    
     typedef treeIterator<treePtr>       iterator;  ///< the top -> bottom iterator type
+
+    typedef typename branches::iterator literator; ///< the current level iterator type
 
     static treePtr new_tree ()
       { ctree<T>* o = new ctree<T>; assert(o!=0); return o; }

@@ -19,7 +19,7 @@
 #include "xml.h"
 #include "xmlfile.h"
 #include "xmlreader.h"
-#include "xml_tree_browser.h"
+// JMI #include "xml_tree_browser.h"
 
 #include "versions.h"
 #include "msr.h"
@@ -27,7 +27,7 @@
 #include "musicxml2msr.h"
 
 #include "xml2MsrScoreVisitor.h"
-
+#include "msr2SummaryVisitor.h"
 
 using namespace std;
 
@@ -106,6 +106,38 @@ S_msrScore buildMsrScoreFromTree (
 }
 
 //_______________________________________________________________________________
+void displayScoreSummaryWithVisitor (
+  S_translationSettings& ts,
+  S_msrScore             score)
+{
+  string separator = "%----------------------------------------";
+
+  // output the score resulting from the conversion 
+  if (ts->fTrace) 
+    cerr << idtr <<
+      separator << endl <<
+      "%Outputting a summary of the MSR score" << endl <<
+      separator << endl;
+   
+  idtr++;
+
+  // create an msr2SummaryVisitor visitor
+  msr2SummaryVisitor visitor (ts);
+
+  if (ts->fTrace) cerr << "{%" << std::endl;
+
+  S_msrVisitable visitable = score;
+  
+  visitor.printSummaryFromMsrElementTree (visitable);
+  
+  if (ts->fTrace) cerr << "%}" << std::endl;
+  
+  cerr << separator << std::endl;
+
+  idtr--;
+}
+
+//_______________________________________________________________________________
 void displayMSRScore (
   S_translationSettings& ts,
   S_msrScore             score)
@@ -179,7 +211,8 @@ static xmlErr xml2Msr(
       displayMSRScore (ts, score);
 
     if (ts->fDisplayScoreSummary)
-      displayScoreSummary (ts, score);
+//      displayScoreSummary (ts, score);
+      displayScoreSummaryWithVisitor (ts, score);
 
     /*
     // create an xml2MsrVisitor

@@ -89,14 +89,15 @@ msr2SummaryVisitor::~msr2SummaryVisitor ()
 //________________________________________________________________________
 void
 msr2SummaryVisitor::printSummaryFromMsrElementTree (
-  const S_msrElement& msrTree)
-{  
+  // JMI const
+  S_msrVisitable& msrTree)
+{
   if (msrTree) {
-    // create a tree browser on this visitor
-    msrBrowser browser (this);
-    
-    // browse the msrElement tree
-    browser.browse (*msrTree);
+    // create the msr tree browser
+    msrBrowser browser (fTranslationSettings, this);
+  
+    // browse the score with the visitor
+    browser.browse (msrTree);
   }
 }
 

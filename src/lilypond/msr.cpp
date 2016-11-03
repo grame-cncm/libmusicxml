@@ -247,6 +247,27 @@ void msrElement::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
+void msrBrowser::browse (S_msrVisitable& t)
+{
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "==> START msrBrowser::browse (" << t << ")" << endl;
+  
+  enter (t);
+
+  ctree<msrVisitable>::literator iter;
+
+  for (iter = t.lbegin(); iter != t.lend(); iter++)
+    browse (**iter);
+
+  leave (t);
+
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "<== STOP msrBrowser::browse (" << t << ")" << endl;
+}
+
+//______________________________________________________________________________
 ostream& operator<< (ostream& os, musicXMLNoteData& data)
 {
   data.print(os);
@@ -1532,7 +1553,7 @@ void msrSequentialMusic::removeElementFromSequentialMusic (
   S_msrElement elem)
 {
   for (
-    msrElementList::iterator i = fSequentialMusicElements.begin();
+    msrElementsList::iterator i = fSequentialMusicElements.begin();
     i != fSequentialMusicElements.end();
     i++) {
     if ((*i) == elem) {
@@ -4074,7 +4095,7 @@ void msrVoice::printMSR (ostream& os)
 
   if (! fTranslationSettings->fDontGenerateLyrics) {
     if (fVoiceLyricsMap.size()) {
-      msrIntToLyricsMap::const_iterator
+      map<int, S_msrLyrics>::const_iterator
         iBegin = fVoiceLyricsMap.begin(),
         iEnd   = fVoiceLyricsMap.end(),
         i      = iBegin;
@@ -4109,7 +4130,7 @@ void msrVoice::printScoreSummary (ostream& os)
 
   // don't show voice master lyrics in summary
   if (voiceLyricsMapSize > 1) {
-    msrIntToLyricsMap::const_iterator
+    map<int, S_msrLyrics>::const_iterator
       iBegin = fVoiceLyricsMap.begin(),
       iEnd   = fVoiceLyricsMap.end(),
       i      = iBegin;
@@ -4355,7 +4376,7 @@ void msrStaff::printMSR (ostream& os)
   os << endl;
   
   for (
-    msrIntToVoicesMap::iterator i = fStaffVoicesMap.begin();
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
     i != fStaffVoicesMap.end();
     i++) {
     os << idtr << (*i).second;
@@ -4400,7 +4421,7 @@ void msrStaff::printScoreSummary (ostream& os)
 
   os << endl;
   
-  msrIntToVoicesMap::const_iterator
+  map<int, S_msrVoice>::const_iterator
     iBegin = fStaffVoicesMap.begin(),
     iEnd   = fStaffVoicesMap.end(),
     i      = iBegin;
@@ -4761,7 +4782,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
     cerr << idtr <<
       "==> After addPartToPartgroup, fPartgroupPartsList contains:" << endl;
     if (fPartgroupElements.size()) {
-      msrElementList::const_iterator
+      msrElementsList::const_iterator
         iBegin = fPartgroupElements.begin(),
         iEnd   = fPartgroupElements.end(),
         i      = iBegin;
@@ -4870,7 +4891,7 @@ void msrPartgroup::printMSR (ostream& os)
 
   if (fPartgroupElements.size()) {
     os << endl;
-    msrElementList::const_iterator
+    msrElementsList::const_iterator
       iBegin = fPartgroupElements.begin(),
       iEnd   = fPartgroupElements.end(),
       i      = iBegin;
@@ -4940,7 +4961,7 @@ void msrPartgroup::printScoreSummary (ostream& os)
   if (partgroupElementsSize) {
     os << endl;
 
-    msrElementList::const_iterator
+    msrElementsList::const_iterator
       iBegin = fPartgroupElements.begin(),
       iEnd   = fPartgroupElements.end(),
       i      = iBegin;

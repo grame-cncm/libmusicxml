@@ -24,6 +24,8 @@
 #include "exports.h"
 #include "typedefs.h"
 
+#include "tree_browser.h"
+
 #include "msrUtilities.h"
 
 #include "musicxml2msr.h"
@@ -229,7 +231,8 @@ class EXP msrGlobalVariables {
 */
 //______________________________________________________________________________
 
-class EXP msrVisitable : public visitable
+//class EXP msrVisitable : public visitable JMI
+class EXP msrVisitable : public ctree<msrVisitable>, public visitable
 {
   public:
    
@@ -253,7 +256,7 @@ typedef SMARTP<msrVisitable> S_msrVisitable;
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-class EXP msrElement : public msrVisitable, public smartable
+class EXP msrElement : public msrVisitable //, public smartable
 {
   public:
  
@@ -295,13 +298,29 @@ typedef SMARTP<msrElement> S_msrElement;
 typedef vector<S_msrElement> msrElementsVector;
 typedef list<S_msrElement> msrElementsList;
 
+//______________________________________________________________________________
 /*
-  from ctree.h:
- 
+template <typename T> class EXP ctree : virtual public smartable
+{
+  public:
+  
     typedef SMARTP<T>                   treePtr;   ///< the node sub elements type
+    
     typedef std::vector<treePtr>        branches;  ///< the node sub elements container type
+    
     typedef typename branches::iterator literator; ///< the current level iterator type
     typedef treeIterator<treePtr>       iterator;  ///< the top -> bottom iterator type
+
+    static treePtr new_tree ()
+      { ctree<T>* o = new ctree<T>; assert(o!=0); return o; }
+    
+    branches& elements ()                { return fElements; }   
+    const branches& elements () const    { return fElements; }
+    
+    virtual void push (const treePtr& t) { fElements.push_back(t); }
+    
+    virtual int  size  () const          { return fElements.size(); }
+    virtual bool empty () const          { return fElements.size()==0; }
 
     iterator begin ()
       {
@@ -321,11 +340,88 @@ typedef list<S_msrElement> msrElementsList;
       {
         return before.insert(value);
       }
-
+    
     literator lbegin () { return fElements.begin(); }
     literator lend ()   { return fElements.end(); }
 
+  protected:
+  
+    ctree() {}
+    virtual ~ctree() {}
+
+  private:
+  
+    branches  fElements;
+};
 */
+
+/*
+//______________________________________________________________________________
+template <typename T> class EXP tree_browser : public browser<T> 
+{
+  protected:
+  
+    basevisitor*  fVisitor;
+
+    virtual void enter (T& t) { t.acceptIn  (*fVisitor); }
+    virtual void leave (T& t) { t.acceptOut (*fVisitor); }
+
+  public:
+    typedef typename ctree<T>::treePtr treePtr;
+    
+    tree_browser (basevisitor* v) : fVisitor(v) {}
+    
+    virtual ~tree_browser() {}
+
+    virtual void set (basevisitor* v) {  fVisitor = v; }
+    
+    virtual void browse (T& t) {
+      enter (t);
+      
+      typename ctree<T>::literator iter;
+      
+      for (iter = t.lbegin(); iter != t.lend(); iter++)
+        browse(**iter);
+        
+      leave (t);
+    }
+};
+*/
+
+/*
+//______________________________________________________________________________
+class EXP xml_tree_browser : public tree_browser<xmlelement> 
+{
+  public:
+  
+    xml_tree_browser (basevisitor* v)
+      : tree_browser<xmlelement> (v)
+      {}
+      
+    virtual ~xml_tree_browser() {}
+    
+    virtual void browse (xmlelement& t);
+};
+*/
+
+class EXP msrBrowser : public tree_browser<msrVisitable> 
+{
+  public:
+  
+    msrBrowser (
+      S_translationSettings& ts,
+      basevisitor*         v)
+        : tree_browser<msrVisitable> (v)
+      { fTranslationSettings = ts; }
+      
+    virtual ~msrBrowser() {}
+    
+    virtual void browse (S_msrVisitable& t);
+
+  private:
+
+    S_translationSettings fTranslationSettings;
+};
 
 /*!
 \brief A generic msr element representation.
@@ -334,6 +430,7 @@ typedef list<S_msrElement> msrElementsList;
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
+/*
 class EXP msrBrowser
 {
   protected:
@@ -365,6 +462,7 @@ class EXP msrBrowser
       leave (t);
     }
 };
+*/
 
 //______________________________________________________________________________
 /*!
@@ -1917,7 +2015,7 @@ class EXP msrVoice : public msrElement {
             getVoiceStaff () const
                 { return fVoiceStaff; }
                 
-    map<int, S_msrVoice>
+    map<int, S_msrLyrics>
             getVoiceLyricsMap () const
                 { return fVoiceLyricsMap; }
 
@@ -1980,7 +2078,7 @@ class EXP msrVoice : public msrElement {
     // the lyrics map
     // [0] is used as a master lyrics, collecting skips along the way
     // to be used as a 'prelude' by actual lyrics that start at later points
-    map<int, S_msrVoice>      fVoiceLyricsMap;
+    map<int, S_msrLyrics>     fVoiceLyricsMap;
     S_msrLyrics               fVoiceMasterLyrics;
 
     // the implicit sequence containing the code generated for the voice
@@ -1992,7 +2090,6 @@ class EXP msrVoice : public msrElement {
     S_msrRepeat               fVoiceMsrRepeat;
 };
 typedef SMARTP<msrVoice> S_msrVoice;
-typedef map<int, S_msrVoice> msrIntToVoicesMap;
 
 /*!
 \brief A msr staff representation.
@@ -2020,7 +2117,7 @@ class EXP msrStaff : public msrElement {
             getStaffPart () const
                 { return fStaffPart; }
 
-    msrIntToVoicesMap
+    map<int, S_msrVoice>
             getStaffVoicesMap ()
                 { return fStaffVoicesMap; }
 
@@ -2059,7 +2156,7 @@ class EXP msrStaff : public msrElement {
     int                     fStaffNumber;
     S_msrPart               fStaffPart;
 
-    msrIntToVoicesMap       fStaffVoicesMap;
+    map<int, S_msrVoice>    fStaffVoicesMap;
 
     string                  fStaffInstrumentName;
 

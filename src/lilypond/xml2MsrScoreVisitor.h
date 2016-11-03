@@ -511,7 +511,7 @@ class EXP xml2MsrScoreVisitor :
     
     // ------------------------------------------------------
     // articulations handling
-    msrArticulationsList   fCurrentArticulations;
+    msrArticulationsList    fCurrentArticulations;
     
     // dynamics and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
