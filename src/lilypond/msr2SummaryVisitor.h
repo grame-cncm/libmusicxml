@@ -37,9 +37,9 @@ namespace MusicXML2
   - a map that associates each stave with the corresponding voices and notes
   - a map that associates each stave with the correcponding lyricss
 */
-class EXP msr2SummaryVisitor : 
+class EXP msr2SummaryVisitor :
 
-  public visitor<S_msrScore>
+  public msrVisitor<S_msrScore>
 
 {
   public:

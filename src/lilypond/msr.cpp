@@ -113,13 +113,14 @@ void msrInternalError (int inputLineNumber, string message)
 }
 
 //______________________________________________________________________________
-
+/*
 S_msrVisitable msrVisitable::create ()
 {
   msrVisitable * o = new msrVisitable ();
   assert(o!=0);
   return o;
 }
+*/
 
 void msrVisitable::acceptIn (basevisitor& v) {
   visitor<S_msrVisitable>*
@@ -151,7 +152,7 @@ S_msrElement msrElement::create (
   int                    inputLineNumber)
 {
   msrElement * o =
-    new msrElement(
+    new msrElement (
       ts, inputLineNumber);
   assert(o!=0);
   return o; 
@@ -254,12 +255,15 @@ void msrBrowser::browse (S_msrVisitable& t)
       "==> START msrBrowser::browse (" ")" << endl;
   
   enter (t);
-
+/*
   ctree<msrVisitable>::literator iter;
 
   for (iter = t.lbegin(); iter != t.lend(); iter++)
     browse (**iter);
+*/
 
+  t->browseData ();
+  
   leave (t);
 
   if (fTranslationSettings->fTrace)

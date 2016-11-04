@@ -94,10 +94,13 @@ msr2SummaryVisitor::printSummaryFromMsrElementTree (
 {
   if (msrTree) {
     // create the msr tree browser
-    msrBrowser browser (fTranslationSettings, this);
+    S_msrBrowser
+      browser =
+        msrBrowser::create (
+          fTranslationSettings, this);
   
     // browse the score with the visitor
-    browser.browse (msrTree);
+    browser->browse (msrTree);
   }
 }
 

@@ -235,6 +235,31 @@ class EXP msrGlobalVariables {
   An element is represented by its name and the
   list of its enclosed elements plus optional parameters.
 */
+template<class C> class msrVisitor : virtual public basevisitor
+{
+  public:
+  
+    virtual ~msrVisitor() {}
+    
+    virtual void visitStart( C& elt ) {};
+    virtual void visitEnd  ( C& elt ) {};
+};
+
+{
+  public:
+    virtual ~msrVisitor() {}
+
+    virtual void visitStart( SMARTP<msrVisitor>& visitor ) {};
+    virtual void visitEnd  ( SMARTP<msrVisitor>& visitor ) {};
+};
+typedef SMARTP<msrVisitor> S_msrVisitor;
+
+/*!
+\brief A generic msr element representation.
+
+  An element is represented by its name and the
+  list of its enclosed elements plus optional parameters.
+*/
 //______________________________________________________________________________
 
 //class EXP msrVisitable : public visitable JMI
@@ -242,10 +267,14 @@ class EXP msrVisitable : public ctree<msrVisitable>, public visitable
 {
   public:
    
-    static SMARTP<msrVisitable> create ();
+ // JMI   static SMARTP<msrVisitable> create ();
 
-    virtual void acceptIn  (basevisitor& visitor);
-    virtual void acceptOut (basevisitor& visitor);
+    virtual void acceptIn  (msrVisitor& visitor);
+    virtual void acceptOut (msrVisitor& visitor);
+
+    // how to browse the data stored in this object
+    // this method is overloaded in every concrete derived class
+    virtual void browseData () = 0;
 
   protected:
 
@@ -261,17 +290,49 @@ typedef SMARTP<msrVisitable> S_msrVisitable;
   An element is represented by its name and the
   list of its enclosed elements plus optional parameters.
 */
-class EXP msrBrowser//JMI : public tree_browser<msrVisitable> 
+//______________________________________________________________________________
+// JMI class msrVisitor : public smartable
+/*
+template<class C> class visitor : virtual public basevisitor
 {
   public:
   
+    virtual ~visitor() {}
+    
+    virtual void visitStart( C& elt ) {};
+    virtual void visitEnd  ( C& elt ) {};
+};
+*/
+
+/*!
+\brief A generic msr element representation.
+
+  An element is represented by its name and the
+  list of its enclosed elements plus optional parameters.
+*/
+//______________________________________________________________________________
+class EXP msrBrowser : public smartable //JMI : public tree_browser<msrVisitable> 
+{
+  public:
+  
+    static SMARTP<msrBrowser> create (
+      S_translationSettings& ts,
+      S_msrVisitor&          visitor)
+      {
+        msrBrowser * o =
+          new msrBrowser( 
+            ts, visitor);
+        assert(o!=0);
+        return 0;
+      }
+
     msrBrowser (
       S_translationSettings& ts,
-      basevisitor*           baseVisitor)
+      S_msrVisitor&          visitor)
         // JMI: tree_browser<msrVisitable> (v)
       {
         fTranslationSettings = ts;
-        fBasevisitor         = baseVisitor;
+        fMsrVisitor          = visitor;
       }
       
     virtual ~msrBrowser() {}
@@ -280,23 +341,24 @@ class EXP msrBrowser//JMI : public tree_browser<msrVisitable>
 
   protected:
 
-    basevisitor* fBaseVisitor;
+    msrVisitor* fmsrVisitor;
 
     virtual void enter (S_msrVisitable& t)
       {
-        t->acceptIn  (*fBaseVisitor);
+        t->acceptIn  (*fMsrVisitor);
       }
     virtual void leave (S_msrVisitable& t)
       {
-        t->acceptOut (*fBaseVisitor);
+        t->acceptOut (*fMsrVisitor);
       }
   
   private:
 
     S_translationSettings fTranslationSettings;
 
-    basevisitor*          fBasevisitor;
+    S_msrVisitor          fMsrVisitor;
 };
+typedef SMARTP<msrBrowser> S_msrBrowser;
 
 /*!
 \brief A generic msr element representation.
@@ -316,8 +378,8 @@ class EXP msrElement : public msrVisitable //, public smartable
     int getInputLineNumber ()
       { return fInputLineNumber; }
 
-    virtual void acceptIn  (basevisitor& visitor);
-    virtual void acceptOut (basevisitor& visitor);
+    virtual void acceptIn  (S_msrVisitor& visitor);
+    virtual void acceptOut (S_msrVisitor& visitor);
 
     virtual void print             (ostream& os);
 
@@ -336,7 +398,9 @@ class EXP msrElement : public msrVisitable //, public smartable
     msrElement (
       S_translationSettings& ts, 
       int                    inputLineNumber);
-      
+
+    virtual void browseData () {};
+
     virtual ~msrElement();
 
   private:
