@@ -137,6 +137,12 @@ EXP ostream& operator<< (ostream& os, const S_msrMidi& chrd);
 
 
 //______________________________________________________________________________
+/*!
+\internal
+\brief A macro to simplify indentation
+*/
+
+//______________________________________________________________________________
 class musicXMLLocation
 {
   public:
@@ -248,6 +254,49 @@ class EXP msrVisitable : public ctree<msrVisitable>, public visitable
     msrVisitable () : fType(0) {}
 };
 typedef SMARTP<msrVisitable> S_msrVisitable;
+
+/*!
+\brief A generic msr element representation.
+
+  An element is represented by its name and the
+  list of its enclosed elements plus optional parameters.
+*/
+class EXP msrBrowser//JMI : public tree_browser<msrVisitable> 
+{
+  public:
+  
+    msrBrowser (
+      S_translationSettings& ts,
+      basevisitor*           baseVisitor)
+        // JMI: tree_browser<msrVisitable> (v)
+      {
+        fTranslationSettings = ts;
+        fBasevisitor         = baseVisitor;
+      }
+      
+    virtual ~msrBrowser() {}
+    
+    virtual void browse (S_msrVisitable& t);
+
+  protected:
+
+    basevisitor* fBaseVisitor;
+
+    virtual void enter (S_msrVisitable& t)
+      {
+        t->acceptIn  (*fBaseVisitor);
+      }
+    virtual void leave (S_msrVisitable& t)
+      {
+        t->acceptOut (*fBaseVisitor);
+      }
+  
+  private:
+
+    S_translationSettings fTranslationSettings;
+
+    basevisitor*          fBasevisitor;
+};
 
 /*!
 \brief A generic msr element representation.
@@ -404,31 +453,6 @@ class EXP xml_tree_browser : public tree_browser<xmlelement>
 };
 */
 
-class EXP msrBrowser : public tree_browser<msrVisitable> 
-{
-  public:
-  
-    msrBrowser (
-      S_translationSettings& ts,
-      basevisitor*         v)
-        : tree_browser<msrVisitable> (v)
-      { fTranslationSettings = ts; }
-      
-    virtual ~msrBrowser() {}
-    
-    virtual void browse (S_msrVisitable& t);
-
-  private:
-
-    S_translationSettings fTranslationSettings;
-};
-
-/*!
-\brief A generic msr element representation.
-
-  An element is represented by its name and the
-  list of its enclosed elements plus optional parameters.
-*/
 //______________________________________________________________________________
 /*
 class EXP msrBrowser
@@ -462,12 +486,6 @@ class EXP msrBrowser
       leave (t);
     }
 };
-*/
-
-//______________________________________________________________________________
-/*!
-\internal
-\brief A macro to simplify indentation
 */
 
 #define idtr msrElement::idtr

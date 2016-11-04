@@ -251,7 +251,7 @@ void msrBrowser::browse (S_msrVisitable& t)
 {
   if (fTranslationSettings->fTrace)
     cerr <<
-      "==> START msrBrowser::browse (" << t << ")" << endl;
+      "==> START msrBrowser::browse (" ")" << endl;
   
   enter (t);
 
@@ -264,7 +264,7 @@ void msrBrowser::browse (S_msrVisitable& t)
 
   if (fTranslationSettings->fTrace)
     cerr <<
-      "<== STOP msrBrowser::browse (" << t << ")" << endl;
+      "<== STOP msrBrowser::browse (" ")" << endl;
 }
 
 //______________________________________________________________________________
