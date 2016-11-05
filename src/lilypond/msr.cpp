@@ -287,7 +287,7 @@ void msrBrowser::browse (S_msrVisitable& t)
     browse (**iter);
 * /
 
-  t->browseData ();
+  t->browseData (basevisitor* v);
   
   leave (t);
 
@@ -386,7 +386,7 @@ msrAbsoluteOctave::msrAbsoluteOctave (
 }
 msrAbsoluteOctave::~msrAbsoluteOctave () {}
 
-void msrAbsoluteOctave::browseData ()
+void msrAbsoluteOctave::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrAbsoluteOctave& dur)
@@ -480,7 +480,7 @@ void msrDuration::scaleNumByFraction (int num, int denom)
   fNum *= num/denom;
 }
 
-void msrDuration::browseData ()
+void msrDuration::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrDuration& dur)
@@ -639,7 +639,7 @@ msrArticulation::msrArticulation (
 msrArticulation::~msrArticulation() {}
 
 
-void msrArticulation::browseData ()
+void msrArticulation::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrArticulation& elt)
@@ -792,7 +792,7 @@ string msrDynamics::dynamicsKindAsLilypondString ()
   return "\\"+dynamicsKindAsString ();
 }
 
-void msrDynamics::browseData ()
+void msrDynamics::browseData (basevisitor* v)
 {}
 
 void msrDynamics::printMusicXML (ostream& os)
@@ -864,7 +864,7 @@ string msrWedge::wedgeKindAsString ()
   return s.str();
 }
 
-void msrWedge::browseData ()
+void msrWedge::browseData (basevisitor* v)
 {}
 
 void msrWedge::printMusicXML (ostream& os)
@@ -935,7 +935,7 @@ string msrSlur::slurKindAsString ()
   return s.str();
 }
 
-void msrSlur::browseData ()
+void msrSlur::browseData (basevisitor* v)
 {}
 
 void msrSlur::printMusicXML (ostream& os)
@@ -1406,7 +1406,7 @@ string msrNote::notePitchAsLilypondString ()
   return s.str();
 }
 
-void msrNote::browseData ()
+void msrNote::browseData (basevisitor* v)
 {}
 
 void msrNote::printMusicXML (ostream& os)
@@ -1661,7 +1661,7 @@ void msrSequentialMusic::printScoreSummary (ostream& os)
 */
 }
 
-void msrSequentialMusic::browseData ()
+void msrSequentialMusic::browseData (basevisitor* v)
 {}
 
 void msrSequentialMusic::printMusicXML (ostream& os)
@@ -1707,7 +1707,7 @@ msrParallelMusic::msrParallelMusic (
 }
 msrParallelMusic::~msrParallelMusic() {}
 
-void msrParallelMusic::browseData ()
+void msrParallelMusic::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrParallelMusic& elt)
@@ -1779,7 +1779,7 @@ msrChord::msrChord (
 }
 msrChord::~msrChord() {}
 
-void msrChord::browseData ()
+void msrChord::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrChord& chrd)
@@ -1905,7 +1905,7 @@ msrBarLine::msrBarLine (
 }
 msrBarLine::~msrBarLine() {}
 
-void msrBarLine::browseData ()
+void msrBarLine::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrBarLine& elt)
@@ -1958,7 +1958,7 @@ msrComment::msrComment (
 }
 msrComment::~msrComment() {}
 
-void msrComment::browseData ()
+void msrComment::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrComment& elt)
@@ -2013,7 +2013,7 @@ msrBreak::msrBreak (
 }
 msrBreak::~msrBreak() {}
 
-void msrBreak::browseData ()
+void msrBreak::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrBreak& elt)
@@ -2067,7 +2067,7 @@ msrBarNumberCheck::msrBarNumberCheck (
 }
 msrBarNumberCheck::~msrBarNumberCheck() {}
 
-void msrBarNumberCheck::browseData ()
+void msrBarNumberCheck::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt)
@@ -2126,7 +2126,7 @@ void msrTuplet::updateTuplet (int number, int actualNotes, int normalNotes)
   fNormalNotes = normalNotes;  
 }
 
-void msrTuplet::browseData ()
+void msrTuplet::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrTuplet& elt)
@@ -2204,7 +2204,7 @@ msrBeam::msrBeam (
 }
 msrBeam::~msrBeam() {}
 
-void msrBeam::browseData ()
+void msrBeam::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrBeam& dyn)
@@ -2271,7 +2271,7 @@ msrPaper::msrPaper (
 }
 msrPaper::~msrPaper() {}
 
-void msrPaper::browseData ()
+void msrPaper::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrPaper& pap) {
@@ -2564,7 +2564,7 @@ void msrHeader::setScoreInstrument (
       msrVarValAssoc::kUncommented);
 }
 
-void msrHeader::browseData ()
+void msrHeader::browseData (basevisitor* v)
 {}
 
 void msrHeader::printMusicXML (ostream& os)
@@ -2813,7 +2813,7 @@ void msrVarValAssoc::changeAssoc (string value) {
   fVariableValue=value;
 }
 
-void msrVarValAssoc::browseData ()
+void msrVarValAssoc::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrVarValAssoc& assoc) {
@@ -2898,7 +2898,7 @@ void msrSchemeVarValAssoc::changeAssoc (string value)
   fVariableValue=value;
 }
 
-void msrSchemeVarValAssoc::browseData ()
+void msrSchemeVarValAssoc::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrSchemeVarValAssoc& assoc)
@@ -2958,7 +2958,7 @@ msrLayout::msrLayout (
 {}
 msrLayout::~msrLayout() {}
 
-void msrLayout::browseData ()
+void msrLayout::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrLayout& lay)
@@ -3067,7 +3067,7 @@ msrClef::msrClef (
 
 msrClef::~msrClef() {}
 
-void msrClef::browseData ()
+void msrClef::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrClef& clef)
@@ -3270,7 +3270,7 @@ msrKey::msrKey (
 
 msrKey::~msrKey() {}
 
-void msrKey::browseData ()
+void msrKey::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrKey& key)
@@ -3334,7 +3334,7 @@ msrTime::msrTime (
 }
 msrTime::~msrTime() {}
 
-void msrTime::browseData ()
+void msrTime::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrTime& elt)
@@ -3399,7 +3399,7 @@ msrTempo::msrTempo (
 }
 msrTempo::~msrTempo() {}
 
-void msrTempo::browseData ()
+void msrTempo::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrTempo& nstf)
@@ -3454,7 +3454,7 @@ msrMidi::msrMidi (
 }
 msrMidi::~msrMidi() {}
 
-void msrMidi::browseData ()
+void msrMidi::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrMidi& mid)
@@ -3516,7 +3516,7 @@ msrRepeat::msrRepeat (
 }
 msrRepeat::~msrRepeat() {}
 
-void msrRepeat::browseData ()
+void msrRepeat::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrRepeat& rept)
@@ -3580,7 +3580,7 @@ msrLyricsChunk::msrLyricsChunk (
 }
 msrLyricsChunk::~msrLyricsChunk() {}
 
-void msrLyricsChunk::browseData ()
+void msrLyricsChunk::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrLyricsChunk& lyr)
@@ -3901,7 +3901,7 @@ void msrLyrics::addBreakChunkToLyrics (
   fLyricsChunks.push_back (chunk);
 }
 
-void msrLyrics::browseData ()
+void msrLyrics::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrLyrics& stan)
@@ -4170,7 +4170,7 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
   fVoiceSequentialMusic->appendElementToSequentialMusic (elem);
 }
 
-void msrVoice::browseData ()
+void msrVoice::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrVoice& elt)
@@ -4434,7 +4434,7 @@ void msrStaff::setStaffClef (S_msrClef clef)
   fStaffClef = clef;
 }
 
-void msrStaff::browseData ()
+void msrStaff::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrStaff& elt)
@@ -4664,7 +4664,7 @@ S_msrStaff msrPart::fetchStaffFromPart (
   return result;
 }
 
-void msrPart::browseData ()
+void msrPart::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrPart& elt)
@@ -4945,7 +4945,7 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
   return result;
 }
 
-void msrPartgroup::browseData ()
+void msrPartgroup::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrPartgroup& elt)
@@ -5150,12 +5150,13 @@ S_msrPartgroup msrScore::fetchScorePartgroup (
 }
 */
 
-void msrScore::browseData ()
+void msrScore::browseData (basevisitor* v)
 {
   if (fTranslationSettings->fTrace)
     cerr <<
       "==> msrScore::browseData()" << endl;
 
+  
 //  enter (t);
 
   if (fTranslationSettings->fTrace)
@@ -5166,7 +5167,13 @@ void msrScore::browseData ()
     msrPartgroupsList::iterator i = fPartgroupsList.begin();
     i != fPartgroupsList.end();
     i++) {
-    (*i)->browseData ();
+    // create the part group browser
+    msrBrowser<msrPartgroup> browser (v);
+  
+    // browse the score with the visitor
+    browser.browse (*(*i));
+
+ // JMI  ((*i))->browseData (basevisitor* v);
   } // for
   
 //  leave (t);

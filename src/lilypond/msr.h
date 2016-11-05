@@ -252,7 +252,7 @@ class EXP msrElement : public smartable
     virtual void acceptIn  (basevisitor& v);
     virtual void acceptOut (basevisitor& v);
 
-    virtual void browseData () = 0;
+    virtual void browseData (basevisitor* v) = 0;
 
     virtual void print             (ostream& os);
 
@@ -307,7 +307,7 @@ template <typename T> class EXP msrBrowser : public browser<T>
 
   public:
     
-    msrBrowser (basevisitor* v) : fVisitor(v) {}
+    msrBrowser (basevisitor* v) : fVisitor (v) {}
     
     virtual ~msrBrowser() {}
 
@@ -320,7 +320,7 @@ template <typename T> class EXP msrBrowser : public browser<T>
         cerr <<
           "==> msrBrowser::browse() will now handle MSR data" << endl;
 
-      t.browseData ();
+      t.browseData (fVisitor);
       
       leave (t);
     }
@@ -409,7 +409,7 @@ class EXP msrAbsoluteOctave : public msrElement
     
     string  absoluteOctaveAsLilypondString ();
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -482,7 +482,7 @@ class EXP msrDuration : public msrElement
 
     string   durationAsMSRString ();
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -516,7 +516,7 @@ class EXP msrArticulation : public msrElement
       int                    inputLineNumber,
       ArticulationKind       articulationKind);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -561,7 +561,7 @@ class EXP msrSlur : public msrElement
 
     string  slurKindAsString ();
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -608,7 +608,7 @@ class EXP msrDynamics : public msrElement
     string  dynamicsKindAsString ();
     string  dynamicsKindAsLilypondString ();
     
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -652,7 +652,7 @@ class EXP msrWedge : public msrElement
 
     string  wedgeKindAsString ();
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -755,7 +755,7 @@ class EXP msrNote : public msrElement
 
 //    void octaveRelativeTo (const msrAbsoluteOctave& otherAbsOct);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -817,7 +817,7 @@ class EXP msrParallelMusic : public msrElement
     void         removeLastElementOfParallelMusic ()
                     { fParallelMusicElements.pop_back(); }
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -868,7 +868,7 @@ class EXP msrSequentialMusic : public msrElement
     void          removeLastElementFromSequentialMusic ()
                       { fSequentialMusicElements.pop_back () ; }
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -916,7 +916,7 @@ class EXP msrChord : public msrElement
     void         addWedge    (S_msrWedge    wdg)
                     { fChordWedges.push_back(wdg); }
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -972,7 +972,7 @@ class EXP msrVarValAssoc : public msrElement
     string getVariableName  () const { return fVariableName; };
     string getVariableValue () const { return fVariableValue; };
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1092,7 +1092,7 @@ class EXP msrHeader : public msrElement
                 getScoreInstrument () const
                     { return fScoreInstrument; }
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1160,7 +1160,7 @@ class EXP msrPaper : public msrElement
     void    setPageTopSpace       (float val) { fPageTopSpace = val; }
     float   getPageTopSpace       () const    { return fPageTopSpace; }
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1211,7 +1211,7 @@ class EXP msrLayout : public msrElement
 //    void addMsrSchemeVarValAssoc (S_msrSchemeVarValAssoc assoc)
 //      { fMsrSchemeVarValAssocs.push_back(assoc); }
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1265,7 +1265,7 @@ class EXP msrRepeat: public msrElement
     void    setActuallyUsed ()
               { fActuallyUsed = true; }
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1306,7 +1306,7 @@ class EXP msrBarLine : public msrElement
       int                    inputLineNumber,
       int                    nextBarNumber);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1345,7 +1345,7 @@ class EXP msrComment : public msrElement
       string                 contents,
       GapKind                gapKind = kNoGapAfterwards);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1384,7 +1384,7 @@ class EXP msrBreak : public msrElement
       int                    inputLineNumber,
       int                    nextBarNumber);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1421,7 +1421,7 @@ class EXP msrBarNumberCheck : public msrElement
       int                    inputLineNumber,
       int                    nextBarNumber);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1470,7 +1470,7 @@ class EXP msrTuplet : public msrElement
     void addElementToTuplet (S_msrElement elem)
             { fTupletContents.push_back(elem); }
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1518,7 +1518,7 @@ class EXP msrBeam : public msrElement
 
     BeamKind getBeamKind () const { return fBeamKind; }
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1561,7 +1561,7 @@ class EXP msrClef : public msrElement
       int                    line,
       int                    octaveChange);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1606,7 +1606,7 @@ class EXP msrKey : public msrElement
       string                 mode,
       int                    cancel);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1651,7 +1651,7 @@ class EXP msrTime : public msrElement
       int                    numerator,
       int                    denominator);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1691,7 +1691,7 @@ class EXP msrTempo : public msrElement
       int                    tempoUnit,
       int                    perMinute);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1729,7 +1729,7 @@ class EXP msrMidi : public msrElement
       S_translationSettings& ts, 
       int                    inputLineNumber);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1774,7 +1774,7 @@ class EXP msrLyricsChunk : public msrElement
       string                 chunkText,
       S_msrDuration          msrDuration);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1859,7 +1859,7 @@ class EXP msrLyrics : public msrElement
                 
     int     getLyricsTextPresent() { return fLyricsTextPresent; }
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1948,7 +1948,7 @@ class EXP msrVoice : public msrElement
             getVoiceSequentialMusic () const
                 { return fVoiceSequentialMusic; }
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -2034,7 +2034,7 @@ class EXP msrStaff : public msrElement
     void    setStaffTime (S_msrTime time);
     void    setStaffClef (S_msrClef clef);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -2135,7 +2135,7 @@ class EXP msrPart : public msrElement
     S_msrStaff
             fetchStaffFromPart (int staffNumber);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -2246,7 +2246,7 @@ class EXP msrPartgroup : public msrElement
 
     S_msrPart fetchPartFromPartgroup (string partMusicXMLName);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -2311,7 +2311,7 @@ class EXP msrScore : public msrElement
 //    virtual void acceptIn  (basevisitor& v);
  //   virtual void acceptOut (basevisitor& v);
 
-    virtual void browseData ();
+    virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);

@@ -87,15 +87,16 @@ msr2SummaryVisitor::~msr2SummaryVisitor ()
 {}
 
 //________________________________________________________________________
-void msr2SummaryVisitor::printSummaryFromMsrElementTree (
-  const S_msrElement& msrTree)
+void msr2SummaryVisitor::printSummaryFromMsrScore (
+  const S_msrScore& score)
 {
-  if (msrTree) {    
-    // create the msr tree browser
-    msrBrowser<msrElement> browser (this);
-  
-    // browse the score with the visitor
-    browser.browse (*msrTree);
+  if (score) {    
+    // create a msrScore browser
+ // JMI   msrBrowser<msrElement> browser (this);
+    msrBrowser<msrScore> browser (this);
+
+    // browse the score with the browser
+    browser.browse (*score);
   }
 }
 
