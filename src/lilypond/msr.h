@@ -350,6 +350,40 @@ typedef SMARTP<msrVisitable> S_msrVisitable;
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
+//template <typename T> class EXP tree_browser : public browser<T> 
+template <typename T> class EXP msrBrowser : public browser<T> 
+{
+  protected:
+  
+    basevisitor*  fVisitor;
+
+    virtual void enter (T& t) { t.acceptIn  (*fVisitor); }
+    virtual void leave (T& t) { t.acceptOut (*fVisitor); }
+
+  public:
+
+// JMI    typedef typename ctree<T>::treePtr treePtr;
+    
+    msrBrowser (basevisitor* v) : fVisitor(v) {}
+    
+    virtual ~msrBrowser() {}
+
+    virtual void set (basevisitor* v) { fVisitor = v; }
+    
+    virtual void browse (T& t) {
+      enter (t);
+
+      /*
+      typename ctree<T>::literator iter;
+      
+      for (iter = t.lbegin(); iter != t.lend(); iter++)
+        browse(**iter);
+      */
+      
+      leave (t);
+    }
+};
+
 /*
 class EXP msrBrowser : public smartable //JMI : public tree_browser<msrVisitable> 
 {

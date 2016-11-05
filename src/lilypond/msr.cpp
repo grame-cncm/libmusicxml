@@ -171,6 +171,10 @@ msrElement::~msrElement() {}
 
 
 void msrElement::acceptIn (basevisitor& v) {
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "==> acceptIn()" << endl;
+      
   if (visitor<S_msrElement>*
     p =
       dynamic_cast<visitor<S_msrElement>*> (&v)) {
@@ -185,6 +189,10 @@ void msrElement::acceptIn (basevisitor& v) {
 }
 
 void msrElement::acceptOut (basevisitor& v) {
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "==> acceptOut()" << endl;
+
   if (visitor<S_msrElement>*
     p =
       dynamic_cast<visitor<S_msrElement>*> (&v)) {
@@ -211,7 +219,7 @@ void msrElement::print (ostream& os)
   //   - the MSR structure
   //   - MusicXML text
   //   - LilyPond source code
-switch (msrGlobalVariables::getDisplayKind ()) {
+  switch (msrGlobalVariables::getDisplayKind ()) {
     case msrGlobalVariables::kMSR:
       this->printMSR (os);
       break;

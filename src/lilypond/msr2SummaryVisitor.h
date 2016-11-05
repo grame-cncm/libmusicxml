@@ -50,8 +50,7 @@ class msr2SummaryVisitor :
     virtual ~msr2SummaryVisitor ();
 
     void printSummaryFromMsrElementTree (
-         const
-         S_msrElement& msrTree);
+      const S_msrElement& msrTree);
 
 //    S_msrScore getMSRScore () const
 //        { return fMsrScore; };
