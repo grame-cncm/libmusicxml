@@ -148,6 +148,8 @@ void msrVisitable::acceptOut (basevisitor& v) {
 */
 
 //______________________________________________________________________________
+/* JMI
+
 S_msrElement msrElement::create (
   S_translationSettings& ts, 
   int                    inputLineNumber)
@@ -158,6 +160,7 @@ S_msrElement msrElement::create (
   assert(o!=0);
   return o; 
 }
+*/
 
 msrElement::msrElement (
   S_translationSettings& ts, 
@@ -180,8 +183,12 @@ void msrElement::acceptIn (basevisitor& v) {
       dynamic_cast<visitor<S_msrElement>*> (&v)) {
         S_msrElement elem = this;
         
+        if (fTranslationSettings->fTrace)
+          cerr <<
+            "==> Launching visitStart()" << endl;
         p->visitStart (elem);
   }
+
   /* JMI
   else
     msrVisitable::acceptIn (v);
@@ -196,9 +203,12 @@ void msrElement::acceptOut (basevisitor& v) {
   if (visitor<S_msrElement>*
     p =
       dynamic_cast<visitor<S_msrElement>*> (&v)) {
-      S_msrElement elem = this;
+        S_msrElement elem = this;
       
-      p->visitEnd (elem);
+        if (fTranslationSettings->fTrace)
+          cerr <<
+            "==> Launching visitStart()" << endl;
+        p->visitEnd (elem);
   }
   /* JMI
   else
@@ -376,6 +386,9 @@ msrAbsoluteOctave::msrAbsoluteOctave (
 }
 msrAbsoluteOctave::~msrAbsoluteOctave () {}
 
+void msrAbsoluteOctave::browseData ()
+{}
+
 ostream& operator<< (ostream& os, const S_msrAbsoluteOctave& dur)
 {
   dur->print(os);
@@ -466,6 +479,9 @@ void msrDuration::scaleNumByFraction (int num, int denom)
 {
   fNum *= num/denom;
 }
+
+void msrDuration::browseData ()
+{}
 
 ostream& operator<< (ostream& os, const S_msrDuration& dur)
 {
@@ -623,6 +639,9 @@ msrArticulation::msrArticulation (
 msrArticulation::~msrArticulation() {}
 
 
+void msrArticulation::browseData ()
+{}
+
 ostream& operator<< (ostream& os, const S_msrArticulation& elt)
 {
   elt->print(os);
@@ -773,6 +792,9 @@ string msrDynamics::dynamicsKindAsLilypondString ()
   return "\\"+dynamicsKindAsString ();
 }
 
+void msrDynamics::browseData ()
+{}
+
 void msrDynamics::printMusicXML (ostream& os)
 {
   os << "<!-- msrDynamics??? -->" << endl;
@@ -842,6 +864,9 @@ string msrWedge::wedgeKindAsString ()
   return s.str();
 }
 
+void msrWedge::browseData ()
+{}
+
 void msrWedge::printMusicXML (ostream& os)
 {
   os << "<!-- msrWedge??? -->" << endl;
@@ -909,6 +934,9 @@ string msrSlur::slurKindAsString ()
     
   return s.str();
 }
+
+void msrSlur::browseData ()
+{}
 
 void msrSlur::printMusicXML (ostream& os)
 {
@@ -1378,6 +1406,9 @@ string msrNote::notePitchAsLilypondString ()
   return s.str();
 }
 
+void msrNote::browseData ()
+{}
+
 void msrNote::printMusicXML (ostream& os)
 {
   os << "<!-- msrNote??? -->" << endl;
@@ -1630,6 +1661,9 @@ void msrSequentialMusic::printScoreSummary (ostream& os)
 */
 }
 
+void msrSequentialMusic::browseData ()
+{}
+
 void msrSequentialMusic::printMusicXML (ostream& os)
 {
   os << "<!-- msrSequentialMusic??? -->" << endl;
@@ -1672,6 +1706,9 @@ msrParallelMusic::msrParallelMusic (
   fElementsSeparator=elementsSeparator;
 }
 msrParallelMusic::~msrParallelMusic() {}
+
+void msrParallelMusic::browseData ()
+{}
 
 ostream& operator<< (ostream& os, const S_msrParallelMusic& elt)
 {
@@ -1741,6 +1778,9 @@ msrChord::msrChord (
   fChordDuration = chordDuration;
 }
 msrChord::~msrChord() {}
+
+void msrChord::browseData ()
+{}
 
 ostream& operator<< (ostream& os, const S_msrChord& chrd)
 {
@@ -1865,6 +1905,9 @@ msrBarLine::msrBarLine (
 }
 msrBarLine::~msrBarLine() {}
 
+void msrBarLine::browseData ()
+{}
+
 ostream& operator<< (ostream& os, const S_msrBarLine& elt)
 {
   elt->print(os);
@@ -1914,6 +1957,9 @@ msrComment::msrComment (
   fGapKind=gapKind;
 }
 msrComment::~msrComment() {}
+
+void msrComment::browseData ()
+{}
 
 ostream& operator<< (ostream& os, const S_msrComment& elt)
 {
@@ -1967,6 +2013,9 @@ msrBreak::msrBreak (
 }
 msrBreak::~msrBreak() {}
 
+void msrBreak::browseData ()
+{}
+
 ostream& operator<< (ostream& os, const S_msrBreak& elt)
 {
   elt->print(os);
@@ -2017,6 +2066,9 @@ msrBarNumberCheck::msrBarNumberCheck (
   fNextBarNumber=nextBarNumber; 
 }
 msrBarNumberCheck::~msrBarNumberCheck() {}
+
+void msrBarNumberCheck::browseData ()
+{}
 
 ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt)
 {
@@ -2073,6 +2125,9 @@ void msrTuplet::updateTuplet (int number, int actualNotes, int normalNotes)
   fActualNotes = actualNotes;
   fNormalNotes = normalNotes;  
 }
+
+void msrTuplet::browseData ()
+{}
 
 ostream& operator<< (ostream& os, const S_msrTuplet& elt)
 {
@@ -2149,6 +2204,9 @@ msrBeam::msrBeam (
 }
 msrBeam::~msrBeam() {}
 
+void msrBeam::browseData ()
+{}
+
 ostream& operator<< (ostream& os, const S_msrBeam& dyn)
 {
   dyn->print(os);
@@ -2212,6 +2270,9 @@ msrPaper::msrPaper (
   fPageTopSpace = -1.0;
 }
 msrPaper::~msrPaper() {}
+
+void msrPaper::browseData ()
+{}
 
 ostream& operator<< (ostream& os, const S_msrPaper& pap) {
   pap->print(os);
@@ -2503,6 +2564,9 @@ void msrHeader::setScoreInstrument (
       msrVarValAssoc::kUncommented);
 }
 
+void msrHeader::browseData ()
+{}
+
 void msrHeader::printMusicXML (ostream& os)
 {
   os << "<!-- msrHeader??? -->" << endl;
@@ -2749,6 +2813,9 @@ void msrVarValAssoc::changeAssoc (string value) {
   fVariableValue=value;
 }
 
+void msrVarValAssoc::browseData ()
+{}
+
 ostream& operator<< (ostream& os, const S_msrVarValAssoc& assoc) {
   assoc->print(os);
   return os;
@@ -2831,6 +2898,9 @@ void msrSchemeVarValAssoc::changeAssoc (string value)
   fVariableValue=value;
 }
 
+void msrSchemeVarValAssoc::browseData ()
+{}
+
 ostream& operator<< (ostream& os, const S_msrSchemeVarValAssoc& assoc)
 {
   assoc->print(os);
@@ -2887,6 +2957,9 @@ msrLayout::msrLayout (
     : msrElement (ts, inputLineNumber)
 {}
 msrLayout::~msrLayout() {}
+
+void msrLayout::browseData ()
+{}
 
 ostream& operator<< (ostream& os, const S_msrLayout& lay)
 {
@@ -2993,6 +3066,9 @@ msrClef::msrClef (
 }
 
 msrClef::~msrClef() {}
+
+void msrClef::browseData ()
+{}
 
 ostream& operator<< (ostream& os, const S_msrClef& clef)
 {
@@ -3194,6 +3270,9 @@ msrKey::msrKey (
 
 msrKey::~msrKey() {}
 
+void msrKey::browseData ()
+{}
+
 ostream& operator<< (ostream& os, const S_msrKey& key)
 {
   key->print(os);
@@ -3255,6 +3334,8 @@ msrTime::msrTime (
 }
 msrTime::~msrTime() {}
 
+void msrTime::browseData ()
+{}
 
 ostream& operator<< (ostream& os, const S_msrTime& elt)
 {
@@ -3318,6 +3399,9 @@ msrTempo::msrTempo (
 }
 msrTempo::~msrTempo() {}
 
+void msrTempo::browseData ()
+{}
+
 ostream& operator<< (ostream& os, const S_msrTempo& nstf)
 {
   nstf->print(os);
@@ -3369,6 +3453,9 @@ msrMidi::msrMidi (
 {
 }
 msrMidi::~msrMidi() {}
+
+void msrMidi::browseData ()
+{}
 
 ostream& operator<< (ostream& os, const S_msrMidi& mid)
 {
@@ -3428,6 +3515,9 @@ msrRepeat::msrRepeat (
   fActuallyUsed = false;
 }
 msrRepeat::~msrRepeat() {}
+
+void msrRepeat::browseData ()
+{}
 
 ostream& operator<< (ostream& os, const S_msrRepeat& rept)
 {
@@ -3489,6 +3579,9 @@ msrLyricsChunk::msrLyricsChunk (
   fChunkDuration   = msrDuration;
 }
 msrLyricsChunk::~msrLyricsChunk() {}
+
+void msrLyricsChunk::browseData ()
+{}
 
 ostream& operator<< (ostream& os, const S_msrLyricsChunk& lyr)
 {
@@ -3808,6 +3901,9 @@ void msrLyrics::addBreakChunkToLyrics (
   fLyricsChunks.push_back (chunk);
 }
 
+void msrLyrics::browseData ()
+{}
+
 ostream& operator<< (ostream& os, const S_msrLyrics& stan)
 {
   stan->print(os);
@@ -4074,6 +4170,9 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
   fVoiceSequentialMusic->appendElementToSequentialMusic (elem);
 }
 
+void msrVoice::browseData ()
+{}
+
 ostream& operator<< (ostream& os, const S_msrVoice& elt)
 {
   elt->print(os);
@@ -4335,6 +4434,9 @@ void msrStaff::setStaffClef (S_msrClef clef)
   fStaffClef = clef;
 }
 
+void msrStaff::browseData ()
+{}
+
 ostream& operator<< (ostream& os, const S_msrStaff& elt)
 {
   elt->print(os);
@@ -4561,6 +4663,9 @@ S_msrStaff msrPart::fetchStaffFromPart (
 
   return result;
 }
+
+void msrPart::browseData ()
+{}
 
 ostream& operator<< (ostream& os, const S_msrPart& elt)
 {
@@ -4840,6 +4945,9 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
   return result;
 }
 
+void msrPartgroup::browseData ()
+{}
+
 ostream& operator<< (ostream& os, const S_msrPartgroup& elt)
 {
   elt->print(os);
@@ -5041,6 +5149,28 @@ S_msrPartgroup msrScore::fetchScorePartgroup (
   return result;
 }
 */
+
+void msrScore::browseData ()
+{
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "==> msrScore::browseData()" << endl;
+
+//  enter (t);
+
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "==> msrScore::browseData() will now handle MSR data" << endl;
+
+  for (
+    msrPartgroupsList::iterator i = fPartgroupsList.begin();
+    i != fPartgroupsList.end();
+    i++) {
+    (*i)->browseData ();
+  } // for
+  
+//  leave (t);
+}
 
 void msrScore::printMusicXML (ostream& os)
 {

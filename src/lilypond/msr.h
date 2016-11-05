@@ -50,8 +50,6 @@ namespace MusicXML2
         - LilyPond source code with       printLilypondCode()
 */
 
-class msrVisitor;
-
 class msrElement;
 
 class msrVarValAssoc;
@@ -242,16 +240,19 @@ extern musicXMLLocation  gCurrentMusicXMLLocation;
 class EXP msrElement : public smartable
 {
   public:
- 
+
+/* JMI
     static SMARTP<msrElement> create (
       S_translationSettings& ts, 
       int                    inputLineNumber);
-    
+*/
     int getInputLineNumber ()
       { return fInputLineNumber; }
 
-    virtual void acceptIn  (basevisitor& visitor);
-    virtual void acceptOut (basevisitor& visitor);
+    virtual void acceptIn  (basevisitor& v);
+    virtual void acceptOut (basevisitor& v);
+
+    virtual void browseData () = 0;
 
     virtual void print             (ostream& os);
 
@@ -270,8 +271,6 @@ class EXP msrElement : public smartable
     msrElement (
       S_translationSettings& ts, 
       int                    inputLineNumber);
-
-    virtual void browseData () {};
 
     virtual ~msrElement();
 
@@ -297,60 +296,6 @@ typedef list<S_msrElement> msrElementsList;
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-//template<class C> class msrVisitor
-/*
-// template<class C> class visitor : virtual public basevisitor
-
-{
-  public:
-  
-    virtual ~msrVisitor() {}
-    
-    virtual void visitStart( C& elt ) {} = 0;
-    virtual void visitEnd  ( C& elt ) {} = 0;
-};
-// JMI typedef SMARTP<msrVisitor> S_msrVisitor;
-*/
-
-/*!
-\brief A generic msr element representation.
-
-  An element is represented by its name and the
-  list of its enclosed elements plus optional parameters.
-*/
-//______________________________________________________________________________
-/*
-//class EXP msrVisitable : public visitable JMI
-class EXP msrVisitable : public ctree<msrVisitable>, public visitable
-{
-  public:
-   
- // JMI   static SMARTP<msrVisitable> create ();
-
-    virtual void acceptIn  (msrVisitor& visitor);
-    virtual void acceptOut (msrVisitor& visitor);
-
-    // how to browse the data stored in this object
-    // this method is overloaded in every concrete derived class
-    virtual void browseData () = 0;
-
-  protected:
-
-    int fType; // the element type
-
-    msrVisitable () : fType(0) {}
-};
-typedef SMARTP<msrVisitable> S_msrVisitable;
-*/
-
-/*!
-\brief A generic msr element representation.
-
-  An element is represented by its name and the
-  list of its enclosed elements plus optional parameters.
-*/
-//______________________________________________________________________________
-//template <typename T> class EXP tree_browser : public browser<T> 
 template <typename T> class EXP msrBrowser : public browser<T> 
 {
   protected:
@@ -361,8 +306,6 @@ template <typename T> class EXP msrBrowser : public browser<T>
     virtual void leave (T& t) { t.acceptOut (*fVisitor); }
 
   public:
-
-// JMI    typedef typename ctree<T>::treePtr treePtr;
     
     msrBrowser (basevisitor* v) : fVisitor(v) {}
     
@@ -373,67 +316,15 @@ template <typename T> class EXP msrBrowser : public browser<T>
     virtual void browse (T& t) {
       enter (t);
 
-      /*
-      typename ctree<T>::literator iter;
-      
-      for (iter = t.lbegin(); iter != t.lend(); iter++)
-        browse(**iter);
-      */
+//      if (fTranslationSettings->fTrace)
+        cerr <<
+          "==> msrBrowser::browse() will now handle MSR data" << endl;
+
+      t.browseData ();
       
       leave (t);
     }
 };
-
-/*
-class EXP msrBrowser : public smartable //JMI : public tree_browser<msrVisitable> 
-{
-  public:
-  
-    static SMARTP<msrBrowser> create (
-      S_translationSettings& ts,
-      S_msrVisitor&          visitor)
-      {
-        msrBrowser * o =
-          new msrBrowser( 
-            ts, visitor);
-        assert(o!=0);
-        return 0;
-      }
-
-    msrBrowser (
-      S_translationSettings& ts,
-      S_msrVisitor&          visitor)
-        // JMI: tree_browser<msrVisitable> (v)
-      {
-        fTranslationSettings = ts;
-        fMsrVisitor          = visitor;
-      }
-      
-    virtual ~msrBrowser() {}
-    
-    virtual void browse (S_msrVisitable& t);
-
-  protected:
-
-    msrVisitor* fmsrVisitor;
-
-    virtual void enter (S_msrVisitable& t)
-      {
-        t->acceptIn  (*fMsrVisitor);
-      }
-    virtual void leave (S_msrVisitable& t)
-      {
-        t->acceptOut (*fMsrVisitor);
-      }
-  
-  private:
-
-    S_translationSettings fTranslationSettings;
-
-    S_msrVisitor          fMsrVisitor;
-};
-typedef SMARTP<msrBrowser> S_msrBrowser;
-*/
 
 /*!
 \brief A beat description for MusicXML.
@@ -518,6 +409,8 @@ class EXP msrAbsoluteOctave : public msrElement
     
     string  absoluteOctaveAsLilypondString ();
 
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -589,6 +482,8 @@ class EXP msrDuration : public msrElement
 
     string   durationAsMSRString ();
 
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -620,6 +515,8 @@ class EXP msrArticulation : public msrElement
       S_translationSettings& ts, 
       int                    inputLineNumber,
       ArticulationKind       articulationKind);
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -663,6 +560,8 @@ class EXP msrSlur : public msrElement
     SlurKind getSlurKind () const        { return fSlurKind; }
 
     string  slurKindAsString ();
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -709,6 +608,8 @@ class EXP msrDynamics : public msrElement
     string  dynamicsKindAsString ();
     string  dynamicsKindAsLilypondString ();
     
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -750,6 +651,8 @@ class EXP msrWedge : public msrElement
     WedgeKind getWedgeKind () const        { return fWedgeKind; }
 
     string  wedgeKindAsString ();
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -851,7 +754,9 @@ class EXP msrNote : public msrElement
     S_msrWedge          removeFirstWedge ();
 
 //    void octaveRelativeTo (const msrAbsoluteOctave& otherAbsOct);
-        
+
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -912,6 +817,8 @@ class EXP msrParallelMusic : public msrElement
     void         removeLastElementOfParallelMusic ()
                     { fParallelMusicElements.pop_back(); }
 
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -938,7 +845,8 @@ typedef SMARTP<msrParallelMusic> S_msrParallelMusic;
 \brief The msr sequence element
 */
 //______________________________________________________________________________
-class EXP msrSequentialMusic : public msrElement {
+class EXP msrSequentialMusic : public msrElement
+{
   public:
     
    enum ElementsSeparator { kEndOfLine, kSpace };
@@ -959,6 +867,8 @@ class EXP msrSequentialMusic : public msrElement {
     void          removeElementFromSequentialMusic (S_msrElement elem);
     void          removeLastElementFromSequentialMusic ()
                       { fSequentialMusicElements.pop_back () ; }
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -986,7 +896,8 @@ typedef SMARTP<msrSequentialMusic> S_msrSequentialMusic;
 \brief The msr chord element
 */
 //______________________________________________________________________________
-class EXP msrChord : public msrElement {
+class EXP msrChord : public msrElement
+{
   public:
 
     static SMARTP<msrChord> create (
@@ -1004,6 +915,8 @@ class EXP msrChord : public msrElement {
                     { fChordDynamics.push_back(dyn); }
     void         addWedge    (S_msrWedge    wdg)
                     { fChordWedges.push_back(wdg); }
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1036,7 +949,8 @@ typedef SMARTP<msrChord> S_msrChord;
 \brief A msr LilyPond variable/value association representation.
 */
 //______________________________________________________________________________
-class EXP msrVarValAssoc : public msrElement {
+class EXP msrVarValAssoc : public msrElement
+{
   public:
 
     enum VarValSeparator   { kSpace, kEqualSign };
@@ -1057,6 +971,8 @@ class EXP msrVarValAssoc : public msrElement {
     
     string getVariableName  () const { return fVariableName; };
     string getVariableValue () const { return fVariableValue; };
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1088,51 +1004,6 @@ class EXP msrVarValAssoc : public msrElement {
 };
 typedef SMARTP<msrVarValAssoc> S_msrVarValAssoc;
 typedef vector<S_msrVarValAssoc> msrVarValAssocsVector;
-/*!
-\brief A msr Scheme variable/value association representation.
-*/
-//______________________________________________________________________________
-/*
-class EXP msrSchemeVarValAssoc : public msrElement {
-  public:
-
-    enum CommentedKind     { kCommented, kUncommented };
-
-    static SMARTP<msrSchemeVarValAssoc> create (
-      S_translationSettings& ts, 
-      int                    inputLineNumber,
-      string                 variableName,
-      string                 value, 
-      CommentedKind          commentKind);
-    
-    void    changeAssoc (string value);
-    
-    string getVariableValue () const { return fVariableValue; };
-
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printScoreSummary (ostream& os);
-    virtual void printLilyPondCode (ostream& os);
-
-  protected:
-
-    msrSchemeVarValAssoc (
-      S_translationSettings& ts, 
-      int                    inputLineNumber,
-      string                 variableName,
-      string                 value, 
-      CommentedKind          commentKind);
-      
-    virtual ~msrSchemeVarValAssoc();
-  
-  private:
-
-    string     fVariableName;
-    string     fVariableValue;
-    CommentedKind   fCommentedKind;
-};
-typedef SMARTP<msrSchemeVarValAssoc> S_msrSchemeVarValAssoc;
-*/
 
 /*!
 \brief A msr header representation.
@@ -1140,7 +1011,8 @@ typedef SMARTP<msrSchemeVarValAssoc> S_msrSchemeVarValAssoc;
   A header is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrHeader : public msrElement {
+class EXP msrHeader : public msrElement
+{
   public:
 
     static SMARTP<msrHeader> create (
@@ -1219,7 +1091,9 @@ class EXP msrHeader : public msrElement {
     S_msrVarValAssoc
                 getScoreInstrument () const
                     { return fScoreInstrument; }
-  
+
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -1254,7 +1128,8 @@ typedef SMARTP<msrHeader> S_msrHeader;
   A paper is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrPaper : public msrElement {
+class EXP msrPaper : public msrElement
+{
   public:
 
     static SMARTP<msrPaper> create (
@@ -1284,6 +1159,8 @@ class EXP msrPaper : public msrElement {
 
     void    setPageTopSpace       (float val) { fPageTopSpace = val; }
     float   getPageTopSpace       () const    { return fPageTopSpace; }
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1320,7 +1197,8 @@ typedef SMARTP<msrPaper> S_msrPaper;
   A layout is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrLayout : public msrElement {
+class EXP msrLayout : public msrElement
+{
   public:
 
     static SMARTP<msrLayout> create (
@@ -1332,7 +1210,9 @@ class EXP msrLayout : public msrElement {
       
 //    void addMsrSchemeVarValAssoc (S_msrSchemeVarValAssoc assoc)
 //      { fMsrSchemeVarValAssocs.push_back(assoc); }
-    
+
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -1360,7 +1240,8 @@ typedef SMARTP<msrLayout> S_msrLayout;
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrRepeat: public msrElement {
+class EXP msrRepeat: public msrElement
+{
   public:
 
     static SMARTP<msrRepeat> create (
@@ -1383,7 +1264,9 @@ class EXP msrRepeat: public msrElement {
 
     void    setActuallyUsed ()
               { fActuallyUsed = true; }
-    
+
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -1414,13 +1297,16 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
   A barline is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrBarLine : public msrElement {
+class EXP msrBarLine : public msrElement
+{
   public:
     
     static SMARTP<msrBarLine> create (
       S_translationSettings& ts, 
       int                    inputLineNumber,
       int                    nextBarNumber);
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1447,7 +1333,8 @@ typedef SMARTP<msrBarLine> S_msrBarLine;
   A comment is represented by its contents
 */
 //______________________________________________________________________________
-class EXP msrComment : public msrElement {
+class EXP msrComment : public msrElement
+{
   public:
     
     enum GapKind { kGapAfterwards, kNoGapAfterwards };
@@ -1457,6 +1344,8 @@ class EXP msrComment : public msrElement {
       int                    inputLineNumber,
       string                 contents,
       GapKind                gapKind = kNoGapAfterwards);
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1486,13 +1375,16 @@ typedef SMARTP<msrComment> S_msrComment;
   A break is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrBreak : public msrElement {
+class EXP msrBreak : public msrElement
+{
   public:
     
     static SMARTP<msrBreak> create (
       S_translationSettings& ts, 
       int                    inputLineNumber,
       int                    nextBarNumber);
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1520,13 +1412,16 @@ typedef SMARTP<msrBreak> S_msrBreak;
   A barnumbercheck is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrBarNumberCheck : public msrElement {
+class EXP msrBarNumberCheck : public msrElement
+{
   public:
     
     static SMARTP<msrBarNumberCheck> create (
       S_translationSettings& ts, 
       int                    inputLineNumber,
       int                    nextBarNumber);
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1556,7 +1451,8 @@ typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
   played for the duration of 2 actual notes
 */
 //______________________________________________________________________________
-class EXP msrTuplet : public msrElement {
+class EXP msrTuplet : public msrElement
+{
   public:
     
     static SMARTP<msrTuplet> create (
@@ -1573,6 +1469,8 @@ class EXP msrTuplet : public msrElement {
 
     void addElementToTuplet (S_msrElement elem)
             { fTupletContents.push_back(elem); }
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1604,7 +1502,8 @@ typedef stack<S_msrTuplet> msrTupletsStack;
   A beam is represented by a BeamKind value
 */
 //______________________________________________________________________________
-class EXP msrBeam : public msrElement {
+class EXP msrBeam : public msrElement
+{
   public:
 
     enum BeamKind {
@@ -1618,6 +1517,8 @@ class EXP msrBeam : public msrElement {
       BeamKind               beamKind);
 
     BeamKind getBeamKind () const { return fBeamKind; }
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1647,7 +1548,8 @@ typedef SMARTP<msrBeam> S_msrBeam;
   A clef is represented by its name
 */
 //______________________________________________________________________________
-class EXP msrClef : public msrElement {
+class EXP msrClef : public msrElement
+{
   public:
     
     enum { kStandardLine, kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
@@ -1658,6 +1560,8 @@ class EXP msrClef : public msrElement {
       string                 sign,
       int                    line,
       int                    octaveChange);
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1689,7 +1593,8 @@ typedef SMARTP<msrClef> S_msrClef;
   A key is represented by the tonic and the mode
 */
 //______________________________________________________________________________
-class EXP msrKey : public msrElement {
+class EXP msrKey : public msrElement
+{
   public:
     
     enum KeyMode { kMajor, kMinor };
@@ -1700,6 +1605,8 @@ class EXP msrKey : public msrElement {
       int                    fifths,
       string                 mode,
       int                    cancel);
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1734,7 +1641,8 @@ typedef SMARTP<msrKey> S_msrKey;
   A time is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrTime : public msrElement {
+class EXP msrTime : public msrElement
+{
   public:
     
     static SMARTP<msrTime> create (
@@ -1742,6 +1650,8 @@ class EXP msrTime : public msrElement {
       int                    inputLineNumber,
       int                    numerator,
       int                    denominator);
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1771,7 +1681,8 @@ typedef SMARTP<msrTime> S_msrTime;
   A tempo is represented by the lyrics to use
 */
 //______________________________________________________________________________
-class EXP msrTempo : public msrElement {
+class EXP msrTempo : public msrElement
+{
   public:
 
     static SMARTP<msrTempo> create (
@@ -1779,7 +1690,9 @@ class EXP msrTempo : public msrElement {
       int                    inputLineNumber,
       int                    tempoUnit,
       int                    perMinute);
-    
+
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -1808,12 +1721,15 @@ typedef SMARTP<msrTempo> S_msrTempo;
   A midi is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrMidi : public msrElement {
+class EXP msrMidi : public msrElement
+{
   public:
 
     static SMARTP<msrMidi> create (
       S_translationSettings& ts, 
       int                    inputLineNumber);
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
@@ -1840,7 +1756,8 @@ typedef SMARTP<msrMidi> S_msrMidi;
   In the case of "single", the list contains only one string
 */
 //______________________________________________________________________________
-class EXP msrLyricsChunk : public msrElement {
+class EXP msrLyricsChunk : public msrElement
+{
   public:
 
     // we want to end the line in the LilyPond code at a break
@@ -1856,7 +1773,9 @@ class EXP msrLyricsChunk : public msrElement {
       LyricsChunkType        chunkType,
       string                 chunkText,
       S_msrDuration          msrDuration);
-     
+
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -1888,7 +1807,8 @@ typedef vector<S_msrLyricsChunk> msrLyricsChunksVector;
   A lyrics is represented by a list of lyrics chunks,
 */
 //______________________________________________________________________________
-class EXP msrLyrics : public msrElement {
+class EXP msrLyrics : public msrElement
+{
   public:
 
     static SMARTP<msrLyrics> create (
@@ -1938,7 +1858,9 @@ class EXP msrLyrics : public msrElement {
                 { fLyricsChunks.push_back (chunk); }
                 
     int     getLyricsTextPresent() { return fLyricsTextPresent; }
-    
+
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -1971,7 +1893,8 @@ typedef map<int, S_msrLyrics> msrIntToLyricsMap;
   A vpoce is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrVoice : public msrElement {
+class EXP msrVoice : public msrElement
+{
   public:
 
     static SMARTP<msrVoice> create (
@@ -2025,6 +1948,8 @@ class EXP msrVoice : public msrElement {
             getVoiceSequentialMusic () const
                 { return fVoiceSequentialMusic; }
 
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -2074,7 +1999,8 @@ typedef SMARTP<msrVoice> S_msrVoice;
 Staff assignment is only needed for music notated on multiple staves. Used by both notes and directions. Staff values are numbers, with 1 referring to the top-most staff in a part.
 */
 //______________________________________________________________________________
-class EXP msrStaff : public msrElement {
+class EXP msrStaff : public msrElement
+{
   public:
 
     static SMARTP<msrStaff> create (
@@ -2107,7 +2033,9 @@ class EXP msrStaff : public msrElement {
     void    setStaffKey  (S_msrKey  key);
     void    setStaffTime (S_msrTime time);
     void    setStaffClef (S_msrClef clef);
-              
+
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -2148,7 +2076,8 @@ typedef map<int, S_msrStaff> msrStaffsMap;
   A part is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrPart : public msrElement {
+class EXP msrPart : public msrElement
+{
   public:
 
     static SMARTP<msrPart> create (
@@ -2206,6 +2135,8 @@ class EXP msrPart : public msrElement {
     S_msrStaff
             fetchStaffFromPart (int staffNumber);
 
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -2246,7 +2177,8 @@ typedef map<string, S_msrPart> msrPartsMap;
   A part group is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrPartgroup : public msrElement {
+class EXP msrPartgroup : public msrElement
+{
   public:
 
     /*
@@ -2313,7 +2245,9 @@ class EXP msrPartgroup : public msrElement {
                 S_msrPartgroup partGroup);
 
     S_msrPart fetchPartFromPartgroup (string partMusicXMLName);
-                
+
+    virtual void browseData ();
+
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
     virtual void printScoreSummary (ostream& os);
@@ -2364,7 +2298,8 @@ typedef map<int, S_msrPartgroup> msrPartgroupsMap;
   A score is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrScore : public msrElement {
+class EXP msrScore : public msrElement
+{
   public:
 
     static SMARTP<msrScore> create (
@@ -2373,8 +2308,10 @@ class EXP msrScore : public msrElement {
 
     void addPartgroupToScore (S_msrPartgroup partGroup);
 
-//    virtual void acceptIn  (basevisitor& visitor);
- //   virtual void acceptOut (basevisitor& visitor);
+//    virtual void acceptIn  (basevisitor& v);
+ //   virtual void acceptOut (basevisitor& v);
+
+    virtual void browseData ();
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
