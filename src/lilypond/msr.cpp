@@ -120,7 +120,7 @@ S_msrVisitable msrVisitable::create ()
   assert(o!=0);
   return o;
 }
-*/
+
 
 void msrVisitable::acceptIn (basevisitor& v) {
   visitor<S_msrVisitable>*
@@ -145,6 +145,7 @@ void msrVisitable::acceptOut (basevisitor& v) {
     p->visitEnd (xml);
   }
 }
+*/
 
 //______________________________________________________________________________
 S_msrElement msrElement::create (
@@ -168,6 +169,7 @@ msrElement::msrElement (
 
 msrElement::~msrElement() {}
 
+/*
 void msrElement::acceptIn (basevisitor& v) {
   if (visitor<S_msrElement>*
     p =
@@ -191,6 +193,7 @@ void msrElement::acceptOut (basevisitor& v) {
   else
     msrVisitable::acceptOut (v);
 }
+*/
 
 ostream& operator<< (ostream& os, const S_msrElement& elt)
 {
@@ -248,6 +251,7 @@ void msrElement::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
+/*
 void msrBrowser::browse (S_msrVisitable& t)
 {
   if (fTranslationSettings->fTrace)
@@ -260,7 +264,7 @@ void msrBrowser::browse (S_msrVisitable& t)
 
   for (iter = t.lbegin(); iter != t.lend(); iter++)
     browse (**iter);
-*/
+* /
 
   t->browseData ();
   
@@ -270,6 +274,7 @@ void msrBrowser::browse (S_msrVisitable& t)
     cerr <<
       "<== STOP msrBrowser::browse (" ")" << endl;
 }
+*/
 
 //______________________________________________________________________________
 ostream& operator<< (ostream& os, musicXMLNoteData& data)
@@ -280,25 +285,6 @@ ostream& operator<< (ostream& os, musicXMLNoteData& data)
 
 void musicXMLNoteData::print (ostream& os)
 {
-  /*
-      char        fMusicXMLStep;
-    bool        fMusicXMLStepIsARest;
-    bool        fMusicXMLStepIsUnpitched;
-    int         fMusicXMLAlteration;
-    int         fMusicXMLOctave;
-    int         fMusicXMLDivisions;
-    int         fMusicXMLDuration;
-    int         fMusicXMLDotsNumber;
-    
-    bool        fMusicXMLNoteIsAGraceNote;
-    
-    bool        fMusicXMLNoteBelongsToAChord;
-    
-    bool        fMusicXMLNoteBelongsToATuplet;
-    string      fMusicXMLTupletMemberNoteType;
-
-    int         fMusicXMLVoiceNumber;
-*/
   os <<
     idtr << "  " << left << setw(26) <<
       "fMusicXMLStep = " <<

@@ -136,30 +136,7 @@ EXP ostream& operator<< (ostream& os, const S_msrLayout& chrd);
 EXP ostream& operator<< (ostream& os, const S_msrMidi& chrd);
 
 
-//______________________________________________________________________________
-/*!
-\internal
-\brief A macro to simplify indentation
-*/
 
-//______________________________________________________________________________
-class musicXMLLocation
-{
-  public:
-/* JMI
-    musicXMLLocation (
-      int         inputLineNumber,
-      int         measureNumber,
-      int         positionInMeasure);
-      */
-  public:
-
-    int         fInputLineNumber;
-    int         fMeasureNumber;
-    int         fPositionInMeasure; // divisions
-};
-
-extern musicXMLLocation  gCurrentMusicXMLLocation;
 
 //______________________________________________________________________________
 /*!
@@ -235,24 +212,25 @@ class EXP msrGlobalVariables {
   An element is represented by its name and the
   list of its enclosed elements plus optional parameters.
 */
-template<class C> class msrVisitor : virtual public basevisitor
+//______________________________________________________________________________
+class musicXMLLocation
 {
   public:
-  
-    virtual ~msrVisitor() {}
-    
-    virtual void visitStart( C& elt ) {};
-    virtual void visitEnd  ( C& elt ) {};
-};
-
-{
+/* JMI
+    musicXMLLocation (
+      int         inputLineNumber,
+      int         measureNumber,
+      int         positionInMeasure);
+      */
   public:
-    virtual ~msrVisitor() {}
 
-    virtual void visitStart( SMARTP<msrVisitor>& visitor ) {};
-    virtual void visitEnd  ( SMARTP<msrVisitor>& visitor ) {};
+    int         fInputLineNumber;
+    int         fMeasureNumber;
+    int         fPositionInMeasure; // divisions
 };
-typedef SMARTP<msrVisitor> S_msrVisitor;
+
+extern musicXMLLocation  gCurrentMusicXMLLocation;
+
 
 /*!
 \brief A generic msr element representation.
@@ -261,7 +239,95 @@ typedef SMARTP<msrVisitor> S_msrVisitor;
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
+class EXP msrElement : public smartable
+{
+  public:
+ 
+    static SMARTP<msrElement> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
+    
+    int getInputLineNumber ()
+      { return fInputLineNumber; }
 
+    virtual void acceptIn  (class msrVisitor& visitor) = 0;
+    virtual void acceptOut (class msrVisitor& visitor) = 0;
+
+    virtual void print             (ostream& os);
+
+    virtual void printMusicXML     (ostream& os);
+    virtual void printMSR          (ostream& os);
+    virtual void printScoreSummary (ostream& os);
+    virtual void printLilyPondCode (ostream& os);
+    
+    static indenter idtr;
+
+  protected:
+     
+    S_translationSettings fTranslationSettings;
+    int                   fInputLineNumber;
+    
+    msrElement (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
+
+    virtual void browseData () {};
+
+    virtual ~msrElement();
+
+  private:
+
+    bool fDebug;
+};
+typedef SMARTP<msrElement> S_msrElement;
+typedef vector<S_msrElement> msrElementsVector;
+typedef list<S_msrElement> msrElementsList;
+
+/*!
+\internal
+\brief A macro to simplify indentation
+*/
+//______________________________________________________________________________
+#define idtr msrElement::idtr
+
+/*!
+\brief A generic msr element representation.
+
+  An element is represented by its name and the
+  list of its enclosed elements plus optional parameters.
+*/
+//______________________________________________________________________________
+/* JMI
+template<class C> class msrVisitor
+{
+  public:
+  
+    virtual ~msrVisitor() {}
+    
+    virtual void visitStart( C& elt ) {};
+    virtual void visitEnd  ( C& elt ) {};
+};
+*/
+
+class msrVisitor
+{
+  public:
+  
+    virtual ~msrVisitor() {}
+
+    virtual void visitStart( S_msrElement& elem ) = 0;
+    virtual void visitEnd  ( S_msrElement& elem ) = 0;
+};
+// JMI typedef SMARTP<msrVisitor> S_msrVisitor;
+
+/*!
+\brief A generic msr element representation.
+
+  An element is represented by its name and the
+  list of its enclosed elements plus optional parameters.
+*/
+//______________________________________________________________________________
+/*
 //class EXP msrVisitable : public visitable JMI
 class EXP msrVisitable : public ctree<msrVisitable>, public visitable
 {
@@ -283,6 +349,7 @@ class EXP msrVisitable : public ctree<msrVisitable>, public visitable
     msrVisitable () : fType(0) {}
 };
 typedef SMARTP<msrVisitable> S_msrVisitable;
+*/
 
 /*!
 \brief A generic msr element representation.
@@ -291,26 +358,7 @@ typedef SMARTP<msrVisitable> S_msrVisitable;
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-// JMI class msrVisitor : public smartable
 /*
-template<class C> class visitor : virtual public basevisitor
-{
-  public:
-  
-    virtual ~visitor() {}
-    
-    virtual void visitStart( C& elt ) {};
-    virtual void visitEnd  ( C& elt ) {};
-};
-*/
-
-/*!
-\brief A generic msr element representation.
-
-  An element is represented by its name and the
-  list of its enclosed elements plus optional parameters.
-*/
-//______________________________________________________________________________
 class EXP msrBrowser : public smartable //JMI : public tree_browser<msrVisitable> 
 {
   public:
@@ -359,200 +407,7 @@ class EXP msrBrowser : public smartable //JMI : public tree_browser<msrVisitable
     S_msrVisitor          fMsrVisitor;
 };
 typedef SMARTP<msrBrowser> S_msrBrowser;
-
-/*!
-\brief A generic msr element representation.
-
-  An element is represented by its name and the
-  list of its enclosed elements plus optional parameters.
 */
-//______________________________________________________________________________
-class EXP msrElement : public msrVisitable //, public smartable
-{
-  public:
- 
-    static SMARTP<msrElement> create (
-      S_translationSettings& ts, 
-      int                    inputLineNumber);
-    
-    int getInputLineNumber ()
-      { return fInputLineNumber; }
-
-    virtual void acceptIn  (S_msrVisitor& visitor);
-    virtual void acceptOut (S_msrVisitor& visitor);
-
-    virtual void print             (ostream& os);
-
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printScoreSummary (ostream& os);
-    virtual void printLilyPondCode (ostream& os);
-    
-    static indenter idtr;
-
-  protected:
-     
-    S_translationSettings fTranslationSettings;
-    int                   fInputLineNumber;
-    
-    msrElement (
-      S_translationSettings& ts, 
-      int                    inputLineNumber);
-
-    virtual void browseData () {};
-
-    virtual ~msrElement();
-
-  private:
-
-    bool fDebug;
-};
-typedef SMARTP<msrElement> S_msrElement;
-typedef vector<S_msrElement> msrElementsVector;
-typedef list<S_msrElement> msrElementsList;
-
-//______________________________________________________________________________
-/*
-template <typename T> class EXP ctree : virtual public smartable
-{
-  public:
-  
-    typedef SMARTP<T>                   treePtr;   ///< the node sub elements type
-    
-    typedef std::vector<treePtr>        branches;  ///< the node sub elements container type
-    
-    typedef typename branches::iterator literator; ///< the current level iterator type
-    typedef treeIterator<treePtr>       iterator;  ///< the top -> bottom iterator type
-
-    static treePtr new_tree ()
-      { ctree<T>* o = new ctree<T>; assert(o!=0); return o; }
-    
-    branches& elements ()                { return fElements; }   
-    const branches& elements () const    { return fElements; }
-    
-    virtual void push (const treePtr& t) { fElements.push_back(t); }
-    
-    virtual int  size  () const          { return fElements.size(); }
-    virtual bool empty () const          { return fElements.size()==0; }
-
-    iterator begin ()
-      {
-        treePtr start=dynamic_cast<T*>(this);
-        return iterator(start);
-      }
-    iterator end ()
-      {
-        treePtr start=dynamic_cast<T*>(this);
-        return iterator(start, true);
-      }
-    iterator erase (iterator i)
-      {
-        return i.erase();
-      }
-    iterator insert (iterator before, const treePtr& value)
-      {
-        return before.insert(value);
-      }
-    
-    literator lbegin () { return fElements.begin(); }
-    literator lend ()   { return fElements.end(); }
-
-  protected:
-  
-    ctree() {}
-    virtual ~ctree() {}
-
-  private:
-  
-    branches  fElements;
-};
-*/
-
-/*
-//______________________________________________________________________________
-template <typename T> class EXP tree_browser : public browser<T> 
-{
-  protected:
-  
-    basevisitor*  fVisitor;
-
-    virtual void enter (T& t) { t.acceptIn  (*fVisitor); }
-    virtual void leave (T& t) { t.acceptOut (*fVisitor); }
-
-  public:
-    typedef typename ctree<T>::treePtr treePtr;
-    
-    tree_browser (basevisitor* v) : fVisitor(v) {}
-    
-    virtual ~tree_browser() {}
-
-    virtual void set (basevisitor* v) {  fVisitor = v; }
-    
-    virtual void browse (T& t) {
-      enter (t);
-      
-      typename ctree<T>::literator iter;
-      
-      for (iter = t.lbegin(); iter != t.lend(); iter++)
-        browse(**iter);
-        
-      leave (t);
-    }
-};
-*/
-
-/*
-//______________________________________________________________________________
-class EXP xml_tree_browser : public tree_browser<xmlelement> 
-{
-  public:
-  
-    xml_tree_browser (basevisitor* v)
-      : tree_browser<xmlelement> (v)
-      {}
-      
-    virtual ~xml_tree_browser() {}
-    
-    virtual void browse (xmlelement& t);
-};
-*/
-
-//______________________________________________________________________________
-/*
-class EXP msrBrowser
-{
-  protected:
-  
-    basevisitor*  fVisitor;
-
-    virtual void enter (S_msrElement& elem)
-      { elem->acceptIn  (*fVisitor); }
-      
-    virtual void leave (S_msrElement& elem)
-      { elem->acceptOut (*fVisitor); }
-
-  public:
-      
-    msrBrowser (basevisitor* v) : fVisitor (v) {}
-    
-    virtual ~msrBrowser () {}
-
-    virtual void set (basevisitor* v) {  fVisitor = v; }
-    
-    virtual void browse (S_msrElement& t)
-    {
-      enter (t);
-      
-      typename ctree<T>::literator iter;
-      for (iter = t.lbegin(); iter != t.lend(); iter++)
-        browse (**iter);
-        
-      leave (t);
-    }
-};
-*/
-
-#define idtr msrElement::idtr
 
 /*!
 \brief A beat description for MusicXML.
@@ -566,7 +421,7 @@ class musicXMLBeatData { // JMI ???
   public:
   
     string fBeatUnit;
-    int         fDots;
+    int    fDots;
 };
 
 
@@ -2481,6 +2336,9 @@ class EXP msrScore : public msrElement {
       int                    inputLineNumber);
 
     void addPartgroupToScore (S_msrPartgroup partGroup);
+
+    virtual void acceptIn  (class msrVisitor& visitor);
+    virtual void acceptOut (class msrVisitor& visitor);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);
