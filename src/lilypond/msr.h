@@ -249,8 +249,8 @@ class EXP msrElement : public smartable
     int getInputLineNumber ()
       { return fInputLineNumber; }
 
-    virtual void acceptIn  (basevisitor& v);
-    virtual void acceptOut (basevisitor& v);
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v) = 0;
 
@@ -302,8 +302,8 @@ template <typename T> class EXP msrBrowser : public browser<T>
   
     basevisitor*  fVisitor;
 
-    virtual void enter (T& t) { t.acceptIn  (*fVisitor); }
-    virtual void leave (T& t) { t.acceptOut (*fVisitor); }
+    virtual void enter (T& t) { t.acceptIn  (fVisitor); }
+    virtual void leave (T& t) { t.acceptOut (fVisitor); }
 
   public:
     
@@ -2308,8 +2308,8 @@ class EXP msrScore : public msrElement
 
     void addPartgroupToScore (S_msrPartgroup partGroup);
 
-//    virtual void acceptIn  (basevisitor& v);
- //   virtual void acceptOut (basevisitor& v);
+//    virtual void acceptIn  (basevisitor* v);
+ //   virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
 

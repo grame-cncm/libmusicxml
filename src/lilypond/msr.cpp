@@ -173,14 +173,14 @@ msrElement::msrElement (
 msrElement::~msrElement() {}
 
 
-void msrElement::acceptIn (basevisitor& v) {
+void msrElement::acceptIn (basevisitor* v) {
   if (fTranslationSettings->fTrace)
     cerr <<
-      "==> acceptIn()" << endl;
+      "==> msrElement::acceptIn()" << endl;
       
   if (visitor<S_msrElement>*
     p =
-      dynamic_cast<visitor<S_msrElement>*> (&v)) {
+      dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
         
         if (fTranslationSettings->fTrace)
@@ -195,14 +195,14 @@ void msrElement::acceptIn (basevisitor& v) {
     */
 }
 
-void msrElement::acceptOut (basevisitor& v) {
+void msrElement::acceptOut (basevisitor* v) {
   if (fTranslationSettings->fTrace)
     cerr <<
-      "==> acceptOut()" << endl;
+      "==> msrElement::acceptOut()" << endl;
 
   if (visitor<S_msrElement>*
     p =
-      dynamic_cast<visitor<S_msrElement>*> (&v)) {
+      dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
       
         if (fTranslationSettings->fTrace)
@@ -4946,7 +4946,33 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
 }
 
 void msrPartgroup::browseData (basevisitor* v)
-{}
+{
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "==> msrPartgroup::browseData()" << endl;
+  
+//  enter (t);
+
+  if (fTranslationSettings->fTrace)
+    cerr <<
+      "==> msrPartgroup::browseData() will now handle MSR data" << endl;
+
+/*
+  for (
+    msrPartgroupsList::iterator i = fPartgroupsList.begin();
+    i != fPartgroupsList.end();
+    i++) {
+    // create the part group browser
+    msrBrowser<msrPartgroup> browser (v);
+  
+    // browse the score with the visitor
+    browser.browse (*(*i));
+
+ // JMI  ((*i))->browseData (basevisitor* v);
+  } // for
+*/
+//  leave (t);
+}
 
 ostream& operator<< (ostream& os, const S_msrPartgroup& elt)
 {
@@ -5155,10 +5181,10 @@ void msrScore::browseData (basevisitor* v)
   if (fTranslationSettings->fTrace)
     cerr <<
       "==> msrScore::browseData()" << endl;
-
   
 //  enter (t);
-
+  acceptIn (v);
+  
   if (fTranslationSettings->fTrace)
     cerr <<
       "==> msrScore::browseData() will now handle MSR data" << endl;
@@ -5177,6 +5203,7 @@ void msrScore::browseData (basevisitor* v)
   } // for
   
 //  leave (t);
+  acceptOut (v);
 }
 
 void msrScore::printMusicXML (ostream& os)
