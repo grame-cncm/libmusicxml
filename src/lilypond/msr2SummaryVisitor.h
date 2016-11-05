@@ -37,9 +37,9 @@ namespace MusicXML2
   - a map that associates each stave with the corresponding voices and notes
   - a map that associates each stave with the correcponding lyricss
 */
-class EXP msr2SummaryVisitor :
+class msr2SummaryVisitor :
 
-  public msrVisitor<S_msrScore>
+  public visitor<S_msrScore>
 
 {
   public:
@@ -50,8 +50,8 @@ class EXP msr2SummaryVisitor :
     virtual ~msr2SummaryVisitor ();
 
     void printSummaryFromMsrElementTree (
-        // JMI const
-         S_msrVisitable& msrTree);
+         const
+         S_msrElement& msrTree);
 
 //    S_msrScore getMSRScore () const
 //        { return fMsrScore; };
@@ -64,6 +64,7 @@ class EXP msr2SummaryVisitor :
   private:
                      
     S_translationSettings   fTranslationSettings;
+};
 
 /*
     // the score we're building
@@ -291,7 +292,6 @@ class EXP msr2SummaryVisitor :
     int                     fCurrentForwardStaffNumber;
     bool                    fOnGoingForward;
     */
-};
 
 /*! @} */
 

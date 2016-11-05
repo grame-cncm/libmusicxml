@@ -87,12 +87,12 @@ msr2SummaryVisitor::~msr2SummaryVisitor ()
 {}
 
 //________________________________________________________________________
-void
-msr2SummaryVisitor::printSummaryFromMsrElementTree (
-  // JMI const
-  S_msrVisitable& msrTree)
+void msr2SummaryVisitor::printSummaryFromMsrElementTree (
+         const
+  S_msrElement& msrTree)
 {
   if (msrTree) {
+    /* JMI
     // create the msr tree browser
     S_msrBrowser
       browser =
@@ -101,6 +101,7 @@ msr2SummaryVisitor::printSummaryFromMsrElementTree (
   
     // browse the score with the visitor
     browser->browse (msrTree);
+    */
   }
 }
 
@@ -110,13 +111,14 @@ void msr2SummaryVisitor::visitStart (S_msrScore& elt)
 {
   if (fTranslationSettings->fTrace)
     cerr << idtr <<
-      "Analysing part list" << endl;
-
-  idtr++;
+      "Start visiting msrScore" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
 {
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "End visiting msrScore" << endl;
 }
 
 } // namespace

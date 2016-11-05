@@ -250,8 +250,8 @@ class EXP msrElement : public smartable
     int getInputLineNumber ()
       { return fInputLineNumber; }
 
-    virtual void acceptIn  (class msrVisitor& visitor) = 0;
-    virtual void acceptOut (class msrVisitor& visitor) = 0;
+    virtual void acceptIn  (basevisitor& visitor);
+    virtual void acceptOut (basevisitor& visitor);
 
     virtual void print             (ostream& os);
 
@@ -297,28 +297,20 @@ typedef list<S_msrElement> msrElementsList;
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-/* JMI
-template<class C> class msrVisitor
+//template<class C> class msrVisitor
+/*
+// template<class C> class visitor : virtual public basevisitor
+
 {
   public:
   
     virtual ~msrVisitor() {}
     
-    virtual void visitStart( C& elt ) {};
-    virtual void visitEnd  ( C& elt ) {};
-};
-*/
-
-class msrVisitor
-{
-  public:
-  
-    virtual ~msrVisitor() {}
-
-    virtual void visitStart( S_msrElement& elem ) = 0;
-    virtual void visitEnd  ( S_msrElement& elem ) = 0;
+    virtual void visitStart( C& elt ) {} = 0;
+    virtual void visitEnd  ( C& elt ) {} = 0;
 };
 // JMI typedef SMARTP<msrVisitor> S_msrVisitor;
+*/
 
 /*!
 \brief A generic msr element representation.
@@ -413,7 +405,8 @@ typedef SMARTP<msrBrowser> S_msrBrowser;
 \brief A beat description for MusicXML.
 */
 //______________________________________________________________________________
-class musicXMLBeatData { // JMI ???
+class musicXMLBeatData // JMI ???
+{
   public:
   
     virtual void print              (ostream& os);
@@ -429,7 +422,8 @@ class musicXMLBeatData { // JMI ???
 \brief A note description for MusicXML.
 */
 //______________________________________________________________________________
-class musicXMLNoteData {
+class musicXMLNoteData
+{
   public:
   
     virtual void print              (ostream& os);
@@ -461,7 +455,8 @@ class musicXMLNoteData {
 \brief A msr absolute octave representation.
 */
 //______________________________________________________________________________
-class EXP msrAbsoluteOctave : public msrElement {
+class EXP msrAbsoluteOctave : public msrElement
+{
   public:
   
     static SMARTP<msrAbsoluteOctave> create (
@@ -520,7 +515,8 @@ typedef SMARTP<msrAbsoluteOctave> S_msrAbsoluteOctave;
     - and optional dots.
 */
 //______________________________________________________________________________
-class EXP msrDuration : public msrElement {
+class EXP msrDuration : public msrElement
+{
   public:
   
     static SMARTP<msrDuration> create (
@@ -579,7 +575,8 @@ typedef SMARTP<msrDuration> S_msrDuration;
   An articulation is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrArticulation : public msrElement {
+class EXP msrArticulation : public msrElement
+{
   public:
     
     enum ArticulationKind {
@@ -618,7 +615,8 @@ typedef list<S_msrArticulation> msrArticulationsList;
   A slur is represented by a SlurKind value (hairpins in LilyPond)
 */
 //______________________________________________________________________________
-class EXP msrSlur : public msrElement {
+class EXP msrSlur : public msrElement
+{
   public:
 
     enum SlurKind { kStartSlur, kContinueSlur, kStopSlur, k_NoSlur };
@@ -657,7 +655,8 @@ typedef SMARTP<msrSlur> S_msrSlur;
   A dynamics is represented by a DynamicsKind value
 */
 //______________________________________________________________________________
-class EXP msrDynamics : public msrElement {
+class EXP msrDynamics : public msrElement
+{
   public:
 
     enum DynamicsKind {
@@ -703,7 +702,8 @@ typedef list<S_msrDynamics> msrDynamicssList;
   A wedge is represented by a WedgeKind value (hairpins in LilyPond)
 */
 //______________________________________________________________________________
-class EXP msrWedge : public msrElement {
+class EXP msrWedge : public msrElement
+{
   public:
 
     enum WedgeKind { kCrescendoWedge, kDecrescendoWedge, kStopWedge };
@@ -745,7 +745,8 @@ typedef list<S_msrWedge> msrWedgesList;
     duration (in the form of numerator/denominator) and optional dots.
 */
 //______________________________________________________________________________
-class EXP msrNote : public msrElement {
+class EXP msrNote : public msrElement
+{
   public:
 
     enum MusicXMLDiatonicPitch {
@@ -859,7 +860,8 @@ typedef vector<S_msrNote> msrNotesVector;
 \brief The msr parallel music element
 */
 //______________________________________________________________________________
-class EXP msrParallelMusic : public msrElement {
+class EXP msrParallelMusic : public msrElement
+{
   public:
     
     enum ElementsSeparator { kEndOfLine, kSpace };
@@ -2337,8 +2339,8 @@ class EXP msrScore : public msrElement {
 
     void addPartgroupToScore (S_msrPartgroup partGroup);
 
-    virtual void acceptIn  (class msrVisitor& visitor);
-    virtual void acceptOut (class msrVisitor& visitor);
+//    virtual void acceptIn  (basevisitor& visitor);
+ //   virtual void acceptOut (basevisitor& visitor);
 
     virtual void printMusicXML     (ostream& os);
     virtual void printMSR          (ostream& os);

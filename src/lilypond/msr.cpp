@@ -169,31 +169,34 @@ msrElement::msrElement (
 
 msrElement::~msrElement() {}
 
-/*
+
 void msrElement::acceptIn (basevisitor& v) {
   if (visitor<S_msrElement>*
     p =
       dynamic_cast<visitor<S_msrElement>*> (&v)) {
-        S_msrElement sptr = this;
+        S_msrElement elem = this;
         
-        p->visitStart (sptr);
+        p->visitStart (elem);
   }
+  /* JMI
   else
     msrVisitable::acceptIn (v);
+    */
 }
 
 void msrElement::acceptOut (basevisitor& v) {
   if (visitor<S_msrElement>*
     p =
       dynamic_cast<visitor<S_msrElement>*> (&v)) {
-      S_msrElement sptr = this;
+      S_msrElement elem = this;
       
-      p->visitEnd (sptr);
+      p->visitEnd (elem);
   }
+  /* JMI
   else
     msrVisitable::acceptOut (v);
+    */
 }
-*/
 
 ostream& operator<< (ostream& os, const S_msrElement& elt)
 {
@@ -259,7 +262,7 @@ void msrBrowser::browse (S_msrVisitable& t)
       "==> START msrBrowser::browse (" ")" << endl;
   
   enter (t);
-/*
+/ *
   ctree<msrVisitable>::literator iter;
 
   for (iter = t.lbegin(); iter != t.lend(); iter++)

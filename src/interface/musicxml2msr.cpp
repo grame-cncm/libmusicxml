@@ -125,10 +125,8 @@ void displayScoreSummaryWithVisitor (
   msr2SummaryVisitor visitor (ts);
 
   if (ts->fTrace) cerr << "{%" << std::endl;
-
-  S_msrVisitable visitable = score;
   
-  visitor.printSummaryFromMsrElementTree (visitable);
+  visitor.printSummaryFromMsrElementTree (score);
   
   if (ts->fTrace) cerr << "%}" << std::endl;
   
