@@ -208,8 +208,6 @@ class EXP msrElement : public smartable
     bool fDebug;
 };
 typedef SMARTP<msrElement> S_msrElement;
-typedef vector<S_msrElement> msrElementsVector;
-typedef list<S_msrElement> msrElementsList;
 EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
 
 /*!
@@ -475,7 +473,6 @@ class EXP msrArticulation : public msrElement
           fArticulationKind;
 };
 typedef SMARTP<msrArticulation> S_msrArticulation;
-typedef list<S_msrArticulation> msrArticulationsList;
 EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
 
 /*!
@@ -574,7 +571,6 @@ class EXP msrDynamics : public msrElement
     DynamicsKind fDynamicsKind;
 };
 typedef SMARTP<msrDynamics> S_msrDynamics;
-typedef list<S_msrDynamics> msrDynamicssList;
 EXP ostream& operator<< (ostream& os, const S_msrDynamics& elt);
 
 /*!
@@ -622,7 +618,6 @@ class EXP msrWedge : public msrElement
     WedgeKind fWedgeKind;
 };
 typedef SMARTP<msrWedge> S_msrWedge;
-typedef list<S_msrWedge> msrWedgesList;
 EXP ostream& operator<< (ostream& os, const S_msrWedge& elt);
 
 /*!
@@ -689,7 +684,7 @@ class EXP msrNote : public msrElement
 
     // articulations
     void                addArticulation (S_msrArticulation art);
-    msrArticulationsList
+    list<S_msrArticulation>
                         getNoteArticulations () const
                             { return fNoteArticulations; }
     
@@ -697,8 +692,8 @@ class EXP msrNote : public msrElement
     void                addDynamics (S_msrDynamics dyn);
     void                addWedge    (S_msrWedge    wdg);
 
-    msrDynamicssList    getNoteDynamics () { return fNoteDynamics; };
-    msrWedgesList       getNoteWedges   () { return fNoteWedges; };
+    list<S_msrDynamics> getNoteDynamics () { return fNoteDynamics; };
+    list<S_msrWedge>    getNoteWedges   () { return fNoteWedges; };
 
     S_msrDynamics       removeFirstDynamics ();
     S_msrWedge          removeFirstWedge ();
@@ -738,15 +733,14 @@ class EXP msrNote : public msrElement
     // LilyPond informations
     MsrPitch                   fNoteMsrPitch;
 
-    msrArticulationsList       fNoteArticulations;
+    list<S_msrArticulation>    fNoteArticulations;
     
-    msrDynamicssList           fNoteDynamics;
-    msrWedgesList              fNoteWedges;
+    list<S_msrDynamics>        fNoteDynamics;
+    list<S_msrWedge>           fNoteWedges;
 
     msrSlur::SlurKind          fNoteSlurKind;
 };
 typedef SMARTP<msrNote> S_msrNote;
-typedef vector<S_msrNote> msrNotesVector;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
 
 /*!
@@ -792,8 +786,8 @@ class EXP msrParallelMusic : public msrElement
     
   private:
   
-    msrElementsVector fParallelMusicElements;
-    ElementsSeparator fElementsSeparator;
+    vector<S_msrElement> fParallelMusicElements;
+    ElementsSeparator    fElementsSeparator;
 
 };
 typedef SMARTP<msrParallelMusic> S_msrParallelMusic;
@@ -847,7 +841,7 @@ class EXP msrSequentialMusic : public msrElement
     
   private:
   
-    msrElementsList    fSequentialMusicElements;
+    list<S_msrElement> fSequentialMusicElements;
     ElementsSeparator  fElementsSeparator;
 
 };
@@ -899,14 +893,14 @@ class EXP msrChord : public msrElement
   
   private:
   
-    msrNotesVector            fChordNotes;
+    vector<S_msrNote>         fChordNotes;
     
     S_msrDuration             fChordDuration;
                               
-    msrArticulationsList      fChordArticulations;
+    list<S_msrArticulation>   fChordArticulations;
     
-    msrDynamicssList          fChordDynamics;
-    msrWedgesList             fChordWedges;
+    list<S_msrDynamics>       fChordDynamics;
+    list<S_msrWedge>          fChordWedges;
 };
 typedef SMARTP<msrChord> S_msrChord;
 EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
@@ -972,7 +966,6 @@ class EXP msrVarValAssoc : public msrElement
     string     fUnit;
 };
 typedef SMARTP<msrVarValAssoc> S_msrVarValAssoc;
-typedef vector<S_msrVarValAssoc> msrVarValAssocsVector;
 EXP ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt);
 
 /*!
@@ -1042,7 +1035,7 @@ class EXP msrHeader : public msrElement
                 getMovementTitle () const
                     { return fMovementTitle; }
     
-    msrVarValAssocsVector
+    vector<S_msrVarValAssoc>
                 getCreators () const
                     { return fCreators; };
     
@@ -1050,7 +1043,7 @@ class EXP msrHeader : public msrElement
                 getRights () const
                     { return fRights; }
     
-    msrVarValAssocsVector
+    vector<S_msrVarValAssoc>
                 getSoftwares () const
                     { return fSoftwares; };
     
@@ -1082,15 +1075,15 @@ class EXP msrHeader : public msrElement
   
   private:
 
-    S_msrVarValAssoc      fWorkNumber;
-    S_msrVarValAssoc      fWorkTitle;
-    S_msrVarValAssoc      fMovementNumber;
-    S_msrVarValAssoc      fMovementTitle;
-    msrVarValAssocsVector fCreators;
-    S_msrVarValAssoc      fRights;
-    msrVarValAssocsVector fSoftwares;
-    S_msrVarValAssoc      fEncodingDate;
-    S_msrVarValAssoc      fScoreInstrument;
+    S_msrVarValAssoc         fWorkNumber;
+    S_msrVarValAssoc         fWorkTitle;
+    S_msrVarValAssoc         fMovementNumber;
+    S_msrVarValAssoc         fMovementTitle;
+    vector<S_msrVarValAssoc> fCreators;
+    S_msrVarValAssoc         fRights;
+    vector<S_msrVarValAssoc> fSoftwares;
+    S_msrVarValAssoc         fEncodingDate;
+    S_msrVarValAssoc         fScoreInstrument;
 
 };
 typedef SMARTP<msrHeader> S_msrHeader;
@@ -1209,7 +1202,7 @@ class EXP msrLayout : public msrElement
   
   private:
   
-    msrVarValAssocsVector fmsrVarValAssocs;
+    vector<S_msrVarValAssoc> fmsrVarValAssocs;
 };
 typedef SMARTP<msrLayout> S_msrLayout;
 EXP ostream& operator<< (ostream& os, const S_msrLayout& elt);
@@ -1497,10 +1490,9 @@ class EXP msrTuplet : public msrElement
     int fActualNotes;
     int fNormalNotes;
     
-    msrElementsVector fTupletContents;
+    vector<S_msrElement> fTupletContents;
 };
 typedef SMARTP<msrTuplet> S_msrTuplet;
-typedef stack<S_msrTuplet> msrTupletsStack;
 EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
 
 /*!
@@ -1795,7 +1787,6 @@ class EXP msrLyricsChunk : public msrElement
     S_msrDuration  fChunkDuration;
 };
 typedef SMARTP<msrLyricsChunk> S_msrLyricsChunk;
-typedef vector<S_msrLyricsChunk> msrLyricsChunksVector;
 EXP ostream& operator<< (ostream& os, const S_msrLyricsChunk& elt);
 
 /*!
@@ -1823,7 +1814,7 @@ class EXP msrLyrics : public msrElement
             getLyricsVoice () const
                 { return fLyricsVoice; }
                 
-    msrLyricsChunksVector
+    vector<S_msrLyricsChunk>
             getLyricsChunks () const
                 { return fLyricsChunks; }
 
@@ -1880,12 +1871,11 @@ class EXP msrLyrics : public msrElement
     int                       fLyricsNumber;
     S_msrVoice                fLyricsVoice;
     
-    msrLyricsChunksVector     fLyricsChunks;
+    vector<S_msrLyricsChunk>  fLyricsChunks;
 
     bool                      fLyricsTextPresent;
 };
 typedef SMARTP<msrLyrics> S_msrLyrics;
-typedef map<int, S_msrLyrics> msrIntToLyricsMap;
 EXP ostream& operator<< (ostream& os, const S_msrLyrics& elt);
 
 /*!
@@ -2084,7 +2074,6 @@ class EXP msrStaff : public msrElement
     int                     fNextRelativeStaffVoiceNumber;
 };
 typedef SMARTP<msrStaff> S_msrStaff;
-typedef map<int, S_msrStaff> msrStavesMap;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
 
 /*!
@@ -2122,7 +2111,7 @@ class EXP msrPart : public msrElement
             getPartPartgroup () const
                 { return fPartPartgroup; }
                 
-    msrStavesMap
+    map<int, S_msrStaff>
             getPartStavesMap ()
                 { return fPartStavesMap; }
 
@@ -2177,7 +2166,7 @@ class EXP msrPart : public msrElement
     string                  fPartMusicXMLName;
     S_msrPartgroup          fPartPartgroup;
 
-    msrStavesMap            fPartStavesMap;
+    map<int, S_msrStaff>    fPartStavesMap;
 
     string                  fPartMSRName; // coined in constructor
 
@@ -2188,8 +2177,6 @@ class EXP msrPart : public msrElement
     int                     fPartMusicXMLDivisions;
 };
 typedef SMARTP<msrPart> S_msrPart;
-typedef list<S_msrPart> msrPartsList;
-typedef map<string, S_msrPart> msrPartsMap;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);
 
 /*!
@@ -2306,15 +2293,12 @@ class EXP msrPartgroup : public msrElement
     bool                    fPartgroupBarline;
 
     // accessing parts by name
-    msrPartsMap             fPartgroupPartsMap;
-//    msrPartsList            fPartgroupPartsList; JMI
+    map<string, S_msrPart>  fPartgroupPartsMap;
 
     // allowing for both parts and (sub-)part groups as elements
-    msrElementsList         fPartgroupElements;
+    list<S_msrElement>      fPartgroupElements;
 };
 typedef SMARTP<msrPartgroup> S_msrPartgroup;
-typedef list<S_msrPartgroup> msrPartgroupsList;
-typedef map<int, S_msrPartgroup> msrPartgroupsMap;
 EXP ostream& operator<< (ostream& os, const S_msrPartgroup& elt);
 
 /*!
@@ -2353,11 +2337,8 @@ class EXP msrScore : public msrElement
   
   private:
 
-    msrPartgroupsList       fPartgroupsList;
-    
-//    msrPartgroupsStack     fScorePartgroupsStack; JMI
-//    msrPartgroupsMap        fScorePartgroupsMap;
-};
+    list<S_msrPartgroup> fPartgroupsList;
+ };
 typedef SMARTP<msrScore> S_msrScore;
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
 

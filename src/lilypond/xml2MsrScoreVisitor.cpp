@@ -302,7 +302,7 @@ void xml2MsrScoreVisitor::showPartgroupsData (string context)
     cerr << idtr <<
       "==> " << context << ": fPartgroupsMap contains:" << endl;
     if (fPartgroupsMap.size()) {
-      msrPartgroupsMap::const_iterator
+      map<int, S_msrPartgroup>::const_iterator
         iBegin = fPartgroupsMap.begin(),
         iEnd   = fPartgroupsMap.end(),
         i      = iBegin;
@@ -324,7 +324,7 @@ void xml2MsrScoreVisitor::showPartgroupsData (string context)
     cerr << idtr <<
       "==> " << context << ": fPartgroupsList contains:" << endl;
     if (fPartgroupsList.size()) {
-      msrPartgroupsList::const_iterator
+      list<S_msrPartgroup>::const_iterator
         iBegin = fPartgroupsList.begin(),
         iEnd   = fPartgroupsList.end(),
         i      = iBegin;
@@ -388,7 +388,7 @@ void xml2MsrScoreVisitor::handlePartgroupStart (
     // place in the part groups list so as to
     // have them ordered by increasing order
     // (all of them they are negative)
-    msrPartgroupsList::iterator
+    list<S_msrPartgroup>::iterator
       iBegin = fPartgroupsList.begin(),
       iEnd   = fPartgroupsList.end(),
       i      = iBegin;
@@ -443,7 +443,7 @@ void xml2MsrScoreVisitor::handlePartgroupStop (int inputLineNumber)
       partGroupToBeStopped->getPartgroupNumber () <<
       " from visitor's part groups list" << endl;
 
-  msrPartgroupsList::iterator
+  list<S_msrPartgroup>::iterator
     iBegin = fPartgroupsList.begin(),
     iEnd   = fPartgroupsList.end(),
     i      = iBegin;
@@ -2429,7 +2429,7 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
   fCurrentNote->setNoteBelongsToAChord ();
 
   // move the pending articulations if any from the first note to the chord
-  msrArticulationsList
+  list<S_msrArticulation>
     noteArticulations =
       fCurrentNote->getNoteArticulations ();
 
@@ -2447,7 +2447,7 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
   }
   
   // move the pending dynamics if any from the first note to the chord
-  msrDynamicssList
+  list<S_msrDynamics>
     noteDynamics =
       fCurrentNote->getNoteDynamics();
     
@@ -2465,7 +2465,7 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
   }
  
   // move the pending wedges if any from the first note to the chord
-  msrWedgesList
+  list<S_msrWedge>
     noteWedges =
       fCurrentNote->getNoteWedges();
     
@@ -2574,7 +2574,7 @@ void xml2MsrScoreVisitor::attachPendingDynamicsAndWedgesToNote (
         "--> Delaying wedge attached to a rest until next note" << endl;
       } else {
         for (
-            msrWedgesList::const_iterator i = fPendingWedges.begin();
+            list<S_msrWedge>::const_iterator i = fPendingWedges.begin();
             i != fPendingWedges.end();
             i++) {
           msrMusicXMLWarning (
