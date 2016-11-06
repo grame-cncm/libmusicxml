@@ -47,6 +47,10 @@ class msr2SummaryVisitor :
   
   public visitor<S_msrStaff>,
   
+  public visitor<S_msrClef>,
+  public visitor<S_msrKey>,
+  public visitor<S_msrTime>,
+  
   public visitor<S_msrVoice >,
   
   public visitor<S_msrSequentialMusic >,
@@ -80,6 +84,15 @@ class msr2SummaryVisitor :
 
     virtual void visitStart (S_msrStaff& elt);
     virtual void visitEnd   (S_msrStaff& elt);
+
+    virtual void visitStart (S_msrClef& elt);
+    virtual void visitEnd   (S_msrClef& elt);
+
+    virtual void visitStart (S_msrKey& elt);
+    virtual void visitEnd   (S_msrKey& elt);
+
+    virtual void visitStart (S_msrTime& elt);
+    virtual void visitEnd   (S_msrTime& elt);
 
     virtual void visitStart (S_msrVoice& elt);
     virtual void visitEnd   (S_msrVoice& elt);

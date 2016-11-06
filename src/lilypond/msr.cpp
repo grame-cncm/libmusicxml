@@ -5506,6 +5506,30 @@ void msrStaff::browseData (basevisitor* v)
   if (fTranslationSettings->fDebug)
     cerr << idtr <<
       "==> msrStaff::browseData()" << endl;
+
+  {
+  // create the clef browser
+  msrBrowser<msrClef> browser (v);
+
+  // browse the voice with the visitor
+  browser.browse (*fStaffClef);
+  }
+
+  {
+  // create the key browser
+  msrBrowser<msrKey> browser (v);
+
+  // browse the voice with the visitor
+  browser.browse (*fStaffKey);
+  }
+
+  {
+  // create the time browser
+  msrBrowser<msrTime> browser (v);
+
+  // browse the voice with the visitor
+  browser.browse (*fStaffTime);
+  }
   
   idtr++;
 

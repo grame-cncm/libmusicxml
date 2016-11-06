@@ -161,6 +161,51 @@ void msr2SummaryVisitor::visitEnd (S_msrStaff& elt)
 }
 
 //________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrClef& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Start visiting msrClef" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrClef& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "End visiting msrClef" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrKey& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Start visiting msrKey" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrKey& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "End visiting msrKey" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrTime& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Start visiting msrTime" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrTime& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "End visiting msrTime" << endl;
+}
+
+//________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
 {
   if (fTranslationSettings->fTrace)
