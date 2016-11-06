@@ -3678,11 +3678,39 @@ msrLyricsChunk::msrLyricsChunk (
 }
 msrLyricsChunk::~msrLyricsChunk() {}
 
-void msrLyricsChunk::acceptIn (basevisitor* v)
-{}
+void msrLyricsChunk::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrLyricsChunk::acceptIn()" << endl;
+      
+  if (visitor<S_msrLyricsChunk>*
+    p =
+      dynamic_cast<visitor<S_msrLyricsChunk>*> (v)) {
+        S_msrLyricsChunk elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrLyricsChunk::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrLyricsChunk::acceptOut (basevisitor* v)
-{}
+void msrLyricsChunk::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrLyricsChunk::acceptOut()" << endl;
+
+  if (visitor<S_msrLyricsChunk>*
+    p =
+      dynamic_cast<visitor<S_msrLyricsChunk>*> (v)) {
+        S_msrLyricsChunk elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrLyricsChunk::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
 
 void msrLyricsChunk::browseData (basevisitor* v)
 {}
@@ -4005,11 +4033,39 @@ void msrLyrics::addBreakChunkToLyrics (
   fLyricsChunks.push_back (chunk);
 }
 
-void msrLyrics::acceptIn (basevisitor* v)
-{}
+void msrLyrics::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrLyrics::acceptIn()" << endl;
+      
+  if (visitor<S_msrLyrics>*
+    p =
+      dynamic_cast<visitor<S_msrLyrics>*> (v)) {
+        S_msrLyrics elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrLyrics::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrLyrics::acceptOut (basevisitor* v)
-{}
+void msrLyrics::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrLyrics::acceptOut()" << endl;
+
+  if (visitor<S_msrLyrics>*
+    p =
+      dynamic_cast<visitor<S_msrLyrics>*> (v)) {
+        S_msrLyrics elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrLyrics::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
 
 void msrLyrics::browseData (basevisitor* v)
 {}
@@ -4280,14 +4336,66 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
   fVoiceSequentialMusic->appendElementToSequentialMusic (elem);
 }
 
-void msrVoice::acceptIn (basevisitor* v)
-{}
+void msrVoice::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrVoice::acceptIn()" << endl;
+      
+  if (visitor<S_msrVoice>*
+    p =
+      dynamic_cast<visitor<S_msrVoice>*> (v)) {
+        S_msrVoice elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrVoice::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrVoice::acceptOut (basevisitor* v)
-{}
+void msrVoice::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrVoice::acceptOut()" << endl;
+
+  if (visitor<S_msrVoice>*
+    p =
+      dynamic_cast<visitor<S_msrVoice>*> (v)) {
+        S_msrVoice elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrVoice::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
 
 void msrVoice::browseData (basevisitor* v)
-{}
+{
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrVoice::browseData()" << endl;
+  
+  idtr++;
+
+  for (
+    map<int, S_msrLyrics>::iterator i = fVoiceLyricsMap.begin();
+    i != fVoiceLyricsMap.end();
+    i++) {
+    // create the lyrics browser
+    msrBrowser<msrLyrics> browser (v);
+  
+    // browse the lyrics with the visitor
+    browser.browse (*((*i).second));
+  } // for
+
+  idtr--;
+
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "<== msrVoice::browseData()" << endl;
+}
+
 
 ostream& operator<< (ostream& os, const S_msrVoice& elt)
 {
@@ -4550,14 +4658,65 @@ void msrStaff::setStaffClef (S_msrClef clef)
   fStaffClef = clef;
 }
 
-void msrStaff::acceptIn (basevisitor* v)
-{}
+void msrStaff::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrStaff::acceptIn()" << endl;
+      
+  if (visitor<S_msrStaff>*
+    p =
+      dynamic_cast<visitor<S_msrStaff>*> (v)) {
+        S_msrStaff elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrStaff::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrStaff::acceptOut (basevisitor* v)
-{}
+void msrStaff::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrStaff::acceptOut()" << endl;
+
+  if (visitor<S_msrStaff>*
+    p =
+      dynamic_cast<visitor<S_msrStaff>*> (v)) {
+        S_msrStaff elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrStaff::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
 
 void msrStaff::browseData (basevisitor* v)
-{}
+{
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrStaff::browseData()" << endl;
+  
+  idtr++;
+
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    // create the voice browser
+    msrBrowser<msrVoice> browser (v);
+  
+    // browse the voice with the visitor
+    browser.browse (*((*i).second));
+  } // for
+
+  idtr--;
+
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "<== msrStaff::browseData()" << endl;
+}
 
 ostream& operator<< (ostream& os, const S_msrStaff& elt)
 {
@@ -4714,7 +4873,7 @@ msrPart::~msrPart() {}
 void msrPart::setAllPartStavesKey   (S_msrKey  key)
 {
   for (
-    msrStaffsMap::iterator i = fPartStavesMap.begin();
+    msrStavesMap::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->setStaffKey (key);
@@ -4724,7 +4883,7 @@ void msrPart::setAllPartStavesKey   (S_msrKey  key)
 void msrPart::setAllPartStavesTime  (S_msrTime time)
 {
   for (
-    msrStaffsMap::iterator i = fPartStavesMap.begin();
+    msrStavesMap::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->setStaffTime (time);
@@ -4734,7 +4893,7 @@ void msrPart::setAllPartStavesTime  (S_msrTime time)
 void msrPart::setAllPartStavesClef (S_msrClef clef)
 {
   for (
-    msrStaffsMap::iterator i = fPartStavesMap.begin();
+    msrStavesMap::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->setStaffClef (clef);
@@ -4821,7 +4980,30 @@ void msrPart::acceptOut (basevisitor* v) {
 }
 
 void msrPart::browseData (basevisitor* v)
-{}
+{
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrPart::browseData()" << endl;
+  
+  idtr++;
+
+  for (
+    msrStavesMap::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    // create the staff browser
+    msrBrowser<msrStaff> browser (v);
+  
+    // browse the staff with the visitor
+    browser.browse (*((*i).second));
+  } // for
+
+  idtr--;
+
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "<== msrPart::browseData()" << endl;
+}
 
 ostream& operator<< (ostream& os, const S_msrPart& elt)
 {
@@ -4854,7 +5036,7 @@ void msrPart::printMSR (ostream& os)
   if (fPartStavesMap.size()) {
     os << endl;
     for (
-      msrStaffsMap::iterator i = fPartStavesMap.begin();
+      msrStavesMap::iterator i = fPartStavesMap.begin();
       i != fPartStavesMap.end();
       i++) {
       os << idtr << (*i).second;
@@ -4892,7 +5074,7 @@ void msrPart::printScoreSummary (ostream& os)
   if (partStavesMapSize) {
     os << endl;
 
-    msrStaffsMap::const_iterator
+    msrStavesMap::const_iterator
       iBegin = fPartStavesMap.begin(),
       iEnd   = fPartStavesMap.end(),
       i      = iBegin;
@@ -5147,10 +5329,10 @@ void msrPartgroup::browseData (basevisitor* v)
     msrElementsList::iterator i = fPartgroupElements.begin();
     i != fPartgroupElements.end();
     i++) {
-    // create the part group browser
+    // create the part element browser
     msrBrowser<msrElement> browser (v);
   
-    // browse the score with the visitor
+    // browse the part element with the visitor
     browser.browse (*(*i));
   } // for
 
@@ -5412,7 +5594,7 @@ void msrScore::browseData (basevisitor* v)
     // create the part group browser
     msrBrowser<msrPartgroup> browser (v);
   
-    // browse the score with the visitor
+    // browse the part group with the visitor
     browser.browse (*(*i));
   } // for
 

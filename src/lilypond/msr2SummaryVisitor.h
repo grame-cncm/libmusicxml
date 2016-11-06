@@ -40,8 +40,16 @@ namespace MusicXML2
 class msr2SummaryVisitor :
 
   public visitor<S_msrScore>,
+  
   public visitor<S_msrPartgroup>,
-  public visitor<S_msrPart>
+  
+  public visitor<S_msrPart>,
+  
+  public visitor<S_msrStaff>,
+  
+  public visitor<S_msrVoice >,
+  
+  public visitor<S_msrLyrics >
 
 {
   public:
@@ -67,6 +75,15 @@ class msr2SummaryVisitor :
 
     virtual void visitStart (S_msrPart& elt);
     virtual void visitEnd   (S_msrPart& elt);
+
+    virtual void visitStart (S_msrStaff& elt);
+    virtual void visitEnd   (S_msrStaff& elt);
+
+    virtual void visitStart (S_msrVoice& elt);
+    virtual void visitEnd   (S_msrVoice& elt);
+
+    virtual void visitStart (S_msrLyrics& elt);
+    virtual void visitEnd   (S_msrLyrics& elt);
 
   private:
                      

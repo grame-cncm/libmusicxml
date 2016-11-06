@@ -2154,7 +2154,7 @@ class EXP msrStaff : public msrElement
     int                     fNextRelativeStaffVoiceNumber;
 };
 typedef SMARTP<msrStaff> S_msrStaff;
-typedef map<int, S_msrStaff> msrStaffsMap;
+typedef map<int, S_msrStaff> msrStavesMap;
 
 /*!
 \brief A msr part representation.
@@ -2191,7 +2191,7 @@ class EXP msrPart : public msrElement
             getPartPartgroup () const
                 { return fPartPartgroup; }
                 
-    msrStaffsMap
+    msrStavesMap
             getPartStavesMap ()
                 { return fPartStavesMap; }
 
@@ -2246,7 +2246,7 @@ class EXP msrPart : public msrElement
     string                  fPartMusicXMLName;
     S_msrPartgroup          fPartPartgroup;
 
-    msrStaffsMap            fPartStavesMap;
+    msrStavesMap            fPartStavesMap;
 
     string                  fPartMSRName; // coined in constructor
 

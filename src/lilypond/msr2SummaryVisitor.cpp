@@ -145,5 +145,50 @@ void msr2SummaryVisitor::visitEnd (S_msrPart& elt)
       "End visiting msrPart" << endl;
 }
 
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Start visiting msrStaff" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrStaff& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "End visiting msrStaff" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Start visiting msrVoice" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "End visiting msrVoice" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrLyrics& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Start visiting msrLyrics" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrLyrics& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "End visiting msrLyrics" << endl;
+}
+
 
 } // namespace
