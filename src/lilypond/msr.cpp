@@ -349,6 +349,12 @@ msrAbsoluteOctave::msrAbsoluteOctave (
 }
 msrAbsoluteOctave::~msrAbsoluteOctave () {}
 
+void msrAbsoluteOctave::acceptIn (basevisitor* v)
+{}
+
+void msrAbsoluteOctave::acceptOut (basevisitor* v)
+{}
+
 void msrAbsoluteOctave::browseData (basevisitor* v)
 {}
 
@@ -442,6 +448,12 @@ void msrDuration::scaleNumByFraction (int num, int denom)
 {
   fNum *= num/denom;
 }
+
+void msrDuration::acceptIn (basevisitor* v)
+{}
+
+void msrDuration::acceptOut (basevisitor* v)
+{}
 
 void msrDuration::browseData (basevisitor* v)
 {}
@@ -601,6 +613,11 @@ msrArticulation::msrArticulation (
 
 msrArticulation::~msrArticulation() {}
 
+void msrArticulation::acceptIn (basevisitor* v)
+{}
+
+void msrArticulation::acceptOut (basevisitor* v)
+{}
 
 void msrArticulation::browseData (basevisitor* v)
 {}
@@ -755,6 +772,12 @@ string msrDynamics::dynamicsKindAsLilypondString ()
   return "\\"+dynamicsKindAsString ();
 }
 
+void msrDynamics::acceptIn (basevisitor* v)
+{}
+
+void msrDynamics::acceptOut (basevisitor* v)
+{}
+
 void msrDynamics::browseData (basevisitor* v)
 {}
 
@@ -827,6 +850,12 @@ string msrWedge::wedgeKindAsString ()
   return s.str();
 }
 
+void msrWedge::acceptIn (basevisitor* v)
+{}
+
+void msrWedge::acceptOut (basevisitor* v)
+{}
+
 void msrWedge::browseData (basevisitor* v)
 {}
 
@@ -897,6 +926,12 @@ string msrSlur::slurKindAsString ()
     
   return s.str();
 }
+
+void msrSlur::acceptIn (basevisitor* v)
+{}
+
+void msrSlur::acceptOut (basevisitor* v)
+{}
 
 void msrSlur::browseData (basevisitor* v)
 {}
@@ -1369,6 +1404,12 @@ string msrNote::notePitchAsLilypondString ()
   return s.str();
 }
 
+void msrNote::acceptIn (basevisitor* v)
+{}
+
+void msrNote::acceptOut (basevisitor* v)
+{}
+
 void msrNote::browseData (basevisitor* v)
 {}
 
@@ -1624,6 +1665,12 @@ void msrSequentialMusic::printScoreSummary (ostream& os)
 */
 }
 
+void msrSequentialMusic::acceptIn (basevisitor* v)
+{}
+
+void msrSequentialMusic::acceptOut (basevisitor* v)
+{}
+
 void msrSequentialMusic::browseData (basevisitor* v)
 {}
 
@@ -1669,6 +1716,12 @@ msrParallelMusic::msrParallelMusic (
   fElementsSeparator=elementsSeparator;
 }
 msrParallelMusic::~msrParallelMusic() {}
+
+void msrParallelMusic::acceptIn (basevisitor* v)
+{}
+
+void msrParallelMusic::acceptOut (basevisitor* v)
+{}
 
 void msrParallelMusic::browseData (basevisitor* v)
 {}
@@ -1741,6 +1794,12 @@ msrChord::msrChord (
   fChordDuration = chordDuration;
 }
 msrChord::~msrChord() {}
+
+void msrChord::acceptIn (basevisitor* v)
+{}
+
+void msrChord::acceptOut (basevisitor* v)
+{}
 
 void msrChord::browseData (basevisitor* v)
 {}
@@ -1868,6 +1927,12 @@ msrBarLine::msrBarLine (
 }
 msrBarLine::~msrBarLine() {}
 
+void msrBarLine::acceptIn (basevisitor* v)
+{}
+
+void msrBarLine::acceptOut (basevisitor* v)
+{}
+
 void msrBarLine::browseData (basevisitor* v)
 {}
 
@@ -1920,6 +1985,12 @@ msrComment::msrComment (
   fGapKind=gapKind;
 }
 msrComment::~msrComment() {}
+
+void msrComment::acceptIn (basevisitor* v)
+{}
+
+void msrComment::acceptOut (basevisitor* v)
+{}
 
 void msrComment::browseData (basevisitor* v)
 {}
@@ -1976,6 +2047,12 @@ msrBreak::msrBreak (
 }
 msrBreak::~msrBreak() {}
 
+void msrBreak::acceptIn (basevisitor* v)
+{}
+
+void msrBreak::acceptOut (basevisitor* v)
+{}
+
 void msrBreak::browseData (basevisitor* v)
 {}
 
@@ -2029,6 +2106,12 @@ msrBarNumberCheck::msrBarNumberCheck (
   fNextBarNumber=nextBarNumber; 
 }
 msrBarNumberCheck::~msrBarNumberCheck() {}
+
+void msrBarNumberCheck::acceptIn (basevisitor* v)
+{}
+
+void msrBarNumberCheck::acceptOut (basevisitor* v)
+{}
 
 void msrBarNumberCheck::browseData (basevisitor* v)
 {}
@@ -2088,6 +2171,12 @@ void msrTuplet::updateTuplet (int number, int actualNotes, int normalNotes)
   fActualNotes = actualNotes;
   fNormalNotes = normalNotes;  
 }
+
+void msrTuplet::acceptIn (basevisitor* v)
+{}
+
+void msrTuplet::acceptOut (basevisitor* v)
+{}
 
 void msrTuplet::browseData (basevisitor* v)
 {}
@@ -2167,6 +2256,12 @@ msrBeam::msrBeam (
 }
 msrBeam::~msrBeam() {}
 
+void msrBeam::acceptIn (basevisitor* v)
+{}
+
+void msrBeam::acceptOut (basevisitor* v)
+{}
+
 void msrBeam::browseData (basevisitor* v)
 {}
 
@@ -2233,6 +2328,12 @@ msrPaper::msrPaper (
   fPageTopSpace = -1.0;
 }
 msrPaper::~msrPaper() {}
+
+void msrPaper::acceptIn (basevisitor* v)
+{}
+
+void msrPaper::acceptOut (basevisitor* v)
+{}
 
 void msrPaper::browseData (basevisitor* v)
 {}
@@ -2527,6 +2628,12 @@ void msrHeader::setScoreInstrument (
       msrVarValAssoc::kUncommented);
 }
 
+void msrHeader::acceptIn (basevisitor* v)
+{}
+
+void msrHeader::acceptOut (basevisitor* v)
+{}
+
 void msrHeader::browseData (basevisitor* v)
 {}
 
@@ -2776,6 +2883,12 @@ void msrVarValAssoc::changeAssoc (string value) {
   fVariableValue=value;
 }
 
+void msrVarValAssoc::acceptIn (basevisitor* v)
+{}
+
+void msrVarValAssoc::acceptOut (basevisitor* v)
+{}
+
 void msrVarValAssoc::browseData (basevisitor* v)
 {}
 
@@ -2861,6 +2974,12 @@ void msrSchemeVarValAssoc::changeAssoc (string value)
   fVariableValue=value;
 }
 
+void msrSchemeVarValAssoc::acceptIn (basevisitor* v)
+{}
+
+void msrSchemeVarValAssoc::acceptOut (basevisitor* v)
+{}
+
 void msrSchemeVarValAssoc::browseData (basevisitor* v)
 {}
 
@@ -2920,6 +3039,12 @@ msrLayout::msrLayout (
     : msrElement (ts, inputLineNumber)
 {}
 msrLayout::~msrLayout() {}
+
+void msrLayout::acceptIn (basevisitor* v)
+{}
+
+void msrLayout::acceptOut (basevisitor* v)
+{}
 
 void msrLayout::browseData (basevisitor* v)
 {}
@@ -3029,6 +3154,12 @@ msrClef::msrClef (
 }
 
 msrClef::~msrClef() {}
+
+void msrClef::acceptIn (basevisitor* v)
+{}
+
+void msrClef::acceptOut (basevisitor* v)
+{}
 
 void msrClef::browseData (basevisitor* v)
 {}
@@ -3233,6 +3364,12 @@ msrKey::msrKey (
 
 msrKey::~msrKey() {}
 
+void msrKey::acceptIn (basevisitor* v)
+{}
+
+void msrKey::acceptOut (basevisitor* v)
+{}
+
 void msrKey::browseData (basevisitor* v)
 {}
 
@@ -3296,6 +3433,12 @@ msrTime::msrTime (
   //fDenominator=denominator;
 }
 msrTime::~msrTime() {}
+
+void msrTime::acceptIn (basevisitor* v)
+{}
+
+void msrTime::acceptOut (basevisitor* v)
+{}
 
 void msrTime::browseData (basevisitor* v)
 {}
@@ -3362,6 +3505,12 @@ msrTempo::msrTempo (
 }
 msrTempo::~msrTempo() {}
 
+void msrTempo::acceptIn (basevisitor* v)
+{}
+
+void msrTempo::acceptOut (basevisitor* v)
+{}
+
 void msrTempo::browseData (basevisitor* v)
 {}
 
@@ -3416,6 +3565,12 @@ msrMidi::msrMidi (
 {
 }
 msrMidi::~msrMidi() {}
+
+void msrMidi::acceptIn (basevisitor* v)
+{}
+
+void msrMidi::acceptOut (basevisitor* v)
+{}
 
 void msrMidi::browseData (basevisitor* v)
 {}
@@ -3478,6 +3633,12 @@ msrRepeat::msrRepeat (
   fActuallyUsed = false;
 }
 msrRepeat::~msrRepeat() {}
+
+void msrRepeat::acceptIn (basevisitor* v)
+{}
+
+void msrRepeat::acceptOut (basevisitor* v)
+{}
 
 void msrRepeat::browseData (basevisitor* v)
 {}
@@ -3542,6 +3703,12 @@ msrLyricsChunk::msrLyricsChunk (
   fChunkDuration   = msrDuration;
 }
 msrLyricsChunk::~msrLyricsChunk() {}
+
+void msrLyricsChunk::acceptIn (basevisitor* v)
+{}
+
+void msrLyricsChunk::acceptOut (basevisitor* v)
+{}
 
 void msrLyricsChunk::browseData (basevisitor* v)
 {}
@@ -3864,6 +4031,12 @@ void msrLyrics::addBreakChunkToLyrics (
   fLyricsChunks.push_back (chunk);
 }
 
+void msrLyrics::acceptIn (basevisitor* v)
+{}
+
+void msrLyrics::acceptOut (basevisitor* v)
+{}
+
 void msrLyrics::browseData (basevisitor* v)
 {}
 
@@ -4133,6 +4306,12 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
   fVoiceSequentialMusic->appendElementToSequentialMusic (elem);
 }
 
+void msrVoice::acceptIn (basevisitor* v)
+{}
+
+void msrVoice::acceptOut (basevisitor* v)
+{}
+
 void msrVoice::browseData (basevisitor* v)
 {}
 
@@ -4397,6 +4576,12 @@ void msrStaff::setStaffClef (S_msrClef clef)
   fStaffClef = clef;
 }
 
+void msrStaff::acceptIn (basevisitor* v)
+{}
+
+void msrStaff::acceptOut (basevisitor* v)
+{}
+
 void msrStaff::browseData (basevisitor* v)
 {}
 
@@ -4626,6 +4811,12 @@ S_msrStaff msrPart::fetchStaffFromPart (
 
   return result;
 }
+
+void msrPart::acceptIn (basevisitor* v)
+{}
+
+void msrPart::acceptOut (basevisitor* v)
+{}
 
 void msrPart::browseData (basevisitor* v)
 {}
