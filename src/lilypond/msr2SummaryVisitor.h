@@ -50,14 +50,44 @@ class msr2SummaryVisitor :
   public visitor<S_msrClef>,
   public visitor<S_msrKey>,
   public visitor<S_msrTime>,
+  public visitor<S_msrTempo>,
   
   public visitor<S_msrVoice>,
-  
+
   public visitor<S_msrSequentialMusic>,
   
-  public visitor<S_msrNote>,
+  public visitor<S_msrDuration>,
   
-  public visitor<S_msrLyrics>
+  public visitor<S_msrArticulation>,
+
+  public visitor<S_msrDynamics>,
+  public visitor<S_msrWedge>,
+  
+  public visitor<S_msrNote>,
+  public visitor<S_msrAbsoluteOctave>,
+  public visitor<S_msrBeam>,
+    
+  public visitor<S_msrChord>,
+  
+  public visitor<S_msrTuplet>,
+  
+  public visitor<S_msrBarLine>,
+  public visitor<S_msrBarNumberCheck>,
+  
+  public visitor<S_msrRepeat>,
+  
+  public visitor<S_msrLyrics>,
+  public visitor<S_msrLyricsChunk>,
+  
+  public visitor<S_msrComment>,
+  
+  public visitor<S_msrVarValAssoc>,
+  
+  public visitor<S_msrHeader>,
+  public visitor<S_msrPaper>,
+  public visitor<S_msrLayout>,
+  
+  public visitor<S_msrMidi>
 
 {
   public:
