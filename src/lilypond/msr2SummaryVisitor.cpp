@@ -250,5 +250,20 @@ void msr2SummaryVisitor::visitEnd (S_msrSequentialMusic& elt)
       "End visiting msrSequentialMusic" << endl;
 }
 
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrNote& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Start visiting msrNote" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "End visiting msrNote" << endl;
+}
+
 
 } // namespace

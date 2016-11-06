@@ -51,11 +51,13 @@ class msr2SummaryVisitor :
   public visitor<S_msrKey>,
   public visitor<S_msrTime>,
   
-  public visitor<S_msrVoice >,
+  public visitor<S_msrVoice>,
   
-  public visitor<S_msrSequentialMusic >,
+  public visitor<S_msrSequentialMusic>,
   
-  public visitor<S_msrLyrics >
+  public visitor<S_msrNote>,
+  
+  public visitor<S_msrLyrics>
 
 {
   public:
@@ -99,6 +101,9 @@ class msr2SummaryVisitor :
 
     virtual void visitStart (S_msrSequentialMusic& elt);
     virtual void visitEnd   (S_msrSequentialMusic& elt);
+
+    virtual void visitStart (S_msrNote& elt);
+    virtual void visitEnd   (S_msrNote& elt);
 
     virtual void visitStart (S_msrLyrics& elt);
     virtual void visitEnd   (S_msrLyrics& elt);
