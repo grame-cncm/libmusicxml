@@ -103,166 +103,166 @@ void msr2SummaryVisitor::printSummaryFromMsrScore (
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrScore& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "Start visiting msrScore" << endl;
+      "--> Start visiting msrScore" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "End visiting msrScore" << endl;
+      "--> End visiting msrScore" << endl;
 }
 
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrPartgroup& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "Start visiting msrPartgroup" << endl;
+      "--> Start visiting msrPartgroup" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrPartgroup& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "End visiting msrPartgroup" << endl;
+      "--> End visiting msrPartgroup" << endl;
 }
 
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrPart& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "Start visiting msrPart" << endl;
+      "--> Start visiting msrPart" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrPart& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "End visiting msrPart" << endl;
+      "--> End visiting msrPart" << endl;
 }
 
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "Start visiting msrStaff" << endl;
+      "--> Start visiting msrStaff" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrStaff& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "End visiting msrStaff" << endl;
+      "--> End visiting msrStaff" << endl;
 }
 
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrClef& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "Start visiting msrClef" << endl;
+      "--> Start visiting msrClef" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrClef& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "End visiting msrClef" << endl;
+      "--> End visiting msrClef" << endl;
 }
 
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrKey& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "Start visiting msrKey" << endl;
+      "--> Start visiting msrKey" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrKey& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "End visiting msrKey" << endl;
+      "--> End visiting msrKey" << endl;
 }
 
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrTime& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "Start visiting msrTime" << endl;
+      "--> Start visiting msrTime" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrTime& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "End visiting msrTime" << endl;
+      "--> End visiting msrTime" << endl;
 }
 
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "Start visiting msrVoice" << endl;
+      "--> Start visiting msrVoice" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "End visiting msrVoice" << endl;
+      "--> End visiting msrVoice" << endl;
 }
 
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrLyrics& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "Start visiting msrLyrics" << endl;
+      "--> Start visiting msrLyrics" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrLyrics& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "End visiting msrLyrics" << endl;
+      "--> End visiting msrLyrics" << endl;
 }
 
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrSequentialMusic& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "Start visiting msrSequentialMusic" << endl;
+      "--> Start visiting msrSequentialMusic" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrSequentialMusic& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "End visiting msrSequentialMusic" << endl;
+      "--> End visiting msrSequentialMusic" << endl;
 }
 
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrNote& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "Start visiting msrNote" << endl;
+      "--> Start visiting msrNote" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr << idtr <<
-      "End visiting msrNote" << endl;
+      "--> End visiting msrNote" << endl;
 }
 
 
