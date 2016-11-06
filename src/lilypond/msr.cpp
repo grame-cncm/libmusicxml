@@ -752,12 +752,6 @@ msrDynamics::msrDynamics (
 }
 msrDynamics::~msrDynamics() {}
 
-ostream& operator<< (ostream& os, const S_msrDynamics& dyn)
-{
-  dyn->print(os);
-  return os;
-}
-
 string msrDynamics::dynamicsKindAsString ()
 {
   stringstream s;
@@ -869,6 +863,12 @@ void msrDynamics::acceptOut (basevisitor* v) {
 void msrDynamics::browseData (basevisitor* v)
 {}
 
+ostream& operator<< (ostream& os, const S_msrDynamics& dyn)
+{
+  dyn->print(os);
+  return os;
+}
+
 void msrDynamics::printMusicXML (ostream& os)
 {
   os << "<!-- msrDynamics??? -->" << endl;
@@ -910,12 +910,6 @@ msrWedge::msrWedge (
   fWedgeKind = wedgeKind; 
 }
 msrWedge::~msrWedge() {}
-
-ostream& operator<< (ostream& os, const S_msrWedge& wdg)
-{
-  wdg->print(os);
-  return os;
-}
 
 string msrWedge::wedgeKindAsString ()
 {
@@ -976,6 +970,12 @@ void msrWedge::acceptOut (basevisitor* v) {
 void msrWedge::browseData (basevisitor* v)
 {}
 
+ostream& operator<< (ostream& os, const S_msrWedge& wdg)
+{
+  wdg->print(os);
+  return os;
+}
+
 void msrWedge::printMusicXML (ostream& os)
 {
   os << "<!-- msrWedge??? -->" << endl;
@@ -1016,12 +1016,6 @@ msrSlur::msrSlur (
   fSlurKind = slurKind; 
 }
 msrSlur::~msrSlur() {}
-
-ostream& operator<< (ostream& os, const S_msrSlur& wdg)
-{
-  wdg->print(os);
-  return os;
-}
 
 string msrSlur::slurKindAsString ()
 {
@@ -1081,6 +1075,12 @@ void msrSlur::acceptOut (basevisitor* v) {
 
 void msrSlur::browseData (basevisitor* v)
 {}
+
+ostream& operator<< (ostream& os, const S_msrSlur& wdg)
+{
+  wdg->print(os);
+  return os;
+}
 
 void msrSlur::printMusicXML (ostream& os)
 {
@@ -1458,12 +1458,6 @@ S_msrWedge msrNote::removeFirstWedge () {
   return wdg;
 }
 
-ostream& operator<< (ostream& os, const S_msrNote& elt)
-{
-  elt->print(os);
-  return os;
-}
-
 string msrNote::notePitchAsLilypondString ()
 {
   stringstream s;
@@ -1587,6 +1581,12 @@ void msrNote::acceptOut (basevisitor* v) {
 
 void msrNote::browseData (basevisitor* v)
 {}
+
+ostream& operator<< (ostream& os, const S_msrNote& elt)
+{
+  elt->print(os);
+  return os;
+}
 
 void msrNote::printMusicXML (ostream& os)
 {
@@ -3153,6 +3153,12 @@ void msrHeader::acceptOut (basevisitor* v) {
 void msrHeader::browseData (basevisitor* v)
 {}
 
+ostream& operator<< (ostream& os, const S_msrHeader& elt)
+{
+  elt->print(os);
+  return os;
+}
+
 void msrHeader::printMusicXML (ostream& os)
 {
   os << "<!-- msrHeader??? -->" << endl;
@@ -4263,102 +4269,6 @@ void msrTempo::printLilyPondCode (ostream& os)
   os <<
     "\\tempo" << " " <<
     fTempoUnit << " = " << fPerMinute << endl;
-}
-
-//______________________________________________________________________________
-S_msrMidi msrMidi::create (
-  S_translationSettings& ts, 
-  int                    inputLineNumber)
-{
-  msrMidi* o =
-    new msrMidi (
-      ts, inputLineNumber);
-  assert(o!=0);
-  return o;
-}
-
-msrMidi::msrMidi (
-  S_translationSettings& ts, 
-  int                    inputLineNumber)
-    : msrElement (ts, inputLineNumber)
-{
-}
-msrMidi::~msrMidi() {}
-
-void msrMidi::acceptIn (basevisitor* v) {
-  if (fTranslationSettings->fDebug)
-    cerr << idtr <<
-      "==> msrMidi::acceptIn()" << endl;
-      
-  if (visitor<S_msrMidi>*
-    p =
-      dynamic_cast<visitor<S_msrMidi>*> (v)) {
-        S_msrMidi elem = this;
-        
-        if (fTranslationSettings->fDebug)
-          cerr << idtr <<
-            "==> Launching msrMidi::visitStart()" << endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrMidi::acceptOut (basevisitor* v) {
-  if (fTranslationSettings->fDebug)
-    cerr << idtr <<
-      "==> msrMidi::acceptOut()" << endl;
-
-  if (visitor<S_msrMidi>*
-    p =
-      dynamic_cast<visitor<S_msrMidi>*> (v)) {
-        S_msrMidi elem = this;
-      
-        if (fTranslationSettings->fDebug)
-          cerr << idtr <<
-            "==> Launching msrMidi::visitEnd()" << endl;
-        p->visitEnd (elem);
-  }
-}
-
-
-void msrMidi::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrMidi& mid)
-{
-  mid->print(os);
-  return os;
-}
-
-void msrMidi::printMusicXML (ostream& os)
-{
-  os << "<!-- msrMidi??? -->" << endl;
-}
-
-void msrMidi::printMSR (ostream& os)
-{
-  os << "Midi" << endl;
-
-  idtr++;
-  
-  os << idtr << "% to be completed" << endl;
-  
-  idtr--;
-}
-
-void msrMidi::printScoreSummary (ostream& os)
-{}
-
-void msrMidi::printLilyPondCode (ostream& os)
-{  
-  os << idtr << "\\midi {" << endl;
-  
-  idtr++;
-  
-  os << idtr << "% to be completed" << endl;
-  
-  idtr--;
-  
-  os << idtr << "}" << endl;
 }
 
 //______________________________________________________________________________
@@ -6438,15 +6348,15 @@ void msrScore::browseData (basevisitor* v)
       "<== msrScore::browseData()" << endl;
   }
 
-void msrScore::printMusicXML (ostream& os)
-{
-  os << "<!-- msrScore??? -->" << endl;
-}
-
 ostream& operator<< (ostream& os, const S_msrScore& elt)
 {
   elt->print(os);
   return os;
+}
+
+void msrScore::printMusicXML (ostream& os)
+{
+  os << "<!-- msrScore??? -->" << endl;
 }
 
 void msrScore::printMSR (ostream& os)
@@ -6499,6 +6409,102 @@ void msrScore::printScoreSummary (ostream& os)
 void msrScore::printLilyPondCode (ostream& os)
 {
   printMSR (os);
+}
+
+//______________________________________________________________________________
+S_msrMidi msrMidi::create (
+  S_translationSettings& ts, 
+  int                    inputLineNumber)
+{
+  msrMidi* o =
+    new msrMidi (
+      ts, inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrMidi::msrMidi (
+  S_translationSettings& ts, 
+  int                    inputLineNumber)
+    : msrElement (ts, inputLineNumber)
+{
+}
+msrMidi::~msrMidi() {}
+
+void msrMidi::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrMidi::acceptIn()" << endl;
+      
+  if (visitor<S_msrMidi>*
+    p =
+      dynamic_cast<visitor<S_msrMidi>*> (v)) {
+        S_msrMidi elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrMidi::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrMidi::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrMidi::acceptOut()" << endl;
+
+  if (visitor<S_msrMidi>*
+    p =
+      dynamic_cast<visitor<S_msrMidi>*> (v)) {
+        S_msrMidi elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrMidi::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+
+void msrMidi::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrMidi& mid)
+{
+  mid->print(os);
+  return os;
+}
+
+void msrMidi::printMusicXML (ostream& os)
+{
+  os << "<!-- msrMidi??? -->" << endl;
+}
+
+void msrMidi::printMSR (ostream& os)
+{
+  os << "Midi" << endl;
+
+  idtr++;
+  
+  os << idtr << "% to be completed" << endl;
+  
+  idtr--;
+}
+
+void msrMidi::printScoreSummary (ostream& os)
+{}
+
+void msrMidi::printLilyPondCode (ostream& os)
+{  
+  os << idtr << "\\midi {" << endl;
+  
+  idtr++;
+  
+  os << idtr << "% to be completed" << endl;
+  
+  idtr--;
+  
+  os << idtr << "}" << endl;
 }
 
 

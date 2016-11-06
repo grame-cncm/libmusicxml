@@ -50,91 +50,20 @@ namespace MusicXML2
         - LilyPond source code with       printLilypondCode()
 */
 
-class msrElement;
+//______________________________________________________________________________
+// PRE-declarations for class dependencies
 
-class msrVarValAssoc;
-// JMI class msrSchemeVarValAssoc;
+class msrVoice;
+typedef SMARTP<msrVoice> S_msrVoice;
 
-class msrScore;
-
-class msrPartgroup;
+class msrStaff;
+typedef SMARTP<msrStaff> S_msrStaff;
 
 class msrPart;
-class msrStaff;
-class msrClef;
-class msrKey;
-class msrTime;
-class msrVoice;
-class msrLyrics;
+typedef SMARTP<msrPart> S_msrPart;
 
-class msrLyrics;
-class msrDuration;
-class msrDynamics;
-class msrWedge;
-class msrChord;
-class msrNote;
-
-class msrPaper;
-class msrLayout;
-
-class msrMidi;
-
-typedef SMARTP<msrElement>             S_msrElement;
-
-typedef SMARTP<msrVarValAssoc>         S_msrVarValAssoc;
-//typedef SMARTP<msrSchemeVarValAssoc>   S_msrSchemeVarValAssoc;
-
-typedef SMARTP<msrScore>               S_msrScore;
-
-typedef SMARTP<msrPartgroup>               S_msrPartgroup;
-
-typedef SMARTP<msrPart>                S_msrPart;
-typedef SMARTP<msrStaff>               S_msrStaff;
-typedef SMARTP<msrClef>                S_msrClef;
-typedef SMARTP<msrKey>                 S_msrKey;
-typedef SMARTP<msrTime>                S_msrTime;
-typedef SMARTP<msrVoice>               S_msrVoice;
-typedef SMARTP<msrLyrics>              S_msrLyrics;
-
-
-typedef SMARTP<msrLyrics>              S_msrLyrics;
-typedef SMARTP<msrDuration>            S_msrDuration;
-typedef SMARTP<msrDynamics>            S_msrDynamics;
-typedef SMARTP<msrWedge>               S_msrWedge;
-typedef SMARTP<msrChord>               S_msrChord;
-typedef SMARTP<msrNote>                S_msrNote;
-
-typedef SMARTP<msrPaper>               S_msrPaper;
-typedef SMARTP<msrLayout>              S_msrLayout;
-
-typedef SMARTP<msrMidi>                S_msrMidi;
-
-EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
-
-EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
-
-EXP ostream& operator<< (ostream& os, const S_msrPartgroup& elt);
-
-EXP ostream& operator<< (ostream& os, const S_msrClef& elt);
-EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
-EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
-
-EXP ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt);
-//EXP ostream& operator<< (ostream& os, const S_msrSchemeVarValAssoc& elt);
-
-EXP ostream& operator<< (ostream& os, const S_msrDuration& dur);
-EXP ostream& operator<< (ostream& os, const S_msrDynamics& dyn);
-EXP ostream& operator<< (ostream& os, const S_msrWedge& wdg);
-EXP ostream& operator<< (ostream& os, const S_msrChord& chrd);
-EXP ostream& operator<< (ostream& os, const S_msrNote& chrd);
-
-EXP ostream& operator<< (ostream& os, const S_msrPaper& chrd);
-EXP ostream& operator<< (ostream& os, const S_msrLayout& chrd);
-
-EXP ostream& operator<< (ostream& os, const S_msrMidi& chrd);
-
-
-
+class msrPartgroup;
+typedef SMARTP<msrPartgroup> S_msrPartgroup;
 
 //______________________________________________________________________________
 /*!
@@ -281,6 +210,7 @@ class EXP msrElement : public smartable
 typedef SMARTP<msrElement> S_msrElement;
 typedef vector<S_msrElement> msrElementsVector;
 typedef list<S_msrElement> msrElementsList;
+EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
 
 /*!
 \internal
@@ -420,6 +350,7 @@ class EXP msrAbsoluteOctave : public msrElement
     int  fMsrOctave;
 };
 typedef SMARTP<msrAbsoluteOctave> S_msrAbsoluteOctave;
+EXP ostream& operator<< (ostream& os, const S_msrAbsoluteOctave& elt);
 
 /*!
 \brief A msr note duration representation.
@@ -499,6 +430,7 @@ class EXP msrDuration : public msrElement
     string      fTupletMemberNoteType;
 };
 typedef SMARTP<msrDuration> S_msrDuration;
+EXP ostream& operator<< (ostream& os, const S_msrDuration& elt);
 
 /*!
 \brief A msr articulation representation.
@@ -544,6 +476,7 @@ class EXP msrArticulation : public msrElement
 };
 typedef SMARTP<msrArticulation> S_msrArticulation;
 typedef list<S_msrArticulation> msrArticulationsList;
+EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
 
 /*!
 \brief A msr slur representation.
@@ -589,6 +522,7 @@ class EXP msrSlur : public msrElement
     SlurKind fSlurKind;
 };
 typedef SMARTP<msrSlur> S_msrSlur;
+EXP ostream& operator<< (ostream& os, const S_msrSlur& elt);
 
 /*!
 \brief A msr dynamics representation.
@@ -641,6 +575,7 @@ class EXP msrDynamics : public msrElement
 };
 typedef SMARTP<msrDynamics> S_msrDynamics;
 typedef list<S_msrDynamics> msrDynamicssList;
+EXP ostream& operator<< (ostream& os, const S_msrDynamics& elt);
 
 /*!
 \brief A msr wedge representation.
@@ -688,6 +623,7 @@ class EXP msrWedge : public msrElement
 };
 typedef SMARTP<msrWedge> S_msrWedge;
 typedef list<S_msrWedge> msrWedgesList;
+EXP ostream& operator<< (ostream& os, const S_msrWedge& elt);
 
 /*!
 \brief A msr note representation.
@@ -811,6 +747,7 @@ class EXP msrNote : public msrElement
 };
 typedef SMARTP<msrNote> S_msrNote;
 typedef vector<S_msrNote> msrNotesVector;
+EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
 
 /*!
 \brief The msr parallel music element
@@ -860,6 +797,7 @@ class EXP msrParallelMusic : public msrElement
 
 };
 typedef SMARTP<msrParallelMusic> S_msrParallelMusic;
+EXP ostream& operator<< (ostream& os, const S_msrParallelMusic& elt);
 
 /*!
 \brief The msr sequence element
@@ -914,6 +852,7 @@ class EXP msrSequentialMusic : public msrElement
 
 };
 typedef SMARTP<msrSequentialMusic> S_msrSequentialMusic;
+EXP ostream& operator<< (ostream& os, const S_msrSequentialMusic& elt);
 
 /*!
 \brief The msr chord element
@@ -970,6 +909,7 @@ class EXP msrChord : public msrElement
     msrWedgesList             fChordWedges;
 };
 typedef SMARTP<msrChord> S_msrChord;
+EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
 
 /*!
 \brief A msr LilyPond variable/value association representation.
@@ -1033,6 +973,7 @@ class EXP msrVarValAssoc : public msrElement
 };
 typedef SMARTP<msrVarValAssoc> S_msrVarValAssoc;
 typedef vector<S_msrVarValAssoc> msrVarValAssocsVector;
+EXP ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt);
 
 /*!
 \brief A msr header representation.
@@ -1153,6 +1094,7 @@ class EXP msrHeader : public msrElement
 
 };
 typedef SMARTP<msrHeader> S_msrHeader;
+EXP ostream& operator<< (ostream& os, const S_msrHeader& elt);
 
 /*!
 \brief A msr paper representation.
@@ -1225,6 +1167,7 @@ class EXP msrPaper : public msrElement
     float             fPageTopSpace; 
 };
 typedef SMARTP<msrPaper> S_msrPaper;
+EXP ostream& operator<< (ostream& os, const S_msrPaper& elt);
 
 /*!
 \brief A msr layout representation.
@@ -1269,6 +1212,7 @@ class EXP msrLayout : public msrElement
     msrVarValAssocsVector fmsrVarValAssocs;
 };
 typedef SMARTP<msrLayout> S_msrLayout;
+EXP ostream& operator<< (ostream& os, const S_msrLayout& elt);
 
 /*!
 \brief A msr repeat representation.
@@ -1331,6 +1275,7 @@ class EXP msrRepeat: public msrElement
     bool                         fActuallyUsed;
 };
 typedef SMARTP<msrRepeat> S_msrRepeat;
+EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
 
 /*!
 \brief A msr barline representation.
@@ -1370,6 +1315,7 @@ class EXP msrBarLine : public msrElement
     int fNextBarNumber;
 };
 typedef SMARTP<msrBarLine> S_msrBarLine;
+EXP ostream& operator<< (ostream& os, const S_msrBarLine& elt);
 
 /*!
 \brief A msr comment representation.
@@ -1415,6 +1361,7 @@ class EXP msrComment : public msrElement
     GapKind     fGapKind;
 };
 typedef SMARTP<msrComment> S_msrComment;
+EXP ostream& operator<< (ostream& os, const S_msrComment& elt);
 
 /*!
 \brief A msr break representation.
@@ -1455,6 +1402,7 @@ class EXP msrBreak : public msrElement
     int fNextBarNumber;
 };
 typedef SMARTP<msrBreak> S_msrBreak;
+EXP ostream& operator<< (ostream& os, const S_msrBreak& elt);
 
 /*!
 \brief A msr barnumbercheck representation.
@@ -1495,6 +1443,7 @@ class EXP msrBarNumberCheck : public msrElement
     int fNextBarNumber;
 };
 typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
+EXP ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt);
 
 /*!
 \brief A msr tuplet representation.
@@ -1552,6 +1501,8 @@ class EXP msrTuplet : public msrElement
 };
 typedef SMARTP<msrTuplet> S_msrTuplet;
 typedef stack<S_msrTuplet> msrTupletsStack;
+EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
+
 /*!
 \brief A msr beam representation.
 
@@ -1600,6 +1551,7 @@ class EXP msrBeam : public msrElement
     BeamKind fBeamKind;
 };
 typedef SMARTP<msrBeam> S_msrBeam;
+EXP ostream& operator<< (ostream& os, const S_msrBeam& elt);
 
 /*!
 \brief A msr clef representation.
@@ -1648,6 +1600,7 @@ class EXP msrClef : public msrElement
     int    fOctaveChange;
 };
 typedef SMARTP<msrClef> S_msrClef;
+EXP ostream& operator<< (ostream& os, const S_msrClef& elt);
 
 /*!
 \brief A msr key representation.
@@ -1699,6 +1652,7 @@ class EXP msrKey : public msrElement
     KeyMode fKeyMode;
 };
 typedef SMARTP<msrKey> S_msrKey;
+EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
 
 /*!
 \brief A msr time representation.
@@ -1742,6 +1696,7 @@ class EXP msrTime : public msrElement
     bool     fGenerateNumericalTime;
 };
 typedef SMARTP<msrTime> S_msrTime;
+EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
 
 /*!
 \brief A tempo representation.
@@ -1785,43 +1740,7 @@ class EXP msrTempo : public msrElement
     int  fPerMinute;
 };
 typedef SMARTP<msrTempo> S_msrTempo;
-
-/*!
-\brief A msr midi representation.
-
-  A midi is represented by variable/value pairs
-*/
-//______________________________________________________________________________
-class EXP msrMidi : public msrElement
-{
-  public:
-
-    static SMARTP<msrMidi> create (
-      S_translationSettings& ts, 
-      int                    inputLineNumber);
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printScoreSummary (ostream& os);
-    virtual void printLilyPondCode (ostream& os);
-
-  protected:
-
-    msrMidi (
-      S_translationSettings& ts, 
-      int                    inputLineNumber);
-      
-    virtual ~msrMidi();
-  
-  private:
-  
-};
-typedef SMARTP<msrMidi> S_msrMidi;
+EXP ostream& operator<< (ostream& os, const S_msrTempo& elt);
 
 /*!
 \brief A msr lyrics chunk representation.
@@ -1877,6 +1796,7 @@ class EXP msrLyricsChunk : public msrElement
 };
 typedef SMARTP<msrLyricsChunk> S_msrLyricsChunk;
 typedef vector<S_msrLyricsChunk> msrLyricsChunksVector;
+EXP ostream& operator<< (ostream& os, const S_msrLyricsChunk& elt);
 
 /*!
 \brief A msr lyrics representation.
@@ -1966,6 +1886,7 @@ class EXP msrLyrics : public msrElement
 };
 typedef SMARTP<msrLyrics> S_msrLyrics;
 typedef map<int, S_msrLyrics> msrIntToLyricsMap;
+EXP ostream& operator<< (ostream& os, const S_msrLyrics& elt);
 
 /*!
 \brief A msr voice representation.
@@ -2079,7 +2000,7 @@ class EXP msrVoice : public msrElement
     // will be ignored if the voice has no repeats at all
     S_msrRepeat               fVoiceMsrRepeat;
 };
-typedef SMARTP<msrVoice> S_msrVoice;
+EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 
 /*!
 \brief A msr staff representation.
@@ -2164,6 +2085,7 @@ class EXP msrStaff : public msrElement
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 typedef map<int, S_msrStaff> msrStavesMap;
+EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
 
 /*!
 \brief A msr part representation.
@@ -2268,6 +2190,7 @@ class EXP msrPart : public msrElement
 typedef SMARTP<msrPart> S_msrPart;
 typedef list<S_msrPart> msrPartsList;
 typedef map<string, S_msrPart> msrPartsMap;
+EXP ostream& operator<< (ostream& os, const S_msrPart& elt);
 
 /*!
 \brief A msr part group representation.
@@ -2392,6 +2315,7 @@ class EXP msrPartgroup : public msrElement
 typedef SMARTP<msrPartgroup> S_msrPartgroup;
 typedef list<S_msrPartgroup> msrPartgroupsList;
 typedef map<int, S_msrPartgroup> msrPartgroupsMap;
+EXP ostream& operator<< (ostream& os, const S_msrPartgroup& elt);
 
 /*!
 \brief A msr score representation.
@@ -2435,6 +2359,45 @@ class EXP msrScore : public msrElement
 //    msrPartgroupsMap        fScorePartgroupsMap;
 };
 typedef SMARTP<msrScore> S_msrScore;
+EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
+
+/*!
+\brief A msr midi representation.
+
+  A midi is represented by variable/value pairs
+*/
+//______________________________________________________________________________
+class EXP msrMidi : public msrElement
+{
+  public:
+
+    static SMARTP<msrMidi> create (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void printMusicXML     (ostream& os);
+    virtual void printMSR          (ostream& os);
+    virtual void printScoreSummary (ostream& os);
+    virtual void printLilyPondCode (ostream& os);
+
+  protected:
+
+    msrMidi (
+      S_translationSettings& ts, 
+      int                    inputLineNumber);
+      
+    virtual ~msrMidi();
+  
+  private:
+  
+};
+typedef SMARTP<msrMidi> S_msrMidi;
+EXP ostream& operator<< (ostream& os, const S_msrMidi& elt);
 
 
 /*! @} */
