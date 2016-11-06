@@ -130,5 +130,20 @@ void msr2SummaryVisitor::visitEnd (S_msrPartgroup& elt)
       "End visiting msrPartgroup" << endl;
 }
 
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrPart& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Start visiting msrPart" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrPart& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "End visiting msrPart" << endl;
+}
+
 
 } // namespace

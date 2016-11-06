@@ -235,32 +235,6 @@ void msrElement::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-/*
-void msrBrowser::browse (S_msrVisitable& t)
-{
-  if (fTranslationSettings->fTrace)
-    cerr <<
-      "==> START msrBrowser::browse (" ")" << endl;
-  
-  enter (t);
-/ *
-  ctree<msrVisitable>::literator iter;
-
-  for (iter = t.lbegin(); iter != t.lend(); iter++)
-    browse (**iter);
-* /
-
-  t->browseData (basevisitor* v);
-  
-  leave (t);
-
-  if (fTranslationSettings->fTrace)
-    cerr <<
-      "<== STOP msrBrowser::browse (" ")" << endl;
-}
-*/
-
-//______________________________________________________________________________
 ostream& operator<< (ostream& os, musicXMLNoteData& data)
 {
   data.print(os);
@@ -4812,11 +4786,39 @@ S_msrStaff msrPart::fetchStaffFromPart (
   return result;
 }
 
-void msrPart::acceptIn (basevisitor* v)
-{}
+void msrPart::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrPart::acceptIn()" << endl;
+      
+  if (visitor<S_msrPart>*
+    p =
+      dynamic_cast<visitor<S_msrPart>*> (v)) {
+        S_msrPart elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrPart::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrPart::acceptOut (basevisitor* v)
-{}
+void msrPart::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrPart::acceptOut()" << endl;
+
+  if (visitor<S_msrPart>*
+    p =
+      dynamic_cast<visitor<S_msrPart>*> (v)) {
+        S_msrPart elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrPart::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
 
 void msrPart::browseData (basevisitor* v)
 {}
@@ -5101,7 +5103,7 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
 
 void msrPartgroup::acceptIn (basevisitor* v) {
   if (fTranslationSettings->fDebug)
-    cerr <<
+    cerr << idtr <<
       "==> msrPartgroup::acceptIn()" << endl;
       
   if (visitor<S_msrPartgroup>*
@@ -5110,7 +5112,7 @@ void msrPartgroup::acceptIn (basevisitor* v) {
         S_msrPartgroup elem = this;
         
         if (fTranslationSettings->fDebug)
-          cerr <<
+          cerr << idtr <<
             "==> Launching msrPartgroup::visitStart()" << endl;
         p->visitStart (elem);
   }
@@ -5118,7 +5120,7 @@ void msrPartgroup::acceptIn (basevisitor* v) {
 
 void msrPartgroup::acceptOut (basevisitor* v) {
   if (fTranslationSettings->fDebug)
-    cerr <<
+    cerr << idtr <<
       "==> msrPartgroup::acceptOut()" << endl;
 
   if (visitor<S_msrPartgroup>*
@@ -5127,7 +5129,7 @@ void msrPartgroup::acceptOut (basevisitor* v) {
         S_msrPartgroup elem = this;
       
         if (fTranslationSettings->fDebug)
-          cerr <<
+          cerr << idtr <<
             "==> Launching msrPartgroup::visitEnd()" << endl;
         p->visitEnd (elem);
   }
@@ -5136,26 +5138,27 @@ void msrPartgroup::acceptOut (basevisitor* v) {
 void msrPartgroup::browseData (basevisitor* v)
 {
   if (fTranslationSettings->fDebug)
-    cerr <<
+    cerr << idtr <<
       "==> msrPartgroup::browseData()" << endl;
   
-//  enter (t);
+  idtr++;
 
-/*
   for (
-    msrPartgroupsList::iterator i = fPartgroupsList.begin();
-    i != fPartgroupsList.end();
+    msrElementsList::iterator i = fPartgroupElements.begin();
+    i != fPartgroupElements.end();
     i++) {
     // create the part group browser
-    msrBrowser<msrPartgroup> browser (v);
+    msrBrowser<msrElement> browser (v);
   
     // browse the score with the visitor
     browser.browse (*(*i));
-
- // JMI  ((*i))->browseData (basevisitor* v);
   } // for
-*/
-//  leave (t);
+
+  idtr--;
+
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "<== msrPartgroup::browseData()" << endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrPartgroup& elt)
@@ -5362,7 +5365,7 @@ S_msrPartgroup msrScore::fetchScorePartgroup (
 
 void msrScore::acceptIn (basevisitor* v) {
   if (fTranslationSettings->fDebug)
-    cerr <<
+    cerr << idtr <<
       "==> msrScore::acceptIn()" << endl;
       
   if (visitor<S_msrScore>*
@@ -5371,7 +5374,7 @@ void msrScore::acceptIn (basevisitor* v) {
         S_msrScore elem = this;
         
         if (fTranslationSettings->fDebug)
-          cerr <<
+          cerr << idtr <<
             "==> Launching msrScore::visitStart()" << endl;
         p->visitStart (elem);
   }
@@ -5379,8 +5382,8 @@ void msrScore::acceptIn (basevisitor* v) {
 
 void msrScore::acceptOut (basevisitor* v) {
   if (fTranslationSettings->fDebug)
-    cerr <<
-      "==> msrElement::acceptOut()" << endl;
+    cerr << idtr <<
+      "==> msrScore::acceptOut()" << endl;
 
   if (visitor<S_msrScore>*
     p =
@@ -5388,7 +5391,7 @@ void msrScore::acceptOut (basevisitor* v) {
         S_msrScore elem = this;
       
         if (fTranslationSettings->fDebug)
-          cerr <<
+          cerr << idtr <<
             "==> Launching msrScore::visitEnd()" << endl;
         p->visitEnd (elem);
   }
@@ -5397,12 +5400,11 @@ void msrScore::acceptOut (basevisitor* v) {
 void msrScore::browseData (basevisitor* v)
 {
   if (fTranslationSettings->fDebug)
-    cerr <<
+    cerr << idtr <<
       "==> msrScore::browseData()" << endl;
   
-//  enter (t);
-  acceptIn (v);
-
+  idtr++;
+  
   for (
     msrPartgroupsList::iterator i = fPartgroupsList.begin();
     i != fPartgroupsList.end();
@@ -5412,13 +5414,14 @@ void msrScore::browseData (basevisitor* v)
   
     // browse the score with the visitor
     browser.browse (*(*i));
-
- // JMI  ((*i))->browseData (basevisitor* v);
   } // for
-  
-//  leave (t);
-  acceptOut (v);
-}
+
+  idtr--;
+
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "<== msrScore::browseData()" << endl;
+  }
 
 void msrScore::printMusicXML (ostream& os)
 {
