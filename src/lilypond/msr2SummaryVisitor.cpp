@@ -100,7 +100,6 @@ void msr2SummaryVisitor::printSummaryFromMsrScore (
   }
 }
 
-
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrScore& elt)
 {
@@ -115,5 +114,21 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
     cerr << idtr <<
       "End visiting msrScore" << endl;
 }
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrPartgroup& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "Start visiting msrPartgroup" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrPartgroup& elt)
+{
+  if (fTranslationSettings->fTrace)
+    cerr << idtr <<
+      "End visiting msrPartgroup" << endl;
+}
+
 
 } // namespace

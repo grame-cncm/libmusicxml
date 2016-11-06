@@ -316,10 +316,6 @@ template <typename T> class EXP msrBrowser : public browser<T>
     virtual void browse (T& t) {
       enter (t);
 
-//      if (fTranslationSettings->fTrace)
-        cerr <<
-          "==> msrBrowser::browse() will now handle MSR data" << endl;
-
       t.browseData (fVisitor);
       
       leave (t);
@@ -2246,6 +2242,9 @@ class EXP msrPartgroup : public msrElement
 
     S_msrPart fetchPartFromPartgroup (string partMusicXMLName);
 
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
     virtual void browseData (basevisitor* v);
 
     virtual void printMusicXML     (ostream& os);
@@ -2308,8 +2307,8 @@ class EXP msrScore : public msrElement
 
     void addPartgroupToScore (S_msrPartgroup partGroup);
 
-//    virtual void acceptIn  (basevisitor* v);
- //   virtual void acceptOut (basevisitor* v);
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
 

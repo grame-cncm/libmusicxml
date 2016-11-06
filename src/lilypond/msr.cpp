@@ -113,41 +113,6 @@ void msrInternalError (int inputLineNumber, string message)
 }
 
 //______________________________________________________________________________
-/*
-S_msrVisitable msrVisitable::create ()
-{
-  msrVisitable * o = new msrVisitable ();
-  assert(o!=0);
-  return o;
-}
-
-
-void msrVisitable::acceptIn (basevisitor& v) {
-  visitor<S_msrVisitable>*
-    p =
-      dynamic_cast<visitor<S_msrVisitable>*> (&v);
-  
-  if (p) {
-    S_msrVisitable xml = this;
-    
-    p->visitStart (xml);
-  }
-}
-
-void msrVisitable::acceptOut (basevisitor& v) {
-  visitor<S_msrVisitable>*
-    p =
-      dynamic_cast<visitor<S_msrVisitable>*> (&v);
-  
-  if (p) {
-    S_msrVisitable xml = this;
-    
-    p->visitEnd (xml);
-  }
-}
-*/
-
-//______________________________________________________________________________
 /* JMI
 
 S_msrElement msrElement::create (
@@ -172,9 +137,16 @@ msrElement::msrElement (
 
 msrElement::~msrElement() {}
 
+/* JMI
+string msrElementType (S_msrElement elem)
+{
+  if (dynamic_cast elem (elem)) {
+  }
+}
+*/
 
 void msrElement::acceptIn (basevisitor* v) {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr <<
       "==> msrElement::acceptIn()" << endl;
       
@@ -183,20 +155,15 @@ void msrElement::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
         
-        if (fTranslationSettings->fTrace)
+        if (fTranslationSettings->fDebug)
           cerr <<
-            "==> Launching visitStart()" << endl;
+            "==> Launching msrElement::visitStart()" << endl;
         p->visitStart (elem);
   }
-
-  /* JMI
-  else
-    msrVisitable::acceptIn (v);
-    */
 }
 
 void msrElement::acceptOut (basevisitor* v) {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr <<
       "==> msrElement::acceptOut()" << endl;
 
@@ -205,15 +172,11 @@ void msrElement::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
       
-        if (fTranslationSettings->fTrace)
+        if (fTranslationSettings->fDebug)
           cerr <<
-            "==> Launching visitStart()" << endl;
+            "==> Launching msrElement::visitEnd()" << endl;
         p->visitEnd (elem);
   }
-  /* JMI
-  else
-    msrVisitable::acceptOut (v);
-    */
 }
 
 ostream& operator<< (ostream& os, const S_msrElement& elt)
@@ -4945,17 +4908,47 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
   return result;
 }
 
+void msrPartgroup::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr <<
+      "==> msrPartgroup::acceptIn()" << endl;
+      
+  if (visitor<S_msrPartgroup>*
+    p =
+      dynamic_cast<visitor<S_msrPartgroup>*> (v)) {
+        S_msrPartgroup elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr <<
+            "==> Launching msrPartgroup::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrPartgroup::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr <<
+      "==> msrPartgroup::acceptOut()" << endl;
+
+  if (visitor<S_msrPartgroup>*
+    p =
+      dynamic_cast<visitor<S_msrPartgroup>*> (v)) {
+        S_msrPartgroup elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr <<
+            "==> Launching msrPartgroup::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 void msrPartgroup::browseData (basevisitor* v)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr <<
       "==> msrPartgroup::browseData()" << endl;
   
 //  enter (t);
-
-  if (fTranslationSettings->fTrace)
-    cerr <<
-      "==> msrPartgroup::browseData() will now handle MSR data" << endl;
 
 /*
   for (
@@ -5176,18 +5169,48 @@ S_msrPartgroup msrScore::fetchScorePartgroup (
 }
 */
 
+void msrScore::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr <<
+      "==> msrScore::acceptIn()" << endl;
+      
+  if (visitor<S_msrScore>*
+    p =
+      dynamic_cast<visitor<S_msrScore>*> (v)) {
+        S_msrScore elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr <<
+            "==> Launching msrScore::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrScore::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr <<
+      "==> msrElement::acceptOut()" << endl;
+
+  if (visitor<S_msrScore>*
+    p =
+      dynamic_cast<visitor<S_msrScore>*> (v)) {
+        S_msrScore elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr <<
+            "==> Launching msrScore::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 void msrScore::browseData (basevisitor* v)
 {
-  if (fTranslationSettings->fTrace)
+  if (fTranslationSettings->fDebug)
     cerr <<
       "==> msrScore::browseData()" << endl;
   
 //  enter (t);
   acceptIn (v);
-  
-  if (fTranslationSettings->fTrace)
-    cerr <<
-      "==> msrScore::browseData() will now handle MSR data" << endl;
 
   for (
     msrPartgroupsList::iterator i = fPartgroupsList.begin();
