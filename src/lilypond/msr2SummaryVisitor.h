@@ -49,6 +49,8 @@ class msr2SummaryVisitor :
   
   public visitor<S_msrVoice >,
   
+  public visitor<S_msrSequentialMusic >,
+  
   public visitor<S_msrLyrics >
 
 {
@@ -81,6 +83,9 @@ class msr2SummaryVisitor :
 
     virtual void visitStart (S_msrVoice& elt);
     virtual void visitEnd   (S_msrVoice& elt);
+
+    virtual void visitStart (S_msrSequentialMusic& elt);
+    virtual void visitEnd   (S_msrSequentialMusic& elt);
 
     virtual void visitStart (S_msrLyrics& elt);
     virtual void visitEnd   (S_msrLyrics& elt);

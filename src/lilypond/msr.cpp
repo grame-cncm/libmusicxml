@@ -1573,6 +1573,66 @@ void msrSequentialMusic::removeElementFromSequentialMusic (
   } // for
 }
 
+void msrSequentialMusic::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrSequentialMusic::acceptIn()" << endl;
+      
+  if (visitor<S_msrSequentialMusic>*
+    p =
+      dynamic_cast<visitor<S_msrSequentialMusic>*> (v)) {
+        S_msrSequentialMusic elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrSequentialMusic::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrSequentialMusic::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrSequentialMusic::acceptOut()" << endl;
+
+  if (visitor<S_msrSequentialMusic>*
+    p =
+      dynamic_cast<visitor<S_msrSequentialMusic>*> (v)) {
+        S_msrSequentialMusic elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrSequentialMusic::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrSequentialMusic::browseData (basevisitor* v)
+{
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrSequentialMusic::browseData()" << endl;
+  
+  idtr++;
+
+  for (
+    msrElementsList::iterator i = fSequentialMusicElements.begin();
+    i != fSequentialMusicElements.end();
+    i++) {
+    // create the element browser
+    msrBrowser<msrElement> browser (v);
+  
+    // browse the element with the visitor
+    browser.browse (*(*i));
+  } // for
+
+  idtr--;
+
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "<== msrSequentialMusic::browseData()" << endl;
+}
+
 ostream& operator<< (ostream& os, const S_msrSequentialMusic& elt)
 {
   elt->print(os);
@@ -1638,15 +1698,6 @@ void msrSequentialMusic::printScoreSummary (ostream& os)
   }
 */
 }
-
-void msrSequentialMusic::acceptIn (basevisitor* v)
-{}
-
-void msrSequentialMusic::acceptOut (basevisitor* v)
-{}
-
-void msrSequentialMusic::browseData (basevisitor* v)
-{}
 
 void msrSequentialMusic::printMusicXML (ostream& os)
 {
@@ -4378,6 +4429,13 @@ void msrVoice::browseData (basevisitor* v)
   
   idtr++;
 
+  // create the sequential music browser
+  msrBrowser<msrSequentialMusic> browser (v);
+
+  // browse the sequential music with the visitor
+  browser.browse (*fVoiceSequentialMusic);
+
+  // browse the voice lyrics
   for (
     map<int, S_msrLyrics>::iterator i = fVoiceLyricsMap.begin();
     i != fVoiceLyricsMap.end();
@@ -4395,7 +4453,6 @@ void msrVoice::browseData (basevisitor* v)
     cerr << idtr <<
       "<== msrVoice::browseData()" << endl;
 }
-
 
 ostream& operator<< (ostream& os, const S_msrVoice& elt)
 {

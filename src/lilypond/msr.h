@@ -2015,13 +2015,22 @@ class EXP msrVoice : public msrElement
 
     S_msrElement
             getVoiceSequentialMusicLastElement ()
-                { return fVoiceSequentialMusic->getLastElementOfSequentialMusic (); }
+                {
+                  return fVoiceSequentialMusic->
+                    getLastElementOfSequentialMusic ();
+                }
                   
     void    removeLastElementFromVoiceSequentialMusic ()
-                { fVoiceSequentialMusic->removeLastElementFromSequentialMusic (); }
+                {
+                  fVoiceSequentialMusic->
+                    removeLastElementFromSequentialMusic ();
+                }
 
     void    removeElementFromVoiceSequentialMusic (S_msrElement elem)
-                { fVoiceSequentialMusic->removeElementFromSequentialMusic (elem); }
+                {
+                  fVoiceSequentialMusic->
+                    removeElementFromSequentialMusic (elem);
+                }
 
 
     S_msrSequentialMusic

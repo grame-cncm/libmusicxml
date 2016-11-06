@@ -124,7 +124,7 @@ void displayScoreSummaryWithVisitor (
   // create an msr2SummaryVisitor visitor
   msr2SummaryVisitor visitor (ts);
 
-  if (ts->fTrace) cerr << "{%" << std::endl;
+  if (ts->fTrace) cerr << "%{" << std::endl;
   
   visitor.printSummaryFromMsrScore (score);
   
@@ -154,7 +154,7 @@ void displayMSRScore (
   msrGlobalVariables::setDisplayKind (
     msrGlobalVariables::kMSR);
    
-  if (ts->fTrace) cerr << "{%" << std::endl;
+  if (ts->fTrace) cerr << "%{" << std::endl;
   cerr << score;
   if (ts->fTrace) cerr << "%}" << std::endl;
   
