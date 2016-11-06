@@ -323,11 +323,39 @@ msrAbsoluteOctave::msrAbsoluteOctave (
 }
 msrAbsoluteOctave::~msrAbsoluteOctave () {}
 
-void msrAbsoluteOctave::acceptIn (basevisitor* v)
-{}
+void msrAbsoluteOctave::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrAbsoluteOctave::acceptIn()" << endl;
+      
+  if (visitor<S_msrAbsoluteOctave>*
+    p =
+      dynamic_cast<visitor<S_msrAbsoluteOctave>*> (v)) {
+        S_msrAbsoluteOctave elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrAbsoluteOctave::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrAbsoluteOctave::acceptOut (basevisitor* v)
-{}
+void msrAbsoluteOctave::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrAbsoluteOctave::acceptOut()" << endl;
+
+  if (visitor<S_msrAbsoluteOctave>*
+    p =
+      dynamic_cast<visitor<S_msrAbsoluteOctave>*> (v)) {
+        S_msrAbsoluteOctave elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrAbsoluteOctave::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
 
 void msrAbsoluteOctave::browseData (basevisitor* v)
 {}
@@ -423,11 +451,40 @@ void msrDuration::scaleNumByFraction (int num, int denom)
   fNum *= num/denom;
 }
 
-void msrDuration::acceptIn (basevisitor* v)
-{}
+void msrDuration::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrDuration::acceptIn()" << endl;
+      
+  if (visitor<S_msrDuration>*
+    p =
+      dynamic_cast<visitor<S_msrDuration>*> (v)) {
+        S_msrDuration elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrDuration::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrDuration::acceptOut (basevisitor* v)
-{}
+void msrDuration::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrDuration::acceptOut()" << endl;
+
+  if (visitor<S_msrDuration>*
+    p =
+      dynamic_cast<visitor<S_msrDuration>*> (v)) {
+        S_msrDuration elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrDuration::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrDuration::browseData (basevisitor* v)
 {}
@@ -587,11 +644,39 @@ msrArticulation::msrArticulation (
 
 msrArticulation::~msrArticulation() {}
 
-void msrArticulation::acceptIn (basevisitor* v)
-{}
+void msrArticulation::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrArticulation::acceptIn()" << endl;
+      
+  if (visitor<S_msrArticulation>*
+    p =
+      dynamic_cast<visitor<S_msrArticulation>*> (v)) {
+        S_msrArticulation elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrArticulation::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrArticulation::acceptOut (basevisitor* v)
-{}
+void msrArticulation::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrArticulation::acceptOut()" << endl;
+
+  if (visitor<S_msrArticulation>*
+    p =
+      dynamic_cast<visitor<S_msrArticulation>*> (v)) {
+        S_msrArticulation elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrArticulation::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
 
 void msrArticulation::browseData (basevisitor* v)
 {}
@@ -746,11 +831,40 @@ string msrDynamics::dynamicsKindAsLilypondString ()
   return "\\"+dynamicsKindAsString ();
 }
 
-void msrDynamics::acceptIn (basevisitor* v)
-{}
+void msrDynamics::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrDynamics::acceptIn()" << endl;
+      
+  if (visitor<S_msrDynamics>*
+    p =
+      dynamic_cast<visitor<S_msrDynamics>*> (v)) {
+        S_msrDynamics elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrDynamics::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrDynamics::acceptOut (basevisitor* v)
-{}
+void msrDynamics::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrDynamics::acceptOut()" << endl;
+
+  if (visitor<S_msrDynamics>*
+    p =
+      dynamic_cast<visitor<S_msrDynamics>*> (v)) {
+        S_msrDynamics elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrDynamics::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrDynamics::browseData (basevisitor* v)
 {}
@@ -824,11 +938,40 @@ string msrWedge::wedgeKindAsString ()
   return s.str();
 }
 
-void msrWedge::acceptIn (basevisitor* v)
-{}
+void msrWedge::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrWedge::acceptIn()" << endl;
+      
+  if (visitor<S_msrWedge>*
+    p =
+      dynamic_cast<visitor<S_msrWedge>*> (v)) {
+        S_msrWedge elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrWedge::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrWedge::acceptOut (basevisitor* v)
-{}
+void msrWedge::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrWedge::acceptOut()" << endl;
+
+  if (visitor<S_msrWedge>*
+    p =
+      dynamic_cast<visitor<S_msrWedge>*> (v)) {
+        S_msrWedge elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrWedge::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrWedge::browseData (basevisitor* v)
 {}
@@ -901,11 +1044,40 @@ string msrSlur::slurKindAsString ()
   return s.str();
 }
 
-void msrSlur::acceptIn (basevisitor* v)
-{}
+void msrSlur::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrSlur::acceptIn()" << endl;
+      
+  if (visitor<S_msrSlur>*
+    p =
+      dynamic_cast<visitor<S_msrSlur>*> (v)) {
+        S_msrSlur elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrSlur::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrSlur::acceptOut (basevisitor* v)
-{}
+void msrSlur::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrSlur::acceptOut()" << endl;
+
+  if (visitor<S_msrSlur>*
+    p =
+      dynamic_cast<visitor<S_msrSlur>*> (v)) {
+        S_msrSlur elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrSlur::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrSlur::browseData (basevisitor* v)
 {}
@@ -1378,11 +1550,40 @@ string msrNote::notePitchAsLilypondString ()
   return s.str();
 }
 
-void msrNote::acceptIn (basevisitor* v)
-{}
+void msrNote::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrNote::acceptIn()" << endl;
+      
+  if (visitor<S_msrNote>*
+    p =
+      dynamic_cast<visitor<S_msrNote>*> (v)) {
+        S_msrNote elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrNote::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrNote::acceptOut (basevisitor* v)
-{}
+void msrNote::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrNote::acceptOut()" << endl;
+
+  if (visitor<S_msrNote>*
+    p =
+      dynamic_cast<visitor<S_msrNote>*> (v)) {
+        S_msrNote elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrNote::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrNote::browseData (basevisitor* v)
 {}
@@ -1742,11 +1943,40 @@ msrParallelMusic::msrParallelMusic (
 }
 msrParallelMusic::~msrParallelMusic() {}
 
-void msrParallelMusic::acceptIn (basevisitor* v)
-{}
+void msrParallelMusic::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrParallelMusic::acceptIn()" << endl;
+      
+  if (visitor<S_msrParallelMusic>*
+    p =
+      dynamic_cast<visitor<S_msrParallelMusic>*> (v)) {
+        S_msrParallelMusic elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrParallelMusic::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrParallelMusic::acceptOut (basevisitor* v)
-{}
+void msrParallelMusic::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrParallelMusic::acceptOut()" << endl;
+
+  if (visitor<S_msrParallelMusic>*
+    p =
+      dynamic_cast<visitor<S_msrParallelMusic>*> (v)) {
+        S_msrParallelMusic elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrParallelMusic::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrParallelMusic::browseData (basevisitor* v)
 {}
@@ -1820,11 +2050,40 @@ msrChord::msrChord (
 }
 msrChord::~msrChord() {}
 
-void msrChord::acceptIn (basevisitor* v)
-{}
+void msrChord::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrChord::acceptIn()" << endl;
+      
+  if (visitor<S_msrChord>*
+    p =
+      dynamic_cast<visitor<S_msrChord>*> (v)) {
+        S_msrChord elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrChord::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrChord::acceptOut (basevisitor* v)
-{}
+void msrChord::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrChord::acceptOut()" << endl;
+
+  if (visitor<S_msrChord>*
+    p =
+      dynamic_cast<visitor<S_msrChord>*> (v)) {
+        S_msrChord elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrChord::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrChord::browseData (basevisitor* v)
 {}
@@ -1952,11 +2211,40 @@ msrBarLine::msrBarLine (
 }
 msrBarLine::~msrBarLine() {}
 
-void msrBarLine::acceptIn (basevisitor* v)
-{}
+void msrBarLine::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrBarLine::acceptIn()" << endl;
+      
+  if (visitor<S_msrBarLine>*
+    p =
+      dynamic_cast<visitor<S_msrBarLine>*> (v)) {
+        S_msrBarLine elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrBarLine::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrBarLine::acceptOut (basevisitor* v)
-{}
+void msrBarLine::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrBarLine::acceptOut()" << endl;
+
+  if (visitor<S_msrBarLine>*
+    p =
+      dynamic_cast<visitor<S_msrBarLine>*> (v)) {
+        S_msrBarLine elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrBarLine::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrBarLine::browseData (basevisitor* v)
 {}
@@ -2011,11 +2299,40 @@ msrComment::msrComment (
 }
 msrComment::~msrComment() {}
 
-void msrComment::acceptIn (basevisitor* v)
-{}
+void msrComment::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrComment::acceptIn()" << endl;
+      
+  if (visitor<S_msrComment>*
+    p =
+      dynamic_cast<visitor<S_msrComment>*> (v)) {
+        S_msrComment elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrComment::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrComment::acceptOut (basevisitor* v)
-{}
+void msrComment::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrComment::acceptOut()" << endl;
+
+  if (visitor<S_msrComment>*
+    p =
+      dynamic_cast<visitor<S_msrComment>*> (v)) {
+        S_msrComment elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrComment::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrComment::browseData (basevisitor* v)
 {}
@@ -2072,11 +2389,40 @@ msrBreak::msrBreak (
 }
 msrBreak::~msrBreak() {}
 
-void msrBreak::acceptIn (basevisitor* v)
-{}
+void msrBreak::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrBreak::acceptIn()" << endl;
+      
+  if (visitor<S_msrBreak>*
+    p =
+      dynamic_cast<visitor<S_msrBreak>*> (v)) {
+        S_msrBreak elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrBreak::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrBreak::acceptOut (basevisitor* v)
-{}
+void msrBreak::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrBreak::acceptOut()" << endl;
+
+  if (visitor<S_msrBreak>*
+    p =
+      dynamic_cast<visitor<S_msrBreak>*> (v)) {
+        S_msrBreak elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrBreak::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrBreak::browseData (basevisitor* v)
 {}
@@ -2132,11 +2478,40 @@ msrBarNumberCheck::msrBarNumberCheck (
 }
 msrBarNumberCheck::~msrBarNumberCheck() {}
 
-void msrBarNumberCheck::acceptIn (basevisitor* v)
-{}
+void msrBarNumberCheck::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrBarNumberCheck::acceptIn()" << endl;
+      
+  if (visitor<S_msrBarNumberCheck>*
+    p =
+      dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
+        S_msrBarNumberCheck elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrBarNumberCheck::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrBarNumberCheck::acceptOut (basevisitor* v)
-{}
+void msrBarNumberCheck::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrBarNumberCheck::acceptOut()" << endl;
+
+  if (visitor<S_msrBarNumberCheck>*
+    p =
+      dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
+        S_msrBarNumberCheck elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrBarNumberCheck::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrBarNumberCheck::browseData (basevisitor* v)
 {}
@@ -2197,11 +2572,40 @@ void msrTuplet::updateTuplet (int number, int actualNotes, int normalNotes)
   fNormalNotes = normalNotes;  
 }
 
-void msrTuplet::acceptIn (basevisitor* v)
-{}
+void msrTuplet::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrTuplet::acceptIn()" << endl;
+      
+  if (visitor<S_msrTuplet>*
+    p =
+      dynamic_cast<visitor<S_msrTuplet>*> (v)) {
+        S_msrTuplet elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrTuplet::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrTuplet::acceptOut (basevisitor* v)
-{}
+void msrTuplet::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrTuplet::acceptOut()" << endl;
+
+  if (visitor<S_msrTuplet>*
+    p =
+      dynamic_cast<visitor<S_msrTuplet>*> (v)) {
+        S_msrTuplet elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrTuplet::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrTuplet::browseData (basevisitor* v)
 {}
@@ -2281,11 +2685,40 @@ msrBeam::msrBeam (
 }
 msrBeam::~msrBeam() {}
 
-void msrBeam::acceptIn (basevisitor* v)
-{}
+void msrBeam::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrBeam::acceptIn()" << endl;
+      
+  if (visitor<S_msrBeam>*
+    p =
+      dynamic_cast<visitor<S_msrBeam>*> (v)) {
+        S_msrBeam elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrBeam::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrBeam::acceptOut (basevisitor* v)
-{}
+void msrBeam::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrBeam::acceptOut()" << endl;
+
+  if (visitor<S_msrBeam>*
+    p =
+      dynamic_cast<visitor<S_msrBeam>*> (v)) {
+        S_msrBeam elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrBeam::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrBeam::browseData (basevisitor* v)
 {}
@@ -2354,11 +2787,40 @@ msrPaper::msrPaper (
 }
 msrPaper::~msrPaper() {}
 
-void msrPaper::acceptIn (basevisitor* v)
-{}
+void msrPaper::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrPaper::acceptIn()" << endl;
+      
+  if (visitor<S_msrPaper>*
+    p =
+      dynamic_cast<visitor<S_msrPaper>*> (v)) {
+        S_msrPaper elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrPaper::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrPaper::acceptOut (basevisitor* v)
-{}
+void msrPaper::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrPaper::acceptOut()" << endl;
+
+  if (visitor<S_msrPaper>*
+    p =
+      dynamic_cast<visitor<S_msrPaper>*> (v)) {
+        S_msrPaper elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrPaper::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrPaper::browseData (basevisitor* v)
 {}
@@ -2653,11 +3115,40 @@ void msrHeader::setScoreInstrument (
       msrVarValAssoc::kUncommented);
 }
 
-void msrHeader::acceptIn (basevisitor* v)
-{}
+void msrHeader::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrHeader::acceptIn()" << endl;
+      
+  if (visitor<S_msrHeader>*
+    p =
+      dynamic_cast<visitor<S_msrHeader>*> (v)) {
+        S_msrHeader elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrHeader::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrHeader::acceptOut (basevisitor* v)
-{}
+void msrHeader::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrHeader::acceptOut()" << endl;
+
+  if (visitor<S_msrHeader>*
+    p =
+      dynamic_cast<visitor<S_msrHeader>*> (v)) {
+        S_msrHeader elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrHeader::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrHeader::browseData (basevisitor* v)
 {}
@@ -2908,11 +3399,40 @@ void msrVarValAssoc::changeAssoc (string value) {
   fVariableValue=value;
 }
 
-void msrVarValAssoc::acceptIn (basevisitor* v)
-{}
+void msrVarValAssoc::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrVarValAssoc::acceptIn()" << endl;
+      
+  if (visitor<S_msrVarValAssoc>*
+    p =
+      dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
+        S_msrVarValAssoc elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrVarValAssoc::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrVarValAssoc::acceptOut (basevisitor* v)
-{}
+void msrVarValAssoc::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrVarValAssoc::acceptOut()" << endl;
+
+  if (visitor<S_msrVarValAssoc>*
+    p =
+      dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
+        S_msrVarValAssoc elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrVarValAssoc::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrVarValAssoc::browseData (basevisitor* v)
 {}
@@ -2999,11 +3519,40 @@ void msrSchemeVarValAssoc::changeAssoc (string value)
   fVariableValue=value;
 }
 
-void msrSchemeVarValAssoc::acceptIn (basevisitor* v)
-{}
+void msrSchemeVarValAssoc::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrSchemeVarValAssoc::acceptIn()" << endl;
+      
+  if (visitor<S_msrSchemeVarValAssoc>*
+    p =
+      dynamic_cast<visitor<S_msrSchemeVarValAssoc>*> (v)) {
+        S_msrSchemeVarValAssoc elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrSchemeVarValAssoc::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrSchemeVarValAssoc::acceptOut (basevisitor* v)
-{}
+void msrSchemeVarValAssoc::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrSchemeVarValAssoc::acceptOut()" << endl;
+
+  if (visitor<S_msrSchemeVarValAssoc>*
+    p =
+      dynamic_cast<visitor<S_msrSchemeVarValAssoc>*> (v)) {
+        S_msrSchemeVarValAssoc elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrSchemeVarValAssoc::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrSchemeVarValAssoc::browseData (basevisitor* v)
 {}
@@ -3065,11 +3614,40 @@ msrLayout::msrLayout (
 {}
 msrLayout::~msrLayout() {}
 
-void msrLayout::acceptIn (basevisitor* v)
-{}
+void msrLayout::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrLayout::acceptIn()" << endl;
+      
+  if (visitor<S_msrLayout>*
+    p =
+      dynamic_cast<visitor<S_msrLayout>*> (v)) {
+        S_msrLayout elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrLayout::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrLayout::acceptOut (basevisitor* v)
-{}
+void msrLayout::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrLayout::acceptOut()" << endl;
+
+  if (visitor<S_msrLayout>*
+    p =
+      dynamic_cast<visitor<S_msrLayout>*> (v)) {
+        S_msrLayout elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrLayout::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrLayout::browseData (basevisitor* v)
 {}
@@ -3180,11 +3758,40 @@ msrClef::msrClef (
 
 msrClef::~msrClef() {}
 
-void msrClef::acceptIn (basevisitor* v)
-{}
+void msrClef::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrClef::acceptIn()" << endl;
+      
+  if (visitor<S_msrClef>*
+    p =
+      dynamic_cast<visitor<S_msrClef>*> (v)) {
+        S_msrClef elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrClef::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrClef::acceptOut (basevisitor* v)
-{}
+void msrClef::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrClef::acceptOut()" << endl;
+
+  if (visitor<S_msrClef>*
+    p =
+      dynamic_cast<visitor<S_msrClef>*> (v)) {
+        S_msrClef elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrClef::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrClef::browseData (basevisitor* v)
 {}
@@ -3389,11 +3996,40 @@ msrKey::msrKey (
 
 msrKey::~msrKey() {}
 
-void msrKey::acceptIn (basevisitor* v)
-{}
+void msrKey::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrKey::acceptIn()" << endl;
+      
+  if (visitor<S_msrKey>*
+    p =
+      dynamic_cast<visitor<S_msrKey>*> (v)) {
+        S_msrKey elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrKey::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrKey::acceptOut (basevisitor* v)
-{}
+void msrKey::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrKey::acceptOut()" << endl;
+
+  if (visitor<S_msrKey>*
+    p =
+      dynamic_cast<visitor<S_msrKey>*> (v)) {
+        S_msrKey elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrKey::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrKey::browseData (basevisitor* v)
 {}
@@ -3459,11 +4095,40 @@ msrTime::msrTime (
 }
 msrTime::~msrTime() {}
 
-void msrTime::acceptIn (basevisitor* v)
-{}
+void msrTime::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrTime::acceptIn()" << endl;
+      
+  if (visitor<S_msrTime>*
+    p =
+      dynamic_cast<visitor<S_msrTime>*> (v)) {
+        S_msrTime elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrTime::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrTime::acceptOut (basevisitor* v)
-{}
+void msrTime::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrTime::acceptOut()" << endl;
+
+  if (visitor<S_msrTime>*
+    p =
+      dynamic_cast<visitor<S_msrTime>*> (v)) {
+        S_msrTime elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrTime::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrTime::browseData (basevisitor* v)
 {}
@@ -3530,11 +4195,40 @@ msrTempo::msrTempo (
 }
 msrTempo::~msrTempo() {}
 
-void msrTempo::acceptIn (basevisitor* v)
-{}
+void msrTempo::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrTempo::acceptIn()" << endl;
+      
+  if (visitor<S_msrTempo>*
+    p =
+      dynamic_cast<visitor<S_msrTempo>*> (v)) {
+        S_msrTempo elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrTempo::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrTempo::acceptOut (basevisitor* v)
-{}
+void msrTempo::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrTempo::acceptOut()" << endl;
+
+  if (visitor<S_msrTempo>*
+    p =
+      dynamic_cast<visitor<S_msrTempo>*> (v)) {
+        S_msrTempo elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrTempo::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrTempo::browseData (basevisitor* v)
 {}
@@ -3591,11 +4285,40 @@ msrMidi::msrMidi (
 }
 msrMidi::~msrMidi() {}
 
-void msrMidi::acceptIn (basevisitor* v)
-{}
+void msrMidi::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrMidi::acceptIn()" << endl;
+      
+  if (visitor<S_msrMidi>*
+    p =
+      dynamic_cast<visitor<S_msrMidi>*> (v)) {
+        S_msrMidi elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrMidi::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrMidi::acceptOut (basevisitor* v)
-{}
+void msrMidi::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrMidi::acceptOut()" << endl;
+
+  if (visitor<S_msrMidi>*
+    p =
+      dynamic_cast<visitor<S_msrMidi>*> (v)) {
+        S_msrMidi elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrMidi::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrMidi::browseData (basevisitor* v)
 {}
@@ -3659,11 +4382,40 @@ msrRepeat::msrRepeat (
 }
 msrRepeat::~msrRepeat() {}
 
-void msrRepeat::acceptIn (basevisitor* v)
-{}
+void msrRepeat::acceptIn (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrRepeat::acceptIn()" << endl;
+      
+  if (visitor<S_msrRepeat>*
+    p =
+      dynamic_cast<visitor<S_msrRepeat>*> (v)) {
+        S_msrRepeat elem = this;
+        
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrRepeat::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-void msrRepeat::acceptOut (basevisitor* v)
-{}
+void msrRepeat::acceptOut (basevisitor* v) {
+  if (fTranslationSettings->fDebug)
+    cerr << idtr <<
+      "==> msrRepeat::acceptOut()" << endl;
+
+  if (visitor<S_msrRepeat>*
+    p =
+      dynamic_cast<visitor<S_msrRepeat>*> (v)) {
+        S_msrRepeat elem = this;
+      
+        if (fTranslationSettings->fDebug)
+          cerr << idtr <<
+            "==> Launching msrRepeat::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
 
 void msrRepeat::browseData (basevisitor* v)
 {}
