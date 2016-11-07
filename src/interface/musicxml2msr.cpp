@@ -22,8 +22,8 @@
 // JMI #include "xml_tree_browser.h"
 
 #include "versions.h"
-#include "msr.h"
 
+#include "msr.h"
 #include "musicxml2msr.h"
 
 #include "xml2MsrScoreVisitor.h"
@@ -37,39 +37,6 @@ namespace MusicXML2
 //_______________________________________________________________________________
 EXP int         musicxml2MsrVersionNbr () { return 010; }
 EXP const char* musicxml2MsrVersionStr () { return "0.1.0"; }
-
-//_______________________________________________________________________________
-void initializeStringToMsrNoteNamesLanguage ()
-{
-  gMsrNoteNamesLanguageMap["dutch"] =     kNederlands;
-  gMsrNoteNamesLanguageMap["catalan"] =   kCatalan;
-  gMsrNoteNamesLanguageMap["deutsch"] =   kDeutsch;
-  gMsrNoteNamesLanguageMap["english"] =   kEnglish;
-  gMsrNoteNamesLanguageMap["espanol"] =   kEspanol;
-  gMsrNoteNamesLanguageMap["italiano"] =  kItaliano;
-  gMsrNoteNamesLanguageMap["francais"] =  kFrancais;
-  gMsrNoteNamesLanguageMap["norsk"] =     kNorsk;
-  gMsrNoteNamesLanguageMap["portugues"] = kPortugues;
-  gMsrNoteNamesLanguageMap["suomi"] =     kSuomi;
-  gMsrNoteNamesLanguageMap["svenska"] =   kSvenska;
-  gMsrNoteNamesLanguageMap["vlaams"] =    kVlaams;
-}
-
-MsrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang)
-{
-  return gMsrNoteNamesLanguageMap[lang];
-}
-
-//_______________________________________________________________________________
-S_translationSettings translationSettings::create()
-{
-  translationSettings* o = new translationSettings();
-  assert(o!=0);
-  return o;
-}
-
-translationSettings::translationSettings() {}
-translationSettings::~translationSettings() {}
 
 //_______________________________________________________________________________
 

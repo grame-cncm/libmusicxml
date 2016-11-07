@@ -133,6 +133,105 @@ class EXP msrGlobalVariables {
     static DisplayKind sDisplayKind;
 };
 
+//______________________________________________________________________________
+/*!
+  \brief The LilyPond note names language.
+*/
+enum MsrNoteNamesLanguage {
+  kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
+  kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
+
+typedef std::map<std::string, MsrNoteNamesLanguage>
+  MsrNoteNamesLanguageMap;
+  
+static MsrNoteNamesLanguageMap gMsrNoteNamesLanguageMap;
+
+void                 initializeMsrNoteNamesLanguage ();
+MsrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang);
+  
+//______________________________________________________________________________
+/*!
+  \brief The MSR code generation options.
+
+  A class is used to avoid passing arguments one by one
+  to the various methods that need them.
+*/
+class EXP msrOptions : public smartable {
+  public:
+
+    static SMARTP<msrOptions> create();
+    
+  public:
+  
+    msrOptions();
+    virtual ~msrOptions();
+ 
+  public:
+
+    // languages
+    std::string                     fMsrNoteNamesLanguageAsString;
+    MsrNoteNamesLanguage            fMsrNoteNamesLanguage;
+
+    // voice numbers
+    bool                            fGenerateStaffRelativeVoiceNumbers;
+    
+    // code generation
+    bool                            fGenerateNumericalTime;
+    bool                            fGenerateComments;
+    bool                            fGenerateStems;
+    bool                            fGeneratePositions;
+
+    // lyrics
+    bool                            fDontGenerateLyrics;
+    
+    // advanced options
+    bool                            fDelayRestsDynamics;
+
+    // MSR display
+    bool                            fDisplayMSR;
+
+    // MSR score summary
+    bool                            fDisplayMSRScoreSummary;
+    
+    // debug and trace
+    bool                            fDebug;
+    bool                            fTrace;
+    
+    // the options used by the command line
+    std::string                     fMSRCommandLineOptions;
+};
+typedef SMARTP<msrOptions> S_msrOptions;
+
+//______________________________________________________________________________
+/*!
+  \brief The LPSR code generation options.
+
+  A class is used to avoid passing arguments one by one
+  to the various methods that need them.
+*/
+class EXP lpsrOptions : public smartable {
+  public:
+
+    static SMARTP<lpsrOptions> create();
+    
+  public:
+  
+    lpsrOptions();
+    virtual ~lpsrOptions();
+ 
+  public:
+
+    // LilyPond code generation
+    bool                            fGenerateAbsoluteCode;
+
+    // LilyPond source code display
+    bool                            fDontDisplayLilyPondCode;
+    
+    // the options used by the command line
+    std::string                     fLilyPondCommandLineOptions;
+};
+typedef SMARTP<lpsrOptions> S_lpsrSettings;
+
 /*!
 \brief A generic msr element representation.
 

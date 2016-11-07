@@ -112,6 +112,39 @@ void msrInternalError (int inputLineNumber, string message)
   assert(false);
 }
 
+//_______________________________________________________________________________
+void initializeStringToMsrNoteNamesLanguage ()
+{
+  gMsrNoteNamesLanguageMap["dutch"] =     kNederlands;
+  gMsrNoteNamesLanguageMap["catalan"] =   kCatalan;
+  gMsrNoteNamesLanguageMap["deutsch"] =   kDeutsch;
+  gMsrNoteNamesLanguageMap["english"] =   kEnglish;
+  gMsrNoteNamesLanguageMap["espanol"] =   kEspanol;
+  gMsrNoteNamesLanguageMap["italiano"] =  kItaliano;
+  gMsrNoteNamesLanguageMap["francais"] =  kFrancais;
+  gMsrNoteNamesLanguageMap["norsk"] =     kNorsk;
+  gMsrNoteNamesLanguageMap["portugues"] = kPortugues;
+  gMsrNoteNamesLanguageMap["suomi"] =     kSuomi;
+  gMsrNoteNamesLanguageMap["svenska"] =   kSvenska;
+  gMsrNoteNamesLanguageMap["vlaams"] =    kVlaams;
+}
+
+MsrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang)
+{
+  return gMsrNoteNamesLanguageMap[lang];
+}
+
+//_______________________________________________________________________________
+S_translationSettings translationSettings::create()
+{
+  translationSettings* o = new translationSettings();
+  assert(o!=0);
+  return o;
+}
+
+translationSettings::translationSettings() {}
+translationSettings::~translationSettings() {}
+
 //______________________________________________________________________________
 /* JMI
 
