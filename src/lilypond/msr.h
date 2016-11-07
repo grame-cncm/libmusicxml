@@ -169,18 +169,12 @@ class EXP msrOptions : public smartable {
   public:
 
     // languages
-    std::string                     fMsrNoteNamesLanguageAsString;
+    string                          fMsrNoteNamesLanguageAsString;
     MsrNoteNamesLanguage            fMsrNoteNamesLanguage;
 
     // voice numbers
-    bool                            fGenerateStaffRelativeVoiceNumbers;
+    bool                            fCreateStaffRelativeVoiceNumbers;
     
-    // code generation
-    bool                            fGenerateNumericalTime;
-    bool                            fGenerateComments;
-    bool                            fGenerateStems;
-    bool                            fGeneratePositions;
-
     // lyrics
     bool                            fDontGenerateLyrics;
     
@@ -223,6 +217,10 @@ class EXP lpsrOptions : public smartable {
 
     // LilyPond code generation
     bool                            fGenerateAbsoluteCode;
+    bool                            fGenerateNumericalTime;
+    bool                            fGenerateComments;
+    bool                            fGenerateStems;
+    bool                            fGeneratePositions;
 
     // LilyPond source code display
     bool                            fDontDisplayLilyPondCode;

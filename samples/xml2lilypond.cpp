@@ -110,7 +110,7 @@ int main (int argc, char *argv[])
   */
   
   // create the translation switches
-  S_translationSettings ts = translationSettings::create();
+  S_msrOptions ts = msrOptions::create();
   assert(ts != 0);
   
   ts->fSelectedOptions                   = "";
@@ -357,7 +357,7 @@ int main (int argc, char *argv[])
       " & xml2Lilypond v" <<
       musicxml2MsrVersionStr() << 
       endl <<
-      "The settings are:" << endl <<
+      "The MSR oprions are:" << endl <<
       "  noteNamesLanguageName   : \"" <<
         ts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
       
