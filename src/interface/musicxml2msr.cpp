@@ -19,11 +19,9 @@
 #include "xml.h"
 #include "xmlfile.h"
 #include "xmlreader.h"
-// JMI #include "xml_tree_browser.h"
 
 #include "versions.h"
 
-#include "msr.h"
 #include "musicxml2msr.h"
 
 #include "xml2MsrScoreVisitor.h"

@@ -319,7 +319,7 @@ class EXP xml2MsrScoreVisitor :
 
   private:
                      
-    S_msrOptions   fTranslationSettings;
+    S_msrOptions   fMsrOptions;
 
     // warning and error messages
     // ------------------------------------------------------

@@ -109,23 +109,16 @@ int main (int argc, char *argv[])
   }
   */
   
-  // create the translation switches
+  // create the MSR options
   S_msrOptions msrOpts = msrOptions::create();
   assert(msrOpts != 0);
   
-  msrOpts->fSelectedOptions                   = "";
+  msrOpts->fMSRSelectedOptions                = "";
   
   msrOpts->fMsrNoteNamesLanguageAsString      = "dutch";
   msrOpts->fMsrNoteNamesLanguage              = kNederlands;
   
   msrOpts->fGenerateStaffRelativeVoiceNumbers = false;
-  
-  msrOpts->fGenerateAbsoluteCode              = true;
-
-  msrOpts->fGenerateNumericalTime             = false;
-  msrOpts->fGenerateComments                  = true;
-  msrOpts->fGenerateStems                     = false;
-  msrOpts->fGeneratePositions                 = false;
   
   msrOpts->fDontGenerateLyrics                = false;
 
@@ -139,6 +132,19 @@ int main (int argc, char *argv[])
 
   msrOpts->fTrace                             = true;
   msrOpts->fDebug                             = false;
+
+  // create the LPSR options
+  SlpsrOptions lpsrOpts = lpsrOptions::create();
+  assert(lpsrOpts != 0);
+  
+  lpsrOpts->fLPSRSelectedOptions              = "";
+
+  lpsrOpts->fGenerateAbsoluteCode             = true;
+
+  lpsrOpts->fGenerateNumericalTime            = false;
+  lpsrOpts->fGenerateComments                 = true;
+  lpsrOpts->fGenerateStems                    = false;
+  lpsrOpts->fGeneratePositions                = false;
 
   // to detect supplied options
   int helpPresent                      = 0;
@@ -242,6 +248,8 @@ int main (int argc, char *argv[])
           usage (0);
           break;
         }
+
+        // MSR options
         
         if (languagePresent) {
           // optarg contains the language name
@@ -263,29 +271,7 @@ int main (int argc, char *argv[])
           msrOpts->fSelectedOptions += "--staffRelativeVoiceNumbers ";
         }
         
-        if (absolutePresent) {
-          msrOpts->fGenerateAbsoluteCode = true;
-          msrOpts->fSelectedOptions += "--absolute ";
-        }
-        
-        if (numericaltimePresent) {
-          msrOpts->fGenerateNumericalTime = true;
-          msrOpts->fSelectedOptions += "--numericalTime ";
-        }
-        if (noCommentsPresent) {
-          msrOpts->fGenerateComments = false;
-          msrOpts->fSelectedOptions += "--noComments ";
-        }
-        if (stemsPresent) {
-          msrOpts->fGenerateStems = true;
-          msrOpts->fSelectedOptions += "--stems ";
-        }
-        if (positionsPresent) {
-          msrOpts->fGeneratePositions = true;
-          msrOpts->fSelectedOptions += "--positions ";
-        }
-        
-        if (dontGenerateLyricsPresent) {
+         if (dontGenerateLyricsPresent) {
           msrOpts->fDontGenerateLyrics = true;
           msrOpts->fSelectedOptions += "--dontGenerateLyrics ";
         }
@@ -319,6 +305,31 @@ int main (int argc, char *argv[])
           msrOpts->fDebug = true;
           msrOpts->fSelectedOptions += "--debug ";
         }
+
+        // LPSR options
+
+        if (absolutePresent) {
+          lpsrOpts->fGenerateAbsoluteCode = true;
+          lpsrOpts->fSelectedOptions += "--absolute ";
+        }
+        
+        if (numericaltimePresent) {
+          lpsrOpts->fGenerateNumericalTime = true;
+          lpsrOpts->fSelectedOptions += "--numericalTime ";
+        }
+        if (noCommentsPresent) {
+          lpsrOpts->fGenerateComments = false;
+          lpsrOpts->fSelectedOptions += "--noComments ";
+        }
+        if (stemsPresent) {
+          lpsrOpts->fGenerateStems = true;
+          lpsrOpts->fSelectedOptions += "--stems ";
+        }
+        if (positionsPresent) {
+          lpsrOpts->fGeneratePositions = true;
+          lpsrOpts->fSelectedOptions += "--positions ";
+        }
+        
         }
         break;
         
@@ -364,18 +375,6 @@ int main (int argc, char *argv[])
       "  displayMSR              : " <<
         string(msrOpts->fDisplayMSR ? "true" : "false") << endl <<
 
-      "  generateAbsoluteCode    : " <<
-        string(msrOpts->fGenerateAbsoluteCode ? "true" : "false") << endl <<
-      
-      "  generateNumericalTime   : " <<
-        string(msrOpts->fGenerateNumericalTime ? "true" : "false") << endl <<
-      "  generateComments        : " <<
-        string(msrOpts->fGenerateComments ? "true" : "false") << endl <<
-      "  generateStems           : " <<
-        string(msrOpts->fGenerateStems ? "true" : "false") << endl <<
-      "  generatePositions       : " <<
-        string(msrOpts->fGeneratePositions ? "true" : "false") << endl <<
-
       "  dontGenerateLyrics      : " <<
         string(msrOpts->fDontGenerateLyrics ? "true" : "false") << endl <<
 
@@ -391,7 +390,20 @@ int main (int argc, char *argv[])
       "  trace                   : " <<
         string(msrOpts->fTrace ? "true" : "false") << endl <<
       "  debug                   : " <<
-        string(msrOpts->fDebug ? "true" : "false") << endl;
+        string(msrOpts->fDebug ? "true" : "false") << endl <<
+
+      "The LPSR oprions are:" << endl <<
+      "  generateAbsoluteCode    : " <<
+        string(msrOpts->fGenerateAbsoluteCode ? "true" : "false") << endl <<
+      
+      "  generateNumericalTime   : " <<
+        string(msrOpts->fGenerateNumericalTime ? "true" : "false") << endl <<
+      "  generateComments        : " <<
+        string(msrOpts->fGenerateComments ? "true" : "false") << endl <<
+      "  generateStems           : " <<
+        string(msrOpts->fGenerateStems ? "true" : "false") << endl <<
+      "  generatePositions       : " <<
+        string(msrOpts->fGeneratePositions ? "true" : "false") << endl;
   
   xmlErr err = kNoErr;
   

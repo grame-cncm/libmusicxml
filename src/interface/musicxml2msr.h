@@ -61,7 +61,7 @@ EXP const char*   musicxml2MsrVersionStr();
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
   \param file a file name 
-  \param msrOpts the translation Settings to be used
+  \param msrOpts the MSR options to be used
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
@@ -71,7 +71,7 @@ EXP xmlErr musicxmlFile2Msr (
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
   \param fd a file descriptor 
-  \param msrOpts the translation Settings to be used
+  \param msrOpts the MSR options to be used
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
@@ -81,7 +81,7 @@ EXP xmlErr musicxmlFd2Msr (
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
   \param buff a string containing MusicXML code
-  \param sw the translation Settings to be used
+  \param msrOpts the MSR options to be used
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */

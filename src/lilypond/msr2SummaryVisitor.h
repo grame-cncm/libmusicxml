@@ -143,7 +143,7 @@ class msr2SummaryVisitor :
 
   private:
                      
-    S_msrOptions   fTranslationSettings;
+    S_msrOptions   fMsrOptions;
 };
 
 /*

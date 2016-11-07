@@ -69,7 +69,7 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
       0) // at the beginning of a measure
       */
 {
-  fTranslationSettings = msrOpts;
+  fMsrOptions = msrOpts;
 
   /* JMI
     : gCurrentMusicXMLLocation (
@@ -85,7 +85,7 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
 
   // create the MSR score
   fMsrScore =
-    msrScore::create (fTranslationSettings, 0);
+    msrScore::create (fMsrOptions, 0);
 
   fCurrentTimeStaffNumber = 1; // it may be absent
   
@@ -146,7 +146,7 @@ S_msrPartgroup xml2MsrScoreVisitor::createImplicitMSRPartgroup (
   // create an implicit part group
   fCurrentPartgroupNumber = 1;
   
-  if (fTranslationSettings->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Creating an implicit part fgroup with number " <<
       fCurrentPartgroupNumber << endl;
@@ -154,7 +154,7 @@ S_msrPartgroup xml2MsrScoreVisitor::createImplicitMSRPartgroup (
   S_msrPartgroup
     partgroup =
       msrPartgroup::create (
-        fTranslationSettings,
+        fMsrOptions,
         inputLineNumber,
         fCurrentPartgroupNumber,
         "Implicit",
@@ -169,7 +169,7 @@ S_msrPartgroup xml2MsrScoreVisitor::createImplicitMSRPartgroup (
   */
   
   // add implicit part group to the map of this visitor
-  if (fTranslationSettings->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Adding implicit part group " << fCurrentPartgroupNumber <<
       " to visitor's data" << endl;
@@ -184,7 +184,7 @@ S_msrPartgroup xml2MsrScoreVisitor::createImplicitMSRPartgroup (
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_part_list& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Analysing part list" << endl;
 
@@ -227,7 +227,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_list& elt)
     fImplicitPartgroup = 0; // NULL contents
   }
     
-//  fTranslationSettings->fDebug = false; // TEMP JMI
+//  fMsrOptions->fDebug = false; // TEMP JMI
 }
 
 //________________________________________________________________________
@@ -297,8 +297,8 @@ void xml2MsrScoreVisitor::visitStart ( S_group_barline& elt)
 
 void xml2MsrScoreVisitor::showPartgroupsData (string context)
 {    
-//  if (true || fTranslationSettings->fDebug) {
-  if (fTranslationSettings->fDebug) {
+//  if (true || fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartgroupsMap contains:" << endl;
     if (fPartgroupsMap.size()) {
@@ -319,8 +319,8 @@ void xml2MsrScoreVisitor::showPartgroupsData (string context)
     cerr << idtr << "<== fPartgroupsMap" << endl;
   }
 
- // if (true || fTranslationSettings->fDebug) {
-  if (fTranslationSettings->fDebug) {
+ // if (true || fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartgroupsList contains:" << endl;
     if (fPartgroupsList.size()) {
@@ -357,7 +357,7 @@ void xml2MsrScoreVisitor::handlePartgroupStart (
     // no, create it
     partGroupToBeStarted =
       msrPartgroup::create (
-        fTranslationSettings,
+        fMsrOptions,
         inputLineNumber,
         fCurrentPartgroupNumber,
         fCurrentPartgroupName,
@@ -367,7 +367,7 @@ void xml2MsrScoreVisitor::handlePartgroupStart (
         partGroupBarline);
 
     // add it to the part group map of this visitor
-    if (fTranslationSettings->fTrace)
+    if (fMsrOptions->fTrace)
       cerr << idtr <<
         "Adding part group " << fCurrentPartgroupNumber <<
         " to visitor's part group map" << endl;
@@ -376,7 +376,7 @@ void xml2MsrScoreVisitor::handlePartgroupStart (
   }
   
   // add it to the part group list of this visitor
-  if (fTranslationSettings->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Adding part group " << fCurrentPartgroupNumber <<
       " to visitor's part groups list" << endl;
@@ -437,7 +437,7 @@ void xml2MsrScoreVisitor::handlePartgroupStop (int inputLineNumber)
   }
 
   // remove the part group to be stopped from the part group list
-  if (fTranslationSettings->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Removing part group " <<
       partGroupToBeStopped->getPartgroupNumber () <<
@@ -477,7 +477,7 @@ void xml2MsrScoreVisitor::handlePartgroupStop (int inputLineNumber)
     
     // we're just removed the only part group in the list:
     // append it to the MSR score
-    if (fTranslationSettings->fTrace)
+    if (fMsrOptions->fTrace)
       cerr << idtr <<
         "Appending part group " <<
         partGroupToBeStopped->getPartgroupNumber () <<
@@ -511,7 +511,7 @@ void xml2MsrScoreVisitor::handlePartgroupStop (int inputLineNumber)
     }
     
     // insert current group into future current group
-    if (fTranslationSettings->fTrace)
+    if (fMsrOptions->fTrace)
       cerr << idtr <<
         "Preending (sub-)part group " <<
         partGroupToBeStopped->getPartgroupNumber () <<
@@ -525,7 +525,7 @@ void xml2MsrScoreVisitor::handlePartgroupStop (int inputLineNumber)
 
   // remove part group from the map
   // CAUTION: erase() destroys the element it removes!
-  if (fTranslationSettings->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Removing part group " << fCurrentPartgroupNumber <<
       " from visitor's part group map" << endl;
@@ -541,7 +541,7 @@ void xml2MsrScoreVisitor::handlePartgroupStop (int inputLineNumber)
 
 void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Handling part group " << fCurrentPartgroupNumber <<
       ", type: \"" << fCurrentPartgroupType << "\""  << endl;
@@ -638,7 +638,7 @@ void xml2MsrScoreVisitor::visitStart (S_score_part& elt)
 {
   fCurrentPartMusicXMLName = elt->getAttributeValue ("id");
 
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "Found part name \"" << fCurrentPartMusicXMLName << "\"" << endl;
 
@@ -664,7 +664,7 @@ void xml2MsrScoreVisitor::visitStart (S_instrument_name& elt)
 
 void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
 {
-  if (fTranslationSettings->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Handling part \"" << fCurrentPartMusicXMLName << "\"" << endl;
 
@@ -741,7 +741,7 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
       elt->getInputLineNumber (),
       "part "+partID+" is not registered in this visitor's part map");
 
-  if (fTranslationSettings->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Analyzing part " << fCurrentPart->getPartCombinedName() << endl;
 
@@ -780,7 +780,7 @@ void xml2MsrScoreVisitor::visitStart ( S_divisions& elt )
       elt->getInputLineNumber (),
       "divisions per quarter note should be positive");
   
-  if (fTranslationSettings->fTrace) {
+  if (fMsrOptions->fTrace) {
     cerr << idtr;
     if (fCurrentMusicXMLDivisions== 1)
       cerr << "There is 1 division";
@@ -825,7 +825,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_key& elt )
   S_msrKey
     key =
       msrKey::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         fCurrentFifths, fCurrentMode, fCurrentCancel);
 
@@ -877,7 +877,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_time& elt )
   S_msrTime
     time =
       msrTime::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         fCurrentTimeBeats,
         fCurrentTimeBeatType);
@@ -920,7 +920,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_clef& elt )
   S_msrClef
     clef =
       msrClef::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         fCurrentClefSign, fCurrentClefLine, fCurrentClefOctaveChange);
 
@@ -972,7 +972,7 @@ void xml2MsrScoreVisitor::visitStart (S_staves& elt)
 {
   int stavesNumber = int(*elt);
 
-  if (fTranslationSettings->fTrace) {
+  if (fMsrOptions->fTrace) {
     switch (stavesNumber) {
       case 0:
         cerr << idtr <<
@@ -1021,8 +1021,8 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
 */
   int  staffNumber = int(*elt);
 
-//  if (true || fTranslationSettings->fDebug)
-  if (fTranslationSettings->fDebug)
+//  if (true || fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr <<
       idtr <<
       "--> S_staff, staffNumber         = " << staffNumber << endl <<
@@ -1073,8 +1073,8 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
 */
   int voiceNumber = int(*elt);
   
-  if (false && fTranslationSettings->fDebug)
-//  if (fTranslationSettings->fDebug)
+  if (false && fMsrOptions->fDebug)
+//  if (fMsrOptions->fDebug)
     cerr <<
       idtr <<
       "--> S_voice, voiceNumber         = " << voiceNumber << endl <<
@@ -1124,7 +1124,7 @@ void xml2MsrScoreVisitor::visitStart (S_backup& elt )
 
 void xml2MsrScoreVisitor::visitEnd (S_backup& elt )
 {
-  if (fTranslationSettings->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Handling 'backup <<< " << fCurrentBackupDuration <<
       " divisions'" << endl;
@@ -1203,7 +1203,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_forward& elt )
   }
 */
 
-  if (fTranslationSettings->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Handling 'forward >>> " << fCurrentForwardDuration <<
       "', thus switching to " <<
@@ -1277,7 +1277,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_metronome& elt )
   S_msrTempo
     tempo =
       msrTempo::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         r.getDenominator(), fPerMinute);
     
@@ -1607,7 +1607,7 @@ void xml2MsrScoreVisitor::visitStart (S_measure& elt)
 
   gCurrentMusicXMLLocation.fPositionInMeasure = 0;
     
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr << 
       "=== MEASURE " <<
       gCurrentMusicXMLLocation.fMeasureNumber << " === " <<
@@ -1617,8 +1617,8 @@ void xml2MsrScoreVisitor::visitStart (S_measure& elt)
     fCurrentPart->getPartMSRName() == "P17"
       &&
     gCurrentMusicXMLLocation.fMeasureNumber == 26) {
-//    fTranslationSettings->fTrace = true; // JMI pour tests
-//    fTranslationSettings->fDebug = true; // JMI pour tests
+//    fMsrOptions->fTrace = true; // JMI pour tests
+//    fMsrOptions->fDebug = true; // JMI pour tests
   }
 }
 
@@ -1633,7 +1633,7 @@ void xml2MsrScoreVisitor::visitStart ( S_print& elt )
     S_msrBarNumberCheck
       barnumbercheck_ =
         msrBarNumberCheck::create (
-          fTranslationSettings,
+          fMsrOptions,
           elt->getInputLineNumber (),
           gCurrentMusicXMLLocation.fMeasureNumber);
     S_msrElement bnc = barnumbercheck_;
@@ -1644,7 +1644,7 @@ void xml2MsrScoreVisitor::visitStart ( S_print& elt )
     S_msrBreak
       break_ =
         msrBreak::create(
-          fTranslationSettings,
+          fMsrOptions,
           elt->getInputLineNumber (),
           gCurrentMusicXMLLocation.fMeasureNumber);
     S_msrElement brk = break_;
@@ -1793,7 +1793,7 @@ void xml2MsrScoreVisitor::visitStart ( S_barline& elt )
     S_msrBarLine
       barline =
         msrBarLine::create (
-          fTranslationSettings,
+          fMsrOptions,
           elt->getInputLineNumber (),
           gCurrentMusicXMLLocation.fMeasureNumber+1);
     S_msrElement bar = barline;
@@ -2005,7 +2005,7 @@ void xml2MsrScoreVisitor::visitStart ( S_stem& elt )
     stemDirection = kStemNeutral; // JMI
 
   if (stemDirection != fCurrentStemDirection) {
-    if (fTranslationSettings->fGenerateStems) {
+    if (fMsrOptions->fGenerateStems) {
       switch (stemDirection) {
         case kStemNeutral:
           // \stemNeutral JMI
@@ -2051,7 +2051,7 @@ Each beam in a note is represented with a separate beam element, starting with t
   S_msrBeam
     beam =
       msrBeam::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         fCurrentBeamNumber, bk); // JMI
 }
@@ -2062,7 +2062,7 @@ void xml2MsrScoreVisitor::visitStart ( S_staccato& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kStaccato);
       
@@ -2074,7 +2074,7 @@ void xml2MsrScoreVisitor::visitStart ( S_staccatissimo& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kStaccatissimo);
       
@@ -2087,7 +2087,7 @@ void xml2MsrScoreVisitor::visitStart ( S_fermata& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kFermata);
       
@@ -2150,7 +2150,7 @@ void xml2MsrScoreVisitor::visitStart( S_f& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kF);
   fPendingDynamics.push_back(dyn);
@@ -2160,7 +2160,7 @@ void xml2MsrScoreVisitor::visitStart( S_ff& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kFF);
   fPendingDynamics.push_back(dyn);
@@ -2170,7 +2170,7 @@ void xml2MsrScoreVisitor::visitStart( S_fff& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kFFF);
   fPendingDynamics.push_back(dyn);
@@ -2180,7 +2180,7 @@ void xml2MsrScoreVisitor::visitStart( S_ffff& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kFFFF);
   fPendingDynamics.push_back(dyn);
@@ -2190,7 +2190,7 @@ void xml2MsrScoreVisitor::visitStart( S_fffff& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kFFFFF);
   fPendingDynamics.push_back(dyn);
@@ -2200,7 +2200,7 @@ void xml2MsrScoreVisitor::visitStart( S_ffffff& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kFFFFFF);
   fPendingDynamics.push_back(dyn);
@@ -2212,7 +2212,7 @@ void xml2MsrScoreVisitor::visitStart( S_p& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kP);
   fPendingDynamics.push_back(dyn);
@@ -2222,7 +2222,7 @@ void xml2MsrScoreVisitor::visitStart( S_pp& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kPP);
   fPendingDynamics.push_back(dyn);
@@ -2232,7 +2232,7 @@ void xml2MsrScoreVisitor::visitStart( S_ppp& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kPP);
   fPendingDynamics.push_back(dyn);
@@ -2242,7 +2242,7 @@ void xml2MsrScoreVisitor::visitStart( S_pppp& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kPPPP);
   fPendingDynamics.push_back(dyn);
@@ -2252,7 +2252,7 @@ void xml2MsrScoreVisitor::visitStart( S_ppppp& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kPPPPP);
   fPendingDynamics.push_back(dyn);
@@ -2262,7 +2262,7 @@ void xml2MsrScoreVisitor::visitStart( S_pppppp& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kPPPPPP);
   fPendingDynamics.push_back(dyn);
@@ -2287,7 +2287,7 @@ void xml2MsrScoreVisitor::visitStart ( S_wedge& elt )
   S_msrWedge
     wedg =
       msrWedge::create(
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         wk);
   fPendingWedges.push_back (wedg);
@@ -2402,7 +2402,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_unpitched& elt)
 //______________________________________________________________________________
 S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> creating a chord on its 2nd note" << endl;
   
@@ -2414,12 +2414,12 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
   
   chord =
     msrChord::create (
-      fTranslationSettings,
+      fMsrOptions,
       fCurrentNote->getInputLineNumber (),
       fCurrentNote->getNoteMsrDuration ());
 // JMI  fCurrentElement = chord; // another name for it
    
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> adding first note " << fCurrentNote->notePitchAsLilypondString() <<
       " to new chord" << endl;
@@ -2434,7 +2434,7 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
       fCurrentNote->getNoteArticulations ();
 
   if (! noteArticulations.empty()) {
-    if (fTranslationSettings->fDebug)
+    if (fMsrOptions->fDebug)
       cerr << idtr <<
         "--> moving articulations from current note to chord" << endl;
         
@@ -2452,7 +2452,7 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
       fCurrentNote->getNoteDynamics();
     
   if (! noteDynamics.empty()) {
-    if (fTranslationSettings->fDebug)
+    if (fMsrOptions->fDebug)
       cerr << idtr <<
         "--> moving dynamics from current note to chord" << endl;
         
@@ -2470,7 +2470,7 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
       fCurrentNote->getNoteWedges();
     
   if (! noteWedges.empty()) {
-    if (fTranslationSettings->fDebug)
+    if (fMsrOptions->fDebug)
       cerr << idtr <<
         "--> moving wedges from current note to chord" << endl;
         
@@ -2492,7 +2492,7 @@ void xml2MsrScoreVisitor::createTupletFromItsecondNote (S_msrNote secondNote)
   S_msrTuplet
     tuplet =
       msrTuplet::create(
-        fTranslationSettings,
+        fMsrOptions,
         secondNote->getInputLineNumber ());
 // JMI  fCurrentElement = tuplet; // another name for it
 
@@ -2503,13 +2503,13 @@ void xml2MsrScoreVisitor::createTupletFromItsecondNote (S_msrNote secondNote)
     fCurrentNormalNotes);
 
   // register it in this visitor
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> pushing tuplet to tuplets stack" << endl;
   fCurrentTupletsStack.push(tuplet);
   
   // add second note to the tuplet
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> adding note " << secondNote->notePitchAsLilypondString() <<
       " to tuplets stack top" << endl;
@@ -2521,20 +2521,20 @@ void xml2MsrScoreVisitor::finalizeTuplet (S_msrNote note) {
   S_msrTuplet tup = fCurrentTupletsStack.top();
 
   // add note to the tuplet
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> adding note " << note->notePitchAsLilypondString () <<
       " to tuplets stack top" << endl;
   tup->addElementToTuplet(note);
 
   // pop from the tuplets stack
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> popping from tuplets stack" << endl;
   fCurrentTupletsStack.pop();        
 
   // add tuplet to current voice
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "=== adding tuplet to the part sequence" << endl;
   fCurrentVoice->
@@ -2547,7 +2547,7 @@ void xml2MsrScoreVisitor::attachPendingDynamicsAndWedgesToNote (
   // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {
     if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
-      if (fTranslationSettings->fDelayRestsDynamics) {
+      if (fMsrOptions->fDelayRestsDynamics) {
       cerr << idtr <<
         "--> Delaying dynamics attached to a rest until next note" << endl;
       } else {
@@ -2569,7 +2569,7 @@ void xml2MsrScoreVisitor::attachPendingDynamicsAndWedgesToNote (
   // attach the pending wedges if any to the note
   if (! fPendingWedges.empty()) {
     if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
-      if (fTranslationSettings->fDelayRestsDynamics) {
+      if (fMsrOptions->fDelayRestsDynamics) {
       cerr << idtr <<
         "--> Delaying wedge attached to a rest until next note" << endl;
       } else {
@@ -2613,8 +2613,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   Staff values are numbers, with 1 referring to the top-most staff in a part.
   */
   
-//  if (true || fTranslationSettings->fDebug)
-  if (fTranslationSettings->fDebug)
+//  if (true || fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr <<
       idtr <<
       "!!!! BEFORE visitEnd (S_note) we have:" << endl <<
@@ -2656,7 +2656,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
 
   fCurrentStemDirection = kStemNeutral;
   
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "fMusicXMLNoteData.fMusicXMLDuration = " << 
       fMusicXMLNoteData.fMusicXMLDuration << ", " << 
@@ -2672,7 +2672,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   S_msrNote
     newNote =
       msrNote::createFromMusicXMLData (
-        fTranslationSettings,
+        fMsrOptions,
         elt->getInputLineNumber (),
         fMusicXMLNoteData,
         fCurrentSlurKind);
@@ -2719,8 +2719,8 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     
 // JMI  fCurrentElement = fCurrentNote; // another name for it
 
-//  if (true || fTranslationSettings->fDebug)
-  if (fTranslationSettings->fDebug)
+//  if (true || fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr <<
       idtr <<
       "!!!! AFTER visitEnd (S_note) " << fCurrentNote->notePitchAsLilypondString () <<
@@ -2741,8 +2741,8 @@ void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
   S_msrNote newNote)
 {
   // register note/rest as standalone
-//  if (true || fTranslationSettings->fDebug)
-  if (fTranslationSettings->fDebug)
+//  if (true || fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr <<  idtr <<
       "--> adding standalone " <<
       newNote->notePitchAsLilypondString () <<
@@ -2788,14 +2788,14 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
     fOnGoingChord = true;
   }
   
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> adding new note " <<
       newNote->notePitchAsLilypondString() <<
       " to current chord" << endl;
     
   // register note as a member of fCurrentChord
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> registering new note " <<
       newNote->notePitchAsLilypondString() <<
@@ -2805,7 +2805,7 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
     
   // remove previous current note or the previous state of the chord
   // from the current voice sequence
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> removing last element " <<
       fCurrentVoice->getVoiceSequentialMusicLastElement () <<
@@ -2814,7 +2814,7 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
     removeLastElementFromVoiceSequentialMusic ();
 
   // add fCurrentChord to the part sequence instead
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> appending chord " << fCurrentChord <<
       " to current voice" << endl;
@@ -2844,7 +2844,7 @@ void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
     case msrTuplet::kContinueTuplet:
       {
         // populate the tuplet at the top of the stack
-        if (fTranslationSettings->fDebug)
+        if (fMsrOptions->fDebug)
           cerr << idtr <<
             "--> adding note " << newNote <<
             " to tuplets stack top" << endl;
@@ -2869,8 +2869,8 @@ void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
 void xml2MsrScoreVisitor::handleLyricsText (
   int inputLineNumber)
 {
-//  if (true || fTranslationSettings->fDebug) {
-  if (fTranslationSettings->fDebug) {
+//  if (true || fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebug) {
     cerr <<
       idtr <<
         "Handling lyrics on:" << endl;
@@ -2966,7 +2966,7 @@ void xml2MsrScoreVisitor::handleLyricsText (
   S_msrDuration
     lyricMsrDuration =
       msrDuration::create (
-        fTranslationSettings,
+        fMsrOptions,
         inputLineNumber,
         fMusicXMLNoteData.fMusicXMLDuration,
         fCurrentMusicXMLDivisions,

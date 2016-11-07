@@ -40,7 +40,7 @@ msr2SummaryVisitor::msr2SummaryVisitor (
       0) // at the beginning of a measure
       */
 {
-  fTranslationSettings = msrOpts;
+  fMsrOptions = msrOpts;
 
   /* JMI
     : gCurrentMusicXMLLocation (
@@ -57,7 +57,7 @@ msr2SummaryVisitor::msr2SummaryVisitor (
 
   // create the MSR score
   fMsrScore =
-    msrScore::create (fTranslationSettings, 0);
+    msrScore::create (fMsrOptions, 0);
 
   fCurrentTimeStaffNumber = 1; // it may be absent
   
@@ -103,14 +103,14 @@ void msr2SummaryVisitor::printSummaryFromMsrScore (
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrScore& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> Start visiting msrScore" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> End visiting msrScore" << endl;
 }
@@ -118,14 +118,14 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrPartgroup& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> Start visiting msrPartgroup" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrPartgroup& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> End visiting msrPartgroup" << endl;
 }
@@ -133,14 +133,14 @@ void msr2SummaryVisitor::visitEnd (S_msrPartgroup& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrPart& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> Start visiting msrPart" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrPart& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> End visiting msrPart" << endl;
 }
@@ -148,14 +148,14 @@ void msr2SummaryVisitor::visitEnd (S_msrPart& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> Start visiting msrStaff" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrStaff& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> End visiting msrStaff" << endl;
 }
@@ -163,14 +163,14 @@ void msr2SummaryVisitor::visitEnd (S_msrStaff& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrClef& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> Start visiting msrClef" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrClef& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> End visiting msrClef" << endl;
 }
@@ -178,14 +178,14 @@ void msr2SummaryVisitor::visitEnd (S_msrClef& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrKey& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> Start visiting msrKey" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrKey& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> End visiting msrKey" << endl;
 }
@@ -193,14 +193,14 @@ void msr2SummaryVisitor::visitEnd (S_msrKey& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrTime& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> Start visiting msrTime" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrTime& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> End visiting msrTime" << endl;
 }
@@ -208,14 +208,14 @@ void msr2SummaryVisitor::visitEnd (S_msrTime& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> Start visiting msrVoice" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> End visiting msrVoice" << endl;
 }
@@ -223,14 +223,14 @@ void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrLyrics& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> Start visiting msrLyrics" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrLyrics& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> End visiting msrLyrics" << endl;
 }
@@ -238,14 +238,14 @@ void msr2SummaryVisitor::visitEnd (S_msrLyrics& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrSequentialMusic& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> Start visiting msrSequentialMusic" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrSequentialMusic& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> End visiting msrSequentialMusic" << endl;
 }
@@ -253,14 +253,14 @@ void msr2SummaryVisitor::visitEnd (S_msrSequentialMusic& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrNote& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> Start visiting msrNote" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
 {
-  if (fTranslationSettings->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> End visiting msrNote" << endl;
 }

@@ -28,7 +28,7 @@
 
 #include "msrUtilities.h"
 
-#include "musicxml2msr.h"
+//JMI#include "musicxml2msr.h"
 
 namespace MusicXML2 
 {
@@ -196,40 +196,6 @@ class EXP msrOptions : public smartable {
 };
 typedef SMARTP<msrOptions> S_msrOptions;
 
-//______________________________________________________________________________
-/*!
-  \brief The LPSR code generation options.
-
-  A class is used to avoid passing arguments one by one
-  to the various methods that need them.
-*/
-class EXP lpsrOptions : public smartable {
-  public:
-
-    static SMARTP<lpsrOptions> create();
-    
-  public:
-  
-    lpsrOptions();
-    virtual ~lpsrOptions();
- 
-  public:
-
-    // LilyPond code generation
-    bool                            fGenerateAbsoluteCode;
-    bool                            fGenerateNumericalTime;
-    bool                            fGenerateComments;
-    bool                            fGenerateStems;
-    bool                            fGeneratePositions;
-
-    // LilyPond source code display
-    bool                            fDontDisplayLilyPondCode;
-    
-    // the options used by the command line
-    std::string                     fLilyPondCommandLineOptions;
-};
-typedef SMARTP<lpsrOptions> S_lpsrSettings;
-
 /*!
 \brief A generic msr element representation.
 
@@ -286,7 +252,7 @@ class EXP msrElement : public smartable
 
   protected:
      
-    S_msrOptions fTranslationSettings;
+    S_msrOptions          fMsrOptions;
     int                   fInputLineNumber;
     
     msrElement (
@@ -1273,7 +1239,7 @@ class EXP msrRepeat: public msrElement
               {
                 fAlternateEndings.push_back(
                   msrSequentialMusic::create (
-                    fTranslationSettings, fInputLineNumber,
+                    fMsrOptions, fInputLineNumber,
                     msrSequentialMusic::kSpace));
               }
 
