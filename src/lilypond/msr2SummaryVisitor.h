@@ -55,6 +55,7 @@ class msr2SummaryVisitor :
   public visitor<S_msrVoice>,
 
   public visitor<S_msrSequentialMusic>,
+  public visitor<S_msrParallelMusic>,
   
   public visitor<S_msrDuration>,
   
@@ -64,15 +65,17 @@ class msr2SummaryVisitor :
   public visitor<S_msrWedge>,
   
   public visitor<S_msrNote>,
-  public visitor<S_msrAbsoluteOctave>,
   public visitor<S_msrBeam>,
     
   public visitor<S_msrChord>,
   
   public visitor<S_msrTuplet>,
   
+  public visitor<S_msrSlur>,
+  
   public visitor<S_msrBarLine>,
   public visitor<S_msrBarNumberCheck>,
+  public visitor<S_msrBreak>,
   
   public visitor<S_msrRepeat>,
   

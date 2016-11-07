@@ -63,7 +63,8 @@ MsrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang)
 //_______________________________________________________________________________
 S_translationSettings translationSettings::create()
 {
-  translationSettings* o = new translationSettings(); assert(o!=0);
+  translationSettings* o = new translationSettings();
+  assert(o!=0);
   return o;
 }
 

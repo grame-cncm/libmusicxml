@@ -299,56 +299,6 @@ class musicXMLNoteData
 
     int         fMusicXMLVoiceNumber;
 };
-  
-/*!
-\brief A msr absolute octave representation.
-*/
-//______________________________________________________________________________
-class EXP msrAbsoluteOctave : public msrElement
-{
-  public:
-  
-    static SMARTP<msrAbsoluteOctave> create (
-      S_translationSettings& ts, 
-      int                    inputLineNumber,
-      int                    musicxmlOctave);
-    
-    msrAbsoluteOctave (
-      S_translationSettings& ts, 
-      int                    inputLineNumber,
-      int                    musicxmlOctave);
-      
-    virtual ~msrAbsoluteOctave();
-    
-    msrAbsoluteOctave& operator= (const msrAbsoluteOctave& absOct)
-      {
-        fMsrOctave = absOct.fMsrOctave;
-        return *this;
-      }
-          
-    bool operator!= (const msrAbsoluteOctave& otherAbsOct) const 
-      { 
-        return fMsrOctave != otherAbsOct.fMsrOctave;
-      }
-    
-    string  absoluteOctaveAsLilypondString ();
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printScoreSummary (ostream& os);
-    virtual void printLilyPondCode (ostream& os);
-
-  private:
-
-    int  fMsrOctave;
-};
-typedef SMARTP<msrAbsoluteOctave> S_msrAbsoluteOctave;
-EXP ostream& operator<< (ostream& os, const S_msrAbsoluteOctave& elt);
 
 /*!
 \brief A msr note duration representation.
@@ -697,8 +647,6 @@ class EXP msrNote : public msrElement
 
     S_msrDynamics       removeFirstDynamics ();
     S_msrWedge          removeFirstWedge ();
-
-//    void octaveRelativeTo (const msrAbsoluteOctave& otherAbsOct);
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
