@@ -179,7 +179,7 @@ class EXP xml2MsrScoreVisitor :
   public:
   
     xml2MsrScoreVisitor (
-        S_translationSettings& ts);
+        S_msrOptions& msrOpts);
     virtual ~xml2MsrScoreVisitor ();
 
     S_msrScore buildMsrScoreFromXMLElementTree (
@@ -319,7 +319,7 @@ class EXP xml2MsrScoreVisitor :
 
   private:
                      
-    S_translationSettings   fTranslationSettings;
+    S_msrOptions   fTranslationSettings;
 
     // warning and error messages
     // ------------------------------------------------------

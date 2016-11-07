@@ -110,35 +110,35 @@ int main (int argc, char *argv[])
   */
   
   // create the translation switches
-  S_msrOptions ts = msrOptions::create();
-  assert(ts != 0);
+  S_msrOptions msrOpts = msrOptions::create();
+  assert(msrOpts != 0);
   
-  ts->fSelectedOptions                   = "";
+  msrOpts->fSelectedOptions                   = "";
   
-  ts->fMsrNoteNamesLanguageAsString      = "dutch";
-  ts->fMsrNoteNamesLanguage              = kNederlands;
+  msrOpts->fMsrNoteNamesLanguageAsString      = "dutch";
+  msrOpts->fMsrNoteNamesLanguage              = kNederlands;
   
-  ts->fGenerateStaffRelativeVoiceNumbers = false;
+  msrOpts->fGenerateStaffRelativeVoiceNumbers = false;
   
-  ts->fGenerateAbsoluteCode              = true;
+  msrOpts->fGenerateAbsoluteCode              = true;
 
-  ts->fGenerateNumericalTime             = false;
-  ts->fGenerateComments                  = true;
-  ts->fGenerateStems                     = false;
-  ts->fGeneratePositions                 = false;
+  msrOpts->fGenerateNumericalTime             = false;
+  msrOpts->fGenerateComments                  = true;
+  msrOpts->fGenerateStems                     = false;
+  msrOpts->fGeneratePositions                 = false;
   
-  ts->fDontGenerateLyrics                = false;
+  msrOpts->fDontGenerateLyrics                = false;
 
-  ts->fDelayRestsDynamics                = false;
+  msrOpts->fDelayRestsDynamics                = false;
   
-  ts->fDisplayMSR                        = false;
+  msrOpts->fDisplayMSR                        = false;
 
-  ts->fDisplayScoreSummary               = false;
+  msrOpts->fDisplayScoreSummary               = false;
 
-  ts->fDontDisplayLilyPondCode           = false;
+  msrOpts->fDontDisplayLilyPondCode           = false;
 
-  ts->fTrace                             = true;
-  ts->fDebug                             = false;
+  msrOpts->fTrace                             = true;
+  msrOpts->fDebug                             = false;
 
   // to detect supplied options
   int helpPresent                      = 0;
@@ -246,78 +246,78 @@ int main (int argc, char *argv[])
         if (languagePresent) {
           // optarg contains the language name
           if (gMsrNoteNamesLanguageMap.count(optarg)) {
-            ts->fMsrNoteNamesLanguageAsString = optarg;
+            msrOpts->fMsrNoteNamesLanguageAsString = optarg;
           } else {
             cerr <<
               "--> Unknown language name \"" << optarg <<
               "\", using \"dutch\" instead" << std::endl;
-            ts->fMsrNoteNamesLanguageAsString = "dutch";
-            ts->fMsrNoteNamesLanguage = kNederlands;
+            msrOpts->fMsrNoteNamesLanguageAsString = "dutch";
+            msrOpts->fMsrNoteNamesLanguage = kNederlands;
           }
-          ts->fSelectedOptions +=
-            "--language "+ts->fMsrNoteNamesLanguageAsString+" ";
+          msrOpts->fSelectedOptions +=
+            "--language "+msrOpts->fMsrNoteNamesLanguageAsString+" ";
           }
              
         if (staffRelativeVoiceNumbersPresent) {
-          ts->fGenerateStaffRelativeVoiceNumbers = true;
-          ts->fSelectedOptions += "--staffRelativeVoiceNumbers ";
+          msrOpts->fGenerateStaffRelativeVoiceNumbers = true;
+          msrOpts->fSelectedOptions += "--staffRelativeVoiceNumbers ";
         }
         
         if (absolutePresent) {
-          ts->fGenerateAbsoluteCode = true;
-          ts->fSelectedOptions += "--absolute ";
+          msrOpts->fGenerateAbsoluteCode = true;
+          msrOpts->fSelectedOptions += "--absolute ";
         }
         
         if (numericaltimePresent) {
-          ts->fGenerateNumericalTime = true;
-          ts->fSelectedOptions += "--numericalTime ";
+          msrOpts->fGenerateNumericalTime = true;
+          msrOpts->fSelectedOptions += "--numericalTime ";
         }
         if (noCommentsPresent) {
-          ts->fGenerateComments = false;
-          ts->fSelectedOptions += "--noComments ";
+          msrOpts->fGenerateComments = false;
+          msrOpts->fSelectedOptions += "--noComments ";
         }
         if (stemsPresent) {
-          ts->fGenerateStems = true;
-          ts->fSelectedOptions += "--stems ";
+          msrOpts->fGenerateStems = true;
+          msrOpts->fSelectedOptions += "--stems ";
         }
         if (positionsPresent) {
-          ts->fGeneratePositions = true;
-          ts->fSelectedOptions += "--positions ";
+          msrOpts->fGeneratePositions = true;
+          msrOpts->fSelectedOptions += "--positions ";
         }
         
         if (dontGenerateLyricsPresent) {
-          ts->fDontGenerateLyrics = true;
-          ts->fSelectedOptions += "--dontGenerateLyrics ";
+          msrOpts->fDontGenerateLyrics = true;
+          msrOpts->fSelectedOptions += "--dontGenerateLyrics ";
         }
         
         if (delayRestsDynamicsPresent) {
-          ts->fDelayRestsDynamics = true;
-          ts->fSelectedOptions += "--delayRestsDynamics ";
+          msrOpts->fDelayRestsDynamics = true;
+          msrOpts->fSelectedOptions += "--delayRestsDynamics ";
         }
         
         if (displayMSRPresent) {
-          ts->fDisplayMSR = true;
-          ts->fSelectedOptions += "--displayMSR ";
+          msrOpts->fDisplayMSR = true;
+          msrOpts->fSelectedOptions += "--displayMSR ";
         }
 
         if (displayScoreSummaryPresent) {
-          ts->fDisplayScoreSummary = true;
-          ts->fSelectedOptions += "--displayScoreSummary ";
+          msrOpts->fDisplayScoreSummary = true;
+          msrOpts->fSelectedOptions += "--displayScoreSummary ";
         }
         
         if (dontDisplayLilyPondCodePresent) {
-          ts->fDontDisplayLilyPondCode = true;
-          ts->fSelectedOptions += "--dontDisplayLilyPondCode ";
+          msrOpts->fDontDisplayLilyPondCode = true;
+          msrOpts->fSelectedOptions += "--dontDisplayLilyPondCode ";
         }
 
         if (noTracePresent) {
-          ts->fTrace = false;
-          ts->fSelectedOptions += "--noTrace ";
+          msrOpts->fTrace = false;
+          msrOpts->fSelectedOptions += "--noTrace ";
         }
         if (debugPresent) {
-          ts->fTrace = true;
-          ts->fDebug = true;
-          ts->fSelectedOptions += "--debug ";
+          msrOpts->fTrace = true;
+          msrOpts->fDebug = true;
+          msrOpts->fSelectedOptions += "--debug ";
         }
         }
         break;
@@ -346,11 +346,11 @@ int main (int argc, char *argv[])
   // int   remainingArgs = nonOptionArgs;
 
   // for TESTS
-  //ts->fDisplayMSR                        = true;
-  //ts->fTrace = true;
-  //ts->fDebug = true;
+  //msrOpts->fDisplayMSR                        = true;
+  //msrOpts->fTrace = true;
+  //msrOpts->fDebug = true;
   
-  if (ts->fTrace)
+  if (msrOpts->fTrace)
     cerr << 
       "Launching conversion to LilyPond with libmusicxml2 v" << 
       musicxmllibVersionStr() <<
@@ -359,49 +359,49 @@ int main (int argc, char *argv[])
       endl <<
       "The MSR oprions are:" << endl <<
       "  noteNamesLanguageName   : \"" <<
-        ts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
+        msrOpts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
       
       "  displayMSR              : " <<
-        string(ts->fDisplayMSR ? "true" : "false") << endl <<
+        string(msrOpts->fDisplayMSR ? "true" : "false") << endl <<
 
       "  generateAbsoluteCode    : " <<
-        string(ts->fGenerateAbsoluteCode ? "true" : "false") << endl <<
+        string(msrOpts->fGenerateAbsoluteCode ? "true" : "false") << endl <<
       
       "  generateNumericalTime   : " <<
-        string(ts->fGenerateNumericalTime ? "true" : "false") << endl <<
+        string(msrOpts->fGenerateNumericalTime ? "true" : "false") << endl <<
       "  generateComments        : " <<
-        string(ts->fGenerateComments ? "true" : "false") << endl <<
+        string(msrOpts->fGenerateComments ? "true" : "false") << endl <<
       "  generateStems           : " <<
-        string(ts->fGenerateStems ? "true" : "false") << endl <<
+        string(msrOpts->fGenerateStems ? "true" : "false") << endl <<
       "  generatePositions       : " <<
-        string(ts->fGeneratePositions ? "true" : "false") << endl <<
+        string(msrOpts->fGeneratePositions ? "true" : "false") << endl <<
 
       "  dontGenerateLyrics      : " <<
-        string(ts->fDontGenerateLyrics ? "true" : "false") << endl <<
+        string(msrOpts->fDontGenerateLyrics ? "true" : "false") << endl <<
 
       "  displayMSR              : " <<
-        string(ts->fDisplayMSR ? "true" : "false") << endl <<
+        string(msrOpts->fDisplayMSR ? "true" : "false") << endl <<
       
       "  displayScoreSummary     : " <<
-        string(ts->fDisplayScoreSummary ? "true" : "false") << endl <<
+        string(msrOpts->fDisplayScoreSummary ? "true" : "false") << endl <<
       
       "  dontDisplayLilyPondCode : " <<
-        string(ts->fDontDisplayLilyPondCode ? "true" : "false") << endl <<
+        string(msrOpts->fDontDisplayLilyPondCode ? "true" : "false") << endl <<
     
       "  trace                   : " <<
-        string(ts->fTrace ? "true" : "false") << endl <<
+        string(msrOpts->fTrace ? "true" : "false") << endl <<
       "  debug                   : " <<
-        string(ts->fDebug ? "true" : "false") << endl;
+        string(msrOpts->fDebug ? "true" : "false") << endl;
   
   xmlErr err = kNoErr;
   
   if (!strcmp (file, "-"))
   
-    err = musicxmlFd2Msr (stdin, ts, cout);
+    err = musicxmlFd2Msr (stdin, msrOpts, cout);
     
   else
   
-    err = musicxmlFile2Msr (file, ts, cout);
+    err = musicxmlFile2Msr (file, msrOpts, cout);
     
   if (err) {
     cout << "### Conversion from MusicCML to LilyPond failed ###" << endl <<

@@ -61,7 +61,7 @@ void xml2MsrScoreVisitor::msrInternalError (
 
 //________________________________________________________________________
 xml2MsrScoreVisitor::xml2MsrScoreVisitor (
-  S_translationSettings& ts)
+  S_msrOptions& msrOpts)
   /* JMI
     : gCurrentMusicXMLLocation (
       0, // before first line on MusicXML contents
@@ -69,7 +69,7 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
       0) // at the beginning of a measure
       */
 {
-  fTranslationSettings = ts;
+  fTranslationSettings = msrOpts;
 
   /* JMI
     : gCurrentMusicXMLLocation (

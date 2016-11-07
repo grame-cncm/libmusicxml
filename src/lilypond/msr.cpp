@@ -135,36 +135,36 @@ MsrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang)
 }
 
 //_______________________________________________________________________________
-S_translationSettings translationSettings::create()
+S_msrOptions msrOptions::create()
 {
-  translationSettings* o = new translationSettings();
+  msrOptions* o = new msrOptions();
   assert(o!=0);
   return o;
 }
 
-translationSettings::translationSettings() {}
-translationSettings::~translationSettings() {}
+msrOptions::msrOptions() {}
+msrOptions::~msrOptions() {}
 
 //______________________________________________________________________________
 /* JMI
 
 S_msrElement msrElement::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
 {
   msrElement * o =
     new msrElement (
-      ts, inputLineNumber);
+      msrOpts, inputLineNumber);
   assert(o!=0);
   return o; 
 }
 */
 
 msrElement::msrElement (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
 {
-  fTranslationSettings = ts;
+  fTranslationSettings = msrOpts;
   fInputLineNumber = inputLineNumber;  
 }
 
@@ -330,7 +330,7 @@ void musicXMLBeatData::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrDuration msrDuration::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    num,
   int                    denom,
@@ -339,20 +339,20 @@ S_msrDuration msrDuration::create (
 {
   msrDuration * o =
     new msrDuration (
-      ts, inputLineNumber,
+      msrOpts, inputLineNumber,
       num, denom, dots, tupletMemberType);
   assert(o!=0); 
   return o;
 }
 
 msrDuration::msrDuration (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    num,
   int                    denom,
   int                    dots,
   string                 tupletMemberType)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fNum   = num;
   fDenom = denom;
@@ -553,22 +553,22 @@ void msrDuration::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrArticulation msrArticulation::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   ArticulationKind       articulationKind)
 {
   msrArticulation* o =
     new msrArticulation (
-      ts, inputLineNumber, articulationKind);
+      msrOpts, inputLineNumber, articulationKind);
   assert (o!=0);
   return o;
 }
 
 msrArticulation::msrArticulation (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   ArticulationKind       articulationKind)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fArticulationKind = articulationKind;
 }
@@ -662,22 +662,22 @@ void msrArticulation::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrDynamics msrDynamics::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   DynamicsKind           dynamicsKind)
 {
   msrDynamics* o =
     new msrDynamics (
-      ts, inputLineNumber, dynamicsKind);
+      msrOpts, inputLineNumber, dynamicsKind);
     assert(o!=0);
   return o;
 }
 
 msrDynamics::msrDynamics (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   DynamicsKind           dynamicsKind)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fDynamicsKind = dynamicsKind; 
 }
@@ -821,22 +821,22 @@ void msrDynamics::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrWedge msrWedge::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   WedgeKind              wedgeKind)
 {
   msrWedge* o =
     new msrWedge (
-      ts, inputLineNumber, wedgeKind);
+      msrOpts, inputLineNumber, wedgeKind);
   assert(o!=0);
   return o;
 }
 
 msrWedge::msrWedge (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   WedgeKind              wedgeKind)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fWedgeKind = wedgeKind; 
 }
@@ -927,22 +927,22 @@ void msrWedge::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrSlur msrSlur::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   SlurKind               slurKind)
 {
   msrSlur* o =
     new msrSlur (
-      ts, inputLineNumber, slurKind);
+      msrOpts, inputLineNumber, slurKind);
   assert(o!=0);
   return o;
 }
 
 msrSlur::msrSlur (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   SlurKind               slurKind)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fSlurKind = slurKind; 
 }
@@ -1033,28 +1033,28 @@ void msrSlur::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrNote msrNote::createFromMusicXMLData (
-  S_translationSettings& ts,
+  S_msrOptions& msrOpts,
   int                    inputLineNumber,
   musicXMLNoteData&      mxmldat,
   msrSlur::SlurKind      slurKind)
 {  
   msrNote * o =
     new msrNote (
-      ts, inputLineNumber, mxmldat, slurKind);
+      msrOpts, inputLineNumber, mxmldat, slurKind);
   assert(o!=0); 
   return o;
 }
 
 msrNote::msrNote (
-  S_translationSettings& ts,
+  S_msrOptions& msrOpts,
   int                    inputLineNumber,
   musicXMLNoteData&      mxmldat,
   msrSlur::SlurKind      slurKind)
   :
-    msrElement (ts, inputLineNumber),
+    msrElement (msrOpts, inputLineNumber),
     fMusicXMLNoteData (mxmldat)
 {
-  fTranslationSettings = ts;
+  fTranslationSettings = msrOpts;
   fInputLineNumber = inputLineNumber;
 
   fNoteSlurKind = slurKind;
@@ -1670,22 +1670,22 @@ string msrNote::octaveRepresentation (char octave)
 
 //______________________________________________________________________________
 S_msrSequentialMusic msrSequentialMusic::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   ElementsSeparator      elementsSeparator)
 {
   msrSequentialMusic* o =
     new msrSequentialMusic (
-      ts, inputLineNumber, elementsSeparator);
+      msrOpts, inputLineNumber, elementsSeparator);
   assert(o!=0);
   return o;
 }
 
 msrSequentialMusic::msrSequentialMusic (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   ElementsSeparator      elementsSeparator)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fElementsSeparator=elementsSeparator;
 }
@@ -1853,22 +1853,22 @@ void msrSequentialMusic::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrParallelMusic msrParallelMusic::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   ElementsSeparator      elementsSeparator)
 {
   msrParallelMusic* o =
     new msrParallelMusic (
-      ts, inputLineNumber, elementsSeparator);
+      msrOpts, inputLineNumber, elementsSeparator);
   assert(o!=0);
   return o;
 }
 
 msrParallelMusic::msrParallelMusic (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   ElementsSeparator      elementsSeparator)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fElementsSeparator=elementsSeparator;
 }
@@ -1960,22 +1960,22 @@ void msrParallelMusic::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrChord msrChord::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   S_msrDuration          chordDuration)
 {
   msrChord* o =
     new msrChord (
-      ts, inputLineNumber, chordDuration);
+      msrOpts, inputLineNumber, chordDuration);
   assert(o!=0);
   return o;
 }
 
 msrChord::msrChord (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   S_msrDuration          chordDuration)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fChordDuration = chordDuration;
 }
@@ -2121,22 +2121,22 @@ void msrChord::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrBarLine msrBarLine::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    nextBarNumber)
 {
   msrBarLine* o =
     new msrBarLine (
-      ts, inputLineNumber, nextBarNumber);
+      msrOpts, inputLineNumber, nextBarNumber);
   assert(o!=0);
   return o;
 }
 
 msrBarLine::msrBarLine (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    nextBarNumber)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fNextBarNumber=nextBarNumber; 
 }
@@ -2206,24 +2206,24 @@ void msrBarLine::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrComment msrComment::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   string                 contents,
   GapKind                gapKind)
 {
   msrComment* o =
     new msrComment (
-      ts, inputLineNumber, contents, gapKind);
+      msrOpts, inputLineNumber, contents, gapKind);
   assert(o!=0);
   return o;
 }
 
 msrComment::msrComment (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   string                 contents,
   GapKind                gapKind)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fContents=contents;
   fGapKind=gapKind;
@@ -2299,22 +2299,22 @@ void msrComment::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrBreak msrBreak::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    nextBarNumber)
 {
   msrBreak* o =
     new msrBreak (
-      ts, inputLineNumber, nextBarNumber);
+      msrOpts, inputLineNumber, nextBarNumber);
   assert(o!=0);
   return o;
 }
 
 msrBreak::msrBreak (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    nextBarNumber)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fNextBarNumber=nextBarNumber; 
 }
@@ -2388,22 +2388,22 @@ void msrBreak::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrBarNumberCheck msrBarNumberCheck::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    nextBarNumber)
 {
   msrBarNumberCheck* o =
     new msrBarNumberCheck (
-      ts, inputLineNumber, nextBarNumber);
+      msrOpts, inputLineNumber, nextBarNumber);
   assert(o!=0);
   return o;
 }
 
 msrBarNumberCheck::msrBarNumberCheck (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    nextBarNumber)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fNextBarNumber=nextBarNumber; 
 }
@@ -2473,20 +2473,20 @@ void msrBarNumberCheck::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
-  S_translationSettings& ts,
+  S_msrOptions& msrOpts,
   int                    inputLineNumber)
 {
   msrTuplet* o =
     new msrTuplet (
-      ts, inputLineNumber);
+      msrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrTuplet::msrTuplet (
-  S_translationSettings& ts,
+  S_msrOptions& msrOpts,
   int                    inputLineNumber)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fTupletNumber = k_NoTuplet;
   
@@ -2592,24 +2592,24 @@ void msrTuplet::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrBeam msrBeam::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    number,
   BeamKind               beamKind)
 {
   msrBeam* o =
     new msrBeam (
-      ts, inputLineNumber, number, beamKind);
+      msrOpts, inputLineNumber, number, beamKind);
   assert(o!=0);
   return o;
 }
 
 msrBeam::msrBeam (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    number,
   BeamKind               beamKind)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fBeamNumber = number;
   fBeamKind   = beamKind; 
@@ -2691,20 +2691,20 @@ void msrBeam::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrPaper msrPaper::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
 {
   msrPaper* o =
     new msrPaper (
-      ts, inputLineNumber);
+      msrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrPaper::msrPaper (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fPaperWidth = -1.0;
   fPaperHeight = -1.0;
@@ -2900,20 +2900,20 @@ void msrPaper::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrHeader msrHeader::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
 {
   msrHeader* o =
     new msrHeader (
-      ts, inputLineNumber);
+      msrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrHeader::msrHeader (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {}
 msrHeader::~msrHeader() {}
 
@@ -3293,7 +3293,7 @@ void msrHeader::printLilyPondCode (ostream& os)
 //______________________________________________________________________________
 
 S_msrVarValAssoc msrVarValAssoc::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   string                 variableName,
   string                 value, 
@@ -3304,7 +3304,7 @@ S_msrVarValAssoc msrVarValAssoc::create (
 {
   msrVarValAssoc* o =
     new msrVarValAssoc(
-      ts, inputLineNumber,
+      msrOpts, inputLineNumber,
       variableName, value, varValSeparator, 
       quotesKind, commentedKind, unit);
   assert(o!=0);
@@ -3312,7 +3312,7 @@ S_msrVarValAssoc msrVarValAssoc::create (
 }
 
 msrVarValAssoc::msrVarValAssoc (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   string                 variableName,
   string                 value, 
@@ -3320,7 +3320,7 @@ msrVarValAssoc::msrVarValAssoc (
   QuotesKind             quotesKind,
   CommentedKind          commentedKind,
   string                 unit)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fVariableName=variableName;
   fVariableValue=value;
@@ -3442,7 +3442,7 @@ msrSchemeVarValAssoc::msrSchemeVarValAssoc(
   string     variableName,
   string     value, 
   CommentedKind   commentedKind )
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fVariableName=variableName;
   fVariableValue=value;
@@ -3534,20 +3534,20 @@ void msrSchemeVarValAssoc::printLilyPondCode (ostream& os)
 */
 //______________________________________________________________________________
 S_msrLayout msrLayout::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
 {
   msrLayout* o =
     new msrLayout (
-      ts, inputLineNumber);
+      msrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrLayout::msrLayout (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {}
 msrLayout::~msrLayout() {}
 
@@ -3667,7 +3667,7 @@ void msrLayout::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrClef msrClef::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   string                 sign,
   int                    line,
@@ -3675,18 +3675,18 @@ S_msrClef msrClef::create (
 {
   msrClef* o =
     new msrClef (
-      ts, inputLineNumber, sign, line, octaveChange);
+      msrOpts, inputLineNumber, sign, line, octaveChange);
   assert(o!=0);
   return o;
 }
 
 msrClef::msrClef (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   string                 sign,
   int                    line,
   int                    octaveChange)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fSign         = sign;
   fLine         = line;
@@ -3828,7 +3828,7 @@ void msrClef::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrKey msrKey::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    fifths,
   string                 mode,
@@ -3836,18 +3836,18 @@ S_msrKey msrKey::create (
 {
   msrKey* o =
     new msrKey (
-      ts, inputLineNumber, fifths, mode, cancel);
+      msrOpts, inputLineNumber, fifths, mode, cancel);
   assert (o!=0);
   return o;
 }
 
 msrKey::msrKey (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    fifths,
   string                 mode,
   int                    cancel)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fFifths = fifths;
   fMode   = mode;
@@ -4006,25 +4006,25 @@ void msrKey::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrTime msrTime::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    numerator,
   int                    denominator)
 {
   msrTime* o =
     new msrTime (
-      ts, inputLineNumber,
+      msrOpts, inputLineNumber,
       numerator, denominator);
   assert (o!=0);
   return o;
 }
 
 msrTime::msrTime (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    numerator,
   int                    denominator)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fRational = rational (numerator, denominator);
 // JMI  fNumerator=numerator; 
@@ -4108,24 +4108,24 @@ void msrTime::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrTempo msrTempo::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    tempoUnit,
   int                    perMinute)
 {
   msrTempo* o =
     new msrTempo (
-      ts, inputLineNumber, tempoUnit, perMinute);
+      msrOpts, inputLineNumber, tempoUnit, perMinute);
   assert(o!=0);
   return o;
 }
 
 msrTempo::msrTempo (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    tempoUnit,
   int                    perMinute)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fTempoUnit = tempoUnit;
   fPerMinute = perMinute;
@@ -4204,20 +4204,20 @@ void msrTempo::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrRepeat msrRepeat::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
 {
   msrRepeat* o =
     new msrRepeat (
-      ts, inputLineNumber);
+      msrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrRepeat::msrRepeat (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fActuallyUsed = false;
 }
@@ -4294,7 +4294,7 @@ void msrRepeat::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrLyricsChunk msrLyricsChunk::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   LyricsChunkType        chunkType,
   string                 chunkText,
@@ -4302,19 +4302,19 @@ S_msrLyricsChunk msrLyricsChunk::create (
 {
   msrLyricsChunk* o =
     new msrLyricsChunk (
-      ts, inputLineNumber,
+      msrOpts, inputLineNumber,
       chunkType, chunkText, msrDuration);
   assert(o!=0);
   return o;
 }
 
 msrLyricsChunk::msrLyricsChunk (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   LyricsChunkType        chunkType,
   string                 chunkText,
   S_msrDuration          msrDuration)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fLyricsChunkType = chunkType;
   fChunkText       = chunkText;
@@ -4444,26 +4444,26 @@ void msrLyricsChunk::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrLyrics msrLyrics::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    lyricsNumber,
   S_msrVoice             lyricsVoice)
 {
   msrLyrics* o =
     new msrLyrics (
-      ts, inputLineNumber, lyricsNumber, lyricsVoice);
+      msrOpts, inputLineNumber, lyricsNumber, lyricsVoice);
   assert(o!=0);
   return o;
 }
 
 msrLyrics::msrLyrics (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    lyricsNumber,
   S_msrVoice             lyricsVoice)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
-  fTranslationSettings = ts;
+  fTranslationSettings = msrOpts;
   fLyricsNumber        = lyricsNumber;
   fLyricsVoice         = lyricsVoice; 
  
@@ -4789,7 +4789,7 @@ void msrLyrics::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________ 
 S_msrVoice msrVoice::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    voiceNumber,
   int                    staffRelativeVoiceNumber,
@@ -4797,7 +4797,7 @@ S_msrVoice msrVoice::create (
 {
   msrVoice* o =
     new msrVoice (
-      ts, inputLineNumber,
+      msrOpts, inputLineNumber,
       voiceNumber,
       staffRelativeVoiceNumber,
       voiceStaff);
@@ -4806,14 +4806,14 @@ S_msrVoice msrVoice::create (
 }
 
 msrVoice::msrVoice (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    voiceNumber,
   int                    staffRelativeVoiceNumber,
   S_msrStaff             voiceStaff)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
-  fTranslationSettings = ts;
+  fTranslationSettings = msrOpts;
 
   fVoiceNumber = voiceNumber;
   fStaffRelativeVoiceNumber = staffRelativeVoiceNumber;
@@ -4828,14 +4828,14 @@ msrVoice::msrVoice (
   // create the implicit msrSequentialMusic element
   fVoiceSequentialMusic =
     msrSequentialMusic::create (
-      ts, inputLineNumber,
+      msrOpts, inputLineNumber,
       msrSequentialMusic::kSpace);
 
   // add the implicit initial C major key
   S_msrKey
     key =
       msrKey::create (
-        ts, inputLineNumber,
+        msrOpts, inputLineNumber,
         0, "major", 0);
   S_msrElement k = key;
   fVoiceSequentialMusic->appendElementToSequentialMusic (k);
@@ -4844,7 +4844,7 @@ msrVoice::msrVoice (
   S_msrTime
     time =
       msrTime::create (
-        ts, inputLineNumber,
+        msrOpts, inputLineNumber,
         4, 4);
   S_msrElement t = time;
   fVoiceSequentialMusic->appendElementToSequentialMusic (t);
@@ -5137,26 +5137,26 @@ void msrVoice::printLilyPondCode (ostream& os)
 int msrStaff::gMaxStaffVoices = 4;
 
 S_msrStaff msrStaff::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    staffNumber,
   S_msrPart              staffPart)
 {
   msrStaff* o =
     new msrStaff (
-      ts, inputLineNumber, staffNumber, staffPart);
+      msrOpts, inputLineNumber, staffNumber, staffPart);
   assert(o!=0);
   return o;
 }
 
 msrStaff::msrStaff (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    staffNumber,
   S_msrPart              staffPart)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
-  fTranslationSettings = ts;
+  fTranslationSettings = msrOpts;
   
   fStaffNumber = staffNumber;
   fStaffPart   = staffPart;
@@ -5170,14 +5170,14 @@ msrStaff::msrStaff (
   // create the implicit initial C major key
   fStaffKey =
     msrKey::create (
-      ts,
+      msrOpts,
       inputLineNumber,
       0, "major", 0);
 
   // create the implicit initial 4/4 time signature
   fStaffTime =
     msrTime::create (
-      ts,
+      msrOpts,
       inputLineNumber,
       4, 4);
 
@@ -5509,26 +5509,26 @@ void msrStaff::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________ 
 S_msrPart msrPart::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   string                 partMusicXMLName,
   S_msrPartgroup         partPartgroup)
 {
   msrPart* o =
     new msrPart (
-      ts, inputLineNumber, partMusicXMLName, partPartgroup);
+      msrOpts, inputLineNumber, partMusicXMLName, partPartgroup);
   assert(o!=0);
   return o;
 }
 
 msrPart::msrPart (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   string                 partMusicXMLName,
   S_msrPartgroup         partPartgroup)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
-  fTranslationSettings = ts;
+  fTranslationSettings = msrOpts;
   
   fPartMusicXMLName = partMusicXMLName;
   fPartPartgroup    = partPartgroup;
@@ -5782,7 +5782,7 @@ void msrPart::printLilyPondCode (ostream& os)
 int msrPartgroup::gPartgroupsCounter = 0;
 
 S_msrPartgroup msrPartgroup::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    partGroupNumber,
   string                 partGroupName,
@@ -5793,7 +5793,7 @@ S_msrPartgroup msrPartgroup::create (
 {
   msrPartgroup* o =
     new msrPartgroup (
-      ts, inputLineNumber,
+      msrOpts, inputLineNumber,
       partGroupNumber,
       partGroupName,
       partGroupAbbreviation,
@@ -5805,7 +5805,7 @@ S_msrPartgroup msrPartgroup::create (
 }
 
 msrPartgroup::msrPartgroup (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    partGroupNumber,
   string                 partGroupName,
@@ -5813,11 +5813,11 @@ msrPartgroup::msrPartgroup (
   PartgroupSymbolKind    partGroupSymbolKind,
   int                    partGroupSymbolDefaultX,
   bool                   partGroupBarline)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fPartgroupAbsoluteNumber = ++gPartgroupsCounter;
   
-  fTranslationSettings = ts;
+  fTranslationSettings = msrOpts;
 
   fPartgroupNumber = partGroupNumber;
         
@@ -6170,22 +6170,22 @@ void msrPartgroup::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrScore msrScore::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
 {
   msrScore* o =
     new msrScore (
-      ts, inputLineNumber);
+      msrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrScore::msrScore (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
-  fTranslationSettings = ts;
+  fTranslationSettings = msrOpts;
 }
 msrScore::~msrScore() {}
 
@@ -6344,20 +6344,20 @@ void msrScore::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrMidi msrMidi::create (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
 {
   msrMidi* o =
     new msrMidi (
-      ts, inputLineNumber);
+      msrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrMidi::msrMidi (
-  S_translationSettings& ts, 
+  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
-    : msrElement (ts, inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
 }
 msrMidi::~msrMidi() {}

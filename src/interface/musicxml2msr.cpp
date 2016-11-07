@@ -41,18 +41,18 @@ EXP const char* musicxml2MsrVersionStr () { return "0.1.0"; }
 //_______________________________________________________________________________
 
 S_msrScore buildMsrScoreFromTree (
-  S_translationSettings& ts,
+  S_msrOptions& msrOpts,
   Sxmlelement            xmlTree)
 {
     // browse the part contents for the first time with a xml2MsrScoreVisitor
-  if (ts->fTrace)
+  if (msrOpts->fTrace)
     cerr << idtr <<
       "Building a MSR score from the xmlelement tree" << endl;
 
   idtr++;
   
   // create an xml2MsrVisitor
-  xml2MsrScoreVisitor visitor (ts);
+  xml2MsrScoreVisitor visitor (msrOpts);
       
   // a global variable is needed so that msr::Element.print() 
   // can decide whether to print:
@@ -74,14 +74,14 @@ S_msrScore buildMsrScoreFromTree (
 }
 
 //_______________________________________________________________________________
-void displayScoreSummaryWithVisitor (
-  S_translationSettings& ts,
+void displayMSRScoreSummaryWithVisitor (
+  S_msrOptions& msrOpts,
   S_msrScore             score)
 {
   string separator = "%----------------------------------------";
 
   // output the score resulting from the conversion 
-  if (ts->fTrace) 
+  if (msrOpts->fTrace) 
     cerr << idtr <<
       separator << endl <<
       "%Outputting a summary of the MSR score" << endl <<
@@ -90,13 +90,13 @@ void displayScoreSummaryWithVisitor (
   idtr++;
 
   // create an msr2SummaryVisitor visitor
-  msr2SummaryVisitor visitor (ts);
+  msr2SummaryVisitor visitor (msrOpts);
 
-  if (ts->fTrace) cerr << "%{" << std::endl;
+  if (msrOpts->fTrace) cerr << "%{" << std::endl;
   
   visitor.printSummaryFromMsrScore (score);
   
-  if (ts->fTrace) cerr << "%}" << std::endl;
+  if (msrOpts->fTrace) cerr << "%}" << std::endl;
   
   cerr << separator << std::endl;
 
@@ -105,14 +105,14 @@ void displayScoreSummaryWithVisitor (
 
 //_______________________________________________________________________________
 void displayMSRScore (
-  S_translationSettings& ts,
+  S_msrOptions& msrOpts,
   S_msrScore             score)
 {
   string separator = "%----------------------------------------";
 
   // output the score resulting from the conversion 
   // thru msrElement::printMsrStructure()
-  if (ts->fTrace) 
+  if (msrOpts->fTrace) 
     cerr << idtr <<
       separator << endl <<
       "%Outputting a hierarchical view of the MSR score" << endl <<
@@ -122,23 +122,23 @@ void displayMSRScore (
   msrGlobalVariables::setDisplayKind (
     msrGlobalVariables::kMSR);
    
-  if (ts->fTrace) cerr << "%{" << std::endl;
+  if (msrOpts->fTrace) cerr << "%{" << std::endl;
   cerr << score;
-  if (ts->fTrace) cerr << "%}" << std::endl;
+  if (msrOpts->fTrace) cerr << "%}" << std::endl;
   
   cerr << separator << std::endl;
 }
 
 //_______________________________________________________________________________
 void displayScoreSummary (
-  S_translationSettings& ts,
+  S_msrOptions& msrOpts,
   S_msrScore             score)
 {
   string separator = "%----------------------------------------";
 
   // output the score resulting from the conversion 
   // thru msrElement::printMsrStructure()
-  if (ts->fTrace) 
+  if (msrOpts->fTrace) 
     cerr << idtr <<
       separator << endl <<
       "%Outputting a summary of the MSR score" << endl <<
@@ -148,9 +148,9 @@ void displayScoreSummary (
   msrGlobalVariables::setDisplayKind (
     msrGlobalVariables::kScoreSummary);
    
-  if (ts->fTrace) cerr << "{%" << std::endl;
+  if (msrOpts->fTrace) cerr << "{%" << std::endl;
   cerr << score;
-  if (ts->fTrace) cerr << "%}" << std::endl;
+  if (msrOpts->fTrace) cerr << "%}" << std::endl;
   
   cerr << separator << std::endl;
 }
@@ -162,7 +162,7 @@ void displayScoreSummary (
 */
 static xmlErr xml2Msr(
   SXMLFile&              xmlfile,
-  S_translationSettings& ts,
+  S_msrOptions& msrOpts,
   ostream&               out,
   const char* file) 
 {
@@ -171,21 +171,21 @@ static xmlErr xml2Msr(
   
   if (elemsTree) {
     S_msrScore score =
-      buildMsrScoreFromTree (ts, elemsTree);
+      buildMsrScoreFromTree (msrOpts, elemsTree);
 
-    if (ts->fDisplayMSR)
-      displayMSRScore (ts, score);
+    if (msrOpts->fDisplayMSR)
+      displayMSRScore (msrOpts, score);
 
-    if (ts->fDisplayScoreSummary)
-//      displayScoreSummary (ts, score);
-      displayScoreSummaryWithVisitor (ts, score);
+    if (msrOpts->fDisplayMSRScoreSummary)
+//      displayScoreSummary (msrOpts, score);
+      displayMSRScoreSummaryWithVisitor (msrOpts, score);
 
     /*
     // create an xml2MsrVisitor
-    xml2MsrVisitor v(ts);
+    xml2MsrVisitor v(msrOpts);
     
     // use the visitor to convert the xmlelement tree into a msrElement tree
-    if (ts->fTrace)
+    if (msrOpts->fTrace)
       cerr << "Launching conversion of xmlelement tree to LilyPond semantic representation tree" << endl;
     S_msrElement    msr = v.convertToMsr(elemsTree);
     
@@ -193,7 +193,7 @@ static xmlErr xml2Msr(
  
     // output the structure of the msrElement tree resulting from the conversion 
     // thru msrElement::printMsrStructure()
-    if (ts->fTrace) 
+    if (msrOpts->fTrace) 
       cerr << 
         separator << endl <<
         "%Outputting the LilyPond semantic representation tree" << endl <<
@@ -205,13 +205,13 @@ static xmlErr xml2Msr(
     //   - MusicXML text
     //   - LilyPond source code
     msrGlobalVariables::setDisplayKind (msrGlobalVariables::kMSR);
-    if (ts->fTrace) cerr << "{%" << std::endl;
+    if (msrOpts->fTrace) cerr << "{%" << std::endl;
     std::cerr << 
       msr << std::endl;
-    if (ts->fTrace) cerr << "%}" << std::endl;
+    if (msrOpts->fTrace) cerr << "%}" << std::endl;
     std::cerr << endl << separator << std::endl;
 
-    if (ts->fTrace) 
+    if (msrOpts->fTrace) 
       cerr << 
         "%Outputting the LilyPond source code" << endl <<
         separator << endl << endl;
@@ -231,10 +231,10 @@ static xmlErr xml2Msr(
       std::endl;
       
     cout << "  Options were: ";
-    if (ts->fSelectedOptions.size() == 0)
+    if (msrOpts->fSelectedOptions.size() == 0)
       out << "none";
     else
-      out << std::endl << "    " << ts->fSelectedOptions;
+      out << std::endl << "    " << msrOpts->fSelectedOptions;
     out << std::endl;
     out << "%}" << std::endl << std::endl;
       
@@ -243,7 +243,7 @@ static xmlErr xml2Msr(
     out <<
       msr << endl;
     
-    if (ts->fTrace) 
+    if (msrOpts->fTrace) 
       cerr << separator << endl;
    */
    
@@ -257,10 +257,10 @@ static xmlErr xml2Msr(
 //_______________________________________________________________________________
 EXP xmlErr musicxmlFile2Msr(
   const char             *file,
-  S_translationSettings& ts,
+  S_msrOptions& msrOpts,
   ostream&               out) 
 {
-  if (ts->fTrace)
+  if (msrOpts->fTrace)
     cerr << idtr <<
       "Building xmlemement tree from \"" << file << "\"" << endl;
 
@@ -270,7 +270,7 @@ EXP xmlErr musicxmlFile2Msr(
   xmlFile = r.read(file);
   
   if (xmlFile) {
-    return xml2Msr (xmlFile, ts, out, file);
+    return xml2Msr (xmlFile, msrOpts, out, file);
   }
   
   return kInvalidFile;
@@ -279,10 +279,10 @@ EXP xmlErr musicxmlFile2Msr(
 //_______________________________________________________________________________
 EXP xmlErr musicxmlFd2Msr(
   FILE                   *fd,
-  S_translationSettings& ts,
+  S_msrOptions& msrOpts,
   ostream&               out) 
 {
-  if (ts->fTrace)
+  if (msrOpts->fTrace)
     cerr << idtr <<
       "Building xmlemement tree from standard input" << endl;
 
@@ -292,7 +292,7 @@ EXP xmlErr musicxmlFd2Msr(
   xmlFile = r.read(fd);
   
   if (xmlFile) {
-    return xml2Msr (xmlFile, ts, out, 0);
+    return xml2Msr (xmlFile, msrOpts, out, 0);
   }
   
   return kInvalidFile;
@@ -301,10 +301,10 @@ EXP xmlErr musicxmlFd2Msr(
 //_______________________________________________________________________________
 EXP xmlErr musicxmlString2Msr(
   const char             *buffer,
-  S_translationSettings& ts,
+  S_msrOptions& msrOpts,
   ostream&               out) 
 {
-  if (ts->fTrace)
+  if (msrOpts->fTrace)
     cerr << idtr <<
       "Building xmlemement tree from a buffer" << endl;
   
@@ -314,7 +314,7 @@ EXP xmlErr musicxmlString2Msr(
   xmlFile = r.readbuff(buffer);
   
   if (xmlFile) {
-    return xml2Msr (xmlFile, ts, out, 0);
+    return xml2Msr (xmlFile, msrOpts, out, 0);
   }
   
   return kInvalidFile;

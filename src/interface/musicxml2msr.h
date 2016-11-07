@@ -25,6 +25,8 @@
 
 #include "libmusicxml.h"
 
+#include "msr.h"
+
 
 namespace MusicXML2 
 {
@@ -59,22 +61,22 @@ EXP const char*   musicxml2MsrVersionStr();
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
   \param file a file name 
-  \param ts the translation Settings to be used
+  \param msrOpts the translation Settings to be used
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
 EXP xmlErr musicxmlFile2Msr (
-  const char *file, S_translationSettings& ts, std::ostream& out);
+  const char *file, S_msrOptions& msrOpts, std::ostream& out);
 
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
   \param fd a file descriptor 
-  \param ts the translation Settings to be used
+  \param msrOpts the translation Settings to be used
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
 EXP xmlErr musicxmlFd2Msr (
-  FILE* fd, S_translationSettings& ts, std::ostream& out);
+  FILE* fd, S_msrOptions& msrOpts, std::ostream& out);
 
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
@@ -84,7 +86,7 @@ EXP xmlErr musicxmlFd2Msr (
   \return an error code (\c kNoErr when success)
 */
 EXP xmlErr musicxmlString2Msr (
-  const char *buff, S_translationSettings& ts, std::ostream& out);
+  const char *buff, S_msrOptions& msrOpts, std::ostream& out);
 
 
 /*! @} */

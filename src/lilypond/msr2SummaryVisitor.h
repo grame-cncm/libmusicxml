@@ -96,7 +96,7 @@ class msr2SummaryVisitor :
   public:
   
     msr2SummaryVisitor (
-        S_translationSettings& ts);
+        S_msrOptions& msrOpts);
         
     virtual ~msr2SummaryVisitor ();
 
@@ -143,7 +143,7 @@ class msr2SummaryVisitor :
 
   private:
                      
-    S_translationSettings   fTranslationSettings;
+    S_msrOptions   fTranslationSettings;
 };
 
 /*
