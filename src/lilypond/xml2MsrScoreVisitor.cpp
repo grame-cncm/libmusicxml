@@ -221,7 +221,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_list& elt)
 
   if (fImplicitPartgroup) {
     // force an implicit part group "stop" on it
-    // fCurrentPartgroupNumber hold the value 1
+    // fCurrentPartgroupNumber holds the value 1
     handlePartgroupStop (elt->getInputLineNumber ());
     
     fImplicitPartgroup = 0; // NULL contents

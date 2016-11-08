@@ -54,6 +54,9 @@ class msr2SummaryVisitor :
   
   public visitor<S_msrVoice>,
 
+  public visitor<S_msrLyrics>,
+  public visitor<S_msrLyricsChunk>,
+  
   public visitor<S_msrSequentialMusic>,
   public visitor<S_msrParallelMusic>,
   
@@ -78,9 +81,6 @@ class msr2SummaryVisitor :
   public visitor<S_msrBreak>,
   
   public visitor<S_msrRepeat>,
-  
-  public visitor<S_msrLyrics>,
-  public visitor<S_msrLyricsChunk>,
   
   public visitor<S_msrComment>,
   
@@ -129,17 +129,80 @@ class msr2SummaryVisitor :
     virtual void visitStart (S_msrTime& elt);
     virtual void visitEnd   (S_msrTime& elt);
 
+    virtual void visitStart (S_msrTempo& elt);
+    virtual void visitEnd   (S_msrTempo& elt);
+
     virtual void visitStart (S_msrVoice& elt);
     virtual void visitEnd   (S_msrVoice& elt);
+
+    virtual void visitStart (S_msrLyrics& elt);
+    virtual void visitEnd   (S_msrLyrics& elt);
+
+    virtual void visitStart (S_msrLyricsChunk& elt);
+    virtual void visitEnd   (S_msrLyricsChunk& elt);
 
     virtual void visitStart (S_msrSequentialMusic& elt);
     virtual void visitEnd   (S_msrSequentialMusic& elt);
 
+    virtual void visitStart (S_msrParallelMusic& elt);
+    virtual void visitEnd   (S_msrParallelMusic& elt);
+
+    virtual void visitStart (S_msrDuration& elt);
+    virtual void visitEnd   (S_msrDuration& elt);
+
+    virtual void visitStart (S_msrArticulation& elt);
+    virtual void visitEnd   (S_msrArticulation& elt);
+
+    virtual void visitStart (S_msrDynamics& elt);
+    virtual void visitEnd   (S_msrDynamics& elt);
+
+    virtual void visitStart (S_msrWedge& elt);
+    virtual void visitEnd   (S_msrWedge& elt);
+
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
 
-    virtual void visitStart (S_msrLyrics& elt);
-    virtual void visitEnd   (S_msrLyrics& elt);
+    virtual void visitStart (S_msrBeam& elt);
+    virtual void visitEnd   (S_msrBeam& elt);
+
+    virtual void visitStart (S_msrChord& elt);
+    virtual void visitEnd   (S_msrChord& elt);
+
+    virtual void visitStart (S_msrTuplet& elt);
+    virtual void visitEnd   (S_msrTuplet& elt);
+
+    virtual void visitStart (S_msrSlur& elt);
+    virtual void visitEnd   (S_msrSlur& elt);
+
+    virtual void visitStart (S_msrBarLine& elt);
+    virtual void visitEnd   (S_msrBarLine& elt);
+
+    virtual void visitStart (S_msrBarNumberCheck& elt);
+    virtual void visitEnd   (S_msrBarNumberCheck& elt);
+
+    virtual void visitStart (S_msrBreak& elt);
+    virtual void visitEnd   (S_msrBreak& elt);
+
+    virtual void visitStart (S_msrRepeat& elt);
+    virtual void visitEnd   (S_msrRepeat& elt);
+
+    virtual void visitStart (S_msrComment& elt);
+    virtual void visitEnd   (S_msrComment& elt);
+
+    virtual void visitStart (S_msrVarValAssoc& elt);
+    virtual void visitEnd   (S_msrVarValAssoc& elt);
+
+    virtual void visitStart (S_msrHeader& elt);
+    virtual void visitEnd   (S_msrHeader& elt);
+
+    virtual void visitStart (S_msrPaper& elt);
+    virtual void visitEnd   (S_msrPaper& elt);
+
+    virtual void visitStart (S_msrLayout& elt);
+    virtual void visitEnd   (S_msrLayout& elt);
+
+    virtual void visitStart (S_msrMidi& elt);
+    virtual void visitEnd   (S_msrMidi& elt);
 
   private:
                      

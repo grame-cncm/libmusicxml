@@ -236,6 +236,21 @@ void msr2SummaryVisitor::visitEnd (S_msrLyrics& elt)
 }
 
 //________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrLyricsChunk& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrLyricsChunk" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrLyricsChunk& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrLyricsChunk" << endl;
+}
+
+//________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrSequentialMusic& elt)
 {
   if (fMsrOptions->fDebug)
@@ -248,6 +263,81 @@ void msr2SummaryVisitor::visitEnd (S_msrSequentialMusic& elt)
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> End visiting msrSequentialMusic" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrParallelMusic& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrParallelMusic" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrParallelMusic& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrParallelMusic" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrDuration& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrDuration" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrDuration& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrDuration" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrArticulation& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrArticulation" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrArticulation& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrArticulation" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrDynamics& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrDynamics" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrDynamics& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrDynamics" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrWedge& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrWedge" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrWedge& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrWedge" << endl;
 }
 
 //________________________________________________________________________
