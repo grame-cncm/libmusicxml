@@ -4869,7 +4869,7 @@ string msrVoice::getVoiceName () const
   // when the part it belongs to is re-used
 
   int voiceNumber =
-    fMsrOptions-> fGenerateStaffRelativeVoiceNumbers
+    fMsrOptions-> fCreateStaffRelativeVoiceNumbers
       ? fStaffRelativeVoiceNumber
       : fVoiceNumber;
     
@@ -5768,7 +5768,7 @@ void msrPart::printLilyPondCode (ostream& os)
   os <<
     "Part" << " " << getPartCombinedName () << " " << endl <<
     "\"" << fPartInstrumentName << "\"" << endl;
-  if (! fMsrOptions->fGenerateAbsoluteCode) os << "\\relative "; // JMI
+ // if (! fMsrOptions->fGenerateAbsoluteCode) os << "\\relative "; // JMI
   os << "{" << endl;
 
   idtr++;

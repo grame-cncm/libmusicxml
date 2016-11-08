@@ -2005,7 +2005,7 @@ void xml2MsrScoreVisitor::visitStart ( S_stem& elt )
     stemDirection = kStemNeutral; // JMI
 
   if (stemDirection != fCurrentStemDirection) {
-    if (fMsrOptions->fGenerateStems) {
+  // JMI  if (fMsrOptions->fGenerateStems) {
       switch (stemDirection) {
         case kStemNeutral:
           // \stemNeutral JMI
@@ -2017,7 +2017,7 @@ void xml2MsrScoreVisitor::visitStart ( S_stem& elt )
           // \stemDown JMI
           break;
       } // switch
-    }
+ //   }
     fCurrentStemDirection = stemDirection;
   }
   
