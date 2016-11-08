@@ -5067,7 +5067,7 @@ void msrVoice::printMSR (ostream& os)
 
   os << idtr << fVoiceSequentialMusic << endl;
 
-  if (! fMsrOptions->fDontGenerateLyrics) {
+  if (! fMsrOptions->fDontDisplayMSRLyrics) {
     if (fVoiceLyricsMap.size()) {
       map<int, S_msrLyrics>::const_iterator
         iBegin = fVoiceLyricsMap.begin(),
@@ -5693,7 +5693,7 @@ void msrPart::printMusicXML (ostream& os)
 void msrPart::printMSR (ostream& os)
 {
   os <<
-    "Part" << " \"" << getPartCombinedName () << endl;
+    "Part" << " " << getPartCombinedName () << endl;
     
   idtr++;
   

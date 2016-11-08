@@ -171,19 +171,17 @@ class EXP msrOptions : public smartable {
     // languages
     string                          fMsrNoteNamesLanguageAsString;
     MsrNoteNamesLanguage            fMsrNoteNamesLanguage;
-
-    // voice numbers
-    bool                            fCreateStaffRelativeVoiceNumbers;
-    
-    // lyrics
-    bool                            fDontGenerateLyrics;
     
     // advanced options
+    bool                            fCreateStaffRelativeVoiceNumbers;
     bool                            fDelayRestsDynamics;
 
     // MSR display
     bool                            fDisplayMSR;
 
+    // lyrics display
+    bool                            fDontDisplayMSRLyrics;
+    
     // MSR score summary
     bool                            fDisplayMSRScoreSummary;
     
@@ -262,8 +260,6 @@ class EXP msrElement : public smartable
     virtual ~msrElement();
 
   private:
-
-    bool fDebug;
 };
 typedef SMARTP<msrElement> S_msrElement;
 EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
@@ -2126,8 +2122,8 @@ class EXP msrPart : public msrElement
 
     string  getPartCombinedName () const
                 { return
-                    "\"" + fPartMusicXMLName + "\"" +
-                    " (" + fPartMSRName + ")";
+                    fPartMSRName +
+                    " (" + fPartMusicXMLName + ")";
                 }
                     
     void    setPartDivisions (int  musicXMLDivisions)

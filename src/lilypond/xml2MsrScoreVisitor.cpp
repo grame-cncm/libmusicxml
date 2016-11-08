@@ -148,7 +148,7 @@ S_msrPartgroup xml2MsrScoreVisitor::createImplicitMSRPartgroup (
   
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Creating an implicit part fgroup with number " <<
+      "Creating an implicit part group with number " <<
       fCurrentPartgroupNumber << endl;
 
   S_msrPartgroup
