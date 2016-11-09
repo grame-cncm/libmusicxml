@@ -206,6 +206,21 @@ void msr2SummaryVisitor::visitEnd (S_msrTime& elt)
 }
 
 //________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrTempo& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrTempo" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrTempo& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrTempo" << endl;
+}
+
+//________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
 {
   if (fMsrOptions->fDebug)
@@ -353,6 +368,216 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> End visiting msrNote" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrBeam& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrBeam" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrBeam& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrBeam" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrChord& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrChord" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrChord& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrChord" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrTuplet& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrTuplet" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrTuplet& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrTuplet" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrSlur& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrSlur" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrSlur& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrSlur" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrBarLine& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrBarLine" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrBarLine& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrBarLine" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrBarNumberCheck& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrBarNumberCheck" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrBarNumberCheck& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrBarNumberCheck" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrBreak& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrBreak" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrBreak& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrBreak" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrRepeat& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrRepeat" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrRepeat& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrRepeat" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrComment& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrComment" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrComment& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrComment" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrVarValAssoc" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrVarValAssoc& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrVarValAssoc" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrHeader& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrHeader" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrHeader& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrHeader" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrPaper& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrPaper" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrPaper& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrPaper" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrLayout& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrLayout" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrLayout& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrLayout" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrMidi& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Start visiting msrMidi" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrMidi& elt)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> End visiting msrMidi" << endl;
 }
 
 

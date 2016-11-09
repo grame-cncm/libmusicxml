@@ -635,10 +635,10 @@ class EXP msrNote : public msrElement
 {
   public:
 
-    enum MusicXMLDiatonicPitch {
+    enum musicXMLDiatonicPitch {
       kA, kB, kC, kD, kE, kF, kG, kRest, k_NoDiatonicPitch};
     
-    enum MusicXMLAlteration {
+    enum musicXMLAlteration {
       // kDoubleFlat=-2 as in MusicXML, to faciliting testing
       kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp,
       k_NoAlteration};
@@ -660,7 +660,7 @@ class EXP msrNote : public msrElement
     // the following is a series of Cs with increasing pitches:
     // \relative c'' { ceseh ces ceh c cih cis cisih }
 
-    enum MsrPitch {
+    enum msrPitch {
       k_aeseh, k_aes, k_aeh, k_a, k_aih, k_ais, k_aisih,
       k_beseh, k_bes, k_beh, k_b, k_bih, k_bis, k_bisih, 
       k_ceseh, k_ces, k_ceh, k_c, k_cih, k_cis, k_cisih,
@@ -670,11 +670,11 @@ class EXP msrNote : public msrElement
       k_geseh, k_ges, k_geh, k_g, k_gih, k_gis, k_gisih,
       k_NoMsrPitch};
     
-    MsrPitch computeNoteMsrPitch (
+    msrPitch computeNoteMsrPitch (
         int                         noteQuatertonesFromA,
-        msrNote::MusicXMLAlteration alteration);
+        msrNote::musicXMLAlteration alteration);
                           
-    static map<MsrPitch, string> sDutchLilypondPitches;
+    static map<msrPitch, string> sDutchLilypondPitches;
 
     int                 getNoteMusicXMLDuration () const
                             {
@@ -726,14 +726,14 @@ class EXP msrNote : public msrElement
   
     // MusicXML informations
     musicXMLNoteData           fMusicXMLNoteData;
-    MusicXMLDiatonicPitch      fMusicXMLDiatonicPitch; // JMI
+    musicXMLDiatonicPitch      fMusicXMLDiatonicPitch; // JMI
 
     // MusicXML durations are in in divisions per quarter note,
     // LilyPond durations are in whole notes, hence the "*4" multiplication
     S_msrDuration              fNoteMsrDuration;
 
     // LilyPond informations
-    MsrPitch                   fNoteMsrPitch;
+    msrPitch                   fNoteMsrPitch;
 
     list<S_msrArticulation>    fNoteArticulations;
     

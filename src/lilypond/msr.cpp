@@ -1122,7 +1122,7 @@ msrNote::msrNote (
   } // switch
   
   // flat or sharp,possibly double?
-  msrNote::MusicXMLAlteration mxmlAlteration;
+  msrNote::musicXMLAlteration mxmlAlteration;
 
 /*
   cerr <<
@@ -1215,9 +1215,9 @@ void msrNote::setNoteBelongsToAChord () {
 
 //______________________________________________________________________________
 
-msrNote::MsrPitch msrNote::computeNoteMsrPitch (
+msrNote::msrPitch msrNote::computeNoteMsrPitch (
   int                         noteQuatertonesFromA,
-  msrNote::MusicXMLAlteration alteration)
+  msrNote::musicXMLAlteration alteration)
 {
   // computing the msr pitch
   /*
@@ -1235,135 +1235,135 @@ msrNote::MsrPitch msrNote::computeNoteMsrPitch (
   Quarter tones may be added; the following is a series of Cs with increasing pitches:
     \relative c'' { ceseh ces ceh c cih cis cisih }
   */
-  msrNote::MsrPitch msrPitch = msrNote::k_NoMsrPitch;
+  msrNote::msrPitch pitch = msrNote::k_NoMsrPitch;
   
   switch (noteQuatertonesFromA) {
     case 0:
-      msrPitch = msrNote::k_a;
+      pitch = msrNote::k_a;
       break;
     case 1:
-      msrPitch =
+      pitch =
         alteration == msrNote::kDoubleSharp
           ? msrNote::k_aih
           : msrNote::k_beseh;
       break;
     case 2:
-      msrPitch =
+      pitch =
         alteration == msrNote::kSharp
           ? msrNote::k_ais
           : msrNote::k_bes;
       break;
     case 3:
-      msrPitch =
+      pitch =
         alteration == msrNote::kDoubleSharp
           ? msrNote::k_aisih
           : msrNote::k_beh;
       break;
     case 4:
-      msrPitch = msrNote::k_b;
+      pitch = msrNote::k_b;
       break;
     case 5:
-      msrPitch =
+      pitch =
         alteration == msrNote::kDoubleSharp
           ? msrNote::k_bih
           : msrNote::k_ceseh;
       break;
     case 6:
-      msrPitch = msrNote::k_c;
+      pitch = msrNote::k_c;
       break;
     case 7:
-      msrPitch =
+      pitch =
         alteration == msrNote::kDoubleSharp
           ? msrNote::k_cih
           : msrNote::k_deseh;
       break;
     case 8:
-      msrPitch =
+      pitch =
         alteration == msrNote::kSharp
           ? msrNote::k_cis
           : msrNote::k_des;
       break;
     case 9:
-      msrPitch =
+      pitch =
         alteration == msrNote::kDoubleSharp
           ? msrNote::k_cisih
           : msrNote::k_deh;
       break;
     case 10:
-      msrPitch = msrNote::k_d;
+      pitch = msrNote::k_d;
       break;
     case 11:
-      msrPitch =
+      pitch =
         alteration == msrNote::kDoubleSharp
           ? msrNote::k_dih
           : msrNote::k_eeseh;
       break;
     case 12:
-      msrPitch =
+      pitch =
         alteration == msrNote::kSharp
           ? msrNote::k_dis
           : msrNote::k_ees;
       break;
     case 13:
-      msrPitch =
+      pitch =
         alteration == msrNote::kDoubleSharp
           ? msrNote::k_disih
           : msrNote::k_eeh;
       break;
     case 14:
-      msrPitch = msrNote::k_e;
+      pitch = msrNote::k_e;
       break;
     case 15:
-      msrPitch =
+      pitch =
         alteration == msrNote::kDoubleSharp
           ? msrNote::k_eih
           : msrNote::k_feseh;
       break;
     case 16:
-      msrPitch = msrNote::k_f;
+      pitch = msrNote::k_f;
       break;
     case 17:
-      msrPitch =
+      pitch =
         alteration == msrNote::kDoubleSharp
           ? msrNote::k_fih
           : msrNote::k_geseh;
       break;
     case 18:
-      msrPitch =
+      pitch =
         alteration == msrNote::kSharp
           ? msrNote::k_fis
           : msrNote::k_ges;
       break;
     case 19:
-      msrPitch =
+      pitch =
         alteration == msrNote::kDoubleSharp
           ? msrNote::k_fisih
           : msrNote::k_geh;
       break;
     case 20:
-      msrPitch = msrNote::k_g;
+      pitch = msrNote::k_g;
       break;
     case 21:
-      msrPitch =
+      pitch =
         alteration == msrNote::kDoubleSharp
           ? msrNote::k_gih
           : msrNote::k_aeseh;
       break;
     case 22:
-      msrPitch =
+      pitch =
         alteration == msrNote::kSharp
           ? msrNote::k_gis
           : msrNote::k_aes;
       break;
     case 23:
-      msrPitch =
+      pitch =
         alteration == msrNote::kDoubleSharp
           ? msrNote::k_gisih
           : msrNote::k_aeh;
       break;
   } // switch
   
-  return msrPitch;
+  return pitch;
 }
 
 void msrNote::addArticulation (S_msrArticulation art)

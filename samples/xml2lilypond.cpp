@@ -157,6 +157,9 @@ int main (int argc, char *argv[])
   
   lpsrOpts->fLPSRCommandLineOptions           = "";
 
+  lpsrOpts->fDontKeepLineBreaks               = false;
+  lpsrOpts->fKeepStaffSize                    = false;
+    
   lpsrOpts->fGenerateAbsoluteCode             = true;
 
   lpsrOpts->fGenerateNumericalTime            = false;
@@ -186,6 +189,9 @@ int main (int argc, char *argv[])
   int displayMSRScoreSummaryPresent     = 0;
   
   // to detect supplied LPSR options
+  int fDontKeepLineBreaksPresent        = 0;
+  int fKeepStaffSizePresent             = 0;
+  
   int absolutePresent                   = 0;
   
   int numericaltimePresent              = 0;
@@ -521,7 +527,7 @@ int main (int argc, char *argv[])
       cerr << "standard input";
     else
       cerr << fileName;
-    cerr <<
+    cerr << idtr <<
       " to LilyPond " <<
       endl <<
       "with libmusicxml2 v" << musicxmllibVersionStr() <<
