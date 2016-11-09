@@ -255,7 +255,7 @@ class EXP msrElement : public smartable
     
     msrElement (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber);
+      int           inputLineNumber);
 
     virtual ~msrElement();
 
@@ -734,6 +734,11 @@ class EXP msrNote : public msrElement
 
     // LilyPond informations
     msrPitch                   fNoteMsrPitch;
+    bool                       fNoteIsARest; // JMI
+    bool                       fNoteIsTied;
+    bool                       fNoteBelongsToAChord;
+    bool                       fNoteBelongsToATuplet;
+    bool                       fNoteIsAGraceNote;
 
     list<S_msrArticulation>    fNoteArticulations;
     
@@ -1978,11 +1983,12 @@ class EXP msrVoice : public msrElement
 
     bool                      fVoiceContainsActualNotes;
 
-    // the lyrics map
-    // [0] is used as a master lyrics, collecting skips along the way
+    // the master lyrics, collecting skips along the way,
     // to be used as a 'prelude' by actual lyrics that start at later points
-    map<int, S_msrLyrics>     fVoiceLyricsMap;
     S_msrLyrics               fVoiceMasterLyrics;
+    
+    // the lyrics map
+    map<int, S_msrLyrics>     fVoiceLyricsMap;
 
     // the implicit sequence containing the code generated for the voice
     S_msrSequentialMusic      fVoiceSequentialMusic;

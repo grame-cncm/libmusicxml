@@ -5102,8 +5102,9 @@ void msrVoice::printScoreSummary (ostream& os)
 
   os << idtr << fVoiceSequentialMusic;
 
-  // don't show voice master lyrics in summary
-  if (voiceLyricsMapSize > 1) {
+  // don't show the voice master lyrics in summary
+
+  if (voiceLyricsMapSize) {
     map<int, S_msrLyrics>::const_iterator
       iBegin = fVoiceLyricsMap.begin(),
       iEnd   = fVoiceLyricsMap.end(),
