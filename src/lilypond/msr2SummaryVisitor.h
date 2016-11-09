@@ -207,6 +207,13 @@ class msr2SummaryVisitor :
   private:
                      
     S_msrOptions   fMsrOptions;
+
+    int            fStandaloneNotesCounter;
+    int            fRestNotesCounter;
+    int            fChordNotesCounter;
+    int            fTupletNotesCounter;
+    
+    int            fChordsCounter;
 };
 
 /*

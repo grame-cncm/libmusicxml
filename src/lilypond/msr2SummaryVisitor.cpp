@@ -52,6 +52,15 @@ msr2SummaryVisitor::msr2SummaryVisitor (
   gCurrentMusicXMLLocation.fMeasureNumber = 0; // in case of an anacrusis
   gCurrentMusicXMLLocation.fPositionInMeasure = 1;
 
+  fStandaloneNotesCounter = 0;
+  fRestNotesCounter = 0;
+  fChordNotesCounter = 0;
+  fTupletNotesCounter = 0;
+
+  fChordsCounter = 0;
+};
+  
+
 /*
   fCurrentMusicXMLDivisions = 0;
 
@@ -81,7 +90,6 @@ msr2SummaryVisitor::msr2SummaryVisitor (
   fOnGoingBackup  = false;
   fOnGoingForward = false;
   */
-}
 
 msr2SummaryVisitor::~msr2SummaryVisitor ()
 {}
@@ -113,6 +121,24 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> End visiting msrScore" << endl;
+
+  idtr++;
+  
+  cerr <<
+    idtr << "there are " <<
+      fStandaloneNotesCounter << " standalone notes" << endl <<
+    idtr << "there are " <<
+      fRestNotesCounter << " rest notes" << endl <<
+    idtr << "there are " <<
+      fChordNotesCounter << " chord notes" << endl <<
+    idtr << "there are " <<
+      fTupletNotesCounter << " tuplet notes" << endl;
+
+  cerr <<
+    idtr << "there are " <<
+      fChordsCounter << " chords" << endl;
+
+  idtr--;
 }
 
 //________________________________________________________________________
@@ -273,19 +299,19 @@ void msr2SummaryVisitor::visitStart (S_msrSequentialMusic& elt)
       "--> Start visiting msrSequentialMusic" << endl;
 
   int sequenceElementsSize =
-    elt->getSequentialMusicElements.size();
+    elt->getSequentialMusicElements ().size();
 
-  os <<
+  cerr <<
     "SequentialMusic" <<
     " contains " << sequenceElementsSize;
   if (sequenceElementsSize == 1)
-    os << " element";
+    cerr << " element";
   else
-    os << " elements";
+    cerr << " elements";
   
   if (! sequenceElementsSize)
-    os << " (No actual notes)";
-  os << endl;
+    cerr << " (No actual notes)";
+  cerr << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrSequentialMusic& elt)
@@ -378,17 +404,21 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
       "--> Start visiting ";
 
   switch (elt->getNoteKind ()) {
-    case msrNoteKind::kStandaloneNote:
+    case msrNote::kStandaloneNote:
       cerr << "standalone";
+      fStandaloneNotesCounter++;
       break;
-    case msrNoteKind::kRestNote:
+    case msrNote::kRestNote:
       cerr << "rest";
+      fRestNotesCounter++;
       break;
-    case msrNoteKind::kChordMemberNote:
+    case msrNote::kChordMemberNote:
       cerr << "chord member";
+      fChordNotesCounter++;
       break;
-    case msrNoteKind::kTupletMemberNote:
+    case msrNote::kTupletMemberNote:
       cerr << "tuplet member";
+      fTupletNotesCounter++;
       break;
   } // switch
   cerr << " msrNote" << endl;
@@ -401,16 +431,16 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
       "--> Start visiting ";
 
   switch (elt->getNoteKind ()) {
-    case msrNoteKind::kStandaloneNote:
+    case msrNote::kStandaloneNote:
       cerr << "standalone";
       break;
-    case msrNoteKind::kRestNote:
+    case msrNote::kRestNote:
       cerr << "rest";
       break;
-    case msrNoteKind::kChordMemberNote:
+    case msrNote::kChordMemberNote:
       cerr << "chord member";
       break;
-    case msrNoteKind::kTupletMemberNote:
+    case msrNote::kTupletMemberNote:
       cerr << "tuplet member";
       break;
   } // switch
@@ -438,6 +468,8 @@ void msr2SummaryVisitor::visitStart (S_msrChord& elt)
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> Start visiting msrChord" << endl;
+
+  fChordsCounter++;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrChord& elt)
