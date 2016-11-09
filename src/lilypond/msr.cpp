@@ -27,7 +27,7 @@ namespace MusicXML2
 
 musicXMLLocation  gCurrentMusicXMLLocation;
 
-msrGlobalVariables::DisplayKind
+msrGlobalVariables::msrDisplayKind
   msrGlobalVariables::sDisplayKind =
     msrGlobalVariables::kLilypondCode;
 
@@ -129,7 +129,7 @@ void initializeStringToMsrNoteNamesLanguage ()
   gMsrNoteNamesLanguageMap["vlaams"] =    kVlaams;
 }
 
-MsrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang)
+msrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang)
 {
   return gMsrNoteNamesLanguageMap[lang];
 }
@@ -1035,12 +1035,12 @@ void msrSlur::printLilyPondCode (ostream& os)
 S_msrNote msrNote::createFromMusicXMLData (
   S_msrOptions& msrOpts,
   int                    inputLineNumber,
-  musicXMLNoteData&      mxmldat,
+  musicXMLNoteData&      mxmlNoteData,
   msrSlur::SlurKind      slurKind)
 {  
   msrNote * o =
     new msrNote (
-      msrOpts, inputLineNumber, mxmldat, slurKind);
+      msrOpts, inputLineNumber, mxmlNoteData, slurKind);
   assert(o!=0); 
   return o;
 }
@@ -1048,11 +1048,11 @@ S_msrNote msrNote::createFromMusicXMLData (
 msrNote::msrNote (
   S_msrOptions& msrOpts,
   int                    inputLineNumber,
-  musicXMLNoteData&      mxmldat,
+  musicXMLNoteData&      mxmlNoteData,
   msrSlur::SlurKind      slurKind)
   :
     msrElement (msrOpts, inputLineNumber),
-    fMusicXMLNoteData (mxmldat)
+    fMusicXMLNoteData (mxmlNoteData)
 {
   fMsrOptions = msrOpts;
   fInputLineNumber = inputLineNumber;
@@ -1066,9 +1066,15 @@ msrNote::msrNote (
     cerr <<
       fMusicXMLNoteData;
   }
-    
+
+  if (fMusicXMLNoteData.fMusicXMLStepIsARest)
+    fNoteKind = msrNote::kRestNote;
+  else
+    fNoteKind = msrNote::kStandaloneNote;
+      // may become msrNote::kChordMemberNote later
+
   // take rests into account
-  if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+  if (fNoteKind == kRestNote) {
     /*
     cerr <<
       "--> REST, fMusicXMLDuration/fMusicXMLDivisions = " <<
@@ -1083,7 +1089,7 @@ msrNote::msrNote (
     fMusicXMLNoteData.fMusicXMLStep < 'A'
       ||
     fMusicXMLNoteData.fMusicXMLStep > 'G') {
-    if (! fMusicXMLNoteData.fMusicXMLStepIsARest) {
+    if (fNoteKind != kRestNote) {
       stringstream s;
       s <<
         "step value " << fMusicXMLNoteData.fMusicXMLStep <<
@@ -1203,14 +1209,16 @@ msrNote::msrNote (
 }
 
 msrNote::~msrNote() {}
-
+/* JMI
 bool msrNote::getNoteIsARest ()
 {
-  return fMusicXMLNoteData.fMusicXMLStepIsARest;
+  return fNoteKind == kRestNote;
 }
+*/
 
 void msrNote::setNoteBelongsToAChord () {
   fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = true;
+  fNoteKind = kChordMemberNote;
 }
 
 //______________________________________________________________________________
@@ -4952,7 +4960,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   S_msrElement n = note;
   fVoiceSequentialMusic->appendElementToSequentialMusic (n);
 
-  if (note->getNoteIsARest ())
+  if (note->getNoteKind () != msrNote::kRestNote)
     fVoiceContainsActualNotes = true;
     
   // add a skip chunk to the master lyrics

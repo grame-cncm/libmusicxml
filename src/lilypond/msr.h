@@ -118,36 +118,36 @@ void msrInternalError (int inputLineNumber, string message);
 class EXP msrGlobalVariables {
   public:
     
-    enum DisplayKind {
+    enum msrDisplayKind {
       kMusicXML, kMSR, kScoreSummary, kLilypondCode,
       k_NoDisplay};
 
-    static DisplayKind getDisplayKind ()
+    static msrDisplayKind getDisplayKind ()
       { return sDisplayKind; }
       
-    static void setDisplayKind (DisplayKind kind)
+    static void setDisplayKind (msrDisplayKind kind)
       { sDisplayKind = kind; }
   
   private:
   
-    static DisplayKind sDisplayKind;
+    static msrDisplayKind sDisplayKind;
 };
 
 //______________________________________________________________________________
 /*!
   \brief The LilyPond note names language.
 */
-enum MsrNoteNamesLanguage {
+enum msrNoteNamesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
   kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
 
-typedef std::map<std::string, MsrNoteNamesLanguage>
-  MsrNoteNamesLanguageMap;
+typedef std::map<std::string, msrNoteNamesLanguage>
+  msrNoteNamesLanguageMap;
   
-static MsrNoteNamesLanguageMap gMsrNoteNamesLanguageMap;
+static msrNoteNamesLanguageMap gMsrNoteNamesLanguageMap;
 
 void                 initializeMsrNoteNamesLanguage ();
-MsrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang);
+msrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang);
   
 //______________________________________________________________________________
 /*!
@@ -170,7 +170,7 @@ class EXP msrOptions : public smartable {
 
     // languages
     string                          fMsrNoteNamesLanguageAsString;
-    MsrNoteNamesLanguage            fMsrNoteNamesLanguage;
+    msrNoteNamesLanguage            fMsrNoteNamesLanguage;
     
     // advanced options
     bool                            fCreateStaffRelativeVoiceNumbers;
@@ -635,6 +635,15 @@ class EXP msrNote : public msrElement
 {
   public:
 
+    enum msrNoteKind {
+      kStandaloneNote, kRestNote, kChordMemberNote, kTupletMemberNote};
+      
+    static SMARTP<msrNote> createFromMusicXMLData (
+        S_msrOptions& msrOpts,
+        int                    inputLineNumber,
+        musicXMLNoteData&      mxmlNoteData,
+        msrSlur::SlurKind      slurKind);
+    
     enum musicXMLDiatonicPitch {
       kA, kB, kC, kD, kE, kF, kG, kRest, k_NoDiatonicPitch};
     
@@ -642,16 +651,12 @@ class EXP msrNote : public msrElement
       // kDoubleFlat=-2 as in MusicXML, to faciliting testing
       kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp,
       k_NoAlteration};
-            
-    // for standalone notes
-    static SMARTP<msrNote> createFromMusicXMLData (
-        S_msrOptions& msrOpts,
-        int                    inputLineNumber,
-        musicXMLNoteData&      mxmldat,
-        msrSlur::SlurKind      slurKind);
-    
+
+    msrNoteKind getNoteKind () const        { return fNoteKind; }
+    void setNoteKind (msrNoteKind noteKind) { fNoteKind = noteKind; }
+
     // for rests
-    bool getNoteIsARest ();
+  // JMI  bool getNoteIsARest ();
     
     // for chord members
     void setNoteBelongsToAChord ();
@@ -681,7 +686,7 @@ class EXP msrNote : public msrElement
                               return
                                 fMusicXMLNoteData.fMusicXMLDivisions;
                             }
-    S_msrDuration       getNoteMsrDuration ()
+    S_msrDuration       getNoteMsrDuration () const
                             { return fNoteMsrDuration; }   
 
     string              notePitchAsLilypondString ();
@@ -696,8 +701,8 @@ class EXP msrNote : public msrElement
     void                addDynamics (S_msrDynamics dyn);
     void                addWedge    (S_msrWedge    wdg);
 
-    list<S_msrDynamics> getNoteDynamics () { return fNoteDynamics; };
-    list<S_msrWedge>    getNoteWedges   () { return fNoteWedges; };
+    list<S_msrDynamics> getNoteDynamics () const { return fNoteDynamics; };
+    list<S_msrWedge>    getNoteWedges   () const { return fNoteWedges; };
 
     S_msrDynamics       removeFirstDynamics ();
     S_msrWedge          removeFirstWedge ();
@@ -717,13 +722,15 @@ class EXP msrNote : public msrElement
     msrNote (
         S_msrOptions& msrOpts,
         int                    inputLineNumber,
-        musicXMLNoteData&      mxmldat,
+        musicXMLNoteData&      mxmlNoteData,
         msrSlur::SlurKind      slurKind);
     
     virtual ~msrNote();
     
   private:
-  
+
+    msrNoteKind                fNoteKind;
+    
     // MusicXML informations
     musicXMLNoteData           fMusicXMLNoteData;
     musicXMLDiatonicPitch      fMusicXMLDiatonicPitch; // JMI
@@ -815,12 +822,16 @@ class EXP msrSequentialMusic : public msrElement
       int                    inputLineNumber,
       ElementsSeparator      elementsSeparator);
 
+    list<S_msrElement>
+                  getSequentialMusicElements () const
+                      { return fSequentialMusicElements; }
+
     void          prependElementToSequentialMusic (S_msrElement elem)
                       { fSequentialMusicElements.push_front (elem); }
     void          appendElementToSequentialMusic  (S_msrElement elem)
                       { fSequentialMusicElements.push_back (elem); }
     
-    S_msrElement  getLastElementOfSequentialMusic ()
+    S_msrElement  getLastElementOfSequentialMusic () const
                       { return fSequentialMusicElements.back (); }
                       
     void          removeElementFromSequentialMusic (S_msrElement elem);

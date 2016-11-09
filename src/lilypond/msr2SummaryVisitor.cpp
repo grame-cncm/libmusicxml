@@ -271,6 +271,21 @@ void msr2SummaryVisitor::visitStart (S_msrSequentialMusic& elt)
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> Start visiting msrSequentialMusic" << endl;
+
+  int sequenceElementsSize =
+    elt->getSequentialMusicElements.size();
+
+  os <<
+    "SequentialMusic" <<
+    " contains " << sequenceElementsSize;
+  if (sequenceElementsSize == 1)
+    os << " element";
+  else
+    os << " elements";
+  
+  if (! sequenceElementsSize)
+    os << " (No actual notes)";
+  os << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrSequentialMusic& elt)
@@ -360,14 +375,46 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
 {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> Start visiting msrNote" << endl;
+      "--> Start visiting ";
+
+  switch (elt->getNoteKind ()) {
+    case msrNoteKind::kStandaloneNote:
+      cerr << "standalone";
+      break;
+    case msrNoteKind::kRestNote:
+      cerr << "rest";
+      break;
+    case msrNoteKind::kChordMemberNote:
+      cerr << "chord member";
+      break;
+    case msrNoteKind::kTupletMemberNote:
+      cerr << "tuplet member";
+      break;
+  } // switch
+  cerr << " msrNote" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
 {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> End visiting msrNote" << endl;
+      "--> Start visiting ";
+
+  switch (elt->getNoteKind ()) {
+    case msrNoteKind::kStandaloneNote:
+      cerr << "standalone";
+      break;
+    case msrNoteKind::kRestNote:
+      cerr << "rest";
+      break;
+    case msrNoteKind::kChordMemberNote:
+      cerr << "chord member";
+      break;
+    case msrNoteKind::kTupletMemberNote:
+      cerr << "tuplet member";
+      break;
+  } // switch
+  cerr << " msrNote" << endl;
 }
 
 //________________________________________________________________________
