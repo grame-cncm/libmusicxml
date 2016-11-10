@@ -2240,24 +2240,26 @@ class EXP msrPartgroup : public msrElement
       </part-group>
     */
 
-    enum PartgroupTypeKind {
+    enum msrPartgroupTypeKind {
         kStartPartgroupType, kStopPartgroupType,
         k_NoPartgroupType };
           
-    enum PartgroupSymbolKind {
+    enum msrPartgroupSymbolKind {
         kBracePartgroupSymbol, kBracketPartgroupSymbol,
         kLinePartgroupSymbol, kSquarePartgroupSymbol,
         k_NoPartgroupSymbol };
           
     static SMARTP<msrPartgroup> create (
-      S_msrOptions& msrOpts, 
+      S_msrOptions&          msrOpts, 
       int                    inputLineNumber,
       int                    partGroupNumber,
       string                 partGroupName,
       string                 partGroupAbbreviation,
-      PartgroupSymbolKind    partGroupSymbolKind,
+      msrPartgroupSymbolKind partGroupSymbolKind,
       int                    partGroupSymbolDefaultX,
       bool                   partGroupBarline);
+
+    SMARTP<msrPartgroup> createEmptyClone ();
 
     static int gPartgroupsCounter;
     
@@ -2270,7 +2272,7 @@ class EXP msrPartgroup : public msrElement
     string    getPartgroupAbbreviation () const
                   { return fPartgroupAbbreviation; }
 
-    PartgroupSymbolKind
+    msrPartgroupSymbolKind
               getPartgroupSymbolKind () const
                   { return fPartgroupSymbolKind; }
 
@@ -2307,12 +2309,12 @@ class EXP msrPartgroup : public msrElement
   protected:
 
     msrPartgroup (
-      S_msrOptions& msrOpts, 
+      S_msrOptions&          msrOpts, 
       int                    inputLineNumber,
       int                    partGroupNumber,
       string                 partGroupName,
       string                 partGroupAbbreviation,
-      PartgroupSymbolKind    partGroupSymbolKind,
+      msrPartgroupSymbolKind partGroupSymbolKind,
       int                    partGroupSymbolDefaultX,
       bool                   partGroupBarline);
             
@@ -2327,7 +2329,7 @@ class EXP msrPartgroup : public msrElement
     string                  fPartgroupName;
     string                  fPartgroupAbbreviation;
 
-    PartgroupSymbolKind     fPartgroupSymbolKind;
+    msrPartgroupSymbolKind  fPartgroupSymbolKind;
     int                     fPartgroupSymbolDefaultX;
 
     bool                    fPartgroupBarline;

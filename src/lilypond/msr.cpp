@@ -5627,12 +5627,12 @@ void msrPart::printLilyPondCode (ostream& os)
 int msrPartgroup::gPartgroupsCounter = 0;
 
 S_msrPartgroup msrPartgroup::create (
-  S_msrOptions& msrOpts, 
+  S_msrOptions&          msrOpts, 
   int                    inputLineNumber,
   int                    partGroupNumber,
   string                 partGroupName,
   string                 partGroupAbbreviation,
-  PartgroupSymbolKind    partGroupSymbolKind,
+  msrPartgroupSymbolKind partGroupSymbolKind,
   int                    partGroupSymbolDefaultX,
   bool                   partGroupBarline)
 {
@@ -5650,12 +5650,12 @@ S_msrPartgroup msrPartgroup::create (
 }
 
 msrPartgroup::msrPartgroup (
-  S_msrOptions& msrOpts, 
+  S_msrOptions&          msrOpts, 
   int                    inputLineNumber,
   int                    partGroupNumber,
   string                 partGroupName,
   string                 partGroupAbbreviation,
-  PartgroupSymbolKind    partGroupSymbolKind,
+  msrPartgroupSymbolKind partGroupSymbolKind,
   int                    partGroupSymbolDefaultX,
   bool                   partGroupBarline)
     : msrElement (msrOpts, inputLineNumber)
@@ -5678,6 +5678,25 @@ msrPartgroup::msrPartgroup (
 }
 
 msrPartgroup::~msrPartgroup() {}
+
+S_msrPartgroup msrPartgroup::createEmptyClone ()
+{
+  S_msrPartgroup
+    clone =
+      msrPartgroup::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fPartgroupNumber,
+        fPartgroupName,
+        fPartgroupAbbreviation,
+        fPartgroupSymbolKind,
+        fPartgroupSymbolDefaultX,
+        fPartgroupBarline);
+
+  // get fPartgroupAbsoluteNumber from cloned msrPartgroup ??? JMI
+  
+  return clone;
+}
 
 string msrPartgroup::getPartgroupCombinedName () const
 {
@@ -6027,7 +6046,9 @@ S_msrScore msrScore::createEmptyClone ()
 {
   S_msrScore
     clone =
-      msrScore::create (fMsrOptions, fInputLineNumber);
+      msrScore::create (
+        fMsrOptions,
+        fInputLineNumber);
 
   return clone;
 }

@@ -341,9 +341,12 @@ void xml2MsrScoreVisitor::showPartgroupsData (string context)
 }
 
 void xml2MsrScoreVisitor::handlePartgroupStart (
-  int                               inputLineNumber,
-  msrPartgroup::PartgroupSymbolKind partGroupSymbol,
-  bool                              partGroupBarline)
+  int
+      inputLineNumber,
+  msrPartgroup::msrPartgroupSymbolKind
+      partGroupSymbol,
+  bool
+      partGroupBarline)
 {
   showPartgroupsData ("BEFORE START");
 
@@ -547,7 +550,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
 
   idtr++;
   
-  msrPartgroup::PartgroupTypeKind partGroupTypeKind;
+  msrPartgroup::msrPartgroupTypeKind partGroupTypeKind;
 
   // check part group type
   if (fCurrentPartgroupType == "start")
@@ -565,26 +568,26 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
     partGroupTypeKind = msrPartgroup::k_NoPartgroupType;
   }
 
-  msrPartgroup::PartgroupSymbolKind partGroupSymbol;
+  msrPartgroup::msrPartgroupSymbolKind partGroupSymbolKind;
   
   // check part group symbol
   // Values include none,
   //  brace, line, bracket, and square; the default is none
  
   if (fCurrentPartgroupSymbol == "brace")
-    partGroupSymbol = msrPartgroup::kBracePartgroupSymbol;
+    partGroupSymbolKind = msrPartgroup::kBracePartgroupSymbol;
     
   else if (fCurrentPartgroupSymbol == "bracket")
-    partGroupSymbol = msrPartgroup::kBracketPartgroupSymbol;
+    partGroupSymbolKind = msrPartgroup::kBracketPartgroupSymbol;
     
   else if (fCurrentPartgroupSymbol == "line")
-    partGroupSymbol = msrPartgroup::kLinePartgroupSymbol;
+    partGroupSymbolKind = msrPartgroup::kLinePartgroupSymbol;
     
   else if (fCurrentPartgroupSymbol == "square")
-    partGroupSymbol = msrPartgroup::kSquarePartgroupSymbol;
+    partGroupSymbolKind = msrPartgroup::kSquarePartgroupSymbol;
     
   else if (fCurrentPartgroupSymbol == "none")
-    partGroupSymbol = msrPartgroup::k_NoPartgroupSymbol;
+    partGroupSymbolKind = msrPartgroup::k_NoPartgroupSymbol;
     
   else {
    if (fCurrentPartgroupSymbol.size())
@@ -592,7 +595,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
       msrMusicXMLError (
         elt->getInputLineNumber (),
         "unknown part group symbol \"" + fCurrentPartgroupSymbol + "\"");
-    partGroupSymbol = msrPartgroup::k_NoPartgroupSymbol;
+    partGroupSymbolKind = msrPartgroup::k_NoPartgroupSymbol;
   }
 
   bool partGroupBarline;
@@ -616,7 +619,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
     case msrPartgroup::kStartPartgroupType:
       handlePartgroupStart (
         elt->getInputLineNumber (),
-        partGroupSymbol, partGroupBarline);
+        partGroupSymbolKind, partGroupBarline);
       break;
       
     case msrPartgroup::kStopPartgroupType:
