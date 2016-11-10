@@ -39,9 +39,9 @@ EXP const char* musicxml2MsrVersionStr () { return "0.1.0"; }
 
 //_______________________________________________________________________________
 
-S_msrScore buildMsrScoreFromTree (
+S_msrScore buildMsrScoreFromElementsTree (
   S_msrOptions& msrOpts,
-  Sxmlelement            xmlTree)
+  Sxmlelement   xmlTree)
 {
     // browse the part contents for the first time with a xml2MsrScoreVisitor
   if (msrOpts->fTrace)
@@ -52,17 +52,8 @@ S_msrScore buildMsrScoreFromTree (
   
   // create an xml2MsrVisitor
   xml2MsrScoreVisitor visitor (msrOpts);
-      
-  // a global variable is needed so that msr::Element.print() 
-  // can decide whether to print:
-  //   - the MSR structure
-  //   - MusicXML text
-  //   - LilyPond source code
-  // use the visitor to build a MSR score from the xmlelement tree
-  // choosing kMSR for the trace of the score build
-  msrGlobalVariables::setDisplayKind (
-    msrGlobalVariables::kMSR);
 
+  // build the MSR score
   S_msrScore
     score =
       visitor.buildMsrScoreFromXMLElementTree (xmlTree);
@@ -73,7 +64,30 @@ S_msrScore buildMsrScoreFromTree (
 }
 
 //_______________________________________________________________________________
-void displayMSRScoreSummaryWithVisitor (
+void displayMsrScore (
+  S_msrOptions& msrOpts,
+  S_msrScore    score,
+  ostream&      os)
+{
+  string separator = "%----------------------------------------";
+
+  // output the score resulting from the conversion 
+  // thru msrElement::printMsrStructure()
+  if (msrOpts->fTrace) 
+    os << idtr <<
+      separator << endl <<
+      "%Outputting a hierarchical view of the MSR score" << endl <<
+      separator << endl;
+  
+  if (msrOpts->fTrace) os << "%{" << endl;
+  os << score;
+  if (msrOpts->fTrace) os << "%}" << endl;
+  
+  os << separator << endl;
+}
+
+//_______________________________________________________________________________
+void displayMsrScoreSummary (
   S_msrOptions& msrOpts,
   S_msrScore    score,
   ostream&      os)
@@ -99,35 +113,9 @@ void displayMSRScoreSummaryWithVisitor (
   os << separator << std::endl;
 }
 
+/* JMI
 //_______________________________________________________________________________
-void displayMSRScore (
-  S_msrOptions& msrOpts,
-  S_msrScore    score,
-  ostream&      os)
-{
-  string separator = "%----------------------------------------";
-
-  // output the score resulting from the conversion 
-  // thru msrElement::printMsrStructure()
-  if (msrOpts->fTrace) 
-    os << idtr <<
-      separator << endl <<
-      "%Outputting a hierarchical view of the MSR score" << endl <<
-      separator << endl;
-  
-  // choosing kMSR to print the score
-  msrGlobalVariables::setDisplayKind (
-    msrGlobalVariables::kMSR);
-   
-  if (msrOpts->fTrace) os << "%{" << endl;
-  os << score;
-  if (msrOpts->fTrace) os << "%}" << endl;
-  
-  os << separator << endl;
-}
-
-//_______________________________________________________________________________
-void displayScoreSummary (
+void displayScoreSummaryWithoutVisitor (
   S_msrOptions& msrOpts,
   S_msrScore    score)
 {
@@ -151,13 +139,14 @@ void displayScoreSummary (
   
   cerr << separator << std::endl;
 }
+*/
 
 //_______________________________________________________________________________
 /*
  * The method that converts the file contents to LilyPond code
  * and  writes the result to the output stream
 */
-static xmlErr xml2Msr(
+static xmlErr xml2Msr (
   SXMLFile&     xmlfile,
   S_msrOptions& msrOpts,
   ostream&      os,
@@ -168,92 +157,24 @@ static xmlErr xml2Msr(
   
   if (elemsTree) {
     S_msrScore score =
-      buildMsrScoreFromTree (msrOpts, elemsTree);
+      buildMsrScoreFromElementsTree (msrOpts, elemsTree);
 
     if (msrOpts->fDisplayMSR)
-      displayMSRScore (msrOpts, score, os);
+      displayMsrScore (msrOpts, score, os);
 
  //   if (msrOpts->fDisplayMSRScoreSummary)
- //     displayScoreSummary (msrOpts, score); // TEMP
+ //     displayScoreSummary (msrOpts, score); // JMI
     if (msrOpts->fDisplayMSRScoreSummary)
-      displayMSRScoreSummaryWithVisitor (msrOpts, score, os);
+      displayMsrScoreSummary (msrOpts, score, os);
 
-    /*
-    // create an xml2MsrVisitor
-    xml2MsrVisitor v(msrOpts);
-    
-    // use the visitor to convert the xmlelement tree into a msrElement tree
-    if (msrOpts->fTrace)
-      cerr << "Launching conversion of xmlelement tree to LilyPond semantic representation tree" << endl;
-    S_msrElement    msr = v.convertToMsr(elemsTree);
-    
-    string separator = "%----------------------------------------";
- 
-    // output the structure of the msrElement tree resulting from the conversion 
-    // thru msrElement::printMsrStructure()
-    if (msrOpts->fTrace) 
-      cerr << 
-        separator << endl <<
-        "%Outputting the LilyPond semantic representation tree" << endl <<
-        separator << endl;
-    
-    // a global variable is needed so that msr::Element.print() 
-    // can decide whether to print:
-    //   - the MSR structure
-    //   - MusicXML text
-    //   - LilyPond source code
-    msrGlobalVariables::setDisplayKind (msrGlobalVariables::kMSR);
-    if (msrOpts->fTrace) cerr << "{%" << std::endl;
-    std::cerr << 
-      msr << std::endl;
-    if (msrOpts->fTrace) cerr << "%}" << std::endl;
-    std::cerr << endl << separator << std::endl;
-
-    if (msrOpts->fTrace) 
-      cerr << 
-        "%Outputting the LilyPond source code" << endl <<
-        separator << endl << endl;
-
-    // output the general information about the conversion
-    os << "%{" << std::endl;
-    if (file) {
-      os <<
-        "  LilyPond code converted from \"" << file << "\"" << std::endl;
-    }
-    else 
-      os << 
-        "  LilyPond code converted from standard input" << std::endl; 
-    os << 
-      "  using libmusicxml2" << //<< musicxmllibVersionStr() <<
-      " and its embedded xml2lilypond converter " << //<< musicxml2msrVersionStr() <<
-      std::endl;
-      
-    cout << "  Options were: ";
-    if (msrOpts->fSelectedOptions.size() == 0)
-      os << "none";
-    else
-      os << std::endl << "    " << msrOpts->fSelectedOptions;
-    os << std::endl;
-    os << "%}" << std::endl << std::endl;
-      
-    // output the LilyPond semantic representation tree resulting from the conversion 
-    msrGlobalVariables::setDisplayKind (msrGlobalVariables::kLilypondCode);
-    os <<
-      msr << endl;
-    
-    if (msrOpts->fTrace) 
-      cerr << separator << endl;
-   */
-   
     return kNoErr;
-
   }
 
   return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlFile2Msr(
+EXP xmlErr musicxmlFile2Msr (
   const char*   file,
   S_msrOptions& msrOpts,
   ostream&      os) 
@@ -275,7 +196,7 @@ EXP xmlErr musicxmlFile2Msr(
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlFd2Msr(
+EXP xmlErr musicxmlFd2Msr (
   FILE*         fd,
   S_msrOptions& msrOpts,
   ostream&      os) 
@@ -297,7 +218,7 @@ EXP xmlErr musicxmlFd2Msr(
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlString2Msr(
+EXP xmlErr musicxmlString2Msr (
   const char*   buffer,
   S_msrOptions& msrOpts,
   ostream&      os) 

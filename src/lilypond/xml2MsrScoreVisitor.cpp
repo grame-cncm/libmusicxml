@@ -23,7 +23,6 @@
 
 #include "conversions.h"
 
-#include "msr.h"
 #include "xml2MsrScoreVisitor.h"
 
 
@@ -2804,6 +2803,9 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
       " as a member of current chord" << endl;
   fCurrentChord->
     addNoteToChord (newNote);
+
+  // set note as belonging to a chord
+  newNote->setNoteBelongsToAChord ();
     
   // remove previous current note or the previous state of the chord
   // from the current voice sequence
@@ -2958,7 +2960,7 @@ void xml2MsrScoreVisitor::handleLyricsText (
       fetchLyricsFromVoice (fCurrentLyricsNumber);
 
   if (! fCurrentLyrics)
-    // no, add it to the voice
+    // no, add it to the voice JMI ???
     fCurrentLyrics =
       fCurrentVoice->
         addLyricsToVoice (

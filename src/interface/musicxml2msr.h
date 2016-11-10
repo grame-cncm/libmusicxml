@@ -36,11 +36,11 @@ namespace MusicXML2
 //#endif
 
 /*!
-\addtogroup Converting MusicXML to LilyPond format
+\addtogroup Converting MusicXML to MSR format
 
-The library includes a high level API to convert from the MusicXML format to the
-LilyPond (.ly) format. For more information about this format, 
-see  http://www.msr.org
+The library includes a high level API to convert
+  from the MusicXML format to the MSR
+  (Music Score Representation) format.
 @{
 */
 

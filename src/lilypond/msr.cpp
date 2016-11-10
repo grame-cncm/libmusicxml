@@ -1051,7 +1051,7 @@ msrNote::msrNote (
       // may become msrNote::kChordMemberNote later
 
   // take rests into account
-  if (fNoteKind == kRestNote) {
+  if (fNoteKind == msrNote::kRestNote) {
     /*
     cerr <<
       "--> REST, fMusicXMLDuration/fMusicXMLDivisions = " <<
@@ -1066,7 +1066,7 @@ msrNote::msrNote (
     fMusicXMLNoteData.fMusicXMLStep < 'A'
       ||
     fMusicXMLNoteData.fMusicXMLStep > 'G') {
-    if (fNoteKind != kRestNote) {
+    if (fNoteKind != msrNote::kRestNote) {
       stringstream s;
       s <<
         "step value " << fMusicXMLNoteData.fMusicXMLStep <<
@@ -1189,16 +1189,14 @@ msrNote::~msrNote() {}
 /* JMI
 bool msrNote::getNoteIsARest ()
 {
-  return fNoteKind == kRestNote;
+  return fNoteKind == msrNote::kRestNote;
 }
 */
 
 void msrNote::setNoteBelongsToAChord () {
   fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = true;
-  fNoteKind = kChordMemberNote;
+  fNoteKind = msrNote::kChordMemberNote;
 }
-
-//______________________________________________________________________________
 
 msrNote::msrPitch msrNote::computeNoteMsrPitch (
   int                         noteQuatertonesFromA,

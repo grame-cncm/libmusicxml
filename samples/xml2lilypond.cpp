@@ -91,6 +91,10 @@ void usage (int exitStatus) {
     "  LPSR:" << endl <<
     endl <<
 
+    "    --lpsr, --displayLPSR" << endl <<
+    "          Write the contents of the LPSR data to standard error." << endl <<
+    endl <<
+
     "    --abs, --absolute" << endl <<
     "          Generate LilyPond absolute code. " << endl <<
     "          By default, relative code is generated." << endl <<
@@ -116,9 +120,10 @@ void usage (int exitStatus) {
     endl <<
 
     endl;
+    
   exit(exitStatus);
 }
-
+fDisplayLPSR
 //_______________________________________________________________________________
 int main (int argc, char *argv[]) 
 {
@@ -157,6 +162,8 @@ int main (int argc, char *argv[])
   
   lpsrOpts->fLPSRCommandLineOptions           = "";
 
+  lpsrOpts->fDisplayLPSR                      = false;
+
   lpsrOpts->fDontKeepLineBreaks               = false;
   lpsrOpts->fKeepStaffSize                    = false;
     
@@ -189,6 +196,8 @@ int main (int argc, char *argv[])
   int displayMSRScoreSummaryPresent     = 0;
   
   // to detect supplied LPSR options
+  int displayLPSRPresent                = 0;
+
   int fDontKeepLineBreaksPresent        = 0;
   int fKeepStaffSizePresent             = 0;
   
@@ -304,6 +313,17 @@ int main (int argc, char *argv[])
       no_argument,
       &displayMSRScoreSummaryPresent, 1
     },
+
+    {
+      "lpsr",
+      no_argument,
+      &displayLPSRPresent, 1},
+    {
+      "displayLPSR",
+      no_argument,
+      &displayLPSRPresent, 1
+    },
+
 
     {
       "nolpl",
@@ -450,6 +470,12 @@ int main (int argc, char *argv[])
         // LPSR options
         // ------------
 
+        if (displayLPSRPresent) {
+          lpsrOpts->fDisplayLPSR = true;
+          lpsrOpts->fLPSRCommandLineOptions +=
+            "--displayLPSR ";
+        }
+
         if (absolutePresent) {
           lpsrOpts->fGenerateAbsoluteCode = true;
           lpsrOpts->fLPSRCommandLineOptions +=
@@ -512,13 +538,6 @@ int main (int argc, char *argv[])
       usage (1);
       break;
     } //  switch
-
-  // int   remainingArgs = nonOptionArgs;
-
-  // for TESTS
-  //msrOpts->fDisplayMSR                        = true;
-  //msrOpts->fTrace = true;
-  //msrOpts->fDebug = true;
   
   if (msrOpts->fTrace)
     cerr << 
@@ -561,6 +580,10 @@ int main (int argc, char *argv[])
           ? "true" : "false") << endl <<
 
       "The LPSR oprions are:" << endl <<
+      "  displayLPSR                 : " <<
+        string(lpsrOpts->fDisplayLPSR
+          ? "true" : "false") << endl <<
+
       "  generateAbsoluteCode       : " <<
         string(lpsrOpts->fGenerateAbsoluteCode
           ? "true" : "false") << endl <<
@@ -589,7 +612,7 @@ int main (int argc, char *argv[])
   
   xmlErr err = kNoErr;
   
-  if (!strcmp (fileName, "-"))
+  if (! strcmp (fileName, "-"))
   
     err = musicxmlFd2Msr (stdin, msrOpts, cout);
     
@@ -598,7 +621,7 @@ int main (int argc, char *argv[])
     err = musicxmlFile2Msr (fileName, msrOpts, cout);
     
   if (err) {
-    cout << "### Conversion from MusicCML to LilyPond failed ###" << endl <<
+    cout << "### Conversion from MusicCML to MSR failed ###" << endl <<
     endl;
   }
   

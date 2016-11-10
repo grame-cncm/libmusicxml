@@ -21,7 +21,6 @@
 
 #include "conversions.h"
 
-#include "msr.h"
 #include "msr2SummaryVisitor.h"
 
 
@@ -109,7 +108,7 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
       "--> End visiting msrScore" << endl;
   
   fOstream <<
-    idtr << "The score contains" << endl;
+    idtr << "The score contains:" << endl;
 
   idtr++;
   
@@ -578,38 +577,9 @@ void msr2SummaryVisitor::visitEnd (S_msrWedge& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrNote& elt)
 {
- // if (fMsrOptions->fDebug) {
-    fOstream << idtr <<
-      "--> Start visiting ";
-
-    switch (elt->getNoteKind ()) {
-      case msrNote::kStandaloneNote:
-        fOstream << "standalone";
-        fScoreStandaloneNotesCounter++;
-        break;
-      case msrNote::kRestNote:
-        fOstream << "rest";
-        fScoreRestNotesCounter++;
-        break;
-      case msrNote::kChordMemberNote:
-        fOstream << "chord member";
-        fScoreChordNotesCounter++;
-        break;
-      case msrNote::kTupletMemberNote:
-        fOstream << "tuplet member";
-        fScoreTupletNotesCounter++;
-        break;
-    } // switch
-    fOstream << " msrNote" << endl;
-//  }
-}
-
-void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
-{
   if (fMsrOptions->fDebug) {
     fOstream << idtr <<
       "--> Start visiting ";
-
     switch (elt->getNoteKind ()) {
       case msrNote::kStandaloneNote:
         fOstream << "standalone";
@@ -626,6 +596,55 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
     } // switch
     fOstream << " msrNote" << endl;
   }
+
+  switch (elt->getNoteKind ()) {
+    case msrNote::kStandaloneNote:
+      fScoreStandaloneNotesCounter++;
+      break;
+    case msrNote::kRestNote:
+      fScoreRestNotesCounter++;
+      break;
+    case msrNote::kChordMemberNote:
+      fScoreChordNotesCounter++;
+      break;
+    case msrNote::kTupletMemberNote:
+      fScoreTupletNotesCounter++;
+      break;
+  } // switch
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
+{
+  if (fMsrOptions->fDebug) {
+    fOstream << idtr <<
+      "--> Start visiting ";
+    switch (elt->getNoteKind ()) {
+      case msrNote::kStandaloneNote:
+        fOstream << "standalone";
+        break;
+      case msrNote::kRestNote:
+        fOstream << "rest";
+        break;
+      case msrNote::kChordMemberNote:
+        fOstream << "chord member";
+        break;
+      case msrNote::kTupletMemberNote:
+        fOstream << "tuplet member";
+        break;
+    } // switch
+    fOstream << " msrNote" << endl;
+  }
+
+  switch (elt->getNoteKind ()) {
+    case msrNote::kStandaloneNote:
+      break;
+    case msrNote::kRestNote:
+      break;
+    case msrNote::kChordMemberNote:
+      break;
+    case msrNote::kTupletMemberNote:
+      break;
+  } // switch
 }
 
 //________________________________________________________________________

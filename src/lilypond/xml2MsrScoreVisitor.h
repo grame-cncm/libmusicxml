@@ -321,20 +321,7 @@ class EXP xml2MsrScoreVisitor :
                      
     S_msrOptions   fMsrOptions;
 
-    // warning and error messages
-    // ------------------------------------------------------
-    /* JMI
-    void                    msrMusicXMLWarning (
-                              string message);
-                                
-    void                    msrMusicXMLError (
-                              string message);
-                                
-    void                    msrInternalError (
-                              string message);
-*/
-
-    // the score we're building
+    // the MSR score we're building
     // ------------------------------------------------------
     S_msrScore              fMsrScore;
 
