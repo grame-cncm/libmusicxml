@@ -4660,10 +4660,10 @@ void msrLyrics::printLilyPondCode (ostream& os)
 //______________________________________________________________________________ 
 S_msrVoice msrVoice::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    voiceNumber,
-  int                    staffRelativeVoiceNumber,
-  S_msrStaff             voiceStaff)
+  int           inputLineNumber,
+  int           voiceNumber,
+  int           staffRelativeVoiceNumber,
+  S_msrStaff    voiceStaff)
 {
   msrVoice* o =
     new msrVoice (
@@ -4677,10 +4677,10 @@ S_msrVoice msrVoice::create (
 
 msrVoice::msrVoice (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    voiceNumber,
-  int                    staffRelativeVoiceNumber,
-  S_msrStaff             voiceStaff)
+  int           inputLineNumber,
+  int           voiceNumber,
+  int           staffRelativeVoiceNumber,
+  S_msrStaff    voiceStaff)
     : msrElement (msrOpts, inputLineNumber)
 {
   fVoiceNumber = voiceNumber;
@@ -4734,6 +4734,20 @@ msrVoice::msrVoice (
   }
 
 msrVoice::~msrVoice() {}
+
+S_msrVoice msrVoice::createEmptyClone ()
+{
+  S_msrVoice
+    clone =
+      msrVoice::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fVoiceNumber,
+        fStaffRelativeVoiceNumber,
+        fVoiceStaff);
+  
+  return clone;
+}
 
 string msrVoice::getVoiceName () const
 {
@@ -5001,9 +5015,9 @@ int msrStaff::gMaxStaffVoices = 4;
 
 S_msrStaff msrStaff::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    staffNumber,
-  S_msrPart              staffPart)
+  int           inputLineNumber,
+  int           staffNumber,
+  S_msrPart     staffPart)
 {
   msrStaff* o =
     new msrStaff (
@@ -5014,9 +5028,9 @@ S_msrStaff msrStaff::create (
 
 msrStaff::msrStaff (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    staffNumber,
-  S_msrPart              staffPart)
+  int           inputLineNumber,
+  int           staffNumber,
+  S_msrPart     staffPart)
     : msrElement (msrOpts, inputLineNumber)
 {  
   fStaffNumber = staffNumber;
@@ -5054,6 +5068,19 @@ msrStaff::msrStaff (
 }
 
 msrStaff::~msrStaff() {}
+
+S_msrStaff msrStaff::createEmptyClone ()
+{
+  S_msrStaff
+    clone =
+      msrStaff::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fStaffNumber,
+        fStaffPart);
+  
+  return clone;
+}
 
 string msrStaff::getStaffName () const
   {
@@ -5114,7 +5141,20 @@ S_msrVoice msrStaff::addVoiceToStaff (
   // return it
   return voice;
 }
-              
+
+void msrStaff::addVoiceToStaff (S_msrVoice voice)
+{
+  // register voic in this staff
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Adding voice " << voice->getVoiceNumber () <<
+      " " << voice->getVoiceName () <<
+      " to staff " << fStaffNumber <<
+      " in part " << fStaffPart->getPartCombinedName () << endl;
+  
+  fStaffVoicesMap [voice->getVoiceNumber ()] = voice;
+}
+
 S_msrVoice msrStaff::fetchVoiceFromStaff (
   int voiceNumber)
 {
@@ -5358,10 +5398,10 @@ void msrStaff::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________ 
 S_msrPart msrPart::create (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  string                 partMusicXMLName,
-  S_msrPartgroup         partPartgroup)
+  S_msrOptions&  msrOpts, 
+  int            inputLineNumber,
+  string         partMusicXMLName,
+  S_msrPartgroup partPartgroup)
 {
   msrPart* o =
     new msrPart (
@@ -5371,10 +5411,10 @@ S_msrPart msrPart::create (
 }
 
 msrPart::msrPart (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  string                 partMusicXMLName,
-  S_msrPartgroup         partPartgroup)
+  S_msrOptions&  msrOpts, 
+  int            inputLineNumber,
+  string         partMusicXMLName,
+  S_msrPartgroup partPartgroup)
     : msrElement (msrOpts, inputLineNumber)
 {  
   fPartMusicXMLName = partMusicXMLName;
@@ -5390,6 +5430,19 @@ msrPart::msrPart (
 }
 
 msrPart::~msrPart() {}
+
+S_msrPart msrPart::createEmptyClone ()
+{
+  S_msrPart
+    clone =
+      msrPart::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fPartMusicXMLName,
+        fPartPartgroup);
+  
+  return clone;
+}
 
 string msrPart::getPartCombinedName () const
 {
@@ -5459,6 +5512,17 @@ S_msrStaff msrPart::addStaffToPart (
 
   // return it
   return staff;
+}
+
+void msrPart::addStaffToPart (S_msrStaff staff)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Adding staff " << staff->getStaffNumber () <<
+      " to part " << getPartCombinedName () << endl;
+
+  // register staff in this part
+  fPartStavesMap [staff->getStaffNumber ()] = staff;
 }
 
 S_msrStaff msrPart::fetchStaffFromPart (
@@ -5737,6 +5801,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
       part->getPartCombinedName () <<
       " to part group " << fPartgroupNumber << endl;
   }
+  
   fPartgroupPartsMap [partMusicXMLName] = part;
   fPartgroupElements.push_back (part);
 
@@ -5781,6 +5846,20 @@ S_msrPart msrPartgroup::addPartToPartgroup (
   // return the part
   return part;
 } // addPartToPartgroup
+
+void msrPartgroup::addPartToPartgroup (S_msrPart part)
+{
+  // register part in this part group
+  if (fMsrOptions->fTrace) {
+    cerr << idtr <<
+      "Adding part " <<
+      part->getPartCombinedName () <<
+      " to part group " << fPartgroupNumber << endl;
+  }
+  
+  fPartgroupPartsMap [part->getPartMusicXMLName ()] = part;
+  fPartgroupElements.push_back (part);
+}
 
 void msrPartgroup::prependSubPartgroupToPartgroup (
   S_msrPartgroup partGroup)
@@ -6147,7 +6226,7 @@ ostream& operator<< (ostream& os, const S_msrScore& elt)
 
 void msrScore::print (ostream& os)
 {
-  os << "Score" << endl;
+  os << "MSR Score" << endl;
   os << endl;
 
   idtr++;

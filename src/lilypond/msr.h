@@ -1915,63 +1915,65 @@ class EXP msrVoice : public msrElement
 
     static SMARTP<msrVoice> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    voiceNumber,
-      int                    staffRelativeVoiceNumber,
-      S_msrStaff             voiceStaff);
+      int           inputLineNumber,
+      int           voiceNumber,
+      int           staffRelativeVoiceNumber,
+      S_msrStaff    voiceStaff);
                           
-    int     getVoiceNumber () const
-                { return fVoiceNumber; }
+    SMARTP<msrVoice> createEmptyClone ();
+
+    int       getVoiceNumber () const
+                  { return fVoiceNumber; }
                 
     S_msrStaff
-            getVoiceStaff () const
-                { return fVoiceStaff; }
+              getVoiceStaff () const
+                  { return fVoiceStaff; }
                 
     map<int, S_msrLyrics>
-            getVoiceLyricsMap () const
-                { return fVoiceLyricsMap; }
+              getVoiceLyricsMap () const
+                  { return fVoiceLyricsMap; }
 
-    string  getVoiceName () const;
+    string    getVoiceName () const;
 
     S_msrLyrics
-            addLyricsToVoice (
-              int inputLineNumber,
-              int lyricsNumber);
+              addLyricsToVoice (
+                int inputLineNumber,
+                int lyricsNumber);
               
     S_msrLyrics
-            fetchLyricsFromVoice (int lyricsNumber);
+              fetchLyricsFromVoice (int lyricsNumber);
 
     S_msrLyrics
-            getVoiceMasterLyrics () { return fVoiceMasterLyrics; }
+              getVoiceMasterLyrics () { return fVoiceMasterLyrics; }
                
-    void    appendNoteToVoice       (S_msrNote note);
-    void    appendChordToVoice      (S_msrChord chord);
-    void    appendTupletToVoice     (S_msrTuplet tuplet);
-    void    appendElementToVoice    (S_msrElement elem); // for others
+    void      appendNoteToVoice       (S_msrNote note);
+    void      appendChordToVoice      (S_msrChord chord);
+    void      appendTupletToVoice     (S_msrTuplet tuplet);
+    void      appendElementToVoice    (S_msrElement elem); // for others
 
     S_msrElement
-            getVoiceSequentialMusicLastElement ()
-                {
-                  return fVoiceSequentialMusic->
-                    getLastElementOfSequentialMusic ();
-                }
+              getVoiceSequentialMusicLastElement ()
+                  {
+                    return fVoiceSequentialMusic->
+                      getLastElementOfSequentialMusic ();
+                  }
                   
-    void    removeLastElementFromVoiceSequentialMusic ()
-                {
-                  fVoiceSequentialMusic->
-                    removeLastElementFromSequentialMusic ();
-                }
+    void      removeLastElementFromVoiceSequentialMusic ()
+                  {
+                    fVoiceSequentialMusic->
+                      removeLastElementFromSequentialMusic ();
+                  }
 
-    void    removeElementFromVoiceSequentialMusic (S_msrElement elem)
-                {
-                  fVoiceSequentialMusic->
-                    removeElementFromSequentialMusic (elem);
-                }
+    void      removeElementFromVoiceSequentialMusic (S_msrElement elem)
+                  {
+                    fVoiceSequentialMusic->
+                      removeElementFromSequentialMusic (elem);
+                  }
 
 
     S_msrSequentialMusic
-            getVoiceSequentialMusic () const
-                { return fVoiceSequentialMusic; }
+              getVoiceSequentialMusic () const
+                  { return fVoiceSequentialMusic; }
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1986,10 +1988,11 @@ class EXP msrVoice : public msrElement
 
     msrVoice (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    voiceNumber,
-      int                    staffRelativeVoiceNumber,
-      S_msrStaff             voiceStaff);
+      int           inputLineNumber,
+      int           voiceNumber,
+      int           staffRelativeVoiceNumber,
+      S_msrStaff    voiceStaff);
+      
     virtual ~msrVoice();
   
   private:
@@ -2033,10 +2036,12 @@ class EXP msrStaff : public msrElement
 
     static SMARTP<msrStaff> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    staffNumber,
-      S_msrPart              staffPart);
+      int           inputLineNumber,
+      int           staffNumber,
+      S_msrPart     staffPart);
     
+    SMARTP<msrStaff> createEmptyClone ();
+
     int       getStaffNumber () const
                   { return fStaffNumber; }
                 
@@ -2067,7 +2072,9 @@ class EXP msrStaff : public msrElement
               addVoiceToStaff (
                 int inputLineNumber,
                 int voiceNumber);
-              
+
+    void      addVoiceToStaff (S_msrVoice voice);
+    
     S_msrVoice
               fetchVoiceFromStaff (int voiceNumber);
                               
@@ -2084,9 +2091,9 @@ class EXP msrStaff : public msrElement
 
     msrStaff (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    staffNumber,
-      S_msrPart              staffPart);
+      int           inputLineNumber,
+      int           staffNumber,
+      S_msrPart     staffPart);
     virtual ~msrStaff();
   
   private:
@@ -2120,64 +2127,68 @@ class EXP msrPart : public msrElement
   public:
 
     static SMARTP<msrPart> create (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      string                 partMusicXMLName,
-      S_msrPartgroup         partPartgroup);
+      S_msrOptions&  msrOpts, 
+      int            inputLineNumber,
+      string         partMusicXMLName,
+      S_msrPartgroup partPartgroup);
                 
-    void    setPartAbbreviation (string partAbbreviation)
-                { fPartAbbreviation = partAbbreviation; }
+    SMARTP<msrPart> createEmptyClone ();
+
+    void      setPartAbbreviation (string partAbbreviation)
+                  { fPartAbbreviation = partAbbreviation; }
                 
-    void    setPartInstrumentName (string partInstrumentName)
-                { fPartInstrumentName = partInstrumentName; }
+    void      setPartInstrumentName (string partInstrumentName)
+                  { fPartInstrumentName = partInstrumentName; }
                               
-    void    setPartDivisions (int  musicXMLDivisions)
-                { fPartMusicXMLDivisions = musicXMLDivisions; }
+    void      setPartDivisions (int  musicXMLDivisions)
+                  { fPartMusicXMLDivisions = musicXMLDivisions; }
     
-    void    setPartName (string  partName)
-                { fPartName = partName; }
+    void      setPartName (string  partName)
+                  { fPartName = partName; }
     
-    string  getPartMusicXMLName () const
-                { return fPartMusicXMLName; }
+    string    getPartMusicXMLName () const
+                  { return fPartMusicXMLName; }
 
-    string  getPartName () const
-                { return fPartName; }
+    string    getPartName () const
+                  { return fPartName; }
 
-    string  getPartAbbreviation () const
-                { return fPartAbbreviation; }
+    string    getPartAbbreviation () const
+                  { return fPartAbbreviation; }
                 
-    string  getPartInstrumentName () const
-                { return fPartInstrumentName; }
+    string    getPartInstrumentName () const
+                  { return fPartInstrumentName; }
                 
-    int     getPartMusicXMLDivisions () const
-                { return fPartMusicXMLDivisions; }
+    int       getPartMusicXMLDivisions () const
+                  { return fPartMusicXMLDivisions; }
 
-    string  getPartMSRName () const
-                { return fPartMSRName; }
+    string    getPartMSRName () const
+                  { return fPartMSRName; }
 
     S_msrPartgroup
-            getPartPartgroup () const
-                { return fPartPartgroup; }
+              getPartPartgroup () const
+                  { return fPartPartgroup; }
                 
     map<int, S_msrStaff>
-            getPartStavesMap ()
-                { return fPartStavesMap; }
+              getPartStavesMap ()
+                  { return fPartStavesMap; }
 
-    string  getPartCombinedName () const;
+    string    getPartCombinedName () const;
 
-    void    setAllPartStavesKey  (S_msrKey  key);
+    void      setAllPartStavesKey  (S_msrKey  key);
               
-    void    setAllPartStavesTime (S_msrTime time);
+    void      setAllPartStavesTime (S_msrTime time);
               
-    void    setAllPartStavesClef (S_msrClef clef);
+    void      setAllPartStavesClef (S_msrClef clef);
               
     S_msrStaff
-            addStaffToPart (
-              int inputLineNumber,
-              int staffNumber);
+              addStaffToPart (
+                int inputLineNumber,
+                int staffNumber);
+
+    void      addStaffToPart (S_msrStaff staff);
 
     S_msrStaff
-            fetchStaffFromPart (int staffNumber);
+              fetchStaffFromPart (int staffNumber);
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -2191,10 +2202,10 @@ class EXP msrPart : public msrElement
   protected:
 
     msrPart (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      string                 partMusicXMLName,
-      S_msrPartgroup         partPartgroup);
+      S_msrOptions&  msrOpts, 
+      int            inputLineNumber,
+      string         partMusicXMLName,
+      S_msrPartgroup partPartgroup);
       
     virtual ~msrPart();
   
@@ -2292,6 +2303,8 @@ class EXP msrPartgroup : public msrElement
                 int    inputLineNumber,
                 string partMusicXMLName);
     
+    void       addPartToPartgroup (S_msrPart part);
+                
     void      prependSubPartgroupToPartgroup (
                 S_msrPartgroup partGroup);
 
