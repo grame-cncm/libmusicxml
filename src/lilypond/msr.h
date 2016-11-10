@@ -239,10 +239,7 @@ class EXP msrElement : public smartable
 
     virtual void browseData (basevisitor* v) = 0;
 
-    virtual void print             (ostream& os);
-
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
     
@@ -305,23 +302,6 @@ template <typename T> class EXP msrBrowser : public browser<T>
 };
 
 /*!
-\brief A beat description for MusicXML.
-*/
-//______________________________________________________________________________
-class musicXMLBeatData // JMI ???
-{
-  public:
-  
-    virtual void print              (ostream& os);
- 
-  public:
-  
-    string fBeatUnit;
-    int    fDots;
-};
-
-
-/*!
 \brief A note description for MusicXML.
 */
 //______________________________________________________________________________
@@ -329,7 +309,7 @@ class musicXMLNoteData
 {
   public:
   
-    virtual void print              (ostream& os);
+    virtual void print (ostream& os);
  
   public:
   
@@ -352,6 +332,23 @@ class musicXMLNoteData
     bool        fMusicXMLNoteIsTied;
 
     int         fMusicXMLVoiceNumber;
+};
+EXP ostream& operator<< (ostream& os, musicXMLNoteData& elt);
+
+/*!
+\brief A beat description for MusicXML.
+*/
+//______________________________________________________________________________
+class musicXMLBeatData // JMI ???
+{
+  public:
+  
+    virtual void print (ostream& os);
+ 
+  public:
+  
+    string fBeatUnit;
+    int    fDots;
 };
 
 /*!
@@ -419,8 +416,7 @@ class EXP msrDuration : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -457,8 +453,7 @@ class EXP msrArticulation : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -505,8 +500,7 @@ class EXP msrSlur : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -556,8 +550,7 @@ class EXP msrDynamics : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -603,8 +596,7 @@ class EXP msrWedge : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -712,8 +704,7 @@ class EXP msrNote : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -784,8 +775,7 @@ class EXP msrParallelMusic : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -843,8 +833,7 @@ class EXP msrSequentialMusic : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -895,8 +884,7 @@ class EXP msrChord : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -955,8 +943,7 @@ class EXP msrVarValAssoc : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1078,8 +1065,7 @@ class EXP msrHeader : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1150,8 +1136,7 @@ class EXP msrPaper : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1205,8 +1190,7 @@ class EXP msrLayout : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1263,8 +1247,7 @@ class EXP msrRepeat: public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1308,8 +1291,7 @@ class EXP msrBarLine : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1351,8 +1333,7 @@ class EXP msrComment : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1394,8 +1375,7 @@ class EXP msrBreak : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1435,8 +1415,7 @@ class EXP msrBarNumberCheck : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1488,8 +1467,7 @@ class EXP msrTuplet : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1540,8 +1518,7 @@ class EXP msrBeam : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1594,8 +1571,7 @@ class EXP msrClef : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1655,8 +1631,7 @@ class EXP msrKey : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1707,8 +1682,7 @@ class EXP msrTime : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1757,8 +1731,7 @@ class EXP msrTempo : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1810,8 +1783,7 @@ class EXP msrLyricsChunk : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1898,8 +1870,7 @@ class EXP msrLyrics : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -1999,8 +1970,7 @@ class EXP msrVoice : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -2098,8 +2068,7 @@ class EXP msrStaff : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -2207,8 +2176,7 @@ class EXP msrPart : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -2324,8 +2292,7 @@ class EXP msrPartgroup : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -2390,8 +2357,7 @@ class EXP msrScore : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 
@@ -2429,8 +2395,7 @@ class EXP msrMidi : public msrElement
 
     virtual void browseData (basevisitor* v);
 
-    virtual void printMusicXML     (ostream& os);
-    virtual void printMSR          (ostream& os);
+    virtual void print (ostream& os);
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
 

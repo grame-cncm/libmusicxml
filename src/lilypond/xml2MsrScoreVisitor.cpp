@@ -2875,9 +2875,8 @@ void xml2MsrScoreVisitor::handleLyricsText (
   if (fMsrOptions->fDebug) {
     cerr <<
       idtr <<
-        "Handling lyrics on:" << endl;
-    fMusicXMLNoteData.print (cerr);
-    cerr <<
+        "Handling lyrics on:" << endl <<
+        fMusicXMLNoteData <<
       idtr <<
         "fCurrentText = \"" << fCurrentText <<
         "\":" << fMusicXMLNoteData.fMusicXMLDuration <<

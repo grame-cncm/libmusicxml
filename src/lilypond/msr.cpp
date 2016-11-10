@@ -214,10 +214,10 @@ void msrElement::acceptOut (basevisitor* v) {
 
 ostream& operator<< (ostream& os, const S_msrElement& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
-
+/*
 void msrElement::print (ostream& os)
 {
   // a global variable is needed so that msr::Element.print() 
@@ -225,9 +225,12 @@ void msrElement::print (ostream& os)
   //   - the MSR structure
   //   - MusicXML text
   //   - LilyPond source code
+  this->print (os);
+
+  / *
   switch (msrGlobalVariables::getDisplayKind ()) {
     case msrGlobalVariables::kMSR:
-      this->printMSR (os);
+      this->print (os);
       break;
     case msrGlobalVariables::kMusicXML:
       this->printMusicXML (os);
@@ -245,14 +248,11 @@ void msrElement::print (ostream& os)
         "used by msrElement::print(ostream& os), "
         "has not been set ");
   } // switch
+  * /
 }
+*/
 
-void msrElement::printMusicXML (ostream& os)
-{
-  os << "<!-- msrElement??? -->" << endl;
-}
-
-void msrElement::printMSR (ostream& os)
+void msrElement::print (ostream& os)
 {
   os << "Element???" << endl;
 }
@@ -268,9 +268,9 @@ void msrElement::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-ostream& operator<< (ostream& os, musicXMLNoteData& data)
+ostream& operator<< (ostream& os, musicXMLNoteData& mxmlData)
 {
-  data.print(os);
+  mxmlData.print (os);
   return os;
 }
 
@@ -321,6 +321,8 @@ void musicXMLNoteData::print (ostream& os)
       fMusicXMLVoiceNumber <<  endl;
 };
 
+
+//______________________________________________________________________________
 void musicXMLBeatData::print (ostream& os)
 {
   os <<
@@ -422,13 +424,8 @@ void msrDuration::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrDuration& dur)
 {
-  dur->print(os);
+  dur->print (os);
   return os;
-}
-
-void msrDuration::printMusicXML (ostream& os)
-{
-  os << "<!-- msrDuration??? -->" << endl;
 }
 
 rational msrDuration::durationAsRational ()
@@ -532,7 +529,7 @@ string msrDuration::durationAsMSRString ()
   return s.str();
 }
 
-void msrDuration::printMSR (ostream& os)
+void msrDuration::print (ostream& os)
 {
   os << durationAsMSRString () << flush;
 }
@@ -614,16 +611,11 @@ void msrArticulation::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrArticulation& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrArticulation::printMusicXML (ostream& os)
-{
-  os << "<!-- msrTime??? -->" << endl;
-}
-
-void msrArticulation::printMSR (ostream& os)
+void msrArticulation::print (ostream& os)
 {
   os << "Articulation" << " ";
 
@@ -796,16 +788,11 @@ void msrDynamics::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrDynamics& dyn)
 {
-  dyn->print(os);
+  dyn->print (os);
   return os;
 }
 
-void msrDynamics::printMusicXML (ostream& os)
-{
-  os << "<!-- msrDynamics??? -->" << endl;
-}
-
-void msrDynamics::printMSR (ostream& os)
+void msrDynamics::print (ostream& os)
 {
   os <<
     "Dynamics" << " " << dynamicsKindAsString () << endl;
@@ -903,16 +890,11 @@ void msrWedge::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrWedge& wdg)
 {
-  wdg->print(os);
+  wdg->print (os);
   return os;
 }
 
-void msrWedge::printMusicXML (ostream& os)
-{
-  os << "<!-- msrWedge??? -->" << endl;
-}
-
-void msrWedge::printMSR (ostream& os)
+void msrWedge::print (ostream& os)
 {
   os << "Wedge" << " " << wedgeKindAsString () << endl;
 }
@@ -1009,16 +991,11 @@ void msrSlur::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrSlur& wdg)
 {
-  wdg->print(os);
+  wdg->print (os);
   return os;
 }
 
-void msrSlur::printMusicXML (ostream& os)
-{
-  os << "<!-- msrSlur??? -->" << endl;
-}
-
-void msrSlur::printMSR (ostream& os)
+void msrSlur::print (ostream& os)
 {
   os << "Slur" << " " << slurKindAsString () << endl;
 }
@@ -1523,26 +1500,21 @@ void msrNote::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrNote& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrNote::printMusicXML (ostream& os)
-{
-  os << "<!-- msrNote??? -->" << endl;
-}
-
-void msrNote::printMSR (ostream& os)
+void msrNote::print (ostream& os)
 {
   /*
   cerr <<
-    "msrNote::printMSR (), fNoteBelongsToAChord = " << 
+    "msrNote::print (), fNoteBelongsToAChord = " << 
     fNoteBelongsToAChord << endl;
   */
   
   if (fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord) {
 
-    // do not print it, msrChord::printMSR () will do it
+    // do not print it, msrChord::print () will do it
     os << notePitchAsLilypondString() << " (FOO) ";
 
   } else {
@@ -1775,11 +1747,11 @@ void msrSequentialMusic::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrSequentialMusic& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrSequentialMusic::printMSR (ostream& os)
+void msrSequentialMusic::print (ostream& os)
 {  
   os << "SequentialMusic";
   
@@ -1837,11 +1809,6 @@ void msrSequentialMusic::printScoreSummary (ostream& os)
     idtr--;
   }
 */
-}
-
-void msrSequentialMusic::printMusicXML (ostream& os)
-{
-  os << "<!-- msrSequentialMusic??? -->" << endl;
 }
 
 void msrSequentialMusic::printLilyPondCode (ostream& os)
@@ -1922,16 +1889,11 @@ void msrParallelMusic::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrParallelMusic& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrParallelMusic::printMusicXML (ostream& os)
-{
-  os << "<!-- msrParallelMusic??? -->" << endl;
-}
-
-void msrParallelMusic::printMSR (ostream& os)
+void msrParallelMusic::print (ostream& os)
 {
   os << "ParallelMusic" << endl;
   
@@ -2029,16 +1991,11 @@ void msrChord::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrChord& chrd)
 {
-  chrd->print(os);
+  chrd->print (os);
   return os;
 }
 
-void msrChord::printMusicXML (ostream& os)
-{
-  os << "<!-- msrChord??? -->" << endl;
-}
-
-void msrChord::printMSR (ostream& os)
+void msrChord::print (ostream& os)
 {
   os << "Chord" << " " << "<";
   if (fChordNotes.size()) {
@@ -2190,16 +2147,11 @@ void msrBarLine::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrBarLine& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrBarLine::printMusicXML (ostream& os)
-{
-  os << "<!-- msrBarLine??? -->" << endl;
-}
-
-void msrBarLine::printMSR (ostream& os)
+void msrBarLine::print (ostream& os)
 {
   os << "BarLine" << " " << fNextBarNumber << endl;
 }
@@ -2278,16 +2230,11 @@ void msrComment::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrComment& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrComment::printMusicXML (ostream& os)
-{
-  os << "<!-- msrComment??? -->" << endl;
-}
-
-void msrComment::printMSR (ostream& os)
+void msrComment::print (ostream& os)
 {
   os << "Comment" << endl;
   idtr++;
@@ -2368,16 +2315,11 @@ void msrBreak::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrBreak& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrBreak::printMusicXML (ostream& os)
-{
-  os << "<!-- msrBreak??? -->" << endl;
-}
-
-void msrBreak::printMSR (ostream& os)
+void msrBreak::print (ostream& os)
 {
   os <<
     "Break" << " " << fNextBarNumber << endl <<
@@ -2457,16 +2399,11 @@ void msrBarNumberCheck::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrBarNumberCheck::printMusicXML (ostream& os)
-{
-  os << "<!-- msrBarNumberCheck??? -->" << endl;
-}
-
-void msrBarNumberCheck::printMSR (ostream& os)
+void msrBarNumberCheck::print (ostream& os)
 {
   os << "BarNumberCheck" << " " << fNextBarNumber << endl;
 }
@@ -2551,16 +2488,11 @@ void msrTuplet::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrTuplet& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrTuplet::printMusicXML (ostream& os)
-{
-  os << "<!-- msrTuplet??? -->" << endl;
-}
-
-void msrTuplet::printMSR (ostream& os)
+void msrTuplet::print (ostream& os)
 {
   os <<
     "Tuplet " << fActualNotes << "/" << fNormalNotes << endl;
@@ -2664,16 +2596,11 @@ void msrBeam::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrBeam& dyn)
 {
-  dyn->print(os);
+  dyn->print (os);
   return os;
 }
 
-void msrBeam::printMusicXML (ostream& os)
-{
-  os << "<!-- msrBeam??? -->" << endl;
-}
-
-void msrBeam::printMSR (ostream& os)
+void msrBeam::print (ostream& os)
 {
   os << "Beam???" << endl;
 }
@@ -2765,16 +2692,11 @@ void msrPaper::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrPaper& pap) {
-  pap->print(os);
+  pap->print (os);
   return os;
 }
 
-void msrPaper::printMusicXML (ostream& os)
-{
-  os << "<!-- msrPaper??? -->" << endl;
-}
-
-void msrPaper::printMSR (ostream& os) {
+void msrPaper::print (ostream& os) {
   os << "Paper" << endl;
 
   idtr++;
@@ -3094,16 +3016,11 @@ void msrHeader::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrHeader& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrHeader::printMusicXML (ostream& os)
-{
-  os << "<!-- msrHeader??? -->" << endl;
-}
-
-void msrHeader::printMSR (ostream& os)
+void msrHeader::print (ostream& os)
 {
   os << "Header" << endl;
 
@@ -3383,16 +3300,11 @@ void msrVarValAssoc::browseData (basevisitor* v)
 {}
 
 ostream& operator<< (ostream& os, const S_msrVarValAssoc& assoc) {
-  assoc->print(os);
+  assoc->print (os);
   return os;
 }
 
-void msrVarValAssoc::printMusicXML (ostream& os)
-{
-  os << "<!-- msrVarValAssoc??? -->" << endl;
-}
-
-void msrVarValAssoc::printMSR (ostream& os)
+void msrVarValAssoc::print (ostream& os)
 {
   os << "LilypondVarValAssoc" << endl;
   
@@ -3504,16 +3416,11 @@ void msrSchemeVarValAssoc::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrSchemeVarValAssoc& assoc)
 {
-  assoc->print(os);
+  assoc->print (os);
   return os;
 }
 
-void msrSchemeVarValAssoc::printMusicXML (ostream& os)
-{
-  os << "<!-- msrSchemeVarValAssoc??? -->" << endl;
-}
-
-void msrSchemeVarValAssoc::printMSR (ostream& os)
+void msrSchemeVarValAssoc::print (ostream& os)
 {
   os << "SchemeVarValAssoc" << endl;
   idtr++;
@@ -3599,16 +3506,11 @@ void msrLayout::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrLayout& lay)
 {
-  lay->print(os);
+  lay->print (os);
   return os;
 }
 
-void msrLayout::printMusicXML (ostream& os)
-{
-  os << "<!-- msrLayout??? -->" << endl;
-}
-
-void msrLayout::printMSR (ostream& os)
+void msrLayout::print (ostream& os)
 {
   os << "Layout" << endl;
 
@@ -3743,16 +3645,11 @@ void msrClef::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrClef& clef)
 {
-  clef->print(os);
+  clef->print (os);
   return os;
 }
 
-void msrClef::printMusicXML (ostream& os)
-{
-  os << "<!-- msrClef??? -->" << endl;
-}
-
-void msrClef::printMSR (ostream& os)
+void msrClef::print (ostream& os)
 {
   os <<
     "Clef" << " \"" << fSign << "\"" <<
@@ -3981,16 +3878,11 @@ void msrKey::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrKey& key)
 {
-  key->print(os);
+  key->print (os);
   return os;
 }
 
-void msrKey::printMusicXML (ostream& os)
-{
-  os << "<!-- msrKey??? -->" << endl;
-}
-
-void msrKey::printMSR (ostream& os)
+void msrKey::print (ostream& os)
 {
   os << "Key " << fTonic << " ";
   if (fKeyMode == kMajor) os << "\\major";
@@ -4081,16 +3973,11 @@ void msrTime::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrTime& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrTime::printMusicXML (ostream& os)
-{
-  os << "<!-- msrTime??? -->" << endl;
-}
-
-void msrTime::printMSR (ostream& os)
+void msrTime::print (ostream& os)
 {
   os <<
     "Time " << 
@@ -4181,16 +4068,11 @@ void msrTempo::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrTempo& nstf)
 {
-  nstf->print(os);
+  nstf->print (os);
   return os;
 }
 
-void msrTempo::printMusicXML (ostream& os)
-{
-  os << "<!-- msrTempo??? -->" << endl;
-}
-
-void msrTempo::printMSR (ostream& os)
+void msrTempo::print (ostream& os)
 {
   os <<
     "Tempo" << " " <<
@@ -4272,16 +4154,11 @@ void msrRepeat::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrRepeat& rept)
 {
-  rept->print(os);
+  rept->print (os);
   return os;
 }
 
-void msrRepeat::printMusicXML (ostream& os)
-{
-  os << "<!-- msrRepeat??? -->" << endl;
-}
-
-void msrRepeat::printMSR (ostream& os)
+void msrRepeat::print (ostream& os)
 {
   os << "Repeat" << endl;
   idtr++;
@@ -4370,16 +4247,11 @@ void msrLyricsChunk::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrLyricsChunk& lyr)
 {
-  lyr->print(os);
+  lyr->print (os);
   return os;
 }
 
-void msrLyricsChunk::printMusicXML (ostream& os)
-{
-  os << "<!-- msrLyricsChunk??? -->" << endl;
-}
-
-void msrLyricsChunk::printMSR (ostream& os)
+void msrLyricsChunk::print (ostream& os)
 {  
   os << "LyricsChunk" << " " << setw(6) << left;
   switch (fLyricsChunkType) {
@@ -4725,16 +4597,11 @@ void msrLyrics::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrLyrics& stan)
 {
-  stan->print(os);
+  stan->print (os);
   return os;
 }
 
-void msrLyrics::printMusicXML (ostream& os)
-{
-  os << "<!-- msrLyrics??? -->" << endl;
-}
-
-void msrLyrics::printMSR (ostream& os)
+void msrLyrics::print (ostream& os)
 {  
   os << "Lyrics" << " " << getLyricsName ();
   if (! fLyricsTextPresent)
@@ -5058,16 +4925,11 @@ void msrVoice::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrVoice& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrVoice::printMusicXML (ostream& os)
-{ 
-  os << "<!-- msrVoice??? -->" << endl;
-}
-
-void msrVoice::printMSR (ostream& os)
+void msrVoice::print (ostream& os)
 {
   os << "Voice" << " " << getVoiceName () << endl;
   os << endl;
@@ -5404,16 +5266,11 @@ void msrStaff::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrStaff& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrStaff::printMusicXML (ostream& os)
-{
-  os << "<!-- msrStaff??? -->" << endl;
-}
-
-void msrStaff::printMSR (ostream& os)
+void msrStaff::print (ostream& os)
 {
   os << "Staff" << " " << getStaffName () << endl;
 
@@ -5698,16 +5555,11 @@ void msrPart::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrPart& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrPart::printMusicXML (ostream& os)
-{
-  os << "<!-- msrPart??? -->" << endl;
-}
-
-void msrPart::printMSR (ostream& os)
+void msrPart::print (ostream& os)
 {
   os <<
     "Part" << " " << getPartCombinedName () << endl;
@@ -6036,16 +5888,11 @@ void msrPartgroup::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrPartgroup& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrPartgroup::printMusicXML (ostream& os)
-{
-  os << "<!-- msrPartgroup??? -->" << endl;
-}
-
-void msrPartgroup::printMSR (ostream& os)
+void msrPartgroup::print (ostream& os)
 {
   os <<
     "Partgroup" << " " << getPartgroupCombinedName () << endl;
@@ -6298,16 +6145,11 @@ void msrScore::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrScore& elt)
 {
-  elt->print(os);
+  elt->print (os);
   return os;
 }
 
-void msrScore::printMusicXML (ostream& os)
-{
-  os << "<!-- msrScore??? -->" << endl;
-}
-
-void msrScore::printMSR (ostream& os)
+void msrScore::print (ostream& os)
 {
   os << "Score" << endl;
   os << endl;
@@ -6356,7 +6198,7 @@ void msrScore::printScoreSummary (ostream& os)
 
 void msrScore::printLilyPondCode (ostream& os)
 {
-  printMSR (os);
+  print (os);
 }
 
 //______________________________________________________________________________
@@ -6419,16 +6261,11 @@ void msrMidi::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrMidi& mid)
 {
-  mid->print(os);
+  mid->print (os);
   return os;
 }
 
-void msrMidi::printMusicXML (ostream& os)
-{
-  os << "<!-- msrMidi??? -->" << endl;
-}
-
-void msrMidi::printMSR (ostream& os)
+void msrMidi::print (ostream& os)
 {
   os << "Midi" << endl;
 
