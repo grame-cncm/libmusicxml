@@ -71,7 +71,6 @@ void msr2SummaryVisitor::printSummaryFromMsrScore (
 {
   if (score) {    
     // create a msrScore browser
- // JMI   msrBrowser<msrElement> browser (this);
     msrBrowser<msrScore> browser (this);
 
     // browse the score with the browser

@@ -55,24 +55,23 @@ S_msrScore buildMsrScoreFromElementsTree (
 
   // build the MSR score
   S_msrScore
-    score =
+    msrScore =
       visitor.buildMsrScoreFromXMLElementTree (xmlTree);
 
   idtr--;
 
-  return score;
+  return msrScore;
 }
 
 //_______________________________________________________________________________
 void displayMsrScore (
   S_msrOptions& msrOpts,
-  S_msrScore    score,
+  S_msrScore    msrScore,
   ostream&      os)
 {
   string separator = "%----------------------------------------";
 
   // output the score resulting from the conversion 
-  // thru msrElement::printMsrStructure()
   if (msrOpts->fTrace) 
     os << idtr <<
       separator << endl <<
@@ -80,7 +79,7 @@ void displayMsrScore (
       separator << endl;
   
   if (msrOpts->fTrace) os << "%{" << endl;
-  os << score;
+  os << msrScore;
   if (msrOpts->fTrace) os << "%}" << endl;
   
   os << separator << endl;
@@ -89,7 +88,7 @@ void displayMsrScore (
 //_______________________________________________________________________________
 void displayMsrScoreSummary (
   S_msrOptions& msrOpts,
-  S_msrScore    score,
+  S_msrScore    msrScore,
   ostream&      os)
 {
   string separator = "%----------------------------------------";
@@ -106,7 +105,7 @@ void displayMsrScoreSummary (
 
   if (msrOpts->fTrace) os << "%{" << std::endl;
   
-  visitor.printSummaryFromMsrScore (score);
+  visitor.printSummaryFromMsrScore (msrScore);
   
   if (msrOpts->fTrace) os << "%}" << std::endl;
   
@@ -117,7 +116,7 @@ void displayMsrScoreSummary (
 //_______________________________________________________________________________
 void displayScoreSummaryWithoutVisitor (
   S_msrOptions& msrOpts,
-  S_msrScore    score)
+  S_msrScore    msrScore)
 {
   string separator = "%----------------------------------------";
 
@@ -134,7 +133,7 @@ void displayScoreSummaryWithoutVisitor (
     msrGlobalVariables::kScoreSummary);
    
   if (msrOpts->fTrace) cerr << "{%" << std::endl;
-  cerr << score;
+  cerr << msrScore;
   if (msrOpts->fTrace) cerr << "%}" << std::endl;
   
   cerr << separator << std::endl;
@@ -150,22 +149,23 @@ static xmlErr xml2Msr (
   SXMLFile&     xmlfile,
   S_msrOptions& msrOpts,
   ostream&      os,
-  const char* file) 
+  const char*   file) 
 {
   // build xmlelement tree from the file contents
   Sxmlelement elemsTree = xmlfile->elements();
   
   if (elemsTree) {
-    S_msrScore score =
-      buildMsrScoreFromElementsTree (msrOpts, elemsTree);
+    S_msrScore
+      msrScore =
+        buildMsrScoreFromElementsTree (msrOpts, elemsTree);
 
     if (msrOpts->fDisplayMSR)
-      displayMsrScore (msrOpts, score, os);
+      displayMsrScore (msrOpts, msrScore, os);
 
  //   if (msrOpts->fDisplayMSRScoreSummary)
  //     displayScoreSummary (msrOpts, score); // JMI
     if (msrOpts->fDisplayMSRScoreSummary)
-      displayMsrScoreSummary (msrOpts, score, os);
+      displayMsrScoreSummary (msrOpts, msrScore, os);
 
     return kNoErr;
   }
