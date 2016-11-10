@@ -1582,6 +1582,13 @@ class EXP msrClef : public msrElement
       int                    line,
       int                    octaveChange);
 
+    string  getSign () const
+                { return fSign; }
+    int     getLine () const
+                { return fLine; }
+    int     getOctaveChange () const
+                { return fOctaveChange; }
+                
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1622,7 +1629,7 @@ class EXP msrKey : public msrElement
 {
   public:
     
-    enum KeyMode { kMajor, kMinor };
+    enum msrKeyMode { kMajor, kMinor };
 
     static SMARTP<msrKey> create (
       S_msrOptions& msrOpts, 
@@ -1630,6 +1637,18 @@ class EXP msrKey : public msrElement
       int                    fifths,
       string                 mode,
       int                    cancel);
+
+    int         getFifths () const
+                    { return fFifths; }
+    string      getMode () const
+                    { return fMode; }
+    int         getCancel () const
+                    { return fCancel; }
+
+    string      getTonic () const
+                    { return fTonic; }
+    msrKeyMode  getKeyMode () const
+                    { return fKeyMode; }
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1654,12 +1673,12 @@ class EXP msrKey : public msrElement
   
   private:
 
-    int     fFifths;
-    string  fMode;
-    int     fCancel;
+    int        fFifths;
+    string     fMode;
+    int        fCancel;
 
-    string  fTonic;
-    KeyMode fKeyMode;
+    string     fTonic;
+    msrKeyMode fKeyMode;
 };
 typedef SMARTP<msrKey> S_msrKey;
 EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
@@ -1680,6 +1699,9 @@ class EXP msrTime : public msrElement
       int                    numerator,
       int                    denominator);
 
+    rational  getRational () const
+                  { return fRational; }
+                  
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1723,6 +1745,12 @@ class EXP msrTempo : public msrElement
       int                    inputLineNumber,
       int                    tempoUnit,
       int                    perMinute);
+
+    int       getTempoUnit () const
+                  { return fTempoUnit; }
+
+    int       getPerMinute () const
+                  { return fPerMinute; }
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -2031,31 +2059,40 @@ class EXP msrStaff : public msrElement
       int                    staffNumber,
       S_msrPart              staffPart);
     
-    int     getStaffNumber () const
-                { return fStaffNumber; }
+    int       getStaffNumber () const
+                  { return fStaffNumber; }
                 
-    S_msrPart
-            getStaffPart () const
-                { return fStaffPart; }
+    S_msrPart getStaffPart () const
+                  { return fStaffPart; }
+
+    string    getStaffName () const;
+
+    string    getStaffInstrumentName () const
+                  { return fStaffInstrumentName; }
+
+    S_msrClef getStaffClef () const
+                  { return fStaffClef; };
+    S_msrKey  getStaffKey () const
+                  { return fStaffKey; };
+    S_msrTime getStaffTime () const
+                  { return fStaffTime; };
+
+    void      setStaffKey  (S_msrKey  key);
+    void      setStaffTime (S_msrTime time);
+    void      setStaffClef (S_msrClef clef);
 
     map<int, S_msrVoice>
-            getStaffVoicesMap ()
-                { return fStaffVoicesMap; }
-
-    string  getStaffName () const;
+              getStaffVoicesMap ()
+                  { return fStaffVoicesMap; }
 
     S_msrVoice
-            addVoiceToStaff (
-              int inputLineNumber,
-              int voiceNumber);
+              addVoiceToStaff (
+                int inputLineNumber,
+                int voiceNumber);
               
     S_msrVoice
-            fetchVoiceFromStaff (int voiceNumber);
+              fetchVoiceFromStaff (int voiceNumber);
                               
-    void    setStaffKey  (S_msrKey  key);
-    void    setStaffTime (S_msrTime time);
-    void    setStaffClef (S_msrClef clef);
-
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -2116,13 +2153,22 @@ class EXP msrPart : public msrElement
                 
     void    setPartInstrumentName (string partInstrumentName)
                 { fPartInstrumentName = partInstrumentName; }
-                
-// JMI    void    reusePartAs (
-      //        string newPartMusicXMLName);
-              
+                              
+    void    setPartDivisions (int  musicXMLDivisions)
+                { fPartMusicXMLDivisions = musicXMLDivisions; }
+    
     string  getPartMusicXMLName () const
                 { return fPartMusicXMLName; }
+
+    string  getPartAbbreviation () const
+                { return fPartAbbreviation; }
                 
+    string  getPartInstrumentName () const
+                { return fPartInstrumentName; }
+                
+    int     getPartMusicXMLDivisions () const
+                { return fPartMusicXMLDivisions; }
+
     S_msrPartgroup
             getPartPartgroup () const
                 { return fPartPartgroup; }
@@ -2140,9 +2186,6 @@ class EXP msrPart : public msrElement
                     " (" + fPartMusicXMLName + ")";
                 }
                     
-    void    setPartDivisions (int  musicXMLDivisions)
-                { fPartMusicXMLDivisions = musicXMLDivisions; }
-    
     void    setAllPartStavesKey  (S_msrKey  key);
               
     void    setAllPartStavesTime (S_msrTime time);

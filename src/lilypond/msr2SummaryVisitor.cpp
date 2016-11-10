@@ -258,18 +258,18 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
 
   idtr++;
 /*
-  if (fStaffClef)
+  if (elt->getStaffClef ())
     fOstream << idtr << elt->getStaffClef ();
   else
     fOstream << idtr << "NO_CLEF" << endl;
 */
-  if (fStaffKey)
+  if (elt->getStaffKey ())
     fOstream << idtr << elt->getStaffKey ();
   else
     fOstream << idtr << "NO_KEY";
   fOstream << endl;
 /*
-  if (fStaffTime)
+  if (elt->getStaffTime ())
     fOstream << idtr << elt->getStaffTime ();
   else
     fOstream << idtr << "NO_TIME" << endl;
@@ -298,8 +298,9 @@ void msr2SummaryVisitor::visitStart (S_msrClef& elt)
       "--> Start visiting msrClef" << endl;
 
   fOstream <<
-    "Clef" << " \"" << fSign << "\"" <<
-    " line " << fLine << ", " << fOctaveChange << "*8";
+    "Clef" << " \"" << elt->getSign () << "\"" <<
+    " line " << elt->getLine () <<
+    ", " << elt->getOctaveChange () << "*8";
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrClef& elt)
@@ -316,9 +317,11 @@ void msr2SummaryVisitor::visitStart (S_msrKey& elt)
     fOstream << idtr <<
       "--> Start visiting msrKey" << endl;
 
-  fOstream << "Key " << fTonic << " ";
-  if (fKeyMode == kMajor) fOstream << "\\major";
-  else fOstream << "\\minor";
+  fOstream << "Key " << elt->getTonic () << " ";
+  if (elt->getKeyMode () == msrKey::kMajor)
+    fOstream << "\\major";
+  else
+    fOstream << "\\minor";
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrKey& elt)
@@ -335,9 +338,11 @@ void msr2SummaryVisitor::visitStart (S_msrTime& elt)
     fOstream << idtr <<
       "--> Start visiting msrTime" << endl;
 
+  rational  rat = elt->getRational ();
+  
   fOstream <<
     "Time " << 
-    fRational.getNumerator() << "/" << fRational.getDenominator();
+    rat.getNumerator () << "/" << rat.getDenominator ();
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrTime& elt)
@@ -356,7 +361,7 @@ void msr2SummaryVisitor::visitStart (S_msrTempo& elt)
 
   fOstream <<
     "Tempo" << " " <<
-    fTempoUnit << " " << fPerMinute << endl;
+    elt->getTempoUnit () << " " << elt->getPerMinute () << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrTempo& elt)
@@ -373,10 +378,10 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
     fOstream << idtr <<
       "--> Start visiting msrVoice" << endl;
 
-  int voiceLyricsMapSize = fVoiceLyricsMap.size();
+  int voiceLyricsMapSize = elt->getVoiceLyricsMap ().size();
 
   fOstream <<
-    "Voice" << " " << getVoiceName () <<
+    "Voice" << " " << elt->getVoiceName () <<
     " has " << voiceLyricsMapSize;
   if (voiceLyricsMapSize == 1)
     fOstream << " lyric";
@@ -386,9 +391,7 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
 
   idtr++;
 
-  fOstream << idtr << fVoiceSequentialMusic;
-
-  // don't show the voice master lyrics in summary
+  // don't show fVoiceMasterLyrics in the summary
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
@@ -407,16 +410,16 @@ void msr2SummaryVisitor::visitStart (S_msrLyrics& elt)
     fOstream << idtr <<
       "--> Start visiting msrLyrics" << endl;
 
-  int lyricsChunksSize = fLyricsChunks.size();
+  int lyricsChunksSize = elt->getLyricsChunks ().size();
 
-  fOstream << "Lyrics" << " " << getLyricsName () <<
+  fOstream << "Lyrics" << " " << elt->getLyricsName () <<
     " contains " << lyricsChunksSize;
   if (lyricsChunksSize == 1)
     fOstream << " chunk";
   else
     fOstream << " chunks";
 
-  if (! fLyricsTextPresent)
+  if (! elt->getLyricsTextPresent ())
     fOstream << " (No actual text)";
     
   fOstream << endl;
@@ -748,8 +751,8 @@ void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
   
   idtr++;
   
-  fOstream << idtr << fVariableName << endl;
-  fOstream << idtr << fVariableValue <<endl;
+  fOstream << idtr << elt->getVariableName () << endl;
+  fOstream << idtr << elt->getVariableValue () <<endl;
   
   idtr--;
 }
@@ -771,50 +774,56 @@ void msr2SummaryVisitor::visitStart (S_msrHeader& elt)
   fOstream << "Header" << endl;
 
   idtr++;
-  
-  if (fWorkNumber) {
-    fOstream << idtr << fWorkNumber;
+
+  /*
+  if (S_msrVarValAssoc workNumber = elt->getWorkNumber ()) {
+    fOstream << idtr << workNumber;
   }
   
-  if (fWorkTitle) {
-    fOstream << idtr << fWorkTitle;
+  if (S_msrVarValAssoc workTitle = elt->getWorkTitle ()) {
+    fOstream << idtr << workTitle;
   }
     
-  if (fMovementNumber) {
-    fOstream << idtr << fMovementNumber;
+  if (S_msrVarValAssoc movementNumber = elt->getMovementNumber ()) {
+    fOstream << idtr << movementNumber;
   }
     
-  if (fMovementTitle) {
-    fOstream << idtr << fMovementTitle;
+  if (S_msrVarValAssoc movementTitle = elt->getMovementTitle ()) {
+    fOstream << idtr << movementTitle;
   }
-    
-  if (!fCreators.empty()) {
+
+  S_msrVarValAssoc creators = elt->getCreators ();
+  if (! creators.empty()) {
     vector<S_msrVarValAssoc>::const_iterator i1;
-    for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
+    for (i1=creators.begin(); i1!=creators.end(); i1++) {
       fOstream << idtr << (*i1);
     } // for
   }
     
-  if (fRights) {
-    fOstream << idtr << fRights;
+  if (S_msrVarValAssoc rights = elt->getRights ()) {
+    fOstream << idtr << rights;
   }
-    
-  if (!fSoftwares.empty()) {
+
+  S_msrVarValAssoc softwares = elt->getSoftwares ();
+  if (! .empty()) {
     vector<S_msrVarValAssoc>::const_iterator i2;
-    for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
+    for (i2=softwares.begin(); i2!=softwares.end(); i2++) {
       fOstream << idtr << (*i2);
     } // for
   }
     
-  if (fEncodingDate) {
-    fOstream << idtr << fEncodingDate;
+  if (S_msrVarValAssoc encodingDate = elt->getEncodingDate ()) {
+    fOstream << idtr << encodingDate;
   }
   
   idtr--;
+  */
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrHeader& elt)
 {
+  idtr--;
+
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrHeader" << endl;
@@ -830,7 +839,7 @@ void msr2SummaryVisitor::visitStart (S_msrPaper& elt)
   fOstream << "Paper" << endl;
 
   idtr++;
-  
+  /*
   if (fPaperWidth > 0) {
     fOstream << idtr <<
       "paper-width = " <<
@@ -862,7 +871,7 @@ void msr2SummaryVisitor::visitStart (S_msrPaper& elt)
       "right-margin = " <<
       setprecision(4) << fRightMargin << "\\cm" << endl;
   }
-
+*/
 /*
   if (fBetweenSystemSpace > 0) {
     fOstream << idtr << "between-system-space = " <<
@@ -874,12 +883,12 @@ void msr2SummaryVisitor::visitStart (S_msrPaper& elt)
       setprecision(4) << fPageTopSpace << "\\cm" << endl;
   }
 */
-
-  idtr--;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrPaper& elt)
 {
+  idtr--;
+
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrPaper" << endl;

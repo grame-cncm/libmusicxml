@@ -3862,7 +3862,7 @@ msrKey::msrKey (
   fCancel = cancel;
 
   string           tonicNote;
-  msrKey::KeyMode keyMode;
+  msrKey::msrKeyMode keyMode;
   
   switch (fFifths) {
     case 0:
@@ -5707,14 +5707,15 @@ void msrPart::printMSR (ostream& os)
   idtr++;
   
   os <<
-    idtr << "PartName              : \"" << fPartName << "\"" << endl <<
-    idtr << "PartAbbrevation       : \"" << fPartAbbreviation << "\"" << endl;
-  
-  os << idtr <<
-    "PartMusicXMLDivisions : " << fPartMusicXMLDivisions << endl;
-
-  os << idtr <<
-    "PartInstrumentName    : \"" << fPartInstrumentName << "\"" << endl;
+    idtr <<
+      "PartAbbrevation       : \"" <<
+      fPartAbbreviation << "\"" << endl <<
+    idtr <<
+      "PartMusicXMLDivisions : " <<
+      fPartMusicXMLDivisions << endl <<
+    idtr <<
+      "PartInstrumentName    : \"" <<
+      fPartInstrumentName << "\"" << endl;
 
   if (fPartStavesMap.size()) {
     os << endl;
@@ -5745,7 +5746,6 @@ void msrPart::printScoreSummary (ostream& os)
   idtr++;
   
   os <<
-    idtr << "PartName          : \"" << fPartName << "\"" << endl <<
     idtr << "PartAbbrevation   : \"" << fPartAbbreviation << "\"" << endl;
   
   os << idtr <<
