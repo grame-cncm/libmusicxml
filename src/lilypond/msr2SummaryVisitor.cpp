@@ -578,7 +578,7 @@ void msr2SummaryVisitor::visitEnd (S_msrWedge& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrNote& elt)
 {
-  if (fMsrOptions->fDebug) {
+ // if (fMsrOptions->fDebug) {
     fOstream << idtr <<
       "--> Start visiting ";
 
@@ -601,7 +601,7 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
         break;
     } // switch
     fOstream << " msrNote" << endl;
-  }
+//  }
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrNote& elt)

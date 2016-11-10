@@ -4320,28 +4320,33 @@ void msrLyricsChunk::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrLyrics msrLyrics::create (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    lyricsNumber,
-  S_msrVoice             lyricsVoice)
+  S_msrOptions&         msrOpts, 
+  int                   inputLineNumber,
+  int                   lyricsNumber,
+  S_msrVoice            lyricsVoice,
+  msrLyricsMasterStatus lyricsMasterStatus)
 {
   msrLyrics* o =
     new msrLyrics (
-      msrOpts, inputLineNumber, lyricsNumber, lyricsVoice);
+      msrOpts, inputLineNumber,
+      lyricsNumber, lyricsVoice,
+      lyricsMasterStatus);
   assert(o!=0);
   return o;
 }
 
 msrLyrics::msrLyrics (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    lyricsNumber,
-  S_msrVoice             lyricsVoice)
+  S_msrOptions&         msrOpts, 
+  int                   inputLineNumber,
+  int                   lyricsNumber,
+  S_msrVoice            lyricsVoice,
+  msrLyricsMasterStatus lyricsMasterStatus)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fMsrOptions = msrOpts;
-  fLyricsNumber        = lyricsNumber;
-  fLyricsVoice         = lyricsVoice; 
+  fMsrOptions         = msrOpts;
+  fLyricsNumber       = lyricsNumber;
+  fLyricsVoice        = lyricsVoice;
+  fLyricsMasterStatus = lyricsMasterStatus;
  
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -4358,7 +4363,7 @@ string msrLyrics::getLyricsName () const
 
   string
     lyricsNameSuffix =
-      fLyricsNumber == 0
+      fLyricsMasterStatus == kMasterLyrics
         ? "Master"
         : int2EnglishWord (fLyricsNumber);
         
@@ -4727,8 +4732,9 @@ msrVoice::msrVoice (
     msrLyrics::create (
       fMsrOptions,
       inputLineNumber,
-      0,
-      this);
+      -1,    // this lyrics number is unused anyway
+      this,
+      msrLyrics::kMasterLyrics);
 
   // add the implicit msrRepeat element
 // JMI  fVoiceMsrRepeat = msrRepeat::create ();
@@ -4773,14 +4779,15 @@ S_msrLyrics msrVoice::addLyricsToVoice (
         fMsrOptions,
         inputLineNumber,
         lyricsNumber,
-        this);
+        this,
+        msrLyrics::kRegularLyrics);
 
   // register it in this voice
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Adding lyrics " << lyricsNumber <<
-      " " << lyrics->getLyricsName () <<
-      " to voice " << getVoiceName () << endl;
+      "Adding lyrics " << lyrics->getLyricsName () <<
+      " (" << lyricsNumber <<
+      ") to voice " << getVoiceName () << endl;
 
   fVoiceLyricsMap [lyricsNumber] = lyrics;
 

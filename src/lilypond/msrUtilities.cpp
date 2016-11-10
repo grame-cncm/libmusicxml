@@ -64,10 +64,15 @@ void haendel::print(ostream& os) const {
 //______________________________________________________________________________
 string int2EnglishWord (int n)
 {
-  if (n < 0)  return "Negative";
+  stringstream s;
+
+  if (n < 0) {
+    s << "Minus_";
+    n = -n;
+  }
+
   if (n > 99) return "LargerThanNinetyNine";
   
-  stringstream s;
 
   switch (n) {
     case 0:

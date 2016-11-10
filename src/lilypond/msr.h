@@ -1816,11 +1816,15 @@ class EXP msrLyrics : public msrElement
 {
   public:
 
+    enum msrLyricsMasterStatus {
+       kMasterLyrics, kRegularLyrics };
+
     static SMARTP<msrLyrics> create (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    lyricsNumber,
-      S_msrVoice             lyricsVoice);
+      S_msrOptions&         msrOpts, 
+      int                   inputLineNumber,
+      int                   lyricsNumber,
+      S_msrVoice            lyricsVoice,
+      msrLyricsMasterStatus lyricsMasterStatus);
     
     int     getLyricsNumber () const
                 { return fLyricsNumber; }
@@ -1830,6 +1834,10 @@ class EXP msrLyrics : public msrElement
     S_msrVoice
             getLyricsVoice () const
                 { return fLyricsVoice; }
+                
+    msrLyricsMasterStatus
+            getLyricsMasterStatus () const
+                { return fLyricsMasterStatus; }
                 
     vector<S_msrLyricsChunk>
             getLyricsChunks () const
@@ -1876,17 +1884,19 @@ class EXP msrLyrics : public msrElement
   protected:
 
     msrLyrics (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    lyricsNumber,
-      S_msrVoice             lyricsVoice);
+      S_msrOptions&         msrOpts, 
+      int                   inputLineNumber,
+      int                   lyricsNumber,
+      S_msrVoice            lyricsVoice,
+      msrLyricsMasterStatus lyricsMasterStatus);
     virtual ~msrLyrics();
   
   private:
 
     int                       fLyricsNumber;
     S_msrVoice                fLyricsVoice;
-    
+    msrLyricsMasterStatus     fLyricsMasterStatus;
+
     vector<S_msrLyricsChunk>  fLyricsChunks;
 
     bool                      fLyricsTextPresent;
