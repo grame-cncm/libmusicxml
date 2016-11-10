@@ -1650,9 +1650,9 @@ string msrNote::octaveRepresentation (char octave)
 
 //______________________________________________________________________________
 S_msrSequentialMusic msrSequentialMusic::create (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  ElementsSeparator      elementsSeparator)
+  S_msrOptions&        msrOpts, 
+  int                  inputLineNumber,
+  msrElementsSeparator elementsSeparator)
 {
   msrSequentialMusic* o =
     new msrSequentialMusic (
@@ -1662,9 +1662,9 @@ S_msrSequentialMusic msrSequentialMusic::create (
 }
 
 msrSequentialMusic::msrSequentialMusic (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  ElementsSeparator      elementsSeparator)
+  S_msrOptions&        msrOpts, 
+  int                  inputLineNumber,
+  msrElementsSeparator elementsSeparator)
     : msrElement (msrOpts, inputLineNumber)
 {
   fElementsSeparator=elementsSeparator;
@@ -1725,8 +1725,6 @@ void msrSequentialMusic::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrSequentialMusic::browseData()" << endl;
   
-  idtr++;
-
   for (
     list<S_msrElement>::iterator i = fSequentialMusicElements.begin();
     i != fSequentialMusicElements.end();
@@ -1737,8 +1735,6 @@ void msrSequentialMusic::browseData (basevisitor* v)
     // browse the element with the visitor
     browser.browse (*(*i));
   } // for
-
-  idtr--;
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -1828,9 +1824,9 @@ void msrSequentialMusic::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrParallelMusic msrParallelMusic::create (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  ElementsSeparator      elementsSeparator)
+  S_msrOptions&        msrOpts, 
+  int                  inputLineNumber,
+  msrElementsSeparator elementsSeparator)
 {
   msrParallelMusic* o =
     new msrParallelMusic (
@@ -1840,9 +1836,9 @@ S_msrParallelMusic msrParallelMusic::create (
 }
 
 msrParallelMusic::msrParallelMusic (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  ElementsSeparator      elementsSeparator)
+  S_msrOptions&        msrOpts, 
+  int                  inputLineNumber,
+  msrElementsSeparator elementsSeparator)
     : msrElement (msrOpts, inputLineNumber)
 {
   fElementsSeparator=elementsSeparator;
@@ -3887,7 +3883,6 @@ void msrKey::print (ostream& os)
   os << "Key " << fTonic << " ";
   if (fKeyMode == kMajor) os << "\\major";
   else os << "\\minor";
-  os << endl;
 }
 
 void msrKey::printScoreSummary (ostream& os)
@@ -4729,7 +4724,11 @@ msrVoice::msrVoice (
   // collect skips along the way that are used as a 'prelude'
   // by actual lyrics that start at later points
   fVoiceMasterLyrics =
-    addLyricsToVoice (inputLineNumber, 0);
+    msrLyrics::create (
+      fMsrOptions,
+      inputLineNumber,
+      0,
+      this);
 
   // add the implicit msrRepeat element
 // JMI  fVoiceMsrRepeat = msrRepeat::create ();
@@ -4785,27 +4784,24 @@ S_msrLyrics msrVoice::addLyricsToVoice (
 
   fVoiceLyricsMap [lyricsNumber] = lyrics;
 
-  // catch up with fVoiceMasterLyrics if non null
-  // in case the lyrics do not start upon the first voice note
+  // catch up with fVoiceMasterLyrics
+  // in case the lyrics does not start upon the first voice note
+  vector<S_msrLyricsChunk>
+    masterChunks =
+      fVoiceMasterLyrics->getLyricsChunks ();
 
-  if (fVoiceMasterLyrics) { // JMI
-    vector<S_msrLyricsChunk>
-      masterChunks =
-        fVoiceMasterLyrics->getLyricsChunks ();
-  
-    if (masterChunks.size()) {
-      if (fMsrOptions->fTrace)
-        cerr << idtr <<
-          "Copying current contents of voice master lyrics to new lyrics" << endl;
-      for (
-        vector<S_msrLyricsChunk>::const_iterator i =
-          masterChunks.begin();
-        i != masterChunks.end();
-        i++) {
-        // add chunk to lyrics
-        lyrics->addChunkToLyrics ((*i));
-      } // for
-    }
+  if (masterChunks.size()) {
+    if (fMsrOptions->fTrace)
+      cerr << idtr <<
+        "Copying current contents of voice master lyrics to new lyrics" << endl;
+    for (
+      vector<S_msrLyricsChunk>::const_iterator i =
+        masterChunks.begin();
+      i != masterChunks.end();
+      i++) {
+      // add chunk to lyrics
+      lyrics->addChunkToLyrics ((*i));
+    } // for
   }
 
   // return it
@@ -4896,8 +4892,6 @@ void msrVoice::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrVoice::browseData()" << endl;
   
-  idtr++;
-
   // create the sequential music browser
   msrBrowser<msrSequentialMusic> browser (v);
 
@@ -4915,8 +4909,6 @@ void msrVoice::browseData (basevisitor* v)
     // browse the lyrics with the visitor
     browser.browse (*((*i).second));
   } // for
-
-  idtr--;
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -5223,7 +5215,6 @@ void msrStaff::browseData (basevisitor* v)
   {
   // create the clef browser
   msrBrowser<msrClef> browser (v);
-
   // browse the voice with the visitor
   browser.browse (*fStaffClef);
   }
@@ -5231,7 +5222,6 @@ void msrStaff::browseData (basevisitor* v)
   {
   // create the key browser
   msrBrowser<msrKey> browser (v);
-
   // browse the voice with the visitor
   browser.browse (*fStaffKey);
   }
@@ -5239,13 +5229,10 @@ void msrStaff::browseData (basevisitor* v)
   {
   // create the time browser
   msrBrowser<msrTime> browser (v);
-
   // browse the voice with the visitor
   browser.browse (*fStaffTime);
   }
   
-  idtr++;
-
   for (
     map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
     i != fStaffVoicesMap.end();
@@ -5256,8 +5243,6 @@ void msrStaff::browseData (basevisitor* v)
     // browse the voice with the visitor
     browser.browse (*((*i).second));
   } // for
-
-  idtr--;
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -5533,8 +5518,6 @@ void msrPart::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrPart::browseData()" << endl;
   
-  idtr++;
-
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -5545,8 +5528,6 @@ void msrPart::browseData (basevisitor* v)
     // browse the staff with the visitor
     browser.browse (*((*i).second));
   } // for
-
-  idtr--;
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -5866,8 +5847,6 @@ void msrPartgroup::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrPartgroup::browseData()" << endl;
   
-  idtr++;
-
   for (
     list<S_msrElement>::iterator i = fPartgroupElements.begin();
     i != fPartgroupElements.end();
@@ -5878,8 +5857,6 @@ void msrPartgroup::browseData (basevisitor* v)
     // browse the part element with the visitor
     browser.browse (*(*i));
   } // for
-
-  idtr--;
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -6122,9 +6099,7 @@ void msrScore::browseData (basevisitor* v)
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "==> msrScore::browseData()" << endl;
-  
-  idtr++;
-  
+    
   for (
     list<S_msrPartgroup>::iterator i = fPartgroupsList.begin();
     i != fPartgroupsList.end();
@@ -6135,8 +6110,6 @@ void msrScore::browseData (basevisitor* v)
     // browse the part group with the visitor
     browser.browse (*(*i));
   } // for
-
-  idtr--;
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<

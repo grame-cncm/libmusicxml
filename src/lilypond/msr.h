@@ -756,12 +756,12 @@ class EXP msrParallelMusic : public msrElement
 {
   public:
     
-    enum ElementsSeparator { kEndOfLine, kSpace };
+    enum msrElementsSeparator { kEndOfLine, kSpace };
 
     static SMARTP<msrParallelMusic> create (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      ElementsSeparator      elementsSeparator);
+      S_msrOptions&        msrOpts, 
+      int                  inputLineNumber,
+      msrElementsSeparator elementsSeparator);
 
     void         addElementToParallelMusic (S_msrElement elem)
                     { fParallelMusicElements.push_back(elem); }
@@ -782,16 +782,16 @@ class EXP msrParallelMusic : public msrElement
   protected:
 
     msrParallelMusic (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      ElementsSeparator      elementsSeparator);
+      S_msrOptions&        msrOpts, 
+      int                  inputLineNumber,
+      msrElementsSeparator elementsSeparator);
       
     virtual ~msrParallelMusic();
     
   private:
   
     vector<S_msrElement> fParallelMusicElements;
-    ElementsSeparator    fElementsSeparator;
+    msrElementsSeparator fElementsSeparator;
 
 };
 typedef SMARTP<msrParallelMusic> S_msrParallelMusic;
@@ -805,12 +805,12 @@ class EXP msrSequentialMusic : public msrElement
 {
   public:
     
-   enum ElementsSeparator { kEndOfLine, kSpace };
+   enum msrElementsSeparator { kEndOfLine, kSpace };
 
     static SMARTP<msrSequentialMusic> create (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      ElementsSeparator      elementsSeparator);
+      S_msrOptions&        msrOpts, 
+      int                  inputLineNumber,
+      msrElementsSeparator elementsSeparator);
 
     list<S_msrElement>
                   getSequentialMusicElements () const
@@ -840,16 +840,16 @@ class EXP msrSequentialMusic : public msrElement
   protected:
 
     msrSequentialMusic (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      ElementsSeparator      elementsSeparator);
+      S_msrOptions&        msrOpts, 
+      int                  inputLineNumber,
+      msrElementsSeparator elementsSeparator);
       
     virtual ~msrSequentialMusic();
     
   private:
   
-    list<S_msrElement> fSequentialMusicElements;
-    ElementsSeparator  fElementsSeparator;
+    list<S_msrElement>   fSequentialMusicElements;
+    msrElementsSeparator fElementsSeparator;
 
 };
 typedef SMARTP<msrSequentialMusic> S_msrSequentialMusic;

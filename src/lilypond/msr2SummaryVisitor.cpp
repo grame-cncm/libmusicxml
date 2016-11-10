@@ -490,7 +490,7 @@ void msr2SummaryVisitor::visitStart (S_msrSequentialMusic& elt)
   
   if (! sequenceElementsSize)
     fOstream << " (No actual notes)";
-  fOstream << endl;
+  fOstream << endl << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrSequentialMusic& elt)
