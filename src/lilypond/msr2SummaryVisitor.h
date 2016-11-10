@@ -96,7 +96,8 @@ class msr2SummaryVisitor :
   public:
   
     msr2SummaryVisitor (
-        S_msrOptions& msrOpts);
+      S_msrOptions& msrOpts,
+      ostream&      os);
         
     virtual ~msr2SummaryVisitor ();
 
@@ -207,13 +208,36 @@ class msr2SummaryVisitor :
   private:
                      
     S_msrOptions   fMsrOptions;
+    ostream&       fOstream;
 
-    int            fStandaloneNotesCounter;
-    int            fRestNotesCounter;
-    int            fChordNotesCounter;
-    int            fTupletNotesCounter;
+    // score
+    // ------------------------------------------------------
+    int            fScoreStandaloneNotesCounter;
+    int            fScoreRestNotesCounter;
+    int            fScoreChordNotesCounter;
+    int            fScoreTupletNotesCounter;
+    int            fScoreChordsCounter;
     
-    int            fChordsCounter;
+    // part groups
+    // ------------------------------------------------------
+
+    // parts
+    // ------------------------------------------------------
+
+    // staves
+    // ------------------------------------------------------
+
+    // voices
+    // ------------------------------------------------------
+
+    // lyrics
+    // ------------------------------------------------------
+
+    // chords
+    // ------------------------------------------------------
+
+    // tuplets
+    // ------------------------------------------------------
 };
 
 /*

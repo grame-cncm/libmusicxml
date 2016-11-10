@@ -642,14 +642,14 @@ void xml2MsrScoreVisitor::visitStart (S_score_part& elt)
     cerr << idtr <<
       "Found part name \"" << fCurrentPartMusicXMLName << "\"" << endl;
 
-  fCurrentPartName = "";
+  fCurrentPartMusicXMLName = "";
   fCurrentPartAbbreviation = "";
   fCurrentPartInstrumentName = "";
 }
 
 void xml2MsrScoreVisitor::visitStart (S_part_name& elt)
 {
-  fCurrentPartName = elt->getValue ();
+  fCurrentPartMusicXMLName = elt->getValue ();
 }
 
 void xml2MsrScoreVisitor::visitStart (S_part_abbreviation& elt)
@@ -701,8 +701,6 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
   }
 
   // populate current part
-  fCurrentPart->
-    setPartName (fCurrentPartName);
   fCurrentPart->
     setPartAbbreviation (fCurrentPartAbbreviation);
   fCurrentPart->

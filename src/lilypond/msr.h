@@ -2110,9 +2110,6 @@ class EXP msrPart : public msrElement
       int                    inputLineNumber,
       string                 partMusicXMLName,
       S_msrPartgroup         partPartgroup);
-
-    void    setPartName (string partName)
-                { fPartName = partName; }
                 
     void    setPartAbbreviation (string partAbbreviation)
                 { fPartAbbreviation = partAbbreviation; }
@@ -2183,15 +2180,15 @@ class EXP msrPart : public msrElement
   private:
     
     string                  fPartMusicXMLName;
+
+    string                  fPartAbbreviation;
+    string                  fPartInstrumentName;
+
     S_msrPartgroup          fPartPartgroup;
 
     map<int, S_msrStaff>    fPartStavesMap;
 
     string                  fPartMSRName; // coined in constructor
-
-    string                  fPartName;
-    string                  fPartAbbreviation;
-    string                  fPartInstrumentName;
 
     int                     fPartMusicXMLDivisions;
 };
@@ -2264,6 +2261,10 @@ class EXP msrPartgroup : public msrElement
     
     string    getPartgroupCombinedName () const;
 
+    list<S_msrElement>
+              getPartgroupElements () const
+                  { return fPartgroupElements; }
+
     S_msrPart addPartToPartgroup (
                 int    inputLineNumber,
                 string partMusicXMLName);
@@ -2333,6 +2334,9 @@ class EXP msrScore : public msrElement
     static SMARTP<msrScore> create (
       S_msrOptions& msrOpts, 
       int                    inputLineNumber);
+
+    list<S_msrPartgroup> getPartgroupsList () const
+                            { return fPartgroupsList; }
 
     void addPartgroupToScore (S_msrPartgroup partGroup);
 
