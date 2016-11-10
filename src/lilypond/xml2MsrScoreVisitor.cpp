@@ -649,7 +649,7 @@ void xml2MsrScoreVisitor::visitStart (S_score_part& elt)
 
 void xml2MsrScoreVisitor::visitStart (S_part_name& elt)
 {
-  fCurrentPartMusicXMLName = elt->getValue ();
+  fCurrentPartName = elt->getValue ();
 }
 
 void xml2MsrScoreVisitor::visitStart (S_part_abbreviation& elt)
@@ -664,9 +664,11 @@ void xml2MsrScoreVisitor::visitStart (S_instrument_name& elt)
 
 void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
 {
+  string scorePartID = elt->getAttributeValue ("id");
+
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Handling part \"" << fCurrentPartMusicXMLName << "\"" << endl;
+      "Handling part \"" << scorePartID << "\"" << endl;
 
   idtr++;
 
@@ -690,24 +692,26 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
   // is this part already present in the current part group?
   fCurrentPart =
     currentPartGroup->
-      fetchPartFromPartgroup (fCurrentPartMusicXMLName);
+      fetchPartFromPartgroup (scorePartID);
 
   if (! fCurrentPart) {
     // no, add it to the current part group
     fCurrentPart =
       currentPartGroup->
         addPartToPartgroup (
-          elt->getInputLineNumber (), fCurrentPartMusicXMLName);
+          elt->getInputLineNumber (), scorePartID);
   }
 
   // populate current part
+  fCurrentPart->
+    setPartName (fCurrentPartName);
   fCurrentPart->
     setPartAbbreviation (fCurrentPartAbbreviation);
   fCurrentPart->
     setPartInstrumentName (fCurrentPartInstrumentName);
 
   // register it in this visitor's parts map
-  fPartsMap [fCurrentPartMusicXMLName] = fCurrentPart;
+  fPartsMap [scorePartID] = fCurrentPart;
 
   if (fImplicitPartgroup) {
     // force an implicit part group "stop" on it
@@ -720,7 +724,7 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
   }
     
   showPartgroupsData (
-    "AFTER handling part \""+fCurrentPartMusicXMLName+"\"");
+    "AFTER handling part \""+scorePartID+"\"");
 
   idtr--;
 }

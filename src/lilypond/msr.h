@@ -2157,8 +2157,14 @@ class EXP msrPart : public msrElement
     void    setPartDivisions (int  musicXMLDivisions)
                 { fPartMusicXMLDivisions = musicXMLDivisions; }
     
+    void    setPartName (string  partName)
+                { fPartName = partName; }
+    
     string  getPartMusicXMLName () const
                 { return fPartMusicXMLName; }
+
+    string  getPartName () const
+                { return fPartName; }
 
     string  getPartAbbreviation () const
                 { return fPartAbbreviation; }
@@ -2169,6 +2175,9 @@ class EXP msrPart : public msrElement
     int     getPartMusicXMLDivisions () const
                 { return fPartMusicXMLDivisions; }
 
+    string  getPartMSRName () const
+                { return fPartMSRName; }
+
     S_msrPartgroup
             getPartPartgroup () const
                 { return fPartPartgroup; }
@@ -2177,15 +2186,8 @@ class EXP msrPart : public msrElement
             getPartStavesMap ()
                 { return fPartStavesMap; }
 
-    string  getPartMSRName () const
-                { return fPartMSRName; }
+    string  getPartCombinedName () const;
 
-    string  getPartCombinedName () const
-                { return
-                    fPartMSRName +
-                    " (" + fPartMusicXMLName + ")";
-                }
-                    
     void    setAllPartStavesKey  (S_msrKey  key);
               
     void    setAllPartStavesTime (S_msrTime time);
@@ -2223,7 +2225,7 @@ class EXP msrPart : public msrElement
   private:
     
     string                  fPartMusicXMLName;
-
+    string                  fPartName;
     string                  fPartAbbreviation;
     string                  fPartInstrumentName;
 

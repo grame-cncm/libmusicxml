@@ -5553,6 +5553,13 @@ msrPart::msrPart (
 
 msrPart::~msrPart() {}
 
+string msrPart::getPartCombinedName () const
+{
+  return
+    fPartMSRName +
+    " (" + fPartMusicXMLName + ")";
+}
+                
 void msrPart::setAllPartStavesKey   (S_msrKey  key)
 {
   for (
