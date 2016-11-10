@@ -65,7 +65,7 @@ EXP const char*   musicxml2MsrVersionStr();
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr musicxmlFile2Msr (
+EXP S_msrScore musicxmlFile2Msr (
   const char *file, S_msrOptions& msrOpts, std::ostream& out);
 
 /*!
@@ -75,7 +75,7 @@ EXP xmlErr musicxmlFile2Msr (
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr musicxmlFd2Msr (
+EXP S_msrScore musicxmlFd2Msr (
   FILE* fd, S_msrOptions& msrOpts, std::ostream& out);
 
 /*!
@@ -85,7 +85,7 @@ EXP xmlErr musicxmlFd2Msr (
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr musicxmlString2Msr (
+EXP S_msrScore musicxmlString2Msr (
   const char *buff, S_msrOptions& msrOpts, std::ostream& out);
 
 

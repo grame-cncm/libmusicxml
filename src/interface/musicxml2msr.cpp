@@ -55,18 +55,18 @@ S_msrScore buildMsrScoreFromElementsTree (
 
   // build the MSR score
   S_msrScore
-    msrScore =
+    mScore =
       visitor.buildMsrScoreFromXMLElementTree (xmlTree);
 
   idtr--;
 
-  return msrScore;
+  return mScore;
 }
 
 //_______________________________________________________________________________
 void displayMsrScore (
   S_msrOptions& msrOpts,
-  S_msrScore    msrScore,
+  S_msrScore    mScore,
   ostream&      os)
 {
   string separator = "%----------------------------------------";
@@ -79,7 +79,7 @@ void displayMsrScore (
       separator << endl;
   
   if (msrOpts->fTrace) os << "%{" << endl;
-  os << msrScore;
+  os << mScore;
   if (msrOpts->fTrace) os << "%}" << endl;
   
   os << separator << endl;
@@ -88,7 +88,7 @@ void displayMsrScore (
 //_______________________________________________________________________________
 void displayMsrScoreSummary (
   S_msrOptions& msrOpts,
-  S_msrScore    msrScore,
+  S_msrScore    mScore,
   ostream&      os)
 {
   string separator = "%----------------------------------------";
@@ -105,7 +105,7 @@ void displayMsrScoreSummary (
 
   if (msrOpts->fTrace) os << "%{" << std::endl;
   
-  visitor.printSummaryFromMsrScore (msrScore);
+  visitor.printSummaryFromMsrScore (mScore);
   
   if (msrOpts->fTrace) os << "%}" << std::endl;
   
@@ -145,7 +145,7 @@ void displayScoreSummaryWithoutVisitor (
  * The method that converts the file contents to LilyPond code
  * and  writes the result to the output stream
 */
-static xmlErr xml2Msr (
+static S_msrScore xml2Msr (
   SXMLFile&     xmlfile,
   S_msrOptions& msrOpts,
   ostream&      os,
@@ -153,28 +153,27 @@ static xmlErr xml2Msr (
 {
   // build xmlelement tree from the file contents
   Sxmlelement elemsTree = xmlfile->elements();
+
+  S_msrScore mScore;
   
   if (elemsTree) {
-    S_msrScore
-      msrScore =
-        buildMsrScoreFromElementsTree (msrOpts, elemsTree);
+    mScore =
+      buildMsrScoreFromElementsTree (msrOpts, elemsTree);
 
     if (msrOpts->fDisplayMSR)
-      displayMsrScore (msrOpts, msrScore, os);
+      displayMsrScore (msrOpts, mScore, os);
 
  //   if (msrOpts->fDisplayMSRScoreSummary)
- //     displayScoreSummary (msrOpts, score); // JMI
+ //     displayScoreSummary (msrOpts, mScore); // JMI
     if (msrOpts->fDisplayMSRScoreSummary)
-      displayMsrScoreSummary (msrOpts, msrScore, os);
-
-    return kNoErr;
+      displayMsrScoreSummary (msrOpts, mScore, os);
   }
 
-  return kInvalidFile;
+  return mScore;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlFile2Msr (
+EXP S_msrScore musicxmlFile2Msr (
   const char*   file,
   S_msrOptions& msrOpts,
   ostream&      os) 
@@ -188,15 +187,16 @@ EXP xmlErr musicxmlFile2Msr (
 
   xmlFile = r.read(file);
   
-  if (xmlFile) {
-    return xml2Msr (xmlFile, msrOpts, os, file);
-  }
+  S_msrScore mScore;
+
+  if (xmlFile)
+    mScore = xml2Msr (xmlFile, msrOpts, os, file);
   
-  return kInvalidFile;
+  return mScore;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlFd2Msr (
+EXP S_msrScore musicxmlFd2Msr (
   FILE*         fd,
   S_msrOptions& msrOpts,
   ostream&      os) 
@@ -210,15 +210,17 @@ EXP xmlErr musicxmlFd2Msr (
 
   xmlFile = r.read(fd);
   
+  S_msrScore mScore;
+
   if (xmlFile) {
-    return xml2Msr (xmlFile, msrOpts, os, 0);
+    mScore = xml2Msr (xmlFile, msrOpts, os, 0);
   }
   
-  return kInvalidFile;
+  return mScore;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlString2Msr (
+EXP S_msrScore musicxmlString2Msr (
   const char*   buffer,
   S_msrOptions& msrOpts,
   ostream&      os) 
@@ -232,11 +234,13 @@ EXP xmlErr musicxmlString2Msr (
   
   xmlFile = r.readbuff(buffer);
   
+  S_msrScore mScore;
+
   if (xmlFile) {
-    return xml2Msr (xmlFile, msrOpts, os, 0);
+    mScore = xml2Msr (xmlFile, msrOpts, os, 0);
   }
   
-  return kInvalidFile;
+  return mScore;
 }
 
 

@@ -19,7 +19,7 @@
 
 #include "lpsr.h"
 
-#include "musicxml2msr.h"
+#include "msr2lpsr.h"
 
 using namespace std;
 using namespace MusicXML2;
@@ -580,7 +580,7 @@ int main (int argc, char *argv[])
           ? "true" : "false") << endl <<
 
       "The LPSR oprions are:" << endl <<
-      "  displayLPSR                 : " <<
+      "  displayLPSR                : " <<
         string(lpsrOpts->fDisplayLPSR
           ? "true" : "false") << endl <<
 
@@ -610,20 +610,35 @@ int main (int argc, char *argv[])
         ? "true" : "false") << endl;
     
   
-  xmlErr err = kNoErr;
-  
+  S_msrScore mScore;
+
+  // create MSR score from file contents
   if (! strcmp (fileName, "-"))
   
-    err = musicxmlFd2Msr (stdin, msrOpts, cout);
+    mScore = musicxmlFd2Msr (stdin, msrOpts, cout);
     
   else
   
-    err = musicxmlFile2Msr (fileName, msrOpts, cout);
+    mScore = musicxmlFile2Msr (fileName, msrOpts, cout);
     
-  if (err) {
-    cout << "### Conversion from MusicCML to MSR failed ###" << endl <<
-    endl;
+  if (! mScore) {
+    cout <<
+      "### Conversion from MusicCML to MSR failed ###" << endl <<
+      endl;
+    return 1;
   }
+
+  // create LPSR score from MSR score
+  S_lpsrScore
+    lpScore =
+      msr2Lpsr (mScore, msrOpts, lpsrOpts, cout);
   
+  if (! msr2Lpsr) {
+    cout <<
+      "### Conversion from MSR to LPSR failed ###" << endl <<
+      endl;
+    return 1;
+  }
+
   return 0;
 }
