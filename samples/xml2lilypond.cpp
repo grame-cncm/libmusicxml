@@ -123,7 +123,7 @@ void usage (int exitStatus) {
     
   exit(exitStatus);
 }
-fDisplayLPSR
+
 //_______________________________________________________________________________
 int main (int argc, char *argv[]) 
 {

@@ -219,7 +219,6 @@ class musicXMLLocation
 
 extern musicXMLLocation  gCurrentMusicXMLLocation;
 
-
 /*!
 \brief A generic msr element representation.
 
