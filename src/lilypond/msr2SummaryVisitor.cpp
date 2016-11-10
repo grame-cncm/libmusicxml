@@ -333,6 +333,51 @@ void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
 }
 
 //________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrLyrics& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrLyrics" << endl;
+
+  int lyricsChunksSize = elt->getLyricsChunks ().size();
+
+  fOstream << idtr <<
+    "Lyrics" << " " << elt->getLyricsName () <<
+    " contains " << lyricsChunksSize;
+  if (lyricsChunksSize == 1)
+    fOstream << " chunk";
+  else
+    fOstream << " chunks";
+
+  if (! elt->getLyricsTextPresent ())
+    fOstream << " (No actual text)";
+    
+  fOstream << endl << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrLyrics& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrLyrics" << endl;
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrLyricsChunk& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrLyricsChunk" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrLyricsChunk& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrLyricsChunk" << endl;
+}
+
+//________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrClef& elt)
 {
   if (fMsrOptions->fDebug)
@@ -421,51 +466,6 @@ void msr2SummaryVisitor::visitEnd (S_msrTempo& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrTempo" << endl;
-}
-
-//________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrLyrics& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "--> Start visiting msrLyrics" << endl;
-
-  int lyricsChunksSize = elt->getLyricsChunks ().size();
-
-  fOstream << idtr <<
-    "Lyrics" << " " << elt->getLyricsName () <<
-    " contains " << lyricsChunksSize;
-  if (lyricsChunksSize == 1)
-    fOstream << " chunk";
-  else
-    fOstream << " chunks";
-
-  if (! elt->getLyricsTextPresent ())
-    fOstream << " (No actual text)";
-    
-  fOstream << endl << endl;
-}
-
-void msr2SummaryVisitor::visitEnd (S_msrLyrics& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "--> End visiting msrLyrics" << endl;
-}
-
-//________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrLyricsChunk& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "--> Start visiting msrLyricsChunk" << endl;
-}
-
-void msr2SummaryVisitor::visitEnd (S_msrLyricsChunk& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "--> End visiting msrLyricsChunk" << endl;
 }
 
 //________________________________________________________________________

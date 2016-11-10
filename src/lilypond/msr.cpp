@@ -1662,9 +1662,21 @@ msrSequentialMusic::msrSequentialMusic (
   msrElementsSeparator elementsSeparator)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fElementsSeparator=elementsSeparator;
+  fElementsSeparator = elementsSeparator;
 }
 msrSequentialMusic::~msrSequentialMusic() {}
+
+S_msrSequentialMusic msrSequentialMusic::createEmptyClone ()
+{
+  S_msrSequentialMusic
+    clone =
+      msrSequentialMusic::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fElementsSeparator);
+  
+  return clone;
+}
 
 void msrSequentialMusic::removeElementFromSequentialMusic (
   S_msrElement elem)
@@ -4854,6 +4866,18 @@ S_msrLyrics msrVoice::addLyricsToVoice (
 
   // return it
   return lyrics;
+}
+
+void msrVoice::addLyricsToVoice (S_msrLyrics lyrics)
+{
+  // register it in this voice
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Adding lyrics " << lyrics->getLyricsName () <<
+      " (" << lyrics->getLyricsNumber () <<
+      ") to voice " << getVoiceName () << endl;
+
+  fVoiceLyricsMap [lyrics->getLyricsNumber ()] = lyrics;
 }
 
 S_msrLyrics msrVoice::fetchLyricsFromVoice (

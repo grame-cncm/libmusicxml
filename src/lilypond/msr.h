@@ -810,6 +810,8 @@ class EXP msrSequentialMusic : public msrElement
       int                  inputLineNumber,
       msrElementsSeparator elementsSeparator);
 
+    SMARTP<msrSequentialMusic> createEmptyClone ();
+
     list<S_msrElement>
                   getSequentialMusicElements () const
                       { return fSequentialMusicElements; }
@@ -1949,7 +1951,8 @@ class EXP msrVoice : public msrElement
               addLyricsToVoice (
                 int inputLineNumber,
                 int lyricsNumber);
-              
+
+    void      addLyricsToVoice (S_msrLyrics lyrics);
     S_msrLyrics
               fetchLyricsFromVoice (int lyricsNumber);
 
