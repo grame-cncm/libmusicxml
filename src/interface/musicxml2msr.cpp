@@ -87,8 +87,6 @@ void displayMSRScoreSummaryWithVisitor (
       "%Outputting a summary of the MSR score" << endl <<
       separator << endl;
    
-  idtr++;
-
   // create an msr2SummaryVisitor visitor
   msr2SummaryVisitor visitor (msrOpts, os);
 
@@ -99,8 +97,6 @@ void displayMSRScoreSummaryWithVisitor (
   if (msrOpts->fTrace) os << "%}" << std::endl;
   
   os << separator << std::endl;
-
-  idtr--;
 }
 
 //_______________________________________________________________________________
@@ -177,8 +173,8 @@ static xmlErr xml2Msr(
     if (msrOpts->fDisplayMSR)
       displayMSRScore (msrOpts, score, os);
 
-    if (msrOpts->fDisplayMSRScoreSummary)
-      displayScoreSummary (msrOpts, score); // TEMP
+ //   if (msrOpts->fDisplayMSRScoreSummary)
+ //     displayScoreSummary (msrOpts, score); // TEMP
     if (msrOpts->fDisplayMSRScoreSummary)
       displayMSRScoreSummaryWithVisitor (msrOpts, score, os);
 

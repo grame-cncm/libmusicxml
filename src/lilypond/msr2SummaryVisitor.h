@@ -47,15 +47,15 @@ class msr2SummaryVisitor :
   
   public visitor<S_msrStaff>,
   
-  public visitor<S_msrClef>,
-  public visitor<S_msrKey>,
-  public visitor<S_msrTime>,
-  public visitor<S_msrTempo>,
-  
   public visitor<S_msrVoice>,
 
   public visitor<S_msrLyrics>,
   public visitor<S_msrLyricsChunk>,
+  
+  public visitor<S_msrClef>,
+  public visitor<S_msrKey>,
+  public visitor<S_msrTime>,
+  public visitor<S_msrTempo>,
   
   public visitor<S_msrSequentialMusic>,
   public visitor<S_msrParallelMusic>,
@@ -121,6 +121,15 @@ class msr2SummaryVisitor :
     virtual void visitStart (S_msrStaff& elt);
     virtual void visitEnd   (S_msrStaff& elt);
 
+    virtual void visitStart (S_msrVoice& elt);
+    virtual void visitEnd   (S_msrVoice& elt);
+
+    virtual void visitStart (S_msrLyrics& elt);
+    virtual void visitEnd   (S_msrLyrics& elt);
+
+    virtual void visitStart (S_msrLyricsChunk& elt);
+    virtual void visitEnd   (S_msrLyricsChunk& elt);
+
     virtual void visitStart (S_msrClef& elt);
     virtual void visitEnd   (S_msrClef& elt);
 
@@ -132,15 +141,6 @@ class msr2SummaryVisitor :
 
     virtual void visitStart (S_msrTempo& elt);
     virtual void visitEnd   (S_msrTempo& elt);
-
-    virtual void visitStart (S_msrVoice& elt);
-    virtual void visitEnd   (S_msrVoice& elt);
-
-    virtual void visitStart (S_msrLyrics& elt);
-    virtual void visitEnd   (S_msrLyrics& elt);
-
-    virtual void visitStart (S_msrLyricsChunk& elt);
-    virtual void visitEnd   (S_msrLyricsChunk& elt);
 
     virtual void visitStart (S_msrSequentialMusic& elt);
     virtual void visitEnd   (S_msrSequentialMusic& elt);
@@ -226,6 +226,8 @@ class msr2SummaryVisitor :
 
     // staves
     // ------------------------------------------------------
+    // prevent clef, key and time from being printed twice
+    bool           fOnGoingStaff;
 
     // voices
     // ------------------------------------------------------

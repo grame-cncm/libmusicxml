@@ -2726,7 +2726,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     cerr <<
       idtr <<
       "!!!! AFTER visitEnd (S_note) " << fCurrentNote->notePitchAsLilypondString () <<
-      "w e have:" << endl <<
+      " we have:" << endl <<
       idtr << idtr <<
       "--> fCurrentStaffNumber = " << fCurrentStaffNumber << endl <<
       idtr << idtr <<

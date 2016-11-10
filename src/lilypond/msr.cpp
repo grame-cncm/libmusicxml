@@ -3995,6 +3995,7 @@ void msrKey::printMSR (ostream& os)
   os << "Key " << fTonic << " ";
   if (fKeyMode == kMajor) os << "\\major";
   else os << "\\minor";
+  os << endl;
 }
 
 void msrKey::printScoreSummary (ostream& os)
