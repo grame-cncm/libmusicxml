@@ -112,34 +112,6 @@ void displayMsrScoreSummary (
   os << separator << std::endl;
 }
 
-/* JMI
-//_______________________________________________________________________________
-void displayScoreSummaryWithoutVisitor (
-  S_msrOptions& msrOpts,
-  S_msrScore    msrScore)
-{
-  string separator = "%----------------------------------------";
-
-  // output the score resulting from the conversion 
-  // thru msrElement::printMsrStructure()
-  if (msrOpts->fTrace) 
-    cerr << idtr <<
-      separator << endl <<
-      "%Outputting a summary of the MSR score" << endl <<
-      separator << endl;
-  
-  // choosing kScoreSummary to print the score
-  msrGlobalVariables::setDisplayKind (
-    msrGlobalVariables::kScoreSummary);
-   
-  if (msrOpts->fTrace) cerr << "{%" << std::endl;
-  cerr << msrScore;
-  if (msrOpts->fTrace) cerr << "%}" << std::endl;
-  
-  cerr << separator << std::endl;
-}
-*/
-
 //_______________________________________________________________________________
 /*
  * The method that converts the file contents to LilyPond code

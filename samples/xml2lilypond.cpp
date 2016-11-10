@@ -17,8 +17,9 @@
 
 #include "msrUtilities.h"
 
-#include "lpsr.h"
+#include "musicxml2msr.h"
 
+#include "lpsr.h"
 #include "msr2lpsr.h"
 
 using namespace std;
