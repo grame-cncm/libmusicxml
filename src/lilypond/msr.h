@@ -2353,7 +2353,7 @@ class EXP msrScore : public msrElement
 
     static SMARTP<msrScore> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber);
+      int           inputLineNumber);
 
     list<S_msrPartgroup> getPartgroupsList () const
                             { return fPartgroupsList; }
@@ -2373,7 +2373,7 @@ class EXP msrScore : public msrElement
 
     msrScore (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber);
+      int           inputLineNumber);
       
     virtual ~msrScore();
   

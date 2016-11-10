@@ -6017,7 +6017,7 @@ void msrPartgroup::printLilyPondCode (ostream& os)
 //______________________________________________________________________________
 S_msrScore msrScore::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber)
+  int           inputLineNumber)
 {
   msrScore* o =
     new msrScore (
@@ -6028,11 +6028,12 @@ S_msrScore msrScore::create (
 
 msrScore::msrScore (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber)
+  int           inputLineNumber)
     : msrElement (msrOpts, inputLineNumber)
 {
   fMsrOptions = msrOpts;
 }
+
 msrScore::~msrScore() {}
 
 void msrScore::addPartgroupToScore (S_msrPartgroup partGroup)
