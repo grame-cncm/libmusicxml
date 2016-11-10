@@ -164,7 +164,7 @@ msrElement::msrElement (
   S_msrOptions& msrOpts, 
   int                    inputLineNumber)
 {
-  fMsrOptions = msrOpts;
+  fMsrOptions      = msrOpts;
   fInputLineNumber = inputLineNumber;  
 }
 
@@ -1031,9 +1031,6 @@ msrNote::msrNote (
     msrElement (msrOpts, inputLineNumber),
     fMusicXMLNoteData (mxmlNoteData)
 {
-  fMsrOptions = msrOpts;
-  fInputLineNumber = inputLineNumber;
-
   fNoteSlurKind = slurKind;
 
 //  if (true || fMsrOptions->fDebug) {
@@ -4341,7 +4338,6 @@ msrLyrics::msrLyrics (
   msrLyricsMasterStatus lyricsMasterStatus)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fMsrOptions         = msrOpts;
   fLyricsNumber       = lyricsNumber;
   fLyricsVoice        = lyricsVoice;
   fLyricsMasterStatus = lyricsMasterStatus;
@@ -4687,8 +4683,6 @@ msrVoice::msrVoice (
   S_msrStaff             voiceStaff)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fMsrOptions = msrOpts;
-
   fVoiceNumber = voiceNumber;
   fStaffRelativeVoiceNumber = staffRelativeVoiceNumber;
   fVoiceStaff  = voiceStaff;
@@ -5024,9 +5018,7 @@ msrStaff::msrStaff (
   int                    staffNumber,
   S_msrPart              staffPart)
     : msrElement (msrOpts, inputLineNumber)
-{
-  fMsrOptions = msrOpts;
-  
+{  
   fStaffNumber = staffNumber;
   fStaffPart   = staffPart;
 
@@ -5384,9 +5376,7 @@ msrPart::msrPart (
   string                 partMusicXMLName,
   S_msrPartgroup         partPartgroup)
     : msrElement (msrOpts, inputLineNumber)
-{
-  fMsrOptions = msrOpts;
-  
+{  
   fPartMusicXMLName = partMusicXMLName;
   fPartPartgroup    = partPartgroup;
 
@@ -5672,8 +5662,6 @@ msrPartgroup::msrPartgroup (
 {
   fPartgroupAbsoluteNumber = ++gPartgroupsCounter;
   
-  fMsrOptions = msrOpts;
-
   fPartgroupNumber = partGroupNumber;
         
   fPartgroupName = partGroupName;
@@ -6031,10 +6019,18 @@ msrScore::msrScore (
   int           inputLineNumber)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fMsrOptions = msrOpts;
 }
 
 msrScore::~msrScore() {}
+
+S_msrScore msrScore::createEmptyClone ()
+{
+  S_msrScore
+    clone =
+      msrScore::create (fMsrOptions, fInputLineNumber);
+
+  return clone;
+}
 
 void msrScore::addPartgroupToScore (S_msrPartgroup partGroup)
 {

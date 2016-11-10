@@ -223,7 +223,7 @@ class msr2SummaryVisitor :
 
     // staves
     // ------------------------------------------------------
-    // prevent clef, key and time from being printed twice
+    // prevent clef, key and time from being handled twice
     bool           fOnGoingStaff;
 
     // voices

@@ -246,8 +246,8 @@ class EXP msrElement : public smartable
 
   protected:
      
-    S_msrOptions          fMsrOptions;
-    int                   fInputLineNumber;
+    S_msrOptions   fMsrOptions;
+    int            fInputLineNumber;
     
     msrElement (
       S_msrOptions& msrOpts, 
@@ -2354,6 +2354,8 @@ class EXP msrScore : public msrElement
     static SMARTP<msrScore> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
+
+    SMARTP<msrScore> createEmptyClone ();
 
     list<S_msrPartgroup> getPartgroupsList () const
                             { return fPartgroupsList; }
