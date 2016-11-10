@@ -1763,18 +1763,20 @@ class EXP msrLyricsChunk : public msrElement
   public:
 
     // we want to end the line in the LilyPond code at a break
-    enum LyricsChunkType {
+    enum msrLyricsChunkType {
       kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
       kSkipChunk, kSlurChunk, kTiedChunk,
       kBreakChunk,
       k_NoChunk };
 
     static SMARTP<msrLyricsChunk> create (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      LyricsChunkType        chunkType,
-      string                 chunkText,
-      S_msrDuration          msrDuration);
+      S_msrOptions&      msrOpts, 
+      int                inputLineNumber,
+      msrLyricsChunkType chunkType,
+      string             chunkText,
+      S_msrDuration      msrDuration);
+
+    SMARTP<msrLyricsChunk> createEmptyClone ();
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1788,19 +1790,19 @@ class EXP msrLyricsChunk : public msrElement
   protected:
 
     msrLyricsChunk (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      LyricsChunkType        chunkType,
-      string                 chunkText,
-      S_msrDuration          msrDuration);
+      S_msrOptions&      msrOpts, 
+      int                inputLineNumber,
+      msrLyricsChunkType chunkType,
+      string             chunkText,
+      S_msrDuration      msrDuration);
         
     virtual ~msrLyricsChunk();
 
   private:
   
-    LyricsChunkType fLyricsChunkType;
-    string          fChunkText;
-    S_msrDuration  fChunkDuration;
+    msrLyricsChunkType fLyricsChunkType;
+    string             fChunkText;
+    S_msrDuration      fChunkDuration;
 };
 typedef SMARTP<msrLyricsChunk> S_msrLyricsChunk;
 EXP ostream& operator<< (ostream& os, const S_msrLyricsChunk& elt);
@@ -1825,6 +1827,8 @@ class EXP msrLyrics : public msrElement
       S_msrVoice            lyricsVoice,
       msrLyricsMasterStatus lyricsMasterStatus);
     
+    SMARTP<msrLyrics> createEmptyClone ();
+
     int     getLyricsNumber () const
                 { return fLyricsNumber; }
                 
@@ -1843,12 +1847,18 @@ class EXP msrLyrics : public msrElement
                 { return fLyricsChunks; }
 
     void    addTextChunkToLyrics (
-              int                             inputLineNumber,
-              string                          syllabic, // JMI ???
-              msrLyricsChunk::LyricsChunkType chunkType,
-              string                          text,
-              bool                            elision,
-              S_msrDuration                   msrDuration);
+              int
+                  inputLineNumber,
+              string
+                  syllabic, // JMI ???
+              msrLyricsChunk::msrLyricsChunkType
+                  chunkType,
+              string
+                  text,
+              bool
+                  elision,
+              S_msrDuration
+                  msrDuration);
       
     void    addSkipChunkToLyrics (
               int            inputLineNumber,

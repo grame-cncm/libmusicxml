@@ -2979,7 +2979,7 @@ void xml2MsrScoreVisitor::handleLyricsText (
         fMusicXMLNoteData.fMusicXMLDotsNumber,
         fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
 
-  msrLyricsChunk::LyricsChunkType
+  msrLyricsChunk::msrLyricsChunkType
     chunkTypeToBeCreated =
       msrLyricsChunk::k_NoChunk;
 

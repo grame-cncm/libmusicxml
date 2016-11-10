@@ -4170,11 +4170,11 @@ void msrRepeat::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrLyricsChunk msrLyricsChunk::create (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  LyricsChunkType        chunkType,
-  string                 chunkText,
-  S_msrDuration          msrDuration)
+  S_msrOptions&      msrOpts, 
+  int                inputLineNumber,
+  msrLyricsChunkType chunkType,
+  string             chunkText,
+  S_msrDuration      msrDuration)
 {
   msrLyricsChunk* o =
     new msrLyricsChunk (
@@ -4185,18 +4185,33 @@ S_msrLyricsChunk msrLyricsChunk::create (
 }
 
 msrLyricsChunk::msrLyricsChunk (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  LyricsChunkType        chunkType,
-  string                 chunkText,
-  S_msrDuration          msrDuration)
+  S_msrOptions&      msrOpts, 
+  int                inputLineNumber,
+  msrLyricsChunkType chunkType,
+  string             chunkText,
+  S_msrDuration      msrDuration)
     : msrElement (msrOpts, inputLineNumber)
 {
   fLyricsChunkType = chunkType;
   fChunkText       = chunkText;
   fChunkDuration   = msrDuration;
 }
+
 msrLyricsChunk::~msrLyricsChunk() {}
+
+S_msrLyricsChunk msrLyricsChunk::createEmptyClone ()
+{
+  S_msrLyricsChunk
+    clone =
+      msrLyricsChunk::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fLyricsChunkType,
+        fChunkText,
+        fChunkDuration);
+  
+  return clone;
+}
 
 void msrLyricsChunk::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebug)
@@ -4369,13 +4384,33 @@ string msrLyrics::getLyricsName () const
 
 msrLyrics::~msrLyrics() {}
 
+S_msrLyrics msrLyrics::createEmptyClone ()
+{
+  S_msrLyrics
+    clone =
+      msrLyrics::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fLyricsNumber,
+        fLyricsVoice,
+        fLyricsMasterStatus);
+  
+  return clone;
+}
+
 void msrLyrics::addTextChunkToLyrics (
-  int                             inputLineNumber,
-  string                          syllabic,
-  msrLyricsChunk::LyricsChunkType chunkType,
-  string                          text,
-  bool                            elision,
-  S_msrDuration                   msrDuration)
+  int
+      inputLineNumber,
+  string
+      syllabic,
+  msrLyricsChunk::msrLyricsChunkType
+      chunkType,
+  string
+      text,
+  bool
+      elision,
+  S_msrDuration
+      msrDuration)
 {
   // create a lyrics text chunk
 //  if (true || fMsrOptions->fDebug) {
