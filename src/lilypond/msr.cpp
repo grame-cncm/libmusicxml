@@ -550,9 +550,9 @@ void msrDuration::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrArticulation msrArticulation::create (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  ArticulationKind       articulationKind)
+  S_msrOptions&       msrOpts, 
+  int                 inputLineNumber,
+  msrArticulationKind articulationKind)
 {
   msrArticulation* o =
     new msrArticulation (
@@ -562,9 +562,9 @@ S_msrArticulation msrArticulation::create (
 }
 
 msrArticulation::msrArticulation (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  ArticulationKind       articulationKind)
+  S_msrOptions&       msrOpts, 
+  int                 inputLineNumber,
+  msrArticulationKind articulationKind)
     : msrElement (msrOpts, inputLineNumber)
 {
   fArticulationKind = articulationKind;
@@ -910,8 +910,8 @@ void msrWedge::printLilyPondCode (ostream& os)
 //______________________________________________________________________________
 S_msrSlur msrSlur::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  SlurKind               slurKind)
+  int           inputLineNumber,
+  msrSlurKind   slurKind)
 {
   msrSlur* o =
     new msrSlur (
@@ -922,8 +922,8 @@ S_msrSlur msrSlur::create (
 
 msrSlur::msrSlur (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  SlurKind               slurKind)
+  int           inputLineNumber,
+  msrSlurKind   slurKind)
     : msrElement (msrOpts, inputLineNumber)
 {
   fSlurKind = slurKind; 
@@ -1010,10 +1010,10 @@ void msrSlur::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_msrNote msrNote::createFromMusicXMLData (
-  S_msrOptions& msrOpts,
-  int                    inputLineNumber,
-  musicXMLNoteData&      mxmlNoteData,
-  msrSlur::SlurKind      slurKind)
+  S_msrOptions&        msrOpts,
+  int                  inputLineNumber,
+  musicXMLNoteData&    mxmlNoteData,
+  msrSlur::msrSlurKind slurKind)
 {  
   msrNote * o =
     new msrNote (
@@ -1023,10 +1023,10 @@ S_msrNote msrNote::createFromMusicXMLData (
 }
 
 msrNote::msrNote (
-  S_msrOptions& msrOpts,
-  int                    inputLineNumber,
-  musicXMLNoteData&      mxmlNoteData,
-  msrSlur::SlurKind      slurKind)
+  S_msrOptions&        msrOpts,
+  int                  inputLineNumber,
+  musicXMLNoteData&    mxmlNoteData,
+  msrSlur::msrSlurKind slurKind)
   :
     msrElement (msrOpts, inputLineNumber),
     fMusicXMLNoteData (mxmlNoteData)

@@ -440,13 +440,13 @@ class EXP msrArticulation : public msrElement
 {
   public:
     
-    enum ArticulationKind {
+    enum msrArticulationKind {
         kStaccato, kStaccatissimo, kFermata };
 
     static SMARTP<msrArticulation> create (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      ArticulationKind       articulationKind);
+      S_msrOptions&       msrOpts, 
+      int                 inputLineNumber,
+      msrArticulationKind articulationKind);
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -460,16 +460,15 @@ class EXP msrArticulation : public msrElement
   protected:
 
     msrArticulation (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      ArticulationKind       articulationKind);
+      S_msrOptions&       msrOpts, 
+      int                 inputLineNumber,
+      msrArticulationKind articulationKind);
       
     virtual ~msrArticulation();
   
   private:
 
-    ArticulationKind
-          fArticulationKind;
+    msrArticulationKind fArticulationKind;
 };
 typedef SMARTP<msrArticulation> S_msrArticulation;
 EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
@@ -484,14 +483,14 @@ class EXP msrSlur : public msrElement
 {
   public:
 
-    enum SlurKind { kStartSlur, kContinueSlur, kStopSlur, k_NoSlur };
+    enum msrSlurKind { kStartSlur, kContinueSlur, kStopSlur, k_NoSlur };
     
     static SMARTP<msrSlur> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      SlurKind               slurKind);
+      int           inputLineNumber,
+      msrSlurKind   slurKind);
 
-    SlurKind getSlurKind () const        { return fSlurKind; }
+    msrSlurKind getSlurKind () const { return fSlurKind; }
 
     string  slurKindAsString ();
 
@@ -508,13 +507,13 @@ class EXP msrSlur : public msrElement
 
     msrSlur (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      SlurKind               slurKind);
+      int           inputLineNumber,
+      msrSlurKind   slurKind);
     virtual ~msrSlur();
   
   private:
 
-    SlurKind fSlurKind;
+    msrSlurKind fSlurKind;
 };
 typedef SMARTP<msrSlur> S_msrSlur;
 EXP ostream& operator<< (ostream& os, const S_msrSlur& elt);
@@ -631,10 +630,10 @@ class EXP msrNote : public msrElement
       kStandaloneNote, kRestNote, kChordMemberNote, kTupletMemberNote};
       
     static SMARTP<msrNote> createFromMusicXMLData (
-        S_msrOptions& msrOpts,
-        int                    inputLineNumber,
-        musicXMLNoteData&      mxmlNoteData,
-        msrSlur::SlurKind      slurKind);
+        S_msrOptions&        msrOpts,
+        int                  inputLineNumber,
+        musicXMLNoteData&    mxmlNoteData,
+        msrSlur::msrSlurKind slurKind);
     
     enum musicXMLDiatonicPitch {
       kA, kB, kC, kD, kE, kF, kG, kRest, k_NoDiatonicPitch};
@@ -711,10 +710,10 @@ class EXP msrNote : public msrElement
   protected:
  
     msrNote (
-        S_msrOptions& msrOpts,
-        int                    inputLineNumber,
-        musicXMLNoteData&      mxmlNoteData,
-        msrSlur::SlurKind      slurKind);
+        S_msrOptions&        msrOpts,
+        int                  inputLineNumber,
+        musicXMLNoteData&    mxmlNoteData,
+        msrSlur::msrSlurKind slurKind);
     
     virtual ~msrNote();
     
@@ -743,7 +742,7 @@ class EXP msrNote : public msrElement
     list<S_msrDynamics>        fNoteDynamics;
     list<S_msrWedge>           fNoteWedges;
 
-    msrSlur::SlurKind          fNoteSlurKind;
+    msrSlur::msrSlurKind       fNoteSlurKind;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);

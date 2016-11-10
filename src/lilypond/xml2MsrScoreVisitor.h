@@ -559,7 +559,7 @@ class EXP xml2MsrScoreVisitor :
     int                       fCurrentSlurNumber;
     string                    fCurrentSlurType;
     string                    fCurrentSlurPlacement;
-    msrSlur::SlurKind         fCurrentSlurKind;
+    msrSlur::msrSlurKind      fCurrentSlurKind;
     bool                      fOnGoingSlur;
 
     // backup handling
