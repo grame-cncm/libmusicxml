@@ -945,10 +945,23 @@ class EXP msrVarValAssoc : public msrElement
       msrCommentedKind          commentedKind,
       string                 unit = "");
     
-    void    changeAssoc (string value);
+    void     changeAssoc (string value);
     
-    string getVariableName  () const { return fVariableName; };
-    string getVariableValue () const { return fVariableValue; };
+    string    getVariableName  () const { return fVariableName; };
+    string    getVariableValue () const { return fVariableValue; };
+
+    msrVarValSeparator
+              getVarValSeparator () const
+                  { return fVarValSeparator; };
+
+    msrQuotesKind
+              getQuotesKind () const { return fQuotesKind; };
+
+    msrCommentedKind
+              getCommentedKind () const
+                  { return fCommentedKind; };
+
+    string    getUnit () const { return fUnit; };
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1343,6 +1356,9 @@ class EXP msrComment : public msrElement
       string                 contents,
       msrGapKind                gapKind = kNoGapAfterwards);
 
+    string      getContents () const { return fContents; }
+    msrGapKind  getGapKind  () const { return fGapKind; }
+    
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1385,6 +1401,9 @@ class EXP msrBreak : public msrElement
       int                    inputLineNumber,
       int                    nextBarNumber);
 
+    int getNextBarNumber () const
+            { return fNextBarNumber; }
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1424,6 +1443,9 @@ class EXP msrBarNumberCheck : public msrElement
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
       int                    nextBarNumber);
+
+    int getNextBarNumber () const
+            { return fNextBarNumber; }
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
