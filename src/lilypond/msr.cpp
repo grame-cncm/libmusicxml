@@ -418,7 +418,6 @@ void msrDuration::acceptOut (basevisitor* v) {
   }
 }
 
-
 void msrDuration::browseData (basevisitor* v)
 {}
 
