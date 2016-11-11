@@ -179,7 +179,7 @@ string msrElementType (S_msrElement elem)
 */
 
 void msrElement::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr <<
       "==> msrElement::acceptIn()" << endl;
       
@@ -196,7 +196,7 @@ void msrElement::acceptIn (basevisitor* v) {
 }
 
 void msrElement::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr <<
       "==> msrElement::acceptOut()" << endl;
 
@@ -385,7 +385,7 @@ void msrDuration::scaleNumByFraction (int num, int denom)
 }
 
 void msrDuration::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrDuration::acceptIn()" << endl;
       
@@ -402,7 +402,7 @@ void msrDuration::acceptIn (basevisitor* v) {
 }
 
 void msrDuration::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrDuration::acceptOut()" << endl;
 
@@ -572,7 +572,7 @@ msrArticulation::msrArticulation (
 msrArticulation::~msrArticulation() {}
 
 void msrArticulation::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrArticulation::acceptIn()" << endl;
       
@@ -589,7 +589,7 @@ void msrArticulation::acceptIn (basevisitor* v) {
 }
 
 void msrArticulation::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrArticulation::acceptOut()" << endl;
 
@@ -748,7 +748,7 @@ string msrDynamics::dynamicsKindAsLilypondString ()
 }
 
 void msrDynamics::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrDynamics::acceptIn()" << endl;
       
@@ -765,7 +765,7 @@ void msrDynamics::acceptIn (basevisitor* v) {
 }
 
 void msrDynamics::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrDynamics::acceptOut()" << endl;
 
@@ -838,7 +838,7 @@ string msrWedge::wedgeKindAsString ()
       break;
     case msrWedge::kDecrescendoWedge:
       s << "decrescendo";
-      break;F
+      break;
     case msrWedge::kStopWedge:
       s << "stop";
       break;
@@ -850,7 +850,7 @@ string msrWedge::wedgeKindAsString ()
 }
 
 void msrWedge::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrWedge::acceptIn()" << endl;
       
@@ -867,7 +867,7 @@ void msrWedge::acceptIn (basevisitor* v) {
 }
 
 void msrWedge::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrWedge::acceptOut()" << endl;
 
@@ -951,7 +951,7 @@ string msrSlur::slurKindAsString ()
 }
 
 void msrSlur::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrSlur::acceptIn()" << endl;
       
@@ -968,7 +968,7 @@ void msrSlur::acceptIn (basevisitor* v) {
 }
 
 void msrSlur::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrSlur::acceptOut()" << endl;
 
@@ -1455,7 +1455,7 @@ string msrNote::notePitchAsLilypondString ()
 }
 
 void msrNote::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrNote::acceptIn()" << endl;
       
@@ -1472,7 +1472,7 @@ void msrNote::acceptIn (basevisitor* v) {
 }
 
 void msrNote::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrNote::acceptOut()" << endl;
 
@@ -1692,7 +1692,7 @@ void msrSequentialMusic::removeElementFromSequentialMusic (
 }
 
 void msrSequentialMusic::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrSequentialMusic::acceptIn()" << endl;
       
@@ -1709,7 +1709,7 @@ void msrSequentialMusic::acceptIn (basevisitor* v) {
 }
 
 void msrSequentialMusic::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrSequentialMusic::acceptOut()" << endl;
 
@@ -1852,7 +1852,7 @@ msrParallelMusic::msrParallelMusic (
 msrParallelMusic::~msrParallelMusic() {}
 
 void msrParallelMusic::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrParallelMusic::acceptIn()" << endl;
       
@@ -1869,7 +1869,7 @@ void msrParallelMusic::acceptIn (basevisitor* v) {
 }
 
 void msrParallelMusic::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrParallelMusic::acceptOut()" << endl;
 
@@ -1954,7 +1954,7 @@ msrChord::msrChord (
 msrChord::~msrChord() {}
 
 void msrChord::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrChord::acceptIn()" << endl;
       
@@ -1971,7 +1971,7 @@ void msrChord::acceptIn (basevisitor* v) {
 }
 
 void msrChord::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrChord::acceptOut()" << endl;
 
@@ -2110,7 +2110,7 @@ msrBarLine::msrBarLine (
 msrBarLine::~msrBarLine() {}
 
 void msrBarLine::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrBarLine::acceptIn()" << endl;
       
@@ -2127,7 +2127,7 @@ void msrBarLine::acceptIn (basevisitor* v) {
 }
 
 void msrBarLine::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrBarLine::acceptOut()" << endl;
 
@@ -2193,7 +2193,7 @@ msrComment::msrComment (
 msrComment::~msrComment() {}
 
 void msrComment::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrComment::acceptIn()" << endl;
       
@@ -2210,7 +2210,7 @@ void msrComment::acceptIn (basevisitor* v) {
 }
 
 void msrComment::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrComment::acceptOut()" << endl;
 
@@ -2278,7 +2278,7 @@ msrBreak::msrBreak (
 msrBreak::~msrBreak() {}
 
 void msrBreak::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrBreak::acceptIn()" << endl;
       
@@ -2295,7 +2295,7 @@ void msrBreak::acceptIn (basevisitor* v) {
 }
 
 void msrBreak::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrBreak::acceptOut()" << endl;
 
@@ -2362,7 +2362,7 @@ msrBarNumberCheck::msrBarNumberCheck (
 msrBarNumberCheck::~msrBarNumberCheck() {}
 
 void msrBarNumberCheck::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrBarNumberCheck::acceptIn()" << endl;
       
@@ -2379,7 +2379,7 @@ void msrBarNumberCheck::acceptIn (basevisitor* v) {
 }
 
 void msrBarNumberCheck::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrBarNumberCheck::acceptOut()" << endl;
 
@@ -2451,7 +2451,7 @@ void msrTuplet::updateTuplet (int number, int actualNotes, int normalNotes)
 }
 
 void msrTuplet::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrTuplet::acceptIn()" << endl;
       
@@ -2468,7 +2468,7 @@ void msrTuplet::acceptIn (basevisitor* v) {
 }
 
 void msrTuplet::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrTuplet::acceptOut()" << endl;
 
@@ -2559,7 +2559,7 @@ msrBeam::msrBeam (
 msrBeam::~msrBeam() {}
 
 void msrBeam::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrBeam::acceptIn()" << endl;
       
@@ -2576,7 +2576,7 @@ void msrBeam::acceptIn (basevisitor* v) {
 }
 
 void msrBeam::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrBeam::acceptOut()" << endl;
 
@@ -2656,7 +2656,7 @@ msrPaper::msrPaper (
 msrPaper::~msrPaper() {}
 
 void msrPaper::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrPaper::acceptIn()" << endl;
       
@@ -2673,7 +2673,7 @@ void msrPaper::acceptIn (basevisitor* v) {
 }
 
 void msrPaper::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrPaper::acceptOut()" << endl;
 
@@ -2979,7 +2979,7 @@ void msrHeader::setScoreInstrument (
 }
 
 void msrHeader::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrHeader::acceptIn()" << endl;
       
@@ -2996,7 +2996,7 @@ void msrHeader::acceptIn (basevisitor* v) {
 }
 
 void msrHeader::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrHeader::acceptOut()" << endl;
 
@@ -3264,7 +3264,7 @@ void msrVarValAssoc::changeAssoc (string value) {
 }
 
 void msrVarValAssoc::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrVarValAssoc::acceptIn()" << endl;
       
@@ -3281,7 +3281,7 @@ void msrVarValAssoc::acceptIn (basevisitor* v) {
 }
 
 void msrVarValAssoc::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrVarValAssoc::acceptOut()" << endl;
 
@@ -3379,7 +3379,7 @@ void msrSchemeVarValAssoc::changeAssoc (string value)
 }
 
 void msrSchemeVarValAssoc::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrSchemeVarValAssoc::acceptIn()" << endl;
       
@@ -3396,7 +3396,7 @@ void msrSchemeVarValAssoc::acceptIn (basevisitor* v) {
 }
 
 void msrSchemeVarValAssoc::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrSchemeVarValAssoc::acceptOut()" << endl;
 
@@ -3469,7 +3469,7 @@ msrLayout::msrLayout (
 msrLayout::~msrLayout() {}
 
 void msrLayout::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrLayout::acceptIn()" << endl;
       
@@ -3486,7 +3486,7 @@ void msrLayout::acceptIn (basevisitor* v) {
 }
 
 void msrLayout::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrLayout::acceptOut()" << endl;
 
@@ -3504,7 +3504,17 @@ void msrLayout::acceptOut (basevisitor* v) {
 
 
 void msrLayout::browseData (basevisitor* v)
-{}
+{
+  int n1 = fmsrVarValAssocs.size();
+  
+  for (int i = 0; i < n1; i++ ) {
+    // create the lyrics browser
+    msrBrowser<msrVarValAssoc> browser (v);
+  
+    // browse the lyrics with the visitor
+    browser.browse (*fmsrVarValAssocs [i]);
+  } // for
+}
 
 ostream& operator<< (ostream& os, const S_msrLayout& lay)
 {
@@ -3519,8 +3529,9 @@ void msrLayout::print (ostream& os)
   idtr++;
 
   int n1 = fmsrVarValAssocs.size();
+  
   for (int i = 0; i < n1; i++ ) {
-    os << idtr << fmsrVarValAssocs[i];
+    os << idtr << fmsrVarValAssocs [i];
   } // for
 
     /* JMI
@@ -3540,8 +3551,9 @@ void msrLayout::printScoreSummary (ostream& os)
   idtr++;
 
   int n1 = fmsrVarValAssocs.size();
+  
   for (int i = 0; i < n1; i++ ) {
-    os << idtr << fmsrVarValAssocs[i];
+    os << idtr << fmsrVarValAssocs [i];
   } // for
 
     /* JMI
@@ -3608,7 +3620,7 @@ msrClef::msrClef (
 msrClef::~msrClef() {}
 
 void msrClef::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrClef::acceptIn()" << endl;
       
@@ -3625,7 +3637,7 @@ void msrClef::acceptIn (basevisitor* v) {
 }
 
 void msrClef::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrClef::acceptOut()" << endl;
 
@@ -3841,7 +3853,7 @@ msrKey::msrKey (
 msrKey::~msrKey() {}
 
 void msrKey::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrKey::acceptIn()" << endl;
       
@@ -3858,7 +3870,7 @@ void msrKey::acceptIn (basevisitor* v) {
 }
 
 void msrKey::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrKey::acceptOut()" << endl;
 
@@ -3935,7 +3947,7 @@ msrTime::msrTime (
 msrTime::~msrTime() {}
 
 void msrTime::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrTime::acceptIn()" << endl;
       
@@ -3952,7 +3964,7 @@ void msrTime::acceptIn (basevisitor* v) {
 }
 
 void msrTime::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrTime::acceptOut()" << endl;
 
@@ -4030,7 +4042,7 @@ msrTempo::msrTempo (
 msrTempo::~msrTempo() {}
 
 void msrTempo::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrTempo::acceptIn()" << endl;
       
@@ -4047,7 +4059,7 @@ void msrTempo::acceptIn (basevisitor* v) {
 }
 
 void msrTempo::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrTempo::acceptOut()" << endl;
 
@@ -4116,7 +4128,7 @@ msrRepeat::msrRepeat (
 msrRepeat::~msrRepeat() {}
 
 void msrRepeat::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrRepeat::acceptIn()" << endl;
       
@@ -4133,7 +4145,7 @@ void msrRepeat::acceptIn (basevisitor* v) {
 }
 
 void msrRepeat::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrRepeat::acceptOut()" << endl;
 
@@ -4225,7 +4237,7 @@ S_msrLyricschunk msrLyricschunk::createEmptyClone ()
 }
 
 void msrLyricschunk::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrLyricschunk::acceptIn()" << endl;
       
@@ -4242,7 +4254,7 @@ void msrLyricschunk::acceptIn (basevisitor* v) {
 }
 
 void msrLyricschunk::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrLyricschunk::acceptOut()" << endl;
 
@@ -4599,7 +4611,7 @@ void msrLyrics::addBreakChunkToLyrics (
 }
 
 void msrLyrics::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrLyrics::acceptIn()" << endl;
       
@@ -4616,7 +4628,7 @@ void msrLyrics::acceptIn (basevisitor* v) {
 }
 
 void msrLyrics::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrLyrics::acceptOut()" << endl;
 
@@ -4924,7 +4936,7 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
 }
 
 void msrVoice::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrVoice::acceptIn()" << endl;
       
@@ -4941,7 +4953,7 @@ void msrVoice::acceptIn (basevisitor* v) {
 }
 
 void msrVoice::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrVoice::acceptOut()" << endl;
 
@@ -5268,7 +5280,7 @@ void msrStaff::setStaffClef (S_msrClef clef)
 }
 
 void msrStaff::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrStaff::acceptIn()" << endl;
       
@@ -5285,7 +5297,7 @@ void msrStaff::acceptIn (basevisitor* v) {
 }
 
 void msrStaff::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrStaff::acceptOut()" << endl;
 
@@ -5307,6 +5319,7 @@ void msrStaff::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrStaff::browseData()" << endl;
 
+/* JMI
   if (fStaffClef) {
     // create the clef browser
     msrBrowser<msrClef> browser (v);
@@ -5327,6 +5340,7 @@ void msrStaff::browseData (basevisitor* v)
     // browse the voice with the visitor
     browser.browse (*fStaffTime);
   }
+*/
 
   if (fStaffVoicesMap.size ()) {
     for (
@@ -5598,7 +5612,7 @@ S_msrStaff msrPart::fetchStaffFromPart (
 }
 
 void msrPart::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrPart::acceptIn()" << endl;
       
@@ -5615,7 +5629,7 @@ void msrPart::acceptIn (basevisitor* v) {
 }
 
 void msrPart::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrPart::acceptOut()" << endl;
 
@@ -5959,7 +5973,7 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
 }
 
 void msrPartgroup::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrPartgroup::acceptIn()" << endl;
       
@@ -5976,7 +5990,7 @@ void msrPartgroup::acceptIn (basevisitor* v) {
 }
 
 void msrPartgroup::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrPartgroup::acceptOut()" << endl;
 
@@ -6223,7 +6237,7 @@ S_msrPartgroup msrScore::fetchScorePartgroup (
 */
 
 void msrScore::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrScore::acceptIn()" << endl;
       
@@ -6240,7 +6254,7 @@ void msrScore::acceptIn (basevisitor* v) {
 }
 
 void msrScore::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrScore::acceptOut()" << endl;
 
@@ -6357,7 +6371,7 @@ msrMidi::msrMidi (
 msrMidi::~msrMidi() {}
 
 void msrMidi::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrMidi::acceptIn()" << endl;
       
@@ -6374,7 +6388,7 @@ void msrMidi::acceptIn (basevisitor* v) {
 }
 
 void msrMidi::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrMidi::acceptOut()" << endl;
 

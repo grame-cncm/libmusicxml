@@ -137,12 +137,17 @@ int main (int argc, char *argv[])
   }
   */
   
-  // create the MSR options
-  S_msrOptions msrOpts = msrOptions::create();
+  // General options
+  // ---------------
+
+ S_msrOptions msrOpts = msrOptions::create();
   assert(msrOpts != 0);
   
   msrOpts->fMSRCommandLineOptions             = "";
   
+// MSR options
+// -----------
+
   msrOpts->fMsrNoteNamesLanguageAsString      = "dutch";
   msrOpts->fMsrNoteNamesLanguage              = kNederlands;
   
@@ -158,8 +163,11 @@ int main (int argc, char *argv[])
 
   msrOpts->fTrace                             = true;
   msrOpts->fDebug                             = false;
+  msrOpts->fDebugDebug                        = false;
 
-  // create the LPSR options
+  // LPSR options
+  // ------------
+
   S_lpsrOptions lpsrOpts = lpsrOptions::create();
   assert(lpsrOpts != 0);
   
@@ -185,6 +193,7 @@ int main (int argc, char *argv[])
 
   int noTracePresent                    = 0;
   int debugPresent                      = 0;
+  int debugDebugPresent                 = 0;
   
   int languagePresent                   = 0;
 
@@ -219,12 +228,50 @@ int main (int argc, char *argv[])
   static struct option long_options [] =
     {
     /* These options set a flag. */
+
+    // General options
+    // ---------------
+
     {
       "help",
       no_argument,
       &helpPresent, 1
     },
     
+    {
+      "nt",
+      no_argument,
+      &noTracePresent, 1
+    },
+    {
+      "noTrace",
+      no_argument,
+      &noTracePresent, 1
+    },
+    {
+      "d",
+      no_argument,
+      &debugPresent, 1
+    },
+    {
+      "debug",
+      no_argument,
+      &debugPresent, 1
+    },
+    {
+      "dd",
+      no_argument,
+      &debugDebugPresent, 1
+    },
+    {
+      "debugDebug",
+      no_argument,
+      &debugDebugPresent, 1
+    },
+
+    // MSR options
+    // -----------
+
     {
       "language",
       required_argument,
@@ -317,6 +364,9 @@ int main (int argc, char *argv[])
       &displayMSRScoreSummaryPresent, 1
     },
 
+    // LPSR options
+    // ------------
+
     {
       "lpsr",
       no_argument,
@@ -350,27 +400,6 @@ int main (int argc, char *argv[])
       &dontDisplayLilyPondCodePresent, 1
     },
 
-    {
-      "nt",
-      no_argument,
-      &noTracePresent, 1
-    },
-    {
-      "noTrace",
-      no_argument,
-      &noTracePresent, 1
-    },
-    {
-      "d",
-      no_argument,
-      &debugPresent, 1
-    },
-    {
-      "debug",
-      no_argument,
-      &debugPresent, 1
-    },
-    
     {0, 0, 0, 0}
     };
 
@@ -404,6 +433,10 @@ int main (int argc, char *argv[])
     switch (c)
       {
       case 0 :
+
+        // General options
+        // ------------
+
         {
         if (helpPresent) {
           usage (0);
@@ -468,6 +501,12 @@ int main (int argc, char *argv[])
           msrOpts->fDebug = true;
           msrOpts->fMSRCommandLineOptions +=
             "--debug ";
+        }
+        if (debugDebugPresent) {
+          msrOpts->fTrace = true;
+          msrOpts->fDebugDebug = true;
+          msrOpts->fMSRCommandLineOptions +=
+            "--debugDebug ";
         }
 
         // LPSR options
@@ -555,6 +594,23 @@ int main (int argc, char *argv[])
       "with libmusicxml2 v" << musicxmllibVersionStr() <<
       " & xml2Lilypond v" << musicxml2MsrVersionStr() << 
       endl <<
+
+      // General options
+      // ------------
+
+      "  trace                      : " <<
+        string(msrOpts->fTrace
+          ? "true" : "false") << endl <<
+      "  debug                      : " <<
+        string(msrOpts->fDebug
+          ? "true" : "false") << endl <<
+      "  debugDebug                 : " <<
+        string(msrOpts->fDebugDebug
+          ? "true" : "false") << endl <<
+
+      // MSR options
+      // ------------
+
       "The MSR oprions are:" << endl <<
       "  noteNamesLanguageName      : \"" <<
         msrOpts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
@@ -575,12 +631,8 @@ int main (int argc, char *argv[])
         string(msrOpts->fDisplayMSRScoreSummary
           ? "true" : "false") << endl <<
       
-      "  trace                      : " <<
-        string(msrOpts->fTrace
-          ? "true" : "false") << endl <<
-      "  debug                      : " <<
-        string(msrOpts->fDebug
-          ? "true" : "false") << endl <<
+      // LPSR options
+      // ------------
 
       "The LPSR oprions are:" << endl <<
       "  displayLPSR                : " <<
