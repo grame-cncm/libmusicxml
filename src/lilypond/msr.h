@@ -243,7 +243,7 @@ class EXP msrElement : public smartable
     virtual void printScoreSummary (ostream& os);
     virtual void printLilyPondCode (ostream& os);
     
-    static indenter idtr;
+    static indenter gIndenter;
 
   protected:
      
@@ -266,7 +266,7 @@ EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
 \brief A macro to simplify indentation
 */
 //______________________________________________________________________________
-#define idtr msrElement::idtr
+#define idtr msrElement::gIndenter
 
 /*!
 \brief A generic msr element representation.

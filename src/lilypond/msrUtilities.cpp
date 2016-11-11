@@ -33,6 +33,7 @@ indenter::indenter (string spacer)
   fIndent = 0;
   fSpacer = spacer;
 }
+
 indenter::~indenter () {}
 
 ostream& operator<< (ostream& os, const indenter& idtr) {
@@ -45,6 +46,8 @@ void indenter::print(ostream& os) const
   int i = fIndent;
   while (i-- > 0) os << fSpacer;
 }
+
+// JMI indenter indenter::gIndenter;
 
 //______________________________________________________________________________
 /*

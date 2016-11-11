@@ -40,12 +40,21 @@ class indenter {
     // reset the indentation to none
     void print(std::ostream& os) const;
 
+ // JMI   static indenter gIndenter; // global variable for general use
+
   private:
 
     int         fIndent;
     std::string fSpacer;
 };
 std::ostream& operator<< (std::ostream& os, const indenter& number);
+
+/*!
+\internal
+\brief A macro to simplify indentation
+*/
+//______________________________________________________________________________
+// JMI #define idtr indenter::gIndenter
 
 /*!
 \brief A utility to escape quotes in strings.

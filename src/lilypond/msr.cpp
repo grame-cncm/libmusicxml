@@ -31,7 +31,7 @@ msrGlobalVariables::msrDisplayKind
   msrGlobalVariables::sDisplayKind =
     msrGlobalVariables::kLilypondCode;
 
-indenter msrElement::idtr;
+indenter msrElement::gIndenter;
 
 //______________________________________________________________________________
 /* JMI
@@ -882,7 +882,6 @@ void msrWedge::acceptOut (basevisitor* v) {
         p->visitEnd (elem);
   }
 }
-
 
 void msrWedge::browseData (basevisitor* v)
 {}

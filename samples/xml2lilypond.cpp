@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <getopt.h>
+#include <iomanip>      // setw, set::precision, ...
 
 #include "msrUtilities.h"
 
@@ -137,16 +138,20 @@ int main (int argc, char *argv[])
   }
   */
   
-  // General options
-  // ---------------
-
  S_msrOptions msrOpts = msrOptions::create();
   assert(msrOpts != 0);
   
   msrOpts->fMSRCommandLineOptions             = "";
   
-// MSR options
-// -----------
+  // General options
+  // ---------------
+
+  msrOpts->fTrace                             = true;
+  msrOpts->fDebug                             = false;
+  msrOpts->fDebugDebug                        = false;
+
+  // MSR options
+  // -----------
 
   msrOpts->fMsrNoteNamesLanguageAsString      = "dutch";
   msrOpts->fMsrNoteNamesLanguage              = kNederlands;
@@ -160,10 +165,6 @@ int main (int argc, char *argv[])
   msrOpts->fDisplayMSR                        = false;
 
   msrOpts->fDisplayMSRScoreSummary            = false;
-
-  msrOpts->fTrace                             = true;
-  msrOpts->fDebug                             = false;
-  msrOpts->fDebugDebug                        = false;
 
   // LPSR options
   // ------------
@@ -188,13 +189,18 @@ int main (int argc, char *argv[])
   lpsrOpts->fDontDisplayLilyPondCode          = false;
 
 
-  // to detect supplied MSR options
+  // General options
+  // ---------------
+
   int helpPresent                       = 0;
 
   int noTracePresent                    = 0;
   int debugPresent                      = 0;
   int debugDebugPresent                 = 0;
   
+  // MSR options
+  // -----------
+
   int languagePresent                   = 0;
 
   int staffRelativeVoiceNumbersPresent  = 0;
@@ -207,7 +213,9 @@ int main (int argc, char *argv[])
   
   int displayMSRScoreSummaryPresent     = 0;
   
-  // to detect supplied LPSR options
+  // LPSR options
+  // ------------
+
   int displayLPSRPresent                = 0;
 
   int fDontKeepLineBreaksPresent        = 0;
@@ -290,38 +298,6 @@ int main (int argc, char *argv[])
     },
     
     {
-      "abs",
-      no_argument,
-      &absolutePresent, 1
-    },
-    {
-      "absolute",
-      no_argument,
-      &absolutePresent, 1
-    },
-    
-    {
-      "numericalTime",
-      no_argument,
-      &numericaltimePresent, 1
-    },
-    {
-      "noComments",
-      no_argument,
-      &noCommentsPresent, 1
-    },
-    {
-      "stems",
-      no_argument,
-      &stemsPresent, 1
-    },
-    {
-      "positions",
-      no_argument,
-      &positionsPresent, 1
-    },
-    
-    {
       "noml",
       no_argument,
       &dontDisplayMSRLyricsPresent, 1
@@ -377,6 +353,38 @@ int main (int argc, char *argv[])
       &displayLPSRPresent, 1
     },
 
+    {
+      "abs",
+      no_argument,
+      &absolutePresent, 1
+    },
+    {
+      "absolute",
+      no_argument,
+      &absolutePresent, 1
+    },
+    
+    {
+      "numericalTime",
+      no_argument,
+      &numericaltimePresent, 1
+    },
+    {
+      "noComments",
+      no_argument,
+      &noCommentsPresent, 1
+    },
+    {
+      "stems",
+      no_argument,
+      &stemsPresent, 1
+    },
+    {
+      "positions",
+      no_argument,
+      &positionsPresent, 1
+    },
+    
 
     {
       "nolpl",
@@ -443,6 +451,24 @@ int main (int argc, char *argv[])
           break;
         }
 
+        if (noTracePresent) {
+          msrOpts->fTrace = false;
+          msrOpts->fMSRCommandLineOptions +=
+            "--noTrace ";
+        }
+        if (debugPresent) {
+          msrOpts->fTrace = true;
+          msrOpts->fDebug = true;
+          msrOpts->fMSRCommandLineOptions +=
+            "--debug ";
+        }
+        if (debugDebugPresent) {
+          msrOpts->fTrace = true;
+          msrOpts->fDebugDebug = true;
+          msrOpts->fMSRCommandLineOptions +=
+            "--debugDebug ";
+        }
+
         // MSR options
         // -----------
         
@@ -491,24 +517,6 @@ int main (int argc, char *argv[])
             "--displayScoreSummary ";
         }
         
-        if (noTracePresent) {
-          msrOpts->fTrace = false;
-          msrOpts->fMSRCommandLineOptions +=
-            "--noTrace ";
-        }
-        if (debugPresent) {
-          msrOpts->fTrace = true;
-          msrOpts->fDebug = true;
-          msrOpts->fMSRCommandLineOptions +=
-            "--debug ";
-        }
-        if (debugDebugPresent) {
-          msrOpts->fTrace = true;
-          msrOpts->fDebugDebug = true;
-          msrOpts->fMSRCommandLineOptions +=
-            "--debugDebug ";
-        }
-
         // LPSR options
         // ------------
 
@@ -595,72 +603,78 @@ int main (int argc, char *argv[])
       " & xml2Lilypond v" << musicxml2MsrVersionStr() << 
       endl <<
 
+      left <<
+      
       // General options
-      // ------------
+      // ---------------
 
-      "  trace                      : " <<
+      "  " << setw(31) << "trace" << " : " <<
         string(msrOpts->fTrace
           ? "true" : "false") << endl <<
-      "  debug                      : " <<
+      "  " << setw(31) << "debug" << " : " <<
         string(msrOpts->fDebug
           ? "true" : "false") << endl <<
-      "  debugDebug                 : " <<
+      "  " << setw(31) << "debugDebug" << " : " <<
         string(msrOpts->fDebugDebug
           ? "true" : "false") << endl <<
 
       // MSR options
-      // ------------
+      // -----------
 
-      "The MSR oprions are:" << endl <<
-      "  noteNamesLanguageName      : \"" <<
+      "The MSR options are:" << endl <<
+      "  " << setw(31) << "noteNamesLanguageName" << " : \"" <<
         msrOpts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
       
-      "  displayMSR                 : " <<
-        string(msrOpts->fDisplayMSR
+      "  " << setw(31) << "createStaffRelativeVoiceNumbers" << " : " <<
+        string(msrOpts->fCreateStaffRelativeVoiceNumbers
           ? "true" : "false") << endl <<
-
-      "  dontDisplayMSRLyrics       : " <<
+ 
+      "  " << setw(31) << "dontDisplayMSRLyrics" << " : " <<
         string(msrOpts->fDontDisplayMSRLyrics
           ? "true" : "false") << endl <<
 
-      "  displayMSR                 : " <<
+      "  " << setw(31) << "delayRestsDynamics" << " : " <<
+        string(msrOpts->fDelayRestsDynamics
+          ? "true" : "false") << endl <<
+
+      "  " << setw(31) << "displayMSR" << " : " <<
         string(msrOpts->fDisplayMSR
           ? "true" : "false") << endl <<
       
-      "  displayMSRScoreSummary     : " <<
+      "  " << setw(31) << "displayMSRScoreSummary" << " : " <<
         string(msrOpts->fDisplayMSRScoreSummary
           ? "true" : "false") << endl <<
       
       // LPSR options
       // ------------
 
-      "The LPSR oprions are:" << endl <<
-      "  displayLPSR                : " <<
+      "The LPSR options are:" << endl <<
+      "  " << setw(31) << "displayLPSR" << " : " <<
         string(lpsrOpts->fDisplayLPSR
           ? "true" : "false") << endl <<
 
-      "  generateAbsoluteOctaves    : " <<
+      "  " << setw(31) << "generateAbsoluteOctaves" << " : " <<
         string(lpsrOpts->fGenerateAbsoluteOctaves
           ? "true" : "false") << endl <<
       
-      "  generateNumericalTime      : " <<
+      "  " << setw(31) << "generateNumericalTime" << " : " <<
         string(lpsrOpts->fGenerateNumericalTime
           ? "true" : "false") << endl <<
-      "  generateComments           : " <<
+      "  " << setw(31) << "generateComments" << " : " <<
         string(lpsrOpts->fGenerateComments
         ? "true" : "false") << endl <<
-      "  generateStems              : " <<
+      "  " << setw(31) << "generateStems" << " : " <<
         string(lpsrOpts->fGenerateStems
         ? "true" : "false") << endl <<
-      "  generatePositions          : " <<
+      "  " << setw(31) << "generatePositions" << " : " <<
         string(lpsrOpts->fGeneratePositions
         ? "true" : "false") << endl <<
 
-      "  dontGenerateLilyPondLyrics : " <<
+      "  " << setw(31) << "dontGenerateLilyPondLyrics" << " : " <<
         string(lpsrOpts->fDontGenerateLilyPondLyrics
           ? "true" : "false") << endl <<
 
-      "  dontDisplayLilyPondCode    : " <<
+      "  " << setw(31) << "dontDisplayLilyPondCode" << " : " <<
         string(lpsrOpts->fDontDisplayLilyPondCode
         ? "true" : "false") << endl;
     
