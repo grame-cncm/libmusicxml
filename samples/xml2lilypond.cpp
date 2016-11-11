@@ -631,7 +631,7 @@ int main (int argc, char *argv[])
   // create LPSR score from MSR score
   S_lpsrScore
     lpScore =
-      msr2Lpsr (mScore, msrOpts, lpsrOpts, cout);
+      msr2lpsr (mScore, msrOpts, lpsrOpts, cout);
   
   if (! lpScore) {
     cout <<
