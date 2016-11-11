@@ -5307,37 +5307,39 @@ void msrStaff::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrStaff::browseData()" << endl;
 
-  {
-  // create the clef browser
-  msrBrowser<msrClef> browser (v);
-  // browse the voice with the visitor
-  browser.browse (*fStaffClef);
-  }
-
-  {
-  // create the key browser
-  msrBrowser<msrKey> browser (v);
-  // browse the voice with the visitor
-  browser.browse (*fStaffKey);
-  }
-
-  {
-  // create the time browser
-  msrBrowser<msrTime> browser (v);
-  // browse the voice with the visitor
-  browser.browse (*fStaffTime);
-  }
-  
-  for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
-    i++) {
-    // create the voice browser
-    msrBrowser<msrVoice> browser (v);
-  
+  if (fStaffClef) {
+    // create the clef browser
+    msrBrowser<msrClef> browser (v);
     // browse the voice with the visitor
-    browser.browse (*((*i).second));
-  } // for
+    browser.browse (*fStaffClef);
+  }
+
+  if (fStaffKey) {
+    // create the key browser
+    msrBrowser<msrKey> browser (v);
+    // browse the voice with the visitor
+    browser.browse (*fStaffKey);
+  }
+
+  if (fStaffTime) {
+    // create the time browser
+    msrBrowser<msrTime> browser (v);
+    // browse the voice with the visitor
+    browser.browse (*fStaffTime);
+  }
+
+  if (fStaffVoicesMap.size ()) {
+    for (
+      map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+      i != fStaffVoicesMap.end();
+      i++) {
+      // create the voice browser
+      msrBrowser<msrVoice> browser (v);
+    
+      // browse the voice with the visitor
+      browser.browse (*((*i).second));
+    } // for
+  }
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
