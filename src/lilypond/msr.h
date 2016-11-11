@@ -931,18 +931,18 @@ class EXP msrVarValAssoc : public msrElement
 {
   public:
 
-    enum VarValSeparator   { kSpace, kEqualSign };
-    enum QuotesKind        { kQuotesAroundValue, kNoQuotesAroundValue };
-    enum CommentedKind     { kCommented, kUncommented };
+    enum msrVarValSeparator { kSpace, kEqualSign };
+    enum msrQuotesKind      { kQuotesAroundValue, kNoQuotesAroundValue };
+    enum msrCommentedKind   { kCommented, kUncommented };
 
     static SMARTP<msrVarValAssoc> create (
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
       string                 variableName,
       string                 value, 
-      VarValSeparator        varValSeparator,
-      QuotesKind             quotesKind,
-      CommentedKind          commentedKind,
+      msrVarValSeparator        varValSeparator,
+      msrQuotesKind             quotesKind,
+      msrCommentedKind          commentedKind,
       string                 unit = "");
     
     void    changeAssoc (string value);
@@ -966,21 +966,21 @@ class EXP msrVarValAssoc : public msrElement
       int                    inputLineNumber,
       string                 variableName,
       string                 value, 
-      VarValSeparator        varValSeparator,
-      QuotesKind             quotesKind,
-      CommentedKind          commentedKind,
+      msrVarValSeparator        varValSeparator,
+      msrQuotesKind             quotesKind,
+      msrCommentedKind          commentedKind,
       string                 unit = "");
       
     virtual ~msrVarValAssoc();
   
   private:
 
-    string     fVariableName;
-    string     fVariableValue;
-    VarValSeparator fVarValSeparator;
-    QuotesKind      fQuotesKind;
-    CommentedKind   fCommentedKind;
-    string     fUnit;
+    string             fVariableName;
+    string             fVariableValue;
+    msrVarValSeparator fVarValSeparator;
+    msrQuotesKind      fQuotesKind;
+    msrCommentedKind   fCommentedKind;
+    string             fUnit;
 };
 typedef SMARTP<msrVarValAssoc> S_msrVarValAssoc;
 EXP ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt);
@@ -1341,7 +1341,7 @@ class EXP msrComment : public msrElement
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
       string                 contents,
-      GapKind                gapKind = kNoGapAfterwards);
+      msrGapKind                gapKind = kNoGapAfterwards);
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1358,14 +1358,14 @@ class EXP msrComment : public msrElement
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
       string                 contents,
-      GapKind                gapKind = kNoGapAfterwards);
+      msrGapKind                gapKind = kNoGapAfterwards);
       
     virtual ~msrComment();
   
   private:
 
-    string fContents;
-    GapKind     fGapKind;
+    string     fContents;
+    msrGapKind fGapKind;
 };
 typedef SMARTP<msrComment> S_msrComment;
 EXP ostream& operator<< (ostream& os, const S_msrComment& elt);
@@ -1509,14 +1509,14 @@ EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
 /*!
 \brief A msr beam representation.
 
-  A beam is represented by a BeamKind value
+  A beam is represented by a msrBeamKind value
 */
 //______________________________________________________________________________
 class EXP msrBeam : public msrElement
 {
   public:
 
-    enum BeamKind {
+    enum msrBeamKind {
             kBeginBeam, kContinueBeam, kEndBeam, 
             k_NoBeam };
     
@@ -1524,9 +1524,9 @@ class EXP msrBeam : public msrElement
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
       int                    number,
-      BeamKind               beamKind);
+      msrBeamKind               beamKind);
 
-    BeamKind getBeamKind () const { return fBeamKind; }
+    msrBeamKind getBeamKind () const { return fBeamKind; }
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1543,14 +1543,14 @@ class EXP msrBeam : public msrElement
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
       int                    number,
-      BeamKind               beamKind);
+      msrBeamKind               beamKind);
       
     virtual ~msrBeam();
   
   private:
 
     int      fBeamNumber;
-    BeamKind fBeamKind;
+    msrBeamKind fBeamKind;
 };
 typedef SMARTP<msrBeam> S_msrBeam;
 EXP ostream& operator<< (ostream& os, const S_msrBeam& elt);

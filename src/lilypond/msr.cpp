@@ -838,7 +838,7 @@ string msrWedge::wedgeKindAsString ()
       break;
     case msrWedge::kDecrescendoWedge:
       s << "decrescendo";
-      break;
+      break;F
     case msrWedge::kStopWedge:
       s << "stop";
       break;
@@ -2171,7 +2171,7 @@ S_msrComment msrComment::create (
   S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   string                 contents,
-  GapKind                gapKind)
+  msrGapKind                gapKind)
 {
   msrComment* o =
     new msrComment (
@@ -2184,11 +2184,11 @@ msrComment::msrComment (
   S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   string                 contents,
-  GapKind                gapKind)
+  msrGapKind                gapKind)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fContents=contents;
-  fGapKind=gapKind;
+  fContents = contents;
+  fGapKind  = gapKind;
 }
 msrComment::~msrComment() {}
 
@@ -2537,7 +2537,7 @@ S_msrBeam msrBeam::create (
   S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    number,
-  BeamKind               beamKind)
+  msrBeamKind               beamKind)
 {
   msrBeam* o =
     new msrBeam (
@@ -2550,7 +2550,7 @@ msrBeam::msrBeam (
   S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    number,
-  BeamKind               beamKind)
+  msrBeamKind               beamKind)
     : msrElement (msrOpts, inputLineNumber)
 {
   fBeamNumber = number;
@@ -3224,9 +3224,9 @@ S_msrVarValAssoc msrVarValAssoc::create (
   int                    inputLineNumber,
   string                 variableName,
   string                 value, 
-  VarValSeparator        varValSeparator,
-  QuotesKind             quotesKind,
-  CommentedKind          commentedKind,
+  msrVarValSeparator        varValSeparator,
+  msrQuotesKind             quotesKind,
+  msrCommentedKind          commentedKind,
   string                 unit)
 {
   msrVarValAssoc* o =
@@ -3243,18 +3243,18 @@ msrVarValAssoc::msrVarValAssoc (
   int                    inputLineNumber,
   string                 variableName,
   string                 value, 
-  VarValSeparator        varValSeparator,
-  QuotesKind             quotesKind,
-  CommentedKind          commentedKind,
+  msrVarValSeparator        varValSeparator,
+  msrQuotesKind             quotesKind,
+  msrCommentedKind          commentedKind,
   string                 unit)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fVariableName=variableName;
-  fVariableValue=value;
-  fVarValSeparator=varValSeparator;
-  fQuotesKind=quotesKind;
-  fCommentedKind=commentedKind;
-  fUnit = unit;
+  fVariableName    = variableName;
+  fVariableValue   = value;
+  fVarValSeparator = varValSeparator;
+  fQuotesKind      = quotesKind;
+  fCommentedKind   = commentedKind;
+  fUnit            = unit;
 }
 
 msrVarValAssoc::~msrVarValAssoc() {}
@@ -3352,7 +3352,7 @@ void msrVarValAssoc::printLilyPondCode (ostream& os) {
 S_msrSchemeVarValAssoc msrSchemeVarValAssoc::create (
       string     variableName,
       string     value, 
-      CommentedKind   commentedKind )
+      msrCommentedKind   commentedKind )
 {
   msrSchemeVarValAssoc* o = new msrSchemeVarValAssoc(
     variableName, value, commentedKind);
@@ -3363,7 +3363,7 @@ S_msrSchemeVarValAssoc msrSchemeVarValAssoc::create (
 msrSchemeVarValAssoc::msrSchemeVarValAssoc(
   string     variableName,
   string     value, 
-  CommentedKind   commentedKind )
+  msrCommentedKind   commentedKind )
     : msrElement (msrOpts, inputLineNumber)
 {
   fVariableName=variableName;

@@ -2040,16 +2040,16 @@ Each beam in a note is represented with a separate beam element, starting with t
   fCurrentBeamNumber = 
     elt->getAttributeIntValue ("number", 0);
   
-  msrBeam::BeamKind bk = msrBeam::k_NoBeam;
+  msrBeam::BeamKind beamKind;
 
   if (fCurrentBeam == "begin") {
-    bk = msrBeam::kBeginBeam;
+    beamKind = msrBeam::kBeginBeam;
   }
   else if (fCurrentBeam == "continue") {
-    bk = msrBeam::kContinueBeam;
+    beamKind = msrBeam::kContinueBeam;
   }
   else if (fCurrentBeam == "end") {
-    bk = msrBeam::kEndBeam;
+    beamKind = msrBeam::kEndBeam;
   }
   
   S_msrBeam
@@ -2057,7 +2057,8 @@ Each beam in a note is represented with a separate beam element, starting with t
       msrBeam::create (
         fMsrOptions,
         elt->getInputLineNumber (),
-        fCurrentBeamNumber, bk); // JMI
+        fCurrentBeamNumber,
+        beamKind); // JMI
 }
 
 //______________________________________________________________________________
