@@ -4181,97 +4181,97 @@ void msrRepeat::printLilyPondCode (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrLyricsChunk msrLyricsChunk::create (
+S_msrLyricschunk msrLyricschunk::create (
   S_msrOptions&      msrOpts, 
   int                inputLineNumber,
-  msrLyricsChunkType chunkType,
+  msrLyricschunkType chunkType,
   string             chunkText,
   S_msrDuration      msrDuration)
 {
-  msrLyricsChunk* o =
-    new msrLyricsChunk (
+  msrLyricschunk* o =
+    new msrLyricschunk (
       msrOpts, inputLineNumber,
       chunkType, chunkText, msrDuration);
   assert(o!=0);
   return o;
 }
 
-msrLyricsChunk::msrLyricsChunk (
+msrLyricschunk::msrLyricschunk (
   S_msrOptions&      msrOpts, 
   int                inputLineNumber,
-  msrLyricsChunkType chunkType,
+  msrLyricschunkType chunkType,
   string             chunkText,
   S_msrDuration      msrDuration)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fLyricsChunkType = chunkType;
+  fLyricschunkType = chunkType;
   fChunkText       = chunkText;
   fChunkDuration   = msrDuration;
 }
 
-msrLyricsChunk::~msrLyricsChunk() {}
+msrLyricschunk::~msrLyricschunk() {}
 
-S_msrLyricsChunk msrLyricsChunk::createEmptyClone ()
+S_msrLyricschunk msrLyricschunk::createEmptyClone ()
 {
-  S_msrLyricsChunk
+  S_msrLyricschunk
     clone =
-      msrLyricsChunk::create (
+      msrLyricschunk::create (
         fMsrOptions,
         fInputLineNumber,
-        fLyricsChunkType,
+        fLyricschunkType,
         fChunkText,
         fChunkDuration);
   
   return clone;
 }
 
-void msrLyricsChunk::acceptIn (basevisitor* v) {
+void msrLyricschunk::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "==> msrLyricsChunk::acceptIn()" << endl;
+      "==> msrLyricschunk::acceptIn()" << endl;
       
-  if (visitor<S_msrLyricsChunk>*
+  if (visitor<S_msrLyricschunk>*
     p =
-      dynamic_cast<visitor<S_msrLyricsChunk>*> (v)) {
-        S_msrLyricsChunk elem = this;
+      dynamic_cast<visitor<S_msrLyricschunk>*> (v)) {
+        S_msrLyricschunk elem = this;
         
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching msrLyricsChunk::visitStart()" << endl;
+            "==> Launching msrLyricschunk::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void msrLyricsChunk::acceptOut (basevisitor* v) {
+void msrLyricschunk::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "==> msrLyricsChunk::acceptOut()" << endl;
+      "==> msrLyricschunk::acceptOut()" << endl;
 
-  if (visitor<S_msrLyricsChunk>*
+  if (visitor<S_msrLyricschunk>*
     p =
-      dynamic_cast<visitor<S_msrLyricsChunk>*> (v)) {
-        S_msrLyricsChunk elem = this;
+      dynamic_cast<visitor<S_msrLyricschunk>*> (v)) {
+        S_msrLyricschunk elem = this;
       
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching msrLyricsChunk::visitEnd()" << endl;
+            "==> Launching msrLyricschunk::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void msrLyricsChunk::browseData (basevisitor* v)
+void msrLyricschunk::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrLyricsChunk& lyr)
+ostream& operator<< (ostream& os, const S_msrLyricschunk& lyr)
 {
   lyr->print (os);
   return os;
 }
 
-void msrLyricsChunk::print (ostream& os)
+void msrLyricschunk::print (ostream& os)
 {  
-  os << "LyricsChunk" << " " << setw(6) << left;
-  switch (fLyricsChunkType) {
+  os << "Lyricschunk" << " " << setw(6) << left;
+  switch (fLyricschunkType) {
     case kSingleChunk:
       os << "single" << ":" << fChunkDuration;
       if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
@@ -4316,12 +4316,12 @@ void msrLyricsChunk::print (ostream& os)
   os << endl;
 }
 
-void msrLyricsChunk::printScoreSummary (ostream& os)
+void msrLyricschunk::printScoreSummary (ostream& os)
 {}
 
-void msrLyricsChunk::printLilyPondCode (ostream& os)
+void msrLyricschunk::printLilyPondCode (ostream& os)
 {  
-  switch (fLyricsChunkType) {
+  switch (fLyricschunkType) {
     case kSingleChunk: os << fChunkText;           break;
     case kBeginChunk:  os << fChunkText;           break;
     case kMiddleChunk: os << " -- " << fChunkText; break;
@@ -4396,7 +4396,7 @@ string msrLyrics::getLyricsName () const
 
 msrLyrics::~msrLyrics() {}
 
-S_msrLyrics msrLyrics::createEmptyClone ()
+S_msrLyrics msrLyrics::createEmptyClone (S_msrVoice clonedVoice)
 {
   S_msrLyrics
     clone =
@@ -4404,7 +4404,7 @@ S_msrLyrics msrLyrics::createEmptyClone ()
         fMsrOptions,
         fInputLineNumber,
         fLyricsNumber,
-        fLyricsVoice,
+        clonedVoice,
         fLyricsMasterStatus);
   
   return clone;
@@ -4415,7 +4415,7 @@ void msrLyrics::addTextChunkToLyrics (
       inputLineNumber,
   string
       syllabic,
-  msrLyricsChunk::msrLyricsChunkType
+  msrLyricschunk::msrLyricschunkType
       chunkType,
   string
       text,
@@ -4438,32 +4438,32 @@ void msrLyrics::addTextChunkToLyrics (
       " to " << getLyricsName () << endl;
   }
 
-  S_msrLyricsChunk
+  S_msrLyricschunk
     chunk =
-      msrLyricsChunk::create (
+      msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
         chunkType, text, msrDuration);
   
   switch (chunkType) {
-    case msrLyricsChunk::kSingleChunk:
-    case msrLyricsChunk::kBeginChunk:
+    case msrLyricschunk::kSingleChunk:
+    case msrLyricschunk::kBeginChunk:
       {  
       // add lyrics chunk to this lyrics
-      fLyricsChunks.push_back (chunk);
+      fLyricschunks.push_back (chunk);
       }
       break;
 
-    case msrLyricsChunk::kMiddleChunk:
-    case msrLyricsChunk::kEndChunk:
+    case msrLyricschunk::kMiddleChunk:
+    case msrLyricschunk::kEndChunk:
       // add chunk to this lyrics
-      fLyricsChunks.push_back (chunk);
+      fLyricschunks.push_back (chunk);
       break;
       
-    case msrLyricsChunk::kSkipChunk:
-    case msrLyricsChunk::kSlurChunk:
-    case msrLyricsChunk::kTiedChunk:
-    case msrLyricsChunk::kBreakChunk:
+    case msrLyricschunk::kSkipChunk:
+    case msrLyricschunk::kSlurChunk:
+    case msrLyricschunk::kTiedChunk:
+    case msrLyricschunk::kBreakChunk:
       {
         msrInternalError (
           fInputLineNumber,
@@ -4471,7 +4471,7 @@ void msrLyrics::addTextChunkToLyrics (
           "'single', 'begin', 'middle' or 'end'");
       }
       break;
-    case msrLyricsChunk::k_NoChunk:
+    case msrLyricschunk::k_NoChunk:
       msrInternalError (
         fInputLineNumber,
         "lyrics chunk type has not been set");
@@ -4496,15 +4496,15 @@ void msrLyrics::addSkipChunkToLyrics (
   }
   
   // create lyrics skip chunk
-  S_msrLyricsChunk
+  S_msrLyricschunk
     chunk =
-      msrLyricsChunk::create (
+      msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        msrLyricsChunk::kSkipChunk, "", msrDuration);
+        msrLyricschunk::kSkipChunk, "", msrDuration);
         
   // add chunk to this lyrics
-  fLyricsChunks.push_back (chunk);
+  fLyricschunks.push_back (chunk);
 }
 
 void msrLyrics::addSlurChunkToLyrics (
@@ -4522,15 +4522,15 @@ void msrLyrics::addSlurChunkToLyrics (
   }
   
   // create lyrics slur chunk
-  S_msrLyricsChunk
+  S_msrLyricschunk
     chunk =
-      msrLyricsChunk::create (
+      msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        msrLyricsChunk::kSlurChunk, "", msrDuration);
+        msrLyricschunk::kSlurChunk, "", msrDuration);
         
   // add chunk to this lyrics
-  fLyricsChunks.push_back (chunk);
+  fLyricschunks.push_back (chunk);
 }
 
 void msrLyrics::addTiedChunkToLyrics (
@@ -4548,15 +4548,15 @@ void msrLyrics::addTiedChunkToLyrics (
   }
   
   // create lyrics tied chunk
-  S_msrLyricsChunk
+  S_msrLyricschunk
     chunk =
-      msrLyricsChunk::create (
+      msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        msrLyricsChunk::kTiedChunk, "", msrDuration);
+        msrLyricschunk::kTiedChunk, "", msrDuration);
         
   // add chunk to this lyrics
-  fLyricsChunks.push_back (chunk);
+  fLyricschunks.push_back (chunk);
 }
 
 void msrLyrics::addBreakChunkToLyrics (
@@ -4586,17 +4586,17 @@ void msrLyrics::addBreakChunkToLyrics (
         inputLineNumber,
         0, 1, 0, "");
         
-  S_msrLyricsChunk
+  S_msrLyricschunk
     chunk =
-      msrLyricsChunk::create (
+      msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        msrLyricsChunk::kBreakChunk,
+        msrLyricschunk::kBreakChunk,
         s.str(),
         nullMsrDuration);
         
   // add chunk to this lyrics
-  fLyricsChunks.push_back (chunk);
+  fLyricschunks.push_back (chunk);
 }
 
 void msrLyrics::acceptIn (basevisitor* v) {
@@ -4652,9 +4652,9 @@ void msrLyrics::print (ostream& os)
 //  if (fLyricsTextPresent) {  JMI
     idtr++;
 
-    int n = fLyricsChunks.size();
+    int n = fLyricschunks.size();
     for (int i = 0; i < n; i++) {
-      os << idtr << fLyricsChunks[i];
+      os << idtr << fLyricschunks[i];
     } // for
     os << endl;
 
@@ -4664,11 +4664,11 @@ void msrLyrics::print (ostream& os)
 
 void msrLyrics::printScoreSummary (ostream& os)
 {  
-  int lyricsChunksSize = fLyricsChunks.size();
+  int lyricschunksSize = fLyricschunks.size();
 
   os << "Lyrics" << " " << getLyricsName () <<
-    " contains " << lyricsChunksSize;
-  if (lyricsChunksSize == 1)
+    " contains " << lyricschunksSize;
+  if (lyricschunksSize == 1)
     os << " chunk";
   else
     os << " chunks";
@@ -4686,10 +4686,10 @@ void msrLyrics::printLilyPondCode (ostream& os)
 
   idtr++;
 
-  if (fLyricsChunks.size()) {
-    vector<S_msrLyricsChunk>::const_iterator
-      iBegin = fLyricsChunks.begin(),
-      iEnd   = fLyricsChunks.end(),
+  if (fLyricschunks.size()) {
+    vector<S_msrLyricschunk>::const_iterator
+      iBegin = fLyricschunks.begin(),
+      iEnd   = fLyricschunks.end(),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -4782,7 +4782,7 @@ msrVoice::msrVoice (
 
 msrVoice::~msrVoice() {}
 
-S_msrVoice msrVoice::createEmptyClone ()
+S_msrVoice msrVoice::createEmptyClone (S_msrStaff clonedStaff)
 {
   S_msrVoice
     clone =
@@ -4791,7 +4791,7 @@ S_msrVoice msrVoice::createEmptyClone ()
         fInputLineNumber,
         fVoiceNumber,
         fStaffRelativeVoiceNumber,
-        fVoiceStaff);
+        clonedStaff);
   
   return clone;
 }
@@ -4846,16 +4846,16 @@ S_msrLyrics msrVoice::addLyricsToVoice (
 
   // catch up with fVoiceMasterLyrics
   // in case the lyrics does not start upon the first voice note
-  vector<S_msrLyricsChunk>
+  vector<S_msrLyricschunk>
     masterChunks =
-      fVoiceMasterLyrics->getLyricsChunks ();
+      fVoiceMasterLyrics->getLyricschunks ();
 
   if (masterChunks.size()) {
     if (fMsrOptions->fTrace)
       cerr << idtr <<
         "Copying current contents of voice master lyrics to new lyrics" << endl;
     for (
-      vector<S_msrLyricsChunk>::const_iterator i =
+      vector<S_msrLyricschunk>::const_iterator i =
         masterChunks.begin();
       i != masterChunks.end();
       i++) {
@@ -5128,7 +5128,7 @@ msrStaff::msrStaff (
 
 msrStaff::~msrStaff() {}
 
-S_msrStaff msrStaff::createEmptyClone ()
+S_msrStaff msrStaff::createEmptyClone (S_msrPart clonedPart)
 {
   S_msrStaff
     clone =
@@ -5136,7 +5136,7 @@ S_msrStaff msrStaff::createEmptyClone ()
         fMsrOptions,
         fInputLineNumber,
         fStaffNumber,
-        fStaffPart);
+        clonedPart);
   
   return clone;
 }
@@ -5490,7 +5490,7 @@ msrPart::msrPart (
 
 msrPart::~msrPart() {}
 
-S_msrPart msrPart::createEmptyClone ()
+S_msrPart msrPart::createEmptyClone (S_msrPartgroup clonedPartgroup)
 {
   S_msrPart
     clone =
@@ -5498,7 +5498,7 @@ S_msrPart msrPart::createEmptyClone ()
         fMsrOptions,
         fInputLineNumber,
         fPartMusicXMLName,
-        fPartPartgroup);
+        clonedPartgroup);
   
   return clone;
 }

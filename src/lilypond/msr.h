@@ -1760,25 +1760,25 @@ EXP ostream& operator<< (ostream& os, const S_msrTempo& elt);
   In the case of "single", the list contains only one string
 */
 //______________________________________________________________________________
-class EXP msrLyricsChunk : public msrElement
+class EXP msrLyricschunk : public msrElement
 {
   public:
 
     // we want to end the line in the LilyPond code at a break
-    enum msrLyricsChunkType {
+    enum msrLyricschunkType {
       kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
       kSkipChunk, kSlurChunk, kTiedChunk,
       kBreakChunk,
       k_NoChunk };
 
-    static SMARTP<msrLyricsChunk> create (
+    static SMARTP<msrLyricschunk> create (
       S_msrOptions&      msrOpts, 
       int                inputLineNumber,
-      msrLyricsChunkType chunkType,
+      msrLyricschunkType chunkType,
       string             chunkText,
       S_msrDuration      msrDuration);
 
-    SMARTP<msrLyricsChunk> createEmptyClone ();
+    SMARTP<msrLyricschunk> createEmptyClone ();
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1791,23 +1791,23 @@ class EXP msrLyricsChunk : public msrElement
 
   protected:
 
-    msrLyricsChunk (
+    msrLyricschunk (
       S_msrOptions&      msrOpts, 
       int                inputLineNumber,
-      msrLyricsChunkType chunkType,
+      msrLyricschunkType chunkType,
       string             chunkText,
       S_msrDuration      msrDuration);
         
-    virtual ~msrLyricsChunk();
+    virtual ~msrLyricschunk();
 
   private:
   
-    msrLyricsChunkType fLyricsChunkType;
+    msrLyricschunkType fLyricschunkType;
     string             fChunkText;
     S_msrDuration      fChunkDuration;
 };
-typedef SMARTP<msrLyricsChunk> S_msrLyricsChunk;
-EXP ostream& operator<< (ostream& os, const S_msrLyricsChunk& elt);
+typedef SMARTP<msrLyricschunk> S_msrLyricschunk;
+EXP ostream& operator<< (ostream& os, const S_msrLyricschunk& elt);
 
 /*!
 \brief A msr lyrics representation.
@@ -1829,7 +1829,7 @@ class EXP msrLyrics : public msrElement
       S_msrVoice            lyricsVoice,
       msrLyricsMasterStatus lyricsMasterStatus);
     
-    SMARTP<msrLyrics> createEmptyClone ();
+    SMARTP<msrLyrics> createEmptyClone (S_msrVoice clonedVoice);
 
     int     getLyricsNumber () const
                 { return fLyricsNumber; }
@@ -1844,16 +1844,16 @@ class EXP msrLyrics : public msrElement
             getLyricsMasterStatus () const
                 { return fLyricsMasterStatus; }
                 
-    vector<S_msrLyricsChunk>
-            getLyricsChunks () const
-                { return fLyricsChunks; }
+    vector<S_msrLyricschunk>
+            getLyricschunks () const
+                { return fLyricschunks; }
 
     void    addTextChunkToLyrics (
               int
                   inputLineNumber,
               string
                   syllabic, // JMI ???
-              msrLyricsChunk::msrLyricsChunkType
+              msrLyricschunk::msrLyricschunkType
                   chunkType,
               string
                   text,
@@ -1878,8 +1878,8 @@ class EXP msrLyrics : public msrElement
               int inputLineNumber,
               int nextMeasureNumber);
 
-    void    addChunkToLyrics (S_msrLyricsChunk chunk)
-                { fLyricsChunks.push_back (chunk); }
+    void    addChunkToLyrics (S_msrLyricschunk chunk)
+                { fLyricschunks.push_back (chunk); }
                 
     int     getLyricsTextPresent() { return fLyricsTextPresent; }
 
@@ -1908,7 +1908,7 @@ class EXP msrLyrics : public msrElement
     S_msrVoice                fLyricsVoice;
     msrLyricsMasterStatus     fLyricsMasterStatus;
 
-    vector<S_msrLyricsChunk>  fLyricsChunks;
+    vector<S_msrLyricschunk>  fLyricschunks;
 
     bool                      fLyricsTextPresent;
 };
@@ -1932,7 +1932,7 @@ class EXP msrVoice : public msrElement
       int           staffRelativeVoiceNumber,
       S_msrStaff    voiceStaff);
                           
-    SMARTP<msrVoice> createEmptyClone ();
+    SMARTP<msrVoice> createEmptyClone (S_msrStaff clonedStaff);
 
     int       getVoiceNumber () const
                   { return fVoiceNumber; }
@@ -1953,6 +1953,7 @@ class EXP msrVoice : public msrElement
                 int lyricsNumber);
 
     void      addLyricsToVoice (S_msrLyrics lyrics);
+    
     S_msrLyrics
               fetchLyricsFromVoice (int lyricsNumber);
 
@@ -2053,7 +2054,7 @@ class EXP msrStaff : public msrElement
       int           staffNumber,
       S_msrPart     staffPart);
     
-    SMARTP<msrStaff> createEmptyClone ();
+    SMARTP<msrStaff> createEmptyClone (S_msrPart clonedPart);
 
     int       getStaffNumber () const
                   { return fStaffNumber; }
@@ -2145,7 +2146,7 @@ class EXP msrPart : public msrElement
       string         partMusicXMLName,
       S_msrPartgroup partPartgroup);
                 
-    SMARTP<msrPart> createEmptyClone ();
+    SMARTP<msrPart> createEmptyClone (S_msrPartgroup clonedPartgroup);
 
     void      setPartAbbreviation (string partAbbreviation)
                   { fPartAbbreviation = partAbbreviation; }

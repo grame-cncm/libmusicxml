@@ -339,12 +339,12 @@ void msr2SummaryVisitor::visitStart (S_msrLyrics& elt)
     fOstream << idtr <<
       "--> Start visiting msrLyrics" << endl;
 
-  int lyricsChunksSize = elt->getLyricsChunks ().size();
+  int lyricschunksSize = elt->getLyricschunks ().size();
 
   fOstream << idtr <<
     "Lyrics" << " " << elt->getLyricsName () <<
-    " contains " << lyricsChunksSize;
-  if (lyricsChunksSize == 1)
+    " contains " << lyricschunksSize;
+  if (lyricschunksSize == 1)
     fOstream << " chunk";
   else
     fOstream << " chunks";
@@ -363,18 +363,18 @@ void msr2SummaryVisitor::visitEnd (S_msrLyrics& elt)
 }
 
 //________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrLyricsChunk& elt)
+void msr2SummaryVisitor::visitStart (S_msrLyricschunk& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrLyricsChunk" << endl;
+      "--> Start visiting msrLyricschunk" << endl;
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrLyricsChunk& elt)
+void msr2SummaryVisitor::visitEnd (S_msrLyricschunk& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrLyricsChunk" << endl;
+      "--> End visiting msrLyricschunk" << endl;
 }
 
 //________________________________________________________________________

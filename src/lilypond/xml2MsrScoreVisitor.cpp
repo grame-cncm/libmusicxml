@@ -88,8 +88,8 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
 
   fCurrentTimeStaffNumber = 1; // it may be absent
   
-  fCurrentLyricsNumber = 0;
-  fCurrentLyricsChunkType = msrLyricsChunk::k_NoChunk;
+  fCurrentLyricsNumber = -1; // JMI
+  fCurrentLyricschunkType = msrLyricschunk::k_NoChunk;
 
   fOnGoingChord = false;
   
@@ -1430,20 +1430,20 @@ void xml2MsrScoreVisitor::visitStart ( S_syllabic& elt )
   string syllabic = elt->getValue();
   
   if      (syllabic == "single")
-    fCurrentLyricsChunkType = msrLyricsChunk::kSingleChunk;
+    fCurrentLyricschunkType = msrLyricschunk::kSingleChunk;
   else if (syllabic == "begin")
-    fCurrentLyricsChunkType = msrLyricsChunk::kBeginChunk;
+    fCurrentLyricschunkType = msrLyricschunk::kBeginChunk;
   else if (syllabic == "middle")
-    fCurrentLyricsChunkType = msrLyricsChunk::kMiddleChunk;
+    fCurrentLyricschunkType = msrLyricschunk::kMiddleChunk;
   else if (syllabic == "end")
-    fCurrentLyricsChunkType = msrLyricsChunk::kEndChunk;
+    fCurrentLyricschunkType = msrLyricschunk::kEndChunk;
   else {
     stringstream s;
     s << "--> syllabic \"" << syllabic << "\" is unknown";
     msrMusicXMLError (
       elt->getInputLineNumber (), s.str());
 
-    fCurrentLyricsChunkType = msrLyricsChunk::k_NoChunk;
+    fCurrentLyricschunkType = msrLyricschunk::k_NoChunk;
   }
 
 /* JMI
@@ -1529,7 +1529,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
   handleLyricsText (elt->getInputLineNumber ());
 
   // avoiding handling of the same by visitEnd ( S_note )
-  fCurrentLyricsChunkType = msrLyricsChunk::k_NoChunk;
+  fCurrentLyricschunkType = msrLyricschunk::k_NoChunk;
 
 }
 /*
@@ -2905,33 +2905,33 @@ void xml2MsrScoreVisitor::handleLyricsText (
     
     cerr <<
       idtr <<
-        "  fCurrentLyricsChunkType                = \"";
-    switch (fCurrentLyricsChunkType) {
-      case msrLyricsChunk::kSingleChunk:
+        "  fCurrentLyricschunkType                = \"";
+    switch (fCurrentLyricschunkType) {
+      case msrLyricschunk::kSingleChunk:
         cerr << "single";
         break;
-      case msrLyricsChunk::kBeginChunk:
+      case msrLyricschunk::kBeginChunk:
         cerr << "begin";
         break;
-      case msrLyricsChunk::kMiddleChunk:
+      case msrLyricschunk::kMiddleChunk:
         cerr << "middle";
         break;
-      case msrLyricsChunk::kEndChunk:
+      case msrLyricschunk::kEndChunk:
         cerr << "end";
         break;
-      case msrLyricsChunk::kSkipChunk:
+      case msrLyricschunk::kSkipChunk:
         cerr << "skip";
         break;
-      case msrLyricsChunk::kSlurChunk:
+      case msrLyricschunk::kSlurChunk:
         cerr << "slur";
         break;
-      case msrLyricsChunk::kTiedChunk:
+      case msrLyricschunk::kTiedChunk:
         cerr << "tied";
         break;
-      case msrLyricsChunk::kBreakChunk:
+      case msrLyricschunk::kBreakChunk:
         cerr << "break";
         break;
-      case msrLyricsChunk::k_NoChunk:
+      case msrLyricschunk::k_NoChunk:
         cerr << "NO_CHUNK";
         break;
     } // switch
@@ -2956,7 +2956,8 @@ void xml2MsrScoreVisitor::handleLyricsText (
     } // switch
     cerr << "\"" << endl;
   }
-  
+
+  /* JMI
   // is lyrics fCurrentLyricsNumber present in current voice?
   fCurrentLyrics =
     fCurrentVoice->
@@ -2968,6 +2969,7 @@ void xml2MsrScoreVisitor::handleLyricsText (
       fCurrentVoice->
         addLyricsToVoice (
           inputLineNumber, fCurrentLyricsNumber);
+*/
 
   S_msrDuration
     lyricMsrDuration =
@@ -2979,45 +2981,45 @@ void xml2MsrScoreVisitor::handleLyricsText (
         fMusicXMLNoteData.fMusicXMLDotsNumber,
         fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
 
-  msrLyricsChunk::msrLyricsChunkType
+  msrLyricschunk::msrLyricschunkType
     chunkTypeToBeCreated =
-      msrLyricsChunk::k_NoChunk;
+      msrLyricschunk::k_NoChunk;
 
   if (fMusicXMLNoteData.fMusicXMLStepIsARest)
-    chunkTypeToBeCreated = msrLyricsChunk::kSkipChunk;
+    chunkTypeToBeCreated = msrLyricschunk::kSkipChunk;
 
   else {
 
-    switch (fCurrentLyricsChunkType) {
-      case msrLyricsChunk::kSingleChunk:
-        chunkTypeToBeCreated = fCurrentLyricsChunkType;
+    switch (fCurrentLyricschunkType) {
+      case msrLyricschunk::kSingleChunk:
+        chunkTypeToBeCreated = fCurrentLyricschunkType;
         break;
-      case msrLyricsChunk::kBeginChunk:
-        chunkTypeToBeCreated = fCurrentLyricsChunkType;
+      case msrLyricschunk::kBeginChunk:
+        chunkTypeToBeCreated = fCurrentLyricschunkType;
         break;
-      case msrLyricsChunk::kMiddleChunk:
-        chunkTypeToBeCreated = fCurrentLyricsChunkType;
+      case msrLyricschunk::kMiddleChunk:
+        chunkTypeToBeCreated = fCurrentLyricschunkType;
         break;
-      case msrLyricsChunk::kEndChunk:
-        chunkTypeToBeCreated = fCurrentLyricsChunkType;
+      case msrLyricschunk::kEndChunk:
+        chunkTypeToBeCreated = fCurrentLyricschunkType;
         break;
 
- //     case msrLyricsChunk::k_NoChunk:
+ //     case msrLyricschunk::k_NoChunk:
       default:
         {
         if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
-          chunkTypeToBeCreated = msrLyricsChunk::kTiedChunk;
+          chunkTypeToBeCreated = msrLyricschunk::kTiedChunk;
           
         else {
           switch (fCurrentSlurKind) {
             case msrSlur::kStartSlur:
-              chunkTypeToBeCreated = msrLyricsChunk::kSingleChunk;
+              chunkTypeToBeCreated = msrLyricschunk::kSingleChunk;
               break;
             case msrSlur::kContinueSlur:
-              chunkTypeToBeCreated = msrLyricsChunk::kSlurChunk;
+              chunkTypeToBeCreated = msrLyricschunk::kSlurChunk;
               break;
             case msrSlur::kStopSlur:
-              chunkTypeToBeCreated = msrLyricsChunk::kSlurChunk;
+              chunkTypeToBeCreated = msrLyricschunk::kSlurChunk;
               break;
     
             default:
@@ -3031,31 +3033,31 @@ void xml2MsrScoreVisitor::handleLyricsText (
 
   switch (chunkTypeToBeCreated) {
     
-    case msrLyricsChunk::kSkipChunk:
+    case msrLyricschunk::kSkipChunk:
       fCurrentLyrics->
         addSkipChunkToLyrics (
           inputLineNumber,
           lyricMsrDuration);
       break;
 
-    case msrLyricsChunk::kSlurChunk:
+    case msrLyricschunk::kSlurChunk:
       fCurrentLyrics->
         addSlurChunkToLyrics (
           inputLineNumber,
           lyricMsrDuration);
       break;
 
-    case msrLyricsChunk::kTiedChunk:
+    case msrLyricschunk::kTiedChunk:
       fCurrentLyrics->
         addTiedChunkToLyrics (
           inputLineNumber,
           lyricMsrDuration);
       break;
 
-    case msrLyricsChunk::kSingleChunk:
-    case msrLyricsChunk::kBeginChunk:
-    case msrLyricsChunk::kMiddleChunk:
-    case msrLyricsChunk::kEndChunk:
+    case msrLyricschunk::kSingleChunk:
+    case msrLyricschunk::kBeginChunk:
+    case msrLyricschunk::kMiddleChunk:
+    case msrLyricschunk::kEndChunk:
       fCurrentLyrics->
         addTextChunkToLyrics (
           inputLineNumber,

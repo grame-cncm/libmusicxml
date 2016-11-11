@@ -97,8 +97,8 @@ void usage (int exitStatus) {
     endl <<
 
     "    --abs, --absolute" << endl <<
-    "          Generate LilyPond absolute code. " << endl <<
-    "          By default, relative code is generated." << endl <<
+    "          Generate LilyPond absolute octaves. " << endl <<
+    "          By default, relative octaves are generated." << endl <<
     endl <<
 
     "    --numericalTime" << endl <<
@@ -168,7 +168,7 @@ int main (int argc, char *argv[])
   lpsrOpts->fDontKeepLineBreaks               = false;
   lpsrOpts->fKeepStaffSize                    = false;
     
-  lpsrOpts->fGenerateAbsoluteCode             = true;
+  lpsrOpts->fGenerateAbsoluteOctaves          = true;
 
   lpsrOpts->fGenerateNumericalTime            = false;
   lpsrOpts->fGenerateComments                 = true;
@@ -478,7 +478,7 @@ int main (int argc, char *argv[])
         }
 
         if (absolutePresent) {
-          lpsrOpts->fGenerateAbsoluteCode = true;
+          lpsrOpts->fGenerateAbsoluteOctaves = true;
           lpsrOpts->fLPSRCommandLineOptions +=
             "--absolute ";
         }
@@ -585,8 +585,8 @@ int main (int argc, char *argv[])
         string(lpsrOpts->fDisplayLPSR
           ? "true" : "false") << endl <<
 
-      "  generateAbsoluteCode       : " <<
-        string(lpsrOpts->fGenerateAbsoluteCode
+      "  generateAbsoluteOctaves    : " <<
+        string(lpsrOpts->fGenerateAbsoluteOctaves
           ? "true" : "false") << endl <<
       
       "  generateNumericalTime      : " <<
