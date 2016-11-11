@@ -1335,7 +1335,7 @@ class EXP msrComment : public msrElement
 {
   public:
     
-    enum GapKind { kGapAfterwards, kNoGapAfterwards };
+    enum msrGapKind { kGapAfterwards, kNoGapAfterwards };
 
     static SMARTP<msrComment> create (
       S_msrOptions& msrOpts, 
@@ -1474,6 +1474,9 @@ class EXP msrTuplet : public msrElement
     
     int  getTupletNumber () const { return fTupletNumber; }
 
+    int getActualNotes () const { return fActualNotes; }
+    int getNormalNotes () const { return fNormalNotes; }
+    
     void addElementToTuplet (S_msrElement elem)
             { fTupletContents.push_back(elem); }
 
@@ -1565,7 +1568,11 @@ class EXP msrClef : public msrElement
 {
   public:
     
-    enum { kStandardLine, kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
+    enum
+     // JMI   msrClefLineKind
+     {
+      kStandardLine,
+      kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
 
     static SMARTP<msrClef> create (
       S_msrOptions& msrOpts, 
@@ -1792,6 +1799,17 @@ class EXP msrLyricschunk : public msrElement
       msrLyricschunkType chunkType,
       string             chunkText,
       S_msrDuration      msrDuration);
+
+    msrLyricschunkType
+              getLyricschunkType () const
+                  { return fLyricschunkType; }
+
+    string    getChunkText () const
+                  { return fChunkText; }
+
+    S_msrDuration
+              getChunkDuration () const
+                  { return fChunkDuration; }
 
     SMARTP<msrLyricschunk> createEmptyClone ();
 

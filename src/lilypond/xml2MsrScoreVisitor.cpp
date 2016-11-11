@@ -2040,7 +2040,7 @@ Each beam in a note is represented with a separate beam element, starting with t
   fCurrentBeamNumber = 
     elt->getAttributeIntValue ("number", 0);
   
-  msrBeam::BeamKind beamKind;
+  msrBeam::msrBeamKind beamKind;
 
   if (fCurrentBeam == "begin") {
     beamKind = msrBeam::kBeginBeam;
