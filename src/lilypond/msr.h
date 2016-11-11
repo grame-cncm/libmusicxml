@@ -1298,6 +1298,9 @@ class EXP msrBarLine : public msrElement
       int                    inputLineNumber,
       int                    nextBarNumber);
 
+    int        getNextBarNumber () const
+                  { return fNextBarNumber; }
+                  
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
