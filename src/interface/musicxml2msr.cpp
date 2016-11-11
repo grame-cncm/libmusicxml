@@ -38,7 +38,6 @@ EXP int         musicxml2MsrVersionNbr () { return 010; }
 EXP const char* musicxml2MsrVersionStr () { return "0.1.0"; }
 
 //_______________________________________________________________________________
-
 S_msrScore buildMsrScoreFromElementsTree (
   S_msrOptions& msrOpts,
   Sxmlelement   xmlTree)

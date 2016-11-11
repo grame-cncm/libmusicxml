@@ -21,6 +21,8 @@
 
 #include "lpsr.h"
 #include "msr2lpsr.h"
+#include "lpsr2LilyPond.h"
+
 
 using namespace std;
 using namespace MusicXML2;
@@ -615,11 +617,8 @@ int main (int argc, char *argv[])
 
   // create MSR score from file contents
   if (! strcmp (fileName, "-"))
-  
     mScore = musicxmlFd2Msr (stdin, msrOpts, cout);
-    
   else
-  
     mScore = musicxmlFile2Msr (fileName, msrOpts, cout);
     
   if (! mScore) {
@@ -634,9 +633,19 @@ int main (int argc, char *argv[])
     lpScore =
       msr2Lpsr (mScore, msrOpts, lpsrOpts, cout);
   
-  if (! msr2Lpsr) {
+  if (! lpScore) {
     cout <<
       "### Conversion from MSR to LPSR failed ###" << endl <<
+      endl;
+    return 1;
+  }
+
+  // generate LilyPond code from LPSR score
+  lpsr2LilyPond (lpScore, msrOpts, lpsrOpts, cout);
+  
+  if (! true) { // JMI
+    cout <<
+      "### Conversion from LPSR to LilyPond code failed ###" << endl <<
       endl;
     return 1;
   }

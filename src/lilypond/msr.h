@@ -447,6 +447,10 @@ class EXP msrArticulation : public msrElement
       int                 inputLineNumber,
       msrArticulationKind articulationKind);
 
+    msrArticulationKind
+            getArticulationKind () const
+                { return fArticulationKind; }
+        
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -867,16 +871,24 @@ class EXP msrChord : public msrElement
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
       S_msrDuration          chordDuration);
-    
-    void         addNoteToChord (S_msrNote note)
+
+    vector<S_msrNote>
+                getChordNotes () const
+                    { return fChordNotes; }
+
+    S_msrDuration
+                getChordDuration () const
+                    { return fChordDuration; }
+            
+    void        addNoteToChord (S_msrNote note)
                     { fChordNotes.push_back(note); }
 
-    void         addArticulation (S_msrArticulation art)
+    void        addArticulation (S_msrArticulation art)
                     { fChordArticulations.push_back(art); }
     
-    void         addDynamics (S_msrDynamics dyn)
+    void        addDynamics (S_msrDynamics dyn)
                     { fChordDynamics.push_back(dyn); }
-    void         addWedge    (S_msrWedge    wdg)
+    void        addWedge    (S_msrWedge    wdg)
                     { fChordWedges.push_back(wdg); }
 
     virtual void acceptIn  (basevisitor* v);

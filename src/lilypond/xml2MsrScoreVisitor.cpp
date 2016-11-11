@@ -2957,19 +2957,19 @@ void xml2MsrScoreVisitor::handleLyricsText (
     cerr << "\"" << endl;
   }
 
-  /* JMI
+  //* JMI
   // is lyrics fCurrentLyricsNumber present in current voice?
   fCurrentLyrics =
     fCurrentVoice->
       fetchLyricsFromVoice (fCurrentLyricsNumber);
 
+  //* JMI
   if (! fCurrentLyrics)
     // no, add it to the voice JMI ???
     fCurrentLyrics =
       fCurrentVoice->
         addLyricsToVoice (
           inputLineNumber, fCurrentLyricsNumber);
-*/
 
   S_msrDuration
     lyricMsrDuration =
