@@ -795,7 +795,7 @@ typedef SMARTP<msrParallelMusic> S_msrParallelMusic;
 EXP ostream& operator<< (ostream& os, const S_msrParallelMusic& elt);
 
 /*!
-\brief The msr sequence element
+\brief The msr sequential music element
 */
 //______________________________________________________________________________
 class EXP msrSequentialMusic : public msrElement
