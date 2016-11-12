@@ -232,50 +232,66 @@ string stringNumbersToEnglishWords (string str)
 };
 
 //______________________________________________________________________________
-int ConsumeDecimalNumber (
-  char *theString, char ** remainingString, int theNodesNumber)
+int consumeDecimalNumber (
+  char*  theString,
+  char** remainingString,
+  bool   debugMode)
 {
   char*  cursor = theString;
-  int    res = 0;
+  int    number = 0;
 
   if (! isdigit (*cursor))
     cout <<
-      "ConsumeDecimalNumber (" << cursor <<
+      "consumeDecimalNumber (" << cursor <<
       "), " << *cursor << " is no decimal digit!";
 
   while (isdigit (* cursor)) {
-//    printf ("--> ConsumeDecimalNumber: cursor = |%s|\n", cursor);
+    if (debugMode)
+      cout <<
+        "--> consumeDecimalNumber: cursor = |" <<
+        cursor <<
+        "|" <<
+        endl;
 
-    res = res * 10 + (* cursor - '0');
+    number = number*10 + (*cursor-'0');
+    
     ++ cursor;
   } // while
 
   *remainingString = cursor;
 
-/*
-  printf (
-    "--> ConsumeDecimalNumber: res = %d, * remainingString = |%s|\n",
-    res, * remainingString );
-*/
+  if (debugMode)
+    cout <<
+      "--> consumeDecimalNumber: number = " << number <<
+      ", *remainingString = |" << *remainingString <<
+      "|" <<
+      endl;
 
-  return res;
-} // ConsumeDecimalNumber
+  return number;
+}
 
-void DecipherNumbersSpecification (
-  char*  theString,
-  int    theSelectedNodes [],
-  int    theNodesNumber,
-  bool   debugMode)
+set<int> decipherNumbersSpecification (
+  char* theString,
+  bool  debugMode)
 {
-//  printf ("--> DecipherNodeNumbers, theString = |%s|\n", theString);
+//  "\n--> A nodesSpec sample is: %s -d 7,15-19,^16-17\n"
 
-//    "\n--> A nodesSpec sample is: %s -d 7,15-19,^16-17\n"
+  std::set<int> selectedNumbers;
+  
+  if (debugMode)
+    cout <<
+      "--> DecipherNodeNumbers, theString = |" << theString <<
+      "|" <<
+      endl;
 
-  char * cursor = theString;
+  char* cursor = theString;
 
   while (1) {
     if (debugMode)
-      cout << "--> DecipherNodeNumbers: cursor = |" << cursor << "|" << endl;
+      cout <<
+        "--> decipherNumbersSpecification: cursor = |" <<
+        cursor << "|" <<
+        endl;
 
     int negated = 0;
 
@@ -285,44 +301,62 @@ void DecipherNumbersSpecification (
     }
 
     int startNodeNbr =
-      ConsumeDecimalNumber (cursor, & cursor, theNodesNumber);
+      consumeDecimalNumber (
+        cursor, &cursor, debugMode);
     int endNodeNbr;
 
-    if (* cursor == '-') {
+    if (*cursor == '-') {
       ++ cursor;
-//      printf ("--> DecipherNodeNumbers after '-' : cursor = |%s|\n\n", cursor);
 
-      endNodeNbr = ConsumeDecimalNumber (cursor, & cursor, theNodesNumber);
-    } else {
+      if (debugMode)
+        cout <<
+          "--> decipherNumbersSpecification after '-' : cursor = |" <<
+          cursor <<
+          "|" <<
+          endl << endl;
+  
+      endNodeNbr =
+        consumeDecimalNumber (
+          cursor, &cursor, debugMode);
+    }
+
+    else {
       endNodeNbr = startNodeNbr;
     }
 
     if (debugMode)
       cout <<
-        "--> DecipherNodeNumbers, startNodeNbr = " << startNodeNbr <<
+        "--> decipherNumbersSpecification, startNodeNbr = " << startNodeNbr <<
         ", endNodeNbr = " << endNodeNbr <<
-        ": cursor = |" << cursor << "|" << endl;
+        ": cursor = |" << cursor << "|" <<
+        endl;
 
     for (int i = startNodeNbr; i <= endNodeNbr; i ++) {
-      theSelectedNodes [i] = ! negated;
+      if (negated)
+        selectedNumbers.erase (i);
+      else
+        selectedNumbers.insert (i);
     } // for
 
-    if (* cursor != ',') {
-//      printf ("--> DecipherNodeNumbers, after non ',' : cursor = |%s|\n\n", cursor);
+    if (*cursor != ',') {
+//      printf ("--> decipherNumbersSpecification, after non ',' : cursor = |%s|\n\n", cursor);
       break;
     }
 
     ++ cursor;
 
-//    printf ("--> DecipherNodeNumbers after ',' : cursor = |%s|\n\n", cursor);
+//    printf ("--> decipherNumbersSpecification after ',' : cursor = |%s|\n\n", cursor);
   } // while 
 
   if (* cursor != '\0') {
     cout <<
       "--> Extraneous characters |" << cursor <<
-      "| in numbers spec\n" << endl;
+      "| in numbers spec\n" <<
+      endl;
   }
-} // DecipherNumbersSpecification
+
+  return selectedNumbers;
+}
 
 
 }

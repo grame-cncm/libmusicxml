@@ -189,9 +189,7 @@ class EXP msrOptions : public smartable {
     bool                            fTrace;
     bool                            fDebug;
     bool                            fDebugDebug;
-    
-    // the options used by the command line
-    std::string                     fMSRCommandLineOptions;
+    set<int>                        fDebugMeasureNumbersSet;
 };
 typedef SMARTP<msrOptions> S_msrOptions;
 

@@ -42,11 +42,11 @@ void usage (int exitStatus) {
     "What it does:" << endl <<
     endl <<
     "    This multi-pass translator features:" << endl <<
-    "        Pass 1: read the contents of MusicXMLFile or stdin ('-')" << endl <<
-    "                and convert it to a MusicXML tree;" << endl <<
-    "        Pass 2: convert that tree to Music Score Representation (MSR);" << endl <<
-    "        Pass 3: augment the MSR to obtain a LilyPond Score Representation (LPSR);" << endl <<
-    "        Pass 4: write the LPSR as LilyPond source code to standard output." << endl <<
+    "        Pass 1: reads the contents of MusicXMLFile or stdin ('-')" << endl <<
+    "                and converts it to a MusicXML tree;" << endl <<
+    "        Pass 2: converts that tree to Music Score Representation (MSR);" << endl <<
+    "        Pass 3: augments the MSR to obtain a LilyPond Score Representation (LPSR);" << endl <<
+    "        Pass 4: writes the LPSR as LilyPond source code to standard output." << endl <<
     "    The activity log and warning/error messages go to standard error." << endl <<
     endl <<
 
@@ -61,9 +61,17 @@ void usage (int exitStatus) {
 
     "    --nt, --noTrace" << endl <<
     "          Don't generate a trace of the activity to standard error." << endl <<
-    "    --d, --debug  " << endl <<
+    "    --d, --debug " << endl <<
     "          Generate a trace of the activity and print additional" << endl <<
     "          debugging information to standard error." << endl <<
+    "    --dd, --debugDebug " << endl <<
+    "          Same as above, but print even more debugging information." << endl <<
+    "    --dm, --debugMeasures <measuresSpec>" << endl <<
+    "          '<measuresSpec>' has a form such as 0,2-14,^8-10 ," << endl <<
+    "          where '^' excludes the corresponding numbers interval" << endl <<
+    "          and 0 applies to the '<part-list>' and anacrusis if present." <<endl <<
+    "          Generate a trace of the activity and print additional" << endl <<
+    "          debugging information to standard error for the specified measures." << endl <<
     endl <<
 
     "  MSR:" << endl <<
@@ -138,11 +146,9 @@ int main (int argc, char *argv[])
   }
   */
   
- S_msrOptions msrOpts = msrOptions::create();
+  S_msrOptions msrOpts = msrOptions::create ();
   assert(msrOpts != 0);
-  
-  msrOpts->fMSRCommandLineOptions             = "";
-  
+    
   // General options
   // ---------------
 
@@ -172,8 +178,6 @@ int main (int argc, char *argv[])
   S_lpsrOptions lpsrOpts = lpsrOptions::create();
   assert(lpsrOpts != 0);
   
-  lpsrOpts->fLPSRCommandLineOptions           = "";
-
   lpsrOpts->fDisplayLPSR                      = false;
 
   lpsrOpts->fDontKeepLineBreaks               = false;
@@ -197,6 +201,7 @@ int main (int argc, char *argv[])
   int noTracePresent                    = 0;
   int debugPresent                      = 0;
   int debugDebugPresent                 = 0;
+  int debugMeasuresPresent              = 0;
   
   // MSR options
   // -----------
@@ -256,6 +261,7 @@ int main (int argc, char *argv[])
       no_argument,
       &noTracePresent, 1
     },
+    
     {
       "d",
       no_argument,
@@ -266,6 +272,7 @@ int main (int argc, char *argv[])
       no_argument,
       &debugPresent, 1
     },
+    
     {
       "dd",
       no_argument,
@@ -275,6 +282,17 @@ int main (int argc, char *argv[])
       "debugDebug",
       no_argument,
       &debugDebugPresent, 1
+    },
+    
+    {
+      "dm",
+      required_argument,
+      &debugMeasuresPresent, 1
+    },
+    {
+      "debugMeasures",
+      required_argument,
+      &debugMeasuresPresent, 1
     },
 
     // MSR options
@@ -414,6 +432,8 @@ int main (int argc, char *argv[])
   /* getopt_long stores the option index here. */
   int option_index = 0;
 
+  string commandLineOptions;
+
   int c;
   while (
     (c = getopt_long (
@@ -453,20 +473,35 @@ int main (int argc, char *argv[])
 
         if (noTracePresent) {
           msrOpts->fTrace = false;
-          msrOpts->fMSRCommandLineOptions +=
+          commandLineOptions +=
             "--noTrace ";
         }
         if (debugPresent) {
           msrOpts->fTrace = true;
           msrOpts->fDebug = true;
-          msrOpts->fMSRCommandLineOptions +=
+          commandLineOptions +=
             "--debug ";
         }
         if (debugDebugPresent) {
           msrOpts->fTrace = true;
           msrOpts->fDebugDebug = true;
-          msrOpts->fMSRCommandLineOptions +=
+          commandLineOptions +=
             "--debugDebug ";
+        }
+        if (debugMeasuresPresent) {
+          msrOpts->fTrace = true;
+          msrOpts->fDebugDebug = true;
+          
+          char*        measuresSpec = optarg;
+          stringstream s;
+
+          s <<
+            "--debugMeasures" << " " << measuresSpec;
+          commandLineOptions +=
+            s.str();
+            
+          msrOpts->fDebugMeasureNumbersSet =
+            decipherNumbersSpecification (measuresSpec);
         }
 
         // MSR options
@@ -476,44 +511,45 @@ int main (int argc, char *argv[])
           // optarg contains the language name
           if (gMsrNoteNamesLanguageMap.count(optarg)) {
             msrOpts->fMsrNoteNamesLanguageAsString = optarg;
-          } else {
+          }
+          else {
             cerr <<
               "--> Unknown language name \"" << optarg <<
               "\", using \"dutch\" instead" << std::endl;
             msrOpts->fMsrNoteNamesLanguageAsString = "dutch";
             msrOpts->fMsrNoteNamesLanguage = kNederlands;
           }
-          msrOpts->fMSRCommandLineOptions +=
+          commandLineOptions +=
             "--language "+msrOpts->fMsrNoteNamesLanguageAsString+" ";
           }
              
         if (staffRelativeVoiceNumbersPresent) {
           msrOpts->fCreateStaffRelativeVoiceNumbers = true;
-          msrOpts->fMSRCommandLineOptions +=
+          commandLineOptions +=
             "--staffRelativeVoiceNumbers ";
         }
         
         if (dontDisplayMSRLyricsPresent) {
           msrOpts->fDontDisplayMSRLyrics = true;
-          msrOpts->fMSRCommandLineOptions +=
+          commandLineOptions +=
             "--dontGenerateLyrics ";
         }
         
         if (delayRestsDynamicsPresent) {
           msrOpts->fDelayRestsDynamics = true;
-          msrOpts->fMSRCommandLineOptions +=
+          commandLineOptions +=
             "--delayRestsDynamics ";
         }
         
         if (displayMSRPresent) {
           msrOpts->fDisplayMSR = true;
-          msrOpts->fMSRCommandLineOptions +=
+          commandLineOptions +=
             "--displayMSR ";
         }
 
         if (displayMSRScoreSummaryPresent) {
           msrOpts->fDisplayMSRScoreSummary = true;
-          msrOpts->fMSRCommandLineOptions +=
+          commandLineOptions +=
             "--displayScoreSummary ";
         }
         
@@ -522,46 +558,46 @@ int main (int argc, char *argv[])
 
         if (displayLPSRPresent) {
           lpsrOpts->fDisplayLPSR = true;
-          lpsrOpts->fLPSRCommandLineOptions +=
+          commandLineOptions +=
             "--displayLPSR ";
         }
 
         if (absolutePresent) {
           lpsrOpts->fGenerateAbsoluteOctaves = true;
-          lpsrOpts->fLPSRCommandLineOptions +=
+          commandLineOptions +=
             "--absolute ";
         }
         
         if (numericaltimePresent) {
           lpsrOpts->fGenerateNumericalTime = true;
-          lpsrOpts->fLPSRCommandLineOptions +=
+          commandLineOptions +=
             "--numericalTime ";
         }
         if (noCommentsPresent) {
           lpsrOpts->fGenerateComments = false;
-          lpsrOpts->fLPSRCommandLineOptions +=
+          commandLineOptions +=
             "--noComments ";
         }
         if (stemsPresent) {
           lpsrOpts->fGenerateStems = true;
-          lpsrOpts->fLPSRCommandLineOptions +=
+          commandLineOptions +=
             "--stems ";
         }
         if (positionsPresent) {
           lpsrOpts->fGeneratePositions = true;
-          lpsrOpts->fLPSRCommandLineOptions +=
+          commandLineOptions +=
             "--positions ";
         }
         
         if (dontGenerateLilyPondLyricsPresent) {
           lpsrOpts->fDontGenerateLilyPondLyrics = true;
-          lpsrOpts->fLPSRCommandLineOptions +=
+          commandLineOptions +=
             "--dontGenerateLyrics ";
         }
         
         if (dontDisplayLilyPondCodePresent) {
           lpsrOpts->fDontDisplayLilyPondCode = true;
-          lpsrOpts->fLPSRCommandLineOptions +=
+          commandLineOptions +=
             "--dontDisplayLilyPondCode ";
         }
 
@@ -601,13 +637,25 @@ int main (int argc, char *argv[])
       endl <<
       "with libmusicxml2 v" << musicxmllibVersionStr() <<
       " & xml2Lilypond v" << musicxml2MsrVersionStr() << 
-      endl <<
+      endl;
 
+    cerr <<
+      "The command line options are:";
+    if (commandLineOptions.size())
+      cerr <<
+        endl <<
+        " " << commandLineOptions;
+    else
+      cerr << "none";
+    cerr << endl;
+      
+    // General options
+    // ---------------
+
+    cerr << idtr <<
       left <<
       
-      // General options
-      // ---------------
-
+      "The general options are:" << endl <<
       "  " << setw(31) << "trace" << " : " <<
         string(msrOpts->fTrace
           ? "true" : "false") << endl <<
@@ -617,10 +665,22 @@ int main (int argc, char *argv[])
       "  " << setw(31) << "debugDebug" << " : " <<
         string(msrOpts->fDebugDebug
           ? "true" : "false") << endl <<
+      "  " << setw(31) << "debugMeasureNumbersSet" << " : ";
+      for (
+        set<int>::const_iterator i =
+          msrOpts->fDebugMeasureNumbersSet.begin();
+        i != msrOpts->fDebugMeasureNumbersSet.end();
+        i++) {
+          cout << (*i) << " ";
+      } // for
+    cerr << endl;
 
-      // MSR options
-      // -----------
+    // MSR options
+    // -----------
 
+    cerr << idtr <<
+      left <<
+      
       "The MSR options are:" << endl <<
       "  " << setw(31) << "noteNamesLanguageName" << " : \"" <<
         msrOpts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
@@ -643,11 +703,14 @@ int main (int argc, char *argv[])
       
       "  " << setw(31) << "displayMSRScoreSummary" << " : " <<
         string(msrOpts->fDisplayMSRScoreSummary
-          ? "true" : "false") << endl <<
+          ? "true" : "false") << endl;
       
-      // LPSR options
-      // ------------
+    // LPSR options
+    // ------------
 
+    cerr << idtr <<
+      left <<
+      
       "The LPSR options are:" << endl <<
       "  " << setw(31) << "displayLPSR" << " : " <<
         string(lpsrOpts->fDisplayLPSR

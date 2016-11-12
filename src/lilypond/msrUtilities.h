@@ -14,6 +14,7 @@
 #define __msrUtilities__
 
 #include <string>
+#include <set>
 
 #include "basevisitor.h"
 
@@ -124,11 +125,9 @@ std::string stringNumbersToEnglishWords (std::string str);
     meaning that 7, 15, 18 and 19 have to enlisted
 */
 //______________________________________________________________________________
-void DecipherNumbersSpecification (
-  char*  theString,
-  int    theSelectedNodes [],
-  int    theNodesNumber,
-  bool   debugMode = false);
+std::set<int> decipherNumbersSpecification (
+  char* theString,
+  bool  debugMode = false);
 
 
 } // namespace MusicXML2
