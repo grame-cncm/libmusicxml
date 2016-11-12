@@ -538,7 +538,7 @@ void msrDuration::printScoreSummary (ostream& os)
 
 void msrDuration::printLilyPondCode (ostream& os)
 {
-  /*
+  /* JMI
   enum NoteFigures = {
     k1024th, k512th, 256th, k128th, k64th, k32nd, k16th, 
     kEighth, kQuarter, kHalf, kWhole, kBreve, kLong, kMaxima};
@@ -1367,12 +1367,12 @@ S_msrWedge msrNote::removeFirstWedge () {
   return wdg;
 }
 
-string msrNote::notePitchAsLilypondString ()
+string msrNote::noteMsrPitchAsString ()
 {
   stringstream s;
   
   /*
-  cerr << "msrNote::notePitchAsLilypondString (), isRest = " <<
+  cerr << "msrNote::noteMsrPitchAsString (), isRest = " <<
     fMusicXMLNoteData.fMusicXMLStepIsARest <<
     ", fMsrPitch = " << fMsrPitch << endl;
   */
@@ -1505,10 +1505,54 @@ void msrNote::print (ostream& os)
     fNoteBelongsToAChord << endl;
   */
   
+  switch (fNoteKind) {
+    
+    case msrNote::kStandaloneNote:
+      // print the note name
+      os <<
+        noteMsrPitchAsString ();
+      
+      // print the note duration
+      os <<
+        getNoteMsrDuration ();
+      break;
+      
+    case msrNote::kRestNote:
+      // print the rest
+      os <<
+        "Rest";
+      
+      // print the rest duration
+      os <<
+        getNoteMsrDuration ();
+      break;
+      
+    case msrNote::kChordMemberNote:
+      // print the note name
+      os <<
+        noteMsrPitchAsString ();
+      
+      // don't print the note duration,
+      // it will be printed for the chord itself
+      break;
+      
+    case msrNote::kTupletMemberNote:
+      // print the note name
+      os <<
+        noteMsrPitchAsString ();
+      
+      // print the note duration
+      os <<
+        getNoteMsrDuration ();
+      break;
+  } // switch
+
+
+/* JMI
   if (fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord) {
 
     // do not print it, msrChord::print () will do it
-    os << notePitchAsLilypondString() << " (FOO) ";
+    os << noteMsrPitchAsString() << " (FOO) ";
 
   } else {
 
@@ -1517,63 +1561,64 @@ void msrNote::print (ostream& os)
     else
       os << "Note";
     os <<
-      " " << notePitchAsLilypondString () <<
+      " " << noteMsrPitchAsString () <<
       ":" << fNoteMsrDuration;
-    if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
-      os << " " << "grace";
-    if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
-      os << " " << "tied";
-    os << endl;
-    
-    // print the alterations if any
-    if (fNoteArticulations.size()) {
-      idtr++;
-      list<S_msrArticulation>::const_iterator i;
-      for (i=fNoteArticulations.begin(); i!=fNoteArticulations.end(); i++) {
-        os << idtr << (*i);
-      } // for
-      idtr--;
-    }
-    
-    // print the dynamics if any
-    if (fNoteDynamics.size()) {
-      idtr++;
-      list<S_msrDynamics>::const_iterator i1;
-      for (i1=fNoteDynamics.begin(); i1!=fNoteDynamics.end(); i1++) {
-        os << idtr << (*i1);
-      } // for
-      idtr--;
-    }
+      */
+      
+  if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
+    os << " " << "grace";
+  if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
+    os << " " << "tied";
+  os << endl;
   
-    // print the wedges if any
-    if (fNoteWedges.size()) {
-      idtr++;
-      list<S_msrWedge>::const_iterator i2;
-      for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
-        os << idtr << (*i2);
-      } // for
-      idtr--;
-    }
+  // print the alterations if any
+  if (fNoteArticulations.size()) {
+    idtr++;
+    list<S_msrArticulation>::const_iterator i;
+    for (i=fNoteArticulations.begin(); i!=fNoteArticulations.end(); i++) {
+      os << idtr << (*i);
+    } // for
+    idtr--;
+  }
+  
+  // print the dynamics if any
+  if (fNoteDynamics.size()) {
+    idtr++;
+    list<S_msrDynamics>::const_iterator i1;
+    for (i1=fNoteDynamics.begin(); i1!=fNoteDynamics.end(); i1++) {
+      os << idtr << (*i1);
+    } // for
+    idtr--;
+  }
 
-    // print the slur if any
-    if (fNoteSlurKind != msrSlur::k_NoSlur) {
-      idtr++;
-      switch (fNoteSlurKind) {
-        case msrSlur::kStartSlur:
-          os << idtr << "Slur start";
-          break;
-        case msrSlur::kContinueSlur:
-          os << idtr << "Slur continue";
-          break;
-        case msrSlur::kStopSlur:
-          os << idtr << "Slur stop";
-          break;
-        default:
-          os << idtr << "Slur" << fNoteSlurKind << "???";
-      } // switch
-      os << endl;
-      idtr--;
-    }
+  // print the wedges if any
+  if (fNoteWedges.size()) {
+    idtr++;
+    list<S_msrWedge>::const_iterator i2;
+    for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
+      os << idtr << (*i2);
+    } // for
+    idtr--;
+  }
+
+  // print the slur if any
+  if (fNoteSlurKind != msrSlur::k_NoSlur) {
+    idtr++;
+    switch (fNoteSlurKind) {
+      case msrSlur::kStartSlur:
+        os << idtr << "Slur start";
+        break;
+      case msrSlur::kContinueSlur:
+        os << idtr << "Slur continue";
+        break;
+      case msrSlur::kStopSlur:
+        os << idtr << "Slur stop";
+        break;
+      default:
+        os << idtr << "Slur" << fNoteSlurKind << "???";
+    } // switch
+    os << endl;
+    idtr--;
   }
 }
 
@@ -1583,7 +1628,7 @@ void msrNote::printScoreSummary (ostream& os)
 void msrNote::printLilyPondCode (ostream& os)
 {
   // print the note name
-  os << notePitchAsLilypondString ();
+  os << noteMsrPitchAsString ();
   
   if (! fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord) {
     // print the note duration
@@ -1618,28 +1663,6 @@ void msrNote::printLilyPondCode (ostream& os)
     }
   }
 }
-
-/*
-
-string msrNote::octaveRepresentation (char octave)
-{
-  stringstream s;
-  if (octave > 0) {
-    int n = octave;
-    while (n > 0) {
-    s << "'";
-    n--;
-    }
-  } else if (octave < 0) {
-    int n = octave;
-    while (n < 0) {
-      s << ",";
-      n++;
-    }  
-  }
-  return s.str();
-}
-  */
 
 //______________________________________________________________________________
 S_msrSequentialMusic msrSequentialMusic::create (
@@ -2005,7 +2028,7 @@ void msrChord::print (ostream& os)
       iEnd   = fChordNotes.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << (*i)->notePitchAsLilypondString();
+      os << (*i)->noteMsrPitchAsString ();
       if (++i == iEnd) break;
       os << " ";
     } // for
@@ -5473,12 +5496,12 @@ void msrStaff::printLilyPondCode (ostream& os)
 S_msrPart msrPart::create (
   S_msrOptions&  msrOpts, 
   int            inputLineNumber,
-  string         partMusicXMLName,
+  string         partMusicXMLID,
   S_msrPartgroup partPartgroup)
 {
   msrPart* o =
     new msrPart (
-      msrOpts, inputLineNumber, partMusicXMLName, partPartgroup);
+      msrOpts, inputLineNumber, partMusicXMLID, partPartgroup);
   assert(o!=0);
   return o;
 }
@@ -5486,16 +5509,16 @@ S_msrPart msrPart::create (
 msrPart::msrPart (
   S_msrOptions&  msrOpts, 
   int            inputLineNumber,
-  string         partMusicXMLName,
+  string         partMusicXMLID,
   S_msrPartgroup partPartgroup)
     : msrElement (msrOpts, inputLineNumber)
 {  
-  fPartMusicXMLName = partMusicXMLName;
+  fPartMusicXMLID = partMusicXMLID;
   fPartPartgroup    = partPartgroup;
 
   // coin the part MSR name
   fPartMSRName =
-    "P_"+stringNumbersToEnglishWords (fPartMusicXMLName);
+    "P_"+stringNumbersToEnglishWords (fPartMusicXMLID);
     
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -5511,7 +5534,7 @@ S_msrPart msrPart::createEmptyClone (S_msrPartgroup clonedPartgroup)
       msrPart::create (
         fMsrOptions,
         fInputLineNumber,
-        fPartMusicXMLName,
+        fPartMusicXMLID,
         clonedPartgroup);
   
   return clone;
@@ -5521,7 +5544,7 @@ string msrPart::getPartCombinedName () const
 {
   return
     fPartMSRName +
-    " (" + fPartMusicXMLName + ")";
+    " (" + fPartMusicXMLID + ")";
 }
                 
 void msrPart::setAllPartStavesKey   (S_msrKey  key)
@@ -5848,14 +5871,14 @@ string msrPartgroup::getPartgroupCombinedName () const
 
 S_msrPart msrPartgroup::addPartToPartgroup (
   int    inputLineNumber,
-  string partMusicXMLName)
+  string partMusicXMLID)
 {
-  if (fPartgroupPartsMap.count (partMusicXMLName)) {
+  if (fPartgroupPartsMap.count (partMusicXMLID)) {
     cerr << idtr <<
-      "### Internal error: partMusicXMLName " << partMusicXMLName <<
+      "### Internal error: partMusicXMLID " << partMusicXMLID <<
       " already exists in this part group" << endl;
 
-    return fPartgroupPartsMap [partMusicXMLName];
+    return fPartgroupPartsMap [partMusicXMLID];
   }
 
   // create the part
@@ -5864,7 +5887,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
       msrPart::create (
         fMsrOptions,
         inputLineNumber,
-        partMusicXMLName,
+        partMusicXMLID,
         this);
 
   // register it in this part group
@@ -5875,7 +5898,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
       " to part group " << fPartgroupNumber << endl;
   }
   
-  fPartgroupPartsMap [partMusicXMLName] = part;
+  fPartgroupPartsMap [partMusicXMLID] = part;
   fPartgroupElements.push_back (part);
 
 //  if (true || fMsrOptions->fDebug) {
@@ -5930,7 +5953,7 @@ void msrPartgroup::addPartToPartgroup (S_msrPart part)
       " to part group " << fPartgroupNumber << endl;
   }
   
-  fPartgroupPartsMap [part->getPartMusicXMLName ()] = part;
+  fPartgroupPartsMap [part->getPartMusicXMLID ()] = part;
   fPartgroupElements.push_back (part);
 }
 
@@ -5947,7 +5970,7 @@ void msrPartgroup::prependSubPartgroupToPartgroup (
 }
 
 S_msrPart msrPartgroup::fetchPartFromPartgroup (
-  string partMusicXMLName)
+  string partMusicXMLID)
 {
   /*
   cerr << idtr << "==> fetchPartFromPartgroup, fPartgroupPartsMap contains:" << endl;
@@ -5964,8 +5987,8 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
   
   S_msrPart result;
   
-  if (fPartgroupPartsMap.count (partMusicXMLName)) {
-    result = fPartgroupPartsMap [partMusicXMLName];
+  if (fPartgroupPartsMap.count (partMusicXMLID)) {
+    result = fPartgroupPartsMap [partMusicXMLID];
   }
 
   return result;

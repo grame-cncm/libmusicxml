@@ -213,8 +213,8 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
   
   fOstream <<
     idtr <<
-      "PartMusicXMLName     : \"" <<
-      elt->getPartMusicXMLName () << "\"" << endl <<
+      "PartMusicXMLID     : \"" <<
+      elt->getPartMusicXMLID () << "\"" << endl <<
     idtr <<
       "PartName             : \"" <<
       elt->getPartName () << "\"" << endl <<

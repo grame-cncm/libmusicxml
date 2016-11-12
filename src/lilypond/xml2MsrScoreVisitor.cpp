@@ -1609,6 +1609,18 @@ void xml2MsrScoreVisitor::visitStart (S_measure& elt)
   gCurrentMusicXMLLocation.fMeasureNumber =
     elt->getAttributeIntValue ("number", 0);
 
+  // is this measure number in the debug set?
+  set<int>::iterator
+    it =
+      fMsrOptions->fDebugMeasureNumbersSet.find (
+        gCurrentMusicXMLLocation.fMeasureNumber);
+        
+  if (it != fMsrOptions->fDebugMeasureNumbersSet.end ()) {
+    // yes, activate debug for it
+    fMsrOptions->fSaveDebug = fMsrOptions->fDebug;
+    fMsrOptions->fSaveDebugDebug = fMsrOptions->fDebugDebug;
+  }
+
   gCurrentMusicXMLLocation.fPositionInMeasure = 0;
     
   if (fMsrOptions->fDebug)
@@ -1624,6 +1636,13 @@ void xml2MsrScoreVisitor::visitStart (S_measure& elt)
 //    fMsrOptions->fTrace = true; // JMI pour tests
 //    fMsrOptions->fDebug = true; // JMI pour tests
   }
+}
+
+void xml2MsrScoreVisitor::visitEnd (S_measure& elt)
+{
+  // restore debug options in case they were set in visitStart()
+  fMsrOptions->fDebug = fMsrOptions->fSaveDebug;
+  fMsrOptions->fDebugDebug = fMsrOptions->fSaveDebugDebug;
 }
 
 //______________________________________________________________________________
@@ -2426,7 +2445,7 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
    
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> adding first note " << fCurrentNote->notePitchAsLilypondString() <<
+      "--> adding first note " << fCurrentNote->noteMsrPitchAsString() <<
       " to new chord" << endl;
     
   // register fCurrentNote as first member of chord
@@ -2516,7 +2535,7 @@ void xml2MsrScoreVisitor::createTupletFromItsecondNote (S_msrNote secondNote)
   // add second note to the tuplet
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> adding note " << secondNote->notePitchAsLilypondString() <<
+      "--> adding note " << secondNote->noteMsrPitchAsString() <<
       " to tuplets stack top" << endl;
   tuplet->addElementToTuplet (secondNote);
 }
@@ -2528,7 +2547,7 @@ void xml2MsrScoreVisitor::finalizeTuplet (S_msrNote note) {
   // add note to the tuplet
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> adding note " << note->notePitchAsLilypondString () <<
+      "--> adding note " << note->noteMsrPitchAsString () <<
       " to tuplets stack top" << endl;
   tup->addElementToTuplet(note);
 
@@ -2728,7 +2747,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   if (fMsrOptions->fDebug)
     cerr <<
       idtr <<
-      "!!!! AFTER visitEnd (S_note) " << fCurrentNote->notePitchAsLilypondString () <<
+      "!!!! AFTER visitEnd (S_note) " << fCurrentNote->noteMsrPitchAsString () <<
       " we have:" << endl <<
       idtr << idtr <<
       "--> fCurrentStaffNumber = " << fCurrentStaffNumber << endl <<
@@ -2750,7 +2769,7 @@ void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
   if (fMsrOptions->fDebug)
     cerr <<  idtr <<
       "--> adding standalone " <<
-      newNote->notePitchAsLilypondString () <<
+      newNote->noteMsrPitchAsString () <<
       " to current voice" << endl;
 
   // is voice fCurrentVoiceNumber present in current staff?
@@ -2796,14 +2815,14 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> adding new note " <<
-      newNote->notePitchAsLilypondString() <<
+      newNote->noteMsrPitchAsString() <<
       " to current chord" << endl;
     
   // register note as a member of fCurrentChord
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> registering new note " <<
-      newNote->notePitchAsLilypondString() <<
+      newNote->noteMsrPitchAsString() <<
       " as a member of current chord" << endl;
   fCurrentChord->
     addNoteToChord (newNote);

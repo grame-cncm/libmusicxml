@@ -189,7 +189,11 @@ class EXP msrOptions : public smartable {
     bool                            fTrace;
     bool                            fDebug;
     bool                            fDebugDebug;
+    
+    // measure number-selective debug
     set<int>                        fDebugMeasureNumbersSet;
+    bool                            fSaveDebug;
+    bool                            fSaveDebugDebug;
 };
 typedef SMARTP<msrOptions> S_msrOptions;
 
@@ -679,10 +683,16 @@ class EXP msrNote : public msrElement
                               return
                                 fMusicXMLNoteData.fMusicXMLDivisions;
                             }
+    int                 getNoteMusicXMLOctave () const
+                            {
+                              return
+                                fMusicXMLNoteData.fMusicXMLOctave;
+                            }
+
     S_msrDuration       getNoteMsrDuration () const
                             { return fNoteMsrDuration; }   
 
-    string              notePitchAsLilypondString ();
+    string              noteMsrPitchAsString ();
 
     // articulations
     void                addArticulation (S_msrArticulation art);
@@ -2197,7 +2207,7 @@ class EXP msrPart : public msrElement
     static SMARTP<msrPart> create (
       S_msrOptions&  msrOpts, 
       int            inputLineNumber,
-      string         partMusicXMLName,
+      string         partMusicXMLID,
       S_msrPartgroup partPartgroup);
                 
     SMARTP<msrPart> createEmptyClone (S_msrPartgroup clonedPartgroup);
@@ -2214,8 +2224,8 @@ class EXP msrPart : public msrElement
     void      setPartName (string  partName)
                   { fPartName = partName; }
     
-    string    getPartMusicXMLName () const
-                  { return fPartMusicXMLName; }
+    string    getPartMusicXMLID () const
+                  { return fPartMusicXMLID; }
 
     string    getPartName () const
                   { return fPartName; }
@@ -2272,14 +2282,14 @@ class EXP msrPart : public msrElement
     msrPart (
       S_msrOptions&  msrOpts, 
       int            inputLineNumber,
-      string         partMusicXMLName,
+      string         partMusicXMLID,
       S_msrPartgroup partPartgroup);
       
     virtual ~msrPart();
   
   private:
     
-    string                  fPartMusicXMLName;
+    string                  fPartMusicXMLID;
     string                  fPartName;
     string                  fPartAbbreviation;
     string                  fPartInstrumentName;
@@ -2369,14 +2379,14 @@ class EXP msrPartgroup : public msrElement
 
     S_msrPart addPartToPartgroup (
                 int    inputLineNumber,
-                string partMusicXMLName);
+                string partMusicXMLID);
     
     void       addPartToPartgroup (S_msrPart part);
                 
     void      prependSubPartgroupToPartgroup (
                 S_msrPartgroup partGroup);
 
-    S_msrPart fetchPartFromPartgroup (string partMusicXMLName);
+    S_msrPart fetchPartFromPartgroup (string partMusicXMLID);
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);

@@ -261,6 +261,8 @@ class EXP xml2MsrScoreVisitor :
     virtual void visitEnd   ( S_elision& elt );
     
     virtual void visitStart ( S_measure& elt);
+    virtual void visitEnd   ( S_measure& elt);
+    
     virtual void visitStart ( S_print& elt);
     
     virtual void visitStart ( S_barline& elt);
