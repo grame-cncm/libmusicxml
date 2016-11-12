@@ -89,7 +89,7 @@ void usage (int exitStatus) {
 
     "    --drd, --delayRestsDynamics" << endl <<
     "          Don't attach dynamics and wedges to rests," << endl <<
-    "          but delay them until the next actual note instead." << endl <<
+    "          but delay them until the next actual note or chord instead." << endl <<
     endl <<
 
     "    --msr, --displayMSR" << endl <<
