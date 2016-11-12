@@ -640,11 +640,11 @@ int main (int argc, char *argv[])
       endl;
 
     cerr <<
-      "The command line options are:";
+      "The command line options are: ";
     if (commandLineOptions.size())
       cerr <<
         endl <<
-        " " << commandLineOptions;
+        commandLineOptions;
     else
       cerr << "none";
     cerr << endl;
