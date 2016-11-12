@@ -46,9 +46,9 @@ class lpsr2LilyPondVisitor :
   public visitor<S_lpsrScoreCommand>,
 
   public visitor<S_lpsrNewstaffCommand>,
+  public visitor<S_lpsrUseVoiceCommand>,
   public visitor<S_lpsrNewlyricsCommand>,
   public visitor<S_lpsrVariableUseCommand>,
-  public visitor<S_lpsrUseLyricsCommand>,
   
   public visitor<S_lpsrContext>,
   
@@ -137,13 +137,16 @@ class lpsr2LilyPondVisitor :
 
     virtual void visitStart (S_lpsrNewstaffCommand& elt);
     virtual void visitEnd   (S_lpsrNewstaffCommand& elt);
+    
+    virtual void visitStart (S_lpsrUseVoiceCommand& elt);
+    virtual void visitEnd   (S_lpsrUseVoiceCommand& elt);
+  
     virtual void visitStart (S_lpsrNewlyricsCommand& elt);
     virtual void visitEnd   (S_lpsrNewlyricsCommand& elt);
+    
     virtual void visitStart (S_lpsrVariableUseCommand& elt);
     virtual void visitEnd   (S_lpsrVariableUseCommand& elt);
-    virtual void visitStart (S_lpsrUseLyricsCommand& elt);
-    virtual void visitEnd   (S_lpsrUseLyricsCommand& elt);
-  
+    
     virtual void visitStart (S_lpsrContext& elt);
     virtual void visitEnd   (S_lpsrContext& elt);
   

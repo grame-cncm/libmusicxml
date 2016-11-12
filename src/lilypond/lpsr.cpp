@@ -577,29 +577,30 @@ void lpsrBarNumberCheck::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrNewlyricsCommand lpsrNewlyricsCommand::create (
-  S_msrOptions&     msrOpts, 
-  S_lpsrOptions&    lpsrOpts, 
-  int                    inputLineNumber,
-  string                 lyricsName,
-  string                 voiceName)
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber,
+  S_msrLyrics&   lyrics,
+  S_msrVoice&    voice)
 {
   lpsrNewlyricsCommand* o =
     new lpsrNewlyricsCommand (
-      msrOpts, lpsrOpts, inputLineNumber, lyricsName, voiceName);
+      msrOpts, lpsrOpts, inputLineNumber,
+      lyrics, voice);
   assert(o!=0);
   return o;
 }
 
 lpsrNewlyricsCommand::lpsrNewlyricsCommand (
-  S_msrOptions&     msrOpts, 
-  S_lpsrOptions&    lpsrOpts, 
-  int                    inputLineNumber,
-  string                 lyricsName,
-  string                 voiceName)
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber,
+  S_msrLyrics&   lyrics,
+  S_msrVoice&    voice)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {
-  fLyricsName = lyricsName;
-  fVoiceName  = voiceName;
+  fLyrics = lyrics;
+  fVoice  = voice;
 }
 
 lpsrNewlyricsCommand::~lpsrNewlyricsCommand() {}
@@ -954,10 +955,10 @@ void lpsrNewstaffCommand::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrVariableUseCommand lpsrVariableUseCommand::create (
-  S_msrOptions&     msrOpts, 
-  S_lpsrOptions&    lpsrOpts, 
-  int                    inputLineNumber,
-  string                 variableName)
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber,
+  string         variableName)
 {
   lpsrVariableUseCommand* o =
     new lpsrVariableUseCommand (
@@ -967,10 +968,10 @@ S_lpsrVariableUseCommand lpsrVariableUseCommand::create (
 }
 
 lpsrVariableUseCommand::lpsrVariableUseCommand (
-  S_msrOptions&     msrOpts, 
-  S_lpsrOptions&    lpsrOpts, 
-  int                    inputLineNumber,
-  string                 variableName)
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber,
+  string         variableName)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {
   fVariableName = variableName;
@@ -1425,6 +1426,35 @@ lpsrScore::lpsrScore (
 }
 
 lpsrScore::~lpsrScore() {}
+
+void lpsrScore::appendVoiceUseToStoreCommand (S_msrVoice voice)
+{
+  S_lpsrNewVoiceCommand
+    newVoiceCommand =
+      lpsrNewlyricsCommand::create (
+        fMsrOpts, 
+        fLpsrOpts, 
+        fInputLineNumber,
+        voice);
+  
+  fScoreCommand->
+    appendVoiceUseToParallelMusic (newVoiceCommand);
+}
+
+void lpsrScore::appendLyricsUseToStoreCommand (S_msrLyrics lyrics)
+{
+  S_lpsrNewlyricsCommand
+    newLyricsCommand =
+      lpsrNewlyricsCommand::create (
+        fMsrOpts, 
+        fLpsrOpts, 
+        fInputLineNumber,
+        lyrics,
+        lyrics->getLyricsVoice ());
+  
+  fScoreCommand->
+    appendVoiceUseToParallelMusic (newLyricsCommand);
+}
 
 void lpsrScore::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)

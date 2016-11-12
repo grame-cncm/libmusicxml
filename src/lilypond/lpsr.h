@@ -492,17 +492,18 @@ EXP ostream& operator<< (ostream& os, const S_lpsrNewstaffCommand& elt);
 
   A new lyrics is represented by the voice name and the part name
 */
+
 //______________________________________________________________________________
 class EXP lpsrNewlyricsCommand : public lpsrElement
 {
   public:
 
     static SMARTP<lpsrNewlyricsCommand> create (
-          S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int                    inputLineNumber,
-      string                 lyricsName,
-      string                 voiceName);
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      S_msrLyrics&   lyrics,
+      S_msrVoice&    voice);
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -514,21 +515,22 @@ class EXP lpsrNewlyricsCommand : public lpsrElement
   protected:
 
     lpsrNewlyricsCommand (
-          S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int                    inputLineNumber,
-      string                 lyricsName,
-      string                 voiceName);
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      S_msrLyrics&   lyrics,
+      S_msrVoice&    voicee);
       
     virtual ~lpsrNewlyricsCommand();
   
   private:
   
-    string fLyricsName;
-    string fVoiceName;
+    S_msrLyrics fLyrics;
+    S_msrVoice  fVoice;
 };
 typedef SMARTP<lpsrNewlyricsCommand> S_lpsrNewlyricsCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrNewlyricsCommand& elt);
+
 
 /*!
 \brief A lpsr variable use representation.
@@ -541,10 +543,10 @@ class EXP lpsrVariableUseCommand : public lpsrElement
   public:
 
     static SMARTP<lpsrVariableUseCommand> create (
-          S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int                    inputLineNumber,
-      string                 variableName);
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      string         variableName);
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -556,10 +558,10 @@ class EXP lpsrVariableUseCommand : public lpsrElement
   protected:
 
     lpsrVariableUseCommand (
-          S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int                    inputLineNumber,
-      string                 variableName);
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      string         variableName);
       
     virtual ~lpsrVariableUseCommand();
   
@@ -571,20 +573,61 @@ typedef SMARTP<lpsrVariableUseCommand> S_lpsrVariableUseCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrVariableUseCommand& elt);
 
 /*!
+\brief A voice use representation.
+
+  A voice use is represented by the voice to use
+*/
+//______________________________________________________________________________
+class EXP lpsrUseVoiceCommand : public lpsrElement
+{
+  public:
+
+    static SMARTP<lpsrUseVoiceCommand> create (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      S_msrVoice&    voice);
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    lpsrUseVoiceCommand (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      S_msrVoice&    voice);
+      
+    virtual ~lpsrUseVoiceCommand();
+  
+  private:
+  
+    S_msrVoice fVoice;
+};
+typedef SMARTP<lpsrUseVoiceCommand> S_lpsrUseVoiceCommand;
+EXP ostream& operator<< (ostream& os, const S_lpsrUseVoiceCommand& elt);
+
+/*!
 \brief A lyrics use representation.
 
   A lyrics use is represented by the lyrics to use
 */
 //______________________________________________________________________________
+/*
 class EXP lpsrUseLyricsCommand : public lpsrElement
 {
   public:
 
     static SMARTP<lpsrUseLyricsCommand> create (
-          S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int                    inputLineNumber,
-      string                 lyricsName);
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      S_msrLyrics&   lyrics);
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -596,19 +639,20 @@ class EXP lpsrUseLyricsCommand : public lpsrElement
   protected:
 
     lpsrUseLyricsCommand (
-          S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int                    inputLineNumber,
-      string                 lyricsName);
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      S_msrLyrics&   lyrics);
       
     virtual ~lpsrUseLyricsCommand();
   
   private:
   
-    string lyricsName;
+    S_msrLyrics fLyrics;
 };
 typedef SMARTP<lpsrUseLyricsCommand> S_lpsrUseLyricsCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrUseLyricsCommand& elt);
+*/
 
 /*!
 \brief A context representation.
@@ -729,13 +773,13 @@ class EXP lpsrScoreCommand : public lpsrElement
 
     void      appendVoiceUseToParallelMusic (S_msrVoice voice)
                   {
-                    fScoreBlockParallelMusic.
+                    fScoreBlockParallelMusic->
                       addElementToParallelMusic (voice);
                   }
                   
     void      appendLyricsUseToElementsList (S_msrLyrics lyrics)
                   {
-                    fScoreBlockParallelMusic.
+                    fScoreBlockParallelMusic->
                       addElementToParallelMusic (lyrics);
                   }
 
@@ -804,17 +848,9 @@ class EXP lpsrScore : public lpsrElement
     void      appendLyricsToElementsList (S_msrLyrics lyrics)
                   { fVoicesAndLyricsList.push_back (lyrics); }
 
-    void      appendVoiceUseToStoreCommand (S_msrVoice voice)
-                  {
-                    fScoreCommand.
-                      appendVoiceUseToParallelMusic (voice);
-                  }
+    void      appendVoiceUseToStoreCommand (S_msrVoice voice);
 
-    void      appendLyricsUseToStoreCommand (S_msrLyrics lyrics)
-                  {
-                    fScoreCommand.
-                      appendVoiceUseToParallelMusic (lyrics);
-                  }
+    void      appendLyricsUseToStoreCommand (S_msrLyrics lyrics);
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
