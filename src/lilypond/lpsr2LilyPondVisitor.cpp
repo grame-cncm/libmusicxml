@@ -241,9 +241,27 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewstaffCommand& elt)
     fOstream << idtr <<
       "% --> End visiting lpsrNewstaffCommand" << endl;
 
-  idtr++;
+  idtr--;
 }
 
+//________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting lpsrUseVoiceCommand" << endl;
+
+  idtr++;
+}
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrUseVoiceCommand& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting lpsrUseVoiceCommand" << endl;
+
+  idtr--;
+}
+  
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrNewlyricsCommand& elt)
 {
@@ -271,7 +289,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewlyricsCommand& elt)
     fOstream << idtr <<
       "% --> End visiting lpsrNewlyricsCommand" << endl;
 
-  idtr++;
+  idtr--;
 }
 
 //________________________________________________________________________
@@ -290,27 +308,9 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrVariableUseCommand& elt)
     fOstream << idtr <<
       "% --> End visiting lpsrVariableUseCommand" << endl;
 
-  idtr++;
+  idtr--;
 }
 
-//________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_lpsrUseLyricsCommand& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> Start visiting lpsrUseLyricsCommand" << endl;
-
-  idtr++;
-}
-void lpsr2LilyPondVisitor::visitEnd (S_lpsrUseLyricsCommand& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> End visiting lpsrUseLyricsCommand" << endl;
-
-  idtr++;
-}
-  
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrContext& elt)
 {
@@ -327,7 +327,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrContext& elt)
     fOstream << idtr <<
       "% --> End visiting lpsrContext" << endl;
 
-  idtr++;
+  idtr--;
 }
   
 //________________________________________________________________________
@@ -346,7 +346,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrBarCommand& elt)
     fOstream << idtr <<
       "% --> End visiting lpsrBarCommand" << endl;
 
-  idtr++;
+  idtr--;
 }
 
 //________________________________________________________________________

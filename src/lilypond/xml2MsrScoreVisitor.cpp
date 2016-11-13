@@ -2296,25 +2296,25 @@ void xml2MsrScoreVisitor::visitStart( S_pppppp& elt)
 void xml2MsrScoreVisitor::visitStart ( S_wedge& elt )
 {
   string type = elt->getAttributeValue("type");
-  msrWedge::WedgeKind wk;
+  msrWedge::msrWedgeKind wedgeKind;
 
   if (type == "crescendo") {
-    wk = msrWedge::kCrescendoWedge;
+    wedgeKind = msrWedge::kCrescendoWedge;
   }
   else if (type == "diminuendo") {
-    wk = msrWedge::kDecrescendoWedge;
+    wedgeKind = msrWedge::kDecrescendoWedge;
   }
   else if (type == "stop") {
-    wk = msrWedge::kStopWedge;
+    wedgeKind = msrWedge::kStopWedge;
   }
   
   S_msrWedge
-    wedg =
+    wedge =
       msrWedge::create(
         fMsrOptions,
         elt->getInputLineNumber (),
-        wk);
-  fPendingWedges.push_back (wedg);
+        wedgeKind);
+  fPendingWedges.push_back (wedge);
 }
     
 //______________________________________________________________________________

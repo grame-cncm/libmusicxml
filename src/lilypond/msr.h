@@ -159,7 +159,7 @@ msrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang);
 class EXP msrOptions : public smartable {
   public:
 
-    static SMARTP<msrOptions> create();
+    static SMARTP<msrOptions> create ();
     
   public:
   
@@ -376,7 +376,7 @@ class EXP msrDuration : public msrElement
   public:
   
     static SMARTP<msrDuration> create (
-      S_msrOptions& msrOpts, 
+      S_msrOptions&          msrOpts, 
       int                    inputLineNumber,
       int                    num,
       int                    denom,
@@ -384,7 +384,7 @@ class EXP msrDuration : public msrElement
       string                 tupletMemberType);
     
     msrDuration (
-      S_msrOptions& msrOpts, 
+      S_msrOptions&          msrOpts, 
       int                    inputLineNumber,
       int                    num,
       int                    denom,
@@ -519,14 +519,14 @@ EXP ostream& operator<< (ostream& os, const S_msrSlur& elt);
 /*!
 \brief A msr dynamics representation.
 
-  A dynamics is represented by a DynamicsKind value
+  A dynamics is represented by a msrDynamicsKind value
 */
 //______________________________________________________________________________
 class EXP msrDynamics : public msrElement
 {
   public:
 
-    enum DynamicsKind {
+    enum msrDynamicsKind {
           kF, kFF, kFFF, kFFFF, kFFFFF, kFFFFFF,
           kP, kPP, kPPP, kPPPP, kPPPPP, kPPPPPP,
           kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
@@ -535,9 +535,11 @@ class EXP msrDynamics : public msrElement
     static SMARTP<msrDynamics> create (
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
-      DynamicsKind           dynamicsKind);
+      msrDynamicsKind           dynamicsKind);
 
-    DynamicsKind getDynamicsKind () const { return fDynamicsKind; }
+    msrDynamicsKind
+              getDynamicsKind () const
+                  { return fDynamicsKind; }
 
     string  dynamicsKindAsString ();
     string  dynamicsKindAsLilypondString ();
@@ -554,13 +556,13 @@ class EXP msrDynamics : public msrElement
     msrDynamics (
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
-      DynamicsKind           dynamicsKind);
+      msrDynamicsKind           dynamicsKind);
       
     virtual ~msrDynamics();
   
   private:
 
-    DynamicsKind fDynamicsKind;
+    msrDynamicsKind fDynamicsKind;
 };
 typedef SMARTP<msrDynamics> S_msrDynamics;
 EXP ostream& operator<< (ostream& os, const S_msrDynamics& elt);
@@ -568,21 +570,22 @@ EXP ostream& operator<< (ostream& os, const S_msrDynamics& elt);
 /*!
 \brief A msr wedge representation.
 
-  A wedge is represented by a WedgeKind value (hairpins in LilyPond)
+  A wedge is represented by a msrWedgeKind value (hairpins in LilyPond)
 */
 //______________________________________________________________________________
 class EXP msrWedge : public msrElement
 {
   public:
 
-    enum WedgeKind { kCrescendoWedge, kDecrescendoWedge, kStopWedge };
+    enum msrWedgeKind
+      { kCrescendoWedge, kDecrescendoWedge, kStopWedge };
     
     static SMARTP<msrWedge> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      WedgeKind              wedgeKind);
+      int           inputLineNumber,
+      msrWedgeKind  wedgeKind);
 
-    WedgeKind getWedgeKind () const        { return fWedgeKind; }
+    msrWedgeKind getWedgeKind () const { return fWedgeKind; }
 
     string  wedgeKindAsString ();
 
@@ -597,14 +600,14 @@ class EXP msrWedge : public msrElement
 
     msrWedge (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      WedgeKind              wedgeKind);
+      int           inputLineNumber,
+      msrWedgeKind  wedgeKind);
       
     virtual ~msrWedge();
   
   private:
 
-    WedgeKind fWedgeKind;
+    msrWedgeKind fWedgeKind;
 };
 typedef SMARTP<msrWedge> S_msrWedge;
 EXP ostream& operator<< (ostream& os, const S_msrWedge& elt);
@@ -1461,7 +1464,7 @@ class EXP msrTuplet : public msrElement
       S_msrOptions& msrOpts,
       int                    inputLineNumber);
 
-    enum TupletKind {
+    enum msrTupletKind {
       kStartTuplet, kContinueTuplet, kStopTuplet, 
       k_NoTuplet };
 

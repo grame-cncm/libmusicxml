@@ -576,12 +576,89 @@ void lpsrBarNumberCheck::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_lpsrUseVoiceCommand lpsrUseVoiceCommand::create (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber,
+  S_msrVoice     voice)
+{
+  lpsrUseVoiceCommand* o =
+    new lpsrUseVoiceCommand (
+      msrOpts, lpsrOpts, inputLineNumber,
+      voice);
+  assert(o!=0);
+  return o;
+}
+
+lpsrUseVoiceCommand::lpsrUseVoiceCommand (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber,
+  S_msrVoice     voice)
+    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+{
+  fVoice  = voice;
+}
+
+lpsrUseVoiceCommand::~lpsrUseVoiceCommand() {}
+
+void lpsrUseVoiceCommand::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrUseVoiceCommand::acceptIn()" << endl;
+      
+  if (visitor<S_lpsrUseVoiceCommand>*
+    p =
+      dynamic_cast<visitor<S_lpsrUseVoiceCommand>*> (v)) {
+        S_lpsrUseVoiceCommand elem = this;
+        
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrUseVoiceCommand::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void lpsrUseVoiceCommand::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrUseVoiceCommand::acceptOut()" << endl;
+
+  if (visitor<S_lpsrUseVoiceCommand>*
+    p =
+      dynamic_cast<visitor<S_lpsrUseVoiceCommand>*> (v)) {
+        S_lpsrUseVoiceCommand elem = this;
+      
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrUseVoiceCommand::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrUseVoiceCommand::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_lpsrUseVoiceCommand& nlc)
+{
+  nlc->print (os);
+  return os;
+}
+
+void lpsrUseVoiceCommand::print (ostream& os)
+{
+  os <<
+    "UseVoiceCommand" << " " <<
+    fVoice->getVoiceName () << endl;
+}
+
+//______________________________________________________________________________
 S_lpsrNewlyricsCommand lpsrNewlyricsCommand::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber,
-  S_msrLyrics&   lyrics,
-  S_msrVoice&    voice)
+  S_msrLyrics    lyrics,
+  S_msrVoice     voice)
 {
   lpsrNewlyricsCommand* o =
     new lpsrNewlyricsCommand (
@@ -595,8 +672,8 @@ lpsrNewlyricsCommand::lpsrNewlyricsCommand (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber,
-  S_msrLyrics&   lyrics,
-  S_msrVoice&    voice)
+  S_msrLyrics    lyrics,
+  S_msrVoice     voice)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {
   fLyrics = lyrics;
@@ -652,7 +729,8 @@ void lpsrNewlyricsCommand::print (ostream& os)
 {
   os <<
     "NewlyricsCommand" << " " <<
-    fLyricsName << " " << fVoiceName << endl;
+    fLyrics->getLyricsName () << " " <<
+    fVoice->getVoiceName () << endl;
 }
 
 //______________________________________________________________________________
@@ -1429,16 +1507,16 @@ lpsrScore::~lpsrScore() {}
 
 void lpsrScore::appendVoiceUseToStoreCommand (S_msrVoice voice)
 {
-  S_lpsrNewVoiceCommand
-    newVoiceCommand =
-      lpsrNewlyricsCommand::create (
-        fMsrOpts, 
-        fLpsrOpts, 
+  S_lpsrUseVoiceCommand
+    useVoiceCommand =
+      lpsrUseVoiceCommand::create (
+        fMsrOptions, 
+        fLpsrOptions, 
         fInputLineNumber,
         voice);
   
   fScoreCommand->
-    appendVoiceUseToParallelMusic (newVoiceCommand);
+    appendVoiceUseToParallelMusic (useVoiceCommand);
 }
 
 void lpsrScore::appendLyricsUseToStoreCommand (S_msrLyrics lyrics)
@@ -1446,14 +1524,14 @@ void lpsrScore::appendLyricsUseToStoreCommand (S_msrLyrics lyrics)
   S_lpsrNewlyricsCommand
     newLyricsCommand =
       lpsrNewlyricsCommand::create (
-        fMsrOpts, 
-        fLpsrOpts, 
+        fMsrOptions, 
+        fLpsrOptions, 
         fInputLineNumber,
         lyrics,
         lyrics->getLyricsVoice ());
   
   fScoreCommand->
-    appendVoiceUseToParallelMusic (newLyricsCommand);
+    appendLyricsUseToParallelMusic (newLyricsCommand);
 }
 
 void lpsrScore::acceptIn (basevisitor* v) {

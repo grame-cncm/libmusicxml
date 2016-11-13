@@ -525,7 +525,7 @@ class EXP xml2MsrScoreVisitor :
     string                    fCurrentNormalNoteType;
     // embedded tuplets are numbered 1, 2, ...
     int                       fCurrentTupletNumber;
-    msrTuplet::TupletKind     fCurrentTupletKind;
+    msrTuplet::msrTupletKind  fCurrentTupletKind;
     // remains true until a S_tuplet of type "stop" is met
     bool                      fOnGoingTuplet;
     stack<S_msrTuplet>        fCurrentTupletsStack;

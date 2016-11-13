@@ -579,7 +579,7 @@ void msrArticulation::print (ostream& os)
 S_msrDynamics msrDynamics::create (
   S_msrOptions& msrOpts, 
   int                    inputLineNumber,
-  DynamicsKind           dynamicsKind)
+  msrDynamicsKind           dynamicsKind)
 {
   msrDynamics* o =
     new msrDynamics (
@@ -591,7 +591,7 @@ S_msrDynamics msrDynamics::create (
 msrDynamics::msrDynamics (
   S_msrOptions& msrOpts, 
   int                    inputLineNumber,
-  DynamicsKind           dynamicsKind)
+  msrDynamicsKind           dynamicsKind)
     : msrElement (msrOpts, inputLineNumber)
 {
   fDynamicsKind = dynamicsKind; 
@@ -630,7 +630,7 @@ string msrDynamics::dynamicsKindAsString ()
     case kPPPPPP:
       s << "pppppp"; break;
 
-     case kMF:
+    case kMF:
       s << "mf"; break;
     case kMP:
       s << "mp"; break;
@@ -643,7 +643,7 @@ string msrDynamics::dynamicsKindAsString ()
     case kSF:
       s << "sf"; break;
 
-   case kRFZ:
+    case kRFZ:
       s << "rfz"; break;
     case kSFZ:
       s << "sfz"; break;
@@ -724,8 +724,8 @@ void msrDynamics::print (ostream& os)
 //______________________________________________________________________________
 S_msrWedge msrWedge::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  WedgeKind              wedgeKind)
+  int           inputLineNumber,
+  msrWedgeKind  wedgeKind)
 {
   msrWedge* o =
     new msrWedge (
@@ -736,8 +736,8 @@ S_msrWedge msrWedge::create (
 
 msrWedge::msrWedge (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  WedgeKind              wedgeKind)
+  int           inputLineNumber,
+  msrWedgeKind  wedgeKind)
     : msrElement (msrOpts, inputLineNumber)
 {
   fWedgeKind = wedgeKind; 
