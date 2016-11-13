@@ -202,7 +202,7 @@ void msr2LpsrVisitor::visitStart (S_msrVoice& elt)
   fLpsrScore ->
     appendVoiceToElementsList (elt);
 
-  // append the voice to the LPSR score elements list
+  // append the voice use to the LPSR score command
   fLpsrScore ->
     appendVoiceUseToStoreCommand (elt);
 }
@@ -223,22 +223,30 @@ void msr2LpsrVisitor::visitStart (S_msrLyrics& elt)
     fOstream << idtr <<
       "--> Start visiting msrLyrics" << endl;
 
+  idtr++;
+  
   fCurrentMsrLyricsClone =
     elt->createEmptyClone (fCurrentMsrVoiceClone);
     
   fCurrentMsrVoiceClone->
     addLyricsToVoice (fCurrentMsrLyricsClone);
-}
-
-void msr2LpsrVisitor::visitEnd (S_msrLyrics& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "--> End visiting msrLyrics" << endl;
 
   // append the lyrics to the LPSR score elements list
   fLpsrScore ->
     appendLyricsToElementsList (elt);
+
+  // append the lyrics use to the LPSR score command
+  fLpsrScore ->
+    appendLyricsUseToStoreCommand (elt);
+}
+
+void msr2LpsrVisitor::visitEnd (S_msrLyrics& elt)
+{
+  idtr--;
+  
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrLyrics" << endl;
 }
 
 //________________________________________________________________________

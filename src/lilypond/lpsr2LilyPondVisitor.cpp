@@ -251,6 +251,15 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrUseVoiceCommand" << endl;
 
+  fOstream << idtr <<
+     "\\context Voice" << " = " <<
+    "\"" << elt->getVoice ()->getVoiceName () << "\""<<
+    " " <<
+     "{ "<< "\\" << elt->getVoice ()->getVoiceName () << " }" <<
+    endl;
+
+ // JMI \context Voice = "PartPOneVoiceOne" { \PartPOneVoiceOne }
+ 
   idtr++;
 }
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrUseVoiceCommand& elt)
@@ -269,16 +278,15 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewlyricsCommand& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrNewlyricsCommand" << endl;
 
-/*
- void lpsrNewlyricsCommand::printLilyPondCode (ostream& os)
-{
-   os <<
-     idtr << "\\new Lyrics" << " " <<
-    "\\lyricsto " << fVoiceName <<
-    " " << "\\" << fLyricsName << endl;
-}
- *         JMI        \new Lyrics \lyricsto "PartPOneVoiceOne" \PartPOneVoiceOneLyricsOne
-*/
+   fOstream << idtr <<
+     "\\new Lyrics" << " " <<
+    "\\lyricsto" << " " <<
+    "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
+    " " <<
+    "\\" << elt->getLyrics ()->getLyricsName () <<
+    endl;
+
+ // JMI \new Lyrics \lyricsto "PartPOneVoiceOne" \PartPOneVoiceOneLyricsOne
 
   idtr++;
 }

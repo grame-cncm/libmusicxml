@@ -501,6 +501,8 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
       int            inputLineNumber,
       S_msrVoice     voice);
 
+    S_msrVoice   getVoice () const { return fVoice; }
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -543,6 +545,9 @@ class EXP lpsrNewlyricsCommand : public lpsrElement
       S_msrLyrics    lyrics,
       S_msrVoice     voice);
 
+    S_msrLyrics  getLyrics () const { return fLyrics; }
+    S_msrVoice   getVoice  () const { return fVoice; }
+    
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
