@@ -225,21 +225,23 @@ void msr2LpsrVisitor::visitStart (S_msrLyrics& elt)
       "--> Start visiting msrLyrics" << endl;
 
   idtr++;
+
+  if (elt->getLyricsTextPresent ()) {
+    fCurrentMsrLyricsClone =
+      elt->createEmptyClone (fCurrentMsrVoiceClone);
   
-  fCurrentMsrLyricsClone =
-    elt->createEmptyClone (fCurrentMsrVoiceClone);
-
-  // don't add the lyrics to fCurrentMsrVoiceClone
-//  fCurrentMsrVoiceClone->
- // JMI   addLyricsToVoice (fCurrentMsrLyricsClone);
-
-  // append the lyrics to the LPSR score elements list
-  fLpsrScore ->
-    appendLyricsToElementsList (fCurrentMsrLyricsClone);
-
-  // append a use of the lyrics to the LPSR score command
-  fLpsrScore ->
-    appendLyricsUseToStoreCommand (fCurrentMsrLyricsClone);
+    // don't add the lyrics to fCurrentMsrVoiceClone
+  
+    // append the lyrics to the LPSR score elements list
+    fLpsrScore ->
+      appendLyricsToElementsList (fCurrentMsrLyricsClone);
+  
+    // append a use of the lyrics to the LPSR score command
+    fLpsrScore ->
+      appendLyricsUseToStoreCommand (fCurrentMsrLyricsClone);
+  }
+  else
+    fCurrentMsrLyricsClone = 0; // JMI
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrLyrics& elt)
@@ -338,7 +340,7 @@ void msr2LpsrVisitor::visitStart (S_msrSequentialMusic& elt)
     fOstream << idtr <<
       "--> Start visiting msrSequentialMusic" << endl;
 
-  // a sequential music instance has already
+  // a sequential music instance has already JMI
   // been created for fCurrentMsrVoiceClone
   fCurrentMsrSequentialMusicClone =
     fCurrentMsrVoiceClone->getVoiceSequentialMusic ();
@@ -462,13 +464,13 @@ void msr2LpsrVisitor::visitStart (S_msrNote& elt)
       break;
       
     case msrNote::kChordMemberNote:
-      fCurrentMsrSequentialMusicClone->
-        appendElementToSequentialMusic (elt);
+      fCurrentMsrChordClone->
+        addNoteToChord (elt);
       break;
       
     case msrNote::kTupletMemberNote:
-      fCurrentMsrSequentialMusicClone->
-        appendElementToSequentialMusic (elt);
+      fCurrentMsrTupletClone->
+        addElementToTuplet (elt);
       break;
   } // switch
 }
@@ -528,6 +530,15 @@ void msr2LpsrVisitor::visitStart (S_msrChord& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrChord" << endl;
+
+  fCurrentMsrChordClone =
+    elt->createEmptyClone ();
+    
+ // JMI fCurrentMsrVoiceClone->
+    //appendChordToVoice (fCurrentMsrChordClone);
+
+  fCurrentMsrSequentialMusicClone->
+    appendElementToSequentialMusic (fCurrentMsrChordClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrChord& elt)
@@ -543,6 +554,12 @@ void msr2LpsrVisitor::visitStart (S_msrTuplet& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrTuplet" << endl;
+
+  fCurrentMsrTupletClone =
+    elt->createEmptyClone ();
+
+  fCurrentMsrSequentialMusicClone->
+    appendElementToSequentialMusic (fCurrentMsrTupletClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrTuplet& elt)

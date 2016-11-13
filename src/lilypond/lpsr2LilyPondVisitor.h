@@ -51,7 +51,7 @@ class lpsr2LilyPondVisitor :
   
   public visitor<S_lpsrScoreCommand>,
 
-  public visitor<S_msrParallelMusic>,
+  public visitor<S_lpsrParallelMusic>,
 
   public visitor<S_lpsrNewStaffCommand>,
   public visitor<S_lpsrNewStaffgroupCommand>,
@@ -149,8 +149,8 @@ class lpsr2LilyPondVisitor :
     virtual void visitStart (S_lpsrScoreCommand& elt);
     virtual void visitEnd   (S_lpsrScoreCommand& elt);
 
-    virtual void visitStart (S_msrParallelMusic& elt);
-    virtual void visitEnd   (S_msrParallelMusic& elt);
+    virtual void visitStart (S_lpsrParallelMusic& elt);
+    virtual void visitEnd   (S_lpsrParallelMusic& elt);
 
     virtual void visitStart (S_lpsrNewStaffgroupCommand& elt);
     virtual void visitEnd   (S_lpsrNewStaffgroupCommand& elt);
@@ -301,13 +301,15 @@ class lpsr2LilyPondVisitor :
 
     // sequential music
     // ------------------------------------------------------
-    S_msrSequentialMusic fCurrentMsrSequentialMusicClone;
+// JMI    S_msrSequentialMusic fCurrentMsrSequentialMusicClone;
     
     // chords
     // ------------------------------------------------------
-
+// JMI     S_msrChord           fCurrentMsrChordClone;
+    
     // tuplets
     // ------------------------------------------------------
+// JMI     S_msrTuplet          fCurrentMsrTupletClone;
 };
 
 /*

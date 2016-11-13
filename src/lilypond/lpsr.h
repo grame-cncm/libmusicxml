@@ -806,26 +806,26 @@ class EXP lpsrScoreCommand : public lpsrElement
       int            inputLineNumber);
      
     S_lpsrParallelMusic
-                getScoreBlockParallelMusic () const
-                    { return fScoreBlockParallelMusic; }
+                getScoreCommandParallelMusic () const
+                    { return fScoreCommandParallelMusic; }
 
-    S_msrLayout getScoreBlockLayout () const
-                    { return fScoreBlockLayout; }
+    S_msrLayout getScoreCommandLayout () const
+                    { return fScoreCommandLayout; }
 
-    S_msrMidi   getScoreBlockMidi () const
-                    { return fScoreBlockMidi; }
+    S_msrMidi   getScoreCommandMidi () const
+                    { return fScoreCommandMidi; }
 
     void      appendVoiceUseToParallelMusic (
                 S_lpsrUseVoiceCommand voiceUse)
                   {
-                    fScoreBlockParallelMusic->
+                    fScoreCommandParallelMusic->
                       addElementToParallelMusic (voiceUse);
                   }
                   
     void      appendLyricsUseToParallelMusic (
                 S_lpsrNewlyricsCommand lyricsUse)
                   {
-                    fScoreBlockParallelMusic->
+                    fScoreCommandParallelMusic->
                       addElementToParallelMusic (lyricsUse);
                   }
 
@@ -847,9 +847,9 @@ class EXP lpsrScoreCommand : public lpsrElement
   
   private:
 
-    S_lpsrParallelMusic fScoreBlockParallelMusic;
-    S_msrLayout         fScoreBlockLayout;
-    S_msrMidi           fScoreBlockMidi;    
+    S_lpsrParallelMusic fScoreCommandParallelMusic;
+    S_msrLayout         fScoreCommandLayout;
+    S_msrMidi           fScoreCommandMidi;    
 };
 typedef SMARTP<lpsrScoreCommand> S_lpsrScoreCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrScoreCommand& elt);
@@ -885,7 +885,7 @@ class EXP lpsrScore : public lpsrElement
                     { return fVoicesAndLyricsList; }
 
     S_lpsrScoreCommand
-                getScoreBlockCommand () const
+                getScoreCommand () const
                     { return fScoreCommand; }
 
     void      appendVoiceToElementsList (S_msrVoice voice)

@@ -1393,6 +1393,7 @@ void msrNote::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrNote& elt)
 {
+  if (elt) // JMI JMI
   elt->print (os);
   return os;
 }
@@ -1736,8 +1737,8 @@ void msrParallelMusic::print (ostream& os)
 //______________________________________________________________________________
 S_msrChord msrChord::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  S_msrDuration          chordDuration)
+  int           inputLineNumber,
+  S_msrDuration chordDuration)
 {
   msrChord* o =
     new msrChord (
@@ -1754,8 +1755,21 @@ msrChord::msrChord (
 {
   fChordDuration = chordDuration;
 }
+
 msrChord::~msrChord() {}
 
+S_msrChord msrChord::createEmptyClone ()
+{
+  S_msrChord
+    clone =
+      msrChord::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fChordDuration);
+  
+  return clone;
+}
+    
 void msrChord::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -2150,7 +2164,7 @@ void msrBarNumberCheck::print (ostream& os)
 //______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
   S_msrOptions& msrOpts,
-  int                    inputLineNumber)
+  int           inputLineNumber)
 {
   msrTuplet* o =
     new msrTuplet (
@@ -2161,7 +2175,7 @@ S_msrTuplet msrTuplet::create (
 
 msrTuplet::msrTuplet (
   S_msrOptions& msrOpts,
-  int                    inputLineNumber)
+  int           inputLineNumber)
     : msrElement (msrOpts, inputLineNumber)
 {
   fTupletNumber = k_NoTuplet;
@@ -2171,6 +2185,16 @@ msrTuplet::msrTuplet (
 }
 msrTuplet::~msrTuplet() {}
 
+S_msrTuplet msrTuplet::createEmptyClone ()
+{
+  S_msrTuplet
+    clone =
+      msrTuplet::create (
+        fMsrOptions,
+        fInputLineNumber);
+  
+  return clone;
+}
 void msrTuplet::updateTuplet (int number, int actualNotes, int normalNotes)
 {
   fTupletNumber = number;
@@ -2758,6 +2782,7 @@ void msrVarValAssoc::print (ostream& os)
   os << idtr << fVariableName << endl;
   os << idtr << fVariableValue <<endl;
 
+  os << idtr;
   switch (fVarValSeparator) {
     case kSpace:
       os << "space";
@@ -2768,6 +2793,7 @@ void msrVarValAssoc::print (ostream& os)
   } // switch
   os << idtr << endl;
 
+  os << idtr;
   switch (fQuotesKind) {
     case kQuotesAroundValue:
       os << "quotes";
@@ -2778,6 +2804,7 @@ void msrVarValAssoc::print (ostream& os)
   } // switch
   os << idtr << endl;
 
+  os << idtr;
   switch (fCommentedKind) {
     case kCommented:
       os << "commented";

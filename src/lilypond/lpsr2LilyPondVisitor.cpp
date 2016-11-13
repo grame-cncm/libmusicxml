@@ -244,7 +244,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrHeader& elt)
       "% --> Start visiting msrHeader" << endl;
 
   fOstream << idtr <<
-    "\\Header" << " {" <<
+    "\\header" << " {" <<
     endl;
 
   idtr++;
@@ -315,7 +315,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrPaper& elt)
       "% --> Start visiting msrPaper" << endl;
 
   fOstream << idtr <<
-    "Paper" << " {" <<
+    "\\paper" << " {" <<
     endl;
 
   idtr++;
@@ -433,11 +433,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrScoreCommand& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrParallelMusic& elt)
+void lpsr2LilyPondVisitor::visitStart (S_lpsrParallelMusic& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting msrParallelMusic" << endl;
+      "% --> Start visiting lpsrParallelMusic" << endl;
 
   fOstream << idtr <<
     "<<" <<
@@ -446,17 +446,17 @@ void lpsr2LilyPondVisitor::visitStart (S_msrParallelMusic& elt)
   idtr++;
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_msrParallelMusic& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrParallelMusic& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting msrParallelMusic" << endl;
+      "% --> End visiting lpsrParallelMusic" << endl;
 
   idtr--;
   
   fOstream << idtr <<
     ">>" <<
-    endl;
+    endl << endl;
 }
 
 //________________________________________________________________________
@@ -739,7 +739,6 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrLyrics& elt)
   idtr--;
   
   fOstream <<
-    endl <<
     idtr << "}" <<
     endl <<
     endl;  
@@ -974,11 +973,12 @@ void lpsr2LilyPondVisitor::visitStart (S_msrSequentialMusic& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrSequentialMusic" << endl;
-/* JMI
-  fOstream <<
-    idtr << "{ " << endl <<
+
+  fOstream << idtr <<
+    "{ " <<
+    " % msrSequentialMusic" << //JMI
+    endl <<
     idtr;
-    */
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrSequentialMusic& elt)
@@ -986,12 +986,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrSequentialMusic& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrSequentialMusic" << endl;
-/*
+
   fOstream <<
     endl <<
     idtr << "}" <<
     endl;
-    */
 }
 
 //________________________________________________________________________
@@ -1238,21 +1237,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
       "% --> Start visiting msrChord" << endl;
 
   fOstream << "<";
-  if (elt->getChordNotes ().size()) {
-    vector<S_msrNote>::const_iterator
-      iBegin = elt->getChordNotes ().begin(),
-      iEnd   = elt->getChordNotes ().end(),
-      i      = iBegin;
-    for ( ; ; ) {
-      fOstream << (*i);
-      if (++i == iEnd) break;
-      fOstream << " ";
-    } // for
-  }
-  fOstream << ">";
-  
-  // print the chord duration
-  fOstream << elt->getChordDuration ();
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
@@ -1260,6 +1244,10 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrChord" << endl;
+
+  fOstream <<
+    ">";
+    elt->getChordDuration ();
 }
 
 //________________________________________________________________________

@@ -865,8 +865,10 @@ class EXP msrChord : public msrElement
 
     static SMARTP<msrChord> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      S_msrDuration          chordDuration);
+      int           inputLineNumber,
+      S_msrDuration chordDuration);
+
+    SMARTP<msrChord> createEmptyClone ();
 
     vector<S_msrNote>
                 getChordNotes () const
@@ -898,8 +900,8 @@ class EXP msrChord : public msrElement
 
     msrChord (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      S_msrDuration          chordDuration);
+      int           inputLineNumber,
+      S_msrDuration chordDuration);
       
     virtual ~msrChord();
   
@@ -1460,21 +1462,23 @@ class EXP msrTuplet : public msrElement
     
     static SMARTP<msrTuplet> create (
       S_msrOptions& msrOpts,
-      int                    inputLineNumber);
+      int           inputLineNumber);
+
+    SMARTP<msrTuplet> createEmptyClone ();
 
     enum msrTupletKind {
       kStartTuplet, kContinueTuplet, kStopTuplet, 
       k_NoTuplet };
 
-    void updateTuplet (int number, int actualNotes, int normalNotes);
+    void  updateTuplet (int number, int actualNotes, int normalNotes);
     
-    int  getTupletNumber () const { return fTupletNumber; }
+    int   getTupletNumber () const { return fTupletNumber; }
 
-    int getActualNotes () const { return fActualNotes; }
-    int getNormalNotes () const { return fNormalNotes; }
+    int   getActualNotes () const { return fActualNotes; }
+    int   getNormalNotes () const { return fNormalNotes; }
     
-    void addElementToTuplet (S_msrElement elem)
-            { fTupletContents.push_back(elem); }
+    void  addElementToTuplet (S_msrElement elem)
+             { fTupletContents.push_back(elem); }
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1487,7 +1491,7 @@ class EXP msrTuplet : public msrElement
 
     msrTuplet (
       S_msrOptions& msrOpts,
-      int                    inputLineNumber);
+      int           inputLineNumber);
       
     virtual ~msrTuplet();
   

@@ -831,6 +831,7 @@ void lpsrVarValAssoc::print (ostream& os)
   os << idtr << fVariableName << endl;
   os << idtr << fVariableValue <<endl;
   
+  os << idtr;
   switch (fVarValSeparator) {
     case kSpace:
       os << "space";
@@ -841,6 +842,7 @@ void lpsrVarValAssoc::print (ostream& os)
   } // switch
   os << idtr << endl;
 
+  os << idtr;
   switch (fQuotesKind) {
     case kQuotesAroundValue:
       os << "quotes";
@@ -851,6 +853,7 @@ void lpsrVarValAssoc::print (ostream& os)
   } // switch
   os << idtr << endl;
 
+  os << idtr;
   switch (fCommentedKind) {
     case kCommented:
       os << "commented";
@@ -1431,18 +1434,18 @@ lpsrScoreCommand::lpsrScoreCommand (
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {
   // create the score block parallel music
-  fScoreBlockParallelMusic =
+  fScoreCommandParallelMusic =
     lpsrParallelMusic::create (
       msrOpts, lpsrOpts, inputLineNumber,
       lpsrParallelMusic::kEndOfLine);
   
   // create the score block layout
-  fScoreBlockLayout =
+  fScoreCommandLayout =
     msrLayout::create (
       msrOpts, inputLineNumber);
   
   // create the score block midi
-  fScoreBlockMidi =
+  fScoreCommandMidi =
     msrMidi::create (msrOpts, inputLineNumber);
 }
 
@@ -1491,19 +1494,19 @@ void lpsrScoreCommand::browseData (basevisitor* v)
   {
     // browse the score block parallel music
     msrBrowser<lpsrParallelMusic> browser (v);    
-    browser.browse (*fScoreBlockParallelMusic);
+    browser.browse (*fScoreCommandParallelMusic);
   }
 
   {
     // browse the score block layout
     msrBrowser<msrLayout> browser (v);    
-    browser.browse (*fScoreBlockLayout);
+    browser.browse (*fScoreCommandLayout);
   }
 
   {
     // browse the score block midi
     msrBrowser<msrMidi> browser (v);    
-    browser.browse (*fScoreBlockMidi);
+    browser.browse (*fScoreCommandMidi);
   }
 
   if (fMsrOptions->fDebug)
@@ -1523,9 +1526,9 @@ void lpsrScoreCommand::print (ostream& os)
 
   idtr++;
 
-  os << idtr << fScoreBlockParallelMusic << endl;
-  os << idtr << fScoreBlockLayout << endl;
-  os << idtr << fScoreBlockMidi << endl;
+  os << idtr << fScoreCommandParallelMusic << endl;
+  os << idtr << fScoreCommandLayout << endl;
+  os << idtr << fScoreCommandMidi << endl;
 
   idtr--;
 }

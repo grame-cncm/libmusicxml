@@ -253,9 +253,11 @@ class msr2LpsrVisitor :
     
     // chords
     // ------------------------------------------------------
-
+    S_msrChord           fCurrentMsrChordClone;
+    
     // tuplets
     // ------------------------------------------------------
+    S_msrTuplet          fCurrentMsrTupletClone;
 };
 
 /*
