@@ -2192,9 +2192,13 @@ S_msrTuplet msrTuplet::createEmptyClone ()
       msrTuplet::create (
         fMsrOptions,
         fInputLineNumber);
+
+  clone->fActualNotes = fActualNotes;
+  clone->fNormalNotes = fNormalNotes;
   
   return clone;
 }
+
 void msrTuplet::updateTuplet (int number, int actualNotes, int normalNotes)
 {
   fTupletNumber = number;
