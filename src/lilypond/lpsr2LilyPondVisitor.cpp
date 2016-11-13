@@ -226,6 +226,33 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrScoreCommand& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrParallelMusic& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrParallelMusic" << endl;
+
+  fOstream << idtr <<
+    "<<" <<
+    endl;
+
+  idtr++;
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrParallelMusic& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrParallelMusic" << endl;
+
+  idtr--;
+  
+  fOstream << idtr <<
+    ">>" <<
+    endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrNewstaffCommand& elt)
 {
   if (fMsrOptions->fDebug)
@@ -731,33 +758,6 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrSequentialMusic& elt)
     idtr << "}" <<
     endl;
     */
-}
-
-//________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrParallelMusic& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> Start visiting msrParallelMusic" << endl;
-
-  fOstream << idtr <<
-    "<<" <<
-    endl;
-
-  idtr++;
-}
-
-void lpsr2LilyPondVisitor::visitEnd (S_msrParallelMusic& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> End visiting msrParallelMusic" << endl;
-
-  idtr--;
-  
-  fOstream << idtr <<
-    ">>" <<
-    endl;
 }
 
 //________________________________________________________________________

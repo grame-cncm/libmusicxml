@@ -1575,12 +1575,6 @@ void lpsrScore::browseData (basevisitor* v)
       "==> lpsrScore::browseData()" << endl;
 
   {
-    // browse the MSR score
-//    msrBrowser<msrScore> browser (v);    
-// JMI    browser.browse (*fMsrScore);
-  }
-
-  {
     // browse the score LilyPond version
     msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fLilyPondVersion);

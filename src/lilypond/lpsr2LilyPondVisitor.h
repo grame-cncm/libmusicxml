@@ -45,6 +45,8 @@ class lpsr2LilyPondVisitor :
   
   public visitor<S_lpsrScoreCommand>,
 
+  public visitor<S_msrParallelMusic>,
+
   public visitor<S_lpsrNewstaffCommand>,
   public visitor<S_lpsrUseVoiceCommand>,
   public visitor<S_lpsrNewlyricsCommand>,
@@ -75,7 +77,6 @@ class lpsr2LilyPondVisitor :
   public visitor<S_msrTempo>,
   
   public visitor<S_msrSequentialMusic>,
-  public visitor<S_msrParallelMusic>,
   
   public visitor<S_msrDuration>,
   
@@ -135,6 +136,9 @@ class lpsr2LilyPondVisitor :
     virtual void visitStart (S_lpsrScoreCommand& elt);
     virtual void visitEnd   (S_lpsrScoreCommand& elt);
 
+    virtual void visitStart (S_msrParallelMusic& elt);
+    virtual void visitEnd   (S_msrParallelMusic& elt);
+
     virtual void visitStart (S_lpsrNewstaffCommand& elt);
     virtual void visitEnd   (S_lpsrNewstaffCommand& elt);
     
@@ -190,9 +194,6 @@ class lpsr2LilyPondVisitor :
 
     virtual void visitStart (S_msrSequentialMusic& elt);
     virtual void visitEnd   (S_msrSequentialMusic& elt);
-
-    virtual void visitStart (S_msrParallelMusic& elt);
-    virtual void visitEnd   (S_msrParallelMusic& elt);
 
     virtual void visitStart (S_msrDuration& elt);
     virtual void visitEnd   (S_msrDuration& elt);
