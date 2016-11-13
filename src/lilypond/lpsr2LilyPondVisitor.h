@@ -43,6 +43,12 @@ class lpsr2LilyPondVisitor :
   
   public visitor<S_lpsrScore>,
   
+  public visitor<S_lpsrVarValAssoc>,
+
+  public visitor<S_msrHeader>,
+  public visitor<S_msrPaper>,
+  public visitor<S_msrLayout>,
+  
   public visitor<S_lpsrScoreCommand>,
 
   public visitor<S_msrParallelMusic>,
@@ -101,13 +107,7 @@ class lpsr2LilyPondVisitor :
   public visitor<S_msrRepeat>,
   
   public visitor<S_msrComment>,
-  
-  public visitor<S_msrVarValAssoc>,
-  
-  public visitor<S_msrHeader>,
-  public visitor<S_msrPaper>,
-  public visitor<S_msrLayout>,
-  
+    
   public visitor<S_msrMidi>
 
 {
@@ -132,6 +132,18 @@ class lpsr2LilyPondVisitor :
   
     virtual void visitStart (S_lpsrScore& elt);
     virtual void visitEnd   (S_lpsrScore& elt);
+
+    virtual void visitStart (S_lpsrVarValAssoc& elt);
+    virtual void visitEnd   (S_lpsrVarValAssoc& elt);
+
+    virtual void visitStart (S_msrHeader& elt);
+    virtual void visitEnd   (S_msrHeader& elt);
+
+    virtual void visitStart (S_msrPaper& elt);
+    virtual void visitEnd   (S_msrPaper& elt);
+
+    virtual void visitStart (S_msrLayout& elt);
+    virtual void visitEnd   (S_msrLayout& elt);
 
     virtual void visitStart (S_lpsrScoreCommand& elt);
     virtual void visitEnd   (S_lpsrScoreCommand& elt);
@@ -236,18 +248,6 @@ class lpsr2LilyPondVisitor :
 
     virtual void visitStart (S_msrComment& elt);
     virtual void visitEnd   (S_msrComment& elt);
-
-    virtual void visitStart (S_msrVarValAssoc& elt);
-    virtual void visitEnd   (S_msrVarValAssoc& elt);
-
-    virtual void visitStart (S_msrHeader& elt);
-    virtual void visitEnd   (S_msrHeader& elt);
-
-    virtual void visitStart (S_msrPaper& elt);
-    virtual void visitEnd   (S_msrPaper& elt);
-
-    virtual void visitStart (S_msrLayout& elt);
-    virtual void visitEnd   (S_msrLayout& elt);
 
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);

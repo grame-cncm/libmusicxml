@@ -44,8 +44,8 @@ void usage (int exitStatus) {
     "    This multi-pass translator features:" << endl <<
     "        Pass 1: reads the contents of MusicXMLFile or stdin ('-')" << endl <<
     "                and converts it to a MusicXML tree;" << endl <<
-    "        Pass 2: converts that tree to Music Score Representation (MSR);" << endl <<
-    "        Pass 3: augments the MSR to obtain a LilyPond Score Representation (LPSR);" << endl <<
+    "        Pass 2: converts that tree to a Music Score Representation (MSR);" << endl <<
+    "        Pass 3: converts the MSR to a LilyPond Score Representation (LPSR);" << endl <<
     "        Pass 4: writes the LPSR as LilyPond source code to standard output." << endl <<
     "    The activity log and warning/error messages go to standard error." << endl <<
     endl <<

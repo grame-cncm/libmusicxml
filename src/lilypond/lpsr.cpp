@@ -1459,33 +1459,14 @@ lpsrScore::lpsrScore (
   fMsrScore = mScore;
 
   // create the score LilyPond version
-  stringstream sVariableName;
-  sVariableName << "version";
-  string variableName = sVariableName.str();
-  stringstream sValue;
-  sValue << "2.19";
-  string value = sValue.str();
-
   fLilyPondVersion =
     lpsrVarValAssoc::create (
       msrOpts, lpsrOpts, inputLineNumber,
-      variableName,
-      value,
+      "version",
+      "2.19",
       lpsrVarValAssoc::kSpace,
       lpsrVarValAssoc::kQuotesAroundValue,
       lpsrVarValAssoc::kUncommented);
-      /*
-    static SMARTP<lpsrVarValAssoc> create (
-        S_msrOptions&       msrOpts, 
-        S_lpsrOptions&      lpsrOpts, 
-        int                 inputLineNumber,
-        string              variableName,
-        string              value, 
-        lpsrVarValSeparator varValSeparator,
-        lpsrQuotesKind      quotesKind,
-        lpsrCommentedKind   commentedKind,
-        string              unit = "");
-*/
 
   // create the header
   fHeader =
@@ -1629,7 +1610,8 @@ void lpsrScore::print (ostream& os)
 
   idtr++;
 
-  os << idtr << fMsrScore;
+  if (fMsrOptions->fDebugDebug)
+    os << idtr << fMsrScore;
 
   os << idtr << fLilyPondVersion << endl;
   os << idtr << fHeader << endl;

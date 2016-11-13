@@ -199,6 +199,214 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrScore& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_lpsrVarValAssoc& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting lpsrVarValAssoc" << endl;
+
+  if (elt->getCommentedKind () == lpsrVarValAssoc::kCommented)
+    fOstream << "\%";
+  
+  fOstream <<
+    elt->getVariableName ();
+  
+  if (elt->getVarValSeparator () == lpsrVarValAssoc::kEqualSign)
+    fOstream << " = ";
+  else
+    fOstream << " ";
+  
+  if (elt->getQuotesKind () == lpsrVarValAssoc::kQuotesAroundValue)
+    fOstream << "\"";
+    
+  fOstream <<
+    elt->getVariableValue () <<
+    elt->getUnit ();
+  
+  if (elt->getQuotesKind () == lpsrVarValAssoc::kQuotesAroundValue)
+    fOstream << "\"";
+  
+  fOstream << endl;
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrVarValAssoc& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting lpsrVarValAssoc" << endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrHeader& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrHeader" << endl;
+
+  fOstream << idtr <<
+    "Header" << " {" <<
+    endl;
+
+  idtr++;
+
+  /*
+  if (S_msrVarValAssoc workNumber = elt->getWorkNumber ()) {
+    fOstream << idtr << workNumber;
+  }
+  
+  if (S_msrVarValAssoc workTitle = elt->getWorkTitle ()) {
+    fOstream << idtr << workTitle;
+  }
+    
+  if (S_msrVarValAssoc movementNumber = elt->getMovementNumber ()) {
+    fOstream << idtr << movementNumber;
+  }
+    
+  if (S_msrVarValAssoc movementTitle = elt->getMovementTitle ()) {
+    fOstream << idtr << movementTitle;
+  }
+
+  S_msrVarValAssoc creators = elt->getCreators ();
+  if (! creators.empty()) {
+    vector<S_msrVarValAssoc>::const_iterator i1;
+    for (i1=creators.begin(); i1!=creators.end(); i1++) {
+      fOstream << idtr << (*i1);
+    } // for
+  }
+    
+  if (S_msrVarValAssoc rights = elt->getRights ()) {
+    fOstream << idtr << rights;
+  }
+
+  S_msrVarValAssoc softwares = elt->getSoftwares ();
+  if (! .empty()) {
+    vector<S_msrVarValAssoc>::const_iterator i2;
+    for (i2=softwares.begin(); i2!=softwares.end(); i2++) {
+      fOstream << idtr << (*i2);
+    } // for
+  }
+    
+  if (S_msrVarValAssoc encodingDate = elt->getEncodingDate ()) {
+    fOstream << idtr << encodingDate;
+  }
+  
+  idtr--;
+  */
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrHeader& elt)
+{
+  idtr--;
+
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrHeader" << endl;
+
+  fOstream << idtr <<
+    "}" <<
+    endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrPaper& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrPaper" << endl;
+
+  fOstream << idtr <<
+    "Paper" << " {" <<
+    endl;
+
+  idtr++;
+  /*
+  if (fPaperWidth > 0) {
+    fOstream << idtr <<
+      "paper-width = " <<
+      setprecision(4) << fPaperWidth << "\\cm" << endl;
+  }
+  if (fPaperHeight > 0) {
+    fOstream << idtr <<
+      "paper-height = " <<
+      setprecision(4) << fPaperHeight << "\\cm" << endl;
+  }
+  if (fTopMargin > 0) {
+    fOstream << idtr <<
+      "top-margin = " <<
+      setprecision(4) << fTopMargin << "\\cm" << endl;
+  }
+  if (fBottomMargin > 0) {
+    fOstream << idtr <<
+      "bottom-margin = " <<
+      setprecision(4) << fBottomMargin << "\\cm" << endl;
+  }
+  if (fLeftMargin > 0) {
+    fOstream << idtr <<
+      "left-margin = " <<
+      setprecision(4) << fLeftMargin << "\\cm" << endl;
+  }
+
+  if (fRightMargin > 0) {
+    fOstream << idtr <<
+      "right-margin = " <<
+      setprecision(4) << fRightMargin << "\\cm" << endl;
+  }
+*/
+/*
+  if (fBetweenSystemSpace > 0) {
+    fOstream << idtr << "between-system-space = " <<
+      setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
+  }
+
+  if (fPageTopSpace > 0) {
+    fOstream << idtr << "page-top-space = " <<
+      setprecision(4) << fPageTopSpace << "\\cm" << endl;
+  }
+*/
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrPaper& elt)
+{
+  idtr--;
+
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrPaper" << endl;
+      
+  fOstream << idtr <<
+    "}" <<
+    endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrLayout& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrLayout" << endl;
+
+  fOstream << idtr <<
+    "\\layout" << " {" <<
+    endl;
+
+  idtr++;
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrLayout& elt)
+{
+  idtr--;
+
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrLayout" << endl;
+
+  fOstream << idtr <<
+    "}" <<
+    endl <<
+    endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrScoreCommand& elt)
 {
   if (fMsrOptions->fDebug)
@@ -1166,214 +1374,6 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrComment& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrComment" << endl;
-}
-
-//________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrVarValAssoc& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> Start visiting msrVarValAssoc" << endl;
-
-  if (elt->getCommentedKind () == msrVarValAssoc::kCommented)
-    fOstream << "\%";
-  
-  fOstream <<
-    elt->getVariableName ();
-  
-  if (elt->getVarValSeparator () == msrVarValAssoc::kEqualSign)
-    fOstream << " = ";
-  else
-    fOstream << " ";
-  
-  if (elt->getQuotesKind () == msrVarValAssoc::kQuotesAroundValue)
-    fOstream << "\"";
-    
-  fOstream <<
-    elt->getVariableValue () <<
-    elt->getUnit ();
-  
-  if (elt->getQuotesKind () == msrVarValAssoc::kQuotesAroundValue)
-    fOstream << "\"";
-  
-  fOstream << endl;
-}
-
-void lpsr2LilyPondVisitor::visitEnd (S_msrVarValAssoc& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> End visiting msrVarValAssoc" << endl;
-}
-
-//________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrHeader& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> Start visiting msrHeader" << endl;
-
-  fOstream << idtr <<
-    "Header" << " {" <<
-    endl;
-
-  idtr++;
-
-  /*
-  if (S_msrVarValAssoc workNumber = elt->getWorkNumber ()) {
-    fOstream << idtr << workNumber;
-  }
-  
-  if (S_msrVarValAssoc workTitle = elt->getWorkTitle ()) {
-    fOstream << idtr << workTitle;
-  }
-    
-  if (S_msrVarValAssoc movementNumber = elt->getMovementNumber ()) {
-    fOstream << idtr << movementNumber;
-  }
-    
-  if (S_msrVarValAssoc movementTitle = elt->getMovementTitle ()) {
-    fOstream << idtr << movementTitle;
-  }
-
-  S_msrVarValAssoc creators = elt->getCreators ();
-  if (! creators.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i1;
-    for (i1=creators.begin(); i1!=creators.end(); i1++) {
-      fOstream << idtr << (*i1);
-    } // for
-  }
-    
-  if (S_msrVarValAssoc rights = elt->getRights ()) {
-    fOstream << idtr << rights;
-  }
-
-  S_msrVarValAssoc softwares = elt->getSoftwares ();
-  if (! .empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i2;
-    for (i2=softwares.begin(); i2!=softwares.end(); i2++) {
-      fOstream << idtr << (*i2);
-    } // for
-  }
-    
-  if (S_msrVarValAssoc encodingDate = elt->getEncodingDate ()) {
-    fOstream << idtr << encodingDate;
-  }
-  
-  idtr--;
-  */
-}
-
-void lpsr2LilyPondVisitor::visitEnd (S_msrHeader& elt)
-{
-  idtr--;
-
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> End visiting msrHeader" << endl;
-
-  fOstream << idtr <<
-    "}" <<
-    endl;
-}
-
-//________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrPaper& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> Start visiting msrPaper" << endl;
-
-  fOstream << idtr <<
-    "Paper" << " {" <<
-    endl;
-
-  idtr++;
-  /*
-  if (fPaperWidth > 0) {
-    fOstream << idtr <<
-      "paper-width = " <<
-      setprecision(4) << fPaperWidth << "\\cm" << endl;
-  }
-  if (fPaperHeight > 0) {
-    fOstream << idtr <<
-      "paper-height = " <<
-      setprecision(4) << fPaperHeight << "\\cm" << endl;
-  }
-  if (fTopMargin > 0) {
-    fOstream << idtr <<
-      "top-margin = " <<
-      setprecision(4) << fTopMargin << "\\cm" << endl;
-  }
-  if (fBottomMargin > 0) {
-    fOstream << idtr <<
-      "bottom-margin = " <<
-      setprecision(4) << fBottomMargin << "\\cm" << endl;
-  }
-  if (fLeftMargin > 0) {
-    fOstream << idtr <<
-      "left-margin = " <<
-      setprecision(4) << fLeftMargin << "\\cm" << endl;
-  }
-
-  if (fRightMargin > 0) {
-    fOstream << idtr <<
-      "right-margin = " <<
-      setprecision(4) << fRightMargin << "\\cm" << endl;
-  }
-*/
-/*
-  if (fBetweenSystemSpace > 0) {
-    fOstream << idtr << "between-system-space = " <<
-      setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
-  }
-
-  if (fPageTopSpace > 0) {
-    fOstream << idtr << "page-top-space = " <<
-      setprecision(4) << fPageTopSpace << "\\cm" << endl;
-  }
-*/
-}
-
-void lpsr2LilyPondVisitor::visitEnd (S_msrPaper& elt)
-{
-  idtr--;
-
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> End visiting msrPaper" << endl;
-      
-  fOstream << idtr <<
-    "}" <<
-    endl;
-}
-
-//________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrLayout& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> Start visiting msrLayout" << endl;
-
-  fOstream << idtr <<
-    "\\layout" << " {" <<
-    endl;
-
-  idtr++;
-}
-
-void lpsr2LilyPondVisitor::visitEnd (S_msrLayout& elt)
-{
-  idtr--;
-
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> End visiting msrLayout" << endl;
-
-  fOstream << idtr <<
-    "}" <<
-    endl <<
-    endl;
 }
 
 //________________________________________________________________________
