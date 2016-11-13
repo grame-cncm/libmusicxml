@@ -2666,33 +2666,31 @@ void msrHeader::print (ostream& os)
 //______________________________________________________________________________
 
 S_msrVarValAssoc msrVarValAssoc::create (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  string                 variableName,
-  string                 value, 
-  msrVarValSeparator        varValSeparator,
-  msrQuotesKind             quotesKind,
-  msrCommentedKind          commentedKind,
-  string                 unit)
+  S_msrOptions&      msrOpts, 
+  int                inputLineNumber,
+  string             variableName,
+  string             value, 
+  msrVarValSeparator varValSeparator,
+  msrQuotesKind      quotesKind,
+  msrCommentedKind   commentedKind)
 {
   msrVarValAssoc* o =
     new msrVarValAssoc(
       msrOpts, inputLineNumber,
       variableName, value, varValSeparator, 
-      quotesKind, commentedKind, unit);
+      quotesKind, commentedKind);
   assert(o!=0);
   return o;
 }
 
 msrVarValAssoc::msrVarValAssoc (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  string                 variableName,
-  string                 value, 
-  msrVarValSeparator        varValSeparator,
-  msrQuotesKind             quotesKind,
-  msrCommentedKind          commentedKind,
-  string                 unit)
+  S_msrOptions&      msrOpts, 
+  int                inputLineNumber,
+  string             variableName,
+  string             value, 
+  msrVarValSeparator varValSeparator,
+  msrQuotesKind      quotesKind,
+  msrCommentedKind   commentedKind)
     : msrElement (msrOpts, inputLineNumber)
 {
   fVariableName    = variableName;
@@ -2700,7 +2698,6 @@ msrVarValAssoc::msrVarValAssoc (
   fVarValSeparator = varValSeparator;
   fQuotesKind      = quotesKind;
   fCommentedKind   = commentedKind;
-  fUnit            = unit;
 }
 
 msrVarValAssoc::~msrVarValAssoc() {}
@@ -2760,6 +2757,36 @@ void msrVarValAssoc::print (ostream& os)
   
   os << idtr << fVariableName << endl;
   os << idtr << fVariableValue <<endl;
+
+  switch (fVarValSeparator) {
+    case kSpace:
+      os << "space";
+      break;
+    case kEqualSign:
+      os << "equal";
+      break;
+  } // switch
+  os << idtr << endl;
+
+  switch (fQuotesKind) {
+    case kQuotesAroundValue:
+      os << "quotes";
+      break;
+    case kNoQuotesAroundValue:
+      os << "noQuotes";
+      break;
+  } // switch
+  os << idtr << endl;
+
+  switch (fCommentedKind) {
+    case kCommented:
+      os << "commented";
+      break;
+    case kUncommented:
+      os << "uncommented";
+      break;
+  } // switch
+  os << idtr << endl;
   
   idtr--;
 }

@@ -450,14 +450,55 @@ typedef SMARTP<lpsrBarNumberCheck> S_lpsrBarNumberCheck;
   A new staff is represented by a vactor of elements
 */
 //______________________________________________________________________________
-class EXP lpsrNewstaffCommand : public lpsrElement
+class EXP lpsrNewStaffgroupCommand : public lpsrElement
 {
   public:
 
-    static SMARTP<lpsrNewstaffCommand> create (
-          S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int                    inputLineNumber);
+    static SMARTP<lpsrNewStaffgroupCommand> create (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumberr);
+     
+    void addElementToNewStaff (S_msrElement elem)
+        { fNewStaffgroupElements.push_back(elem); }
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    lpsrNewStaffgroupCommand (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
+      
+    virtual ~lpsrNewStaffgroupCommand();
+  
+  private:
+  
+    vector<S_msrElement> fNewStaffgroupElements;
+};
+typedef SMARTP<lpsrNewStaffgroupCommand> S_lpsrNewStaffgroupCommand;
+EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffgroupCommand& elt);
+
+/*!
+\brief A lpsr new staff representation.
+
+  A new staff is represented by a vactor of elements
+*/
+//______________________________________________________________________________
+class EXP lpsrNewStaffCommand : public lpsrElement
+{
+  public:
+
+    static SMARTP<lpsrNewStaffCommand> create (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
      
     void addElementToNewStaff (S_msrElement elem)
         { fNewStaffElements.push_back(elem); }
@@ -471,19 +512,19 @@ class EXP lpsrNewstaffCommand : public lpsrElement
 
   protected:
 
-    lpsrNewstaffCommand (
-          S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int                    inputLineNumber);
+    lpsrNewStaffCommand (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
       
-    virtual ~lpsrNewstaffCommand();
+    virtual ~lpsrNewStaffCommand();
   
   private:
   
     vector<S_msrElement> fNewStaffElements;
 };
-typedef SMARTP<lpsrNewstaffCommand> S_lpsrNewstaffCommand;
-EXP ostream& operator<< (ostream& os, const S_lpsrNewstaffCommand& elt);
+typedef SMARTP<lpsrNewStaffCommand> S_lpsrNewStaffCommand;
+EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffCommand& elt);
 
 /*!
 \brief A voice use representation.

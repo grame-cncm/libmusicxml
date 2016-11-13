@@ -209,7 +209,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrVarValAssoc& elt)
     fOstream << "\%";
   
   fOstream <<
-    elt->getVariableName ();
+    "\\" << elt->getVariableName ();
   
   if (elt->getVarValSeparator () == lpsrVarValAssoc::kEqualSign)
     fOstream << " = ";
@@ -226,7 +226,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrVarValAssoc& elt)
   if (elt->getQuotesKind () == lpsrVarValAssoc::kQuotesAroundValue)
     fOstream << "\"";
   
-  fOstream << endl;
+  fOstream << endl << endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrVarValAssoc& elt)
@@ -244,7 +244,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrHeader& elt)
       "% --> Start visiting msrHeader" << endl;
 
   fOstream << idtr <<
-    "Header" << " {" <<
+    "\\Header" << " {" <<
     endl;
 
   idtr++;
@@ -304,7 +304,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrHeader& elt)
 
   fOstream << idtr <<
     "}" <<
-    endl;
+    endl << endl;
 }
 
 //________________________________________________________________________
@@ -375,7 +375,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrPaper& elt)
       
   fOstream << idtr <<
     "}" <<
-    endl;
+    endl << endl;
 }
 
 //________________________________________________________________________
@@ -402,8 +402,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrLayout& elt)
 
   fOstream << idtr <<
     "}" <<
-    endl <<
-    endl;
+    endl << endl;
 }
 
 //________________________________________________________________________
@@ -461,20 +460,47 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrParallelMusic& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_lpsrNewstaffCommand& elt)
+void lpsr2LilyPondVisitor::visitStart (S_lpsrNewStaffgroupCommand& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting lpsrNewstaffCommand" << endl;
+      "% --> Start visiting lpsrNewStaffgroupCommand" << endl;
+
+   fOstream << idtr <<
+     "\\new StaffGroup" << " " << " }" <<
+      endl;
 
   idtr++;
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewstaffCommand& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewStaffgroupCommand& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting lpsrNewstaffCommand" << endl;
+      "% --> End visiting lpsrNewStaffgroupCommand" << endl;
+
+  idtr--;
+
+  fOstream <<
+    " }" <<
+    endl << endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_lpsrNewStaffCommand& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting lpsrNewStaffCommand" << endl;
+
+  idtr++;
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewStaffCommand& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting lpsrNewStaffCommand" << endl;
 
   idtr--;
 }

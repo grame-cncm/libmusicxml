@@ -930,14 +930,13 @@ class EXP msrVarValAssoc : public msrElement
     enum msrCommentedKind   { kCommented, kUncommented };
 
     static SMARTP<msrVarValAssoc> create (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      string                 variableName,
-      string                 value, 
-      msrVarValSeparator        varValSeparator,
-      msrQuotesKind             quotesKind,
-      msrCommentedKind          commentedKind,
-      string                 unit = "");
+      S_msrOptions&      msrOpts, 
+      int                inputLineNumber,
+      string             variableName,
+      string             value, 
+      msrVarValSeparator varValSeparator,
+      msrQuotesKind      quotesKind,
+      msrCommentedKind   commentedKind);
     
     void     changeAssoc (string value);
     
@@ -955,8 +954,6 @@ class EXP msrVarValAssoc : public msrElement
               getCommentedKind () const
                   { return fCommentedKind; };
 
-    string    getUnit () const { return fUnit; };
-
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -967,14 +964,13 @@ class EXP msrVarValAssoc : public msrElement
   protected:
 
     msrVarValAssoc (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      string                 variableName,
-      string                 value, 
-      msrVarValSeparator        varValSeparator,
-      msrQuotesKind             quotesKind,
-      msrCommentedKind          commentedKind,
-      string                 unit = "");
+      S_msrOptions&      msrOpts, 
+      int                inputLineNumber,
+      string             variableName,
+      string             value, 
+      msrVarValSeparator varValSeparator,
+      msrQuotesKind      quotesKind,
+      msrCommentedKind   commentedKind);
       
     virtual ~msrVarValAssoc();
   
@@ -982,10 +978,12 @@ class EXP msrVarValAssoc : public msrElement
 
     string             fVariableName;
     string             fVariableValue;
+    
     msrVarValSeparator fVarValSeparator;
+    
     msrQuotesKind      fQuotesKind;
+    
     msrCommentedKind   fCommentedKind;
-    string             fUnit;
 };
 typedef SMARTP<msrVarValAssoc> S_msrVarValAssoc;
 EXP ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt);

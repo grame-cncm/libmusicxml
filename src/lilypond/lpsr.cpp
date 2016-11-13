@@ -825,9 +825,42 @@ ostream& operator<< (ostream& os, const S_lpsrVarValAssoc& assoc) {
 void lpsrVarValAssoc::print (ostream& os)
 {
   os << "LilypondVarValAssoc" << endl;
+  
   idtr++;
+  
   os << idtr << fVariableName << endl;
   os << idtr << fVariableValue <<endl;
+  
+  switch (fVarValSeparator) {
+    case kSpace:
+      os << "space";
+      break;
+    case kEqualSign:
+      os << "equal";
+      break;
+  } // switch
+  os << idtr << endl;
+
+  switch (fQuotesKind) {
+    case kQuotesAroundValue:
+      os << "quotes";
+      break;
+    case kNoQuotesAroundValue:
+      os << "noQuotes";
+      break;
+  } // switch
+  os << idtr << endl;
+
+  switch (fCommentedKind) {
+    case kCommented:
+      os << "commented";
+      break;
+    case kUncommented:
+      os << "uncommented";
+      break;
+  } // switch
+  os << idtr << endl;
+
   idtr--;
 }
 
@@ -933,73 +966,153 @@ void lpsrSchemeVarValAssoc::printLilyPondCode (ostream& os)
 */
 
 //______________________________________________________________________________
-S_lpsrNewstaffCommand lpsrNewstaffCommand::create (
-  S_msrOptions&     msrOpts, 
-  S_lpsrOptions&    lpsrOpts, 
-  int                    inputLineNumber)
+S_lpsrNewStaffgroupCommand lpsrNewStaffgroupCommand::create (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber)
 {
-  lpsrNewstaffCommand* o =
-    new lpsrNewstaffCommand (
+  lpsrNewStaffgroupCommand* o =
+    new lpsrNewStaffgroupCommand (
       msrOpts, lpsrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
-lpsrNewstaffCommand::lpsrNewstaffCommand (
-  S_msrOptions&     msrOpts, 
-  S_lpsrOptions&    lpsrOpts, 
-  int                    inputLineNumber)
+lpsrNewStaffgroupCommand::lpsrNewStaffgroupCommand (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {}
 
-lpsrNewstaffCommand::~lpsrNewstaffCommand() {}
+lpsrNewStaffgroupCommand::~lpsrNewStaffgroupCommand() {}
 
-void lpsrNewstaffCommand::acceptIn (basevisitor* v) {
+void lpsrNewStaffgroupCommand::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrNewstaffCommand::acceptIn()" << endl;
+      "==> lpsrNewStaffgroupCommand::acceptIn()" << endl;
       
-  if (visitor<S_lpsrNewstaffCommand>*
+  if (visitor<S_lpsrNewStaffgroupCommand>*
     p =
-      dynamic_cast<visitor<S_lpsrNewstaffCommand>*> (v)) {
-        S_lpsrNewstaffCommand elem = this;
+      dynamic_cast<visitor<S_lpsrNewStaffgroupCommand>*> (v)) {
+        S_lpsrNewStaffgroupCommand elem = this;
         
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrNewstaffCommand::visitStart()" << endl;
+            "==> Launching lpsrNewStaffgroupCommand::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void lpsrNewstaffCommand::acceptOut (basevisitor* v) {
+void lpsrNewStaffgroupCommand::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrNewstaffCommand::acceptOut()" << endl;
+      "==> lpsrNewStaffgroupCommand::acceptOut()" << endl;
 
-  if (visitor<S_lpsrNewstaffCommand>*
+  if (visitor<S_lpsrNewStaffgroupCommand>*
     p =
-      dynamic_cast<visitor<S_lpsrNewstaffCommand>*> (v)) {
-        S_lpsrNewstaffCommand elem = this;
+      dynamic_cast<visitor<S_lpsrNewStaffgroupCommand>*> (v)) {
+        S_lpsrNewStaffgroupCommand elem = this;
       
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrNewstaffCommand::visitEnd()" << endl;
+            "==> Launching lpsrNewStaffgroupCommand::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void lpsrNewstaffCommand::browseData (basevisitor* v)
+void lpsrNewStaffgroupCommand::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_lpsrNewstaffCommand& nstf)
+ostream& operator<< (ostream& os, const S_lpsrNewStaffgroupCommand& nstf)
 {
   nstf->print (os);
   return os;
 }
 
-void lpsrNewstaffCommand::print (ostream& os)
+void lpsrNewStaffgroupCommand::print (ostream& os)
 {
-  os << "NewstaffCommand" << endl;
+  os << "NewStaffgroupCommand" << endl;
+
+  idtr++;
+  
+  int size = fNewStaffgroupElements.size();
+
+  for (int i = 0; i < size; i++ ) {
+    os << idtr << fNewStaffgroupElements[i];
+  } // for
+  
+  idtr--;
+}
+
+//______________________________________________________________________________
+S_lpsrNewStaffCommand lpsrNewStaffCommand::create (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber)
+{
+  lpsrNewStaffCommand* o =
+    new lpsrNewStaffCommand (
+      msrOpts, lpsrOpts, inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+lpsrNewStaffCommand::lpsrNewStaffCommand (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber)
+    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+{}
+
+lpsrNewStaffCommand::~lpsrNewStaffCommand() {}
+
+void lpsrNewStaffCommand::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrNewStaffCommand::acceptIn()" << endl;
+      
+  if (visitor<S_lpsrNewStaffCommand>*
+    p =
+      dynamic_cast<visitor<S_lpsrNewStaffCommand>*> (v)) {
+        S_lpsrNewStaffCommand elem = this;
+        
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrNewStaffCommand::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void lpsrNewStaffCommand::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrNewStaffCommand::acceptOut()" << endl;
+
+  if (visitor<S_lpsrNewStaffCommand>*
+    p =
+      dynamic_cast<visitor<S_lpsrNewStaffCommand>*> (v)) {
+        S_lpsrNewStaffCommand elem = this;
+      
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrNewStaffCommand::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrNewStaffCommand::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_lpsrNewStaffCommand& nstf)
+{
+  nstf->print (os);
+  return os;
+}
+
+void lpsrNewStaffCommand::print (ostream& os)
+{
+  os << "NewStaffCommand" << endl;
 
   idtr++;
   
@@ -1011,25 +1124,6 @@ void lpsrNewstaffCommand::print (ostream& os)
   
   idtr--;
 }
-
-/*
-void lpsrNewstaffCommand::printLilyPondCode (ostream& os)
-{      
-  os << "\\new Staff <<" << endl;
-  
-  idtr++;
-  
-  int size = fNewStaffElements.size();
-
-  for (int i = 0; i < size; i++ ) {
-    os << idtr << fNewStaffElements[i];
-  } // for
-  
-  idtr--;
-  
-  os << idtr << ">>" << endl;  
-}
-*/
 
 //______________________________________________________________________________
 S_lpsrVariableUseCommand lpsrVariableUseCommand::create (

@@ -113,7 +113,8 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
       "--> Start visiting msrPartgroup" << endl;
 
   fCurrentMsrPartGroupClone = elt->createEmptyClone ();
-    
+
+  // add a use of the part group to the LPSR score command
   fCurrentMsrScoreClone->
     addPartgroupToScore (fCurrentMsrPartGroupClone);
 
@@ -200,11 +201,11 @@ void msr2LpsrVisitor::visitStart (S_msrVoice& elt)
 
   // append the voice to the LPSR score elements list
   fLpsrScore ->
-    appendVoiceToElementsList (elt);
+    appendVoiceToElementsList (fCurrentMsrVoiceClone);
 
   // append the voice use to the LPSR score command
   fLpsrScore ->
-    appendVoiceUseToStoreCommand (elt);
+    appendVoiceUseToStoreCommand (fCurrentMsrVoiceClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrVoice& elt)
@@ -227,17 +228,18 @@ void msr2LpsrVisitor::visitStart (S_msrLyrics& elt)
   
   fCurrentMsrLyricsClone =
     elt->createEmptyClone (fCurrentMsrVoiceClone);
-    
-  fCurrentMsrVoiceClone->
-    addLyricsToVoice (fCurrentMsrLyricsClone);
+
+  // don't add the lyrics to fCurrentMsrVoiceClone
+//  fCurrentMsrVoiceClone->
+ // JMI   addLyricsToVoice (fCurrentMsrLyricsClone);
 
   // append the lyrics to the LPSR score elements list
   fLpsrScore ->
-    appendLyricsToElementsList (elt);
+    appendLyricsToElementsList (fCurrentMsrLyricsClone);
 
-  // append the lyrics use to the LPSR score command
+  // append a use of the lyrics to the LPSR score command
   fLpsrScore ->
-    appendLyricsUseToStoreCommand (elt);
+    appendLyricsUseToStoreCommand (fCurrentMsrLyricsClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrLyrics& elt)
@@ -267,9 +269,6 @@ void msr2LpsrVisitor::visitEnd (S_msrLyricschunk& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrLyricschunk" << endl;
-
-  fCurrentMsrLyricsClone->
-    addChunkToLyrics (elt);
 }
 
 //________________________________________________________________________

@@ -88,6 +88,22 @@ EXP S_msrScore musicxmlFd2Msr (
 EXP S_msrScore musicxmlString2Msr (
   const char *buff, S_msrOptions& msrOpts, std::ostream& out);
 
+//______________________________________________________________________________
+S_msrScore buildMsrScoreFromElementsTree (
+  S_msrOptions& msrOpts,
+  Sxmlelement   xmlTree);
+
+//______________________________________________________________________________
+void displayMsrScore (
+  S_msrOptions& msrOpts,
+  S_msrScore    mScore,
+  ostream&      os);
+
+//______________________________________________________________________________
+void displayMsrScoreSummary (
+  S_msrOptions& msrOpts,
+  S_msrScore    mScore,
+  ostream&      os);
 
 /*! @} */
 
