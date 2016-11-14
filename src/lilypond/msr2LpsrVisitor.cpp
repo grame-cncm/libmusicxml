@@ -57,7 +57,8 @@ msr2LpsrVisitor::msr2LpsrVisitor (
   gCurrentMusicXMLLocation.fMeasureNumber = 0; // in case of an anacrusis
   gCurrentMusicXMLLocation.fPositionInMeasure = 1;
 
-  fOnGoingStaff = false;
+  fOnGoingIdentification = false;
+  fOnGoingStaff          = false;
 };
   
 msr2LpsrVisitor::~msr2LpsrVisitor ()
@@ -103,6 +104,29 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrScore" << endl;
+}
+
+//________________________________________________________________________
+void msr2LpsrVisitor::visitStart (S_msrIdentification& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrIdentification" << endl;
+
+  idtr++;
+
+  fOnGoingIdentification = true;
+}
+
+void msr2LpsrVisitor::visitEnd (S_msrIdentification& elt)
+{
+  fOnGoingIdentification = false;
+  
+  idtr--;
+
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrIdentification" << endl;
 }
 
 //________________________________________________________________________

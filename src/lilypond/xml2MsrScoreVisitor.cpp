@@ -183,7 +183,7 @@ S_msrPartgroup xml2MsrScoreVisitor::createImplicitMSRPartgroup (
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart ( S_work_number& elt )
 {
-  fMsrScore->
+  fMsrScore->getIdentification () ->
     setWorkNumber (
       elt->getInputLineNumber (),
       elt->getValue ());
@@ -191,7 +191,7 @@ void xml2MsrScoreVisitor::visitStart ( S_work_number& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_work_title& elt )
 {
-  fMsrScore->
+  fMsrScore->getIdentification () ->
     setWorkTitle (
       elt->getInputLineNumber (),
       elt->getValue ());
@@ -199,7 +199,7 @@ void xml2MsrScoreVisitor::visitStart ( S_work_title& elt )
   
 void xml2MsrScoreVisitor::visitStart ( S_movement_number& elt )
 {
-  fMsrScore->
+  fMsrScore->getIdentification () ->
     setMovementNumber (
       elt->getInputLineNumber (),
       elt->getValue ());
@@ -207,7 +207,7 @@ void xml2MsrScoreVisitor::visitStart ( S_movement_number& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_movement_title& elt )
 {
-  fMsrScore->
+  fMsrScore->getIdentification () ->
     setMovementTitle (
       elt->getInputLineNumber (),
       elt->getValue ());
@@ -215,7 +215,7 @@ void xml2MsrScoreVisitor::visitStart ( S_movement_title& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_creator& elt )
 {
-  fMsrScore->
+  fMsrScore->getIdentification () ->
     addCreator (
       elt->getInputLineNumber (),
       elt->getAttributeValue ("type"),
@@ -224,7 +224,7 @@ void xml2MsrScoreVisitor::visitStart ( S_creator& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_rights& elt )
 {
-  fMsrScore->
+  fMsrScore->getIdentification () ->
     setRights (
       elt->getInputLineNumber (),
       elt->getValue ());
@@ -232,7 +232,7 @@ void xml2MsrScoreVisitor::visitStart ( S_rights& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_software& elt )
 {
-  fMsrScore->
+  fMsrScore->getIdentification () ->
     addSoftware (
       elt->getInputLineNumber (),
       elt->getValue ());
@@ -240,7 +240,7 @@ void xml2MsrScoreVisitor::visitStart ( S_software& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_encoding_date& elt )
 {
-  fMsrScore->
+  fMsrScore->getIdentification () ->
     setEncodingDate (
       elt->getInputLineNumber (),
       elt->getValue ());

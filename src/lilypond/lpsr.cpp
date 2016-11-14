@@ -863,7 +863,7 @@ void lpsrVarValAssoc::print (ostream& os)
       os << "uncommented";
       break;
   } // switch
-  os << idtr << endl;
+  os << idtr << endl << endl;
 
   idtr--;
 }

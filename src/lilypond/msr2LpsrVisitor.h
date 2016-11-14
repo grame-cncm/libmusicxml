@@ -41,6 +41,8 @@ class msr2LpsrVisitor :
 
   public visitor<S_msrScore>,
   
+  public visitor<S_msrIdentification>,
+  
   public visitor<S_msrPartgroup>,
   
   public visitor<S_msrPart>,
@@ -112,6 +114,9 @@ class msr2LpsrVisitor :
       
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
+
+    virtual void visitStart (S_msrIdentification& elt);
+    virtual void visitEnd   (S_msrIdentification& elt);
 
     virtual void visitStart (S_msrPartgroup& elt);
     virtual void visitEnd   (S_msrPartgroup& elt);
@@ -220,6 +225,10 @@ class msr2LpsrVisitor :
     // score
     // ------------------------------------------------------
     S_msrScore           fCurrentMsrScoreClone;
+    
+    // identification
+    // ------------------------------------------------------
+    bool                 fOnGoingIdentification;
     
     // part groups
     // ------------------------------------------------------

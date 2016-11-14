@@ -977,6 +977,124 @@ typedef SMARTP<msrVarValAssoc> S_msrVarValAssoc;
 EXP ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt);
 
 /*!
+\brief A MSR identification representation.
+
+  A header is represented by variable/value pairs
+*/
+//______________________________________________________________________________
+class EXP msrIdentification : public msrElement
+{
+  public:
+
+    static SMARTP<msrIdentification> create (
+      S_msrOptions&  msrOpts, 
+      int            inputLineNumber);
+    
+    void        setWorkNumber (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setWorkTitle (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setMovementNumber (
+                  int    inputLineNumber,
+                  string vall);
+
+    void        setMovementTitle (
+                  int    inputLineNumber,
+                  string val);
+
+    void        addCreator (
+                  int    inputLineNumber,
+                  string type,
+                  string val);
+
+    void        setRights (
+                  int    inputLineNumber,
+                  string val);
+
+    void        addSoftware (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setEncodingDate (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setScoreInstrument (
+                  int    inputLineNumber,
+                  string val);
+
+    S_msrVarValAssoc
+                getWorkNumber () const
+                    { return fWorkNumber; }
+    
+    S_msrVarValAssoc
+                getWorkTitle () const
+                    { return fWorkTitle; }
+    
+    S_msrVarValAssoc
+                getMovementNumber () const
+                    { return fMovementNumber; }
+    
+    S_msrVarValAssoc
+                getMovementTitle () const
+                    { return fMovementTitle; }
+    
+    vector<S_msrVarValAssoc>
+                getCreators () const
+                    { return fCreators; };
+    
+    S_msrVarValAssoc
+                getRights () const
+                    { return fRights; }
+    
+    vector<S_msrVarValAssoc>
+                getSoftwares () const
+                    { return fSoftwares; };
+    
+    S_msrVarValAssoc
+                getEncodingDate () const
+                    { return fEncodingDate; }
+    
+    S_msrVarValAssoc
+                getScoreInstrument () const
+                    { return fScoreInstrument; }
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    msrIdentification (
+      S_msrOptions&  msrOpts, 
+      int            inputLineNumber);
+      
+    virtual ~msrIdentification();
+  
+  private:
+
+    S_msrVarValAssoc         fWorkNumber;
+    S_msrVarValAssoc         fWorkTitle;
+    S_msrVarValAssoc         fMovementNumber;
+    S_msrVarValAssoc         fMovementTitle;
+    vector<S_msrVarValAssoc> fCreators;
+    S_msrVarValAssoc         fRights;
+    vector<S_msrVarValAssoc> fSoftwares;
+    S_msrVarValAssoc         fEncodingDate;
+    S_msrVarValAssoc         fScoreInstrument;
+
+};
+typedef SMARTP<msrIdentification> S_msrIdentification;
+EXP ostream& operator<< (ostream& os, const S_msrIdentification& elt);
+
+/*!
 \brief A msr paper representation.
 
   A paper is represented by variable/value pairs
@@ -2262,81 +2380,13 @@ class EXP msrScore : public msrElement
 
     SMARTP<msrScore> createEmptyClone ();
 
-    void        setWorkNumber (
-                  int    inputLineNumber,
-                  string val);
+    S_msrIdentification
+                getIdentification () const
+                    { return fIdentification; }
 
-    void        setWorkTitle (
-                  int    inputLineNumber,
-                  string val);
-
-    void        setMovementNumber (
-                  int    inputLineNumber,
-                  string vall);
-
-    void        setMovementTitle (
-                  int    inputLineNumber,
-                  string val);
-
-    void        addCreator (
-                  int    inputLineNumber,
-                  string type,
-                  string val);
-
-    void        setRights (
-                  int    inputLineNumber,
-                  string val);
-
-    void        addSoftware (
-                  int    inputLineNumber,
-                  string val);
-
-    void        setEncodingDate (
-                  int    inputLineNumber,
-                  string val);
-
-    void        setScoreInstrument (
-                  int    inputLineNumber,
-                  string val);
-
-    S_msrVarValAssoc
-                getWorkNumber () const
-                    { return fWorkNumber; }
-    
-    S_msrVarValAssoc
-                getWorkTitle () const
-                    { return fWorkTitle; }
-    
-    S_msrVarValAssoc
-                getMovementNumber () const
-                    { return fMovementNumber; }
-    
-    S_msrVarValAssoc
-                getMovementTitle () const
-                    { return fMovementTitle; }
-    
-    vector<S_msrVarValAssoc>
-                getCreators () const
-                    { return fCreators; };
-    
-    S_msrVarValAssoc
-                getRights () const
-                    { return fRights; }
-    
-    vector<S_msrVarValAssoc>
-                getSoftwares () const
-                    { return fSoftwares; };
-    
-    S_msrVarValAssoc
-                getEncodingDate () const
-                    { return fEncodingDate; }
-    
-    S_msrVarValAssoc
-                getScoreInstrument () const
-                    { return fScoreInstrument; }
-
-    list<S_msrPartgroup> getPartgroupsList () const
-                            { return fPartgroupsList; }
+    list<S_msrPartgroup>
+                getPartgroupsList () const
+                    { return fPartgroupsList; }
 
     void addPartgroupToScore (S_msrPartgroup partGroup);
 
@@ -2357,17 +2407,9 @@ class EXP msrScore : public msrElement
   
   private:
 
-    S_msrVarValAssoc         fWorkNumber;
-    S_msrVarValAssoc         fWorkTitle;
-    S_msrVarValAssoc         fMovementNumber;
-    S_msrVarValAssoc         fMovementTitle;
-    vector<S_msrVarValAssoc> fCreators;
-    S_msrVarValAssoc         fRights;
-    vector<S_msrVarValAssoc> fSoftwares;
-    S_msrVarValAssoc         fEncodingDate;
-    S_msrVarValAssoc         fScoreInstrument;
-
-    list<S_msrPartgroup>     fPartgroupsList;
+    S_msrIdentification  fIdentification;
+    
+    list<S_msrPartgroup> fPartgroupsList;
  };
 typedef SMARTP<msrScore> S_msrScore;
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
