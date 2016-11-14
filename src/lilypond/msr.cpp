@@ -5455,6 +5455,135 @@ S_msrScore msrScore::createEmptyClone ()
   return clone;
 }
 
+void msrScore::setWorkNumber (
+  int    inputLineNumber,
+  string val)
+  {
+  fWorkNumber =
+    msrVarValAssoc::create (
+      fMsrOptions,
+      inputLineNumber,
+      "work-number", val,
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented);
+  }
+
+void msrScore::setWorkTitle (
+  int    inputLineNumber,
+  string val)
+  {
+  fWorkTitle =
+    msrVarValAssoc::create (
+      fMsrOptions,
+      inputLineNumber,
+      "work-title", val,
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented);
+  }
+
+void msrScore::setMovementNumber (
+  int    inputLineNumber,
+  string val)
+  {
+  fMovementNumber =
+    msrVarValAssoc::create (
+      fMsrOptions,
+      inputLineNumber,
+      "movement-number", val,
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented);
+  }
+
+void msrScore::setMovementTitle (
+  int    inputLineNumber,
+  string val)
+{
+  fMovementTitle =
+    msrVarValAssoc::create (
+      fMsrOptions,
+      inputLineNumber,
+      "movement-title", val,
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented);
+}
+
+void msrScore::addCreator (
+  int    inputLineNumber,
+  string type,
+  string val)
+{
+  fCreators.push_back(
+    msrVarValAssoc::create (
+      fMsrOptions,
+      inputLineNumber,
+      type, val,
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented)
+  );
+}
+
+void msrScore::setRights (
+  int    inputLineNumber,
+  string val)
+  {
+  fRights =
+    msrVarValAssoc::create (
+      fMsrOptions,
+      inputLineNumber,
+      "rights", val,
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented);
+  }
+
+void msrScore::addSoftware (
+  int    inputLineNumber,
+  string val)
+{
+  fSoftwares.push_back(
+    msrVarValAssoc::create (
+      fMsrOptions,
+      inputLineNumber,
+      "software", val,
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented)
+  );
+}
+
+void msrScore::setEncodingDate (
+  int    inputLineNumber,
+  string val)
+{
+  fEncodingDate =
+    msrVarValAssoc::create (
+      fMsrOptions,
+      inputLineNumber,
+      "encodingdate", val,
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented);
+}
+
+void msrScore::setScoreInstrument (
+  int    inputLineNumber,
+  string val)
+{
+  fScoreInstrument =
+    msrVarValAssoc::create (
+      fMsrOptions,
+      inputLineNumber,
+      "score-instrument", val,
+      msrVarValAssoc::kEqualSign,
+      msrVarValAssoc::kQuotesAroundValue,
+      msrVarValAssoc::kUncommented);
+}
+
 void msrScore::addPartgroupToScore (S_msrPartgroup partGroup)
 {
   /* JMI
@@ -5525,6 +5654,68 @@ void msrScore::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrScore::browseData()" << endl;
     
+  {
+    // browse fWorkNumber
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fWorkNumber);
+  }
+
+  {
+    // browse fWorkTitle
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fWorkTitle);
+  }
+
+  {
+    // browse fMovementNumber
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fMovementNumber);
+  }
+
+  {
+    // browse fMovementTitle
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fMovementTitle);
+  }
+
+  if (!fCreators.empty()) {
+    // browse fCreators
+    vector<S_msrVarValAssoc>::const_iterator i;
+    for (i=fCreators.begin(); i!=fCreators.end(); i++) {
+      msrBrowser<msrVarValAssoc> browser (v);
+      browser.browse (*(*i));
+    } // for
+  }
+    
+  {
+    // browse fRights
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fRights);
+  }
+
+  if (!fSoftwares.empty()) {
+    // browse fSoftwares
+    vector<S_msrVarValAssoc>::const_iterator i;
+    for (i=fSoftwares.begin(); i!=fSoftwares.end(); i++) {
+      msrBrowser<msrVarValAssoc> browser (v);
+      browser.browse (*(*i));
+    } // for
+  }
+
+    vector<S_msrVarValAssoc> fSoftwares;
+
+  {
+    // browse fEncodingDate
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fEncodingDate);
+  }
+
+  {
+    // browse fScoreInstrument
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fScoreInstrument);
+  }
+
   for (
     list<S_msrPartgroup>::iterator i = fPartgroupsList.begin();
     i != fPartgroupsList.end();
@@ -5554,6 +5745,44 @@ void msrScore::print (ostream& os)
 
   idtr++;
   
+  if (fWorkNumber) {
+    os << idtr << fWorkNumber;
+  }
+  
+  if (fWorkTitle) {
+    os << idtr << fWorkTitle;
+  }
+    
+  if (fMovementNumber) {
+    os << idtr << fMovementNumber;
+  }
+    
+  if (fMovementTitle) {
+    os << idtr << fMovementTitle;
+  }
+    
+  if (!fCreators.empty()) {
+    vector<S_msrVarValAssoc>::const_iterator i1;
+    for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
+      os << idtr << (*i1);
+    } // for
+  }
+    
+  if (fRights) {
+    os << idtr << fRights;
+  }
+    
+  if (!fSoftwares.empty()) {
+    vector<S_msrVarValAssoc>::const_iterator i2;
+    for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
+      os << idtr << (*i2);
+    } // for
+  }
+    
+  if (fEncodingDate) {
+    os << idtr << fEncodingDate;
+  }
+
   for (
     list<S_msrPartgroup>::iterator i = fPartgroupsList.begin();
     i != fPartgroupsList.end();

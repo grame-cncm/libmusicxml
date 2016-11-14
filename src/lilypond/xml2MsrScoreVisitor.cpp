@@ -180,6 +180,72 @@ S_msrPartgroup xml2MsrScoreVisitor::createImplicitMSRPartgroup (
   return partgroup;
 } // xml2MsrScoreVisitor::createImplicitMSRPartgroup ()
 
+//______________________________________________________________________________
+void xml2MsrScoreVisitor::visitStart ( S_work_number& elt )
+{
+  fMsrScore->
+    setWorkNumber (
+      elt->getInputLineNumber (),
+      elt->getValue ());
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_work_title& elt )
+{
+  fMsrScore->
+    setWorkTitle (
+      elt->getInputLineNumber (),
+      elt->getValue ());
+}
+  
+void xml2MsrScoreVisitor::visitStart ( S_movement_number& elt )
+{
+  fMsrScore->
+    setMovementNumber (
+      elt->getInputLineNumber (),
+      elt->getValue ());
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_movement_title& elt )
+{
+  fMsrScore->
+    setMovementTitle (
+      elt->getInputLineNumber (),
+      elt->getValue ());
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_creator& elt )
+{
+  fMsrScore->
+    addCreator (
+      elt->getInputLineNumber (),
+      elt->getAttributeValue ("type"),
+      elt->getValue ());
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_rights& elt )
+{
+  fMsrScore->
+    setRights (
+      elt->getInputLineNumber (),
+      elt->getValue ());
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_software& elt )
+{
+  fMsrScore->
+    addSoftware (
+      elt->getInputLineNumber (),
+      elt->getValue ());
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_encoding_date& elt )
+{
+  fMsrScore->
+    setEncodingDate (
+      elt->getInputLineNumber (),
+      elt->getValue ());
+}
+
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_part_list& elt)
 {

@@ -66,6 +66,15 @@ class EXP xml2MsrScoreVisitor :
     </part-group>
 */
 
+  public visitor<S_work_number>,
+  public visitor<S_work_title>,
+  public visitor<S_movement_number>,
+  public visitor<S_movement_title>,
+  public visitor<S_creator>,
+  public visitor<S_rights>,
+  public visitor<S_software>,
+  public visitor<S_encoding_date>,
+  
   public visitor<S_part_list>,
   
   public visitor<S_part_group>,
@@ -189,7 +198,17 @@ class EXP xml2MsrScoreVisitor :
         { return fMsrScore; };
     
   protected:
-      
+   
+    virtual void visitStart ( S_work_number& elt);
+    virtual void visitStart ( S_work_title& elt);
+    virtual void visitStart ( S_movement_number& elt);
+    virtual void visitStart ( S_movement_title& elt);
+    virtual void visitStart ( S_creator& elt);
+    virtual void visitStart ( S_rights& elt);
+    virtual void visitStart ( S_software& elt);
+    virtual void visitStart ( S_encoding_date& elt);
+
+    
     virtual void visitStart ( S_part_list& elt);
     virtual void visitEnd   ( S_part_list& elt);
     

@@ -2407,6 +2407,79 @@ class EXP msrScore : public msrElement
 
     SMARTP<msrScore> createEmptyClone ();
 
+    void        setWorkNumber (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setWorkTitle (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setMovementNumber (
+                  int    inputLineNumber,
+                  string vall);
+
+    void        setMovementTitle (
+                  int    inputLineNumber,
+                  string val);
+
+    void        addCreator (
+                  int    inputLineNumber,
+                  string type,
+                  string val);
+
+    void        setRights (
+                  int    inputLineNumber,
+                  string val);
+
+    void        addSoftware (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setEncodingDate (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setScoreInstrument (
+                  int    inputLineNumber,
+                  string val);
+
+    S_msrVarValAssoc
+                getWorkNumber () const
+                    { return fWorkNumber; }
+    
+    S_msrVarValAssoc
+                getWorkTitle () const
+                    { return fWorkTitle; }
+    
+    S_msrVarValAssoc
+                getMovementNumber () const
+                    { return fMovementNumber; }
+    
+    S_msrVarValAssoc
+                getMovementTitle () const
+                    { return fMovementTitle; }
+    
+    vector<S_msrVarValAssoc>
+                getCreators () const
+                    { return fCreators; };
+    
+    S_msrVarValAssoc
+                getRights () const
+                    { return fRights; }
+    
+    vector<S_msrVarValAssoc>
+                getSoftwares () const
+                    { return fSoftwares; };
+    
+    S_msrVarValAssoc
+                getEncodingDate () const
+                    { return fEncodingDate; }
+    
+    S_msrVarValAssoc
+                getScoreInstrument () const
+                    { return fScoreInstrument; }
+
     list<S_msrPartgroup> getPartgroupsList () const
                             { return fPartgroupsList; }
 
@@ -2429,7 +2502,17 @@ class EXP msrScore : public msrElement
   
   private:
 
-    list<S_msrPartgroup> fPartgroupsList;
+    S_msrVarValAssoc         fWorkNumber;
+    S_msrVarValAssoc         fWorkTitle;
+    S_msrVarValAssoc         fMovementNumber;
+    S_msrVarValAssoc         fMovementTitle;
+    vector<S_msrVarValAssoc> fCreators;
+    S_msrVarValAssoc         fRights;
+    vector<S_msrVarValAssoc> fSoftwares;
+    S_msrVarValAssoc         fEncodingDate;
+    S_msrVarValAssoc         fScoreInstrument;
+
+    list<S_msrPartgroup>     fPartgroupsList;
  };
 typedef SMARTP<msrScore> S_msrScore;
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
