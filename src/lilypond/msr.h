@@ -1015,7 +1015,7 @@ class EXP msrHeader : public msrElement
 
     static SMARTP<msrHeader> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber);
+      int           inputLineNumber);
     
     void        setWorkNumber (
                   int    inputLineNumber,
@@ -1101,7 +1101,7 @@ class EXP msrHeader : public msrElement
 
     msrHeader (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber);
+      int           inputLineNumber);
       
     virtual ~msrHeader();
   

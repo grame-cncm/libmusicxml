@@ -2517,7 +2517,7 @@ void msrPaper::print (ostream& os) {
 //______________________________________________________________________________
 S_msrHeader msrHeader::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber)
+  int           inputLineNumber)
 {
   msrHeader* o =
     new msrHeader (
@@ -2528,7 +2528,7 @@ S_msrHeader msrHeader::create (
 
 msrHeader::msrHeader (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber)
+  int           inputLineNumber)
     : msrElement (msrOpts, inputLineNumber)
 {}
 msrHeader::~msrHeader() {}
@@ -2696,9 +2696,70 @@ void msrHeader::acceptOut (basevisitor* v) {
   }
 }
 
-
 void msrHeader::browseData (basevisitor* v)
-{}
+{
+  {
+    // browse fWorkNumber
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fWorkNumber);
+  }
+
+  {
+    // browse fWorkTitle
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fWorkTitle);
+  }
+
+  {
+    // browse fMovementNumber
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fMovementNumber);
+  }
+
+  {
+    // browse fMovementTitle
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fMovementTitle);
+  }
+
+  if (!fCreators.empty()) {
+    // browse fCreators
+    vector<S_msrVarValAssoc>::const_iterator i;
+    for (i=fCreators.begin(); i!=fCreators.end(); i++) {
+      msrBrowser<msrVarValAssoc> browser (v);
+      browser.browse (*(*i));
+    } // for
+  }
+    
+  {
+    // browse fRights
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fRights);
+  }
+
+  if (!fSoftwares.empty()) {
+    // browse fSoftwares
+    vector<S_msrVarValAssoc>::const_iterator i;
+    for (i=fSoftwares.begin(); i!=fSoftwares.end(); i++) {
+      msrBrowser<msrVarValAssoc> browser (v);
+      browser.browse (*(*i));
+    } // for
+  }
+
+    vector<S_msrVarValAssoc> fSoftwares;
+
+  {
+    // browse fEncodingDate
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fEncodingDate);
+  }
+
+  {
+    // browse fScoreInstrument
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fScoreInstrument);
+  }
+}
 
 ostream& operator<< (ostream& os, const S_msrHeader& elt)
 {
@@ -3045,10 +3106,8 @@ void msrLayout::browseData (basevisitor* v)
   int n1 = fmsrVarValAssocs.size();
   
   for (int i = 0; i < n1; i++ ) {
-    // create the lyrics browser
+    // browse the lyrics
     msrBrowser<msrVarValAssoc> browser (v);
-  
-    // browse the lyrics with the visitor
     browser.browse (*fmsrVarValAssocs [i]);
   } // for
 }
