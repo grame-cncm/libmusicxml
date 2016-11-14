@@ -50,21 +50,6 @@ void indenter::print(ostream& os) const
 // JMI indenter indenter::gIndenter;
 
 //______________________________________________________________________________
-/*
-ostream& operator<< (ostream& os, const haendel& endl)
-{
-  endl.print(os);
-  return os;
-}
-
-void haendel::print(ostream& os) const { 
-  int i = fIndent;
-  os << endl;
-  while (i-- > 0)  os << fSpacer;
-}
-*/
-
-//______________________________________________________________________________
 string int2EnglishWord (int n)
 {
   stringstream s;
@@ -233,105 +218,107 @@ string stringNumbersToEnglishWords (string str)
 
 //______________________________________________________________________________
 int consumeDecimalNumber (
-  char*  theString,
-  char** remainingString,
+  std::string::const_iterator  theStringIterator,
+  std::string::const_iterator& remainingStringIterator,
   bool   debugMode)
 {
-  char*  cursor = theString;
+  std::string::const_iterator cursor = theStringIterator;
   int    number = 0;
 
   if (! isdigit (*cursor))
     cout <<
-      "consumeDecimalNumber (" << cursor <<
-      "), " << *cursor << " is no decimal digit!";
+      "consumeDecimalNumber (" << *cursor <<
+      "), " << *cursor << " is no decimal digit!" <<
+      endl;
 
   while (isdigit (* cursor)) {
     if (debugMode)
       cout <<
         "--> consumeDecimalNumber: cursor = |" <<
-        cursor <<
+        *cursor <<
         "|" <<
         endl;
 
     number = number*10 + (*cursor-'0');
     
-    ++ cursor;
+    cursor++;
   } // while
 
-  *remainingString = cursor;
+  remainingStringIterator = cursor;
 
   if (debugMode)
     cout <<
       "--> consumeDecimalNumber: number = " << number <<
-      ", *remainingString = |" << *remainingString <<
+      ", *remainingStringIterator = |" << *remainingStringIterator <<
       "|" <<
       endl;
 
   return number;
 }
 
-set<int> decipherNumbersSpecification (
-  char* theString,
-  bool  debugMode)
+//______________________________________________________________________________
+set<int> decipherNumbersSetSpecification (
+  std::string theString,
+  bool        debugMode)
 {
-//  "\n--> A nodesSpec sample is: %s -d 7,15-19,^16-17\n"
+//  A numbersSetSpecification sample is: "7,15-19,^16-17"
 
   std::set<int> selectedNumbers;
   
   if (debugMode)
     cout <<
-      "--> DecipherNodeNumbers, theString = |" << theString <<
+      "--> decipherNumbersSetSpecification, theString = |" << theString <<
       "|" <<
       endl;
 
-  char* cursor = theString;
+  std::string::const_iterator
+    cursor = theString.begin();
 
   while (1) {
     if (debugMode)
       cout <<
         "--> decipherNumbersSpecification: cursor = |" <<
-        cursor << "|" <<
+        *cursor << "|" <<
         endl;
 
     int negated = 0;
 
-    if (* cursor == '^') {
-      ++ cursor;
+    if (*cursor == '^') {
+      cursor++;
       negated = 1;
     }
 
-    int startNodeNbr =
-      consumeDecimalNumber (
-        cursor, &cursor, debugMode);
-    int endNodeNbr;
+    int
+      intervalStartNumber =
+        consumeDecimalNumber (cursor, cursor, debugMode),
+      intervalEndNumber;
 
     if (*cursor == '-') {
-      ++ cursor;
+      cursor++;
 
       if (debugMode)
         cout <<
           "--> decipherNumbersSpecification after '-' : cursor = |" <<
-          cursor <<
+          *cursor <<
           "|" <<
           endl << endl;
   
-      endNodeNbr =
-        consumeDecimalNumber (
-          cursor, &cursor, debugMode);
+      intervalEndNumber =
+        consumeDecimalNumber (cursor, cursor, debugMode);
     }
 
     else {
-      endNodeNbr = startNodeNbr;
+      intervalEndNumber = intervalStartNumber;
     }
 
     if (debugMode)
       cout <<
-        "--> decipherNumbersSpecification, startNodeNbr = " << startNodeNbr <<
-        ", endNodeNbr = " << endNodeNbr <<
-        ": cursor = |" << cursor << "|" <<
+        "--> decipherNumbersSpecification, intervalStartNumber = " << intervalStartNumber <<
+        ", intervalEndNumber = " << intervalEndNumber <<
+        ": *cursor = |" << *cursor << "|" <<
         endl;
 
-    for (int i = startNodeNbr; i <= endNodeNbr; i ++) {
+    for (int i = intervalStartNumber; i <= intervalEndNumber; i ++) {
       if (negated)
         selectedNumbers.erase (i);
       else
@@ -339,20 +326,28 @@ set<int> decipherNumbersSpecification (
     } // for
 
     if (*cursor != ',') {
-//      printf ("--> decipherNumbersSpecification, after non ',' : cursor = |%s|\n\n", cursor);
-      break;
+      cout <<
+        "--> decipherNumbersSpecification, after non ',' : cursor = |" <<
+        *cursor <<
+        "|" <<
+        endl << endl;
+      break; 
     }
 
-    ++ cursor;
+    cursor++;
 
-//    printf ("--> decipherNumbersSpecification after ',' : cursor = |%s|\n\n", cursor);
+    cout <<
+      "--> decipherNumbersSpecification after ',' : cursor = |" <<
+      *cursor <<
+      "|"
+      << endl << endl;
   } // while 
 
   if (* cursor != '\0') {
     cout <<
-      "--> Extraneous characters |" << cursor <<
-      "| in numbers spec\n" <<
-      endl;
+      "--> Extraneous characters |" << *cursor <<
+      "| in numbers spec" <<
+      endl << endl;
   }
 
   return selectedNumbers;

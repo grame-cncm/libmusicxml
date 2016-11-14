@@ -570,7 +570,7 @@ void analyzeOptions (
           msrOpts->fCommandLineOptions += s.str();
             
           msrOpts->fDebugMeasureNumbersSet =
-            decipherNumbersSpecification (measuresSpec);
+            decipherNumbersSetSpecification (measuresSpec);
         }
         if (debugdebugMeasuresPresent) {
           msrOpts->fTrace = true;
@@ -584,7 +584,7 @@ void analyzeOptions (
           msrOpts->fCommandLineOptions += s.str();
             
           msrOpts->fDebugMeasureNumbersSet =
-            decipherNumbersSpecification (measuresSpec);
+            decipherNumbersSetSpecification (measuresSpec);
         }
 
         // MSR options

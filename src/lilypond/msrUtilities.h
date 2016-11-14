@@ -116,8 +116,6 @@ std::string int2EnglishWord (int n);
 //______________________________________________________________________________
 std::string stringNumbersToEnglishWords (std::string str);
 
-
-
 /*!
 \brief A utility to build a list of number from a specification.
   A specification can be:
@@ -125,9 +123,9 @@ std::string stringNumbersToEnglishWords (std::string str);
     meaning that 7, 15, 18 and 19 have to enlisted
 */
 //______________________________________________________________________________
-std::set<int> decipherNumbersSpecification (
-  char* theString,
-  bool  debugMode = false);
+std::set<int> decipherNumbersSetSpecification (
+  std::string theSpecification,
+  bool        debugMode = false);
 
 
 } // namespace MusicXML2
