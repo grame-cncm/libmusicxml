@@ -226,7 +226,7 @@ void msr2LpsrVisitor::visitStart (S_msrLyrics& elt)
 
   idtr++;
 
-  if (elt->getLyricsTextPresent ()) {
+//  if (elt->getLyricsTextPresent ()) {
     fCurrentMsrLyricsClone =
       elt->createEmptyClone (fCurrentMsrVoiceClone);
   
@@ -239,9 +239,9 @@ void msr2LpsrVisitor::visitStart (S_msrLyrics& elt)
     // append a use of the lyrics to the LPSR score command
     fLpsrScore ->
       appendLyricsUseToStoreCommand (fCurrentMsrLyricsClone);
-  }
-  else
-    fCurrentMsrLyricsClone = 0; // JMI
+//  }
+//  else
+  //  fCurrentMsrLyricsClone = 0; // JMI
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrLyrics& elt)
@@ -262,8 +262,10 @@ void msr2LpsrVisitor::visitStart (S_msrLyricschunk& elt)
 
   fCurrentMsrLyricschunkClone = elt->createEmptyClone ();
     
+// JMI  fCurrentMsrLyricsClone->
+    //addChunkToLyrics (fCurrentMsrLyricschunkClone);
   fCurrentMsrLyricsClone->
-    addChunkToLyrics (fCurrentMsrLyricschunkClone);
+    addChunkToLyrics (elt);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrLyricschunk& elt)

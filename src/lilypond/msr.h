@@ -669,39 +669,44 @@ class EXP msrNote : public msrElement
                           
     static map<msrPitch, string> sDutchLilypondPitches;
 
-    int                 getNoteMusicXMLDuration () const
-                            {
-                              return
-                                fMusicXMLNoteData.fMusicXMLDivisions;
-                            }
-    int                 getNoteMusicXMLOctave () const
-                            {
-                              return
-                                fMusicXMLNoteData.fMusicXMLOctave;
-                            }
+    int           getNoteMusicXMLDuration () const
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLDivisions;
+                      }
+    int           getNoteMusicXMLOctave () const
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLOctave;
+                      }
 
-    msrPitch            getNoteMsrPitch () const
-                            { return fNoteMsrPitch; }
-    S_msrDuration       getNoteMsrDuration () const
-                            { return fNoteMsrDuration; }   
+    msrPitch      getNoteMsrPitch () const
+                      { return fNoteMsrPitch; }
+    S_msrDuration getNoteMsrDuration () const
+                      { return fNoteMsrDuration; }   
 
-    string              noteMsrPitchAsString ();
+    string        noteMsrPitchAsString ();
 
     // articulations
-    void                addArticulation (S_msrArticulation art);
+    void          addArticulation (S_msrArticulation art);
     list<S_msrArticulation>
-                        getNoteArticulations () const
+                  getNoteArticulations () const
                             { return fNoteArticulations; }
     
     // dynamics and wedges
-    void                addDynamics (S_msrDynamics dyn);
-    void                addWedge    (S_msrWedge    wdg);
+    void          addDynamics (S_msrDynamics dyn);
+    void          addWedge    (S_msrWedge    wdg);
 
-    list<S_msrDynamics> getNoteDynamics () const { return fNoteDynamics; };
-    list<S_msrWedge>    getNoteWedges   () const { return fNoteWedges; };
+    list<S_msrDynamics>
+                  getNoteDynamics () const { return fNoteDynamics; };
+    list<S_msrWedge>
+                  getNoteWedges   () const { return fNoteWedges; };
 
-    S_msrDynamics       removeFirstDynamics ();
-    S_msrWedge          removeFirstWedge ();
+    msrSlur::msrSlurKind
+                  getNoteSlurKind () const { return fNoteSlurKind; }
+
+    S_msrDynamics removeFirstDynamics ();
+    S_msrWedge    removeFirstWedge ();
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1897,8 +1902,7 @@ class EXP msrLyrics : public msrElement
               int inputLineNumber,
               int nextMeasureNumber);
 
-    void    addChunkToLyrics (S_msrLyricschunk chunk)
-                { fLyricschunks.push_back (chunk); }
+    void    addChunkToLyrics (S_msrLyricschunk chunk);
                 
     int     getLyricsTextPresent() { return fLyricsTextPresent; }
 

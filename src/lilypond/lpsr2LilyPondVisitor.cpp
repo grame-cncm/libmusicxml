@@ -724,10 +724,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyrics& elt)
       "% --> Start visiting msrLyrics" << endl;
 
   fOstream << idtr <<
-    elt->getLyricsName () << " = " << "\\lyricmode" << " {" <<
-    endl;
-
-  idtr ++;
+    elt->getLyricsName () << " = " << "\\lyricmode" << " {" << endl;
+  idtr++;
+  fOstream << idtr;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrLyrics& elt)
@@ -754,27 +753,27 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
   switch (elt->getLyricschunkType ()) {
     case msrLyricschunk::kSingleChunk:
       fOstream <<
-        elt->getChunkText ();
+        elt->getChunkText () << " ";
       break;
       
     case msrLyricschunk::kBeginChunk:
       fOstream <<
-        elt->getChunkText ();
+        elt->getChunkText () << " ";
       break;
       
     case msrLyricschunk::kMiddleChunk:
       fOstream <<
-        " -- " << elt->getChunkText ();
+        "-- " << elt->getChunkText () << " ";
       break;
       
     case msrLyricschunk::kEndChunk:
       fOstream <<
-        " ++ " << elt->getChunkText ();
+        "-- " << elt->getChunkText () << " ";
       break;
       
     case msrLyricschunk::kSkipChunk:
       fOstream <<
-        "\\skip";
+        "\\skip" << elt->getChunkDuration () << " ";
       break;
       
     case msrLyricschunk::kSlurChunk:
@@ -785,7 +784,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
     case msrLyricschunk::kBreakChunk:
       fOstream <<
         "%{ " << elt->getChunkText () << " %}" <<
-        endl << idtr;
+        endl <<
+        idtr;
       break;
   } // switch
 }
@@ -932,7 +932,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTime& elt)
     fOstream << "\\numericTimeSignature ";
     
   fOstream << idtr <<
-    "\\time " <<
+    "\\time" << " " <<
     elt->getRational ().getNumerator () <<
     "/" <<
     elt->getRational ().getDenominator () <<
@@ -975,10 +975,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrSequentialMusic& elt)
       "% --> Start visiting msrSequentialMusic" << endl;
 
   fOstream << idtr <<
-    "{ " <<
-    " % msrSequentialMusic" << //JMI
-    endl <<
-    idtr;
+    "{ " << " % msrSequentialMusic" << endl;
+  idtr++;
+  fOstream << idtr;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrSequentialMusic& elt)
@@ -987,9 +986,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrSequentialMusic& elt)
     fOstream << idtr <<
       "% --> End visiting msrSequentialMusic" << endl;
 
+  idtr--;
+  
   fOstream <<
     endl <<
-    idtr << "}" <<
+    idtr << "}" << " % msrSequentialMusic" <<
     endl;
 }
 
@@ -1201,6 +1202,19 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
     case msrNote::kTupletMemberNote:
       break;
   } // switch
+
+  switch (elt->getNoteSlurKind ()) {
+    case msrSlur::kStartSlur:
+      fOstream << "( ";
+      break;
+    case msrSlur::kContinueSlur:
+      break;
+    case msrSlur::kStopSlur:
+      fOstream << ") ";
+      break;
+    default:
+      fOstream << "Slur" << elt->getNoteSlurKind () << "###";
+  } // switch  
 }
 
 //________________________________________________________________________
@@ -1279,8 +1293,19 @@ void lpsr2LilyPondVisitor::visitStart (S_msrSlur& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrSlur" << endl;
-
-  fOstream << elt->slurKindAsString ();
+  
+  switch (elt->getSlurKind ()) {
+    case msrSlur::kStartSlur:
+      fOstream << "( ";
+      break;
+    case msrSlur::kContinueSlur:
+      break;
+    case msrSlur::kStopSlur:
+      fOstream << ") ";
+      break;
+    default:
+      fOstream << "Slur" << elt->getSlurKind () << "###";
+  } // switch
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrSlur& elt)

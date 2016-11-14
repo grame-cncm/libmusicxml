@@ -1389,7 +1389,68 @@ void msrNote::acceptOut (basevisitor* v) {
 
 
 void msrNote::browseData (basevisitor* v)
-{}
+{
+  /* JMI
+  if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
+    os << " " << "grace";
+  if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
+    os << " " << "tied";
+  os << endl;
+  */
+  
+  // browse the alterations if any
+  if (fNoteArticulations.size()) {
+    idtr++;
+    list<S_msrArticulation>::const_iterator i;
+    for (i=fNoteArticulations.begin(); i!=fNoteArticulations.end(); i++) {
+      // create the element browser
+      msrBrowser<msrArticulation> browser (v);
+    
+      // browse the element with the visitor
+      browser.browse (*(*i));
+    } // for
+    idtr--;
+  }
+  
+  // browse the dynamics if any
+  if (fNoteDynamics.size()) {
+    idtr++;
+    list<S_msrDynamics>::const_iterator i;
+    for (i=fNoteDynamics.begin(); i!=fNoteDynamics.end(); i++) {
+      // create the element browser
+      msrBrowser<msrDynamics> browser (v);
+    
+      // browse the element with the visitor
+      browser.browse (*(*i));
+    } // for
+    idtr--;
+  }
+
+  // browse the wedges if any
+  if (fNoteWedges.size()) {
+    idtr++;
+    list<S_msrWedge>::const_iterator i;
+    for (i=fNoteWedges.begin(); i!=fNoteWedges.end(); i++) {
+      // create the element browser
+      msrBrowser<msrWedge> browser (v);
+    
+      // browse the element with the visitor
+      browser.browse (*(*i));
+    } // for
+    idtr--;
+  }
+
+/* JMI
+  // browse the slur if any
+  if (fNoteSlurKind != msrSlur::k_NoSlur) {
+    // create the element browser
+    msrBrowser<msrDynamics> browser (v);
+  
+    // browse the element with the visitor
+    browser.browse (*(*i));
+  }
+  */
+}
 
 ostream& operator<< (ostream& os, const S_msrNote& elt)
 {
@@ -3960,6 +4021,15 @@ void msrLyrics::addBreakChunkToLyrics (
   fLyricschunks.push_back (chunk);
 }
 
+void msrLyrics::addChunkToLyrics (S_msrLyricschunk chunk)
+{
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "--> Adding chunk to lyrics" << getLyricsName () << endl;
+      
+  fLyricschunks.push_back (chunk);
+}
+
 void msrLyrics::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -3995,7 +4065,32 @@ void msrLyrics::acceptOut (basevisitor* v) {
 }
 
 void msrLyrics::browseData (basevisitor* v)
-{}
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "==> msrLyrics::browseData()" << endl;
+  
+  // browse the lyrics chunks
+//  if (fLyricsTextPresent) {  JMI
+    idtr++;
+
+    int n = fLyricschunks.size();
+    for (int i = 0; i < n; i++) {
+    // create the lyrics browser
+      msrBrowser<msrLyricschunk> browser (v);
+    
+      // browse the lyrics with the visitor
+      browser.browse (*fLyricschunks [i]);
+    } // for
+    cerr << endl;
+
+    idtr--;
+ // }
+
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "<== msrLyrics::browseData()" << endl;
+}
 
 ostream& operator<< (ostream& os, const S_msrLyrics& stan)
 {
@@ -4015,7 +4110,7 @@ void msrLyrics::print (ostream& os)
 
     int n = fLyricschunks.size();
     for (int i = 0; i < n; i++) {
-      os << idtr << fLyricschunks[i];
+      os << idtr << fLyricschunks [i];
     } // for
     os << endl;
 
