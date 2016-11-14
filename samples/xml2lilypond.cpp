@@ -82,7 +82,7 @@ void printUsage (int exitStatus)
     "          Same as above, but print even more debugging information." << endl <<
     endl <<
     "    --dm, --debugMeasures measureNumbersSpec" << endl <<
-    "          'measureNumbersSpec' has a form such as 0,2-14,^8-10 ," << endl <<
+    "          'measureNumbersSpec' has a form such as '0,2-14,^8-10'," << endl <<
     "          where '^' excludes the corresponding numbers interval" << endl <<
     "          and 0 applies to the '<part-list>' and anacrusis if present." <<endl <<
     "          Generate a trace of the activity and print additional" << endl <<
@@ -117,6 +117,12 @@ void printUsage (int exitStatus)
     "          Write a summary of the MSR score to standard error." << endl <<
     endl <<
 
+    "    --part, --partName 'orginal myOwn'" << endl <<
+    "    --part, --partName \"orginal myOwn\"" << endl <<
+    "          Rename part 'original' to 'myOwn', for example after " << endl <<
+    "          displaying a summary of the score in a first xml2lilypond run." << endl <<
+    endl <<
+
     "  LPSR:" << endl <<
     endl <<
 
@@ -131,8 +137,8 @@ void printUsage (int exitStatus)
 
     "    --numericalTime" << endl <<
     "          Don't generate non-numerical time signatures such as 'C'." << endl <<
-    "    --noComments" << endl <<
-    "          Don't generate comments." << endl <<
+//    "    --noComments" << endl <<
+//    "          Don't generate comments." << endl <<
     "    --noStems" << endl <<
     "          Don't generate stems commands." << endl <<
     endl <<
