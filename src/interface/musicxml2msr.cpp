@@ -148,7 +148,7 @@ S_msrScore buildMsrScoreFromElementsTree (
     // browse the part contents for the first time with a xml2MsrScoreVisitor
   if (msrOpts->fTrace)
     cerr << idtr <<
-      "Pass 2: building a MSR score from the xmlelement tree" << endl;
+      "Pass 2: building a MSR from the xmlelement tree" << endl;
 
   idtr++;
   

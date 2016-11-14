@@ -63,10 +63,14 @@ void printUsage (int exitStatus)
     "          Display this help." << endl <<
     endl <<
 
-    "    --i, --interactive" << endl <<
-    "          Don't create and LilyPond output file, " << endl <<
-    "          but print the code to standard output instead." << endl <<
+    "    --of, --outputFile fileName" << endl <<
+    "          Write LilyPond code to file 'fileName' instead of standard output." << endl <<
     endl <<
+
+//    "    --i, --interactive" << endl <<
+//    "          Don't create and LilyPond output file, " << endl <<
+//    "          but print the code to standard output instead." << endl <<
+//    endl <<
 
     "    --nt, --noTrace" << endl <<
     "          Don't generate a trace of the activity to standard error." << endl <<
@@ -77,8 +81,8 @@ void printUsage (int exitStatus)
     "    --dd, --debugDebug " << endl <<
     "          Same as above, but print even more debugging information." << endl <<
     endl <<
-    "    --dm, --debugMeasures <measuresSpec>" << endl <<
-    "          '<measuresSpec>' has a form such as 0,2-14,^8-10 ," << endl <<
+    "    --dm, --debugMeasures measureNumbersSpec" << endl <<
+    "          'measureNumbersSpec' has a form such as 0,2-14,^8-10 ," << endl <<
     "          where '^' excludes the corresponding numbers interval" << endl <<
     "          and 0 applies to the '<part-list>' and anacrusis if present." <<endl <<
     "          Generate a trace of the activity and print additional" << endl <<
@@ -515,8 +519,12 @@ void analyzeOptions (
 
         if (outputFilePresent) {
           outputFileName = optarg;
-          msrOpts->fCommandLineOptions +=
-            "--outputFile ";
+
+          stringstream s;
+
+          s <<
+            "--outputFile" << " " << outputFileName;
+          msrOpts->fCommandLineOptions += s.str();
         }
 
         if (interactivePresent) {
@@ -701,10 +709,13 @@ void printOptions (
   cerr <<
     "The command line options are: ";
     
-  if (msrOpts->fCommandLineOptions.size())
+  if (msrOpts->fCommandLineOptions.size()) {
+    idtr++;
     cerr <<
-      endl <<
+      endl << idtr <<
       msrOpts->fCommandLineOptions;
+    idtr--;
+  }
   else
     cerr << "none";
   cerr << endl;
@@ -729,13 +740,15 @@ void printOptions (
       string(msrOpts->fDebugDebug
         ? "true" : "false") << endl <<
     "  " << setw(31) << "debugMeasureNumbersSet" << " : ";
-    for (
-      set<int>::const_iterator i =
-        msrOpts->fDebugMeasureNumbersSet.begin();
-      i != msrOpts->fDebugMeasureNumbersSet.end();
-      i++) {
-        cout << (*i) << " ";
-    } // for
+    
+  for (
+    set<int>::const_iterator i =
+      msrOpts->fDebugMeasureNumbersSet.begin();
+    i != msrOpts->fDebugMeasureNumbersSet.end();
+    i++) {
+      cerr << (*i) << " ";
+  } // for
+  
   cerr << endl;
 
   // MSR options
@@ -831,6 +844,11 @@ int main (int argc, char *argv[])
 
   if (msrOpts->fTrace) {
     cerr <<  idtr <<
+      "This is xml2Lilypond v" << musicxml2MsrVersionStr() << 
+      " from libmusicxml2 v" << musicxmllibVersionStr() <<
+      endl;
+
+    cerr <<  idtr <<
       "Launching conversion of ";
       
     if (inputFileName == "-")
@@ -838,15 +856,12 @@ int main (int argc, char *argv[])
     else
       cerr << inputFileName;
       
-    cerr << idtr <<
-      " to LilyPond " <<
-      endl <<
-      "with libmusicxml2 v" << musicxmllibVersionStr() <<
-      " & xml2Lilypond v" << musicxml2MsrVersionStr() << 
+    cerr <<
+      " to LilyPond" <<
       endl;
 
     cerr << idtr <<
-      "LilyPond code will be writtent to ";
+      "LilyPond code will be written to ";
     if (outputFileName.size())
       cerr << outputFileName;
     else
@@ -856,70 +871,81 @@ int main (int argc, char *argv[])
     printOptions (msrOpts, lpsrOpts);
   }
     
+  ofstream outStream;
+
+  if (outputFileName.size()) {
+    if (msrOpts->fDebug)
+      cerr << idtr <<
+        "Opening file '" << outputFileName << "' for writing" << endl;
+        
+    outStream.open (outputFileName.c_str(), ofstream::out);
+  }
+      
   S_msrScore mScore;
 
   // create MSR score from MusicXML contents
   if (inputFileName == "-") {
     // input comes from standard input
-
-    if (outputFileName.size()) {
-      ofstream outStream;
-      
-      outStream.open (inputFileName.c_str(), ofstream::out);
-      
+    if (outputFileName.size())
       mScore =
         musicxmlFd2Msr (stdin, msrOpts, outStream);
-        
-      outStream.close ();
-    }
-    else {
+    else
       mScore =
         musicxmlFd2Msr (stdin, msrOpts, cout);
-      }    
   }
+  
   else {
     // input comes from a file
-
-    if (outputFileName.size()) {
-      ofstream outStream;
-      
-      outStream.open (inputFileName.c_str(), ofstream::out);
-      
+    if (outputFileName.size())
       mScore =
-        musicxmlFile2Msr (inputFileName.c_str(), msrOpts, outStream);
-        
-      outStream.close ();
-    }
-    else {
+        musicxmlFile2Msr (
+          inputFileName.c_str(), msrOpts, outStream);
+    else
       mScore =
-        musicxmlFile2Msr (inputFileName.c_str(), msrOpts, cout);
-    }
+        musicxmlFile2Msr (
+          inputFileName.c_str(), msrOpts, cout);
   }
     
   if (! mScore) {
-    cout <<
+    cerr <<
       "### Conversion from MusicCML to MSR failed ###" << endl <<
       endl;
     return 1;
   }
 
+  S_lpsrScore lpScore;
+        
   // create LPSR score from MSR score
-  S_lpsrScore
+  if (outputFileName.size())
+    lpScore =
+      msr2lpsr (mScore, msrOpts, lpsrOpts, outStream);
+  else
     lpScore =
       msr2lpsr (mScore, msrOpts, lpsrOpts, cout);
   
   if (! lpScore) {
-    cout <<
+    cerr <<
       "### Conversion from MSR to LPSR failed ###" << endl <<
       endl;
     return 1;
   }
 
   // generate LilyPond code from LPSR score
-  lpsr2LilyPond (lpScore, msrOpts, lpsrOpts, cout);
+  if (outputFileName.size())
+    lpsr2LilyPond (lpScore, msrOpts, lpsrOpts, outStream);
+  else
+    lpsr2LilyPond (lpScore, msrOpts, lpsrOpts, cout);
+  
+  if (outputFileName.size()) {
+    if (msrOpts->fDebug)
+      cerr << idtr <<
+        "Closing file '" << outputFileName << "'" << endl;
+        
+    outStream.close ();
+  }
   
   if (! true) { // JMI
-    cout <<
+    cerr <<
       "### Conversion from LPSR to LilyPond code failed ###" << endl <<
       endl;
     return 1;
