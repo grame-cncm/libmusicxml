@@ -824,12 +824,13 @@ ostream& operator<< (ostream& os, const S_lpsrVarValAssoc& assoc) {
 
 void lpsrVarValAssoc::print (ostream& os)
 {
-  os << "lpsrVarValAssoc" << endl;
+  os << "LPSR VarValAssoc" << endl;
   
   idtr++;
   
-  os << idtr << fVariableName << endl;
-  os << idtr << fVariableValue <<endl;
+  os <<
+    idtr << fVariableName << endl <<
+    idtr << fVariableValue << endl;
   
   os << idtr;
   switch (fVarValSeparator) {
@@ -1533,7 +1534,7 @@ void lpsrHeader::setEncodingDate (
   fEncodingDate =
     lpsrVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      "encodingdate", val,
+      "encoding-date", val,
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
       lpsrVarValAssoc::kUncommented);

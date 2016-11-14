@@ -667,13 +667,49 @@ void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrVarValAssoc" << endl;
-  
-  idtr++;
-  
-  fOstream << idtr << elt->getVariableName () << endl;
-  fOstream << idtr << elt->getVariableValue () <<endl;
-  
-  idtr--;
+
+  string variableName    = elt->getVariableName ();
+  string variableValue   = elt->getVariableValue ();
+  int    inputLineNumber = elt->getInputLineNumber ();
+
+  if (variableName == "work-number")
+    fLpsrScore->
+      getHeader()->setWorkNumber (
+        inputLineNumber, variableValue);
+  else
+  if (variableName == "work-title")
+    fLpsrScore->
+      getHeader()->setWorkTitle (
+        inputLineNumber, variableValue);
+  else
+  if (variableName == "movement-number")
+    fLpsrScore->
+      getHeader()->setMovementNumber (
+        inputLineNumber, variableValue);
+  else
+  if (variableName == "movement-title")
+    fLpsrScore->
+      getHeader()->setMovementTitle (
+        inputLineNumber, variableValue);
+  else
+  if (variableName == "creator")
+    fLpsrScore->
+      getHeader()->addCreator (
+        inputLineNumber, "type ???", variableValue);
+  if (variableName == "rights")
+    fLpsrScore->
+      getHeader()->setRights (
+        inputLineNumber, variableValue);
+  else
+  if (variableName == "software")
+    fLpsrScore->
+      getHeader()->addSoftware (
+        inputLineNumber, variableValue);
+  else
+  if (variableName == "encoding-date")
+    fLpsrScore->
+      getHeader()->setEncodingDate (
+        inputLineNumber, variableValue);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrVarValAssoc& elt)

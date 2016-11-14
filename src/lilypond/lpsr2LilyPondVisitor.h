@@ -310,6 +310,11 @@ class lpsr2LilyPondVisitor :
     // tuplets
     // ------------------------------------------------------
 // JMI     S_msrTuplet          fCurrentMsrTupletClone;
+
+    // header handling
+    // ------------------------------------------------------
+    bool                 fOnGoingHeader;
+
 };
 
 /*

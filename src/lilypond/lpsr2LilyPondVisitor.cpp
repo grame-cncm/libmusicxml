@@ -57,7 +57,8 @@ lpsr2LilyPondVisitor::lpsr2LilyPondVisitor (
   gCurrentMusicXMLLocation.fMeasureNumber = 0; // in case of an anacrusis
   gCurrentMusicXMLLocation.fPositionInMeasure = 1;
 
-  fOnGoingStaff = false;
+  fOnGoingHeader = false;
+  fOnGoingStaff  = false;
 };
   
 lpsr2LilyPondVisitor::~lpsr2LilyPondVisitor ()
@@ -205,6 +206,8 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrVarValAssoc& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrVarValAssoc" << endl;
 
+  fOstream << idtr;
+  
   if (elt->getCommentedKind () == lpsrVarValAssoc::kCommented)
     fOstream << "\%";
   
@@ -249,53 +252,13 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrHeader& elt)
 
   idtr++;
 
-  /*
-  if (S_msrVarValAssoc workNumber = elt->getWorkNumber ()) {
-    fOstream << idtr << workNumber;
-  }
-  
-  if (S_msrVarValAssoc workTitle = elt->getWorkTitle ()) {
-    fOstream << idtr << workTitle;
-  }
-    
-  if (S_msrVarValAssoc movementNumber = elt->getMovementNumber ()) {
-    fOstream << idtr << movementNumber;
-  }
-    
-  if (S_msrVarValAssoc movementTitle = elt->getMovementTitle ()) {
-    fOstream << idtr << movementTitle;
-  }
-
-  S_msrVarValAssoc creators = elt->getCreators ();
-  if (! creators.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i1;
-    for (i1=creators.begin(); i1!=creators.end(); i1++) {
-      fOstream << idtr << (*i1);
-    } // for
-  }
-    
-  if (S_msrVarValAssoc rights = elt->getRights ()) {
-    fOstream << idtr << rights;
-  }
-
-  S_msrVarValAssoc softwares = elt->getSoftwares ();
-  if (! .empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i2;
-    for (i2=softwares.begin(); i2!=softwares.end(); i2++) {
-      fOstream << idtr << (*i2);
-    } // for
-  }
-    
-  if (S_msrVarValAssoc encodingDate = elt->getEncodingDate ()) {
-    fOstream << idtr << encodingDate;
-  }
-  
-  idtr--;
-  */
+  fOnGoingHeader = true;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrHeader& elt)
 {
+  fOnGoingHeader = false;
+
   idtr--;
 
   if (fMsrOptions->fDebug)

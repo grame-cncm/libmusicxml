@@ -2592,12 +2592,14 @@ ostream& operator<< (ostream& os, const S_msrVarValAssoc& assoc) {
 
 void msrVarValAssoc::print (ostream& os)
 {
-  os << "VarValAssoc" << endl;
+  os << "MSR VarValAssoc" << endl;
   
   idtr++;
   
-  os << idtr << fVariableName << endl;
-  os << idtr << fVariableValue <<endl;
+  os <<
+    idtr << fVariableName << endl <<
+    idtr << fVariableValue <<endl <<
+    endl;
   
   idtr--;
 }
