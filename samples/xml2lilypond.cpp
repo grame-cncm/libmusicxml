@@ -863,14 +863,14 @@ int main (int argc, char *argv[])
     // input comes from standard input
 
     if (outputFileName.size()) {
-      ofstream out;
+      ofstream outStream;
       
-      out.open (inputFileName, ofstream::out);
+      outStream.open (inputFileName.c_str(), ofstream::out);
       
       mScore =
-        musicxmlFd2Msr (stdin, msrOpts, out);
+        musicxmlFd2Msr (stdin, msrOpts, outStream);
         
-      out.close ();
+      outStream.close ();
     }
     else {
       mScore =
@@ -881,18 +881,18 @@ int main (int argc, char *argv[])
     // input comes from a file
 
     if (outputFileName.size()) {
-      ofstream out;
+      ofstream outStream;
       
-      out.open (inputFileName, ofstream::out);
+      outStream.open (inputFileName.c_str(), ofstream::out);
       
       mScore =
-        musicxmlFile2Msr (inputFileName, msrOpts, out);
+        musicxmlFile2Msr (inputFileName.c_str(), msrOpts, outStream);
         
-      out.close ();
+      outStream.close ();
     }
     else {
       mScore =
-        musicxmlFile2Msr (inputFileName, msrOpts, cout);
+        musicxmlFile2Msr (inputFileName.c_str(), msrOpts, cout);
     }
   }
     
