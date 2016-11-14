@@ -82,7 +82,7 @@ EXP S_msrScore musicxmlFile2Msr (
   xmlreader r;
   SXMLFile  xmlFile;
 
-  xmlFile = r.read(file);
+  xmlFile = r.read (file);
   
   S_msrScore mScore;
 
@@ -105,7 +105,7 @@ EXP S_msrScore musicxmlFd2Msr (
   xmlreader r;
   SXMLFile  xmlFile;
 
-  xmlFile = r.read(fd);
+  xmlFile = r.read (fd);
   
   S_msrScore mScore;
 
@@ -129,7 +129,7 @@ EXP S_msrScore musicxmlString2Msr (
   xmlreader r;
   SXMLFile  xmlFile;
   
-  xmlFile = r.readbuff(buffer);
+  xmlFile = r.readbuff (buffer);
   
   S_msrScore mScore;
 

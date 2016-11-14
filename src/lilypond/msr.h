@@ -168,6 +168,9 @@ class EXP msrOptions : public smartable {
  
   public:
 
+    // synthetic view
+    string                          fCommandLineOptions;
+
     // languages
     string                          fMsrNoteNamesLanguageAsString;
     msrNoteNamesLanguage            fMsrNoteNamesLanguage;

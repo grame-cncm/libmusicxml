@@ -16,6 +16,8 @@
 #include <getopt.h>
 #include <iomanip>      // setw, set::precision, ...
 
+#include <fstream>      // ofstream, ofstream::open(), ofstream::close()
+
 #include "msrUtilities.h"
 
 #include "musicxml2msr.h"
@@ -28,7 +30,9 @@
 using namespace std;
 using namespace MusicXML2;
 
-void usage (int exitStatus) {
+//_______________________________________________________________________________
+void printUsage (int exitStatus)
+{
   cerr <<
     endl <<
     "                   Welcome to xml2lilypond, " << endl <<
@@ -144,18 +148,14 @@ void usage (int exitStatus) {
 }
 
 //_______________________________________________________________________________
-int main (int argc, char *argv[]) 
+void analyzeOptions (
+  int            argc,
+  char*          argv[],
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts,
+  string&        inputFileName,
+  string&        outputFileName)
 {
- /*
-  cout << "argc = " << argc << endl;
-  for (int i = 0; i < argc ; i++ ) {
-    cout << "argv[ " << i << "] = " << argv[i] << endl;
-  }
-  */
-  
-  S_msrOptions msrOpts = msrOptions::create ();
-  assert(msrOpts != 0);
-    
   // General options
   // ---------------
 
@@ -185,9 +185,6 @@ int main (int argc, char *argv[])
   // LPSR options
   // ------------
 
-  S_lpsrOptions lpsrOpts = lpsrOptions::create();
-  assert(lpsrOpts != 0);
-  
   lpsrOpts->fDisplayLPSR                      = false;
 
   lpsrOpts->fDontKeepLineBreaks               = false;
@@ -210,6 +207,7 @@ int main (int argc, char *argv[])
 
   int noTracePresent                    = 0;
   
+  int outputFilePresent                 = 0;
   int interactivePresent                = 0;
   
   int debugPresent                      = 0;
@@ -266,6 +264,16 @@ int main (int argc, char *argv[])
       &helpPresent, 1
     },
     
+    {
+      "of",
+      required_argument,
+      &outputFilePresent, 1
+    },
+    {
+      "outputFile",
+      required_argument,
+      &outputFilePresent, 1
+    },
     {
       "i",
       no_argument,
@@ -468,8 +476,6 @@ int main (int argc, char *argv[])
   /* getopt_long stores the option index here. */
   int option_index = 0;
 
-  string commandLineOptions;
-
   int c;
   while (
     (c = getopt_long (
@@ -503,32 +509,38 @@ int main (int argc, char *argv[])
 
         {
         if (helpPresent) {
-          usage (0);
+          printUsage (0);
           break;
+        }
+
+        if (outputFilePresent) {
+          outputFileName = optarg;
+          msrOpts->fCommandLineOptions +=
+            "--outputFile ";
         }
 
         if (interactivePresent) {
           msrOpts->fInteractive = false;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--interactive ";
         }
         
         if (noTracePresent) {
           msrOpts->fTrace = false;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--noTrace ";
         }
         
         if (debugPresent) {
           msrOpts->fTrace = true;
           msrOpts->fDebug = true;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--debug ";
         }
         if (debugDebugPresent) {
           msrOpts->fTrace = true;
           msrOpts->fDebugDebug = true;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--debugDebug ";
         }
         
@@ -541,8 +553,7 @@ int main (int argc, char *argv[])
 
           s <<
             "--debugMeasures" << " " << measuresSpec;
-          commandLineOptions +=
-            s.str();
+          msrOpts->fCommandLineOptions += s.str();
             
           msrOpts->fDebugMeasureNumbersSet =
             decipherNumbersSpecification (measuresSpec);
@@ -556,8 +567,7 @@ int main (int argc, char *argv[])
 
           s <<
             "--debugDebugMeasures" << " " << measuresSpec;
-          commandLineOptions +=
-            s.str();
+          msrOpts->fCommandLineOptions += s.str();
             
           msrOpts->fDebugMeasureNumbersSet =
             decipherNumbersSpecification (measuresSpec);
@@ -578,37 +588,37 @@ int main (int argc, char *argv[])
             msrOpts->fMsrNoteNamesLanguageAsString = "dutch";
             msrOpts->fMsrNoteNamesLanguage = kNederlands;
           }
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--language "+msrOpts->fMsrNoteNamesLanguageAsString+" ";
           }
              
         if (staffRelativeVoiceNumbersPresent) {
           msrOpts->fCreateStaffRelativeVoiceNumbers = true;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--staffRelativeVoiceNumbers ";
         }
         
         if (dontDisplayMSRLyricsPresent) {
           msrOpts->fDontDisplayMSRLyrics = true;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--dontGenerateLyrics ";
         }
         
         if (delayRestsDynamicsPresent) {
           msrOpts->fDelayRestsDynamics = true;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--delayRestsDynamics ";
         }
         
         if (displayMSRPresent) {
           msrOpts->fDisplayMSR = true;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--displayMSR ";
         }
 
         if (displayMSRScoreSummaryPresent) {
           msrOpts->fDisplayMSRScoreSummary = true;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--displayScoreSummary ";
         }
         
@@ -617,46 +627,46 @@ int main (int argc, char *argv[])
 
         if (displayLPSRPresent) {
           lpsrOpts->fDisplayLPSR = true;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--displayLPSR ";
         }
 
         if (absolutePresent) {
           lpsrOpts->fGenerateAbsoluteOctaves = true;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--absolute ";
         }
         
         if (numericaltimePresent) {
           lpsrOpts->fGenerateNumericalTime = true;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--numericalTime ";
         }
         if (noCommentsPresent) {
           lpsrOpts->fGenerateComments = false;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--noComments ";
         }
         if (stemsPresent) {
           lpsrOpts->fGenerateStems = true;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--stems ";
         }
         if (positionsPresent) {
           lpsrOpts->fGeneratePositions = true;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--positions ";
         }
         
         if (dontGenerateLilyPondLyricsPresent) {
           lpsrOpts->fDontGenerateLilyPondLyrics = true;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--dontGenerateLyrics ";
         }
         
         if (dontDisplayLilyPondCodePresent) {
           lpsrOpts->fDontDisplayLilyPondCode = true;
-          commandLineOptions +=
+          msrOpts->fCommandLineOptions +=
             "--dontDisplayLilyPondCode ";
         }
 
@@ -664,34 +674,170 @@ int main (int argc, char *argv[])
         break;
         
       default:
-        usage (1);
+        printUsage (1);
         break;
       } // switch
     } // while
  
-  int nonOptionArgs = argc-optind;
+  int nonOptionArgsNumber = argc-optind;
 
-  char* inputFileName  = "";
-  char* outputFileName = "";
-
-  switch (nonOptionArgs)
+  switch (nonOptionArgsNumber)
     {
     case 1 :
       inputFileName = argv [optind];
       break;
 
     default:
-      usage (1);
+      printUsage (1);
       break;
     } //  switch
+}
+
+//_______________________________________________________________________________
+void printOptions (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts )
+{
+  cerr <<
+    "The command line options are: ";
+    
+  if (msrOpts->fCommandLineOptions.size())
+    cerr <<
+      endl <<
+      msrOpts->fCommandLineOptions;
+  else
+    cerr << "none";
+  cerr << endl;
+    
+  // General options
+  // ---------------
+
+  cerr << idtr <<
+    left <<
+    
+    "The general options are:" << endl <<
+    "  " << setw(31) << "interactive" << " : " <<
+      string(msrOpts->fInteractive
+        ? "true" : "false") << endl <<
+    "  " << setw(31) << "trace" << " : " <<
+      string(msrOpts->fTrace
+        ? "true" : "false") << endl <<
+    "  " << setw(31) << "debug" << " : " <<
+      string(msrOpts->fDebug
+        ? "true" : "false") << endl <<
+    "  " << setw(31) << "debugDebug" << " : " <<
+      string(msrOpts->fDebugDebug
+        ? "true" : "false") << endl <<
+    "  " << setw(31) << "debugMeasureNumbersSet" << " : ";
+    for (
+      set<int>::const_iterator i =
+        msrOpts->fDebugMeasureNumbersSet.begin();
+      i != msrOpts->fDebugMeasureNumbersSet.end();
+      i++) {
+        cout << (*i) << " ";
+    } // for
+  cerr << endl;
+
+  // MSR options
+  // -----------
+
+  cerr << idtr <<
+    left <<
+    
+    "The MSR options are:" << endl <<
+    "  " << setw(31) << "noteNamesLanguageName" << " : \"" <<
+      msrOpts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
+    
+    "  " << setw(31) << "createStaffRelativeVoiceNumbers" << " : " <<
+      string(msrOpts->fCreateStaffRelativeVoiceNumbers
+        ? "true" : "false") << endl <<
+
+    "  " << setw(31) << "dontDisplayMSRLyrics" << " : " <<
+      string(msrOpts->fDontDisplayMSRLyrics
+        ? "true" : "false") << endl <<
+
+    "  " << setw(31) << "delayRestsDynamics" << " : " <<
+      string(msrOpts->fDelayRestsDynamics
+        ? "true" : "false") << endl <<
+
+    "  " << setw(31) << "displayMSR" << " : " <<
+      string(msrOpts->fDisplayMSR
+        ? "true" : "false") << endl <<
+    
+    "  " << setw(31) << "displayMSRScoreSummary" << " : " <<
+      string(msrOpts->fDisplayMSRScoreSummary
+        ? "true" : "false") << endl;
+    
+  // LPSR options
+  // ------------
+
+  cerr << idtr <<
+    left <<
+    
+    "The LPSR options are:" << endl <<
+    "  " << setw(31) << "displayLPSR" << " : " <<
+      string(lpsrOpts->fDisplayLPSR
+        ? "true" : "false") << endl <<
+
+    "  " << setw(31) << "generateAbsoluteOctaves" << " : " <<
+      string(lpsrOpts->fGenerateAbsoluteOctaves
+        ? "true" : "false") << endl <<
+    
+    "  " << setw(31) << "generateNumericalTime" << " : " <<
+      string(lpsrOpts->fGenerateNumericalTime
+        ? "true" : "false") << endl <<
+    "  " << setw(31) << "generateComments" << " : " <<
+      string(lpsrOpts->fGenerateComments
+      ? "true" : "false") << endl <<
+    "  " << setw(31) << "generateStems" << " : " <<
+      string(lpsrOpts->fGenerateStems
+      ? "true" : "false") << endl <<
+//      "  " << setw(31) << "generatePositions" << " : " <<
+//        string(lpsrOpts->fGeneratePositions
+//        ? "true" : "false") << endl <<
+
+    "  " << setw(31) << "dontGenerateLilyPondLyrics" << " : " <<
+      string(lpsrOpts->fDontGenerateLilyPondLyrics
+        ? "true" : "false") << endl <<
+
+    "  " << setw(31) << "dontDisplayLilyPondCode" << " : " <<
+      string(lpsrOpts->fDontDisplayLilyPondCode
+      ? "true" : "false") << endl;
+}
+
+//_______________________________________________________________________________
+int main (int argc, char *argv[]) 
+{
+ /*
+  cout << "argc = " << argc << endl;
+  for (int i = 0; i < argc ; i++ ) {
+    cout << "argv[ " << i << "] = " << argv[i] << endl;
+  }
+  */
   
-  if (msrOpts->fTrace)
-    cerr << 
+  S_msrOptions msrOpts = msrOptions::create ();
+  assert(msrOpts != 0);
+
+  S_lpsrOptions lpsrOpts = lpsrOptions::create();
+  assert(lpsrOpts != 0);
+  
+  string    inputFileName;
+  string    outputFileName;
+  
+  analyzeOptions (
+    argc, argv,
+    msrOpts, lpsrOpts,
+    inputFileName, outputFileName);
+
+  if (msrOpts->fTrace) {
+    cerr <<  idtr <<
       "Launching conversion of ";
-    if (inputFileName == "")
+      
+    if (inputFileName == "-")
       cerr << "standard input";
     else
       cerr << inputFileName;
+      
     cerr << idtr <<
       " to LilyPond " <<
       endl <<
@@ -699,119 +845,56 @@ int main (int argc, char *argv[])
       " & xml2Lilypond v" << musicxml2MsrVersionStr() << 
       endl;
 
-    cerr <<
-      "The command line options are: ";
-    if (commandLineOptions.size())
-      cerr <<
-        endl <<
-        commandLineOptions;
+    cerr << idtr <<
+      "LilyPond code will be writtent to ";
+    if (outputFileName.size())
+      cerr << outputFileName;
     else
-      cerr << "none";
+      cerr << "standard output";
     cerr << endl;
-      
-    // General options
-    // ---------------
-
-    cerr << idtr <<
-      left <<
-      
-      "The general options are:" << endl <<
-      "  " << setw(31) << "interactive" << " : " <<
-        string(msrOpts->fInteractive
-          ? "true" : "false") << endl <<
-      "  " << setw(31) << "trace" << " : " <<
-        string(msrOpts->fTrace
-          ? "true" : "false") << endl <<
-      "  " << setw(31) << "debug" << " : " <<
-        string(msrOpts->fDebug
-          ? "true" : "false") << endl <<
-      "  " << setw(31) << "debugDebug" << " : " <<
-        string(msrOpts->fDebugDebug
-          ? "true" : "false") << endl <<
-      "  " << setw(31) << "debugMeasureNumbersSet" << " : ";
-      for (
-        set<int>::const_iterator i =
-          msrOpts->fDebugMeasureNumbersSet.begin();
-        i != msrOpts->fDebugMeasureNumbersSet.end();
-        i++) {
-          cout << (*i) << " ";
-      } // for
-    cerr << endl;
-
-    // MSR options
-    // -----------
-
-    cerr << idtr <<
-      left <<
-      
-      "The MSR options are:" << endl <<
-      "  " << setw(31) << "noteNamesLanguageName" << " : \"" <<
-        msrOpts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
-      
-      "  " << setw(31) << "createStaffRelativeVoiceNumbers" << " : " <<
-        string(msrOpts->fCreateStaffRelativeVoiceNumbers
-          ? "true" : "false") << endl <<
- 
-      "  " << setw(31) << "dontDisplayMSRLyrics" << " : " <<
-        string(msrOpts->fDontDisplayMSRLyrics
-          ? "true" : "false") << endl <<
-
-      "  " << setw(31) << "delayRestsDynamics" << " : " <<
-        string(msrOpts->fDelayRestsDynamics
-          ? "true" : "false") << endl <<
-
-      "  " << setw(31) << "displayMSR" << " : " <<
-        string(msrOpts->fDisplayMSR
-          ? "true" : "false") << endl <<
-      
-      "  " << setw(31) << "displayMSRScoreSummary" << " : " <<
-        string(msrOpts->fDisplayMSRScoreSummary
-          ? "true" : "false") << endl;
-      
-    // LPSR options
-    // ------------
-
-    cerr << idtr <<
-      left <<
-      
-      "The LPSR options are:" << endl <<
-      "  " << setw(31) << "displayLPSR" << " : " <<
-        string(lpsrOpts->fDisplayLPSR
-          ? "true" : "false") << endl <<
-
-      "  " << setw(31) << "generateAbsoluteOctaves" << " : " <<
-        string(lpsrOpts->fGenerateAbsoluteOctaves
-          ? "true" : "false") << endl <<
-      
-      "  " << setw(31) << "generateNumericalTime" << " : " <<
-        string(lpsrOpts->fGenerateNumericalTime
-          ? "true" : "false") << endl <<
-      "  " << setw(31) << "generateComments" << " : " <<
-        string(lpsrOpts->fGenerateComments
-        ? "true" : "false") << endl <<
-      "  " << setw(31) << "generateStems" << " : " <<
-        string(lpsrOpts->fGenerateStems
-        ? "true" : "false") << endl <<
-//      "  " << setw(31) << "generatePositions" << " : " <<
-//        string(lpsrOpts->fGeneratePositions
-//        ? "true" : "false") << endl <<
-
-      "  " << setw(31) << "dontGenerateLilyPondLyrics" << " : " <<
-        string(lpsrOpts->fDontGenerateLilyPondLyrics
-          ? "true" : "false") << endl <<
-
-      "  " << setw(31) << "dontDisplayLilyPondCode" << " : " <<
-        string(lpsrOpts->fDontDisplayLilyPondCode
-        ? "true" : "false") << endl;
     
-  
+    printOptions (msrOpts, lpsrOpts);
+  }
+    
   S_msrScore mScore;
 
-  // create MSR score from file contents
-  if (! strcmp (inputFileName, "-"))
-    mScore = musicxmlFd2Msr (stdin, msrOpts, cout);
-  else
-    mScore = musicxmlFile2Msr (inputFileName, msrOpts, cout);
+  // create MSR score from MusicXML contents
+  if (inputFileName == "-") {
+    // input comes from standard input
+
+    if (outputFileName.size()) {
+      ofstream out;
+      
+      out.open (inputFileName, ofstream::out);
+      
+      mScore =
+        musicxmlFd2Msr (stdin, msrOpts, out);
+        
+      out.close ();
+    }
+    else {
+      mScore =
+        musicxmlFd2Msr (stdin, msrOpts, cout);
+      }    
+  }
+  else {
+    // input comes from a file
+
+    if (outputFileName.size()) {
+      ofstream out;
+      
+      out.open (inputFileName, ofstream::out);
+      
+      mScore =
+        musicxmlFile2Msr (inputFileName, msrOpts, out);
+        
+      out.close ();
+    }
+    else {
+      mScore =
+        musicxmlFile2Msr (inputFileName, msrOpts, cout);
+    }
+  }
     
   if (! mScore) {
     cout <<
