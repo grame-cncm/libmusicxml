@@ -753,22 +753,22 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
   switch (elt->getLyricschunkType ()) {
     case msrLyricschunk::kSingleChunk:
       fOstream <<
-        elt->getChunkText () << " ";
+        "\"" << elt->getChunkText () << "\"" << " ";
       break;
       
     case msrLyricschunk::kBeginChunk:
       fOstream <<
-        elt->getChunkText () << " ";
+        "\"" << elt->getChunkText () << "\"" << " ";
       break;
       
     case msrLyricschunk::kMiddleChunk:
       fOstream <<
-        "-- " << elt->getChunkText () << " ";
+        "-- " << "\"" << elt->getChunkText () << "\"" << " ";
       break;
       
     case msrLyricschunk::kEndChunk:
       fOstream <<
-        "-- " << elt->getChunkText () << " ";
+        "-- " << "\"" << elt->getChunkText () << "\"" << " ";
       break;
       
     case msrLyricschunk::kSkipChunk:
@@ -783,7 +783,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
       
     case msrLyricschunk::kBreakChunk:
       fOstream <<
-        "%{ " << elt->getChunkText () << " %}" <<
+        "%{ " << "\"" << elt->getChunkText () << "\"" << " %}" <<
         endl <<
         idtr;
       break;
@@ -1212,8 +1212,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
     case msrSlur::kStopSlur:
       fOstream << ") ";
       break;
-    default:
-      fOstream << "Slur" << elt->getNoteSlurKind () << "###";
+    case msrSlur::k_NoSlur:
+      break;
   } // switch  
 }
 
