@@ -800,13 +800,14 @@ EXP ostream& operator<< (ostream& os, const S_lpsrBarCommand& elt);
   A header is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP lpsrHeader : public msrElement
+class EXP lpsrHeader : public lpsrElement
 {
   public:
 
     static SMARTP<lpsrHeader> create (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
     
     void        setWorkNumber (
                   int    inputLineNumber,
@@ -845,39 +846,39 @@ class EXP lpsrHeader : public msrElement
                   int    inputLineNumber,
                   string val);
 
-    S_msrVarValAssoc
+    S_lpsrVarValAssoc
                 getWorkNumber () const
                     { return fWorkNumber; }
     
-    S_msrVarValAssoc
+    S_lpsrVarValAssoc
                 getWorkTitle () const
                     { return fWorkTitle; }
     
-    S_msrVarValAssoc
+    S_lpsrVarValAssoc
                 getMovementNumber () const
                     { return fMovementNumber; }
     
-    S_msrVarValAssoc
+    S_lpsrVarValAssoc
                 getMovementTitle () const
                     { return fMovementTitle; }
     
-    vector<S_msrVarValAssoc>
+    vector<S_lpsrVarValAssoc>
                 getCreators () const
                     { return fCreators; };
     
-    S_msrVarValAssoc
+    S_lpsrVarValAssoc
                 getRights () const
                     { return fRights; }
     
-    vector<S_msrVarValAssoc>
+    vector<S_lpsrVarValAssoc>
                 getSoftwares () const
                     { return fSoftwares; };
     
-    S_msrVarValAssoc
+    S_lpsrVarValAssoc
                 getEncodingDate () const
                     { return fEncodingDate; }
     
-    S_msrVarValAssoc
+    S_lpsrVarValAssoc
                 getScoreInstrument () const
                     { return fScoreInstrument; }
 
@@ -891,46 +892,48 @@ class EXP lpsrHeader : public msrElement
   protected:
 
     lpsrHeader (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
       
     virtual ~lpsrHeader();
   
   private:
 
-    S_msrVarValAssoc         fWorkNumber;
-    S_msrVarValAssoc         fWorkTitle;
-    S_msrVarValAssoc         fMovementNumber;
-    S_msrVarValAssoc         fMovementTitle;
-    vector<S_msrVarValAssoc> fCreators;
-    S_msrVarValAssoc         fRights;
-    vector<S_msrVarValAssoc> fSoftwares;
-    S_msrVarValAssoc         fEncodingDate;
-    S_msrVarValAssoc         fScoreInstrument;
+    S_lpsrVarValAssoc         fWorkNumber;
+    S_lpsrVarValAssoc         fWorkTitle;
+    S_lpsrVarValAssoc         fMovementNumber;
+    S_lpsrVarValAssoc         fMovementTitle;
+    vector<S_lpsrVarValAssoc> fCreators;
+    S_lpsrVarValAssoc         fRights;
+    vector<S_lpsrVarValAssoc> fSoftwares;
+    S_lpsrVarValAssoc         fEncodingDate;
+    S_lpsrVarValAssoc         fScoreInstrument;
 
 };
 typedef SMARTP<lpsrHeader> S_lpsrHeader;
 EXP ostream& operator<< (ostream& os, const S_lpsrHeader& elt);
 
 /*!
-\brief A msr layout representation.
+\brief A LPSR layout representation.
 
   A layout is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP lpsrLayout : public msrElement
+class EXP lpsrLayout : public lpsrElement
 {
   public:
 
     static SMARTP<lpsrLayout> create (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
     
-    void  addmsrVarValAssoc (S_msrVarValAssoc assoc)
-              { fmsrVarValAssocs.push_back(assoc); }
+    void    addLpsrVarValAssoc (S_lpsrVarValAssoc assoc)
+                { fLpsrVarValAssocs.push_back (assoc); }
       
-//    void addMsrSchemeVarValAssoc (S_msrSchemeVarValAssoc assoc)
-//      { fMsrSchemeVarValAssocs.push_back(assoc); }
+    void    addLpsrSchemeVarValAssoc (S_lpsrSchemeVarValAssoc assoc)
+                { fLpsrSchemeVarValAssocs.push_back (assoc); }
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -942,14 +945,16 @@ class EXP lpsrLayout : public msrElement
   protected:
 
     lpsrLayout (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
       
     virtual ~lpsrLayout();
   
   private:
   
-    vector<S_msrVarValAssoc> fmsrVarValAssocs;
+    vector<S_lpsrVarValAssoc>       fLpsrVarValAssocs;
+    vector<S_lpsrSchemeVarValAssoc> fLpsrSchemeVarValAssocs;
 };
 typedef SMARTP<lpsrLayout> S_lpsrLayout;
 EXP ostream& operator<< (ostream& os, const S_lpsrLayout& elt);
@@ -1088,7 +1093,7 @@ class EXP lpsrScore : public lpsrElement
     S_lpsrVarValAssoc   fLilyPondVersion;
     S_lpsrHeader        fHeader;
     S_msrPaper          fPaper;
-    S_msrLayout         fLayout;
+    S_lpsrLayout        fLayout;
 
     // voices and lyrics
     list<S_msrElement>  fVoicesAndLyricsList;

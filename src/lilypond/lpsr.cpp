@@ -1412,20 +1412,22 @@ void lpsrBarCommand::printLilyPondCode (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrHeader lpsrHeader::create (
-  S_msrOptions& msrOpts, 
-  int           inputLineNumber)
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber)
 {
   lpsrHeader* o =
     new lpsrHeader (
-      msrOpts, inputLineNumber);
+      msrOpts, lpsrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 lpsrHeader::lpsrHeader (
-  S_msrOptions& msrOpts, 
-  int           inputLineNumber)
-    : msrElement (msrOpts, inputLineNumber)
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber)
+    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {}
 
 lpsrHeader::~lpsrHeader() {}
@@ -1435,13 +1437,12 @@ void lpsrHeader::setWorkNumber (
   string val)
   {
   fWorkNumber =
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
+    lpsrVarValAssoc::create (
+      fMsrOptions, fLpsrOptions, inputLineNumber,
       "work-number", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented);
   }
 
 void lpsrHeader::setWorkTitle (
@@ -1449,13 +1450,12 @@ void lpsrHeader::setWorkTitle (
   string val)
   {
   fWorkTitle =
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
+    lpsrVarValAssoc::create (
+      fMsrOptions, fLpsrOptions, inputLineNumber,
       "work-title", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented);
   }
 
 void lpsrHeader::setMovementNumber (
@@ -1463,13 +1463,12 @@ void lpsrHeader::setMovementNumber (
   string val)
   {
   fMovementNumber =
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
+    lpsrVarValAssoc::create (
+      fMsrOptions, fLpsrOptions, inputLineNumber,
       "movement-number", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented);
   }
 
 void lpsrHeader::setMovementTitle (
@@ -1477,13 +1476,12 @@ void lpsrHeader::setMovementTitle (
   string val)
 {
   fMovementTitle =
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
+    lpsrVarValAssoc::create (
+      fMsrOptions, fLpsrOptions, inputLineNumber,
       "movement-title", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented);
 }
 
 void lpsrHeader::addCreator (
@@ -1492,13 +1490,12 @@ void lpsrHeader::addCreator (
   string val)
 {
   fCreators.push_back(
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
+    lpsrVarValAssoc::create (
+      fMsrOptions, fLpsrOptions, inputLineNumber,
       type, val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented)
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented)
   );
 }
 
@@ -1507,13 +1504,12 @@ void lpsrHeader::setRights (
   string val)
   {
   fRights =
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
+    lpsrVarValAssoc::create (
+      fMsrOptions, fLpsrOptions, inputLineNumber,
       "rights", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented);
   }
 
 void lpsrHeader::addSoftware (
@@ -1521,13 +1517,12 @@ void lpsrHeader::addSoftware (
   string val)
 {
   fSoftwares.push_back(
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
+    lpsrVarValAssoc::create (
+      fMsrOptions, fLpsrOptions, inputLineNumber,
       "software", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented)
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented)
   );
 }
 
@@ -1536,13 +1531,12 @@ void lpsrHeader::setEncodingDate (
   string val)
 {
   fEncodingDate =
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
+    lpsrVarValAssoc::create (
+      fMsrOptions, fLpsrOptions, inputLineNumber,
       "encodingdate", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented);
 }
 
 void lpsrHeader::setScoreInstrument (
@@ -1550,13 +1544,12 @@ void lpsrHeader::setScoreInstrument (
   string val)
 {
   fScoreInstrument =
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
+    lpsrVarValAssoc::create (
+      fMsrOptions, fLpsrOptions, inputLineNumber,
       "score-instrument", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented);
 }
 
 void lpsrHeader::acceptIn (basevisitor* v) {
@@ -1595,65 +1588,63 @@ void lpsrHeader::acceptOut (basevisitor* v) {
 
 void lpsrHeader::browseData (basevisitor* v)
 {
-  {
+  if (fWorkNumber) {
     // browse fWorkNumber
-    msrBrowser<msrVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fWorkNumber);
   }
 
-  {
+  if (fWorkTitle) {
     // browse fWorkTitle
-    msrBrowser<msrVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fWorkTitle);
   }
 
-  {
+  if (fMovementNumber) {
     // browse fMovementNumber
-    msrBrowser<msrVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fMovementNumber);
   }
 
-  {
+  if (fMovementTitle) {
     // browse fMovementTitle
-    msrBrowser<msrVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fMovementTitle);
   }
 
-  if (!fCreators.empty()) {
-    // browse fCreators
-    vector<S_msrVarValAssoc>::const_iterator i;
+  if (! fCreators.empty()) {
+    vector<S_lpsrVarValAssoc>::const_iterator i;
     for (i=fCreators.begin(); i!=fCreators.end(); i++) {
-      msrBrowser<msrVarValAssoc> browser (v);
+      // browse creator
+      msrBrowser<lpsrVarValAssoc> browser (v);
       browser.browse (*(*i));
     } // for
   }
     
-  {
+  if (fRights) {
     // browse fRights
-    msrBrowser<msrVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fRights);
   }
 
-  if (!fSoftwares.empty()) {
-    // browse fSoftwares
-    vector<S_msrVarValAssoc>::const_iterator i;
+  if (! fSoftwares.empty()) {
+    vector<S_lpsrVarValAssoc>::const_iterator i;
     for (i=fSoftwares.begin(); i!=fSoftwares.end(); i++) {
-      msrBrowser<msrVarValAssoc> browser (v);
+      // browse software
+      msrBrowser<lpsrVarValAssoc> browser (v);
       browser.browse (*(*i));
     } // for
   }
 
-    vector<S_msrVarValAssoc> fSoftwares;
-
-  {
+  if (fEncodingDate) {
     // browse fEncodingDate
-    msrBrowser<msrVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fEncodingDate);
   }
 
-  {
+  if (fScoreInstrument) {
     // browse fScoreInstrument
-    msrBrowser<msrVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fScoreInstrument);
   }
 }
@@ -1686,8 +1677,8 @@ void lpsrHeader::print (ostream& os)
     os << idtr << fMovementTitle;
   }
     
-  if (!fCreators.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i1;
+  if (! fCreators.empty()) {
+    vector<S_lpsrVarValAssoc>::const_iterator i1;
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
       os << idtr << (*i1);
     } // for
@@ -1697,8 +1688,8 @@ void lpsrHeader::print (ostream& os)
     os << idtr << fRights;
   }
     
-  if (!fSoftwares.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i2;
+  if (! fSoftwares.empty()) {
+    vector<S_lpsrVarValAssoc>::const_iterator i2;
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
       os << idtr << (*i2);
     } // for
@@ -1707,6 +1698,100 @@ void lpsrHeader::print (ostream& os)
   if (fEncodingDate) {
     os << idtr << fEncodingDate;
   }
+  
+  idtr--;
+}
+
+//______________________________________________________________________________
+S_lpsrLayout lpsrLayout::create (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber)
+{
+  lpsrLayout* o =
+    new lpsrLayout (
+      msrOpts, lpsrOpts,inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+lpsrLayout::lpsrLayout (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber)
+    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+{}
+
+lpsrLayout::~lpsrLayout() {}
+
+void lpsrLayout::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrLayout::acceptIn()" << endl;
+      
+  if (visitor<S_lpsrLayout>*
+    p =
+      dynamic_cast<visitor<S_lpsrLayout>*> (v)) {
+        S_lpsrLayout elem = this;
+        
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrLayout::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void lpsrLayout::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrLayout::acceptOut()" << endl;
+
+  if (visitor<S_lpsrLayout>*
+    p =
+      dynamic_cast<visitor<S_lpsrLayout>*> (v)) {
+        S_lpsrLayout elem = this;
+      
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrLayout::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+
+void lpsrLayout::browseData (basevisitor* v)
+{
+  int n1 = fLpsrVarValAssocs.size();
+  
+  for (int i = 0; i < n1; i++ ) {
+    // browse the variable/value association
+    msrBrowser<lpsrVarValAssoc> browser (v);
+    browser.browse (*fLpsrVarValAssocs [i]);
+  } // for
+}
+
+ostream& operator<< (ostream& os, const S_lpsrLayout& lay)
+{
+  lay->print (os);
+  return os;
+}
+
+void lpsrLayout::print (ostream& os)
+{
+  os << "Layout" << endl;
+
+  idtr++;
+
+  int n1 = fLpsrVarValAssocs.size();
+  
+  for (int i = 0; i < n1; i++ ) {
+    os << idtr << fLpsrVarValAssocs [i];
+  } // for
+
+  int n2 = fLpsrSchemeVarValAssocs.size();
+  for (int i = 0; i < n2; i++ ) {
+    os << idtr << fLpsrSchemeVarValAssocs[i];
+  } // for
   
   idtr--;
 }
@@ -1738,7 +1823,7 @@ lpsrScoreCommand::lpsrScoreCommand (
   // create the score block layout
   fScoreCommandLayout =
     lpsrLayout::create (
-      msrOpts, inputLineNumber);
+      msrOpts, lpsrOpts, inputLineNumber);
   
   // create the score block midi
   fScoreCommandMidi =
@@ -1864,7 +1949,7 @@ lpsrScore::lpsrScore (
   // create the header
   fHeader =
     lpsrHeader::create (
-      msrOpts, inputLineNumber);
+      msrOpts, lpsrOpts, inputLineNumber);
   
   // create the paper
   fPaper =
@@ -1874,7 +1959,7 @@ lpsrScore::lpsrScore (
   // create the layout
   fLayout =
     lpsrLayout::create (
-      msrOpts, inputLineNumber);
+      msrOpts, lpsrOpts, inputLineNumber);
 
   // create the score block parallel music element
   fScoreCommand =

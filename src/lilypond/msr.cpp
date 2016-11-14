@@ -2520,7 +2520,7 @@ S_msrVarValAssoc msrVarValAssoc::create (
   S_msrOptions&      msrOpts, 
   int                inputLineNumber,
   string             variableName,
-  string             valued)
+  string             value)
 {
   msrVarValAssoc* o =
     new msrVarValAssoc(
@@ -5120,10 +5120,7 @@ void msrScore::setWorkNumber (
     msrVarValAssoc::create (
       fMsrOptions,
       inputLineNumber,
-      "work-number", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
+      "work-number", val);
   }
 
 void msrScore::setWorkTitle (
@@ -5134,10 +5131,7 @@ void msrScore::setWorkTitle (
     msrVarValAssoc::create (
       fMsrOptions,
       inputLineNumber,
-      "work-title", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
+      "work-title", val);
   }
 
 void msrScore::setMovementNumber (
@@ -5148,10 +5142,7 @@ void msrScore::setMovementNumber (
     msrVarValAssoc::create (
       fMsrOptions,
       inputLineNumber,
-      "movement-number", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
+      "movement-number", val);
   }
 
 void msrScore::setMovementTitle (
@@ -5162,10 +5153,7 @@ void msrScore::setMovementTitle (
     msrVarValAssoc::create (
       fMsrOptions,
       inputLineNumber,
-      "movement-title", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
+      "movement-title", val);
 }
 
 void msrScore::addCreator (
@@ -5177,10 +5165,7 @@ void msrScore::addCreator (
     msrVarValAssoc::create (
       fMsrOptions,
       inputLineNumber,
-      type, val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented)
+      type, val)
   );
 }
 
@@ -5192,10 +5177,7 @@ void msrScore::setRights (
     msrVarValAssoc::create (
       fMsrOptions,
       inputLineNumber,
-      "rights", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
+      "rights", val);
   }
 
 void msrScore::addSoftware (
@@ -5206,10 +5188,7 @@ void msrScore::addSoftware (
     msrVarValAssoc::create (
       fMsrOptions,
       inputLineNumber,
-      "software", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented)
+      "software", val)
   );
 }
 
@@ -5221,10 +5200,7 @@ void msrScore::setEncodingDate (
     msrVarValAssoc::create (
       fMsrOptions,
       inputLineNumber,
-      "encodingdate", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
+      "encodingdate", val);
 }
 
 void msrScore::setScoreInstrument (
@@ -5235,10 +5211,7 @@ void msrScore::setScoreInstrument (
     msrVarValAssoc::create (
       fMsrOptions,
       inputLineNumber,
-      "score-instrument", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
+      "score-instrument", val);
 }
 
 void msrScore::addPartgroupToScore (S_msrPartgroup partGroup)
