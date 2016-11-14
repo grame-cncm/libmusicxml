@@ -237,11 +237,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrVarValAssoc& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrHeader& elt)
+void lpsr2LilyPondVisitor::visitStart (S_lpsrHeader& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting msrHeader" << endl;
+      "% --> Start visiting lpsrHeader" << endl;
 
   fOstream << idtr <<
     "\\header" << " {" <<
@@ -294,13 +294,13 @@ void lpsr2LilyPondVisitor::visitStart (S_msrHeader& elt)
   */
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_msrHeader& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrHeader& elt)
 {
   idtr--;
 
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting msrHeader" << endl;
+      "% --> End visiting lpsrHeader" << endl;
 
   fOstream << idtr <<
     "}" <<

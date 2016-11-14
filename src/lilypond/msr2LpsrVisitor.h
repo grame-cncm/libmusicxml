@@ -86,7 +86,7 @@ class msr2LpsrVisitor :
   
   public visitor<S_msrVarValAssoc>,
   
-  public visitor<S_msrHeader>,
+//  public visitor<S_msrHeader>,
   public visitor<S_msrPaper>,
   public visitor<S_msrLayout>,
   
@@ -194,8 +194,8 @@ class msr2LpsrVisitor :
     virtual void visitStart (S_msrVarValAssoc& elt);
     virtual void visitEnd   (S_msrVarValAssoc& elt);
 
-    virtual void visitStart (S_msrHeader& elt);
-    virtual void visitEnd   (S_msrHeader& elt);
+ //   virtual void visitStart (S_msrHeader& elt);
+  //  virtual void visitEnd   (S_msrHeader& elt);
 
     virtual void visitStart (S_msrPaper& elt);
     virtual void visitEnd   (S_msrPaper& elt);

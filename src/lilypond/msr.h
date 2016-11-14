@@ -940,34 +940,16 @@ class EXP msrVarValAssoc : public msrElement
 {
   public:
 
-    enum msrVarValSeparator { kSpace, kEqualSign };
-    enum msrQuotesKind      { kQuotesAroundValue, kNoQuotesAroundValue };
-    enum msrCommentedKind   { kCommented, kUncommented };
-
     static SMARTP<msrVarValAssoc> create (
       S_msrOptions&      msrOpts, 
       int                inputLineNumber,
       string             variableName,
-      string             value, 
-      msrVarValSeparator varValSeparator,
-      msrQuotesKind      quotesKind,
-      msrCommentedKind   commentedKind);
+      string             value);
     
-    void     changeAssoc (string value);
+    void      changeAssoc (string value);
     
     string    getVariableName  () const { return fVariableName; };
     string    getVariableValue () const { return fVariableValue; };
-
-    msrVarValSeparator
-              getVarValSeparator () const
-                  { return fVarValSeparator; };
-
-    msrQuotesKind
-              getQuotesKind () const { return fQuotesKind; };
-
-    msrCommentedKind
-              getCommentedKind () const
-                  { return fCommentedKind; };
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -982,10 +964,7 @@ class EXP msrVarValAssoc : public msrElement
       S_msrOptions&      msrOpts, 
       int                inputLineNumber,
       string             variableName,
-      string             value, 
-      msrVarValSeparator varValSeparator,
-      msrQuotesKind      quotesKind,
-      msrCommentedKind   commentedKind);
+      string             value);
       
     virtual ~msrVarValAssoc();
   
@@ -993,133 +972,9 @@ class EXP msrVarValAssoc : public msrElement
 
     string             fVariableName;
     string             fVariableValue;
-    
-    msrVarValSeparator fVarValSeparator;
-    
-    msrQuotesKind      fQuotesKind;
-    
-    msrCommentedKind   fCommentedKind;
 };
 typedef SMARTP<msrVarValAssoc> S_msrVarValAssoc;
 EXP ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt);
-
-/*!
-\brief A msr header representation.
-
-  A header is represented by variable/value pairs
-*/
-//______________________________________________________________________________
-class EXP msrHeader : public msrElement
-{
-  public:
-
-    static SMARTP<msrHeader> create (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
-    
-    void        setWorkNumber (
-                  int    inputLineNumber,
-                  string val);
-
-    void        setWorkTitle (
-                  int    inputLineNumber,
-                  string val);
-
-    void        setMovementNumber (
-                  int    inputLineNumber,
-                  string vall);
-
-    void        setMovementTitle (
-                  int    inputLineNumber,
-                  string val);
-
-    void        addCreator (
-                  int    inputLineNumber,
-                  string type,
-                  string val);
-
-    void        setRights (
-                  int    inputLineNumber,
-                  string val);
-
-    void        addSoftware (
-                  int    inputLineNumber,
-                  string val);
-
-    void        setEncodingDate (
-                  int    inputLineNumber,
-                  string val);
-
-    void        setScoreInstrument (
-                  int    inputLineNumber,
-                  string val);
-
-    S_msrVarValAssoc
-                getWorkNumber () const
-                    { return fWorkNumber; }
-    
-    S_msrVarValAssoc
-                getWorkTitle () const
-                    { return fWorkTitle; }
-    
-    S_msrVarValAssoc
-                getMovementNumber () const
-                    { return fMovementNumber; }
-    
-    S_msrVarValAssoc
-                getMovementTitle () const
-                    { return fMovementTitle; }
-    
-    vector<S_msrVarValAssoc>
-                getCreators () const
-                    { return fCreators; };
-    
-    S_msrVarValAssoc
-                getRights () const
-                    { return fRights; }
-    
-    vector<S_msrVarValAssoc>
-                getSoftwares () const
-                    { return fSoftwares; };
-    
-    S_msrVarValAssoc
-                getEncodingDate () const
-                    { return fEncodingDate; }
-    
-    S_msrVarValAssoc
-                getScoreInstrument () const
-                    { return fScoreInstrument; }
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void print (ostream& os);
-
-  protected:
-
-    msrHeader (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
-      
-    virtual ~msrHeader();
-  
-  private:
-
-    S_msrVarValAssoc         fWorkNumber;
-    S_msrVarValAssoc         fWorkTitle;
-    S_msrVarValAssoc         fMovementNumber;
-    S_msrVarValAssoc         fMovementTitle;
-    vector<S_msrVarValAssoc> fCreators;
-    S_msrVarValAssoc         fRights;
-    vector<S_msrVarValAssoc> fSoftwares;
-    S_msrVarValAssoc         fEncodingDate;
-    S_msrVarValAssoc         fScoreInstrument;
-
-};
-typedef SMARTP<msrHeader> S_msrHeader;
-EXP ostream& operator<< (ostream& os, const S_msrHeader& elt);
 
 /*!
 \brief A msr paper representation.

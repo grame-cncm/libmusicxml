@@ -790,7 +790,7 @@ void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
     fOstream << idtr <<
       "--> Start visiting msrVarValAssoc" << endl;
 
-  fOstream << "LilypondVarValAssoc" << endl;
+  fOstream << "msrVarValAssoc" << endl;
   
   idtr++;
   
@@ -808,6 +808,7 @@ void msr2SummaryVisitor::visitEnd (S_msrVarValAssoc& elt)
 }
 
 //________________________________________________________________________
+  /*
 void msr2SummaryVisitor::visitStart (S_msrHeader& elt)
 {
   if (fMsrOptions->fDebug)
@@ -818,7 +819,6 @@ void msr2SummaryVisitor::visitStart (S_msrHeader& elt)
 
   idtr++;
 
-  /*
   if (S_msrVarValAssoc workNumber = elt->getWorkNumber ()) {
     fOstream << idtr << workNumber;
   }
@@ -860,7 +860,6 @@ void msr2SummaryVisitor::visitStart (S_msrHeader& elt)
   }
   
   idtr--;
-  */
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrHeader& elt)
@@ -871,6 +870,7 @@ void msr2SummaryVisitor::visitEnd (S_msrHeader& elt)
     fOstream << idtr <<
       "--> End visiting msrHeader" << endl;
 }
+  */
 
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrPaper& elt)

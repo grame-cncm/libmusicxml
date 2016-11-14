@@ -789,8 +789,6 @@ void msr2musicxmlVisitor::visitStart (S_msrVarValAssoc& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrVarValAssoc" << endl;
-
-  fOstream << "LilypondVarValAssoc" << endl;
   
   idtr++;
   

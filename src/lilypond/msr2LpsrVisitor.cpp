@@ -667,8 +667,6 @@ void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrVarValAssoc" << endl;
-
-  fOstream << "LilypondVarValAssoc" << endl;
   
   idtr++;
   
@@ -686,6 +684,7 @@ void msr2LpsrVisitor::visitEnd (S_msrVarValAssoc& elt)
 }
 
 //________________________________________________________________________
+  /*
 void msr2LpsrVisitor::visitStart (S_msrHeader& elt)
 {
   if (fMsrOptions->fDebug)
@@ -696,7 +695,6 @@ void msr2LpsrVisitor::visitStart (S_msrHeader& elt)
 
   idtr++;
 
-  /*
    *
    *
    * void msrHeader::printLilyPondCode (ostream& os)
@@ -842,7 +840,6 @@ void msr2LpsrVisitor::visitStart (S_msrHeader& elt)
   }
   
   idtr--;
-  */
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrHeader& elt)
@@ -853,6 +850,7 @@ void msr2LpsrVisitor::visitEnd (S_msrHeader& elt)
     fOstream << idtr <<
       "--> End visiting msrHeader" << endl;
 }
+  */
 
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrPaper& elt)

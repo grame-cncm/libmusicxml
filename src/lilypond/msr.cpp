@@ -2515,321 +2515,17 @@ void msrPaper::print (ostream& os) {
 }
 
 //______________________________________________________________________________
-S_msrHeader msrHeader::create (
-  S_msrOptions& msrOpts, 
-  int           inputLineNumber)
-{
-  msrHeader* o =
-    new msrHeader (
-      msrOpts, inputLineNumber);
-  assert(o!=0);
-  return o;
-}
-
-msrHeader::msrHeader (
-  S_msrOptions& msrOpts, 
-  int           inputLineNumber)
-    : msrElement (msrOpts, inputLineNumber)
-{}
-msrHeader::~msrHeader() {}
-
-void msrHeader::setWorkNumber (
-  int    inputLineNumber,
-  string val)
-  {
-  fWorkNumber =
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
-      "work-number", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
-  }
-
-void msrHeader::setWorkTitle (
-  int    inputLineNumber,
-  string val)
-  {
-  fWorkTitle =
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
-      "work-title", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
-  }
-
-void msrHeader::setMovementNumber (
-  int    inputLineNumber,
-  string val)
-  {
-  fMovementNumber =
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
-      "movement-number", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
-  }
-
-void msrHeader::setMovementTitle (
-  int    inputLineNumber,
-  string val)
-{
-  fMovementTitle =
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
-      "movement-title", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
-}
-
-void msrHeader::addCreator (
-  int    inputLineNumber,
-  string type,
-  string val)
-{
-  fCreators.push_back(
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
-      type, val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented)
-  );
-}
-
-void msrHeader::setRights (
-  int    inputLineNumber,
-  string val)
-  {
-  fRights =
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
-      "rights", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
-  }
-
-void msrHeader::addSoftware (
-  int    inputLineNumber,
-  string val)
-{
-  fSoftwares.push_back(
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
-      "software", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented)
-  );
-}
-
-void msrHeader::setEncodingDate (
-  int    inputLineNumber,
-  string val)
-{
-  fEncodingDate =
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
-      "encodingdate", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
-}
-
-void msrHeader::setScoreInstrument (
-  int    inputLineNumber,
-  string val)
-{
-  fScoreInstrument =
-    msrVarValAssoc::create (
-      fMsrOptions,
-      inputLineNumber,
-      "score-instrument", val,
-      msrVarValAssoc::kEqualSign,
-      msrVarValAssoc::kQuotesAroundValue,
-      msrVarValAssoc::kUncommented);
-}
-
-void msrHeader::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrHeader::acceptIn()" << endl;
-      
-  if (visitor<S_msrHeader>*
-    p =
-      dynamic_cast<visitor<S_msrHeader>*> (v)) {
-        S_msrHeader elem = this;
-        
-        if (fMsrOptions->fDebug)
-          cerr << idtr <<
-            "==> Launching msrHeader::visitStart()" << endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrHeader::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrHeader::acceptOut()" << endl;
-
-  if (visitor<S_msrHeader>*
-    p =
-      dynamic_cast<visitor<S_msrHeader>*> (v)) {
-        S_msrHeader elem = this;
-      
-        if (fMsrOptions->fDebug)
-          cerr << idtr <<
-            "==> Launching msrHeader::visitEnd()" << endl;
-        p->visitEnd (elem);
-  }
-}
-
-void msrHeader::browseData (basevisitor* v)
-{
-  {
-    // browse fWorkNumber
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fWorkNumber);
-  }
-
-  {
-    // browse fWorkTitle
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fWorkTitle);
-  }
-
-  {
-    // browse fMovementNumber
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fMovementNumber);
-  }
-
-  {
-    // browse fMovementTitle
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fMovementTitle);
-  }
-
-  if (!fCreators.empty()) {
-    // browse fCreators
-    vector<S_msrVarValAssoc>::const_iterator i;
-    for (i=fCreators.begin(); i!=fCreators.end(); i++) {
-      msrBrowser<msrVarValAssoc> browser (v);
-      browser.browse (*(*i));
-    } // for
-  }
-    
-  {
-    // browse fRights
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fRights);
-  }
-
-  if (!fSoftwares.empty()) {
-    // browse fSoftwares
-    vector<S_msrVarValAssoc>::const_iterator i;
-    for (i=fSoftwares.begin(); i!=fSoftwares.end(); i++) {
-      msrBrowser<msrVarValAssoc> browser (v);
-      browser.browse (*(*i));
-    } // for
-  }
-
-    vector<S_msrVarValAssoc> fSoftwares;
-
-  {
-    // browse fEncodingDate
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fEncodingDate);
-  }
-
-  {
-    // browse fScoreInstrument
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fScoreInstrument);
-  }
-}
-
-ostream& operator<< (ostream& os, const S_msrHeader& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrHeader::print (ostream& os)
-{
-  os << "Header" << endl;
-
-  idtr++;
-  
-  if (fWorkNumber) {
-    os << idtr << fWorkNumber;
-  }
-  
-  if (fWorkTitle) {
-    os << idtr << fWorkTitle;
-  }
-    
-  if (fMovementNumber) {
-    os << idtr << fMovementNumber;
-  }
-    
-  if (fMovementTitle) {
-    os << idtr << fMovementTitle;
-  }
-    
-  if (!fCreators.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i1;
-    for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
-      os << idtr << (*i1);
-    } // for
-  }
-    
-  if (fRights) {
-    os << idtr << fRights;
-  }
-    
-  if (!fSoftwares.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i2;
-    for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
-      os << idtr << (*i2);
-    } // for
-  }
-    
-  if (fEncodingDate) {
-    os << idtr << fEncodingDate;
-  }
-  
-  idtr--;
-}
-
-//______________________________________________________________________________
 
 S_msrVarValAssoc msrVarValAssoc::create (
   S_msrOptions&      msrOpts, 
   int                inputLineNumber,
   string             variableName,
-  string             value, 
-  msrVarValSeparator varValSeparator,
-  msrQuotesKind      quotesKind,
-  msrCommentedKind   commentedKind)
+  string             valued)
 {
   msrVarValAssoc* o =
     new msrVarValAssoc(
       msrOpts, inputLineNumber,
-      variableName, value, varValSeparator, 
-      quotesKind, commentedKind);
+      variableName, value);
   assert(o!=0);
   return o;
 }
@@ -2838,17 +2534,11 @@ msrVarValAssoc::msrVarValAssoc (
   S_msrOptions&      msrOpts, 
   int                inputLineNumber,
   string             variableName,
-  string             value, 
-  msrVarValSeparator varValSeparator,
-  msrQuotesKind      quotesKind,
-  msrCommentedKind   commentedKind)
+  string             value)
     : msrElement (msrOpts, inputLineNumber)
 {
   fVariableName    = variableName;
   fVariableValue   = value;
-  fVarValSeparator = varValSeparator;
-  fQuotesKind      = quotesKind;
-  fCommentedKind   = commentedKind;
 }
 
 msrVarValAssoc::~msrVarValAssoc() {}
@@ -2902,45 +2592,12 @@ ostream& operator<< (ostream& os, const S_msrVarValAssoc& assoc) {
 
 void msrVarValAssoc::print (ostream& os)
 {
-  os << "LilypondVarValAssoc" << endl;
+  os << "VarValAssoc" << endl;
   
   idtr++;
   
   os << idtr << fVariableName << endl;
   os << idtr << fVariableValue <<endl;
-
-  os << idtr;
-  switch (fVarValSeparator) {
-    case kSpace:
-      os << "space";
-      break;
-    case kEqualSign:
-      os << "equal";
-      break;
-  } // switch
-  os << idtr << endl;
-
-  os << idtr;
-  switch (fQuotesKind) {
-    case kQuotesAroundValue:
-      os << "quotes";
-      break;
-    case kNoQuotesAroundValue:
-      os << "noQuotes";
-      break;
-  } // switch
-  os << idtr << endl;
-
-  os << idtr;
-  switch (fCommentedKind) {
-    case kCommented:
-      os << "commented";
-      break;
-    case kUncommented:
-      os << "uncommented";
-      break;
-  } // switch
-  os << idtr << endl;
   
   idtr--;
 }
@@ -5654,64 +5311,62 @@ void msrScore::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrScore::browseData()" << endl;
     
-  {
+  if (fWorkNumber) {
     // browse fWorkNumber
     msrBrowser<msrVarValAssoc> browser (v);
     browser.browse (*fWorkNumber);
   }
 
-  {
+  if (fWorkTitle) {
     // browse fWorkTitle
     msrBrowser<msrVarValAssoc> browser (v);
     browser.browse (*fWorkTitle);
   }
 
-  {
+  if (fMovementNumber) {
     // browse fMovementNumber
     msrBrowser<msrVarValAssoc> browser (v);
     browser.browse (*fMovementNumber);
   }
 
-  {
-    // browse fMovementTitle
+  if (fMovementTitle) {
+    // fMovementTitle fMovementTitle
     msrBrowser<msrVarValAssoc> browser (v);
     browser.browse (*fMovementTitle);
   }
 
   if (!fCreators.empty()) {
-    // browse fCreators
     vector<S_msrVarValAssoc>::const_iterator i;
     for (i=fCreators.begin(); i!=fCreators.end(); i++) {
+      // browse creator
       msrBrowser<msrVarValAssoc> browser (v);
       browser.browse (*(*i));
     } // for
   }
     
-  {
-    // browse fRights
+  if (fRights) {
+    // browse rights
     msrBrowser<msrVarValAssoc> browser (v);
     browser.browse (*fRights);
   }
 
   if (!fSoftwares.empty()) {
-    // browse fSoftwares
     vector<S_msrVarValAssoc>::const_iterator i;
     for (i=fSoftwares.begin(); i!=fSoftwares.end(); i++) {
+      // browse software
       msrBrowser<msrVarValAssoc> browser (v);
       browser.browse (*(*i));
     } // for
   }
 
-    vector<S_msrVarValAssoc> fSoftwares;
-
-  {
-    // browse fEncodingDate
+  if (fEncodingDate) {
+    // browse encoding ate
     msrBrowser<msrVarValAssoc> browser (v);
     browser.browse (*fEncodingDate);
   }
 
-  {
-    // browse fScoreInstrument
+  if (fScoreInstrument) {
+    // browse score instrument
     msrBrowser<msrVarValAssoc> browser (v);
     browser.browse (*fScoreInstrument);
   }
@@ -5720,10 +5375,8 @@ void msrScore::browseData (basevisitor* v)
     list<S_msrPartgroup>::iterator i = fPartgroupsList.begin();
     i != fPartgroupsList.end();
     i++) {
-    // create the part group browser
+    // browse the part group
     msrBrowser<msrPartgroup> browser (v);
-  
-    // browse the part group with the visitor
     browser.browse (*(*i));
   } // for
 
