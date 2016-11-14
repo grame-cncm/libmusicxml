@@ -455,6 +455,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrParallelMusic& elt)
   idtr--;
   
   fOstream << idtr <<
+    endl << idtr << // JMI
     ">>" <<
     endl << endl;
 }
@@ -513,6 +514,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
       "% --> Start visiting lpsrUseVoiceCommand" << endl;
 
   fOstream << idtr <<
+    endl << idtr << // JMI
      "\\context Voice" << " = " <<
     "\"" << elt->getVoice ()->getVoiceName () << "\""<<
     " " <<
@@ -1024,9 +1026,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrArticulation& elt)
       fOstream << "-^";
       break;
     case msrArticulation::kFermata:
-      fOstream << "\fermata";
+      fOstream << "\\fermata";
       break;
   } // switch
+  fOstream << " ";
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrArticulation& elt)

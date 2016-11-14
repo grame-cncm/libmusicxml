@@ -923,6 +923,7 @@ class EXP lpsrScore : public lpsrElement
     // general information
     S_lpsrVarValAssoc   fLilyPondVersion;
     S_msrHeader         fHeader;
+    S_msrPaper          fPaper;
     S_msrLayout         fLayout;
 
     // voices and lyrics

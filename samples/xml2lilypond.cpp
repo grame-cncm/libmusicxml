@@ -59,19 +59,28 @@ void usage (int exitStatus) {
     "          Display this help." << endl <<
     endl <<
 
+    "    --i, --interactive" << endl <<
+    "          Don't create and LilyPond output file, " << endl <<
+    "          but print the code to standard output instead." << endl <<
+    endl <<
+
     "    --nt, --noTrace" << endl <<
     "          Don't generate a trace of the activity to standard error." << endl <<
+    endl <<
     "    --d, --debug " << endl <<
     "          Generate a trace of the activity and print additional" << endl <<
     "          debugging information to standard error." << endl <<
     "    --dd, --debugDebug " << endl <<
     "          Same as above, but print even more debugging information." << endl <<
+    endl <<
     "    --dm, --debugMeasures <measuresSpec>" << endl <<
     "          '<measuresSpec>' has a form such as 0,2-14,^8-10 ," << endl <<
     "          where '^' excludes the corresponding numbers interval" << endl <<
     "          and 0 applies to the '<part-list>' and anacrusis if present." <<endl <<
     "          Generate a trace of the activity and print additional" << endl <<
     "          debugging information to standard error for the specified measures." << endl <<
+    "    --ddm, --debugDebugMeasures <measuresSpec>" << endl <<
+    "          Same as above, but print even more debugging information." << endl <<
     endl <<
 
     "  MSR:" << endl <<
@@ -118,8 +127,6 @@ void usage (int exitStatus) {
     "          Don't generate comments." << endl <<
     "    --noStems" << endl <<
     "          Don't generate stems commands." << endl <<
-    "    --noPositions" << endl <<
-    "          Don't generate positions." << endl <<
     endl <<
     "    --nolpl, --dontGenerateLilyPondLyrics" << endl <<
     "          Don't generate lyrics in the LilyPond code." << endl <<
@@ -152,7 +159,10 @@ int main (int argc, char *argv[])
   // General options
   // ---------------
 
+  msrOpts->fInteractive                       = false;
+  
   msrOpts->fTrace                             = true;
+  
   msrOpts->fDebug                             = false;
   msrOpts->fDebugDebug                        = false;
 
@@ -199,9 +209,14 @@ int main (int argc, char *argv[])
   int helpPresent                       = 0;
 
   int noTracePresent                    = 0;
+  
+  int interactivePresent                = 0;
+  
   int debugPresent                      = 0;
   int debugDebugPresent                 = 0;
+  
   int debugMeasuresPresent              = 0;
+  int debugdebugMeasuresPresent         = 0;
   
   // MSR options
   // -----------
@@ -252,6 +267,17 @@ int main (int argc, char *argv[])
     },
     
     {
+      "i",
+      no_argument,
+      &interactivePresent, 1
+    },
+    {
+      "interactive",
+      no_argument,
+      &interactivePresent, 1
+    },
+    
+    {
       "nt",
       no_argument,
       &noTracePresent, 1
@@ -293,6 +319,16 @@ int main (int argc, char *argv[])
       "debugMeasures",
       required_argument,
       &debugMeasuresPresent, 1
+    },
+    {
+      "ddm",
+      required_argument,
+      &debugdebugMeasuresPresent, 1
+    },
+    {
+      "debugDebugMeasures",
+      required_argument,
+      &debugdebugMeasuresPresent, 1
     },
 
     // MSR options
@@ -471,11 +507,18 @@ int main (int argc, char *argv[])
           break;
         }
 
+        if (interactivePresent) {
+          msrOpts->fInteractive = false;
+          commandLineOptions +=
+            "--interactive ";
+        }
+        
         if (noTracePresent) {
           msrOpts->fTrace = false;
           commandLineOptions +=
             "--noTrace ";
         }
+        
         if (debugPresent) {
           msrOpts->fTrace = true;
           msrOpts->fDebug = true;
@@ -488,7 +531,23 @@ int main (int argc, char *argv[])
           commandLineOptions +=
             "--debugDebug ";
         }
+        
         if (debugMeasuresPresent) {
+          msrOpts->fTrace = true;
+          msrOpts->fDebug = true;
+          
+          char*        measuresSpec = optarg;
+          stringstream s;
+
+          s <<
+            "--debugMeasures" << " " << measuresSpec;
+          commandLineOptions +=
+            s.str();
+            
+          msrOpts->fDebugMeasureNumbersSet =
+            decipherNumbersSpecification (measuresSpec);
+        }
+        if (debugdebugMeasuresPresent) {
           msrOpts->fTrace = true;
           msrOpts->fDebugDebug = true;
           
@@ -496,7 +555,7 @@ int main (int argc, char *argv[])
           stringstream s;
 
           s <<
-            "--debugMeasures" << " " << measuresSpec;
+            "--debugDebugMeasures" << " " << measuresSpec;
           commandLineOptions +=
             s.str();
             
@@ -612,12 +671,13 @@ int main (int argc, char *argv[])
  
   int nonOptionArgs = argc-optind;
 
-  char * fileName = "";
+  char* inputFileName  = "";
+  char* outputFileName = "";
 
   switch (nonOptionArgs)
     {
     case 1 :
-      fileName = argv [optind];
+      inputFileName = argv [optind];
       break;
 
     default:
@@ -628,10 +688,10 @@ int main (int argc, char *argv[])
   if (msrOpts->fTrace)
     cerr << 
       "Launching conversion of ";
-    if (fileName == "")
+    if (inputFileName == "")
       cerr << "standard input";
     else
-      cerr << fileName;
+      cerr << inputFileName;
     cerr << idtr <<
       " to LilyPond " <<
       endl <<
@@ -656,6 +716,9 @@ int main (int argc, char *argv[])
       left <<
       
       "The general options are:" << endl <<
+      "  " << setw(31) << "interactive" << " : " <<
+        string(msrOpts->fInteractive
+          ? "true" : "false") << endl <<
       "  " << setw(31) << "trace" << " : " <<
         string(msrOpts->fTrace
           ? "true" : "false") << endl <<
@@ -729,9 +792,9 @@ int main (int argc, char *argv[])
       "  " << setw(31) << "generateStems" << " : " <<
         string(lpsrOpts->fGenerateStems
         ? "true" : "false") << endl <<
-      "  " << setw(31) << "generatePositions" << " : " <<
-        string(lpsrOpts->fGeneratePositions
-        ? "true" : "false") << endl <<
+//      "  " << setw(31) << "generatePositions" << " : " <<
+//        string(lpsrOpts->fGeneratePositions
+//        ? "true" : "false") << endl <<
 
       "  " << setw(31) << "dontGenerateLilyPondLyrics" << " : " <<
         string(lpsrOpts->fDontGenerateLilyPondLyrics
@@ -745,10 +808,10 @@ int main (int argc, char *argv[])
   S_msrScore mScore;
 
   // create MSR score from file contents
-  if (! strcmp (fileName, "-"))
+  if (! strcmp (inputFileName, "-"))
     mScore = musicxmlFd2Msr (stdin, msrOpts, cout);
   else
-    mScore = musicxmlFile2Msr (fileName, msrOpts, cout);
+    mScore = musicxmlFile2Msr (inputFileName, msrOpts, cout);
     
   if (! mScore) {
     cout <<

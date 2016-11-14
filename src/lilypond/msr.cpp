@@ -2402,7 +2402,7 @@ void msrBeam::print (ostream& os)
 //______________________________________________________________________________
 S_msrPaper msrPaper::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber)
+  int           inputLineNumber)
 {
   msrPaper* o =
     new msrPaper (
@@ -2413,7 +2413,7 @@ S_msrPaper msrPaper::create (
 
 msrPaper::msrPaper (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber)
+  int           inputLineNumber)
     : msrElement (msrOpts, inputLineNumber)
 {
   fPaperWidth = -1.0;
@@ -2426,6 +2426,7 @@ msrPaper::msrPaper (
   fBetweenSystemSpace = -1.0;
   fPageTopSpace = -1.0;
 }
+
 msrPaper::~msrPaper() {}
 
 void msrPaper::acceptIn (basevisitor* v) {
@@ -2988,7 +2989,7 @@ void msrSchemeVarValAssoc::printLilyPondCode (ostream& os)
 //______________________________________________________________________________
 S_msrLayout msrLayout::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber)
+  int           inputLineNumber)
 {
   msrLayout* o =
     new msrLayout (
@@ -2999,7 +3000,7 @@ S_msrLayout msrLayout::create (
 
 msrLayout::msrLayout (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber)
+  int           inputLineNumber)
     : msrElement (msrOpts, inputLineNumber)
 {}
 msrLayout::~msrLayout() {}

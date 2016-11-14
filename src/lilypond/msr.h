@@ -184,9 +184,14 @@ class EXP msrOptions : public smartable {
     
     // MSR score summary
     bool                            fDisplayMSRScoreSummary;
+
+    // interactive mode
+    bool                            fInteractive;
     
-    // debug and trace
+    // trace
     bool                            fTrace;
+    
+    // debug
     bool                            fDebug;
     bool                            fDebugDebug;
     
@@ -1125,7 +1130,7 @@ class EXP msrPaper : public msrElement
 
     static SMARTP<msrPaper> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber);
+      int           inputLineNumber);
     
     void    setPaperWidth         (float val) { fPaperWidth = val; }
     float   getPaperWidth         () const    { return fPaperWidth; }
@@ -1163,7 +1168,7 @@ class EXP msrPaper : public msrElement
 
     msrPaper (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber);
+      int           inputLineNumber);
       
     virtual ~msrPaper();
   
@@ -1195,7 +1200,7 @@ class EXP msrLayout : public msrElement
 
     static SMARTP<msrLayout> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber);
+      int           inputLineNumber);
     
     void  addmsrVarValAssoc (S_msrVarValAssoc assoc)
               { fmsrVarValAssocs.push_back(assoc); }
@@ -1214,7 +1219,7 @@ class EXP msrLayout : public msrElement
 
     msrLayout (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber);
+      int           inputLineNumber);
       
     virtual ~msrLayout();
   

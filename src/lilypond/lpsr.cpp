@@ -1570,6 +1570,11 @@ lpsrScore::lpsrScore (
     msrHeader::create (
       msrOpts, inputLineNumber);
   
+  // create the paper
+  fPaper =
+    msrPaper::create (
+      msrOpts, inputLineNumber);
+
   // create the layout
   fLayout =
     msrLayout::create (
@@ -1665,6 +1670,12 @@ void lpsrScore::browseData (basevisitor* v)
   }
 
   {
+    // browse the score paper
+    msrBrowser<msrPaper> browser (v);
+    browser.browse (*fPaper);
+  }
+
+  {
     // browse the score layout
     msrBrowser<msrLayout> browser (v);
     browser.browse (*fLayout);
@@ -1712,6 +1723,7 @@ void lpsrScore::print (ostream& os)
 
   os << idtr << fLilyPondVersion << endl;
   os << idtr << fHeader << endl;
+  os << idtr << fPaper << endl;
   os << idtr << fLayout << endl;
   
   if (fVoicesAndLyricsList.size()) {  
