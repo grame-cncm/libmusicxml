@@ -2400,18 +2400,18 @@ void msrBeam::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrPaper msrPaper::create (
+S_msrPageGeometry msrPageGeometry::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber)
 {
-  msrPaper* o =
-    new msrPaper (
+  msrPageGeometry* o =
+    new msrPageGeometry (
       msrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
-msrPaper::msrPaper (
+msrPageGeometry::msrPageGeometry (
   S_msrOptions& msrOpts, 
   int           inputLineNumber)
     : msrElement (msrOpts, inputLineNumber)
@@ -2427,51 +2427,51 @@ msrPaper::msrPaper (
   fPageTopSpace = -1.0;
 }
 
-msrPaper::~msrPaper() {}
+msrPageGeometry::~msrPageGeometry() {}
 
-void msrPaper::acceptIn (basevisitor* v) {
+void msrPageGeometry::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrPaper::acceptIn()" << endl;
+      "==> msrPageGeometry::acceptIn()" << endl;
       
-  if (visitor<S_msrPaper>*
+  if (visitor<S_msrPageGeometry>*
     p =
-      dynamic_cast<visitor<S_msrPaper>*> (v)) {
-        S_msrPaper elem = this;
+      dynamic_cast<visitor<S_msrPageGeometry>*> (v)) {
+        S_msrPageGeometry elem = this;
         
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching msrPaper::visitStart()" << endl;
+            "==> Launching msrPageGeometry::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void msrPaper::acceptOut (basevisitor* v) {
+void msrPageGeometry::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrPaper::acceptOut()" << endl;
+      "==> msrPageGeometry::acceptOut()" << endl;
 
-  if (visitor<S_msrPaper>*
+  if (visitor<S_msrPageGeometry>*
     p =
-      dynamic_cast<visitor<S_msrPaper>*> (v)) {
-        S_msrPaper elem = this;
+      dynamic_cast<visitor<S_msrPageGeometry>*> (v)) {
+        S_msrPageGeometry elem = this;
       
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching msrPaper::visitEnd()" << endl;
+            "==> Launching msrPageGeometry::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void msrPaper::browseData (basevisitor* v)
+void msrPageGeometry::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrPaper& pap) {
+ostream& operator<< (ostream& os, const S_msrPageGeometry& pap) {
   pap->print (os);
   return os;
 }
 
-void msrPaper::print (ostream& os) {
+void msrPageGeometry::print (ostream& os) {
   os << "Paper" << endl;
 
   idtr++;

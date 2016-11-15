@@ -932,6 +932,76 @@ typedef SMARTP<lpsrHeader> S_lpsrHeader;
 EXP ostream& operator<< (ostream& os, const S_lpsrHeader& elt);
 
 /*!
+\brief A msr paper representation.
+
+  A paper is represented by variable/value pairs
+*/
+//______________________________________________________________________________
+class EXP lpsrPaper : public msrElement
+{
+  public:
+
+    static SMARTP<lpsrPaper> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+    
+    void    setPaperWidth         (float val) { fPaperWidth = val; }
+    float   getPaperWidth         () const    { return fPaperWidth; }
+
+    void    setPaperHeight        (float val) { fPaperHeight = val; }
+    float   getPaperHeight        () const    { return fPaperHeight; }
+
+    void    setTopMargin          (float val) { fTopMargin = val; }
+    float   getTopMargin          () const    { return fTopMargin; }
+
+    void    setBottomMargin       (float val) { fBottomMargin = val; }
+    float   getBottomMargin       () const    { return fBottomMargin; }
+
+    void    setLeftMargin         (float val) { fLeftMargin = val; }
+    float   getLeftMargin         () const    { return fLeftMargin; }
+
+    void    setRightMargin        (float val) { fRightMargin = val; }
+    float   getRightMargin        () const    { return fRightMargin; }
+
+    void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
+    float   getBetweenSystemSpace () const    { return fBetweenSystemSpace; }
+
+    void    setPageTopSpace       (float val) { fPageTopSpace = val; }
+    float   getPageTopSpace       () const    { return fPageTopSpace; }
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+
+  protected:
+
+    lpsrPaper (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+      
+    virtual ~lpsrPaper();
+  
+  private:
+
+    // page height, margins and the like in centimeters are in centimeters
+    float             fPaperWidth;
+    float             fPaperHeight;
+    float             fTopMargin;
+    float             fBottomMargin;
+    float             fLeftMargin;
+    float             fRightMargin;
+    
+    float             fBetweenSystemSpace;
+    float             fPageTopSpace; 
+};
+typedef SMARTP<lpsrPaper> S_lpsrPaper;
+EXP ostream& operator<< (ostream& os, const S_lpsrPaper& elt);
+
+/*!
 \brief A LPSR layout representation.
 
   A layout is represented by variable/value pairs
@@ -1063,6 +1133,9 @@ class EXP lpsrScore : public lpsrElement
     S_lpsrHeader  getHeader () const
                       { return fHeader; }
 
+    S_lpsrPaper   getPaper () const
+                      { return fPaper; }
+
     S_lpsrLayout  getLayout () const
                       { return fLayout; }
 
@@ -1109,7 +1182,7 @@ class EXP lpsrScore : public lpsrElement
     // general information
     S_lpsrVarValAssoc   fLilyPondVersion;
     S_lpsrHeader        fHeader;
-    S_msrPaper          fPaper;
+    S_lpsrPaper         fPaper;
     S_lpsrLayout        fLayout;
 
     // voices and lyrics

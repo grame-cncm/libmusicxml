@@ -1095,16 +1095,16 @@ typedef SMARTP<msrIdentification> S_msrIdentification;
 EXP ostream& operator<< (ostream& os, const S_msrIdentification& elt);
 
 /*!
-\brief A msr paper representation.
+\brief A MSR page geometry representation.
 
   A paper is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrPaper : public msrElement
+class EXP msrPageGeometry : public msrElement
 {
   public:
 
-    static SMARTP<msrPaper> create (
+    static SMARTP<msrPageGeometry> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
     
@@ -1142,11 +1142,11 @@ class EXP msrPaper : public msrElement
 
   protected:
 
-    msrPaper (
+    msrPageGeometry (
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
       
-    virtual ~msrPaper();
+    virtual ~msrPageGeometry();
   
   private:
 
@@ -1161,8 +1161,8 @@ class EXP msrPaper : public msrElement
     float             fBetweenSystemSpace;
     float             fPageTopSpace; 
 };
-typedef SMARTP<msrPaper> S_msrPaper;
-EXP ostream& operator<< (ostream& os, const S_msrPaper& elt);
+typedef SMARTP<msrPageGeometry> S_msrPageGeometry;
+EXP ostream& operator<< (ostream& os, const S_msrPageGeometry& elt);
 
 /*!
 \brief A msr layout representation.
@@ -2384,6 +2384,10 @@ class EXP msrScore : public msrElement
                 getIdentification () const
                     { return fIdentification; }
 
+    S_msrPageGeometry
+                getPageGeometry () const
+                    { return fPageGeometry; }
+    
     list<S_msrPartgroup>
                 getPartgroupsList () const
                     { return fPartgroupsList; }
@@ -2408,6 +2412,8 @@ class EXP msrScore : public msrElement
   private:
 
     S_msrIdentification  fIdentification;
+
+    S_msrPageGeometry    fPageGeometry;
     
     list<S_msrPartgroup> fPartgroupsList;
  };

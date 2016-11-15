@@ -1765,6 +1765,121 @@ void lpsrHeader::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_lpsrPaper lpsrPaper::create (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber)
+{
+  lpsrPaper* o =
+    new lpsrPaper (
+      msrOpts, inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+lpsrPaper::lpsrPaper (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fPaperWidth = -1.0;
+  fPaperHeight = -1.0;
+  fTopMargin = -1.0;
+  fBottomMargin = -1.0;
+  fLeftMargin = -1.0;
+  fRightMargin = -1.0;
+    
+  fBetweenSystemSpace = -1.0;
+  fPageTopSpace = -1.0;
+}
+
+lpsrPaper::~lpsrPaper() {}
+
+void lpsrPaper::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrPaper::acceptIn()" << endl;
+      
+  if (visitor<S_lpsrPaper>*
+    p =
+      dynamic_cast<visitor<S_lpsrPaper>*> (v)) {
+        S_lpsrPaper elem = this;
+        
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrPaper::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void lpsrPaper::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrPaper::acceptOut()" << endl;
+
+  if (visitor<S_lpsrPaper>*
+    p =
+      dynamic_cast<visitor<S_lpsrPaper>*> (v)) {
+        S_lpsrPaper elem = this;
+      
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrPaper::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrPaper::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_lpsrPaper& pap) {
+  pap->print (os);
+  return os;
+}
+
+void lpsrPaper::print (ostream& os) {
+  os << "Paper" << endl;
+
+  idtr++;
+  
+  if (fPaperWidth > 0) {
+    os << 
+      idtr << "paper-width = " << setprecision(4) << fPaperWidth << "\\cm" << endl;
+  }
+  if (fPaperHeight > 0) {
+    os <<
+      idtr << "paper-height = " << setprecision(4) << fPaperHeight << "\\cm" << endl;
+  }
+  if (fTopMargin > 0) {
+    os <<
+      idtr << "top-margin = " << setprecision(4) << fTopMargin << "\\cm" << endl;
+  }
+  if (fBottomMargin > 0) {
+    os <<
+      idtr << "bottom-margin = " << setprecision(4) << fBottomMargin << "\\cm" << endl;
+  }
+  if (fLeftMargin > 0) {
+    os <<
+      idtr << "left-margin = " << setprecision(4) << fLeftMargin << "\\cm" << endl;
+  }
+
+  if (fRightMargin > 0) {
+    os << idtr << "right-margin = " << setprecision(4) << fRightMargin << "\\cm" << endl;
+  }
+
+/*
+  if (fBetweenSystemSpace > 0) {
+    os << idtr << "between-system-space = " << setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
+  }
+
+  if (fPageTopSpace > 0) {
+    os << idtr << "page-top-space = " << setprecision(4) << fPageTopSpace << "\\cm" << endl;
+  }
+*/
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_lpsrLayout lpsrLayout::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
@@ -2018,7 +2133,7 @@ lpsrScore::lpsrScore (
   
   // create the paper
   fPaper =
-    msrPaper::create (
+    lpsrPaper::create (
       msrOpts, inputLineNumber);
 
   // create the layout
@@ -2117,7 +2232,7 @@ void lpsrScore::browseData (basevisitor* v)
 
   {
     // browse the score paper
-    msrBrowser<msrPaper> browser (v);
+    msrBrowser<lpsrPaper> browser (v);
     browser.browse (*fPaper);
   }
 

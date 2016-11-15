@@ -43,6 +43,23 @@ class msr2LpsrVisitor :
   
   public visitor<S_msrIdentification>,
   
+  public visitor<S_millimeters>,
+  public visitor<S_tenths>,
+  public visitor<S_scaling>,
+  
+  public visitor<S_system_distance>,
+  public visitor<S_top_system_distance>,
+  
+  public visitor<S_page_layout>,
+  public visitor<S_page_height>,
+  public visitor<S_page_width>,
+  public visitor<S_left_margin>,
+  public visitor<S_right_margin>,
+  public visitor<S_top_margin>,
+  public visitor<S_bottom_margin>,
+
+  public visitor<S_instrument_name>,
+
   public visitor<S_msrPartgroup>,
   
   public visitor<S_msrPart>,
@@ -118,6 +135,24 @@ class msr2LpsrVisitor :
     virtual void visitStart (S_msrIdentification& elt);
     virtual void visitEnd   (S_msrIdentification& elt);
 
+    virtual void visitStart ( S_millimeters& elt);
+    virtual void visitStart ( S_tenths& elt);
+    virtual void visitEnd   ( S_scaling& elt);
+
+    virtual void visitStart ( S_system_distance& elt);
+    virtual void visitStart ( S_top_system_distance& elt);
+
+    virtual void visitStart ( S_page_layout& elt);
+    virtual void visitEnd   ( S_page_layout& elt);
+    virtual void visitStart ( S_page_height& elt);
+    virtual void visitStart ( S_page_width& elt);
+    virtual void visitStart ( S_left_margin& elt);
+    virtual void visitStart ( S_right_margin& elt);
+    virtual void visitStart ( S_top_margin& elt);
+    virtual void visitStart ( S_bottom_margin& elt);
+
+    virtual void visitStart( S_instrument_name& elt);
+    
     virtual void visitStart (S_msrPartgroup& elt);
     virtual void visitEnd   (S_msrPartgroup& elt);
 
@@ -229,7 +264,31 @@ class msr2LpsrVisitor :
     // identification
     // ------------------------------------------------------
     bool                 fOnGoingIdentification;
+
+    // page geometry
+    // ------------------------------------------------------
+    /*
+      everything in MusicXML is measured with integers in tenths of interline staff space
+      the <scaling> element specifies how many millimeters are equal to how many tenths
+    */
+    int                  fMillimeters;
+    int                  fTenths;
+
+     // the global staff size is fMillimeters * 72.27 / 25.4
+    float                fGlobalStaffSize;
+    string               fGlobalSfaffSizeAsString;
+
+    // preventing top-margin and the like to be taken from <system-layout>
+    bool                 fVisitingPageLayout;
     
+    
+    // page height, margins and the like in centimeters are computed as:
+    //              value*millimeters/tenths/10
+    /* JMI
+    int                  fSystemDistance; //fBetweenSystemSpace;
+    int                  fTopSystemDistance; //fPageTopSpace;
+    */
+
     // part groups
     // ------------------------------------------------------
     S_msrPartgroup       fCurrentMsrPartGroupClone;

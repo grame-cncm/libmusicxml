@@ -46,7 +46,7 @@ class lpsr2LilyPondVisitor :
   public visitor<S_lpsrVarValAssoc>,
 
   public visitor<S_lpsrHeader>,
-  public visitor<S_msrPaper>,
+  public visitor<S_lpsrPaper>,
   public visitor<S_msrLayout>,
   
   public visitor<S_lpsrScoreCommand>,
@@ -140,8 +140,8 @@ class lpsr2LilyPondVisitor :
     virtual void visitStart (S_lpsrHeader& elt);
     virtual void visitEnd   (S_lpsrHeader& elt);
 
-    virtual void visitStart (S_msrPaper& elt);
-    virtual void visitEnd   (S_msrPaper& elt);
+    virtual void visitStart (S_lpsrPaper& elt);
+    virtual void visitEnd   (S_lpsrPaper& elt);
 
     virtual void visitStart (S_msrLayout& elt);
     virtual void visitEnd   (S_msrLayout& elt);

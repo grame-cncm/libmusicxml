@@ -58,6 +58,11 @@ msr2LpsrVisitor::msr2LpsrVisitor (
   gCurrentMusicXMLLocation.fPositionInMeasure = 1;
 
   fOnGoingIdentification = false;
+  
+  fMillimeters     = -1;
+  fGlobalStaffSize = -1.0;
+  fTenths          = -1;
+
   fOnGoingStaff          = false;
 };
   
@@ -128,6 +133,124 @@ void msr2LpsrVisitor::visitEnd (S_msrIdentification& elt)
     fOstream << idtr <<
       "--> End visiting msrIdentification" << endl;
 }
+
+//______________________________________________________________________________
+void msr2LpsrVisitor::visitStart ( S_millimeters& elt )
+{ 
+  fMillimeters = (int)(*elt);
+//  cout << "--> fMillimeters = " << fMillimeters << endl;
+  
+  fGlobalStaffSize = fMillimeters*72.27/25.4;
+//  cout << "--> fGlobalStaffSize = " << fGlobalStaffSize << endl;
+}
+
+void msr2LpsrVisitor::visitStart ( S_tenths& elt )
+{
+  fTenths = (int)(*elt);
+//  cout << "--> fTenths = " << fTenths << endl;
+}
+
+void msr2LpsrVisitor::visitEnd ( S_scaling& elt)
+{
+  if (fMsrOptions->fTrace)
+    cerr <<
+      "There are " << fTenths << " tenths for " << 
+      fMillimeters << " millimeters, hence a global staff size of " <<
+      fGlobalStaffSize << endl;
+}
+
+//______________________________________________________________________________
+void msr2LpsrVisitor::visitStart ( S_system_distance& elt )
+{
+  int systemDistance = (int)(*elt);
+//  cout << "--> systemDistance = " << systemDistance << endl;
+  fLpsrPaper->setBetweenSystemSpace (1.0*systemDistance*fMillimeters/fTenths/10);  
+}
+
+void msr2LpsrVisitor::visitStart ( S_top_system_distance& elt )
+{
+  int topSystemDistance = (int)(*elt);
+//  cout << "--> fTopSystemDistance = " << topSystemDistance << endl;
+  fLpsrPaper->setPageTopSpace (1.0*topSystemDistance*fMillimeters/fTenths/10);  
+}
+
+//______________________________________________________________________________
+void msr2LpsrVisitor::visitStart ( S_page_layout& elt )
+{
+  fVisitingPageLayout = true;
+}
+void msr2LpsrVisitor::visitEnd ( S_page_layout& elt )
+{
+  fVisitingPageLayout = false;
+}
+
+void msr2LpsrVisitor::visitStart ( S_page_height& elt )
+{
+  if (fVisitingPageLayout) {
+    int pageHeight = (int)(*elt);
+    //cout << "--> pageHeight = " << pageHeight << endl;
+    fLpsrPaper->setPaperHeight (1.0*pageHeight*fMillimeters/fTenths/10);  
+  }
+}
+
+void msr2LpsrVisitor::visitStart ( S_page_width& elt )
+{
+  if (fVisitingPageLayout) {
+    int pageWidth = (int)(*elt);
+    //cout << "--> pageWidth = " << pageWidth << endl;
+    fLpsrPaper->setPaperWidth (1.0*pageWidth*fMillimeters/fTenths/10);
+  }
+}
+
+void msr2LpsrVisitor::visitStart ( S_left_margin& elt )
+{
+  if (fVisitingPageLayout) {
+    int leftMargin = (int)(*elt);
+    //cout << "--> leftMargin = " << leftMargin << endl;
+    fLpsrPaper->setLeftMargin (1.0*leftMargin*fMillimeters/fTenths/10);  
+  }
+}
+
+void msr2LpsrVisitor::visitStart ( S_right_margin& elt )
+{
+  if (fVisitingPageLayout) {
+    int rightMargin = (int)(*elt);
+    //cout << "--> rightMargin = " << rightMargin << endl;
+    fLpsrPaper->setRightMargin (1.0*rightMargin*fMillimeters/fTenths/10);  
+  }
+}
+
+void msr2LpsrVisitor::visitStart ( S_top_margin& elt )
+{
+  if (fVisitingPageLayout) {
+    int topMargin = (int)(*elt);
+    //cout << "--> topMargin = " << topMargin << endl;
+    fLpsrPaper->setTopMargin (1.0*topMargin*fMillimeters/fTenths/10);  
+  }
+}
+
+void msr2LpsrVisitor::visitStart ( S_bottom_margin& elt )
+{
+  if (fVisitingPageLayout) {
+    int bottomMargin = (int)(*elt);
+    //cout << "--> bottomMargin = " << bottomMargin << endl;
+    fLpsrPaper->setBottomMargin (1.0*bottomMargin*fMillimeters/fTenths/10);  
+  }
+}
+
+//______________________________________________________________________________
+void msr2LpsrVisitor::visitStart ( S_instrument_name& elt )
+  { fCurrentInstrumentName = elt->getValue(); }
+
+void msr2LpsrVisitor::visitStart ( S_score_part& elt )
+  {
+    //fCurrentPartID = elt->getAttributeValue("id"); JMI
+     }
+
+void msr2LpsrVisitor::visitStart ( S_part_name& elt )
+  {
+ //   fCurrentPartName = elt->getValue();// JMI
+     }
 
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
