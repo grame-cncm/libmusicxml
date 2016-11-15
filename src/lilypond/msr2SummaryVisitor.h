@@ -86,8 +86,8 @@ class msr2SummaryVisitor :
   
   public visitor<S_msrVarValAssoc>,
   
-//  public visitor<S_msrHeader>,
-  public visitor<S_msrPaper>,
+//  public visitor<S_msrHeader>, // JMI
+  public visitor<S_msrPageGeometry>,
   public visitor<S_msrLayout>,
   
   public visitor<S_msrMidi>
@@ -193,8 +193,8 @@ class msr2SummaryVisitor :
 //    virtual void visitStart (S_msrHeader& elt);
 //    virtual void visitEnd   (S_msrHeader& elt);
 
-    virtual void visitStart (S_msrPaper& elt);
-    virtual void visitEnd   (S_msrPaper& elt);
+    virtual void visitStart (S_msrPageGeometry& elt);
+    virtual void visitEnd   (S_msrPageGeometry& elt);
 
     virtual void visitStart (S_msrLayout& elt);
     virtual void visitEnd   (S_msrLayout& elt);

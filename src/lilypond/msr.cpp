@@ -2464,7 +2464,45 @@ void msrPageGeometry::acceptOut (basevisitor* v) {
 }
 
 void msrPageGeometry::browseData (basevisitor* v)
-{}
+{
+  /* JMI
+  if (fPaperWidth) {
+    // browse identification
+    msrBrowser<fPaperWidth> browser (v);
+    browser.browse (*fPaperWidth);
+  }
+
+  if (fPaperHeight) {
+    // browse identification
+    msrBrowser<fPaperWidth> browser (v);
+    browser.browse (*fPaperHeight);
+  }
+
+  if (fTopMargin) {
+    // browse identification
+    msrBrowser<fPaperWidth> browser (v);
+    browser.browse (*fTopMargin);
+  }
+
+  if (fBottomMargin) {
+    // browse identification
+    msrBrowser<fPaperWidth> browser (v);
+    browser.browse (*fPaperWidth);
+  }
+
+  if (fLeftMargin) {
+    // browse identification
+    msrBrowser<fPaperWidth> browser (v);
+    browser.browse (*fPaperWidth);
+  }
+
+  if (fRightMargin) {
+    // browse identification
+    msrBrowser<fPaperWidth> browser (v);
+    browser.browse (*fRightMargin);
+  }
+  */
+}
 
 ostream& operator<< (ostream& os, const S_msrPageGeometry& pap) {
   pap->print (os);
@@ -2472,42 +2510,54 @@ ostream& operator<< (ostream& os, const S_msrPageGeometry& pap) {
 }
 
 void msrPageGeometry::print (ostream& os) {
-  os << "Paper" << endl;
+  os << "Page geometry" << endl;
 
   idtr++;
   
-  if (fPaperWidth > 0) {
-    os << 
-      idtr << "paper-width = " << setprecision(4) << fPaperWidth << "\\cm" << endl;
-  }
+//  if (fPaperWidth > 0) {
+    os << idtr <<
+      "PaperWidth = " <<
+      setprecision(4) << fPaperWidth << "\\cm" << endl;
+//  }
   if (fPaperHeight > 0) {
-    os <<
-      idtr << "paper-height = " << setprecision(4) << fPaperHeight << "\\cm" << endl;
+    os << idtr <<
+      "paper-height = " <<
+      setprecision(4) << fPaperHeight << "\\cm" << endl;
   }
   if (fTopMargin > 0) {
-    os <<
-      idtr << "top-margin = " << setprecision(4) << fTopMargin << "\\cm" << endl;
+    os << idtr <<
+      "top-margin = " <<
+      setprecision(4) << fTopMargin << "\\cm" << endl;
   }
   if (fBottomMargin > 0) {
-    os <<
-      idtr << "bottom-margin = " << setprecision(4) << fBottomMargin << "\\cm" << endl;
+    os << idtr <<
+      "bottom-margin = " <<
+      setprecision(4) << fBottomMargin << "\\cm" << endl;
   }
   if (fLeftMargin > 0) {
-    os <<
-      idtr << "left-margin = " << setprecision(4) << fLeftMargin << "\\cm" << endl;
+    os << idtr <<
+      "left-margin = " <<
+      setprecision(4) << fLeftMargin << "\\cm" << endl;
   }
 
   if (fRightMargin > 0) {
-    os << idtr << "right-margin = " << setprecision(4) << fRightMargin << "\\cm" << endl;
+    os << idtr <<
+      "right-margin = " <<
+      setprecision(4) << fRightMargin << "\\cm" << endl;
   }
 
+  os << endl;
 /*
   if (fBetweenSystemSpace > 0) {
-    os << idtr << "between-system-space = " << setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
+    os << idtr <<
+    * "between-system-space = " <<
+    * setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
   }
 
   if (fPageTopSpace > 0) {
-    os << idtr << "page-top-space = " << setprecision(4) << fPageTopSpace << "\\cm" << endl;
+    os << idtr <<
+    * "page-top-space = " <<
+    * setprecision(4) << fPageTopSpace << "\\cm" << endl;
   }
 */
 
@@ -5272,6 +5322,10 @@ msrScore::msrScore (
   fIdentification =
     msrIdentification::create (
       msrOpts, inputLineNumber);
+      
+  fPageGeometry =
+    msrPageGeometry::create (
+      msrOpts, inputLineNumber);
 }
 
 msrScore::~msrScore() {}
@@ -5363,6 +5417,12 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*fIdentification);
   }
 
+  if (fPageGeometry) {
+    // browse page geometry
+    msrBrowser<msrPageGeometry> browser (v);
+    browser.browse (*fPageGeometry);
+  }
+
   for (
     list<S_msrPartgroup>::iterator i = fPartgroupsList.begin();
     i != fPartgroupsList.end();
@@ -5392,6 +5452,10 @@ void msrScore::print (ostream& os)
   
   if (fIdentification) {
     os << idtr << fIdentification;
+  }
+  
+  if (fPageGeometry) {
+    os << idtr << fPageGeometry;
   }
   
   for (

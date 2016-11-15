@@ -134,6 +134,71 @@ void msr2LpsrVisitor::visitEnd (S_msrIdentification& elt)
       "--> End visiting msrIdentification" << endl;
 }
 
+//________________________________________________________________________
+void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrPageGeometry" << endl;
+
+  idtr++;
+
+  fPageGeometry = elt;
+}
+
+void msr2LpsrVisitor::visitEnd (S_msrPageGeometry& elt)
+{  
+  idtr--;
+
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrPageGeometry" << endl;
+}
+  /*
+  if (fPaperWidth > 0) {
+    fOstream << idtr <<
+      "paper-width = " <<
+      setprecision(4) << fPaperWidth << "\\cm" << endl;
+  }
+  if (fPaperHeight > 0) {
+    fOstream << idtr <<
+      "paper-height = " <<
+      setprecision(4) << fPaperHeight << "\\cm" << endl;
+  }
+  if (fTopMargin > 0) {
+    fOstream << idtr <<
+      "top-margin = " <<
+      setprecision(4) << fTopMargin << "\\cm" << endl;
+  }
+  if (fBottomMargin > 0) {
+    fOstream << idtr <<
+      "bottom-margin = " <<
+      setprecision(4) << fBottomMargin << "\\cm" << endl;
+  }
+  if (fLeftMargin > 0) {
+    fOstream << idtr <<
+      "left-margin = " <<
+      setprecision(4) << fLeftMargin << "\\cm" << endl;
+  }
+
+  if (fRightMargin > 0) {
+    fOstream << idtr <<
+      "right-margin = " <<
+      setprecision(4) << fRightMargin << "\\cm" << endl;
+  }
+*/
+/*
+  if (fBetweenSystemSpace > 0) {
+    fOstream << idtr << "between-system-space = " <<
+      setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
+  }
+
+  if (fPageTopSpace > 0) {
+    fOstream << idtr << "page-top-space = " <<
+      setprecision(4) << fPageTopSpace << "\\cm" << endl;
+  }
+*/
+
 //______________________________________________________________________________
 void msr2LpsrVisitor::visitStart ( S_millimeters& elt )
 { 
@@ -164,14 +229,16 @@ void msr2LpsrVisitor::visitStart ( S_system_distance& elt )
 {
   int systemDistance = (int)(*elt);
 //  cout << "--> systemDistance = " << systemDistance << endl;
-  fLpsrPaper->setBetweenSystemSpace (1.0*systemDistance*fMillimeters/fTenths/10);  
+  fPageGeometry->
+    setBetweenSystemSpace (1.0*systemDistance*fMillimeters/fTenths/10);  
 }
 
 void msr2LpsrVisitor::visitStart ( S_top_system_distance& elt )
 {
   int topSystemDistance = (int)(*elt);
 //  cout << "--> fTopSystemDistance = " << topSystemDistance << endl;
-  fLpsrPaper->setPageTopSpace (1.0*topSystemDistance*fMillimeters/fTenths/10);  
+  fPageGeometry->
+    setPageTopSpace (1.0*topSystemDistance*fMillimeters/fTenths/10);  
 }
 
 //______________________________________________________________________________
@@ -189,7 +256,9 @@ void msr2LpsrVisitor::visitStart ( S_page_height& elt )
   if (fVisitingPageLayout) {
     int pageHeight = (int)(*elt);
     //cout << "--> pageHeight = " << pageHeight << endl;
-    fLpsrPaper->setPaperHeight (1.0*pageHeight*fMillimeters/fTenths/10);  
+    fPageGeometry->
+      setPaperHeight (
+        1.0*pageHeight*fMillimeters/fTenths/10);  
   }
 }
 
@@ -198,7 +267,9 @@ void msr2LpsrVisitor::visitStart ( S_page_width& elt )
   if (fVisitingPageLayout) {
     int pageWidth = (int)(*elt);
     //cout << "--> pageWidth = " << pageWidth << endl;
-    fLpsrPaper->setPaperWidth (1.0*pageWidth*fMillimeters/fTenths/10);
+    fPageGeometry->
+      setPaperWidth (
+        1.0*pageWidth*fMillimeters/fTenths/10);
   }
 }
 
@@ -207,7 +278,9 @@ void msr2LpsrVisitor::visitStart ( S_left_margin& elt )
   if (fVisitingPageLayout) {
     int leftMargin = (int)(*elt);
     //cout << "--> leftMargin = " << leftMargin << endl;
-    fLpsrPaper->setLeftMargin (1.0*leftMargin*fMillimeters/fTenths/10);  
+    fPageGeometry->
+      setLeftMargin (
+        1.0*leftMargin*fMillimeters/fTenths/10);  
   }
 }
 
@@ -216,7 +289,9 @@ void msr2LpsrVisitor::visitStart ( S_right_margin& elt )
   if (fVisitingPageLayout) {
     int rightMargin = (int)(*elt);
     //cout << "--> rightMargin = " << rightMargin << endl;
-    fLpsrPaper->setRightMargin (1.0*rightMargin*fMillimeters/fTenths/10);  
+    fPageGeometry->
+      setRightMargin (
+        1.0*rightMargin*fMillimeters/fTenths/10);  
   }
 }
 
@@ -225,7 +300,9 @@ void msr2LpsrVisitor::visitStart ( S_top_margin& elt )
   if (fVisitingPageLayout) {
     int topMargin = (int)(*elt);
     //cout << "--> topMargin = " << topMargin << endl;
-    fLpsrPaper->setTopMargin (1.0*topMargin*fMillimeters/fTenths/10);  
+    fPageGeometry->
+      setTopMargin (
+        1.0*topMargin*fMillimeters/fTenths/10);  
   }
 }
 
@@ -234,23 +311,16 @@ void msr2LpsrVisitor::visitStart ( S_bottom_margin& elt )
   if (fVisitingPageLayout) {
     int bottomMargin = (int)(*elt);
     //cout << "--> bottomMargin = " << bottomMargin << endl;
-    fLpsrPaper->setBottomMargin (1.0*bottomMargin*fMillimeters/fTenths/10);  
+    fPageGeometry->
+      setBottomMargin (1.0*bottomMargin*fMillimeters/fTenths/10);  
   }
 }
 
 //______________________________________________________________________________
 void msr2LpsrVisitor::visitStart ( S_instrument_name& elt )
-  { fCurrentInstrumentName = elt->getValue(); }
-
-void msr2LpsrVisitor::visitStart ( S_score_part& elt )
-  {
-    //fCurrentPartID = elt->getAttributeValue("id"); JMI
-     }
-
-void msr2LpsrVisitor::visitStart ( S_part_name& elt )
-  {
- //   fCurrentPartName = elt->getValue();// JMI
-     }
+{
+  fCurrentInstrumentName = elt->getValue();
+}
 
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
@@ -1036,78 +1106,11 @@ void msr2LpsrVisitor::visitEnd (S_msrHeader& elt)
   */
 
 //________________________________________________________________________
-void msr2LpsrVisitor::visitStart (S_msrPaper& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "--> Start visiting msrPaper" << endl;
-
-  fOstream << "Paper" << endl;
-
-  idtr++;
-  /*
-  if (fPaperWidth > 0) {
-    fOstream << idtr <<
-      "paper-width = " <<
-      setprecision(4) << fPaperWidth << "\\cm" << endl;
-  }
-  if (fPaperHeight > 0) {
-    fOstream << idtr <<
-      "paper-height = " <<
-      setprecision(4) << fPaperHeight << "\\cm" << endl;
-  }
-  if (fTopMargin > 0) {
-    fOstream << idtr <<
-      "top-margin = " <<
-      setprecision(4) << fTopMargin << "\\cm" << endl;
-  }
-  if (fBottomMargin > 0) {
-    fOstream << idtr <<
-      "bottom-margin = " <<
-      setprecision(4) << fBottomMargin << "\\cm" << endl;
-  }
-  if (fLeftMargin > 0) {
-    fOstream << idtr <<
-      "left-margin = " <<
-      setprecision(4) << fLeftMargin << "\\cm" << endl;
-  }
-
-  if (fRightMargin > 0) {
-    fOstream << idtr <<
-      "right-margin = " <<
-      setprecision(4) << fRightMargin << "\\cm" << endl;
-  }
-*/
-/*
-  if (fBetweenSystemSpace > 0) {
-    fOstream << idtr << "between-system-space = " <<
-      setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
-  }
-
-  if (fPageTopSpace > 0) {
-    fOstream << idtr << "page-top-space = " <<
-      setprecision(4) << fPageTopSpace << "\\cm" << endl;
-  }
-*/
-}
-
-void msr2LpsrVisitor::visitEnd (S_msrPaper& elt)
-{
-  idtr--;
-
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "--> End visiting msrPaper" << endl;
-}
-
-//________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrLayout& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrLayout" << endl;
-
-  fOstream << "Layout" << endl;
 
   idtr++;
 }

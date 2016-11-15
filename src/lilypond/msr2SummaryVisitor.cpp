@@ -873,11 +873,11 @@ void msr2SummaryVisitor::visitEnd (S_msrHeader& elt)
   */
 
 //________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrPaper& elt)
+void msr2SummaryVisitor::visitStart (S_msrPageGeometry& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrPaper" << endl;
+      "--> Start visiting msrPageGeometry" << endl;
 
   fOstream << "Paper" << endl;
 
@@ -928,13 +928,13 @@ void msr2SummaryVisitor::visitStart (S_msrPaper& elt)
 */
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrPaper& elt)
+void msr2SummaryVisitor::visitEnd (S_msrPageGeometry& elt)
 {
   idtr--;
 
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrPaper" << endl;
+      "--> End visiting msrPageGeometry" << endl;
 }
 
 //________________________________________________________________________
