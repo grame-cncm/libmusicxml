@@ -75,6 +75,23 @@ class EXP xml2MsrScoreVisitor :
   public visitor<S_software>,
   public visitor<S_encoding_date>,
   
+  public visitor<S_millimeters>,
+  public visitor<S_tenths>,
+  public visitor<S_scaling>,
+  
+  public visitor<S_system_distance>,
+  public visitor<S_top_system_distance>,
+  
+  public visitor<S_page_layout>,
+  public visitor<S_page_height>,
+  public visitor<S_page_width>,
+  public visitor<S_left_margin>,
+  public visitor<S_right_margin>,
+  public visitor<S_top_margin>,
+  public visitor<S_bottom_margin>,
+
+// JMI  public visitor<S_instrument_name>,
+
   public visitor<S_part_list>,
   
   public visitor<S_part_group>,
@@ -208,7 +225,24 @@ class EXP xml2MsrScoreVisitor :
     virtual void visitStart ( S_software& elt);
     virtual void visitStart ( S_encoding_date& elt);
 
-    
+    virtual void visitStart ( S_millimeters& elt);
+    virtual void visitStart ( S_tenths& elt);
+    virtual void visitEnd   ( S_scaling& elt);
+
+    virtual void visitStart ( S_system_distance& elt);
+    virtual void visitStart ( S_top_system_distance& elt);
+
+    virtual void visitStart ( S_page_layout& elt);
+    virtual void visitEnd   ( S_page_layout& elt);
+    virtual void visitStart ( S_page_height& elt);
+    virtual void visitStart ( S_page_width& elt);
+    virtual void visitStart ( S_left_margin& elt);
+    virtual void visitStart ( S_right_margin& elt);
+    virtual void visitStart ( S_top_margin& elt);
+    virtual void visitStart ( S_bottom_margin& elt);
+
+ // JMI   virtual void visitStart ( S_instrument_name& elt);
+        
     virtual void visitStart ( S_part_list& elt);
     virtual void visitEnd   ( S_part_list& elt);
     
@@ -346,6 +380,14 @@ class EXP xml2MsrScoreVisitor :
     // ------------------------------------------------------
     S_msrScore              fMsrScore;
 
+    // geometry handling
+    // ------------------------------------------------------
+    int                     fMillimeters;
+    float                   fGlobalStaffSize;
+    int                     fTenths;
+
+    bool                    fOnGoingPageLayout;
+    
     // part group handling
     /*
       There is no hierarchy implied in part-group elements.

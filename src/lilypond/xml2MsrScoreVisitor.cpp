@@ -80,6 +80,12 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   gCurrentMusicXMLLocation.fMeasureNumber = 0; // in case of an anacrusis
   gCurrentMusicXMLLocation.fPositionInMeasure = 1;
 
+  fMillimeters     = -1;
+  fGlobalStaffSize = -1.0;
+  fTenths          = -1;
+    
+  fOnGoingPageLayout = false;
+
   fCurrentMusicXMLDivisions = 0;
 
   // create the MSR score
@@ -245,6 +251,142 @@ void xml2MsrScoreVisitor::visitStart ( S_encoding_date& elt )
       elt->getInputLineNumber (),
       elt->getValue ());
 }
+
+//______________________________________________________________________________
+void xml2MsrScoreVisitor::visitStart ( S_millimeters& elt )
+{ 
+  fMillimeters = (int)(*elt);
+//  cout << "--> fMillimeters = " << fMillimeters << endl;
+  
+  fGlobalStaffSize = fMillimeters * 72.27 / 25.4;
+//  cout << "--> fGlobalStaffSize = " << fGlobalStaffSize << endl;
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_tenths& elt )
+{
+  fTenths = (int)(*elt);
+//  cout << "--> fTenths = " << fTenths << endl;
+}
+
+void xml2MsrScoreVisitor::visitEnd ( S_scaling& elt)
+{
+  if (fMsrOptions->fTrace)
+    cerr <<
+      "There are " << fTenths << " tenths for " << 
+      fMillimeters << " millimeters, hence a global staff size of " <<
+      fGlobalStaffSize << endl;
+}
+
+//______________________________________________________________________________
+void xml2MsrScoreVisitor::visitStart ( S_system_distance& elt )
+{
+  int systemDistance = (int)(*elt);
+  
+//  cout << "--> systemDistance = " << systemDistance << endl;
+  fMsrScore->getPageGeometry ()->
+    setBetweenSystemSpace (
+      1.0 * systemDistance * fMillimeters / fTenths / 10);  
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_top_system_distance& elt )
+{
+  int topSystemDistance = (int)(*elt);
+  
+//  cout << "--> fTopSystemDistance = " << topSystemDistance << endl;
+    fMsrScore->getPageGeometry ()->
+    setPageTopSpace (
+      1.0 * topSystemDistance * fMillimeters / fTenths / 10);  
+}
+
+//______________________________________________________________________________
+void xml2MsrScoreVisitor::visitStart ( S_page_layout& elt )
+{
+  fOnGoingPageLayout = true;
+}
+void xml2MsrScoreVisitor::visitEnd ( S_page_layout& elt )
+{
+  fOnGoingPageLayout = false;
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_page_height& elt )
+{
+  if (fOnGoingPageLayout) {
+    int pageHeight = (int)(*elt);
+    
+    //cout << "--> pageHeight = " << pageHeight << endl;
+    fMsrScore->getPageGeometry ()->
+      setPaperHeight (
+        1.0 * pageHeight * fMillimeters / fTenths / 10);  
+  }
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_page_width& elt )
+{
+  if (fOnGoingPageLayout) {
+    int pageWidth = (int)(*elt);
+    
+    //cout << "--> pageWidth = " << pageWidth << endl;
+    fMsrScore->getPageGeometry ()->
+      setPaperWidth (
+        1.0 * pageWidth * fMillimeters / fTenths / 10);  
+  }
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_left_margin& elt )
+{
+  if (fOnGoingPageLayout) {
+    int leftMargin = (int)(*elt);
+    
+    //cout << "--> leftMargin = " << leftMargin << endl;
+    fMsrScore->getPageGeometry ()->
+      setLeftMargin (
+        1.0 * leftMargin * fMillimeters / fTenths / 10);  
+  }
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_right_margin& elt )
+{
+  if (fOnGoingPageLayout) {
+    int rightMargin = (int)(*elt);
+    
+    //cout << "--> rightMargin = " << rightMargin << endl;
+    fMsrScore->getPageGeometry ()->
+      setRightMargin (
+        1.0 * rightMargin * fMillimeters / fTenths / 10);  
+  }
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_top_margin& elt )
+{
+  if (fOnGoingPageLayout) {
+    int topMargin = (int)(*elt);
+    
+    //cout << "--> topMargin = " << topMargin << endl;
+    fMsrScore->getPageGeometry ()->
+      setTopMargin (
+        1.0 * topMargin * fMillimeters / fTenths / 10);  
+  }
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_bottom_margin& elt )
+{
+  if (fOnGoingPageLayout) {
+    int bottomMargin = (int)(*elt);
+    
+    //cout << "--> bottomMargin = " << bottomMargin << endl;
+    fMsrScore->getPageGeometry ()->
+      setBottomMargin (
+        1.0 * bottomMargin * fMillimeters / fTenths / 10);  
+  }
+}
+
+//________________________________________________________________________
+/* JMI
+void xml2MsrScoreVisitor::visitStart ( S_instrument_name& el
+{
+  fCurrentInstrumentName = elt->getValue();
+}
+*/
 
 //________________________________________________________________________
 void xml2MsrScoreVisitor::visitStart (S_part_list& elt)
@@ -2704,7 +2846,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   */
   
 //  if (true || fMsrOptions->fDebug)
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr <<
       idtr <<
       "!!!! BEFORE visitEnd (S_note) we have:" << endl <<
@@ -2810,7 +2952,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
 // JMI  fCurrentElement = fCurrentNote; // another name for it
 
 //  if (true || fMsrOptions->fDebug)
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr <<
       idtr <<
       "!!!! AFTER visitEnd (S_note) " << fCurrentNote->noteMsrPitchAsString () <<

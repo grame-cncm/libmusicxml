@@ -2514,35 +2514,35 @@ void msrPageGeometry::print (ostream& os) {
 
   idtr++;
   
-//  if (fPaperWidth > 0) {
+  if (fPaperWidth > 0) {
     os << idtr <<
       "PaperWidth = " <<
       setprecision(4) << fPaperWidth << "\\cm" << endl;
-//  }
+  }
   if (fPaperHeight > 0) {
     os << idtr <<
-      "paper-height = " <<
+      "PaperHeight = " <<
       setprecision(4) << fPaperHeight << "\\cm" << endl;
   }
   if (fTopMargin > 0) {
     os << idtr <<
-      "top-margin = " <<
+      "TopMargin = " <<
       setprecision(4) << fTopMargin << "\\cm" << endl;
   }
   if (fBottomMargin > 0) {
     os << idtr <<
-      "bottom-margin = " <<
+      "BottomMargin = " <<
       setprecision(4) << fBottomMargin << "\\cm" << endl;
   }
   if (fLeftMargin > 0) {
     os << idtr <<
-      "left-margin = " <<
+      "LeftMargin = " <<
       setprecision(4) << fLeftMargin << "\\cm" << endl;
   }
 
   if (fRightMargin > 0) {
     os << idtr <<
-      "right-margin = " <<
+      "RightMargin = " <<
       setprecision(4) << fRightMargin << "\\cm" << endl;
   }
 
