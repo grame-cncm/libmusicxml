@@ -719,7 +719,7 @@ void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
   if (variableName == "creator")
     fLpsrScore->
       getHeader()->addCreator (
-        inputLineNumber, "type ???", variableValue);
+        inputLineNumber, variableName, variableValue);
   if (variableName == "rights")
     fLpsrScore->
       getHeader()->setRights (

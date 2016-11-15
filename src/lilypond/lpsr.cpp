@@ -738,18 +738,26 @@ S_lpsrVarValAssoc lpsrVarValAssoc::create (
   S_msrOptions&       msrOpts, 
   S_lpsrOptions&      lpsrOpts, 
   int                 inputLineNumber,
+  lpsrCommentedKind   commentedKind,
+  lpsrBackslashKind   backslashKind,
   string              variableName,
-  string              value, 
   lpsrVarValSeparator varValSeparator,
   lpsrQuotesKind      quotesKind,
-  lpsrCommentedKind   commentedKind,
-  string              unit)
+  string              value, 
+  string              unit,
+  lpsrEndlKind        endlKind)
 {
   lpsrVarValAssoc* o =
     new lpsrVarValAssoc(
       msrOpts, lpsrOpts, inputLineNumber,
-      variableName, value, varValSeparator, 
-      quotesKind, commentedKind, unit);
+      commentedKind,
+      backslashKind,
+      variableName,
+      varValSeparator, 
+      quotesKind,
+      value,
+      unit,
+      endlKind);
   assert(o!=0);
   return o;
 }
@@ -758,23 +766,29 @@ lpsrVarValAssoc::lpsrVarValAssoc (
   S_msrOptions&       msrOpts, 
   S_lpsrOptions&      lpsrOpts, 
   int                 inputLineNumber,
+  lpsrCommentedKind   commentedKind,
+  lpsrBackslashKind   backslashKind,
   string              variableName,
-  string              value, 
   lpsrVarValSeparator varValSeparator,
   lpsrQuotesKind      quotesKind,
-  lpsrCommentedKind   commentedKind,
-  string              unit)
+  string              value, 
+  string              unit,
+  lpsrEndlKind        endlKind)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {
+  fBackslashKind   = backslashKind;
   fVariableName    = variableName;
-  fVariableValue   = value;
   fVarValSeparator = varValSeparator;
   fQuotesKind      = quotesKind;
+  fVariableValue   = value;
   fCommentedKind   = commentedKind;
   fUnit            = unit;
+  fEndlKind        = endlKind;
 }
 
 lpsrVarValAssoc::~lpsrVarValAssoc() {}
+
+string const lpsrVarValAssoc::g_NoUnit = "";
 
 void lpsrVarValAssoc::changeAssoc (string value) {
   fVariableValue=value;
@@ -827,6 +841,17 @@ void lpsrVarValAssoc::print (ostream& os)
   os << "LPSR VarValAssoc" << endl;
   
   idtr++;
+
+  os << idtr;
+  switch (fBackslashKind) {
+    case kWithBackslash:
+      os << "with backslash";
+      break;
+    case kWithoutBackslash:
+      os << "without backslash";
+      break;
+  } // switch
+  os << endl;
   
   os <<
     idtr << fVariableName << endl <<
@@ -1440,10 +1465,14 @@ void lpsrHeader::setWorkNumber (
   fWorkNumber =
     lpsrVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      "work-number", val,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackslash,
+      "work-number",
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
-      lpsrVarValAssoc::kUncommented);
+      val,
+      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::kWithoutEndl);
   }
 
 void lpsrHeader::setWorkTitle (
@@ -1453,10 +1482,14 @@ void lpsrHeader::setWorkTitle (
   fWorkTitle =
     lpsrVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      "work-title", val,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackslash,
+      "work-title",
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
-      lpsrVarValAssoc::kUncommented);
+      val,
+      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::kWithoutEndl);
   }
 
 void lpsrHeader::setMovementNumber (
@@ -1466,10 +1499,14 @@ void lpsrHeader::setMovementNumber (
   fMovementNumber =
     lpsrVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      "movement-number", val,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackslash,
+      "movement-number",
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
-      lpsrVarValAssoc::kUncommented);
+      val,
+      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::kWithoutEndl);
   }
 
 void lpsrHeader::setMovementTitle (
@@ -1479,10 +1516,14 @@ void lpsrHeader::setMovementTitle (
   fMovementTitle =
     lpsrVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      "movement-title", val,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackslash,
+      "movement-title",
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
-      lpsrVarValAssoc::kUncommented);
+      val,
+      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::kWithoutEndl);
 }
 
 void lpsrHeader::addCreator (
@@ -1493,10 +1534,14 @@ void lpsrHeader::addCreator (
   fCreators.push_back(
     lpsrVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      type, val,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackslash,
+      type,
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
-      lpsrVarValAssoc::kUncommented)
+      val,
+      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::kWithoutEndl)
   );
 }
 
@@ -1507,10 +1552,14 @@ void lpsrHeader::setRights (
   fRights =
     lpsrVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      "rights", val,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackslash,
+      "rights",
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
-      lpsrVarValAssoc::kUncommented);
+      val,
+      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::kWithoutEndl);
   }
 
 void lpsrHeader::addSoftware (
@@ -1520,10 +1569,14 @@ void lpsrHeader::addSoftware (
   fSoftwares.push_back(
     lpsrVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      "software", val,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackslash,
+      "software",
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
-      lpsrVarValAssoc::kUncommented)
+      val,
+      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::kWithoutEndl)
   );
 }
 
@@ -1534,10 +1587,14 @@ void lpsrHeader::setEncodingDate (
   fEncodingDate =
     lpsrVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      "encoding-date", val,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackslash,
+      "encoding-date",
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
-      lpsrVarValAssoc::kUncommented);
+      val,
+      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::kWithoutEndl);
 }
 
 void lpsrHeader::setScoreInstrument (
@@ -1547,10 +1604,14 @@ void lpsrHeader::setScoreInstrument (
   fScoreInstrument =
     lpsrVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      "score-instrument", val,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackslash,
+      "score-instrument",
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
-      lpsrVarValAssoc::kUncommented);
+      val,
+      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::kWithoutEndl);
 }
 
 void lpsrHeader::acceptIn (basevisitor* v) {
@@ -1941,11 +2002,14 @@ lpsrScore::lpsrScore (
   fLilyPondVersion =
     lpsrVarValAssoc::create (
       msrOpts, lpsrOpts, inputLineNumber,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithBackslash,
       "version",
-      "2.19",
       lpsrVarValAssoc::kSpace,
       lpsrVarValAssoc::kQuotesAroundValue,
-      lpsrVarValAssoc::kUncommented);
+      "2.19",
+      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::kWithEndl);
 
   // create the header
   fHeader =

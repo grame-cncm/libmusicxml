@@ -207,12 +207,20 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrVarValAssoc& elt)
       "% --> Start visiting lpsrVarValAssoc" << endl;
 
   fOstream << idtr;
+
+  switch (elt->getBackslashKind ()) {
+    case lpsrVarValAssoc::kWithBackslash:
+      fOstream << "\\";
+      break;
+    case lpsrVarValAssoc::kWithoutBackslash:
+      break;
+  } // switch
   
   if (elt->getCommentedKind () == lpsrVarValAssoc::kCommented)
     fOstream << "\%";
   
   fOstream <<
-    "\\" << elt->getVariableName ();
+    elt->getVariableName ();
   
   if (elt->getVarValSeparator () == lpsrVarValAssoc::kEqualSign)
     fOstream << " = ";
@@ -223,13 +231,25 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrVarValAssoc& elt)
     fOstream << "\"";
     
   fOstream <<
-    elt->getVariableValue () <<
-    elt->getUnit ();
+    elt->getVariableValue ();
+
+  if (elt->getUnit ().size())
+    fOstream <<
+      "\\" <<
+      elt->getUnit ();
   
   if (elt->getQuotesKind () == lpsrVarValAssoc::kQuotesAroundValue)
     fOstream << "\"";
   
-  fOstream << endl << endl;
+  fOstream << endl;
+
+  switch (elt->getEndlKind ()) {
+    case lpsrVarValAssoc::kWithEndl:
+      fOstream << endl;
+      break;
+    case lpsrVarValAssoc::kWithoutEndl:
+      break;
+  } // switch
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrVarValAssoc& elt)
@@ -752,6 +772,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
         endl <<
         idtr;
       break;
+
+    case msrLyricschunk::k_NoChunk:
+      break;
   } // switch
 }
 
@@ -1028,13 +1051,13 @@ void lpsr2LilyPondVisitor::visitStart (S_msrWedge& elt)
 
   switch (elt->getWedgeKind ()) {
     case msrWedge::kCrescendoWedge:
-      fOstream << "\<";
+      fOstream << "\\<";
       break;
     case msrWedge::kDecrescendoWedge:
-      fOstream << "\>";
+      fOstream << "\\>";
       break;
     case msrWedge::kStopWedge:
-      fOstream << "\!";
+      fOstream << "\\!";
       break;
   } // switch
 }
@@ -1198,6 +1221,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBeam& elt)
       break;
     case msrBeam::kEndBeam:
       fOstream << "] ";
+      break;
+    case msrBeam::k_NoBeam:
       break;
   } // switch      
 }

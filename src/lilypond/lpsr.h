@@ -237,28 +237,40 @@ class EXP lpsrVarValAssoc : public lpsrElement
 {
   public:
 
+    enum lpsrCommentedKind   { kCommented, kUncommented };
+    enum lpsrBackslashKind   { kWithBackslash, kWithoutBackslash };
     enum lpsrVarValSeparator { kSpace, kEqualSign };
     enum lpsrQuotesKind      { kQuotesAroundValue, kNoQuotesAroundValue };
-    enum lpsrCommentedKind   { kCommented, kUncommented };
+    enum lpsrEndlKind        { kWithEndl, kWithoutEndl };
+
+    static string const g_NoUnit;
 
     static SMARTP<lpsrVarValAssoc> create (
         S_msrOptions&       msrOpts, 
         S_lpsrOptions&      lpsrOpts, 
         int                 inputLineNumber,
+        lpsrCommentedKind   commentedKind,
+        lpsrBackslashKind   backslashKind,
         string              variableName,
-        string              value, 
         lpsrVarValSeparator varValSeparator,
         lpsrQuotesKind      quotesKind,
-        lpsrCommentedKind   commentedKind,
-        string              unit = "");
+        string              value, 
+        string              unit,
+        lpsrEndlKind        endlKind);
 
     void      changeAssoc (string value);
     
+    lpsrCommentedKind
+              getCommentedKind () const
+                  { return fCommentedKind; };
+
+    lpsrBackslashKind
+              getBackslashKind () const
+                  { return fBackslashKind; }
+                  
     string    getVariableName  () const
                   { return fVariableName; };
-    string    getVariableValue () const
-                  { return fVariableValue; };
-    
+                  
     lpsrVarValSeparator
               getVarValSeparator () const
                   { return fVarValSeparator; };
@@ -266,12 +278,16 @@ class EXP lpsrVarValAssoc : public lpsrElement
     lpsrQuotesKind
               getQuotesKind () const
                   { return fQuotesKind; };
-    lpsrCommentedKind
-              getCommentedKind () const
-                  { return fCommentedKind; };
+                  
+    string    getVariableValue () const
+                  { return fVariableValue; };
     
     string    getUnit () const
                   { return fUnit; };
+
+    lpsrEndlKind
+              getEndlKind () const
+                  { return fEndlKind; };
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -286,26 +302,27 @@ class EXP lpsrVarValAssoc : public lpsrElement
         S_msrOptions&       msrOpts, 
         S_lpsrOptions&      lpsrOpts, 
         int                 inputLineNumber,
+        lpsrCommentedKind   commentedKind,
+        lpsrBackslashKind   backslashKind,
         string              variableName,
-        string              value, 
         lpsrVarValSeparator varValSeparator,
         lpsrQuotesKind      quotesKind,
-        lpsrCommentedKind   commentedKind,
-        string              unit = "");
+        string              value, 
+        string              unit,
+        lpsrEndlKind        endlKind);
       
     virtual ~lpsrVarValAssoc();
   
   private:
 
-    string              fVariableName;
-    string              fVariableValue;
-    
-    lpsrVarValSeparator fVarValSeparator;
-    
-    lpsrQuotesKind      fQuotesKind;
     lpsrCommentedKind   fCommentedKind;
-    
+    lpsrBackslashKind   fBackslashKind;
+    string              fVariableName;
+    lpsrVarValSeparator fVarValSeparator;
+    lpsrQuotesKind      fQuotesKind;
+    string              fVariableValue;
     string              fUnit;
+    lpsrEndlKind        fEndlKind;
 };
 typedef SMARTP<lpsrVarValAssoc> S_lpsrVarValAssoc;
 EXP ostream& operator<< (ostream& os, const S_lpsrVarValAssoc& elt);
