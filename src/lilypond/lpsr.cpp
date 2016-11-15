@@ -1842,31 +1842,39 @@ void lpsrPaper::print (ostream& os) {
   idtr++;
   
   if (fPaperWidth > 0) {
-    os << 
-      idtr << "paper-width = " << setprecision(4) << fPaperWidth << "\\cm" << endl;
+    os << idtr <<
+      setw(13) << left << "paper-width" << " = " <<
+      setprecision(4) << fPaperWidth << "\\cm" << endl;
   }
   if (fPaperHeight > 0) {
-    os <<
-      idtr << "paper-height = " << setprecision(4) << fPaperHeight << "\\cm" << endl;
+    os << idtr << 
+      setw(13) << left << "paper-height" << " = " <<
+      setprecision(4) << fPaperHeight << "\\cm" << endl;
   }
+  
   if (fTopMargin > 0) {
-    os <<
-      idtr << "top-margin = " << setprecision(4) << fTopMargin << "\\cm" << endl;
+    os << idtr << 
+      setw(13) << left << "top-margin" << " = " <<
+      setprecision(4) << fTopMargin << "\\cm" << endl;
   }
   if (fBottomMargin > 0) {
-    os <<
-      idtr << "bottom-margin = " << setprecision(4) << fBottomMargin << "\\cm" << endl;
+    os << idtr << 
+      setw(13) << left << "bottom-margin" << " = " <<
+      setprecision(4) << fBottomMargin << "\\cm" << endl;
   }
   if (fLeftMargin > 0) {
-    os <<
-      idtr << "left-margin = " << setprecision(4) << fLeftMargin << "\\cm" << endl;
+    os << idtr << 
+      setw(13) << left << "left-margin" << " = " <<
+      setprecision(4) << fLeftMargin << "\\cm" << endl;
   }
-
   if (fRightMargin > 0) {
-    os << idtr << "right-margin = " << setprecision(4) << fRightMargin << "\\cm" << endl;
+    os << idtr << 
+      setw(13) << left << "right-margin" << " = " <<
+    setprecision(4) << fRightMargin << "\\cm" << endl;
   }
 
 /*
+ * 
   if (fBetweenSystemSpace > 0) {
     os << idtr << "between-system-space = " << setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
   }

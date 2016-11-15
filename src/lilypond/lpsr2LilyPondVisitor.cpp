@@ -18,6 +18,7 @@
 #include <stdlib.h>     /* abort, NULL */
 #include <climits>      /* INT_MIN */
 #include <algorithm>    /* for_each */
+#include <iomanip>      // setw, set::precision, ...
 
 #include "conversions.h"
 
@@ -302,50 +303,51 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPaper& elt)
     endl;
 
   idtr++;
-  /*
-  if (fPaperWidth > 0) {
+  
+  if (elt->getPaperWidth () > 0) {
     fOstream << idtr <<
-      "paper-width = " <<
-      setprecision(4) << fPaperWidth << "\\cm" << endl;
+      setw(13) << left << "paper-width" << " = " <<
+      setprecision(4) << elt->getPaperWidth () << "\\cm" << endl;
   }
-  if (fPaperHeight > 0) {
-    fOstream << idtr <<
-      "paper-height = " <<
-      setprecision(4) << fPaperHeight << "\\cm" << endl;
+  if (elt->getPaperHeight () > 0) {
+    fOstream << idtr << 
+      setw(13) << left << "paper-height" << " = " <<
+      setprecision(4) << elt->getPaperHeight () << "\\cm" << endl;
   }
-  if (fTopMargin > 0) {
-    fOstream << idtr <<
-      "top-margin = " <<
-      setprecision(4) << fTopMargin << "\\cm" << endl;
+  
+  if (elt->getTopMargin () > 0) {
+    fOstream << idtr << 
+      setw(13) << left << "top-margin" << " = " <<
+      setprecision(4) << elt->getTopMargin () << "\\cm" << endl;
   }
-  if (fBottomMargin > 0) {
-    fOstream << idtr <<
-      "bottom-margin = " <<
-      setprecision(4) << fBottomMargin << "\\cm" << endl;
+  if (elt->getBottomMargin () > 0) {
+    fOstream << idtr << 
+      setw(13) << left << "bottom-margin" << " = " <<
+      setprecision(4) << elt->getBottomMargin () << "\\cm" << endl;
   }
-  if (fLeftMargin > 0) {
-    fOstream << idtr <<
-      "left-margin = " <<
-      setprecision(4) << fLeftMargin << "\\cm" << endl;
+  if (elt->getLeftMargin () > 0) {
+    fOstream << idtr << 
+      setw(13) << left << "left-margin" << " = " <<
+      setprecision(4) << elt->getLeftMargin () << "\\cm" << endl;
+  }
+  if (elt->getRightMargin () > 0) {
+    fOstream << idtr << 
+      setw(13) << left << "right-margin" << " = " <<
+    setprecision(4) << elt->getRightMargin () << "\\cm" << endl;
   }
 
-  if (fRightMargin > 0) {
-    fOstream << idtr <<
-      "right-margin = " <<
-      setprecision(4) << fRightMargin << "\\cm" << endl;
-  }
-*/
 /*
+ * 
   if (fBetweenSystemSpace > 0) {
-    fOstream << idtr << "between-system-space = " <<
-      setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
+    os << idtr << "between-system-space = " << setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
   }
 
-  if (fPageTopSpace > 0) {
-    fOstream << idtr << "page-top-space = " <<
-      setprecision(4) << fPageTopSpace << "\\cm" << endl;
+  if (elt->getPageTopSpace > 0) {
+    os << idtr << "page-top-space = " << setprecision(4) << elt->getPageTopSpace << "\\cm" << endl;
   }
 */
+
+  idtr--;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrPaper& elt)

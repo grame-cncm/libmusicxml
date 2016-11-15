@@ -2516,34 +2516,35 @@ void msrPageGeometry::print (ostream& os) {
   
   if (fPaperWidth > 0) {
     os << idtr <<
-      "PaperWidth = " <<
-      setprecision(4) << fPaperWidth << "\\cm" << endl;
+      setw(12) << left << "PaperWidth" << " = " <<
+      setprecision(4) << fPaperWidth << " cm" << endl;
   }
   if (fPaperHeight > 0) {
     os << idtr <<
-      "PaperHeight = " <<
-      setprecision(4) << fPaperHeight << "\\cm" << endl;
+      setw(12) << left << "PaperHeight" << " = " <<
+      setprecision(4) << fPaperHeight << " cm" << endl;
   }
+  
   if (fTopMargin > 0) {
     os << idtr <<
-      "TopMargin = " <<
-      setprecision(4) << fTopMargin << "\\cm" << endl;
+      setw(12) << left << "TopMargin" << " = " <<
+      setprecision(4) << fTopMargin << " cm" << endl;
   }
   if (fBottomMargin > 0) {
     os << idtr <<
-      "BottomMargin = " <<
-      setprecision(4) << fBottomMargin << "\\cm" << endl;
+      setw(12) << left << "BottomMargin" << " = " <<
+      setprecision(4) << fBottomMargin << " cm" << endl;
   }
   if (fLeftMargin > 0) {
     os << idtr <<
-      "LeftMargin = " <<
-      setprecision(4) << fLeftMargin << "\\cm" << endl;
+      setw(12) << left << "LeftMargin" << " = " <<
+      setprecision(4) << fLeftMargin << " cm" << endl;
   }
 
   if (fRightMargin > 0) {
     os << idtr <<
-      "RightMargin = " <<
-      setprecision(4) << fRightMargin << "\\cm" << endl;
+      setw(12) << left << "RightMargin" << " = " <<
+      setprecision(4) << fRightMargin << " cm" << endl;
   }
 
   os << endl;

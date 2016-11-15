@@ -232,7 +232,7 @@ class msr2LpsrVisitor :
 
     // page geometry
     // ------------------------------------------------------
-    S_msrPageGeometry    fCurrentPageGeometry;
+// JMI    S_msrPageGeometry    fCurrentPageGeometry;
     
     // part groups
     // ------------------------------------------------------

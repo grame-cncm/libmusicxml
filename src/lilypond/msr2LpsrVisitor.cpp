@@ -139,7 +139,28 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
 
   idtr++;
 
-  fCurrentPageGeometry = elt;
+// fCurrentPageGeometry = elt; // JMI
+
+  fLpsrScore->getPaper ()->
+    setPaperWidth (elt->getPaperWidth ());
+  fLpsrScore->getPaper ()->
+    setPaperHeight (elt->getPaperHeight ());
+    
+  fLpsrScore->getPaper ()->
+    setTopMargin (elt->getTopMargin ());
+  fLpsrScore->getPaper ()->
+    setBottomMargin (elt->getBottomMargin ());
+  fLpsrScore->getPaper ()->
+    setLeftMargin (elt->getLeftMargin ());
+  fLpsrScore->getPaper ()->
+    setRightMargin (elt->getRightMargin ());
+
+/* JMI
+    void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
+    float   getBetweenSystemSpace () const    { return fBetweenSystemSpace; }
+
+    void    setPageTopSpace       (float val) { fPageTopSpace = val; }
+   */
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrPageGeometry& elt)
@@ -150,50 +171,6 @@ void msr2LpsrVisitor::visitEnd (S_msrPageGeometry& elt)
     fOstream << idtr <<
       "--> End visiting msrPageGeometry" << endl;
 }
-  /*
-  if (fPaperWidth > 0) {
-    fOstream << idtr <<
-      "paper-width = " <<
-      setprecision(4) << fPaperWidth << "\\cm" << endl;
-  }
-  if (fPaperHeight > 0) {
-    fOstream << idtr <<
-      "paper-height = " <<
-      setprecision(4) << fPaperHeight << "\\cm" << endl;
-  }
-  if (fTopMargin > 0) {
-    fOstream << idtr <<
-      "top-margin = " <<
-      setprecision(4) << fTopMargin << "\\cm" << endl;
-  }
-  if (fBottomMargin > 0) {
-    fOstream << idtr <<
-      "bottom-margin = " <<
-      setprecision(4) << fBottomMargin << "\\cm" << endl;
-  }
-  if (fLeftMargin > 0) {
-    fOstream << idtr <<
-      "left-margin = " <<
-      setprecision(4) << fLeftMargin << "\\cm" << endl;
-  }
-
-  if (fRightMargin > 0) {
-    fOstream << idtr <<
-      "right-margin = " <<
-      setprecision(4) << fRightMargin << "\\cm" << endl;
-  }
-*/
-/*
-  if (fBetweenSystemSpace > 0) {
-    fOstream << idtr << "between-system-space = " <<
-      setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
-  }
-
-  if (fPageTopSpace > 0) {
-    fOstream << idtr << "page-top-space = " <<
-      setprecision(4) << fPageTopSpace << "\\cm" << endl;
-  }
-*/
 
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
