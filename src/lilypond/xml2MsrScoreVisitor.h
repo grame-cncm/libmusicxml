@@ -383,9 +383,7 @@ class EXP xml2MsrScoreVisitor :
     // geometry handling
     // ------------------------------------------------------
     int                     fMillimeters;
-    float                   fGlobalStaffSize;
     int                     fTenths;
-
     bool                    fOnGoingPageLayout;
     
     // part group handling

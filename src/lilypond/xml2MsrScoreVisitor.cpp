@@ -80,10 +80,8 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   gCurrentMusicXMLLocation.fMeasureNumber = 0; // in case of an anacrusis
   gCurrentMusicXMLLocation.fPositionInMeasure = 1;
 
-  fMillimeters     = -1;
-  fGlobalStaffSize = -1.0;
-  fTenths          = -1;
-    
+  fMillimeters       = -1;
+  fTenths            = -1;
   fOnGoingPageLayout = false;
 
   fCurrentMusicXMLDivisions = 0;
@@ -256,25 +254,28 @@ void xml2MsrScoreVisitor::visitStart ( S_encoding_date& elt )
 void xml2MsrScoreVisitor::visitStart ( S_millimeters& elt )
 { 
   fMillimeters = (int)(*elt);
-//  cout << "--> fMillimeters = " << fMillimeters << endl;
   
-  fGlobalStaffSize = fMillimeters * 72.27 / 25.4;
-//  cout << "--> fGlobalStaffSize = " << fGlobalStaffSize << endl;
+  fMsrScore->getPageGeometry ()->
+    setMillimeters (fMillimeters);
 }
 
 void xml2MsrScoreVisitor::visitStart ( S_tenths& elt )
 {
   fTenths = (int)(*elt);
-//  cout << "--> fTenths = " << fTenths << endl;
+
+  fMsrScore->getPageGeometry ()->
+    setTenths (fTenths);
 }
 
 void xml2MsrScoreVisitor::visitEnd ( S_scaling& elt)
 {
   if (fMsrOptions->fTrace)
     cerr <<
-      "There are " << fTenths << " tenths for " << 
-      fMillimeters << " millimeters, hence a global staff size of " <<
-      fGlobalStaffSize << endl;
+      "There are " << fTenths <<
+      " tenths for " <<  fMillimeters <<
+      " millimeters, hence the global staff size is " <<
+      fMsrScore->getPageGeometry ()->globalStaffSize () <<
+      endl;
 }
 
 //______________________________________________________________________________

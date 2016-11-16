@@ -1132,6 +1132,18 @@ class EXP msrPageGeometry : public msrElement
     void    setPageTopSpace       (float val) { fPageTopSpace = val; }
     float   getPageTopSpace       () const    { return fPageTopSpace; }
 
+    int     setMillimeters        (float val) { fMillimeters = val; }
+    int     getMillimeters        () const    { return fMillimeters; }
+
+    void    setTenths             (int val)   { fTenths = val; }
+    float   getTenths             () const    { return fTenths; }
+
+    float   globalStaffSize       () const
+                                    {
+                                      return
+                                        fMillimeters * 72.27 / 25.4;
+                                    }
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1157,6 +1169,9 @@ class EXP msrPageGeometry : public msrElement
     float             fBottomMargin;
     float             fLeftMargin;
     float             fRightMargin;
+
+    int               fMillimeters;
+    int               fTenths;
     
     float             fBetweenSystemSpace;
     float             fPageTopSpace; 

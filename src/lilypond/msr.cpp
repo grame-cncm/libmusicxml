@@ -1706,7 +1706,8 @@ void msrSequentialMusic::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      if (fElementsSeparator == kEndOfLine) os << endl;
+      os << " ";
+// JMI      if (fElementsSeparator == kEndOfLine) os << endl;
     } // for
     
     idtr--;
@@ -2416,15 +2417,18 @@ msrPageGeometry::msrPageGeometry (
   int           inputLineNumber)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fPaperWidth = -1.0;
-  fPaperHeight = -1.0;
-  fTopMargin = -1.0;
+  fPaperWidth   = -1.0;
+  fPaperHeight  = -1.0;
+  fTopMargin    = -1.0;
   fBottomMargin = -1.0;
-  fLeftMargin = -1.0;
-  fRightMargin = -1.0;
+  fLeftMargin   = -1.0;
+  fRightMargin  = -1.0;
     
   fBetweenSystemSpace = -1.0;
-  fPageTopSpace = -1.0;
+  fPageTopSpace       = -1.0;
+
+  fMillimeters = -1;
+  fTenths      = -1;
 }
 
 msrPageGeometry::~msrPageGeometry() {}
