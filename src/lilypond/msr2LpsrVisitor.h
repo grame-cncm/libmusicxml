@@ -88,7 +88,6 @@ class msr2LpsrVisitor :
   
   public visitor<S_msrVarValAssoc>,
   
-//  public visitor<S_msrHeader>, // JMI
   public visitor<S_msrPageGeometry>,
   public visitor<S_msrLayout>,
   
@@ -198,9 +197,6 @@ class msr2LpsrVisitor :
 
     virtual void visitStart (S_msrVarValAssoc& elt);
     virtual void visitEnd   (S_msrVarValAssoc& elt);
-
- //   virtual void visitStart (S_msrHeader& elt);
-  //  virtual void visitEnd   (S_msrHeader& elt);
 
     virtual void visitStart (S_msrPageGeometry& elt);
     virtual void visitEnd   (S_msrPageGeometry& elt);

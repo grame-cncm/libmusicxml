@@ -806,68 +806,24 @@ void msr2musicxmlVisitor::visitEnd (S_msrVarValAssoc& elt)
 }
 
 //________________________________________________________________________
-void msr2musicxmlVisitor::visitStart (S_msrHeader& elt)
+void msr2musicxmlVisitor::visitStart (S_msrGeometry& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrHeader" << endl;
+      "--> Start visiting msrGeometry" << endl;
 
-  fOstream << "Header" << endl;
+  fOstream << "Paper" << endl;
 
   idtr++;
-
-  /*
-  if (S_msrVarValAssoc workNumber = elt->getWorkNumber ()) {
-    fOstream << idtr << workNumber;
-  }
-  
-  if (S_msrVarValAssoc workTitle = elt->getWorkTitle ()) {
-    fOstream << idtr << workTitle;
-  }
-    
-  if (S_msrVarValAssoc movementNumber = elt->getMovementNumber ()) {
-    fOstream << idtr << movementNumber;
-  }
-    
-  if (S_msrVarValAssoc movementTitle = elt->getMovementTitle ()) {
-    fOstream << idtr << movementTitle;
-  }
-
-  S_msrVarValAssoc creators = elt->getCreators ();
-  if (! creators.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i1;
-    for (i1=creators.begin(); i1!=creators.end(); i1++) {
-      fOstream << idtr << (*i1);
-    } // for
-  }
-    
-  if (S_msrVarValAssoc rights = elt->getRights ()) {
-    fOstream << idtr << rights;
-  }
-
-  S_msrVarValAssoc softwares = elt->getSoftwares ();
-  if (! .empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i2;
-    for (i2=softwares.begin(); i2!=softwares.end(); i2++) {
-      fOstream << idtr << (*i2);
-    } // for
-  }
-    
-  if (S_msrVarValAssoc encodingDate = elt->getEncodingDate ()) {
-    fOstream << idtr << encodingDate;
-  }
-  
-  idtr--;
-  */
 }
 
-void msr2musicxmlVisitor::visitEnd (S_msrHeader& elt)
+void msr2musicxmlVisitor::visitEnd (S_msrGeometry& elt)
 {
   idtr--;
 
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrHeader" << endl;
+      "--> End visiting msrGeometry" << endl;
 }
 
 //________________________________________________________________________
@@ -880,50 +836,6 @@ void msr2musicxmlVisitor::visitStart (S_msrPaper& elt)
   fOstream << "Paper" << endl;
 
   idtr++;
-  /*
-  if (fPaperWidth > 0) {
-    fOstream << idtr <<
-      "paper-width = " <<
-      setprecision(4) << fPaperWidth << "\\cm" << endl;
-  }
-  if (fPaperHeight > 0) {
-    fOstream << idtr <<
-      "paper-height = " <<
-      setprecision(4) << fPaperHeight << "\\cm" << endl;
-  }
-  if (fTopMargin > 0) {
-    fOstream << idtr <<
-      "top-margin = " <<
-      setprecision(4) << fTopMargin << "\\cm" << endl;
-  }
-  if (fBottomMargin > 0) {
-    fOstream << idtr <<
-      "bottom-margin = " <<
-      setprecision(4) << fBottomMargin << "\\cm" << endl;
-  }
-  if (fLeftMargin > 0) {
-    fOstream << idtr <<
-      "left-margin = " <<
-      setprecision(4) << fLeftMargin << "\\cm" << endl;
-  }
-
-  if (fRightMargin > 0) {
-    fOstream << idtr <<
-      "right-margin = " <<
-      setprecision(4) << fRightMargin << "\\cm" << endl;
-  }
-*/
-/*
-  if (fBetweenSystemSpace > 0) {
-    fOstream << idtr << "between-system-space = " <<
-      setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
-  }
-
-  if (fPageTopSpace > 0) {
-    fOstream << idtr << "page-top-space = " <<
-      setprecision(4) << fPageTopSpace << "\\cm" << endl;
-  }
-*/
 }
 
 void msr2musicxmlVisitor::visitEnd (S_msrPaper& elt)
