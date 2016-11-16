@@ -59,7 +59,10 @@ lpsr2LilyPondVisitor::lpsr2LilyPondVisitor (
   gCurrentMusicXMLLocation.fPositionInMeasure = 1;
 
   fOnGoingHeader = false;
+  
   fOnGoingStaff  = false;
+
+  fOnGoingScoreCommand = false;
 };
   
 lpsr2LilyPondVisitor::~lpsr2LilyPondVisitor ()
@@ -402,6 +405,8 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrScoreCommand& elt)
     endl;
 
   idtr++;
+
+  fOnGoingScoreCommand = true;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrScoreCommand& elt)
@@ -415,6 +420,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrScoreCommand& elt)
   fOstream << idtr <<
     "}" <<
     endl;
+
+  fOnGoingScoreCommand = false;
 }
 
 //________________________________________________________________________

@@ -1145,6 +1145,10 @@ class EXP lpsrScore : public lpsrElement
               getLilyPondVersion () const
                   { return fLilyPondVersion; }
 
+    S_lpsrSchemeVarValAssoc
+              getGlobalStaffSizeAssoc () const
+                  { return fGlobalStaffSize; }
+
     S_lpsrHeader
               getHeader () const
                   { return fHeader; }
@@ -1154,26 +1158,46 @@ class EXP lpsrScore : public lpsrElement
                   { return fPaper; }
 
     S_lpsrLayout
-              getLayout () const
-                  { return fLayout; }
+              getScoreLayout () const
+                  { return fScoreLayout; }
 
     list<S_msrElement>
               getVoicesAndLyricsList () const
-                  { return fVoicesAndLyricsList; }
+                  { return fScoreElements; }
 
     S_lpsrScoreCommand
               getScoreCommand () const
                   { return fScoreCommand; }
-  
-    void      appendVoiceToElementsList (S_msrVoice voice)
-                  { fVoicesAndLyricsList.push_back (voice); }
+
+    void      setGlobalStaffSize (float size)
+                  {
+                    stringstream s;
+                    s << size;
+                    fGlobalStaffSize->
+                      changeAssocValue (s.str());
+                  }
+    
+    void      appendSchemeVarValAssocToScore (
+                S_lpsrSchemeVarValAssoc assoc)
+                  { fScoreElements.push_back (assoc); }
                   
-    void      appendLyricsToElementsList (S_msrLyrics lyrics)
-                  { fVoicesAndLyricsList.push_back (lyrics); }
+    void      prependSchemeVarValAssocToScore (
+                S_lpsrSchemeVarValAssoc assoc)
+                  { fScoreElements.push_front (assoc); }
+                  
+    void      appendVoiceToScoreElements (
+                S_msrVoice voice)
+                  { fScoreElements.push_back (voice); }
+                  
+    void      appendLyricsToScoreElements (
+                S_msrLyrics lyrics)
+                  { fScoreElements.push_back (lyrics); }
 
-    void      appendVoiceUseToStoreCommand (S_msrVoice voice);
+    void      appendVoiceUseToStoreCommand (
+                S_msrVoice voice);
 
-    void      appendLyricsUseToStoreCommand (S_msrLyrics lyrics);
+    void      appendLyricsUseToStoreCommand (
+                S_msrLyrics lyrics);
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1195,19 +1219,20 @@ class EXP lpsrScore : public lpsrElement
   private:
 
     // MSR data
-    S_msrScore          fMsrScore;
+    S_msrScore              fMsrScore;
 
     // general information
-    S_lpsrVarValAssoc   fLilyPondVersion;
-    S_lpsrHeader        fHeader;
-    S_lpsrPaper         fPaper;
-    S_lpsrLayout        fLayout;
+    S_lpsrVarValAssoc       fLilyPondVersion;
+    S_lpsrSchemeVarValAssoc fGlobalStaffSize;
+    S_lpsrHeader            fHeader;
+    S_lpsrPaper             fPaper;
+    S_lpsrLayout            fScoreLayout;
 
-    // voices and lyrics
-    list<S_msrElement>  fVoicesAndLyricsList;
+    // variables, voices and lyrics
+    list<S_msrElement>      fScoreElements;
 
     // score command
-    S_lpsrScoreCommand  fScoreCommand;
+    S_lpsrScoreCommand      fScoreCommand;
 };
 typedef SMARTP<lpsrScore> S_lpsrScore;
 EXP ostream& operator<< (ostream& os, const S_lpsrScore& elt);

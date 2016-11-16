@@ -2014,18 +2014,18 @@ lpsrScoreCommand::lpsrScoreCommand (
   int            inputLineNumber)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {
-  // create the score block parallel music
+  // create the score command parallel music
   fScoreCommandParallelMusic =
     lpsrParallelMusic::create (
       msrOpts, lpsrOpts, inputLineNumber,
       lpsrParallelMusic::kEndOfLine);
   
-  // create the score block layout
+  // create the score command layout
   fScoreCommandLayout =
     lpsrLayout::create (
       msrOpts, lpsrOpts, inputLineNumber);
   
-  // create the score block midi
+  // create the score command midi
   fScoreCommandMidi =
     msrMidi::create (msrOpts, inputLineNumber);
 }
@@ -2073,19 +2073,19 @@ void lpsrScoreCommand::browseData (basevisitor* v)
       "==> lpsrScoreCommand::browseData()" << endl;
 
   {
-    // browse the score block parallel music
+    // browse the score command parallel music
     msrBrowser<lpsrParallelMusic> browser (v);    
     browser.browse (*fScoreCommandParallelMusic);
   }
 
   {
-    // browse the score block layout
+    // browse the score command layout
     msrBrowser<lpsrLayout> browser (v);    
     browser.browse (*fScoreCommandLayout);
   }
 
   {
-    // browse the score block midi
+    // browse the score command midi
     msrBrowser<msrMidi> browser (v);    
     browser.browse (*fScoreCommandMidi);
   }
@@ -2136,7 +2136,7 @@ lpsrScore::lpsrScore (
 {
   fMsrScore = mScore;
 
-  // create the score LilyPond version
+  // create the LilyPond version assoc
   fLilyPondVersion =
     lpsrVarValAssoc::create (
       msrOpts, lpsrOpts, inputLineNumber,
@@ -2149,6 +2149,16 @@ lpsrScore::lpsrScore (
       lpsrVarValAssoc::g_NoUnit,
       lpsrVarValAssoc::kWithEndl);
 
+  // create the global staff size assoc // JMI
+  fGlobalStaffSize =
+    lpsrSchemeVarValAssoc::create (
+      fMsrOptions,
+      fLpsrOptions,
+      inputLineNumber,
+      "set-global-staff-size",
+      "-1",
+      lpsrSchemeVarValAssoc::kCommented);
+
   // create the header
   fHeader =
     lpsrHeader::create (
@@ -2159,12 +2169,12 @@ lpsrScore::lpsrScore (
     lpsrPaper::create (
       msrOpts, inputLineNumber);
 
-  // create the layout
-  fLayout =
+  // create the score layout
+  fScoreLayout =
     lpsrLayout::create (
       msrOpts, lpsrOpts, inputLineNumber);
 
-  // create the score block parallel music element
+  // create the score command
   fScoreCommand =
     lpsrScoreCommand::create (
       msrOpts, lpsrOpts, inputLineNumber);
@@ -2262,14 +2272,14 @@ void lpsrScore::browseData (basevisitor* v)
   {
     // browse the score layout
     msrBrowser<lpsrLayout> browser (v);
-    browser.browse (*fLayout);
+    browser.browse (*fScoreLayout);
   }
 
   {
     // browse the voices and lyrics list
     for (
-      list<S_msrElement>::iterator i = fVoicesAndLyricsList.begin();
-      i != fVoicesAndLyricsList.end();
+      list<S_msrElement>::iterator i = fScoreElements.begin();
+      i != fScoreElements.end();
       i++) {
       // create the element browser
       msrBrowser<msrElement> browser (v);
@@ -2308,12 +2318,12 @@ void lpsrScore::print (ostream& os)
   os << idtr << fLilyPondVersion << endl;
   os << idtr << fHeader << endl;
   os << idtr << fPaper << endl;
-  os << idtr << fLayout << endl;
+  os << idtr << fScoreLayout << endl;
   
-  if (fVoicesAndLyricsList.size()) {  
+  if (fScoreElements.size()) {  
     list<S_msrElement>::const_iterator
-      iBegin = fVoicesAndLyricsList.begin(),
-      iEnd   = fVoicesAndLyricsList.end(),
+      iBegin = fScoreElements.begin(),
+      iEnd   = fScoreElements.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);

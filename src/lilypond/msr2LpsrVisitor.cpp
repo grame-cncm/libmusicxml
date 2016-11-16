@@ -139,26 +139,62 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
 
   idtr++;
 
-// fCurrentPageGeometry = elt; // JMI
-
-  fLpsrScore->getPaper ()->
+  // populate paper data
+  S_lpsrPaper
+    paper =
+      fLpsrScore->getPaper ();
+  
+  paper ->
     setPaperWidth (elt->getPaperWidth ());
-  fLpsrScore->getPaper ()->
+  paper->
     setPaperHeight (elt->getPaperHeight ());
     
-  fLpsrScore->getPaper ()->
+  paper->
     setTopMargin (elt->getTopMargin ());
-  fLpsrScore->getPaper ()->
+  paper->
     setBottomMargin (elt->getBottomMargin ());
-  fLpsrScore->getPaper ()->
+  paper->
     setLeftMargin (elt->getLeftMargin ());
-  fLpsrScore->getPaper ()->
+  paper->
     setRightMargin (elt->getRightMargin ());
 
-  fLpsrScore->getLayout ()->
+  // populate score layout data
+  S_lpsrLayout
+    scoreLayout =
+      fLpsrScore->getScoreLayout ();
+
+  scoreLayout->
     setMillimeters (elt->getMillimeters ());
-  fLpsrScore->getLayout ()->
+  scoreLayout->
     setTenths (elt->getTenths ());
+
+  // populate score command layout data
+  S_lpsrLayout
+    scoreCommandLayout =
+      fLpsrScore->getScoreCommand ()->getScoreCommandLayout ();
+
+  scoreCommandLayout->
+    setMillimeters (elt->getMillimeters ());
+  scoreCommandLayout->
+    setTenths (elt->getTenths ());
+
+  /* JMI
+  S_lpsrSchemeVarValAssoc
+    schemeVarValAssoc =
+      lpsrSchemeVarValAssoc::create (
+        fMsrOptions,
+        fLpsrOptions,
+        0,
+        "set-global-staff-size",
+        "-4",
+        lpsrSchemeVarValAssoc::kCommented);
+  */
+  
+  // populate score global staff size
+  fLpsrScore->
+    setGlobalStaffSize (
+      scoreLayout->globalStaffSize ());
+
 
 /* JMI
     void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
@@ -273,7 +309,7 @@ void msr2LpsrVisitor::visitStart (S_msrVoice& elt)
 
   // append the voice to the LPSR score elements list
   fLpsrScore ->
-    appendVoiceToElementsList (fCurrentMsrVoiceClone);
+    appendVoiceToScoreElements (fCurrentMsrVoiceClone);
 
   // append the voice use to the LPSR score command
   fLpsrScore ->
@@ -306,7 +342,7 @@ void msr2LpsrVisitor::visitStart (S_msrLyrics& elt)
   
     // append the lyrics to the LPSR score elements list
     fLpsrScore ->
-      appendLyricsToElementsList (fCurrentMsrLyricsClone);
+      appendLyricsToScoreElements (fCurrentMsrLyricsClone);
   
     // append a use of the lyrics to the LPSR score command
     fLpsrScore ->

@@ -272,6 +272,7 @@ class lpsr2LilyPondVisitor :
     // score
     // ------------------------------------------------------
     S_msrScore           fCurrentMsrScoreClone;
+    bool                 fOnGoingScoreCommand;
     
     // part groups
     // ------------------------------------------------------
