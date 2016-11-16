@@ -43,7 +43,7 @@ class lpsr2LilyPondVisitor :
   
   public visitor<S_lpsrScore>,
   
-  public visitor<S_lpsrVarValAssoc>,
+  public visitor<S_lpsrLilypondVarValAssoc>,
   public visitor<S_lpsrSchemeVarValAssoc>,
 
   public visitor<S_lpsrHeader>,
@@ -135,8 +135,8 @@ class lpsr2LilyPondVisitor :
     virtual void visitStart (S_lpsrScore& elt);
     virtual void visitEnd   (S_lpsrScore& elt);
 
-    virtual void visitStart (S_lpsrVarValAssoc& elt);
-    virtual void visitEnd   (S_lpsrVarValAssoc& elt);
+    virtual void visitStart (S_lpsrLilypondVarValAssoc& elt);
+    virtual void visitEnd   (S_lpsrLilypondVarValAssoc& elt);
 
     virtual void visitStart (S_lpsrSchemeVarValAssoc& elt);
     virtual void visitEnd   (S_lpsrSchemeVarValAssoc& elt);
@@ -299,7 +299,8 @@ class lpsr2LilyPondVisitor :
     // lyrics
     // ------------------------------------------------------
     S_msrLyrics          fCurrentMsrLyricsClone;
-
+    int                  fLyricschunksCounter;
+    
     // lyrics chunks
     // ------------------------------------------------------
     S_msrLyricschunk     fCurrentMsrLyricschunkClone;
@@ -307,6 +308,7 @@ class lpsr2LilyPondVisitor :
     // sequential music
     // ------------------------------------------------------
 // JMI    S_msrSequentialMusic fCurrentMsrSequentialMusicClone;
+    int                  fSequentialMusicElementsCounter;
     
     // chords
     // ------------------------------------------------------

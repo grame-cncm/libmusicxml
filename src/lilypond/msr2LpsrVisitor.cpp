@@ -84,8 +84,6 @@ void msr2LpsrVisitor::visitStart (S_msrScore& elt)
     fOstream << idtr <<
       "--> Start visiting msrScore" << endl;
 
-  idtr++;
-
   // create an empty clone of fVisitedMsrScore for use by the LPSR score
   // not sharing the visitiged MSR score allows cleaner data handling
   // and optimisations of the LPSR data
@@ -100,8 +98,6 @@ void msr2LpsrVisitor::visitStart (S_msrScore& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
 {
-  idtr--;
-
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrScore" << endl;
@@ -201,41 +197,9 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
         "Uncomment next line to use MusicXML staff size",
         lpsrSchemeVarValAssoc::kWithEndl);
 
-  /* JMI
-   static SMARTP<lpsrSchemeVarValAssoc> create (
-      S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int               inputLineNumber,
-      lpsrCommentedKind commentedKind,
-      string            variableName,
-      string            value, 
-      string            comment,
-      lpsrEndlKind      endlKind);
-
-  scoreCommandLayout->
-    setMillimeters (elt->getMillimeters ());
-  scoreCommandLayout->
-    setTenths (elt->getTenths ());
-  */
-
-/*
-  // create a comment
-  S_lpsrComment
-    comment =
-      lpsrComment::create (
-        fMsrOptions,
-        fLpsrOptions,
-        0, // JMI
-        "Uncomment next line to use MusicXML staff size",
-        lpsrComment::kGapAfterwards);
-
- // JMI scoreCommandLayout->
-   // appendCommentToScore (comment);
-*/
-
   // populate score command layout
   scoreCommandLayout->
-    addLpsrSchemeVarValAssoc (assoc);
+    addSchemeVarValAssoc (assoc);
 
 /* JMI
     void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
@@ -409,7 +373,8 @@ void msr2LpsrVisitor::visitStart (S_msrLyricschunk& elt)
     fOstream << idtr <<
       "--> Start visiting msrLyricschunk" << endl;
 
-  fCurrentMsrLyricschunkClone = elt->createEmptyClone ();
+  fCurrentMsrLyricschunkClone =
+    elt->createEmptyClone ();
     
 // JMI  fCurrentMsrLyricsClone->
     //addChunkToLyrics (fCurrentMsrLyricschunkClone);
@@ -430,6 +395,9 @@ void msr2LpsrVisitor::visitStart (S_msrClef& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrClef" << endl;
+
+  fCurrentMsrVoiceClone->
+    appendClefToVoice (elt);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrClef& elt)
@@ -445,6 +413,9 @@ void msr2LpsrVisitor::visitStart (S_msrKey& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrKey" << endl;
+
+  fCurrentMsrVoiceClone->
+    appendKeyToVoice (elt);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrKey& elt)
@@ -460,6 +431,9 @@ void msr2LpsrVisitor::visitStart (S_msrTime& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrTime" << endl;
+
+  fCurrentMsrVoiceClone->
+    appendTimeToVoice (elt);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrTime& elt)

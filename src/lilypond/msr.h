@@ -189,7 +189,7 @@ class EXP msrOptions : public smartable {
     bool                            fDisplayMSRScoreSummary;
 
     // parts renaming
-    set<string>                     fPartNamesSpecsSet;
+    set<string>                     fPartRenamingSpecsSet;
     
     // interactive mode
     bool                            fInteractive;
@@ -1978,7 +1978,9 @@ class EXP msrVoice : public msrElement
     S_msrLyrics
               getVoiceMasterLyrics () { return fVoiceMasterLyrics; }
                
-    void      appendKeyToVoice        (S_msrKey key);
+    void      appendClefToVoice       (S_msrClef clef);
+    void      appendKeyToVoice        (S_msrKey  key);
+    void      appendTimeToVoice       (S_msrTime time);
     
     void      appendNoteToVoice       (S_msrNote note);
     void      appendChordToVoice      (S_msrChord chord);

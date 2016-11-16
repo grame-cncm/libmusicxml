@@ -735,7 +735,7 @@ void lpsrNewlyricsCommand::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrVarValAssoc lpsrVarValAssoc::create (
+S_lpsrLilypondVarValAssoc lpsrLilypondVarValAssoc::create (
   S_msrOptions&       msrOpts, 
   S_lpsrOptions&      lpsrOpts, 
   int                 inputLineNumber,
@@ -749,8 +749,8 @@ S_lpsrVarValAssoc lpsrVarValAssoc::create (
   string              comment,
   lpsrEndlKind        endlKind)
 {
-  lpsrVarValAssoc* o =
-    new lpsrVarValAssoc(
+  lpsrLilypondVarValAssoc* o =
+    new lpsrLilypondVarValAssoc(
       msrOpts, lpsrOpts, inputLineNumber,
       commentedKind,
       backslashKind,
@@ -765,7 +765,7 @@ S_lpsrVarValAssoc lpsrVarValAssoc::create (
   return o;
 }
 
-lpsrVarValAssoc::lpsrVarValAssoc (
+lpsrLilypondVarValAssoc::lpsrLilypondVarValAssoc (
   S_msrOptions&       msrOpts, 
   S_lpsrOptions&      lpsrOpts, 
   int                 inputLineNumber,
@@ -791,56 +791,56 @@ lpsrVarValAssoc::lpsrVarValAssoc (
   fEndlKind        = endlKind;
 }
 
-lpsrVarValAssoc::~lpsrVarValAssoc() {}
+lpsrLilypondVarValAssoc::~lpsrLilypondVarValAssoc() {}
 
-string const lpsrVarValAssoc::g_VarValAssocNoUnit    = "";
-string const lpsrVarValAssoc::g_VarValAssocNoComment = "";
+string const lpsrLilypondVarValAssoc::g_VarValAssocNoUnit    = "";
+string const lpsrLilypondVarValAssoc::g_VarValAssocNoComment = "";
 
-void lpsrVarValAssoc::acceptIn (basevisitor* v) {
+void lpsrLilypondVarValAssoc::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrVarValAssoc::acceptIn()" << endl;
+      "==> lpsrLilypondVarValAssoc::acceptIn()" << endl;
       
-  if (visitor<S_lpsrVarValAssoc>*
+  if (visitor<S_lpsrLilypondVarValAssoc>*
     p =
-      dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
-        S_lpsrVarValAssoc elem = this;
+      dynamic_cast<visitor<S_lpsrLilypondVarValAssoc>*> (v)) {
+        S_lpsrLilypondVarValAssoc elem = this;
         
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrVarValAssoc::visitStart()" << endl;
+            "==> Launching lpsrLilypondVarValAssoc::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void lpsrVarValAssoc::acceptOut (basevisitor* v) {
+void lpsrLilypondVarValAssoc::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrVarValAssoc::acceptOut()" << endl;
+      "==> lpsrLilypondVarValAssoc::acceptOut()" << endl;
 
-  if (visitor<S_lpsrVarValAssoc>*
+  if (visitor<S_lpsrLilypondVarValAssoc>*
     p =
-      dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
-        S_lpsrVarValAssoc elem = this;
+      dynamic_cast<visitor<S_lpsrLilypondVarValAssoc>*> (v)) {
+        S_lpsrLilypondVarValAssoc elem = this;
       
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrVarValAssoc::visitEnd()" << endl;
+            "==> Launching lpsrLilypondVarValAssoc::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void lpsrVarValAssoc::browseData (basevisitor* v)
+void lpsrLilypondVarValAssoc::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_lpsrVarValAssoc& assoc) {
+ostream& operator<< (ostream& os, const S_lpsrLilypondVarValAssoc& assoc) {
   assoc->print (os);
   return os;
 }
 
-void lpsrVarValAssoc::print (ostream& os)
+void lpsrLilypondVarValAssoc::print (ostream& os)
 {
-  os << "LpsrVarValAssoc" << endl;
+  os << "LilypondVarValAssoc" << endl;
   
   idtr++;
 
@@ -1567,17 +1567,17 @@ void lpsrHeader::setWorkNumber (
         */
 
  fWorkNumber =
-    lpsrVarValAssoc::create (
+    lpsrLilypondVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackslash,
+      lpsrLilypondVarValAssoc::kUncommented,
+      lpsrLilypondVarValAssoc::kWithoutBackslash,
       "work-number",
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_VarValAssocNoUnit,
-      lpsrVarValAssoc::g_VarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithoutEndl);
   }
 
 void lpsrHeader::setWorkTitle (
@@ -1585,17 +1585,17 @@ void lpsrHeader::setWorkTitle (
   string val)
   {
   fWorkTitle =
-    lpsrVarValAssoc::create (
+    lpsrLilypondVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackslash,
+      lpsrLilypondVarValAssoc::kUncommented,
+      lpsrLilypondVarValAssoc::kWithoutBackslash,
       "work-title",
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_VarValAssocNoUnit,
-      lpsrVarValAssoc::g_VarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithoutEndl);
   }
 
 void lpsrHeader::setMovementNumber (
@@ -1603,17 +1603,17 @@ void lpsrHeader::setMovementNumber (
   string val)
   {
   fMovementNumber =
-    lpsrVarValAssoc::create (
+    lpsrLilypondVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackslash,
+      lpsrLilypondVarValAssoc::kUncommented,
+      lpsrLilypondVarValAssoc::kWithoutBackslash,
       "movement-number",
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_VarValAssocNoUnit,
-      lpsrVarValAssoc::g_VarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithoutEndl);
   }
 
 void lpsrHeader::setMovementTitle (
@@ -1621,17 +1621,17 @@ void lpsrHeader::setMovementTitle (
   string val)
 {
   fMovementTitle =
-    lpsrVarValAssoc::create (
+    lpsrLilypondVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackslash,
+      lpsrLilypondVarValAssoc::kUncommented,
+      lpsrLilypondVarValAssoc::kWithoutBackslash,
       "movement-title",
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_VarValAssocNoUnit,
-      lpsrVarValAssoc::g_VarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithoutEndl);
 }
 
 void lpsrHeader::addCreator (
@@ -1640,17 +1640,17 @@ void lpsrHeader::addCreator (
   string val)
 {
   fCreators.push_back(
-    lpsrVarValAssoc::create (
+    lpsrLilypondVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackslash,
+      lpsrLilypondVarValAssoc::kUncommented,
+      lpsrLilypondVarValAssoc::kWithoutBackslash,
       type,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_VarValAssocNoUnit,
-      lpsrVarValAssoc::g_VarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl)
+      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithoutEndl)
   );
 }
 
@@ -1659,17 +1659,17 @@ void lpsrHeader::setRights (
   string val)
   {
   fRights =
-    lpsrVarValAssoc::create (
+    lpsrLilypondVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackslash,
+      lpsrLilypondVarValAssoc::kUncommented,
+      lpsrLilypondVarValAssoc::kWithoutBackslash,
       "rights",
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_VarValAssocNoUnit,
-      lpsrVarValAssoc::g_VarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithoutEndl);
   }
 
 void lpsrHeader::addSoftware (
@@ -1677,17 +1677,17 @@ void lpsrHeader::addSoftware (
   string val)
 {
   fSoftwares.push_back(
-    lpsrVarValAssoc::create (
+    lpsrLilypondVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackslash,
+      lpsrLilypondVarValAssoc::kUncommented,
+      lpsrLilypondVarValAssoc::kWithoutBackslash,
       "software",
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_VarValAssocNoUnit,
-      lpsrVarValAssoc::g_VarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl)
+      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithoutEndl)
   );
 }
 
@@ -1696,17 +1696,17 @@ void lpsrHeader::setEncodingDate (
   string val)
 {
   fEncodingDate =
-    lpsrVarValAssoc::create (
+    lpsrLilypondVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackslash,
+      lpsrLilypondVarValAssoc::kUncommented,
+      lpsrLilypondVarValAssoc::kWithoutBackslash,
       "encoding-date",
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_VarValAssocNoUnit,
-      lpsrVarValAssoc::g_VarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithoutEndl);
 }
 
 void lpsrHeader::setScoreInstrument (
@@ -1714,17 +1714,17 @@ void lpsrHeader::setScoreInstrument (
   string val)
 {
   fScoreInstrument =
-    lpsrVarValAssoc::create (
+    lpsrLilypondVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackslash,
+      lpsrLilypondVarValAssoc::kUncommented,
+      lpsrLilypondVarValAssoc::kWithoutBackslash,
       "score-instrument",
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_VarValAssocNoUnit,
-      lpsrVarValAssoc::g_VarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithoutEndl);
 }
 
 void lpsrHeader::acceptIn (basevisitor* v) {
@@ -1765,61 +1765,61 @@ void lpsrHeader::browseData (basevisitor* v)
 {
   if (fWorkNumber) {
     // browse fWorkNumber
-    msrBrowser<lpsrVarValAssoc> browser (v);
+    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
     browser.browse (*fWorkNumber);
   }
 
   if (fWorkTitle) {
     // browse fWorkTitle
-    msrBrowser<lpsrVarValAssoc> browser (v);
+    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
     browser.browse (*fWorkTitle);
   }
 
   if (fMovementNumber) {
     // browse fMovementNumber
-    msrBrowser<lpsrVarValAssoc> browser (v);
+    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
     browser.browse (*fMovementNumber);
   }
 
   if (fMovementTitle) {
     // browse fMovementTitle
-    msrBrowser<lpsrVarValAssoc> browser (v);
+    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
     browser.browse (*fMovementTitle);
   }
 
   if (! fCreators.empty()) {
-    vector<S_lpsrVarValAssoc>::const_iterator i;
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
     for (i=fCreators.begin(); i!=fCreators.end(); i++) {
       // browse creator
-      msrBrowser<lpsrVarValAssoc> browser (v);
+      msrBrowser<lpsrLilypondVarValAssoc> browser (v);
       browser.browse (*(*i));
     } // for
   }
     
   if (fRights) {
     // browse fRights
-    msrBrowser<lpsrVarValAssoc> browser (v);
+    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
     browser.browse (*fRights);
   }
 
   if (! fSoftwares.empty()) {
-    vector<S_lpsrVarValAssoc>::const_iterator i;
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
     for (i=fSoftwares.begin(); i!=fSoftwares.end(); i++) {
       // browse software
-      msrBrowser<lpsrVarValAssoc> browser (v);
+      msrBrowser<lpsrLilypondVarValAssoc> browser (v);
       browser.browse (*(*i));
     } // for
   }
 
   if (fEncodingDate) {
     // browse fEncodingDate
-    msrBrowser<lpsrVarValAssoc> browser (v);
+    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
     browser.browse (*fEncodingDate);
   }
 
   if (fScoreInstrument) {
     // browse fScoreInstrument
-    msrBrowser<lpsrVarValAssoc> browser (v);
+    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
     browser.browse (*fScoreInstrument);
   }
 }
@@ -1853,7 +1853,7 @@ void lpsrHeader::print (ostream& os)
   }
     
   if (! fCreators.empty()) {
-    vector<S_lpsrVarValAssoc>::const_iterator i1;
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator i1;
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
       os << idtr << (*i1);
     } // for
@@ -1864,7 +1864,7 @@ void lpsrHeader::print (ostream& os)
   }
     
   if (! fSoftwares.empty()) {
-    vector<S_lpsrVarValAssoc>::const_iterator i2;
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator i2;
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
       os << idtr << (*i2);
     } // for
@@ -2064,12 +2064,12 @@ void lpsrLayout::acceptOut (basevisitor* v) {
 
 void lpsrLayout::browseData (basevisitor* v)
 {
-  int n1 = fLpsrVarValAssocs.size();
+  int n1 = flpsrLilypondVarValAssocs.size();
   
   for (int i = 0; i < n1; i++ ) {
     // browse the variable/value association
-    msrBrowser<lpsrVarValAssoc> browser (v);
-    browser.browse (*fLpsrVarValAssocs [i]);
+    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    browser.browse (*flpsrLilypondVarValAssocs [i]);
   } // for
   
   int n2 = fLpsrSchemeVarValAssocs.size();
@@ -2110,10 +2110,10 @@ void lpsrLayout::print (ostream& os)
     "StaffSize: " << fStaffSize <<
     endl;
     
-  int n1 = fLpsrVarValAssocs.size();
+  int n1 = flpsrLilypondVarValAssocs.size();
   
   for (int i = 0; i < n1; i++ ) {
-    os << idtr << fLpsrVarValAssocs [i];
+    os << idtr << flpsrLilypondVarValAssocs [i];
   } // for
 
   int n2 = fLpsrSchemeVarValAssocs.size();
@@ -2267,31 +2267,17 @@ lpsrScore::lpsrScore (
 
   // create the LilyPond version assoc
   fLilyPondVersion =
-    lpsrVarValAssoc::create (
+    lpsrLilypondVarValAssoc::create (
       msrOpts, lpsrOpts, inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithBackslash,
+      lpsrLilypondVarValAssoc::kUncommented,
+      lpsrLilypondVarValAssoc::kWithBackslash,
       "version",
-      lpsrVarValAssoc::kSpace,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrLilypondVarValAssoc::kSpace,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
       "2.19",
-      lpsrVarValAssoc::g_VarValAssocNoUnit,
-      lpsrVarValAssoc::g_VarValAssocNoComment,
-      lpsrVarValAssoc::kWithEndl);
-
-/* JMI
-  // create a comment
-  S_lpsrComment
-    comment =
-      lpsrComment::create (
-        fMsrOptions,
-        fLpsrOptions,
-        0, // JMI
-        "Uncomment next line to use MusicXML staff size",
-        lpsrComment::kGapAfterwards);
-
-  appendCommentToScore (comment);
-*/
+      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithEndl);
 
   // create the global staff size assoc
   fGlobalStaffSizeAssoc =
@@ -2397,7 +2383,7 @@ void lpsrScore::browseData (basevisitor* v)
 
   {
     // browse the score LilyPond version
-    msrBrowser<lpsrVarValAssoc> browser (v);
+    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
     browser.browse (*fLilyPondVersion);
   }
   

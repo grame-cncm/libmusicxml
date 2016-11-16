@@ -2983,6 +2983,7 @@ void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
     cerr <<  idtr <<
       "--> adding standalone " <<
       newNote->noteMsrPitchAsString () <<
+      ":" << newNote->getNoteMsrDuration () <<
       " to current voice" << endl;
 
   // is voice fCurrentVoiceNumber present in current staff?

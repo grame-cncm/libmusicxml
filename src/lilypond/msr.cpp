@@ -1561,10 +1561,10 @@ void msrNote::print (ostream& os)
     os << " " << "grace";
   if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
     os << " " << "tied";
-  os << endl;
   
   // print the alterations if any
   if (fNoteArticulations.size()) {
+    os << endl;
     idtr++;
     list<S_msrArticulation>::const_iterator i;
     for (i=fNoteArticulations.begin(); i!=fNoteArticulations.end(); i++) {
@@ -1575,6 +1575,7 @@ void msrNote::print (ostream& os)
   
   // print the dynamics if any
   if (fNoteDynamics.size()) {
+    os << endl;
     idtr++;
     list<S_msrDynamics>::const_iterator i1;
     for (i1=fNoteDynamics.begin(); i1!=fNoteDynamics.end(); i1++) {
@@ -1585,6 +1586,7 @@ void msrNote::print (ostream& os)
 
   // print the wedges if any
   if (fNoteWedges.size()) {
+    os << endl;
     idtr++;
     list<S_msrWedge>::const_iterator i2;
     for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
@@ -1595,6 +1597,7 @@ void msrNote::print (ostream& os)
 
   // print the slur if any
   if (fNoteSlurKind != msrSlur::k_NoSlur) {
+    os << endl;
     idtr++;
     switch (fNoteSlurKind) {
       case msrSlur::kStartSlur:
@@ -1609,7 +1612,6 @@ void msrNote::print (ostream& os)
       default:
         os << idtr << "Slur" << fNoteSlurKind << "???";
     } // switch
-    os << endl;
     idtr--;
   }
 }
@@ -2886,7 +2888,28 @@ void msrClef::print (ostream& os)
 {
   os <<
     "Clef" << " \"" << fSign << "\"" <<
-    " line " << fLine << ", " << fOctaveChange << "*8";
+    " line " << fLine;
+
+  if (fOctaveChange != 0) {
+    os << ", octaveChange:";
+    
+    switch (fOctaveChange) {
+      case 1:
+        os << "8";
+        break;
+      case -1:
+        os << "-8";
+        break;
+      case 2:
+        os << "15";
+        break;
+      case -2:
+        os << "-15";
+        break;
+      default:
+        os << "octaveChange" << fOctaveChange << "???";
+    } // switch
+  }
 }
 
 /*
@@ -3639,7 +3662,7 @@ void msrLyrics::addSkipChunkToLyrics (
     S_msrPart  part  = staff-> getStaffPart();
     
     cerr << idtr <<
-      "--> Adding skip chunk: " << msrDuration <<
+      "--> Adding skip chunk:" << msrDuration <<
       " to " << getLyricsName () << endl;
   }
   
@@ -4032,11 +4055,25 @@ S_msrLyrics msrVoice::fetchLyricsFromVoice (
   return result;
 }
 
-void msrVoice::appendKeyToVoice (S_msrKey key)
+void msrVoice::appendClefToVoice (S_msrClef clef)
 {
-  S_msrElement c = key;
+  S_msrElement c = clef;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (c);
+}
+
+void msrVoice::appendKeyToVoice (S_msrKey key)
+{
+  S_msrElement k = key;
+  fVoiceSequentialMusic->
+    appendElementToSequentialMusic (k);
+}
+
+void msrVoice::appendTimeToVoice (S_msrTime time)
+{
+  S_msrElement t = time;
+  fVoiceSequentialMusic->
+    appendElementToSequentialMusic (t);
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {

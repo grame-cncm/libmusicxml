@@ -674,7 +674,7 @@ void analyzeOptions (
             "--partName" << " \"" << partNameSpec << "\" ";
           msrOpts->fCommandLineOptions += s.str();
             
-          msrOpts->fPartNamesSpecsSet.insert (partNameSpec);
+          msrOpts->fPartRenamingSpecsSet.insert (partNameSpec);
           partNamePresent = false;
         }
         
@@ -838,15 +838,15 @@ void printOptions (
       string(msrOpts->fDisplayMSRScoreSummary
         ? "true" : "false") << endl <<
     
-    "  " << setw(31) << "partNamesSpecsSet" << " : ";
+    "  " << setw(31) << "partRenamingSpecsSet" << " : ";
     
-  if (msrOpts->fPartNamesSpecsSet.empty ())
+  if (msrOpts->fPartRenamingSpecsSet.empty ())
     cerr << "none";
   else
     for (
       set<string>::const_iterator i =
-        msrOpts->fPartNamesSpecsSet.begin();
-      i != msrOpts->fPartNamesSpecsSet.end();
+        msrOpts->fPartRenamingSpecsSet.begin();
+      i != msrOpts->fPartRenamingSpecsSet.end();
       i++) {
         cerr << "\"" << (*i) << "\" ";
     } // for

@@ -26,8 +26,6 @@
 
 #include "msr.h"
 
-//JMI#include "lpsrUtilities.h"
-
 namespace MusicXML2 
 {
 
@@ -233,7 +231,7 @@ EXP ostream& operator<< (ostream& os, const S_lpsrParallelMusic& elt);
 \brief A lpsr LilyPond variable/value association representation.
 */
 //______________________________________________________________________________
-class EXP lpsrVarValAssoc : public lpsrElement
+class EXP lpsrLilypondVarValAssoc : public lpsrElement
 {
   public:
 
@@ -246,7 +244,7 @@ class EXP lpsrVarValAssoc : public lpsrElement
     static string const g_VarValAssocNoUnit;
     static string const g_VarValAssocNoComment;
 
-    static SMARTP<lpsrVarValAssoc> create (
+    static SMARTP<lpsrLilypondVarValAssoc> create (
         S_msrOptions&       msrOpts, 
         S_lpsrOptions&      lpsrOpts, 
         int                 inputLineNumber,
@@ -305,7 +303,7 @@ class EXP lpsrVarValAssoc : public lpsrElement
 
   protected:
 
-    lpsrVarValAssoc (
+    lpsrLilypondVarValAssoc (
         S_msrOptions&       msrOpts, 
         S_lpsrOptions&      lpsrOpts, 
         int                 inputLineNumber,
@@ -319,7 +317,7 @@ class EXP lpsrVarValAssoc : public lpsrElement
         string              comment,
         lpsrEndlKind        endlKind);
       
-    virtual ~lpsrVarValAssoc();
+    virtual ~lpsrLilypondVarValAssoc();
   
   private:
 
@@ -333,8 +331,8 @@ class EXP lpsrVarValAssoc : public lpsrElement
     string              fComment;
     lpsrEndlKind        fEndlKind;
 };
-typedef SMARTP<lpsrVarValAssoc> S_lpsrVarValAssoc;
-EXP ostream& operator<< (ostream& os, const S_lpsrVarValAssoc& elt);
+typedef SMARTP<lpsrLilypondVarValAssoc> S_lpsrLilypondVarValAssoc;
+EXP ostream& operator<< (ostream& os, const S_lpsrLilypondVarValAssoc& elt);
 
 /*!
 \brief A lpsr Scheme variable/value association representation.
@@ -898,39 +896,39 @@ class EXP lpsrHeader : public lpsrElement
                   int    inputLineNumber,
                   string val);
 
-    S_lpsrVarValAssoc
+    S_lpsrLilypondVarValAssoc
                 getWorkNumber () const
                     { return fWorkNumber; }
     
-    S_lpsrVarValAssoc
+    S_lpsrLilypondVarValAssoc
                 getWorkTitle () const
                     { return fWorkTitle; }
     
-    S_lpsrVarValAssoc
+    S_lpsrLilypondVarValAssoc
                 getMovementNumber () const
                     { return fMovementNumber; }
     
-    S_lpsrVarValAssoc
+    S_lpsrLilypondVarValAssoc
                 getMovementTitle () const
                     { return fMovementTitle; }
     
-    vector<S_lpsrVarValAssoc>
+    vector<S_lpsrLilypondVarValAssoc>
                 getCreators () const
                     { return fCreators; };
     
-    S_lpsrVarValAssoc
+    S_lpsrLilypondVarValAssoc
                 getRights () const
                     { return fRights; }
     
-    vector<S_lpsrVarValAssoc>
+    vector<S_lpsrLilypondVarValAssoc>
                 getSoftwares () const
                     { return fSoftwares; };
     
-    S_lpsrVarValAssoc
+    S_lpsrLilypondVarValAssoc
                 getEncodingDate () const
                     { return fEncodingDate; }
     
-    S_lpsrVarValAssoc
+    S_lpsrLilypondVarValAssoc
                 getScoreInstrument () const
                     { return fScoreInstrument; }
 
@@ -952,15 +950,15 @@ class EXP lpsrHeader : public lpsrElement
   
   private:
 
-    S_lpsrVarValAssoc         fWorkNumber;
-    S_lpsrVarValAssoc         fWorkTitle;
-    S_lpsrVarValAssoc         fMovementNumber;
-    S_lpsrVarValAssoc         fMovementTitle;
-    vector<S_lpsrVarValAssoc> fCreators;
-    S_lpsrVarValAssoc         fRights;
-    vector<S_lpsrVarValAssoc> fSoftwares;
-    S_lpsrVarValAssoc         fEncodingDate;
-    S_lpsrVarValAssoc         fScoreInstrument;
+    S_lpsrLilypondVarValAssoc         fWorkNumber;
+    S_lpsrLilypondVarValAssoc         fWorkTitle;
+    S_lpsrLilypondVarValAssoc         fMovementNumber;
+    S_lpsrLilypondVarValAssoc         fMovementTitle;
+    vector<S_lpsrLilypondVarValAssoc> fCreators;
+    S_lpsrLilypondVarValAssoc         fRights;
+    vector<S_lpsrLilypondVarValAssoc> fSoftwares;
+    S_lpsrLilypondVarValAssoc         fEncodingDate;
+    S_lpsrLilypondVarValAssoc         fScoreInstrument;
 
 };
 typedef SMARTP<lpsrHeader> S_lpsrHeader;
@@ -1050,13 +1048,6 @@ class EXP lpsrLayout : public lpsrElement
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
-/* JMI    
-    int     setMillimeters        (float val) { fMillimeters = val; }
-    int     getMillimeters        () const    { return fMillimeters; }
-
-    void    setTenths             (int val)   { fTenths = val; }
-    float   getTenths             () const    { return fTenths; }
-*/
 
     float   getStaffSize () const
                 { return fStaffSize; }
@@ -1064,11 +1055,11 @@ class EXP lpsrLayout : public lpsrElement
     void    setGlobalStaffSize (float size)
                 { fStaffSize = size; }
 
-    void    addLpsrVarValAssoc (
-              S_lpsrVarValAssoc assoc)
-                { fLpsrVarValAssocs.push_back (assoc); }
+    void    addLilypondVarValAssoc (
+              S_lpsrLilypondVarValAssoc assoc)
+                { flpsrLilypondVarValAssocs.push_back (assoc); }
       
-    void    addLpsrSchemeVarValAssoc (
+    void    addSchemeVarValAssoc (
               S_lpsrSchemeVarValAssoc assoc)
                 { fLpsrSchemeVarValAssocs.push_back (assoc); }
 
@@ -1090,13 +1081,10 @@ class EXP lpsrLayout : public lpsrElement
   
   private:
   
-//    int                             fMillimeters;
-//    int                             fTenths;
-
     float                           fStaffSize;
     
-    vector<S_lpsrVarValAssoc>       fLpsrVarValAssocs;
-    vector<S_lpsrSchemeVarValAssoc> fLpsrSchemeVarValAssocs;
+    vector<S_lpsrLilypondVarValAssoc> flpsrLilypondVarValAssocs;
+    vector<S_lpsrSchemeVarValAssoc>   fLpsrSchemeVarValAssocs;
 };
 typedef SMARTP<lpsrLayout> S_lpsrLayout;
 EXP ostream& operator<< (ostream& os, const S_lpsrLayout& elt);
@@ -1181,7 +1169,7 @@ class EXP lpsrScore : public lpsrElement
       int            inputLineNumber,
       S_msrScore     mScore);
      
-    S_lpsrVarValAssoc
+    S_lpsrLilypondVarValAssoc
               getLilyPondVersion () const
                   { return fLilyPondVersion; }
 
@@ -1263,14 +1251,14 @@ class EXP lpsrScore : public lpsrElement
   private:
 
     // MSR data
-    S_msrScore              fMsrScore;
+    S_msrScore                fMsrScore;
 
     // general information
-    S_lpsrVarValAssoc       fLilyPondVersion;
-    S_lpsrSchemeVarValAssoc fGlobalStaffSizeAssoc;
-    S_lpsrHeader            fHeader;
-    S_lpsrPaper             fPaper;
-    S_lpsrLayout            fScoreLayout;
+    S_lpsrLilypondVarValAssoc fLilyPondVersion;
+    S_lpsrSchemeVarValAssoc   fGlobalStaffSizeAssoc;
+    S_lpsrHeader              fHeader;
+    S_lpsrPaper               fPaper;
+    S_lpsrLayout              fScoreLayout;
 
     // variables, voices and lyrics
     list<S_msrElement>      fScoreElements;

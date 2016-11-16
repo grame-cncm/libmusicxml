@@ -792,12 +792,14 @@ void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
     fOstream << idtr <<
       "--> Start visiting msrVarValAssoc" << endl;
 
-  fOstream << "msrVarValAssoc" << endl;
+  fOstream << idtr <<
+    "msrVarValAssoc" << endl;
   
   idtr++;
   
-  fOstream << idtr << elt->getVariableName () << endl;
-  fOstream << idtr << elt->getVariableValue () <<endl;
+  fOstream <<
+    idtr << "variable name: " << elt->getVariableName () << endl <<
+    idtr << "variable name: " << elt->getVariableValue () <<endl;
   
   idtr--;
 }
@@ -816,53 +818,11 @@ void msr2SummaryVisitor::visitStart (S_msrPageGeometry& elt)
     fOstream << idtr <<
       "--> Start visiting msrPageGeometry" << endl;
 
-  fOstream << "Paper" << endl;
+  fOstream << idtr <<
+    "PageGeometry" << endl <<
+    endl;
 
   idtr++;
-  /*
-  if (fPaperWidth > 0) {
-    fOstream << idtr <<
-      "paper-width = " <<
-      setprecision(4) << fPaperWidth << "\\cm" << endl;
-  }
-  if (fPaperHeight > 0) {
-    fOstream << idtr <<
-      "paper-height = " <<
-      setprecision(4) << fPaperHeight << "\\cm" << endl;
-  }
-  if (fTopMargin > 0) {
-    fOstream << idtr <<
-      "top-margin = " <<
-      setprecision(4) << fTopMargin << "\\cm" << endl;
-  }
-  if (fBottomMargin > 0) {
-    fOstream << idtr <<
-      "bottom-margin = " <<
-      setprecision(4) << fBottomMargin << "\\cm" << endl;
-  }
-  if (fLeftMargin > 0) {
-    fOstream << idtr <<
-      "left-margin = " <<
-      setprecision(4) << fLeftMargin << "\\cm" << endl;
-  }
-
-  if (fRightMargin > 0) {
-    fOstream << idtr <<
-      "right-margin = " <<
-      setprecision(4) << fRightMargin << "\\cm" << endl;
-  }
-*/
-/*
-  if (fBetweenSystemSpace > 0) {
-    fOstream << idtr << "between-system-space = " <<
-      setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
-  }
-
-  if (fPageTopSpace > 0) {
-    fOstream << idtr << "page-top-space = " <<
-      setprecision(4) << fPageTopSpace << "\\cm" << endl;
-  }
-*/
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrPageGeometry& elt)

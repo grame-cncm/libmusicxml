@@ -204,11 +204,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrScore& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_lpsrVarValAssoc& elt)
+void lpsr2LilyPondVisitor::visitStart (S_lpsrLilypondVarValAssoc& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting lpsrVarValAssoc" << endl;
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
 
   fOstream << idtr;
 
@@ -217,26 +217,26 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrVarValAssoc& elt)
       "% " << elt->getComment () << endl <<
       idtr;
 
-  if (elt->getCommentedKind () == lpsrVarValAssoc::kCommented)
+  if (elt->getCommentedKind () == lpsrLilypondVarValAssoc::kCommented)
     fOstream << "\%";
   
   switch (elt->getBackslashKind ()) {
-    case lpsrVarValAssoc::kWithBackslash:
+    case lpsrLilypondVarValAssoc::kWithBackslash:
       fOstream << "\\";
       break;
-    case lpsrVarValAssoc::kWithoutBackslash:
+    case lpsrLilypondVarValAssoc::kWithoutBackslash:
       break;
   } // switch
   
   fOstream <<
     elt->getVariableName ();
   
-  if (elt->getVarValSeparator () == lpsrVarValAssoc::kEqualSign)
+  if (elt->getVarValSeparator () == lpsrLilypondVarValAssoc::kEqualSign)
     fOstream << " = ";
   else
     fOstream << " ";
   
-  if (elt->getQuotesKind () == lpsrVarValAssoc::kQuotesAroundValue)
+  if (elt->getQuotesKind () == lpsrLilypondVarValAssoc::kQuotesAroundValue)
     fOstream << "\"";
     
   fOstream <<
@@ -247,25 +247,25 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrVarValAssoc& elt)
       "\\" <<
       elt->getUnit ();
   
-  if (elt->getQuotesKind () == lpsrVarValAssoc::kQuotesAroundValue)
+  if (elt->getQuotesKind () == lpsrLilypondVarValAssoc::kQuotesAroundValue)
     fOstream << "\"";
   
   fOstream << endl;
 
   switch (elt->getEndlKind ()) {
-    case lpsrVarValAssoc::kWithEndl:
+    case lpsrLilypondVarValAssoc::kWithEndl:
       fOstream << endl;
       break;
-    case lpsrVarValAssoc::kWithoutEndl:
+    case lpsrLilypondVarValAssoc::kWithoutEndl:
       break;
   } // switch
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_lpsrVarValAssoc& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrLilypondVarValAssoc& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting lpsrVarValAssoc" << endl;
+      "% --> End visiting lpsrLilypondVarValAssoc" << endl;
 }
 
 //________________________________________________________________________
@@ -282,7 +282,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrSchemeVarValAssoc& elt)
       "% " << elt->getComment () << endl <<
       idtr;
 
-  if (elt->getCommentedKind () == lpsrVarValAssoc::kCommented)
+  if (elt->getCommentedKind () == lpsrSchemeVarValAssoc::kCommented)
     fOstream << "\% ";
   
   fOstream <<
@@ -768,6 +768,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyrics& elt)
   idtr++;
   
   fOstream << idtr;
+
+  fLyricschunksCounter = 0;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrLyrics& elt)
@@ -791,6 +793,13 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
     fOstream << idtr <<
       "% --> Start visiting msrLyricschunk" << endl;
 
+  if (++fLyricschunksCounter > 10) {
+    fOstream <<
+      endl <<
+      idtr;
+    fLyricschunksCounter = 1;
+  }
+  
   switch (elt->getLyricschunkType ()) {
     case msrLyricschunk::kSingleChunk:
       fOstream <<
@@ -1017,15 +1026,16 @@ void lpsr2LilyPondVisitor::visitStart (S_msrSequentialMusic& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrSequentialMusic" << endl;
-/*
+
   fOstream << idtr <<
-    "{ " << " % msrSequentialMusic" <<
+    "{" << " % msrSequentialMusic" <<
     endl;
     
   idtr++;
   
   fOstream << idtr;
-  */
+
+  fSequentialMusicElementsCounter = 0;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrSequentialMusic& elt)
@@ -1033,14 +1043,13 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrSequentialMusic& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrSequentialMusic" << endl;
-/*
+
   idtr--;
   
   fOstream <<
     endl <<
     idtr << "}" << " % msrSequentialMusic" <<
     endl;
-    */
 }
 
 //________________________________________________________________________
@@ -1158,16 +1167,32 @@ string msrNote::octaveRepresentation (char octave)
   if (fMsrOptions->fDebug) {
     fOstream << idtr <<
       "% --> Start visiting ";
+      
     switch (elt->getNoteKind ()) {
       case msrNote::kStandaloneNote:
+        if (++fSequentialMusicElementsCounter > 10) {
+          fOstream <<
+            endl <<
+            idtr;
+          fSequentialMusicElementsCounter = 1;
+        }
         fOstream << "standalone";
         break;
+        
       case msrNote::kRestNote:
+        if (++fSequentialMusicElementsCounter > 10) {
+          fOstream <<
+            endl <<
+            idtr;
+          fSequentialMusicElementsCounter = 1;
+        }
         fOstream << "rest";
         break;
+        
       case msrNote::kChordMemberNote:
         fOstream << "chord member";
         break;
+        
       case msrNote::kTupletMemberNote:
         fOstream << "tuplet member";
         break;
@@ -1178,6 +1203,12 @@ string msrNote::octaveRepresentation (char octave)
   switch (elt->getNoteKind ()) {
     
     case msrNote::kStandaloneNote:
+      if (++fSequentialMusicElementsCounter > 10) {
+        fOstream <<
+          endl <<
+          idtr;
+        fSequentialMusicElementsCounter = 1;
+      }
       // print the note name
       fOstream <<
         noteMsrPitchAsLilyPondString (elt);
@@ -1188,7 +1219,13 @@ string msrNote::octaveRepresentation (char octave)
       break;
       
     case msrNote::kRestNote:
-      // print the note name
+      if (++fSequentialMusicElementsCounter > 10) {
+        fOstream <<
+          endl <<
+          idtr;
+        fSequentialMusicElementsCounter = 1;
+      }
+      // print the rest name
       fOstream <<
         "r";
       
@@ -1301,6 +1338,13 @@ void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrChord" << endl;
+
+  if (++fSequentialMusicElementsCounter > 10) {
+    fOstream <<
+      endl <<
+      idtr;
+    fSequentialMusicElementsCounter = 1;
+  }
 
   fOstream << "<";
 }
