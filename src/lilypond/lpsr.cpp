@@ -1962,6 +1962,7 @@ lpsrLayout::lpsrLayout (
   fMillimeters = -1;
   fTenths      = -1;
 */
+  fStaffGlobalSize = 20; // LilyPond default
 }
 
 lpsrLayout::~lpsrLayout() {}

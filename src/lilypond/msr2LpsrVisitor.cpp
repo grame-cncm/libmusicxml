@@ -167,7 +167,7 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
   // get LPSR score global staff size
   float
     globalStaffSize =
-      scoreLayout->globalStaffSize ();
+      elt->globalStaffSize ();
 
   // populate layout
   /*
