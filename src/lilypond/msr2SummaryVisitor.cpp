@@ -793,13 +793,15 @@ void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
       "--> Start visiting msrVarValAssoc" << endl;
 
   fOstream << idtr <<
-    "msrVarValAssoc" << endl;
+    "VarValAssoc" << endl;
   
   idtr++;
   
   fOstream <<
-    idtr << "variable name: " << elt->getVariableName () << endl <<
-    idtr << "variable name: " << elt->getVariableValue () <<endl;
+    idtr << "variable name : " <<
+    "\"" << elt->getVariableName () << "\"" << endl <<
+    idtr << "variable value: " <<
+    "\"" << elt->getVariableValue () << "\"" << endl;
   
   idtr--;
 }

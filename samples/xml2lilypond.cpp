@@ -117,10 +117,11 @@ void printUsage (int exitStatus)
     "          Write a summary of the MSR score to standard error." << endl <<
     endl <<
 
-    "    --part, --partName 'orginal myOwn'" << endl <<
-    "    --part, --partName \"orginal myOwn\"" << endl <<
-    "          Rename part 'original' to 'myOwn', for example after " << endl <<
+    "    --part, --partName 'original newName'" << endl <<
+    "    --part, --partName \"original newName\"" << endl <<
+    "          Rename part 'original' to 'newName', for example after " << endl <<
     "          displaying a summary of the score in a first xml2lilypond run." << endl <<
+    "          There can be several occurrences of this option." << endl <<
     endl <<
 
     "  LPSR:" << endl <<

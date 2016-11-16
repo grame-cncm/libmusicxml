@@ -561,7 +561,25 @@ ostream& operator<< (ostream& os, const S_msrBeam& beam)
 
 void msrBeam::print (ostream& os)
 {
-  os << "Beam" << endl; // JMI
+  os << idtr <<
+    "Beam" <<
+    " number: " << fBeamNumber <<
+    ", kind: ";
+
+  switch (fBeamKind) {
+    case kBeginBeam:
+      os << "begin";
+      break;
+    case kContinueBeam:
+      os << "continue";
+      break;
+    case kEndBeam:
+      os << "end";
+      break;
+    case k_NoBeam:
+      os << "### none ###";
+      break;
+  } // switch
 }
 
 //______________________________________________________________________________

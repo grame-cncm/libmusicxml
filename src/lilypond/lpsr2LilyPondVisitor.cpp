@@ -1332,13 +1332,17 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBeam& elt)
     fOstream << idtr <<
       "% --> Start visiting msrBeam" << endl;
 
+  // LilyPond will take care of multiple beams automatically,
+  // so we need only generate code for the first number (level)
   switch (elt->getBeamKind ()) {
     case msrBeam::kBeginBeam:
-      fOstream << "[ ";
+      if (elt->getBeamNumber () == 1)
+        fOstream << "[ ";
       break;
     case msrBeam::kContinueBeam:
       break;
     case msrBeam::kEndBeam:
+      if (elt->getBeamNumber () == 1)
       fOstream << "] ";
       break;
     case msrBeam::k_NoBeam:

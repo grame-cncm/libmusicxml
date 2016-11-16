@@ -459,7 +459,8 @@ class EXP msrBeam : public msrElement
       int           number,
       msrBeamKind   beamKind);
 
-    msrBeamKind getBeamKind () const { return fBeamKind; }
+    msrBeamKind getBeamKind   () const { return fBeamKind; }
+    int         getBeamNumber () const { return fBeamNumber; }
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
