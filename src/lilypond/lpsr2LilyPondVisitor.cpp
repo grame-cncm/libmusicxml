@@ -264,6 +264,39 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrVarValAssoc& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_lpsrSchemeVarValAssoc& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting lpsrSchemeVarValAssoc" << endl;
+
+  fOstream << idtr;
+
+  if (elt->getCommentedKind () == lpsrVarValAssoc::kCommented)
+    fOstream << "\%";
+  
+  fOstream <<
+    elt->getVariableName () <<
+    " ";
+    elt->getVariableValue ();
+    
+  switch (elt->getEndlKind ()) {
+    case lpsrSchemeVarValAssoc::kWithEndl:
+      fOstream << endl;
+      break;
+    case lpsrSchemeVarValAssoc::kWithoutEndl:
+      break;
+  } // switch
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrSchemeVarValAssoc& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting lpsrSchemeVarValAssoc" << endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrHeader& elt)
 {
   if (fMsrOptions->fDebug)

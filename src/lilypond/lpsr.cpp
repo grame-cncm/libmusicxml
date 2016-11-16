@@ -914,8 +914,8 @@ void lpsrVarValAssoc::print (ostream& os)
       os << "without";
       break;
   } // switch
-  os << " afterwards";
-  os << idtr << endl;
+  os << " end line afterwards";
+  os << endl;
   
   os << idtr << endl;
 
@@ -929,12 +929,13 @@ S_lpsrSchemeVarValAssoc lpsrSchemeVarValAssoc::create (
   int               inputLineNumber,
   string            variableName,
   string            value, 
-  lpsrCommentedKind commentedKind)
+  lpsrCommentedKind commentedKind,
+  lpsrEndlKind      endlKind)
 {
   lpsrSchemeVarValAssoc* o =
     new lpsrSchemeVarValAssoc (
       msrOpts, lpsrOpts, inputLineNumber,
-      variableName, value, commentedKind);
+      variableName, value, commentedKind, endlKind);
   assert(o!=0);
   return o;
 }
@@ -945,12 +946,16 @@ lpsrSchemeVarValAssoc::lpsrSchemeVarValAssoc (
   int               inputLineNumber,
   string            variableName,
   string            value, 
-  lpsrCommentedKind commentedKind)
+  lpsrCommentedKind commentedKind,
+  lpsrEndlKind      endlKind)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {
-  fVariableName=variableName;
-  fVariableValue=value;
-  fCommentedKind=commentedKind;
+  fCommentedKind = commentedKind;
+
+  fVariableName  = variableName;
+  fVariableValue = value;
+
+  fEndlKind      = endlKind;
 }
 
 lpsrSchemeVarValAssoc::~lpsrSchemeVarValAssoc() {}
@@ -1001,22 +1006,44 @@ ostream& operator<< (ostream& os, const S_lpsrSchemeVarValAssoc& assoc)
 void lpsrSchemeVarValAssoc::print (ostream& os)
 {
   os << "SchemeVarValAssoc" << endl;
+
   idtr++;
-  os << idtr << fVariableName << endl;
-  os << idtr << fVariableValue <<endl;
+
+  os << idtr;
+  switch (fCommentedKind) {
+    case kCommented:
+      os << "commented";
+      break;
+    case kUncommented:
+      os << "uncommented";
+      break;
+  } // switch
+  os << endl;
+
+  os <<
+    idtr << "variable name : \"" << fVariableName << "\"" <<
+    endl;
+  
+  os <<
+    idtr << "variable value: \"" << fVariableValue << "\"" <<
+    endl;
+
+  os << idtr;
+  switch (fEndlKind) {
+    case kWithEndl:
+      os << "with";
+      break;
+    case kWithoutEndl:
+      os << "without";
+      break;
+  } // switch
+  os << " end line afterwards";
+  os << endl;
+  
+  os << idtr << endl;
+
   idtr--;
 }
-
-/*
-void lpsrSchemeVarValAssoc::printLilyPondCode (ostream& os)
-{
-  if (fCommentedKind == kCommented) os << "\%";
-  os <<
-    "#(" << 
-    fVariableName << " " << fVariableValue << 
-    ")" << endl;
-}
-*/
 
 //______________________________________________________________________________
 S_lpsrNewStaffgroupCommand lpsrNewStaffgroupCommand::create (
@@ -1975,7 +2002,6 @@ void lpsrLayout::acceptOut (basevisitor* v) {
   }
 }
 
-
 void lpsrLayout::browseData (basevisitor* v)
 {
   int n1 = fLpsrVarValAssocs.size();
@@ -2186,7 +2212,8 @@ lpsrScore::lpsrScore (
       inputLineNumber,
       "set-global-staff-size",
       "-1",
-      lpsrSchemeVarValAssoc::kCommented);
+      lpsrSchemeVarValAssoc::kCommented,
+      lpsrSchemeVarValAssoc::kWithEndl);
 
   // create the header
   fHeader =

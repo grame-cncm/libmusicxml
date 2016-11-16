@@ -177,24 +177,28 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
     setMillimeters (elt->getMillimeters ());
   scoreCommandLayout->
     setTenths (elt->getTenths ());
-
-  /* JMI
-  S_lpsrSchemeVarValAssoc
-    schemeVarValAssoc =
-      lpsrSchemeVarValAssoc::create (
-        fMsrOptions,
-        fLpsrOptions,
-        0,
-        "set-global-staff-size",
-        "-4",
-        lpsrSchemeVarValAssoc::kCommented);
-  */
   
   // populate score global staff size
   fLpsrScore->
     setGlobalStaffSize (
       scoreLayout->globalStaffSize ());
 
+  // create the score command layout staff size assoc
+  stringstream s;
+  s << scoreLayout->globalStaffSize ();
+  S_lpsrSchemeVarValAssoc
+    assoc =
+      lpsrSchemeVarValAssoc::create (
+        fMsrOptions,
+        fLpsrOptions,
+        0, // JMI
+        "layout-set-staff-size",
+        s.str(),
+        lpsrSchemeVarValAssoc::kCommented,
+        lpsrSchemeVarValAssoc::kWithEndl);
+
+   scoreCommandLayout->
+    addLpsrSchemeVarValAssoc (assoc);
 
 /* JMI
     void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
