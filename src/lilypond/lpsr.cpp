@@ -838,9 +838,20 @@ ostream& operator<< (ostream& os, const S_lpsrVarValAssoc& assoc) {
 
 void lpsrVarValAssoc::print (ostream& os)
 {
-  os << "LPSR VarValAssoc" << endl;
+  os << "LpsrVarValAssoc" << endl;
   
   idtr++;
+
+  os << idtr;
+  switch (fCommentedKind) {
+    case kCommented:
+      os << "commented";
+      break;
+    case kUncommented:
+      os << "uncommented";
+      break;
+  } // switch
+  os << endl;
 
   os << idtr;
   switch (fBackslashKind) {
@@ -851,11 +862,12 @@ void lpsrVarValAssoc::print (ostream& os)
       os << "without backslash";
       break;
   } // switch
+  os << " before variable name";
   os << endl;
   
   os <<
-    idtr << fVariableName << endl <<
-    idtr << fVariableValue << endl;
+    idtr << "variable name: \"" << fVariableName << "\"" <<
+    endl;
   
   os << idtr;
   switch (fVarValSeparator) {
@@ -866,6 +878,7 @@ void lpsrVarValAssoc::print (ostream& os)
       os << "equal";
       break;
   } // switch
+  os << " separator";
   os << idtr << endl;
 
   os << idtr;
@@ -877,18 +890,34 @@ void lpsrVarValAssoc::print (ostream& os)
       os << "noQuotes";
       break;
   } // switch
+  os << " around value";
   os << idtr << endl;
 
+  os <<
+    idtr << "variable value: \"" << fVariableValue << "\"" <<
+    endl;
+
+  os <<
+    idtr << "unit: ";
+  if (fUnit.size())
+    os << "\"" << fUnit << "\"";
+  else
+    os << "none";
+  os << endl;
+
   os << idtr;
-  switch (fCommentedKind) {
-    case kCommented:
-      os << "commented";
+  switch (fEndlKind) {
+    case kWithEndl:
+      os << "with";
       break;
-    case kUncommented:
-      os << "uncommented";
+    case kWithoutEndl:
+      os << "without";
       break;
   } // switch
-  os << idtr << endl << endl;
+  os << " afterwards";
+  os << idtr << endl;
+  
+  os << idtr << endl;
 
   idtr--;
 }
@@ -2149,7 +2178,7 @@ lpsrScore::lpsrScore (
       lpsrVarValAssoc::g_NoUnit,
       lpsrVarValAssoc::kWithEndl);
 
-  // create the global staff size assoc // JMI
+  // create the global staff size assoc
   fGlobalStaffSize =
     lpsrSchemeVarValAssoc::create (
       fMsrOptions,
@@ -2256,6 +2285,12 @@ void lpsrScore::browseData (basevisitor* v)
     msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fLilyPondVersion);
   }
+  
+  {
+    // browse the score global size
+    msrBrowser<lpsrSchemeVarValAssoc> browser (v);
+    browser.browse (*fGlobalStaffSize);
+  }
 
   {
     // browse the score header
@@ -2316,6 +2351,7 @@ void lpsrScore::print (ostream& os)
     os << idtr << fMsrScore;
 
   os << idtr << fLilyPondVersion << endl;
+  os << idtr << fGlobalStaffSize << endl;
   os << idtr << fHeader << endl;
   os << idtr << fPaper << endl;
   os << idtr << fScoreLayout << endl;
