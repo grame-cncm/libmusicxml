@@ -906,6 +906,22 @@ void lpsrVarValAssoc::print (ostream& os)
   else
     os << "none";
   os << endl;
+  
+  os <<
+    idtr << "comment: ";
+  if (fComment.size())
+    os << "\"" << fComment << "\"";
+  else
+    os << "none";
+  os << endl;
+
+  os <<
+    idtr << "comment: ";
+  if (fComment.size())
+    os << "\"" << fComment << "\"";
+  else
+    os << "none";
+  os << endl;
 
   os << idtr;
   switch (fEndlKind) {
@@ -1036,6 +1052,14 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
   os <<
     idtr << "variable value: \"" << fVariableValue << "\"" <<
     endl;
+
+  os <<
+    idtr << "comment: ";
+  if (fComment.size())
+    os << "\"" << fComment << "\"";
+  else
+    os << "none";
+  os << endl;
 
   os << idtr;
   switch (fEndlKind) {
@@ -2255,6 +2279,7 @@ lpsrScore::lpsrScore (
       lpsrVarValAssoc::g_VarValAssocNoComment,
       lpsrVarValAssoc::kWithEndl);
 
+/* JMI
   // create a comment
   S_lpsrComment
     comment =
@@ -2266,6 +2291,7 @@ lpsrScore::lpsrScore (
         lpsrComment::kGapAfterwards);
 
   appendCommentToScore (comment);
+*/
 
   // create the global staff size assoc
   fGlobalStaffSizeAssoc =
@@ -2274,7 +2300,7 @@ lpsrScore::lpsrScore (
       lpsrSchemeVarValAssoc::kCommented,
       "set-global-staff-size",
       "20", // the LilyPond default
-      lpsrSchemeVarValAssoc::g_SchemeVarValAssocNoComment,
+      "Uncomment next line to use MusicXML staff size",
       lpsrSchemeVarValAssoc::kWithEndl);
 
   // create the header

@@ -212,6 +212,14 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrVarValAssoc& elt)
 
   fOstream << idtr;
 
+  if (elt->getComment ().size())
+    fOstream <<
+      "% " << elt->getComment () << endl <<
+      idtr;
+
+  if (elt->getCommentedKind () == lpsrVarValAssoc::kCommented)
+    fOstream << "\%";
+  
   switch (elt->getBackslashKind ()) {
     case lpsrVarValAssoc::kWithBackslash:
       fOstream << "\\";
@@ -219,9 +227,6 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrVarValAssoc& elt)
     case lpsrVarValAssoc::kWithoutBackslash:
       break;
   } // switch
-  
-  if (elt->getCommentedKind () == lpsrVarValAssoc::kCommented)
-    fOstream << "\%";
   
   fOstream <<
     elt->getVariableName ();
@@ -272,8 +277,13 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrSchemeVarValAssoc& elt)
 
   fOstream << idtr;
 
+  if (elt->getComment ().size())
+    fOstream <<
+      "% " << elt->getComment () << endl <<
+      idtr;
+
   if (elt->getCommentedKind () == lpsrVarValAssoc::kCommented)
-    fOstream << "\%";
+    fOstream << "\% ";
   
   fOstream <<
     "#(" <<
@@ -385,8 +395,6 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPaper& elt)
     os << idtr << "page-top-space = " << setprecision(4) << elt->getPageTopSpace << "\\cm" << endl;
   }
 */
-
-  idtr--;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrPaper& elt)
@@ -754,8 +762,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyrics& elt)
       "% --> Start visiting msrLyrics" << endl;
 
   fOstream << idtr <<
-    elt->getLyricsName () << " = " << "\\lyricmode" << " {" << endl;
+    elt->getLyricsName () << " = " << "\\lyricmode" << " {" <<
+    endl;
+    
   idtr++;
+  
   fOstream << idtr;
 }
 
@@ -1006,11 +1017,15 @@ void lpsr2LilyPondVisitor::visitStart (S_msrSequentialMusic& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrSequentialMusic" << endl;
-
+/*
   fOstream << idtr <<
-    "{ " << " % msrSequentialMusic" << endl;
+    "{ " << " % msrSequentialMusic" <<
+    endl;
+    
   idtr++;
+  
   fOstream << idtr;
+  */
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrSequentialMusic& elt)
@@ -1018,13 +1033,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrSequentialMusic& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrSequentialMusic" << endl;
-
+/*
   idtr--;
   
   fOstream <<
     endl <<
     idtr << "}" << " % msrSequentialMusic" <<
     endl;
+    */
 }
 
 //________________________________________________________________________

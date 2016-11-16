@@ -218,6 +218,7 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
     setTenths (elt->getTenths ());
   */
 
+/*
   // create a comment
   S_lpsrComment
     comment =
@@ -230,6 +231,7 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
 
  // JMI scoreCommandLayout->
    // appendCommentToScore (comment);
+*/
 
   // populate score command layout
   scoreCommandLayout->

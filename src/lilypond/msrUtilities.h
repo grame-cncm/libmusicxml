@@ -14,6 +14,8 @@
 #define __msrUtilities__
 
 #include <string>
+#include <cassert>
+#include <iostream>
 #include <set>
 
 #include "basevisitor.h"
@@ -33,10 +35,27 @@ class indenter {
     virtual ~indenter();
 
     // increase the indentation
-    indenter& operator++ (int) { fIndent++; return *this; }
+    indenter& operator++ (int)
+        {
+          fIndent++;
+          return *this;
+        }
     
     // decrease the indentation
-    indenter& operator-- (int) { fIndent--; return *this; }
+    indenter& operator-- (int)
+        {
+          fIndent--;
+          
+          if (fIndent < 0) {
+            std::cerr <<
+              std::endl <<
+              "### Indentation has become negative..." << std::endl <<
+              std::endl;
+            assert(false);
+          }
+            
+          return *this;
+        }
     
     // reset the indentation to none
     void print(std::ostream& os) const;
