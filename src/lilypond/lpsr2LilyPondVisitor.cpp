@@ -403,11 +403,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPaper& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrLayout& elt)
+void lpsr2LilyPondVisitor::visitStart (S_lpsrLayout& elt)
 {
-//  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting msrLayout" << endl;
+      "% --> Start visiting lpsrLayout" << endl;
 
   fOstream << idtr <<
     "\\layout" << " {" <<
@@ -416,13 +416,13 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLayout& elt)
   idtr++;
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_msrLayout& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrLayout& elt)
 {
   idtr--;
 
- // if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting msrLayout" << endl;
+      "% --> End visiting lpsrLayout" << endl;
 
   fOstream << idtr <<
     "}" <<

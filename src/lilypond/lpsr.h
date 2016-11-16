@@ -1040,11 +1040,11 @@ class EXP lpsrLayout : public lpsrElement
     float   getTenths             () const    { return fTenths; }
 */
 
-    float   getGlobalStaffSize () const
-                { return fStaffGlobalSize; }
+    float   getStaffSize () const
+                { return fStaffSize; }
                 
     void    setGlobalStaffSize (float size)
-                { fStaffGlobalSize = size; }
+                { fStaffSize = size; }
 
     void    addLpsrVarValAssoc (
               S_lpsrVarValAssoc assoc)
@@ -1075,7 +1075,7 @@ class EXP lpsrLayout : public lpsrElement
 //    int                             fMillimeters;
 //    int                             fTenths;
 
-    float                           fStaffGlobalSize;
+    float                           fStaffSize;
     
     vector<S_lpsrVarValAssoc>       fLpsrVarValAssocs;
     vector<S_lpsrSchemeVarValAssoc> fLpsrSchemeVarValAssocs;

@@ -1963,7 +1963,7 @@ lpsrLayout::lpsrLayout (
   fMillimeters = -1;
   fTenths      = -1;
 */
-  fStaffGlobalSize = 20; // LilyPond default
+  fStaffSize = 20; // LilyPond default
 }
 
 lpsrLayout::~lpsrLayout() {}
@@ -2046,6 +2046,10 @@ void lpsrLayout::print (ostream& os)
       setprecision(4) << fTenths << endl;
   }
 */
+  os << idtr <<
+    "StaffSize: " << fStaffSize <<
+    endl;
+    
   int n1 = fLpsrVarValAssocs.size();
   
   for (int i = 0; i < n1; i++ ) {
