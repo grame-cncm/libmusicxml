@@ -188,6 +188,9 @@ class EXP msrOptions : public smartable {
     // MSR score summary
     bool                            fDisplayMSRScoreSummary;
 
+    // parts renaming
+    set<string>                     fPartNamesSpecsSet;
+    
     // interactive mode
     bool                            fInteractive;
     
@@ -1975,6 +1978,8 @@ class EXP msrVoice : public msrElement
     S_msrLyrics
               getVoiceMasterLyrics () { return fVoiceMasterLyrics; }
                
+    void      appendKeyToVoice        (S_msrKey key);
+    
     void      appendNoteToVoice       (S_msrNote note);
     void      appendChordToVoice      (S_msrChord chord);
     void      appendTupletToVoice     (S_msrTuplet tuplet);
@@ -2105,6 +2110,8 @@ class EXP msrStaff : public msrElement
     S_msrVoice
               fetchVoiceFromStaff (int voiceNumber);
                               
+    void      setAllStaffVoicesKey  (S_msrKey  key);
+              
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 

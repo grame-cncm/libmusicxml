@@ -241,6 +241,8 @@ void analyzeOptions (
   
   int displayMSRScoreSummaryPresent     = 0;
   
+  int partNamePresent                   = 0;
+  
   // LPSR options
   // ------------
 
@@ -412,6 +414,17 @@ void analyzeOptions (
       &displayMSRScoreSummaryPresent, 1
     },
 
+    {
+      "part",
+      required_argument,
+      &partNamePresent, 1
+    },
+    {
+      "partName",
+      required_argument,
+      &partNamePresent, 1
+    },
+
     // LPSR options
     // ------------
 
@@ -531,18 +544,21 @@ void analyzeOptions (
           s <<
             "--outputFile" << " " << outputFileName;
           msrOpts->fCommandLineOptions += s.str();
+          outputFilePresent = false;
         }
 
         if (interactivePresent) {
           msrOpts->fInteractive = false;
           msrOpts->fCommandLineOptions +=
             "--interactive ";
+          interactivePresent = false;
         }
         
         if (noTracePresent) {
           msrOpts->fTrace = false;
           msrOpts->fCommandLineOptions +=
             "--noTrace ";
+          noTracePresent = false;
         }
         
         if (debugPresent) {
@@ -550,12 +566,14 @@ void analyzeOptions (
           msrOpts->fDebug = true;
           msrOpts->fCommandLineOptions +=
             "--debug ";
+          debugPresent = false;
         }
         if (debugDebugPresent) {
           msrOpts->fTrace = true;
           msrOpts->fDebugDebug = true;
           msrOpts->fCommandLineOptions +=
             "--debugDebug ";
+          debugDebugPresent = false;
         }
         
         if (debugMeasuresPresent) {
@@ -566,11 +584,14 @@ void analyzeOptions (
           stringstream s;
 
           s <<
-            "--debugMeasures" << " " << measuresSpec;
+            "--debugMeasures" << " " << measuresSpec << " ";
           msrOpts->fCommandLineOptions += s.str();
             
           msrOpts->fDebugMeasureNumbersSet =
-            decipherNumbersSetSpecification (measuresSpec);
+            decipherNumbersSetSpecification (
+//              measuresSpec, true); // do debug it
+              measuresSpec, false); // don't debug it
+          debugMeasuresPresent = false;
         }
         if (debugdebugMeasuresPresent) {
           msrOpts->fTrace = true;
@@ -585,6 +606,7 @@ void analyzeOptions (
             
           msrOpts->fDebugMeasureNumbersSet =
             decipherNumbersSetSpecification (measuresSpec);
+          debugdebugMeasuresPresent = false;
         }
 
         // MSR options
@@ -603,37 +625,57 @@ void analyzeOptions (
             msrOpts->fMsrNoteNamesLanguage = kNederlands;
           }
           msrOpts->fCommandLineOptions +=
-            "--language "+msrOpts->fMsrNoteNamesLanguageAsString+" ";
+            "--language " +
+            msrOpts->fMsrNoteNamesLanguageAsString +
+            " ";
+          languagePresent = false;
           }
              
         if (staffRelativeVoiceNumbersPresent) {
           msrOpts->fCreateStaffRelativeVoiceNumbers = true;
           msrOpts->fCommandLineOptions +=
             "--staffRelativeVoiceNumbers ";
+          staffRelativeVoiceNumbersPresent = false;
         }
         
         if (dontDisplayMSRLyricsPresent) {
           msrOpts->fDontDisplayMSRLyrics = true;
           msrOpts->fCommandLineOptions +=
             "--dontGenerateLyrics ";
+          dontDisplayMSRLyricsPresent = false;
         }
         
         if (delayRestsDynamicsPresent) {
           msrOpts->fDelayRestsDynamics = true;
           msrOpts->fCommandLineOptions +=
             "--delayRestsDynamics ";
+          delayRestsDynamicsPresent = false;
         }
         
         if (displayMSRPresent) {
           msrOpts->fDisplayMSR = true;
           msrOpts->fCommandLineOptions +=
             "--displayMSR ";
+          displayMSRPresent = false;
         }
 
         if (displayMSRScoreSummaryPresent) {
           msrOpts->fDisplayMSRScoreSummary = true;
           msrOpts->fCommandLineOptions +=
             "--displayScoreSummary ";
+          displayMSRScoreSummaryPresent = false;
+        }
+        
+        if (partNamePresent) {
+          char*        partNameSpec = optarg;
+          stringstream s;
+
+          s <<
+            "--partName" << " \"" << partNameSpec << "\" ";
+          msrOpts->fCommandLineOptions += s.str();
+            
+          msrOpts->fPartNamesSpecsSet.insert (partNameSpec);
+          partNamePresent = false;
         }
         
         // LPSR options
@@ -643,12 +685,14 @@ void analyzeOptions (
           lpsrOpts->fDisplayLPSR = true;
           msrOpts->fCommandLineOptions +=
             "--displayLPSR ";
+          displayLPSRPresent = false;
         }
 
         if (absolutePresent) {
           lpsrOpts->fGenerateAbsoluteOctaves = true;
           msrOpts->fCommandLineOptions +=
             "--absolute ";
+          absolutePresent = false;
         }
         
         if (numericaltimePresent) {
@@ -660,6 +704,7 @@ void analyzeOptions (
           lpsrOpts->fGenerateComments = false;
           msrOpts->fCommandLineOptions +=
             "--noComments ";
+          numericaltimePresent = false;
         }
         if (stemsPresent) {
           lpsrOpts->fGenerateStems = true;
@@ -670,18 +715,21 @@ void analyzeOptions (
           lpsrOpts->fGeneratePositions = true;
           msrOpts->fCommandLineOptions +=
             "--positions ";
+          stemsPresent = false;
         }
         
         if (dontGenerateLilyPondLyricsPresent) {
           lpsrOpts->fDontGenerateLilyPondLyrics = true;
           msrOpts->fCommandLineOptions +=
             "--dontGenerateLyrics ";
+          dontGenerateLilyPondLyricsPresent = false;
         }
         
-        if (dontDisplayLilyPondCodePresent) {
+        if (dontGenerateLilyPondLyricsPresent) {
           lpsrOpts->fDontDisplayLilyPondCode = true;
           msrOpts->fCommandLineOptions +=
             "--dontDisplayLilyPondCode ";
+          dontGenerateLilyPondLyricsPresent = false;
         }
 
         }
@@ -746,14 +794,17 @@ void printOptions (
       string(msrOpts->fDebugDebug
         ? "true" : "false") << endl <<
     "  " << setw(31) << "debugMeasureNumbersSet" << " : ";
-    
-  for (
-    set<int>::const_iterator i =
-      msrOpts->fDebugMeasureNumbersSet.begin();
-    i != msrOpts->fDebugMeasureNumbersSet.end();
-    i++) {
-      cerr << (*i) << " ";
-  } // for
+
+  if (msrOpts->fDebugMeasureNumbersSet.empty ())
+    cerr << "none";
+  else
+    for (
+      set<int>::const_iterator i =
+        msrOpts->fDebugMeasureNumbersSet.begin();
+      i != msrOpts->fDebugMeasureNumbersSet.end();
+      i++) {
+        cerr << (*i) << " ";
+    } // for
   
   cerr << endl;
 
@@ -785,8 +836,23 @@ void printOptions (
     
     "  " << setw(31) << "displayMSRScoreSummary" << " : " <<
       string(msrOpts->fDisplayMSRScoreSummary
-        ? "true" : "false") << endl;
+        ? "true" : "false") << endl <<
     
+    "  " << setw(31) << "partNamesSpecsSet" << " : ";
+    
+  if (msrOpts->fPartNamesSpecsSet.empty ())
+    cerr << "none";
+  else
+    for (
+      set<string>::const_iterator i =
+        msrOpts->fPartNamesSpecsSet.begin();
+      i != msrOpts->fPartNamesSpecsSet.end();
+      i++) {
+        cerr << "\"" << (*i) << "\" ";
+    } // for
+  
+  cerr << endl;
+
   // LPSR options
   // ------------
 

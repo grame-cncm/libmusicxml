@@ -326,21 +326,23 @@ set<int> decipherNumbersSetSpecification (
     } // for
 
     if (*cursor != ',') {
-      cout <<
-        "--> decipherNumbersSpecification, after non ',' : cursor = |" <<
-        *cursor <<
-        "|" <<
-        endl << endl;
+      if (debugMode)
+        cout <<
+          "--> decipherNumbersSpecification, after non ',' : cursor = |" <<
+          *cursor <<
+          "|" <<
+          endl << endl;
       break; 
     }
 
     cursor++;
 
-    cout <<
-      "--> decipherNumbersSpecification after ',' : cursor = |" <<
-      *cursor <<
-      "|"
-      << endl << endl;
+    if (debugMode)
+      cout <<
+        "--> decipherNumbersSpecification after ',' : cursor = |" <<
+        *cursor <<
+        "|"
+        << endl << endl;
   } // while 
 
   if (* cursor != '\0') {

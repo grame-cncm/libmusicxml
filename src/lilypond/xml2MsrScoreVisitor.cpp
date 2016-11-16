@@ -506,7 +506,7 @@ void xml2MsrScoreVisitor::visitStart ( S_group_barline& elt)
 void xml2MsrScoreVisitor::showPartgroupsData (string context)
 {    
 //  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebugDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartgroupsMap contains:" << endl;
     if (fPartgroupsMap.size()) {
@@ -528,7 +528,7 @@ void xml2MsrScoreVisitor::showPartgroupsData (string context)
   }
 
  // if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebugDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartgroupsList contains:" << endl;
     if (fPartgroupsList.size()) {
@@ -1045,11 +1045,15 @@ void xml2MsrScoreVisitor::visitEnd ( S_key& elt )
   if (fCurrentKeyStaffNumber == 0)
     fCurrentPart->setAllPartStavesKey (key);
   else {
+    // JMI ???
     S_msrStaff
       staff =
         fCurrentPart->
           fetchStaffFromPart (fCurrentKeyStaffNumber);
+
     staff->setStaffKey (key);
+ // JMI   fCurrentPart->
+ //     setAllPartStavesKey (key);
   }
 }
 

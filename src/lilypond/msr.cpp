@@ -188,7 +188,7 @@ void msrElement::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr <<
             "==> Launching msrElement::visitStart()" << endl;
         p->visitStart (elem);
@@ -205,7 +205,7 @@ void msrElement::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr <<
             "==> Launching msrElement::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -350,7 +350,7 @@ void msrDuration::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrDuration>*> (v)) {
         S_msrDuration elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrDuration::visitStart()" << endl;
         p->visitStart (elem);
@@ -367,7 +367,7 @@ void msrDuration::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrDuration>*> (v)) {
         S_msrDuration elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrDuration::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -523,7 +523,7 @@ void msrArticulation::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrArticulation>*> (v)) {
         S_msrArticulation elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrArticulation::visitStart()" << endl;
         p->visitStart (elem);
@@ -540,7 +540,7 @@ void msrArticulation::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrArticulation>*> (v)) {
         S_msrArticulation elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrArticulation::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -681,7 +681,7 @@ void msrDynamics::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrDynamics>*> (v)) {
         S_msrDynamics elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrDynamics::visitStart()" << endl;
         p->visitStart (elem);
@@ -698,7 +698,7 @@ void msrDynamics::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrDynamics>*> (v)) {
         S_msrDynamics elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrDynamics::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -775,7 +775,7 @@ void msrWedge::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrWedge>*> (v)) {
         S_msrWedge elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrWedge::visitStart()" << endl;
         p->visitStart (elem);
@@ -792,7 +792,7 @@ void msrWedge::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrWedge>*> (v)) {
         S_msrWedge elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrWedge::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -867,7 +867,7 @@ void msrSlur::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrSlur::visitStart()" << endl;
         p->visitStart (elem);
@@ -884,7 +884,7 @@ void msrSlur::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrSlur::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -932,7 +932,7 @@ msrNote::msrNote (
   fNoteSlurKind = slurKind;
 
 //  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebugDebug) {
     cerr << idtr <<
       "==> fMusicXMLNoteData contains:" << endl;
     cerr <<
@@ -1363,7 +1363,7 @@ void msrNote::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrNote>*> (v)) {
         S_msrNote elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrNote::visitStart()" << endl;
         p->visitStart (elem);
@@ -1380,7 +1380,7 @@ void msrNote::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrNote>*> (v)) {
         S_msrNote elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrNote::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -1673,7 +1673,7 @@ void msrSequentialMusic::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrSequentialMusic>*> (v)) {
         S_msrSequentialMusic elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrSequentialMusic::visitStart()" << endl;
         p->visitStart (elem);
@@ -1690,7 +1690,7 @@ void msrSequentialMusic::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrSequentialMusic>*> (v)) {
         S_msrSequentialMusic elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrSequentialMusic::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -1699,7 +1699,7 @@ void msrSequentialMusic::acceptOut (basevisitor* v) {
 
 void msrSequentialMusic::browseData (basevisitor* v)
 {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrSequentialMusic::browseData()" << endl;
   
@@ -1714,7 +1714,7 @@ void msrSequentialMusic::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "<== msrSequentialMusic::browseData()" << endl;
 }
@@ -1784,7 +1784,7 @@ void msrParallelMusic::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrParallelMusic>*> (v)) {
         S_msrParallelMusic elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrParallelMusic::visitStart()" << endl;
         p->visitStart (elem);
@@ -1801,7 +1801,7 @@ void msrParallelMusic::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrParallelMusic>*> (v)) {
         S_msrParallelMusic elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrParallelMusic::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -1879,7 +1879,7 @@ void msrChord::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrChord>*> (v)) {
         S_msrChord elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrChord::visitStart()" << endl;
         p->visitStart (elem);
@@ -1896,7 +1896,7 @@ void msrChord::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrChord>*> (v)) {
         S_msrChord elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrChord::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -1996,7 +1996,7 @@ void msrBarLine::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarLine>*> (v)) {
         S_msrBarLine elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrBarLine::visitStart()" << endl;
         p->visitStart (elem);
@@ -2013,7 +2013,7 @@ void msrBarLine::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarLine>*> (v)) {
         S_msrBarLine elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrBarLine::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2071,7 +2071,7 @@ void msrComment::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrComment>*> (v)) {
         S_msrComment elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrComment::visitStart()" << endl;
         p->visitStart (elem);
@@ -2088,7 +2088,7 @@ void msrComment::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrComment>*> (v)) {
         S_msrComment elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrComment::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2148,7 +2148,7 @@ void msrBreak::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrBreak>*> (v)) {
         S_msrBreak elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrBreak::visitStart()" << endl;
         p->visitStart (elem);
@@ -2165,7 +2165,7 @@ void msrBreak::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrBreak>*> (v)) {
         S_msrBreak elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrBreak::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2222,7 +2222,7 @@ void msrBarNumberCheck::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
         S_msrBarNumberCheck elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrBarNumberCheck::visitStart()" << endl;
         p->visitStart (elem);
@@ -2239,7 +2239,7 @@ void msrBarNumberCheck::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
         S_msrBarNumberCheck elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrBarNumberCheck::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2317,7 +2317,7 @@ void msrTuplet::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrTuplet>*> (v)) {
         S_msrTuplet elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrTuplet::visitStart()" << endl;
         p->visitStart (elem);
@@ -2334,7 +2334,7 @@ void msrTuplet::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrTuplet>*> (v)) {
         S_msrTuplet elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrTuplet::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2399,7 +2399,7 @@ void msrBeam::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrBeam::visitStart()" << endl;
         p->visitStart (elem);
@@ -2416,7 +2416,7 @@ void msrBeam::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrBeam::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2489,7 +2489,7 @@ void msrPageGeometry::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrPageGeometry>*> (v)) {
         S_msrPageGeometry elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrPageGeometry::visitStart()" << endl;
         p->visitStart (elem);
@@ -2506,7 +2506,7 @@ void msrPageGeometry::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrPageGeometry>*> (v)) {
         S_msrPageGeometry elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrPageGeometry::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2666,7 +2666,7 @@ void msrVarValAssoc::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
         S_msrVarValAssoc elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrVarValAssoc::visitStart()" << endl;
         p->visitStart (elem);
@@ -2683,7 +2683,7 @@ void msrVarValAssoc::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
         S_msrVarValAssoc elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrVarValAssoc::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2744,7 +2744,7 @@ void msrLayout::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrLayout>*> (v)) {
         S_msrLayout elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrLayout::visitStart()" << endl;
         p->visitStart (elem);
@@ -2761,7 +2761,7 @@ void msrLayout::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrLayout>*> (v)) {
         S_msrLayout elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrLayout::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2848,7 +2848,7 @@ void msrClef::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrClef>*> (v)) {
         S_msrClef elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrClef::visitStart()" << endl;
         p->visitStart (elem);
@@ -2865,7 +2865,7 @@ void msrClef::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrClef>*> (v)) {
         S_msrClef elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrClef::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3076,7 +3076,7 @@ void msrKey::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrKey>*> (v)) {
         S_msrKey elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrKey::visitStart()" << endl;
         p->visitStart (elem);
@@ -3093,7 +3093,7 @@ void msrKey::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrKey>*> (v)) {
         S_msrKey elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrKey::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3157,7 +3157,7 @@ void msrTime::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrTime::visitStart()" << endl;
         p->visitStart (elem);
@@ -3174,7 +3174,7 @@ void msrTime::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrTime::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3234,7 +3234,7 @@ void msrTempo::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrTempo>*> (v)) {
         S_msrTempo elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrTempo::visitStart()" << endl;
         p->visitStart (elem);
@@ -3251,7 +3251,7 @@ void msrTempo::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrTempo>*> (v)) {
         S_msrTempo elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrTempo::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3306,7 +3306,7 @@ void msrRepeat::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrRepeat>*> (v)) {
         S_msrRepeat elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrRepeat::visitStart()" << endl;
         p->visitStart (elem);
@@ -3323,7 +3323,7 @@ void msrRepeat::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrRepeat>*> (v)) {
         S_msrRepeat elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrRepeat::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3407,7 +3407,7 @@ void msrLyricschunk::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrLyricschunk>*> (v)) {
         S_msrLyricschunk elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrLyricschunk::visitStart()" << endl;
         p->visitStart (elem);
@@ -3424,7 +3424,7 @@ void msrLyricschunk::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrLyricschunk>*> (v)) {
         S_msrLyricschunk elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrLyricschunk::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3766,7 +3766,7 @@ void msrLyrics::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrLyrics>*> (v)) {
         S_msrLyrics elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrLyrics::visitStart()" << endl;
         p->visitStart (elem);
@@ -3783,7 +3783,7 @@ void msrLyrics::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrLyrics>*> (v)) {
         S_msrLyrics elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrLyrics::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3792,7 +3792,7 @@ void msrLyrics::acceptOut (basevisitor* v) {
 
 void msrLyrics::browseData (basevisitor* v)
 {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrLyrics::browseData()" << endl;
   
@@ -4032,6 +4032,13 @@ S_msrLyrics msrVoice::fetchLyricsFromVoice (
   return result;
 }
 
+void msrVoice::appendKeyToVoice (S_msrKey key)
+{
+  S_msrElement c = key;
+  fVoiceSequentialMusic->
+    appendElementToSequentialMusic (c);
+}
+
 void msrVoice::appendNoteToVoice (S_msrNote note) {
   S_msrElement n = note;
   fVoiceSequentialMusic->appendElementToSequentialMusic (n);
@@ -4049,19 +4056,23 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       note->getInputLineNumber (), lyricsMsrDuration);
 }
 
-void msrVoice::appendChordToVoice (S_msrChord chord) {
+void msrVoice::appendChordToVoice (S_msrChord chord)
+{
   S_msrElement c = chord;
-  fVoiceSequentialMusic->appendElementToSequentialMusic (c);
+  fVoiceSequentialMusic->
+    appendElementToSequentialMusic (c);
 }
 
 void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
   S_msrElement t = tuplet;
-  fVoiceSequentialMusic->appendElementToSequentialMusic (t);
+  fVoiceSequentialMusic->
+    appendElementToSequentialMusic (t);
 }
 
 void msrVoice::appendElementToVoice (S_msrElement elem)
 {
-  fVoiceSequentialMusic->appendElementToSequentialMusic (elem);
+  fVoiceSequentialMusic->
+    appendElementToSequentialMusic (elem);
 }
 
 void msrVoice::acceptIn (basevisitor* v) {
@@ -4074,7 +4085,7 @@ void msrVoice::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrVoice>*> (v)) {
         S_msrVoice elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrVoice::visitStart()" << endl;
         p->visitStart (elem);
@@ -4091,7 +4102,7 @@ void msrVoice::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrVoice>*> (v)) {
         S_msrVoice elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrVoice::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -4100,7 +4111,7 @@ void msrVoice::acceptOut (basevisitor* v) {
 
 void msrVoice::browseData (basevisitor* v)
 {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrVoice::browseData()" << endl;
   
@@ -4373,6 +4384,8 @@ void msrStaff::setStaffKey  (S_msrKey  key)
       " in part " << fStaffPart->getPartCombinedName () << endl;
 
   fStaffKey = key;
+
+  setAllStaffVoicesKey (key);
 }
 
 void msrStaff::setStaffTime (S_msrTime time)
@@ -4397,6 +4410,16 @@ void msrStaff::setStaffClef (S_msrClef clef)
   fStaffClef = clef;
 }
 
+void msrStaff::setAllStaffVoicesKey (S_msrKey  key)
+{
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    (*i).second->appendKeyToVoice (key);
+  } // for
+}
+          
 void msrStaff::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -4407,7 +4430,7 @@ void msrStaff::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrStaff>*> (v)) {
         S_msrStaff elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrStaff::visitStart()" << endl;
         p->visitStart (elem);
@@ -4424,7 +4447,7 @@ void msrStaff::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrStaff>*> (v)) {
         S_msrStaff elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrStaff::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -4433,7 +4456,7 @@ void msrStaff::acceptOut (basevisitor* v) {
 
 void msrStaff::browseData (basevisitor* v)
 {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrStaff::browseData()" << endl;
 
@@ -4579,7 +4602,7 @@ string msrPart::getPartCombinedName () const
     " (" + fPartMusicXMLID + ")";
 }
                 
-void msrPart::setAllPartStavesKey   (S_msrKey  key)
+void msrPart::setAllPartStavesKey (S_msrKey  key)
 {
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
@@ -4675,7 +4698,7 @@ void msrPart::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrPart>*> (v)) {
         S_msrPart elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrPart::visitStart()" << endl;
         p->visitStart (elem);
@@ -4692,7 +4715,7 @@ void msrPart::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrPart>*> (v)) {
         S_msrPart elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrPart::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -4701,7 +4724,7 @@ void msrPart::acceptOut (basevisitor* v) {
 
 void msrPart::browseData (basevisitor* v)
 {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrPart::browseData()" << endl;
   
@@ -4877,7 +4900,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
   fPartgroupElements.push_back (part);
 
 //  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebugDebug) {
     cerr << idtr <<
       "==> After addPartToPartgroup, fPartgroupPartsMap contains:" << endl;
     idtr++;
@@ -4894,7 +4917,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
   }
 
 //  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebugDebug) {
     cerr << idtr <<
       "==> After addPartToPartgroup, fPartgroupPartsList contains:" << endl;
     if (fPartgroupElements.size()) {
@@ -4947,18 +4970,20 @@ void msrPartgroup::prependSubPartgroupToPartgroup (
 S_msrPart msrPartgroup::fetchPartFromPartgroup (
   string partMusicXMLID)
 {
-  /*
-  cerr << idtr << "==> fetchPartFromPartgroup, fPartgroupPartsMap contains:" << endl;
-  for (
-      map<string, S_msrPart>::const_iterator i = fPartgroupPartsMap.begin();
-      i != fPartgroupPartsMap.end();
-      i++) {
+  if (fMsrOptions->fDebugDebug) {
     cerr << idtr <<
-      (*i).first << " ----> " <<
-      (*i).second->getPartCombinedName() << endl;
-  } // for
-  cerr << idtr << "<== fetchPartFromPartgroup" << endl;
-  */
+      "==> fetchPartFromPartgroup, fPartgroupPartsMap contains:" << endl;
+    for (
+        map<string, S_msrPart>::const_iterator i = fPartgroupPartsMap.begin();
+        i != fPartgroupPartsMap.end();
+        i++) {
+      cerr << idtr <<
+        (*i).first << " ----> " <<
+        (*i).second->getPartCombinedName() << endl;
+    } // for
+    cerr << idtr <<
+      "<== fetchPartFromPartgroup" << endl;
+  }
   
   S_msrPart result;
   
@@ -4979,7 +5004,7 @@ void msrPartgroup::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrPartgroup>*> (v)) {
         S_msrPartgroup elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrPartgroup::visitStart()" << endl;
         p->visitStart (elem);
@@ -4996,7 +5021,7 @@ void msrPartgroup::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrPartgroup>*> (v)) {
         S_msrPartgroup elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrPartgroup::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -5005,7 +5030,7 @@ void msrPartgroup::acceptOut (basevisitor* v) {
 
 void msrPartgroup::browseData (basevisitor* v)
 {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrPartgroup::browseData()" << endl;
   
@@ -5020,7 +5045,7 @@ void msrPartgroup::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "<== msrPartgroup::browseData()" << endl;
 }
@@ -5221,7 +5246,7 @@ void msrIdentification::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrIdentification>*> (v)) {
         S_msrIdentification elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrIdentification::visitStart()" << endl;
         p->visitStart (elem);
@@ -5238,7 +5263,7 @@ void msrIdentification::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrIdentification>*> (v)) {
         S_msrIdentification elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrIdentification::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -5440,7 +5465,7 @@ void msrScore::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrScore::visitStart()" << endl;
         p->visitStart (elem);
@@ -5457,7 +5482,7 @@ void msrScore::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrScore::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -5466,7 +5491,7 @@ void msrScore::acceptOut (basevisitor* v) {
 
 void msrScore::browseData (basevisitor* v)
 {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrScore::browseData()" << endl;
     
@@ -5491,7 +5516,7 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "<== msrScore::browseData()" << endl;
   }
@@ -5557,7 +5582,7 @@ void msrMidi::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrMidi>*> (v)) {
         S_msrMidi elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrMidi::visitStart()" << endl;
         p->visitStart (elem);
@@ -5574,7 +5599,7 @@ void msrMidi::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrMidi>*> (v)) {
         S_msrMidi elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
             "==> Launching msrMidi::visitEnd()" << endl;
         p->visitEnd (elem);
