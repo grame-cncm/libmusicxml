@@ -1454,26 +1454,23 @@ void msrNote::browseData (basevisitor* v)
 
 ostream& operator<< (ostream& os, const S_msrNote& elt)
 {
-  if (elt) // JMI JMI
+//  if (elt) // JMI JMI
   elt->print (os);
   return os;
 }
 
-void msrNote::print (ostream& os)
+/*
+void msrNote::printBareNote (ostream& os)
 {
-  /*
+  / *
   cerr <<
     "msrNote::print (), fNoteBelongsToAChord = " << 
     fNoteBelongsToAChord << endl;
-  */
+  * /
   
   switch (fNoteKind) {
-    
     case msrNote::kStandaloneNote:
       // print the note name
-      os <<
-        "Note" <<
-        " " <<
         noteMsrPitchAsString () <<
         ":" <<
         getNoteMsrDuration ();
@@ -1501,7 +1498,8 @@ void msrNote::print (ostream& os)
         getNoteMsrDuration ();
       break;
   } // switch
-
+}
+*/
 
 /* JMI
   if (fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord) {
@@ -1519,7 +1517,46 @@ void msrNote::print (ostream& os)
       " " << noteMsrPitchAsString () <<
       ":" << fNoteMsrDuration;
       */
+
+void msrNote::print (ostream& os)
+{
+  // print the note itself
+  switch (fNoteKind) {
+    case msrNote::kStandaloneNote:
+      // print the note name
+      os <<
+        "Standalone note" <<
+        " " <<
+        noteMsrPitchAsString () <<
+        ":" <<
+        getNoteMsrDuration ();
+      break;
       
+    case msrNote::kRestNote:
+      // print the rest
+      os <<
+        "Rest" <<
+        ":" <<
+        getNoteMsrDuration ();
+      break;
+      
+    case msrNote::kChordMemberNote:
+      os <<
+        "Chord member note" <<
+        noteMsrPitchAsString () <<
+        ":" <<
+        getNoteMsrDuration ();
+      break;
+      
+    case msrNote::kTupletMemberNote:
+      os <<
+        "Tuplet member note" <<
+        noteMsrPitchAsString () <<
+        ":" <<
+        getNoteMsrDuration ();
+      break;
+  } // switch
+     
   if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
     os << " " << "grace";
   if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
@@ -1706,7 +1743,7 @@ void msrSequentialMusic::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << " ";
+      os << endl;
 // JMI      if (fElementsSeparator == kEndOfLine) os << endl;
     } // for
     
@@ -2544,14 +2581,24 @@ void msrPageGeometry::print (ostream& os) {
       setw(12) << left << "LeftMargin" << " = " <<
       setprecision(4) << fLeftMargin << " cm" << endl;
   }
-
   if (fRightMargin > 0) {
     os << idtr <<
       setw(12) << left << "RightMargin" << " = " <<
       setprecision(4) << fRightMargin << " cm" << endl;
   }
 
-  os << endl;
+  if (fMillimeters > 0) {
+    os << idtr <<
+      setw(12) << left << "Millimeters" << " = " <<
+      setprecision(4) << fMillimeters << endl;
+  }
+
+  if (fTenths > 0) {
+    os << idtr <<
+      setw(12) << left << "Tenths" << " = " <<
+      setprecision(4) << fTenths << endl;
+  }
+
 /*
   if (fBetweenSystemSpace > 0) {
     os << idtr <<
@@ -2565,6 +2612,8 @@ void msrPageGeometry::print (ostream& os) {
     * setprecision(4) << fPageTopSpace << "\\cm" << endl;
   }
 */
+
+  os << endl;
 
   idtr--;
 }
@@ -3061,7 +3110,6 @@ void msrKey::print (ostream& os)
     os << "\\major";
   else
     os << "\\minor";
-  os << endl;
 }
 
 //______________________________________________________________________________
@@ -3140,8 +3188,7 @@ void msrTime::print (ostream& os)
 {
   os <<
     "Time " << 
-    fRational.getNumerator() << "/" << fRational.getDenominator() <<
-    endl;
+    fRational.getNumerator() << "/" << fRational.getDenominator();
 }
 
 //______________________________________________________________________________

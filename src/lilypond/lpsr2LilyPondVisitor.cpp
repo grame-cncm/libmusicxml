@@ -1053,13 +1053,13 @@ void lpsr2LilyPondVisitor::visitStart (S_msrWedge& elt)
 
   switch (elt->getWedgeKind ()) {
     case msrWedge::kCrescendoWedge:
-      fOstream << "\\<";
+      fOstream << "\\< ";
       break;
     case msrWedge::kDecrescendoWedge:
-      fOstream << "\\>";
+      fOstream << "\\> ";
       break;
     case msrWedge::kStopWedge:
-      fOstream << "\\!";
+      fOstream << "\\! ";
       break;
   } // switch
 }

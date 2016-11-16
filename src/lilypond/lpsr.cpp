@@ -1905,7 +1905,10 @@ lpsrLayout::lpsrLayout (
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
-{}
+{
+  fMillimeters = -1;
+  fTenths      = -1;
+}
 
 lpsrLayout::~lpsrLayout() {}
 
@@ -1966,6 +1969,18 @@ void lpsrLayout::print (ostream& os)
   os << "Layout" << endl;
 
   idtr++;
+
+  if (fMillimeters > 0) {
+    os << idtr <<
+      setw(12) << left << "Millimeters" << " = " <<
+      setprecision(4) << fMillimeters << endl;
+  }
+
+  if (fTenths > 0) {
+    os << idtr <<
+      setw(12) << left << "Tenths" << " = " <<
+      setprecision(4) << fTenths << endl;
+  }
 
   int n1 = fLpsrVarValAssocs.size();
   

@@ -1016,6 +1016,18 @@ class EXP lpsrLayout : public lpsrElement
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
     
+    int     setMillimeters        (float val) { fMillimeters = val; }
+    int     getMillimeters        () const    { return fMillimeters; }
+
+    void    setTenths             (int val)   { fTenths = val; }
+    float   getTenths             () const    { return fTenths; }
+
+    float   globalStaffSize       () const
+                                    {
+                                      return
+                                        fMillimeters * 72.27 / 25.4;
+                                    }
+
     void    addLpsrVarValAssoc (S_lpsrVarValAssoc assoc)
                 { fLpsrVarValAssocs.push_back (assoc); }
       
@@ -1040,6 +1052,9 @@ class EXP lpsrLayout : public lpsrElement
   
   private:
   
+    int                             fMillimeters;
+    int                             fTenths;
+
     vector<S_lpsrVarValAssoc>       fLpsrVarValAssocs;
     vector<S_lpsrSchemeVarValAssoc> fLpsrSchemeVarValAssocs;
 };
@@ -1127,25 +1142,28 @@ class EXP lpsrScore : public lpsrElement
       S_msrScore     mScore);
      
     S_lpsrVarValAssoc
-                  getLilyPondVersion () const
-                      { return fLilyPondVersion; }
+              getLilyPondVersion () const
+                  { return fLilyPondVersion; }
 
-    S_lpsrHeader  getHeader () const
-                      { return fHeader; }
+    S_lpsrHeader
+              getHeader () const
+                  { return fHeader; }
 
-    S_lpsrPaper   getPaper () const
-                      { return fPaper; }
+    S_lpsrPaper
+              getPaper () const
+                  { return fPaper; }
 
-    S_lpsrLayout  getLayout () const
-                      { return fLayout; }
+    S_lpsrLayout
+              getLayout () const
+                  { return fLayout; }
 
     list<S_msrElement>
-                  getVoicesAndLyricsList () const
-                      { return fVoicesAndLyricsList; }
+              getVoicesAndLyricsList () const
+                  { return fVoicesAndLyricsList; }
 
     S_lpsrScoreCommand
-                  getScoreCommand () const
-                      { return fScoreCommand; }
+              getScoreCommand () const
+                  { return fScoreCommand; }
   
     void      appendVoiceToElementsList (S_msrVoice voice)
                   { fVoicesAndLyricsList.push_back (voice); }

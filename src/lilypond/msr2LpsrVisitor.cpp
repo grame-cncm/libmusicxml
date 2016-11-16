@@ -155,6 +155,11 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
   fLpsrScore->getPaper ()->
     setRightMargin (elt->getRightMargin ());
 
+  fLpsrScore->getLayout ()->
+    setMillimeters (elt->getMillimeters ());
+  fLpsrScore->getLayout ()->
+    setTenths (elt->getTenths ());
+
 /* JMI
     void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
     float   getBetweenSystemSpace () const    { return fBetweenSystemSpace; }
