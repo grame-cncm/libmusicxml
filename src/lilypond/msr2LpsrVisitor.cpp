@@ -195,12 +195,23 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
         fMsrOptions,
         fLpsrOptions,
         0, // JMI
+        lpsrSchemeVarValAssoc::kCommented,
         "layout-set-staff-size",
         s.str(),
-        lpsrSchemeVarValAssoc::kCommented,
+        "Uncomment next line to use MusicXML staff size",
         lpsrSchemeVarValAssoc::kWithEndl);
 
   /* JMI
+   static SMARTP<lpsrSchemeVarValAssoc> create (
+      S_msrOptions&     msrOpts, 
+      S_lpsrOptions&    lpsrOpts, 
+      int               inputLineNumber,
+      lpsrCommentedKind commentedKind,
+      string            variableName,
+      string            value, 
+      string            comment,
+      lpsrEndlKind      endlKind);
+
   scoreCommandLayout->
     setMillimeters (elt->getMillimeters ());
   scoreCommandLayout->

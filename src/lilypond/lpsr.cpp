@@ -445,8 +445,8 @@ lpsrComment::lpsrComment (
   lpsrGapKind    gapKind)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {
-  fContents=contents;
-  fGapKind=gapKind;
+  fContents = contents;
+  fGapKind  = gapKind;
 }
 
 lpsrComment::~lpsrComment() {}
@@ -746,6 +746,7 @@ S_lpsrVarValAssoc lpsrVarValAssoc::create (
   lpsrQuotesKind      quotesKind,
   string              value, 
   string              unit,
+  string              comment,
   lpsrEndlKind        endlKind)
 {
   lpsrVarValAssoc* o =
@@ -758,6 +759,7 @@ S_lpsrVarValAssoc lpsrVarValAssoc::create (
       quotesKind,
       value,
       unit,
+      comment,
       endlKind);
   assert(o!=0);
   return o;
@@ -774,6 +776,7 @@ lpsrVarValAssoc::lpsrVarValAssoc (
   lpsrQuotesKind      quotesKind,
   string              value, 
   string              unit,
+  string              comment,
   lpsrEndlKind        endlKind)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {
@@ -784,12 +787,14 @@ lpsrVarValAssoc::lpsrVarValAssoc (
   fVariableValue   = value;
   fCommentedKind   = commentedKind;
   fUnit            = unit;
+  fComment         = comment;
   fEndlKind        = endlKind;
 }
 
 lpsrVarValAssoc::~lpsrVarValAssoc() {}
 
-string const lpsrVarValAssoc::g_NoUnit = "";
+string const lpsrVarValAssoc::g_VarValAssocNoUnit    = "";
+string const lpsrVarValAssoc::g_VarValAssocNoComment = "";
 
 void lpsrVarValAssoc::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
@@ -924,15 +929,16 @@ S_lpsrSchemeVarValAssoc lpsrSchemeVarValAssoc::create (
   S_msrOptions&     msrOpts, 
   S_lpsrOptions&    lpsrOpts, 
   int               inputLineNumber,
+  lpsrCommentedKind commentedKind,
   string            variableName,
   string            value, 
-  lpsrCommentedKind commentedKind,
+  string            comment,
   lpsrEndlKind      endlKind)
 {
   lpsrSchemeVarValAssoc* o =
     new lpsrSchemeVarValAssoc (
       msrOpts, lpsrOpts, inputLineNumber,
-      variableName, value, commentedKind, endlKind);
+      commentedKind, variableName, value, comment, endlKind);
   assert(o!=0);
   return o;
 }
@@ -941,9 +947,10 @@ lpsrSchemeVarValAssoc::lpsrSchemeVarValAssoc (
   S_msrOptions&     msrOpts, 
   S_lpsrOptions&    lpsrOpts, 
   int               inputLineNumber,
+  lpsrCommentedKind commentedKind,
   string            variableName,
   string            value, 
-  lpsrCommentedKind commentedKind,
+  string            comment,
   lpsrEndlKind      endlKind)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {
@@ -952,10 +959,15 @@ lpsrSchemeVarValAssoc::lpsrSchemeVarValAssoc (
   fVariableName  = variableName;
   fVariableValue = value;
 
+  fComment       = comment;
+  
   fEndlKind      = endlKind;
 }
 
 lpsrSchemeVarValAssoc::~lpsrSchemeVarValAssoc() {}
+
+string const lpsrSchemeVarValAssoc::g_SchemeVarValAssocNoUnit    = "";
+string const lpsrSchemeVarValAssoc::g_SchemeVarValAssocNoComment = "";
 
 void lpsrSchemeVarValAssoc::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
@@ -1515,7 +1527,22 @@ void lpsrHeader::setWorkNumber (
   int    inputLineNumber,
   string val)
   {
-  fWorkNumber =
+    /*
+        S_msrOptions&       msrOpts, 
+        S_lpsrOptions&      lpsrOpts, 
+        int                 inputLineNumber,
+        lpsrCommentedKind   commentedKind,
+        lpsrBackslashKind   backslashKind,
+        string              variableName,
+        lpsrVarValSeparator varValSeparator,
+        lpsrQuotesKind      quotesKind,
+        string              value, 
+        string              unit,
+        string              comment,
+        lpsrEndlKind        endlKind);
+        */
+
+ fWorkNumber =
     lpsrVarValAssoc::create (
       fMsrOptions, fLpsrOptions, inputLineNumber,
       lpsrVarValAssoc::kUncommented,
@@ -1524,7 +1551,8 @@ void lpsrHeader::setWorkNumber (
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoComment,
       lpsrVarValAssoc::kWithoutEndl);
   }
 
@@ -1541,7 +1569,8 @@ void lpsrHeader::setWorkTitle (
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoComment,
       lpsrVarValAssoc::kWithoutEndl);
   }
 
@@ -1558,7 +1587,8 @@ void lpsrHeader::setMovementNumber (
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoComment,
       lpsrVarValAssoc::kWithoutEndl);
   }
 
@@ -1575,7 +1605,8 @@ void lpsrHeader::setMovementTitle (
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoComment,
       lpsrVarValAssoc::kWithoutEndl);
 }
 
@@ -1593,7 +1624,8 @@ void lpsrHeader::addCreator (
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoComment,
       lpsrVarValAssoc::kWithoutEndl)
   );
 }
@@ -1611,7 +1643,8 @@ void lpsrHeader::setRights (
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoComment,
       lpsrVarValAssoc::kWithoutEndl);
   }
 
@@ -1628,7 +1661,8 @@ void lpsrHeader::addSoftware (
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoComment,
       lpsrVarValAssoc::kWithoutEndl)
   );
 }
@@ -1646,7 +1680,8 @@ void lpsrHeader::setEncodingDate (
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoComment,
       lpsrVarValAssoc::kWithoutEndl);
 }
 
@@ -1663,7 +1698,8 @@ void lpsrHeader::setScoreInstrument (
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoComment,
       lpsrVarValAssoc::kWithoutEndl);
 }
 
@@ -2215,7 +2251,8 @@ lpsrScore::lpsrScore (
       lpsrVarValAssoc::kSpace,
       lpsrVarValAssoc::kQuotesAroundValue,
       "2.19",
-      lpsrVarValAssoc::g_NoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoUnit,
+      lpsrVarValAssoc::g_VarValAssocNoComment,
       lpsrVarValAssoc::kWithEndl);
 
   // create a comment
@@ -2233,12 +2270,11 @@ lpsrScore::lpsrScore (
   // create the global staff size assoc
   fGlobalStaffSizeAssoc =
     lpsrSchemeVarValAssoc::create (
-      fMsrOptions,
-      fLpsrOptions,
-      inputLineNumber,
+      fMsrOptions, fLpsrOptions, inputLineNumber,
+      lpsrSchemeVarValAssoc::kCommented,
       "set-global-staff-size",
       "20", // the LilyPond default
-      lpsrSchemeVarValAssoc::kCommented,
+      lpsrSchemeVarValAssoc::g_SchemeVarValAssocNoComment,
       lpsrSchemeVarValAssoc::kWithEndl);
 
   // create the header

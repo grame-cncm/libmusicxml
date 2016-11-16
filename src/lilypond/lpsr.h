@@ -243,7 +243,8 @@ class EXP lpsrVarValAssoc : public lpsrElement
     enum lpsrQuotesKind      { kQuotesAroundValue, kNoQuotesAroundValue };
     enum lpsrEndlKind        { kWithEndl, kWithoutEndl };
 
-    static string const g_NoUnit;
+    static string const g_VarValAssocNoUnit;
+    static string const g_VarValAssocNoComment;
 
     static SMARTP<lpsrVarValAssoc> create (
         S_msrOptions&       msrOpts, 
@@ -256,6 +257,7 @@ class EXP lpsrVarValAssoc : public lpsrElement
         lpsrQuotesKind      quotesKind,
         string              value, 
         string              unit,
+        string              comment,
         lpsrEndlKind        endlKind);
 
     void      changeAssocValue (string value)
@@ -286,6 +288,10 @@ class EXP lpsrVarValAssoc : public lpsrElement
     string    getUnit () const
                   { return fUnit; };
 
+    string
+              getComment  () const
+                  { return fComment; }
+
     lpsrEndlKind
               getEndlKind () const
                   { return fEndlKind; };
@@ -310,6 +316,7 @@ class EXP lpsrVarValAssoc : public lpsrElement
         lpsrQuotesKind      quotesKind,
         string              value, 
         string              unit,
+        string              comment,
         lpsrEndlKind        endlKind);
       
     virtual ~lpsrVarValAssoc();
@@ -323,6 +330,7 @@ class EXP lpsrVarValAssoc : public lpsrElement
     lpsrQuotesKind      fQuotesKind;
     string              fVariableValue;
     string              fUnit;
+    string              fComment;
     lpsrEndlKind        fEndlKind;
 };
 typedef SMARTP<lpsrVarValAssoc> S_lpsrVarValAssoc;
@@ -339,13 +347,17 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
     enum lpsrCommentedKind { kCommented, kUncommented };
     enum lpsrEndlKind      { kWithEndl, kWithoutEndl };
 
+    static string const g_SchemeVarValAssocNoUnit;
+    static string const g_SchemeVarValAssocNoComment;
+
     static SMARTP<lpsrSchemeVarValAssoc> create (
       S_msrOptions&     msrOpts, 
       S_lpsrOptions&    lpsrOpts, 
       int               inputLineNumber,
+      lpsrCommentedKind commentedKind,
       string            variableName,
       string            value, 
-      lpsrCommentedKind commentedKind,
+      string            comment,
       lpsrEndlKind      endlKind);
     
     void      changeAssocValue (string value)
@@ -356,6 +368,9 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
 
     string    getVariableName  () const { return fVariableName; };
     string    getVariableValue () const { return fVariableValue; };
+
+    string    getComment  () const
+                  { return fComment; }
 
     lpsrEndlKind
               getEndlKind () const
@@ -374,9 +389,10 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
       S_msrOptions&     msrOpts, 
       S_lpsrOptions&    lpsrOpts, 
       int               inputLineNumber,
+      lpsrCommentedKind commentedKind,
       string            variableName,
       string            value, 
-      lpsrCommentedKind commentedKind,
+      string            comment,
       lpsrEndlKind      endlKind);
       
     virtual ~lpsrSchemeVarValAssoc();
@@ -387,6 +403,8 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
     
     string            fVariableName;
     string            fVariableValue;
+
+    string            fComment;
 
     lpsrEndlKind      fEndlKind;
     
