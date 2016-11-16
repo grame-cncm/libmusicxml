@@ -2470,6 +2470,14 @@ msrPageGeometry::msrPageGeometry (
 
 msrPageGeometry::~msrPageGeometry() {}
 
+float msrPageGeometry::globalStaffSize () const
+{
+  if (fMillimeters > 0)
+    return fMillimeters * 72.27 / 25.4;
+  else
+    return 20.0; // LilyPond default
+}
+
 void msrPageGeometry::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -2647,10 +2655,6 @@ msrVarValAssoc::msrVarValAssoc (
 
 msrVarValAssoc::~msrVarValAssoc() {}
 
-void msrVarValAssoc::changeAssoc (string value) {
-  fVariableValue=value;
-}
-
 void msrVarValAssoc::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -2701,8 +2705,10 @@ void msrVarValAssoc::print (ostream& os)
   idtr++;
   
   os <<
-    idtr << fVariableName << endl <<
-    idtr << fVariableValue <<endl <<
+    idtr << "variable name : " <<
+    "\"" << fVariableName << "\"" << endl <<
+    idtr << "variable value: " <<
+    "\"" << fVariableValue << "\"" << endl <<
     endl;
   
   idtr--;

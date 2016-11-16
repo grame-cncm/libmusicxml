@@ -258,8 +258,9 @@ class EXP lpsrVarValAssoc : public lpsrElement
         string              unit,
         lpsrEndlKind        endlKind);
 
-    void      changeAssoc (string value);
-    
+    void      changeAssocValue (string value)
+                  { fVariableValue = value; }
+
     lpsrCommentedKind
               getCommentedKind () const
                   { return fCommentedKind; };
@@ -1027,7 +1028,7 @@ class EXP lpsrLayout : public lpsrElement
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
-    
+/* JMI    
     int     setMillimeters        (float val) { fMillimeters = val; }
     int     getMillimeters        () const    { return fMillimeters; }
 
@@ -1039,11 +1040,13 @@ class EXP lpsrLayout : public lpsrElement
                                       return
                                         fMillimeters * 72.27 / 25.4;
                                     }
-
-    void    addLpsrVarValAssoc (S_lpsrVarValAssoc assoc)
+*/
+    void    addLpsrVarValAssoc (
+              S_lpsrVarValAssoc assoc)
                 { fLpsrVarValAssocs.push_back (assoc); }
       
-    void    addLpsrSchemeVarValAssoc (S_lpsrSchemeVarValAssoc assoc)
+    void    addLpsrSchemeVarValAssoc (
+              S_lpsrSchemeVarValAssoc assoc)
                 { fLpsrSchemeVarValAssocs.push_back (assoc); }
 
     virtual void acceptIn  (basevisitor* v);
@@ -1064,8 +1067,8 @@ class EXP lpsrLayout : public lpsrElement
   
   private:
   
-    int                             fMillimeters;
-    int                             fTenths;
+//    int                             fMillimeters;
+//    int                             fTenths;
 
     vector<S_lpsrVarValAssoc>       fLpsrVarValAssocs;
     vector<S_lpsrSchemeVarValAssoc> fLpsrSchemeVarValAssocs;
@@ -1159,7 +1162,7 @@ class EXP lpsrScore : public lpsrElement
 
     S_lpsrSchemeVarValAssoc
               getGlobalStaffSizeAssoc () const
-                  { return fGlobalStaffSize; }
+                  { return fGlobalStaffSizeAssoc; }
 
     S_lpsrHeader
               getHeader () const
@@ -1185,7 +1188,7 @@ class EXP lpsrScore : public lpsrElement
                   {
                     stringstream s;
                     s << size;
-                    fGlobalStaffSize->
+                    fGlobalStaffSizeAssoc->
                       changeAssocValue (s.str());
                   }
     
@@ -1235,7 +1238,7 @@ class EXP lpsrScore : public lpsrElement
 
     // general information
     S_lpsrVarValAssoc       fLilyPondVersion;
-    S_lpsrSchemeVarValAssoc fGlobalStaffSize;
+    S_lpsrSchemeVarValAssoc fGlobalStaffSizeAssoc;
     S_lpsrHeader            fHeader;
     S_lpsrPaper             fPaper;
     S_lpsrLayout            fScoreLayout;

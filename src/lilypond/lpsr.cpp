@@ -790,10 +790,6 @@ lpsrVarValAssoc::~lpsrVarValAssoc() {}
 
 string const lpsrVarValAssoc::g_NoUnit = "";
 
-void lpsrVarValAssoc::changeAssoc (string value) {
-  fVariableValue=value;
-}
-
 void lpsrVarValAssoc::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -1962,8 +1958,10 @@ lpsrLayout::lpsrLayout (
   int            inputLineNumber)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {
+/* JMI
   fMillimeters = -1;
   fTenths      = -1;
+*/
 }
 
 lpsrLayout::~lpsrLayout() {}
@@ -2011,6 +2009,14 @@ void lpsrLayout::browseData (basevisitor* v)
     msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fLpsrVarValAssocs [i]);
   } // for
+  
+  int n2 = fLpsrSchemeVarValAssocs.size();
+  
+  for (int i = 0; i < n2; i++ ) {
+    // browse the Scheme variable/value association
+    msrBrowser<lpsrSchemeVarValAssoc> browser (v);
+    browser.browse (*fLpsrSchemeVarValAssocs [i]);
+  } // for
 }
 
 ostream& operator<< (ostream& os, const S_lpsrLayout& lay)
@@ -2025,6 +2031,7 @@ void lpsrLayout::print (ostream& os)
 
   idtr++;
 
+/* JMI
   if (fMillimeters > 0) {
     os << idtr <<
       setw(12) << left << "Millimeters" << " = " <<
@@ -2036,7 +2043,7 @@ void lpsrLayout::print (ostream& os)
       setw(12) << left << "Tenths" << " = " <<
       setprecision(4) << fTenths << endl;
   }
-
+*/
   int n1 = fLpsrVarValAssocs.size();
   
   for (int i = 0; i < n1; i++ ) {
@@ -2044,6 +2051,7 @@ void lpsrLayout::print (ostream& os)
   } // for
 
   int n2 = fLpsrSchemeVarValAssocs.size();
+  
   for (int i = 0; i < n2; i++ ) {
     os << idtr << fLpsrSchemeVarValAssocs[i];
   } // for
@@ -2205,13 +2213,13 @@ lpsrScore::lpsrScore (
       lpsrVarValAssoc::kWithEndl);
 
   // create the global staff size assoc
-  fGlobalStaffSize =
+  fGlobalStaffSizeAssoc =
     lpsrSchemeVarValAssoc::create (
       fMsrOptions,
       fLpsrOptions,
       inputLineNumber,
       "set-global-staff-size",
-      "-1",
+      "20", // the LilyPond default
       lpsrSchemeVarValAssoc::kCommented,
       lpsrSchemeVarValAssoc::kWithEndl);
 
@@ -2316,7 +2324,7 @@ void lpsrScore::browseData (basevisitor* v)
   {
     // browse the score global size
     msrBrowser<lpsrSchemeVarValAssoc> browser (v);
-    browser.browse (*fGlobalStaffSize);
+    browser.browse (*fGlobalStaffSizeAssoc);
   }
 
   {
@@ -2378,7 +2386,7 @@ void lpsrScore::print (ostream& os)
     os << idtr << fMsrScore;
 
   os << idtr << fLilyPondVersion << endl;
-  os << idtr << fGlobalStaffSize << endl;
+  os << idtr << fGlobalStaffSizeAssoc << endl;
   os << idtr << fHeader << endl;
   os << idtr << fPaper << endl;
   os << idtr << fScoreLayout << endl;

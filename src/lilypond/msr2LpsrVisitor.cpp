@@ -139,11 +139,12 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
 
   idtr++;
 
-  // populate paper data
+  // get LPSR score paper
   S_lpsrPaper
     paper =
       fLpsrScore->getPaper ();
-  
+
+  // populate paper  
   paper ->
     setPaperWidth (elt->getPaperWidth ());
   paper->
@@ -158,34 +159,36 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
   paper->
     setRightMargin (elt->getRightMargin ());
 
-  // populate score layout data
+  // get LPSR score layout
   S_lpsrLayout
     scoreLayout =
       fLpsrScore->getScoreLayout ();
 
+  // get LPSR score global staff size
+  float
+    globalStaffSize =
+      scoreLayout->globalStaffSize ();
+
+  // populate layout
+  /*
   scoreLayout->
     setMillimeters (elt->getMillimeters ());
   scoreLayout->
     setTenths (elt->getTenths ());
+    */
 
-  // populate score command layout data
+  // populate score global staff size
+  fLpsrScore->
+    setGlobalStaffSize (globalStaffSize);
+
+  // get LPSR score command layout
   S_lpsrLayout
     scoreCommandLayout =
       fLpsrScore->getScoreCommand ()->getScoreCommandLayout ();
 
-  scoreCommandLayout->
-    setMillimeters (elt->getMillimeters ());
-  scoreCommandLayout->
-    setTenths (elt->getTenths ());
-  
-  // populate score global staff size
-  fLpsrScore->
-    setGlobalStaffSize (
-      scoreLayout->globalStaffSize ());
-
   // create the score command layout staff size assoc
   stringstream s;
-  s << scoreLayout->globalStaffSize ();
+  s << globalStaffSize;
   S_lpsrSchemeVarValAssoc
     assoc =
       lpsrSchemeVarValAssoc::create (
@@ -197,6 +200,14 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
         lpsrSchemeVarValAssoc::kCommented,
         lpsrSchemeVarValAssoc::kWithEndl);
 
+  // populate score commandlayout
+  /* JMI
+  scoreCommandLayout->
+    setMillimeters (elt->getMillimeters ());
+  scoreCommandLayout->
+    setTenths (elt->getTenths ());
+  */
+  
    scoreCommandLayout->
     addLpsrSchemeVarValAssoc (assoc);
 

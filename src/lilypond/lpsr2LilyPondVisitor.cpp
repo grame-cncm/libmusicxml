@@ -276,9 +276,12 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrSchemeVarValAssoc& elt)
     fOstream << "\%";
   
   fOstream <<
+    "#(" <<
     elt->getVariableName () <<
-    " ";
-    elt->getVariableValue ();
+    " " <<
+    elt->getVariableValue () <<
+    ")" <<
+    endl;
     
   switch (elt->getEndlKind ()) {
     case lpsrSchemeVarValAssoc::kWithEndl:
@@ -402,7 +405,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPaper& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrLayout& elt)
 {
-  if (fMsrOptions->fDebug)
+//  if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrLayout" << endl;
 
@@ -417,7 +420,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrLayout& elt)
 {
   idtr--;
 
-  if (fMsrOptions->fDebug)
+ // if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrLayout" << endl;
 

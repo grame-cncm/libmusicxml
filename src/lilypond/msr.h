@@ -946,10 +946,13 @@ class EXP msrVarValAssoc : public msrElement
       string             variableName,
       string             value);
     
-    void      changeAssoc (string value);
-    
-    string    getVariableName  () const { return fVariableName; };
-    string    getVariableValue () const { return fVariableValue; };
+    void      changeAssocValue (string value)
+                  { fVariableValue = value; }
+
+    string    getVariableName  () const
+                  { return fVariableName; };
+    string    getVariableValue () const
+                  { return fVariableValue; };
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1138,11 +1141,7 @@ class EXP msrPageGeometry : public msrElement
     void    setTenths             (int val)   { fTenths = val; }
     float   getTenths             () const    { return fTenths; }
 
-    float   globalStaffSize       () const
-                                    {
-                                      return
-                                        fMillimeters * 72.27 / 25.4;
-                                    }
+    float   globalStaffSize       () const;
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
