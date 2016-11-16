@@ -1195,9 +1195,6 @@ class EXP msrLayout : public msrElement
     void  addmsrVarValAssoc (S_msrVarValAssoc assoc)
               { fmsrVarValAssocs.push_back(assoc); }
       
-//    void addMsrSchemeVarValAssoc (S_msrSchemeVarValAssoc assoc)
-//      { fMsrSchemeVarValAssocs.push_back(assoc); }
-
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1326,6 +1323,7 @@ EXP ostream& operator<< (ostream& os, const S_msrBarLine& elt);
   A comment is represented by its contents
 */
 //______________________________________________________________________________
+/*
 class EXP msrComment : public msrElement
 {
   public:
@@ -1334,9 +1332,9 @@ class EXP msrComment : public msrElement
 
     static SMARTP<msrComment> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      string                 contents,
-      msrGapKind                gapKind = kNoGapAfterwards);
+      int           inputLineNumber,
+      string        contents,
+      msrGapKind    gapKind = kNoGapAfterwards);
 
     string      getContents () const { return fContents; }
     msrGapKind  getGapKind  () const { return fGapKind; }
@@ -1352,9 +1350,9 @@ class EXP msrComment : public msrElement
 
     msrComment (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      string                 contents,
-      msrGapKind                gapKind = kNoGapAfterwards);
+      int           inputLineNumber,
+      string        contents,
+      msrGapKind    gapKind = kNoGapAfterwards);
       
     virtual ~msrComment();
   
@@ -1365,6 +1363,7 @@ class EXP msrComment : public msrElement
 };
 typedef SMARTP<msrComment> S_msrComment;
 EXP ostream& operator<< (ostream& os, const S_msrComment& elt);
+*/
 
 /*!
 \brief A msr break representation.

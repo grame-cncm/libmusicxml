@@ -200,15 +200,28 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
         lpsrSchemeVarValAssoc::kCommented,
         lpsrSchemeVarValAssoc::kWithEndl);
 
-  // populate score commandlayout
   /* JMI
   scoreCommandLayout->
     setMillimeters (elt->getMillimeters ());
   scoreCommandLayout->
     setTenths (elt->getTenths ());
   */
-  
-   scoreCommandLayout->
+
+  // create a comment
+  S_lpsrComment
+    comment =
+      lpsrComment::create (
+        fMsrOptions,
+        fLpsrOptions,
+        0, // JMI
+        "Uncomment next line to use MusicXML staff size",
+        lpsrComment::kGapAfterwards);
+
+ // JMI scoreCommandLayout->
+   // appendCommentToScore (comment);
+
+  // populate score command layout
+  scoreCommandLayout->
     addLpsrSchemeVarValAssoc (assoc);
 
 /* JMI
@@ -770,7 +783,7 @@ void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrVisitor::visitStart (S_msrComment& elt)
+/*void msr2LpsrVisitor::visitStart (S_msrComment& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
@@ -783,7 +796,7 @@ void msr2LpsrVisitor::visitEnd (S_msrComment& elt)
     fOstream << idtr <<
       "--> End visiting msrComment" << endl;
 }
-
+*/
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
 {

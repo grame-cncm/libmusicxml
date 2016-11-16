@@ -1431,24 +1431,25 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrComment& elt)
+void lpsr2LilyPondVisitor::visitStart (S_lpsrComment& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting msrComment" << endl;
+      "% --> Start visiting lpsrComment" << endl;
 
   fOstream << idtr <<
     "% " << elt->getContents () <<
     endl;
-  if (elt->getGapKind () == msrComment::kGapAfterwards)
+    
+  if (elt->getGapKind () == lpsrComment::kGapAfterwards)
     fOstream << endl;
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_msrComment& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrComment& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting msrComment" << endl;
+      "% --> End visiting lpsrComment" << endl;
 }
 
 //________________________________________________________________________

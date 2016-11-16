@@ -424,11 +424,11 @@ void lpsrBarLine::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrComment lpsrComment::create (
-  S_msrOptions&     msrOpts, 
-  S_lpsrOptions&    lpsrOpts, 
-  int                    inputLineNumber,
-  string                 contents,
-  lpsrGapKind                gapKind)
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber,
+  string         contents,
+  lpsrGapKind    gapKind)
 {
   lpsrComment* o = new
     lpsrComment (
@@ -438,16 +438,17 @@ S_lpsrComment lpsrComment::create (
 }
 
 lpsrComment::lpsrComment (
-  S_msrOptions&     msrOpts, 
-  S_lpsrOptions&    lpsrOpts, 
-  int                    inputLineNumber,
-  string                 contents,
-  lpsrGapKind                gapKind)
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts, 
+  int            inputLineNumber,
+  string         contents,
+  lpsrGapKind    gapKind)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {
   fContents=contents;
   fGapKind=gapKind;
 }
+
 lpsrComment::~lpsrComment() {}
 
 void lpsrComment::acceptIn (basevisitor* v) {
@@ -2212,6 +2213,18 @@ lpsrScore::lpsrScore (
       "2.19",
       lpsrVarValAssoc::g_NoUnit,
       lpsrVarValAssoc::kWithEndl);
+
+  // create a comment
+  S_lpsrComment
+    comment =
+      lpsrComment::create (
+        fMsrOptions,
+        fLpsrOptions,
+        0, // JMI
+        "Uncomment next line to use MusicXML staff size",
+        lpsrComment::kGapAfterwards);
+
+  appendCommentToScore (comment);
 
   // create the global staff size assoc
   fGlobalStaffSizeAssoc =

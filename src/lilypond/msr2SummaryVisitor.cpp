@@ -769,6 +769,7 @@ void msr2SummaryVisitor::visitEnd (S_msrRepeat& elt)
 }
 
 //________________________________________________________________________
+/* JMI
 void msr2SummaryVisitor::visitStart (S_msrComment& elt)
 {
   if (fMsrOptions->fDebug)
@@ -782,6 +783,7 @@ void msr2SummaryVisitor::visitEnd (S_msrComment& elt)
     fOstream << idtr <<
       "--> End visiting msrComment" << endl;
 }
+*/
 
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)

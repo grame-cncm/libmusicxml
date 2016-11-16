@@ -84,7 +84,7 @@ class msr2LpsrVisitor :
   
   public visitor<S_msrRepeat>,
   
-  public visitor<S_msrComment>,
+//  public visitor<S_msrComment>, // JMI
   
   public visitor<S_msrVarValAssoc>,
   
@@ -193,8 +193,8 @@ class msr2LpsrVisitor :
     virtual void visitStart (S_msrRepeat& elt);
     virtual void visitEnd   (S_msrRepeat& elt);
 
-    virtual void visitStart (S_msrComment& elt);
-    virtual void visitEnd   (S_msrComment& elt);
+//    virtual void visitStart (S_msrComment& elt);
+//    virtual void visitEnd   (S_msrComment& elt);
 
     virtual void visitStart (S_msrVarValAssoc& elt);
     virtual void visitEnd   (S_msrVarValAssoc& elt);

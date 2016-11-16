@@ -407,11 +407,15 @@ class EXP lpsrComment : public lpsrElement
     enum lpsrGapKind { kGapAfterwards, kNoGapAfterwards };
 
     static SMARTP<lpsrComment> create (
-      S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int                    inputLineNumber,
-      string                 contents,
-      lpsrGapKind                gapKind = kNoGapAfterwards);
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      string         contents,
+      lpsrGapKind    gapKind = kNoGapAfterwards);
+
+    string       getContents () const { return fContents; }
+
+    lpsrGapKind  getGapKind  () const { return fGapKind; }
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -423,18 +427,18 @@ class EXP lpsrComment : public lpsrElement
   protected:
 
     lpsrComment (
-          S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int                    inputLineNumber,
-      string                 contents,
-      lpsrGapKind                gapKind = kNoGapAfterwards);
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      string         contents,
+      lpsrGapKind    gapKind = kNoGapAfterwards);
       
     virtual ~lpsrComment();
   
   private:
 
-    string fContents;
-    lpsrGapKind     fGapKind;
+    string      fContents;
+    lpsrGapKind fGapKind;
 };
 typedef SMARTP<lpsrComment> S_lpsrComment;
 EXP ostream& operator<< (ostream& os, const S_lpsrComment& elt);
@@ -1195,6 +1199,10 @@ class EXP lpsrScore : public lpsrElement
                       changeAssocValue (s.str());
                   }
     
+    void      appendCommentToScore (
+                S_lpsrComment comment)
+                  { fScoreElements.push_back (comment); }
+                  
     void      appendSchemeVarValAssocToScore (
                 S_lpsrSchemeVarValAssoc assoc)
                   { fScoreElements.push_back (assoc); }

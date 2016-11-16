@@ -64,6 +64,8 @@ class lpsr2LilyPondVisitor :
   
   public visitor<S_lpsrBarCommand>,
 
+  public visitor<S_lpsrComment>,
+
   // MSR
   
   public visitor<S_msrScore>,
@@ -107,9 +109,7 @@ class lpsr2LilyPondVisitor :
   public visitor<S_msrBreak>,
   
   public visitor<S_msrRepeat>,
-  
-  public visitor<S_msrComment>,
-    
+      
   public visitor<S_msrMidi>
 
 {
@@ -176,6 +176,9 @@ class lpsr2LilyPondVisitor :
   
     virtual void visitStart (S_lpsrBarCommand& elt);
     virtual void visitEnd   (S_lpsrBarCommand& elt);
+
+    virtual void visitStart (S_lpsrComment& elt);
+    virtual void visitEnd   (S_lpsrComment& elt);
 
     // MSR
 
@@ -253,9 +256,6 @@ class lpsr2LilyPondVisitor :
 
     virtual void visitStart (S_msrRepeat& elt);
     virtual void visitEnd   (S_msrRepeat& elt);
-
-    virtual void visitStart (S_msrComment& elt);
-    virtual void visitEnd   (S_msrComment& elt);
 
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);
