@@ -1473,7 +1473,13 @@ void msrNote::browseData (basevisitor* v)
   os << endl;
   */
   
-  // browse the alterations if any
+  if (fNoteBeam) {
+    // browse the beam
+    msrBrowser<msrBeam> browser (v);
+    browser.browse (*fNoteBeam);
+  }
+
+  // browse the articulations if any
   if (fNoteArticulations.size()) {
     idtr++;
     list<S_msrArticulation>::const_iterator i;
@@ -1644,7 +1650,7 @@ void msrNote::print (ostream& os)
       idtr << fNoteBeam;
   }
   
-  // print the alterations if any
+  // print the articulations if any
   if (fNoteArticulations.size()) {
     os << endl;
     idtr++;

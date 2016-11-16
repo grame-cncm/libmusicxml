@@ -2150,6 +2150,8 @@ void xml2MsrScoreVisitor::visitStart ( S_note& elt )
   // assume this note doesn't belong to a tuplet until S_tuplet is met
   fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet = false;
 
+  fCurrentBeam = 0;
+  
   fCurrentTiedType = "";
   fCurrentTiedOrientation = "";
 
@@ -2267,33 +2269,29 @@ Each beam in a note is represented with a separate beam element, starting with t
 */
   //        <beam number="1">begin</beam>
 
-  fCurrentBeam = elt->getValue();
+  fCurrentBeamValue = elt->getValue();
 
   fCurrentBeamNumber = 
     elt->getAttributeIntValue ("number", 0);
   
   msrBeam::msrBeamKind beamKind;
 
-  if (fCurrentBeam == "begin") {
+  if (fCurrentBeamValue == "begin") {
     beamKind = msrBeam::kBeginBeam;
   }
-  else if (fCurrentBeam == "continue") {
+  else if (fCurrentBeamValue == "continue") {
     beamKind = msrBeam::kContinueBeam;
   }
-  else if (fCurrentBeam == "end") {
+  else if (fCurrentBeamValue == "end") {
     beamKind = msrBeam::kEndBeam;
   }
   
-  S_msrBeam
-    beam =
-      msrBeam::create (
-        fMsrOptions,
-        elt->getInputLineNumber (),
-        fCurrentBeamNumber,
-        beamKind); // JMI
-
-  fCurrentNote->
-    setBeam (beam);
+  fCurrentBeam =
+    msrBeam::create (
+      fMsrOptions,
+      elt->getInputLineNumber (),
+      fCurrentBeamNumber,
+      beamKind);
 }
 
 //______________________________________________________________________________
@@ -2394,7 +2392,7 @@ void xml2MsrScoreVisitor::visitStart( S_f& elt)
         elt->getInputLineNumber (),
         msrDynamics::kF);
   fPendingDynamics.push_back(dyn);
- }
+}
 void xml2MsrScoreVisitor::visitStart( S_ff& elt)
 {        
   S_msrDynamics
@@ -2404,7 +2402,7 @@ void xml2MsrScoreVisitor::visitStart( S_ff& elt)
         elt->getInputLineNumber (),
         msrDynamics::kFF);
   fPendingDynamics.push_back(dyn);
- }
+}
 void xml2MsrScoreVisitor::visitStart( S_fff& elt)
 {        
   S_msrDynamics
@@ -2414,7 +2412,7 @@ void xml2MsrScoreVisitor::visitStart( S_fff& elt)
         elt->getInputLineNumber (),
         msrDynamics::kFFF);
   fPendingDynamics.push_back(dyn);
- }
+}
 void xml2MsrScoreVisitor::visitStart( S_ffff& elt)
 {        
   S_msrDynamics
@@ -2424,7 +2422,7 @@ void xml2MsrScoreVisitor::visitStart( S_ffff& elt)
         elt->getInputLineNumber (),
         msrDynamics::kFFFF);
   fPendingDynamics.push_back(dyn);
- }
+}
 void xml2MsrScoreVisitor::visitStart( S_fffff& elt)
 {        
   S_msrDynamics
@@ -2434,7 +2432,7 @@ void xml2MsrScoreVisitor::visitStart( S_fffff& elt)
         elt->getInputLineNumber (),
         msrDynamics::kFFFFF);
   fPendingDynamics.push_back(dyn);
- }
+}
 void xml2MsrScoreVisitor::visitStart( S_ffffff& elt)
 {        
   S_msrDynamics
@@ -2444,8 +2442,7 @@ void xml2MsrScoreVisitor::visitStart( S_ffffff& elt)
         elt->getInputLineNumber (),
         msrDynamics::kFFFFFF);
   fPendingDynamics.push_back(dyn);
- }
-
+}
 
 void xml2MsrScoreVisitor::visitStart( S_p& elt)
 {        
@@ -2917,6 +2914,10 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
         fMusicXMLNoteData,
         fCurrentSlurKind);
 
+  if (fCurrentBeam)
+    newNote->
+      setBeam (fCurrentBeam);
+
   // attach the articulations if any to the note
   while (! fCurrentArticulations.empty()) {
     S_msrArticulation
@@ -2977,6 +2978,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   fOnGoingNote = false;
 } // xml2MsrScoreVisitor::visitEnd ( S_note& elt )
 
+//______________________________________________________________________________
 void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
   S_msrNote newNote)
 {
@@ -3012,6 +3014,7 @@ void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
   fOnGoingChord = false;
 } // handleStandaloneNoteOrRest
 
+//______________________________________________________________________________
 void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
   S_msrNote newNote)
 {
@@ -3066,6 +3069,7 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
     appendChordToVoice (fCurrentChord);
 } // handleNoteBelongingToAChord
 
+//______________________________________________________________________________
 void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
   S_msrNote newNote)
 {
@@ -3110,6 +3114,7 @@ void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
   } // switch
 } // handleNoteBelongingToATuplet
 
+//______________________________________________________________________________
 void xml2MsrScoreVisitor::handleLyricsText (
   int inputLineNumber)
 {

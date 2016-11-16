@@ -544,8 +544,9 @@ class EXP xml2MsrScoreVisitor :
 
     // beam handling
     // ------------------------------------------------------
-    string                    fCurrentBeam;
-    int                       fCurrentBeamNumber; 
+    string                    fCurrentBeamValue;
+    int                       fCurrentBeamNumber;
+    S_msrBeam                 fCurrentBeam;
 
     // note/rest handling
     // ------------------------------------------------------
