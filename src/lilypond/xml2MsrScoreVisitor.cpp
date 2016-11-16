@@ -1498,7 +1498,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_metronome& elt )
         elt->getInputLineNumber (),
         r.getDenominator(), fPerMinute);
     
- // fCurrentVoice->appendElementToVoice (tempo);
+  fCurrentVoice->appendTempoToVoice (tempo);
   
   // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
@@ -2291,6 +2291,9 @@ Each beam in a note is represented with a separate beam element, starting with t
         elt->getInputLineNumber (),
         fCurrentBeamNumber,
         beamKind); // JMI
+
+  fCurrentNote->
+    setBeam (beam);
 }
 
 //______________________________________________________________________________

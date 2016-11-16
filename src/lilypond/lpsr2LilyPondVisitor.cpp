@@ -62,6 +62,8 @@ lpsr2LilyPondVisitor::lpsr2LilyPondVisitor (
   
   fOnGoingStaff  = false;
 
+  fOngoingNonEmptyLyrics = false;
+
   fOnGoingScoreCommand = false;
 };
   
@@ -577,7 +579,8 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewlyricsCommand& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrNewlyricsCommand" << endl;
 
-   fOstream << idtr <<
+  if (fOngoingNonEmptyLyrics) {
+    fOstream << idtr <<
      "\\new Lyrics" << " " <<
     "\\lyricsto" << " " <<
     "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
@@ -585,9 +588,8 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewlyricsCommand& elt)
     "\\" << elt->getLyrics ()->getLyricsName () <<
     endl;
 
- // JMI \new Lyrics \lyricsto "PartPOneVoiceOne" \PartPOneVoiceOneLyricsOne
-
-  idtr++;
+    idtr++;
+  }
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewlyricsCommand& elt)
@@ -596,7 +598,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewlyricsCommand& elt)
     fOstream << idtr <<
       "% --> End visiting lpsrNewlyricsCommand" << endl;
 
-  idtr--;
+  if (fOngoingNonEmptyLyrics)
+    idtr--;
 }
 
 //________________________________________________________________________
@@ -761,15 +764,20 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyrics& elt)
     fOstream << idtr <<
       "% --> Start visiting msrLyrics" << endl;
 
-  fOstream << idtr <<
-    elt->getLyricsName () << " = " << "\\lyricmode" << " {" <<
-    endl;
-    
-  idtr++;
-  
-  fOstream << idtr;
+  fOngoingNonEmptyLyrics =
+    elt->getLyricsTextPresent ();
 
-  fLyricschunksCounter = 0;
+  if (fOngoingNonEmptyLyrics) {
+    fOstream << idtr <<
+      elt->getLyricsName () << " = " << "\\lyricmode" << " {" <<
+      endl;
+      
+    idtr++;
+    
+    fOstream << idtr;
+    
+    fLyricschunksCounter = 0;
+  }
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrLyrics& elt)
@@ -778,12 +786,16 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrLyrics& elt)
     fOstream << idtr <<
       "% --> End visiting msrLyrics" << endl;
 
-  idtr--;
+  if (fOngoingNonEmptyLyrics) {
+    idtr--;
   
-  fOstream <<
-    idtr << "}" <<
-    endl <<
-    endl;  
+    fOstream <<
+      idtr << "}" <<
+      endl <<
+      endl;
+  }
+
+  fOngoingNonEmptyLyrics = false;
 }
 
 //________________________________________________________________________
@@ -793,54 +805,56 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
     fOstream << idtr <<
       "% --> Start visiting msrLyricschunk" << endl;
 
-  if (++fLyricschunksCounter > 10) {
-    fOstream <<
-      endl <<
-      idtr;
-    fLyricschunksCounter = 1;
-  }
-  
-  switch (elt->getLyricschunkType ()) {
-    case msrLyricschunk::kSingleChunk:
+  if (fOngoingNonEmptyLyrics) {
+    if (++fLyricschunksCounter > 10) {
       fOstream <<
-        "\"" << elt->getChunkText () << "\"" << " ";
-      break;
-      
-    case msrLyricschunk::kBeginChunk:
-      fOstream <<
-        "\"" << elt->getChunkText () << "\"" << " ";
-      break;
-      
-    case msrLyricschunk::kMiddleChunk:
-      fOstream <<
-        "-- " << "\"" << elt->getChunkText () << "\"" << " ";
-      break;
-      
-    case msrLyricschunk::kEndChunk:
-      fOstream <<
-        "-- " << "\"" << elt->getChunkText () << "\"" << " ";
-      break;
-      
-    case msrLyricschunk::kSkipChunk:
-      fOstream <<
-        "\\skip" << elt->getChunkDuration () << " ";
-      break;
-      
-    case msrLyricschunk::kSlurChunk:
-      break;
-    case msrLyricschunk::kTiedChunk:
-      break;
-      
-    case msrLyricschunk::kBreakChunk:
-      fOstream <<
-        "%{ " << "\"" << elt->getChunkText () << "\"" << " %}" <<
         endl <<
         idtr;
-      break;
-
-    case msrLyricschunk::k_NoChunk:
-      break;
-  } // switch
+      fLyricschunksCounter = 1;
+    }
+    
+    switch (elt->getLyricschunkType ()) {
+      case msrLyricschunk::kSingleChunk:
+        fOstream <<
+          "\"" << elt->getChunkText () << "\"" << " ";
+        break;
+        
+      case msrLyricschunk::kBeginChunk:
+        fOstream <<
+          "\"" << elt->getChunkText () << "\"" << " ";
+        break;
+        
+      case msrLyricschunk::kMiddleChunk:
+        fOstream <<
+          "-- " << "\"" << elt->getChunkText () << "\"" << " ";
+        break;
+        
+      case msrLyricschunk::kEndChunk:
+        fOstream <<
+          "-- " << "\"" << elt->getChunkText () << "\"" << " ";
+        break;
+        
+      case msrLyricschunk::kSkipChunk:
+        fOstream <<
+          "\\skip" << elt->getChunkDuration () << " ";
+        break;
+        
+      case msrLyricschunk::kSlurChunk:
+        break;
+      case msrLyricschunk::kTiedChunk:
+        break;
+        
+      case msrLyricschunk::kBreakChunk:
+        fOstream <<
+          "%{ " << "\"" << elt->getChunkText () << "\"" << " %}" <<
+          endl <<
+          idtr;
+        break;
+  
+      case msrLyricschunk::k_NoChunk:
+        break;
+    } // switch
+  }
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrLyricschunk& elt)
@@ -1005,6 +1019,13 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTempo& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrTempo" << endl;
+
+  int tempoUnit = elt->getTempoUnit ();
+  int perMinute = elt->getPerMinute ();
+
+  fOstream << idtr <<
+    "\\tempo" << " " << tempoUnit << " = " << perMinute <<
+    endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrTempo& elt)

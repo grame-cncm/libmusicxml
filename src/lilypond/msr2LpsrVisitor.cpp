@@ -339,7 +339,7 @@ void msr2LpsrVisitor::visitStart (S_msrLyrics& elt)
 
   idtr++;
 
-//  if (elt->getLyricsTextPresent ()) {
+//  if (elt->getLyricsTextPresent ()) { // JMI
     fCurrentMsrLyricsClone =
       elt->createEmptyClone (fCurrentMsrVoiceClone);
   
@@ -449,6 +449,9 @@ void msr2LpsrVisitor::visitStart (S_msrTempo& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrTempo" << endl;
+
+  fCurrentMsrSequentialMusicClone->
+    appendElementToSequentialMusic (elt);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrTempo& elt)

@@ -299,6 +299,7 @@ class lpsr2LilyPondVisitor :
     // lyrics
     // ------------------------------------------------------
     S_msrLyrics          fCurrentMsrLyricsClone;
+    bool                 fOngoingNonEmptyLyrics;
     int                  fLyricschunksCounter;
     
     // lyrics chunks

@@ -490,6 +490,81 @@ void msrDuration::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrBeam msrBeam::create (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  int           number,
+  msrBeamKind   beamKind)
+{
+  msrBeam* o =
+    new msrBeam (
+      msrOpts, inputLineNumber, number, beamKind);
+  assert(o!=0);
+  return o;
+}
+
+msrBeam::msrBeam (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  int           number,
+  msrBeamKind   beamKind)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fBeamNumber = number;
+  fBeamKind   = beamKind; 
+}
+
+msrBeam::~msrBeam() {}
+
+void msrBeam::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrBeam::acceptIn()" << endl;
+      
+  if (visitor<S_msrBeam>*
+    p =
+      dynamic_cast<visitor<S_msrBeam>*> (v)) {
+        S_msrBeam elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrBeam::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrBeam::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrBeam::acceptOut()" << endl;
+
+  if (visitor<S_msrBeam>*
+    p =
+      dynamic_cast<visitor<S_msrBeam>*> (v)) {
+        S_msrBeam elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrBeam::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrBeam::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrBeam& beam)
+{
+  beam->print (os);
+  return os;
+}
+
+void msrBeam::print (ostream& os)
+{
+  os << "Beam" << endl; // JMI
+}
+
+//______________________________________________________________________________
 S_msrArticulation msrArticulation::create (
   S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
@@ -1561,6 +1636,13 @@ void msrNote::print (ostream& os)
     os << " " << "grace";
   if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
     os << " " << "tied";
+
+  // print the beam if any
+  if (fNoteBeam) {
+    os <<
+      endl <<
+      idtr << fNoteBeam;
+  }
   
   // print the alterations if any
   if (fNoteArticulations.size()) {
@@ -2363,81 +2445,6 @@ void msrTuplet::print (ostream& os)
     os << idtr << (*i);
   } // for
   idtr--;
-}
-
-//______________________________________________________________________________
-S_msrBeam msrBeam::create (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    number,
-  msrBeamKind               beamKind)
-{
-  msrBeam* o =
-    new msrBeam (
-      msrOpts, inputLineNumber, number, beamKind);
-  assert(o!=0);
-  return o;
-}
-
-msrBeam::msrBeam (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    number,
-  msrBeamKind               beamKind)
-    : msrElement (msrOpts, inputLineNumber)
-{
-  fBeamNumber = number;
-  fBeamKind   = beamKind; 
-}
-msrBeam::~msrBeam() {}
-
-void msrBeam::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrBeam::acceptIn()" << endl;
-      
-  if (visitor<S_msrBeam>*
-    p =
-      dynamic_cast<visitor<S_msrBeam>*> (v)) {
-        S_msrBeam elem = this;
-        
-        if (fMsrOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> Launching msrBeam::visitStart()" << endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrBeam::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrBeam::acceptOut()" << endl;
-
-  if (visitor<S_msrBeam>*
-    p =
-      dynamic_cast<visitor<S_msrBeam>*> (v)) {
-        S_msrBeam elem = this;
-      
-        if (fMsrOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> Launching msrBeam::visitEnd()" << endl;
-        p->visitEnd (elem);
-  }
-}
-
-
-void msrBeam::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrBeam& dyn)
-{
-  dyn->print (os);
-  return os;
-}
-
-void msrBeam::print (ostream& os)
-{
-  os << "Beam" << endl; // JMI
 }
 
 //______________________________________________________________________________
@@ -4057,6 +4064,11 @@ S_msrLyrics msrVoice::fetchLyricsFromVoice (
 
 void msrVoice::appendClefToVoice (S_msrClef clef)
 {
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending clef '" << clef <<
+      "' to voice " << getVoiceName () << endl;
+
   S_msrElement c = clef;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (c);
@@ -4064,6 +4076,11 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
 
 void msrVoice::appendKeyToVoice (S_msrKey key)
 {
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending key '" << key <<
+      "' to voice " << getVoiceName () << endl;
+
   S_msrElement k = key;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (k);
@@ -4071,12 +4088,34 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
 
 void msrVoice::appendTimeToVoice (S_msrTime time)
 {
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending time '" << time <<
+      "' to voice " << getVoiceName () << endl;
+
   S_msrElement t = time;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (t);
 }
 
+void msrVoice::appendTempoToVoice (S_msrTempo tempo)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending tempo '" << tempo <<
+      "' to voice " << getVoiceName () << endl;
+
+  S_msrElement t = tempo;
+  fVoiceSequentialMusic->
+    appendElementToSequentialMusic (t);
+}
+
 void msrVoice::appendNoteToVoice (S_msrNote note) {
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "Appending note '" << note <<
+      "' to voice " << getVoiceName () << endl;
+
   S_msrElement n = note;
   fVoiceSequentialMusic->appendElementToSequentialMusic (n);
 
@@ -4095,12 +4134,22 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
 void msrVoice::appendChordToVoice (S_msrChord chord)
 {
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "Appending chord '" << chord <<
+      "' to voice " << getVoiceName () << endl;
+
   S_msrElement c = chord;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (c);
 }
 
 void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "Appending tuplet '" << tuplet <<
+      "' to voice " << getVoiceName () << endl;
+
   S_msrElement t = tuplet;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (t);
@@ -4108,6 +4157,11 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
 
 void msrVoice::appendElementToVoice (S_msrElement elem)
 {
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "Appending element '" << elem <<
+      "' to voice " << getVoiceName () << endl;
+
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (elem);
 }

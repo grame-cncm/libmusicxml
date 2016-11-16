@@ -440,6 +440,53 @@ typedef SMARTP<msrDuration> S_msrDuration;
 EXP ostream& operator<< (ostream& os, const S_msrDuration& elt);
 
 /*!
+\brief A msr beam representation.
+
+  A beam is represented by a msrBeamKind value
+*/
+//______________________________________________________________________________
+class EXP msrBeam : public msrElement
+{
+  public:
+
+    enum msrBeamKind {
+            kBeginBeam, kContinueBeam, kEndBeam, 
+            k_NoBeam };
+    
+    static SMARTP<msrBeam> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           number,
+      msrBeamKind   beamKind);
+
+    msrBeamKind getBeamKind () const { return fBeamKind; }
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    msrBeam (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           number,
+      msrBeamKind   beamKind);
+      
+    virtual ~msrBeam();
+  
+  private:
+
+    int         fBeamNumber;
+    msrBeamKind fBeamKind;
+};
+typedef SMARTP<msrBeam> S_msrBeam;
+EXP ostream& operator<< (ostream& os, const S_msrBeam& elt);
+
+/*!
 \brief A msr articulation representation.
 
   An articulation is represented by the numerator and denominator
@@ -698,6 +745,10 @@ class EXP msrNote : public msrElement
 
     string        noteMsrPitchAsString ();
 
+    // beam
+    void          setBeam (S_msrBeam beam)  { fNoteBeam = beam; }
+    S_msrBeam     getBeam () const          { return fNoteBeam; }
+    
     // articulations
     void          addArticulation (S_msrArticulation art);
     list<S_msrArticulation>
@@ -756,6 +807,8 @@ class EXP msrNote : public msrElement
     bool                       fNoteBelongsToATuplet;
     bool                       fNoteIsAGraceNote;
 
+    S_msrBeam                  fNoteBeam;
+    
     list<S_msrArticulation>    fNoteArticulations;
     
     list<S_msrDynamics>        fNoteDynamics;
@@ -1510,53 +1563,6 @@ typedef SMARTP<msrTuplet> S_msrTuplet;
 EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
 
 /*!
-\brief A msr beam representation.
-
-  A beam is represented by a msrBeamKind value
-*/
-//______________________________________________________________________________
-class EXP msrBeam : public msrElement
-{
-  public:
-
-    enum msrBeamKind {
-            kBeginBeam, kContinueBeam, kEndBeam, 
-            k_NoBeam };
-    
-    static SMARTP<msrBeam> create (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    number,
-      msrBeamKind               beamKind);
-
-    msrBeamKind getBeamKind () const { return fBeamKind; }
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void print (ostream& os);
-
-  protected:
-
-    msrBeam (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    number,
-      msrBeamKind               beamKind);
-      
-    virtual ~msrBeam();
-  
-  private:
-
-    int      fBeamNumber;
-    msrBeamKind fBeamKind;
-};
-typedef SMARTP<msrBeam> S_msrBeam;
-EXP ostream& operator<< (ostream& os, const S_msrBeam& elt);
-
-/*!
 \brief A msr clef representation.
 
   A clef is represented by its name
@@ -1982,9 +1988,12 @@ class EXP msrVoice : public msrElement
     void      appendKeyToVoice        (S_msrKey  key);
     void      appendTimeToVoice       (S_msrTime time);
     
+    void      appendTempoToVoice      (S_msrTempo tempo);
+    
     void      appendNoteToVoice       (S_msrNote note);
     void      appendChordToVoice      (S_msrChord chord);
     void      appendTupletToVoice     (S_msrTuplet tuplet);
+    
     void      appendElementToVoice    (S_msrElement elem); // for others
 
     S_msrElement
