@@ -765,7 +765,8 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
   if (fCurrentPartgroupType == "start")
     partGroupTypeKind = msrPartgroup::kStartPartgroupType;
     
-  else if (fCurrentPartgroupType == "stop")
+  else
+  if (fCurrentPartgroupType == "stop")
     partGroupTypeKind = msrPartgroup::kStopPartgroupType;
     
   else {
@@ -786,16 +787,20 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
   if (fCurrentPartgroupSymbol == "brace")
     partGroupSymbolKind = msrPartgroup::kBracePartgroupSymbol;
     
-  else if (fCurrentPartgroupSymbol == "bracket")
+  else
+  if (fCurrentPartgroupSymbol == "bracket")
     partGroupSymbolKind = msrPartgroup::kBracketPartgroupSymbol;
     
-  else if (fCurrentPartgroupSymbol == "line")
+  else
+  if (fCurrentPartgroupSymbol == "line")
     partGroupSymbolKind = msrPartgroup::kLinePartgroupSymbol;
     
-  else if (fCurrentPartgroupSymbol == "square")
+  else
+  if (fCurrentPartgroupSymbol == "square")
     partGroupSymbolKind = msrPartgroup::kSquarePartgroupSymbol;
     
-  else if (fCurrentPartgroupSymbol == "none")
+  else
+  if (fCurrentPartgroupSymbol == "none")
     partGroupSymbolKind = msrPartgroup::k_NoPartgroupSymbol;
     
   else {
@@ -813,7 +818,8 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
   if (fCurrentPartgroupBarline == "yes")
     partGroupBarline = true;
     
-  else if (fCurrentPartgroupBarline == "no")
+  else
+  if (fCurrentPartgroupBarline == "no")
     partGroupBarline = false;
     
   else {
@@ -1252,12 +1258,16 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
 
     fCurrentForwardStaffNumber = staffNumber;
 
-  } else if (fOnGoingNote) {
+  }
+  else
+  if (fOnGoingNote) {
 
     // regular staff indication in note/rest
     fCurrentStaffNumber = staffNumber;
 
-  } else if (fOnGoingDirection) {
+  }
+  else
+  if (fOnGoingDirection) {
 
     // JMI
     
@@ -1304,7 +1314,9 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
 
     fCurrentForwardVoiceNumber = voiceNumber;
 
-  } else if (fOnGoingNote) {
+  }
+  else
+  if (fOnGoingNote) {
 
     // regular voice indication in note/rest
     fCurrentVoiceNumber = voiceNumber;
@@ -1312,7 +1324,8 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
       fCurrentStaff->
         fetchVoiceFromStaff (fCurrentVoiceNumber);
     
-  } else {
+  }
+  else {
     
     stringstream s;
     s << "voice " << voiceNumber << " is out of context";
@@ -1445,7 +1458,8 @@ void xml2MsrScoreVisitor::visitStart ( S_metronome& elt )
     
     if (parentheses == "yes") 
       fParentheses = true;
-    else if (parentheses == "no")
+    else
+    if (parentheses == "no")
       fParentheses = true;
     else {
       stringstream s;
@@ -1535,12 +1549,16 @@ fCurrentTiedOrientation =
     
 //    fCurrentTiedKind = msrTied::kStartTied;
     
-  } else if (fCurrentTiedType == "continue") {
+  }
+  else
+  if (fCurrentTiedType == "continue") {
     
 //    fCurrentTiedKind = msrTied::kContinueTied;
     fMusicXMLNoteData.fMusicXMLNoteIsTied = true;
     
-  } else if (fCurrentTiedType == "stop") {
+  }
+  else
+  if (fCurrentTiedType == "stop") {
     
 //    fCurrentTiedKind = msrTied::kStopTied;
     fMusicXMLNoteData.fMusicXMLNoteIsTied = true;
@@ -1577,16 +1595,19 @@ void xml2MsrScoreVisitor::visitStart (S_slur& elt )
     fCurrentSlurKind = msrSlur::kStartSlur;
     fOnGoingSlur = true;
     
-  } else if (fCurrentSlurType == "continue") {
+  }
+  else if (fCurrentSlurType == "continue") {
     
     fCurrentSlurKind = msrSlur::kContinueSlur;
     
-  } else if (fCurrentSlurType == "stop") {
+  }
+  else if (fCurrentSlurType == "stop") {
     
     fCurrentSlurKind = msrSlur::kStopSlur;
     fOnGoingSlur = false;
     
-  } else {
+  }
+  else {
 
     // inner slur notes may miss the "continue" type:
     // let' complain on slur notes outside of slurs 
@@ -2036,10 +2057,11 @@ void xml2MsrScoreVisitor::visitStart ( S_barline& elt )
     fCurrentVoice->
       appendElementToVoice (bar);
     
-  } else if (fCurrentBarlineLocation == "right") {
+  }
+  else if (fCurrentBarlineLocation == "right") {
 
-    
-  } else {
+  }
+  else {
 
   }
 }
@@ -2208,15 +2230,18 @@ void xml2MsrScoreVisitor::visitStart ( S_duration& elt )
     gCurrentMusicXMLLocation.fPositionInMeasure -=
       fCurrentBackupDuration;
     
-  } else if (fOnGoingForward) {
+  }
+  else if (fOnGoingForward) {
   
     fCurrentForwardDuration = musicXMLduration;
     
-  } else if (fOnGoingNote) {
+  }
+  else if (fOnGoingNote) {
   
     fMusicXMLNoteData.fMusicXMLDuration = musicXMLduration;
     
-  } else {
+  }
+  else {
     
     stringstream s;
     s << "duration " << musicXMLduration << " is out of context";
@@ -2574,6 +2599,7 @@ void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
 
   fCurrentTupletNumber =
     elt->getAttributeIntValue ("number", 0);
+    
   string tupletType =
     elt->getAttributeValue("type");
   
@@ -2954,11 +2980,13 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
 
     handleNoteBelongingToAChord (newNote);
 
-  } else if (fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet) {
+  }
+  else if (fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet) {
 
     handleNoteBelongingToATuplet (newNote);
     
-  } else { // standalone note/rest
+  }
+  else { // standalone note/rest
 
     handleStandaloneNoteOrRest (newNote);
     
