@@ -197,6 +197,7 @@ class EXP xml2MsrScoreVisitor :
 
   public visitor<S_chord>,
 
+  public visitor<S_time_modification>,
   public visitor<S_actual_notes>,
   public visitor<S_normal_notes>,
   public visitor<S_normal_type>,
@@ -367,6 +368,7 @@ class EXP xml2MsrScoreVisitor :
 
     virtual void visitStart ( S_chord& elt);
     
+    virtual void visitStart ( S_time_modification& elt);
     virtual void visitStart ( S_actual_notes& elt);
     virtual void visitStart ( S_normal_notes& elt);
     virtual void visitStart ( S_normal_type& elt);

@@ -2578,6 +2578,15 @@ void xml2MsrScoreVisitor::visitStart ( S_chord& elt)
 }
 
 //______________________________________________________________________________
+void xml2MsrScoreVisitor::visitStart ( S_time_modification& elt )
+{
+  // there may be no '<tuplet number="n" type="start" />'
+  // in the tuplet notes after the first one,
+  // so we detect tuplet notes on '<time-modification>'
+  // so we detect tuplet notes on '<time-modification>'
+  fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet = true;
+}
+
 void xml2MsrScoreVisitor::visitStart ( S_actual_notes& elt )
 {
   fCurrentActualNotes = (int)(*elt);
@@ -2595,8 +2604,6 @@ void xml2MsrScoreVisitor::visitStart ( S_normal_type& elt )
 
 void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
 {
-  fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet = true;
-
   fCurrentTupletNumber =
     elt->getAttributeIntValue ("number", 0);
     
@@ -3055,6 +3062,13 @@ void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
       "xml2MsrScoreVisitor::handleStandaloneNoteOrRest " <<
       newNote <<
       endl;
+
+  if (fMusicXMLNoteData.fMusicXMLStepIsARest)
+    newNote->
+      setNoteKind (msrNote::kRestNote);
+  else
+    newNote->
+      setNoteKind (msrNote::kStandaloneNote);
       
   // register note/rest as standalone
 //  if (true || fMsrOptions->fDebug)
@@ -3104,7 +3118,10 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
     msrMusicXMLError (
       newNote->getInputLineNumber (),
       "a rest cannot belong to a chord");
-      
+
+  newNote->
+    setNoteKind (msrNote::kChordMemberNote);
+
   if (! fOnGoingChord) {
     // create a chord with fCurrentNote as its first note
     fCurrentChord =
@@ -3161,6 +3178,9 @@ void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
       note <<
       endl;
         
+  note->
+    setNoteKind (msrNote::kTupletMemberNote);
+
   switch (fCurrentTupletKind) {
     case msrTuplet::kStartTuplet:
       {
