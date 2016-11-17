@@ -590,7 +590,7 @@ class EXP xml2MsrScoreVisitor :
     bool                      fOnGoingTuplet;
     stack<S_msrTuplet>        fCurrentTupletsStack;
 
-    void                      createTupletFromItsecondNote (
+    void                      createTupletWithItsFirstNote (
                                 S_msrNote note);
     void                      finalizeTuplet (
                                 S_msrNote note);

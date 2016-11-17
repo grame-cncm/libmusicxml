@@ -2761,23 +2761,23 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::createTupletFromItsecondNote (S_msrNote secondNote)
+void xml2MsrScoreVisitor::createTupletWithItsFirstNote (S_msrNote note)
 {
   // fCurrentNote is the first tuplet note,
   // and is currently at the end of the voice
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "xml2MsrScoreVisitor::createTupletFromItsecondNote " <<
-      secondNote <<
+      "xml2MsrScoreVisitor::createTupletWithItsFirstNote " <<
+      note <<
       endl;
       
-  // create a tuplet element
+  // create a tuplet
   S_msrTuplet
     tuplet =
       msrTuplet::create(
         fMsrOptions,
-        secondNote->getInputLineNumber ());
+        note->getInputLineNumber ());
 // JMI  fCurrentElement = tuplet; // another name for it
 
   // populate it
@@ -2791,7 +2791,8 @@ void xml2MsrScoreVisitor::createTupletFromItsecondNote (S_msrNote secondNote)
     cerr << idtr <<
       "--> pushing tuplet to tuplets stack" << endl;
   fCurrentTupletsStack.push(tuplet);
-  
+
+  /* JMI
   // remove fCurrentNote from the voice
   if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -2799,20 +2800,14 @@ void xml2MsrScoreVisitor::createTupletFromItsecondNote (S_msrNote secondNote)
       " from the voice " << fCurrentVoice->getVoiceName () << endl;
   fCurrentVoice->
     removeLastElementFromVoiceSequentialMusic ();
+  */
   
-  // add fCurrentNote as first note to the tuplet
+  // add note as first note of the tuplet
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> adding note " << secondNote->noteMsrPitchAsString() <<
+      "--> adding note " << note->noteMsrPitchAsString() <<
       " as first note of the tuplet" << endl;
-  tuplet->addElementToTuplet (fCurrentNote);
-  
-  // add second note to the tuplet
-  if (fMsrOptions->fDebug)
-    cerr << idtr <<
-      "--> adding note " << secondNote->noteMsrPitchAsString() <<
-      " as second note of the tuplet" << endl;
-  tuplet->addElementToTuplet (secondNote);
+  tuplet->addElementToTuplet (note);
 }
 
 //______________________________________________________________________________
@@ -2978,7 +2973,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   
   //cerr << "::: creating a note" << endl;
   S_msrNote
-    newNote =
+    note =
       msrNote::createFromMusicXMLData (
         fMsrOptions,
         elt->getInputLineNumber (),
@@ -2986,7 +2981,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
         fCurrentSlurKind);
 
   if (fCurrentBeam)
-    newNote->
+    note->
       setBeam (fCurrentBeam);
 
   // attach the articulations if any to the note
@@ -2994,12 +2989,12 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
     S_msrArticulation
       art =
         fCurrentArticulations.front();
-    newNote->
+    note->
       addArticulation (art);
     fCurrentArticulations.pop_front();
   } // while
    
-  attachPendingDynamicsAndWedgesToNote (newNote);
+  attachPendingDynamicsAndWedgesToNote (note);
 
   /*
   A note can be standalone
@@ -3011,22 +3006,22 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
   
   if (fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord) {
 
-    handleNoteBelongingToAChord (newNote);
+    handleNoteBelongingToAChord (note);
 
   }
   else if (fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet) {
 
-    handleNoteBelongingToATuplet (newNote);
+    handleNoteBelongingToATuplet (note);
     
   }
   else { // standalone note/rest
 
-    handleStandaloneNoteOrRest (newNote);
+    handleStandaloneNoteOrRest (note);
     
   }
 
   // keep track of note/rest in this visitor
-  fCurrentNote = newNote;
+  fCurrentNote = note;
   gCurrentMusicXMLLocation.fPositionInMeasure +=
     fCurrentNote->
       getNoteMusicXMLDuration ();
@@ -3158,18 +3153,18 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
 
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
-  S_msrNote newNote)
+  S_msrNote note)
 {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "xml2MsrScoreVisitor::handleNoteBelongingToATuplet " <<
-      newNote <<
+      note <<
       endl;
         
   switch (fCurrentTupletKind) {
     case msrTuplet::kStartTuplet:
       {
-        createTupletFromItsecondNote (newNote);
+        createTupletWithItsFirstNote (note);
         fOnGoingTuplet = true;
       
         // swith to continuation mode
@@ -3184,16 +3179,16 @@ void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
         // populate the tuplet at the top of the stack
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "--> adding note " << newNote <<
+            "--> adding note " << note <<
             " to tuplets stack top" << endl;
         fCurrentTupletsStack.top()->
-          addElementToTuplet (newNote);
+          addElementToTuplet (note);
       }
       break;
 
     case msrTuplet::kStopTuplet:
       {
-        finalizeTuplet(newNote);
+        finalizeTuplet (note);
 
         // indicate the end of the tuplet
         fOnGoingTuplet = false;
