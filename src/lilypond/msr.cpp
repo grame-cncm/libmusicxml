@@ -4244,6 +4244,27 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
     appendElementToSequentialMusic (elem);
 }
 
+void msrVoice::removeLastElementFromVoiceSequentialMusic ()
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "Removing last element " <<
+      " from voice " << getVoiceName () << endl;
+
+  fVoiceSequentialMusic->
+    removeLastElementFromSequentialMusic ();
+}
+void msrVoice::removeElementFromVoiceSequentialMusic (S_msrElement elem)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "Removing element '" << elem <<
+      "' from voice " << getVoiceName () << endl;
+
+  fVoiceSequentialMusic->
+    removeElementFromSequentialMusic (elem);
+}
+
 void msrVoice::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<

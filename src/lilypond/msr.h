@@ -2006,18 +2006,9 @@ class EXP msrVoice : public msrElement
                       getLastElementOfSequentialMusic ();
                   }
                   
-    void      removeLastElementFromVoiceSequentialMusic ()
-                  {
-                    fVoiceSequentialMusic->
-                      removeLastElementFromSequentialMusic ();
-                  }
+    void      removeLastElementFromVoiceSequentialMusic ();
 
-    void      removeElementFromVoiceSequentialMusic (S_msrElement elem)
-                  {
-                    fVoiceSequentialMusic->
-                      removeElementFromSequentialMusic (elem);
-                  }
-
+    void      removeElementFromVoiceSequentialMusic (S_msrElement elem);
 
     S_msrSequentialMusic
               getVoiceSequentialMusic () const

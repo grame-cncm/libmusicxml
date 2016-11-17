@@ -2763,6 +2763,9 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::createTupletFromItsecondNote (S_msrNote secondNote)
 {
+  // fCurrentNote is the first tuplet note,
+  // and is currently at the end of the voice
+
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "xml2MsrScoreVisitor::createTupletFromItsecondNote " <<
@@ -2789,11 +2792,26 @@ void xml2MsrScoreVisitor::createTupletFromItsecondNote (S_msrNote secondNote)
       "--> pushing tuplet to tuplets stack" << endl;
   fCurrentTupletsStack.push(tuplet);
   
+  // remove fCurrentNote from the voice
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> removing current note " << fCurrentNote->noteMsrPitchAsString() <<
+      " from the voice " << fCurrentVoice->getVoiceName () << endl;
+  fCurrentVoice->
+    removeLastElementFromVoiceSequentialMusic ();
+  
+  // add fCurrentNote as first note to the tuplet
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> adding note " << secondNote->noteMsrPitchAsString() <<
+      " as first note of the tuplet" << endl;
+  tuplet->addElementToTuplet (fCurrentNote);
+  
   // add second note to the tuplet
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> adding note " << secondNote->noteMsrPitchAsString() <<
-      " to tuplets stack top" << endl;
+      " as second note of the tuplet" << endl;
   tuplet->addElementToTuplet (secondNote);
 }
 
@@ -3147,10 +3165,7 @@ void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
       "xml2MsrScoreVisitor::handleNoteBelongingToATuplet " <<
       newNote <<
       endl;
-      
-  fMusicXMLNoteData.fMusicXMLTupletMemberNoteType =
-    fCurrentNoteType;
-  
+        
   switch (fCurrentTupletKind) {
     case msrTuplet::kStartTuplet:
       {
