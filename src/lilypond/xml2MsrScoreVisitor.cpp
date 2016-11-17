@@ -2127,11 +2127,27 @@ void xml2MsrScoreVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fMusicXMLStep = '_';
   fMusicXMLNoteData.fMusicXMLStepIsARest = false;
   fMusicXMLNoteData.fMusicXMLStepIsUnpitched = false;
+  
   fMusicXMLNoteData.fMusicXMLAlteration = 0; // natural notes
+  
   fMusicXMLNoteData.fMusicXMLOctave = -13;
+  
+  fMusicXMLNoteData.fMusicXMLDivisions = -13;
+  fMusicXMLNoteData.fMusicXMLDuration = -13;
   fMusicXMLNoteData.fMusicXMLDotsNumber = 0;
+  
   fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote = false;
+  
+  // assume this note doesn't belong to a chord until S_chord is met
+  fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = false;
+  
+  // assume this note doesn't belong to a tuplet until S_tuplet is met
+  fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet = false;
+  fMusicXMLNoteData.fMusicXMLTupletMemberNoteType = "";
+  
   fMusicXMLNoteData.fMusicXMLNoteIsTied = false;
+  
+  fMusicXMLNoteData.fMusicXMLVoiceNumber = 0;
 
   // assuming staff number 1, unless S_staff states otherwise afterwards
   fCurrentStaffNumber = 1;
@@ -2144,12 +2160,6 @@ void xml2MsrScoreVisitor::visitStart ( S_note& elt )
   // assume this note hasn't got lyrics until S_lyric is met
   fCurrentNoteHasLyrics = false;
   
-  // assume this note doesn't belong to a chord until S_chord is met
-  fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = false;
-
-  // assume this note doesn't belong to a tuplet until S_tuplet is met
-  fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet = false;
-
   fCurrentBeam = 0;
   
   fCurrentTiedType = "";
@@ -2753,6 +2763,7 @@ void xml2MsrScoreVisitor::createTupletFromItsecondNote (S_msrNote secondNote)
   tuplet->addElementToTuplet (secondNote);
 }
 
+//______________________________________________________________________________
 void xml2MsrScoreVisitor::finalizeTuplet (S_msrNote note) {
   // get tuplet from top of tuplet stack
   S_msrTuplet tup = fCurrentTupletsStack.top();
@@ -2778,6 +2789,7 @@ void xml2MsrScoreVisitor::finalizeTuplet (S_msrNote note) {
     appendTupletToVoice (tup);
 }          
 
+//______________________________________________________________________________
 void xml2MsrScoreVisitor::attachPendingDynamicsAndWedgesToNote (
   S_msrNote note)
 {

@@ -327,8 +327,11 @@ class musicXMLNoteData
     char        fMusicXMLStep;
     bool        fMusicXMLStepIsARest;
     bool        fMusicXMLStepIsUnpitched;
+    
     int         fMusicXMLAlteration;
+    
     int         fMusicXMLOctave;
+    
     int         fMusicXMLDivisions;
     int         fMusicXMLDuration;
     int         fMusicXMLDotsNumber;

@@ -1182,6 +1182,11 @@ bool msrNote::getNoteIsARest ()
 */
 
 void msrNote::setNoteBelongsToAChord () {
+ // if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> note " << this <<
+      " belongs to a chord" << endl;
+
   fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = true;
   fNoteKind = msrNote::kChordMemberNote;
 }
@@ -1857,6 +1862,8 @@ void msrSequentialMusic::print (ostream& os)
     
     idtr--;
   }
+
+  os << endl;
 }
 
 //______________________________________________________________________________
@@ -2030,7 +2037,8 @@ void msrChord::print (ostream& os)
       iEnd   = fChordNotes.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << (*i)->noteMsrPitchAsString ();
+   //   os << (*i)->noteMsrPitchAsString (); JMI
+      os << (*i);
       if (++i == iEnd) break;
       os << " ";
     } // for

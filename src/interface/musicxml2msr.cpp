@@ -177,7 +177,7 @@ void displayMsrScore (
   if (msrOpts->fTrace) 
     os << idtr <<
       separator << endl <<
-      "%Outputting a view of the MSR score" << endl <<
+      "%Outputting a view of the MSR" << endl <<
       separator << endl;
   
   if (msrOpts->fTrace) os << "%{" << endl;
@@ -199,7 +199,7 @@ void displayMsrScoreSummary (
   if (msrOpts->fTrace) 
     os << idtr <<
       separator << endl <<
-      "%Outputting a summary of the MSR score" << endl <<
+      "%Outputting a summary of the MSR" << endl <<
       separator << endl;
    
   // create an msr2SummaryVisitor visitor
