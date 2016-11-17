@@ -1185,7 +1185,8 @@ string msrNote::octaveRepresentation (char octave)
 }
   */
 
-  if (fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
+  if (true || fMsrOptions->fDebug) { // JMI
     fOstream << idtr <<
       "% --> Start visiting ";
       
@@ -1230,6 +1231,7 @@ string msrNote::octaveRepresentation (char octave)
           idtr;
         fSequentialMusicElementsCounter = 1;
       }
+      
       // print the note name
       fOstream <<
         noteMsrPitchAsLilyPondString (elt);
@@ -1246,6 +1248,7 @@ string msrNote::octaveRepresentation (char octave)
           idtr;
         fSequentialMusicElementsCounter = 1;
       }
+      
       // print the rest name
       fOstream <<
         "r";

@@ -559,8 +559,7 @@ void msr2LpsrVisitor::visitEnd (S_msrWedge& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrNote& elt)
 {
-//  if (fMsrOptions->fDebug) {
-  if (true || fMsrOptions->fDebug) { // JMI
+  if (fMsrOptions->fDebug) {
     fOstream << idtr <<
       "--> Start visiting ";
     switch (elt->getNoteKind ()) {
@@ -656,7 +655,7 @@ void msr2LpsrVisitor::visitEnd (S_msrBeam& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrChord& elt)
 {
-//  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrChord" << endl;
 

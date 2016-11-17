@@ -702,8 +702,11 @@ class EXP msrNote : public msrElement
       kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp,
       k_NoAlteration};
 
-    msrNoteKind getNoteKind () const        { return fNoteKind; }
-    void setNoteKind (msrNoteKind noteKind) { fNoteKind = noteKind; }
+    msrNoteKind getNoteKind () const
+                    { return fNoteKind; }
+    void        setNoteKind (
+                  msrNoteKind noteKind)
+                    { fNoteKind = noteKind; }
 
     // for rests
   // JMI  bool getNoteIsARest ();
@@ -799,17 +802,13 @@ class EXP msrNote : public msrElement
     musicXMLNoteData           fMusicXMLNoteData;
     musicXMLDiatonicPitch      fMusicXMLDiatonicPitch; // JMI
 
-    // MusicXML durations are in in divisions per quarter note,
-    // LilyPond durations are in whole notes, hence the "*4" multiplication
+    // MusicXML durations are in divisions per quarter note.
+    // LilyPond durations are in whole notes,
+    // hence the "*4" multiplications
     S_msrDuration              fNoteMsrDuration;
 
     // LilyPond informations
     msrPitch                   fNoteMsrPitch;
-    bool                       fNoteIsARest; // JMI
-    bool                       fNoteIsTied;
-    bool                       fNoteBelongsToAChord;
-    bool                       fNoteBelongsToATuplet;
-    bool                       fNoteIsAGraceNote;
 
     S_msrBeam                  fNoteBeam;
     

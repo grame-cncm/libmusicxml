@@ -664,8 +664,6 @@ void msrArticulation::print (ostream& os)
       os << "fermata";
       break;
   } // switch
-  
-  os << endl;
 }
 
 //______________________________________________________________________________
@@ -811,7 +809,7 @@ ostream& operator<< (ostream& os, const S_msrDynamics& dyn)
 void msrDynamics::print (ostream& os)
 {
   os <<
-    "Dynamics" << " " << dynamicsKindAsString () << endl;
+    "Dynamics" << " " << dynamicsKindAsString ();
 }
 
 //______________________________________________________________________________
@@ -903,7 +901,7 @@ ostream& operator<< (ostream& os, const S_msrWedge& wdg)
 
 void msrWedge::print (ostream& os)
 {
-  os << "Wedge" << " " << wedgeKindAsString () << endl;
+  os << "Wedge" << " " << wedgeKindAsString ();
 }
 
 //______________________________________________________________________________
@@ -1182,10 +1180,10 @@ bool msrNote::getNoteIsARest ()
 */
 
 void msrNote::setNoteBelongsToAChord () {
- // if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> note " << this <<
-      " belongs to a chord" << endl;
+      " is set to belong to a chord" << endl;
 
   fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = true;
   fNoteKind = msrNote::kChordMemberNote;
@@ -1565,13 +1563,7 @@ ostream& operator<< (ostream& os, const S_msrNote& elt)
 
 /*
 void msrNote::printBareNote (ostream& os)
-{
-  / *
-  cerr <<
-    "msrNote::print (), fNoteBelongsToAChord = " << 
-    fNoteBelongsToAChord << endl;
-  * /
-  
+{  
   switch (fNoteKind) {
     case msrNote::kStandaloneNote:
       // print the note name
@@ -1627,8 +1619,7 @@ void msrNote::print (ostream& os)
   // print the note itself
   switch (fNoteKind) {
     case msrNote::kStandaloneNote:
-      // print the note name
-      os <<
+      os << idtr <<
         "Standalone note" <<
         " " <<
         noteMsrPitchAsString () <<
@@ -1637,24 +1628,25 @@ void msrNote::print (ostream& os)
       break;
       
     case msrNote::kRestNote:
-      // print the rest
-      os <<
+      os << idtr <<
         "Rest" <<
         ":" <<
         getNoteMsrDuration ();
       break;
       
     case msrNote::kChordMemberNote:
-      os <<
+      os << idtr <<
         "Chord member note" <<
+        " " <<
         noteMsrPitchAsString () <<
         ":" <<
         getNoteMsrDuration ();
       break;
       
     case msrNote::kTupletMemberNote:
-      os <<
+      os << idtr <<
         "Tuplet member note" <<
+        " " <<
         noteMsrPitchAsString () <<
         ":" <<
         getNoteMsrDuration ();
@@ -2020,7 +2012,16 @@ void msrChord::acceptOut (basevisitor* v) {
 
 
 void msrChord::browseData (basevisitor* v)
-{}
+{
+  for (
+    vector<S_msrNote>::const_iterator i = fChordNotes.begin();
+    i != fChordNotes.end();
+    i++ ) {
+    // browse chord note
+    msrBrowser<msrNote> browser (v);
+    browser.browse (*(*i));
+  } // for
+}
 
 ostream& operator<< (ostream& os, const S_msrChord& chrd)
 {
@@ -2030,7 +2031,10 @@ ostream& operator<< (ostream& os, const S_msrChord& chrd)
 
 void msrChord::print (ostream& os)
 {
-  os << "Chord" << " " << "<";
+  os << "Chord" << endl;
+
+  idtr++;
+  
   if (fChordNotes.size()) {
     vector<S_msrNote>::const_iterator
       iBegin = fChordNotes.begin(),
@@ -2040,10 +2044,9 @@ void msrChord::print (ostream& os)
    //   os << (*i)->noteMsrPitchAsString (); JMI
       os << (*i);
       if (++i == iEnd) break;
-      os << " ";
+      os << endl;
     } // for
   }
-  os << ">";
   
   // print the chord duration
   os << fChordDuration << endl; 
@@ -2077,6 +2080,8 @@ void msrChord::print (ostream& os)
     } // for
     idtr--;
   }
+
+  idtr--;
 }
 
 //______________________________________________________________________________
@@ -2459,7 +2464,16 @@ void msrTuplet::acceptOut (basevisitor* v) {
 
 
 void msrTuplet::browseData (basevisitor* v)
-{}
+{
+ for (
+    vector<S_msrElement>::const_iterator i = fTupletContents.begin();
+    i != fTupletContents.end();
+    i++ ) {
+    // browse tuplet element
+    msrBrowser<msrElement> browser (v);
+    browser.browse (*(*i));
+  } // for
+}
 
 ostream& operator<< (ostream& os, const S_msrTuplet& elt)
 {
@@ -2471,11 +2485,14 @@ void msrTuplet::print (ostream& os)
 {
   os <<
     "Tuplet " << fActualNotes << "/" << fNormalNotes << endl;
+    
   idtr++;
+  
   vector<S_msrElement>::const_iterator i;
   for (i=fTupletContents.begin(); i!=fTupletContents.end(); i++) {
     os << idtr << (*i);
   } // for
+  
   idtr--;
 }
 
