@@ -88,16 +88,16 @@ struct stringQuoteEscaper
   */
 
   std::string& target;
-  explicit     stringQuoteEscaper( std::string& t ) : target( t ) {}
+  explicit     stringQuoteEscaper (std::string& t) : target (t) {}
 
-  void operator()( char ch ) const
+  void operator() (char ch) const
   {
-     if( ch == '\'') // or switch on any character that 
-                     // needs escaping like \ itself
-     {
-        target.push_back('\\');
+     if( ch == '"') {
+       // or switch on any character that 
+       // needs escaping like '\' itself
+        target.push_back ('\\');
      }
-     target.push_back( ch );
+     target.push_back (ch);
   }
 };
 

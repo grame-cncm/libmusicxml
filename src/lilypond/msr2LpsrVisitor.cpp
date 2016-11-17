@@ -194,7 +194,7 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
         lpsrSchemeVarValAssoc::kCommented,
         "layout-set-staff-size",
         s.str(),
-        "Uncomment next line to use MusicXML staff size",
+        "Uncomment and adapt next line as needed (default is 20)",
         lpsrSchemeVarValAssoc::kWithEndl);
 
   // populate score command layout
@@ -794,9 +794,16 @@ void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
     fOstream << idtr <<
       "--> Start visiting msrVarValAssoc" << endl;
 
-  string variableName    = elt->getVariableName ();
-  string variableValue   = elt->getVariableValue ();
-  int    inputLineNumber = elt->getInputLineNumber ();
+  string variableName     = elt->getVariableName ();
+  string variableValueAux = elt->getVariableValue ();
+  int    inputLineNumber  = elt->getInputLineNumber ();
+  string variableValue;
+
+  // escape quotes if any
+  for_each (
+    variableValueAux.begin(),
+    variableValueAux.end(),
+    stringQuoteEscaper (variableValue));
 
   if (variableName == "work-number")
     fLpsrScore->

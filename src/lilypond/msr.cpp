@@ -2593,53 +2593,72 @@ ostream& operator<< (ostream& os, const S_msrPageGeometry& pap) {
 }
 
 void msrPageGeometry::print (ostream& os) {
-  os << "Page geometry" << endl;
+  os << "PageGeometry" << endl;
 
+  bool emptyGeometry = true;
+  
   idtr++;
   
   if (fPaperWidth > 0) {
-    os << idtr <<
-      setw(12) << left << "PaperWidth" << " = " <<
+    os <<
+      idtr << setw(12) << left << "PaperWidth" << " = " <<
       setprecision(4) << fPaperWidth << " cm" << endl;
+    emptyGeometry = false;
   }
   if (fPaperHeight > 0) {
-    os << idtr <<
-      setw(12) << left << "PaperHeight" << " = " <<
+    os <<
+      idtr << setw(12) << left << "PaperHeight" << " = " <<
       setprecision(4) << fPaperHeight << " cm" << endl;
+    emptyGeometry = false;
   }
   
   if (fTopMargin > 0) {
-    os << idtr <<
-      setw(12) << left << "TopMargin" << " = " <<
+    os <<
+      idtr << setw(12) << left << "TopMargin" << " = " <<
       setprecision(4) << fTopMargin << " cm" << endl;
+    emptyGeometry = false;
   }
   if (fBottomMargin > 0) {
-    os << idtr <<
-      setw(12) << left << "BottomMargin" << " = " <<
+    os <<
+      idtr << setw(12) << left << "BottomMargin" << " = " <<
       setprecision(4) << fBottomMargin << " cm" << endl;
+    emptyGeometry = false;
   }
   if (fLeftMargin > 0) {
-    os << idtr <<
-      setw(12) << left << "LeftMargin" << " = " <<
+    os <<
+      idtr << setw(12) << left << "LeftMargin" << " = " <<
       setprecision(4) << fLeftMargin << " cm" << endl;
+    emptyGeometry = false;
   }
   if (fRightMargin > 0) {
-    os << idtr <<
-      setw(12) << left << "RightMargin" << " = " <<
+    os <<
+      idtr << setw(12) << left << "RightMargin" << " = " <<
       setprecision(4) << fRightMargin << " cm" << endl;
+    emptyGeometry = false;
   }
 
   if (fMillimeters > 0) {
-    os << idtr <<
-      setw(12) << left << "Millimeters" << " = " <<
+    os <<
+      idtr << setw(12) << left << "Millimeters" << " = " <<
       setprecision(4) << fMillimeters << endl;
+    emptyGeometry = false;
   }
 
   if (fTenths > 0) {
-    os << idtr <<
-      setw(12) << left << "Tenths" << " = " <<
+    os <<
+      idtr << setw(12) << left << "Tenths" << " = " <<
       setprecision(4) << fTenths << endl;
+    emptyGeometry = false;
   }
+
+  if (emptyGeometry)
+    os << idtr <<
+      " " << "nothing specified" << endl;
+  
+  os << endl;
+
+  idtr--;
+}
 
 /*
   if (fBetweenSystemSpace > 0) {
@@ -2655,10 +2674,6 @@ void msrPageGeometry::print (ostream& os) {
   }
 */
 
-  os << endl;
-
-  idtr--;
-}
 
 //______________________________________________________________________________
 
@@ -2737,12 +2752,26 @@ void msrVarValAssoc::print (ostream& os)
   os << "MSR VarValAssoc" << endl;
   
   idtr++;
-  
+
+  // escape quotes if any
+  std::string variableName;
+  std::string variableValue;
+
+  std::for_each (
+    fVariableName.begin(),
+    fVariableName.end(),
+    stringQuoteEscaper (variableName));
+  std::for_each (
+    fVariableValue.begin(),
+    fVariableValue.end(),
+    stringQuoteEscaper (variableValue));
+
+  // print resulting strings
   os <<
     idtr << "variable name : " <<
-    "\"" << fVariableName << "\"" << endl <<
+    "\"" << variableName << "\"" << endl <<
     idtr << "variable value: " <<
-    "\"" << fVariableValue << "\"" << endl <<
+    "\"" << variableValue << "\"" << endl <<
     endl;
   
   idtr--;
@@ -5457,23 +5486,29 @@ ostream& operator<< (ostream& os, const S_msrIdentification& elt)
 void msrIdentification::print (ostream& os)
 {
   os << "Identification" << endl;
-  os << endl;
+
+  bool emptyIdentification = true;
 
   idtr++;
-   if (fWorkNumber) {
+  
+  if (fWorkNumber) {
     os << idtr << fWorkNumber;
+    emptyIdentification = false;
   }
   
   if (fWorkTitle) {
     os << idtr << fWorkTitle;
+    emptyIdentification = false;
   }
     
   if (fMovementNumber) {
     os << idtr << fMovementNumber;
+    emptyIdentification = false;
   }
     
   if (fMovementTitle) {
     os << idtr << fMovementTitle;
+    emptyIdentification = false;
   }
     
   if (!fCreators.empty()) {
@@ -5481,10 +5516,12 @@ void msrIdentification::print (ostream& os)
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
       os << idtr << (*i1);
     } // for
+    emptyIdentification = false;
   }
     
   if (fRights) {
     os << idtr << fRights;
+    emptyIdentification = false;
   }
     
   if (!fSoftwares.empty()) {
@@ -5492,12 +5529,20 @@ void msrIdentification::print (ostream& os)
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
       os << idtr << (*i2);
     } // for
+    emptyIdentification = false;
   }
     
   if (fEncodingDate) {
     os << idtr << fEncodingDate;
+    emptyIdentification = false;
   }
 
+  if (emptyIdentification)
+    os << idtr <<
+      " " << "nothing specified" << endl;
+
+  os << endl;
+  
   idtr--;
 }
 

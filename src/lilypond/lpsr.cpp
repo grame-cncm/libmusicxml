@@ -844,6 +844,19 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   
   idtr++;
 
+  // escape quotes if any
+  std::string variableName;
+  std::string variableValue;
+
+  std::for_each (
+    fVariableName.begin(),
+    fVariableName.end(),
+    stringQuoteEscaper (variableName));
+  std::for_each (
+    fVariableValue.begin(),
+    fVariableValue.end(),
+    stringQuoteEscaper (variableValue));
+
   os << idtr;
   switch (fCommentedKind) {
     case kCommented:
@@ -868,7 +881,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   os << endl;
   
   os <<
-    idtr << "variable name: \"" << fVariableName << "\"" <<
+    idtr << "variable name: \"" << variableName << "\"" <<
     endl;
   
   os << idtr;
@@ -896,7 +909,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   os << idtr << endl;
 
   os <<
-    idtr << "variable value: \"" << fVariableValue << "\"" <<
+    idtr << "variable value: \"" << variableValue << "\"" <<
     endl;
 
   os <<
@@ -907,14 +920,6 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
     os << "none";
   os << endl;
   
-  os <<
-    idtr << "comment: ";
-  if (fComment.size())
-    os << "\"" << fComment << "\"";
-  else
-    os << "none";
-  os << endl;
-
   os <<
     idtr << "comment: ";
   if (fComment.size())
@@ -1034,6 +1039,19 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
 
   idtr++;
 
+  // escape quotes if any
+  std::string variableName;
+  std::string variableValue;
+
+  std::for_each (
+    fVariableName.begin(),
+    fVariableName.end(),
+    stringQuoteEscaper (variableName));
+  std::for_each (
+    fVariableValue.begin(),
+    fVariableValue.end(),
+    stringQuoteEscaper (variableValue));
+
   os << idtr;
   switch (fCommentedKind) {
     case kCommented:
@@ -1045,12 +1063,11 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
   } // switch
   os << endl;
 
+  // print resulting strings
   os <<
-    idtr << "variable name : \"" << fVariableName << "\"" <<
-    endl;
-  
-  os <<
-    idtr << "variable value: \"" << fVariableValue << "\"" <<
+    idtr << "variable name : \"" << variableName << "\"" <<
+    endl <<
+    idtr << "variable value: \"" << variableValue << "\"" <<
     endl;
 
   os <<

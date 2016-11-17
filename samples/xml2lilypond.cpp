@@ -81,8 +81,8 @@ void printUsage (int exitStatus)
     "    --dd, --debugDebug " << endl <<
     "          Same as above, but print even more debugging information." << endl <<
     endl <<
-    "    --dm, --debugMeasures measureNumbersSpec" << endl <<
-    "          'measureNumbersSpec' has a form such as '0,2-14,^8-10'," << endl <<
+    "    --dm, --debugMeasures measureNumbersSet" << endl <<
+    "          'measureNumbersSet' has a form such as '0,2-14,^8-10'," << endl <<
     "          where '^' excludes the corresponding numbers interval" << endl <<
     "          and 0 applies to the '<part-list>' and anacrusis if present." <<endl <<
     "          Generate a trace of the activity and print additional" << endl <<
@@ -590,8 +590,7 @@ void analyzeOptions (
             
           msrOpts->fDebugMeasureNumbersSet =
             decipherNumbersSetSpecification (
-//              measuresSpec, true); // do debug it
-              measuresSpec, false); // don't debug it
+              measuresSpec, false); // 'true' to debug it
           debugMeasuresPresent = false;
         }
         if (debugdebugMeasuresPresent) {
@@ -606,7 +605,8 @@ void analyzeOptions (
           msrOpts->fCommandLineOptions += s.str();
             
           msrOpts->fDebugMeasureNumbersSet =
-            decipherNumbersSetSpecification (measuresSpec);
+            decipherNumbersSetSpecification (
+              measuresSpec, false); // 'true' to debug it
           debugdebugMeasuresPresent = false;
         }
 
@@ -621,7 +621,7 @@ void analyzeOptions (
           else {
             cerr <<
               "--> Unknown language name \"" << optarg <<
-              "\", using \"dutch\" instead" << std::endl;
+              "\", using \"dutch\" instead" << endl;
             msrOpts->fMsrNoteNamesLanguageAsString = "dutch";
             msrOpts->fMsrNoteNamesLanguage = kNederlands;
           }
@@ -761,40 +761,53 @@ void printOptions (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts )
 {
-  cerr <<
+  if (msrOpts->fTrace)
+    cerr << idtr <<
+      "The command line options and arguments have been analyzed" <<
+      endl;
+
+  idtr++;
+  
+  cerr << idtr <<
     "The command line options are: ";
     
   if (msrOpts->fCommandLineOptions.size()) {
     idtr++;
     cerr <<
-      endl << idtr <<
-      msrOpts->fCommandLineOptions;
+      endl <<
+      idtr << msrOpts->fCommandLineOptions;
     idtr--;
   }
   else
     cerr << "none";
   cerr << endl;
-    
+
+  // the option name field width
+  int const fieldWidth = 31;
+  
   // General options
   // ---------------
 
   cerr << idtr <<
-    left <<
-    
-    "The general options are:" << endl <<
-    "  " << setw(31) << "interactive" << " : " <<
+    "The general options are:" <<
+    endl;
+
+  idtr++;
+  
+  cerr << left <<
+    idtr << "  " << setw(fieldWidth) << "interactive" << " : " <<
       string(msrOpts->fInteractive
         ? "true" : "false") << endl <<
-    "  " << setw(31) << "trace" << " : " <<
+    idtr << "  " << setw(fieldWidth) << "trace" << " : " <<
       string(msrOpts->fTrace
         ? "true" : "false") << endl <<
-    "  " << setw(31) << "debug" << " : " <<
+    idtr << "  " << setw(fieldWidth) << "debug" << " : " <<
       string(msrOpts->fDebug
         ? "true" : "false") << endl <<
-    "  " << setw(31) << "debugDebug" << " : " <<
+    idtr << "  " << setw(fieldWidth) << "debugDebug" << " : " <<
       string(msrOpts->fDebugDebug
         ? "true" : "false") << endl <<
-    "  " << setw(31) << "debugMeasureNumbersSet" << " : ";
+    idtr << "  " << setw(fieldWidth) << "debugMeasureNumbersSet" << " : ";
 
   if (msrOpts->fDebugMeasureNumbersSet.empty ())
     cerr << "none";
@@ -808,38 +821,43 @@ void printOptions (
     } // for
   
   cerr << endl;
+  
+  idtr--;
 
   // MSR options
   // -----------
 
   cerr << idtr <<
-    left <<
-    
-    "The MSR options are:" << endl <<
-    "  " << setw(31) << "noteNamesLanguageName" << " : \"" <<
+    "The MSR options are:" <<
+    endl;
+
+  idtr++;
+  
+  cerr << left <<
+    idtr << "  " << setw(fieldWidth) << "noteNamesLanguageName" << " : \"" <<
       msrOpts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
     
-    "  " << setw(31) << "createStaffRelativeVoiceNumbers" << " : " <<
+    idtr << "  " << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
       string(msrOpts->fCreateStaffRelativeVoiceNumbers
         ? "true" : "false") << endl <<
 
-    "  " << setw(31) << "dontDisplayMSRLyrics" << " : " <<
+    idtr << "  " << setw(fieldWidth) << "dontDisplayMSRLyrics" << " : " <<
       string(msrOpts->fDontDisplayMSRLyrics
         ? "true" : "false") << endl <<
 
-    "  " << setw(31) << "delayRestsDynamics" << " : " <<
+    idtr << "  " << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
       string(msrOpts->fDelayRestsDynamics
         ? "true" : "false") << endl <<
 
-    "  " << setw(31) << "displayMSR" << " : " <<
+    idtr << "  " << setw(fieldWidth) << "displayMSR" << " : " <<
       string(msrOpts->fDisplayMSR
         ? "true" : "false") << endl <<
     
-    "  " << setw(31) << "displayMSRScoreSummary" << " : " <<
+    idtr << "  " << setw(fieldWidth) << "displayMSRScoreSummary" << " : " <<
       string(msrOpts->fDisplayMSRScoreSummary
         ? "true" : "false") << endl <<
     
-    "  " << setw(31) << "partRenamingSpecsSet" << " : ";
+    idtr << "  " << setw(fieldWidth) << "partRenamingSpecsSet" << " : ";
     
   if (msrOpts->fPartRenamingSpecsSet.empty ())
     cerr << "none";
@@ -854,41 +872,50 @@ void printOptions (
   
   cerr << endl;
 
+  idtr--;
+
   // LPSR options
   // ------------
 
   cerr << idtr <<
-    left <<
-    
-    "The LPSR options are:" << endl <<
-    "  " << setw(31) << "displayLPSR" << " : " <<
+    "The LPSR options are:" <<
+    endl;
+
+  idtr++;
+  
+  cerr << left <<
+    idtr << "  " << setw(fieldWidth) << "displayLPSR" << " : " <<
       string(lpsrOpts->fDisplayLPSR
         ? "true" : "false") << endl <<
 
-    "  " << setw(31) << "generateAbsoluteOctaves" << " : " <<
+    idtr << "  " << setw(fieldWidth) << "generateAbsoluteOctaves" << " : " <<
       string(lpsrOpts->fGenerateAbsoluteOctaves
         ? "true" : "false") << endl <<
     
-    "  " << setw(31) << "generateNumericalTime" << " : " <<
+    idtr << "  " << setw(fieldWidth) << "generateNumericalTime" << " : " <<
       string(lpsrOpts->fGenerateNumericalTime
         ? "true" : "false") << endl <<
-    "  " << setw(31) << "generateComments" << " : " <<
+    idtr << "  " << setw(fieldWidth) << "generateComments" << " : " <<
       string(lpsrOpts->fGenerateComments
       ? "true" : "false") << endl <<
-    "  " << setw(31) << "generateStems" << " : " <<
+    idtr << "  " << setw(fieldWidth) << "generateStems" << " : " <<
       string(lpsrOpts->fGenerateStems
       ? "true" : "false") << endl <<
-//      "  " << setw(31) << "generatePositions" << " : " <<
+//      "  " << setw(fieldWidth) << "generatePositions" << " : " <<
 //        string(lpsrOpts->fGeneratePositions
 //        ? "true" : "false") << endl <<
 
-    "  " << setw(31) << "dontGenerateLilyPondLyrics" << " : " <<
+    idtr << "  " << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
       string(lpsrOpts->fDontGenerateLilyPondLyrics
         ? "true" : "false") << endl <<
 
-    "  " << setw(31) << "dontDisplayLilyPondCode" << " : " <<
+    idtr << "  " << setw(fieldWidth) << "dontDisplayLilyPondCode" << " : " <<
       string(lpsrOpts->fDontDisplayLilyPondCode
       ? "true" : "false") << endl;
+
+  idtr--;
+
+  idtr--;
 }
 
 //_______________________________________________________________________________
@@ -914,7 +941,7 @@ int main (int argc, char *argv[])
     argc, argv,
     msrOpts, lpsrOpts,
     inputFileName, outputFileName);
-
+  
   if (msrOpts->fTrace) {
     cerr <<  idtr <<
       "This is xml2Lilypond v" << musicxml2MsrVersionStr() << 

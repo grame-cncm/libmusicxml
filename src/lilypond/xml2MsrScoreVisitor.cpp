@@ -1498,7 +1498,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_metronome& elt )
         elt->getInputLineNumber (),
         r.getDenominator(), fPerMinute);
     
-  fCurrentVoice->appendTempoToVoice (tempo);
+// JMI ???  fCurrentVoice->appendTempoToVoice (tempo);
   
   // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }

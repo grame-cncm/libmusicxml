@@ -820,17 +820,12 @@ void msr2SummaryVisitor::visitStart (S_msrPageGeometry& elt)
     fOstream << idtr <<
       "--> Start visiting msrPageGeometry" << endl;
 
-  fOstream << idtr <<
-    "PageGeometry" << endl <<
-    endl;
-
-  idtr++;
+  fOstream <<
+    idtr << elt;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrPageGeometry& elt)
 {
-  idtr--;
-
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrPageGeometry" << endl;
