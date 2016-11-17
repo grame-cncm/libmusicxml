@@ -1760,7 +1760,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_elision& elt )
 
 void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
 {
-  handleLyricsText (elt->getInputLineNumber ());
+ // JMI  handleLyricsText (elt->getInputLineNumber ());
 
   // avoiding handling of the same by visitEnd ( S_note )
   fCurrentLyricschunkType = msrLyricschunk::k_NoChunk;
@@ -2603,11 +2603,11 @@ void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
   string tupletType =
     elt->getAttributeValue("type");
   
-  /* JMI
+  /* JMI*/
   cerr <<
-    "xml2MsrScoreVisitor::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
-    fCurrentTupletNumber << ", type = " << type <<endl;
-  */
+    "--> xml2MsrScoreVisitor::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
+    fCurrentTupletNumber << ", tupletType = " << tupletType <<endl;
+ // */
   
   fCurrentTupletKind = msrTuplet::k_NoTuplet;
   
@@ -2677,7 +2677,9 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
 {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> creating a chord on its 2nd note" << endl;
+      "--> creating a chord on its 2nd note" <<
+      fCurrentNote <<
+      endl;
   
   // fCurrentNote has been registered standalone in the part element sequence,
   // but it is actually the first note of a chord
@@ -2761,6 +2763,12 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::createTupletFromItsecondNote (S_msrNote secondNote)
 {
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "xml2MsrScoreVisitor::createTupletFromItsecondNote " <<
+      secondNote <<
+      endl;
+      
   // create a tuplet element
   S_msrTuplet
     tuplet =
@@ -2790,7 +2798,14 @@ void xml2MsrScoreVisitor::createTupletFromItsecondNote (S_msrNote secondNote)
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::finalizeTuplet (S_msrNote note) {
+void xml2MsrScoreVisitor::finalizeTuplet (S_msrNote note)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "xml2MsrScoreVisitor::finalizeTuplet " <<
+      note <<
+      endl;
+      
   // get tuplet from top of tuplet stack
   S_msrTuplet tup = fCurrentTupletsStack.top();
 
@@ -3016,12 +3031,18 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
       "--> fCurrentVoice        = " << fCurrentVoice->getVoiceName() << endl;
 
   fOnGoingNote = false;
-} // xml2MsrScoreVisitor::visitEnd ( S_note& elt )
+}
 
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
   S_msrNote newNote)
 {
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "xml2MsrScoreVisitor::handleStandaloneNoteOrRest " <<
+      newNote <<
+      endl;
+      
   // register note/rest as standalone
 //  if (true || fMsrOptions->fDebug)
   if (fMsrOptions->fDebug)
@@ -3046,18 +3067,26 @@ void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
   fCurrentVoice->
     appendNoteToVoice (newNote);
 
+/* JMI
   if (! fCurrentNoteHasLyrics)
     // lyrics have to be handled anyway JMI
     handleLyricsText (newNote->getInputLineNumber ());
+*/
 
   // account for chord not being built
   fOnGoingChord = false;
-} // handleStandaloneNoteOrRest
+}
 
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
   S_msrNote newNote)
 {
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "xml2MsrScoreVisitor::handleNoteBelongingToAChord " <<
+      newNote <<
+      endl;
+      
   if (fMusicXMLNoteData.fMusicXMLStepIsARest)
     msrMusicXMLError (
       newNote->getInputLineNumber (),
@@ -3107,12 +3136,18 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
       " to current voice" << endl;
   fCurrentVoice->
     appendChordToVoice (fCurrentChord);
-} // handleNoteBelongingToAChord
+}
 
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
   S_msrNote newNote)
 {
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "xml2MsrScoreVisitor::handleNoteBelongingToATuplet " <<
+      newNote <<
+      endl;
+      
   fMusicXMLNoteData.fMusicXMLTupletMemberNoteType =
     fCurrentNoteType;
   
@@ -3149,10 +3184,11 @@ void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
         fOnGoingTuplet = false;
       }
       break;
-    default:
-      {}
+
+    case msrTuplet::k_NoTuplet:
+      break;
   } // switch
-} // handleNoteBelongingToATuplet
+}
 
 //______________________________________________________________________________
 void xml2MsrScoreVisitor::handleLyricsText (
@@ -3355,49 +3391,6 @@ void xml2MsrScoreVisitor::handleLyricsText (
 
   } // switch
  } // handleLyricsText
-
-/*
-      <note>
-        <pitch>
-          <step>D</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>2</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        <stem>up</stem>
-        <notations>
-          <slur type="start" number="1"/>
-        </notations>
-        <lyric number="1">
-          <syllabic>begin</syllabic>
-          <text>que</text>
-        </lyric>
-      </note>
-      <note>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>2</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        <stem>up</stem>
-      </note>
-      <note>
-        <pitch>
-          <step>E</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>2</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        <stem>up</stem>
-        <notations>
-          <slur type="stop" number="1"/>
-        </notations>
-      </note>
-*/
 
 
 } // namespace
