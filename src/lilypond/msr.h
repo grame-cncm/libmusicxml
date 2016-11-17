@@ -2213,11 +2213,11 @@ class EXP msrPart : public msrElement
 
     string    getPartCombinedName () const;
 
+    void      setAllPartStavesClef (S_msrClef clef);
+              
     void      setAllPartStavesKey  (S_msrKey  key);
               
     void      setAllPartStavesTime (S_msrTime time);
-              
-    void      setAllPartStavesClef (S_msrClef clef);
               
     S_msrStaff
               addStaffToPart (

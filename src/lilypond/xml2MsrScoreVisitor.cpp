@@ -1017,8 +1017,53 @@ void xml2MsrScoreVisitor::visitStart ( S_divisions& elt )
 }
 
 //______________________________________________________________________________
+void xml2MsrScoreVisitor::visitStart ( S_clef& elt )
+{ 
+  // The optional number attribute refers to staff numbers.
+  // If absent (0), apply to all part staves.
+  fCurrentClefStaffNumber =
+    elt->getAttributeIntValue("number", 0); 
 
-void xml2MsrScoreVisitor::visitStart ( S_key& elt ) {
+  fCurrentClefLine = 0;;
+  fCurrentClefOctaveChange = 0;
+  fCurrentClefSign = "";
+}
+
+void xml2MsrScoreVisitor::visitStart ( S_clef_octave_change& elt )
+  { fCurrentClefOctaveChange = (int)(*elt); }
+  
+void xml2MsrScoreVisitor::visitStart ( S_line& elt )
+  { fCurrentClefLine = (int)(*elt); }
+  
+void xml2MsrScoreVisitor::visitStart ( S_sign& elt )
+  { fCurrentClefSign = elt->getValue(); }
+
+void xml2MsrScoreVisitor::visitEnd ( S_clef& elt ) 
+{  
+  cerr << "### xml2MsrScoreVisitor::visitEnd ( S_clef& elt )" << endl;
+  
+  S_msrClef
+    clef =
+      msrClef::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        fCurrentClefSign, fCurrentClefLine, fCurrentClefOctaveChange);
+
+  if (fCurrentClefStaffNumber == 0)
+    fCurrentPart->setAllPartStavesClef (clef);
+  else {
+    S_msrStaff
+      staff =
+        fCurrentPart->
+          fetchStaffFromPart (fCurrentClefStaffNumber);
+    staff->setStaffClef (clef);
+  }
+}
+
+//______________________________________________________________________________
+void xml2MsrScoreVisitor::visitStart ( S_key& elt )
+{
+  
   // The optional number attribute refers to staff numbers.
   // If absent (0), apply to all part staves.
   fCurrentKeyStaffNumber =
@@ -1039,7 +1084,9 @@ void xml2MsrScoreVisitor::visitStart ( S_cancel& elt )
   { fCurrentCancel = (int)(*elt); }
 
 void xml2MsrScoreVisitor::visitEnd ( S_key& elt ) 
-{    
+{
+  cerr << "### xml2MsrScoreVisitor::visitEnd ( S_key& elt )" << endl;
+  
   // create msrKey
   S_msrKey
     key =
@@ -1056,7 +1103,6 @@ void xml2MsrScoreVisitor::visitEnd ( S_key& elt )
       staff =
         fCurrentPart->
           fetchStaffFromPart (fCurrentKeyStaffNumber);
-
     staff->setStaffKey (key);
  // JMI   fCurrentPart->
  //     setAllPartStavesKey (key);
@@ -1097,6 +1143,8 @@ void xml2MsrScoreVisitor::visitStart ( S_senza_misura& elt )
 
 void xml2MsrScoreVisitor::visitEnd ( S_time& elt ) 
 {
+  cerr << "### xml2MsrScoreVisitor::visitEnd ( S_time& elt )" << endl;
+  
   S_msrTime
     time =
       msrTime::create (
@@ -1113,48 +1161,6 @@ void xml2MsrScoreVisitor::visitEnd ( S_time& elt )
         fCurrentPart->
           fetchStaffFromPart (fCurrentTimeStaffNumber);
     staff->setStaffTime (time);
-  }
-}
-
-//______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_clef& elt )
-{ 
-  // The optional number attribute refers to staff numbers.
-  // If absent (0), apply to all part staves.
-  fCurrentClefStaffNumber =
-    elt->getAttributeIntValue("number", 0); 
-
-  fCurrentClefLine = 0;;
-  fCurrentClefOctaveChange = 0;
-  fCurrentClefSign = "";
-}
-
-void xml2MsrScoreVisitor::visitStart ( S_clef_octave_change& elt )
-  { fCurrentClefOctaveChange = (int)(*elt); }
-  
-void xml2MsrScoreVisitor::visitStart ( S_line& elt )
-  { fCurrentClefLine = (int)(*elt); }
-  
-void xml2MsrScoreVisitor::visitStart ( S_sign& elt )
-  { fCurrentClefSign = elt->getValue(); }
-
-void xml2MsrScoreVisitor::visitEnd ( S_clef& elt ) 
-{  
-  S_msrClef
-    clef =
-      msrClef::create (
-        fMsrOptions,
-        elt->getInputLineNumber (),
-        fCurrentClefSign, fCurrentClefLine, fCurrentClefOctaveChange);
-
-  if (fCurrentClefStaffNumber == 0)
-    fCurrentPart->setAllPartStavesClef (clef);
-  else {
-    S_msrStaff
-      staff =
-        fCurrentPart->
-          fetchStaffFromPart (fCurrentClefStaffNumber);
-    staff->setStaffClef (clef);
   }
 }
 

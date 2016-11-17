@@ -4591,8 +4591,8 @@ void msrStaff::setStaffClef (S_msrClef clef)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Adding clef '" << clef <<
-      "' to staff " << fStaffNumber <<
+      "Setting clef '" << clef <<
+      "' in staff " << fStaffNumber <<
       " in part " << fStaffPart->getPartCombinedName () << endl;
 
   fStaffClef = clef;
@@ -4604,8 +4604,8 @@ void msrStaff::setStaffKey  (S_msrKey  key)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Adding key '" << key <<
-      "' to staff " << fStaffNumber <<
+      "Setting key '" << key <<
+      "' in staff " << fStaffNumber <<
       " in part " << fStaffPart->getPartCombinedName () << endl;
 
   fStaffKey = key;
@@ -4617,8 +4617,8 @@ void msrStaff::setStaffTime (S_msrTime time)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Adding time '" << time <<
-      "' to staff " << fStaffNumber <<
+      "Setting time '" << time <<
+      "' in staff " << fStaffNumber <<
       " in part " << fStaffPart->getPartCombinedName () << endl;
 
   fStaffTime = time;
