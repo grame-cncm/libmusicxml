@@ -5,7 +5,7 @@
   <identification>
     <encoding>
       <software>Frescobaldi 2.18.1</software>
-      <encoding-date>2016-08-03</encoding-date>
+      <encoding-date>2016-11-17</encoding-date>
     </encoding>
   </identification>
   <part-list>
@@ -16,7 +16,7 @@
   <part id="P1">
     <measure number="1">
       <attributes>
-        <divisions>2</divisions>
+        <divisions>8</divisions>
         <time symbol="common">
           <beats>4</beats>
           <beat-type>4</beat-type>
@@ -31,7 +31,7 @@
           <step>C</step>
           <octave>4</octave>
         </pitch>
-        <duration>1</duration>
+        <duration>4</duration>
         <voice>1</voice>
         <type>eighth</type>
       </note>
@@ -40,7 +40,7 @@
           <step>D</step>
           <octave>3</octave>
         </pitch>
-        <duration>1</duration>
+        <duration>4</duration>
         <voice>1</voice>
         <type>eighth</type>
       </note>
@@ -49,7 +49,7 @@
           <step>E</step>
           <octave>3</octave>
         </pitch>
-        <duration>1</duration>
+        <duration>4</duration>
         <voice>1</voice>
         <type>eighth</type>
       </note>
@@ -58,9 +58,18 @@
           <step>F</step>
           <octave>3</octave>
         </pitch>
-        <duration>1</duration>
+        <duration>2</duration>
         <voice>1</voice>
-        <type>eighth</type>
+        <type>16th</type>
+      </note>
+      <note>
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>16th</type>
       </note>
     </measure>
   </part>

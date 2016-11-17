@@ -1185,8 +1185,8 @@ string msrNote::octaveRepresentation (char octave)
 }
   */
 
-//  if (fMsrOptions->fDebug) {
-  if (true || fMsrOptions->fDebug) { // JMI
+//  if (true || fMsrOptions->fDebug) { // JMI
+  if (fMsrOptions->fDebug) {
     fOstream << idtr <<
       "% --> Start visiting ";
       

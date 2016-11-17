@@ -1619,7 +1619,7 @@ void msrNote::print (ostream& os)
   // print the note itself
   switch (fNoteKind) {
     case msrNote::kStandaloneNote:
-      os << idtr <<
+      os <<
         "Standalone note" <<
         " " <<
         noteMsrPitchAsString () <<
@@ -1628,14 +1628,14 @@ void msrNote::print (ostream& os)
       break;
       
     case msrNote::kRestNote:
-      os << idtr <<
+      os <<
         "Rest" <<
         ":" <<
         getNoteMsrDuration ();
       break;
       
     case msrNote::kChordMemberNote:
-      os << idtr <<
+      os <<
         "Chord member note" <<
         " " <<
         noteMsrPitchAsString () <<
@@ -1644,7 +1644,7 @@ void msrNote::print (ostream& os)
       break;
       
     case msrNote::kTupletMemberNote:
-      os << idtr <<
+      os <<
         "Tuplet member note" <<
         " " <<
         noteMsrPitchAsString () <<
@@ -1658,6 +1658,8 @@ void msrNote::print (ostream& os)
   if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
     os << " " << "tied";
 
+  os << endl;
+  
   // print the beam if any
   if (fNoteBeam) {
     os <<
@@ -1667,41 +1669,59 @@ void msrNote::print (ostream& os)
   
   // print the articulations if any
   if (fNoteArticulations.size()) {
-    os << endl;
     idtr++;
-    list<S_msrArticulation>::const_iterator i;
-    for (i=fNoteArticulations.begin(); i!=fNoteArticulations.end(); i++) {
+
+    list<S_msrArticulation>::const_iterator
+      iBegin = fNoteArticulations.begin(),
+      iEnd   = fNoteArticulations.end(),
+      i      = iBegin;
+    for ( ; ; ) {
       os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
     } // for
+
     idtr--;
   }
   
   // print the dynamics if any
   if (fNoteDynamics.size()) {
-    os << endl;
     idtr++;
-    list<S_msrDynamics>::const_iterator i1;
-    for (i1=fNoteDynamics.begin(); i1!=fNoteDynamics.end(); i1++) {
-      os << idtr << (*i1);
+    
+    list<S_msrDynamics>::const_iterator
+      iBegin = fNoteDynamics.begin(),
+      iEnd   = fNoteDynamics.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
     } // for
+
     idtr--;
   }
 
   // print the wedges if any
   if (fNoteWedges.size()) {
-    os << endl;
     idtr++;
-    list<S_msrWedge>::const_iterator i2;
-    for (i2=fNoteWedges.begin(); i2!=fNoteWedges.end(); i2++) {
-      os << idtr << (*i2);
+    
+    list<S_msrWedge>::const_iterator
+      iBegin = fNoteWedges.begin(),
+      iEnd   = fNoteWedges.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
     } // for
+    
     idtr--;
   }
 
   // print the slur if any
   if (fNoteSlurKind != msrSlur::k_NoSlur) {
-    os << endl;
     idtr++;
+    
     switch (fNoteSlurKind) {
       case msrSlur::kStartSlur:
         os << idtr << "Slur start";
@@ -1715,6 +1735,8 @@ void msrNote::print (ostream& os)
       default:
         os << idtr << "Slur" << fNoteSlurKind << "???";
     } // switch
+    os << endl;
+    
     idtr--;
   }
 }
