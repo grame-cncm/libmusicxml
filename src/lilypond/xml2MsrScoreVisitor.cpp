@@ -2966,7 +2966,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
 
   fCurrentStemDirection = kStemNeutral;
   
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "fMusicXMLNoteData.fMusicXMLDuration = " << 
       fMusicXMLNoteData.fMusicXMLDuration << ", " << 
@@ -3057,7 +3057,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
 void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
   S_msrNote newNote)
 {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "xml2MsrScoreVisitor::handleStandaloneNoteOrRest " <<
       newNote <<
@@ -3071,8 +3071,8 @@ void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
       setNoteKind (msrNote::kStandaloneNote);
       
   // register note/rest as standalone
-//  if (true || fMsrOptions->fDebug)
-  if (fMsrOptions->fDebug)
+//  if (true || fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr <<  idtr <<
       "--> adding standalone " <<
       newNote->noteMsrPitchAsString () <<

@@ -2115,7 +2115,9 @@ class EXP msrStaff : public msrElement
     S_msrVoice
               fetchVoiceFromStaff (int voiceNumber);
                               
-    void      setAllStaffVoicesKey  (S_msrKey  key);
+    void      appendClefToAllStaffVoices (S_msrClef clef);
+    void      appendKeyToAllStaffVoices  (S_msrKey   key);
+    void      appendTimeToAllStaffVoices (S_msrTime time);
               
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);

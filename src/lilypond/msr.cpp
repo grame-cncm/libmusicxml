@@ -1145,8 +1145,8 @@ msrNote::msrNote (
   
   int divisionsPerWholeNote = fMusicXMLNoteData.fMusicXMLDivisions*4;
   
-//  if (true || fMsrOptions->fDebug)
-  if (fMsrOptions->fDebug)
+//  if (true || fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "--> fMusicXMLNoteData.fMusicXMLDivisions = " <<
       fMusicXMLNoteData.fMusicXMLDivisions << ", " << 
@@ -4211,7 +4211,7 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Appending note '" << note <<
       "' to voice " << getVoiceName () << endl;
@@ -4234,7 +4234,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
 void msrVoice::appendChordToVoice (S_msrChord chord)
 {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Appending chord '" << chord <<
       "' to voice " << getVoiceName () << endl;
@@ -4245,7 +4245,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
 }
 
 void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Appending tuplet '" << tuplet <<
       "' to voice " << getVoiceName () << endl;
@@ -4257,7 +4257,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
 
 void msrVoice::appendElementToVoice (S_msrElement elem)
 {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Appending element '" << elem <<
       "' to voice " << getVoiceName () << endl;
@@ -4268,7 +4268,7 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
 
 void msrVoice::removeLastElementFromVoiceSequentialMusic ()
 {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Removing last element " <<
       " from voice " << getVoiceName () << endl;
@@ -4278,7 +4278,7 @@ void msrVoice::removeLastElementFromVoiceSequentialMusic ()
 }
 void msrVoice::removeElementFromVoiceSequentialMusic (S_msrElement elem)
 {
-  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Removing element '" << elem <<
       "' from voice " << getVoiceName () << endl;
@@ -4587,6 +4587,19 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
   return result;
 }
 
+void msrStaff::setStaffClef (S_msrClef clef)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Adding clef '" << clef <<
+      "' to staff " << fStaffNumber <<
+      " in part " << fStaffPart->getPartCombinedName () << endl;
+
+  fStaffClef = clef;
+
+  appendClefToAllStaffVoices (clef);
+}
+
 void msrStaff::setStaffKey  (S_msrKey  key)
 {
   if (fMsrOptions->fTrace)
@@ -4597,7 +4610,7 @@ void msrStaff::setStaffKey  (S_msrKey  key)
 
   fStaffKey = key;
 
-  setAllStaffVoicesKey (key);
+  appendKeyToAllStaffVoices (key);
 }
 
 void msrStaff::setStaffTime (S_msrTime time)
@@ -4609,20 +4622,21 @@ void msrStaff::setStaffTime (S_msrTime time)
       " in part " << fStaffPart->getPartCombinedName () << endl;
 
   fStaffTime = time;
+
+  appendTimeToAllStaffVoices (time);
 }
-      
-void msrStaff::setStaffClef (S_msrClef clef)
+
+void msrStaff::appendClefToAllStaffVoices (S_msrClef clef)
 {
-  if (fMsrOptions->fTrace)
-    cerr << idtr <<
-      "Adding clef '" << clef <<
-      "' to staff " << fStaffNumber <<
-      " in part " << fStaffPart->getPartCombinedName () << endl;
-
-  fStaffClef = clef;
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    (*i).second->appendClefToVoice (clef);
+  } // for
 }
 
-void msrStaff::setAllStaffVoicesKey (S_msrKey  key)
+void msrStaff::appendKeyToAllStaffVoices (S_msrKey  key)
 {
   for (
     map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
@@ -4631,7 +4645,17 @@ void msrStaff::setAllStaffVoicesKey (S_msrKey  key)
     (*i).second->appendKeyToVoice (key);
   } // for
 }
-          
+
+void msrStaff::appendTimeToAllStaffVoices (S_msrTime time)
+{
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    (*i).second->appendTimeToVoice (time);
+  } // for
+}
+ 
 void msrStaff::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
