@@ -1851,22 +1851,28 @@ void lpsrHeader::print (ostream& os)
 {
   os << "Header" << endl;
 
+  bool emptyHeader = true;
+  
   idtr++;
   
   if (fWorkNumber) {
     os << idtr << fWorkNumber;
+    emptyHeader = false;
   }
   
   if (fWorkTitle) {
     os << idtr << fWorkTitle;
+    emptyHeader = false;
   }
     
   if (fMovementNumber) {
     os << idtr << fMovementNumber;
+    emptyHeader = false;
   }
     
   if (fMovementTitle) {
     os << idtr << fMovementTitle;
+    emptyHeader = false;
   }
     
   if (! fCreators.empty()) {
@@ -1874,10 +1880,12 @@ void lpsrHeader::print (ostream& os)
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
       os << idtr << (*i1);
     } // for
+    emptyHeader = false;
   }
     
   if (fRights) {
     os << idtr << fRights;
+    emptyHeader = false;
   }
     
   if (! fSoftwares.empty()) {
@@ -1885,11 +1893,17 @@ void lpsrHeader::print (ostream& os)
     for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
       os << idtr << (*i2);
     } // for
+    emptyHeader = false;
   }
     
   if (fEncodingDate) {
     os << idtr << fEncodingDate;
+    emptyHeader = false;
   }
+  
+  if (emptyHeader)
+    os << idtr <<
+      " " << "nothing specified" << endl;
   
   idtr--;
 }
@@ -1969,39 +1983,54 @@ ostream& operator<< (ostream& os, const S_lpsrPaper& pap) {
 void lpsrPaper::print (ostream& os) {
   os << "Paper" << endl;
 
+  bool emptyPaper = true;
+
   idtr++;
   
   if (fPaperWidth > 0) {
     os << idtr <<
       setw(13) << left << "paper-width" << " = " <<
       setprecision(4) << fPaperWidth << "\\cm" << endl;
+    emptyPaper = false;
   }
   if (fPaperHeight > 0) {
     os << idtr << 
       setw(13) << left << "paper-height" << " = " <<
       setprecision(4) << fPaperHeight << "\\cm" << endl;
+    emptyPaper = false;
   }
   
   if (fTopMargin > 0) {
     os << idtr << 
       setw(13) << left << "top-margin" << " = " <<
       setprecision(4) << fTopMargin << "\\cm" << endl;
+    emptyPaper = false;
   }
   if (fBottomMargin > 0) {
     os << idtr << 
       setw(13) << left << "bottom-margin" << " = " <<
       setprecision(4) << fBottomMargin << "\\cm" << endl;
+    emptyPaper = false;
   }
   if (fLeftMargin > 0) {
     os << idtr << 
       setw(13) << left << "left-margin" << " = " <<
       setprecision(4) << fLeftMargin << "\\cm" << endl;
+    emptyPaper = false;
   }
   if (fRightMargin > 0) {
     os << idtr << 
       setw(13) << left << "right-margin" << " = " <<
     setprecision(4) << fRightMargin << "\\cm" << endl;
+    emptyPaper = false;
   }
+
+  if (emptyPaper)
+    os << idtr <<
+      " " << "nothing specified" << endl;
+  
+  idtr--;
+}
 
 /*
  * 
@@ -2013,9 +2042,6 @@ void lpsrPaper::print (ostream& os) {
     os << idtr << "page-top-space = " << setprecision(4) << fPageTopSpace << "\\cm" << endl;
   }
 */
-
-  idtr--;
-}
 
 //______________________________________________________________________________
 S_lpsrLayout lpsrLayout::create (
@@ -2081,17 +2107,18 @@ void lpsrLayout::acceptOut (basevisitor* v) {
 
 void lpsrLayout::browseData (basevisitor* v)
 {
-  int n1 = flpsrLilypondVarValAssocs.size();
-  
-  for (int i = 0; i < n1; i++ ) {
+
+  int lilypondAssocs = flpsrLilypondVarValAssocs.size();
+
+  for (int i = 0; i < lilypondAssocs; i++ ) {
     // browse the variable/value association
     msrBrowser<lpsrLilypondVarValAssoc> browser (v);
     browser.browse (*flpsrLilypondVarValAssocs [i]);
   } // for
   
-  int n2 = fLpsrSchemeVarValAssocs.size();
+  int schemeAssocs = fLpsrSchemeVarValAssocs.size();
   
-  for (int i = 0; i < n2; i++ ) {
+  for (int i = 0; i < schemeAssocs; i++ ) {
     // browse the Scheme variable/value association
     msrBrowser<lpsrSchemeVarValAssoc> browser (v);
     browser.browse (*fLpsrSchemeVarValAssocs [i]);
@@ -2110,32 +2137,19 @@ void lpsrLayout::print (ostream& os)
 
   idtr++;
 
-/* JMI
-  if (fMillimeters > 0) {
-    os << idtr <<
-      setw(12) << left << "Millimeters" << " = " <<
-      setprecision(4) << fMillimeters << endl;
-  }
-
-  if (fTenths > 0) {
-    os << idtr <<
-      setw(12) << left << "Tenths" << " = " <<
-      setprecision(4) << fTenths << endl;
-  }
-*/
   os << idtr <<
     "StaffSize: " << fStaffSize <<
     endl;
     
-  int n1 = flpsrLilypondVarValAssocs.size();
+  int lilypondAssocs = flpsrLilypondVarValAssocs.size();
   
-  for (int i = 0; i < n1; i++ ) {
+  for (int i = 0; i < lilypondAssocs; i++ ) {
     os << idtr << flpsrLilypondVarValAssocs [i];
   } // for
 
-  int n2 = fLpsrSchemeVarValAssocs.size();
+  int schemeAssocs = fLpsrSchemeVarValAssocs.size();
   
-  for (int i = 0; i < n2; i++ ) {
+  for (int i = 0; i < schemeAssocs; i++ ) {
     os << idtr << fLpsrSchemeVarValAssocs[i];
   } // for
   
