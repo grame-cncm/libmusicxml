@@ -2178,6 +2178,9 @@ class EXP msrPart : public msrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrPart> create (
       S_msrOptions&  msrOpts, 
       int            inputLineNumber,
@@ -2185,6 +2188,9 @@ class EXP msrPart : public msrElement
       S_msrPartgroup partPartgroup);
                 
     SMARTP<msrPart> createEmptyClone (S_msrPartgroup clonedPartgroup);
+
+    // set and get
+    // ------------------------------------------------------
 
     void      setPartAbbreviation (string partAbbreviation)
                   { fPartAbbreviation = partAbbreviation; }
@@ -2232,6 +2238,9 @@ class EXP msrPart : public msrElement
               
     void      setAllPartStavesTime (S_msrTime time);
               
+    // services
+    // ------------------------------------------------------
+
     S_msrStaff
               addStaffToPart (
                 int inputLineNumber,
@@ -2241,6 +2250,9 @@ class EXP msrPart : public msrElement
 
     S_msrStaff
               fetchStaffFromPart (int staffNumber);
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);

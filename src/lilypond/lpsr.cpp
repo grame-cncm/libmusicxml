@@ -2062,11 +2062,7 @@ lpsrLayout::lpsrLayout (
   int            inputLineNumber)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {
-/* JMI
-  fMillimeters = -1;
-  fTenths      = -1;
-*/
-  fStaffSize = 20; // LilyPond default
+  fStaffSize = 20; // LilyPond default // JMI
 }
 
 lpsrLayout::~lpsrLayout() {}
@@ -2153,6 +2149,106 @@ void lpsrLayout::print (ostream& os)
     os << idtr << fLpsrSchemeVarValAssocs[i];
   } // for
   
+  idtr--;
+}
+
+//______________________________________________________________________________
+S_lpsrPartCommand lpsrPartCommand::create (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts)
+{
+  lpsrPartCommand* o = new lpsrPartCommand (
+    msrOpts, lpsrOpts);
+  assert(o!=0);
+  return o;
+}
+
+lpsrPartCommand::lpsrPartCommand (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts)
+    : lpsrElement (msrOpts, lpsrOpts, 0)
+{}
+
+lpsrPartCommand::~lpsrPartCommand() {}
+
+void lpsrPartCommand::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrPartCommand::acceptIn()" << endl;
+      
+  if (visitor<S_lpsrPartCommand>*
+    p =
+      dynamic_cast<visitor<S_lpsrPartCommand>*> (v)) {
+        S_lpsrPartCommand elem = this;
+        
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrPartCommand::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void lpsrPartCommand::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrPartCommand::acceptOut()" << endl;
+
+  if (visitor<S_lpsrPartCommand>*
+    p =
+      dynamic_cast<visitor<S_lpsrPartCommand>*> (v)) {
+        S_lpsrPartCommand elem = this;
+      
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrPartCommand::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrPartCommand::browseData (basevisitor* v)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "==> lpsrPartCommand::browseData()" << endl;
+
+  for (
+    list<S_msrElement>::iterator i = fPartCommandElements.begin();
+    i != fPartCommandElements.end();
+    i++) {
+    // browse the element
+    msrBrowser<msrElement> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "<== lpsrPartCommand::browseData()" << endl;
+}
+
+ostream& operator<< (ostream& os, const S_lpsrPartCommand& scr)
+{
+  scr->print (os);
+  return os;
+}
+
+void lpsrPartCommand::print (ostream& os)
+{
+  os << "PartCommand" << endl << endl;
+
+  idtr++;
+
+  if (fPartCommandElements.size()) {  
+    list<S_msrElement>::const_iterator
+      iBegin = fPartCommandElements.begin(),
+      iEnd   = fPartCommandElements.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
   idtr--;
 }
 

@@ -1162,8 +1162,7 @@ class EXP lpsrPartCommand : public lpsrElement
 
     static SMARTP<lpsrPartCommand> create (
       S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber);
+      S_lpsrOptions& lpsrOpts);
      
     // set and get
     // ------------------------------------------------------
@@ -1193,8 +1192,7 @@ class EXP lpsrPartCommand : public lpsrElement
 
     lpsrPartCommand (
       S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber);
+      S_lpsrOptions& lpsrOpts);
       
     virtual ~lpsrPartCommand();
   
@@ -1366,6 +1364,9 @@ class EXP lpsrScore : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
+ // JMI   void      setScoreCommand (S_lpsrScoreCommand scoreCommand)
+       //           { fScoreCommand = scoreCommand; }
+                  
     S_lpsrLilypondVarValAssoc
               getLilyPondVersion () const
                   { return fLilyPondVersion; }
@@ -1464,10 +1465,10 @@ class EXP lpsrScore : public lpsrElement
     S_lpsrLayout              fScoreLayout;
 
     // variables, voices and lyrics
-    list<S_msrElement>      fScoreElements;
+    list<S_msrElement>        fScoreElements;
 
     // score command
-    S_lpsrScoreCommand      fScoreCommand;
+    S_lpsrScoreCommand        fScoreCommand;
 };
 typedef SMARTP<lpsrScore> S_lpsrScore;
 EXP ostream& operator<< (ostream& os, const S_lpsrScore& elt);

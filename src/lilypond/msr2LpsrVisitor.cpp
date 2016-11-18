@@ -94,6 +94,12 @@ void msr2LpsrVisitor::visitStart (S_msrScore& elt)
   fLpsrScore =
     lpsrScore::create (
       fMsrOptions, fLpsrOptions, 0, fCurrentMsrScoreClone);
+/*
+  // push it onto this visitors's stack,
+  // making it the current partgroup command
+  fPartgroupCommandsStack.push (
+    partgroupCommand);
+    */
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
@@ -101,6 +107,24 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrScore" << endl;
+
+//  fLpsrScore->
+//    setScoreCommand (fPartgroupCommandsStack.pop ());
+
+  // get top level pargroup command from the stack
+  S_lpsrPartgroupCommand
+    partgroupCommand =
+      fPartgroupCommandsStack.top ();
+
+  // pop it from the stack
+  fPartgroupCommandsStack.top ();
+
+  // the stack should now be empty
+  if (fPartgroupCommandsStack.size())
+    msrInternalError (
+      1,
+      "the partgroup command stack is not exmpty at the end of the visit");
+    
 }
 
 //________________________________________________________________________
@@ -226,13 +250,12 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
       "--> Start visiting msrPartgroup" << endl;
 
   // create a partgroup clone
-  S_msrPartgroup
-    partgroupClone =
-      elt->createEmptyClone ();
+  fCurrentMsrPartgroupClone =
+    elt->createEmptyClone ();
 
   // add it to the MSR score clone
   fCurrentMsrScoreClone->
-    addPartgroupToScore (partgroupClone);
+    addPartgroupToScore (fCurrentMsrPartgroupClone);
 
   // create a partgroup command
   S_lpsrPartgroupCommand
@@ -300,7 +323,7 @@ void msr2LpsrVisitor::visitStart (S_msrPart& elt)
 
   // create a part clone
   fCurrentMsrPartClone =
-    elt->createEmptyClone (elt);
+    elt->createEmptyClone (fCurrentMsrPartgroupClone);
 
   // add it to the partgroup clone
   fCurrentMsrPartgroupClone->
@@ -310,7 +333,7 @@ void msr2LpsrVisitor::visitStart (S_msrPart& elt)
   S_lpsrPartCommand
     partCommand =
       lpsrPartCommand::create (
-        fMsrOptions, fLpsrOptions, 0);
+        fMsrOptions, fLpsrOptions);
 
   // append it to the current partgroup command
   fPartgroupCommandsStack.top ()->
