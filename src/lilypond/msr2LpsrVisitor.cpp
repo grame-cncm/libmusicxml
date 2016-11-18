@@ -227,13 +227,24 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
 
   fCurrentMsrPartgroupClone = elt->createEmptyClone ();
 
-  // add a use of the part group to the LPSR score command
   fCurrentMsrScoreClone->
     addPartgroupToScore (fCurrentMsrPartgroupClone);
 
+  // create a partgroup command
   fCurrentPartgroupCommand =
     lpsrPartgroupCommand::create (
       fMsrOptions, fLpsrOptions);
+
+  // get the LPSR store command
+  S_lpsrScoreCommand
+    scoreCommand =
+      fLpsrScore->getScoreCommand ();
+
+  scoreCommand->
+    appendPartgroupCommandToParallelMusic (
+      fCurrentPartgroupCommand);
+
+  // append the partgroup command to the LPSR score command
 
 /*
  *   fCurrentMsrVoiceClone =

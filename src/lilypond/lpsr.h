@@ -1295,6 +1295,13 @@ class EXP lpsrScoreCommand : public lpsrElement
     // services
     // ------------------------------------------------------
 
+    void          appendPartgroupCommandToParallelMusic (
+                    S_lpsrPartgroupCommand partgroupCommand)
+                      {
+                        fScoreCommandParallelMusic->
+                          addElementToParallelMusic (partgroupCommand);
+                      }
+
     void          appendVoiceUseToParallelMusic (
                     S_lpsrUseVoiceCommand voiceUse)
                       {
