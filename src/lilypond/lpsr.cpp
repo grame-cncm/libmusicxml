@@ -2343,6 +2343,22 @@ lpsrScore::lpsrScore (
 
 lpsrScore::~lpsrScore() {}
 
+/*
+void lpsrScore::appendPartgroupToStoreCommand (S_msrVoice voice)
+{
+  S_lpsrPartgroupCommand
+    partgroupCommand =
+      lpsrPartgroupCommand::create (
+        fMsrOptions, 
+        fLpsrOptions, 
+        fInputLineNumber,
+        voice);
+  
+  fScoreCommand->
+    appendVoiceUseToParallelMusic (useVoiceCommand);
+}
+*/
+
 void lpsrScore::appendVoiceUseToStoreCommand (S_msrVoice voice)
 {
   S_lpsrUseVoiceCommand

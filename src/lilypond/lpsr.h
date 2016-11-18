@@ -1095,15 +1095,195 @@ EXP ostream& operator<< (ostream& os, const S_lpsrLayout& elt);
   A score is represented by parallel music, score layout and midi
 */
 //______________________________________________________________________________
+class EXP lpsrStaffCommand : public lpsrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrStaffCommand> create (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
+     
+    // set and get
+    // ------------------------------------------------------
+
+    list<S_msrElement>
+                  getStaffCommandElements () const
+                      { return fStaffCommandElements; }
+
+    // services
+    // ------------------------------------------------------
+
+    void          appendElementToStaffCommand (
+                    S_msrElement elem)
+                      { fStaffCommandElements.push_back (elem); }
+                  
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    lpsrStaffCommand (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
+      
+    virtual ~lpsrStaffCommand();
+  
+  private:
+
+    list<S_msrElement> fStaffCommandElements;
+};
+typedef SMARTP<lpsrStaffCommand> S_lpsrStaffCommand;
+EXP ostream& operator<< (ostream& os, const S_lpsrStaffCommand& elt);
+
+/*!
+\brief A lpsr score block representation.
+
+  A score is represented by parallel music, score layout and midi
+*/
+//______________________________________________________________________________
+class EXP lpsrPartCommand : public lpsrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrPartCommand> create (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
+     
+    // set and get
+    // ------------------------------------------------------
+
+    list<S_msrElement>
+                  getPartCommandElements () const
+                      { return fPartCommandElements; }
+
+    // services
+    // ------------------------------------------------------
+
+    void          appendElementToPartCommand (
+                    S_msrElement elem)
+                      { fPartCommandElements.push_back (elem); }
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    lpsrPartCommand (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
+      
+    virtual ~lpsrPartCommand();
+  
+  private:
+
+    list<S_msrElement> fPartCommandElements;
+};
+typedef SMARTP<lpsrPartCommand> S_lpsrPartCommand;
+EXP ostream& operator<< (ostream& os, const S_lpsrPartCommand& elt);
+
+/*!
+\brief A lpsr score block representation.
+
+  A score is represented by parallel music, score layout and midi
+*/
+//______________________________________________________________________________
+class EXP lpsrPartgroupCommand : public lpsrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrPartgroupCommand> create (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
+     
+    // set and get
+    // ------------------------------------------------------
+
+    list<S_msrElement>
+                  getPartgroupCommandElements () const
+                      { return fPartgroupCommandElements; }
+
+    // services
+    // ------------------------------------------------------
+
+    void          appendElementToPartgroupCommand (
+                    S_msrElement elem)
+                      { fPartgroupCommandElements.push_back (elem); }
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    lpsrPartgroupCommand (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
+      
+    virtual ~lpsrPartgroupCommand();
+  
+  private:
+
+    list<S_msrElement> fPartgroupCommandElements;
+};
+typedef SMARTP<lpsrPartgroupCommand> S_lpsrPartgroupCommand;
+EXP ostream& operator<< (ostream& os, const S_lpsrPartgroupCommand& elt);
+
+/*!
+\brief A lpsr score block representation.
+
+  A score is represented by parallel music, score layout and midi
+*/
+//______________________________________________________________________________
 class EXP lpsrScoreCommand : public lpsrElement
 {
   public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
 
     static SMARTP<lpsrScoreCommand> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
      
+    // set and get
+    // ------------------------------------------------------
+
     S_lpsrParallelMusic
                   getScoreCommandParallelMusic () const
                       { return fScoreCommandParallelMusic; }
@@ -1113,6 +1293,9 @@ class EXP lpsrScoreCommand : public lpsrElement
 
     S_msrMidi     getScoreCommandMidi () const
                       { return fScoreCommandMidi; }
+
+    // services
+    // ------------------------------------------------------
 
     void          appendVoiceUseToParallelMusic (
                     S_lpsrUseVoiceCommand voiceUse)
@@ -1127,6 +1310,9 @@ class EXP lpsrScoreCommand : public lpsrElement
                         fScoreCommandParallelMusic->
                           addElementToParallelMusic (lyricsUse);
                       }
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1163,12 +1349,18 @@ class EXP lpsrScore : public lpsrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrScore> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       S_msrScore     mScore);
      
+    // set and get
+    // ------------------------------------------------------
+
     S_lpsrLilypondVarValAssoc
               getLilyPondVersion () const
                   { return fLilyPondVersion; }
@@ -1205,6 +1397,9 @@ class EXP lpsrScore : public lpsrElement
                       changeAssocValue (s.str());
                   }
     
+    // services
+    // ------------------------------------------------------
+
     void      appendCommentToScore (
                 S_lpsrComment comment)
                   { fScoreElements.push_back (comment); }
@@ -1230,6 +1425,9 @@ class EXP lpsrScore : public lpsrElement
 
     void      appendLyricsUseToStoreCommand (
                 S_msrLyrics lyrics);
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
