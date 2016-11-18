@@ -1386,7 +1386,7 @@ EXP ostream& operator<< (ostream& os, const S_msrBarLine& elt);
   A comment is represented by its contents
 */
 //______________________________________________________________________________
-/*
+
 class EXP msrComment : public msrElement
 {
   public:
@@ -1426,7 +1426,6 @@ class EXP msrComment : public msrElement
 };
 typedef SMARTP<msrComment> S_msrComment;
 EXP ostream& operator<< (ostream& os, const S_msrComment& elt);
-*/
 
 /*!
 \brief A msr break representation.

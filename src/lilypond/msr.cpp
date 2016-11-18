@@ -2179,12 +2179,11 @@ void msrBarLine::print (ostream& os)
 }
 
 //______________________________________________________________________________
-/*
 S_msrComment msrComment::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
   string        contents,
-  msrGapKind    gapKind = kNoGapAfterwards)
+  msrGapKind    gapKind)
 {
   msrComment* o =
     new msrComment (
@@ -2197,7 +2196,8 @@ msrComment::msrComment (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
   string        contents,
-  msrGapKind    gapKind = kNoGapAfterwards)
+  msrGapKind    gapKind)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fContents = contents;
   fGapKind  = gapKind;
@@ -2256,7 +2256,6 @@ void msrComment::print (ostream& os)
   if (fGapKind == kGapAfterwards) os << idtr << endl;
   idtr--;
 }
-*/
 
 //______________________________________________________________________________
 S_msrBreak msrBreak::create (
