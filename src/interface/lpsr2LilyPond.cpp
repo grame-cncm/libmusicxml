@@ -59,6 +59,7 @@ void generateLilyPondCodeFromLpsrScore (
   if (msrOpts->fTrace)
     cerr << idtr <<
       "Pass 4: generating LilyPond code from the LPSR" << endl;
+      // ------------------------------------------------------
   
   // create an lpsr2LilyPondVisitor
   lpsr2LilyPondVisitor visitor (msrOpts, lpsrOpts, os, lpScore);

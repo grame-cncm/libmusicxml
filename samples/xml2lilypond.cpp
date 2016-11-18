@@ -927,7 +927,10 @@ int main (int argc, char *argv[])
     cout << "argv[ " << i << "] = " << argv[i] << endl;
   }
   */
-  
+
+  // analyze the command line options
+  // ------------------------------------------------------
+
   S_msrOptions msrOpts = msrOptions::create ();
   assert(msrOpts != 0);
 
@@ -941,7 +944,10 @@ int main (int argc, char *argv[])
     argc, argv,
     msrOpts, lpsrOpts,
     inputFileName, outputFileName);
-  
+
+  // trace
+  // ------------------------------------------------------
+
   if (msrOpts->fTrace) {
     cerr <<  idtr <<
       "This is xml2Lilypond v" << musicxml2MsrVersionStr() << 
@@ -971,6 +977,9 @@ int main (int argc, char *argv[])
     printOptions (msrOpts, lpsrOpts);
   }
     
+  // open output file if need be
+  // ------------------------------------------------------
+
   ofstream outStream;
 
   if (outputFileName.size()) {
@@ -981,9 +990,11 @@ int main (int argc, char *argv[])
     outStream.open (outputFileName.c_str(), ofstream::out);
   }
       
+  // create MSR from MusicXML contents
+  // ------------------------------------------------------
+
   S_msrScore mScore;
 
-  // create MSR score from MusicXML contents
   if (inputFileName == "-") {
     // input comes from standard input
     if (outputFileName.size())
@@ -1013,9 +1024,11 @@ int main (int argc, char *argv[])
     return 1;
   }
 
+  // create LPSR from MSR
+  // ------------------------------------------------------
+
   S_lpsrScore lpScore;
         
-  // create LPSR score from MSR score
   if (outputFileName.size())
     lpScore =
       msr2Lpsr (mScore, msrOpts, lpsrOpts, outStream);
@@ -1030,7 +1043,9 @@ int main (int argc, char *argv[])
     return 1;
   }
 
-  // generate LilyPond code from LPSR score
+  // generate LilyPond code from LPSR
+  // ------------------------------------------------------
+
   if (outputFileName.size())
     lpsr2LilyPond (lpScore, msrOpts, lpsrOpts, outStream);
   else

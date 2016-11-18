@@ -38,10 +38,6 @@ EXP int         musicxml2MsrVersionNbr () { return 010; }
 EXP const char* musicxml2MsrVersionStr () { return "0.1.0"; }
 
 //_______________________________________________________________________________
-/*
- * The method that converts the file contents to LilyPond code
- * and  writes the result to the output stream
-*/
 static S_msrScore xml2Msr (
   SXMLFile&     xmlfile,
   S_msrOptions& msrOpts,
@@ -60,8 +56,6 @@ static S_msrScore xml2Msr (
     if (msrOpts->fDisplayMSR)
       displayMsrScore (msrOpts, mScore, os);
 
- //   if (msrOpts->fDisplayMSRScoreSummary)
- //     displayScoreSummary (msrOpts, mScore); // JMI
     if (msrOpts->fDisplayMSRScoreSummary)
       displayMsrScoreSummary (msrOpts, mScore, os);
   }
@@ -78,6 +72,7 @@ EXP S_msrScore musicxmlFile2Msr (
   if (msrOpts->fTrace)
     cerr << idtr <<
       "Pass 1: building xmlemement tree from \"" << file << "\"" << endl;
+      // ------------------------------------------------------
 
   xmlreader r;
   SXMLFile  xmlFile;
@@ -101,6 +96,7 @@ EXP S_msrScore musicxmlFd2Msr (
   if (msrOpts->fTrace)
     cerr << idtr <<
       "Pass 1: building xmlemement tree from standard input" << endl;
+      // ------------------------------------------------------
 
   xmlreader r;
   SXMLFile  xmlFile;
@@ -125,6 +121,7 @@ EXP S_msrScore musicxmlString2Msr (
   if (msrOpts->fTrace)
     cerr << idtr <<
       "Pass 1: building xmlemement tree from a buffer" << endl;
+      // ------------------------------------------------------
   
   xmlreader r;
   SXMLFile  xmlFile;
@@ -149,6 +146,7 @@ S_msrScore buildMsrScoreFromElementsTree (
   if (msrOpts->fTrace)
     cerr << idtr <<
       "Pass 2: building a MSR from the xmlelement tree" << endl;
+      // ------------------------------------------------------
 
   idtr++;
   

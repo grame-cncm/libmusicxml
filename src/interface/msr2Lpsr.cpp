@@ -67,6 +67,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   if (msrOpts->fTrace)
     cerr << idtr <<
       "Pass 3: building a LPSR from the MSR" << endl;
+      // ------------------------------------------------------
 
   idtr++;
   
