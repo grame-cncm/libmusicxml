@@ -18,7 +18,7 @@
 
 #include "msr.h"
 
-#include "musicxml2msr.h"
+#include "xml2Msr.h"
 
 namespace MusicXML2
 {
@@ -37,7 +37,7 @@ namespace MusicXML2
   - a map that associates each stave with the corresponding voices and notes
   - a map that associates each stave with the correcponding lyricss
 */
-class EXP xml2MsrScoreVisitor : 
+class EXP xml2MsrVisitor : 
 
 /*
   <part-list>
@@ -205,9 +205,9 @@ class EXP xml2MsrScoreVisitor :
 {
   public:
   
-    xml2MsrScoreVisitor (
+    xml2MsrVisitor (
         S_msrOptions& msrOpts);
-    virtual ~xml2MsrScoreVisitor ();
+    virtual ~xml2MsrVisitor ();
 
     S_msrScore buildMsrScoreFromXMLElementTree (
         const Sxmlelement& xmlTree);

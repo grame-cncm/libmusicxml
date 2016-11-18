@@ -23,7 +23,7 @@
 
 #include "conversions.h"
 
-#include "xml2MsrScoreVisitor.h"
+#include "xml2MsrVisitor.h"
 
 
 using namespace std;
@@ -33,7 +33,7 @@ namespace MusicXML2
 
 //________________________________________________________________________
 /* JMI
-void xml2MsrScoreVisitor::msrMusicXMLWarning (
+void xml2MsrVisitor::msrMusicXMLWarning (
   string message)
 {
   musicXMLWarning (
@@ -41,7 +41,7 @@ void xml2MsrScoreVisitor::msrMusicXMLWarning (
     message);
 }
 
-void xml2MsrScoreVisitor::msrMusicXMLError (
+void xml2MsrVisitor::msrMusicXMLError (
   string message)
 {
   musicXMLError (
@@ -49,7 +49,7 @@ void xml2MsrScoreVisitor::msrMusicXMLError (
     message);
 }
 
-void xml2MsrScoreVisitor::msrInternalError (
+void xml2MsrVisitor::msrInternalError (
   string message)
 {
   internalError (
@@ -59,7 +59,7 @@ void xml2MsrScoreVisitor::msrInternalError (
 */
 
 //________________________________________________________________________
-xml2MsrScoreVisitor::xml2MsrScoreVisitor (
+xml2MsrVisitor::xml2MsrVisitor (
   S_msrOptions& msrOpts)
   /* JMI
     : gCurrentMusicXMLLocation (
@@ -113,12 +113,12 @@ xml2MsrScoreVisitor::xml2MsrScoreVisitor (
   fOnGoingForward = false;
 }
 
-xml2MsrScoreVisitor::~xml2MsrScoreVisitor ()
+xml2MsrVisitor::~xml2MsrVisitor ()
 {}
 
 //________________________________________________________________________
 S_msrScore
-xml2MsrScoreVisitor::buildMsrScoreFromXMLElementTree (
+xml2MsrVisitor::buildMsrScoreFromXMLElementTree (
   const Sxmlelement& xmlTree)
 {
   S_msrScore result;
@@ -138,7 +138,7 @@ xml2MsrScoreVisitor::buildMsrScoreFromXMLElementTree (
 }
 
 //________________________________________________________________________
-S_msrPartgroup xml2MsrScoreVisitor::createImplicitMSRPartgroup (
+S_msrPartgroup xml2MsrVisitor::createImplicitMSRPartgroup (
   int inputLineNumber)
 {
   /*
@@ -182,10 +182,10 @@ S_msrPartgroup xml2MsrScoreVisitor::createImplicitMSRPartgroup (
   fImplicitPartgroup = partgroup;
   
   return partgroup;
-} // xml2MsrScoreVisitor::createImplicitMSRPartgroup ()
+} // xml2MsrVisitor::createImplicitMSRPartgroup ()
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_work_number& elt )
+void xml2MsrVisitor::visitStart ( S_work_number& elt )
 {
   fMsrScore->getIdentification () ->
     setWorkNumber (
@@ -193,7 +193,7 @@ void xml2MsrScoreVisitor::visitStart ( S_work_number& elt )
       elt->getValue ());
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_work_title& elt )
+void xml2MsrVisitor::visitStart ( S_work_title& elt )
 {
   fMsrScore->getIdentification () ->
     setWorkTitle (
@@ -201,7 +201,7 @@ void xml2MsrScoreVisitor::visitStart ( S_work_title& elt )
       elt->getValue ());
 }
   
-void xml2MsrScoreVisitor::visitStart ( S_movement_number& elt )
+void xml2MsrVisitor::visitStart ( S_movement_number& elt )
 {
   fMsrScore->getIdentification () ->
     setMovementNumber (
@@ -209,7 +209,7 @@ void xml2MsrScoreVisitor::visitStart ( S_movement_number& elt )
       elt->getValue ());
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_movement_title& elt )
+void xml2MsrVisitor::visitStart ( S_movement_title& elt )
 {
   fMsrScore->getIdentification () ->
     setMovementTitle (
@@ -217,7 +217,7 @@ void xml2MsrScoreVisitor::visitStart ( S_movement_title& elt )
       elt->getValue ());
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_creator& elt )
+void xml2MsrVisitor::visitStart ( S_creator& elt )
 {
   fMsrScore->getIdentification () ->
     addCreator (
@@ -226,7 +226,7 @@ void xml2MsrScoreVisitor::visitStart ( S_creator& elt )
       elt->getValue ());
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_rights& elt )
+void xml2MsrVisitor::visitStart ( S_rights& elt )
 {
   fMsrScore->getIdentification () ->
     setRights (
@@ -234,7 +234,7 @@ void xml2MsrScoreVisitor::visitStart ( S_rights& elt )
       elt->getValue ());
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_software& elt )
+void xml2MsrVisitor::visitStart ( S_software& elt )
 {
   fMsrScore->getIdentification () ->
     addSoftware (
@@ -242,7 +242,7 @@ void xml2MsrScoreVisitor::visitStart ( S_software& elt )
       elt->getValue ());
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_encoding_date& elt )
+void xml2MsrVisitor::visitStart ( S_encoding_date& elt )
 {
   fMsrScore->getIdentification () ->
     setEncodingDate (
@@ -251,7 +251,7 @@ void xml2MsrScoreVisitor::visitStart ( S_encoding_date& elt )
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_millimeters& elt )
+void xml2MsrVisitor::visitStart ( S_millimeters& elt )
 { 
   fMillimeters = (int)(*elt);
   
@@ -259,7 +259,7 @@ void xml2MsrScoreVisitor::visitStart ( S_millimeters& elt )
     setMillimeters (fMillimeters);
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_tenths& elt )
+void xml2MsrVisitor::visitStart ( S_tenths& elt )
 {
   fTenths = (int)(*elt);
 
@@ -267,7 +267,7 @@ void xml2MsrScoreVisitor::visitStart ( S_tenths& elt )
     setTenths (fTenths);
 }
 
-void xml2MsrScoreVisitor::visitEnd ( S_scaling& elt)
+void xml2MsrVisitor::visitEnd ( S_scaling& elt)
 {
   if (fMsrOptions->fTrace)
     cerr <<
@@ -279,7 +279,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_scaling& elt)
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_system_distance& elt )
+void xml2MsrVisitor::visitStart ( S_system_distance& elt )
 {
   int systemDistance = (int)(*elt);
   
@@ -289,7 +289,7 @@ void xml2MsrScoreVisitor::visitStart ( S_system_distance& elt )
       1.0 * systemDistance * fMillimeters / fTenths / 10);  
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_top_system_distance& elt )
+void xml2MsrVisitor::visitStart ( S_top_system_distance& elt )
 {
   int topSystemDistance = (int)(*elt);
   
@@ -300,16 +300,16 @@ void xml2MsrScoreVisitor::visitStart ( S_top_system_distance& elt )
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_page_layout& elt )
+void xml2MsrVisitor::visitStart ( S_page_layout& elt )
 {
   fOnGoingPageLayout = true;
 }
-void xml2MsrScoreVisitor::visitEnd ( S_page_layout& elt )
+void xml2MsrVisitor::visitEnd ( S_page_layout& elt )
 {
   fOnGoingPageLayout = false;
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_page_height& elt )
+void xml2MsrVisitor::visitStart ( S_page_height& elt )
 {
   if (fOnGoingPageLayout) {
     int pageHeight = (int)(*elt);
@@ -321,7 +321,7 @@ void xml2MsrScoreVisitor::visitStart ( S_page_height& elt )
   }
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_page_width& elt )
+void xml2MsrVisitor::visitStart ( S_page_width& elt )
 {
   if (fOnGoingPageLayout) {
     int pageWidth = (int)(*elt);
@@ -333,7 +333,7 @@ void xml2MsrScoreVisitor::visitStart ( S_page_width& elt )
   }
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_left_margin& elt )
+void xml2MsrVisitor::visitStart ( S_left_margin& elt )
 {
   if (fOnGoingPageLayout) {
     int leftMargin = (int)(*elt);
@@ -345,7 +345,7 @@ void xml2MsrScoreVisitor::visitStart ( S_left_margin& elt )
   }
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_right_margin& elt )
+void xml2MsrVisitor::visitStart ( S_right_margin& elt )
 {
   if (fOnGoingPageLayout) {
     int rightMargin = (int)(*elt);
@@ -357,7 +357,7 @@ void xml2MsrScoreVisitor::visitStart ( S_right_margin& elt )
   }
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_top_margin& elt )
+void xml2MsrVisitor::visitStart ( S_top_margin& elt )
 {
   if (fOnGoingPageLayout) {
     int topMargin = (int)(*elt);
@@ -369,7 +369,7 @@ void xml2MsrScoreVisitor::visitStart ( S_top_margin& elt )
   }
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_bottom_margin& elt )
+void xml2MsrVisitor::visitStart ( S_bottom_margin& elt )
 {
   if (fOnGoingPageLayout) {
     int bottomMargin = (int)(*elt);
@@ -383,14 +383,14 @@ void xml2MsrScoreVisitor::visitStart ( S_bottom_margin& elt )
 
 //________________________________________________________________________
 /* JMI
-void xml2MsrScoreVisitor::visitStart ( S_instrument_name& el
+void xml2MsrVisitor::visitStart ( S_instrument_name& el
 {
   fCurrentInstrumentName = elt->getValue();
 }
 */
 
 //________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart (S_part_list& elt)
+void xml2MsrVisitor::visitStart (S_part_list& elt)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -423,7 +423,7 @@ void xml2MsrScoreVisitor::visitStart (S_part_list& elt)
     <score-part id="P2">
 */
 
-void xml2MsrScoreVisitor::visitEnd (S_part_list& elt)
+void xml2MsrVisitor::visitEnd (S_part_list& elt)
 {
   idtr--;
 
@@ -453,7 +453,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_list& elt)
   </part-group>
 */
 
-S_msrPartgroup xml2MsrScoreVisitor::fetchPartgroupInThisVisitor (
+S_msrPartgroup xml2MsrVisitor::fetchPartgroupInThisVisitor (
   int partGroupNumber)
 {
   S_msrPartgroup result;
@@ -465,7 +465,7 @@ S_msrPartgroup xml2MsrScoreVisitor::fetchPartgroupInThisVisitor (
   return result;
 }
 
-void xml2MsrScoreVisitor::visitStart (S_part_group& elt)
+void xml2MsrVisitor::visitStart (S_part_group& elt)
 {  
   fCurrentPartgroupNumber =
     elt->getAttributeIntValue ("number", 0);
@@ -480,17 +480,17 @@ void xml2MsrScoreVisitor::visitStart (S_part_group& elt)
   fCurrentPartgroupBarline = "yes";
 }
 
-void xml2MsrScoreVisitor::visitStart (S_group_name& elt)
+void xml2MsrVisitor::visitStart (S_group_name& elt)
 {
   fCurrentPartgroupName = elt->getValue();
 }
 
-void xml2MsrScoreVisitor::visitStart (S_group_abbreviation& elt)
+void xml2MsrVisitor::visitStart (S_group_abbreviation& elt)
 {
   fCurrentPartgroupAbbreviation = elt->getValue ();
 }
 
-void xml2MsrScoreVisitor::visitStart (S_group_symbol& elt)
+void xml2MsrVisitor::visitStart (S_group_symbol& elt)
 {
   fCurrentPartgroupSymbol = elt->getValue ();
 
@@ -498,12 +498,12 @@ void xml2MsrScoreVisitor::visitStart (S_group_symbol& elt)
     elt->getAttributeIntValue ("default-x", 0);
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_group_barline& elt)
+void xml2MsrVisitor::visitStart ( S_group_barline& elt)
 {
   fCurrentPartgroupBarline = elt->getValue ();
 }
 
-void xml2MsrScoreVisitor::showPartgroupsData (string context)
+void xml2MsrVisitor::showPartgroupsData (string context)
 {    
 //  if (true || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebugDebug) {
@@ -549,7 +549,7 @@ void xml2MsrScoreVisitor::showPartgroupsData (string context)
   }
 }
 
-void xml2MsrScoreVisitor::handlePartgroupStart (
+void xml2MsrVisitor::handlePartgroupStart (
   int
       inputLineNumber,
   msrPartgroup::msrPartgroupSymbolKind
@@ -627,7 +627,7 @@ void xml2MsrScoreVisitor::handlePartgroupStart (
   showPartgroupsData ("AFTER START");
 }
   
-void xml2MsrScoreVisitor::handlePartgroupStop (int inputLineNumber)
+void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
 {
   showPartgroupsData ("BEFORE STOP");
 
@@ -750,7 +750,7 @@ void xml2MsrScoreVisitor::handlePartgroupStop (int inputLineNumber)
   showPartgroupsData ("AFTER STOP");
 } // handlePartgroupStop ()
 
-void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
+void xml2MsrVisitor::visitEnd (S_part_group& elt)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -851,7 +851,7 @@ void xml2MsrScoreVisitor::visitEnd (S_part_group& elt)
 } // visitEnd (S_part_group& elt)
 
 //________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart (S_score_part& elt)
+void xml2MsrVisitor::visitStart (S_score_part& elt)
 {
   fCurrentPartMusicXMLName = elt->getAttributeValue ("id");
 
@@ -864,22 +864,22 @@ void xml2MsrScoreVisitor::visitStart (S_score_part& elt)
   fCurrentPartInstrumentName = "";
 }
 
-void xml2MsrScoreVisitor::visitStart (S_part_name& elt)
+void xml2MsrVisitor::visitStart (S_part_name& elt)
 {
   fCurrentPartName = elt->getValue ();
 }
 
-void xml2MsrScoreVisitor::visitStart (S_part_abbreviation& elt)
+void xml2MsrVisitor::visitStart (S_part_abbreviation& elt)
 {
   fCurrentPartAbbreviation = elt->getValue ();
 }
 
-void xml2MsrScoreVisitor::visitStart (S_instrument_name& elt)
+void xml2MsrVisitor::visitStart (S_instrument_name& elt)
 {
   fCurrentPartInstrumentName = elt->getValue(); // jMI
 }
 
-void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
+void xml2MsrVisitor::visitEnd (S_score_part& elt)
 {
   string scorePartID = elt->getAttributeValue ("id");
 
@@ -947,7 +947,7 @@ void xml2MsrScoreVisitor::visitEnd (S_score_part& elt)
 }
 
 //________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart (S_part& elt)
+void xml2MsrVisitor::visitStart (S_part& elt)
 {
   string partID = elt->getAttributeValue ("id");
 
@@ -984,13 +984,13 @@ void xml2MsrScoreVisitor::visitStart (S_part& elt)
   gCurrentMusicXMLLocation.fMeasureNumber = 0;
 }
 
-void xml2MsrScoreVisitor::visitEnd (S_part& elt)
+void xml2MsrVisitor::visitEnd (S_part& elt)
 {
   idtr--;
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_divisions& elt ) 
+void xml2MsrVisitor::visitStart ( S_divisions& elt ) 
 {
   fCurrentMusicXMLDivisions = (int)(*elt);
   
@@ -1017,7 +1017,7 @@ void xml2MsrScoreVisitor::visitStart ( S_divisions& elt )
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_clef& elt )
+void xml2MsrVisitor::visitStart ( S_clef& elt )
 { 
   // The optional number attribute refers to staff numbers.
   // If absent (0), apply to all part staves.
@@ -1029,18 +1029,18 @@ void xml2MsrScoreVisitor::visitStart ( S_clef& elt )
   fCurrentClefSign = "";
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_clef_octave_change& elt )
+void xml2MsrVisitor::visitStart ( S_clef_octave_change& elt )
   { fCurrentClefOctaveChange = (int)(*elt); }
   
-void xml2MsrScoreVisitor::visitStart ( S_line& elt )
+void xml2MsrVisitor::visitStart ( S_line& elt )
   { fCurrentClefLine = (int)(*elt); }
   
-void xml2MsrScoreVisitor::visitStart ( S_sign& elt )
+void xml2MsrVisitor::visitStart ( S_sign& elt )
   { fCurrentClefSign = elt->getValue(); }
 
-void xml2MsrScoreVisitor::visitEnd ( S_clef& elt ) 
+void xml2MsrVisitor::visitEnd ( S_clef& elt ) 
 {  
-  cerr << "### xml2MsrScoreVisitor::visitEnd ( S_clef& elt )" << endl;
+  cerr << "### xml2MsrVisitor::visitEnd ( S_clef& elt )" << endl;
   
   S_msrClef
     clef =
@@ -1061,7 +1061,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_clef& elt )
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_key& elt )
+void xml2MsrVisitor::visitStart ( S_key& elt )
 {
   
   // The optional number attribute refers to staff numbers.
@@ -1074,18 +1074,18 @@ void xml2MsrScoreVisitor::visitStart ( S_key& elt )
   fCurrentMode   = "";
 }
   
-void xml2MsrScoreVisitor::visitStart ( S_fifths& elt )
+void xml2MsrVisitor::visitStart ( S_fifths& elt )
   { fCurrentFifths = (int)(*elt); }
   
-void xml2MsrScoreVisitor::visitStart ( S_mode& elt )
+void xml2MsrVisitor::visitStart ( S_mode& elt )
   { fCurrentMode = elt->getValue(); }
 
-void xml2MsrScoreVisitor::visitStart ( S_cancel& elt )
+void xml2MsrVisitor::visitStart ( S_cancel& elt )
   { fCurrentCancel = (int)(*elt); }
 
-void xml2MsrScoreVisitor::visitEnd ( S_key& elt ) 
+void xml2MsrVisitor::visitEnd ( S_key& elt ) 
 {
-  cerr << "### xml2MsrScoreVisitor::visitEnd ( S_key& elt )" << endl;
+  cerr << "### xml2MsrVisitor::visitEnd ( S_key& elt )" << endl;
   
   // create msrKey
   S_msrKey
@@ -1110,7 +1110,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_key& elt )
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_time& elt )
+void xml2MsrVisitor::visitStart ( S_time& elt )
 {  
   /*
     The optional number attribute refers to staff numbers,
@@ -1132,18 +1132,18 @@ void xml2MsrScoreVisitor::visitStart ( S_time& elt )
   fCurrentTimeSymbol = "";
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_beats& elt )
+void xml2MsrVisitor::visitStart ( S_beats& elt )
 { fCurrentTimeBeats = (int)(*elt); }
   
-void xml2MsrScoreVisitor::visitStart ( S_beat_type& elt )
+void xml2MsrVisitor::visitStart ( S_beat_type& elt )
   { fCurrentTimeBeatType = (int)(*elt); }
  
-void xml2MsrScoreVisitor::visitStart ( S_senza_misura& elt )
+void xml2MsrVisitor::visitStart ( S_senza_misura& elt )
   { fCurrentTimeSenzaMisura = true; }
 
-void xml2MsrScoreVisitor::visitEnd ( S_time& elt ) 
+void xml2MsrVisitor::visitEnd ( S_time& elt ) 
 {
-  cerr << "### xml2MsrScoreVisitor::visitEnd ( S_time& elt )" << endl;
+  cerr << "### xml2MsrVisitor::visitEnd ( S_time& elt )" << endl;
   
   S_msrTime
     time =
@@ -1165,7 +1165,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_time& elt )
 }
 
 //________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart (S_direction& elt)
+void xml2MsrVisitor::visitStart (S_direction& elt)
 {
 /*
       <direction placement="above">
@@ -1178,7 +1178,7 @@ void xml2MsrScoreVisitor::visitStart (S_direction& elt)
 */
 }
 
-void xml2MsrScoreVisitor::visitStart (S_direction_type& elt)
+void xml2MsrVisitor::visitStart (S_direction_type& elt)
 {
   fCurrentDirectionPlacement =
     elt->getAttributeValue ("placement"); //JMI
@@ -1186,18 +1186,18 @@ void xml2MsrScoreVisitor::visitStart (S_direction_type& elt)
   fOnGoingDirection = true;
 }
 
-void xml2MsrScoreVisitor::visitStart (S_words& elt)
+void xml2MsrVisitor::visitStart (S_words& elt)
 {
   fCurrentDirectionWords = elt->getValue ();
 }
 
-void xml2MsrScoreVisitor::visitEnd (S_direction& elt)
+void xml2MsrVisitor::visitEnd (S_direction& elt)
 {
   fOnGoingDirection = false;
 }
 
 //________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart (S_staves& elt)
+void xml2MsrVisitor::visitStart (S_staves& elt)
 {
   int stavesNumber = int(*elt);
 
@@ -1232,7 +1232,7 @@ void xml2MsrScoreVisitor::visitStart (S_staves& elt)
   }
 }
 
-void xml2MsrScoreVisitor::visitStart (S_staff& elt)
+void xml2MsrVisitor::visitStart (S_staff& elt)
 {
   /*
         <note>
@@ -1288,7 +1288,7 @@ void xml2MsrScoreVisitor::visitStart (S_staff& elt)
 }
     
 //________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart (S_voice& elt )
+void xml2MsrVisitor::visitStart (S_voice& elt )
 {
   /*
         <note>
@@ -1342,7 +1342,7 @@ void xml2MsrScoreVisitor::visitStart (S_voice& elt )
 }
 
 //________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart (S_backup& elt )
+void xml2MsrVisitor::visitStart (S_backup& elt )
 {
 /*
  The backup and forward elements are required to coordinate multiple voices in one part, including music on multiple staves. The backup type is generally used to move between voices and staves. Thus the backup element does not include voice or staff elements. Duration values should always be positive, and should not cross measure boundaries or mid-measure changes in the divisions value.
@@ -1358,7 +1358,7 @@ void xml2MsrScoreVisitor::visitStart (S_backup& elt )
   fOnGoingBackup = true;
 }
 
-void xml2MsrScoreVisitor::visitEnd (S_backup& elt )
+void xml2MsrVisitor::visitEnd (S_backup& elt )
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -1387,7 +1387,7 @@ void xml2MsrScoreVisitor::visitEnd (S_backup& elt )
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_forward& elt )
+void xml2MsrVisitor::visitStart ( S_forward& elt )
 {
   /*
          <forward>
@@ -1399,7 +1399,7 @@ void xml2MsrScoreVisitor::visitStart ( S_forward& elt )
   fOnGoingForward = true;
 }
 
-void xml2MsrScoreVisitor::visitEnd ( S_forward& elt )
+void xml2MsrVisitor::visitEnd ( S_forward& elt )
 {
   // change staff
   fCurrentStaffNumber = fCurrentForwardStaffNumber;
@@ -1450,7 +1450,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_forward& elt )
 }
 
 //________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_metronome& elt )
+void xml2MsrVisitor::visitStart ( S_metronome& elt )
 {
   string parentheses = elt->getAttributeValue("parentheses");
   
@@ -1476,7 +1476,7 @@ void xml2MsrScoreVisitor::visitStart ( S_metronome& elt )
   }
 }
   
-void xml2MsrScoreVisitor::visitEnd ( S_metronome& elt )
+void xml2MsrVisitor::visitEnd ( S_metronome& elt )
 { 
  // if (fSkipDirection) return;
 
@@ -1523,7 +1523,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_metronome& elt )
   // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_beat_unit& elt )
+void xml2MsrVisitor::visitStart ( S_beat_unit& elt )
 { 
   if (fCurrentBeat.fBeatUnit.size()) {
     fBeatsData.push_back (fCurrentBeat); 
@@ -1533,15 +1533,15 @@ void xml2MsrScoreVisitor::visitStart ( S_beat_unit& elt )
   fCurrentBeat.fBeatUnit = elt->getValue();
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_beat_unit_dot& elt )
+void xml2MsrVisitor::visitStart ( S_beat_unit_dot& elt )
   { fCurrentBeat.fDots++; }
   
-void xml2MsrScoreVisitor::visitStart ( S_per_minute& elt )
+void xml2MsrVisitor::visitStart ( S_per_minute& elt )
   { fPerMinute = (int)(*elt); }
 
 
 //________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart (S_tied& elt )
+void xml2MsrVisitor::visitStart (S_tied& elt )
 {
 //           <tied orientation="over" type="start"/>
 
@@ -1584,7 +1584,7 @@ fCurrentTiedOrientation =
     }
 }
 
-void xml2MsrScoreVisitor::visitStart (S_slur& elt )
+void xml2MsrVisitor::visitStart (S_slur& elt )
 {
 //          <slur number="1" placement="above" type="start"/>
   fCurrentSlurNumber =
@@ -1629,7 +1629,7 @@ void xml2MsrScoreVisitor::visitStart (S_slur& elt )
 }
 
 //________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart (S_lyric& elt )
+void xml2MsrVisitor::visitStart (S_lyric& elt )
 { 
   fCurrentLyricsNumber =
     elt->getAttributeIntValue ("number", 0);
@@ -1665,7 +1665,7 @@ void xml2MsrScoreVisitor::visitStart (S_lyric& elt )
   fCurrentNoteHasLyrics = true;
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_syllabic& elt )
+void xml2MsrVisitor::visitStart ( S_syllabic& elt )
 {
   string syllabic = elt->getValue();
   
@@ -1696,7 +1696,7 @@ void xml2MsrScoreVisitor::visitStart ( S_syllabic& elt )
   */
 }
 
-void xml2MsrScoreVisitor::visitEnd ( S_text& elt ) 
+void xml2MsrVisitor::visitEnd ( S_text& elt ) 
 {
   string text = elt->getValue();
 
@@ -1759,12 +1759,12 @@ void xml2MsrScoreVisitor::visitEnd ( S_text& elt )
         </lyric>
 */
 
-void xml2MsrScoreVisitor::visitEnd ( S_elision& elt ) 
+void xml2MsrVisitor::visitEnd ( S_elision& elt ) 
 {
   fCurrentElision = true;
 }
 
-void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
+void xml2MsrVisitor::visitEnd ( S_lyric& elt )
 {
  // JMI  handleLyricsText (elt->getInputLineNumber ());
 
@@ -1844,7 +1844,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_lyric& elt )
 */
 
 //________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart (S_measure& elt)
+void xml2MsrVisitor::visitStart (S_measure& elt)
 {
   gCurrentMusicXMLLocation.fMeasureNumber =
     elt->getAttributeIntValue ("number", 0);
@@ -1878,7 +1878,7 @@ void xml2MsrScoreVisitor::visitStart (S_measure& elt)
   }
 }
 
-void xml2MsrScoreVisitor::visitEnd (S_measure& elt)
+void xml2MsrVisitor::visitEnd (S_measure& elt)
 {
   // restore debug options in case they were set in visitStart()
   fMsrOptions->fDebug = fMsrOptions->fSaveDebug;
@@ -1886,7 +1886,7 @@ void xml2MsrScoreVisitor::visitEnd (S_measure& elt)
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_print& elt ) 
+void xml2MsrVisitor::visitStart ( S_print& elt ) 
 {
   const string& newSystem = elt->getAttributeValue ("new-system");
   
@@ -2043,7 +2043,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-repeat.htm
 */
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_barline& elt ) 
+void xml2MsrVisitor::visitStart ( S_barline& elt ) 
 {
   fCurrentBarlineLocation =
     elt->getAttributeValue ("location");
@@ -2072,7 +2072,7 @@ void xml2MsrScoreVisitor::visitStart ( S_barline& elt )
   }
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_bar_style& elt ) 
+void xml2MsrVisitor::visitStart ( S_bar_style& elt ) 
 {
   fCurrentBarStyle = elt->getValue();
   /*
@@ -2102,7 +2102,7 @@ void xml2MsrScoreVisitor::visitStart ( S_bar_style& elt )
    */
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_repeat& elt ) 
+void xml2MsrVisitor::visitStart ( S_repeat& elt ) 
 {
   fCurrentRepeatDirection =
     elt->getAttributeValue ("direction");  
@@ -2115,7 +2115,7 @@ void xml2MsrScoreVisitor::visitStart ( S_repeat& elt )
 
 */
 
-void xml2MsrScoreVisitor::visitStart ( S_ending& elt ) 
+void xml2MsrVisitor::visitStart ( S_ending& elt ) 
 {
   // start, stop, discontinue
   
@@ -2126,7 +2126,7 @@ void xml2MsrScoreVisitor::visitStart ( S_ending& elt )
     elt->getAttributeIntValue ("number", 0);
 }
 
-void xml2MsrScoreVisitor::visitEnd ( S_barline& elt ) 
+void xml2MsrVisitor::visitEnd ( S_barline& elt ) 
 {
  /*
   *       <barline location="right">
@@ -2149,9 +2149,9 @@ void xml2MsrScoreVisitor::visitEnd ( S_barline& elt )
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_note& elt ) 
+void xml2MsrVisitor::visitStart ( S_note& elt ) 
 {
-  //  cerr << "--> xml2MsrScoreVisitor::visitStart ( S_note& elt ) " << endl;
+  //  cerr << "--> xml2MsrVisitor::visitStart ( S_note& elt ) " << endl;
   fMusicXMLNoteData.fMusicXMLStep = '_';
   fMusicXMLNoteData.fMusicXMLStepIsARest = false;
   fMusicXMLNoteData.fMusicXMLStepIsUnpitched = false;
@@ -2202,7 +2202,7 @@ void xml2MsrScoreVisitor::visitStart ( S_note& elt )
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_step& elt )
+void xml2MsrVisitor::visitStart ( S_step& elt )
 {
   string step = elt->getValue();
   
@@ -2216,17 +2216,17 @@ void xml2MsrScoreVisitor::visitStart ( S_step& elt )
   fMusicXMLNoteData.fMusicXMLStep = step[0];
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_alter& elt)
+void xml2MsrVisitor::visitStart ( S_alter& elt)
 {
   fMusicXMLNoteData.fMusicXMLAlteration = (int)(*elt);
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_octave& elt)
+void xml2MsrVisitor::visitStart ( S_octave& elt)
 {
   fMusicXMLNoteData.fMusicXMLOctave = (int)(*elt);
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_duration& elt )
+void xml2MsrVisitor::visitStart ( S_duration& elt )
 {
   int musicXMLduration = (int)(*elt);
 
@@ -2256,20 +2256,20 @@ void xml2MsrScoreVisitor::visitStart ( S_duration& elt )
       elt->getInputLineNumber (), s.str());
   }
     
-//  cerr << "=== xml2MsrScoreVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << endl; JMI
+//  cerr << "=== xml2MsrVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << endl; JMI
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_dot& elt )
+void xml2MsrVisitor::visitStart ( S_dot& elt )
 {
   fMusicXMLNoteData.fMusicXMLDotsNumber++;
 }
        
-void xml2MsrScoreVisitor::visitStart ( S_type& elt )
+void xml2MsrVisitor::visitStart ( S_type& elt )
 {
   fCurrentNoteType=elt->getValue();
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_stem& elt )
+void xml2MsrVisitor::visitStart ( S_stem& elt )
 {
   //         <stem default-y="28.5">up</stem>
 
@@ -2303,7 +2303,7 @@ void xml2MsrScoreVisitor::visitStart ( S_stem& elt )
   fCurrentStem = stem;
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_beam& elt )
+void xml2MsrVisitor::visitStart ( S_beam& elt )
 {
 /*
 Each beam in a note is represented with a separate beam element, starting with the eighth note beam using a number attribute of 1. Note that the beam number does not distinguish sets of beams that overlap, as it does for slur and other elements.
@@ -2336,7 +2336,7 @@ Each beam in a note is represented with a separate beam element, starting with t
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_staccato& elt )
+void xml2MsrVisitor::visitStart ( S_staccato& elt )
 {
   S_msrArticulation
     articulation =
@@ -2348,7 +2348,7 @@ void xml2MsrScoreVisitor::visitStart ( S_staccato& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_staccatissimo& elt )
+void xml2MsrVisitor::visitStart ( S_staccatissimo& elt )
 {
   S_msrArticulation
     articulation =
@@ -2360,7 +2360,7 @@ void xml2MsrScoreVisitor::visitStart ( S_staccatissimo& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_fermata& elt )
+void xml2MsrVisitor::visitStart ( S_fermata& elt )
 {
   // type : upright inverted  (Binchois20.xml)
   S_msrArticulation
@@ -2424,7 +2424,7 @@ unstress
   */
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart( S_f& elt)
+void xml2MsrVisitor::visitStart( S_f& elt)
 {        
   S_msrDynamics
     dyn =
@@ -2434,7 +2434,7 @@ void xml2MsrScoreVisitor::visitStart( S_f& elt)
         msrDynamics::kF);
   fPendingDynamics.push_back(dyn);
 }
-void xml2MsrScoreVisitor::visitStart( S_ff& elt)
+void xml2MsrVisitor::visitStart( S_ff& elt)
 {        
   S_msrDynamics
     dyn =
@@ -2444,7 +2444,7 @@ void xml2MsrScoreVisitor::visitStart( S_ff& elt)
         msrDynamics::kFF);
   fPendingDynamics.push_back(dyn);
 }
-void xml2MsrScoreVisitor::visitStart( S_fff& elt)
+void xml2MsrVisitor::visitStart( S_fff& elt)
 {        
   S_msrDynamics
     dyn =
@@ -2454,7 +2454,7 @@ void xml2MsrScoreVisitor::visitStart( S_fff& elt)
         msrDynamics::kFFF);
   fPendingDynamics.push_back(dyn);
 }
-void xml2MsrScoreVisitor::visitStart( S_ffff& elt)
+void xml2MsrVisitor::visitStart( S_ffff& elt)
 {        
   S_msrDynamics
     dyn =
@@ -2464,7 +2464,7 @@ void xml2MsrScoreVisitor::visitStart( S_ffff& elt)
         msrDynamics::kFFFF);
   fPendingDynamics.push_back(dyn);
 }
-void xml2MsrScoreVisitor::visitStart( S_fffff& elt)
+void xml2MsrVisitor::visitStart( S_fffff& elt)
 {        
   S_msrDynamics
     dyn =
@@ -2474,7 +2474,7 @@ void xml2MsrScoreVisitor::visitStart( S_fffff& elt)
         msrDynamics::kFFFFF);
   fPendingDynamics.push_back(dyn);
 }
-void xml2MsrScoreVisitor::visitStart( S_ffffff& elt)
+void xml2MsrVisitor::visitStart( S_ffffff& elt)
 {        
   S_msrDynamics
     dyn =
@@ -2485,7 +2485,7 @@ void xml2MsrScoreVisitor::visitStart( S_ffffff& elt)
   fPendingDynamics.push_back(dyn);
 }
 
-void xml2MsrScoreVisitor::visitStart( S_p& elt)
+void xml2MsrVisitor::visitStart( S_p& elt)
 {        
   S_msrDynamics
     dyn =
@@ -2495,7 +2495,7 @@ void xml2MsrScoreVisitor::visitStart( S_p& elt)
         msrDynamics::kP);
   fPendingDynamics.push_back(dyn);
 }
-void xml2MsrScoreVisitor::visitStart( S_pp& elt)
+void xml2MsrVisitor::visitStart( S_pp& elt)
 {        
   S_msrDynamics
     dyn =
@@ -2505,7 +2505,7 @@ void xml2MsrScoreVisitor::visitStart( S_pp& elt)
         msrDynamics::kPP);
   fPendingDynamics.push_back(dyn);
 }
-void xml2MsrScoreVisitor::visitStart( S_ppp& elt)
+void xml2MsrVisitor::visitStart( S_ppp& elt)
 {        
   S_msrDynamics
     dyn =
@@ -2515,7 +2515,7 @@ void xml2MsrScoreVisitor::visitStart( S_ppp& elt)
         msrDynamics::kPP);
   fPendingDynamics.push_back(dyn);
 }
-void xml2MsrScoreVisitor::visitStart( S_pppp& elt)
+void xml2MsrVisitor::visitStart( S_pppp& elt)
 {        
   S_msrDynamics
     dyn =
@@ -2525,7 +2525,7 @@ void xml2MsrScoreVisitor::visitStart( S_pppp& elt)
         msrDynamics::kPPPP);
   fPendingDynamics.push_back(dyn);
 }
-void xml2MsrScoreVisitor::visitStart( S_ppppp& elt)
+void xml2MsrVisitor::visitStart( S_ppppp& elt)
 {        
   S_msrDynamics
     dyn =
@@ -2535,7 +2535,7 @@ void xml2MsrScoreVisitor::visitStart( S_ppppp& elt)
         msrDynamics::kPPPPP);
   fPendingDynamics.push_back(dyn);
 }
-void xml2MsrScoreVisitor::visitStart( S_pppppp& elt)
+void xml2MsrVisitor::visitStart( S_pppppp& elt)
 {        
   S_msrDynamics
     dyn =
@@ -2547,7 +2547,7 @@ void xml2MsrScoreVisitor::visitStart( S_pppppp& elt)
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_wedge& elt )
+void xml2MsrVisitor::visitStart ( S_wedge& elt )
 {
   string type = elt->getAttributeValue("type");
   msrWedge::msrWedgeKind wedgeKind;
@@ -2572,19 +2572,19 @@ void xml2MsrScoreVisitor::visitStart ( S_wedge& elt )
 }
     
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_grace& elt )
+void xml2MsrVisitor::visitStart ( S_grace& elt )
 {
   fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote = true;;
 }
        
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_chord& elt)
+void xml2MsrVisitor::visitStart ( S_chord& elt)
 {
   fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = true;
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_time_modification& elt )
+void xml2MsrVisitor::visitStart ( S_time_modification& elt )
 {
   // there may be no '<tuplet number="n" type="start" />'
   // in the tuplet notes after the first one,
@@ -2593,22 +2593,22 @@ void xml2MsrScoreVisitor::visitStart ( S_time_modification& elt )
   fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet = true;
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_actual_notes& elt )
+void xml2MsrVisitor::visitStart ( S_actual_notes& elt )
 {
   fCurrentActualNotes = (int)(*elt);
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_normal_notes& elt )
+void xml2MsrVisitor::visitStart ( S_normal_notes& elt )
 {
   fCurrentNormalNotes = (int)(*elt);
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_normal_type& elt )
+void xml2MsrVisitor::visitStart ( S_normal_type& elt )
 {
   fCurrentNormalNoteType = elt->getValue();
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
+void xml2MsrVisitor::visitStart ( S_tuplet& elt )
 {
   fCurrentTupletNumber =
     elt->getAttributeIntValue ("number", 0);
@@ -2618,7 +2618,7 @@ void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
   
   /* JMI*/
   cerr <<
-    "--> xml2MsrScoreVisitor::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
+    "--> xml2MsrVisitor::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
     fCurrentTupletNumber << ", tupletType = " << tupletType <<endl;
  // */
   
@@ -2639,7 +2639,7 @@ void xml2MsrScoreVisitor::visitStart ( S_tuplet& elt )
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_rest& elt)
+void xml2MsrVisitor::visitStart ( S_rest& elt)
 {
   /*
         <note>
@@ -2648,12 +2648,12 @@ void xml2MsrScoreVisitor::visitStart ( S_rest& elt)
         <voice>1</voice>
       </note>
 */
-  //  cerr << "--> xml2MsrScoreVisitor::visitStart ( S_rest& elt ) " << endl;
+  //  cerr << "--> xml2MsrVisitor::visitStart ( S_rest& elt ) " << endl;
   fMusicXMLNoteData.fMusicXMLStepIsARest = true;
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitStart ( S_display_step& elt)
+void xml2MsrVisitor::visitStart ( S_display_step& elt)
 {
   string displayStep = elt->getValue();
   
@@ -2667,12 +2667,12 @@ void xml2MsrScoreVisitor::visitStart ( S_display_step& elt)
   fDisplayStep = displayStep[0];
 }
 
-void xml2MsrScoreVisitor::visitStart ( S_display_octave& elt)
+void xml2MsrVisitor::visitStart ( S_display_octave& elt)
 {
   fDisplayOctave = (int)(*elt);
 }
 
-void xml2MsrScoreVisitor::visitEnd ( S_unpitched& elt)
+void xml2MsrVisitor::visitEnd ( S_unpitched& elt)
 {
 /*
         <unpitched>
@@ -2686,7 +2686,7 @@ void xml2MsrScoreVisitor::visitEnd ( S_unpitched& elt)
 }
 
 //______________________________________________________________________________
-S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
+S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
 {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -2774,14 +2774,14 @@ S_msrChord xml2MsrScoreVisitor::createChordFromCurrentNote ()
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::createTupletWithItsFirstNote (S_msrNote note)
+void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote note)
 {
   // fCurrentNote is the first tuplet note,
   // and is currently at the end of the voice
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "xml2MsrScoreVisitor::createTupletWithItsFirstNote " <<
+      "xml2MsrVisitor::createTupletWithItsFirstNote " <<
       note <<
       endl;
       
@@ -2824,11 +2824,11 @@ void xml2MsrScoreVisitor::createTupletWithItsFirstNote (S_msrNote note)
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::finalizeTuplet (S_msrNote note)
+void xml2MsrVisitor::finalizeTuplet (S_msrNote note)
 {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "xml2MsrScoreVisitor::finalizeTuplet " <<
+      "xml2MsrVisitor::finalizeTuplet " <<
       note <<
       endl;
       
@@ -2857,7 +2857,7 @@ void xml2MsrScoreVisitor::finalizeTuplet (S_msrNote note)
 }          
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::attachPendingDynamicsAndWedgesToNote (
+void xml2MsrVisitor::attachPendingDynamicsAndWedgesToNote (
   S_msrNote note)
 {
   // attach the pending dynamics if any to the note
@@ -2911,7 +2911,7 @@ void xml2MsrScoreVisitor::attachPendingDynamicsAndWedgesToNote (
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
+void xml2MsrVisitor::visitEnd ( S_note& elt )
 {
   /*
   This is a complex method, due to the fact that
@@ -3060,12 +3060,12 @@ void xml2MsrScoreVisitor::visitEnd ( S_note& elt )
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
+void xml2MsrVisitor::handleStandaloneNoteOrRest (
   S_msrNote newNote)
 {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "xml2MsrScoreVisitor::handleStandaloneNoteOrRest " <<
+      "xml2MsrVisitor::handleStandaloneNoteOrRest " <<
       newNote <<
       endl;
 
@@ -3111,12 +3111,12 @@ void xml2MsrScoreVisitor::handleStandaloneNoteOrRest (
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
+void xml2MsrVisitor::handleNoteBelongingToAChord (
   S_msrNote newNote)
 {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "xml2MsrScoreVisitor::handleNoteBelongingToAChord " <<
+      "xml2MsrVisitor::handleNoteBelongingToAChord " <<
       newNote <<
       endl;
       
@@ -3175,12 +3175,12 @@ void xml2MsrScoreVisitor::handleNoteBelongingToAChord (
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
+void xml2MsrVisitor::handleNoteBelongingToATuplet (
   S_msrNote note)
 {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "xml2MsrScoreVisitor::handleNoteBelongingToATuplet " <<
+      "xml2MsrVisitor::handleNoteBelongingToATuplet " <<
       note <<
       endl;
         
@@ -3227,7 +3227,7 @@ void xml2MsrScoreVisitor::handleNoteBelongingToATuplet (
 }
 
 //______________________________________________________________________________
-void xml2MsrScoreVisitor::handleLyricsText (
+void xml2MsrVisitor::handleLyricsText (
   int inputLineNumber)
 {
 //  if (true || fMsrOptions->fDebug) {

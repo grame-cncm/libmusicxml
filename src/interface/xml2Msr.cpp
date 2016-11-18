@@ -23,9 +23,9 @@
 
 #include "versions.h"
 
-#include "musicxml2msr.h"
+#include "xml2Msr.h"
 
-#include "xml2MsrScoreVisitor.h"
+#include "xml2MsrVisitor.h"
 #include "msr2SummaryVisitor.h"
 
 using namespace std;
@@ -145,7 +145,7 @@ S_msrScore buildMsrScoreFromElementsTree (
   S_msrOptions& msrOpts,
   Sxmlelement   xmlTree)
 {
-    // browse the part contents for the first time with a xml2MsrScoreVisitor
+    // browse the part contents for the first time with a xml2MsrVisitor
   if (msrOpts->fTrace)
     cerr << idtr <<
       "Pass 2: building a MSR from the xmlelement tree" << endl;
@@ -153,7 +153,7 @@ S_msrScore buildMsrScoreFromElementsTree (
   idtr++;
   
   // create an xml2MsrVisitor
-  xml2MsrScoreVisitor visitor (msrOpts);
+  xml2MsrVisitor visitor (msrOpts);
 
   // build the MSR score
   S_msrScore

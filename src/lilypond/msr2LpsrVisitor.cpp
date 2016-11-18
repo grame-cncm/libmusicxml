@@ -182,7 +182,7 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
     scoreCommandLayout =
       fLpsrScore->getScoreCommand ()->getScoreCommandLayout ();
 
-  // create the score command layout staff size assoc
+  // create the score command layout staff-size Scheme assoc
   stringstream s;
   s << globalStaffSize;
   S_lpsrSchemeVarValAssoc

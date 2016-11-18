@@ -20,10 +20,10 @@
 
 #include "msrUtilities.h"
 
-#include "musicxml2msr.h"
+#include "xml2Msr.h"
 
 #include "lpsr.h"
-#include "msr2lpsr.h"
+#include "msr2Lpsr.h"
 #include "lpsr2LilyPond.h"
 
 
@@ -249,8 +249,8 @@ void analyzeOptions (
 
   int displayLPSRPresent                = 0;
 
-  int fDontKeepLineBreaksPresent        = 0;
-  int fKeepStaffSizePresent             = 0;
+ // JMI int fDontKeepLineBreaksPresent        = 0;
+// jMI  int fKeepStaffSizePresent             = 0;
   
   int absolutePresent                   = 0;
   
@@ -1018,10 +1018,10 @@ int main (int argc, char *argv[])
   // create LPSR score from MSR score
   if (outputFileName.size())
     lpScore =
-      msr2lpsr (mScore, msrOpts, lpsrOpts, outStream);
+      msr2Lpsr (mScore, msrOpts, lpsrOpts, outStream);
   else
     lpScore =
-      msr2lpsr (mScore, msrOpts, lpsrOpts, cout);
+      msr2Lpsr (mScore, msrOpts, lpsrOpts, cout);
   
   if (! lpScore) {
     cerr <<
