@@ -1583,10 +1583,10 @@ class EXP msrClef : public msrElement
 
     static SMARTP<msrClef> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      string                 sign,
-      int                    line,
-      int                    octaveChange);
+      int          inputLineNumber,
+      string       sign,
+      int          line,
+      int          octaveChange);
 
     string  getSign () const
                 { return fSign; }
@@ -1606,10 +1606,10 @@ class EXP msrClef : public msrElement
 
     msrClef (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      string                 sign,
-      int                    line,
-      int                    octaveChange);
+      int          inputLineNumber,
+      string       sign,
+      int          line,
+      int          octaveChange);
       
     virtual ~msrClef();
   
@@ -1636,10 +1636,10 @@ class EXP msrKey : public msrElement
 
     static SMARTP<msrKey> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    fifths,
-      string                 mode,
-      int                    cancel);
+      int           inputLineNumber,
+      int           fifths,
+      string        mode,
+      int           cancel);
 
     int         getFifths () const
                     { return fFifths; }
@@ -1664,10 +1664,10 @@ class EXP msrKey : public msrElement
 
     msrKey (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    fifths,
-      string                 mode,
-      int                    cancel);
+      int           inputLineNumber,
+      int           fifths,
+      string        mode,
+      int           cancel);
       
     virtual ~msrKey();
   
@@ -1695,9 +1695,9 @@ class EXP msrTime : public msrElement
     
     static SMARTP<msrTime> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    numerator,
-      int                    denominator);
+      int           inputLineNumber,
+      int           numerator,
+      int           denominator);
 
     rational  getRational () const
                   { return fRational; }
@@ -1713,9 +1713,9 @@ class EXP msrTime : public msrElement
 
     msrTime (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    numerator,
-      int                    denominator);
+      int           inputLineNumber,
+      int           numerator,
+      int           denominator);
       
     virtual ~msrTime();
   
@@ -2071,6 +2071,9 @@ class EXP msrStaff : public msrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrStaff> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
@@ -2078,6 +2081,9 @@ class EXP msrStaff : public msrElement
       S_msrPart     staffPart);
     
     SMARTP<msrStaff> createEmptyClone (S_msrPart clonedPart);
+
+    // get and set
+    // ------------------------------------------------------
 
     int       getStaffNumber () const
                   { return fStaffNumber; }
@@ -2090,20 +2096,20 @@ class EXP msrStaff : public msrElement
     string    getStaffInstrumentName () const
                   { return fStaffInstrumentName; }
 
-    S_msrClef getStaffClef () const
-                  { return fStaffClef; };
-    S_msrKey  getStaffKey () const
-                  { return fStaffKey; };
-    S_msrTime getStaffTime () const
-                  { return fStaffTime; };
-
+    S_msrClef getStaffClef () const { return fStaffClef; };
+    S_msrKey  getStaffKey  () const { return fStaffKey; };
+    S_msrTime getStaffTime () const { return fStaffTime; };
+    
+    void      setStaffClef (S_msrClef clef);
     void      setStaffKey  (S_msrKey  key);
     void      setStaffTime (S_msrTime time);
-    void      setStaffClef (S_msrClef clef);
 
     map<int, S_msrVoice>
               getStaffVoicesMap ()
                   { return fStaffVoicesMap; }
+
+    // services
+    // ------------------------------------------------------
 
     S_msrVoice
               addVoiceToStaff (
@@ -2119,6 +2125,9 @@ class EXP msrStaff : public msrElement
     void      appendKeyToAllStaffVoices  (S_msrKey   key);
     void      appendTimeToAllStaffVoices (S_msrTime time);
               
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -2146,9 +2155,9 @@ class EXP msrStaff : public msrElement
 
     string                  fStaffInstrumentName;
 
+    S_msrClef               fStaffClef;
     S_msrKey                fStaffKey;
     S_msrTime               fStaffTime;
-    S_msrClef               fStaffClef;
 
     int                     fNextRelativeStaffVoiceNumber;
 };

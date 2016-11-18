@@ -2920,10 +2920,10 @@ void msrLayout::print (ostream& os)
 //______________________________________________________________________________
 S_msrClef msrClef::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  string                 sign,
-  int                    line,
-  int                    octaveChange)
+  int          inputLineNumber,
+  string       sign,
+  int          line,
+  int          octaveChange)
 {
   msrClef* o =
     new msrClef (
@@ -2934,10 +2934,10 @@ S_msrClef msrClef::create (
 
 msrClef::msrClef (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  string                 sign,
-  int                    line,
-  int                    octaveChange)
+  int          inputLineNumber,
+  string       sign,
+  int          line,
+  int          octaveChange)
     : msrElement (msrOpts, inputLineNumber)
 {
   fSign         = sign;
@@ -3092,10 +3092,10 @@ void msrClef::printLilyPondCode (ostream& os)
 //______________________________________________________________________________
 S_msrKey msrKey::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    fifths,
-  string                 mode,
-  int                    cancel)
+  int           inputLineNumber,
+  int           fifths,
+  string        mode,
+  int           cancel)
 {
   msrKey* o =
     new msrKey (
@@ -3106,10 +3106,10 @@ S_msrKey msrKey::create (
 
 msrKey::msrKey (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    fifths,
-  string                 mode,
-  int                    cancel)
+  int           inputLineNumber,
+  int           fifths,
+  string        mode,
+  int           cancel)
     : msrElement (msrOpts, inputLineNumber)
 {
   fFifths = fifths;
@@ -3252,9 +3252,9 @@ void msrKey::print (ostream& os)
 //______________________________________________________________________________
 S_msrTime msrTime::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    numerator,
-  int                    denominator)
+  int           inputLineNumber,
+  int           numerator,
+  int           denominator)
 {
   msrTime* o =
     new msrTime (
@@ -3266,9 +3266,9 @@ S_msrTime msrTime::create (
 
 msrTime::msrTime (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    numerator,
-  int                    denominator)
+  int           inputLineNumber,
+  int           numerator,
+  int           denominator)
     : msrElement (msrOpts, inputLineNumber)
 {
   fRational = rational (numerator, denominator);
@@ -4016,24 +4016,54 @@ msrVoice::msrVoice (
       msrOpts, inputLineNumber,
       msrSequentialMusic::kSpace);
 
-  // add the implicit initial C major key
+  // get the initial clef from the staff
+  S_msrClef
+    clef =
+      fVoiceStaff->getStaffClef ();
+      
+  if (! clef)
+    // it doesn't exist yet, create default G clef
+    clef =
+      msrClef::create (
+        msrOpts,
+        inputLineNumber,
+        "G", 2, 0);
+        
+  S_msrElement c = clef;
+  fVoiceSequentialMusic->appendElementToSequentialMusic (c);
+    
+  // get the initial key from the staff
   S_msrKey
     key =
+      fVoiceStaff->getStaffKey ();
+      
+  if (! key)
+    // it doesn't exist yet, create default C major key
+    key =
       msrKey::create (
-        msrOpts, inputLineNumber,
+        msrOpts,
+        inputLineNumber,
         0, "major", 0);
+        
   S_msrElement k = key;
   fVoiceSequentialMusic->appendElementToSequentialMusic (k);
-
-  // add the implicit initial 4/4 time signature
+  
+  // get the initial time from the staff
   S_msrTime
     time =
+      fVoiceStaff->getStaffTime ();
+      
+  if (! time)
+    // it doesn't exist yet, create default 4/4 time
+    time =
       msrTime::create (
-        msrOpts, inputLineNumber,
+        msrOpts,
+        inputLineNumber,
         4, 4);
+
   S_msrElement t = time;
   fVoiceSequentialMusic->appendElementToSequentialMusic (t);
-
+  
   // add the master lyrics to this voice, to
   // collect skips along the way that are used as a 'prelude'
   // by actual lyrics that start at later points
