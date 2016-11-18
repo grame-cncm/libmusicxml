@@ -225,24 +225,35 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
     fOstream << idtr <<
       "--> Start visiting msrPartgroup" << endl;
 
-  fCurrentMsrPartgroupClone = elt->createEmptyClone ();
+  // create a partgroup clone
+  S_msrPartgroup
+    partgroupClone =
+      elt->createEmptyClone ();
 
+  // add it to the MSR score clone
   fCurrentMsrScoreClone->
-    addPartgroupToScore (fCurrentMsrPartgroupClone);
+    addPartgroupToScore (partgroupClone);
 
   // create a partgroup command
-  fCurrentPartgroupCommand =
-    lpsrPartgroupCommand::create (
-      fMsrOptions, fLpsrOptions);
+  S_lpsrPartgroupCommand
+    partgroupCommand =
+      lpsrPartgroupCommand::create (
+        fMsrOptions, fLpsrOptions);
 
+  // push it onto this visitors's stack,
+  // making it the current partgroup command
+  fPartgroupCommandsStack.push (
+    partgroupCommand);
+  
   // get the LPSR store command
   S_lpsrScoreCommand
     scoreCommand =
       fLpsrScore->getScoreCommand ();
 
+  // append the pargroup clone to the score command
   scoreCommand->
     appendPartgroupCommandToParallelMusic (
-      fCurrentPartgroupCommand);
+      partgroupCommand);
 
   // append the partgroup command to the LPSR score command
 
@@ -272,6 +283,10 @@ void msr2LpsrVisitor::visitEnd (S_msrPartgroup& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrPartgroup" << endl;
+
+  // pop current partgroup from this visitors's stack
+  fPartgroupCommandsStack.pop ();
+      
 }
 
 //________________________________________________________________________
@@ -282,12 +297,24 @@ void msr2LpsrVisitor::visitStart (S_msrPart& elt)
       "--> Start visiting msrPart" << endl;
 
   idtr++;
-  
+
+  // create a part clone
   fCurrentMsrPartClone =
-    elt->createEmptyClone (fCurrentMsrPartgroupClone);
-    
+    elt->createEmptyClone (elt);
+
+  // add it to the partgroup clone
   fCurrentMsrPartgroupClone->
     addPartToPartgroup (fCurrentMsrPartClone);
+
+  // create a partgroup command
+  S_lpsrPartCommand
+    partCommand =
+      lpsrPartCommand::create (
+        fMsrOptions, fLpsrOptions, 0);
+
+  // append it to the current partgroup command
+  fPartgroupCommandsStack.top ()->
+    appendElementToPartgroupCommand (partCommand);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrPart& elt)

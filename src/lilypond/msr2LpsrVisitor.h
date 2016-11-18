@@ -209,24 +209,24 @@ class msr2LpsrVisitor :
 
   private:
                      
-    S_msrOptions           fMsrOptions;
-    S_lpsrOptions          fLpsrOptions;
+    S_msrOptions            fMsrOptions;
+    S_lpsrOptions           fLpsrOptions;
     
-    ostream&               fOstream;
+    ostream&                fOstream;
     
-    S_msrScore             fVisitedMsrScore;
+    S_msrScore              fVisitedMsrScore;
 
     // the LPSR score we're building
     // ------------------------------------------------------
-    S_lpsrScore            fLpsrScore;
+    S_lpsrScore             fLpsrScore;
 
     // score
     // ------------------------------------------------------
-    S_msrScore             fCurrentMsrScoreClone;
+    S_msrScore              fCurrentMsrScoreClone;
     
     // identification
     // ------------------------------------------------------
-    bool                   fOnGoingIdentification;
+    bool                    fOnGoingIdentification;
 
     // page geometry
     // ------------------------------------------------------
@@ -234,42 +234,43 @@ class msr2LpsrVisitor :
     
     // part groups
     // ------------------------------------------------------
-    S_msrPartgroup         fCurrentMsrPartgroupClone;
-    S_lpsrPartgroupCommand fCurrentPartgroupCommand;
+    // the current partgroup command is the top of the stack
+    stack<S_lpsrPartgroupCommand>
+                            fPartgroupCommandsStack;
     
     // parts
     // ------------------------------------------------------
-    S_msrPart              fCurrentMsrPartClone;
+    S_msrPart               fCurrentMsrPartClone;
     
     // staves
     // ------------------------------------------------------
-    S_msrStaff             fCurrentMsrStaffClone;
+    S_msrStaff              fCurrentMsrStaffClone;
     // prevent clef, key and time from being handled twice
-    bool                   fOnGoingStaff;
+    bool                    fOnGoingStaff;
 
     // voices
     // ------------------------------------------------------
-    S_msrVoice             fCurrentMsrVoiceClone;
+    S_msrVoice              fCurrentMsrVoiceClone;
     
     // lyrics
     // ------------------------------------------------------
-    S_msrLyrics            fCurrentMsrLyricsClone;
+    S_msrLyrics             fCurrentMsrLyricsClone;
 
     // lyrics chunks
     // ------------------------------------------------------
-    S_msrLyricschunk       fCurrentMsrLyricschunkClone;
+    S_msrLyricschunk        fCurrentMsrLyricschunkClone;
 
     // sequential music
     // ------------------------------------------------------
-    S_msrSequentialMusic   fCurrentMsrSequentialMusicClone;
+    S_msrSequentialMusic    fCurrentMsrSequentialMusicClone;
     
     // chords
     // ------------------------------------------------------
-    S_msrChord            fCurrentMsrChordClone;
+    S_msrChord              fCurrentMsrChordClone;
     
     // tuplets
     // ------------------------------------------------------
-    S_msrTuplet            fCurrentMsrTupletClone;
+    S_msrTuplet             fCurrentMsrTupletClone;
 };
 
 
