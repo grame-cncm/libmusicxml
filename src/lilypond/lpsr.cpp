@@ -2157,6 +2157,106 @@ void lpsrLayout::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_lpsrPartgroupCommand lpsrPartgroupCommand::create (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts)
+{
+  lpsrPartgroupCommand* o = new lpsrPartgroupCommand (
+    msrOpts, lpsrOpts);
+  assert(o!=0);
+  return o;
+}
+
+lpsrPartgroupCommand::lpsrPartgroupCommand (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts)
+    : lpsrElement (msrOpts, lpsrOpts, 0)
+{}
+
+lpsrPartgroupCommand::~lpsrPartgroupCommand() {}
+
+void lpsrPartgroupCommand::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrPartgroupCommand::acceptIn()" << endl;
+      
+  if (visitor<S_lpsrPartgroupCommand>*
+    p =
+      dynamic_cast<visitor<S_lpsrPartgroupCommand>*> (v)) {
+        S_lpsrPartgroupCommand elem = this;
+        
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrPartgroupCommand::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void lpsrPartgroupCommand::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrPartgroupCommand::acceptOut()" << endl;
+
+  if (visitor<S_lpsrPartgroupCommand>*
+    p =
+      dynamic_cast<visitor<S_lpsrPartgroupCommand>*> (v)) {
+        S_lpsrPartgroupCommand elem = this;
+      
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrPartgroupCommand::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrPartgroupCommand::browseData (basevisitor* v)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "==> lpsrPartgroupCommand::browseData()" << endl;
+
+  for (
+    list<S_msrElement>::iterator i = fPartgroupCommandElements.begin();
+    i != fPartgroupCommandElements.end();
+    i++) {
+    // browse the element
+    msrBrowser<msrElement> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "<== lpsrPartgroupCommand::browseData()" << endl;
+}
+
+ostream& operator<< (ostream& os, const S_lpsrPartgroupCommand& scr)
+{
+  scr->print (os);
+  return os;
+}
+
+void lpsrPartgroupCommand::print (ostream& os)
+{
+  os << "PartgroupCommand" << endl << endl;
+
+  idtr++;
+
+  if (fPartgroupCommandElements.size()) {  
+    list<S_msrElement>::const_iterator
+      iBegin = fPartgroupCommandElements.begin(),
+      iEnd   = fPartgroupCommandElements.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_lpsrScoreCommand lpsrScoreCommand::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
@@ -2464,10 +2564,8 @@ void lpsrScore::browseData (basevisitor* v)
       list<S_msrElement>::iterator i = fScoreElements.begin();
       i != fScoreElements.end();
       i++) {
-      // create the element browser
+      // browse the element
       msrBrowser<msrElement> browser (v);
-    
-      // browse the element with the visitor
       browser.browse (*(*i));
     } // for
   }

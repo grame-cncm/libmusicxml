@@ -225,11 +225,31 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
     fOstream << idtr <<
       "--> Start visiting msrPartgroup" << endl;
 
-  fCurrentMsrPartGroupClone = elt->createEmptyClone ();
+  fCurrentMsrPartgroupClone = elt->createEmptyClone ();
 
   // add a use of the part group to the LPSR score command
   fCurrentMsrScoreClone->
-    addPartgroupToScore (fCurrentMsrPartGroupClone);
+    addPartgroupToScore (fCurrentMsrPartgroupClone);
+
+  fCurrentPartgroupCommand =
+    lpsrPartgroupCommand::create (
+      fMsrOptions, fLpsrOptions);
+
+/*
+ *   fCurrentMsrVoiceClone =
+    elt->createEmptyClone (fCurrentMsrStaffClone);
+    
+  fCurrentMsrStaffClone->
+    addVoiceToStaff (fCurrentMsrVoiceClone);
+
+  // append the voice to the LPSR score elements list
+  fLpsrScore ->
+    appendVoiceToScoreElements (fCurrentMsrVoiceClone);
+
+  // append the voice use to the LPSR score command
+  fLpsrScore ->
+    appendVoiceUseToStoreCommand (fCurrentMsrVoiceClone);
+*/
 
   idtr++;
 }
@@ -253,9 +273,9 @@ void msr2LpsrVisitor::visitStart (S_msrPart& elt)
   idtr++;
   
   fCurrentMsrPartClone =
-    elt->createEmptyClone (fCurrentMsrPartGroupClone);
+    elt->createEmptyClone (fCurrentMsrPartgroupClone);
     
-  fCurrentMsrPartGroupClone->
+  fCurrentMsrPartgroupClone->
     addPartToPartgroup (fCurrentMsrPartClone);
 }
 

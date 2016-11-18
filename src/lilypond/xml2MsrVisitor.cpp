@@ -454,12 +454,12 @@ void xml2MsrVisitor::visitEnd (S_part_list& elt)
 */
 
 S_msrPartgroup xml2MsrVisitor::fetchPartgroupInThisVisitor (
-  int partGroupNumber)
+  int partgroupNumber)
 {
   S_msrPartgroup result;
   
-  if (fPartgroupsMap.count (partGroupNumber)) {
-    result = fPartgroupsMap [partGroupNumber];
+  if (fPartgroupsMap.count (partgroupNumber)) {
+    result = fPartgroupsMap [partgroupNumber];
   }
 
   return result;
@@ -553,29 +553,29 @@ void xml2MsrVisitor::handlePartgroupStart (
   int
       inputLineNumber,
   msrPartgroup::msrPartgroupSymbolKind
-      partGroupSymbol,
+      partgroupSymbol,
   bool
-      partGroupBarline)
+      partgroupBarline)
 {
   showPartgroupsData ("BEFORE START");
 
   // fetch part group to be started
   S_msrPartgroup
-    partGroupToBeStarted =
+    partgroupToBeStarted =
       fetchPartgroupInThisVisitor (fCurrentPartgroupNumber);
 
-  if (! partGroupToBeStarted) {
+  if (! partgroupToBeStarted) {
     // no, create it
-    partGroupToBeStarted =
+    partgroupToBeStarted =
       msrPartgroup::create (
         fMsrOptions,
         inputLineNumber,
         fCurrentPartgroupNumber,
         fCurrentPartgroupName,
         fCurrentPartgroupAbbreviation,
-        partGroupSymbol,
+        partgroupSymbol,
         fCurrentPartgroupSymbolDefaultX,
-        partGroupBarline);
+        partgroupBarline);
 
     // add it to the part group map of this visitor
     if (fMsrOptions->fTrace)
@@ -583,7 +583,7 @@ void xml2MsrVisitor::handlePartgroupStart (
         "Adding part group " << fCurrentPartgroupNumber <<
         " to visitor's part group map" << endl;
     fPartgroupsMap [fCurrentPartgroupNumber] =
-      partGroupToBeStarted;
+      partgroupToBeStarted;
   }
   
   // add it to the part group list of this visitor
@@ -594,7 +594,7 @@ void xml2MsrVisitor::handlePartgroupStart (
 
   if (! fPartgroupsList.size())
     // insert first part group ahead of the list
-    fPartgroupsList.push_front (partGroupToBeStarted);
+    fPartgroupsList.push_front (partgroupToBeStarted);
   else {
     // place in the part groups list so as to
     // have them ordered by increasing order
@@ -606,7 +606,7 @@ void xml2MsrVisitor::handlePartgroupStart (
 
     while (true) {
       if (i == iEnd) {
-        fPartgroupsList.push_back (partGroupToBeStarted);
+        fPartgroupsList.push_back (partgroupToBeStarted);
         break;
       }
 
@@ -616,7 +616,7 @@ void xml2MsrVisitor::handlePartgroupStart (
           fCurrentPartgroupSymbolDefaultX
             <
           (*i)->getPartgroupSymbolDefaultX ()) {
-        fPartgroupsList.insert (i, partGroupToBeStarted);
+        fPartgroupsList.insert (i, partgroupToBeStarted);
         break;
       }
       
@@ -633,10 +633,10 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
 
   // is the part group to be stopped known?
   S_msrPartgroup
-    partGroupToBeStopped =
+    partgroupToBeStopped =
       fetchPartgroupInThisVisitor (fCurrentPartgroupNumber);
 
-  if (! partGroupToBeStopped) {
+  if (! partgroupToBeStopped) {
     // no, but we should have fount it
     stringstream s;
 
@@ -651,7 +651,7 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Removing part group " <<
-      partGroupToBeStopped->getPartgroupNumber () <<
+      partgroupToBeStopped->getPartgroupNumber () <<
       " from visitor's part groups list" << endl;
 
   list<S_msrPartgroup>::iterator
@@ -672,7 +672,7 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
       break;
     }
 
-    if ((*i) == partGroupToBeStopped) {
+    if ((*i) == partgroupToBeStopped) {
       fPartgroupsList.erase (i);
       break;
     }
@@ -691,31 +691,31 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
     if (fMsrOptions->fTrace)
       cerr << idtr <<
         "Appending part group " <<
-        partGroupToBeStopped->getPartgroupNumber () <<
+        partgroupToBeStopped->getPartgroupNumber () <<
         " to MSR score" << endl;
         
     fMsrScore->
-      addPartgroupToScore (partGroupToBeStopped);
+      addPartgroupToScore (partgroupToBeStopped);
       
   } else {
 
     // the front element in the part group list is
     // the new current part group
     S_msrPartgroup
-      newCurrentPartGroup = fPartgroupsList.front ();
+      newCurrentPartgroup = fPartgroupsList.front ();
 
     if (
-        partGroupToBeStopped->getPartgroupNumber ()
+        partgroupToBeStopped->getPartgroupNumber ()
           ==
-        newCurrentPartGroup->getPartgroupNumber () ) {
+        newCurrentPartgroup->getPartgroupNumber () ) {
       cerr << idtr <<
-        "--> partGroupToBeStopped = " << partGroupToBeStopped <<
-        ", newCurrentPartGroup = " << newCurrentPartGroup << endl;
+        "--> partgroupToBeStopped = " << partgroupToBeStopped <<
+        ", newCurrentPartgroup = " << newCurrentPartgroup << endl;
 
       stringstream s;
       s <<
         "cannot append part group " <<
-        partGroupToBeStopped->getPartgroupNumber () <<
+        partgroupToBeStopped->getPartgroupNumber () <<
         " as sub part group of itself";
       msrInternalError (
         inputLineNumber, s.str());
@@ -725,13 +725,13 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
     if (fMsrOptions->fTrace)
       cerr << idtr <<
         "Preending (sub-)part group " <<
-        partGroupToBeStopped->getPartgroupNumber () <<
+        partgroupToBeStopped->getPartgroupNumber () <<
         " at the beginning of part group " <<
-        newCurrentPartGroup->getPartgroupNumber () << endl;
+        newCurrentPartgroup->getPartgroupNumber () << endl;
 
-    newCurrentPartGroup->
+    newCurrentPartgroup->
       prependSubPartgroupToPartgroup (
-        partGroupToBeStopped);
+        partgroupToBeStopped);
   }
 
   // remove part group from the map
@@ -759,15 +759,15 @@ void xml2MsrVisitor::visitEnd (S_part_group& elt)
 
   idtr++;
   
-  msrPartgroup::msrPartgroupTypeKind partGroupTypeKind;
+  msrPartgroup::msrPartgroupTypeKind partgroupTypeKind;
 
   // check part group type
   if (fCurrentPartgroupType == "start")
-    partGroupTypeKind = msrPartgroup::kStartPartgroupType;
+    partgroupTypeKind = msrPartgroup::kStartPartgroupType;
     
   else
   if (fCurrentPartgroupType == "stop")
-    partGroupTypeKind = msrPartgroup::kStopPartgroupType;
+    partgroupTypeKind = msrPartgroup::kStopPartgroupType;
     
   else {
     if (fCurrentPartgroupType.size())
@@ -775,33 +775,33 @@ void xml2MsrVisitor::visitEnd (S_part_group& elt)
       msrMusicXMLError (
         elt->getInputLineNumber (),
         "unknown part group type \"" + fCurrentPartgroupType + "\"");
-    partGroupTypeKind = msrPartgroup::k_NoPartgroupType;
+    partgroupTypeKind = msrPartgroup::k_NoPartgroupType;
   }
 
-  msrPartgroup::msrPartgroupSymbolKind partGroupSymbolKind;
+  msrPartgroup::msrPartgroupSymbolKind partgroupSymbolKind;
   
   // check part group symbol
   // Values include none,
   //  brace, line, bracket, and square; the default is none
  
   if (fCurrentPartgroupSymbol == "brace")
-    partGroupSymbolKind = msrPartgroup::kBracePartgroupSymbol;
+    partgroupSymbolKind = msrPartgroup::kBracePartgroupSymbol;
     
   else
   if (fCurrentPartgroupSymbol == "bracket")
-    partGroupSymbolKind = msrPartgroup::kBracketPartgroupSymbol;
+    partgroupSymbolKind = msrPartgroup::kBracketPartgroupSymbol;
     
   else
   if (fCurrentPartgroupSymbol == "line")
-    partGroupSymbolKind = msrPartgroup::kLinePartgroupSymbol;
+    partgroupSymbolKind = msrPartgroup::kLinePartgroupSymbol;
     
   else
   if (fCurrentPartgroupSymbol == "square")
-    partGroupSymbolKind = msrPartgroup::kSquarePartgroupSymbol;
+    partgroupSymbolKind = msrPartgroup::kSquarePartgroupSymbol;
     
   else
   if (fCurrentPartgroupSymbol == "none")
-    partGroupSymbolKind = msrPartgroup::k_NoPartgroupSymbol;
+    partgroupSymbolKind = msrPartgroup::k_NoPartgroupSymbol;
     
   else {
    if (fCurrentPartgroupSymbol.size())
@@ -809,32 +809,32 @@ void xml2MsrVisitor::visitEnd (S_part_group& elt)
       msrMusicXMLError (
         elt->getInputLineNumber (),
         "unknown part group symbol \"" + fCurrentPartgroupSymbol + "\"");
-    partGroupSymbolKind = msrPartgroup::k_NoPartgroupSymbol;
+    partgroupSymbolKind = msrPartgroup::k_NoPartgroupSymbol;
   }
 
-  bool partGroupBarline;
+  bool partgroupBarline;
   
   // check part group barline
   if (fCurrentPartgroupBarline == "yes")
-    partGroupBarline = true;
+    partgroupBarline = true;
     
   else
   if (fCurrentPartgroupBarline == "no")
-    partGroupBarline = false;
+    partgroupBarline = false;
     
   else {
     msrMusicXMLError (
       elt->getInputLineNumber (),
       "unknown part group barline \"" + fCurrentPartgroupBarline + "\"");
-    partGroupBarline = false;
+    partgroupBarline = false;
   }
 
-  switch (partGroupTypeKind) {
+  switch (partgroupTypeKind) {
     
     case msrPartgroup::kStartPartgroupType:
       handlePartgroupStart (
         elt->getInputLineNumber (),
-        partGroupSymbolKind, partGroupBarline);
+        partgroupSymbolKind, partgroupBarline);
       break;
       
     case msrPartgroup::kStopPartgroupType:
@@ -889,18 +889,18 @@ void xml2MsrVisitor::visitEnd (S_score_part& elt)
 
   idtr++;
 
-  S_msrPartgroup currentPartGroup;
+  S_msrPartgroup currentPartgroup;
 
   // is there a current part group?
   if (! fPartgroupsList.size()) {
     // no, create an implicit one
-    currentPartGroup =
+    currentPartgroup =
       createImplicitMSRPartgroup (elt->getInputLineNumber ());
   }
 
   // fetch current part group
   try {
-    currentPartGroup = fPartgroupsList.front ();
+    currentPartgroup = fPartgroupsList.front ();
   }
   catch (int e) {
     cerr << "An exception number " << e << " occurred" << endl;
@@ -908,13 +908,13 @@ void xml2MsrVisitor::visitEnd (S_score_part& elt)
 
   // is this part already present in the current part group?
   fCurrentPart =
-    currentPartGroup->
+    currentPartgroup->
       fetchPartFromPartgroup (scorePartID);
 
   if (! fCurrentPart) {
     // no, add it to the current part group
     fCurrentPart =
-      currentPartGroup->
+      currentPartgroup->
         addPartToPartgroup (
           elt->getInputLineNumber (), scorePartID);
   }

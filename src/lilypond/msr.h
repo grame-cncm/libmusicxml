@@ -2313,12 +2313,12 @@ class EXP msrPartgroup : public msrElement
     static SMARTP<msrPartgroup> create (
       S_msrOptions&          msrOpts, 
       int                    inputLineNumber,
-      int                    partGroupNumber,
-      string                 partGroupName,
-      string                 partGroupAbbreviation,
-      msrPartgroupSymbolKind partGroupSymbolKind,
-      int                    partGroupSymbolDefaultX,
-      bool                   partGroupBarline);
+      int                    partgroupNumber,
+      string                 partgroupName,
+      string                 partgroupAbbreviation,
+      msrPartgroupSymbolKind partgroupSymbolKind,
+      int                    partgroupSymbolDefaultX,
+      bool                   partgroupBarline);
 
     SMARTP<msrPartgroup> createEmptyClone ();
 
@@ -2356,7 +2356,7 @@ class EXP msrPartgroup : public msrElement
     void       addPartToPartgroup (S_msrPart part);
                 
     void      prependSubPartgroupToPartgroup (
-                S_msrPartgroup partGroup);
+                S_msrPartgroup partgroup);
 
     S_msrPart fetchPartFromPartgroup (string partMusicXMLID);
 
@@ -2372,12 +2372,12 @@ class EXP msrPartgroup : public msrElement
     msrPartgroup (
       S_msrOptions&          msrOpts, 
       int                    inputLineNumber,
-      int                    partGroupNumber,
-      string                 partGroupName,
-      string                 partGroupAbbreviation,
-      msrPartgroupSymbolKind partGroupSymbolKind,
-      int                    partGroupSymbolDefaultX,
-      bool                   partGroupBarline);
+      int                    partgroupNumber,
+      string                 partgroupName,
+      string                 partgroupAbbreviation,
+      msrPartgroupSymbolKind partgroupSymbolKind,
+      int                    partgroupSymbolDefaultX,
+      bool                   partgroupBarline);
             
     virtual ~msrPartgroup();
   
@@ -2432,7 +2432,7 @@ class EXP msrScore : public msrElement
                 getPartgroupsList () const
                     { return fPartgroupsList; }
 
-    void addPartgroupToScore (S_msrPartgroup partGroup);
+    void addPartgroupToScore (S_msrPartgroup partgroup);
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);

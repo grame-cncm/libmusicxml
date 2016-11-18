@@ -5053,22 +5053,22 @@ int msrPartgroup::gPartgroupsCounter = 0;
 S_msrPartgroup msrPartgroup::create (
   S_msrOptions&          msrOpts, 
   int                    inputLineNumber,
-  int                    partGroupNumber,
-  string                 partGroupName,
-  string                 partGroupAbbreviation,
-  msrPartgroupSymbolKind partGroupSymbolKind,
-  int                    partGroupSymbolDefaultX,
-  bool                   partGroupBarline)
+  int                    partgroupNumber,
+  string                 partgroupName,
+  string                 partgroupAbbreviation,
+  msrPartgroupSymbolKind partgroupSymbolKind,
+  int                    partgroupSymbolDefaultX,
+  bool                   partgroupBarline)
 {
   msrPartgroup* o =
     new msrPartgroup (
       msrOpts, inputLineNumber,
-      partGroupNumber,
-      partGroupName,
-      partGroupAbbreviation,
-      partGroupSymbolKind,
-      partGroupSymbolDefaultX,
-      partGroupBarline);
+      partgroupNumber,
+      partgroupName,
+      partgroupAbbreviation,
+      partgroupSymbolKind,
+      partgroupSymbolDefaultX,
+      partgroupBarline);
   assert(o!=0);
   return o;
 }
@@ -5076,25 +5076,25 @@ S_msrPartgroup msrPartgroup::create (
 msrPartgroup::msrPartgroup (
   S_msrOptions&          msrOpts, 
   int                    inputLineNumber,
-  int                    partGroupNumber,
-  string                 partGroupName,
-  string                 partGroupAbbreviation,
-  msrPartgroupSymbolKind partGroupSymbolKind,
-  int                    partGroupSymbolDefaultX,
-  bool                   partGroupBarline)
+  int                    partgroupNumber,
+  string                 partgroupName,
+  string                 partgroupAbbreviation,
+  msrPartgroupSymbolKind partgroupSymbolKind,
+  int                    partgroupSymbolDefaultX,
+  bool                   partgroupBarline)
     : msrElement (msrOpts, inputLineNumber)
 {
   fPartgroupAbsoluteNumber = ++gPartgroupsCounter;
   
-  fPartgroupNumber = partGroupNumber;
+  fPartgroupNumber = partgroupNumber;
         
-  fPartgroupName = partGroupName;
-  fPartgroupAbbreviation = partGroupAbbreviation;
+  fPartgroupName = partgroupName;
+  fPartgroupAbbreviation = partgroupAbbreviation;
 
-  fPartgroupSymbolKind = partGroupSymbolKind;
-  fPartgroupSymbolDefaultX = partGroupSymbolDefaultX;
+  fPartgroupSymbolKind = partgroupSymbolKind;
+  fPartgroupSymbolDefaultX = partgroupSymbolDefaultX;
 
-  fPartgroupBarline = partGroupBarline;
+  fPartgroupBarline = partgroupBarline;
   
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -5222,15 +5222,15 @@ void msrPartgroup::addPartToPartgroup (S_msrPart part)
 }
 
 void msrPartgroup::prependSubPartgroupToPartgroup (
-  S_msrPartgroup partGroup)
+  S_msrPartgroup partgroup)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Adding (sub-)part group " << partGroup->getPartgroupNumber () <<
+      "Adding (sub-)part group " << partgroup->getPartgroupNumber () <<
       " to part group " << getPartgroupNumber ()  << endl;
 
   // register it in this part group
-  fPartgroupElements.push_front (partGroup);
+  fPartgroupElements.push_front (partgroup);
 }
 
 S_msrPart msrPartgroup::fetchPartFromPartgroup (
@@ -5707,30 +5707,30 @@ S_msrScore msrScore::createEmptyClone ()
   return clone;
 }
 
-void msrScore::addPartgroupToScore (S_msrPartgroup partGroup)
+void msrScore::addPartgroupToScore (S_msrPartgroup partgroup)
 {
   /* JMI
-  if (fScorePartgroupsMap.count (partGroupNumber)) {
+  if (fScorePartgroupsMap.count (partgroupNumber)) {
     cerr << idtr <<
-      "### Internal error: part group " << partGroupNumber <<
+      "### Internal error: part group " << partgroupNumber <<
       " already exists in this score" << endl;
 
-    return fScorePartgroupsMap [partGroupNumber];
+    return fScorePartgroupsMap [partgroupNumber];
   }
 */
 
   // register it in this score
-  fPartgroupsList.push_back (partGroup);
+  fPartgroupsList.push_back (partgroup);
 }
 
 /*
 S_msrPartgroup msrScore::fetchScorePartgroup (
-  int partGroupNumber)
+  int partgroupNumber)
 {
   S_msrPartgroup result;
   
-  if (fScorePartgroupsMap.count (partGroupNumber)) {
-    result = fScorePartgroupsMap [partGroupNumber];
+  if (fScorePartgroupsMap.count (partgroupNumber)) {
+    result = fScorePartgroupsMap [partgroupNumber];
   }
 
   return result;

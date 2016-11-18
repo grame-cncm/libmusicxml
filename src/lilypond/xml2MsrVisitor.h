@@ -424,7 +424,7 @@ class EXP xml2MsrVisitor :
     // we use a map to access them by part group number
     map<int, S_msrPartgroup>  fPartgroupsMap;
     S_msrPartgroup            fetchPartgroupInThisVisitor (
-                                int partGroupNumber);
+                                int partgroupNumber);
 
     // MusicXML allows part groups to overlap,
     // we use a list in which part groups are orderd by
@@ -438,9 +438,9 @@ class EXP xml2MsrVisitor :
                                 int
                                     inputLineNumber,
                                 msrPartgroup::msrPartgroupSymbolKind
-                                    partGroupSymbol,
+                                    partgroupSymbol,
                                 bool
-                                    partGroupBarline);
+                                    partgroupBarline);
     void                      handlePartgroupStop (
                                 int inputLineNumber);
 

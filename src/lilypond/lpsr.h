@@ -1220,8 +1220,7 @@ class EXP lpsrPartgroupCommand : public lpsrElement
 
     static SMARTP<lpsrPartgroupCommand> create (
       S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber);
+      S_lpsrOptions& lpsrOpts);
      
     // set and get
     // ------------------------------------------------------
@@ -1251,8 +1250,7 @@ class EXP lpsrPartgroupCommand : public lpsrElement
 
     lpsrPartgroupCommand (
       S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber);
+      S_lpsrOptions& lpsrOpts);
       
     virtual ~lpsrPartgroupCommand();
   
