@@ -499,6 +499,88 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrParallelMusic& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupCommand& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting lpsrPartgroupCommand" << endl;
+
+   fOstream << idtr <<
+     "\\new StaffGroup" << " " << "{" << " % PartgroupCommand" <<
+      endl << endl;
+
+  idtr++;
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupCommand& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting lpsrPartgroupCommand" << endl;
+
+  idtr--;
+
+  fOstream << idtr <<
+    " }" <<
+    endl << endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_lpsrPartCommand& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting lpsrPartCommand" << endl;
+
+   fOstream << idtr <<
+     "\\new StaffGroup" << " " << "{" << " % PartCommand" <<
+      endl << endl;
+
+  idtr++;
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartCommand& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting lpsrPartCommand" << endl;
+
+  idtr--;
+
+  fOstream << idtr <<
+    " }" <<
+    endl << endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffCommand& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting lpsrStaffCommand" << endl;
+
+   fOstream << idtr <<
+     "\\new Staff" << " " << "{" << " % StaffCommand" <<
+      endl;
+
+  idtr++;
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffCommand& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting lpsrStaffCommand" << endl;
+
+  idtr--;
+
+  fOstream << idtr <<
+    " }" <<
+    endl << endl;
+}
+
+/*
+//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrNewStaffgroupCommand& elt)
 {
   if (fMsrOptions->fDebug)
@@ -506,7 +588,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewStaffgroupCommand& elt)
       "% --> Start visiting lpsrNewStaffgroupCommand" << endl;
 
    fOstream << idtr <<
-     "\\new StaffGroup" << " " << " }" <<
+     "\\new StaffGroup" << " " << "{" <<
       endl;
 
   idtr++;
@@ -543,6 +625,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewStaffCommand& elt)
 
   idtr--;
 }
+*/
 
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
@@ -552,8 +635,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
       "% --> Start visiting lpsrUseVoiceCommand" << endl;
 
   fOstream << idtr <<
-    endl << idtr << // JMI
-     "\\context Voice" << " = " <<
+    "\\context Voice" << " = " <<
     "\"" << elt->getVoice ()->getVoiceName () << "\""<<
     " " <<
      "{ "<< "\\" << elt->getVoice ()->getVoiceName () << " }" <<
