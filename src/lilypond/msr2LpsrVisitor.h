@@ -242,10 +242,12 @@ class msr2LpsrVisitor :
     // parts
     // ------------------------------------------------------
     S_msrPart               fCurrentMsrPartClone;
+    S_lpsrPartCommand       fCurrentPartCommand;
     
     // staves
     // ------------------------------------------------------
     S_msrStaff              fCurrentMsrStaffClone;
+    S_lpsrStaffCommand      fCurrentStaffCommand;
     // prevent clef, key and time from being handled twice
     bool                    fOnGoingStaff;
 

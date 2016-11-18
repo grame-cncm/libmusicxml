@@ -1104,22 +1104,27 @@ class EXP lpsrStaffCommand : public lpsrElement
 
     static SMARTP<lpsrStaffCommand> create (
       S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber);
+      S_lpsrOptions& lpsrOpts);
      
     // set and get
     // ------------------------------------------------------
 
     list<S_msrElement>
-                  getStaffCommandElements () const
-                      { return fStaffCommandElements; }
+              getStaffCommandElements () const
+                  { return fStaffCommandElements; }
 
     // services
     // ------------------------------------------------------
 
-    void          appendElementToStaffCommand (
-                    S_msrElement elem)
-                      { fStaffCommandElements.push_back (elem); }
+    void      appendVoiceUseToStaffCommand (
+                S_msrVoice voice);
+
+    void      appendLyricsUseToStaffCommand (
+                S_msrLyrics lyrics);
+
+    void      appendElementToStaffCommand (
+                S_msrElement elem)
+                  { fStaffCommandElements.push_back (elem); }
                   
     // visitors
     // ------------------------------------------------------
@@ -1135,8 +1140,7 @@ class EXP lpsrStaffCommand : public lpsrElement
 
     lpsrStaffCommand (
       S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber);
+      S_lpsrOptions& lpsrOpts);
       
     virtual ~lpsrStaffCommand();
   

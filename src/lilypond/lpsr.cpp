@@ -2153,6 +2153,133 @@ void lpsrLayout::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_lpsrStaffCommand lpsrStaffCommand::create (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts)
+{
+  lpsrStaffCommand* o = new lpsrStaffCommand (
+    msrOpts, lpsrOpts);
+  assert(o!=0);
+  return o;
+}
+
+lpsrStaffCommand::lpsrStaffCommand (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts)
+    : lpsrElement (msrOpts, lpsrOpts, 0)
+{}
+
+lpsrStaffCommand::~lpsrStaffCommand() {}
+
+void lpsrStaffCommand::appendVoiceUseToStaffCommand (S_msrVoice voice)
+{
+  S_lpsrUseVoiceCommand
+    useVoiceCommand =
+      lpsrUseVoiceCommand::create (
+        fMsrOptions, 
+        fLpsrOptions, 
+        fInputLineNumber,
+        voice);
+  
+  fStaffCommandElements.push_back (useVoiceCommand);
+}
+
+void lpsrStaffCommand::appendLyricsUseToStaffCommand (S_msrLyrics lyrics)
+{
+  S_lpsrNewlyricsCommand
+    newLyricsCommand =
+      lpsrNewlyricsCommand::create (
+        fMsrOptions, 
+        fLpsrOptions, 
+        fInputLineNumber,
+        lyrics,
+        lyrics->getLyricsVoice ());
+  
+  fStaffCommandElements.push_back (newLyricsCommand);
+}
+
+void lpsrStaffCommand::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrStaffCommand::acceptIn()" << endl;
+      
+  if (visitor<S_lpsrStaffCommand>*
+    p =
+      dynamic_cast<visitor<S_lpsrStaffCommand>*> (v)) {
+        S_lpsrStaffCommand elem = this;
+        
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrStaffCommand::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void lpsrStaffCommand::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrStaffCommand::acceptOut()" << endl;
+
+  if (visitor<S_lpsrStaffCommand>*
+    p =
+      dynamic_cast<visitor<S_lpsrStaffCommand>*> (v)) {
+        S_lpsrStaffCommand elem = this;
+      
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrStaffCommand::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrStaffCommand::browseData (basevisitor* v)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "==> lpsrStaffCommand::browseData()" << endl;
+
+  for (
+    list<S_msrElement>::iterator i = fStaffCommandElements.begin();
+    i != fStaffCommandElements.end();
+    i++) {
+    // browse the element
+    msrBrowser<msrElement> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "<== lpsrStaffCommand::browseData()" << endl;
+}
+
+ostream& operator<< (ostream& os, const S_lpsrStaffCommand& scr)
+{
+  scr->print (os);
+  return os;
+}
+
+void lpsrStaffCommand::print (ostream& os)
+{
+  os << "StaffCommand" << endl << endl;
+
+  idtr++;
+
+  if (fStaffCommandElements.size()) {  
+    list<S_msrElement>::const_iterator
+      iBegin = fStaffCommandElements.begin(),
+      iEnd   = fStaffCommandElements.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_lpsrPartCommand lpsrPartCommand::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts)

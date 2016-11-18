@@ -111,6 +111,7 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
 //  fLpsrScore->
 //    setScoreCommand (fPartgroupCommandsStack.pop ());
 
+/*
   // get top level pargroup command from the stack
   S_lpsrPartgroupCommand
     partgroupCommand =
@@ -124,7 +125,7 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
     msrInternalError (
       1,
       "the partgroup command stack is not exmpty at the end of the visit");
-    
+   */ 
 }
 
 //________________________________________________________________________
@@ -329,15 +330,14 @@ void msr2LpsrVisitor::visitStart (S_msrPart& elt)
   fCurrentMsrPartgroupClone->
     addPartToPartgroup (fCurrentMsrPartClone);
 
-  // create a partgroup command
-  S_lpsrPartCommand
-    partCommand =
-      lpsrPartCommand::create (
-        fMsrOptions, fLpsrOptions);
+  // create a part command
+  fCurrentPartCommand =
+    lpsrPartCommand::create (
+      fMsrOptions, fLpsrOptions);
 
   // append it to the current partgroup command
   fPartgroupCommandsStack.top ()->
-    appendElementToPartgroupCommand (partCommand);
+    appendElementToPartgroupCommand (fCurrentPartCommand);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrPart& elt)
@@ -358,11 +358,22 @@ void msr2LpsrVisitor::visitStart (S_msrStaff& elt)
 
   idtr++;
   
+  // create a staff clone
   fCurrentMsrStaffClone =
     elt->createEmptyClone (fCurrentMsrPartClone);
     
+  // add it to the part clone
   fCurrentMsrPartClone->
     addStaffToPart (fCurrentMsrStaffClone);
+
+  // create a staff command
+  fCurrentStaffCommand =
+    lpsrStaffCommand::create (
+      fMsrOptions, fLpsrOptions);
+
+  // append it to the current part command
+  fCurrentPartCommand->
+    appendElementToPartCommand (fCurrentStaffCommand);
 
   fOnGoingStaff = true;
 }
@@ -387,9 +398,11 @@ void msr2LpsrVisitor::visitStart (S_msrVoice& elt)
 
   idtr++;
 
+  // create a voice clone
   fCurrentMsrVoiceClone =
     elt->createEmptyClone (fCurrentMsrStaffClone);
     
+  // add it to the staff clone
   fCurrentMsrStaffClone->
     addVoiceToStaff (fCurrentMsrVoiceClone);
 
@@ -397,9 +410,9 @@ void msr2LpsrVisitor::visitStart (S_msrVoice& elt)
   fLpsrScore ->
     appendVoiceToScoreElements (fCurrentMsrVoiceClone);
 
-  // append the voice use to the LPSR score command
-  fLpsrScore ->
-    appendVoiceUseToStoreCommand (fCurrentMsrVoiceClone);
+  // append a use of the voice to the current staff command
+  fCurrentStaffCommand->
+    appendVoiceUseToStaffCommand (fCurrentMsrVoiceClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrVoice& elt)
@@ -430,9 +443,9 @@ void msr2LpsrVisitor::visitStart (S_msrLyrics& elt)
     fLpsrScore ->
       appendLyricsToScoreElements (fCurrentMsrLyricsClone);
   
-    // append a use of the lyrics to the LPSR score command
-    fLpsrScore ->
-      appendLyricsUseToStoreCommand (fCurrentMsrLyricsClone);
+    // append a use of the lyrics to the current staff command
+    fCurrentStaffCommand ->
+      appendLyricsUseToStaffCommand (fCurrentMsrLyricsClone);
 //  }
 //  else
   //  fCurrentMsrLyricsClone = 0; // JMI
