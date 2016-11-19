@@ -959,7 +959,7 @@ int main (int argc, char *argv[])
   if (inputFileName == "-")
     msrOpts->fInputSourceName = "standard input";
   else
-    msrOpts->fInputSourceName = inputFileName;
+    msrOpts->fInputSourceName = "\"" + inputFileName + "\"";
   
   // translation date
   // ------------------------------------------------------
@@ -971,7 +971,7 @@ int main (int argc, char *argv[])
   time (&rawtime);
   timeinfo = localtime (&rawtime);
 
-  strftime (buffer, 80, "%I:%M%p.", timeinfo);
+  strftime (buffer, 80, "%A %F @ %T", timeinfo);
   msrOpts->fTranslationDate = buffer;
   
   // trace

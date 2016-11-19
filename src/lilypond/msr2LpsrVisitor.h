@@ -234,7 +234,7 @@ class msr2LpsrVisitor :
     
     // part groups
     // ------------------------------------------------------
-    S_msrPartgroup           fCurrentMsrPartgroupClone;
+    S_msrPartgroup          fCurrentMsrPartgroupClone;
     // the current partgroup command is the top of the stack
     stack<S_lpsrPartgroupCommand>
                             fPartgroupCommandsStack;

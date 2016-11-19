@@ -2670,7 +2670,7 @@ lpsrScore::lpsrScore (
   {
   string
     comment =
-      "Translation date:  " + fMsrOptions->fTranslationDate;
+      "on " + fMsrOptions->fTranslationDate;
   fTranslationDate =
     lpsrComment::create (
       msrOpts, lpsrOpts, inputLineNumber,

@@ -229,9 +229,17 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrLilypondVarValAssoc& elt)
     case lpsrLilypondVarValAssoc::kWithoutBackslash:
       break;
   } // switch
+
+  // the largest variable name length in a header is 18
+  int fieldWidth;
   
+  if (fOnGoingHeader)
+    fieldWidth = 18;
+  else
+    fieldWidth = elt->getVariableName ().size();
+    
   fOstream <<
-    elt->getVariableName ();
+    left<< setw(fieldWidth) << elt->getVariableName ();
   
   if (elt->getVarValSeparator () == lpsrLilypondVarValAssoc::kEqualSign)
     fOstream << " = ";
