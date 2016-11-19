@@ -1104,10 +1104,15 @@ class EXP lpsrStaffCommand : public lpsrElement
 
     static SMARTP<lpsrStaffCommand> create (
       S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts);
+      S_lpsrOptions& lpsrOpts,
+      S_msrStaff     staff);
      
     // set and get
     // ------------------------------------------------------
+
+    S_msrStaff
+              getStaff () const
+                      { return fStaff; }
 
     list<S_msrElement>
               getStaffCommandElements () const
@@ -1140,11 +1145,14 @@ class EXP lpsrStaffCommand : public lpsrElement
 
     lpsrStaffCommand (
       S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts);
+      S_lpsrOptions& lpsrOpts,
+      S_msrStaff     staff);
       
     virtual ~lpsrStaffCommand();
   
   private:
+
+    S_msrStaff         fStaff;
 
     list<S_msrElement> fStaffCommandElements;
 };
@@ -1172,8 +1180,7 @@ class EXP lpsrPartCommand : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrPart
-                  getPart () const
+    S_msrPart     getPart () const
                       { return fPart; }
 
     list<S_msrElement>

@@ -2155,19 +2155,23 @@ void lpsrLayout::print (ostream& os)
 //______________________________________________________________________________
 S_lpsrStaffCommand lpsrStaffCommand::create (
   S_msrOptions&  msrOpts, 
-  S_lpsrOptions& lpsrOpts)
+  S_lpsrOptions& lpsrOpts,
+  S_msrStaff     staff)
 {
   lpsrStaffCommand* o = new lpsrStaffCommand (
-    msrOpts, lpsrOpts);
+    msrOpts, lpsrOpts, staff);
   assert(o!=0);
   return o;
 }
 
 lpsrStaffCommand::lpsrStaffCommand (
   S_msrOptions&  msrOpts, 
-  S_lpsrOptions& lpsrOpts)
+  S_lpsrOptions& lpsrOpts,
+  S_msrStaff     staff)
     : lpsrElement (msrOpts, lpsrOpts, 0)
-{}
+{
+  fStaff = staff;
+}
 
 lpsrStaffCommand::~lpsrStaffCommand() {}
 
@@ -2260,7 +2264,10 @@ ostream& operator<< (ostream& os, const S_lpsrStaffCommand& scr)
 
 void lpsrStaffCommand::print (ostream& os)
 {
-  os << "StaffCommand" << endl << endl;
+  os <<
+    "StaffCommand" << " " <<
+    "for staff " << fStaff->getStaffName () <<
+    endl << endl;
 
   idtr++;
 
@@ -2364,7 +2371,6 @@ ostream& operator<< (ostream& os, const S_lpsrPartCommand& scr)
 
 void lpsrPartCommand::print (ostream& os)
 {
-  os << "" << endl << endl;
   os <<
     "PartCommand" << " " <<
     "for part " << fPart->getPartCombinedName () <<
