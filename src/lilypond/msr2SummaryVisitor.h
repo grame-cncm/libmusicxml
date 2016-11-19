@@ -58,7 +58,7 @@ class msr2SummaryVisitor :
   public visitor<S_msrTempo>,
   
   public visitor<S_msrSequentialMusic>,
-  public visitor<S_msrParallelMusic>,
+//  public visitor<S_msrParallelMusic>,
   
   public visitor<S_msrDuration>,
   
@@ -141,8 +141,8 @@ class msr2SummaryVisitor :
     virtual void visitStart (S_msrSequentialMusic& elt);
     virtual void visitEnd   (S_msrSequentialMusic& elt);
 
-    virtual void visitStart (S_msrParallelMusic& elt);
-    virtual void visitEnd   (S_msrParallelMusic& elt);
+//    virtual void visitStart (S_msrParallelMusic& elt);
+//    virtual void visitEnd   (S_msrParallelMusic& elt);
 
     virtual void visitStart (S_msrDuration& elt);
     virtual void visitEnd   (S_msrDuration& elt);

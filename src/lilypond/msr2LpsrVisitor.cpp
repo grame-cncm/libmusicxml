@@ -576,6 +576,7 @@ void msr2LpsrVisitor::visitEnd (S_msrSequentialMusic& elt)
 }
 
 //________________________________________________________________________
+/*
 void msr2LpsrVisitor::visitStart (S_msrParallelMusic& elt)
 {
   if (fMsrOptions->fDebug)
@@ -589,6 +590,7 @@ void msr2LpsrVisitor::visitEnd (S_msrParallelMusic& elt)
     fOstream << idtr <<
       "--> End visiting msrParallelMusic" << endl;
 }
+*/
 
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrDuration& elt)

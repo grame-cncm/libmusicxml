@@ -971,7 +971,7 @@ int main (int argc, char *argv[])
   time (&rawtime);
   timeinfo = localtime (&rawtime);
 
-  strftime (buffer, 80, "%A %F @ %T", timeinfo);
+  strftime (buffer, 80, "%A %F @ %T %Z", timeinfo);
   msrOpts->fTranslationDate = buffer;
   
   // trace

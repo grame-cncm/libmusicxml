@@ -1881,6 +1881,7 @@ void msrSequentialMusic::print (ostream& os)
 }
 
 //______________________________________________________________________________
+/*
 S_msrParallelMusic msrParallelMusic::create (
   S_msrOptions&        msrOpts, 
   int                  inputLineNumber,
@@ -1961,6 +1962,7 @@ void msrParallelMusic::print (ostream& os)
   
   idtr--;
 }
+*/
 
 //______________________________________________________________________________
 S_msrChord msrChord::create (
@@ -4009,12 +4011,23 @@ msrVoice::msrVoice (
 
   fVoiceContainsActualNotes = false;
   
-  // create the implicit msrSequentialMusic element
+  // create the implicit msrSequentialMusic
   fVoiceSequentialMusic =
     msrSequentialMusic::create (
       msrOpts, inputLineNumber,
       msrSequentialMusic::kSpace);
 
+
+  // create the implicit msrRepeatSegment
+  S_msrRepeatSegment
+    repeatSegment =
+      msrRepeatSegment::create (
+        msrOpts, inputLineNumber,
+        msrRepeatSegment::kSpace);
+
+  // append it to the voice repeat segments
+  fVoiceRepeatSegments.push_back (repeatSegment);
+  
   // get the initial clef from the staff
   S_msrClef
     clef =
@@ -5907,6 +5920,150 @@ void msrMidi::print (ostream& os)
   
   idtr--;
 }
+
+
+
+//______________________________________________________________________________
+S_msrRepeatSegment msrRepeatSegment::create (
+  S_msrOptions&        msrOpts, 
+  int                  inputLineNumber,
+  msrElementsSeparator elementsSeparator)
+{
+  msrRepeatSegment* o =
+    new msrRepeatSegment (
+      msrOpts, inputLineNumber, elementsSeparator);
+  assert(o!=0);
+  return o;
+}
+
+msrRepeatSegment::msrRepeatSegment (
+  S_msrOptions&        msrOpts, 
+  int                  inputLineNumber,
+  msrElementsSeparator elementsSeparator)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fElementsSeparator = elementsSeparator;
+
+  fRepeatVolte = 0;
+}
+msrRepeatSegment::~msrRepeatSegment() {}
+
+S_msrRepeatSegment msrRepeatSegment::createEmptyClone ()
+{
+  S_msrRepeatSegment
+    clone =
+      msrRepeatSegment::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fElementsSeparator);
+  
+  return clone;
+}
+
+void msrRepeatSegment::removeElementFromRepeatSegment (
+  S_msrElement elem)
+{
+  for (
+    list<S_msrElement>::iterator i = fRepeatSegmentElements.begin();
+    i != fRepeatSegmentElements.end();
+    i++) {
+    if ((*i) == elem) {
+      fRepeatSegmentElements.erase (i);
+      break;
+    }
+  } // for
+}
+
+void msrRepeatSegment::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrRepeatSegment::acceptIn()" << endl;
+      
+  if (visitor<S_msrRepeatSegment>*
+    p =
+      dynamic_cast<visitor<S_msrRepeatSegment>*> (v)) {
+        S_msrRepeatSegment elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrRepeatSegment::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrRepeatSegment::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrRepeatSegment::acceptOut()" << endl;
+
+  if (visitor<S_msrRepeatSegment>*
+    p =
+      dynamic_cast<visitor<S_msrRepeatSegment>*> (v)) {
+        S_msrRepeatSegment elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrRepeatSegment::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrRepeatSegment::browseData (basevisitor* v)
+{
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrRepeatSegment::browseData()" << endl;
+  
+  for (
+    list<S_msrElement>::iterator i = fRepeatSegmentElements.begin();
+    i != fRepeatSegmentElements.end();
+    i++) {
+    // create the element browser
+    msrBrowser<msrElement> browser (v);
+  
+    // browse the element with the visitor
+    browser.browse (*(*i));
+  } // for
+
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "<== msrRepeatSegment::browseData()" << endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrRepeatSegment& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrRepeatSegment::print (ostream& os)
+{  
+  os << "RepeatSegment";
+  
+  if (! fRepeatSegmentElements.size ())
+    os << " (No actual notes)";
+  os << endl;
+
+  if (fRepeatSegmentElements.size ()) {  
+    idtr++;
+  
+    list<S_msrElement>::const_iterator
+      iBegin = fRepeatSegmentElements.begin(),
+      iEnd   = fRepeatSegmentElements.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+// JMI      if (fElementsSeparator == kEndOfLine) os << endl;
+    } // for
+    
+    idtr--;
+  }
+
+  os << endl;
+}
+
 
 
 }

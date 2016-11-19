@@ -835,6 +835,7 @@ EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
 \brief The msr parallel music element
 */
 //______________________________________________________________________________
+/*
 class EXP msrParallelMusic : public msrElement
 {
   public:
@@ -877,6 +878,7 @@ class EXP msrParallelMusic : public msrElement
 };
 typedef SMARTP<msrParallelMusic> S_msrParallelMusic;
 EXP ostream& operator<< (ostream& os, const S_msrParallelMusic& elt);
+*/
 
 /*!
 \brief The msr sequential music element
@@ -888,6 +890,9 @@ class EXP msrSequentialMusic : public msrElement
     
    enum msrElementsSeparator { kEndOfLine, kSpace };
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrSequentialMusic> create (
       S_msrOptions&        msrOpts, 
       int                  inputLineNumber,
@@ -895,9 +900,15 @@ class EXP msrSequentialMusic : public msrElement
 
     SMARTP<msrSequentialMusic> createEmptyClone ();
 
+    // set and get
+    // ------------------------------------------------------
+
     list<S_msrElement>
                   getSequentialMusicElements () const
                       { return fSequentialMusicElements; }
+
+    // services
+    // ------------------------------------------------------
 
     void          prependElementToSequentialMusic (S_msrElement elem)
                       { fSequentialMusicElements.push_front (elem); }
@@ -910,6 +921,9 @@ class EXP msrSequentialMusic : public msrElement
     void          removeElementFromSequentialMusic (S_msrElement elem);
     void          removeLastElementFromSequentialMusic ()
                       { fSequentialMusicElements.pop_back () ; }
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1955,6 +1969,88 @@ typedef SMARTP<msrLyrics> S_msrLyrics;
 EXP ostream& operator<< (ostream& os, const S_msrLyrics& elt);
 
 /*!
+\brief The msr sequential music element
+*/
+//______________________________________________________________________________
+class EXP msrRepeatSegment : public msrElement
+{
+  public:
+    
+   enum msrElementsSeparator { kEndOfLine, kSpace };
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrRepeatSegment> create (
+      S_msrOptions&        msrOpts, 
+      int                  inputLineNumber,
+      msrElementsSeparator elementsSeparator);
+
+    SMARTP<msrRepeatSegment> createEmptyClone ();
+
+    // set and get
+    // ------------------------------------------------------
+
+    list<S_msrElement>
+                  getRepeatSegmentElements () const
+                      { return fRepeatSegmentElements; }
+
+    void          setRepeatVolte (int value)
+                      { fRepeatVolte = value; }
+                      
+    int           getRepeatVolte () const
+                      { return fRepeatVolte; }
+
+    // services
+    // ------------------------------------------------------
+
+    void          prependElementToRepeatSegment (S_msrElement elem)
+                      { fRepeatSegmentElements.push_front (elem); }
+    void          appendElementToRepeatSegment  (S_msrElement elem)
+                      { fRepeatSegmentElements.push_back (elem); }
+    
+    S_msrElement  getLastElementOfRepeatSegment () const
+                      { return fRepeatSegmentElements.back (); }
+                      
+    void          removeElementFromRepeatSegment (S_msrElement elem);
+    void          removeLastElementFromRepeatSegment ()
+                      { fRepeatSegmentElements.pop_back () ; }
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    msrRepeatSegment (
+      S_msrOptions&        msrOpts, 
+      int                  inputLineNumber,
+      msrElementsSeparator elementsSeparator);
+      
+    virtual ~msrRepeatSegment();
+    
+  private:
+
+    // the back of the list is the current segment,
+    // in which music is inserted
+    list<S_msrElement>   fRepeatSegmentElements;
+
+    // the number of times this segment should be repeated
+    int                  fRepeatVolte;
+    
+    msrElementsSeparator fElementsSeparator;
+
+};
+typedef SMARTP<msrRepeatSegment> S_msrRepeatSegment;
+EXP ostream& operator<< (ostream& os, const S_msrRepeatSegment& elt);
+
+/*!
 \brief A msr voice representation.
 
   A vpoce is represented by a its string contents
@@ -2066,6 +2162,11 @@ class EXP msrVoice : public msrElement
     // the implicit repeat at the beginning of the voice
     // will be ignored if the voice has no repeats at all
     S_msrRepeat               fVoiceMsrRepeat;
+
+    // the repeat segments in the voice
+    // one is created implicitly for every voice,
+    // in case we know later it is needed
+    list<S_msrRepeatSegment>  fVoiceRepeatSegments;
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 
@@ -2526,6 +2627,9 @@ class EXP msrMidi : public msrElement
 };
 typedef SMARTP<msrMidi> S_msrMidi;
 EXP ostream& operator<< (ostream& os, const S_msrMidi& elt);
+
+
+
 
 
 /*! @} */
