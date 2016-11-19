@@ -169,7 +169,7 @@ void analyzeOptions (
 {
   // General options
   // ---------------
-
+  
   msrOpts->fInteractive                       = false;
   
   msrOpts->fTrace                             = true;
@@ -793,14 +793,22 @@ void printOptions (
     endl;
 
   idtr++;
-  
+
   cerr << left <<
+    idtr << "  " << setw(fieldWidth) << "input source name" << " : " <<
+      msrOpts->fInputSourceName << endl <<
+      
+    idtr << "  " << setw(fieldWidth) << "translation date" << " : " <<
+      msrOpts->fTranslationDate << endl <<
+      
     idtr << "  " << setw(fieldWidth) << "interactive" << " : " <<
       string(msrOpts->fInteractive
         ? "true" : "false") << endl <<
+        
     idtr << "  " << setw(fieldWidth) << "trace" << " : " <<
       string(msrOpts->fTrace
         ? "true" : "false") << endl <<
+        
     idtr << "  " << setw(fieldWidth) << "debug" << " : " <<
       string(msrOpts->fDebug
         ? "true" : "false") << endl <<
@@ -945,6 +953,27 @@ int main (int argc, char *argv[])
     msrOpts, lpsrOpts,
     inputFileName, outputFileName);
 
+  // input source name
+  // ------------------------------------------------------
+
+  if (inputFileName == "-")
+    msrOpts->fInputSourceName = "standard input";
+  else
+    msrOpts->fInputSourceName = inputFileName;
+  
+  // translation date
+  // ------------------------------------------------------
+
+  time_t      rawtime;
+  struct tm*  timeinfo;
+  char buffer [80];
+
+  time (&rawtime);
+  timeinfo = localtime (&rawtime);
+
+  strftime (buffer, 80, "%I:%M%p.", timeinfo);
+  msrOpts->fTranslationDate = buffer;
+  
   // trace
   // ------------------------------------------------------
 
@@ -955,14 +984,8 @@ int main (int argc, char *argv[])
       endl;
 
     cerr <<  idtr <<
-      "Launching conversion of ";
-      
-    if (inputFileName == "-")
-      cerr << "standard input";
-    else
-      cerr << inputFileName;
-      
-    cerr <<
+      "Launching conversion of " <<
+      msrOpts->fInputSourceName <<
       " to LilyPond" <<
       endl;
 

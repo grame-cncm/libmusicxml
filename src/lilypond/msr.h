@@ -168,8 +168,32 @@ class EXP msrOptions : public smartable {
  
   public:
 
+    // General
+    // ------------------------------------------------------
+
     // synthetic view
     string                          fCommandLineOptions;
+    string                          fInputSourceName;
+    string                          fTranslationDate;
+    
+
+    // interactive mode
+    bool                            fInteractive;
+    
+    // trace
+    bool                            fTrace;
+    
+    // debug
+    bool                            fDebug;
+    bool                            fDebugDebug;
+    
+    // measure number-selective debug
+    set<int>                        fDebugMeasureNumbersSet;
+    bool                            fSaveDebug;
+    bool                            fSaveDebugDebug;
+
+    // MSR
+    // ------------------------------------------------------
 
     // languages
     string                          fMsrNoteNamesLanguageAsString;
@@ -190,21 +214,6 @@ class EXP msrOptions : public smartable {
 
     // parts renaming
     set<string>                     fPartRenamingSpecsSet;
-    
-    // interactive mode
-    bool                            fInteractive;
-    
-    // trace
-    bool                            fTrace;
-    
-    // debug
-    bool                            fDebug;
-    bool                            fDebugDebug;
-    
-    // measure number-selective debug
-    set<int>                        fDebugMeasureNumbersSet;
-    bool                            fSaveDebug;
-    bool                            fSaveDebugDebug;
 };
 typedef SMARTP<msrOptions> S_msrOptions;
 

@@ -1486,7 +1486,12 @@ class EXP lpsrScore : public lpsrElement
 
     // general information
     S_lpsrLilypondVarValAssoc fLilyPondVersion;
+    
+    S_lpsrComment             fInputSourceNameComment;
+    S_lpsrComment             fTranslationDate;
+    
     S_lpsrSchemeVarValAssoc   fGlobalStaffSizeAssoc;
+    
     S_lpsrHeader              fHeader;
     S_lpsrPaper               fPaper;
     S_lpsrLayout              fScoreLayout;
