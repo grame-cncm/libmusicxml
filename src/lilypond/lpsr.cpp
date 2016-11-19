@@ -2282,19 +2282,23 @@ void lpsrStaffCommand::print (ostream& os)
 //______________________________________________________________________________
 S_lpsrPartCommand lpsrPartCommand::create (
   S_msrOptions&  msrOpts, 
-  S_lpsrOptions& lpsrOpts)
+  S_lpsrOptions& lpsrOpts,
+  S_msrPart      part)
 {
   lpsrPartCommand* o = new lpsrPartCommand (
-    msrOpts, lpsrOpts);
+    msrOpts, lpsrOpts, part);
   assert(o!=0);
   return o;
 }
 
 lpsrPartCommand::lpsrPartCommand (
   S_msrOptions&  msrOpts, 
-  S_lpsrOptions& lpsrOpts)
+  S_lpsrOptions& lpsrOpts,
+  S_msrPart      part)
     : lpsrElement (msrOpts, lpsrOpts, 0)
-{}
+{
+  fPart = part;
+}
 
 lpsrPartCommand::~lpsrPartCommand() {}
 
@@ -2360,7 +2364,11 @@ ostream& operator<< (ostream& os, const S_lpsrPartCommand& scr)
 
 void lpsrPartCommand::print (ostream& os)
 {
-  os << "PartCommand" << endl << endl;
+  os << "" << endl << endl;
+  os <<
+    "PartCommand" << " " <<
+    "for part " << fPart->getPartCombinedName () <<
+    endl << endl;
 
   idtr++;
 
@@ -2382,19 +2390,23 @@ void lpsrPartCommand::print (ostream& os)
 //______________________________________________________________________________
 S_lpsrPartgroupCommand lpsrPartgroupCommand::create (
   S_msrOptions&  msrOpts, 
-  S_lpsrOptions& lpsrOpts)
+  S_lpsrOptions& lpsrOpts,
+  S_msrPartgroup partgroup)
 {
   lpsrPartgroupCommand* o = new lpsrPartgroupCommand (
-    msrOpts, lpsrOpts);
+    msrOpts, lpsrOpts, partgroup);
   assert(o!=0);
   return o;
 }
 
 lpsrPartgroupCommand::lpsrPartgroupCommand (
   S_msrOptions&  msrOpts, 
-  S_lpsrOptions& lpsrOpts)
+  S_lpsrOptions& lpsrOpts,
+  S_msrPartgroup partgroup)
     : lpsrElement (msrOpts, lpsrOpts, 0)
-{}
+{
+  fPartgroup = partgroup;
+}
 
 lpsrPartgroupCommand::~lpsrPartgroupCommand() {}
 
@@ -2460,7 +2472,10 @@ ostream& operator<< (ostream& os, const S_lpsrPartgroupCommand& scr)
 
 void lpsrPartgroupCommand::print (ostream& os)
 {
-  os << "PartgroupCommand" << endl << endl;
+  os <<
+    "PartgroupCommand" << " " <<
+    "for partgroup " << fPartgroup->getPartgroupCombinedName () <<
+    endl << endl;
 
   idtr++;
 

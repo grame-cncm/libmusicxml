@@ -262,7 +262,7 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
   S_lpsrPartgroupCommand
     partgroupCommand =
       lpsrPartgroupCommand::create (
-        fMsrOptions, fLpsrOptions);
+        fMsrOptions, fLpsrOptions, elt);
 
   // push it onto this visitors's stack,
   // making it the current partgroup command
@@ -333,7 +333,7 @@ void msr2LpsrVisitor::visitStart (S_msrPart& elt)
   // create a part command
   fCurrentPartCommand =
     lpsrPartCommand::create (
-      fMsrOptions, fLpsrOptions);
+      fMsrOptions, fLpsrOptions, elt);
 
   // append it to the current partgroup command
   fPartgroupCommandsStack.top ()->

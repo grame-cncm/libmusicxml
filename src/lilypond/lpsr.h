@@ -1166,10 +1166,15 @@ class EXP lpsrPartCommand : public lpsrElement
 
     static SMARTP<lpsrPartCommand> create (
       S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts);
+      S_lpsrOptions& lpsrOpts,
+      S_msrPart      part);
      
     // set and get
     // ------------------------------------------------------
+
+    S_msrPart
+                  getPart () const
+                      { return fPart; }
 
     list<S_msrElement>
                   getPartCommandElements () const
@@ -1196,11 +1201,14 @@ class EXP lpsrPartCommand : public lpsrElement
 
     lpsrPartCommand (
       S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts);
+      S_lpsrOptions& lpsrOpts,
+      S_msrPart      part);
       
     virtual ~lpsrPartCommand();
   
   private:
+
+    S_msrPart          fPart;
 
     list<S_msrElement> fPartCommandElements;
 };
@@ -1222,10 +1230,15 @@ class EXP lpsrPartgroupCommand : public lpsrElement
 
     static SMARTP<lpsrPartgroupCommand> create (
       S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts);
+      S_lpsrOptions& lpsrOpts,
+      S_msrPartgroup partgroup);
      
     // set and get
     // ------------------------------------------------------
+
+    S_msrPartgroup
+                  getPartgroup () const
+                      { return fPartgroup; }
 
     list<S_msrElement>
                   getPartgroupCommandElements () const
@@ -1252,12 +1265,15 @@ class EXP lpsrPartgroupCommand : public lpsrElement
 
     lpsrPartgroupCommand (
       S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts);
+      S_lpsrOptions& lpsrOpts,
+      S_msrPartgroup partgroup);
       
     virtual ~lpsrPartgroupCommand();
   
   private:
 
+    S_msrPartgroup     fPartgroup;
+    
     list<S_msrElement> fPartgroupCommandElements;
 };
 typedef SMARTP<lpsrPartgroupCommand> S_lpsrPartgroupCommand;
