@@ -2321,6 +2321,9 @@ class EXP msrPartgroup : public msrElement
         kLinePartgroupSymbol, kSquarePartgroupSymbol,
         k_NoPartgroupSymbol };
           
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrPartgroup> create (
       S_msrOptions&          msrOpts, 
       int                    inputLineNumber,
@@ -2335,6 +2338,9 @@ class EXP msrPartgroup : public msrElement
 
     static int gPartgroupsCounter;
     
+    // set and get
+    // ------------------------------------------------------
+
     int       getPartgroupNumber () const
                   { return fPartgroupNumber; }
     
@@ -2360,16 +2366,22 @@ class EXP msrPartgroup : public msrElement
               getPartgroupElements () const
                   { return fPartgroupElements; }
 
+    // services
+    // ------------------------------------------------------
+
     S_msrPart addPartToPartgroup (
                 int    inputLineNumber,
                 string partMusicXMLID);
     
-    void       addPartToPartgroup (S_msrPart part);
+    void      addPartToPartgroup (S_msrPart part);
                 
     void      prependSubPartgroupToPartgroup (
                 S_msrPartgroup partgroup);
 
     S_msrPart fetchPartFromPartgroup (string partMusicXMLID);
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -2510,6 +2522,20 @@ EXP ostream& operator<< (ostream& os, const S_msrMidi& elt);
 /*! @} */
 
 }
+
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
 
 
 #endif
