@@ -129,7 +129,7 @@ void initializeStringToMsrNoteNamesLanguage ()
   gMsrNoteNamesLanguageMap["vlaams"] =    kVlaams;
 }
 
-msrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang)
+msrNoteNamesLanguage getMsrNoteNamesLanguage (string lang)
 {
   return gMsrNoteNamesLanguageMap[lang];
 }
@@ -2802,14 +2802,16 @@ void msrVarValAssoc::print (ostream& os)
   idtr++;
 
   // escape quotes if any
-  std::string variableName;
-  std::string variableValue;
+  string variableName;
 
-  std::for_each (
+  for_each (
     fVariableName.begin(),
     fVariableName.end(),
     stringQuoteEscaper (variableName));
-  std::for_each (
+    
+  string variableValue;
+
+  for_each (
     fVariableValue.begin(),
     fVariableValue.end(),
     stringQuoteEscaper (variableValue));
@@ -4094,9 +4096,7 @@ void msrRepeatsegment::print (ostream& os)
   
   if (! fRepeatsegmentElements.size ())
     os << " (No actual notes)";
-  os << endl;
-
-  if (fRepeatsegmentElements.size ()) {  
+  else {  
     idtr++;
   
     list<S_msrElement>::const_iterator
@@ -4344,6 +4344,17 @@ S_msrLyrics msrVoice::fetchLyricsFromVoice (
   return result;
 }
 
+void msrVoice::appendRepeatsegmentToVoice (
+  S_msrRepeatsegment repeatsegment)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending repeat segment '" << repeatsegment <<
+      "' to voice " << getVoiceName () << endl;
+
+  fVoiceRepeatsegments.push_back (repeatsegment);
+}
+
 void msrVoice::appendClefToVoice (S_msrClef clef)
 {
   if (fMsrOptions->fTrace)
@@ -4354,6 +4365,8 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
   S_msrElement c = clef;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (c);
+  fVoiceRepeatsegments.back ()->
+    appendElementToRepeatsegment (c);
 }
 
 void msrVoice::appendKeyToVoice (S_msrKey key)
@@ -4366,6 +4379,8 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
   S_msrElement k = key;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (k);
+  fVoiceRepeatsegments.back ()->
+    appendElementToRepeatsegment (k);
 }
 
 void msrVoice::appendTimeToVoice (S_msrTime time)
@@ -4378,6 +4393,8 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   S_msrElement t = time;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (t);
+  fVoiceRepeatsegments.back ()->
+    appendElementToRepeatsegment (t);
 }
 
 void msrVoice::appendTempoToVoice (S_msrTempo tempo)
@@ -4390,6 +4407,8 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
   S_msrElement t = tempo;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (t);
+  fVoiceRepeatsegments.back ()->
+    appendElementToRepeatsegment (t);
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
@@ -4400,7 +4419,8 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   S_msrElement n = note;
   fVoiceSequentialMusic->appendElementToSequentialMusic (n);
-  fVoiceRepeatsegments.back ()->appendElementToRepeatsegment (n);
+  fVoiceRepeatsegments.back ()->
+    appendElementToRepeatsegment (n);
 
   if (note->getNoteKind () != msrNote::kRestNote)
     fVoiceContainsActualNotes = true;
@@ -4425,6 +4445,8 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
   S_msrElement c = chord;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (c);
+  fVoiceRepeatsegments.back ()->
+    appendElementToRepeatsegment (c);
 }
 
 void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
@@ -4436,6 +4458,8 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
   S_msrElement t = tuplet;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (t);
+  fVoiceRepeatsegments.back ()->
+    appendElementToRepeatsegment (t);
 }
 
 void msrVoice::appendElementToVoice (S_msrElement elem)
@@ -4447,9 +4471,11 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
 
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (elem);
+  fVoiceRepeatsegments.back ()->
+    appendElementToRepeatsegment (elem);
 }
 
-void msrVoice::removeLastElementFromVoiceSequentialMusic ()
+void msrVoice::removeLastElementFromVoice ()
 {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -4458,7 +4484,11 @@ void msrVoice::removeLastElementFromVoiceSequentialMusic ()
 
   fVoiceSequentialMusic->
     removeLastElementFromSequentialMusic ();
+  fVoiceRepeatsegments.back ()->
+    removeLastElementFromRepeatsegment ();
 }
+
+/*
 void msrVoice::removeElementFromVoiceSequentialMusic (S_msrElement elem)
 {
   if (fMsrOptions->fDebugDebug)
@@ -4469,6 +4499,7 @@ void msrVoice::removeElementFromVoiceSequentialMusic (S_msrElement elem)
   fVoiceSequentialMusic->
     removeElementFromSequentialMusic (elem);
 }
+*/
 
 void msrVoice::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
@@ -4547,7 +4578,7 @@ ostream& operator<< (ostream& os, const S_msrVoice& elt)
 
 void msrVoice::print (ostream& os)
 {
-  os << idtr <<
+  os <<
     "Voice" << " " << getVoiceName () <<
     ", " << fVoiceRepeatsegments.size() << " repeat segments" <<
     ", " << fVoiceLyricsMap.size() << " lyrics" <<

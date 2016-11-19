@@ -2804,16 +2804,6 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote note)
     cerr << idtr <<
       "--> pushing tuplet to tuplets stack" << endl;
   fCurrentTupletsStack.push(tuplet);
-
-  /* JMI
-  // remove fCurrentNote from the voice
-  if (fMsrOptions->fDebug)
-    cerr << idtr <<
-      "--> removing current note " << fCurrentNote->noteMsrPitchAsString() <<
-      " from the voice " << fCurrentVoice->getVoiceName () << endl;
-  fCurrentVoice->
-    removeLastElementFromVoiceSequentialMusic ();
-  */
   
   // add note as first note of the tuplet
   if (fMsrOptions->fDebug)
@@ -3163,7 +3153,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
       fCurrentVoice->getVoiceSequentialMusicLastElement () <<
       " from current voice" << endl;
   fCurrentVoice->
-    removeLastElementFromVoiceSequentialMusic ();
+    removeLastElementFromVoice ();
 
   // add fCurrentChord to the part sequence instead
   if (fMsrOptions->fDebug)

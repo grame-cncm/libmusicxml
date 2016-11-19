@@ -141,13 +141,13 @@ enum msrNoteNamesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
   kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
 
-typedef std::map<std::string, msrNoteNamesLanguage>
+typedef map<string, msrNoteNamesLanguage>
   msrNoteNamesLanguageMap;
   
 static msrNoteNamesLanguageMap gMsrNoteNamesLanguageMap;
 
 void                 initializeMsrNoteNamesLanguage ();
-msrNoteNamesLanguage getMsrNoteNamesLanguage (std::string lang);
+msrNoteNamesLanguage getMsrNoteNamesLanguage (string lang);
   
 //______________________________________________________________________________
 /*!
@@ -2012,9 +2012,10 @@ class EXP msrRepeatsegment : public msrElement
     S_msrElement  getLastElementOfRepeatsegment () const
                       { return fRepeatsegmentElements.back (); }
                       
-    void          removeElementFromRepeatsegment (S_msrElement elem);
     void          removeLastElementFromRepeatsegment ()
-                      { fRepeatsegmentElements.pop_back () ; }
+                      { fRepeatsegmentElements.pop_back (); }
+
+    void          removeElementFromRepeatsegment (S_msrElement elem);
 
     // visitors
     // ------------------------------------------------------
@@ -2108,17 +2109,20 @@ class EXP msrVoice : public msrElement
     S_msrLyrics
               getVoiceMasterLyrics () { return fVoiceMasterLyrics; }
                
-    void      appendClefToVoice       (S_msrClef clef);
-    void      appendKeyToVoice        (S_msrKey  key);
-    void      appendTimeToVoice       (S_msrTime time);
+    void      appendRepeatsegmentToVoice
+                                  (S_msrRepeatsegment repeatsegment);
     
-    void      appendTempoToVoice      (S_msrTempo tempo);
+    void      appendClefToVoice   (S_msrClef clef);
+    void      appendKeyToVoice    (S_msrKey  key);
+    void      appendTimeToVoice   (S_msrTime time);
     
-    void      appendNoteToVoice       (S_msrNote note);
-    void      appendChordToVoice      (S_msrChord chord);
-    void      appendTupletToVoice     (S_msrTuplet tuplet);
+    void      appendTempoToVoice  (S_msrTempo tempo);
     
-    void      appendElementToVoice    (S_msrElement elem); // for others
+    void      appendNoteToVoice   (S_msrNote note);
+    void      appendChordToVoice  (S_msrChord chord);
+    void      appendTupletToVoice (S_msrTuplet tuplet);
+    
+    void      appendElementToVoice (S_msrElement elem); // for others
 
     S_msrElement
               getVoiceSequentialMusicLastElement ()
@@ -2127,10 +2131,10 @@ class EXP msrVoice : public msrElement
                       getLastElementOfSequentialMusic ();
                   }
                   
-    void      removeLastElementFromVoiceSequentialMusic ();
+    void      removeLastElementFromVoice ();
 
-    void      removeElementFromVoiceSequentialMusic (
-                S_msrElement elem);
+//    void      removeElementFromVoiceSequentialMusic (
+  // JMI              S_msrElement elem);
 
     S_msrSequentialMusic
               getVoiceSequentialMusic () const

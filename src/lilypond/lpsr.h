@@ -854,11 +854,17 @@ class EXP lpsrHeader : public lpsrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrHeader> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
     
+    // set and get
+    // ------------------------------------------------------
+
     void        setWorkNumber (
                   int    inputLineNumber,
                   string val);
@@ -931,6 +937,14 @@ class EXP lpsrHeader : public lpsrElement
     S_lpsrLilypondVarValAssoc
                 getScoreInstrument () const
                     { return fScoreInstrument; }
+
+    // services
+    // ------------------------------------------------------
+
+    int         maxLilyPondVariablesNamesLength ();
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);

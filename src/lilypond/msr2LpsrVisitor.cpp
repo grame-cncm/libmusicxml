@@ -576,12 +576,21 @@ void msr2LpsrVisitor::visitEnd (S_msrSequentialMusic& elt)
 }
 
 //________________________________________________________________________
-/*
+
 void msr2LpsrVisitor::visitStart (S_msrRepeatsegment& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrRepeatsegment" << endl;
+
+  // create a clone of the repeat segment
+  fCurrentMsrRepeatsegmentClone =
+    elt->createEmptyClone ();
+
+  // append it to the current voice
+  fCurrentMsrVoiceClone->
+    appendRepeatsegmentToVoice (
+      fCurrentMsrRepeatsegmentClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrRepeatsegment& elt)
@@ -590,7 +599,6 @@ void msr2LpsrVisitor::visitEnd (S_msrRepeatsegment& elt)
     fOstream << idtr <<
       "--> End visiting msrRepeatsegment" << endl;
 }
-*/
 
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrDuration& elt)
@@ -680,11 +688,15 @@ void msr2LpsrVisitor::visitStart (S_msrNote& elt)
     case msrNote::kStandaloneNote:
       fCurrentMsrSequentialMusicClone->
         appendElementToSequentialMusic (elt);
+      fCurrentMsrVoiceClone->
+        appendNoteToVoice (elt); // JMI
       break;
       
     case msrNote::kRestNote:
       fCurrentMsrSequentialMusicClone->
         appendElementToSequentialMusic (elt);
+      fCurrentMsrVoiceClone->
+        appendNoteToVoice (elt);
       break;
       
     case msrNote::kChordMemberNote:

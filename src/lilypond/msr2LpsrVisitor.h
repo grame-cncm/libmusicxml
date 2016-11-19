@@ -150,8 +150,8 @@ class msr2LpsrVisitor :
     virtual void visitStart (S_msrSequentialMusic& elt);
     virtual void visitEnd   (S_msrSequentialMusic& elt);
 
-//    virtual void visitStart (S_msrParallelMusic& elt);
-//    virtual void visitEnd   (S_msrParallelMusic& elt);
+    virtual void visitStart (S_msrRepeatsegment& elt);
+    virtual void visitEnd   (S_msrRepeatsegment& elt);
 
     virtual void visitStart (S_msrDuration& elt);
     virtual void visitEnd   (S_msrDuration& elt);
@@ -251,6 +251,11 @@ class msr2LpsrVisitor :
     // prevent clef, key and time from being handled twice
     bool                    fOnGoingStaff;
 
+
+    // repeat segments
+    // ------------------------------------------------------
+    S_msrRepeatsegment     fCurrentMsrRepeatsegmentClone;
+    
     // voices
     // ------------------------------------------------------
     S_msrVoice              fCurrentMsrVoiceClone;

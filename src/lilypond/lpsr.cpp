@@ -1744,6 +1744,59 @@ void lpsrHeader::setScoreInstrument (
       lpsrLilypondVarValAssoc::kWithoutEndl);
 }
 
+int lpsrHeader::maxLilyPondVariablesNamesLength ()
+{
+  int result = 0;
+
+  if (fWorkNumber) {
+    int length = fWorkNumber->getVariableName ().size();
+    if (length > result) result = length;
+  }
+  
+  if (fWorkTitle) {
+    int length = fWorkTitle->getVariableName ().size();
+    if (length > result) result = length;
+  }
+    
+  if (fMovementNumber) {
+    int length = fMovementNumber->getVariableName ().size();
+    if (length > result) result = length;
+  }
+    
+  if (fMovementTitle) {
+    int length = fMovementTitle->getVariableName ().size();
+    if (length > result) result = length;
+  }
+    
+  if (! fCreators.empty()) {
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
+    for (i=fCreators.begin(); i!=fCreators.end(); i++) {
+      int length = (*i)->getVariableName ().size();
+      if (length > result) result = length;
+    } // for
+  }
+    
+  if (fRights) {
+    int length = fRights->getVariableName ().size();
+    if (length > result) result = length;
+  }
+    
+  if (! fSoftwares.empty()) {
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
+    for (i=fSoftwares.begin(); i!=fSoftwares.end(); i++) {
+      int length = (*i)->getVariableName ().size();
+      if (length > result) result = length;
+    } // for
+  }
+    
+  if (fEncodingDate) {
+    int length = fEncodingDate->getVariableName ().size();
+    if (length > result) result = length;
+  }
+  
+  return result;
+}
+
 void lpsrHeader::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
