@@ -58,7 +58,8 @@ class msr2SummaryVisitor :
   public visitor<S_msrTempo>,
   
   public visitor<S_msrSequentialMusic>,
-//  public visitor<S_msrParallelMusic>,
+
+  public visitor<S_msrRepeatsegment>,
   
   public visitor<S_msrDuration>,
   
@@ -141,8 +142,8 @@ class msr2SummaryVisitor :
     virtual void visitStart (S_msrSequentialMusic& elt);
     virtual void visitEnd   (S_msrSequentialMusic& elt);
 
-//    virtual void visitStart (S_msrParallelMusic& elt);
-//    virtual void visitEnd   (S_msrParallelMusic& elt);
+    virtual void visitStart (S_msrRepeatsegment& elt);
+    virtual void visitEnd   (S_msrRepeatsegment& elt);
 
     virtual void visitStart (S_msrDuration& elt);
     virtual void visitEnd   (S_msrDuration& elt);
@@ -205,34 +206,45 @@ class msr2SummaryVisitor :
 
     // score
     // ------------------------------------------------------
-    int            fScoreStandaloneNotesCounter;
-    int            fScoreRestNotesCounter;
-    int            fScoreChordNotesCounter;
-    int            fScoreTupletNotesCounter;
-    int            fScoreChordsCounter;
     
     // part groups
     // ------------------------------------------------------
+    int            fPargroupsCounter;
 
     // parts
     // ------------------------------------------------------
+    int            fPartsCounter;
 
     // staves
     // ------------------------------------------------------
+    int            fStavesCounter;
     // prevent clef, key and time from being handled twice
     bool           fOnGoingStaff;
 
     // voices
     // ------------------------------------------------------
+    int            fVoicesCounter;
+
+    // repeat groups
+    // ------------------------------------------------------
+    int            fScoreRestRepeatsegmentsCounter;
 
     // lyrics
     // ------------------------------------------------------
 
+    // notes
+    // ------------------------------------------------------
+    int            fScoreStandaloneNotesCounter;
+    int            fScoreRestNotesCounter;
+
     // chords
     // ------------------------------------------------------
+    int            fScoreChordNotesCounter;
+    int            fScoreChordsCounter;
 
     // tuplets
     // ------------------------------------------------------
+    int            fScoreTupletNotesCounter;
 };
 
 

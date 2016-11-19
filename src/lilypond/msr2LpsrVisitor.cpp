@@ -577,18 +577,18 @@ void msr2LpsrVisitor::visitEnd (S_msrSequentialMusic& elt)
 
 //________________________________________________________________________
 /*
-void msr2LpsrVisitor::visitStart (S_msrParallelMusic& elt)
+void msr2LpsrVisitor::visitStart (S_msrRepeatsegment& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrParallelMusic" << endl;
+      "--> Start visiting msrRepeatsegment" << endl;
 }
 
-void msr2LpsrVisitor::visitEnd (S_msrParallelMusic& elt)
+void msr2LpsrVisitor::visitEnd (S_msrRepeatsegment& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrParallelMusic" << endl;
+      "--> End visiting msrRepeatsegment" << endl;
 }
 */
 

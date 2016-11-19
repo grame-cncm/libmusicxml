@@ -60,7 +60,7 @@ class msr2LpsrVisitor :
   public visitor<S_msrTempo>,
   
   public visitor<S_msrSequentialMusic>,
-//  public visitor<S_msrParallelMusic>,
+  public visitor<S_msrRepeatsegment>,
   
   public visitor<S_msrDuration>,
   
