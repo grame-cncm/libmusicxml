@@ -3907,26 +3907,47 @@ void msrLyrics::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrBarline msrBarline::create (
-  S_msrOptions&  msrOpts, 
-  int            inputLineNumber,
-  int            nextBarNumber,
-  msrBarlineKind barlineKind)
+  S_msrOptions&             msrOpts, 
+  int                       inputLineNumber,
+  msrBarlineLocation        location,
+  msrBarlineStyle           style,
+  msrBarlineEndingType      endingType,
+  int                       endingNumber,
+  msrBarlineRepeatDirection repeatDirection,
+  msrBarlineRepeatWinged    repeatWinged,
+  int                       nextBarNumber)
 {
   msrBarline* o =
     new msrBarline (
-      msrOpts, inputLineNumber, nextBarNumber, barlineKind);
+      msrOpts, inputLineNumber,
+      location, style,
+      endingType, endingNumber,
+      repeatDirection, repeatWinged,
+      nextBarNumber);
   assert(o!=0);
   return o;
 }
 
 msrBarline::msrBarline (
-  S_msrOptions&  msrOpts, 
-  int            inputLineNumber,
-  int            nextBarNumber,
-  msrBarlineKind barlineKind)
+  S_msrOptions&             msrOpts, 
+  int                       inputLineNumber,
+  msrBarlineLocation        location,
+  msrBarlineStyle           style,
+  msrBarlineEndingType      endingType,
+  int                       endingNumber,
+  msrBarlineRepeatDirection repeatDirection,
+  msrBarlineRepeatWinged    repeatWinged,
+  int                       nextBarNumber)
+    : msrElement (msrOpts, inputLineNumber)
 {
-  fBarlineKind   = barlineKind;
-  fNextBarNumber = nextBarNumber; 
+  fLocation        = location;
+  fStyle           = style;
+  fEndingType      = endingType;
+  fEndingNumber    = endingNumber;
+  fRepeatDirection = repeatDirection;
+  fRepeatWinged    = repeatWinged;
+  
+  fNextBarNumber   = nextBarNumber; 
 }
 
 msrBarline::~msrBarline() {}
@@ -3977,7 +3998,120 @@ ostream& operator<< (ostream& os, const S_msrBarline& elt)
 
 void msrBarline::print (ostream& os)
 {
-  os << "Barline" << " " << fNextBarNumber << endl;
+  os <<
+    "Barline" << endl;
+
+  idtr++;
+
+  os <<
+    idtr << "Location" << " = ";
+  switch (fLocation) {
+    case kLeft:
+      os << "Left";
+      break;
+    case kMiddle:
+      os << "Middle";
+      break;
+    case kRight:
+      os << "Right";
+      break;
+  } // switch
+  os << endl;
+  
+  os <<
+    idtr << "Style" << " = ";
+  switch (fStyle) {
+    case kRegular:
+      os << "Regular";
+      break;
+    case kDotted:
+      os << "Dotted";
+      break;
+    case kDashed:
+      os << "Dashed";
+      break;
+    case kHeavy:
+      os << "Heavy";
+      break;
+    case kLightLight:
+      os << "LightLight";
+      break;
+    case kLightHeavy:
+      os << "LightHeavy";
+      break;
+    case kHeavyLight:
+      os << "HeavyLight";
+      break;
+    case kHeavyHeavy:
+      os << "HeavyHeavy";
+      break;
+    case kTick:
+      os << "Tick";
+      break;
+    case kShort:
+      os << "Short";
+      break;
+  } // switch
+  os << endl;
+  
+  os <<
+    idtr << "EndingType" << " = ";
+  switch (fEndingType) {
+    case kStart:
+      os << "Start";
+      break;
+    case kStop:
+      os << "Stop";
+      break;
+    case kDiscontinue:
+      os << "Discontinue";
+      break;
+  } // switch
+  os << endl;
+  
+  os <<
+    idtr << "EndingNumber" << " = " << fEndingNumber << endl;
+ 
+  os <<
+    idtr << "RepeatDirection" << " = ";
+  switch (fRepeatDirection) {
+    case k_NoRepeatDirection:
+      os << "none";
+      break;
+    case kForward:
+      os << "Forward";
+      break;
+    case kBackward:
+      os << "Backward";
+      break;
+  } // switch
+  os << endl;
+  
+  os <<
+    idtr << "RepeatWinged" << " = ";
+  switch (fRepeatWinged) {
+    case k_NoRepeatWinged:
+      os << "none";
+      break;
+    case kStraight:
+      os << "Straight";
+      break;
+    case kCurved:
+      os << "Curved";
+      break;
+    case kDoubleStraight:
+      os << "DoubleStraight";
+      break;
+    case kDoubleCurved:
+      os << "DoubleCurved";
+      break;
+  } // switch
+  os << endl;
+    
+  os <<
+    idtr << "NextBarNumber" << " = " << fNextBarNumber << endl;
+ 
+  idtr--;
 }
 
 //______________________________________________________________________________

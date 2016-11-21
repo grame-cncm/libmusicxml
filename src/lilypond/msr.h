@@ -2167,21 +2167,68 @@ class EXP msrBarline : public msrElement
 {
   public:
 
-    enum msrBarlineKind {
-      kRegular,
+/*
+   // http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-bar-style.htm
+
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        <ending type="stop" number="1"/>
+        <repeat direction="backward"/>
+      </barline>
+
+<!--
+    Repeat marks. The start of the repeat has a forward direction
+    while the end of the repeat has a backward direction. Backward
+    repeats that are not part of an ending can use the times
+    attribute to indicate the number of times the repeated section
+    is played. The winged attribute indicates whether the repeat
+    has winged extensions that appear above and below the barline.
+    The straight and curved values represent single wings, while
+    the double-straight and double-curved values represent double
+    wings. The none value indicates no wings and is the default.
+-->
+<!ELEMENT repeat EMPTY>
+<!ATTLIST repeat
+    direction (backward | forward) #REQUIRED
+    times CDATA #IMPLIED
+    winged (none | straight | curved |
+        double-straight | double-curved) #IMPLIED
+>
+*/
+
+    enum msrBarlineLocation {
+      kLeft, kMiddle, kRight}; // kRight by default
+        
+    enum msrBarlineStyle {
+      kRegular,  // by default
       kDotted, kDashed, kHeavy,
       kLightLight, kLightHeavy, kHeavyLight, kHeavyHeavy,
       kTick, kShort};
-   // http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-bar-style.htm
-        
+
+    enum msrBarlineEndingType {
+      kStart, kStop, kDiscontinue};
+
+    enum msrBarlineRepeatDirection {
+      k_NoRepeatDirection,
+      kForward, kBackward};
+
+    enum msrBarlineRepeatWinged {
+      k_NoRepeatWinged,
+      kStraight, kCurved, kDoubleStraight, kDoubleCurved };
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrBarline> create (
-      S_msrOptions&  msrOpts, 
-      int            inputLineNumber,
-      int            nextBarNumber,
-      msrBarlineKind barlineKind);
+      S_msrOptions&             msrOpts, 
+      int                       inputLineNumber,
+      msrBarlineLocation        location,
+      msrBarlineStyle           style,
+      msrBarlineEndingType      endingType,
+      int                       endingNumber,
+      msrBarlineRepeatDirection repeatDirection,
+      msrBarlineRepeatWinged    repeatWinged,
+      int                       nextBarNumber);
 
     // set and get
     // ------------------------------------------------------
@@ -2205,17 +2252,27 @@ class EXP msrBarline : public msrElement
   protected:
 
     msrBarline (
-      S_msrOptions&  msrOpts, 
-      int            inputLineNumber,
-      int            nextBarNumber,
-      msrBarlineKind barlineKind);
+      S_msrOptions&             msrOpts, 
+      int                       inputLineNumber,
+      msrBarlineLocation        location,
+      msrBarlineStyle           style,
+      msrBarlineEndingType      endingType,
+      int                       endingNumber,
+      msrBarlineRepeatDirection repeatDirection,
+      msrBarlineRepeatWinged    repeatWinged,
+      int                       nextBarNumber);
     virtual ~msrBarline();
   
   private:
 
-    msrBarlineKind fBarlineKind;
+    msrBarlineLocation        fLocation;
+    msrBarlineStyle           fStyle;
+    msrBarlineEndingType      fEndingType;
+    int                       fEndingNumber;
+    msrBarlineRepeatDirection fRepeatDirection;
+    msrBarlineRepeatWinged    fRepeatWinged;
 
-    int            fNextBarNumber;
+    int                       fNextBarNumber;
 };
 typedef SMARTP<msrBarline> S_msrBarline;
 EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);

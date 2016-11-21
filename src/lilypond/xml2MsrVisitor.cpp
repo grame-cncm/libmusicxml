@@ -2045,107 +2045,195 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-repeat.htm
 //______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_barline& elt ) 
 {
+/*
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        <ending type="stop" number="1"/>
+        <repeat direction="backward"/>
+      </barline>
+*/
+  string location = elt->getAttributeValue ("location");
+
   fCurrentBarlineLocation =
-    elt->getAttributeValue ("location");
-  
-  if (fCurrentBarlineLocation == "left") {
-
+    msrBarline::kRight; // by default
     
-  } else  if (fCurrentBarlineLocation == "middle") {
-    
-    S_msrBarline
-      barline =
-        msrBarline::create (
-          fMsrOptions,
-          elt->getInputLineNumber (),
-          gCurrentMusicXMLLocation.fMeasureNumber+1);
-    S_msrElement bar = barline;
-    fCurrentVoice->
-      appendElementToVoice (bar);
-    
+  if       (location == "left") {
+    fCurrentBarlineLocation =
+      msrBarline::kLeft;
   }
-  else if (fCurrentBarlineLocation == "right") {
-
+  else  if (location == "middle") {
+    fCurrentBarlineLocation =
+      msrBarline::kMiddle;
+  }
+  else if  (location == "right") {
+    fCurrentBarlineLocation =
+      msrBarline::kRight;
   }
   else {
-
+    stringstream s;
+    s << "barline location " << location << " is unknown";
+    msrMusicXMLError (
+      elt->getInputLineNumber (), s.str());
   }
 }
 
 void xml2MsrVisitor::visitStart ( S_bar_style& elt ) 
 {
-  fCurrentBarStyle = elt->getValue();
-  /*
-   * http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-bar-style.htm
-   * 
-   * regular
-   * dotted
-   * dashed
-   * heavy
-   * light-light
-   * light-heavy
-   * heavy-light
-   * heavy-heavy
-   * tick
-   * short
-   *
-   *
-      <barline>
-        <segno default-y="16" relative-x="0"/>
-      </barline>
+  string barStyle = elt->getValue();
 
-      <barline>
-        <coda default-y="16" relative-x="0"/>
-      </barline>
-
-      * 
-   */
+  fCurrentBarlineStyle =
+    msrBarline::kRegular; // by default
+      
+  if      (barStyle == "regular") {
+    fCurrentBarlineStyle =
+      msrBarline::kRegular;
+  }
+  else if (barStyle == "dotted") {
+    fCurrentBarlineStyle =
+      msrBarline::kDotted;
+  }
+  else if (barStyle == "dashed") {
+    fCurrentBarlineStyle =
+      msrBarline::kDashed;
+  }
+  else if (barStyle == "heavy") {
+    fCurrentBarlineStyle =
+      msrBarline::kHeavy;
+  }
+  else if (barStyle == "light-light") {
+    fCurrentBarlineStyle =
+      msrBarline::kLightLight;
+  }
+  else if (barStyle == "light-heavy") {
+    fCurrentBarlineStyle =
+      msrBarline::kLightHeavy;
+  }
+  else if (barStyle == "heavy-light") {
+    fCurrentBarlineStyle =
+      msrBarline::kHeavyLight;
+  }
+  else if (barStyle == "heavy-heavy") {
+    fCurrentBarlineStyle =
+      msrBarline::kHeavyHeavy;
+  }
+  else if (barStyle == "tick") {
+    fCurrentBarlineStyle =
+      msrBarline::kTick;
+  }
+  else if (barStyle == "short") {
+    fCurrentBarlineStyle =
+      msrBarline::kShort;
+  }
+  else {
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      "barline style " + barStyle + " is unknown");
+  }
 }
 
 void xml2MsrVisitor::visitStart ( S_repeat& elt ) 
 {
-  fCurrentRepeatDirection =
-    elt->getAttributeValue ("direction");  
+  string
+    direction =
+      elt->getAttributeValue ("direction");
+
+  string
+    winged =
+      elt->getAttributeValue ("winged");
+
+  fCurrentBarlineRepeatDirection =
+    msrBarline::k_NoRepeatDirection;
+    
+  if       (direction == "forward") {
+    fCurrentBarlineRepeatDirection =
+      msrBarline::kForward;
+  }
+  else  if (direction == "backward") {
+    fCurrentBarlineRepeatDirection =
+      msrBarline::kBackward;
+  }
+  else {
+    stringstream s;
+    s << "repeat direction " << direction << " is unknown";
+    msrMusicXMLError (
+      elt->getInputLineNumber (), s.str());
+  }
+
+  fCurrentBarlineRepeatWinged =
+    msrBarline::k_NoRepeatWinged;
+
+  if       (winged == "straight") {
+    fCurrentBarlineRepeatDirection =
+      msrBarline::kStraight;
+  }
+  else  if (winged == "curved") {
+    fCurrentBarlineRepeatDirection =
+      msrBarline::kCurved;
+  }
+  else  if (winged == "doubleStraight") {
+    fCurrentBarlineRepeatDirection =
+      msrBarline::kDoubleStraight;
+  }
+  else  if (winged == "doubleCurved") {
+    fCurrentBarlineRepeatDirection =
+      msrBarline::kDoubleCurved;
+  }
+  else {
+    stringstream s;
+    s << "repeat winged " << winged << " is unknown";
+    msrMusicXMLError (
+      elt->getInputLineNumber (), s.str());
+  }
 }
-
-/*
- *   <barline location="left">
-    <ending type="start" number="1"/>
-  </barline>
-
-*/
 
 void xml2MsrVisitor::visitStart ( S_ending& elt ) 
 {
   // start, stop, discontinue
   
-  fCurrentEndingType =
-    elt->getAttributeValue ("type");  
+  string type   = elt->getAttributeValue ("type");  
+  string number = elt->getAttributeValue ("number");  
+  
+  if       (direction == "start") {
+    fCurrentBarlineEndingType =
+      msrBarline::kStart;
+  }
+  else  if (direction == "stop") {
+    fCurrentBarlineEndingType =
+      msrBarline::kStop;
+  }
+  else  if (direction == "discontinue") {
+    fCurrentBarlineEndingType =
+      msrBarline::kDiscontinue;
+  }
+  else {
+    stringstream s;
+    s << "ending type " << type << " is unknown";
+    msrMusicXMLError (
+      elt->getInputLineNumber (), s.str());
+  }
 
-  fCurrentEndingNumber =
+  fCurrentBarlineEndingNumber =
     elt->getAttributeIntValue ("number", 0);
 }
 
 void xml2MsrVisitor::visitEnd ( S_barline& elt ) 
 {
- /*
-  *       <barline location="right">
-        <bar-style>light-heavy</bar-style>
-      </barline>
-*/
-  if (
-      fCurrentBarlineLocation == "right"
-        &&
-      fCurrentBarStyle == "light-heavy") {
-        /* JMI
-    S_msrBarCommand
-      barCommand =
-        msrBarCommand::create ();
-    S_msrElement b = barCommand;
-    fCurrentVoice->appendElementToVoiceSequentialMusic (b);
-    */
-      
-  }
+  S_msrBarline
+    barline =
+      msrBarline::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        fCurrentBarlineLocation,
+        fCurrentBarlineStyle,
+        fCurrentBarlineEndingType,
+        fCurrentBarlineEndingNumber,
+        fCurrentBarlineRepeatDirection,
+        fCurrentBarlineRepeatWinged,
+        gCurrentMusicXMLLocation.fMeasureNumber + 1);
+
+  S_msrElement bar = barline;
+  fCurrentVoice->
+    appendElementToVoice (bar);
 }
 
 //______________________________________________________________________________

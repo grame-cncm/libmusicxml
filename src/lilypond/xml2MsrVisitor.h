@@ -517,13 +517,19 @@ class EXP xml2MsrVisitor :
     void                      handleLyricsText (
                                 int inputLineNumber);
 
-    // repeat handling
+    // barline handling
     // ------------------------------------------------------
-    string                    fCurrentBarlineLocation;
-    string                    fCurrentBarStyle;
-    string                    fCurrentRepeatDirection;
-    string                    fCurrentEndingType;
+    msrBarline::msrBarlineLocation
+                              fCurrentBarlineLocation;
+    msrBarline::msrBarlineStyle
+                              fCurrentBarlineStyle;
+    msrBarline::msrBarlineEndingType
+                              fCurrentBarlineEndingType;
     int                       fCurrentEndingNumber;
+    msrBarline::msrBarlineRepeatDirection
+                              fCurrentBarlineRepeatDirection;
+    msrBarline::msrBarlineRepeatWinged
+                              fCurrentBarlineRepeatWinged;
 
     // dividing quater notes in MusicXML
     // ------------------------------------------------------
