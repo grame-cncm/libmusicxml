@@ -268,6 +268,9 @@ class EXP msrElement : public smartable
     // services
     // ------------------------------------------------------
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -455,6 +458,9 @@ class EXP msrDuration : public msrElement
 
     string   durationAsMSRString ();
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -502,6 +508,9 @@ class EXP msrBeam : public msrElement
     int         getBeamNumber () const { return fBeamNumber; }
 
     // services
+    // ------------------------------------------------------
+
+    // visitors
     // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
@@ -560,6 +569,9 @@ class EXP msrArticulation : public msrElement
     // services
     // ------------------------------------------------------
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -611,6 +623,9 @@ class EXP msrSlur : public msrElement
     string  slurKindAsString ();
 
     // services
+    // ------------------------------------------------------
+
+    // visitors
     // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
@@ -672,6 +687,9 @@ class EXP msrDynamics : public msrElement
     // services
     // ------------------------------------------------------
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -726,6 +744,9 @@ class EXP msrWedge : public msrElement
     // services
     // ------------------------------------------------------
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -763,15 +784,10 @@ class EXP msrNote : public msrElement
     enum msrNoteKind {
       kStandaloneNote, kRestNote, kChordMemberNote, kTupletMemberNote};
       
-    // creation from MusicXML
-    // ------------------------------------------------------
+    // we use dutch pitches names for the enumeration below
+    // the following is a series of Cs with increasing pitches:
+    // \relative c'' { ceseh ces ceh c cih cis cisih }
 
-    static SMARTP<msrNote> createFromMusicXMLData (
-        S_msrOptions&        msrOpts,
-        int                  inputLineNumber,
-        musicXMLNoteData&    mxmlNoteData,
-        msrSlur::msrSlurKind slurKind);
-    
     enum musicXMLDiatonicPitch {
       kA, kB, kC, kD, kE, kF, kG, kRest, k_NoDiatonicPitch};
     
@@ -779,23 +795,6 @@ class EXP msrNote : public msrElement
       // kDoubleFlat=-2 as in MusicXML, to faciliting testing
       kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp,
       k_NoAlteration};
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrNoteKind getNoteKind () const{ return fNoteKind; }
-    void        setNoteKind (msrNoteKind noteKind)
-                    { fNoteKind = noteKind; }
-
-    // for rests
-  // JMI  bool getNoteIsARest ();
-    
-    // for chord members
-    void setNoteBelongsToAChord ();
-    
-    // we use dutch pitches names for the enumeration below
-    // the following is a series of Cs with increasing pitches:
-    // \relative c'' { ceseh ces ceh c cih cis cisih }
 
     enum msrPitch {
       k_aeseh, k_aes, k_aeh, k_a, k_aih, k_ais, k_aisih,
@@ -806,15 +805,22 @@ class EXP msrNote : public msrElement
       k_feseh, k_fes, k_feh, k_f, k_fih, k_fis, k_fisih,
       k_geseh, k_ges, k_geh, k_g, k_gih, k_gis, k_gisih,
       k_NoMsrPitch};
-    
-    // services
+
+    // creation from MusicXML
     // ------------------------------------------------------
 
-    msrPitch computeNoteMsrPitch (
-        int                         noteQuatertonesFromA,
-        msrNote::musicXMLAlteration alteration);
-                          
-    static map<msrPitch, string> sDutchLilypondPitches;
+    static SMARTP<msrNote> createFromMusicXMLData (
+        S_msrOptions&        msrOpts,
+        int                  inputLineNumber,
+        musicXMLNoteData&    mxmlNoteData,
+        msrSlur::msrSlurKind slurKind);
+    
+    // set and get
+    // ------------------------------------------------------
+
+    msrNoteKind   getNoteKind () const{ return fNoteKind; }
+    void          setNoteKind (msrNoteKind noteKind)
+                      { fNoteKind = noteKind; }
 
     int           getNoteMusicXMLDuration () const
                       {
@@ -834,30 +840,48 @@ class EXP msrNote : public msrElement
 
     string        noteMsrPitchAsString ();
 
-    // beam
-    void          setBeam (S_msrBeam beam)  { fNoteBeam = beam; }
-    S_msrBeam     getBeam () const          { return fNoteBeam; }
-    
     // articulations
-    void          addArticulation (S_msrArticulation art);
     list<S_msrArticulation>
                   getNoteArticulations () const
                             { return fNoteArticulations; }
-    
     // dynamics and wedges
-    void          addDynamics (S_msrDynamics dyn);
-    void          addWedge    (S_msrWedge    wdg);
-
     list<S_msrDynamics>
                   getNoteDynamics () const { return fNoteDynamics; };
     list<S_msrWedge>
                   getNoteWedges   () const { return fNoteWedges; };
 
+    // chord members
+    void          setNoteBelongsToAChord ();
+        
+    // slurs
     msrSlur::msrSlurKind
                   getNoteSlurKind () const { return fNoteSlurKind; }
 
+    // beams
+    void          setBeam (S_msrBeam beam)  { fNoteBeam = beam; }
+    S_msrBeam     getBeam () const          { return fNoteBeam; }
+    
+    // services
+    // ------------------------------------------------------
+
+    msrPitch computeNoteMsrPitch (
+        int                         noteQuatertonesFromA,
+        msrNote::musicXMLAlteration alteration);
+                          
+    static map<msrPitch, string> sDutchLilypondPitches;
+
+    // articulations
+    void          addArticulation (S_msrArticulation art);
+    
+    // dynamics and wedges
+    void          addDynamics (S_msrDynamics dyn);
+    void          addWedge    (S_msrWedge    wdg);
+
     S_msrDynamics removeFirstDynamics ();
     S_msrWedge    removeFirstWedge ();
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1017,6 +1041,9 @@ class EXP msrChord : public msrElement
     // services
     // ------------------------------------------------------
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1076,6 +1103,9 @@ class EXP msrVarValAssoc : public msrElement
                   { return fVariableValue; };
 
     // services
+    // ------------------------------------------------------
+
+    // visitors
     // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
@@ -1199,6 +1229,9 @@ class EXP msrIdentification : public msrElement
     // services
     // ------------------------------------------------------
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1280,6 +1313,9 @@ class EXP msrPageGeometry : public msrElement
     // visitors
     // ------------------------------------------------------
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1338,9 +1374,12 @@ class EXP msrLayout : public msrElement
     // services
     // ------------------------------------------------------
 
-    void  addmsrVarValAssoc (S_msrVarValAssoc assoc)
-              { fmsrVarValAssocs.push_back(assoc); }
+    void  addMsrVarValAssoc (S_msrVarValAssoc assoc)
+              { fVarValAssocs.push_back(assoc); } // JMI ???
       
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1358,7 +1397,7 @@ class EXP msrLayout : public msrElement
   
   private:
   
-    vector<S_msrVarValAssoc> fmsrVarValAssocs;
+    vector<S_msrVarValAssoc> fVarValAssocs;
 };
 typedef SMARTP<msrLayout> S_msrLayout;
 EXP ostream& operator<< (ostream& os, const S_msrLayout& elt);
@@ -1404,6 +1443,9 @@ class EXP msrRepeat: public msrElement
 
     void    setActuallyUsed ()
               { fActuallyUsed = true; }
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1463,6 +1505,9 @@ class EXP msrComment : public msrElement
     // services
     // ------------------------------------------------------
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1515,6 +1560,9 @@ class EXP msrBreak : public msrElement
     // services
     // ------------------------------------------------------
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1563,6 +1611,9 @@ class EXP msrBarNumberCheck : public msrElement
             { return fNextBarNumber; }
 
     // services
+    // ------------------------------------------------------
+
+    // visitors
     // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
@@ -1629,6 +1680,9 @@ class EXP msrTuplet : public msrElement
     void  addElementToTuplet (S_msrElement elem)
              { fTupletContents.push_back(elem); }
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1691,6 +1745,9 @@ class EXP msrClef : public msrElement
                 { return fOctaveChange; }
                 
     // services
+    // ------------------------------------------------------
+
+    // visitors
     // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
@@ -1760,6 +1817,9 @@ class EXP msrKey : public msrElement
     // services
     // ------------------------------------------------------
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1818,6 +1878,9 @@ class EXP msrTime : public msrElement
     // services
     // ------------------------------------------------------
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1872,6 +1935,9 @@ class EXP msrTempo : public msrElement
                   { return fPerMinute; }
 
     // services
+    // ------------------------------------------------------
+
+    // visitors
     // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
@@ -1944,6 +2010,9 @@ class EXP msrLyricschunk : public msrElement
     SMARTP<msrLyricschunk> createEmptyClone ();
 
     // services
+    // ------------------------------------------------------
+
+    // visitors
     // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
@@ -2055,6 +2124,9 @@ class EXP msrLyrics : public msrElement
                 
     int     getLyricsTextPresent() { return fLyricsTextPresent; }
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -2117,6 +2189,9 @@ class EXP msrBarLine : public msrElement
                   { return fNextBarNumber; }
                   
     // services
+    // ------------------------------------------------------
+
+    // visitors
     // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
@@ -2263,8 +2338,8 @@ class EXP msrVoice : public msrElement
     string    getVoiceName () const;
 
     list<S_msrVoicechunk>
-              getVoiceVoicechunks () const
-                  { return fVoiceVoicechunks; }
+              getVoicechunks () const
+                  { return fVoicechunks; }
 
     // services
     // ------------------------------------------------------
@@ -2360,7 +2435,7 @@ class EXP msrVoice : public msrElement
     // the repeat segments in the voice
     // one is created implicitly for every voice,
     // in case we know later it is needed
-    list<S_msrVoicechunk>  fVoiceVoicechunks;
+    list<S_msrVoicechunk>  fVoicechunks;
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 
@@ -2770,6 +2845,9 @@ class EXP msrScore : public msrElement
 
     void addPartgroupToScore (S_msrPartgroup partgroup);
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -2817,6 +2895,9 @@ class EXP msrMidi : public msrElement
     // ------------------------------------------------------
 
     // services
+    // ------------------------------------------------------
+
+    // visitors
     // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);

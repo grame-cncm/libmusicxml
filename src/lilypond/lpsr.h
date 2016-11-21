@@ -88,6 +88,9 @@ class EXP msrAbsoluteOctave : public msrElement
     
     string  absoluteOctaveAsLilypondString ();
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -154,10 +157,22 @@ class EXP lpsrElement : public msrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrElement> create (
       S_msrOptions   msrOpts,
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
+
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -188,11 +203,17 @@ class EXP lpsrParallelMusic : public lpsrElement
     
     enum lpsrElementsSeparator { kEndOfLine, kSpace };
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrParallelMusic> create (
       S_msrOptions          msrOpts,
       S_lpsrOptions&        lpsrOpts, 
       int                   inputLineNumber,
       lpsrElementsSeparator elementsSeparator);
+
+    // set and get
+    // ------------------------------------------------------
 
     void          addElementToParallelMusic (S_msrElement elem)
                     { fParallelMusicElements.push_back(elem); }
@@ -200,6 +221,12 @@ class EXP lpsrParallelMusic : public lpsrElement
                     { return fParallelMusicElements.back(); }
     void          removeLastElementOfParallelMusic ()
                     { fParallelMusicElements.pop_back(); }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -244,6 +271,9 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
     static string const g_VarValAssocNoUnit;
     static string const g_VarValAssocNoComment;
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrLilypondVarValAssoc> create (
         S_msrOptions&       msrOpts, 
         S_lpsrOptions&      lpsrOpts, 
@@ -257,6 +287,9 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
         string              unit,
         string              comment,
         lpsrEndlKind        endlKind);
+
+    // set and get
+    // ------------------------------------------------------
 
     void      changeAssocValue (string value)
                   { fVariableValue = value; }
@@ -293,6 +326,12 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
     lpsrEndlKind
               getEndlKind () const
                   { return fEndlKind; };
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -348,6 +387,9 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
     static string const g_SchemeVarValAssocNoUnit;
     static string const g_SchemeVarValAssocNoComment;
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrSchemeVarValAssoc> create (
       S_msrOptions&     msrOpts, 
       S_lpsrOptions&    lpsrOpts, 
@@ -358,6 +400,9 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
       string            comment,
       lpsrEndlKind      endlKind);
     
+    // set and get
+    // ------------------------------------------------------
+
     void      changeAssocValue (string value)
                   { fVariableValue = value; }
 
@@ -373,6 +418,12 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
     lpsrEndlKind
               getEndlKind () const
                   { return fEndlKind; };
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -422,6 +473,9 @@ class EXP lpsrComment : public lpsrElement
     
     enum lpsrGapKind { kGapAfterwards, kNoGapAfterwards };
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrComment> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
@@ -429,9 +483,18 @@ class EXP lpsrComment : public lpsrElement
       string         contents,
       lpsrGapKind    gapKind = kNoGapAfterwards);
 
+    // set and get
+    // ------------------------------------------------------
+
     string       getContents () const { return fContents; }
 
     lpsrGapKind  getGapKind  () const { return fGapKind; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -469,11 +532,23 @@ class EXP lpsrBarNumberCheck : public lpsrElement
 {
   public:
     
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrBarNumberCheck> create (
           S_msrOptions&     msrOpts, 
       S_lpsrOptions&    lpsrOpts, 
       int                    inputLineNumber,
       int                    nextBarNumber);
+
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -508,13 +583,25 @@ class EXP lpsrNewStaffgroupCommand : public lpsrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrNewStaffgroupCommand> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumberr);
      
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
     void addElementToNewStaff (S_msrElement elem)
         { fNewStaffgroupElements.push_back(elem); }
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -549,13 +636,25 @@ class EXP lpsrNewStaffCommand : public lpsrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrNewStaffCommand> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
      
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
     void addElementToNewStaff (S_msrElement elem)
         { fNewStaffElements.push_back(elem); }
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -590,13 +689,25 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrUseVoiceCommand> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       S_msrVoice     voice);
 
+    // set and get
+    // ------------------------------------------------------
+
     S_msrVoice   getVoice () const { return fVoice; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -633,6 +744,9 @@ class EXP lpsrNewlyricsCommand : public lpsrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrNewlyricsCommand> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
@@ -640,9 +754,18 @@ class EXP lpsrNewlyricsCommand : public lpsrElement
       S_msrLyrics    lyrics,
       S_msrVoice     voice);
 
+    // set and get
+    // ------------------------------------------------------
+
     S_msrLyrics  getLyrics () const { return fLyrics; }
     S_msrVoice   getVoice  () const { return fVoice; }
     
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -680,11 +803,23 @@ class EXP lpsrVariableUseCommand : public lpsrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrVariableUseCommand> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       string         variableName);
+
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -721,11 +856,23 @@ class EXP lpsrUseLyricsCommand : public lpsrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrUseLyricsCommand> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       S_msrLyrics&   lyrics);
+
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -767,6 +914,9 @@ class EXP lpsrContext : public lpsrElement
 
     enum lpsrContextKind { kExistingContext, kNewContext };
     
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrContext> create (
       S_msrOptions&   msrOpts, 
       S_lpsrOptions&  lpsrOpts, 
@@ -775,8 +925,17 @@ class EXP lpsrContext : public lpsrElement
       string          contextType,
       string          contextName);
     
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
     void addElementToContext (S_msrElement elem)
         { fContextElements.push_back(elem); }
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -818,10 +977,22 @@ class EXP lpsrBarCommand : public lpsrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrBarCommand> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
+
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -946,6 +1117,9 @@ class EXP lpsrHeader : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
+    // visitors
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -988,10 +1162,16 @@ class EXP lpsrPaper : public msrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrPaper> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
     
+    // set and get
+    // ------------------------------------------------------
+
     void    setPaperWidth         (float val) { fPaperWidth = val; }
     float   getPaperWidth         () const    { return fPaperWidth; }
 
@@ -1015,6 +1195,12 @@ class EXP lpsrPaper : public msrElement
 
     void    setPageTopSpace       (float val) { fPageTopSpace = val; }
     float   getPageTopSpace       () const    { return fPageTopSpace; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1058,16 +1244,25 @@ class EXP lpsrLayout : public lpsrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<lpsrLayout> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
+
+    // set and get
+    // ------------------------------------------------------
 
     float   getStaffSize () const
                 { return fStaffSize; }
                 
     void    setGlobalStaffSize (float size)
                 { fStaffSize = size; }
+
+    // services
+    // ------------------------------------------------------
 
     void    addLilypondVarValAssoc (
               S_lpsrLilypondVarValAssoc assoc)
@@ -1076,6 +1271,9 @@ class EXP lpsrLayout : public lpsrElement
     void    addSchemeVarValAssoc (
               S_lpsrSchemeVarValAssoc assoc)
                 { fLpsrSchemeVarValAssocs.push_back (assoc); }
+
+    // visitors
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);

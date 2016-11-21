@@ -2811,12 +2811,12 @@ void msrLayout::acceptOut (basevisitor* v) {
 
 void msrLayout::browseData (basevisitor* v)
 {
-  int n1 = fmsrVarValAssocs.size();
+  int n1 = fVarValAssocs.size();
   
   for (int i = 0; i < n1; i++ ) {
     // browse the lyrics
     msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fmsrVarValAssocs [i]);
+    browser.browse (*fVarValAssocs [i]);
   } // for
 }
 
@@ -2832,10 +2832,10 @@ void msrLayout::print (ostream& os)
 
   idtr++;
 
-  int n1 = fmsrVarValAssocs.size();
+  int n1 = fVarValAssocs.size();
   
   for (int i = 0; i < n1; i++ ) {
-    os << idtr << fmsrVarValAssocs [i];
+    os << idtr << fVarValAssocs [i];
   } // for
 
     /* JMI
@@ -4166,7 +4166,7 @@ msrVoice::msrVoice (
         msrVoicechunk::kSpace);
 
   // append it to the voice repeat segments
-  fVoiceVoicechunks.push_back (repeatSegment);
+  fVoicechunks.push_back (repeatSegment);
   
   // get the initial clef from the staff
   S_msrClef
@@ -4352,7 +4352,7 @@ void msrVoice::appendVoicechunkToVoice (
       "Appending repeat segment '" << repeatsegment <<
       "' to voice " << getVoiceName () << endl;
 
-  fVoiceVoicechunks.push_back (repeatsegment);
+  fVoicechunks.push_back (repeatsegment);
 }
 
 void msrVoice::appendClefToVoice (S_msrClef clef)
@@ -4365,7 +4365,7 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
   S_msrElement c = clef;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (c);
-  fVoiceVoicechunks.back ()->
+  fVoicechunks.back ()->
     appendElementToVoicechunk (c);
 }
 
@@ -4379,7 +4379,7 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
   S_msrElement k = key;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (k);
-  fVoiceVoicechunks.back ()->
+  fVoicechunks.back ()->
     appendElementToVoicechunk (k);
 }
 
@@ -4393,7 +4393,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   S_msrElement t = time;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (t);
-  fVoiceVoicechunks.back ()->
+  fVoicechunks.back ()->
     appendElementToVoicechunk (t);
 }
 
@@ -4407,7 +4407,7 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
   S_msrElement t = tempo;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (t);
-  fVoiceVoicechunks.back ()->
+  fVoicechunks.back ()->
     appendElementToVoicechunk (t);
 }
 
@@ -4419,7 +4419,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   S_msrElement n = note;
   fVoiceSequentialMusic->appendElementToSequentialMusic (n);
-  fVoiceVoicechunks.back ()->
+  fVoicechunks.back ()->
     appendElementToVoicechunk (n);
 
   if (note->getNoteKind () != msrNote::kRestNote)
@@ -4445,7 +4445,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
   S_msrElement c = chord;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (c);
-  fVoiceVoicechunks.back ()->
+  fVoicechunks.back ()->
     appendElementToVoicechunk (c);
 }
 
@@ -4458,7 +4458,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
   S_msrElement t = tuplet;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (t);
-  fVoiceVoicechunks.back ()->
+  fVoicechunks.back ()->
     appendElementToVoicechunk (t);
 }
 
@@ -4471,7 +4471,7 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
 
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (elem);
-  fVoiceVoicechunks.back ()->
+  fVoicechunks.back ()->
     appendElementToVoicechunk (elem);
 }
 
@@ -4484,7 +4484,7 @@ void msrVoice::removeLastElementFromVoice ()
 
   fVoiceSequentialMusic->
     removeLastElementFromSequentialMusic ();
-  fVoiceVoicechunks.back ()->
+  fVoicechunks.back ()->
     removeLastElementFromVoicechunk ();
 }
 
@@ -4547,8 +4547,8 @@ void msrVoice::browseData (basevisitor* v)
 
   // browse the voice repeat segments
   for (
-    list<S_msrVoicechunk>::iterator i = fVoiceVoicechunks.begin();
-    i != fVoiceVoicechunks.end();
+    list<S_msrVoicechunk>::iterator i = fVoicechunks.begin();
+    i != fVoicechunks.end();
     i++) {
     // browse the repeat segment
     msrBrowser<msrVoicechunk> browser (v);
@@ -4580,7 +4580,7 @@ void msrVoice::print (ostream& os)
 {
   os <<
     "Voice" << " " << getVoiceName () <<
-    ", " << fVoiceVoicechunks.size() << " repeat segments" <<
+    ", " << fVoicechunks.size() << " repeat segments" <<
     ", " << fVoiceLyricsMap.size() << " lyrics" <<
     endl << endl;
 
@@ -4588,10 +4588,10 @@ void msrVoice::print (ostream& os)
 
   os << idtr << fVoiceSequentialMusic << endl;
 
-  if (fVoiceVoicechunks.size()) {
+  if (fVoicechunks.size()) {
     list<S_msrVoicechunk>::const_iterator
-      iBegin = fVoiceVoicechunks.begin(),
-      iEnd   = fVoiceVoicechunks.end(),
+      iBegin = fVoicechunks.begin(),
+      iEnd   = fVoicechunks.end(),
       i      = iBegin;
       
     for ( ; ; ) {
