@@ -1173,27 +1173,22 @@ class EXP lpsrPaper : public msrElement
     // ------------------------------------------------------
 
     void    setPaperWidth         (float val) { fPaperWidth = val; }
-    float   getPaperWidth         () const    { return fPaperWidth; }
-
     void    setPaperHeight        (float val) { fPaperHeight = val; }
-    float   getPaperHeight        () const    { return fPaperHeight; }
-
     void    setTopMargin          (float val) { fTopMargin = val; }
-    float   getTopMargin          () const    { return fTopMargin; }
-
     void    setBottomMargin       (float val) { fBottomMargin = val; }
-    float   getBottomMargin       () const    { return fBottomMargin; }
-
     void    setLeftMargin         (float val) { fLeftMargin = val; }
-    float   getLeftMargin         () const    { return fLeftMargin; }
-
     void    setRightMargin        (float val) { fRightMargin = val; }
-    float   getRightMargin        () const    { return fRightMargin; }
-
     void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
-    float   getBetweenSystemSpace () const    { return fBetweenSystemSpace; }
-
     void    setPageTopSpace       (float val) { fPageTopSpace = val; }
+
+
+    float   getPaperWidth         () const    { return fPaperWidth; }
+    float   getPaperHeight        () const    { return fPaperHeight; }
+    float   getTopMargin          () const    { return fTopMargin; }
+    float   getBottomMargin       () const    { return fBottomMargin; }
+    float   getLeftMargin         () const    { return fLeftMargin; }
+    float   getRightMargin        () const    { return fRightMargin; }
+    float   getBetweenSystemSpace () const    { return fBetweenSystemSpace; }
     float   getPageTopSpace       () const    { return fPageTopSpace; }
 
     // services

@@ -2053,9 +2053,9 @@ void xml2MsrVisitor::visitStart ( S_barline& elt )
     
   } else  if (fCurrentBarlineLocation == "middle") {
     
-    S_msrBarLine
+    S_msrBarline
       barline =
-        msrBarLine::create (
+        msrBarline::create (
           fMsrOptions,
           elt->getInputLineNumber (),
           gCurrentMusicXMLLocation.fMeasureNumber+1);

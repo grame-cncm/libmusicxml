@@ -392,32 +392,32 @@ void lpsrParallelMusic::print (ostream& os)
 
 //______________________________________________________________________________
 /*
-S_lpsrBarLine lpsrBarLine::create (
+S_lpsrBarline lpsrBarline::create (
   S_msrOptions&     msrOpts, 
   S_lpsrOptions&    lpsrOpts, 
   int                    inputLineNumber,
   int                    nextBarNumber)
 {
-  lpsrBarLine* o = new lpsrBarLine (nextBarNumber); assert(o!=0);
+  lpsrBarline* o = new lpsrBarline (nextBarNumber); assert(o!=0);
   return o;
 }
 
-lpsrBarLine::lpsrBarLine (int nextBarNumber)
+lpsrBarline::lpsrBarline (int nextBarNumber)
     : lpsrElement (msrOpts, lpsrOpts, lpsrOpts, inputLineNumber)
 {
   fNextBarNumber=nextBarNumber; 
 }
-lpsrBarLine::~lpsrBarLine() {}
+lpsrBarline::~lpsrBarline() {}
 
-ostream& operator<< (ostream& os, const S_lpsrBarLine& elt)
+ostream& operator<< (ostream& os, const S_lpsrBarline& elt)
 {
   elt->print (os);
   return os;
 }
 
-void lpsrBarLine::print (ostream& os)
+void lpsrBarline::print (ostream& os)
 {
-  os << "BarLine" << " " << fNextBarNumber << endl;
+  os << "Barline" << " " << fNextBarNumber << endl;
 }
 
 */

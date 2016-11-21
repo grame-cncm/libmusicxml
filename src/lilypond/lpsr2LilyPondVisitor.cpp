@@ -1536,20 +1536,20 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrSlur& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrBarLine& elt)
+void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting msrBarLine" << endl;
+      "% --> Start visiting msrBarline" << endl;
 
   fOstream << "| % " << elt->getNextBarNumber () << endl;
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_msrBarLine& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_msrBarline& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting msrBarLine" << endl;
+      "% --> End visiting msrBarline" << endl;
 }
 
 //________________________________________________________________________

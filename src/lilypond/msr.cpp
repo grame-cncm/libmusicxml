@@ -3906,75 +3906,78 @@ void msrLyrics::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrBarLine msrBarLine::create (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    nextBarNumber)
+S_msrBarline msrBarline::create (
+  S_msrOptions&  msrOpts, 
+  int            inputLineNumber,
+  int            nextBarNumber,
+  msrBarlineKind barlineKind)
 {
-  msrBarLine* o =
-    new msrBarLine (
-      msrOpts, inputLineNumber, nextBarNumber);
+  msrBarline* o =
+    new msrBarline (
+      msrOpts, inputLineNumber, nextBarNumber, barlineKind);
   assert(o!=0);
   return o;
 }
 
-msrBarLine::msrBarLine (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    nextBarNumber)
-    : msrElement (msrOpts, inputLineNumber)
+msrBarline::msrBarline (
+  S_msrOptions&  msrOpts, 
+  int            inputLineNumber,
+  int            nextBarNumber,
+  msrBarlineKind barlineKind)
 {
-  fNextBarNumber=nextBarNumber; 
+  fBarlineKind   = barlineKind;
+  fNextBarNumber = nextBarNumber; 
 }
-msrBarLine::~msrBarLine() {}
 
-void msrBarLine::acceptIn (basevisitor* v) {
+msrBarline::~msrBarline() {}
+
+void msrBarline::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrBarLine::acceptIn()" << endl;
+      "==> msrBarline::acceptIn()" << endl;
       
-  if (visitor<S_msrBarLine>*
+  if (visitor<S_msrBarline>*
     p =
-      dynamic_cast<visitor<S_msrBarLine>*> (v)) {
-        S_msrBarLine elem = this;
+      dynamic_cast<visitor<S_msrBarline>*> (v)) {
+        S_msrBarline elem = this;
         
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrBarLine::visitStart()" << endl;
+            "==> Launching msrBarline::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void msrBarLine::acceptOut (basevisitor* v) {
+void msrBarline::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrBarLine::acceptOut()" << endl;
+      "==> msrBarline::acceptOut()" << endl;
 
-  if (visitor<S_msrBarLine>*
+  if (visitor<S_msrBarline>*
     p =
-      dynamic_cast<visitor<S_msrBarLine>*> (v)) {
-        S_msrBarLine elem = this;
+      dynamic_cast<visitor<S_msrBarline>*> (v)) {
+        S_msrBarline elem = this;
       
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrBarLine::visitEnd()" << endl;
+            "==> Launching msrBarline::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
 
-void msrBarLine::browseData (basevisitor* v)
+void msrBarline::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrBarLine& elt)
+ostream& operator<< (ostream& os, const S_msrBarline& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrBarLine::print (ostream& os)
+void msrBarline::print (ostream& os)
 {
-  os << "BarLine" << " " << fNextBarNumber << endl;
+  os << "Barline" << " " << fNextBarNumber << endl;
 }
 
 //______________________________________________________________________________

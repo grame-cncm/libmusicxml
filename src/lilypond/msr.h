@@ -1266,7 +1266,7 @@ EXP ostream& operator<< (ostream& os, const S_msrIdentification& elt);
 /*!
 \brief A MSR page geometry representation.
 
-  A paper is represented by variable/value pairs
+  A page geometry is represented by variable/value pairs
 */
 //______________________________________________________________________________
 class EXP msrPageGeometry : public msrElement
@@ -2163,7 +2163,7 @@ EXP ostream& operator<< (ostream& os, const S_msrLyrics& elt);
   A barline is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrBarLine : public msrElement
+class EXP msrBarline : public msrElement
 {
   public:
 
@@ -2177,10 +2177,11 @@ class EXP msrBarLine : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrBarLine> create (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    nextBarNumber);
+    static SMARTP<msrBarline> create (
+      S_msrOptions&  msrOpts, 
+      int            inputLineNumber,
+      int            nextBarNumber,
+      msrBarlineKind barlineKind);
 
     // set and get
     // ------------------------------------------------------
@@ -2203,18 +2204,21 @@ class EXP msrBarLine : public msrElement
 
   protected:
 
-    msrBarLine (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    nextBarNumber);
-    virtual ~msrBarLine();
+    msrBarline (
+      S_msrOptions&  msrOpts, 
+      int            inputLineNumber,
+      int            nextBarNumber,
+      msrBarlineKind barlineKind);
+    virtual ~msrBarline();
   
   private:
 
-    int fNextBarNumber;
+    msrBarlineKind fBarlineKind;
+
+    int            fNextBarNumber;
 };
-typedef SMARTP<msrBarLine> S_msrBarLine;
-EXP ostream& operator<< (ostream& os, const S_msrBarLine& elt);
+typedef SMARTP<msrBarline> S_msrBarline;
+EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);
 
 /*!
 \brief The msr sequential music element
