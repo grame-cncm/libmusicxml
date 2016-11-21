@@ -2273,6 +2273,9 @@ class EXP msrBarline : public msrElement
     msrBarlineRepeatWinged    fRepeatWinged;
 
     int                       fNextBarNumber;
+
+    // the numbers extracted from fEndingNumber
+    list<int>                 fEndingNumbersList;
 };
 typedef SMARTP<msrBarline> S_msrBarline;
 EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);

@@ -17,6 +17,7 @@
 #include <cassert>
 #include <iostream>
 #include <set>
+#include <list>
 
 #include "basevisitor.h"
 
@@ -146,6 +147,10 @@ std::set<int> decipherNumbersSetSpecification (
   std::string theSpecification,
   bool        debugMode = false);
 
+//______________________________________________________________________________
+std::list<int> extractNumbersFromString (
+  std::string theString, // can contain "1, 2, 17"
+  bool        debugMode = false);
 
 } // namespace MusicXML2
 

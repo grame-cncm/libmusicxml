@@ -2215,11 +2215,12 @@ void xml2MsrVisitor::visitStart ( S_ending& elt )
   }
 
   fCurrentBarlineEndingNumber =
-    elt->getAttributeIntValue ("number", 0);
+    elt->getAttributeValue ("number"); // may be "1, 2"
 }
 
 void xml2MsrVisitor::visitEnd ( S_barline& elt ) 
 {
+  // create the barline
   S_msrBarline
     barline =
       msrBarline::create (
@@ -2233,6 +2234,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatWinged,
         gCurrentMusicXMLLocation.fMeasureNumber + 1);
 
+  // append the barline to the voice
   fCurrentVoice->
     appendBarlineToVoice (barline);
 }

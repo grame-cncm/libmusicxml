@@ -3948,7 +3948,15 @@ msrBarline::msrBarline (
   fRepeatDirection = repeatDirection;
   fRepeatWinged    = repeatWinged;
   
-  fNextBarNumber   = nextBarNumber; 
+  fNextBarNumber   = nextBarNumber;
+
+  cout << "fEndingNumber = " << fEndingNumber << endl;
+  
+  // extract individual numbers from fEndingNumber
+  // that may contain "1, 2"
+  fEndingNumbersList =
+    extractNumbersFromString (
+      fEndingNumber, fMsrOptions->fDebugDebug);
 }
 
 msrBarline::~msrBarline() {}
@@ -4071,7 +4079,12 @@ void msrBarline::print (ostream& os)
   os << endl;
   
   os <<
-    idtr << "EndingNumber" << " = " << fEndingNumber << endl;
+    idtr << "Ending numbers : ";
+  list<int>::const_iterator i;
+  for (i=fEndingNumbersList.begin(); i!=fEndingNumbersList.end(); i++) {
+    os << (*i) << " ";
+  } // for
+  os << endl;
  
   os <<
     idtr << "RepeatDirection" << " = ";
@@ -4500,8 +4513,8 @@ void msrVoice::appendVoicechunkToVoice (
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending voice chunk '" << voiceChunk <<
-      "' to voice " << getVoiceName () << endl;
+      "Appending a voice chunk to voice " <<
+      getVoiceName () << endl;
 
   fVoicechunks.push_back (voiceChunk);
 }

@@ -41,7 +41,7 @@ ostream& operator<< (ostream& os, const indenter& idtr) {
   return os;
 }
 
-void indenter::print(ostream& os) const
+void indenter::print (ostream& os) const
 { 
   int i = fIndent;
   while (i-- > 0) os << fSpacer;
@@ -155,7 +155,7 @@ string int2EnglishWord (int n)
           s << "Ninety";
           break;
       } // switch
-      s << int2EnglishWord(digit2);
+      s << int2EnglishWord (digit2);
     } // default
   } // switch
   
@@ -353,6 +353,51 @@ set<int> decipherNumbersSetSpecification (
   }
 
   return selectedNumbers;
+}
+
+//______________________________________________________________________________
+std::list<int> extractNumbersFromString (
+  std::string theString, // can contain "1, 2, 17"
+  bool        debugMode)
+{
+  std::list<int> foundNumbers;
+
+  if (debugMode)
+    cout <<
+      "--> extractNumbersFromString, theString = |" << theString <<
+      "|" <<
+      endl;
+
+  std::string::const_iterator
+    cursor = theString.begin();
+
+  while (1) {
+    if (cursor == theString.end())
+      break;
+      
+    if (debugMode)
+      cout <<
+        "--> extractNumbersFromString: cursor = |" <<
+        *cursor << "|" <<
+        endl;
+
+    if (isdigit (*cursor)) {
+      // consume a decimal number
+      int n = 0;
+      while (isdigit (*cursor)) {
+        n = n * 10 + (*cursor - '0');
+        cursor++;
+      } // while
+
+      // append the number to the list
+      foundNumbers.push_back (n);
+    }
+    else {
+      cursor++;
+    }
+  } // while
+
+  return foundNumbers;
 }
 
 
