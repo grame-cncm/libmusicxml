@@ -1972,7 +1972,7 @@ EXP ostream& operator<< (ostream& os, const S_msrLyrics& elt);
 \brief The msr sequential music element
 */
 //______________________________________________________________________________
-class EXP msrRepeatsegment : public msrElement
+class EXP msrVoicechunk : public msrElement
 {
   public:
     
@@ -1981,19 +1981,19 @@ class EXP msrRepeatsegment : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrRepeatsegment> create (
+    static SMARTP<msrVoicechunk> create (
       S_msrOptions&        msrOpts, 
       int                  inputLineNumber,
       msrElementsSeparator elementsSeparator);
 
-    SMARTP<msrRepeatsegment> createEmptyClone ();
+    SMARTP<msrVoicechunk> createEmptyClone ();
 
     // set and get
     // ------------------------------------------------------
 
     list<S_msrElement>
-                  getRepeatsegmentElements () const
-                      { return fRepeatsegmentElements; }
+                  getVoicechunkElements () const
+                      { return fVoicechunkElements; }
 
     void          setRepeatVolte (int value)
                       { fRepeatVolte = value; }
@@ -2004,18 +2004,18 @@ class EXP msrRepeatsegment : public msrElement
     // services
     // ------------------------------------------------------
 
-    void          prependElementToRepeatsegment (S_msrElement elem)
-                      { fRepeatsegmentElements.push_front (elem); }
-    void          appendElementToRepeatsegment  (S_msrElement elem)
-                      { fRepeatsegmentElements.push_back (elem); }
+    void          prependElementToVoicechunk (S_msrElement elem)
+                      { fVoicechunkElements.push_front (elem); }
+    void          appendElementToVoicechunk  (S_msrElement elem)
+                      { fVoicechunkElements.push_back (elem); }
     
-    S_msrElement  getLastElementOfRepeatsegment () const
-                      { return fRepeatsegmentElements.back (); }
+    S_msrElement  getLastElementOfVoicechunk () const
+                      { return fVoicechunkElements.back (); }
                       
-    void          removeLastElementFromRepeatsegment ()
-                      { fRepeatsegmentElements.pop_back (); }
+    void          removeLastElementFromVoicechunk ()
+                      { fVoicechunkElements.pop_back (); }
 
-    void          removeElementFromRepeatsegment (S_msrElement elem);
+    void          removeElementFromVoicechunk (S_msrElement elem);
 
     // visitors
     // ------------------------------------------------------
@@ -2029,18 +2029,18 @@ class EXP msrRepeatsegment : public msrElement
 
   protected:
 
-    msrRepeatsegment (
+    msrVoicechunk (
       S_msrOptions&        msrOpts, 
       int                  inputLineNumber,
       msrElementsSeparator elementsSeparator);
       
-    virtual ~msrRepeatsegment();
+    virtual ~msrVoicechunk();
     
   private:
 
     // the back of the list is the current segment,
     // in which music is inserted
-    list<S_msrElement>   fRepeatsegmentElements;
+    list<S_msrElement>   fVoicechunkElements;
 
     // the number of times this segment should be repeated
     int                  fRepeatVolte;
@@ -2048,8 +2048,8 @@ class EXP msrRepeatsegment : public msrElement
     msrElementsSeparator fElementsSeparator;
 
 };
-typedef SMARTP<msrRepeatsegment> S_msrRepeatsegment;
-EXP ostream& operator<< (ostream& os, const S_msrRepeatsegment& elt);
+typedef SMARTP<msrVoicechunk> S_msrVoicechunk;
+EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
 
 /*!
 \brief A msr voice representation.
@@ -2089,9 +2089,9 @@ class EXP msrVoice : public msrElement
 
     string    getVoiceName () const;
 
-    list<S_msrRepeatsegment>
-              getVoiceRepeatsegments () const
-                  { return fVoiceRepeatsegments; }
+    list<S_msrVoicechunk>
+              getVoiceVoicechunks () const
+                  { return fVoiceVoicechunks; }
 
     // services
     // ------------------------------------------------------
@@ -2109,8 +2109,8 @@ class EXP msrVoice : public msrElement
     S_msrLyrics
               getVoiceMasterLyrics () { return fVoiceMasterLyrics; }
                
-    void      appendRepeatsegmentToVoice
-                                  (S_msrRepeatsegment repeatsegment);
+    void      appendVoicechunkToVoice
+                                  (S_msrVoicechunk repeatsegment);
     
     void      appendClefToVoice   (S_msrClef clef);
     void      appendKeyToVoice    (S_msrKey  key);
@@ -2187,7 +2187,7 @@ class EXP msrVoice : public msrElement
     // the repeat segments in the voice
     // one is created implicitly for every voice,
     // in case we know later it is needed
-    list<S_msrRepeatsegment>  fVoiceRepeatsegments;
+    list<S_msrVoicechunk>  fVoiceVoicechunks;
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 

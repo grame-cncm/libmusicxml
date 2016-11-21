@@ -500,18 +500,18 @@ void msr2SummaryVisitor::visitEnd (S_msrSequentialMusic& elt)
 
 //________________________________________________________________________
 
-void msr2SummaryVisitor::visitStart (S_msrRepeatsegment& elt)
+void msr2SummaryVisitor::visitStart (S_msrVoicechunk& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrRepeatsegment" << endl;
+      "--> Start visiting msrVoicechunk" << endl;
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrRepeatsegment& elt)
+void msr2SummaryVisitor::visitEnd (S_msrVoicechunk& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrRepeatsegment" << endl;
+      "--> End visiting msrVoicechunk" << endl;
 }
 
 //________________________________________________________________________

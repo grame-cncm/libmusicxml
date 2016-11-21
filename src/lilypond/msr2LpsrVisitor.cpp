@@ -577,27 +577,27 @@ void msr2LpsrVisitor::visitEnd (S_msrSequentialMusic& elt)
 
 //________________________________________________________________________
 
-void msr2LpsrVisitor::visitStart (S_msrRepeatsegment& elt)
+void msr2LpsrVisitor::visitStart (S_msrVoicechunk& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrRepeatsegment" << endl;
+      "--> Start visiting msrVoicechunk" << endl;
 
   // create a clone of the repeat segment
-  fCurrentMsrRepeatsegmentClone =
+  fCurrentMsrVoicechunkClone =
     elt->createEmptyClone ();
 
   // append it to the current voice
   fCurrentMsrVoiceClone->
-    appendRepeatsegmentToVoice (
-      fCurrentMsrRepeatsegmentClone);
+    appendVoicechunkToVoice (
+      fCurrentMsrVoicechunkClone);
 }
 
-void msr2LpsrVisitor::visitEnd (S_msrRepeatsegment& elt)
+void msr2LpsrVisitor::visitEnd (S_msrVoicechunk& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrRepeatsegment" << endl;
+      "--> End visiting msrVoicechunk" << endl;
 }
 
 //________________________________________________________________________

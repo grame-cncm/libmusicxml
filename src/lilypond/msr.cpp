@@ -3978,19 +3978,19 @@ void msrLyrics::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrRepeatsegment msrRepeatsegment::create (
+S_msrVoicechunk msrVoicechunk::create (
   S_msrOptions&        msrOpts, 
   int                  inputLineNumber,
   msrElementsSeparator elementsSeparator)
 {
-  msrRepeatsegment* o =
-    new msrRepeatsegment (
+  msrVoicechunk* o =
+    new msrVoicechunk (
       msrOpts, inputLineNumber, elementsSeparator);
   assert(o!=0);
   return o;
 }
 
-msrRepeatsegment::msrRepeatsegment (
+msrVoicechunk::msrVoicechunk (
   S_msrOptions&        msrOpts, 
   int                  inputLineNumber,
   msrElementsSeparator elementsSeparator)
@@ -4000,13 +4000,13 @@ msrRepeatsegment::msrRepeatsegment (
 
   fRepeatVolte = 0;
 }
-msrRepeatsegment::~msrRepeatsegment() {}
+msrVoicechunk::~msrVoicechunk() {}
 
-S_msrRepeatsegment msrRepeatsegment::createEmptyClone ()
+S_msrVoicechunk msrVoicechunk::createEmptyClone ()
 {
-  S_msrRepeatsegment
+  S_msrVoicechunk
     clone =
-      msrRepeatsegment::create (
+      msrVoicechunk::create (
         fMsrOptions,
         fInputLineNumber,
         fElementsSeparator);
@@ -4014,63 +4014,63 @@ S_msrRepeatsegment msrRepeatsegment::createEmptyClone ()
   return clone;
 }
 
-void msrRepeatsegment::removeElementFromRepeatsegment (
+void msrVoicechunk::removeElementFromVoicechunk (
   S_msrElement elem)
 {
   for (
-    list<S_msrElement>::iterator i = fRepeatsegmentElements.begin();
-    i != fRepeatsegmentElements.end();
+    list<S_msrElement>::iterator i = fVoicechunkElements.begin();
+    i != fVoicechunkElements.end();
     i++) {
     if ((*i) == elem) {
-      fRepeatsegmentElements.erase (i);
+      fVoicechunkElements.erase (i);
       break;
     }
   } // for
 }
 
-void msrRepeatsegment::acceptIn (basevisitor* v) {
+void msrVoicechunk::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrRepeatsegment::acceptIn()" << endl;
+      "==> msrVoicechunk::acceptIn()" << endl;
       
-  if (visitor<S_msrRepeatsegment>*
+  if (visitor<S_msrVoicechunk>*
     p =
-      dynamic_cast<visitor<S_msrRepeatsegment>*> (v)) {
-        S_msrRepeatsegment elem = this;
+      dynamic_cast<visitor<S_msrVoicechunk>*> (v)) {
+        S_msrVoicechunk elem = this;
         
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrRepeatsegment::visitStart()" << endl;
+            "==> Launching msrVoicechunk::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void msrRepeatsegment::acceptOut (basevisitor* v) {
+void msrVoicechunk::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrRepeatsegment::acceptOut()" << endl;
+      "==> msrVoicechunk::acceptOut()" << endl;
 
-  if (visitor<S_msrRepeatsegment>*
+  if (visitor<S_msrVoicechunk>*
     p =
-      dynamic_cast<visitor<S_msrRepeatsegment>*> (v)) {
-        S_msrRepeatsegment elem = this;
+      dynamic_cast<visitor<S_msrVoicechunk>*> (v)) {
+        S_msrVoicechunk elem = this;
       
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrRepeatsegment::visitEnd()" << endl;
+            "==> Launching msrVoicechunk::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void msrRepeatsegment::browseData (basevisitor* v)
+void msrVoicechunk::browseData (basevisitor* v)
 {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrRepeatsegment::browseData()" << endl;
+      "==> msrVoicechunk::browseData()" << endl;
   
   for (
-    list<S_msrElement>::iterator i = fRepeatsegmentElements.begin();
-    i != fRepeatsegmentElements.end();
+    list<S_msrElement>::iterator i = fVoicechunkElements.begin();
+    i != fVoicechunkElements.end();
     i++) {
     // create the element browser
     msrBrowser<msrElement> browser (v);
@@ -4081,27 +4081,27 @@ void msrRepeatsegment::browseData (basevisitor* v)
 
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "<== msrRepeatsegment::browseData()" << endl;
+      "<== msrVoicechunk::browseData()" << endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrRepeatsegment& elt)
+ostream& operator<< (ostream& os, const S_msrVoicechunk& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrRepeatsegment::print (ostream& os)
+void msrVoicechunk::print (ostream& os)
 {  
-  os << "Repeatsegment";
+  os << "Voicechunk";
   
-  if (! fRepeatsegmentElements.size ())
+  if (! fVoicechunkElements.size ())
     os << " (No actual notes)";
   else {  
     idtr++;
   
     list<S_msrElement>::const_iterator
-      iBegin = fRepeatsegmentElements.begin(),
-      iEnd   = fRepeatsegmentElements.end(),
+      iBegin = fVoicechunkElements.begin(),
+      iEnd   = fVoicechunkElements.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -4158,15 +4158,15 @@ msrVoice::msrVoice (
       msrOpts, inputLineNumber,
       msrSequentialMusic::kSpace);
 
-  // create the implicit msrRepeatsegment
-  S_msrRepeatsegment
+  // create the implicit msrVoicechunk
+  S_msrVoicechunk
     repeatSegment =
-      msrRepeatsegment::create (
+      msrVoicechunk::create (
         msrOpts, inputLineNumber,
-        msrRepeatsegment::kSpace);
+        msrVoicechunk::kSpace);
 
   // append it to the voice repeat segments
-  fVoiceRepeatsegments.push_back (repeatSegment);
+  fVoiceVoicechunks.push_back (repeatSegment);
   
   // get the initial clef from the staff
   S_msrClef
@@ -4344,15 +4344,15 @@ S_msrLyrics msrVoice::fetchLyricsFromVoice (
   return result;
 }
 
-void msrVoice::appendRepeatsegmentToVoice (
-  S_msrRepeatsegment repeatsegment)
+void msrVoice::appendVoicechunkToVoice (
+  S_msrVoicechunk repeatsegment)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Appending repeat segment '" << repeatsegment <<
       "' to voice " << getVoiceName () << endl;
 
-  fVoiceRepeatsegments.push_back (repeatsegment);
+  fVoiceVoicechunks.push_back (repeatsegment);
 }
 
 void msrVoice::appendClefToVoice (S_msrClef clef)
@@ -4365,8 +4365,8 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
   S_msrElement c = clef;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (c);
-  fVoiceRepeatsegments.back ()->
-    appendElementToRepeatsegment (c);
+  fVoiceVoicechunks.back ()->
+    appendElementToVoicechunk (c);
 }
 
 void msrVoice::appendKeyToVoice (S_msrKey key)
@@ -4379,8 +4379,8 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
   S_msrElement k = key;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (k);
-  fVoiceRepeatsegments.back ()->
-    appendElementToRepeatsegment (k);
+  fVoiceVoicechunks.back ()->
+    appendElementToVoicechunk (k);
 }
 
 void msrVoice::appendTimeToVoice (S_msrTime time)
@@ -4393,8 +4393,8 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   S_msrElement t = time;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (t);
-  fVoiceRepeatsegments.back ()->
-    appendElementToRepeatsegment (t);
+  fVoiceVoicechunks.back ()->
+    appendElementToVoicechunk (t);
 }
 
 void msrVoice::appendTempoToVoice (S_msrTempo tempo)
@@ -4407,8 +4407,8 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
   S_msrElement t = tempo;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (t);
-  fVoiceRepeatsegments.back ()->
-    appendElementToRepeatsegment (t);
+  fVoiceVoicechunks.back ()->
+    appendElementToVoicechunk (t);
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
@@ -4419,8 +4419,8 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   S_msrElement n = note;
   fVoiceSequentialMusic->appendElementToSequentialMusic (n);
-  fVoiceRepeatsegments.back ()->
-    appendElementToRepeatsegment (n);
+  fVoiceVoicechunks.back ()->
+    appendElementToVoicechunk (n);
 
   if (note->getNoteKind () != msrNote::kRestNote)
     fVoiceContainsActualNotes = true;
@@ -4445,8 +4445,8 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
   S_msrElement c = chord;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (c);
-  fVoiceRepeatsegments.back ()->
-    appendElementToRepeatsegment (c);
+  fVoiceVoicechunks.back ()->
+    appendElementToVoicechunk (c);
 }
 
 void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
@@ -4458,8 +4458,8 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
   S_msrElement t = tuplet;
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (t);
-  fVoiceRepeatsegments.back ()->
-    appendElementToRepeatsegment (t);
+  fVoiceVoicechunks.back ()->
+    appendElementToVoicechunk (t);
 }
 
 void msrVoice::appendElementToVoice (S_msrElement elem)
@@ -4471,8 +4471,8 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
 
   fVoiceSequentialMusic->
     appendElementToSequentialMusic (elem);
-  fVoiceRepeatsegments.back ()->
-    appendElementToRepeatsegment (elem);
+  fVoiceVoicechunks.back ()->
+    appendElementToVoicechunk (elem);
 }
 
 void msrVoice::removeLastElementFromVoice ()
@@ -4484,8 +4484,8 @@ void msrVoice::removeLastElementFromVoice ()
 
   fVoiceSequentialMusic->
     removeLastElementFromSequentialMusic ();
-  fVoiceRepeatsegments.back ()->
-    removeLastElementFromRepeatsegment ();
+  fVoiceVoicechunks.back ()->
+    removeLastElementFromVoicechunk ();
 }
 
 /*
@@ -4547,11 +4547,11 @@ void msrVoice::browseData (basevisitor* v)
 
   // browse the voice repeat segments
   for (
-    list<S_msrRepeatsegment>::iterator i = fVoiceRepeatsegments.begin();
-    i != fVoiceRepeatsegments.end();
+    list<S_msrVoicechunk>::iterator i = fVoiceVoicechunks.begin();
+    i != fVoiceVoicechunks.end();
     i++) {
     // browse the repeat segment
-    msrBrowser<msrRepeatsegment> browser (v);
+    msrBrowser<msrVoicechunk> browser (v);
     browser.browse (*(*i));
   } // for
 
@@ -4580,7 +4580,7 @@ void msrVoice::print (ostream& os)
 {
   os <<
     "Voice" << " " << getVoiceName () <<
-    ", " << fVoiceRepeatsegments.size() << " repeat segments" <<
+    ", " << fVoiceVoicechunks.size() << " repeat segments" <<
     ", " << fVoiceLyricsMap.size() << " lyrics" <<
     endl << endl;
 
@@ -4588,10 +4588,10 @@ void msrVoice::print (ostream& os)
 
   os << idtr << fVoiceSequentialMusic << endl;
 
-  if (fVoiceRepeatsegments.size()) {
-    list<S_msrRepeatsegment>::const_iterator
-      iBegin = fVoiceRepeatsegments.begin(),
-      iEnd   = fVoiceRepeatsegments.end(),
+  if (fVoiceVoicechunks.size()) {
+    list<S_msrVoicechunk>::const_iterator
+      iBegin = fVoiceVoicechunks.begin(),
+      iEnd   = fVoiceVoicechunks.end(),
       i      = iBegin;
       
     for ( ; ; ) {

@@ -59,7 +59,7 @@ class msr2SummaryVisitor :
   
   public visitor<S_msrSequentialMusic>,
 
-  public visitor<S_msrRepeatsegment>,
+  public visitor<S_msrVoicechunk>,
   
   public visitor<S_msrDuration>,
   
@@ -142,8 +142,8 @@ class msr2SummaryVisitor :
     virtual void visitStart (S_msrSequentialMusic& elt);
     virtual void visitEnd   (S_msrSequentialMusic& elt);
 
-    virtual void visitStart (S_msrRepeatsegment& elt);
-    virtual void visitEnd   (S_msrRepeatsegment& elt);
+    virtual void visitStart (S_msrVoicechunk& elt);
+    virtual void visitEnd   (S_msrVoicechunk& elt);
 
     virtual void visitStart (S_msrDuration& elt);
     virtual void visitEnd   (S_msrDuration& elt);
@@ -227,7 +227,7 @@ class msr2SummaryVisitor :
 
     // repeat groups
     // ------------------------------------------------------
-    int            fScoreRestRepeatsegmentsCounter;
+    int            fScoreRestVoicechunksCounter;
 
     // lyrics
     // ------------------------------------------------------
