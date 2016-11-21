@@ -852,6 +852,30 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoice& elt)
     endl <<
     endl;
 }
+//________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrVoicechunk" << endl;
+
+  fOstream << idtr <<
+    "% start msrVoicechunk" << endl;
+
+  idtr++;
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
+{
+  idtr--;
+
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrVoicechunk" << endl;
+  
+  fOstream << idtr <<
+    "% end msrVoicechunk" << endl;
+}
 
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrLyrics& elt)
@@ -1553,22 +1577,22 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrBarline& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrBarNumberCheck& elt)
+void lpsr2LilyPondVisitor::visitStart (S_msrBarnumberCheck& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting msrBarNumberCheck" << endl;
+      "% --> Start visiting msrBarnumberCheck" << endl;
 
   fOstream <<
     "\\barNumberCheck #" << elt->getNextBarNumber () <<
     endl;
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_msrBarNumberCheck& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_msrBarnumberCheck& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting msrBarNumberCheck" << endl;
+      "% --> End visiting msrBarnumberCheck" << endl;
 }
 
 //________________________________________________________________________

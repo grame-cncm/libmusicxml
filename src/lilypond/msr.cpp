@@ -580,6 +580,7 @@ void msrBeam::print (ostream& os)
       os << "### none ###";
       break;
   } // switch
+  os << endl;
 }
 
 //______________________________________________________________________________
@@ -2262,19 +2263,19 @@ void msrBreak::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrBarNumberCheck msrBarNumberCheck::create (
+S_msrBarnumberCheck msrBarnumberCheck::create (
   S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    nextBarNumber)
 {
-  msrBarNumberCheck* o =
-    new msrBarNumberCheck (
+  msrBarnumberCheck* o =
+    new msrBarnumberCheck (
       msrOpts, inputLineNumber, nextBarNumber);
   assert(o!=0);
   return o;
 }
 
-msrBarNumberCheck::msrBarNumberCheck (
+msrBarnumberCheck::msrBarnumberCheck (
   S_msrOptions& msrOpts, 
   int                    inputLineNumber,
   int                    nextBarNumber)
@@ -2282,55 +2283,55 @@ msrBarNumberCheck::msrBarNumberCheck (
 {
   fNextBarNumber=nextBarNumber; 
 }
-msrBarNumberCheck::~msrBarNumberCheck() {}
+msrBarnumberCheck::~msrBarnumberCheck() {}
 
-void msrBarNumberCheck::acceptIn (basevisitor* v) {
+void msrBarnumberCheck::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrBarNumberCheck::acceptIn()" << endl;
+      "==> msrBarnumberCheck::acceptIn()" << endl;
       
-  if (visitor<S_msrBarNumberCheck>*
+  if (visitor<S_msrBarnumberCheck>*
     p =
-      dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
-        S_msrBarNumberCheck elem = this;
+      dynamic_cast<visitor<S_msrBarnumberCheck>*> (v)) {
+        S_msrBarnumberCheck elem = this;
         
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrBarNumberCheck::visitStart()" << endl;
+            "==> Launching msrBarnumberCheck::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void msrBarNumberCheck::acceptOut (basevisitor* v) {
+void msrBarnumberCheck::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrBarNumberCheck::acceptOut()" << endl;
+      "==> msrBarnumberCheck::acceptOut()" << endl;
 
-  if (visitor<S_msrBarNumberCheck>*
+  if (visitor<S_msrBarnumberCheck>*
     p =
-      dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
-        S_msrBarNumberCheck elem = this;
+      dynamic_cast<visitor<S_msrBarnumberCheck>*> (v)) {
+        S_msrBarnumberCheck elem = this;
       
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrBarNumberCheck::visitEnd()" << endl;
+            "==> Launching msrBarnumberCheck::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
 
-void msrBarNumberCheck::browseData (basevisitor* v)
+void msrBarnumberCheck::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt)
+ostream& operator<< (ostream& os, const S_msrBarnumberCheck& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrBarNumberCheck::print (ostream& os)
+void msrBarnumberCheck::print (ostream& os)
 {
-  os << "BarNumberCheck" << " " << fNextBarNumber << endl;
+  os << "BarnumberCheck" << " " << fNextBarNumber << endl;
 }
 
 //______________________________________________________________________________
@@ -4209,16 +4210,27 @@ void msrVoicechunk::browseData (basevisitor* v)
     list<S_msrElement>::iterator i = fVoicechunkElements.begin();
     i != fVoicechunkElements.end();
     i++) {
-    // create the element browser
+    // browse the element browser
     msrBrowser<msrElement> browser (v);
-  
-    // browse the element with the visitor
     browser.browse (*(*i));
   } // for
 
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "<== msrVoicechunk::browseData()" << endl;
+}
+
+string msrVoicechunk::voicechunkAsString ()
+{
+  stringstream s;
+
+  s << "Voicechunk" ;
+  if (! fVoicechunkElements.size ())
+    s << "(No actual notes)";
+  else
+    s << "(" << fVoicechunkElements.size () << " elements)";
+
+  return s.str();
 }
 
 ostream& operator<< (ostream& os, const S_msrVoicechunk& elt)
@@ -4233,7 +4245,9 @@ void msrVoicechunk::print (ostream& os)
   
   if (! fVoicechunkElements.size ())
     os << " (No actual notes)";
-  else {  
+  else {
+    os << endl;
+    
     idtr++;
   
     list<S_msrElement>::const_iterator
@@ -4297,13 +4311,13 @@ msrVoice::msrVoice (
 
   // create the implicit msrVoicechunk
   S_msrVoicechunk
-    repeatSegment =
+    voicechunk =
       msrVoicechunk::create (
         msrOpts, inputLineNumber,
         msrVoicechunk::kSpace);
 
-  // append it to the voice repeat segments
-  fVoicechunks.push_back (repeatSegment);
+  // append it to the voice voice chunks
+  fVoicechunks.push_back (voicechunk);
   
   // get the initial clef from the staff
   S_msrClef
@@ -4482,14 +4496,14 @@ S_msrLyrics msrVoice::fetchLyricsFromVoice (
 }
 
 void msrVoice::appendVoicechunkToVoice (
-  S_msrVoicechunk repeatsegment)
+  S_msrVoicechunk voiceChunk)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending repeat segment '" << repeatsegment <<
+      "Appending voice chunk '" << voiceChunk <<
       "' to voice " << getVoiceName () << endl;
 
-  fVoicechunks.push_back (repeatsegment);
+  fVoicechunks.push_back (voiceChunk);
 }
 
 void msrVoice::appendClefToVoice (S_msrClef clef)
@@ -4599,18 +4613,46 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
     appendElementToVoicechunk (t);
 }
 
-void msrVoice::appendElementToVoice (S_msrElement elem)
+void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "Appending element '" << elem <<
+      "Appending barline '" << barline <<
       "' to voice " << getVoiceName () << endl;
 
   fVoiceSequentialMusic->
-    appendElementToSequentialMusic (elem);
+    appendElementToSequentialMusic (barline);
   fVoicechunks.back ()->
-    appendElementToVoicechunk (elem);
+    appendElementToVoicechunk (barline);
 }
+
+
+void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
+{
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "Appending bar number check '" << bnc <<
+      "' to voice " << getVoiceName () << endl;
+
+  fVoiceSequentialMusic->
+    appendElementToSequentialMusic (bnc);
+  fVoicechunks.back ()->
+    appendElementToVoicechunk (bnc);
+}
+
+void msrVoice::appendBreakToVoice (S_msrBreak break_)
+{
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "Appending break '" << break_ <<
+      "' to voice " << getVoiceName () << endl;
+
+  fVoiceSequentialMusic->
+    appendElementToSequentialMusic (break_);
+  fVoicechunks.back ()->
+    appendElementToVoicechunk (break_);
+}
+
 
 void msrVoice::removeLastElementFromVoice ()
 {
@@ -4682,12 +4724,12 @@ void msrVoice::browseData (basevisitor* v)
   msrBrowser<msrSequentialMusic> browser (v);
   browser.browse (*fVoiceSequentialMusic);
 
-  // browse the voice repeat segments
+  // browse the voice voice chunks
   for (
     list<S_msrVoicechunk>::iterator i = fVoicechunks.begin();
     i != fVoicechunks.end();
     i++) {
-    // browse the repeat segment
+    // browse the voice chunk
     msrBrowser<msrVoicechunk> browser (v);
     browser.browse (*(*i));
   } // for
@@ -4717,7 +4759,7 @@ void msrVoice::print (ostream& os)
 {
   os <<
     "Voice" << " " << getVoiceName () <<
-    ", " << fVoicechunks.size() << " repeat segments" <<
+    ", " << fVoicechunks.size() << " voice chunks" <<
     ", " << fVoiceLyricsMap.size() << " lyrics" <<
     endl << endl;
 

@@ -1592,14 +1592,14 @@ EXP ostream& operator<< (ostream& os, const S_msrBreak& elt);
   A barnumbercheck is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrBarNumberCheck : public msrElement
+class EXP msrBarnumberCheck : public msrElement
 {
   public:
     
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrBarNumberCheck> create (
+    static SMARTP<msrBarnumberCheck> create (
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
       int                    nextBarNumber);
@@ -1625,19 +1625,19 @@ class EXP msrBarNumberCheck : public msrElement
 
   protected:
 
-    msrBarNumberCheck (
+    msrBarnumberCheck (
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
       int                    nextBarNumber);
       
-    virtual ~msrBarNumberCheck();
+    virtual ~msrBarnumberCheck();
   
   private:
 
     int fNextBarNumber;
 };
-typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
-EXP ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt);
+typedef SMARTP<msrBarnumberCheck> S_msrBarnumberCheck;
+EXP ostream& operator<< (ostream& os, const S_msrBarnumberCheck& elt);
 
 /*!
 \brief A msr tuplet representation.
@@ -2310,6 +2310,8 @@ class EXP msrVoicechunk : public msrElement
     int           getRepeatVolte () const
                       { return fRepeatVolte; }
 
+    string        voicechunkAsString ();
+
     // services
     // ------------------------------------------------------
 
@@ -2419,20 +2421,24 @@ class EXP msrVoice : public msrElement
               getVoiceMasterLyrics () { return fVoiceMasterLyrics; }
                
     void      appendVoicechunkToVoice
-                                  (S_msrVoicechunk repeatsegment);
+                                   (S_msrVoicechunk voiceChunk);
     
-    void      appendClefToVoice   (S_msrClef clef);
-    void      appendKeyToVoice    (S_msrKey  key);
-    void      appendTimeToVoice   (S_msrTime time);
+    void      appendClefToVoice    (S_msrClef clef);
+    void      appendKeyToVoice     (S_msrKey  key);
+    void      appendTimeToVoice    (S_msrTime time);
     
-    void      appendTempoToVoice  (S_msrTempo tempo);
+    void      appendTempoToVoice   (S_msrTempo tempo);
     
-    void      appendNoteToVoice   (S_msrNote note);
-    void      appendChordToVoice  (S_msrChord chord);
-    void      appendTupletToVoice (S_msrTuplet tuplet);
+    void      appendNoteToVoice    (S_msrNote note);
+    void      appendChordToVoice   (S_msrChord chord);
+    void      appendTupletToVoice  (S_msrTuplet tuplet);
     
-    void      appendElementToVoice (S_msrElement elem); // for others
+    void      appendBarlineToVoice (S_msrBarline barline);
 
+    void      appendBarnumberCheckToVoice
+                                   (S_msrBarnumberCheck bnc);
+    void      appendBreakToVoice   (S_msrBreak break_);
+    
     S_msrElement
               getVoiceSequentialMusicLastElement ()
                   {
@@ -2493,10 +2499,10 @@ class EXP msrVoice : public msrElement
     // will be ignored if the voice has no repeats at all
     S_msrRepeat               fVoiceMsrRepeat;
 
-    // the repeat segments in the voice
+    // the chunks in the voice contain the music elements
     // one is created implicitly for every voice,
-    // in case we know later it is needed
-    list<S_msrVoicechunk>  fVoicechunks;
+    // and <barline> creates new ones
+    list<S_msrVoicechunk>    fVoicechunks;
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 

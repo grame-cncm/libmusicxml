@@ -1893,15 +1893,15 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
   if (newSystem == "yes") {
 
     // create a barnumbercheck command
-    S_msrBarNumberCheck
+    S_msrBarnumberCheck
       barnumbercheck_ =
-        msrBarNumberCheck::create (
+        msrBarnumberCheck::create (
           fMsrOptions,
           elt->getInputLineNumber (),
           gCurrentMusicXMLLocation.fMeasureNumber);
     S_msrElement bnc = barnumbercheck_;
     fCurrentVoice->
-      appendElementToVoice (bnc);
+      appendBarnumberCheckToVoice (barnumbercheck_);
 
     // create a break command
     S_msrBreak
@@ -1912,7 +1912,7 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
           gCurrentMusicXMLLocation.fMeasureNumber);
     S_msrElement brk = break_;
     fCurrentVoice->
-      appendElementToVoice (brk);
+      appendBreakToVoice (break_);
   
     // add a break chunk to the voice master lyrics
     fCurrentVoice->
@@ -2162,27 +2162,29 @@ void xml2MsrVisitor::visitStart ( S_repeat& elt )
   fCurrentBarlineRepeatWinged =
     msrBarline::k_NoRepeatWinged;
 
-  if       (winged == "straight") {
-    fCurrentBarlineRepeatWinged =
-      msrBarline::kStraight;
-  }
-  else  if (winged == "curved") {
-    fCurrentBarlineRepeatWinged =
-      msrBarline::kCurved;
-  }
-  else  if (winged == "doubleStraight") {
-    fCurrentBarlineRepeatWinged =
-      msrBarline::kDoubleStraight;
-  }
-  else  if (winged == "doubleCurved") {
-    fCurrentBarlineRepeatWinged =
-      msrBarline::kDoubleCurved;
-  }
-  else {
-    stringstream s;
-    s << "repeat winged " << winged << " is unknown";
-    msrMusicXMLError (
-      elt->getInputLineNumber (), s.str());
+  if (winged.size()) {
+    if       (winged == "straight") {
+      fCurrentBarlineRepeatWinged =
+        msrBarline::kStraight;
+    }
+    else  if (winged == "curved") {
+      fCurrentBarlineRepeatWinged =
+        msrBarline::kCurved;
+    }
+    else  if (winged == "doubleStraight") {
+      fCurrentBarlineRepeatWinged =
+        msrBarline::kDoubleStraight;
+    }
+    else  if (winged == "doubleCurved") {
+      fCurrentBarlineRepeatWinged =
+        msrBarline::kDoubleCurved;
+    }
+    else {
+      stringstream s;
+      s << "repeat winged " << winged << " is unknown";
+      msrMusicXMLError (
+        elt->getInputLineNumber (), s.str());
+    }
   }
 }
 
@@ -2231,9 +2233,8 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatWinged,
         gCurrentMusicXMLLocation.fMeasureNumber + 1);
 
-  S_msrElement bar = barline;
   fCurrentVoice->
-    appendElementToVoice (bar);
+    appendBarlineToVoice (barline);
 }
 
 //______________________________________________________________________________

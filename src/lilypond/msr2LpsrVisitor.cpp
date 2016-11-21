@@ -583,7 +583,7 @@ void msr2LpsrVisitor::visitStart (S_msrVoicechunk& elt)
     fOstream << idtr <<
       "--> Start visiting msrVoicechunk" << endl;
 
-  // create a clone of the repeat segment
+  // create a clone of the voice chunk
   fCurrentMsrVoicechunkClone =
     elt->createEmptyClone ();
 
@@ -838,18 +838,18 @@ void msr2LpsrVisitor::visitEnd (S_msrBarline& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrVisitor::visitStart (S_msrBarNumberCheck& elt)
+void msr2LpsrVisitor::visitStart (S_msrBarnumberCheck& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrBarNumberCheck" << endl;
+      "--> Start visiting msrBarnumberCheck" << endl;
 }
 
-void msr2LpsrVisitor::visitEnd (S_msrBarNumberCheck& elt)
+void msr2LpsrVisitor::visitEnd (S_msrBarnumberCheck& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrBarNumberCheck" << endl;
+      "--> End visiting msrBarnumberCheck" << endl;
 }
 
 //________________________________________________________________________

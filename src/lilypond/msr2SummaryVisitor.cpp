@@ -725,18 +725,18 @@ void msr2SummaryVisitor::visitEnd (S_msrBarline& elt)
 }
 
 //________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrBarNumberCheck& elt)
+void msr2SummaryVisitor::visitStart (S_msrBarnumberCheck& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrBarNumberCheck" << endl;
+      "--> Start visiting msrBarnumberCheck" << endl;
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrBarNumberCheck& elt)
+void msr2SummaryVisitor::visitEnd (S_msrBarnumberCheck& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrBarNumberCheck" << endl;
+      "--> End visiting msrBarnumberCheck" << endl;
 }
 
 //________________________________________________________________________
