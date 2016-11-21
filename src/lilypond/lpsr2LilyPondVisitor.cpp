@@ -1162,6 +1162,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrTempo& elt)
 }
 
 //________________________________________________________________________
+/*
 void lpsr2LilyPondVisitor::visitStart (S_msrSequentialMusic& elt)
 {
   if (fMsrOptions->fDebug)
@@ -1192,7 +1193,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrSequentialMusic& elt)
     idtr << "}" << " % msrSequentialMusic" <<
     endl;
 }
-
+*/
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrDuration& elt)
 {
@@ -1616,6 +1617,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrBreak& elt)
 }
 
 //________________________________________________________________________
+/*
 void lpsr2LilyPondVisitor::visitStart (S_msrRepeat& elt)
 {
   if (fMsrOptions->fDebug)
@@ -1637,7 +1639,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
     "}" <<
     endl;
 }
-
+*/
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrComment& elt)
 {

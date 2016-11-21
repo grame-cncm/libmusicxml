@@ -543,9 +543,10 @@ void msr2LpsrVisitor::visitStart (S_msrTempo& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrTempo" << endl;
-
+/*
   fCurrentMsrSequentialMusicClone->
     appendElementToSequentialMusic (elt);
+    */
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrTempo& elt)
@@ -556,6 +557,7 @@ void msr2LpsrVisitor::visitEnd (S_msrTempo& elt)
 }
 
 //________________________________________________________________________
+/*
 void msr2LpsrVisitor::visitStart (S_msrSequentialMusic& elt)
 {
   if (fMsrOptions->fDebug)
@@ -574,6 +576,7 @@ void msr2LpsrVisitor::visitEnd (S_msrSequentialMusic& elt)
     fOstream << idtr <<
       "--> End visiting msrSequentialMusic" << endl;
 }
+*/
 
 //________________________________________________________________________
 
@@ -686,15 +689,15 @@ void msr2LpsrVisitor::visitStart (S_msrNote& elt)
   switch (elt->getNoteKind ()) {
     
     case msrNote::kStandaloneNote:
-      fCurrentMsrSequentialMusicClone->
-        appendElementToSequentialMusic (elt);
+//      fCurrentMsrSequentialMusicClone->
+//        appendElementToSequentialMusic (elt);
       fCurrentMsrVoiceClone->
         appendNoteToVoice (elt); // JMI
       break;
       
     case msrNote::kRestNote:
-      fCurrentMsrSequentialMusicClone->
-        appendElementToSequentialMusic (elt);
+//     fCurrentMsrSequentialMusicClone->
+//        appendElementToSequentialMusic (elt);
       fCurrentMsrVoiceClone->
         appendNoteToVoice (elt);
       break;
@@ -775,8 +778,8 @@ void msr2LpsrVisitor::visitStart (S_msrChord& elt)
     appendChordToVoice (fCurrentMsrChordClone);
     */
 
-  fCurrentMsrSequentialMusicClone->
-    appendElementToSequentialMusic (fCurrentMsrChordClone);
+//  fCurrentMsrSequentialMusicClone->
+//    appendElementToSequentialMusic (fCurrentMsrChordClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrChord& elt)
@@ -796,8 +799,8 @@ void msr2LpsrVisitor::visitStart (S_msrTuplet& elt)
   fCurrentMsrTupletClone =
     elt->createEmptyClone ();
 
-  fCurrentMsrSequentialMusicClone->
-    appendElementToSequentialMusic (fCurrentMsrTupletClone);
+//  fCurrentMsrSequentialMusicClone->
+//    appendElementToSequentialMusic (fCurrentMsrTupletClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrTuplet& elt)
@@ -868,6 +871,7 @@ void msr2LpsrVisitor::visitEnd (S_msrBreak& elt)
 }
 
 //________________________________________________________________________
+/*
 void msr2LpsrVisitor::visitStart (S_msrRepeat& elt)
 {
   if (fMsrOptions->fDebug)
@@ -881,7 +885,7 @@ void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
     fOstream << idtr <<
       "--> End visiting msrRepeat" << endl;
 }
-
+*/
 //________________________________________________________________________
 /*void msr2LpsrVisitor::visitStart (S_msrComment& elt)
 {

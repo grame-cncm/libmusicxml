@@ -1743,6 +1743,7 @@ void msrNote::print (ostream& os)
 }
 
 //______________________________________________________________________________
+/*
 S_msrSequentialMusic msrSequentialMusic::create (
   S_msrOptions&        msrOpts, 
   int                  inputLineNumber,
@@ -1880,6 +1881,7 @@ void msrSequentialMusic::print (ostream& os)
 
   os << endl;
 }
+*/
 
 //______________________________________________________________________________
 /*
@@ -3338,6 +3340,7 @@ void msrTempo::print (ostream& os)
 }
 
 //______________________________________________________________________________
+/*
 S_msrRepeat msrRepeat::create (
   S_msrOptions& msrOpts, 
   int                    inputLineNumber)
@@ -3413,6 +3416,7 @@ void msrRepeat::print (ostream& os)
     } // for
   idtr--;
 }
+*/
 
 //______________________________________________________________________________
 S_msrLyricschunk msrLyricschunk::create (
@@ -4316,12 +4320,13 @@ msrVoice::msrVoice (
 
   fVoiceContainsActualNotes = false;
   
+/*
   // create the implicit msrSequentialMusic
   fVoiceSequentialMusic =
     msrSequentialMusic::create (
       msrOpts, inputLineNumber,
       msrSequentialMusic::kSpace);
-
+*/
   // create the implicit msrVoicechunk
   S_msrVoicechunk
     voicechunk =
@@ -4329,7 +4334,7 @@ msrVoice::msrVoice (
         msrOpts, inputLineNumber,
         msrVoicechunk::kSpace);
 
-  // append it to the voice voice chunks
+  // append it to the voice chunks
   fVoicechunks.push_back (voicechunk);
   
   // get the initial clef from the staff
@@ -4346,7 +4351,7 @@ msrVoice::msrVoice (
         "G", 2, 0);
         
   S_msrElement c = clef;
-  fVoiceSequentialMusic->appendElementToSequentialMusic (c);
+//  fVoiceSequentialMusic->appendElementToSequentialMusic (c);
     
   // get the initial key from the staff
   S_msrKey
@@ -4362,7 +4367,7 @@ msrVoice::msrVoice (
         0, "major", 0);
         
   S_msrElement k = key;
-  fVoiceSequentialMusic->appendElementToSequentialMusic (k);
+//  fVoiceSequentialMusic->appendElementToSequentialMusic (k);
   
   // get the initial time from the staff
   S_msrTime
@@ -4378,7 +4383,7 @@ msrVoice::msrVoice (
         4, 4);
 
   S_msrElement t = time;
-  fVoiceSequentialMusic->appendElementToSequentialMusic (t);
+//  fVoiceSequentialMusic->appendElementToSequentialMusic (t);
   
   // add the master lyrics to this voice, to
   // collect skips along the way that are used as a 'prelude'
@@ -4527,8 +4532,8 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement c = clef;
-  fVoiceSequentialMusic->
-    appendElementToSequentialMusic (c);
+//  fVoiceSequentialMusic->
+//    appendElementToSequentialMusic (c);
   fVoicechunks.back ()->
     appendElementToVoicechunk (c);
 }
@@ -4541,8 +4546,8 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement k = key;
-  fVoiceSequentialMusic->
-    appendElementToSequentialMusic (k);
+//  fVoiceSequentialMusic->
+//    appendElementToSequentialMusic (k);
   fVoicechunks.back ()->
     appendElementToVoicechunk (k);
 }
@@ -4555,8 +4560,8 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement t = time;
-  fVoiceSequentialMusic->
-    appendElementToSequentialMusic (t);
+//  fVoiceSequentialMusic->
+//    appendElementToSequentialMusic (t);
   fVoicechunks.back ()->
     appendElementToVoicechunk (t);
 }
@@ -4569,8 +4574,8 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement t = tempo;
-  fVoiceSequentialMusic->
-    appendElementToSequentialMusic (t);
+//  fVoiceSequentialMusic->
+//    appendElementToSequentialMusic (t);
   fVoicechunks.back ()->
     appendElementToVoicechunk (t);
 }
@@ -4582,7 +4587,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement n = note;
-  fVoiceSequentialMusic->appendElementToSequentialMusic (n);
+ // fVoiceSequentialMusic->appendElementToSequentialMusic (n);
   fVoicechunks.back ()->
     appendElementToVoicechunk (n);
 
@@ -4607,8 +4612,8 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement c = chord;
-  fVoiceSequentialMusic->
-    appendElementToSequentialMusic (c);
+//  fVoiceSequentialMusic->
+//    appendElementToSequentialMusic (c);
   fVoicechunks.back ()->
     appendElementToVoicechunk (c);
 }
@@ -4620,8 +4625,8 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement t = tuplet;
-  fVoiceSequentialMusic->
-    appendElementToSequentialMusic (t);
+//  fVoiceSequentialMusic->
+//    appendElementToSequentialMusic (t);
   fVoicechunks.back ()->
     appendElementToVoicechunk (t);
 }
@@ -4633,8 +4638,8 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline)
       "Appending barline '" << barline <<
       "' to voice " << getVoiceName () << endl;
 
-  fVoiceSequentialMusic->
-    appendElementToSequentialMusic (barline);
+//  fVoiceSequentialMusic->
+ //   appendElementToSequentialMusic (barline);
   fVoicechunks.back ()->
     appendElementToVoicechunk (barline);
 }
@@ -4647,8 +4652,8 @@ void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
       "Appending bar number check '" << bnc <<
       "' to voice " << getVoiceName () << endl;
 
-  fVoiceSequentialMusic->
-    appendElementToSequentialMusic (bnc);
+//  fVoiceSequentialMusic->
+//    appendElementToSequentialMusic (bnc);
   fVoicechunks.back ()->
     appendElementToVoicechunk (bnc);
 }
@@ -4660,8 +4665,8 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
       "Appending break '" << break_ <<
       "' to voice " << getVoiceName () << endl;
 
-  fVoiceSequentialMusic->
-    appendElementToSequentialMusic (break_);
+ // fVoiceSequentialMusic->
+//    appendElementToSequentialMusic (break_);
   fVoicechunks.back ()->
     appendElementToVoicechunk (break_);
 }
@@ -4674,8 +4679,8 @@ void msrVoice::removeLastElementFromVoice ()
       "Removing last element " <<
       " from voice " << getVoiceName () << endl;
 
-  fVoiceSequentialMusic->
-    removeLastElementFromSequentialMusic ();
+//  fVoiceSequentialMusic->
+//   removeLastElementFromSequentialMusic ();
   fVoicechunks.back ()->
     removeLastElementFromVoicechunk ();
 }
@@ -4732,12 +4737,13 @@ void msrVoice::browseData (basevisitor* v)
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrVoice::browseData()" << endl;
-  
+
+  /*
   // browse the sequential music
   msrBrowser<msrSequentialMusic> browser (v);
   browser.browse (*fVoiceSequentialMusic);
-
-  // browse the voice voice chunks
+*/
+  // browse the voice chunks
   for (
     list<S_msrVoicechunk>::iterator i = fVoicechunks.begin();
     i != fVoicechunks.end();
@@ -4778,7 +4784,7 @@ void msrVoice::print (ostream& os)
 
   idtr++;
 
-  os << idtr << fVoiceSequentialMusic << endl;
+//  os << idtr << fVoiceSequentialMusic << endl;
 
   if (fVoicechunks.size()) {
     list<S_msrVoicechunk>::const_iterator

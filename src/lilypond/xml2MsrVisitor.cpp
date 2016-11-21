@@ -1039,9 +1039,7 @@ void xml2MsrVisitor::visitStart ( S_sign& elt )
   { fCurrentClefSign = elt->getValue(); }
 
 void xml2MsrVisitor::visitEnd ( S_clef& elt ) 
-{  
-  cerr << "### xml2MsrVisitor::visitEnd ( S_clef& elt )" << endl;
-  
+{    
   S_msrClef
     clef =
       msrClef::create (
@@ -1084,9 +1082,7 @@ void xml2MsrVisitor::visitStart ( S_cancel& elt )
   { fCurrentCancel = (int)(*elt); }
 
 void xml2MsrVisitor::visitEnd ( S_key& elt ) 
-{
-  cerr << "### xml2MsrVisitor::visitEnd ( S_key& elt )" << endl;
-  
+{  
   // create msrKey
   S_msrKey
     key =
@@ -1142,9 +1138,7 @@ void xml2MsrVisitor::visitStart ( S_senza_misura& elt )
   { fCurrentTimeSenzaMisura = true; }
 
 void xml2MsrVisitor::visitEnd ( S_time& elt ) 
-{
-  cerr << "### xml2MsrVisitor::visitEnd ( S_time& elt )" << endl;
-  
+{  
   S_msrTime
     time =
       msrTime::create (
@@ -3241,7 +3235,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> removing last element " <<
-      fCurrentVoice->getVoiceSequentialMusicLastElement () <<
+// JMI ???      fCurrentVoice->getVoiceSequentialMusicLastElement () <<
       " from current voice" << endl;
   fCurrentVoice->
     removeLastElementFromVoice ();

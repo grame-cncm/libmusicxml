@@ -57,7 +57,7 @@ class msr2SummaryVisitor :
   public visitor<S_msrTime>,
   public visitor<S_msrTempo>,
   
-  public visitor<S_msrSequentialMusic>,
+//  public visitor<S_msrSequentialMusic>,
 
   public visitor<S_msrVoicechunk>,
   
@@ -81,7 +81,7 @@ class msr2SummaryVisitor :
   public visitor<S_msrBarnumberCheck>,
   public visitor<S_msrBreak>,
   
-  public visitor<S_msrRepeat>,
+//  public visitor<S_msrRepeat>,
   
 //  public visitor<S_msrComment>, // JMI
   
@@ -139,8 +139,8 @@ class msr2SummaryVisitor :
     virtual void visitStart (S_msrTempo& elt);
     virtual void visitEnd   (S_msrTempo& elt);
 
-    virtual void visitStart (S_msrSequentialMusic& elt);
-    virtual void visitEnd   (S_msrSequentialMusic& elt);
+ //   virtual void visitStart (S_msrSequentialMusic& elt);
+ //   virtual void visitEnd   (S_msrSequentialMusic& elt);
 
     virtual void visitStart (S_msrVoicechunk& elt);
     virtual void visitEnd   (S_msrVoicechunk& elt);
@@ -181,8 +181,8 @@ class msr2SummaryVisitor :
     virtual void visitStart (S_msrBreak& elt);
     virtual void visitEnd   (S_msrBreak& elt);
 
-    virtual void visitStart (S_msrRepeat& elt);
-    virtual void visitEnd   (S_msrRepeat& elt);
+//    virtual void visitStart (S_msrRepeat& elt);
+//    virtual void visitEnd   (S_msrRepeat& elt);
 
 //    virtual void visitStart (S_msrComment& elt);
 //    virtual void visitEnd   (S_msrComment& elt);

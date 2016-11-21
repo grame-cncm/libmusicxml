@@ -469,6 +469,7 @@ void msr2SummaryVisitor::visitEnd (S_msrTempo& elt)
 }
 
 //________________________________________________________________________
+/*
 void msr2SummaryVisitor::visitStart (S_msrSequentialMusic& elt)
 {
   if (fMsrOptions->fDebug)
@@ -497,7 +498,7 @@ void msr2SummaryVisitor::visitEnd (S_msrSequentialMusic& elt)
     fOstream << idtr <<
       "--> End visiting msrSequentialMusic" << endl;
 }
-
+*/
 //________________________________________________________________________
 
 void msr2SummaryVisitor::visitStart (S_msrVoicechunk& elt)
@@ -755,6 +756,7 @@ void msr2SummaryVisitor::visitEnd (S_msrBreak& elt)
 }
 
 //________________________________________________________________________
+/*
 void msr2SummaryVisitor::visitStart (S_msrRepeat& elt)
 {
   if (fMsrOptions->fDebug)
@@ -768,6 +770,7 @@ void msr2SummaryVisitor::visitEnd (S_msrRepeat& elt)
     fOstream << idtr <<
       "--> End visiting msrRepeat" << endl;
 }
+*/
 
 //________________________________________________________________________
 /* JMI

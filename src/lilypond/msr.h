@@ -932,6 +932,7 @@ EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
 \brief The msr sequential music element
 */
 //______________________________________________________________________________
+/*
 class EXP msrSequentialMusic : public msrElement
 {
   public:
@@ -997,6 +998,7 @@ class EXP msrSequentialMusic : public msrElement
 };
 typedef SMARTP<msrSequentialMusic> S_msrSequentialMusic;
 EXP ostream& operator<< (ostream& os, const S_msrSequentialMusic& elt);
+*/
 
 /*!
 \brief The msr chord element
@@ -1410,6 +1412,7 @@ EXP ostream& operator<< (ostream& os, const S_msrLayout& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
+/*
 class EXP msrRepeat: public msrElement
 {
   public:
@@ -1473,6 +1476,7 @@ class EXP msrRepeat: public msrElement
 };
 typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
+*/
 
 /*!
 \brief A msr comment representation.
@@ -2441,23 +2445,23 @@ class EXP msrVoice : public msrElement
     void      appendBarnumberCheckToVoice
                                    (S_msrBarnumberCheck bnc);
     void      appendBreakToVoice   (S_msrBreak break_);
-    
+  /*  
     S_msrElement
               getVoiceSequentialMusicLastElement ()
                   {
                     return fVoiceSequentialMusic->
                       getLastElementOfSequentialMusic ();
                   }
-                  
+    */              
     void      removeLastElementFromVoice ();
 
 //    void      removeElementFromVoiceSequentialMusic (
   // JMI              S_msrElement elem);
-
+/*
     S_msrSequentialMusic
               getVoiceSequentialMusic () const
                   { return fVoiceSequentialMusic; }
-
+*/
     // visitors
     // ------------------------------------------------------
 
@@ -2495,12 +2499,12 @@ class EXP msrVoice : public msrElement
     map<int, S_msrLyrics>     fVoiceLyricsMap;
 
     // the implicit sequence containing the code generated for the voice
-    S_msrSequentialMusic      fVoiceSequentialMusic;
+ //   S_msrSequentialMusic      fVoiceSequentialMusic;
   
 
     // the implicit repeat at the beginning of the voice
     // will be ignored if the voice has no repeats at all
-    S_msrRepeat               fVoiceMsrRepeat;
+//    S_msrRepeat               fVoiceMsrRepeat;
 
     // the chunks in the voice contain the music elements
     // one is created implicitly for every voice,
