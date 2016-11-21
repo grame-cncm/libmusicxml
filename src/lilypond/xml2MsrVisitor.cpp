@@ -2163,19 +2163,19 @@ void xml2MsrVisitor::visitStart ( S_repeat& elt )
     msrBarline::k_NoRepeatWinged;
 
   if       (winged == "straight") {
-    fCurrentBarlineRepeatDirection =
+    fCurrentBarlineRepeatWinged =
       msrBarline::kStraight;
   }
   else  if (winged == "curved") {
-    fCurrentBarlineRepeatDirection =
+    fCurrentBarlineRepeatWinged =
       msrBarline::kCurved;
   }
   else  if (winged == "doubleStraight") {
-    fCurrentBarlineRepeatDirection =
+    fCurrentBarlineRepeatWinged =
       msrBarline::kDoubleStraight;
   }
   else  if (winged == "doubleCurved") {
-    fCurrentBarlineRepeatDirection =
+    fCurrentBarlineRepeatWinged =
       msrBarline::kDoubleCurved;
   }
   else {
@@ -2193,15 +2193,15 @@ void xml2MsrVisitor::visitStart ( S_ending& elt )
   string type   = elt->getAttributeValue ("type");  
   string number = elt->getAttributeValue ("number");  
   
-  if       (direction == "start") {
+  if       (type == "start") {
     fCurrentBarlineEndingType =
       msrBarline::kStart;
   }
-  else  if (direction == "stop") {
+  else  if (type == "stop") {
     fCurrentBarlineEndingType =
       msrBarline::kStop;
   }
-  else  if (direction == "discontinue") {
+  else  if (type == "discontinue") {
     fCurrentBarlineEndingType =
       msrBarline::kDiscontinue;
   }

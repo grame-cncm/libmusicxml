@@ -2225,7 +2225,7 @@ class EXP msrBarline : public msrElement
       msrBarlineLocation        location,
       msrBarlineStyle           style,
       msrBarlineEndingType      endingType,
-      int                       endingNumber,
+      string                    endingNumber,
       msrBarlineRepeatDirection repeatDirection,
       msrBarlineRepeatWinged    repeatWinged,
       int                       nextBarNumber);
@@ -2257,7 +2257,7 @@ class EXP msrBarline : public msrElement
       msrBarlineLocation        location,
       msrBarlineStyle           style,
       msrBarlineEndingType      endingType,
-      int                       endingNumber,
+      string                    endingNumber,
       msrBarlineRepeatDirection repeatDirection,
       msrBarlineRepeatWinged    repeatWinged,
       int                       nextBarNumber);
@@ -2268,7 +2268,7 @@ class EXP msrBarline : public msrElement
     msrBarlineLocation        fLocation;
     msrBarlineStyle           fStyle;
     msrBarlineEndingType      fEndingType;
-    int                       fEndingNumber;
+    string                    fEndingNumber; // may be "1, 2"
     msrBarlineRepeatDirection fRepeatDirection;
     msrBarlineRepeatWinged    fRepeatWinged;
 

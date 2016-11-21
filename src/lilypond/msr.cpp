@@ -3912,7 +3912,7 @@ S_msrBarline msrBarline::create (
   msrBarlineLocation        location,
   msrBarlineStyle           style,
   msrBarlineEndingType      endingType,
-  int                       endingNumber,
+  string                    endingNumber,
   msrBarlineRepeatDirection repeatDirection,
   msrBarlineRepeatWinged    repeatWinged,
   int                       nextBarNumber)
@@ -3934,7 +3934,7 @@ msrBarline::msrBarline (
   msrBarlineLocation        location,
   msrBarlineStyle           style,
   msrBarlineEndingType      endingType,
-  int                       endingNumber,
+  string                    endingNumber,
   msrBarlineRepeatDirection repeatDirection,
   msrBarlineRepeatWinged    repeatWinged,
   int                       nextBarNumber)

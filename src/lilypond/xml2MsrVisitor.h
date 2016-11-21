@@ -525,7 +525,8 @@ class EXP xml2MsrVisitor :
                               fCurrentBarlineStyle;
     msrBarline::msrBarlineEndingType
                               fCurrentBarlineEndingType;
-    int                       fCurrentEndingNumber;
+    string                    fCurrentBarlineEndingNumber;
+                                // may be "1, 2"
     msrBarline::msrBarlineRepeatDirection
                               fCurrentBarlineRepeatDirection;
     msrBarline::msrBarlineRepeatWinged
