@@ -122,6 +122,9 @@ class EXP msrGlobalVariables {
       kMusicXML, kMSR, kScoreSummary, kLilypondCode,
       k_NoDisplay};
 
+    // set and get
+    // ------------------------------------------------------
+
     static msrDisplayKind getDisplayKind ()
       { return sDisplayKind; }
       
@@ -253,8 +256,17 @@ class EXP msrElement : public smartable
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    // set and get
+    // ------------------------------------------------------
+
     int getInputLineNumber ()
       { return fInputLineNumber; }
+
+    // services
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -398,6 +410,9 @@ class EXP msrDuration : public msrElement
 {
   public:
   
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrDuration> create (
       S_msrOptions&          msrOpts, 
       int                    inputLineNumber,
@@ -416,8 +431,14 @@ class EXP msrDuration : public msrElement
         
     virtual ~msrDuration();
     
+    // set and get
+    // ------------------------------------------------------
+
     void scaleNumByFraction (int num, int denom);
         
+    // services
+    // ------------------------------------------------------
+
     msrDuration& operator= (const msrDuration& dur)
       {
         fNum=dur.fNum; fDenom=dur.fDenom; fDots=dur.fDots; 
@@ -465,14 +486,23 @@ class EXP msrBeam : public msrElement
             kBeginBeam, kContinueBeam, kEndBeam, 
             k_NoBeam };
     
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrBeam> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
       int           number,
       msrBeamKind   beamKind);
 
+    // set and get
+    // ------------------------------------------------------
+
     msrBeamKind getBeamKind   () const { return fBeamKind; }
     int         getBeamNumber () const { return fBeamNumber; }
+
+    // services
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -512,15 +542,24 @@ class EXP msrArticulation : public msrElement
     enum msrArticulationKind {
         kStaccato, kStaccatissimo, kFermata };
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrArticulation> create (
       S_msrOptions&       msrOpts, 
       int                 inputLineNumber,
       msrArticulationKind articulationKind);
 
+    // set and get
+    // ------------------------------------------------------
+
     msrArticulationKind
             getArticulationKind () const
                 { return fArticulationKind; }
         
+    // services
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -556,14 +595,23 @@ class EXP msrSlur : public msrElement
 
     enum msrSlurKind { kStartSlur, kContinueSlur, kStopSlur, k_NoSlur };
     
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrSlur> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
       msrSlurKind   slurKind);
 
+    // set and get
+    // ------------------------------------------------------
+
     msrSlurKind getSlurKind () const { return fSlurKind; }
 
     string  slurKindAsString ();
+
+    // services
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -601,12 +649,18 @@ class EXP msrDynamics : public msrElement
           kF, kFF, kFFF, kFFFF, kFFFFF, kFFFFFF,
           kP, kPP, kPPP, kPPPP, kPPPPP, kPPPPPP,
           kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
-          k_NoDynamics };
+          k_NoDynamics};
     
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrDynamics> create (
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
       msrDynamicsKind           dynamicsKind);
+
+    // set and get
+    // ------------------------------------------------------
 
     msrDynamicsKind
               getDynamicsKind () const
@@ -614,6 +668,9 @@ class EXP msrDynamics : public msrElement
 
     string  dynamicsKindAsString ();
     string  dynamicsKindAsLilypondString ();
+
+    // services
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -651,14 +708,23 @@ class EXP msrWedge : public msrElement
     enum msrWedgeKind
       { kCrescendoWedge, kDecrescendoWedge, kStopWedge };
     
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrWedge> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
       msrWedgeKind  wedgeKind);
 
+    // set and get
+    // ------------------------------------------------------
+
     msrWedgeKind getWedgeKind () const { return fWedgeKind; }
 
     string  wedgeKindAsString ();
+
+    // services
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -697,6 +763,9 @@ class EXP msrNote : public msrElement
     enum msrNoteKind {
       kStandaloneNote, kRestNote, kChordMemberNote, kTupletMemberNote};
       
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrNote> createFromMusicXMLData (
         S_msrOptions&        msrOpts,
         int                  inputLineNumber,
@@ -711,10 +780,11 @@ class EXP msrNote : public msrElement
       kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp,
       k_NoAlteration};
 
-    msrNoteKind getNoteKind () const
-                    { return fNoteKind; }
-    void        setNoteKind (
-                  msrNoteKind noteKind)
+    // set and get
+    // ------------------------------------------------------
+
+    msrNoteKind getNoteKind () const{ return fNoteKind; }
+    void        setNoteKind (msrNoteKind noteKind)
                     { fNoteKind = noteKind; }
 
     // for rests
@@ -737,6 +807,9 @@ class EXP msrNote : public msrElement
       k_geseh, k_ges, k_geh, k_g, k_gih, k_gis, k_gisih,
       k_NoMsrPitch};
     
+    // services
+    // ------------------------------------------------------
+
     msrPitch computeNoteMsrPitch (
         int                         noteQuatertonesFromA,
         msrNote::musicXMLAlteration alteration);
@@ -832,55 +905,6 @@ typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
 
 /*!
-\brief The msr parallel music element
-*/
-//______________________________________________________________________________
-/*
-class EXP msrParallelMusic : public msrElement
-{
-  public:
-    
-    enum msrElementsSeparator { kEndOfLine, kSpace };
-
-    static SMARTP<msrParallelMusic> create (
-      S_msrOptions&        msrOpts, 
-      int                  inputLineNumber,
-      msrElementsSeparator elementsSeparator);
-
-    void         addElementToParallelMusic (S_msrElement elem)
-                    { fParallelMusicElements.push_back(elem); }
-    S_msrElement getLastElementOfParallelMusic()
-                    { return fParallelMusicElements.back(); }
-    void         removeLastElementOfParallelMusic ()
-                    { fParallelMusicElements.pop_back(); }
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void print (ostream& os);
-
-  protected:
-
-    msrParallelMusic (
-      S_msrOptions&        msrOpts, 
-      int                  inputLineNumber,
-      msrElementsSeparator elementsSeparator);
-      
-    virtual ~msrParallelMusic();
-    
-  private:
-  
-    vector<S_msrElement> fParallelMusicElements;
-    msrElementsSeparator fElementsSeparator;
-
-};
-typedef SMARTP<msrParallelMusic> S_msrParallelMusic;
-EXP ostream& operator<< (ostream& os, const S_msrParallelMusic& elt);
-*/
-
-/*!
 \brief The msr sequential music element
 */
 //______________________________________________________________________________
@@ -963,7 +987,13 @@ class EXP msrChord : public msrElement
       int           inputLineNumber,
       S_msrDuration chordDuration);
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     SMARTP<msrChord> createEmptyClone ();
+
+    // set and get
+    // ------------------------------------------------------
 
     vector<S_msrNote>
                 getChordNotes () const
@@ -983,6 +1013,9 @@ class EXP msrChord : public msrElement
                     { fChordDynamics.push_back(dyn); }
     void        addWedge    (S_msrWedge    wdg)
                     { fChordWedges.push_back(wdg); }
+
+    // services
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1022,12 +1055,18 @@ class EXP msrVarValAssoc : public msrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrVarValAssoc> create (
       S_msrOptions&      msrOpts, 
       int                inputLineNumber,
       string             variableName,
       string             value);
     
+    // set and get
+    // ------------------------------------------------------
+
     void      changeAssocValue (string value)
                   { fVariableValue = value; }
 
@@ -1035,6 +1074,9 @@ class EXP msrVarValAssoc : public msrElement
                   { return fVariableName; };
     string    getVariableValue () const
                   { return fVariableValue; };
+
+    // services
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1071,10 +1113,16 @@ class EXP msrIdentification : public msrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrIdentification> create (
       S_msrOptions&  msrOpts, 
       int            inputLineNumber);
     
+    // set and get
+    // ------------------------------------------------------
+
     void        setWorkNumber (
                   int    inputLineNumber,
                   string val);
@@ -1147,6 +1195,9 @@ class EXP msrIdentification : public msrElement
     S_msrVarValAssoc
                 getScoreInstrument () const
                     { return fScoreInstrument; }
+
+    // services
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1274,10 +1325,19 @@ class EXP msrLayout : public msrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrLayout> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
     
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
     void  addmsrVarValAssoc (S_msrVarValAssoc assoc)
               { fmsrVarValAssocs.push_back(assoc); }
       
@@ -1315,10 +1375,19 @@ class EXP msrRepeat: public msrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrRepeat> create (
       S_msrOptions& msrOpts, 
       int                    inputLineNumber);
     
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
     void    appendElementToCommonPart (S_msrElement elem)
               { fCommonPart->appendElementToSequentialMusic (elem); }
               
@@ -1364,46 +1433,6 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
 
 /*!
-\brief A msr barline representation.
-
-  A barline is represented by the number of the next bar
-*/
-//______________________________________________________________________________
-class EXP msrBarLine : public msrElement
-{
-  public:
-    
-    static SMARTP<msrBarLine> create (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    nextBarNumber);
-
-    int        getNextBarNumber () const
-                  { return fNextBarNumber; }
-                  
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void print (ostream& os);
-
-  protected:
-
-    msrBarLine (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    nextBarNumber);
-    virtual ~msrBarLine();
-  
-  private:
-
-    int fNextBarNumber;
-};
-typedef SMARTP<msrBarLine> S_msrBarLine;
-EXP ostream& operator<< (ostream& os, const S_msrBarLine& elt);
-
-/*!
 \brief A msr comment representation.
 
   A comment is represented by its contents
@@ -1416,15 +1445,24 @@ class EXP msrComment : public msrElement
     
     enum msrGapKind { kGapAfterwards, kNoGapAfterwards };
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrComment> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
       string        contents,
       msrGapKind    gapKind = kNoGapAfterwards);
 
+    // set and get
+    // ------------------------------------------------------
+
     string      getContents () const { return fContents; }
     msrGapKind  getGapKind  () const { return fGapKind; }
     
+    // services
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1460,13 +1498,22 @@ class EXP msrBreak : public msrElement
 {
   public:
     
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrBreak> create (
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
       int                    nextBarNumber);
 
+    // set and get
+    // ------------------------------------------------------
+
     int getNextBarNumber () const
             { return fNextBarNumber; }
+
+    // services
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1501,13 +1548,22 @@ class EXP msrBarNumberCheck : public msrElement
 {
   public:
     
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrBarNumberCheck> create (
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
       int                    nextBarNumber);
 
+    // set and get
+    // ------------------------------------------------------
+
     int getNextBarNumber () const
             { return fNextBarNumber; }
+
+    // services
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1544,6 +1600,9 @@ class EXP msrTuplet : public msrElement
 {
   public:
     
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrTuplet> create (
       S_msrOptions& msrOpts,
       int           inputLineNumber);
@@ -1554,6 +1613,9 @@ class EXP msrTuplet : public msrElement
       kStartTuplet, kContinueTuplet, kStopTuplet, 
       k_NoTuplet };
 
+    // set and get
+    // ------------------------------------------------------
+
     void  updateTuplet (int number, int actualNotes, int normalNotes);
     
     int   getTupletNumber () const { return fTupletNumber; }
@@ -1561,6 +1623,9 @@ class EXP msrTuplet : public msrElement
     int   getActualNotes () const { return fActualNotes; }
     int   getNormalNotes () const { return fNormalNotes; }
     
+    // services
+    // ------------------------------------------------------
+
     void  addElementToTuplet (S_msrElement elem)
              { fTupletContents.push_back(elem); }
 
@@ -1601,11 +1666,12 @@ class EXP msrClef : public msrElement
 {
   public:
     
-    enum
-     // JMI   msrClefLineKind
-     {
+    enum msrClefLineKind {
       kStandardLine,
       kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
+
+    // creation from MusicXML
+    // ------------------------------------------------------
 
     static SMARTP<msrClef> create (
       S_msrOptions& msrOpts, 
@@ -1614,6 +1680,9 @@ class EXP msrClef : public msrElement
       int          line,
       int          octaveChange);
 
+    // set and get
+    // ------------------------------------------------------
+
     string  getSign () const
                 { return fSign; }
     int     getLine () const
@@ -1621,6 +1690,9 @@ class EXP msrClef : public msrElement
     int     getOctaveChange () const
                 { return fOctaveChange; }
                 
+    // services
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1660,12 +1732,18 @@ class EXP msrKey : public msrElement
     
     enum msrKeyMode { kMajor, kMinor };
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrKey> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
       int           fifths,
       string        mode,
       int           cancel);
+
+    // set and get
+    // ------------------------------------------------------
 
     int         getFifths () const
                     { return fFifths; }
@@ -1678,6 +1756,9 @@ class EXP msrKey : public msrElement
                     { return fTonic; }
     msrKeyMode  getKeyMode () const
                     { return fKeyMode; }
+
+    // services
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1719,15 +1800,24 @@ class EXP msrTime : public msrElement
 {
   public:
     
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrTime> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
       int           numerator,
       int           denominator);
 
+    // set and get
+    // ------------------------------------------------------
+
     rational  getRational () const
                   { return fRational; }
                   
+    // services
+    // ------------------------------------------------------
+
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
 
@@ -1763,17 +1853,26 @@ class EXP msrTempo : public msrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrTempo> create (
       S_msrOptions& msrOpts, 
       int                    inputLineNumber,
       int                    tempoUnit,
       int                    perMinute);
 
+    // set and get
+    // ------------------------------------------------------
+
     int       getTempoUnit () const
                   { return fTempoUnit; }
 
     int       getPerMinute () const
                   { return fPerMinute; }
+
+    // services
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1818,12 +1917,18 @@ class EXP msrLyricschunk : public msrElement
       kBreakChunk,
       k_NoChunk };
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrLyricschunk> create (
       S_msrOptions&      msrOpts, 
       int                inputLineNumber,
       msrLyricschunkType chunkType,
       string             chunkText,
       S_msrDuration      msrDuration);
+
+    // set and get
+    // ------------------------------------------------------
 
     msrLyricschunkType
               getLyricschunkType () const
@@ -1837,6 +1942,9 @@ class EXP msrLyricschunk : public msrElement
                   { return fChunkDuration; }
 
     SMARTP<msrLyricschunk> createEmptyClone ();
+
+    // services
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
@@ -1878,6 +1986,9 @@ class EXP msrLyrics : public msrElement
     enum msrLyricsMasterStatus {
        kMasterLyrics, kRegularLyrics };
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrLyrics> create (
       S_msrOptions&         msrOpts, 
       int                   inputLineNumber,
@@ -1886,6 +1997,9 @@ class EXP msrLyrics : public msrElement
       msrLyricsMasterStatus lyricsMasterStatus);
     
     SMARTP<msrLyrics> createEmptyClone (S_msrVoice clonedVoice);
+
+    // set and get
+    // ------------------------------------------------------
 
     int     getLyricsNumber () const
                 { return fLyricsNumber; }
@@ -1903,6 +2017,9 @@ class EXP msrLyrics : public msrElement
     vector<S_msrLyricschunk>
             getLyricschunks () const
                 { return fLyricschunks; }
+
+    // services
+    // ------------------------------------------------------
 
     void    addTextChunkToLyrics (
               int
@@ -1967,6 +2084,62 @@ class EXP msrLyrics : public msrElement
 };
 typedef SMARTP<msrLyrics> S_msrLyrics;
 EXP ostream& operator<< (ostream& os, const S_msrLyrics& elt);
+
+/*!
+\brief A msr barline representation.
+
+  A barline is represented by the number of the next bar
+*/
+//______________________________________________________________________________
+class EXP msrBarLine : public msrElement
+{
+  public:
+
+    enum msrBarlineKind {
+      kRegular,
+      kDotted, kDashed, kHeavy,
+      kLightLight, kLightHeavy, kHeavyLight, kHeavyHeavy,
+      kTick, kShort};
+   // http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-bar-style.htm
+        
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrBarLine> create (
+      S_msrOptions& msrOpts, 
+      int                    inputLineNumber,
+      int                    nextBarNumber);
+
+    // set and get
+    // ------------------------------------------------------
+
+    int        getNextBarNumber () const
+                  { return fNextBarNumber; }
+                  
+    // services
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    msrBarLine (
+      S_msrOptions& msrOpts, 
+      int                    inputLineNumber,
+      int                    nextBarNumber);
+    virtual ~msrBarLine();
+  
+  private:
+
+    int fNextBarNumber;
+};
+typedef SMARTP<msrBarLine> S_msrBarLine;
+EXP ostream& operator<< (ostream& os, const S_msrBarLine& elt);
 
 /*!
 \brief The msr sequential music element
@@ -2568,11 +2741,17 @@ class EXP msrScore : public msrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrScore> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
 
     SMARTP<msrScore> createEmptyClone ();
+
+    // set and get
+    // ------------------------------------------------------
 
     S_msrIdentification
                 getIdentification () const
@@ -2585,6 +2764,9 @@ class EXP msrScore : public msrElement
     list<S_msrPartgroup>
                 getPartgroupsList () const
                     { return fPartgroupsList; }
+
+    // services
+    // ------------------------------------------------------
 
     void addPartgroupToScore (S_msrPartgroup partgroup);
 
@@ -2624,9 +2806,18 @@ class EXP msrMidi : public msrElement
 {
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrMidi> create (
       S_msrOptions& msrOpts, 
       int                    inputLineNumber);
+
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
 
     virtual void acceptIn  (basevisitor* v);
     virtual void acceptOut (basevisitor* v);
