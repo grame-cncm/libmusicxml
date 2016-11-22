@@ -519,6 +519,13 @@ class EXP xml2MsrVisitor :
 
     // barline handling
     // ------------------------------------------------------
+    string                    fCurrentLocation;
+    string                    fCurrentStyle;
+    string                    fCurrentEndingtype;
+    string                    fCurrentEndingNumber;
+    string                    fCurrentRepeatDirection;
+    string                    fCurrentRepeatWinged;
+
     msrBarline::msrBarlineLocation
                               fCurrentBarlineLocation;
     msrBarline::msrBarlineStyle

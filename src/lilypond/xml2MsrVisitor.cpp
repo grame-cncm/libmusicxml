@@ -2046,26 +2046,26 @@ void xml2MsrVisitor::visitStart ( S_barline& elt )
         <repeat direction="backward"/>
       </barline>
 */
-  string location = elt->getAttributeValue ("location");
+  fCurrentLocation = elt->getAttributeValue ("location");
 
   fCurrentBarlineLocation =
     msrBarline::kRight; // by default
     
-  if       (location == "left") {
+  if       (fCurrentLocation == "left") {
     fCurrentBarlineLocation =
       msrBarline::kLeft;
   }
-  else  if (location == "middle") {
+  else  if (fCurrentLocation == "middle") {
     fCurrentBarlineLocation =
       msrBarline::kMiddle;
   }
-  else if  (location == "right") {
+  else if  (fCurrentLocation == "right") {
     fCurrentBarlineLocation =
       msrBarline::kRight;
   }
   else {
     stringstream s;
-    s << "barline location " << location << " is unknown";
+    s << "barline location " << fCurrentLocation << " is unknown";
     msrMusicXMLError (
       elt->getInputLineNumber (), s.str());
   }
@@ -2073,82 +2073,108 @@ void xml2MsrVisitor::visitStart ( S_barline& elt )
 
 void xml2MsrVisitor::visitStart ( S_bar_style& elt ) 
 {
-  string barStyle = elt->getValue();
+  fCurrentStyle = elt->getValue();
 
   fCurrentBarlineStyle =
     msrBarline::kRegular; // by default
       
-  if      (barStyle == "regular") {
+  if      (fCurrentStyle == "regular") {
     fCurrentBarlineStyle =
       msrBarline::kRegular;
   }
-  else if (barStyle == "dotted") {
+  else if (fCurrentStyle == "dotted") {
     fCurrentBarlineStyle =
       msrBarline::kDotted;
   }
-  else if (barStyle == "dashed") {
+  else if (fCurrentStyle == "dashed") {
     fCurrentBarlineStyle =
       msrBarline::kDashed;
   }
-  else if (barStyle == "heavy") {
+  else if (fCurrentStyle == "heavy") {
     fCurrentBarlineStyle =
       msrBarline::kHeavy;
   }
-  else if (barStyle == "light-light") {
+  else if (fCurrentStyle == "light-light") {
     fCurrentBarlineStyle =
       msrBarline::kLightLight;
   }
-  else if (barStyle == "light-heavy") {
+  else if (fCurrentStyle == "light-heavy") {
     fCurrentBarlineStyle =
       msrBarline::kLightHeavy;
   }
-  else if (barStyle == "heavy-light") {
+  else if (fCurrentStyle == "heavy-light") {
     fCurrentBarlineStyle =
       msrBarline::kHeavyLight;
   }
-  else if (barStyle == "heavy-heavy") {
+  else if (fCurrentStyle == "heavy-heavy") {
     fCurrentBarlineStyle =
       msrBarline::kHeavyHeavy;
   }
-  else if (barStyle == "tick") {
+  else if (fCurrentStyle == "tick") {
     fCurrentBarlineStyle =
       msrBarline::kTick;
   }
-  else if (barStyle == "short") {
+  else if (fCurrentStyle == "short") {
     fCurrentBarlineStyle =
       msrBarline::kShort;
   }
   else {
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      "barline style " + barStyle + " is unknown");
+      "barline style " + fCurrentStyle + " is unknown");
   }
+}
+
+void xml2MsrVisitor::visitStart ( S_ending& elt ) 
+{  
+  fCurrentEndingtype   = elt->getAttributeValue ("type");  
+  fCurrentEndingNumber = elt->getAttributeValue ("number");  
+  
+  if       (fCurrentEndingtype == "start") {
+    fCurrentBarlineEndingType =
+      msrBarline::kStart;
+  }
+  else  if (fCurrentEndingtype == "stop") {
+    fCurrentBarlineEndingType =
+      msrBarline::kStop;
+  }
+  else  if (fCurrentEndingtype == "discontinue") {
+    fCurrentBarlineEndingType =
+      msrBarline::kDiscontinue;
+  }
+  else {
+    stringstream s;
+    s << "ending type " << fCurrentEndingtype << " is unknown";
+    msrMusicXMLError (
+      elt->getInputLineNumber (), s.str());
+  }
+
+  fCurrentBarlineEndingNumber =
+    elt->getAttributeValue ("number"); // may be "1, 2"
 }
 
 void xml2MsrVisitor::visitStart ( S_repeat& elt ) 
 {
-  string
-    direction =
-      elt->getAttributeValue ("direction");
+  fCurrentRepeatDirection =
+    elt->getAttributeValue ("direction");
 
-  string
-    winged =
-      elt->getAttributeValue ("winged");
+  fCurrentRepeatWinged =
+    elt->getAttributeValue ("winged");
 
   fCurrentBarlineRepeatDirection =
     msrBarline::k_NoRepeatDirection;
     
-  if       (direction == "forward") {
+  if       (fCurrentRepeatDirection == "forward") {
     fCurrentBarlineRepeatDirection =
       msrBarline::kForward;
   }
-  else  if (direction == "backward") {
+  else  if (fCurrentRepeatDirection == "backward") {
     fCurrentBarlineRepeatDirection =
       msrBarline::kBackward;
   }
   else {
     stringstream s;
-    s << "repeat direction " << direction << " is unknown";
+    s << "repeat direction " << fCurrentRepeatDirection << " is unknown";
     msrMusicXMLError (
       elt->getInputLineNumber (), s.str());
   }
@@ -2156,60 +2182,30 @@ void xml2MsrVisitor::visitStart ( S_repeat& elt )
   fCurrentBarlineRepeatWinged =
     msrBarline::k_NoRepeatWinged;
 
-  if (winged.size()) {
-    if       (winged == "straight") {
+  if (fCurrentRepeatWinged.size()) {
+    if       (fCurrentRepeatWinged == "straight") {
       fCurrentBarlineRepeatWinged =
         msrBarline::kStraight;
     }
-    else  if (winged == "curved") {
+    else  if (fCurrentRepeatWinged == "curved") {
       fCurrentBarlineRepeatWinged =
         msrBarline::kCurved;
     }
-    else  if (winged == "doubleStraight") {
+    else  if (fCurrentRepeatWinged == "doubleStraight") {
       fCurrentBarlineRepeatWinged =
         msrBarline::kDoubleStraight;
     }
-    else  if (winged == "doubleCurved") {
+    else  if (fCurrentRepeatWinged == "doubleCurved") {
       fCurrentBarlineRepeatWinged =
         msrBarline::kDoubleCurved;
     }
     else {
       stringstream s;
-      s << "repeat winged " << winged << " is unknown";
+      s << "repeat winged " << fCurrentRepeatWinged << " is unknown";
       msrMusicXMLError (
         elt->getInputLineNumber (), s.str());
     }
   }
-}
-
-void xml2MsrVisitor::visitStart ( S_ending& elt ) 
-{
-  // start, stop, discontinue
-  
-  string type   = elt->getAttributeValue ("type");  
-  string number = elt->getAttributeValue ("number");  
-  
-  if       (type == "start") {
-    fCurrentBarlineEndingType =
-      msrBarline::kStart;
-  }
-  else  if (type == "stop") {
-    fCurrentBarlineEndingType =
-      msrBarline::kStop;
-  }
-  else  if (type == "discontinue") {
-    fCurrentBarlineEndingType =
-      msrBarline::kDiscontinue;
-  }
-  else {
-    stringstream s;
-    s << "ending type " << type << " is unknown";
-    msrMusicXMLError (
-      elt->getInputLineNumber (), s.str());
-  }
-
-  fCurrentBarlineEndingNumber =
-    elt->getAttributeValue ("number"); // may be "1, 2"
 }
 
 void xml2MsrVisitor::visitEnd ( S_barline& elt ) 
@@ -2228,7 +2224,60 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatWinged,
         gCurrentMusicXMLLocation.fMeasureNumber + 1);
 
-  // decide what to do with it
+  // decide what to do with the barline
+  if (
+    fCurrentBarlineLocation   == msrBarline::kLeft
+      &&
+    fCurrentBarlineEndingType == msrBarline::kStart) {
+    // beginning of an alternative
+    if (fCurrentBarlineRepeatDirection == msrBarline::kForward) {
+    }
+    else
+      msrInternalError (
+        elt->getInputLineNumber (),
+        "don't know how to handle left start non-forward barline");
+  }
+  
+  else if (
+    fCurrentBarlineLocation   == msrBarline::kRight
+      &&
+    fCurrentBarlineEndingType == msrBarline::kStop) {
+    // beginning of an alternative
+    if (fCurrentBarlineRepeatDirection == msrBarline::kForward) {
+    }
+    else
+      msrInternalError (
+        elt->getInputLineNumber (),
+        "don't know how to handle left start non-forward barline");
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "don't know how to handle a barline containing " <<
+      fCurrentLocation << ", " <<
+      fCurrentStyle << ", " <<
+      fCurrentEndingtype << ", " <<
+      fCurrentEndingNumber << ", " <<
+      fCurrentRepeatDirection << ", " <<
+      fCurrentRepeatWinged;
+    msrInternalError (
+      elt->getInputLineNumber (), s.str());
+  }
+}
+  
+  /*
+   *
+   *    string                    ;
+    string                    ;
+    string                    ;
+    string                    ;
+    string                    ;
+    string                    ;
+
+
+
   switch (fLocation) {
     case kLeft:
       os << "Left";
@@ -2340,7 +2389,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
   // append the barline to the voice
   fCurrentVoice->
     appendBarlineToVoice (barline);
-}
+    */
 
 //______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_note& elt ) 
