@@ -2246,7 +2246,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
     case msrBarline::kLeft:
       if (fCurrentBarlineEndingType == msrBarline::kStart) {
         // beginning of an alternative
-        if (fMsrOptions->fDebug)
+    //    if (fMsrOptions->fDebug)
           cerr <<
             idtr << "--> input line " << elt->getInputLineNumber () <<
             endl <<
@@ -2255,13 +2255,13 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
             endl;
 
         fCurrentVoice ->
-          setHeadBarlineInVoice (barline);
+          setHeadBarlineInCurrentVoiceChunk (barline);
       }
       
       else if (fCurrentBarlineRepeatDirection == msrBarline::kForward) {
         if (fCurrentBarlineStyle == msrBarline::kHeavyLight) {
           // beginning of a repeat
-          if (fMsrOptions->fDebug)
+    //      if (fMsrOptions->fDebug)
             cerr <<
               idtr << "--> input line " << elt->getInputLineNumber () <<
               endl <<
@@ -2284,7 +2284,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
     case msrBarline::kRight:
       if (fCurrentBarlineEndingType == msrBarline::kStop) {
         // end of an alternative
-        if (fMsrOptions->fDebug)
+ //       if (fMsrOptions->fDebug)
           cerr <<
             idtr << "--> input line " << elt->getInputLineNumber () <<
             endl <<
@@ -2293,13 +2293,13 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
             endl;
 
         fCurrentVoice ->
-          setTailBarlineInVoice (barline);
+          setTailBarlineInCurrentVoiceChunk (barline);
       }
 
       else if (fCurrentBarlineRepeatDirection == msrBarline::kBackward) {
         if (fCurrentBarlineStyle == msrBarline::kLightHeavy) {
           // end of a repeat
-          if (fMsrOptions->fDebug)
+   //       if (fMsrOptions->fDebug)
             cerr <<
               idtr << "--> input line " << elt->getInputLineNumber () <<
               endl <<

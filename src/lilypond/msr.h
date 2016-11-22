@@ -2449,8 +2449,8 @@ class EXP msrVoice : public msrElement
     void      appendChordToVoice   (S_msrChord chord);
     void      appendTupletToVoice  (S_msrTuplet tuplet);
     
-    void      setHeadBarlineInVoice (S_msrBarline barline);
-    void      setTailBarlineInVoice (S_msrBarline barline);
+    void      setHeadBarlineInCurrentVoiceChunk (S_msrBarline barline);
+    void      setTailBarlineInCurrentVoiceChunk (S_msrBarline barline);
 
     void      appendBarnumberCheckToVoice
                                    (S_msrBarnumberCheck bnc);
