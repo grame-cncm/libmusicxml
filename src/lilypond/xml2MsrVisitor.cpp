@@ -2248,7 +2248,11 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         // beginning of an alternative
     //    if (fMsrOptions->fDebug)
           cerr <<
-            idtr << "--> input line " << elt->getInputLineNumber () <<
+            idtr << "--> input line " <<
+              elt->getInputLineNumber () <<
+            endl <<
+            idtr << "--> measure    " <<
+              gCurrentMusicXMLLocation.fMeasureNumber <<
             endl <<
             idtr <<
             "--> barline with left and start, beginning of an alternative" <<
