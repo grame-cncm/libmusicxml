@@ -4666,19 +4666,27 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
     appendElementToVoicechunk (t);
 }
 
-void msrVoice::appendBarlineToVoice (S_msrBarline barline) // JMI ???
+void msrVoice::setHeadBarlineInVoice (S_msrBarline barline) // JMI ???
 {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Appending barline '" << barline <<
       "' to voice " << getVoiceName () << endl;
 
-//  fVoiceSequentialMusic->
- //   appendElementToSequentialMusic (barline);
   fVoicechunks.back ()->
-    appendElementToVoicechunk (barline);
+    setHeadBarline (barline);
 }
 
+void msrVoice::setTailBarlineInVoice (S_msrBarline barline) // JMI ???
+{
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "Appending barline '" << barline <<
+      "' to voice " << getVoiceName () << endl;
+
+  fVoicechunks.back ()->
+    setTailBarline (barline);
+}
 
 void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
 {

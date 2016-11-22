@@ -2046,6 +2046,20 @@ void xml2MsrVisitor::visitStart ( S_barline& elt )
         <repeat direction="backward"/>
       </barline>
 */
+  fCurrentLocation        = "";
+  fCurrentStyle           = "";
+  fCurrentEndingtype      = "";
+  fCurrentEndingNumber    = "";
+  fCurrentRepeatDirection = "";
+  fCurrentRepeatWinged    = "";
+
+  fCurrentBarlineLocation        = msrBarline::k_NoLocation;
+  fCurrentBarlineStyle           = msrBarline::k_NoStyle;
+  fCurrentBarlineEndingType      = msrBarline::k_NoEndingType;
+  fCurrentBarlineEndingNumber    = ""; // may be "1, 2"
+  fCurrentBarlineRepeatDirection = msrBarline::k_NoRepeatDirection;
+  fCurrentBarlineRepeatWinged    = msrBarline::k_NoRepeatWinged;
+
   fCurrentLocation = elt->getAttributeValue ("location");
 
   fCurrentBarlineLocation =
@@ -2076,8 +2090,8 @@ void xml2MsrVisitor::visitStart ( S_bar_style& elt )
   fCurrentStyle = elt->getValue();
 
   fCurrentBarlineStyle =
-    msrBarline::kRegular; // by default
-      
+    msrBarline::k_NoStyle;
+
   if      (fCurrentStyle == "regular") {
     fCurrentBarlineStyle =
       msrBarline::kRegular;
@@ -2224,44 +2238,95 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatWinged,
         gCurrentMusicXMLLocation.fMeasureNumber + 1);
 
-  // decide what to do with the barline
-  if (
-    fCurrentBarlineLocation   == msrBarline::kLeft
-      &&
-    fCurrentBarlineEndingType == msrBarline::kStart) {
-    // beginning of an alternative
-    if (fCurrentBarlineRepeatDirection == msrBarline::kForward) {
-    }
-    else
-      msrInternalError (
-        elt->getInputLineNumber (),
-        "don't know how to handle left start non-forward barline");
-  }
+  bool barlineHandled = false;
   
-  else if (
-    fCurrentBarlineLocation   == msrBarline::kRight
-      &&
-    fCurrentBarlineEndingType == msrBarline::kStop) {
-    // beginning of an alternative
-    if (fCurrentBarlineRepeatDirection == msrBarline::kForward) {
-    }
-    else
-      msrInternalError (
-        elt->getInputLineNumber (),
-        "don't know how to handle left start non-forward barline");
-  }
+  // handle the barline
+  switch (fCurrentBarlineLocation) {
+    
+    case msrBarline::kLeft:
+      if (fCurrentBarlineEndingType == msrBarline::kStart) {
+        // beginning of an alternative
+        if (fMsrOptions->fDebug)
+          cerr <<
+            idtr << "--> input line " << elt->getInputLineNumber () <<
+            endl <<
+            idtr <<
+            "--> barline with left and start, beginning of an alternative" <<
+            endl;
 
-  else {
+        fCurrentVoice ->
+          setHeadBarlineInVoice (barline);
+      }
+      
+      else if (fCurrentBarlineRepeatDirection == msrBarline::kForward) {
+        if (fCurrentBarlineStyle == msrBarline::kHeavyLight) {
+          // beginning of a repeat
+          if (fMsrOptions->fDebug)
+            cerr <<
+              idtr << "--> input line " << elt->getInputLineNumber () <<
+              endl <<
+              idtr <<
+              "--> barline with left and forward, beginning of a repeat" <<
+              endl;
+        }
+        else
+          barlineHandled = true;
+      }
+      
+      else
+        barlineHandled = true;
+      break;
+      
+    case msrBarline::kMiddle:
+        barlineHandled = true;
+      break;
+      
+    case msrBarline::kRight:
+      if (fCurrentBarlineEndingType == msrBarline::kStop) {
+        // end of an alternative
+        if (fMsrOptions->fDebug)
+          cerr <<
+            idtr << "--> input line " << elt->getInputLineNumber () <<
+            endl <<
+            idtr <<
+            "--> barline with right and stop, end of an alternative" <<
+            endl;
+
+        fCurrentVoice ->
+          setTailBarlineInVoice (barline);
+      }
+
+      else if (fCurrentBarlineRepeatDirection == msrBarline::kBackward) {
+        if (fCurrentBarlineStyle == msrBarline::kLightHeavy) {
+          // end of a repeat
+          if (fMsrOptions->fDebug)
+            cerr <<
+              idtr << "--> input line " << elt->getInputLineNumber () <<
+              endl <<
+              idtr <<
+              "--> barline with right and backward, end of a repeat" <<
+              endl;
+        }
+        else
+          barlineHandled = true;
+      }
+      
+      else
+        barlineHandled = true;
+      break;
+  } // switch
+
+  // did we handle this barline?
+  if (barlineHandled) {
     stringstream s;
-
-    s <<
-      "don't know how to handle a barline containing " <<
-      fCurrentLocation << ", " <<
-      fCurrentStyle << ", " <<
-      fCurrentEndingtype << ", " <<
-      fCurrentEndingNumber << ", " <<
-      fCurrentRepeatDirection << ", " <<
-      fCurrentRepeatWinged;
+    s << left <<
+      "don't know how to handle a barline containing:" << endl <<
+      idtr << "location = " << fCurrentLocation << endl <<
+      idtr << "style = " << fCurrentStyle << endl <<
+      idtr << "ending type = " << fCurrentEndingtype << endl <<
+      idtr << "ending number = " << fCurrentEndingNumber << endl <<
+      idtr << "repeat direction = " << fCurrentRepeatDirection << endl <<
+      idtr << "repeat winged = " << fCurrentRepeatWinged;
     msrInternalError (
       elt->getInputLineNumber (), s.str());
   }
@@ -2387,8 +2452,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
   os << endl;
 
   // append the barline to the voice
-  fCurrentVoice->
-    appendBarlineToVoice (barline);
     */
 
 //______________________________________________________________________________

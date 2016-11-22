@@ -2201,15 +2201,18 @@ class EXP msrBarline : public msrElement
 */
 
     enum msrBarlineLocation {
+      k_NoLocation,
       kLeft, kMiddle, kRight}; // kRight by default
         
     enum msrBarlineStyle {
+      k_NoStyle,
       kRegular,  // by default
       kDotted, kDashed, kHeavy,
       kLightLight, kLightHeavy, kHeavyLight, kHeavyHeavy,
       kTick, kShort};
 
     enum msrBarlineEndingType {
+      k_NoEndingType,
       kStart, kStop, kDiscontinue};
 
     enum msrBarlineRepeatDirection {
@@ -2446,7 +2449,8 @@ class EXP msrVoice : public msrElement
     void      appendChordToVoice   (S_msrChord chord);
     void      appendTupletToVoice  (S_msrTuplet tuplet);
     
-    void      appendBarlineToVoice (S_msrBarline barline);
+    void      setHeadBarlineInVoice (S_msrBarline barline);
+    void      setTailBarlineInVoice (S_msrBarline barline);
 
     void      appendBarnumberCheckToVoice
                                    (S_msrBarnumberCheck bnc);
