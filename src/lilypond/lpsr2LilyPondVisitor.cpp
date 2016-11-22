@@ -67,17 +67,14 @@ lpsr2LilyPondVisitor::lpsr2LilyPondVisitor (
   fOnGoingScoreCommand = false;
 };
   
-lpsr2LilyPondVisitor::~lpsr2LilyPondVisitor ()
-{}
+lpsr2LilyPondVisitor::~lpsr2LilyPondVisitor () {}
 
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::generateLilyPondCodeFromLpsrScore ()
 {
   if (fVisitedLpsrScore) {    
-    // create a msrScore browser
+    // browse a msrScore browser
     msrBrowser<lpsrScore> browser (this);
-
-    // browse the score with the browser
     browser.browse (*fVisitedLpsrScore);
   }
 }
@@ -196,6 +193,10 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrScore& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrScore" << endl;
+
+  // initial empty line in LilyPond code
+  // to help copy/paste it
+  fOstream << endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrScore& elt)

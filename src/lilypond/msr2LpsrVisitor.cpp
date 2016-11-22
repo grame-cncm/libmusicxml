@@ -425,6 +425,31 @@ void msr2LpsrVisitor::visitEnd (S_msrVoice& elt)
 }
 
 //________________________________________________________________________
+
+void msr2LpsrVisitor::visitStart (S_msrVoicechunk& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrVoicechunk" << endl;
+
+  // create a clone of the voice chunk
+  fCurrentMsrVoicechunkClone =
+    elt->createEmptyClone ();
+
+  // append it to the current voice
+  fCurrentMsrVoiceClone->
+    appendVoicechunkToVoice (
+      fCurrentMsrVoicechunkClone);
+}
+
+void msr2LpsrVisitor::visitEnd (S_msrVoicechunk& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrVoicechunk" << endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrLyrics& elt)
 {
   if (fMsrOptions->fDebug)
@@ -577,31 +602,6 @@ void msr2LpsrVisitor::visitEnd (S_msrSequentialMusic& elt)
       "--> End visiting msrSequentialMusic" << endl;
 }
 */
-
-//________________________________________________________________________
-
-void msr2LpsrVisitor::visitStart (S_msrVoicechunk& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "--> Start visiting msrVoicechunk" << endl;
-
-  // create a clone of the voice chunk
-  fCurrentMsrVoicechunkClone =
-    elt->createEmptyClone ();
-
-  // append it to the current voice
-  fCurrentMsrVoiceClone->
-    appendVoicechunkToVoice (
-      fCurrentMsrVoicechunkClone);
-}
-
-void msr2LpsrVisitor::visitEnd (S_msrVoicechunk& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "--> End visiting msrVoicechunk" << endl;
-}
 
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrDuration& elt)

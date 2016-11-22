@@ -68,9 +68,13 @@ void generateLilyPondCodeFromLpsrScore (
     "%----------------------------------------";
   
   // build the LPSR score
-  if (msrOpts->fTrace) os << separator << endl;
+  if (msrOpts->fTrace)
+    os << separator << endl;
+    
   visitor.generateLilyPondCodeFromLpsrScore ();
-  if (msrOpts->fTrace) os << separator << endl;
+  
+  if (msrOpts->fTrace)
+    os << separator << endl;
 }
 
 

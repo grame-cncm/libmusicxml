@@ -1506,10 +1506,8 @@ void msrNote::browseData (basevisitor* v)
     idtr++;
     list<S_msrArticulation>::const_iterator i;
     for (i=fNoteArticulations.begin(); i!=fNoteArticulations.end(); i++) {
-      // create the element browser
+      // browse the articulation
       msrBrowser<msrArticulation> browser (v);
-    
-      // browse the element with the visitor
       browser.browse (*(*i));
     } // for
     idtr--;
@@ -1520,10 +1518,8 @@ void msrNote::browseData (basevisitor* v)
     idtr++;
     list<S_msrDynamics>::const_iterator i;
     for (i=fNoteDynamics.begin(); i!=fNoteDynamics.end(); i++) {
-      // create the element browser
+      // browse the dynamics
       msrBrowser<msrDynamics> browser (v);
-    
-      // browse the element with the visitor
       browser.browse (*(*i));
     } // for
     idtr--;
@@ -1534,10 +1530,8 @@ void msrNote::browseData (basevisitor* v)
     idtr++;
     list<S_msrWedge>::const_iterator i;
     for (i=fNoteWedges.begin(); i!=fNoteWedges.end(); i++) {
-      // create the element browser
+      // browse the wedge
       msrBrowser<msrWedge> browser (v);
-    
-      // browse the element with the visitor
       browser.browse (*(*i));
     } // for
     idtr--;
@@ -1546,10 +1540,8 @@ void msrNote::browseData (basevisitor* v)
 /* JMI
   // browse the slur if any
   if (fNoteSlurKind != msrSlur::k_NoSlur) {
-    // create the element browser
+    // browse the slur
     msrBrowser<msrDynamics> browser (v);
-  
-    // browse the element with the visitor
     browser.browse (*(*i));
   }
   */
@@ -3868,10 +3860,8 @@ void msrLyrics::browseData (basevisitor* v)
 
     int n = fLyricschunks.size();
     for (int i = 0; i < n; i++) {
-    // create the lyrics browser
+    // browse the lyrics
       msrBrowser<msrLyricschunk> browser (v);
-    
-      // browse the lyrics with the visitor
       browser.browse (*fLyricschunks [i]);
     } // for
     cerr << endl;
@@ -4152,9 +4142,8 @@ msrVoicechunk::msrVoicechunk (
     : msrElement (msrOpts, inputLineNumber)
 {
   fElementsSeparator = elementsSeparator;
-
-  fRepeatVolte = 0;
 }
+
 msrVoicechunk::~msrVoicechunk() {}
 
 S_msrVoicechunk msrVoicechunk::createEmptyClone ()
@@ -4222,16 +4211,28 @@ void msrVoicechunk::browseData (basevisitor* v)
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrVoicechunk::browseData()" << endl;
+
+  if (fHeadBarline) {
+    // browse the head barline
+    msrBrowser<msrBarline> browser (v);
+    browser.browse (*fHeadBarline);
+  }
   
   for (
     list<S_msrElement>::iterator i = fVoicechunkElements.begin();
     i != fVoicechunkElements.end();
     i++) {
-    // browse the element browser
+    // browse the element
     msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));
   } // for
 
+  if (fTailBarline) {
+    // browse the tail barline
+    msrBrowser<msrBarline> browser (v);
+    browser.browse (*fTailBarline);
+  }
+  
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "<== msrVoicechunk::browseData()" << endl;
@@ -4259,14 +4260,37 @@ ostream& operator<< (ostream& os, const S_msrVoicechunk& elt)
 void msrVoicechunk::print (ostream& os)
 {  
   os << "Voicechunk";
+
+  idtr++;
+  
+  if (fHeadBarline) {
+    os <<
+      "HeadBarline" << endl;
+    idtr++;
+    os <<
+      idtr << fHeadBarline <<
+      endl;
+    idtr--;
+  }
+  if (fHeadBarline) {
+    os <<
+      "TailBarline" << endl;
+    idtr++;
+    os <<
+      idtr << fTailBarline <<
+      endl;
+    idtr--;
+  }
+  
+  os <<
+    idtr << "Elements" <<
+    endl;
+
+  idtr++;
   
   if (! fVoicechunkElements.size ())
-    os << " (No actual notes)";
-  else {
-    os << endl;
-    
-    idtr++;
-  
+    os << "none";
+  else {      
     list<S_msrElement>::const_iterator
       iBegin = fVoicechunkElements.begin(),
       iEnd   = fVoicechunkElements.end(),
@@ -4277,10 +4301,12 @@ void msrVoicechunk::print (ostream& os)
       os << endl;
 // JMI      if (fElementsSeparator == kEndOfLine) os << endl;
     } // for
-    
-    idtr--;
   }
+    
+  idtr--;
 
+  idtr--;
+  
   os << endl;
 }
 
@@ -4327,7 +4353,7 @@ msrVoice::msrVoice (
       msrOpts, inputLineNumber,
       msrSequentialMusic::kSpace);
 */
-  // create the implicit msrVoicechunk
+  // create the first, implicit msrVoicechunk
   S_msrVoicechunk
     voicechunk =
       msrVoicechunk::create (
@@ -4352,6 +4378,9 @@ msrVoice::msrVoice (
         
   S_msrElement c = clef;
 //  fVoiceSequentialMusic->appendElementToSequentialMusic (c);
+  // append the clef to the voice chunk
+  fVoicechunks.back ()->
+    appendElementToVoicechunk (c);
     
   // get the initial key from the staff
   S_msrKey
@@ -4368,6 +4397,9 @@ msrVoice::msrVoice (
         
   S_msrElement k = key;
 //  fVoiceSequentialMusic->appendElementToSequentialMusic (k);
+  // append the key to the voice chunk
+  fVoicechunks.back ()->
+    appendElementToVoicechunk (k);
   
   // get the initial time from the staff
   S_msrTime
@@ -4384,6 +4416,9 @@ msrVoice::msrVoice (
 
   S_msrElement t = time;
 //  fVoiceSequentialMusic->appendElementToSequentialMusic (t);
+  // append the time to the voice chunk
+  fVoicechunks.back ()->
+    appendElementToVoicechunk (t);
   
   // add the master lyrics to this voice, to
   // collect skips along the way that are used as a 'prelude'
@@ -4399,7 +4434,7 @@ msrVoice::msrVoice (
   // add the implicit msrRepeat element
 // JMI  fVoiceMsrRepeat = msrRepeat::create ();
 //  fVoiceSequentialMusic->appendElementToSequentialMusic (fVoiceMsrRepeat);
-  }
+}
 
 msrVoice::~msrVoice() {}
 
@@ -4631,7 +4666,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
     appendElementToVoicechunk (t);
 }
 
-void msrVoice::appendBarlineToVoice (S_msrBarline barline)
+void msrVoice::appendBarlineToVoice (S_msrBarline barline) // JMI ???
 {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -4816,44 +4851,6 @@ void msrVoice::print (ostream& os)
   
   idtr--;
 }
-
-/*
-void msrVoice::printScoreSummary (ostream& os)
-{
-  int voiceLyricsMapSize = fVoiceLyricsMap.size();
-
-  os <<
-    "Voice" << " " << getVoiceName () <<
-    " has " << voiceLyricsMapSize;
-  if (voiceLyricsMapSize == 1)
-    os << " lyric";
-  else
-    os << " lyrics";
-  os << endl;
-
-  idtr++;
-
-  os << idtr << fVoiceSequentialMusic;
-
-  // don't show the voice master lyrics in summary
-
-  if (voiceLyricsMapSize) {
-    map<int, S_msrLyrics>::const_iterator
-      iBegin = fVoiceLyricsMap.begin(),
-      iEnd   = fVoiceLyricsMap.end(),
-      i      = iBegin;
-      
-    for ( ; ; ) {
-      if ((*i).first != 0)
-        os << idtr << (*i).second;
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-  }
-  
-  idtr--;
-}
-*/
 
 //______________________________________________________________________________
 int msrStaff::gMaxStaffVoices = 4;
@@ -5130,38 +5127,19 @@ void msrStaff::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrStaff::browseData()" << endl;
 
-/* JMI
-  if (fStaffClef) {
-    // create the clef browser
-    msrBrowser<msrClef> browser (v);
-    // browse the voice with the visitor
-    browser.browse (*fStaffClef);
-  }
-
-  if (fStaffKey) {
-    // create the key browser
-    msrBrowser<msrKey> browser (v);
-    // browse the voice with the visitor
-    browser.browse (*fStaffKey);
-  }
-
-  if (fStaffTime) {
-    // create the time browser
-    msrBrowser<msrTime> browser (v);
-    // browse the voice with the visitor
-    browser.browse (*fStaffTime);
-  }
-*/
+  /*
+    fStaffClef, fStaffKey and fStaffTime are used to populate
+    newly created voices, not to create music proper:
+    they're thus not browsed
+  */
 
   if (fStaffVoicesMap.size ()) {
     for (
       map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
       i != fStaffVoicesMap.end();
       i++) {
-      // create the voice browser
+      // browse the voice
       msrBrowser<msrVoice> browser (v);
-    
-      // browse the voice with the visitor
       browser.browse (*((*i).second));
     } // for
   }
@@ -5402,10 +5380,8 @@ void msrPart::browseData (basevisitor* v)
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    // create the staff browser
+    // browse the staff
     msrBrowser<msrStaff> browser (v);
-  
-    // browse the staff with the visitor
     browser.browse (*((*i).second));
   } // for
 
@@ -5708,10 +5684,8 @@ void msrPartgroup::browseData (basevisitor* v)
     list<S_msrElement>::iterator i = fPartgroupElements.begin();
     i != fPartgroupElements.end();
     i++) {
-    // create the part element browser
+    // browse the part element
     msrBrowser<msrElement> browser (v);
-  
-    // browse the part element with the visitor
     browser.browse (*(*i));
   } // for
 
@@ -5991,7 +5965,7 @@ void msrIdentification::browseData (basevisitor* v)
   }
 
   if (fEncodingDate) {
-    // browse encoding ate
+    // browse encoding date
     msrBrowser<msrVarValAssoc> browser (v);
     browser.browse (*fEncodingDate);
   }

@@ -2311,11 +2311,15 @@ class EXP msrVoicechunk : public msrElement
                   getVoicechunkElements () const
                       { return fVoicechunkElements; }
 
-    void          setRepeatVolte (int value)
-                      { fRepeatVolte = value; }
+    void          setHeadBarline (S_msrBarline barline)
+                      { fHeadBarline = barline; }
+    void          setTailBarline (S_msrBarline barline)
+                      { fTailBarline = barline; }
                       
-    int           getRepeatVolte () const
-                      { return fRepeatVolte; }
+    S_msrBarline  getHeadBarline () const
+                      { return fHeadBarline; }
+    S_msrBarline  getTailBarline () const
+                      { return fTailBarline; }
 
     string        voicechunkAsString ();
 
@@ -2360,9 +2364,11 @@ class EXP msrVoicechunk : public msrElement
     // in which music is inserted
     list<S_msrElement>   fVoicechunkElements;
 
-    // the number of times this segment should be repeated
-    int                  fRepeatVolte;
-    
+    // barlines occur before and after the music  elements
+    // at least of the these is present
+    S_msrBarline         fHeadBarline;
+    S_msrBarline         fTailBarline;
+        
     msrElementsSeparator fElementsSeparator;
 
 };

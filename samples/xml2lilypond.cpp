@@ -795,27 +795,27 @@ void printOptions (
   idtr++;
 
   cerr << left <<
-    idtr << "  " << setw(fieldWidth) << "input source name" << " : " <<
+    idtr << setw(fieldWidth) << "input source name" << " : " <<
       msrOpts->fInputSourceName << endl <<
       
-    idtr << "  " << setw(fieldWidth) << "translation date" << " : " <<
+    idtr << setw(fieldWidth) << "translation date" << " : " <<
       msrOpts->fTranslationDate << endl <<
       
-    idtr << "  " << setw(fieldWidth) << "interactive" << " : " <<
+    idtr << setw(fieldWidth) << "interactive" << " : " <<
       string(msrOpts->fInteractive
         ? "true" : "false") << endl <<
         
-    idtr << "  " << setw(fieldWidth) << "trace" << " : " <<
+    idtr << setw(fieldWidth) << "trace" << " : " <<
       string(msrOpts->fTrace
         ? "true" : "false") << endl <<
         
-    idtr << "  " << setw(fieldWidth) << "debug" << " : " <<
+    idtr << setw(fieldWidth) << "debug" << " : " <<
       string(msrOpts->fDebug
         ? "true" : "false") << endl <<
-    idtr << "  " << setw(fieldWidth) << "debugDebug" << " : " <<
+    idtr << setw(fieldWidth) << "debugDebug" << " : " <<
       string(msrOpts->fDebugDebug
         ? "true" : "false") << endl <<
-    idtr << "  " << setw(fieldWidth) << "debugMeasureNumbersSet" << " : ";
+    idtr << setw(fieldWidth) << "debugMeasureNumbersSet" << " : ";
 
   if (msrOpts->fDebugMeasureNumbersSet.empty ())
     cerr << "none";
@@ -842,30 +842,30 @@ void printOptions (
   idtr++;
   
   cerr << left <<
-    idtr << "  " << setw(fieldWidth) << "noteNamesLanguageName" << " : \"" <<
+    idtr << setw(fieldWidth) << "noteNamesLanguageName" << " : \"" <<
       msrOpts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
     
-    idtr << "  " << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
+    idtr << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
       string(msrOpts->fCreateStaffRelativeVoiceNumbers
         ? "true" : "false") << endl <<
 
-    idtr << "  " << setw(fieldWidth) << "dontDisplayMSRLyrics" << " : " <<
+    idtr << setw(fieldWidth) << "dontDisplayMSRLyrics" << " : " <<
       string(msrOpts->fDontDisplayMSRLyrics
         ? "true" : "false") << endl <<
 
-    idtr << "  " << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
+    idtr << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
       string(msrOpts->fDelayRestsDynamics
         ? "true" : "false") << endl <<
 
-    idtr << "  " << setw(fieldWidth) << "displayMSR" << " : " <<
+    idtr << setw(fieldWidth) << "displayMSR" << " : " <<
       string(msrOpts->fDisplayMSR
         ? "true" : "false") << endl <<
     
-    idtr << "  " << setw(fieldWidth) << "displayMSRScoreSummary" << " : " <<
+    idtr << setw(fieldWidth) << "displayMSRScoreSummary" << " : " <<
       string(msrOpts->fDisplayMSRScoreSummary
         ? "true" : "false") << endl <<
     
-    idtr << "  " << setw(fieldWidth) << "partRenamingSpecsSet" << " : ";
+    idtr << setw(fieldWidth) << "partRenamingSpecsSet" << " : ";
     
   if (msrOpts->fPartRenamingSpecsSet.empty ())
     cerr << "none";
@@ -892,32 +892,32 @@ void printOptions (
   idtr++;
   
   cerr << left <<
-    idtr << "  " << setw(fieldWidth) << "displayLPSR" << " : " <<
+    idtr << setw(fieldWidth) << "displayLPSR" << " : " <<
       string(lpsrOpts->fDisplayLPSR
         ? "true" : "false") << endl <<
 
-    idtr << "  " << setw(fieldWidth) << "generateAbsoluteOctaves" << " : " <<
+    idtr << setw(fieldWidth) << "generateAbsoluteOctaves" << " : " <<
       string(lpsrOpts->fGenerateAbsoluteOctaves
         ? "true" : "false") << endl <<
     
-    idtr << "  " << setw(fieldWidth) << "generateNumericalTime" << " : " <<
+    idtr << setw(fieldWidth) << "generateNumericalTime" << " : " <<
       string(lpsrOpts->fGenerateNumericalTime
         ? "true" : "false") << endl <<
-    idtr << "  " << setw(fieldWidth) << "generateComments" << " : " <<
+    idtr << setw(fieldWidth) << "generateComments" << " : " <<
       string(lpsrOpts->fGenerateComments
       ? "true" : "false") << endl <<
-    idtr << "  " << setw(fieldWidth) << "generateStems" << " : " <<
+    idtr << setw(fieldWidth) << "generateStems" << " : " <<
       string(lpsrOpts->fGenerateStems
       ? "true" : "false") << endl <<
-//      "  " << setw(fieldWidth) << "generatePositions" << " : " <<
+//      setw(fieldWidth) << "generatePositions" << " : " <<
 //        string(lpsrOpts->fGeneratePositions
 //        ? "true" : "false") << endl <<
 
-    idtr << "  " << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
+    idtr << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
       string(lpsrOpts->fDontGenerateLilyPondLyrics
         ? "true" : "false") << endl <<
 
-    idtr << "  " << setw(fieldWidth) << "dontDisplayLilyPondCode" << " : " <<
+    idtr << setw(fieldWidth) << "dontDisplayLilyPondCode" << " : " <<
       string(lpsrOpts->fDontDisplayLilyPondCode
       ? "true" : "false") << endl;
 
