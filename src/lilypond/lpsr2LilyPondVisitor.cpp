@@ -516,7 +516,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupCommand& elt)
 
   fOstream << idtr <<
     "\\new StaffGroup" << " " << "{" <<
-    " % PartgroupCommand for " <<
+    " % part group " <<
     elt->getPartgroup ()->getPartgroupCombinedName () <<
     endl << endl;
 
@@ -545,7 +545,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartCommand& elt)
 
   fOstream << idtr <<
     "\\new StaffGroup" << " " << "{" <<
-    " % PartCommand for " <<
+    " % part " <<
     elt->getPart ()->getPartCombinedName () <<
     endl << endl;
 
@@ -574,7 +574,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffCommand& elt)
 
   fOstream << idtr <<
     "\\new Staff" << " " << "{" <<
-    " % StaffCommand for " <<
+    " % staff " <<
     elt->getStaff ()->getStaffName () <<
     endl;
 
