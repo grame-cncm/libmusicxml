@@ -2313,6 +2313,74 @@ EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
 */
 //______________________________________________________________________________
 
+class EXP msrRepeatAlternative: public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrRepeatAlternative> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           alternativeNumber);
+    
+    // set and get
+    // ------------------------------------------------------
+
+    int       getAlternativeNumber () const
+                  { return fAlternativeNumber; }
+                
+    S_msrVoicechunk
+              getAlternativeVoicechunk () const
+                  { return fAlternativeVoicechunk; }
+                
+    // services
+    // ------------------------------------------------------
+
+    void       appendElementToVoicechunk  (S_msrElement elem)
+                  {
+                    fAlternativeVoicechunk->
+                      appendElementToVoicechunk (elem);
+                  }
+                    
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    msrRepeatAlternative (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           alternativeNumber);
+      
+    virtual ~msrRepeatAlternative();
+  
+  private:
+  
+    int             fAlternativeNumber;
+    
+    S_msrVoicechunk fAlternativeVoicechunk;
+};
+typedef SMARTP<msrRepeatAlternative> S_msrRepeatAlternative;
+EXP ostream& operator<< (ostream& os, const S_msrRepeatAlternative& elt);
+
+/*!
+\brief A msr repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common part
+    - a vector of sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
+
 class EXP msrRepeat: public msrElement
 {
   public:
@@ -2336,22 +2404,19 @@ class EXP msrRepeat: public msrElement
                   appendElementToVoicechunk (elem);
               }
               
-    void    appendElementToLastAlternateEnding  (S_msrElement elem)
+    void    appendElementToLastAlternative  (S_msrElement elem)
               {
-                fAlternateEndings.back ()->
+                fAlternatives.back ()->
                   appendElementToVoicechunk (elem);
               }
                     
-    void    appendNewAlternateEnding ()
+    void    appendNewAlternative ()
               {
-                fAlternateEndings.push_back (
+                fAlternatives.push_back (
                   msrVoicechunk::create (
                     fMsrOptions, fInputLineNumber,
                     msrVoicechunk::kSpace));
               }
-
-    void    setActuallyUsed ()
-              { fActuallyUsed = true; }
 
     // visitors
     // ------------------------------------------------------
@@ -2372,13 +2437,9 @@ class EXP msrRepeat: public msrElement
     virtual ~msrRepeat();
   
   private:
-  
-    S_msrVoicechunk         fCommonPart;
-    vector<S_msrVoicechunk> fAlternateEndings;
-    
-    // the implicit msrRepeat is not used unless there are
-    // actual repeats in the part
-    bool                    fActuallyUsed;
+
+    S_msrVoicechunk                fCommonPart;
+    vector<S_msrRepeatAlternative> fAlternatives;
 };
 typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);

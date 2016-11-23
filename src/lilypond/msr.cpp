@@ -4232,6 +4232,88 @@ void msrVoicechunk::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrRepeat msrRepeatAlternative::create (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  int           alternativeNumber)
+{
+  msrRepeatAlternative* o =
+    new msrRepeatAlternative (
+      msrOpts, inputLineNumber, alternativeNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrRepeatAlternative::msrRepeatAlternative (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  int           alternativeNumber)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fAlternativeNumber = alternativeNumber;
+}
+
+msrRepeatAlternative::~msrRepeatAlternative() {}
+
+void msrRepeatAlternative::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrRepeatAlternative::acceptIn()" << endl;
+      
+  if (visitor<S_msrRepeatAlternative>*
+    p =
+      dynamic_cast<visitor<S_msrRepeatAlternative>*> (v)) {
+        S_msrRepeatAlternative elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrRepeatAlternative::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrRepeatAlternative::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrRepeatAlternative::acceptOut()" << endl;
+
+  if (visitor<S_msrRepeatAlternative>*
+    p =
+      dynamic_cast<visitor<S_msrRepeatAlternative>*> (v)) {
+        S_msrRepeatAlternative elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrRepeatAlternative::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrRepeatAlternative::browseData (basevisitor* v)
+{
+  // browse the voice chunk
+  msrBrowser<msrVoicechunk> browser (v);
+  browser.browse (*fAlternativeVoicechunk);
+}
+
+ostream& operator<< (ostream& os, const S_msrRepeatAlternative& rept)
+{
+  rept->print (os);
+  return os;
+}
+
+void msrRepeatAlternative::print (ostream& os)
+{
+  os << "RepeatAlternative" << endl;
+  
+  idtr++;
+
+  os << idtr << fAlternativeVoicechunk;
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_msrRepeat msrRepeat::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber)
