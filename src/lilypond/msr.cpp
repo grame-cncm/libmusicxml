@@ -3332,85 +3332,6 @@ void msrTempo::print (ostream& os)
 }
 
 //______________________________________________________________________________
-/*
-S_msrRepeat msrRepeat::create (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber)
-{
-  msrRepeat* o =
-    new msrRepeat (
-      msrOpts, inputLineNumber);
-  assert(o!=0);
-  return o;
-}
-
-msrRepeat::msrRepeat (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber)
-    : msrElement (msrOpts, inputLineNumber)
-{
-  fActuallyUsed = false;
-}
-msrRepeat::~msrRepeat() {}
-
-void msrRepeat::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrRepeat::acceptIn()" << endl;
-      
-  if (visitor<S_msrRepeat>*
-    p =
-      dynamic_cast<visitor<S_msrRepeat>*> (v)) {
-        S_msrRepeat elem = this;
-        
-        if (fMsrOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> Launching msrRepeat::visitStart()" << endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrRepeat::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrRepeat::acceptOut()" << endl;
-
-  if (visitor<S_msrRepeat>*
-    p =
-      dynamic_cast<visitor<S_msrRepeat>*> (v)) {
-        S_msrRepeat elem = this;
-      
-        if (fMsrOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> Launching msrRepeat::visitEnd()" << endl;
-        p->visitEnd (elem);
-  }
-}
-
-
-void msrRepeat::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrRepeat& rept)
-{
-  rept->print (os);
-  return os;
-}
-
-void msrRepeat::print (ostream& os)
-{
-  os << "Repeat" << endl;
-  idtr++;
-    os << idtr << fCommonPart;
-    vector<S_msrSequentialMusic>::const_iterator i;
-    for (i=fAlternateEndings.begin(); i!=fAlternateEndings.end(); i++) {
-      os << idtr << (*i);
-    } // for
-  idtr--;
-}
-*/
-
-//______________________________________________________________________________
 S_msrLyricschunk msrLyricschunk::create (
   S_msrOptions&      msrOpts, 
   int                inputLineNumber,
@@ -4310,6 +4231,86 @@ void msrVoicechunk::print (ostream& os)
   os << endl;
 }
 
+//______________________________________________________________________________
+S_msrRepeat msrRepeat::create (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber)
+{
+  msrRepeat* o =
+    new msrRepeat (
+      msrOpts, inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrRepeat::msrRepeat (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fActuallyUsed = false;
+}
+
+msrRepeat::~msrRepeat() {}
+
+void msrRepeat::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrRepeat::acceptIn()" << endl;
+      
+  if (visitor<S_msrRepeat>*
+    p =
+      dynamic_cast<visitor<S_msrRepeat>*> (v)) {
+        S_msrRepeat elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrRepeat::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrRepeat::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrRepeat::acceptOut()" << endl;
+
+  if (visitor<S_msrRepeat>*
+    p =
+      dynamic_cast<visitor<S_msrRepeat>*> (v)) {
+        S_msrRepeat elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrRepeat::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrRepeat::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrRepeat& rept)
+{
+  rept->print (os);
+  return os;
+}
+
+void msrRepeat::print (ostream& os)
+{
+  os << "Repeat" << endl;
+  
+  idtr++;
+  
+    os << idtr << fCommonPart;
+    vector<S_msrVoicechunk>::const_iterator i;
+    for (i=fAlternateEndings.begin(); i!=fAlternateEndings.end(); i++) {
+      os << idtr << (*i);
+    } // for
+    
+  idtr--;
+}
+
 //______________________________________________________________________________ 
 S_msrVoice msrVoice::create (
   S_msrOptions& msrOpts, 
@@ -4555,6 +4556,23 @@ void msrVoice::appendVoicechunkToVoice (
     cerr << idtr <<
       "Appending a voice chunk to voice " <<
       getVoiceName () << endl;
+
+  fVoicechunks.push_back (voiceChunk);
+}
+
+void msrVoice::appendNewVoicechunkToVoice ()
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending a new voice chunk to voice " <<
+      getVoiceName () << endl;
+
+  S_msrVoicechunk
+    voiceChunk =
+      msrVoicechunk::create (
+        fMsrOptions,
+        fInputLineNumber,
+        msrVoicechunk::kSpace);
 
   fVoicechunks.push_back (voiceChunk);
 }

@@ -1405,80 +1405,6 @@ typedef SMARTP<msrLayout> S_msrLayout;
 EXP ostream& operator<< (ostream& os, const S_msrLayout& elt);
 
 /*!
-\brief A msr repeat representation.
-
-  A repeat is represented by:
-    - a sequence of elements for the common part
-    - a vector of sequences of elements for the alternate endings
-*/
-//______________________________________________________________________________
-/*
-class EXP msrRepeat: public msrElement
-{
-  public:
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrRepeat> create (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber);
-    
-    // set and get
-    // ------------------------------------------------------
-
-    // services
-    // ------------------------------------------------------
-
-    void    appendElementToCommonPart (S_msrElement elem)
-              { fCommonPart->appendElementToSequentialMusic (elem); }
-              
-    void    appendElementToLastAlternateEnding  (S_msrElement elem)
-              { fAlternateEndings.back()->appendElementToSequentialMusic (elem); }
-                    
-    void    appendNewAlternateEnding ()
-              {
-                fAlternateEndings.push_back(
-                  msrSequentialMusic::create (
-                    fMsrOptions, fInputLineNumber,
-                    msrSequentialMusic::kSpace));
-              }
-
-    void    setActuallyUsed ()
-              { fActuallyUsed = true; }
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void print (ostream& os);
-
-  protected:
-
-    msrRepeat (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber);
-      
-    virtual ~msrRepeat();
-  
-  private:
-  
-    S_msrSequentialMusic         fCommonPart;
-    vector<S_msrSequentialMusic> fAlternateEndings;
-    
-    // the implicit msrRepeat is not used unless there are
-    // actual repeats in the part
-    bool                         fActuallyUsed;
-};
-typedef SMARTP<msrRepeat> S_msrRepeat;
-EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
-*/
-
-/*!
 \brief A msr comment representation.
 
   A comment is represented by its contents
@@ -2379,6 +2305,85 @@ typedef SMARTP<msrVoicechunk> S_msrVoicechunk;
 EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
 
 /*!
+\brief A msr repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common part
+    - a vector of sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
+
+class EXP msrRepeat: public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrRepeat> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+    
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    void    appendElementToCommonPart (S_msrElement elem)
+              {
+                fCommonPart->
+                  appendElementToVoicechunk (elem);
+              }
+              
+    void    appendElementToLastAlternateEnding  (S_msrElement elem)
+              {
+                fAlternateEndings.back ()->
+                  appendElementToVoicechunk (elem);
+              }
+                    
+    void    appendNewAlternateEnding ()
+              {
+                fAlternateEndings.push_back (
+                  msrVoicechunk::create (
+                    fMsrOptions, fInputLineNumber,
+                    msrVoicechunk::kSpace));
+              }
+
+    void    setActuallyUsed ()
+              { fActuallyUsed = true; }
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    msrRepeat (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+      
+    virtual ~msrRepeat();
+  
+  private:
+  
+    S_msrVoicechunk         fCommonPart;
+    vector<S_msrVoicechunk> fAlternateEndings;
+    
+    // the implicit msrRepeat is not used unless there are
+    // actual repeats in the part
+    bool                    fActuallyUsed;
+};
+typedef SMARTP<msrRepeat> S_msrRepeat;
+EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
+
+/*!
 \brief A msr voice representation.
 
   A vpoce is represented by a its string contents
@@ -2438,6 +2443,7 @@ class EXP msrVoice : public msrElement
                
     void      appendVoicechunkToVoice
                                    (S_msrVoicechunk voiceChunk);
+    void      appendNewVoicechunkToVoice ();
     
     void      appendClefToVoice    (S_msrClef clef);
     void      appendKeyToVoice     (S_msrKey  key);

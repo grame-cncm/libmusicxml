@@ -2316,7 +2316,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
       }
       
       else
-        barlineHandled = true;
+        // JMI barlineHandled = true;
       break;
   } // switch
 
@@ -2334,6 +2334,9 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
     msrInternalError (
       elt->getInputLineNumber (), s.str());
   }
+
+  fCurrentVoice->
+    appendNewVoicechunkToVoice ();
 }
   
   /*
