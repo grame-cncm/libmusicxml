@@ -89,7 +89,8 @@ typedef SMARTP<msrPartgroup> S_msrPartgroup;
 \brief A function to emit warning messages regarding MusicXML data
 */
 //______________________________________________________________________________
-void msrMusicXMLWarning (int inputLineNumber, string message);
+void msrMusicXMLWarning (
+  string inputSourceName, int inputLineNumber, string message);
 
 /*!
 \internal
@@ -105,7 +106,8 @@ void msrMusicXMLWarning (int inputLineNumber, string message);
 }
 */
 
-void msrMusicXMLError (int inputLineNumber, string message);
+void msrMusicXMLError (
+  string inputSourceName, int inputLineNumber, string message);
   
 void msrInternalError (int inputLineNumber, string message);
   

@@ -46,12 +46,13 @@ musicXMLLocation::musicXMLLocation (
 }
 */
 //______________________________________________________________________________
-void msrMusicXMLWarning (int inputLineNumber, string message)
+void msrMusicXMLWarning (
+  string inputSourceName, int inputLineNumber, string message)
 {
   cerr <<
     idtr <<
-      "--> MusicXML WARNING, input line " <<
-        inputLineNumber <<
+      "--> MusicXML WARNING, " << inputSourceName <<
+      ", input line " << inputLineNumber <<
       ", measure " <<
         gCurrentMusicXMLLocation.fMeasureNumber <<
       ":" <<
@@ -63,13 +64,14 @@ void msrMusicXMLWarning (int inputLineNumber, string message)
       "      " << message << endl;
 }
 
-void msrMusicXMLError (int inputLineNumber, string message)
+void msrMusicXMLError (
+  string inputSourceName, int inputLineNumber, string message)
 {
   cerr <<
     idtr <<
       endl <<
-      "--> MusicXML ERROR, input line " <<
-        inputLineNumber  <<
+      "--> MusicXML WARNING, " << inputSourceName <<
+      ", input line " << inputLineNumber <<
       ", measure " <<
         gCurrentMusicXMLLocation.fMeasureNumber <<
       ":" <<
@@ -329,7 +331,9 @@ msrDuration::msrDuration (
       " has 0 as denominator" <<
       endl;
     msrMusicXMLError (
-      fInputLineNumber, s.str());
+      fMsrOptions->fInputSourceName,
+      fInputLineNumber,
+      s.str());
   }
 }
 
@@ -419,7 +423,9 @@ string msrDuration::durationAsMSRString ()
         "--> unknown tuplet member type " << fTupletMemberNoteType <<
         endl;
       msrMusicXMLError (
-        fInputLineNumber, s.str());
+        fMsrOptions->fInputSourceName,
+        fInputLineNumber,
+        s.str());
       }
         
   } else {
@@ -466,7 +472,9 @@ string msrDuration::durationAsMSRString ()
           "*** ERROR, MusicXML note duration " << noteDivisions << "/" << 
           divisionsPerWholeNote << " is too large" << endl;
         msrMusicXMLError (
-          fInputLineNumber, s.str());
+          fMsrOptions->fInputSourceName,
+          fInputLineNumber,
+          s.str());
         }
     } // switch
   }
@@ -751,7 +759,9 @@ string msrDynamics::dynamicsKindAsString ()
       stringstream s;
       s << "Dynamics " << fDynamicsKind << " is unknown";
       msrMusicXMLError (
-        fInputLineNumber, s.str());
+        fMsrOptions->fInputSourceName,
+        fInputLineNumber,
+        s.str());
       }
   } // switch
   
@@ -1059,7 +1069,10 @@ msrNote::msrNote (
         "step value " << fMusicXMLNoteData.fMusicXMLStep <<
         " is not a letter from A to G";
     //  msrMusicXMLError (s.str()); JMI
-    msrMusicXMLWarning (fInputLineNumber, s.str());
+    msrMusicXMLWarning (
+      fMsrOptions->fInputSourceName,
+      fInputLineNumber,
+      s.str());
     }
   }
 
@@ -1131,7 +1144,9 @@ msrNote::msrNote (
         "MusicXML alteration " << fMusicXMLNoteData.fMusicXMLAlteration <<
         " is not between -2 and +2";
       msrMusicXMLError (
-        fInputLineNumber, s.str());
+        fMsrOptions->fInputSourceName,
+        fInputLineNumber,
+        s.str());
       
       msrAssert ( // JMI
         fMusicXMLNoteData.fMusicXMLAlteration>=-2
@@ -3112,7 +3127,9 @@ msrKey::msrKey (
       s << 
         "ERROR: unknown key sign \"" << fFifths << "\"" << endl;
       msrMusicXMLError (
-        fInputLineNumber, s.str());
+        fMsrOptions->fInputSourceName,
+        fInputLineNumber,
+        s.str());
       }
   } // switch
   
@@ -5065,7 +5082,10 @@ S_msrVoice msrStaff::addVoiceToStaff (
       " is already filled up with" << msrStaff::gMaxStaffVoices <<
       " voices, voice " << voiceNumber << " overflows it" << endl;
 // JMI    msrMusicXMLError (s.str());
-    msrMusicXMLWarning (999, s.str()); // JMI
+    msrMusicXMLWarning (
+      fMsrOptions->fInputSourceName,
+      999,
+      s.str()); // JMI
   }
 
   // create the voice
