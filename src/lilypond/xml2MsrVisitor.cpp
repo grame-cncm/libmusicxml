@@ -71,7 +71,7 @@ xml2MsrVisitor::xml2MsrVisitor (
   fMsrOptions = msrOpts;
 
   /* JMI
-    : gCurrentMusicXMLLocation (
+    : gCurrentMusicXMLLoclation (
       0, // before first line on MusicXML contents
       0, // in case of an anacrusis
       0) // at the beginning of a measure
@@ -644,7 +644,9 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
       "part group " << fCurrentPartgroupNumber <<
       " not found in this visitor's part groups map" << endl;
     msrInternalError (
-      inputLineNumber, s.str());
+      fMsrOptions->fInputSourceName,
+      inputLineNumber,
+      s.str());
   }
 
   // remove the part group to be stopped from the part group list
@@ -668,7 +670,9 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
         " not found in part groups list";
         
       msrInternalError (
-        inputLineNumber, s.str());
+      fMsrOptions->fInputSourceName,
+        inputLineNumber,
+        s.str());
       break;
     }
 
@@ -718,7 +722,9 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
         partgroupToBeStopped->getPartgroupNumber () <<
         " as sub part group of itself";
       msrInternalError (
-        inputLineNumber, s.str());
+        fMsrOptions->fInputSourceName,
+        inputLineNumber,
+        s.str());
     }
     
     // insert current group into future current group
@@ -960,6 +966,7 @@ void xml2MsrVisitor::visitStart (S_part& elt)
       fPartsMap [partID];
   else
     msrInternalError (
+      fMsrOptions->fInputSourceName,
       elt->getInputLineNumber (),
       "part "+partID+" is not registered in this visitor's part map");
 

@@ -109,7 +109,8 @@ void msrMusicXMLWarning (
 void msrMusicXMLError (
   string inputSourceName, int inputLineNumber, string message);
   
-void msrInternalError (int inputLineNumber, string message);
+void msrInternalError (
+  string inputSourceName, int inputLineNumber, string message);
   
 /*!
 \brief Global variables.

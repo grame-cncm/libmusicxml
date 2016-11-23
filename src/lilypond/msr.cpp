@@ -51,7 +51,7 @@ void msrMusicXMLWarning (
 {
   cerr <<
     idtr <<
-      "--> MusicXML WARNING, " << inputSourceName <<
+      "!!! MusicXML WARNING, " << inputSourceName <<
       ", input line " << inputLineNumber <<
       ", measure " <<
         gCurrentMusicXMLLocation.fMeasureNumber <<
@@ -70,7 +70,7 @@ void msrMusicXMLError (
   cerr <<
     idtr <<
       endl <<
-      "--> MusicXML WARNING, " << inputSourceName <<
+      "### MusicXML ERROR, " << inputSourceName <<
       ", input line " << inputLineNumber <<
       ", measure " <<
         gCurrentMusicXMLLocation.fMeasureNumber <<
@@ -86,14 +86,15 @@ void msrMusicXMLError (
   assert(false);
 }
 
-void msrInternalError (int inputLineNumber, string message)
+void msrInternalError (
+  string inputSourceName, int inputLineNumber, string message)
 {
   cerr <<
     endl <<
 
     idtr <<
-      "--> MSR INTERNAL ERROR, input line " <<
-        inputLineNumber  <<
+      "--> MSR INTERNAL ERROR, " << inputSourceName <<
+      ", input line " << inputLineNumber <<
       ", measure " <<
         gCurrentMusicXMLLocation.fMeasureNumber <<
       ":" <<
@@ -3477,6 +3478,7 @@ void msrLyricschunk::print (ostream& os)
       
     case k_NoChunk:
       msrInternalError (
+        fMsrOptions->fInputSourceName,
         fInputLineNumber,
         "lyrics chunk type has not been set");
       break;
@@ -3610,6 +3612,7 @@ void msrLyrics::addTextChunkToLyrics (
     case msrLyricschunk::kBreakChunk:
       {
         msrInternalError (
+          fMsrOptions->fInputSourceName,
           fInputLineNumber,
           "a text chunk type can only be "
           "'single', 'begin', 'middle' or 'end'");
@@ -3617,6 +3620,7 @@ void msrLyrics::addTextChunkToLyrics (
       break;
     case msrLyricschunk::k_NoChunk:
       msrInternalError (
+        fMsrOptions->fInputSourceName,
         fInputLineNumber,
         "lyrics chunk type has not been set");
       break;
