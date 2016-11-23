@@ -4046,24 +4046,20 @@ void msrBarline::print (ostream& os)
 //______________________________________________________________________________
 S_msrVoicechunk msrVoicechunk::create (
   S_msrOptions&        msrOpts, 
-  int                  inputLineNumber,
-  msrElementsSeparator elementsSeparator)
+  int                  inputLineNumber)
 {
   msrVoicechunk* o =
     new msrVoicechunk (
-      msrOpts, inputLineNumber, elementsSeparator);
+      msrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrVoicechunk::msrVoicechunk (
   S_msrOptions&        msrOpts, 
-  int                  inputLineNumber,
-  msrElementsSeparator elementsSeparator)
+  int                  inputLineNumber)
     : msrElement (msrOpts, inputLineNumber)
-{
-  fElementsSeparator = elementsSeparator;
-}
+{}
 
 msrVoicechunk::~msrVoicechunk() {}
 
@@ -4072,9 +4068,7 @@ S_msrVoicechunk msrVoicechunk::createEmptyClone ()
   S_msrVoicechunk
     clone =
       msrVoicechunk::create (
-        fMsrOptions,
-        fInputLineNumber,
-        fElementsSeparator);
+        fMsrOptions, fInputLineNumber);
   
   return clone;
 }
@@ -4220,7 +4214,6 @@ void msrVoicechunk::print (ostream& os)
       os << idtr << (*i);
       if (++i == iEnd) break;
       os << endl;
-// JMI      if (fElementsSeparator == kEndOfLine) os << endl;
     } // for
   }
     
@@ -4232,7 +4225,7 @@ void msrVoicechunk::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrRepeat msrRepeatAlternative::create (
+S_msrRepeatAlternative msrRepeatAlternative::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           alternativeNumber)
@@ -4329,9 +4322,7 @@ msrRepeat::msrRepeat (
   S_msrOptions& msrOpts, 
   int           inputLineNumber)
     : msrElement (msrOpts, inputLineNumber)
-{
-  fActuallyUsed = false;
-}
+{}
 
 msrRepeat::~msrRepeat() {}
 
@@ -4370,7 +4361,17 @@ void msrRepeat::acceptOut (basevisitor* v) {
 }
 
 void msrRepeat::browseData (basevisitor* v)
-{}
+{
+  // browse the alternatives
+  for (
+    vector<S_msrRepeatAlternative>::iterator i = fAlternatives.begin();
+    i != fAlternatives.end();
+    i++) {
+    // browse the alternative
+    msrBrowser<msrRepeatAlternative> browser (v);
+    browser.browse (*(*i));
+  } // for
+}
 
 ostream& operator<< (ostream& os, const S_msrRepeat& rept)
 {
@@ -4384,11 +4385,12 @@ void msrRepeat::print (ostream& os)
   
   idtr++;
   
-    os << idtr << fCommonPart;
-    vector<S_msrVoicechunk>::const_iterator i;
-    for (i=fAlternateEndings.begin(); i!=fAlternateEndings.end(); i++) {
-      os << idtr << (*i);
-    } // for
+  os << idtr << fCommonPart;
+  
+  vector<S_msrRepeatAlternative>::const_iterator i;
+  for (i=fAlternatives.begin(); i!=fAlternatives.end(); i++) {
+    os << idtr << (*i);
+  } // for
     
   idtr--;
 }
@@ -4440,8 +4442,7 @@ msrVoice::msrVoice (
   S_msrVoicechunk
     voicechunk =
       msrVoicechunk::create (
-        msrOpts, inputLineNumber,
-        msrVoicechunk::kSpace);
+        msrOpts, inputLineNumber);
 
   // append it to the voice chunks
   fVoicechunks.push_back (voicechunk);
@@ -4653,8 +4654,7 @@ void msrVoice::appendNewVoicechunkToVoice ()
     voiceChunk =
       msrVoicechunk::create (
         fMsrOptions,
-        fInputLineNumber,
-        msrVoicechunk::kSpace);
+        fInputLineNumber);
 
   fVoicechunks.push_back (voiceChunk);
 }

@@ -993,7 +993,7 @@ class EXP msrSequentialMusic : public msrElement
   private:
   
     list<S_msrElement>   fSequentialMusicElements;
-    msrElementsSeparator fElementsSeparator;
+    msrElementsl fElementsSeparator;
 
 };
 typedef SMARTP<msrSequentialMusic> S_msrSequentialMusic;
@@ -2221,15 +2221,12 @@ class EXP msrVoicechunk : public msrElement
 {
   public:
     
-   enum msrElementsSeparator { kEndOfLine, kSpace };
-
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrVoicechunk> create (
-      S_msrOptions&        msrOpts, 
-      int                  inputLineNumber,
-      msrElementsSeparator elementsSeparator);
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
 
     SMARTP<msrVoicechunk> createEmptyClone ();
 
@@ -2281,9 +2278,8 @@ class EXP msrVoicechunk : public msrElement
   protected:
 
     msrVoicechunk (
-      S_msrOptions&        msrOpts, 
-      int                  inputLineNumber,
-      msrElementsSeparator elementsSeparator);
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
       
     virtual ~msrVoicechunk();
     
@@ -2297,9 +2293,6 @@ class EXP msrVoicechunk : public msrElement
     // at least of the these is present
     S_msrBarline         fHeadBarline;
     S_msrBarline         fTailBarline;
-        
-    msrElementsSeparator fElementsSeparator;
-
 };
 typedef SMARTP<msrVoicechunk> S_msrVoicechunk;
 EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
@@ -2410,12 +2403,12 @@ class EXP msrRepeat: public msrElement
                   appendElementToVoicechunk (elem);
               }
                     
-    void    appendNewAlternative ()
+    void    appendNewAlternative (int alternativeNumber)
               {
                 fAlternatives.push_back (
-                  msrVoicechunk::create (
+                  msrRepeatAlternative::create (
                     fMsrOptions, fInputLineNumber,
-                    msrVoicechunk::kSpace));
+                    alternativeNumber));
               }
 
     // visitors
