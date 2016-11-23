@@ -1270,19 +1270,18 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
     fCurrentForwardStaffNumber = staffNumber;
 
   }
-  else
-  if (fOnGoingNote) {
+  else if (fOnGoingNote) {
 
     // regular staff indication in note/rest
     fCurrentStaffNumber = staffNumber;
 
   }
-  else
-  if (fOnGoingDirection) {
+  else if (fOnGoingDirection) {
 
     // JMI
     
-  } else {
+  }
+  else {
     
     stringstream s;
     s << "staff " << staffNumber << " is out of context";
@@ -2426,6 +2425,31 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
       elt->getInputLineNumber (),
       s.str());
   }
+
+  // is fCurrentStaffNumber already present in fCurrentPart?
+  fCurrentStaff =
+    fCurrentPart->
+      fetchStaffFromPart (fCurrentStaffNumber);
+
+  if (! fCurrentStaff) 
+    // no, add it to the current part
+    fCurrentStaff =
+      fCurrentPart->
+        addStaffToPart (
+          elt->getInputLineNumber (), fCurrentStaffNumber);
+    
+  // fetch the note's voice in the current staff
+  fCurrentVoice =
+    fCurrentStaff->
+      fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+/* JMI*/
+  // no, add it to the current staff
+  if (! fCurrentVoice) 
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (
+          elt->getInputLineNumber (), fCurrentVoiceNumber);
 
   fCurrentVoice->
     appendNewVoicechunkToVoice ();
