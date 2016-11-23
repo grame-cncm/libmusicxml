@@ -136,7 +136,7 @@ void printUsage (int exitStatus)
     endl <<
 
     "    --abs, --absolute" << endl <<
-    "          Generate LilyPond absolute octaves. " << endl <<
+    "          Generate LilyPond absolute note octaves. " << endl <<
     "          By default, relative octaves are generated." << endl <<
     endl <<
 
@@ -145,7 +145,7 @@ void printUsage (int exitStatus)
 //    "    --noComments" << endl <<
 //    "          Don't generate comments." << endl <<
     "    --noStems" << endl <<
-    "          Don't generate stems commands." << endl <<
+    "          Don't generate \\stemUp nor \\stemDown LilyPond commands." << endl <<
     endl <<
     "    --nolpl, --dontGenerateLilyPondLyrics" << endl <<
     "          Don't generate lyrics in the LilyPond code." << endl <<
