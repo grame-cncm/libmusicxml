@@ -2277,10 +2277,84 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
   
   // handle the barline according to
   // http://www.musicxml.com/tutorial/the-midi-compatible-part/repeats/
-  switch (fCurrentBarlineLocation) {
 
-    case msrBarline::kLeft:
-    
+  switch (fCurrentBarlineStyle) {
+    case msrBarline::kRegular:
+      os << "Regular";
+      break;
+      
+    case msrBarline::kDotted:
+      os << "Dotted";
+      break;
+      
+    case msrBarline::kDashed:
+      os << "Dashed";
+      break;
+      
+    case msrBarline::kHeavy:
+      os << "Heavy";
+      break;
+      
+    case msrBarline::kLightLight:
+      os << "LightLight";
+      break;
+      
+    case msrBarline::kLightHeavy:
+      /*
+      Similarly, a backward repeat mark is represented by a right barline at the end of the measure:
+      
+        <barline location="right">
+          <bar-style>light-heavy</bar-style>
+          <repeat direction="backward"/>
+        </barline>
+      */
+      if (
+        fCurrentBarlineLocation == msrBarline::msrBarline::kRight
+          &&
+        fCurrentBarlineRepeatDirection == msrBarline::kBackward) {
+          
+   //       if (fMsrOptions->fDebug)
+            cerr <<
+              idtr << "--> input line " << elt->getInputLineNumber () <<
+              endl <<
+              idtr <<
+              "--> barline with right, light-heavy and backward: end of a repeat" <<
+              endl;
+
+        barlineHandled = true;
+      }
+      break;
+      
+      else if (
+        fCurrentBarlineLocation == msrBarline::msrBarline::kRight
+          &&
+        fCurrentBarlineEndingType == msrBarline::kStop
+          &&
+        fCurrentBarlineRepeatDirection == msrBarline::kBackward) {
+        /*
+        The stop value is used when the end of the ending is marked with a downward hook, as is typical for a first ending. It is usually used together with a backward repeat at the end of a measure:
+        
+          <barline location="right">
+            <bar-style>light-heavy</bar-style>
+            <ending type="stop" number="1"/>
+            <repeat direction="backward"/>
+          </barline>
+        */
+ //       if (fMsrOptions->fDebug)
+          cerr <<
+            idtr << "--> input line " << elt->getInputLineNumber () <<
+            endl <<
+            idtr <<
+            "--> barline with right and stop: end of an hooked ending" <<
+            endl;
+
+        fCurrentVoice ->
+          setTailBarlineInCurrentVoiceChunk (barline);
+
+        barlineHandled = true;
+      }
+
+    case msrBarline::kHeavyLight:
       /*
       A forward repeat mark is represented by a left barline at the beginning of the measure (following the attributes element, if there is one):
       
@@ -2290,7 +2364,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         </barline>
       */
       if (
-        fCurrentBarlineStyle == msrBarline::kHeavyLight
+        fCurrentBarlineLocation == msrBarline::msrBarline::kLeft
           &&
         fCurrentBarlineRepeatDirection == msrBarline::kForward) {
     //      if (fMsrOptions->fDebug)
@@ -2304,7 +2378,27 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         barlineHandled = true;
       }
       
-      /*
+       break;
+       
+    case msrBarline::kHeavyHeavy:
+      os << "HeavyHeavy";
+      break;
+      
+    case msrBarline::kTick:
+      os << "Tick";
+      break;
+      
+    case msrBarline::kShort:
+      os << "Short";
+      break;
+  } // switch
+
+
+  switch (fCurrentBarlineLocation) {
+
+    case t:
+    
+     /*
       While repeats can have forward or backward direction, endings can have three different type attributes: start, stop, and discontinue. The start value is used at the beginning of an ending, at the beginning of a measure. A typical first ending starts like this:
       
         <barline location="left">
@@ -2336,53 +2430,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
 
     case msrBarline::kRight:
     
-      /*
-      Similarly, a backward repeat mark is represented by a right barline at the end of the measure:
       
-        <barline location="right">
-          <bar-style>light-heavy</bar-style>
-          <repeat direction="backward"/>
-        </barline>
-      */
-      if (
-        fCurrentBarlineStyle == msrBarline::kLightHeavy
-          &&
-        fCurrentBarlineRepeatDirection == msrBarline::kBackward) {
-          
-   //       if (fMsrOptions->fDebug)
-            cerr <<
-              idtr << "--> input line " << elt->getInputLineNumber () <<
-              endl <<
-              idtr <<
-              "--> barline with right, light-heavy and backward: end of a repeat" <<
-              endl;
-
-        barlineHandled = true;
-      }
-      
-      else if (fCurrentBarlineEndingType == msrBarline::kStop) {
-        /*
-        The stop value is used when the end of the ending is marked with a downward hook, as is typical for a first ending. It is usually used together with a backward repeat at the end of a measure:
-        
-          <barline location="right">
-            <bar-style>light-heavy</bar-style>
-            <ending type="stop" number="1"/>
-            <repeat direction="backward"/>
-          </barline>
-        */
- //       if (fMsrOptions->fDebug)
-          cerr <<
-            idtr << "--> input line " << elt->getInputLineNumber () <<
-            endl <<
-            idtr <<
-            "--> barline with right and stop: end of an hooked ending" <<
-            endl;
-
-        fCurrentVoice ->
-          setTailBarlineInCurrentVoiceChunk (barline);
-
-        barlineHandled = true;
-      }
 
       else if (fCurrentBarlineEndingType == msrBarline::kDiscontinue) {
         /*
