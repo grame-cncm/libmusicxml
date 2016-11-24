@@ -4200,7 +4200,7 @@ void msrVoicechunk::print (ostream& os)
   idtr++;
   
   if (fHeadBarline) {
-    os <<
+    os << idtr <<
       "HeadBarline" << endl;
     idtr++;
     os <<
@@ -4209,7 +4209,7 @@ void msrVoicechunk::print (ostream& os)
     idtr--;
   }
   if (fTailBarline) {
-    os <<
+    os << idtr <<
       "TailBarline" << endl;
     idtr++;
     os <<
@@ -4248,19 +4248,19 @@ void msrVoicechunk::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrRepeatAlternative msrRepeatAlternative::create (
+S_msrRepeatEnding msrRepeatEnding::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           alternativeNumber)
 {
-  msrRepeatAlternative* o =
-    new msrRepeatAlternative (
+  msrRepeatEnding* o =
+    new msrRepeatEnding (
       msrOpts, inputLineNumber, alternativeNumber);
   assert(o!=0);
   return o;
 }
 
-msrRepeatAlternative::msrRepeatAlternative (
+msrRepeatEnding::msrRepeatEnding (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           alternativeNumber)
@@ -4269,58 +4269,58 @@ msrRepeatAlternative::msrRepeatAlternative (
   fAlternativeNumber = alternativeNumber;
 }
 
-msrRepeatAlternative::~msrRepeatAlternative() {}
+msrRepeatEnding::~msrRepeatEnding() {}
 
-void msrRepeatAlternative::acceptIn (basevisitor* v) {
+void msrRepeatEnding::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrRepeatAlternative::acceptIn()" << endl;
+      "==> msrRepeatEnding::acceptIn()" << endl;
       
-  if (visitor<S_msrRepeatAlternative>*
+  if (visitor<S_msrRepeatEnding>*
     p =
-      dynamic_cast<visitor<S_msrRepeatAlternative>*> (v)) {
-        S_msrRepeatAlternative elem = this;
+      dynamic_cast<visitor<S_msrRepeatEnding>*> (v)) {
+        S_msrRepeatEnding elem = this;
         
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrRepeatAlternative::visitStart()" << endl;
+            "==> Launching msrRepeatEnding::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void msrRepeatAlternative::acceptOut (basevisitor* v) {
+void msrRepeatEnding::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrRepeatAlternative::acceptOut()" << endl;
+      "==> msrRepeatEnding::acceptOut()" << endl;
 
-  if (visitor<S_msrRepeatAlternative>*
+  if (visitor<S_msrRepeatEnding>*
     p =
-      dynamic_cast<visitor<S_msrRepeatAlternative>*> (v)) {
-        S_msrRepeatAlternative elem = this;
+      dynamic_cast<visitor<S_msrRepeatEnding>*> (v)) {
+        S_msrRepeatEnding elem = this;
       
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrRepeatAlternative::visitEnd()" << endl;
+            "==> Launching msrRepeatEnding::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void msrRepeatAlternative::browseData (basevisitor* v)
+void msrRepeatEnding::browseData (basevisitor* v)
 {
   // browse the voice chunk
   msrBrowser<msrVoicechunk> browser (v);
   browser.browse (*fAlternativeVoicechunk);
 }
 
-ostream& operator<< (ostream& os, const S_msrRepeatAlternative& rept)
+ostream& operator<< (ostream& os, const S_msrRepeatEnding& rept)
 {
   rept->print (os);
   return os;
 }
 
-void msrRepeatAlternative::print (ostream& os)
+void msrRepeatEnding::print (ostream& os)
 {
-  os << "RepeatAlternative" << endl;
+  os << "RepeatEnding" << endl;
   
   idtr++;
 
@@ -4387,11 +4387,11 @@ void msrRepeat::browseData (basevisitor* v)
 {
   // browse the alternatives
   for (
-    vector<S_msrRepeatAlternative>::iterator i = fAlternatives.begin();
-    i != fAlternatives.end();
+    vector<S_msrRepeatEnding>::iterator i = fEndings.begin();
+    i != fEndings.end();
     i++) {
     // browse the alternative
-    msrBrowser<msrRepeatAlternative> browser (v);
+    msrBrowser<msrRepeatEnding> browser (v);
     browser.browse (*(*i));
   } // for
 }
@@ -4410,8 +4410,8 @@ void msrRepeat::print (ostream& os)
   
   os << idtr << fCommonPart;
   
-  vector<S_msrRepeatAlternative>::const_iterator i;
-  for (i=fAlternatives.begin(); i!=fAlternatives.end(); i++) {
+  vector<S_msrRepeatEnding>::const_iterator i;
+  for (i=fEndings.begin(); i!=fEndings.end(); i++) {
     os << idtr << (*i);
   } // for
     

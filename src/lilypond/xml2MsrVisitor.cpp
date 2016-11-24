@@ -2273,10 +2273,15 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatWinged,
         gCurrentMusicXMLLocation.fMeasureNumber + 1);
 
-  bool barlineIsAlright = false;
-  
+
   // handle the barline according to:
   // http://www.musicxml.com/tutorial/the-midi-compatible-part/repeats/
+
+  bool barlineIsAlright = false;
+    
+  msrRepeat::msrRepeatOperation
+    repeatOperation =
+      msrRepeat::k_NoRepeatOperation;
 
   switch (fCurrentBarlineStyle) {
     case msrBarline::kRegular:
@@ -2343,6 +2348,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentVoice ->
           setTailBarlineInCurrentVoiceChunk (barline);
 
+        repeatOperation  = msrRepeat::kSetRepeatCommonPart;
         barlineIsAlright = true;
       }
 
@@ -2367,6 +2373,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               endl;
 
         barlineIsAlright = true;
+        repeatOperation  = msrRepeat::kSetRepeatCommonPart;
       }
       
       else if (
@@ -2380,6 +2387,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               endl;
 
         barlineIsAlright = true;
+        repeatOperation  = msrRepeat::kSetRepeatCommonPart;
       }
       
       break;
@@ -2405,7 +2413,12 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               "--> barline with heavy-light, left and forward: beginning of a repeat" <<
               endl;
 
+        fCurrentRepeat =
+          msrRepeat::create (
+            fMsrOptions, elt->getInputLineNumber ());
+        
         barlineIsAlright = true;
+        repeatOperation  = msrRepeat::kSetRepeatCommonPart;
       }
       
        break;
@@ -2453,8 +2466,36 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
             setHeadBarlineInCurrentVoiceChunk (barline);
   
           barlineIsAlright = true;
+          repeatOperation  = msrRepeat::kSetRepeatCommonPart;
         }
   
+        else if (
+          fCurrentBarlineLocation == msrBarline::msrBarline::kRight
+            &&
+          fCurrentBarlineEndingType == msrBarline::kStop) {
+          /*
+          The discontinue value is typically used for the last ending in a set,
+          where there is no downward hook to mark the end of an ending:
+          
+          <barline location="right">
+            <ending number="2" type="stop"/>
+          </barline>
+          */
+   //       if (fMsrOptions->fDebug)
+            cerr <<
+              idtr << "--> input line " << elt->getInputLineNumber () <<
+              endl <<
+              idtr <<
+              "--> barline with right and stop: end of an hooked ending" <<
+              endl;
+  
+          fCurrentVoice ->
+            setTailBarlineInCurrentVoiceChunk (barline);
+  
+          barlineIsAlright = true;
+          repeatOperation  = msrRepeat::kSetRepeatCommonPart;
+        }
+        
         else if (
           fCurrentBarlineLocation == msrBarline::msrBarline::kRight
             &&
@@ -2532,6 +2573,17 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
   // create a new voice chunk
   fCurrentVoice->
     appendNewVoicechunkToVoice ();
+    
+  switch (repeatOperation) {
+    case msrRepeat::k_NoRepeatOperation:
+      break;
+    case msrRepeat::kSetRepeatCommonPart:
+      break;
+    case msrRepeat::kAddHookedEnding:
+      break;
+    case msrRepeat::kAddHooklessEnding:
+      break;
+  } // switch
 }
   
   /*

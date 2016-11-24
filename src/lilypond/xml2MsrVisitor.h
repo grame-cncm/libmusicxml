@@ -517,6 +517,10 @@ class EXP xml2MsrVisitor :
     void                      handleLyricsText (
                                 int inputLineNumber);
 
+    // repeat handling
+    // ------------------------------------------------------
+    S_msrRepeat               fCurrentRepeat;
+    
     // barline handling
     // ------------------------------------------------------
     string                    fCurrentLocation;

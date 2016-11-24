@@ -2337,14 +2337,14 @@ EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
 */
 //______________________________________________________________________________
 
-class EXP msrRepeatAlternative: public msrElement
+class EXP msrRepeatEnding: public msrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrRepeatAlternative> create (
+    static SMARTP<msrRepeatEnding> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
       int           alternativeNumber);
@@ -2380,12 +2380,12 @@ class EXP msrRepeatAlternative: public msrElement
 
   protected:
 
-    msrRepeatAlternative (
+    msrRepeatEnding (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
       int           alternativeNumber);
       
-    virtual ~msrRepeatAlternative();
+    virtual ~msrRepeatEnding();
   
   private:
   
@@ -2393,8 +2393,8 @@ class EXP msrRepeatAlternative: public msrElement
     
     S_msrVoicechunk fAlternativeVoicechunk;
 };
-typedef SMARTP<msrRepeatAlternative> S_msrRepeatAlternative;
-EXP ostream& operator<< (ostream& os, const S_msrRepeatAlternative& elt);
+typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding;
+EXP ostream& operator<< (ostream& os, const S_msrRepeatEnding& elt);
 
 /*!
 \brief A msr repeat representation.
@@ -2408,6 +2408,12 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeatAlternative& elt);
 class EXP msrRepeat: public msrElement
 {
   public:
+
+    enum msrRepeatOperation {
+      k_NoRepeatOperation,
+      kSetRepeatCommonPart,
+      kAddHookedEnding,
+      kAddHooklessEnding};
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -2430,14 +2436,14 @@ class EXP msrRepeat: public msrElement
               
     void    appendElementToLastAlternative  (S_msrElement elem)
               {
-                fAlternatives.back ()->
+                fEndings.back ()->
                   appendElementToVoicechunk (elem);
               }
                     
     void    appendNewAlternative (int alternativeNumber)
               {
-                fAlternatives.push_back (
-                  msrRepeatAlternative::create (
+                fEndings.push_back (
+                  msrRepeatEnding::create (
                     fMsrOptions, fInputLineNumber,
                     alternativeNumber));
               }
@@ -2462,8 +2468,8 @@ class EXP msrRepeat: public msrElement
   
   private:
 
-    S_msrVoicechunk                fCommonPart;
-    vector<S_msrRepeatAlternative> fAlternatives;
+    S_msrVoicechunk           fCommonPart;
+    vector<S_msrRepeatEnding> fEndings;
 };
 typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
