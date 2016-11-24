@@ -4195,7 +4195,7 @@ ostream& operator<< (ostream& os, const S_msrVoicechunk& elt)
 
 void msrVoicechunk::print (ostream& os)
 {  
-  os << "Voicechunk";
+  os << "Voicechunk" << endl;
 
   idtr++;
   
@@ -4208,7 +4208,7 @@ void msrVoicechunk::print (ostream& os)
       endl;
     idtr--;
   }
-  if (fHeadBarline) {
+  if (fTailBarline) {
     os <<
       "TailBarline" << endl;
     idtr++;
@@ -4219,14 +4219,15 @@ void msrVoicechunk::print (ostream& os)
   }
   
   os <<
-    idtr << "Elements" <<
-    endl;
+    idtr << "Elements";
 
   idtr++;
   
   if (! fVoicechunkElements.size ())
-    os << "none";
-  else {      
+    os << " none";
+  else {
+    os << endl;
+    
     list<S_msrElement>::const_iterator
       iBegin = fVoicechunkElements.begin(),
       iEnd   = fVoicechunkElements.end(),
@@ -4237,6 +4238,7 @@ void msrVoicechunk::print (ostream& os)
       os << endl;
     } // for
   }
+  os << endl;
     
   idtr--;
 

@@ -204,6 +204,10 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrScore& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrScore" << endl;
+
+  // final empty line in LilyPond code
+  // to help copy/paste it
+  fOstream << endl;
 }
 
 //________________________________________________________________________

@@ -2273,25 +2273,46 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatWinged,
         gCurrentMusicXMLLocation.fMeasureNumber + 1);
 
-  bool barlineHandled = false;
+  bool barlineIsAlright = false;
   
   // handle the barline according to:
   // http://www.musicxml.com/tutorial/the-midi-compatible-part/repeats/
 
   switch (fCurrentBarlineStyle) {
     case msrBarline::kRegular:
+      // don't handle regular balines, they'll handled later by
+      // the software that handles the text output
       break;
       
     case msrBarline::kDotted:
+      barlineIsAlright = true;
       break;
       
     case msrBarline::kDashed:
+      barlineIsAlright = true;
       break;
       
     case msrBarline::kHeavy:
+      barlineIsAlright = true;
       break;
       
     case msrBarline::kLightLight:
+      /*
+            <barline location="right">
+              <bar-style>light-light</bar-style>
+            </barline>
+      */
+//      if (fMsrOptions->fDebug)
+        cerr <<
+          idtr << "--> input line " << elt->getInputLineNumber () <<
+          endl <<
+          idtr <<
+          "--> barline with light-light, right: double regular bar" <<
+          endl;
+
+      if (
+        fCurrentBarlineLocation == msrBarline::msrBarline::kRight)
+        barlineIsAlright = true;
       break;
       
     case msrBarline::kLightHeavy:
@@ -2322,7 +2343,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentVoice ->
           setTailBarlineInCurrentVoiceChunk (barline);
 
-        barlineHandled = true;
+        barlineIsAlright = true;
       }
 
       else if (
@@ -2345,7 +2366,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               "--> barline with light-heavy, right and backward: end of a repeat" <<
               endl;
 
-        barlineHandled = true;
+        barlineIsAlright = true;
       }
       
       else if (
@@ -2358,7 +2379,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               "--> barline with light-heavy and right: end of a repeat" <<
               endl;
 
-        barlineHandled = true;
+        barlineIsAlright = true;
       }
       
       break;
@@ -2384,18 +2405,21 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               "--> barline with heavy-light, left and forward: beginning of a repeat" <<
               endl;
 
-        barlineHandled = true;
+        barlineIsAlright = true;
       }
       
        break;
        
     case msrBarline::kHeavyHeavy:
+      barlineIsAlright = true;
       break;
       
     case msrBarline::kTick:
+      barlineIsAlright = true;
       break;
       
     case msrBarline::kShort:
+      barlineIsAlright = true;
       break;
 
     case msrBarline::k_NoStyle:
@@ -2428,7 +2452,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           fCurrentVoice ->
             setHeadBarlineInCurrentVoiceChunk (barline);
   
-          barlineHandled = true;
+          barlineIsAlright = true;
         }
   
         else if (
@@ -2454,13 +2478,13 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           fCurrentVoice ->
             setTailBarlineInCurrentVoiceChunk (barline);
   
-          barlineHandled = true;
+          barlineIsAlright = true;
         }
       }
   } // switch
 
   // has this barline been handled?
-  if (! barlineHandled) {
+  if (! barlineIsAlright) {
     stringstream s;
     s << left <<
       "cannot handle a barline containing:" << endl <<
@@ -2501,6 +2525,11 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         addVoiceToStaff (
           elt->getInputLineNumber (), fCurrentVoiceNumber);
 
+  // append the barline to the current voice chunk
+  fCurrentVoice->
+    appendBarlineToVoice (barline);
+
+  // create a new voice chunk
   fCurrentVoice->
     appendNewVoicechunkToVoice ();
 }
