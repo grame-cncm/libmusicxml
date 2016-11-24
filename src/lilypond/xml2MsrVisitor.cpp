@@ -2275,28 +2275,23 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
 
   bool barlineHandled = false;
   
-  // handle the barline according to
+  // handle the barline according to:
   // http://www.musicxml.com/tutorial/the-midi-compatible-part/repeats/
 
   switch (fCurrentBarlineStyle) {
     case msrBarline::kRegular:
-      os << "Regular";
       break;
       
     case msrBarline::kDotted:
-      os << "Dotted";
       break;
       
     case msrBarline::kDashed:
-      os << "Dashed";
       break;
       
     case msrBarline::kHeavy:
-      os << "Heavy";
       break;
       
     case msrBarline::kLightLight:
-      os << "LightLight";
       break;
       
     case msrBarline::kLightHeavy:
@@ -2323,7 +2318,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
 
         barlineHandled = true;
       }
-      break;
       
       else if (
         fCurrentBarlineLocation == msrBarline::msrBarline::kRight
@@ -2353,6 +2347,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
 
         barlineHandled = true;
       }
+      break;
 
     case msrBarline::kHeavyLight:
       /*
@@ -2381,83 +2376,76 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
        break;
        
     case msrBarline::kHeavyHeavy:
-      os << "HeavyHeavy";
       break;
       
     case msrBarline::kTick:
-      os << "Tick";
       break;
       
     case msrBarline::kShort:
-      os << "Short";
-      break;
-  } // switch
-
-
-  switch (fCurrentBarlineLocation) {
-
-    case t:
-    
-     /*
-      While repeats can have forward or backward direction, endings can have three different type attributes: start, stop, and discontinue. The start value is used at the beginning of an ending, at the beginning of a measure. A typical first ending starts like this:
-      
-        <barline location="left">
-          <ending type="start" number="1"/>
-        </barline>
-      */
-      else if (fCurrentBarlineEndingType == msrBarline::kStart) {
-    //    if (fMsrOptions->fDebug)
-          cerr <<
-            idtr << "--> input line " <<
-              elt->getInputLineNumber () <<
-            endl <<
-            idtr << "--> measure    " <<
-              gCurrentMusicXMLLocation.fMeasureNumber <<
-            endl <<
-            idtr <<
-            "--> barline with left and start: beginning of an alternative" <<
-            endl;
-
-        fCurrentVoice ->
-          setHeadBarlineInCurrentVoiceChunk (barline);
-
-        barlineHandled = true;
-      }
-      break;
-      
-    case msrBarline::kMiddle:
       break;
 
-    case msrBarline::kRight:
-    
-      
-
-      else if (fCurrentBarlineEndingType == msrBarline::kDiscontinue) {
+    case msrBarline::k_NoStyle:
+      {
+        // no <bar-style> has been found
+  
         /*
-        The discontinue value is typically used for the last ending in a set,
-        where there is no downward hook to mark the end of an ending:
+        While repeats can have forward or backward direction, endings can have three different type attributes: start, stop, and discontinue. The start value is used at the beginning of an ending, at the beginning of a measure. A typical first ending starts like this:
         
-          <barline location="right">
-            <ending type="discontinue" number="2"/>
+          <barline location="left">
+            <ending type="start" number="1"/>
           </barline>
         */
- //       if (fMsrOptions->fDebug)
-          cerr <<
-            idtr << "--> input line " << elt->getInputLineNumber () <<
-            endl <<
-            idtr <<
-            "--> barline with right and discontinue: end of an hookless ending" <<
-            endl;
-
-        fCurrentVoice ->
-          setTailBarlineInCurrentVoiceChunk (barline);
-
-        barlineHandled = true;
+        if (
+          fCurrentBarlineLocation == msrBarline::msrBarline::kLeft
+            &&
+          fCurrentBarlineEndingType == msrBarline::kStart) {
+      //    if (fMsrOptions->fDebug)
+            cerr <<
+              idtr << "--> input line " <<
+                elt->getInputLineNumber () <<
+              endl <<
+              idtr << "--> measure    " <<
+                gCurrentMusicXMLLocation.fMeasureNumber <<
+              endl <<
+              idtr <<
+              "--> barline with left and start: beginning of an ending" <<
+              endl;
+  
+          fCurrentVoice ->
+            setHeadBarlineInCurrentVoiceChunk (barline);
+  
+          barlineHandled = true;
+        }
+  
+        else if (
+          fCurrentBarlineLocation == msrBarline::msrBarline::kRight
+            &&
+          fCurrentBarlineEndingType == msrBarline::kDiscontinue) {
+          /*
+          The discontinue value is typically used for the last ending in a set,
+          where there is no downward hook to mark the end of an ending:
+          
+            <barline location="right">
+              <ending type="discontinue" number="2"/>
+            </barline>
+          */
+   //       if (fMsrOptions->fDebug)
+            cerr <<
+              idtr << "--> input line " << elt->getInputLineNumber () <<
+              endl <<
+              idtr <<
+              "--> barline with right and discontinue: end of an hookless ending" <<
+              endl;
+  
+          fCurrentVoice ->
+            setTailBarlineInCurrentVoiceChunk (barline);
+  
+          barlineHandled = true;
+        }
       }
-      break;
   } // switch
 
-  // did we handle this barline?
+  // has this barline been handled?
   if (! barlineHandled) {
     stringstream s;
     s << left <<
