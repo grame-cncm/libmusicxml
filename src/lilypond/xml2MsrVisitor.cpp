@@ -2295,31 +2295,8 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
       break;
       
     case msrBarline::kLightHeavy:
-      /*
-      Similarly, a backward repeat mark is represented by a right barline at the end of the measure:
-      
-        <barline location="right">
-          <bar-style>light-heavy</bar-style>
-          <repeat direction="backward"/>
-        </barline>
-      */
-      if (
-        fCurrentBarlineLocation == msrBarline::msrBarline::kRight
-          &&
-        fCurrentBarlineRepeatDirection == msrBarline::kBackward) {
-          
-   //       if (fMsrOptions->fDebug)
-            cerr <<
-              idtr << "--> input line " << elt->getInputLineNumber () <<
-              endl <<
-              idtr <<
-              "--> barline with right, light-heavy and backward: end of a repeat" <<
-              endl;
 
-        barlineHandled = true;
-      }
-      
-      else if (
+      if (
         fCurrentBarlineLocation == msrBarline::msrBarline::kRight
           &&
         fCurrentBarlineEndingType == msrBarline::kStop
@@ -2339,7 +2316,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
             idtr << "--> input line " << elt->getInputLineNumber () <<
             endl <<
             idtr <<
-            "--> barline with right and stop: end of an hooked ending" <<
+            "--> barline with light-heavy, right stop and backward: end of a hooked ending" <<
             endl;
 
         fCurrentVoice ->
@@ -2347,6 +2324,43 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
 
         barlineHandled = true;
       }
+
+      else if (
+        fCurrentBarlineLocation == msrBarline::msrBarline::kRight
+          &&
+        fCurrentBarlineRepeatDirection == msrBarline::kBackward) {
+        /*
+        Similarly, a backward repeat mark is represented by a right barline at the end of the measure:
+        
+          <barline location="right">
+            <bar-style>light-heavy</bar-style>
+            <repeat direction="backward"/>
+          </barline>
+        */          
+   //       if (fMsrOptions->fDebug)
+            cerr <<
+              idtr << "--> input line " << elt->getInputLineNumber () <<
+              endl <<
+              idtr <<
+              "--> barline with light-heavy, right and backward: end of a repeat" <<
+              endl;
+
+        barlineHandled = true;
+      }
+      
+      else if (
+        fCurrentBarlineLocation == msrBarline::msrBarline::kRight) {
+   //       if (fMsrOptions->fDebug)
+            cerr <<
+              idtr << "--> input line " << elt->getInputLineNumber () <<
+              endl <<
+              idtr <<
+              "--> barline with light-heavy and right: end of a repeat" <<
+              endl;
+
+        barlineHandled = true;
+      }
+      
       break;
 
     case msrBarline::kHeavyLight:
@@ -2367,7 +2381,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               idtr << "--> input line " << elt->getInputLineNumber () <<
               endl <<
               idtr <<
-              "--> barline with left, heavy-light and forward: beginning of a repeat" <<
+              "--> barline with heavy-light, left and forward: beginning of a repeat" <<
               endl;
 
         barlineHandled = true;

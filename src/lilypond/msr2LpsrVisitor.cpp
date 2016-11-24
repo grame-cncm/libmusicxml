@@ -831,6 +831,9 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrBarline" << endl;
+      
+  fCurrentMsrVoiceClone->
+    appendBarlineToVoice (elt);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrBarline& elt)

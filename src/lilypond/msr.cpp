@@ -4787,6 +4787,19 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
     appendElementToVoicechunk (t);
 }
 
+void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "Appending barline '" << barline <<
+      "' to voice " << getVoiceName () << endl;
+
+  S_msrElement b = barline;
+//  fVoiceSequentialMusic->
+//    appendElementToSequentialMusic (t);
+  fVoicechunks.back ()->
+    appendElementToVoicechunk (b);
+}
+
 void msrVoice::setHeadBarlineInCurrentVoiceChunk (S_msrBarline barline)
 {
   if (fMsrOptions->fDebugDebug)

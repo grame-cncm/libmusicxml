@@ -2169,8 +2169,36 @@ class EXP msrBarline : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int        getNextBarNumber () const
-                  { return fNextBarNumber; }
+    msrBarlineLocation
+                getLocation () const
+                    { return fLocation; }
+                    
+    msrBarlineStyle
+                getStyle () const
+                    { return fStyle; }
+                    
+    msrBarlineEndingType
+                getEndingType () const
+                    { return fEndingType; }
+                    
+    string
+                getEndingNumber () const
+                    { return fEndingNumber; }
+                    
+    msrBarlineRepeatDirection
+                getRepeatDirection () const
+                    { return fRepeatDirection; }
+                    
+    msrBarlineRepeatWinged
+                getRepeatWinged () const
+                    { return fRepeatWinged; }
+                    
+    list<int>
+                getEndingNumbersList () const
+                    { return fEndingNumbersList; }
+                        
+    int         getNextBarNumber () const
+                    { return fNextBarNumber; }
                   
     // services
     // ------------------------------------------------------
@@ -2511,6 +2539,8 @@ class EXP msrVoice : public msrElement
     void      appendNoteToVoice    (S_msrNote note);
     void      appendChordToVoice   (S_msrChord chord);
     void      appendTupletToVoice  (S_msrTuplet tuplet);
+    
+    void      appendBarlineToVoice (S_msrBarline barline);
     
     void      setHeadBarlineInCurrentVoiceChunk (S_msrBarline barline);
     void      setTailBarlineInCurrentVoiceChunk (S_msrBarline barline);

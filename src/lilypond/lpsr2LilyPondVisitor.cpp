@@ -1569,6 +1569,39 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
       "% --> Start visiting msrBarline" << endl;
 
   fOstream << "| % " << elt->getNextBarNumber () << endl;
+
+  switch (elt->getStyle ()) {
+    case msrBarline::kRegular:
+      fOstream << "\\bar \"|\"";
+      break;
+    case msrBarline::kDotted:
+      fOstream << "\\bar \";\"";
+      break;
+    case msrBarline::kDashed:
+      fOstream << "\\bar \"!\"";
+      break;
+    case msrBarline::kHeavy:
+      fOstream << "\\bar \".\"";
+      break;
+    case msrBarline::kLightLight:
+      fOstream << "\\bar \"||\"";
+      break;
+    case msrBarline::kLightHeavy:
+      fOstream << "\\bar \"|.\"";
+      break;
+    case msrBarline::kHeavyLight:
+      fOstream << "\\bar \".|\"";
+      break;
+    case msrBarline::kHeavyHeavy:
+      fOstream << "\\bar \"..\"";
+      break;
+    case msrBarline::kTick:
+      fOstream << "\\bar \"'\"";
+      break;
+    case msrBarline::kShort:
+      fOstream << "\\bar \"|short???\"";
+      break;
+  } // switch  
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarline& elt)
