@@ -2259,6 +2259,35 @@ void xml2MsrVisitor::visitStart ( S_repeat& elt )
 
 void xml2MsrVisitor::visitEnd ( S_barline& elt ) 
 {
+  /*
+  There may be barline in a part before any music
+  */
+  
+  // is fCurrentStaffNumber already present in fCurrentPart?
+  fCurrentStaff =
+    fCurrentPart->
+      fetchStaffFromPart (fCurrentStaffNumber);
+
+  if (! fCurrentStaff) 
+    // no, add it to the current part
+    fCurrentStaff =
+      fCurrentPart->
+        addStaffToPart (
+          elt->getInputLineNumber (), fCurrentStaffNumber);
+    
+  // fetch the voice in the current staff
+  fCurrentVoice =
+    fCurrentStaff->
+      fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+  // does the voice exist?
+  if (! fCurrentVoice) 
+    // no, add it to the current staff
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (
+          elt->getInputLineNumber (), fCurrentVoiceNumber);
+
   // create the barline
   S_msrBarline
     barline =
@@ -2272,7 +2301,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatDirection,
         fCurrentBarlineRepeatWinged,
         gCurrentMusicXMLLocation.fMeasureNumber + 1);
-
 
   // handle the barline according to:
   // http://www.musicxml.com/tutorial/the-midi-compatible-part/repeats/
@@ -2295,22 +2323,34 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
       break;
       
     case msrBarline::kDotted:
+      // append the barline to the current voice chunk
+      fCurrentVoice->
+        appendBarlineToVoice (barline);
+    
       barlineIsAlright = true;
       break;
       
     case msrBarline::kDashed:
+      // append the barline to the current voice chunk
+      fCurrentVoice->
+        appendBarlineToVoice (barline);
+    
       barlineIsAlright = true;
       break;
       
     case msrBarline::kHeavy:
+      // append the barline to the current voice chunk
+      fCurrentVoice->
+        appendBarlineToVoice (barline);
+    
       barlineIsAlright = true;
       break;
       
     case msrBarline::kLightLight:
       /*
-            <barline location="right">
-              <bar-style>light-light</bar-style>
-            </barline>
+        <barline location="right">
+          <bar-style>light-light</bar-style>
+        </barline>
       */
 //      if (fMsrOptions->fDebug)
         cerr <<
@@ -2321,8 +2361,13 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           endl;
 
       if (
-        fCurrentBarlineLocation == msrBarline::msrBarline::kRight)
+        fCurrentBarlineLocation == msrBarline::msrBarline::kRight) {
+        // append the barline to the current voice chunk
+        fCurrentVoice->
+          appendBarlineToVoice (barline);
+      
         barlineIsAlright = true;
+      }
       break;
       
     case msrBarline::kLightHeavy:
@@ -2429,14 +2474,26 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
        break;
        
     case msrBarline::kHeavyHeavy:
+      // append the barline to the current voice chunk
+      fCurrentVoice->
+        appendBarlineToVoice (barline);
+    
       barlineIsAlright = true;
       break;
       
     case msrBarline::kTick:
+      // append the barline to the current voice chunk
+      fCurrentVoice->
+        appendBarlineToVoice (barline);
+    
       barlineIsAlright = true;
       break;
       
     case msrBarline::kShort:
+      // append the barline to the current voice chunk
+      fCurrentVoice->
+        appendBarlineToVoice (barline);
+    
       barlineIsAlright = true;
       break;
 
@@ -2546,34 +2603,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
       s.str());
   }
 
-  // is fCurrentStaffNumber already present in fCurrentPart?
-  fCurrentStaff =
-    fCurrentPart->
-      fetchStaffFromPart (fCurrentStaffNumber);
-
-  if (! fCurrentStaff) 
-    // no, add it to the current part
-    fCurrentStaff =
-      fCurrentPart->
-        addStaffToPart (
-          elt->getInputLineNumber (), fCurrentStaffNumber);
-    
-  // fetch the note's voice in the current staff
-  fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-/* JMI*/
-  // no, add it to the current staff
-  if (! fCurrentVoice) 
-    fCurrentVoice =
-      fCurrentStaff->
-        addVoiceToStaff (
-          elt->getInputLineNumber (), fCurrentVoiceNumber);
-
-  // append the barline to the current voice chunk
-  fCurrentVoice->
-    appendBarlineToVoice (barline);
 
   // create a new voice chunk
   fCurrentVoice->
@@ -2631,10 +2660,6 @@ The discontinue value is typically used for the last ending in a set, where ther
   <barline location="right">
     <ending type="discontinue" number="2"/>
   </barline>
-
-
-
-
 
   switch (fLocation) {
     case kLeft:
