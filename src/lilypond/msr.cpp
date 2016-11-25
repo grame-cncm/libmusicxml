@@ -4248,83 +4248,101 @@ void msrVoicechunk::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrRepeatEnding msrRepeatEnding::create (
-  S_msrOptions& msrOpts, 
-  int           inputLineNumber,
-  int           alternativeNumber)
+S_msrRepeatchunk msrRepeatchunk::create (
+  S_msrOptions&      msrOpts, 
+  int                inputLineNumber,
+  int                repeatchunkNumber,
+  msrRepeatchunkKind repeatchunkKind)
 {
-  msrRepeatEnding* o =
-    new msrRepeatEnding (
-      msrOpts, inputLineNumber, alternativeNumber);
+  msrRepeatchunk* o =
+    new msrRepeatchunk (
+      msrOpts, inputLineNumber,
+      repeatchunkNumber,
+      repeatchunkKind);
   assert(o!=0);
   return o;
 }
 
-msrRepeatEnding::msrRepeatEnding (
-  S_msrOptions& msrOpts, 
-  int           inputLineNumber,
-  int           alternativeNumber)
+msrRepeatchunk::msrRepeatchunk (
+  S_msrOptions&      msrOpts, 
+  int                inputLineNumber,
+  int                repeatchunkNumber,
+  msrRepeatchunkKind repeatchunkKind)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fAlternativeNumber = alternativeNumber;
+  fRepeatchunkNumber = repeatchunkNumber;
+  fRepeatchunkKind   = repeatchunkKind;
 }
 
-msrRepeatEnding::~msrRepeatEnding() {}
+msrRepeatchunk::~msrRepeatchunk() {}
 
-void msrRepeatEnding::acceptIn (basevisitor* v) {
+void msrRepeatchunk::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrRepeatEnding::acceptIn()" << endl;
+      "==> msrRepeatchunk::acceptIn()" << endl;
       
-  if (visitor<S_msrRepeatEnding>*
+  if (visitor<S_msrRepeatchunk>*
     p =
-      dynamic_cast<visitor<S_msrRepeatEnding>*> (v)) {
-        S_msrRepeatEnding elem = this;
+      dynamic_cast<visitor<S_msrRepeatchunk>*> (v)) {
+        S_msrRepeatchunk elem = this;
         
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrRepeatEnding::visitStart()" << endl;
+            "==> Launching msrRepeatchunk::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void msrRepeatEnding::acceptOut (basevisitor* v) {
+void msrRepeatchunk::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrRepeatEnding::acceptOut()" << endl;
+      "==> msrRepeatchunk::acceptOut()" << endl;
 
-  if (visitor<S_msrRepeatEnding>*
+  if (visitor<S_msrRepeatchunk>*
     p =
-      dynamic_cast<visitor<S_msrRepeatEnding>*> (v)) {
-        S_msrRepeatEnding elem = this;
+      dynamic_cast<visitor<S_msrRepeatchunk>*> (v)) {
+        S_msrRepeatchunk elem = this;
       
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrRepeatEnding::visitEnd()" << endl;
+            "==> Launching msrRepeatchunk::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void msrRepeatEnding::browseData (basevisitor* v)
+void msrRepeatchunk::browseData (basevisitor* v)
 {
   // browse the voice chunk
   msrBrowser<msrVoicechunk> browser (v);
-  browser.browse (*fAlternativeVoicechunk);
+  browser.browse (*fRepeatchunkVoicechunk);
 }
 
-ostream& operator<< (ostream& os, const S_msrRepeatEnding& rept)
+ostream& operator<< (ostream& os, const S_msrRepeatchunk& rept)
 {
   rept->print (os);
   return os;
 }
 
-void msrRepeatEnding::print (ostream& os)
+void msrRepeatchunk::print (ostream& os)
 {
-  os << "RepeatEnding" << endl;
+  os << "Repeatchunk" << " ";
+
+  switch (fRepeatchunkKind) {
+    case kCommonPart:
+      os << "common part";
+      break;
+    case kHookedEnding:
+      os << "hooked ending";
+      break;
+    case kHooklessEnding:
+      os << "hookless ending";
+      break;
+  } // switch
+  os << endl;
   
   idtr++;
 
-  os << idtr << fAlternativeVoicechunk;
+  os << idtr << fRepeatchunkVoicechunk;
 
   idtr--;
 }
@@ -4348,6 +4366,19 @@ msrRepeat::msrRepeat (
 {}
 
 msrRepeat::~msrRepeat() {}
+
+/*
+void msrRepeat::addRepeatchunk (
+  int                repeatchunkNumber,
+  msrRepeatchunkKind repeatchunkKind)
+{
+  fRepeatEndings.push_back (
+    msrRepeatchunk::create (
+      fMsrOptions, fInputLineNumber,
+      repeatchunkNumber,
+      repeatchunkKind));
+}
+*/
 
 void msrRepeat::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
@@ -4385,13 +4416,17 @@ void msrRepeat::acceptOut (basevisitor* v) {
 
 void msrRepeat::browseData (basevisitor* v)
 {
+  // browse the common part
+  msrBrowser<msrRepeatchunk> browser (v);
+  browser.browse (*fRepeatCommonPart);
+  
   // browse the alternatives
   for (
-    vector<S_msrRepeatEnding>::iterator i = fEndings.begin();
-    i != fEndings.end();
+    vector<S_msrRepeatchunk>::iterator i = fRepeatEndings.begin();
+    i != fRepeatEndings.end();
     i++) {
     // browse the alternative
-    msrBrowser<msrRepeatEnding> browser (v);
+    msrBrowser<msrRepeatchunk> browser (v);
     browser.browse (*(*i));
   } // for
 }
@@ -4408,10 +4443,10 @@ void msrRepeat::print (ostream& os)
   
   idtr++;
   
-  os << idtr << fCommonPart;
+  os << idtr << fRepeatCommonPart;
   
-  vector<S_msrRepeatEnding>::const_iterator i;
-  for (i=fEndings.begin(); i!=fEndings.end(); i++) {
+  vector<S_msrRepeatchunk>::const_iterator i;
+  for (i=fRepeatEndings.begin(); i!=fRepeatEndings.end(); i++) {
     os << idtr << (*i);
   } // for
     

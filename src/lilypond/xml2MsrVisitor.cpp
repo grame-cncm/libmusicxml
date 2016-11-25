@@ -2279,9 +2279,14 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
 
   bool barlineIsAlright = false;
     
-  msrRepeat::msrRepeatOperation
-    repeatOperation =
-      msrRepeat::k_NoRepeatOperation;
+  enum msrRepeatOperation {
+    k_NoRepeatOperation,
+    kSetRepeatCommonPart,
+    kAddHookedEnding,
+    kAddHooklessEnding};
+
+  msrRepeatOperation
+    repeatOperation = k_NoRepeatOperation;
 
   switch (fCurrentBarlineStyle) {
     case msrBarline::kRegular:
@@ -2348,7 +2353,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentVoice ->
           setTailBarlineInCurrentVoiceChunk (barline);
 
-        repeatOperation  = msrRepeat::kSetRepeatCommonPart;
+        repeatOperation  = kSetRepeatCommonPart;
         barlineIsAlright = true;
       }
 
@@ -2373,7 +2378,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               endl;
 
         barlineIsAlright = true;
-        repeatOperation  = msrRepeat::kSetRepeatCommonPart;
+        repeatOperation  = kSetRepeatCommonPart;
       }
       
       else if (
@@ -2387,7 +2392,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               endl;
 
         barlineIsAlright = true;
-        repeatOperation  = msrRepeat::kSetRepeatCommonPart;
+        repeatOperation  = kSetRepeatCommonPart;
       }
       
       break;
@@ -2418,7 +2423,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
             fMsrOptions, elt->getInputLineNumber ());
         
         barlineIsAlright = true;
-        repeatOperation  = msrRepeat::kSetRepeatCommonPart;
+        repeatOperation  = kSetRepeatCommonPart;
       }
       
        break;
@@ -2466,7 +2471,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
             setHeadBarlineInCurrentVoiceChunk (barline);
   
           barlineIsAlright = true;
-          repeatOperation  = msrRepeat::kSetRepeatCommonPart;
+          repeatOperation  = kSetRepeatCommonPart;
         }
   
         else if (
@@ -2493,7 +2498,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
             setTailBarlineInCurrentVoiceChunk (barline);
   
           barlineIsAlright = true;
-          repeatOperation  = msrRepeat::kSetRepeatCommonPart;
+          repeatOperation  = kSetRepeatCommonPart;
         }
         
         else if (
@@ -2575,13 +2580,13 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
     appendNewVoicechunkToVoice ();
     
   switch (repeatOperation) {
-    case msrRepeat::k_NoRepeatOperation:
+    case k_NoRepeatOperation:
       break;
-    case msrRepeat::kSetRepeatCommonPart:
+    case kSetRepeatCommonPart:
       break;
-    case msrRepeat::kAddHookedEnding:
+    case kAddHookedEnding:
       break;
-    case msrRepeat::kAddHooklessEnding:
+    case kAddHooklessEnding:
       break;
   } // switch
 }
