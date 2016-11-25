@@ -2294,7 +2294,7 @@ class EXP msrVoicechunk : public msrElement
     void          removeLastElementFromVoicechunk ()
                       { fVoicechunkElements.pop_back (); }
 
-    void          removeElementFromVoicechunk (S_msrElement elem);
+//    void          removeElementFromVoicechunk (S_msrElement elem);
 
     // visitors
     // ------------------------------------------------------
@@ -2524,6 +2524,12 @@ class EXP msrVoice : public msrElement
     // services
     // ------------------------------------------------------
 
+    S_msrVoicechunk
+              fetchLastVoicechunkFromVoice () const
+                  { return fVoicechunks.back (); }
+
+    void      removeLastVoicechunkFromVoice ()
+                  { fVoicechunks.pop_back (); }
     S_msrLyrics
               addLyricsToVoice (
                 int inputLineNumber,
@@ -2535,7 +2541,8 @@ class EXP msrVoice : public msrElement
               fetchLyricsFromVoice (int lyricsNumber);
 
     S_msrLyrics
-              getVoiceMasterLyrics () { return fVoiceMasterLyrics; }
+              getVoiceMasterLyrics () const
+                  { return fVoiceMasterLyrics; }
                
     void      appendVoicechunkToVoice
                                    (S_msrVoicechunk voiceChunk);
@@ -2551,6 +2558,7 @@ class EXP msrVoice : public msrElement
     void      appendChordToVoice   (S_msrChord chord);
     void      appendTupletToVoice  (S_msrTuplet tuplet);
     
+    void      appendRepeatToVoice (S_msrRepeat repeat);
     void      appendBarlineToVoice (S_msrBarline barline);
     
     void      setHeadBarlineInCurrentVoiceChunk (S_msrBarline barline);
@@ -2605,25 +2613,17 @@ class EXP msrVoice : public msrElement
 
     bool                      fVoiceContainsActualNotes;
 
+    // the chunks in the voice contain the music elements
+    // one is created implicitly for every voice,
+    // and <barline> may create new ones
+    list<S_msrVoicechunk>     fVoicechunks;
+
     // the master lyrics, collecting skips along the way,
     // to be used as a 'prelude' by actual lyrics that start at later points
     S_msrLyrics               fVoiceMasterLyrics;
     
     // the lyrics map
     map<int, S_msrLyrics>     fVoiceLyricsMap;
-
-    // the implicit sequence containing the code generated for the voice
- //   S_msrSequentialMusic      fVoiceSequentialMusic;
-  
-
-    // the implicit repeat at the beginning of the voice
-    // will be ignored if the voice has no repeats at all
-//    S_msrRepeat               fVoiceMsrRepeat;
-
-    // the chunks in the voice contain the music elements
-    // one is created implicitly for every voice,
-    // and <barline> creates new ones
-    list<S_msrVoicechunk>    fVoicechunks;
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 

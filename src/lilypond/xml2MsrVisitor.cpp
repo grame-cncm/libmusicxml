@@ -2463,10 +2463,35 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               "--> barline with heavy-light, left and forward: beginning of a repeat" <<
               endl;
 
+        if (fMsrOptions->fTrace)
+          cerr << idtr <<
+            "creating a new repeat" << endl;
         fCurrentRepeat =
           msrRepeat::create (
             fMsrOptions, elt->getInputLineNumber ());
-        
+
+        // get the current voice chunk
+        S_msrVoicechunk
+          currentVoicechunk =
+            fCurrentVoice->
+              fetchLastVoicechunkFromVoice ();
+
+        // remove current voice chunk from current voice
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "--> removing last voice chunk " <<
+            " from current voice " <<
+            fCurrentVoice->getVoiceName () << endl;
+        fCurrentVoice->
+          removeLastVoicechunkFromVoice ();
+      
+        // add fCurrentRepeat to the part sequence instead
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "--> appending voice chunk to current repeat" << endl;
+        fCurrentVoice->
+          appendChordToVoice (fCurrentChord);
+      
         barlineIsAlright = true;
         repeatOperation  = kSetRepeatCommonPart;
       }

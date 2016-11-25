@@ -4094,6 +4094,7 @@ S_msrVoicechunk msrVoicechunk::createEmptyClone ()
   return clone;
 }
 
+/* JMI
 void msrVoicechunk::removeElementFromVoicechunk (
   S_msrElement elem)
 {
@@ -4107,7 +4108,7 @@ void msrVoicechunk::removeElementFromVoicechunk (
     }
   } // for
 }
-
+*/
 void msrVoicechunk::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -4824,6 +4825,19 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
     appendElementToVoicechunk (t);
 }
 
+void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "Appending repeat '" << repeat <<
+      "' to voice " << getVoiceName () << endl;
+
+  S_msrElement r = repeat;
+//  fVoiceSequentialMusic->
+//    appendElementToSequentialMusic (t);
+  fVoicechunks.back ()->
+    appendElementToVoicechunk (r);
+}
+
 void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -5366,13 +5380,15 @@ void msrStaff::print (ostream& os)
     fStaffInstrumentName << "\"" << endl;
 
   os << endl;
-  
-  for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
-    i++) {
-    os << idtr << (*i).second;
-  } // for
+
+  if (fStaffVoicesMap.size ()) {
+    for (
+      map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+      i != fStaffVoicesMap.end();
+      i++) {
+      os << idtr << (*i).second;
+    } // for
+  }
 
   idtr--;
 }
