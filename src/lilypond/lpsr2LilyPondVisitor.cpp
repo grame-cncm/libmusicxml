@@ -1575,6 +1575,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
   fOstream << "| % " << elt->getNextBarNumber () << endl;
 
   switch (elt->getStyle ()) {
+    case msrBarline::k_NoStyle:
+      break;
     case msrBarline::kRegular:
       fOstream << "\\bar \"|\"";
       break;

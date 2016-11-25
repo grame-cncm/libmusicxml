@@ -2637,17 +2637,13 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
       idtr << "ending number = " << fCurrentEndingNumber << endl <<
       idtr << "repeat direction = " << fCurrentRepeatDirection << endl <<
       idtr << "repeat winged = " << fCurrentRepeatWinged;
+      
     msrMusicXMLError (
       fMsrOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
 
-
-  // create a new voice chunk
-  fCurrentVoice->
-    appendNewVoicechunkToVoice ();
-    
   switch (repeatOperation) {
     case k_NoRepeatOperation:
       break;

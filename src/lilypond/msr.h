@@ -2454,6 +2454,8 @@ class EXP msrVoice : public msrElement
 
     string    getVoiceName () const;
 
+    void      setNewVoicechunkForVoice (int inputLineNumber);
+
     S_msrVoicechunk
               getVoicechunk () const
                   { return fVoicechunk; }
@@ -2465,8 +2467,6 @@ class EXP msrVoice : public msrElement
     // services
     // ------------------------------------------------------
 
-    void      setNewVoicechunkForVoice (int inputLineNumber);
-
     S_msrLyrics
               addLyricsToVoice (
                 int inputLineNumber,
@@ -2476,10 +2476,6 @@ class EXP msrVoice : public msrElement
     
     S_msrLyrics
               fetchLyricsFromVoice (int lyricsNumber);
-
-    void      appendVoicechunkToVoice
-                                   (S_msrVoicechunk voiceChunk);
-    void      appendNewVoicechunkToVoice ();
     
     void      appendClefToVoice    (S_msrClef clef);
     void      appendKeyToVoice     (S_msrKey  key);

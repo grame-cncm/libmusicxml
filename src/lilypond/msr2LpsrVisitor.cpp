@@ -435,11 +435,12 @@ void msr2LpsrVisitor::visitStart (S_msrVoicechunk& elt)
   // create a clone of the voice chunk
   fCurrentMsrVoicechunkClone =
     elt->createEmptyClone ();
-
+/* JMI
   // append it to the current voice
   fCurrentMsrVoiceClone->
     appendVoicechunkToVoice (
       fCurrentMsrVoicechunkClone);
+      */
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrVoicechunk& elt)

@@ -3726,6 +3726,9 @@ void msrBarline::print (ostream& os)
   os <<
     idtr << setw(15) << "Location" << " : ";
   switch (fLocation) {
+    case k_NoLocation:
+      os << "none";
+      break;
     case kLeft:
       os << "Left";
       break;
@@ -3741,6 +3744,9 @@ void msrBarline::print (ostream& os)
   os <<
     idtr << setw(15) << "Style" << " : ";
   switch (fStyle) {
+    case k_NoStyle:
+      os << "none";
+      break;
     case kRegular:
       os << "Regular";
       break;
@@ -3777,6 +3783,9 @@ void msrBarline::print (ostream& os)
   os <<
     idtr << setw(15) << "EndingType" << " : ";
   switch (fEndingType) {
+    case k_NoEndingType:
+      os << "none";
+      break;
     case kStart:
       os << "Start";
       break;
