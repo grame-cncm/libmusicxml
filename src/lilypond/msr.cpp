@@ -3933,12 +3933,6 @@ void msrVoicechunk::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrVoicechunk::browseData()" << endl;
 
-  if (fHeadBarline) {
-    // browse the head barline
-    msrBrowser<msrBarline> browser (v);
-    browser.browse (*fHeadBarline);
-  }
-  
   for (
     list<S_msrElement>::iterator i = fVoicechunkElements.begin();
     i != fVoicechunkElements.end();
@@ -3948,12 +3942,6 @@ void msrVoicechunk::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (fTailBarline) {
-    // browse the tail barline
-    msrBrowser<msrBarline> browser (v);
-    browser.browse (*fTailBarline);
-  }
-  
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "<== msrVoicechunk::browseData()" << endl;
@@ -3983,26 +3971,7 @@ void msrVoicechunk::print (ostream& os)
   os << idtr << "Voicechunk" << endl;
 
   idtr++;
-  
-  if (fHeadBarline) {
-    os << idtr <<
-      "HeadBarline" << endl;
-    idtr++;
-    os <<
-      idtr << fHeadBarline <<
-      endl;
-    idtr--;
-  }
-  if (fTailBarline) {
-    os << idtr <<
-      "TailBarline" << endl;
-    idtr++;
-    os <<
-      idtr << fTailBarline <<
-      endl;
-    idtr--;
-  }
-  
+    
   os <<
     idtr << "Elements";
 
@@ -4036,7 +4005,7 @@ void msrVoicechunk::print (ostream& os)
 S_msrRepeatending msrRepeatending::create (
   S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
-  int                 repeatchunkNumber,
+  string              repeatchunkNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
   S_msrVoicechunk     voicechunk)
 {
@@ -4044,7 +4013,8 @@ S_msrRepeatending msrRepeatending::create (
     new msrRepeatending (
       msrOpts, inputLineNumber,
       repeatchunkNumber,
-      repeatendingKind);
+      repeatendingKind,
+      voicechunk);
   assert(o!=0);
   return o;
 }
@@ -4052,13 +4022,14 @@ S_msrRepeatending msrRepeatending::create (
 msrRepeatending::msrRepeatending (
   S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
-  int                 repeatchunkNumber,
+  string              repeatchunkNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
   S_msrVoicechunk     voicechunk)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fRepeatendingNumber = repeatchunkNumber;
-  fRepeatendingKind   = repeatendingKind;
+  fRepeatendingNumber     = repeatchunkNumber;
+  fRepeatendingKind       = repeatendingKind;
+  fRepeatendingVoicechunk = voicechunk;
 }
 
 msrRepeatending::~msrRepeatending() {}
@@ -4584,28 +4555,6 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
   S_msrElement b = barline;
   fVoicechunk->
     appendElementToVoicechunk (b);
-}
-
-void msrVoice::setHeadBarlineInCurrentVoiceChunk (S_msrBarline barline)
-{
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "Setting head barline '" << barline <<
-      "'  in current voice chunk of " << getVoiceName () << endl;
-
-  fVoicechunk->
-    setHeadBarline (barline);
-}
-
-void msrVoice::setTailBarlineInCurrentVoiceChunk (S_msrBarline barline)
-{
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "Setting tail barline '" << barline <<
-      "'  in current voice chunk of " << getVoiceName () << endl;
-
-  fVoicechunk->
-    setTailBarline (barline);
 }
 
 void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)

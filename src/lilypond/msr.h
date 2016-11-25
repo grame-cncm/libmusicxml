@@ -2195,17 +2195,7 @@ class EXP msrVoicechunk : public msrElement
     list<S_msrElement>
                   getVoicechunkElements () const
                       { return fVoicechunkElements; }
-
-    void          setHeadBarline (S_msrBarline barline)
-                      { fHeadBarline = barline; }
-    void          setTailBarline (S_msrBarline barline)
-                      { fTailBarline = barline; }
                       
-    S_msrBarline  getHeadBarline () const
-                      { return fHeadBarline; }
-    S_msrBarline  getTailBarline () const
-                      { return fTailBarline; }
-
     string        voicechunkAsString ();
 
     // services
@@ -2244,14 +2234,7 @@ class EXP msrVoicechunk : public msrElement
     
   private:
 
-    // the back of the list is the current segment,
-    // in which music is inserted
     list<S_msrElement>   fVoicechunkElements;
-
-    // barlines occur before and after the music  elements
-    // at least of the these is present
-    S_msrBarline         fHeadBarline;
-    S_msrBarline         fTailBarline;
 };
 typedef SMARTP<msrVoicechunk> S_msrVoicechunk;
 EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
@@ -2279,14 +2262,14 @@ class EXP msrRepeatending: public msrElement
     static SMARTP<msrRepeatending> create (
       S_msrOptions&       msrOpts, 
       int                 inputLineNumber,
-      int                 repeatchunkNumber,
+      string              repeatchunkNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
       S_msrVoicechunk     voicechunk);
     
     // set and get
     // ------------------------------------------------------
 
-    int       getRepeatendingNumber () const
+    string    getRepeatendingNumber () const
                   { return fRepeatendingNumber; }
                 
     S_msrVoicechunk
@@ -2317,7 +2300,7 @@ class EXP msrRepeatending: public msrElement
     msrRepeatending (
       S_msrOptions&       msrOpts, 
       int                 inputLineNumber,
-      int                 repeatchunkNumber,
+      string              repeatchunkNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
       S_msrVoicechunk     voicechunk);
       
@@ -2325,7 +2308,7 @@ class EXP msrRepeatending: public msrElement
   
   private:
   
-    int                 fRepeatendingNumber; // 0 for a repeat common part
+    string              fRepeatendingNumber; // may be "1, 2"
     msrRepeatendingKind fRepeatendingKind;
     
     S_msrVoicechunk     fRepeatendingVoicechunk;
@@ -2492,9 +2475,6 @@ class EXP msrVoice : public msrElement
     void      appendRepeatToVoice  (S_msrRepeat repeat);
     void      appendBarlineToVoice (S_msrBarline barline);
     
-    void      setHeadBarlineInCurrentVoiceChunk (S_msrBarline barline);
-    void      setTailBarlineInCurrentVoiceChunk (S_msrBarline barline);
-
     void      appendBarnumberCheckToVoice
                                    (S_msrBarnumberCheck bnc);
     void      appendBreakToVoice   (S_msrBreak break_);

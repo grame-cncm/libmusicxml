@@ -2315,15 +2315,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
 
   bool barlineIsAlright = false;
     
-  enum msrRepeatOperation {
-    k_NoRepeatOperation,
-    kSetRepeatCommonPart,
-    kAddHookedEnding,
-    kAddHooklessEnding};
-
-  msrRepeatOperation
-    repeatOperation = k_NoRepeatOperation;
-
   switch (fCurrentBarlineStyle) {
     case msrBarline::kRegular:
       // don't handle regular balines, they'll handled later by
@@ -2365,7 +2356,8 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           idtr << "--> input line " << elt->getInputLineNumber () <<
           endl <<
           idtr <<
-          "--> barline with light-light, right: double regular bar" <<
+          "--> barline with light-light, right: "
+            "double regular bar" <<
           endl;
 
       if (
@@ -2429,8 +2421,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         S_msrRepeatending
           repeatEnding =
             msrRepeatending::create (
-              fMsrOptions,
-              elt->getInputLineNumber,
+              fMsrOptions, elt->getInputLineNumber (),
               fCurrentBarlineEndingNumber,
               msrRepeatending::kHookedEnding,
               currentVoicechunk);
@@ -2444,7 +2435,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentRepeat->
           addRepeatending (repeatEnding);
         
-        repeatOperation  = kSetRepeatCommonPart;
         barlineIsAlright = true;
       }
 
@@ -2465,11 +2455,11 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               idtr << "--> input line " << elt->getInputLineNumber () <<
               endl <<
               idtr <<
-              "--> barline with light-heavy, right and backward: end of a repeat" <<
+              "--> barline with light-heavy, right and backward: "
+                "end of a repeat" <<
               endl;
 
         barlineIsAlright = true;
-        repeatOperation  = kSetRepeatCommonPart;
       }
       
       else if (
@@ -2479,11 +2469,15 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               idtr << "--> input line " << elt->getInputLineNumber () <<
               endl <<
               idtr <<
-              "--> barline with light-heavy and right: end of a repeat" <<
+              "--> barline with light-heavy and right: "
+                "end of a voice" <<
               endl;
 
+        // append the barline to the current voice chunk
+        fCurrentVoice->
+          appendBarlineToVoice (barline);
+    
         barlineIsAlright = true;
-        repeatOperation  = kSetRepeatCommonPart;
       }
       
       break;
@@ -2549,7 +2543,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           appendRepeatToVoice (fCurrentRepeat);
       
         barlineIsAlright = true;
-        repeatOperation  = kSetRepeatCommonPart;
       }
       break;
        
@@ -2601,14 +2594,11 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
                 gCurrentMusicXMLLocation.fMeasureNumber <<
               endl <<
               idtr <<
-              "--> barline with left and start: beginning of an ending" <<
+              "--> barline with left and start: "
+                "beginning of an ending" <<
               endl;
   
-          fCurrentVoice ->
-            setHeadBarlineInCurrentVoiceChunk (barline);
-  
           barlineIsAlright = true;
-          repeatOperation  = kSetRepeatCommonPart;
         }
   
         else if (
@@ -2628,14 +2618,11 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               idtr << "--> input line " << elt->getInputLineNumber () <<
               endl <<
               idtr <<
-              "--> barline with right and stop: end of an hooked ending" <<
+              "--> barline with right and stop: "
+                "end of an hooked ending" <<
               endl;
-  
-          fCurrentVoice ->
-            setTailBarlineInCurrentVoiceChunk (barline);
-  
+    
           barlineIsAlright = true;
-          repeatOperation  = kSetRepeatCommonPart;
         }
         
         else if (
@@ -2655,12 +2642,10 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               idtr << "--> input line " << elt->getInputLineNumber () <<
               endl <<
               idtr <<
-              "--> barline with right and discontinue: end of an hookless ending" <<
+              "--> barline with right and discontinue: "
+                "end of an hookless ending" <<
               endl;
-  
-          fCurrentVoice ->
-            setTailBarlineInCurrentVoiceChunk (barline);
-  
+    
           barlineIsAlright = true;
         }
       }
@@ -2683,17 +2668,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
       elt->getInputLineNumber (),
       s.str());
   }
-
-  switch (repeatOperation) {
-    case k_NoRepeatOperation:
-      break;
-    case kSetRepeatCommonPart:
-      break;
-    case kAddHookedEnding:
-      break;
-    case kAddHooklessEnding:
-      break;
-  } // switch
 }
   
   /*
