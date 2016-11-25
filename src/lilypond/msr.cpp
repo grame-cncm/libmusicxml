@@ -3949,7 +3949,7 @@ void msrBarline::print (ostream& os)
   idtr++;
 
   os <<
-    idtr << "Location" << " = ";
+    idtr << setw(15) << "Location" << " : ";
   switch (fLocation) {
     case kLeft:
       os << "Left";
@@ -3964,7 +3964,7 @@ void msrBarline::print (ostream& os)
   os << endl;
   
   os <<
-    idtr << "Style" << " = ";
+    idtr << setw(15) << "Style" << " : ";
   switch (fStyle) {
     case kRegular:
       os << "Regular";
@@ -4000,7 +4000,7 @@ void msrBarline::print (ostream& os)
   os << endl;
   
   os <<
-    idtr << "EndingType" << " = ";
+    idtr << setw(15) << "EndingType" << " : ";
   switch (fEndingType) {
     case kStart:
       os << "Start";
@@ -4015,7 +4015,7 @@ void msrBarline::print (ostream& os)
   os << endl;
   
   os <<
-    idtr << "Ending numbers : ";
+    idtr << setw(15) << "Ending numbers " << " : ";
   list<int>::const_iterator i;
   for (i=fEndingNumbersList.begin(); i!=fEndingNumbersList.end(); i++) {
     os << (*i) << " ";
@@ -4023,7 +4023,7 @@ void msrBarline::print (ostream& os)
   os << endl;
  
   os <<
-    idtr << "RepeatDirection" << " = ";
+    idtr << setw(15) << "RepeatDirection" << " : ";
   switch (fRepeatDirection) {
     case k_NoRepeatDirection:
       os << "none";
@@ -4038,7 +4038,7 @@ void msrBarline::print (ostream& os)
   os << endl;
   
   os <<
-    idtr << "RepeatWinged" << " = ";
+    idtr << setw(15) << "RepeatWinged" << " : ";
   switch (fRepeatWinged) {
     case k_NoRepeatWinged:
       os << "none";
@@ -4059,7 +4059,7 @@ void msrBarline::print (ostream& os)
   os << endl;
     
   os <<
-    idtr << "NextBarNumber" << " = " << fNextBarNumber << endl;
+    idtr << setw(15) << "NextBarNumber" << " : " << fNextBarNumber << endl;
  
   idtr--;
 }

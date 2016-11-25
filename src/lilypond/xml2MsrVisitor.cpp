@@ -2304,7 +2304,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         gCurrentMusicXMLLocation.fMeasureNumber + 1);
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "Creating barline in voice " <<
+      "Creating a barline in voice " <<
       fCurrentVoice->getVoiceName () << ":" << endl;
     idtr++;
     cerr << idtr << barline;
@@ -2473,7 +2473,9 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
 
         if (fMsrOptions->fTrace)
           cerr << idtr <<
-            "creating a new repeat" << endl;
+            "Creating a repeat in voice " <<
+            fCurrentVoice->getVoiceName () << endl;
+
         fCurrentRepeat =
           msrRepeat::create (
             fMsrOptions, elt->getInputLineNumber ());
