@@ -4197,7 +4197,7 @@ void msrRepeat::acceptOut (basevisitor* v) {
 void msrRepeat::browseData (basevisitor* v)
 {
   // browse the common part
-  msrBrowser<msrRepeatending> browser (v);
+  msrBrowser<msrVoicechunk> browser (v);
   browser.browse (*fRepeatCommonPart);
   
   // browse the alternatives
@@ -4272,11 +4272,12 @@ msrVoice::msrVoice (
   // create the voice chunk
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Creating the voice chunk of voice " <<
+      "Creating the initial voice chunk for voice " <<
       getVoiceName () << endl;
+      
   fVoicechunk =
     msrVoicechunk::create (
-      msrOpts, inputLineNumber);
+      fMsrOptions, inputLineNumber);
   
   // get the initial clef from the staff
   S_msrClef
@@ -4375,6 +4376,20 @@ string msrVoice::getVoiceName () const
     fVoiceStaff->getStaffName() +
     "_V_" +
     int2EnglishWord (voiceNumber);
+}
+
+void msrVoice::setNewVoicechunkForVoice (
+  int inputLineNumber)
+{
+  // create the voice chunk
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Creating a new voice chunk for voice " <<
+      getVoiceName () << endl;
+      
+  fVoicechunk =
+    msrVoicechunk::create (
+      fMsrOptions, inputLineNumber);
 }
 
 S_msrLyrics msrVoice::addLyricsToVoice (

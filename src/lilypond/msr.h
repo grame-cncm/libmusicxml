@@ -2410,6 +2410,8 @@ class EXP msrRepeat: public msrElement
 
     S_msrVoicechunk           fRepeatCommonPart;
     vector<S_msrRepeatending> fRepeatEndings;
+
+    S_msrVoice                fRepeatVoice;
 };
 typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
@@ -2456,8 +2458,14 @@ class EXP msrVoice : public msrElement
               getVoicechunk () const
                   { return fVoicechunk; }
 
+    S_msrLyrics
+              getVoiceMasterLyrics () const
+                  { return fVoiceMasterLyrics; }
+               
     // services
     // ------------------------------------------------------
+
+    void      setNewVoicechunkForVoice (int inputLineNumber);
 
     S_msrLyrics
               addLyricsToVoice (
@@ -2469,10 +2477,6 @@ class EXP msrVoice : public msrElement
     S_msrLyrics
               fetchLyricsFromVoice (int lyricsNumber);
 
-    S_msrLyrics
-              getVoiceMasterLyrics () const
-                  { return fVoiceMasterLyrics; }
-               
     void      appendVoicechunkToVoice
                                    (S_msrVoicechunk voiceChunk);
     void      appendNewVoicechunkToVoice ();
@@ -2496,7 +2500,7 @@ class EXP msrVoice : public msrElement
     void      appendBarnumberCheckToVoice
                                    (S_msrBarnumberCheck bnc);
     void      appendBreakToVoice   (S_msrBreak break_);
-    */              
+
     void      removeLastElementFromVoice ();
 
     // visitors

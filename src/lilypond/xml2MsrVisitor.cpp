@@ -2481,11 +2481,12 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         // remove current voice chunk from current voice
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "--> removing last voice chunk"
-              " from current voice " <<
+            "--> setting new voice chunk for voice " <<
             fCurrentVoice->getVoiceName () << endl;
+            
         fCurrentVoice->
-          removeLastVoicechunkFromVoice ();
+          setNewVoicechunkForVoice (
+            elt->getInputLineNumber ());
 
         // create the repeat
         if (fMsrOptions->fTrace)
@@ -2496,15 +2497,16 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentRepeat =
           msrRepeat::create (
             fMsrOptions, elt->getInputLineNumber (),
-            currentVoicechunk);
+            currentVoicechunk,
+            fCurrentVoice);
 
-        // add it to the part sequence instead
+        // add it to the voice
         if (fMsrOptions->fDebug)
           cerr << idtr <<
             "--> appending the repeat to voice " <<
             fCurrentVoice->getVoiceName () << endl;
-//        fCurrentVoice->
-  // JMI        appendRepeatToVoice (fCurrentRepeat);
+        fCurrentVoice->
+          appendRepeatToVoice (fCurrentRepeat);
       
         barlineIsAlright = true;
         repeatOperation  = kSetRepeatCommonPart;
