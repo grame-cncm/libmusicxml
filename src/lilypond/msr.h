@@ -932,78 +932,6 @@ typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
 
 /*!
-\brief The msr sequential music element
-*/
-//______________________________________________________________________________
-/*
-class EXP msrSequentialMusic : public msrElement
-{
-  public:
-    
-   enum msrElementsSeparator { kEndOfLine, kSpace };
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrSequentialMusic> create (
-      S_msrOptions&        msrOpts, 
-      int                  inputLineNumber,
-      msrElementsSeparator elementsSeparator);
-
-    SMARTP<msrSequentialMusic> createEmptyClone ();
-
-    // set and get
-    // ------------------------------------------------------
-
-    list<S_msrElement>
-                  getSequentialMusicElements () const
-                      { return fSequentialMusicElements; }
-
-    // services
-    // ------------------------------------------------------
-
-    void          prependElementToSequentialMusic (S_msrElement elem)
-                      { fSequentialMusicElements.push_front (elem); }
-    void          appendElementToSequentialMusic  (S_msrElement elem)
-                      { fSequentialMusicElements.push_back (elem); }
-    
-    S_msrElement  getLastElementOfSequentialMusic () const
-                      { return fSequentialMusicElements.back (); }
-                      
-    void          removeElementFromSequentialMusic (S_msrElement elem);
-    void          removeLastElementFromSequentialMusic ()
-                      { fSequentialMusicElements.pop_back () ; }
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void print (ostream& os);
-
-  protected:
-
-    msrSequentialMusic (
-      S_msrOptions&        msrOpts, 
-      int                  inputLineNumber,
-      msrElementsSeparator elementsSeparator);
-      
-    virtual ~msrSequentialMusic();
-    
-  private:
-  
-    list<S_msrElement>   fSequentialMusicElements;
-    msrElementsl fElementsSeparator;
-
-};
-typedef SMARTP<msrSequentialMusic> S_msrSequentialMusic;
-EXP ostream& operator<< (ostream& os, const S_msrSequentialMusic& elt);
-*/
-
-/*!
 \brief The msr chord element
 */
 //______________________________________________________________________________
@@ -2337,40 +2265,39 @@ EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
 */
 //______________________________________________________________________________
 
-class EXP msrRepeatchunk: public msrElement
+class EXP msrRepeatending: public msrElement
 {
   public:
 
-    enum msrRepeatchunkKind {
-      kCommonPart,
+    enum msrRepeatendingKind {
       kHookedEnding,
       kHooklessEnding};
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrRepeatchunk> create (
-      S_msrOptions&      msrOpts, 
-      int                inputLineNumber,
-      int                repeatchunkNumber,
-      msrRepeatchunkKind repeatchunkKind);
+    static SMARTP<msrRepeatending> create (
+      S_msrOptions&       msrOpts, 
+      int                 inputLineNumber,
+      int                 repeatchunkNumber,
+      msrRepeatendingKind repeatchunkKind);
     
     // set and get
     // ------------------------------------------------------
 
-    int       getRepeatchunkNumber () const
-                  { return fRepeatchunkNumber; }
+    int       getRepeatendingNumber () const
+                  { return fRepeatendingNumber; }
                 
     S_msrVoicechunk
-              getRepeatchunkVoicechunk () const
-                  { return fRepeatchunkVoicechunk; }
+              getRepeatendingVoicechunk () const
+                  { return fRepeatendingVoicechunk; }
                 
     // services
     // ------------------------------------------------------
 
     void       appendElementToVoicechunk  (S_msrElement elem)
                   {
-                    fRepeatchunkVoicechunk->
+                    fRepeatendingVoicechunk->
                       appendElementToVoicechunk (elem);
                   }
                     
@@ -2386,23 +2313,23 @@ class EXP msrRepeatchunk: public msrElement
 
   protected:
 
-    msrRepeatchunk (
-      S_msrOptions&      msrOpts, 
-      int                inputLineNumber,
-      int                repeatchunkNumber,
-      msrRepeatchunkKind repeatchunkKind);
+    msrRepeatending (
+      S_msrOptions&       msrOpts, 
+      int                 inputLineNumber,
+      int                 repeatchunkNumber,
+      msrRepeatendingKind repeatchunkKind);
       
-    virtual ~msrRepeatchunk();
+    virtual ~msrRepeatending();
   
   private:
   
-    int                fRepeatchunkNumber; // 0 for a repeat common part
-    msrRepeatchunkKind fRepeatchunkKind;
+    int                 fRepeatendingNumber; // 0 for a repeat common part
+    msrRepeatendingKind fRepeatendingKind;
     
-    S_msrVoicechunk    fRepeatchunkVoicechunk;
+    S_msrVoicechunk     fRepeatendingVoicechunk;
 };
-typedef SMARTP<msrRepeatchunk> S_msrRepeatchunk;
-EXP ostream& operator<< (ostream& os, const S_msrRepeatchunk& elt);
+typedef SMARTP<msrRepeatending> S_msrRepeatending;
+EXP ostream& operator<< (ostream& os, const S_msrRepeatending& elt);
 
 /*!
 \brief A msr repeat representation.
@@ -2421,36 +2348,42 @@ class EXP msrRepeat: public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrRepeat> create (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      S_msrVoicechunk commonPart,
+      S_msrVoice      voice);
     
     // set and get
     // ------------------------------------------------------
 
-    S_msrRepeatchunk
+    void      setRepeatCommonPart (
+                S_msrVoicechunk repeatCommonPart)
+                  { fRepeatCommonPart = repeatCommonPart; }
+                  
+    S_msrVoicechunk
               getRepeatCommonPart () const
                 { return fRepeatCommonPart; }
 
-    vector<S_msrRepeatchunk>
+    vector<S_msrRepeatending>
               getRepeatEndings () const
                 { return fRepeatEndings; }
 
     // services
     // ------------------------------------------------------
-
+/*
     void      appendElementToCommonPart (S_msrElement elem)
                     {
                       fRepeatCommonPart->
                         appendElementToVoicechunk (elem);
                     }
               
-    void      appendElementToLastRepeatchunk  (S_msrElement elem)
+    void      appendElementToLastRepeatending  (S_msrElement elem)
                   {
                     fRepeatEndings.back ()->
                       appendElementToVoicechunk (elem);
                   }
-                    
-    void      addRepeatchunk (S_msrRepeatchunk repeatchunk)
+*/                    
+    void      addRepeatending (S_msrRepeatending repeatchunk)
                   { fRepeatEndings.push_back (repeatchunk); }
 
     // visitors
@@ -2466,15 +2399,17 @@ class EXP msrRepeat: public msrElement
   protected:
 
     msrRepeat (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      S_msrVoicechunk commonPart,
+      S_msrVoice      voice);
       
     virtual ~msrRepeat();
   
   private:
 
-    S_msrRepeatchunk         fRepeatCommonPart;
-    vector<S_msrRepeatchunk> fRepeatEndings;
+    S_msrVoicechunk           fRepeatCommonPart;
+    vector<S_msrRepeatending> fRepeatEndings;
 };
 typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
@@ -2517,19 +2452,13 @@ class EXP msrVoice : public msrElement
 
     string    getVoiceName () const;
 
-    list<S_msrVoicechunk>
-              getVoicechunks () const
-                  { return fVoicechunks; }
+    S_msrVoicechunk
+              getVoicechunk () const
+                  { return fVoicechunk; }
 
     // services
     // ------------------------------------------------------
 
-    S_msrVoicechunk
-              fetchLastVoicechunkFromVoice () const
-                  { return fVoicechunks.back (); }
-
-    void      removeLastVoicechunkFromVoice ()
-                  { fVoicechunks.pop_back (); }
     S_msrLyrics
               addLyricsToVoice (
                 int inputLineNumber,
@@ -2558,7 +2487,7 @@ class EXP msrVoice : public msrElement
     void      appendChordToVoice   (S_msrChord chord);
     void      appendTupletToVoice  (S_msrTuplet tuplet);
     
-    void      appendRepeatToVoice (S_msrRepeat repeat);
+    void      appendRepeatToVoice  (S_msrRepeat repeat);
     void      appendBarlineToVoice (S_msrBarline barline);
     
     void      setHeadBarlineInCurrentVoiceChunk (S_msrBarline barline);
@@ -2567,23 +2496,9 @@ class EXP msrVoice : public msrElement
     void      appendBarnumberCheckToVoice
                                    (S_msrBarnumberCheck bnc);
     void      appendBreakToVoice   (S_msrBreak break_);
-  /*  
-    S_msrElement
-              getVoiceSequentialMusicLastElement ()
-                  {
-                    return fVoiceSequentialMusic->
-                      getLastElementOfSequentialMusic ();
-                  }
     */              
     void      removeLastElementFromVoice ();
 
-//    void      removeElementFromVoiceSequentialMusic (
-  // JMI              S_msrElement elem);
-/*
-    S_msrSequentialMusic
-              getVoiceSequentialMusic () const
-                  { return fVoiceSequentialMusic; }
-*/
     // visitors
     // ------------------------------------------------------
 
@@ -2613,13 +2528,13 @@ class EXP msrVoice : public msrElement
 
     bool                      fVoiceContainsActualNotes;
 
-    // the chunks in the voice contain the music elements
-    // one is created implicitly for every voice,
-    // and <barline> may create new ones
-    list<S_msrVoicechunk>     fVoicechunks;
+    // the chunk in the voice contain the music elements
+    // it is created implicitly for every voice,
+    S_msrVoicechunk           fVoicechunk;
 
     // the master lyrics, collecting skips along the way,
-    // to be used as a 'prelude' by actual lyrics that start at later points
+    // to be used as a 'prelude' by actual lyrics
+    // that start at later points
     S_msrLyrics               fVoiceMasterLyrics;
     
     // the lyrics map

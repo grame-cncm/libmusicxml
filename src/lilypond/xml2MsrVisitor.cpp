@@ -2468,9 +2468,26 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               idtr << "--> input line " << elt->getInputLineNumber () <<
               endl <<
               idtr <<
-              "--> barline with heavy-light, left and forward: beginning of a repeat" <<
+              "--> barline with heavy-light, left and forward: "
+                "beginning of a repeat" <<
               endl;
 
+        // get the current voice chunk
+        S_msrVoicechunk
+          currentVoicechunk =
+            fCurrentVoice->
+              getVoicechunk ();
+
+        // remove current voice chunk from current voice
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "--> removing last voice chunk"
+              " from current voice " <<
+            fCurrentVoice->getVoiceName () << endl;
+        fCurrentVoice->
+          removeLastVoicechunkFromVoice ();
+
+        // create the repeat
         if (fMsrOptions->fTrace)
           cerr << idtr <<
             "Creating a repeat in voice " <<
@@ -2478,35 +2495,21 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
 
         fCurrentRepeat =
           msrRepeat::create (
-            fMsrOptions, elt->getInputLineNumber ());
+            fMsrOptions, elt->getInputLineNumber (),
+            currentVoicechunk);
 
-        // get the current voice chunk
-        S_msrVoicechunk
-          currentVoicechunk =
-            fCurrentVoice->
-              fetchLastVoicechunkFromVoice ();
-
-        // remove current voice chunk from current voice
+        // add it to the part sequence instead
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "--> removing last voice chunk " <<
-            " from current voice " <<
+            "--> appending the repeat to voice " <<
             fCurrentVoice->getVoiceName () << endl;
-        fCurrentVoice->
-          removeLastVoicechunkFromVoice ();
-      
-        // add fCurrentRepeat to the part sequence instead
-        if (fMsrOptions->fDebug)
-          cerr << idtr <<
-            "--> appending voice chunk to current repeat" << endl;
-        fCurrentVoice->
-          appendChordToVoice (fCurrentChord);
+//        fCurrentVoice->
+  // JMI        appendRepeatToVoice (fCurrentRepeat);
       
         barlineIsAlright = true;
         repeatOperation  = kSetRepeatCommonPart;
       }
-      
-       break;
+      break;
        
     case msrBarline::kHeavyHeavy:
       // append the barline to the current voice chunk
