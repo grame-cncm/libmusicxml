@@ -3886,7 +3886,7 @@ msrBarline::msrBarline (
   
   fNextBarNumber   = nextBarNumber;
 
-  cout << "fEndingNumber = " << fEndingNumber << endl;
+  // JMI cout << "fEndingNumber = " << fEndingNumber << endl;
   
   // extract individual numbers from fEndingNumber
   // that may contain "1, 2"

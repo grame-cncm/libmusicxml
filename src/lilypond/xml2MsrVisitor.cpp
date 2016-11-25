@@ -2289,6 +2289,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           elt->getInputLineNumber (), fCurrentVoiceNumber);
 
   // create the barline
+  // register it in this voice
   S_msrBarline
     barline =
       msrBarline::create (
@@ -2301,6 +2302,13 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatDirection,
         fCurrentBarlineRepeatWinged,
         gCurrentMusicXMLLocation.fMeasureNumber + 1);
+//  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "Creating barline in voice " <<
+      fCurrentVoice->getVoiceName () << ":" << endl;
+    idtr++;
+    cerr << idtr << barline;
+    idtr--;
 
   // handle the barline according to:
   // http://www.musicxml.com/tutorial/the-midi-compatible-part/repeats/
