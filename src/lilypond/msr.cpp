@@ -1667,7 +1667,7 @@ void msrNote::print (ostream& os)
   if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
     os << " " << "tied";
 
-  os << endl;
+// JMI  os << endl;
   
   // print the beam if any
   if (fNoteBeam) {
@@ -3980,7 +3980,7 @@ ostream& operator<< (ostream& os, const S_msrVoicechunk& elt)
 
 void msrVoicechunk::print (ostream& os)
 {  
-  os << "Voicechunk" << endl;
+  os << idtr << "Voicechunk" << endl;
 
   idtr++;
   
@@ -4034,29 +4034,31 @@ void msrVoicechunk::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrRepeatending msrRepeatending::create (
-  S_msrOptions&      msrOpts, 
-  int                inputLineNumber,
-  int                repeatchunkNumber,
-  msrRepeatendingKind repeatchunkKind)
+  S_msrOptions&       msrOpts, 
+  int                 inputLineNumber,
+  int                 repeatchunkNumber,
+  msrRepeatendingKind repeatendingKind,
+  S_msrVoicechunk     voicechunk)
 {
   msrRepeatending* o =
     new msrRepeatending (
       msrOpts, inputLineNumber,
       repeatchunkNumber,
-      repeatchunkKind);
+      repeatendingKind);
   assert(o!=0);
   return o;
 }
 
 msrRepeatending::msrRepeatending (
-  S_msrOptions&      msrOpts, 
-  int                inputLineNumber,
-  int                repeatchunkNumber,
-  msrRepeatendingKind repeatchunkKind)
+  S_msrOptions&       msrOpts, 
+  int                 inputLineNumber,
+  int                 repeatchunkNumber,
+  msrRepeatendingKind repeatendingKind,
+  S_msrVoicechunk     voicechunk)
     : msrElement (msrOpts, inputLineNumber)
 {
   fRepeatendingNumber = repeatchunkNumber;
-  fRepeatendingKind   = repeatchunkKind;
+  fRepeatendingKind   = repeatendingKind;
 }
 
 msrRepeatending::~msrRepeatending() {}
@@ -4156,19 +4158,6 @@ msrRepeat::msrRepeat (
 
 msrRepeat::~msrRepeat() {}
 
-/*
-void msrRepeat::addRepeatending (
-  int                repeatchunkNumber,
-  msrRepeatendingKind repeatchunkKind)
-{
-  fRepeatEndings.push_back (
-    msrRepeatending::create (
-      fMsrOptions, fInputLineNumber,
-      repeatchunkNumber,
-      repeatchunkKind));
-}
-*/
-
 void msrRepeat::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -4228,11 +4217,12 @@ ostream& operator<< (ostream& os, const S_msrRepeat& rept)
 
 void msrRepeat::print (ostream& os)
 {
-  os << "Repeat" << endl;
+  os <<
+    "Repeat" << ", input line:" << fInputLineNumber << endl;
   
   idtr++;
   
-  os << idtr << fRepeatCommonPart;
+  os << fRepeatCommonPart;
   
   vector<S_msrRepeatending>::const_iterator i;
   for (i=fRepeatEndings.begin(); i!=fRepeatEndings.end(); i++) {

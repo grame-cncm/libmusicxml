@@ -2400,12 +2400,50 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
             idtr << "--> input line " << elt->getInputLineNumber () <<
             endl <<
             idtr <<
-            "--> barline with light-heavy, right stop and backward: end of a hooked ending" <<
+            "--> barline with light-heavy, right, stop and backward: "
+              "end of a hooked ending" <<
             endl;
 
-        fCurrentVoice ->
-          setTailBarlineInCurrentVoiceChunk (barline);
+        // get the current voice chunk
+        S_msrVoicechunk
+          currentVoicechunk =
+            fCurrentVoice->
+              getVoicechunk ();
 
+        // create new voice chunk from current voice
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "--> setting new voice chunk for voice " <<
+            fCurrentVoice->getVoiceName () << endl;
+            
+        fCurrentVoice->
+          setNewVoicechunkForVoice (
+            elt->getInputLineNumber ());
+
+        // create a repeat ending from the current voice chunk
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "--> creating a new repeat ending for voice " <<
+            fCurrentVoice->getVoiceName () << endl;
+            
+        S_msrRepeatending
+          repeatEnding =
+            msrRepeatending::create (
+              fMsrOptions,
+              elt->getInputLineNumber,
+              fCurrentBarlineEndingNumber,
+              msrRepeatending::kHookedEnding,
+              currentVoicechunk);
+
+        // append it to the current repeat
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "--> appending new repeat ending to current repeat in voice " <<
+            fCurrentVoice->getVoiceName () << endl;
+            
+        fCurrentRepeat->
+          addRepeatending (repeatEnding);
+        
         repeatOperation  = kSetRepeatCommonPart;
         barlineIsAlright = true;
       }
@@ -2462,13 +2500,15 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
       if (
         fCurrentBarlineLocation == msrBarline::msrBarline::kLeft
           &&
-        fCurrentBarlineRepeatDirection == msrBarline::kForward) {
+        fCurrentBarlineRepeatDirection == msrBarline::kForward
+          &&
+        fCurrentBarlineEndingType == msrBarline::kStart) {
     //      if (fMsrOptions->fDebug)
             cerr <<
               idtr << "--> input line " << elt->getInputLineNumber () <<
               endl <<
               idtr <<
-              "--> barline with heavy-light, left and forward: "
+              "--> barline with heavy-light, left, forward and start: "
                 "beginning of a repeat" <<
               endl;
 
@@ -2478,7 +2518,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
             fCurrentVoice->
               getVoicechunk ();
 
-        // remove current voice chunk from current voice
+        // create new voice chunk from current voice
         if (fMsrOptions->fDebug)
           cerr << idtr <<
             "--> setting new voice chunk for voice " <<

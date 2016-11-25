@@ -2280,7 +2280,8 @@ class EXP msrRepeatending: public msrElement
       S_msrOptions&       msrOpts, 
       int                 inputLineNumber,
       int                 repeatchunkNumber,
-      msrRepeatendingKind repeatchunkKind);
+      msrRepeatendingKind repeatendingKind,
+      S_msrVoicechunk     voicechunk);
     
     // set and get
     // ------------------------------------------------------
@@ -2295,7 +2296,7 @@ class EXP msrRepeatending: public msrElement
     // services
     // ------------------------------------------------------
 
-    void       appendElementToVoicechunk  (S_msrElement elem)
+    void      appendElementToVoicechunk  (S_msrElement elem)
                   {
                     fRepeatendingVoicechunk->
                       appendElementToVoicechunk (elem);
@@ -2317,7 +2318,8 @@ class EXP msrRepeatending: public msrElement
       S_msrOptions&       msrOpts, 
       int                 inputLineNumber,
       int                 repeatchunkNumber,
-      msrRepeatendingKind repeatchunkKind);
+      msrRepeatendingKind repeatendingKind,
+      S_msrVoicechunk     voicechunk);
       
     virtual ~msrRepeatending();
   
@@ -2383,8 +2385,8 @@ class EXP msrRepeat: public msrElement
                       appendElementToVoicechunk (elem);
                   }
 */                    
-    void      addRepeatending (S_msrRepeatending repeatchunk)
-                  { fRepeatEndings.push_back (repeatchunk); }
+    void      addRepeatending (S_msrRepeatending repeatending)
+                  { fRepeatEndings.push_back (repeatending); }
 
     // visitors
     // ------------------------------------------------------
