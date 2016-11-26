@@ -3719,7 +3719,18 @@ ostream& operator<< (ostream& os, const S_msrBarline& elt)
 void msrBarline::print (ostream& os)
 {
   os <<
-    "Barline" << endl;
+    "Barline" <<
+    ", input line: " << fInputLineNumber << ", ";
+
+  switch (fBarlineCategory) {
+    case kBarIsStandalone:
+      os << "standalone";
+      break;
+    case kBarIsPartOfARepeat:
+      os << "partOfARepeat";
+      break;
+  } // switch
+  os << endl;
 
   idtr++;
 
@@ -4228,7 +4239,7 @@ ostream& operator<< (ostream& os, const S_msrRepeat& rept)
 void msrRepeat::print (ostream& os)
 {
   os <<
-    "Repeat" << ", input line:" << fInputLineNumber << endl;
+    "Repeat" << ", input line: " << fInputLineNumber << endl;
   
   idtr++;
   

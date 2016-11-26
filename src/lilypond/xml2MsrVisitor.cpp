@@ -2306,15 +2306,12 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatDirection,
         fCurrentBarlineRepeatWinged,
         gCurrentMusicXMLLocation.fMeasureNumber + 1);
-//  if (fMsrOptions->fDebug)
-    cerr << idtr <<
-      "Creating a barline in voice " <<
-      fCurrentVoice->getVoiceName () << ":" << endl;
-    idtr++;
-    cerr << idtr << barline;
-    idtr--;
 
+  // don't display the barline yet in case of debug,
+  // wait until its category is defined
   // append the barline to the current voice chunk
+
+  // append the bar line to the current voice chunk
   fCurrentVoice->
     appendBarlineToVoice (barline);
 
@@ -2743,6 +2740,15 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         }
       }
   } // switch
+
+  // now we can display the barline in case of debug
+//  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "Creating a barline in voice " <<
+      fCurrentVoice->getVoiceName () << ":" << endl;
+    idtr++;
+    cerr << idtr << barline;
+    idtr--;
 
   // has this barline been handled?
   if (! barlineIsAlright) {

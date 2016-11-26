@@ -806,8 +806,17 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
     fOstream << idtr <<
       "--> Start visiting msrBarline" << endl;
       
-  fCurrentMsrVoiceClone->
-    appendBarlineToVoice (elt);
+  switch (elt->getBarlineCategory ()) {
+    case msrBarline::kBarIsStandalone:
+      fCurrentMsrVoiceClone->
+        appendBarlineToVoice (elt);
+      break;
+      
+    case msrBarline::kBarIsPartOfARepeat:
+      // no need to keep that barline,
+      // LilyPond will take care of the display
+      break;
+  } // switch
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrBarline& elt)
