@@ -2261,10 +2261,13 @@ class EXP msrRepeatending: public msrElement
     static SMARTP<msrRepeatending> create (
       S_msrOptions&       msrOpts, 
       int                 inputLineNumber,
-      string              repeatchunkNumber, // may be "1, 2"
+      string              repeatendingNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
       S_msrVoicechunk     voicechunk);
     
+    SMARTP<msrRepeatending> createEmptyClone (
+      S_msrVoicechunk clonedVoicechunk);
+
     // set and get
     // ------------------------------------------------------
 
@@ -2299,7 +2302,7 @@ class EXP msrRepeatending: public msrElement
     msrRepeatending (
       S_msrOptions&       msrOpts, 
       int                 inputLineNumber,
-      string              repeatchunkNumber, // may be "1, 2"
+      string              repeatendingNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
       S_msrVoicechunk     voicechunk);
       

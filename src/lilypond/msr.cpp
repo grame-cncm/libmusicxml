@@ -4005,14 +4005,14 @@ void msrVoicechunk::print (ostream& os)
 S_msrRepeatending msrRepeatending::create (
   S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
-  string              repeatchunkNumber, // may be "1, 2"
+  string              repeatendingNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
   S_msrVoicechunk     voicechunk)
 {
   msrRepeatending* o =
     new msrRepeatending (
       msrOpts, inputLineNumber,
-      repeatchunkNumber,
+      repeatendingNumber,
       repeatendingKind,
       voicechunk);
   assert(o!=0);
@@ -4022,17 +4022,32 @@ S_msrRepeatending msrRepeatending::create (
 msrRepeatending::msrRepeatending (
   S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
-  string              repeatchunkNumber, // may be "1, 2"
+  string              repeatendingNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
   S_msrVoicechunk     voicechunk)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fRepeatendingNumber     = repeatchunkNumber;
+  fRepeatendingNumber     = repeatendingNumber;
   fRepeatendingKind       = repeatendingKind;
   fRepeatendingVoicechunk = voicechunk;
 }
 
 msrRepeatending::~msrRepeatending() {}
+
+S_msrRepeatending msrRepeatending::createEmptyClone (
+  S_msrVoicechunk clonedVoicechunk)
+{
+  S_msrRepeatending
+    clone =
+      msrRepeatending::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fRepeatendingNumber,
+        fRepeatendingKind,
+        clonedVoicechunk);
+  
+  return clone;
+}
 
 void msrRepeatending::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
@@ -4134,7 +4149,7 @@ S_msrRepeat msrRepeat::createEmptyClone (S_msrVoice clonedVoice)
   S_msrVoicechunk
     voicechunk =
       msrVoicechunk::create (
-        fMsrOptions, inputLineNumber);
+        fMsrOptions, fInputLineNumber);
       
   S_msrRepeat
     clone =
