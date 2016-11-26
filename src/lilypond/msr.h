@@ -2084,6 +2084,9 @@ class EXP msrBarline : public msrElement
       k_NoRepeatWinged,
       kStraight, kCurved, kDoubleStraight, kDoubleCurved };
 
+    enum msrBarlineCategory {
+      kBarIsStandalone, kBarIsPartOfARepeat };
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -2131,7 +2134,15 @@ class EXP msrBarline : public msrElement
                         
     int         getNextBarNumber () const
                     { return fNextBarNumber; }
-                  
+
+    msrBarlineCategory
+                getBarlineCategory () const
+                    { return fBarlineCategory; }
+
+    void        setBarlineCategory (
+                  msrBarlineCategory barlineCategory)
+                    { fBarlineCategory = barlineCategory; }
+    
     // services
     // ------------------------------------------------------
 
@@ -2167,6 +2178,8 @@ class EXP msrBarline : public msrElement
     string                    fEndingNumber; // may be "1, 2"
     msrBarlineRepeatDirection fRepeatDirection;
     msrBarlineRepeatWinged    fRepeatWinged;
+
+    msrBarlineCategory        fBarlineCategory;
 
     int                       fNextBarNumber;
 
