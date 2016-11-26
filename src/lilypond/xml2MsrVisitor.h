@@ -520,6 +520,7 @@ class EXP xml2MsrVisitor :
     // repeat handling
     // ------------------------------------------------------
     S_msrRepeat               fCurrentRepeat;
+    bool                      fOnGoingRepeat;
     
     // barline handling
     // ------------------------------------------------------
