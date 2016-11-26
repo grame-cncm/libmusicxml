@@ -875,12 +875,17 @@ void msr2LpsrVisitor::visitEnd (S_msrBreak& elt)
 }
 
 //________________________________________________________________________
-/*
 void msr2LpsrVisitor::visitStart (S_msrRepeat& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrRepeat" << endl;
+
+  fCurrentMsrRepeatClone =
+    elt->createEmptyClone (fCurrentMsrVoiceClone);
+  
+  fCurrentMsrVoiceClone->
+    appendRepeatToVoice (fCurrentMsrRepeatClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
@@ -888,8 +893,32 @@ void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrRepeat" << endl;
+      
+  fCurrentMsrRepeatClone = 0;
 }
-*/
+
+//________________________________________________________________________
+void msr2LpsrVisitor::visitStart (S_msrRepeatending& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrRepeatending" << endl;
+
+  S_msrRepeatending
+    repeatendingClone =
+      elt->createEmptyClone (fCurrentMsrRepeatClone);
+      
+  fCurrentRepeat->
+    addRepeatending (repeatendingClone);
+}
+
+void msr2LpsrVisitor::visitEnd (S_msrRepeatending& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrRepeatending" << endl;
+}
+
 //________________________________________________________________________
 /*void msr2LpsrVisitor::visitStart (S_msrComment& elt)
 {

@@ -2247,7 +2247,6 @@ EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-
 class EXP msrRepeatending: public msrElement
 {
   public:
@@ -2338,6 +2337,8 @@ class EXP msrRepeat: public msrElement
       S_msrVoicechunk commonPart,
       S_msrVoice      voice);
     
+    SMARTP<msrRepeat> createEmptyClone (S_msrVoice clonedVoice);
+
     // set and get
     // ------------------------------------------------------
 

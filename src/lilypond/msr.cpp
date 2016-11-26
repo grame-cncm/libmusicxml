@@ -4129,6 +4129,24 @@ msrRepeat::msrRepeat (
 
 msrRepeat::~msrRepeat() {}
 
+S_msrRepeat msrRepeat::createEmptyClone (S_msrVoice clonedVoice)
+{
+  S_msrVoicechunk
+    voicechunk =
+      msrVoicechunk::create (
+        fMsrOptions, inputLineNumber);
+      
+  S_msrRepeat
+    clone =
+      msrRepeat::create (
+        fMsrOptions,
+        fInputLineNumber,
+        voicechunk,
+        clonedVoice);
+  
+  return clone;
+}
+
 void msrRepeat::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<

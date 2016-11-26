@@ -82,7 +82,8 @@ class msr2LpsrVisitor :
   public visitor<S_msrBarnumberCheck>,
   public visitor<S_msrBreak>,
   
-//  public visitor<S_msrRepeat>,
+  public visitor<S_msrRepeat>,
+  public visitor<S_msrRepeatending>,
   
 //  public visitor<S_msrComment>, // JMI
   
@@ -188,10 +189,12 @@ class msr2LpsrVisitor :
 
     virtual void visitStart (S_msrBreak& elt);
     virtual void visitEnd   (S_msrBreak& elt);
-/*
+
     virtual void visitStart (S_msrRepeat& elt);
     virtual void visitEnd   (S_msrRepeat& elt);
-*/
+    virtual void visitStart (S_msrRepeatending& elt);
+    virtual void visitEnd   (S_msrRepeatending& elt);
+
 //    virtual void visitStart (S_msrComment& elt);
 //    virtual void visitEnd   (S_msrComment& elt);
 
@@ -251,7 +254,10 @@ class msr2LpsrVisitor :
     // prevent clef, key and time from being handled twice
     bool                    fOnGoingStaff;
 
-
+    // repeats
+    // ------------------------------------------------------
+    S_msrRepeat             fCurrentMsrRepeatClone;
+    
     // voice chunks
     // ------------------------------------------------------
     S_msrVoicechunk         fCurrentMsrVoicechunkClone;
