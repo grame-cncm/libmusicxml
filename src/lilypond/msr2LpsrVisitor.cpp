@@ -859,6 +859,11 @@ void msr2LpsrVisitor::visitStart (S_msrRepeat& elt)
   
   fCurrentMsrVoiceClone->
     appendRepeatToVoice (fCurrentMsrRepeatClone);
+
+  // create the S_lpsrRepeatalternative
+  fCurrentRepeatalternative =
+    lpsrRepeatalternative:: create (
+      fMsrOptions, fLpsrOptions);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
@@ -884,6 +889,10 @@ void msr2LpsrVisitor::visitStart (S_msrRepeatending& elt)
       
   fCurrentMsrRepeatClone->
     addRepeatending (repeatendingClone);
+
+  fCurrentRepeatalternative->
+    appendRepeatendingToRepeatalternative (
+      repeatendingClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrRepeatending& elt)

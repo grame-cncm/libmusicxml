@@ -1302,6 +1302,119 @@ EXP ostream& operator<< (ostream& os, const S_lpsrLayout& elt);
   A score is represented by parallel music, score layout and midi
 */
 //______________________________________________________________________________
+class EXP lpsrRepeatalternative : public lpsrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrRepeatalternative> create (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts);
+     
+    // set and get
+    // ------------------------------------------------------
+
+    list<S_msrRepeatending>
+              getRepeatendings () const
+                  { return fRepeatendings; }
+
+    // services
+    // ------------------------------------------------------
+
+    void      appendRepeatendingToRepeatalternative (
+                S_msrRepeatending repeatending)
+                  { fRepeatendings.push_back (repeatending); }
+                  
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    lpsrRepeatalternative (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts);
+      
+    virtual ~lpsrRepeatalternative();
+  
+  private:
+
+    list<S_msrRepeatending> fRepeatendings;
+};
+typedef SMARTP<lpsrRepeatalternative> S_lpsrRepeatalternative;
+EXP ostream& operator<< (ostream& os, const S_lpsrRepeatalternative& elt);
+
+/*!
+\brief A lpsr score block representation.
+
+  A score is represented by parallel music, score layout and midi
+*/
+//______________________________________________________________________________
+class EXP lpsrRepeat : public lpsrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrRepeat> create (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts);
+     
+    // set and get
+    // ------------------------------------------------------
+
+    S_lpsrRepeatalternative
+              getRepeatalternative () const
+                  { return fRepeatalternative; }
+
+    // services
+    // ------------------------------------------------------
+/*
+    void      appendRepeatendingToRepeat (
+                S_msrRepeatending repeatending)
+                  { fRepeatendings.push_back (repeatending); }
+                  */
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    lpsrRepeat (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts);
+      
+    virtual ~lpsrRepeat();
+  
+  private:
+
+    S_msrVoicechunk         fCommonPart;
+    S_lpsrRepeatalternative fRepeatalternative;
+};
+typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
+EXP ostream& operator<< (ostream& os, const S_lpsrRepeat& elt);
+
+/*!
+\brief A lpsr score block representation.
+
+  A score is represented by parallel music, score layout and midi
+*/
+//______________________________________________________________________________
 class EXP lpsrStaffCommand : public lpsrElement
 {
   public:

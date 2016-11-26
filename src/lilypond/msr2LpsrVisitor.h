@@ -257,6 +257,7 @@ class msr2LpsrVisitor :
     // repeats
     // ------------------------------------------------------
     S_msrRepeat             fCurrentMsrRepeatClone;
+    S_lpsrRepeatalternative fCurrentRepeatalternative;
     
     // voice chunks
     // ------------------------------------------------------

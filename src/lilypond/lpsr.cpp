@@ -2206,6 +2206,107 @@ void lpsrLayout::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_lpsrRepeatalternative lpsrRepeatalternative::create (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts)
+{
+  lpsrRepeatalternative* o = new lpsrRepeatalternative (
+    msrOpts, lpsrOpts);
+  assert(o!=0);
+  return o;
+}
+
+lpsrRepeatalternative::lpsrRepeatalternative (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts)
+    : lpsrElement (msrOpts, lpsrOpts, 0)
+{}
+
+lpsrRepeatalternative::~lpsrRepeatalternative() {}
+
+void lpsrRepeatalternative::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrRepeatalternative::acceptIn()" << endl;
+      
+  if (visitor<S_lpsrRepeatalternative>*
+    p =
+      dynamic_cast<visitor<S_lpsrRepeatalternative>*> (v)) {
+        S_lpsrRepeatalternative elem = this;
+        
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrRepeatalternative::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void lpsrRepeatalternative::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrRepeatalternative::acceptOut()" << endl;
+
+  if (visitor<S_lpsrRepeatalternative>*
+    p =
+      dynamic_cast<visitor<S_lpsrRepeatalternative>*> (v)) {
+        S_lpsrRepeatalternative elem = this;
+      
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrRepeatalternative::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrRepeatalternative::browseData (basevisitor* v)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "==> lpsrRepeatalternative::browseData()" << endl;
+
+  for (
+    list<S_msrRepeatending>::iterator i = fRepeatendings.begin();
+    i != fRepeatendings.end();
+    i++) {
+    // browse the repeat ending
+    msrBrowser<msrElement> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "<== lpsrRepeatalternative::browseData()" << endl;
+}
+
+ostream& operator<< (ostream& os, const S_lpsrRepeatalternative& scr)
+{
+  scr->print (os);
+  return os;
+}
+
+void lpsrRepeatalternative::print (ostream& os)
+{
+  os <<
+    "Repeatalternative" << endl;
+
+  idtr++;
+
+  if (fRepeatendings.size()) {  
+    list<S_msrRepeatending>::const_iterator
+      iBegin = fRepeatendings.begin(),
+      iEnd   = fRepeatendings.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_lpsrStaffCommand lpsrStaffCommand::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts,
