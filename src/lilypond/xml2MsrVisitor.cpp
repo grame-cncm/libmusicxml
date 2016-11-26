@@ -2436,7 +2436,8 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               fMsrOptions, elt->getInputLineNumber (),
               fCurrentBarlineEndingNumber,
               msrRepeatending::kHookedEnding,
-              currentVoicechunk);
+              currentVoicechunk,
+              fCurrentRepeat);
 
         // append it to the current repeat
         if (fMsrOptions->fDebug)

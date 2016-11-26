@@ -880,7 +880,7 @@ void msr2LpsrVisitor::visitStart (S_msrRepeatending& elt)
   S_msrRepeatending
     repeatendingClone =
       elt->createEmptyClone (
-        fCurrentMsrRepeatClone->getRepeatCommonPart ());
+        fCurrentMsrRepeatClone);
       
   fCurrentMsrRepeatClone->
     addRepeatending (repeatendingClone);

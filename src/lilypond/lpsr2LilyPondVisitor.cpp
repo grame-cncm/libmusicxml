@@ -1657,7 +1657,6 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrBreak& elt)
 }
 
 //________________________________________________________________________
-/*
 void lpsr2LilyPondVisitor::visitStart (S_msrRepeat& elt)
 {
   if (fMsrOptions->fDebug)
@@ -1679,7 +1678,38 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
     "}" <<
     endl;
 }
-*/
+
+//________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrRepeatending& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrRepeatending" << endl;
+
+  if (elt->getRepeatendingNumber () == "1") {
+    fOstream << idtr <<
+      "\\alternative" << " " << "{" <<
+      endl;
+
+    idtr++;
+  }
+
+  fOstream << idtr <<
+    "{" << // JMI
+    endl;
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrRepeatending& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrRepeatending" << endl;
+
+  fOstream << idtr <<
+    "}" <<
+    endl;
+}
+
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrComment& elt)
 {

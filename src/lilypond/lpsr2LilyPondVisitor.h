@@ -111,7 +111,8 @@ class lpsr2LilyPondVisitor :
   public visitor<S_msrBarnumberCheck>,
   public visitor<S_msrBreak>,
   
-//  public visitor<S_msrRepeat>,
+  public visitor<S_msrRepeat>,
+  public visitor<S_msrRepeatending>,
       
   public visitor<S_msrMidi>
 
@@ -229,10 +230,7 @@ class lpsr2LilyPondVisitor :
 
     virtual void visitStart (S_msrTempo& elt);
     virtual void visitEnd   (S_msrTempo& elt);
-/*
-    virtual void visitStart (S_msrSequentialMusic& elt);
-    virtual void visitEnd   (S_msrSequentialMusic& elt);
-*/
+
     virtual void visitStart (S_msrDuration& elt);
     virtual void visitEnd   (S_msrDuration& elt);
 
@@ -269,8 +267,10 @@ class lpsr2LilyPondVisitor :
     virtual void visitStart (S_msrBreak& elt);
     virtual void visitEnd   (S_msrBreak& elt);
 
-//    virtual void visitStart (S_msrRepeat& elt);
-//    virtual void visitEnd   (S_msrRepeat& elt);
+    virtual void visitStart (S_msrRepeat& elt);
+    virtual void visitEnd   (S_msrRepeat& elt);
+    virtual void visitStart (S_msrRepeatending& elt);
+    virtual void visitEnd   (S_msrRepeatending& elt);
 
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);

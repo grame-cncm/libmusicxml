@@ -65,6 +65,9 @@ typedef SMARTP<msrPart> S_msrPart;
 class msrPartgroup;
 typedef SMARTP<msrPartgroup> S_msrPartgroup;
 
+class msrRepeat;
+typedef SMARTP<msrRepeat> S_msrRepeat;
+
 //______________________________________________________________________________
 /*!
 \internal
@@ -1926,7 +1929,8 @@ class EXP msrLyrics : public msrElement
       S_msrVoice            lyricsVoice,
       msrLyricsMasterStatus lyricsMasterStatus);
     
-    SMARTP<msrLyrics> createEmptyClone (S_msrVoice clonedVoice);
+    SMARTP<msrLyrics> createEmptyClone (
+      S_msrVoice clonedVoice);
 
     // set and get
     // ------------------------------------------------------
@@ -2247,7 +2251,7 @@ EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrRepeatending: public msrElement
+class EXP msrRepeatending : public msrElement
 {
   public:
 
@@ -2263,10 +2267,11 @@ class EXP msrRepeatending: public msrElement
       int                 inputLineNumber,
       string              repeatendingNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
-      S_msrVoicechunk     voicechunk);
+      S_msrVoicechunk     voicechunk,
+      S_msrRepeat         voiceRepeat);
     
     SMARTP<msrRepeatending> createEmptyClone (
-      S_msrVoicechunk clonedVoicechunk);
+      S_msrRepeat clonedRepeat);
 
     // set and get
     // ------------------------------------------------------
@@ -2278,6 +2283,10 @@ class EXP msrRepeatending: public msrElement
               getRepeatendingVoicechunk () const
                   { return fRepeatendingVoicechunk; }
                 
+    S_msrRepeat
+              getRepeatendingRepeat () const
+                { return fRepeatendingRepeat; }
+
     // services
     // ------------------------------------------------------
 
@@ -2304,7 +2313,8 @@ class EXP msrRepeatending: public msrElement
       int                 inputLineNumber,
       string              repeatendingNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
-      S_msrVoicechunk     voicechunk);
+      S_msrVoicechunk     voicechunk,
+      S_msrRepeat         voiceRepeat);
       
     virtual ~msrRepeatending();
   
@@ -2314,6 +2324,8 @@ class EXP msrRepeatending: public msrElement
     msrRepeatendingKind fRepeatendingKind;
     
     S_msrVoicechunk     fRepeatendingVoicechunk;
+
+    S_msrRepeat         fRepeatendingRepeat;
 };
 typedef SMARTP<msrRepeatending> S_msrRepeatending;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatending& elt);
@@ -2340,7 +2352,8 @@ class EXP msrRepeat: public msrElement
       S_msrVoicechunk commonPart,
       S_msrVoice      voice);
     
-    SMARTP<msrRepeat> createEmptyClone (S_msrVoice clonedVoice);
+    SMARTP<msrRepeat> createEmptyClone (
+      S_msrVoice clonedVoice);
 
     // set and get
     // ------------------------------------------------------
@@ -2357,9 +2370,13 @@ class EXP msrRepeat: public msrElement
               getRepeatEndings () const
                 { return fRepeatEndings; }
 
+    S_msrVoice
+              getRepeatVoice () const
+                { return fRepeatVoice; }
+
     // services
     // ------------------------------------------------------
-/*
+/* JMI
     void      appendElementToCommonPart (S_msrElement elem)
                     {
                       fRepeatCommonPart->
@@ -2398,8 +2415,10 @@ class EXP msrRepeat: public msrElement
   private:
 
     S_msrVoicechunk           fRepeatCommonPart;
+    
     vector<S_msrRepeatending> fRepeatEndings;
-
+    int                       fRepeatEndingsCounter;
+    
     S_msrVoice                fRepeatVoice;
 };
 typedef SMARTP<msrRepeat> S_msrRepeat;
@@ -2425,7 +2444,8 @@ class EXP msrVoice : public msrElement
       int           staffRelativeVoiceNumber,
       S_msrStaff    voiceStaff);
                           
-    SMARTP<msrVoice> createEmptyClone (S_msrStaff clonedStaff);
+    SMARTP<msrVoice> createEmptyClone (
+      S_msrStaff clonedStaff);
 
     // set and get
     // ------------------------------------------------------
@@ -2551,7 +2571,8 @@ class EXP msrStaff : public msrElement
       int           staffNumber,
       S_msrPart     staffPart);
     
-    SMARTP<msrStaff> createEmptyClone (S_msrPart clonedPart);
+    SMARTP<msrStaff> createEmptyClone (
+      S_msrPart clonedPart);
 
     // set and get
     // ------------------------------------------------------
@@ -2654,7 +2675,8 @@ class EXP msrPart : public msrElement
       string         partMusicXMLID,
       S_msrPartgroup partPartgroup);
                 
-    SMARTP<msrPart> createEmptyClone (S_msrPartgroup clonedPartgroup);
+    SMARTP<msrPart> createEmptyClone (
+      S_msrPartgroup clonedPartgroup);
 
     // set and get
     // ------------------------------------------------------

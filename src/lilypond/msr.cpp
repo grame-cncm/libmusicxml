@@ -4007,14 +4007,16 @@ S_msrRepeatending msrRepeatending::create (
   int                 inputLineNumber,
   string              repeatendingNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
-  S_msrVoicechunk     voicechunk)
+  S_msrVoicechunk     voicechunk,
+  S_msrRepeat         repeat)
 {
   msrRepeatending* o =
     new msrRepeatending (
       msrOpts, inputLineNumber,
       repeatendingNumber,
       repeatendingKind,
-      voicechunk);
+      voicechunk,
+      repeat);
   assert(o!=0);
   return o;
 }
@@ -4024,18 +4026,20 @@ msrRepeatending::msrRepeatending (
   int                 inputLineNumber,
   string              repeatendingNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
-  S_msrVoicechunk     voicechunk)
+  S_msrVoicechunk     voicechunk,
+  S_msrRepeat         repeat)
     : msrElement (msrOpts, inputLineNumber)
 {
   fRepeatendingNumber     = repeatendingNumber;
   fRepeatendingKind       = repeatendingKind;
   fRepeatendingVoicechunk = voicechunk;
+  fRepeatendingRepeat     = repeat;
 }
 
 msrRepeatending::~msrRepeatending() {}
 
 S_msrRepeatending msrRepeatending::createEmptyClone (
-  S_msrVoicechunk clonedVoicechunk)
+  S_msrRepeat clonedRepeat)
 {
   S_msrRepeatending
     clone =
@@ -4044,7 +4048,8 @@ S_msrRepeatending msrRepeatending::createEmptyClone (
         fInputLineNumber,
         fRepeatendingNumber,
         fRepeatendingKind,
-        clonedVoicechunk);
+        clonedRepeat->getRepeatCommonPart (),
+        clonedRepeat);
   
   return clone;
 }
@@ -4138,8 +4143,9 @@ msrRepeat::msrRepeat (
   S_msrVoice      voice)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fRepeatCommonPart = commonPart;
-  fRepeatVoice      = voice;
+  fRepeatCommonPart     = commonPart;
+  fRepeatEndingsCounter = 0;
+  fRepeatVoice          = voice;
 }
 
 msrRepeat::~msrRepeat() {}
