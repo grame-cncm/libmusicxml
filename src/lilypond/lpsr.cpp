@@ -2205,6 +2205,7 @@ void lpsrLayout::print (ostream& os)
   idtr--;
 }
 
+/*
 //______________________________________________________________________________
 S_lpsrRepeatending lpsrRepeatending::create (
   S_msrOptions&       msrOpts, 
@@ -2309,7 +2310,7 @@ void lpsrRepeatending::print (ostream& os)
 {
   os << "Repeatending" << " ";
 
-/*
+/ *
   switch (fRepeatendingKind) {
     case kHookedEnding:
       os << "hooked ending";
@@ -2319,7 +2320,7 @@ void lpsrRepeatending::print (ostream& os)
       break;
   } // switch
   os << endl;
-*/
+* /
 
   idtr++;
 
@@ -2527,6 +2528,7 @@ void lpsrRepeat::print (ostream& os)
     
   idtr--;
 }
+*/
 
 //______________________________________________________________________________
 S_lpsrStaffCommand lpsrStaffCommand::create (

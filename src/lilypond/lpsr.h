@@ -1343,6 +1343,7 @@ EXP ostream& operator<< (ostream& os, const S_lpsrLayout& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
+/*
 class EXP lpsrRepeatending : public msrElement
 {
   public:
@@ -1421,6 +1422,7 @@ class EXP lpsrRepeatending : public msrElement
 };
 typedef SMARTP<lpsrRepeatending> S_lpsrRepeatending;
 EXP ostream& operator<< (ostream& os, const S_lpsrRepeatending& elt);
+*/
 
 /*!
 \brief A lpsr score block representation.
@@ -1428,6 +1430,7 @@ EXP ostream& operator<< (ostream& os, const S_lpsrRepeatending& elt);
   A score is represented by parallel music, score layout and midi
 */
 //______________________________________________________________________________
+/*
 class EXP lpsrRepeatalternative : public lpsrElement
 {
   public:
@@ -1477,6 +1480,7 @@ class EXP lpsrRepeatalternative : public lpsrElement
 };
 typedef SMARTP<lpsrRepeatalternative> S_lpsrRepeatalternative;
 EXP ostream& operator<< (ostream& os, const S_lpsrRepeatalternative& elt);
+*/
 
 /*!
 \brief A lpsr score block representation.
@@ -1484,6 +1488,7 @@ EXP ostream& operator<< (ostream& os, const S_lpsrRepeatalternative& elt);
   A score is represented by parallel music, score layout and midi
 */
 //______________________________________________________________________________
+/*
 class EXP lpsrRepeat : public lpsrElement
 {
   public:
@@ -1545,6 +1550,7 @@ class EXP lpsrRepeat : public lpsrElement
 };
 typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
 EXP ostream& operator<< (ostream& os, const S_lpsrRepeat& elt);
+*/
 
 /*!
 \brief A lpsr score block representation.

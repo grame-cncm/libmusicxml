@@ -875,13 +875,13 @@ void msr2LpsrVisitor::visitStart (S_msrRepeat& elt)
       "--> Start visiting msrRepeat" << endl;
 
   // create an LPSR repeat
-  fCurrentLpsrRepeat =
-    lpsrRepeat::create (
-      fMsrOptions, fLpsrOptions);
+  fCurrentMsrRepeatClone =
+    elt->createEmptyClone (
+      fCurrentMsrVoiceClone);
 
   fCurrentMsrVoiceClone->
- // JMI   appendRepeatToVoice (fCurrentLpsrRepeat);
-    appendElementToVoice (fCurrentLpsrRepeat);
+    appendRepeatToVoice (fCurrentMsrRepeatClone);
+ // JMI ???   appendElementToVoice (fCurrentMsrRepeatClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
@@ -890,7 +890,7 @@ void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
     fOstream << idtr <<
       "--> End visiting msrRepeat" << endl;
       
-  fCurrentLpsrRepeat = 0;
+  fCurrentMsrRepeatClone = 0;
 }
 
 //________________________________________________________________________
@@ -900,15 +900,11 @@ void msr2LpsrVisitor::visitStart (S_msrRepeatending& elt)
     fOstream << idtr <<
       "--> Start visiting msrRepeatending" << endl;
 
-  S_lpsrRepeatending
+  S_msrRepeatending
     repeatending =
-      lpsrRepeatending::create (
-        fMsrOptions, fLpsrOptions,
-        fCurrentLpsrRepeat,
-        fCurrentLpsrRepeat->getRepeatalternative ()->getRepeatVoicechunk (),
-        fCurrentLpsrRepeat);
-      
-  fCurrentLpsrRepeat->
+      elt->createEmptyClone (fCurrentMsrRepeatClone);
+
+  fCurrentMsrRepeatClone->
     addRepeatending (repeatending);
 }
 
