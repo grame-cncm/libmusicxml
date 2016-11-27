@@ -2494,68 +2494,71 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
             endl;
 
         if (fOnGoingRepeat) {
+          /* JMI
           // append the bar line to the current voice chunk
           fCurrentVoice->
             appendBarlineToVoice (barline);
 
-        barline->
-          setBarlineCategory (msrBarline::kEndOfARepeat);
-
-        barlineIsAlright = true;
+          barline->
+            setBarlineCategory (msrBarline::kEndOfARepeat);
+  
+          barlineIsAlright = true;
+          */
         }
         
         else {
    //       if (fMsrOptions->fDebug)
           cerr <<
-            idtr << "--> input line " << elt->getInputLineNumber () <<
-            endl <<
             idtr <<
-            "--> repeat start at the beginning of the part" <<
+            "--> there's an implicit repeat start at the beginning of the part" <<
             endl;
 
-        // prepend the bar line to the current voice chunk
-        fCurrentVoice->
-          prependRepeatToVoice (fCurrentRepeat);
-                
-        // get the current voice chunk
-        S_msrVoicechunk
-          currentVoicechunk =
-            fCurrentVoice->
-              getVoicechunk ();
+          // prepend the barline to the current voice chunk
+          fCurrentVoice->
+            prependBarlineToVoice (barline);
+                  
+          // get the current voice chunk
+          S_msrVoicechunk
+            currentVoicechunk =
+              fCurrentVoice->
+                getVoicechunk ();
+  
+          // create the repeat
+          if (fMsrOptions->fTrace)
+            cerr << idtr <<
+              "Creating a repeat in voice " <<
+              fCurrentVoice->getVoiceName () << endl;
+  
+          fCurrentRepeat =
+            msrRepeat::create (
+              fMsrOptions, elt->getInputLineNumber (),
+              currentVoicechunk,
+              fCurrentVoice);
+  
+          // create a new voice chunk for the voice
+          if (fMsrOptions->fDebug)
+            cerr << idtr <<
+              "--> setting new voice chunk for voice " <<
+              fCurrentVoice->getVoiceName () << endl;
+              
+          fCurrentVoice->
+            setNewVoicechunkForVoice (
+              elt->getInputLineNumber ());
+  
+          // add the repeat to the new voice chunk
+          if (fMsrOptions->fDebug)
+            cerr << idtr <<
+              "--> appending the repeat to voice " <<
+              fCurrentVoice->getVoiceName () << endl;
 
-        // create the repeat
-        if (fMsrOptions->fTrace)
-          cerr << idtr <<
-            "Creating a repeat in voice " <<
-            fCurrentVoice->getVoiceName () << endl;
+          fCurrentVoice->
+            appendRepeatToVoice (fCurrentRepeat);
 
-        fCurrentRepeat =
-          msrRepeat::create (
-            fMsrOptions, elt->getInputLineNumber (),
-            currentVoicechunk,
-            fCurrentVoice);
-
-        // create a new voice chunk for the voice
-        if (fMsrOptions->fDebug)
-          cerr << idtr <<
-            "--> setting new voice chunk for voice " <<
-            fCurrentVoice->getVoiceName () << endl;
-            
-        fCurrentVoice->
-          setNewVoicechunkForVoice (
-            elt->getInputLineNumber ());
-
-        // add the repeat to the new voice chunk
-        if (fMsrOptions->fDebug)
-          cerr << idtr <<
-            "--> appending the repeat to voice " <<
-            fCurrentVoice->getVoiceName () << endl;
-            
-        barline->
-          setBarlineCategory (
-            msrBarline::kRepeatStartAtTheBeginningOfAPart);
-
-        barlineIsAlright = true;
+          barline->
+            setBarlineCategory (
+              msrBarline::kRepeatStartAtTheBeginningOfAPart);
+  
+          barlineIsAlright = true;
         }
       }
       

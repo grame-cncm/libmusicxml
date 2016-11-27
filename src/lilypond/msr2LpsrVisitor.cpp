@@ -819,7 +819,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
     case msrBarline::kBeginningOfAnEnding:
     case msrBarline::kEndOfAHookedEnding:
     case msrBarline::kEndOfAHooklessEnding:
-      // no need to keep that barline,
+      // no need to keep that barline in the MSR,
       // LilyPond will take care of the repeat display
       break;
 
@@ -874,16 +874,13 @@ void msr2LpsrVisitor::visitStart (S_msrRepeat& elt)
     fOstream << idtr <<
       "--> Start visiting msrRepeat" << endl;
 
-  fCurrentMsrRepeatClone =
-    elt->createEmptyClone (fCurrentMsrVoiceClone);
-  
-  fCurrentMsrVoiceClone->
-    appendRepeatToVoice (fCurrentMsrRepeatClone);
-
-  // create the S_lpsrRepeatalternative
-  fCurrentRepeatalternative =
-    lpsrRepeatalternative:: create (
+  // create an LPSR repeat
+  fCurrentLpsrRepeat =
+    lpsrRepeat::create (
       fMsrOptions, fLpsrOptions);
+
+  fCurrentMsrVoiceClone->
+    appendRepeatToVoice (fcurrentLpsrRepeat);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
@@ -907,12 +904,8 @@ void msr2LpsrVisitor::visitStart (S_msrRepeatending& elt)
       elt->createEmptyClone (
         fCurrentMsrRepeatClone);
       
-  fCurrentMsrRepeatClone->
+  fCurrentLpsrRepeat->
     addRepeatending (repeatendingClone);
-
-  fCurrentRepeatalternative->
-    appendRepeatendingToRepeatalternative (
-      repeatendingClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrRepeatending& elt)

@@ -2307,6 +2307,111 @@ void lpsrRepeatalternative::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_lpsrRepeat lpsrRepeat::create (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts)
+{
+  lpsrRepeat* o = new lpsrRepeat (
+    msrOpts, lpsrOpts);
+  assert(o!=0);
+  return o;
+}
+
+lpsrRepeat::lpsrRepeat (
+  S_msrOptions&  msrOpts, 
+  S_lpsrOptions& lpsrOpts)
+    : lpsrElement (msrOpts, lpsrOpts, 0)
+{
+  // create the repeat alternative
+  fRepeatalternative =
+    lpsrRepeatalternative::create (
+      fMsrOptions, fLpsrOptions);
+}
+
+lpsrRepeat::~lpsrRepeat() {}
+
+void lpsrRepeat::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrRepeat::acceptIn()" << endl;
+      
+  if (visitor<S_lpsrRepeat>*
+    p =
+      dynamic_cast<visitor<S_lpsrRepeat>*> (v)) {
+        S_lpsrRepeat elem = this;
+        
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrRepeat::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void lpsrRepeat::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrRepeat::acceptOut()" << endl;
+
+  if (visitor<S_lpsrRepeat>*
+    p =
+      dynamic_cast<visitor<S_lpsrRepeat>*> (v)) {
+        S_lpsrRepeat elem = this;
+      
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrRepeat::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrRepeat::browseData (basevisitor* v)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "==> lpsrRepeat::browseData()" << endl;
+
+  // browse the common part
+  msrBrowser<msrVoicechunk> browser (v);
+  browser.browse (*fCommonPart);
+
+  // browse the repeat alternative
+  msrBrowser<lpsrRepeatalternative> browser (v);
+  browser.browse (*fRepeatalternative);
+
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "<== lpsrRepeat::browseData()" << endl;
+}
+
+ostream& operator<< (ostream& os, const S_lpsrRepeat& scr)
+{
+  scr->print (os);
+  return os;
+}
+
+void lpsrRepeat::print (ostream& os)
+{
+  os <<
+    "Repeat" << endl;
+
+  idtr++;
+
+  if (fRepeatendings.size()) {  
+    list<S_msrRepeatending>::const_iterator
+      iBegin = fRepeatendings.begin(),
+      iEnd   = fRepeatendings.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_lpsrStaffCommand lpsrStaffCommand::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts,

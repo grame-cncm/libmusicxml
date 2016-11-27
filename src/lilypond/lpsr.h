@@ -1323,7 +1323,7 @@ class EXP lpsrRepeatalternative : public lpsrElement
     // services
     // ------------------------------------------------------
 
-    void      appendRepeatendingToRepeatalternative (
+    void      appendRepeatending (
                 S_msrRepeatending repeatending)
                   { fRepeatendings.push_back (repeatending); }
                   
@@ -1378,11 +1378,14 @@ class EXP lpsrRepeat : public lpsrElement
 
     // services
     // ------------------------------------------------------
-/*
-    void      appendRepeatendingToRepeat (
+
+    void      addRepeatending (
                 S_msrRepeatending repeatending)
-                  { fRepeatendings.push_back (repeatending); }
-                  */
+                  {
+                    fRepeatalternative->appendRepeatending (
+                      repeatending);
+                  }
+
     // visitors
     // ------------------------------------------------------
 

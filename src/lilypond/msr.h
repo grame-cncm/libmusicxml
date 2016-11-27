@@ -2496,23 +2496,24 @@ class EXP msrVoice : public msrElement
     S_msrLyrics
               fetchLyricsFromVoice (int lyricsNumber);
     
-    void      appendClefToVoice    (S_msrClef clef);
-    void      appendKeyToVoice     (S_msrKey  key);
-    void      appendTimeToVoice    (S_msrTime time);
+    void      appendClefToVoice     (S_msrClef clef);
+    void      appendKeyToVoice      (S_msrKey  key);
+    void      appendTimeToVoice     (S_msrTime time);
     
-    void      appendTempoToVoice   (S_msrTempo tempo);
+    void      appendTempoToVoice    (S_msrTempo tempo);
     
-    void      appendNoteToVoice    (S_msrNote note);
-    void      appendChordToVoice   (S_msrChord chord);
-    void      appendTupletToVoice  (S_msrTuplet tuplet);
+    void      appendNoteToVoice     (S_msrNote note);
+    void      appendChordToVoice    (S_msrChord chord);
+    void      appendTupletToVoice   (S_msrTuplet tuplet);
     
-    void      prependRepeatToVoice (S_msrRepeat repeat);
-    void      appendRepeatToVoice  (S_msrRepeat repeat);
-    void      appendBarlineToVoice (S_msrBarline barline);
+    void      appendRepeatToVoice   (S_msrRepeat repeat);
+    
+    void      prependBarlineToVoice (S_msrBarline barline);
+    void      appendBarlineToVoice  (S_msrBarline barline);
     
     void      appendBarnumberCheckToVoice
-                                   (S_msrBarnumberCheck bnc);
-    void      appendBreakToVoice   (S_msrBreak break_);
+                                    (S_msrBarnumberCheck bnc);
+    void      appendBreakToVoice    (S_msrBreak break_);
 
     void      removeLastElementFromVoice ();
 

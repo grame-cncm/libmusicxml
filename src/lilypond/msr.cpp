@@ -4595,16 +4595,6 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
     appendElementToVoicechunk (t);
 }
 
-void msrVoice::prependRepeatToVoice (S_msrRepeat repeat) {
-  if (fMsrOptions->fTrace)
-    cerr << idtr <<
-      "Prepending repeat to voice " << getVoiceName () << endl;
-
-  S_msrElement r = repeat;
-  fVoicechunk->
-    prependElementToVoicechunk (r);
-}
-
 void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -4615,11 +4605,29 @@ void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
     appendElementToVoicechunk (r);
 }
 
+void msrVoice::prependBarlineToVoice (S_msrBarline barline) {
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Prepending a barline to voice " << getVoiceName () <<
+      ":" << endl;
+    idtr++;
+    cerr << idtr << barline;
+    idtr--;
+
+  S_msrElement b = barline;
+  fVoicechunk->
+    prependElementToVoicechunk (b);
+}
+
 void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
   if (fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending barline '" << barline <<
-      "' to voice " << getVoiceName () << endl;
+      "Appending a barline to voice " << getVoiceName () <<
+      ":" << endl;
+    idtr++;
+    cerr << idtr << barline;
+    idtr--;
 
   S_msrElement b = barline;
   fVoicechunk->
