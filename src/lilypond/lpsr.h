@@ -1951,7 +1951,8 @@ class EXP lpsrScore : public lpsrElement
     S_lpsrLilypondVarValAssoc fLilyPondVersion;
     
     S_lpsrComment             fInputSourceNameComment;
-    S_lpsrComment             fTranslationDate;
+    S_lpsrComment             fTranslationDateComment;
+    S_lpsrComment             fCommandLineOptionsComment;
     
     S_lpsrSchemeVarValAssoc   fGlobalStaffSizeAssoc;
     

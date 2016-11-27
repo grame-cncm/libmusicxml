@@ -309,8 +309,14 @@ class lpsr2LilyPondVisitor :
 
     // voices
     // ------------------------------------------------------
-    S_msrVoice           fCurrentMsrVoiceClone;
+ // JMI   S_msrVoice           fCurrentMsrVoiceClone;
     
+    // voice chunks
+    // ------------------------------------------------------
+    // we need handle embedded msrVoicechunk's to indent notes
+    // in a consistent way
+    stack<int>           fVoicechunkNotesCountersStack;
+
     // lyrics
     // ------------------------------------------------------
     S_msrLyrics          fCurrentMsrLyricsClone;

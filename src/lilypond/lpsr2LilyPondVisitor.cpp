@@ -305,8 +305,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrSchemeVarValAssoc& elt)
     elt->getVariableName () <<
     " " <<
     elt->getVariableValue () <<
-    ")" <<
-    endl;
+    ")";
     
   switch (elt->getEndlKind ()) {
     case lpsrSchemeVarValAssoc::kWithEndl:
@@ -521,7 +520,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupCommand& elt)
     "\\new StaffGroup" << " " << "{" <<
     " % part group " <<
     elt->getPartgroup ()->getPartgroupCombinedName () <<
-    endl << endl;
+    endl;
 
   idtr++;
 }
@@ -550,7 +549,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartCommand& elt)
     "\\new StaffGroup" << " " << "{" <<
     " % part " <<
     elt->getPart ()->getPartCombinedName () <<
-    endl << endl;
+    endl;
 
   idtr++;
 }
@@ -841,6 +840,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoice& elt)
     endl;
 
   idtr++;
+
+//  fCurrentMsrVoiceNotesCounter = 0;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrVoice& elt)
@@ -868,6 +869,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
       "{" << " % start of msrVoicechunk" << endl;
 
   idtr++;
+
+  fVoicechunkNotesCountersStack.push (0);
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
@@ -883,6 +886,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
       endl <<
       idtr <<
       "}" << " % end of msrVoicechunk" << endl;
+
+  fVoicechunkNotesCountersStack.pop ();
 }
 
 //________________________________________________________________________
@@ -1351,6 +1356,10 @@ string msrNote::octaveRepresentation (char octave)
     fOstream << " msrNote" << endl;
   }
 
+  // indent only before the fist note of the msrVoicechunk
+  if (++ fVoicechunkNotesCountersStack.top () == 1)
+    fOstream << idtr;
+  
   switch (elt->getNoteKind ()) {
     
     case msrNote::kStandaloneNote:
@@ -1701,7 +1710,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
   
   fOstream << idtr <<
     "}" << " % end of repeat" <<
-    endl;
+    endl << endl;
 }
 
 //________________________________________________________________________

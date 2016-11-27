@@ -3044,12 +3044,31 @@ lpsrScore::lpsrScore (
       lpsrComment::kNoGapAfterwards);
   }
 
-  // create the input source name comment
+  // create the translation date comment
   {
   string
     comment =
       "on " + fMsrOptions->fTranslationDate;
-  fTranslationDate =
+      
+  fTranslationDateComment =
+    lpsrComment::create (
+      msrOpts, lpsrOpts, inputLineNumber,
+      comment,
+      lpsrComment::kNoGapAfterwards);
+  }
+
+  // create the command line options comment
+  {
+  string
+    comment =
+      "Options were: ";
+
+    if (fMsrOptions->fCommandLineOptions.size ())
+      comment += fMsrOptions->fCommandLineOptions;
+    else
+      comment += "none";
+      
+  fCommandLineOptionsComment =
     lpsrComment::create (
       msrOpts, lpsrOpts, inputLineNumber,
       comment,
@@ -3187,9 +3206,15 @@ void lpsrScore::browseData (basevisitor* v)
   }
 
   {
-    // browse the translation date
+    // browse the translation date comment
     msrBrowser<lpsrComment> browser (v);
-    browser.browse (*fTranslationDate);
+    browser.browse (*fTranslationDateComment);
+  }
+
+  {
+    // browse the command line optins comment
+    msrBrowser<lpsrComment> browser (v);
+    browser.browse (*fCommandLineOptionsComment);
   }
 
   {
