@@ -2206,6 +2206,127 @@ void lpsrLayout::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_lpsrRepeatending lpsrRepeatending::create (
+  S_msrOptions&       msrOpts, 
+  int                 inputLineNumber,
+  string              repeatendingNumber, // may be "1, 2"
+  lpsrRepeatendingKind repeatendingKind,
+  S_msrVoicechunk     voicechunk,
+  S_msrRepeat         repeat)
+{
+  lpsrRepeatending* o =
+    new lpsrRepeatending (
+      msrOpts, inputLineNumber,
+      repeatendingNumber,
+      repeatendingKind,
+      voicechunk,
+      repeat);
+  assert(o!=0);
+  return o;
+}
+
+lpsrRepeatending::lpsrRepeatending (
+  S_msrOptions&       msrOpts, 
+  int                 inputLineNumber,
+  string              repeatendingNumber, // may be "1, 2"
+  lpsrRepeatendingKind repeatendingKind,
+  S_msrVoicechunk     voicechunk,
+  S_msrRepeat         repeat)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fRepeatendingNumber     = repeatendingNumber;
+  fRepeatendingKind       = repeatendingKind;
+  fRepeatendingVoicechunk = voicechunk;
+  fRepeatendingRepeat     = repeat;
+}
+
+lpsrRepeatending::~lpsrRepeatending() {}
+
+S_lpsrRepeatending lpsrRepeatending::createEmptyClone (
+  S_msrRepeat clonedRepeat)
+{
+  S_lpsrRepeatending
+    clone =
+      lpsrRepeatending::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fRepeatendingNumber,
+        fRepeatendingKind,
+        clonedRepeat->getRepeatCommonPart (),
+        clonedRepeat);
+  
+  return clone;
+}
+
+void lpsrRepeatending::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrRepeatending::acceptIn()" << endl;
+      
+  if (visitor<S_lpsrRepeatending>*
+    p =
+      dynamic_cast<visitor<S_lpsrRepeatending>*> (v)) {
+        S_lpsrRepeatending elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching lpsrRepeatending::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void lpsrRepeatending::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrRepeatending::acceptOut()" << endl;
+
+  if (visitor<S_lpsrRepeatending>*
+    p =
+      dynamic_cast<visitor<S_lpsrRepeatending>*> (v)) {
+        S_lpsrRepeatending elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching lpsrRepeatending::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrRepeatending::browseData (basevisitor* v)
+{
+  // browse the voice chunk
+  msrBrowser<msrVoicechunk> browser (v);
+  browser.browse (*fRepeatendingVoicechunk);
+}
+
+ostream& operator<< (ostream& os, const S_lpsrRepeatending& rept)
+{
+  rept->print (os);
+  return os;
+}
+
+void lpsrRepeatending::print (ostream& os)
+{
+  os << "Repeatending" << " ";
+
+  switch (fRepeatendingKind) {
+    case kHookedEnding:
+      os << "hooked ending";
+      break;
+    case kHooklessEnding:
+      os << "hookless ending";
+      break;
+  } // switch
+  os << endl;
+  
+  idtr++;
+
+  os << idtr << fRepeatendingVoicechunk;
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_lpsrRepeatalternative lpsrRepeatalternative::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts)
@@ -2265,7 +2386,7 @@ void lpsrRepeatalternative::browseData (basevisitor* v)
       "==> lpsrRepeatalternative::browseData()" << endl;
 
   for (
-    list<S_msrRepeatending>::iterator i = fRepeatendings.begin();
+    list<S_lpsrRepeatending>::iterator i = fRepeatendings.begin();
     i != fRepeatendings.end();
     i++) {
     // browse the repeat ending
@@ -2292,7 +2413,7 @@ void lpsrRepeatalternative::print (ostream& os)
   idtr++;
 
   if (fRepeatendings.size()) {  
-    list<S_msrRepeatending>::const_iterator
+    list<S_lpsrRepeatending>::const_iterator
       iBegin = fRepeatendings.begin(),
       iEnd   = fRepeatendings.end(),
       i      = iBegin;

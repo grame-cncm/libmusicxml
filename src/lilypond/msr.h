@@ -2515,6 +2515,9 @@ class EXP msrVoice : public msrElement
                                     (S_msrBarnumberCheck bnc);
     void      appendBreakToVoice    (S_msrBreak break_);
 
+    void      appendElementToVoice  (S_msrElement elem);
+                // for other types of elements
+
     void      removeLastElementFromVoice ();
 
     // visitors

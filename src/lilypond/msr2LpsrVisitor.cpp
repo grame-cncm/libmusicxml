@@ -880,7 +880,8 @@ void msr2LpsrVisitor::visitStart (S_msrRepeat& elt)
       fMsrOptions, fLpsrOptions);
 
   fCurrentMsrVoiceClone->
-    appendRepeatToVoice (fCurrentLpsrRepeat);
+ // JMI   appendRepeatToVoice (fCurrentLpsrRepeat);
+    appendElementToVoice (fCurrentLpsrRepeat);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
@@ -899,13 +900,14 @@ void msr2LpsrVisitor::visitStart (S_msrRepeatending& elt)
     fOstream << idtr <<
       "--> Start visiting msrRepeatending" << endl;
 
-  S_msrRepeatending
-    repeatendingClone =
-      elt->createEmptyClone (
+  S_lpsrRepeatending
+    repeatending =
+      lpsrRepeatending::create (
+        fMsrOptions, fLpsrOptions,
         fCurrentLpsrRepeat);
       
   fCurrentLpsrRepeat->
-    addRepeatending (repeatendingClone);
+    addRepeatending (repeatending);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrRepeatending& elt)

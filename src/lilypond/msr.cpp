@@ -4656,6 +4656,16 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
     appendElementToVoicechunk (break_);
 }
 
+void msrVoice::appendElementToVoice (S_msrElement elem)
+{
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "Appending element '" << elem <<
+      "' to voice " << getVoiceName () << endl;
+
+  fVoicechunk->
+    appendElementToVoicechunk (elem);
+}
 
 void msrVoice::removeLastElementFromVoice ()
 {

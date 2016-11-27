@@ -1330,6 +1330,93 @@ typedef SMARTP<lpsrLayout> S_lpsrLayout;
 EXP ostream& operator<< (ostream& os, const S_lpsrLayout& elt);
 
 /*!
+\brief A msr repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common part
+    - a vector of sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
+class EXP lpsrRepeatending : public msrElement
+{
+  public:
+
+    enum lpsrRepeatendingKind {
+      kHookedEnding,
+      kHooklessEnding};
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrRepeatending> create (
+      S_msrOptions&       msrOpts, 
+      int                 inputLineNumber,
+      string              repeatendingNumber, // may be "1, 2"
+      lpsrRepeatendingKind repeatendingKind,
+      S_msrVoicechunk     voicechunk,
+      S_msrRepeat         voiceRepeat);
+    
+    SMARTP<lpsrRepeatending> createEmptyClone (
+      S_msrRepeat clonedRepeat);
+
+    // set and get
+    // ------------------------------------------------------
+
+    string    getRepeatendingNumber () const
+                  { return fRepeatendingNumber; }
+                
+    S_msrVoicechunk
+              getRepeatendingVoicechunk () const
+                  { return fRepeatendingVoicechunk; }
+                
+    S_msrRepeat
+              getRepeatendingRepeat () const
+                { return fRepeatendingRepeat; }
+
+    // services
+    // ------------------------------------------------------
+
+    void      appendElementToVoicechunk  (S_msrElement elem)
+                  {
+                    fRepeatendingVoicechunk->
+                      appendElementToVoicechunk (elem);
+                  }
+                    
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    lpsrRepeatending (
+      S_msrOptions&       msrOpts, 
+      int                 inputLineNumber,
+      string              repeatendingNumber, // may be "1, 2"
+      lpsrRepeatendingKind repeatendingKind,
+      S_msrVoicechunk     voicechunk,
+      S_msrRepeat         voiceRepeat);
+      
+    virtual ~lpsrRepeatending();
+  
+  private:
+  
+    string              fRepeatendingNumber; // may be "1, 2"
+    lpsrRepeatendingKind fRepeatendingKind;
+    
+    S_msrVoicechunk     fRepeatendingVoicechunk;
+
+    S_msrRepeat         fRepeatendingRepeat;
+};
+typedef SMARTP<lpsrRepeatending> S_lpsrRepeatending;
+EXP ostream& operator<< (ostream& os, const S_lpsrRepeatending& elt);
+
+/*!
 \brief A lpsr score block representation.
 
   A score is represented by parallel music, score layout and midi
@@ -1349,7 +1436,7 @@ class EXP lpsrRepeatalternative : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    list<S_msrRepeatending>
+    list<S_lpsrRepeatending>
               getRepeatendings () const
                   { return fRepeatendings; }
 
@@ -1357,7 +1444,7 @@ class EXP lpsrRepeatalternative : public lpsrElement
     // ------------------------------------------------------
 
     void      appendRepeatending (
-                S_msrRepeatending repeatending)
+                S_lpsrRepeatending repeatending)
                   { fRepeatendings.push_back (repeatending); }
                   
     // visitors
@@ -1380,7 +1467,7 @@ class EXP lpsrRepeatalternative : public lpsrElement
   
   private:
 
-    list<S_msrRepeatending> fRepeatendings;
+    list<S_lpsrRepeatending> fRepeatendings;
 };
 typedef SMARTP<lpsrRepeatalternative> S_lpsrRepeatalternative;
 EXP ostream& operator<< (ostream& os, const S_lpsrRepeatalternative& elt);
@@ -1413,7 +1500,7 @@ class EXP lpsrRepeat : public lpsrElement
     // ------------------------------------------------------
 
     void      addRepeatending (
-                S_msrRepeatending repeatending)
+                S_lpsrRepeatending repeatending)
                   {
                     fRepeatalternative->appendRepeatending (
                       repeatending);
