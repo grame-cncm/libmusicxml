@@ -194,6 +194,39 @@ typedef SMARTP<lpsrElement> S_lpsrElement;
 EXP ostream& operator<< (ostream& os, const S_lpsrElement& elt);
 
 /*!
+\brief A generic msr element representation.
+
+  An element is represented by its name and the
+  list of its enclosed elements plus optional parameters.
+*/
+//______________________________________________________________________________
+template <typename T> class EXP lpsrBrowser : public browser<T> 
+{
+  protected:
+  
+    basevisitor*  fVisitor;
+
+    virtual void enter (T& t) { t.acceptIn  (fVisitor); }
+    virtual void leave (T& t) { t.acceptOut (fVisitor); }
+
+  public:
+    
+    lpsrBrowser (basevisitor* v) : fVisitor (v) {}
+    
+    virtual ~lpsrBrowser() {}
+
+    virtual void set (basevisitor* v) { fVisitor = v; }
+    
+    virtual void browse (T& t) {
+      enter (t);
+
+      t.browseData (fVisitor);
+      
+      leave (t);
+    }
+};
+
+/*!
 \brief The lpsr parallel music element
 */
 //______________________________________________________________________________

@@ -880,7 +880,7 @@ void msr2LpsrVisitor::visitStart (S_msrRepeat& elt)
       fMsrOptions, fLpsrOptions);
 
   fCurrentMsrVoiceClone->
-    appendRepeatToVoice (fcurrentLpsrRepeat);
+    appendRepeatToVoice (fCurrentLpsrRepeat);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
@@ -889,7 +889,7 @@ void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
     fOstream << idtr <<
       "--> End visiting msrRepeat" << endl;
       
-  fCurrentMsrRepeatClone = 0;
+  fCurrentLpsrRepeat = 0;
 }
 
 //________________________________________________________________________
@@ -902,7 +902,7 @@ void msr2LpsrVisitor::visitStart (S_msrRepeatending& elt)
   S_msrRepeatending
     repeatendingClone =
       elt->createEmptyClone (
-        fCurrentMsrRepeatClone);
+        fCurrentLpsrRepeat);
       
   fCurrentLpsrRepeat->
     addRepeatending (repeatendingClone);

@@ -2375,8 +2375,8 @@ void lpsrRepeat::browseData (basevisitor* v)
   browser.browse (*fCommonPart);
 
   // browse the repeat alternative
-  msrBrowser<lpsrRepeatalternative> browser (v);
-  browser.browse (*fRepeatalternative);
+// JMI  msrBrowser<lpsrRepeatalternative> browser (v);
+ // ??? browser.browse (*fRepeatalternative);
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -2396,18 +2396,12 @@ void lpsrRepeat::print (ostream& os)
 
   idtr++;
 
-  if (fRepeatendings.size()) {  
-    list<S_msrRepeatending>::const_iterator
-      iBegin = fRepeatendings.begin(),
-      iEnd   = fRepeatendings.end(),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << idtr << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-  }
-
+  os << idtr <<
+    fCommonPart;
+  
+  os << idtr <<
+    fRepeatalternative;
+    
   idtr--;
 }
 
