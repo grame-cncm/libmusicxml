@@ -2293,7 +2293,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           elt->getInputLineNumber (), fCurrentVoiceNumber);
 
   // create the barline
-  // register it in this voice
   S_msrBarline
     barline =
       msrBarline::create (
@@ -2323,49 +2322,53 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
       // they'll handled later by the software
       // that handles the text output
 
+      // set the barline category
+      barline->
+        setBarlineCategory (msrBarline::kBarIsStandalone);
+      
       // append the bar line to the current voice chunk
       fCurrentVoice->
         appendBarlineToVoice (barline);
     
-      barline->
-        setBarlineCategory (msrBarline::kBarIsStandalone);
-      
       barlineIsAlright = true;
       break;
       
     case msrBarline::kDotted:
     //---------------------------------------
+      // set the barline category
+      barline->
+        setBarlineCategory (msrBarline::kBarIsStandalone);
+      
       // append the bar line to the current voice chunk
       fCurrentVoice->
         appendBarlineToVoice (barline);
-    
-      barline->
-        setBarlineCategory (msrBarline::kBarIsStandalone);
-        
+            
       barlineIsAlright = true;
       break;
       
     case msrBarline::kDashed:
     //---------------------------------------    
+      // set the barline category
+      barline->
+        setBarlineCategory (msrBarline::kBarIsStandalone);
+      
       // append the bar line to the current voice chunk
       fCurrentVoice->
         appendBarlineToVoice (barline);
     
-      barline->
-        setBarlineCategory (msrBarline::kBarIsStandalone);
-
       barlineIsAlright = true;
       break;
       
     case msrBarline::kHeavy:
     //---------------------------------------    
+      // set the barline category
+      barline->
+        setBarlineCategory (msrBarline::kBarIsStandalone);
+      
       // append the bar line to the current voice chunk
       fCurrentVoice->
         appendBarlineToVoice (barline);
     
-      barline->
-        setBarlineCategory (msrBarline::kBarIsStandalone);
-
       barlineIsAlright = true;
       break;
       
@@ -2385,12 +2388,16 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           idtr <<
           "    double regular bar" <<
           endl;
+
+      // set the barline category
+      barline->
+        setBarlineCategory (msrBarline::kBarIsStandalone);
+
+      // append the bar line to the current voice chunk
+      fCurrentVoice->
+        appendBarlineToVoice (barline);
   
-        // append the bar line to the current voice chunk
-        fCurrentVoice->
-          appendBarlineToVoice (barline);
-    
-        barlineIsAlright = true;
+      barlineIsAlright = true;
       break;
       
     case msrBarline::kLightHeavy:
@@ -2421,6 +2428,10 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
             "    end of a hooked ending" <<
             endl;
 
+        // set the barline category
+        barline->
+          setBarlineCategory (msrBarline::kEndOfAHookedEnding);
+      
         // append the bar line to the current voice chunk
         fCurrentVoice->
           appendBarlineToVoice (barline);
@@ -2465,9 +2476,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentRepeat->
           addRepeatending (repeatEnding);
         
-        barline->
-          setBarlineCategory (msrBarline::kEndOfAHookedEnding);
-
         barlineIsAlright = true;
       }
 
@@ -2493,15 +2501,16 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
             "    end of a repeat" <<
             endl;
 
+        // set the barline category
+        barline->
+          setBarlineCategory (msrBarline::kEndOfARepeat);
+  
+        // append the bar line to the current voice chunk
+        fCurrentVoice->
+          appendBarlineToVoice (barline);
+  
         if (fOnGoingRepeat) {
           /* JMI
-          // append the bar line to the current voice chunk
-          fCurrentVoice->
-            appendBarlineToVoice (barline);
-
-          barline->
-            setBarlineCategory (msrBarline::kEndOfARepeat);
-  
           barlineIsAlright = true;
           */
         }
@@ -2513,9 +2522,27 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
             "--> there's an implicit repeat start at the beginning of the part" <<
             endl;
 
-          // prepend the barline to the current voice chunk
+          // create the implicit barline
+          S_msrBarline
+            implicitBarline =
+              msrBarline::create (
+                fMsrOptions,
+                elt->getInputLineNumber (),
+                fCurrentBarlineLocation,
+                fCurrentBarlineStyle,
+                fCurrentBarlineEndingType,
+                fCurrentBarlineEndingNumber,
+                fCurrentBarlineRepeatDirection,
+                fCurrentBarlineRepeatWinged);
+
+          // set the implicit barline category
+          implicitBarline->
+            setBarlineCategory (
+              msrBarline::kRepeatStartAtTheBeginningOfAPart);
+        
+          // prepend the implicit barline to the current voice chunk
           fCurrentVoice->
-            prependBarlineToVoice (barline);
+            prependBarlineToVoice (implicitBarline);
                   
           // get the current voice chunk
           S_msrVoicechunk
@@ -2554,10 +2581,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           fCurrentVoice->
             appendRepeatToVoice (fCurrentRepeat);
 
-          barline->
-            setBarlineCategory (
-              msrBarline::kRepeatStartAtTheBeginningOfAPart);
-  
           barlineIsAlright = true;
         }
       }
@@ -2574,13 +2597,14 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               "    end of a voice" <<
               endl;
 
+        // set the barline category
+        barline->
+          setBarlineCategory (msrBarline::kEndOfAVoice);
+        
         // append the bar line to the current voice chunk
         fCurrentVoice->
           appendBarlineToVoice (barline);
           
-        barline->
-          setBarlineCategory (msrBarline::kEndOfAVoice);
-
         barlineIsAlright = true;
       }
       
@@ -2613,6 +2637,10 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
                 "beginning of a repeat" <<
               endl;
 
+        // set the barline category
+        barline->
+          setBarlineCategory (msrBarline::kBeginningOfARepeat);
+      
         // append the bar line to the current voice chunk
         fCurrentVoice->
           appendBarlineToVoice (barline);
@@ -2653,45 +2681,45 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentVoice->
           appendRepeatToVoice (fCurrentRepeat);
       
-      barline->
-        setBarlineCategory (msrBarline::kBeginningOfARepeat);
-
         barlineIsAlright = true;
       }
       break;
        
     case msrBarline::kHeavyHeavy:
     //---------------------------------------    
+      // set the barline category
+      barline->
+        setBarlineCategory (msrBarline::kBarIsStandalone);
+      
       // append the bar line to the current voice chunk
       fCurrentVoice->
         appendBarlineToVoice (barline);
-
-      barline->
-        setBarlineCategory (msrBarline::kBarIsStandalone);
 
       barlineIsAlright = true;
       break;
       
     case msrBarline::kTick:
     //---------------------------------------
+      // set the barline category
+      barline->
+        setBarlineCategory (msrBarline::kBarIsStandalone);
+      
       // append the bar line to the current voice chunk
       fCurrentVoice->
         appendBarlineToVoice (barline);
-
-      barline->
-        setBarlineCategory (msrBarline::kBarIsStandalone);
 
       barlineIsAlright = true;
       break;
       
     case msrBarline::kShort:
     //---------------------------------------
+      // set the barline category
+      barline->
+        setBarlineCategory (msrBarline::kBarIsStandalone);
+      
       // append the bar line to the current voice chunk
       fCurrentVoice->
         appendBarlineToVoice (barline);
-
-      barline->
-        setBarlineCategory (msrBarline::kBarIsStandalone);
 
       barlineIsAlright = true;
       break;
@@ -2726,12 +2754,13 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               "    beginning of an ending" <<
               endl;
   
+          // set the barline category
+          barline->
+            setBarlineCategory (msrBarline::kBeginningOfAnEnding);
+          
           // append the bar line to the current voice chunk
           fCurrentVoice->
             appendBarlineToVoice (barline);
-
-          barline->
-            setBarlineCategory (msrBarline::kBeginningOfAnEnding);
 
           barlineIsAlright = true;
         }
@@ -2758,12 +2787,13 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               "end of an hooked ending" <<
               endl;
     
+          // set the barline category
+          barline->
+            setBarlineCategory (msrBarline::kEndOfAHookedEnding);
+          
           // append the bar line to the current voice chunk
           fCurrentVoice->
             appendBarlineToVoice (barline);
-
-          barline->
-            setBarlineCategory (msrBarline::kEndOfAHookedEnding);
 
           barlineIsAlright = true;
         }
@@ -2790,12 +2820,13 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               "    end of an hookless ending" <<
               endl;
     
+          // set the barline category
+          barline->
+            setBarlineCategory (msrBarline::kEndOfAHooklessEnding);
+          
           // append the bar line to the current voice chunk
           fCurrentVoice->
             appendBarlineToVoice (barline);
-
-          barline->
-            setBarlineCategory (msrBarline::kEndOfAHooklessEnding);
 
           barlineIsAlright = true;
         }

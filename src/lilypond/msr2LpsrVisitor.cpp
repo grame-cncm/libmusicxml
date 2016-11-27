@@ -60,6 +60,8 @@ msr2LpsrVisitor::msr2LpsrVisitor (
   fOnGoingIdentification = false;
   
   fOnGoingStaff          = false;
+
+  fOnGoingRepeat         = false;
 };
   
 msr2LpsrVisitor::~msr2LpsrVisitor ()
@@ -814,13 +816,64 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       break;
       
     case msrBarline::kRepeatStartAtTheBeginningOfAPart:
+      fCurrentMsrVoiceClone->
+        appendBarlineToVoice (elt);
+      break;
+      
     case msrBarline::kBeginningOfARepeat:
+      fCurrentMsrVoiceClone->
+        appendBarlineToVoice (elt);
+      break;
+      
     case msrBarline::kEndOfARepeat:
+      fCurrentMsrVoiceClone->
+        appendBarlineToVoice (elt);
+        
+/*
+              
+          // get the current voice chunk
+          S_msrVoicechunk
+            currentVoicechunk =
+              fCurrentVoice->
+                getVoicechunk ();
+  
+          // create a new voice chunk for the voice
+          if (fMsrOptions->fDebug)
+            cerr << idtr <<
+              "--> setting new voice chunk for voice " <<
+              fCurrentVoice->getVoiceName () << endl;
+              
+          fCurrentVoice->
+            setNewVoicechunkForVoice (
+              elt->getInputLineNumber ());
+  
+      if (fOnGoingRepeat) {
+        / * JMI
+        barlineIsAlright = true;
+        * /
+      }
+      
+      else {
+      }
+      break;
+*/      
     case msrBarline::kBeginningOfAnEnding:
+      fCurrentMsrVoiceClone->
+        appendBarlineToVoice (elt);
+      break;
+      
     case msrBarline::kEndOfAHookedEnding:
+      fCurrentMsrVoiceClone->
+        appendBarlineToVoice (elt);
+      break;
+      
     case msrBarline::kEndOfAHooklessEnding:
       // no need to keep that barline in the MSR,
       // LilyPond will take care of the repeat display
+      fCurrentMsrVoiceClone->
+        appendBarlineToVoice (elt);
+      break;
+      
       break;
 
     case msrBarline::kEndOfAVoice:
@@ -882,6 +935,8 @@ void msr2LpsrVisitor::visitStart (S_msrRepeat& elt)
   fCurrentMsrVoiceClone->
     appendRepeatToVoice (fCurrentMsrRepeatClone);
  // JMI ???   appendElementToVoice (fCurrentMsrRepeatClone);
+
+  fOnGoingRepeat = true;
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
@@ -891,6 +946,7 @@ void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
       "--> End visiting msrRepeat" << endl;
       
   fCurrentMsrRepeatClone = 0;
+  fOnGoingRepeat = false;
 }
 
 //________________________________________________________________________

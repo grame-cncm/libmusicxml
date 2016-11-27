@@ -1580,8 +1580,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
     case msrBarline::kBeginningOfAnEnding:
     case msrBarline::kEndOfAHookedEnding:
     case msrBarline::kEndOfAHooklessEnding:
-      // should not occur
-      // no need to display that barline,
+      // should not occur, since
       // LilyPond will take care of the repeat display
       break;
 
