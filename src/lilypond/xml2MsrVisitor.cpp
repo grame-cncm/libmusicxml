@@ -2907,7 +2907,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
                 currentVoicechunk,
                 fCurrentRepeat);
   
-          // append it to the current repeat
+          // add the repeat ending it to the current repeat
           if (fMsrOptions->fDebug)
             cerr << idtr <<
               "--> appending repeat ending to current repeat in voice " <<

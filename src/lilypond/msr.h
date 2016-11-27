@@ -2386,19 +2386,7 @@ class EXP msrRepeat : public msrElement
 
     // services
     // ------------------------------------------------------
-/* JMI
-    void      appendElementToCommonPart (S_msrElement elem)
-                    {
-                      fRepeatCommonPart->
-                        appendElementToVoicechunk (elem);
-                    }
-              
-    void      appendElementToLastRepeatending  (S_msrElement elem)
-                  {
-                    fRepeatEndings.back ()->
-                      appendElementToVoicechunk (elem);
-                  }
-*/                    
+
     void      addRepeatending (S_msrRepeatending repeatending)
                   { fRepeatEndings.push_back (repeatending); }
 

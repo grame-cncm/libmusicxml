@@ -865,45 +865,6 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
         fCurrentMsrVoiceClone->
           appendRepeatToVoice (fCurrentMsrRepeatClone);
       }
-
-/*
-          // get the current voice chunk
-          S_msrVoicechunk
-            currentVoicechunk =
-              fCurrentVoice->
-                getVoicechunk ();
-  
-          // create the repeat
-          if (fMsrOptions->fTrace)
-            cerr << idtr <<
-              "Creating a repeat in voice " <<
-              fCurrentVoice->getVoiceName () << endl;
-  
-          fCurrentRepeat =
-            msrRepeat::create (
-              fMsrOptions, elt->getInputLineNumber (),
-              currentVoicechunk,
-              fCurrentVoice);
-  
-          // create a new voice chunk for the voice
-          if (fMsrOptions->fDebug)
-            cerr << idtr <<
-              "--> setting new voice chunk for voice " <<
-              fCurrentVoice->getVoiceName () << endl;
-              
-          fCurrentVoice->
-            setNewVoicechunkForVoice (
-              elt->getInputLineNumber ());
-  
-          // add the repeat to the new voice chunk
-          if (fMsrOptions->fDebug)
-            cerr << idtr <<
-              "--> appending the repeat to voice " <<
-              fCurrentVoice->getVoiceName () << endl;
-
-          fCurrentVoice->
-            appendRepeatToVoice (fCurrentRepeat);
- */
       }
       break;
       
@@ -913,17 +874,121 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       break;
       
     case msrBarline::kEndOfAHookedEnding:
+      {
       fCurrentMsrVoiceClone->
         appendBarlineToVoice (elt);
+
+      // get the current voice chunk
+      S_msrVoicechunk
+        currentVoicechunk =
+          fCurrentMsrVoiceClone->
+            getVoicechunk ();
+
+      // create a new voice chunk for the voice
+      if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> setting new voice chunk for voice " <<
+          fCurrentMsrVoiceClone->getVoiceName () << endl;
+          
+      fCurrentMsrVoiceClone->
+        setNewVoicechunkForVoice (
+          elt->getInputLineNumber ());
+
+      // create a repeat ending from the current voice chunk
+      if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> creating a new repeat ending for voice " <<
+          fCurrentMsrVoiceClone->getVoiceName () << endl;
+          
+      S_msrRepeatending
+        repeatEnding =
+          msrRepeatending::create (
+            fMsrOptions, elt->getInputLineNumber (),
+            elt->getEndingNumber (),
+            msrRepeatending::kHookedEnding,
+            currentVoicechunk,
+            fCurrentMsrRepeatClone);
+
+      // add the repeat ending to the current repeat
+      if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> adding repeat ending to current repeat in voice " <<
+          fCurrentMsrVoiceClone->getVoiceName () << endl;
+          
+      fCurrentMsrRepeatClone->
+        addRepeatending (repeatEnding);
+
+      if (fOnGoingRepeat) {
+        // add the repeat to the new voice chunk
+   //     if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "--> appending the repeat to voice " <<
+            fCurrentMsrVoiceClone->getVoiceName () << endl;
+  
+        fCurrentMsrVoiceClone->
+          appendRepeatToVoice (fCurrentMsrRepeatClone);
+      }
+      }
       break;
       
     case msrBarline::kEndOfAHooklessEnding:
+      {
       // no need to keep that barline in the MSR,
       // LilyPond will take care of the repeat display
       fCurrentMsrVoiceClone->
         appendBarlineToVoice (elt);
-      break;
-      
+
+      // get the current voice chunk
+      S_msrVoicechunk
+        currentVoicechunk =
+          fCurrentMsrVoiceClone->
+            getVoicechunk ();
+
+      // create a new voice chunk for the voice
+      if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> setting new voice chunk for voice " <<
+          fCurrentMsrVoiceClone->getVoiceName () << endl;
+          
+      fCurrentMsrVoiceClone->
+        setNewVoicechunkForVoice (
+          elt->getInputLineNumber ());
+
+      // create a repeat ending from the current voice chunk
+      if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> creating a new repeat ending for voice " <<
+          fCurrentMsrVoiceClone->getVoiceName () << endl;
+          
+      S_msrRepeatending
+        repeatEnding =
+          msrRepeatending::create (
+            fMsrOptions, elt->getInputLineNumber (),
+            elt->getEndingNumber (),
+            msrRepeatending::kHooklessEnding,
+            currentVoicechunk,
+            fCurrentMsrRepeatClone);
+
+      // add the repeat ending to the current repeat
+      if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> adding repeat ending to current repeat in voice " <<
+          fCurrentMsrVoiceClone->getVoiceName () << endl;
+          
+      fCurrentMsrRepeatClone->
+        addRepeatending (repeatEnding);
+
+      if (fOnGoingRepeat) {
+        // add the repeat to the new voice chunk
+   //     if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "--> appending the repeat to voice " <<
+            fCurrentMsrVoiceClone->getVoiceName () << endl;
+  
+        fCurrentMsrVoiceClone->
+          appendRepeatToVoice (fCurrentMsrRepeatClone);
+      }
+      }
       break;
 
     case msrBarline::kEndOfAVoice:
