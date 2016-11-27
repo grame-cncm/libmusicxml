@@ -4388,6 +4388,16 @@ S_msrVoice msrVoice::createEmptyClone (S_msrStaff clonedStaff)
         fStaffRelativeVoiceNumber,
         clonedStaff);
   
+  // create the voice chunk
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Creating the initial voice chunk for voice " <<
+      clone->getVoiceName () << endl;
+      
+  clone->fVoicechunk =
+    msrVoicechunk::create (
+      clone->fMsrOptions, clone->fInputLineNumber);
+  
   return clone;
 }
 

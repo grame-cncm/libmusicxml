@@ -2349,7 +2349,7 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeatending& elt);
 */
 //______________________________________________________________________________
 
-class EXP msrRepeat: public msrElement
+class EXP msrRepeat : public msrElement
 {
   public:
 

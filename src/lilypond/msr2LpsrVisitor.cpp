@@ -669,6 +669,11 @@ void msr2LpsrVisitor::visitStart (S_msrNote& elt)
   switch (elt->getNoteKind ()) {
     
     case msrNote::kStandaloneNote:
+//      if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> appending standalone note " << elt << " to voice " <<
+          fCurrentMsrVoiceClone->getVoiceName () << endl;
+          
       fCurrentMsrVoiceClone->
         appendNoteToVoice (elt); // JMI
       break;
@@ -826,16 +831,59 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       break;
       
     case msrBarline::kEndOfARepeat:
+      {
       fCurrentMsrVoiceClone->
         appendBarlineToVoice (elt);
-        
+
+      // get the current voice chunk
+      S_msrVoicechunk
+        currentVoicechunk =
+          fCurrentMsrVoiceClone->
+            getVoicechunk ();
+
+      // set the current voice chunk as the repeat's common part
+      fCurrentMsrRepeatClone->
+        setRepeatCommonPart (currentVoicechunk);
+      
+      // create a new voice chunk for the voice
+      if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> setting new voice chunk for voice " <<
+          fCurrentMsrVoiceClone->getVoiceName () << endl;
+          
+      fCurrentMsrVoiceClone->
+        setNewVoicechunkForVoice (
+          elt->getInputLineNumber ());
+
+      if (fOnGoingRepeat) {
+        // add the repeat to the new voice chunk
+   //     if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "--> appending the repeat to voice " <<
+            fCurrentMsrVoiceClone->getVoiceName () << endl;
+  
+        fCurrentMsrVoiceClone->
+          appendRepeatToVoice (fCurrentMsrRepeatClone);
+      }
+
 /*
-              
           // get the current voice chunk
           S_msrVoicechunk
             currentVoicechunk =
               fCurrentVoice->
                 getVoicechunk ();
+  
+          // create the repeat
+          if (fMsrOptions->fTrace)
+            cerr << idtr <<
+              "Creating a repeat in voice " <<
+              fCurrentVoice->getVoiceName () << endl;
+  
+          fCurrentRepeat =
+            msrRepeat::create (
+              fMsrOptions, elt->getInputLineNumber (),
+              currentVoicechunk,
+              fCurrentVoice);
   
           // create a new voice chunk for the voice
           if (fMsrOptions->fDebug)
@@ -847,16 +895,18 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
             setNewVoicechunkForVoice (
               elt->getInputLineNumber ());
   
-      if (fOnGoingRepeat) {
-        / * JMI
-        barlineIsAlright = true;
-        * /
-      }
-      
-      else {
+          // add the repeat to the new voice chunk
+          if (fMsrOptions->fDebug)
+            cerr << idtr <<
+              "--> appending the repeat to voice " <<
+              fCurrentVoice->getVoiceName () << endl;
+
+          fCurrentVoice->
+            appendRepeatToVoice (fCurrentRepeat);
+ */
       }
       break;
-*/      
+      
     case msrBarline::kBeginningOfAnEnding:
       fCurrentMsrVoiceClone->
         appendBarlineToVoice (elt);
@@ -932,9 +982,11 @@ void msr2LpsrVisitor::visitStart (S_msrRepeat& elt)
     elt->createEmptyClone (
       fCurrentMsrVoiceClone);
 
+/* JMI
   fCurrentMsrVoiceClone->
     appendRepeatToVoice (fCurrentMsrRepeatClone);
  // JMI ???   appendElementToVoice (fCurrentMsrRepeatClone);
+*/
 
   fOnGoingRepeat = true;
 }
