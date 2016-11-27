@@ -271,6 +271,9 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrLilypondVarValAssoc& elt)
     case lpsrLilypondVarValAssoc::kWithEndl:
       fOstream << endl;
       break;
+    case lpsrLilypondVarValAssoc::kWithEndlTwice:
+      fOstream << endl << endl;
+      break;
     case lpsrLilypondVarValAssoc::kWithoutEndl:
       break;
   } // switch
@@ -310,6 +313,9 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrSchemeVarValAssoc& elt)
   switch (elt->getEndlKind ()) {
     case lpsrSchemeVarValAssoc::kWithEndl:
       fOstream << endl;
+      break;
+    case lpsrSchemeVarValAssoc::kWithEndlTwice:
+      fOstream << endl << endl;
       break;
     case lpsrSchemeVarValAssoc::kWithoutEndl:
       break;

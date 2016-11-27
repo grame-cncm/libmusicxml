@@ -931,13 +931,16 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   os << idtr;
   switch (fEndlKind) {
     case kWithEndl:
-      os << "with";
+      os << "with end line";
+      break;
+    case kWithEndlTwice:
+      os << "with end line twice";
       break;
     case kWithoutEndl:
-      os << "without";
+      os << "without end line";
       break;
   } // switch
-  os << " end line afterwards";
+  os << " afterwards";
   os << endl;
   
   os << idtr << endl;
@@ -1081,13 +1084,16 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
   os << idtr;
   switch (fEndlKind) {
     case kWithEndl:
-      os << "with";
+      os << "with end line";
+      break;
+    case kWithEndlTwice:
+      os << "with end line twice";
       break;
     case kWithoutEndl:
-      os << "without";
+      os << "without end line";
       break;
   } // switch
-  os << " end line afterwards";
+  os << " afterwards";
   os << endl;
   
   os << idtr << endl;
@@ -3083,7 +3089,7 @@ lpsrScore::lpsrScore (
       "set-global-staff-size",
       "20", // the LilyPond default
       "Uncomment and adapt next line as needed (default is 20)",
-      lpsrSchemeVarValAssoc::kWithEndl);
+      lpsrSchemeVarValAssoc::kWithEndlTwice);
 
   // create the header
   fHeader =

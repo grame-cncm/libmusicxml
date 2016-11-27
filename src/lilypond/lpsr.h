@@ -305,7 +305,7 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
     enum lpsrBackslashKind   { kWithBackslash, kWithoutBackslash };
     enum lpsrVarValSeparator { kSpace, kEqualSign };
     enum lpsrQuotesKind      { kQuotesAroundValue, kNoQuotesAroundValue };
-    enum lpsrEndlKind        { kWithEndl, kWithoutEndl };
+    enum lpsrEndlKind        { kWithEndl, kWithEndlTwice, kWithoutEndl };
 
     static string const g_VarValAssocNoUnit;
     static string const g_VarValAssocNoComment;
@@ -421,7 +421,7 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
   public:
 
     enum lpsrCommentedKind { kCommented, kUncommented };
-    enum lpsrEndlKind      { kWithEndl, kWithoutEndl };
+    enum lpsrEndlKind      { kWithEndl, kWithEndlTwice, kWithoutEndl };
 
     static string const g_SchemeVarValAssocNoUnit;
     static string const g_SchemeVarValAssocNoComment;
