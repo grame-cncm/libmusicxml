@@ -2404,7 +2404,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
     //---------------------------------------
 
       if (
-        fCurrentBarlineLocation == msrBarline::msrBarline::kRight
+        fCurrentBarlineLocation == msrBarline::kRight
           &&
         fCurrentBarlineEndingType == msrBarline::kStop
           &&
@@ -2528,11 +2528,11 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               msrBarline::create (
                 fMsrOptions,
                 elt->getInputLineNumber (),
-                fCurrentBarlineLocation,
-                fCurrentBarlineStyle,
-                fCurrentBarlineEndingType,
+                msrBarline::kLeft,
+                msrBarline::kHeavyLight,
+                msrBarline::kStart,
                 fCurrentBarlineEndingNumber,
-                fCurrentBarlineRepeatDirection,
+                msrBarline::kForward,
                 fCurrentBarlineRepeatWinged);
 
           // set the implicit barline category

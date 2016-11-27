@@ -1570,59 +1570,6 @@ ostream& operator<< (ostream& os, const S_msrNote& elt)
   return os;
 }
 
-/*
-void msrNote::printBareNote (ostream& os)
-{  
-  switch (fNoteKind) {
-    case msrNote::kStandaloneNote:
-      // print the note name
-        noteMsrPitchAsString () <<
-        ":" <<
-        getNoteMsrDuration ();
-      break;
-      
-    case msrNote::kRestNote:
-      // print the rest
-      os <<
-        "Rest" <<
-        ":" <<
-        getNoteMsrDuration ();
-      break;
-      
-    case msrNote::kChordMemberNote:
-      os <<
-        noteMsrPitchAsString () <<
-        ":" <<
-        getNoteMsrDuration ();
-      break;
-      
-    case msrNote::kTupletMemberNote:
-      os <<
-        noteMsrPitchAsString () <<
-        ":" <<
-        getNoteMsrDuration ();
-      break;
-  } // switch
-}
-*/
-
-/* JMI
-  if (fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord) {
-
-    // do not print it, msrChord::print () will do it
-    os << noteMsrPitchAsString() << " (FOO) ";
-
-  } else {
-
-    if (fMusicXMLNoteData.fMusicXMLStepIsARest)
-      os << "Rest";
-    else
-      os << "Note";
-    os <<
-      " " << noteMsrPitchAsString () <<
-      ":" << fNoteMsrDuration;
-      */
-
 void msrNote::print (ostream& os)
 {
   // print the note itself
@@ -1727,7 +1674,7 @@ void msrNote::print (ostream& os)
   }
 
   // print the slur if any
-  if (fNoteSlurKind != msrSlur::k_NoSlur) {
+  if (fNoteSlurKind != msrSlur::k_NoSlur) { // JMI
     idtr++;
     
     switch (fNoteSlurKind) {
@@ -2694,7 +2641,6 @@ void msrClef::acceptOut (basevisitor* v) {
   }
 }
 
-
 void msrClef::browseData (basevisitor* v)
 {}
 
@@ -2730,77 +2676,9 @@ void msrClef::print (ostream& os)
         os << "octaveChange" << fOctaveChange << "???";
     } // switch
   }
+
+  os << endl;
 }
-
-/*
-void msrClef::printLilyPondCode (ostream& os)
-{
-  stringstream s; 
-
-  // USER
-//  checkStaff (staffnum);
-
-  if ( fSign == "G") {
-    if ( fLine == 2 )
-      s << "treble"; 
-    else { // unknown G clef line !!
-      cerr << 
-        "warning: unknown G clef line \"" << fLine << "\"" <<
-        endl;
-      return; 
-      }
-    }
-  else if ( fSign == "F") {
-    if ( fLine == 4 )
-      s << "bass"; 
-    else { // unknown F clef line !!
-      cerr << 
-        "warning: unknown F clef line \"" << fLine << "\"" <<
-        endl;
-      return; 
-      }
-    }
-  else if ( fSign == "C") {
-    if ( fLine == 4 )
-      s << "tenor"; 
-    else if ( fLine == 3 )
-      s << "alto"; 
-    else { // unknown C clef line !!
-      cerr << 
-        "warning: unknown C clef line \"" <<
-        fLine << 
-        "\"" <<
-        endl;
-      return; 
-      }
-    }
-  else if ( fSign == "percussion") {
-    s << "perc"; }
-  else if ( fSign == "TAB") {
-    s << "TAB"; }
-  else if ( fSign == "none") {
-    s << "none"; }
-  else { // unknown clef sign !!
-    cerr << 
-      "warning: unknown clef sign \"" <<
-       fSign << 
-       "\"" <<
-      endl;
-    return; 
-  }
-    
- // if (fLine != kStandardLine) 
-    // s << fLine; // USER
-//    s >> param;
-    
-  if (fOctaveChange == 1)
-    s << "^8";
-  else if (fOctaveChange == -1)
-    s << "_8";
-
-  os << "\\clef" << " \"" << s.str() << "\"" << endl;
-}
-*/
 
 //______________________________________________________________________________
 S_msrKey msrKey::create (
@@ -2962,6 +2840,7 @@ void msrKey::print (ostream& os)
     os << "\\major";
   else
     os << "\\minor";
+  os << endl;
 }
 
 //______________________________________________________________________________
@@ -3040,7 +2919,8 @@ void msrTime::print (ostream& os)
 {
   os <<
     "Time " << 
-    fRational.getNumerator() << "/" << fRational.getDenominator();
+    fRational.getNumerator() << "/" << fRational.getDenominator() <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -4006,7 +3886,7 @@ void msrVoicechunk::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+  // JMI    os << endl;
     } // for
   }
   os << endl;
@@ -4014,8 +3894,6 @@ void msrVoicechunk::print (ostream& os)
   idtr--;
 
   idtr--;
-  
-  os << endl;
 }
 
 //______________________________________________________________________________
@@ -4134,7 +4012,7 @@ void msrRepeatending::print (ostream& os)
   
   idtr++;
 
-  os << idtr << fRepeatendingVoicechunk;
+  os << fRepeatendingVoicechunk;
 
   idtr--;
 }
@@ -4245,7 +4123,10 @@ ostream& operator<< (ostream& os, const S_msrRepeat& rept)
 void msrRepeat::print (ostream& os)
 {
   os <<
-    "Repeat" << ", input line: " << fInputLineNumber << endl;
+    endl <<
+    idtr << "Repeat" <<
+    ", input line: " << fInputLineNumber <<
+    endl;
   
   idtr++;
   
@@ -5093,20 +4974,17 @@ void msrStaff::print (ostream& os)
   if (fStaffClef)
     os << idtr << fStaffClef;
   else
-    os << idtr << "NO_CLEF";
-  os << endl;
+    os << idtr << "NO_CLEF" << endl;
 
   if (fStaffKey)
     os << idtr << fStaffKey;
   else
-    os << idtr << "NO_KEY";
-  os << endl;
+    os << idtr << "NO_KEY" << endl;
 
   if (fStaffTime)
     os << idtr << fStaffTime;
   else
-    os << idtr << "NO_TIME";
-  os << endl;
+    os << idtr << "NO_TIME" << endl;
 
   os <<
     idtr << "StaffInstrumentName: \"" <<
@@ -5941,7 +5819,7 @@ void msrIdentification::print (ostream& os)
     os << idtr << fMovementTitle;
     emptyIdentification = false;
   }
-    
+    // JMI for   ; ; 
   if (!fCreators.empty()) {
     vector<S_msrVarValAssoc>::const_iterator i1;
     for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
