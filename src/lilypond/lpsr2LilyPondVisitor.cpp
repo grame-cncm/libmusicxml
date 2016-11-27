@@ -432,8 +432,8 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrLayout& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrLayout" << endl;
 
-  fOstream << idtr <<
-    "\\layout" << " {" <<
+  fOstream <<
+    idtr << "\\layout" << " {" <<
     endl;
 
   idtr++;
@@ -490,8 +490,8 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrParallelMusic& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrParallelMusic" << endl;
 
-  fOstream << idtr <<
-    "<<" <<
+  fOstream <<
+    idtr << "<<" <<
     endl;
 
   idtr++;
@@ -505,9 +505,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrParallelMusic& elt)
 
   idtr--;
   
-  fOstream << idtr <<
-    endl << idtr << // JMI
-    ">>" <<
+  fOstream <<
+    idtr << ">>" <<
     endl << endl;
 }
 
@@ -535,9 +534,9 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupCommand& elt)
 
   idtr--;
 
-  fOstream << idtr <<
-    " }" <<
-    endl << endl;
+  fOstream <<
+    idtr << "}" <<
+    endl;
 }
 
 //________________________________________________________________________
@@ -564,9 +563,9 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartCommand& elt)
 
   idtr--;
 
-  fOstream << idtr <<
-    " }" <<
-    endl << endl;
+  fOstream <<
+    idtr << "}" <<
+    endl;
 }
 
 //________________________________________________________________________
@@ -593,9 +592,9 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffCommand& elt)
 
   idtr--;
 
-  fOstream << idtr <<
-    " }" <<
-    endl << endl;
+  fOstream <<
+    idtr << "}" <<
+    endl;
 }
 
 /*
@@ -864,8 +863,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
     fOstream << idtr <<
       "% --> Start visiting msrVoicechunk" << endl;
 
-  fOstream << idtr <<
-    "% start msrVoicechunk" << endl;
+//  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "{" << " % start of msrVoicechunk" << endl;
 
   idtr++;
 }
@@ -877,9 +877,12 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrVoicechunk" << endl;
-  
-  fOstream << idtr <<
-    "% end msrVoicechunk" << endl;
+
+//  if (fMsrOptions->fDebug)
+    fOstream <<
+      endl <<
+      idtr <<
+      "}" << " % end of msrVoicechunk" << endl;
 }
 
 //________________________________________________________________________
@@ -1586,6 +1589,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
 
     case msrBarline::kBarIsStandalone:
     case msrBarline::kEndOfAVoice:
+      fOstream <<
+        endl <<
+        idtr;
+      
       switch (elt->getStyle ()) {
         case msrBarline::k_NoStyle:
           break;
@@ -1680,6 +1687,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeat& elt)
   fOstream << idtr <<
     "\\repeat" << " " << "volta" << " " << "2" << " {" << // JMI
     endl;
+
+  idtr++;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
@@ -1688,8 +1697,10 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
     fOstream << idtr <<
       "% --> End visiting msrRepeat" << endl;
 
+  idtr--;
+  
   fOstream << idtr <<
-    "}" <<
+    "}" << " % end of repeat" <<
     endl;
 }
 
@@ -1720,7 +1731,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeatending& elt)
       "% --> End visiting msrRepeatending" << endl;
 
   fOstream << idtr <<
-    "}" <<
+    "}" <<" % end of alternative" <<
     endl;
 }
 
