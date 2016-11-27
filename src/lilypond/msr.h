@@ -2087,7 +2087,7 @@ class EXP msrBarline : public msrElement
     enum msrBarlineCategory {
       kBarIsStandalone,
       kRepeatStartAtTheBeginningOfAPart,
-      kBeginningOfARepeat,
+      kBeginningOfARepeat, kEndOfARepeat,
       kBeginningOfAnEnding, kEndOfAHookedEnding, kEndOfAHooklessEnding,
       kEndOfAVoice};
       
@@ -2102,8 +2102,7 @@ class EXP msrBarline : public msrElement
       msrBarlineEndingType      endingType,
       string                    endingNumber,
       msrBarlineRepeatDirection repeatDirection,
-      msrBarlineRepeatWinged    repeatWinged,
-      int                       nextBarNumber);
+      msrBarlineRepeatWinged    repeatWinged);
 
     // set and get
     // ------------------------------------------------------
@@ -2136,9 +2135,6 @@ class EXP msrBarline : public msrElement
                 getEndingNumbersList () const
                     { return fEndingNumbersList; }
                         
-    int         getNextBarNumber () const
-                    { return fNextBarNumber; }
-
     msrBarlineCategory
                 getBarlineCategory () const
                     { return fBarlineCategory; }
@@ -2170,8 +2166,7 @@ class EXP msrBarline : public msrElement
       msrBarlineEndingType      endingType,
       string                    endingNumber,
       msrBarlineRepeatDirection repeatDirection,
-      msrBarlineRepeatWinged    repeatWinged,
-      int                       nextBarNumber);
+      msrBarlineRepeatWinged    repeatWinged);
     virtual ~msrBarline();
   
   private:
@@ -2184,8 +2179,6 @@ class EXP msrBarline : public msrElement
     msrBarlineRepeatWinged    fRepeatWinged;
 
     msrBarlineCategory        fBarlineCategory;
-
-    int                       fNextBarNumber;
 
     // the numbers extracted from fEndingNumber
     list<int>                 fEndingNumbersList;
@@ -2513,6 +2506,7 @@ class EXP msrVoice : public msrElement
     void      appendChordToVoice   (S_msrChord chord);
     void      appendTupletToVoice  (S_msrTuplet tuplet);
     
+    void      prependRepeatToVoice (S_msrRepeat repeat);
     void      appendRepeatToVoice  (S_msrRepeat repeat);
     void      appendBarlineToVoice (S_msrBarline barline);
     

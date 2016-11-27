@@ -814,6 +814,8 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       break;
       
     case msrBarline::kRepeatStartAtTheBeginningOfAPart:
+    case msrBarline::kBeginningOfARepeat:
+    case msrBarline::kEndOfARepeat:
     case msrBarline::kBeginningOfAnEnding:
     case msrBarline::kEndOfAHookedEnding:
     case msrBarline::kEndOfAHooklessEnding:

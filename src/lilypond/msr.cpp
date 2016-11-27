@@ -3626,16 +3626,14 @@ S_msrBarline msrBarline::create (
   msrBarlineEndingType      endingType,
   string                    endingNumber,
   msrBarlineRepeatDirection repeatDirection,
-  msrBarlineRepeatWinged    repeatWinged,
-  int                       nextBarNumber)
+  msrBarlineRepeatWinged    repeatWinged)
 {
   msrBarline* o =
     new msrBarline (
       msrOpts, inputLineNumber,
       location, style,
       endingType, endingNumber,
-      repeatDirection, repeatWinged,
-      nextBarNumber);
+      repeatDirection, repeatWinged);
   assert(o!=0);
   return o;
 }
@@ -3648,8 +3646,7 @@ msrBarline::msrBarline (
   msrBarlineEndingType      endingType,
   string                    endingNumber,
   msrBarlineRepeatDirection repeatDirection,
-  msrBarlineRepeatWinged    repeatWinged,
-  int                       nextBarNumber)
+  msrBarlineRepeatWinged    repeatWinged)
     : msrElement (msrOpts, inputLineNumber)
 {
   fLocation        = location;
@@ -3659,8 +3656,6 @@ msrBarline::msrBarline (
   fRepeatDirection = repeatDirection;
   fRepeatWinged    = repeatWinged;
   
-  fNextBarNumber   = nextBarNumber;
-
   // JMI cout << "fEndingNumber = " << fEndingNumber << endl;
   
   // extract individual numbers from fEndingNumber
@@ -3732,6 +3727,9 @@ void msrBarline::print (ostream& os)
     case kBeginningOfARepeat:
       os << "begining of a repeat";
       break;
+    case kEndOfARepeat:
+      os << "end of a repeat";
+      break;
     case kBeginningOfAnEnding:
       os << "begining of an ending";
       break;
@@ -3742,7 +3740,7 @@ void msrBarline::print (ostream& os)
       os << "end of a hookless ending";
       break;
     case kEndOfAVoice:
-      os << "end a voice";
+      os << "end of a voice";
       break;
   } // switch
   os << endl;
@@ -3867,10 +3865,7 @@ void msrBarline::print (ostream& os)
       break;
   } // switch
   os << endl;
-    
-  os <<
-    idtr << setw(15) << "NextBarNumber" << " : " << fNextBarNumber << endl;
- 
+     
   idtr--;
 }
 
@@ -4600,11 +4595,20 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
     appendElementToVoicechunk (t);
 }
 
+void msrVoice::prependRepeatToVoice (S_msrRepeat repeat) {
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Prepending repeat to voice " << getVoiceName () << endl;
+
+  S_msrElement r = repeat;
+  fVoicechunk->
+    prependElementToVoicechunk (r);
+}
+
 void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending repeat '" << // JMI repeat <<
-      "' to voice " << getVoiceName () << endl;
+      "Appending repeat to voice " << getVoiceName () << endl;
 
   S_msrElement r = repeat;
   fVoicechunk->

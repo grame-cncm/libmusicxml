@@ -1572,11 +1572,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
     fOstream << idtr <<
       "% --> Start visiting msrBarline" << endl;
 
-  fOstream << "| % " << elt->getNextBarNumber () << endl;
-
   switch (elt->getBarlineCategory ()) {
     
     case msrBarline::kRepeatStartAtTheBeginningOfAPart:
+    case msrBarline::kBeginningOfARepeat:
+    case msrBarline::kEndOfARepeat:
     case msrBarline::kBeginningOfAnEnding:
     case msrBarline::kEndOfAHookedEnding:
     case msrBarline::kEndOfAHooklessEnding:
