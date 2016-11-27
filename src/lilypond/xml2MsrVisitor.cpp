@@ -2641,10 +2641,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStartOfARepeat);
       
-        // append the bar line to the current voice chunk
-        fCurrentVoice->
-          appendBarlineToVoice (barline);
-
         // get the current voice chunk
         S_msrVoicechunk
           currentVoicechunk =
@@ -2673,6 +2669,11 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           setNewVoicechunkForVoice (
             elt->getInputLineNumber ());
 
+        // append the bar line to the new current voice chunk
+        fCurrentVoice->
+          appendBarlineToVoice (barline);
+
+/* JMI
         // add the repeat to the voice
         if (fMsrOptions->fDebug)
           cerr << idtr <<
@@ -2680,7 +2681,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
             fCurrentVoice->getVoiceName () << endl;
         fCurrentVoice->
           appendRepeatToVoice (fCurrentRepeat);
-      
+*/      
         barlineIsAlright = true;
       }
       break;
@@ -2871,6 +2872,64 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           fCurrentVoice->
             appendBarlineToVoice (barline);
 
+          // get the current voice chunk
+          S_msrVoicechunk
+            currentVoicechunk =
+              fCurrentVoice->
+                getVoicechunk ();
+  
+          // create new voice chunk from current voice
+          if (fMsrOptions->fDebug)
+            cerr << idtr <<
+              "--> setting new voice chunk for voice " <<
+              fCurrentVoice->getVoiceName () << endl;
+              
+          fCurrentVoice->
+            setNewVoicechunkForVoice (
+              elt->getInputLineNumber ());
+  
+          // append the bar line to the new current voice chunk
+          fCurrentVoice->
+            appendBarlineToVoice (barline);
+
+          // create a repeat ending from the current voice chunk
+          if (fMsrOptions->fDebug)
+            cerr << idtr <<
+              "--> creating a new repeat ending for voice " <<
+              fCurrentVoice->getVoiceName () << endl;
+              
+          S_msrRepeatending
+            repeatEnding =
+              msrRepeatending::create (
+                fMsrOptions, elt->getInputLineNumber (),
+                fCurrentBarlineEndingNumber,
+                msrRepeatending::kHooklessEnding,
+                currentVoicechunk,
+                fCurrentRepeat);
+  
+          // append it to the current repeat
+          if (fMsrOptions->fDebug)
+            cerr << idtr <<
+              "--> appending repeat ending to current repeat in voice " <<
+              fCurrentVoice->getVoiceName () << endl;
+              
+          fCurrentRepeat->
+            addRepeatending (repeatEnding);
+
+
+
+
+
+          // add the repeat to the voice
+          if (fMsrOptions->fDebug)
+            cerr << idtr <<
+              "--> appending the repeat to voice " <<
+              fCurrentVoice->getVoiceName () << endl;
+          fCurrentVoice->
+            appendRepeatToVoice (fCurrentRepeat);
+
+            
+
           barlineIsAlright = true;
         }
       }
@@ -2945,115 +3004,6 @@ The discontinue value is typically used for the last ending in a set, where ther
     <ending type="discontinue" number="2"/>
   </barline>
 
-  switch (fLocation) {
-    case kLeft:
-      os << "Left";
-      break;
-    case kMiddle:
-      os << "Middle";
-      break;
-    case kRight:
-      os << "Right";
-      break;
-  } // switch
-  os << endl;
-  
-  os <<
-    idtr << "Style" << " = ";
-  switch (fStyle) {
-    case kRegular:
-      os << "Regular";
-      break;
-    case kDotted:
-      os << "Dotted";
-      break;
-    case kDashed:
-      os << "Dashed";
-      break;
-    case kHeavy:
-      os << "Heavy";
-      break;
-    case kLightLight:
-      os << "LightLight";
-      break;
-    case kLightHeavy:
-      os << "LightHeavy";
-      break;
-    case kHeavyLight:
-      os << "HeavyLight";
-      break;
-    case kHeavyHeavy:
-      os << "HeavyHeavy";
-      break;
-    case kTick:
-      os << "Tick";
-      break;
-    case kShort:
-      os << "Short";
-      break;
-  } // switch
-  os << endl;
-  
-  os <<
-    idtr << "EndingType" << " = ";
-  switch (fEndingType) {
-    case kStart:
-      os << "Start";
-      break;
-    case kStop:
-      os << "Stop";
-      break;
-    case kDiscontinue:
-      os << "Discontinue";
-      break;
-  } // switch
-  os << endl;
-  
-  os <<
-    idtr << "Ending number: ";
-  list<int>::const_iterator i;
-  for (i=fEndingNumbersList.begin(); i!=fEndingNumbersList.end(); i++) {
-    os << (*i) << " ";
-  } // for
-  os << endl;
- 
-  os <<
-    idtr << "RepeatDirection" << " = ";
-  switch (fRepeatDirection) {
-    case k_NoRepeatDirection:
-      os << "none";
-      break;
-    case kForward:
-      os << "Forward";
-      break;
-    case kBackward:
-      os << "Backward";
-      break;
-  } // switch
-  os << endl;
-  
-  os <<
-    idtr << "RepeatWinged" << " = ";
-  switch (fRepeatWinged) {
-    case k_NoRepeatWinged:
-      os << "none";
-      break;
-    case kStraight:
-      os << "Straight";
-      break;
-    case kCurved:
-      os << "Curved";
-      break;
-    case kDoubleStraight:
-      os << "DoubleStraight";
-      break;
-    case kDoubleCurved:
-      os << "DoubleCurved";
-      break;
-  } // switch
-  os << endl;
-
-  // append the barline to the voice
     */
 
 //______________________________________________________________________________
