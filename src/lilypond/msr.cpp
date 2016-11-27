@@ -3936,6 +3936,10 @@ msrRepeatending::~msrRepeatending() {}
 S_msrRepeatending msrRepeatending::createEmptyClone (
   S_msrRepeat clonedRepeat)
 {
+//  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating an empty clone of a repeat ending" << endl;
+  
   S_msrRepeatending
     clone =
       msrRepeatending::create (
@@ -4051,7 +4055,11 @@ S_msrRepeat msrRepeat::createEmptyClone (S_msrVoice clonedVoice)
     voicechunk =
       msrVoicechunk::create (
         fMsrOptions, fInputLineNumber);
-      
+
+//  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating an empty clone of a repeat" << endl;
+  
   S_msrRepeat
     clone =
       msrRepeat::create (

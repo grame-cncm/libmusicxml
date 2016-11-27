@@ -2455,7 +2455,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         // create a repeat ending from the current voice chunk
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "--> creating a new repeat ending for voice " <<
+            "--> creating a new hooked repeat ending for voice " <<
             fCurrentVoice->getVoiceName () << endl;
             
         S_msrRepeatending
@@ -2553,7 +2553,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           // create the repeat
           if (fMsrOptions->fTrace)
             cerr << idtr <<
-              "Creating a repeat in voice " <<
+              "Creating a repeat at the beginning of voice " <<
               fCurrentVoice->getVoiceName () << endl;
   
           fCurrentRepeat =
@@ -2634,13 +2634,17 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               "--> barline with heavy-light, left, forward and start:" <<
               endl <<
               idtr <<
-                "start of a repeat" <<
+              "    start of a repeat" <<
               endl;
 
         // set the barline category
         barline->
           setBarlineCategory (msrBarline::kStartOfARepeat);
       
+        // append the bar line to the new current voice chunk
+        fCurrentVoice->
+          appendBarlineToVoice (barline);
+
         // get the current voice chunk
         S_msrVoicechunk
           currentVoicechunk =
@@ -2669,19 +2673,16 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           setNewVoicechunkForVoice (
             elt->getInputLineNumber ());
 
-        // append the bar line to the new current voice chunk
-        fCurrentVoice->
-          appendBarlineToVoice (barline);
-
-/* JMI
-        // add the repeat to the voice
+/*
+        // add the repeat to the new voice chunk
         if (fMsrOptions->fDebug)
           cerr << idtr <<
             "--> appending the repeat to voice " <<
             fCurrentVoice->getVoiceName () << endl;
+
         fCurrentVoice->
           appendRepeatToVoice (fCurrentRepeat);
-*/      
+*/
         barlineIsAlright = true;
       }
       break;
@@ -2763,8 +2764,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           fCurrentVoice->
             appendBarlineToVoice (barline);
 
-
-
   
           // get the current voice chunk
           S_msrVoicechunk
@@ -2772,39 +2771,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               fCurrentVoice->
                 getVoicechunk ();
   
-  /*
-          // create the repeat
-          if (fMsrOptions->fTrace)
-            cerr << idtr <<
-              "Creating a repeat in voice " <<
-              fCurrentVoice->getVoiceName () << endl;
-
-          fCurrentRepeat =
-            msrRepeat::create (
-              fMsrOptions, elt->getInputLineNumber (),
-              currentVoicechunk,
-              fCurrentVoice);
-  
-          // create a new voice chunk for the voice
-          if (fMsrOptions->fDebug)
-            cerr << idtr <<
-              "--> setting new voice chunk for voice " <<
-              fCurrentVoice->getVoiceName () << endl;
-              
-          fCurrentVoice->
-            setNewVoicechunkForVoice (
-              elt->getInputLineNumber ());
-  
-          // add the repeat to the voice
-          if (fMsrOptions->fDebug)
-            cerr << idtr <<
-              "--> appending the repeat to voice " <<
-              fCurrentVoice->getVoiceName () << endl;
-          fCurrentVoice->
-            appendRepeatToVoice (fCurrentRepeat);
-*/
-
-
 
           barlineIsAlright = true;
         }
@@ -2828,7 +2794,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               idtr <<
               "--> barline with right and stop:" << endl <<
               idtr <<
-              "end of an hooked ending" <<
+              "    end of an hooked ending" <<
               endl;
     
           // set the barline category
@@ -2895,7 +2861,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           // create a repeat ending from the current voice chunk
           if (fMsrOptions->fDebug)
             cerr << idtr <<
-              "--> creating a new repeat ending for voice " <<
+              "--> creating a new hookless repeat ending for voice " <<
               fCurrentVoice->getVoiceName () << endl;
               
           S_msrRepeatending
@@ -2916,10 +2882,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           fCurrentRepeat->
             addRepeatending (repeatEnding);
 
-
-
-
-
           // add the repeat to the voice
           if (fMsrOptions->fDebug)
             cerr << idtr <<
@@ -2927,8 +2889,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               fCurrentVoice->getVoiceName () << endl;
           fCurrentVoice->
             appendRepeatToVoice (fCurrentRepeat);
-
-            
 
           barlineIsAlright = true;
         }

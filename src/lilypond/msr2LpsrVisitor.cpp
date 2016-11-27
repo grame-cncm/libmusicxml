@@ -885,7 +885,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
             getVoicechunk ();
 
       // create a new voice chunk for the voice
-      if (fMsrOptions->fDebug)
+//      if (fMsrOptions->fDebug)
         cerr << idtr <<
           "--> setting new voice chunk for voice " <<
           fCurrentMsrVoiceClone->getVoiceName () << endl;
@@ -895,7 +895,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
           elt->getInputLineNumber ());
 
       // create a repeat ending from the current voice chunk
-      if (fMsrOptions->fDebug)
+//      if (fMsrOptions->fDebug)
         cerr << idtr <<
           "--> creating a new repeat ending for voice " <<
           fCurrentMsrVoiceClone->getVoiceName () << endl;
@@ -910,7 +910,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
             fCurrentMsrRepeatClone);
 
       // add the repeat ending to the current repeat
-      if (fMsrOptions->fDebug)
+//      if (fMsrOptions->fDebug)
         cerr << idtr <<
           "--> adding repeat ending to current repeat in voice " <<
           fCurrentMsrVoiceClone->getVoiceName () << endl;
@@ -945,7 +945,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
             getVoicechunk ();
 
       // create a new voice chunk for the voice
-      if (fMsrOptions->fDebug)
+//      if (fMsrOptions->fDebug)
         cerr << idtr <<
           "--> setting new voice chunk for voice " <<
           fCurrentMsrVoiceClone->getVoiceName () << endl;
@@ -955,7 +955,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
           elt->getInputLineNumber ());
 
       // create a repeat ending from the current voice chunk
-      if (fMsrOptions->fDebug)
+//      if (fMsrOptions->fDebug)
         cerr << idtr <<
           "--> creating a new repeat ending for voice " <<
           fCurrentMsrVoiceClone->getVoiceName () << endl;
@@ -970,7 +970,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
             fCurrentMsrRepeatClone);
 
       // add the repeat ending to the current repeat
-      if (fMsrOptions->fDebug)
+//      if (fMsrOptions->fDebug)
         cerr << idtr <<
           "--> adding repeat ending to current repeat in voice " <<
           fCurrentMsrVoiceClone->getVoiceName () << endl;
