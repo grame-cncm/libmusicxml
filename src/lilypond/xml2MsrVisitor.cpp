@@ -2641,10 +2641,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStartOfARepeat);
       
-        // append the bar line to the new current voice chunk
-        fCurrentVoice->
-          appendBarlineToVoice (barline);
-
         // get the current voice chunk
         S_msrVoicechunk
           currentVoicechunk =
@@ -2672,6 +2668,11 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentVoice->
           setNewVoicechunkForVoice (
             elt->getInputLineNumber ());
+
+        // append the bar line to the new current voice chunk
+        fCurrentVoice->
+          appendBarlineToVoice (barline);
+
 
 /*
         // add the repeat to the new voice chunk
@@ -2844,20 +2845,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               fCurrentVoice->
                 getVoicechunk ();
   
-          // create new voice chunk from current voice
-          if (fMsrOptions->fDebug)
-            cerr << idtr <<
-              "--> setting new voice chunk for voice " <<
-              fCurrentVoice->getVoiceName () << endl;
-              
-          fCurrentVoice->
-            setNewVoicechunkForVoice (
-              elt->getInputLineNumber ());
-  
-          // append the bar line to the new current voice chunk
-          fCurrentVoice->
-            appendBarlineToVoice (barline);
-
           // create a repeat ending from the current voice chunk
           if (fMsrOptions->fDebug)
             cerr << idtr <<
@@ -2882,6 +2869,16 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           fCurrentRepeat->
             addRepeatending (repeatEnding);
 
+          // create new voice chunk from current voice
+          if (fMsrOptions->fDebug)
+            cerr << idtr <<
+              "--> setting new voice chunk for voice " <<
+              fCurrentVoice->getVoiceName () << endl;
+              
+          fCurrentVoice->
+            setNewVoicechunkForVoice (
+              elt->getInputLineNumber ());
+  
           // add the repeat to the voice
           if (fMsrOptions->fDebug)
             cerr << idtr <<
