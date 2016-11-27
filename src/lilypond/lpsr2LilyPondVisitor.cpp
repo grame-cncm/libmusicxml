@@ -1593,9 +1593,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
   switch (elt->getBarlineCategory ()) {
     
     case msrBarline::kRepeatStartAtTheBeginningOfAPart:
-    case msrBarline::kBeginningOfARepeat:
+    case msrBarline::kStartOfARepeat:
     case msrBarline::kEndOfARepeat:
-    case msrBarline::kBeginningOfAnEnding:
+    case msrBarline::kStartOfAnEnding:
     case msrBarline::kEndOfAHookedEnding:
     case msrBarline::kEndOfAHooklessEnding:
       // should not occur, since

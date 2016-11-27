@@ -2634,12 +2634,12 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               "--> barline with heavy-light, left, forward and start:" <<
               endl <<
               idtr <<
-                "beginning of a repeat" <<
+                "start of a repeat" <<
               endl;
 
         // set the barline category
         barline->
-          setBarlineCategory (msrBarline::kBeginningOfARepeat);
+          setBarlineCategory (msrBarline::kStartOfARepeat);
       
         // append the bar line to the current voice chunk
         fCurrentVoice->
@@ -2751,16 +2751,59 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               idtr <<
               "--> barline with left and start:" << endl <<
               idtr <<
-              "    beginning of an ending" <<
+              "    start of an ending" <<
               endl;
   
           // set the barline category
           barline->
-            setBarlineCategory (msrBarline::kBeginningOfAnEnding);
+            setBarlineCategory (msrBarline::kStartOfAnEnding);
           
           // append the bar line to the current voice chunk
           fCurrentVoice->
             appendBarlineToVoice (barline);
+
+
+
+  
+          // get the current voice chunk
+          S_msrVoicechunk
+            currentVoicechunk =
+              fCurrentVoice->
+                getVoicechunk ();
+  
+  /*
+          // create the repeat
+          if (fMsrOptions->fTrace)
+            cerr << idtr <<
+              "Creating a repeat in voice " <<
+              fCurrentVoice->getVoiceName () << endl;
+
+          fCurrentRepeat =
+            msrRepeat::create (
+              fMsrOptions, elt->getInputLineNumber (),
+              currentVoicechunk,
+              fCurrentVoice);
+  
+          // create a new voice chunk for the voice
+          if (fMsrOptions->fDebug)
+            cerr << idtr <<
+              "--> setting new voice chunk for voice " <<
+              fCurrentVoice->getVoiceName () << endl;
+              
+          fCurrentVoice->
+            setNewVoicechunkForVoice (
+              elt->getInputLineNumber ());
+  
+          // add the repeat to the voice
+          if (fMsrOptions->fDebug)
+            cerr << idtr <<
+              "--> appending the repeat to voice " <<
+              fCurrentVoice->getVoiceName () << endl;
+          fCurrentVoice->
+            appendRepeatToVoice (fCurrentRepeat);
+*/
+
+
 
           barlineIsAlright = true;
         }
@@ -2967,7 +3010,7 @@ The discontinue value is typically used for the last ending in a set, where ther
   os << endl;
   
   os <<
-    idtr << "Ending numbers : ";
+    idtr << "Ending number: ";
   list<int>::const_iterator i;
   for (i=fEndingNumbersList.begin(); i!=fEndingNumbersList.end(); i++) {
     os << (*i) << " ";

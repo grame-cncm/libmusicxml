@@ -825,7 +825,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
         appendBarlineToVoice (elt);
       break;
       
-    case msrBarline::kBeginningOfARepeat:
+    case msrBarline::kStartOfARepeat:
       fCurrentMsrVoiceClone->
         appendBarlineToVoice (elt);
       break;
@@ -907,7 +907,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       }
       break;
       
-    case msrBarline::kBeginningOfAnEnding:
+    case msrBarline::kStartOfAnEnding:
       fCurrentMsrVoiceClone->
         appendBarlineToVoice (elt);
       break;

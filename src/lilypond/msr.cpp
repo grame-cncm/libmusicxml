@@ -1006,7 +1006,7 @@ ostream& operator<< (ostream& os, const S_msrSlur& wdg)
 
 void msrSlur::print (ostream& os)
 {
-  os << "Slur" << " " << slurKindAsString () << endl;
+  os << "Slur" << " " << slurKindAsString ();
 }
 
 //______________________________________________________________________________
@@ -1667,12 +1667,11 @@ void msrNote::print (ostream& os)
   if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
     os << " " << "tied";
 
-// JMI  os << endl;
+  os << endl;
   
   // print the beam if any
   if (fNoteBeam) {
     os <<
-      endl <<
       idtr << fNoteBeam;
   }
   
@@ -1685,11 +1684,11 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteArticulations.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << idtr << (*i) << endl;
       if (++i == iEnd) break;
       os << endl;
     } // for
-
+        
     idtr--;
   }
   
@@ -1841,7 +1840,7 @@ ostream& operator<< (ostream& os, const S_msrChord& chrd)
 
 void msrChord::print (ostream& os)
 {
-  os << "Chord" << endl;
+  os << "Chord" << ", duration: " << fChordDuration << endl;
 
   idtr++;
   
@@ -1852,15 +1851,12 @@ void msrChord::print (ostream& os)
       i      = iBegin;
     for ( ; ; ) {
    //   os << (*i)->noteMsrPitchAsString (); JMI
-      os << (*i);
+      os << idtr << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
   }
   
-  // print the chord duration
-  os << fChordDuration << endl; 
-
   // print the articulations if any
   if (fChordArticulations.size()) {
     idtr++;
@@ -3724,14 +3720,14 @@ void msrBarline::print (ostream& os)
     case kRepeatStartAtTheBeginningOfAPart:
       os << "repeat start at the beginning of a part";
       break;
-    case kBeginningOfARepeat:
-      os << "begining of a repeat";
+    case kStartOfARepeat:
+      os << "start of a repeat";
       break;
     case kEndOfARepeat:
       os << "end of a repeat";
       break;
-    case kBeginningOfAnEnding:
-      os << "begining of an ending";
+    case kStartOfAnEnding:
+      os << "start of an ending";
       break;
     case kEndOfAHookedEnding:
       os << "end of a hooked ending";
@@ -3823,7 +3819,7 @@ void msrBarline::print (ostream& os)
   os << endl;
   
   os <<
-    idtr << setw(15) << "Ending numbers " << " : ";
+    idtr << setw(15) << "Ending number" << " : ";
   list<int>::const_iterator i;
   for (i=fEndingNumbersList.begin(); i!=fEndingNumbersList.end(); i++) {
     os << (*i) << " ";
