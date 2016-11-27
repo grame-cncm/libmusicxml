@@ -45,6 +45,12 @@ namespace MusicXML2
         - LilyPond source code with       printLilypondCode()
 */
 
+//______________________________________________________________________________
+// PRE-declarations for class dependencies
+
+class lpsrRepeat;
+typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
+
 /*!
 \brief Global variables.
 
@@ -1351,25 +1357,25 @@ class EXP lpsrRepeatending : public msrElement
     static SMARTP<lpsrRepeatending> create (
       S_msrOptions&       msrOpts, 
       int                 inputLineNumber,
-      string              repeatendingNumber, // may be "1, 2"
-      lpsrRepeatendingKind repeatendingKind,
+//      string              repeatendingNumber, // may be "1, 2"
+//      lpsrRepeatendingKind repeatendingKind,
       S_msrVoicechunk     voicechunk,
-      S_msrRepeat         voiceRepeat);
+      S_lpsrRepeat        repeat);
     
     SMARTP<lpsrRepeatending> createEmptyClone (
-      S_msrRepeat clonedRepeat);
+      S_lpsrRepeat clonedRepeat);
 
     // set and get
     // ------------------------------------------------------
 
-    string    getRepeatendingNumber () const
-                  { return fRepeatendingNumber; }
+//    string    getRepeatendingNumber () const
+//                  { return fRepeatendingNumber; }
                 
     S_msrVoicechunk
               getRepeatendingVoicechunk () const
                   { return fRepeatendingVoicechunk; }
                 
-    S_msrRepeat
+    S_lpsrRepeat
               getRepeatendingRepeat () const
                 { return fRepeatendingRepeat; }
 
@@ -1397,21 +1403,21 @@ class EXP lpsrRepeatending : public msrElement
     lpsrRepeatending (
       S_msrOptions&       msrOpts, 
       int                 inputLineNumber,
-      string              repeatendingNumber, // may be "1, 2"
-      lpsrRepeatendingKind repeatendingKind,
+//      string              repeatendingNumber, // may be "1, 2"
+//      lpsrRepeatendingKind repeatendingKind,
       S_msrVoicechunk     voicechunk,
-      S_msrRepeat         voiceRepeat);
+      S_lpsrRepeat        repeat);
       
     virtual ~lpsrRepeatending();
   
   private:
   
-    string              fRepeatendingNumber; // may be "1, 2"
-    lpsrRepeatendingKind fRepeatendingKind;
+//    string              fRepeatendingNumber; // may be "1, 2"
+//    lpsrRepeatendingKind fRepeatendingKind;
     
     S_msrVoicechunk     fRepeatendingVoicechunk;
 
-    S_msrRepeat         fRepeatendingRepeat;
+    S_lpsrRepeat        fRepeatendingRepeat;
 };
 typedef SMARTP<lpsrRepeatending> S_lpsrRepeatending;
 EXP ostream& operator<< (ostream& os, const S_lpsrRepeatending& elt);
@@ -1492,6 +1498,14 @@ class EXP lpsrRepeat : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
+    void      setRepeatCommonPart (
+                S_msrVoicechunk repeatCommonPart)
+                  { fRepeatCommonPart = repeatCommonPart; }
+                  
+    S_msrVoicechunk
+              getRepeatCommonPart () const
+                { return fRepeatCommonPart; }
+
     S_lpsrRepeatalternative
               getRepeatalternative () const
                   { return fRepeatalternative; }
@@ -1526,7 +1540,7 @@ class EXP lpsrRepeat : public lpsrElement
   
   private:
 
-    S_msrVoicechunk         fCommonPart;
+    S_msrVoicechunk         fRepeatCommonPart;
     S_lpsrRepeatalternative fRepeatalternative;
 };
 typedef SMARTP<lpsrRepeat> S_lpsrRepeat;

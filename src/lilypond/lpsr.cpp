@@ -2209,16 +2209,16 @@ void lpsrLayout::print (ostream& os)
 S_lpsrRepeatending lpsrRepeatending::create (
   S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
-  string              repeatendingNumber, // may be "1, 2"
-  lpsrRepeatendingKind repeatendingKind,
+//      string              repeatendingNumber, // may be "1, 2"
+//      lpsrRepeatendingKind repeatendingKind,
   S_msrVoicechunk     voicechunk,
-  S_msrRepeat         repeat)
+  S_lpsrRepeat        repeat)
 {
   lpsrRepeatending* o =
     new lpsrRepeatending (
       msrOpts, inputLineNumber,
-      repeatendingNumber,
-      repeatendingKind,
+//      repeatendingNumber,
+//      repeatendingKind,
       voicechunk,
       repeat);
   assert(o!=0);
@@ -2228,14 +2228,14 @@ S_lpsrRepeatending lpsrRepeatending::create (
 lpsrRepeatending::lpsrRepeatending (
   S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
-  string              repeatendingNumber, // may be "1, 2"
-  lpsrRepeatendingKind repeatendingKind,
+//      string              repeatendingNumber, // may be "1, 2"
+//      lpsrRepeatendingKind repeatendingKind,
   S_msrVoicechunk     voicechunk,
-  S_msrRepeat         repeat)
-    : msrElement (msrOpts, inputLineNumber)
+  S_lpsrRepeat        repeat)
+: msrElement (msrOpts, inputLineNumber)
 {
-  fRepeatendingNumber     = repeatendingNumber;
-  fRepeatendingKind       = repeatendingKind;
+//  fRepeatendingNumber     = repeatendingNumber;
+//  fRepeatendingKind       = repeatendingKind;
   fRepeatendingVoicechunk = voicechunk;
   fRepeatendingRepeat     = repeat;
 }
@@ -2243,15 +2243,15 @@ lpsrRepeatending::lpsrRepeatending (
 lpsrRepeatending::~lpsrRepeatending() {}
 
 S_lpsrRepeatending lpsrRepeatending::createEmptyClone (
-  S_msrRepeat clonedRepeat)
+  S_lpsrRepeat clonedRepeat)
 {
   S_lpsrRepeatending
     clone =
       lpsrRepeatending::create (
         fMsrOptions,
         fInputLineNumber,
-        fRepeatendingNumber,
-        fRepeatendingKind,
+//        fRepeatendingNumber,
+//        fRepeatendingKind,
         clonedRepeat->getRepeatCommonPart (),
         clonedRepeat);
   
@@ -2309,6 +2309,7 @@ void lpsrRepeatending::print (ostream& os)
 {
   os << "Repeatending" << " ";
 
+/*
   switch (fRepeatendingKind) {
     case kHookedEnding:
       os << "hooked ending";
@@ -2318,7 +2319,8 @@ void lpsrRepeatending::print (ostream& os)
       break;
   } // switch
   os << endl;
-  
+*/
+
   idtr++;
 
   os << idtr << fRepeatendingVoicechunk;
@@ -2493,7 +2495,7 @@ void lpsrRepeat::browseData (basevisitor* v)
 
   // browse the common part
   msrBrowser<msrVoicechunk> browser (v);
-  browser.browse (*fCommonPart);
+  browser.browse (*fRepeatCommonPart);
 
   // browse the repeat alternative
 // JMI  msrBrowser<lpsrRepeatalternative> browser (v);
@@ -2518,7 +2520,7 @@ void lpsrRepeat::print (ostream& os)
   idtr++;
 
   os << idtr <<
-    fCommonPart;
+    fRepeatCommonPart;
   
   os << idtr <<
     fRepeatalternative;

@@ -904,6 +904,8 @@ void msr2LpsrVisitor::visitStart (S_msrRepeatending& elt)
     repeatending =
       lpsrRepeatending::create (
         fMsrOptions, fLpsrOptions,
+        fCurrentLpsrRepeat,
+        fCurrentLpsrRepeat->getRepeatalternative ()->getRepeatVoicechunk (),
         fCurrentLpsrRepeat);
       
   fCurrentLpsrRepeat->

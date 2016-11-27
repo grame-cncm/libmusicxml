@@ -2278,7 +2278,7 @@ class EXP msrRepeatending : public msrElement
       string              repeatendingNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
       S_msrVoicechunk     voicechunk,
-      S_msrRepeat         voiceRepeat);
+      S_msrRepeat         repeat);
     
     SMARTP<msrRepeatending> createEmptyClone (
       S_msrRepeat clonedRepeat);
@@ -2324,7 +2324,7 @@ class EXP msrRepeatending : public msrElement
       string              repeatendingNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
       S_msrVoicechunk     voicechunk,
-      S_msrRepeat         voiceRepeat);
+      S_msrRepeat         repeat);
       
     virtual ~msrRepeatending();
   
