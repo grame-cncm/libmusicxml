@@ -2085,7 +2085,11 @@ class EXP msrBarline : public msrElement
       kStraight, kCurved, kDoubleStraight, kDoubleCurved };
 
     enum msrBarlineCategory {
-      kBarIsStandalone, kBarIsPartOfARepeat };
+      kBarIsStandalone,
+      kRepeatStartAtTheBeginningOfAPart,
+      kBeginningOfARepeat,
+      kBeginningOfAnEnding, kEndOfAHookedEnding, kEndOfAHooklessEnding,
+      kEndOfAVoice};
       
     // creation from MusicXML
     // ------------------------------------------------------

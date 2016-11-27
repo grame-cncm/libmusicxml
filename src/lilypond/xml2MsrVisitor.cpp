@@ -2374,15 +2374,8 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           idtr <<
           "    double regular bar" <<
           endl;
-
-      if (
-        fCurrentBarlineLocation == msrBarline::msrBarline::kRight) {
-
-        barline->
-          setBarlineCategory (msrBarline::kBarIsPartOfARepeat);
   
         barlineIsAlright = true;
-      }
       break;
       
     case msrBarline::kLightHeavy:
@@ -2454,7 +2447,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           addRepeatending (repeatEnding);
         
         barline->
-          setBarlineCategory (msrBarline::kBarIsPartOfARepeat);
+          setBarlineCategory (msrBarline::kEndOfAHookedEnding);
 
         barlineIsAlright = true;
       }
@@ -2532,7 +2525,8 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           appendRepeatToVoice (fCurrentRepeat);
                 
         barline->
-          setBarlineCategory (msrBarline::kBarIsPartOfARepeat);
+          setBarlineCategory (
+            msrBarline::kRepeatStartAtTheBeginningOfAPart);
 
         barlineIsAlright = true;
         }
@@ -2551,7 +2545,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               endl;
 
         barline->
-          setBarlineCategory (msrBarline::kBarIsPartOfARepeat);
+          setBarlineCategory (msrBarline::kEndOfAVoice);
 
         barlineIsAlright = true;
       }
@@ -2620,7 +2614,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
           appendRepeatToVoice (fCurrentRepeat);
       
       barline->
-        setBarlineCategory (msrBarline::kBarIsPartOfARepeat);
+        setBarlineCategory (msrBarline::kBeginningOfARepeat);
 
         barlineIsAlright = true;
       }
@@ -2680,7 +2674,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               endl;
   
           barline->
-            setBarlineCategory (msrBarline::kBarIsPartOfARepeat);
+            setBarlineCategory (msrBarline::kBeginningOfAnEnding);
 
           barlineIsAlright = true;
         }
@@ -2707,7 +2701,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               endl;
     
           barline->
-            setBarlineCategory (msrBarline::kBarIsPartOfARepeat);
+            setBarlineCategory (msrBarline::kEndOfAHookedEnding);
 
           barlineIsAlright = true;
         }
@@ -2734,7 +2728,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               endl;
     
           barline->
-            setBarlineCategory (msrBarline::kBarIsPartOfARepeat);
+            setBarlineCategory (msrBarline::kEndOfAHooklessEnding);
 
           barlineIsAlright = true;
         }

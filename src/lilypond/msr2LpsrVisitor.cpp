@@ -805,16 +805,25 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrBarline" << endl;
-      
+  
   switch (elt->getBarlineCategory ()) {
+    
     case msrBarline::kBarIsStandalone:
       fCurrentMsrVoiceClone->
         appendBarlineToVoice (elt);
       break;
       
-    case msrBarline::kBarIsPartOfARepeat:
+    case msrBarline::kRepeatStartAtTheBeginningOfAPart:
+    case msrBarline::kBeginningOfAnEnding:
+    case msrBarline::kEndOfAHookedEnding:
+    case msrBarline::kEndOfAHooklessEnding:
       // no need to keep that barline,
-      // LilyPond will take care of the display
+      // LilyPond will take care of the repeat display
+      break;
+
+    case msrBarline::kEndOfAVoice:
+      fCurrentMsrVoiceClone->
+        appendBarlineToVoice (elt);
       break;
   } // switch
 }

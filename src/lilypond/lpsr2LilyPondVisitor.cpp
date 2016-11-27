@@ -1574,40 +1574,55 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
 
   fOstream << "| % " << elt->getNextBarNumber () << endl;
 
-  switch (elt->getStyle ()) {
-    case msrBarline::k_NoStyle:
+  switch (elt->getBarlineCategory ()) {
+    
+    case msrBarline::kRepeatStartAtTheBeginningOfAPart:
+    case msrBarline::kBeginningOfAnEnding:
+    case msrBarline::kEndOfAHookedEnding:
+    case msrBarline::kEndOfAHooklessEnding:
+      // should not occur
+      // no need to display that barline,
+      // LilyPond will take care of the repeat display
       break;
-    case msrBarline::kRegular:
-      fOstream << "\\bar \"|\"";
+
+    case msrBarline::kBarIsStandalone:
+    case msrBarline::kEndOfAVoice:
+      switch (elt->getStyle ()) {
+        case msrBarline::k_NoStyle:
+          break;
+        case msrBarline::kRegular:
+          fOstream << "\\bar \"|\"";
+          break;
+        case msrBarline::kDotted:
+          fOstream << "\\bar \";\"";
+          break;
+        case msrBarline::kDashed:
+          fOstream << "\\bar \"!\"";
+          break;
+        case msrBarline::kHeavy:
+          fOstream << "\\bar \".\"";
+          break;
+        case msrBarline::kLightLight:
+          fOstream << "\\bar \"||\"";
+          break;
+        case msrBarline::kLightHeavy:
+          fOstream << "\\bar \"|.\"";
+          break;
+        case msrBarline::kHeavyLight:
+          fOstream << "\\bar \".|\"";
+          break;
+        case msrBarline::kHeavyHeavy:
+          fOstream << "\\bar \"..\"";
+          break;
+        case msrBarline::kTick:
+          fOstream << "\\bar \"'\"";
+          break;
+        case msrBarline::kShort:
+          fOstream << "\\bar \"|short???\"";
+          break;
+      } // switch  
       break;
-    case msrBarline::kDotted:
-      fOstream << "\\bar \";\"";
-      break;
-    case msrBarline::kDashed:
-      fOstream << "\\bar \"!\"";
-      break;
-    case msrBarline::kHeavy:
-      fOstream << "\\bar \".\"";
-      break;
-    case msrBarline::kLightLight:
-      fOstream << "\\bar \"||\"";
-      break;
-    case msrBarline::kLightHeavy:
-      fOstream << "\\bar \"|.\"";
-      break;
-    case msrBarline::kHeavyLight:
-      fOstream << "\\bar \".|\"";
-      break;
-    case msrBarline::kHeavyHeavy:
-      fOstream << "\\bar \"..\"";
-      break;
-    case msrBarline::kTick:
-      fOstream << "\\bar \"'\"";
-      break;
-    case msrBarline::kShort:
-      fOstream << "\\bar \"|short???\"";
-      break;
-  } // switch  
+  } // switch
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarline& elt)
