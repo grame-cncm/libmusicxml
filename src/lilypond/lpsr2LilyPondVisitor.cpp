@@ -1713,10 +1713,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
       "% --> End visiting msrRepeat" << endl;
 
   idtr--;
-  
-  fOstream << idtr <<
-    "}" << " % end of repeat" <<
-    endl << endl;
+
+  if (! elt->getRepeatEndings ().size ())
+    // the end of the repeat couldn't be output
+    // by the first repeat ending
+    fOstream << idtr <<
+      "}" << " % end of repeat" <<
+      endl << endl;
+      
 }
 
 //________________________________________________________________________
@@ -1727,6 +1731,12 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeatending& elt)
       "% --> Start visiting msrRepeatending" << endl;
 
   if (elt->getRepeatendingNumber () == "1") {
+    // first repeat ending is in charge of
+    // outputting the end of the repeat
+    fOstream << idtr <<
+      "}" << " % end of repeat" <<
+      endl << endl;
+      
     fOstream << idtr <<
       "\\alternative" << " " << "{" <<
       endl;
@@ -1793,7 +1803,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMidi& elt)
   
   fOstream << idtr <<
     "}" <<
-    endl <<
     endl;
 }
 
