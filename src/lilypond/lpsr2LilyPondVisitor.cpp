@@ -899,7 +899,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
 
   idtr++;
 
-  fVoicechunkNotesCountersStack.push (0);
+  fVoicechunkNotesAndChordsCountersStack.push (0);
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
@@ -918,7 +918,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
       fOstream << "% end of msrVoicechunk";
     fOstream << endl;
 
-  fVoicechunkNotesCountersStack.pop ();
+  fVoicechunkNotesAndChordsCountersStack.pop ();
 }
 
 //________________________________________________________________________
@@ -1200,39 +1200,6 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrTempo& elt)
 }
 
 //________________________________________________________________________
-/*
-void lpsr2LilyPondVisitor::visitStart (S_msrSequentialMusic& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> Start visiting msrSequentialMusic" << endl;
-
-  fOstream << idtr <<
-    "{" << " % msrSequentialMusic" <<
-    endl;
-    
-  idtr++;
-  
-  fOstream << idtr;
-
-  fSequentialMusicElementsCounter = 0;
-}
-
-void lpsr2LilyPondVisitor::visitEnd (S_msrSequentialMusic& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> End visiting msrSequentialMusic" << endl;
-
-  idtr--;
-  
-  fOstream <<
-    endl <<
-    idtr << "}" << " % msrSequentialMusic" <<
-    endl;
-}
-*/
-//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrDuration& elt)
 {
   if (fMsrOptions->fDebug)
@@ -1381,8 +1348,8 @@ string msrNote::octaveRepresentation (char octave)
     fOstream << " msrNote" << endl;
   }
 
-  // indent only before the fist note of the msrVoicechunk
-  if (++ fVoicechunkNotesCountersStack.top () == 1)
+  // indent before the fist note of the msrVoicechunk if needed
+  if (++ fVoicechunkNotesAndChordsCountersStack.top () == 1)
     fOstream << idtr;
   
   switch (elt->getNoteKind ()) {
@@ -1530,6 +1497,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
     fOstream << idtr <<
       "% --> Start visiting msrChord" << endl;
 
+  // indent before the fist chord of the msrVoicechunk if needed
+  if (++ fVoicechunkNotesAndChordsCountersStack.top () == 1)
+    fOstream << idtr;
+
   if (++fSequentialMusicElementsCounter > 10) {
     fOstream <<
       endl <<
@@ -1537,7 +1508,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
     fSequentialMusicElementsCounter = 1;
   }
 
-  fOstream << "<";
+  fOstream << idtr << "<";
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
@@ -1547,8 +1518,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
       "% --> End visiting msrChord" << endl;
 
   fOstream <<
-    ">";
-    elt->getChordDuration ();
+    ">" <<
+    elt->getChordDuration () << " ";
 }
 
 //________________________________________________________________________
@@ -1725,7 +1696,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeat& elt)
       "% --> Start visiting msrRepeat" << endl;
 
   stringstream s;
-  s << "\\repeat volta " << "2" << " {"; // JMNI
+  s <<
+    "\\repeat volta " <<
+    elt->getRepeatEndings ().size() <<
+    " {";
   
   fOstream << idtr <<
     setw(30) << s.str() << "% start of repeat" <<

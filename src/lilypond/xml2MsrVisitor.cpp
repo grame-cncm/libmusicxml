@@ -1940,51 +1940,58 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
 {
   const string& newSystem = elt->getAttributeValue ("new-system");
   
-  if (newSystem == "yes") {
-
-    // create a barnumbercheck command
-    S_msrBarnumberCheck
-      barnumbercheck_ =
-        msrBarnumberCheck::create (
-          fMsrOptions,
-          elt->getInputLineNumber (),
-          gCurrentMusicXMLLocation.fMeasureNumber);
-          
-    // append it to the voice
-    S_msrElement bnc = barnumbercheck_;
-    fCurrentVoice->
-      appendBarnumberCheckToVoice (barnumbercheck_);
-
-    // create a break command
-    S_msrBreak
-      break_ =
-        msrBreak::create(
-          fMsrOptions,
-          elt->getInputLineNumber (),
-          gCurrentMusicXMLLocation.fMeasureNumber);
-
-    // append it to the voice
-    S_msrElement brk = break_;
-    fCurrentVoice->
-      appendBreakToVoice (break_);
+  if (newSystem.size()) {
+    
+    if (newSystem == "yes") {
+      // create a barnumbercheck command
+      S_msrBarnumberCheck
+        barnumbercheck_ =
+          msrBarnumberCheck::create (
+            fMsrOptions,
+            elt->getInputLineNumber (),
+            gCurrentMusicXMLLocation.fMeasureNumber);
+            
+      // append it to the voice
+      S_msrElement bnc = barnumbercheck_;
+      fCurrentVoice->
+        appendBarnumberCheckToVoice (barnumbercheck_);
   
-    // add a break chunk to the voice master lyrics
-    fCurrentVoice->
-      getVoiceMasterLyrics ()->
-        addBreakChunkToLyrics (
-          elt->getInputLineNumber (),
-          gCurrentMusicXMLLocation.fMeasureNumber);
-  }
+      // create a break command
+      S_msrBreak
+        break_ =
+          msrBreak::create(
+            fMsrOptions,
+            elt->getInputLineNumber (),
+            gCurrentMusicXMLLocation.fMeasureNumber);
   
-  else if (newSystem == "no") {
-    // ignore it
-  }
+      // append it to the voice
+      S_msrElement brk = break_;
+      fCurrentVoice->
+        appendBreakToVoice (break_);
+    
+      // add a break chunk to the voice master lyrics
+      fCurrentVoice->
+        getVoiceMasterLyrics ()->
+          addBreakChunkToLyrics (
+            elt->getInputLineNumber (),
+            gCurrentMusicXMLLocation.fMeasureNumber);
+    }
+    
+    else if (newSystem == "no") {
+      // ignore it
+    }
+    
+    else {
+      stringstream s;
   
-  else {
-    msrMusicXMLError (
-    fMsrOptions->fInputSourceName,
-    elt->getInputLineNumber (),
-    "'new-system' in '<print />' shoulb be 'yes' or 'no'");
+      s << "unknown 'new-system' value '" << newSystem <<
+      "' in '<print />', should be 'yes', 'no' or empty";
+      
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
+        elt->getInputLineNumber (),
+        s.str());
+    }
   }
 }
 
@@ -2424,156 +2431,10 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
   else if (
     fCurrentBarlineLocation == msrBarline::kRight
       &&
-    fCurrentBarlineRepeatDirection == msrBarline::kBackward) {
-    // repeat end
-    // ------------------------------------------------------
-    
-    /*
-    Similarly, a backward repeat mark is represented by a right barline at the end of the measure:
-    
-      <barline location="right">
-        <bar-style>light-heavy</bar-style>
-        <repeat direction="backward"/>
-      </barline>
-    */
-         
-//       if (fMsrOptions->fDebug)
-      cerr <<
-        idtr << "--> input line " << elt->getInputLineNumber () <<
-        endl <<
-        idtr <<
-        "--> barline, right and backward: repeat end" <<
-        endl;
-
-    // set the barline category
-    barline->
-      setBarlineCategory (msrBarline::kRepeatEnd);
-
-    // append the bar line to the current voice chunk
-    fCurrentVoice->
-      appendBarlineToVoice (barline);
-
-    if (fPendingBarlines.empty ()) {
-//       if (fMsrOptions->fDebug)
-      cerr <<
-        idtr <<
-        "--> there's an implicit repeat start at the beginning of the part" <<
-        endl;
-
-      // create the implicit barline
-      S_msrBarline
-        implicitBarline =
-          msrBarline::create (
-            fMsrOptions,
-            elt->getInputLineNumber (),
-            msrBarline::kLeft,
-            msrBarline::kHeavyLight,
-            msrBarline::kStart,
-            fCurrentBarlineEndingNumber,
-            msrBarline::kForward,
-            fCurrentBarlineRepeatWinged);
-
-      // set the implicit barline category
-      implicitBarline->
-        setBarlineCategory (
-          msrBarline::kRepeatStart);
-    
-      // prepend the implicit barline to the current voice chunk
-      fCurrentVoice->
-        prependBarlineToVoice (implicitBarline);
-              
-      // get the current voice chunk
-      S_msrVoicechunk
-        currentVoicechunk =
-          fCurrentVoice->
-            getVoicechunk ();
-
-      // create the repeat
-      if (fMsrOptions->fTrace)
-        cerr << idtr <<
-          "Creating a repeat at the beginning of voice " <<
-          fCurrentVoice->getVoiceName () << endl;
-
-      fCurrentRepeat =
-        msrRepeat::create (
-          fMsrOptions, elt->getInputLineNumber (),
-          currentVoicechunk,
-          fCurrentVoice);
-
-      // create a new voice chunk for the voice
-      if (fMsrOptions->fDebug)
-        cerr << idtr <<
-          "--> setting new voice chunk for voice " <<
-          fCurrentVoice->getVoiceName () << endl;
-          
-      fCurrentVoice->
-        setNewVoicechunkForVoice (
-          elt->getInputLineNumber ());
-
-      // add the repeat to the new voice chunk
-      if (fMsrOptions->fDebug)
-        cerr << idtr <<
-          "--> appending the repeat to voice " <<
-          fCurrentVoice->getVoiceName () << endl;
-
-      fCurrentVoice->
-        appendRepeatToVoice (fCurrentRepeat);
-
-      barlineIsAlright = true;
-    }
-    
-    else {
-      // pop the pending barline off the stack
-      fPendingBarlines.pop ();
-    }
-  }
-
-  else if (
-    fCurrentBarlineLocation == msrBarline::kLeft
-      &&
-    fCurrentBarlineEndingType == msrBarline::kStart) {
-    // ending start
-    // ------------------------------------------------------
-
-//    if (fMsrOptions->fDebug)
-      cerr <<
-        idtr << "--> input line " <<
-          elt->getInputLineNumber () <<
-        endl <<
-        idtr << "--> measure    " <<
-          gCurrentMusicXMLLocation.fMeasureNumber <<
-        endl <<
-        idtr <<
-        "--> barline, left and start: ending start" <<
-        endl;
-
-    // set the barline category
-    barline->
-      setBarlineCategory (msrBarline::kEndingStart);
-    
-    // append the bar line to the current voice chunk
-    fCurrentVoice->
-      appendBarlineToVoice (barline);
-
-
-    // get the current voice chunk
-    S_msrVoicechunk
-      currentVoicechunk =
-        fCurrentVoice->
-          getVoicechunk ();
-
-    // push the barline onto the stack
-    fPendingBarlines.push (barline);
-
-    barlineIsAlright = true;
-  }
-
-  else if (
-    fCurrentBarlineLocation == msrBarline::kRight
-      &&
     fCurrentBarlineEndingType == msrBarline::kStop
-      &&
-    fCurrentBarlineRepeatDirection == msrBarline::kBackward) {
+ // JMI     &&
+ //   fCurrentBarlineRepeatDirection == msrBarline::kBackward
+ ) {
     // hooked ending end
     // ------------------------------------------------------
     
@@ -2716,6 +2577,153 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
       fPendingBarlines.pop ();
     }
     
+    barlineIsAlright = true;
+  }
+
+  else if (
+    fCurrentBarlineLocation == msrBarline::kRight
+      &&
+    fCurrentBarlineRepeatDirection == msrBarline::kBackward) {
+    // repeat end
+    // ------------------------------------------------------
+    
+    /*
+    Similarly, a backward repeat mark is represented by a right barline at the end of the measure:
+    
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        <repeat direction="backward"/>
+      </barline>
+    */
+         
+//       if (fMsrOptions->fDebug)
+      cerr <<
+        idtr << "--> input line " << elt->getInputLineNumber () <<
+        endl <<
+        idtr <<
+        "--> barline, right and backward: repeat end" <<
+        endl;
+
+    // set the barline category
+    barline->
+      setBarlineCategory (msrBarline::kRepeatEnd);
+
+    // append the bar line to the current voice chunk
+    fCurrentVoice->
+      appendBarlineToVoice (barline);
+
+    if (fPendingBarlines.empty ()) {
+//       if (fMsrOptions->fDebug)
+      cerr <<
+        idtr <<
+        "--> there's an implicit repeat start at the beginning of the part" <<
+        endl;
+
+      // create the implicit barline
+      S_msrBarline
+        implicitBarline =
+          msrBarline::create (
+            fMsrOptions,
+            elt->getInputLineNumber (),
+            msrBarline::kLeft,
+            msrBarline::kHeavyLight,
+            msrBarline::kStart,
+            fCurrentBarlineEndingNumber,
+            msrBarline::kForward,
+            fCurrentBarlineRepeatWinged);
+
+      // set the implicit barline category
+      implicitBarline->
+        setBarlineCategory (
+          msrBarline::kRepeatStart);
+    
+      // prepend the implicit barline to the current voice chunk
+      fCurrentVoice->
+        prependBarlineToVoice (implicitBarline);
+              
+      // get the current voice chunk
+      S_msrVoicechunk
+        currentVoicechunk =
+          fCurrentVoice->
+            getVoicechunk ();
+
+      // create the repeat
+      if (fMsrOptions->fTrace)
+        cerr << idtr <<
+          "Creating a repeat at the beginning of voice " <<
+          fCurrentVoice->getVoiceName () << endl;
+
+      fCurrentRepeat =
+        msrRepeat::create (
+          fMsrOptions, elt->getInputLineNumber (),
+          currentVoicechunk,
+          fCurrentVoice);
+
+      // create a new voice chunk for the voice
+      if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> setting new voice chunk for voice " <<
+          fCurrentVoice->getVoiceName () << endl;
+          
+      fCurrentVoice->
+        setNewVoicechunkForVoice (
+          elt->getInputLineNumber ());
+
+      // add the repeat to the new voice chunk
+      if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> appending the repeat to voice " <<
+          fCurrentVoice->getVoiceName () << endl;
+
+      fCurrentVoice->
+        appendRepeatToVoice (fCurrentRepeat);
+
+      barlineIsAlright = true;
+    }
+    
+    else {
+      // pop the pending barline off the stack
+      fPendingBarlines.pop ();
+    }
+  }
+
+  else if (
+    fCurrentBarlineLocation == msrBarline::kLeft
+      &&
+    fCurrentBarlineEndingType == msrBarline::kStart) {
+    // ending start
+    // ------------------------------------------------------
+
+//    if (fMsrOptions->fDebug)
+      cerr <<
+        idtr << "--> input line " <<
+          elt->getInputLineNumber () <<
+        endl <<
+        idtr << "--> measure    " <<
+          gCurrentMusicXMLLocation.fMeasureNumber <<
+        endl <<
+        idtr <<
+        "--> barline, left and start: ending start" <<
+        endl;
+
+    // set the barline category
+    barline->
+      setBarlineCategory (msrBarline::kEndingStart);
+    
+    // append the bar line to the current voice chunk
+    fCurrentVoice->
+      appendBarlineToVoice (barline);
+
+
+    // get the current voice chunk
+    S_msrVoicechunk
+      currentVoicechunk =
+        fCurrentVoice->
+          getVoicechunk ();
+
+    // push the barline onto the stack
+    fPendingBarlines.push (barline);
+
     barlineIsAlright = true;
   }
 

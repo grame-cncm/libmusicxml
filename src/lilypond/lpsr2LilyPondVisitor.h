@@ -318,7 +318,7 @@ class lpsr2LilyPondVisitor :
     // ------------------------------------------------------
     // we need handle embedded msrVoicechunk's to indent notes
     // in a consistent way
-    stack<int>           fVoicechunkNotesCountersStack;
+    stack<int>           fVoicechunkNotesAndChordsCountersStack;
 
     // lyrics
     // ------------------------------------------------------
@@ -332,7 +332,6 @@ class lpsr2LilyPondVisitor :
 
     // sequential music
     // ------------------------------------------------------
-// JMI    S_msrSequentialMusic fCurrentMsrSequentialMusicClone;
     int                  fSequentialMusicElementsCounter;
     
     // chords
