@@ -2097,10 +2097,8 @@ class EXP msrBarline : public msrElement
 
     enum msrBarlineCategory {
       kStandaloneBar,
-      kRepeatEndWithoutStart, kImplicitRepeatStart, 
-      kRepeatStart, kEndingStart,
-      kEndOfAHookedEnding, kEndOfAHooklessEnding,
-      kVoiceEnd};
+      kRepeatStart, kRepeatEnd,
+      kEndingStart, kHookedEndingEnd, kHooklessEndingEnd};
       
     // creation from MusicXML
     // ------------------------------------------------------

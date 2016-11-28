@@ -3641,26 +3641,20 @@ void msrBarline::print (ostream& os)
     case kStandaloneBar:
       os << "standalone";
       break;
-    case kImplicitRepeatStart:
-      os << "implicit repeat start";
-      break;
     case kRepeatStart:
       os << "repeat start";
       break;
-    case kRepeatEndWithoutStart:
-      os << "repeat end without start";
+    case kRepeatEnd:
+      os << "repeat end";
       break;
     case kEndingStart:
       os << "ending start";
       break;
-    case kEndOfAHookedEnding:
-      os << "end of a hooked ending";
+    case kHookedEndingEnd:
+      os << "hooked ending end";
       break;
-    case kEndOfAHooklessEnding:
-      os << "end of a hookless ending";
-      break;
-    case kVoiceEnd:
-      os << "voice end";
+    case kHooklessEndingEnd:
+      os << "hookless ending end";
       break;
   } // switch
   os << endl;
