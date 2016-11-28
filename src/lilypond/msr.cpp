@@ -4002,14 +4002,14 @@ ostream& operator<< (ostream& os, const S_msrRepeatending& rept)
 
 void msrRepeatending::print (ostream& os)
 {
-  os << "Repeatending" << " ";
+  os << "Repeatending" << ", ";
 
   switch (fRepeatendingKind) {
     case kHookedEnding:
-      os << "hooked ending";
+      os << "hooked";
       break;
     case kHooklessEnding:
-      os << "hookless ending";
+      os << "hookless";
       break;
   } // switch
   os << endl;
@@ -4076,7 +4076,10 @@ void msrRepeat::setRepeatCommonPart (
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Setting repeat common part" << endl;
+      "Setting repeat common part containing " <<
+      repeatCommonPart->getVoicechunkElements ().size () <<
+      " elements" <<
+      endl;
       
   fRepeatCommonPart = repeatCommonPart;
 }

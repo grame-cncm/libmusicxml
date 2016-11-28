@@ -881,7 +881,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
 
 //  if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "{" << " % start of msrVoicechunk" << endl;
+      setw(30) << "{" <<
+      "% start of msrVoicechunk" << endl;
 
   idtr++;
 
@@ -900,7 +901,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
     fOstream <<
       endl <<
       idtr <<
-      "}" << " % end of msrVoicechunk" << endl;
+      setw(30) << "}" <<
+      "% end of msrVoicechunk" << endl;
 
   fVoicechunkNotesCountersStack.pop ();
 }
@@ -1708,8 +1710,12 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeat& elt)
     fOstream << idtr <<
       "% --> Start visiting msrRepeat" << endl;
 
+  stringstream s;
+  s << "\\repeat volta " << "2" << " {"; // JMNI
+  
   fOstream << idtr <<
-    "\\repeat" << " " << "volta" << " " << "2" << " {" << // JMI
+    setw(30) << s.str() <<
+    "% start of repeat" <<
     endl;
 
   idtr++;
@@ -1727,7 +1733,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
     // the end of the repeat couldn't be output
     // by the first repeat ending
     fOstream << idtr <<
-      "}" << " % end of repeat" <<
+      setw(30) << "}" <<
+      "% end of repeat" <<
       endl << endl;
       
 }

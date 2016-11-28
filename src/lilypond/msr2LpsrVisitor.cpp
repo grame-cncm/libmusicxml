@@ -821,12 +821,22 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       break;
       
     case msrBarline::kImplicitRepeatStart:
+ //     if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> handling kImplicitRepeatStart in voice " <<
+          fCurrentVoiceClone->getVoiceName () << endl;
+
       fCurrentVoiceClone->
         appendBarlineToVoice (elt);
       break;
       
     case msrBarline::kRepeatEndWithoutStart:
       {
+ //     if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> handling kRepeatEndWithoutStart in voice " <<
+          fCurrentVoiceClone->getVoiceName () << endl;
+
       fCurrentVoiceClone->
         appendBarlineToVoice (elt);
 
@@ -865,6 +875,11 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       
     case msrBarline::kRepeatStart:
       {
+ //     if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> handling kRepeatStart in voice " <<
+          fCurrentVoiceClone->getVoiceName () << endl;
+
       // get the current voice chunk
       S_msrVoicechunk
         currentVoicechunk =
@@ -875,7 +890,6 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       fCurrentRepeatClone->
         setRepeatCommonPart (currentVoicechunk);
 
-/* JMI      
       // create a new voice chunk for the voice
       if (fMsrOptions->fDebug)
         cerr << idtr <<
@@ -885,7 +899,6 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       fCurrentVoiceClone->
         setNewVoicechunkForVoice (
           elt->getInputLineNumber ());
-*/
 
       fCurrentVoiceClone->
         appendBarlineToVoice (elt);
@@ -900,6 +913,11 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       
     case msrBarline::kEndingStart:
       {
+ //     if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> handling kEndingStart in voice " <<
+          fCurrentVoiceClone->getVoiceName () << endl;
+
       // get the current voice chunk
       S_msrVoicechunk
         currentVoicechunk =
@@ -930,6 +948,11 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       
     case msrBarline::kEndOfAHookedEnding:
       {
+ //     if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> handling kEndOfAHookedEnding in voice " <<
+          fCurrentVoiceClone->getVoiceName () << endl;
+
       fCurrentVoiceClone->
         appendBarlineToVoice (elt);
 
@@ -990,6 +1013,11 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       
     case msrBarline::kEndOfAHooklessEnding:
       {
+ //     if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> handling kEndOfAHooklessEnding in voice " <<
+          fCurrentVoiceClone->getVoiceName () << endl;
+
       // no need to keep that barline in the MSR,
       // LilyPond will take care of the repeat display
       fCurrentVoiceClone->
