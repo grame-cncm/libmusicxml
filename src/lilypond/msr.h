@@ -2369,8 +2369,7 @@ class EXP msrRepeat : public msrElement
     // ------------------------------------------------------
 
     void      setRepeatCommonPart (
-                S_msrVoicechunk repeatCommonPart)
-                  { fRepeatCommonPart = repeatCommonPart; }
+                S_msrVoicechunk repeatCommonPart);
                   
     S_msrVoicechunk
               getRepeatCommonPart () const
@@ -2387,8 +2386,7 @@ class EXP msrRepeat : public msrElement
     // services
     // ------------------------------------------------------
 
-    void      addRepeatending (S_msrRepeatending repeatending)
-                  { fRepeatEndings.push_back (repeatending); }
+    void      addRepeatending (S_msrRepeatending repeatending);
 
     // visitors
     // ------------------------------------------------------

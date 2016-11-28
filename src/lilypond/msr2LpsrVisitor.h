@@ -225,7 +225,7 @@ class msr2LpsrVisitor :
 
     // score
     // ------------------------------------------------------
-    S_msrScore              fCurrentMsrScoreClone;
+    S_msrScore              fCurrentScoreClone;
     
     // identification
     // ------------------------------------------------------
@@ -237,56 +237,52 @@ class msr2LpsrVisitor :
     
     // part groups
     // ------------------------------------------------------
-    S_msrPartgroup          fCurrentMsrPartgroupClone;
+    S_msrPartgroup          fCurrentPartgroupClone;
     // the current partgroup command is the top of the stack
     stack<S_lpsrPartgroupCommand>
                             fPartgroupCommandsStack;
     
     // parts
     // ------------------------------------------------------
-    S_msrPart               fCurrentMsrPartClone;
+    S_msrPart               fCurrentPartClone;
     S_lpsrPartCommand       fCurrentPartCommand;
     
     // staves
     // ------------------------------------------------------
-    S_msrStaff              fCurrentMsrStaffClone;
+    S_msrStaff              fCurrentStaffClone;
     S_lpsrStaffCommand      fCurrentStaffCommand;
     // prevent clef, key and time from being handled twice
     bool                    fOnGoingStaff;
 
     // repeats
     // ------------------------------------------------------
-    S_msrRepeat             fCurrentMsrRepeatClone;
+    S_msrRepeat             fCurrentRepeatClone;
     bool                    fOnGoingRepeat;
  //   S_lpsrRepeatalternative fCurrentLpsrRepeatalternative;
     
     // voice chunks
     // ------------------------------------------------------
-    S_msrVoicechunk         fCurrentMsrVoicechunkClone;
+    S_msrVoicechunk         fCurrentVoicechunkClone;
     
     // voices
     // ------------------------------------------------------
-    S_msrVoice              fCurrentMsrVoiceClone;
+    S_msrVoice              fCurrentVoiceClone;
     
     // lyrics
     // ------------------------------------------------------
-    S_msrLyrics             fCurrentMsrLyricsClone;
+    S_msrLyrics             fCurrentLyricsClone;
 
     // lyrics chunks
     // ------------------------------------------------------
-    S_msrLyricschunk        fCurrentMsrLyricschunkClone;
-
-    // sequential music
-    // ------------------------------------------------------
-//    S_msrSequentialMusic    fCurrentMsrSequentialMusicClone;
+    S_msrLyricschunk        fCurrentLyricschunkClone;
     
     // chords
     // ------------------------------------------------------
-    S_msrChord              fCurrentMsrChordClone;
+    S_msrChord              fCurrentChordClone;
     
     // tuplets
     // ------------------------------------------------------
-    S_msrTuplet             fCurrentMsrTupletClone;
+    S_msrTuplet             fCurrentTupletClone;
 };
 
 

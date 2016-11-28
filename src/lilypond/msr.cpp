@@ -4071,6 +4071,25 @@ S_msrRepeat msrRepeat::createEmptyClone (S_msrVoice clonedVoice)
   return clone;
 }
 
+void msrRepeat::setRepeatCommonPart (
+  S_msrVoicechunk repeatCommonPart)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Setting repeat common part" << endl;
+      
+  fRepeatCommonPart = repeatCommonPart;
+}
+
+void msrRepeat::addRepeatending (S_msrRepeatending repeatending)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Adding an ending to repeat" << endl;
+      
+  fRepeatEndings.push_back (repeatending);
+}
+
 void msrRepeat::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
