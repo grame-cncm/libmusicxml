@@ -669,13 +669,14 @@ void msr2LpsrVisitor::visitStart (S_msrNote& elt)
   switch (elt->getNoteKind ()) {
     
     case msrNote::kStandaloneNote:
-//      if (fMsrOptions->fDebug)
+      if (fMsrOptions->fDebug)
         cerr << idtr <<
-          "--> appending standalone note " << elt << " to voice " <<
+          "--> appending " <<
+          elt->noteAsString () << " to voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
           
       fCurrentVoiceClone->
-        appendNoteToVoice (elt); // JMI
+        appendNoteToVoice (elt);
       break;
       
     case msrNote::kRestNote:

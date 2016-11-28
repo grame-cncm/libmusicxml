@@ -142,8 +142,9 @@ void printUsage (int exitStatus)
 
     "    --numericalTime" << endl <<
     "          Don't generate non-numerical time signatures such as 'C'." << endl <<
-//    "    --noComments" << endl <<
-//    "          Don't generate comments." << endl <<
+    "    --noComments" << endl <<
+    "          Don't generate comments showing the structure of the score" << endl <<
+    "          such as '% part P_POne (P1)'." << endl <<
     "    --noStems" << endl <<
     "          Don't generate \\stemUp nor \\stemDown LilyPond commands." << endl <<
     endl <<

@@ -523,10 +523,12 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupCommand& elt)
       "% --> Start visiting lpsrPartgroupCommand" << endl;
 
   fOstream << idtr <<
-    setw(30) << "\\new StaffGroup" " " "{" <<
-    "% part group " <<
-    elt->getPartgroup ()->getPartgroupCombinedName () <<
-    endl;
+    setw(30) << "\\new StaffGroup" " " "{";
+  if (fLpsrOptions->fGenerateComments)
+    fOstream <<
+      "% part group " <<
+      elt->getPartgroup ()->getPartgroupCombinedName ();
+  fOstream << endl;
 
   idtr++;
 }
@@ -541,10 +543,12 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupCommand& elt)
 
   fOstream <<
     idtr <<
-    setw(30) << "}" <<
-    "% part group " <<
-    elt->getPartgroup ()->getPartgroupCombinedName () <<
-    endl;
+    setw(30) << "}";
+  if (fLpsrOptions->fGenerateComments)
+    fOstream <<
+      "% part group " <<
+      elt->getPartgroup ()->getPartgroupCombinedName ();
+  fOstream << endl;
 }
 
 //________________________________________________________________________
@@ -555,10 +559,12 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartCommand& elt)
       "% --> Start visiting lpsrPartCommand" << endl;
 
   fOstream << idtr <<
-    setw(30) << "\\new StaffGroup" " " "{" <<
-    "% part " <<
-    elt->getPart ()->getPartCombinedName () <<
-    endl;
+    setw(30) << "\\new StaffGroup" " " "{";
+  if (fLpsrOptions->fGenerateComments)
+    fOstream <<
+      "% part " <<
+      elt->getPart ()->getPartCombinedName ();
+  fOstream << endl;
 
   idtr++;
 }
@@ -573,10 +579,12 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartCommand& elt)
 
   fOstream <<
     idtr <<
-    setw(30) << "}" <<
-    "% part  " <<
-    elt->getPart ()->getPartCombinedName () <<
-    endl;
+    setw(30) << "}";
+  if (fLpsrOptions->fGenerateComments)
+    fOstream <<
+      "% part " <<
+      elt->getPart ()->getPartCombinedName ();
+  fOstream << endl;
 }
 
 //________________________________________________________________________
@@ -587,10 +595,12 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffCommand& elt)
       "% --> Start visiting lpsrStaffCommand" << endl;
 
   fOstream << idtr <<
-    setw(30) << "\\new Staff" " " "{" <<
-    "% staff " <<
-    elt->getStaff ()->getStaffName () <<
-    endl;
+    setw(30) << "\\new Staff" " " "{";
+  if (fLpsrOptions->fGenerateComments)
+    fOstream <<
+      "% staff " <<
+      elt->getStaff ()->getStaffName ();
+  fOstream << endl;
 
   idtr++;
 }
@@ -605,10 +615,12 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffCommand& elt)
 
   fOstream <<
     idtr <<
-    setw(30) << "}" <<
-    "% staff  " <<
-    elt->getStaff ()->getStaffName () <<
-    endl;
+    setw(30) << "}";
+  if (fLpsrOptions->fGenerateComments)
+    fOstream <<
+      "% staff " <<
+      elt->getStaff ()->getStaffName ();
+  fOstream << endl;
 }
 
 /*
@@ -879,11 +891,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
     fOstream << idtr <<
       "% --> Start visiting msrVoicechunk" << endl;
 
-//  if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      setw(30) << "{" <<
-      "% start of msrVoicechunk" <<
-      endl;
+      setw(30) << "{";
+    if (fLpsrOptions->fGenerateComments)
+      fOstream << "% start of msrVoicechunk";
+    fOstream << endl;
 
   idtr++;
 
@@ -898,13 +910,13 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
     fOstream << idtr <<
       "% --> End visiting msrVoicechunk" << endl;
 
-//  if (fMsrOptions->fDebug)
     fOstream <<
       endl <<
       idtr <<
-      setw(30) << "}" <<
-      "% end of msrVoicechunk" <<
-      endl;
+      setw(30) << "}";
+    if (fLpsrOptions->fGenerateComments)
+      fOstream << "% end of msrVoicechunk";
+    fOstream << endl;
 
   fVoicechunkNotesCountersStack.pop ();
 }
@@ -1673,7 +1685,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarnumberCheck& elt)
 
   fOstream <<
     "\\barNumberCheck #" << elt->getNextBarNumber () <<
-    endl;
+    endl << idtr;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarnumberCheck& elt)
