@@ -1684,6 +1684,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarnumberCheck& elt)
       "% --> Start visiting msrBarnumberCheck" << endl;
 
   fOstream <<
+    endl <<
+    idtr <<
     "\\barNumberCheck #" << elt->getNextBarNumber () <<
     endl << idtr;
 }
@@ -1705,7 +1707,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBreak& elt)
   fOstream <<
     "\\myBreak | % " << elt->getNextBarNumber () <<
     endl <<
-    endl;
+    endl <<
+    idtr;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBreak& elt)
