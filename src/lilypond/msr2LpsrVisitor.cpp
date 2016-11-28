@@ -815,17 +815,17 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
   
   switch (elt->getBarlineCategory ()) {
     
-    case msrBarline::kBarIsStandalone:
+    case msrBarline::kStandaloneBar:
       fCurrentMsrVoiceClone->
         appendBarlineToVoice (elt);
       break;
       
-    case msrBarline::kRepeatStartAtTheBeginningOfAPart:
+    case msrBarline::kImplicitRepeatStart:
       fCurrentMsrVoiceClone->
         appendBarlineToVoice (elt);
       break;
       
-    case msrBarline::kStartOfARepeat:
+    case msrBarline::kRepeatStart:
       {
       // get the current voice chunk
       S_msrVoicechunk
@@ -869,7 +869,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
 */
       break;
       
-    case msrBarline::kEndOfARepeat:
+    case msrBarline::kRepeatEndWithoutStart:
       {
       fCurrentMsrVoiceClone->
         appendBarlineToVoice (elt);
@@ -907,7 +907,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       }
       break;
       
-    case msrBarline::kStartOfAnEnding:
+    case msrBarline::kEndingStart:
       {
       // get the current voice chunk
       S_msrVoicechunk
@@ -1068,7 +1068,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       }
       break;
 
-    case msrBarline::kEndOfAVoice:
+    case msrBarline::kVoiceEnd:
       fCurrentMsrVoiceClone->
         appendBarlineToVoice (elt);
       break;

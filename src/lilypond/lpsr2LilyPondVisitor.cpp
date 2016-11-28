@@ -1592,18 +1592,18 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
 
   switch (elt->getBarlineCategory ()) {
     
-    case msrBarline::kRepeatStartAtTheBeginningOfAPart:
-    case msrBarline::kStartOfARepeat:
-    case msrBarline::kEndOfARepeat:
-    case msrBarline::kStartOfAnEnding:
+    case msrBarline::kImplicitRepeatStart:
+    case msrBarline::kRepeatStart:
+    case msrBarline::kRepeatEndWithoutStart:
+    case msrBarline::kEndingStart:
     case msrBarline::kEndOfAHookedEnding:
     case msrBarline::kEndOfAHooklessEnding:
       // should not occur, since
       // LilyPond will take care of the repeat display
       break;
 
-    case msrBarline::kBarIsStandalone:
-    case msrBarline::kEndOfAVoice:
+    case msrBarline::kStandaloneBar:
+    case msrBarline::kVoiceEnd:
       fOstream <<
         endl <<
         idtr;

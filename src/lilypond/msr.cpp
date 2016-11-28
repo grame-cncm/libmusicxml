@@ -3594,20 +3594,20 @@ void msrBarline::print (ostream& os)
     ", input line: " << fInputLineNumber << ", ";
 
   switch (fBarlineCategory) {
-    case kBarIsStandalone:
+    case kStandaloneBar:
       os << "standalone";
       break;
-    case kRepeatStartAtTheBeginningOfAPart:
-      os << "repeat start at the beginning of a part";
+    case kImplicitRepeatStart:
+      os << "implicit repeat start";
       break;
-    case kStartOfARepeat:
-      os << "start of a repeat";
+    case kRepeatStart:
+      os << "repeat start";
       break;
-    case kEndOfARepeat:
-      os << "end of a repeat";
+    case kRepeatEndWithoutStart:
+      os << "repeat end without start";
       break;
-    case kStartOfAnEnding:
-      os << "start of an ending";
+    case kEndingStart:
+      os << "ending start";
       break;
     case kEndOfAHookedEnding:
       os << "end of a hooked ending";
@@ -3615,8 +3615,8 @@ void msrBarline::print (ostream& os)
     case kEndOfAHooklessEnding:
       os << "end of a hookless ending";
       break;
-    case kEndOfAVoice:
-      os << "end of a voice";
+    case kVoiceEnd:
+      os << "voice end";
       break;
   } // switch
   os << endl;
