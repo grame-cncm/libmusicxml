@@ -1611,6 +1611,8 @@ class EXP msrClef : public msrElement
     // services
     // ------------------------------------------------------
 
+    string clefAsString () const;
+
     // visitors
     // ------------------------------------------------------
 

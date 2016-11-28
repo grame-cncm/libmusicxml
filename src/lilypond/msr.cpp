@@ -570,9 +570,11 @@ ostream& operator<< (ostream& os, const S_msrBeam& beam)
 
 void msrBeam::print (ostream& os)
 {
-  os << idtr <<
+  idtr++;
+  
+  os <<
     "Beam" <<
-    " number: " << fBeamNumber <<
+    " number " << fBeamNumber <<
     ", kind: ";
 
   switch (fBeamKind) {
@@ -590,6 +592,8 @@ void msrBeam::print (ostream& os)
       break;
   } // switch
   os << endl;
+
+  idtr--;
 }
 
 //______________________________________________________________________________
@@ -2650,34 +2654,41 @@ ostream& operator<< (ostream& os, const S_msrClef& clef)
   return os;
 }
 
-void msrClef::print (ostream& os)
+string msrClef::clefAsString () const
 {
-  os <<
+  stringstream s;
+
+  s <<
     "Clef" << " \"" << fSign << "\"" <<
     " line " << fLine;
 
   if (fOctaveChange != 0) {
-    os << ", octaveChange:";
+    s << ", octaveChange:";
     
     switch (fOctaveChange) {
       case 1:
-        os << "8";
+        s << "8";
         break;
       case -1:
-        os << "-8";
+        s << "-8";
         break;
       case 2:
-        os << "15";
+        s << "15";
         break;
       case -2:
-        os << "-15";
+        s << "-15";
         break;
       default:
-        os << "octaveChange" << fOctaveChange << "???";
+        s << "octaveChange" << fOctaveChange << "???";
     } // switch
   }
 
-  os << endl;
+  return s.str();
+}
+
+void msrClef::print (ostream& os)
+{
+  os << clefAsString () << endl;
 }
 
 //______________________________________________________________________________
@@ -4431,7 +4442,7 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending clef '" << clef <<
+      "Appending clef '" << clef->clefAsString () <<
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement c = clef;

@@ -3134,6 +3134,8 @@ Each beam in a note is represented with a separate beam element, starting with t
 
   fCurrentBeamNumber = 
     elt->getAttributeIntValue ("number", 0);
+
+  bool beamIsOK = true;
   
   msrBeam::msrBeamKind beamKind;
 
@@ -3146,13 +3148,26 @@ Each beam in a note is represented with a separate beam element, starting with t
   else if (fCurrentBeamValue == "end") {
     beamKind = msrBeam::kEndBeam;
   }
-  
-  fCurrentBeam =
-    msrBeam::create (
-      fMsrOptions,
+  else {
+    stringstream s;
+    s <<
+      "beam \"" << fCurrentBeamValue <<
+      "\"" << "is not handled, ignored";
+    msrMusicXMLWarning (
+      fMsrOptions->fInputSourceName,
       elt->getInputLineNumber (),
-      fCurrentBeamNumber,
-      beamKind);
+      s.str());
+
+    beamIsOK = false;
+  }
+    
+  if (beamIsOK)
+    fCurrentBeam =
+      msrBeam::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        fCurrentBeamNumber,
+        beamKind);
 }
 
 //______________________________________________________________________________

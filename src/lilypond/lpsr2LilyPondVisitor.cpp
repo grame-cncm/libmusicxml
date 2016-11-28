@@ -1654,7 +1654,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
         case msrBarline::kShort:
           fOstream << "\\bar \"|short???\"";
           break;
-      } // switch  
+      } // switch
+
+      fOstream <<
+        endl <<
+        endl << idtr;
       break;
   } // switch
 }
