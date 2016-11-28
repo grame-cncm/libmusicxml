@@ -3500,7 +3500,7 @@ S_msrBarline msrBarline::create (
   msrBarlineLocation        location,
   msrBarlineStyle           style,
   msrBarlineEndingType      endingType,
-  string                    endingNumber,
+  string                    endingMusicXMLNumber,
   msrBarlineRepeatDirection repeatDirection,
   msrBarlineRepeatWinged    repeatWinged)
 {
@@ -3508,7 +3508,7 @@ S_msrBarline msrBarline::create (
     new msrBarline (
       msrOpts, inputLineNumber,
       location, style,
-      endingType, endingNumber,
+      endingType, endingMusicXMLNumber,
       repeatDirection, repeatWinged);
   assert(o!=0);
   return o;
@@ -3520,7 +3520,7 @@ msrBarline::msrBarline (
   msrBarlineLocation        location,
   msrBarlineStyle           style,
   msrBarlineEndingType      endingType,
-  string                    endingNumber,
+  string                    endingMusicXMLNumber,
   msrBarlineRepeatDirection repeatDirection,
   msrBarlineRepeatWinged    repeatWinged)
     : msrElement (msrOpts, inputLineNumber)
@@ -3528,7 +3528,7 @@ msrBarline::msrBarline (
   fLocation        = location;
   fStyle           = style;
   fEndingType      = endingType;
-  fEndingNumber    = endingNumber;
+  fEndingNumber    = endingMusicXMLNumber;
   fRepeatDirection = repeatDirection;
   fRepeatWinged    = repeatWinged;
   
@@ -3900,7 +3900,7 @@ void msrVoicechunk::print (ostream& os)
 S_msrRepeatending msrRepeatending::create (
   S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
-  string              repeatendingNumber, // may be "1, 2"
+  string              repeatendingMusicXMLNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
   S_msrVoicechunk     voicechunk,
   S_msrRepeat         repeat)
@@ -3908,7 +3908,7 @@ S_msrRepeatending msrRepeatending::create (
   msrRepeatending* o =
     new msrRepeatending (
       msrOpts, inputLineNumber,
-      repeatendingNumber,
+      repeatendingMusicXMLNumber,
       repeatendingKind,
       voicechunk,
       repeat);
@@ -3919,14 +3919,19 @@ S_msrRepeatending msrRepeatending::create (
 msrRepeatending::msrRepeatending (
   S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
-  string              repeatendingNumber, // may be "1, 2"
+  string              repeatendingMusicXMLNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
   S_msrVoicechunk     voicechunk,
   S_msrRepeat         repeat)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fRepeatendingNumber     = repeatendingNumber;
-  fRepeatendingKind       = repeatendingKind;
+  fRepeatendingMusicXMLNumber = repeatendingMusicXMLNumber;
+  
+  fRepeatendingNumber = 0;
+    // will be set by msrRepeat::addRepeatending ()
+  
+  fRepeatendingKind = repeatendingKind;
+  
   fRepeatendingVoicechunk = voicechunk;
   fRepeatendingRepeat     = repeat;
 }
@@ -3945,7 +3950,7 @@ S_msrRepeatending msrRepeatending::createEmptyClone (
       msrRepeatending::create (
         fMsrOptions,
         fInputLineNumber,
-        fRepeatendingNumber,
+        fRepeatendingMusicXMLNumber,
         fRepeatendingKind,
         clonedRepeat->getRepeatCommonPart (),
         clonedRepeat);
@@ -4002,7 +4007,8 @@ ostream& operator<< (ostream& os, const S_msrRepeatending& rept)
 
 void msrRepeatending::print (ostream& os)
 {
-  os << "Repeatending" << ", ";
+  os <<
+    "Repeatending" " number " << fRepeatendingNumber << ", ";
 
   switch (fRepeatendingKind) {
     case kHookedEnding:
@@ -4091,6 +4097,9 @@ void msrRepeat::addRepeatending (S_msrRepeatending repeatending)
       "Adding an ending to repeat" << endl;
       
   fRepeatEndings.push_back (repeatending);
+
+  repeatending->setRepeatendingNumber (
+    ++ fRepeatEndingsCounter);
 }
 
 void msrRepeat::acceptIn (basevisitor* v) {

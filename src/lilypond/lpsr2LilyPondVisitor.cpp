@@ -882,7 +882,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
 //  if (fMsrOptions->fDebug)
     fOstream << idtr <<
       setw(30) << "{" <<
-      "% start of msrVoicechunk" << endl;
+      "% start of msrVoicechunk" <<
+      endl;
 
   idtr++;
 
@@ -902,7 +903,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
       endl <<
       idtr <<
       setw(30) << "}" <<
-      "% end of msrVoicechunk" << endl;
+      "% end of msrVoicechunk" <<
+      endl;
 
   fVoicechunkNotesCountersStack.pop ();
 }
@@ -1714,8 +1716,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeat& elt)
   s << "\\repeat volta " << "2" << " {"; // JMNI
   
   fOstream << idtr <<
-    setw(30) << s.str() <<
-    "% start of repeat" <<
+    setw(30) << s.str() << "% start of repeat" <<
     endl;
 
   idtr++;
@@ -1726,17 +1727,6 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrRepeat" << endl;
-
-  idtr--;
-
-  if (! elt->getRepeatEndings ().size ())
-    // the end of the repeat couldn't be output
-    // by the first repeat ending
-    fOstream << idtr <<
-      setw(30) << "}" <<
-      "% end of repeat" <<
-      endl << endl;
-      
 }
 
 //________________________________________________________________________
@@ -1746,23 +1736,23 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeatending& elt)
     fOstream << idtr <<
       "% --> Start visiting msrRepeatending" << endl;
 
-  if (elt->getRepeatendingNumber () == "1") {
+  if (elt->getRepeatendingNumber () == 1) {
+    idtr--;
+    
     // first repeat ending is in charge of
     // outputting the end of the repeat
     fOstream << idtr <<
-      "}" << " % end of repeat" <<
+      setw(30) << "}" << "% end of repeat" <<
       endl << endl;
-      
-    fOstream << idtr <<
-      "\\alternative" << " " << "{" <<
-      endl;
 
+    // first repeat ending is in charge of
+    // outputting the start of the alternative
+    fOstream << idtr <<
+      setw(30) << "\\alternative" " " "{" << "% start of alternative" <<
+      endl;
+    
     idtr++;
   }
-
-  fOstream << idtr <<
-    "{" << // JMI
-    endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrRepeatending& elt)
@@ -1771,9 +1761,17 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeatending& elt)
     fOstream << idtr <<
       "% --> End visiting msrRepeatending" << endl;
 
-  fOstream << idtr <<
-    "}" <<" % end of alternative" <<
-    endl;
+  if (
+    elt->getRepeatendingNumber ()
+      ==
+    elt->getRepeatendingRepeat ()->getRepeatEndings ().size()) {
+    idtr--;
+    // last repeat ending is in charge of
+    // outputting the end of the alternative
+    fOstream << idtr <<
+      setw(30) << "}" << "% end of alternative" <<
+      endl;
+  }
 }
 
 //________________________________________________________________________

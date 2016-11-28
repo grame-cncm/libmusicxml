@@ -311,6 +311,9 @@ class lpsr2LilyPondVisitor :
     // ------------------------------------------------------
  // JMI   S_msrVoice           fCurrentMsrVoiceClone;
     
+    // repeats
+    // ------------------------------------------------------
+
     // voice chunks
     // ------------------------------------------------------
     // we need handle embedded msrVoicechunk's to indent notes

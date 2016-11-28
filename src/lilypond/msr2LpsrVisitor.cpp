@@ -754,13 +754,9 @@ void msr2LpsrVisitor::visitStart (S_msrChord& elt)
   fCurrentChordClone =
     elt->createEmptyClone ();
 
-    /* JMI
+  // appending the chord to the voice at once
   fCurrentVoiceClone->
     appendChordToVoice (fCurrentChordClone);
-    */
-
-//  fCurrentSequentialMusicClone->
-//    appendElementToSequentialMusic (fCurrentChordClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrChord& elt)
@@ -780,8 +776,9 @@ void msr2LpsrVisitor::visitStart (S_msrTuplet& elt)
   fCurrentTupletClone =
     elt->createEmptyClone ();
 
-// JMI fCurrentSequentialMusicClone->
-//    appendElementToSequentialMusic (fCurrentTupletClone);
+  // appending the tuplet to the voice at once
+  fCurrentVoiceClone->
+    appendTupletToVoice (fCurrentTupletClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrTuplet& elt)
@@ -924,10 +921,11 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
           fCurrentVoiceClone->
             getVoicechunk ();
 
+/*
       // set the current voice chunk as the repeat's common part
       fCurrentRepeatClone->
         setRepeatCommonPart (currentVoicechunk);
-      
+  */    
       // create a new voice chunk for the voice
       if (fMsrOptions->fDebug)
         cerr << idtr <<

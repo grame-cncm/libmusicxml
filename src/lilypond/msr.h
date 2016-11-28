@@ -2100,7 +2100,7 @@ class EXP msrBarline : public msrElement
       msrBarlineLocation        location,
       msrBarlineStyle           style,
       msrBarlineEndingType      endingType,
-      string                    endingNumber,
+      string                    endingMusicXMLNumber,
       msrBarlineRepeatDirection repeatDirection,
       msrBarlineRepeatWinged    repeatWinged);
 
@@ -2164,7 +2164,7 @@ class EXP msrBarline : public msrElement
       msrBarlineLocation        location,
       msrBarlineStyle           style,
       msrBarlineEndingType      endingType,
-      string                    endingNumber,
+      string                    endingMusicXMLNumber,
       msrBarlineRepeatDirection repeatDirection,
       msrBarlineRepeatWinged    repeatWinged);
     virtual ~msrBarline();
@@ -2275,7 +2275,7 @@ class EXP msrRepeatending : public msrElement
     static SMARTP<msrRepeatending> create (
       S_msrOptions&       msrOpts, 
       int                 inputLineNumber,
-      string              repeatendingNumber, // may be "1, 2"
+      string              repeatendingMusicXMLNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
       S_msrVoicechunk     voicechunk,
       S_msrRepeat         repeat);
@@ -2286,7 +2286,13 @@ class EXP msrRepeatending : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    string    getRepeatendingNumber () const
+    string    getRepeatendingMusicXMLNumber () const
+                  { return fRepeatendingMusicXMLNumber; }
+                
+    void      setRepeatendingNumber (int repeatendingNumber)
+                  { fRepeatendingNumber = repeatendingNumber; }
+                
+    int       getRepeatendingNumber () const
                   { return fRepeatendingNumber; }
                 
     S_msrVoicechunk
@@ -2321,7 +2327,7 @@ class EXP msrRepeatending : public msrElement
     msrRepeatending (
       S_msrOptions&       msrOpts, 
       int                 inputLineNumber,
-      string              repeatendingNumber, // may be "1, 2"
+      string              repeatendingMusicXMLNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
       S_msrVoicechunk     voicechunk,
       S_msrRepeat         repeat);
@@ -2330,7 +2336,9 @@ class EXP msrRepeatending : public msrElement
   
   private:
   
-    string              fRepeatendingNumber; // may be "1, 2"
+    string              fRepeatendingMusicXMLNumber; // may be "1, 2"
+    int                 fRepeatendingNumber; // internally assigned
+    
     msrRepeatendingKind fRepeatendingKind;
     
     S_msrVoicechunk     fRepeatendingVoicechunk;
