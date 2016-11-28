@@ -3106,6 +3106,50 @@ lpsrScore::lpsrScore (
     lpsrLayout::create (
       msrOpts, lpsrOpts, inputLineNumber);
 
+  // create the 'myBreakIsBreak' assoc
+  {
+  lpsrLilypondVarValAssoc::lpsrCommentedKind
+    commentedKind =
+      fLpsrOptions->fDontKeepLineBreaks
+        ? lpsrLilypondVarValAssoc::kCommented
+        : lpsrLilypondVarValAssoc::kUncommented;
+
+  fMyBreakIsBreakAssoc =
+    lpsrLilypondVarValAssoc::create (
+     fMsrOptions, fLpsrOptions, inputLineNumber,
+      commentedKind,
+      lpsrLilypondVarValAssoc::kWithoutBackslash,
+      "myBreak",
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      "{ \\break }",
+      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+      "Pick your choice from next two lines as needed",
+      lpsrLilypondVarValAssoc::kWithoutEndl);
+  }
+  
+  // create the 'myBreakIsEmpty' assoc
+  {
+  lpsrLilypondVarValAssoc::lpsrCommentedKind
+    commentedKind =
+      fLpsrOptions->fDontKeepLineBreaks
+        ? lpsrLilypondVarValAssoc::kUncommented
+        : lpsrLilypondVarValAssoc::kCommented;
+
+  fMyBreakIsEmptyAssoc =
+    lpsrLilypondVarValAssoc::create (
+     fMsrOptions, fLpsrOptions, inputLineNumber,
+      commentedKind,
+      lpsrLilypondVarValAssoc::kWithoutBackslash,
+      "myBreak",
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      "{ }",
+      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithEndl);
+  }
+ 
   // create the score command
   fScoreCommand =
     lpsrScoreCommand::create (
@@ -3245,6 +3289,17 @@ void lpsrScore::browseData (basevisitor* v)
     // browse the score layout
     msrBrowser<lpsrLayout> browser (v);
     browser.browse (*fScoreLayout);
+  }
+
+  {
+    // browse the myBreakIsBreak assoc
+    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    browser.browse (*fMyBreakIsBreakAssoc);
+  }
+  {
+    // browse the myBreakIsEmpty assoc
+    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    browser.browse (*fMyBreakIsEmptyAssoc);
   }
 
   {

@@ -140,6 +140,11 @@ void printUsage (int exitStatus)
     "          By default, relative octaves are generated." << endl <<
     endl <<
 
+    "    --noBreaks, --dontKeepLineBreaks" << endl <<
+    "          Don't keep the line breaks from the MusicXML input" << endl <<
+    "          and let LilyPond decide about them." << endl <<
+    endl <<
+
     "    --numericalTime" << endl <<
     "          Don't generate non-numerical time signatures such as 'C'." << endl <<
     "    --noComments" << endl <<
@@ -254,8 +259,8 @@ void analyzeOptions (
 
   int displayLPSRPresent                = 0;
 
- // JMI int fDontKeepLineBreaksPresent        = 0;
-// jMI  int fKeepStaffSizePresent             = 0;
+  int fDontKeepLineBreaksPresent        = 0;
+  int fKeepStaffSizePresent             = 0;
   
   int absolutePresent                   = 0;
   
@@ -453,6 +458,17 @@ void analyzeOptions (
       "absolute",
       no_argument,
       &absolutePresent, 1
+    },
+    
+    {
+      "noBreaks",
+      no_argument,
+      &fDontKeepLineBreaksPresent, 1
+    },
+    {
+      "fDontKeepLineBreaks",
+      no_argument,
+      &fDontKeepLineBreaksPresent, 1
     },
     
     {
@@ -700,7 +716,14 @@ void analyzeOptions (
             "--absolute ";
           absolutePresent = false;
         }
-        
+
+        if (fDontKeepLineBreaksPresent) {
+          lpsrOpts->fDontKeepLineBreaks = true;
+          msrOpts->fCommandLineOptions +=
+            "--dontKeepLineBreaks ";
+          fDontKeepLineBreaksPresent = false;
+        }
+
         if (numericaltimePresent) {
           lpsrOpts->fGenerateNumericalTime = true;
           msrOpts->fCommandLineOptions +=
@@ -903,6 +926,10 @@ void printOptions (
 
     idtr << setw(fieldWidth) << "generateAbsoluteOctaves" << " : " <<
       string(lpsrOpts->fGenerateAbsoluteOctaves
+        ? "true" : "false") << endl <<
+    
+    idtr << setw(fieldWidth) << "dontKeepLineBreaks" << " : " <<
+      string(lpsrOpts->fDontKeepLineBreaks
         ? "true" : "false") << endl <<
     
     idtr << setw(fieldWidth) << "generateNumericalTime" << " : " <<

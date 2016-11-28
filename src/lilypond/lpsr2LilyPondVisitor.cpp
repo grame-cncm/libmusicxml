@@ -1695,11 +1695,15 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeat& elt)
     fOstream << idtr <<
       "% --> Start visiting msrRepeat" << endl;
 
+  int voltaNumber =
+    elt->getRepeatEndings ().size();
+  
+  if (voltaNumber == 0)
+    voltaNumber = 2; // implicitly
+
   stringstream s;
   s <<
-    "\\repeat volta " <<
-    elt->getRepeatEndings ().size() <<
-    " {";
+    "\\repeat volta " << voltaNumber << " {";
   
   fOstream << idtr <<
     setw(30) << s.str() << "% start of repeat" <<
@@ -1713,6 +1717,16 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrRepeat" << endl;
+
+  if (elt->getRepeatEndings ().size() == 0) {
+    // the end of the repeat has not been generated yet
+
+    idtr --;
+    
+    fOstream << idtr <<
+      setw(30) << "}" << "% end of repeat" <<
+      endl << endl;
+  }
 }
 
 //________________________________________________________________________
@@ -1756,7 +1770,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeatending& elt)
     // outputting the end of the alternative
     fOstream << idtr <<
       setw(30) << "}" << "% end of alternative" <<
-      endl;
+      endl << endl;
   }
 }
 

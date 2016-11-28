@@ -2396,18 +2396,20 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentVoice->
           getVoicechunk ();
 
-    // create the repeat
-    if (fMsrOptions->fTrace)
-      cerr << idtr <<
-        "Creating a repeat in voice " <<
-        fCurrentVoice->getVoiceName () << endl;
-
-    fCurrentRepeat =
-      msrRepeat::create (
-        fMsrOptions, elt->getInputLineNumber (),
-        currentVoicechunk,
-        fCurrentVoice);
-
+    if (! fCurrentRepeat) {
+      // create the repeat
+      if (fMsrOptions->fTrace)
+        cerr << idtr <<
+          "Creating a repeat in voice " <<
+          fCurrentVoice->getVoiceName () << endl;
+  
+      fCurrentRepeat =
+        msrRepeat::create (
+          fMsrOptions, elt->getInputLineNumber (),
+          currentVoicechunk,
+          fCurrentVoice);
+    }
+    
     // create a new voice chunk for the voice
     if (fMsrOptions->fDebug)
       cerr << idtr <<
@@ -2479,19 +2481,19 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
       setNewVoicechunkForVoice (
         elt->getInputLineNumber ());
 
-      if (! fCurrentRepeat) {
-        // create the repeat
-        if (fMsrOptions->fTrace)
-          cerr << idtr <<
-            "Creating a repeat for voice " <<
-            fCurrentVoice->getVoiceName () << endl;
-  
-        fCurrentRepeat =
-          msrRepeat::create (
-            fMsrOptions, elt->getInputLineNumber (),
-            currentVoicechunk,
-            fCurrentVoice);
-      }
+    if (! fCurrentRepeat) {
+      // create the repeat
+      if (fMsrOptions->fTrace)
+        cerr << idtr <<
+          "Creating a repeat for voice " <<
+          fCurrentVoice->getVoiceName () << endl;
+
+      fCurrentRepeat =
+        msrRepeat::create (
+          fMsrOptions, elt->getInputLineNumber (),
+          currentVoicechunk,
+          fCurrentVoice);
+    }
       
     // create a repeat ending from the current voice chunk
     if (fMsrOptions->fDebug)

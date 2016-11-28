@@ -1960,6 +1960,10 @@ class EXP lpsrScore : public lpsrElement
     S_lpsrPaper               fPaper;
     S_lpsrLayout              fScoreLayout;
 
+    // to keep the original line breaks
+    S_lpsrLilypondVarValAssoc fMyBreakIsBreakAssoc;
+    S_lpsrLilypondVarValAssoc fMyBreakIsEmptyAssoc;
+
     // variables, voices and lyrics
     list<S_msrElement>        fScoreElements;
 
