@@ -1919,13 +1919,18 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
       gCurrentMusicXMLLocation.fMeasureNumber << " === " <<
       "PART " << fCurrentPart->getPartCombinedName () <<" ===" << endl;
 
-  if (
-    fCurrentPart->getPartMSRName() == "P17"
-      &&
-    gCurrentMusicXMLLocation.fMeasureNumber == 26) {
-//    fMsrOptions->fTrace = true; // JMI pour tests
-//    fMsrOptions->fDebug = true; // JMI pour tests
-  }
+  S_msrBarCheck
+    barCheck =
+      msrBarCheck::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        gCurrentMusicXMLLocation.fMeasureNumber);
+            
+  // append it to the voice
+  if (fCurrentVoice)
+    // it may not have been created yet JMI
+    fCurrentVoice->
+      appendBarCheckToVoice (barCheck);
 }
 
 void xml2MsrVisitor::visitEnd (S_measure& elt)
@@ -1952,7 +1957,7 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
             gCurrentMusicXMLLocation.fMeasureNumber);
             
       // append it to the voice
-      S_msrElement bnc = barnumbercheck_;
+// JMI      S_msrElement bnc = barnumbercheck_;
       fCurrentVoice->
         appendBarnumberCheckToVoice (barnumbercheck_);
   

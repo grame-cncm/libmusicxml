@@ -1069,6 +1069,24 @@ void msr2LpsrVisitor::visitEnd (S_msrBarline& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrVisitor::visitStart (S_msrBarCheck& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrBarCheck" << endl;
+
+  fCurrentVoiceClone->
+    appendBarCheckToVoice (elt);
+}
+
+void msr2LpsrVisitor::visitEnd (S_msrBarCheck& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrBarCheck" << endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrBarnumberCheck& elt)
 {
   if (fMsrOptions->fDebug)

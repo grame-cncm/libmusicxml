@@ -1931,8 +1931,8 @@ void msrComment::print (ostream& os)
 //______________________________________________________________________________
 S_msrBreak msrBreak::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    nextBarNumber)
+  int           inputLineNumber,
+  int           nextBarNumber)
 {
   msrBreak* o =
     new msrBreak (
@@ -1943,8 +1943,8 @@ S_msrBreak msrBreak::create (
 
 msrBreak::msrBreak (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    nextBarNumber)
+  int           inputLineNumber,
+  int           nextBarNumber)
     : msrElement (msrOpts, inputLineNumber)
 {
   fNextBarNumber=nextBarNumber; 
@@ -1985,7 +1985,6 @@ void msrBreak::acceptOut (basevisitor* v) {
   }
 }
 
-
 void msrBreak::browseData (basevisitor* v)
 {}
 
@@ -2003,10 +2002,81 @@ void msrBreak::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrBarCheck msrBarCheck::create (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  int           nextBarNumber)
+{
+  msrBarCheck* o =
+    new msrBarCheck (
+      msrOpts, inputLineNumber, nextBarNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrBarCheck::msrBarCheck (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  int           nextBarNumber)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fNextBarNumber=nextBarNumber; 
+}
+msrBarCheck::~msrBarCheck() {}
+
+void msrBarCheck::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrBarCheck::acceptIn()" << endl;
+      
+  if (visitor<S_msrBarCheck>*
+    p =
+      dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
+        S_msrBarCheck elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrBarCheck::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrBarCheck::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrBarCheck::acceptOut()" << endl;
+
+  if (visitor<S_msrBarCheck>*
+    p =
+      dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
+        S_msrBarCheck elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrBarCheck::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrBarCheck::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrBarCheck& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrBarCheck::print (ostream& os)
+{
+  os << "BarCheck" << " " << fNextBarNumber << endl;
+}
+
+//______________________________________________________________________________
 S_msrBarnumberCheck msrBarnumberCheck::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    nextBarNumber)
+  int           inputLineNumber,
+  int           nextBarNumber)
 {
   msrBarnumberCheck* o =
     new msrBarnumberCheck (
@@ -2017,8 +2087,8 @@ S_msrBarnumberCheck msrBarnumberCheck::create (
 
 msrBarnumberCheck::msrBarnumberCheck (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    nextBarNumber)
+  int           inputLineNumber,
+  int           nextBarNumber)
     : msrElement (msrOpts, inputLineNumber)
 {
   fNextBarNumber=nextBarNumber; 
@@ -2058,7 +2128,6 @@ void msrBarnumberCheck::acceptOut (basevisitor* v) {
         p->visitEnd (elem);
   }
 }
-
 
 void msrBarnumberCheck::browseData (basevisitor* v)
 {}
@@ -4596,6 +4665,17 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
   S_msrElement b = barline;
   fVoicechunk->
     appendElementToVoicechunk (b);
+}
+
+void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
+{
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "Appending bar check '" << barCheck <<
+      "' to voice " << getVoiceName () << endl;
+
+  fVoicechunk->
+    appendElementToVoicechunk (barCheck);
 }
 
 void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)

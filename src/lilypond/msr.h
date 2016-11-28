@@ -1415,8 +1415,8 @@ class EXP msrBreak : public msrElement
 
     static SMARTP<msrBreak> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    nextBarNumber);
+      int           inputLineNumber,
+      int           nextBarNumber);
 
     // set and get
     // ------------------------------------------------------
@@ -1441,8 +1441,8 @@ class EXP msrBreak : public msrElement
 
     msrBreak (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    nextBarNumber);
+      int           inputLineNumber,
+      int           nextBarNumber);
       
     virtual ~msrBreak();
   
@@ -1459,6 +1459,59 @@ EXP ostream& operator<< (ostream& os, const S_msrBreak& elt);
   A barnumbercheck is represented by the number of the next bar
 */
 //______________________________________________________________________________
+class EXP msrBarCheck : public msrElement
+{
+  public:
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrBarCheck> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           nextBarNumber);
+
+    // set and get
+    // ------------------------------------------------------
+
+    int getNextBarNumber () const
+            { return fNextBarNumber; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    msrBarCheck (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           nextBarNumber);
+      
+    virtual ~msrBarCheck();
+  
+  private:
+
+    int fNextBarNumber;
+};
+typedef SMARTP<msrBarCheck> S_msrBarCheck;
+EXP ostream& operator<< (ostream& os, const S_msrBarCheck& elt);
+
+/*!
+\brief A msr barnumbercheck representation.
+
+  A barnumbercheck is represented by the number of the next bar
+*/
+//______________________________________________________________________________
 class EXP msrBarnumberCheck : public msrElement
 {
   public:
@@ -1468,8 +1521,8 @@ class EXP msrBarnumberCheck : public msrElement
 
     static SMARTP<msrBarnumberCheck> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    nextBarNumber);
+      int           inputLineNumber,
+      int           nextBarNumber);
 
     // set and get
     // ------------------------------------------------------
@@ -1494,8 +1547,8 @@ class EXP msrBarnumberCheck : public msrElement
 
     msrBarnumberCheck (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    nextBarNumber);
+      int           inputLineNumber,
+      int           nextBarNumber);
       
     virtual ~msrBarnumberCheck();
   
@@ -2514,8 +2567,10 @@ class EXP msrVoice : public msrElement
     void      prependBarlineToVoice (S_msrBarline barline);
     void      appendBarlineToVoice  (S_msrBarline barline);
     
+    void      appendBarCheckToVoice (S_msrBarCheck bnc);
     void      appendBarnumberCheckToVoice
                                     (S_msrBarnumberCheck bnc);
+
     void      appendBreakToVoice    (S_msrBreak break_);
 
     void      appendElementToVoice  (S_msrElement elem);

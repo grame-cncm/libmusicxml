@@ -1318,22 +1318,26 @@ string msrNote::octaveRepresentation (char octave)
       
     switch (elt->getNoteKind ()) {
       case msrNote::kStandaloneNote:
+      /*
         if (++fSequentialMusicElementsCounter > 10) {
           fOstream <<
             endl <<
             idtr;
           fSequentialMusicElementsCounter = 1;
         }
+        */
         fOstream << "standalone";
         break;
         
       case msrNote::kRestNote:
+      /*
         if (++fSequentialMusicElementsCounter > 10) {
           fOstream <<
             endl <<
             idtr;
           fSequentialMusicElementsCounter = 1;
         }
+        */
         fOstream << "rest";
         break;
         
@@ -1355,12 +1359,14 @@ string msrNote::octaveRepresentation (char octave)
   switch (elt->getNoteKind ()) {
     
     case msrNote::kStandaloneNote:
+    /*
       if (++fSequentialMusicElementsCounter > 10) {
         fOstream <<
           endl <<
           idtr;
         fSequentialMusicElementsCounter = 1;
       }
+      */
       
       // print the note name
       fOstream <<
@@ -1372,12 +1378,14 @@ string msrNote::octaveRepresentation (char octave)
       break;
       
     case msrNote::kRestNote:
+    /*
       if (++fSequentialMusicElementsCounter > 10) {
         fOstream <<
           endl <<
           idtr;
         fSequentialMusicElementsCounter = 1;
       }
+      */
       
       // print the rest name
       fOstream <<
@@ -1501,12 +1509,14 @@ void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
   if (++ fVoicechunkNotesAndChordsCountersStack.top () == 1)
     fOstream << idtr;
 
+/*
   if (++fSequentialMusicElementsCounter > 10) {
     fOstream <<
       endl <<
       idtr;
     fSequentialMusicElementsCounter = 1;
   }
+*/
 
   fOstream << idtr << "<";
 }
@@ -1647,6 +1657,25 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrBarline& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrBarCheck& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrBarCheck" << endl;
+
+  fOstream <<
+    "| % " << elt->getNextBarNumber () <<
+    endl << idtr;
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrBarCheck& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrBarCheck" << endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrBarnumberCheck& elt)
 {
   if (fMsrOptions->fDebug)
@@ -1654,8 +1683,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarnumberCheck& elt)
       "% --> Start visiting msrBarnumberCheck" << endl;
 
   fOstream <<
-    endl <<
-    idtr <<
     "\\barNumberCheck #" << elt->getNextBarNumber () <<
     endl << idtr;
 }

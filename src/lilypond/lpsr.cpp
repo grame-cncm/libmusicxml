@@ -3124,7 +3124,7 @@ lpsrScore::lpsrScore (
       lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
       "{ \\break }",
       lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      "Pick your choice from next two lines as needed",
+      "Pick your choice from the next two lines as needed",
       lpsrLilypondVarValAssoc::kWithoutEndl);
   }
   
