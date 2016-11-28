@@ -1094,6 +1094,9 @@ void msr2LpsrVisitor::visitStart (S_msrBarnumberCheck& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrBarnumberCheck" << endl;
+
+  fCurrentVoiceClone->
+    appendBarnumberCheckToVoice (elt);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrBarnumberCheck& elt)
@@ -1109,6 +1112,9 @@ void msr2LpsrVisitor::visitStart (S_msrBreak& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrBreak" << endl;
+
+  fCurrentVoiceClone->
+    appendBreakToVoice (elt);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrBreak& elt)

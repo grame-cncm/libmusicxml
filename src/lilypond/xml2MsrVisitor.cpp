@@ -1536,7 +1536,33 @@ void xml2MsrVisitor::visitEnd ( S_metronome& elt )
         elt->getInputLineNumber (),
         r.getDenominator(), fPerMinute);
     
-// JMI ???  fCurrentVoice->appendTempoToVoice (tempo);
+  // is fCurrentStaffNumber already present in fCurrentPart?
+  fCurrentStaff =
+    fCurrentPart->
+      fetchStaffFromPart (fCurrentStaffNumber);
+
+  if (! fCurrentStaff) 
+    // no, add it to the current part
+    fCurrentStaff =
+      fCurrentPart->
+        addStaffToPart (
+          elt->getInputLineNumber (), fCurrentStaffNumber);
+    
+  // fetch the voice in the current staff
+  fCurrentVoice =
+    fCurrentStaff->
+      fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+  // does the voice exist?
+  if (! fCurrentVoice) 
+    // no, add it to the current staff
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (
+          elt->getInputLineNumber (), fCurrentVoiceNumber);
+
+  fCurrentVoice->
+    appendTempoToVoice (tempo);
   
   // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
@@ -1923,6 +1949,8 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
           fMsrOptions,
           elt->getInputLineNumber (),
           gCurrentMusicXMLLocation.fMeasureNumber);
+          
+    // append it to the voice
     S_msrElement bnc = barnumbercheck_;
     fCurrentVoice->
       appendBarnumberCheckToVoice (barnumbercheck_);
@@ -1934,6 +1962,8 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
           fMsrOptions,
           elt->getInputLineNumber (),
           gCurrentMusicXMLLocation.fMeasureNumber);
+
+    // append it to the voice
     S_msrElement brk = break_;
     fCurrentVoice->
       appendBreakToVoice (break_);

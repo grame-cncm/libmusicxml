@@ -844,7 +844,7 @@ class EXP msrNote : public msrElement
     S_msrDuration getNoteMsrDuration () const
                       { return fNoteMsrDuration; }   
 
-    string        noteMsrPitchAsString ();
+    string        noteMsrPitchAsString () const;
 
     // articulations
     list<S_msrArticulation>
@@ -874,7 +874,10 @@ class EXP msrNote : public msrElement
         int                         noteQuatertonesFromA,
         msrNote::musicXMLAlteration alteration);
                           
-    static map<msrPitch, string> sDutchLilypondPitches;
+    static map<msrPitch, string>
+                  sDutchLilypondPitches;
+
+    string        noteAsString () const;
 
     // articulations
     void          addArticulation (S_msrArticulation art);
@@ -1611,7 +1614,7 @@ class EXP msrClef : public msrElement
     // services
     // ------------------------------------------------------
 
-    string clefAsString () const;
+    string  clefAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1683,6 +1686,8 @@ class EXP msrKey : public msrElement
     // services
     // ------------------------------------------------------
 
+    string      keyAsString () const;
+
     // visitors
     // ------------------------------------------------------
 
@@ -1744,6 +1749,8 @@ class EXP msrTime : public msrElement
     // services
     // ------------------------------------------------------
 
+    string    timeAsString () const;
+
     // visitors
     // ------------------------------------------------------
 
@@ -1803,6 +1810,8 @@ class EXP msrTempo : public msrElement
     // services
     // ------------------------------------------------------
 
+    string    tempoAsString () const;
+    
     // visitors
     // ------------------------------------------------------
 

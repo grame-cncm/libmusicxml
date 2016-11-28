@@ -1185,12 +1185,6 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrTempo& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrTempo" << endl;
-
-  fOstream <<
-    "\\tempo" << " " <<
-    elt->getTempoUnit () <<
-    " = " <<
-    elt->getPerMinute () << endl;
 }
 
 //________________________________________________________________________

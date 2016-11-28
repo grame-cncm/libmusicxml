@@ -1384,7 +1384,7 @@ S_msrWedge msrNote::removeFirstWedge () {
   return wdg;
 }
 
-string msrNote::noteMsrPitchAsString ()
+string msrNote::noteMsrPitchAsString () const
 {
   stringstream s;
   
@@ -1574,12 +1574,13 @@ ostream& operator<< (ostream& os, const S_msrNote& elt)
   return os;
 }
 
-void msrNote::print (ostream& os)
+string msrNote::noteAsString () const
 {
-  // print the note itself
+  stringstream s;
+
   switch (fNoteKind) {
     case msrNote::kStandaloneNote:
-      os <<
+      s <<
         "Standalone note" <<
         " " <<
         noteMsrPitchAsString () <<
@@ -1588,14 +1589,14 @@ void msrNote::print (ostream& os)
       break;
       
     case msrNote::kRestNote:
-      os <<
+      s <<
         "Rest" <<
         ":" <<
         getNoteMsrDuration ();
       break;
       
     case msrNote::kChordMemberNote:
-      os <<
+      s <<
         "Chord member note" <<
         " " <<
         noteMsrPitchAsString () <<
@@ -1604,7 +1605,7 @@ void msrNote::print (ostream& os)
       break;
       
     case msrNote::kTupletMemberNote:
-      os <<
+      s <<
         "Tuplet member note" <<
         " " <<
         noteMsrPitchAsString () <<
@@ -1614,11 +1615,18 @@ void msrNote::print (ostream& os)
   } // switch
      
   if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
-    os << " " << "grace";
+    s << " " << "grace";
   if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
-    os << " " << "tied";
+    s << " " << "tied";
 
-  os << endl;
+  return s.str();
+}
+
+void msrNote::print (ostream& os)
+{
+  // print the note itself
+
+  os << noteAsString () << endl;
   
   // print the beam if any
   if (fNoteBeam) {
@@ -2844,14 +2852,22 @@ ostream& operator<< (ostream& os, const S_msrKey& key)
   return os;
 }
 
+string msrKey::keyAsString () const
+{
+  stringstream s;
+
+  s << "Key " << fTonic << " ";
+  if (fKeyMode == kMajor)
+    s << "\\major";
+  else
+    s << "\\minor";
+
+  return s.str();
+}
+
 void msrKey::print (ostream& os)
 {
-  os << "Key " << fTonic << " ";
-  if (fKeyMode == kMajor)
-    os << "\\major";
-  else
-    os << "\\minor";
-  os << endl;
+  os << keyAsString () << endl;
 }
 
 //______________________________________________________________________________
@@ -2926,12 +2942,20 @@ ostream& operator<< (ostream& os, const S_msrTime& elt)
   return os;
 }
 
+string msrTime::timeAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Time " << 
+    fRational.getNumerator() << "/" << fRational.getDenominator();
+
+  return s.str();
+}
+
 void msrTime::print (ostream& os)
 {
-  os <<
-    "Time " << 
-    fRational.getNumerator() << "/" << fRational.getDenominator() <<
-    endl;
+  os << timeAsString () << endl;
 }
 
 //______________________________________________________________________________
@@ -3004,11 +3028,20 @@ ostream& operator<< (ostream& os, const S_msrTempo& nstf)
   return os;
 }
 
+string msrTempo::tempoAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Tempo" << " " <<
+    fTempoUnit << " = " << fPerMinute;
+
+  return s.str();
+}
+
 void msrTempo::print (ostream& os)
 {
-  os <<
-    "Tempo" << " " <<
-    fTempoUnit << " " << fPerMinute << endl;
+  os << tempoAsString () << endl;
 }
 
 //______________________________________________________________________________
@@ -4454,7 +4487,7 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending key '" << key <<
+      "Appending key '" << key->keyAsString () <<
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement k = key;
@@ -4466,7 +4499,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending time '" << time <<
+      "Appending time '" << time->timeAsString () <<
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement t = time;
@@ -4478,7 +4511,7 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending tempo '" << tempo <<
+      "Appending tempo '" << tempo->tempoAsString () <<
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement t = tempo;
@@ -4882,7 +4915,7 @@ void msrStaff::setStaffClef (S_msrClef clef)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Setting clef '" << clef <<
+      "Setting clef '" << clef->clefAsString () <<
       "' in staff " << fStaffNumber <<
       " in part " << fStaffPart->getPartCombinedName () << endl;
 
@@ -4895,7 +4928,7 @@ void msrStaff::setStaffKey  (S_msrKey  key)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Setting key '" << key <<
+      "Setting key '" << key->keyAsString () <<
       "' in staff " << fStaffNumber <<
       " in part " << fStaffPart->getPartCombinedName () << endl;
 
@@ -4908,7 +4941,7 @@ void msrStaff::setStaffTime (S_msrTime time)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Setting time '" << time <<
+      "Setting time '" << time->timeAsString () <<
       "' in staff " << fStaffNumber <<
       " in part " << fStaffPart->getPartCombinedName () << endl;
 
