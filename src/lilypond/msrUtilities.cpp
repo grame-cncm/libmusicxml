@@ -401,4 +401,92 @@ std::list<int> extractNumbersFromString (
 }
 
 
+//______________________________________________________________________________
+std::pair<std::string, std::string> extractNamesPairFromString (
+  std::string theString, // can contain "P1 = Bassoon"
+  char        separator,
+  bool        debugMode)
+{
+  std::string name1;
+  std::string name2;
+
+  if (debugMode)
+    cout <<
+      "--> extractNamesPairFromString, theString = |" << theString <<
+      "|" <<
+      endl;
+
+  std::string::const_iterator
+    cursor = theString.begin();
+
+  // fetch name1
+  while (1) {
+    if (cursor == theString.end())
+      break;
+      
+    if (debugMode)
+      cout <<
+        "--> extractNamesPairFromString: cursor = |" <<
+        *cursor << "|" <<
+        endl;
+
+    if ((*cursor) == separator) {
+      // found the separator
+      break;
+    }
+    
+    // append the number to name1
+    name1 += *cursor;
+    cursor++;
+  } // while
+
+  if (! name1.size ()) {
+    // found an empty name1
+    cout <<
+      "### ERROR: the name before the " << separator <<
+      " separator is empty in '" << theString << "'" <<
+      endl;
+  }
+
+  // overtake the separator
+  cursor++;
+
+  // fetch name2
+  while (1) {
+    if (cursor == theString.end())
+      break;
+      
+    if (debugMode)
+      cout <<
+        "--> extractNamesPairFromString: cursor = |" <<
+        *cursor << "|" <<
+        endl;
+
+    if ((*cursor) == '=') {
+      // found the separator
+      cout <<
+        "### ERROR: the " << separator <<
+        " separator occurs more than once in string '" <<
+        theString << "'" <<
+        endl;
+      break;
+    }
+    
+    // append the number to name2
+    name2 += *cursor;
+    cursor++;
+  } // while
+
+  if (! name2.size ()) {
+    // found an empty name2
+    cout <<
+      "### ERROR: the name after the " << separator <<
+      " separator is empty in '" << theString << "'" <<
+      endl;
+  }
+
+  return make_pair (name1, name2);
+}
+
+
 }

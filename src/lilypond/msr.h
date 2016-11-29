@@ -222,7 +222,7 @@ class EXP msrOptions : public smartable {
     bool                            fDisplayMSRScoreSummary;
 
     // parts renaming
-    set<string>                     fPartRenamingSpecsSet;
+    list<string>                    fPartRenamingSpecifications;
 };
 typedef SMARTP<msrOptions> S_msrOptions;
 

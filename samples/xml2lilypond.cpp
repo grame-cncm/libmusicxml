@@ -121,8 +121,8 @@ void printUsage (int exitStatus)
     "          Write a summary of the MSR score to standard error." << endl <<
     endl <<
 
-    "    --part, --partName 'original newName'" << endl <<
-    "    --part, --partName \"original newName\"" << endl <<
+    "    --part, --partName 'originalName = newName'" << endl <<
+    "    --part, --partName \"originalName = newName\"" << endl <<
     "          Rename part 'original' to 'newName', for example after " << endl <<
     "          displaying a summary of the score in a first xml2lilypond run." << endl <<
     "          There can be several occurrences of this option." << endl <<
@@ -695,8 +695,21 @@ void analyzeOptions (
           s <<
             "--partName" << " \"" << partNameSpec << "\" ";
           msrOpts->fCommandLineOptions += s.str();
+
+          std::pair<string, string>
+            pair =
+              extractNamesPairFromString (
+                partNameSpec,
+                '=',
+                true); // 'true' to debug it
+
+          cout <<
+            "--> pair.first = " << pair.first << " " <<
+            "--> pair.second = " << pair.second << " " <<
+            endl;
             
-          msrOpts->fPartRenamingSpecsSet.insert (partNameSpec);
+          msrOpts->fPartRenamingSpecifications.push_back (
+            partNameSpec);
           partNamePresent = false;
         }
         
@@ -893,15 +906,15 @@ void printOptions (
       string(msrOpts->fDisplayMSRScoreSummary
         ? "true" : "false") << endl <<
     
-    idtr << setw(fieldWidth) << "partRenamingSpecsSet" << " : ";
+    idtr << setw(fieldWidth) << "partRenamingSpecifications" << " : ";
     
-  if (msrOpts->fPartRenamingSpecsSet.empty ())
+  if (msrOpts->fPartRenamingSpecifications.empty ())
     cerr << "none";
   else
     for (
-      set<string>::const_iterator i =
-        msrOpts->fPartRenamingSpecsSet.begin();
-      i != msrOpts->fPartRenamingSpecsSet.end();
+      list<string>::const_iterator i =
+        msrOpts->fPartRenamingSpecifications.begin();
+      i != msrOpts->fPartRenamingSpecifications.end();
       i++) {
         cerr << "\"" << (*i) << "\" ";
     } // for

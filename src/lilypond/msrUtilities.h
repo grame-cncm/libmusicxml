@@ -152,6 +152,13 @@ std::list<int> extractNumbersFromString (
   std::string theString, // can contain "1, 2, 17"
   bool        debugMode = false);
 
+//______________________________________________________________________________
+std::pair<std::string, std::string> extractNamesPairFromString (
+  std::string theString, // can contain "P1 = Bassoon"
+  char        separator,
+  bool        debugMode = false);
+
+
 } // namespace MusicXML2
 
 
