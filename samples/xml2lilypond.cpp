@@ -702,19 +702,19 @@ void analyzeOptions (
                 partNameSpec,
                 '=',
                 false); // 'true' to debug it
-
+          /*
           cout <<
             "--> pair.first = \"" << pair.first << "\", " <<
             "--> pair.second = \"" << pair.second << "\"" <<
             endl;
+          */
 
           // is this part name in the part renaming map?
-          set<int>::iterator
+          map<string, string>::iterator
             it =
-              fMsrOptions->fPartsRenaming.find (
-                pair.first);
+              msrOpts->fPartsRenaming.find (pair.first);
                 
-          if (it != fMsrOptions->fPartsRenaming.end ()) {
+          if (it != msrOpts->fPartsRenaming.end ()) {
             // yes, issue error message
           }
           else
@@ -919,15 +919,15 @@ void printOptions (
     
     idtr << setw(fieldWidth) << "partRenamingSpecifications" << " : ";
     
-  if (msrOpts->fPartRenamingSpecifications.empty ())
+  if (msrOpts->fPartsRenaming.empty ())
     cerr << "none";
   else
     for (
-      list<string>::const_iterator i =
-        msrOpts->fPartRenamingSpecifications.begin();
-      i != msrOpts->fPartRenamingSpecifications.end();
+      map<string, string>::const_iterator i =
+        msrOpts->fPartsRenaming.begin();
+      i != msrOpts->fPartsRenaming.end();
       i++) {
-        cerr << "\"" << (*i) << "\" ";
+        cerr << "\"" << ((*i).first) << " = " << ((*i).second) << "\" ";
     } // for
   
   cerr << endl;
