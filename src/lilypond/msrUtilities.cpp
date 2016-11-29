@@ -435,21 +435,29 @@ std::pair<std::string, std::string> extractNamesPairFromString (
       break;
     }
     
-    // append the number to name1
+    // append the character to name1
     name1 += *cursor;
     cursor++;
   } // while
 
+  name1 = trim (name1);
   if (! name1.size ()) {
     // found an empty name1
     cout <<
-      "### ERROR: the name before the " << separator <<
+      "### ERROR: the first name before the " << separator <<
       " separator is empty in '" << theString << "'" <<
       endl;
   }
 
-  // overtake the separator
-  cursor++;
+  if (cursor == theString.end())
+    cout <<
+      "### ERROR: the " << separator <<
+      " separator is missing in string '" <<
+      theString << "'" <<
+      endl;
+  else
+    // overtake the separator
+    cursor++;
 
   // fetch name2
   while (1) {
@@ -472,15 +480,16 @@ std::pair<std::string, std::string> extractNamesPairFromString (
       break;
     }
     
-    // append the number to name2
+    // append the character to name2
     name2 += *cursor;
     cursor++;
   } // while
 
+  name2 = trim (name2);
   if (! name2.size ()) {
     // found an empty name2
     cout <<
-      "### ERROR: the name after the " << separator <<
+      "### ERROR: the second name after the " << separator <<
       " separator is empty in '" << theString << "'" <<
       endl;
   }

@@ -701,15 +701,26 @@ void analyzeOptions (
               extractNamesPairFromString (
                 partNameSpec,
                 '=',
-                true); // 'true' to debug it
+                false); // 'true' to debug it
 
           cout <<
-            "--> pair.first = " << pair.first << " " <<
-            "--> pair.second = " << pair.second << " " <<
+            "--> pair.first = \"" << pair.first << "\", " <<
+            "--> pair.second = \"" << pair.second << "\"" <<
             endl;
-            
-          msrOpts->fPartRenamingSpecifications.push_back (
-            partNameSpec);
+
+          // is this part name in the part renaming map?
+          set<int>::iterator
+            it =
+              fMsrOptions->fPartsRenaming.find (
+                pair.first);
+                
+          if (it != fMsrOptions->fPartsRenaming.end ()) {
+            // yes, issue error message
+          }
+          else
+            msrOpts->fPartsRenaming [pair.first] =
+              pair.second;
+
           partNamePresent = false;
         }
         

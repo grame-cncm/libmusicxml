@@ -18,6 +18,7 @@
 #include <iostream>
 #include <set>
 #include <list>
+#include <algorithm> 
 
 #include "basevisitor.h"
 
@@ -151,6 +152,42 @@ std::set<int> decipherNumbersSetSpecification (
 std::list<int> extractNumbersFromString (
   std::string theString, // can contain "1, 2, 17"
   bool        debugMode = false);
+
+//______________________________________________________________________________
+// from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
+
+// trim string from start
+inline std::string &ltrim (std::string &s) {
+  s.erase (
+    s.begin(),
+    std::find_if (
+      s.begin(),
+      s.end(),
+      std::not1 (std::ptr_fun<int, int> (std::isspace))
+      )
+    );
+          
+  return s;
+}
+
+// trim string from end
+inline std::string &rtrim (std::string &s) {
+  s.erase (
+    std::find_if (
+      s.rbegin(),
+      s.rend(),
+      std::not1 (std::ptr_fun<int, int> (std::isspace))
+      ).base(),
+    s.end()
+    );
+          
+  return s;
+}
+
+// trim string from both ends
+inline std::string &trim (std::string &s) {
+  return ltrim (rtrim (s));
+}
 
 //______________________________________________________________________________
 std::pair<std::string, std::string> extractNamesPairFromString (
