@@ -42,7 +42,7 @@ lpsr2LilyPondVisitor::lpsr2LilyPondVisitor (
   fLpsrOptions      = lpsrOpts;
   fVisitedLpsrScore = lpScore;
 
-  gCurrentLocation.fMeasureNumber = 0; // in case of an anacrusis
+  gCurrentLocation.fMeasureNumber     = 0; // in case of an anacrusis
   gCurrentLocation.fPositionInMeasure = 1;
 
   fOnGoingHeader = false;

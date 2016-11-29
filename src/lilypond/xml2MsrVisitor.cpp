@@ -64,7 +64,7 @@ xml2MsrVisitor::xml2MsrVisitor (
 {
   fMsrOptions = msrOpts;
 
-  gCurrentLocation.fMeasureNumber = 0; // in case of an anacrusis
+  gCurrentLocation.fMeasureNumber     = 0; // in case of an anacrusis
   gCurrentLocation.fPositionInMeasure = 1;
 
   fMillimeters       = -1;
@@ -1355,9 +1355,6 @@ void xml2MsrVisitor::visitStart (S_backup& elt )
       </backup>
 */
   
-  gCurrentLocation.fInputLineNumber =
-    elt->getInputLineNumber ();
-  
   fOnGoingBackup = true;
 }
 
@@ -2356,6 +2353,9 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatDirection,
         fCurrentBarlineRepeatWinged);
 
+  // set the barline location
+  barline->setBarlineLocation (gCurrentLocation);
+
   // don't display the barline yet in case of debug,
   // wait until its category is defined
   // append the barline to the current voice chunk
@@ -2722,8 +2722,9 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         idtr << "--> input line " <<
           elt->getInputLineNumber () <<
         endl <<
-        idtr << "--> measure    " <<
-          gCurrentLocation.fMeasureNumber <<
+        idtr <<
+          "--> measure " << elt->getBarlineLocation ().fMeasureNumber <<
+          ", position " << elt->getBarlineLocation ().fPositionInMeasure <<
         endl <<
         idtr <<
         "--> barline, left and start: ending start" <<
@@ -4053,7 +4054,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
         fCurrentSlurKind);
 
   // set its location
-  note->setMusicXMLLocation (gCurrentLocation);
+  note->setNoteLocation (gCurrentLocation);
 
   // set its beam if any
   if (fCurrentBeam)

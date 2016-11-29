@@ -2212,6 +2212,13 @@ class EXP msrBarline : public msrElement
                   msrBarlineCategory barlineCategory)
                     { fBarlineCategory = barlineCategory; }
     
+    // position in measure
+    void          setBarlineLocation (msrLocation& location)
+                      { fBarlineLocation = location; }
+    const msrLocation&
+                  getBarlineLocation () const
+                      { return fBarlineLocation; }
+
     // services
     // ------------------------------------------------------
 
@@ -2248,6 +2255,8 @@ class EXP msrBarline : public msrElement
     msrBarlineRepeatWinged    fRepeatWinged;
 
     msrBarlineCategory        fBarlineCategory;
+
+    msrLocation               fBarlineLocation;
 
     // the numbers extracted from fEndingNumber
     list<int>                 fEndingNumbersList;

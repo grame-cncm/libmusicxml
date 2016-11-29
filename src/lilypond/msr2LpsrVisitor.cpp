@@ -41,7 +41,7 @@ msr2LpsrVisitor::msr2LpsrVisitor (
   fLpsrOptions     = lpsrOpts;
   fVisitedMsrScore = mScore;
 
-  gCurrentLocation.fMeasureNumber = 0; // in case of an anacrusis
+  gCurrentLocation.fMeasureNumber     = 0; // in case of an anacrusis
   gCurrentLocation.fPositionInMeasure = 1;
 
   fOnGoingIdentification = false;

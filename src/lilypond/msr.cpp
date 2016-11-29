@@ -34,18 +34,6 @@ msrGlobalVariables::msrDisplayKind
 indenter msrElement::gIndenter;
 
 //______________________________________________________________________________
-/* JMI
-musicXMLLocation::musicXMLLocation (
-  int         inputLineNumber,
-  int         measureNumber,
-  int         positionInMeasure)
-{
-  fInputLineNumber   = inputLineNumber;
-  fMeasureNumber     = measureNumber;
-  fPositionInMeasure = positionInMeasure;
-}
-*/
-//______________________________________________________________________________
 void msrMusicXMLWarning (
   string inputSourceName, int inputLineNumber, string message)
 {
@@ -1627,9 +1615,8 @@ void msrNote::print (ostream& os)
   // print the note itself and its position
   os <<
     noteAsString () <<
-    ", line " << fMusicXMLLocation.fInputLineNumber <<
-    ", " << fMusicXMLLocation.fMeasureNumber <<
-    ":" << fMusicXMLLocation.fPositionInMeasure <<
+    ", measure " << fBarlineLocation.fMeasureNumber <<
+    ", position " << fBarlineLocation.fPositionInMeasure <<
     endl;
 
   // print the beam if any

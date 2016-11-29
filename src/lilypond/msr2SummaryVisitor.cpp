@@ -37,7 +37,7 @@ msr2SummaryVisitor::msr2SummaryVisitor (
 {
   fMsrOptions = msrOpts;
 
-  gCurrentLocation.fMeasureNumber = 0; // in case of an anacrusis
+  gCurrentLocation.fMeasureNumber     = 0; // in case of an anacrusis
   gCurrentLocation.fPositionInMeasure = 1;
 
   fOnGoingStaff = false;
