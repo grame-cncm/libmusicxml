@@ -216,8 +216,8 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
       "PartMusicXMLID     : \"" <<
       elt->getPartMusicXMLID () << "\"" << endl <<
     idtr <<
-      "PartName             : \"" <<
-      elt->getPartName () << "\"" << endl <<
+      "PartMSRName          : \"" <<
+      elt->getPartMSRName () << "\"" << endl <<
     idtr <<
       "PartAbbrevation      : \"" <<
       elt->getPartAbbreviation () << "\"" << endl <<
