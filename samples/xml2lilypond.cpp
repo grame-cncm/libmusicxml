@@ -261,7 +261,7 @@ void analyzeOptions (
   int displayLPSRPresent                = 0;
 
   int fDontKeepLineBreaksPresent        = 0;
-  int fKeepStaffSizePresent             = 0;
+//  int fKeepStaffSizePresent             = 0; JMI
   
   int absolutePresent                   = 0;
   

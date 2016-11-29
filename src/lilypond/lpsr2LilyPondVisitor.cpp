@@ -595,7 +595,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffCommand& elt)
       "% --> Start visiting lpsrStaffCommand" << endl;
 
   fOstream << idtr <<
-    setw(30) << "\\new Staff" " " "{";
+    setw(30) << "\\new Staff" " " "<<";
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
       "% staff " <<
@@ -615,7 +615,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffCommand& elt)
 
   fOstream <<
     idtr <<
-    setw(30) << "}";
+    setw(30) << ">>";
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
       "% staff " <<
@@ -1789,6 +1789,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeatending& elt)
       "% --> End visiting msrRepeatending" << endl;
 
   if (
+  // JMI warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
     elt->getRepeatendingNumber ()
       ==
     elt->getRepeatendingRepeat ()->getRepeatEndings ().size()) {

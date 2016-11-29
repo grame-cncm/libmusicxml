@@ -4441,6 +4441,10 @@ string msrVoice::getVoiceName () const
     int2EnglishWord (voiceNumber);
 }
 
+void msrVoice::handleForward (int duration)
+{
+}
+
 void msrVoice::setNewVoicechunkForVoice (
   int inputLineNumber)
 {
@@ -4846,7 +4850,16 @@ msrStaff::msrStaff (
 
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Creating staff " << getStaffName () << endl;
+      "Creating staff " << getStaffName () <<
+      " in part " << fStaffPart->getPartCombinedName () <<
+      endl;
+
+  // create the implicit initial G line 2 clef
+  fStaffClef =
+    msrClef::create (
+      msrOpts,
+      inputLineNumber,
+      "G", 2, 0);
 
   // create the implicit initial C major key
   fStaffKey =
@@ -4861,16 +4874,6 @@ msrStaff::msrStaff (
       msrOpts,
       inputLineNumber,
       4, 4);
-
-  // add the maximum number of empty voices
-  // those that turn out empty will be removed later
-  /*
-  for (int i = 1; i <= gMaxStaffVoices; i++) {
-    S_msrVoice
-      dummyVoice =
-        addVoiceToStaff (i);
-  } // for
-  */
 }
 
 msrStaff::~msrStaff() {}
@@ -5229,21 +5232,21 @@ void msrPart::setPartMSRName (string  partMSRName)
         
   if (it != fMsrOptions->fPartsRenaming.end ()) {
     // yes, rename the part accordinglingly
+    fPartMSRName = (*it).second;
+
     if (fMsrOptions->fTrace)
       cerr << idtr <<
         "Setting part name of " << getPartCombinedName () <<
-        " to " << (*it).second <<
+        " to \"" << fPartMSRName << "\"" <<
          endl;
-         
-    fPartMSRName = (*it).second;
   }
   else {
     // use the argument
+    fPartMSRName = partMSRName;
+
     if (fMsrOptions->fTrace)
       cerr << idtr <<
-        "Setting part name to partID " << getPartCombinedName () << endl;
-        
-    fPartMSRName = partMSRName;
+        "Keeping partID as part name  for " << getPartCombinedName () << endl;
   }
 }
 

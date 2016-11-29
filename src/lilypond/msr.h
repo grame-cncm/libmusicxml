@@ -2542,15 +2542,7 @@ class EXP msrVoice : public msrElement
     // services
     // ------------------------------------------------------
 
-    S_msrLyrics
-              addLyricsToVoice (
-                int inputLineNumber,
-                int lyricsNumber);
-
-    void      addLyricsToVoice (S_msrLyrics lyrics);
-    
-    S_msrLyrics
-              fetchLyricsFromVoice (int lyricsNumber);
+    void      handleForward         (int duration);
     
     void      appendClefToVoice     (S_msrClef clef);
     void      appendKeyToVoice      (S_msrKey  key);
@@ -2578,6 +2570,16 @@ class EXP msrVoice : public msrElement
 
     void      removeLastElementFromVoice ();
 
+    S_msrLyrics
+              addLyricsToVoice (
+                int inputLineNumber,
+                int lyricsNumber);
+
+    void      addLyricsToVoice (S_msrLyrics lyrics);
+    
+    S_msrLyrics
+              fetchLyricsFromVoice (int lyricsNumber);
+    
     // visitors
     // ------------------------------------------------------
 

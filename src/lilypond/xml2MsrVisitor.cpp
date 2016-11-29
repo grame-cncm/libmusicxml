@@ -978,7 +978,8 @@ void xml2MsrVisitor::visitStart (S_part& elt)
 
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Analyzing part " << fCurrentPart->getPartCombinedName() << endl;
+      "Analyzing part \"" << partID << "\"" <<
+      endl;
 
   idtr++;
 
@@ -1468,6 +1469,8 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
       "voice " << fCurrentVoice->getVoiceName () <<
       " in staff " << fCurrentStaff->getStaffName () << endl;
 
+  fCurrentVoice->handleForward (fCurrentForwardDuration);
+  
   fOnGoingForward = false;
 }
 
