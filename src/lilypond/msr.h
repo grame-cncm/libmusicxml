@@ -233,23 +233,22 @@ typedef SMARTP<msrOptions> S_msrOptions;
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-class musicXMLLocation
+class msrLocation
 {
   public:
 /* JMI
-    musicXMLLocation (
+    msrLocation (
       int         inputLineNumber,
       int         measureNumber,
       int         positionInMeasure);
       */
   public:
 
-    int         fInputLineNumber;
     int         fMeasureNumber;
     int         fPositionInMeasure; // divisions
 };
 
-extern musicXMLLocation  gCurrentMusicXMLLocation;
+extern msrLocation  gCurrentLocation;
 
 /*!
 \brief A generic msr element representation.
@@ -865,8 +864,14 @@ class EXP msrNote : public msrElement
 
     // beams
     void          setBeam (S_msrBeam beam)  { fNoteBeam = beam; }
-    S_msrBeam     getBeam () const          { return fNoteBeam; }
-    
+    S_msrBeam     getBeam () const          { return fNoteBeam; }  
+
+    // position in measure
+    void          setNoteLocation (msrLocation location)
+                      { fNoteLocation = location; }
+    msrLocation   getNoteLocation () const
+                      { return fNoteLocation; }
+
     // services
     // ------------------------------------------------------
 
@@ -933,6 +938,8 @@ class EXP msrNote : public msrElement
     list<S_msrWedge>           fNoteWedges;
 
     msrSlur::msrSlurKind       fNoteSlurKind;
+
+    msrLocation                fNoteLocation;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);

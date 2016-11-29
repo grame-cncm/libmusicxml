@@ -36,26 +36,13 @@ msr2LpsrVisitor::msr2LpsrVisitor (
   ostream&       os,
   S_msrScore     mScore)
     : fOstream (os)
-  /* JMI
-    : gCurrentMusicXMLLocation (
-      0, // before first line on MusicXML contents
-      0, // in case of an anacrusis
-      0) // at the beginning of a measure
-      */
 {
   fMsrOptions      = msrOpts;
   fLpsrOptions     = lpsrOpts;
   fVisitedMsrScore = mScore;
 
-  /* JMI
-    : gCurrentMusicXMLLocation (
-      0, // before first line on MusicXML contents
-      0, // in case of an anacrusis
-      0) // at the beginning of a measure
-      */
-  gCurrentMusicXMLLocation.fInputLineNumber = 0;
-  gCurrentMusicXMLLocation.fMeasureNumber = 0; // in case of an anacrusis
-  gCurrentMusicXMLLocation.fPositionInMeasure = 1;
+  gCurrentLocation.fMeasureNumber = 0; // in case of an anacrusis
+  gCurrentLocation.fPositionInMeasure = 1;
 
   fOnGoingIdentification = false;
   

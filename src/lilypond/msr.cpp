@@ -25,7 +25,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 // global variables
 
-musicXMLLocation  gCurrentMusicXMLLocation;
+msrLocation  gCurrentLocation;
 
 msrGlobalVariables::msrDisplayKind
   msrGlobalVariables::sDisplayKind =
@@ -54,9 +54,9 @@ void msrMusicXMLWarning (
       "!!! MusicXML WARNING, " << inputSourceName <<
       ", input line " << inputLineNumber <<
       ", measure " <<
-        gCurrentMusicXMLLocation.fMeasureNumber <<
+        gCurrentLocation.fMeasureNumber <<
       ":" <<
-        gCurrentMusicXMLLocation.fPositionInMeasure <<
+        gCurrentLocation.fPositionInMeasure <<
 
     endl <<
     
@@ -73,9 +73,9 @@ void msrMusicXMLError (
       "### MusicXML ERROR, " << inputSourceName <<
       ", input line " << inputLineNumber <<
       ", measure " <<
-        gCurrentMusicXMLLocation.fMeasureNumber <<
+        gCurrentLocation.fMeasureNumber <<
       ":" <<
-        gCurrentMusicXMLLocation.fPositionInMeasure <<
+        gCurrentLocation.fPositionInMeasure <<
 
     endl <<
       
@@ -96,12 +96,12 @@ void msrInternalError (
       "--> MSR INTERNAL ERROR, " << inputSourceName <<
       ", input line " << inputLineNumber <<
       ", measure " <<
-        gCurrentMusicXMLLocation.fMeasureNumber <<
+        gCurrentLocation.fMeasureNumber <<
       ":" <<
-        gCurrentMusicXMLLocation.fPositionInMeasure << "/" ;
+        gCurrentLocation.fPositionInMeasure << "/" ;
       
-  if (gCurrentMusicXMLLocation.fPositionInMeasure > 0)
-    cerr << gCurrentMusicXMLLocation.fPositionInMeasure;
+  if (gCurrentLocation.fPositionInMeasure > 0)
+    cerr << gCurrentLocation.fPositionInMeasure;
   else
     cerr << "?";
     
@@ -1624,10 +1624,14 @@ string msrNote::noteAsString () const
 
 void msrNote::print (ostream& os)
 {
-  // print the note itself
+  // print the note itself and its position
+  os <<
+    noteAsString () <<
+    ", line " << fMusicXMLLocation.fInputLineNumber <<
+    ", " << fMusicXMLLocation.fMeasureNumber <<
+    ":" << fMusicXMLLocation.fPositionInMeasure <<
+    endl;
 
-  os << noteAsString () << endl;
-  
   // print the beam if any
   if (fNoteBeam) {
     os <<
@@ -5412,15 +5416,15 @@ void msrPart::print (ostream& os)
     
   idtr++;
   
-  os <<
+  os << left <<
     idtr <<
-      "PartAbbrevation       : \"" <<
-      fPartAbbreviation << "\"" << endl <<
-    idtr <<
-      "PartMusicXMLDivisions : " <<
+      setw(22) << "PartMusicXMLDivisions" << ": " <<
       fPartMusicXMLDivisions << endl <<
     idtr <<
-      "PartInstrumentName    : \"" <<
+      setw(22) << "PartAbbrevation" << ": \"" <<
+      fPartAbbreviation << "\"" << endl <<
+    idtr <<
+      setw(22) << "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" << endl;
 
   if (fPartStavesMap.size()) {
