@@ -59,105 +59,114 @@ string int2EnglishWord (int n)
     n = -n;
   }
 
-  if (n > 99) return "LargerThanNinetyNine";
-  
+  if (n >= 100) {
+  //return "LargerThanNinetyNine";
+    int nDiv100    = n / 100;
+    int nModulo100 = n % 100;
 
-  switch (n) {
-    case 0:
-      s << "Zero";
-      break;
-    case 1:
-      s << "One";
-      break;
-    case 2:
-      s << "Two";
-      break;
-    case 3:
-      s << "Three";
-      break;
-    case 4:
-      s << "Four";
-      break;
-    case 5:
-      s << "Five";
-      break;
-    case 6:
-      s << "Six";
-      break;
-    case 7:
-      s << "Seven";
-      break;
-    case 8:
-      s << "Eight";
-      break;
-    case 9:
-      s << "Nine";
-      break;
-   case 10:
-      s << "Ten";
-      break;
-    case 11:
-      s << "Eleven";
-      break;
-    case 12:
-      s << "Twelve";
-      break;
-    case 13:
-      s << "Thirteen";
-      break;
-    case 14:
-      s << "Fourteen";
-      break;
-    case 15:
-      s << "Fifteen";
-      break;
-    case 16:
-      s << "Sixteen";
-      break;
-    case 17:
-      s << "Seventeen";
-      break;
-    case 18:
-      s << "Eighteen";
-      break;
-    case 19:
-      s << "Nineteen";
-      break;
-      
-    default: {
-      // n >= 20
-      int digit1 = n / 10;
-      int digit2 = n % 10;
-      
-      switch (digit1) {
-        case 2:
-          s << "Twenty";
-          break;
-        case 3:
-          s << "Thirty";
-          break;
-        case 4:
-          s << "Fourty";
-          break;
-        case 5:
-          s << "Fifty";
-          break;
-        case 6:
-          s << "Sixty";
-          break;
-        case 7:
-          s << "Seventy";
-          break;
-        case 8:
-          s << "Eighty";
-          break;
-        case 9:
-          s << "Ninety";
-          break;
-      } // switch
-      s << int2EnglishWord (digit2);
-    } // default
-  } // switch
+    return
+      int2EnglishWord (nDiv100) +
+      "HundredAnd" +
+      int2EnglishWord (nModulo100);    
+  }
+
+  else
+    switch (n) {
+      case 0:
+        s << "Zero";
+        break;
+      case 1:
+        s << "One";
+        break;
+      case 2:
+        s << "Two";
+        break;
+      case 3:
+        s << "Three";
+        break;
+      case 4:
+        s << "Four";
+        break;
+      case 5:
+        s << "Five";
+        break;
+      case 6:
+        s << "Six";
+        break;
+      case 7:
+        s << "Seven";
+        break;
+      case 8:
+        s << "Eight";
+        break;
+      case 9:
+        s << "Nine";
+        break;
+     case 10:
+        s << "Ten";
+        break;
+      case 11:
+        s << "Eleven";
+        break;
+      case 12:
+        s << "Twelve";
+        break;
+      case 13:
+        s << "Thirteen";
+        break;
+      case 14:
+        s << "Fourteen";
+        break;
+      case 15:
+        s << "Fifteen";
+        break;
+      case 16:
+        s << "Sixteen";
+        break;
+      case 17:
+        s << "Seventeen";
+        break;
+      case 18:
+        s << "Eighteen";
+        break;
+      case 19:
+        s << "Nineteen";
+        break;
+        
+      default: {
+        // n >= 20
+        int nDiv10    = n / 10;
+        int nModulo10 = n % 10;
+        
+        switch (nDiv10) {
+          case 2:
+            s << "Twenty";
+            break;
+          case 3:
+            s << "Thirty";
+            break;
+          case 4:
+            s << "Fourty";
+            break;
+          case 5:
+            s << "Fifty";
+            break;
+          case 6:
+            s << "Sixty";
+            break;
+          case 7:
+            s << "Seventy";
+            break;
+          case 8:
+            s << "Eighty";
+            break;
+          case 9:
+            s << "Ninety";
+            break;
+        } // switch
+        s << int2EnglishWord (nModulo10);
+      } // default
+    } // switch
   
   return s.str();
 }

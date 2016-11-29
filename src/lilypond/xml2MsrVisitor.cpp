@@ -91,6 +91,9 @@ xml2MsrVisitor::xml2MsrVisitor (
     msrScore::create (fMsrOptions, 0);
 
   fCurrentTimeStaffNumber = 1; // it may be absent
+
+  fCurrentForwardVoiceNumber = 1; // JMI
+  fCurrentVoiceNumber = 1; // JMI
   
   fCurrentLyricsNumber = -1; // JMI
   fCurrentLyricschunkType = msrLyricschunk::k_NoChunk;
@@ -931,9 +934,9 @@ void xml2MsrVisitor::visitEnd (S_score_part& elt)
   }
 
   // populate current part
-// JMI  fCurrentPart->
- //   setPartMSRName (fCurrentPartName);
-  // fPartMSRName has already been set by the constructor
+  // fPartMSRName has already been set by the constructor // JMI
+  fCurrentPart->
+    setPartMSRName (fCurrentPartName);
   fCurrentPart->
     setPartAbbreviation (fCurrentPartAbbreviation);
   fCurrentPart->
@@ -1261,7 +1264,7 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
   int  staffNumber = int(*elt);
 
 //  if (true || fMsrOptions->fDebug)
-  if (fMsrOptions->fDebug)
+// JMI  if (fMsrOptions->fDebug)
     cerr <<
       idtr <<
       "--> S_staff, staffNumber         = " << staffNumber << endl <<
@@ -1332,8 +1335,7 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
     fCurrentForwardVoiceNumber = voiceNumber;
 
   }
-  else
-  if (fOnGoingNote) {
+  else if (fOnGoingNote) {
 
     // regular voice indication in note/rest
     fCurrentVoiceNumber = voiceNumber;
@@ -1405,12 +1407,17 @@ void xml2MsrVisitor::visitEnd (S_backup& elt )
 void xml2MsrVisitor::visitStart ( S_forward& elt )
 {
   /*
-         <forward>
+      <forward>
         <duration>96</duration>
         <voice>1</voice>
         <staff>1</staff>
       </forward>
 */
+
+  // the <staff /> element is present only
+  // in case of a staff change
+  fCurrentForwardStaffNumber = fCurrentStaffNumber;
+  
   fOnGoingForward = true;
 }
 

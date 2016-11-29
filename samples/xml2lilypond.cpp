@@ -38,6 +38,7 @@ void printUsage (int exitStatus)
     "                   Welcome to xml2lilypond, " << endl <<
     "              the MusicXML to LilyPond translator" << endl <<
     "          delivered as part of the libmusicxml2 library." << endl <<
+    "        https://github.com/dfober/libmusicxml/tree/master" << endl <<
     endl <<
     "Usage:" << endl <<
     endl <<

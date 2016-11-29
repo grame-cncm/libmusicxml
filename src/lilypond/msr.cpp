@@ -5300,6 +5300,8 @@ S_msrStaff msrPart::addStaffToPart (
     cerr << idtr <<
       "Adding staff " << staffNumber <<
       " to part " << getPartCombinedName () << endl;
+
+if (staffNumber < 0) cout << 0/0 << endl;
   
   // create the staff
   S_msrStaff
