@@ -931,8 +931,9 @@ void xml2MsrVisitor::visitEnd (S_score_part& elt)
   }
 
   // populate current part
-  fCurrentPart->
-    setPartName (fCurrentPartName);
+// JMI  fCurrentPart->
+ //   setPartMSRName (fCurrentPartName);
+  // fPartMSRName has already been set by the constructor
   fCurrentPart->
     setPartAbbreviation (fCurrentPartAbbreviation);
   fCurrentPart->

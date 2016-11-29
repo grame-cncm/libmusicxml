@@ -2766,8 +2766,7 @@ class EXP msrPart : public msrElement
     void      setPartMusicXMLID (string  partMusicXMLID)
                   { fPartMusicXMLID = partMusicXMLID; }
     
-    void      setPartMSRName (string  partMSRName)
-                  { fPartMSRName = partMSRName; }
+    void      setPartMSRName (string  partMSRName);
     
     string    getPartMusicXMLID () const
                   { return fPartMusicXMLID; }

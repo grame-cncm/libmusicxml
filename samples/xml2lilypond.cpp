@@ -147,8 +147,8 @@ void printUsage (int exitStatus)
 
     "    --numericalTime" << endl <<
     "          Don't generate non-numerical time signatures such as 'C'." << endl <<
-    "    --noComments" << endl <<
-    "          Don't generate comments showing the structure of the score" << endl <<
+    "    --comments" << endl <<
+    "          Generate comments showing the structure of the score" << endl <<
     "          such as '% part P_POne (P1)'." << endl <<
     "    --noStems" << endl <<
     "          Don't generate \\stemUp nor \\stemDown LilyPond commands." << endl <<
@@ -214,7 +214,7 @@ void analyzeOptions (
   lpsrOpts->fGenerateAbsoluteOctaves          = true;
 
   lpsrOpts->fGenerateNumericalTime            = false;
-  lpsrOpts->fGenerateComments                 = true;
+  lpsrOpts->fGenerateComments                 = false;
   lpsrOpts->fGenerateStems                    = false;
   lpsrOpts->fGeneratePositions                = false;
 
@@ -265,7 +265,7 @@ void analyzeOptions (
   int absolutePresent                   = 0;
   
   int numericaltimePresent              = 0;
-  int noCommentsPresent                 = 0;
+  int commentsPresent                 = 0;
   int stemsPresent                      = 0;
   int positionsPresent                  = 0;
   
@@ -477,9 +477,9 @@ void analyzeOptions (
       &numericaltimePresent, 1
     },
     {
-      "noComments",
+      "comments",
       no_argument,
-      &noCommentsPresent, 1
+      &commentsPresent, 1
     },
     {
       "stems",
@@ -753,10 +753,10 @@ void analyzeOptions (
           msrOpts->fCommandLineOptions +=
             "--numericalTime ";
         }
-        if (noCommentsPresent) {
-          lpsrOpts->fGenerateComments = false;
+        if (commentsPresent) {
+          lpsrOpts->fGenerateComments = true;
           msrOpts->fCommandLineOptions +=
-            "--noComments ";
+            "--comments ";
           numericaltimePresent = false;
         }
         if (stemsPresent) {

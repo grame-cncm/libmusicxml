@@ -5183,11 +5183,22 @@ msrPart::msrPart (
     : msrElement (msrOpts, inputLineNumber)
 {  
   fPartMusicXMLID = partMusicXMLID;
-  fPartPartgroup    = partPartgroup;
+  fPartPartgroup  = partPartgroup;
 
-  // coin the part MSR name
-  fPartMSRName =
-    "P_"+stringNumbersToEnglishWords (fPartMusicXMLID);
+  // is this part name in the part renaming map?
+  map<string, string>::iterator
+    it =
+      msrOpts->fPartsRenaming.find (fPartMusicXMLID);
+        
+  if (it != msrOpts->fPartsRenaming.end ()) {
+    // yes, rename the part accordinglingly
+    fPartMSRName = (*it).second;
+  }
+  else {
+    // coin the name from the argument
+    fPartMSRName =
+      "P_"+stringNumbersToEnglishWords (fPartMusicXMLID);
+  }
     
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -5207,6 +5218,33 @@ S_msrPart msrPart::createEmptyClone (S_msrPartgroup clonedPartgroup)
         clonedPartgroup);
   
   return clone;
+}
+
+void msrPart::setPartMSRName (string  partMSRName)
+{
+  // is this part name in the part renaming map?
+  map<string, string>::iterator
+    it =
+      fMsrOptions->fPartsRenaming.find (fPartMSRName);
+        
+  if (it != fMsrOptions->fPartsRenaming.end ()) {
+    // yes, rename the part accordinglingly
+    if (fMsrOptions->fTrace)
+      cerr << idtr <<
+        "Setting part name of " << getPartCombinedName () <<
+        " to " << (*it).second <<
+         endl;
+         
+    fPartMSRName = (*it).second;
+  }
+  else {
+    // use the argument
+    if (fMsrOptions->fTrace)
+      cerr << idtr <<
+        "Setting part name to partID " << getPartCombinedName () << endl;
+        
+    fPartMSRName = partMSRName;
+  }
 }
 
 string msrPart::getPartCombinedName () const
