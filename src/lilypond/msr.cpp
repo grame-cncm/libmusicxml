@@ -1410,10 +1410,12 @@ string msrNote::divisionsAsMSRString () const
       divresult =
         div (
           fMusicXMLNoteData.fMusicXMLDivisions,
-          fNoteMeasureLocation.fDivisionsPerWholeNote);
+          fNoteMeasureLocation.fDivisionsPerWholeNote * 4);
          
     int div = divresult.quot;
     int mod = divresult.rem;
+
+    cout << "div = " << div << ", mod = " << mod << endl;
         
     switch (div) {
       case 8:
@@ -1422,30 +1424,42 @@ string msrNote::divisionsAsMSRString () const
       case 5:
         s << "\\maxima";
         break;
+        
       case 4:
       case 3:
         s << "\\longa";
         break;
+        
       case 2:
         s << "\\breve";
         break;
+        
       case 1:
         s << "1";
         break;
+        
       case 0:
         {
         // shorter than a whole note
-        //s << "(shorter than a whole note) ";
+        cout << "(shorter than a whole note) ";
+        
         int weight = 2; // half note
         int n = fMusicXMLNoteData.fMusicXMLDivisions * 2;
   
+        cout << "n = " << n << endl;
+
         while (n < fNoteMeasureLocation.fDivisionsPerWholeNote) {
            weight *= 2;
            n *= 2;
+        cout << "n = " << n << endl;
+          cout << "n = " << n << endl;
         } // while
+        cout << "n = " << n << endl;
+
         s << weight;
         }
         break;
+        
       default:
         {
         stringstream s;
@@ -1465,14 +1479,18 @@ string msrNote::divisionsAsMSRString () const
     } // switch
  // JMI }
   
-  //cerr << "--> fDots = " << fDots << endl;
+  cout << "--> mod = " << mod << endl;
   
-  // print the dots if any 
-  int n = mod; 
-  if (n > 0) {
+  // print the dots if any
+  if (mod > 0) {
+    int n = mod;
+    
+    cout << "n = " << n << endl;
     while (n > 0) {
-      s << ".";
+      if (n % 2)
+        s << ".";
       n /= 2;
+    cout << "n = " << n << endl;
     } // while
   }
     
@@ -1490,18 +1508,14 @@ string msrNote::noteAsString () const
         " " <<
         noteMsrPitchAsString () <<
         ":" <<
-        this->divisionsAsMSRString () <<
-        " (" << getNoteMusicXMLDivisions () <<
-        "/" << fNoteMeasureLocation.fDivisionsPerWholeNote * 4 <<
-        ")";
+        divisionsAsMSRString ();
       break;
       
     case msrNote::kRestNote:
       s <<
         "Rest" <<
         ":" <<
-        getNoteMusicXMLDivisions () <<
-        "/" << fNoteMeasureLocation.fDivisionsPerWholeNote * 4;
+        divisionsAsMSRString ();
       break;
       
     case msrNote::kChordMemberNote:
@@ -1510,8 +1524,7 @@ string msrNote::noteAsString () const
         " " <<
         noteMsrPitchAsString () <<
         ":" <<
-        getNoteMusicXMLDivisions () <<
-        "/" << fNoteMeasureLocation.fDivisionsPerWholeNote * 4;
+        divisionsAsMSRString ();
       break;
       
     case msrNote::kTupletMemberNote:
@@ -1520,8 +1533,7 @@ string msrNote::noteAsString () const
         " " <<
         noteMsrPitchAsString () <<
         ":" <<
-        getNoteMusicXMLDivisions () <<
-        "/" << fNoteMeasureLocation.fDivisionsPerWholeNote * 4;
+        divisionsAsMSRString ();
       break;
   } // switch
      
