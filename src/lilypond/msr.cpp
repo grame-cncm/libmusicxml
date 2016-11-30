@@ -241,9 +241,9 @@ void musicXMLNoteData::print (ostream& os)
     idtr << "  " << left << setw(26) <<
       "fMusicXMLOctave = " <<
       fMusicXMLOctave <<  endl <<
-    idtr << "  " << left << setw(26) <<
-      "fMusicXMLDivisions = " <<
-      fMusicXMLDivisions <<  endl <<
+//    idtr << "  " << left << setw(26) << JMI
+//      "fMusicXMLDivisions = " <<
+ //     fMusicXMLDivisions <<  endl <<
     idtr << "  " << left << setw(26) <<
       "fMusicXMLDuration = " <<
       fMusicXMLDuration <<  endl <<

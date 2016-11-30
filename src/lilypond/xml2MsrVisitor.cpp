@@ -3209,7 +3209,7 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   
   fMusicXMLNoteData.fMusicXMLOctave = -13;
   
-  fMusicXMLNoteData.fMusicXMLDivisions = -13;
+//  fMusicXMLNoteData.fMusicXMLDivisions = -13;
   fMusicXMLNoteData.fMusicXMLDuration = -13;
   fMusicXMLNoteData.fMusicXMLDotsNumber = 0;
   
@@ -4043,7 +4043,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       "fCurrentDivisionsPerQuarterNote * 4 = " <<
       fCurrentDivisionsPerQuarterNote * 4 << endl;
       
-  fMusicXMLNoteData.fMusicXMLDivisions =
+ // fMusicXMLNoteData.fMusicXMLDivisions =
+  fCurrentMeasureLocation.fDivisionsPerWholeNote = // JMI
     fCurrentDivisionsPerQuarterNote;
   fMusicXMLNoteData.fMusicXMLTupletMemberNoteType =
     fCurrentNoteType;

@@ -353,8 +353,8 @@ class musicXMLNoteData
     
     int         fMusicXMLOctave;
     
-    int         fMusicXMLDivisions;
-    int         fMusicXMLDuration;
+//    int         fMusicXMLDivisions;
+    int         fMusicXMLDuration; // divisions
     int         fMusicXMLDotsNumber;
     
     bool        fMusicXMLNoteIsAGraceNote;
@@ -470,7 +470,8 @@ class EXP msrDuration : public msrElement
     int         fNum;
     int         fDenom;
     int         fDots;
-    string      fTupletMemberNoteType;
+    
+    string      fTupletMemberNoteType; // ??? JMI
 };
 typedef SMARTP<msrDuration> S_msrDuration;
 EXP ostream& operator<< (ostream& os, const S_msrDuration& elt);
@@ -824,8 +825,9 @@ class EXP msrNote : public msrElement
     int           getNoteMusicXMLDuration () const
                       {
                         return
-                          fMusicXMLNoteData.fMusicXMLDivisions;
+                          fMusicXMLNoteData.fMusicXMLDuration;
                       }
+
     int           getNoteMusicXMLOctave () const
                       {
                         return
