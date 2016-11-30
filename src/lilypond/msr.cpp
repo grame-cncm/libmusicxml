@@ -818,7 +818,8 @@ ostream& operator<< (ostream& os, const S_msrDynamics& dyn)
 void msrDynamics::print (ostream& os)
 {
   os <<
-    "Dynamics" << " " << dynamicsKindAsString ();
+    "Dynamics" << " " << dynamicsKindAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -910,7 +911,9 @@ ostream& operator<< (ostream& os, const S_msrWedge& wdg)
 
 void msrWedge::print (ostream& os)
 {
-  os << "Wedge" << " " << wedgeKindAsString ();
+  os <<
+    "Wedge" << " " << wedgeKindAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________
