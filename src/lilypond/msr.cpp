@@ -1415,8 +1415,85 @@ string msrNote::divisionsAsMSRString () const
     int div = divresult.quot;
     int mod = divresult.rem;
 
-    cout << "div = " << div << ", mod = " << mod << endl;
+    if (fMsrOptions->fDebug) 
+      cout << "fMusicXMLNoteData.fMusicXMLDivisions = " <<
+        fMusicXMLNoteData.fMusicXMLDivisions <<
+      ", fNoteMeasureLocation.fDivisionsPerWholeNote * 4 = " <<
+        fNoteMeasureLocation.fDivisionsPerWholeNote * 4 << endl <<
+      cout << "div = " << div << ", mod = " << mod << endl;
         
+    switch (div) {
+      case 8:
+      case 7:
+      case 6:
+      case 5:
+        s << "\\maxima";
+        break;
+      case 4:
+      case 3:
+        s << "\\longa";
+        break;
+      case 2:
+        s << "\\breve";
+        break;
+      case 1:
+        s << "1";
+        break;
+      case 0:
+        {
+        // shorter than a whole note
+        //s << "(shorter than a whole note) ";
+        int weight = 2; // half note
+        int n = fMusicXMLNoteData.fMusicXMLDivisions*2;
+  
+        while (n < fNoteMeasureLocation.fDivisionsPerWholeNote) {
+           weight *= 2;
+           n *= 2;
+        } // while
+        s << weight;
+        }
+        break;
+      default:
+        {
+        stringstream s;
+        s <<
+          "*** ERROR, MusicXML note duration " << fMusicXMLNoteData.fMusicXMLDivisions << "/" << 
+          fNoteMeasureLocation.fDivisionsPerWholeNote << " is too large" << endl;
+        msrMusicXMLError (
+          fMsrOptions->fInputSourceName,
+          fInputLineNumber,
+          s.str());
+        }
+    } // switch
+  
+  //cerr << "--> fDots = " << fDots << endl;
+  
+  // print the dots if any 
+  int n = fMusicXMLNoteData.fMusicXMLDotsNumber; 
+  if (n > 0) {
+    while (n-- > 0) {
+      s << ".";  
+    } // while
+  }
+
+/*
+  // print the dots if any
+  if (mod > 0) {
+    int n = mod / 2;
+    
+    cout << "n = " << n << endl;
+    while (n > 0) {
+      n /= 2;
+      if (n % 2)
+        s << "++";
+    cout << "n = " << n << endl;
+    } // while
+  }
+*/
+
+
+/*
+
     switch (div) {
       case 8:
       case 7:
@@ -1449,12 +1526,11 @@ string msrNote::divisionsAsMSRString () const
         cout << "n = " << n << endl;
 
         while (n < fNoteMeasureLocation.fDivisionsPerWholeNote) {
-           weight *= 2;
-           n *= 2;
-        cout << "n = " << n << endl;
-          cout << "n = " << n << endl;
+          weight *= 2;
+          n *= 2;
+          cout << "weight = " << weight << ", n = " << n << endl;
         } // while
-        cout << "n = " << n << endl;
+        cout << "weight = " << weight << ", n = " << n << endl;
 
         s << weight;
         }
@@ -1482,18 +1558,24 @@ string msrNote::divisionsAsMSRString () const
   cout << "--> mod = " << mod << endl;
   
   // print the dots if any
+  /*
   if (mod > 0) {
-    int n = mod;
+    int n = mod / 2;
     
     cout << "n = " << n << endl;
     while (n > 0) {
+      n /= 2;
       if (n % 2)
         s << ".";
-      n /= 2;
     cout << "n = " << n << endl;
     } // while
-  }
-    
+  }* /
+
+  int n = fMusicXMLNoteData.fMusicXMLDotsNumber;
+  while (--n > 0)
+    s << ".";
+*/
+  
   return s.str();
 }
 
@@ -1654,6 +1736,10 @@ void msrNote::print (ostream& os)
   // print the note itself and its position
   os <<
     noteAsString () <<
+    " (" << fMusicXMLNoteData.fMusicXMLDivisions <<
+    "/" <<
+    fNoteMeasureLocation.fDivisionsPerWholeNote * 4 <<
+    ")" <<
     ", measure " << fNoteMeasureLocation.fMeasureNumber <<
     ", position " << fNoteMeasureLocation.fPositionInMeasure <<
     "/" << fNoteMeasureLocation.fDivisionsPerWholeNote <<
