@@ -571,6 +571,7 @@ void msr2LpsrVisitor::visitEnd (S_msrTempo& elt)
 }
 
 //________________________________________________________________________
+/*
 void msr2LpsrVisitor::visitStart (S_msrDuration& elt)
 {
   if (fMsrOptions->fDebug)
@@ -584,6 +585,7 @@ void msr2LpsrVisitor::visitEnd (S_msrDuration& elt)
     fOstream << idtr <<
       "--> End visiting msrDuration" << endl;
 }
+*/
 
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrArticulation& elt)

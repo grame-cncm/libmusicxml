@@ -406,6 +406,7 @@ class musicXMLBeatData // JMI ???
     - and optional dots.
 */
 //______________________________________________________________________________
+/*
 class EXP msrDuration : public msrElement
 {
   public:
@@ -475,6 +476,7 @@ class EXP msrDuration : public msrElement
 };
 typedef SMARTP<msrDuration> S_msrDuration;
 EXP ostream& operator<< (ostream& os, const S_msrDuration& elt);
+*/
 
 /*!
 \brief A msr beam representation.
@@ -836,8 +838,9 @@ class EXP msrNote : public msrElement
 
     msrPitch      getNoteMsrPitch () const
                       { return fNoteMsrPitch; }
-    S_msrDuration getNoteMsrDuration () const
-                      { return fNoteMsrDuration; }   
+                      
+ //   int           getNoteMsrDuration () const // ??? JMI
+ //                     { return fNoteMsrDuration; }   
 
     string        noteMsrPitchAsString () const;
 
@@ -924,7 +927,7 @@ class EXP msrNote : public msrElement
     // MusicXML durations are in divisions per quarter note.
     // LilyPond durations are in whole notes,
     // hence the "* 4" multiplications
-    S_msrDuration              fNoteMsrDuration;
+// JMI    int                        fNoteMsrDuration;
 
     // LilyPond informations
     msrPitch                   fNoteMsrPitch;
@@ -954,7 +957,7 @@ class EXP msrChord : public msrElement
     static SMARTP<msrChord> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
-      S_msrDuration chordDuration);
+      int           chordDivisions);
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -968,9 +971,8 @@ class EXP msrChord : public msrElement
                 getChordNotes () const
                     { return fChordNotes; }
 
-    S_msrDuration
-                getChordDuration () const
-                    { return fChordDuration; }
+    int         getChordDivisions () const
+                    { return fChordDivisions; }
             
     void        addNoteToChord (S_msrNote note)
                     { fChordNotes.push_back(note); }
@@ -1001,7 +1003,7 @@ class EXP msrChord : public msrElement
     msrChord (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
-      S_msrDuration chordDuration);
+      int           chordDivisions);
       
     virtual ~msrChord();
   
@@ -1009,7 +1011,7 @@ class EXP msrChord : public msrElement
   
     vector<S_msrNote>         fChordNotes;
     
-    S_msrDuration             fChordDuration;
+    int                       fChordDivisions;
                               
     list<S_msrArticulation>   fChordArticulations;
     
@@ -1925,7 +1927,7 @@ class EXP msrLyricschunk : public msrElement
       int                inputLineNumber,
       msrLyricschunkType chunkType,
       string             chunkText,
-      S_msrDuration      msrDuration);
+      int                divisions);
 
     // set and get
     // ------------------------------------------------------
@@ -1937,9 +1939,8 @@ class EXP msrLyricschunk : public msrElement
     string    getChunkText () const
                   { return fChunkText; }
 
-    S_msrDuration
-              getChunkDuration () const
-                  { return fChunkDuration; }
+    int       getChunkDivisions () const
+                  { return fChunkDivisions; }
 
     SMARTP<msrLyricschunk> createEmptyClone ();
 
@@ -1963,7 +1964,7 @@ class EXP msrLyricschunk : public msrElement
       int                inputLineNumber,
       msrLyricschunkType chunkType,
       string             chunkText,
-      S_msrDuration      msrDuration);
+      int                divisions);
         
     virtual ~msrLyricschunk();
 
@@ -1971,7 +1972,7 @@ class EXP msrLyricschunk : public msrElement
   
     msrLyricschunkType fLyricschunkType;
     string             fChunkText;
-    S_msrDuration      fChunkDuration;
+    int                fChunkDivisions;
 };
 typedef SMARTP<msrLyricschunk> S_msrLyricschunk;
 EXP ostream& operator<< (ostream& os, const S_msrLyricschunk& elt);
@@ -2026,30 +2027,25 @@ class EXP msrLyrics : public msrElement
     // ------------------------------------------------------
 
     void    addTextChunkToLyrics (
-              int
-                  inputLineNumber,
-              string
-                  syllabic, // JMI ???
+              int     inputLineNumber,
+              string  syllabic, // JMI ???
               msrLyricschunk::msrLyricschunkType
-                  chunkType,
-              string
-                  text,
-              bool
-                  elision,
-              S_msrDuration
-                  msrDuration);
+                      chunkType,
+              string  text,
+              bool    elision,
+              int     divisions);
       
     void    addSkipChunkToLyrics (
               int            inputLineNumber,
-              S_msrDuration  duration);
+              int            divisions);
 
     void    addSlurChunkToLyrics (
               int            inputLineNumber,
-              S_msrDuration  duration);
+              int            divisions);
 
     void    addTiedChunkToLyrics (
               int            inputLineNumber,
-              S_msrDuration  duration);
+              int            divisions);
 
     void    addBreakChunkToLyrics (
               int inputLineNumber,

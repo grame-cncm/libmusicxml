@@ -3776,7 +3776,7 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
     msrChord::create (
       fMsrOptions,
       fCurrentNote->getInputLineNumber (),
-      fCurrentNote->getNoteMsrDuration ());
+      fCurrentNote->getNoteMusicXMLDuration ());
 // JMI  fCurrentElement = chord; // another name for it
    
   if (fMsrOptions->fDebug)
@@ -4157,7 +4157,7 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
     cerr <<  idtr <<
       "--> adding standalone " <<
       newNote->noteMsrPitchAsString () <<
-      ":" << newNote->getNoteMsrDuration () <<
+      ":" << newNote->getNoteMusicXMLDuration () <<
       " to current voice" << endl;
 
   // is voice fCurrentVoiceNumber present in current staff?
@@ -4401,6 +4401,7 @@ void xml2MsrVisitor::handleLyricsText (
         addLyricsToVoice (
           inputLineNumber, fCurrentLyricsNumber);
 
+/*
   S_msrDuration
     lyricMsrDuration =
       msrDuration::create (
@@ -4410,7 +4411,12 @@ void xml2MsrVisitor::handleLyricsText (
         fCurrentDivisionsPerQuarterNote,
         fMusicXMLNoteData.fMusicXMLDotsNumber,
         fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
+*/
 
+  int
+    lyricsDivisions =
+      fCurrentNote->getNoteMusicXMLDuration ();
+      
   msrLyricschunk::msrLyricschunkType
     chunkTypeToBeCreated =
       msrLyricschunk::k_NoChunk;
@@ -4467,21 +4473,21 @@ void xml2MsrVisitor::handleLyricsText (
       fCurrentLyrics->
         addSkipChunkToLyrics (
           inputLineNumber,
-          lyricMsrDuration);
+          lyricsDivisions);
       break;
 
     case msrLyricschunk::kSlurChunk:
       fCurrentLyrics->
         addSlurChunkToLyrics (
           inputLineNumber,
-          lyricMsrDuration);
+          lyricsDivisions);
       break;
 
     case msrLyricschunk::kTiedChunk:
       fCurrentLyrics->
         addTiedChunkToLyrics (
           inputLineNumber,
-          lyricMsrDuration);
+          lyricsDivisions);
       break;
 
     case msrLyricschunk::kSingleChunk:
@@ -4495,7 +4501,7 @@ void xml2MsrVisitor::handleLyricsText (
           chunkTypeToBeCreated,
           fCurrentText,
           fCurrentElision,
-          lyricMsrDuration);
+          lyricsDivisions);
       break;
       
     default: // JMI

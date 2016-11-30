@@ -88,10 +88,8 @@ class lpsr2LilyPondVisitor :
   public visitor<S_msrKey>,
   public visitor<S_msrTime>,
   public visitor<S_msrTempo>,
-  
-//  public visitor<S_msrSequentialMusic>,
-  
-  public visitor<S_msrDuration>,
+    
+// JMI  public visitor<S_msrDuration>,
   
   public visitor<S_msrArticulation>,
 
@@ -234,8 +232,8 @@ class lpsr2LilyPondVisitor :
     virtual void visitStart (S_msrTempo& elt);
     virtual void visitEnd   (S_msrTempo& elt);
 
-    virtual void visitStart (S_msrDuration& elt);
-    virtual void visitEnd   (S_msrDuration& elt);
+// JMI    virtual void visitStart (S_msrDuration& elt);
+//    virtual void visitEnd   (S_msrDuration& elt);
 
     virtual void visitStart (S_msrArticulation& elt);
     virtual void visitEnd   (S_msrArticulation& elt);

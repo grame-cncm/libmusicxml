@@ -283,6 +283,7 @@ void musicXMLBeatData::print (ostream& os)
 };
 
 //______________________________________________________________________________
+/*
 S_msrDuration msrDuration::create (
   S_msrOptions& msrOpts, 
   int                    inputLineNumber,
@@ -312,11 +313,11 @@ msrDuration::msrDuration (
   fDenom = denom;
   fDots  = dots;
   fTupletMemberNoteType = tupletMemberType;
-  /*
+  / *
   cerr <<
     "msrDuration::msrDuration (), fNum = " << fNum << 
     ", fDenom = " << fDenom << ", fDots = " << fDots << endl;
-  */
+  * /
   if (fDenom == 0) {
     stringstream s;
     s << 
@@ -490,6 +491,7 @@ void msrDuration::print (ostream& os)
 {
   os << durationAsMSRString () << flush;
 }
+*/
 
 //______________________________________________________________________________
 S_msrBeam msrBeam::create (

@@ -503,6 +503,7 @@ void msr2SummaryVisitor::visitEnd (S_msrVoicechunk& elt)
 }
 
 //________________________________________________________________________
+/*
 void msr2SummaryVisitor::visitStart (S_msrDuration& elt)
 {
   if (fMsrOptions->fDebug)
@@ -516,6 +517,7 @@ void msr2SummaryVisitor::visitEnd (S_msrDuration& elt)
     fOstream << idtr <<
       "--> End visiting msrDuration" << endl;
 }
+*/
 
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrArticulation& elt)
