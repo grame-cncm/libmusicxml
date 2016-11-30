@@ -547,8 +547,12 @@ class EXP xml2MsrVisitor :
 
     // dividing quater notes in MusicXML
     // ------------------------------------------------------
-    int                       fCurrentMusicXMLDivisions;
+    int                       fCurrentDivisionsPerQuarterNote;
 
+    // measure locations
+    // ------------------------------------------------------
+    msrMeasureLocation        fCurrentMeasureLocation;
+    
     // description of the current MusicXML note
     musicXMLNoteData          fMusicXMLNoteData;
 

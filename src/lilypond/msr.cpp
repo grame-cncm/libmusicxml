@@ -25,7 +25,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 // global variables
 
-msrLocation  gCurrentLocation;
+// JMI msrLocation  gCurrentLocation;
 
 msrGlobalVariables::msrDisplayKind
   msrGlobalVariables::sDisplayKind =
@@ -41,11 +41,12 @@ void msrMusicXMLWarning (
     idtr <<
       "!!! MusicXML WARNING, " << inputSourceName <<
       ", input line " << inputLineNumber <<
+      /*
       ", measure " <<
         gCurrentLocation.fMeasureNumber <<
       ":" <<
         gCurrentLocation.fPositionInMeasure <<
-
+      */
     endl <<
     
     idtr <<
@@ -60,11 +61,12 @@ void msrMusicXMLError (
       endl <<
       "### MusicXML ERROR, " << inputSourceName <<
       ", input line " << inputLineNumber <<
+      /*
       ", measure " <<
         gCurrentLocation.fMeasureNumber <<
       ":" <<
         gCurrentLocation.fPositionInMeasure <<
-
+      */
     endl <<
       
     idtr <<
@@ -79,21 +81,24 @@ void msrInternalError (
 {
   cerr <<
     endl <<
-
     idtr <<
       "--> MSR INTERNAL ERROR, " << inputSourceName <<
       ", input line " << inputLineNumber <<
+      endl;
+      /*
       ", measure " <<
         gCurrentLocation.fMeasureNumber <<
       ":" <<
-        gCurrentLocation.fPositionInMeasure << "/" ;
-      
+        gCurrentLocation.fPositionInMeasure << "/" <<
+      */
+
+/* JMI
   if (gCurrentLocation.fPositionInMeasure > 0)
     cerr << gCurrentLocation.fPositionInMeasure;
   else
     cerr << "?";
-    
   cerr << endl ;
+ */   
     
   cerr <<
     idtr <<
@@ -1615,8 +1620,9 @@ void msrNote::print (ostream& os)
   // print the note itself and its position
   os <<
     noteAsString () <<
-    ", measure " << fBarlineLocation.fMeasureNumber <<
-    ", position " << fBarlineLocation.fPositionInMeasure <<
+    ", measure " << fNoteMeasureLocation.fMeasureNumber <<
+    ", position " << fNoteMeasureLocation.fPositionInMeasure <<
+    "/" << fNoteMeasureLocation.fDivisionsPerWholeNote <<
     endl;
 
   // print the beam if any

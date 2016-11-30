@@ -233,22 +233,14 @@ typedef SMARTP<msrOptions> S_msrOptions;
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-class msrLocation
+class msrMeasureLocation
 {
   public:
-/* JMI
-    msrLocation (
-      int         inputLineNumber,
-      int         measureNumber,
-      int         positionInMeasure);
-      */
-  public:
 
+    int         fDivisionsPerWholeNote;
     int         fMeasureNumber;
     int         fPositionInMeasure; // divisions
 };
-
-extern msrLocation  gCurrentLocation;
 
 /*!
 \brief A generic msr element representation.
@@ -823,9 +815,11 @@ class EXP msrNote : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrNoteKind   getNoteKind () const{ return fNoteKind; }
     void          setNoteKind (msrNoteKind noteKind)
                       { fNoteKind = noteKind; }
+
+    msrNoteKind   getNoteKind () const
+                      { return fNoteKind; }
 
     int           getNoteMusicXMLDuration () const
                       {
@@ -866,11 +860,14 @@ class EXP msrNote : public msrElement
     void          setBeam (S_msrBeam beam)  { fNoteBeam = beam; }
     S_msrBeam     getBeam () const          { return fNoteBeam; }  
 
-    // position in measure
-    void          setNoteLocation (msrLocation location)
-                      { fNoteLocation = location; }
-    msrLocation   getNoteLocation () const
-                      { return fNoteLocation; }
+    // location in measure
+    void          setNoteMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fNoteMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getNoteMeasureLocation () const
+                      { return fNoteMeasureLocation; }
 
     // services
     // ------------------------------------------------------
@@ -924,7 +921,7 @@ class EXP msrNote : public msrElement
 
     // MusicXML durations are in divisions per quarter note.
     // LilyPond durations are in whole notes,
-    // hence the "*4" multiplications
+    // hence the "* 4" multiplications
     S_msrDuration              fNoteMsrDuration;
 
     // LilyPond informations
@@ -939,7 +936,7 @@ class EXP msrNote : public msrElement
 
     msrSlur::msrSlurKind       fNoteSlurKind;
 
-    msrLocation                fNoteLocation;
+    msrMeasureLocation         fNoteMeasureLocation;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
@@ -2213,11 +2210,13 @@ class EXP msrBarline : public msrElement
                     { fBarlineCategory = barlineCategory; }
     
     // position in measure
-    void          setBarlineLocation (msrLocation& location)
-                      { fBarlineLocation = location; }
-    const msrLocation&
-                  getBarlineLocation () const
-                      { return fBarlineLocation; }
+    void          setBarlineMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fBarlineMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getBarlineMeasureLocation () const
+                      { return fBarlineMeasureLocation; }
 
     // services
     // ------------------------------------------------------
@@ -2247,19 +2246,19 @@ class EXP msrBarline : public msrElement
   
   private:
 
-    msrBarlineLocation        fLocation;
-    msrBarlineStyle           fStyle;
-    msrBarlineEndingType      fEndingType;
-    string                    fEndingNumber; // may be "1, 2"
-    msrBarlineRepeatDirection fRepeatDirection;
-    msrBarlineRepeatWinged    fRepeatWinged;
+    msrBarlineLocation          fLocation;
+    msrBarlineStyle             fStyle;
+    msrBarlineEndingType        fEndingType;
+    string                      fEndingNumber; // may be "1, 2"
+    msrBarlineRepeatDirection   fRepeatDirection;
+    msrBarlineRepeatWinged      fRepeatWinged;
 
-    msrBarlineCategory        fBarlineCategory;
+    msrBarlineCategory          fBarlineCategory;
 
-    msrLocation               fBarlineLocation;
+    msrMeasureLocation          fBarlineMeasureLocation;
 
     // the numbers extracted from fEndingNumber
-    list<int>                 fEndingNumbersList;
+    list<int>                   fEndingNumbersList;
 };
 typedef SMARTP<msrBarline> S_msrBarline;
 EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);
@@ -2532,6 +2531,14 @@ class EXP msrVoice : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    void      setCurrentVoiceMeasureLocation (
+                const msrMeasureLocation& location)
+                  { fCurrentVoiceMeasureLocation = location; }
+
+    const msrMeasureLocation&
+              getCurrentVoiceMeasureLocation () const
+                  { return fCurrentVoiceMeasureLocation; }
+
     int       getVoiceNumber () const
                   { return fVoiceNumber; }
                 
@@ -2624,6 +2631,8 @@ class EXP msrVoice : public msrElement
     S_msrStaff                fVoiceStaff;
 
     bool                      fVoiceContainsActualNotes;
+
+    msrMeasureLocation        fCurrentVoiceMeasureLocation;
 
     // the chunk in the voice contain the music elements
     // it is created implicitly for every voice,
