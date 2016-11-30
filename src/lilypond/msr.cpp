@@ -1161,7 +1161,8 @@ msrNote::msrNote (
 
   fNoteMsrPitch = 
     computeNoteMsrPitch (noteQuatertonesFromA, mxmlAlteration);
-  
+
+  /*
   int divisionsPerWholeNote = fMusicXMLNoteData.fMusicXMLDivisions*4;
   
 //  if (true || fMsrOptions->fDebugDebug)
@@ -1184,6 +1185,7 @@ msrNote::msrNote (
       fMusicXMLNoteData.fMusicXMLDotsNumber,
       fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
 //  cerr << "fNoteMsrDuration = " << fNoteMsrDuration << endl;
+    */
     
   // diatonic note for relative code JMI
 //  msrNote::MusicXMLDiatonicPitch diatonicNote =
@@ -1583,14 +1585,14 @@ string msrNote::noteAsString () const
         " " <<
         noteMsrPitchAsString () <<
         ":" <<
-        getNoteMsrDuration ();
+        getNoteMusicXMLDuration ();
       break;
       
     case msrNote::kRestNote:
       s <<
         "Rest" <<
         ":" <<
-        getNoteMsrDuration ();
+        getNoteMusicXMLDuration ();
       break;
       
     case msrNote::kChordMemberNote:
@@ -1599,7 +1601,7 @@ string msrNote::noteAsString () const
         " " <<
         noteMsrPitchAsString () <<
         ":" <<
-        getNoteMsrDuration ();
+        getNoteMusicXMLDuration ();
       break;
       
     case msrNote::kTupletMemberNote:
@@ -1608,7 +1610,7 @@ string msrNote::noteAsString () const
         " " <<
         noteMsrPitchAsString () <<
         ":" <<
-        getNoteMsrDuration ();
+        getNoteMusicXMLDuration ();
       break;
   } // switch
      
@@ -1714,22 +1716,22 @@ void msrNote::print (ostream& os)
 S_msrChord msrChord::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
-  S_msrDuration chordDuration)
+  int           chordDivisions)
 {
   msrChord* o =
     new msrChord (
-      msrOpts, inputLineNumber, chordDuration);
+      msrOpts, inputLineNumber, chordDivisions);
   assert(o!=0);
   return o;
 }
 
 msrChord::msrChord (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  S_msrDuration          chordDuration)
+  int           inputLineNumber,
+  int           chordDivisions)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fChordDuration = chordDuration;
+  fChordDivisions = chordDivisions;
 }
 
 msrChord::~msrChord() {}
@@ -1741,7 +1743,7 @@ S_msrChord msrChord::createEmptyClone ()
       msrChord::create (
         fMsrOptions,
         fInputLineNumber,
-        fChordDuration);
+        fChordDivisions);
   
   return clone;
 }
@@ -1801,7 +1803,7 @@ ostream& operator<< (ostream& os, const S_msrChord& chrd)
 
 void msrChord::print (ostream& os)
 {
-  os << "Chord" << ", duration: " << fChordDuration << endl;
+  os << "Chord" << ", divisions: " << fChordDivisions << endl;
 
   idtr++;
   
@@ -3121,12 +3123,12 @@ S_msrLyricschunk msrLyricschunk::create (
   int                inputLineNumber,
   msrLyricschunkType chunkType,
   string             chunkText,
-  S_msrDuration      msrDuration)
+  int                divisions)
 {
   msrLyricschunk* o =
     new msrLyricschunk (
       msrOpts, inputLineNumber,
-      chunkType, chunkText, msrDuration);
+      chunkType, chunkText, divisions);
   assert(o!=0);
   return o;
 }
@@ -3136,12 +3138,12 @@ msrLyricschunk::msrLyricschunk (
   int                inputLineNumber,
   msrLyricschunkType chunkType,
   string             chunkText,
-  S_msrDuration      msrDuration)
+  int                divisions)
     : msrElement (msrOpts, inputLineNumber)
 {
   fLyricschunkType = chunkType;
   fChunkText       = chunkText;
-  fChunkDuration   = msrDuration;
+  fChunkDivisions  = divisions;
 }
 
 msrLyricschunk::~msrLyricschunk() {}
@@ -3155,7 +3157,7 @@ S_msrLyricschunk msrLyricschunk::createEmptyClone ()
         fInputLineNumber,
         fLyricschunkType,
         fChunkText,
-        fChunkDuration);
+        fChunkDivisions);
   
   return clone;
 }
@@ -3208,33 +3210,33 @@ void msrLyricschunk::print (ostream& os)
   os << "Lyricschunk" << " " << setw(6) << left;
   switch (fLyricschunkType) {
     case kSingleChunk:
-      os << "single" << ":" << fChunkDuration;
+      os << "single" << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
     case kBeginChunk:
-      os << "begin" << ":" << fChunkDuration;
+      os << "begin" << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
     case kMiddleChunk:
-      os << "middle" << ":" << fChunkDuration;
+      os << "middle" << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
     case kEndChunk:
-      os << "end" << ":" << fChunkDuration;
+      os << "end" << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
       
     case kSkipChunk:
-      os << "skip" << ":" << fChunkDuration;
+      os << "skip" << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
       
     case kSlurChunk:
-      os << "slur" << ":" << fChunkDuration;
+      os << "slur" << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
     case kTiedChunk:
-      os << "tied" << ":" << fChunkDuration;
+      os << "tied" << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
       
@@ -3323,18 +3325,13 @@ S_msrLyrics msrLyrics::createEmptyClone (S_msrVoice clonedVoice)
 }
 
 void msrLyrics::addTextChunkToLyrics (
-  int
-      inputLineNumber,
-  string
-      syllabic,
+  int     inputLineNumber,
+  string  syllabic, // JMI ???
   msrLyricschunk::msrLyricschunkType
-      chunkType,
-  string
-      text,
-  bool
-      elision,
-  S_msrDuration
-      msrDuration)
+          chunkType,
+  string  text,
+  bool    elision,
+  int     divisions)
 {
   // create a lyrics text chunk
 //  if (true || fMsrOptions->fDebug) {
@@ -3345,7 +3342,7 @@ void msrLyrics::addTextChunkToLyrics (
     cerr << idtr <<
       "--> Adding text chunk " <<
       setw(8) << left << "\""+syllabic+"\"" <<
-      " \"" << text << "\" :" << msrDuration << 
+      " \"" << text << "\" :" << divisions << 
       " elision: " << elision << 
       " to " << getLyricsName () << endl;
   }
@@ -3355,7 +3352,7 @@ void msrLyrics::addTextChunkToLyrics (
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        chunkType, text, msrDuration);
+        chunkType, text, divisions);
   
   switch (chunkType) {
     case msrLyricschunk::kSingleChunk:
@@ -3396,8 +3393,8 @@ void msrLyrics::addTextChunkToLyrics (
 }
 
 void msrLyrics::addSkipChunkToLyrics (
-  int            inputLineNumber,
-  S_msrDuration  msrDuration)
+  int     inputLineNumber,
+  int     divisions)
 {
 //  if (true || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebug) {
@@ -3405,7 +3402,7 @@ void msrLyrics::addSkipChunkToLyrics (
     S_msrPart  part  = staff-> getStaffPart();
     
     cerr << idtr <<
-      "--> Adding skip chunk:" << msrDuration <<
+      "--> Adding skip chunk:" << divisions <<
       " to " << getLyricsName () << endl;
   }
   
@@ -3415,15 +3412,15 @@ void msrLyrics::addSkipChunkToLyrics (
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        msrLyricschunk::kSkipChunk, "", msrDuration);
+        msrLyricschunk::kSkipChunk, "", divisions);
         
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
 }
 
 void msrLyrics::addSlurChunkToLyrics (
-  int            inputLineNumber,
-  S_msrDuration  msrDuration)
+  int     inputLineNumber,
+  int     divisions)
 {
 //  if (true || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebug) {
@@ -3431,7 +3428,7 @@ void msrLyrics::addSlurChunkToLyrics (
     S_msrPart  part  = staff-> getStaffPart();
     
     cerr << idtr <<
-      "--> Adding slur chunk: " << msrDuration <<
+      "--> Adding slur chunk: " << divisions <<
       " to " << getLyricsName () << endl;
   }
   
@@ -3441,15 +3438,15 @@ void msrLyrics::addSlurChunkToLyrics (
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        msrLyricschunk::kSlurChunk, "", msrDuration);
+        msrLyricschunk::kSlurChunk, "", divisions);
         
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
 }
 
 void msrLyrics::addTiedChunkToLyrics (
-  int            inputLineNumber,
-  S_msrDuration  msrDuration)
+  int     inputLineNumber,
+  int     divisions)
 {
 //  if (true || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebug) {
@@ -3457,7 +3454,7 @@ void msrLyrics::addTiedChunkToLyrics (
     S_msrPart  part  = staff-> getStaffPart();
     
     cerr << idtr <<
-      "--> Adding tied chunk: " << msrDuration <<
+      "--> Adding tied chunk: " << divisions <<
       " to " << getLyricsName () << endl;
   }
   
@@ -3467,7 +3464,7 @@ void msrLyrics::addTiedChunkToLyrics (
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        msrLyricschunk::kTiedChunk, "", msrDuration);
+        msrLyricschunk::kTiedChunk, "", divisions);
         
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
@@ -3492,14 +3489,14 @@ void msrLyrics::addBreakChunkToLyrics (
   s << nextMeasureNumber;
   
   // create lyrics break chunk
-
+  /*
   S_msrDuration
     nullMsrDuration =
       msrDuration::create (
         fMsrOptions,
         inputLineNumber,
         0, 1, 0, "");
-        
+    */    
   S_msrLyricschunk
     chunk =
       msrLyricschunk::create (
@@ -3507,7 +3504,7 @@ void msrLyrics::addBreakChunkToLyrics (
         inputLineNumber,
         msrLyricschunk::kBreakChunk,
         s.str(),
-        nullMsrDuration);
+        0);
         
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
@@ -4602,13 +4599,13 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     fVoiceContainsActualNotes = true;
     
   // add a skip chunk to the master lyrics
-  S_msrDuration
-    lyricsMsrDuration =
-      note->getNoteMsrDuration ();
+  int
+    lyricsDivisions =
+      note->getNoteMusicXMLDuration ();
 
   fVoiceMasterLyrics->
     addSkipChunkToLyrics (
-      note->getInputLineNumber (), lyricsMsrDuration);
+      note->getInputLineNumber (), lyricsDivisions);
 }
 
 void msrVoice::appendChordToVoice (S_msrChord chord)

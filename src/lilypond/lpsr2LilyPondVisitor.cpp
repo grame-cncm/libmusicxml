@@ -987,7 +987,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
         
       case msrLyricschunk::kSkipChunk:
         fOstream <<
-          "\\skip" << elt->getChunkDuration () << " ";
+          "\\skip" << elt->getChunkDivisions () << " ";
         break;
         
       case msrLyricschunk::kSlurChunk:
@@ -1187,6 +1187,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrTempo& elt)
 }
 
 //________________________________________________________________________
+/*
 void lpsr2LilyPondVisitor::visitStart (S_msrDuration& elt)
 {
   if (fMsrOptions->fDebug)
@@ -1200,6 +1201,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrDuration& elt)
     fOstream << idtr <<
       "% --> End visiting msrDuration" << endl;
 }
+*/
 
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrArticulation& elt)
@@ -1361,7 +1363,7 @@ string msrNote::octaveRepresentation (char octave)
       
       // print the note duration
       fOstream <<
-        elt->getNoteMsrDuration ();
+        elt->getNoteMusicXMLDuration ();
       break;
       
     case msrNote::kRestNote:
@@ -1380,7 +1382,7 @@ string msrNote::octaveRepresentation (char octave)
       
       // print the note duration
       fOstream <<
-        elt->getNoteMsrDuration ();
+        elt->getNoteMusicXMLDuration ();
       break;
       
     case msrNote::kChordMemberNote:
@@ -1399,7 +1401,7 @@ string msrNote::octaveRepresentation (char octave)
       
       // print the note duration
       fOstream <<
-        elt->getNoteMsrDuration ();
+        elt->getNoteMusicXMLDuration ();
       break;
   } // switch
 
@@ -1516,7 +1518,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
 
   fOstream <<
     ">" <<
-    elt->getChordDuration () << " ";
+    elt->getChordDivisions () << " ";
 }
 
 //________________________________________________________________________

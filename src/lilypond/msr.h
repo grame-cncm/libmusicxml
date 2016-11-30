@@ -2036,16 +2036,16 @@ class EXP msrLyrics : public msrElement
               int     divisions);
       
     void    addSkipChunkToLyrics (
-              int            inputLineNumber,
-              int            divisions);
+              int     inputLineNumber,
+              int     divisions);
 
     void    addSlurChunkToLyrics (
-              int            inputLineNumber,
-              int            divisions);
+              int     inputLineNumber,
+              int     divisions);
 
     void    addTiedChunkToLyrics (
-              int            inputLineNumber,
-              int            divisions);
+              int     inputLineNumber,
+              int     divisions);
 
     void    addBreakChunkToLyrics (
               int inputLineNumber,
