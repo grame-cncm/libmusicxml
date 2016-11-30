@@ -1363,7 +1363,7 @@ string msrNote::octaveRepresentation (char octave)
       
       // print the note duration
       fOstream <<
-        elt->getNoteMusicXMLDuration ();
+        elt->getNoteMusicXMLDivisions ();
       break;
       
     case msrNote::kRestNote:
@@ -1382,7 +1382,7 @@ string msrNote::octaveRepresentation (char octave)
       
       // print the note duration
       fOstream <<
-        elt->getNoteMusicXMLDuration ();
+        elt->getNoteMusicXMLDivisions ();
       break;
       
     case msrNote::kChordMemberNote:
@@ -1401,7 +1401,7 @@ string msrNote::octaveRepresentation (char octave)
       
       // print the note duration
       fOstream <<
-        elt->getNoteMusicXMLDuration ();
+        elt->getNoteMusicXMLDivisions ();
       break;
   } // switch
 

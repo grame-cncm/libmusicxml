@@ -229,47 +229,47 @@ ostream& operator<< (ostream& os, musicXMLNoteData& mxmlData)
 void musicXMLNoteData::print (ostream& os)
 {
   os <<
-    idtr << "  " << left << setw(26) <<
-      "fMusicXMLStep = " <<
-      fMusicXMLStep <<  endl <<
-    idtr << "  " << left << setw(26) <<
-      "fMusicXMLStepIsARest = " <<
+    idtr << "  " << left <<
+    setw(26) <<
+      "fMusicXMLStep = " << fMusicXMLStep <<  endl <<
+    idtr << "  " << left <<
+    setw(26) << "fMusicXMLStepIsARest = " <<
       fMusicXMLStepIsARest <<  endl <<
-    idtr << "  " << left << setw(26) <<
-      "fMusicXMLAlteration = " <<
+    idtr << "  " << left <<
+    setw(26) << "fMusicXMLAlteration = " <<
       fMusicXMLAlteration <<  endl <<
-    idtr << "  " << left << setw(26) <<
-      "fMusicXMLOctave = " <<
+    idtr << "  " << left <<
+    setw(26) << "fMusicXMLOctave = " <<
       fMusicXMLOctave <<  endl <<
 //    idtr << "  " << left << setw(26) << JMI
 //      "fMusicXMLDivisions = " <<
  //     fMusicXMLDivisions <<  endl <<
-    idtr << "  " << left << setw(26) <<
-      "fMusicXMLDuration = " <<
-      fMusicXMLDuration <<  endl <<
-    idtr << "  " << left << setw(26) <<
-      "fMusicXMLDotsNumber = " <<
+    idtr << "  " << left <<
+      setw(26) << "fMusicXMLDivisions = " <<
+      fMusicXMLDivisions <<  endl <<
+    idtr << "  " << left <<
+      setw(26) << "fMusicXMLDotsNumber = " <<
       fMusicXMLDotsNumber <<  endl <<
       
 //    idtr << endl <<
     
-    idtr << "  " << left << setw(26) <<
-      "fMusicXMLNoteBelongsToAChord = " <<
+    idtr << "  " << left <<
+      setw(26) << "fMusicXMLNoteBelongsToAChord = " <<
       fMusicXMLNoteBelongsToAChord <<  endl <<
       
 //    idtr << endl <<
     
-    idtr << "  " << left << setw(26) <<
-      "fMusicXMLNoteBelongsToATuplet = " <<
+    idtr << "  " << left <<
+      setw(26) << "fMusicXMLNoteBelongsToATuplet = " <<
       fMusicXMLNoteBelongsToATuplet <<  endl <<
-    idtr << "  " << left << setw(26) <<
-      "fMusicXMLTupletMemberNoteType = " <<
+    idtr << "  " << left <<
+      setw(26) << "fMusicXMLTupletMemberNoteType = " <<
       fMusicXMLTupletMemberNoteType <<  endl <<
       
 //    idtr << endl <<
     
-    idtr << "  " << left << setw(26) <<
-      "fMusicXMLVoiceNumber = " <<
+    idtr << "  " << left <<
+      setw(26) << "fMusicXMLVoiceNumber = " <<
       fMusicXMLVoiceNumber <<  endl;
 };
 
@@ -1585,14 +1585,16 @@ string msrNote::noteAsString () const
         " " <<
         noteMsrPitchAsString () <<
         ":" <<
-        getNoteMusicXMLDuration ();
+        getNoteMusicXMLDivisions () <<
+        "/" << fNoteMeasureLocation.fDivisionsPerWholeNote * 4;
       break;
       
     case msrNote::kRestNote:
       s <<
         "Rest" <<
         ":" <<
-        getNoteMusicXMLDuration ();
+        getNoteMusicXMLDivisions () <<
+        "/" << fNoteMeasureLocation.fDivisionsPerWholeNote * 4;
       break;
       
     case msrNote::kChordMemberNote:
@@ -1601,7 +1603,8 @@ string msrNote::noteAsString () const
         " " <<
         noteMsrPitchAsString () <<
         ":" <<
-        getNoteMusicXMLDuration ();
+        getNoteMusicXMLDivisions () <<
+        "/" << fNoteMeasureLocation.fDivisionsPerWholeNote * 4;
       break;
       
     case msrNote::kTupletMemberNote:
@@ -1610,7 +1613,8 @@ string msrNote::noteAsString () const
         " " <<
         noteMsrPitchAsString () <<
         ":" <<
-        getNoteMusicXMLDuration ();
+        getNoteMusicXMLDivisions () <<
+        "/" << fNoteMeasureLocation.fDivisionsPerWholeNote * 4;
       break;
   } // switch
      
@@ -4601,7 +4605,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   // add a skip chunk to the master lyrics
   int
     lyricsDivisions =
-      note->getNoteMusicXMLDuration ();
+      note->getNoteMusicXMLDivisions ();
 
   fVoiceMasterLyrics->
     addSkipChunkToLyrics (

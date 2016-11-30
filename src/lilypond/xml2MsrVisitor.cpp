@@ -3210,7 +3210,7 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fMusicXMLOctave = -13;
   
 //  fMusicXMLNoteData.fMusicXMLDivisions = -13;
-  fMusicXMLNoteData.fMusicXMLDuration = -13;
+  fMusicXMLNoteData.fMusicXMLDivisions  = -13;
   fMusicXMLNoteData.fMusicXMLDotsNumber = 0;
   
   fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote = false;
@@ -3295,7 +3295,7 @@ void xml2MsrVisitor::visitStart ( S_duration& elt )
   }
   else if (fOnGoingNote) {
   
-    fMusicXMLNoteData.fMusicXMLDuration = musicXMLduration;
+    fMusicXMLNoteData.fMusicXMLDivisions = musicXMLduration;
     
   }
   else {
@@ -3776,7 +3776,7 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
     msrChord::create (
       fMsrOptions,
       fCurrentNote->getInputLineNumber (),
-      fCurrentNote->getNoteMusicXMLDuration ());
+      fCurrentNote->getNoteMusicXMLDivisions ());
 // JMI  fCurrentElement = chord; // another name for it
    
   if (fMsrOptions->fDebug)
@@ -4038,8 +4038,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "fMusicXMLNoteData.fMusicXMLDuration = " << 
-      fMusicXMLNoteData.fMusicXMLDuration << ", " << 
+      "fMusicXMLNoteData.fMusicXMLDivisions = " << 
+      fMusicXMLNoteData.fMusicXMLDivisions << ", " << 
       "fCurrentDivisionsPerQuarterNote * 4 = " <<
       fCurrentDivisionsPerQuarterNote * 4 << endl;
       
@@ -4064,7 +4064,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
 
   // take it's duration into account
   fCurrentMeasureLocation.fPositionInMeasure +=
-    fMusicXMLNoteData.fMusicXMLDuration;
+    fMusicXMLNoteData.fMusicXMLDivisions;
 
   // set its beam if any
   if (fCurrentBeam)
@@ -4108,11 +4108,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     
   }
 
-  // take the duration of this note/rest into account
+  // keep track of current note
   fCurrentNote = note;
-  fCurrentMeasureLocation.fPositionInMeasure +=
-    fCurrentNote->
-      getNoteMusicXMLDuration ();
     
 // JMI  fCurrentElement = fCurrentNote; // another name for it
 
@@ -4157,7 +4154,7 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
     cerr <<  idtr <<
       "--> adding standalone " <<
       newNote->noteMsrPitchAsString () <<
-      ":" << newNote->getNoteMusicXMLDuration () <<
+      ":" << newNote->getNoteMusicXMLDivisions () <<
       " to current voice" << endl;
 
   // is voice fCurrentVoiceNumber present in current staff?
@@ -4314,7 +4311,7 @@ void xml2MsrVisitor::handleLyricsText (
         fMusicXMLNoteData <<
       idtr <<
         "fCurrentText = \"" << fCurrentText <<
-        "\":" << fMusicXMLNoteData.fMusicXMLDuration <<
+        "\":" << fMusicXMLNoteData.fMusicXMLDivisions <<
         ", fCurrentElision = " << fCurrentElision << endl <<
       idtr <<
         "  fMusicXMLNoteData.fMusicXMLStepIsARest = ";
@@ -4401,13 +4398,13 @@ void xml2MsrVisitor::handleLyricsText (
         addLyricsToVoice (
           inputLineNumber, fCurrentLyricsNumber);
 
-/*
+/* JMI
   S_msrDuration
     lyricMsrDuration =
       msrDuration::create (
         fMsrOptions,
         inputLineNumber,
-        fMusicXMLNoteData.fMusicXMLDuration,
+        fMusicXMLNoteData.fMusicXMLDivisions,
         fCurrentDivisionsPerQuarterNote,
         fMusicXMLNoteData.fMusicXMLDotsNumber,
         fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
@@ -4415,7 +4412,7 @@ void xml2MsrVisitor::handleLyricsText (
 
   int
     lyricsDivisions =
-      fCurrentNote->getNoteMusicXMLDuration ();
+      fCurrentNote->getNoteMusicXMLDivisions ();
       
   msrLyricschunk::msrLyricschunkType
     chunkTypeToBeCreated =

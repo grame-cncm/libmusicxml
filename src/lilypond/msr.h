@@ -353,8 +353,8 @@ class musicXMLNoteData
     
     int         fMusicXMLOctave;
     
-//    int         fMusicXMLDivisions;
-    int         fMusicXMLDuration; // divisions
+    int         fMusicXMLDivisions;
+
     int         fMusicXMLDotsNumber;
     
     bool        fMusicXMLNoteIsAGraceNote;
@@ -824,10 +824,10 @@ class EXP msrNote : public msrElement
     msrNoteKind   getNoteKind () const
                       { return fNoteKind; }
 
-    int           getNoteMusicXMLDuration () const
+    int           getNoteMusicXMLDivisions () const
                       {
                         return
-                          fMusicXMLNoteData.fMusicXMLDuration;
+                          fMusicXMLNoteData.fMusicXMLDivisions;
                       }
 
     int           getNoteMusicXMLOctave () const
