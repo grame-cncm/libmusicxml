@@ -886,6 +886,8 @@ class EXP msrNote : public msrElement
 
     string        noteAsString () const;
 
+    string        divisionsAsMSRString () const;
+
     // articulations
     void          addArticulation (S_msrArticulation art);
     
@@ -982,6 +984,7 @@ class EXP msrChord : public msrElement
     
     void        addDynamics (S_msrDynamics dyn)
                     { fChordDynamics.push_back(dyn); }
+                    
     void        addWedge    (S_msrWedge    wdg)
                     { fChordWedges.push_back(wdg); }
 
