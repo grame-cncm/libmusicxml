@@ -200,9 +200,9 @@ pair<string, string> extractNamesPairFromString (
 string divisionsAsMSRString (
   int     divisions,
   int     divisionsPerWholeNote,
-  int     numberOfDots,
+  int&    numberOfDotsFound,
   string& errorMessage);
-  
+
 
 } // namespace MusicXML2
 

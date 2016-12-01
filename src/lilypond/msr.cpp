@@ -1530,6 +1530,7 @@ string msrNote::noteMsrPitchAsString () const
 string msrNote::noteDivisionsAsMSRString () const
 {
   string result;
+  int    numberOfDotsFound;
   string errorMessage;
 
 /*
@@ -1569,7 +1570,7 @@ string msrNote::noteDivisionsAsMSRString () const
     MusicXML2::divisionsAsMSRString (
       fMusicXMLNoteData.fNoteDisplayDivisions,
       fNoteMeasureLocation.fDivisionsPerWholeNote,
-      fMusicXMLNoteData.fMusicXMLDotsNumber,
+      numberOfDotsFound,
       errorMessage);
 
   if (errorMessage.size ())
@@ -1577,6 +1578,27 @@ string msrNote::noteDivisionsAsMSRString () const
       fMsrOptions->fInputSourceName,
       fInputLineNumber,
       errorMessage);
+
+  if (numberOfDotsFound != fMusicXMLNoteData.fMusicXMLDotsNumber) {
+    stringstream s;
+    
+    s << 
+      "ERROR: " <<
+      numberOfDotsFound <<
+      " is/are necessary for " <<
+      divisions << " divisions " <<
+      " with " <<
+      divisionsPerWholeNote <<
+      " per whole note, not " <<
+      fMusicXMLNoteData.fMusicXMLDotsNumber <<      
+      endl;
+      
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      fInputLineNumber,
+      s.str());
+  }
+
 
   return result;
 }
@@ -4523,11 +4545,12 @@ void msrRepeat::print (ostream& os)
 S_msrUpbeat msrUpbeat::create (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
+  int             divisions,
   S_msrVoice      voice)
 {
   msrUpbeat* o =
     new msrUpbeat (
-      msrOpts, inputLineNumber, voice);
+      msrOpts, inputLineNumber, divisions, voice);
   assert(o!=0);
   return o;
 }
@@ -4535,10 +4558,11 @@ S_msrUpbeat msrUpbeat::create (
 msrUpbeat::msrUpbeat (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
+  int             divisions,
   S_msrVoice      voice)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fUpbeatDivisions = -3;
+  fUpbeatDivisions = divisions;
   fUpbeatVoice     = voice;
 }
 
@@ -4556,6 +4580,8 @@ S_msrUpbeat msrUpbeat::createEmptyClone (S_msrVoice clonedVoice)
         fMsrOptions,
         fInputLineNumber,
         clonedVoice);
+
+  clone->fUpbeatDivisions = fUpbeatDivisions;
   
   return clone;
 }
@@ -4785,13 +4811,16 @@ void msrVoice::setMeasureNumber (int measureNumber)
     if (fMsrOptions->fTrace)
       cerr << idtr <<
         "Voice  " << getVoiceName () <<
-        "has an explicit anacrusis" <<
+        "has an explicit anacrusis of " <<
+        getPositionInMeasure () <<
+        " divisions"
         endl;
 
    fVoiceUpbeat =
       msrUpbeat::create (
         fMsrOptions,
         fInputLineNumber,
+        getPositionInMeasure (),
         this);
   }
 }

@@ -2600,6 +2600,7 @@ class EXP msrUpbeat : public msrElement
     static SMARTP<msrUpbeat> create (
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
+      int             divisions,
       S_msrVoice      voice);
     
     SMARTP<msrUpbeat> createEmptyClone (
@@ -2608,8 +2609,8 @@ class EXP msrUpbeat : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void          setUpbeatDivisions (int divisions)
-                      { fUpbeatDivisions = divisions; }
+//    void          setUpbeatDivisions (int divisions)
+//                      { fUpbeatDivisions = divisions; }
 
     int           getUpbeatDivisions () const
                       { return fUpbeatDivisions; }
@@ -2635,6 +2636,7 @@ class EXP msrUpbeat : public msrElement
     msrUpbeat (
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
+      int             divisions,
       S_msrVoice      voice);
       
     virtual ~msrUpbeat();
