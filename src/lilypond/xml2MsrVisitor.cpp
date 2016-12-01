@@ -4043,9 +4043,9 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       "fCurrentDivisionsPerQuarterNote * 4 = " <<
       fCurrentDivisionsPerQuarterNote * 4 << endl;
       
- // fMusicXMLNoteData.fMusicXMLDivisions =
-  fCurrentMeasureLocation.fDivisionsPerWholeNote = // JMI
-    fCurrentDivisionsPerQuarterNote;
+  fCurrentMeasureLocation.fDivisionsPerWholeNote =
+    fCurrentDivisionsPerQuarterNote * 4;
+    
   fMusicXMLNoteData.fMusicXMLTupletMemberNoteType =
     fCurrentNoteType;
   
