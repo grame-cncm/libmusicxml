@@ -815,6 +815,15 @@ class EXP msrNote : public msrElement
         musicXMLNoteData&    mxmlNoteData,
         msrSlur::msrSlurKind slurKind);
     
+    // creation from xml2Msr
+    // ------------------------------------------------------
+
+    static SMARTP<msrNote> createRest (
+        S_msrOptions& msrOpts,
+        int           inputLineNumber,
+        int           divisions,
+        int           voiceNumber);
+    
     // set and get
     // ------------------------------------------------------
 
@@ -2545,19 +2554,17 @@ class EXP msrVoice : public msrElement
       int           staffRelativeVoiceNumber,
       S_msrStaff    voiceStaff);
                           
-    SMARTP<msrVoice> createEmptyClone (
+    static SMARTP<msrVoice> createRest (
+      S_msrOptions& msrOpts,
+      int           inputLineNumber,
+      int           divisions,
+      int           voiceNumber);
+    
+      SMARTP<msrVoice> createEmptyClone (
       S_msrStaff clonedStaff);
 
     // set and get
     // ------------------------------------------------------
-
-    void      setCurrentVoiceMeasureLocation (
-                const msrMeasureLocation& location)
-                  { fCurrentVoiceMeasureLocation = location; }
-
-    const msrMeasureLocation&
-              getCurrentVoiceMeasureLocation () const
-                  { return fCurrentVoiceMeasureLocation; }
 
     int       getVoiceNumber () const
                   { return fVoiceNumber; }
@@ -2582,47 +2589,110 @@ class EXP msrVoice : public msrElement
               getVoiceMasterLyrics () const
                   { return fVoiceMasterLyrics; }
                
+    // location in measure
+    void          setVoiceMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fVoiceMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getVoiceMeasureLocation () const
+                      { return fVoiceMeasureLocation; }
+
+    void          setNoteMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fNoteMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getNoteMeasureLocation () const
+                      { return fNoteMeasureLocation; }
+
+
     // services
     // ------------------------------------------------------
 
-    void      handleForward         (int duration);
+    void           handleForward         (int duration);
     
-    void      appendClefToVoice     (S_msrClef clef);
-    void      appendKeyToVoice      (S_msrKey  key);
-    void      appendTimeToVoice     (S_msrTime time);
+    void          appendClefToVoice     (S_msrClef clef);
+    void          appendKeyToVoice      (S_msrKey  key);
+    void          appendTimeToVoice     (S_msrTime time);
     
-    void      appendTempoToVoice    (S_msrTempo tempo);
+    void          appendTempoToVoice    (S_msrTempo tempo);
     
-    void      appendNoteToVoice     (S_msrNote note);
-    void      appendChordToVoice    (S_msrChord chord);
-    void      appendTupletToVoice   (S_msrTuplet tuplet);
+    void          appendNoteToVoice     (S_msrNote note);
+    void          appendChordToVoice    (S_msrChord chord);
+    void          appendTupletToVoice   (S_msrTuplet tuplet);
     
-    void      appendRepeatToVoice   (S_msrRepeat repeat);
+    void          appendRepeatToVoice   (S_msrRepeat repeat);
     
-    void      prependBarlineToVoice (S_msrBarline barline);
-    void      appendBarlineToVoice  (S_msrBarline barline);
+    void          prependBarlineToVoice (S_msrBarline barline);
+    void          appendBarlineToVoice  (S_msrBarline barline);
     
-    void      appendBarCheckToVoice (S_msrBarCheck bnc);
-    void      appendBarnumberCheckToVoice
+    void          appendBarCheckToVoice (S_msrBarCheck bnc);
+    void          appendBarnumberCheckToVoice
                                     (S_msrBarnumberCheck bnc);
 
-    void      appendBreakToVoice    (S_msrBreak break_);
+    void          appendBreakToVoice    (S_msrBreak break_);
 
-    void      appendElementToVoice  (S_msrElement elem);
+// JMI    void          appendElementToVoice  (S_msrElement elem);
                 // for other types of elements
 
-    void      removeLastElementFromVoice ();
+    void          removeLastElementFromVoice ();
 
     S_msrLyrics
-              addLyricsToVoice (
-                int inputLineNumber,
-                int lyricsNumber);
+                  addLyricsToVoice (
+                    int inputLineNumber,
+                    int lyricsNumber);
 
-    void      addLyricsToVoice (S_msrLyrics lyrics);
+    void          addLyricsToVoice (S_msrLyrics lyrics);
     
-    S_msrLyrics
-              fetchLyricsFromVoice (int lyricsNumber);
+    S_msrLyrics   fetchLyricsFromVoice (int lyricsNumber);
+
+
     
+
+    
+    // location in measure
+    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                      {
+                        fVoiceMeasureLocation.fDivisionsPerWholeNote =
+                          divisionsPerWholeNote;
+                      }
+                      
+    void          setPositionInMeasure (int positionInMeasure)
+                      {
+                        fVoiceMeasureLocation.fPositionInMeasure =
+                          positionInMeasure;
+                      }
+                        
+    void          setPositionInMeasure (int positionInMeasure)
+                      {
+                        fVoiceMeasureLocation.fPositionInMeasure =
+                          positionInMeasure;
+                      }
+
+    void          incrementPositionInMeasure (int increment)
+                      {
+                        fVoiceMeasureLocation.fPositionInMeasure +=
+                          increment;
+                      }
+
+    const int     getPositionInMeasure () const
+                      {
+                        return fVoiceMeasureLocation.fPositionInMeasure;
+                      }
+          
+    void          setMeasureNumber (int measureNumber)
+                      {
+                        fVoiceMeasureLocation.fMeasureNumber =
+                          measureNumber;
+                      }
+
+    const int     getMeasureNumber () const
+                      {
+                        return fVoiceMeasureLocation.fMeasureNumber;
+                      }
+          
+
     // visitors
     // ------------------------------------------------------
 
@@ -2652,7 +2722,7 @@ class EXP msrVoice : public msrElement
 
     bool                      fVoiceContainsActualNotes;
 
-    msrMeasureLocation        fCurrentVoiceMeasureLocation;
+    msrMeasureLocation        fVoiceMeasureLocation;
 
     // the chunk in the voice contain the music elements
     // it is created implicitly for every voice,

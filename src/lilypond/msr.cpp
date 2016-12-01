@@ -921,6 +921,63 @@ S_msrNote msrNote::createFromMusicXMLData (
   return o;
 }
 
+S_msrNote createRest (
+  S_msrOptions& msrOpts,
+  int           inputLineNumber,
+  int           divisions,
+  int           voiceNumber)
+{
+  musicXMLNoteData mxmlNoteData;
+
+/*
+    char        fMusicXMLStep;
+    bool        fMusicXMLStepIsARest;
+    bool        fMusicXMLStepIsUnpitched;
+    
+    int         fMusicXMLAlteration;
+    
+    int         fMusicXMLOctave;
+    
+    int         fMusicXMLDivisions;
+
+    int         fMusicXMLDotsNumber;
+    
+    bool        fMusicXMLNoteIsAGraceNote;
+    
+    bool        fMusicXMLNoteBelongsToAChord;
+    
+    bool        fMusicXMLNoteBelongsToATuplet;
+    string      fMusicXMLTupletMemberNoteType;
+
+    bool        fMusicXMLNoteIsTied;
+
+    int         fMusicXMLVoiceNumber;
+*/
+
+  mxmlNoteData.fMusicXMLStep = 'r';
+  mxmlNoteData.fMusicXMLStepIsARest = true;
+  mxmlNoteData.fMusicXMLStepIsUnpitched = false;
+
+  mxmlNoteData.fMusicXMLAlteration = 0;
+  mxmlNoteData.fMusicXMLOctave = 0;
+  
+  mxmlNoteData.fMusicXMLDivisions = divisions;
+
+  mxmlNoteData.fMusicXMLDotsNumber = 0;
+  mxmlNoteData.fMusicXMLNoteIsAGraceNote = false;
+  mxmlNoteData.fMusicXMLNoteBelongsToAChord = false;
+  mxmlNoteData.fMusicXMLNoteBelongsToATuplet = false;
+  mxmlNoteData.fMusicXMLNoteIsTied = false;
+  
+  mxmlNoteData.fMusicXMLVoiceNumber = voiceNumber;
+
+  msrNote * o =
+    new msrNote (
+      msrOpts, inputLineNumber, mxmlNoteData, slurKind);
+  assert(o!=0); 
+  return o;
+}    
+
 msrNote::msrNote (
   S_msrOptions&        msrOpts,
   int                  inputLineNumber,
@@ -4561,6 +4618,7 @@ string msrVoice::getVoiceName () const
 
 void msrVoice::handleForward (int duration)
 {
+// JMI  fVoiceMeasureLocation += duration; // measure boundary ???
 }
 
 void msrVoice::setNewVoicechunkForVoice (

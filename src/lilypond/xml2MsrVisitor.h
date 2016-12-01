@@ -551,7 +551,7 @@ class EXP xml2MsrVisitor :
 
     // measure locations
     // ------------------------------------------------------
-    msrMeasureLocation        fCurrentMeasureLocation;
+// JMI    msrMeasureLocation        fCurrentMeasureLocation;
     
     // description of the current MusicXML note
     musicXMLNoteData          fMusicXMLNoteData;

@@ -64,8 +64,8 @@ xml2MsrVisitor::xml2MsrVisitor (
 {
   fMsrOptions = msrOpts;
 
-  fCurrentMeasureLocation.fMeasureNumber     = 0; // in case of an anacrusis
-  fCurrentMeasureLocation.fPositionInMeasure = 1;
+ // JMI fCurrentMeasureLocation.fMeasureNumber     = 0; // in case of an anacrusis
+ // fCurrentMeasureLocation.fPositionInMeasure = 1;
 
   fMillimeters       = -1;
   fTenths            = -1;
@@ -985,7 +985,7 @@ void xml2MsrVisitor::visitStart (S_part& elt)
           elt->getInputLineNumber (), fCurrentStaffNumber);
 
   // there can be an anacrusis
-  fCurrentMeasureLocation.fMeasureNumber = 0;
+  fCurrentVoice->setMeasureNumber (0);
 
   fOnGoingRepeat = false;
 }
@@ -1367,17 +1367,19 @@ void xml2MsrVisitor::visitEnd (S_backup& elt )
 
   int
     saveCurrentPositionInMeasure =
-      fCurrentMeasureLocation.fPositionInMeasure;
+      fCurrentVoice->
+        getVoiceMeasureLocation ().fPositionInMeasure;
   
-  fCurrentMeasureLocation.fPositionInMeasure =-
-    fCurrentBackupDuration;
+  fCurrentVoice->setPositionInMeasure (
+    fCurrentVoice->getPositionInMeasure () - fCurrentBackupDuration);
 
-  if (fCurrentMeasureLocation.fPositionInMeasure < 0) {
+  if (fCurrentVoice->getPositionInMeasure () < 0) {
     stringstream s;
     s <<
       "backup divisions " << fCurrentBackupDuration <<
       " from position " << saveCurrentPositionInMeasure <<
       " crosses measure left boundary";
+      
 // JMI    msrMusicXMLError (s.str());
     msrMusicXMLWarning (
       fMsrOptions->fInputSourceName,
@@ -1453,7 +1455,32 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
       "voice " << fCurrentVoice->getVoiceName () <<
       " in staff " << fCurrentStaff->getStaffName () << endl;
 
-  fCurrentVoice->handleForward (fCurrentForwardDuration);
+//  fCurrentVoice->handleForward (fCurrentForwardDuration);
+
+  for (int i = 0; i < fCurrentForwardDuration; i++) {
+    // generate rests for the duration of the forward move
+
+    int restDivisions = 1;
+    
+    S_msrNote
+      rest =
+        msrNote::createRest (
+          fMsrOptions,
+          elt->getInputLineNumber (),
+          1, // JMI
+          fCurrentVoiceNumber);
+  
+    // set its location
+    rest->setNoteMeasureLocation (
+      fCurrentVoice->getVoiceMeasureLocation ());
+
+    // append to the current voice
+    fCurrentVoice->appendNoteToVoice (rest);
+  
+    // take it's duration into account
+    fCurrentVoice->incrementPositionInMeasure (
+      restDivisions);
+  } // for
   
   fOnGoingForward = false;
 }
@@ -1891,14 +1918,17 @@ void xml2MsrVisitor::visitEnd ( S_lyric& elt )
 //________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_measure& elt)
 {
-  fCurrentMeasureLocation.fMeasureNumber =
-    elt->getAttributeIntValue ("number", 0);
+  int
+    measureNumber =
+      elt->getAttributeIntValue ("number", 0);
+      
+  fCurrentVoice->setMeasureNumber (measureNumber);
 
   // is this measure number in the debug set?
   set<int>::iterator
     it =
       fMsrOptions->fDebugMeasureNumbersSet.find (
-        fCurrentMeasureLocation.fMeasureNumber);
+        fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
         
   if (it != fMsrOptions->fDebugMeasureNumbersSet.end ()) {
     // yes, activate debug for it
@@ -1906,14 +1936,15 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
     fMsrOptions->fSaveDebugDebug = fMsrOptions->fDebugDebug;
   }
 
-  fCurrentMeasureLocation.fDivisionsPerWholeNote =
-    fCurrentDivisionsPerQuarterNote; // JMI
-  fCurrentMeasureLocation.fPositionInMeasure = 1;
+  fCurrentVoice->setfDivisionsPerWholeNote (
+    fCurrentDivisionsPerQuarterNote);
+    
+  fCurrentVoice->setPositionInMeasure (1);
     
   if (fMsrOptions->fDebug)
     cerr << idtr << 
       "=== MEASURE " <<
-      fCurrentMeasureLocation.fMeasureNumber << " === " <<
+      fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber << " === " <<
       "PART " << fCurrentPart->getPartCombinedName () <<" ===" << endl;
 
   S_msrBarCheck
@@ -1921,7 +1952,7 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
       msrBarCheck::create (
         fMsrOptions,
         elt->getInputLineNumber (),
-        fCurrentMeasureLocation.fMeasureNumber);
+        fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
             
   // append it to the voice
   if (fCurrentVoice)
@@ -1951,7 +1982,7 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
           msrBarnumberCheck::create (
             fMsrOptions,
             elt->getInputLineNumber (),
-            fCurrentMeasureLocation.fMeasureNumber);
+            fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
             
       // append it to the voice
 // JMI      S_msrElement bnc = barnumbercheck_;
@@ -1964,7 +1995,7 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
           msrBreak::create(
             fMsrOptions,
             elt->getInputLineNumber (),
-            fCurrentMeasureLocation.fMeasureNumber);
+            fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
   
       // append it to the voice
       S_msrElement brk = break_;
@@ -1976,7 +2007,7 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
         getVoiceMasterLyrics ()->
           addBreakChunkToLyrics (
             elt->getInputLineNumber (),
-            fCurrentMeasureLocation.fMeasureNumber);
+            fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
     }
     
     else if (newSystem == "no") {
@@ -2356,7 +2387,9 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatWinged);
 
   // set the barline measure location
-  barline->setBarlineMeasureLocation (fCurrentMeasureLocation);
+  barline->
+    setBarlineMeasureLocation (
+      fCurrentVoice->getVoiceMeasureLocation ());
 
   // don't display the barline yet in case of debug,
   // wait until its category is defined
@@ -3284,9 +3317,7 @@ void xml2MsrVisitor::visitStart ( S_duration& elt )
   if (fOnGoingBackup) {
   
     fCurrentBackupDuration = musicXMLduration;
-    fCurrentMeasureLocation.fPositionInMeasure -=
-      fCurrentBackupDuration;
-    
+
   }
   else if (fOnGoingForward) {
   
@@ -4047,7 +4078,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       "fCurrentDivisionsPerQuarterNote * 4 = " <<
       fCurrentDivisionsPerQuarterNote * 4 << endl;
       
-  fCurrentMeasureLocation.fDivisionsPerWholeNote =
+  fCurrentVoice->getVoiceMeasureLocation ().fDivisionsPerWholeNote =
     fCurrentDivisionsPerQuarterNote * 4;
     
   fMusicXMLNoteData.fMusicXMLTupletMemberNoteType =
@@ -4064,10 +4095,10 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
 
   // set its location
   note->setNoteMeasureLocation (
-    fCurrentMeasureLocation);
+    fCurrentVoice->getVoiceMeasureLocation ());
 
   // take it's duration into account
-  fCurrentMeasureLocation.fPositionInMeasure +=
+  fCurrentVoice->getVoiceMeasureLocation ().fPositionInMeasure +=
     fMusicXMLNoteData.fMusicXMLDivisions;
 
   // set its beam if any
@@ -4238,7 +4269,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
       fCurrentChord->getChordMeasureLocation ());
 
   // substract it's duration from the current measure location
-  fCurrentMeasureLocation.fPositionInMeasure -=
+  fCurrentVoice->getVoiceMeasureLocation ().fPositionInMeasure -=
     newNote->
       getNoteMusicXMLDivisions ();
 
