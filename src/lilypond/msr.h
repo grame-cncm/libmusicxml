@@ -883,8 +883,12 @@ class EXP msrNote : public msrElement
     void          applyTupletMemberDisplayFactor (
                     int actualNotes, int normalNotes)
                       {
-                        fMusicXMLNoteData.fNoteDisplayDivisions *=
-                          actualNotes / normalNotes;
+                        fMusicXMLNoteData.fNoteDisplayDivisions =
+                          fMusicXMLNoteData.fNoteDisplayDivisions
+                            *
+                          actualNotes
+                            /
+                          normalNotes;
                       }
                     
     // articulations

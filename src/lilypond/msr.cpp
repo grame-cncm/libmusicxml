@@ -4551,7 +4551,7 @@ msrVoice::msrVoice (
       "Creating voice " << getVoiceName () << endl;
 
   fVoiceContainsActualNotes = false;
-  
+
   // create the voice chunk
   if (fMsrOptions->fTrace)
     cerr << idtr <<
