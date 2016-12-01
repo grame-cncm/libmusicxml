@@ -1586,9 +1586,9 @@ string msrNote::noteDivisionsAsMSRString () const
       "ERROR: " <<
       numberOfDotsFound <<
       " is/are necessary for " <<
-      divisions << " divisions " <<
+      fMusicXMLNoteData.fMusicXMLDivisions << " divisions " <<
       " with " <<
-      divisionsPerWholeNote <<
+      fNoteMeasureLocation.fDivisionsPerWholeNote <<
       " per whole note, not " <<
       fMusicXMLNoteData.fMusicXMLDotsNumber <<      
       endl;
@@ -1598,7 +1598,6 @@ string msrNote::noteDivisionsAsMSRString () const
       fInputLineNumber,
       s.str());
   }
-
 
   return result;
 }
@@ -2016,14 +2015,14 @@ ostream& operator<< (ostream& os, const S_msrChord& chrd)
 string msrChord::chordDivisionsAsMSRString () const
 {
   string result;
+  int    numberOfDotsFound;
   string errorMessage;
   
   result =
     MusicXML2::divisionsAsMSRString (
       fChordDivisions,
       fChordMeasureLocation.fDivisionsPerWholeNote,
-      fChordNotes [0]-> // any chord member notes is OK
-        getNoteMusicXMLDotsNumber (),
+      numberOfDotsFound,
       errorMessage);
 
   if (errorMessage.size ())
@@ -2031,6 +2030,31 @@ string msrChord::chordDivisionsAsMSRString () const
       fMsrOptions->fInputSourceName,
       fInputLineNumber,
       errorMessage);
+
+  if (
+    numberOfDotsFound
+      !=
+    fChordNotes [0]-> 
+      getNoteMusicXMLDotsNumber ()) { // any chord member notes is fine
+    stringstream s;
+    
+    s << 
+      "ERROR: " <<
+      numberOfDotsFound <<
+      " is/are necessary for " <<
+      fChordDivisions << " divisions " <<
+      " with " <<
+      fChordMeasureLocation.fDivisionsPerWholeNote <<
+      " per whole note, not " <<
+      fChordNotes [0]-> 
+        getNoteMusicXMLDotsNumber () <<      
+      endl;
+      
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      fInputLineNumber,
+      s.str());
+  }
 
   return result;
 }
@@ -4579,9 +4603,8 @@ S_msrUpbeat msrUpbeat::createEmptyClone (S_msrVoice clonedVoice)
       msrUpbeat::create (
         fMsrOptions,
         fInputLineNumber,
+        fUpbeatDivisions,
         clonedVoice);
-
-  clone->fUpbeatDivisions = fUpbeatDivisions;
   
   return clone;
 }
@@ -4813,7 +4836,7 @@ void msrVoice::setMeasureNumber (int measureNumber)
         "Voice  " << getVoiceName () <<
         "has an explicit anacrusis of " <<
         getPositionInMeasure () <<
-        " divisions"
+        " divisions" <<
         endl;
 
    fVoiceUpbeat =
