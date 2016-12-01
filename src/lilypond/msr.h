@@ -352,8 +352,16 @@ class musicXMLNoteData
     int         fMusicXMLAlteration;
     
     int         fMusicXMLOctave;
+
+    // MusicXML durations are in divisions per quarter note.
+    // LilyPond durations are in whole notes,
+    // hence the "* 4" multiplications
     
+    // the note duration when played
     int         fMusicXMLDivisions;
+
+    // tuplets member notes need another value for display
+    int         fNoteDisplayDivisions;
 
     int         fMusicXMLDotsNumber;
     
@@ -839,6 +847,18 @@ class EXP msrNote : public msrElement
                           fMusicXMLNoteData.fMusicXMLDivisions;
                       }
 
+    void          setNoteDisplayDivisions (int divisions)
+                      {
+                        fMusicXMLNoteData.fNoteDisplayDivisions =
+                          divisions;
+                      }
+
+    int           getNoteDisplayDivisions () const
+                      {
+                        return
+                          fMusicXMLNoteData.fNoteDisplayDivisions;
+                      }
+
     int           getNoteMusicXMLDotsNumber () const
                       {
                         return
@@ -855,10 +875,18 @@ class EXP msrNote : public msrElement
                       { return fNoteMsrPitch; }
                       
  //   int           getNoteMsrDuration () const // ??? JMI
- //                     { return fNoteMsrDuration; }   
+ //                     { return fNoteMsrDuration; }       
 
     string        noteMsrPitchAsString () const;
 
+    // tuplet members
+    void          applyTupletMemberDisplayFactor (
+                    int actualNotes, int normalNotes)
+                      {
+                        fMusicXMLNoteData.fNoteDisplayDivisions *=
+                          actualNotes / normalNotes;
+                      }
+                    
     // articulations
     list<S_msrArticulation>
                   getNoteArticulations () const
@@ -937,14 +965,9 @@ class EXP msrNote : public msrElement
 
     msrNoteKind                fNoteKind;
     
-    // MusicXML informations
     musicXMLNoteData           fMusicXMLNoteData;
-    musicXMLDiatonicPitch      fMusicXMLDiatonicPitch; // JMI
 
-    // MusicXML durations are in divisions per quarter note.
-    // LilyPond durations are in whole notes,
-    // hence the "* 4" multiplications
-// JMI    int                        fNoteMsrDuration;
+    musicXMLDiatonicPitch      fMusicXMLDiatonicPitch; // JMI
 
     // LilyPond informations
     msrPitch                   fNoteMsrPitch;
@@ -1626,12 +1649,13 @@ class EXP msrTuplet : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void  updateTuplet (int number, int actualNotes, int normalNotes);
+    void          updateTuplet (
+                    int number, int actualNotes, int normalNotes);
     
-    int   getTupletNumber () const { return fTupletNumber; }
+    int           getTupletNumber () const { return fTupletNumber; }
 
-    int   getActualNotes () const { return fActualNotes; }
-    int   getNormalNotes () const { return fNormalNotes; }
+    int           getActualNotes () const { return fActualNotes; }
+    int           getNormalNotes () const { return fNormalNotes; }
     
     vector<S_msrElement>
                   getTupletContents () const
@@ -1681,7 +1705,6 @@ class EXP msrTuplet : public msrElement
     int                  fNormalNotes;
 
     int                  fTupletDivisions;
-
 
     msrMeasureLocation   fTupletMeasureLocation;
     

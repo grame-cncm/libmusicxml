@@ -241,12 +241,12 @@ void musicXMLNoteData::print (ostream& os)
     idtr << "  " << left <<
     setw(26) << "fMusicXMLOctave = " <<
       fMusicXMLOctave <<  endl <<
-//    idtr << "  " << left << setw(26) << JMI
-//      "fMusicXMLDivisions = " <<
- //     fMusicXMLDivisions <<  endl <<
     idtr << "  " << left <<
       setw(26) << "fMusicXMLDivisions = " <<
       fMusicXMLDivisions <<  endl <<
+    idtr << "  " << left <<
+      setw(26) << "fNoteDisplayDivisions = " <<
+      fNoteDisplayDivisions <<  endl <<
     idtr << "  " << left <<
       setw(26) << "fMusicXMLDotsNumber = " <<
       fMusicXMLDotsNumber <<  endl <<
@@ -1115,6 +1115,13 @@ msrNote::msrNote (
   fNoteMsrPitch = 
     computeNoteMsrPitch (noteQuatertonesFromA, mxmlAlteration);
 
+  // all notes have their fNotesDisplayDivisions
+  // set to fMusicXMLNoteData.fMusicXMLDivision,
+  // except tuplet member notes
+
+  setNoteDisplayDivisions(
+    fMusicXMLNoteData.fMusicXMLDivisions);
+    
   /*
   int divisionsPerWholeNote = fMusicXMLNoteData.fMusicXMLDivisions*4;
   
@@ -1371,7 +1378,6 @@ void msrNote::acceptOut (basevisitor* v) {
   }
 }
 
-
 void msrNote::browseData (basevisitor* v)
 {
   /* JMI
@@ -1525,46 +1531,43 @@ string msrNote::noteDivisionsAsMSRString () const
 {
   string result;
   string errorMessage;
+
 /*
   switch (fNoteKind) {
     case msrNote::kStandaloneNote:
-      s <<
-        "Standalone note" <<
-        " " <<
-        noteMsrPitchAsString () <<
-        ":" <<
-        noteDivisionsAsMSRString ();
+      result =
+        MusicXML2::divisionsAsMSRString (
+          fMusicXMLNoteData.fMusicXMLDivisions,
+          fNoteMeasureLocation.fDivisionsPerWholeNote,
+          fMusicXMLNoteData.fMusicXMLDotsNumber,
+          errorMessage);
       break;
       
     case msrNote::kRestNote:
-      s <<
-        "Rest" <<
-        ":" <<
-        noteDivisionsAsMSRString ();
+      result =
+        MusicXML2::divisionsAsMSRString (
+          fMusicXMLNoteData.fMusicXMLDivisions,
+          fNoteMeasureLocation.fDivisionsPerWholeNote,
+          fMusicXMLNoteData.fMusicXMLDotsNumber,
+          errorMessage);
       break;
       
     case msrNote::kChordMemberNote:
-      s <<
-        "Chord member note" <<
-        " " <<
-        noteMsrPitchAsString () <<
-        ":" <<
-        noteDivisionsAsMSRString ();
+      result =
+        MusicXML2::divisionsAsMSRString (
+          fMusicXMLNoteData.fMusicXMLDivisions,
+          fNoteMeasureLocation.fDivisionsPerWholeNote,
+          fMusicXMLNoteData.fMusicXMLDotsNumber,
+          errorMessage);
       break;
       
     case msrNote::kTupletMemberNote:
-      s <<
-        "Tuplet member note" <<
-        " " <<
-        noteMsrPitchAsString () <<
-        ":" <<
-        noteDivisionsAsMSRString ();
       break;
   } // switch
-  */
+ */
   result =
     MusicXML2::divisionsAsMSRString (
-      fMusicXMLNoteData.fMusicXMLDivisions,
+      fMusicXMLNoteData.fNoteDisplayDivisions,
       fNoteMeasureLocation.fDivisionsPerWholeNote,
       fMusicXMLNoteData.fMusicXMLDotsNumber,
       errorMessage);
@@ -1802,7 +1805,10 @@ void msrNote::print (ostream& os)
   // print the note itself and its position
   os <<
     noteAsString () <<
-    " (" << fMusicXMLNoteData.fMusicXMLDivisions <<
+    " (" <<
+    fMusicXMLNoteData.fMusicXMLDivisions <<
+    "_" <<
+    fMusicXMLNoteData.fNoteDisplayDivisions <<
     "/" <<
     fNoteMeasureLocation.fDivisionsPerWholeNote <<
     ") @"<<

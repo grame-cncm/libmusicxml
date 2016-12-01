@@ -3255,7 +3255,6 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   
   fMusicXMLNoteData.fMusicXMLOctave = -13;
   
-//  fMusicXMLNoteData.fMusicXMLDivisions = -13;
   fMusicXMLNoteData.fMusicXMLDivisions  = -13;
   fMusicXMLNoteData.fMusicXMLDotsNumber = 0;
   
@@ -3928,9 +3927,14 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
     cerr << idtr <<
       "--> pushing tuplet to tuplets stack" << endl;
   fCurrentTupletsStack.push(tuplet);
+
+  // set note display divisions
+  firstNote->
+    applyTupletMemberDisplayFactor (
+      fCurrentActualNotes, fCurrentNormalNotes);
   
   // add note as first note of the tuplet
-  if (fMsrOptions->fDebug)
+//JMI  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> adding note " << firstNote->noteMsrPitchAsString() <<
       " as first note of the tuplet" << endl;
@@ -3949,12 +3953,17 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote note)
   // get tuplet from top of tuplet stack
   S_msrTuplet tup = fCurrentTupletsStack.top();
 
+  // set note display divisions
+  note->
+    applyTupletMemberDisplayFactor (
+      fCurrentActualNotes, fCurrentNormalNotes);
+
   // add note to the tuplet
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> adding note " << note->noteMsrPitchAsString () <<
       " to tuplets stack top" << endl;
-  tup->addElementToTuplet(note);
+  tup->addElementToTuplet (note);
 
   // pop from the tuplets stack
   if (fMsrOptions->fDebug)
@@ -4343,6 +4352,12 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
           cerr << idtr <<
             "--> adding note " << note <<
             " to tuplets stack top" << endl;
+
+        // set note display divisions
+        note->
+          applyTupletMemberDisplayFactor (
+            fCurrentActualNotes, fCurrentNormalNotes);
+
         fCurrentTupletsStack.top()->
           addElementToTuplet (note);
       }
