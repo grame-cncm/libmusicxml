@@ -516,6 +516,8 @@ string divisionsAsMSRString (
   // MusicXML divisions are per quater note,
   // MSR and LilyPond durations are in whole notes
   //  cerr << "|"  << fNum << "|" << fDenom << "|" << fDots << "|" << endl;
+
+  numberOfDotsFound = 0;
   
   stringstream s;
 

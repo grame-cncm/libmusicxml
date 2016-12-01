@@ -2343,7 +2343,9 @@ ostream& operator<< (ostream& os, const S_msrBarCheck& elt)
 
 void msrBarCheck::print (ostream& os)
 {
-  os << "BarCheck" << " " << fNextBarNumber << endl;
+  os <<
+    "BarCheck" << " " << fNextBarNumber <<
+    endl << endl;
 }
 
 //______________________________________________________________________________
@@ -4658,7 +4660,8 @@ void msrUpbeat::print (ostream& os)
     endl <<
     idtr << "Upbeat" <<
     ", input line: " << fInputLineNumber <<
-    ", voice " << fUpbeatVoice->getVoiceName () <<
+    ", voice " << fUpbeatVoice->getVoiceName () << ", " <<
+    fUpbeatDivisions << " divisions" <<
     endl;
 }
 
@@ -4720,6 +4723,9 @@ msrVoice::msrVoice (
     cerr << idtr <<
       "Creating voice " << getVoiceName () << endl;
 
+  fMeasureNumberHasBeenSet = false;
+  fMusicHasBeenInserted    = false;
+  
   fVoiceContainsActualNotes = false;
 
   // create the voice chunk
@@ -4820,16 +4826,30 @@ string msrVoice::getVoiceName () const
 }
 
 void msrVoice::handleForward (int duration)
-{
-// JMI  fVoiceMeasureLocation += duration; // measure boundary ???
-}
+{} // JMI ???
 
 void msrVoice::setMeasureNumber (int measureNumber)
 {
-  fVoiceMeasureLocation.fMeasureNumber =
-    measureNumber;
-
-  if (getMeasureNumber () == 0) {
+  bool anacrusisPresent = false;
+  
+  if (
+    ! fMeasureNumberHasBeenSet
+      &&
+    measureNumber == 0) {
+    if (fMsrOptions->fTrace)
+      cerr << idtr <<
+        "Voice  " << getVoiceName () <<
+        "has an explicit anacrusis of " <<
+        getPositionInMeasure () <<
+        " divisions" <<
+        endl;
+        
+    anacrusisPresent = true;
+  }
+  else if (
+    fMusicHasBeenInserted
+      &&
+    measureNumber == 1) {
     // create the explicit anacrusis
     if (fMsrOptions->fTrace)
       cerr << idtr <<
@@ -4838,14 +4858,23 @@ void msrVoice::setMeasureNumber (int measureNumber)
         getPositionInMeasure () <<
         " divisions" <<
         endl;
+        
+    anacrusisPresent = true;    
+  }
 
-   fVoiceUpbeat =
+  // create the anacrusis
+  if (anacrusisPresent)
+    fVoiceAnacrusis =
       msrUpbeat::create (
         fMsrOptions,
         fInputLineNumber,
         getPositionInMeasure (),
         this);
-  }
+
+  fVoiceMeasureLocation.fMeasureNumber =
+    measureNumber;
+
+  fMeasureNumberHasBeenSet = true;
 }
 
 void msrVoice::setNewVoicechunkForVoice (
@@ -5010,6 +5039,8 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   fVoiceMasterLyrics->
     addSkipChunkToLyrics (
       note->getInputLineNumber (), lyricsDivisions);
+
+  fMusicHasBeenInserted = true;
 }
 
 void msrVoice::appendChordToVoice (S_msrChord chord)
@@ -5022,6 +5053,8 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
   S_msrElement c = chord;
   fVoicechunk->
     appendElementToVoicechunk (c);
+
+  fMusicHasBeenInserted = true;
 }
 
 void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
@@ -5033,6 +5066,8 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
   S_msrElement t = tuplet;
   fVoicechunk->
     appendElementToVoicechunk (t);
+
+  fMusicHasBeenInserted = true;
 }
 
 void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
@@ -5205,12 +5240,12 @@ void msrVoice::print (ostream& os)
 
   idtr++;
 
-  os << idtr << "VoiceUpbeat" ": ";
-  if (fVoiceUpbeat)
-    os << fVoiceUpbeat;
+  os << idtr;
+  if (fVoiceAnacrusis)
+    os << fVoiceAnacrusis;
   else
-    os << "none";
-  os << endl << endl;
+    os << "none" << endl;
+  os << endl;
 
   os << fVoicechunk << endl;
   

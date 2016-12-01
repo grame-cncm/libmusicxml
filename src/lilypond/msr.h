@@ -2823,7 +2823,10 @@ class EXP msrVoice : public msrElement
 
     msrMeasureLocation        fVoiceMeasureLocation;
 
-    S_msrUpbeat               fVoiceUpbeat;
+    // anacrusis detection
+    S_msrUpbeat               fVoiceAnacrusis;
+    bool                      fMeasureNumberHasBeenSet;
+    bool                      fMusicHasBeenInserted;
     
     // the chunk in the voice contain the music elements
     // it is created implicitly for every voice,

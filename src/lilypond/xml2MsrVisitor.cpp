@@ -262,7 +262,7 @@ void xml2MsrVisitor::visitStart ( S_tenths& elt )
 void xml2MsrVisitor::visitEnd ( S_scaling& elt)
 {
   if (fMsrOptions->fTrace)
-    cerr <<
+    cerr << idtr <<
       "There are " << fTenths <<
       " tenths for " <<  fMillimeters <<
       " millimeters, hence the global staff size is " <<
