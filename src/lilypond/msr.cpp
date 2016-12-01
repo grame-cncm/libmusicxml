@@ -843,10 +843,10 @@ string msrSlur::slurKindAsString ()
   
   switch (fSlurKind) {
     case msrSlur::kStartSlur:
-      s << "crescendo";
+      s << "start";
       break;
     case msrSlur::kContinueSlur:
-      s << "decrescendo";
+      s << "continue";
       break;
     case msrSlur::kStopSlur:
       s << "stop";
@@ -1280,283 +1280,6 @@ S_msrWedge msrNote::removeFirstWedge () {
   return wdg;
 }
 
-string msrNote::noteMsrPitchAsString () const
-{
-  stringstream s;
-  
-  /*
-  cerr << "msrNote::noteMsrPitchAsString (), isRest = " <<
-    fMusicXMLNoteData.fMusicXMLStepIsARest <<
-    ", fMsrPitch = " << fMsrPitch << endl;
-  */
-  
-  if (fMusicXMLNoteData.fMusicXMLStepIsARest)
-    s << "r";
-
-  else {
-    //JMI assertMsr(fMsrPitch != k_NoMsrPitch, "fMsrPitch != k_NoMsrPitch");
-
-    if (fMusicXMLNoteData.fMusicXMLStepIsUnpitched)
-      s << "unpitched ";
-      
-    switch (fNoteMsrPitch) {
-      
-      case k_aeseh: s << "aeseh"; break;
-      case k_aes:   s << "aes"; break;
-      case k_aeh:   s << "aeh"; break;
-      case k_a:     s << "a"; break;
-      case k_aih:   s << "aih"; break;
-      case k_ais:   s << "ais"; break;
-      case k_aisih: s << "aisih"; break;
-        
-      case k_beseh: s << "beseh"; break;
-      case k_bes:   s << "bes"; break;
-      case k_beh:   s << "beh"; break;
-      case k_b:     s << "b"; break;
-      case k_bih:   s << "bih"; break;
-      case k_bis:   s << "bis"; break;
-      case k_bisih: s << "bisih"; break;
-        
-      case k_ceseh: s << "ceseh"; break;
-      case k_ces:   s << "ces"; break;
-      case k_ceh:   s << "ceh"; break;
-      case k_c:     s << "c"; break;
-      case k_cih:   s << "cih"; break;
-      case k_cis:   s << "cis"; break;
-      case k_cisih: s << "cisih"; break;
-        
-      case k_deseh: s << "deseh"; break;
-      case k_des:   s << "des"; break;
-      case k_deh:   s << "deh"; break;
-      case k_d:     s << "d"; break;
-      case k_dih:   s << "dih"; break;
-      case k_dis:   s << "dis"; break;
-      case k_disih: s << "disih"; break;
-  
-      case k_eeseh: s << "eeseh"; break;
-      case k_ees:   s << "ees"; break;
-      case k_eeh:   s << "eeh"; break;
-      case k_e:     s << "e"; break;
-      case k_eih:   s << "eih"; break;
-      case k_eis:   s << "eis"; break;
-      case k_eisih: s << "eisih"; break;
-        
-      case k_feseh: s << "feseh"; break;
-      case k_fes:   s << "fes"; break;
-      case k_feh:   s << "feh"; break;
-      case k_f:     s << "f"; break;
-      case k_fih:   s << "fih"; break;
-      case k_fis:   s << "fis"; break;
-      case k_fisih: s << "fisih"; break;
-        
-      case k_geseh: s << "geseh"; break;
-      case k_ges:   s << "ges"; break;
-      case k_geh:   s << "geh"; break;
-      case k_g:     s << "g"; break;
-      case k_gih:   s << "gih"; break;
-      case k_gis:   s << "gis"; break;
-      case k_gisih: s << "gisih"; break;
-      
-      default: s << "Note" << fNoteMsrPitch << "???";
-    } // switch
-
-    s << fMusicXMLNoteData.fMusicXMLOctave;
-  }
-  
-  return s.str();
-}
-
-string msrNote::divisionsAsMSRString () const
-{
-  /*
-  if (fTupletMemberNoteType.size()) {
-
-    if      (fTupletMemberNoteType == "256th")   { s << "256"; }
-    else if (fTupletMemberNoteType == "128th")   { s << "128"; } 
-    else if (fTupletMemberNoteType == "64th")    { s << "64"; } 
-    else if (fTupletMemberNoteType == "32nd")    { s << "32"; } 
-    else if (fTupletMemberNoteType == "16th")    { s << "16"; } 
-    else if (fTupletMemberNoteType == "eighth")  { s << "8"; } 
-    else if (fTupletMemberNoteType == "quarter") { s << "4"; } 
-    else if (fTupletMemberNoteType == "half")    { s << "2"; } 
-    else if (fTupletMemberNoteType == "whole")   { s << "1"; } 
-    else if (fTupletMemberNoteType == "breve")   { s << "breve"; } 
-    else if (fTupletMemberNoteType == "long")    { s << "long"; }
-    else
-      {
-      stringstream s;
-      s << 
-        endl << 
-        "--> unknown tuplet member type " << fTupletMemberNoteType <<
-        endl;
-      msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
-        fInputLineNumber,
-        s.str());
-      }
-        
-  }
-
-  else {
-    */
-
-  // MusicXML divisions are per quater note,
-  // MSR and LilyPond durations are in whole notes
-  //  cerr << "|"  << fNum << "|" << fDenom << "|" << fDots << "|" << endl;
-  
-  int
-    divisions =
-      fMusicXMLNoteData.fMusicXMLDivisions,
-    divisionsPerWholeNote =
-      fNoteMeasureLocation.fDivisionsPerWholeNote;
-    
-  stringstream s;
-
-  div_t
-    divresult =
-      div (divisions, divisionsPerWholeNote);
-       
-  int div = divresult.quot;
-  int mod = divresult.rem;
-
-  /*
-    cout <<
-      endl <<
-      "divisions = " << divisions <<
-    ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
-    "div = " << div << ", mod = " << mod << endl;
-  */
-  
-  switch (div) {
-    case 8:
-    case 7:
-    case 6:
-    case 5:
-      s << "\\maxima";
-      break;
-      
-    case 4:
-    case 3:
-      s << "\\longa";
-      break;
-      
-    case 2:
-      s << "\\breve";
-      break;
-      
-    case 1:
-      s << "1";
-      break;
-      
-    case 0:
-      {
-      // this note is shorter than a whole note,
-      // display it as a fration followed by augmentation dots
-      // if needed
-
-      // compute the the fraction's denominator,
-      // trying 1/2, 1/4, 1/8... in order
-      int
-        denominator = 2, // half note
-        n           = divisions * 2;
-
-      //cout << "denominator = " << denominator << ", n = " << n << endl;
-      
-      while (n < divisionsPerWholeNote) {
-        denominator *= 2;
-        n *= 2;
-        //cout << "denominator = " << denominator << ", n = " << n  << endl;
-      } // while
-
-      int remainingDivisions =
-        mod - divisionsPerWholeNote / denominator;
-      //cout << "--> remainingDivisions = " << remainingDivisions << endl;
-
-      s << denominator;
-
-      // compute the number of dots if any
-      if (remainingDivisions > 0) {
-        int m = remainingDivisions;
-    
-        while (m > 0) {
-          m /= 2;
-          //cout << "m = " << m << endl;
-          if (m % 2)
-            s << ".";
-        } // while
-      }
-    }
-      break;
-      
-    default:
-      {
-      stringstream s;
-      
-      s << 
-        "ERROR: note divisions " <<
-          divisions <<
-        "/" <<
-        divisionsPerWholeNote <<
-        " exceeds a maxima" << endl;
-        
-      msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
-        fInputLineNumber,
-        s.str());
-      }
-  } // switch
-  
-  return s.str();
-}
-
-string msrNote::noteAsString () const
-{
-  stringstream s;
-
-  switch (fNoteKind) {
-    case msrNote::kStandaloneNote:
-      s <<
-        "Standalone note" <<
-        " " <<
-        noteMsrPitchAsString () <<
-        ":" <<
-        divisionsAsMSRString ();
-      break;
-      
-    case msrNote::kRestNote:
-      s <<
-        "Rest" <<
-        ":" <<
-        divisionsAsMSRString ();
-      break;
-      
-    case msrNote::kChordMemberNote:
-      s <<
-        "Chord member note" <<
-        " " <<
-        noteMsrPitchAsString () <<
-        ":" <<
-        divisionsAsMSRString ();
-      break;
-      
-    case msrNote::kTupletMemberNote:
-      s <<
-        "Tuplet member note" <<
-        " " <<
-        noteMsrPitchAsString () <<
-        ":" <<
-        divisionsAsMSRString ();
-      break;
-  } // switch
-     
-  if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
-    s << " " << "grace";
-  if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
-    s << " " << "tied";
-
-  return s.str();
-}
-
 void msrNote::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -1654,6 +1377,307 @@ void msrNote::browseData (basevisitor* v)
   */
 }
 
+string msrNote::noteMsrPitchAsString () const
+{
+  stringstream s;
+  
+  /*
+  cerr << "msrNote::noteMsrPitchAsString (), isRest = " <<
+    fMusicXMLNoteData.fMusicXMLStepIsARest <<
+    ", fMsrPitch = " << fMsrPitch << endl;
+  */
+  
+  if (fMusicXMLNoteData.fMusicXMLStepIsARest)
+    s << "r";
+
+  else {
+    //JMI assertMsr(fMsrPitch != k_NoMsrPitch, "fMsrPitch != k_NoMsrPitch");
+
+    if (fMusicXMLNoteData.fMusicXMLStepIsUnpitched)
+      s << "unpitched ";
+      
+    switch (fNoteMsrPitch) {
+      
+      case k_aeseh: s << "aeseh"; break;
+      case k_aes:   s << "aes"; break;
+      case k_aeh:   s << "aeh"; break;
+      case k_a:     s << "a"; break;
+      case k_aih:   s << "aih"; break;
+      case k_ais:   s << "ais"; break;
+      case k_aisih: s << "aisih"; break;
+        
+      case k_beseh: s << "beseh"; break;
+      case k_bes:   s << "bes"; break;
+      case k_beh:   s << "beh"; break;
+      case k_b:     s << "b"; break;
+      case k_bih:   s << "bih"; break;
+      case k_bis:   s << "bis"; break;
+      case k_bisih: s << "bisih"; break;
+        
+      case k_ceseh: s << "ceseh"; break;
+      case k_ces:   s << "ces"; break;
+      case k_ceh:   s << "ceh"; break;
+      case k_c:     s << "c"; break;
+      case k_cih:   s << "cih"; break;
+      case k_cis:   s << "cis"; break;
+      case k_cisih: s << "cisih"; break;
+        
+      case k_deseh: s << "deseh"; break;
+      case k_des:   s << "des"; break;
+      case k_deh:   s << "deh"; break;
+      case k_d:     s << "d"; break;
+      case k_dih:   s << "dih"; break;
+      case k_dis:   s << "dis"; break;
+      case k_disih: s << "disih"; break;
+  
+      case k_eeseh: s << "eeseh"; break;
+      case k_ees:   s << "ees"; break;
+      case k_eeh:   s << "eeh"; break;
+      case k_e:     s << "e"; break;
+      case k_eih:   s << "eih"; break;
+      case k_eis:   s << "eis"; break;
+      case k_eisih: s << "eisih"; break;
+        
+      case k_feseh: s << "feseh"; break;
+      case k_fes:   s << "fes"; break;
+      case k_feh:   s << "feh"; break;
+      case k_f:     s << "f"; break;
+      case k_fih:   s << "fih"; break;
+      case k_fis:   s << "fis"; break;
+      case k_fisih: s << "fisih"; break;
+        
+      case k_geseh: s << "geseh"; break;
+      case k_ges:   s << "ges"; break;
+      case k_geh:   s << "geh"; break;
+      case k_g:     s << "g"; break;
+      case k_gih:   s << "gih"; break;
+      case k_gis:   s << "gis"; break;
+      case k_gisih: s << "gisih"; break;
+      
+      default: s << "Note" << fNoteMsrPitch << "???";
+    } // switch
+
+    s << fMusicXMLNoteData.fMusicXMLOctave;
+  }
+  
+  return s.str();
+}
+
+/*
+string msrNote::divisionsAsMSRString () const
+{
+  / *
+  if (fTupletMemberNoteType.size()) {
+
+    if      (fTupletMemberNoteType == "256th")   { s << "256"; }
+    else if (fTupletMemberNoteType == "128th")   { s << "128"; } 
+    else if (fTupletMemberNoteType == "64th")    { s << "64"; } 
+    else if (fTupletMemberNoteType == "32nd")    { s << "32"; } 
+    else if (fTupletMemberNoteType == "16th")    { s << "16"; } 
+    else if (fTupletMemberNoteType == "eighth")  { s << "8"; } 
+    else if (fTupletMemberNoteType == "quarter") { s << "4"; } 
+    else if (fTupletMemberNoteType == "half")    { s << "2"; } 
+    else if (fTupletMemberNoteType == "whole")   { s << "1"; } 
+    else if (fTupletMemberNoteType == "breve")   { s << "breve"; } 
+    else if (fTupletMemberNoteType == "long")    { s << "long"; }
+    else
+      {
+      stringstream s;
+      s << 
+        endl << 
+        "--> unknown tuplet member type " << fTupletMemberNoteType <<
+        endl;
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
+        fInputLineNumber,
+        s.str());
+      }
+        
+  }
+
+  else {
+    * /
+
+  // MusicXML divisions are per quater note,
+  // MSR and LilyPond durations are in whole notes
+  //  cerr << "|"  << fNum << "|" << fDenom << "|" << fDots << "|" << endl;
+  
+  int
+    divisions =
+      fMusicXMLNoteData.fMusicXMLDivisions,
+    divisionsPerWholeNote =
+      fNoteMeasureLocation.fDivisionsPerWholeNote;
+    
+  stringstream s;
+
+  div_t
+    divresult =
+      div (divisions, divisionsPerWholeNote);
+       
+  int div = divresult.quot;
+  int mod = divresult.rem;
+
+  / *
+    cout <<
+      endl <<
+      "divisions = " << divisions <<
+    ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
+    "div = " << div << ", mod = " << mod << endl;
+  * /
+  
+  switch (div) {
+    case 8:
+    case 7:
+    case 6:
+    case 5:
+      s << "\\maxima";
+      break;
+      
+    case 4:
+    case 3:
+      s << "\\longa";
+      break;
+      
+    case 2:
+      s << "\\breve";
+      break;
+      
+    case 1:
+      s << "1";
+      break;
+      
+    case 0:
+      {
+      // this note is shorter than a whole note,
+      // display it as a fration followed by augmentation dots
+      // if needed
+
+      // compute the the fraction's denominator,
+      // trying 1/2, 1/4, 1/8... in order
+      int
+        denominator = 2, // half note
+        n           = divisions * 2;
+
+      //cout << "denominator = " << denominator << ", n = " << n << endl;
+      
+      while (n < divisionsPerWholeNote) {
+        denominator *= 2;
+        n *= 2;
+        //cout << "denominator = " << denominator << ", n = " << n  << endl;
+      } // while
+
+      int remainingDivisions =
+        mod - divisionsPerWholeNote / denominator;
+      //cout << "--> remainingDivisions = " << remainingDivisions << endl;
+
+      s << denominator;
+
+      // compute the number of dots if any
+      if (remainingDivisions > 0) {
+        int
+          m            = remainingDivisions,
+          numberOfDots = 0;
+    
+        while (m > 0) {
+          m /= 2;
+          //cout << "m = " << m << endl;
+          if (m % 2) {
+            s << ".";
+            numberOfDots++;
+          }
+        } // while
+
+        if (numberOfDots != fMusicXMLNoteData.fMusicXMLDotsNumber) {
+          stringstream s;
+          
+          s << 
+            "ERROR: number of dots " <<
+              fMusicXMLNoteData.fMusicXMLDotsNumber <<
+            " does not correspont to " <<
+            divisions <<
+            " with " <<
+            divisionsPerWholeNote <<
+            " per whole note" << endl;
+            
+          msrMusicXMLError (
+            fMsrOptions->fInputSourceName,
+            fInputLineNumber,
+            s.str());
+        }
+      }
+    }
+      break;
+      
+    default:
+      {
+      stringstream s;
+      
+      s << 
+        "ERROR: note divisions " <<
+          divisions <<
+        "/" <<
+        divisionsPerWholeNote <<
+        " exceeds a maxima" << endl;
+        
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
+        fInputLineNumber,
+        s.str());
+      }
+  } // switch
+  
+  return s.str();
+}
+*/
+
+string msrNote::noteAsString () const
+{
+  stringstream s;
+
+  switch (fNoteKind) {
+    case msrNote::kStandaloneNote:
+      s <<
+        "Standalone note" <<
+        " " <<
+        noteMsrPitchAsString () <<
+        ":" <<
+        divisionsAsMSRString ();
+      break;
+      
+    case msrNote::kRestNote:
+      s <<
+        "Rest" <<
+        ":" <<
+        divisionsAsMSRString ();
+      break;
+      
+    case msrNote::kChordMemberNote:
+      s <<
+        "Chord member note" <<
+        " " <<
+        noteMsrPitchAsString () <<
+        ":" <<
+        divisionsAsMSRString ();
+      break;
+      
+    case msrNote::kTupletMemberNote:
+      s <<
+        "Tuplet member note" <<
+        " " <<
+        noteMsrPitchAsString () <<
+        ":" <<
+        divisionsAsMSRString ();
+      break;
+  } // switch
+     
+  if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
+    s << " " << "grace";
+  if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
+    s << " " << "tied";
+
+  return s.str();
+}
+
 ostream& operator<< (ostream& os, const S_msrNote& elt)
 {
 //  if (elt) // JMI JMI
@@ -1668,11 +1692,13 @@ void msrNote::print (ostream& os)
     noteAsString () <<
     " (" << fMusicXMLNoteData.fMusicXMLDivisions <<
     "/" <<
-    fNoteMeasureLocation.fDivisionsPerWholeNote * 4 <<
-    ")" <<
-    ", measure " << fNoteMeasureLocation.fMeasureNumber <<
-    ", position " << fNoteMeasureLocation.fPositionInMeasure <<
-    "/" << fNoteMeasureLocation.fDivisionsPerWholeNote <<
+    fNoteMeasureLocation.fDivisionsPerWholeNote <<
+    ") @"<<
+    fNoteMeasureLocation.fMeasureNumber <<
+    ":" <<
+    fNoteMeasureLocation.fPositionInMeasure <<
+    "/" <<
+    fNoteMeasureLocation.fDivisionsPerWholeNote <<
     endl;
 
   // print the beam if any
@@ -1787,6 +1813,9 @@ S_msrChord msrChord::createEmptyClone ()
         fMsrOptions,
         fInputLineNumber,
         fChordDivisions);
+
+  clone->
+    setChordMeasureLocation (fChordMeasureLocation);
   
   return clone;
 }
@@ -1844,9 +1873,23 @@ ostream& operator<< (ostream& os, const S_msrChord& chrd)
   return os;
 }
 
+string msrChord::divisionsAsMSRString () const
+{}
+
 void msrChord::print (ostream& os)
 {
-  os << "Chord" << ", divisions: " << fChordDivisions << endl;
+  os <<
+    "Chord" <<
+    " (" << fChordDivisions <<
+    "/" <<
+    fChordMeasureLocation.fDivisionsPerWholeNote <<
+    ") @"<<
+    fChordMeasureLocation.fMeasureNumber <<
+    ":" <<
+    fChordMeasureLocation.fPositionInMeasure <<
+    "/" <<
+    fChordMeasureLocation.fDivisionsPerWholeNote <<
+    endl;
 
   idtr++;
   

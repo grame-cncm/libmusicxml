@@ -3770,15 +3770,19 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
   // but it is actually the first note of a chord
   
   // create a chord
-  S_msrChord chord;
-  
-  chord =
-    msrChord::create (
-      fMsrOptions,
-      fCurrentNote->getInputLineNumber (),
-      fCurrentNote->getNoteMusicXMLDivisions ());
+  S_msrChord
+    chord =
+      msrChord::create (
+        fMsrOptions,
+        fCurrentNote->getInputLineNumber (),
+        fCurrentNote->getNoteMusicXMLDivisions ());
 // JMI  fCurrentElement = chord; // another name for it
-   
+
+  // its location is that of its first note
+  chord->
+    setChordMeasureLocation (
+      fCurrentNote->getNoteMeasureLocation ());
+    
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> adding first note " << fCurrentNote->noteMsrPitchAsString() <<
@@ -4209,7 +4213,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
     // account for chord being built
     fOnGoingChord = true;
   }
-  
+
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> adding new note " <<
@@ -4228,6 +4232,16 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
   // set note as belonging to a chord
   newNote->setNoteBelongsToAChord ();
     
+  // a chord member's measure location is that of the chord
+  newNote->
+    setNoteMeasureLocation (
+      fCurrentChord->getChordMeasureLocation ());
+
+  // substract it's duration from the current measure location
+  fCurrentMeasureLocation.fPositionInMeasure -=
+    newNote->
+      getNoteMusicXMLDivisions ();
+
   // remove previous current note or the previous state of the chord
   // from the current voice sequence
   if (fMsrOptions->fDebug)

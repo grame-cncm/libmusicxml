@@ -506,5 +506,176 @@ std::pair<std::string, std::string> extractNamesPairFromString (
   return make_pair (name1, name2);
 }
 
+//______________________________________________________________________________
+string divisionsAsMSRString (
+  int     divisions,
+  int     divisionsPerWholeNote,
+  int     numberOfDots,
+  string& errorMessage)
+{
+  // MusicXML divisions are per quater note,
+  // MSR and LilyPond durations are in whole notes
+  //  cerr << "|"  << fNum << "|" << fDenom << "|" << fDots << "|" << endl;
+  
+  stringstream s;
+
+  div_t
+    divresult =
+      div (divisions, divisionsPerWholeNote);
+       
+  int div = divresult.quot;
+  int mod = divresult.rem;
+
+  /*
+    cout <<
+      endl <<
+      "divisions = " << divisions <<
+    ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
+    "div = " << div << ", mod = " << mod << endl;
+  */
+  
+  switch (div) {
+    case 8:
+    case 7:
+    case 6:
+    case 5:
+      s << "\\maxima";
+      break;
+      
+    case 4:
+    case 3:
+      s << "\\longa";
+      break;
+      
+    case 2:
+      s << "\\breve";
+      break;
+      
+    case 1:
+      s << "1";
+      break;
+      
+    case 0:
+      {
+      // this note is shorter than a whole note,
+      // display it as a fration followed by augmentation dots
+      // if needed
+
+      // compute the the fraction's denominator,
+      // trying 1/2, 1/4, 1/8... in order
+      int
+        denominator = 2, // half note
+        n           = divisions * 2;
+
+      //cout << "denominator = " << denominator << ", n = " << n << endl;
+      
+      while (n < divisionsPerWholeNote) {
+        denominator *= 2;
+        n *= 2;
+        //cout << "denominator = " << denominator << ", n = " << n  << endl;
+      } // while
+
+      int remainingDivisions =
+        mod - divisionsPerWholeNote / denominator;
+      //cout << "--> remainingDivisions = " << remainingDivisions << endl;
+
+      s << denominator;
+
+      // compute the number of dots if any
+      if (remainingDivisions > 0) {
+        int
+          m            = remainingDivisions,
+          numberOfDots = 0;
+    
+        while (m > 0) {
+          m /= 2;
+          //cout << "m = " << m << endl;
+          if (m % 2) {
+            s << ".";
+            numberOfDots++;
+          }
+        } // while
+
+        if (numberOfDots != numberOfDots) {
+          stringstream s;
+          
+          s << 
+            "ERROR: number of dots " <<
+              numberOfDots <<
+            " does not correspond to " <<
+            divisions <<
+            " with " <<
+            divisionsPerWholeNote <<
+            " per whole note" << endl;
+
+            errorMessage = s.str();
+/*
+          msrMusicXMLError (
+            fMsrOptions->fInputSourceName,
+            fInputLineNumber,
+            s.str());
+        */
+        }
+      }
+      }
+      break;
+      
+    default:
+      {
+      stringstream s;
+      
+      s << 
+        "ERROR: note divisions " <<
+          divisions <<
+        "/" <<
+        divisionsPerWholeNote <<
+        " exceeds a maxima" << endl;
+        
+      errorMessage = s.str();
+/*
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
+        fInputLineNumber,
+        s.str());
+        */
+      }
+  } // switch
+  
+  return s.str();
+}
+
+
+  /*
+  if (fTupletMemberNoteType.size()) {
+
+    if      (fTupletMemberNoteType == "256th")   { s << "256"; }
+    else if (fTupletMemberNoteType == "128th")   { s << "128"; } 
+    else if (fTupletMemberNoteType == "64th")    { s << "64"; } 
+    else if (fTupletMemberNoteType == "32nd")    { s << "32"; } 
+    else if (fTupletMemberNoteType == "16th")    { s << "16"; } 
+    else if (fTupletMemberNoteType == "eighth")  { s << "8"; } 
+    else if (fTupletMemberNoteType == "quarter") { s << "4"; } 
+    else if (fTupletMemberNoteType == "half")    { s << "2"; } 
+    else if (fTupletMemberNoteType == "whole")   { s << "1"; } 
+    else if (fTupletMemberNoteType == "breve")   { s << "breve"; } 
+    else if (fTupletMemberNoteType == "long")    { s << "long"; }
+    else
+      {
+      stringstream s;
+      s << 
+        endl << 
+        "--> unknown tuplet member type " << fTupletMemberNoteType <<
+        endl;
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
+        fInputLineNumber,
+        s.str());
+      }
+        
+  }
+
+  else {
+    */
+
 
 }

@@ -886,7 +886,7 @@ class EXP msrNote : public msrElement
 
     string        noteAsString () const;
 
-    string        divisionsAsMSRString () const;
+// JMI    string        divisionsAsMSRString () const;
 
     // articulations
     void          addArticulation (S_msrArticulation art);
@@ -970,23 +970,32 @@ class EXP msrChord : public msrElement
     // ------------------------------------------------------
 
     vector<S_msrNote>
-                getChordNotes () const
-                    { return fChordNotes; }
+                  getChordNotes () const
+                      { return fChordNotes; }
 
-    int         getChordDivisions () const
-                    { return fChordDivisions; }
+    int           getChordDivisions () const
+                      { return fChordDivisions; }
             
-    void        addNoteToChord (S_msrNote note)
-                    { fChordNotes.push_back(note); }
+    void          addNoteToChord (S_msrNote note)
+                      { fChordNotes.push_back(note); }
 
-    void        addArticulation (S_msrArticulation art)
-                    { fChordArticulations.push_back(art); }
+    void          addArticulation (S_msrArticulation art)
+                      { fChordArticulations.push_back(art); }
     
-    void        addDynamics (S_msrDynamics dyn)
-                    { fChordDynamics.push_back(dyn); }
+    void          addDynamics (S_msrDynamics dyn)
+                      { fChordDynamics.push_back(dyn); }
                     
-    void        addWedge    (S_msrWedge    wdg)
-                    { fChordWedges.push_back(wdg); }
+    void          addWedge (S_msrWedge wdg)
+                      { fChordWedges.push_back(wdg); }
+
+    // location in measure
+    void          setChordMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fChordMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getChordMeasureLocation () const
+                      { return fChordMeasureLocation; }
 
     // services
     // ------------------------------------------------------
@@ -1013,6 +1022,8 @@ class EXP msrChord : public msrElement
   private:
   
     vector<S_msrNote>         fChordNotes;
+
+    msrMeasureLocation        fChordMeasureLocation;
     
     int                       fChordDivisions;
                               
