@@ -921,7 +921,7 @@ S_msrNote msrNote::createFromMusicXMLData (
   return o;
 }
 
-S_msrNote createRest (
+S_msrNote msrNote::createRest (
   S_msrOptions& msrOpts,
   int           inputLineNumber,
   int           divisions,
@@ -973,7 +973,7 @@ S_msrNote createRest (
 
   msrNote * o =
     new msrNote (
-      msrOpts, inputLineNumber, mxmlNoteData, slurKind);
+      msrOpts, inputLineNumber, mxmlNoteData, msrSlur::k_NoSlur);
   assert(o!=0); 
   return o;
 }    
@@ -4880,6 +4880,7 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
     appendElementToVoicechunk (break_);
 }
 
+/* JMI
 void msrVoice::appendElementToVoice (S_msrElement elem)
 {
   if (fMsrOptions->fDebugDebug)
@@ -4890,6 +4891,7 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
   fVoicechunk->
     appendElementToVoicechunk (elem);
 }
+*/
 
 void msrVoice::removeLastElementFromVoice ()
 {

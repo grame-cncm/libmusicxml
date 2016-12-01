@@ -2600,17 +2600,17 @@ class EXP msrVoice : public msrElement
 
     void          setNoteMeasureLocation (
                     const msrMeasureLocation& location)
-                      { fNoteMeasureLocation = location; }
+                      { fVoiceMeasureLocation = location; }
                       
     const msrMeasureLocation&
                   getNoteMeasureLocation () const
-                      { return fNoteMeasureLocation; }
+                      { return fVoiceMeasureLocation; }
 
 
     // services
     // ------------------------------------------------------
 
-    void           handleForward         (int duration);
+    void          handleForward         (int duration);
     
     void          appendClefToVoice     (S_msrClef clef);
     void          appendKeyToVoice      (S_msrKey  key);
@@ -2646,10 +2646,6 @@ class EXP msrVoice : public msrElement
     void          addLyricsToVoice (S_msrLyrics lyrics);
     
     S_msrLyrics   fetchLyricsFromVoice (int lyricsNumber);
-
-
-    
-
     
     // location in measure
     void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
@@ -2664,12 +2660,6 @@ class EXP msrVoice : public msrElement
                           positionInMeasure;
                       }
                         
-    void          setPositionInMeasure (int positionInMeasure)
-                      {
-                        fVoiceMeasureLocation.fPositionInMeasure =
-                          positionInMeasure;
-                      }
-
     void          incrementPositionInMeasure (int increment)
                       {
                         fVoiceMeasureLocation.fPositionInMeasure +=

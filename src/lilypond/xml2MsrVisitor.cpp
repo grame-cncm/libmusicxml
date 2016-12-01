@@ -1936,7 +1936,7 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
     fMsrOptions->fSaveDebugDebug = fMsrOptions->fDebugDebug;
   }
 
-  fCurrentVoice->setfDivisionsPerWholeNote (
+  fCurrentVoice->setDivisionsPerWholeNote (
     fCurrentDivisionsPerQuarterNote);
     
   fCurrentVoice->setPositionInMeasure (1);
@@ -4078,8 +4078,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       "fCurrentDivisionsPerQuarterNote * 4 = " <<
       fCurrentDivisionsPerQuarterNote * 4 << endl;
       
-  fCurrentVoice->getVoiceMeasureLocation ().fDivisionsPerWholeNote =
-    fCurrentDivisionsPerQuarterNote * 4;
+  fCurrentVoice->setDivisionsPerWholeNote (
+    fCurrentDivisionsPerQuarterNote * 4);
     
   fMusicXMLNoteData.fMusicXMLTupletMemberNoteType =
     fCurrentNoteType;
@@ -4098,8 +4098,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     fCurrentVoice->getVoiceMeasureLocation ());
 
   // take it's duration into account
-  fCurrentVoice->getVoiceMeasureLocation ().fPositionInMeasure +=
-    fMusicXMLNoteData.fMusicXMLDivisions;
+  fCurrentVoice->incrementPositionInMeasure (
+    fMusicXMLNoteData.fMusicXMLDivisions);
 
   // set its beam if any
   if (fCurrentBeam)
@@ -4269,9 +4269,10 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
       fCurrentChord->getChordMeasureLocation ());
 
   // substract it's duration from the current measure location
-  fCurrentVoice->getVoiceMeasureLocation ().fPositionInMeasure -=
-    newNote->
-      getNoteMusicXMLDivisions ();
+  fCurrentVoice->incrementPositionInMeasure (
+    -
+      newNote->
+        getNoteMusicXMLDivisions ());
 
   // remove previous current note or the previous state of the chord
   // from the current voice sequence
