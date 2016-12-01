@@ -1960,18 +1960,21 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
       fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber << " === " <<
       "PART " << fCurrentPart->getPartCombinedName () <<" ===" << endl;
 
-  S_msrBarCheck
-    barCheck =
-      msrBarCheck::create (
-        fMsrOptions,
-        elt->getInputLineNumber (),
-        fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
-            
-  // append it to the voice
-  if (fCurrentVoice)
-    // it may not have been created yet JMI
-    fCurrentVoice->
-      appendBarCheckToVoice (barCheck);
+  if (measureNumber != 0) {
+    // don't generate a bar check on the anacrusis
+    S_msrBarCheck
+      barCheck =
+        msrBarCheck::create (
+          fMsrOptions,
+          elt->getInputLineNumber (),
+          fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
+              
+    // append it to the voice
+    if (fCurrentVoice)
+      // it may not have been created yet JMI
+      fCurrentVoice->
+        appendBarCheckToVoice (barCheck);
+  }
 }
 
 void xml2MsrVisitor::visitEnd (S_measure& elt)
@@ -3437,13 +3440,14 @@ Each beam in a note is represented with a separate beam element, starting with t
     beamIsOK = false;
   }
     
-  if (beamIsOK)
+  if (beamIsOK) {
     fCurrentBeam =
       msrBeam::create (
         fMsrOptions,
         elt->getInputLineNumber (),
         fCurrentBeamNumber,
         beamKind);
+  }
 }
 
 //______________________________________________________________________________

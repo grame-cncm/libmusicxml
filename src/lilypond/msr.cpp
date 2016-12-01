@@ -1993,9 +1993,10 @@ ostream& operator<< (ostream& os, const S_msrChord& chrd)
 
 string msrChord::chordDivisionsAsMSRString () const
 {
+  string result;
   string errorMessage;
   
-  return
+  result =
     MusicXML2::divisionsAsMSRString (
       fChordDivisions,
       fChordMeasureLocation.fDivisionsPerWholeNote,
@@ -2008,6 +2009,8 @@ string msrChord::chordDivisionsAsMSRString () const
       fMsrOptions->fInputSourceName,
       fInputLineNumber,
       errorMessage);
+
+  return result;
 }
 
 void msrChord::print (ostream& os)
@@ -4516,6 +4519,100 @@ void msrRepeat::print (ostream& os)
   idtr--;
 }
 
+//______________________________________________________________________________
+S_msrUpbeat msrUpbeat::create (
+  S_msrOptions&   msrOpts, 
+  int             inputLineNumber,
+  S_msrVoice      voice)
+{
+  msrUpbeat* o =
+    new msrUpbeat (
+      msrOpts, inputLineNumber, voice);
+  assert(o!=0);
+  return o;
+}
+
+msrUpbeat::msrUpbeat (
+  S_msrOptions&   msrOpts, 
+  int             inputLineNumber,
+  S_msrVoice      voice)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fUpbeatDivisions = -3;
+  fUpbeatVoice     = voice;
+}
+
+msrUpbeat::~msrUpbeat() {}
+
+S_msrUpbeat msrUpbeat::createEmptyClone (S_msrVoice clonedVoice)
+{
+//  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating an empty clone of a Upbeat" << endl;
+  
+  S_msrUpbeat
+    clone =
+      msrUpbeat::create (
+        fMsrOptions,
+        fInputLineNumber,
+        clonedVoice);
+  
+  return clone;
+}
+
+void msrUpbeat::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrUpbeat::acceptIn()" << endl;
+      
+  if (visitor<S_msrUpbeat>*
+    p =
+      dynamic_cast<visitor<S_msrUpbeat>*> (v)) {
+        S_msrUpbeat elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrUpbeat::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrUpbeat::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrUpbeat::acceptOut()" << endl;
+
+  if (visitor<S_msrUpbeat>*
+    p =
+      dynamic_cast<visitor<S_msrUpbeat>*> (v)) {
+        S_msrUpbeat elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrUpbeat::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrUpbeat::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrUpbeat& rept)
+{
+  rept->print (os);
+  return os;
+}
+
+void msrUpbeat::print (ostream& os)
+{
+  os <<
+    endl <<
+    idtr << "Upbeat" <<
+    ", input line: " << fInputLineNumber <<
+    ", voice " << fUpbeatVoice->getVoiceName () <<
+    endl;
+}
+
 //______________________________________________________________________________ 
 S_msrVoice msrVoice::create (
   S_msrOptions& msrOpts, 
@@ -4532,6 +4629,30 @@ S_msrVoice msrVoice::create (
       voiceStaff);
   assert(o!=0);
   return o;
+}
+
+S_msrVoice msrVoice::createEmptyClone (S_msrStaff clonedStaff)
+{
+  S_msrVoice
+    clone =
+      msrVoice::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fVoiceNumber,
+        fStaffRelativeVoiceNumber,
+        clonedStaff);
+  
+  // create the voice chunk
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Creating the initial voice chunk for voice " <<
+      clone->getVoiceName () << endl;
+      
+  clone->fVoicechunk =
+    msrVoicechunk::create (
+      clone->fMsrOptions, clone->fInputLineNumber);
+  
+  return clone;
 }
 
 msrVoice::msrVoice (
@@ -4561,7 +4682,8 @@ msrVoice::msrVoice (
   fVoicechunk =
     msrVoicechunk::create (
       fMsrOptions, inputLineNumber);
-  
+
+  /*
   // get the initial clef from the staff
   S_msrClef
     clef =
@@ -4615,6 +4737,7 @@ msrVoice::msrVoice (
   S_msrElement t = time;
   fVoicechunk->
     appendElementToVoicechunk (t);
+    */
   
   // add the master lyrics to this voice, to
   // collect skips along the way that are used as a 'prelude'
@@ -4629,30 +4752,6 @@ msrVoice::msrVoice (
 }
 
 msrVoice::~msrVoice() {}
-
-S_msrVoice msrVoice::createEmptyClone (S_msrStaff clonedStaff)
-{
-  S_msrVoice
-    clone =
-      msrVoice::create (
-        fMsrOptions,
-        fInputLineNumber,
-        fVoiceNumber,
-        fStaffRelativeVoiceNumber,
-        clonedStaff);
-  
-  // create the voice chunk
-  if (fMsrOptions->fTrace)
-    cerr << idtr <<
-      "Creating the initial voice chunk for voice " <<
-      clone->getVoiceName () << endl;
-      
-  clone->fVoicechunk =
-    msrVoicechunk::create (
-      clone->fMsrOptions, clone->fInputLineNumber);
-  
-  return clone;
-}
 
 string msrVoice::getVoiceName () const
 {
@@ -4674,6 +4773,27 @@ string msrVoice::getVoiceName () const
 void msrVoice::handleForward (int duration)
 {
 // JMI  fVoiceMeasureLocation += duration; // measure boundary ???
+}
+
+void msrVoice::setMeasureNumber (int measureNumber)
+{
+  fVoiceMeasureLocation.fMeasureNumber =
+    measureNumber;
+
+  if (getMeasureNumber () == 0) {
+    // create the explicit anacrusis
+    if (fMsrOptions->fTrace)
+      cerr << idtr <<
+        "Voice  " << getVoiceName () <<
+        "has an explicit anacrusis" <<
+        endl;
+
+   fVoiceUpbeat =
+      msrUpbeat::create (
+        fMsrOptions,
+        fInputLineNumber,
+        this);
+  }
 }
 
 void msrVoice::setNewVoicechunkForVoice (
@@ -5029,9 +5149,16 @@ void msrVoice::print (ostream& os)
   os <<
     "Voice" << " " << getVoiceName () <<
     ", " << fVoiceLyricsMap.size() << " lyrics" <<
-    endl << endl;
+    endl;
 
   idtr++;
+
+  os << idtr << "VoiceUpbeat" ": ";
+  if (fVoiceUpbeat)
+    os << fVoiceUpbeat;
+  else
+    os << "none";
+  os << endl << endl;
 
   os << fVoicechunk << endl;
   

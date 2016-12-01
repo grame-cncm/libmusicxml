@@ -2510,7 +2510,6 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeatending& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-
 class EXP msrRepeat : public msrElement
 {
   public:
@@ -2583,6 +2582,73 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
 
 /*!
+\brief A msr repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common part
+    - a vector of sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
+
+class EXP msrUpbeat : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrUpbeat> create (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      S_msrVoice      voice);
+    
+    SMARTP<msrUpbeat> createEmptyClone (
+      S_msrVoice clonedVoice);
+
+    // set and get
+    // ------------------------------------------------------
+
+    void          setUpbeatDivisions (int divisions)
+                      { fUpbeatDivisions = divisions; }
+
+    int           getUpbeatDivisions () const
+                      { return fUpbeatDivisions; }
+
+    S_msrVoice    getUpbeatVoice () const
+                      { return fUpbeatVoice; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  protected:
+
+    msrUpbeat (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      S_msrVoice      voice);
+      
+    virtual ~msrUpbeat();
+  
+  private:
+
+    int                       fUpbeatDivisions;
+    
+    S_msrVoice                fUpbeatVoice;
+};
+typedef SMARTP<msrUpbeat> S_msrUpbeat;
+EXP ostream& operator<< (ostream& os, const S_msrUpbeat& elt);
+
+/*!
 \brief A msr voice representation.
 
   A vpoce is represented by a its string contents
@@ -2614,28 +2680,26 @@ class EXP msrVoice : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int       getVoiceNumber () const
-                  { return fVoiceNumber; }
+    int           getVoiceNumber () const
+                      { return fVoiceNumber; }
                 
-    S_msrStaff
-              getVoiceStaff () const
-                  { return fVoiceStaff; }
+    S_msrStaff    getVoiceStaff () const
+                      { return fVoiceStaff; }
                 
     map<int, S_msrLyrics>
-              getVoiceLyricsMap () const
-                  { return fVoiceLyricsMap; }
+                  getVoiceLyricsMap () const
+                      { return fVoiceLyricsMap; }
 
-    string    getVoiceName () const;
+    string        getVoiceName () const;
 
-    void      setNewVoicechunkForVoice (int inputLineNumber);
+    void          setNewVoicechunkForVoice (int inputLineNumber);
 
     S_msrVoicechunk
-              getVoicechunk () const
-                  { return fVoicechunk; }
+                  getVoicechunk () const
+                      { return fVoicechunk; }
 
-    S_msrLyrics
-              getVoiceMasterLyrics () const
-                  { return fVoiceMasterLyrics; }
+    S_msrLyrics   getVoiceMasterLyrics () const
+                      { return fVoiceMasterLyrics; }
                
     // location in measure
     void          setVoiceMeasureLocation (
@@ -2653,7 +2717,6 @@ class EXP msrVoice : public msrElement
     const msrMeasureLocation&
                   getNoteMeasureLocation () const
                       { return fVoiceMeasureLocation; }
-
 
     // services
     // ------------------------------------------------------
@@ -2719,11 +2782,7 @@ class EXP msrVoice : public msrElement
                         return fVoiceMeasureLocation.fPositionInMeasure;
                       }
           
-    void          setMeasureNumber (int measureNumber)
-                      {
-                        fVoiceMeasureLocation.fMeasureNumber =
-                          measureNumber;
-                      }
+    void          setMeasureNumber (int measureNumber);
 
     const int     getMeasureNumber () const
                       {
@@ -2762,6 +2821,8 @@ class EXP msrVoice : public msrElement
 
     msrMeasureLocation        fVoiceMeasureLocation;
 
+    S_msrUpbeat               fVoiceUpbeat;
+    
     // the chunk in the voice contain the music elements
     // it is created implicitly for every voice,
     S_msrVoicechunk           fVoicechunk;
