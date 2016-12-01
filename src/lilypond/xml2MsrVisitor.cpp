@@ -3894,15 +3894,15 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
 }
 
 //______________________________________________________________________________
-void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote note)
+void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
 {
-  // fCurrentNote is the first tuplet note,
+  // firstNote is the first tuplet note,
   // and is currently at the end of the voice
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "xml2MsrVisitor::createTupletWithItsFirstNote " <<
-      note <<
+      firstNote <<
       endl;
       
   // create a tuplet
@@ -3910,9 +3910,13 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote note)
     tuplet =
       msrTuplet::create(
         fMsrOptions,
-        note->getInputLineNumber ());
+        firstNote->getInputLineNumber ());
 // JMI  fCurrentElement = tuplet; // another name for it
 
+  // its measure location is that of the first note
+  tuplet->setTupletMeasureLocation (
+    firstNote->getNoteMeasureLocation ());
+  
   // populate it
   tuplet->updateTuplet (
     fCurrentTupletNumber,
@@ -3928,9 +3932,9 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote note)
   // add note as first note of the tuplet
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> adding note " << note->noteMsrPitchAsString() <<
+      "--> adding note " << firstNote->noteMsrPitchAsString() <<
       " as first note of the tuplet" << endl;
-  tuplet->addElementToTuplet (note);
+  tuplet->addElementToTuplet (firstNote);
 }
 
 //______________________________________________________________________________

@@ -1523,9 +1523,46 @@ string msrNote::noteMsrPitchAsString () const
 
 string msrNote::noteDivisionsAsMSRString () const
 {
+  string result;
   string errorMessage;
-  
-  return
+/*
+  switch (fNoteKind) {
+    case msrNote::kStandaloneNote:
+      s <<
+        "Standalone note" <<
+        " " <<
+        noteMsrPitchAsString () <<
+        ":" <<
+        noteDivisionsAsMSRString ();
+      break;
+      
+    case msrNote::kRestNote:
+      s <<
+        "Rest" <<
+        ":" <<
+        noteDivisionsAsMSRString ();
+      break;
+      
+    case msrNote::kChordMemberNote:
+      s <<
+        "Chord member note" <<
+        " " <<
+        noteMsrPitchAsString () <<
+        ":" <<
+        noteDivisionsAsMSRString ();
+      break;
+      
+    case msrNote::kTupletMemberNote:
+      s <<
+        "Tuplet member note" <<
+        " " <<
+        noteMsrPitchAsString () <<
+        ":" <<
+        noteDivisionsAsMSRString ();
+      break;
+  } // switch
+  */
+  result =
     MusicXML2::divisionsAsMSRString (
       fMusicXMLNoteData.fMusicXMLDivisions,
       fNoteMeasureLocation.fDivisionsPerWholeNote,
@@ -1537,6 +1574,8 @@ string msrNote::noteDivisionsAsMSRString () const
       fMsrOptions->fInputSourceName,
       fInputLineNumber,
       errorMessage);
+
+  return result;
 }
 
   /*
