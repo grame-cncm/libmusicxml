@@ -2615,6 +2615,8 @@ class EXP msrUpbeat : public msrElement
     int           getUpbeatDivisions () const
                       { return fUpbeatDivisions; }
 
+    string        getUpbeatDivisionsAsString () const;
+
     S_msrVoice    getUpbeatVoice () const
                       { return fUpbeatVoice; }
 
@@ -2693,6 +2695,13 @@ class EXP msrVoice : public msrElement
                       { return fVoiceLyricsMap; }
 
     string        getVoiceName () const;
+
+    void          setVoiceAnacrusis (
+                    const S_msrUpbeat& upbeat)
+                      { fVoiceAnacrusis = upbeat; }
+
+    S_msrUpbeat   getVoiceAnacrusis () const
+                      { return fVoiceAnacrusis; }
 
     void          setNewVoicechunkForVoice (int inputLineNumber);
 

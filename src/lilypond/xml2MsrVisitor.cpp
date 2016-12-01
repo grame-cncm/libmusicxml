@@ -997,9 +997,6 @@ void xml2MsrVisitor::visitStart (S_part& elt)
         addVoiceToStaff (
           elt->getInputLineNumber (), fCurrentVoiceNumber);
 
-  // there can be an anacrusis
-  fCurrentVoice->setMeasureNumber (0);
-
   fOnGoingRepeat = false;
 }
 
@@ -1934,8 +1931,16 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
   int
     measureNumber =
       elt->getAttributeIntValue ("number", 0);
-      
-  fCurrentVoice->setMeasureNumber (measureNumber);
+
+  // Measures with an implicit attribute set to "yes"
+  // never display a measure number,
+  // regardless of the measure-numbering setting.
+  string
+    implicit =
+      elt->getAttributeValue ("implicit");
+
+  if (implicit != "yes")
+    fCurrentVoice->setMeasureNumber (measureNumber);
 
   // is this measure number in the debug set?
   set<int>::iterator

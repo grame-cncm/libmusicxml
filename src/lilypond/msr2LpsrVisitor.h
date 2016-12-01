@@ -50,6 +50,7 @@ class msr2LpsrVisitor :
   public visitor<S_msrStaff>,
   
   public visitor<S_msrVoice>,
+  public visitor<S_msrUpbeat>,
 
   public visitor<S_msrLyrics>,
   public visitor<S_msrLyricschunk>,
@@ -131,6 +132,9 @@ class msr2LpsrVisitor :
 
     virtual void visitStart (S_msrVoice& elt);
     virtual void visitEnd   (S_msrVoice& elt);
+
+    virtual void visitStart (S_msrUpbeat& elt);
+    virtual void visitEnd   (S_msrUpbeat& elt);
 
     virtual void visitStart (S_msrLyrics& elt);
     virtual void visitEnd   (S_msrLyrics& elt);
@@ -266,7 +270,7 @@ class msr2LpsrVisitor :
     S_msrVoicechunk         fCurrentVoicechunkClone;
     
     // voices
-    // ------------------------------------------------------
+    // ------------------------------------------------------    
     S_msrVoice              fCurrentVoiceClone;
     
     // lyrics

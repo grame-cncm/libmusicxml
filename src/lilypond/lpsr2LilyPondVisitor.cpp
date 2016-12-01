@@ -42,9 +42,6 @@ lpsr2LilyPondVisitor::lpsr2LilyPondVisitor (
   fLpsrOptions      = lpsrOpts;
   fVisitedLpsrScore = lpScore;
 
-// JMI  gCurrentLocation.fMeasureNumber     = 0; // in case of an anacrusis
-//  gCurrentLocation.fPositionInMeasure = 1;
-
   fOnGoingHeader = false;
   
   fOnGoingStaff  = false;
@@ -855,7 +852,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoice& elt)
 
   idtr++;
 
-//  fCurrentMsrVoiceNotesCounter = 0;
+//  JMI fCurrentMsrVoiceNotesCounter = 0;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrVoice& elt)
@@ -871,6 +868,27 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoice& elt)
     endl <<
     endl;
 }
+
+//________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrUpbeat& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrUpbeat" << endl;
+
+  fOstream << idtr <<
+    "\\partial" " " <<
+    elt-> getUpbeatDivisionsAsString () <<
+  endl;
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrUpbeat& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrUpbeat" << endl;
+}
+
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
 {

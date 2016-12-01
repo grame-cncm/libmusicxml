@@ -79,6 +79,8 @@ class lpsr2LilyPondVisitor :
   public visitor<S_msrStaff>,
   
   public visitor<S_msrVoice>,
+  public visitor<S_msrUpbeat>,
+  
   public visitor<S_msrVoicechunk>,
 
   public visitor<S_msrLyrics>,
@@ -210,6 +212,9 @@ class lpsr2LilyPondVisitor :
 
     virtual void visitStart (S_msrVoice& elt);
     virtual void visitEnd   (S_msrVoice& elt);
+
+    virtual void visitStart (S_msrUpbeat& elt);
+    virtual void visitEnd   (S_msrUpbeat& elt);
 
     virtual void visitStart (S_msrVoicechunk& elt);
     virtual void visitEnd   (S_msrVoicechunk& elt);

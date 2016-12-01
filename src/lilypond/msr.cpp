@@ -4654,6 +4654,23 @@ ostream& operator<< (ostream& os, const S_msrUpbeat& rept)
   return os;
 }
 
+string msrUpbeat::getUpbeatDivisionsAsString () const
+{
+  string result;
+  int    numberOfDotsFound; // value not used
+  string errorMessage;
+
+  result =
+    anacrusisDivisionsAsString =
+      divisionsAsMSRString (
+        fUpbeatDivisions,
+        fUpbeatVoice->fVoiceMeasureLocation.fDivisionsPerWholeNote,
+        numberOfDotsFound,
+        errorMessage);
+
+  return result;
+}
+
 void msrUpbeat::print (ostream& os)
 {
   os <<
@@ -4723,6 +4740,9 @@ msrVoice::msrVoice (
     cerr << idtr <<
       "Creating voice " << getVoiceName () << endl;
 
+  // there may be an anacrusis
+  fVoiceMeasureLocation.fMeasureNumber = 0;
+  
   fMeasureNumberHasBeenSet = false;
   fMusicHasBeenInserted    = false;
   
@@ -4830,46 +4850,73 @@ void msrVoice::handleForward (int duration)
 
 void msrVoice::setMeasureNumber (int measureNumber)
 {
-  bool anacrusisPresent = false;
-  
+  enum voiceAnacrusisKind {
+      k_NoAnacrusis, kExplicitAnacrusis, kImplicitAnacrusis };
+      
+  voiceAnacrusisKind anacrusisKind = k_NoAnacrusis;
+
+  cerr <<
+    "--> setMeasureNumber, " << endl <<
+    "    measureNumber = " << measureNumber << endl <<
+    "    fVoiceMeasureLocation.fMeasureNumber = " <<
+         fVoiceMeasureLocation.fMeasureNumber << endl <<
+    "    fMeasureNumberHasBeenSet = " << fMeasureNumberHasBeenSet << endl <<
+    "    fMusicHasBeenInserted = " << fMusicHasBeenInserted << endl <<
+    endl;
+    
   if (
     ! fMeasureNumberHasBeenSet
       &&
     measureNumber == 0) {
-    if (fMsrOptions->fTrace)
-      cerr << idtr <<
-        "Voice  " << getVoiceName () <<
-        "has an explicit anacrusis of " <<
-        getPositionInMeasure () <<
-        " divisions" <<
-        endl;
-        
-    anacrusisPresent = true;
+    anacrusisKind = kExplicitAnacrusis;
   }
   else if (
     fMusicHasBeenInserted
       &&
     measureNumber == 1) {
-    // create the explicit anacrusis
-    if (fMsrOptions->fTrace)
-      cerr << idtr <<
-        "Voice  " << getVoiceName () <<
-        "has an explicit anacrusis of " <<
-        getPositionInMeasure () <<
-        " divisions" <<
-        endl;
-        
-    anacrusisPresent = true;    
+    anacrusisKind = kImplicitAnacrusis;
   }
 
-  // create the anacrusis
-  if (anacrusisPresent)
+  int    anacrusisDivisions;
+  string anacrusisDivisionsAsString;
+  
+  if (anacrusisKind != k_NoAnacrusis) {
+    if (fMsrOptions->fTrace) {
+      int    numberOfDotsFound; // value not used
+      string errorMessage;
+      
+      anacrusisDivisions = getPositionInMeasure () - 1 ;
+      anacrusisDivisionsAsString =
+        divisionsAsMSRString (
+          anacrusisDivisions,
+          fVoiceMeasureLocation.fDivisionsPerWholeNote,
+          numberOfDotsFound,
+          errorMessage);
+      
+      cerr << idtr <<
+        "Voice  " << getVoiceName () << " has an ";
+
+      if (anacrusisKind == kExplicitAnacrusis)
+        cerr << "explicit";
+      else
+        cerr << "implicit";
+
+      cerr <<
+        " anacrusis of " <<
+        anacrusisDivisions <<
+        " divisions, " <<
+        "(" << anacrusisDivisionsAsString << ")" <<
+        endl;
+    }
+    
+    // create the anacrusis
     fVoiceAnacrusis =
       msrUpbeat::create (
         fMsrOptions,
         fInputLineNumber,
-        getPositionInMeasure (),
+        anacrusisDivisions,
         this);
+  }
 
   fVoiceMeasureLocation.fMeasureNumber =
     measureNumber;
@@ -5206,6 +5253,12 @@ void msrVoice::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrVoice::browseData()" << endl;
 
+  if (fVoiceAnacrusis) {
+  // browse the voice anacrusis
+  msrBrowser<msrUpbeat> browser (v);
+  browser.browse (*fVoiceAnacrusis);
+  }
+  
   // browse the voice chunk
   msrBrowser<msrVoicechunk> browser (v);
   browser.browse (*fVoicechunk);
