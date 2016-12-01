@@ -1363,7 +1363,7 @@ string msrNote::octaveRepresentation (char octave)
       
       // print the note duration
       fOstream <<
-        elt->divisionsAsMSRString ();
+        elt->noteDivisionsAsMSRString ();
       break;
       
     case msrNote::kRestNote:
@@ -1382,7 +1382,7 @@ string msrNote::octaveRepresentation (char octave)
       
       // print the note duration
       fOstream <<
-        elt->divisionsAsMSRString ();
+        elt->noteDivisionsAsMSRString ();
       break;
       
     case msrNote::kChordMemberNote:
@@ -1401,7 +1401,7 @@ string msrNote::octaveRepresentation (char octave)
       
       // print the note duration
       fOstream <<
-        elt->divisionsAsMSRString ();
+        elt->noteDivisionsAsMSRString ();
       break;
   } // switch
 
@@ -1518,7 +1518,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
 
   fOstream <<
     ">" <<
-    elt->getChordDivisions () << " ";
+    elt->chordDivisionsAsMSRString () << " ";
 }
 
 //________________________________________________________________________

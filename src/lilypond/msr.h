@@ -892,7 +892,7 @@ class EXP msrNote : public msrElement
 
     string        noteAsString () const;
 
-    string        divisionsAsMSRString () const;
+    string        noteDivisionsAsMSRString () const;
 
     // articulations
     void          addArticulation (S_msrArticulation art);
@@ -1006,7 +1006,7 @@ class EXP msrChord : public msrElement
     // services
     // ------------------------------------------------------
 
-    string        divisionsAsMSRString () const;
+    string        chordDivisionsAsMSRString () const;
 
     // visitors
     // ------------------------------------------------------

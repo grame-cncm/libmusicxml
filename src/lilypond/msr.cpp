@@ -1464,7 +1464,7 @@ string msrNote::noteMsrPitchAsString () const
 }
 
 
-string msrNote::divisionsAsMSRString () const
+string msrNote::noteDivisionsAsMSRString () const
 {
   string errorMessage;
   
@@ -1657,14 +1657,14 @@ string msrNote::noteAsString () const
         " " <<
         noteMsrPitchAsString () <<
         ":" <<
-        divisionsAsMSRString ();
+        noteDivisionsAsMSRString ();
       break;
       
     case msrNote::kRestNote:
       s <<
         "Rest" <<
         ":" <<
-        divisionsAsMSRString ();
+        noteDivisionsAsMSRString ();
       break;
       
     case msrNote::kChordMemberNote:
@@ -1673,7 +1673,7 @@ string msrNote::noteAsString () const
         " " <<
         noteMsrPitchAsString () <<
         ":" <<
-        divisionsAsMSRString ();
+        noteDivisionsAsMSRString ();
       break;
       
     case msrNote::kTupletMemberNote:
@@ -1682,7 +1682,7 @@ string msrNote::noteAsString () const
         " " <<
         noteMsrPitchAsString () <<
         ":" <<
-        divisionsAsMSRString ();
+        noteDivisionsAsMSRString ();
       break;
   } // switch
      
@@ -1889,7 +1889,7 @@ ostream& operator<< (ostream& os, const S_msrChord& chrd)
   return os;
 }
 
-string msrChord::divisionsAsMSRString () const
+string msrChord::chordDivisionsAsMSRString () const
 {
   string errorMessage;
   
@@ -1913,7 +1913,7 @@ void msrChord::print (ostream& os)
   os <<
     "Chord" <<
     " (" <<
-    divisionsAsMSRString () <<
+    chordDivisionsAsMSRString () <<
     "/" <<
     fChordMeasureLocation.fDivisionsPerWholeNote <<
     ") @"<<
