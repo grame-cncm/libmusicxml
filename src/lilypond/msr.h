@@ -2589,7 +2589,6 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-
 class EXP msrUpbeat : public msrElement
 {
   public:

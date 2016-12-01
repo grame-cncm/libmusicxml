@@ -4661,12 +4661,11 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
   string errorMessage;
 
   result =
-    anacrusisDivisionsAsString =
-      divisionsAsMSRString (
-        fUpbeatDivisions,
-        fUpbeatVoice->fVoiceMeasureLocation.fDivisionsPerWholeNote,
-        numberOfDotsFound,
-        errorMessage);
+    divisionsAsMSRString (
+      fUpbeatDivisions,
+      fUpbeatVoice->getVoiceMeasureLocation ().fDivisionsPerWholeNote,
+      numberOfDotsFound,
+      errorMessage);
 
   return result;
 }
@@ -4679,6 +4678,7 @@ void msrUpbeat::print (ostream& os)
     ", input line: " << fInputLineNumber <<
     ", voice " << fUpbeatVoice->getVoiceName () << ", " <<
     fUpbeatDivisions << " divisions" <<
+    " (" << getUpbeatDivisionsAsString () << ")" <<
     endl;
 }
 
@@ -4710,7 +4710,15 @@ S_msrVoice msrVoice::createEmptyClone (S_msrStaff clonedStaff)
         fVoiceNumber,
         fStaffRelativeVoiceNumber,
         clonedStaff);
-  
+
+  // populate the voice measure location
+  clone->fVoiceMeasureLocation.fDivisionsPerWholeNote =
+    fVoiceMeasureLocation.fDivisionsPerWholeNote;
+  clone->fVoiceMeasureLocation.fMeasureNumber =
+    fVoiceMeasureLocation.fMeasureNumber;
+  clone->fVoiceMeasureLocation.fPositionInMeasure =
+    fVoiceMeasureLocation.fPositionInMeasure;
+
   // create the voice chunk
   if (fMsrOptions->fTrace)
     cerr << idtr <<
