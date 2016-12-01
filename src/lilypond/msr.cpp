@@ -1463,10 +1463,26 @@ string msrNote::noteMsrPitchAsString () const
   return s.str();
 }
 
-/*
+
 string msrNote::divisionsAsMSRString () const
 {
-  / *
+  string errorMessage;
+  
+  return
+    MusicXML2::divisionsAsMSRString (
+      fMusicXMLNoteData.fMusicXMLDivisions,
+      fNoteMeasureLocation.fDivisionsPerWholeNote,
+      fMusicXMLNoteData.fMusicXMLDotsNumber,
+      errorMessage);
+
+  if (errorMessage.size ())
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      fInputLineNumber,
+      errorMessage);
+}
+
+  /*
   if (fTupletMemberNoteType.size()) {
 
     if      (fTupletMemberNoteType == "256th")   { s << "256"; }
@@ -1874,13 +1890,30 @@ ostream& operator<< (ostream& os, const S_msrChord& chrd)
 }
 
 string msrChord::divisionsAsMSRString () const
-{}
+{
+  string errorMessage;
+  
+  return
+    MusicXML2::divisionsAsMSRString (
+      fChordDivisions,
+      fChordMeasureLocation.fDivisionsPerWholeNote,
+      fChordNotes [0]-> // any chord member notes is OK
+        getNoteMusicXMLDotsNumber (),
+      errorMessage);
+
+  if (errorMessage.size ())
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      fInputLineNumber,
+      errorMessage);
+}
 
 void msrChord::print (ostream& os)
 {
   os <<
     "Chord" <<
-    " (" << fChordDivisions <<
+    " (" <<
+    divisionsAsMSRString () <<
     "/" <<
     fChordMeasureLocation.fDivisionsPerWholeNote <<
     ") @"<<

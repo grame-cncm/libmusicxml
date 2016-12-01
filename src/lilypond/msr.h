@@ -830,6 +830,12 @@ class EXP msrNote : public msrElement
                           fMusicXMLNoteData.fMusicXMLDivisions;
                       }
 
+    int           getNoteMusicXMLDotsNumber () const
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLDotsNumber;
+                      }
+
     int           getNoteMusicXMLOctave () const
                       {
                         return
@@ -886,7 +892,7 @@ class EXP msrNote : public msrElement
 
     string        noteAsString () const;
 
-// JMI    string        divisionsAsMSRString () const;
+    string        divisionsAsMSRString () const;
 
     // articulations
     void          addArticulation (S_msrArticulation art);
@@ -999,6 +1005,8 @@ class EXP msrChord : public msrElement
 
     // services
     // ------------------------------------------------------
+
+    string        divisionsAsMSRString () const;
 
     // visitors
     // ------------------------------------------------------
