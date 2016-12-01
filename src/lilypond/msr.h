@@ -1633,6 +1633,22 @@ class EXP msrTuplet : public msrElement
     int   getActualNotes () const { return fActualNotes; }
     int   getNormalNotes () const { return fNormalNotes; }
     
+    vector<S_msrElement>
+                  getTupletContents () const
+                      { return fTupletContents; }
+
+    int           getTupletDivisions () const
+                      { return fTupletDivisions; }
+            
+    // location in measure
+    void          setTupletMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fTupletMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getTupletMeasureLocation () const
+                      { return fTupletMeasureLocation; }
+
     // services
     // ------------------------------------------------------
 
@@ -1659,10 +1675,15 @@ class EXP msrTuplet : public msrElement
   
   private:
 
-    int fTupletNumber;
+    int                  fTupletNumber;
     
-    int fActualNotes;
-    int fNormalNotes;
+    int                  fActualNotes;
+    int                  fNormalNotes;
+
+    int                  fTupletDivisions;
+
+
+    msrMeasureLocation   fTupletMeasureLocation;
     
     vector<S_msrElement> fTupletContents;
 };

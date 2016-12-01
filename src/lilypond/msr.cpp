@@ -2425,10 +2425,20 @@ ostream& operator<< (ostream& os, const S_msrTuplet& elt)
 void msrTuplet::print (ostream& os)
 {
   os <<
-    "Tuplet " << fActualNotes << "/" << fNormalNotes << endl;
+    "Tuplet " << fActualNotes << "/" << fNormalNotes <<
+    " (" << fTupletDivisions <<
+    "/" <<
+    fTupletMeasureLocation.fDivisionsPerWholeNote <<
+    ") @"<<
+    fTupletMeasureLocation.fMeasureNumber <<
+    ":" <<
+    fTupletMeasureLocation.fPositionInMeasure <<
+    "/" <<
+    fTupletMeasureLocation.fDivisionsPerWholeNote <<
+    endl;
     
   idtr++;
-  
+
   vector<S_msrElement>::const_iterator i;
   for (i=fTupletContents.begin(); i!=fTupletContents.end(); i++) {
     os << idtr << (*i);

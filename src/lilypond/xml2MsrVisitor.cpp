@@ -984,6 +984,19 @@ void xml2MsrVisitor::visitStart (S_part& elt)
         addStaffToPart (
           elt->getInputLineNumber (), fCurrentStaffNumber);
 
+  // fetch the voice in the current staff
+  fCurrentVoice =
+    fCurrentStaff->
+      fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+  // does the voice exist?
+  if (! fCurrentVoice) 
+    // no, add it to the current staff
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (
+          elt->getInputLineNumber (), fCurrentVoiceNumber);
+
   // there can be an anacrusis
   fCurrentVoice->setMeasureNumber (0);
 
