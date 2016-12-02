@@ -1332,6 +1332,7 @@ string msrNote::octaveRepresentation (char octave)
       "% --> Start visiting ";
       
     switch (elt->getNoteKind ()) {
+      
       case msrNote::kStandaloneNote:
       /*
         if (++fSequentialMusicElementsCounter > 10) {
@@ -1390,6 +1391,9 @@ string msrNote::octaveRepresentation (char octave)
       // print the note duration
       fOstream <<
         elt->noteDivisionsAsMSRString ();
+      
+      if (elt->getMusicXMLNoteIsTied ())
+        fOstream << " ~ ";
       break;
       
     case msrNote::kRestNote:
@@ -1428,6 +1432,9 @@ string msrNote::octaveRepresentation (char octave)
       // print the note duration
       fOstream <<
         elt->noteDivisionsAsMSRString ();
+      
+      if (elt->getMusicXMLNoteIsTied ())
+        fOstream << " ~ ";
       break;
   } // switch
 

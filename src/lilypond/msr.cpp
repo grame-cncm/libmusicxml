@@ -1610,6 +1610,10 @@ string msrNote::noteDivisionsAsMSRString () const
       fInputLineNumber,
       errorMessage);
 
+  for (int i = 0; i < fMusicXMLNoteData.fMusicXMLDotsNumber; i++)
+    result += ".";
+    
+  /*
   if (computedNumberOfDots != fMusicXMLNoteData.fMusicXMLDotsNumber) {
     stringstream s;
     
@@ -1627,6 +1631,7 @@ string msrNote::noteDivisionsAsMSRString () const
       fInputLineNumber,
       s.str());
   }
+  */
 
   return result;
 }
@@ -2066,6 +2071,15 @@ string msrChord::chordDivisionsAsMSRString () const
       !=
     fChordNotes [0]-> 
       getNoteMusicXMLDotsNumber ()) { // any chord member notes is fine
+
+    for (
+      int i = 0;
+      i < fChordNotes [0]-> 
+      getNoteMusicXMLDotsNumber (); i++) {
+      result += ".";
+    } // for
+    
+        /*
     stringstream s;
 
     if (fChordDivisions == 1)
@@ -2090,6 +2104,7 @@ string msrChord::chordDivisionsAsMSRString () const
       fMsrOptions->fInputSourceName,
       fInputLineNumber,
       s.str());
+      */
   }
 
   return result;
@@ -4917,9 +4932,9 @@ void msrVoice::setMeasureNumber (int measureNumber)
     anacrusisKind = kExplicitAnacrusis;
   }
   else if (
-    fMusicHasBeenInserted
-      &&
-    measureNumber == 1) {
+//    getPositionInMeasure () == 13 JMI
+ //     &&
+    measureNumber == 2) {
     anacrusisKind = kImplicitAnacrusis;
   }
 

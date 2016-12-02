@@ -4319,12 +4319,12 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
           cerr << idtr <<
             "--> adding note " << note <<
             " to tuplets stack top" << endl;
-/*
+
         // set note display divisions
         note->
           applyTupletMemberDisplayFactor (
             fCurrentActualNotes, fCurrentNormalNotes);
-*/
+
         fCurrentTupletsStack.top()->
           addElementToTuplet (note);
       }

@@ -902,7 +902,14 @@ class EXP msrNote : public msrElement
 
     // beams
     void          setBeam (S_msrBeam beam)  { fNoteBeam = beam; }
-    S_msrBeam     getBeam () const          { return fNoteBeam; }  
+    S_msrBeam     getBeam () const          { return fNoteBeam; }
+
+    // ties
+    bool          getMusicXMLNoteIsTied () const
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLNoteIsTied;
+                      }
 
     // location in measure
     void          setNoteMeasureLocation (
