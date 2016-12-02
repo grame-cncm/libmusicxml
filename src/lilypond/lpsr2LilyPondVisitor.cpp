@@ -479,11 +479,13 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrParallelMusic& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrParallelMusic" << endl;
 
-  fOstream <<
-    idtr << "<<" <<
-    endl;
-
-  idtr++;
+  if (elt->getParallelMusicElements ().size()) { // JMI
+    fOstream <<
+      idtr << "<<" <<
+      endl;
+  
+    idtr++;
+  }
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrParallelMusic& elt)
@@ -492,11 +494,13 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrParallelMusic& elt)
     fOstream << idtr <<
       "% --> End visiting lpsrParallelMusic" << endl;
 
-  idtr--;
-  
-  fOstream <<
-    idtr << ">>" <<
-    endl << endl;
+  if (elt->getParallelMusicElements ().size()) { // JMI
+    idtr--;
+    
+    fOstream <<
+      idtr << ">>" <<
+      endl << endl;
+  }
 }
 
 //________________________________________________________________________

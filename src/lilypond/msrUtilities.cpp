@@ -528,13 +528,13 @@ string divisionsAsMSRString (
   int div = divresult.quot;
   int mod = divresult.rem;
 
-  /*
+//  /*
     cout <<
       endl <<
       "divisions = " << divisions <<
     ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
     "div = " << div << ", mod = " << mod << endl;
-  */
+//  */
   
   switch (div) {
     case 8:
@@ -574,31 +574,47 @@ string divisionsAsMSRString (
       while (n < divisionsPerWholeNote) {
         denominator *= 2;
         n *= 2;
-        //cout << "denominator = " << denominator << ", n = " << n  << endl;
+        cout << "n = " << n << ", denominator = " << denominator << endl;
       } // while
+      cout << "n = " << n << ", denominator = " << denominator << endl;
 
       int remainingDivisions =
         mod - divisionsPerWholeNote / denominator;
-      //cout << "--> remainingDivisions = " << remainingDivisions << endl;
+        
+      cout << "--> denominator = " << denominator << endl;
+      cout << "--> remainingDivisions = " << remainingDivisions << endl;
 
       s << denominator;
 
       // compute the number of dots if any
       if (remainingDivisions > 0) {
         int
-          m            = remainingDivisions,
+          m            = remainingDivisions * 2,
           numberOfDots = 0;
-    
+
+ //        while (m < divisionsPerWholeNote) {
+        for ( ; ; ) {
+          cout << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
+          if (m >= divisionsPerWholeNote)
+            break;
+          m *= 2;
+          s << ".";
+          numberOfDots++;
+        } // while
+        cout << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
+
+   /*
         while (m > 0) {
-          if (m % 2) {
+          if (m % 2 == 0) {
             s << ".";
             numberOfDots++;
-            m--;
+            m /= 2;
           }
           else
-            m /= 2;
-          //cout << "m = " << m << endl;
+            m--;
+          cout << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
         } // while
+            */
 
         computedNumberOfDots = numberOfDots;
       }

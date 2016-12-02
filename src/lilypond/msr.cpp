@@ -2048,18 +2048,23 @@ string msrChord::chordDivisionsAsMSRString () const
     fChordNotes [0]-> 
       getNoteMusicXMLDotsNumber ()) { // any chord member notes is fine
     stringstream s;
-    
-    s << 
-      "ERROR: " <<
-      computedNumberOfDots <<
-      " is/are necessary for " <<
-      fChordDivisions << " divisions " <<
-      " with " <<
+
+    if (fChordDivisions == 1)
+      s << "1 division needs ";
+    else
+      s << fChordDivisions << " divisions need ";
+      
+    if (computedNumberOfDots == 1)
+      s << "1 dot ";
+    else
+      s << computedNumberOfDots << " dots ";
+
+    s <<
+      "with " <<
       fChordMeasureLocation.fDivisionsPerWholeNote <<
       " per whole note, not " <<
       fChordNotes [0]-> 
-        getNoteMusicXMLDotsNumber () <<      
-      endl;
+        getNoteMusicXMLDotsNumber ();
       
     msrMusicXMLError (
       fMsrOptions->fInputSourceName,

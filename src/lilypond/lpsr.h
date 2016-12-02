@@ -254,15 +254,21 @@ class EXP lpsrParallelMusic : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    void          addElementToParallelMusic (S_msrElement elem)
-                    { fParallelMusicElements.push_back(elem); }
-    S_msrElement  getLastElementOfParallelMusic()
-                    { return fParallelMusicElements.back(); }
-    void          removeLastElementOfParallelMusic ()
-                    { fParallelMusicElements.pop_back(); }
+    const vector<S_msrElement>&
+                  getParallelMusicElements () const
+                      { return fParallelMusicElements; }
 
     // services
     // ------------------------------------------------------
+
+    void          addElementToParallelMusic (S_msrElement elem)
+                      { fParallelMusicElements.push_back(elem); }
+                    
+    S_msrElement  getLastElementOfParallelMusic()
+                      { return fParallelMusicElements.back(); }
+                    
+    void          removeLastElementOfParallelMusic ()
+                      { fParallelMusicElements.pop_back(); }
 
     // visitors
     // ------------------------------------------------------
