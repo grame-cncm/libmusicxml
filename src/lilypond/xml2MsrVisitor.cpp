@@ -1940,7 +1940,8 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
       elt->getAttributeValue ("implicit");
 
   if (implicit != "yes")
-    fCurrentVoice->setMeasureNumber (measureNumber);
+    fCurrentVoice->setMeasureNumber (
+      elt->getInputLineNumber (), measureNumber);
 
   // is this measure number in the debug set?
   set<int>::iterator

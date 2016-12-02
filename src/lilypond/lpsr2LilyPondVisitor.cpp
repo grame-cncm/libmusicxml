@@ -1177,9 +1177,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTime& elt)
     
   fOstream << idtr <<
     "\\time" << " " <<
-    elt->getRational ().getNumerator () <<
+    elt->getBeatsNumber () <<
     "/" <<
-    elt->getRational ().getDenominator () <<
+    elt->getBeatsValue () <<
     endl;
 }
 

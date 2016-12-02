@@ -419,12 +419,10 @@ void msr2SummaryVisitor::visitStart (S_msrTime& elt)
     fOstream << idtr <<
       "--> Start visiting msrTime" << endl;
 
-  if (! fOnGoingStaff) {
-    rational  rat = elt->getRational ();
-    
+  if (! fOnGoingStaff) {    
     fOstream << idtr <<
       "Time " << 
-      rat.getNumerator () << "/" << rat.getDenominator () <<
+      elt->getBeatsNumber () << "/" << elt->getBeatsValue () <<
       endl;
   }
 }

@@ -1876,14 +1876,17 @@ class EXP msrTime : public msrElement
     static SMARTP<msrTime> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
-      int           numerator,
-      int           denominator);
+      int           beatsNumber,
+      int           beatsValue);
 
     // set and get
     // ------------------------------------------------------
 
-    rational  getRational () const
-                  { return fRational; }
+    int       getBeatsNumber () const
+                  { return fBeatsNumber; }
+                  
+    int       getBeatsValue () const
+                  { return fBeatsValue; }
                   
     // services
     // ------------------------------------------------------
@@ -1905,15 +1908,17 @@ class EXP msrTime : public msrElement
     msrTime (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
-      int           numerator,
-      int           denominator);
+      int           beatsNumber,
+      int           beatsValue);
       
     virtual ~msrTime();
   
   private:
 
-    rational fRational;
-    bool     fGenerateNumericalTime;
+    int      fBeatsNumber;
+    int      fBeatsValue;
+
+    bool     fGenerateNumericalTime; // JMI
 };
 typedef SMARTP<msrTime> S_msrTime;
 EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
@@ -2791,7 +2796,8 @@ class EXP msrVoice : public msrElement
                         return fVoiceMeasureLocation.fPositionInMeasure;
                       }
           
-    void          setMeasureNumber (int measureNumber);
+    void          setMeasureNumber (
+                    int inputLineNumber, int measureNumber);
 
     const int     getMeasureNumber () const
                       {

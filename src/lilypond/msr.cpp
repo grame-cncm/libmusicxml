@@ -3280,13 +3280,13 @@ void msrKey::print (ostream& os)
 S_msrTime msrTime::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
-  int           numerator,
-  int           denominator)
+  int           beatsNumber,
+  int           beatsValue)
 {
   msrTime* o =
     new msrTime (
       msrOpts, inputLineNumber,
-      numerator, denominator);
+      beatsNumber, beatsValue);
   assert (o!=0);
   return o;
 }
@@ -3294,14 +3294,14 @@ S_msrTime msrTime::create (
 msrTime::msrTime (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
-  int           numerator,
-  int           denominator)
+  int           beatsNumber,
+  int           beatsValue)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fRational = rational (numerator, denominator);
-// JMI  fNumerator=numerator; 
-  //fDenominator=denominator;
+  fBeatsNumber = beatsNumber;
+  fBeatsValue  = beatsValue;
 }
+
 msrTime::~msrTime() {}
 
 void msrTime::acceptIn (basevisitor* v) {
@@ -3338,7 +3338,6 @@ void msrTime::acceptOut (basevisitor* v) {
   }
 }
 
-
 void msrTime::browseData (basevisitor* v)
 {}
 
@@ -3354,7 +3353,7 @@ string msrTime::timeAsString () const
 
   s <<
     "Time " << 
-    fRational.getNumerator() << "/" << fRational.getDenominator();
+    fBeatsNumber << "/" << fBeatsValue;
 
   return s.str();
 }
@@ -4908,7 +4907,8 @@ string msrVoice::getVoiceName () const
 void msrVoice::handleForward (int duration)
 {} // JMI ???
 
-void msrVoice::setMeasureNumber (int measureNumber)
+void msrVoice::setMeasureNumber (
+  int inputLineNumber, int measureNumber)
 {
   enum voiceAnacrusisKind {
       k_NoAnacrusis, kExplicitAnacrusis, kImplicitAnacrusis };
@@ -4925,6 +4925,44 @@ void msrVoice::setMeasureNumber (int measureNumber)
       "    fMusicHasBeenInserted = " << fMusicHasBeenInserted << endl <<
       endl;
 
+  int
+    beatsNumber =
+      fVoiceStaffUplink->
+        getStaffTime ()->
+          getBeatsNumber (),
+          
+    beatsValue =
+      fVoiceStaffUplink->
+        getStaffTime ()->
+          getBeatsValue (),
+
+    divisionsPerWholeNote =
+      fVoiceMeasureLocation.fDivisionsPerWholeNote,
+      
+    divisionsPerMeasure =
+      divisionsPerWholeNote * beatsNumber / beatsValue,
+          
+    positionInMeasure =
+      getPositionInMeasure ();
+
+// JMI  if (fMsrOptions->fDebug)
+    cerr <<
+      "    inputLineNumber       = " << inputLineNumber << endl <<
+      "    beatsNumber           = " << beatsNumber << endl <<
+      "    beatsValue            = " << beatsValue << endl <<
+      "    divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
+      "    divisionsPerMeasure   = " << divisionsPerMeasure << endl <<
+      "    positionInMeasure     = " << positionInMeasure << endl <<
+      endl;
+
+  if (
+    positionInMeasure > 0 // there may be initial measures without music...
+      &&
+    positionInMeasure <= divisionsPerMeasure) {
+    anacrusisKind = kExplicitAnacrusis;
+  }
+    
+/*
   if (measureNumber == 2)
     cerr <<
       "====== measureNumber == 2, positionInMeasure = " <<
