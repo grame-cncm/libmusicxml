@@ -37,41 +37,51 @@ indenter msrElement::gIndenter;
 void msrMusicXMLWarning (
   string inputSourceName, int inputLineNumber, string message)
 {
+  cerr << endl << endl;
+
+//  idtr++;
+  
   cerr <<
-    idtr <<
-      "!!! MusicXML WARNING, " << inputSourceName <<
-      ", input line " << inputLineNumber <<
-      /*
-      ", measure " <<
-        gCurrentLocation.fMeasureNumber <<
-      ":" <<
-        gCurrentLocation.fPositionInMeasure <<
-      */
+    "!!! MusicXML WARNING !!!, " << inputSourceName <<
+    ", input line " << inputLineNumber << ":" <<
     endl <<
-    
-    idtr <<
-      "      " << message << endl;
+    /*
+    ", measure " <<
+      gCurrentLocation.fMeasureNumber <<
+    ":" <<
+      gCurrentLocation.fPositionInMeasure <<
+    */
+      
+    message <<
+    endl << endl <<
+    idtr;
+
+//  idtr--;
 }
 
 void msrMusicXMLError (
   string inputSourceName, int inputLineNumber, string message)
 {
+  cerr << idtr <<
+    endl << idtr;
+
+  idtr++;
+  
   cerr <<
-    idtr <<
-      endl <<
-      "### MusicXML ERROR, " << inputSourceName <<
-      ", input line " << inputLineNumber <<
-      /*
-      ", measure " <<
-        gCurrentLocation.fMeasureNumber <<
-      ":" <<
-        gCurrentLocation.fPositionInMeasure <<
-      */
+    "### MusicXML ERROR ###, " << inputSourceName <<
+    ", input line " << inputLineNumber << ":" <<
     endl <<
+    /*
+    ", measure " <<
+      gCurrentLocation.fMeasureNumber <<
+    ":" <<
+      gCurrentLocation.fPositionInMeasure <<
+    */
       
-    idtr <<
-      "      " << message << endl <<
-    endl;
+    idtr << message <<
+    endl << endl;
+
+  idtr--;
     
   assert(false);
 }
@@ -79,18 +89,26 @@ void msrMusicXMLError (
 void msrInternalError (
   string inputSourceName, int inputLineNumber, string message)
 {
+  cerr << idtr <<
+    endl << idtr;
+
+  idtr++;
+  
   cerr <<
+    "[[[ MSR INTERNAL ERROR ]]], " << inputSourceName <<
+    ", input line " << inputLineNumber << ":" <<
     endl <<
-    idtr <<
-      "--> MSR INTERNAL ERROR, " << inputSourceName <<
-      ", input line " << inputLineNumber <<
-      endl;
-      /*
-      ", measure " <<
-        gCurrentLocation.fMeasureNumber <<
-      ":" <<
-        gCurrentLocation.fPositionInMeasure << "/" <<
-      */
+    /*
+    ", measure " <<
+      gCurrentLocation.fMeasureNumber <<
+    ":" <<
+      gCurrentLocation.fPositionInMeasure <<
+    */
+      
+    idtr << message <<
+    endl << endl;
+
+  idtr--;
 
 /* JMI
   if (gCurrentLocation.fPositionInMeasure > 0)
@@ -99,11 +117,6 @@ void msrInternalError (
     cerr << "?";
   cerr << endl ;
  */   
-    
-  cerr <<
-    idtr <<
-      "      " << message <<
-    endl << endl;
     
   assert(false);
 }
@@ -1530,7 +1543,7 @@ string msrNote::noteMsrPitchAsString () const
 string msrNote::noteDivisionsAsMSRString () const
 {
   string result;
-  int    numberOfDotsFound;
+  int    computedNumberOfDots;
   string errorMessage;
 
 /*
@@ -1570,7 +1583,7 @@ string msrNote::noteDivisionsAsMSRString () const
     MusicXML2::divisionsAsMSRString (
       fMusicXMLNoteData.fNoteDisplayDivisions,
       fNoteMeasureLocation.fDivisionsPerWholeNote,
-      numberOfDotsFound,
+      computedNumberOfDots,
       errorMessage);
 
   if (errorMessage.size ())
@@ -1579,21 +1592,18 @@ string msrNote::noteDivisionsAsMSRString () const
       fInputLineNumber,
       errorMessage);
 
-  if (numberOfDotsFound != fMusicXMLNoteData.fMusicXMLDotsNumber) {
+  if (computedNumberOfDots != fMusicXMLNoteData.fMusicXMLDotsNumber) {
     stringstream s;
     
     s << 
-      "ERROR: " <<
-      numberOfDotsFound <<
-      " dots is/are necessary for " <<
-      fMusicXMLNoteData.fMusicXMLDivisions << " divisions " << endl <<
-      " with " <<
+      fMusicXMLNoteData.fMusicXMLDivisions << " division(s) need(s) " <<
+      computedNumberOfDots <<
+      " dot(s) with " <<
       fNoteMeasureLocation.fDivisionsPerWholeNote <<
       " per whole note, not " <<
-      fMusicXMLNoteData.fMusicXMLDotsNumber <<      
-      endl;
+      fMusicXMLNoteData.fMusicXMLDotsNumber;
       
-    msrMusicXMLError (
+    msrMusicXMLWarning (
       fMsrOptions->fInputSourceName,
       fInputLineNumber,
       s.str());
@@ -1826,7 +1836,8 @@ void msrNote::print (ostream& os)
   // print the note itself and its position
   os <<
     noteAsString () <<
-    " (" <<
+    " input line " << fInputLineNumber << ", " <<
+    "(" <<
     fMusicXMLNoteData.fMusicXMLDivisions <<
     "_" <<
     fMusicXMLNoteData.fNoteDisplayDivisions <<
@@ -2015,14 +2026,14 @@ ostream& operator<< (ostream& os, const S_msrChord& chrd)
 string msrChord::chordDivisionsAsMSRString () const
 {
   string result;
-  int    numberOfDotsFound;
+  int    computedNumberOfDots;
   string errorMessage;
   
   result =
     MusicXML2::divisionsAsMSRString (
       fChordDivisions,
       fChordMeasureLocation.fDivisionsPerWholeNote,
-      numberOfDotsFound,
+      computedNumberOfDots,
       errorMessage);
 
   if (errorMessage.size ())
@@ -2032,7 +2043,7 @@ string msrChord::chordDivisionsAsMSRString () const
       errorMessage);
 
   if (
-    numberOfDotsFound
+    computedNumberOfDots
       !=
     fChordNotes [0]-> 
       getNoteMusicXMLDotsNumber ()) { // any chord member notes is fine
@@ -2040,7 +2051,7 @@ string msrChord::chordDivisionsAsMSRString () const
     
     s << 
       "ERROR: " <<
-      numberOfDotsFound <<
+      computedNumberOfDots <<
       " is/are necessary for " <<
       fChordDivisions << " divisions " <<
       " with " <<
@@ -4657,14 +4668,14 @@ ostream& operator<< (ostream& os, const S_msrUpbeat& rept)
 string msrUpbeat::getUpbeatDivisionsAsString () const
 {
   string result;
-  int    numberOfDotsFound; // value not used
+  int    computedNumberOfDots; // value not used
   string errorMessage;
 
   result =
     divisionsAsMSRString (
       fUpbeatDivisions,
       fUpbeatVoice->getVoiceMeasureLocation ().fDivisionsPerWholeNote,
-      numberOfDotsFound,
+      computedNumberOfDots,
       errorMessage);
 
   return result;
@@ -4766,6 +4777,7 @@ msrVoice::msrVoice (
     msrVoicechunk::create (
       fMsrOptions, inputLineNumber);
 
+  // create the d
   /*
   // get the initial clef from the staff
   S_msrClef
@@ -4891,7 +4903,7 @@ void msrVoice::setMeasureNumber (int measureNumber)
   
   if (anacrusisKind != k_NoAnacrusis) {
     if (fMsrOptions->fTrace) {
-      int    numberOfDotsFound; // value not used
+      int    computedNumberOfDots; // value not used
       string errorMessage;
       
       anacrusisDivisions = getPositionInMeasure () - 1 ;
@@ -4899,7 +4911,7 @@ void msrVoice::setMeasureNumber (int measureNumber)
         divisionsAsMSRString (
           anacrusisDivisions,
           fVoiceMeasureLocation.fDivisionsPerWholeNote,
-          numberOfDotsFound,
+          computedNumberOfDots,
           errorMessage);
       
       cerr << idtr <<

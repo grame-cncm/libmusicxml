@@ -510,14 +510,14 @@ std::pair<std::string, std::string> extractNamesPairFromString (
 string divisionsAsMSRString (
   int     divisions,
   int     divisionsPerWholeNote,
-  int&    numberOfDotsFound,
+  int&    computedNumberOfDots,
   string& errorMessage)
 {
   // MusicXML divisions are per quater note,
   // MSR and LilyPond durations are in whole notes
   //  cerr << "|"  << fNum << "|" << fDenom << "|" << fDots << "|" << endl;
 
-  numberOfDotsFound = 0;
+  computedNumberOfDots = 0;
   
   stringstream s;
 
@@ -598,7 +598,7 @@ string divisionsAsMSRString (
           }
         } // while
 
-        numberOfDotsFound = numberOfDots;
+        computedNumberOfDots = numberOfDots;
       }
       }
       break;

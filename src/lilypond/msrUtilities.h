@@ -200,7 +200,7 @@ pair<string, string> extractNamesPairFromString (
 string divisionsAsMSRString (
   int     divisions,
   int     divisionsPerWholeNote,
-  int&    numberOfDotsFound,
+  int&    computedNumberOfDots,
   string& errorMessage);
 
 
