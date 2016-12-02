@@ -4915,7 +4915,7 @@ void msrVoice::setMeasureNumber (
       
   voiceAnacrusisKind anacrusisKind = k_NoAnacrusis;
 
-  if (fMsrOptions->fDebug)
+// JMI  if (fMsrOptions->fDebug)
     cerr <<
       "--> setMeasureNumber, " << endl <<
       "    measureNumber = " << measureNumber << endl <<
@@ -4947,6 +4947,10 @@ void msrVoice::setMeasureNumber (
 
 // JMI  if (fMsrOptions->fDebug)
     cerr <<
+      "--> setMeasureNumber, " << endl <<
+      "    measureNumber = " << measureNumber << endl <<
+      "    fVoiceMeasureLocation.fMeasureNumber = " <<
+           fVoiceMeasureLocation.fMeasureNumber << endl <<
       "    inputLineNumber       = " << inputLineNumber << endl <<
       "    beatsNumber           = " << beatsNumber << endl <<
       "    beatsValue            = " << beatsValue << endl <<
@@ -4956,7 +4960,7 @@ void msrVoice::setMeasureNumber (
       endl;
 
   if (
-    positionInMeasure > 0 // there may be initial measures without music...
+    positionInMeasure > 1 // there may be initial measures without music...
       &&
     positionInMeasure <= divisionsPerMeasure) {
     anacrusisKind = kExplicitAnacrusis;
