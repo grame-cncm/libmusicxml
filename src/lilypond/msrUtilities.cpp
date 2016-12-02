@@ -589,22 +589,23 @@ string divisionsAsMSRString (
       // compute the number of dots if any
       if (remainingDivisions > 0) {
         int
-          m            = remainingDivisions * 2,
+          m            = remainingDivisions,
           numberOfDots = 0;
-
+///*
  //        while (m < divisionsPerWholeNote) {
         for ( ; ; ) {
           cout << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
-          if (m >= divisionsPerWholeNote)
+          if (m >= divisionsPerWholeNote / denominator)
             break;
           m *= 2;
           s << ".";
           numberOfDots++;
         } // while
-        cout << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
-
-   /*
+    //    cout << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
+//*/
+/*
         while (m > 0) {
+          cout << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
           if (m % 2 == 0) {
             s << ".";
             numberOfDots++;
@@ -612,10 +613,8 @@ string divisionsAsMSRString (
           }
           else
             m--;
-          cout << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
         } // while
-            */
-
+*/
         computedNumberOfDots = numberOfDots;
       }
       }
