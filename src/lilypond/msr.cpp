@@ -1603,7 +1603,7 @@ string msrNote::noteDivisionsAsMSRString () const
       " per whole note, not " <<
       fMusicXMLNoteData.fMusicXMLDotsNumber;
       
-    msrMusicXMLWarning (
+    msrMusicXMLError (
       fMsrOptions->fInputSourceName,
       fInputLineNumber,
       s.str());

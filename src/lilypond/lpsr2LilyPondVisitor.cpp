@@ -506,13 +506,15 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupCommand& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrPartgroupCommand" << endl;
 
-  fOstream << idtr <<
-    setw(30) << "\\new StaffGroup" " " "{";
-  if (fLpsrOptions->fGenerateComments)
-    fOstream <<
-      "% part group " <<
-      elt->getPartgroup ()->getPartgroupCombinedName ();
-  fOstream << endl;
+  if (elt->getPartgroupCommandElements ().size()) { // JMI
+    fOstream << idtr <<
+      setw(30) << "\\new StaffGroup" " " "{";
+    if (fLpsrOptions->fGenerateComments)
+      fOstream <<
+        "% part group " <<
+        elt->getPartgroup ()->getPartgroupCombinedName ();
+    fOstream << endl;
+  }
 
   idtr++;
 }
@@ -525,14 +527,16 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupCommand& elt)
 
   idtr--;
 
-  fOstream <<
-    idtr <<
-    setw(30) << "}";
-  if (fLpsrOptions->fGenerateComments)
+  if (elt->getPartgroupCommandElements ().size()) {
     fOstream <<
-      "% part group " <<
-      elt->getPartgroup ()->getPartgroupCombinedName ();
-  fOstream << endl;
+      idtr <<
+      setw(30) << "}";
+    if (fLpsrOptions->fGenerateComments)
+      fOstream <<
+        "% part group " <<
+        elt->getPartgroup ()->getPartgroupCombinedName ();
+    fOstream << endl;
+  }
 }
 
 //________________________________________________________________________

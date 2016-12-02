@@ -590,12 +590,14 @@ string divisionsAsMSRString (
           numberOfDots = 0;
     
         while (m > 0) {
-          m /= 2;
-          //cout << "m = " << m << endl;
           if (m % 2) {
             s << ".";
             numberOfDots++;
+            m--;
           }
+          else
+            m /= 2;
+          //cout << "m = " << m << endl;
         } // while
 
         computedNumberOfDots = numberOfDots;
