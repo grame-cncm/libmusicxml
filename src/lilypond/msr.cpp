@@ -1585,8 +1585,8 @@ string msrNote::noteDivisionsAsMSRString () const
     s << 
       "ERROR: " <<
       numberOfDotsFound <<
-      " is/are necessary for " <<
-      fMusicXMLNoteData.fMusicXMLDivisions << " divisions " <<
+      " dots is/are necessary for " <<
+      fMusicXMLNoteData.fMusicXMLDivisions << " divisions " << endl <<
       " with " <<
       fNoteMeasureLocation.fDivisionsPerWholeNote <<
       " per whole note, not " <<
@@ -4863,14 +4863,15 @@ void msrVoice::setMeasureNumber (int measureNumber)
       
   voiceAnacrusisKind anacrusisKind = k_NoAnacrusis;
 
-  cerr <<
-    "--> setMeasureNumber, " << endl <<
-    "    measureNumber = " << measureNumber << endl <<
-    "    fVoiceMeasureLocation.fMeasureNumber = " <<
-         fVoiceMeasureLocation.fMeasureNumber << endl <<
-    "    fMeasureNumberHasBeenSet = " << fMeasureNumberHasBeenSet << endl <<
-    "    fMusicHasBeenInserted = " << fMusicHasBeenInserted << endl <<
-    endl;
+  if (fMsrOptions->fDebug)
+    cerr <<
+      "--> setMeasureNumber, " << endl <<
+      "    measureNumber = " << measureNumber << endl <<
+      "    fVoiceMeasureLocation.fMeasureNumber = " <<
+           fVoiceMeasureLocation.fMeasureNumber << endl <<
+      "    fMeasureNumberHasBeenSet = " << fMeasureNumberHasBeenSet << endl <<
+      "    fMusicHasBeenInserted = " << fMusicHasBeenInserted << endl <<
+      endl;
     
   if (
     ! fMeasureNumberHasBeenSet
