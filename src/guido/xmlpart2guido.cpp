@@ -552,8 +552,7 @@ namespace MusicXML2
         Sguidoelement tag = guidotag::create("oct");
         if (tag) {
             tag->add (guidoparam::create(size, false));
-            //		add (tag);			// todo: handling of octave offset with notes
-            // in addition, there is actually a poor support for the oct tag in guido
+            add (tag);			
         }
     }
     
