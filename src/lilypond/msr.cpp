@@ -2554,8 +2554,8 @@ void msrTuplet::acceptOut (basevisitor* v) {
 void msrTuplet::browseData (basevisitor* v)
 {
  for (
-    vector<S_msrElement>::const_iterator i = fTupletContents.begin();
-    i != fTupletContents.end();
+    vector<S_msrElement>::const_iterator i = fTupletElements.begin();
+    i != fTupletElements.end();
     i++ ) {
     // browse tuplet element
     msrBrowser<msrElement> browser (v);
@@ -2587,7 +2587,7 @@ void msrTuplet::print (ostream& os)
   idtr++;
 
   vector<S_msrElement>::const_iterator i;
-  for (i=fTupletContents.begin(); i!=fTupletContents.end(); i++) {
+  for (i=fTupletElements.begin(); i!=fTupletElements.end(); i++) {
     os << idtr << (*i);
   } // for
   
@@ -2801,10 +2801,10 @@ void msrPageGeometry::print (ostream& os) {
 //______________________________________________________________________________
 
 S_msrVarValAssoc msrVarValAssoc::create (
-  S_msrOptions&      msrOpts, 
-  int                inputLineNumber,
-  string             variableName,
-  string             value)
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  string        variableName,
+  string        value)
 {
   msrVarValAssoc* o =
     new msrVarValAssoc(
@@ -2815,10 +2815,10 @@ S_msrVarValAssoc msrVarValAssoc::create (
 }
 
 msrVarValAssoc::msrVarValAssoc (
-  S_msrOptions&      msrOpts, 
-  int                inputLineNumber,
-  string             variableName,
-  string             value)
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  string        variableName,
+  string        value)
     : msrElement (msrOpts, inputLineNumber)
 {
   fVariableName    = variableName;
@@ -3367,9 +3367,9 @@ void msrTime::print (ostream& os)
 //______________________________________________________________________________
 S_msrTempo msrTempo::create (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    tempoUnit,
-  int                    perMinute)
+  int           inputLineNumber,
+  int           tempoUnit,
+  int           perMinute)
 {
   msrTempo* o =
     new msrTempo (
@@ -3380,9 +3380,9 @@ S_msrTempo msrTempo::create (
 
 msrTempo::msrTempo (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    tempoUnit,
-  int                    perMinute)
+  int           inputLineNumber,
+  int           tempoUnit,
+  int           perMinute)
     : msrElement (msrOpts, inputLineNumber)
 {
   fTempoUnit = tempoUnit;
@@ -3613,7 +3613,7 @@ msrLyrics::msrLyrics (
     : msrElement (msrOpts, inputLineNumber)
 {
   fLyricsNumber       = lyricsNumber;
-  fLyricsVoice        = lyricsVoice;
+  fLyricsVoiceUplink  = lyricsVoice;
   fLyricsMasterStatus = lyricsMasterStatus;
  
   if (fMsrOptions->fTrace)
@@ -3636,7 +3636,7 @@ string msrLyrics::getLyricsName () const
         : int2EnglishWord (fLyricsNumber);
         
   return
-   fLyricsVoice->getVoiceName() +
+   fLyricsVoiceUplink->getVoiceName() +
     "_L_" +
     lyricsNameSuffix;
 }
@@ -3669,8 +3669,8 @@ void msrLyrics::addTextChunkToLyrics (
   // create a lyrics text chunk
 //  if (true || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebug) {
-    S_msrStaff staff = fLyricsVoice->getVoiceStaff();
-    S_msrPart  part  = staff-> getStaffPart();
+    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding text chunk " <<
@@ -3731,8 +3731,8 @@ void msrLyrics::addSkipChunkToLyrics (
 {
 //  if (true || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebug) {
-    S_msrStaff staff = fLyricsVoice->getVoiceStaff();
-    S_msrPart  part  = staff-> getStaffPart();
+    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding skip chunk:" << divisions <<
@@ -3757,8 +3757,8 @@ void msrLyrics::addSlurChunkToLyrics (
 {
 //  if (true || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebug) {
-    S_msrStaff staff = fLyricsVoice->getVoiceStaff();
-    S_msrPart  part  = staff-> getStaffPart();
+    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding slur chunk: " << divisions <<
@@ -3783,8 +3783,8 @@ void msrLyrics::addTiedChunkToLyrics (
 {
 //  if (true || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebug) {
-    S_msrStaff staff = fLyricsVoice->getVoiceStaff();
-    S_msrPart  part  = staff-> getStaffPart();
+    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding tied chunk: " << divisions <<
@@ -3809,8 +3809,8 @@ void msrLyrics::addBreakChunkToLyrics (
 {
 //  if (true || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebug) {
-    S_msrStaff staff = fLyricsVoice->getVoiceStaff();
-    S_msrPart  part  = staff-> getStaffPart();
+    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding break chunk" <<
@@ -4371,8 +4371,8 @@ msrRepeatending::msrRepeatending (
   
   fRepeatendingKind = repeatendingKind;
   
-  fRepeatendingVoicechunk = voicechunk;
-  fRepeatendingRepeat     = repeat;
+  fRepeatendingVoicechunk   = voicechunk;
+  fRepeatendingRepeatUplink = repeat;
 }
 
 msrRepeatending::~msrRepeatending() {}
@@ -4489,7 +4489,7 @@ msrRepeat::msrRepeat (
 {
   fRepeatCommonPart     = commonPart;
   fRepeatEndingsCounter = 0;
-  fRepeatVoice          = voice;
+  fRepeatVoiceUplink    = voice;
 }
 
 msrRepeat::~msrRepeat() {}
@@ -4639,8 +4639,8 @@ msrUpbeat::msrUpbeat (
   S_msrVoice      voice)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fUpbeatDivisions = divisions;
-  fUpbeatVoice     = voice;
+  fUpbeatDivisions   = divisions;
+  fUpbeatVoiceUplink = voice;
 }
 
 msrUpbeat::~msrUpbeat() {}
@@ -4714,7 +4714,7 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
   result =
     divisionsAsMSRString (
       fUpbeatDivisions,
-      fUpbeatVoice->getVoiceMeasureLocation ().fDivisionsPerWholeNote,
+      fUpbeatVoiceUplink->getVoiceMeasureLocation ().fDivisionsPerWholeNote,
       computedNumberOfDots,
       errorMessage);
 
@@ -4727,7 +4727,7 @@ void msrUpbeat::print (ostream& os)
     endl <<
     idtr << "Upbeat" <<
     ", input line: " << fInputLineNumber <<
-    ", voice " << fUpbeatVoice->getVoiceName () << ", " <<
+    ", voice " << fUpbeatVoiceUplink->getVoiceName () << ", " <<
     fUpbeatDivisions << " divisions" <<
     " (" << getUpbeatDivisionsAsString () << ")" <<
     endl;
@@ -4793,7 +4793,7 @@ msrVoice::msrVoice (
 {
   fVoiceNumber = voiceNumber;
   fStaffRelativeVoiceNumber = staffRelativeVoiceNumber;
-  fVoiceStaff  = voiceStaff;
+  fVoiceStaffUplink  = voiceStaff;
 
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -4822,7 +4822,7 @@ msrVoice::msrVoice (
   // get the initial clef from the staff
   S_msrClef
     clef =
-      fVoiceStaff->getStaffClef ();
+      fVoiceStaffUplink->getStaffClef ();
       
   if (! clef)
     // it doesn't exist yet, create default G clef
@@ -4840,7 +4840,7 @@ msrVoice::msrVoice (
   // get the initial key from the staff
   S_msrKey
     key =
-      fVoiceStaff->getStaffKey ();
+      fVoiceStaffUplink->getStaffKey ();
       
   if (! key)
     // it doesn't exist yet, create default C major key
@@ -4858,7 +4858,7 @@ msrVoice::msrVoice (
   // get the initial time from the staff
   S_msrTime
     time =
-      fVoiceStaff->getStaffTime ();
+      fVoiceStaffUplink->getStaffTime ();
       
   if (! time)
     // it doesn't exist yet, create default 4/4 time
@@ -4900,7 +4900,7 @@ string msrVoice::getVoiceName () const
       : fVoiceNumber;
     
   return
-    fVoiceStaff->getStaffName() +
+    fVoiceStaffUplink->getStaffName() +
     "_V_" +
     int2EnglishWord (voiceNumber);
 }
@@ -4924,19 +4924,29 @@ void msrVoice::setMeasureNumber (int measureNumber)
       "    fMeasureNumberHasBeenSet = " << fMeasureNumberHasBeenSet << endl <<
       "    fMusicHasBeenInserted = " << fMusicHasBeenInserted << endl <<
       endl;
-    
+
+  if (measureNumber == 2)
+    cerr <<
+      "====== measureNumber == 2, positionInMeasure = " <<
+      getPositionInMeasure () <<
+      endl;
+
   if (
-    ! fMeasureNumberHasBeenSet
+    measureNumber == 0
       &&
-    measureNumber == 0) {
+    ! fMeasureNumberHasBeenSet) {
     anacrusisKind = kExplicitAnacrusis;
   }
+  /*
   else if (
 //    getPositionInMeasure () == 13 JMI
  //     &&
-    measureNumber == 2) {
+    measureNumber == 2
+      &&
+    ) {
     anacrusisKind = kImplicitAnacrusis;
   }
+*/
 
   int    anacrusisDivisions;
   string anacrusisDivisionsAsString;
@@ -5405,14 +5415,14 @@ msrStaff::msrStaff (
     : msrElement (msrOpts, inputLineNumber)
 {  
   fStaffNumber = staffNumber;
-  fStaffPart   = staffPart;
+  fStaffPartUplink   = staffPart;
 
   fNextRelativeStaffVoiceNumber = 0;
 
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Creating staff " << getStaffName () <<
-      " in part " << fStaffPart->getPartCombinedName () <<
+      " in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // create the implicit initial G line 2 clef
@@ -5458,7 +5468,7 @@ string msrStaff::getStaffName () const
   // because the staff part may change name
   // when it is re-used
   return
-    fStaffPart->getPartMSRName() +
+    fStaffPartUplink->getPartMSRName () +
     "_S_" +
     int2EnglishWord (fStaffNumber);
   }
@@ -5507,7 +5517,7 @@ S_msrVoice msrStaff::addVoiceToStaff (
       "Adding voice " << voiceNumber <<
       " " << voice->getVoiceName () <<
       " to staff " << fStaffNumber <<
-      " in part " << fStaffPart->getPartCombinedName () << endl;
+      " in part " << fStaffPartUplink->getPartCombinedName () << endl;
   
   fStaffVoicesMap [voiceNumber] = voice;
 
@@ -5523,7 +5533,7 @@ void msrStaff::addVoiceToStaff (S_msrVoice voice)
       "Adding voice " << voice->getVoiceNumber () <<
       " " << voice->getVoiceName () <<
       " to staff " << fStaffNumber <<
-      " in part " << fStaffPart->getPartCombinedName () << endl;
+      " in part " << fStaffPartUplink->getPartCombinedName () << endl;
   
   fStaffVoicesMap [voice->getVoiceNumber ()] = voice;
 }
@@ -5555,7 +5565,7 @@ void msrStaff::setStaffClef (S_msrClef clef)
     cerr << idtr <<
       "Setting clef '" << clef->clefAsString () <<
       "' in staff " << fStaffNumber <<
-      " in part " << fStaffPart->getPartCombinedName () << endl;
+      " in part " << fStaffPartUplink->getPartCombinedName () << endl;
 
   fStaffClef = clef;
 
@@ -5568,7 +5578,7 @@ void msrStaff::setStaffKey  (S_msrKey  key)
     cerr << idtr <<
       "Setting key '" << key->keyAsString () <<
       "' in staff " << fStaffNumber <<
-      " in part " << fStaffPart->getPartCombinedName () << endl;
+      " in part " << fStaffPartUplink->getPartCombinedName () << endl;
 
   fStaffKey = key;
 
@@ -5581,7 +5591,7 @@ void msrStaff::setStaffTime (S_msrTime time)
     cerr << idtr <<
       "Setting time '" << time->timeAsString () <<
       "' in staff " << fStaffNumber <<
-      " in part " << fStaffPart->getPartCombinedName () << endl;
+      " in part " << fStaffPartUplink->getPartCombinedName () << endl;
 
   fStaffTime = time;
 
@@ -5746,8 +5756,8 @@ msrPart::msrPart (
   S_msrPartgroup partPartgroup)
     : msrElement (msrOpts, inputLineNumber)
 {  
-  fPartMusicXMLID = partMusicXMLID;
-  fPartPartgroup  = partPartgroup;
+  fPartMusicXMLID      = partMusicXMLID;
+  fPartPartgroupUplink = partPartgroup;
 
   // is this part name in the part renaming map?
   map<string, string>::iterator

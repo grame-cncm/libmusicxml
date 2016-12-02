@@ -1814,7 +1814,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeatending& elt)
   // JMI warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
     elt->getRepeatendingNumber ()
       ==
-    elt->getRepeatendingRepeat ()->getRepeatEndings ().size()) {
+    elt->getRepeatendingRepeatUplink ()->getRepeatEndings ().size()) {
     idtr--;
     // last repeat ending is in charge of
     // outputting the end of the alternative

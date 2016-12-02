@@ -2581,7 +2581,7 @@ void lpsrStaffCommand::appendLyricsUseToStaffCommand (S_msrLyrics lyrics)
         fLpsrOptions, 
         fInputLineNumber,
         lyrics,
-        lyrics->getLyricsVoice ());
+        lyrics->getLyricsVoiceUplink ());
   
   fStaffCommandElements.push_back (newLyricsCommand);
 }
@@ -3197,7 +3197,7 @@ void lpsrScore::appendLyricsUseToStoreCommand (S_msrLyrics lyrics)
         fLpsrOptions, 
         fInputLineNumber,
         lyrics,
-        lyrics->getLyricsVoice ());
+        lyrics->getLyricsVoiceUplink ());
   
   fScoreCommand->
     appendLyricsUseToParallelMusic (newLyricsCommand);

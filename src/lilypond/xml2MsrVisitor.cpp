@@ -3736,7 +3736,7 @@ void xml2MsrVisitor::visitStart ( S_tuplet& elt )
   string tupletType =
     elt->getAttributeValue("type");
   
-  /* JMI*/
+  /* JMI* /
   cerr <<
     "--> xml2MsrVisitor::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
     fCurrentTupletNumber << ", tupletType = " << tupletType <<endl;

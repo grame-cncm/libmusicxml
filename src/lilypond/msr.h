@@ -1090,10 +1090,10 @@ class EXP msrVarValAssoc : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrVarValAssoc> create (
-      S_msrOptions&      msrOpts, 
-      int                inputLineNumber,
-      string             variableName,
-      string             value);
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      string        variableName,
+      string        value);
     
     // set and get
     // ------------------------------------------------------
@@ -1122,10 +1122,10 @@ class EXP msrVarValAssoc : public msrElement
   protected:
 
     msrVarValAssoc (
-      S_msrOptions&      msrOpts, 
-      int                inputLineNumber,
-      string             variableName,
-      string             value);
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      string        variableName,
+      string        value);
       
     virtual ~msrVarValAssoc();
   
@@ -1661,8 +1661,8 @@ class EXP msrTuplet : public msrElement
     int           getNormalNotes () const { return fNormalNotes; }
     
     vector<S_msrElement>
-                  getTupletContents () const
-                      { return fTupletContents; }
+                  getTupletElements () const
+                      { return fTupletElements; }
 
     int           getTupletDivisions () const
                       { return fTupletDivisions; }
@@ -1680,7 +1680,7 @@ class EXP msrTuplet : public msrElement
     // ------------------------------------------------------
 
     void  addElementToTuplet (S_msrElement elem)
-             { fTupletContents.push_back(elem); }
+             { fTupletElements.push_back(elem); }
 
     // visitors
     // ------------------------------------------------------
@@ -1711,7 +1711,7 @@ class EXP msrTuplet : public msrElement
 
     msrMeasureLocation   fTupletMeasureLocation;
     
-    vector<S_msrElement> fTupletContents;
+    vector<S_msrElement> fTupletElements;
 };
 typedef SMARTP<msrTuplet> S_msrTuplet;
 EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
@@ -1933,9 +1933,9 @@ class EXP msrTempo : public msrElement
 
     static SMARTP<msrTempo> create (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    tempoUnit,
-      int                    perMinute);
+      int           inputLineNumber,
+      int           tempoUnit,
+      int           perMinute);
 
     // set and get
     // ------------------------------------------------------
@@ -1965,9 +1965,9 @@ class EXP msrTempo : public msrElement
 
     msrTempo (
       S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      int                    tempoUnit,
-      int                    perMinute);
+      int           inputLineNumber,
+      int           tempoUnit,
+      int           perMinute);
       
     virtual ~msrTempo();
   
@@ -2090,8 +2090,8 @@ class EXP msrLyrics : public msrElement
     string  getLyricsName () const;
                 
     S_msrVoice
-            getLyricsVoice () const
-                { return fLyricsVoice; }
+            getLyricsVoiceUplink () const
+                { return fLyricsVoiceUplink; }
                 
     msrLyricsMasterStatus
             getLyricsMasterStatus () const
@@ -2156,7 +2156,7 @@ class EXP msrLyrics : public msrElement
   private:
 
     int                       fLyricsNumber;
-    S_msrVoice                fLyricsVoice;
+    S_msrVoice                fLyricsVoiceUplink;
     msrLyricsMasterStatus     fLyricsMasterStatus;
 
     vector<S_msrLyricschunk>  fLyricschunks;
@@ -2453,8 +2453,8 @@ class EXP msrRepeatending : public msrElement
                   { return fRepeatendingVoicechunk; }
                 
     S_msrRepeat
-              getRepeatendingRepeat () const
-                { return fRepeatendingRepeat; }
+              getRepeatendingRepeatUplink () const
+                { return fRepeatendingRepeatUplink; }
 
     // services
     // ------------------------------------------------------
@@ -2496,7 +2496,7 @@ class EXP msrRepeatending : public msrElement
     
     S_msrVoicechunk     fRepeatendingVoicechunk;
 
-    S_msrRepeat         fRepeatendingRepeat;
+    S_msrRepeat         fRepeatendingRepeatUplink;
 };
 typedef SMARTP<msrRepeatending> S_msrRepeatending;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatending& elt);
@@ -2540,8 +2540,8 @@ class EXP msrRepeat : public msrElement
                 { return fRepeatEndings; }
 
     S_msrVoice
-              getRepeatVoice () const
-                { return fRepeatVoice; }
+              getRepeatVoiceUplink () const
+                { return fRepeatVoiceUplink; }
 
     // services
     // ------------------------------------------------------
@@ -2575,7 +2575,7 @@ class EXP msrRepeat : public msrElement
     vector<S_msrRepeatending> fRepeatEndings;
     int                       fRepeatEndingsCounter;
     
-    S_msrVoice                fRepeatVoice;
+    S_msrVoice                fRepeatVoiceUplink;
 };
 typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
@@ -2615,8 +2615,8 @@ class EXP msrUpbeat : public msrElement
 
     string        getUpbeatDivisionsAsString () const;
 
-    S_msrVoice    getUpbeatVoice () const
-                      { return fUpbeatVoice; }
+    S_msrVoice    getUpbeatVoiceUplink () const
+                      { return fUpbeatVoiceUplink; }
 
     // services
     // ------------------------------------------------------
@@ -2645,7 +2645,7 @@ class EXP msrUpbeat : public msrElement
 
     int                       fUpbeatDivisions;
     
-    S_msrVoice                fUpbeatVoice;
+    S_msrVoice                fUpbeatVoiceUplink;
 };
 typedef SMARTP<msrUpbeat> S_msrUpbeat;
 EXP ostream& operator<< (ostream& os, const S_msrUpbeat& elt);
@@ -2676,7 +2676,7 @@ class EXP msrVoice : public msrElement
       int           divisions,
       int           voiceNumber);
     
-      SMARTP<msrVoice> createEmptyClone (
+    SMARTP<msrVoice> createEmptyClone (
       S_msrStaff clonedStaff);
 
     // set and get
@@ -2685,8 +2685,8 @@ class EXP msrVoice : public msrElement
     int           getVoiceNumber () const
                       { return fVoiceNumber; }
                 
-    S_msrStaff    getVoiceStaff () const
-                      { return fVoiceStaff; }
+    S_msrStaff    getVoiceStaffUplink () const
+                      { return fVoiceStaffUplink; }
                 
     map<int, S_msrLyrics>
                   getVoiceLyricsMap () const
@@ -2824,7 +2824,7 @@ class EXP msrVoice : public msrElement
 
     int                       fVoiceNumber;
     int                       fStaffRelativeVoiceNumber;
-    S_msrStaff                fVoiceStaff;
+    S_msrStaff                fVoiceStaffUplink;
 
     bool                      fVoiceContainsActualNotes;
 
@@ -2881,8 +2881,8 @@ class EXP msrStaff : public msrElement
     int       getStaffNumber () const
                   { return fStaffNumber; }
                 
-    S_msrPart getStaffPart () const
-                  { return fStaffPart; }
+    S_msrPart getStaffPartUplink () const
+                  { return fStaffPartUplink; }
 
     string    getStaffName () const;
 
@@ -2942,7 +2942,7 @@ class EXP msrStaff : public msrElement
     static int              gMaxStaffVoices;
 
     int                     fStaffNumber;
-    S_msrPart               fStaffPart;
+    S_msrPart               fStaffPartUplink;
 
     map<int, S_msrVoice>    fStaffVoicesMap;
 
@@ -3012,8 +3012,8 @@ class EXP msrPart : public msrElement
                   { return fPartMusicXMLDivisions; }
 
     S_msrPartgroup
-              getPartPartgroup () const
-                  { return fPartPartgroup; }
+              getPartPartgroupUplink () const
+                  { return fPartPartgroupUplink; }
                 
     map<int, S_msrStaff>
               getPartStavesMap ()
@@ -3071,7 +3071,7 @@ class EXP msrPart : public msrElement
     string                  fPartAbbreviation;
     string                  fPartInstrumentName;
 
-    S_msrPartgroup          fPartPartgroup;
+    S_msrPartgroup          fPartPartgroupUplink;
 
     map<int, S_msrStaff>    fPartStavesMap;
 
