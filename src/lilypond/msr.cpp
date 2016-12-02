@@ -1183,6 +1183,24 @@ void msrNote::setNoteBelongsToAChord () {
   fNoteKind = msrNote::kChordMemberNote;
 }
 
+void msrNote::applyTupletMemberDisplayFactor (
+  int actualNotes, int normalNotes)
+{
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> applying tuplet display factor " <<
+      actualNotes << "/" << normalNotes <<
+      " to note " << this <<
+      endl;
+
+  fMusicXMLNoteData.fNoteDisplayDivisions =
+    fMusicXMLNoteData.fNoteDisplayDivisions
+      *
+    actualNotes
+      /
+    normalNotes;
+}
+
 msrNote::msrPitch msrNote::computeNoteMsrPitch (
   int                         noteQuatertonesFromA,
   msrNote::musicXMLAlteration alteration)
@@ -1603,7 +1621,8 @@ string msrNote::noteDivisionsAsMSRString () const
       " per whole note, not " <<
       fMusicXMLNoteData.fMusicXMLDotsNumber;
       
-    msrMusicXMLError (
+//    msrMusicXMLError (
+    msrMusicXMLWarning (
       fMsrOptions->fInputSourceName,
       fInputLineNumber,
       s.str());
@@ -2066,7 +2085,8 @@ string msrChord::chordDivisionsAsMSRString () const
       fChordNotes [0]-> 
         getNoteMusicXMLDotsNumber ();
       
-    msrMusicXMLError (
+//    msrMusicXMLError (
+    msrMusicXMLWarning (
       fMsrOptions->fInputSourceName,
       fInputLineNumber,
       s.str());

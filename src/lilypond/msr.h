@@ -881,15 +881,7 @@ class EXP msrNote : public msrElement
 
     // tuplet members
     void          applyTupletMemberDisplayFactor (
-                    int actualNotes, int normalNotes)
-                      {
-                        fMusicXMLNoteData.fNoteDisplayDivisions =
-                          fMusicXMLNoteData.fNoteDisplayDivisions
-                            *
-                          actualNotes
-                            /
-                          normalNotes;
-                      }
+                    int actualNotes, int normalNotes);
                     
     // articulations
     list<S_msrArticulation>

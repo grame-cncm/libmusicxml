@@ -528,13 +528,13 @@ string divisionsAsMSRString (
   int div = divresult.quot;
   int mod = divresult.rem;
 
-//  /*
+  /*
     cout <<
       endl <<
       "divisions = " << divisions <<
     ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
     "div = " << div << ", mod = " << mod << endl;
-//  */
+  */
   
   switch (div) {
     case 8:
@@ -569,20 +569,21 @@ string divisionsAsMSRString (
         denominator = 2, // half note
         n           = divisions * 2;
 
-      //cout << "denominator = " << denominator << ", n = " << n << endl;
+      //cerr << "denominator = " << denominator << ", n = " << n << endl;
       
       while (n < divisionsPerWholeNote) {
         denominator *= 2;
         n *= 2;
-        cout << "n = " << n << ", denominator = " << denominator << endl;
+   //     cerr << "n = " << n << ", denominator = " << denominator << endl;
       } // while
-      cout << "n = " << n << ", denominator = " << denominator << endl;
+   //   cerr << "n = " << n << ", denominator = " << denominator << endl;
 
       int remainingDivisions =
         mod - divisionsPerWholeNote / denominator;
-        
-      cout << "--> denominator = " << denominator << endl;
-      cout << "--> remainingDivisions = " << remainingDivisions << endl;
+
+      cerr << endl << endl;
+      cerr << "--> denominator = " << denominator << endl;
+      cerr << "--> remainingDivisions = " << remainingDivisions << endl;
 
       s << denominator;
 
@@ -594,14 +595,15 @@ string divisionsAsMSRString (
 ///*
  //        while (m < divisionsPerWholeNote) {
         for ( ; ; ) {
-          cout << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
-          if (m >= divisionsPerWholeNote / denominator)
+          cerr << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
+          if (m = divisionsPerWholeNote / denominator)
             break;
           m *= 2;
           s << ".";
           numberOfDots++;
         } // while
-    //    cout << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
+    //    cerr << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
+        cerr << endl;
 //*/
 /*
         while (m > 0) {

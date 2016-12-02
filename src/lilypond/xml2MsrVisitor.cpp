@@ -3936,11 +3936,12 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
     cerr << idtr <<
       "--> pushing tuplet to tuplets stack" << endl;
   fCurrentTupletsStack.push(tuplet);
-
+/*
   // set note display divisions
   firstNote->
     applyTupletMemberDisplayFactor (
       fCurrentActualNotes, fCurrentNormalNotes);
+  */
   
   // add note as first note of the tuplet
 //JMI  if (fMsrOptions->fDebug)
@@ -3962,10 +3963,11 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote note)
   // get tuplet from top of tuplet stack
   S_msrTuplet tup = fCurrentTupletsStack.top();
 
-  // set note display divisions
+/*  // set note display divisions
   note->
     applyTupletMemberDisplayFactor (
       fCurrentActualNotes, fCurrentNormalNotes);
+*/
 
   // add note to the tuplet
   if (fMsrOptions->fDebug)
@@ -4155,13 +4157,20 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   attachPendingDynamicsAndWedgesToNote (note);
 
   /*
-  A note can be standalone
-  or a member of a chord,
-  and the latter can belong to a tuplet.
-  
   A rest can be standalone or belong to a tuplet
+
+  A note can be standalone or a member of a chord
+  and the latter can belong to a tuplet,
+  hence a note of a chord inside a tuplet is to be
+  displayed as a note in a tuplet but outside of chord
   */
   
+  // set note display divisions
+  if (fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet)
+    note->
+      applyTupletMemberDisplayFactor (
+        fCurrentActualNotes, fCurrentNormalNotes);
+
   if (fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord) {
 
     handleNoteBelongingToAChord (note);
@@ -4199,57 +4208,6 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       "--> fCurrentVoice        = " << fCurrentVoice->getVoiceName() << endl;
 
   fOnGoingNote = false;
-}
-
-//______________________________________________________________________________
-void xml2MsrVisitor::handleStandaloneNoteOrRest (
-  S_msrNote newNote)
-{
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "xml2MsrVisitor::handleStandaloneNoteOrRest " <<
-      newNote <<
-      endl;
-
-  if (fMusicXMLNoteData.fMusicXMLStepIsARest)
-    newNote->
-      setNoteKind (msrNote::kRestNote);
-  else
-    newNote->
-      setNoteKind (msrNote::kStandaloneNote);
-      
-  // register note/rest as standalone
-//  if (true || fMsrOptions->fDebugDebug)
-  if (fMsrOptions->fDebugDebug)
-    cerr <<  idtr <<
-      "--> adding standalone " <<
-      newNote->noteMsrPitchAsString () <<
-      ":" << newNote->getNoteMusicXMLDivisions () <<
-      " to current voice" << endl;
-
-  // is voice fCurrentVoiceNumber present in current staff?
-  fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-  if (! fCurrentVoice)
-    // no, add it to the staff
-    fCurrentVoice =
-      fCurrentStaff->
-        addVoiceToStaff (
-          newNote->getInputLineNumber (), fCurrentVoiceNumber);
-    
-  fCurrentVoice->
-    appendNoteToVoice (newNote);
-
-/* JMI
-  if (! fCurrentNoteHasLyrics)
-    // lyrics have to be handled anyway JMI
-    handleLyricsText (newNote->getInputLineNumber ());
-*/
-
-  // account for chord not being built
-  fOnGoingChord = false;
 }
 
 //______________________________________________________________________________
@@ -4361,12 +4319,12 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
           cerr << idtr <<
             "--> adding note " << note <<
             " to tuplets stack top" << endl;
-
+/*
         // set note display divisions
         note->
           applyTupletMemberDisplayFactor (
             fCurrentActualNotes, fCurrentNormalNotes);
-
+*/
         fCurrentTupletsStack.top()->
           addElementToTuplet (note);
       }
@@ -4384,6 +4342,57 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
     case msrTuplet::k_NoTuplet:
       break;
   } // switch
+}
+
+//______________________________________________________________________________
+void xml2MsrVisitor::handleStandaloneNoteOrRest (
+  S_msrNote newNote)
+{
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "xml2MsrVisitor::handleStandaloneNoteOrRest " <<
+      newNote <<
+      endl;
+
+  if (fMusicXMLNoteData.fMusicXMLStepIsARest)
+    newNote->
+      setNoteKind (msrNote::kRestNote);
+  else
+    newNote->
+      setNoteKind (msrNote::kStandaloneNote);
+      
+  // register note/rest as standalone
+//  if (true || fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fDebugDebug)
+    cerr <<  idtr <<
+      "--> adding standalone " <<
+      newNote->noteMsrPitchAsString () <<
+      ":" << newNote->getNoteMusicXMLDivisions () <<
+      " to current voice" << endl;
+
+  // is voice fCurrentVoiceNumber present in current staff?
+  fCurrentVoice =
+    fCurrentStaff->
+      fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+  if (! fCurrentVoice)
+    // no, add it to the staff
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (
+          newNote->getInputLineNumber (), fCurrentVoiceNumber);
+    
+  fCurrentVoice->
+    appendNoteToVoice (newNote);
+
+/* JMI
+  if (! fCurrentNoteHasLyrics)
+    // lyrics have to be handled anyway JMI
+    handleLyricsText (newNote->getInputLineNumber ());
+*/
+
+  // account for chord not being built
+  fOnGoingChord = false;
 }
 
 //______________________________________________________________________________
