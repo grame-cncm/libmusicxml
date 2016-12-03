@@ -148,7 +148,9 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     
   if (genAbsoluteOctave) {
     
- // JMI   if (fMsrOptions->fDebugDebug)
+    // generate LilyPond absolute octave
+
+    if (fMsrOptions->fDebugDebug)
       cerr <<
       endl <<
         idtr << "noteAbsoluteOctave      = " <<
@@ -190,7 +192,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
 
   else {
     
-    // handling octave relative to fRelativeOctaveReference
+    // generate LilyPond octave relative to fRelativeOctaveReference
 
     msrNote::msrDiatonicPitch
       noteDiatonicPitch =
@@ -208,56 +210,88 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
       referenceAbsoluteOctave =
         fRelativeOctaveReference->getNoteMusicXMLOctave ();
 
-    int     
-      octaveDistance =
-        abs (noteAbsoluteOctave - referenceAbsoluteOctave),
-      diatonicDistance =
-        abs (noteDiatonicPitch - referenceDiatonicPitch);
-          
- // JMI   if (fMsrOptions->fDebugDebug)
+    int
+      noteAboluteDiatonicCode =
+        noteAbsoluteOctave * 8 + noteDiatonicPitch - msrNote::kF,
+      referenceAboluteDiatonicCode =
+        referenceAbsoluteOctave * 8 + referenceDiatonicPitch - msrNote::kF,
+      absoluteDiatonicDistance =
+        noteAboluteDiatonicCode - referenceAboluteDiatonicCode,
+      octavesToBeDisplayed =
+        (absoluteDiatonicDistance - 5) / 8;
+        
+        
+//    if (fMsrOptions->fDebugDebug)
       cerr <<
         endl <<
-//        idtr << "noteDiatonicPitch               = " << noteDiatonicPitch << endl <<
-        idtr << "noteDiatonicPitchAsString       = " << noteDiatonicPitchAsString << endl <<
-        idtr << "noteAbsoluteOctave              = " << noteAbsoluteOctave <<  endl <<
+        idtr << "referenceDiatonicPitch         = " << referenceDiatonicPitch <<  endl <<
+        idtr << "referenceDiatonicPitchAsString = " << referenceDiatonicPitchAsString <<  endl <<
+        idtr << "referenceAbsoluteOctave        = " << referenceAbsoluteOctave <<  endl <<
         endl <<
-//        idtr << "referenceDiatonicPitch          = " << referenceDiatonicPitch <<  endl <<
-        idtr << "referenceDiatonicPitchAsString  = " << referenceDiatonicPitchAsString <<  endl <<
-        idtr << "referenceAbsoluteOctave         = " << referenceAbsoluteOctave <<  endl <<
+        idtr << "noteDiatonicPitch              = " << noteDiatonicPitch << endl <<
+        idtr << "noteDiatonicPitchAsString      = " << noteDiatonicPitchAsString << endl <<
+        idtr << "noteAbsoluteOctave             = " << noteAbsoluteOctave <<  endl <<
         endl <<
-        idtr << "diatonicDistance                = " << diatonicDistance << endl <<
-        idtr << "octaveDistance                  = " << octaveDistance << endl <<
+        idtr << "referenceAboluteDiatonicCode   = " << referenceAboluteDiatonicCode << endl <<
+        idtr << "noteAboluteDiatonicCode        = " << noteAboluteDiatonicCode << endl <<
+        idtr << "absoluteDiatonicDistance       = " << absoluteDiatonicDistance <<  endl <<
+        idtr << "octavesToBeDisplayed           = " << octavesToBeDisplayed <<  endl <<
+        endl <<
         endl;
 
-    if (diatonicDistance > 5) {
+    if (abs (absoluteDiatonicDistance) > 5) {
       // a relative octave is to be generated
-      switch (octaveDistance) {
-        case 0:
+      switch (octavesToBeDisplayed) {
+        case -8:
+          s << ",,,,,,,,";
+          break;
+        case -7:
+          s << ",,,,,,,";
+          break;
+        case -6:
+          s << ",,,,,,";
+          break;
+        case -5:
+          s << ",,,,,";
+          break;
+        case -4:
+          s << ",,,,";
+          break;
+        case -3:
           s << ",,,";
           break;
-        case 1:
+        case -2:
           s << ",,";
           break;
-        case 2:
+        case -1:
           s << ",";
           break;
-        case 3:
+        case 0:
           s << "";
           break;
-        case 4:
+        case 1:
           s << "'";
           break;
-        case 5:
+        case 2:
           s << "''";
           break;
-        case 6:
+        case 3:
           s << "'''";
           break;
-        case 7:
+        case 4:
           s << "''''";
           break;
-        case 8:
+        case 5:
           s << "'''''";
+          break;
+        case 6:
+          s << "''''''";
+          break;
+        case 7:
+          s << "'''''''";
+          break;
+        case 8:
+          s << "''''''''";
           break;
         default:
           s << "###";
