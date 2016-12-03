@@ -568,59 +568,48 @@ string divisionsAsMSRString (
       int
         denominator = 2, // half note
         n           = divisions * 2;
-
       //cerr << "denominator = " << denominator << ", n = " << n << endl;
       
       while (n < divisionsPerWholeNote) {
+   //     cerr << "n = " << n << ", denominator = " << denominator << endl;
         denominator *= 2;
         n *= 2;
-   //     cerr << "n = " << n << ", denominator = " << denominator << endl;
       } // while
-   //   cerr << "n = " << n << ", denominator = " << denominator << endl;
 
       int remainingDivisions =
         mod - divisionsPerWholeNote / denominator;
 
-/*
-      cerr << endl << endl;
-      cerr << "--> denominator = " << denominator << endl;
-      cerr << "--> remainingDivisions = " << remainingDivisions << endl;
-*/
+//      if (true)
+      if (false)
+        cerr <<
+          endl << endl <<
+          "--> denominator = " << denominator << endl <<
+          "--> remainingDivisions = " << remainingDivisions <<
+          endl;
+
+      // generate the denominator
       s << denominator;
 
-/*
       // compute the number of dots if any
+      // they are augmentation to the compute denominator
       if (remainingDivisions > 0) {
         int
           m            = remainingDivisions,
           numberOfDots = 0;
 
- //        while (m < divisionsPerWholeNote) {
-        for ( ; ; ) {
-          cerr << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
-          if (m = divisionsPerWholeNote / denominator)
-            break;
+        int etalon = divisionsPerWholeNote / denominator * 2;
+          // an infinite sequence of dots tends to this
+        
+        while (m < etalon) {
+//          cerr << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
           m *= 2;
           s << ".";
           numberOfDots++;
         } // while
-    //    cerr << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
-        cerr << endl;
+//        cerr << endl;
 
-
-        while (m > 0) {
-          cout << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
-          if (m % 2 == 0) {
-            s << ".";
-            numberOfDots++;
-            m /= 2;
-          }
-          else
-            m--;
-        } // while
         computedNumberOfDots = numberOfDots;
       }
-*/
       }
       break;
       
@@ -629,19 +618,13 @@ string divisionsAsMSRString (
       stringstream s;
       
       s << 
-        "ERROR: note divisions " <<
+        "note divisions " <<
           divisions <<
         "/" <<
         divisionsPerWholeNote <<
         " exceeds a maxima" << endl;
         
       errorMessage = s.str();
-/*
-      msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
-        fInputLineNumber,
-        s.str());
-        */
       }
   } // switch
 
@@ -680,6 +663,8 @@ string divisionsAsMSRString (
 
   else {
     */
+
+
 
 
 }

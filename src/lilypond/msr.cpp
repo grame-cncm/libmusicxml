@@ -1609,11 +1609,7 @@ string msrNote::noteDivisionsAsMSRString () const
       fMsrOptions->fInputSourceName,
       fInputLineNumber,
       errorMessage);
-
-  for (int i = 0; i < fMusicXMLNoteData.fMusicXMLDotsNumber; i++)
-    result += ".";
     
-  /*
   if (computedNumberOfDots != fMusicXMLNoteData.fMusicXMLDotsNumber) {
     stringstream s;
     
@@ -1631,7 +1627,6 @@ string msrNote::noteDivisionsAsMSRString () const
       fInputLineNumber,
       s.str());
   }
-  */
 
   return result;
 }
@@ -1666,139 +1661,7 @@ string msrNote::noteDivisionsAsMSRString () const
   }
 
   else {
-    * /
-
-  // MusicXML divisions are per quater note,
-  // MSR and LilyPond durations are in whole notes
-  //  cerr << "|"  << fNum << "|" << fDenom << "|" << fDots << "|" << endl;
-  
-  int
-    divisions =
-      fMusicXMLNoteData.fMusicXMLDivisions,
-    divisionsPerWholeNote =
-      fNoteMeasureLocation.fDivisionsPerWholeNote;
-    
-  stringstream s;
-
-  div_t
-    divresult =
-      div (divisions, divisionsPerWholeNote);
-       
-  int div = divresult.quot;
-  int mod = divresult.rem;
-
-  / *
-    cout <<
-      endl <<
-      "divisions = " << divisions <<
-    ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
-    "div = " << div << ", mod = " << mod << endl;
-  * /
-  
-  switch (div) {
-    case 8:
-    case 7:
-    case 6:
-    case 5:
-      s << "\\maxima";
-      break;
-      
-    case 4:
-    case 3:
-      s << "\\longa";
-      break;
-      
-    case 2:
-      s << "\\breve";
-      break;
-      
-    case 1:
-      s << "1";
-      break;
-      
-    case 0:
-      {
-      // this note is shorter than a whole note,
-      // display it as a fration followed by augmentation dots
-      // if needed
-
-      // compute the the fraction's denominator,
-      // trying 1/2, 1/4, 1/8... in order
-      int
-        denominator = 2, // half note
-        n           = divisions * 2;
-
-      //cout << "denominator = " << denominator << ", n = " << n << endl;
-      
-      while (n < divisionsPerWholeNote) {
-        denominator *= 2;
-        n *= 2;
-        //cout << "denominator = " << denominator << ", n = " << n  << endl;
-      } // while
-
-      int remainingDivisions =
-        mod - divisionsPerWholeNote / denominator;
-      //cout << "--> remainingDivisions = " << remainingDivisions << endl;
-
-      s << denominator;
-
-      // compute the number of dots if any
-      if (remainingDivisions > 0) {
-        int
-          m            = remainingDivisions,
-          numberOfDots = 0;
-    
-        while (m > 0) {
-          m /= 2;
-          //cout << "m = " << m << endl;
-          if (m % 2) {
-            s << ".";
-            numberOfDots++;
-          }
-        } // while
-
-        if (numberOfDots != fMusicXMLNoteData.fMusicXMLDotsNumber) {
-          stringstream s;
-          
-          s << 
-            "ERROR: number of dots " <<
-              fMusicXMLNoteData.fMusicXMLDotsNumber <<
-            " does not correspont to " <<
-            divisions <<
-            " with " <<
-            divisionsPerWholeNote <<
-            " per whole note" << endl;
-            
-          msrMusicXMLError (
-            fMsrOptions->fInputSourceName,
-            fInputLineNumber,
-            s.str());
-        }
-      }
-    }
-      break;
-      
-    default:
-      {
-      stringstream s;
-      
-      s << 
-        "ERROR: note divisions " <<
-          divisions <<
-        "/" <<
-        divisionsPerWholeNote <<
-        " exceeds a maxima" << endl;
-        
-      msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
-        fInputLineNumber,
-        s.str());
-      }
-  } // switch
-  
-  return s.str();
-}
-*/
+    */
 
 string msrNote::noteDiatonicPitchAsString () const
 {
@@ -2087,14 +1950,6 @@ string msrChord::chordDivisionsAsMSRString () const
     fChordNotes [0]-> 
       getNoteMusicXMLDotsNumber ()) { // any chord member notes is fine
 
-    for (
-      int i = 0;
-      i < fChordNotes [0]-> 
-      getNoteMusicXMLDotsNumber (); i++) {
-      result += ".";
-    } // for
-    
-        /*
     stringstream s;
 
     if (fChordDivisions == 1)
@@ -2119,7 +1974,6 @@ string msrChord::chordDivisionsAsMSRString () const
       fMsrOptions->fInputSourceName,
       fInputLineNumber,
       s.str());
-      */
   }
 
   return result;
