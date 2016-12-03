@@ -140,14 +140,14 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   int noteAbsoluteOctave =
     note->getNoteMusicXMLOctave ();
 
-  bool absoluteCode =
+  // should an absolute octave be generated?
+  bool genAbsoluteOctave =
     ! fRelativeOctaveReference
       ||
     fLpsrOptions->fGenerateAbsoluteOctaves;
     
-  if (absoluteCode) {
-    // generate absolute octave
-
+  if (genAbsoluteOctave) {
+    
  // JMI   if (fMsrOptions->fDebugDebug)
       cerr <<
       endl <<
@@ -189,6 +189,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   }
 
   else {
+    
     // handling octave relative to fRelativeOctaveReference
 
     msrNote::msrDiatonicPitch
@@ -216,16 +217,16 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
  // JMI   if (fMsrOptions->fDebugDebug)
       cerr <<
         endl <<
-        idtr << "noteDiatonicPitch               = " << noteDiatonicPitch << endl <<
+//        idtr << "noteDiatonicPitch               = " << noteDiatonicPitch << endl <<
         idtr << "noteDiatonicPitchAsString       = " << noteDiatonicPitchAsString << endl <<
         idtr << "noteAbsoluteOctave              = " << noteAbsoluteOctave <<  endl <<
         endl <<
-        idtr << "referenceDiatonicPitch          = " << referenceDiatonicPitch <<  endl <<
+//        idtr << "referenceDiatonicPitch          = " << referenceDiatonicPitch <<  endl <<
         idtr << "referenceDiatonicPitchAsString  = " << referenceDiatonicPitchAsString <<  endl <<
         idtr << "referenceAbsoluteOctave         = " << referenceAbsoluteOctave <<  endl <<
         endl <<
-        idtr << "octaveDistance                  = " << octaveDistance << endl <<
         idtr << "diatonicDistance                = " << diatonicDistance << endl <<
+        idtr << "octaveDistance                  = " << octaveDistance << endl <<
         endl;
 
     if (diatonicDistance > 5) {

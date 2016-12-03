@@ -1802,7 +1802,8 @@ string msrNote::noteDivisionsAsMSRString () const
 
 string msrNote::noteDiatonicPitchAsString () const
 {
-  switch (fMusicXMLNoteData.fMusicXMLStep) {
+  // fMusicXMLNoteData.fMusicXMLStep is a char, ???
+  switch (fDiatonicPitch) {
     case kA: return "A"; break;
     case kB: return "B"; break;
     case kC: return "C"; break;
