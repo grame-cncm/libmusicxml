@@ -287,37 +287,42 @@ class lpsr2LilyPondVisitor :
     
   private:
                      
-    S_msrOptions         fMsrOptions;
-    S_lpsrOptions        fLpsrOptions;
-    ostream&             fOstream;
-    S_lpsrScore          fVisitedLpsrScore;
+    S_msrOptions          fMsrOptions;
+    S_lpsrOptions         fLpsrOptions;
+    ostream&              fOstream;
+    S_lpsrScore           fVisitedLpsrScore;
 
     // the LPSR score we're building
     // ------------------------------------------------------
-    S_lpsrScore          fLpsrScore;
+    S_lpsrScore           fLpsrScore;
 
     // score
     // ------------------------------------------------------
-    S_msrScore           fCurrentMsrScoreClone;
-    bool                 fOnGoingScoreCommand;
+    S_msrScore            fCurrentMsrScoreClone;
+    bool                  fOnGoingScoreCommand;
     
     // part groups
     // ------------------------------------------------------
-    S_msrPartgroup       fCurrentMsrPartgroupClone;
+    S_msrPartgroup        fCurrentMsrPartgroupClone;
     
     // parts
     // ------------------------------------------------------
-    S_msrPart            fCurrentMsrPartClone;
+    S_msrPart             fCurrentMsrPartClone;
     
     // staves
     // ------------------------------------------------------
-    S_msrStaff           fCurrentMsrStaffClone;
+    S_msrStaff            fCurrentMsrStaffClone;
     // prevent clef, key and time from being handled twice
-    bool                 fOnGoingStaff;
+    bool                  fOnGoingStaff;
 
     // voices
     // ------------------------------------------------------
  // JMI   S_msrVoice           fCurrentMsrVoiceClone;
+    
+    // relative octaves
+    // ------------------------------------------------------
+    S_msrNote             fRelativeOctaveReference;
+                            // contains absolute octave
     
     // repeats
     // ------------------------------------------------------
@@ -326,21 +331,21 @@ class lpsr2LilyPondVisitor :
     // ------------------------------------------------------
     // we need handle embedded msrVoicechunk's to indent notes
     // in a consistent way
-    stack<int>           fVoicechunkNotesAndChordsCountersStack;
+    stack<int>            fVoicechunkNotesAndChordsCountersStack;
 
     // lyrics
     // ------------------------------------------------------
-    S_msrLyrics          fCurrentMsrLyricsClone;
-    bool                 fOngoingNonEmptyLyrics;
-    int                  fLyricschunksCounter;
+    S_msrLyrics           fCurrentMsrLyricsClone;
+    bool                  fOngoingNonEmptyLyrics;
+    int                   fLyricschunksCounter;
     
     // lyrics chunks
     // ------------------------------------------------------
-    S_msrLyricschunk     fCurrentMsrLyricschunkClone;
+    S_msrLyricschunk      fCurrentMsrLyricschunkClone;
 
     // sequential music
     // ------------------------------------------------------
-    int                  fSequentialMusicElementsCounter;
+    int                   fSequentialMusicElementsCounter;
     
     // chords
     // ------------------------------------------------------

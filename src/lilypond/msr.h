@@ -1010,25 +1010,13 @@ class EXP msrChord : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    vector<S_msrNote>
+    const vector<S_msrNote>&
                   getChordNotes () const
                       { return fChordNotes; }
 
     int           getChordDivisions () const
                       { return fChordDivisions; }
             
-    void          addNoteToChord (S_msrNote note)
-                      { fChordNotes.push_back(note); }
-
-    void          addArticulation (S_msrArticulation art)
-                      { fChordArticulations.push_back(art); }
-    
-    void          addDynamics (S_msrDynamics dyn)
-                      { fChordDynamics.push_back(dyn); }
-                    
-    void          addWedge (S_msrWedge wdg)
-                      { fChordWedges.push_back(wdg); }
-
     // location in measure
     void          setChordMeasureLocation (
                     const msrMeasureLocation& location)
@@ -1040,6 +1028,18 @@ class EXP msrChord : public msrElement
 
     // services
     // ------------------------------------------------------
+
+    void          addNoteToChord (S_msrNote note)
+                      { fChordNotes.push_back(note); }
+
+    void          addArticulation (S_msrArticulation art)
+                      { fChordArticulations.push_back(art); }
+    
+    void          addDynamics (S_msrDynamics dyn)
+                      { fChordDynamics.push_back(dyn); }
+                    
+    void          addWedge (S_msrWedge wdg)
+                      { fChordWedges.push_back(wdg); }
 
     string        chordDivisionsAsMSRString () const;
 

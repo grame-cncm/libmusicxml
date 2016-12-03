@@ -136,37 +136,51 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   } // switch
 
   // in MusicXML, octave number is 4 for the octave starting with middle C
-  switch (note->getNoteMusicXMLOctave ()) {
-    case 0:
-      s << ",,,";
-      break;
-    case 1:
-      s << ",,";
-      break;
-    case 2:
-      s << ",";
-      break;
-    case 3:
-      s << "";
-      break;
-    case 4:
-      s << "'";
-      break;
-    case 5:
-      s << "''";
-      break;
-    case 6:
-      s << "'''";
-      break;
-    case 7:
-      s << "''''";
-      break;
-    case 8:
-      s << "'''''";
-      break;
-    default:
-      s << "###";
-  } // switch
+
+  int noteAbsoluteOctave =
+    note->getNoteMusicXMLOctave ();
+
+  bool absoluteCode =
+    fMsrOptions->fGenerateAbsoluteCode || ! fRelativeOctaveReference);
+    
+  if (absoluteCode) {
+    // generate absolute octave
+    switch (noteAbsoluteOctave) {
+      case 0:
+        s << ",,,";
+        break;
+      case 1:
+        s << ",,";
+        break;
+      case 2:
+        s << ",";
+        break;
+      case 3:
+        s << "";
+        break;
+      case 4:
+        s << "'";
+        break;
+      case 5:
+        s << "''";
+        break;
+      case 6:
+        s << "'''";
+        break;
+      case 7:
+        s << "''''";
+        break;
+      case 8:
+        s << "'''''";
+        break;
+      default:
+        s << "###";
+    } // switch
+  }
+
+  else {
+    // generate octave relative to fRelativeOctaveReference
+  }
   
   return s.str();
 }
@@ -860,6 +874,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoice& elt)
 
   idtr++;
 
+  fRelativeOctaveReference = 0;
+
 //  JMI fCurrentMsrVoiceNotesCounter = 0;
 }
 
@@ -1394,6 +1410,8 @@ string msrNote::octaveRepresentation (char octave)
       
       if (elt->getMusicXMLNoteIsTied ())
         fOstream << " ~ ";
+
+      fRelativeOctaveReference = elt;
       break;
       
     case msrNote::kRestNote:
@@ -1422,6 +1440,10 @@ string msrNote::octaveRepresentation (char octave)
       
       // don't print the note duration,
       // it will be printed for the chord itself
+
+      // don't change teh relative octave reference,
+      // it must remains the first chord member note
+      // as set when handling S_msrChord
       break;
       
     case msrNote::kTupletMemberNote:
@@ -1435,6 +1457,8 @@ string msrNote::octaveRepresentation (char octave)
       
       if (elt->getMusicXMLNoteIsTied ())
         fOstream << " ~ ";
+
+      fRelativeOctaveReference = elt;
       break;
   } // switch
 
@@ -1541,6 +1565,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
 */
 
   fOstream << idtr << "<";
+
+  
+  fRelativeOctaveReference = elt->getChordNotes () [0];
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
