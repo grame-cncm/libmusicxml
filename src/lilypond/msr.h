@@ -797,7 +797,8 @@ class EXP msrNote : public msrElement
     // \relative c'' { ceseh ces ceh c cih cis cisih }
 
     enum msrDiatonicPitch {
-      kA, kB, kC, kD, kE, kF, kG,
+      // starting at C for relative octave calculations
+      kC, kD, kE, kF, kG, kA, kB, 
       kRest, k_NoDiatonicPitch};
     
     enum musicXMLAlteration {

@@ -212,16 +212,15 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
 
     int
       noteAboluteDiatonicCode =
-        noteAbsoluteOctave * 8 + noteDiatonicPitch - msrNote::kF,
+        noteAbsoluteOctave * 8 + noteDiatonicPitch - msrNote::kC,
       referenceAboluteDiatonicCode =
-        referenceAbsoluteOctave * 8 + referenceDiatonicPitch - msrNote::kF,
+        referenceAbsoluteOctave * 8 + referenceDiatonicPitch - msrNote::kC,
       absoluteDiatonicDistance =
         noteAboluteDiatonicCode - referenceAboluteDiatonicCode,
       octavesToBeDisplayed =
-        (absoluteDiatonicDistance - 5) / 8;
+        (absoluteDiatonicDistance - 5) / 8;        
         
-        
-//    if (fMsrOptions->fDebugDebug)
+    if (fMsrOptions->fDebugDebug)
       cerr <<
         endl <<
         idtr << "referenceDiatonicPitch         = " << referenceDiatonicPitch <<  endl <<
