@@ -141,10 +141,20 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     note->getNoteMusicXMLOctave ();
 
   bool absoluteCode =
-    fMsrOptions->fGenerateAbsoluteCode || ! fRelativeOctaveReference);
+    ! fRelativeOctaveReference
+      ||
+    fLpsrOptions->fGenerateAbsoluteOctaves;
     
   if (absoluteCode) {
     // generate absolute octave
+
+ // JMI   if (fMsrOptions->fDebugDebug)
+      cerr <<
+      endl <<
+        idtr << "noteAbsoluteOctave      = " <<
+          noteAbsoluteOctave <<  endl <<
+        endl;
+
     switch (noteAbsoluteOctave) {
       case 0:
         s << ",,,";
@@ -179,7 +189,79 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   }
 
   else {
-    // generate octave relative to fRelativeOctaveReference
+    // handling octave relative to fRelativeOctaveReference
+
+    msrNote::msrDiatonicPitch
+      noteDiatonicPitch =
+        note->getDiatonicPitch (),
+      referenceDiatonicPitch =
+        fRelativeOctaveReference->getDiatonicPitch ();
+
+    string
+      noteDiatonicPitchAsString =
+        note->noteDiatonicPitchAsString (),
+      referenceDiatonicPitchAsString =
+        fRelativeOctaveReference->noteDiatonicPitchAsString ();
+        
+    int
+      referenceAbsoluteOctave =
+        fRelativeOctaveReference->getNoteMusicXMLOctave ();
+
+    int     
+      octaveDistance =
+        abs (noteAbsoluteOctave - referenceAbsoluteOctave),
+      diatonicDistance =
+        abs (noteDiatonicPitch - referenceDiatonicPitch);
+          
+ // JMI   if (fMsrOptions->fDebugDebug)
+      cerr <<
+        endl <<
+        idtr << "noteDiatonicPitch               = " << noteDiatonicPitch << endl <<
+        idtr << "noteDiatonicPitchAsString       = " << noteDiatonicPitchAsString << endl <<
+        idtr << "noteAbsoluteOctave              = " << noteAbsoluteOctave <<  endl <<
+        endl <<
+        idtr << "referenceDiatonicPitch          = " << referenceDiatonicPitch <<  endl <<
+        idtr << "referenceDiatonicPitchAsString  = " << referenceDiatonicPitchAsString <<  endl <<
+        idtr << "referenceAbsoluteOctave         = " << referenceAbsoluteOctave <<  endl <<
+        endl <<
+        idtr << "octaveDistance                  = " << octaveDistance << endl <<
+        idtr << "diatonicDistance                = " << diatonicDistance << endl <<
+        endl;
+
+    if (diatonicDistance > 5) {
+      // a relative octave is to be generated
+      switch (octaveDistance) {
+        case 0:
+          s << ",,,";
+          break;
+        case 1:
+          s << ",,";
+          break;
+        case 2:
+          s << ",";
+          break;
+        case 3:
+          s << "";
+          break;
+        case 4:
+          s << "'";
+          break;
+        case 5:
+          s << "''";
+          break;
+        case 6:
+          s << "'''";
+          break;
+        case 7:
+          s << "''''";
+          break;
+        case 8:
+          s << "'''''";
+          break;
+        default:
+          s << "###";
+      } // switch
+    }
   }
   
   return s.str();
@@ -1441,7 +1523,7 @@ string msrNote::octaveRepresentation (char octave)
       // don't print the note duration,
       // it will be printed for the chord itself
 
-      // don't change teh relative octave reference,
+      // don't change the relative octave reference,
       // it must remains the first chord member note
       // as set when handling S_msrChord
       break;

@@ -212,7 +212,7 @@ void analyzeOptions (
   lpsrOpts->fDontKeepLineBreaks               = false;
   lpsrOpts->fKeepStaffSize                    = false;
     
-  lpsrOpts->fGenerateAbsoluteOctaves          = true;
+  lpsrOpts->fGenerateAbsoluteOctaves          = false;
 
   lpsrOpts->fGenerateNumericalTime            = false;
   lpsrOpts->fGenerateComments                 = false;

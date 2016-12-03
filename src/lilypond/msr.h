@@ -796,8 +796,9 @@ class EXP msrNote : public msrElement
     // the following is a series of Cs with increasing pitches:
     // \relative c'' { ceseh ces ceh c cih cis cisih }
 
-    enum musicXMLDiatonicPitch {
-      kA, kB, kC, kD, kE, kF, kG, kRest, k_NoDiatonicPitch};
+    enum msrDiatonicPitch {
+      kA, kB, kC, kD, kE, kF, kG,
+      kRest, k_NoDiatonicPitch};
     
     enum musicXMLAlteration {
       // kDoubleFlat=-2 as in MusicXML, to faciliting testing
@@ -871,6 +872,10 @@ class EXP msrNote : public msrElement
                           fMusicXMLNoteData.fMusicXMLOctave;
                       }
 
+    msrDiatonicPitch
+                  getDiatonicPitch () const
+                      { return fDiatonicPitch; }
+                      
     msrPitch      getNoteMsrPitch () const
                       { return fNoteMsrPitch; }
                       
@@ -931,6 +936,8 @@ class EXP msrNote : public msrElement
                   sDutchLilypondPitches;
 
     string        noteAsString () const;
+    
+    string        noteDiatonicPitchAsString () const;
 
     string        noteDivisionsAsMSRString () const;
 
@@ -970,7 +977,7 @@ class EXP msrNote : public msrElement
     
     musicXMLNoteData           fMusicXMLNoteData;
 
-    musicXMLDiatonicPitch      fMusicXMLDiatonicPitch; // JMI
+    msrDiatonicPitch           fDiatonicPitch;
 
     // LilyPond informations
     msrPitch                   fNoteMsrPitch;
