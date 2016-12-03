@@ -52,7 +52,7 @@ class lpsr2LilyPondVisitor :
   
   public visitor<S_lpsrParallelMusic>,
 
-  public visitor<S_lpsrScoreCommand>,
+  public visitor<S_lpsrScoreBlock>,
   public visitor<S_lpsrPartgroupCommand>,
   public visitor<S_lpsrPartCommand>,
   public visitor<S_lpsrStaffCommand>,
@@ -157,8 +157,8 @@ class lpsr2LilyPondVisitor :
     virtual void visitStart (S_lpsrLayout& elt);
     virtual void visitEnd   (S_lpsrLayout& elt);
 
-    virtual void visitStart (S_lpsrScoreCommand& elt);
-    virtual void visitEnd   (S_lpsrScoreCommand& elt);
+    virtual void visitStart (S_lpsrScoreBlock& elt);
+    virtual void visitEnd   (S_lpsrScoreBlock& elt);
 
     virtual void visitStart (S_lpsrParallelMusic& elt);
     virtual void visitEnd   (S_lpsrParallelMusic& elt);
@@ -299,7 +299,7 @@ class lpsr2LilyPondVisitor :
     // score
     // ------------------------------------------------------
     S_msrScore            fCurrentMsrScoreClone;
-    bool                  fOnGoingScoreCommand;
+    bool                  fOnGoingScoreBlock;
     
     // part groups
     // ------------------------------------------------------

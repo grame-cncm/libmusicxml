@@ -48,7 +48,7 @@ lpsr2LilyPondVisitor::lpsr2LilyPondVisitor (
 
   fOngoingNonEmptyLyrics = false;
 
-  fOnGoingScoreCommand = false;
+  fOnGoingScoreBlock = false;
 };
   
 lpsr2LilyPondVisitor::~lpsr2LilyPondVisitor () {}
@@ -572,11 +572,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrLayout& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_lpsrScoreCommand& elt)
+void lpsr2LilyPondVisitor::visitStart (S_lpsrScoreBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting lpsrScoreCommand" << endl;
+      "% --> Start visiting lpsrScoreBlock" << endl;
 
   fOstream << idtr <<
     "\\score {" <<
@@ -584,14 +584,14 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrScoreCommand& elt)
 
   idtr++;
 
-  fOnGoingScoreCommand = true;
+  fOnGoingScoreBlock = true;
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_lpsrScoreCommand& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrScoreBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting lpsrScoreCommand" << endl;
+      "% --> End visiting lpsrScoreBlock" << endl;
 
   idtr--;
   
@@ -599,7 +599,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrScoreCommand& elt)
     "}" <<
     endl;
 
-  fOnGoingScoreCommand = false;
+  fOnGoingScoreBlock = false;
 }
 
 //________________________________________________________________________
@@ -640,7 +640,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupCommand& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrPartgroupCommand" << endl;
 
-  if (elt->getPartgroupCommandElements ().size()) { // JMI
+  if (elt->getPartgroupCommandElements ().size() > 1) {
     fOstream << idtr <<
       setw(30) << "\\new StaffGroup" " " "{";
     if (fLpsrOptions->fGenerateComments)
@@ -661,7 +661,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupCommand& elt)
 
   idtr--;
 
-  if (elt->getPartgroupCommandElements ().size()) {
+  if (elt->getPartgroupCommandElements ().size() > 1) {
     fOstream <<
       idtr <<
       setw(30) << "}";
@@ -687,7 +687,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartCommand& elt)
       "% part " <<
       elt->getPart ()->getPartCombinedName ();
   fOstream << endl;
-
+  
   idtr++;
 }
 

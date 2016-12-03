@@ -1761,14 +1761,14 @@ EXP ostream& operator<< (ostream& os, const S_lpsrPartgroupCommand& elt);
   A score is represented by parallel music, score layout and midi
 */
 //______________________________________________________________________________
-class EXP lpsrScoreCommand : public lpsrElement
+class EXP lpsrScoreBlock : public lpsrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<lpsrScoreCommand> create (
+    static SMARTP<lpsrScoreBlock> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
@@ -1777,14 +1777,14 @@ class EXP lpsrScoreCommand : public lpsrElement
     // ------------------------------------------------------
 
     S_lpsrParallelMusic
-                  getScoreCommandParallelMusic () const
-                      { return fScoreCommandParallelMusic; }
+                  getScoreBlockParallelMusic () const
+                      { return fScoreBlockParallelMusic; }
 
-    S_lpsrLayout  getScoreCommandLayout () const
-                    { return fScoreCommandLayout; }
+    S_lpsrLayout  getScoreBlockLayout () const
+                    { return fScoreBlockLayout; }
 
-    S_msrMidi     getScoreCommandMidi () const
-                      { return fScoreCommandMidi; }
+    S_msrMidi     getScoreBlockMidi () const
+                      { return fScoreBlockMidi; }
 
     // services
     // ------------------------------------------------------
@@ -1792,21 +1792,21 @@ class EXP lpsrScoreCommand : public lpsrElement
     void          appendPartgroupCommandToParallelMusic (
                     S_lpsrPartgroupCommand partgroupCommand)
                       {
-                        fScoreCommandParallelMusic->
+                        fScoreBlockParallelMusic->
                           addElementToParallelMusic (partgroupCommand);
                       }
 
     void          appendVoiceUseToParallelMusic (
                     S_lpsrUseVoiceCommand voiceUse)
                       {
-                        fScoreCommandParallelMusic->
+                        fScoreBlockParallelMusic->
                           addElementToParallelMusic (voiceUse);
                       }
                   
     void          appendLyricsUseToParallelMusic (
                     S_lpsrNewlyricsCommand lyricsUse)
                       {
-                        fScoreCommandParallelMusic->
+                        fScoreBlockParallelMusic->
                           addElementToParallelMusic (lyricsUse);
                       }
 
@@ -1822,21 +1822,21 @@ class EXP lpsrScoreCommand : public lpsrElement
 
   protected:
 
-    lpsrScoreCommand (
+    lpsrScoreBlock (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
       
-    virtual ~lpsrScoreCommand();
+    virtual ~lpsrScoreBlock();
   
   private:
 
-    S_lpsrParallelMusic fScoreCommandParallelMusic;
-    S_lpsrLayout        fScoreCommandLayout;
-    S_msrMidi           fScoreCommandMidi;    
+    S_lpsrParallelMusic fScoreBlockParallelMusic;
+    S_lpsrLayout        fScoreBlockLayout;
+    S_msrMidi           fScoreBlockMidi;    
 };
-typedef SMARTP<lpsrScoreCommand> S_lpsrScoreCommand;
-EXP ostream& operator<< (ostream& os, const S_lpsrScoreCommand& elt);
+typedef SMARTP<lpsrScoreBlock> S_lpsrScoreBlock;
+EXP ostream& operator<< (ostream& os, const S_lpsrScoreBlock& elt);
 
 /*!
 \brief A lpsr score representation.
@@ -1860,8 +1860,8 @@ class EXP lpsrScore : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
- // JMI   void      setScoreCommand (S_lpsrScoreCommand scoreCommand)
-       //           { fScoreCommand = scoreCommand; }
+ // JMI   void      setScoreBlock (S_lpsrScoreBlock scoreCommand)
+       //           { fScoreBlock = scoreCommand; }
                   
     S_lpsrLilypondVarValAssoc
               getLilyPondVersion () const
@@ -1887,9 +1887,9 @@ class EXP lpsrScore : public lpsrElement
               getVoicesAndLyricsList () const
                   { return fScoreElements; }
 
-    S_lpsrScoreCommand
-              getScoreCommand () const
-                  { return fScoreCommand; }
+    S_lpsrScoreBlock
+              getScoreBlock () const
+                  { return fScoreBlock; }
 
     void      setGlobalStaffSize (float size)
                   {
@@ -1974,7 +1974,7 @@ class EXP lpsrScore : public lpsrElement
     list<S_msrElement>        fScoreElements;
 
     // score command
-    S_lpsrScoreCommand        fScoreCommand;
+    S_lpsrScoreBlock        fScoreBlock;
 };
 typedef SMARTP<lpsrScore> S_lpsrScore;
 EXP ostream& operator<< (ostream& os, const S_lpsrScore& elt);

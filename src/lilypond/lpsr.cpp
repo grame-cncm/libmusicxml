@@ -2885,119 +2885,119 @@ void lpsrPartgroupCommand::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrScoreCommand lpsrScoreCommand::create (
+S_lpsrScoreBlock lpsrScoreBlock::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
 {
-  lpsrScoreCommand* o = new lpsrScoreCommand (
+  lpsrScoreBlock* o = new lpsrScoreBlock (
     msrOpts, lpsrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
-lpsrScoreCommand::lpsrScoreCommand (
+lpsrScoreBlock::lpsrScoreBlock (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {
   // create the score command parallel music
-  fScoreCommandParallelMusic =
+  fScoreBlockParallelMusic =
     lpsrParallelMusic::create (
       msrOpts, lpsrOpts, inputLineNumber,
       lpsrParallelMusic::kEndOfLine);
   
   // create the score command layout
-  fScoreCommandLayout =
+  fScoreBlockLayout =
     lpsrLayout::create (
       msrOpts, lpsrOpts, inputLineNumber);
   
   // create the score command midi
-  fScoreCommandMidi =
+  fScoreBlockMidi =
     msrMidi::create (msrOpts, inputLineNumber);
 }
 
-lpsrScoreCommand::~lpsrScoreCommand() {}
+lpsrScoreBlock::~lpsrScoreBlock() {}
 
-void lpsrScoreCommand::acceptIn (basevisitor* v) {
+void lpsrScoreBlock::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrScoreCommand::acceptIn()" << endl;
+      "==> lpsrScoreBlock::acceptIn()" << endl;
       
-  if (visitor<S_lpsrScoreCommand>*
+  if (visitor<S_lpsrScoreBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrScoreCommand>*> (v)) {
-        S_lpsrScoreCommand elem = this;
+      dynamic_cast<visitor<S_lpsrScoreBlock>*> (v)) {
+        S_lpsrScoreBlock elem = this;
         
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrScoreCommand::visitStart()" << endl;
+            "==> Launching lpsrScoreBlock::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void lpsrScoreCommand::acceptOut (basevisitor* v) {
+void lpsrScoreBlock::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrScoreCommand::acceptOut()" << endl;
+      "==> lpsrScoreBlock::acceptOut()" << endl;
 
-  if (visitor<S_lpsrScoreCommand>*
+  if (visitor<S_lpsrScoreBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrScoreCommand>*> (v)) {
-        S_lpsrScoreCommand elem = this;
+      dynamic_cast<visitor<S_lpsrScoreBlock>*> (v)) {
+        S_lpsrScoreBlock elem = this;
       
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrScoreCommand::visitEnd()" << endl;
+            "==> Launching lpsrScoreBlock::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void lpsrScoreCommand::browseData (basevisitor* v)
+void lpsrScoreBlock::browseData (basevisitor* v)
 {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "==> lpsrScoreCommand::browseData()" << endl;
+      "==> lpsrScoreBlock::browseData()" << endl;
 
   {
     // browse the score command parallel music
     msrBrowser<lpsrParallelMusic> browser (v);    
-    browser.browse (*fScoreCommandParallelMusic);
+    browser.browse (*fScoreBlockParallelMusic);
   }
 
   {
     // browse the score command layout
     msrBrowser<lpsrLayout> browser (v);    
-    browser.browse (*fScoreCommandLayout);
+    browser.browse (*fScoreBlockLayout);
   }
 
   {
     // browse the score command midi
     msrBrowser<msrMidi> browser (v);    
-    browser.browse (*fScoreCommandMidi);
+    browser.browse (*fScoreBlockMidi);
   }
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "<== lpsrScoreCommand::browseData()" << endl;
+      "<== lpsrScoreBlock::browseData()" << endl;
 }
 
-ostream& operator<< (ostream& os, const S_lpsrScoreCommand& scr)
+ostream& operator<< (ostream& os, const S_lpsrScoreBlock& scr)
 {
   scr->print (os);
   return os;
 }
 
-void lpsrScoreCommand::print (ostream& os)
+void lpsrScoreBlock::print (ostream& os)
 {
-  os << "ScoreCommand" << endl << endl;
+  os << "ScoreBlock" << endl << endl;
 
   idtr++;
 
-  os << idtr << fScoreCommandParallelMusic << endl;
-  os << idtr << fScoreCommandLayout << endl;
-  os << idtr << fScoreCommandMidi << endl;
+  os << idtr << fScoreBlockParallelMusic << endl;
+  os << idtr << fScoreBlockLayout << endl;
+  os << idtr << fScoreBlockMidi << endl;
 
   idtr--;
 }
@@ -3151,8 +3151,8 @@ lpsrScore::lpsrScore (
   }
  
   // create the score command
-  fScoreCommand =
-    lpsrScoreCommand::create (
+  fScoreBlock =
+    lpsrScoreBlock::create (
       msrOpts, lpsrOpts, inputLineNumber);
 }
 
@@ -3169,7 +3169,7 @@ void lpsrScore::appendPartgroupToStoreCommand (S_msrVoice voice)
         fInputLineNumber,
         voice);
   
-  fScoreCommand->
+  fScoreBlock->
     appendVoiceUseToParallelMusic (useVoiceCommand);
 }
 */
@@ -3184,7 +3184,7 @@ void lpsrScore::appendVoiceUseToStoreCommand (S_msrVoice voice)
         fInputLineNumber,
         voice);
   
-  fScoreCommand->
+  fScoreBlock->
     appendVoiceUseToParallelMusic (useVoiceCommand);
 }
 
@@ -3199,7 +3199,7 @@ void lpsrScore::appendLyricsUseToStoreCommand (S_msrLyrics lyrics)
         lyrics,
         lyrics->getLyricsVoiceUplink ());
   
-  fScoreCommand->
+  fScoreBlock->
     appendLyricsUseToParallelMusic (newLyricsCommand);
 }
 
@@ -3316,8 +3316,8 @@ void lpsrScore::browseData (basevisitor* v)
 
   {
     // browse the score command
-    msrBrowser<lpsrScoreCommand> browser (v);    
-    browser.browse (*fScoreCommand);
+    msrBrowser<lpsrScoreBlock> browser (v);    
+    browser.browse (*fScoreBlock);
   }
 
   if (fMsrOptions->fDebug)
@@ -3358,7 +3358,7 @@ void lpsrScore::print (ostream& os)
     } // for
   }
 
-  os << idtr << fScoreCommand << endl;
+  os << idtr << fScoreBlock << endl;
 
   idtr--;
 }

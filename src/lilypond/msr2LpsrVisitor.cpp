@@ -98,7 +98,7 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
       "--> End visiting msrScore" << endl;
 
 //  fLpsrScore->
-//    setScoreCommand (fPartgroupCommandsStack.pop ());
+//    setScoreBlock (fPartgroupCommandsStack.pop ());
 
 /*
   // get top level pargroup command from the stack
@@ -194,7 +194,7 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
   // get LPSR score command layout
   S_lpsrLayout
     scoreCommandLayout =
-      fLpsrScore->getScoreCommand ()->getScoreCommandLayout ();
+      fLpsrScore->getScoreBlock ()->getScoreBlockLayout ();
 
   // create the score command layout staff-size Scheme assoc
   stringstream s;
@@ -259,9 +259,9 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
     partgroupCommand);
   
   // get the LPSR store command
-  S_lpsrScoreCommand
+  S_lpsrScoreBlock
     scoreCommand =
-      fLpsrScore->getScoreCommand ();
+      fLpsrScore->getScoreBlock ();
 
   // append the pargroup clone to the score command
   scoreCommand->
