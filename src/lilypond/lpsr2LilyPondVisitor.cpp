@@ -634,13 +634,13 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrParallelMusic& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupCommand& elt)
+void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting lpsrPartgroupCommand" << endl;
+      "% --> Start visiting lpsrPartgroupBlock" << endl;
 
-  if (elt->getPartgroupCommandElements ().size() > 1) {
+  if (elt->getPartgroupBlockElements ().size() > 1) {
     fOstream << idtr <<
       setw(30) << "\\new StaffGroup" " " "{";
     if (fLpsrOptions->fGenerateComments)
@@ -653,15 +653,15 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupCommand& elt)
   idtr++;
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupCommand& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting lpsrPartgroupCommand" << endl;
+      "% --> End visiting lpsrPartgroupBlock" << endl;
 
   idtr--;
 
-  if (elt->getPartgroupCommandElements ().size() > 1) {
+  if (elt->getPartgroupBlockElements ().size() > 1) {
     fOstream <<
       idtr <<
       setw(30) << "}";
@@ -674,11 +674,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupCommand& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_lpsrPartCommand& elt)
+void lpsr2LilyPondVisitor::visitStart (S_lpsrPartBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting lpsrPartCommand" << endl;
+      "% --> Start visiting lpsrPartBlock" << endl;
 
   fOstream << idtr <<
     setw(30) << "\\new StaffGroup" " " "{";
@@ -691,11 +691,11 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartCommand& elt)
   idtr++;
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartCommand& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting lpsrPartCommand" << endl;
+      "% --> End visiting lpsrPartBlock" << endl;
 
   idtr--;
 
@@ -710,11 +710,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartCommand& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffCommand& elt)
+void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting lpsrStaffCommand" << endl;
+      "% --> Start visiting lpsrStaffBlock" << endl;
 
   fOstream << idtr <<
     setw(30) << "\\new Staff" " " "<<";
@@ -727,11 +727,11 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffCommand& elt)
   idtr++;
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffCommand& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting lpsrStaffCommand" << endl;
+      "% --> End visiting lpsrStaffBlock" << endl;
 
   idtr--;
 
@@ -747,11 +747,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffCommand& elt)
 
 /*
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_lpsrNewStaffgroupCommand& elt)
+void lpsr2LilyPondVisitor::visitStart (S_lpsrNewStaffgroupBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting lpsrNewStaffgroupCommand" << endl;
+      "% --> Start visiting lpsrNewStaffgroupBlock" << endl;
 
    fOstream << idtr <<
      "\\new StaffGroup" << " " << "{" <<
@@ -760,11 +760,11 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewStaffgroupCommand& elt)
   idtr++;
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewStaffgroupCommand& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewStaffgroupBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting lpsrNewStaffgroupCommand" << endl;
+      "% --> End visiting lpsrNewStaffgroupBlock" << endl;
 
   idtr--;
 
@@ -774,20 +774,20 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewStaffgroupCommand& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_lpsrNewStaffCommand& elt)
+void lpsr2LilyPondVisitor::visitStart (S_lpsrNewStaffBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting lpsrNewStaffCommand" << endl;
+      "% --> Start visiting lpsrNewStaffBlock" << endl;
 
   idtr++;
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewStaffCommand& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewStaffBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting lpsrNewStaffCommand" << endl;
+      "% --> End visiting lpsrNewStaffBlock" << endl;
 
   idtr--;
 }
@@ -821,11 +821,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrUseVoiceCommand& elt)
 }
   
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_lpsrNewlyricsCommand& elt)
+void lpsr2LilyPondVisitor::visitStart (S_lpsrNewLyricsBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting lpsrNewlyricsCommand" << endl;
+      "% --> Start visiting lpsrNewLyricsBlock" << endl;
 
   if (fOngoingNonEmptyLyrics) {
     fOstream << idtr <<
@@ -840,11 +840,11 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewlyricsCommand& elt)
   }
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewlyricsCommand& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewLyricsBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting lpsrNewlyricsCommand" << endl;
+      "% --> End visiting lpsrNewLyricsBlock" << endl;
 
   if (fOngoingNonEmptyLyrics)
     idtr--;

@@ -244,18 +244,18 @@ class msr2LpsrVisitor :
     // ------------------------------------------------------
     S_msrPartgroup          fCurrentPartgroupClone;
     // the current partgroup command is the top of the stack
-    stack<S_lpsrPartgroupCommand>
-                            fPartgroupCommandsStack;
+    stack<S_lpsrPartgroupBlock>
+                            fPartgroupBlocksStack;
     
     // parts
     // ------------------------------------------------------
     S_msrPart               fCurrentPartClone;
-    S_lpsrPartCommand       fCurrentPartCommand;
+    S_lpsrPartBlock       fCurrentPartBlock;
     
     // staves
     // ------------------------------------------------------
     S_msrStaff              fCurrentStaffClone;
-    S_lpsrStaffCommand      fCurrentStaffCommand;
+    S_lpsrStaffBlock        fCurrentStaffBlock;
     // prevent clef, key and time from being handled twice
     bool                    fOnGoingStaff;
 

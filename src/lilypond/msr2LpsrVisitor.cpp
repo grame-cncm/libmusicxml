@@ -86,7 +86,7 @@ void msr2LpsrVisitor::visitStart (S_msrScore& elt)
 /*
   // push it onto this visitors's stack,
   // making it the current partgroup command
-  fPartgroupCommandsStack.push (
+  fPartgroupBlocksStack.push (
     partgroupCommand);
     */
 }
@@ -98,19 +98,19 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
       "--> End visiting msrScore" << endl;
 
 //  fLpsrScore->
-//    setScoreBlock (fPartgroupCommandsStack.pop ());
+//    setScoreBlock (fPartgroupBlocksStack.pop ());
 
 /*
   // get top level pargroup command from the stack
-  S_lpsrPartgroupCommand
+  S_lpsrPartgroupBlock
     partgroupCommand =
-      fPartgroupCommandsStack.top ();
+      fPartgroupBlocksStack.top ();
 
   // pop it from the stack
-  fPartgroupCommandsStack.top ();
+  fPartgroupBlocksStack.top ();
 
   // the stack should now be empty
-  if (fPartgroupCommandsStack.size())
+  if (fPartgroupBlocksStack.size())
     msrInternalError (
       1,
       "the partgroup command stack is not exmpty at the end of the visit");
@@ -248,14 +248,14 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
     addPartgroupToScore (fCurrentPartgroupClone);
 
   // create a partgroup command
-  S_lpsrPartgroupCommand
+  S_lpsrPartgroupBlock
     partgroupCommand =
-      lpsrPartgroupCommand::create (
+      lpsrPartgroupBlock::create (
         fMsrOptions, fLpsrOptions, fCurrentPartgroupClone);
 
   // push it onto this visitors's stack,
   // making it the current partgroup command
-  fPartgroupCommandsStack.push (
+  fPartgroupBlocksStack.push (
     partgroupCommand);
   
   // get the LPSR store command
@@ -265,7 +265,7 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
 
   // append the pargroup clone to the score command
   scoreCommand->
-    appendPartgroupCommandToParallelMusic (
+    appendPartgroupBlockToParallelMusic (
       partgroupCommand);
 
   // append the partgroup command to the LPSR score command
@@ -298,7 +298,7 @@ void msr2LpsrVisitor::visitEnd (S_msrPartgroup& elt)
       "--> End visiting msrPartgroup" << endl;
 
   // pop current partgroup from this visitors's stack
-  fPartgroupCommandsStack.pop ();
+  fPartgroupBlocksStack.pop ();
       
 }
 
@@ -320,13 +320,13 @@ void msr2LpsrVisitor::visitStart (S_msrPart& elt)
     addPartToPartgroup (fCurrentPartClone);
 
   // create a part command
-  fCurrentPartCommand =
-    lpsrPartCommand::create (
+  fCurrentPartBlock =
+    lpsrPartBlock::create (
       fMsrOptions, fLpsrOptions, fCurrentPartClone);
 
   // append it to the current partgroup command
-  fPartgroupCommandsStack.top ()->
-    appendElementToPartgroupCommand (fCurrentPartCommand);
+  fPartgroupBlocksStack.top ()->
+    appendElementToPartgroupBlock (fCurrentPartBlock);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrPart& elt)
@@ -356,13 +356,13 @@ void msr2LpsrVisitor::visitStart (S_msrStaff& elt)
     addStaffToPart (fCurrentStaffClone);
 
   // create a staff command
-  fCurrentStaffCommand =
-    lpsrStaffCommand::create (
+  fCurrentStaffBlock =
+    lpsrStaffBlock::create (
       fMsrOptions, fLpsrOptions, fCurrentStaffClone);
 
   // append it to the current part command
-  fCurrentPartCommand->
-    appendElementToPartCommand (fCurrentStaffCommand);
+  fCurrentPartBlock->
+    appendElementToPartBlock (fCurrentStaffBlock);
 
   fOnGoingStaff = true;
 }
@@ -400,8 +400,8 @@ void msr2LpsrVisitor::visitStart (S_msrVoice& elt)
     appendVoiceToScoreElements (fCurrentVoiceClone);
 
   // append a use of the voice to the current staff command
-  fCurrentStaffCommand->
-    appendVoiceUseToStaffCommand (fCurrentVoiceClone);
+  fCurrentStaffBlock->
+    appendVoiceUseToStaffBlock (fCurrentVoiceClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrVoice& elt)
@@ -486,8 +486,8 @@ void msr2LpsrVisitor::visitStart (S_msrLyrics& elt)
       appendLyricsToScoreElements (fCurrentLyricsClone);
   
     // append a use of the lyrics to the current staff command
-    fCurrentStaffCommand ->
-      appendLyricsUseToStaffCommand (fCurrentLyricsClone);
+    fCurrentStaffBlock ->
+      appendLyricsUseToStaffBlock (fCurrentLyricsClone);
 //  }
 //  else
   //  fCurrentLyricsClone = 0; // JMI

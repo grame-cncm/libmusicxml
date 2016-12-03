@@ -624,14 +624,14 @@ typedef SMARTP<lpsrBarNumberCheck> S_lpsrBarNumberCheck;
   A new staff is represented by a vactor of elements
 */
 //______________________________________________________________________________
-class EXP lpsrNewStaffgroupCommand : public lpsrElement
+class EXP lpsrNewStaffgroupBlock : public lpsrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<lpsrNewStaffgroupCommand> create (
+    static SMARTP<lpsrNewStaffgroupBlock> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumberr);
@@ -657,19 +657,19 @@ class EXP lpsrNewStaffgroupCommand : public lpsrElement
 
   protected:
 
-    lpsrNewStaffgroupCommand (
+    lpsrNewStaffgroupBlock (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
       
-    virtual ~lpsrNewStaffgroupCommand();
+    virtual ~lpsrNewStaffgroupBlock();
   
   private:
   
     vector<S_msrElement> fNewStaffgroupElements;
 };
-typedef SMARTP<lpsrNewStaffgroupCommand> S_lpsrNewStaffgroupCommand;
-EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffgroupCommand& elt);
+typedef SMARTP<lpsrNewStaffgroupBlock> S_lpsrNewStaffgroupBlock;
+EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffgroupBlock& elt);
 
 /*!
 \brief A lpsr new staff representation.
@@ -677,14 +677,14 @@ EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffgroupCommand& elt);
   A new staff is represented by a vactor of elements
 */
 //______________________________________________________________________________
-class EXP lpsrNewStaffCommand : public lpsrElement
+class EXP lpsrNewStaffBlock : public lpsrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<lpsrNewStaffCommand> create (
+    static SMARTP<lpsrNewStaffBlock> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
@@ -710,19 +710,19 @@ class EXP lpsrNewStaffCommand : public lpsrElement
 
   protected:
 
-    lpsrNewStaffCommand (
+    lpsrNewStaffBlock (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
       
-    virtual ~lpsrNewStaffCommand();
+    virtual ~lpsrNewStaffBlock();
   
   private:
   
     vector<S_msrElement> fNewStaffElements;
 };
-typedef SMARTP<lpsrNewStaffCommand> S_lpsrNewStaffCommand;
-EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffCommand& elt);
+typedef SMARTP<lpsrNewStaffBlock> S_lpsrNewStaffBlock;
+EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffBlock& elt);
 
 /*!
 \brief A voice use representation.
@@ -785,14 +785,14 @@ EXP ostream& operator<< (ostream& os, const S_lpsrUseVoiceCommand& elt);
 */
 
 //______________________________________________________________________________
-class EXP lpsrNewlyricsCommand : public lpsrElement
+class EXP lpsrNewLyricsBlock : public lpsrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<lpsrNewlyricsCommand> create (
+    static SMARTP<lpsrNewLyricsBlock> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
@@ -820,22 +820,22 @@ class EXP lpsrNewlyricsCommand : public lpsrElement
 
   protected:
 
-    lpsrNewlyricsCommand (
+    lpsrNewLyricsBlock (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       S_msrLyrics    lyrics,
       S_msrVoice );
       
-    virtual ~lpsrNewlyricsCommand();
+    virtual ~lpsrNewLyricsBlock();
   
   private:
   
     S_msrLyrics fLyrics;
     S_msrVoice  fVoice;
 };
-typedef SMARTP<lpsrNewlyricsCommand> S_lpsrNewlyricsCommand;
-EXP ostream& operator<< (ostream& os, const S_lpsrNewlyricsCommand& elt);
+typedef SMARTP<lpsrNewLyricsBlock> S_lpsrNewLyricsBlock;
+EXP ostream& operator<< (ostream& os, const S_lpsrNewLyricsBlock& elt);
 
 
 /*!
@@ -1564,14 +1564,14 @@ EXP ostream& operator<< (ostream& os, const S_lpsrRepeat& elt);
   A score is represented by parallel music, score layout and midi
 */
 //______________________________________________________________________________
-class EXP lpsrStaffCommand : public lpsrElement
+class EXP lpsrStaffBlock : public lpsrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<lpsrStaffCommand> create (
+    static SMARTP<lpsrStaffBlock> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts,
       S_msrStaff     staff);
@@ -1584,21 +1584,21 @@ class EXP lpsrStaffCommand : public lpsrElement
                       { return fStaff; }
 
     list<S_msrElement>
-              getStaffCommandElements () const
-                  { return fStaffCommandElements; }
+              getStaffBlockElements () const
+                  { return fStaffBlockElements; }
 
     // services
     // ------------------------------------------------------
 
-    void      appendVoiceUseToStaffCommand (
+    void      appendVoiceUseToStaffBlock (
                 S_msrVoice voice);
 
-    void      appendLyricsUseToStaffCommand (
+    void      appendLyricsUseToStaffBlock (
                 S_msrLyrics lyrics);
 
-    void      appendElementToStaffCommand (
+    void      appendElementToStaffBlock (
                 S_msrElement elem)
-                  { fStaffCommandElements.push_back (elem); }
+                  { fStaffBlockElements.push_back (elem); }
                   
     // visitors
     // ------------------------------------------------------
@@ -1612,21 +1612,21 @@ class EXP lpsrStaffCommand : public lpsrElement
 
   protected:
 
-    lpsrStaffCommand (
+    lpsrStaffBlock (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts,
       S_msrStaff     staff);
       
-    virtual ~lpsrStaffCommand();
+    virtual ~lpsrStaffBlock();
   
   private:
 
     S_msrStaff         fStaff;
 
-    list<S_msrElement> fStaffCommandElements;
+    list<S_msrElement> fStaffBlockElements;
 };
-typedef SMARTP<lpsrStaffCommand> S_lpsrStaffCommand;
-EXP ostream& operator<< (ostream& os, const S_lpsrStaffCommand& elt);
+typedef SMARTP<lpsrStaffBlock> S_lpsrStaffBlock;
+EXP ostream& operator<< (ostream& os, const S_lpsrStaffBlock& elt);
 
 /*!
 \brief A lpsr score block representation.
@@ -1634,14 +1634,14 @@ EXP ostream& operator<< (ostream& os, const S_lpsrStaffCommand& elt);
   A score is represented by parallel music, score layout and midi
 */
 //______________________________________________________________________________
-class EXP lpsrPartCommand : public lpsrElement
+class EXP lpsrPartBlock : public lpsrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<lpsrPartCommand> create (
+    static SMARTP<lpsrPartBlock> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts,
       S_msrPart      part);
@@ -1653,15 +1653,15 @@ class EXP lpsrPartCommand : public lpsrElement
                       { return fPart; }
 
     list<S_msrElement>
-                  getPartCommandElements () const
-                      { return fPartCommandElements; }
+                  getPartBlockElements () const
+                      { return fPartBlockElements; }
 
     // services
     // ------------------------------------------------------
 
-    void          appendElementToPartCommand (
+    void          appendElementToPartBlock (
                     S_msrElement elem)
-                      { fPartCommandElements.push_back (elem); }
+                      { fPartBlockElements.push_back (elem); }
 
     // visitors
     // ------------------------------------------------------
@@ -1675,21 +1675,21 @@ class EXP lpsrPartCommand : public lpsrElement
 
   protected:
 
-    lpsrPartCommand (
+    lpsrPartBlock (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts,
       S_msrPart      part);
       
-    virtual ~lpsrPartCommand();
+    virtual ~lpsrPartBlock();
   
   private:
 
     S_msrPart          fPart;
 
-    list<S_msrElement> fPartCommandElements;
+    list<S_msrElement> fPartBlockElements;
 };
-typedef SMARTP<lpsrPartCommand> S_lpsrPartCommand;
-EXP ostream& operator<< (ostream& os, const S_lpsrPartCommand& elt);
+typedef SMARTP<lpsrPartBlock> S_lpsrPartBlock;
+EXP ostream& operator<< (ostream& os, const S_lpsrPartBlock& elt);
 
 /*!
 \brief A lpsr score block representation.
@@ -1697,14 +1697,14 @@ EXP ostream& operator<< (ostream& os, const S_lpsrPartCommand& elt);
   A score is represented by parallel music, score layout and midi
 */
 //______________________________________________________________________________
-class EXP lpsrPartgroupCommand : public lpsrElement
+class EXP lpsrPartgroupBlock : public lpsrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<lpsrPartgroupCommand> create (
+    static SMARTP<lpsrPartgroupBlock> create (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts,
       S_msrPartgroup partgroup);
@@ -1717,15 +1717,15 @@ class EXP lpsrPartgroupCommand : public lpsrElement
                       { return fPartgroup; }
 
     list<S_msrElement>
-                  getPartgroupCommandElements () const
-                      { return fPartgroupCommandElements; }
+                  getPartgroupBlockElements () const
+                      { return fPartgroupBlockElements; }
 
     // services
     // ------------------------------------------------------
 
-    void          appendElementToPartgroupCommand (
+    void          appendElementToPartgroupBlock (
                     S_msrElement elem)
-                      { fPartgroupCommandElements.push_back (elem); }
+                      { fPartgroupBlockElements.push_back (elem); }
 
     // visitors
     // ------------------------------------------------------
@@ -1739,21 +1739,21 @@ class EXP lpsrPartgroupCommand : public lpsrElement
 
   protected:
 
-    lpsrPartgroupCommand (
+    lpsrPartgroupBlock (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts,
       S_msrPartgroup partgroup);
       
-    virtual ~lpsrPartgroupCommand();
+    virtual ~lpsrPartgroupBlock();
   
   private:
 
     S_msrPartgroup     fPartgroup;
     
-    list<S_msrElement> fPartgroupCommandElements;
+    list<S_msrElement> fPartgroupBlockElements;
 };
-typedef SMARTP<lpsrPartgroupCommand> S_lpsrPartgroupCommand;
-EXP ostream& operator<< (ostream& os, const S_lpsrPartgroupCommand& elt);
+typedef SMARTP<lpsrPartgroupBlock> S_lpsrPartgroupBlock;
+EXP ostream& operator<< (ostream& os, const S_lpsrPartgroupBlock& elt);
 
 /*!
 \brief A lpsr score block representation.
@@ -1789,8 +1789,8 @@ class EXP lpsrScoreBlock : public lpsrElement
     // services
     // ------------------------------------------------------
 
-    void          appendPartgroupCommandToParallelMusic (
-                    S_lpsrPartgroupCommand partgroupCommand)
+    void          appendPartgroupBlockToParallelMusic (
+                    S_lpsrPartgroupBlock partgroupCommand)
                       {
                         fScoreBlockParallelMusic->
                           addElementToParallelMusic (partgroupCommand);
@@ -1804,7 +1804,7 @@ class EXP lpsrScoreBlock : public lpsrElement
                       }
                   
     void          appendLyricsUseToParallelMusic (
-                    S_lpsrNewlyricsCommand lyricsUse)
+                    S_lpsrNewLyricsBlock lyricsUse)
                       {
                         fScoreBlockParallelMusic->
                           addElementToParallelMusic (lyricsUse);

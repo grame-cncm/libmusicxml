@@ -654,22 +654,22 @@ void lpsrUseVoiceCommand::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrNewlyricsCommand lpsrNewlyricsCommand::create (
+S_lpsrNewLyricsBlock lpsrNewLyricsBlock::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber,
   S_msrLyrics    lyrics,
   S_msrVoice     voice)
 {
-  lpsrNewlyricsCommand* o =
-    new lpsrNewlyricsCommand (
+  lpsrNewLyricsBlock* o =
+    new lpsrNewLyricsBlock (
       msrOpts, lpsrOpts, inputLineNumber,
       lyrics, voice);
   assert(o!=0);
   return o;
 }
 
-lpsrNewlyricsCommand::lpsrNewlyricsCommand (
+lpsrNewLyricsBlock::lpsrNewLyricsBlock (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber,
@@ -681,55 +681,55 @@ lpsrNewlyricsCommand::lpsrNewlyricsCommand (
   fVoice  = voice;
 }
 
-lpsrNewlyricsCommand::~lpsrNewlyricsCommand() {}
+lpsrNewLyricsBlock::~lpsrNewLyricsBlock() {}
 
-void lpsrNewlyricsCommand::acceptIn (basevisitor* v) {
+void lpsrNewLyricsBlock::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrNewlyricsCommand::acceptIn()" << endl;
+      "==> lpsrNewLyricsBlock::acceptIn()" << endl;
       
-  if (visitor<S_lpsrNewlyricsCommand>*
+  if (visitor<S_lpsrNewLyricsBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrNewlyricsCommand>*> (v)) {
-        S_lpsrNewlyricsCommand elem = this;
+      dynamic_cast<visitor<S_lpsrNewLyricsBlock>*> (v)) {
+        S_lpsrNewLyricsBlock elem = this;
         
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrNewlyricsCommand::visitStart()" << endl;
+            "==> Launching lpsrNewLyricsBlock::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void lpsrNewlyricsCommand::acceptOut (basevisitor* v) {
+void lpsrNewLyricsBlock::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrNewlyricsCommand::acceptOut()" << endl;
+      "==> lpsrNewLyricsBlock::acceptOut()" << endl;
 
-  if (visitor<S_lpsrNewlyricsCommand>*
+  if (visitor<S_lpsrNewLyricsBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrNewlyricsCommand>*> (v)) {
-        S_lpsrNewlyricsCommand elem = this;
+      dynamic_cast<visitor<S_lpsrNewLyricsBlock>*> (v)) {
+        S_lpsrNewLyricsBlock elem = this;
       
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrNewlyricsCommand::visitEnd()" << endl;
+            "==> Launching lpsrNewLyricsBlock::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void lpsrNewlyricsCommand::browseData (basevisitor* v)
+void lpsrNewLyricsBlock::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_lpsrNewlyricsCommand& nlc)
+ostream& operator<< (ostream& os, const S_lpsrNewLyricsBlock& nlc)
 {
   nlc->print (os);
   return os;
 }
 
-void lpsrNewlyricsCommand::print (ostream& os)
+void lpsrNewLyricsBlock::print (ostream& os)
 {
   os <<
-    "NewlyricsCommand" << " " <<
+    "NewLyricsBlock" << " " <<
     fLyrics->getLyricsName () << " " <<
     fVoice->getVoiceName () << endl;
 }
@@ -1102,73 +1102,73 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrNewStaffgroupCommand lpsrNewStaffgroupCommand::create (
+S_lpsrNewStaffgroupBlock lpsrNewStaffgroupBlock::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
 {
-  lpsrNewStaffgroupCommand* o =
-    new lpsrNewStaffgroupCommand (
+  lpsrNewStaffgroupBlock* o =
+    new lpsrNewStaffgroupBlock (
       msrOpts, lpsrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
-lpsrNewStaffgroupCommand::lpsrNewStaffgroupCommand (
+lpsrNewStaffgroupBlock::lpsrNewStaffgroupBlock (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {}
 
-lpsrNewStaffgroupCommand::~lpsrNewStaffgroupCommand() {}
+lpsrNewStaffgroupBlock::~lpsrNewStaffgroupBlock() {}
 
-void lpsrNewStaffgroupCommand::acceptIn (basevisitor* v) {
+void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrNewStaffgroupCommand::acceptIn()" << endl;
+      "==> lpsrNewStaffgroupBlock::acceptIn()" << endl;
       
-  if (visitor<S_lpsrNewStaffgroupCommand>*
+  if (visitor<S_lpsrNewStaffgroupBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrNewStaffgroupCommand>*> (v)) {
-        S_lpsrNewStaffgroupCommand elem = this;
+      dynamic_cast<visitor<S_lpsrNewStaffgroupBlock>*> (v)) {
+        S_lpsrNewStaffgroupBlock elem = this;
         
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrNewStaffgroupCommand::visitStart()" << endl;
+            "==> Launching lpsrNewStaffgroupBlock::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void lpsrNewStaffgroupCommand::acceptOut (basevisitor* v) {
+void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrNewStaffgroupCommand::acceptOut()" << endl;
+      "==> lpsrNewStaffgroupBlock::acceptOut()" << endl;
 
-  if (visitor<S_lpsrNewStaffgroupCommand>*
+  if (visitor<S_lpsrNewStaffgroupBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrNewStaffgroupCommand>*> (v)) {
-        S_lpsrNewStaffgroupCommand elem = this;
+      dynamic_cast<visitor<S_lpsrNewStaffgroupBlock>*> (v)) {
+        S_lpsrNewStaffgroupBlock elem = this;
       
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrNewStaffgroupCommand::visitEnd()" << endl;
+            "==> Launching lpsrNewStaffgroupBlock::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void lpsrNewStaffgroupCommand::browseData (basevisitor* v)
+void lpsrNewStaffgroupBlock::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_lpsrNewStaffgroupCommand& nstf)
+ostream& operator<< (ostream& os, const S_lpsrNewStaffgroupBlock& nstf)
 {
   nstf->print (os);
   return os;
 }
 
-void lpsrNewStaffgroupCommand::print (ostream& os)
+void lpsrNewStaffgroupBlock::print (ostream& os)
 {
-  os << "NewStaffgroupCommand" << endl;
+  os << "NewStaffgroupBlock" << endl;
 
   idtr++;
   
@@ -1182,73 +1182,73 @@ void lpsrNewStaffgroupCommand::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrNewStaffCommand lpsrNewStaffCommand::create (
+S_lpsrNewStaffBlock lpsrNewStaffBlock::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
 {
-  lpsrNewStaffCommand* o =
-    new lpsrNewStaffCommand (
+  lpsrNewStaffBlock* o =
+    new lpsrNewStaffBlock (
       msrOpts, lpsrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
-lpsrNewStaffCommand::lpsrNewStaffCommand (
+lpsrNewStaffBlock::lpsrNewStaffBlock (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
     : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
 {}
 
-lpsrNewStaffCommand::~lpsrNewStaffCommand() {}
+lpsrNewStaffBlock::~lpsrNewStaffBlock() {}
 
-void lpsrNewStaffCommand::acceptIn (basevisitor* v) {
+void lpsrNewStaffBlock::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrNewStaffCommand::acceptIn()" << endl;
+      "==> lpsrNewStaffBlock::acceptIn()" << endl;
       
-  if (visitor<S_lpsrNewStaffCommand>*
+  if (visitor<S_lpsrNewStaffBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrNewStaffCommand>*> (v)) {
-        S_lpsrNewStaffCommand elem = this;
+      dynamic_cast<visitor<S_lpsrNewStaffBlock>*> (v)) {
+        S_lpsrNewStaffBlock elem = this;
         
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrNewStaffCommand::visitStart()" << endl;
+            "==> Launching lpsrNewStaffBlock::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void lpsrNewStaffCommand::acceptOut (basevisitor* v) {
+void lpsrNewStaffBlock::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrNewStaffCommand::acceptOut()" << endl;
+      "==> lpsrNewStaffBlock::acceptOut()" << endl;
 
-  if (visitor<S_lpsrNewStaffCommand>*
+  if (visitor<S_lpsrNewStaffBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrNewStaffCommand>*> (v)) {
-        S_lpsrNewStaffCommand elem = this;
+      dynamic_cast<visitor<S_lpsrNewStaffBlock>*> (v)) {
+        S_lpsrNewStaffBlock elem = this;
       
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrNewStaffCommand::visitEnd()" << endl;
+            "==> Launching lpsrNewStaffBlock::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void lpsrNewStaffCommand::browseData (basevisitor* v)
+void lpsrNewStaffBlock::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_lpsrNewStaffCommand& nstf)
+ostream& operator<< (ostream& os, const S_lpsrNewStaffBlock& nstf)
 {
   nstf->print (os);
   return os;
 }
 
-void lpsrNewStaffCommand::print (ostream& os)
+void lpsrNewStaffBlock::print (ostream& os)
 {
-  os << "NewStaffCommand" << endl;
+  os << "NewStaffBlock" << endl;
 
   idtr++;
   
@@ -2537,18 +2537,18 @@ void lpsrRepeat::print (ostream& os)
 */
 
 //______________________________________________________________________________
-S_lpsrStaffCommand lpsrStaffCommand::create (
+S_lpsrStaffBlock lpsrStaffBlock::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts,
   S_msrStaff     staff)
 {
-  lpsrStaffCommand* o = new lpsrStaffCommand (
+  lpsrStaffBlock* o = new lpsrStaffBlock (
     msrOpts, lpsrOpts, staff);
   assert(o!=0);
   return o;
 }
 
-lpsrStaffCommand::lpsrStaffCommand (
+lpsrStaffBlock::lpsrStaffBlock (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts,
   S_msrStaff     staff)
@@ -2557,9 +2557,9 @@ lpsrStaffCommand::lpsrStaffCommand (
   fStaff = staff;
 }
 
-lpsrStaffCommand::~lpsrStaffCommand() {}
+lpsrStaffBlock::~lpsrStaffBlock() {}
 
-void lpsrStaffCommand::appendVoiceUseToStaffCommand (S_msrVoice voice)
+void lpsrStaffBlock::appendVoiceUseToStaffBlock (S_msrVoice voice)
 {
   S_lpsrUseVoiceCommand
     useVoiceCommand =
@@ -2569,66 +2569,66 @@ void lpsrStaffCommand::appendVoiceUseToStaffCommand (S_msrVoice voice)
         fInputLineNumber,
         voice);
   
-  fStaffCommandElements.push_back (useVoiceCommand);
+  fStaffBlockElements.push_back (useVoiceCommand);
 }
 
-void lpsrStaffCommand::appendLyricsUseToStaffCommand (S_msrLyrics lyrics)
+void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrLyrics lyrics)
 {
-  S_lpsrNewlyricsCommand
+  S_lpsrNewLyricsBlock
     newLyricsCommand =
-      lpsrNewlyricsCommand::create (
+      lpsrNewLyricsBlock::create (
         fMsrOptions, 
         fLpsrOptions, 
         fInputLineNumber,
         lyrics,
         lyrics->getLyricsVoiceUplink ());
   
-  fStaffCommandElements.push_back (newLyricsCommand);
+  fStaffBlockElements.push_back (newLyricsCommand);
 }
 
-void lpsrStaffCommand::acceptIn (basevisitor* v) {
+void lpsrStaffBlock::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrStaffCommand::acceptIn()" << endl;
+      "==> lpsrStaffBlock::acceptIn()" << endl;
       
-  if (visitor<S_lpsrStaffCommand>*
+  if (visitor<S_lpsrStaffBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrStaffCommand>*> (v)) {
-        S_lpsrStaffCommand elem = this;
+      dynamic_cast<visitor<S_lpsrStaffBlock>*> (v)) {
+        S_lpsrStaffBlock elem = this;
         
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrStaffCommand::visitStart()" << endl;
+            "==> Launching lpsrStaffBlock::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void lpsrStaffCommand::acceptOut (basevisitor* v) {
+void lpsrStaffBlock::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrStaffCommand::acceptOut()" << endl;
+      "==> lpsrStaffBlock::acceptOut()" << endl;
 
-  if (visitor<S_lpsrStaffCommand>*
+  if (visitor<S_lpsrStaffBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrStaffCommand>*> (v)) {
-        S_lpsrStaffCommand elem = this;
+      dynamic_cast<visitor<S_lpsrStaffBlock>*> (v)) {
+        S_lpsrStaffBlock elem = this;
       
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrStaffCommand::visitEnd()" << endl;
+            "==> Launching lpsrStaffBlock::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void lpsrStaffCommand::browseData (basevisitor* v)
+void lpsrStaffBlock::browseData (basevisitor* v)
 {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "==> lpsrStaffCommand::browseData()" << endl;
+      "==> lpsrStaffBlock::browseData()" << endl;
 
   for (
-    list<S_msrElement>::iterator i = fStaffCommandElements.begin();
-    i != fStaffCommandElements.end();
+    list<S_msrElement>::iterator i = fStaffBlockElements.begin();
+    i != fStaffBlockElements.end();
     i++) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -2637,28 +2637,28 @@ void lpsrStaffCommand::browseData (basevisitor* v)
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "<== lpsrStaffCommand::browseData()" << endl;
+      "<== lpsrStaffBlock::browseData()" << endl;
 }
 
-ostream& operator<< (ostream& os, const S_lpsrStaffCommand& scr)
+ostream& operator<< (ostream& os, const S_lpsrStaffBlock& scr)
 {
   scr->print (os);
   return os;
 }
 
-void lpsrStaffCommand::print (ostream& os)
+void lpsrStaffBlock::print (ostream& os)
 {
   os <<
-    "StaffCommand" << " " <<
+    "StaffBlock" << " " <<
     "for staff " << fStaff->getStaffName () <<
     endl << endl;
 
   idtr++;
 
-  if (fStaffCommandElements.size()) {  
+  if (fStaffBlockElements.size()) {  
     list<S_msrElement>::const_iterator
-      iBegin = fStaffCommandElements.begin(),
-      iEnd   = fStaffCommandElements.end(),
+      iBegin = fStaffBlockElements.begin(),
+      iEnd   = fStaffBlockElements.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -2671,18 +2671,18 @@ void lpsrStaffCommand::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrPartCommand lpsrPartCommand::create (
+S_lpsrPartBlock lpsrPartBlock::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts,
   S_msrPart      part)
 {
-  lpsrPartCommand* o = new lpsrPartCommand (
+  lpsrPartBlock* o = new lpsrPartBlock (
     msrOpts, lpsrOpts, part);
   assert(o!=0);
   return o;
 }
 
-lpsrPartCommand::lpsrPartCommand (
+lpsrPartBlock::lpsrPartBlock (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts,
   S_msrPart      part)
@@ -2691,51 +2691,51 @@ lpsrPartCommand::lpsrPartCommand (
   fPart = part;
 }
 
-lpsrPartCommand::~lpsrPartCommand() {}
+lpsrPartBlock::~lpsrPartBlock() {}
 
-void lpsrPartCommand::acceptIn (basevisitor* v) {
+void lpsrPartBlock::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrPartCommand::acceptIn()" << endl;
+      "==> lpsrPartBlock::acceptIn()" << endl;
       
-  if (visitor<S_lpsrPartCommand>*
+  if (visitor<S_lpsrPartBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrPartCommand>*> (v)) {
-        S_lpsrPartCommand elem = this;
+      dynamic_cast<visitor<S_lpsrPartBlock>*> (v)) {
+        S_lpsrPartBlock elem = this;
         
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrPartCommand::visitStart()" << endl;
+            "==> Launching lpsrPartBlock::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void lpsrPartCommand::acceptOut (basevisitor* v) {
+void lpsrPartBlock::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrPartCommand::acceptOut()" << endl;
+      "==> lpsrPartBlock::acceptOut()" << endl;
 
-  if (visitor<S_lpsrPartCommand>*
+  if (visitor<S_lpsrPartBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrPartCommand>*> (v)) {
-        S_lpsrPartCommand elem = this;
+      dynamic_cast<visitor<S_lpsrPartBlock>*> (v)) {
+        S_lpsrPartBlock elem = this;
       
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrPartCommand::visitEnd()" << endl;
+            "==> Launching lpsrPartBlock::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void lpsrPartCommand::browseData (basevisitor* v)
+void lpsrPartBlock::browseData (basevisitor* v)
 {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "==> lpsrPartCommand::browseData()" << endl;
+      "==> lpsrPartBlock::browseData()" << endl;
 
   for (
-    list<S_msrElement>::iterator i = fPartCommandElements.begin();
-    i != fPartCommandElements.end();
+    list<S_msrElement>::iterator i = fPartBlockElements.begin();
+    i != fPartBlockElements.end();
     i++) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -2744,28 +2744,28 @@ void lpsrPartCommand::browseData (basevisitor* v)
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "<== lpsrPartCommand::browseData()" << endl;
+      "<== lpsrPartBlock::browseData()" << endl;
 }
 
-ostream& operator<< (ostream& os, const S_lpsrPartCommand& scr)
+ostream& operator<< (ostream& os, const S_lpsrPartBlock& scr)
 {
   scr->print (os);
   return os;
 }
 
-void lpsrPartCommand::print (ostream& os)
+void lpsrPartBlock::print (ostream& os)
 {
   os <<
-    "PartCommand" << " " <<
+    "PartBlock" << " " <<
     "for part " << fPart->getPartCombinedName () <<
     endl << endl;
 
   idtr++;
 
-  if (fPartCommandElements.size()) {  
+  if (fPartBlockElements.size()) {  
     list<S_msrElement>::const_iterator
-      iBegin = fPartCommandElements.begin(),
-      iEnd   = fPartCommandElements.end(),
+      iBegin = fPartBlockElements.begin(),
+      iEnd   = fPartBlockElements.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -2778,18 +2778,18 @@ void lpsrPartCommand::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrPartgroupCommand lpsrPartgroupCommand::create (
+S_lpsrPartgroupBlock lpsrPartgroupBlock::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts,
   S_msrPartgroup partgroup)
 {
-  lpsrPartgroupCommand* o = new lpsrPartgroupCommand (
+  lpsrPartgroupBlock* o = new lpsrPartgroupBlock (
     msrOpts, lpsrOpts, partgroup);
   assert(o!=0);
   return o;
 }
 
-lpsrPartgroupCommand::lpsrPartgroupCommand (
+lpsrPartgroupBlock::lpsrPartgroupBlock (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts,
   S_msrPartgroup partgroup)
@@ -2798,51 +2798,51 @@ lpsrPartgroupCommand::lpsrPartgroupCommand (
   fPartgroup = partgroup;
 }
 
-lpsrPartgroupCommand::~lpsrPartgroupCommand() {}
+lpsrPartgroupBlock::~lpsrPartgroupBlock() {}
 
-void lpsrPartgroupCommand::acceptIn (basevisitor* v) {
+void lpsrPartgroupBlock::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrPartgroupCommand::acceptIn()" << endl;
+      "==> lpsrPartgroupBlock::acceptIn()" << endl;
       
-  if (visitor<S_lpsrPartgroupCommand>*
+  if (visitor<S_lpsrPartgroupBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrPartgroupCommand>*> (v)) {
-        S_lpsrPartgroupCommand elem = this;
+      dynamic_cast<visitor<S_lpsrPartgroupBlock>*> (v)) {
+        S_lpsrPartgroupBlock elem = this;
         
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrPartgroupCommand::visitStart()" << endl;
+            "==> Launching lpsrPartgroupBlock::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void lpsrPartgroupCommand::acceptOut (basevisitor* v) {
+void lpsrPartgroupBlock::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> lpsrPartgroupCommand::acceptOut()" << endl;
+      "==> lpsrPartgroupBlock::acceptOut()" << endl;
 
-  if (visitor<S_lpsrPartgroupCommand>*
+  if (visitor<S_lpsrPartgroupBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrPartgroupCommand>*> (v)) {
-        S_lpsrPartgroupCommand elem = this;
+      dynamic_cast<visitor<S_lpsrPartgroupBlock>*> (v)) {
+        S_lpsrPartgroupBlock elem = this;
       
         if (fMsrOptions->fDebug)
           cerr << idtr <<
-            "==> Launching lpsrPartgroupCommand::visitEnd()" << endl;
+            "==> Launching lpsrPartgroupBlock::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void lpsrPartgroupCommand::browseData (basevisitor* v)
+void lpsrPartgroupBlock::browseData (basevisitor* v)
 {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "==> lpsrPartgroupCommand::browseData()" << endl;
+      "==> lpsrPartgroupBlock::browseData()" << endl;
 
   for (
-    list<S_msrElement>::iterator i = fPartgroupCommandElements.begin();
-    i != fPartgroupCommandElements.end();
+    list<S_msrElement>::iterator i = fPartgroupBlockElements.begin();
+    i != fPartgroupBlockElements.end();
     i++) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -2851,28 +2851,28 @@ void lpsrPartgroupCommand::browseData (basevisitor* v)
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "<== lpsrPartgroupCommand::browseData()" << endl;
+      "<== lpsrPartgroupBlock::browseData()" << endl;
 }
 
-ostream& operator<< (ostream& os, const S_lpsrPartgroupCommand& scr)
+ostream& operator<< (ostream& os, const S_lpsrPartgroupBlock& scr)
 {
   scr->print (os);
   return os;
 }
 
-void lpsrPartgroupCommand::print (ostream& os)
+void lpsrPartgroupBlock::print (ostream& os)
 {
   os <<
-    "PartgroupCommand" << " " <<
+    "PartgroupBlock" << " " <<
     "for partgroup " << fPartgroup->getPartgroupCombinedName () <<
     endl << endl;
 
   idtr++;
 
-  if (fPartgroupCommandElements.size()) {  
+  if (fPartgroupBlockElements.size()) {  
     list<S_msrElement>::const_iterator
-      iBegin = fPartgroupCommandElements.begin(),
-      iEnd   = fPartgroupCommandElements.end(),
+      iBegin = fPartgroupBlockElements.begin(),
+      iEnd   = fPartgroupBlockElements.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -3161,9 +3161,9 @@ lpsrScore::~lpsrScore() {}
 /*
 void lpsrScore::appendPartgroupToStoreCommand (S_msrVoice voice)
 {
-  S_lpsrPartgroupCommand
+  S_lpsrPartgroupBlock
     partgroupCommand =
-      lpsrPartgroupCommand::create (
+      lpsrPartgroupBlock::create (
         fMsrOptions, 
         fLpsrOptions, 
         fInputLineNumber,
@@ -3190,9 +3190,9 @@ void lpsrScore::appendVoiceUseToStoreCommand (S_msrVoice voice)
 
 void lpsrScore::appendLyricsUseToStoreCommand (S_msrLyrics lyrics)
 {
-  S_lpsrNewlyricsCommand
+  S_lpsrNewLyricsBlock
     newLyricsCommand =
-      lpsrNewlyricsCommand::create (
+      lpsrNewLyricsBlock::create (
         fMsrOptions, 
         fLpsrOptions, 
         fInputLineNumber,

@@ -53,13 +53,13 @@ class lpsr2LilyPondVisitor :
   public visitor<S_lpsrParallelMusic>,
 
   public visitor<S_lpsrScoreBlock>,
-  public visitor<S_lpsrPartgroupCommand>,
-  public visitor<S_lpsrPartCommand>,
-  public visitor<S_lpsrStaffCommand>,
-//  public visitor<S_lpsrNewStaffCommand>,
-//  public visitor<S_lpsrNewStaffgroupCommand>,
+  public visitor<S_lpsrPartgroupBlock>,
+  public visitor<S_lpsrPartBlock>,
+  public visitor<S_lpsrStaffBlock>,
+//  public visitor<S_lpsrNewStaffBlock>,
+//  public visitor<S_lpsrNewStaffgroupBlock>,
   public visitor<S_lpsrUseVoiceCommand>,
-  public visitor<S_lpsrNewlyricsCommand>,
+  public visitor<S_lpsrNewLyricsBlock>,
   public visitor<S_lpsrVariableUseCommand>,
   
   public visitor<S_lpsrContext>,
@@ -163,26 +163,26 @@ class lpsr2LilyPondVisitor :
     virtual void visitStart (S_lpsrParallelMusic& elt);
     virtual void visitEnd   (S_lpsrParallelMusic& elt);
 
-    virtual void visitStart (S_lpsrPartgroupCommand& elt);
-    virtual void visitEnd   (S_lpsrPartgroupCommand& elt);
+    virtual void visitStart (S_lpsrPartgroupBlock& elt);
+    virtual void visitEnd   (S_lpsrPartgroupBlock& elt);
 
-    virtual void visitStart (S_lpsrPartCommand& elt);
-    virtual void visitEnd   (S_lpsrPartCommand& elt);
+    virtual void visitStart (S_lpsrPartBlock& elt);
+    virtual void visitEnd   (S_lpsrPartBlock& elt);
 
-    virtual void visitStart (S_lpsrStaffCommand& elt);
-    virtual void visitEnd   (S_lpsrStaffCommand& elt);
+    virtual void visitStart (S_lpsrStaffBlock& elt);
+    virtual void visitEnd   (S_lpsrStaffBlock& elt);
 
-//    virtual void visitStart (S_lpsrNewStaffgroupCommand& elt);
-//    virtual void visitEnd   (S_lpsrNewStaffgroupCommand& elt);
+//    virtual void visitStart (S_lpsrNewStaffgroupBlock& elt);
+//    virtual void visitEnd   (S_lpsrNewStaffgroupBlock& elt);
     
-//    virtual void visitStart (S_lpsrNewStaffCommand& elt);
-//    virtual void visitEnd   (S_lpsrNewStaffCommand& elt);
+//    virtual void visitStart (S_lpsrNewStaffBlock& elt);
+//    virtual void visitEnd   (S_lpsrNewStaffBlock& elt);
     
     virtual void visitStart (S_lpsrUseVoiceCommand& elt);
     virtual void visitEnd   (S_lpsrUseVoiceCommand& elt);
   
-    virtual void visitStart (S_lpsrNewlyricsCommand& elt);
-    virtual void visitEnd   (S_lpsrNewlyricsCommand& elt);
+    virtual void visitStart (S_lpsrNewLyricsBlock& elt);
+    virtual void visitEnd   (S_lpsrNewLyricsBlock& elt);
     
     virtual void visitStart (S_lpsrVariableUseCommand& elt);
     virtual void visitEnd   (S_lpsrVariableUseCommand& elt);
