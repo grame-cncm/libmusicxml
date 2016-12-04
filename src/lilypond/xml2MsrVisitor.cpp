@@ -3922,23 +3922,24 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
     tuplet =
       msrTuplet::create(
         fMsrOptions,
-        firstNote->getInputLineNumber ());
+        firstNote->getInputLineNumber (),
+        fCurrentTupletNumber,
+        fCurrentActualNotes,
+        fCurrentNormalNotes);
 // JMI  fCurrentElement = tuplet; // another name for it
 
   // its measure location is that of the first note
   tuplet->setTupletMeasureLocation (
     firstNote->getNoteMeasureLocation ());
   
-  // populate it
-  tuplet->updateTuplet (
-    fCurrentTupletNumber,
-    fCurrentActualNotes,
-    fCurrentNormalNotes);
-
   // register it in this visitor
-  if (fMsrOptions->fDebug)
+//  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> pushing tuplet to tuplets stack" << endl;
+      "++> pushing tuplet " <<
+      tuplet->getActualNotes () <<
+      "/" <<
+      tuplet->getNormalNotes () <<
+      " to tuplets stack" << endl;
   fCurrentTupletsStack.push(tuplet);
 /*
   // set note display divisions
@@ -3950,8 +3951,13 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
   // add note as first note of the tuplet
 //JMI  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> adding note " << firstNote->noteMsrPitchAsString() <<
-      " as first note of the tuplet" << endl;
+      "==> adding first note " << firstNote->noteMsrPitchAsString() <<
+      " to the " <<
+      fCurrentTupletsStack.top ()->getActualNotes () <<
+       "/" <<
+      fCurrentTupletsStack.top ()->getNormalNotes () <<
+      " tuplet" <<
+      endl;
   tuplet->addElementToTuplet (firstNote);
 }
 
@@ -3976,23 +3982,39 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote note)
 */
 
   // add note to the tuplet
-  if (fMsrOptions->fDebug)
+//  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> adding note " << note->noteMsrPitchAsString () <<
-      " to tuplets stack top" << endl;
+      "==> adding last note " << note->noteMsrPitchAsString () <<
+      " to tuplets stack top " <<
+      fCurrentTupletsStack.top ()->getActualNotes () <<
+       "/" <<
+      fCurrentTupletsStack.top ()->getNormalNotes () <<
+      endl;
   tuplet->addElementToTuplet (note);
 
   // pop from the tuplets stack
-  if (fMsrOptions->fDebug)
+//  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> popping from tuplets stack" << endl;
-  fCurrentTupletsStack.pop();        
+      "--> popping tuplet " <<
+      fCurrentTupletsStack.top ()->getActualNotes () <<
+       "/" <<
+      fCurrentTupletsStack.top ()->getNormalNotes () <<
+      " from tuplets stack" << endl;
+  fCurrentTupletsStack.pop ();        
 
   if (fCurrentTupletsStack.size ()) {
-    // tup is an embedded tuplet
+    // tuplet is an embedded tuplet
 //    if (fMsrOptions->fDebug)
       cerr << idtr <<
-        "=== adding an embedded tuplet to another" << endl;
+        "=== adding tuplet " <<
+      tuplet->getActualNotes () <<
+       "/" <<
+      tuplet->getNormalNotes () <<
+        " to " <<
+      fCurrentTupletsStack.top ()->getActualNotes () <<
+       "/" <<
+      fCurrentTupletsStack.top ()->getNormalNotes () <<
+      " current stack top tuplet" << endl;
     
     fCurrentTupletsStack.top ()->
       addElementToTuplet (tuplet);
@@ -4001,7 +4023,13 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote note)
     // tup is a top level tuplet
 //    if (fMsrOptions->fDebug)
       cerr << idtr <<
-        "=== adding a tuplet to the current" << endl;
+        "=== adding tuplet " <<
+      tuplet->getActualNotes () <<
+       "/" <<
+      tuplet->getNormalNotes () <<
+      " to voice" <<
+      fCurrentVoice->getVoiceName () <<
+      endl;
       
     fCurrentVoice->
       appendTupletToVoice (tuplet);
@@ -4336,12 +4364,17 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
         if (fMsrOptions->fDebug)
           cerr << idtr <<
             "--> adding note " << note <<
-            " to tuplets stack top" << endl;
+            " to stack top tuplet " <<
+            fCurrentTupletsStack.top ()->getActualNotes () <<
+             "/" <<
+            fCurrentTupletsStack.top ()->getNormalNotes () <<
+            endl;
 
         // set note display divisions
         note->
           applyTupletMemberDisplayFactor (
-            fCurrentActualNotes, fCurrentNormalNotes);
+            fCurrentTupletsStack.top ()->getActualNotes (),
+            fCurrentTupletsStack.top ()->getNormalNotes ());
 
         fCurrentTupletsStack.top()->
           addElementToTuplet (note);

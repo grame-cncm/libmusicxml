@@ -1666,7 +1666,10 @@ class EXP msrTuplet : public msrElement
 
     static SMARTP<msrTuplet> create (
       S_msrOptions& msrOpts,
-      int           inputLineNumber);
+      int           inputLineNumber,
+      int           number,
+      int           actualNotes,
+      int           normalNotes);
 
     SMARTP<msrTuplet> createEmptyClone ();
 
@@ -1676,9 +1679,6 @@ class EXP msrTuplet : public msrElement
 
     // set and get
     // ------------------------------------------------------
-
-    void          updateTuplet (
-                    int number, int actualNotes, int normalNotes);
     
     int           getTupletNumber () const { return fTupletNumber; }
 
@@ -1721,7 +1721,10 @@ class EXP msrTuplet : public msrElement
 
     msrTuplet (
       S_msrOptions& msrOpts,
-      int           inputLineNumber);
+      int           inputLineNumber,
+      int           number,
+      int           actualNotes,
+      int           normalNotes);
       
     virtual ~msrTuplet();
   

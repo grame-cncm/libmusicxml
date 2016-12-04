@@ -2322,24 +2322,31 @@ void msrBarnumberCheck::print (ostream& os)
 //______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
   S_msrOptions& msrOpts,
-  int           inputLineNumber)
+  int           inputLineNumber,
+  int           number,
+  int           actualNotes,
+  int           normalNotes)
 {
   msrTuplet* o =
     new msrTuplet (
-      msrOpts, inputLineNumber);
+      msrOpts, inputLineNumber,
+      number, actualNotes, normalNotes);
   assert(o!=0);
   return o;
 }
 
 msrTuplet::msrTuplet (
   S_msrOptions& msrOpts,
-  int           inputLineNumber)
+  int           inputLineNumber,
+  int           number,
+  int           actualNotes,
+  int           normalNotes)
     : msrElement (msrOpts, inputLineNumber)
-{
-  fTupletNumber = k_NoTuplet;
+{  
+  fTupletNumber = number;
   
-  fActualNotes = -1;
-  fNormalNotes = -1;
+  fActualNotes = actualNotes;
+  fNormalNotes = normalNotes;  
 }
 msrTuplet::~msrTuplet() {}
 
@@ -2349,20 +2356,12 @@ S_msrTuplet msrTuplet::createEmptyClone ()
     clone =
       msrTuplet::create (
         fMsrOptions,
-        fInputLineNumber);
-
-  clone->fActualNotes = fActualNotes;
-  clone->fNormalNotes = fNormalNotes;
+        fInputLineNumber,
+        fTupletNumber,
+        fActualNotes,
+        fNormalNotes);
   
   return clone;
-}
-
-void msrTuplet::updateTuplet (int number, int actualNotes, int normalNotes)
-{
-  fTupletNumber = number;
-  
-  fActualNotes = actualNotes;
-  fNormalNotes = normalNotes;  
 }
 
 void msrTuplet::acceptIn (basevisitor* v) {
