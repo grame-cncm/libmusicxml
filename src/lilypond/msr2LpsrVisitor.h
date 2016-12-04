@@ -288,6 +288,8 @@ class msr2LpsrVisitor :
     // tuplets
     // ------------------------------------------------------
     S_msrTuplet             fCurrentTupletClone;
+    bool                    fOnGoingTuplet;
+    stack<S_msrTuplet>      fCurrentTupletClonesStack;
 };
 
 

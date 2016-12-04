@@ -3965,9 +3965,11 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote note)
       endl;
       
   // get tuplet from top of tuplet stack
-  S_msrTuplet tup = fCurrentTupletsStack.top();
+  S_msrTuplet
+    tuplet =
+      fCurrentTupletsStack.top ();
 
-/*  // set note display divisions
+/*  // set note display divisions JMI
   note->
     applyTupletMemberDisplayFactor (
       fCurrentActualNotes, fCurrentNormalNotes);
@@ -3978,7 +3980,7 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote note)
     cerr << idtr <<
       "--> adding note " << note->noteMsrPitchAsString () <<
       " to tuplets stack top" << endl;
-  tup->addElementToTuplet (note);
+  tuplet->addElementToTuplet (note);
 
   // pop from the tuplets stack
   if (fMsrOptions->fDebug)
@@ -3986,12 +3988,24 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote note)
       "--> popping from tuplets stack" << endl;
   fCurrentTupletsStack.pop();        
 
-  // add tuplet to current voice
-  if (fMsrOptions->fDebug)
-    cerr << idtr <<
-      "=== adding tuplet to the part sequence" << endl;
-  fCurrentVoice->
-    appendTupletToVoice (tup);
+  if (fCurrentTupletsStack.size ()) {
+    // tup is an embedded tuplet
+//    if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "=== adding an embedded tuplet to another" << endl;
+    
+    fCurrentTupletsStack.top ()->
+      addElementToTuplet (tuplet);
+  }
+  else {
+    // tup is a top level tuplet
+//    if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "=== adding a tuplet to the current" << endl;
+      
+    fCurrentVoice->
+      appendTupletToVoice (tuplet);
+  }  
 }          
 
 //______________________________________________________________________________
