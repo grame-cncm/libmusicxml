@@ -49,7 +49,7 @@ S_lpsrScore msr2Lpsr (
         mScore, msrOpts, lpsrOpts, os);
 
   // display it
-  if (msrOpts->fDisplayMSR)
+  if (lpsrOpts->fDisplayLPSR)
     displayLpsrScore (
       lpScore, msrOpts, lpsrOpts, os);
 

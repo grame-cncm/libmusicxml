@@ -74,7 +74,10 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
  // JMI if (fMusicXMLNoteData.fMusicXMLStepIsUnpitched)
 //    s << "unpitched ";
 
-  if (note->getNoteIsGraceNote ())
+  bool noteIsGraceNote =
+    note->getNoteIsGraceNote ();
+    
+  if (noteIsGraceNote)
     s <<
       "\\grace { ";
       
@@ -144,12 +147,17 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   int noteAbsoluteOctave =
     note->getNoteMusicXMLOctave ();
 
+  bool noteIsChordFirstNote =
+    note->getNoteIsChordFirstNote ();
+    
   // should an absolute octave be generated?
   bool genAbsoluteOctave =
+    fLpsrOptions->fGenerateAbsoluteOctaves
+      ||
     ! fRelativeOctaveReference
       ||
-    fLpsrOptions->fGenerateAbsoluteOctaves;
-    
+    noteIsChordFirstNote;
+
   if (genAbsoluteOctave) {
     
     // generate LilyPond absolute octave
@@ -302,9 +310,12 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     }
   }
   
-  if (note->getNoteIsGraceNote ())
+  if (noteIsGraceNote)
     s <<
-      " }";
+      " } ";
+
+  if (noteIsChordFirstNote)
+    fRelativeOctaveReference = note;
 
   return s.str();
 }

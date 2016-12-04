@@ -903,7 +903,8 @@ class EXP msrNote : public msrElement
     // articulations
     list<S_msrArticulation>
                   getNoteArticulations () const
-                            { return fNoteArticulations; }
+                      { return fNoteArticulations; }
+                      
     // dynamics and wedges
     list<S_msrDynamics>
                   getNoteDynamics () const { return fNoteDynamics; };
@@ -912,6 +913,16 @@ class EXP msrNote : public msrElement
 
     // chord members
     void          setNoteBelongsToAChord ();
+    void          setNoteIsChordFirstNote ()
+                      { fNoteIsChordFirstNote = true; }
+
+    bool          getNoteBelongsToAChord () const
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord;
+                      }
+    bool          getNoteIsChordFirstNote () const
+                      { return fNoteIsChordFirstNote; }
         
     // slurs
     msrSlur::msrSlurKind
@@ -997,6 +1008,8 @@ class EXP msrNote : public msrElement
     msrSlur::msrSlurKind       fNoteSlurKind;
 
     msrMeasureLocation         fNoteMeasureLocation;
+
+    bool                       fNoteIsChordFirstNote;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);

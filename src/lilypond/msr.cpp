@@ -977,9 +977,13 @@ S_msrNote msrNote::createRest (
   mxmlNoteData.fMusicXMLDivisions = divisions;
 
   mxmlNoteData.fMusicXMLDotsNumber = 0;
+  
   mxmlNoteData.fMusicXMLNoteIsAGraceNote = false;
+  
   mxmlNoteData.fMusicXMLNoteBelongsToAChord = false;
+  
   mxmlNoteData.fMusicXMLNoteBelongsToATuplet = false;
+  
   mxmlNoteData.fMusicXMLNoteIsTied = false;
   
   mxmlNoteData.fMusicXMLVoiceNumber = voiceNumber;
@@ -1163,6 +1167,8 @@ msrNote::msrNote (
   // diatonic note for relative code JMI
 //  msrNote::MusicXMLDiatonicPitch diatonicNote =
 //    msrNote::k_NoDiatonicPitch;
+
+  fNoteIsChordFirstNote = false;
 }
 
 msrNote::~msrNote() {}
@@ -1689,9 +1695,9 @@ string msrNote::noteAsString () const
   } // switch
      
   if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
-    s << " " << "grace";
+    s << ", grace";
   if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
-    s << " " << "tied";
+    s << ", tied";
 
   return s.str();
 }
@@ -1708,7 +1714,7 @@ void msrNote::print (ostream& os)
   // print the note itself and its position
   os <<
     noteAsString () <<
-    " input line " << fInputLineNumber << ", " <<
+    ", input line " << fInputLineNumber << ", " <<
     "(" <<
     fMusicXMLNoteData.fMusicXMLDivisions <<
     "_" <<

@@ -3913,7 +3913,10 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
       "xml2MsrVisitor::createTupletWithItsFirstNote " <<
       firstNote <<
       endl;
-      
+
+  // register firstNote as the first note of a tuplet
+  firstNote->setNoteIsChordFirstNote ();
+  
   // create a tuplet
   S_msrTuplet
     tuplet =
