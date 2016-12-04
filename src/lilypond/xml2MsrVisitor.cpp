@@ -3920,18 +3920,27 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
   // create a tuplet
   S_msrTuplet
     tuplet =
-      msrTuplet::create(
+      msrTuplet::create (
         fMsrOptions,
         firstNote->getInputLineNumber (),
         fCurrentTupletNumber,
         fCurrentActualNotes,
-        fCurrentNormalNotes);
+        fCurrentNormalNotes,
+        firstNote);
 // JMI  fCurrentElement = tuplet; // another name for it
 
-  // its measure location is that of the first note
-  tuplet->setTupletMeasureLocation (
-    firstNote->getNoteMeasureLocation ());
-  
+  // add note as first note of the stack top tuplet
+//JMI  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "==> adding first note " << firstNote->noteMsrPitchAsString() <<
+      " to the " <<
+      fCurrentTupletsStack.top ()->getActualNotes () <<
+       "/" <<
+      fCurrentTupletsStack.top ()->getNormalNotes () <<
+      " tuplet" <<
+      endl;
+  tuplet->addElementToTuplet (firstNote);
+
   // register it in this visitor
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -3947,18 +3956,6 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
     applyTupletMemberDisplayFactor (
       fCurrentActualNotes, fCurrentNormalNotes);
   */
-  
-  // add note as first note of the tuplet
-//JMI  if (fMsrOptions->fDebug)
-    cerr << idtr <<
-      "==> adding first note " << firstNote->noteMsrPitchAsString() <<
-      " to the " <<
-      fCurrentTupletsStack.top ()->getActualNotes () <<
-       "/" <<
-      fCurrentTupletsStack.top ()->getNormalNotes () <<
-      " tuplet" <<
-      endl;
-  tuplet->addElementToTuplet (firstNote);
 }
 
 //______________________________________________________________________________

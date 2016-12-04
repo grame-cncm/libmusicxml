@@ -2321,33 +2321,47 @@ void msrBarnumberCheck::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
-  S_msrOptions& msrOpts,
+  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           number,
   int           actualNotes,
-  int           normalNotes)
+  int           normalNotes,
+  S_msrNote     firstNote)
 {
   msrTuplet* o =
     new msrTuplet (
       msrOpts, inputLineNumber,
-      number, actualNotes, normalNotes);
+      number, actualNotes, normalNotes, firstNote);
   assert(o!=0);
   return o;
 }
 
 msrTuplet::msrTuplet (
-  S_msrOptions& msrOpts,
+  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           number,
   int           actualNotes,
-  int           normalNotes)
+  int           normalNotes,
+  S_msrNote     firstNote)
     : msrElement (msrOpts, inputLineNumber)
 {  
   fTupletNumber = number;
   
   fActualNotes = actualNotes;
-  fNormalNotes = normalNotes;  
+  fNormalNotes = normalNotes;
+
+/*
+  fTupletDivisions =
+    firstNote->getNoteMusicXMLDivisions ();
+  fTupletDisplayDivisions =
+    firstNote->getNoteDisplayDivisions ();
+
+  // measure location is that of the first note
+  fTupletMeasureLocation =
+    firstNote->getNoteMeasureLocation ();
+    */
 }
+
 msrTuplet::~msrTuplet() {}
 
 S_msrTuplet msrTuplet::createEmptyClone ()
@@ -2359,7 +2373,9 @@ S_msrTuplet msrTuplet::createEmptyClone ()
         fInputLineNumber,
         fTupletNumber,
         fActualNotes,
-        fNormalNotes);
+        fNormalNotes,
+ // JMI       fTupletElements [0]); // any element would be fine
+        0); // any element would be fine
   
   return clone;
 }
