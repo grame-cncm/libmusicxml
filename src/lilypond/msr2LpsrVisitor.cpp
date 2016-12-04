@@ -706,7 +706,7 @@ void msr2LpsrVisitor::visitStart (S_msrNote& elt)
       break;
       
     case msrNote::kTupletMemberNote:
-      fCurrentTupletClone->
+      fTupletClonesStack.top ()->
         addElementToTuplet (elt);
       break;
   } // switch
@@ -790,12 +790,21 @@ void msr2LpsrVisitor::visitStart (S_msrTuplet& elt)
     fOstream << idtr <<
       "--> Start visiting msrTuplet" << endl;
 
-  fCurrentTupletClone =
-    elt->createEmptyClone ();
+  // create the tuplet clone
+  S_msrTuplet
+    tupletClone =
+      elt->createEmptyClone ();
 
-  // appending the tuplet to the voice at once
-  fCurrentVoiceClone->
-    appendTupletToVoice (fCurrentTupletClone);
+  // register it in this visitor
+//  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "++> pushing tuplet " <<
+      tupletClone->getActualNotes () <<
+      "/" <<
+      tupletClone->getNormalNotes () <<
+      " to tuplets stack" << endl;
+      
+  fTupletClonesStack.push (tupletClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrTuplet& elt)
@@ -803,6 +812,54 @@ void msr2LpsrVisitor::visitEnd (S_msrTuplet& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrTuplet" << endl;
+
+//  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> popping tuplet " <<
+      elt->getActualNotes () <<
+       "/" <<
+      elt->getNormalNotes () <<
+      " from tuplets stack" << endl;
+      
+    fTupletClonesStack.pop ();
+
+
+
+  if (fTupletsStack.size ()) {
+    // tuplet is an embedded tuplet
+//    if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "=== adding embedded tuplet " <<
+      tuplet->getActualNotes () <<
+       "/" <<
+      tuplet->getNormalNotes () <<
+        " to " <<
+      fTupletsStack.top ()->getActualNotes () <<
+       "/" <<
+      fTupletsStack.top ()->getNormalNotes () <<
+      " current stack top tuplet" << endl;
+    
+    fTupletsStack.top ()->
+      addElementToTuplet (tuplet);
+  }
+  else {
+    // tup is a top level tuplet
+//    if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "=== adding top level tuplet " <<
+      tuplet->getActualNotes () <<
+       "/" <<
+      tuplet->getNormalNotes () <<
+      " to voice" <<
+      fCurrentVoice->getVoiceName () <<
+      endl;
+      
+    fCurrentVoice->
+      appendTupletToVoice (tuplet);
+  }  
+
+
+
 }
 
 //________________________________________________________________________

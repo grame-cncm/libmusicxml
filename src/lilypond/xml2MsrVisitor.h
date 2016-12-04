@@ -612,7 +612,7 @@ class EXP xml2MsrVisitor :
     // embedded tuplets are numbered 1, 2, ...
     int                       fCurrentTupletNumber;
     msrTuplet::msrTupletKind  fCurrentTupletKind;
-    stack<S_msrTuplet>        fCurrentTupletsStack;
+    stack<S_msrTuplet>        fTupletsStack;
 
     void                      createTupletWithItsFirstNote (
                                 S_msrNote note);

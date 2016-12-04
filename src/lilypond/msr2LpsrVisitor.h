@@ -287,9 +287,9 @@ class msr2LpsrVisitor :
     
     // tuplets
     // ------------------------------------------------------
-    S_msrTuplet             fCurrentTupletClone;
+//    S_msrTuplet             fCurrentTupletClone;
     bool                    fOnGoingTuplet;
-// JMI    stack<S_msrTuplet>      fCurrentTupletClonesStack;
+    stack<S_msrTuplet>      fTupletClonesStack;
 };
 
 

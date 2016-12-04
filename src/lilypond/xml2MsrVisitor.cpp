@@ -3935,16 +3935,16 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
       "/" <<
       tuplet->getNormalNotes () <<
       " to tuplets stack" << endl;
-  fCurrentTupletsStack.push (tuplet);
+  fTupletsStack.push (tuplet);
 
   // add note as first note of the stack top tuplet
 //JMI  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "==> adding first note " << firstNote->noteMsrPitchAsString() <<
       " to the " <<
-      fCurrentTupletsStack.top ()->getActualNotes () <<
+      fTupletsStack.top ()->getActualNotes () <<
        "/" <<
-      fCurrentTupletsStack.top ()->getNormalNotes () <<
+      fTupletsStack.top ()->getNormalNotes () <<
       " tuplet" <<
       endl;
   tuplet->addElementToTuplet (firstNote);
@@ -3958,18 +3958,18 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
 }
 
 //______________________________________________________________________________
-void xml2MsrVisitor::finalizeTuplet (S_msrNote note)
+void xml2MsrVisitor::finalizeTuplet (S_msrNote lastNote)
 {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "xml2MsrVisitor::finalizeTuplet " <<
-      note <<
+      lastNote <<
       endl;
       
   // get tuplet from top of tuplet stack
   S_msrTuplet
     tuplet =
-      fCurrentTupletsStack.top ();
+      fTupletsStack.top ();
 
 /*  // set note display divisions JMI
   note->
@@ -3977,28 +3977,28 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote note)
       fCurrentActualNotes, fCurrentNormalNotes);
 */
 
-  // add note to the tuplet
+  // add lastNote to the tuplet
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "==> adding last note " << note->noteMsrPitchAsString () <<
+      "==> adding last note " << lastNote->noteMsrPitchAsString () <<
       " to tuplets stack top " <<
-      fCurrentTupletsStack.top ()->getActualNotes () <<
+      fTupletsStack.top ()->getActualNotes () <<
        "/" <<
-      fCurrentTupletsStack.top ()->getNormalNotes () <<
+      fTupletsStack.top ()->getNormalNotes () <<
       endl;
-  tuplet->addElementToTuplet (note);
+  tuplet->addElementToTuplet (lastNote);
 
   // pop from the tuplets stack
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> popping tuplet " <<
-      fCurrentTupletsStack.top ()->getActualNotes () <<
+      fTupletsStack.top ()->getActualNotes () <<
        "/" <<
-      fCurrentTupletsStack.top ()->getNormalNotes () <<
+      fTupletsStack.top ()->getNormalNotes () <<
       " from tuplets stack" << endl;
-  fCurrentTupletsStack.pop ();        
+  fTupletsStack.pop ();        
 
-  if (fCurrentTupletsStack.size ()) {
+  if (fTupletsStack.size ()) {
     // tuplet is an embedded tuplet
 //    if (fMsrOptions->fDebug)
       cerr << idtr <<
@@ -4007,12 +4007,12 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote note)
        "/" <<
       tuplet->getNormalNotes () <<
         " to " <<
-      fCurrentTupletsStack.top ()->getActualNotes () <<
+      fTupletsStack.top ()->getActualNotes () <<
        "/" <<
-      fCurrentTupletsStack.top ()->getNormalNotes () <<
+      fTupletsStack.top ()->getNormalNotes () <<
       " current stack top tuplet" << endl;
     
-    fCurrentTupletsStack.top ()->
+    fTupletsStack.top ()->
       addElementToTuplet (tuplet);
   }
   else {
@@ -4360,19 +4360,19 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
           cerr << idtr <<
             "--> adding note " << note <<
             " to stack top tuplet " <<
-            fCurrentTupletsStack.top ()->getActualNotes () <<
+            fTupletsStack.top ()->getActualNotes () <<
              "/" <<
-            fCurrentTupletsStack.top ()->getNormalNotes () <<
+            fTupletsStack.top ()->getNormalNotes () <<
             endl;
 
-        fCurrentTupletsStack.top()->
+        fTupletsStack.top()->
           addElementToTuplet (note);
 /*
         // set note display divisions
         note->
           applyTupletMemberDisplayFactor (
-            fCurrentTupletsStack.top ()->getActualNotes (),
-            fCurrentTupletsStack.top ()->getNormalNotes ());
+            fTupletsStack.top ()->getActualNotes (),
+            fTupletsStack.top ()->getNormalNotes ());
 */
       }
       break;
@@ -4437,6 +4437,57 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
 
   // account for chord not being built
   fOnGoingChord = false;
+
+  // handle tuplets pending on the tuplet stack
+  while (fTupletsStack.size ()) {
+    S_msrTuplet
+      pendingTuplet =
+        fTupletsStack.top ();
+        
+    // pop it from the tuplets stack
+
+//  if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> popping tuplet " <<
+        pendingTuplet->getActualNotes () <<
+         "/" <<
+        pendingTuplet->getNormalNotes () <<
+        " from tuplets stack" << endl;
+      fTupletsStack.pop ();        
+
+    if (fTupletsStack.size ()) {
+      // tuplet is an embedded tuplet
+  //    if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "=== adding embedded tuplet " <<
+        pendingTuplet->getActualNotes () <<
+         "/" <<
+        pendingTuplet->getNormalNotes () <<
+          " to " <<
+        fTupletsStack.top ()->getActualNotes () <<
+         "/" <<
+        fTupletsStack.top ()->getNormalNotes () <<
+        " current stack top tuplet" << endl;
+      
+      fTupletsStack.top ()->
+        addElementToTuplet (pendingTuplet);
+    }
+    else {
+      // tup is a top level tuplet
+  //    if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "=== adding top level tuplet " <<
+        pendingTuplet->getActualNotes () <<
+         "/" <<
+        pendingTuplet->getNormalNotes () <<
+        " to voice" <<
+        fCurrentVoice->getVoiceName () <<
+        endl;
+        
+      fCurrentVoice->
+        appendTupletToVoice (pendingTuplet);
+    }  
+  } // while
 }
 
 //______________________________________________________________________________
