@@ -1564,39 +1564,9 @@ string msrNote::noteDivisionsAsMSRString () const
   int    computedNumberOfDots;
   string errorMessage;
 
-/*
-  switch (fNoteKind) {
-    case msrNote::kStandaloneNote:
-      result =
-        MusicXML2::divisionsAsMSRString (
-          fMusicXMLNoteData.fMusicXMLDivisions,
-          fNoteMeasureLocation.fDivisionsPerWholeNote,
-          fMusicXMLNoteData.fMusicXMLDotsNumber,
-          errorMessage);
-      break;
-      
-    case msrNote::kRestNote:
-      result =
-        MusicXML2::divisionsAsMSRString (
-          fMusicXMLNoteData.fMusicXMLDivisions,
-          fNoteMeasureLocation.fDivisionsPerWholeNote,
-          fMusicXMLNoteData.fMusicXMLDotsNumber,
-          errorMessage);
-      break;
-      
-    case msrNote::kChordMemberNote:
-      result =
-        MusicXML2::divisionsAsMSRString (
-          fMusicXMLNoteData.fMusicXMLDivisions,
-          fNoteMeasureLocation.fDivisionsPerWholeNote,
-          fMusicXMLNoteData.fMusicXMLDotsNumber,
-          errorMessage);
-      break;
-      
-    case msrNote::kTupletMemberNote:
-      break;
-  } // switch
- */
+  computedNumberOfDots =
+    fMusicXMLNoteData.fMusicXMLDotsNumber; // TEMP
+    
   result =
     MusicXML2::divisionsAsMSRString (
       fMusicXMLNoteData.fNoteDisplayDivisions,
@@ -1930,6 +1900,10 @@ string msrChord::chordDivisionsAsMSRString () const
   string result;
   int    computedNumberOfDots;
   string errorMessage;
+
+  computedNumberOfDots =
+    fChordNotes [0]-> 
+      getNoteMusicXMLDotsNumber (); // TEMP
   
   result =
     MusicXML2::divisionsAsMSRString (

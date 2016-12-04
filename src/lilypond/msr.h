@@ -880,8 +880,19 @@ class EXP msrNote : public msrElement
     msrPitch      getNoteMsrPitch () const
                       { return fNoteMsrPitch; }
                       
- //   int           getNoteMsrDuration () const // ??? JMI
- //                     { return fNoteMsrDuration; }       
+    // ties
+    bool          getMusicXMLNoteIsTied () const
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLNoteIsTied;
+                      }
+
+    // grace notes
+    bool           getNoteIsGraceNote () const
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote;
+                      }
 
     string        noteMsrPitchAsString () const;
 
@@ -910,13 +921,6 @@ class EXP msrNote : public msrElement
     void          setBeam (S_msrBeam beam)  { fNoteBeam = beam; }
     S_msrBeam     getBeam () const          { return fNoteBeam; }
 
-    // ties
-    bool          getMusicXMLNoteIsTied () const
-                      {
-                        return
-                          fMusicXMLNoteData.fMusicXMLNoteIsTied;
-                      }
-
     // location in measure
     void          setNoteMeasureLocation (
                     const msrMeasureLocation& location)
@@ -930,8 +934,8 @@ class EXP msrNote : public msrElement
     // ------------------------------------------------------
 
     msrPitch computeNoteMsrPitch (
-        int                         noteQuatertonesFromA,
-        msrNote::musicXMLAlteration alteration);
+                    int                         noteQuatertonesFromA,
+                    msrNote::musicXMLAlteration alteration);
                           
     static map<msrPitch, string>
                   sDutchLilypondPitches;

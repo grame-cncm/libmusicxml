@@ -517,7 +517,7 @@ string divisionsAsMSRString (
   // MSR and LilyPond durations are in whole notes
   //  cerr << "|"  << fNum << "|" << fDenom << "|" << fDots << "|" << endl;
 
-  computedNumberOfDots = 0;
+  // TEMP computedNumberOfDots = 0;
   
   stringstream s;
 
@@ -599,7 +599,8 @@ string divisionsAsMSRString (
 
         int etalon = divisionsPerWholeNote / denominator * 2;
           // an infinite sequence of dots tends to this
-        
+
+        /*
         while (m < etalon) {
 //          cerr << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
           m *= 2;
@@ -607,8 +608,12 @@ string divisionsAsMSRString (
           numberOfDots++;
         } // while
 //        cerr << endl;
+*/
 
-        computedNumberOfDots = numberOfDots;
+        for (int i = 0; i < computedNumberOfDots; i++) // TEMP
+          s << ".";
+          
+        // TEMP computedNumberOfDots = numberOfDots;
       }
       }
       break;

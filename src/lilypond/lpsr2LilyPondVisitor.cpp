@@ -73,7 +73,11 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
 
  // JMI if (fMusicXMLNoteData.fMusicXMLStepIsUnpitched)
 //    s << "unpitched ";
-    
+
+  if (note->getNoteIsGraceNote ())
+    s <<
+      "\\grace { ";
+      
   switch (note->getNoteMsrPitch ()) {
     
     case msrNote::k_aeseh: s << "aeseh"; break;
@@ -298,6 +302,10 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     }
   }
   
+  if (note->getNoteIsGraceNote ())
+    s <<
+      " }";
+
   return s.str();
 }
 
@@ -1466,26 +1474,24 @@ string msrNote::octaveRepresentation (char octave)
     switch (elt->getNoteKind ()) {
       
       case msrNote::kStandaloneNote:
-      /*
         if (++fSequentialMusicElementsCounter > 10) {
           fOstream <<
             endl <<
             idtr;
           fSequentialMusicElementsCounter = 1;
         }
-        */
+
         fOstream << "standalone";
         break;
         
       case msrNote::kRestNote:
-      /*
         if (++fSequentialMusicElementsCounter > 10) {
           fOstream <<
             endl <<
             idtr;
           fSequentialMusicElementsCounter = 1;
         }
-        */
+        
         fOstream << "rest";
         break;
         
@@ -1507,14 +1513,12 @@ string msrNote::octaveRepresentation (char octave)
   switch (elt->getNoteKind ()) {
     
     case msrNote::kStandaloneNote:
-    /*
       if (++fSequentialMusicElementsCounter > 10) {
         fOstream <<
           endl <<
           idtr;
         fSequentialMusicElementsCounter = 1;
       }
-      */
       
       // print the note name
       fOstream <<
@@ -1531,14 +1535,12 @@ string msrNote::octaveRepresentation (char octave)
       break;
       
     case msrNote::kRestNote:
-    /*
       if (++fSequentialMusicElementsCounter > 10) {
         fOstream <<
           endl <<
           idtr;
         fSequentialMusicElementsCounter = 1;
       }
-      */
       
       // print the rest name
       fOstream <<
@@ -1671,14 +1673,12 @@ void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
   if (++ fVoicechunkNotesAndChordsCountersStack.top () == 1)
     fOstream << idtr;
 
-/*
   if (++fSequentialMusicElementsCounter > 10) {
     fOstream <<
       endl <<
       idtr;
     fSequentialMusicElementsCounter = 1;
   }
-*/
 
   fOstream << idtr << "<";
 
@@ -1871,6 +1871,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBreak& elt)
     endl <<
     endl <<
     idtr;
+
+  fSequentialMusicElementsCounter = 1;
+  fLyricschunksCounter = 1;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBreak& elt)
