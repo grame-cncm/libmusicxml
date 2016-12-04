@@ -3929,6 +3929,16 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
         firstNote);
 // JMI  fCurrentElement = tuplet; // another name for it
 
+  // register it in this visitor
+//  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "++> pushing tuplet " <<
+      tuplet->getActualNotes () <<
+      "/" <<
+      tuplet->getNormalNotes () <<
+      " to tuplets stack" << endl;
+  fCurrentTupletsStack.push (tuplet);
+
   // add note as first note of the stack top tuplet
 //JMI  if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -3941,15 +3951,6 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
       endl;
   tuplet->addElementToTuplet (firstNote);
 
-  // register it in this visitor
-//  if (fMsrOptions->fDebug)
-    cerr << idtr <<
-      "++> pushing tuplet " <<
-      tuplet->getActualNotes () <<
-      "/" <<
-      tuplet->getNormalNotes () <<
-      " to tuplets stack" << endl;
-  fCurrentTupletsStack.push(tuplet);
 /*
   // set note display divisions
   firstNote->
