@@ -87,8 +87,6 @@ xml2MsrVisitor::xml2MsrVisitor (
 
   fOnGoingChord = false;
   
-  fOnGoingTuplet = false;
-
   fCurrentBackupDuration = -1;
 
   fOnGoingNote = false;
@@ -4004,7 +4002,7 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote note)
     // tuplet is an embedded tuplet
 //    if (fMsrOptions->fDebug)
       cerr << idtr <<
-        "=== adding tuplet " <<
+        "=== adding embedded tuplet " <<
       tuplet->getActualNotes () <<
        "/" <<
       tuplet->getNormalNotes () <<
@@ -4021,7 +4019,7 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote note)
     // tup is a top level tuplet
 //    if (fMsrOptions->fDebug)
       cerr << idtr <<
-        "=== adding tuplet " <<
+        "=== adding top level tuplet " <<
       tuplet->getActualNotes () <<
        "/" <<
       tuplet->getNormalNotes () <<
@@ -4347,7 +4345,6 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
     case msrTuplet::kStartTuplet:
       {
         createTupletWithItsFirstNote (note);
-        fOnGoingTuplet = true;
       
         // swith to continuation mode
         // this is handy in case the forthcoming tuplet members
@@ -4368,23 +4365,21 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
             fCurrentTupletsStack.top ()->getNormalNotes () <<
             endl;
 
+        fCurrentTupletsStack.top()->
+          addElementToTuplet (note);
+/*
         // set note display divisions
         note->
           applyTupletMemberDisplayFactor (
             fCurrentTupletsStack.top ()->getActualNotes (),
             fCurrentTupletsStack.top ()->getNormalNotes ());
-
-        fCurrentTupletsStack.top()->
-          addElementToTuplet (note);
+*/
       }
       break;
 
     case msrTuplet::kStopTuplet:
       {
         finalizeTuplet (note);
-
-        // indicate the end of the tuplet
-        fOnGoingTuplet = false;
       }
       break;
 

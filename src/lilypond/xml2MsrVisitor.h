@@ -612,8 +612,6 @@ class EXP xml2MsrVisitor :
     // embedded tuplets are numbered 1, 2, ...
     int                       fCurrentTupletNumber;
     msrTuplet::msrTupletKind  fCurrentTupletKind;
-    // remains true until a S_tuplet of type "stop" is met
-    bool                      fOnGoingTuplet;
     stack<S_msrTuplet>        fCurrentTupletsStack;
 
     void                      createTupletWithItsFirstNote (
