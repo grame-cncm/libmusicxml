@@ -1409,6 +1409,10 @@ void xml2MsrVisitor::visitStart ( S_forward& elt )
       </forward>
 */
 
+  // the <voice /> element is present only
+  // in case of a voice change
+  fCurrentForwardVoiceNumber = fCurrentVoiceNumber;
+  
   // the <staff /> element is present only
   // in case of a staff change
   fCurrentForwardStaffNumber = fCurrentStaffNumber;
@@ -1480,7 +1484,7 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
   
     // set its location
     rest->setNoteMeasureLocation (
-      fCurrentVoice->getVoiceMeasureLocation ());
+      fCurrentPart>getPartMeasureLocation ());
 
     // append to the current voice
     fCurrentVoice->appendNoteToVoice (rest);

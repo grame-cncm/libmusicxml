@@ -520,7 +520,21 @@ string divisionsAsMSRString (
   // TEMP computedNumberOfDots = 0;
 
   //debugMode = true; // TEMP, for tests
+  if (divisionsPerWholeNote == 0) {
+  stringstream s;
   
+  s << 
+    "divisions " <<
+      divisions <<
+    ", divisionsPerWholeNote = " <<
+    divisionsPerWholeNote <<
+    ": cannot devide by 0" << endl;
+    
+  errorMessage = s.str();
+  
+  return "";
+  }
+
   stringstream s;
 
   div_t

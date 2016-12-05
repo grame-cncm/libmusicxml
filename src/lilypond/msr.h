@@ -2761,14 +2761,6 @@ class EXP msrVoice : public msrElement
                   getVoiceMeasureLocation () const
                       { return fVoiceMeasureLocation; }
 
-    void          setNoteMeasureLocation (
-                    const msrMeasureLocation& location)
-                      { fVoiceMeasureLocation = location; }
-                      
-    const msrMeasureLocation&
-                  getNoteMeasureLocation () const
-                      { return fVoiceMeasureLocation; }
-
     // services
     // ------------------------------------------------------
 
