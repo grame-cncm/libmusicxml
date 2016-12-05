@@ -1573,12 +1573,12 @@ string msrNote::noteDivisionsAsMSRString () const
     fMusicXMLNoteData.fMusicXMLDotsNumber; // TEMP
     
   result =
-    MusicXML2::divisionsAsMSRString (
+    divisionsAsMSRString (
       fMusicXMLNoteData.fNoteDisplayDivisions,
       fNoteMeasureLocation.fDivisionsPerWholeNote,
       computedNumberOfDots,
       errorMessage,
-      true); // 'true' to debug it
+      false); // 'true' to debug it
 
   if (errorMessage.size ())
     msrMusicXMLError (
@@ -1912,12 +1912,12 @@ string msrChord::chordDivisionsAsMSRString () const
       getNoteMusicXMLDotsNumber (); // TEMP
   
   result =
-    MusicXML2::divisionsAsMSRString (
+    divisionsAsMSRString (
       fChordDivisions,
       fChordMeasureLocation.fDivisionsPerWholeNote,
       computedNumberOfDots,
       errorMessage,
-      true); // 'true' to debug it
+      false); // 'true' to debug it
 
   if (errorMessage.size ())
     msrMusicXMLError (
@@ -4576,12 +4576,12 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
   string errorMessage;
 
   result =
-    MusicXML2::divisionsAsMSRString (
+    divisionsAsMSRString (
       fUpbeatDivisions,
       fUpbeatVoiceUplink->getVoiceMeasureLocation ().fDivisionsPerWholeNote,
       computedNumberOfDots,
       errorMessage,
-      true); // 'true' to debug it);
+      false); // 'true' to debug it;
 
   if (errorMessage.size ())
     msrMusicXMLError (
@@ -4871,11 +4871,12 @@ void msrVoice::setMeasureNumber (
     
     anacrusisDivisions = getPositionInMeasure () - 1 ;
     anacrusisDivisionsAsString =
-      MusicXML2::divisionsAsMSRString (
+      divisionsAsMSRString (
         anacrusisDivisions,
         fVoiceMeasureLocation.fDivisionsPerWholeNote,
         computedNumberOfDots,
-        errorMessage);
+        errorMessage,
+        false); // 'true' to debug it
     
       if (errorMessage.size ())
         msrMusicXMLError (

@@ -520,7 +520,7 @@ string divisionsAsMSRString (
 
   // TEMP computedNumberOfDots = 0;
 
-  debugMode = true; // TEMP
+  debugMode = true; // TEMP, for tests
   
   stringstream s;
 
@@ -644,8 +644,10 @@ string divisionsAsMSRString (
     if (debugMode)
       cerr << endl;
 
+    s << " %{ ";
     for (int i = 0; i < computedNumberOfDots; i++) // TEMP
-      s << "%{*%}";
+      s << "*";
+    s << " %}";
       
     // TEMP computedNumberOfDots = numberOfDots;
   }
