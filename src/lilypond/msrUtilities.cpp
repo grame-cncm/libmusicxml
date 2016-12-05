@@ -529,33 +529,38 @@ string divisionsAsMSRString (
   int div = divresult.quot;
   int mod = divresult.rem;
 
-  /*
-    cout <<
-      endl <<
-      "divisions = " << divisions <<
-    ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
-    "div = " << div << ", mod = " << mod << endl;
-  */
+  if (debugMode)
+    cout << endl <<
+      "% --> divisions = " << divisions <<
+      ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
+      "% --> div = " << div << ", mod = " << mod << endl;
 
-  int divisionsAccountedFor = divisionsPerWholeNote - mod;
+  int divisionsAccountedFor = divisions - mod;
   int remainingDivisions    = mod;
 
   int etalon = div * 2;
     // an infinite sequence of dots tends to this
   
   switch (div) {
+    case 15:
+    case 14:
+    case 13:
+    case 12:
+    case 11:
+    case 10:
+    case 9:
     case 8:
-    case 7:
-    case 6:
-    case 5:
       s << "\\maxima";
       break;
       
+    case 7:
+    case 6:
+    case 5:
     case 4:
-    case 3:
       s << "\\longa";
       break;
       
+    case 3:
     case 2:
       s << "\\breve";
       break;
@@ -599,22 +604,22 @@ string divisionsAsMSRString (
       stringstream s;
       
       s << 
-        "note divisions " <<
+        "% note divisions " <<
           divisions <<
         "/" <<
         divisionsPerWholeNote <<
         " exceeds a maxima" << endl;
         
-      errorMessage = s.str();
+      // TEMP errorMessage = s.str();
       }
   } // switch
 
   if (debugMode)
     cerr <<
       endl << endl <<
-      "--> we've got '" << s.str() << "'" << endl << 
-      "--> divisionsAccountedFor = " << divisionsAccountedFor <<
-      "--> remainingDivisions    = " << remainingDivisions <<
+      "% --> we've got '" << s.str() << "'" << endl << 
+      "% --> divisionsAccountedFor = " << divisionsAccountedFor << endl <<
+      "% --> remainingDivisions    = " << remainingDivisions << endl <<
       endl;
 
   // compute the number of dots if any
@@ -624,15 +629,16 @@ string divisionsAsMSRString (
       numberOfDots = 0;
 
     if (debugMode)
-      cerr << "etalon = " << etalon << endl;
+      cerr << "% etalon = " << etalon << endl;
     
     while (m < etalon) {
       if (debugMode)
-        cerr << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
+        cerr << "% m = " << m << ", numberOfDots = " << numberOfDots << endl;
       m *= 2;
-      s << "*";
+      s << "%{*%}";
       numberOfDots++;
     } // while
+    
     if (debugMode)
       cerr << endl;
 
