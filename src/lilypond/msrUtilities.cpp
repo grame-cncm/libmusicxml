@@ -516,7 +516,6 @@ string divisionsAsMSRString (
 {
   // MusicXML divisions are per quater note,
   // MSR and LilyPond durations are in whole notes
-  //  cerr << "|"  << fNum << "|" << fDenom << "|" << fDots << "|" << endl;
 
   // TEMP computedNumberOfDots = 0;
 
@@ -540,7 +539,7 @@ string divisionsAsMSRString (
   int divisionsAccountedFor = divisions - mod;
   int remainingDivisions    = mod;
 
-  int limit = divisionsAccountedFor;
+  int limit = divisionsAccountedFor * 2;
     // an infinite sequence of dots tends to this
   
   switch (div) {
@@ -576,26 +575,29 @@ string divisionsAsMSRString (
       // this note is shorter than a whole note,
       // display it as a fration of such
 
-      // compute the the fraction's denominator,
+      // compute the reciprocal, i.e. the fraction's denominator,
       // trying 1/2, 1/4, 1/8... in order
       int
-        denominator = 2, // half note
-        n           = divisions * 2;
-      //cerr << "denominator = " << denominator << ", n = " << n << endl;
+        reciprocal = 2, // half note
+        n          = divisions * 2;
+
+      if (debugMode)
+        cerr << "% --> reciprocal = " << reciprocal << ", n = " << n << endl;
       
       while (n < divisionsPerWholeNote) {
-   //     cerr << "n = " << n << ", denominator = " << denominator << endl;
-        denominator *= 2;
+        if (debugMode)
+          cerr << "% --> n = " << n << ", reciprocal = " << reciprocal << endl;
+        reciprocal *= 2;
         n *= 2;
       } // while
 
-      // generate the denominator
-      s << denominator;
+      // generate the reciprocal
+      s << reciprocal;
 
-      divisionsAccountedFor = divisionsPerWholeNote / denominator;
+      divisionsAccountedFor = divisionsPerWholeNote / reciprocal;
       remainingDivisions    = mod - divisionsAccountedFor;
 
-      limit = divisionsAccountedFor;
+      limit = divisionsAccountedFor * 2;
         // an infinite sequence of dots tends to this
 
       }

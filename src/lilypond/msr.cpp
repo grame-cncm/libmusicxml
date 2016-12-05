@@ -4575,6 +4575,12 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
   int    computedNumberOfDots; // value not used
   string errorMessage;
 
+  int upbeatDivisions =
+//  if (fMsrOptions->fDebug)
+    cout << endl <<
+      "% --> fUpbeatDivisions = " << fUpbeatDivisions <<
+      ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
+
   result =
     divisionsAsMSRString (
       fUpbeatDivisions,
