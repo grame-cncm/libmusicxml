@@ -4148,6 +4148,10 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
         fMusicXMLNoteData,
         fCurrentSlurKind);
 
+  // set its divisions per whole note
+  note->setDivisionsPerWholeNote (
+    fCurrentVoice-> getDivisionsPerWholeNote ());
+  
   // set its location
   note->setNoteMeasureLocation (
     fCurrentVoice->getVoiceMeasureLocation ());

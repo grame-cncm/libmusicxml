@@ -2745,7 +2745,7 @@ class EXP msrVoice : public msrElement
       int           inputLineNumber,
       int           voiceNumber,
       int           staffRelativeVoiceNumber,
-      S_msrStaff    voiceStaff);
+      S_msrStaff    voiceStaffUplink);
                           
     static SMARTP<msrVoice> createRest (
       S_msrOptions& msrOpts,
@@ -2889,7 +2889,7 @@ class EXP msrVoice : public msrElement
       int           inputLineNumber,
       int           voiceNumber,
       int           staffRelativeVoiceNumber,
-      S_msrStaff    voiceStaff);
+      S_msrStaff    voiceStaffUplink);
       
     virtual ~msrVoice();
   
@@ -2945,7 +2945,7 @@ class EXP msrStaff : public msrElement
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
       int           staffNumber,
-      S_msrPart     staffPart);
+      S_msrPart     fStaffPartUplink);
     
     SMARTP<msrStaff> createEmptyClone (
       S_msrPart clonedPart);
@@ -2981,6 +2981,9 @@ class EXP msrStaff : public msrElement
                     {
                       fDivisionsPerWholeNote =
                         divisionsPerWholeNote;
+
+                      setAllStaffDivisionsPerWholeNote (
+                        divisionsPerWholeNote);
                     }
                       
     const int   getDivisionsPerWholeNote () const
@@ -2988,6 +2991,8 @@ class EXP msrStaff : public msrElement
           
     // services
     // ------------------------------------------------------
+
+    void        setAllStaffDivisionsPerWholeNote (int divisions);
 
     S_msrVoice  addVoiceToStaff (
                   int inputLineNumber,
@@ -2997,8 +3002,6 @@ class EXP msrStaff : public msrElement
     
     S_msrVoice  fetchVoiceFromStaff (int voiceNumber);
                               
-    void        setAllStaffDivisionsPerWholeNote (int divisions);
-
     void        appendClefToAllStaffVoices (S_msrClef clef);
     void        appendKeyToAllStaffVoices  (S_msrKey   key);
     void        appendTimeToAllStaffVoices (S_msrTime time);
@@ -3019,7 +3022,7 @@ class EXP msrStaff : public msrElement
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
       int           staffNumber,
-      S_msrPart     staffPart);
+      S_msrPart     fStaffPartUplink);
     virtual ~msrStaff();
   
   private:
@@ -3061,7 +3064,7 @@ class EXP msrPart : public msrElement
       S_msrOptions&  msrOpts, 
       int            inputLineNumber,
       string         partMusicXMLID,
-      S_msrPartgroup partPartgroup);
+      S_msrPartgroup partPartgroupUplink);
                 
     SMARTP<msrPart> createEmptyClone (
       S_msrPartgroup clonedPartgroup);
@@ -3069,7 +3072,7 @@ class EXP msrPart : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void         setPartAbbreviation (string partAbbreviation)
+    void          setPartAbbreviation (string partAbbreviation)
                       { fPartAbbreviation = partAbbreviation; }
                 
     void          setPartInstrumentName (string partInstrumentName)
@@ -3107,6 +3110,9 @@ class EXP msrPart : public msrElement
                       {
                         fDivisionsPerWholeNote =
                           divisionsPerWholeNote;
+
+                        setAllPartDivisionsPerWholeNote (
+                          divisionsPerWholeNote);
                       }
                       
     const int     getDivisionsPerWholeNote () const
@@ -3149,7 +3155,7 @@ class EXP msrPart : public msrElement
       S_msrOptions&  msrOpts, 
       int            inputLineNumber,
       string         partMusicXMLID,
-      S_msrPartgroup partPartgroup);
+      S_msrPartgroup partPartgroupUplink);
       
     virtual ~msrPart();
   

@@ -4728,14 +4728,14 @@ S_msrVoice msrVoice::create (
   int           inputLineNumber,
   int           voiceNumber,
   int           staffRelativeVoiceNumber,
-  S_msrStaff    voiceStaff)
+  S_msrStaff    voiceStaffUplink)
 {
   msrVoice* o =
     new msrVoice (
       msrOpts, inputLineNumber,
       voiceNumber,
       staffRelativeVoiceNumber,
-      voiceStaff);
+      voiceStaffUplink);
   assert(o!=0);
   return o;
 }
@@ -4777,17 +4777,20 @@ msrVoice::msrVoice (
   int           inputLineNumber,
   int           voiceNumber,
   int           staffRelativeVoiceNumber,
-  S_msrStaff    voiceStaff)
+  S_msrStaff    voiceStaffUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
   fVoiceNumber = voiceNumber;
   fStaffRelativeVoiceNumber = staffRelativeVoiceNumber;
-  fVoiceStaffUplink  = voiceStaff;
+  fVoiceStaffUplink  = voiceStaffUplink;
 
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Creating voice " << getVoiceName () << endl;
 
+  fDivisionsPerWholeNote =
+    fVoiceStaffUplink->getDivisionsPerWholeNote ();
+    
   // there may be an anacrusis
   fVoiceMeasureLocation.fMeasureNumber = 0;
   
@@ -5439,11 +5442,11 @@ S_msrStaff msrStaff::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           staffNumber,
-  S_msrPart     staffPart)
+  S_msrPart     staffPartUplink)
 {
   msrStaff* o =
     new msrStaff (
-      msrOpts, inputLineNumber, staffNumber, staffPart);
+      msrOpts, inputLineNumber, staffNumber, staffPartUplink);
   assert(o!=0);
   return o;
 }
@@ -5452,11 +5455,11 @@ msrStaff::msrStaff (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           staffNumber,
-  S_msrPart     staffPart)
+  S_msrPart     staffPartUplink)
     : msrElement (msrOpts, inputLineNumber)
 {  
   fStaffNumber = staffNumber;
-  fStaffPartUplink   = staffPart;
+  fStaffPartUplink   = staffPartUplink;
 
   fNextRelativeStaffVoiceNumber = 0;
 
@@ -5466,6 +5469,9 @@ msrStaff::msrStaff (
       " in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
+  fDivisionsPerWholeNote =
+    fStaffPartUplink->getDivisionsPerWholeNote ();
+    
   // create the implicit initial G line 2 clef
   fStaffClef =
     msrClef::create (
@@ -5791,11 +5797,11 @@ S_msrPart msrPart::create (
   S_msrOptions&  msrOpts, 
   int            inputLineNumber,
   string         partMusicXMLID,
-  S_msrPartgroup partPartgroup)
+  S_msrPartgroup partPartgroupUplink)
 {
   msrPart* o =
     new msrPart (
-      msrOpts, inputLineNumber, partMusicXMLID, partPartgroup);
+      msrOpts, inputLineNumber, partMusicXMLID, partPartgroupUplink);
   assert(o!=0);
   return o;
 }
@@ -5804,11 +5810,11 @@ msrPart::msrPart (
   S_msrOptions&  msrOpts, 
   int            inputLineNumber,
   string         partMusicXMLID,
-  S_msrPartgroup partPartgroup)
+  S_msrPartgroup partPartgroupUplink)
     : msrElement (msrOpts, inputLineNumber)
 {  
   fPartMusicXMLID      = partMusicXMLID;
-  fPartPartgroupUplink = partPartgroup;
+  fPartPartgroupUplink = partPartgroupUplink;
 
   // is this part name in the part renaming map?
   map<string, string>::iterator
@@ -5828,6 +5834,8 @@ msrPart::msrPart (
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Creating part " << getPartCombinedName () << endl;
+
+  fDivisionsPerWholeNote = 0;
 }
 
 msrPart::~msrPart() {}
