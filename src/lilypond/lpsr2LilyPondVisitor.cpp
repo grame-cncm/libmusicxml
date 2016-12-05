@@ -846,7 +846,8 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewLyricsBlock& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrNewLyricsBlock" << endl;
 
-  if (fOngoingNonEmptyLyrics) {
+//  if (fOngoingNonEmptyLyrics) {
+  if (true || fOngoingNonEmptyLyrics) { // JMI
     fOstream << idtr <<
      "\\new Lyrics" << " " <<
     "\\lyricsto" << " " <<
@@ -865,8 +866,10 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewLyricsBlock& elt)
     fOstream << idtr <<
       "% --> End visiting lpsrNewLyricsBlock" << endl;
 
-  if (fOngoingNonEmptyLyrics)
+//  if (fOngoingNonEmptyLyrics) {
+  if (true || fOngoingNonEmptyLyrics) { // JMI
     idtr--;
+  }
 }
 
 //________________________________________________________________________
@@ -1142,7 +1145,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
     fOstream << idtr <<
       "% --> Start visiting msrLyricschunk" << endl;
 
-  if (fOngoingNonEmptyLyrics) {
+//  if (fOngoingNonEmptyLyrics) {
+  if (true || fOngoingNonEmptyLyrics) { // JMI
     if (++fLyricschunksCounter > 10) {
       fOstream <<
         endl <<
