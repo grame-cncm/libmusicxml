@@ -1471,7 +1471,6 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
 
   for (int i = 0; i < fCurrentForwardDuration; i++) {
     // generate rests for the duration of the forward move
-
     int restDivisions = 1;
     
     S_msrNote
@@ -1482,11 +1481,16 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
           1, // JMI
           fCurrentVoiceNumber);
   
+    // set rest's divisions per whole note
+    rest->
+      setDivisionsPerWholeNote (
+        fCurrentVoice-> getDivisionsPerWholeNote ());
+
     // set its location
     rest->setNoteMeasureLocation (
       fCurrentVoice->getVoiceMeasureLocation ());
 
-    // append to the current voice
+    // append it to the current voice
     fCurrentVoice->appendNoteToVoice (rest);
   
     // take it's duration into account
@@ -3805,7 +3809,12 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
         fCurrentNote->getNoteMusicXMLDivisions ());
 // JMI  fCurrentElement = chord; // another name for it
 
-  // its location is that of its first note
+  // chord's divisions per whole note is that of its first note
+  chord->
+    setDivisionsPerWholeNote (
+      fCurrentNote-> getDivisionsPerWholeNote ());
+  
+  // chord's location is that of its first note
   chord->
     setChordMeasureLocation (
       fCurrentNote->getNoteMeasureLocation ());
@@ -3903,6 +3912,11 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
         firstNote);
 // JMI  fCurrentElement = tuplet; // another name for it
 
+  // tuplets's divisions per whole note is that of its first note
+  tuplet->
+    setDivisionsPerWholeNote (
+      firstNote-> getDivisionsPerWholeNote ());
+  
   // register it in this visitor
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -4148,9 +4162,10 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
         fMusicXMLNoteData,
         fCurrentSlurKind);
 
-  // set its divisions per whole note
-  note->setDivisionsPerWholeNote (
-    fCurrentVoice-> getDivisionsPerWholeNote ());
+  // set note's divisions per whole note
+  note->
+    setDivisionsPerWholeNote (
+      fCurrentVoice-> getDivisionsPerWholeNote ());
   
   // set its location
   note->setNoteMeasureLocation (
