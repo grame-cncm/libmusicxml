@@ -2046,6 +2046,8 @@ class EXP msrLyricschunk : public msrElement
       string             chunkText,
       int                divisions);
 
+    SMARTP<msrLyricschunk> createEmptyClone ();
+
     // set and get
     // ------------------------------------------------------
 
@@ -2059,7 +2061,7 @@ class EXP msrLyricschunk : public msrElement
     int       getChunkDivisions () const
                   { return fChunkDivisions; }
 
-    SMARTP<msrLyricschunk> createEmptyClone ();
+    string    getLyricschunkTypeAsString ();
 
     // services
     // ------------------------------------------------------

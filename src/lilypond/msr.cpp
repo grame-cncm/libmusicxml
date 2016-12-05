@@ -3402,47 +3402,100 @@ ostream& operator<< (ostream& os, const S_msrLyricschunk& lyr)
   return os;
 }
 
-void msrLyricschunk::print (ostream& os)
-{  
-  os << "Lyricschunk" << " " << setw(6) << left;
+string msrLyricschunk::getLyricschunkTypeAsString ()
+{
+  string result;
+  
   switch (fLyricschunkType) {
     case kSingleChunk:
-      os << "single" << ":" << fChunkDivisions;
-      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
+      result = "single";
       break;
     case kBeginChunk:
-      os << "begin" << ":" << fChunkDivisions;
-      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
+      result = "begin";
       break;
     case kMiddleChunk:
-      os << "middle" << ":" << fChunkDivisions;
+      result = "middle";
+      break;
+    case kEndChunk:
+      result = "end";
+      break;
+      
+    case kSkipChunk:
+      result = "skip";
+      break;
+      
+    case kSlurChunk:
+      result = "slur";
+      break;
+    case kTiedChunk:
+      result = "tied";
+      break;
+      
+    case kBarCheck:
+      result = "barcheck";
+      break;
+      
+    case kBreakChunk:
+      result = "break";
+      break;
+      
+    case k_NoChunk:
+      msrInternalError (
+        fMsrOptions->fInputSourceName,
+        fInputLineNumber,
+        "lyrics chunk type has not been set");
+      break;
+  } // switch
+
+  return result;
+}
+
+void msrLyricschunk::print (ostream& os)
+{  
+  os <<
+    "Lyricschunk" << " " << setw(6) << left <<
+    getLyricschunkTypeAsString ();
+    
+  switch (fLyricschunkType) {
+    case kSingleChunk:
+      os << ":" << fChunkDivisions;
+      if (fChunkText.size())
+        os << " " << "\"" << fChunkText << "\"";
+      break;
+    case kBeginChunk:
+      os << ":" << fChunkDivisions;
+      if (fChunkText.size())
+        os << " " << "\"" << fChunkText << "\"";
+      break;
+    case kMiddleChunk:
+      os << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
     case kEndChunk:
-      os << "end" << ":" << fChunkDivisions;
+      os << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
       
     case kSkipChunk:
-      os << "skip" << ":" << fChunkDivisions;
+      os << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
       
     case kSlurChunk:
-      os << "slur" << ":" << fChunkDivisions;
+      os << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
     case kTiedChunk:
-      os << "tied" << ":" << fChunkDivisions;
+      os <<":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
       
     case kBarCheck:
-      os << "barCheck" << fChunkText << endl;
+      os << fChunkText << endl;
       break;
       
     case kBreakChunk:
-      os << "break" << " " << fChunkText << endl;
+      os << " " << fChunkText << endl;
       break;
       
     case k_NoChunk:
@@ -3543,8 +3596,11 @@ void msrLyrics::addTextChunkToLyrics (
     cerr << idtr <<
       "--> Adding text chunk " <<
       setw(8) << left << "\""+syllabic+"\"" <<
-      " \"" << text << "\" :" << divisions << 
-      " elision: " << elision << 
+      " \"" << text << "\"" <<
+      ", type " << chunkType <<
+      ", line " << inputLineNumber <<
+      ", divisions: " << divisions << 
+      ", elision: " << elision << 
       " to " << getLyricsName () << endl;
   }
 
