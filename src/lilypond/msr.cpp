@@ -6046,8 +6046,8 @@ void msrPart::print (ostream& os)
   
   os << left <<
     idtr <<
-      setw(22) << "PartMusicXMLDivisions" << ": " <<
-      fPartMusicXMLDivisions << endl <<
+      setw(22) << "DivisionsPerWholeNote" << ": " <<
+      fDivisionsPerWholeNote << endl <<
     idtr <<
       setw(22) << "PartAbbrevation" << ": \"" <<
       fPartAbbreviation << "\"" << endl <<

@@ -898,10 +898,16 @@ class EXP msrNote : public msrElement
 
     string        noteMsrPitchAsString () const;
 
-    // tuplet members
-    void          applyTupletMemberDisplayFactor (
-                    int actualNotes, int normalNotes);
-                    
+    // divisions per whole note
+    void        setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                    {
+                      fDivisionsPerWholeNote =
+                        divisionsPerWholeNote;
+                    }
+                      
+    const int   getDivisionsPerWholeNote () const
+                    { return fDivisionsPerWholeNote; }
+          
     // articulations
     list<S_msrArticulation>
                   getNoteArticulations () const
@@ -953,6 +959,10 @@ class EXP msrNote : public msrElement
     static map<msrPitch, string>
                   sDutchLilypondPitches;
 
+    // tuplet members
+    void          applyTupletMemberDisplayFactor (
+                    int actualNotes, int normalNotes);
+                    
     string        noteAsString () const;
     
     string        noteDiatonicPitchAsString () const;
@@ -1009,6 +1019,8 @@ class EXP msrNote : public msrElement
 
     msrSlur::msrSlurKind       fNoteSlurKind;
 
+    int                        fDivisionsPerWholeNote;
+    
     msrMeasureLocation         fNoteMeasureLocation;
 
     bool                       fNoteIsChordFirstNote;
@@ -1044,6 +1056,16 @@ class EXP msrChord : public msrElement
     int           getChordDivisions () const
                       { return fChordDivisions; }
             
+    // divisions per whole note
+    void        setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                    {
+                      fDivisionsPerWholeNote =
+                        divisionsPerWholeNote;
+                    }
+                      
+    const int   getDivisionsPerWholeNote () const
+                    { return fDivisionsPerWholeNote; }
+          
     // location in measure
     void          setChordMeasureLocation (
                     const msrMeasureLocation& location)
@@ -1091,16 +1113,18 @@ class EXP msrChord : public msrElement
   
   private:
   
-    vector<S_msrNote>         fChordNotes;
+    vector<S_msrNote>          fChordNotes;
 
-    msrMeasureLocation        fChordMeasureLocation;
+    int                        fDivisionsPerWholeNote;
+
+    msrMeasureLocation         fChordMeasureLocation;
     
-    int                       fChordDivisions;
+    int                        fChordDivisions;
                               
-    list<S_msrArticulation>   fChordArticulations;
+    list<S_msrArticulation>    fChordArticulations;
     
-    list<S_msrDynamics>       fChordDynamics;
-    list<S_msrWedge>          fChordWedges;
+    list<S_msrDynamics>        fChordDynamics;
+    list<S_msrWedge>           fChordWedges;
 };
 typedef SMARTP<msrChord> S_msrChord;
 EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
@@ -1695,6 +1719,16 @@ class EXP msrTuplet : public msrElement
     int           getTupletDivisions () const
                       { return fTupletDivisions; }
             
+    // divisions per whole note
+    void        setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                    {
+                      fDivisionsPerWholeNote =
+                        divisionsPerWholeNote;
+                    }
+                      
+    const int   getDivisionsPerWholeNote () const
+                    { return fDivisionsPerWholeNote; }
+          
     // location in measure
     void          setTupletMeasureLocation (
                     const msrMeasureLocation& location)
@@ -1741,6 +1775,8 @@ class EXP msrTuplet : public msrElement
 
     int                  fTupletDivisions;
     int                  fTupletDisplayDivisions;
+
+    int                  fDivisionsPerWholeNote;
 
     msrMeasureLocation   fTupletMeasureLocation;
     
