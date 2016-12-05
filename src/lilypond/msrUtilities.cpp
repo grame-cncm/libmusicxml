@@ -529,7 +529,8 @@ string divisionsAsMSRString (
   int div = divresult.quot;
   int mod = divresult.rem;
 
-  if (debugMode)
+//  if (debugMode)
+  if (false)
     cout << endl <<
       "% --> divisions = " << divisions <<
       ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
@@ -538,7 +539,7 @@ string divisionsAsMSRString (
   int divisionsAccountedFor = divisions - mod;
   int remainingDivisions    = mod;
 
-  int etalon = div * 2;
+  int limit = divisionsAccountedFor;
     // an infinite sequence of dots tends to this
   
   switch (div) {
@@ -593,7 +594,7 @@ string divisionsAsMSRString (
       divisionsAccountedFor = divisionsPerWholeNote / denominator;
       remainingDivisions    = mod - divisionsAccountedFor;
 
-      etalon = divisionsPerWholeNote / denominator * 2;
+      limit = divisionsAccountedFor;
         // an infinite sequence of dots tends to this
 
       }
@@ -614,7 +615,8 @@ string divisionsAsMSRString (
       }
   } // switch
 
-  if (debugMode)
+//  if (debugMode)
+  if (false)
     cerr <<
       endl << endl <<
       "% --> we've got '" << s.str() << "'" << endl << 
@@ -629,21 +631,21 @@ string divisionsAsMSRString (
       numberOfDots = 0;
 
     if (debugMode)
-      cerr << "% etalon = " << etalon << endl;
+      cerr << endl << "% limit = " << limit << endl;
     
-    while (m < etalon) {
+    while (m < limit) {
+      m *= 2;
+      s << ".";
+      numberOfDots++;
       if (debugMode)
         cerr << "% m = " << m << ", numberOfDots = " << numberOfDots << endl;
-      m *= 2;
-      s << "%{*%}";
-      numberOfDots++;
     } // while
     
     if (debugMode)
       cerr << endl;
 
     for (int i = 0; i < computedNumberOfDots; i++) // TEMP
-      s << ".";
+      s << "%{*%}";
       
     // TEMP computedNumberOfDots = numberOfDots;
   }
