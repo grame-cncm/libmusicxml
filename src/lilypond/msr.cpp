@@ -3862,21 +3862,19 @@ void msrLyrics::browseData (basevisitor* v)
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrLyrics::browseData()" << endl;
+
+  idtr++;
   
   // browse the lyrics chunks
-//  if (fLyricsTextPresent) {  JMI
-    idtr++;
-
-    int n = fLyricschunks.size();
-    for (int i = 0; i < n; i++) {
+  int n = fLyricschunks.size ();
+  for (int i = 0; i < n; i++) {
     // browse the lyrics
-      msrBrowser<msrLyricschunk> browser (v);
-      browser.browse (*fLyricschunks [i]);
-    } // for
-    cerr << endl;
+    msrBrowser<msrLyricschunk> browser (v);
+    browser.browse (*fLyricschunks [i]);
+  } // for
+  cerr << endl;
 
-    idtr--;
- // }
+  idtr--;
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -3891,9 +3889,13 @@ ostream& operator<< (ostream& os, const S_msrLyrics& stan)
 
 void msrLyrics::print (ostream& os)
 {  
-  os << "Lyrics" << " " << getLyricsName ();
+  os <<
+    "Lyrics" << " " << getLyricsName () <<
+    ", " << fLyricschunks.size () << " lyrics chunks";
+    
   if (! fLyricsTextPresent)
     os << " (No actual text)";
+
   os << endl;
 
 //  if (fLyricsTextPresent) {  JMI

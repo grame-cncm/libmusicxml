@@ -1102,7 +1102,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyrics& elt)
   fOngoingNonEmptyLyrics =
     elt->getLyricsTextPresent ();
 
-  if (fOngoingNonEmptyLyrics) {
+//  if (fOngoingNonEmptyLyrics) {
+  if (true || fOngoingNonEmptyLyrics) { // JMI
     fOstream << idtr <<
       elt->getLyricsName () << " = " << "\\lyricmode" << " {" <<
       endl;
@@ -1121,7 +1122,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrLyrics& elt)
     fOstream << idtr <<
       "% --> End visiting msrLyrics" << endl;
 
-  if (fOngoingNonEmptyLyrics) {
+//  if (fOngoingNonEmptyLyrics) {
+  if (true || fOngoingNonEmptyLyrics) { // JMI
     idtr--;
   
     fOstream <<

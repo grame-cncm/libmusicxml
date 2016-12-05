@@ -1736,6 +1736,8 @@ void xml2MsrVisitor::visitStart (S_lyric& elt )
         addLyricsToVoice (
           elt->getInputLineNumber (), fCurrentLyricsNumber);
         
+  fCurrentLyricschunkKind = msrLyricschunk::kSingleChunk;
+
   fCurrentLyricsHasText = false;
   fCurrentText = "";
   fCurrentElision = false;
@@ -1808,7 +1810,7 @@ void xml2MsrVisitor::visitEnd ( S_lyric& elt )
 // JMI  handleLyricsText (elt->getInputLineNumber ());
 
   // avoiding handling of the same by visitEnd ( S_note )
-  fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
+// JMI  fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
 
   if (
     fCurrentSlurKind == msrSlur::kContinueSlur
