@@ -4576,10 +4576,17 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
   string errorMessage;
 
   result =
-    divisionsAsMSRString (
+    MusicXML2::divisionsAsMSRString (
       fUpbeatDivisions,
       fUpbeatVoiceUplink->getVoiceMeasureLocation ().fDivisionsPerWholeNote,
       computedNumberOfDots,
+      errorMessage,
+      true); // 'true' to debug it);
+
+  if (errorMessage.size ())
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      fInputLineNumber,
       errorMessage);
 
   return result;
@@ -4780,7 +4787,7 @@ void msrVoice::setMeasureNumber (
       
   voiceAnacrusisKind anacrusisKind = k_NoAnacrusis;
 
-// JMI  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr <<
       "--> setMeasureNumber, " << endl <<
       "    measureNumber = " << measureNumber << endl <<
@@ -4810,7 +4817,7 @@ void msrVoice::setMeasureNumber (
     positionInMeasure =
       getPositionInMeasure ();
 
-// JMI  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr <<
       "--> setMeasureNumber, " << endl <<
       "    measureNumber = " << measureNumber << endl <<
@@ -4859,25 +4866,33 @@ void msrVoice::setMeasureNumber (
   string anacrusisDivisionsAsString;
   
   if (anacrusisKind != k_NoAnacrusis) {
-    if (fMsrOptions->fTrace) {
-      int    computedNumberOfDots; // value not used
-      string errorMessage;
-      
-      anacrusisDivisions = getPositionInMeasure () - 1 ;
-      anacrusisDivisionsAsString =
-        divisionsAsMSRString (
-          anacrusisDivisions,
-          fVoiceMeasureLocation.fDivisionsPerWholeNote,
-          computedNumberOfDots,
+    int    computedNumberOfDots; // value not used
+    string errorMessage;
+    
+    anacrusisDivisions = getPositionInMeasure () - 1 ;
+    anacrusisDivisionsAsString =
+      MusicXML2::divisionsAsMSRString (
+        anacrusisDivisions,
+        fVoiceMeasureLocation.fDivisionsPerWholeNote,
+        computedNumberOfDots,
+        errorMessage);
+    
+      if (errorMessage.size ())
+        msrMusicXMLError (
+          fMsrOptions->fInputSourceName,
+          fInputLineNumber,
           errorMessage);
-      
+
+    if (fMsrOptions->fTrace) {
       cerr << idtr <<
         "Voice  " << getVoiceName () << " has an ";
 
+/*
       if (anacrusisKind == kExplicitAnacrusis)
         cerr << "explicit";
       else
         cerr << "implicit";
+*/
 
       cerr <<
         " anacrusis of " <<
@@ -4886,7 +4901,7 @@ void msrVoice::setMeasureNumber (
         "(" << anacrusisDivisionsAsString << ")" <<
         endl;
     }
-    
+
     // create the anacrusis
     fVoiceAnacrusis =
       msrUpbeat::create (

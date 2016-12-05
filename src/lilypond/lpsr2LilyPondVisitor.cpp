@@ -1035,9 +1035,16 @@ void lpsr2LilyPondVisitor::visitStart (S_msrUpbeat& elt)
     fOstream << idtr <<
       "% --> Start visiting msrUpbeat" << endl;
 
+  int upbeatDivisions =
+    elt->getUpbeatDivisions ();
+    
+  string upbeatDivisionsAsString =
+    elt->getUpbeatDivisionsAsString ();
+
   fOstream << idtr <<
     "\\partial" " " <<
-    elt-> getUpbeatDivisionsAsString () <<
+    upbeatDivisionsAsString <<
+    "% (" << upbeatDivisions << ")" <<
   endl;
 }
 

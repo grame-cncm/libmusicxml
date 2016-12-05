@@ -519,6 +519,8 @@ string divisionsAsMSRString (
   //  cerr << "|"  << fNum << "|" << fDenom << "|" << fDots << "|" << endl;
 
   // TEMP computedNumberOfDots = 0;
+
+  debugMode = true; // TEMP
   
   stringstream s;
 
@@ -529,8 +531,7 @@ string divisionsAsMSRString (
   int div = divresult.quot;
   int mod = divresult.rem;
 
-//  if (debugMode)
-  if (false)
+  if (debugMode)
     cout << endl <<
       "% --> divisions = " << divisions <<
       ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
@@ -615,8 +616,7 @@ string divisionsAsMSRString (
       }
   } // switch
 
-//  if (debugMode)
-  if (false)
+  if (debugMode)
     cerr <<
       endl << endl <<
       "% --> we've got '" << s.str() << "'" << endl << 
