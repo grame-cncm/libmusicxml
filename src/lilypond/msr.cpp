@@ -1139,6 +1139,8 @@ msrNote::msrNote (
   setNoteDisplayDivisions(
     fMusicXMLNoteData.fMusicXMLDivisions);
     
+  fNoteIsChordFirstNote = false;
+}
   /*
   int divisionsPerWholeNote = fMusicXMLNoteData.fMusicXMLDivisions*4;
   
@@ -1167,9 +1169,6 @@ msrNote::msrNote (
   // diatonic note for relative code JMI
 //  msrNote::MusicXMLDiatonicPitch diatonicNote =
 //    msrNote::k_NoDiatonicPitch;
-
-  fNoteIsChordFirstNote = false;
-}
 
 msrNote::~msrNote() {}
 /* JMI
@@ -1578,7 +1577,8 @@ string msrNote::noteDivisionsAsMSRString () const
       fMusicXMLNoteData.fNoteDisplayDivisions,
       fNoteMeasureLocation.fDivisionsPerWholeNote,
       computedNumberOfDots,
-      errorMessage);
+      errorMessage,
+      true); // 'true' to debug it
 
   if (errorMessage.size ())
     msrMusicXMLError (
@@ -1916,7 +1916,8 @@ string msrChord::chordDivisionsAsMSRString () const
       fChordDivisions,
       fChordMeasureLocation.fDivisionsPerWholeNote,
       computedNumberOfDots,
-      errorMessage);
+      errorMessage,
+      true); // 'true' to debug it
 
   if (errorMessage.size ())
     msrMusicXMLError (

@@ -916,8 +916,8 @@ class EXP msrNote : public msrElement
 
     // chord members
     void          setNoteBelongsToAChord ();
-    void          setNoteIsChordFirstNote ()
-                      { fNoteIsChordFirstNote = true; }
+    void          setNoteIsChordFirstNote (bool value)
+                      { fNoteIsChordFirstNote = value; }
 
     bool          getNoteBelongsToAChord () const
                       {

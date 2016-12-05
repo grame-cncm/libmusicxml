@@ -511,7 +511,8 @@ string divisionsAsMSRString (
   int     divisions,
   int     divisionsPerWholeNote,
   int&    computedNumberOfDots,
-  string& errorMessage)
+  string& errorMessage,
+  bool    debugMode)
 {
   // MusicXML divisions are per quater note,
   // MSR and LilyPond durations are in whole notes
@@ -535,6 +536,12 @@ string divisionsAsMSRString (
     ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
     "div = " << div << ", mod = " << mod << endl;
   */
+
+  int divisionsAccountedFor = divisionsPerWholeNote - mod;
+  int remainingDivisions    = mod;
+
+  int etalon = div * 2;
+    // an infinite sequence of dots tends to this
   
   switch (div) {
     case 8:
@@ -560,8 +567,7 @@ string divisionsAsMSRString (
     case 0:
       {
       // this note is shorter than a whole note,
-      // display it as a fration followed by augmentation dots
-      // if needed
+      // display it as a fration of such
 
       // compute the the fraction's denominator,
       // trying 1/2, 1/4, 1/8... in order
@@ -576,45 +582,15 @@ string divisionsAsMSRString (
         n *= 2;
       } // while
 
-      int remainingDivisions =
-        mod - divisionsPerWholeNote / denominator;
-
-//      if (true)
-      if (false)
-        cerr <<
-          endl << endl <<
-          "--> denominator = " << denominator << endl <<
-          "--> remainingDivisions = " << remainingDivisions <<
-          endl;
-
       // generate the denominator
       s << denominator;
 
-      // compute the number of dots if any
-      // they are augmentation to the compute denominator
-      if (remainingDivisions > 0) {
-        int
-          m            = remainingDivisions,
-          numberOfDots = 0;
+      divisionsAccountedFor = divisionsPerWholeNote / denominator;
+      remainingDivisions    = mod - divisionsAccountedFor;
 
-        int etalon = divisionsPerWholeNote / denominator * 2;
-          // an infinite sequence of dots tends to this
+      etalon = divisionsPerWholeNote / denominator * 2;
+        // an infinite sequence of dots tends to this
 
-        /*
-        while (m < etalon) {
-//          cerr << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
-          m *= 2;
-          s << ".";
-          numberOfDots++;
-        } // while
-//        cerr << endl;
-*/
-
-        for (int i = 0; i < computedNumberOfDots; i++) // TEMP
-          s << ".";
-          
-        // TEMP computedNumberOfDots = numberOfDots;
-      }
       }
       break;
       
@@ -632,6 +608,39 @@ string divisionsAsMSRString (
       errorMessage = s.str();
       }
   } // switch
+
+  if (debugMode)
+    cerr <<
+      endl << endl <<
+      "--> we've got '" << s.str() << "'" << endl << 
+      "--> divisionsAccountedFor = " << divisionsAccountedFor <<
+      "--> remainingDivisions    = " << remainingDivisions <<
+      endl;
+
+  // compute the number of dots if any
+  if (remainingDivisions > 0) {
+    int
+      m            = remainingDivisions,
+      numberOfDots = 0;
+
+    if (debugMode)
+      cerr << "etalon = " << etalon << endl;
+    
+    while (m < etalon) {
+      if (debugMode)
+        cerr << "m = " << m << ", numberOfDots = " << numberOfDots << endl;
+      m *= 2;
+      s << "*";
+      numberOfDots++;
+    } // while
+    if (debugMode)
+      cerr << endl;
+
+    for (int i = 0; i < computedNumberOfDots; i++) // TEMP
+      s << ".";
+      
+    // TEMP computedNumberOfDots = numberOfDots;
+  }
 
   return s.str();
 }

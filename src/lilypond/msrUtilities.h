@@ -201,7 +201,8 @@ string divisionsAsMSRString (
   int     divisions,
   int     divisionsPerWholeNote,
   int&    computedNumberOfDots,
-  string& errorMessage);
+  string& errorMessage,
+  bool    debugMode = false);
 
 
 } // namespace MusicXML2

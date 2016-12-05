@@ -823,43 +823,38 @@ void msr2LpsrVisitor::visitEnd (S_msrTuplet& elt)
       
     fTupletClonesStack.pop ();
 
-
-
-  if (fTupletsStack.size ()) {
+  if (fTupletClonesStack.size ()) {
     // tuplet is an embedded tuplet
 //    if (fMsrOptions->fDebug)
       cerr << idtr <<
         "=== adding embedded tuplet " <<
-      tuplet->getActualNotes () <<
+      elt->getActualNotes () <<
        "/" <<
-      tuplet->getNormalNotes () <<
+      elt->getNormalNotes () <<
         " to " <<
-      fTupletsStack.top ()->getActualNotes () <<
+      fTupletClonesStack.top ()->getActualNotes () <<
        "/" <<
-      fTupletsStack.top ()->getNormalNotes () <<
+      fTupletClonesStack.top ()->getNormalNotes () <<
       " current stack top tuplet" << endl;
     
-    fTupletsStack.top ()->
-      addElementToTuplet (tuplet);
+    fTupletClonesStack.top ()->
+      addElementToTuplet (elt);
   }
   else {
     // tup is a top level tuplet
 //    if (fMsrOptions->fDebug)
       cerr << idtr <<
         "=== adding top level tuplet " <<
-      tuplet->getActualNotes () <<
+      elt->getActualNotes () <<
        "/" <<
-      tuplet->getNormalNotes () <<
+      elt->getNormalNotes () <<
       " to voice" <<
-      fCurrentVoice->getVoiceName () <<
+      fCurrentVoiceClone->getVoiceName () <<
       endl;
       
-    fCurrentVoice->
-      appendTupletToVoice (tuplet);
+    fCurrentVoiceClone->
+      appendTupletToVoice (elt);
   }  
-
-
-
 }
 
 //________________________________________________________________________

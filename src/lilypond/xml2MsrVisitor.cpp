@@ -3913,7 +3913,7 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
       endl;
 
   // register firstNote as the first note of a tuplet
-  firstNote->setNoteIsChordFirstNote ();
+  firstNote->setNoteIsChordFirstNote (true);
   
   // create a tuplet
   S_msrTuplet
@@ -4405,39 +4405,6 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
     newNote->
       setNoteKind (msrNote::kStandaloneNote);
       
-  // register note/rest as standalone
-//  if (true || fMsrOptions->fDebugDebug)
-  if (fMsrOptions->fDebugDebug)
-    cerr <<  idtr <<
-      "--> adding standalone " <<
-      newNote->noteMsrPitchAsString () <<
-      ":" << newNote->getNoteMusicXMLDivisions () <<
-      " to current voice" << endl;
-
-  // is voice fCurrentVoiceNumber present in current staff?
-  fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-  if (! fCurrentVoice)
-    // no, add it to the staff
-    fCurrentVoice =
-      fCurrentStaff->
-        addVoiceToStaff (
-          newNote->getInputLineNumber (), fCurrentVoiceNumber);
-    
-  fCurrentVoice->
-    appendNoteToVoice (newNote);
-
-/* JMI
-  if (! fCurrentNoteHasLyrics)
-    // lyrics have to be handled anyway JMI
-    handleLyricsText (newNote->getInputLineNumber ());
-*/
-
-  // account for chord not being built
-  fOnGoingChord = false;
-
   // handle tuplets pending on the tuplet stack
   while (fTupletsStack.size ()) {
     S_msrTuplet
@@ -4488,6 +4455,39 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
         appendTupletToVoice (pendingTuplet);
     }  
   } // while
+
+  // register note/rest as standalone
+//  if (true || fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fDebugDebug)
+    cerr <<  idtr <<
+      "--> adding standalone " <<
+      newNote->noteMsrPitchAsString () <<
+      ":" << newNote->getNoteMusicXMLDivisions () <<
+      " to current voice" << endl;
+
+  // is voice fCurrentVoiceNumber present in current staff?
+  fCurrentVoice =
+    fCurrentStaff->
+      fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+  if (! fCurrentVoice)
+    // no, add it to the staff
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (
+          newNote->getInputLineNumber (), fCurrentVoiceNumber);
+    
+  fCurrentVoice->
+    appendNoteToVoice (newNote);
+
+/* JMI
+  if (! fCurrentNoteHasLyrics)
+    // lyrics have to be handled anyway JMI
+    handleLyricsText (newNote->getInputLineNumber ());
+*/
+
+  // account for chord not being built
+  fOnGoingChord = false;
 }
 
 //______________________________________________________________________________

@@ -1576,6 +1576,13 @@ string msrNote::octaveRepresentation (char octave)
       break;
       
     case msrNote::kTupletMemberNote:
+      if (++fSequentialMusicElementsCounter > 10) {
+        fOstream <<
+          endl <<
+          idtr;
+        fSequentialMusicElementsCounter = 1;
+      }
+      
       // print the note name
       fOstream <<
         noteMsrPitchAsLilyPondString (elt);
