@@ -1027,8 +1027,8 @@ void xml2MsrVisitor::visitStart ( S_divisions& elt )
       fCurrentPart->getPartCombinedName() << endl;
   }
 
-  fCurrentPart->setPartDivisions (
-    fCurrentDivisionsPerQuarterNote);
+  fCurrentPart->setDivisionsPerWholeNote (
+    fCurrentDivisionsPerQuarterNote * 4);
 }
 
 //______________________________________________________________________________
@@ -1484,7 +1484,7 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
   
     // set its location
     rest->setNoteMeasureLocation (
-      fCurrentPart>getPartMeasureLocation ());
+      fCurrentVoice->getVoiceMeasureLocation ());
 
     // append to the current voice
     fCurrentVoice->appendNoteToVoice (rest);

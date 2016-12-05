@@ -210,8 +210,8 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
       elt->getPartAbbreviation () << "\"" << endl <<
   
     idtr <<
-      "PartMusicXMLDivisions : " <<
-      elt->getPartMusicXMLDivisions () << endl <<
+      "DivisionsPerWholeNote : " <<
+      elt->getDivisionsPerWholeNote () << endl <<
 
     idtr <<
       "PartInstrumentName     : \"" <<

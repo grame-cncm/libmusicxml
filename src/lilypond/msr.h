@@ -237,7 +237,6 @@ class msrMeasureLocation
 {
   public:
 
-    int         fDivisionsPerWholeNote;
     int         fMeasureNumber;
     int         fPositionInMeasure; // divisions
 };
@@ -2752,6 +2751,42 @@ class EXP msrVoice : public msrElement
     S_msrLyrics   getVoiceMasterLyrics () const
                       { return fVoiceMasterLyrics; }
                
+    // divisions per whole note
+    void        setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                    {
+                      fDivisionsPerWholeNote =
+                        divisionsPerWholeNote;
+                    }
+                      
+    const int   getDivisionsPerWholeNote () const
+                    { return fDivisionsPerWholeNote; }
+          
+    // location in measure
+    void          setPositionInMeasure (int positionInMeasure)
+                      {
+                        fVoiceMeasureLocation.fPositionInMeasure =
+                          positionInMeasure;
+                      }
+                        
+    void          incrementPositionInMeasure (int increment)
+                      {
+                        fVoiceMeasureLocation.fPositionInMeasure +=
+                          increment;
+                      }
+
+    const int     getPositionInMeasure () const
+                      {
+                        return fVoiceMeasureLocation.fPositionInMeasure;
+                      }
+          
+    void          setMeasureNumber (
+                    int inputLineNumber, int measureNumber);
+
+    const int     getMeasureNumber () const
+                      {
+                        return fVoiceMeasureLocation.fMeasureNumber;
+                      }
+          
     // location in measure
     void          setVoiceMeasureLocation (
                     const msrMeasureLocation& location)
@@ -2801,39 +2836,6 @@ class EXP msrVoice : public msrElement
     
     S_msrLyrics   fetchLyricsFromVoice (int lyricsNumber);
     
-    // location in measure
-    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
-                      {
-                        fVoiceMeasureLocation.fDivisionsPerWholeNote =
-                          divisionsPerWholeNote;
-                      }
-                      
-    void          setPositionInMeasure (int positionInMeasure)
-                      {
-                        fVoiceMeasureLocation.fPositionInMeasure =
-                          positionInMeasure;
-                      }
-                        
-    void          incrementPositionInMeasure (int increment)
-                      {
-                        fVoiceMeasureLocation.fPositionInMeasure +=
-                          increment;
-                      }
-
-    const int     getPositionInMeasure () const
-                      {
-                        return fVoiceMeasureLocation.fPositionInMeasure;
-                      }
-          
-    void          setMeasureNumber (
-                    int inputLineNumber, int measureNumber);
-
-    const int     getMeasureNumber () const
-                      {
-                        return fVoiceMeasureLocation.fMeasureNumber;
-                      }
-          
-
     // visitors
     // ------------------------------------------------------
 
@@ -2862,6 +2864,8 @@ class EXP msrVoice : public msrElement
     S_msrStaff                fVoiceStaffUplink;
 
     bool                      fVoiceContainsActualNotes;
+
+    int                       fDivisionsPerWholeNote;
 
     msrMeasureLocation        fVoiceMeasureLocation;
 
@@ -2936,22 +2940,32 @@ class EXP msrStaff : public msrElement
               getStaffVoicesMap ()
                   { return fStaffVoicesMap; }
 
+    // divisions per whole note
+    void        setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                    {
+                      fDivisionsPerWholeNote =
+                        divisionsPerWholeNote;
+                    }
+                      
+    const int   getDivisionsPerWholeNote () const
+                    { return fDivisionsPerWholeNote; }
+          
     // services
     // ------------------------------------------------------
 
-    S_msrVoice
-              addVoiceToStaff (
-                int inputLineNumber,
-                int voiceNumber);
+    S_msrVoice  addVoiceToStaff (
+                  int inputLineNumber,
+                  int voiceNumber);
 
-    void      addVoiceToStaff (S_msrVoice voice);
+    void        addVoiceToStaff (S_msrVoice voice);
     
-    S_msrVoice
-              fetchVoiceFromStaff (int voiceNumber);
+    S_msrVoice  fetchVoiceFromStaff (int voiceNumber);
                               
-    void      appendClefToAllStaffVoices (S_msrClef clef);
-    void      appendKeyToAllStaffVoices  (S_msrKey   key);
-    void      appendTimeToAllStaffVoices (S_msrTime time);
+    void        setAllStaffDivisionsPerWholeNote (int divisions);
+
+    void        appendClefToAllStaffVoices (S_msrClef clef);
+    void        appendKeyToAllStaffVoices  (S_msrKey   key);
+    void        appendTimeToAllStaffVoices (S_msrTime time);
               
     // visitors
     // ------------------------------------------------------
@@ -2988,6 +3002,8 @@ class EXP msrStaff : public msrElement
     S_msrTime               fStaffTime;
 
     int                     fNextRelativeStaffVoiceNumber;
+
+    int                     fDivisionsPerWholeNote;    
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
@@ -3017,54 +3033,60 @@ class EXP msrPart : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void      setPartAbbreviation (string partAbbreviation)
-                  { fPartAbbreviation = partAbbreviation; }
+    void         setPartAbbreviation (string partAbbreviation)
+                      { fPartAbbreviation = partAbbreviation; }
                 
-    void      setPartInstrumentName (string partInstrumentName)
-                  { fPartInstrumentName = partInstrumentName; }
+    void          setPartInstrumentName (string partInstrumentName)
+                      { fPartInstrumentName = partInstrumentName; }
                               
-    void      setPartDivisions (int  musicXMLDivisions)
-                  { fPartMusicXMLDivisions = musicXMLDivisions; }
+    void          setPartMusicXMLID (string  partMusicXMLID)
+                      { fPartMusicXMLID = partMusicXMLID; }
     
-    void      setPartMusicXMLID (string  partMusicXMLID)
-                  { fPartMusicXMLID = partMusicXMLID; }
+    void          setPartMSRName (string  partMSRName);
     
-    void      setPartMSRName (string  partMSRName);
-    
-    string    getPartMusicXMLID () const
-                  { return fPartMusicXMLID; }
+    string        getPartMusicXMLID () const
+                      { return fPartMusicXMLID; }
 
-    string    getPartMSRName () const
+    string        getPartMSRName () const
                   { return fPartMSRName; }
 
-    string    getPartAbbreviation () const
-                  { return fPartAbbreviation; }
+    string        getPartAbbreviation () const
+                      { return fPartAbbreviation; }
                 
-    string    getPartInstrumentName () const
-                  { return fPartInstrumentName; }
+    string        getPartInstrumentName () const
+                      { return fPartInstrumentName; }
                 
-    int       getPartMusicXMLDivisions () const
-                  { return fPartMusicXMLDivisions; }
-
     S_msrPartgroup
-              getPartPartgroupUplink () const
-                  { return fPartPartgroupUplink; }
+                  getPartPartgroupUplink () const
+                      { return fPartPartgroupUplink; }
                 
     map<int, S_msrStaff>
-              getPartStavesMap ()
-                  { return fPartStavesMap; }
+                  getPartStavesMap ()
+                      { return fPartStavesMap; }
 
-    string    getPartCombinedName () const;
+    string        getPartCombinedName () const;
 
+    // divisions per whole note
+    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                      {
+                        fDivisionsPerWholeNote =
+                          divisionsPerWholeNote;
+                      }
+                      
+    const int     getDivisionsPerWholeNote () const
+                      { return fDivisionsPerWholeNote; }
+          
+    // services
+    // ------------------------------------------------------
+
+    void      setAllPartDivisionsPerWholeNote (int divisions);
+    
     void      setAllPartStavesClef (S_msrClef clef);
               
     void      setAllPartStavesKey  (S_msrKey  key);
               
     void      setAllPartStavesTime (S_msrTime time);
               
-    // services
-    // ------------------------------------------------------
-
     S_msrStaff
               addStaffToPart (
                 int inputLineNumber,
@@ -3110,7 +3132,9 @@ class EXP msrPart : public msrElement
 
     map<int, S_msrStaff>    fPartStavesMap;
 
-    int                     fPartMusicXMLDivisions;
+    int                     fDivisionsPerWholeNote;
+
+// JMI    int                     fPartMusicXMLDivisions;
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);

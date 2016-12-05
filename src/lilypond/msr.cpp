@@ -1575,7 +1575,7 @@ string msrNote::noteDivisionsAsMSRString () const
   result =
     divisionsAsMSRString (
       fMusicXMLNoteData.fNoteDisplayDivisions,
-      fNoteMeasureLocation.fDivisionsPerWholeNote,
+      fDivisionsPerWholeNote,
       computedNumberOfDots,
       errorMessage,
       false); // 'true' to debug it
@@ -1593,7 +1593,7 @@ string msrNote::noteDivisionsAsMSRString () const
       fMusicXMLNoteData.fMusicXMLDivisions << " division(s) need(s) " <<
       computedNumberOfDots <<
       " dot(s) with " <<
-      fNoteMeasureLocation.fDivisionsPerWholeNote <<
+      fDivisionsPerWholeNote <<
       " per whole note, not " <<
       fMusicXMLNoteData.fMusicXMLDotsNumber;
       
@@ -1720,13 +1720,13 @@ void msrNote::print (ostream& os)
     "_" <<
     fMusicXMLNoteData.fNoteDisplayDivisions <<
     "/" <<
-    fNoteMeasureLocation.fDivisionsPerWholeNote <<
+    fDivisionsPerWholeNote <<
     ") @"<<
     fNoteMeasureLocation.fMeasureNumber <<
     ":" <<
     fNoteMeasureLocation.fPositionInMeasure <<
     "/" <<
-    fNoteMeasureLocation.fDivisionsPerWholeNote <<
+    fDivisionsPerWholeNote <<
     endl;
 
   // print the beam if any
@@ -1914,7 +1914,7 @@ string msrChord::chordDivisionsAsMSRString () const
   result =
     divisionsAsMSRString (
       fChordDivisions,
-      fChordMeasureLocation.fDivisionsPerWholeNote,
+      fDivisionsPerWholeNote,
       computedNumberOfDots,
       errorMessage,
       false); // 'true' to debug it
@@ -1945,7 +1945,7 @@ string msrChord::chordDivisionsAsMSRString () const
 
     s <<
       "with " <<
-      fChordMeasureLocation.fDivisionsPerWholeNote <<
+      fDivisionsPerWholeNote <<
       " per whole note, not " <<
       fChordNotes [0]-> 
         getNoteMusicXMLDotsNumber ();
@@ -1967,13 +1967,13 @@ void msrChord::print (ostream& os)
     " (" <<
     chordDivisionsAsMSRString () <<
     "/" <<
-    fChordMeasureLocation.fDivisionsPerWholeNote <<
+    fDivisionsPerWholeNote <<
     ") @"<<
     fChordMeasureLocation.fMeasureNumber <<
     ":" <<
     fChordMeasureLocation.fPositionInMeasure <<
     "/" <<
-    fChordMeasureLocation.fDivisionsPerWholeNote <<
+    fDivisionsPerWholeNote <<
     endl;
 
   idtr++;
@@ -2440,13 +2440,13 @@ void msrTuplet::print (ostream& os)
     "Tuplet " << fActualNotes << "/" << fNormalNotes <<
     " (" << fTupletDivisions <<
     "/" <<
-    fTupletMeasureLocation.fDivisionsPerWholeNote <<
+    fDivisionsPerWholeNote <<
     ") @"<<
     fTupletMeasureLocation.fMeasureNumber <<
     ":" <<
     fTupletMeasureLocation.fPositionInMeasure <<
     "/" <<
-    fTupletMeasureLocation.fDivisionsPerWholeNote <<
+    fDivisionsPerWholeNote <<
     endl;
     
   idtr++;
@@ -4685,7 +4685,7 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
   string errorMessage;
 
   int divisionsPerWholeNote =
-    fUpbeatVoiceUplink->getVoiceMeasureLocation ().fDivisionsPerWholeNote;
+    fUpbeatVoiceUplink->getDivisionsPerWholeNote ();
   
 //  if (fMsrOptions->fDebug)
     cout << endl <<
@@ -4752,8 +4752,8 @@ S_msrVoice msrVoice::createEmptyClone (S_msrStaff clonedStaff)
         clonedStaff);
 
   // populate the voice measure location
-  clone->fVoiceMeasureLocation.fDivisionsPerWholeNote =
-    fVoiceMeasureLocation.fDivisionsPerWholeNote;
+  clone->fDivisionsPerWholeNote =
+    fDivisionsPerWholeNote;
   clone->fVoiceMeasureLocation.fMeasureNumber =
     fVoiceMeasureLocation.fMeasureNumber;
   clone->fVoiceMeasureLocation.fPositionInMeasure =
@@ -4927,7 +4927,7 @@ void msrVoice::setMeasureNumber (
           getBeatsValue (),
 
     divisionsPerWholeNote =
-      fVoiceMeasureLocation.fDivisionsPerWholeNote,
+      fDivisionsPerWholeNote,
       
     divisionsPerMeasure =
       divisionsPerWholeNote * beatsNumber / beatsValue,
@@ -4991,7 +4991,7 @@ void msrVoice::setMeasureNumber (
     anacrusisDivisionsAsString =
       divisionsAsMSRString (
         anacrusisDivisions,
-        fVoiceMeasureLocation.fDivisionsPerWholeNote,
+        fDivisionsPerWholeNote,
         computedNumberOfDots,
         errorMessage,
         false); // 'true' to debug it
@@ -5514,6 +5514,16 @@ string msrStaff::getStaffName () const
     int2EnglishWord (fStaffNumber);
   }
 
+void msrStaff::setAllStaffDivisionsPerWholeNote (int divisions)
+{
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    (*i).second->setDivisionsPerWholeNote (divisions);
+  } // for
+}
+
 S_msrVoice msrStaff::addVoiceToStaff (
   int inputLineNumber,
   int voiceNumber)
@@ -5868,7 +5878,17 @@ string msrPart::getPartCombinedName () const
     fPartMSRName +
     " (" + fPartMusicXMLID + ")";
 }
-                
+
+void msrPart::setAllPartDivisionsPerWholeNote (int divisions)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->setDivisionsPerWholeNote (divisions);
+  } // for
+}
+
 void msrPart::setAllPartStavesKey (S_msrKey  key)
 {
   for (
