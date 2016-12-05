@@ -2033,7 +2033,7 @@ class EXP msrLyricschunk : public msrElement
     enum msrLyricschunkType {
       kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
       kSkipChunk, kSlurChunk, kTiedChunk,
-      kBreakChunk,
+      kBarCheck, kBreakChunk,
       k_NoChunk };
 
     // creation from MusicXML
@@ -2163,6 +2163,10 @@ class EXP msrLyrics : public msrElement
     void    addTiedChunkToLyrics (
               int     inputLineNumber,
               int     divisions);
+
+    void    addBarCheckChunkToLyrics (
+              int inputLineNumber,
+              int nextMeasureNumber);
 
     void    addBreakChunkToLyrics (
               int inputLineNumber,

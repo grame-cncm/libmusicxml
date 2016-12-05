@@ -519,7 +519,7 @@ string divisionsAsMSRString (
 
   // TEMP computedNumberOfDots = 0;
 
-  debugMode = true; // TEMP, for tests
+  //debugMode = true; // TEMP, for tests
   
   stringstream s;
 
@@ -539,7 +539,7 @@ string divisionsAsMSRString (
   int divisionsAccountedFor = divisions - mod;
   int remainingDivisions    = mod;
 
-  int limit = divisionsAccountedFor * 2;
+  int limit = divisionsAccountedFor;
     // an infinite sequence of dots tends to this
   
   switch (div) {
@@ -597,7 +597,7 @@ string divisionsAsMSRString (
       divisionsAccountedFor = divisionsPerWholeNote / reciprocal;
       remainingDivisions    = mod - divisionsAccountedFor;
 
-      limit = divisionsAccountedFor * 2;
+      limit = divisionsAccountedFor;
         // an infinite sequence of dots tends to this
 
       }

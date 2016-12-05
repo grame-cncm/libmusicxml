@@ -485,7 +485,7 @@ void msr2LpsrVisitor::visitStart (S_msrLyrics& elt)
     fLpsrScore ->
       appendLyricsToScoreElements (fCurrentLyricsClone);
   
-    // append a use of the lyrics to the current staff command
+    // append a use of the lyrics to the current staff block
     fCurrentStaffBlock ->
       appendLyricsUseToStaffBlock (fCurrentLyricsClone);
 //  }

@@ -1791,14 +1791,13 @@ void xml2MsrVisitor::visitEnd ( S_text& elt )
     fCurrentText = dest;
 
   fCurrentLyricsHasText = true;
-}
 
-/*
-  cerr <<
-    "--> lyricNumber = " << lyricNumber <<
-    ", fCurrentSyllabic = " << fCurrentSyllabic <<
-    ", fCurrentText = |" << fCurrentText << "|" << endl;
-*/
+// JMI  if (fMsrOptions->fDebug)
+    cerr <<
+      "--> fCurrentLyricsNumber = " << fCurrentLyricsNumber <<
+      ", fCurrentSyllabic = " << fCurrentSyllabic <<
+      ", fCurrentText = |" << fCurrentText << "|" << endl;
+}
 
 /*
       <note default-x="143">
@@ -1846,13 +1845,11 @@ void xml2MsrVisitor::visitEnd ( S_elision& elt )
 
 void xml2MsrVisitor::visitEnd ( S_lyric& elt )
 {
- // JMI  handleLyricsText (elt->getInputLineNumber ());
+// JMI  handleLyricsText (elt->getInputLineNumber ());
 
   // avoiding handling of the same by visitEnd ( S_note )
   fCurrentLyricschunkType = msrLyricschunk::k_NoChunk;
 
-}
-/*
   if (
     fCurrentSlurKind == msrSlur::kContinueSlur
       ||
@@ -1860,47 +1857,61 @@ void xml2MsrVisitor::visitEnd ( S_lyric& elt )
       
     fCurrentLyrics->
       addSlurChunkToLyrics (
-        lyricMsrDuration);
-        
-  } else if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
-    
+        elt->getInputLineNumber (),
+        fMusicXMLNoteData.fMusicXMLDivisions);
+  }
+
+  else if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
     fCurrentLyrics->
       addTiedChunkToLyrics (
-        lyricMsrDuration);
-        
-  } else {
-    
+        elt->getInputLineNumber (),
+        fMusicXMLNoteData.fMusicXMLDivisions);
+  }
+
+  else {
     // there can be notes without any slur indication
 
     if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
-      
       fCurrentLyrics->
         addSkipChunkToLyrics (
-          lyricMsrDuration);
-        
-    } else if (
+          elt->getInputLineNumber (),
+          fMusicXMLNoteData.fMusicXMLDivisions);
+    }
+
+    else if (
     // JMI fOnGoingSlur && JMI
     ! fCurrentNoteHasLyrics) {
 
       fCurrentLyrics->
         addSlurChunkToLyrics ( 
   //      addSkipChunkToLyrics (// JMI ???
-          lyricMsrDuration);
-
-    } else {
-      
+          elt->getInputLineNumber (),
+          fMusicXMLNoteData.fMusicXMLDivisions);
+    }
+    
+    else {
       fCurrentLyrics->
         addTextChunkToLyrics (
+          elt->getInputLineNumber (),
           fCurrentSyllabic,
+          fCurrentLyricschunkType,
           fCurrentText,
           fCurrentElision,
-          lyricMsrDuration);
-          
+          fMusicXMLNoteData.fMusicXMLDivisions);
     }
   }
-  */
+}
 
 /*
+     void    addTextChunkToLyrics (
+              int     inputLineNumber,
+              string  syllabic, // JMI ???
+              msrLyricschunk::msrLyricschunkType
+                      chunkType,
+              string  text,
+              bool    elision,
+              int     divisions);
+
       <note default-x="61">
         <pitch>
           <step>D</step>
@@ -1974,10 +1985,18 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
           fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
               
     // append it to the voice
-    if (fCurrentVoice)
+    if (fCurrentVoice) {
       // it may not have been created yet JMI
       fCurrentVoice->
         appendBarCheckToVoice (barCheck);
+
+      // add a break chunk to the voice master lyrics
+      fCurrentVoice->
+        getVoiceMasterLyrics ()->
+          addBarCheckChunkToLyrics (
+            elt->getInputLineNumber (),
+            fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
+    }
   }
 }
 

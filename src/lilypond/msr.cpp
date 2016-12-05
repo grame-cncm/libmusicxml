@@ -3437,6 +3437,10 @@ void msrLyricschunk::print (ostream& os)
       if (fChunkText.size()) os << " " << fChunkText;
       break;
       
+    case kBarCheck:
+      os << "barCheck" << fChunkText << endl;
+      break;
+      
     case kBreakChunk:
       os << "break" << " " << fChunkText << endl;
       break;
@@ -3531,8 +3535,8 @@ void msrLyrics::addTextChunkToLyrics (
   int     divisions)
 {
   // create a lyrics text chunk
-//  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -3569,6 +3573,7 @@ void msrLyrics::addTextChunkToLyrics (
     case msrLyricschunk::kSkipChunk:
     case msrLyricschunk::kSlurChunk:
     case msrLyricschunk::kTiedChunk:
+    case msrLyricschunk::kBarCheck:
     case msrLyricschunk::kBreakChunk:
       {
         msrInternalError (
@@ -3578,6 +3583,7 @@ void msrLyrics::addTextChunkToLyrics (
           "'single', 'begin', 'middle' or 'end'");
       }
       break;
+      
     case msrLyricschunk::k_NoChunk:
       msrInternalError (
         fMsrOptions->fInputSourceName,
@@ -3662,6 +3668,46 @@ void msrLyrics::addTiedChunkToLyrics (
         fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kTiedChunk, "", divisions);
+        
+  // add chunk to this lyrics
+  fLyricschunks.push_back (chunk);
+}
+
+void msrLyrics::addBarCheckChunkToLyrics (
+  int inputLineNumber,
+  int nextMeasureNumber)
+{
+//  if (true || fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebug) {
+    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart  part  = staff-> getStaffPartUplink ();
+    
+    cerr << idtr <<
+      "--> Adding barcheck chunk" <<
+      " to " << getLyricsName () << endl;
+  }
+
+  // convert nextMeasureNumber to string
+  stringstream s;
+  s << nextMeasureNumber;
+  
+  // create lyrics break chunk
+  /*
+  S_msrDuration
+    nullMsrDuration =
+      msrDuration::create (
+        fMsrOptions,
+        inputLineNumber,
+        0, 1, 0, "");
+    */    
+  S_msrLyricschunk
+    chunk =
+      msrLyricschunk::create (
+        fMsrOptions,
+        inputLineNumber,
+        msrLyricschunk::kBreakChunk,
+        s.str(),
+        0);
         
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
@@ -4575,16 +4621,19 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
   int    computedNumberOfDots; // value not used
   string errorMessage;
 
-  int upbeatDivisions =
+  int divisionsPerWholeNote =
+    fUpbeatVoiceUplink->getVoiceMeasureLocation ().fDivisionsPerWholeNote;
+  
 //  if (fMsrOptions->fDebug)
     cout << endl <<
       "% --> fUpbeatDivisions = " << fUpbeatDivisions <<
-      ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
+      ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
+      endl;
 
   result =
     divisionsAsMSRString (
       fUpbeatDivisions,
-      fUpbeatVoiceUplink->getVoiceMeasureLocation ().fDivisionsPerWholeNote,
+      divisionsPerWholeNote,
       computedNumberOfDots,
       errorMessage,
       false); // 'true' to debug it;
