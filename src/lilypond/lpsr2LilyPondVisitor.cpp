@@ -1148,7 +1148,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
       fLyricschunksCounter = 1;
     }
     
-    switch (elt->getLyricschunkType ()) {
+    switch (elt->getLyricschunkKind ()) {
       case msrLyricschunk::kSingleChunk:
         fOstream <<
           "\"" << elt->getChunkText () << "\"" << " ";

@@ -62,10 +62,9 @@ void msrMusicXMLWarning (
 void msrMusicXMLError (
   string inputSourceName, int inputLineNumber, string message)
 {
-  cerr << idtr <<
-    endl << idtr;
+  cerr << endl << endl;
 
-  idtr++;
+//  idtr++;
   
   cerr <<
     "### MusicXML ERROR ###, " << inputSourceName <<
@@ -78,10 +77,11 @@ void msrMusicXMLError (
       gCurrentLocation.fPositionInMeasure <<
     */
       
-    idtr << message <<
-    endl << endl;
+    message <<
+    endl << endl <<
+    idtr;
 
-  idtr--;
+//  idtr--;
     
   assert(false);
 }
@@ -89,10 +89,9 @@ void msrMusicXMLError (
 void msrInternalError (
   string inputSourceName, int inputLineNumber, string message)
 {
-  cerr << idtr <<
-    endl << idtr;
+  cerr << endl << endl;
 
-  idtr++;
+//  idtr++;
   
   cerr <<
     "[[[ MSR INTERNAL ERROR ]]], " << inputSourceName <<
@@ -105,10 +104,11 @@ void msrInternalError (
       gCurrentLocation.fPositionInMeasure <<
     */
       
-    idtr << message <<
-    endl << endl;
+    message <<
+    endl << endl <<
+    idtr;
 
-  idtr--;
+//  idtr--;
 
 /* JMI
   if (gCurrentLocation.fPositionInMeasure > 0)
@@ -3318,14 +3318,14 @@ void msrTempo::print (ostream& os)
 S_msrLyricschunk msrLyricschunk::create (
   S_msrOptions&      msrOpts, 
   int                inputLineNumber,
-  msrLyricschunkType chunkType,
+  msrLyricschunkKind lyricschunkKind,
   string             chunkText,
   int                divisions)
 {
   msrLyricschunk* o =
     new msrLyricschunk (
       msrOpts, inputLineNumber,
-      chunkType, chunkText, divisions);
+      lyricschunkKind, chunkText, divisions);
   assert(o!=0);
   return o;
 }
@@ -3333,12 +3333,12 @@ S_msrLyricschunk msrLyricschunk::create (
 msrLyricschunk::msrLyricschunk (
   S_msrOptions&      msrOpts, 
   int                inputLineNumber,
-  msrLyricschunkType chunkType,
+  msrLyricschunkKind lyricschunkKind,
   string             chunkText,
   int                divisions)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fLyricschunkType = chunkType;
+  fLyricschunkKind = lyricschunkKind;
   fChunkText       = chunkText;
   fChunkDivisions  = divisions;
 }
@@ -3352,7 +3352,7 @@ S_msrLyricschunk msrLyricschunk::createEmptyClone ()
       msrLyricschunk::create (
         fMsrOptions,
         fInputLineNumber,
-        fLyricschunkType,
+        fLyricschunkKind,
         fChunkText,
         fChunkDivisions);
   
@@ -3402,100 +3402,60 @@ ostream& operator<< (ostream& os, const S_msrLyricschunk& lyr)
   return os;
 }
 
-string msrLyricschunk::getLyricschunkTypeAsString ()
+/*
+string msrLyricschunk::lyricschunkAsString (
+  msrLyricschunkKind lyricschunkKind)
 {
   string result;
   
-  switch (fLyricschunkType) {
-    case kSingleChunk:
-      result = "single";
-      break;
-    case kBeginChunk:
-      result = "begin";
-      break;
-    case kMiddleChunk:
-      result = "middle";
-      break;
-    case kEndChunk:
-      result = "end";
-      break;
-      
-    case kSkipChunk:
-      result = "skip";
-      break;
-      
-    case kSlurChunk:
-      result = "slur";
-      break;
-    case kTiedChunk:
-      result = "tied";
-      break;
-      
-    case kBarCheck:
-      result = "barcheck";
-      break;
-      
-    case kBreakChunk:
-      result = "break";
-      break;
-      
-    case k_NoChunk:
-      msrInternalError (
-        fMsrOptions->fInputSourceName,
-        fInputLineNumber,
-        "lyrics chunk type has not been set");
-      break;
-  } // switch
 
   return result;
 }
+*/
 
 void msrLyricschunk::print (ostream& os)
 {  
   os <<
-    "Lyricschunk" << " " << setw(6) << left <<
-    getLyricschunkTypeAsString ();
-    
-  switch (fLyricschunkType) {
+    "Lyricschunk" << " " << setw(6);
+
+  switch (fLyricschunkKind) {
     case kSingleChunk:
-      os << ":" << fChunkDivisions;
-      if (fChunkText.size())
-        os << " " << "\"" << fChunkText << "\"";
+      os << "single" << ":" << fChunkDivisions;
+      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
     case kBeginChunk:
-      os << ":" << fChunkDivisions;
-      if (fChunkText.size())
-        os << " " << "\"" << fChunkText << "\"";
+      os << "begin" << ":" << fChunkDivisions;
+      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
     case kMiddleChunk:
-      os << ":" << fChunkDivisions;
+      os << "middle" << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
     case kEndChunk:
-      os << ":" << fChunkDivisions;
+      os << "end" << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
       break;
       
     case kSkipChunk:
-      os << ":" << fChunkDivisions;
+      os << "skip" << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
       
     case kSlurChunk:
-      os << ":" << fChunkDivisions;
+      os << "slur" << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
     case kTiedChunk:
-      os <<":" << fChunkDivisions;
+      os << "tied" << ":" << fChunkDivisions;
       if (fChunkText.size()) os << " " << fChunkText;
       break;
       
     case kBarCheck:
-      os << fChunkText << endl;
+      os << "barCheck" << fChunkText << endl;
       break;
       
     case kBreakChunk:
-      os << " " << fChunkText << endl;
+      os << "break" << " " << fChunkText << endl;
       break;
       
     case k_NoChunk:
@@ -3581,8 +3541,8 @@ S_msrLyrics msrLyrics::createEmptyClone (S_msrVoice clonedVoice)
 void msrLyrics::addTextChunkToLyrics (
   int     inputLineNumber,
   string  syllabic, // JMI ???
-  msrLyricschunk::msrLyricschunkType
-          chunkType,
+  msrLyricschunk::msrLyricschunkKind
+          lyricschunkKind,
   string  text,
   bool    elision,
   int     divisions)
@@ -3594,12 +3554,57 @@ void msrLyrics::addTextChunkToLyrics (
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding text chunk " <<
-      setw(8) << left << "\""+syllabic+"\"" <<
-      " \"" << text << "\"" <<
-      ", type " << chunkType <<
+      "--> Adding text chunk"
       ", line " << inputLineNumber <<
-      ", divisions: " << divisions << 
+      ", divisions = " << divisions << 
+      ", syllabic = \"" << syllabic << "\"" <<
+      ", text = \"" << text << "\"";
+
+    string lyricschunkKindAsString;
+  
+    switch (lyricschunkKind) {
+      case msrLyricschunk::kSingleChunk:
+        lyricschunkKindAsString = "single";
+        break;
+      case msrLyricschunk::kBeginChunk:
+        lyricschunkKindAsString = "begin";
+        break;
+      case msrLyricschunk::kMiddleChunk:
+        lyricschunkKindAsString = "middle";
+        break;
+      case msrLyricschunk::kEndChunk:
+        lyricschunkKindAsString = "end";
+        break;
+        
+      case msrLyricschunk::kSkipChunk:
+        lyricschunkKindAsString = "skip";
+        break;
+        
+      case msrLyricschunk::kSlurChunk:
+        lyricschunkKindAsString = "slur";
+        break;
+      case msrLyricschunk::kTiedChunk:
+        lyricschunkKindAsString = "tied";
+        break;
+        
+      case msrLyricschunk::kBarCheck:
+        lyricschunkKindAsString = "barCheck";
+        break;
+        
+      case msrLyricschunk::kBreakChunk:
+        lyricschunkKindAsString = "break";
+        break;
+        
+      case msrLyricschunk::k_NoChunk:
+        msrInternalError (
+          fMsrOptions->fInputSourceName,
+          fInputLineNumber,
+          "lyrics chunk type has not been set");
+        break;
+    } // switch
+
+    cerr <<
+      ", type = " << lyricschunkKindAsString <<
       ", elision: " << elision << 
       " to " << getLyricsName () << endl;
   }
@@ -3609,9 +3614,9 @@ void msrLyrics::addTextChunkToLyrics (
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        chunkType, text, divisions);
+        lyricschunkKind, text, divisions);
   
-  switch (chunkType) {
+  switch (lyricschunkKind) {
     case msrLyricschunk::kSingleChunk:
     case msrLyricschunk::kBeginChunk:
       {  

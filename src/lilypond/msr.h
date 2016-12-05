@@ -2030,7 +2030,7 @@ class EXP msrLyricschunk : public msrElement
   public:
 
     // we want to end the line in the LilyPond code at a break
-    enum msrLyricschunkType {
+    enum msrLyricschunkKind {
       kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
       kSkipChunk, kSlurChunk, kTiedChunk,
       kBarCheck, kBreakChunk,
@@ -2042,7 +2042,7 @@ class EXP msrLyricschunk : public msrElement
     static SMARTP<msrLyricschunk> create (
       S_msrOptions&      msrOpts, 
       int                inputLineNumber,
-      msrLyricschunkType chunkType,
+      msrLyricschunkKind lyricschunkKind,
       string             chunkText,
       int                divisions);
 
@@ -2051,17 +2051,15 @@ class EXP msrLyricschunk : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrLyricschunkType
-              getLyricschunkType () const
-                  { return fLyricschunkType; }
+    msrLyricschunkKind
+              getLyricschunkKind () const
+                  { return fLyricschunkKind; }
 
     string    getChunkText () const
                   { return fChunkText; }
 
     int       getChunkDivisions () const
                   { return fChunkDivisions; }
-
-    string    getLyricschunkTypeAsString ();
 
     // services
     // ------------------------------------------------------
@@ -2081,7 +2079,7 @@ class EXP msrLyricschunk : public msrElement
     msrLyricschunk (
       S_msrOptions&      msrOpts, 
       int                inputLineNumber,
-      msrLyricschunkType chunkType,
+      msrLyricschunkKind lyricschunkKind,
       string             chunkText,
       int                divisions);
         
@@ -2089,7 +2087,7 @@ class EXP msrLyricschunk : public msrElement
 
   private:
   
-    msrLyricschunkType fLyricschunkType;
+    msrLyricschunkKind fLyricschunkKind;
     string             fChunkText;
     int                fChunkDivisions;
 };
@@ -2148,8 +2146,7 @@ class EXP msrLyrics : public msrElement
     void    addTextChunkToLyrics (
               int     inputLineNumber,
               string  syllabic, // JMI ???
-              msrLyricschunk::msrLyricschunkType
-                      chunkType,
+              msrLyricschunk::msrLyricschunkKind lyricschunkKind,
               string  text,
               bool    elision,
               int     divisions);

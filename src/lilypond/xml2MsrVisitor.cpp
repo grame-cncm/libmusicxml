@@ -83,7 +83,7 @@ xml2MsrVisitor::xml2MsrVisitor (
   fCurrentVoiceNumber = 1; // JMI
   
   fCurrentLyricsNumber = -1; // JMI
-  fCurrentLyricschunkType = msrLyricschunk::k_NoChunk;
+  fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
 
   fOnGoingChord = false;
   
@@ -1745,25 +1745,24 @@ void xml2MsrVisitor::visitStart (S_lyric& elt )
 
 void xml2MsrVisitor::visitStart ( S_syllabic& elt )
 {
-  string syllabic = elt->getValue();
+  fCurrentSyllabic = elt->getValue();
   
-  if      (syllabic == "single")
-    fCurrentLyricschunkType = msrLyricschunk::kSingleChunk;
-  else if (syllabic == "begin")
-    fCurrentLyricschunkType = msrLyricschunk::kBeginChunk;
-  else if (syllabic == "middle")
-    fCurrentLyricschunkType = msrLyricschunk::kMiddleChunk;
-  else if (syllabic == "end")
-    fCurrentLyricschunkType = msrLyricschunk::kEndChunk;
+  if      (fCurrentSyllabic == "single")
+    fCurrentLyricschunkKind = msrLyricschunk::kSingleChunk;
+  else if (fCurrentSyllabic == "begin")
+    fCurrentLyricschunkKind = msrLyricschunk::kBeginChunk;
+  else if (fCurrentSyllabic == "middle")
+    fCurrentLyricschunkKind = msrLyricschunk::kMiddleChunk;
+  else if (fCurrentSyllabic == "end")
+    fCurrentLyricschunkKind = msrLyricschunk::kEndChunk;
   else {
     stringstream s;
-    s << "--> syllabic \"" << syllabic << "\" is unknown";
+    s << "--> syllabic \"" << fCurrentSyllabic << "\" is unknown";
+    
     msrMusicXMLError (
       fMsrOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
-
-    fCurrentLyricschunkType = msrLyricschunk::k_NoChunk;
   }
 
 /* JMI
@@ -1799,45 +1798,6 @@ void xml2MsrVisitor::visitEnd ( S_text& elt )
       ", fCurrentText = |" << fCurrentText << "|" << endl;
 }
 
-/*
-      <note default-x="143">
-        <pitch>
-          <step>E</step>
-          <alter>-1</alter>
-          <octave>4</octave>
-        </pitch>
-        <duration>6</duration>
-        <voice>1</voice>
-        <type>eighth</type>
-        <stem default-y="-5">up</stem>
-        <beam number="1">begin</beam>
-        <lyric default-y="-80" justify="left" number="1">
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">1.</text>
-          <elision> </elision>
-          <syllabic>begin</syllabic>
-          <text font-family="FreeSerif" font-size="11">A</text>
-        </lyric>
-        <lyric default-y="-97" justify="left" number="2">
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">2.</text>
-          <elision> </elision>
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">'T</text>
-          <elision> </elision>
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">was</text>
-        </lyric>
-        <lyric default-y="-113" justify="left" number="3">
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">3.</text>
-          <elision> </elision>
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">Throug</text>
-          <extend type="start"/>
-        </lyric>
-*/
-
 void xml2MsrVisitor::visitEnd ( S_elision& elt ) 
 {
   fCurrentElision = true;
@@ -1848,7 +1808,7 @@ void xml2MsrVisitor::visitEnd ( S_lyric& elt )
 // JMI  handleLyricsText (elt->getInputLineNumber ());
 
   // avoiding handling of the same by visitEnd ( S_note )
-  fCurrentLyricschunkType = msrLyricschunk::k_NoChunk;
+  fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
 
   if (
     fCurrentSlurKind == msrSlur::kContinueSlur
@@ -1894,7 +1854,7 @@ void xml2MsrVisitor::visitEnd ( S_lyric& elt )
         addTextChunkToLyrics (
           elt->getInputLineNumber (),
           fCurrentSyllabic,
-          fCurrentLyricschunkType,
+          fCurrentLyricschunkKind,
           fCurrentText,
           fCurrentElision,
           fMusicXMLNoteData.fMusicXMLDivisions);
@@ -1903,15 +1863,6 @@ void xml2MsrVisitor::visitEnd ( S_lyric& elt )
 }
 
 /*
-     void    addTextChunkToLyrics (
-              int     inputLineNumber,
-              string  syllabic, // JMI ???
-              msrLyricschunk::msrLyricschunkType
-                      chunkType,
-              string  text,
-              bool    elision,
-              int     divisions);
-
       <note default-x="61">
         <pitch>
           <step>D</step>
@@ -4542,8 +4493,8 @@ void xml2MsrVisitor::handleLyricsText (
     
     cerr <<
       idtr <<
-        "  fCurrentLyricschunkType                = \"";
-    switch (fCurrentLyricschunkType) {
+        "  fCurrentLyricschunkKind                = \"";
+    switch (fCurrentLyricschunkKind) {
       case msrLyricschunk::kSingleChunk:
         cerr << "single";
         break;
@@ -4624,30 +4575,31 @@ void xml2MsrVisitor::handleLyricsText (
     lyricsDivisions =
       fCurrentNote->getNoteMusicXMLDivisions ();
       
-  msrLyricschunk::msrLyricschunkType
+  msrLyricschunk::msrLyricschunkKind
     chunkTypeToBeCreated =
-      msrLyricschunk::k_NoChunk;
+      msrLyricschunk::kSingleChunk;
+        // type is not always present
 
   if (fMusicXMLNoteData.fMusicXMLStepIsARest)
     chunkTypeToBeCreated = msrLyricschunk::kSkipChunk;
 
   else {
 
-    switch (fCurrentLyricschunkType) {
+    switch (fCurrentLyricschunkKind) {
       case msrLyricschunk::kSingleChunk:
-        chunkTypeToBeCreated = fCurrentLyricschunkType;
+        chunkTypeToBeCreated = fCurrentLyricschunkKind;
         break;
       case msrLyricschunk::kBeginChunk:
-        chunkTypeToBeCreated = fCurrentLyricschunkType;
+        chunkTypeToBeCreated = fCurrentLyricschunkKind;
         break;
       case msrLyricschunk::kMiddleChunk:
-        chunkTypeToBeCreated = fCurrentLyricschunkType;
+        chunkTypeToBeCreated = fCurrentLyricschunkKind;
         break;
       case msrLyricschunk::kEndChunk:
-        chunkTypeToBeCreated = fCurrentLyricschunkType;
+        chunkTypeToBeCreated = fCurrentLyricschunkKind;
         break;
 
- //     case msrLyricschunk::k_NoChunk:
+ //     case msrLyricschunk::k_NoChunk: JMI
       default:
         {
         if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
@@ -4658,14 +4610,20 @@ void xml2MsrVisitor::handleLyricsText (
             case msrSlur::kStartSlur:
               chunkTypeToBeCreated = msrLyricschunk::kSingleChunk;
               break;
+              
             case msrSlur::kContinueSlur:
               chunkTypeToBeCreated = msrLyricschunk::kSlurChunk;
               break;
+              
             case msrSlur::kStopSlur:
               chunkTypeToBeCreated = msrLyricschunk::kSlurChunk;
               break;
     
-            default:
+            case msrSlur::k_NoSlur:
+              msrMusicXMLError (
+                fMsrOptions->fInputSourceName,
+                inputLineNumber,
+                "slur kind has not been set");
               break;
           } // switch
         }
@@ -4719,3 +4677,44 @@ void xml2MsrVisitor::handleLyricsText (
 
 
 } // namespace
+
+
+/*
+      <note default-x="143">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-5">up</stem>
+        <beam number="1">begin</beam>
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">1.</text>
+          <elision> </elision>
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">A</text>
+        </lyric>
+        <lyric default-y="-97" justify="left" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">2.</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">'T</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">was</text>
+        </lyric>
+        <lyric default-y="-113" justify="left" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">3.</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">Throug</text>
+          <extend type="start"/>
+        </lyric>
+*/
+

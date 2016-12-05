@@ -657,7 +657,6 @@ string divisionsAsMSRString (
   return s.str();
 }
 
-
   /*
   if (fTupletMemberNoteType.size()) {
 

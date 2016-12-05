@@ -504,8 +504,8 @@ class EXP xml2MsrVisitor :
     // ------------------------------------------------------
     // the last sysllabic spec met (single, begin, middle or end)
     string                    fCurrentSyllabic;
-    msrLyricschunk::msrLyricschunkType
-                              fCurrentLyricschunkType;
+    msrLyricschunk::msrLyricschunkKind
+                              fCurrentLyricschunkKind;
     // the last lyrics fragment met
     string                    fCurrentText;
     bool                      fCurrentElision;
