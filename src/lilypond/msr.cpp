@@ -3697,8 +3697,8 @@ void msrLyrics::addSkipChunkToLyrics (
         inputLineNumber,
         msrLyricschunk::kSkipChunk, "", divisions,
         note,
-        fLyricsVoiceUplink);
-        
+        this);
+  
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
 }
@@ -3726,7 +3726,7 @@ void msrLyrics::addSlurChunkToLyrics (
         inputLineNumber,
         msrLyricschunk::kSlurChunk, "", divisions,
         note,
-        fLyricsVoiceUplink);
+        this);
         
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
@@ -3755,7 +3755,7 @@ void msrLyrics::addTiedChunkToLyrics (
         inputLineNumber,
         msrLyricschunk::kTiedChunk, "", divisions,
         note,
-        fLyricsVoiceUplink);
+        this);
         
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
@@ -3797,7 +3797,7 @@ void msrLyrics::addBarCheckChunkToLyrics (
         s.str(),
         0,
         0,
-        fLyricsVoiceUplink);
+        this);
         
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
@@ -3831,7 +3831,7 @@ void msrLyrics::addBreakChunkToLyrics (
         s.str(),
         0,
         0,
-        fLyricsVoiceUplink);
+        this);
         
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
