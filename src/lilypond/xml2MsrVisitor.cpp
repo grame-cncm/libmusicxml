@@ -1744,7 +1744,7 @@ void xml2MsrVisitor::visitStart (S_lyric& elt )
         addLyricsToVoice (
           elt->getInputLineNumber (), fCurrentLyricsNumber);
         
-  fCurrentLyricschunkKind = msrLyricschunk::kSingleChunk;
+  fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
 
   fCurrentLyricsHasText = false;
   fCurrentText = "";
@@ -1806,83 +1806,8 @@ void xml2MsrVisitor::visitEnd ( S_elision& elt )
 
 void xml2MsrVisitor::visitEnd ( S_lyric& elt )
 {
-// JMI  handleLyricsText (elt->getInputLineNumber ());
-
-  // avoiding handling of the same by visitEnd ( S_note )
-// JMI  fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
-
-/*
-  if (
-    fCurrentSlurKind == msrSlur::kContinueSlur
-      ||
-    fCurrentSlurKind == msrSlur::kStopSlur) {
-      
-    fCurrentLyrics->
-      addSlurChunkToLyrics (
-        elt->getInputLineNumber (),
-        fMusicXMLNoteData.fMusicXMLDivisions);
-  }
-
-  else
-*/
-
-  if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
-    fCurrentLyrics->
-      addTiedChunkToLyrics (
-        elt->getInputLineNumber (),
-        fMusicXMLNoteData.fMusicXMLDivisions);
-  }
-
-  else {
-    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
-      fCurrentLyrics->
-        addSkipChunkToLyrics (
-          elt->getInputLineNumber (),
-          fMusicXMLNoteData.fMusicXMLDivisions);
-    }
-
-    else if (fOnGoingSlur) {
-      fCurrentLyrics->
-        addSlurChunkToLyrics ( 
-          elt->getInputLineNumber (),
-          fMusicXMLNoteData.fMusicXMLDivisions);
-    }
-    
-    else {
-      fCurrentLyrics->
-        addTextChunkToLyrics (
-          elt->getInputLineNumber (),
-          fCurrentSyllabic,
-          fCurrentLyricschunkKind,
-          fCurrentText,
-          fCurrentElision,
-          fMusicXMLNoteData.fMusicXMLDivisions);
-    }
-  }
+  // JMI ???
 }
-
-/*
-      <note default-x="61">
-        <pitch>
-          <step>D</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>8</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        <stem default-y="-10">up</stem>
-        <lyric default-y="-80" number="1">
-          <syllabic>single</syllabic>
-          <text>オノ</text>
-        </lyric>
-      </note>
-*/
-
-/* JMI lyric without text
-        <lyric name="verse" number="3">
-          <extend type="stop"/>
-        </lyric>
-*/
 
 //________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_measure& elt)
@@ -4464,11 +4389,9 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
   fCurrentVoice->
     appendNoteToVoice (newNote);
 
-/* JMI
-  if (! fCurrentNoteHasLyrics)
-    // lyrics have to be handled anyway JMI
-    handleLyricsText (newNote->getInputLineNumber ());
-*/
+  // lyrics has to be handled in all cases,
+  // to handle melismae
+  handleLyricsText (newNote->getInputLineNumber ());
 
   // account for chord not being built
   fOnGoingChord = false;
@@ -4478,8 +4401,8 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
 void xml2MsrVisitor::handleLyricsText (
   int inputLineNumber)
 {
-//  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
     cerr <<
       idtr <<
         "Handling lyrics on:" << endl <<
@@ -4504,7 +4427,49 @@ void xml2MsrVisitor::handleLyricsText (
     else
       cerr << "false";
     cerr << endl;
+
+  }
     
+  if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
+    fCurrentLyrics->
+      addTiedChunkToLyrics (
+        elt->getInputLineNumber (),
+        fMusicXMLNoteData.fMusicXMLDivisions);
+  }
+
+  else if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+      fCurrentLyrics->
+        addSkipChunkToLyrics (
+          elt->getInputLineNumber (),
+          fMusicXMLNoteData.fMusicXMLDivisions);
+  }
+
+  else if (fOnGoingSlur) {
+    fCurrentLyrics->
+      addSlurChunkToLyrics ( 
+        elt->getInputLineNumber (),
+        fMusicXMLNoteData.fMusicXMLDivisions);
+  }
+  
+  else {
+    fCurrentLyrics->
+      addTextChunkToLyrics (
+        elt->getInputLineNumber (),
+        fCurrentSyllabic,
+        fCurrentLyricschunkKind,
+        fCurrentText,
+        fCurrentElision,
+        fMusicXMLNoteData.fMusicXMLDivisions);
+  }
+}
+
+/* JMI lyric without text
+        <lyric name="verse" number="3">
+          <extend type="stop"/>
+        </lyric>
+*/
+
+
     cerr <<
       idtr <<
         "  fCurrentLyricschunkKind                = \"";
@@ -4572,18 +4537,6 @@ void xml2MsrVisitor::handleLyricsText (
       fCurrentVoice->
         addLyricsToVoice (
           inputLineNumber, fCurrentLyricsNumber);
-
-/* JMI
-  S_msrDuration
-    lyricMsrDuration =
-      msrDuration::create (
-        fMsrOptions,
-        inputLineNumber,
-        fMusicXMLNoteData.fMusicXMLDivisions,
-        fCurrentDivisionsPerQuarterNote,
-        fMusicXMLNoteData.fMusicXMLDotsNumber,
-        fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
-*/
 
   int
     lyricsDivisions =
