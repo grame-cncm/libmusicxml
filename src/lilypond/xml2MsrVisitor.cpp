@@ -84,6 +84,7 @@ xml2MsrVisitor::xml2MsrVisitor (
   
   fCurrentLyricsNumber = -1; // JMI
   fCurrentSyllabic = "";
+  fCurrentText = "";
   fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
 
   fOnGoingChord = false;
@@ -1745,10 +1746,7 @@ void xml2MsrVisitor::visitStart (S_lyric& elt )
         addLyricsToVoice (
           elt->getInputLineNumber (), fCurrentLyricsNumber);
         
-  fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
-
   fCurrentLyricsHasText = false;
-  fCurrentText = "";
   fCurrentElision = false;
 
   fCurrentNoteHasLyrics = true;
@@ -3181,6 +3179,8 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   
   fCurrentStem = "";
 
+  fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
+  fCurrentText = "";  
   // assume this note hasn't got lyrics until S_lyric is met
   fCurrentNoteHasLyrics = false;
   
@@ -4471,7 +4471,7 @@ void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
   else if (
     fOnGoingSlur
       &&
-    ! fCurrentSyllabic.size ()) { // JMI
+    ! fCurrentText.size ()) { // JMI
     fCurrentLyrics->
       addSlurChunkToLyrics ( 
         inputLineNumber,

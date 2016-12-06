@@ -3445,7 +3445,8 @@ void msrLyricschunk::print (ostream& os)
       if (fChunkText.size())
         os << " " << "\"" << fChunkText << "\"";
       os <<
-        " " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ", line " << fInputLineNumber <<
+        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
@@ -3455,7 +3456,8 @@ void msrLyricschunk::print (ostream& os)
       if (fChunkText.size())
         os << " " << "\"" << fChunkText << "\"";
       os <<
-        " " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ", line " << fInputLineNumber <<
+        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
@@ -3465,7 +3467,8 @@ void msrLyricschunk::print (ostream& os)
       if (fChunkText.size())
         os << " " << "\"" << fChunkText << "\"";
       os <<
-        " " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ", line " << fInputLineNumber <<
+        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
@@ -3474,7 +3477,11 @@ void msrLyricschunk::print (ostream& os)
       os << "skip" << ":" << fChunkDivisions;
       if (fChunkText.size())
         os << " " << fChunkText;
-      os << endl;
+      os <<
+        ", line " << fInputLineNumber <<
+        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        endl;
       break;
       
     case kSlurChunk:
@@ -3482,7 +3489,8 @@ void msrLyricschunk::print (ostream& os)
       if (fChunkText.size())
         os << " " << fChunkText;
       os <<
-        " " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ", line " << fInputLineNumber <<
+        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
@@ -3492,19 +3500,20 @@ void msrLyricschunk::print (ostream& os)
       if (fChunkText.size())
         os << " " << fChunkText;
       os <<
-        " " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ", line " << fInputLineNumber <<
+        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
       
     case kBarCheck:
       // fChunkText contains the measure number
-      os << "barCheck" << fChunkText << endl;
+      os << "barCheck" << " measure " << fChunkText << endl;
       break;
       
     case kBreakChunk:
       // fChunkText contains the measure number
-      os << "break" << " " << fChunkText << endl << endl;
+      os << "break" << " measure " << fChunkText << endl << endl;
       break;
       
     case k_NoChunk:
