@@ -3320,12 +3320,15 @@ S_msrLyricschunk msrLyricschunk::create (
   int                inputLineNumber,
   msrLyricschunkKind lyricschunkKind,
   string             chunkText,
-  int                divisions)
+  int                divisions,
+  S_msrNote          lyricschunkNote,
+  S_msrLyrics        lyricschunkLyricsUplink)
 {
   msrLyricschunk* o =
     new msrLyricschunk (
       msrOpts, inputLineNumber,
-      lyricschunkKind, chunkText, divisions);
+      lyricschunkKind, chunkText, divisions,
+      lyricschunkNote, lyricschunkLyricsUplink);
   assert(o!=0);
   return o;
 }
@@ -3335,12 +3338,17 @@ msrLyricschunk::msrLyricschunk (
   int                inputLineNumber,
   msrLyricschunkKind lyricschunkKind,
   string             chunkText,
-  int                divisions)
+  int                divisions,
+  S_msrNote          lyricschunkNote,
+  S_msrLyrics        lyricschunkLyricsUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
   fLyricschunkKind = lyricschunkKind;
   fChunkText       = chunkText;
   fChunkDivisions  = divisions;
+
+  fLyricschunkNote = lyricschunkNoteUplink;
+  fLyricschunkLyricsUplink = lyricschunkLyricsUplink;
 }
 
 msrLyricschunk::~msrLyricschunk() {}
@@ -3354,7 +3362,8 @@ S_msrLyricschunk msrLyricschunk::createEmptyClone ()
         fInputLineNumber,
         fLyricschunkKind,
         fChunkText,
-        fChunkDivisions);
+        fChunkDivisions,
+        fLyricschunkNoteUplink);
   
   return clone;
 }
@@ -3465,7 +3474,11 @@ void msrLyricschunk::print (ostream& os)
         "lyrics chunk type has not been set");
       break;
   } // switch
-  os << endl;
+
+  os <<
+    fLyricschunkNoteUplink->noteMsrPitchAsString () <<
+    fLyricschunkNoteUplink->noteDivisionsAsMSRString () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -3473,14 +3486,15 @@ S_msrLyrics msrLyrics::create (
   S_msrOptions&         msrOpts, 
   int                   inputLineNumber,
   int                   lyricsNumber,
-  S_msrVoice            lyricsVoice,
-  msrLyricsMasterStatus lyricsMasterStatus)
+  msrLyricsMasterStatus lyricsMasterStatus,
+  S_msrVoice            lyricsVoiceUplink)
 {
   msrLyrics* o =
     new msrLyrics (
       msrOpts, inputLineNumber,
-      lyricsNumber, lyricsVoice,
-      lyricsMasterStatus);
+      lyricsNumber,
+      lyricsMasterStatus,
+      lyricsVoiceUplink);
   assert(o!=0);
   return o;
 }
@@ -3489,14 +3503,14 @@ msrLyrics::msrLyrics (
   S_msrOptions&         msrOpts, 
   int                   inputLineNumber,
   int                   lyricsNumber,
-  S_msrVoice            lyricsVoice,
-  msrLyricsMasterStatus lyricsMasterStatus)
+  msrLyricsMasterStatus lyricsMasterStatus,
+  S_msrVoice            lyricsVoiceUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
   fLyricsNumber       = lyricsNumber;
-  fLyricsVoiceUplink  = lyricsVoice;
   fLyricsMasterStatus = lyricsMasterStatus;
  
+  fLyricsVoiceUplink  = lyricsVoiceUplink;
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Creating lyrics " << getLyricsName () << endl;
@@ -3532,8 +3546,8 @@ S_msrLyrics msrLyrics::createEmptyClone (S_msrVoice clonedVoice)
         fMsrOptions,
         fInputLineNumber,
         fLyricsNumber,
-        clonedVoice,
-        fLyricsMasterStatus);
+        fLyricsMasterStatus,
+        clonedVoice);
   
   return clone;
 }
@@ -3614,7 +3628,8 @@ void msrLyrics::addTextChunkToLyrics (
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        lyricschunkKind, text, divisions);
+        lyricschunkKind, text, divisions,
+        this);
   
   switch (lyricschunkKind) {
     case msrLyricschunk::kSingleChunk:
@@ -3676,7 +3691,8 @@ void msrLyrics::addSkipChunkToLyrics (
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        msrLyricschunk::kSkipChunk, "", divisions);
+        msrLyricschunk::kSkipChunk, "", divisions,
+        fLyricsVoiceUplink);
         
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
@@ -3702,7 +3718,8 @@ void msrLyrics::addSlurChunkToLyrics (
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        msrLyricschunk::kSlurChunk, "", divisions);
+        msrLyricschunk::kSlurChunk, "", divisions,
+        fLyricsVoiceUplink);
         
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
@@ -3728,7 +3745,8 @@ void msrLyrics::addTiedChunkToLyrics (
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        msrLyricschunk::kTiedChunk, "", divisions);
+        msrLyricschunk::kTiedChunk, "", divisions,
+        fLyricsVoiceUplink);
         
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
@@ -3768,7 +3786,8 @@ void msrLyrics::addBarCheckChunkToLyrics (
         inputLineNumber,
         msrLyricschunk::kBreakChunk,
         s.str(),
-        0);
+        0,
+        fLyricsVoiceUplink);
         
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
@@ -3793,14 +3812,6 @@ void msrLyrics::addBreakChunkToLyrics (
   s << nextMeasureNumber;
   
   // create lyrics break chunk
-  /*
-  S_msrDuration
-    nullMsrDuration =
-      msrDuration::create (
-        fMsrOptions,
-        inputLineNumber,
-        0, 1, 0, "");
-    */    
   S_msrLyricschunk
     chunk =
       msrLyricschunk::create (

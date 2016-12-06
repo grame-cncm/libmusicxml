@@ -53,6 +53,9 @@ namespace MusicXML2
 //______________________________________________________________________________
 // PRE-declarations for class dependencies
 
+class msrLyrics;
+typedef SMARTP<msrLyrics> S_msrLyrics;
+
 class msrVoice;
 typedef SMARTP<msrVoice> S_msrVoice;
 
@@ -2079,9 +2082,26 @@ class EXP msrLyricschunk : public msrElement
       int                inputLineNumber,
       msrLyricschunkKind lyricschunkKind,
       string             chunkText,
-      int                divisions);
+      int                divisions,
+      S_msrNote          lyricschunkNote,
+      S_msrLyrics        lyricschunkLyricsUplink);
 
     SMARTP<msrLyricschunk> createEmptyClone ();
+
+  protected:
+
+    msrLyricschunk (
+      S_msrOptions&      msrOpts, 
+      int                inputLineNumber,
+      msrLyricschunkKind lyricschunkKind,
+      string             chunkText,
+      int                divisions,
+      S_msrNote          lyricschunkNote,
+      S_msrLyrics        lyricschunkLyricsUplink);
+        
+    virtual ~msrLyricschunk();
+
+  public:
 
     // set and get
     // ------------------------------------------------------
@@ -2109,22 +2129,14 @@ class EXP msrLyricschunk : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrLyricschunk (
-      S_msrOptions&      msrOpts, 
-      int                inputLineNumber,
-      msrLyricschunkKind lyricschunkKind,
-      string             chunkText,
-      int                divisions);
-        
-    virtual ~msrLyricschunk();
-
   private:
   
     msrLyricschunkKind fLyricschunkKind;
     string             fChunkText;
     int                fChunkDivisions;
+    
+    S_msrNote          fLyricschunkNote;
+    S_msrLyrics        fLyricschunkLyricsUplink;
 };
 typedef SMARTP<msrLyricschunk> S_msrLyricschunk;
 EXP ostream& operator<< (ostream& os, const S_msrLyricschunk& elt);
@@ -2149,11 +2161,24 @@ class EXP msrLyrics : public msrElement
       S_msrOptions&         msrOpts, 
       int                   inputLineNumber,
       int                   lyricsNumber,
-      S_msrVoice            lyricsVoice,
-      msrLyricsMasterStatus lyricsMasterStatus);
+      msrLyricsMasterStatus lyricsMasterStatus,
+      S_msrVoice            lyricsVoiceUplink);
     
     SMARTP<msrLyrics> createEmptyClone (
       S_msrVoice clonedVoice);
+
+  protected:
+
+    msrLyrics (
+      S_msrOptions&         msrOpts, 
+      int                   inputLineNumber,
+      int                   lyricsNumber,
+      msrLyricsMasterStatus lyricsMasterStatus,
+      S_msrVoice            lyricsVoiceUplink);
+
+    virtual ~msrLyrics();
+  
+  public:
 
     // set and get
     // ------------------------------------------------------
@@ -2220,25 +2245,17 @@ class EXP msrLyrics : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrLyrics (
-      S_msrOptions&         msrOpts, 
-      int                   inputLineNumber,
-      int                   lyricsNumber,
-      S_msrVoice            lyricsVoice,
-      msrLyricsMasterStatus lyricsMasterStatus);
-    virtual ~msrLyrics();
-  
   private:
 
     int                       fLyricsNumber;
-    S_msrVoice                fLyricsVoiceUplink;
     msrLyricsMasterStatus     fLyricsMasterStatus;
 
     vector<S_msrLyricschunk>  fLyricschunks;
 
     bool                      fLyricsTextPresent;
+
+    S_msrVoice                fLyricsVoiceUplink;
+
 };
 typedef SMARTP<msrLyrics> S_msrLyrics;
 EXP ostream& operator<< (ostream& os, const S_msrLyrics& elt);

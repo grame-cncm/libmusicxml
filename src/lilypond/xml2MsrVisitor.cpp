@@ -83,6 +83,7 @@ xml2MsrVisitor::xml2MsrVisitor (
   fCurrentVoiceNumber = 1; // JMI
   
   fCurrentLyricsNumber = -1; // JMI
+  fCurrentSyllabic = "";
   fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
 
   fOnGoingChord = false;
@@ -1655,7 +1656,7 @@ fCurrentTiedOrientation =
 
     // inner tied notes may miss the "continue" type:
     // let' complain on slur notes outside of slurs 
-//    if (! fOnGoingSlur) JMI
+    if (! fOnGoingSlur)
       if (fCurrentTiedType.size()) {
         stringstream s;
         s << "tied type" << fCurrentSlurType << "unknown";
@@ -4462,7 +4463,10 @@ void xml2MsrVisitor::handleLyricsText (
         fMusicXMLNoteData.fMusicXMLDivisions);
   }
 
-  else if (fOnGoingSlur) {
+  else if (
+    fOnGoingSlur
+      &&
+    ! fCurrentSyllabic.size ()) { // JMI
     fCurrentLyrics->
       addSlurChunkToLyrics ( 
         inputLineNumber,
@@ -4644,44 +4648,3 @@ void xml2MsrVisitor::handleLyricsText (
 
 
 } // namespace
-
-
-/*
-      <note default-x="143">
-        <pitch>
-          <step>E</step>
-          <alter>-1</alter>
-          <octave>4</octave>
-        </pitch>
-        <duration>6</duration>
-        <voice>1</voice>
-        <type>eighth</type>
-        <stem default-y="-5">up</stem>
-        <beam number="1">begin</beam>
-        <lyric default-y="-80" justify="left" number="1">
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">1.</text>
-          <elision> </elision>
-          <syllabic>begin</syllabic>
-          <text font-family="FreeSerif" font-size="11">A</text>
-        </lyric>
-        <lyric default-y="-97" justify="left" number="2">
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">2.</text>
-          <elision> </elision>
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">'T</text>
-          <elision> </elision>
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">was</text>
-        </lyric>
-        <lyric default-y="-113" justify="left" number="3">
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">3.</text>
-          <elision> </elision>
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">Throug</text>
-          <extend type="start"/>
-        </lyric>
-*/
-
