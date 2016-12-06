@@ -3431,41 +3431,80 @@ void msrLyricschunk::print (ostream& os)
   switch (fLyricschunkKind) {
     case kSingleChunk:
       os << "single" << ":" << fChunkDivisions;
-      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
+      if (fChunkText.size())
+        os << " " << "\"" << fChunkText << "\"";
+      os <<
+        ", line " << fInputLineNumber <<
+        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        endl;
       break;
+      
     case kBeginChunk:
       os << "begin" << ":" << fChunkDivisions;
-      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
+      if (fChunkText.size())
+        os << " " << "\"" << fChunkText << "\"";
+      os <<
+        " " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        endl;
       break;
+      
     case kMiddleChunk:
       os << "middle" << ":" << fChunkDivisions;
-      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
+      if (fChunkText.size())
+        os << " " << "\"" << fChunkText << "\"";
+      os <<
+        " " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        endl;
       break;
+      
     case kEndChunk:
       os << "end" << ":" << fChunkDivisions;
-      if (fChunkText.size()) os << " " << "\"" << fChunkText << "\"";
+      if (fChunkText.size())
+        os << " " << "\"" << fChunkText << "\"";
+      os <<
+        " " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        endl;
       break;
       
     case kSkipChunk:
       os << "skip" << ":" << fChunkDivisions;
-      if (fChunkText.size()) os << " " << fChunkText;
+      if (fChunkText.size())
+        os << " " << fChunkText;
+      os << endl;
       break;
       
     case kSlurChunk:
       os << "slur" << ":" << fChunkDivisions;
-      if (fChunkText.size()) os << " " << fChunkText;
+      if (fChunkText.size())
+        os << " " << fChunkText;
+      os <<
+        " " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        endl;
       break;
+      
     case kTiedChunk:
       os << "tied" << ":" << fChunkDivisions;
-      if (fChunkText.size()) os << " " << fChunkText;
+      if (fChunkText.size())
+        os << " " << fChunkText;
+      os <<
+        " " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        endl;
       break;
       
     case kBarCheck:
+      // fChunkText contains the measure number
       os << "barCheck" << fChunkText << endl;
       break;
       
     case kBreakChunk:
-      os << "break" << " " << fChunkText << endl;
+      // fChunkText contains the measure number
+      os << "break" << " " << fChunkText << endl << endl;
       break;
       
     case k_NoChunk:
@@ -3475,11 +3514,6 @@ void msrLyricschunk::print (ostream& os)
         "lyrics chunk type has not been set");
       break;
   } // switch
-
-  os <<
-    fLyricschunkNote->noteMsrPitchAsString () <<
-    fLyricschunkNote->noteDivisionsAsMSRString () <<
-    endl;
 }
 
 //______________________________________________________________________________
