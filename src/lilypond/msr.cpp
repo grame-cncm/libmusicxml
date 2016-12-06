@@ -233,13 +233,13 @@ void msrElement::print (ostream& os)
 }
 
 //______________________________________________________________________________
-ostream& operator<< (ostream& os, musicXMLNoteData& mxmlData)
+ostream& operator<< (ostream& os, msrMusicXMLNoteData& mxmlData)
 {
   mxmlData.print (os);
   return os;
 }
 
-void musicXMLNoteData::print (ostream& os)
+void msrMusicXMLNoteData::print (ostream& os)
 {
   os <<
     idtr << "  " << left <<
@@ -924,12 +924,12 @@ void msrSlur::print (ostream& os)
 S_msrNote msrNote::createFromMusicXMLData (
   S_msrOptions&        msrOpts,
   int                  inputLineNumber,
-  musicXMLNoteData&    mxmlNoteData,
+  msrMusicXMLNoteData& musicXMLNoteData,
   msrSlur::msrSlurKind slurKind)
 {  
   msrNote * o =
     new msrNote (
-      msrOpts, inputLineNumber, mxmlNoteData, slurKind);
+      msrOpts, inputLineNumber, musicXMLNoteData, slurKind);
   assert(o!=0); 
   return o;
 }
@@ -940,7 +940,7 @@ S_msrNote msrNote::createRest (
   int           divisions,
   int           voiceNumber)
 {
-  musicXMLNoteData mxmlNoteData;
+  msrMusicXMLNoteData mxmlNoteData;
 
 /*
     char        fMusicXMLStep;
@@ -998,11 +998,11 @@ S_msrNote msrNote::createRest (
 msrNote::msrNote (
   S_msrOptions&        msrOpts,
   int                  inputLineNumber,
-  musicXMLNoteData&    mxmlNoteData,
+  msrMusicXMLNoteData& musicXMLNoteData,
   msrSlur::msrSlurKind slurKind)
   :
     msrElement (msrOpts, inputLineNumber),
-    fMusicXMLNoteData (mxmlNoteData)
+    fMusicXMLNoteData (musicXMLNoteData)
 {
   fNoteSlurKind = slurKind;
 

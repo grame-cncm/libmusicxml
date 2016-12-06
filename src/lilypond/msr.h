@@ -336,7 +336,7 @@ template <typename T> class EXP msrBrowser : public browser<T>
 \brief A note description for MusicXML.
 */
 //______________________________________________________________________________
-class musicXMLNoteData
+class msrMusicXMLNoteData
 {
   public:
   
@@ -375,7 +375,7 @@ class musicXMLNoteData
 
     int         fMusicXMLVoiceNumber;
 };
-EXP ostream& operator<< (ostream& os, musicXMLNoteData& elt);
+EXP ostream& operator<< (ostream& os, msrMusicXMLNoteData& elt);
 
 /*!
 \brief A beat description for MusicXML.
@@ -821,7 +821,7 @@ class EXP msrNote : public msrElement
     static SMARTP<msrNote> createFromMusicXMLData (
         S_msrOptions&        msrOpts,
         int                  inputLineNumber,
-        musicXMLNoteData&    mxmlNoteData,
+        msrMusicXMLNoteData& musicXMLNoteData,
         msrSlur::msrSlurKind slurKind);
     
     // creation from xml2Msr
@@ -994,7 +994,7 @@ class EXP msrNote : public msrElement
     msrNote (
         S_msrOptions&        msrOpts,
         int                  inputLineNumber,
-        musicXMLNoteData&    mxmlNoteData,
+        msrMusicXMLNoteData& musicXMLNoteData,
         msrSlur::msrSlurKind slurKind);
     
     virtual ~msrNote();
@@ -1003,7 +1003,7 @@ class EXP msrNote : public msrElement
 
     msrNoteKind                fNoteKind;
     
-    musicXMLNoteData           fMusicXMLNoteData;
+    msrMusicXMLNoteData        fMusicXMLNoteData;
 
     msrDiatonicPitch           fDiatonicPitch;
 

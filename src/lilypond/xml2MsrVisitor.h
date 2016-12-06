@@ -554,7 +554,7 @@ class EXP xml2MsrVisitor :
 // JMI    msrMeasureLocation        fCurrentMeasureLocation;
     
     // description of the current MusicXML note
-    musicXMLNoteData          fMusicXMLNoteData;
+    msrMusicXMLNoteData       fMusicXMLNoteData;
 
     // unpitched notes handling
     // ------------------------------------------------------

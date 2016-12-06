@@ -1181,7 +1181,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
         break;
         
       case msrLyricschunk::kSlurChunk:
+        fOstream <<
+          "__ " << "\"" << elt->getChunkText () << "\"" << " ";
         break;
+
       case msrLyricschunk::kTiedChunk:
         break;
         
