@@ -1195,7 +1195,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
           idtr;
         break;
   
-      case msrLyricschunk::k_NoChunk:
+      case msrLyricschunk::k_NoChunk: // JMI
         break;
     } // switch
   }

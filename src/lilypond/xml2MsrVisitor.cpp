@@ -1774,15 +1774,6 @@ void xml2MsrVisitor::visitStart ( S_syllabic& elt )
       elt->getInputLineNumber (),
       s.str());
   }
-
-/* JMI
-  if (fCurrentSyllabic == "begin") {
-    fOnGoingLyrics = true;
-  }
-  else if (fCurrentSyllabic == "end") {
-    fOnGoingLyrics = true;
-  }
-  */
 }
 
 void xml2MsrVisitor::visitEnd ( S_text& elt ) 
@@ -1820,6 +1811,7 @@ void xml2MsrVisitor::visitEnd ( S_lyric& elt )
   // avoiding handling of the same by visitEnd ( S_note )
 // JMI  fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
 
+/*
   if (
     fCurrentSlurKind == msrSlur::kContinueSlur
       ||
@@ -1831,7 +1823,10 @@ void xml2MsrVisitor::visitEnd ( S_lyric& elt )
         fMusicXMLNoteData.fMusicXMLDivisions);
   }
 
-  else if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
+  else
+*/
+
+  if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
     fCurrentLyrics->
       addTiedChunkToLyrics (
         elt->getInputLineNumber (),
@@ -1839,8 +1834,6 @@ void xml2MsrVisitor::visitEnd ( S_lyric& elt )
   }
 
   else {
-    // there can be notes without any slur indication
-
     if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
       fCurrentLyrics->
         addSkipChunkToLyrics (
@@ -1848,13 +1841,9 @@ void xml2MsrVisitor::visitEnd ( S_lyric& elt )
           fMusicXMLNoteData.fMusicXMLDivisions);
     }
 
-    else if (
-    // JMI fOnGoingSlur && JMI
-    ! fCurrentNoteHasLyrics) {
-
+    else if (fOnGoingSlur) {
       fCurrentLyrics->
         addSlurChunkToLyrics ( 
-  //      addSkipChunkToLyrics (// JMI ???
           elt->getInputLineNumber (),
           fMusicXMLNoteData.fMusicXMLDivisions);
     }

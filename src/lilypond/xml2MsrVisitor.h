@@ -380,13 +380,13 @@ class EXP xml2MsrVisitor :
 
     // the MSR score we're building
     // ------------------------------------------------------
-    S_msrScore              fMsrScore;
+    S_msrScore                fMsrScore;
 
     // geometry handling
     // ------------------------------------------------------
-    int                     fMillimeters;
-    int                     fTenths;
-    bool                    fOnGoingPageLayout;
+    int                       fMillimeters;
+    int                       fTenths;
+    bool                      fOnGoingPageLayout;
     
     // part group handling
     /*
@@ -480,9 +480,9 @@ class EXP xml2MsrVisitor :
 
     // direction handling
     // ------------------------------------------------------
-    string fCurrentDirectionPlacement;
-    string fCurrentDirectionWords;
-    bool   fOnGoingDirection;
+    string                    fCurrentDirectionPlacement;
+    string                    fCurrentDirectionWords;
+    bool                      fOnGoingDirection;
   
     // metronome handling
     // ------------------------------------------------------
