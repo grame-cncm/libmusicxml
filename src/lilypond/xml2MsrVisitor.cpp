@@ -4392,16 +4392,19 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
 
   // lyrics has to be handled in all cases,
   // to handle melismae
-  handleLyricsText (newNote->getInputLineNumber ());
+  handleLyricsText (newNote);
 
   // account for chord not being built
   fOnGoingChord = false;
 }
 
 //______________________________________________________________________________
-void xml2MsrVisitor::handleLyricsText (
-  int inputLineNumber)
+void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
 {
+
+  int inputLineNumber =
+    newNote->getInputLineNumber ();
+     
   if (true || fMsrOptions->fDebug) {
 //  if (fMsrOptions->fDebug) {
     cerr <<
@@ -4453,14 +4456,16 @@ void xml2MsrVisitor::handleLyricsText (
     fCurrentLyrics->
       addTiedChunkToLyrics (
         inputLineNumber,
-        fMusicXMLNoteData.fMusicXMLDivisions);
+        fMusicXMLNoteData.fMusicXMLDivisions,
+        newNote);
   }
 
   else if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
     fCurrentLyrics->
       addSkipChunkToLyrics (
         inputLineNumber,
-        fMusicXMLNoteData.fMusicXMLDivisions);
+        fMusicXMLNoteData.fMusicXMLDivisions,
+        newNote);
   }
 
   else if (
@@ -4470,7 +4475,8 @@ void xml2MsrVisitor::handleLyricsText (
     fCurrentLyrics->
       addSlurChunkToLyrics ( 
         inputLineNumber,
-        fMusicXMLNoteData.fMusicXMLDivisions);
+        fMusicXMLNoteData.fMusicXMLDivisions,
+        newNote);
   }
   
   else {
@@ -4481,7 +4487,8 @@ void xml2MsrVisitor::handleLyricsText (
         fCurrentLyricschunkKind,
         fCurrentText,
         fCurrentElision,
-        fMusicXMLNoteData.fMusicXMLDivisions);
+        fMusicXMLNoteData.fMusicXMLDivisions,
+        newNote);
   }
 }
 

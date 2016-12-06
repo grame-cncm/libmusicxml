@@ -2204,24 +2204,29 @@ class EXP msrLyrics : public msrElement
     // ------------------------------------------------------
 
     void    addTextChunkToLyrics (
-              int     inputLineNumber,
-              string  syllabic, // JMI ???
-              msrLyricschunk::msrLyricschunkKind lyricschunkKind,
-              string  text,
-              bool    elision,
-              int     divisions);
+              int       inputLineNumber,
+              string    syllabic, // JMI ???
+              msrLyricschunk::msrLyricschunkKind
+                        lyricschunkKind,
+              string    text,
+              bool      elision,
+              int       divisions,
+              S_msrNote note);
       
     void    addSkipChunkToLyrics (
-              int     inputLineNumber,
-              int     divisions);
+              int       inputLineNumber,
+              int       divisions,
+              S_msrNote note);
 
     void    addSlurChunkToLyrics (
-              int     inputLineNumber,
-              int     divisions);
+              int       inputLineNumber,
+              int       divisions,
+              S_msrNote note);
 
     void    addTiedChunkToLyrics (
-              int     inputLineNumber,
-              int     divisions);
+              int       inputLineNumber,
+              int       divisions,
+              S_msrNote note);
 
     void    addBarCheckChunkToLyrics (
               int inputLineNumber,
