@@ -177,7 +177,8 @@ string stringNumbersToEnglishWords (string str)
   if (! str.size ())
     return "NONE";
   
-  typedef enum { kInitialState, kWorkingOnDigits, kWorkingOnNonDigits } workState;
+  typedef enum {
+    kInitialState, kWorkingOnDigits, kWorkingOnNonDigits } workState;
       
   vector<string> chunks;
   vector<int>    states;

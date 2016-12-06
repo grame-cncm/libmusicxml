@@ -4428,33 +4428,51 @@ void xml2MsrVisitor::handleLyricsText (
       cerr << "false";
     cerr << endl;
 
+    cerr <<
+      idtr <<
+        "  fCurrentSlurKind                       = \"";
+    switch (fCurrentSlurKind) {
+      case msrSlur::kStartSlur:
+        cerr << "start";
+        break;
+      case msrSlur::kContinueSlur:
+        cerr << "start";
+        break;
+      case msrSlur::kStopSlur:
+        cerr << "start";
+        break;
+      case msrSlur::k_NoSlur:
+        cerr << "NO_SLUR";
+        break;
+    } // switch
+    cerr << "\"" << endl;
   }
     
   if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
     fCurrentLyrics->
       addTiedChunkToLyrics (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         fMusicXMLNoteData.fMusicXMLDivisions);
   }
 
   else if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
-      fCurrentLyrics->
-        addSkipChunkToLyrics (
-          elt->getInputLineNumber (),
-          fMusicXMLNoteData.fMusicXMLDivisions);
+    fCurrentLyrics->
+      addSkipChunkToLyrics (
+        inputLineNumber,
+        fMusicXMLNoteData.fMusicXMLDivisions);
   }
 
   else if (fOnGoingSlur) {
     fCurrentLyrics->
       addSlurChunkToLyrics ( 
-        elt->getInputLineNumber (),
+        inputLineNumber,
         fMusicXMLNoteData.fMusicXMLDivisions);
   }
   
   else {
     fCurrentLyrics->
       addTextChunkToLyrics (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         fCurrentSyllabic,
         fCurrentLyricschunkKind,
         fCurrentText,
@@ -4469,7 +4487,7 @@ void xml2MsrVisitor::handleLyricsText (
         </lyric>
 */
 
-
+/*
     cerr <<
       idtr <<
         "  fCurrentLyricschunkKind                = \"";
@@ -4504,24 +4522,6 @@ void xml2MsrVisitor::handleLyricsText (
     } // switch
     cerr << "\"" << endl;
     
-    cerr <<
-      idtr <<
-        "  fCurrentSlurKind                       = \"";
-    switch (fCurrentSlurKind) {
-      case msrSlur::kStartSlur:
-        cerr << "start";
-        break;
-      case msrSlur::kContinueSlur:
-        cerr << "start";
-        break;
-      case msrSlur::kStopSlur:
-        cerr << "start";
-        break;
-      case msrSlur::k_NoSlur:
-        cerr << "NO_SLUR";
-        break;
-    } // switch
-    cerr << "\"" << endl;
   }
 
   //* JMI
@@ -4640,7 +4640,7 @@ void xml2MsrVisitor::handleLyricsText (
       break;
 
   } // switch
- } // handleLyricsText
+  */
 
 
 } // namespace

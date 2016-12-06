@@ -156,7 +156,6 @@ list<int> extractNumbersFromString (
 
 //______________________________________________________________________________
 // from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
-
 // trim string from start
 inline string &ltrim (string &s) {
   s.erase (
