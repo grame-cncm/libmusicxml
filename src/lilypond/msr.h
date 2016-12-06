@@ -71,14 +71,13 @@ typedef SMARTP<msrPartgroup> S_msrPartgroup;
 class msrRepeat;
 typedef SMARTP<msrRepeat> S_msrRepeat;
 
-//______________________________________________________________________________
 /*!
 \internal
 \brief A macro to exit when a condition if false
 */
 // a macro to abort with code source line information,
 // as assert() itself
-
+//______________________________________________________________________________
 #define msrAssert( condition, messageIfFalse ) \
 { \
   if (! condition) { \
@@ -88,35 +87,69 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
     assert(condition); \
   } \
 }
-// JMI       endl <<"--> assertLilypond() causes exit, " <<
 
 /*!
 \internal
-\brief A function to emit warning messages regarding MusicXML data
+\brief A macro to emit warning messages regarding MusicXML data
 */
 //______________________________________________________________________________
-void msrMusicXMLWarning (
-  string inputSourceName, int inputLineNumber, string message);
+#define msrMusicXMLWarning( inputSourceName, inputLineNumber, message ) \
+{ \
+  cerr << endl << endl; \
+\  
+  cerr << \
+    "!!! MusicXML WARNING !!!, " << inputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << endl << \
+    idtr; \
+\
+  assert(false); \
+}
 
 /*!
 \internal
 \brief A macro to emit error messages regarding MusicXML data and exit
 */
 //______________________________________________________________________________
-/*
-#define msrMusicXMLError( errorMessage ) \
+#define msrMusicXMLError( inputSourceName, inputLineNumber, message ) \
 { \
+  cerr << endl << endl; \
+\  
   cerr << \
-    "--> MusicXML ERROR : " << errorMessage << " !!!" << endl; \
+    "### MusicXML ERROR ###, " << inputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << endl << \
+    idtr; \
+\
   assert(false); \
 }
-*/
 
-void msrMusicXMLError (
-  string inputSourceName, int inputLineNumber, string message);
-  
-void msrInternalError (
-  string inputSourceName, int inputLineNumber, string message);
+/*!
+\internal
+\brief A macro to emit error messages regarding MSR and exit
+*/
+//______________________________________________________________________________
+#define msrInternalError( inputSourceName, inputLineNumber, message ) \
+{ \
+  cerr << endl << endl; \
+\  
+  cerr << \
+    "[[[ MSR INTERNAL ERROR ]]], " << inputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << endl << \
+    idtr; \
+\
+  assert(false); \
+}
   
 /*!
 \brief Global variables.
@@ -124,6 +157,7 @@ void msrInternalError (
   An global variable is implemented as a static member of this class.
 */
 //______________________________________________________________________________
+/*
 class EXP msrGlobalVariables {
   public:
     
@@ -144,6 +178,7 @@ class EXP msrGlobalVariables {
   
     static msrDisplayKind sDisplayKind;
 };
+*/
 
 //______________________________________________________________________________
 /*!

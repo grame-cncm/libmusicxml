@@ -26,87 +26,76 @@ namespace MusicXML2
 // global variables
 
 // JMI msrLocation  gCurrentLocation;
-
+/*
 msrGlobalVariables::msrDisplayKind
   msrGlobalVariables::sDisplayKind =
     msrGlobalVariables::kLilypondCode;
+*/
 
 indenter msrElement::gIndenter;
 
 //______________________________________________________________________________
+/*
 void msrMusicXMLWarning (
   string inputSourceName, int inputLineNumber, string message)
 {
   cerr << endl << endl;
-
-//  idtr++;
   
   cerr <<
     "!!! MusicXML WARNING !!!, " << inputSourceName <<
     ", input line " << inputLineNumber << ":" <<
     endl <<
-    /*
-    ", measure " <<
-      gCurrentLocation.fMeasureNumber <<
-    ":" <<
-      gCurrentLocation.fPositionInMeasure <<
-    */
       
     message <<
     endl << endl <<
     idtr;
-
-//  idtr--;
 }
+*/
 
+/*
 void msrMusicXMLError (
   string inputSourceName, int inputLineNumber, string message)
 {
   cerr << endl << endl;
 
-//  idtr++;
   
   cerr <<
     "### MusicXML ERROR ###, " << inputSourceName <<
     ", input line " << inputLineNumber << ":" <<
     endl <<
-    /*
-    ", measure " <<
-      gCurrentLocation.fMeasureNumber <<
-    ":" <<
-      gCurrentLocation.fPositionInMeasure <<
-    */
       
     message <<
     endl << endl <<
     idtr;
-
-//  idtr--;
     
   assert(false);
 }
+*/
 
+/*
 void msrInternalError (
   string inputSourceName, int inputLineNumber, string message)
 {
   cerr << endl << endl;
-
-//  idtr++;
   
   cerr <<
     "[[[ MSR INTERNAL ERROR ]]], " << inputSourceName <<
     ", input line " << inputLineNumber << ":" <<
     endl <<
+      
+    message <<
+    endl << endl <<
+    idtr;
+    
+  assert(false);
+}
+*/
     /*
     ", measure " <<
       gCurrentLocation.fMeasureNumber <<
     ":" <<
       gCurrentLocation.fPositionInMeasure <<
     */
-      
-    message <<
-    endl << endl <<
-    idtr;
 
 //  idtr--;
 
@@ -117,9 +106,6 @@ void msrInternalError (
     cerr << "?";
   cerr << endl ;
  */   
-    
-  assert(false);
-}
 
 //_______________________________________________________________________________
 void initializeStringToMsrNoteNamesLanguage ()

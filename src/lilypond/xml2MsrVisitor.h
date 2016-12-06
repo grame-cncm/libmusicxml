@@ -636,6 +636,7 @@ class EXP xml2MsrVisitor :
     string                    fCurrentSlurPlacement;
     msrSlur::msrSlurKind      fCurrentSlurKind;
     bool                      fOnGoingSlur;
+    bool                      fOnGoingSlurHasLyrics;
 
     // backup handling
     // ------------------------------------------------------

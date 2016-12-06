@@ -96,6 +96,7 @@ xml2MsrVisitor::xml2MsrVisitor (
   fOnGoingChord = false;
   
   fOnGoingSlur = false;
+  fOnGoingSlurHasLyrics = false;
 
   fOnGoingDirection = false;
 
@@ -1697,6 +1698,7 @@ void xml2MsrVisitor::visitStart (S_slur& elt )
     
     fCurrentSlurKind = msrSlur::kStopSlur;
     fOnGoingSlur = false;
+    fOnGoingSlurHasLyrics = false;
     
   }
   else {
@@ -1706,14 +1708,15 @@ void xml2MsrVisitor::visitStart (S_slur& elt )
     if (! fOnGoingSlur)
       if (fCurrentSlurType.size()) {
         stringstream s;
+        
         s << "slur type" << fCurrentSlurType << "unknown";
+        
         msrMusicXMLError (
           fMsrOptions->fInputSourceName,
           elt->getInputLineNumber (),
           s.str());
       }
-      
-    }
+  }
 }
 
 //________________________________________________________________________
@@ -4469,7 +4472,7 @@ void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
   }
 
   else if (
-    fOnGoingSlur
+    fOnGoingSlurHasLyrics
       &&
     ! fCurrentText.size ()) { // JMI
     fCurrentLyrics->
@@ -4480,15 +4483,31 @@ void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
   }
   
   else {
-    fCurrentLyrics->
-      addTextChunkToLyrics (
-        inputLineNumber,
-        fCurrentSyllabic,
-        fCurrentLyricschunkKind,
-        fCurrentText,
-        fCurrentElision,
-        fMusicXMLNoteData.fMusicXMLDivisions,
-        newNote);
+    if (fOnGoingSlur) {
+      fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
+
+      fCurrentLyrics->
+        addSlurChunkToLyrics ( 
+          inputLineNumber,
+          fMusicXMLNoteData.fMusicXMLDivisions,
+          newNote);
+    }
+    
+    else {
+      fCurrentLyrics->
+        addTextChunkToLyrics (
+          inputLineNumber,
+          fCurrentSyllabic,
+          fCurrentLyricschunkKind,
+          fCurrentText,
+          fCurrentElision,
+          fMusicXMLNoteData.fMusicXMLDivisions,
+          newNote);
+
+      if (fCurrentNoteHasLyrics)
+        fOnGoingSlurHasLyrics = true;
+      fOnGoingSlurHasLyrics = true;
+    }
   }
 }
 
