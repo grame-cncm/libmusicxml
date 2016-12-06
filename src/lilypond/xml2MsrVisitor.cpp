@@ -17,6 +17,7 @@
 #include <sstream>
 #include <stdlib.h>     /* abort, NULL */
 #include <climits>      /* INT_MIN */
+#include <iomanip>      // setw, set::precision, ...
 #include <algorithm>    /* for_each */
 
 #include "xml_tree_browser.h"
@@ -3182,7 +3183,6 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   
   fCurrentStem = "";
 
-  fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
   fCurrentText = "";  
   // assume this note hasn't got lyrics until S_lyric is met
   fCurrentNoteHasLyrics = false;
@@ -3245,6 +3245,11 @@ void xml2MsrVisitor::visitStart ( S_duration& elt )
   
     fMusicXMLNoteData.fMusicXMLDivisions = musicXMLduration;
     
+    // all notes have their fNotesDisplayDivisions
+    // set to fMusicXMLNoteData.fMusicXMLDivision,
+    // except tuplet member notes
+    fMusicXMLNoteData.fNoteDisplayDivisions =
+      fMusicXMLNoteData.fMusicXMLDivisions;
   }
   else {
     
@@ -4416,10 +4421,10 @@ void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
         fMusicXMLNoteData <<
       idtr <<
         "fCurrentText = \"" << fCurrentText <<
-        "\":" << fMusicXMLNoteData.fMusicXMLDivisions <<
+        "\":" << fMusicXMLNoteData.fMusicXMLDivisions << endl <<
         ", fCurrentElision = " << fCurrentElision << endl <<
       idtr <<
-        "  fMusicXMLNoteData.fMusicXMLStepIsARest = ";
+        "fMusicXMLNoteData.fMusicXMLStepIsARest" << " = ";
     if (fMusicXMLNoteData.fMusicXMLStepIsARest)
       cerr << "true";
     else
@@ -4428,7 +4433,7 @@ void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
 
     cerr <<
       idtr <<
-        "  fMusicXMLNoteData.fMusicXMLNoteIsTied  = ";
+        setw(38) << "fMusicXMLNoteData.fMusicXMLNoteIsTied" << " = ";
     if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
       cerr << "true";
     else
@@ -4437,7 +4442,7 @@ void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
 
     cerr <<
       idtr <<
-        "  fCurrentSlurKind                       = \"";
+        setw(38) << "fCurrentSlurKind" << " = \"";
     switch (fCurrentSlurKind) {
       case msrSlur::kStartSlur:
         cerr << "start";
@@ -4450,6 +4455,48 @@ void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
         break;
       case msrSlur::k_NoSlur:
         cerr << "NO_SLUR";
+        break;
+    } // switch
+    cerr << "\"" << endl;
+
+    cerr <<
+      idtr <<
+        setw(38) << "fOnGoingSlur" << " = " << fOnGoingSlur <<
+        endl <<
+      idtr <<
+        setw(38) << "fOnGoingSlurHasLyrics" << " = " << fOnGoingSlurHasLyrics <<
+        endl;
+
+    cerr <<
+      idtr <<
+        setw(38) << "fCurrentLyricschunkKind" << " = \"";
+    switch (fCurrentLyricschunkKind) {
+      case msrLyricschunk::kSingleChunk:
+        cerr << "single";
+        break;
+      case msrLyricschunk::kBeginChunk:
+        cerr << "begin";
+        break;
+      case msrLyricschunk::kMiddleChunk:
+        cerr << "middle";
+        break;
+      case msrLyricschunk::kEndChunk:
+        cerr << "end";
+        break;
+      case msrLyricschunk::kSkipChunk:
+        cerr << "skip";
+        break;
+      case msrLyricschunk::kSlurChunk:
+        cerr << "slur";
+        break;
+      case msrLyricschunk::kTiedChunk:
+        cerr << "tied";
+        break;
+      case msrLyricschunk::kBreakChunk:
+        cerr << "break";
+        break;
+      case msrLyricschunk::k_NoChunk:
+        cerr << "NO_CHUNK";
         break;
     } // switch
     cerr << "\"" << endl;
@@ -4506,6 +4553,7 @@ void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
 
       if (fCurrentNoteHasLyrics)
         fOnGoingSlurHasLyrics = true;
+        
       fOnGoingSlurHasLyrics = true;
     }
   }
@@ -4518,39 +4566,6 @@ void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
 */
 
 /*
-    cerr <<
-      idtr <<
-        "  fCurrentLyricschunkKind                = \"";
-    switch (fCurrentLyricschunkKind) {
-      case msrLyricschunk::kSingleChunk:
-        cerr << "single";
-        break;
-      case msrLyricschunk::kBeginChunk:
-        cerr << "begin";
-        break;
-      case msrLyricschunk::kMiddleChunk:
-        cerr << "middle";
-        break;
-      case msrLyricschunk::kEndChunk:
-        cerr << "end";
-        break;
-      case msrLyricschunk::kSkipChunk:
-        cerr << "skip";
-        break;
-      case msrLyricschunk::kSlurChunk:
-        cerr << "slur";
-        break;
-      case msrLyricschunk::kTiedChunk:
-        cerr << "tied";
-        break;
-      case msrLyricschunk::kBreakChunk:
-        cerr << "break";
-        break;
-      case msrLyricschunk::k_NoChunk:
-        cerr << "NO_CHUNK";
-        break;
-    } // switch
-    cerr << "\"" << endl;
     
   }
 

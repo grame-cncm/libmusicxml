@@ -1024,9 +1024,11 @@ msrNote::msrNote (
     fMusicXMLNoteData.fMusicXMLStep > 'G') {
     if (fNoteKind != msrNote::kRestNote) {
       stringstream s;
+      
       s <<
         "step value " << fMusicXMLNoteData.fMusicXMLStep <<
         " is not a letter from A to G";
+        
     //  msrMusicXMLError (s.str()); JMI
     msrMusicXMLWarning (
       fMsrOptions->fInputSourceName,
@@ -1118,13 +1120,6 @@ msrNote::msrNote (
   fNoteMsrPitch = 
     computeNoteMsrPitch (noteQuatertonesFromA, mxmlAlteration);
 
-  // all notes have their fNotesDisplayDivisions
-  // set to fMusicXMLNoteData.fMusicXMLDivision,
-  // except tuplet member notes
-
-  setNoteDisplayDivisions(
-    fMusicXMLNoteData.fMusicXMLDivisions);
-    
   fNoteIsChordFirstNote = false;
 }
   /*
@@ -3584,7 +3579,7 @@ S_msrLyrics msrLyrics::createEmptyClone (S_msrVoice clonedVoice)
 
 void msrLyrics::addTextChunkToLyrics (
   int       inputLineNumber,
-  string    syllabic, // JMI ???
+  string    syllabic,
   msrLyricschunk::msrLyricschunkKind
             lyricschunkKind,
   string    text,

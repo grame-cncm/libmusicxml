@@ -2240,7 +2240,7 @@ class EXP msrLyrics : public msrElement
 
     void    addTextChunkToLyrics (
               int       inputLineNumber,
-              string    syllabic, // JMI ???
+              string    syllabic,
               msrLyricschunk::msrLyricschunkKind
                         lyricschunkKind,
               string    text,
