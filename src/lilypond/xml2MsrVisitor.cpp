@@ -1699,7 +1699,6 @@ void xml2MsrVisitor::visitStart (S_slur& elt )
     
     fCurrentSlurKind = msrSlur::kStopSlur;
     fOnGoingSlur = false;
-    fOnGoingSlurHasLyrics = false;
     
   }
   else {
@@ -1770,6 +1769,7 @@ void xml2MsrVisitor::visitStart ( S_syllabic& elt )
     fCurrentLyricschunkKind = msrLyricschunk::kEndChunk;
   else {
     stringstream s;
+    
     s << "--> syllabic \"" << fCurrentSyllabic << "\" is unknown";
     
     msrMusicXMLError (
@@ -4461,10 +4461,12 @@ void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
 
     cerr <<
       idtr <<
-        setw(38) << "fOnGoingSlur" << " = " << fOnGoingSlur <<
+        setw(38) <<
+        "fOnGoingSlur" << " = " << fOnGoingSlur <<
         endl <<
       idtr <<
-        setw(38) << "fOnGoingSlurHasLyrics" << " = " << fOnGoingSlurHasLyrics <<
+        setw(38) <<
+        "fOnGoingSlurHasLyrics" << " = " << fOnGoingSlurHasLyrics <<
         endl;
 
     cerr <<
@@ -4501,7 +4503,13 @@ void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
     } // switch
     cerr << "\"" << endl;
   }
-    
+
+  if (
+    fCurrentSlurKind == msrSlur::kStartSlur
+      &&
+    fCurrentNoteHasLyrics) { // JMI
+  }
+  
   if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
     fCurrentLyrics->
       addTiedChunkToLyrics (

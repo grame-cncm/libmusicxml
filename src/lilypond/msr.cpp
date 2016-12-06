@@ -229,46 +229,46 @@ void msrMusicXMLNoteData::print (ostream& os)
 {
   os <<
     idtr << "  " << left <<
-    setw(26) <<
-      "fMusicXMLStep = " << fMusicXMLStep <<  endl <<
+      setw(29) <<
+      "fMusicXMLStep" << " = " << fMusicXMLStep <<  endl <<
     idtr << "  " << left <<
-    setw(26) << "fMusicXMLStepIsARest = " <<
+      setw(29) << "fMusicXMLStepIsARest" << " = " <<
       fMusicXMLStepIsARest <<  endl <<
     idtr << "  " << left <<
-    setw(26) << "fMusicXMLAlteration = " <<
+      setw(29) << "fMusicXMLAlteration" << " = " <<
       fMusicXMLAlteration <<  endl <<
     idtr << "  " << left <<
-    setw(26) << "fMusicXMLOctave = " <<
+      setw(29) << "fMusicXMLOctave" << " = " <<
       fMusicXMLOctave <<  endl <<
     idtr << "  " << left <<
-      setw(26) << "fMusicXMLDivisions = " <<
+      setw(29) << "fMusicXMLDivisions" << " = " <<
       fMusicXMLDivisions <<  endl <<
     idtr << "  " << left <<
-      setw(26) << "fNoteDisplayDivisions = " <<
+      setw(29) << "fNoteDisplayDivisions" << " = " <<
       fNoteDisplayDivisions <<  endl <<
     idtr << "  " << left <<
-      setw(26) << "fMusicXMLDotsNumber = " <<
+      setw(29) << "fMusicXMLDotsNumber" << " = " <<
       fMusicXMLDotsNumber <<  endl <<
       
 //    idtr << endl <<
     
     idtr << "  " << left <<
-      setw(26) << "fMusicXMLNoteBelongsToAChord = " <<
+      setw(29) << "fMusicXMLNoteBelongsToAChord" << " = " <<
       fMusicXMLNoteBelongsToAChord <<  endl <<
       
 //    idtr << endl <<
     
     idtr << "  " << left <<
-      setw(26) << "fMusicXMLNoteBelongsToATuplet = " <<
+      setw(29) << "fMusicXMLNoteBelongsToATuplet" << " = " <<
       fMusicXMLNoteBelongsToATuplet <<  endl <<
     idtr << "  " << left <<
-      setw(26) << "fMusicXMLTupletMemberNoteType = " <<
+      setw(29) << "fMusicXMLTupletMemberNoteType" << " = " <<
       fMusicXMLTupletMemberNoteType <<  endl <<
       
 //    idtr << endl <<
     
     idtr << "  " << left <<
-      setw(26) << "fMusicXMLVoiceNumber = " <<
+      setw(29) << "fMusicXMLVoiceNumber" << " = " <<
       fMusicXMLVoiceNumber <<  endl;
 };
 
