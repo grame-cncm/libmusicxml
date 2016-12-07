@@ -3208,7 +3208,7 @@ void xml2MsrVisitor::visitStart ( S_duration& elt )
 {
   int musicXMLduration = (int)(*elt);
 
-  if (fOnGoingBackup) {
+  if      (fOnGoingBackup) {
   
     fCurrentBackupDuration = musicXMLduration;
 
@@ -4394,7 +4394,9 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     cerr <<
       endl <<
       idtr <<
-        "Handling lyrics on:" << endl <<
+        "Handling lyrics" <<
+        ", line = " << inputLineNumber <<
+        " with:" << endl <<
         fMusicXMLNoteData;
 
     idtr++;
@@ -4585,11 +4587,13 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     else if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
       fCurrentLyricschunkKind = msrLyricschunk::kSkipChunk;
 
-      fCurrentLyrics->
-        addSkipChunkToLyrics (
-          inputLineNumber,
-          fMusicXMLNoteData.fMusicXMLDivisions,
-          newNote);
+      if (fCurrentLyrics)
+        fCurrentLyrics->
+          addSkipChunkToLyrics (
+            inputLineNumber,
+            fMusicXMLNoteData.fMusicXMLDivisions,
+            newNote);
+      else {} // JMI
     }
   
     else if (
@@ -4629,20 +4633,23 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
       else {        
         fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
   
-        fCurrentLyrics->
-          addSlurChunkToLyrics ( 
-            inputLineNumber + 10000,
-            fMusicXMLNoteData.fMusicXMLDivisions,
-            newNote);
+        if (fCurrentLyrics)
+          fCurrentLyrics->
+            addSlurChunkToLyrics ( 
+              inputLineNumber + 10000,
+              fMusicXMLNoteData.fMusicXMLDivisions,
+              newNote);
+        else {} // JMI
       }
     }
     
-    else {
+    else { // JMI
     }
   }
 
   if (fCurrentSlurKind == msrSlur::kStartSlur)
     fFirstLyricschunkInSlurKind = fCurrentLyricschunkKind;
+    
   if (fCurrentSlurKind == msrSlur::kStopSlur)
     fFirstLyricschunkInSlurKind = msrLyricschunk::k_NoChunk;
 }

@@ -1608,8 +1608,12 @@ string msrNote::octaveRepresentation (char octave)
       }
       
       // print the note name
-      fOstream <<
-        noteMsrPitchAsLilyPondString (elt);
+      if (elt->getNoteIsARest ())
+        fOstream <<
+          "r";
+      else
+        fOstream <<
+          noteMsrPitchAsLilyPondString (elt);
       
       // print the note duration
       fOstream <<

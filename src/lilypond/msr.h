@@ -877,6 +877,13 @@ class EXP msrNote : public msrElement
     S_msrOptions  getMsrOptions () const
                       { return fMsrOptions; }
 
+    bool          getNoteIsARest () const
+                    // useful for rest tuplet members
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLStepIsARest;
+                      }
+                      
     void          setNoteKind (msrNoteKind noteKind)
                       { fNoteKind = noteKind; }
 
@@ -928,7 +935,7 @@ class EXP msrNote : public msrElement
                       }
 
     // grace notes
-    bool           getNoteIsGraceNote () const
+    bool          getNoteIsGraceNote () const
                       {
                         return
                           fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote;
@@ -937,14 +944,14 @@ class EXP msrNote : public msrElement
     string        noteMsrPitchAsString () const;
 
     // divisions per whole note
-    void        setDivisionsPerWholeNote (int divisionsPerWholeNote)
-                    {
-                      fDivisionsPerWholeNote =
-                        divisionsPerWholeNote;
-                    }
+    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                      {
+                        fDivisionsPerWholeNote =
+                          divisionsPerWholeNote;
+                      }
                       
-    const int   getDivisionsPerWholeNote () const
-                    { return fDivisionsPerWholeNote; }
+    const int     getDivisionsPerWholeNote () const
+                      { return fDivisionsPerWholeNote; }
           
     // articulations
     list<S_msrArticulation>

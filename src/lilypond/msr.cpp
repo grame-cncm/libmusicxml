@@ -26,11 +26,6 @@ namespace MusicXML2
 // global variables
 
 // JMI msrLocation  gCurrentLocation;
-/*
-msrGlobalVariables::msrDisplayKind
-  msrGlobalVariables::sDisplayKind =
-    msrGlobalVariables::kLilypondCode;
-*/
 
 indenter msrElement::gIndenter;
 
