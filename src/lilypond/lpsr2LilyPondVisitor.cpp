@@ -1178,8 +1178,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
         break;
         
       case msrLyricschunk::kSkipChunk:
+      /* JMI ???
         fOstream <<
           "\\skip" << elt->getChunkDivisions () << " ";
+          */
         break;
         
       case msrLyricschunk::kSlurChunk:
@@ -1551,7 +1553,11 @@ string msrNote::octaveRepresentation (char octave)
           idtr;
         fSequentialMusicElementsCounter = 1;
       }
-      
+
+      // print the tie if any
+      if (elt->getMusicXMLNoteIsTied ())
+        fOstream << "~ ";
+
       // print the note name
       fOstream <<
         noteMsrPitchAsLilyPondString (elt);
@@ -1560,9 +1566,6 @@ string msrNote::octaveRepresentation (char octave)
       fOstream <<
         elt->noteDivisionsAsMSRString ();
       
-      if (elt->getMusicXMLNoteIsTied ())
-        fOstream << " ~ ";
-
       fRelativeOctaveReference = elt;
       break;
       

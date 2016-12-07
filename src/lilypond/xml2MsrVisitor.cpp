@@ -59,6 +59,7 @@ xml2MsrVisitor::xml2MsrVisitor (
   fCurrentLyricsNumber = -1; // JMI
   fCurrentSyllabic = "";
   fCurrentText = "";
+  fCurrentElision = false;
   fCurrentLyricschunkKind     = msrLyricschunk::k_NoChunk;
   fFirstLyricschunkInSlurKind = msrLyricschunk::k_NoChunk;
 
@@ -4642,6 +4643,8 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 
   if (fCurrentSlurKind == msrSlur::kStartSlur)
     fFirstLyricschunkInSlurKind = fCurrentLyricschunkKind;
+  if (fCurrentSlurKind == msrSlur::kStopSlur)
+    fFirstLyricschunkInSlurKind = msrLyricschunk::k_NoChunk;
 }
 
 
