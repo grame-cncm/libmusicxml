@@ -1157,22 +1157,24 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
     switch (elt->getLyricschunkKind ()) {
       case msrLyricschunk::kSingleChunk:
         fOstream <<
-          "\"" << elt->getChunkText () << "\"" << " ";
+          quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
         break;
         
       case msrLyricschunk::kBeginChunk:
         fOstream <<
-          "\"" << elt->getChunkText () << "\"" << " ";
+          quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
         break;
         
       case msrLyricschunk::kMiddleChunk:
         fOstream <<
-          "-- " << "\"" << elt->getChunkText () << "\"" << " ";
+          "-- " <<
+          quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
         break;
         
       case msrLyricschunk::kEndChunk:
         fOstream <<
-          "-- " << "\"" << elt->getChunkText () << "\"" << " ";
+          "-- " <<
+          quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
         break;
         
       case msrLyricschunk::kSkipChunk:
@@ -1181,8 +1183,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
         break;
         
       case msrLyricschunk::kSlurChunk:
+      /*
         fOstream <<
-          "__ " << "\"" << elt->getChunkText () << "\"" << " ";
+          "__ " << " ";
+*/
         break;
 
       case msrLyricschunk::kTiedChunk:

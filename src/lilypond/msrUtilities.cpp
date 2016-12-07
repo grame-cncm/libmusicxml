@@ -705,6 +705,33 @@ string divisionsAsMSRString (
     */
 
 
+//______________________________________________________________________________
+string quoteStringIfNonAlpha (
+  string     theString)
+{
+  string result;
+  bool   stringShouldBeQuoted = false;
+  
+  for (
+    string::const_iterator i = theString.begin ();
+    i != theString.end ();
+    i++) {
+    result += (*i);
+
+    if (! isalpha ((*i)))
+      stringShouldBeQuoted = true;
+      
+    if ((*i) == '"') {
+      result += '"';
+      stringShouldBeQuoted = true;
+    }
+  } // for
+
+  if (stringShouldBeQuoted)
+    return "\"" + result + "\"";
+  else
+    return result;
+}
 
 
 }

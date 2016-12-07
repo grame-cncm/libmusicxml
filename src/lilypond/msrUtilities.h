@@ -203,6 +203,10 @@ string divisionsAsMSRString (
   string& errorMessage,
   bool    debugMode = false);
 
+//______________________________________________________________________________
+string quoteStringIfNonAlpha (
+  string     theString);
+
 
 } // namespace MusicXML2
 
