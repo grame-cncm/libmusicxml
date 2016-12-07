@@ -823,20 +823,46 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
     "\\context Voice" << " = " <<
     "\"" << elt->getVoice ()->getVoiceName () << "\""<<
     " " <<
-     "{ "<< "\\" << elt->getVoice ()->getVoiceName () << " }" <<
+     "{" <<
+     endl;
+
+  idtr++;
+
+  fOstream << idtr;
+  switch (elt->getVoice ()->getVoiceNumber ()) {
+    case 1:
+      fOstream << "\\voiceOne ";
+      break;
+    case 2:
+      fOstream << "\\voiceTwo ";
+      break;
+    case 3:
+      fOstream << "\\voiceThree ";
+      break;
+    case 4:
+      fOstream << "\\voiceFour ";
+      break;
+    default:
+      {}
+  } // switch
+
+  fOstream <<
+    "\\" << elt->getVoice ()->getVoiceName () << endl;
+
+  idtr--;
+  
+  fOstream <<
+    idtr << "}" <<
     endl;
 
  // JMI \context Voice = "PartPOneVoiceOne" { \PartPOneVoiceOne }
  
-  idtr++;
 }
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrUseVoiceCommand& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrUseVoiceCommand" << endl;
-
-  idtr--;
 }
   
 //________________________________________________________________________
@@ -1178,10 +1204,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
         break;
         
       case msrLyricschunk::kSkipChunk:
-      /* JMI ???
+      // JMI
         fOstream <<
           "\\skip" << elt->getChunkDivisions () << " ";
-          */
         break;
         
       case msrLyricschunk::kSlurChunk:
@@ -1690,16 +1715,26 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBeam& elt)
   // LilyPond will take care of multiple beams automatically,
   // so we need only generate code for the first number (level)
   switch (elt->getBeamKind ()) {
+    
     case msrBeam::kBeginBeam:
       if (elt->getBeamNumber () == 1)
         fOstream << "[ ";
       break;
+      
     case msrBeam::kContinueBeam:
       break;
+      
     case msrBeam::kEndBeam:
       if (elt->getBeamNumber () == 1)
       fOstream << "] ";
       break;
+      
+    case msrBeam::kForwardHookBeam:
+      break;
+      
+    case msrBeam::kBackwardHookBeam:
+      break;
+      
     case msrBeam::k_NoBeam:
       break;
   } // switch      

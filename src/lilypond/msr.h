@@ -534,7 +534,8 @@ class EXP msrBeam : public msrElement
   public:
 
     enum msrBeamKind {
-            kBeginBeam, kContinueBeam, kEndBeam, 
+            kBeginBeam, kContinueBeam, kEndBeam,
+            kForwardHookBeam, kBackwardHookBeam,
             k_NoBeam };
     
     // creation from MusicXML

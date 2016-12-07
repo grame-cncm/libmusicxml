@@ -3311,6 +3311,12 @@ Each beam in a note is represented with a separate beam element, starting with t
   else if (fCurrentBeamValue == "end") {
     beamKind = msrBeam::kEndBeam;
   }
+  else if (fCurrentBeamValue == "forward hook") {
+    beamKind = msrBeam::kForwardHookBeam;
+  }
+  else if (fCurrentBeamValue == "backward hook") {
+    beamKind = msrBeam::kBackwardHookBeam;
+  }
   else {
     stringstream s;
     s <<

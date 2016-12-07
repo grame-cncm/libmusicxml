@@ -472,6 +472,12 @@ void msrBeam::print (ostream& os)
     case kEndBeam:
       os << "end";
       break;
+    case kForwardHookBeam:
+      os << "forward";
+      break;
+    case kBackwardHookBeam:
+      os << "backward";
+      break;
     case k_NoBeam:
       os << "### none ###";
       break;
