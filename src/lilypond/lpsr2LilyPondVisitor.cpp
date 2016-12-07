@@ -1618,11 +1618,15 @@ string msrNote::octaveRepresentation (char octave)
       // print the note duration
       fOstream <<
         elt->noteDivisionsAsMSRString ();
-      
+
+      // print the tie if any
       if (elt->getMusicXMLNoteIsTied ())
         fOstream << " ~ ";
 
-      fRelativeOctaveReference = elt;
+      // a rest is no relative octave reference,
+      // the preceding one is kept
+      if (! elt->getNoteIsARest ())
+        fRelativeOctaveReference = elt;
       break;
   } // switch
 
