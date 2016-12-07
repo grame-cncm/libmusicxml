@@ -96,7 +96,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 #define msrMusicXMLWarning( inputSourceName, inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
-\  
+\
   cerr << \
     "!!! MusicXML WARNING !!!, " << inputSourceName << \
     ", input line " << inputLineNumber << ":" << \
@@ -117,7 +117,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 #define msrMusicXMLError( inputSourceName, inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
-\  
+\
   cerr << \
     "### MusicXML ERROR ###, " << inputSourceName << \
     ", input line " << inputLineNumber << ":" << \
@@ -138,7 +138,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 #define msrInternalError( inputSourceName, inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
-\  
+\
   cerr << \
     "[[[ MSR INTERNAL ERROR ]]], " << inputSourceName << \
     ", input line " << inputLineNumber << ":" << \
@@ -2104,8 +2104,10 @@ class EXP msrLyricschunk : public msrElement
 
     // we want to end the line in the LilyPond code at a break
     enum msrLyricschunkKind {
+      kSkipChunk,
       kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
-      kSkipChunk, kSlurChunk, kTiedChunk,
+      kTiedChunk,
+      kSlurChunk, kSlurBeyondEndChunk,
       kBarCheck, kBreakChunk,
       k_NoChunk };
 
@@ -2254,6 +2256,11 @@ class EXP msrLyrics : public msrElement
               S_msrNote note);
 
     void    addSlurChunkToLyrics (
+              int       inputLineNumber,
+              int       divisions,
+              S_msrNote note);
+
+    void    addSlurBeyondEndChunkToLyrics (
               int       inputLineNumber,
               int       divisions,
               S_msrNote note);

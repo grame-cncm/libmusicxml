@@ -3407,7 +3407,7 @@ string msrLyricschunk::lyricschunkAsString (
 void msrLyricschunk::print (ostream& os)
 {  
   os <<
-    "Lyricschunk" << " " << setw(6);
+    "Lyricschunk" << " " << setw(15);
 
   switch (fLyricschunkKind) {
     case kSingleChunk:
@@ -3467,6 +3467,17 @@ void msrLyricschunk::print (ostream& os)
       
     case kSlurChunk:
       os << "slur" << ":" << fChunkDivisions;
+      if (fChunkText.size())
+        os << " " << fChunkText;
+      os <<
+        ", line " << fInputLineNumber <<
+        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        endl;
+      break;
+      
+    case kSlurBeyondEndChunk:
+      os << "slur beyond end" << ":" << fChunkDivisions;
       if (fChunkText.size())
         os << " " << fChunkText;
       os <<
@@ -3623,6 +3634,10 @@ void msrLyrics::addTextChunkToLyrics (
       case msrLyricschunk::kSlurChunk:
         lyricschunkKindAsString = "slur";
         break;
+      case msrLyricschunk::kSlurBeyondEndChunk:
+        lyricschunkKindAsString = "slur beyond end";
+        break;
+        
       case msrLyricschunk::kTiedChunk:
         lyricschunkKindAsString = "tied";
         break;
@@ -3644,7 +3659,7 @@ void msrLyrics::addTextChunkToLyrics (
     } // switch
 
     cerr <<
-      ", type = " << lyricschunkKindAsString <<
+      ", type = \"" << lyricschunkKindAsString << "\"" <<
       ", elision: " << elision << 
       " to " << getLyricsName () << endl;
   }
@@ -3675,6 +3690,7 @@ void msrLyrics::addTextChunkToLyrics (
       
     case msrLyricschunk::kSkipChunk:
     case msrLyricschunk::kSlurChunk:
+    case msrLyricschunk::kSlurBeyondEndChunk:
     case msrLyricschunk::kTiedChunk:
     case msrLyricschunk::kBarCheck:
     case msrLyricschunk::kBreakChunk:
@@ -3749,6 +3765,35 @@ void msrLyrics::addSlurChunkToLyrics (
         fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kSlurChunk, "", divisions,
+        note,
+        this);
+        
+  // add chunk to this lyrics
+  fLyricschunks.push_back (chunk);
+}
+
+void msrLyrics::addSlurBeyondEndChunkToLyrics (
+  int       inputLineNumber,
+  int       divisions,
+  S_msrNote note)
+{
+//  if (true || fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebug) {
+    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart  part  = staff-> getStaffPartUplink ();
+    
+    cerr << idtr <<
+      "--> Adding slur beyond end chunk: " << divisions <<
+      " to " << getLyricsName () << endl;
+  }
+  
+  // create lyrics slur chunk
+  S_msrLyricschunk
+    chunk =
+      msrLyricschunk::create (
+        fMsrOptions,
+        inputLineNumber,
+        msrLyricschunk::kSlurBeyondEndChunk, "", divisions,
         note,
         this);
         

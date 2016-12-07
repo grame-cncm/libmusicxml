@@ -33,33 +33,6 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-/* JMI
-void xml2MsrVisitor::msrMusicXMLWarning (
-  string message)
-{
-  musicXMLWarning (
-    fCurrentMeasureLocation,
-    message);
-}
-
-void xml2MsrVisitor::msrMusicXMLError (
-  string message)
-{
-  musicXMLError (
-    fCurrentMeasureLocation,
-    message);
-}
-
-void xml2MsrVisitor::msrInternalError (
-  string message)
-{
-  internalError (
-    fCurrentMeasureLocation,
-    message);
-}
-*/
-
-//________________________________________________________________________
 xml2MsrVisitor::xml2MsrVisitor (
   S_msrOptions& msrOpts)
 {
@@ -86,7 +59,8 @@ xml2MsrVisitor::xml2MsrVisitor (
   fCurrentLyricsNumber = -1; // JMI
   fCurrentSyllabic = "";
   fCurrentText = "";
-  fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
+  fCurrentLyricschunkKind     = msrLyricschunk::k_NoChunk;
+  fFirstLyricschunkInSlurKind = msrLyricschunk::k_NoChunk;
 
   fOnGoingChord = false;
   
@@ -4419,13 +4393,18 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     cerr <<
       idtr <<
         "Handling lyrics on:" << endl <<
-        fMusicXMLNoteData <<
+        fMusicXMLNoteData;
+
+    idtr++;
+    
+    cerr <<
       idtr <<
-        "fCurrentText = \"" << fCurrentText <<
-        "\":" << fMusicXMLNoteData.fMusicXMLDivisions << endl <<
-        ", fCurrentElision = " << fCurrentElision << endl <<
+        setw(38) << "fCurrentText" << " = \"" << fCurrentText <<
+        "\":" << fMusicXMLNoteData.fMusicXMLDivisions << ", " << endl <<
       idtr <<
-        "fMusicXMLNoteData.fMusicXMLStepIsARest" << " = ";
+        setw(38) << "fCurrentElision" << " = " << fCurrentElision << endl <<
+      idtr <<
+        setw(38) << "fMusicXMLNoteData.fMusicXMLStepIsARest" << " = ";
     if (fMusicXMLNoteData.fMusicXMLStepIsARest)
       cerr << "true";
     else
@@ -4472,6 +4451,46 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 
     cerr <<
       idtr <<
+        setw(38) << "fFirstLyricschunkInSlurKind" << " = \"";
+    switch (fFirstLyricschunkInSlurKind) {
+      case msrLyricschunk::kSingleChunk:
+        cerr << "single";
+        break;
+      case msrLyricschunk::kBeginChunk:
+        cerr << "begin";
+        break;
+      case msrLyricschunk::kMiddleChunk:
+        cerr << "middle";
+        break;
+      case msrLyricschunk::kEndChunk:
+        cerr << "end";
+        break;
+      case msrLyricschunk::kSkipChunk:
+        cerr << "skip";
+        break;
+      case msrLyricschunk::kSlurChunk:
+        cerr << "slur";
+        break;
+      case msrLyricschunk::kSlurBeyondEndChunk:
+        cerr << "slur beyond end";
+        break;
+      case msrLyricschunk::kTiedChunk:
+        cerr << "tied";
+        break;
+      case msrLyricschunk::kBarCheck:
+        cerr << "bar check";
+        break;
+      case msrLyricschunk::kBreakChunk:
+        cerr << "break";
+        break;
+      case msrLyricschunk::k_NoChunk:
+        cerr << "NO_CHUNK";
+        break;
+    } // switch
+    cerr << "\"" << endl;
+
+    cerr <<
+      idtr <<
         setw(38) << "fCurrentLyricschunkKind" << " = \"";
     switch (fCurrentLyricschunkKind) {
       case msrLyricschunk::kSingleChunk:
@@ -4492,8 +4511,14 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
       case msrLyricschunk::kSlurChunk:
         cerr << "slur";
         break;
+      case msrLyricschunk::kSlurBeyondEndChunk:
+        cerr << "slur beyond end";
+        break;
       case msrLyricschunk::kTiedChunk:
         cerr << "tied";
+        break;
+      case msrLyricschunk::kBarCheck:
+        cerr << "bar check";
         break;
       case msrLyricschunk::kBreakChunk:
         cerr << "break";
@@ -4503,8 +4528,9 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
         break;
     } // switch
     cerr << "\"" << endl;
-  }
 
+    idtr--;
+  }
 
   if      (fCurrentSyllabic == "single")
     fCurrentLyricschunkKind = msrLyricschunk::kSingleChunk;
@@ -4545,6 +4571,8 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     }
     
     if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
+      fCurrentLyricschunkKind = msrLyricschunk::kTiedChunk;
+      
       fCurrentLyrics->
         addTiedChunkToLyrics (
           inputLineNumber,
@@ -4553,6 +4581,8 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     }
   
     else if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+      fCurrentLyricschunkKind = msrLyricschunk::kSkipChunk;
+
       fCurrentLyrics->
         addSkipChunkToLyrics (
           inputLineNumber,
@@ -4563,7 +4593,9 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     else if (
       fOnGoingSlurHasLyrics
         &&
-      ! fCurrentText.size ()) { // JMI
+      ! fCurrentText.size ()) {
+      fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
+
       fCurrentLyrics->
         addSlurChunkToLyrics ( 
           inputLineNumber,
@@ -4572,6 +4604,16 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     }
     
     else if (fOnGoingSlur) {
+      if (fFirstLyricschunkInSlurKind == msrLyricschunk::kEndChunk) {
+        fCurrentLyricschunkKind = msrLyricschunk::kSlurBeyondEndChunk;
+  
+        fCurrentLyrics->
+          addSlurBeyondEndChunkToLyrics ( 
+            inputLineNumber,
+            fMusicXMLNoteData.fMusicXMLDivisions,
+            newNote);
+      }
+      else {        
         fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
   
         fCurrentLyrics->
@@ -4580,139 +4622,15 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
             fMusicXMLNoteData.fMusicXMLDivisions,
             newNote);
       }
+    }
     
     else {
     }
   }
+
+  if (fCurrentSlurKind == msrSlur::kStartSlur)
+    fFirstLyricschunkInSlurKind = fCurrentLyricschunkKind;
 }
-
-/* JMI lyric without text
-        <lyric name="verse" number="3">
-          <extend type="stop"/>
-        </lyric>
-*/
-
-/*
-    
-  }
-
-  //* JMI
-  // is lyrics fCurrentLyricsNumber present in current voice?
-  fCurrentLyrics =
-    fCurrentVoice->
-      fetchLyricsFromVoice (fCurrentLyricsNumber);
-
-  //* JMI
-  if (! fCurrentLyrics)
-    // no, add it to the voice JMI ???
-    fCurrentLyrics =
-      fCurrentVoice->
-        addLyricsToVoice (
-          inputLineNumber, fCurrentLyricsNumber);
-
-  int
-    lyricsDivisions =
-      fCurrentNote->getNoteMusicXMLDivisions ();
-      
-  msrLyricschunk::msrLyricschunkKind
-    chunkTypeToBeCreated =
-      msrLyricschunk::kSingleChunk;
-        // type is not always present
-
-  if (fMusicXMLNoteData.fMusicXMLStepIsARest)
-    chunkTypeToBeCreated = msrLyricschunk::kSkipChunk;
-
-  else {
-
-    switch (fCurrentLyricschunkKind) {
-      case msrLyricschunk::kSingleChunk:
-        chunkTypeToBeCreated = fCurrentLyricschunkKind;
-        break;
-      case msrLyricschunk::kBeginChunk:
-        chunkTypeToBeCreated = fCurrentLyricschunkKind;
-        break;
-      case msrLyricschunk::kMiddleChunk:
-        chunkTypeToBeCreated = fCurrentLyricschunkKind;
-        break;
-      case msrLyricschunk::kEndChunk:
-        chunkTypeToBeCreated = fCurrentLyricschunkKind;
-        break;
-
- //     case msrLyricschunk::k_NoChunk: JMI
-      default:
-        {
-        if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
-          chunkTypeToBeCreated = msrLyricschunk::kTiedChunk;
-          
-        else {
-          switch (fCurrentSlurKind) {
-            case msrSlur::kStartSlur:
-              chunkTypeToBeCreated = msrLyricschunk::kSingleChunk;
-              break;
-              
-            case msrSlur::kContinueSlur:
-              chunkTypeToBeCreated = msrLyricschunk::kSlurChunk;
-              break;
-              
-            case msrSlur::kStopSlur:
-              chunkTypeToBeCreated = msrLyricschunk::kSlurChunk;
-              break;
-    
-            case msrSlur::k_NoSlur:
-              msrMusicXMLError (
-                fMsrOptions->fInputSourceName,
-                inputLineNumber,
-                "slur kind has not been set");
-              break;
-          } // switch
-        }
-        }
-        break;
-    } // switch
-  }
-
-  switch (chunkTypeToBeCreated) {
-    
-    case msrLyricschunk::kSkipChunk:
-      fCurrentLyrics->
-        addSkipChunkToLyrics (
-          inputLineNumber,
-          lyricsDivisions);
-      break;
-
-    case msrLyricschunk::kSlurChunk:
-      fCurrentLyrics->
-        addSlurChunkToLyrics (
-          inputLineNumber,
-          lyricsDivisions);
-      break;
-
-    case msrLyricschunk::kTiedChunk:
-      fCurrentLyrics->
-        addTiedChunkToLyrics (
-          inputLineNumber,
-          lyricsDivisions);
-      break;
-
-    case msrLyricschunk::kSingleChunk:
-    case msrLyricschunk::kBeginChunk:
-    case msrLyricschunk::kMiddleChunk:
-    case msrLyricschunk::kEndChunk:
-      fCurrentLyrics->
-        addTextChunkToLyrics (
-          inputLineNumber,
-          fCurrentSyllabic,
-          chunkTypeToBeCreated,
-          fCurrentText,
-          fCurrentElision,
-          lyricsDivisions);
-      break;
-      
-    default: // JMI
-      break;
-
-  } // switch
-  */
 
 
 } // namespace

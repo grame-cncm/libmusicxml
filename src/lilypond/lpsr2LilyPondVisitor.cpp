@@ -1183,10 +1183,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
         break;
         
       case msrLyricschunk::kSlurChunk:
-      /*
+        break;
+
+      case msrLyricschunk::kSlurBeyondEndChunk:
         fOstream <<
           "__ " << " ";
-*/
         break;
 
       case msrLyricschunk::kTiedChunk:

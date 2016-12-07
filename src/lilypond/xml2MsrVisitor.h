@@ -506,6 +506,8 @@ class EXP xml2MsrVisitor :
     string                    fCurrentSyllabic;
     msrLyricschunk::msrLyricschunkKind
                               fCurrentLyricschunkKind;
+    msrLyricschunk::msrLyricschunkKind
+                              fFirstLyricschunkInSlurKind;
     // the last lyrics fragment met
     string                    fCurrentText;
     bool                      fCurrentElision;
