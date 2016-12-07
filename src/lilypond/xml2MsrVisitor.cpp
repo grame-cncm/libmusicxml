@@ -1809,7 +1809,8 @@ void xml2MsrVisitor::visitEnd ( S_elision& elt )
 
 void xml2MsrVisitor::visitEnd ( S_lyric& elt )
 {
-  // JMI ???
+  // the handling of lyrics is done in handleLyrics (),
+  // at the end of visitEnd ( S_note )
 }
 
 //________________________________________________________________________
@@ -3183,6 +3184,7 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   
   fCurrentStem = "";
 
+  fCurrentSyllabic = "";
   fCurrentText = "";  
   // assume this note hasn't got lyrics until S_lyric is met
   fCurrentNoteHasLyrics = false;
@@ -4400,16 +4402,15 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
 
   // lyrics has to be handled in all cases,
   // to handle melismae
-  handleLyricsText (newNote);
+  handleLyrics (newNote);
 
   // account for chord not being built
   fOnGoingChord = false;
 }
 
 //______________________________________________________________________________
-void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
+void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 {
-
   int inputLineNumber =
     newNote->getInputLineNumber ();
      
@@ -4504,43 +4505,65 @@ void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
     cerr << "\"" << endl;
   }
 
-  if (
-    fCurrentSlurKind == msrSlur::kStartSlur
-      &&
-    fCurrentNoteHasLyrics) { // JMI
-  }
-  
-  if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
-    fCurrentLyrics->
-      addTiedChunkToLyrics (
-        inputLineNumber,
-        fMusicXMLNoteData.fMusicXMLDivisions,
-        newNote);
+
+  if      (fCurrentSyllabic == "single")
+    fCurrentLyricschunkKind = msrLyricschunk::kSingleChunk;
+  else if (fCurrentSyllabic == "begin")
+    fCurrentLyricschunkKind = msrLyricschunk::kBeginChunk;
+  else if (fCurrentSyllabic == "middle")
+    fCurrentLyricschunkKind = msrLyricschunk::kMiddleChunk;
+  else if (fCurrentSyllabic == "end")
+    fCurrentLyricschunkKind = msrLyricschunk::kEndChunk;
+  else {
+    // no <syllabic /> specified for this note
+    fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
   }
 
-  else if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+  if (fCurrentLyricschunkKind != msrLyricschunk::k_NoChunk) {
     fCurrentLyrics->
-      addSkipChunkToLyrics (
+      addTextChunkToLyrics (
         inputLineNumber,
+        fCurrentSyllabic,
+        fCurrentLyricschunkKind,
+        fCurrentText,
+        fCurrentElision,
         fMusicXMLNoteData.fMusicXMLDivisions,
         newNote);
-  }
 
-  else if (
-    fOnGoingSlurHasLyrics
-      &&
-    ! fCurrentText.size ()) { // JMI
-    fCurrentLyrics->
-      addSlurChunkToLyrics ( 
-        inputLineNumber,
-        fMusicXMLNoteData.fMusicXMLDivisions,
-        newNote);
+    if (fOnGoingSlur)
+      fOnGoingSlurHasLyrics = true;
+      
+    fCurrentNoteHasLyrics = true;
   }
   
   else {
-    if (fOnGoingSlur) {
-      fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
 
+    if (
+      fCurrentSlurKind == msrSlur::kStartSlur
+        &&
+      fCurrentNoteHasLyrics) { // JMI
+    }
+    
+    if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
+      fCurrentLyrics->
+        addTiedChunkToLyrics (
+          inputLineNumber,
+          fMusicXMLNoteData.fMusicXMLDivisions,
+          newNote);
+    }
+  
+    else if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+      fCurrentLyrics->
+        addSkipChunkToLyrics (
+          inputLineNumber,
+          fMusicXMLNoteData.fMusicXMLDivisions,
+          newNote);
+    }
+  
+    else if (
+      fOnGoingSlurHasLyrics
+        &&
+      ! fCurrentText.size ()) { // JMI
       fCurrentLyrics->
         addSlurChunkToLyrics ( 
           inputLineNumber,
@@ -4548,21 +4571,17 @@ void xml2MsrVisitor::handleLyricsText (S_msrNote newNote)
           newNote);
     }
     
+    else if (fOnGoingSlur) {
+        fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
+  
+        fCurrentLyrics->
+          addSlurChunkToLyrics ( 
+            inputLineNumber,
+            fMusicXMLNoteData.fMusicXMLDivisions,
+            newNote);
+      }
+    
     else {
-      fCurrentLyrics->
-        addTextChunkToLyrics (
-          inputLineNumber,
-          fCurrentSyllabic,
-          fCurrentLyricschunkKind,
-          fCurrentText,
-          fCurrentElision,
-          fMusicXMLNoteData.fMusicXMLDivisions,
-          newNote);
-
-      if (fCurrentNoteHasLyrics)
-        fOnGoingSlurHasLyrics = true;
-        
-      fOnGoingSlurHasLyrics = true;
     }
   }
 }
