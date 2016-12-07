@@ -1770,7 +1770,7 @@ void xml2MsrVisitor::visitEnd ( S_text& elt )
   fCurrentLyricsHasText = true;
 
 // JMI  if (fMsrOptions->fDebug)
-    cerr <<
+    cerr << idtr <<
       "--> fCurrentLyricsNumber = " << fCurrentLyricsNumber <<
       ", fCurrentSyllabic = " << fCurrentSyllabic <<
       ", fCurrentText = |" << fCurrentText << "|" << endl;
@@ -4391,6 +4391,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
   if (true || fMsrOptions->fDebug) {
 //  if (fMsrOptions->fDebug) {
     cerr <<
+      endl <<
       idtr <<
         "Handling lyrics on:" << endl <<
         fMusicXMLNoteData;
@@ -4594,13 +4595,24 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
       fOnGoingSlurHasLyrics
         &&
       ! fCurrentText.size ()) {
-      fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
-
-      fCurrentLyrics->
-        addSlurChunkToLyrics ( 
-          inputLineNumber,
-          fMusicXMLNoteData.fMusicXMLDivisions,
-          newNote);
+      if (fFirstLyricschunkInSlurKind == msrLyricschunk::kEndChunk) {
+        fCurrentLyricschunkKind = msrLyricschunk::kSlurBeyondEndChunk;
+  
+        fCurrentLyrics->
+          addSlurBeyondEndChunkToLyrics ( 
+            inputLineNumber,
+            fMusicXMLNoteData.fMusicXMLDivisions,
+            newNote);
+      }
+      else {        
+        fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
+  
+        fCurrentLyrics->
+          addSlurChunkToLyrics ( 
+            inputLineNumber,
+            fMusicXMLNoteData.fMusicXMLDivisions,
+            newNote);
+      }
     }
     
     else if (fOnGoingSlur) {
@@ -4618,7 +4630,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
   
         fCurrentLyrics->
           addSlurChunkToLyrics ( 
-            inputLineNumber,
+            inputLineNumber + 10000,
             fMusicXMLNoteData.fMusicXMLDivisions,
             newNote);
       }

@@ -3719,8 +3719,8 @@ void msrLyrics::addSkipChunkToLyrics (
   int       divisions,
   S_msrNote note)
 {
-//  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -3748,8 +3748,8 @@ void msrLyrics::addSlurChunkToLyrics (
   int       divisions,
   S_msrNote note)
 {
-//  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -3777,8 +3777,8 @@ void msrLyrics::addSlurBeyondEndChunkToLyrics (
   int       divisions,
   S_msrNote note)
 {
-//  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -3806,8 +3806,8 @@ void msrLyrics::addTiedChunkToLyrics (
   int       divisions,
   S_msrNote note)
 {
-//  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -3834,8 +3834,8 @@ void msrLyrics::addBarCheckChunkToLyrics (
   int inputLineNumber,
   int nextMeasureNumber)
 {
-//  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -3876,8 +3876,8 @@ void msrLyrics::addBreakChunkToLyrics (
   int inputLineNumber,
   int nextMeasureNumber)
 {
-//  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
