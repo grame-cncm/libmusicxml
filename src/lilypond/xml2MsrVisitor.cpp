@@ -133,7 +133,8 @@ S_msrPartgroup xml2MsrVisitor::createImplicitMSRPartgroup (
         "Impl.",
         msrPartgroup::kBracketPartgroupSymbol,
         0,
-        true);
+        true,
+        0); // the top level part group has an empty uplink
 
   /*
     this implicit part group will be added to the MSR score
@@ -434,6 +435,7 @@ S_msrPartgroup xml2MsrVisitor::fetchPartgroupInThisVisitor (
   return result;
 }
 
+//________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_part_group& elt)
 {  
   fCurrentPartgroupNumber =
@@ -472,6 +474,7 @@ void xml2MsrVisitor::visitStart ( S_group_barline& elt)
   fCurrentPartgroupBarline = elt->getValue ();
 }
 
+//________________________________________________________________________
 void xml2MsrVisitor::showPartgroupsData (string context)
 {    
 //  if (true || fMsrOptions->fDebug) {
@@ -518,13 +521,12 @@ void xml2MsrVisitor::showPartgroupsData (string context)
   }
 }
 
+//________________________________________________________________________
 void xml2MsrVisitor::handlePartgroupStart (
-  int
-      inputLineNumber,
+  int   inputLineNumber,
   msrPartgroup::msrPartgroupSymbolKind
-      partgroupSymbol,
-  bool
-      partgroupBarline)
+        partgroupSymbol,
+  bool  partgroupBarline)
 {
   showPartgroupsData ("BEFORE START");
 
@@ -533,6 +535,14 @@ void xml2MsrVisitor::handlePartgroupStart (
     partgroupToBeStarted =
       fetchPartgroupInThisVisitor (fCurrentPartgroupNumber);
 
+  // the current part group is either null
+  // or the head of the part group list
+  S_msrPartgroup
+    currentPartgroup =
+      fPartgroupsList.size ()
+        ? fPartgroupsList.front ()
+        : 0;
+        
   if (! partgroupToBeStarted) {
     // no, create it
     partgroupToBeStarted =
@@ -544,7 +554,8 @@ void xml2MsrVisitor::handlePartgroupStart (
         fCurrentPartgroupAbbreviation,
         partgroupSymbol,
         fCurrentPartgroupSymbolDefaultX,
-        partgroupBarline);
+        partgroupBarline,
+        currentPartgroup);
 
     // add it to the part group map of this visitor
     if (fMsrOptions->fTrace)
@@ -596,6 +607,7 @@ void xml2MsrVisitor::handlePartgroupStart (
   showPartgroupsData ("AFTER START");
 }
   
+//________________________________________________________________________
 void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
 {
   showPartgroupsData ("BEFORE STOP");
@@ -725,6 +737,7 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
   showPartgroupsData ("AFTER STOP");
 } // handlePartgroupStop ()
 
+//________________________________________________________________________
 void xml2MsrVisitor::visitEnd (S_part_group& elt)
 {
   if (fMsrOptions->fTrace)

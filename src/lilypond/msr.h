@@ -3297,12 +3297,31 @@ class EXP msrPartgroup : public msrElement
       string                 partgroupAbbreviation,
       msrPartgroupSymbolKind partgroupSymbolKind,
       int                    partgroupSymbolDefaultX,
-      bool                   partgroupBarline);
+      bool                   partgroupBarline,
+      S_msrPartgroup         partgroupPartgroupUplink);
 
-    SMARTP<msrPartgroup> createEmptyClone ();
+    SMARTP<msrPartgroup> createEmptyClone (
+      S_msrPartgroup clonedPartgroup);
 
+  protected:
+
+    msrPartgroup (
+      S_msrOptions&          msrOpts, 
+      int                    inputLineNumber,
+      int                    partgroupNumber,
+      string                 partgroupName,
+      string                 partgroupAbbreviation,
+      msrPartgroupSymbolKind partgroupSymbolKind,
+      int                    partgroupSymbolDefaultX,
+      bool                   partgroupBarline,
+      S_msrPartgroup         partgroupPartgroupUplink);
+            
+    virtual ~msrPartgroup();
+  
     static int gPartgroupsCounter;
     
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -3331,6 +3350,10 @@ class EXP msrPartgroup : public msrElement
               getPartgroupElements () const
                   { return fPartgroupElements; }
 
+    S_msrPartgroup
+              getPartgroupPartgroupUplink () const
+                  { return fPartgroupPartgroupUplink; }
+
     // services
     // ------------------------------------------------------
 
@@ -3355,20 +3378,6 @@ class EXP msrPartgroup : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrPartgroup (
-      S_msrOptions&          msrOpts, 
-      int                    inputLineNumber,
-      int                    partgroupNumber,
-      string                 partgroupName,
-      string                 partgroupAbbreviation,
-      msrPartgroupSymbolKind partgroupSymbolKind,
-      int                    partgroupSymbolDefaultX,
-      bool                   partgroupBarline);
-            
-    virtual ~msrPartgroup();
-  
   private:
 
     int                     fPartgroupAbsoluteNumber;
@@ -3388,6 +3397,8 @@ class EXP msrPartgroup : public msrElement
 
     // allowing for both parts and (sub-)part groups as elements
     list<S_msrElement>      fPartgroupElements;
+    
+    S_msrPartgroup          fPartgroupPartgroupUplink;
 };
 typedef SMARTP<msrPartgroup> S_msrPartgroup;
 EXP ostream& operator<< (ostream& os, const S_msrPartgroup& elt);

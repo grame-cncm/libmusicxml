@@ -6182,7 +6182,8 @@ S_msrPartgroup msrPartgroup::create (
   string                 partgroupAbbreviation,
   msrPartgroupSymbolKind partgroupSymbolKind,
   int                    partgroupSymbolDefaultX,
-  bool                   partgroupBarline)
+  bool                   partgroupBarline,
+  S_msrPartgroup         partgroupPartgroupUplink)
 {
   msrPartgroup* o =
     new msrPartgroup (
@@ -6192,7 +6193,8 @@ S_msrPartgroup msrPartgroup::create (
       partgroupAbbreviation,
       partgroupSymbolKind,
       partgroupSymbolDefaultX,
-      partgroupBarline);
+      partgroupBarline,
+      partgroupPartgroupUplink);
   assert(o!=0);
   return o;
 }
@@ -6205,7 +6207,8 @@ msrPartgroup::msrPartgroup (
   string                 partgroupAbbreviation,
   msrPartgroupSymbolKind partgroupSymbolKind,
   int                    partgroupSymbolDefaultX,
-  bool                   partgroupBarline)
+  bool                   partgroupBarline,
+  S_msrPartgroup         partgroupPartgroupUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
   fPartgroupAbsoluteNumber = ++gPartgroupsCounter;
@@ -6219,6 +6222,8 @@ msrPartgroup::msrPartgroup (
   fPartgroupSymbolDefaultX = partgroupSymbolDefaultX;
 
   fPartgroupBarline = partgroupBarline;
+
+  fPartgroupPartgroupUplink = partgroupPartgroupUplink;
   
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -6227,7 +6232,8 @@ msrPartgroup::msrPartgroup (
 
 msrPartgroup::~msrPartgroup() {}
 
-S_msrPartgroup msrPartgroup::createEmptyClone ()
+S_msrPartgroup msrPartgroup::createEmptyClone (
+  S_msrPartgroup clonedPartgroup)
 {
   S_msrPartgroup
     clone =
@@ -6239,7 +6245,8 @@ S_msrPartgroup msrPartgroup::createEmptyClone ()
         fPartgroupAbbreviation,
         fPartgroupSymbolKind,
         fPartgroupSymbolDefaultX,
-        fPartgroupBarline);
+        fPartgroupBarline,
+        clonedPartgroup);
 
   // get fPartgroupAbsoluteNumber from cloned msrPartgroup ??? JMI
   

@@ -659,7 +659,9 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrPartgroupBlock" << endl;
 
-  if (elt->getPartgroupBlockElements ().size() > 1) {
+//  if (elt->getPartgroupBlockElements ().size() > 1) {
+  if (elt->getPartgroup ()->getPartgroupPartgroupUplink ()) {
+    // the part group is not the top level one
     fOstream << idtr <<
       setw(30) << "\\new StaffGroup" " " "{";
     if (fLpsrOptions->fGenerateComments)
@@ -680,7 +682,9 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupBlock& elt)
 
   idtr--;
 
-  if (elt->getPartgroupBlockElements ().size() > 1) {
+//  if (elt->getPartgroupBlockElements ().size() > 1) {
+  if (elt->getPartgroup ()->getPartgroupPartgroupUplink ()) {
+    // the part group is not the top level one
     fOstream <<
       idtr <<
       setw(30) << "}";
@@ -845,6 +849,9 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
     default:
       {}
   } // switch
+  fOstream <<
+    endl <<
+    idtr;
 
   fOstream <<
     "\\" << elt->getVoice ()->getVoiceName () << endl;

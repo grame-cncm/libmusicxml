@@ -429,8 +429,8 @@ class EXP xml2MsrVisitor :
     // MusicXML allows part groups to overlap,
     // we use a list in which part groups are orderd by
     // increasing part group <default-x>
-    // (all of them they are negative)    
-    // the current part group is the front of the list
+    // (all of them are negative)    
+    // the current part group is either null or the front of the list
     
     list<S_msrPartgroup>      fPartgroupsList;
     void                      showPartgroupsData (string context);

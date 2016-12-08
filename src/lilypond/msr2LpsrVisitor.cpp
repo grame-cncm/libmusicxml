@@ -241,7 +241,7 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
 
   // create a partgroup clone
   fCurrentPartgroupClone =
-    elt->createEmptyClone ();
+    elt->createEmptyClone (fCurrentPartgroupClone);
 
   // add it to the MSR score clone
   fCurrentScoreClone->
