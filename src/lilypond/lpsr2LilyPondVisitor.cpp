@@ -80,68 +80,9 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   if (noteIsGraceNote)
     s <<
       "\\grace { ";
-      
-  switch (note->getNoteMsrPitch ()) {
-    
-    case msrNote::k_aeseh: s << "aeseh"; break;
-    case msrNote::k_aes:   s << "aes"; break;
-    case msrNote::k_aeh:   s << "aeh"; break;
-    case msrNote::k_a:     s << "a"; break;
-    case msrNote::k_aih:   s << "aih"; break;
-    case msrNote::k_ais:   s << "ais"; break;
-    case msrNote::k_aisih: s << "aisih"; break;
-      
-    case msrNote::k_beseh: s << "beseh"; break;
-    case msrNote::k_bes:   s << "bes"; break;
-    case msrNote::k_beh:   s << "beh"; break;
-    case msrNote::k_b:     s << "b"; break;
-    case msrNote::k_bih:   s << "bih"; break;
-    case msrNote::k_bis:   s << "bis"; break;
-    case msrNote::k_bisih: s << "bisih"; break;
-      
-    case msrNote::k_ceseh: s << "ceseh"; break;
-    case msrNote::k_ces:   s << "ces"; break;
-    case msrNote::k_ceh:   s << "ceh"; break;
-    case msrNote::k_c:     s << "c"; break;
-    case msrNote::k_cih:   s << "cih"; break;
-    case msrNote::k_cis:   s << "cis"; break;
-    case msrNote::k_cisih: s << "cisih"; break;
-      
-    case msrNote::k_deseh: s << "deseh"; break;
-    case msrNote::k_des:   s << "des"; break;
-    case msrNote::k_deh:   s << "deh"; break;
-    case msrNote::k_d:     s << "d"; break;
-    case msrNote::k_dih:   s << "dih"; break;
-    case msrNote::k_dis:   s << "dis"; break;
-    case msrNote::k_disih: s << "disih"; break;
 
-    case msrNote::k_eeseh: s << "eeseh"; break;
-    case msrNote::k_ees:   s << "ees"; break;
-    case msrNote::k_eeh:   s << "eeh"; break;
-    case msrNote::k_e:     s << "e"; break;
-    case msrNote::k_eih:   s << "eih"; break;
-    case msrNote::k_eis:   s << "eis"; break;
-    case msrNote::k_eisih: s << "eisih"; break;
-      
-    case msrNote::k_feseh: s << "feseh"; break;
-    case msrNote::k_fes:   s << "fes"; break;
-    case msrNote::k_feh:   s << "feh"; break;
-    case msrNote::k_f:     s << "f"; break;
-    case msrNote::k_fih:   s << "fih"; break;
-    case msrNote::k_fis:   s << "fis"; break;
-    case msrNote::k_fisih: s << "fisih"; break;
-      
-    case msrNote::k_geseh: s << "geseh"; break;
-    case msrNote::k_ges:   s << "ges"; break;
-    case msrNote::k_geh:   s << "geh"; break;
-    case msrNote::k_g:     s << "g"; break;
-    case msrNote::k_gih:   s << "gih"; break;
-    case msrNote::k_gis:   s << "gis"; break;
-    case msrNote::k_gisih: s << "gisih"; break;
-    
-    default: s << "Note" << note->getNoteMsrPitch () << "???";
-  } // switch
-
+  s << note->noteMsrPitchAsString ();
+  
   // in MusicXML, octave number is 4 for the octave starting with middle C
 
   int noteAbsoluteOctave =
@@ -660,6 +601,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
       "% --> Start visiting lpsrPartgroupBlock" << endl;
 
   // the top level part group is the score block's S_lpsrParallelMusic
+  
   if (elt->getPartgroup ()->getPartgroupPartgroupUplink ()) {
     // the part group is not the top level one
     fOstream << idtr <<
@@ -681,6 +623,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupBlock& elt)
       "% --> End visiting lpsrPartgroupBlock" << endl;
 
   // the top level part group is the score block's S_lpsrParallelMusic
+  
   if (elt->getPartgroup ()->getPartgroupPartgroupUplink ()) {
     // the part group is not the top level one
     idtr--;
@@ -1942,10 +1885,16 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarCheck& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrBarCheck" << endl;
+      
+  int nextBarNumber =
+    elt->getNextBarNumber ();
 
-  fOstream << idtr <<
-    "| % " << elt->getNextBarNumber () <<
-    endl;
+  // don't generate a bar check before the end of measure 1
+  if (nextBarNumber > 1)
+    fOstream <<
+      " | % " << nextBarNumber <<
+      endl <<
+      idtr;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarCheck& elt)

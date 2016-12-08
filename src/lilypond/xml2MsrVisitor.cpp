@@ -1846,7 +1846,7 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
       "PART " << fCurrentPart->getPartCombinedName () <<" ===" << endl;
 
   if (measureNumber != 0) {
-    // don't generate a bar check on the anacrusis
+    // don't generate a bar check after the anacrusis
     S_msrBarCheck
       barCheck =
         msrBarCheck::create (
