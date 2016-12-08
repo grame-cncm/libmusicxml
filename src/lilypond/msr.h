@@ -388,7 +388,9 @@ class msrMusicXMLNoteData
         kStartTie, kContinueTie, kStopTie };
         
     msrMusicXMLNoteData ();
-    
+
+    string   musicXMLTieKindAsString () const;
+
     virtual void print (ostream& os);
  
   public:

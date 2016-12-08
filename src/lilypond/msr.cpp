@@ -254,6 +254,24 @@ msrMusicXMLNoteData::msrMusicXMLNoteData ()
   fMusicXMLVoiceNumber = -1;
 }
 
+string msrMusicXMLNoteData::musicXMLTieKindAsString () const
+{
+  switch (fMusicXMLTieKind) {
+    case kStartTie:
+      return "start tie";
+      break;
+    case kContinueTie:
+      return "continue tie";
+      break;
+    case kStopTie:
+      return "stop tie";
+      break;
+    case k_NoTie:
+      return "NO_TIE";
+      break;
+  } // switch
+}
+
 void msrMusicXMLNoteData::print (ostream& os)
 {
   os <<
@@ -1689,8 +1707,13 @@ string msrNote::noteAsString () const
      
   if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
     s << ", grace";
-  if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
-    s << ", tied";
+    
+  if (
+    fMusicXMLNoteData.fMusicXMLTieKind
+      !=
+    msrMusicXMLNoteData::k_NoTie ) {
+      s << fMusicXMLNoteData.musicXMLTieKindAsString ();
+  }
 
   return s.str();
 }

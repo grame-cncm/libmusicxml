@@ -3987,22 +3987,9 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 
     cerr <<
       idtr <<
-        setw(38) << "fMusicXMLNoteData.fMusicXMLTieKind" << " = ";
-    switch (fMusicXMLNoteData.fMusicXMLTieKind) {
-      case msrMusicXMLNoteData::kStartTie:
-        cerr << "start tie";
-        break;
-      case msrMusicXMLNoteData::kContinueTie:
-        cerr << "continue tie";
-        break;
-      case msrMusicXMLNoteData::kStopTie:
-        cerr << "stop tie";
-        break;
-      case msrMusicXMLNoteData::k_NoTie:
-        cerr << "NO_TIE";
-        break;
-    } // switch
-    cerr << endl;
+        setw(38) << "fMusicXMLNoteData.fMusicXMLTieKind" << " = " <<
+        fMusicXMLNoteData.musicXMLTieKindAsString () <<
+      endl;
         
     cerr <<
       idtr <<
