@@ -1865,6 +1865,9 @@ S_msrChord msrChord::createEmptyClone ()
   clone->
     setChordMeasureLocation (fChordMeasureLocation);
 
+  clone->
+    setChordDivisions (fChordDivisions);
+    
   clone->fChordTieKind = fChordTieKind;
   
   return clone;

@@ -1604,7 +1604,7 @@ string msrNote::octaveRepresentation (char octave)
         elt->getNoteTieKind ()
           ==
         msrMusicXMLNoteData::kStartTie) {
-          fOstream << "~ ";
+          fOstream << " ~";
       }
       
       fRelativeOctaveReference = elt;
@@ -1665,7 +1665,7 @@ string msrNote::octaveRepresentation (char octave)
         elt->getNoteTieKind ()
           ==
         msrMusicXMLNoteData::kStartTie) {
-          fOstream << " ~ ";
+          fOstream << " ~";
       }
 
       // a rest is no relative octave reference,

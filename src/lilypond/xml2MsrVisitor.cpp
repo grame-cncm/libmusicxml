@@ -3277,7 +3277,6 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
         fMsrOptions,
         fCurrentNote->getInputLineNumber (),
         fCurrentNote->getNoteMusicXMLDivisions ());
-// JMI  fCurrentElement = chord; // another name for it
 
   // chord's divisions per whole note is that of its first note
   chord->
@@ -3288,7 +3287,12 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
   chord->
     setChordMeasureLocation (
       fCurrentNote->getNoteMeasureLocation ());
-    
+
+  // chord's tie kind is that of its first note
+  chord->
+    setChordTieKind (
+      fCurrentNote->getNoteTieKind ());
+  
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> adding first note " << fCurrentNote->noteMsrPitchAsString() <<
@@ -3380,7 +3384,6 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
         fCurrentActualNotes,
         fCurrentNormalNotes,
         firstNote);
-// JMI  fCurrentElement = tuplet; // another name for it
 
   // tuplets's divisions per whole note is that of its first note
   tuplet->
@@ -3697,8 +3700,6 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   // keep track of current note
   fCurrentNote = note;
     
-// JMI  fCurrentElement = fCurrentNote; // another name for it
-
 //  if (true || fMsrOptions->fDebug)
   if (fMsrOptions->fDebugDebug)
     cerr <<

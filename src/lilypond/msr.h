@@ -1109,6 +1109,9 @@ class EXP msrChord : public msrElement
                   getChordNotes () const
                       { return fChordNotes; }
 
+    void          setChordDivisions (int divisions)
+                      { fChordDivisions = divisions; }
+            
     int           getChordDivisions () const
                       { return fChordDivisions; }
             

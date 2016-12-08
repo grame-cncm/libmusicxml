@@ -637,10 +637,6 @@ class EXP xml2MsrVisitor :
     void                      handleNoteBelongingToATuplet (
                                 S_msrNote newNote);
          
-    // another name for fCurrentNote, fCurrentChord, fCurrentTuplet
-    // and the like
-// JMI    S_msrElement           fCurrentElement;
-
     // ties handling
     // ------------------------------------------------------
 // JMI    string                    fCurrentTiedType;
