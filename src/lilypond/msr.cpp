@@ -1098,9 +1098,11 @@ msrNote::msrNote (
       "--> noteQuatertonesFromA = " << noteQuatertonesFromA <<
       endl;
 
+/*
   fNoteMsrPitch = 
     computeNoteMsrPitch (
       noteQuatertonesFromA, musicXMLAlteration);
+*/
 
   fNoteIsChordFirstNote = false;
 }
@@ -1158,14 +1160,15 @@ msrNote::msrPitch msrNote::computeNoteMsrPitch (
     \relative c'' { ceseh ces ceh c cih cis cisih }
   */
   msrNote::msrPitch pitch = msrNote::k_NoMsrPitch;
-  
+
+  /*
   switch (noteQuatertonesFromA) {
     case 0:
       pitch = msrNote::k_a;
       break;
     case 1:
       pitch =
-        alteration == msrMusicXMLNoteData::kDoubleSharp
+        alteration == msrMusicXMLNoteData::kSesquiSharp
           ? msrNote::k_aih
           : msrNote::k_beseh;
       break;
@@ -1186,7 +1189,7 @@ msrNote::msrPitch msrNote::computeNoteMsrPitch (
       break;
     case 5:
       pitch =
-        alteration == msrMusicXMLNoteData::kDoubleSharp
+        alteration == msrMusicXMLNoteData::kSesquiSharp
           ? msrNote::k_bih
           : msrNote::k_ceseh;
       break;
@@ -1284,7 +1287,8 @@ msrNote::msrPitch msrNote::computeNoteMsrPitch (
           : msrNote::k_aeh;
       break;
   } // switch
-  
+  */
+   
   return pitch;
 }
 

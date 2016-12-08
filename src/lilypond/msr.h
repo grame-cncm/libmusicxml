@@ -385,14 +385,35 @@ class msrMusicXMLNoteData
 {
   public:
 
+    /*
+      The alter element represents chromatic alteration
+      in number of semitones (e.g., -1 for flat, 1 for sharp).
+      Decimal values like 0.5 (quarter tone sharp) are used for microtones.
+    
+      The following table lists note names for quarter-tone accidentals
+      in various languages; here the pre- fixes semi- and sesqui-
+      respectively mean ‘half’ and ‘one and a half’.
+      
+      Languages that do not appear in this table do not provide special note names yet.
+      Language
+                  semi-sharp semi-flat sesqui-sharp sesqui-flat
+                     +0.5      -0.5        +1.5       -1.5
+        nederlands   -ih       -eh        -isih       -eseh
+    
+      We use dutch pitches names for the enumeration below.
+      The following is a series of Cs with increasing pitches:
+        \relative c'' { ceseh ces ceh c cih cis cisih }
+    */
+  
     enum msrMusicXMLAlteration {
-      // kDoubleFlat=-2 as in MusicXML, to faciliting testing
-      kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp,
-      k_NoAlteration};
+      k_NoAlteration,
+      kSesquiFlat, kFlat, kSemiFlat,
+      kNatural,
+      kSemiSharp, kSharp, kSesquiSharp};
 
     enum msrMusicXMLTieKind {
         k_NoTie,
-        kStartTie, kContinueTie, kStopTie };
+        kStartTie, kContinueTie, kStopTie};
         
     msrMusicXMLNoteData ();
 
@@ -772,15 +793,15 @@ class EXP msrNote : public msrElement
     enum msrNoteKind {
       kStandaloneNote, kRestNote, kChordMemberNote, kTupletMemberNote};
       
-    // we use dutch pitches names for the enumeration below
-    // the following is a series of Cs with increasing pitches:
-    // \relative c'' { ceseh ces ceh c cih cis cisih }
-
     enum msrDiatonicPitch {
       // starting at C for relative octave calculations
       kC, kD, kE, kF, kG, kA, kB, 
       kRest, k_NoDiatonicPitch};
     
+    // we use dutch pitches names for the enumeration below
+    // the following is a series of Cs with increasing pitches:
+    // \relative c'' { ceseh ces ceh c cih cis cisih }
+
     enum msrPitch {
       k_aeseh, k_aes, k_aeh, k_a, k_aih, k_ais, k_aisih,
       k_beseh, k_bes, k_beh, k_b, k_bih, k_bis, k_bisih, 
@@ -880,9 +901,11 @@ class EXP msrNote : public msrElement
     msrDiatonicPitch
                   getDiatonicPitch () const
                       { return fDiatonicPitch; }
-                      
+
+/*                      
     msrPitch      getNoteMsrPitch () const
                       { return fNoteMsrPitch; }
+*/
                       
     // grace notes
     bool          getNoteIsGraceNote () const
@@ -1005,7 +1028,7 @@ class EXP msrNote : public msrElement
     msrDiatonicPitch          fDiatonicPitch;
 
     // LilyPond informations
-    msrPitch                  fNoteMsrPitch;
+//    msrPitch                  fNoteMsrPitch;
 
     S_msrBeam                 fNoteBeam;
     
