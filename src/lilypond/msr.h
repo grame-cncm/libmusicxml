@@ -405,8 +405,7 @@ class msrMusicXMLNoteData
         \relative c'' { ceseh ces ceh c cih cis cisih }
     */
   
-    enum msrMusicXMLAlteration {
-      k_NoAlteration,
+    enum msrMusicXMLAlterationKind {
       kSesquiFlat, kFlat, kSemiFlat,
       kNatural,
       kSemiSharp, kSharp, kSesquiSharp};
@@ -423,39 +422,40 @@ class msrMusicXMLNoteData
  
   public:
   
-    char                fMusicXMLStep;
-    bool                fMusicXMLStepIsARest;
-    bool                fMusicXMLStepIsUnpitched;
+    char                      fMusicXMLStep;
+    bool                      fMusicXMLStepIsARest;
+    bool                      fMusicXMLStepIsUnpitched;
 
     // The alter element represents chromatic alteration
     // in number of semitones (e.g., -1 for flat, 1 for sharp).
     // Decimal values like 0.5 (quarter tone sharp) are used for microtones.
-    float               fMusicXMLAlteration;
-    
-    int                 fMusicXMLOctave;
+    float                     fMusicXMLAlter;
+    msrMusicXMLAlterationKind fMusicXMLAlteration;
+                          
+    int                       fMusicXMLOctave;
 
     // MusicXML durations are in divisions per quarter note.
     // LilyPond durations are in whole notes,
     // hence the "* 4" multiplications
     
     // the note duration when played
-    int                 fMusicXMLDivisions;
+    int                       fMusicXMLDivisions;
 
     // tuplets member notes need another value for display
-    int                 fNoteDisplayDivisions;
+    int                       fNoteDisplayDivisions;
 
-    int                 fMusicXMLDotsNumber;
+    int                       fMusicXMLDotsNumber;
     
-    bool                fMusicXMLNoteIsAGraceNote;
+    bool                      fMusicXMLNoteIsAGraceNote;
     
-    bool                fMusicXMLNoteBelongsToAChord;
+    bool                      fMusicXMLNoteBelongsToAChord;
     
-    bool                fMusicXMLNoteBelongsToATuplet;
-    string              fMusicXMLTupletMemberNoteType;
+    bool                      fMusicXMLNoteBelongsToATuplet;
+    string                    fMusicXMLTupletMemberNoteType;
 
-    msrMusicXMLTieKind  fMusicXMLTieKind;
+    msrMusicXMLTieKind        fMusicXMLTieKind;
                     
-    int                 fMusicXMLVoiceNumber;
+    int                       fMusicXMLVoiceNumber;
 };
 EXP ostream& operator<< (ostream& os, msrMusicXMLNoteData& elt);
 
@@ -914,7 +914,7 @@ class EXP msrNote : public msrElement
                           fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote;
                       }
 
-    string        noteMsrPitchAsString () const;
+    string        notePitchAsString () const;
 
     // divisions per whole note
     void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
@@ -977,11 +977,6 @@ class EXP msrNote : public msrElement
 
     // services
     // ------------------------------------------------------
-
-    msrPitch computeNoteMsrPitch (
-                    int   noteQuatertonesFromA,
-                    msrMusicXMLNoteData::msrMusicXMLAlteration
-                          alteration);
 
     // tuplet members
     void          applyTupletMemberDisplayFactor (

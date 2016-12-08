@@ -81,7 +81,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   if (note->getNoteIsUnpitched ())
     s << "unpitched ";
   else
-    s << note->noteMsrPitchAsString ();
+    s << note->notePitchAsString ();
   
   // in MusicXML, octave number is 4 for the octave starting with middle C
 

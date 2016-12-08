@@ -2695,7 +2695,7 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fMusicXMLStepIsARest = false;
   fMusicXMLNoteData.fMusicXMLStepIsUnpitched = false;
   
-  fMusicXMLNoteData.fMusicXMLAlteration = 0; // natural notes
+  fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kNatural;
   
   fMusicXMLNoteData.fMusicXMLOctave = -13;
   
@@ -2760,7 +2760,7 @@ void xml2MsrVisitor::visitStart ( S_step& elt )
 
 void xml2MsrVisitor::visitStart ( S_alter& elt)
 {
-  fMusicXMLNoteData.fMusicXMLAlteration = (float)(*elt);
+  fMusicXMLNoteData.fMusicXMLAlter = (float)(*elt);
 }
 
 void xml2MsrVisitor::visitStart ( S_octave& elt)
@@ -3295,7 +3295,7 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
   
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> adding first note " << fCurrentNote->noteMsrPitchAsString() <<
+      "--> adding first note " << fCurrentNote->notePitchAsString() <<
       " to new chord" << endl;
     
   // register fCurrentNote as first member of chord
@@ -3403,7 +3403,7 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
   // add note as first note of the stack top tuplet
 //JMI  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "==> adding first note " << firstNote->noteMsrPitchAsString() <<
+      "==> adding first note " << firstNote->notePitchAsString() <<
       " to the " <<
       fTupletsStack.top ()->getActualNotes () <<
        "/" <<
@@ -3443,7 +3443,7 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote lastNote)
   // add lastNote to the tuplet
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "==> adding last note " << lastNote->noteMsrPitchAsString () <<
+      "==> adding last note " << lastNote->notePitchAsString () <<
       " to tuplets stack top " <<
       fTupletsStack.top ()->getActualNotes () <<
        "/" <<
@@ -3704,7 +3704,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   if (fMsrOptions->fDebugDebug)
     cerr <<
       idtr <<
-      "!!!! AFTER visitEnd (S_note) " << fCurrentNote->noteMsrPitchAsString () <<
+      "!!!! AFTER visitEnd (S_note) " << fCurrentNote->notePitchAsString () <<
       " we have:" << endl <<
       idtr << idtr <<
       "--> fCurrentStaffNumber = " << fCurrentStaffNumber << endl <<
@@ -3749,14 +3749,14 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> adding new note " <<
-      newNote->noteMsrPitchAsString() <<
+      newNote->notePitchAsString() <<
       " to current chord" << endl;
     
   // register note as a member of fCurrentChord
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> registering new note " <<
-      newNote->noteMsrPitchAsString() <<
+      newNote->notePitchAsString() <<
       " as a member of current chord" << endl;
   fCurrentChord->
     addNoteToChord (newNote);
@@ -3927,7 +3927,7 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
   if (fMsrOptions->fDebugDebug)
     cerr <<  idtr <<
       "--> adding standalone " <<
-      newNote->noteMsrPitchAsString () <<
+      newNote->notePitchAsString () <<
       ":" << newNote->getNoteMusicXMLDivisions () <<
       " to current voice" << endl;
 

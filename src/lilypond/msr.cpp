@@ -129,7 +129,7 @@ msrMusicXMLNoteData::msrMusicXMLNoteData ()
   fMusicXMLStepIsARest = false;;
   fMusicXMLStepIsUnpitched = false;;
   
-  fMusicXMLAlteration = -5;
+  fMusicXMLAlteration = kNatural;
   
   fMusicXMLOctave = -1;
 
@@ -892,7 +892,7 @@ S_msrNote msrNote::createRest (
   musicXMLNoteData.fMusicXMLStepIsARest = true;
   musicXMLNoteData.fMusicXMLStepIsUnpitched = false;
 
-  musicXMLNoteData.fMusicXMLAlteration = 0;
+  musicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kNatural;
   musicXMLNoteData.fMusicXMLOctave = 0;
   
   musicXMLNoteData.fMusicXMLDivisions = divisions;
@@ -1001,21 +1001,15 @@ msrNote::msrNote (
     default: {}    
   } // switch
 
-  /*
-    enum msrMusicXMLAlteration {
-      // kDoubleFlat=-2 as in MusicXML, to faciliting testing
-      kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp,
-      k_NoAlteration};
-  */
-  
-  // flat or sharp,possibly double?
-  msrMusicXMLNoteData::msrMusicXMLAlteration musicXMLAlteration;
+  // flat or sharp,possibly semi- or sesqui-?
+  msrMusicXMLNoteData::msrMusicXMLAlterationKind
+    musicXMLAlterationKind;
 
   if (true || fMsrOptions->fDebugDebug)
 //  if (fMsrOptions->fDebugDebug)
     cerr <<
-      "--> fMusicXMLNoteData.fMusicXMLAlteration = " <<
-      fMusicXMLNoteData.fMusicXMLAlteration <<
+      "--> fMusicXMLNoteData.fMusicXMLAlter= " <<
+      fMusicXMLNoteData.fMusicXMLAlter <<
       endl;
 
 /*
@@ -1038,42 +1032,42 @@ msrNote::msrNote (
     \relative c'' { ceseh ces ceh c cih cis cisih }
 */
 
-  if      (fMusicXMLNoteData.fMusicXMLAlteration == 0 ) {
+  if      (fMusicXMLNoteData.fMusicXMLAlter == 0 ) {
     musicXMLAlteration = msrMusicXMLNoteData::kNatural;
   }
   
-  else if (fMusicXMLNoteData.fMusicXMLAlteration == -1 ) {
+  else if (fMusicXMLNoteData.fMusicXMLAlter == -1 ) {
     musicXMLAlteration = msrMusicXMLNoteData::kFlat;
     noteQuatertonesFromA -= 2;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
-  else if (fMusicXMLNoteData.fMusicXMLAlteration == 1 ) {
+  else if (fMusicXMLNoteData.fMusicXMLAlter == 1 ) {
     musicXMLAlteration = msrMusicXMLNoteData::kSharp;
     noteQuatertonesFromA += 2;
   }
   
-  else if (fMusicXMLNoteData.fMusicXMLAlteration == -0.5 ) {
+  else if (fMusicXMLNoteData.fMusicXMLAlter == -0.5 ) {
     musicXMLAlteration = msrMusicXMLNoteData::kSemiFlat;
     noteQuatertonesFromA -= 1;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
-  else if (fMusicXMLNoteData.fMusicXMLAlteration == +0.5 ) {
+  else if (fMusicXMLNoteData.fMusicXMLAlter == +0.5 ) {
     musicXMLAlteration = msrMusicXMLNoteData::kSemiSharp;
     noteQuatertonesFromA += 1;
   }
   
-  else if (fMusicXMLNoteData.fMusicXMLAlteration == -1.5 ) {
+  else if (fMusicXMLNoteData.fMusicXMLAlter == -1.5 ) {
     musicXMLAlteration = msrMusicXMLNoteData::kSesquiFlat;
     noteQuatertonesFromA -= 3;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
-  else if (fMusicXMLNoteData.fMusicXMLAlteration == +1.5 ) {
+  else if (fMusicXMLNoteData.fMusicXMLAlter == +1.5 ) {
     musicXMLAlteration = msrMusicXMLNoteData::kSesquiSharp;
     noteQuatertonesFromA += 3;
   }
@@ -1082,7 +1076,7 @@ msrNote::msrNote (
     stringstream s;
     
     s <<
-      "MusicXML alteration " << fMusicXMLNoteData.fMusicXMLAlteration <<
+      "MusicXML alter " << fMusicXMLNoteData.fMusicXMLAlter <<
       " should be -1.5, -1, -0.5, 0, +0.5, +1 or +1.5";
       " should be -1, -0.5, 0, +0.5 or +1";
       
@@ -1097,12 +1091,6 @@ msrNote::msrNote (
     cerr <<
       "--> noteQuatertonesFromA = " << noteQuatertonesFromA <<
       endl;
-
-/*
-  fNoteMsrPitch = 
-    computeNoteMsrPitch (
-      noteQuatertonesFromA, musicXMLAlteration);
-*/
 
   fNoteIsChordFirstNote = false;
 }
@@ -1138,27 +1126,16 @@ void msrNote::applyTupletMemberDisplayFactor (
     normalNotes;
 }
 
+/*
 msrNote::msrPitch msrNote::computeNoteMsrPitch (
   int   noteQuatertonesFromA,
   msrMusicXMLNoteData::msrMusicXMLAlteration
         alteration)
 {
   // computing the msr pitch
-  /*
-  Alter values of -2 and 2 can be used for double-flat and double-sharp.
-  Decimal values can be used for microtones (e.g., 0.5 for a quarter-tone sharp),
-  but not all programs may convert this into MIDI pitch-bend data.
-
-  For rests, a rest element is used instead of the pitch element.
-  The whole rest in 3/4 that begins the voice part is represented as:
-    <note>
-      <rest/>
-      <duration>72</duration>
-    </note>
-  
-  Quarter tones may be added; the following is a series of Cs with increasing pitches:
+   Quarter tones may be added; the following is a series of Cs with increasing pitches:
     \relative c'' { ceseh ces ceh c cih cis cisih }
-  */
+  * /
   msrNote::msrPitch pitch = msrNote::k_NoMsrPitch;
 
   /*
@@ -1287,10 +1264,10 @@ msrNote::msrPitch msrNote::computeNoteMsrPitch (
           : msrNote::k_aeh;
       break;
   } // switch
-  */
    
   return pitch;
 }
+  */
 
 void msrNote::addArticulation (S_msrArticulation art)
 {
@@ -1351,14 +1328,6 @@ void msrNote::acceptOut (basevisitor* v) {
 
 void msrNote::browseData (basevisitor* v)
 {
-  /* JMI
-  if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
-    os << " " << "grace";
-  if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
-    os << " " << "tied";
-  os << endl;
-  */
-  
   if (fNoteBeam) {
     // browse the beam
     msrBrowser<msrBeam> browser (v);
@@ -1411,25 +1380,92 @@ void msrNote::browseData (basevisitor* v)
   */
 }
 
-string msrNote::noteMsrPitchAsString () const
+string msrNote::notePitchAsString () const
 {
   stringstream s;
   
   /*
-  cerr << "msrNote::noteMsrPitchAsString (), isRest = " <<
+  cerr << "msrNote::notePitchAsString (), isRest = " <<
     fMusicXMLNoteData.fMusicXMLStepIsARest <<
     ", fMsrPitch = " << fMsrPitch << endl;
   */
   
   if (fMusicXMLNoteData.fMusicXMLStepIsARest)
+
     s << "r";
 
-  else {
-    //JMI assertMsr(fMsrPitch != k_NoMsrPitch, "fMsrPitch != k_NoMsrPitch");
+  else if (fMusicXMLNoteData.fMusicXMLStepIsUnpitched)
 
-    if (fMusicXMLNoteData.fMusicXMLStepIsUnpitched)
-      s << "unpitched ";
-      
+    s << "unpitched ";
+
+  else {
+
+    switch (fDiatonicPitch) {
+      case kA: s << "a"; break;
+      case kB: s << "b"; break;
+      case kC: s << "c"; break;
+      case kD: s << "d"; break;
+      case kE: s << "e"; break;
+      case kF: s << "f"; break;
+      case kG: s << "g"; break;
+      default: s << "?";
+    } // switch
+
+    /*
+    The alter element represents chromatic alteration
+    in number of semitones (e.g., -1 for flat, 1 for sharp).
+    Decimal values like 0.5 (quarter tone sharp) are used for microtones.
+  
+    The following table lists note names for quarter-tone accidentals
+    in various languages; here the pre- fixes semi- and sesqui-
+    respectively mean ‘half’ and ‘one and a half’.
+    
+    Languages that do not appear in this table do not provide special note names yet.
+    Language
+                semi-sharp semi-flat sesqui-sharp sesqui-flat
+                   +0.5      -0.5        +1.5       -1.5
+      nederlands   -ih       -eh        -isih       -eseh
+  
+    We use dutch pitches names for the enumeration below.
+    The following is a series of Cs with increasing pitches:
+      \relative c'' { ceseh ces ceh c cih cis cisih }
+  */
+
+    switch (fMusicXMLNoteData.fMusicXMLAlteration) {
+
+      case kSesquiFlat:
+        s << "eseh";
+        break;
+        
+      case kFlat:
+        s << "es";
+        break;
+        
+      case kSemiFlat:
+        s << "eh";
+        break;
+        
+      case kNatural:
+        break;
+        
+      case kSemiSharp:
+        s << "ih";
+        break;
+        
+      case kSharp:
+        s << "is";
+        break;
+        
+      case kSesquiSharp:
+        s << "isih";
+        break;      
+    } // switch  
+  }
+  
+  return s.str();
+}
+
+  /*
     switch (fNoteMsrPitch) {
       
       case k_aeseh: s << "aeseh"; break;
@@ -1490,11 +1526,7 @@ string msrNote::noteMsrPitchAsString () const
       
       default: s << "Note" << fNoteMsrPitch << "???";
     } // switch
-  }
-  
-  return s.str();
-}
-
+    */
 
 string msrNote::noteDivisionsAsMSRString () const
 {
@@ -1596,7 +1628,7 @@ string msrNote::noteAsString () const
       s <<
         "Standalone note" <<
         " " <<
-        noteMsrPitchAsString () <<
+        notePitchAsString () <<
         "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
@@ -1613,7 +1645,7 @@ string msrNote::noteAsString () const
       s <<
         "Chord member note" <<
         " " <<
-        noteMsrPitchAsString () <<
+        notePitchAsString () <<
         "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
@@ -1623,7 +1655,7 @@ string msrNote::noteAsString () const
       s <<
         "Tuplet member note" <<
         " " <<
-        noteMsrPitchAsString () <<
+        notePitchAsString () <<
         "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
@@ -1934,7 +1966,7 @@ void msrChord::print (ostream& os)
       iEnd   = fChordNotes.end(),
       i      = iBegin;
     for ( ; ; ) {
-   //   os << (*i)->noteMsrPitchAsString (); JMI
+   //   os << (*i)->notePitchAsString (); JMI
       os << idtr << (*i);
       if (++i == iEnd) break;
       os << endl;
@@ -3397,7 +3429,7 @@ void msrLyricschunk::print (ostream& os)
         os << " " << "\"" << fChunkText << "\"";
       os <<
         ", line " << fInputLineNumber <<
-        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
@@ -3408,7 +3440,7 @@ void msrLyricschunk::print (ostream& os)
         os << " " << "\"" << fChunkText << "\"";
       os <<
         ", line " << fInputLineNumber <<
-        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
@@ -3419,7 +3451,7 @@ void msrLyricschunk::print (ostream& os)
         os << " " << "\"" << fChunkText << "\"";
       os <<
         ", line " << fInputLineNumber <<
-        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
@@ -3430,7 +3462,7 @@ void msrLyricschunk::print (ostream& os)
         os << " " << "\"" << fChunkText << "\"";
       os <<
         ", line " << fInputLineNumber <<
-        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
@@ -3441,7 +3473,7 @@ void msrLyricschunk::print (ostream& os)
         os << " " << fChunkText;
       os <<
         ", line " << fInputLineNumber <<
-        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
@@ -3452,7 +3484,7 @@ void msrLyricschunk::print (ostream& os)
         os << " " << fChunkText;
       os <<
         ", line " << fInputLineNumber <<
-        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
@@ -3463,7 +3495,7 @@ void msrLyricschunk::print (ostream& os)
         os << " " << fChunkText;
       os <<
         ", line " << fInputLineNumber <<
-        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
@@ -3474,7 +3506,7 @@ void msrLyricschunk::print (ostream& os)
         os << " " << fChunkText;
       os <<
         ", line " << fInputLineNumber <<
-        ", " << fLyricschunkNote->noteMsrPitchAsString () <<
+        ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
