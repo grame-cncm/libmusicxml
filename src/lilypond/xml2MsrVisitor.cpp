@@ -1856,13 +1856,14 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
       // it may not have been created yet JMI
       fCurrentVoice->
         appendBarCheckToVoice (barCheck);
-
+/*
       // add a break chunk to the voice master lyrics
       fCurrentVoice->
         getVoiceMasterLyrics ()->
           addBarCheckChunkToLyrics (
             elt->getInputLineNumber (),
             fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
+            */
     }
   }
 }
@@ -1904,16 +1905,16 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
             fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
   
       // append it to the voice
-      S_msrElement brk = break_;
       fCurrentVoice->
         appendBreakToVoice (break_);
-    
+ /* JMI   
       // add a break chunk to the voice master lyrics
       fCurrentVoice->
         getVoiceMasterLyrics ()->
           addBreakChunkToLyrics (
             elt->getInputLineNumber (),
             fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
+            */
     }
     
     else if (newSystem == "no") {
@@ -2104,6 +2105,7 @@ void xml2MsrVisitor::visitStart ( S_barline& elt )
   }
 }
 
+//______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_bar_style& elt ) 
 {
   fCurrentStyle = elt->getValue();
@@ -2159,6 +2161,7 @@ void xml2MsrVisitor::visitStart ( S_bar_style& elt )
   }
 }
 
+//______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_ending& elt ) 
 {  
   fCurrentEndingtype   = elt->getAttributeValue ("type");  
@@ -2189,6 +2192,7 @@ void xml2MsrVisitor::visitStart ( S_ending& elt )
     elt->getAttributeValue ("number"); // may be "1, 2"
 }
 
+//______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_repeat& elt ) 
 {
   fCurrentRepeatDirection =
@@ -2248,6 +2252,7 @@ void xml2MsrVisitor::visitStart ( S_repeat& elt )
   }
 }
 
+//______________________________________________________________________________
 void xml2MsrVisitor::visitEnd ( S_barline& elt ) 
 {
   /*
@@ -4408,8 +4413,8 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
   int inputLineNumber =
     newNote->getInputLineNumber ();
      
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
+//  if (true || fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebug) {
     cerr <<
       endl <<
       idtr <<

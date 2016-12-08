@@ -2860,14 +2860,14 @@ class EXP msrVoice : public msrElement
                       { return fVoiceMasterLyrics; }
                
     // divisions per whole note
-    void        setDivisionsPerWholeNote (int divisionsPerWholeNote)
-                    {
-                      fDivisionsPerWholeNote =
-                        divisionsPerWholeNote;
-                    }
+    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                      {
+                        fDivisionsPerWholeNote =
+                          divisionsPerWholeNote;
+                      }
                       
-    const int   getDivisionsPerWholeNote () const
-                    { return fDivisionsPerWholeNote; }
+    const int     getDivisionsPerWholeNote () const
+                      { return fDivisionsPerWholeNote; }
           
     // location in measure
     void          setPositionInMeasure (int positionInMeasure)

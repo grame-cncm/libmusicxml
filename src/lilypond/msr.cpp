@@ -2066,7 +2066,6 @@ void msrComment::acceptOut (basevisitor* v) {
   }
 }
 
-
 void msrComment::browseData (basevisitor* v)
 {}
 
@@ -2104,8 +2103,14 @@ msrBreak::msrBreak (
   int           nextBarNumber)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fNextBarNumber=nextBarNumber; 
+  fNextBarNumber = nextBarNumber; 
+
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Creating a break before measure " << fNextBarNumber <<
+      endl;
 }
+
 msrBreak::~msrBreak() {}
 
 void msrBreak::acceptIn (basevisitor* v) {
@@ -2154,7 +2159,7 @@ ostream& operator<< (ostream& os, const S_msrBreak& elt)
 void msrBreak::print (ostream& os)
 {
   os <<
-    "Break" << " " << fNextBarNumber << endl <<
+    "Break" << ", next bar number = " << fNextBarNumber << endl <<
     endl;
 }
 
@@ -2177,7 +2182,12 @@ msrBarCheck::msrBarCheck (
   int           nextBarNumber)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fNextBarNumber=nextBarNumber; 
+  fNextBarNumber = nextBarNumber; 
+
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Creating a bar check before measure " << fNextBarNumber <<
+      endl;
 }
 msrBarCheck::~msrBarCheck() {}
 
@@ -3843,8 +3853,8 @@ void msrLyrics::addBarCheckChunkToLyrics (
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding barcheck chunk" <<
-      " to " << getLyricsName () << endl;
+      "--> Adding a barcheck chunk" <<
+      " to lyrics " << getLyricsName () << endl;
   }
 
   // convert nextMeasureNumber to string
@@ -3885,8 +3895,8 @@ void msrLyrics::addBreakChunkToLyrics (
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding break chunk" <<
-      " to " << getLyricsName () << endl;
+      "--> Adding a break chunk" <<
+      " to lyrics " << getLyricsName () << endl;
   }
 
   // convert nextMeasureNumber to string
@@ -4131,7 +4141,7 @@ void msrBarline::print (ostream& os)
   idtr++;
 
   os <<
-    idtr << setw(15) << "Location" << " : ";
+    idtr << left << setw(15) << "Location" << " : ";
   switch (fLocation) {
     case k_NoLocation:
       os << "none";
@@ -5377,6 +5387,12 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
 
   fVoicechunk->
     appendElementToVoicechunk (barCheck);
+
+  // add bar check chunk to the voice master lyrics
+  fVoiceMasterLyrics->
+    addBarCheckChunkToLyrics (
+      barCheck->getInputLineNumber (),
+      fVoiceMeasureLocation.fMeasureNumber);
 }
 
 void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
@@ -5388,6 +5404,14 @@ void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
 
   fVoicechunk->
     appendElementToVoicechunk (bnc);
+
+/*
+  // add bar number check chunk to the voice master lyrics
+  fVoiceMasterLyrics->
+    addBarnumberCheckChunkToLyrics (
+      bnc->getInputLineNumber (),
+      fVoiceMeasureLocation.fMeasureNumber);
+      */
 }
 
 void msrVoice::appendBreakToVoice (S_msrBreak break_)
@@ -5399,6 +5423,12 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
 
   fVoicechunk->
     appendElementToVoicechunk (break_);
+
+  // add break chunk to the voice master lyrics
+  fVoiceMasterLyrics->
+    addBreakChunkToLyrics (
+      break_->getInputLineNumber (),
+      fVoiceMeasureLocation.fMeasureNumber);
 }
 
 /* JMI
