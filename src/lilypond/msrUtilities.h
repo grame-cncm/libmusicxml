@@ -63,7 +63,8 @@ class indenter {
     // reset the indentation to none
     void print (ostream& os) const;
 
- // JMI   static indenter gIndenter; // global variable for general use
+    // global variable for general use
+    static indenter gIndenter; 
 
   private:
 
@@ -71,13 +72,6 @@ class indenter {
     string fSpacer;
 };
 ostream& operator<< (ostream& os, const indenter& number);
-
-/*!
-\internal
-\brief A macro to simplify indentation
-*/
-//______________________________________________________________________________
-// JMI #define idtr indenter::gIndenter
 
 /*!
 \brief A utility to escape quotes in strings.

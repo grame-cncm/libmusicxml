@@ -47,7 +47,7 @@ void indenter::print (ostream& os) const
   while (i-- > 0) os << fSpacer;
 }
 
-// JMI indenter indenter::gIndenter;
+indenter indenter::gIndenter; // global variable for general use
 
 //______________________________________________________________________________
 string int2EnglishWord (int n)

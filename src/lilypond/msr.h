@@ -71,6 +71,15 @@ typedef SMARTP<msrPartgroup> S_msrPartgroup;
 class msrRepeat;
 typedef SMARTP<msrRepeat> S_msrRepeat;
 
+
+/*!
+\internal
+\brief A macro to simplify indentation
+*/
+//______________________________________________________________________________
+#define idtr indenter::gIndenter
+
+
 /*!
 \internal
 \brief A macro to exit when a condition if false
@@ -324,8 +333,6 @@ class EXP msrElement : public smartable
 
     virtual void print (ostream& os);
     
-    static indenter gIndenter;
-
   protected:
 
     S_msrOptions   fMsrOptions;
@@ -334,13 +341,6 @@ class EXP msrElement : public smartable
 };
 typedef SMARTP<msrElement> S_msrElement;
 EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
-
-/*!
-\internal
-\brief A macro to simplify indentation
-*/
-//______________________________________________________________________________
-#define idtr msrElement::gIndenter
 
 /*!
 \brief A generic msr element representation.

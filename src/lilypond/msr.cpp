@@ -25,82 +25,6 @@ namespace MusicXML2
 //______________________________________________________________________________
 // global variables
 
-// JMI msrLocation  gCurrentLocation;
-
-indenter msrElement::gIndenter;
-
-//______________________________________________________________________________
-/*
-void msrMusicXMLWarning (
-  string inputSourceName, int inputLineNumber, string message)
-{
-  cerr << endl << endl;
-  
-  cerr <<
-    "!!! MusicXML WARNING !!!, " << inputSourceName <<
-    ", input line " << inputLineNumber << ":" <<
-    endl <<
-      
-    message <<
-    endl << endl <<
-    idtr;
-}
-*/
-
-/*
-void msrMusicXMLError (
-  string inputSourceName, int inputLineNumber, string message)
-{
-  cerr << endl << endl;
-
-  
-  cerr <<
-    "### MusicXML ERROR ###, " << inputSourceName <<
-    ", input line " << inputLineNumber << ":" <<
-    endl <<
-      
-    message <<
-    endl << endl <<
-    idtr;
-    
-  assert(false);
-}
-*/
-
-/*
-void msrInternalError (
-  string inputSourceName, int inputLineNumber, string message)
-{
-  cerr << endl << endl;
-  
-  cerr <<
-    "[[[ MSR INTERNAL ERROR ]]], " << inputSourceName <<
-    ", input line " << inputLineNumber << ":" <<
-    endl <<
-      
-    message <<
-    endl << endl <<
-    idtr;
-    
-  assert(false);
-}
-*/
-    /*
-    ", measure " <<
-      gCurrentLocation.fMeasureNumber <<
-    ":" <<
-      gCurrentLocation.fPositionInMeasure <<
-    */
-
-//  idtr--;
-
-/* JMI
-  if (gCurrentLocation.fPositionInMeasure > 0)
-    cerr << gCurrentLocation.fPositionInMeasure;
-  else
-    cerr << "?";
-  cerr << endl ;
- */   
 
 //_______________________________________________________________________________
 void initializeStringToMsrNoteNamesLanguage ()
@@ -133,23 +57,10 @@ S_msrOptions msrOptions::create()
 }
 
 msrOptions::msrOptions() {}
+
 msrOptions::~msrOptions() {}
 
 //______________________________________________________________________________
-/* JMI
-
-S_msrElement msrElement::create (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber)
-{
-  msrElement * o =
-    new msrElement (
-      msrOpts, inputLineNumber);
-  assert(o!=0);
-  return o; 
-}
-*/
-
 msrElement::msrElement (
   S_msrOptions& msrOpts, 
   int                    inputLineNumber)
@@ -159,14 +70,6 @@ msrElement::msrElement (
 }
 
 msrElement::~msrElement() {}
-
-/* JMI
-string msrElementType (S_msrElement elem)
-{
-  if (dynamic_cast elem (elem)) {
-  }
-}
-*/
 
 void msrElement::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
