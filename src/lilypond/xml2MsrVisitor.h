@@ -206,7 +206,8 @@ class EXP xml2MsrVisitor :
   public:
   
     xml2MsrVisitor (
-        S_msrOptions& msrOpts);
+      S_msrOptions& msrOpts);
+
     virtual ~xml2MsrVisitor ();
 
     S_msrScore buildMsrScoreFromXMLElementTree (
@@ -376,7 +377,7 @@ class EXP xml2MsrVisitor :
 
   private:
                      
-    S_msrOptions   fMsrOptions;
+    S_msrOptions              fMsrOptions;
 
     // the MSR score we're building
     // ------------------------------------------------------
@@ -579,7 +580,8 @@ class EXP xml2MsrVisitor :
 
     // stem handling
     // ------------------------------------------------------
-    enum StemDirection { kStemNeutral, kStemUp, kStemDown };
+    enum StemDirection {
+      kStemNeutral, kStemUp, kStemDown };
     
     string                    fCurrentStem;
     StemDirection             fCurrentStemDirection;

@@ -743,7 +743,6 @@ void msr2SummaryVisitor::visitEnd (S_msrBreak& elt)
 }
 
 //________________________________________________________________________
-/*
 void msr2SummaryVisitor::visitStart (S_msrRepeat& elt)
 {
   if (fMsrOptions->fDebug)
@@ -757,7 +756,6 @@ void msr2SummaryVisitor::visitEnd (S_msrRepeat& elt)
     fOstream << idtr <<
       "--> End visiting msrRepeat" << endl;
 }
-*/
 
 //________________________________________________________________________
 /* JMI

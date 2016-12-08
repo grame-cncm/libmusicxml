@@ -61,9 +61,7 @@ class msr2LpsrVisitor :
   public visitor<S_msrTempo>,
   
   public visitor<S_msrVoicechunk>,
-  
-//  public visitor<S_msrDuration>, JMI
-  
+    
   public visitor<S_msrArticulation>,
 
   public visitor<S_msrDynamics>,
@@ -157,9 +155,6 @@ class msr2LpsrVisitor :
     virtual void visitStart (S_msrVoicechunk& elt);
     virtual void visitEnd   (S_msrVoicechunk& elt);
 
-//    virtual void visitStart (S_msrDuration& elt); JMI
-//    virtual void visitEnd   (S_msrDuration& elt);
-
     virtual void visitStart (S_msrArticulation& elt);
     virtual void visitEnd   (S_msrArticulation& elt);
 
@@ -250,7 +245,7 @@ class msr2LpsrVisitor :
     // parts
     // ------------------------------------------------------
     S_msrPart               fCurrentPartClone;
-    S_lpsrPartBlock       fCurrentPartBlock;
+    S_lpsrPartBlock         fCurrentPartBlock;
     
     // staves
     // ------------------------------------------------------

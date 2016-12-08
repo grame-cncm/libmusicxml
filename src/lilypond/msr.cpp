@@ -117,9 +117,9 @@ void msrElement::print (ostream& os)
 }
 
 //______________________________________________________________________________
-ostream& operator<< (ostream& os, msrMusicXMLNoteData& mxmlData)
+ostream& operator<< (ostream& os, msrMusicXMLNoteData& musicXMLNoteData)
 {
-  mxmlData.print (os);
+  musicXMLNoteData.print (os);
   return os;
 }
 
@@ -1002,7 +1002,7 @@ msrNote::msrNote (
   } // switch
   
   // flat or sharp,possibly double?
-  msrMusicXMLNoteData::msrMusicXMLAlteration mxmlAlteration;
+  msrMusicXMLNoteData::msrMusicXMLAlteration musicXMLAlteration;
 
 /*
   cerr <<
@@ -1011,89 +1011,59 @@ msrNote::msrNote (
 */
   
   switch (fMusicXMLNoteData.fMusicXMLAlteration) {
+    
     case -2:
-      mxmlAlteration = msrMusicXMLNoteData::kDoubleFlat;
+      musicXMLAlteration = msrMusicXMLNoteData::kDoubleFlat;
       noteQuatertonesFromA-=3;
       if (noteQuatertonesFromA < 0)
         noteQuatertonesFromA += 24; // it is below A
       break;
+      
     case -1:
-      mxmlAlteration = msrMusicXMLNoteData::kFlat;
+      musicXMLAlteration = msrMusicXMLNoteData::kFlat;
       noteQuatertonesFromA-=2;
       if (noteQuatertonesFromA < 0)
         noteQuatertonesFromA += 24; // it is below A
       break;
+      
     case 0:
-      mxmlAlteration = msrMusicXMLNoteData::kNatural;
+      musicXMLAlteration = msrMusicXMLNoteData::kNatural;
       break;
+      
     case 1:
-      mxmlAlteration = msrMusicXMLNoteData::kSharp;
+      musicXMLAlteration = msrMusicXMLNoteData::kSharp;
       noteQuatertonesFromA+=2;
       break;
+      
     case 2:
-      mxmlAlteration = msrMusicXMLNoteData::kDoubleSharp;
+      musicXMLAlteration = msrMusicXMLNoteData::kDoubleSharp;
       noteQuatertonesFromA+=3;
       break;
+      
     default:
       {
       stringstream s;
+      
       s <<
         "MusicXML alteration " << fMusicXMLNoteData.fMusicXMLAlteration <<
         " is not between -2 and +2";
+        
       msrMusicXMLError (
         fMsrOptions->fInputSourceName,
         fInputLineNumber,
-        s.str());
-      
-      msrAssert ( // JMI
-        fMusicXMLNoteData.fMusicXMLAlteration>=-2
-          &&
-        fMusicXMLNoteData.fMusicXMLAlteration<=+2,
         s.str());
       }
    } // switch
 
   fNoteMsrPitch = 
-    computeNoteMsrPitch (noteQuatertonesFromA, mxmlAlteration);
+    computeNoteMsrPitch (
+      noteQuatertonesFromA, musicXMLAlteration);
 
   fNoteIsChordFirstNote = false;
 }
-  /*
-  int divisionsPerWholeNote = fMusicXMLNoteData.fMusicXMLDivisions*4;
-  
-//  if (true || fMsrOptions->fDebugDebug)
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "--> fMusicXMLNoteData.fMusicXMLDivisions = " <<
-      fMusicXMLNoteData.fMusicXMLDivisions << ", " << 
-      "divisionsPerWholeNote = " << divisionsPerWholeNote << endl;
-    
-  msrAssert(
-    divisionsPerWholeNote > 0,
-    "The MusicMXL divisions per quater note value should be positive");
 
-  fNoteMsrDuration =
-    msrDuration::create (
-      fMsrOptions,
-      fInputLineNumber,
-      fMusicXMLNoteData.fMusicXMLDuration,
-      divisionsPerWholeNote,
-      fMusicXMLNoteData.fMusicXMLDotsNumber,
-      fMusicXMLNoteData.fMusicXMLTupletMemberNoteType);
-//  cerr << "fNoteMsrDuration = " << fNoteMsrDuration << endl;
-    */
-    
-  // diatonic note for relative code JMI
-//  msrNote::MusicXMLDiatonicPitch diatonicNote =
-//    msrNote::k_NoDiatonicPitch;
-
-msrNote::~msrNote() {}
-/* JMI
-bool msrNote::getNoteIsARest ()
-{
-  return fNoteKind == msrNote::kRestNote;
-}
-*/
+msrNote::~msrNote()
+{}
 
 void msrNote::setNoteBelongsToAChord () {
   if (fMsrOptions->fDebug)
