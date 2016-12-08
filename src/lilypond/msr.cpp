@@ -1443,8 +1443,6 @@ string msrNote::noteMsrPitchAsString () const
       
       default: s << "Note" << fNoteMsrPitch << "???";
     } // switch
-
- // JMI   s << fMusicXMLNoteData.fMusicXMLOctave;
   }
   
   return s.str();
@@ -1552,6 +1550,7 @@ string msrNote::noteAsString () const
         "Standalone note" <<
         " " <<
         noteMsrPitchAsString () <<
+        "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
       break;
@@ -1568,6 +1567,7 @@ string msrNote::noteAsString () const
         "Chord member note" <<
         " " <<
         noteMsrPitchAsString () <<
+        "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
       break;
@@ -1577,6 +1577,7 @@ string msrNote::noteAsString () const
         "Tuplet member note" <<
         " " <<
         noteMsrPitchAsString () <<
+        "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
       break;
