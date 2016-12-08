@@ -3261,7 +3261,7 @@ void xml2MsrVisitor::visitEnd ( S_unpitched& elt)
 //______________________________________________________________________________
 S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
 {
-  if (fMsrOptions->fDebug)
+//  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> creating a chord on its 2nd note" <<
       fCurrentNote <<

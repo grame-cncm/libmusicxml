@@ -1785,7 +1785,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
     fSequentialMusicElementsCounter = 1;
   }
 
-  fOstream << idtr << "<";
+  fOstream << "<";
 
   
   fRelativeOctaveReference = elt->getChordNotes () [0];
@@ -1806,7 +1806,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
     elt->getChordTieKind ()
       ==
     msrMusicXMLNoteData::kStartTie) {
-      fOstream << " ~ ";
+      fOstream << "~ ";
   }
 }
 

@@ -256,20 +256,24 @@ msrMusicXMLNoteData::msrMusicXMLNoteData ()
 
 string msrMusicXMLNoteData::musicXMLTieKindAsString () const
 {
+  string result;
+  
   switch (fMusicXMLTieKind) {
     case kStartTie:
-      return "start tie";
+      result = "start tie";
       break;
     case kContinueTie:
-      return "continue tie";
+      result = "continue tie";
       break;
     case kStopTie:
-      return "stop tie";
+      result = "stop tie";
       break;
     case k_NoTie:
-      return "NO_TIE";
+      result = "NO_TIE";
       break;
   } // switch
+
+  return result;
 }
 
 void msrMusicXMLNoteData::print (ostream& os)
@@ -1712,7 +1716,8 @@ string msrNote::noteAsString () const
     fMusicXMLNoteData.fMusicXMLTieKind
       !=
     msrMusicXMLNoteData::k_NoTie ) {
-      s << fMusicXMLNoteData.musicXMLTieKindAsString ();
+      s <<
+        ", " << fMusicXMLNoteData.musicXMLTieKindAsString ();
   }
 
   return s.str();
@@ -1860,13 +1865,13 @@ S_msrChord msrChord::createEmptyClone ()
         fInputLineNumber,
         fChordDivisions);
 
+  clone->
+    fDivisionsPerWholeNote = fDivisionsPerWholeNote;
+
   // use setChordMeasureLocation() for its side effects
   // instead of a direct assignment to fChordMeasureLocation
   clone->
     setChordMeasureLocation (fChordMeasureLocation);
-
-  clone->
-    setChordDivisions (fChordDivisions);
     
   clone->fChordTieKind = fChordTieKind;
   
@@ -1906,7 +1911,6 @@ void msrChord::acceptOut (basevisitor* v) {
         p->visitEnd (elem);
   }
 }
-
 
 void msrChord::browseData (basevisitor* v)
 {
@@ -5122,7 +5126,7 @@ void msrVoice::setMeasureNumber (
     ! fMeasureNumberHasBeenSet) {
     anacrusisKind = kExplicitAnacrusis;
   }
-  /*
+  / *
   else if (
 //    getPositionInMeasure () == 13 JMI
  //     &&
