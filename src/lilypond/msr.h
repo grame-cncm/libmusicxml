@@ -1236,7 +1236,7 @@ class EXP msrIdentification : public msrElement
 
     void        setMovementNumber (
                   int    inputLineNumber,
-                  string vall);
+                  string val);
 
     void        setMovementTitle (
                   int    inputLineNumber,
@@ -3033,36 +3033,37 @@ class EXP msrStaff : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int       getStaffNumber () const
-                  { return fStaffNumber; }
+    int         getStaffNumber () const
+                    { return fStaffNumber; }
                 
-    S_msrPart getStaffPartUplink () const
-                  { return fStaffPartUplink; }
+    S_msrPart   getStaffPartUplink () const
+                    { return fStaffPartUplink; }
 
-    string    getStaffName () const;
+    string      getStaffName () const;
 
-    string    getStaffInstrumentName () const
-                  { return fStaffInstrumentName; }
+    string      getStaffInstrumentName () const
+                    { return fStaffInstrumentName; }
 
-    S_msrClef getStaffClef () const { return fStaffClef; };
-    S_msrKey  getStaffKey  () const { return fStaffKey; };
-    S_msrTime getStaffTime () const { return fStaffTime; };
+    S_msrClef   getStaffClef () const { return fStaffClef; };
+    S_msrKey    getStaffKey  () const { return fStaffKey; };
+    S_msrTime   getStaffTime () const { return fStaffTime; };
     
-    void      setStaffClef (S_msrClef clef);
-    void      setStaffKey  (S_msrKey  key);
-    void      setStaffTime (S_msrTime time);
+    void       setStaffClef (S_msrClef clef);
+    void        setStaffKey  (S_msrKey  key);
+    void        setStaffTime (S_msrTime time);
 
     map<int, S_msrVoice>
-              getStaffVoicesMap ()
-                  { return fStaffVoicesMap; }
+                getStaffVoicesMap ()
+                    { return fStaffVoicesMap; }
 
     // divisions per whole note
-    void        setDivisionsPerWholeNote (int divisionsPerWholeNote)
+    void        setDivisionsPerWholeNote (
+                  int divisionsPerWholeNote)
                     {
                       fDivisionsPerWholeNote =
                         divisionsPerWholeNote;
 
-                      setAllStaffDivisionsPerWholeNote (
+                      setAllVoicesDivisionsPerWholeNote (
                         divisionsPerWholeNote);
                     }
                       
@@ -3072,7 +3073,8 @@ class EXP msrStaff : public msrElement
     // services
     // ------------------------------------------------------
 
-    void        setAllStaffDivisionsPerWholeNote (int divisions);
+    void        setAllVoicesDivisionsPerWholeNote (
+                  int divisions);
 
     S_msrVoice  addVoiceToStaff (
                   int inputLineNumber,
@@ -3189,12 +3191,13 @@ class EXP msrPart : public msrElement
     string        getPartCombinedName () const;
 
     // divisions per whole note
-    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
+    void          setDivisionsPerWholeNote (
+                    int divisionsPerWholeNote)
                       {
                         fDivisionsPerWholeNote =
                           divisionsPerWholeNote;
 
-                        setAllPartDivisionsPerWholeNote (
+                        setAllStavesDivisionsPerWholeNote (
                           divisionsPerWholeNote);
                       }
                       
@@ -3204,7 +3207,8 @@ class EXP msrPart : public msrElement
     // services
     // ------------------------------------------------------
 
-    void          setAllPartDivisionsPerWholeNote (int divisions);
+    void          setAllStavesDivisionsPerWholeNote (
+                    int divisions);
     
     void          setAllPartStavesClef (S_msrClef clef);
               

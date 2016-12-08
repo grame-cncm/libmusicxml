@@ -5569,7 +5569,7 @@ string msrStaff::getStaffName () const
     int2EnglishWord (fStaffNumber);
   }
 
-void msrStaff::setAllStaffDivisionsPerWholeNote (int divisions)
+void msrStaff::setAllVoicesDivisionsPerWholeNote (int divisions)
 {
   for (
     map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
@@ -5936,7 +5936,7 @@ string msrPart::getPartCombinedName () const
     " (" + fPartMusicXMLID + ")";
 }
 
-void msrPart::setAllPartDivisionsPerWholeNote (int divisions)
+void msrPart::setAllStavesDivisionsPerWholeNote (int divisions)
 {
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
