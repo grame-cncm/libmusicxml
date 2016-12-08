@@ -523,7 +523,13 @@ class EXP xml2MsrVisitor :
     S_msrRepeat               fCurrentRepeat;
     stack<S_msrBarline>       fPendingBarlines;
     bool                      fOnGoingRepeat;
+    void                      handleRepeatStart (
+                                S_barline     elt,
+                                S_msrBarline& barline);
     void                      handleHooklessEndingEnd (
+                                S_barline     elt,
+                                S_msrBarline& barline);
+    void                      handleHookedEndingEnd (
                                 S_barline     elt,
                                 S_msrBarline& barline);
     void                      handleEndingStart (

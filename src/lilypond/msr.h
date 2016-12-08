@@ -2930,9 +2930,6 @@ class EXP msrVoice : public msrElement
 
     void          appendBreakToVoice    (S_msrBreak break_);
 
-// JMI    void          appendElementToVoice  (S_msrElement elem);
-                // for other types of elements
-
     void          removeLastElementFromVoice ();
 
     S_msrLyrics

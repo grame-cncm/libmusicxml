@@ -832,6 +832,11 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
 
   idtr++;
 
+  if (fLpsrOptions->fNoAutoBeaming)
+    fOstream << idtr <<
+      "\\set Voice.autoBeaming = ##f" <<
+      endl;
+    
   fOstream << idtr;
   switch (elt->getVoice ()->getVoiceNumber ()) {
     case 1:

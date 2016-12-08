@@ -143,6 +143,7 @@ class EXP lpsrOptions : public smartable {
     bool                            fGenerateNumericalTime;
     bool                            fGenerateComments;
     bool                            fGenerateStems;
+    bool                            fNoAutoBeaming;
     bool                            fGeneratePositions;
     
     bool                            fDontGenerateLilyPondLyrics;

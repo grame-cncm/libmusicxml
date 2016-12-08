@@ -175,7 +175,7 @@ void displayMsrScore (
   if (msrOpts->fTrace) 
     os << idtr <<
       separator << endl <<
-      "%Outputting a view of the MSR" << endl <<
+      "%Pass 2 bis: outputting a view of the MSR" << endl <<
       separator << endl;
   
   if (msrOpts->fTrace) os << "%{" << endl;

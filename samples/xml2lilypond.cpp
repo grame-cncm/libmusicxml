@@ -153,6 +153,9 @@ void printUsage (int exitStatus)
     "          such as '% part P_POne (P1)'." << endl <<
     "    --noStems" << endl <<
     "          Don't generate \\stemUp nor \\stemDown LilyPond commands." << endl <<
+    "    --noAutoBeaming" << endl <<
+    "          Generate '\\set Voice.autoBeaming = ##f' in each voice " << endl <<
+    "          to prevent LilyPond from handling beams automatically." << endl <<
     endl <<
     "    --nolpl, --dontGenerateLilyPondLyrics" << endl <<
     "          Don't generate lyrics in the LilyPond code." << endl <<
@@ -217,6 +220,7 @@ void analyzeOptions (
   lpsrOpts->fGenerateNumericalTime            = false;
   lpsrOpts->fGenerateComments                 = false;
   lpsrOpts->fGenerateStems                    = false;
+  lpsrOpts->fNoAutoBeaming                    = false;
   lpsrOpts->fGeneratePositions                = false;
 
   lpsrOpts->fDontDisplayLilyPondCode          = false;
@@ -266,8 +270,9 @@ void analyzeOptions (
   int absolutePresent                   = 0;
   
   int numericaltimePresent              = 0;
-  int commentsPresent                 = 0;
+  int commentsPresent                   = 0;
   int stemsPresent                      = 0;
+  int noAutoBeamingPresent              = 0;
   int positionsPresent                  = 0;
   
   int dontGenerateLilyPondLyricsPresent = 0;
@@ -486,6 +491,11 @@ void analyzeOptions (
       "stems",
       no_argument,
       &stemsPresent, 1
+    },
+    {
+      "noAutoBeaming",
+      no_argument,
+      &noAutoBeamingPresent, 1
     },
     {
       "positions",
@@ -765,11 +775,16 @@ void analyzeOptions (
           msrOpts->fCommandLineOptions +=
             "--stems ";
         }
+        if (noAutoBeamingPresent) {
+          lpsrOpts->fNoAutoBeaming = true;
+          msrOpts->fCommandLineOptions +=
+            "--noAutoBeaming ";
+        }
         if (positionsPresent) {
           lpsrOpts->fGeneratePositions = true;
           msrOpts->fCommandLineOptions +=
             "--positions ";
-          stemsPresent = false;
+          positionsPresent = false;
         }
         
         if (dontGenerateLilyPondLyricsPresent) {
@@ -965,6 +980,9 @@ void printOptions (
       ? "true" : "false") << endl <<
     idtr << setw(fieldWidth) << "generateStems" << " : " <<
       string(lpsrOpts->fGenerateStems
+      ? "true" : "false") << endl <<
+    idtr << setw(fieldWidth) << "noAutoBeaming" << " : " <<
+      string(lpsrOpts->fNoAutoBeaming
       ? "true" : "false") << endl <<
 //      setw(fieldWidth) << "generatePositions" << " : " <<
 //        string(lpsrOpts->fGeneratePositions

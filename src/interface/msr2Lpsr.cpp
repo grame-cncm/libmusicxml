@@ -95,7 +95,7 @@ void displayLpsrScore (
   if (msrOpts->fTrace) 
     os << idtr <<
       separator << endl <<
-      "%Outputting a view of the LPSR" << endl <<
+      "%Pass 3 bis: outputting a view of the LPSR" << endl <<
       separator << endl;
   
   if (msrOpts->fTrace) os << "%{" << endl;
