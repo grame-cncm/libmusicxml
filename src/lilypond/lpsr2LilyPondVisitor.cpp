@@ -659,7 +659,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrPartgroupBlock" << endl;
 
-//  if (elt->getPartgroupBlockElements ().size() > 1) {
+  // the top level part group is the score block's S_lpsrParallelMusic
   if (elt->getPartgroup ()->getPartgroupPartgroupUplink ()) {
     // the part group is not the top level one
     fOstream << idtr <<
@@ -669,9 +669,9 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
         "% part group " <<
         elt->getPartgroup ()->getPartgroupCombinedName ();
     fOstream << endl;
-  }
 
-  idtr++;
+    idtr++;
+  }
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupBlock& elt)
@@ -680,11 +680,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupBlock& elt)
     fOstream << idtr <<
       "% --> End visiting lpsrPartgroupBlock" << endl;
 
-  idtr--;
-
-//  if (elt->getPartgroupBlockElements ().size() > 1) {
+  // the top level part group is the score block's S_lpsrParallelMusic
   if (elt->getPartgroup ()->getPartgroupPartgroupUplink ()) {
     // the part group is not the top level one
+    idtr--;
+
     fOstream <<
       idtr <<
       setw(30) << "}";
@@ -886,13 +886,15 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewLyricsBlock& elt)
 
 //  if (fOngoingNonEmptyLyrics) {
   if (true || fOngoingNonEmptyLyrics) { // JMI
-    fOstream << idtr <<
-     "\\new Lyrics" << " " <<
-    "\\lyricsto" << " " <<
-    "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
-    " " <<
-    "\\" << elt->getLyrics ()->getLyricsName () <<
-    endl;
+    fOstream <<
+      idtr <<
+        "\\new Lyrics" << " " <<
+        "\\lyricsto" << " " <<
+        "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
+      endl <<
+      idtr <<
+        "\\" << elt->getLyrics ()->getLyricsName () <<
+      endl;
 
     idtr++;
   }
@@ -1943,8 +1945,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarCheck& elt)
 
   fOstream << idtr <<
     "| % " << elt->getNextBarNumber () <<
-    endl <<
-    idtr;
+    endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarCheck& elt)
