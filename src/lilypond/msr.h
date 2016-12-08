@@ -378,6 +378,11 @@ class msrMusicXMLNoteData
 {
   public:
 
+    enum msrMusicXMLAlteration {
+      // kDoubleFlat=-2 as in MusicXML, to faciliting testing
+      kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp,
+      k_NoAlteration};
+
     enum msrMusicXMLTieKind {
         k_NoTie,
         kStartTie, kContinueTie, kStopTie };
@@ -845,11 +850,6 @@ class EXP msrNote : public msrElement
       kC, kD, kE, kF, kG, kA, kB, 
       kRest, k_NoDiatonicPitch};
     
-    enum musicXMLAlteration {
-      // kDoubleFlat=-2 as in MusicXML, to faciliting testing
-      kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp,
-      k_NoAlteration};
-
     enum msrPitch {
       k_aeseh, k_aes, k_aeh, k_a, k_aih, k_ais, k_aisih,
       k_beseh, k_bes, k_beh, k_b, k_bih, k_bis, k_bisih, 
@@ -1006,8 +1006,9 @@ class EXP msrNote : public msrElement
     // ------------------------------------------------------
 
     msrPitch computeNoteMsrPitch (
-                    int                         noteQuatertonesFromA,
-                    msrNote::musicXMLAlteration alteration);
+                    int   noteQuatertonesFromA,
+                    msrMusicXMLNoteData::msrMusicXMLAlteration
+                          alteration);
                           
     static map<msrPitch, string>
                   sDutchLilypondPitches;

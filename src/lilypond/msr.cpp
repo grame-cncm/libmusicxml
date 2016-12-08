@@ -222,7 +222,7 @@ ostream& operator<< (ostream& os, msrMusicXMLNoteData& mxmlData)
 
 msrMusicXMLNoteData::msrMusicXMLNoteData ()
 {
-  fMusicXMLStep = "?";
+  fMusicXMLStep = '?';
   fMusicXMLStepIsARest = false;;
   fMusicXMLStepIsUnpitched = false;;
   
@@ -249,7 +249,7 @@ msrMusicXMLNoteData::msrMusicXMLNoteData ()
   fMusicXMLNoteBelongsToATuplet = false;;
   fMusicXMLTupletMemberNoteType = "";
 
-  fMusicXMLNoteIsTied = false;;
+  fMusicXMLTieKind = k_NoTie;
 
   fMusicXMLVoiceNumber = -1;
 }
@@ -961,57 +961,33 @@ S_msrNote msrNote::createRest (
   int           divisions,
   int           voiceNumber)
 {
-  msrMusicXMLNoteData mxmlNoteData;
+  msrMusicXMLNoteData musicXMLNoteData;
 
-/*
-    char        fMusicXMLStep;
-    bool        fMusicXMLStepIsARest;
-    bool        fMusicXMLStepIsUnpitched;
-    
-    int         fMusicXMLAlteration;
-    
-    int         fMusicXMLOctave;
-    
-    int         fMusicXMLDivisions;
+  musicXMLNoteData.fMusicXMLStep = 'r';
+  musicXMLNoteData.fMusicXMLStepIsARest = true;
+  musicXMLNoteData.fMusicXMLStepIsUnpitched = false;
 
-    int         fMusicXMLDotsNumber;
-    
-    bool        fMusicXMLNoteIsAGraceNote;
-    
-    bool        fMusicXMLNoteBelongsToAChord;
-    
-    bool        fMusicXMLNoteBelongsToATuplet;
-    string      fMusicXMLTupletMemberNoteType;
-
-    bool        fMusicXMLNoteIsTied;
-
-    int         fMusicXMLVoiceNumber;
-*/
-
-  mxmlNoteData.fMusicXMLStep = 'r';
-  mxmlNoteData.fMusicXMLStepIsARest = true;
-  mxmlNoteData.fMusicXMLStepIsUnpitched = false;
-
-  mxmlNoteData.fMusicXMLAlteration = 0;
-  mxmlNoteData.fMusicXMLOctave = 0;
+  musicXMLNoteData.fMusicXMLAlteration = 0;
+  musicXMLNoteData.fMusicXMLOctave = 0;
   
-  mxmlNoteData.fMusicXMLDivisions = divisions;
+  musicXMLNoteData.fMusicXMLDivisions = divisions;
 
-  mxmlNoteData.fMusicXMLDotsNumber = 0;
+  musicXMLNoteData.fMusicXMLDotsNumber = 0;
   
-  mxmlNoteData.fMusicXMLNoteIsAGraceNote = false;
+  musicXMLNoteData.fMusicXMLNoteIsAGraceNote = false;
   
-  mxmlNoteData.fMusicXMLNoteBelongsToAChord = false;
+  musicXMLNoteData.fMusicXMLNoteBelongsToAChord = false;
   
-  mxmlNoteData.fMusicXMLNoteBelongsToATuplet = false;
+  musicXMLNoteData.fMusicXMLNoteBelongsToATuplet = false;
   
-  mxmlNoteData.fMusicXMLNoteIsTied = false;
+  musicXMLNoteData.fMusicXMLTieKind =
+    msrMusicXMLNoteData::k_NoTie;
   
-  mxmlNoteData.fMusicXMLVoiceNumber = voiceNumber;
+  musicXMLNoteData.fMusicXMLVoiceNumber = voiceNumber;
 
   msrNote * o =
     new msrNote (
-      msrOpts, inputLineNumber, mxmlNoteData, msrSlur::k_NoSlur);
+      msrOpts, inputLineNumber, musicXMLNoteData, msrSlur::k_NoSlur);
   assert(o!=0); 
   return o;
 }    
@@ -1101,7 +1077,7 @@ msrNote::msrNote (
   } // switch
   
   // flat or sharp,possibly double?
-  msrNote::musicXMLAlteration mxmlAlteration;
+  msrMusicXMLNoteData::msrMusicXMLAlteration mxmlAlteration;
 
 /*
   cerr <<
@@ -1111,26 +1087,26 @@ msrNote::msrNote (
   
   switch (fMusicXMLNoteData.fMusicXMLAlteration) {
     case -2:
-      mxmlAlteration = msrNote::kDoubleFlat;
+      mxmlAlteration = msrMusicXMLNoteData::kDoubleFlat;
       noteQuatertonesFromA-=3;
       if (noteQuatertonesFromA < 0)
         noteQuatertonesFromA += 24; // it is below A
       break;
     case -1:
-      mxmlAlteration = msrNote::kFlat;
+      mxmlAlteration = msrMusicXMLNoteData::kFlat;
       noteQuatertonesFromA-=2;
       if (noteQuatertonesFromA < 0)
         noteQuatertonesFromA += 24; // it is below A
       break;
     case 0:
-      mxmlAlteration = msrNote::kNatural;
+      mxmlAlteration = msrMusicXMLNoteData::kNatural;
       break;
     case 1:
-      mxmlAlteration = msrNote::kSharp;
+      mxmlAlteration = msrMusicXMLNoteData::kSharp;
       noteQuatertonesFromA+=2;
       break;
     case 2:
-      mxmlAlteration = msrNote::kDoubleSharp;
+      mxmlAlteration = msrMusicXMLNoteData::kDoubleSharp;
       noteQuatertonesFromA+=3;
       break;
     default:
@@ -1223,8 +1199,9 @@ void msrNote::applyTupletMemberDisplayFactor (
 }
 
 msrNote::msrPitch msrNote::computeNoteMsrPitch (
-  int                         noteQuatertonesFromA,
-  msrNote::musicXMLAlteration alteration)
+  int   noteQuatertonesFromA,
+  msrMusicXMLNoteData::msrMusicXMLAlteration
+        alteration)
 {
   // computing the msr pitch
   /*
@@ -1250,19 +1227,19 @@ msrNote::msrPitch msrNote::computeNoteMsrPitch (
       break;
     case 1:
       pitch =
-        alteration == msrNote::kDoubleSharp
+        alteration == msrMusicXMLNoteData::kDoubleSharp
           ? msrNote::k_aih
           : msrNote::k_beseh;
       break;
     case 2:
       pitch =
-        alteration == msrNote::kSharp
+        alteration == msrMusicXMLNoteData::kSharp
           ? msrNote::k_ais
           : msrNote::k_bes;
       break;
     case 3:
       pitch =
-        alteration == msrNote::kDoubleSharp
+        alteration == msrMusicXMLNoteData::kDoubleSharp
           ? msrNote::k_aisih
           : msrNote::k_beh;
       break;
@@ -1271,7 +1248,7 @@ msrNote::msrPitch msrNote::computeNoteMsrPitch (
       break;
     case 5:
       pitch =
-        alteration == msrNote::kDoubleSharp
+        alteration == msrMusicXMLNoteData::kDoubleSharp
           ? msrNote::k_bih
           : msrNote::k_ceseh;
       break;
@@ -1280,19 +1257,19 @@ msrNote::msrPitch msrNote::computeNoteMsrPitch (
       break;
     case 7:
       pitch =
-        alteration == msrNote::kDoubleSharp
+        alteration == msrMusicXMLNoteData::kDoubleSharp
           ? msrNote::k_cih
           : msrNote::k_deseh;
       break;
     case 8:
       pitch =
-        alteration == msrNote::kSharp
+        alteration == msrMusicXMLNoteData::kSharp
           ? msrNote::k_cis
           : msrNote::k_des;
       break;
     case 9:
       pitch =
-        alteration == msrNote::kDoubleSharp
+        alteration == msrMusicXMLNoteData::kDoubleSharp
           ? msrNote::k_cisih
           : msrNote::k_deh;
       break;
@@ -1301,19 +1278,19 @@ msrNote::msrPitch msrNote::computeNoteMsrPitch (
       break;
     case 11:
       pitch =
-        alteration == msrNote::kDoubleSharp
+        alteration == msrMusicXMLNoteData::kDoubleSharp
           ? msrNote::k_dih
           : msrNote::k_eeseh;
       break;
     case 12:
       pitch =
-        alteration == msrNote::kSharp
+        alteration == msrMusicXMLNoteData::kSharp
           ? msrNote::k_dis
           : msrNote::k_ees;
       break;
     case 13:
       pitch =
-        alteration == msrNote::kDoubleSharp
+        alteration == msrMusicXMLNoteData::kDoubleSharp
           ? msrNote::k_disih
           : msrNote::k_eeh;
       break;
@@ -1322,7 +1299,7 @@ msrNote::msrPitch msrNote::computeNoteMsrPitch (
       break;
     case 15:
       pitch =
-        alteration == msrNote::kDoubleSharp
+        alteration == msrMusicXMLNoteData::kDoubleSharp
           ? msrNote::k_eih
           : msrNote::k_feseh;
       break;
@@ -1331,19 +1308,19 @@ msrNote::msrPitch msrNote::computeNoteMsrPitch (
       break;
     case 17:
       pitch =
-        alteration == msrNote::kDoubleSharp
+        alteration == msrMusicXMLNoteData::kDoubleSharp
           ? msrNote::k_fih
           : msrNote::k_geseh;
       break;
     case 18:
       pitch =
-        alteration == msrNote::kSharp
+        alteration == msrMusicXMLNoteData::kSharp
           ? msrNote::k_fis
           : msrNote::k_ges;
       break;
     case 19:
       pitch =
-        alteration == msrNote::kDoubleSharp
+        alteration == msrMusicXMLNoteData::kDoubleSharp
           ? msrNote::k_fisih
           : msrNote::k_geh;
       break;
@@ -1352,19 +1329,19 @@ msrNote::msrPitch msrNote::computeNoteMsrPitch (
       break;
     case 21:
       pitch =
-        alteration == msrNote::kDoubleSharp
+        alteration == msrMusicXMLNoteData::kDoubleSharp
           ? msrNote::k_gih
           : msrNote::k_aeseh;
       break;
     case 22:
       pitch =
-        alteration == msrNote::kSharp
+        alteration == msrMusicXMLNoteData::kSharp
           ? msrNote::k_gis
           : msrNote::k_aes;
       break;
     case 23:
       pitch =
-        alteration == msrNote::kDoubleSharp
+        alteration == msrMusicXMLNoteData::kDoubleSharp
           ? msrNote::k_gisih
           : msrNote::k_aeh;
       break;
