@@ -203,14 +203,16 @@ msrNoteNamesLanguage getMsrNoteNamesLanguage (string lang);
   A class is used to avoid passing arguments one by one
   to the various methods that need them.
 */
-class EXP msrOptions : public smartable {
+class EXP msrOptions : public smartable
+{
   public:
 
     static SMARTP<msrOptions> create ();
     
-  public:
+  protected:
   
     msrOptions();
+  
     virtual ~msrOptions();
  
   public:
@@ -293,6 +295,16 @@ class EXP msrElement : public smartable
     // creation from MusicXML
     // ------------------------------------------------------
 
+  protected:
+
+     msrElement (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+
+    virtual ~msrElement();
+
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -315,17 +327,10 @@ class EXP msrElement : public smartable
     static indenter gIndenter;
 
   protected:
-     
+
     S_msrOptions   fMsrOptions;
+     
     int            fInputLineNumber;
-    
-    msrElement (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
-
-    virtual ~msrElement();
-
-  private:
 };
 typedef SMARTP<msrElement> S_msrElement;
 EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
@@ -346,18 +351,13 @@ EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
 //______________________________________________________________________________
 template <typename T> class EXP msrBrowser : public browser<T> 
 {
-  protected:
-  
-    basevisitor*  fVisitor;
-
-    virtual void enter (T& t) { t.acceptIn  (fVisitor); }
-    virtual void leave (T& t) { t.acceptOut (fVisitor); }
-
   public:
     
     msrBrowser (basevisitor* v) : fVisitor (v) {}
     
     virtual ~msrBrowser() {}
+
+  public:
 
     virtual void set (basevisitor* v) { fVisitor = v; }
     
@@ -368,6 +368,13 @@ template <typename T> class EXP msrBrowser : public browser<T>
       
       leave (t);
     }
+
+  protected:
+  
+    basevisitor*  fVisitor;
+
+    virtual void enter (T& t) { t.acceptIn  (fVisitor); }
+    virtual void leave (T& t) { t.acceptOut (fVisitor); }
 };
 
 /*!
@@ -389,9 +396,9 @@ class msrMusicXMLNoteData
         
     msrMusicXMLNoteData ();
 
-    string   musicXMLTieKindAsString () const;
+    string        musicXMLTieKindAsString () const;
 
-    virtual void print (ostream& os);
+    virtual void  print (ostream& os);
  
   public:
   
@@ -445,98 +452,6 @@ class musicXMLBeatData // JMI ???
 };
 
 /*!
-\brief A msr note duration representation.
-
-  Musical notation duration is commonly represented as fractions. 
-
-  Duration is a positive number specified in division units.
- 
-  The divisions element indicates how many divisions per quarter note 
-  are used to indicate a note's duration. 
-  For example, if duration = 1 and divisions = 2, this is an eighth note duration. 
-   
-  While MusicXML durations are in in divisions per quarter note,
-  LilyPond durations are in whole notes, hence the "*4" multiplications
-  
-  A note duration is represented by:
-    - a numerator (the number of beats)
-    - a denominator (the beat value)
-    - and optional dots.
-*/
-//______________________________________________________________________________
-/*
-class EXP msrDuration : public msrElement
-{
-  public:
-  
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrDuration> create (
-      S_msrOptions&          msrOpts, 
-      int                    inputLineNumber,
-      int                    num,
-      int                    denom,
-      int                    dots,
-      string                 tupletMemberType);
-    
-    msrDuration (
-      S_msrOptions&          msrOpts, 
-      int                    inputLineNumber,
-      int                    num,
-      int                    denom,
-      int                    dots,
-      string                 tupletMemberType);
-        
-    virtual ~msrDuration();
-    
-    // set and get
-    // ------------------------------------------------------
-
-    void scaleNumByFraction (int num, int denom);
-        
-    // services
-    // ------------------------------------------------------
-
-    msrDuration& operator= (const msrDuration& dur)
-      {
-        fNum=dur.fNum; fDenom=dur.fDenom; fDots=dur.fDots; 
-        return *this;
-      }
-          
-    bool operator!= (const msrDuration& dur) const 
-      { 
-        return
-          (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots);
-      }
-    
-    rational durationAsRational ();
-
-    string   durationAsMSRString ();
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void print (ostream& os);
-
-  private:
-
-    int         fNum;
-    int         fDenom;
-    int         fDots;
-    
-    string      fTupletMemberNoteType; // ??? JMI
-};
-typedef SMARTP<msrDuration> S_msrDuration;
-EXP ostream& operator<< (ostream& os, const S_msrDuration& elt);
-*/
-
-/*!
 \brief A msr beam representation.
 
   A beam is represented by a msrBeamKind value
@@ -560,6 +475,18 @@ class EXP msrBeam : public msrElement
       int           number,
       msrBeamKind   beamKind);
 
+  protected:
+
+    msrBeam (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           number,
+      msrBeamKind   beamKind);
+      
+    virtual ~msrBeam();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -579,16 +506,6 @@ class EXP msrBeam : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrBeam (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           number,
-      msrBeamKind   beamKind);
-      
-    virtual ~msrBeam();
-  
   private:
 
     int         fBeamNumber;
@@ -618,6 +535,17 @@ class EXP msrArticulation : public msrElement
       int                 inputLineNumber,
       msrArticulationKind articulationKind);
 
+  protected:
+
+    msrArticulation (
+      S_msrOptions&       msrOpts, 
+      int                 inputLineNumber,
+      msrArticulationKind articulationKind);
+      
+    virtual ~msrArticulation();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -638,15 +566,6 @@ class EXP msrArticulation : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrArticulation (
-      S_msrOptions&       msrOpts, 
-      int                 inputLineNumber,
-      msrArticulationKind articulationKind);
-      
-    virtual ~msrArticulation();
-  
   private:
 
     msrArticulationKind fArticulationKind;
@@ -674,6 +593,17 @@ class EXP msrSlur : public msrElement
       int           inputLineNumber,
       msrSlurKind   slurKind);
 
+  protected:
+
+    msrSlur (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      msrSlurKind   slurKind);
+      
+    virtual ~msrSlur();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -694,14 +624,6 @@ class EXP msrSlur : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrSlur (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      msrSlurKind   slurKind);
-    virtual ~msrSlur();
-  
   private:
 
     msrSlurKind fSlurKind;
@@ -733,6 +655,17 @@ class EXP msrDynamics : public msrElement
       int                    inputLineNumber,
       msrDynamicsKind           dynamicsKind);
 
+  protected:
+
+    msrDynamics (
+      S_msrOptions& msrOpts, 
+      int                    inputLineNumber,
+      msrDynamicsKind           dynamicsKind);
+      
+    virtual ~msrDynamics();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -756,15 +689,6 @@ class EXP msrDynamics : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrDynamics (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber,
-      msrDynamicsKind           dynamicsKind);
-      
-    virtual ~msrDynamics();
-  
   private:
 
     msrDynamicsKind fDynamicsKind;
@@ -793,6 +717,17 @@ class EXP msrWedge : public msrElement
       int           inputLineNumber,
       msrWedgeKind  wedgeKind);
 
+  protected:
+
+    msrWedge (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      msrWedgeKind  wedgeKind);
+      
+    virtual ~msrWedge();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -813,15 +748,6 @@ class EXP msrWedge : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrWedge (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      msrWedgeKind  wedgeKind);
-      
-    virtual ~msrWedge();
-  
   private:
 
     msrWedgeKind fWedgeKind;
@@ -880,6 +806,18 @@ class EXP msrNote : public msrElement
         int           divisions,
         int           voiceNumber);
     
+  protected:
+ 
+    msrNote (
+        S_msrOptions&        msrOpts,
+        int                  inputLineNumber,
+        msrMusicXMLNoteData& musicXMLNoteData,
+        msrSlur::msrSlurKind slurKind);
+    
+    virtual ~msrNote();
+    
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1011,9 +949,6 @@ class EXP msrNote : public msrElement
                     int   noteQuatertonesFromA,
                     msrMusicXMLNoteData::msrMusicXMLAlteration
                           alteration);
-                          
-    static map<msrPitch, string>
-                  sDutchLilypondPitches;
 
     // tuplet members
     void          applyTupletMemberDisplayFactor (
@@ -1045,16 +980,12 @@ class EXP msrNote : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
- 
-    msrNote (
-        S_msrOptions&        msrOpts,
-        int                  inputLineNumber,
-        msrMusicXMLNoteData& musicXMLNoteData,
-        msrSlur::msrSlurKind slurKind);
-    
-    virtual ~msrNote();
-    
+  public:
+
+    // note pitches languages
+    static map<msrPitch, string>
+                  sDutchLilypondPitches;
+
   private:
 
     msrNoteKind               fNoteKind;
@@ -1101,6 +1032,17 @@ class EXP msrChord : public msrElement
     // ------------------------------------------------------
 
     SMARTP<msrChord> createEmptyClone ();
+
+  protected:
+
+    msrChord (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           chordDivisions);
+      
+    virtual ~msrChord();
+  
+  public:
 
     // set and get
     // ------------------------------------------------------
@@ -1171,15 +1113,6 @@ class EXP msrChord : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrChord (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           chordDivisions);
-      
-    virtual ~msrChord();
-  
   private:
   
     vector<S_msrNote>         fChordNotes;
@@ -1219,6 +1152,18 @@ class EXP msrVarValAssoc : public msrElement
       string        variableName,
       string        value);
     
+  protected:
+
+    msrVarValAssoc (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      string        variableName,
+      string        value);
+      
+    virtual ~msrVarValAssoc();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1243,16 +1188,6 @@ class EXP msrVarValAssoc : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrVarValAssoc (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      string        variableName,
-      string        value);
-      
-    virtual ~msrVarValAssoc();
-  
   private:
 
     string             fVariableName;
@@ -1278,6 +1213,16 @@ class EXP msrIdentification : public msrElement
       S_msrOptions&  msrOpts, 
       int            inputLineNumber);
     
+  protected:
+
+    msrIdentification (
+      S_msrOptions&  msrOpts, 
+      int            inputLineNumber);
+      
+    virtual ~msrIdentification();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1367,14 +1312,6 @@ class EXP msrIdentification : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrIdentification (
-      S_msrOptions&  msrOpts, 
-      int            inputLineNumber);
-      
-    virtual ~msrIdentification();
-  
   private:
 
     S_msrVarValAssoc         fWorkNumber;
@@ -1408,6 +1345,16 @@ class EXP msrPageGeometry : public msrElement
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
     
+  protected:
+
+    msrPageGeometry (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+      
+    virtual ~msrPageGeometry();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1452,14 +1399,6 @@ class EXP msrPageGeometry : public msrElement
     virtual void print (ostream& os);
 
 
-  protected:
-
-    msrPageGeometry (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
-      
-    virtual ~msrPageGeometry();
-  
   private:
 
     // page height, margins and the like in centimeters are in centimeters
@@ -1496,6 +1435,16 @@ class EXP msrLayout : public msrElement
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
     
+  protected:
+
+    msrLayout (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+      
+    virtual ~msrLayout();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1515,14 +1464,6 @@ class EXP msrLayout : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrLayout (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
-      
-    virtual ~msrLayout();
-  
   private:
   
     vector<S_msrVarValAssoc> fVarValAssocs;
@@ -1552,6 +1493,18 @@ class EXP msrComment : public msrElement
       string        contents,
       msrGapKind    gapKind = kNoGapAfterwards);
 
+  protected:
+
+    msrComment (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      string        contents,
+      msrGapKind    gapKind = kNoGapAfterwards);
+      
+    virtual ~msrComment();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1571,16 +1524,6 @@ class EXP msrComment : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrComment (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      string        contents,
-      msrGapKind    gapKind = kNoGapAfterwards);
-      
-    virtual ~msrComment();
-  
   private:
 
     string     fContents;
@@ -1607,6 +1550,17 @@ class EXP msrBreak : public msrElement
       int           inputLineNumber,
       int           nextBarNumber);
 
+  protected:
+
+    msrBreak (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           nextBarNumber);
+      
+    virtual ~msrBreak();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1626,15 +1580,6 @@ class EXP msrBreak : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrBreak (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           nextBarNumber);
-      
-    virtual ~msrBreak();
-  
   private:
 
     int fNextBarNumber;
@@ -1660,6 +1605,17 @@ class EXP msrBarCheck : public msrElement
       int           inputLineNumber,
       int           nextBarNumber);
 
+  protected:
+
+    msrBarCheck (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           nextBarNumber);
+      
+    virtual ~msrBarCheck();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1679,15 +1635,6 @@ class EXP msrBarCheck : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrBarCheck (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           nextBarNumber);
-      
-    virtual ~msrBarCheck();
-  
   private:
 
     int fNextBarNumber;
@@ -1713,6 +1660,17 @@ class EXP msrBarnumberCheck : public msrElement
       int           inputLineNumber,
       int           nextBarNumber);
 
+  protected:
+
+    msrBarnumberCheck (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           nextBarNumber);
+      
+    virtual ~msrBarnumberCheck();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1732,15 +1690,6 @@ class EXP msrBarnumberCheck : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrBarnumberCheck (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           nextBarNumber);
-      
-    virtual ~msrBarnumberCheck();
-  
   private:
 
     int fNextBarNumber;
@@ -1776,6 +1725,20 @@ class EXP msrTuplet : public msrElement
     enum msrTupletKind {
       kStartTuplet, kContinueTuplet, kStopTuplet, 
       k_NoTuplet };
+
+  protected:
+
+    msrTuplet (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           number,
+      int           actualNotes,
+      int           normalNotes,
+      S_msrNote     firstNote);
+      
+    virtual ~msrTuplet();
+  
+  public:
 
     // set and get
     // ------------------------------------------------------
@@ -1827,18 +1790,6 @@ class EXP msrTuplet : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrTuplet (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           number,
-      int           actualNotes,
-      int           normalNotes,
-      S_msrNote     firstNote);
-      
-    virtual ~msrTuplet();
-  
   private:
 
     int                  fTupletNumber;
@@ -1882,6 +1833,19 @@ class EXP msrClef : public msrElement
       int          line,
       int          octaveChange);
 
+  protected:
+
+    msrClef (
+      S_msrOptions& msrOpts, 
+      int          inputLineNumber,
+      string       sign,
+      int          line,
+      int          octaveChange);
+      
+    virtual ~msrClef();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1907,17 +1871,6 @@ class EXP msrClef : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrClef (
-      S_msrOptions& msrOpts, 
-      int          inputLineNumber,
-      string       sign,
-      int          line,
-      int          octaveChange);
-      
-    virtual ~msrClef();
-  
   private:
 
     string fSign;
@@ -1949,6 +1902,19 @@ class EXP msrKey : public msrElement
       string        mode,
       int           cancel);
 
+  protected:
+
+    msrKey (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           fifths,
+      string        mode,
+      int           cancel);
+      
+    virtual ~msrKey();
+
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1978,17 +1944,6 @@ class EXP msrKey : public msrElement
     virtual void browseData (basevisitor* v);
 
     virtual void print (ostream& os);
-
-  protected:
-
-    msrKey (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           fifths,
-      string        mode,
-      int           cancel);
-      
-    virtual ~msrKey();
   
   private:
 
@@ -2021,6 +1976,18 @@ class EXP msrTime : public msrElement
       int           beatsNumber,
       int           beatsValue);
 
+  protected:
+
+    msrTime (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           beatsNumber,
+      int           beatsValue);
+      
+    virtual ~msrTime();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -2045,16 +2012,6 @@ class EXP msrTime : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrTime (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           beatsNumber,
-      int           beatsValue);
-      
-    virtual ~msrTime();
-  
   private:
 
     int      fBeatsNumber;
@@ -2084,6 +2041,18 @@ class EXP msrTempo : public msrElement
       int           tempoUnit,
       int           perMinute);
 
+  protected:
+
+    msrTempo (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           tempoUnit,
+      int           perMinute);
+      
+    virtual ~msrTempo();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -2108,16 +2077,6 @@ class EXP msrTempo : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrTempo (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           tempoUnit,
-      int           perMinute);
-      
-    virtual ~msrTempo();
-  
   private:
   
     int  fTempoUnit;
@@ -2422,6 +2381,22 @@ class EXP msrBarline : public msrElement
       msrBarlineRepeatDirection repeatDirection,
       msrBarlineRepeatWinged    repeatWinged);
 
+  protected:
+
+    msrBarline (
+      S_msrOptions&             msrOpts, 
+      int                       inputLineNumber,
+      msrBarlineLocation        location,
+      msrBarlineStyle           style,
+      msrBarlineEndingType      endingType,
+      string                    endingMusicXMLNumber,
+      msrBarlineRepeatDirection repeatDirection,
+      msrBarlineRepeatWinged    repeatWinged);
+      
+    virtual ~msrBarline();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -2483,19 +2458,6 @@ class EXP msrBarline : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrBarline (
-      S_msrOptions&             msrOpts, 
-      int                       inputLineNumber,
-      msrBarlineLocation        location,
-      msrBarlineStyle           style,
-      msrBarlineEndingType      endingType,
-      string                    endingMusicXMLNumber,
-      msrBarlineRepeatDirection repeatDirection,
-      msrBarlineRepeatWinged    repeatWinged);
-    virtual ~msrBarline();
-  
   private:
 
     msrBarlineLocation          fLocation;
@@ -2532,6 +2494,16 @@ class EXP msrVoicechunk : public msrElement
 
     SMARTP<msrVoicechunk> createEmptyClone ();
 
+  protected:
+
+    msrVoicechunk (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+      
+    virtual ~msrVoicechunk();
+    
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -2567,14 +2539,6 @@ class EXP msrVoicechunk : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrVoicechunk (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
-      
-    virtual ~msrVoicechunk();
-    
   private:
 
     list<S_msrElement>   fVoicechunkElements;
@@ -2611,6 +2575,20 @@ class EXP msrRepeatending : public msrElement
     
     SMARTP<msrRepeatending> createEmptyClone (
       S_msrRepeat clonedRepeat);
+
+  protected:
+
+    msrRepeatending (
+      S_msrOptions&       msrOpts, 
+      int                 inputLineNumber,
+      string              repeatendingMusicXMLNumber, // may be "1, 2"
+      msrRepeatendingKind repeatendingKind,
+      S_msrVoicechunk     voicechunk,
+      S_msrRepeat         repeat);
+      
+    virtual ~msrRepeatending();
+  
+  public:
 
     // set and get
     // ------------------------------------------------------
@@ -2651,18 +2629,6 @@ class EXP msrRepeatending : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrRepeatending (
-      S_msrOptions&       msrOpts, 
-      int                 inputLineNumber,
-      string              repeatendingMusicXMLNumber, // may be "1, 2"
-      msrRepeatendingKind repeatendingKind,
-      S_msrVoicechunk     voicechunk,
-      S_msrRepeat         repeat);
-      
-    virtual ~msrRepeatending();
-  
   private:
   
     string              fRepeatendingMusicXMLNumber; // may be "1, 2"
@@ -2701,6 +2667,18 @@ class EXP msrRepeat : public msrElement
     SMARTP<msrRepeat> createEmptyClone (
       S_msrVoice clonedVoice);
 
+  protected:
+
+    msrRepeat (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      S_msrVoicechunk commonPart,
+      S_msrVoice      voice);
+      
+    virtual ~msrRepeat();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -2734,16 +2712,6 @@ class EXP msrRepeat : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrRepeat (
-      S_msrOptions&   msrOpts, 
-      int             inputLineNumber,
-      S_msrVoicechunk commonPart,
-      S_msrVoice      voice);
-      
-    virtual ~msrRepeat();
-  
   private:
 
     S_msrVoicechunk           fRepeatCommonPart;
@@ -2780,6 +2748,18 @@ class EXP msrUpbeat : public msrElement
     SMARTP<msrUpbeat> createEmptyClone (
       S_msrVoice clonedVoice);
 
+  protected:
+
+    msrUpbeat (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      int             divisions,
+      S_msrVoice      voice);
+      
+    virtual ~msrUpbeat();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -2807,16 +2787,6 @@ class EXP msrUpbeat : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrUpbeat (
-      S_msrOptions&   msrOpts, 
-      int             inputLineNumber,
-      int             divisions,
-      S_msrVoice      voice);
-      
-    virtual ~msrUpbeat();
-  
   private:
 
     int                       fUpbeatDivisions;
@@ -2854,6 +2824,19 @@ class EXP msrVoice : public msrElement
     
     SMARTP<msrVoice> createEmptyClone (
       S_msrStaff clonedStaff);
+
+  protected:
+
+    msrVoice (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           voiceNumber,
+      int           staffRelativeVoiceNumber,
+      S_msrStaff    voiceStaffUplink);
+      
+    virtual ~msrVoice();
+  
+  public:
 
     // set and get
     // ------------------------------------------------------
@@ -2978,17 +2961,6 @@ class EXP msrVoice : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrVoice (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           voiceNumber,
-      int           staffRelativeVoiceNumber,
-      S_msrStaff    voiceStaffUplink);
-      
-    virtual ~msrVoice();
-  
   private:
 
     int                       fVoiceNumber;
@@ -3045,6 +3017,18 @@ class EXP msrStaff : public msrElement
     
     SMARTP<msrStaff> createEmptyClone (
       S_msrPart clonedPart);
+
+  protected:
+
+    msrStaff (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           staffNumber,
+      S_msrPart     fStaffPartUplink);
+      
+    virtual ~msrStaff();
+  
+  public:
 
     // set and get
     // ------------------------------------------------------
@@ -3112,15 +3096,6 @@ class EXP msrStaff : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrStaff (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           staffNumber,
-      S_msrPart     fStaffPartUplink);
-    virtual ~msrStaff();
-  
   private:
 
     static int              gMaxStaffVoices;
@@ -3164,6 +3139,18 @@ class EXP msrPart : public msrElement
                 
     SMARTP<msrPart> createEmptyClone (
       S_msrPartgroup clonedPartgroup);
+
+  protected:
+
+    msrPart (
+      S_msrOptions&  msrOpts, 
+      int            inputLineNumber,
+      string         partMusicXMLID,
+      S_msrPartgroup partPartgroupUplink);
+      
+    virtual ~msrPart();
+  
+  public:
 
     // set and get
     // ------------------------------------------------------
@@ -3217,23 +3204,21 @@ class EXP msrPart : public msrElement
     // services
     // ------------------------------------------------------
 
-    void      setAllPartDivisionsPerWholeNote (int divisions);
+    void          setAllPartDivisionsPerWholeNote (int divisions);
     
-    void      setAllPartStavesClef (S_msrClef clef);
+    void          setAllPartStavesClef (S_msrClef clef);
               
-    void      setAllPartStavesKey  (S_msrKey  key);
+    void          setAllPartStavesKey  (S_msrKey  key);
               
-    void      setAllPartStavesTime (S_msrTime time);
+    void          setAllPartStavesTime (S_msrTime time);
               
-    S_msrStaff
-              addStaffToPart (
-                int inputLineNumber,
-                int staffNumber);
+    S_msrStaff    addStaffToPart (
+                    int inputLineNumber,
+                    int staffNumber);
+    
+    void          addStaffToPart (S_msrStaff staff);
 
-    void      addStaffToPart (S_msrStaff staff);
-
-    S_msrStaff
-              fetchStaffFromPart (int staffNumber);
+    S_msrStaff    fetchStaffFromPart (int staffNumber);
 
     // visitors
     // ------------------------------------------------------
@@ -3245,16 +3230,6 @@ class EXP msrPart : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrPart (
-      S_msrOptions&  msrOpts, 
-      int            inputLineNumber,
-      string         partMusicXMLID,
-      S_msrPartgroup partPartgroupUplink);
-      
-    virtual ~msrPart();
-  
   private:
     
     string                  fPartMusicXMLID; // native
@@ -3342,8 +3317,6 @@ class EXP msrPartgroup : public msrElement
             
     virtual ~msrPartgroup();
   
-    static int gPartgroupsCounter;
-    
   public:
 
     // set and get
@@ -3404,6 +3377,8 @@ class EXP msrPartgroup : public msrElement
 
   private:
 
+    static int              gPartgroupsCounter;
+    
     int                     fPartgroupAbsoluteNumber;
     
     int                     fPartgroupNumber;
@@ -3446,6 +3421,16 @@ class EXP msrScore : public msrElement
 
     SMARTP<msrScore> createEmptyClone ();
 
+  protected:
+
+    msrScore (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+      
+    virtual ~msrScore();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -3476,14 +3461,6 @@ class EXP msrScore : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrScore (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
-      
-    virtual ~msrScore();
-  
   private:
 
     S_msrIdentification  fIdentification;
@@ -3512,6 +3489,16 @@ class EXP msrMidi : public msrElement
       S_msrOptions& msrOpts, 
       int                    inputLineNumber);
 
+  protected:
+
+    msrMidi (
+      S_msrOptions& msrOpts, 
+      int                    inputLineNumber);
+      
+    virtual ~msrMidi();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -3528,14 +3515,6 @@ class EXP msrMidi : public msrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    msrMidi (
-      S_msrOptions& msrOpts, 
-      int                    inputLineNumber);
-      
-    virtual ~msrMidi();
-  
   private:
   
 };
