@@ -405,6 +405,11 @@ class msrMusicXMLNoteData
         \relative c'' { ceseh ces ceh c cih cis cisih }
     */
   
+    enum msrDiatonicPitch {
+      // starting at C for LilyPond relative octave calculations
+      kC, kD, kE, kF, kG, kA, kB, 
+      kRest}; // JMI, k_NoDiatonicPitch};
+    
     enum msrMusicXMLAlterationKind {
       kSesquiFlat, kFlat, kSemiFlat,
       kNatural,
@@ -429,6 +434,7 @@ class msrMusicXMLNoteData
     // The alter element represents chromatic alteration
     // in number of semitones (e.g., -1 for flat, 1 for sharp).
     // Decimal values like 0.5 (quarter tone sharp) are used for microtones.
+    msrDiatonicPitch          fDiatonicPitch;
     float                     fMusicXMLAlter;
     msrMusicXMLAlterationKind fMusicXMLAlteration;
                           
@@ -791,17 +797,9 @@ class EXP msrNote : public msrElement
   public:
 
     enum msrNoteKind {
-      kStandaloneNote, kRestNote, kChordMemberNote, kTupletMemberNote};
+      kRestNote, 
+      kStandaloneNote, kChordMemberNote, kTupletMemberNote};
       
-    enum msrDiatonicPitch {
-      // starting at C for relative octave calculations
-      kC, kD, kE, kF, kG, kA, kB, 
-      kRest, k_NoDiatonicPitch};
-    
-    // we use dutch pitches names for the enumeration below
-    // the following is a series of Cs with increasing pitches:
-    // \relative c'' { ceseh ces ceh c cih cis cisih }
-
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -888,9 +886,12 @@ class EXP msrNote : public msrElement
                           fMusicXMLNoteData.fMusicXMLOctave;
                       }
 
-    msrDiatonicPitch
+    msrMusicXMLNoteData::msrDiatonicPitch
                   getDiatonicPitch () const
-                      { return fDiatonicPitch; }
+                      {
+                        return
+                          fMusicXMLNoteData.fDiatonicPitch;
+                      }
 
     // grace notes
     bool          getNoteIsGraceNote () const
@@ -995,13 +996,13 @@ class EXP msrNote : public msrElement
 
   private:
 
-    msrNoteKind               fNoteKind;
+    // MusicXML informations
     
     msrMusicXMLNoteData       fMusicXMLNoteData;
 
-    msrDiatonicPitch          fDiatonicPitch;
-
     // LilyPond informations
+
+    msrNoteKind               fNoteKind;
 
     S_msrBeam                 fNoteBeam;
     

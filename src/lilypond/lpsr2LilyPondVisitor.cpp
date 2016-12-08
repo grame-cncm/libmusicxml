@@ -147,7 +147,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     
     // generate LilyPond octave relative to fRelativeOctaveReference
 
-    msrNote::msrDiatonicPitch
+    msrMusicXMLNoteData::msrDiatonicPitch
       noteDiatonicPitch =
         note->getDiatonicPitch (),
       referenceDiatonicPitch =
@@ -165,9 +165,17 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
 
     int
       noteAboluteDiatonicCode =
-        noteAbsoluteOctave * 8 + noteDiatonicPitch - msrNote::kC,
+        noteAbsoluteOctave * 8
+          +
+        noteDiatonicPitch
+          -
+        msrMusicXMLNoteData::kC,
       referenceAboluteDiatonicCode =
-        referenceAbsoluteOctave * 8 + referenceDiatonicPitch - msrNote::kC,
+        referenceAbsoluteOctave * 8
+          +
+        referenceDiatonicPitch
+          -
+        msrMusicXMLNoteData::kC,
       absoluteDiatonicDistance =
         noteAboluteDiatonicCode - referenceAboluteDiatonicCode,
       octavesToBeDisplayed =

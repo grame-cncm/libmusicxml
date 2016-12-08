@@ -951,7 +951,7 @@ msrNote::msrNote (
      "/" <<
      fMusicXMLNoteData.fMusicXMLDivisions << endl;
     */
-    fDiatonicPitch = kRest;
+    fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kRest;
   }
 
   if (
@@ -977,13 +977,13 @@ msrNote::msrNote (
 // JMI
 
   switch (fMusicXMLNoteData.fMusicXMLStep) {
-    case 'A': fDiatonicPitch = msrNote::kA; break;
-    case 'B': fDiatonicPitch = msrNote::kB; break;
-    case 'C': fDiatonicPitch = msrNote::kC; break;
-    case 'D': fDiatonicPitch = msrNote::kD; break;
-    case 'E': fDiatonicPitch = msrNote::kE; break;
-    case 'F': fDiatonicPitch = msrNote::kF; break;
-    case 'G': fDiatonicPitch = msrNote::kG; break;
+    case 'A': fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kA; break;
+    case 'B': fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kB; break;
+    case 'C': fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kC; break;
+    case 'D': fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kD; break;
+    case 'E': fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kE; break;
+    case 'F': fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kF; break;
+    case 'G': fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kG; break;
     default: {}
   } // switch
 
@@ -1257,14 +1257,14 @@ string msrNote::notePitchAsString () const
 
   else {
 
-    switch (fDiatonicPitch) {
-      case kA: s << "a"; break;
-      case kB: s << "b"; break;
-      case kC: s << "c"; break;
-      case kD: s << "d"; break;
-      case kE: s << "e"; break;
-      case kF: s << "f"; break;
-      case kG: s << "g"; break;
+    switch (fMusicXMLNoteData.fDiatonicPitch) {
+      case msrMusicXMLNoteData::kA: s << "a"; break;
+      case msrMusicXMLNoteData::kB: s << "b"; break;
+      case msrMusicXMLNoteData::kC: s << "c"; break;
+      case msrMusicXMLNoteData::kD: s << "d"; break;
+      case msrMusicXMLNoteData::kE: s << "e"; break;
+      case msrMusicXMLNoteData::kF: s << "f"; break;
+      case msrMusicXMLNoteData::kG: s << "g"; break;
       default: s << "?";
     } // switch
 
@@ -1464,14 +1464,14 @@ string msrNote::noteDivisionsAsMSRString () const
 string msrNote::noteDiatonicPitchAsString () const
 {
   // fMusicXMLNoteData.fMusicXMLStep is a char, ???
-  switch (fDiatonicPitch) {
-    case kA: return "A"; break;
-    case kB: return "B"; break;
-    case kC: return "C"; break;
-    case kD: return "D"; break;
-    case kE: return "E"; break;
-    case kF: return "F"; break;
-    case kG: return "G"; break;
+  switch (fMusicXMLNoteData.fDiatonicPitch) {
+    case msrMusicXMLNoteData::kA: return "A"; break;
+    case msrMusicXMLNoteData::kB: return "B"; break;
+    case msrMusicXMLNoteData::kC: return "C"; break;
+    case msrMusicXMLNoteData::kD: return "D"; break;
+    case msrMusicXMLNoteData::kE: return "E"; break;
+    case msrMusicXMLNoteData::kF: return "F"; break;
+    case msrMusicXMLNoteData::kG: return "G"; break;
     default: return "?";
   } // switch
 }
