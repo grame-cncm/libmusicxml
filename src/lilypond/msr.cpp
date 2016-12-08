@@ -2227,8 +2227,8 @@ ostream& operator<< (ostream& os, const S_msrBarCheck& elt)
 void msrBarCheck::print (ostream& os)
 {
   os <<
-    "BarCheck" << " " << fNextBarNumber <<
-    endl << endl;
+    "BarCheck" << ", next bar number = " << fNextBarNumber <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -2299,7 +2299,9 @@ ostream& operator<< (ostream& os, const S_msrBarnumberCheck& elt)
 
 void msrBarnumberCheck::print (ostream& os)
 {
-  os << "BarnumberCheck" << " " << fNextBarNumber << endl;
+  os <<
+    "BarnumberCheck" << ", next bar number = " << fNextBarNumber <<
+    endl << endl;
 }
 
 //______________________________________________________________________________

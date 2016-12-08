@@ -4596,11 +4596,13 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
       fCurrentLyricschunkKind = msrLyricschunk::kTiedChunk;
       
-      fCurrentLyrics->
-        addTiedChunkToLyrics (
-          inputLineNumber,
-          fMusicXMLNoteData.fMusicXMLDivisions,
-          newNote);
+      if (fCurrentLyrics)
+        fCurrentLyrics->
+          addTiedChunkToLyrics (
+            inputLineNumber,
+            fMusicXMLNoteData.fMusicXMLDivisions,
+            newNote);
+      else {} // JMI
     }
   
     else if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
