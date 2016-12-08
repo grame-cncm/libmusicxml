@@ -1444,7 +1444,7 @@ string msrNote::noteMsrPitchAsString () const
       default: s << "Note" << fNoteMsrPitch << "???";
     } // switch
 
-    s << fMusicXMLNoteData.fMusicXMLOctave;
+ // JMI   s << fMusicXMLNoteData.fMusicXMLOctave;
   }
   
   return s.str();
@@ -5569,7 +5569,7 @@ string msrStaff::getStaffName () const
     int2EnglishWord (fStaffNumber);
   }
 
-void msrStaff::setAllVoicesDivisionsPerWholeNote (int divisions)
+void msrStaff::setAllStaffVoicesDivisionsPerWholeNote (int divisions)
 {
   for (
     map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
@@ -5936,7 +5936,7 @@ string msrPart::getPartCombinedName () const
     " (" + fPartMusicXMLID + ")";
 }
 
-void msrPart::setAllStavesDivisionsPerWholeNote (int divisions)
+void msrPart::setAllPartStavesDivisionsPerWholeNote (int divisions)
 {
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();

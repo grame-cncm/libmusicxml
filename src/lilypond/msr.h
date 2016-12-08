@@ -824,6 +824,13 @@ class EXP msrNote : public msrElement
     S_msrOptions  getMsrOptions () const
                       { return fMsrOptions; }
 
+    bool          getNoteIsUnpitched () const
+                    // useful for rest tuplet members
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLStepIsUnpitched;
+                      }
+                      
     bool          getNoteIsARest () const
                     // useful for rest tuplet members
                       {
@@ -3063,7 +3070,7 @@ class EXP msrStaff : public msrElement
                       fDivisionsPerWholeNote =
                         divisionsPerWholeNote;
 
-                      setAllVoicesDivisionsPerWholeNote (
+                      setAllStaffVoicesDivisionsPerWholeNote (
                         divisionsPerWholeNote);
                     }
                       
@@ -3073,7 +3080,7 @@ class EXP msrStaff : public msrElement
     // services
     // ------------------------------------------------------
 
-    void        setAllVoicesDivisionsPerWholeNote (
+    void        setAllStaffVoicesDivisionsPerWholeNote (
                   int divisions);
 
     S_msrVoice  addVoiceToStaff (
@@ -3197,7 +3204,7 @@ class EXP msrPart : public msrElement
                         fDivisionsPerWholeNote =
                           divisionsPerWholeNote;
 
-                        setAllStavesDivisionsPerWholeNote (
+                        setAllPartStavesDivisionsPerWholeNote (
                           divisionsPerWholeNote);
                       }
                       
@@ -3207,7 +3214,7 @@ class EXP msrPart : public msrElement
     // services
     // ------------------------------------------------------
 
-    void          setAllStavesDivisionsPerWholeNote (
+    void          setAllPartStavesDivisionsPerWholeNote (
                     int divisions);
     
     void          setAllPartStavesClef (S_msrClef clef);

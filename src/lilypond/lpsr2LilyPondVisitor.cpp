@@ -71,9 +71,6 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   
   //JMI assertMsr(fMsrPitch != k_NoMsrPitch, "fMsrPitch != k_NoMsrPitch");
 
- // JMI if (fMusicXMLNoteData.fMusicXMLStepIsUnpitched)
-//    s << "unpitched ";
-
   bool noteIsGraceNote =
     note->getNoteIsGraceNote ();
     
@@ -81,7 +78,10 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     s <<
       "\\grace { ";
 
-  s << note->noteMsrPitchAsString ();
+  if (note->getNoteIsUnpitched ())
+    s << "unpitched ";
+  else
+    s << note->noteMsrPitchAsString ();
   
   // in MusicXML, octave number is 4 for the octave starting with middle C
 
@@ -1460,28 +1460,6 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrWedge& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
 {
-  /*
-
-string msrNote::octaveRepresentation (char octave)
-{
-  stringstream s;
-  if (octave > 0) {
-    int n = octave;
-    while (n > 0) {
-    s << "'";
-    n--;
-    }
-  } else if (octave < 0) {
-    int n = octave;
-    while (n < 0) {
-      s << ",";
-      n++;
-    }  
-  }
-  return s.str();
-}
-  */
-
 //  if (true || fMsrOptions->fDebug) { // JMI
   if (fMsrOptions->fDebug) {
     fOstream << idtr <<
