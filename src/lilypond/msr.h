@@ -377,41 +377,47 @@ template <typename T> class EXP msrBrowser : public browser<T>
 class msrMusicXMLNoteData
 {
   public:
-  
+
+    enum msrMusicXMLTieKind {
+        k_NoTie,
+        kStartTie, kContinueTie, kStopTie };
+        
+    msrMusicXMLNoteData ();
+    
     virtual void print (ostream& os);
  
   public:
   
-    char        fMusicXMLStep;
-    bool        fMusicXMLStepIsARest;
-    bool        fMusicXMLStepIsUnpitched;
+    char                fMusicXMLStep;
+    bool                fMusicXMLStepIsARest;
+    bool                fMusicXMLStepIsUnpitched;
     
-    int         fMusicXMLAlteration;
+    int                 fMusicXMLAlteration;
     
-    int         fMusicXMLOctave;
+    int                 fMusicXMLOctave;
 
     // MusicXML durations are in divisions per quarter note.
     // LilyPond durations are in whole notes,
     // hence the "* 4" multiplications
     
     // the note duration when played
-    int         fMusicXMLDivisions;
+    int                 fMusicXMLDivisions;
 
     // tuplets member notes need another value for display
-    int         fNoteDisplayDivisions;
+    int                 fNoteDisplayDivisions;
 
-    int         fMusicXMLDotsNumber;
+    int                 fMusicXMLDotsNumber;
     
-    bool        fMusicXMLNoteIsAGraceNote;
+    bool                fMusicXMLNoteIsAGraceNote;
     
-    bool        fMusicXMLNoteBelongsToAChord;
+    bool                fMusicXMLNoteBelongsToAChord;
     
-    bool        fMusicXMLNoteBelongsToATuplet;
-    string      fMusicXMLTupletMemberNoteType;
+    bool                fMusicXMLNoteBelongsToATuplet;
+    string              fMusicXMLTupletMemberNoteType;
 
-    bool        fMusicXMLNoteIsTied;
-
-    int         fMusicXMLVoiceNumber;
+    msrMusicXMLTieKind  fMusicXMLTieKind;
+                    
+    int                 fMusicXMLVoiceNumber;
 };
 EXP ostream& operator<< (ostream& os, msrMusicXMLNoteData& elt);
 
@@ -928,13 +934,6 @@ class EXP msrNote : public msrElement
     msrPitch      getNoteMsrPitch () const
                       { return fNoteMsrPitch; }
                       
-    // ties
-    bool          getMusicXMLNoteIsTied () const
-                      {
-                        return
-                          fMusicXMLNoteData.fMusicXMLNoteIsTied;
-                      }
-
     // grace notes
     bool          getNoteIsGraceNote () const
                       {
@@ -978,6 +977,14 @@ class EXP msrNote : public msrElement
     bool          getNoteIsChordFirstNote () const
                       { return fNoteIsChordFirstNote; }
         
+    // ties
+    msrMusicXMLNoteData::msrMusicXMLTieKind
+                  getNoteTieKind () const
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLTieKind;
+                      }
+
     // slurs
     msrSlur::msrSlurKind
                   getNoteSlurKind () const { return fNoteSlurKind; }
@@ -1047,29 +1054,29 @@ class EXP msrNote : public msrElement
     
   private:
 
-    msrNoteKind                fNoteKind;
+    msrNoteKind               fNoteKind;
     
-    msrMusicXMLNoteData        fMusicXMLNoteData;
+    msrMusicXMLNoteData       fMusicXMLNoteData;
 
-    msrDiatonicPitch           fDiatonicPitch;
+    msrDiatonicPitch          fDiatonicPitch;
 
     // LilyPond informations
-    msrPitch                   fNoteMsrPitch;
+    msrPitch                  fNoteMsrPitch;
 
-    S_msrBeam                  fNoteBeam;
+    S_msrBeam                 fNoteBeam;
     
-    list<S_msrArticulation>    fNoteArticulations;
+    list<S_msrArticulation>   fNoteArticulations;
     
-    list<S_msrDynamics>        fNoteDynamics;
-    list<S_msrWedge>           fNoteWedges;
+    list<S_msrDynamics>       fNoteDynamics;
+    list<S_msrWedge>          fNoteWedges;
+                              
+    msrSlur::msrSlurKind      fNoteSlurKind;
 
-    msrSlur::msrSlurKind       fNoteSlurKind;
-
-    int                        fDivisionsPerWholeNote;
+    int                       fDivisionsPerWholeNote;
     
-    msrMeasureLocation         fNoteMeasureLocation;
+    msrMeasureLocation        fNoteMeasureLocation;
 
-    bool                       fNoteIsChordFirstNote;
+    bool                      fNoteIsChordFirstNote;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
@@ -1103,14 +1110,14 @@ class EXP msrChord : public msrElement
                       { return fChordDivisions; }
             
     // divisions per whole note
-    void        setDivisionsPerWholeNote (int divisionsPerWholeNote)
-                    {
-                      fDivisionsPerWholeNote =
-                        divisionsPerWholeNote;
-                    }
+    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                      {
+                        fDivisionsPerWholeNote =
+                          divisionsPerWholeNote;
+                      }
                       
-    const int   getDivisionsPerWholeNote () const
-                    { return fDivisionsPerWholeNote; }
+    const int     getDivisionsPerWholeNote () const
+                      { return fDivisionsPerWholeNote; }
           
     // location in measure
     void          setChordMeasureLocation (
@@ -1120,6 +1127,16 @@ class EXP msrChord : public msrElement
     const msrMeasureLocation&
                   getChordMeasureLocation () const
                       { return fChordMeasureLocation; }
+
+    // ties
+    void          setChordTieKind (
+                    const
+                      msrMusicXMLNoteData::msrMusicXMLTieKind kind)
+                      { fChordTieKind = kind; }
+
+    msrMusicXMLNoteData::msrMusicXMLTieKind
+                  getChordTieKind () const
+                      { return fChordTieKind; }
 
     // services
     // ------------------------------------------------------
@@ -1159,18 +1176,22 @@ class EXP msrChord : public msrElement
   
   private:
   
-    vector<S_msrNote>          fChordNotes;
+    vector<S_msrNote>         fChordNotes;
 
-    int                        fDivisionsPerWholeNote;
+    int                       fDivisionsPerWholeNote;
 
-    msrMeasureLocation         fChordMeasureLocation;
+    msrMeasureLocation        fChordMeasureLocation;
     
-    int                        fChordDivisions;
+    int                       fChordDivisions;
                               
-    list<S_msrArticulation>    fChordArticulations;
+
+    list<S_msrArticulation>   fChordArticulations;
     
-    list<S_msrDynamics>        fChordDynamics;
-    list<S_msrWedge>           fChordWedges;
+    list<S_msrDynamics>       fChordDynamics;
+    list<S_msrWedge>          fChordWedges;
+
+    msrMusicXMLNoteData::msrMusicXMLTieKind
+                              fChordTieKind;
 };
 typedef SMARTP<msrChord> S_msrChord;
 EXP ostream& operator<< (ostream& os, const S_msrChord& elt);

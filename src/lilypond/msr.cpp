@@ -220,6 +220,40 @@ ostream& operator<< (ostream& os, msrMusicXMLNoteData& mxmlData)
   return os;
 }
 
+msrMusicXMLNoteData::msrMusicXMLNoteData ()
+{
+  fMusicXMLStep = "?";
+  fMusicXMLStepIsARest = false;;
+  fMusicXMLStepIsUnpitched = false;;
+  
+  fMusicXMLAlteration = -5;
+  
+  fMusicXMLOctave = -1;
+
+  // MusicXML durations are in divisions per quarter note.
+  // LilyPond durations are in whole notes,
+  // hence the "* 4" multiplications
+  
+  // the note duration when played
+  fMusicXMLDivisions = -1;
+
+  // tuplets member notes need another value for display
+  fNoteDisplayDivisions = -1;
+
+  fMusicXMLDotsNumber = -1;
+  
+  fMusicXMLNoteIsAGraceNote = false;;
+  
+  fMusicXMLNoteBelongsToAChord = false;;
+  
+  fMusicXMLNoteBelongsToATuplet = false;;
+  fMusicXMLTupletMemberNoteType = "";
+
+  fMusicXMLNoteIsTied = false;;
+
+  fMusicXMLVoiceNumber = -1;
+}
+
 void msrMusicXMLNoteData::print (ostream& os)
 {
   os <<
@@ -1811,6 +1845,8 @@ msrChord::msrChord (
     : msrElement (msrOpts, inputLineNumber)
 {
   fChordDivisions = chordDivisions;
+
+  fChordTieKind = msrMusicXMLNoteData::k_NoTie;
 }
 
 msrChord::~msrChord() {}
@@ -1824,8 +1860,12 @@ S_msrChord msrChord::createEmptyClone ()
         fInputLineNumber,
         fChordDivisions);
 
+  // use setChordMeasureLocation() for its side effects
+  // instead of a direct assignment to fChordMeasureLocation
   clone->
     setChordMeasureLocation (fChordMeasureLocation);
+
+  clone->fChordTieKind = fChordTieKind;
   
   return clone;
 }
@@ -4792,8 +4832,10 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
   int divisionsPerWholeNote =
     fUpbeatVoiceUplink->getDivisionsPerWholeNote ();
   
-//  if (fMsrOptions->fDebug)
-    cout << endl <<
+  if (fMsrOptions->fDebug)
+    cout <<
+    endl <<
+    idtr <<
       "% --> fUpbeatDivisions = " << fUpbeatDivisions <<
       ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
       endl;

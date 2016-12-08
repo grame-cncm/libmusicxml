@@ -1591,10 +1591,6 @@ string msrNote::octaveRepresentation (char octave)
         fSequentialMusicElementsCounter = 1;
       }
 
-      // print the tie if any
-      if (elt->getMusicXMLNoteIsTied ())
-        fOstream << "~ ";
-
       // print the note name
       fOstream <<
         noteMsrPitchAsLilyPondString (elt);
@@ -1602,6 +1598,14 @@ string msrNote::octaveRepresentation (char octave)
       // print the note duration
       fOstream <<
         elt->noteDivisionsAsMSRString ();
+      
+      // print the tie if any
+      if (
+        elt->getNoteTieKind ()
+          ==
+        msrMusicXMLNoteData::kStartTie) {
+          fOstream << "~ ";
+      }
       
       fRelativeOctaveReference = elt;
       break;
@@ -1657,8 +1661,12 @@ string msrNote::octaveRepresentation (char octave)
         elt->noteDivisionsAsMSRString ();
 
       // print the tie if any
-      if (elt->getMusicXMLNoteIsTied ())
-        fOstream << " ~ ";
+      if (
+        elt->getNoteTieKind ()
+          ==
+        msrMusicXMLNoteData::kStartTie) {
+          fOstream << " ~ ";
+      }
 
       // a rest is no relative octave reference,
       // the preceding one is kept
@@ -1792,6 +1800,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
   fOstream <<
     ">" <<
     elt->chordDivisionsAsMSRString () << " ";
+
+  // print the tie if any
+  if (
+    elt->getChordTieKind ()
+      ==
+    msrMusicXMLNoteData::kStartTie) {
+      fOstream << " ~ ";
+  }
 }
 
 //________________________________________________________________________
@@ -1925,9 +1941,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarCheck& elt)
     fOstream << idtr <<
       "% --> Start visiting msrBarCheck" << endl;
 
-  fOstream <<
+  fOstream << idtr <<
     "| % " << elt->getNextBarNumber () <<
-    endl << idtr;
+    endl <<
+    idtr;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarCheck& elt)

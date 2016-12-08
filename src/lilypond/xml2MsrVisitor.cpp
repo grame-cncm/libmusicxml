@@ -1617,49 +1617,52 @@ void xml2MsrVisitor::visitStart ( S_per_minute& elt )
 //________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_tied& elt )
 {
-//           <tied orientation="over" type="start"/>
+// <tied orientation="over" type="start"/>
 
-fCurrentTiedType =
-  elt->getAttributeValue ("type");
-
-fCurrentTiedOrientation =
-  elt->getAttributeValue ("orientation");
-
- if (fCurrentTiedType == "start") { // JMI
+  string tiedType =
+    elt->getAttributeValue ("type");
+  
+  fCurrentTiedOrientation =
+    elt->getAttributeValue ("orientation");
+  
+  if (tiedType == "start") { // JMI
     
-//    fCurrentTiedKind = msrTied::kStartTied;
+    fMusicXMLNoteData.fMusicXMLTieKind =
+      msrMusicXMLNoteData::kStartTie;
     
   }
-  else
-  if (fCurrentTiedType == "continue") {
+  else if (tiedType == "continue") {
     
-//    fCurrentTiedKind = msrTied::kContinueTied;
-    fMusicXMLNoteData.fMusicXMLNoteIsTied = true;
+    fMusicXMLNoteData.fMusicXMLTieKind =
+      msrMusicXMLNoteData::kContinueTie;
     
   }
-  else
-  if (fCurrentTiedType == "stop") {
+  else if (tiedType == "stop") {
     
-//    fCurrentTiedKind = msrTied::kStopTied;
-    fMusicXMLNoteData.fMusicXMLNoteIsTied = true;
+    fMusicXMLNoteData.fMusicXMLTieKind =
+      msrMusicXMLNoteData::kStopTie;
     
-  } else {
+  }
+  else {
 
     // inner tied notes may miss the "continue" type:
     // let' complain on slur notes outside of slurs 
     if (! fOnGoingSlur)
-      if (fCurrentTiedType.size()) {
+      if (tiedType.size()) {
         stringstream s;
+        
         s << "tied type" << fCurrentSlurType << "unknown";
+        
         msrMusicXMLError (
           fMsrOptions->fInputSourceName,
           elt->getInputLineNumber (),
           s.str());
       }
       
-    }
+  }
 }
 
+//________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_slur& elt )
 {
 //          <slur number="1" placement="above" type="start"/>
@@ -2708,7 +2711,8 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet = false;
   fMusicXMLNoteData.fMusicXMLTupletMemberNoteType = "";
   
-  fMusicXMLNoteData.fMusicXMLNoteIsTied = false;
+  fMusicXMLNoteData.fMusicXMLTieKind =
+    msrMusicXMLNoteData::k_NoTie;
   
   fMusicXMLNoteData.fMusicXMLVoiceNumber = 0;
 
@@ -2727,7 +2731,6 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   
   fCurrentBeam = 0;
   
-  fCurrentTiedType = "";
   fCurrentTiedOrientation = "";
 
   fCurrentSlurNumber = -1;
@@ -3984,13 +3987,23 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 
     cerr <<
       idtr <<
-        setw(38) << "fMusicXMLNoteData.fMusicXMLNoteIsTied" << " = ";
-    if (fMusicXMLNoteData.fMusicXMLNoteIsTied)
-      cerr << "true";
-    else
-      cerr << "false";
+        setw(38) << "fMusicXMLNoteData.fMusicXMLTieKind" << " = ";
+    switch (fMusicXMLNoteData.fMusicXMLTieKind) {
+      case msrMusicXMLNoteData::kStartTie:
+        cerr << "start tie";
+        break;
+      case msrMusicXMLNoteData::kContinueTie:
+        cerr << "continue tie";
+        break;
+      case msrMusicXMLNoteData::kStopTie:
+        cerr << "stop tie";
+        break;
+      case msrMusicXMLNoteData::k_NoTie:
+        cerr << "NO_TIE";
+        break;
+    } // switch
     cerr << endl;
-
+        
     cerr <<
       idtr <<
         setw(38) << "fCurrentSlurKind" << " = \"";
@@ -4141,7 +4154,10 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
       fCurrentNoteHasLyrics) { // JMI
     }
     
-    if (fMusicXMLNoteData.fMusicXMLNoteIsTied) {
+    if (
+      fMusicXMLNoteData.fMusicXMLTieKind
+        !=
+      msrMusicXMLNoteData::k_NoTie) {
       fCurrentLyricschunkKind = msrLyricschunk::kTiedChunk;
       
       if (fCurrentLyrics)
