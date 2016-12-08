@@ -2760,7 +2760,7 @@ void xml2MsrVisitor::visitStart ( S_step& elt )
 
 void xml2MsrVisitor::visitStart ( S_alter& elt)
 {
-  fMusicXMLNoteData.fMusicXMLAlteration = (int)(*elt);
+  fMusicXMLNoteData.fMusicXMLAlteration = (float)(*elt);
 }
 
 void xml2MsrVisitor::visitStart ( S_octave& elt)

@@ -1000,60 +1000,103 @@ msrNote::msrNote (
     case 'G': noteQuatertonesFromA = 20; break;
     default: {}    
   } // switch
+
+  /*
+    enum msrMusicXMLAlteration {
+      // kDoubleFlat=-2 as in MusicXML, to faciliting testing
+      kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp,
+      k_NoAlteration};
+  */
   
   // flat or sharp,possibly double?
   msrMusicXMLNoteData::msrMusicXMLAlteration musicXMLAlteration;
 
+  if (true || fMsrOptions->fDebugDebug)
+//  if (fMsrOptions->fDebugDebug)
+    cerr <<
+      "--> fMusicXMLNoteData.fMusicXMLAlteration = " <<
+      fMusicXMLNoteData.fMusicXMLAlteration <<
+      endl;
+
 /*
-  cerr <<
-    "--> fMusicXMLNoteData.fMusicXMLAlteration = " <<
-    fMusicXMLNoteData.fMusicXMLAlteration <<  endl;
-*/
+  The alter element represents chromatic alteration
+  in number of semitones (e.g., -1 for flat, 1 for sharp).
+  Decimal values like 0.5 (quarter tone sharp) are used for microtones.
+
+  The following table lists note names for quarter-tone accidentals
+  in various languages; here the pre- fixes semi- and sesqui-
+  respectively mean ‘half’ and ‘one and a half’.
   
-  switch (fMusicXMLNoteData.fMusicXMLAlteration) {
+  Languages that do not appear in this table do not provide special note names yet.
+  Language
+              semi-sharp semi-flat sesqui-sharp sesqui-flat
+                 +0.5      -0.5        +1.5       -1.5
+    nederlands   -ih       -eh        -isih       -eseh
+
+  We use dutch pitches names for the enumeration below.
+  The following is a series of Cs with increasing pitches:
+    \relative c'' { ceseh ces ceh c cih cis cisih }
+*/
+
+  if      (fMusicXMLNoteData.fMusicXMLAlteration == 0 ) {
+    musicXMLAlteration = msrMusicXMLNoteData::kNatural;
+  }
+  
+  else if (fMusicXMLNoteData.fMusicXMLAlteration == -1 ) {
+    musicXMLAlteration = msrMusicXMLNoteData::kFlat;
+    noteQuatertonesFromA -= 2;
+    if (noteQuatertonesFromA < 0)
+      noteQuatertonesFromA += 24; // it is below A
+  }
+  
+  else if (fMusicXMLNoteData.fMusicXMLAlteration == 1 ) {
+    musicXMLAlteration = msrMusicXMLNoteData::kSharp;
+    noteQuatertonesFromA += 2;
+  }
+  
+  else if (fMusicXMLNoteData.fMusicXMLAlteration == -0.5 ) {
+    musicXMLAlteration = msrMusicXMLNoteData::kSemiFlat;
+    noteQuatertonesFromA -= 1;
+    if (noteQuatertonesFromA < 0)
+      noteQuatertonesFromA += 24; // it is below A
+  }
+  
+  else if (fMusicXMLNoteData.fMusicXMLAlteration == +0.5 ) {
+    musicXMLAlteration = msrMusicXMLNoteData::kSemiSharp;
+    noteQuatertonesFromA += 1;
+  }
+  
+  else if (fMusicXMLNoteData.fMusicXMLAlteration == -1.5 ) {
+    musicXMLAlteration = msrMusicXMLNoteData::kSesquiFlat;
+    noteQuatertonesFromA -= 3;
+    if (noteQuatertonesFromA < 0)
+      noteQuatertonesFromA += 24; // it is below A
+  }
+  
+  else if (fMusicXMLNoteData.fMusicXMLAlteration == +1.5 ) {
+    musicXMLAlteration = msrMusicXMLNoteData::kSesquiSharp;
+    noteQuatertonesFromA += 3;
+  }
+  
+  else {
+    stringstream s;
     
-    case -2:
-      musicXMLAlteration = msrMusicXMLNoteData::kDoubleFlat;
-      noteQuatertonesFromA-=3;
-      if (noteQuatertonesFromA < 0)
-        noteQuatertonesFromA += 24; // it is below A
-      break;
+    s <<
+      "MusicXML alteration " << fMusicXMLNoteData.fMusicXMLAlteration <<
+      " should be -1.5, -1, -0.5, 0, +0.5, +1 or +1.5";
+      " should be -1, -0.5, 0, +0.5 or +1";
       
-    case -1:
-      musicXMLAlteration = msrMusicXMLNoteData::kFlat;
-      noteQuatertonesFromA-=2;
-      if (noteQuatertonesFromA < 0)
-        noteQuatertonesFromA += 24; // it is below A
-      break;
-      
-    case 0:
-      musicXMLAlteration = msrMusicXMLNoteData::kNatural;
-      break;
-      
-    case 1:
-      musicXMLAlteration = msrMusicXMLNoteData::kSharp;
-      noteQuatertonesFromA+=2;
-      break;
-      
-    case 2:
-      musicXMLAlteration = msrMusicXMLNoteData::kDoubleSharp;
-      noteQuatertonesFromA+=3;
-      break;
-      
-    default:
-      {
-      stringstream s;
-      
-      s <<
-        "MusicXML alteration " << fMusicXMLNoteData.fMusicXMLAlteration <<
-        " is not between -2 and +2";
-        
-      msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
-        fInputLineNumber,
-        s.str());
-      }
-   } // switch
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      fInputLineNumber,
+      s.str());
+  }
+
+  if (true || fMsrOptions->fDebugDebug)
+//  if (fMsrOptions->fDebugDebug)
+    cerr <<
+      "--> noteQuatertonesFromA = " << noteQuatertonesFromA <<
+      endl;
 
   fNoteMsrPitch = 
     computeNoteMsrPitch (
@@ -3658,8 +3701,32 @@ void msrLyrics::addSkipChunkToLyrics (
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
+    string result;
+    int    computedNumberOfDots; // value not used
+    string errorMessage;
+  
+    int divisionsPerWholeNote =
+      fLyricsVoiceUplink->getDivisionsPerWholeNote ();
+  
+    string
+      divisionsAsString =
+        divisionsAsMSRString (
+          divisions,
+          divisionsPerWholeNote,
+          computedNumberOfDots,
+          errorMessage,
+          false); // 'true' to debug it;
+    
+    if (errorMessage.size ())
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
+        fInputLineNumber,
+        errorMessage);
+
     cerr << idtr <<
       "--> Adding skip chunk:" << divisions <<
+      "/" << divisionsPerWholeNote << "" <<
+      "(" << divisionsAsString << ")" <<
       " to " << getLyricsName () << endl;
   }
   
