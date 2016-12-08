@@ -1005,8 +1005,8 @@ msrNote::msrNote (
   msrMusicXMLNoteData::msrMusicXMLAlterationKind
     musicXMLAlterationKind;
 
-  if (true || fMsrOptions->fDebugDebug)
-//  if (fMsrOptions->fDebugDebug)
+//  if (true || fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fDebugDebug)
     cerr <<
       "--> fMusicXMLNoteData.fMusicXMLAlter= " <<
       fMusicXMLNoteData.fMusicXMLAlter <<
@@ -1086,11 +1086,12 @@ msrNote::msrNote (
       s.str());
   }
 
-  if (true || fMsrOptions->fDebugDebug)
-//  if (fMsrOptions->fDebugDebug)
+/* JMI
+  if (fMsrOptions->fDebugDebug)
     cerr <<
       "--> noteQuatertonesFromA = " << noteQuatertonesFromA <<
       endl;
+*/
 
   fNoteIsChordFirstNote = false;
 }
@@ -3734,7 +3735,7 @@ void msrLyrics::addBarCheckChunkToLyrics (
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding a barcheck chunk" <<
+      "--> Adding a bar check chunk" <<
       " to lyrics " << getLyricsName () << endl;
   }
 
