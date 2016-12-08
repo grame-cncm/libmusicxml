@@ -1033,42 +1033,42 @@ msrNote::msrNote (
 */
 
   if      (fMusicXMLNoteData.fMusicXMLAlter == 0 ) {
-    musicXMLAlteration = msrMusicXMLNoteData::kNatural;
+    fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kNatural;
   }
   
   else if (fMusicXMLNoteData.fMusicXMLAlter == -1 ) {
-    musicXMLAlteration = msrMusicXMLNoteData::kFlat;
+    fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kFlat;
     noteQuatertonesFromA -= 2;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
   else if (fMusicXMLNoteData.fMusicXMLAlter == 1 ) {
-    musicXMLAlteration = msrMusicXMLNoteData::kSharp;
+    fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kSharp;
     noteQuatertonesFromA += 2;
   }
   
   else if (fMusicXMLNoteData.fMusicXMLAlter == -0.5 ) {
-    musicXMLAlteration = msrMusicXMLNoteData::kSemiFlat;
+    fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kSemiFlat;
     noteQuatertonesFromA -= 1;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
   else if (fMusicXMLNoteData.fMusicXMLAlter == +0.5 ) {
-    musicXMLAlteration = msrMusicXMLNoteData::kSemiSharp;
+    fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kSemiSharp;
     noteQuatertonesFromA += 1;
   }
   
   else if (fMusicXMLNoteData.fMusicXMLAlter == -1.5 ) {
-    musicXMLAlteration = msrMusicXMLNoteData::kSesquiFlat;
+    fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kSesquiFlat;
     noteQuatertonesFromA -= 3;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
   else if (fMusicXMLNoteData.fMusicXMLAlter == +1.5 ) {
-    musicXMLAlteration = msrMusicXMLNoteData::kSesquiSharp;
+    fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kSesquiSharp;
     noteQuatertonesFromA += 3;
   }
   
@@ -1125,149 +1125,6 @@ void msrNote::applyTupletMemberDisplayFactor (
       /
     normalNotes;
 }
-
-/*
-msrNote::msrPitch msrNote::computeNoteMsrPitch (
-  int   noteQuatertonesFromA,
-  msrMusicXMLNoteData::msrMusicXMLAlteration
-        alteration)
-{
-  // computing the msr pitch
-   Quarter tones may be added; the following is a series of Cs with increasing pitches:
-    \relative c'' { ceseh ces ceh c cih cis cisih }
-  * /
-  msrNote::msrPitch pitch = msrNote::k_NoMsrPitch;
-
-  /*
-  switch (noteQuatertonesFromA) {
-    case 0:
-      pitch = msrNote::k_a;
-      break;
-    case 1:
-      pitch =
-        alteration == msrMusicXMLNoteData::kSesquiSharp
-          ? msrNote::k_aih
-          : msrNote::k_beseh;
-      break;
-    case 2:
-      pitch =
-        alteration == msrMusicXMLNoteData::kSharp
-          ? msrNote::k_ais
-          : msrNote::k_bes;
-      break;
-    case 3:
-      pitch =
-        alteration == msrMusicXMLNoteData::kDoubleSharp
-          ? msrNote::k_aisih
-          : msrNote::k_beh;
-      break;
-    case 4:
-      pitch = msrNote::k_b;
-      break;
-    case 5:
-      pitch =
-        alteration == msrMusicXMLNoteData::kSesquiSharp
-          ? msrNote::k_bih
-          : msrNote::k_ceseh;
-      break;
-    case 6:
-      pitch = msrNote::k_c;
-      break;
-    case 7:
-      pitch =
-        alteration == msrMusicXMLNoteData::kDoubleSharp
-          ? msrNote::k_cih
-          : msrNote::k_deseh;
-      break;
-    case 8:
-      pitch =
-        alteration == msrMusicXMLNoteData::kSharp
-          ? msrNote::k_cis
-          : msrNote::k_des;
-      break;
-    case 9:
-      pitch =
-        alteration == msrMusicXMLNoteData::kDoubleSharp
-          ? msrNote::k_cisih
-          : msrNote::k_deh;
-      break;
-    case 10:
-      pitch = msrNote::k_d;
-      break;
-    case 11:
-      pitch =
-        alteration == msrMusicXMLNoteData::kDoubleSharp
-          ? msrNote::k_dih
-          : msrNote::k_eeseh;
-      break;
-    case 12:
-      pitch =
-        alteration == msrMusicXMLNoteData::kSharp
-          ? msrNote::k_dis
-          : msrNote::k_ees;
-      break;
-    case 13:
-      pitch =
-        alteration == msrMusicXMLNoteData::kDoubleSharp
-          ? msrNote::k_disih
-          : msrNote::k_eeh;
-      break;
-    case 14:
-      pitch = msrNote::k_e;
-      break;
-    case 15:
-      pitch =
-        alteration == msrMusicXMLNoteData::kDoubleSharp
-          ? msrNote::k_eih
-          : msrNote::k_feseh;
-      break;
-    case 16:
-      pitch = msrNote::k_f;
-      break;
-    case 17:
-      pitch =
-        alteration == msrMusicXMLNoteData::kDoubleSharp
-          ? msrNote::k_fih
-          : msrNote::k_geseh;
-      break;
-    case 18:
-      pitch =
-        alteration == msrMusicXMLNoteData::kSharp
-          ? msrNote::k_fis
-          : msrNote::k_ges;
-      break;
-    case 19:
-      pitch =
-        alteration == msrMusicXMLNoteData::kDoubleSharp
-          ? msrNote::k_fisih
-          : msrNote::k_geh;
-      break;
-    case 20:
-      pitch = msrNote::k_g;
-      break;
-    case 21:
-      pitch =
-        alteration == msrMusicXMLNoteData::kDoubleSharp
-          ? msrNote::k_gih
-          : msrNote::k_aeseh;
-      break;
-    case 22:
-      pitch =
-        alteration == msrMusicXMLNoteData::kSharp
-          ? msrNote::k_gis
-          : msrNote::k_aes;
-      break;
-    case 23:
-      pitch =
-        alteration == msrMusicXMLNoteData::kDoubleSharp
-          ? msrNote::k_gisih
-          : msrNote::k_aeh;
-      break;
-  } // switch
-   
-  return pitch;
-}
-  */
 
 void msrNote::addArticulation (S_msrArticulation art)
 {
@@ -1433,30 +1290,30 @@ string msrNote::notePitchAsString () const
 
     switch (fMusicXMLNoteData.fMusicXMLAlteration) {
 
-      case kSesquiFlat:
+      case msrMusicXMLNoteData::kSesquiFlat:
         s << "eseh";
         break;
         
-      case kFlat:
+      case msrMusicXMLNoteData::kFlat:
         s << "es";
         break;
         
-      case kSemiFlat:
+      case msrMusicXMLNoteData::kSemiFlat:
         s << "eh";
         break;
         
-      case kNatural:
+      case msrMusicXMLNoteData::kNatural:
         break;
         
-      case kSemiSharp:
+      case msrMusicXMLNoteData::kSemiSharp:
         s << "ih";
         break;
         
-      case kSharp:
+      case msrMusicXMLNoteData::kSharp:
         s << "is";
         break;
         
-      case kSesquiSharp:
+      case msrMusicXMLNoteData::kSesquiSharp:
         s << "isih";
         break;      
     } // switch  

@@ -2694,7 +2694,8 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fMusicXMLStep = '_';
   fMusicXMLNoteData.fMusicXMLStepIsARest = false;
   fMusicXMLNoteData.fMusicXMLStepIsUnpitched = false;
-  
+
+  fMusicXMLNoteData.fMusicXMLAlter = 0.0;
   fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kNatural;
   
   fMusicXMLNoteData.fMusicXMLOctave = -13;
