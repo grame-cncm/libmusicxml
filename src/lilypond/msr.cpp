@@ -63,7 +63,7 @@ msrOptions::~msrOptions() {}
 //______________________________________________________________________________
 msrElement::msrElement (
   S_msrOptions& msrOpts, 
-  int                    inputLineNumber)
+  int           inputLineNumber)
 {
   fMsrOptions      = msrOpts;
   fInputLineNumber = inputLineNumber;  
@@ -113,7 +113,7 @@ ostream& operator<< (ostream& os, const S_msrElement& elt)
 
 void msrElement::print (ostream& os)
 {
-  os << "Element???" << endl;
+  os << "??? Element ???" << endl;
 }
 
 //______________________________________________________________________________

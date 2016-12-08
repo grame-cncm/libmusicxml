@@ -2936,7 +2936,7 @@ class EXP msrVoice : public msrElement
     
     void          appendBarCheckToVoice (S_msrBarCheck bnc);
     void          appendBarnumberCheckToVoice
-                                    (S_msrBarnumberCheck bnc);
+                                        (S_msrBarnumberCheck bnc);
 
     void          appendBreakToVoice    (S_msrBreak break_);
 

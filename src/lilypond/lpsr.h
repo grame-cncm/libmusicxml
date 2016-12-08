@@ -51,66 +51,6 @@ namespace MusicXML2
 class lpsrRepeat;
 typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
 
-/*!
-\brief Global variables.
-
-  An global variable is implemented as a static member of this class.
-*/
-//______________________________________________________________________________
-
-/*!
-\brief A msr absolute octave representation.
-*/
-//______________________________________________________________________________
-/* JMI
-class EXP msrAbsoluteOctave : public msrElement
-{
-  public:
-  
-    static SMARTP<msrAbsoluteOctave> create (
-          S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int                    inputLineNumber,
-      int                    musicxmlOctave);
-    
-    msrAbsoluteOctave (
-          S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int                    inputLineNumber,
-      int                    musicxmlOctave);
-      
-    virtual ~msrAbsoluteOctave();
-    
-    msrAbsoluteOctave& operator= (const msrAbsoluteOctave& absOct)
-      {
-        fMsrOctave = absOct.fMsrOctave;
-        return *this;
-      }
-          
-    bool operator!= (const msrAbsoluteOctave& otherAbsOct) const 
-      { 
-        return fMsrOctave != otherAbsOct.fMsrOctave;
-      }
-    
-    string  absoluteOctaveAsLilypondString ();
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void print (ostream& os);
-
-  private:
-
-    int  fMsrOctave;
-};
-typedef SMARTP<msrAbsoluteOctave> S_msrAbsoluteOctave;
-EXP ostream& operator<< (ostream& os, const S_msrAbsoluteOctave& elt);
-*/
 
 /*!
   \brief The LPSR code generation options.
@@ -127,6 +67,7 @@ class EXP lpsrOptions : public smartable {
   public:
   
     lpsrOptions();
+    
     virtual ~lpsrOptions();
  
   public:
@@ -172,6 +113,17 @@ class EXP lpsrElement : public msrElement
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
 
+  protected:
+         
+    lpsrElement (
+      S_msrOptions   msrOpts,
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
+
+    virtual ~lpsrElement();
+
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -187,13 +139,6 @@ class EXP lpsrElement : public msrElement
     virtual void browseData (basevisitor* v);
 
   protected:
-         
-    lpsrElement (
-      S_msrOptions   msrOpts,
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber);
-
-    virtual ~lpsrElement();
 
     S_lpsrOptions fLpsrOptions;
 };
@@ -252,6 +197,18 @@ class EXP lpsrParallelMusic : public lpsrElement
       int                   inputLineNumber,
       lpsrElementsSeparator elementsSeparator);
 
+  protected:
+
+    lpsrParallelMusic (
+      S_msrOptions          msrOpts,
+      S_lpsrOptions&        lpsrOpts, 
+      int                   inputLineNumber,
+      lpsrElementsSeparator elementsSeparato);
+      
+    virtual ~lpsrParallelMusic();
+    
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -281,16 +238,6 @@ class EXP lpsrParallelMusic : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrParallelMusic (
-      S_msrOptions          msrOpts,
-      S_lpsrOptions&        lpsrOpts, 
-      int                   inputLineNumber,
-      lpsrElementsSeparator elementsSeparato);
-      
-    virtual ~lpsrParallelMusic();
-    
   private:
   
     vector<S_msrElement>  fParallelMusicElements;
@@ -333,6 +280,26 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
         string              unit,
         string              comment,
         lpsrEndlKind        endlKind);
+
+  protected:
+
+    lpsrLilypondVarValAssoc (
+        S_msrOptions&       msrOpts, 
+        S_lpsrOptions&      lpsrOpts, 
+        int                 inputLineNumber,
+        lpsrCommentedKind   commentedKind,
+        lpsrBackslashKind   backslashKind,
+        string              variableName,
+        lpsrVarValSeparator varValSeparator,
+        lpsrQuotesKind      quotesKind,
+        string              value, 
+        string              unit,
+        string              comment,
+        lpsrEndlKind        endlKind);
+      
+    virtual ~lpsrLilypondVarValAssoc();
+  
+  public:
 
     // set and get
     // ------------------------------------------------------
@@ -386,24 +353,6 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrLilypondVarValAssoc (
-        S_msrOptions&       msrOpts, 
-        S_lpsrOptions&      lpsrOpts, 
-        int                 inputLineNumber,
-        lpsrCommentedKind   commentedKind,
-        lpsrBackslashKind   backslashKind,
-        string              variableName,
-        lpsrVarValSeparator varValSeparator,
-        lpsrQuotesKind      quotesKind,
-        string              value, 
-        string              unit,
-        string              comment,
-        lpsrEndlKind        endlKind);
-      
-    virtual ~lpsrLilypondVarValAssoc();
-  
   private:
 
     lpsrCommentedKind   fCommentedKind;
@@ -446,6 +395,22 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
       string            comment,
       lpsrEndlKind      endlKind);
     
+  protected:
+
+    lpsrSchemeVarValAssoc (
+      S_msrOptions&     msrOpts, 
+      S_lpsrOptions&    lpsrOpts, 
+      int               inputLineNumber,
+      lpsrCommentedKind commentedKind,
+      string            variableName,
+      string            value, 
+      string            comment,
+      lpsrEndlKind      endlKind);
+      
+    virtual ~lpsrSchemeVarValAssoc();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -478,20 +443,6 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrSchemeVarValAssoc (
-      S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int               inputLineNumber,
-      lpsrCommentedKind commentedKind,
-      string            variableName,
-      string            value, 
-      string            comment,
-      lpsrEndlKind      endlKind);
-      
-    virtual ~lpsrSchemeVarValAssoc();
-  
   private:
 
     lpsrCommentedKind fCommentedKind;
@@ -529,6 +480,19 @@ class EXP lpsrComment : public lpsrElement
       string         contents,
       lpsrGapKind    gapKind = kNoGapAfterwards);
 
+  protected:
+
+    lpsrComment (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      string         contents,
+      lpsrGapKind    gapKind = kNoGapAfterwards);
+      
+    virtual ~lpsrComment();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -549,17 +513,6 @@ class EXP lpsrComment : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrComment (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber,
-      string         contents,
-      lpsrGapKind    gapKind = kNoGapAfterwards);
-      
-    virtual ~lpsrComment();
-  
   private:
 
     string      fContents;
@@ -587,6 +540,18 @@ class EXP lpsrBarNumberCheck : public lpsrElement
       int                    inputLineNumber,
       int                    nextBarNumber);
 
+  protected:
+
+    lpsrBarNumberCheck(
+          S_msrOptions&     msrOpts, 
+      S_lpsrOptions&    lpsrOpts, 
+      int                    inputLineNumber,
+      int                    nextBarNumber);
+      
+    virtual ~lpsrBarNumberCheck();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -603,16 +568,6 @@ class EXP lpsrBarNumberCheck : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrBarNumberCheck(
-          S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
-      int                    inputLineNumber,
-      int                    nextBarNumber);
-      
-    virtual ~lpsrBarNumberCheck();
-  
   private:
 
     int fNextBarNumber;
@@ -637,6 +592,17 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumberr);
      
+  protected:
+
+    lpsrNewStaffgroupBlock (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
+      
+    virtual ~lpsrNewStaffgroupBlock();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -656,15 +622,6 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrNewStaffgroupBlock (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber);
-      
-    virtual ~lpsrNewStaffgroupBlock();
-  
   private:
   
     vector<S_msrElement> fNewStaffgroupElements;
@@ -690,6 +647,17 @@ class EXP lpsrNewStaffBlock : public lpsrElement
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
      
+  protected:
+
+    lpsrNewStaffBlock (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
+      
+    virtual ~lpsrNewStaffBlock();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -709,15 +677,6 @@ class EXP lpsrNewStaffBlock : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrNewStaffBlock (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber);
-      
-    virtual ~lpsrNewStaffBlock();
-  
   private:
   
     vector<S_msrElement> fNewStaffElements;
@@ -744,6 +703,18 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
       int            inputLineNumber,
       S_msrVoice     voice);
 
+  protected:
+
+    lpsrUseVoiceCommand (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      S_msrVoice     voice);
+      
+    virtual ~lpsrUseVoiceCommand();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -762,16 +733,6 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrUseVoiceCommand (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber,
-      S_msrVoice     voice);
-      
-    virtual ~lpsrUseVoiceCommand();
-  
   private:
   
     S_msrVoice fVoice;
@@ -800,6 +761,19 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
       S_msrLyrics    lyrics,
       S_msrVoice     voice);
 
+  protected:
+
+    lpsrNewLyricsBlock (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      S_msrLyrics    lyrics,
+      S_msrVoice );
+      
+    virtual ~lpsrNewLyricsBlock();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -819,17 +793,6 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrNewLyricsBlock (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber,
-      S_msrLyrics    lyrics,
-      S_msrVoice );
-      
-    virtual ~lpsrNewLyricsBlock();
-  
   private:
   
     S_msrLyrics fLyrics;
@@ -858,6 +821,18 @@ class EXP lpsrVariableUseCommand : public lpsrElement
       int            inputLineNumber,
       string         variableName);
 
+  protected:
+
+    lpsrVariableUseCommand (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      string         variableName);
+      
+    virtual ~lpsrVariableUseCommand();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -874,16 +849,6 @@ class EXP lpsrVariableUseCommand : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrVariableUseCommand (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber,
-      string         variableName);
-      
-    virtual ~lpsrVariableUseCommand();
-  
   private:
   
     string fVariableName;
@@ -910,6 +875,8 @@ class EXP lpsrUseLyricsCommand : public lpsrElement
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       S_msrLyrics&   lyrics);
+
+  public:
 
     // set and get
     // ------------------------------------------------------
@@ -971,6 +938,20 @@ class EXP lpsrContext : public lpsrElement
       string          contextType,
       string          contextName);
     
+  protected:
+
+    lpsrContext (
+      S_msrOptions&   msrOpts, 
+      S_lpsrOptions&  lpsrOpts, 
+      int             inputLineNumber,
+      lpsrContextKind contextKind,
+      string          contextType,
+      string          contextName);
+      
+    virtual ~lpsrContext();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -990,18 +971,6 @@ class EXP lpsrContext : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrContext (
-      S_msrOptions&   msrOpts, 
-      S_lpsrOptions&  lpsrOpts, 
-      int             inputLineNumber,
-      lpsrContextKind contextKind,
-      string          contextType,
-      string          contextName);
-      
-    virtual ~lpsrContext();
-  
   private:
   
     lpsrContextKind   fContextKind;
@@ -1031,6 +1000,17 @@ class EXP lpsrBarCommand : public lpsrElement
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
 
+  protected:
+
+    lpsrBarCommand (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
+      
+    virtual ~lpsrBarCommand();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1047,15 +1027,6 @@ class EXP lpsrBarCommand : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrBarCommand (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber);
-      
-    virtual ~lpsrBarCommand();
-  
   private:
 };
 typedef SMARTP<lpsrBarCommand> S_lpsrBarCommand;
@@ -1079,6 +1050,17 @@ class EXP lpsrHeader : public lpsrElement
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
     
+  protected:
+
+    lpsrHeader (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
+      
+    virtual ~lpsrHeader();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1173,15 +1155,6 @@ class EXP lpsrHeader : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrHeader (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber);
-      
-    virtual ~lpsrHeader();
-  
   private:
 
     S_lpsrLilypondVarValAssoc         fWorkNumber;
@@ -1215,6 +1188,16 @@ class EXP lpsrPaper : public msrElement
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
     
+  protected:
+
+    lpsrPaper (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+      
+    virtual ~lpsrPaper();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1251,14 +1234,6 @@ class EXP lpsrPaper : public msrElement
     virtual void print (ostream& os);
 
 
-  protected:
-
-    lpsrPaper (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
-      
-    virtual ~lpsrPaper();
-  
   private:
 
     // page height, margins and the like in centimeters are in centimeters
@@ -1293,6 +1268,17 @@ class EXP lpsrLayout : public lpsrElement
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
 
+  protected:
+
+    lpsrLayout (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
+      
+    virtual ~lpsrLayout();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1323,241 +1309,15 @@ class EXP lpsrLayout : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrLayout (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber);
-      
-    virtual ~lpsrLayout();
-  
   private:
   
-    float                           fStaffSize;
+    float                             fStaffSize;
     
     vector<S_lpsrLilypondVarValAssoc> flpsrLilypondVarValAssocs;
     vector<S_lpsrSchemeVarValAssoc>   fLpsrSchemeVarValAssocs;
 };
 typedef SMARTP<lpsrLayout> S_lpsrLayout;
 EXP ostream& operator<< (ostream& os, const S_lpsrLayout& elt);
-
-/*!
-\brief A msr repeat representation.
-
-  A repeat is represented by:
-    - a sequence of elements for the common part
-    - a vector of sequences of elements for the alternate endings
-*/
-//______________________________________________________________________________
-/*
-class EXP lpsrRepeatending : public msrElement
-{
-  public:
-
-    enum lpsrRepeatendingKind {
-      kHookedEnding,
-      kHooklessEnding};
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<lpsrRepeatending> create (
-      S_msrOptions&       msrOpts, 
-      int                 inputLineNumber,
-//      string              repeatendingNumber, // may be "1, 2"
-//      lpsrRepeatendingKind repeatendingKind,
-      S_msrVoicechunk     voicechunk,
-      S_lpsrRepeat        repeat);
-    
-    SMARTP<lpsrRepeatending> createEmptyClone (
-      S_lpsrRepeat clonedRepeat);
-
-    // set and get
-    // ------------------------------------------------------
-
-//    string    getRepeatendingNumber () const
-//                  { return fRepeatendingNumber; }
-                
-    S_msrVoicechunk
-              getRepeatendingVoicechunk () const
-                  { return fRepeatendingVoicechunk; }
-                
-    S_lpsrRepeat
-              getRepeatendingRepeat () const
-                { return fRepeatendingRepeat; }
-
-    // services
-    // ------------------------------------------------------
-
-    void      appendElementToVoicechunk  (S_msrElement elem)
-                  {
-                    fRepeatendingVoicechunk->
-                      appendElementToVoicechunk (elem);
-                  }
-                    
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void print (ostream& os);
-
-  protected:
-
-    lpsrRepeatending (
-      S_msrOptions&       msrOpts, 
-      int                 inputLineNumber,
-//      string              repeatendingNumber, // may be "1, 2"
-//      lpsrRepeatendingKind repeatendingKind,
-      S_msrVoicechunk     voicechunk,
-      S_lpsrRepeat        repeat);
-      
-    virtual ~lpsrRepeatending();
-  
-  private:
-  
-//    string              fRepeatendingNumber; // may be "1, 2"
-//    lpsrRepeatendingKind fRepeatendingKind;
-    
-    S_msrVoicechunk     fRepeatendingVoicechunk;
-
-    S_lpsrRepeat        fRepeatendingRepeat;
-};
-typedef SMARTP<lpsrRepeatending> S_lpsrRepeatending;
-EXP ostream& operator<< (ostream& os, const S_lpsrRepeatending& elt);
-*/
-
-/*!
-\brief A lpsr score block representation.
-
-  A score is represented by parallel music, score layout and midi
-*/
-//______________________________________________________________________________
-/*
-class EXP lpsrRepeatalternative : public lpsrElement
-{
-  public:
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<lpsrRepeatalternative> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts);
-     
-    // set and get
-    // ------------------------------------------------------
-
-    list<S_lpsrRepeatending>
-              getRepeatendings () const
-                  { return fRepeatendings; }
-
-    // services
-    // ------------------------------------------------------
-
-    void      appendRepeatending (
-                S_lpsrRepeatending repeatending)
-                  { fRepeatendings.push_back (repeatending); }
-                  
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void print (ostream& os);
-
-  protected:
-
-    lpsrRepeatalternative (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts);
-      
-    virtual ~lpsrRepeatalternative();
-  
-  private:
-
-    list<S_lpsrRepeatending> fRepeatendings;
-};
-typedef SMARTP<lpsrRepeatalternative> S_lpsrRepeatalternative;
-EXP ostream& operator<< (ostream& os, const S_lpsrRepeatalternative& elt);
-*/
-
-/*!
-\brief A lpsr score block representation.
-
-  A score is represented by parallel music, score layout and midi
-*/
-//______________________________________________________________________________
-/*
-class EXP lpsrRepeat : public lpsrElement
-{
-  public:
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<lpsrRepeat> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts);
-     
-    // set and get
-    // ------------------------------------------------------
-
-    void      setRepeatCommonPart (
-                S_msrVoicechunk repeatCommonPart)
-                  { fRepeatCommonPart = repeatCommonPart; }
-                  
-    S_msrVoicechunk
-              getRepeatCommonPart () const
-                { return fRepeatCommonPart; }
-
-    S_lpsrRepeatalternative
-              getRepeatalternative () const
-                  { return fRepeatalternative; }
-
-    // services
-    // ------------------------------------------------------
-
-    void      addRepeatending (
-                S_lpsrRepeatending repeatending)
-                  {
-                    fRepeatalternative->appendRepeatending (
-                      repeatending);
-                  }
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void print (ostream& os);
-
-  protected:
-
-    lpsrRepeat (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts);
-      
-    virtual ~lpsrRepeat();
-  
-  private:
-
-    S_msrVoicechunk         fRepeatCommonPart;
-    S_lpsrRepeatalternative fRepeatalternative;
-};
-typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
-EXP ostream& operator<< (ostream& os, const S_lpsrRepeat& elt);
-*/
 
 /*!
 \brief A lpsr score block representation.
@@ -1577,6 +1337,17 @@ class EXP lpsrStaffBlock : public lpsrElement
       S_lpsrOptions& lpsrOpts,
       S_msrStaff     staff);
      
+  protected:
+
+    lpsrStaffBlock (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts,
+      S_msrStaff     staff);
+      
+    virtual ~lpsrStaffBlock();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1611,15 +1382,6 @@ class EXP lpsrStaffBlock : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrStaffBlock (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts,
-      S_msrStaff     staff);
-      
-    virtual ~lpsrStaffBlock();
-  
   private:
 
     S_msrStaff         fStaff;
@@ -1647,6 +1409,17 @@ class EXP lpsrPartBlock : public lpsrElement
       S_lpsrOptions& lpsrOpts,
       S_msrPart      part);
      
+  protected:
+
+    lpsrPartBlock (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts,
+      S_msrPart      part);
+      
+    virtual ~lpsrPartBlock();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1674,15 +1447,6 @@ class EXP lpsrPartBlock : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrPartBlock (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts,
-      S_msrPart      part);
-      
-    virtual ~lpsrPartBlock();
-  
   private:
 
     S_msrPart          fPart;
@@ -1710,6 +1474,17 @@ class EXP lpsrPartgroupBlock : public lpsrElement
       S_lpsrOptions& lpsrOpts,
       S_msrPartgroup partgroup);
      
+  protected:
+
+    lpsrPartgroupBlock (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts,
+      S_msrPartgroup partgroup);
+      
+    virtual ~lpsrPartgroupBlock();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1738,15 +1513,6 @@ class EXP lpsrPartgroupBlock : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrPartgroupBlock (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts,
-      S_msrPartgroup partgroup);
-      
-    virtual ~lpsrPartgroupBlock();
-  
   private:
 
     S_msrPartgroup     fPartgroup;
@@ -1774,6 +1540,17 @@ class EXP lpsrScoreBlock : public lpsrElement
       S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
      
+  protected:
+
+    lpsrScoreBlock (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber);
+      
+    virtual ~lpsrScoreBlock();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -1821,15 +1598,6 @@ class EXP lpsrScoreBlock : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrScoreBlock (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber);
-      
-    virtual ~lpsrScoreBlock();
-  
   private:
 
     S_lpsrParallelMusic fScoreBlockParallelMusic;
@@ -1858,11 +1626,20 @@ class EXP lpsrScore : public lpsrElement
       int            inputLineNumber,
       S_msrScore     mScore);
      
+  protected:
+
+    lpsrScore (
+      S_msrOptions&  msrOpts, 
+      S_lpsrOptions& lpsrOpts, 
+      int            inputLineNumber,
+      S_msrScore     mScore);
+      
+    virtual ~lpsrScore();
+  
+  public:
+
     // set and get
     // ------------------------------------------------------
-
- // JMI   void      setScoreBlock (S_lpsrScoreBlock scoreCommand)
-       //           { fScoreBlock = scoreCommand; }
                   
     S_lpsrLilypondVarValAssoc
               getLilyPondVersion () const
@@ -1939,16 +1716,6 @@ class EXP lpsrScore : public lpsrElement
 
     virtual void print (ostream& os);
 
-  protected:
-
-    lpsrScore (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
-      int            inputLineNumber,
-      S_msrScore     mScore);
-      
-    virtual ~lpsrScore();
-  
   private:
 
     // MSR data

@@ -97,10 +97,7 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
     fOstream << idtr <<
       "--> End visiting msrScore" << endl;
 
-//  fLpsrScore->
-//    setScoreBlock (fPartgroupBlocksStack.pop ());
-
-/*
+/* JMI
   // get top level pargroup command from the stack
   S_lpsrPartgroupBlock
     partgroupCommand =
