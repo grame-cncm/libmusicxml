@@ -1078,7 +1078,6 @@ msrNote::msrNote (
     s <<
       "MusicXML alter " << fMusicXMLNoteData.fMusicXMLAlter <<
       " should be -1.5, -1, -0.5, 0, +0.5, +1 or +1.5";
-      " should be -1, -0.5, 0, +0.5 or +1";
       
     msrMusicXMLError (
       fMsrOptions->fInputSourceName,
@@ -3469,7 +3468,7 @@ msrLyrics::msrLyrics (
   fLyricsVoiceUplink  = lyricsVoiceUplink;
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Creating lyrics " << getLyricsName () << endl;
+      "Creating lyrics " << getLyricsName ();
 
   fLyricsTextPresent = false;
 }
@@ -3626,7 +3625,7 @@ void msrLyrics::addSkipChunkToLyrics (
         errorMessage);
 
     cerr << idtr <<
-      "--> Adding skip chunk:" << divisions <<
+      "--> Adding 'Skip' lyrics chunk:" << divisions <<
       "/" << divisionsPerWholeNote << "" <<
       "(" << divisionsAsString << ")" <<
       " to " << getLyricsName () << endl;
@@ -3657,7 +3656,7 @@ void msrLyrics::addSlurChunkToLyrics (
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding slur chunk: " << divisions <<
+      "--> Adding 'Slur' lyrics chunk:" << divisions <<
       " to " << getLyricsName () << endl;
   }
   
@@ -3686,7 +3685,7 @@ void msrLyrics::addSlurBeyondEndChunkToLyrics (
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding slur beyond end chunk: " << divisions <<
+      "--> Adding 'lurBeyondEnd' lyrics chunk: " << divisions <<
       " to " << getLyricsName () << endl;
   }
   
@@ -3715,7 +3714,7 @@ void msrLyrics::addTiedChunkToLyrics (
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding tied chunk: " << divisions <<
+      "--> Adding 'Tied' lyrics chunk: " << divisions <<
       " to " << getLyricsName () << endl;
   }
   
@@ -3743,7 +3742,7 @@ void msrLyrics::addBarCheckChunkToLyrics (
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding a bar check chunk" <<
+      "--> Adding a 'BarCheck' lyrics chunk" <<
       " to lyrics " << getLyricsName () << endl;
   }
 
@@ -3785,7 +3784,7 @@ void msrLyrics::addBreakChunkToLyrics (
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding a break chunk" <<
+      "--> Adding a 'Break' lyrics chunk" <<
       " to lyrics " << getLyricsName () << endl;
   }
 
@@ -5183,6 +5182,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       "Appending note '" << note <<
       "' to voice " << getVoiceName () << endl;
 
+  // append the note to the voice chunk
   S_msrElement n = note;
   fVoicechunk->
     appendElementToVoicechunk (n);
@@ -5190,7 +5190,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   if (note->getNoteKind () != msrNote::kRestNote)
     fVoiceContainsActualNotes = true;
     
-  // add a skip chunk to the master lyrics
+  // add a skip chunk of the same duration to the master lyrics
   int
     lyricsDivisions =
       note->getNoteMusicXMLDivisions ();
@@ -5265,7 +5265,7 @@ void msrVoice::addTextLyricschunkToVoice (
 //      ", type = \"" << lyricschunkKindAsString << "\"" <<
       ", elision: " << elision <<
       " in lyrics " << lyricsNumber <<
-      " of voice " << getVoiceName () << endl;
+      " in voice " << getVoiceName () << endl;
   }
 
   // is lyrics fCurrentLyricsNumber present in this voice?
@@ -5369,7 +5369,7 @@ void msrVoice::addSlurBeyondEndLyricschunkToVoice (
 //      ", type = \"" << lyricschunkKindAsString << "\"" <<
 //      ", elision: " << elision <<
 //      " in lyrics " << lyricsNumber <<
-      " of voice " << getVoiceName () << endl;
+      " in voice " << getVoiceName () << endl;
   }
 
   // is lyrics fCurrentLyricsNumber present in this voice?
@@ -5416,17 +5416,18 @@ void msrVoice::addSlurLyricschunkToVoice (
       "--> Adding 'Slur' lyrics chunk"
       ", line " << inputLineNumber <<
       ", divisions = " << divisions <<
+/*
       endl;
 
-/*
     string lyricschunkKindAsString =
       lyricschunkAsString ();
-  */
     cerr <<
+  */
+
 //      ", type = \"" << lyricschunkKindAsString << "\"" <<
 //      ", elision: " << elision <<
-//      " in lyrics " << lyricsNumber <<
-      " of voice " << getVoiceName () << endl;
+      " in lyrics " << lyricsNumber <<
+      " in voice " << getVoiceName () << endl;
   }
 
   // is lyrics fCurrentLyricsNumber present in this voice?
@@ -5483,7 +5484,7 @@ void msrVoice::addSkipLyricschunkToVoice (
 //      ", type = \"" << lyricschunkKindAsString << "\"" <<
 //      ", elision: " << elision <<
 //      " in lyrics " << lyricsNumber <<
-      " of voice " << getVoiceName () << endl;
+      " in voice " << getVoiceName () << endl;
   }
 
   // is lyrics fCurrentLyricsNumber present in this voice?
@@ -5540,7 +5541,7 @@ void msrVoice::addSlurChunkToVoice (
 //      ", type = \"" << lyricschunkKindAsString << "\"" <<
 //      ", elision: " << elision <<
 //      " in lyrics " << lyricsNumber <<
-      " of voice " << getVoiceName () << endl;
+      " in voice " << getVoiceName () << endl;
   }
 
   // is lyrics fCurrentLyricsNumber present in this voice?
@@ -5597,7 +5598,7 @@ void msrVoice::addTiedLyricschunkToVoice (
 //      ", type = \"" << lyricschunkKindAsString << "\"" <<
 //      ", elision: " << elision <<
 //      " in lyrics " << lyricsNumber <<
-      " of voice " << getVoiceName () << endl;
+      " in voice " << getVoiceName () << endl;
   }
 
   // is lyrics fCurrentLyricsNumber present in this voice?
