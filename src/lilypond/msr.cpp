@@ -3466,6 +3466,7 @@ msrLyrics::msrLyrics (
   fLyricsMasterStatus = lyricsMasterStatus;
  
   fLyricsVoiceUplink  = lyricsVoiceUplink;
+  
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Creating lyrics " << getLyricsName () << endl;
@@ -5232,7 +5233,7 @@ void msrVoice::addTextLyricschunkToVoice (
     cerr <<
 //      ", type = \"" << lyricschunkKindAsString << "\"" <<
       ", elision: " << elision <<
-      " in lyrics " << lyricsNumber <<
+      " to lyrics " << lyricsNumber <<
       " in voice " << getVoiceName () << endl;
   }
 
@@ -5368,7 +5369,7 @@ void msrVoice::addTiedLyricschunkToVoice (
   
   // create lyrics slur chunk
   S_msrLyricschunk
-    lyricshunk =
+    lyricschunk =
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
@@ -5378,7 +5379,7 @@ void msrVoice::addTiedLyricschunkToVoice (
         
   // add it to the lyrics
   lyrics->
-    addChunkToLyrics (lyricshunk);
+    addChunkToLyrics (lyricschunk);
 }
 
 void msrVoice::addSlurLyricschunkToVoice (

@@ -60,7 +60,6 @@ string int2EnglishWord (int n)
   }
 
   if      (n >= 1000) {
-  //return "LargerThanNinetyNine";
     int nDiv1000    = n / 1000;
     int nModulo1000 = n % 1000;
 
