@@ -3264,28 +3264,68 @@ ostream& operator<< (ostream& os, const S_msrLyricschunk& lyr)
   return os;
 }
 
-/*
-string msrLyricschunk::lyricschunkAsString (
-  msrLyricschunkKind lyricschunkKind)
+string msrLyricschunk::lyricschunkKindAsString ()
 {
   string result;
-  
+    
+  switch (fLyricschunkKind) {
+    case msrLyricschunk::kSingleChunk:
+      result = "single";
+      break;
+    case msrLyricschunk::kBeginChunk:
+      result = "begin";
+      break;
+    case msrLyricschunk::kMiddleChunk:
+      result = "middle";
+      break;
+    case msrLyricschunk::kEndChunk:
+      result = "end";
+      break;
+      
+    case msrLyricschunk::kSkipChunk:
+      result = "skip";
+      break;
+      
+    case msrLyricschunk::kSlurChunk:
+      result = "slur";
+      break;
+    case msrLyricschunk::kSlurBeyondEndChunk:
+      result = "slur beyond end";
+      break;
+      
+    case msrLyricschunk::kTiedChunk:
+      result = "tied";
+      break;
+      
+    case msrLyricschunk::kBarCheck:
+      result = "barCheck";
+      break;
+      
+    case msrLyricschunk::kBreakChunk:
+      result = "break";
+      break;
+      
+    case msrLyricschunk::k_NoChunk:
+      msrInternalError (
+        fMsrOptions->fInputSourceName,
+        fInputLineNumber,
+        "lyrics chunk type has not been set");
+      break;
+  } // switch
 
   return result;
 }
-*/
 
-void msrLyricschunk::print (ostream& os)
-{  
-  os <<
-    "Lyricschunk" << " " << setw(15);
-
+string msrLyricschunk::lyricschunkAsString ()
+{
+  stringstream s;
+  
   switch (fLyricschunkKind) {
     case kSingleChunk:
-      os << "single" << ":" << fChunkDivisions;
+      s << "single" << ":" << fChunkDivisions;
       if (fChunkText.size())
-        os << " " << "\"" << fChunkText << "\"";
-      os <<
+        s << " " << "\"" << fChunkText << "\"";
+      s <<
         ", line " << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
@@ -3293,10 +3333,10 @@ void msrLyricschunk::print (ostream& os)
       break;
       
     case kBeginChunk:
-      os << "begin" << ":" << fChunkDivisions;
+      s << "begin" << ":" << fChunkDivisions;
       if (fChunkText.size())
-        os << " " << "\"" << fChunkText << "\"";
-      os <<
+        s << " " << "\"" << fChunkText << "\"";
+      s <<
         ", line " << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
@@ -3304,10 +3344,10 @@ void msrLyricschunk::print (ostream& os)
       break;
       
     case kMiddleChunk:
-      os << "middle" << ":" << fChunkDivisions;
+      s << "middle" << ":" << fChunkDivisions;
       if (fChunkText.size())
-        os << " " << "\"" << fChunkText << "\"";
-      os <<
+        s << " " << "\"" << fChunkText << "\"";
+      s <<
         ", line " << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
@@ -3315,10 +3355,10 @@ void msrLyricschunk::print (ostream& os)
       break;
       
     case kEndChunk:
-      os << "end" << ":" << fChunkDivisions;
+      s << "end" << ":" << fChunkDivisions;
       if (fChunkText.size())
-        os << " " << "\"" << fChunkText << "\"";
-      os <<
+        s << " " << "\"" << fChunkText << "\"";
+      s <<
         ", line " << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
@@ -3326,10 +3366,10 @@ void msrLyricschunk::print (ostream& os)
       break;
       
     case kSkipChunk:
-      os << "skip" << ":" << fChunkDivisions;
+      s << "skip" << ":" << fChunkDivisions;
       if (fChunkText.size())
-        os << " " << fChunkText;
-      os <<
+        s << " " << fChunkText;
+      s <<
         ", line " << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
@@ -3337,10 +3377,10 @@ void msrLyricschunk::print (ostream& os)
       break;
       
     case kSlurChunk:
-      os << "slur" << ":" << fChunkDivisions;
+      s << "slur" << ":" << fChunkDivisions;
       if (fChunkText.size())
-        os << " " << fChunkText;
-      os <<
+        s << " " << fChunkText;
+      s <<
         ", line " << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
@@ -3348,10 +3388,10 @@ void msrLyricschunk::print (ostream& os)
       break;
       
     case kSlurBeyondEndChunk:
-      os << "slur beyond end" << ":" << fChunkDivisions;
+      s << "slur beyond end" << ":" << fChunkDivisions;
       if (fChunkText.size())
-        os << " " << fChunkText;
-      os <<
+        s << " " << fChunkText;
+      s <<
         ", line " << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
@@ -3359,10 +3399,10 @@ void msrLyricschunk::print (ostream& os)
       break;
       
     case kTiedChunk:
-      os << "tied" << ":" << fChunkDivisions;
+      s << "tied" << ":" << fChunkDivisions;
       if (fChunkText.size())
-        os << " " << fChunkText;
-      os <<
+        s << " " << fChunkText;
+      s <<
         ", line " << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
@@ -3371,12 +3411,12 @@ void msrLyricschunk::print (ostream& os)
       
     case kBarCheck:
       // fChunkText contains the measure number
-      os << "barCheck" << " measure " << fChunkText << endl;
+      s << "barCheck" << " measure " << fChunkText << endl;
       break;
       
     case kBreakChunk:
       // fChunkText contains the measure number
-      os << "break" << " measure " << fChunkText << endl << endl;
+      s << "break" << " measure " << fChunkText << endl << endl;
       break;
       
     case k_NoChunk:
@@ -3386,6 +3426,15 @@ void msrLyricschunk::print (ostream& os)
         "lyrics chunk type has not been set");
       break;
   } // switch
+
+  return s.str();
+}
+
+
+void msrLyricschunk::print (ostream& os)
+{  
+  os <<
+    "Lyricschunk" << " " << setw(15) << lyricschunkAsString ();
 }
 
 //______________________________________________________________________________
@@ -3482,53 +3531,9 @@ void msrLyrics::addTextChunkToLyrics (
       ", syllabic = \"" << syllabic << "\"" <<
       ", text = \"" << text << "\"";
 
-    string lyricschunkKindAsString;
+    string lyricschunkKindAsString =
+      lyricschunkAsString ();
   
-    switch (lyricschunkKind) {
-      case msrLyricschunk::kSingleChunk:
-        lyricschunkKindAsString = "single";
-        break;
-      case msrLyricschunk::kBeginChunk:
-        lyricschunkKindAsString = "begin";
-        break;
-      case msrLyricschunk::kMiddleChunk:
-        lyricschunkKindAsString = "middle";
-        break;
-      case msrLyricschunk::kEndChunk:
-        lyricschunkKindAsString = "end";
-        break;
-        
-      case msrLyricschunk::kSkipChunk:
-        lyricschunkKindAsString = "skip";
-        break;
-        
-      case msrLyricschunk::kSlurChunk:
-        lyricschunkKindAsString = "slur";
-        break;
-      case msrLyricschunk::kSlurBeyondEndChunk:
-        lyricschunkKindAsString = "slur beyond end";
-        break;
-        
-      case msrLyricschunk::kTiedChunk:
-        lyricschunkKindAsString = "tied";
-        break;
-        
-      case msrLyricschunk::kBarCheck:
-        lyricschunkKindAsString = "barCheck";
-        break;
-        
-      case msrLyricschunk::kBreakChunk:
-        lyricschunkKindAsString = "break";
-        break;
-        
-      case msrLyricschunk::k_NoChunk:
-        msrInternalError (
-          fMsrOptions->fInputSourceName,
-          fInputLineNumber,
-          "lyrics chunk type has not been set");
-        break;
-    } // switch
-
     cerr <<
       ", type = \"" << lyricschunkKindAsString << "\"" <<
       ", elision: " << elision << 

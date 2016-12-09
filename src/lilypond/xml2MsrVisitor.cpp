@@ -3963,6 +3963,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
      
 //  if (true || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebug) {
+    
     cerr <<
       endl <<
       idtr <<
@@ -4024,86 +4025,18 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 
     cerr <<
       idtr <<
-        setw(38) << "fFirstLyricschunkInSlurKind" << " = \"";
-    switch (fFirstLyricschunkInSlurKind) {
-      case msrLyricschunk::kSingleChunk:
-        cerr << "single";
-        break;
-      case msrLyricschunk::kBeginChunk:
-        cerr << "begin";
-        break;
-      case msrLyricschunk::kMiddleChunk:
-        cerr << "middle";
-        break;
-      case msrLyricschunk::kEndChunk:
-        cerr << "end";
-        break;
-      case msrLyricschunk::kSkipChunk:
-        cerr << "skip";
-        break;
-      case msrLyricschunk::kSlurChunk:
-        cerr << "slur";
-        break;
-      case msrLyricschunk::kSlurBeyondEndChunk:
-        cerr << "slur beyond end";
-        break;
-      case msrLyricschunk::kTiedChunk:
-        cerr << "tied";
-        break;
-      case msrLyricschunk::kBarCheck:
-        cerr << "bar check";
-        break;
-      case msrLyricschunk::kBreakChunk:
-        cerr << "break";
-        break;
-      case msrLyricschunk::k_NoChunk:
-        cerr << "NO_CHUNK";
-        break;
-    } // switch
-    cerr << "\"" << endl;
+        setw(38) << "fFirstLyricschunkInSlurKind" << " = \"" <<
+        fFirstLyricschunkInSlurKind->lyricschunkKindAsString () <<
+        "\"" << endl;
 
     cerr <<
       idtr <<
-        setw(38) << "fCurrentLyricschunkKind" << " = \"";
-    switch (fCurrentLyricschunkKind) {
-      case msrLyricschunk::kSingleChunk:
-        cerr << "single";
-        break;
-      case msrLyricschunk::kBeginChunk:
-        cerr << "begin";
-        break;
-      case msrLyricschunk::kMiddleChunk:
-        cerr << "middle";
-        break;
-      case msrLyricschunk::kEndChunk:
-        cerr << "end";
-        break;
-      case msrLyricschunk::kSkipChunk:
-        cerr << "skip";
-        break;
-      case msrLyricschunk::kSlurChunk:
-        cerr << "slur";
-        break;
-      case msrLyricschunk::kSlurBeyondEndChunk:
-        cerr << "slur beyond end";
-        break;
-      case msrLyricschunk::kTiedChunk:
-        cerr << "tied";
-        break;
-      case msrLyricschunk::kBarCheck:
-        cerr << "bar check";
-        break;
-      case msrLyricschunk::kBreakChunk:
-        cerr << "break";
-        break;
-      case msrLyricschunk::k_NoChunk:
-        cerr << "NO_CHUNK";
-        break;
-    } // switch
-    cerr << "\"" << endl;
-
+        setw(38) << "fCurrentLyricschunkKind" << " = \""<<
+        fCurrentLyricschunkKind->lyricschunkKindAsString () <<
+        "\"" << endl;
+        
     idtr--;
-  }
+  } // fMsrOptions->fDebug
 
   if      (fCurrentSyllabic == "single")
     fCurrentLyricschunkKind = msrLyricschunk::kSingleChunk;
@@ -4119,6 +4052,28 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
   }
 
   if (fCurrentLyricschunkKind != msrLyricschunk::k_NoChunk) {
+
+    string lyricschunkKindAsString;
+  
+    cerr <<
+      ", type = \"" << lyricschunkKindAsString << "\"" <<
+      ", elision: " << elision << 
+      " to " << getLyricsName () << endl;
+
+    S_msrLyricschunk
+      lyricschunk =
+        msrLyricschunk::create (
+          fMsrOptions,
+          inputLineNumber,
+          fCurrentLyricschunkKind,
+          fCurrentText, divisions,
+          newNote,
+          this);
+  
+    fCurrentVoice->
+      addTextChunkToVoice (
+        )
+    
     fCurrentLyrics->
       addTextChunkToLyrics (
         inputLineNumber,
