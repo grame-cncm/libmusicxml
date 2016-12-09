@@ -2105,12 +2105,12 @@ class EXP msrLyricschunk : public msrElement
 
     // we want to end the line in the LilyPond code at a break
     enum msrLyricschunkKind {
-      kSkipChunk,
+      k_NoChunk,
       kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
+      kSkipChunk,
       kTiedChunk,
       kSlurChunk, kSlurBeyondEndChunk,
-      kBarCheck, kBreakChunk,
-      k_NoChunk };
+      kBarcheckChunk, kBreakChunk};
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -2267,6 +2267,11 @@ class EXP msrLyrics : public msrElement
               int       divisions,
               S_msrNote note);
 
+    void    addTiedChunkToLyrics (
+              int       inputLineNumber,
+              int       divisions,
+              S_msrNote note);
+
     void    addSlurChunkToLyrics (
               int       inputLineNumber,
               int       divisions,
@@ -2277,12 +2282,7 @@ class EXP msrLyrics : public msrElement
               int       divisions,
               S_msrNote note);
 
-    void    addTiedChunkToLyrics (
-              int       inputLineNumber,
-              int       divisions,
-              S_msrNote note);
-
-    void    addBarCheckChunkToLyrics (
+    void    addBarcheckChunkToLyrics (
               int inputLineNumber,
               int nextMeasureNumber);
 
@@ -2955,7 +2955,12 @@ class EXP msrVoice : public msrElement
                     int       divisions,
                     S_msrNote newNote);
     
-    void          addSlurBeyondEndLyricschunkToVoice (
+    void          addSkipLyricschunkToVoice (
+                    int       lyricsNumber,
+                    int       divisions,
+                    S_msrNote newNote);
+    
+    void          addTiedLyricschunkToVoice (
                     int       lyricsNumber,
                     int       divisions,
                     S_msrNote newNote);
@@ -2965,17 +2970,7 @@ class EXP msrVoice : public msrElement
                     int       divisions,
                     S_msrNote newNote);
     
-    void          addSkipLyricschunkToVoice (
-                    int       lyricsNumber,
-                    int       divisions,
-                    S_msrNote newNote);
-    
-    void          addSlurChunkToVoice (
-                    int       lyricsNumber,
-                    int       divisions,
-                    S_msrNote newNote);
-    
-    void          addTiedLyricschunkToVoice (
+    void          addSlurBeyondEndLyricschunkToVoice (
                     int       lyricsNumber,
                     int       divisions,
                     S_msrNote newNote);
