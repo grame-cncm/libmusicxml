@@ -4096,17 +4096,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
         fCurrentElision,
         fMusicXMLNoteData.fMusicXMLDivisions,
         newNote);
-/*
-    void          addTextLyricschunkToVoice (
-                    int       lyricsNumber,
-                    string    syllabic,
-                    msrLyricschunk::msrLyricschunkKind
-                              lyricschunkKind,
-                    string    text,
-                    bool      elision,
-                    int       divisions,
-                    S_msrNote newNote);
-*/
+
     if (fOnGoingSlur)
       fOnGoingSlurHasLyrics = true;
       
@@ -4176,11 +4166,18 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
       if (fFirstLyricschunkInSlurKind == msrLyricschunk::kEndChunk) {
         fCurrentLyricschunkKind = msrLyricschunk::kSlurBeyondEndChunk;
   
+        fCurrentVoice->
+          addSlurBeyondEndLyricschunkToVoice (
+            fCurrentLyricsNumber,
+            fMusicXMLNoteData.fMusicXMLDivisions,
+            newNote);
+/*
         fCurrentLyrics->
           addSlurBeyondEndChunkToLyrics ( 
             inputLineNumber,
             fMusicXMLNoteData.fMusicXMLDivisions,
             newNote);
+*/
       }
       else {        
         fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;

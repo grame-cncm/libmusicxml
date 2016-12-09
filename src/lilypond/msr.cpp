@@ -5340,7 +5340,64 @@ void msrVoice::addTextLyricschunkToVoice (
   fLyricsTextPresent = true;
   */
 }
+
+void msrVoice::addSlurBeyondEndLyricschunkToVoice (
+  int       lyricsNumber,
+  int       divisions,
+  S_msrNote newNote)
+{
+  int inputLineNumber =
+    newNote->getInputLineNumber ();
     
+  // create a lyrics text chunk
+  if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
+//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+//    S_msrPart  part  = staff-> getStaffPartUplink ();
+    
+    cerr << idtr <<
+      "--> Adding 'SlurBeyondEnd' lyrics chunk"
+      ", line " << inputLineNumber <<
+      ", divisions = " << divisions <<
+      endl;
+
+/*
+    string lyricschunkKindAsString =
+      lyricschunkAsString ();
+  */
+    cerr <<
+//      ", type = \"" << lyricschunkKindAsString << "\"" <<
+//      ", elision: " << elision <<
+//      " in lyrics " << lyricsNumber <<
+      " of voice " << getVoiceName () << endl;
+  }
+
+  // is lyrics fCurrentLyricsNumber present in this voice?
+  S_msrLyrics
+    lyrics =
+      fetchLyricsFromVoice (lyricsNumber);
+
+  if (! lyrics)
+    // no, add it to the voice
+    lyrics =
+      addLyricsToVoice (
+        newNote->getInputLineNumber (), lyricsNumber);
+  
+  // create lyrics slur chunk
+  S_msrLyricschunk
+    lyricshunk =
+      msrLyricschunk::create (
+        fMsrOptions,
+        inputLineNumber,
+        msrLyricschunk::kSlurBeyondEndChunk, "", divisions,
+        newNote,
+        lyrics);
+        
+  // add it to the lyrics
+  lyrics->
+    addChunkToLyrics (lyricshunk);
+}
+
 void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
