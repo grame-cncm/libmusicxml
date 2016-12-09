@@ -3508,6 +3508,8 @@ S_msrLyrics msrLyrics::createEmptyClone (S_msrVoice clonedVoice)
   return clone;
 }
 
+/*
+
 void msrLyrics::addTextChunkToLyrics (
   int       inputLineNumber,
   string    syllabic,
@@ -3589,6 +3591,7 @@ void msrLyrics::addTextChunkToLyrics (
 
   fLyricsTextPresent = true;
 }
+*/
 
 void msrLyrics::addSkipChunkToLyrics (
   int       inputLineNumber,
@@ -5228,6 +5231,106 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
   fMusicHasBeenInserted = true;
 }
 
+void msrVoice::addTextLyricschunkToVoice (
+  int       lyricsNumber,
+  string    syllabic,
+  msrLyricschunk::msrLyricschunkKind
+            lyricschunkKind,
+  string    text,
+  bool      elision,
+  int       divisions,
+  S_msrNote newNote)
+{
+  int inputLineNumber =
+    newNote->getInputLineNumber ();
+    
+  // create a lyrics text chunk
+  if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
+//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+//    S_msrPart  part  = staff-> getStaffPartUplink ();
+    
+    cerr << idtr <<
+      "--> Adding text lyrics chunk"
+      ", line " << inputLineNumber <<
+      ", divisions = " << divisions << 
+      ", syllabic = \"" << syllabic << "\"" <<
+      ", text = \"" << text << "\"";
+
+/*
+    string lyricschunkKindAsString =
+      lyricschunkAsString ();
+  */
+    cerr <<
+//      ", type = \"" << lyricschunkKindAsString << "\"" <<
+      ", elision: " << elision <<
+      " in lyrics " << lyricsNumber <<
+      " of voice " << getVoiceName () << endl;
+  }
+
+  // is lyrics fCurrentLyricsNumber present in this voice?
+  S_msrLyrics
+    lyrics =
+      fetchLyricsFromVoice (lyricsNumber);
+
+  if (! lyrics)
+    // no, add it to the voice
+    lyrics =
+      addLyricsToVoice (
+        newNote->getInputLineNumber (), lyricsNumber);
+
+  S_msrLyricschunk
+    lyricshunk =
+      msrLyricschunk::create (
+        fMsrOptions,
+        inputLineNumber,
+        lyricschunkKind,
+        text,
+        divisions,
+        newNote,
+        lyrics);
+
+  switch (lyricschunkKind) {
+    case msrLyricschunk::kSingleChunk:
+    case msrLyricschunk::kBeginChunk:
+      {  
+      // add lyrics chunk to this lyrics
+      fLyricschunks.push_back (lyricshunk);
+      }
+      break;
+
+    case msrLyricschunk::kMiddleChunk:
+    case msrLyricschunk::kEndChunk:
+      // add chunk to this lyrics
+      fLyricschunks.push_back (lyricshunk);
+      break;
+      
+    case msrLyricschunk::kSkipChunk:
+    case msrLyricschunk::kSlurChunk:
+    case msrLyricschunk::kSlurBeyondEndChunk:
+    case msrLyricschunk::kTiedChunk:
+    case msrLyricschunk::kBarCheck:
+    case msrLyricschunk::kBreakChunk:
+      {
+        msrInternalError (
+          fMsrOptions->fInputSourceName,
+          fInputLineNumber,
+          "a text chunk type can only be "
+          "'single', 'begin', 'middle' or 'end'");
+      }
+      break;
+      
+    case msrLyricschunk::k_NoChunk:
+      msrInternalError (
+        fMsrOptions->fInputSourceName,
+        fInputLineNumber,
+        "lyrics chunk type has not been set");
+      break;
+  } // switch
+
+  fLyricsTextPresent = true;
+}
+    
 void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
   if (fMsrOptions->fTrace)
     cerr << idtr <<

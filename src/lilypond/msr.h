@@ -2157,6 +2157,10 @@ class EXP msrLyricschunk : public msrElement
     // services
     // ------------------------------------------------------
 
+    string    lyricschunkKindAsString ();
+
+    string    lyricschunkAsString ();
+
     // visitors
     // ------------------------------------------------------
 
@@ -2936,9 +2940,15 @@ class EXP msrVoice : public msrElement
     void          appendChordToVoice    (S_msrChord chord);
     void          appendTupletToVoice   (S_msrTuplet tuplet);
 
-    void          addLyricschunkToVoice (
-                    int              lyricsNumber,
-                    S_msrLyricschunk chunk);
+    void          addTextLyricschunkToVoice (
+                    int       lyricsNumber,
+                    string    syllabic,
+                    msrLyricschunk::msrLyricschunkKind
+                              lyricschunkKind,
+                    string    text,
+                    bool      elision,
+                    int       divisions,
+                    S_msrNote newNote);
     
     void          appendRepeatToVoice   (S_msrRepeat repeat);
     

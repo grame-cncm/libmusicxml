@@ -1727,7 +1727,8 @@ void xml2MsrVisitor::visitStart (S_lyric& elt )
       fCurrentStaff->
         addVoiceToStaff (
           elt->getInputLineNumber (), fCurrentVoiceNumber);
-        
+
+ /*       
   // is lyrics fCurrentLyricsNumber present in current voice?
   fCurrentLyrics =
     fCurrentVoice->
@@ -1739,7 +1740,7 @@ void xml2MsrVisitor::visitStart (S_lyric& elt )
       fCurrentVoice->
         addLyricsToVoice (
           elt->getInputLineNumber (), fCurrentLyricsNumber);
-        
+       */ 
   fCurrentLyricsHasText = false;
   fCurrentElision = false;
 
@@ -4026,13 +4027,13 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     cerr <<
       idtr <<
         setw(38) << "fFirstLyricschunkInSlurKind" << " = \"" <<
-        fFirstLyricschunkInSlurKind->lyricschunkKindAsString () <<
+        fFirstLyricschunkInSlurKind << // JMI->lyricschunkKindAsString () <<
         "\"" << endl;
 
     cerr <<
       idtr <<
         setw(38) << "fCurrentLyricschunkKind" << " = \""<<
-        fCurrentLyricschunkKind->lyricschunkKindAsString () <<
+        fCurrentLyricschunkKind << // JMI ->lyricschunkKindAsString () <<
         "\"" << endl;
         
     idtr--;
@@ -4053,13 +4054,18 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 
   if (fCurrentLyricschunkKind != msrLyricschunk::k_NoChunk) {
 
-    string lyricschunkKindAsString;
-  
-    cerr <<
-      ", type = \"" << lyricschunkKindAsString << "\"" <<
-      ", elision: " << elision << 
-      " to " << getLyricsName () << endl;
-
+ //   string lyricschunkKindAsString;
+    
+  //  if (true || fMsrOptions->fDebug) {
+    if (fMsrOptions->fDebug) {
+      /*
+      cerr <<
+        ", type = \"" << lyricschunkKindAsString << "\"" <<
+        ", elision: " << fCurrentElision << 
+        " to " << getLyricsName () << endl;
+*/
+    }
+    
     /*
     fCurrentLyrics->
       addTextChunkToLyrics (
@@ -4070,7 +4076,6 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
         fCurrentElision,
         fMusicXMLNoteData.fMusicXMLDivisions,
         newNote);
-*/
     S_msrLyricschunk
       lyricschunk =
         msrLyricschunk::create (
@@ -4080,12 +4085,28 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
           fCurrentText, divisions,
           newNote,
           this);
+*/
   
     fCurrentVoice->
-      addLyricschunkToVoice (
+      addTextLyricschunkToVoice (
         fCurrentLyricsNumber,
-        lyricschunk);
-
+        fCurrentSyllabic,
+        fCurrentLyricschunkKind,
+        fCurrentText,
+        fCurrentElision,
+        fMusicXMLNoteData.fMusicXMLDivisions,
+        newNote);
+/*
+    void          addTextLyricschunkToVoice (
+                    int       lyricsNumber,
+                    string    syllabic,
+                    msrLyricschunk::msrLyricschunkKind
+                              lyricschunkKind,
+                    string    text,
+                    bool      elision,
+                    int       divisions,
+                    S_msrNote newNote);
+*/
     if (fOnGoingSlur)
       fOnGoingSlurHasLyrics = true;
       
