@@ -2935,6 +2935,10 @@ class EXP msrVoice : public msrElement
     void          appendNoteToVoice     (S_msrNote note);
     void          appendChordToVoice    (S_msrChord chord);
     void          appendTupletToVoice   (S_msrTuplet tuplet);
+
+    void          addLyricschunkToVoice (
+                    int              lyricsNumber,
+                    S_msrLyricschunk chunk);
     
     void          appendRepeatToVoice   (S_msrRepeat repeat);
     
