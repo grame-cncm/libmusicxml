@@ -4129,13 +4129,11 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     else if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
       fCurrentLyricschunkKind = msrLyricschunk::kSkipChunk;
 
-      if (fCurrentLyrics)
-        fCurrentLyrics->
-          addSkipChunkToLyrics (
-            inputLineNumber,
-            fMusicXMLNoteData.fMusicXMLDivisions,
-            newNote);
-      else {} // JMI
+      fCurrentVoice->
+        addSkipChunkToVoice (
+          inputLineNumber,
+          fMusicXMLNoteData.fMusicXMLDivisions,
+          newNote);
     }
   
     else if (
@@ -4145,8 +4143,8 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
       if (fFirstLyricschunkInSlurKind == msrLyricschunk::kEndChunk) {
         fCurrentLyricschunkKind = msrLyricschunk::kSlurBeyondEndChunk;
   
-        fCurrentLyrics->
-          addSlurBeyondEndChunkToLyrics ( 
+        fCurrentVoice->
+          addSlurBeyondEndLyricschunkToVoice ( 
             inputLineNumber,
             fMusicXMLNoteData.fMusicXMLDivisions,
             newNote);
@@ -4154,8 +4152,8 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
       else {        
         fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
   
-        fCurrentLyrics->
-          addSlurChunkToLyrics ( 
+        fCurrentVoice->
+          addSlurLyricschunkToVoice ( 
             inputLineNumber,
             fMusicXMLNoteData.fMusicXMLDivisions,
             newNote);
@@ -4182,13 +4180,11 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
       else {        
         fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
   
-        if (fCurrentLyrics)
-          fCurrentLyrics->
-            addSlurChunkToLyrics ( 
-              inputLineNumber + 10000,
-              fMusicXMLNoteData.fMusicXMLDivisions,
-              newNote);
-        else {} // JMI
+        fCurrentVoice->
+          addSlurChunkToVoice ( 
+            inputLineNumber + 10000,
+            fMusicXMLNoteData.fMusicXMLDivisions,
+            newNote);
       }
     }
     

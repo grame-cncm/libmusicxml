@@ -2960,6 +2960,21 @@ class EXP msrVoice : public msrElement
                     int       divisions,
                     S_msrNote newNote);
     
+    void          addSlurLyricschunkToVoice (
+                    int       lyricsNumber,
+                    int       divisions,
+                    S_msrNote newNote);
+    
+    void          addSkipChunkToVoice (
+                    int       lyricsNumber,
+                    int       divisions,
+                    S_msrNote newNote);
+    
+    void          addSlurChunkToVoice (
+                    int       lyricsNumber,
+                    int       divisions,
+                    S_msrNote newNote);
+    
     void          appendRepeatToVoice   (S_msrRepeat repeat);
     
     void          prependBarlineToVoice (S_msrBarline barline);

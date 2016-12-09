@@ -839,15 +839,16 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewLyricsBlock& elt)
   if (true || fOngoingNonEmptyLyrics) { // JMI
     fOstream <<
       idtr <<
-        "\\new Lyrics" << " " <<
-        "\\lyricsto" << " " <<
-        "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
-      endl <<
-      idtr <<
-        "\\" << elt->getLyrics ()->getLyricsName () <<
-      endl;
+        "\\new Lyrics" << endl;
 
     idtr++;
+    
+    fOstream <<
+      idtr << "\\lyricsto" << " " <<
+        "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
+    endl <<
+    idtr << "\\" << elt->getLyrics ()->getLyricsName () <<
+    endl;
   }
 }
 
