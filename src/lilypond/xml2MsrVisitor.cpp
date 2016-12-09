@@ -4117,20 +4117,18 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
       msrMusicXMLNoteData::k_NoTie) {
       fCurrentLyricschunkKind = msrLyricschunk::kTiedChunk;
       
-      if (fCurrentLyrics)
-        fCurrentLyrics->
-          addTiedChunkToLyrics (
-            inputLineNumber,
-            fMusicXMLNoteData.fMusicXMLDivisions,
-            newNote);
-      else {} // JMI
+      fCurrentVoice->
+        addTiedLyricschunkToVoice (
+          inputLineNumber,
+          fMusicXMLNoteData.fMusicXMLDivisions,
+          newNote);
     }
   
     else if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
       fCurrentLyricschunkKind = msrLyricschunk::kSkipChunk;
 
       fCurrentVoice->
-        addSkipChunkToVoice (
+        addSkipLyricschunkToVoice (
           inputLineNumber,
           fMusicXMLNoteData.fMusicXMLDivisions,
           newNote);
@@ -4181,7 +4179,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
         fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
   
         fCurrentVoice->
-          addSlurChunkToVoice ( 
+          addSlurLyricschunkToVoice ( 
             inputLineNumber + 10000,
             fMusicXMLNoteData.fMusicXMLDivisions,
             newNote);

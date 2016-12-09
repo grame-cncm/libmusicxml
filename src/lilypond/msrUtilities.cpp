@@ -59,7 +59,18 @@ string int2EnglishWord (int n)
     n = -n;
   }
 
-  if (n >= 100) {
+  if      (n >= 1000) {
+  //return "LargerThanNinetyNine";
+    int nDiv1000    = n / 1000;
+    int nModulo1000 = n % 1000;
+
+    return
+      int2EnglishWord (nDiv1000) +
+      "Thousand" +
+      int2EnglishWord (nModulo1000);    
+  }
+
+  else if (n >= 100) {
   //return "LargerThanNinetyNine";
     int nDiv100    = n / 100;
     int nModulo100 = n % 100;
@@ -70,7 +81,7 @@ string int2EnglishWord (int n)
       int2EnglishWord (nModulo100);    
   }
 
-  else
+  else {
     switch (n) {
       case 0:
         s << "Zero";
@@ -167,6 +178,7 @@ string int2EnglishWord (int n)
         s << int2EnglishWord (nModulo10);
       } // default
     } // switch
+  }
   
   return s.str();
 }

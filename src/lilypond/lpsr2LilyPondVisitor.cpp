@@ -614,11 +614,14 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
     // the part group is not the top level one
     fOstream << idtr <<
       setw(30) << "\\new StaffGroup" " " "{";
+      
     if (fLpsrOptions->fGenerateComments)
       fOstream <<
         "% part group " <<
         elt->getPartgroup ()->getPartgroupCombinedName ();
-    fOstream << endl;
+        
+    fOstream <<
+      endl << endl;
 
     idtr++;
   }
@@ -848,7 +851,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewLyricsBlock& elt)
         "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
     endl <<
     idtr << "\\" << elt->getLyrics ()->getLyricsName () <<
-    endl;
+    endl << endl;
   }
 }
 

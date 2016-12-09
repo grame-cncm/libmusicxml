@@ -515,7 +515,7 @@ class EXP xml2MsrVisitor :
     
     int                       fCurrentLyricsNumber;
     bool                      fCurrentNoteHasLyrics;
-    S_msrLyrics               fCurrentLyrics;
+// JMI    S_msrLyrics               fCurrentLyrics;
     bool                      fCurrentLyricsHasText;
     void                      handleLyrics (S_msrNote newNote);
 
