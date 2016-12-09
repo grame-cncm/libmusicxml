@@ -2242,6 +2242,13 @@ class EXP msrLyrics : public msrElement
             getLyricschunks () const
                 { return fLyricschunks; }
 
+    void    setLyricsTextPresent ()
+                { fLyricsTextPresent = true; }
+
+    bool    getLyricsTextPresent () const
+                { return fLyricsTextPresent; }
+
+
     // services
     // ------------------------------------------------------
 
@@ -2285,8 +2292,6 @@ class EXP msrLyrics : public msrElement
 
     void    addChunkToLyrics (S_msrLyricschunk chunk);
                 
-    int     getLyricsTextPresent() { return fLyricsTextPresent; }
-
     // visitors
     // ------------------------------------------------------
 

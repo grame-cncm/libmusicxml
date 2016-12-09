@@ -5290,6 +5290,15 @@ void msrVoice::addTextLyricschunkToVoice (
         newNote,
         lyrics);
 
+  // add it to the lyrics
+  lyrics->
+    addChunkToLyrics (lyricshunk);
+
+  // this lyrics does contain text
+  lyrics->
+    setLyricsTextPresent ();
+  
+/*
   switch (lyricschunkKind) {
     case msrLyricschunk::kSingleChunk:
     case msrLyricschunk::kBeginChunk:
@@ -5329,6 +5338,7 @@ void msrVoice::addTextLyricschunkToVoice (
   } // switch
 
   fLyricsTextPresent = true;
+  */
 }
     
 void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
