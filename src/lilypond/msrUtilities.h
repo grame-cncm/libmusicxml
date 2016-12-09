@@ -14,51 +14,17 @@
 #define __msrUtilities__
 
 #include <string>
+#include <cassert>
+#include <iostream>
+#include <set>
+#include <list>
+#include <algorithm> 
 
 #include "basevisitor.h"
 
+using namespace std;
 namespace MusicXML2 
 {
-
-//______________________________________________________________________________
-/*!
-\internal
-\brief A macro to exit when a condition if false
-*/
-// a macro to abort with code source line information,
-// as assert() itself
-
-#define msrAssert( condition, messageIfFalse ) \
-{ \
-  if (! condition) { \
-    std::cout << std::flush; \
-    std::cerr << \
-      messageIfFalse << std::endl << std::flush; \
-    assert(condition); \
-  } \
-}
-// JMI       std::endl <<"--> assertLilypond() causes exit, " <<
-
-//______________________________________________________________________________
-/*!
-\internal
-\brief A function to emit warning messages regarding MusicXML data
-*/
-
-void msrMusicXMLWarning (std::string message);
-
-//______________________________________________________________________________
-/*!
-\internal
-\brief A macro to emit error messages regarding MusicXML data and exit
-*/
-
-#define msrMusicXMLError( errorMessage ) \
-{ \
-  std::cerr << \
-    "--> MusicXML ERROR : " << errorMessage << " !!!" << std::endl; \
-  assert(false); \
-}
 
 //______________________________________________________________________________
 /*!
@@ -68,24 +34,44 @@ void msrMusicXMLWarning (std::string message);
 class indenter {
   public:
 
-    indenter(std::string spacer = "  ");
+    indenter (string spacer = "  ");
     virtual ~indenter();
 
     // increase the indentation
-    indenter& operator++ (int) { fIndent++; return *this; }
+    indenter& operator++ (int)
+        {
+          fIndent++;
+          return *this;
+        }
     
     // decrease the indentation
-    indenter& operator-- (int) { fIndent--; return *this; }
+    indenter& operator-- (int)
+        {
+          fIndent--;
+          
+          if (fIndent < 0) {
+            cerr <<
+              endl <<
+              "### Indentation has become negative..." << endl <<
+              endl;
+            assert(false);
+          }
+            
+          return *this;
+        }
     
     // reset the indentation to none
-    void print(std::ostream& os) const;
+    void print (ostream& os) const;
+
+    // global variable for general use
+    static indenter gIndenter; 
 
   private:
 
-    int         fIndent;
-    std::string fSpacer;
+    int    fIndent;
+    string fSpacer;
 };
-std::ostream& operator<< (std::ostream& os, const indenter& number);
+ostream& operator<< (ostream& os, const indenter& number);
 
 /*!
 \brief A utility to escape quotes in strings.
@@ -94,21 +80,21 @@ std::ostream& operator<< (std::ostream& os, const indenter& number);
 struct stringQuoteEscaper
 {
   /* usage:
-      std::string dest = "";
-      std::for_each( source.begin(), source.end(), stringQuoteEscaper (dest));
+      string dest = "";
+      for_each( source.begin(), source.end(), stringQuoteEscaper (dest));
   */
 
-  std::string& target;
-  explicit     stringQuoteEscaper( std::string& t ) : target( t ) {}
+  string&  target;
+  explicit stringQuoteEscaper (string& t) : target (t) {}
 
-  void operator()( char ch ) const
+  void operator() (char ch) const
   {
-     if( ch == '\'') // or switch on any character that 
-                     // needs escaping like \ itself
-     {
-        target.push_back('\\');
+     if( ch == '"') {
+       // or switch on any character that 
+       // needs escaping like '\' itself
+        target.push_back ('\\');
      }
-     target.push_back( ch );
+     target.push_back (ch);
   }
 };
 
@@ -119,12 +105,12 @@ struct stringQuoteEscaper
 struct stringSpaceRemover
 {
   /* usage:
-      std::string dest = "";
-      std::for_each( source.begin(), source.end(), stringSpaceRemover (dest));
+      string dest = "";
+      for_each( source.begin(), source.end(), stringSpaceRemover (dest));
   */
 
-  std::string& target;
-  explicit     stringSpaceRemover( std::string& t ) : target( t ) {}
+  string&  target;
+  explicit stringSpaceRemover( string& t ) : target( t ) {}
 
   void operator()( char ch ) const
   {
@@ -138,15 +124,13 @@ struct stringSpaceRemover
 \brief A utility to convert small positive integers to English words.
 */
 //______________________________________________________________________________
-std::string int2EnglishWord (int n);
+string int2EnglishWord (int n);
 
 /*!
 \brief A utility to escape quotes in strings.
 */
 //______________________________________________________________________________
-std::string stringNumbersToEnglishWords (std::string str);
-
-
+string stringNumbersToEnglishWords (string str);
 
 /*!
 \brief A utility to build a list of number from a specification.
@@ -155,11 +139,67 @@ std::string stringNumbersToEnglishWords (std::string str);
     meaning that 7, 15, 18 and 19 have to enlisted
 */
 //______________________________________________________________________________
-void DecipherNumbersSpecification (
-  char*  theString,
-  int    theSelectedNodes [],
-  int    theNodesNumber,
+set<int> decipherNumbersSetSpecification (
+  string theSpecification,
   bool   debugMode = false);
+
+//______________________________________________________________________________
+list<int> extractNumbersFromString (
+  string theString, // can contain "1, 2, 17"
+  bool   debugMode = false);
+
+//______________________________________________________________________________
+// from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
+// trim string from start
+inline string &ltrim (string &s) {
+  s.erase (
+    s.begin(),
+    find_if (
+      s.begin(),
+      s.end(),
+      not1 (ptr_fun<int, int> (isspace))
+      )
+    );
+          
+  return s;
+}
+
+// trim string from end
+inline string &rtrim (string &s) {
+  s.erase (
+    find_if (
+      s.rbegin(),
+      s.rend(),
+      not1 (ptr_fun<int, int> (isspace))
+      ).base(),
+    s.end()
+    );
+          
+  return s;
+}
+
+// trim string from both ends
+inline string &trim (string &s) {
+  return ltrim (rtrim (s));
+}
+
+//______________________________________________________________________________
+pair<string, string> extractNamesPairFromString (
+  string theString, // can contain "P1 = Bassoon"
+  char   separator,
+  bool   debugMode = false);
+
+//______________________________________________________________________________
+string divisionsAsMSRString (
+  int     divisions,
+  int     divisionsPerWholeNote,
+  int&    computedNumberOfDots,
+  string& errorMessage,
+  bool    debugMode = false);
+
+//______________________________________________________________________________
+string quoteStringIfNonAlpha (
+  string     theString);
 
 
 } // namespace MusicXML2

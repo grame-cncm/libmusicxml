@@ -40,16 +40,22 @@ typedef SMARTP<xmlelement>    Sxmlelement;
   An attribute is represented by its name and its value.
 */
 //______________________________________________________________________________
-class EXP xmlattribute : public smartable {
-  //! the attribute name
-  std::string fName;
-  //! the attribute value
-  std::string   fValue;
+class EXP xmlattribute : public smartable
+{
+  private:
+  
+    //! the attribute name
+    std::string fName;
+    //! the attribute value
+    std::string   fValue;
     
   protected:
+  
     xmlattribute() {}
     virtual ~xmlattribute() {}
-    public:
+    
+  public:
+  
     static SMARTP<xmlattribute> create();
 
     void setName (const std::string& name);
@@ -81,40 +87,56 @@ class EXP xmlattribute : public smartable {
 //______________________________________________________________________________
 class EXP xmlelement : public ctree<xmlelement>, public visitable
 {
-  //! the element name
-  std::string fName;
-  //! the element value
-  std::string fValue;
-  //! list of the element attributes
-  std::vector<Sxmlattribute> fAttributes;
+  private:
+  
+    //! the element name
+    std::string fName;
+    //! the element value
+    std::string fValue;
+    //! list of the element attributes
+    std::vector<Sxmlattribute> fAttributes;
 
   protected:
-    //! the element type
+  
+    // the element type
     int fType;
 
-    xmlelement() : fType(0) {}
+    // the input line number for messages to the user
+    int fInputLineNumber;
+
+    xmlelement (int inputLineNumber)
+      {
+        fType            = 0;
+        fInputLineNumber = inputLineNumber;
+      }
+
     virtual ~xmlelement() {}
 
   public:
+  
     typedef ctree<xmlelement>::iterator     iterator;
 
-    static SMARTP<xmlelement> create();
+    static SMARTP<xmlelement> create (int inputLineNumber);
 
-    virtual void acceptIn(basevisitor& visitor);
-    virtual void acceptOut(basevisitor& visitor);
+    virtual void acceptIn  (basevisitor& visitor);
+    virtual void acceptOut (basevisitor& visitor);
 
+    int getInputLineNumber () { return fInputLineNumber; }
+    
     void setValue (unsigned long value);
     void setValue (long value);
     void setValue (int value);
     void setValue (float value);
     void setValue (const std::string& value);
-    void setName (const std::string& name);
+    
+    void setName  (const std::string& name);
 
-    int         getType () const    { return fType; }
+    int                 getType () const    { return fType; }
     const std::string&  getName () const    { return fName; }
 
     //! returns the element value as a string
     const std::string& getValue () const    { return fValue; }
+    
     //! returns the element value as a long
     operator long () const;
     //! returns the element value as a int
@@ -131,20 +153,20 @@ class EXP xmlelement : public ctree<xmlelement>, public visitable
     // getting information about attributes
     const std::vector<Sxmlattribute>& attributes() const { return fAttributes; }
     const Sxmlattribute getAttribute      (const std::string& attrname) const;
-    const std::string getAttributeValue   (const std::string& attrname) const;
-    long        getAttributeLongValue (const std::string& attrname, long defaultvalue) const;
-    int         getAttributeIntValue  (const std::string& attrname, int defaultvalue) const;
-    float       getAttributeFloatValue  (const std::string& attrname, float defaultvalue) const;
+    const std::string   getAttributeValue   (const std::string& attrname) const;
+    long                getAttributeLongValue (const std::string& attrname, long defaultvalue) const;
+    int                 getAttributeIntValue  (const std::string& attrname, int defaultvalue) const;
+    float               getAttributeFloatValue  (const std::string& attrname, float defaultvalue) const;
 
     // finding sub elements by type
     ctree<xmlelement>::iterator     find(int type);
     ctree<xmlelement>::iterator     find(int type, ctree<xmlelement>::iterator start);
 
     // getting sub elements values
-    const std::string getValue    (int subElementType);
-    int         getIntValue   (int subElementType, int defaultvalue);
-    long        getLongValue  (int subElementType, long defaultvalue);
-    float       getFloatValue (int subElementType, float defaultvalue);
+    const std::string getValue      (int subElementType);
+    int               getIntValue   (int subElementType, int defaultvalue);
+    long              getLongValue  (int subElementType, long defaultvalue);
+    float             getFloatValue (int subElementType, float defaultvalue);
 
     // misc
     bool empty () const { return fValue.empty() && elements().empty(); }

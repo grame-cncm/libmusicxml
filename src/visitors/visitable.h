@@ -23,10 +23,12 @@ namespace MusicXML2
  */
 class visitable
 {
-	public:
-		virtual ~visitable() {}
-		virtual void acceptIn(basevisitor& visitor)  {}
-		virtual void acceptOut(basevisitor& visitor) {}
+  public:
+  
+    virtual ~visitable() {}
+    
+    virtual void acceptIn  (basevisitor& visitor) {}
+    virtual void acceptOut (basevisitor& visitor) {}
 };
 
 } // namespace MusicXML2

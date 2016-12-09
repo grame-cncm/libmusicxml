@@ -44,7 +44,7 @@ typedef musicxmlfactory* TFactory;
   \brief Gives the library version number.
   \return the library version number as an integer (e.g. version 1.0.0 is returned as 100)
 */
-EXP int       musicxmllibVersion();
+EXP int           musicxmllibVersion();
 /*!
   \brief Gives the library version as a string.
   \return a string

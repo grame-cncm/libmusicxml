@@ -29,10 +29,14 @@ namespace MusicXML2
 \brief to be used in place of std::endl
   to provide a correct indentation of the xml output.
 */
-class xmlendl {
+class xmlendl
+{
   private:
+
     int fIndent;
+
   public:
+
     xmlendl() : fIndent(0) {}
     virtual ~xmlendl() {}
 
@@ -51,17 +55,21 @@ class xmlvisitor :
   public visitor<S_processing_instruction>,
   public visitor<Sxmlelement>
 {
-  std::ostream& fOut;
-  xmlendl     fendl;
-
+  private:
+  
+    std::ostream& fOut;
+    xmlendl     fendl;
+  
   public:
+  
     xmlvisitor(std::ostream& stream) : fOut(stream) {}
     virtual ~xmlvisitor() {}
 
-    virtual void visitStart ( Sxmlelement& elt);
-    virtual void visitEnd   ( Sxmlelement& elt);
-    virtual void visitStart ( S_comment& elt);
-    virtual void visitStart ( S_processing_instruction& elt);
+    virtual void visitStart (Sxmlelement& elt);
+    virtual void visitEnd   (Sxmlelement& elt);
+    
+    virtual void visitStart (S_comment& elt);
+    virtual void visitStart (S_processing_instruction& elt);
 };
 
 } // namespace MusicXML2

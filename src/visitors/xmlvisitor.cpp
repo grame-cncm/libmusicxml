@@ -11,6 +11,7 @@
 */
 
 #include <iostream>
+
 #include "xmlvisitor.h"
 
 using namespace std;
@@ -21,12 +22,13 @@ namespace MusicXML2
 //______________________________________________________________________________
 ostream& operator<< (ostream& os, const xmlendl& endl)
 {
-    endl.print(os);
-    return os;
+  endl.print(os);
+  return os;
 }
 
 //______________________________________________________________________________
-void xmlendl::print(std::ostream& os) const { 
+void xmlendl::print (std::ostream& os) const
+{ 
   int i = fIndent;
   os << std::endl;
   while (i-- > 0)  os << "    ";
@@ -48,10 +50,12 @@ void xmlvisitor::visitStart ( S_processing_instruction& elt )
 void xmlvisitor::visitStart ( Sxmlelement& elt ) 
 {
   fOut <<  fendl << "<" << elt->getName();
+  
   // print the element attributes first
   vector<Sxmlattribute>::const_iterator attr; 
   for (attr = elt->attributes().begin(); attr != elt->attributes().end(); attr++)
-    fOut << " " << (*attr)->getName() << "=\"" << (*attr)->getValue() << "\"";        
+    fOut << " " << (*attr)->getName() << "=\"" << (*attr)->getValue() << "\"";
+          
   if (elt->empty()) {
     fOut << "/>"; // element is empty, we can direclty close it
   }
@@ -67,7 +71,7 @@ void xmlvisitor::visitStart ( Sxmlelement& elt )
 //______________________________________________________________________________
 void xmlvisitor::visitEnd ( Sxmlelement& elt ) 
 {
-  if (!elt->empty()) {
+  if (! elt->empty()) {
     if (elt->size()) {
       fendl--;
       cout << fendl;

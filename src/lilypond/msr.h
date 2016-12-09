@@ -24,9 +24,11 @@
 #include "exports.h"
 #include "typedefs.h"
 
+#include "tree_browser.h"
+
 #include "msrUtilities.h"
 
-#include "musicxml2msr.h"
+//JMI#include "musicxml2msr.h"
 
 namespace MusicXML2 
 {
@@ -48,101 +50,244 @@ namespace MusicXML2
         - LilyPond source code with       printLilypondCode()
 */
 
-class msrVisitor;
+//______________________________________________________________________________
+// PRE-declarations for class dependencies
 
-class msrElement;
+class msrLyrics;
+typedef SMARTP<msrLyrics> S_msrLyrics;
 
-class msrLilypondVarValAssoc;
-class msrSchemeVarValAssoc;
+class msrVoice;
+typedef SMARTP<msrVoice> S_msrVoice;
 
-class msrScore;
+class msrStaff;
+typedef SMARTP<msrStaff> S_msrStaff;
 
 class msrPart;
-class msrStaff;
-class msrClef;
-class msrKey;
-class msrTime;
-class msrVoice;
-class msrLyrics;
+typedef SMARTP<msrPart> S_msrPart;
 
-class msrLyrics;
-class msrDuration;
-class msrDynamics;
-class msrWedge;
-class msrChord;
-class msrNote;
+class msrPartgroup;
+typedef SMARTP<msrPartgroup> S_msrPartgroup;
 
-class msrPaper;
-class msrLayout;
-
-typedef SMARTP<msrElement>             S_msrElement;
-
-typedef SMARTP<msrLilypondVarValAssoc> S_msrLilypondVarValAssoc;
-typedef SMARTP<msrSchemeVarValAssoc>   S_msrSchemeVarValAssoc;
-
-typedef SMARTP<msrScore>               S_msrScore;
-
-typedef SMARTP<msrPart>                S_msrPart;
-typedef SMARTP<msrStaff>               S_msrStaff;
-typedef SMARTP<msrClef>                S_msrClef;
-typedef SMARTP<msrKey>                 S_msrKey;
-typedef SMARTP<msrTime>                S_msrTime;
-typedef SMARTP<msrVoice>               S_msrVoice;
-typedef SMARTP<msrLyrics>              S_msrLyrics;
+class msrRepeat;
+typedef SMARTP<msrRepeat> S_msrRepeat;
 
 
-typedef SMARTP<msrLyrics>              S_msrLyrics;
-typedef SMARTP<msrDuration>            S_msrDuration;
-typedef SMARTP<msrDynamics>            S_msrDynamics;
-typedef SMARTP<msrWedge>               S_msrWedge;
-typedef SMARTP<msrChord>               S_msrChord;
-typedef SMARTP<msrNote>                S_msrNote;
-
-typedef SMARTP<msrPaper>               S_msrPaper;
-typedef SMARTP<msrLayout>              S_msrLayout;
-
-EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
-
-EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
-
-EXP ostream& operator<< (ostream& os, const S_msrClef& elt);
-EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
-EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
-
-EXP ostream& operator<< (ostream& os, const S_msrLilypondVarValAssoc& elt);
-EXP ostream& operator<< (ostream& os, const S_msrSchemeVarValAssoc& elt);
-
-EXP ostream& operator<< (ostream& os, const S_msrDuration& dur);
-EXP ostream& operator<< (ostream& os, const S_msrDynamics& dyn);
-EXP ostream& operator<< (ostream& os, const S_msrWedge& wdg);
-EXP ostream& operator<< (ostream& os, const S_msrChord& chrd);
-EXP ostream& operator<< (ostream& os, const S_msrNote& chrd);
-
-EXP ostream& operator<< (ostream& os, const S_msrPaper& chrd);
-EXP ostream& operator<< (ostream& os, const S_msrLayout& chrd);
+/*!
+\internal
+\brief A macro to simplify indentation
+*/
+//______________________________________________________________________________
+#define idtr indenter::gIndenter
 
 
+/*!
+\internal
+\brief A macro to exit when a condition if false
+*/
+// a macro to abort with code source line information,
+// as assert() itself
+//______________________________________________________________________________
+#define msrAssert( condition, messageIfFalse ) \
+{ \
+  if (! condition) { \
+    cout << flush; \
+    cerr << \
+      messageIfFalse << endl << flush; \
+    assert(condition); \
+  } \
+}
+
+/*!
+\internal
+\brief A macro to emit warning messages regarding MusicXML data
+*/
+//______________________________________________________________________________
+#define msrMusicXMLWarning( inputSourceName, inputLineNumber, message ) \
+{ \
+  cerr << endl << endl; \
+\
+  cerr << \
+    "!!! MusicXML WARNING !!!, " << inputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << endl << \
+    idtr; \
+\
+  assert(false); \
+}
+
+/*!
+\internal
+\brief A macro to emit error messages regarding MusicXML data and exit
+*/
+//______________________________________________________________________________
+#define msrMusicXMLError( inputSourceName, inputLineNumber, message ) \
+{ \
+  cerr << endl << endl; \
+\
+  cerr << \
+    "### MusicXML ERROR ###, " << inputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << endl << \
+    idtr; \
+\
+  assert(false); \
+}
+
+/*!
+\internal
+\brief A macro to emit error messages regarding MSR and exit
+*/
+//______________________________________________________________________________
+#define msrInternalError( inputSourceName, inputLineNumber, message ) \
+{ \
+  cerr << endl << endl; \
+\
+  cerr << \
+    "[[[ MSR INTERNAL ERROR ]]], " << inputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << endl << \
+    idtr; \
+\
+  assert(false); \
+}
+  
 /*!
 \brief Global variables.
 
   An global variable is implemented as a static member of this class.
 */
 //______________________________________________________________________________
+/*
 class EXP msrGlobalVariables {
   public:
     
-    enum CodeGenerationKind {
-      kMSR, kMusicXML, kLilypondCode};
+    enum msrDisplayKind {
+      kMusicXML, kMSR, kScoreSummary, kLilypondCode,
+      k_NoDisplay};
 
-    static CodeGenerationKind getCodeGenerationKind ()
-      { return sCodeGenerationKind; }
+    // set and get
+    // ------------------------------------------------------
+
+    static msrDisplayKind getDisplayKind ()
+      { return sDisplayKind; }
       
-    static void setCodeGenerationKind (CodeGenerationKind kind)
-      { sCodeGenerationKind = kind; }
+    static void setDisplayKind (msrDisplayKind kind)
+      { sDisplayKind = kind; }
   
   private:
   
-    static CodeGenerationKind sCodeGenerationKind;
+    static msrDisplayKind sDisplayKind;
+};
+*/
+
+//______________________________________________________________________________
+/*!
+  \brief The LilyPond note names language.
+*/
+enum msrNoteNamesLanguage {
+  kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
+  kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
+
+typedef map<string, msrNoteNamesLanguage>
+  msrNoteNamesLanguageMap;
+  
+static msrNoteNamesLanguageMap gMsrNoteNamesLanguageMap;
+
+void                 initializeMsrNoteNamesLanguage ();
+msrNoteNamesLanguage getMsrNoteNamesLanguage (string lang);
+  
+//______________________________________________________________________________
+/*!
+  \brief The MSR code generation options.
+
+  A class is used to avoid passing arguments one by one
+  to the various methods that need them.
+*/
+class EXP msrOptions : public smartable
+{
+  public:
+
+    static SMARTP<msrOptions> create ();
+    
+  protected:
+  
+    msrOptions();
+  
+    virtual ~msrOptions();
+ 
+  public:
+
+    // General
+    // ------------------------------------------------------
+
+    // synthetic view
+    string                          fCommandLineOptions;
+    string                          fInputSourceName;
+    string                          fTranslationDate;
+    
+
+    // interactive mode
+    bool                            fInteractive;
+    
+    // trace
+    bool                            fTrace;
+    
+    // debug
+    bool                            fDebug;
+    bool                            fDebugDebug;
+    
+    // measure number-selective debug
+    set<int>                        fDebugMeasureNumbersSet;
+    bool                            fSaveDebug;
+    bool                            fSaveDebugDebug;
+
+    // MSR
+    // ------------------------------------------------------
+
+    // languages
+    string                          fMsrNoteNamesLanguageAsString;
+    msrNoteNamesLanguage            fMsrNoteNamesLanguage;
+    
+    // advanced options
+    bool                            fCreateStaffRelativeVoiceNumbers;
+    bool                            fDelayRestsDynamics;
+
+    // MSR display
+    bool                            fDisplayMSR;
+
+    // lyrics display
+    bool                            fDontDisplayMSRLyrics;
+    
+    // MSR score summary
+    bool                            fDisplayMSRScoreSummary;
+
+    // parts renaming
+    map<string, string>             fPartsRenaming;
+};
+typedef SMARTP<msrOptions> S_msrOptions;
+
+/*!
+\brief A generic msr element representation.
+
+  An element is represented by its name and the
+  list of its enclosed elements plus optional parameters.
+*/
+//______________________________________________________________________________
+class msrMeasureLocation
+{
+  public:
+
+    int         fMeasureNumber;
+    int         fPositionInMeasure; // divisions
 };
 
 /*!
@@ -152,182 +297,252 @@ class EXP msrGlobalVariables {
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-class EXP msrElement : public smartable {
+class EXP msrElement : public smartable
+{
   public:
- 
-    static SMARTP<msrElement> create (bool debug);
-    
-    virtual void print              (ostream& os);
 
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-    
-    static indenter idtr;
+    // creation from MusicXML
+    // ------------------------------------------------------
 
   protected:
-     
-    msrElement (bool debug);
+
+     msrElement (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+
     virtual ~msrElement();
 
-  private:
-  
-    bool fDebug;
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int getInputLineNumber ()
+      { return fInputLineNumber; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v) = 0;
+
+    virtual void print (ostream& os);
+    
+  protected:
+
+    S_msrOptions   fMsrOptions;
+     
+    int            fInputLineNumber;
 };
 typedef SMARTP<msrElement> S_msrElement;
-
-//______________________________________________________________________________
-/*!
-\internal
-\brief A macro to simplify indentation
-*/
-
-#define idtr msrElement::idtr
+EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
 
 /*!
-\brief A beat description for MusicXML.
+\brief A generic msr element representation.
+
+  An element is represented by its name and the
+  list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-class musicXMLBeatData { // JMI ???
+template <typename T> class EXP msrBrowser : public browser<T> 
+{
   public:
-  
-     virtual void print              (ostream& os);
- 
+    
+    msrBrowser (basevisitor* v) : fVisitor (v) {}
+    
+    virtual ~msrBrowser() {}
+
   public:
+
+    virtual void set (basevisitor* v) { fVisitor = v; }
+    
+    virtual void browse (T& t) {
+      enter (t);
+
+      t.browseData (fVisitor);
+      
+      leave (t);
+    }
+
+  protected:
   
-    string fBeatUnit;
-    int         fDots;
+    basevisitor*  fVisitor;
+
+    virtual void enter (T& t) { t.acceptIn  (fVisitor); }
+    virtual void leave (T& t) { t.acceptOut (fVisitor); }
 };
-
 
 /*!
 \brief A note description for MusicXML.
 */
 //______________________________________________________________________________
-class musicXMLNoteData {
+class msrMusicXMLNoteData
+{
   public:
+
+    /*
+      The alter element represents chromatic alteration
+      in number of semitones (e.g., -1 for flat, 1 for sharp).
+      Decimal values like 0.5 (quarter tone sharp) are used for microtones.
+    
+      The following table lists note names for quarter-tone accidentals
+      in various languages; here the pre- fixes semi- and sesqui-
+      respectively mean ‘half’ and ‘one and a half’.
+      
+      Languages that do not appear in this table do not provide special note names yet.
+      Language
+                  semi-sharp semi-flat sesqui-sharp sesqui-flat
+                     +0.5      -0.5        +1.5       -1.5
+        nederlands   -ih       -eh        -isih       -eseh
+    
+      We use dutch pitches names for the enumeration below.
+      The following is a series of Cs with increasing pitches:
+        \relative c'' { ceseh ces ceh c cih cis cisih }
+    */
   
-     virtual void print              (ostream& os);
- 
-  public:
-  
-    char        fMusicxmlStep;
-    bool        fMusicxmlStepIsARest;
-    int         fMusicxmlAlteration;
-    int         fMusicxmlOctave;
-    int         fMusicxmlDivisions;
-    int         fMusicxmlDuration;
-    int         fDotsNumber;
+    enum msrDiatonicPitch {
+      // starting at C for LilyPond relative octave calculations
+      kC, kD, kE, kF, kG, kA, kB, 
+      kRest}; // JMI, k_NoDiatonicPitch};
     
-    bool        fNoteIsAGraceNote;
-    
-    bool        fNoteBelongsToAChord;
-    
-    bool        fNoteBelongsToATuplet;
-    string      fTupletMemberNoteType;
+    enum msrMusicXMLAlterationKind {
+      kSesquiFlat, kFlat, kSemiFlat,
+      kNatural,
+      kSemiSharp, kSharp, kSesquiSharp};
 
-    int         fVoiceNumber;
-};
-  
-/*!
-\brief A msr absolute octave representation.
-*/
-//______________________________________________________________________________
-class EXP msrAbsoluteOctave : public msrElement {
-  public:
-  
-    static SMARTP<msrAbsoluteOctave> create(int musicxmlOctave);
-    
-    msrAbsoluteOctave(int musicxmlOctave);
-    virtual ~msrAbsoluteOctave();
-    
-    msrAbsoluteOctave& operator= (const msrAbsoluteOctave& absOct)
-      {
-        fMsrOctave = absOct.fMsrOctave;
-        return *this;
-      }
-          
-    bool operator!= (const msrAbsoluteOctave& otherAbsOct) const 
-      { 
-        return fMsrOctave != otherAbsOct.fMsrOctave;
-      }
-    
-    string  absoluteOctaveAsLilypondString ();
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  private:
-
-    int  fMsrOctave;
-};
-typedef SMARTP<msrAbsoluteOctave> S_msrAbsoluteOctave;
-
-/*!
-\brief A msr note duration representation.
-
-  Musical notation duration is commonly represented as fractions. 
-
-  Duration is a positive number specified in division units.
- 
-  The divisions element indicates how many divisions per quarter note 
-  are used to indicate a note's duration. 
-  For example, if duration = 1 and divisions = 2, this is an eighth note duration. 
-   
-  While MusicXML durations are in in divisions per quarter note,
-  LilyPond durations are in whole notes, hence the "*4" multiplications
-  
-  A note duration is represented by:
-    - a numerator (the number of beats)
-    - a denominator (the beat value)
-    - and optional dots.
-*/
-//______________________________________________________________________________
-class EXP msrDuration : public msrElement {
-  public:
-  
-    static SMARTP<msrDuration> create (
-        int    num,
-        int    denom,
-        int    dots,
-        string tupletMemberType);
-    
-    msrDuration(
-        int    num,
-        int    denom,
-        int    dots,
-        string tupletMemberType);
-    virtual ~msrDuration();
-    
-    void scaleNumByFraction (int num, int denom);
+    enum msrMusicXMLTieKind {
+        k_NoTie,
+        kStartTie, kContinueTie, kStopTie};
         
-    msrDuration& operator= (const msrDuration& dur)
-      {
-        fNum=dur.fNum; fDenom=dur.fDenom; fDots=dur.fDots; 
-        return *this;
-      }
-          
-    bool operator!= (const msrDuration& dur) const 
-      { 
-        return
-          (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots);
-      }
-    
-    string  durationAsLilypondString ();
+    msrMusicXMLNoteData ();
 
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    string        musicXMLTieKindAsString () const;
+
+    virtual void  print (ostream& os);
+ 
+  public:
+  
+    char                      fMusicXMLStep;
+    bool                      fMusicXMLStepIsARest;
+    bool                      fMusicXMLStepIsUnpitched;
+
+    // The alter element represents chromatic alteration
+    // in number of semitones (e.g., -1 for flat, 1 for sharp).
+    // Decimal values like 0.5 (quarter tone sharp) are used for microtones.
+    msrDiatonicPitch          fDiatonicPitch;
+    float                     fMusicXMLAlter;
+    msrMusicXMLAlterationKind fMusicXMLAlteration;
+                          
+    int                       fMusicXMLOctave;
+
+    // MusicXML durations are in divisions per quarter note.
+    // LilyPond durations are in whole notes,
+    // hence the "* 4" multiplications
+    
+    // the note duration when played
+    int                       fMusicXMLDivisions;
+
+    // tuplets member notes need another value for display
+    int                       fNoteDisplayDivisions;
+
+    int                       fMusicXMLDotsNumber;
+    
+    bool                      fMusicXMLNoteIsAGraceNote;
+    
+    bool                      fMusicXMLNoteBelongsToAChord;
+    
+    bool                      fMusicXMLNoteBelongsToATuplet;
+    string                    fMusicXMLTupletMemberNoteType;
+
+    msrMusicXMLTieKind        fMusicXMLTieKind;
+                    
+    int                       fMusicXMLVoiceNumber;
+};
+EXP ostream& operator<< (ostream& os, msrMusicXMLNoteData& elt);
+
+/*!
+\brief A beat description for MusicXML.
+*/
+//______________________________________________________________________________
+class musicXMLBeatData // JMI ???
+{
+  public:
+  
+    virtual void print (ostream& os);
+ 
+  public:
+  
+    string fBeatUnit;
+    int    fDots;
+};
+
+/*!
+\brief A msr beam representation.
+
+  A beam is represented by a msrBeamKind value
+*/
+//______________________________________________________________________________
+class EXP msrBeam : public msrElement
+{
+  public:
+
+    enum msrBeamKind {
+            kBeginBeam, kContinueBeam, kEndBeam,
+            kForwardHookBeam, kBackwardHookBeam,
+            k_NoBeam };
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrBeam> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           number,
+      msrBeamKind   beamKind);
+
+  protected:
+
+    msrBeam (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           number,
+      msrBeamKind   beamKind);
+      
+    virtual ~msrBeam();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrBeamKind getBeamKind   () const { return fBeamKind; }
+    int         getBeamNumber () const { return fBeamNumber; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
 
   private:
 
-    int         fNum;
-    int         fDenom;
-    int         fDots;
-    string      fTupletMemberNoteType;
+    int         fBeamNumber;
+    msrBeamKind fBeamKind;
 };
-typedef SMARTP<msrDuration> S_msrDuration;
+typedef SMARTP<msrBeam> S_msrBeam;
+EXP ostream& operator<< (ostream& os, const S_msrBeam& elt);
 
 /*!
 \brief A msr articulation representation.
@@ -335,31 +550,58 @@ typedef SMARTP<msrDuration> S_msrDuration;
   An articulation is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrArticulation : public msrElement {
+class EXP msrArticulation : public msrElement
+{
   public:
     
-    enum ArticulationKind {
-        kStaccato, kStaccatissimo };
+    enum msrArticulationKind {
+        kStaccato, kStaccatissimo, kFermata };
+
+    // creation from MusicXML
+    // ------------------------------------------------------
 
     static SMARTP<msrArticulation> create (
-              ArticulationKind articulationKink);
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+      S_msrOptions&       msrOpts, 
+      int                 inputLineNumber,
+      msrArticulationKind articulationKind);
 
   protected:
 
     msrArticulation (
-        ArticulationKind articulationKink);
+      S_msrOptions&       msrOpts, 
+      int                 inputLineNumber,
+      msrArticulationKind articulationKind);
+      
     virtual ~msrArticulation();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrArticulationKind
+            getArticulationKind () const
+                { return fArticulationKind; }
+        
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
 
-    ArticulationKind
-          fArticulationKind;
+    msrArticulationKind fArticulationKind;
 };
 typedef SMARTP<msrArticulation> S_msrArticulation;
+EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
 
 /*!
 \brief A msr slur representation.
@@ -367,31 +609,181 @@ typedef SMARTP<msrArticulation> S_msrArticulation;
   A slur is represented by a SlurKind value (hairpins in LilyPond)
 */
 //______________________________________________________________________________
-class EXP msrSlur : public msrElement {
+class EXP msrSlur : public msrElement
+{
   public:
 
-    enum SlurKind { kStartSlur, kContinueSlur, kStopSlur, k_NoSlur };
+    enum msrSlurKind { kStartSlur, kContinueSlur, kStopSlur, k_NoSlur };
     
-    static SMARTP<msrSlur> create (SlurKind kind);
+    // creation from MusicXML
+    // ------------------------------------------------------
 
-    SlurKind getSlurKind () const        { return fSlurKind; }
-
-    string  slurKindAsString ();
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    static SMARTP<msrSlur> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      msrSlurKind   slurKind);
 
   protected:
 
-    msrSlur (SlurKind kind);
+    msrSlur (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      msrSlurKind   slurKind);
+      
     virtual ~msrSlur();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrSlurKind getSlurKind () const { return fSlurKind; }
+
+    string  slurKindAsString ();
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
 
-    SlurKind fSlurKind;
+    msrSlurKind fSlurKind;
 };
 typedef SMARTP<msrSlur> S_msrSlur;
+EXP ostream& operator<< (ostream& os, const S_msrSlur& elt);
+
+/*!
+\brief A msr dynamics representation.
+
+  A dynamics is represented by a msrDynamicsKind value
+*/
+//______________________________________________________________________________
+class EXP msrDynamics : public msrElement
+{
+  public:
+
+    enum msrDynamicsKind {
+          kF, kFF, kFFF, kFFFF, kFFFFF, kFFFFFF,
+          kP, kPP, kPPP, kPPPP, kPPPPP, kPPPPPP,
+          kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
+          k_NoDynamics};
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrDynamics> create (
+      S_msrOptions& msrOpts, 
+      int                    inputLineNumber,
+      msrDynamicsKind           dynamicsKind);
+
+  protected:
+
+    msrDynamics (
+      S_msrOptions& msrOpts, 
+      int                    inputLineNumber,
+      msrDynamicsKind           dynamicsKind);
+      
+    virtual ~msrDynamics();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrDynamicsKind
+              getDynamicsKind () const
+                  { return fDynamicsKind; }
+
+    string  dynamicsKindAsString ();
+    string  dynamicsKindAsLilypondString ();
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrDynamicsKind fDynamicsKind;
+};
+typedef SMARTP<msrDynamics> S_msrDynamics;
+EXP ostream& operator<< (ostream& os, const S_msrDynamics& elt);
+
+/*!
+\brief A msr wedge representation.
+
+  A wedge is represented by a msrWedgeKind value (hairpins in LilyPond)
+*/
+//______________________________________________________________________________
+class EXP msrWedge : public msrElement
+{
+  public:
+
+    enum msrWedgeKind
+      { kCrescendoWedge, kDecrescendoWedge, kStopWedge };
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrWedge> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      msrWedgeKind  wedgeKind);
+
+  protected:
+
+    msrWedge (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      msrWedgeKind  wedgeKind);
+      
+    virtual ~msrWedge();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrWedgeKind getWedgeKind () const { return fWedgeKind; }
+
+    string  wedgeKindAsString ();
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrWedgeKind fWedgeKind;
+};
+typedef SMARTP<msrWedge> S_msrWedge;
+EXP ostream& operator<< (ostream& os, const S_msrWedge& elt);
 
 /*!
 \brief A msr note representation.
@@ -400,416 +792,620 @@ typedef SMARTP<msrSlur> S_msrSlur;
     duration (in the form of numerator/denominator) and optional dots.
 */
 //______________________________________________________________________________
-class EXP msrNote : public msrElement {
+class EXP msrNote : public msrElement
+{
   public:
 
-    enum MusicXMLDiatonicPitch {
-      kA, kB, kC, kD, kE, kF, kG, kRest, k_NoDiatonicPitch};
-    
-    enum MusicXMLAlteration {
-      // kDoubleFlat=-2 as in MusicXML, to faciliting testing
-      kDoubleFlat=-2, kFlat, kNatural, kSharp, kDoubleSharp,
-      k_NoAlteration};
-            
-    // for standalone notes
+    enum msrNoteKind {
+      kRestNote, 
+      kStandaloneNote, kChordMemberNote, kTupletMemberNote};
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrNote> createFromMusicXMLData (
-        S_translationSettings& ts,
-        musicXMLNoteData&      mxmldat,
-        msrSlur::SlurKind     slurKind);
+        S_msrOptions&        msrOpts,
+        int                  inputLineNumber,
+        msrMusicXMLNoteData& musicXMLNoteData,
+        msrSlur::msrSlurKind slurKind);
     
-    // for chord members
-    void setNoteBelongsToAChord ();
+    // creation from xml2Msr
+    // ------------------------------------------------------
+
+    static SMARTP<msrNote> createRest (
+        S_msrOptions& msrOpts,
+        int           inputLineNumber,
+        int           divisions,
+        int           voiceNumber);
     
-    // we use dutch pitches names for the enumeration below
-    // the following is a series of Cs with increasing pitches:
-    // \relative c'' { ceseh ces ceh c cih cis cisih }
-
-    enum MsrPitch {
-      k_aeseh, k_aes, k_aeh, k_a, k_aih, k_ais, k_aisih,
-      k_beseh, k_bes, k_beh, k_b, k_bih, k_bis, k_bisih, 
-      k_ceseh, k_ces, k_ceh, k_c, k_cih, k_cis, k_cisih,
-      k_deseh, k_des, k_deh, k_d, k_dih, k_dis, k_disih,
-      k_eeseh, k_ees, k_eeh, k_e, k_eih, k_eis, k_eisih, 
-      k_feseh, k_fes, k_feh, k_f, k_fih, k_fis, k_fisih,
-      k_geseh, k_ges, k_geh, k_g, k_gih, k_gis, k_gisih,
-      k_NoMsrPitch};
-    
-    MsrPitch computeNoteMsrPitch (
-        int                          noteQuatertonesFromA,
-        msrNote::MusicXMLAlteration alteration);
-                          
-    static map<MsrPitch, string> sDutchLilypondPitches;
-
-    S_msrDuration       getNoteMsrDuration ()
-                            { return fNoteMsrDuration; }   
-
-    string               notePitchAsLilypondString ();
-
-    // articulations
-    void                 addArticulation (S_msrArticulation art);
-    list<S_msrArticulation>
-                         getNoteArticulations () const
-                           { return fNoteArticulations; }
-    
-    // dynamics and wedges
-    void                 addDynamics (S_msrDynamics dyn);
-    void                 addWedge    (S_msrWedge    wdg);
-
-    list<S_msrDynamics> getNoteDynamics () { return fNoteDynamics; };
-    list<S_msrWedge>    getNoteWedges   () { return fNoteWedges; };
-
-    S_msrDynamics       removeFirstDynamics ();
-    S_msrWedge          removeFirstWedge ();
-
-//    void octaveRelativeTo (const msrAbsoluteOctave& otherAbsOct);
-        
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
   protected:
  
     msrNote (
-        S_translationSettings& ts,
-        musicXMLNoteData&      mxmldat,
-        msrSlur::SlurKind     slurKind);
+        S_msrOptions&        msrOpts,
+        int                  inputLineNumber,
+        msrMusicXMLNoteData& musicXMLNoteData,
+        msrSlur::msrSlurKind slurKind);
     
     virtual ~msrNote();
     
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_msrOptions  getMsrOptions () const
+                      { return fMsrOptions; }
+
+    bool          getNoteIsUnpitched () const
+                    // useful for rest tuplet members
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLStepIsUnpitched;
+                      }
+                      
+    bool          getNoteIsARest () const
+                    // useful for rest tuplet members
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLStepIsARest;
+                      }
+                      
+    void          setNoteKind (msrNoteKind noteKind)
+                      { fNoteKind = noteKind; }
+
+    msrNoteKind   getNoteKind () const
+                      { return fNoteKind; }
+
+    int           getNoteMusicXMLDivisions () const
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLDivisions;
+                      }
+
+    void          setNoteDisplayDivisions (int divisions)
+                      {
+                        fMusicXMLNoteData.fNoteDisplayDivisions =
+                          divisions;
+                      }
+
+    int           getNoteDisplayDivisions () const
+                      {
+                        return
+                          fMusicXMLNoteData.fNoteDisplayDivisions;
+                      }
+
+    int           getNoteMusicXMLDotsNumber () const
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLDotsNumber;
+                      }
+
+    int           getNoteMusicXMLOctave () const
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLOctave;
+                      }
+
+    msrMusicXMLNoteData::msrDiatonicPitch
+                  getDiatonicPitch () const
+                      {
+                        return
+                          fMusicXMLNoteData.fDiatonicPitch;
+                      }
+
+    // grace notes
+    bool          getNoteIsGraceNote () const
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote;
+                      }
+
+    string        notePitchAsString () const;
+
+    // divisions per whole note
+    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                      {
+                        fDivisionsPerWholeNote =
+                          divisionsPerWholeNote;
+                      }
+                      
+    const int     getDivisionsPerWholeNote () const
+                      { return fDivisionsPerWholeNote; }
+          
+    // articulations
+    list<S_msrArticulation>
+                  getNoteArticulations () const
+                      { return fNoteArticulations; }
+                      
+    // dynamics and wedges
+    list<S_msrDynamics>
+                  getNoteDynamics () const { return fNoteDynamics; };
+    list<S_msrWedge>
+                  getNoteWedges   () const { return fNoteWedges; };
+
+    // chord members
+    void          setNoteBelongsToAChord ();
+    void          setNoteIsChordFirstNote (bool value)
+                      { fNoteIsChordFirstNote = value; }
+
+    bool          getNoteBelongsToAChord () const
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord;
+                      }
+    bool          getNoteIsChordFirstNote () const
+                      { return fNoteIsChordFirstNote; }
+        
+    // ties
+    msrMusicXMLNoteData::msrMusicXMLTieKind
+                  getNoteTieKind () const
+                      {
+                        return
+                          fMusicXMLNoteData.fMusicXMLTieKind;
+                      }
+
+    // slurs
+    msrSlur::msrSlurKind
+                  getNoteSlurKind () const { return fNoteSlurKind; }
+
+    // beams
+    void          setBeam (S_msrBeam beam)  { fNoteBeam = beam; }
+    S_msrBeam     getBeam () const          { return fNoteBeam; }
+
+    // location in measure
+    void          setNoteMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fNoteMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getNoteMeasureLocation () const
+                      { return fNoteMeasureLocation; }
+
+    // services
+    // ------------------------------------------------------
+
+    // tuplet members
+    void          applyTupletMemberDisplayFactor (
+                    int actualNotes, int normalNotes);
+                    
+    string        noteAsString () const;
+    
+    string        noteDiatonicPitchAsString () const;
+
+    string        noteDivisionsAsMSRString () const;
+
+    // articulations
+    void          addArticulation (S_msrArticulation art);
+    
+    // dynamics and wedges
+    void          addDynamics (S_msrDynamics dyn);
+    void          addWedge    (S_msrWedge    wdg);
+
+    S_msrDynamics removeFirstDynamics ();
+    S_msrWedge    removeFirstWedge ();
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
-  
-    S_translationSettings      fTranslationSettings;
 
     // MusicXML informations
-    musicXMLNoteData           fMusicXMLNoteData;
-    MusicXMLDiatonicPitch      fMusicXMLDiatonicPitch; // JMI
-
-    // MusicXML durations are in in divisions per quarter note,
-    // LilyPond durations are in whole notes, hence the "*4" multiplication
-    S_msrDuration             fNoteMsrDuration;
+    
+    msrMusicXMLNoteData       fMusicXMLNoteData;
 
     // LilyPond informations
-    MsrPitch                  fNoteMsrPitch;
 
+    msrNoteKind               fNoteKind;
+
+    S_msrBeam                 fNoteBeam;
+    
     list<S_msrArticulation>   fNoteArticulations;
     
     list<S_msrDynamics>       fNoteDynamics;
     list<S_msrWedge>          fNoteWedges;
+                              
+    msrSlur::msrSlurKind      fNoteSlurKind;
 
-    msrSlur::SlurKind         fNoteSlurKind;
+    int                       fDivisionsPerWholeNote;
+    
+    msrMeasureLocation        fNoteMeasureLocation;
+
+    bool                      fNoteIsChordFirstNote;
 };
 typedef SMARTP<msrNote> S_msrNote;
-
-/*!
-\brief The msr parallel music element
-*/
-//______________________________________________________________________________
-class EXP msrParallelMusic : public msrElement {
-  public:
-    
-    enum ElementsSeparator { kEndOfLine, kSpace };
-
-    static SMARTP<msrParallelMusic> create(ElementsSeparator elementsSeparator);
-
-    void         addElementToParallelMusic (S_msrElement elem) { fParallelMusicElements.push_back(elem); }
-    S_msrElement getLastElementOfParallelMusic() { return fParallelMusicElements.back(); }
-    void         removeLastElementOfParallelMusic () { fParallelMusicElements.pop_back(); }
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  protected:
-
-    msrParallelMusic(ElementsSeparator elementsSeparator);
-    virtual ~msrParallelMusic();
-    
-  private:
-  
-    vector<S_msrElement> fParallelMusicElements;
-    ElementsSeparator         fElementsSeparator;
-
-};
-typedef SMARTP<msrParallelMusic> S_msrParallelMusic;
-
-/*!
-\brief The msr sequence element
-*/
-//______________________________________________________________________________
-class EXP msrSequence : public msrElement {
-  public:
-    
-   enum ElementsSeparator { kEndOfLine, kSpace };
-
-    static SMARTP<msrSequence> create(ElementsSeparator elementsSeparator);
-
-    void          prependElementToSequence (S_msrElement elem)
-                      { fSequenceElements.push_front(elem); }
-    void          appendElementToSequence  (S_msrElement elem)
-                      { fSequenceElements.push_back(elem); }
-    
-    S_msrElement getLastElementOfSequence()
-                      { return fSequenceElements.back(); }
-    void          removeLastElementOfSequence ()
-                      { fSequenceElements.pop_back(); }
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  protected:
-
-    msrSequence(ElementsSeparator elementsSeparator);
-    virtual ~msrSequence();
-    
-  private:
-  
-    list<S_msrElement> fSequenceElements;
-    ElementsSeparator   fElementsSeparator;
-
-};
-typedef SMARTP<msrSequence> S_msrSequence;
+EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
 
 /*!
 \brief The msr chord element
 */
 //______________________________________________________________________________
-class EXP msrChord : public msrElement {
+class EXP msrChord : public msrElement
+{
   public:
 
-    static SMARTP<msrChord> create(S_msrDuration chordDuration);
-    
-    void         addNoteToChord (S_msrNote note)
-                    { fChordNotes.push_back(note); }
+    static SMARTP<msrChord> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           chordDivisions);
 
-    void         addArticulation (S_msrArticulation art)
-                    { fChordArticulations.push_back(art); }
-    
-    void         addDynamics (S_msrDynamics dyn)
-                    { fChordDynamics.push_back(dyn); }
-    void         addWedge    (S_msrWedge    wdg)
-                    { fChordWedges.push_back(wdg); }
+    // creation from MusicXML
+    // ------------------------------------------------------
 
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    SMARTP<msrChord> createEmptyClone ();
 
   protected:
 
-    msrChord (S_msrDuration chordDuration);
+    msrChord (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           chordDivisions);
+      
     virtual ~msrChord();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const vector<S_msrNote>&
+                  getChordNotes () const
+                      { return fChordNotes; }
+
+    void          setChordDivisions (int divisions)
+                      { fChordDivisions = divisions; }
+            
+    int           getChordDivisions () const
+                      { return fChordDivisions; }
+            
+    // divisions per whole note
+    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                      {
+                        fDivisionsPerWholeNote =
+                          divisionsPerWholeNote;
+                      }
+                      
+    const int     getDivisionsPerWholeNote () const
+                      { return fDivisionsPerWholeNote; }
+          
+    // location in measure
+    void          setChordMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fChordMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getChordMeasureLocation () const
+                      { return fChordMeasureLocation; }
+
+    // ties
+    void          setChordTieKind (
+                    const
+                      msrMusicXMLNoteData::msrMusicXMLTieKind kind)
+                      { fChordTieKind = kind; }
+
+    msrMusicXMLNoteData::msrMusicXMLTieKind
+                  getChordTieKind () const
+                      { return fChordTieKind; }
+
+    // services
+    // ------------------------------------------------------
+
+    void          addNoteToChord (S_msrNote note)
+                      { fChordNotes.push_back(note); }
+
+    void          addArticulation (S_msrArticulation art)
+                      { fChordArticulations.push_back(art); }
+    
+    void          addDynamics (S_msrDynamics dyn)
+                      { fChordDynamics.push_back(dyn); }
+                    
+    void          addWedge (S_msrWedge wdg)
+                      { fChordWedges.push_back(wdg); }
+
+    string        chordDivisionsAsMSRString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
   
     vector<S_msrNote>         fChordNotes;
+
+    int                       fDivisionsPerWholeNote;
+
+    msrMeasureLocation        fChordMeasureLocation;
     
-    S_msrDuration             fChordDuration;
+    int                       fChordDivisions;
+                              
 
     list<S_msrArticulation>   fChordArticulations;
     
     list<S_msrDynamics>       fChordDynamics;
     list<S_msrWedge>          fChordWedges;
+
+    msrMusicXMLNoteData::msrMusicXMLTieKind
+                              fChordTieKind;
 };
 typedef SMARTP<msrChord> S_msrChord;
+EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
 
 /*!
 \brief A msr LilyPond variable/value association representation.
 */
 //______________________________________________________________________________
-class EXP msrLilypondVarValAssoc : public msrElement {
+class EXP msrVarValAssoc : public msrElement
+{
   public:
 
-    enum VarValSeparator   { kSpace, kEqualSign };
-    enum QuotesKind        { kQuotesAroundValue, kNoQuotesAroundValue };
-    enum CommentedKind     { kCommented, kUncommented };
+    // creation from MusicXML
+    // ------------------------------------------------------
 
-    static SMARTP<msrLilypondVarValAssoc> create(
-              string     variableName,
-              string     value, 
-              VarValSeparator varValSeparator,
-              QuotesKind      quotesKind,
-              CommentedKind   commentKind,
-              string     unit = "");
+    static SMARTP<msrVarValAssoc> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      string        variableName,
+      string        value);
     
-    void    changeAssoc (string value);
-    
-    string getVariableName  () const { return fVariableName; };
-    string getVariableValue () const { return fVariableValue; };
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
   protected:
 
-    msrLilypondVarValAssoc(
-              string     variableName,
-              string     value, 
-              VarValSeparator varValSeparator,
-              QuotesKind      quotesKind,
-              CommentedKind   commentedKind,
-              string     unit = "");
-    virtual ~msrLilypondVarValAssoc();
+    msrVarValAssoc (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      string        variableName,
+      string        value);
+      
+    virtual ~msrVarValAssoc();
   
-  private:
-
-    string     fVariableName;
-    string     fVariableValue;
-    VarValSeparator fVarValSeparator;
-    QuotesKind      fQuotesKind;
-    CommentedKind   fCommentedKind;
-    string     fUnit;
-};
-typedef SMARTP<msrLilypondVarValAssoc> S_msrLilypondVarValAssoc;
-
-/*!
-\brief A msr Scheme variable/value association representation.
-*/
-//______________________________________________________________________________
-class EXP msrSchemeVarValAssoc : public msrElement {
   public:
 
-    enum CommentedKind     { kCommented, kUncommented };
+    // set and get
+    // ------------------------------------------------------
 
-    static SMARTP<msrSchemeVarValAssoc> create(
-              string     variableName,
-              string     value, 
-              CommentedKind   commentKind );
-    
-    void    changeAssoc (string value);
-    
-    string getVariableValue () const { return fVariableValue; };
+    void      changeAssocValue (string value)
+                  { fVariableValue = value; }
 
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    string    getVariableName  () const
+                  { return fVariableName; };
+    string    getVariableValue () const
+                  { return fVariableValue; };
 
-  protected:
+    // services
+    // ------------------------------------------------------
 
-    msrSchemeVarValAssoc(
-              string     variableName,
-              string     value, 
-              CommentedKind   commentedKind );
-    virtual ~msrSchemeVarValAssoc();
-  
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
 
-    string     fVariableName;
-    string     fVariableValue;
-    CommentedKind   fCommentedKind;
+    string             fVariableName;
+    string             fVariableValue;
 };
-typedef SMARTP<msrSchemeVarValAssoc> S_msrSchemeVarValAssoc;
+typedef SMARTP<msrVarValAssoc> S_msrVarValAssoc;
+EXP ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt);
 
 /*!
-\brief A msr header representation.
+\brief A MSR identification representation.
 
   A header is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrHeader : public msrElement {
+class EXP msrIdentification : public msrElement
+{
   public:
 
-    static SMARTP<msrHeader> create();
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrIdentification> create (
+      S_msrOptions&  msrOpts, 
+      int            inputLineNumber);
     
-    void                      setWorkNumber      (string val);
-    S_msrLilypondVarValAssoc getWorkNumber      () const;
-
-    void                      setWorkTitle       (string val);
-    S_msrLilypondVarValAssoc getWorkTitle       () const;
-
-    void                      setMovementNumber  (string val);
-    S_msrLilypondVarValAssoc getMovementNumber  () const;
-
-    void                      setMovementTitle   (string val);
-    S_msrLilypondVarValAssoc getMovementTitle   () const;
-
-    void                      addCreator         (
-                                string type, string val);
-    vector<S_msrLilypondVarValAssoc>
-                              getCreators        () const;
-
-    void                      setRights          (string val);
-    S_msrLilypondVarValAssoc getRights          () const;
-
-    void                      addSoftware        (string val);
-    vector<S_msrLilypondVarValAssoc>
-                              getSoftwares       () const;
-
-    void                      setEncodingDate    (string val);
-    S_msrLilypondVarValAssoc getEncodingDate    () const;
-
-    void                      setScoreInstrument (string val);
-    S_msrLilypondVarValAssoc getScoreInstrument () const;
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
   protected:
 
-    msrHeader();
-    virtual ~msrHeader();
+    msrIdentification (
+      S_msrOptions&  msrOpts, 
+      int            inputLineNumber);
+      
+    virtual ~msrIdentification();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void        setWorkNumber (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setWorkTitle (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setMovementNumber (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setMovementTitle (
+                  int    inputLineNumber,
+                  string val);
+
+    void        addCreator (
+                  int    inputLineNumber,
+                  string type,
+                  string val);
+
+    void        setRights (
+                  int    inputLineNumber,
+                  string val);
+
+    void        addSoftware (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setEncodingDate (
+                  int    inputLineNumber,
+                  string val);
+
+    void        setScoreInstrument (
+                  int    inputLineNumber,
+                  string val);
+
+    S_msrVarValAssoc
+                getWorkNumber () const
+                    { return fWorkNumber; }
+    
+    S_msrVarValAssoc
+                getWorkTitle () const
+                    { return fWorkTitle; }
+    
+    S_msrVarValAssoc
+                getMovementNumber () const
+                    { return fMovementNumber; }
+    
+    S_msrVarValAssoc
+                getMovementTitle () const
+                    { return fMovementTitle; }
+    
+    vector<S_msrVarValAssoc>
+                getCreators () const
+                    { return fCreators; };
+    
+    S_msrVarValAssoc
+                getRights () const
+                    { return fRights; }
+    
+    vector<S_msrVarValAssoc>
+                getSoftwares () const
+                    { return fSoftwares; };
+    
+    S_msrVarValAssoc
+                getEncodingDate () const
+                    { return fEncodingDate; }
+    
+    S_msrVarValAssoc
+                getScoreInstrument () const
+                    { return fScoreInstrument; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
 
-    S_msrLilypondVarValAssoc              fWorkNumber;
-    S_msrLilypondVarValAssoc              fWorkTitle;
-    S_msrLilypondVarValAssoc              fMovementNumber;
-    S_msrLilypondVarValAssoc              fMovementTitle;
-    vector<S_msrLilypondVarValAssoc> fCreators;
-    S_msrLilypondVarValAssoc              fRights;
-    vector<S_msrLilypondVarValAssoc> fSoftwares;
-    S_msrLilypondVarValAssoc              fEncodingDate;
-    S_msrLilypondVarValAssoc              fScoreInstrument;
+    S_msrVarValAssoc         fWorkNumber;
+    S_msrVarValAssoc         fWorkTitle;
+    S_msrVarValAssoc         fMovementNumber;
+    S_msrVarValAssoc         fMovementTitle;
+    vector<S_msrVarValAssoc> fCreators;
+    S_msrVarValAssoc         fRights;
+    vector<S_msrVarValAssoc> fSoftwares;
+    S_msrVarValAssoc         fEncodingDate;
+    S_msrVarValAssoc         fScoreInstrument;
 
 };
-typedef SMARTP<msrHeader> S_msrHeader;
+typedef SMARTP<msrIdentification> S_msrIdentification;
+EXP ostream& operator<< (ostream& os, const S_msrIdentification& elt);
 
 /*!
-\brief A msr paper representation.
+\brief A MSR page geometry representation.
 
-  A paper is represented by variable/value pairs
+  A page geometry is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrPaper : public msrElement {
+class EXP msrPageGeometry : public msrElement
+{
   public:
 
-    static SMARTP<msrPaper> create();
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrPageGeometry> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
     
-    void    setPaperWidth         (float val) { fPaperWidth = val; }
-    float   getPaperWidth         () const    { return fPaperWidth; }
-
-    void    setPaperHeight        (float val) { fPaperHeight = val; }
-    float   getPaperHeight        () const    { return fPaperHeight; }
-
-    void    setTopMargin          (float val) { fTopMargin = val; }
-    float   getTopMargin          () const    { return fTopMargin; }
-
-    void    setBottomMargin       (float val) { fBottomMargin = val; }
-    float   getBottomMargin       () const    { return fBottomMargin; }
-
-    void    setLeftMargin         (float val) { fLeftMargin = val; }
-    float   getLeftMargin         () const    { return fLeftMargin; }
-
-    void    setRightMargin        (float val) { fRightMargin = val; }
-    float   getRightMargin        () const    { return fRightMargin; }
-
-    void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
-    float   getBetweenSystemSpace () const    { return fBetweenSystemSpace; }
-
-    void    setPageTopSpace       (float val) { fPageTopSpace = val; }
-    float   getPageTopSpace       () const    { return fPageTopSpace; }
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-
   protected:
 
-    msrPaper();
-    virtual ~msrPaper();
+    msrPageGeometry (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+      
+    virtual ~msrPageGeometry();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void    setPaperWidth         (float val) { fPaperWidth = val; }
+    void    setPaperHeight        (float val) { fPaperHeight = val; }
+    void    setTopMargin          (float val) { fTopMargin = val; }
+    void    setBottomMargin       (float val) { fBottomMargin = val; }
+    void    setLeftMargin         (float val) { fLeftMargin = val; }
+    void    setRightMargin        (float val) { fRightMargin = val; }
+    void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
+    void    setPageTopSpace       (float val) { fPageTopSpace = val; }
+    void    setMillimeters        (float val) { fMillimeters = val; }
+    void    setTenths             (int val)   { fTenths = val; }
+
+    float   getPaperWidth         () const    { return fPaperWidth; }
+    float   getPaperHeight        () const    { return fPaperHeight; }
+    float   getTopMargin          () const    { return fTopMargin; }
+    float   getBottomMargin       () const    { return fBottomMargin; }
+    float   getLeftMargin         () const    { return fLeftMargin; }
+    float   getRightMargin        () const    { return fRightMargin; }
+    float   getBetweenSystemSpace () const    { return fBetweenSystemSpace; }
+    float   getPageTopSpace       () const    { return fPageTopSpace; }
+    int     getMillimeters        () const    { return fMillimeters; }
+    float   getTenths             () const    { return fTenths; }
+    
+    // services
+    // ------------------------------------------------------
+
+    float   globalStaffSize       () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+
   private:
 
     // page height, margins and the like in centimeters are in centimeters
@@ -819,11 +1415,15 @@ class EXP msrPaper : public msrElement {
     float             fBottomMargin;
     float             fLeftMargin;
     float             fRightMargin;
+
+    int               fMillimeters;
+    int               fTenths;
     
     float             fBetweenSystemSpace;
     float             fPageTopSpace; 
 };
-typedef SMARTP<msrPaper> S_msrPaper;
+typedef SMARTP<msrPageGeometry> S_msrPageGeometry;
+EXP ostream& operator<< (ostream& os, const S_msrPageGeometry& elt);
 
 /*!
 \brief A msr layout representation.
@@ -831,106 +1431,52 @@ typedef SMARTP<msrPaper> S_msrPaper;
   A layout is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrLayout : public msrElement {
+class EXP msrLayout : public msrElement
+{
   public:
 
-    static SMARTP<msrLayout> create();
-    
-    void addmsrLilypondVarValAssoc (S_msrLilypondVarValAssoc assoc)
-      { fMsrLilypondVarValAssocs.push_back(assoc); }
-      
-//    void addMsrSchemeVarValAssoc (S_msrSchemeVarValAssoc assoc)
-//      { fMsrSchemeVarValAssocs.push_back(assoc); }
-    
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    // creation from MusicXML
+    // ------------------------------------------------------
 
+    static SMARTP<msrLayout> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+    
   protected:
 
-    msrLayout();
+    msrLayout (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+      
     virtual ~msrLayout();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    void  addMsrVarValAssoc (S_msrVarValAssoc assoc)
+              { fVarValAssocs.push_back(assoc); } // JMI ???
+      
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
   
-    vector<S_msrLilypondVarValAssoc> fMsrLilypondVarValAssocs;
-// JMI    vector<S_msrSchemeVarValAssoc>   fMsrSchemeVarValAssocs;
+    vector<S_msrVarValAssoc> fVarValAssocs;
 };
 typedef SMARTP<msrLayout> S_msrLayout;
-
-/*!
-\brief A msr repeat representation.
-
-  A repeat is represented by:
-    - a sequence of elements for the common part
-    - a vector os sequences of elements for the alternate endings
-*/
-//______________________________________________________________________________
-class EXP msrRepeat: public msrElement {
-  public:
-
-    static SMARTP<msrRepeat> create();
-    
-    void    appendElementToCommonPart (S_msrElement elem)
-              { fCommonPart->appendElementToSequence (elem); }
-              
-    void    appendElementToLastAlternateEnding  (S_msrElement elem)
-              { fAlternateEndings.back()->appendElementToSequence (elem); }
-                    
-    void    appendNewAlternateEnding ()
-              {
-                fAlternateEndings.push_back(
-                  msrSequence::create (msrSequence::kSpace));
-              }
-
-    void    setActuallyUsed ()
-              { fActuallyUsed = true; }
-    
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  protected:
-
-    msrRepeat();
-    virtual ~msrRepeat();
-  
-  private:
-  
-    S_msrSequence              fCommonPart;
-    vector<S_msrSequence> fAlternateEndings;
-    
-    // the implicit msrRepeat is not used unless there are
-    // actual repeats in the part
-    bool                       fActuallyUsed;
-};
-typedef SMARTP<msrRepeat> S_msrRepeat;
-
-/*!
-\brief A msr barline representation.
-
-  A barline is represented by the number of the next bar
-*/
-//______________________________________________________________________________
-class EXP msrBarLine : public msrElement {
-  public:
-    
-    static SMARTP<msrBarLine> create (int nextBarNumber);
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  protected:
-
-    msrBarLine (int nextBarNumber);
-    virtual ~msrBarLine();
-  
-  private:
-
-    int fNextBarNumber;
-};
-typedef SMARTP<msrBarLine> S_msrBarLine;
+EXP ostream& operator<< (ostream& os, const S_msrLayout& elt);
 
 /*!
 \brief A msr comment representation.
@@ -938,30 +1484,60 @@ typedef SMARTP<msrBarLine> S_msrBarLine;
   A comment is represented by its contents
 */
 //______________________________________________________________________________
-class EXP msrComment : public msrElement {
+
+class EXP msrComment : public msrElement
+{
   public:
     
-    enum GapKind { kGapAfterwards, kNoGapAfterwards };
+    enum msrGapKind { kGapAfterwards, kNoGapAfterwards };
+
+    // creation from MusicXML
+    // ------------------------------------------------------
 
     static SMARTP<msrComment> create (
-              string contents, GapKind gapKind = kNoGapAfterwards);
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      string        contents,
+      msrGapKind    gapKind = kNoGapAfterwards);
 
   protected:
 
     msrComment (
-        string contents, GapKind gapKind = kNoGapAfterwards);
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      string        contents,
+      msrGapKind    gapKind = kNoGapAfterwards);
+      
     virtual ~msrComment();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string      getContents () const { return fContents; }
+    msrGapKind  getGapKind  () const { return fGapKind; }
+    
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
 
-    string fContents;
-    GapKind     fGapKind;
+    string     fContents;
+    msrGapKind fGapKind;
 };
 typedef SMARTP<msrComment> S_msrComment;
+EXP ostream& operator<< (ostream& os, const S_msrComment& elt);
 
 /*!
 \brief A msr break representation.
@@ -969,25 +1545,54 @@ typedef SMARTP<msrComment> S_msrComment;
   A break is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrBreak : public msrElement {
+class EXP msrBreak : public msrElement
+{
   public:
     
-    static SMARTP<msrBreak> create(int nextBarNumber);
+    // creation from MusicXML
+    // ------------------------------------------------------
 
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    static SMARTP<msrBreak> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           nextBarNumber);
 
   protected:
 
-    msrBreak(int nextBarNumber);
+    msrBreak (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           nextBarNumber);
+      
     virtual ~msrBreak();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int getNextBarNumber () const
+            { return fNextBarNumber; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
 
     int fNextBarNumber;
 };
 typedef SMARTP<msrBreak> S_msrBreak;
+EXP ostream& operator<< (ostream& os, const S_msrBreak& elt);
 
 /*!
 \brief A msr barnumbercheck representation.
@@ -995,25 +1600,109 @@ typedef SMARTP<msrBreak> S_msrBreak;
   A barnumbercheck is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrBarNumberCheck : public msrElement {
+class EXP msrBarCheck : public msrElement
+{
   public:
     
-    static SMARTP<msrBarNumberCheck> create(int nextBarNumber);
+    // creation from MusicXML
+    // ------------------------------------------------------
 
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    static SMARTP<msrBarCheck> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           nextBarNumber);
 
   protected:
 
-    msrBarNumberCheck(int nextBarNumber);
-    virtual ~msrBarNumberCheck();
+    msrBarCheck (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           nextBarNumber);
+      
+    virtual ~msrBarCheck();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int getNextBarNumber () const
+            { return fNextBarNumber; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
 
     int fNextBarNumber;
 };
-typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
+typedef SMARTP<msrBarCheck> S_msrBarCheck;
+EXP ostream& operator<< (ostream& os, const S_msrBarCheck& elt);
+
+/*!
+\brief A msr barnumbercheck representation.
+
+  A barnumbercheck is represented by the number of the next bar
+*/
+//______________________________________________________________________________
+class EXP msrBarnumberCheck : public msrElement
+{
+  public:
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrBarnumberCheck> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           nextBarNumber);
+
+  protected:
+
+    msrBarnumberCheck (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           nextBarNumber);
+      
+    virtual ~msrBarnumberCheck();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int getNextBarNumber () const
+            { return fNextBarNumber; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    int fNextBarNumber;
+};
+typedef SMARTP<msrBarnumberCheck> S_msrBarnumberCheck;
+EXP ostream& operator<< (ostream& os, const S_msrBarnumberCheck& elt);
 
 /*!
 \brief A msr tuplet representation.
@@ -1023,142 +1712,109 @@ typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
   played for the duration of 2 actual notes
 */
 //______________________________________________________________________________
-class EXP msrTuplet : public msrElement {
+class EXP msrTuplet : public msrElement
+{
   public:
     
-    static SMARTP<msrTuplet> create();
+    // creation from MusicXML
+    // ------------------------------------------------------
 
-    enum TupletKind {
+    static SMARTP<msrTuplet> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           number,
+      int           actualNotes,
+      int           normalNotes,
+      S_msrNote     firstNote);
+
+    SMARTP<msrTuplet> createEmptyClone ();
+
+    enum msrTupletKind {
       kStartTuplet, kContinueTuplet, kStopTuplet, 
       k_NoTuplet };
 
-    void updateTuplet (int number, int actualNotes, int normalNotes);
-    
-    int  getTupletNumber () const { return fTupletNumber; }
-
-    void addElementToTuplet (S_msrElement elem)
-            { fTupletContents.push_back(elem); }
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
   protected:
 
-    msrTuplet();
+    msrTuplet (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           number,
+      int           actualNotes,
+      int           normalNotes,
+      S_msrNote     firstNote);
+      
     virtual ~msrTuplet();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+    
+    int           getTupletNumber () const { return fTupletNumber; }
+
+    int           getActualNotes () const { return fActualNotes; }
+    int           getNormalNotes () const { return fNormalNotes; }
+    
+    vector<S_msrElement>
+                  getTupletElements () const
+                      { return fTupletElements; }
+
+    int           getTupletDivisions () const
+                      { return fTupletDivisions; }
+            
+    // divisions per whole note
+    void        setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                    {
+                      fDivisionsPerWholeNote =
+                        divisionsPerWholeNote;
+                    }
+                      
+    const int   getDivisionsPerWholeNote () const
+                    { return fDivisionsPerWholeNote; }
+          
+    // location in measure
+    void          setTupletMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fTupletMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getTupletMeasureLocation () const
+                      { return fTupletMeasureLocation; }
+
+    // services
+    // ------------------------------------------------------
+
+    void  addElementToTuplet (S_msrElement elem)
+             { fTupletElements.push_back(elem); }
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
 
-    int fTupletNumber;
+    int                  fTupletNumber;
     
-    int fActualNotes;
-    int fNormalNotes;
+    int                  fActualNotes;
+    int                  fNormalNotes;
+
+    int                  fTupletDivisions;
+    int                  fTupletDisplayDivisions;
+
+    int                  fDivisionsPerWholeNote;
+
+    msrMeasureLocation   fTupletMeasureLocation;
     
-    vector<S_msrElement> fTupletContents;
+    vector<S_msrElement> fTupletElements;
 };
 typedef SMARTP<msrTuplet> S_msrTuplet;
-
-/*!
-\brief A msr beam representation.
-
-  A beam is represented by a BeamKind value
-*/
-//______________________________________________________________________________
-class EXP msrBeam : public msrElement {
-  public:
-
-    enum BeamKind {
-            kBeginBeam, kContinueBeam, kEndBeam, 
-            k_NoBeam };
-    
-    static SMARTP<msrBeam> create(int number, BeamKind kind);
-
-    BeamKind getBeamKind () const { return fBeamKind; }
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  protected:
-
-    msrBeam(int number, BeamKind kind);
-    virtual ~msrBeam();
-  
-  private:
-
-    int      fBeamNumber;
-    BeamKind fBeamKind;
-};
-typedef SMARTP<msrBeam> S_msrBeam;
-
-/*!
-\brief A msr dynamics representation.
-
-  A dynamics is represented by a DynamicsKind value
-*/
-//______________________________________________________________________________
-class EXP msrDynamics : public msrElement {
-  public:
-
-    enum DynamicsKind {
-          kF, kFF, kFFF, kFFFF, kFFFFF, kFFFFFF,
-          kP, kPP, kPPP, kPPPP, kPPPPP, kPPPPPP,
-          kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
-          k_NoDynamics };
-    
-    static SMARTP<msrDynamics> create(DynamicsKind kind);
-
-    DynamicsKind getDynamicsKind () const { return fDynamicsKind; }
-
-    string  dynamicsKindAsLilypondString ();
-    
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  protected:
-
-    msrDynamics(DynamicsKind kind);
-    virtual ~msrDynamics();
-  
-  private:
-
-    DynamicsKind fDynamicsKind;
-};
-typedef SMARTP<msrDynamics> S_msrDynamics;
-
-/*!
-\brief A msr wedge representation.
-
-  A wedge is represented by a WedgeKind value (hairpins in LilyPond)
-*/
-//______________________________________________________________________________
-class EXP msrWedge : public msrElement {
-  public:
-
-    enum WedgeKind { kCrescendoWedge, kDecrescendoWedge, kStopWedge };
-    
-    static SMARTP<msrWedge> create (WedgeKind kind);
-
-    WedgeKind getWedgeKind () const        { return fWedgeKind; }
-
-    string  wedgeKindAsString ();
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
-
-  protected:
-
-    msrWedge (WedgeKind kind);
-    virtual ~msrWedge();
-  
-  private:
-
-    WedgeKind fWedgeKind;
-};
-typedef SMARTP<msrWedge> S_msrWedge;
+EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
 
 /*!
 \brief A msr clef representation.
@@ -1166,28 +1822,62 @@ typedef SMARTP<msrWedge> S_msrWedge;
   A clef is represented by its name
 */
 //______________________________________________________________________________
-class EXP msrClef : public msrElement {
+class EXP msrClef : public msrElement
+{
   public:
     
-    enum { kStandardLine, kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
+    enum msrClefLineKind {
+      kStandardLine,
+      kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
+
+    // creation from MusicXML
+    // ------------------------------------------------------
 
     static SMARTP<msrClef> create (
-      string sign,
-      int    line,
-      int    octaveChange);
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+      S_msrOptions& msrOpts, 
+      int          inputLineNumber,
+      string       sign,
+      int          line,
+      int          octaveChange);
 
   protected:
 
     msrClef (
-      string clefName,
-      int    line,
-      int    octaveChange);
+      S_msrOptions& msrOpts, 
+      int          inputLineNumber,
+      string       sign,
+      int          line,
+      int          octaveChange);
+      
     virtual ~msrClef();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string  getSign () const
+                { return fSign; }
+    int     getLine () const
+                { return fLine; }
+    int     getOctaveChange () const
+                { return fOctaveChange; }
+                
+    // services
+    // ------------------------------------------------------
+
+    string  clefAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
 
     string fSign;
@@ -1195,6 +1885,7 @@ class EXP msrClef : public msrElement {
     int    fOctaveChange;
 };
 typedef SMARTP<msrClef> S_msrClef;
+EXP ostream& operator<< (ostream& os, const S_msrClef& elt);
 
 /*!
 \brief A msr key representation.
@@ -1202,34 +1893,76 @@ typedef SMARTP<msrClef> S_msrClef;
   A key is represented by the tonic and the mode
 */
 //______________________________________________________________________________
-class EXP msrKey : public msrElement {
+class EXP msrKey : public msrElement
+{
   public:
     
-    enum KeyMode { kMajor, kMinor };
+    enum msrKeyMode { kMajor, kMinor };
+
+    // creation from MusicXML
+    // ------------------------------------------------------
 
     static SMARTP<msrKey> create (
-        int fifths, string mode, int cancel);
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           fifths,
+      string        mode,
+      int           cancel);
 
   protected:
 
     msrKey (
-        int fifths, string mode, int cancel);
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           fifths,
+      string        mode,
+      int           cancel);
+      
     virtual ~msrKey();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int         getFifths () const
+                    { return fFifths; }
+    string      getMode () const
+                    { return fMode; }
+    int         getCancel () const
+                    { return fCancel; }
+
+    string      getTonic () const
+                    { return fTonic; }
+    msrKeyMode  getKeyMode () const
+                    { return fKeyMode; }
+
+    // services
+    // ------------------------------------------------------
+
+    string      keyAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
   
   private:
 
-    int     fFifths;
-    string  fMode;
-    int     fCancel;
+    int        fFifths;
+    string     fMode;
+    int        fCancel;
 
-    string  fTonic;
-    KeyMode fKeyMode;
+    string     fTonic;
+    msrKeyMode fKeyMode;
 };
 typedef SMARTP<msrKey> S_msrKey;
+EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
 
 /*!
 \brief A msr time representation.
@@ -1237,58 +1970,127 @@ typedef SMARTP<msrKey> S_msrKey;
   A time is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrTime : public msrElement {
+class EXP msrTime : public msrElement
+{
   public:
     
-    static SMARTP<msrTime> create (
-              int numerator, int denominator, bool generateNumericalTime);
+    // creation from MusicXML
+    // ------------------------------------------------------
 
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    static SMARTP<msrTime> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           beatsNumber,
+      int           beatsValue);
 
   protected:
 
-    msrTime(int numerator, int denominator, bool generateNumericalTime);
+    msrTime (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           beatsNumber,
+      int           beatsValue);
+      
     virtual ~msrTime();
   
-  private:
-
-    rational fRational;
-    bool     fGenerateNumericalTime;
-};
-typedef SMARTP<msrTime> S_msrTime;
-
-/*!
-\brief A msr midi representation.
-
-  A midi is represented by variable/value pairs
-
-/*!
-\brief A msr midi representation.
-
-  A midi is represented by variable/value pairs
-
-*/
-//______________________________________________________________________________
-class EXP msrMidi : public msrElement {
   public:
 
-    static SMARTP<msrMidi> create();
+    // set and get
+    // ------------------------------------------------------
 
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    int       getBeatsNumber () const
+                  { return fBeatsNumber; }
+                  
+    int       getBeatsValue () const
+                  { return fBeatsValue; }
+                  
+    // services
+    // ------------------------------------------------------
+
+    string    timeAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    int      fBeatsNumber;
+    int      fBeatsValue;
+
+    bool     fGenerateNumericalTime; // JMI
+};
+typedef SMARTP<msrTime> S_msrTime;
+EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
+
+/*!
+\brief A tempo representation.
+
+  A tempo is represented by the lyrics to use
+*/
+//______________________________________________________________________________
+class EXP msrTempo : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrTempo> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           tempoUnit,
+      int           perMinute);
 
   protected:
 
-    msrMidi();
-    virtual ~msrMidi();
+    msrTempo (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           tempoUnit,
+      int           perMinute);
+      
+    virtual ~msrTempo();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int       getTempoUnit () const
+                  { return fTempoUnit; }
+
+    int       getPerMinute () const
+                  { return fPerMinute; }
+
+    // services
+    // ------------------------------------------------------
+
+    string    tempoAsString () const;
+    
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
   
+    int  fTempoUnit;
+    int  fPerMinute;
 };
-typedef SMARTP<msrMidi> S_msrMidi;
+typedef SMARTP<msrTempo> S_msrTempo;
+EXP ostream& operator<< (ostream& os, const S_msrTempo& elt);
 
 /*!
 \brief A msr lyrics chunk representation.
@@ -1297,39 +2099,85 @@ typedef SMARTP<msrMidi> S_msrMidi;
   In the case of "single", the list contains only one string
 */
 //______________________________________________________________________________
-class EXP msrLyricsChunk : public msrElement {
+class EXP msrLyricschunk : public msrElement
+{
   public:
 
     // we want to end the line in the LilyPond code at a break
-    enum LyricsChunkType {
+    enum msrLyricschunkKind {
+      kSkipChunk,
       kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
-      kSkipChunk, kBreakChunk };
+      kTiedChunk,
+      kSlurChunk, kSlurBeyondEndChunk,
+      kBarCheck, kBreakChunk,
+      k_NoChunk };
 
-    static SMARTP<msrLyricsChunk> create (
-            LyricsChunkType chunkType,
-            string          chunkText,
-            S_msrDuration  msrDuration);
-     
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrLyricschunk> create (
+      S_msrOptions&      msrOpts, 
+      int                inputLineNumber,
+      msrLyricschunkKind lyricschunkKind,
+      string             chunkText,
+      int                divisions,
+      S_msrNote          lyricschunkNote,
+      S_msrLyrics        lyricschunkLyricsUplink);
+
+    SMARTP<msrLyricschunk> createEmptyClone ();
 
   protected:
 
-    msrLyricsChunk (
-        LyricsChunkType chunkType,
-        string          chunkText,
-        S_msrDuration  msrDuration);
+    msrLyricschunk (
+      S_msrOptions&      msrOpts, 
+      int                inputLineNumber,
+      msrLyricschunkKind lyricschunkKind,
+      string             chunkText,
+      int                divisions,
+      S_msrNote          lyricschunkNote,
+      S_msrLyrics        lyricschunkLyricsUplink);
         
-    virtual ~msrLyricsChunk();
+    virtual ~msrLyricschunk();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrLyricschunkKind
+              getLyricschunkKind () const
+                  { return fLyricschunkKind; }
+
+    string    getChunkText () const
+                  { return fChunkText; }
+
+    int       getChunkDivisions () const
+                  { return fChunkDivisions; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
 
   private:
   
-    LyricsChunkType fLyricsChunkType;
-    string          fChunkText;
-    S_msrDuration  fChunkDuration;
+    msrLyricschunkKind fLyricschunkKind;
+    string             fChunkText;
+    int                fChunkDivisions;
+    
+    S_msrNote          fLyricschunkNote;
+    S_msrLyrics        fLyricschunkLyricsUplink;
 };
-typedef SMARTP<msrLyricsChunk> S_msrLyricsChunk;
+typedef SMARTP<msrLyricschunk> S_msrLyricschunk;
+EXP ostream& operator<< (ostream& os, const S_msrLyricschunk& elt);
 
 /*!
 \brief A msr lyrics representation.
@@ -1337,66 +2185,623 @@ typedef SMARTP<msrLyricsChunk> S_msrLyricsChunk;
   A lyrics is represented by a list of lyrics chunks,
 */
 //______________________________________________________________________________
-class EXP msrLyrics : public msrElement {
+class EXP msrLyrics : public msrElement
+{
   public:
 
+    enum msrLyricsMasterStatus {
+       kMasterLyrics, kRegularLyrics };
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrLyrics> create (
-            S_translationSettings& ts,
-            int                    lyricsNumber,
-            S_msrVoice            lyricsVoice);
+      S_msrOptions&         msrOpts, 
+      int                   inputLineNumber,
+      int                   lyricsNumber,
+      msrLyricsMasterStatus lyricsMasterStatus,
+      S_msrVoice            lyricsVoiceUplink);
     
+    SMARTP<msrLyrics> createEmptyClone (
+      S_msrVoice clonedVoice);
+
+  protected:
+
+    msrLyrics (
+      S_msrOptions&         msrOpts, 
+      int                   inputLineNumber,
+      int                   lyricsNumber,
+      msrLyricsMasterStatus lyricsMasterStatus,
+      S_msrVoice            lyricsVoiceUplink);
+
+    virtual ~msrLyrics();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
     int     getLyricsNumber () const
                 { return fLyricsNumber; }
                 
     string  getLyricsName () const;
                 
     S_msrVoice
-            getLyricsVoice () const
-                { return fLyricsVoice; }
+            getLyricsVoiceUplink () const
+                { return fLyricsVoiceUplink; }
                 
-    vector<S_msrLyricsChunk>
-            getLyricsChunks () const
-                { return fLyricsChunks; }
+    msrLyricsMasterStatus
+            getLyricsMasterStatus () const
+                { return fLyricsMasterStatus; }
+                
+    vector<S_msrLyricschunk>
+            getLyricschunks () const
+                { return fLyricschunks; }
+
+    // services
+    // ------------------------------------------------------
 
     void    addTextChunkToLyrics (
-              string          syllabic,
-              string          text,
-              bool            elision,
-              S_msrDuration  duration);
+              int       inputLineNumber,
+              string    syllabic,
+              msrLyricschunk::msrLyricschunkKind
+                        lyricschunkKind,
+              string    text,
+              bool      elision,
+              int       divisions,
+              S_msrNote note);
       
     void    addSkipChunkToLyrics (
-              S_msrDuration  duration);
+              int       inputLineNumber,
+              int       divisions,
+              S_msrNote note);
 
-    void    addBreakChunkToLyrics (
+    void    addSlurChunkToLyrics (
+              int       inputLineNumber,
+              int       divisions,
+              S_msrNote note);
+
+    void    addSlurBeyondEndChunkToLyrics (
+              int       inputLineNumber,
+              int       divisions,
+              S_msrNote note);
+
+    void    addTiedChunkToLyrics (
+              int       inputLineNumber,
+              int       divisions,
+              S_msrNote note);
+
+    void    addBarCheckChunkToLyrics (
+              int inputLineNumber,
               int nextMeasureNumber);
 
+    void    addBreakChunkToLyrics (
+              int inputLineNumber,
+              int nextMeasureNumber);
+
+    void    addChunkToLyrics (S_msrLyricschunk chunk);
+                
     int     getLyricsTextPresent() { return fLyricsTextPresent; }
-    
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    int                       fLyricsNumber;
+    msrLyricsMasterStatus     fLyricsMasterStatus;
+
+    vector<S_msrLyricschunk>  fLyricschunks;
+
+    bool                      fLyricsTextPresent;
+
+    S_msrVoice                fLyricsVoiceUplink;
+
+};
+typedef SMARTP<msrLyrics> S_msrLyrics;
+EXP ostream& operator<< (ostream& os, const S_msrLyrics& elt);
+
+/*!
+\brief A msr barline representation.
+
+  A barline is represented by the number of the next bar
+*/
+//______________________________________________________________________________
+class EXP msrBarline : public msrElement
+{
+  public:
+
+/*
+   // http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-bar-style.htm
+
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        <ending type="stop" number="1"/>
+        <repeat direction="backward"/>
+      </barline>
+
+<!--
+    Repeat marks. The start of the repeat has a forward direction
+    while the end of the repeat has a backward direction. Backward
+    repeats that are not part of an ending can use the times
+    attribute to indicate the number of times the repeated section
+    is played. The winged attribute indicates whether the repeat
+    has winged extensions that appear above and below the barline.
+    The straight and curved values represent single wings, while
+    the double-straight and double-curved values represent double
+    wings. The none value indicates no wings and is the default.
+-->
+<!ELEMENT repeat EMPTY>
+<!ATTLIST repeat
+    direction (backward | forward) #REQUIRED
+    times CDATA #IMPLIED
+    winged (none | straight | curved |
+        double-straight | double-curved) #IMPLIED
+>
+*/
+
+    enum msrBarlineLocation {
+      k_NoLocation,
+      kLeft, kMiddle, kRight}; // kRight by default
+        
+    enum msrBarlineStyle {
+      k_NoStyle,
+      kRegular,  // by default
+      kDotted, kDashed, kHeavy,
+      kLightLight, kLightHeavy, kHeavyLight, kHeavyHeavy,
+      kTick, kShort};
+
+    enum msrBarlineEndingType {
+      k_NoEndingType,
+      kStart, kStop, kDiscontinue};
+
+    enum msrBarlineRepeatDirection {
+      k_NoRepeatDirection,
+      kForward, kBackward};
+
+    enum msrBarlineRepeatWinged {
+      k_NoRepeatWinged,
+      kStraight, kCurved, kDoubleStraight, kDoubleCurved };
+
+    enum msrBarlineCategory {
+      kStandaloneBar,
+      kRepeatStart, kRepeatEnd,
+      kEndingStart, kHookedEndingEnd, kHooklessEndingEnd};
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrBarline> create (
+      S_msrOptions&             msrOpts, 
+      int                       inputLineNumber,
+      msrBarlineLocation        location,
+      msrBarlineStyle           style,
+      msrBarlineEndingType      endingType,
+      string                    endingMusicXMLNumber,
+      msrBarlineRepeatDirection repeatDirection,
+      msrBarlineRepeatWinged    repeatWinged);
 
   protected:
 
-    msrLyrics (
-        S_translationSettings& ts,
-        int                    lyricsNumber,
-        S_msrVoice            lyricsVoice);
-    virtual ~msrLyrics();
+    msrBarline (
+      S_msrOptions&             msrOpts, 
+      int                       inputLineNumber,
+      msrBarlineLocation        location,
+      msrBarlineStyle           style,
+      msrBarlineEndingType      endingType,
+      string                    endingMusicXMLNumber,
+      msrBarlineRepeatDirection repeatDirection,
+      msrBarlineRepeatWinged    repeatWinged);
+      
+    virtual ~msrBarline();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrBarlineLocation
+                getLocation () const
+                    { return fLocation; }
+                    
+    msrBarlineStyle
+                getStyle () const
+                    { return fStyle; }
+                    
+    msrBarlineEndingType
+                getEndingType () const
+                    { return fEndingType; }
+                    
+    string
+                getEndingNumber () const
+                    { return fEndingNumber; }
+                    
+    msrBarlineRepeatDirection
+                getRepeatDirection () const
+                    { return fRepeatDirection; }
+                    
+    msrBarlineRepeatWinged
+                getRepeatWinged () const
+                    { return fRepeatWinged; }
+                    
+    list<int>
+                getEndingNumbersList () const
+                    { return fEndingNumbersList; }
+                        
+    msrBarlineCategory
+                getBarlineCategory () const
+                    { return fBarlineCategory; }
+
+    void        setBarlineCategory (
+                  msrBarlineCategory barlineCategory)
+                    { fBarlineCategory = barlineCategory; }
+    
+    // position in measure
+    void          setBarlineMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fBarlineMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getBarlineMeasureLocation () const
+                      { return fBarlineMeasureLocation; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
 
-    S_translationSettings     fTranslationSettings;
+    msrBarlineLocation          fLocation;
+    msrBarlineStyle             fStyle;
+    msrBarlineEndingType        fEndingType;
+    string                      fEndingNumber; // may be "1, 2"
+    msrBarlineRepeatDirection   fRepeatDirection;
+    msrBarlineRepeatWinged      fRepeatWinged;
 
-    int                       fLyricsNumber;
-    S_msrVoice               fLyricsVoice;
-    
-    vector<S_msrLyricsChunk> fLyricsChunks;
+    msrBarlineCategory          fBarlineCategory;
 
-    bool                      fLyricsTextPresent;
+    msrMeasureLocation          fBarlineMeasureLocation;
+
+    // the numbers extracted from fEndingNumber
+    list<int>                   fEndingNumbersList;
 };
-typedef SMARTP<msrLyrics> S_msrLyrics;
-typedef map<int, S_msrLyrics> msrLyricsMap;
+typedef SMARTP<msrBarline> S_msrBarline;
+EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);
+
+/*!
+\brief The msr sequential music element
+*/
+//______________________________________________________________________________
+class EXP msrVoicechunk : public msrElement
+{
+  public:
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrVoicechunk> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+
+    SMARTP<msrVoicechunk> createEmptyClone ();
+
+  protected:
+
+    msrVoicechunk (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+      
+    virtual ~msrVoicechunk();
+    
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    list<S_msrElement>
+                  getVoicechunkElements () const
+                      { return fVoicechunkElements; }
+                      
+    string        voicechunkAsString ();
+
+    // services
+    // ------------------------------------------------------
+
+    void          prependElementToVoicechunk (S_msrElement elem)
+                      { fVoicechunkElements.push_front (elem); }
+    void          appendElementToVoicechunk  (S_msrElement elem)
+                      { fVoicechunkElements.push_back (elem); }
+    
+    S_msrElement  getLastElementOfVoicechunk () const
+                      { return fVoicechunkElements.back (); }
+                      
+    void          removeLastElementFromVoicechunk ()
+                      { fVoicechunkElements.pop_back (); }
+
+//    void          removeElementFromVoicechunk (S_msrElement elem);
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    list<S_msrElement>   fVoicechunkElements;
+};
+typedef SMARTP<msrVoicechunk> S_msrVoicechunk;
+EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
+
+/*!
+\brief A msr repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common part
+    - a vector of sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
+class EXP msrRepeatending : public msrElement
+{
+  public:
+
+    enum msrRepeatendingKind {
+      kHookedEnding,
+      kHooklessEnding};
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrRepeatending> create (
+      S_msrOptions&       msrOpts, 
+      int                 inputLineNumber,
+      string              repeatendingMusicXMLNumber, // may be "1, 2"
+      msrRepeatendingKind repeatendingKind,
+      S_msrVoicechunk     voicechunk,
+      S_msrRepeat         repeat);
+    
+    SMARTP<msrRepeatending> createEmptyClone (
+      S_msrRepeat clonedRepeat);
+
+  protected:
+
+    msrRepeatending (
+      S_msrOptions&       msrOpts, 
+      int                 inputLineNumber,
+      string              repeatendingMusicXMLNumber, // may be "1, 2"
+      msrRepeatendingKind repeatendingKind,
+      S_msrVoicechunk     voicechunk,
+      S_msrRepeat         repeat);
+      
+    virtual ~msrRepeatending();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string    getRepeatendingMusicXMLNumber () const
+                  { return fRepeatendingMusicXMLNumber; }
+                
+    void      setRepeatendingNumber (int repeatendingNumber)
+                  { fRepeatendingNumber = repeatendingNumber; }
+                
+    int       getRepeatendingNumber () const
+                  { return fRepeatendingNumber; }
+                
+    S_msrVoicechunk
+              getRepeatendingVoicechunk () const
+                  { return fRepeatendingVoicechunk; }
+                
+    S_msrRepeat
+              getRepeatendingRepeatUplink () const
+                { return fRepeatendingRepeatUplink; }
+
+    // services
+    // ------------------------------------------------------
+
+    void      appendElementToVoicechunk  (S_msrElement elem)
+                  {
+                    fRepeatendingVoicechunk->
+                      appendElementToVoicechunk (elem);
+                  }
+                    
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+  
+    string              fRepeatendingMusicXMLNumber; // may be "1, 2"
+    int                 fRepeatendingNumber; // internally assigned
+    
+    msrRepeatendingKind fRepeatendingKind;
+    
+    S_msrVoicechunk     fRepeatendingVoicechunk;
+
+    S_msrRepeat         fRepeatendingRepeatUplink;
+};
+typedef SMARTP<msrRepeatending> S_msrRepeatending;
+EXP ostream& operator<< (ostream& os, const S_msrRepeatending& elt);
+
+/*!
+\brief A msr repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common part
+    - a vector of sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
+class EXP msrRepeat : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrRepeat> create (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      S_msrVoicechunk commonPart,
+      S_msrVoice      voice);
+    
+    SMARTP<msrRepeat> createEmptyClone (
+      S_msrVoice clonedVoice);
+
+  protected:
+
+    msrRepeat (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      S_msrVoicechunk commonPart,
+      S_msrVoice      voice);
+      
+    virtual ~msrRepeat();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void      setRepeatCommonPart (
+                S_msrVoicechunk repeatCommonPart);
+                  
+    S_msrVoicechunk
+              getRepeatCommonPart () const
+                { return fRepeatCommonPart; }
+
+    vector<S_msrRepeatending>
+              getRepeatEndings () const
+                { return fRepeatEndings; }
+
+    S_msrVoice
+              getRepeatVoiceUplink () const
+                { return fRepeatVoiceUplink; }
+
+    // services
+    // ------------------------------------------------------
+
+    void      addRepeatending (S_msrRepeatending repeatending);
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    S_msrVoicechunk           fRepeatCommonPart;
+    
+    vector<S_msrRepeatending> fRepeatEndings;
+    int                       fRepeatEndingsCounter;
+    
+    S_msrVoice                fRepeatVoiceUplink;
+};
+typedef SMARTP<msrRepeat> S_msrRepeat;
+EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
+
+/*!
+\brief A msr repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common part
+    - a vector of sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
+class EXP msrUpbeat : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrUpbeat> create (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      int             divisions,
+      S_msrVoice      voice);
+    
+    SMARTP<msrUpbeat> createEmptyClone (
+      S_msrVoice clonedVoice);
+
+  protected:
+
+    msrUpbeat (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      int             divisions,
+      S_msrVoice      voice);
+      
+    virtual ~msrUpbeat();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+//    void          setUpbeatDivisions (int divisions)
+//                      { fUpbeatDivisions = divisions; }
+
+    int           getUpbeatDivisions () const
+                      { return fUpbeatDivisions; }
+
+    string        getUpbeatDivisionsAsString () const;
+
+    S_msrVoice    getUpbeatVoiceUplink () const
+                      { return fUpbeatVoiceUplink; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    int                       fUpbeatDivisions;
+    
+    S_msrVoice                fUpbeatVoiceUplink;
+};
+typedef SMARTP<msrUpbeat> S_msrUpbeat;
+EXP ostream& operator<< (ostream& os, const S_msrUpbeat& elt);
 
 /*!
 \brief A msr voice representation.
@@ -1404,76 +2809,199 @@ typedef map<int, S_msrLyrics> msrLyricsMap;
   A vpoce is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrVoice : public msrElement {
+class EXP msrVoice : public msrElement
+{
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrVoice> create (
-            S_translationSettings& ts,
-            int                    voiceNumber,
-            S_msrStaff            voiceStaff);
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           voiceNumber,
+      int           staffRelativeVoiceNumber,
+      S_msrStaff    voiceStaffUplink);
                           
-    int     getVoiceNumber () const
-                { return fVoiceNumber; }
-                
-    S_msrStaff
-            getVoiceStaff () const
-                { return fVoiceStaff; }
-                
-    msrLyricsMap
-            getVoiceLyricsMap () const
-                { return fVoiceLyricsMap; }
-
-    string  getVoiceName () const;
-
-    S_msrLyrics
-            addLyricsToVoice (
-              int lyricsNumber);
-              
-    S_msrLyrics
-            voiceContainsLyrics (
-              int lyricsNumber);
-               
-    void    appendElementToVoiceSequence (S_msrElement elem)
-                { fVoiceSequence->appendElementToSequence(elem); }
-                
-    void    removeLastElementOfVoiceSequence ()
-                { fVoiceSequence->removeLastElementOfSequence(); }
-
-    S_msrSequence
-            getVoiceSequence () const
-                { return fVoiceSequence; }
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    static SMARTP<msrVoice> createRest (
+      S_msrOptions& msrOpts,
+      int           inputLineNumber,
+      int           divisions,
+      int           voiceNumber);
+    
+    SMARTP<msrVoice> createEmptyClone (
+      S_msrStaff clonedStaff);
 
   protected:
 
     msrVoice (
-        S_translationSettings& ts,
-        int                    voiceNumber,
-        S_msrStaff            voiceStaff);
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           voiceNumber,
+      int           staffRelativeVoiceNumber,
+      S_msrStaff    voiceStaffUplink);
+      
     virtual ~msrVoice();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int           getVoiceNumber () const
+                      { return fVoiceNumber; }
+                
+    S_msrStaff    getVoiceStaffUplink () const
+                      { return fVoiceStaffUplink; }
+                
+    map<int, S_msrLyrics>
+                  getVoiceLyricsMap () const
+                      { return fVoiceLyricsMap; }
+
+    string        getVoiceName () const;
+
+    void          setVoiceAnacrusis (
+                    const S_msrUpbeat& upbeat)
+                      { fVoiceAnacrusis = upbeat; }
+
+    S_msrUpbeat   getVoiceAnacrusis () const
+                      { return fVoiceAnacrusis; }
+
+    void          setNewVoicechunkForVoice (int inputLineNumber);
+
+    S_msrVoicechunk
+                  getVoicechunk () const
+                      { return fVoicechunk; }
+
+    S_msrLyrics   getVoiceMasterLyrics () const
+                      { return fVoiceMasterLyrics; }
+               
+    // divisions per whole note
+    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                      {
+                        fDivisionsPerWholeNote =
+                          divisionsPerWholeNote;
+                      }
+                      
+    const int     getDivisionsPerWholeNote () const
+                      { return fDivisionsPerWholeNote; }
+          
+    // location in measure
+    void          setPositionInMeasure (int positionInMeasure)
+                      {
+                        fVoiceMeasureLocation.fPositionInMeasure =
+                          positionInMeasure;
+                      }
+                        
+    void          incrementPositionInMeasure (int increment)
+                      {
+                        fVoiceMeasureLocation.fPositionInMeasure +=
+                          increment;
+                      }
+
+    const int     getPositionInMeasure () const
+                      {
+                        return fVoiceMeasureLocation.fPositionInMeasure;
+                      }
+          
+    void          setMeasureNumber (
+                    int inputLineNumber, int measureNumber);
+
+    const int     getMeasureNumber () const
+                      {
+                        return fVoiceMeasureLocation.fMeasureNumber;
+                      }
+          
+    // location in measure
+    void          setVoiceMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fVoiceMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getVoiceMeasureLocation () const
+                      { return fVoiceMeasureLocation; }
+
+    // services
+    // ------------------------------------------------------
+
+    void          handleForward         (int duration);
+    
+    void          appendClefToVoice     (S_msrClef clef);
+    void          appendKeyToVoice      (S_msrKey  key);
+    void          appendTimeToVoice     (S_msrTime time);
+    
+    void          appendTempoToVoice    (S_msrTempo tempo);
+    
+    void          appendNoteToVoice     (S_msrNote note);
+    void          appendChordToVoice    (S_msrChord chord);
+    void          appendTupletToVoice   (S_msrTuplet tuplet);
+
+    void          addLyricschunkToVoice (
+                    int              lyricsNumber,
+                    S_msrLyricschunk chunk);
+    
+    void          appendRepeatToVoice   (S_msrRepeat repeat);
+    
+    void          prependBarlineToVoice (S_msrBarline barline);
+    void          appendBarlineToVoice  (S_msrBarline barline);
+    
+    void          appendBarCheckToVoice (S_msrBarCheck bnc);
+    void          appendBarnumberCheckToVoice
+                                        (S_msrBarnumberCheck bnc);
+
+    void          appendBreakToVoice    (S_msrBreak break_);
+
+    void          removeLastElementFromVoice ();
+
+    S_msrLyrics
+                  addLyricsToVoice (
+                    int inputLineNumber,
+                    int lyricsNumber);
+
+    void          addLyricsToVoice (S_msrLyrics lyrics);
+    
+    S_msrLyrics   fetchLyricsFromVoice (int lyricsNumber);
+    
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
 
-    S_translationSettings     fTranslationSettings;
-
     int                       fVoiceNumber;
-    S_msrStaff               fVoiceStaff;
+    int                       fStaffRelativeVoiceNumber;
+    S_msrStaff                fVoiceStaffUplink;
 
-    msrLyricsMap             fVoiceLyricsMap;
+    bool                      fVoiceContainsActualNotes;
 
-    // the implicit sequence containing the code generated for the voice
-    S_msrSequence            fVoiceSequence;
-  
+    int                       fDivisionsPerWholeNote;
 
-    // the implicit repeat at the beginning of the voice
-    // will be ignored if the voice has no repeats at all
-    S_msrRepeat              fVoiceMsrRepeat;
+    msrMeasureLocation        fVoiceMeasureLocation;
+
+    // anacrusis detection
+    S_msrUpbeat               fVoiceAnacrusis;
+    bool                      fMeasureNumberHasBeenSet;
+    bool                      fMusicHasBeenInserted;
+    
+    // the chunk in the voice contain the music elements
+    // it is created implicitly for every voice,
+    S_msrVoicechunk           fVoicechunk;
+
+    // the master lyrics, collecting skips along the way,
+    // to be used as a 'prelude' by actual lyrics
+    // that start at later points
+    S_msrLyrics               fVoiceMasterLyrics;
+    
+    // the lyrics map
+    map<int, S_msrLyrics>     fVoiceLyricsMap;
 };
-typedef SMARTP<msrVoice> S_msrVoice;
-typedef map<int, S_msrVoice> msrVoicesMap;
+EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 
 /*!
 \brief A msr staff representation.
@@ -1485,58 +3013,123 @@ typedef map<int, S_msrVoice> msrVoicesMap;
 Staff assignment is only needed for music notated on multiple staves. Used by both notes and directions. Staff values are numbers, with 1 referring to the top-most staff in a part.
 */
 //______________________________________________________________________________
-class EXP msrStaff : public msrElement {
+class EXP msrStaff : public msrElement
+{
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrStaff> create (
-        S_translationSettings& ts,
-        int                    staffNumber,
-        S_msrPart             staffPart);
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           staffNumber,
+      S_msrPart     fStaffPartUplink);
     
-    int     getStaffNumber () const
-                { return fStaffNumber; }
-                
-    S_msrPart
-            getStaffPart () const
-                { return fStaffPart; }
-
-    msrVoicesMap
-            getStaffVoicesMap ()
-                { return fStaffVoicesMap; }
-
-    string  getStaffName () const;
-
-    S_msrVoice
-            addVoiceToStaff (int voiceNumber);
-              
-    S_msrVoice
-            staffContainsVoice (int voiceNumber);
-                              
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    SMARTP<msrStaff> createEmptyClone (
+      S_msrPart clonedPart);
 
   protected:
 
     msrStaff (
-        S_translationSettings& ts,
-        int                    staffNumber,
-        S_msrPart             staffPart);
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           staffNumber,
+      S_msrPart     fStaffPartUplink);
+      
     virtual ~msrStaff();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int         getStaffNumber () const
+                    { return fStaffNumber; }
+                
+    S_msrPart   getStaffPartUplink () const
+                    { return fStaffPartUplink; }
+
+    string      getStaffName () const;
+
+    string      getStaffInstrumentName () const
+                    { return fStaffInstrumentName; }
+
+    S_msrClef   getStaffClef () const { return fStaffClef; };
+    S_msrKey    getStaffKey  () const { return fStaffKey; };
+    S_msrTime   getStaffTime () const { return fStaffTime; };
+    
+    void       setStaffClef (S_msrClef clef);
+    void        setStaffKey  (S_msrKey  key);
+    void        setStaffTime (S_msrTime time);
+
+    map<int, S_msrVoice>
+                getStaffVoicesMap ()
+                    { return fStaffVoicesMap; }
+
+    // divisions per whole note
+    void        setDivisionsPerWholeNote (
+                  int divisionsPerWholeNote)
+                    {
+                      fDivisionsPerWholeNote =
+                        divisionsPerWholeNote;
+
+                      setAllStaffVoicesDivisionsPerWholeNote (
+                        divisionsPerWholeNote);
+                    }
+                      
+    const int   getDivisionsPerWholeNote () const
+                    { return fDivisionsPerWholeNote; }
+          
+    // services
+    // ------------------------------------------------------
+
+    void        setAllStaffVoicesDivisionsPerWholeNote (
+                  int divisions);
+
+    S_msrVoice  addVoiceToStaff (
+                  int inputLineNumber,
+                  int voiceNumber);
+
+    void        addVoiceToStaff (S_msrVoice voice);
+    
+    S_msrVoice  fetchVoiceFromStaff (int voiceNumber);
+                              
+    void        appendClefToAllStaffVoices (S_msrClef clef);
+    void        appendKeyToAllStaffVoices  (S_msrKey   key);
+    void        appendTimeToAllStaffVoices (S_msrTime time);
+              
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
 
-    S_translationSettings     fTranslationSettings;
+    static int              gMaxStaffVoices;
 
-    int                       fStaffNumber;
-    S_msrPart                fStaffPart;
+    int                     fStaffNumber;
+    S_msrPart               fStaffPartUplink;
 
-    msrVoicesMap             fStaffVoicesMap;
+    map<int, S_msrVoice>    fStaffVoicesMap;
 
-    string                    fStaffInstrumentName;
- };
+    string                  fStaffInstrumentName;
+
+    S_msrClef               fStaffClef;
+    S_msrKey                fStaffKey;
+    S_msrTime               fStaffTime;
+
+    int                     fNextRelativeStaffVoiceNumber;
+
+    int                     fDivisionsPerWholeNote;    
+};
 typedef SMARTP<msrStaff> S_msrStaff;
-typedef map<int, S_msrStaff> msrStaffsMap;
+EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
 
 /*!
 \brief A msr part representation.
@@ -1544,93 +3137,135 @@ typedef map<int, S_msrStaff> msrStaffsMap;
   A part is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrPart : public msrElement {
+class EXP msrPart : public msrElement
+{
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrPart> create (
-              S_translationSettings& ts,
-              string                 partMusicXMLName);
-
-    void    changePartMusicXMLName (
-              string newPartMusicXMLName);
-              
-    string  getPartMusicXMLName () const
-                { return fPartMusicXMLName; }
+      S_msrOptions&  msrOpts, 
+      int            inputLineNumber,
+      string         partMusicXMLID,
+      S_msrPartgroup partPartgroupUplink);
                 
-    msrStaffsMap
-            getPartStavesMap ()
-                { return fPartStavesMap; }
-
-    string  getPartMSRName     () const
-                { return fPartMSRName; }
-
-    string  getPartCombinedName () const
-                { return
-                    "\"" + fPartMusicXMLName + "\"" +
-                    " (" + fPartMSRName + ")";
-                }
-                    
-    void    setPartDivisions (int  musicXMLDivisions)
-                { fPartMusicXMLDivisions = musicXMLDivisions; }
-    
-    void    setPartKey       (S_msrKey  key)
-                { fPartKey = key; }
-              
-    void    setPartTime      (S_msrTime time)
-                { fPartTime = time; }
-              
-    void    setPartClef      (S_msrClef clef)
-                { fPartClef = clef; }
-              
-    S_msrStaff
-            addStaffToPart (
-              int staffNumber);
-
-    S_msrStaff
-            partContainsStaff (
-              int staffNumber);
-
-    void    setPartName (string partName)
-                { fPartName = partName; }
-                
-    void    setPartAbbreviation (string partAbbreviation)
-                { fPartAbbreviation = partAbbreviation; }
-                
-    void    setPartInstrumentName (string partInstrumentName)
-                { fPartInstrumentName = partInstrumentName; }
-                
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    SMARTP<msrPart> createEmptyClone (
+      S_msrPartgroup clonedPartgroup);
 
   protected:
 
     msrPart (
-        S_translationSettings& ts,
-        string                 partMusicXMLName);
+      S_msrOptions&  msrOpts, 
+      int            inputLineNumber,
+      string         partMusicXMLID,
+      S_msrPartgroup partPartgroupUplink);
+      
     virtual ~msrPart();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void          setPartAbbreviation (string partAbbreviation)
+                      { fPartAbbreviation = partAbbreviation; }
+                
+    void          setPartInstrumentName (string partInstrumentName)
+                      { fPartInstrumentName = partInstrumentName; }
+                              
+    void          setPartMusicXMLID (string  partMusicXMLID)
+                      { fPartMusicXMLID = partMusicXMLID; }
+    
+    void          setPartMSRName (string  partMSRName);
+    
+    string        getPartMusicXMLID () const
+                      { return fPartMusicXMLID; }
+
+    string        getPartMSRName () const
+                  { return fPartMSRName; }
+
+    string        getPartAbbreviation () const
+                      { return fPartAbbreviation; }
+                
+    string        getPartInstrumentName () const
+                      { return fPartInstrumentName; }
+                
+    S_msrPartgroup
+                  getPartPartgroupUplink () const
+                      { return fPartPartgroupUplink; }
+                
+    map<int, S_msrStaff>
+                  getPartStavesMap ()
+                      { return fPartStavesMap; }
+
+    string        getPartCombinedName () const;
+
+    // divisions per whole note
+    void          setDivisionsPerWholeNote (
+                    int divisionsPerWholeNote)
+                      {
+                        fDivisionsPerWholeNote =
+                          divisionsPerWholeNote;
+
+                        setAllPartStavesDivisionsPerWholeNote (
+                          divisionsPerWholeNote);
+                      }
+                      
+    const int     getDivisionsPerWholeNote () const
+                      { return fDivisionsPerWholeNote; }
+          
+    // services
+    // ------------------------------------------------------
+
+    void          setAllPartStavesDivisionsPerWholeNote (
+                    int divisions);
+    
+    void          setAllPartStavesClef (S_msrClef clef);
+              
+    void          setAllPartStavesKey  (S_msrKey  key);
+              
+    void          setAllPartStavesTime (S_msrTime time);
+              
+    S_msrStaff    addStaffToPart (
+                    int inputLineNumber,
+                    int staffNumber);
+    
+    void          addStaffToPart (S_msrStaff staff);
+
+    S_msrStaff    fetchStaffFromPart (int staffNumber);
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
+    
+    string                  fPartMusicXMLID; // native
+    string                  fPartMSRName;
+                              // may be different than fPartMusicXMLID
+                              // if renamed
+                              // coined in constructor
 
-    S_translationSettings   fTranslationSettings;
-
-    string                  fPartMusicXMLName;
-    msrStaffsMap           fPartStavesMap;
-
-    string                  fPartMSRName; // coined in constructor
-
-    string                  fPartName;
     string                  fPartAbbreviation;
     string                  fPartInstrumentName;
 
-    int                     fPartMusicXMLDivisions;
-    S_msrClef              fPartClef;
-    S_msrKey               fPartKey;
-    S_msrTime              fPartTime;
+    S_msrPartgroup          fPartPartgroupUplink;
+
+    map<int, S_msrStaff>    fPartStavesMap;
+
+    int                     fDivisionsPerWholeNote;
+
+// JMI    int                     fPartMusicXMLDivisions;
 };
 typedef SMARTP<msrPart> S_msrPart;
-typedef stack<S_msrPart> msrPartsStack;
-typedef map<string, S_msrPart> msrPartsMap;
+EXP ostream& operator<< (ostream& os, const S_msrPart& elt);
 
 /*!
 \brief A msr part group representation.
@@ -1638,138 +3273,149 @@ typedef map<string, S_msrPart> msrPartsMap;
   A part group is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrPartGroup : public msrElement {
+class EXP msrPartgroup : public msrElement
+{
   public:
 
-    enum PartGroupKind {
-          kBracesPartGroupKind, kBracketPartGroupKind };
-          
-    static SMARTP<msrPartGroup> create (
-            S_translationSettings& ts,
-            int                    partGroupNumber);
-            
-    S_msrPart
-            addPartToPartGroup (
-                string partMusicXMLName);
-
-    S_msrPart
-            partGroupContainsPart (
-                string partMusicXMLName);
-
-    void    popPartGroupPartsStackTop ();
-
-    void    getPartGroupPartsStackTop ()
-                { fPartGroupPartsStack.top (); }
-
-    void    setPartGroupName (string partGroupName)
-                { fPartGroupName = partGroupName; }
-                
-    void    setPartGroupAbbreviation (string partGroupAbbreviation)
-                { fPartGroupAbbreviation = partGroupAbbreviation; }
-                
-    void    setPartGroupSymbol (string partGroupSymbol)
-                { fPartGroupSymbol = partGroupSymbol; }
-                
-    void    setPartGroupBarline (string partGroupBarline)
-                { fPartGroupBarline = partGroupBarline; }
-                
-    string  getPartGroupName () const
-                { return fPartGroupName; }
-
-    string  getPartGroupAbbreviation () const
-                { return fPartGroupAbbreviation; }
-
-    string  getPartGroupSymbol () const
-                { return fPartGroupSymbol; }
-
-    string  getPartGroupBarline () const
-                { return fPartGroupBarline; }
-
-    S_msrPart
-            addPartToPartGroup (
-                int partNumber);
-    
     /*
-    string  getPartGroupMusicXMLName () const
-                { return fPartGroupMusicXMLName; }
-                
-    map<int, S_msrPart>
-            getPartGroupPartsMap ()
-                { return fPartGroupPartsMap; }
+      There is no hierarchy implied in part-group elements.
+      All that matters is the sequence of part-group elements relative to score-part elements.
+      The sequencing of two consecutive part-group elements does not matter.
+      It is the default-x attribute that indicates the left-to-right ordering of the group symbols.
 
-    string  getPartGroupMSRName     () const
-                { return fPartGroupMSRName; }
+      <part-group number="1" type="start">
+      <group-name>Trombones</group-name>
+      <group-abbreviation>Trb.</group-abbreviation>
+      <group-symbol default-x="-12">brace</group-symbol>
+      <group-barline>yes</group-barline>
+      </part-group>
+    */
 
-    void    setPartGroupInstrumentName (string partInstrumentName)
-                { fPartGroupInstrumentName = partInstrumentName; }
-         */
-                
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    enum msrPartgroupTypeKind {
+        kStartPartgroupType, kStopPartgroupType,
+        k_NoPartgroupType };
+          
+    enum msrPartgroupSymbolKind {
+        kBracePartgroupSymbol, kBracketPartgroupSymbol,
+        kLinePartgroupSymbol, kSquarePartgroupSymbol,
+        k_NoPartgroupSymbol };
+          
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrPartgroup> create (
+      S_msrOptions&          msrOpts, 
+      int                    inputLineNumber,
+      int                    partgroupNumber,
+      string                 partgroupName,
+      string                 partgroupAbbreviation,
+      msrPartgroupSymbolKind partgroupSymbolKind,
+      int                    partgroupSymbolDefaultX,
+      bool                   partgroupBarline,
+      S_msrPartgroup         partgroupPartgroupUplink);
+
+    SMARTP<msrPartgroup> createEmptyClone (
+      S_msrPartgroup clonedPartgroup);
 
   protected:
 
-    msrPartGroup (
-            S_translationSettings& ts,
-            int                    partGroupNumber);
+    msrPartgroup (
+      S_msrOptions&          msrOpts, 
+      int                    inputLineNumber,
+      int                    partgroupNumber,
+      string                 partgroupName,
+      string                 partgroupAbbreviation,
+      msrPartgroupSymbolKind partgroupSymbolKind,
+      int                    partgroupSymbolDefaultX,
+      bool                   partgroupBarline,
+      S_msrPartgroup         partgroupPartgroupUplink);
             
-    virtual ~msrPartGroup();
+    virtual ~msrPartgroup();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int       getPartgroupNumber () const
+                  { return fPartgroupNumber; }
+    
+    string    getPartgroupName () const
+                  { return fPartgroupName; }
+
+    string    getPartgroupAbbreviation () const
+                  { return fPartgroupAbbreviation; }
+
+    msrPartgroupSymbolKind
+              getPartgroupSymbolKind () const
+                  { return fPartgroupSymbolKind; }
+
+    int       getPartgroupSymbolDefaultX () const
+                  { return fPartgroupSymbolDefaultX; }
+
+    bool      getPartgroupBarline () const
+                  { return fPartgroupBarline; }
+    
+    string    getPartgroupCombinedName () const;
+
+    list<S_msrElement>
+              getPartgroupElements () const
+                  { return fPartgroupElements; }
+
+    S_msrPartgroup
+              getPartgroupPartgroupUplink () const
+                  { return fPartgroupPartgroupUplink; }
+
+    // services
+    // ------------------------------------------------------
+
+    S_msrPart addPartToPartgroup (
+                int    inputLineNumber,
+                string partMusicXMLID);
+    
+    void      addPartToPartgroup (S_msrPart part);
+                
+    void      prependSubPartgroupToPartgroup (
+                S_msrPartgroup partgroup);
+
+    S_msrPart fetchPartFromPartgroup (string partMusicXMLID);
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
 
-    S_msrPart
-            tryAndReUseInitialAnonymousPart (
-                string partMusicXMLName);
-
-/*
-  <part-list>
-    <part-group number="1" type="start">
-      <group-symbol default-x="-7">bracket</group-symbol>
-      <group-barline>yes</group-barline>
-    </part-group>
-    <score-part id="P1">
-      <part-name>Piccolo</part-name>
-      <part-abbreviation>Picc.</part-abbreviation>
-      <score-instrument id="P1-I18">
-        <instrument-name>Picc.</instrument-name>
-      </score-instrument>
-      <midi-instrument id="P1-I18">
-        <midi-channel>1</midi-channel>
-        <midi-program>73</midi-program>
-      </midi-instrument>
-    </score-part>
-    <part-group number="2" type="start">
-      <group-name>1
-2</group-name>
-      <group-barline>yes</group-barline>
-    </part-group>
-    <score-part id="P2">
-*/
-
-    S_translationSettings   fTranslationSettings;
+    static int              gPartgroupsCounter;
     
-    // the part group number indicates nested/overlapping groups
-    int                     fPartGroupNumber;
+    int                     fPartgroupAbsoluteNumber;
+    
+    int                     fPartgroupNumber;
+        
+    string                  fPartgroupName;
+    string                  fPartgroupAbbreviation;
 
-    string                  fPartGroupSymbol;
-    string                  fPartGroupBarline;
+    msrPartgroupSymbolKind  fPartgroupSymbolKind;
+    int                     fPartgroupSymbolDefaultX;
 
-    PartGroupKind           fPartGroupKind; // computed in constructor
+    bool                    fPartgroupBarline;
 
-    string                  fPartGroupName;
-    string                  fPartGroupAbbreviation;
+    // accessing parts by name
+    map<string, S_msrPart>  fPartgroupPartsMap;
 
-    msrPartsMap             fPartGroupPartsMap;
-    msrPartsStack           fPartGroupPartsStack;
-
- //   string                  fPartGroupMSRName;
-
-// ???    string                  fPartGroupInstrumentName;
+    // allowing for both parts and (sub-)part groups as elements
+    list<S_msrElement>      fPartgroupElements;
+    
+    S_msrPartgroup          fPartgroupPartgroupUplink;
 };
-typedef SMARTP<msrPartGroup> S_msrPartGroup;
-typedef stack<S_msrPartGroup> msrPartGroupsStack;
-typedef map<int, S_msrPartGroup> msrPartGroupsMap;
+typedef SMARTP<msrPartgroup> S_msrPartgroup;
+EXP ostream& operator<< (ostream& os, const S_msrPartgroup& elt);
 
 /*!
 \brief A msr score representation.
@@ -1777,43 +3423,140 @@ typedef map<int, S_msrPartGroup> msrPartGroupsMap;
   A score is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrScore : public msrElement {
+class EXP msrScore : public msrElement
+{
   public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
     static SMARTP<msrScore> create (
-            S_translationSettings& ts);
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
 
-    S_msrPartGroup
-            addPartGroupToScore (
-                int partGroupNumber);
-
-    S_msrPartGroup
-            ScoreContainsPartGroup (
-                int partGroupNumber);
-
-    virtual void printMusicXML      (ostream& os);
-    virtual void printMSR          (ostream& os);
-    virtual void printLilyPondCode  (ostream& os);
+    SMARTP<msrScore> createEmptyClone ();
 
   protected:
 
     msrScore (
-        S_translationSettings& ts);
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+      
     virtual ~msrScore();
   
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_msrIdentification
+                getIdentification () const
+                    { return fIdentification; }
+
+    S_msrPageGeometry
+                getPageGeometry () const
+                    { return fPageGeometry; }
+    
+    list<S_msrPartgroup>
+                getPartgroupsList () const
+                    { return fPartgroupsList; }
+
+    // services
+    // ------------------------------------------------------
+
+    void addPartgroupToScore (S_msrPartgroup partgroup);
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
   private:
 
-    S_translationSettings   fTranslationSettings;
+    S_msrIdentification  fIdentification;
 
-//    msrPartGroupsStack     fScorePartGroupsStack;
-    msrPartGroupsMap        fScorePartGroupsMap;
-};
+    S_msrPageGeometry    fPageGeometry;
+    
+    list<S_msrPartgroup> fPartgroupsList;
+ };
 typedef SMARTP<msrScore> S_msrScore;
+EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
+
+/*!
+\brief A msr midi representation.
+
+  A midi is represented by variable/value pairs
+*/
+//______________________________________________________________________________
+class EXP msrMidi : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrMidi> create (
+      S_msrOptions& msrOpts, 
+      int                    inputLineNumber);
+
+  protected:
+
+    msrMidi (
+      S_msrOptions& msrOpts, 
+      int                    inputLineNumber);
+      
+    virtual ~msrMidi();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+  
+};
+typedef SMARTP<msrMidi> S_msrMidi;
+EXP ostream& operator<< (ostream& os, const S_msrMidi& elt);
+
+
+
 
 
 /*! @} */
 
 }
+
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
 
 
 #endif

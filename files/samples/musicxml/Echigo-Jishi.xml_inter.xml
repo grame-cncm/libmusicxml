@@ -55,7 +55,7 @@
     <music-font font-family="Maestro" font-size="20.5"/>
     <word-font font-family="Times New Roman" font-size="10.25"/>
     <lyric-font font-family="ＭＳ ゴシック" font-size="10.25" name="verse"/>
-    <lyric-language name="verse" xml:lang="ja"/>	
+    <lyric-language name="verse" xml:lang="ja"/>  
   </defaults>
   <credit page="1">
     <credit-words default-x="607" default-y="1443" font-family="ＭＳ ゴシック" font-size="24" font-weight="bold" justify="center" valign="top" xml:lang="ja">越後獅子</credit-words>

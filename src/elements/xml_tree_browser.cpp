@@ -11,18 +11,23 @@
 */
 
 #include <iostream>
+
 #include "xml_tree_browser.h"
 
 using namespace std;
 namespace MusicXML2 
 {
 
-void xml_tree_browser::browse (xmlelement& t) {
-	enter(t);
-	ctree<xmlelement>::literator iter;
-	for (iter = t.lbegin(); iter != t.lend(); iter++)
-		browse(**iter);
-	leave(t);
+void xml_tree_browser::browse (xmlelement& t)
+{
+  enter(t);
+
+  ctree<xmlelement>::literator iter;
+
+  for (iter = t.lbegin(); iter != t.lend(); iter++)
+    browse (**iter);
+
+  leave(t);
 }
 
 
