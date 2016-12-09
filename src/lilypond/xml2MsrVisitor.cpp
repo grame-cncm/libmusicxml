@@ -4119,7 +4119,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
       
       fCurrentVoice->
         addTiedLyricschunkToVoice (
-          inputLineNumber,
+          fCurrentLyricsNumber,
           fMusicXMLNoteData.fMusicXMLDivisions,
           newNote);
     }
@@ -4129,7 +4129,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 
       fCurrentVoice->
         addSkipLyricschunkToVoice (
-          inputLineNumber,
+          fCurrentLyricsNumber,
           fMusicXMLNoteData.fMusicXMLDivisions,
           newNote);
     }
@@ -4143,7 +4143,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
   
         fCurrentVoice->
           addSlurBeyondEndLyricschunkToVoice ( 
-            inputLineNumber,
+            fCurrentLyricsNumber,
             fMusicXMLNoteData.fMusicXMLDivisions,
             newNote);
       }
@@ -4152,7 +4152,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
   
         fCurrentVoice->
           addSlurLyricschunkToVoice ( 
-            inputLineNumber,
+            fCurrentLyricsNumber,
             fMusicXMLNoteData.fMusicXMLDivisions,
             newNote);
       }
@@ -4180,7 +4180,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
   
         fCurrentVoice->
           addSlurLyricschunkToVoice ( 
-            inputLineNumber + 10000,
+            fCurrentLyricsNumber,
             fMusicXMLNoteData.fMusicXMLDivisions,
             newNote);
       }

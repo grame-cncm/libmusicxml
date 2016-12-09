@@ -2148,6 +2148,9 @@ class EXP msrLyricschunk : public msrElement
               getLyricschunkKind () const
                   { return fLyricschunkKind; }
 
+    S_msrNote getLyricschunkNote () const
+                  { return fLyricschunkNote; }
+
     string    getChunkText () const
                   { return fChunkText; }
 

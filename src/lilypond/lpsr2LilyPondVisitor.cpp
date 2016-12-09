@@ -1173,9 +1173,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
         break;
         
       case msrLyricschunk::kSkipChunk:
-      // JMI
         fOstream <<
-          "\\skip" << elt->getChunkDivisions () << " ";
+          "\\skip" <<
+            elt->getLyricschunkNote ()->noteDivisionsAsMSRString () <<
+            " ";
         break;
         
       case msrLyricschunk::kSlurChunk:

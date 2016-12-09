@@ -3370,8 +3370,11 @@ string msrLyricschunk::lyricschunkAsString ()
         s << " " << fChunkText;
       s <<
         ", line " << fInputLineNumber <<
-        ", " << fLyricschunkNote->notePitchAsString () <<
-        ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        " (" <<
+        fLyricschunkNote->notePitchAsString () <<
+        ":" <<
+        fLyricschunkNote->noteDivisionsAsMSRString () <<
+        ")" <<
         endl;
       break;
       
@@ -3569,6 +3572,30 @@ void msrLyrics::addSkipChunkToLyrics (
     
     cerr << idtr <<
       "--> Adding 'Skip' lyrics chunk:" << divisions <<
+      " to lyrics " << getLyricsName () << endl;
+  }
+  
+  // create lyrics skip chunk
+  S_msrLyricschunk
+    chunk =
+      msrLyricschunk::create (
+        fMsrOptions,
+        inputLineNumber,
+        msrLyricschunk::kSkipChunk, "", divisions,
+        note,
+        this);
+  
+  // add chunk to this lyrics
+  fLyricschunks.push_back (chunk);
+
+/*
+ if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
+    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart  part  = staff-> getStaffPartUplink ();
+    
+    cerr << idtr <<
+      "--> Adding 'Skip' lyrics chunk:" << divisions <<
       " to " << getLyricsName () << endl;
 
     string result;
@@ -3599,19 +3626,7 @@ void msrLyrics::addSkipChunkToLyrics (
       "(" << divisionsAsString << ")" <<
       " to lyrics " << getLyricsName () << endl;
   }
-  
-  // create lyrics skip chunk
-  S_msrLyricschunk
-    chunk =
-      msrLyricschunk::create (
-        fMsrOptions,
-        inputLineNumber,
-        msrLyricschunk::kSkipChunk, "", divisions,
-        note,
-        this);
-  
-  // add chunk to this lyrics
-  fLyricschunks.push_back (chunk);
+  */
 }
 
 void msrLyrics::addTiedChunkToLyrics (
@@ -4758,6 +4773,8 @@ msrVoice::msrVoice (
     
   // there may be an anacrusis
   fVoiceMeasureLocation.fMeasureNumber = 0;
+
+  fVoiceMeasureLocation.fPositionInMeasure = 1;
   
   fMeasureNumberHasBeenSet = false;
   fMusicHasBeenInserted    = false;
