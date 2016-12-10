@@ -1003,7 +1003,7 @@ msrNote::msrNote (
 
   // flat or sharp,possibly semi- or sesqui-?
   msrMusicXMLNoteData::msrMusicXMLAlterationKind
-    musicXMLAlterationKind;
+    musicXMLAlterationKind; // JMI
 
 //  if (true || fMsrOptions->fDebugDebug)
   if (fMsrOptions->fDebugDebug)
@@ -3203,6 +3203,18 @@ msrTempo::msrTempo (
   fPerMinute = perMinute;
 }
 msrTempo::~msrTempo() {}
+
+void msrTempo::setTempoIndication (string indication)
+{
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "Setting indication of tempo " <<
+      fTempoUnit << " = " << fPerMinute <<
+      " to \"" << indication << "\"" <<
+      endl;
+      
+  fTempoIndication = indication;
+}
 
 void msrTempo::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
@@ -6106,7 +6118,8 @@ void msrStaff::setStaffClef (S_msrClef clef)
     cerr << idtr <<
       "Setting clef '" << clef->clefAsString () <<
       "' in staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () << endl;
+      " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
+      endl;
 
   fStaffClef = clef;
 
@@ -6119,7 +6132,8 @@ void msrStaff::setStaffKey  (S_msrKey  key)
     cerr << idtr <<
       "Setting key '" << key->keyAsString () <<
       "' in staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () << endl;
+      " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
+      endl;
 
   fStaffKey = key;
 
@@ -6132,7 +6146,8 @@ void msrStaff::setStaffTime (S_msrTime time)
     cerr << idtr <<
       "Setting time '" << time->timeAsString () <<
       "' in staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () << endl;
+      " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
+      endl;
 
   fStaffTime = time;
 

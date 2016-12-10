@@ -2030,7 +2030,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
 /*!
 \brief A words representation.
 
-  A tempo is represented by the lyrics to use
+  A words is represented by the lyrics to use
 */
 //______________________________________________________________________________
 class EXP msrWords : public msrElement
@@ -2133,8 +2133,7 @@ class EXP msrTempo : public msrElement
     string    getTempoIndication () const
                   { return fTempoIndication; }
 
-    void      setTempoIndication (string indication)
-                  { fTempoIndication = indication; }
+    void      setTempoIndication (string indication);
 
     int       getTempoUnit () const
                   { return fTempoUnit; }
@@ -2161,7 +2160,7 @@ class EXP msrTempo : public msrElement
 
     string fTempoIndication;
     
-    int    fTempoUnit;
+    int    fTempoUnit; // 0 to indicate there's only an indication
     int    fPerMinute;
 };
 typedef SMARTP<msrTempo> S_msrTempo;

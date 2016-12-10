@@ -51,7 +51,7 @@ xml2MsrVisitor::xml2MsrVisitor (
   fMsrScore =
     msrScore::create (fMsrOptions, 0);
 
-  fCurrentWords = "";
+  fCurrentWordsContents = "";
   
   fCurrentTimeStaffNumber = 1; // it may be absent
 
@@ -1197,19 +1197,6 @@ void xml2MsrVisitor::visitStart (S_direction& elt)
 */
 
   fCurrentDirectionPlacement = elt->getAttributeValue ("placement");
-}
-
-void xml2MsrVisitor::visitStart (S_direction_type& elt)
-{
-  fCurrentWords = 0;
-  fCurrentTempo = 0;
-    
-  fOnGoingDirectionType = true;
-}
-
-void xml2MsrVisitor::visitStart (S_words& elt)
-{
-  fCurrentWordsContents = elt->getValue ();
 
   if (fCurrentDirectionPlacement == "above")
     fCurrentWordsPlacementKind = msrWords::kAbove;
@@ -1217,7 +1204,7 @@ void xml2MsrVisitor::visitStart (S_words& elt)
   else if (fCurrentDirectionPlacement == "below")
     fCurrentWordsPlacementKind = msrWords::kBelow;
     
-  else {
+  else if (fCurrentDirectionPlacement.size ()) {
     
     stringstream s;
     
@@ -1232,18 +1219,20 @@ void xml2MsrVisitor::visitStart (S_words& elt)
       s.str());    
   }
 
-  if (fMsrOptions->fTrace)
-    cerr << idtr <<
-      "Creating words \"" << fCurrentWordsContents << "\"" <<
-      ", placement = \"" << fCurrentDirectionPlacement << "\"" <<
-      endl;
-  
-  fCurrentWords =
-    msrWords::create (
-      fMsrOptions, 
-      elt->getInputLineNumber (),
-      fCurrentWordsPlacementKind,
-      fCurrentWordsContents);
+  fCurrentWordsContents = ""; // there can be several such
+
+  fCurrentWords = 0;
+  fCurrentTempo = 0;
+}
+
+void xml2MsrVisitor::visitStart (S_direction_type& elt)
+{
+  fOnGoingDirectionType = true;
+}
+
+void xml2MsrVisitor::visitStart (S_words& elt)
+{
+  fCurrentWordsContents += elt->getValue ();
 }
 
 //________________________________________________________________________
@@ -1259,14 +1248,19 @@ void xml2MsrVisitor::visitStart ( S_metronome& elt )
   if (parentheses.size()) {
     // cerr << "--> S_metronome, parentheses = " << parentheses << endl;
     
-    if (parentheses == "yes") 
+    if (parentheses == "yes")
       fParentheses = true;
-    else
-    if (parentheses == "no")
+      
+    else if (parentheses == "no")
       fParentheses = true;
+      
     else {
       stringstream s;
-      s << "parentheses value " << parentheses << " should be 'yes' or 'no'";
+      
+      s <<
+        "parentheses value " << parentheses <<
+        " should be 'yes' or 'no'";
+      
       msrMusicXMLError (
         fMsrOptions->fInputSourceName,
         elt->getInputLineNumber (),
@@ -1356,6 +1350,7 @@ void xml2MsrVisitor::visitStart ( S_beat_unit& elt )
     fCurrentBeat.fBeatUnit = "";
     fCurrentBeat.fDots = 0;
   }
+  
   fCurrentBeat.fBeatUnit = elt->getValue();
 }
 
@@ -1368,15 +1363,76 @@ void xml2MsrVisitor::visitStart ( S_per_minute& elt )
 void xml2MsrVisitor::visitEnd (S_direction& elt)
 {
   if (fCurrentTempo) {
-    if (fCurrentWords)
+    if (fCurrentWordsContents.size ())
       fCurrentTempo->
         setTempoIndication (fCurrentWordsContents);
   }
 
   else {
-    if (fCurrentWords)
+    if (fCurrentWordsContents.size ()) {
+      if (fMsrOptions->fTrace)
+        cerr << idtr <<
+          "Creating tempo \"" << fCurrentWordsContents << "\"" <<
+          ", placement = \"" << fCurrentDirectionPlacement << "\"" <<
+          endl;
+
+      fCurrentTempo =
+        msrTempo::create (
+          fMsrOptions,
+          elt->getInputLineNumber (),
+          0, 0);
+        
+      // is fCurrentStaffNumber already present in fCurrentPart?
+      fCurrentStaff =
+        fCurrentPart->
+          fetchStaffFromPart (fCurrentStaffNumber);
+    
+      if (! fCurrentStaff) 
+        // no, add it to the current part
+        fCurrentStaff =
+          fCurrentPart->
+            addStaffToPart (
+              elt->getInputLineNumber (), fCurrentStaffNumber);
+        
+      // fetch the voice in the current staff
+      fCurrentVoice =
+        fCurrentStaff->
+          fetchVoiceFromStaff (fCurrentVoiceNumber);
+    
+      // does the voice exist?
+      if (! fCurrentVoice) 
+        // no, add it to the current staff
+        fCurrentVoice =
+          fCurrentStaff->
+            addVoiceToStaff (
+              elt->getInputLineNumber (), fCurrentVoiceNumber);
+    
+      fCurrentTempo->
+        setTempoIndication (fCurrentWordsContents);
+
+      fCurrentVoice->
+        appendTempoToVoice (fCurrentTempo);
+    
+      /* JMI
+      if (fMsrOptions->fTrace)
+        cerr << idtr <<
+          "Creating words \"" << fCurrentWordsContents << "\"" <<
+          ", placement = \"" << fCurrentDirectionPlacement << "\"" <<
+          endl;
+
+      // create words element
+      fCurrentWords =
+        msrWords::create (
+          fMsrOptions, 
+          elt->getInputLineNumber (),
+          fCurrentWordsPlacementKind,
+          fCurrentWordsContents);
+
+      // append to current voice
       fCurrentVoice->
         appendWordsToVoice (fCurrentWords);
+        */
+    }
   }
   
   fOnGoingDirectionType = false;

@@ -1424,15 +1424,16 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTempo& elt)
   int perMinute = elt->getPerMinute ();
 
   fOstream << idtr <<
-    "\\tempo" << " ";
+    "\\tempo";
 
   if (tempoIndication.size ())
     fOstream <<
-      "\"" << tempoIndication << "\"" " ";
-      
-  fOstream <<
-    tempoUnit << " = " << perMinute <<
-    endl;
+      " \"" << tempoIndication << "\"";
+
+  if (tempoUnit)
+    fOstream <<
+      " " << tempoUnit << " = " << perMinute <<
+      endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrTempo& elt)
