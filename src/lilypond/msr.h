@@ -2936,7 +2936,7 @@ class EXP msrVoice : public msrElement
     // services
     // ------------------------------------------------------
 
-    void          handleForward         (int duration);
+    void          handleForward         (int duration); // JMI
     
     void          appendClefToVoice     (S_msrClef clef);
     void          appendKeyToVoice      (S_msrKey  key);
@@ -2978,17 +2978,17 @@ class EXP msrVoice : public msrElement
                     int       divisions,
                     S_msrNote newNote);
     
-    void          appendRepeatToVoice   (S_msrRepeat repeat);
-    
-    void          prependBarlineToVoice (S_msrBarline barline);
-    void          appendBarlineToVoice  (S_msrBarline barline);
-    
     void          appendBarCheckToVoice (S_msrBarCheck bnc);
     void          appendBarnumberCheckToVoice
                                         (S_msrBarnumberCheck bnc);
 
     void          appendBreakToVoice    (S_msrBreak break_);
 
+    void          appendRepeatToVoice   (S_msrRepeat repeat);
+    
+    void          prependBarlineToVoice (S_msrBarline barline);
+    void          appendBarlineToVoice  (S_msrBarline barline);
+    
     void          removeLastElementFromVoice ();
 
     S_msrLyrics

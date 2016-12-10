@@ -1848,7 +1848,7 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
     cerr << idtr << 
       "=== MEASURE " <<
       fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber << " === " <<
-      "PART " << fCurrentPart->getPartCombinedName () <<" ===" << endl;
+      "PART " << fCurrentPart->getPartCombinedName () << " ===" << endl;
 
   if (measureNumber != 0) {
     // don't generate a bar check after the anacrusis
@@ -1891,12 +1891,22 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
   if (newSystem.size()) {
     
     if (newSystem == "yes") {
+      
+      int inputLineNumber =
+        elt->getInputLineNumber ();
+      
       // create a barnumbercheck command
+      if (true || fMsrOptions->fDebug)
+//      if (fMsrOptions->fDebug)
+        cerr << idtr << 
+          "Creating a barnumber check, " <<
+          "line = " << inputLineNumber << endl;
+
       S_msrBarnumberCheck
         barnumbercheck_ =
           msrBarnumberCheck::create (
             fMsrOptions,
-            elt->getInputLineNumber (),
+            inputLineNumber,
             fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
             
       // append it to the voice
@@ -1905,11 +1915,17 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
         appendBarnumberCheckToVoice (barnumbercheck_);
   
       // create a break command
+      if (true || fMsrOptions->fDebug)
+//      if (fMsrOptions->fDebug)
+        cerr << idtr << 
+          "Creating a break, " <<
+          "line = " << inputLineNumber << endl;
+
       S_msrBreak
         break_ =
           msrBreak::create(
             fMsrOptions,
-            elt->getInputLineNumber (),
+            inputLineNumber,
             fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
   
       // append it to the voice
@@ -1920,7 +1936,7 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
       fCurrentVoice->
         getVoiceMasterLyrics ()->
           addBreakChunkToLyrics (
-            elt->getInputLineNumber (),
+            inputLineNumber,
             fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
             */
     }

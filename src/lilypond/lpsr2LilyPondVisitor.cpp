@@ -1180,19 +1180,35 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
         break;
         
       case msrLyricschunk::kSlurChunk:
+        fOstream <<
+          "%{ slur " << "\"" << elt->getChunkText () << "\"" << " %}" <<
+          endl <<
+          idtr;
         break;
 
+      case msrLyricschunk::kTiedChunk:
+        fOstream <<
+          "%{ ~ " << "\"" << elt->getChunkText () << "\"" << " %}" <<
+          endl <<
+          idtr;
+        break;
+        
       case msrLyricschunk::kSlurBeyondEndChunk:
         fOstream <<
           "__ " << " ";
         break;
 
-      case msrLyricschunk::kTiedChunk:
+      case msrLyricschunk::kBarcheckChunk:
+        fOstream <<
+   // JMI       "%{ | % " << elt->getChunkText () << " %}" <<
+          "| %{ " << elt->getChunkText () << " %}" <<
+          endl <<
+          idtr;
         break;
-        
+  
       case msrLyricschunk::kBreakChunk:
         fOstream <<
-          "%{ " << "\"" << elt->getChunkText () << "\"" << " %}" <<
+          "%{ break " << "\"" << elt->getChunkText () << "\"" << " %}" <<
           endl <<
           idtr;
         break;

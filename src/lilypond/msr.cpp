@@ -5514,6 +5514,59 @@ void msrVoice::addSlurBeyondEndLyricschunkToVoice (
     addChunkToLyrics (lyricshunk);
 }
 
+void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
+{
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "Appending bar check '" << barCheck <<
+      "' to voice " << getVoiceName () << endl;
+
+  fVoicechunk->
+    appendElementToVoicechunk (barCheck);
+
+  // add bar check chunk to the voice master lyrics
+  fVoiceMasterLyrics->
+    addBarcheckChunkToLyrics (
+      barCheck->getInputLineNumber (),
+      fVoiceMeasureLocation.fMeasureNumber);
+}
+
+void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
+{
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "Appending barnumber check '" << bnc <<
+      "' to voice " << getVoiceName () << endl;
+
+  fVoicechunk->
+    appendElementToVoicechunk (bnc);
+
+/*
+  // add barnumber check chunk to the voice master lyrics
+  fVoiceMasterLyrics->
+    addBarnumberCheckChunkToLyrics (
+      bnc->getInputLineNumber (),
+      fVoiceMeasureLocation.fMeasureNumber);
+*/
+}
+
+void msrVoice::appendBreakToVoice (S_msrBreak break_)
+{
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "Appending break '" << break_ <<
+      "' to voice " << getVoiceName () << endl;
+
+  fVoicechunk->
+    appendElementToVoicechunk (break_);
+
+  // add break chunk to the voice master lyrics
+  fVoiceMasterLyrics->
+    addBreakChunkToLyrics (
+      break_->getInputLineNumber (),
+      fVoiceMeasureLocation.fMeasureNumber);
+}
+
 /*
 void msrVoice::addSlurLyricschunkToVoice (
   int       lyricsNumber,
@@ -5610,59 +5663,6 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
   S_msrElement b = barline;
   fVoicechunk->
     appendElementToVoicechunk (b);
-}
-
-void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
-{
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "Appending bar check '" << barCheck <<
-      "' to voice " << getVoiceName () << endl;
-
-  fVoicechunk->
-    appendElementToVoicechunk (barCheck);
-
-  // add bar check chunk to the voice master lyrics
-  fVoiceMasterLyrics->
-    addBarcheckChunkToLyrics (
-      barCheck->getInputLineNumber (),
-      fVoiceMeasureLocation.fMeasureNumber);
-}
-
-void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
-{
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "Appending bar number check '" << bnc <<
-      "' to voice " << getVoiceName () << endl;
-
-  fVoicechunk->
-    appendElementToVoicechunk (bnc);
-
-/*
-  // add bar number check chunk to the voice master lyrics
-  fVoiceMasterLyrics->
-    addBarnumberCheckChunkToLyrics (
-      bnc->getInputLineNumber (),
-      fVoiceMeasureLocation.fMeasureNumber);
-      */
-}
-
-void msrVoice::appendBreakToVoice (S_msrBreak break_)
-{
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "Appending break '" << break_ <<
-      "' to voice " << getVoiceName () << endl;
-
-  fVoicechunk->
-    appendElementToVoicechunk (break_);
-
-  // add break chunk to the voice master lyrics
-  fVoiceMasterLyrics->
-    addBreakChunkToLyrics (
-      break_->getInputLineNumber (),
-      fVoiceMeasureLocation.fMeasureNumber);
 }
 
 /* JMI
