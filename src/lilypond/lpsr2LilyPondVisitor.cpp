@@ -1418,11 +1418,20 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTempo& elt)
     fOstream << idtr <<
       "% --> Start visiting msrTempo" << endl;
 
+  string tempoIndication = elt->getTempoIndication ();
+  
   int tempoUnit = elt->getTempoUnit ();
   int perMinute = elt->getPerMinute ();
 
   fOstream << idtr <<
-    "\\tempo" << " " << tempoUnit << " = " << perMinute <<
+    "\\tempo" << " ";
+
+  if (tempoIndication.size ())
+    fOstream <<
+      "\"" << tempoIndication << "\"" " ";
+      
+  fOstream <<
+    tempoUnit << " = " << perMinute <<
     endl;
 }
 

@@ -3197,6 +3197,8 @@ msrTempo::msrTempo (
   int           perMinute)
     : msrElement (msrOpts, inputLineNumber)
 {
+  fTempoIndication = "";
+  
   fTempoUnit = tempoUnit;
   fPerMinute = perMinute;
 }
@@ -3252,7 +3254,8 @@ string msrTempo::tempoAsString () const
 
   s <<
     "Tempo" << " " <<
-    fTempoUnit << " = " << fPerMinute;
+    ", indication = \"" << fTempoIndication << "\"" <<
+    ", " << fTempoUnit << " = " << fPerMinute;
 
   return s.str();
 }

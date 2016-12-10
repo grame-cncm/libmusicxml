@@ -51,7 +51,7 @@ xml2MsrVisitor::xml2MsrVisitor (
   fMsrScore =
     msrScore::create (fMsrOptions, 0);
 
-  fCurrentDirectionWords = "";
+  fCurrentWords = "";
   
   fCurrentTimeStaffNumber = 1; // it may be absent
 
@@ -1209,7 +1209,7 @@ void xml2MsrVisitor::visitStart (S_direction_type& elt)
 
 void xml2MsrVisitor::visitStart (S_words& elt)
 {
-  fCurrentDirectionWords = elt->getValue ();
+  fCurrentWordsContents = elt->getValue ();
 
   if (fCurrentDirectionPlacement == "above")
     fCurrentWordsPlacementKind = msrWords::kAbove;
@@ -1234,7 +1234,7 @@ void xml2MsrVisitor::visitStart (S_words& elt)
 
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Creating words \"" << fCurrentDirectionWords << "\"" <<
+      "Creating words \"" << fCurrentWordsContents << "\"" <<
       ", placement = \"" << fCurrentDirectionPlacement << "\"" <<
       endl;
   
@@ -1243,7 +1243,7 @@ void xml2MsrVisitor::visitStart (S_words& elt)
       fMsrOptions, 
       elt->getInputLineNumber (),
       fCurrentWordsPlacementKind,
-      fCurrentDirectionWords);
+      fCurrentWordsContents);
 }
 
 //________________________________________________________________________
@@ -1370,13 +1370,13 @@ void xml2MsrVisitor::visitEnd (S_direction& elt)
   if (fCurrentTempo) {
     if (fCurrentWords)
       fCurrentTempo->
-        setTempoIndication (fCurrentWords);
+        setTempoIndication (fCurrentWordsContents);
   }
 
   else {
     if (fCurrentWords)
       fCurrentVoice->
-        appendWordsToVoice (words);
+        appendWordsToVoice (fCurrentWords);
   }
   
   fOnGoingDirectionType = false;

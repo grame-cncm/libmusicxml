@@ -482,7 +482,7 @@ class EXP xml2MsrVisitor :
     // direction handling
     // ------------------------------------------------------
     string                    fCurrentDirectionPlacement;
-    string                    fCurrentDirectionWords;
+    string                    fCurrentWordsContents;
     msrWords::msrWordsPlacementKind
                               fCurrentWordsPlacementKind; // JMI
     bool                      fOnGoingDirectionType;
