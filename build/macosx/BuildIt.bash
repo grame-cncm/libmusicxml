@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cmake -g 'Unix Makefiles' ../../cmake 
+cmake -G 'Unix Makefiles' ../../cmake 
 
 make
