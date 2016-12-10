@@ -892,6 +892,7 @@ S_msrNote msrNote::createRest (
   musicXMLNoteData.fMusicXMLStepIsARest = true;
   musicXMLNoteData.fMusicXMLStepIsUnpitched = false;
 
+  musicXMLNoteData.fMusicXMLAlter = 0.0;
   musicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kNatural;
   musicXMLNoteData.fMusicXMLOctave = 0;
   

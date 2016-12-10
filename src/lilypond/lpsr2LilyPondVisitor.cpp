@@ -1432,8 +1432,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTempo& elt)
 
   if (tempoUnit)
     fOstream <<
-      " " << tempoUnit << " = " << perMinute <<
-      endl;
+      " " << tempoUnit << " = " << perMinute;
+
+  fOstream << endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrTempo& elt)
