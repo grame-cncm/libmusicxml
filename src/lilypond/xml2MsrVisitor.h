@@ -494,6 +494,8 @@ class EXP xml2MsrVisitor :
     int                       fPerMinute;
     musicXMLBeatData          fCurrentBeat;
     bool                      fParentheses;
+    S_msrWords                fCurrentWords;
+    S_msrTempo                fCurrentTempo;
 
     // time handling
     // ------------------------------------------------------

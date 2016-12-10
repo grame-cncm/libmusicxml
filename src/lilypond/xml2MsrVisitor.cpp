@@ -51,6 +51,8 @@ xml2MsrVisitor::xml2MsrVisitor (
   fMsrScore =
     msrScore::create (fMsrOptions, 0);
 
+  fCurrentDirectionWords = "";
+  
   fCurrentTimeStaffNumber = 1; // it may be absent
 
   fCurrentForwardVoiceNumber = 1; // JMI
@@ -1199,6 +1201,9 @@ void xml2MsrVisitor::visitStart (S_direction& elt)
 
 void xml2MsrVisitor::visitStart (S_direction_type& elt)
 {
+  fCurrentWords = 0;
+  fCurrentTempo = 0;
+    
   fOnGoingDirectionType = true;
 }
 
@@ -1233,20 +1238,147 @@ void xml2MsrVisitor::visitStart (S_words& elt)
       ", placement = \"" << fCurrentDirectionPlacement << "\"" <<
       endl;
   
-  S_msrWords
-    words =
-      msrWords::create (
-        fMsrOptions, 
+  fCurrentWords =
+    msrWords::create (
+      fMsrOptions, 
+      elt->getInputLineNumber (),
+      fCurrentWordsPlacementKind,
+      fCurrentDirectionWords);
+}
+
+//________________________________________________________________________
+void xml2MsrVisitor::visitStart ( S_metronome& elt )
+{
+  string parentheses = elt->getAttributeValue("parentheses");
+  
+  fBeatsData.clear();
+  fPerMinute = 0;
+  fCurrentBeat.fBeatUnit = "";
+  fCurrentBeat.fDots = 0;
+
+  if (parentheses.size()) {
+    // cerr << "--> S_metronome, parentheses = " << parentheses << endl;
+    
+    if (parentheses == "yes") 
+      fParentheses = true;
+    else
+    if (parentheses == "no")
+      fParentheses = true;
+    else {
+      stringstream s;
+      s << "parentheses value " << parentheses << " should be 'yes' or 'no'";
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
         elt->getInputLineNumber (),
-        fCurrentWordsPlacementKind,
-        fCurrentDirectionWords);
+        s.str());
+    }
+  }
+}
+  
+void xml2MsrVisitor::visitEnd ( S_metronome& elt )
+{ 
+ // if (fSkipDirection) return;
+
+  // fParentheses ??? JMI
+  if (fCurrentBeat.fBeatUnit.size()) { // JMI
+    fBeatsData.push_back(fCurrentBeat);
+    fCurrentBeat.fBeatUnit = "";
+    fCurrentBeat.fDots = 0;
+  }
+  
+  if (fBeatsData.size() != 1) {
+    msrMusicXMLWarning (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      "multiple beats found, but only per-minute tempos is supported");
+    return;
+  }
+  
+  if (! fPerMinute) {
+    msrMusicXMLWarning (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      "per-minute not found, only per-minute tempos is supported");
+    return;    // support per minute tempo only (for now)
+  }
+
+  musicXMLBeatData b = fBeatsData[0];
+  rational         r = 
+    NoteType::type2rational(
+      NoteType::xml (b.fBeatUnit)), rdot(3,2);
+  
+  while (b.fDots-- > 0) { // JMI
+    r *= rdot;
+  }
+  r.rationalise ();
+
+  fCurrentTempo =
+    msrTempo::create (
+      fMsrOptions,
+      elt->getInputLineNumber (),
+      r.getDenominator(), fPerMinute);
+    
+  // is fCurrentStaffNumber already present in fCurrentPart?
+  fCurrentStaff =
+    fCurrentPart->
+      fetchStaffFromPart (fCurrentStaffNumber);
+
+  if (! fCurrentStaff) 
+    // no, add it to the current part
+    fCurrentStaff =
+      fCurrentPart->
+        addStaffToPart (
+          elt->getInputLineNumber (), fCurrentStaffNumber);
+    
+  // fetch the voice in the current staff
+  fCurrentVoice =
+    fCurrentStaff->
+      fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+  // does the voice exist?
+  if (! fCurrentVoice) 
+    // no, add it to the current staff
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (
+          elt->getInputLineNumber (), fCurrentVoiceNumber);
 
   fCurrentVoice->
-    appendWordsToVoice (words);
+    appendTempoToVoice (fCurrentTempo);
+  
+  // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
+
+void xml2MsrVisitor::visitStart ( S_beat_unit& elt )
+{ 
+  if (fCurrentBeat.fBeatUnit.size()) {
+    fBeatsData.push_back (fCurrentBeat); 
+    fCurrentBeat.fBeatUnit = "";
+    fCurrentBeat.fDots = 0;
+  }
+  fCurrentBeat.fBeatUnit = elt->getValue();
+}
+
+void xml2MsrVisitor::visitStart ( S_beat_unit_dot& elt )
+  { fCurrentBeat.fDots++; }
+  
+void xml2MsrVisitor::visitStart ( S_per_minute& elt )
+  { fPerMinute = (int)(*elt); }
 
 void xml2MsrVisitor::visitEnd (S_direction& elt)
 {
+  if (fCurrentTempo) {
+    if (fCurrentWords)
+      fCurrentTempo->
+        setTempoIndication (fCurrentWords);
+  }
+
+  else {
+    if (fCurrentWords)
+      fCurrentVoice->
+        appendWordsToVoice (words);
+  }
+  
   fOnGoingDirectionType = false;
 }
 
@@ -1551,127 +1683,6 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
   
   fOnGoingForward = false;
 }
-
-//________________________________________________________________________
-void xml2MsrVisitor::visitStart ( S_metronome& elt )
-{
-  string parentheses = elt->getAttributeValue("parentheses");
-  
-  fBeatsData.clear();
-  fPerMinute = 0;
-  fCurrentBeat.fBeatUnit = "";
-  fCurrentBeat.fDots = 0;
-
-  if (parentheses.size()) {
-    // cerr << "--> S_metronome, parentheses = " << parentheses << endl;
-    
-    if (parentheses == "yes") 
-      fParentheses = true;
-    else
-    if (parentheses == "no")
-      fParentheses = true;
-    else {
-      stringstream s;
-      s << "parentheses value " << parentheses << " should be 'yes' or 'no'";
-      msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
-        elt->getInputLineNumber (),
-        s.str());
-    }
-  }
-}
-  
-void xml2MsrVisitor::visitEnd ( S_metronome& elt )
-{ 
- // if (fSkipDirection) return;
-
-  // fParentheses ??? JMI
-  if (fCurrentBeat.fBeatUnit.size()) { // JMI
-    fBeatsData.push_back(fCurrentBeat);
-    fCurrentBeat.fBeatUnit = "";
-    fCurrentBeat.fDots = 0;
-  }
-  
-  if (fBeatsData.size() != 1) {
-    msrMusicXMLWarning (
-      fMsrOptions->fInputSourceName,
-      elt->getInputLineNumber (),
-      "multiple beats found, but only per-minute tempos is supported");
-    return;
-  }
-  
-  if (! fPerMinute) {
-    msrMusicXMLWarning (
-      fMsrOptions->fInputSourceName,
-      elt->getInputLineNumber (),
-      "per-minute not found, only per-minute tempos is supported");
-    return;    // support per minute tempo only (for now)
-  }
-
-  musicXMLBeatData b = fBeatsData[0];
-  rational         r = 
-    NoteType::type2rational(
-      NoteType::xml (b.fBeatUnit)), rdot(3,2);
-  
-  while (b.fDots-- > 0) { // JMI
-    r *= rdot;
-  }
-  r.rationalise ();
-
-  S_msrTempo
-    tempo =
-      msrTempo::create (
-        fMsrOptions,
-        elt->getInputLineNumber (),
-        r.getDenominator(), fPerMinute);
-    
-  // is fCurrentStaffNumber already present in fCurrentPart?
-  fCurrentStaff =
-    fCurrentPart->
-      fetchStaffFromPart (fCurrentStaffNumber);
-
-  if (! fCurrentStaff) 
-    // no, add it to the current part
-    fCurrentStaff =
-      fCurrentPart->
-        addStaffToPart (
-          elt->getInputLineNumber (), fCurrentStaffNumber);
-    
-  // fetch the voice in the current staff
-  fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-  // does the voice exist?
-  if (! fCurrentVoice) 
-    // no, add it to the current staff
-    fCurrentVoice =
-      fCurrentStaff->
-        addVoiceToStaff (
-          elt->getInputLineNumber (), fCurrentVoiceNumber);
-
-  fCurrentVoice->
-    appendTempoToVoice (tempo);
-  
-  // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
-}
-
-void xml2MsrVisitor::visitStart ( S_beat_unit& elt )
-{ 
-  if (fCurrentBeat.fBeatUnit.size()) {
-    fBeatsData.push_back (fCurrentBeat); 
-    fCurrentBeat.fBeatUnit = "";
-    fCurrentBeat.fDots = 0;
-  }
-  fCurrentBeat.fBeatUnit = elt->getValue();
-}
-
-void xml2MsrVisitor::visitStart ( S_beat_unit_dot& elt )
-  { fCurrentBeat.fDots++; }
-  
-void xml2MsrVisitor::visitStart ( S_per_minute& elt )
-  { fPerMinute = (int)(*elt); }
-
 
 //________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_tied& elt )

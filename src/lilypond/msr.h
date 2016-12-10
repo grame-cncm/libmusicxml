@@ -2130,6 +2130,12 @@ class EXP msrTempo : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    string    getTempoIndication () const
+                  { return fTempoIndication; }
+
+    void      setTempoIndication (string indication)
+                  { fTempoIndication = indication; }
+
     int       getTempoUnit () const
                   { return fTempoUnit; }
 
@@ -2152,9 +2158,11 @@ class EXP msrTempo : public msrElement
     virtual void print (ostream& os);
 
   private:
-  
-    int  fTempoUnit;
-    int  fPerMinute;
+
+    string fTempoIndication;
+    
+    int    fTempoUnit;
+    int    fPerMinute;
 };
 typedef SMARTP<msrTempo> S_msrTempo;
 EXP ostream& operator<< (ostream& os, const S_msrTempo& elt);
