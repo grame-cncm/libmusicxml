@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cmake ../../cmake
+cmake ../../../cmake
 
 make

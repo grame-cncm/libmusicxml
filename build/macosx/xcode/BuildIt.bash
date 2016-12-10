@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cmake -G Xcode ../../cmake 
+cmake -G Xcode ../../../cmake 
 
 make
