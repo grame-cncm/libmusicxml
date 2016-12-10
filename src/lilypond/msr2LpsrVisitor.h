@@ -58,6 +58,9 @@ class msr2LpsrVisitor :
   public visitor<S_msrClef>,
   public visitor<S_msrKey>,
   public visitor<S_msrTime>,
+  
+  public visitor<S_msrWords>,
+  
   public visitor<S_msrTempo>,
   
   public visitor<S_msrVoicechunk>,
@@ -148,6 +151,9 @@ class msr2LpsrVisitor :
 
     virtual void visitStart (S_msrTime& elt);
     virtual void visitEnd   (S_msrTime& elt);
+
+    virtual void visitStart (S_msrWords& elt);
+    virtual void visitEnd   (S_msrWords& elt);
 
     virtual void visitStart (S_msrTempo& elt);
     virtual void visitEnd   (S_msrTempo& elt);

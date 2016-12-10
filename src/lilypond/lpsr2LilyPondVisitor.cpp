@@ -1390,10 +1390,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrWords& elt)
     elt->getWordsContents ();
     
   switch (wordsPlacementKind) {
-    case kAbove:
+    case msrWords::kAbove:
       fOstream << "^";
       break;
-    case kBelow:
+    case msrWords::kBelow:
       fOstream << "_";
       break;
   } // switch

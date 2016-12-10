@@ -3163,7 +3163,7 @@ string msrWords::wordsAsString () const
     case kAbove:
       s << "above";
       break;
-    case kAbove:
+    case kBelow:
       s << "below";
       break;
   } // switch

@@ -2076,7 +2076,7 @@ class EXP msrWords : public msrElement
     // services
     // ------------------------------------------------------
 
-    string    msrWordsAsString () const;
+    string    wordsAsString () const;
     
     // visitors
     // ------------------------------------------------------
