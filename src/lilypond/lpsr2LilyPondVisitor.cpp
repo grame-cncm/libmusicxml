@@ -1194,8 +1194,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
         break;
         
       case msrLyricschunk::kSlurBeyondEndChunk:
-        fOstream <<
-          "__ " << " ";
+// JMI       fOstream <<
+ //         "__ " << " ";
         break;
 
       case msrLyricschunk::kBarcheckChunk:
@@ -1373,6 +1373,41 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrTime& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrTime" << endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrWords& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrWords" << endl;
+
+  msrWords::msrWordsPlacementKind
+    wordsPlacementKind =
+      elt->getWordsPlacementKind ();
+
+  string wordsContents =
+    elt->getWordsContents ();
+    
+  switch (wordsPlacementKind) {
+    case kAbove:
+      fOstream << "^";
+      break;
+    case kBelow:
+      fOstream << "_";
+      break;
+  } // switch
+
+  fOstream << idtr <<
+    "\\markup" << " { " << wordsContents << " } " <<
+    endl;
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrWords& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrWords" << endl;
 }
 
 //________________________________________________________________________

@@ -114,8 +114,6 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
     message << \
     endl << endl << \
     idtr; \
-\
-  assert(false); \
 }
 
 /*!
@@ -2030,6 +2028,75 @@ typedef SMARTP<msrTime> S_msrTime;
 EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
 
 /*!
+\brief A words representation.
+
+  A tempo is represented by the lyrics to use
+*/
+//______________________________________________________________________________
+class EXP msrWords : public msrElement
+{
+  public:
+
+    enum msrWordsPlacementKind {
+      kAbove, kBelow};
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrWords> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      msrWordsPlacementKind
+                    wordsPlacementKind,
+      string        wordsContents);
+
+  protected:
+
+    msrWords (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      msrWordsPlacementKind
+                    wordsPlacementKind,
+      string        wordsContents);
+      
+    virtual ~msrWords();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrWordsPlacementKind
+              getWordsPlacementKind () const
+                  { return fWordsPlacementKind; }
+
+    string    getWordsContents () const
+                  { return fWordsContents; }
+
+    // services
+    // ------------------------------------------------------
+
+    string    msrWordsAsString () const;
+    
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+                        
+  msrWordsPlacementKind fWordsPlacementKind;
+  string                fWordsContents;
+};
+typedef SMARTP<msrWords> S_msrWords;
+EXP ostream& operator<< (ostream& os, const S_msrWords& elt);
+
+/*!
 \brief A tempo representation.
 
   A tempo is represented by the lyrics to use
@@ -2941,6 +3008,8 @@ class EXP msrVoice : public msrElement
     void          appendClefToVoice     (S_msrClef clef);
     void          appendKeyToVoice      (S_msrKey  key);
     void          appendTimeToVoice     (S_msrTime time);
+
+    void          appendWordsToVoice    (S_msrWords words);
     
     void          appendTempoToVoice    (S_msrTempo tempo);
     

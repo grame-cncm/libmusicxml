@@ -74,7 +74,7 @@ xml2MsrVisitor::xml2MsrVisitor (
   fOnGoingSlur = false;
   fOnGoingSlurHasLyrics = false;
 
-  fOnGoingDirection = false;
+  fOnGoingDirectionType = false;
 
   fOnGoingRepeat = false;
   
@@ -1176,25 +1176,46 @@ void xml2MsrVisitor::visitStart (S_direction& elt)
         <staff>1</staff>
         <sound tempo="26"/>
       </direction>
+
+      <direction placement="above" directive="yes">
+        <direction-type>
+          <words default-y="40" font-size="6.6" font-weight="bold">Moderato</words>
+        </direction-type>
+        <direction-type>
+          <words font-size="6.6" font-weight="normal"> </words>
+        </direction-type>
+        <direction-type>
+          <metronome font-family="EngraverTextT" font-size="5.7" parentheses="yes">
+            <beat-unit>quarter</beat-unit>
+            <per-minute>85</per-minute>
+          </metronome>
+        </direction-type>
+        <sound tempo="85"/>
+      </direction>
 */
+
+  fCurrentDirectionPlacement = elt->getAttributeValue ("placement");
 }
 
 void xml2MsrVisitor::visitStart (S_direction_type& elt)
 {
-  fCurrentDirectionPlacement =
-    elt->getAttributeValue ("placement"); //JMI
-
-  fOnGoingDirection = true;
+  fOnGoingDirectionType = true;
 }
 
 void xml2MsrVisitor::visitStart (S_words& elt)
 {
   fCurrentDirectionWords = elt->getValue ();
+
+  if (fCurrentDirectionPlacement == "above")
+    fCurrentWordsPlacementKind = msrWords::kAbove;
+  else if (fCurrentDirectionPlacement == "below")
+    fCurrentWordsPlacementKind = msrWords::kAbove;
+
 }
 
 void xml2MsrVisitor::visitEnd (S_direction& elt)
 {
-  fOnGoingDirection = false;
+  fOnGoingDirectionType = false;
 }
 
 //________________________________________________________________________
@@ -1272,7 +1293,7 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
     fCurrentStaffNumber = staffNumber;
 
   }
-  else if (fOnGoingDirection) {
+  else if (fOnGoingDirectionType) {
 
     // JMI
     

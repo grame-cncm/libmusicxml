@@ -483,7 +483,9 @@ class EXP xml2MsrVisitor :
     // ------------------------------------------------------
     string                    fCurrentDirectionPlacement;
     string                    fCurrentDirectionWords;
-    bool                      fOnGoingDirection;
+    msrWords::msrWordsPlacementKind
+                              fCurrentWordsPlacementKind;
+    bool                      fOnGoingDirectionType;
   
     // metronome handling
     // ------------------------------------------------------

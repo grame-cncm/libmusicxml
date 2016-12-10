@@ -3080,6 +3080,103 @@ void msrTime::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrWords msrWords::create (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  msrWordsPlacementKind
+                wordsPlacementKind,
+  string        wordsContents)
+{
+  msrWords* o =
+    new msrWords (
+      msrOpts, inputLineNumber, wordsPlacementKind, wordsContents);
+  assert(o!=0);
+  return o;
+}
+
+msrWords::msrWords (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  msrWordsPlacementKind
+                wordsPlacementKind,
+  string        wordsContents)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fWordsPlacementKind = wordsPlacementKind;
+  fWordsContents      = wordsContents;
+}
+msrWords::~msrWords() {}
+
+void msrWords::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrWords::acceptIn()" << endl;
+      
+  if (visitor<S_msrWords>*
+    p =
+      dynamic_cast<visitor<S_msrWords>*> (v)) {
+        S_msrWords elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrWords::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrWords::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrWords::acceptOut()" << endl;
+
+  if (visitor<S_msrWords>*
+    p =
+      dynamic_cast<visitor<S_msrWords>*> (v)) {
+        S_msrWords elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrWords::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+
+void msrWords::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrWords& nstf)
+{
+  nstf->print (os);
+  return os;
+}
+
+string msrWords::wordsAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Words" << " " <<
+    fWordsContents << ", placement = ";
+
+  switch (fWordsPlacementKind) {
+    case kAbove:
+      s << "above";
+      break;
+    case kAbove:
+      s << "below";
+      break;
+  } // switch
+
+  return s.str();
+}
+
+void msrWords::print (ostream& os)
+{
+  os << wordsAsString () << endl;
+}
+
+//______________________________________________________________________________
 S_msrTempo msrTempo::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
@@ -5148,6 +5245,18 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   S_msrElement t = time;
   fVoicechunk->
     appendElementToVoicechunk (t);
+}
+
+void msrVoice::appendWordsToVoice (S_msrWords words)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending wprds '" << words->wordsAsString () <<
+      "' to voice " << getVoiceName () << endl;
+
+  S_msrElement w = words;
+  fVoicechunk->
+    appendElementToVoicechunk (w);
 }
 
 void msrVoice::appendTempoToVoice (S_msrTempo tempo)

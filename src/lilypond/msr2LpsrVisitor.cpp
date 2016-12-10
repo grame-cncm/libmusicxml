@@ -577,6 +577,24 @@ void msr2LpsrVisitor::visitEnd (S_msrTime& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrVisitor::visitStart (S_msrWords& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrWords" << endl;
+
+  fCurrentVoiceClone->
+    appendWordsToVoice (elt);
+}
+
+void msr2LpsrVisitor::visitEnd (S_msrWords& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrWords" << endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrTempo& elt)
 {
   if (fMsrOptions->fDebug)
