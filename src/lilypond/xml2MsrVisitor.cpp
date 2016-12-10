@@ -1354,6 +1354,8 @@ void xml2MsrVisitor::visitStart (S_backup& elt )
         <duration>8</duration>
       </backup>
 */
+
+  handleTupletsPendingOnTupletStack ();
   
   fOnGoingBackup = true;
 }
@@ -1408,6 +1410,8 @@ void xml2MsrVisitor::visitStart ( S_forward& elt )
   // the <staff /> element is present only
   // in case of a staff change
   fCurrentForwardStaffNumber = fCurrentStaffNumber;
+
+  handleTupletsPendingOnTupletStack ();
   
   fOnGoingForward = true;
 }
@@ -3505,15 +3509,17 @@ void xml2MsrVisitor::attachPendingDynamicsAndWedgesToNote (
   if (! fPendingDynamics.empty()) {
     if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
       if (fMsrOptions->fDelayRestsDynamics) {
-      cerr << idtr <<
-        "--> Delaying dynamics attached to a rest until next note" << endl;
-      } else {
+        cerr << idtr <<
+          "--> Delaying dynamics attached to a rest until next note" << endl;
+      }
+      else {
         msrMusicXMLWarning (
           fMsrOptions->fInputSourceName,
           note->getInputLineNumber (),
           "there is dynamics attached to a rest");
       }
-    } else {
+    }
+    else {
       while (! fPendingDynamics.empty()) {
         S_msrDynamics
           dyn =
@@ -3528,9 +3534,10 @@ void xml2MsrVisitor::attachPendingDynamicsAndWedgesToNote (
   if (! fPendingWedges.empty()) {
     if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
       if (fMsrOptions->fDelayRestsDynamics) {
-      cerr << idtr <<
-        "--> Delaying wedge attached to a rest until next note" << endl;
-      } else {
+        cerr << idtr <<
+          "--> Delaying wedge attached to a rest until next note" << endl;
+      }
+      else {
         for (
             list<S_msrWedge>::const_iterator i = fPendingWedges.begin();
             i != fPendingWedges.end();
@@ -3541,7 +3548,8 @@ void xml2MsrVisitor::attachPendingDynamicsAndWedgesToNote (
             "there is a wedge attached to a rest");
         } // for
       }
-    } else {
+    }
+    else {
       while (! fPendingWedges.empty()) {
         S_msrWedge
           wdg =
@@ -3872,7 +3880,44 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
   else
     newNote->
       setNoteKind (msrNote::kStandaloneNote);
-      
+
+  handleTupletsPendingOnTupletStack ();
+
+  // register note/rest as standalone
+//  if (true || fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fDebugDebug)
+    cerr <<  idtr <<
+      "--> adding standalone " <<
+      newNote->notePitchAsString () <<
+      ":" << newNote->getNoteMusicXMLDivisions () <<
+      " to current voice" << endl;
+
+  // is voice fCurrentVoiceNumber present in current staff?
+  fCurrentVoice =
+    fCurrentStaff->
+      fetchVoiceFromStaff (fCurrentVoiceNumber);
+
+  if (! fCurrentVoice)
+    // no, add it to the staff
+    fCurrentVoice =
+      fCurrentStaff->
+        addVoiceToStaff (
+          newNote->getInputLineNumber (), fCurrentVoiceNumber);
+    
+  fCurrentVoice->
+    appendNoteToVoice (newNote);
+
+  // lyrics has to be handled in all cases,
+  // to handle melismae
+  handleLyrics (newNote);
+
+  // account for chord not being built
+  fOnGoingChord = false;
+}
+
+//______________________________________________________________________________
+void xml2MsrVisitor::handleTupletsPendingOnTupletStack ()
+{
   // handle tuplets pending on the tuplet stack
   while (fTupletsStack.size ()) {
     S_msrTuplet
@@ -3923,37 +3968,6 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
         appendTupletToVoice (pendingTuplet);
     }  
   } // while
-
-  // register note/rest as standalone
-//  if (true || fMsrOptions->fDebugDebug)
-  if (fMsrOptions->fDebugDebug)
-    cerr <<  idtr <<
-      "--> adding standalone " <<
-      newNote->notePitchAsString () <<
-      ":" << newNote->getNoteMusicXMLDivisions () <<
-      " to current voice" << endl;
-
-  // is voice fCurrentVoiceNumber present in current staff?
-  fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-  if (! fCurrentVoice)
-    // no, add it to the staff
-    fCurrentVoice =
-      fCurrentStaff->
-        addVoiceToStaff (
-          newNote->getInputLineNumber (), fCurrentVoiceNumber);
-    
-  fCurrentVoice->
-    appendNoteToVoice (newNote);
-
-  // lyrics has to be handled in all cases,
-  // to handle melismae
-  handleLyrics (newNote);
-
-  // account for chord not being built
-  fOnGoingChord = false;
 }
 
 //______________________________________________________________________________

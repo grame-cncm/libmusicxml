@@ -638,6 +638,7 @@ class EXP xml2MsrVisitor :
                                 S_msrNote note);
     void                      handleNoteBelongingToATuplet (
                                 S_msrNote newNote);
+    void                      handleTupletsPendingOnTupletStack ();
          
     // ties handling
     // ------------------------------------------------------

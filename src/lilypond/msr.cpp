@@ -5769,6 +5769,7 @@ void msrVoice::print (ostream& os)
 
   idtr++;
 
+  // print the anacrusis if any
   os << idtr;
   if (fVoiceAnacrusis)
     os << fVoiceAnacrusis;
@@ -5776,9 +5777,19 @@ void msrVoice::print (ostream& os)
     os << "none" << endl;
   os << endl;
 
+  // print the voice chunk
   os << fVoicechunk << endl;
   
+  if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
+    // print the master lyrics
+    os << idtr <<
+      fVoiceMasterLyrics <<
+      endl;    
+  }
+  
   if (! fMsrOptions->fDontDisplayMSRLyrics) {
+    // print the lyrics
     if (fVoiceLyricsMap.size()) {
       map<int, S_msrLyrics>::const_iterator
         iBegin = fVoiceLyricsMap.begin(),
