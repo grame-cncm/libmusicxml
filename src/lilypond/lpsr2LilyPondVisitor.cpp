@@ -1388,17 +1388,18 @@ void lpsr2LilyPondVisitor::visitStart (S_msrWords& elt)
 
   string wordsContents =
     elt->getWordsContents ();
-    
+
+  fOstream << idtr;
   switch (wordsPlacementKind) {
     case msrWords::kAbove:
-      fOstream << "^";
+      fOstream << "<>^"; // JMI
       break;
     case msrWords::kBelow:
-      fOstream << "_";
+      fOstream << "<>_";
       break;
   } // switch
 
-  fOstream << idtr <<
+  fOstream <<
     "\\markup" << " { " << wordsContents << " } " <<
     endl;
 }
