@@ -5251,7 +5251,7 @@ void msrVoice::appendWordsToVoice (S_msrWords words)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending wprds '" << words->wordsAsString () <<
+      "Appending words '" << words->wordsAsString () <<
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement w = words;

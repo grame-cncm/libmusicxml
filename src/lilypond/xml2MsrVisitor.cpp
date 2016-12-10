@@ -1208,9 +1208,41 @@ void xml2MsrVisitor::visitStart (S_words& elt)
 
   if (fCurrentDirectionPlacement == "above")
     fCurrentWordsPlacementKind = msrWords::kAbove;
+    
   else if (fCurrentDirectionPlacement == "below")
-    fCurrentWordsPlacementKind = msrWords::kAbove;
+    fCurrentWordsPlacementKind = msrWords::kBelow;
+    
+  else {
+    
+    stringstream s;
+    
+    s <<
+      "direction placement \"" << fCurrentDirectionPlacement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+  //  msrMusicXMLWarning (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      s.str());    
+  }
 
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Creating words \"" << fCurrentDirectionWords << "\"" <<
+      ", placement = \"" << fCurrentDirectionPlacement << "\"" <<
+      endl;
+  
+  S_msrWords
+    words =
+      msrWords::create (
+        fMsrOptions, 
+        elt->getInputLineNumber (),
+        fCurrentWordsPlacementKind,
+        fCurrentDirectionWords);
+
+  fCurrentVoice->
+    appendWordsToVoice (words);
 }
 
 void xml2MsrVisitor::visitEnd (S_direction& elt)
@@ -1301,7 +1333,9 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
   else {
     
     stringstream s;
+    
     s << "staff " << staffNumber << " is out of context";
+    
 // JMI    msrMusicXMLError (s.str());
     msrMusicXMLWarning (
       fMsrOptions->fInputSourceName,

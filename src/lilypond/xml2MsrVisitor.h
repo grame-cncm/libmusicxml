@@ -484,7 +484,7 @@ class EXP xml2MsrVisitor :
     string                    fCurrentDirectionPlacement;
     string                    fCurrentDirectionWords;
     msrWords::msrWordsPlacementKind
-                              fCurrentWordsPlacementKind;
+                              fCurrentWordsPlacementKind; // JMI
     bool                      fOnGoingDirectionType;
   
     // metronome handling
