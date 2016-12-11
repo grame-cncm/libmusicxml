@@ -451,7 +451,7 @@ class EXP xml2MsrVisitor :
     int                       fCurrentStaffNumber;
     S_msrStaff                fCurrentStaff;
 
-    S_msrStaff                CreateDownToCurrewntStaffIfNeeded (
+    S_msrStaff                CreateDownToStaffIfNeeded (
                                 int inputLineNumber,
                                 int staffNumber);
 
@@ -469,6 +469,11 @@ class EXP xml2MsrVisitor :
     // ------------------------------------------------------
     int                       fCurrentVoiceNumber;
     S_msrVoice                fCurrentVoice;
+
+    S_msrVoice                CreateDownToVoiceIfNeeded (
+                                int inputLineNumber,
+                                int staffNumber,
+                                int voiceNumber);
     
     // key handling
     // ------------------------------------------------------

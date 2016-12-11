@@ -157,24 +157,52 @@ S_msrPartgroup xml2MsrVisitor::createImplicitMSRPartgroup (
 } // xml2MsrVisitor::createImplicitMSRPartgroup ()
 
 //______________________________________________________________________________
-S_msrStaff xml2MsrVisitor::CreateDownToCurrewntStaffIfNeeded (
+S_msrStaff xml2MsrVisitor::CreateDownToStaffIfNeeded (
   int inputLineNumber,
   int staffNumber)
 {
-  // is fCurrentStaffNumber already present in fCurrentPart?
+  // is staffNumber already present in fCurrentPart?
   S_msrStaff
     staff =
       fCurrentPart->
         fetchStaffFromPart (staffNumber);
 
   if (! staff) 
-    // no, add it to the current part
+    // no, add it to fCurrentPart
     staff =
       fCurrentPart->
         addStaffToPart (
           inputLineNumber, staffNumber);
 
   return staff;
+}  
+
+//______________________________________________________________________________
+S_msrVoice xml2MsrVisitor::CreateDownToVoiceIfNeeded (
+  int inputLineNumber,
+  int staffNumber,
+  int voiceNumber)
+{
+  S_msrStaff
+    staff =
+      CreateDownToStaffIfNeeded (
+        inputLineNumber,
+        staffNumber);
+
+  // is voiceNumber already present in staff?
+  S_msrVoice
+    voice =
+      staff->
+        fetchVoiceFromStaff (voiceNumber);
+
+  if (! fCurrentVoice) 
+    // no, add it to the staff
+    voice =
+      staff->
+        addVoiceToStaff (
+          inputLineNumber, voiceNumber);
+
+  return voice;
 }  
 
 //______________________________________________________________________________
@@ -984,31 +1012,12 @@ void xml2MsrVisitor::visitStart (S_part& elt)
 
   fCurrentStaffNumber = 1; // default if there are no <staff> element
 
-  // is this staff already present?
-  fCurrentStaff =
-    fCurrentPart->
-      fetchStaffFromPart (fCurrentStaffNumber);
-
-  if (! fCurrentStaff) 
-    // no, add it to the current part
-    fCurrentStaff =
-      fCurrentPart->
-        addStaffToPart (
-          elt->getInputLineNumber (), fCurrentStaffNumber);
-
-  // fetch the voice in the current staff
   fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-  // does the voice exist?
-  if (! fCurrentVoice) 
-    // no, add it to the current staff
-    fCurrentVoice =
-      fCurrentStaff->
-        addVoiceToStaff (
-          elt->getInputLineNumber (), fCurrentVoiceNumber);
-
+    CreateDownToVoiceIfNeeded (
+      elt->getInputLineNumber (),
+      fCurrentStaffNumber,
+      fCurrentVoiceNumber);
+      
   fOnGoingRepeat = false;
 }
 
@@ -1081,7 +1090,7 @@ void xml2MsrVisitor::visitEnd ( S_clef& elt )
     
   else {
     fCurrentStaff =
-      CreateDownToCurrewntStaffIfNeeded (
+      CreateDownToStaffIfNeeded (
         elt->getInputLineNumber (), fCurrentStaffNumber);
     
     fCurrentStaff->setStaffClef (clef);
@@ -1126,7 +1135,7 @@ void xml2MsrVisitor::visitEnd ( S_key& elt )
     
   else {
     fCurrentStaff =
-      CreateDownToCurrewntStaffIfNeeded (
+      CreateDownToStaffIfNeeded (
         elt->getInputLineNumber (), fCurrentStaffNumber);
 
     fCurrentStaff->setStaffKey (key);
@@ -1182,7 +1191,7 @@ void xml2MsrVisitor::visitEnd ( S_time& elt )
     
   else {
     fCurrentStaff =
-      CreateDownToCurrewntStaffIfNeeded (
+      CreateDownToStaffIfNeeded (
         elt->getInputLineNumber (), fCurrentStaffNumber);
 
     fCurrentStaff->setStaffTime (time);
@@ -1334,30 +1343,11 @@ void xml2MsrVisitor::visitEnd ( S_metronome& elt )
       elt->getInputLineNumber (),
       r.getDenominator(), fPerMinute);
     
-  // is fCurrentStaffNumber already present in fCurrentPart?
-  fCurrentStaff =
-    fCurrentPart->
-      fetchStaffFromPart (fCurrentStaffNumber);
-
-  if (! fCurrentStaff) 
-    // no, add it to the current part
-    fCurrentStaff =
-      fCurrentPart->
-        addStaffToPart (
-          elt->getInputLineNumber (), fCurrentStaffNumber);
-    
-  // fetch the voice in the current staff
   fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-  // does the voice exist?
-  if (! fCurrentVoice) 
-    // no, add it to the current staff
-    fCurrentVoice =
-      fCurrentStaff->
-        addVoiceToStaff (
-          elt->getInputLineNumber (), fCurrentVoiceNumber);
+    CreateDownToVoiceIfNeeded (
+      elt->getInputLineNumber (),
+      fCurrentStaffNumber,
+      fCurrentVoiceNumber);
 
   fCurrentVoice->
     appendTempoToVoice (fCurrentTempo);
@@ -1404,31 +1394,12 @@ void xml2MsrVisitor::visitEnd (S_direction& elt)
           elt->getInputLineNumber (),
           0, 0);
         
-      // is fCurrentStaffNumber already present in fCurrentPart?
-      fCurrentStaff =
-        fCurrentPart->
-          fetchStaffFromPart (fCurrentStaffNumber);
-    
-      if (! fCurrentStaff) 
-        // no, add it to the current part
-        fCurrentStaff =
-          fCurrentPart->
-            addStaffToPart (
-              elt->getInputLineNumber (), fCurrentStaffNumber);
-        
-      // fetch the voice in the current staff
       fCurrentVoice =
-        fCurrentStaff->
-          fetchVoiceFromStaff (fCurrentVoiceNumber);
-    
-      // does the voice exist?
-      if (! fCurrentVoice) 
-        // no, add it to the current staff
-        fCurrentVoice =
-          fCurrentStaff->
-            addVoiceToStaff (
-              elt->getInputLineNumber (), fCurrentVoiceNumber);
-    
+        CreateDownToVoiceIfNeeded (
+          elt->getInputLineNumber (),
+          fCurrentStaffNumber,
+          fCurrentVoiceNumber);
+        
       fCurrentTempo->
         setTempoIndication (fCurrentWordsContents);
 
@@ -1593,7 +1564,7 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
     // regular voice indication in note/rest
     fCurrentVoiceNumber = voiceNumber;
     fCurrentVoice =
-      fCurrentStaff->
+      fCurrentStaff-> // ???
         fetchVoiceFromStaff (fCurrentVoiceNumber);
     
   }
@@ -1686,40 +1657,11 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
   // change staff
   fCurrentStaffNumber = fCurrentForwardStaffNumber;
 
-  // is the new staff already present?
-  fCurrentStaff =
-    fCurrentPart->
-      fetchStaffFromPart (fCurrentStaffNumber);
-
-  if (! fCurrentStaff) 
-    // no, add it to the current part
-    fCurrentStaff =
-      fCurrentPart->
-        addStaffToPart (
-          elt->getInputLineNumber (), fCurrentStaffNumber);
-
-  // is the new current voice known?
-  fCurrentVoiceNumber = fCurrentForwardVoiceNumber;
   fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-  if (! fCurrentVoice) 
-    // no, add it to the current staff
-    fCurrentVoice =
-      fCurrentStaff->
-        addVoiceToStaff (
-          elt->getInputLineNumber (), fCurrentVoiceNumber);
-/* JMI
-  if (! fCurrentVoice) {
-    stringstream s;
-    s <<
-      "voice " << fCurrentVoiceNumber <<
-      " in forward not found (staff = " << fCurrentStaffNumber <<
-      ", duration = " << fCurrentForwardDuration << ")";
-    msrMusicXMLError (s.str());
-  }
-*/
+    CreateDownToVoiceIfNeeded (
+      elt->getInputLineNumber (),
+      fCurrentStaffNumber,
+      fCurrentVoiceNumber);
 
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -1864,17 +1806,11 @@ void xml2MsrVisitor::visitStart (S_lyric& elt )
   fCurrentLyricsNumber =
     elt->getAttributeIntValue ("number", 0);
 
-  // is voice fCurrentVoiceNumber present in current staff?
   fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-  if (! fCurrentVoice)
-    // no, add it to the staff
-    fCurrentVoice =
-      fCurrentStaff->
-        addVoiceToStaff (
-          elt->getInputLineNumber (), fCurrentVoiceNumber);
+    CreateDownToVoiceIfNeeded (
+      elt->getInputLineNumber (),
+      fCurrentStaffNumber,
+      fCurrentVoiceNumber);
 
  /*       
   // is lyrics fCurrentLyricsNumber present in current voice?
@@ -2427,30 +2363,11 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
   There may be a barline in a part before any music
   */
   
-  // is fCurrentStaffNumber already present in fCurrentPart?
-  fCurrentStaff =
-    fCurrentPart->
-      fetchStaffFromPart (fCurrentStaffNumber);
-
-  if (! fCurrentStaff) 
-    // no, add it to the current part
-    fCurrentStaff =
-      fCurrentPart->
-        addStaffToPart (
-          elt->getInputLineNumber (), fCurrentStaffNumber);
-    
-  // fetch the voice in the current staff
   fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-  // does the voice exist?
-  if (! fCurrentVoice) 
-    // no, add it to the current staff
-    fCurrentVoice =
-      fCurrentStaff->
-        addVoiceToStaff (
-          elt->getInputLineNumber (), fCurrentVoiceNumber);
+    CreateDownToVoiceIfNeeded (
+      elt->getInputLineNumber (),
+      fCurrentStaffNumber,
+      fCurrentVoiceNumber);
 
   // create the barline
   S_msrBarline
@@ -3751,31 +3668,11 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       "--> fCurrentVoiceNumber = " << fCurrentVoiceNumber << endl;
   }
 
-  // is fCurrentStaffNumber already present in fCurrentPart?
-  fCurrentStaff =
-    fCurrentPart->
-      fetchStaffFromPart (fCurrentStaffNumber);
-
-  if (! fCurrentStaff) 
-    // no, add it to the current part
-    fCurrentStaff =
-      fCurrentPart->
-        addStaffToPart (
-          elt->getInputLineNumber (), fCurrentStaffNumber);
-    
-  // fetch the note's voice in the current staff
   fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-/* JMI*/
-  // no, add it to the current staff
-  if (! fCurrentVoice) 
-    fCurrentVoice =
-      fCurrentStaff->
-        addVoiceToStaff (
-          elt->getInputLineNumber (), fCurrentVoiceNumber);
-/* */
+    CreateDownToVoiceIfNeeded (
+      elt->getInputLineNumber (),
+      fCurrentStaffNumber,
+      fCurrentVoiceNumber);
 
   // store voice number in MusicXML note data
   fMusicXMLNoteData.fMusicXMLVoiceNumber = fCurrentVoiceNumber;
@@ -4052,17 +3949,11 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
       " to current voice" << endl;
   }
 
-  // is voice fCurrentVoiceNumber present in current staff?
   fCurrentVoice =
-    fCurrentStaff->
-      fetchVoiceFromStaff (fCurrentVoiceNumber);
-
-  if (! fCurrentVoice)
-    // no, add it to the staff
-    fCurrentVoice =
-      fCurrentStaff->
-        addVoiceToStaff (
-          newNote->getInputLineNumber (), fCurrentVoiceNumber);
+    CreateDownToVoiceIfNeeded (
+      newNote->getInputLineNumber (),
+      fCurrentStaffNumber,
+      fCurrentVoiceNumber);
     
   fCurrentVoice->
     appendNoteToVoice (newNote);
