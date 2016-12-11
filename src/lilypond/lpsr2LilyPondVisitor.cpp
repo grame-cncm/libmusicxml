@@ -199,20 +199,48 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
         (absoluteDiatonicDistance + 4) / 8;
         
     if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug)
-      cerr <<
+      cerr << left <<
         endl <<
-        idtr << "referenceDiatonicPitch         = " << referenceDiatonicPitch <<  endl <<
-        idtr << "referenceDiatonicPitchAsString = " << referenceDiatonicPitchAsString <<  endl <<
-        idtr << "referenceAbsoluteOctave        = " << referenceAbsoluteOctave <<  endl <<
+        idtr <<
+          setw(32) << "% referenceDiatonicPitch" << " = " << referenceDiatonicPitch <<  endl <<
+        idtr <<
+          setw(32) << "% referenceDiatonicPitchAsString" <<
+          " = " <<
+          referenceDiatonicPitchAsString <<  endl <<
+        idtr <<
+          setw(32) << "% referenceAbsoluteOctave" <<
+           " = " <<
+           referenceAbsoluteOctave <<  endl <<
         endl <<
-        idtr << "noteDiatonicPitch              = " << noteDiatonicPitch << endl <<
-        idtr << "noteDiatonicPitchAsString      = " << noteDiatonicPitchAsString << endl <<
-        idtr << "noteAbsoluteOctave             = " << noteAbsoluteOctave <<  endl <<
+        idtr <<
+          setw(32) << "% noteDiatonicPitch" <<
+          " = " <<
+          noteDiatonicPitch << endl <<
+        idtr <<
+          setw(32) << "% noteDiatonicPitchAsString" <<
+          " = " <<
+          noteDiatonicPitchAsString << endl <<
+        idtr <<
+          setw(32) << "% noteAbsoluteOctave" <<
+          " = " <<
+          noteAbsoluteOctave <<  endl <<
         endl <<
-        idtr << "referenceAboluteDiatonicCode   = " << referenceAboluteDiatonicCode << endl <<
-        idtr << "noteAboluteDiatonicCode        = " << noteAboluteDiatonicCode << endl <<
-        idtr << "absoluteDiatonicDistance       = " << absoluteDiatonicDistance <<  endl <<
-        idtr << "octavesToBeDisplayed           = " << octavesToBeDisplayed <<  endl <<
+        idtr <<
+          setw(32) << "% referenceAboluteDiatonicCode" <<
+          " = " <<
+          referenceAboluteDiatonicCode << endl <<
+        idtr <<
+          setw(32) << "% noteAboluteDiatonicCode" <<
+          " = " <<
+          noteAboluteDiatonicCode << endl <<
+        idtr <<
+          setw(32) << "% absoluteDiatonicDistance" <<
+          " = " << 
+          absoluteDiatonicDistance <<  endl <<
+        idtr <<
+          setw(32) << "% octavesToBeDisplayed" <<
+          " = " <<
+          octavesToBeDisplayed <<  endl <<
         endl <<
         endl;
 
