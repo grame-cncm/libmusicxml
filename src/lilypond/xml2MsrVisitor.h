@@ -475,7 +475,6 @@ class EXP xml2MsrVisitor :
     // voice handling
     // ------------------------------------------------------
     int                       fCurrentVoiceNumber;
-  //  S_msrVoice                fCurrentVoice;
 
     S_msrVoice                createVoiceInStaffInCurrentPartIfNeeded (
                                 int            inputLineNumber,
