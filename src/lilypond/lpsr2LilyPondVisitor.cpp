@@ -634,7 +634,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
         partGroupContextName = "";
         break;
         
-      case msrPartgroup::kBracePartgroupSymbol:
+      case msrPartgroup::kBracePartgroupSymbol: // JMI
         if (partgroupInstrumentName.size ())
           partGroupContextName = "PianoStaff";
         else
@@ -642,25 +642,25 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
         break;
         
       case msrPartgroup::kBracketPartgroupSymbol:
-        partGroupContextName = "bracket";
+        partGroupContextName = "GrandStaff";
         break;
         
       case msrPartgroup::kLinePartgroupSymbol:
-        partGroupContextName = "line";
+        partGroupContextName = "StaffGroup";
         break;
         
       case msrPartgroup::kSquarePartgroupSymbol:
-        partGroupContextName = "square";
+        partGroupContextName = "StaffGroup";
         break;
     } // switch
   
   
     fOstream << idtr <<
-      setw(30) << "\\new " << partGroupContextName << " " "{";
+      "\\new " << partGroupContextName << " " "{";
       
     if (fLpsrOptions->fGenerateComments)
       fOstream <<
-        "% part group " <<
+        setw(30) << "% part group " <<
         elt->getPartgroup ()->getPartgroupCombinedName ();
         
     fOstream <<
@@ -710,12 +710,29 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartBlock& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrPartBlock" << endl;
 
+  S_msrPart
+    part =
+      elt->getPart ();
+      
+  string
+    partInstrumentName =
+      part->getPartInstrumentName ();
+
   fOstream << idtr <<
-    setw(30) << "\\new StaffGroup" " " "{";
+    "\\new StaffGroup" <<  " " "{";
+    
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
-      "% part " <<
+      setw(30) << "% part " <<
       elt->getPart ()->getPartCombinedName ();
+      
+  if (partInstrumentName.size ())
+    fOstream << idtr <<
+      "\\set Staff.instrumentName = #\"" <<
+      partInstrumentName <<
+      "\"" <<
+      endl;
+
   fOstream << endl;
   
   idtr++;
@@ -732,10 +749,12 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartBlock& elt)
   fOstream <<
     idtr <<
     setw(30) << "}";
+    
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
       "% part " <<
       elt->getPart ()->getPartCombinedName ();
+      
   fOstream << endl;
 }
 
@@ -746,13 +765,30 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrStaffBlock" << endl;
 
+  S_msrStaff
+    staff =
+      elt->getStaff ();
+      
+  string
+    staffInstrumentName =
+      staff->getStaffInstrumentName ();
+
   fOstream << idtr <<
-    setw(30) << "\\new Staff" " " "<<";
+    setw(30) << "\\new Staff" << "<<";
+    
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
       "% staff " <<
       elt->getStaff ()->getStaffName ();
+      
   fOstream << endl;
+
+  if (staffInstrumentName.size ())
+    fOstream << idtr <<
+      "\\set Staff.instrumentName = #\"" <<
+      staffInstrumentName <<
+      "\"" <<
+      endl;
 
   idtr++;
 }
@@ -1842,13 +1878,16 @@ void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
   if (++ fVoicechunkNotesAndChordsCountersStack.top () == 1)
     fOstream << idtr;
 
+  // don't take the chord into account for line breaking
+  /* JMI
   if (++fSequentialMusicElementsCounter > 10) {
     fOstream <<
       endl <<
       idtr;
     fSequentialMusicElementsCounter = 1;
   }
-
+  */
+  
   fOstream << "<";
 
   

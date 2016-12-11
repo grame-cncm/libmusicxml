@@ -7048,11 +7048,11 @@ void msrIdentification::setEncodingDate (
       "encodingdate", val);
 }
 
-void msrIdentification::setScoreInstrument (
+void msrIdentification::setScoreInstrumentAssoc (
   int    inputLineNumber,
   string val)
 {
-  fScoreInstrument =
+  fScoreInstrumentAssoc =
     msrVarValAssoc::create (
       fMsrOptions,
       inputLineNumber,
@@ -7149,10 +7149,10 @@ void msrIdentification::browseData (basevisitor* v)
     browser.browse (*fEncodingDate);
   }
 
-  if (fScoreInstrument) {
+  if (fScoreInstrumentAssoc) {
     // browse score instrument
     msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fScoreInstrument);
+    browser.browse (*fScoreInstrumentAssoc);
   }
 }
 

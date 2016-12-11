@@ -1264,7 +1264,7 @@ class EXP msrIdentification : public msrElement
                   int    inputLineNumber,
                   string val);
 
-    void        setScoreInstrument (
+    void        setScoreInstrumentAssoc (
                   int    inputLineNumber,
                   string val);
 
@@ -1301,8 +1301,8 @@ class EXP msrIdentification : public msrElement
                     { return fEncodingDate; }
     
     S_msrVarValAssoc
-                getScoreInstrument () const
-                    { return fScoreInstrument; }
+                getScoreInstrumentAssoc () const
+                    { return fScoreInstrumentAssoc; }
 
     // services
     // ------------------------------------------------------
@@ -1327,8 +1327,8 @@ class EXP msrIdentification : public msrElement
     S_msrVarValAssoc         fRights;
     vector<S_msrVarValAssoc> fSoftwares;
     S_msrVarValAssoc         fEncodingDate;
-    S_msrVarValAssoc         fScoreInstrument;
-
+    
+    S_msrVarValAssoc         fScoreInstrumentAssoc;
 };
 typedef SMARTP<msrIdentification> S_msrIdentification;
 EXP ostream& operator<< (ostream& os, const S_msrIdentification& elt);
