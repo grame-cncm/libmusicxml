@@ -612,8 +612,51 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
   
   if (elt->getPartgroup ()->getPartgroupPartgroupUplink ()) {
     // the part group is not the top level one
+
+    S_msrPartgroup
+      partgroup =
+        elt->getPartgroup ();
+        
+    msrPartgroup::msrPartgroupSymbolKind
+      partgroupSymbolKind =
+        partgroup->getPartgroupSymbolKind ();
+  
+    string
+      partgroupInstrumentName =
+        partgroup->getPartgroupInstrumentName ();
+        
+    string partGroupContextName;
+  
+    // LPNR, page 567
+    
+    switch (partgroupSymbolKind) {
+      case msrPartgroup::k_NoPartgroupSymbol:
+        partGroupContextName = "";
+        break;
+        
+      case msrPartgroup::kBracePartgroupSymbol:
+        if (partgroupInstrumentName.size ())
+          partGroupContextName = "PianoStaff";
+        else
+          partGroupContextName = "GrandStaff";
+        break;
+        
+      case msrPartgroup::kBracketPartgroupSymbol:
+        partGroupContextName = "bracket";
+        break;
+        
+      case msrPartgroup::kLinePartgroupSymbol:
+        partGroupContextName = "line";
+        break;
+        
+      case msrPartgroup::kSquarePartgroupSymbol:
+        partGroupContextName = "square";
+        break;
+    } // switch
+  
+  
     fOstream << idtr <<
-      setw(30) << "\\new StaffGroup" " " "{";
+      setw(30) << "\\new " << partGroupContextName << " " "{";
       
     if (fLpsrOptions->fGenerateComments)
       fOstream <<
@@ -621,8 +664,18 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
         elt->getPartgroup ()->getPartgroupCombinedName ();
         
     fOstream <<
-      endl << endl;
-
+      endl;
+  
+    if (partgroupInstrumentName.size ())
+      fOstream << idtr <<
+        "\\set PianoStaff.instrumentName = #\"" <<
+        partgroupInstrumentName <<
+        "\"" <<
+        endl;
+  
+    fOstream <<
+      endl;
+  
     idtr++;
   }
 }

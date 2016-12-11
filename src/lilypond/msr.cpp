@@ -6856,6 +6856,32 @@ ostream& operator<< (ostream& os, const S_msrPartgroup& elt)
   return os;
 }
 
+string msrPartgroup::pargroupSymbolKindAsString (
+  msrPartgroupSymbolKind partgroupSymbolKind)
+{
+  string result;
+  
+  switch (partgroupSymbolKind) {
+    case k_NoPartgroupSymbol:
+      result = "none";
+      break;
+    case kBracePartgroupSymbol:
+      result = "brace";
+      break;
+    case kBracketPartgroupSymbol:
+      result = "bracket";
+      break;
+    case kLinePartgroupSymbol:
+      result = "line";
+      break;
+    case kSquarePartgroupSymbol:
+      result = "square";
+      break;
+  } // switch
+
+  return result;
+}
+
 void msrPartgroup::print (ostream& os)
 {
   os <<
@@ -6863,30 +6889,27 @@ void msrPartgroup::print (ostream& os)
     
   idtr++;
 
-  os <<
-    idtr << "PartgroupName            : \"" << fPartgroupName << "\"" << endl <<
-    idtr << "PartgroupAbbrevation     : \"" << fPartgroupAbbreviation << "\"" << endl;
-  os <<
-    idtr << "fPartgroupSymbolDefaultX : " << fPartgroupSymbolDefaultX << endl;
-  os <<
-    idtr << "fPartgroupSymbolKind     : \"";
-  switch (fPartgroupSymbolKind) {
-    case kBracePartgroupSymbol:
-      os << "brace";
-      break;
-    case kBracketPartgroupSymbol:
-      os << "bracket";
-      break;
-    case kLinePartgroupSymbol:
-      os << "line";
-      break;
-    case kSquarePartgroupSymbol:
-      os << "square";
-      break;
-    case k_NoPartgroupSymbol:
-      break;
-  } // switch
-  os << "\"" << endl;
+  os << left <<
+    idtr <<
+      setw(24) << "PartgroupName" << " : \"" <<
+      fPartgroupName <<
+      "\"" <<
+      endl <<
+    idtr <<
+      setw(24) << "PartgroupAbbrevation" << " : \"" <<
+      fPartgroupAbbreviation <<
+      "\"" <<
+      endl <<
+    idtr <<
+      setw(24) << "fPartgroupSymbolDefaultX" << " : " <<
+      fPartgroupSymbolDefaultX <<
+        endl <<
+    idtr <<
+      setw(24) << "fPartgroupSymbolKind" << " : \"" <<
+      pargroupSymbolKindAsString (fPartgroupSymbolKind) <<
+      "\"" <<
+      endl;
+    
   os <<
     idtr << "PartgroupBarline         : ";
   if (fPartgroupBarline)

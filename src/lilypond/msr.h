@@ -3406,13 +3406,13 @@ class EXP msrPartgroup : public msrElement
     */
 
     enum msrPartgroupTypeKind {
-        kStartPartgroupType, kStopPartgroupType,
-        k_NoPartgroupType };
+        k_NoPartgroupType,
+        kStartPartgroupType, kStopPartgroupType};
           
     enum msrPartgroupSymbolKind {
+        k_NoPartgroupSymbol,
         kBracePartgroupSymbol, kBracketPartgroupSymbol,
-        kLinePartgroupSymbol, kSquarePartgroupSymbol,
-        k_NoPartgroupSymbol };
+        kLinePartgroupSymbol, kSquarePartgroupSymbol};
           
     // creation from MusicXML
     // ------------------------------------------------------
@@ -3451,34 +3451,43 @@ class EXP msrPartgroup : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int       getPartgroupNumber () const
-                  { return fPartgroupNumber; }
+    int           getPartgroupNumber () const
+                      { return fPartgroupNumber; }
     
-    string    getPartgroupName () const
-                  { return fPartgroupName; }
+    string        getPartgroupName () const
+                      { return fPartgroupName; }
 
-    string    getPartgroupAbbreviation () const
-                  { return fPartgroupAbbreviation; }
+    string        getPartgroupAbbreviation () const
+                      { return fPartgroupAbbreviation; }
 
     msrPartgroupSymbolKind
-              getPartgroupSymbolKind () const
-                  { return fPartgroupSymbolKind; }
+                  getPartgroupSymbolKind () const
+                      { return fPartgroupSymbolKind; }
 
-    int       getPartgroupSymbolDefaultX () const
-                  { return fPartgroupSymbolDefaultX; }
+    static string pargroupSymbolKindAsString (
+                  msrPartgroupSymbolKind partgroupSymbolKind);
 
-    bool      getPartgroupBarline () const
-                  { return fPartgroupBarline; }
+    int           getPartgroupSymbolDefaultX () const
+                      { return fPartgroupSymbolDefaultX; }
+
+    bool          getPartgroupBarline () const
+                      { return fPartgroupBarline; }
     
-    string    getPartgroupCombinedName () const;
+    string        getPartgroupCombinedName () const;
 
+    void          setPartgroupInstrumentName (string name)
+                      { fPartgroupInstrumentName = name; }
+                
+    string        getPartgroupInstrumentName () const
+                      { return fPartgroupInstrumentName; }
+                
     list<S_msrElement>
-              getPartgroupElements () const
-                  { return fPartgroupElements; }
+                  getPartgroupElements () const
+                      { return fPartgroupElements; }
 
     S_msrPartgroup
-              getPartgroupPartgroupUplink () const
-                  { return fPartgroupPartgroupUplink; }
+                  getPartgroupPartgroupUplink () const
+                      { return fPartgroupPartgroupUplink; }
 
     // services
     // ------------------------------------------------------
@@ -3519,6 +3528,8 @@ class EXP msrPartgroup : public msrElement
     int                     fPartgroupSymbolDefaultX;
 
     bool                    fPartgroupBarline;
+
+    string                  fPartgroupInstrumentName;
 
     // accessing parts by name
     map<string, S_msrPart>  fPartgroupPartsMap;
