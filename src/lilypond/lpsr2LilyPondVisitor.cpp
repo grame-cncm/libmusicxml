@@ -1113,32 +1113,44 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
     fOstream << idtr <<
       "% --> Start visiting msrVoicechunk" << endl;
 
+  if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
-      setw(30) << "{";
-    if (fLpsrOptions->fGenerateComments)
-      fOstream << "% start of msrVoicechunk";
-    fOstream << endl;
+      setw(30) << "{" << "% start of msrVoicechunk" <<
+      endl;
 
-  idtr++;
+    idtr++;
+  }
+  else {
+    fOstream <<
+      idtr << "{" << // JMI
+      endl;
+  }
 
   fVoicechunkNotesAndChordsCountersStack.push (0);
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
 {
-  idtr--;
-
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrVoicechunk" << endl;
 
+  if (fLpsrOptions->fGenerateComments) {
+    idtr--;
+    
     fOstream <<
       endl <<
       idtr <<
-      setw(30) << "}";
-    if (fLpsrOptions->fGenerateComments)
-      fOstream << "% end of msrVoicechunk";
-    fOstream << endl;
+      setw(30) << "}" << "% end of msrVoicechunk" <<
+      endl;
+  }
+  else {
+    fOstream <<
+      endl <<
+      idtr <<
+      "}" << // JMI
+      endl;
+  }
 
   fVoicechunkNotesAndChordsCountersStack.pop ();
 }
@@ -2103,6 +2115,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeatending& elt)
       "% --> Start visiting msrRepeatending" << endl;
 
   if (elt->getRepeatendingNumber () == 1) {
+    
     idtr--;
     
     // first repeat ending is in charge of
@@ -2131,11 +2144,15 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeatending& elt)
   // JMI warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
     elt->getRepeatendingNumber ()
       ==
-    elt->getRepeatendingRepeatUplink ()->getRepeatEndings ().size()) {
+    (int) elt->getRepeatendingRepeatUplink ()->getRepeatEndings ().size()) {
+      
     idtr--;
+    
     // last repeat ending is in charge of
     // outputting the end of the alternative
-    fOstream << idtr <<
+    fOstream <<
+      endl <<
+      idtr <<
       setw(30) << "}" << "% end of alternative" <<
       endl << endl;
   }
