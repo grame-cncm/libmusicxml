@@ -1123,13 +1123,13 @@ void xml2MsrVisitor::visitEnd ( S_key& elt )
 
   if (fCurrentKeyStaffNumber == 0)
     fCurrentPart->setAllPartStavesKey (key);
+    
   else {
-    // JMI ???
-    S_msrStaff
-      staff =
-        fCurrentPart->
-          fetchStaffFromPart (fCurrentKeyStaffNumber);
-    staff->setStaffKey (key);
+    fCurrentStaff =
+      CreateDownToCurrewntStaffIfNeeded (
+        elt->getInputLineNumber (), fCurrentStaffNumber);
+
+    fCurrentStaff->setStaffKey (key);
  // JMI   fCurrentPart->
  //     setAllPartStavesKey (key);
   }
@@ -1179,12 +1179,13 @@ void xml2MsrVisitor::visitEnd ( S_time& elt )
 
   if (fCurrentTimeStaffNumber == 0)
     fCurrentPart->setAllPartStavesTime (time);
+    
   else {
-    S_msrStaff
-      staff =
-        fCurrentPart->
-          fetchStaffFromPart (fCurrentTimeStaffNumber);
-    staff->setStaffTime (time);
+    fCurrentStaff =
+      CreateDownToCurrewntStaffIfNeeded (
+        elt->getInputLineNumber (), fCurrentStaffNumber);
+
+    fCurrentStaff->setStaffTime (time);
   }
 }
 
@@ -3466,6 +3467,7 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
   // register fCurrentNote as first member of chord
   chord->addNoteToChord (fCurrentNote);
   fCurrentNote->setNoteBelongsToAChord ();
+  fCurrentNote->setNoteIsChordFirstNote (true);
 
   // move the pending articulations if any from the first note to the chord
   list<S_msrArticulation>
@@ -3536,9 +3538,6 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
       firstNote <<
       endl;
 
-  // register firstNote as the first note of a tuplet
-  firstNote->setNoteIsChordFirstNote (true);
-  
   // create a tuplet
   S_msrTuplet
     tuplet =

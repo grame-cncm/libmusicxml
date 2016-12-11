@@ -263,8 +263,8 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     s <<
       " } ";
 
-  if (noteIsChordFirstNote)
-    fRelativeOctaveReference = note;
+//  if (noteIsChordFirstNote) JMI
+//    fRelativeOctaveReference = note;
 
   return s.str();
 }
@@ -1725,6 +1725,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       // print the note duration
       fOstream <<
         elt->noteDivisionsAsMSRString ();
+
+      // a rest is no relative octave reference,
+      // the preceding one is kept
       break;
       
     case msrNote::kChordMemberNote:
@@ -1735,9 +1738,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       // don't print the note duration,
       // it will be printed for the chord itself
 
-      // don't change the relative octave reference,
-      // it must remains the first chord member note
-      // as set when handling S_msrChord
+      // inside chords, the next note
+      // is always relative to the preceding one.
+      fRelativeOctaveReference = elt;
       break;
       
     case msrNote::kTupletMemberNote:
@@ -1889,9 +1892,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
   */
   
   fOstream << "<";
-
-  
-  fRelativeOctaveReference = elt->getChordNotes () [0];
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
@@ -1911,6 +1911,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
     msrMusicXMLNoteData::kStartTie) {
       fOstream << "~ ";
   }
+
+  // if the preceding item is a chord, the first note of the chord
+  // is used as the reference point for the octave placement
+  // of a following note or chord
+  fRelativeOctaveReference = elt->getChordNotes () [0];
 }
 
 //________________________________________________________________________
