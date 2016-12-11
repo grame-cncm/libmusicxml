@@ -242,6 +242,9 @@ class EXP msrOptions : public smartable
     // debug
     bool                            fDebug;
     bool                            fDebugDebug;
+
+    // forcing debug information at specific places in the code
+    bool                            fForceDebug;
     
     // measure number-selective debug
     set<int>                        fDebugMeasureNumbersSet;

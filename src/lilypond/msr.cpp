@@ -929,8 +929,7 @@ msrNote::msrNote (
 {
   fNoteSlurKind = slurKind;
 
-//  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebugDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
     cerr << idtr <<
       "==> fMusicXMLNoteData contains:" << endl;
     cerr <<
@@ -1006,12 +1005,12 @@ msrNote::msrNote (
   msrMusicXMLNoteData::msrMusicXMLAlterationKind
     musicXMLAlterationKind; // JMI
 
-//  if (true || fMsrOptions->fDebugDebug)
-  if (fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
     cerr <<
       "--> fMusicXMLNoteData.fMusicXMLAlter= " <<
       fMusicXMLNoteData.fMusicXMLAlter <<
       endl;
+  }
 
 /*
   The alter element represents chromatic alteration
@@ -3635,8 +3634,7 @@ void msrLyrics::addTextChunkToLyrics (
   S_msrNote note)
 {
   // create a lyrics text chunk
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -3678,8 +3676,7 @@ void msrLyrics::addSkipChunkToLyrics (
   int       divisions,
   S_msrNote note)
 {
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -3690,7 +3687,7 @@ void msrLyrics::addSkipChunkToLyrics (
   
   // create lyrics skip chunk
   S_msrLyricschunk
-    chunk =
+    lyricschunk =
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
@@ -3699,11 +3696,10 @@ void msrLyrics::addSkipChunkToLyrics (
         this);
   
   // add chunk to this lyrics
-  fLyricschunks.push_back (chunk);
+  fLyricschunks.push_back (lyricschunk);
 
 /*
- if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -3747,8 +3743,7 @@ void msrLyrics::addTiedChunkToLyrics (
   int       divisions,
   S_msrNote note)
 {
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -3776,8 +3771,7 @@ void msrLyrics::addSlurChunkToLyrics (
   int       divisions,
   S_msrNote note)
 {
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -3805,8 +3799,7 @@ void msrLyrics::addSlurBeyondEndChunkToLyrics (
   int       divisions,
   S_msrNote note)
 {
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -3833,8 +3826,7 @@ void msrLyrics::addBarcheckChunkToLyrics (
   int inputLineNumber,
   int nextMeasureNumber)
 {
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -3875,8 +3867,7 @@ void msrLyrics::addBreakChunkToLyrics (
   int inputLineNumber,
   int nextMeasureNumber)
 {
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -5356,9 +5347,8 @@ void msrVoice::addTextLyricschunkToVoice (
     newNote->getInputLineNumber ();
     
   // create a lyrics text chunk
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
-//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink (); JMI
 //    S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
@@ -5419,9 +5409,8 @@ void msrVoice::addSkipLyricschunkToVoice (
     newNote->getInputLineNumber ();
     
   // create a lyrics text chunk
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
-//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink (); JMI
 //    S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
@@ -5476,9 +5465,8 @@ void msrVoice::addTiedLyricschunkToVoice (
     newNote->getInputLineNumber ();
     
   // create a lyrics text chunk
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
-//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink (); JMI
 //    S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
@@ -5533,9 +5521,8 @@ void msrVoice::addSlurLyricschunkToVoice (
     newNote->getInputLineNumber ();
     
   // create a lyrics text chunk
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
-//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink (); JMI
 //    S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
@@ -5591,9 +5578,8 @@ void msrVoice::addSlurBeyondEndLyricschunkToVoice (
     newNote->getInputLineNumber ();
     
   // create a lyrics text chunk
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
-//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink (); // JMI
 //    S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
@@ -5702,8 +5688,7 @@ void msrVoice::addSlurLyricschunkToVoice (
     newNote->getInputLineNumber ();
     
   // create a lyrics text chunk
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
 //    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
 //    S_msrPart  part  = staff-> getStaffPartUplink ();
     
@@ -5905,8 +5890,7 @@ void msrVoice::print (ostream& os)
   // print the voice chunk
   os << fVoicechunk << endl;
   
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     // print the master lyrics
     os << idtr <<
       fVoiceMasterLyrics <<
@@ -6701,8 +6685,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
   fPartgroupPartsMap [partMusicXMLID] = part;
   fPartgroupElements.push_back (part);
 
-//  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebugDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
     cerr << idtr <<
       "==> After addPartToPartgroup, fPartgroupPartsMap contains:" << endl;
     idtr++;
@@ -6718,8 +6701,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
     cerr << idtr << "<== addPartToPartgroup" << endl;
   }
 
-//  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebugDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
     cerr << idtr <<
       "==> After addPartToPartgroup, fPartgroupPartsList contains:" << endl;
     if (fPartgroupElements.size()) {

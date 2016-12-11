@@ -86,6 +86,10 @@ void printUsage (int exitStatus)
     "    --dd, --debugDebug " << endl <<
     "          Same as above, but print even more debugging information." << endl <<
     endl <<
+    "    --fd, --forceDebug " << endl <<
+    "          Force debugging information to be printed at some places." << endl <<
+    "          This is less invasive that debugging everything." << endl <<
+    endl <<
     "    --dm, --debugMeasures measureNumbersSet" << endl <<
     "          'measureNumbersSet' has a form such as '0,2-14,^8-10'," << endl <<
     "          where '^' excludes the corresponding numbers interval" << endl <<
@@ -190,6 +194,8 @@ void analyzeOptions (
   
   msrOpts->fDebug                             = false;
   msrOpts->fDebugDebug                        = false;
+  
+  msrOpts->fForceDebug                        = false;
 
   // MSR options
   // -----------
@@ -238,6 +244,7 @@ void analyzeOptions (
   
   int debugPresent                      = 0;
   int debugDebugPresent                 = 0;
+  int forceDebugPresent                 = 0;
   
   int debugMeasuresPresent              = 0;
   int debugdebugMeasuresPresent         = 0;
@@ -345,6 +352,17 @@ void analyzeOptions (
       "debugDebug",
       no_argument,
       &debugDebugPresent, 1
+    },
+    
+    {
+      "df",
+      no_argument,
+      &forceDebugPresent, 1
+    },
+    {
+      "forceDebug",
+      no_argument,
+      &forceDebugPresent, 1
     },
     
     {
@@ -607,6 +625,13 @@ void analyzeOptions (
           msrOpts->fCommandLineOptions +=
             "--debugDebug ";
           debugDebugPresent = false;
+        }
+        if (forceDebugPresent) {
+          msrOpts->fTrace = true;
+          msrOpts->fForceDebug = true;
+          msrOpts->fCommandLineOptions +=
+            "--forceDebug ";
+          forceDebugPresent = false;
         }
         
         if (debugMeasuresPresent) {
@@ -882,6 +907,9 @@ void printOptions (
         ? "true" : "false") << endl <<
     idtr << setw(fieldWidth) << "debugDebug" << " : " <<
       string(msrOpts->fDebugDebug
+        ? "true" : "false") << endl <<
+    idtr << setw(fieldWidth) << "forceDebug" << " : " <<
+      string(msrOpts->fForceDebug
         ? "true" : "false") << endl <<
     idtr << setw(fieldWidth) << "debugMeasureNumbersSet" << " : ";
 

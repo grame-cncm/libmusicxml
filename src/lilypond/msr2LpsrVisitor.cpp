@@ -914,6 +914,15 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
           fCurrentVoiceClone->
             getVoicechunk ();
 
+
+      // create an LPSR repeat if not yet done
+      /* JMI
+      if (! fCurrentRepeatClone)
+        fCurrentRepeatClone =
+          elt->createEmptyClone (
+            fCurrentVoiceClone);
+*/
+
       // set the current voice chunk as the repeat's common part
       fCurrentRepeatClone->
         setRepeatCommonPart (currentVoicechunk);

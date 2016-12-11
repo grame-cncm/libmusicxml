@@ -479,8 +479,7 @@ void xml2MsrVisitor::visitStart ( S_group_barline& elt)
 //________________________________________________________________________
 void xml2MsrVisitor::showPartgroupsData (string context)
 {    
-//  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebugDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartgroupsMap contains:" << endl;
     if (fPartgroupsMap.size()) {
@@ -501,8 +500,7 @@ void xml2MsrVisitor::showPartgroupsData (string context)
     cerr << idtr << "<== fPartgroupsMap" << endl;
   }
 
- // if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebugDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartgroupsList contains:" << endl;
     if (fPartgroupsList.size()) {
@@ -1492,8 +1490,7 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
 */
   int  staffNumber = int(*elt);
 
-//  if (true || fMsrOptions->fDebug)
-// JMI  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     cerr <<
       idtr <<
       "--> S_staff, staffNumber         = " << staffNumber << endl <<
@@ -1501,6 +1498,7 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
       "--> S_staff, fCurrentStaffNumber = " << fCurrentStaffNumber << endl <<
       idtr <<
       "--> S_staff, current staff name  = " << fCurrentStaff->getStaffName() << endl;
+  }
 
   if (fOnGoingForward) {
 
@@ -2018,11 +2016,11 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
         elt->getInputLineNumber ();
       
       // create a barnumbercheck command
-      if (true || fMsrOptions->fDebug)
-//      if (fMsrOptions->fDebug)
+      if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
         cerr << idtr << 
           "Creating a barnumber check, " <<
           "line = " << inputLineNumber << endl;
+      }
 
       S_msrBarnumberCheck
         barnumbercheck_ =
@@ -2037,11 +2035,11 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
         appendBarnumberCheckToVoice (barnumbercheck_);
   
       // create a break command
-      if (true || fMsrOptions->fDebug)
-//      if (fMsrOptions->fDebug)
+      if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
         cerr << idtr << 
           "Creating a break, " <<
           "line = " << inputLineNumber << endl;
+      }
 
       S_msrBreak
         break_ =
@@ -3718,8 +3716,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   Staff values are numbers, with 1 referring to the top-most staff in a part.
   */
   
-//  if (true || fMsrOptions->fDebug)
-  if (fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     cerr <<
       idtr <<
       "!!!! BEFORE visitEnd (S_note) we have:" << endl <<
@@ -3729,6 +3726,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       "--> current staff name  = " << fCurrentStaff->getStaffName() << endl <<
       idtr << idtr <<
       "--> fCurrentVoiceNumber = " << fCurrentVoiceNumber << endl;
+  }
 
   // is fCurrentStaffNumber already present in fCurrentPart?
   fCurrentStaff =
@@ -3848,8 +3846,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   // keep track of current note
   fCurrentNote = note;
     
-//  if (true || fMsrOptions->fDebug)
-  if (fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     cerr <<
       idtr <<
       "!!!! AFTER visitEnd (S_note) " << fCurrentNote->notePitchAsString () <<
@@ -3862,6 +3859,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       "--> fCurrentVoiceNumber = " << fCurrentVoiceNumber << endl <<
       idtr << idtr <<
       "--> fCurrentVoice        = " << fCurrentVoice->getVoiceName() << endl;
+  }
 
   fOnGoingNote = false;
 }
@@ -4022,13 +4020,13 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
   handleTupletsPendingOnTupletStack ();
 
   // register note/rest as standalone
-//  if (true || fMsrOptions->fDebugDebug)
-  if (fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
     cerr <<  idtr <<
       "--> adding standalone " <<
       newNote->notePitchAsString () <<
       ":" << newNote->getNoteMusicXMLDivisions () <<
       " to current voice" << endl;
+  }
 
   // is voice fCurrentVoiceNumber present in current staff?
   fCurrentVoice =
@@ -4114,8 +4112,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
   int inputLineNumber =
     newNote->getInputLineNumber ();
      
-//  if (true || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     
     cerr <<
       endl <<
@@ -4208,8 +4205,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 
  //   string lyricschunkKindAsString;
     
-  //  if (true || fMsrOptions->fDebug) {
-    if (fMsrOptions->fDebug) {
+    if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
       /*
       cerr <<
         ", type = \"" << lyricschunkKindAsString << "\"" <<
@@ -4756,13 +4752,14 @@ void xml2MsrVisitor::handleEndingEnd (
   S_barline     elt,
   S_msrBarline& barline)
 {
-//   if (fMsrOptions->fDebug)
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     cerr <<
       idtr << "--> input line " << elt->getInputLineNumber () <<
       endl <<
       idtr <<
       "--> barline, right and backward: repeat end" <<
       endl;
+  }
 
   // set the barline category
   barline->
