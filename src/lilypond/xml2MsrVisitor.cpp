@@ -157,6 +157,27 @@ S_msrPartgroup xml2MsrVisitor::createImplicitMSRPartgroup (
 } // xml2MsrVisitor::createImplicitMSRPartgroup ()
 
 //______________________________________________________________________________
+S_msrStaff xml2MsrVisitor::CreateDownToCurrewntStaffIfNeeded (
+  int inputLineNumber,
+  int staffNumber)
+{
+  // is fCurrentStaffNumber already present in fCurrentPart?
+  S_msrStaff
+    staff =
+      fCurrentPart->
+        fetchStaffFromPart (staffNumber);
+
+  if (! staff) 
+    // no, add it to the current part
+    staff =
+      fCurrentPart->
+        addStaffToPart (
+          inputLineNumber, staffNumber);
+
+  return staff;
+}  
+
+//______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_work_number& elt )
 {
   fMsrScore->getIdentification () ->
@@ -1054,15 +1075,16 @@ void xml2MsrVisitor::visitEnd ( S_clef& elt )
         fMsrOptions,
         elt->getInputLineNumber (),
         fCurrentClefSign, fCurrentClefLine, fCurrentClefOctaveChange);
-
+ 
   if (fCurrentClefStaffNumber == 0)
     fCurrentPart->setAllPartStavesClef (clef);
+    
   else {
-    S_msrStaff
-      staff =
-        fCurrentPart->
-          fetchStaffFromPart (fCurrentClefStaffNumber);
-    staff->setStaffClef (clef);
+    fCurrentStaff =
+      CreateDownToCurrewntStaffIfNeeded (
+        elt->getInputLineNumber (), fCurrentStaffNumber);
+    
+    fCurrentStaff->setStaffClef (clef);
   }
 }
 

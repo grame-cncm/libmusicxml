@@ -450,6 +450,10 @@ class EXP xml2MsrVisitor :
     int                       fCurrentStaffNumber;
     S_msrStaff                fCurrentStaff;
 
+    S_msrStaff                CreateDownToCurrewntStaffIfNeeded (
+                                int inputLineNumber,
+                                int staffNumber);
+
     // part handling
     // ------------------------------------------------------
     string                    fCurrentPartMusicXMLName;
