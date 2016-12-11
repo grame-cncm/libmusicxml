@@ -438,47 +438,51 @@ class EXP xml2MsrVisitor :
     void                      showPartgroupsData (string context);
     
     void                      handlePartgroupStart (
-                                int   inputLineNumber,
+                                int     inputLineNumber,
                                 msrPartgroup::msrPartgroupSymbolKind
-                                      partgroupSymbol,
-                                bool  partgroupBarline);
+                                        partgroupSymbol,
+                                bool    partgroupBarline);
                                 
     void                      handlePartgroupStop (
                                 int inputLineNumber);
 
-    // staff handling
-    // ------------------------------------------------------
-    int                       fCurrentStaffNumber;
-    S_msrStaff                fCurrentStaff;
-
-    S_msrStaff                CreateDownToStaffIfNeeded (
-                                int inputLineNumber,
-                                int staffNumber);
-
     // part handling
     // ------------------------------------------------------
-    string                    fCurrentPartMusicXMLName;
+    string                    fCurrentPartID; // used throughout
     string                    fCurrentPartName;
     string                    fCurrentPartAbbreviation;
     string                    fCurrentPartInstrumentName;
 
     map<string, S_msrPart>    fPartsMap;
-    S_msrPart                 fCurrentPart;
+    
+    S_msrPart                 fCurrentPart; // used throughout
 
-    S_msrPart                 CreateDownToPartIfNeeded (
+    S_msrPart                 createDownToPartIfNeeded (
                                 int            inputLineNumber,
                                 S_msrPartgroup partgroup,
-                                string         scorePartID);
+                                string         partID);
+
+    // staff handling
+    // ------------------------------------------------------
+    int                       fCurrentStaffNumber;
+    
+    S_msrStaff                fCurrentStaff;
+
+    S_msrStaff                createStaffInCurrentPartIfNeeded (
+                                int            inputLineNumber,
+                                int            staffNumber);
 
     // voice handling
     // ------------------------------------------------------
     int                       fCurrentVoiceNumber;
     S_msrVoice                fCurrentVoice;
 
-    S_msrVoice                CreateDownToVoiceIfNeeded (
-                                int inputLineNumber,
-                                int staffNumber,
-                                int voiceNumber);
+    S_msrVoice                createDownToVoiceIfNeeded (
+                                int            inputLineNumber,
+                                S_msrPartgroup partgroup,
+                                string         partID,
+                                int            staffNumber,
+                                int            voiceNumber);
     
     // key handling
     // ------------------------------------------------------
