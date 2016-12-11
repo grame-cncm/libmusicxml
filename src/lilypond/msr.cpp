@@ -929,7 +929,8 @@ msrNote::msrNote (
 {
   fNoteSlurKind = slurKind;
 
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
+//  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
+  if (fMsrOptions->fDebugDebug) {
     cerr << idtr <<
       "==> fMusicXMLNoteData contains:" << endl;
     cerr <<

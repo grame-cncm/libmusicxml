@@ -479,7 +479,8 @@ void xml2MsrVisitor::visitStart ( S_group_barline& elt)
 //________________________________________________________________________
 void xml2MsrVisitor::showPartgroupsData (string context)
 {    
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+// JMI  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartgroupsMap contains:" << endl;
     if (fPartgroupsMap.size()) {
@@ -3716,7 +3717,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   Staff values are numbers, with 1 referring to the top-most staff in a part.
   */
   
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+// JMI  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebug) {
     cerr <<
       idtr <<
       "!!!! BEFORE visitEnd (S_note) we have:" << endl <<
@@ -3846,7 +3848,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   // keep track of current note
   fCurrentNote = note;
     
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+ // JMI if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebug) {
     cerr <<
       idtr <<
       "!!!! AFTER visitEnd (S_note) " << fCurrentNote->notePitchAsString () <<
@@ -4112,7 +4115,8 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
   int inputLineNumber =
     newNote->getInputLineNumber ();
      
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+ // JMI if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+  if (fMsrOptions->fDebug) {
     
     cerr <<
       endl <<

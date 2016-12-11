@@ -355,7 +355,7 @@ void analyzeOptions (
     },
     
     {
-      "df",
+      "fd",
       no_argument,
       &forceDebugPresent, 1
     },
