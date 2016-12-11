@@ -466,8 +466,6 @@ class EXP xml2MsrVisitor :
     // ------------------------------------------------------
     int                       fCurrentStaffNumber;
     
-    S_msrStaff                fCurrentStaff;
-
     S_msrStaff                createStaffInCurrentPartIfNeeded (
                                 int            inputLineNumber,
                                 int            staffNumber);
