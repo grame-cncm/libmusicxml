@@ -216,7 +216,7 @@ S_msrStaff xml2MsrVisitor::createStaffInCurrentPartIfNeeded (
 }  
 
 //______________________________________________________________________________
-S_msrVoice xml2MsrVisitor::createDownToVoiceIfNeeded (
+S_msrVoice xml2MsrVisitor::createVoiceInStaffInCurrentPartIfNeeded (
   int            inputLineNumber,
   int            staffNumber,
   int            voiceNumber)
@@ -233,7 +233,7 @@ S_msrVoice xml2MsrVisitor::createDownToVoiceIfNeeded (
       staff->
         fetchVoiceFromStaff (voiceNumber);
 
-  if (! fCurrentVoice) 
+  if (! voice) 
     // no, add it to the staff
     voice =
       staff->
@@ -1397,11 +1397,12 @@ void xml2MsrVisitor::visitEnd ( S_metronome& elt )
       elt->getInputLineNumber (),
       r.getDenominator(), fPerMinute);
     
-  fCurrentVoice =
-    createDownToVoiceIfNeeded (
-      elt->getInputLineNumber (),
-      fCurrentStaffNumber,
-      fCurrentVoiceNumber);
+  S_msrVoice
+    fCurrentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
 
   fCurrentVoice->
     appendTempoToVoice (fCurrentTempo);
@@ -1451,15 +1452,16 @@ void xml2MsrVisitor::visitEnd (S_direction& elt)
           elt->getInputLineNumber (),
           0, 0);
         
-      fCurrentVoice =
-        createDownToVoiceIfNeeded (
-          elt->getInputLineNumber (),
-          fCurrentStaffNumber,
-          fCurrentVoiceNumber);
-        
       fCurrentTempo->
         setTempoIndication (fCurrentWordsContents);
 
+      S_msrVoice
+        fCurrentVoice =
+          createVoiceInStaffInCurrentPartIfNeeded (
+            elt->getInputLineNumber (),
+            fCurrentStaffNumber,
+            fCurrentVoiceNumber);
+        
       fCurrentVoice->
         appendTempoToVoice (fCurrentTempo);
     
@@ -1579,7 +1581,7 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
     
     s << "staff " << staffNumber << " is out of context";
     
-    msrMusicXMLError (s.str());
+    msrMusicXMLError (
 // JMI    msrMusicXMLWarning (
       fMsrOptions->fInputSourceName,
       elt->getInputLineNumber (),
@@ -1632,7 +1634,7 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
 
 /*
     fCurrentVoice = // ???
-      createDownToVoiceIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         elt->getInputLineNumber (),
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -1673,13 +1675,23 @@ void xml2MsrVisitor::visitEnd (S_backup& elt )
       "Handling 'backup <<< " << fCurrentBackupDuration <<
       " divisions'" << endl;
 
+  S_msrVoice
+    fCurrentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
   int
     saveCurrentPositionInMeasure =
       fCurrentVoice->
         getVoiceMeasureLocation ().fPositionInMeasure;
   
-  fCurrentVoice->setPositionInMeasure (
-    fCurrentVoice->getPositionInMeasure () - fCurrentBackupDuration);
+  fCurrentVoice->
+    setPositionInMeasure (
+      fCurrentVoice->getPositionInMeasure ()
+        -
+      fCurrentBackupDuration);
 
   if (fCurrentVoice->getPositionInMeasure () < 0) {
     stringstream s;
@@ -1730,11 +1742,12 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
   // change staff
   fCurrentStaffNumber = fCurrentForwardStaffNumber;
 
-  fCurrentVoice =
-    createDownToVoiceIfNeeded (
-      elt->getInputLineNumber (),
-      fCurrentStaffNumber,
-      fCurrentVoiceNumber);
+  S_msrVoice
+    fCurrentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
 
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -1743,7 +1756,7 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
       "voice " << fCurrentVoice->getVoiceName () <<
       " in staff " << fCurrentStaff->getStaffName () << endl;
 
-//  fCurrentVoice->handleForward (fCurrentForwardDuration);
+//  fCurrentVoice->handleForward (fCurrentForwardDuration); // JMI
 
   for (int i = 0; i < fCurrentForwardDuration; i++) {
     // generate rests for the duration of the forward move
@@ -1879,12 +1892,6 @@ void xml2MsrVisitor::visitStart (S_lyric& elt )
   fCurrentLyricsNumber =
     elt->getAttributeIntValue ("number", 0);
 
-  fCurrentVoice =
-    createDownToVoiceIfNeeded (
-      elt->getInputLineNumber (),
-      fCurrentStaffNumber,
-      fCurrentVoiceNumber);
-
   fCurrentLyricsHasText = false;
   fCurrentElision = false;
 
@@ -1965,15 +1972,25 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
     implicit =
       elt->getAttributeValue ("implicit");
 
+  S_msrVoice
+    fCurrentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
   if (implicit != "yes")
-    fCurrentVoice->setMeasureNumber (
-      elt->getInputLineNumber (), measureNumber);
+    fCurrentVoice->
+      setMeasureNumber (
+        elt->getInputLineNumber (), measureNumber);
 
   // is this measure number in the debug set?
   set<int>::iterator
     it =
-      fMsrOptions->fDebugMeasureNumbersSet.find (
-        fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
+      fMsrOptions->
+        fDebugMeasureNumbersSet.find (
+          fCurrentVoice->
+            getVoiceMeasureLocation ().fMeasureNumber);
         
   if (it != fMsrOptions->fDebugMeasureNumbersSet.end ()) {
     // yes, activate debug for it
@@ -1981,15 +1998,17 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
     fMsrOptions->fSaveDebugDebug = fMsrOptions->fDebugDebug;
   }
 
-  fCurrentVoice->setDivisionsPerWholeNote (
-    fCurrentDivisionsPerQuarterNote);
+  fCurrentVoice->
+    setDivisionsPerWholeNote (
+      fCurrentDivisionsPerQuarterNote);
     
   fCurrentVoice->setPositionInMeasure (1);
     
   if (fMsrOptions->fDebug)
     cerr << idtr << 
       "=== MEASURE " <<
-      fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber <<
+      fCurrentVoice->
+        getVoiceMeasureLocation ().fMeasureNumber <<
       " === " <<
       "PART " << fCurrentPart->getPartCombinedName () <<
       " ===" <<
@@ -2002,7 +2021,8 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
         msrBarCheck::create (
           fMsrOptions,
           elt->getInputLineNumber (),
-          fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
+          fCurrentVoice->
+            getVoiceMeasureLocation ().fMeasureNumber);
               
     // append it to the voice
     if (fCurrentVoice) {
@@ -2055,7 +2075,8 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
           msrBarnumberCheck::create (
             fMsrOptions,
             inputLineNumber,
-            fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
+            fCurrentVoice->
+              getVoiceMeasureLocation ().fMeasureNumber);
             
       // append it to the voice
 // JMI      S_msrElement bnc = barnumbercheck_;
@@ -2074,7 +2095,8 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
           msrBreak::create(
             fMsrOptions,
             inputLineNumber,
-            fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber);
+            fCurrentVoice->
+              getVoiceMeasureLocation ().fMeasureNumber);
   
       // append it to the voice
       fCurrentVoice->
@@ -2434,11 +2456,12 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
     elt->getInputLineNumber ();
 
   // there may be a barline in a part before any music
-  fCurrentVoice =
-    createDownToVoiceIfNeeded (
-      elt->getInputLineNumber (),
-      fCurrentStaffNumber,
-      fCurrentVoiceNumber);
+  S_msrVoice
+    fCurrentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
 
   // create the barline
   S_msrBarline
@@ -2772,7 +2795,8 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
   if (fMsrOptions->fDebug) {
     cerr << idtr <<
       "Creating a barline in voice " <<
-      fCurrentVoice->getVoiceName () << ":" << endl;
+      fCurrentVoice->getVoiceName () << ":" <<
+      endl;
     idtr++;
     cerr << idtr << barline;
     idtr--;
@@ -2781,6 +2805,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
   // has this barline been handled?
   if (! barlineIsAlright) {
     stringstream s;
+    
     s << left <<
       "cannot handle a barline containing:" << endl <<
       idtr << "location = " << fCurrentLocation << endl <<
@@ -3588,6 +3613,13 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote lastNote)
       lastNote <<
       endl;
       
+  S_msrVoice
+    fCurrentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
   // get tuplet from top of tuplet stack
   S_msrTuplet
     tuplet =
@@ -3750,7 +3782,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   }
 
   fCurrentVoice =
-    createDownToVoiceIfNeeded (
+    createVoiceInStaffInCurrentPartIfNeeded (
       elt->getInputLineNumber (),
       fCurrentStaffNumber,
       fCurrentVoiceNumber);
@@ -3917,6 +3949,13 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
     setNoteMeasureLocation (
       fCurrentChord->getChordMeasureLocation ());
 
+  S_msrVoice
+    fCurrentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
   // substract it's duration from the current measure location
   fCurrentVoice->incrementPositionInMeasure (
     -
@@ -4031,7 +4070,7 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
   }
 
   fCurrentVoice =
-    createDownToVoiceIfNeeded (
+    createVoiceInStaffInCurrentPartIfNeeded (
       newNote->getInputLineNumber (),
       fCurrentStaffNumber,
       fCurrentVoiceNumber);
@@ -4050,6 +4089,13 @@ void xml2MsrVisitor::handleStandaloneNoteOrRest (
 //______________________________________________________________________________
 void xml2MsrVisitor::handleTupletsPendingOnTupletStack ()
 {
+  S_msrVoice
+    fCurrentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
   // handle tuplets pending on the tuplet stack
   while (fTupletsStack.size ()) {
     S_msrTuplet
@@ -4334,6 +4380,13 @@ void xml2MsrVisitor::handleRepeatStart (
   barline->
     setBarlineCategory (msrBarline::kRepeatStart);
 
+  S_msrVoice
+    fCurrentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
   // get the current voice chunk
   S_msrVoicechunk
     currentVoicechunk =
@@ -4391,6 +4444,13 @@ void xml2MsrVisitor::handleHookedEndingEnd (
   // set the barline category
   barline->
     setBarlineCategory (msrBarline::kHookedEndingEnd);
+
+  S_msrVoice
+    fCurrentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
 
   // append the bar line to the current voice chunk
   fCurrentVoice->
@@ -4554,6 +4614,13 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
   barline->
     setBarlineCategory (msrBarline::kHooklessEndingEnd);
   
+  S_msrVoice
+    fCurrentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
   // append the bar line to the current voice chunk
   fCurrentVoice->
     appendBarlineToVoice (barline);
@@ -4603,6 +4670,7 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
     cerr << idtr <<
       "--> appending the repeat to voice " <<
       fCurrentVoice->getVoiceName () << endl;
+      
   fCurrentVoice->
     appendRepeatToVoice (fCurrentRepeat);
 
@@ -4707,6 +4775,13 @@ void xml2MsrVisitor::handleEndingStart (
   barline->
     setBarlineCategory (msrBarline::kEndingStart);
   
+  S_msrVoice
+    fCurrentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
   // append the bar line to the current voice chunk
   fCurrentVoice->
     appendBarlineToVoice (barline);
@@ -4742,6 +4817,13 @@ void xml2MsrVisitor::handleEndingEnd (
   // set the barline category
   barline->
     setBarlineCategory (msrBarline::kRepeatEnd);
+
+  S_msrVoice
+    fCurrentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
 
   // append the bar line to the current voice chunk
   fCurrentVoice->
