@@ -157,6 +157,29 @@ S_msrPartgroup xml2MsrVisitor::createImplicitMSRPartgroup (
 } // xml2MsrVisitor::createImplicitMSRPartgroup ()
 
 //______________________________________________________________________________
+S_msrPart xml2MsrVisitor::CreateDownToPartIfNeeded (
+  int            inputLineNumber,
+  S_msrPartgroup partgroup,
+  string         scorePartID)
+{
+  // is this part already present in the current part group?
+  S_msrPart
+    part =
+      partgroup->
+        fetchPartFromPartgroup (scorePartID);
+
+  if (! part) {
+    // no, add it to the current part group
+    part =
+      partgroup->
+        addPartToPartgroup (
+          inputLineNumber, scorePartID);
+  }
+
+  return part;
+}
+
+//______________________________________________________________________________
 S_msrStaff xml2MsrVisitor::CreateDownToStaffIfNeeded (
   int inputLineNumber,
   int staffNumber)
@@ -924,53 +947,51 @@ void xml2MsrVisitor::visitEnd (S_score_part& elt)
 {
   string scorePartID = elt->getAttributeValue ("id");
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Handling part \"" << scorePartID << "\"" << endl;
 
   idtr++;
 
-  S_msrPartgroup currentPartgroup;
+  S_msrPartgroup partgroup;
 
   // is there a current part group?
   if (! fPartgroupsList.size()) {
     // no, create an implicit one
-    currentPartgroup =
-      createImplicitMSRPartgroup (elt->getInputLineNumber ());
+    partgroup =
+      createImplicitMSRPartgroup (
+        inputLineNumber);
   }
 
   // fetch current part group
   try {
-    currentPartgroup = fPartgroupsList.front ();
+    partgroup = fPartgroupsList.front ();
   }
   catch (int e) {
     cerr << "An exception number " << e << " occurred" << endl;
   }
 
-  // is this part already present in the current part group?
-  fCurrentPart =
-    currentPartgroup->
-      fetchPartFromPartgroup (scorePartID);
-
-  if (! fCurrentPart) {
-    // no, add it to the current part group
-    fCurrentPart =
-      currentPartgroup->
-        addPartToPartgroup (
-          elt->getInputLineNumber (), scorePartID);
-  }
-
+  S_msrPart
+    part =
+      CreateDownToPartIfNeeded (
+        inputLineNumber,
+        partgroup,
+        scorePartID);
+  
   // populate current part
   // fPartMSRName has already been set by the constructor // JMI
-  fCurrentPart->
+  part->
     setPartMSRName (fCurrentPartName);
-  fCurrentPart->
+  part->
     setPartAbbreviation (fCurrentPartAbbreviation);
-  fCurrentPart->
+  part->
     setPartInstrumentName (fCurrentPartInstrumentName);
 
   // register it in this visitor's parts map
-  fPartsMap [scorePartID] = fCurrentPart;
+  fPartsMap [scorePartID] = part;
 
   if (fImplicitPartgroup) {
     // force an implicit part group "stop" on it
@@ -983,7 +1004,7 @@ void xml2MsrVisitor::visitEnd (S_score_part& elt)
   }
     
   showPartgroupsData (
-    "AFTER handling part \""+scorePartID+"\"");
+    "AFTER handling part \"" + scorePartID + "\"");
 
   idtr--;
 }
@@ -1918,8 +1939,11 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
   if (fMsrOptions->fDebug)
     cerr << idtr << 
       "=== MEASURE " <<
-      fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber << " === " <<
-      "PART " << fCurrentPart->getPartCombinedName () << " ===" << endl;
+      fCurrentVoice->getVoiceMeasureLocation ().fMeasureNumber <<
+      " === " <<
+      "PART " << fCurrentPart->getPartCombinedName () <<
+      " ===" <<
+      endl;
 
   if (measureNumber != 0) {
     // don't generate a bar check after the anacrusis

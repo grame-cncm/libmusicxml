@@ -465,6 +465,11 @@ class EXP xml2MsrVisitor :
     map<string, S_msrPart>    fPartsMap;
     S_msrPart                 fCurrentPart;
 
+    S_msrPart                 CreateDownToPartIfNeeded (
+                                int            inputLineNumber,
+                                S_msrPartgroup partgroup,
+                                string         scorePartID);
+
     // voice handling
     // ------------------------------------------------------
     int                       fCurrentVoiceNumber;
