@@ -150,12 +150,14 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     msrMusicXMLNoteData::msrDiatonicPitch
       noteDiatonicPitch =
         note->getDiatonicPitch (),
+        
       referenceDiatonicPitch =
         fRelativeOctaveReference->getDiatonicPitch ();
 
     string
       noteDiatonicPitchAsString =
         note->noteDiatonicPitchAsString (),
+        
       referenceDiatonicPitchAsString =
         fRelativeOctaveReference->noteDiatonicPitchAsString ();
         
@@ -170,18 +172,33 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
         noteDiatonicPitch
           -
         msrMusicXMLNoteData::kC,
+        
       referenceAboluteDiatonicCode =
         referenceAbsoluteOctave * 8
           +
         referenceDiatonicPitch
           -
         msrMusicXMLNoteData::kC,
+
+      /*
+        If no octave changing mark is used on a pitch, its octave is calculated
+        so that the interval with the previous note is less than a fifth.
+        This interval is determined without considering accidentals.
+      */
+      
       absoluteDiatonicDistance =
         noteAboluteDiatonicCode - referenceAboluteDiatonicCode,
+
+      octavesToBeDisplayed;
+
+    if (absoluteDiatonicDistance >= 0)
       octavesToBeDisplayed =
-        (absoluteDiatonicDistance - 5) / 8;        
+        (absoluteDiatonicDistance - 4) / 8;
+    else
+      octavesToBeDisplayed =
+        (absoluteDiatonicDistance + 4) / 8;
         
-    if (fMsrOptions->fDebugDebug)
+    if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug)
       cerr <<
         endl <<
         idtr << "referenceDiatonicPitch         = " << referenceDiatonicPitch <<  endl <<
@@ -263,8 +280,8 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     s <<
       " } ";
 
-//  if (noteIsChordFirstNote) JMI
-//    fRelativeOctaveReference = note;
+  if (noteIsChordFirstNote) // JMI
+    fRelativeOctaveReference = note;
 
   return s.str();
 }
@@ -1706,7 +1723,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         msrMusicXMLNoteData::kStartTie) {
           fOstream << " ~";
       }
-      
+
+      // set the relative octave reference to this note
       fRelativeOctaveReference = elt;
       break;
       
@@ -1739,7 +1757,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       // it will be printed for the chord itself
 
       // inside chords, the next note
-      // is always relative to the preceding one.
+      // is always relative to the preceding one
       fRelativeOctaveReference = elt;
       break;
       
@@ -1772,7 +1790,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       }
 
       // a rest is no relative octave reference,
-      // the preceding one is kept
+      // the preceding one is kept in that case
       if (! elt->getNoteIsARest ())
         fRelativeOctaveReference = elt;
       break;
