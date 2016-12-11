@@ -1563,10 +1563,14 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
 
     // regular voice indication in note/rest
     fCurrentVoiceNumber = voiceNumber;
-    fCurrentVoice =
-      fCurrentStaff-> // ???
-        fetchVoiceFromStaff (fCurrentVoiceNumber);
-    
+
+/*
+    fCurrentVoice = // ???
+      CreateDownToVoiceIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+  */  
   }
   else {
     
@@ -1812,19 +1816,6 @@ void xml2MsrVisitor::visitStart (S_lyric& elt )
       fCurrentStaffNumber,
       fCurrentVoiceNumber);
 
- /*       
-  // is lyrics fCurrentLyricsNumber present in current voice?
-  fCurrentLyrics =
-    fCurrentVoice->
-      fetchLyricsFromVoice (fCurrentLyricsNumber);
-
-  if (! fCurrentLyrics)
-    // no, add it to the voice
-    fCurrentLyrics =
-      fCurrentVoice->
-        addLyricsToVoice (
-          elt->getInputLineNumber (), fCurrentLyricsNumber);
-       */ 
   fCurrentLyricsHasText = false;
   fCurrentElision = false;
 
@@ -4129,28 +4120,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
         " to " << getLyricsName () << endl;
 */
     }
-    
-    /*
-    fCurrentLyrics->
-      addTextChunkToLyrics (
-        inputLineNumber,
-        fCurrentSyllabic,
-        fCurrentLyricschunkKind,
-        fCurrentText,
-        fCurrentElision,
-        fMusicXMLNoteData.fMusicXMLDivisions,
-        newNote);
-    S_msrLyricschunk
-      lyricschunk =
-        msrLyricschunk::create (
-          fMsrOptions,
-          inputLineNumber,
-          fCurrentLyricschunkKind,
-          fCurrentText, divisions,
-          newNote,
-          this);
-*/
-  
+      
     fCurrentVoice->
       addTextLyricschunkToVoice (
         fCurrentLyricsNumber,
@@ -4231,13 +4201,6 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
             fCurrentLyricsNumber,
             fMusicXMLNoteData.fMusicXMLDivisions,
             newNote);
-/*
-        fCurrentLyrics->
-          addSlurBeyondEndChunkToLyrics ( 
-            inputLineNumber,
-            fMusicXMLNoteData.fMusicXMLDivisions,
-            newNote);
-*/
       }
       else {        
         fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
