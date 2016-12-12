@@ -1414,7 +1414,12 @@ void msrNote::print (ostream& os)
     fNoteMeasureLocation.fPositionInMeasure <<
     "/" <<
     fDivisionsPerWholeNote <<
-    ") " <<
+    ")" <<
+    " first = " <<
+    string (
+      fNoteIsChordFirstNote
+        ? "true"
+        : "false" ) <<
     endl;
 
   // print the beam if any
@@ -1545,6 +1550,16 @@ S_msrChord msrChord::createEmptyClone ()
   return clone;
 }
     
+void msrChord::addNoteToChord (S_msrNote note)
+{
+  if (! fChordNotes.size ())
+    note->setNoteIsChordFirstNote (true);
+
+  fChordNotes.push_back (note);
+  
+  note->setNoteBelongsToAChord ();
+}
+
 void msrChord::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<

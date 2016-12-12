@@ -85,6 +85,14 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   
   // in MusicXML, octave number is 4 for the octave starting with middle C
 
+  msrMusicXMLNoteData::msrDiatonicPitch
+    noteDiatonicPitch =
+      note->getDiatonicPitch ();
+      
+  string
+    noteDiatonicPitchAsString =
+      note->noteDiatonicPitchAsString ();
+        
   int noteAbsoluteOctave =
     note->getNoteMusicXMLOctave ();
 
@@ -103,12 +111,34 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     
     // generate LilyPond absolute octave
 
-    if (fMsrOptions->fDebugDebug)
-      cerr <<
-      endl <<
-        idtr << "noteAbsoluteOctave      = " <<
-          noteAbsoluteOctave <<  endl <<
-        endl;
+    if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
+      cerr << left <<
+        idtr <<
+          setw(33) << "% noteIsChordFirstNote" <<
+          " = " <<
+          string (noteIsChordFirstNote
+            ? "true"
+            : "false") <<
+          endl <<
+        idtr <<
+          setw(33) << "% noteDiatonicPitch" <<
+          " = " <<
+          noteDiatonicPitch <<
+          endl <<
+        idtr <<
+          setw(33) << "% noteDiatonicPitchAsString" <<
+          " = *" <<
+          noteDiatonicPitchAsString <<
+          "*" <<
+          endl <<
+        idtr <<
+          setw(33) << "% noteAbsoluteOctave" <<
+          " = *" <<
+          noteAbsoluteOctave <<
+          "*" <<
+          endl <<
+      endl;
+    }
 
     switch (noteAbsoluteOctave) {
       case 0:
@@ -148,16 +178,10 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     // generate LilyPond octave relative to fRelativeOctaveReference
 
     msrMusicXMLNoteData::msrDiatonicPitch
-      noteDiatonicPitch =
-        note->getDiatonicPitch (),
-        
       referenceDiatonicPitch =
         fRelativeOctaveReference->getDiatonicPitch ();
 
     string
-      noteDiatonicPitchAsString =
-        note->noteDiatonicPitchAsString (),
-        
       referenceDiatonicPitchAsString =
         fRelativeOctaveReference->noteDiatonicPitchAsString ();
         
@@ -173,62 +197,84 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
       
     int
       noteAboluteDiatonicOrdinal =
-        noteAbsoluteOctave * 8
+        noteAbsoluteOctave * 7
           +
-        noteDiatonicPitch
-          -
-        msrMusicXMLNoteData::kC,
+        noteDiatonicPitch - msrMusicXMLNoteData::kC,
         
       referenceAboluteDiatonicOrdinal =
-        referenceAbsoluteOctave * 8
+        referenceAbsoluteOctave * 7
           +
-        referenceDiatonicPitch
-          -
-        msrMusicXMLNoteData::kC;
+        referenceDiatonicPitch - msrMusicXMLNoteData::kC;
 
-    if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug)
+    if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
       cerr << left <<
         endl <<
         idtr <<
-          setw(32) << "% referenceDiatonicPitch" << " = " << referenceDiatonicPitch <<  endl <<
+          setw(33) <<
+          "% line" << " = " << note->getInputLineNumber () <<
+          endl <<
         idtr <<
-          setw(32) << "% referenceDiatonicPitchAsString" <<
+          setw(33) <<
+          "% referenceDiatonicPitch" <<
           " = " <<
-          referenceDiatonicPitchAsString <<  endl <<
+          referenceDiatonicPitch <<
+          endl <<
         idtr <<
-          setw(32) << "% referenceAbsoluteOctave" <<
+          setw(33) <<
+          "% referenceDiatonicPitchAsString" <<
+          " = " <<
+          referenceDiatonicPitchAsString <<
+          endl <<
+        idtr <<
+          setw(33) << "% referenceAbsoluteOctave" <<
            " = " <<
-           referenceAbsoluteOctave <<  endl <<
+           referenceAbsoluteOctave <<
+           endl <<
         endl <<
         idtr <<
-          setw(32) << "% noteDiatonicPitch" <<
+          setw(33) << "% noteIsChordFirstNote" <<
           " = " <<
-          noteDiatonicPitch << endl <<
+          string (noteIsChordFirstNote
+            ? "true"
+            : "false") <<
+          endl <<
         idtr <<
-          setw(32) << "% noteDiatonicPitchAsString" <<
+          setw(33) << "% noteDiatonicPitch" <<
           " = " <<
-          noteDiatonicPitchAsString << endl <<
+          noteDiatonicPitch <<
+          endl <<
         idtr <<
-          setw(32) << "% noteAbsoluteOctave" <<
-          " = " <<
-          noteAbsoluteOctave <<  endl <<
+          setw(33) << "% noteDiatonicPitchAsString" <<
+          " = *" <<
+          noteDiatonicPitchAsString <<
+          "*" <<
+          endl <<
+        idtr <<
+          setw(33) << "% noteAbsoluteOctave" <<
+          " = *" <<
+          noteAbsoluteOctave <<
+          "*" <<
+          endl <<
         endl <<
         idtr <<
-          setw(32) << "% referenceAboluteDiatonicOrdinal" <<
+          setw(33) << "% referenceAboluteDiatonicOrdinal" <<
           " = " <<
-          referenceAboluteDiatonicOrdinal << endl <<
+          referenceAboluteDiatonicOrdinal <<
+          endl <<
         idtr <<
-          setw(32) << "% noteAboluteDiatonicOrdinal" <<
+          setw(33) << "% noteAboluteDiatonicOrdinal" <<
           " = " <<
-          noteAboluteDiatonicOrdinal << endl <<
-        endl <<
+          noteAboluteDiatonicOrdinal <<
+          endl <<
         endl;
+    }
 
+    // generate the octaves as needed
     if (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
       noteAboluteDiatonicOrdinal -= 4;
       while (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
         s << "'";
-        noteAboluteDiatonicOrdinal -= 8;
+        noteAboluteDiatonicOrdinal -= 7;
       } // while
     }
     
@@ -236,9 +282,20 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
       noteAboluteDiatonicOrdinal += 4;
       while (noteAboluteDiatonicOrdinal <= referenceAboluteDiatonicOrdinal) {
         s << ",";
-        noteAboluteDiatonicOrdinal += 8;
+        noteAboluteDiatonicOrdinal += 7;
       } // while
     }
+  }
+  
+  if (noteIsGraceNote)
+    s <<
+      " } ";
+
+  if (noteIsChordFirstNote)
+    fRelativeOctaveReference = note;
+
+  return s.str();
+}
         
 
 /*
@@ -301,17 +358,6 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
       } // switch
     }
     */
-  }
-  
-  if (noteIsGraceNote)
-    s <<
-      " } ";
-
-  if (noteIsChordFirstNote) // JMI
-    fRelativeOctaveReference = note;
-
-  return s.str();
-}
 
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrScore& elt)

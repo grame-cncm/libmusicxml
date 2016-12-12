@@ -1099,8 +1099,7 @@ class EXP msrChord : public msrElement
     // services
     // ------------------------------------------------------
 
-    void          addNoteToChord (S_msrNote note)
-                      { fChordNotes.push_back(note); }
+    void          addNoteToChord (S_msrNote note);
 
     void          addArticulation (S_msrArticulation art)
                       { fChordArticulations.push_back(art); }

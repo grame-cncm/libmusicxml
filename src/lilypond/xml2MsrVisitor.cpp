@@ -3536,10 +3536,8 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
       "--> adding first note " << fCurrentNote->notePitchAsString() <<
       " to new chord" << endl;
     
-  // register fCurrentNote as first member of chord
+  // register fCurrentNote as a member of chord
   chord->addNoteToChord (fCurrentNote);
-  fCurrentNote->setNoteBelongsToAChord ();
-  fCurrentNote->setNoteIsChordFirstNote (true);
 
   // move the pending articulations if any from the first note to the chord
   list<S_msrArticulation>
@@ -4018,9 +4016,6 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
       " as a member of current chord" << endl;
   fCurrentChord->
     addNoteToChord (newNote);
-
-  // set note as belonging to a chord
-  newNote->setNoteBelongsToAChord ();
     
   // a chord member's measure location is that of the chord
   newNote->
