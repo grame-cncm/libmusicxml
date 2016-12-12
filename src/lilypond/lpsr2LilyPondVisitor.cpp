@@ -231,6 +231,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
         noteAboluteDiatonicOrdinal -= 8;
       } // while
     }
+    
     else {
       noteAboluteDiatonicOrdinal += 4;
       while (noteAboluteDiatonicOrdinal < referenceAboluteDiatonicOrdinal) {
@@ -925,11 +926,15 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrUseVoiceCommand" << endl;
 
+  S_msrVoice voice = elt->getVoice ();
+
+  S_msrStaff staff = voice-> getVoiceStaffUplink ();
+
   fOstream << idtr <<
     "\\context Voice" << " = " <<
-    "\"" << elt->getVoice ()->getVoiceName () << "\""<<
+    "\"" << voice->getVoiceName () << "\""<<
     " " <<
-     "{" <<
+    "{" <<
      endl;
 
   idtr++;
@@ -938,30 +943,31 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
     fOstream << idtr <<
       "\\set Voice.autoBeaming = ##f" <<
       endl;
-    
-  fOstream << idtr;
-  switch (elt->getVoice ()->getVoiceNumber ()) {
-    case 1:
-      fOstream << "\\voiceOne ";
-      break;
-    case 2:
-      fOstream << "\\voiceTwo ";
-      break;
-    case 3:
-      fOstream << "\\voiceThree ";
-      break;
-    case 4:
-      fOstream << "\\voiceFour ";
-      break;
-    default:
-      {}
-  } // switch
-  fOstream <<
-    endl <<
-    idtr;
+
+  if (staff->getStaffVoicesMap ().size () > 1) {
+    fOstream << idtr;
+    switch (voice->getVoiceNumber ()) {
+      case 1:
+        fOstream << "\\voiceOne ";
+        break;
+      case 2:
+        fOstream << "\\voiceTwo ";
+        break;
+      case 3:
+        fOstream << "\\voiceThree ";
+        break;
+      case 4:
+        fOstream << "\\voiceFour ";
+        break;
+      default:
+        {}
+    } // switch
+    fOstream <<
+      endl;
+  }
 
   fOstream <<
-    "\\" << elt->getVoice ()->getVoiceName () << endl;
+    idtr << "\\" << voice->getVoiceName () << endl;
 
   idtr--;
   
@@ -1769,7 +1775,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
           fOstream << " ~";
       }
 
-      // set the relative octave reference to this note
+      // this note is the new relative octave reference
       fRelativeOctaveReference = elt;
       break;
       
@@ -1801,8 +1807,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       // don't print the note duration,
       // it will be printed for the chord itself
 
-      // inside chords, the next note
-      // is always relative to the preceding one
+      // inside chords, a note is relative to the preceding one
       fRelativeOctaveReference = elt;
       break;
       
@@ -1835,8 +1840,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       }
 
       // a rest is no relative octave reference,
-      // the preceding one is kept in that case
       if (! elt->getNoteIsARest ())
+        // this note is the new relative octave reference
         fRelativeOctaveReference = elt;
       break;
   } // switch
@@ -2001,7 +2006,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrTuplet& elt)
     fOstream << idtr <<
       "% --> End visiting msrTuplet" << endl;
 
-  fOstream << " }" << endl;
+  fOstream << " } ";
 }
 
 //________________________________________________________________________

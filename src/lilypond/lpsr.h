@@ -17,7 +17,6 @@
 #include <vector>
 #include <string>
 #include <list>
-#include <map>
 
 #include "smartpointer.h"
 #include "rational.h"
@@ -1117,7 +1116,7 @@ class EXP lpsrHeader : public lpsrElement
                 getMovementTitle () const
                     { return fMovementTitle; }
     
-    vector<S_lpsrLilypondVarValAssoc>
+    const vector<S_lpsrLilypondVarValAssoc>&
                 getCreators () const
                     { return fCreators; };
     
@@ -1125,7 +1124,7 @@ class EXP lpsrHeader : public lpsrElement
                 getRights () const
                     { return fRights; }
     
-    vector<S_lpsrLilypondVarValAssoc>
+    const vector<S_lpsrLilypondVarValAssoc>&
                 getSoftwares () const
                     { return fSoftwares; };
     
@@ -1355,7 +1354,7 @@ class EXP lpsrStaffBlock : public lpsrElement
               getStaff () const
                       { return fStaff; }
 
-    list<S_msrElement>
+    const list<S_msrElement>&
               getStaffBlockElements () const
                   { return fStaffBlockElements; }
 
@@ -1426,7 +1425,7 @@ class EXP lpsrPartBlock : public lpsrElement
     S_msrPart     getPart () const
                       { return fPart; }
 
-    list<S_msrElement>
+    const list<S_msrElement>&
                   getPartBlockElements () const
                       { return fPartBlockElements; }
 
@@ -1492,7 +1491,7 @@ class EXP lpsrPartgroupBlock : public lpsrElement
                   getPartgroup () const
                       { return fPartgroup; }
 
-    list<S_msrElement>
+    const list<S_msrElement>&
                   getPartgroupBlockElements () const
                       { return fPartgroupBlockElements; }
 
@@ -1675,7 +1674,7 @@ class EXP lpsrScore : public lpsrElement
               getScoreLayout () const
                   { return fScoreLayout; }
 
-    list<S_msrElement>
+    const list<S_msrElement>&
               getVoicesAndLyricsList () const
                   { return fScoreElements; }
 

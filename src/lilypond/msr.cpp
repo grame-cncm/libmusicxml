@@ -236,113 +236,6 @@ void musicXMLBeatData::print (ostream& os)
 };
 
 //______________________________________________________________________________
-/*
-S_msrDuration msrDuration::create (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    num,
-  int                    denom,
-  int                    dots,
-  string                 tupletMemberType)
-{
-  msrDuration * o =
-    new msrDuration (
-      msrOpts, inputLineNumber,
-      num, denom, dots, tupletMemberType);
-  assert(o!=0); 
-  return o;
-}
-
-msrDuration::msrDuration (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  int                    num,
-  int                    denom,
-  int                    dots,
-  string                 tupletMemberType)
-    : msrElement (msrOpts, inputLineNumber)
-{
-  fNum   = num;
-  fDenom = denom;
-  fDots  = dots;
-  fTupletMemberNoteType = tupletMemberType;
-  / *
-  cerr <<
-    "msrDuration::msrDuration (), fNum = " << fNum << 
-    ", fDenom = " << fDenom << ", fDots = " << fDots << endl;
-  * /
-  if (fDenom == 0) {
-    stringstream s;
-    s << 
-      endl << 
-      "duration " << fNum << "/" << fDenom <<
-      " has 0 as denominator" <<
-      endl;
-    msrMusicXMLError (
-      fMsrOptions->fInputSourceName,
-      fInputLineNumber,
-      s.str());
-  }
-}
-
-msrDuration::~msrDuration() {}
-
-void msrDuration::scaleNumByFraction (int num, int denom)
-{
-  fNum *= num/denom;
-}
-
-void msrDuration::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrDuration::acceptIn()" << endl;
-      
-  if (visitor<S_msrDuration>*
-    p =
-      dynamic_cast<visitor<S_msrDuration>*> (v)) {
-        S_msrDuration elem = this;
-        
-        if (fMsrOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> Launching msrDuration::visitStart()" << endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrDuration::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrDuration::acceptOut()" << endl;
-
-  if (visitor<S_msrDuration>*
-    p =
-      dynamic_cast<visitor<S_msrDuration>*> (v)) {
-        S_msrDuration elem = this;
-      
-        if (fMsrOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> Launching msrDuration::visitEnd()" << endl;
-        p->visitEnd (elem);
-  }
-}
-
-void msrDuration::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrDuration& dur)
-{
-  dur->print (os);
-  return os;
-}
-
-rational msrDuration::durationAsRational ()
-{
-  return rational (fNum, fDenom); // TEMP JMI
-}
-
-*/
-
-//______________________________________________________________________________
 S_msrBeam msrBeam::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
@@ -1410,41 +1303,9 @@ string msrNote::noteDivisionsAsMSRString () const
   return result;
 }
 
-  /*
-  if (fTupletMemberNoteType.size()) {
-
-    if      (fTupletMemberNoteType == "256th")   { s << "256"; }
-    else if (fTupletMemberNoteType == "128th")   { s << "128"; } 
-    else if (fTupletMemberNoteType == "64th")    { s << "64"; } 
-    else if (fTupletMemberNoteType == "32nd")    { s << "32"; } 
-    else if (fTupletMemberNoteType == "16th")    { s << "16"; } 
-    else if (fTupletMemberNoteType == "eighth")  { s << "8"; } 
-    else if (fTupletMemberNoteType == "quarter") { s << "4"; } 
-    else if (fTupletMemberNoteType == "half")    { s << "2"; } 
-    else if (fTupletMemberNoteType == "whole")   { s << "1"; } 
-    else if (fTupletMemberNoteType == "breve")   { s << "breve"; } 
-    else if (fTupletMemberNoteType == "long")    { s << "long"; }
-    else
-      {
-      stringstream s;
-      s << 
-        endl << 
-        "--> unknown tuplet member type " << fTupletMemberNoteType <<
-        endl;
-      msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
-        fInputLineNumber,
-        s.str());
-      }
-        
-  }
-
-  else {
-    */
-
 string msrNote::noteDiatonicPitchAsString () const
 {
-  // fMusicXMLNoteData.fMusicXMLStep is a char, ???
+  // fMusicXMLNoteData.fMusicXMLStep is a char
   switch (fMusicXMLNoteData.fDiatonicPitch) {
     case msrMusicXMLNoteData::kA: return "A"; break;
     case msrMusicXMLNoteData::kB: return "B"; break;
@@ -1493,10 +1354,13 @@ string msrNote::noteAsString () const
       s <<
         "Tuplet member note" <<
         " " <<
-        notePitchAsString () <<
-        "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
-        ":" <<
-        noteDivisionsAsMSRString ();
+        notePitchAsString ();
+
+      if (! fMusicXMLNoteData.fMusicXMLStepIsARest)
+        s <<
+          "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
+          ":" <<
+          noteDivisionsAsMSRString ();
       break;
   } // switch
      
@@ -1543,7 +1407,7 @@ void msrNote::print (ostream& os)
     ") @"<<
     fNoteMeasureLocation.fMeasureNumber <<
     ":" <<
-    position.getDenominator() <<
+    position.getNumerator() <<
     "/" <<
     position.getDenominator() <<
     " (" <<

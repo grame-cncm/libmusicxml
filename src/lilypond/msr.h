@@ -914,15 +914,17 @@ class EXP msrNote : public msrElement
                       { return fDivisionsPerWholeNote; }
           
     // articulations
-    list<S_msrArticulation>
+    const list<S_msrArticulation>&
                   getNoteArticulations () const
                       { return fNoteArticulations; }
                       
     // dynamics and wedges
-    list<S_msrDynamics>
-                  getNoteDynamics () const { return fNoteDynamics; };
-    list<S_msrWedge>
-                  getNoteWedges   () const { return fNoteWedges; };
+    const list<S_msrDynamics>&
+                  getNoteDynamics () const
+                      { return fNoteDynamics; };
+    const list<S_msrWedge>&
+                  getNoteWedges () const
+                      { return fNoteWedges; };
 
     // chord members
     void          setNoteBelongsToAChord ();
@@ -1287,7 +1289,7 @@ class EXP msrIdentification : public msrElement
                 getMovementTitle () const
                     { return fMovementTitle; }
     
-    vector<S_msrVarValAssoc>
+    const vector<S_msrVarValAssoc>&
                 getCreators () const
                     { return fCreators; };
     
@@ -1295,7 +1297,7 @@ class EXP msrIdentification : public msrElement
                 getRights () const
                     { return fRights; }
     
-    vector<S_msrVarValAssoc>
+    const vector<S_msrVarValAssoc>&
                 getSoftwares () const
                     { return fSoftwares; };
     
@@ -1756,7 +1758,7 @@ class EXP msrTuplet : public msrElement
     int           getActualNotes () const { return fActualNotes; }
     int           getNormalNotes () const { return fNormalNotes; }
     
-    vector<S_msrElement>
+    const vector<S_msrElement>&
                   getTupletElements () const
                       { return fTupletElements; }
 
@@ -2318,7 +2320,7 @@ class EXP msrLyrics : public msrElement
             getLyricsMasterStatus () const
                 { return fLyricsMasterStatus; }
                 
-    vector<S_msrLyricschunk>
+    const vector<S_msrLyricschunk>&
             getLyricschunks () const
                 { return fLyricschunks; }
 
@@ -2520,7 +2522,7 @@ class EXP msrBarline : public msrElement
                 getRepeatWinged () const
                     { return fRepeatWinged; }
                     
-    list<int>
+    const list<int>&
                 getEndingNumbersList () const
                     { return fEndingNumbersList; }
                         
@@ -2603,7 +2605,7 @@ class EXP msrVoicechunk : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    list<S_msrElement>
+    const list<S_msrElement>&
                   getVoicechunkElements () const
                       { return fVoicechunkElements; }
                       
@@ -2785,7 +2787,7 @@ class EXP msrRepeat : public msrElement
               getRepeatCommonPart () const
                 { return fRepeatCommonPart; }
 
-    vector<S_msrRepeatending>
+    const vector<S_msrRepeatending>&
               getRepeatEndings () const
                 { return fRepeatEndings; }
 
@@ -2943,7 +2945,7 @@ class EXP msrVoice : public msrElement
     S_msrStaff    getVoiceStaffUplink () const
                       { return fVoiceStaffUplink; }
                 
-    map<int, S_msrLyrics>
+    const map<int, S_msrLyrics>&
                   getVoiceLyricsMap () const
                       { return fVoiceLyricsMap; }
 
@@ -3176,11 +3178,11 @@ class EXP msrStaff : public msrElement
     S_msrKey    getStaffKey  () const { return fStaffKey; };
     S_msrTime   getStaffTime () const { return fStaffTime; };
     
-    void       setStaffClef (S_msrClef clef);
+    void        setStaffClef (S_msrClef clef);
     void        setStaffKey  (S_msrKey  key);
     void        setStaffTime (S_msrTime time);
 
-    map<int, S_msrVoice>
+    const map<int, S_msrVoice>&
                 getStaffVoicesMap ()
                     { return fStaffVoicesMap; }
 
@@ -3312,7 +3314,7 @@ class EXP msrPart : public msrElement
                   getPartPartgroupUplink () const
                       { return fPartPartgroupUplink; }
                 
-    map<int, S_msrStaff>
+    const map<int, S_msrStaff>&
                   getPartStavesMap ()
                       { return fPartStavesMap; }
 
@@ -3484,7 +3486,7 @@ class EXP msrPartgroup : public msrElement
     string        getPartgroupInstrumentName () const
                       { return fPartgroupInstrumentName; }
                 
-    list<S_msrElement>
+    const list<S_msrElement>&
                   getPartgroupElements () const
                       { return fPartgroupElements; }
 
@@ -3585,7 +3587,7 @@ class EXP msrScore : public msrElement
                 getPageGeometry () const
                     { return fPageGeometry; }
     
-    list<S_msrPartgroup>
+    const list<S_msrPartgroup>&
                 getPartgroupsList () const
                     { return fPartgroupsList; }
 
