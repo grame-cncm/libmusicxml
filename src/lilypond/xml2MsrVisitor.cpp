@@ -3162,6 +3162,19 @@ void xml2MsrVisitor::visitStart ( S_fermata& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
+void xml2MsrVisitor::visitStart ( S_trill_mark& elt )
+{
+  // type : upright inverted  (Binchois20.xml)
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kTrill);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
   /*
 
 Component   Type  Occurs  Default   Description 

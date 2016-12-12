@@ -556,7 +556,9 @@ class EXP msrArticulation : public msrElement
   public:
     
     enum msrArticulationKind {
-        kStaccato, kStaccatissimo, kFermata };
+        kStaccato, kStaccatissimo,
+        kFermata,
+        kTrill };
 
     // creation from MusicXML
     // ------------------------------------------------------

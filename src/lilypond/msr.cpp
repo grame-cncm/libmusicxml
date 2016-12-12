@@ -420,6 +420,9 @@ void msrArticulation::print (ostream& os)
     case kFermata:
       os << "fermata";
       break;
+    case kTrill:
+      os << "trill";
+      break;
   } // switch
 }
 
