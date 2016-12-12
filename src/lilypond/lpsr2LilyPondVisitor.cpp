@@ -103,9 +103,11 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   bool genAbsoluteOctave =
     fLpsrOptions->fGenerateAbsoluteOctaves
       ||
-    ! fRelativeOctaveReference
+    ! fRelativeOctaveReference;
+/* JMI
       ||
     noteIsChordFirstNote;
+*/
 
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
     cerr << left <<
