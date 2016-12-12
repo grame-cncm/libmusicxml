@@ -2925,7 +2925,7 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   
   // assume this note doesn't belong to a tuplet until S_tuplet is met
   fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet = false;
-  fMusicXMLNoteData.fMusicXMLTupletMemberNoteType = "";
+  fMusicXMLNoteData.fMusicXMLType = "";
   
   fMusicXMLNoteData.fMusicXMLTieKind =
     msrMusicXMLNoteData::k_NoTie;
@@ -3002,10 +3002,10 @@ void xml2MsrVisitor::visitStart ( S_duration& elt )
   
     fMusicXMLNoteData.fMusicXMLDivisions = musicXMLduration;
     
-    // all notes have their fNotesDisplayDivisions
+    // all notes have their fMusicXMLDisplayDivisions
     // set to fMusicXMLNoteData.fMusicXMLDivision,
     // except tuplet member notes
-    fMusicXMLNoteData.fNoteDisplayDivisions =
+    fMusicXMLNoteData.fMusicXMLDisplayDivisions =
       fMusicXMLNoteData.fMusicXMLDivisions;
   }
   else {
@@ -3029,7 +3029,7 @@ void xml2MsrVisitor::visitStart ( S_dot& elt )
        
 void xml2MsrVisitor::visitStart ( S_type& elt )
 {
-  fCurrentNoteType=elt->getValue();
+  fCurrentNoteType = elt->getValue();
 }
 
 void xml2MsrVisitor::visitStart ( S_stem& elt )
@@ -3880,7 +3880,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   currentVoice->setDivisionsPerWholeNote (
     fCurrentDivisionsPerQuarterNote * 4);
     
-  fMusicXMLNoteData.fMusicXMLTupletMemberNoteType =
+  fMusicXMLNoteData.fMusicXMLType =
     fCurrentNoteType;
   
   //cerr << "::: creating a note" << endl;
@@ -3931,9 +3931,10 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   hence a note of a chord inside a tuplet is to be
   displayed as a note in a tuplet but outside of chord
   */
-  
-  // set note display divisions
+
+  // handling note
   if (fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet)
+    // set note display divisions
     note->
       applyTupletMemberDisplayFactor (
         fCurrentActualNotes, fCurrentNormalNotes);
@@ -3948,9 +3949,9 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     handleNoteBelongingToATuplet (note);
     
   }
-  else { // standalone note/rest
+  else { // standalone or grace note or rest
 
-    handleStandaloneNoteOrRest (note);
+    handleStandaloneOrGraceNoteOrRest (note);
     
   }
 
@@ -4127,18 +4128,23 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
 }
 
 //______________________________________________________________________________
-void xml2MsrVisitor::handleStandaloneNoteOrRest (
+void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
   S_msrNote newNote)
 {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "xml2MsrVisitor::handleStandaloneNoteOrRest " <<
+      "xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest " <<
       newNote <<
       endl;
 
   if (fMusicXMLNoteData.fMusicXMLStepIsARest)
     newNote->
       setNoteKind (msrNote::kRestNote);
+      
+  else if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
+    newNote->
+      setNoteKind (msrNote::kGraceNote);
+      
   else
     newNote->
       setNoteKind (msrNote::kStandaloneNote);

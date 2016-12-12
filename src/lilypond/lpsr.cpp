@@ -1723,14 +1723,16 @@ lpsrPaper::lpsrPaper (
   int           inputLineNumber)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fPaperWidth = -1.0;
-  fPaperHeight = -1.0;
-  fTopMargin = -1.0;
+  fPaperWidth   = -1.0;
+  fPaperWidth   = -1.0;
+  fPaperHeight  = -1.0;
+  fTopMargin    = -1.0;
   fBottomMargin = -1.0;
-  fLeftMargin = -1.0;
-  fRightMargin = -1.0;
+  fLeftMargin   = -1.0;
+  fRightMargin  = -1.0;
     
   fBetweenSystemSpace = -1.0;
+  
   fPageTopSpace = -1.0;
 }
 

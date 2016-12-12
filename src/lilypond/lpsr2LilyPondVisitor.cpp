@@ -277,68 +277,6 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   return s.str();
 }
         
-
-/*
-    if (abs (absoluteDiatonicDistance) > 5) {
-      // a relative octave is to be generated
-      switch (octavesToBeDisplayed) {
-        case -8:
-          s << ",,,,,,,,";
-          break;
-        case -7:
-          s << ",,,,,,,";
-          break;
-        case -6:
-          s << ",,,,,,";
-          break;
-        case -5:
-          s << ",,,,,";
-          break;
-        case -4:
-          s << ",,,,";
-          break;
-        case -3:
-          s << ",,,";
-          break;
-        case -2:
-          s << ",,";
-          break;
-        case -1:
-          s << ",";
-          break;
-        case 0:
-          s << "";
-          break;
-        case 1:
-          s << "'";
-          break;
-        case 2:
-          s << "''";
-          break;
-        case 3:
-          s << "'''";
-          break;
-        case 4:
-          s << "''''";
-          break;
-        case 5:
-          s << "'''''";
-          break;
-        case 6:
-          s << "''''''";
-          break;
-        case 7:
-          s << "'''''''";
-          break;
-        case 8:
-          s << "''''''''";
-          break;
-        default:
-          s << "###";
-      } // switch
-    }
-    */
-
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrScore& elt)
 {
@@ -1765,6 +1703,17 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         }
 
         fOstream << "standalone";
+        break;
+        
+      case msrNote::kGraceNote:
+        if (++fSequentialMusicElementsCounter > 10) {
+          fOstream <<
+            endl <<
+            idtr;
+          fSequentialMusicElementsCounter = 1;
+        }
+
+        fOstream << "grace";
         break;
         
       case msrNote::kRestNote:

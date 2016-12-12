@@ -519,7 +519,7 @@ std::pair<std::string, std::string> extractNamesPairFromString (
 }
 
 //______________________________________________________________________________
-string divisionsAsMSRString (
+string divisionsAsMSRDuration (
   int     divisions,
   int     divisionsPerWholeNote,
   int     inputSourceSuppliedNumberOfDots,
@@ -533,7 +533,8 @@ string divisionsAsMSRString (
   computedNumberOfDots = 0;
 
   //debugMode = true; // TEMP, for tests
-  if (divisionsPerWholeNote == 0) {
+  
+  if (divisions <= 0) {
     stringstream s;
     
     s << 
@@ -541,7 +542,7 @@ string divisionsAsMSRString (
         divisions <<
       ", divisionsPerWholeNote = " <<
       divisionsPerWholeNote <<
-      ": cannot devide by 0" << endl;
+      ": should be positive" << endl;
       
     errorMessage = s.str();
     
@@ -646,6 +647,8 @@ string divisionsAsMSRString (
         " exceeds a maxima" << endl;
         
       errorMessage = s.str();
+
+      return "";
       }
   } // switch
 
@@ -730,38 +733,39 @@ string divisionsAsMSRString (
   return s.str();
 }
 
-  /*
-  if (fTupletMemberNoteType.size()) {
+//______________________________________________________________________________
+string noteTypeAsMSRDuration (
+  string  noteType,
+  string& errorMessage)
+{
+  string result;
+  
+  if      (noteType == "256th")   { result =   "256"; }
+  else if (noteType == "128th")   { result =   "128"; } 
+  else if (noteType == "64th")    { result =    "64"; } 
+  else if (noteType == "32nd")    { result =    "32"; } 
+  else if (noteType == "16th")    { result =    "16"; } 
+  else if (noteType == "eighth")  { result =     "8"; } 
+  else if (noteType == "quarter") { result =     "4"; } 
+  else if (noteType == "half")    { result =     "2"; } 
+  else if (noteType == "whole")   { result =     "1"; } 
+  else if (noteType == "breve")   { result = "breve"; } 
+  else if (noteType == "long")    { result =  "long"; }
+  else {
+    stringstream s;
+    
+    s << 
+      endl << 
+      "--> unknown tuplet member type " << noteType <<
+      endl;
+      
+   errorMessage = s.str();
 
-    if      (fTupletMemberNoteType == "256th")   { s << "256"; }
-    else if (fTupletMemberNoteType == "128th")   { s << "128"; } 
-    else if (fTupletMemberNoteType == "64th")    { s << "64"; } 
-    else if (fTupletMemberNoteType == "32nd")    { s << "32"; } 
-    else if (fTupletMemberNoteType == "16th")    { s << "16"; } 
-    else if (fTupletMemberNoteType == "eighth")  { s << "8"; } 
-    else if (fTupletMemberNoteType == "quarter") { s << "4"; } 
-    else if (fTupletMemberNoteType == "half")    { s << "2"; } 
-    else if (fTupletMemberNoteType == "whole")   { s << "1"; } 
-    else if (fTupletMemberNoteType == "breve")   { s << "breve"; } 
-    else if (fTupletMemberNoteType == "long")    { s << "long"; }
-    else
-      {
-      stringstream s;
-      s << 
-        endl << 
-        "--> unknown tuplet member type " << fTupletMemberNoteType <<
-        endl;
-      msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
-        fInputLineNumber,
-        s.str());
-      }
-        
+   return "";
   }
 
-  else {
-    */
-
+  return result;
+}
 
 //______________________________________________________________________________
 string quoteStringIfNonAlpha (

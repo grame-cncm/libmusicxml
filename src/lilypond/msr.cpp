@@ -138,10 +138,10 @@ msrMusicXMLNoteData::msrMusicXMLNoteData ()
   // hence the "* 4" multiplications
   
   // the note duration when played
-  fMusicXMLDivisions = -1;
+  fMusicXMLDivisions = -17;
 
   // tuplets member notes need another value for display
-  fNoteDisplayDivisions = -1;
+  fMusicXMLDisplayDivisions = 19;
 
   fMusicXMLDotsNumber = -1;
   
@@ -150,7 +150,7 @@ msrMusicXMLNoteData::msrMusicXMLNoteData ()
   fMusicXMLNoteBelongsToAChord = false;;
   
   fMusicXMLNoteBelongsToATuplet = false;;
-  fMusicXMLTupletMemberNoteType = "";
+  fMusicXMLType = "";
 
   fMusicXMLTieKind = k_NoTie;
 
@@ -198,8 +198,8 @@ void msrMusicXMLNoteData::print (ostream& os)
       setw(29) << "fMusicXMLDivisions" << " = " <<
       fMusicXMLDivisions <<  endl <<
     idtr << "  " << left <<
-      setw(29) << "fNoteDisplayDivisions" << " = " <<
-      fNoteDisplayDivisions <<  endl <<
+      setw(29) << "fMusicXMLDisplayDivisions" << " = " <<
+      fMusicXMLDisplayDivisions <<  endl <<
     idtr << "  " << left <<
       setw(29) << "fMusicXMLDotsNumber" << " = " <<
       fMusicXMLDotsNumber <<  endl <<
@@ -216,8 +216,8 @@ void msrMusicXMLNoteData::print (ostream& os)
       setw(29) << "fMusicXMLNoteBelongsToATuplet" << " = " <<
       fMusicXMLNoteBelongsToATuplet <<  endl <<
     idtr << "  " << left <<
-      setw(29) << "fMusicXMLTupletMemberNoteType" << " = " <<
-      fMusicXMLTupletMemberNoteType <<  endl <<
+      setw(29) << "fMusicXMLType" << " = " <<
+      fMusicXMLType <<  endl <<
       
 //    idtr << endl <<
     
@@ -1015,8 +1015,8 @@ void msrNote::applyTupletMemberDisplayFactor (
       " to note " << this <<
       endl;
 
-  fMusicXMLNoteData.fNoteDisplayDivisions =
-    fMusicXMLNoteData.fNoteDisplayDivisions
+  fMusicXMLNoteData.fMusicXMLDisplayDivisions =
+    fMusicXMLNoteData.fMusicXMLDisplayDivisions
       *
     actualNotes
       /
@@ -1289,13 +1289,34 @@ string msrNote::noteDivisionsAsMSRString () const
   string errorMessage;
 
   result =
-    divisionsAsMSRString (
-      fMusicXMLNoteData.fNoteDisplayDivisions,
+    divisionsAsMSRDuration (
+      fMusicXMLNoteData.fMusicXMLDisplayDivisions,
       fDivisionsPerWholeNote,
       fMusicXMLNoteData.fMusicXMLDotsNumber,
       computedNumberOfDots,
       errorMessage,
       false); // 'true' to debug it
+
+  if (errorMessage.size ())
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      fInputLineNumber,
+      errorMessage);
+
+  return result;
+}
+
+string msrNote::noteTypeAsMSRString () const
+{
+  string result;
+  int    computedNumberOfDots;
+  string errorMessage;
+
+  result =
+    noteTypeAsMSRDuration (
+      fMusicXMLNoteData.fMusicXMLType,
+// JMI      computedNumberOfDots,
+      errorMessage);
 
   if (errorMessage.size ())
     msrMusicXMLError (
@@ -1328,12 +1349,22 @@ string msrNote::noteAsString () const
   switch (fNoteKind) {
     case msrNote::kStandaloneNote:
       s <<
-        "Standalone note" <<
+        "Grace note" <<
         " " <<
         notePitchAsString () <<
         "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
+      break;
+      
+    case msrNote::kGraceNote:
+      s <<
+        "Standalone note" <<
+        " " <<
+        notePitchAsString () <<
+        "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
+        ":" <<
+        noteTypeAsMSRString ();
       break;
       
     case msrNote::kRestNote:
@@ -1367,9 +1398,6 @@ string msrNote::noteAsString () const
       break;
   } // switch
      
-  if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
-    s << ", grace";
-    
   if (
     fMusicXMLNoteData.fMusicXMLTieKind
       !=
@@ -1404,7 +1432,7 @@ void msrNote::print (ostream& os)
     "(" <<
     fMusicXMLNoteData.fMusicXMLDivisions <<
     "_" <<
-    fMusicXMLNoteData.fNoteDisplayDivisions <<
+    fMusicXMLNoteData.fMusicXMLDisplayDivisions <<
     "/" <<
     fDivisionsPerWholeNote <<
     ") @"<<
@@ -1626,7 +1654,7 @@ string msrChord::chordDivisionsAsMSRString () const
       getNoteMusicXMLDotsNumber (); // any chord member note is fine
     
   result =
-    divisionsAsMSRString (
+    divisionsAsMSRDuration (
       fChordDivisions,
       fDivisionsPerWholeNote,
       inputSourceSuppliedNumberOfDots,
@@ -3560,7 +3588,7 @@ void msrLyrics::addSkipChunkToLyrics (
   
     string
       divisionsAsString =
-        divisionsAsMSRString (
+        divisionsAsMSRDuration (
           divisions,
           divisionsPerWholeNote,
           computedNumberOfDots,
@@ -4622,7 +4650,7 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
       endl;
 
   result =
-    divisionsAsMSRString (
+    divisionsAsMSRDuration (
       fUpbeatDivisions,
       divisionsPerWholeNote,
       fUpbeatDivisions, // JMI
@@ -4923,7 +4951,7 @@ void msrVoice::setMeasureNumber (
     
     anacrusisDivisions = getPositionInMeasure () - 1 ;
     anacrusisDivisionsAsString =
-      divisionsAsMSRString (
+      divisionsAsMSRDuration (
         anacrusisDivisions,
         fDivisionsPerWholeNote,
         anacrusisDivisions, // JMI

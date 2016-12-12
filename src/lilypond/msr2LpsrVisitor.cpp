@@ -684,6 +684,9 @@ void msr2LpsrVisitor::visitStart (S_msrNote& elt)
       case msrNote::kStandaloneNote:
         fOstream << "standalone";
         break;
+      case msrNote::kGraceNote:
+        fOstream << "grace";
+        break;
       case msrNote::kRestNote:
         fOstream << "rest";
         break;
@@ -700,6 +703,17 @@ void msr2LpsrVisitor::visitStart (S_msrNote& elt)
   switch (elt->getNoteKind ()) {
     
     case msrNote::kStandaloneNote:
+      if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> appending " <<
+          elt->noteAsString () << " to voice " <<
+          fCurrentVoiceClone->getVoiceName () << endl;
+          
+      fCurrentVoiceClone->
+        appendNoteToVoice (elt);
+      break;
+      
+    case msrNote::kGraceNote:
       if (fMsrOptions->fDebug)
         cerr << idtr <<
           "--> appending " <<
@@ -736,6 +750,9 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
       case msrNote::kStandaloneNote:
         fOstream << "standalone";
         break;
+      case msrNote::kGraceNote:
+        fOstream << "grace";
+        break;
       case msrNote::kRestNote:
         fOstream << "rest";
         break;
@@ -751,6 +768,8 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
 
   switch (elt->getNoteKind ()) {
     case msrNote::kStandaloneNote:
+      break;
+    case msrNote::kGraceNote:
       break;
     case msrNote::kRestNote:
       break;

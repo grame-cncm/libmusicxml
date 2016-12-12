@@ -396,14 +396,20 @@ class msrMusicXMLNoteData
       respectively mean ‘half’ and ‘one and a half’.
       
       Languages that do not appear in this table do not provide special note names yet.
-      Language
-                  semi-sharp semi-flat sesqui-sharp sesqui-flat
+      * 
+      Language    semi-sharp semi-flat sesqui-sharp sesqui-flat
+      --------    ---------- --------- ------------ -----------
                      +0.5      -0.5        +1.5       -1.5
-        nederlands   -ih       -eh        -isih       -eseh
+      nederlands     -ih       -eh        -isih       -eseh
     
       We use dutch pitches names for the enumeration below.
       The following is a series of Cs with increasing pitches:
         \relative c'' { ceseh ces ceh c cih cis cisih }
+
+Given the duration of a note and the divisions attribute, a program can usually infer the symbolic note type (e.g. quarter note, dotted-eighth note). However, it is much easier for notation programs if this is represented explicitly, rather than making the program infer the correct symbolic value. In some cases, the intended note duration does not match what is written, be it some of Bach’s dotted notations, notes inégales, or jazz swing rhythms.
+
+The type element is used to indicate the symbolic note type, such as quarter, eighth, or 16th. MusicXML symbolic note types range from 256th notes to long notes: 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, and long. The type element may be followed by one or more empty dot elements to indicate dotted notes.
+
     */
   
     enum msrDiatonicPitch {
@@ -449,16 +455,16 @@ class msrMusicXMLNoteData
     int                       fMusicXMLDivisions;
 
     // tuplets member notes need another value for display
-    int                       fNoteDisplayDivisions;
+    int                       fMusicXMLDisplayDivisions;
+    string                    fMusicXMLType; // "whole", "32nd", ...
 
     int                       fMusicXMLDotsNumber;
     
-    bool                      fMusicXMLNoteIsAGraceNote;
+    bool                      fMusicXMLNoteIsAGraceNote; // JMI ???
     
     bool                      fMusicXMLNoteBelongsToAChord;
     
     bool                      fMusicXMLNoteBelongsToATuplet;
-    string                    fMusicXMLTupletMemberNoteType;
 
     msrMusicXMLTieKind        fMusicXMLTieKind;
                     
@@ -801,7 +807,7 @@ class EXP msrNote : public msrElement
 
     enum msrNoteKind {
       kRestNote, 
-      kStandaloneNote,
+      kStandaloneNote,  kGraceNote,
       kChordMemberNote, kTupletMemberNote};
       
     enum msrGraceKind {
@@ -870,16 +876,16 @@ class EXP msrNote : public msrElement
                           fMusicXMLNoteData.fMusicXMLDivisions;
                       }
 
-    void          setNoteDisplayDivisions (int divisions)
+    void          setNoteMusicXMLDisplayDivisions (int divisions)
                       {
-                        fMusicXMLNoteData.fNoteDisplayDivisions =
+                        fMusicXMLNoteData.fMusicXMLDisplayDivisions =
                           divisions;
                       }
 
-    int           getNoteDisplayDivisions () const
+    int           getNoteMusicXMLDisplayDivisions () const
                       {
                         return
-                          fMusicXMLNoteData.fNoteDisplayDivisions;
+                          fMusicXMLNoteData.fMusicXMLDisplayDivisions;
                       }
 
     int           getNoteMusicXMLDotsNumber () const
@@ -989,6 +995,7 @@ class EXP msrNote : public msrElement
     string        noteDiatonicPitchAsString () const;
 
     string        noteDivisionsAsMSRString () const;
+    string        noteTypeAsMSRString () const;
 
     // articulations
     void          addArticulation (S_msrArticulation art);

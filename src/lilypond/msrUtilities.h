@@ -226,13 +226,18 @@ pair<string, string> extractNamesPairFromString (
   bool   debugMode = false);
 
 //______________________________________________________________________________
-string divisionsAsMSRString (
+string divisionsAsMSRDuration (
   int     divisions,
   int     divisionsPerWholeNote,
   int     inputSourceSuppliedNumberOfDots,
   int&    computedNumberOfDots,
   string& errorMessage,
   bool    debugMode = false);
+
+//______________________________________________________________________________
+string noteTypeAsMSRDuration (
+  string  noteType,
+  string& errorMessage);
 
 //______________________________________________________________________________
 string quoteStringIfNonAlpha (

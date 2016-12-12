@@ -613,7 +613,7 @@ class EXP xml2MsrVisitor :
 
     // note/rest handling
     // ------------------------------------------------------
-    void                      handleStandaloneNoteOrRest (
+    void                      handleStandaloneOrGraceNoteOrRest (
                                 S_msrNote newNote);
 
     // ------------------------------------------------------
