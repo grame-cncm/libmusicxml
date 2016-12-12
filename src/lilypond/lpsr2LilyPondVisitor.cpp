@@ -96,9 +96,10 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   int noteAbsoluteOctave =
     note->getNoteMusicXMLOctave ();
 
+/*
   bool noteIsChordFirstNote =
     note->getNoteIsChordFirstNote ();
-    
+  */  
   // should an absolute octave be generated?
   bool genAbsoluteOctave =
     fLpsrOptions->fGenerateAbsoluteOctaves
@@ -129,6 +130,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
         noteAbsoluteOctave <<
         " -" <<
         endl <<
+        /*
       idtr <<
         setw(33) << "% noteIsChordFirstNote" <<
         " = " <<
@@ -136,6 +138,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
           ? "true"
           : "false") <<
         endl <<
+        */
 /*
       idtr <<
         setw(33) << "% noteDiatonicPitch" <<
@@ -271,8 +274,10 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     s <<
       " } ";
 
+/*
   if (noteIsChordFirstNote)
     fRelativeOctaveReference = note;
+*/
 
   return s.str();
 }

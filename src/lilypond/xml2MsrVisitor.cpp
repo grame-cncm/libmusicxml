@@ -1968,7 +1968,7 @@ void xml2MsrVisitor::visitEnd ( S_text& elt )
 
   fCurrentLyricsHasText = true;
 
-// JMI  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug)
     cerr << idtr <<
       "--> fCurrentLyricsNumber = " << fCurrentLyricsNumber <<
       ", fCurrentSyllabic = " << fCurrentSyllabic <<
@@ -3511,7 +3511,7 @@ void xml2MsrVisitor::visitEnd ( S_unpitched& elt)
 //______________________________________________________________________________
 S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
 {
-//  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> creating a chord on its 2nd note" <<
       fCurrentNote <<

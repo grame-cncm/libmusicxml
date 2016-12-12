@@ -69,10 +69,17 @@ EXP S_msrScore musicxmlFile2Msr (
   S_msrOptions& msrOpts,
   ostream&      os) 
 {
-  if (msrOpts->fTrace)
-    cerr << idtr <<
-      "Pass 1: building xmlemement tree from \"" << file << "\"" << endl;
-      // ------------------------------------------------------
+  if (msrOpts->fTrace) {
+    string separator = "%----------------------------------------";
+    
+    cerr <<
+      idtr << separator <<
+      endl <<
+      "Pass 1: building xmlemement tree from \"" << file << "\"" <<
+      endl <<
+      idtr << separator <<
+      endl;
+  }
 
   xmlreader r;
   SXMLFile  xmlFile;
@@ -93,10 +100,17 @@ EXP S_msrScore musicxmlFd2Msr (
   S_msrOptions& msrOpts,
   ostream&      os) 
 {
-  if (msrOpts->fTrace)
-    cerr << idtr <<
-      "Pass 1: building xmlemement tree from standard input" << endl;
-      // ------------------------------------------------------
+  if (msrOpts->fTrace) {
+    string separator = "%----------------------------------------";
+    
+    cerr <<
+      idtr << separator <<
+      endl <<
+      "Pass 1: building xmlemement tree from standard input" <<
+      endl <<
+      idtr << separator <<
+      endl;
+  }
 
   xmlreader r;
   SXMLFile  xmlFile;
@@ -118,10 +132,17 @@ EXP S_msrScore musicxmlString2Msr (
   S_msrOptions& msrOpts,
   ostream&      os) 
 {
-  if (msrOpts->fTrace)
-    cerr << idtr <<
-      "Pass 1: building xmlemement tree from a buffer" << endl;
-      // ------------------------------------------------------
+  if (msrOpts->fTrace) {
+    string separator = "%----------------------------------------";
+    
+    cerr <<
+      idtr << separator <<
+      endl <<
+      idtr << "Pass 1: building xmlemement tree from a buffer" <<
+      endl <<
+      idtr << separator <<
+      endl;
+  }
   
   xmlreader r;
   SXMLFile  xmlFile;
@@ -142,11 +163,17 @@ S_msrScore buildMsrScoreFromElementsTree (
   S_msrOptions& msrOpts,
   Sxmlelement   xmlTree)
 {
-    // browse the part contents for the first time with a xml2MsrVisitor
-  if (msrOpts->fTrace)
-    cerr << idtr <<
-      "Pass 2: building a MSR from the xmlelement tree" << endl;
-      // ------------------------------------------------------
+  if (msrOpts->fTrace) {
+    string separator = "%----------------------------------------";
+    
+    cerr <<
+      idtr << separator <<
+      endl <<
+      "Pass 2: building a MSR from the xmlelement tree" <<
+      endl <<
+      idtr << separator <<
+      endl;
+  }
 
   idtr++;
   
@@ -169,20 +196,22 @@ void displayMsrScore (
   S_msrScore    mScore,
   ostream&      os)
 {
-  string separator = "%----------------------------------------";
+  if (msrOpts->fTrace) {
+    string separator = "%----------------------------------------";
+    
+    cerr <<
+      idtr << separator <<
+      endl <<
+      "Optionnal pass: outputting a view of the MSR" <<
+      endl <<
+      idtr << separator <<
+      endl;
+      // ------------------------------------------------------
+  }
 
-  // output the score resulting from the conversion 
-  if (msrOpts->fTrace) 
-    os << idtr <<
-      separator << endl <<
-      "%Pass 2 bis: outputting a view of the MSR" << endl <<
-      separator << endl;
-  
   if (msrOpts->fTrace) os << "%{" << endl;
   os << mScore;
   if (msrOpts->fTrace) os << "%}" << endl;
-  
-  os << separator << endl;
 }
 
 //_______________________________________________________________________________
@@ -191,14 +220,18 @@ void displayMsrScoreSummary (
   S_msrScore    mScore,
   ostream&      os)
 {
-  string separator = "%----------------------------------------";
-
-  // output the score resulting from the conversion 
-  if (msrOpts->fTrace) 
-    os << idtr <<
-      separator << endl <<
-      "%Outputting a summary of the MSR" << endl <<
-      separator << endl;
+  if (msrOpts->fTrace) {
+    string separator = "%----------------------------------------";
+    
+    cerr <<
+      idtr << separator <<
+      endl <<
+      "Optionnal pass: outputting a summary of the MSR" <<
+      endl <<
+      idtr << separator <<
+      endl;
+      // ------------------------------------------------------
+  }
    
   // create an msr2SummaryVisitor visitor
   msr2SummaryVisitor visitor (msrOpts, os);
@@ -208,8 +241,6 @@ void displayMsrScoreSummary (
   visitor.printSummaryFromMsrScore (mScore);
   
   if (msrOpts->fTrace) os << "%}" << std::endl;
-  
-  os << separator << std::endl;
 }
 
 

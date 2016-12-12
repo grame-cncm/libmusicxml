@@ -63,10 +63,21 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   S_lpsrOptions&   lpsrOpts,
   ostream&         os)
 {
-    // browse the MSR score with a msr2LpsrVisitor
+  if (msrOpts->fTrace) {
+    string separator = "%----------------------------------------";
+    
+    cerr <<
+      idtr << separator <<
+      endl <<
+      "Pass 3: building a LPSR from the MSR" <<
+      endl <<
+      idtr << separator <<
+      endl;
+      // ------------------------------------------------------
+  }
   if (msrOpts->fTrace)
     cerr << idtr <<
-      "Pass 3: building a LPSR from the MSR" << endl;
+      endl;
       // ------------------------------------------------------
 
   idtr++;
@@ -91,12 +102,18 @@ void displayLpsrScore (
 {
   string separator = "%----------------------------------------";
 
-  // output the score resulting from the conversion 
-  if (msrOpts->fTrace) 
-    os << idtr <<
-      separator << endl <<
-      "%Pass 3 bis: outputting a view of the LPSR" << endl <<
-      separator << endl;
+  if (msrOpts->fTrace) {
+    string separator = "%----------------------------------------";
+    
+    cerr <<
+      idtr << separator <<
+      endl <<
+      "Optionnal pass: outputting a view of the LPSR" <<
+      endl <<
+      idtr << separator <<
+      endl;
+      // ------------------------------------------------------
+  }
   
   if (msrOpts->fTrace) os << "%{" << endl;
   os << lpScore;

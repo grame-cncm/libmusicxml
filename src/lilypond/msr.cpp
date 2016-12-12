@@ -989,7 +989,7 @@ msrNote::msrNote (
       endl;
 */
 
-  fNoteIsChordFirstNote = false;
+//  fNoteIsChordFirstNote = false;
 }
 
 msrNote::~msrNote()
@@ -1446,11 +1446,13 @@ void msrNote::print (ostream& os)
     "/" <<
     fDivisionsPerWholeNote <<
     ")" <<
+    /*
     " first = " <<
     string (
       fNoteIsChordFirstNote
         ? "true"
         : "false" ) <<
+        */
     endl;
 
   // print the beam if any
@@ -1583,9 +1585,10 @@ S_msrChord msrChord::createEmptyClone ()
     
 void msrChord::addNoteToChord (S_msrNote note)
 {
+  /*
   if (! fChordNotes.size ())
     note->setNoteIsChordFirstNote (true);
-
+*/
   fChordNotes.push_back (note);
   
   note->setNoteBelongsToAChord ();

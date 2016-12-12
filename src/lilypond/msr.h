@@ -947,17 +947,19 @@ class EXP msrNote : public msrElement
 
     // chord members
     void          setNoteBelongsToAChord ();
+/*
     void          setNoteIsChordFirstNote (bool value)
                       { fNoteIsChordFirstNote = value; }
-
+*/
     bool          getNoteBelongsToAChord () const
                       {
                         return
                           fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord;
                       }
+/*
     bool          getNoteIsChordFirstNote () const
                       { return fNoteIsChordFirstNote; }
-        
+*/
     // ties
     msrMusicXMLNoteData::msrMusicXMLTieKind
                   getNoteTieKind () const
@@ -1043,7 +1045,7 @@ class EXP msrNote : public msrElement
     
     msrMeasureLocation        fNoteMeasureLocation;
 
-    bool                      fNoteIsChordFirstNote;
+ // JMI   bool                      fNoteIsChordFirstNote;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
