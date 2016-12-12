@@ -247,14 +247,14 @@ int consumeDecimalNumber (
   int    number = 0;
 
   if (! isdigit (*cursor))
-    cout <<
+    cerr <<
       "consumeDecimalNumber (" << *cursor <<
       "), " << *cursor << " is no decimal digit!" <<
       endl;
 
   while (isdigit (* cursor)) {
     if (debugMode)
-      cout <<
+      cerr <<
         "--> consumeDecimalNumber: cursor = |" <<
         *cursor <<
         "|" <<
@@ -268,7 +268,7 @@ int consumeDecimalNumber (
   remainingStringIterator = cursor;
 
   if (debugMode)
-    cout <<
+    cerr <<
       "--> consumeDecimalNumber: number = " << number <<
       ", *remainingStringIterator = |" << *remainingStringIterator <<
       "|" <<
@@ -287,7 +287,7 @@ set<int> decipherNumbersSetSpecification (
   std::set<int> selectedNumbers;
   
   if (debugMode)
-    cout <<
+    cerr <<
       "--> decipherNumbersSetSpecification, theString = |" << theString <<
       "|" <<
       endl;
@@ -297,7 +297,7 @@ set<int> decipherNumbersSetSpecification (
 
   while (1) {
     if (debugMode)
-      cout <<
+      cerr <<
         "--> decipherNumbersSpecification: cursor = |" <<
         *cursor << "|" <<
         endl;
@@ -318,7 +318,7 @@ set<int> decipherNumbersSetSpecification (
       cursor++;
 
       if (debugMode)
-        cout <<
+        cerr <<
           "--> decipherNumbersSpecification after '-' : cursor = |" <<
           *cursor <<
           "|" <<
@@ -333,7 +333,7 @@ set<int> decipherNumbersSetSpecification (
     }
 
     if (debugMode)
-      cout <<
+      cerr <<
         "--> decipherNumbersSpecification, intervalStartNumber = " << intervalStartNumber <<
         ", intervalEndNumber = " << intervalEndNumber <<
         ": *cursor = |" << *cursor << "|" <<
@@ -348,7 +348,7 @@ set<int> decipherNumbersSetSpecification (
 
     if (*cursor != ',') {
       if (debugMode)
-        cout <<
+        cerr <<
           "--> decipherNumbersSpecification, after non ',' : cursor = |" <<
           *cursor <<
           "|" <<
@@ -359,7 +359,7 @@ set<int> decipherNumbersSetSpecification (
     cursor++;
 
     if (debugMode)
-      cout <<
+      cerr <<
         "--> decipherNumbersSpecification after ',' : cursor = |" <<
         *cursor <<
         "|"
@@ -367,7 +367,7 @@ set<int> decipherNumbersSetSpecification (
   } // while 
 
   if (* cursor != '\0') {
-    cout <<
+    cerr <<
       "--> Extraneous characters |" << *cursor <<
       "| in numbers spec" <<
       endl << endl;
@@ -384,7 +384,7 @@ std::list<int> extractNumbersFromString (
   std::list<int> foundNumbers;
 
   if (debugMode)
-    cout <<
+    cerr <<
       "--> extractNumbersFromString, theString = |" << theString <<
       "|" <<
       endl;
@@ -397,7 +397,7 @@ std::list<int> extractNumbersFromString (
       break;
       
     if (debugMode)
-      cout <<
+      cerr <<
         "--> extractNumbersFromString: cursor = |" <<
         *cursor << "|" <<
         endl;
@@ -432,7 +432,7 @@ std::pair<std::string, std::string> extractNamesPairFromString (
   std::string name2;
 
   if (debugMode)
-    cout <<
+    cerr <<
       "--> extractNamesPairFromString, theString = |" << theString <<
       "|" <<
       endl;
@@ -446,7 +446,7 @@ std::pair<std::string, std::string> extractNamesPairFromString (
       break;
       
     if (debugMode)
-      cout <<
+      cerr <<
         "--> extractNamesPairFromString: cursor = |" <<
         *cursor << "|" <<
         endl;
@@ -464,14 +464,14 @@ std::pair<std::string, std::string> extractNamesPairFromString (
   name1 = trim (name1);
   if (! name1.size ()) {
     // found an empty name1
-    cout <<
+    cerr <<
       "### ERROR: the first name before the " << separator <<
       " separator is empty in '" << theString << "'" <<
       endl;
   }
 
   if (cursor == theString.end())
-    cout <<
+    cerr <<
       "### ERROR: the " << separator <<
       " separator is missing in string '" <<
       theString << "'" <<
@@ -486,14 +486,14 @@ std::pair<std::string, std::string> extractNamesPairFromString (
       break;
       
     if (debugMode)
-      cout <<
+      cerr <<
         "--> extractNamesPairFromString: cursor = |" <<
         *cursor << "|" <<
         endl;
 
     if ((*cursor) == '=') {
       // found the separator
-      cout <<
+      cerr <<
         "### ERROR: the " << separator <<
         " separator occurs more than once in string '" <<
         theString << "'" <<
@@ -509,7 +509,7 @@ std::pair<std::string, std::string> extractNamesPairFromString (
   name2 = trim (name2);
   if (! name2.size ()) {
     // found an empty name2
-    cout <<
+    cerr <<
       "### ERROR: the second name after the " << separator <<
       " separator is empty in '" << theString << "'" <<
       endl;
@@ -558,7 +558,7 @@ string divisionsAsMSRString (
   int mod = divresult.rem;
 
   if (debugMode)
-    cout << endl <<
+    cerr << endl <<
       "% --> divisions = " << divisions <<
       ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
       "% --> div = " << div << ", mod = " << mod << endl;
@@ -659,7 +659,7 @@ string divisionsAsMSRString (
       m            = remainingDivisions,
       numberOfDots = 0;
 
- //   if (debugMode)
+    if (debugMode)
       cerr << endl << "% limit = " << limit << endl;
     
     while (m < limit) {
@@ -674,24 +674,26 @@ string divisionsAsMSRString (
       cerr << endl;
 
     if (computedNumberOfDots != inputSourceSuppliedNumberOfDots) {
-      s << endl;
-      
-      if (divisions == 1)
-        s << "1 division needs ";
-      else
-        s << divisions << " divisions need ";
+      if (debugMode) {
+        s << endl;
         
-      if (inputSourceSuppliedNumberOfDots == 1)
-        s << "1 dot ";
-      else
-        s << inputSourceSuppliedNumberOfDots << " dots ";
+        if (divisions == 1)
+          s << "1 division needs ";
+        else
+          s << divisions << " divisions need ";
+          
+        if (inputSourceSuppliedNumberOfDots == 1)
+          s << "1 dot ";
+        else
+          s << inputSourceSuppliedNumberOfDots << " dots ";
+    
+        s <<
+          "with " << divisionsPerWholeNote << " per whole note" <<
+          ", not " << computedNumberOfDots <<
+          endl;
   
-      s <<
-        "with " << divisionsPerWholeNote << " per whole note" <<
-        ", not " << computedNumberOfDots <<
-        endl;
-
-      // TEMP cerr << s.str();
+          cerr << s.str();
+      }
     }
 
     for (int i = 0; i < inputSourceSuppliedNumberOfDots; i++) // TEMP

@@ -3679,37 +3679,6 @@ void msrLyrics::addSkipChunkToLyrics (
         fInputLineNumber,
         errorMessage);
 
-    if (
-      computedNumberOfDots
-        !=
-      fChordNotes [0]-> 
-        getNoteMusicXMLDotsNumber ()) { // any chord member notes is fine
-  
-      stringstream s;
-  
-      if (fChordDivisions == 1)
-        s << "1 division needs ";
-      else
-        s << fChordDivisions << " divisions need ";
-        
-      if (computedNumberOfDots == 1)
-        s << "1 dot ";
-      else
-        s << computedNumberOfDots << " dots ";
-  
-      s <<
-        "with " <<
-        fDivisionsPerWholeNote <<
-        " per whole note, not " <<
-        fChordNotes [0]-> 
-          getNoteMusicXMLDotsNumber ();
-        
-      msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
-        fInputLineNumber,
-        s.str());
-    }
-
     cerr << idtr <<
       "--> Adding 'Skip' lyrics chunk:" << divisions <<
       "/" << divisionsPerWholeNote << "" <<
