@@ -959,8 +959,13 @@ void xml2MsrVisitor::visitEnd (S_score_part& elt)
     elt->getInputLineNumber ();
 
   if (fMsrOptions->fTrace)
-    cerr << idtr <<
-      "Handling part \"" << partID << "\"" << endl;
+   cerr <<
+      idtr <<
+      "--------------------------------------------" <<
+      endl <<
+      idtr <<
+      "Handling part \"" << fCurrentPartID << "\"" <<
+      endl;
 
   idtr++;
 
@@ -1047,7 +1052,11 @@ void xml2MsrVisitor::visitStart (S_part& elt)
         " is not registered in this visitor's part map");
 
   if (fMsrOptions->fTrace)
-    cerr << idtr <<
+    cerr <<
+      idtr <<
+      "--------------------------------------------" <<
+      endl <<
+      idtr <<
       "Analyzing part \"" << fCurrentPartID << "\"" <<
       endl;
 
@@ -4321,7 +4330,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
         "\"" << endl;
         
     idtr--;
-  } // fMsrOptions->fDebug
+  }
 
   if      (fCurrentSyllabic == "single")
     fCurrentLyricschunkKind = msrLyricschunk::kSingleChunk;

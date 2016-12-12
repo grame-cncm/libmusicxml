@@ -6510,8 +6510,13 @@ msrPartgroup::msrPartgroup (
   fPartgroupPartgroupUplink = partgroupPartgroupUplink;
   
   if (fMsrOptions->fTrace)
-    cerr << idtr <<
-      "Creating part group " << fPartgroupNumber << endl;
+    cerr <<
+      idtr <<
+      "--------------------------------------------" <<
+      endl <<
+      idtr <<
+      "Creating part group " << fPartgroupNumber <<
+      endl;
 }
 
 msrPartgroup::~msrPartgroup() {}

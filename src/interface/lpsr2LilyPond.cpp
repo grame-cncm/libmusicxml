@@ -55,11 +55,12 @@ void generateLilyPondCodeFromLpsrScore (
   S_lpsrOptions&    lpsrOpts,
   ostream&          os)
 {
-  string separator = "%----------------------------------------";
+  string separator = "%---------------------------------------------";
 
   if (msrOpts->fTrace) {
     
     cerr <<
+      endl <<
       idtr << separator <<
       endl <<
       "Pass 4: generating LilyPond code from the LPSR" <<
@@ -71,10 +72,7 @@ void generateLilyPondCodeFromLpsrScore (
   // create an lpsr2LilyPondVisitor
   lpsr2LilyPondVisitor visitor (msrOpts, lpsrOpts, os, lpScore);
   
-  // build the LPSR score
-  if (msrOpts->fTrace)
-    os << separator << endl;
-    
+  // build the LPSR score    
   visitor.generateLilyPondCodeFromLpsrScore ();
   
   if (msrOpts->fTrace)

@@ -67,6 +67,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
     string separator = "%----------------------------------------";
     
     cerr <<
+      endl <<
       idtr << separator <<
       endl <<
       "Pass 3: building a LPSR from the MSR" <<
@@ -106,6 +107,7 @@ void displayLpsrScore (
     string separator = "%----------------------------------------";
     
     cerr <<
+      endl <<
       idtr << separator <<
       endl <<
       "Optionnal pass: outputting a view of the LPSR" <<

@@ -70,9 +70,11 @@ EXP S_msrScore musicxmlFile2Msr (
   ostream&      os) 
 {
   if (msrOpts->fTrace) {
-    string separator = "%----------------------------------------";
+    string separator =
+      "%------------------------------------------------------";
     
     cerr <<
+      endl <<
       idtr << separator <<
       endl <<
       "Pass 1: building xmlemement tree from \"" << file << "\"" <<
@@ -101,9 +103,11 @@ EXP S_msrScore musicxmlFd2Msr (
   ostream&      os) 
 {
   if (msrOpts->fTrace) {
-    string separator = "%----------------------------------------";
+    string separator =
+      "%---------------------------------------------------";
     
     cerr <<
+      endl <<
       idtr << separator <<
       endl <<
       "Pass 1: building xmlemement tree from standard input" <<
@@ -133,9 +137,11 @@ EXP S_msrScore musicxmlString2Msr (
   ostream&      os) 
 {
   if (msrOpts->fTrace) {
-    string separator = "%----------------------------------------";
+    string separator =
+      "%-----------------------------------------------------";
     
     cerr <<
+      endl <<
       idtr << separator <<
       endl <<
       idtr << "Pass 1: building xmlemement tree from a buffer" <<
@@ -164,9 +170,11 @@ S_msrScore buildMsrScoreFromElementsTree (
   Sxmlelement   xmlTree)
 {
   if (msrOpts->fTrace) {
-    string separator = "%----------------------------------------";
+    string separator =
+      "%----------------------------------------------";
     
     cerr <<
+      endl <<
       idtr << separator <<
       endl <<
       "Pass 2: building a MSR from the xmlelement tree" <<
@@ -197,9 +205,11 @@ void displayMsrScore (
   ostream&      os)
 {
   if (msrOpts->fTrace) {
-    string separator = "%----------------------------------------";
+    string separator =
+      "%-------------------------------------------";
     
     cerr <<
+      endl <<
       idtr << separator <<
       endl <<
       "Optionnal pass: outputting a view of the MSR" <<
@@ -221,9 +231,11 @@ void displayMsrScoreSummary (
   ostream&      os)
 {
   if (msrOpts->fTrace) {
-    string separator = "%----------------------------------------";
+    string separator =
+      "%----------------------------------------------";
     
     cerr <<
+      endl <<
       idtr << separator <<
       endl <<
       "Optionnal pass: outputting a summary of the MSR" <<
