@@ -454,6 +454,7 @@ class msrMusicXMLNoteData
     int                       fMusicXMLDotsNumber;
     
     bool                      fMusicXMLNoteIsAGraceNote;
+    bool                      fMusicXMLNoteIsAGraceNote;
     
     bool                      fMusicXMLNoteBelongsToAChord;
     
@@ -801,8 +802,13 @@ class EXP msrNote : public msrElement
 
     enum msrNoteKind {
       kRestNote, 
-      kStandaloneNote, kChordMemberNote, kTupletMemberNote};
+      kStandaloneNote,
+      kChordMemberNote, kTupletMemberNote};
       
+    enum msrGraceKind {
+        k_NoGrace,
+        kStartGrace, kContinueGrace, kStopGrace};
+        
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -897,11 +903,17 @@ class EXP msrNote : public msrElement
                       }
 
     // grace notes
-    bool          getNoteIsGraceNote () const
+    bool          getNoteIsGraceNote () const // JMI
                       {
                         return
                           fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote;
                       }
+                      
+    void          setGraceKind (msrGraceKind graceKind)
+                      { fGraceKind = graceKind; }
+
+    msrGraceKind  getGraceKind () const
+                      { return fGraceKind; }
 
     string        notePitchAsString () const;
 
@@ -1015,7 +1027,10 @@ class EXP msrNote : public msrElement
     
     list<S_msrDynamics>       fNoteDynamics;
     list<S_msrWedge>          fNoteWedges;
-                              
+
+
+    msrGraceKind              fGraceKind;
+                                  
     msrSlur::msrSlurKind      fNoteSlurKind;
 
     int                       fDivisionsPerWholeNote;
