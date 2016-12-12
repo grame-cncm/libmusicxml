@@ -1557,10 +1557,11 @@ class EXP lpsrScoreBlock : public lpsrElement
                   getScoreBlockParallelMusic () const
                       { return fScoreBlockParallelMusic; }
 
+/*
     const vector<S_msrElement>&
                   getScoreBlockElements () const
                       { return fScoreBlockElements; }
-
+*/
     S_lpsrLayout  getScoreBlockLayout () const
                     { return fScoreBlockLayout; }
 
@@ -1576,7 +1577,7 @@ class EXP lpsrScoreBlock : public lpsrElement
                         fScoreBlockParallelMusic->
                           addElementToParallelMusic (partgroupCommand);
                           
-                        fScoreBlockElements.push_back(partgroupCommand);
+         //               fScoreBlockElements.push_back(partgroupCommand);
                       }
 
     void          appendVoiceUseToParallelMusic (
@@ -1585,7 +1586,7 @@ class EXP lpsrScoreBlock : public lpsrElement
                         fScoreBlockParallelMusic->
                           addElementToParallelMusic (voiceUse);
                           
-                        fScoreBlockElements.push_back(voiceUse);
+      //                  fScoreBlockElements.push_back(voiceUse);
                       }
                   
     void          appendLyricsUseToParallelMusic (
@@ -1594,7 +1595,7 @@ class EXP lpsrScoreBlock : public lpsrElement
                         fScoreBlockParallelMusic->
                           addElementToParallelMusic (lyricsUse);
                           
-                        fScoreBlockElements.push_back(lyricsUse);
+     //                   fScoreBlockElements.push_back(lyricsUse);
                       }
 
     // visitors
@@ -1611,7 +1612,7 @@ class EXP lpsrScoreBlock : public lpsrElement
 
     S_lpsrParallelMusic   fScoreBlockParallelMusic;
     
-    vector<S_msrElement>  fScoreBlockElements;
+//    vector<S_msrElement>  fScoreBlockElements;
 
     S_lpsrLayout          fScoreBlockLayout;
     

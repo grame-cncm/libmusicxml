@@ -3308,16 +3308,22 @@ class EXP msrPart : public msrElement
     void          setPartInstrumentName (string partInstrumentName)
                       { fPartInstrumentName = partInstrumentName; }
                               
-    void          setPartMusicXMLID (string  partMusicXMLID)
+    void          setPartMusicXMLID (string partMusicXMLID)
                       { fPartMusicXMLID = partMusicXMLID; }
     
-    void          setPartMSRName (string  partMSRName);
+    void          setPartMSRName (string partMSRName);
+    
+    void          setPartName (string partName)
+                      { fPartName = partName; }
     
     string        getPartMusicXMLID () const
                       { return fPartMusicXMLID; }
 
     string        getPartMSRName () const
                       { return fPartMSRName; }
+
+    string        getPartName () const
+                      { return fPartName; }
 
     string        getPartAbbreviation () const
                       { return fPartAbbreviation; }
@@ -3384,9 +3390,10 @@ class EXP msrPart : public msrElement
     string                  fPartMusicXMLID; // native
     string                  fPartMSRName;
                               // may be different than fPartMusicXMLID
-                              // if renamed
+                              // if renamed,
                               // coined in constructor
 
+    string                  fPartName; // from '<part-name'
     string                  fPartAbbreviation;
     string                  fPartInstrumentName;
 

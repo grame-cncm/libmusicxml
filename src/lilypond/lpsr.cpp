@@ -190,12 +190,19 @@ void lpsrParallelMusic::print (ostream& os)
   
   idtr++;
   
+  for (
+    vector<S_msrElement>::const_iterator i = fParallelMusicElements.begin();
+    i != fParallelMusicElements.end();
+    i++) {
+    os << idtr << (*i);
+  } // for
+/* JMI
   int size = fParallelMusicElements.size();
   
   for (int i = 0; i < size; i++ ) {
-    os << idtr << fParallelMusicElements[i];
+    os << idtr << fParallelMusicElements [i];
   } // for
-  
+*/ 
   idtr--;
 }
 
@@ -2373,6 +2380,7 @@ void lpsrScoreBlock::browseData (basevisitor* v)
     browser.browse (*fScoreBlockParallelMusic);
   }
 
+/* JMI
   for (
     vector<S_msrElement>::iterator i = fScoreBlockElements.begin();
     i != fScoreBlockElements.end();
@@ -2381,7 +2389,7 @@ void lpsrScoreBlock::browseData (basevisitor* v)
  //   msrBrowser<msrElement> browser (v);
  //   browser.browse (*(*i));
   } // for
-
+*/
   {
     // browse the score command layout
     msrBrowser<lpsrLayout> browser (v);    

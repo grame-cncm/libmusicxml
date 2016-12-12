@@ -6402,6 +6402,9 @@ void msrPart::print (ostream& os)
       setw(22) << "PartMSRName" << ": \"" <<
       fPartMSRName << "\"" << endl <<
     idtr <<
+      setw(22) << "PartName" << ": \"" <<
+      fPartName << "\"" << endl <<
+    idtr <<
       setw(22) << "PartAbbrevation" << ": \"" <<
       fPartAbbreviation << "\"" << endl <<
     idtr <<

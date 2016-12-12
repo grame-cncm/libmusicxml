@@ -862,9 +862,9 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
   string
     staffInstrumentName = // JMI
       staff->getStaffInstrumentName (),
-    partMSRName =
-      part->getPartMSRName (),
-    partAbbrevation =
+    partName =
+      part->getPartName (),
+    partAbbreviation =
       part->getPartAbbreviation ();
 
   fOstream << idtr <<
@@ -877,21 +877,21 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
       
   fOstream << endl;
 
-  if (partMSRName.size ())
+  idtr++;
+
+  if (partName.size ())
     fOstream << idtr <<
       "\\set Staff.instrumentName = \"" <<
-      partMSRName <<
+      partName <<
       "\"" <<
       endl;
 
-  if (partAbbrevation.size ())
+  if (partAbbreviation.size ())
     fOstream << idtr <<
       "\\set Staff.shortInstrumentName = \"" <<
-      partAbbrevation <<
+      partAbbreviation <<
       "\"" <<
       endl;
-
-  idtr++;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffBlock& elt)

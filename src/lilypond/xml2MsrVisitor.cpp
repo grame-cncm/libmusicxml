@@ -999,7 +999,7 @@ void xml2MsrVisitor::visitEnd (S_score_part& elt)
   // populate current part
   // fPartMSRName has already been set by the constructor // JMI
   part->
-    setPartMSRName (fCurrentPartName);
+    setPartName (fCurrentPartName);
   part->
     setPartAbbreviation (fCurrentPartAbbreviation);
   part->
@@ -2091,7 +2091,7 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
     if (newSystem == "yes") {
       
       int inputLineNumber =
-        inputLineNumber;
+        elt->getInputLineNumber ();
       
       // create a barnumbercheck command
       if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
