@@ -529,22 +529,22 @@ string divisionsAsMSRString (
   // MusicXML divisions are per quater note,
   // MSR and LilyPond durations are in whole notes
 
-  // TEMP computedNumberOfDots = 0;
+  computedNumberOfDots = 0;
 
   //debugMode = true; // TEMP, for tests
   if (divisionsPerWholeNote == 0) {
-  stringstream s;
-  
-  s << 
-    "divisions " <<
-      divisions <<
-    ", divisionsPerWholeNote = " <<
-    divisionsPerWholeNote <<
-    ": cannot devide by 0" << endl;
+    stringstream s;
     
-  errorMessage = s.str();
-  
-  return "";
+    s << 
+      "divisions " <<
+        divisions <<
+      ", divisionsPerWholeNote = " <<
+      divisionsPerWholeNote <<
+      ": cannot devide by 0" << endl;
+      
+    errorMessage = s.str();
+    
+    return "";
   }
 
   stringstream s;
@@ -658,7 +658,7 @@ string divisionsAsMSRString (
       m            = remainingDivisions,
       numberOfDots = 0;
 
-    if (debugMode)
+ //   if (debugMode)
       cerr << endl << "% limit = " << limit << endl;
     
     while (m < limit) {
@@ -672,12 +672,13 @@ string divisionsAsMSRString (
     if (debugMode)
       cerr << endl;
 
+/*
     s << " %{ ";
     for (int i = 0; i < computedNumberOfDots; i++) // TEMP
       s << "*";
     s << " %}";
-      
-    // TEMP computedNumberOfDots = numberOfDots;
+*/
+    computedNumberOfDots = numberOfDots;
   }
 
   return s.str();

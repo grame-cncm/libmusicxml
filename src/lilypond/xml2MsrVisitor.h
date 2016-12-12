@@ -464,7 +464,7 @@ class EXP xml2MsrVisitor :
 
     // staff handling
     // ------------------------------------------------------
-    int                       fCurrentStaffNumber;
+    int                       fCurrentStaffNumber; // used throughout
     
     S_msrStaff                createStaffInCurrentPartIfNeeded (
                                 int            inputLineNumber,
@@ -472,7 +472,7 @@ class EXP xml2MsrVisitor :
 
     // voice handling
     // ------------------------------------------------------
-    int                       fCurrentVoiceNumber;
+    int                       fCurrentVoiceNumber; // used throughout
 
     S_msrVoice                createVoiceInStaffInCurrentPartIfNeeded (
                                 int            inputLineNumber,
