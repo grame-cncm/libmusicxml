@@ -226,7 +226,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
 
     if (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
       noteAboluteDiatonicOrdinal -= 4;
-      while (noteAboluteDiatonicOrdinal > referenceAboluteDiatonicOrdinal) {
+      while (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
         s << "'";
         noteAboluteDiatonicOrdinal -= 8;
       } // while
@@ -234,7 +234,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     
     else {
       noteAboluteDiatonicOrdinal += 4;
-      while (noteAboluteDiatonicOrdinal < referenceAboluteDiatonicOrdinal) {
+      while (noteAboluteDiatonicOrdinal <= referenceAboluteDiatonicOrdinal) {
         s << ",";
         noteAboluteDiatonicOrdinal += 8;
       } // while
