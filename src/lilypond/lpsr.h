@@ -1558,6 +1558,10 @@ class EXP lpsrScoreBlock : public lpsrElement
                   getScoreBlockParallelMusic () const
                       { return fScoreBlockParallelMusic; }
 
+    const vector<S_msrElement>&
+                  getScoreBlockElements () const
+                      { return fScoreBlockElements; }
+
     S_lpsrLayout  getScoreBlockLayout () const
                     { return fScoreBlockLayout; }
 
@@ -1572,6 +1576,8 @@ class EXP lpsrScoreBlock : public lpsrElement
                       {
                         fScoreBlockParallelMusic->
                           addElementToParallelMusic (partgroupCommand);
+                          
+                        fScoreBlockElements.push_back(partgroupCommand);
                       }
 
     void          appendVoiceUseToParallelMusic (
@@ -1579,6 +1585,8 @@ class EXP lpsrScoreBlock : public lpsrElement
                       {
                         fScoreBlockParallelMusic->
                           addElementToParallelMusic (voiceUse);
+                          
+                        fScoreBlockElements.push_back(voiceUse);
                       }
                   
     void          appendLyricsUseToParallelMusic (
@@ -1586,6 +1594,8 @@ class EXP lpsrScoreBlock : public lpsrElement
                       {
                         fScoreBlockParallelMusic->
                           addElementToParallelMusic (lyricsUse);
+                          
+                        fScoreBlockElements.push_back(lyricsUse);
                       }
 
     // visitors
@@ -1600,9 +1610,13 @@ class EXP lpsrScoreBlock : public lpsrElement
 
   private:
 
-    S_lpsrParallelMusic fScoreBlockParallelMusic;
-    S_lpsrLayout        fScoreBlockLayout;
-    S_msrMidi           fScoreBlockMidi;    
+    S_lpsrParallelMusic   fScoreBlockParallelMusic;
+    
+    vector<S_msrElement>  fScoreBlockElements;
+
+    S_lpsrLayout          fScoreBlockLayout;
+    
+    S_msrMidi             fScoreBlockMidi;    
 };
 typedef SMARTP<lpsrScoreBlock> S_lpsrScoreBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrScoreBlock& elt);

@@ -566,8 +566,7 @@ string divisionsAsMSRString (
   int divisionsAccountedFor = divisions - mod;
   int remainingDivisions    = mod;
 
-  int limit = divisionsAccountedFor;
-    // an infinite sequence of dots tends to this
+  int limit;
   
   switch (div) {
     case 15:
@@ -609,11 +608,16 @@ string divisionsAsMSRString (
         n          = divisions * 2;
 
       if (debugMode)
-        cerr << "% --> reciprocal = " << reciprocal << ", n = " << n << endl;
+        cerr <<
+          "% --> reciprocal = " << reciprocal << ", n = " << n <<
+          endl;
       
       while (n < divisionsPerWholeNote) {
         if (debugMode)
-          cerr << "% --> n = " << n << ", reciprocal = " << reciprocal << endl;
+          cerr <<
+            "% --> n = " << n << ", reciprocal = " << reciprocal <<
+            endl;
+            
         reciprocal *= 2;
         n *= 2;
       } // while
@@ -624,7 +628,7 @@ string divisionsAsMSRString (
       divisionsAccountedFor = divisionsPerWholeNote / reciprocal;
       remainingDivisions    = mod - divisionsAccountedFor;
 
-      limit = divisionsAccountedFor;
+      limit = divisionsAccountedFor * 2;
         // an infinite sequence of dots tends to this
 
       }
@@ -663,9 +667,9 @@ string divisionsAsMSRString (
       cerr << endl << "% limit = " << limit << endl;
     
     while (m < limit) {
-      m *= 2;
  // TEMP     s << ".";
       numberOfDots++;
+      m *= 2;
       if (debugMode)
         cerr << "% m = " << m << ", numberOfDots = " << numberOfDots << endl;
     } // while
@@ -674,12 +678,13 @@ string divisionsAsMSRString (
     for (int i = 0; i < inputSourceSuppliedNumberOfDots; i++) // TEMP JMI
       s << ".";
 
-    if (computedNumberOfDots != inputSourceSuppliedNumberOfDots) {
+    if (numberOfDots != inputSourceSuppliedNumberOfDots) {
       s <<
         " %{" <<
         divisions << "/" << divisionsPerWholeNote <<
+        ", " << remainingDivisions <<
         ", " << limit <<
-        computedNumberOfDots <<
+        ", " << numberOfDots <<
         " %} ";
         
       /*
@@ -701,8 +706,6 @@ string divisionsAsMSRString (
           ", not " << computedNumberOfDots <<
           endl;
           */
-  
-      cerr << s.str();
     }
 
     computedNumberOfDots = numberOfDots;

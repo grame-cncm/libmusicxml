@@ -168,10 +168,8 @@ void lpsrParallelMusic::browseData (basevisitor* v)
     vector<S_msrElement>::iterator i = fParallelMusicElements.begin();
     i != fParallelMusicElements.end();
     i++) {
-    // create the element browser
+    // browse the element browser
     msrBrowser<msrElement> browser (v);
-  
-    // browse the element with the visitor
     browser.browse (*(*i));
   } // for
 
@@ -2374,6 +2372,15 @@ void lpsrScoreBlock::browseData (basevisitor* v)
     msrBrowser<lpsrParallelMusic> browser (v);    
     browser.browse (*fScoreBlockParallelMusic);
   }
+
+  for (
+    vector<S_msrElement>::iterator i = fScoreBlockElements.begin();
+    i != fScoreBlockElements.end();
+    i++) {
+    // browse the element
+ //   msrBrowser<msrElement> browser (v);
+ //   browser.browse (*(*i));
+  } // for
 
   {
     // browse the score command layout

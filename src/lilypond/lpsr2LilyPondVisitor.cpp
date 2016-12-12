@@ -594,7 +594,15 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrScoreBlock& elt)
     endl;
 
   idtr++;
-
+/*
+  if (elt->getScoreBlockElements ().size()) {
+    fOstream <<
+      idtr << "<<" <<
+      endl;
+  
+    idtr++;
+  }
+*/
   fOnGoingScoreBlock = true;
 }
 
@@ -603,7 +611,15 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrScoreBlock& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrScoreBlock" << endl;
-
+/*
+  if (elt->getScoreBlockElements ().size()) {
+    idtr--;
+    
+    fOstream <<
+      idtr << ">>" <<
+      endl << endl;
+  }
+*/
   idtr--;
   
   fOstream << idtr <<
@@ -737,10 +753,10 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupBlock& elt)
 
     fOstream <<
       idtr <<
-      setw(30) << "}";
+      "}";
     if (fLpsrOptions->fGenerateComments)
       fOstream <<
-        "% part group " <<
+        setw(30) << "% part group " <<
         elt->getPartgroup ()->getPartgroupCombinedName ();
     fOstream << endl;
   }
@@ -791,11 +807,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartBlock& elt)
 
   fOstream <<
     idtr <<
-    setw(30) << "}";
+    "}";
     
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
-      "% part " <<
+      setw(30) << "% part " <<
       elt->getPart ()->getPartCombinedName ();
       
   fOstream << endl;
@@ -817,11 +833,11 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
       staff->getStaffInstrumentName ();
 
   fOstream << idtr <<
-    setw(30) << "\\new Staff" << "<<";
+    "\\new Staff" " " "<<";
     
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
-      "% staff " <<
+      setw(30) << "% staff " <<
       elt->getStaff ()->getStaffName ();
       
   fOstream << endl;
@@ -846,10 +862,10 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffBlock& elt)
 
   fOstream <<
     idtr <<
-    setw(30) << ">>";
+    ">>";
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
-      "% staff " <<
+      setw(30) << "% staff " <<
       elt->getStaff ()->getStaffName ();
   fOstream << endl;
 }
@@ -974,7 +990,8 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewLyricsBlock& elt)
   if (true || fOngoingNonEmptyLyrics) { // JMI
     fOstream <<
       idtr <<
-        "\\new Lyrics" << endl;
+        "\\new Lyrics" <<
+      endl;
 
     idtr++;
     
@@ -983,7 +1000,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewLyricsBlock& elt)
         "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
     endl <<
     idtr << "\\" << elt->getLyrics ()->getLyricsName () <<
-    endl << endl;
+    endl;
   }
 }
 
@@ -1194,7 +1211,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
 
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
-      setw(30) << "{" << "% start of msrVoicechunk" <<
+      "{" <<
+      setw(30) << "% start of msrVoicechunk" <<
       endl;
 
     idtr++;
@@ -1220,7 +1238,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
     fOstream <<
       endl <<
       idtr <<
-      setw(30) << "}" << "% end of msrVoicechunk" <<
+      "}" <<
+      setw(30) << "% end of msrVoicechunk" <<
       endl;
   }
   else {
@@ -2215,7 +2234,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeatending& elt)
     // first repeat ending is in charge of
     // outputting the start of the alternative
     fOstream << idtr <<
-      setw(30) << "\\alternative" " " "{" << "% start of alternative" <<
+      setw(30) << "\\alternative" " " "{" <<
+      "% start of alternative" <<
       endl;
     
     idtr++;

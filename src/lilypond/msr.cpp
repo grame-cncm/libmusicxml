@@ -1525,7 +1525,8 @@ void msrNote::print (ostream& os)
 {
   rational
     position (
-      fNoteMeasureLocation.fPositionInMeasure, fDivisionsPerWholeNote);
+      fNoteMeasureLocation.fPositionInMeasure,
+      fDivisionsPerWholeNote);
 
   position.rationalise ();
   
@@ -4732,17 +4733,17 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
   
   if (fMsrOptions->fDebug)
     cout <<
-    endl <<
-    idtr <<
-      "% --> fUpbeatDivisions = " << fUpbeatDivisions <<
-      ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
+      endl <<
+      idtr <<
+        "% --> fUpbeatDivisions = " << fUpbeatDivisions <<
+        ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
       endl;
 
   result =
     divisionsAsMSRString (
       fUpbeatDivisions,
       divisionsPerWholeNote,
-      -1,
+      fUpbeatDivisions, // JMI
       computedNumberOfDots,
       errorMessage,
       false); // 'true' to debug it;
@@ -4761,10 +4762,10 @@ void msrUpbeat::print (ostream& os)
   os <<
     endl <<
     idtr << "Upbeat" <<
-    ", input line: " << fInputLineNumber <<
-    ", voice " << fUpbeatVoiceUplink->getVoiceName () << ", " <<
-    fUpbeatDivisions << " divisions" <<
-    " (" << getUpbeatDivisionsAsString () << ")" <<
+      ", input line: " << fInputLineNumber <<
+      ", voice " << fUpbeatVoiceUplink->getVoiceName () << ", " <<
+      fUpbeatDivisions << " divisions" <<
+      " (" << getUpbeatDivisionsAsString () << ")" <<
     endl;
 }
 
@@ -5043,7 +5044,7 @@ void msrVoice::setMeasureNumber (
       divisionsAsMSRString (
         anacrusisDivisions,
         fDivisionsPerWholeNote,
-        -1,
+        anacrusisDivisions, // JMI
         computedNumberOfDots,
         errorMessage,
         false); // 'true' to debug it
