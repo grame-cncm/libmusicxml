@@ -1396,6 +1396,7 @@ string msrNote::noteDivisionsAsMSRString () const
     divisionsAsMSRString (
       fMusicXMLNoteData.fNoteDisplayDivisions,
       fDivisionsPerWholeNote,
+      fMusicXMLNoteData.fMusicXMLDotsNumber,
       computedNumberOfDots,
       errorMessage,
       false); // 'true' to debug it
@@ -1405,25 +1406,6 @@ string msrNote::noteDivisionsAsMSRString () const
       fMsrOptions->fInputSourceName,
       fInputLineNumber,
       errorMessage);
-    
-  if (computedNumberOfDots != fMusicXMLNoteData.fMusicXMLDotsNumber) {
-    stringstream s;
-    
-    if (fMusicXMLNoteData.fNoteDisplayDivisions == 1)
-      s << "1 division needs ";
-    else
-      s << fMusicXMLNoteData.fNoteDisplayDivisions << " divisions need ";
-      
-    if (computedNumberOfDots == 1)
-      s << "1 dot ";
-    else
-      s << computedNumberOfDots << " dots ";
-      
-    msrInternalError (
-      fMsrOptions->fInputSourceName,
-      fInputLineNumber,
-      s.str());
-  }
 
   return result;
 }
@@ -1744,11 +1726,16 @@ string msrChord::chordDivisionsAsMSRString () const
   string result;
   int    computedNumberOfDots;
   string errorMessage;
-  
+
+  int inputSourceSuppliedNumberOfDots =
+    fChordNotes [0]-> 
+      getNoteMusicXMLDotsNumber (); // any chord member note is fine
+    
   result =
     divisionsAsMSRString (
       fChordDivisions,
       fDivisionsPerWholeNote,
+      inputSourceSuppliedNumberOfDots,
       computedNumberOfDots,
       errorMessage,
       false); // 'true' to debug it
@@ -1758,37 +1745,6 @@ string msrChord::chordDivisionsAsMSRString () const
       fMsrOptions->fInputSourceName,
       fInputLineNumber,
       errorMessage);
-
-  if (
-    computedNumberOfDots
-      !=
-    fChordNotes [0]-> 
-      getNoteMusicXMLDotsNumber ()) { // any chord member notes is fine
-
-    stringstream s;
-
-    if (fChordDivisions == 1)
-      s << "1 division needs ";
-    else
-      s << fChordDivisions << " divisions need ";
-      
-    if (computedNumberOfDots == 1)
-      s << "1 dot ";
-    else
-      s << computedNumberOfDots << " dots ";
-
-    s <<
-      "with " <<
-      fDivisionsPerWholeNote <<
-      " per whole note, not " <<
-      fChordNotes [0]-> 
-        getNoteMusicXMLDotsNumber ();
-      
-    msrMusicXMLError (
-      fMsrOptions->fInputSourceName,
-      fInputLineNumber,
-      s.str());
-  }
 
   return result;
 }
@@ -4806,6 +4762,7 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
     divisionsAsMSRString (
       fUpbeatDivisions,
       divisionsPerWholeNote,
+      -1,
       computedNumberOfDots,
       errorMessage,
       false); // 'true' to debug it;
@@ -4815,38 +4772,7 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
       fMsrOptions->fInputSourceName,
       fInputLineNumber,
       errorMessage);
-/*
-  if (
-    computedNumberOfDots
-      !=
-    fChordNotes [0]-> 
-      getNoteMusicXMLDotsNumber ()) { // any chord member notes is fine
 
-    stringstream s;
-
-    if (fChordDivisions == 1)
-      s << "1 division needs ";
-    else
-      s << fChordDivisions << " divisions need ";
-      
-    if (computedNumberOfDots == 1)
-      s << "1 dot ";
-    else
-      s << computedNumberOfDots << " dots ";
-
-    s <<
-      "with " <<
-      fDivisionsPerWholeNote <<
-      " per whole note, not " <<
-      fChordNotes [0]-> 
-        getNoteMusicXMLDotsNumber ();
-      
-    msrMusicXMLError (
-      fMsrOptions->fInputSourceName,
-      fInputLineNumber,
-      s.str());
-  }
-*/
   return result;
 }
 
@@ -5137,6 +5063,7 @@ void msrVoice::setMeasureNumber (
       divisionsAsMSRString (
         anacrusisDivisions,
         fDivisionsPerWholeNote,
+        -1,
         computedNumberOfDots,
         errorMessage,
         false); // 'true' to debug it
@@ -5146,38 +5073,7 @@ void msrVoice::setMeasureNumber (
           fMsrOptions->fInputSourceName,
           fInputLineNumber,
           errorMessage);
-/*
-      if (
-        computedNumberOfDots
-          !=
-        fChordNotes [0]-> 
-          getNoteMusicXMLDotsNumber ()) { // any chord member notes is fine
-    
-        stringstream s;
-    
-        if (fChordDivisions == 1)
-          s << "1 division needs ";
-        else
-          s << fChordDivisions << " divisions need ";
-          
-        if (computedNumberOfDots == 1)
-          s << "1 dot ";
-        else
-          s << computedNumberOfDots << " dots ";
-    
-        s <<
-          "with " <<
-          fDivisionsPerWholeNote <<
-          " per whole note, not " <<
-          fChordNotes [0]-> 
-            getNoteMusicXMLDotsNumber ();
-          
-        msrMusicXMLError (
-          fMsrOptions->fInputSourceName,
-          fInputLineNumber,
-          s.str());
-      }
-*/    
+
       if (fMsrOptions->fTrace) {
         cerr << idtr <<
           "Voice  " << getVoiceName () << " has an ";

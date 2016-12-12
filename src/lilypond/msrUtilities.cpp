@@ -522,6 +522,7 @@ std::pair<std::string, std::string> extractNamesPairFromString (
 string divisionsAsMSRString (
   int     divisions,
   int     divisionsPerWholeNote,
+  int     inputSourceSuppliedNumberOfDots,
   int&    computedNumberOfDots,
   string& errorMessage,
   bool    debugMode)
@@ -640,7 +641,7 @@ string divisionsAsMSRString (
         divisionsPerWholeNote <<
         " exceeds a maxima" << endl;
         
-      // TEMP errorMessage = s.str();
+      errorMessage = s.str();
       }
   } // switch
 
@@ -663,7 +664,7 @@ string divisionsAsMSRString (
     
     while (m < limit) {
       m *= 2;
-      s << ".";
+ // TEMP     s << ".";
       numberOfDots++;
       if (debugMode)
         cerr << "% m = " << m << ", numberOfDots = " << numberOfDots << endl;
@@ -672,12 +673,30 @@ string divisionsAsMSRString (
     if (debugMode)
       cerr << endl;
 
-/*
-    s << " %{ ";
-    for (int i = 0; i < computedNumberOfDots; i++) // TEMP
-      s << "*";
-    s << " %}";
-*/
+    if (computedNumberOfDots != inputSourceSuppliedNumberOfDots) {
+      s << endl;
+      
+      if (divisions == 1)
+        s << "1 division needs ";
+      else
+        s << divisions << " divisions need ";
+        
+      if (inputSourceSuppliedNumberOfDots == 1)
+        s << "1 dot ";
+      else
+        s << inputSourceSuppliedNumberOfDots << " dots ";
+  
+      s <<
+        "with " << divisionsPerWholeNote << " per whole note" <<
+        ", not " << computedNumberOfDots <<
+        endl;
+
+      // TEMP cerr << s.str();
+    }
+
+    for (int i = 0; i < inputSourceSuppliedNumberOfDots; i++) // TEMP
+      s << ".";
+
     computedNumberOfDots = numberOfDots;
   }
 
