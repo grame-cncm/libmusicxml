@@ -106,18 +106,54 @@ struct stringSpaceRemover
 {
   /* usage:
       string dest = "";
-      for_each( source.begin(), source.end(), stringSpaceRemover (dest));
+      for_each (
+        source.begin(),
+        source.end(),
+        stringSpaceRemover (dest));
   */
 
   string&  target;
-  explicit stringSpaceRemover( string& t ) : target( t ) {}
+  
+  explicit stringSpaceRemover (string& t)
+    : target (t)
+    {}
 
-  void operator()( char ch ) const
-  {
-     if( ch != ' ') {
-       target.push_back( ch );
-     }
-  }
+  void operator() (char ch) const
+    {
+      if (ch != ' ') {
+        target.push_back (ch);
+      }
+    }
+};
+
+/*!
+\brief A utility to replace spaces in strings.
+*/
+//______________________________________________________________________________
+struct stringSpaceReplacer
+{
+  /* usage:
+      string dest = "";
+      for_each (
+        source.begin(),
+        source.end(),
+        stringSpaceReplacer (dest, ersatz));
+  */
+
+  string&  target;
+  char     ersatz;
+  
+  explicit stringSpaceReplacer (string& t, char ch)
+    : target (t), ersatz (ch)
+    {}
+
+  void operator() (char ch) const
+    {
+      if (ch == ' ')
+        target.push_back (ersatz);
+      else
+        target.push_back (ch);
+    }
 };
 
 /*!

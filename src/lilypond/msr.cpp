@@ -6142,8 +6142,15 @@ msrPart::msrPart (
   string         partMusicXMLID,
   S_msrPartgroup partPartgroupUplink)
     : msrElement (msrOpts, inputLineNumber)
-{  
-  fPartMusicXMLID      = partMusicXMLID;
+{
+  // replace spaced in part ID
+  for_each (
+    partMusicXMLID.begin(),
+    partMusicXMLID.end(),
+    stringSpaceReplacer (fPartMusicXMLID, '_'));
+
+ // JMI fPartMusicXMLID      = partMusicXMLID;
+ 
   fPartPartgroupUplink = partPartgroupUplink;
 
   // is this part name in the part renaming map?
@@ -6183,7 +6190,7 @@ S_msrPart msrPart::createEmptyClone (S_msrPartgroup clonedPartgroup)
   return clone;
 }
 
-void msrPart::setPartMSRName (string  partMSRName)
+void msrPart::setPartMSRName (string partMSRName)
 {
   // is this part name in the part renaming map?
   map<string, string>::iterator
@@ -6196,8 +6203,8 @@ void msrPart::setPartMSRName (string  partMSRName)
 
     if (fMsrOptions->fTrace)
       cerr << idtr <<
-        "Setting part name of " << getPartCombinedName () <<
-        " to \"" << fPartMSRName << "\"" <<
+        "Setting part name of \"" << getPartCombinedName () <<
+        "\" to \"" << fPartMSRName << "\"" <<
          endl;
   }
   else {
@@ -6206,14 +6213,18 @@ void msrPart::setPartMSRName (string  partMSRName)
 
     if (fMsrOptions->fTrace)
       cerr << idtr <<
-        "Keeping partID as part name  for " << getPartCombinedName () << endl;
+        "Keeping partID \"" << partMSRName <<
+        "\" as part name  for \"" <<
+        getPartCombinedName () <<
+        "\"" <<
+      endl;
   }
 }
 
 string msrPart::getPartCombinedName () const
 {
   return
-    fPartMSRName +
+    "\"" + fPartMSRName + "\"" +
     " (" + fPartMusicXMLID + ")";
 }
 
@@ -6272,7 +6283,8 @@ S_msrStaff msrPart::addStaffToPart (
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Adding staff " << staffNumber <<
-      " to part " << getPartCombinedName () << endl;
+      " to part " << getPartCombinedName () << "\"" <<
+      endl;
 
 if (staffNumber < 0) cout << 0/0 << endl;
   
@@ -6386,6 +6398,9 @@ void msrPart::print (ostream& os)
     idtr <<
       setw(22) << "DivisionsPerWholeNote" << ": " <<
       fDivisionsPerWholeNote << endl <<
+    idtr <<
+      setw(22) << "PartMSRName" << ": \"" <<
+      fPartMSRName << "\"" << endl <<
     idtr <<
       setw(22) << "PartAbbrevation" << ": \"" <<
       fPartAbbreviation << "\"" << endl <<

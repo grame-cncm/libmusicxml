@@ -62,10 +62,9 @@ xml2MsrVisitor::xml2MsrVisitor (
   fCurrentSyllabic = "";
   fCurrentText = "";
   fCurrentElision = false;
+  
   fCurrentLyricschunkKind     = msrLyricschunk::k_NoChunk;
   fFirstLyricschunkInSlurKind = msrLyricschunk::k_NoChunk;
-
-  fOnGoingChord = false;
   
   fCurrentBackupDuration = -1;
 

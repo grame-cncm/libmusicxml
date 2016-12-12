@@ -454,7 +454,6 @@ class msrMusicXMLNoteData
     int                       fMusicXMLDotsNumber;
     
     bool                      fMusicXMLNoteIsAGraceNote;
-    bool                      fMusicXMLNoteIsAGraceNote;
     
     bool                      fMusicXMLNoteBelongsToAChord;
     
@@ -3318,7 +3317,7 @@ class EXP msrPart : public msrElement
                       { return fPartMusicXMLID; }
 
     string        getPartMSRName () const
-                  { return fPartMSRName; }
+                      { return fPartMSRName; }
 
     string        getPartAbbreviation () const
                       { return fPartAbbreviation; }

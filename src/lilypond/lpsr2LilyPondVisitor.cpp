@@ -742,7 +742,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
   
   
     fOstream << idtr <<
-      "\\new " << partGroupContextName << " " "{";
+      "\\new " << partGroupContextName << " " "<<";
       
     if (fLpsrOptions->fGenerateComments)
       fOstream <<
@@ -780,7 +780,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupBlock& elt)
 
     fOstream <<
       idtr <<
-      "}";
+      ">>";
     if (fLpsrOptions->fGenerateComments)
       fOstream <<
         setw(30) << "% part group " <<
@@ -805,7 +805,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartBlock& elt)
       part->getPartInstrumentName ();
 
   fOstream << idtr <<
-    "\\new StaffGroup" <<  " " "{";
+    "\\new StaffGroup" <<  " " "<<";
     
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
@@ -834,7 +834,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartBlock& elt)
 
   fOstream <<
     idtr <<
-    "}";
+    ">>";
     
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
@@ -855,9 +855,17 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
     staff =
       elt->getStaff ();
       
+  S_msrPart
+    part =
+      staff->getStaffPartUplink ();
+      
   string
-    staffInstrumentName =
-      staff->getStaffInstrumentName ();
+    staffInstrumentName = // JMI
+      staff->getStaffInstrumentName (),
+    partMSRName =
+      part->getPartMSRName (),
+    partAbbrevation =
+      part->getPartAbbreviation ();
 
   fOstream << idtr <<
     "\\new Staff" " " "<<";
@@ -869,10 +877,17 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
       
   fOstream << endl;
 
-  if (staffInstrumentName.size ())
+  if (partMSRName.size ())
     fOstream << idtr <<
-      "\\set Staff.instrumentName = #\"" <<
-      staffInstrumentName <<
+      "\\set Staff.instrumentName = \"" <<
+      partMSRName <<
+      "\"" <<
+      endl;
+
+  if (partAbbrevation.size ())
+    fOstream << idtr <<
+      "\\set Staff.shortInstrumentName = \"" <<
+      partAbbrevation <<
       "\"" <<
       endl;
 
