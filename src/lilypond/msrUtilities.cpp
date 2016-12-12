@@ -661,8 +661,22 @@ string divisionsAsMSRString (
   if (remainingDivisions > 0) {
     int
       m            = remainingDivisions,
+      currentWeight = divisionsAccountedFor / 2,
+      cumulatedWeight = 0,
       numberOfDots = 0;
 
+    while (cumulatedWeight < remainingDivisions) {
+      numberOfDots++;
+      cumulatedWeight += currentWeight;
+      currentWeight /= 2;
+      if (debugMode)
+        cerr <<
+          "% cumulatedWeight = " << cumulatedWeight <<
+          ", currentWeight = " << currentWeight <<
+          ", " << numberOfDots <<
+          endl;      
+    } // while
+/*
     if (debugMode)
       cerr << endl << "% limit = " << limit << endl;
     
@@ -673,6 +687,8 @@ string divisionsAsMSRString (
       if (debugMode)
         cerr << "% m = " << m << ", numberOfDots = " << numberOfDots << endl;
     } // while
+ */
+
     
 //    for (int i = 0; i < numberOfDots; i++)
     for (int i = 0; i < inputSourceSuppliedNumberOfDots; i++) // TEMP JMI
