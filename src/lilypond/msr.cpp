@@ -1523,6 +1523,12 @@ ostream& operator<< (ostream& os, const S_msrNote& elt)
 
 void msrNote::print (ostream& os)
 {
+  rational
+    position (
+      fNoteMeasureLocation.fPositionInMeasure, fDivisionsPerWholeNote);
+
+  position.rationalise ();
+  
   // print the note itself and its position
   os <<
     noteAsString () <<
@@ -1536,9 +1542,14 @@ void msrNote::print (ostream& os)
     ") @"<<
     fNoteMeasureLocation.fMeasureNumber <<
     ":" <<
+    position.getDenominator() <<
+    "/" <<
+    position.getDenominator() <<
+    " (" <<
     fNoteMeasureLocation.fPositionInMeasure <<
     "/" <<
     fDivisionsPerWholeNote <<
+    ") " <<
     endl;
 
   // print the beam if any

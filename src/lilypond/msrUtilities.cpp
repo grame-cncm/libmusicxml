@@ -670,10 +670,19 @@ string divisionsAsMSRString (
         cerr << "% m = " << m << ", numberOfDots = " << numberOfDots << endl;
     } // while
     
-    if (debugMode)
-      cerr << endl;
+//    for (int i = 0; i < numberOfDots; i++)
+    for (int i = 0; i < inputSourceSuppliedNumberOfDots; i++) // TEMP JMI
+      s << ".";
 
     if (computedNumberOfDots != inputSourceSuppliedNumberOfDots) {
+      s <<
+        " %{" <<
+        divisions << "/" << divisionsPerWholeNote <<
+        ", " << limit <<
+        computedNumberOfDots <<
+        " %} ";
+        
+      /*
       if (debugMode) {
         s << endl;
         
@@ -691,13 +700,10 @@ string divisionsAsMSRString (
           "with " << divisionsPerWholeNote << " per whole note" <<
           ", not " << computedNumberOfDots <<
           endl;
+          */
   
-          cerr << s.str();
-      }
+      cerr << s.str();
     }
-
-    for (int i = 0; i < inputSourceSuppliedNumberOfDots; i++) // TEMP
-      s << ".";
 
     computedNumberOfDots = numberOfDots;
   }

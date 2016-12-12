@@ -165,39 +165,27 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
       referenceAbsoluteOctave =
         fRelativeOctaveReference->getNoteMusicXMLOctave ();
 
+    /*
+      If no octave changing mark is used on a pitch, its octave is calculated
+      so that the interval with the previous note is less than a fifth.
+      This interval is determined without considering accidentals.
+    */
+      
     int
-      noteAboluteDiatonicCode =
+      noteAboluteDiatonicOrdinal =
         noteAbsoluteOctave * 8
           +
         noteDiatonicPitch
           -
         msrMusicXMLNoteData::kC,
         
-      referenceAboluteDiatonicCode =
+      referenceAboluteDiatonicOrdinal =
         referenceAbsoluteOctave * 8
           +
         referenceDiatonicPitch
           -
-        msrMusicXMLNoteData::kC,
+        msrMusicXMLNoteData::kC;
 
-      /*
-        If no octave changing mark is used on a pitch, its octave is calculated
-        so that the interval with the previous note is less than a fifth.
-        This interval is determined without considering accidentals.
-      */
-      
-      absoluteDiatonicDistance =
-        noteAboluteDiatonicCode - referenceAboluteDiatonicCode,
-
-      octavesToBeDisplayed;
-
-    if (absoluteDiatonicDistance >= 0)
-      octavesToBeDisplayed =
-        (absoluteDiatonicDistance - 4) / 8;
-    else
-      octavesToBeDisplayed =
-        (absoluteDiatonicDistance + 4) / 8;
-        
     if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug)
       cerr << left <<
         endl <<
@@ -226,24 +214,33 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
           noteAbsoluteOctave <<  endl <<
         endl <<
         idtr <<
-          setw(32) << "% referenceAboluteDiatonicCode" <<
+          setw(32) << "% referenceAboluteDiatonicOrdinal" <<
           " = " <<
-          referenceAboluteDiatonicCode << endl <<
+          referenceAboluteDiatonicOrdinal << endl <<
         idtr <<
-          setw(32) << "% noteAboluteDiatonicCode" <<
+          setw(32) << "% noteAboluteDiatonicOrdinal" <<
           " = " <<
-          noteAboluteDiatonicCode << endl <<
-        idtr <<
-          setw(32) << "% absoluteDiatonicDistance" <<
-          " = " << 
-          absoluteDiatonicDistance <<  endl <<
-        idtr <<
-          setw(32) << "% octavesToBeDisplayed" <<
-          " = " <<
-          octavesToBeDisplayed <<  endl <<
+          noteAboluteDiatonicOrdinal << endl <<
         endl <<
         endl;
 
+    if (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
+      noteAboluteDiatonicOrdinal -= 4;
+      while (noteAboluteDiatonicOrdinal > referenceAboluteDiatonicOrdinal) {
+        s << "'";
+        noteAboluteDiatonicOrdinal -= 8;
+      } // while
+    }
+    else {
+      noteAboluteDiatonicOrdinal += 4;
+      while (noteAboluteDiatonicOrdinal < referenceAboluteDiatonicOrdinal) {
+        s << ",";
+        noteAboluteDiatonicOrdinal += 8;
+      } // while
+    }
+        
+
+/*
     if (abs (absoluteDiatonicDistance) > 5) {
       // a relative octave is to be generated
       switch (octavesToBeDisplayed) {
@@ -302,6 +299,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
           s << "###";
       } // switch
     }
+    */
   }
   
   if (noteIsGraceNote)
