@@ -40,8 +40,7 @@ namespace MusicXML2
               
     - the base class is lpsrElement, derived from msrElement
     - the lpsrElement tree can be converted to:
-        - a text description with         printLPSR()
-        - LilyPond source code with       printLilypondCode()
+        - a text description with         print()
 */
 
 //______________________________________________________________________________
@@ -88,8 +87,7 @@ class EXP lpsrOptions : public smartable {
     
     bool                            fDontGenerateLilyPondLyrics;
 
-    // LilyPond source code display
-    bool                            fDontDisplayLilyPondCode;
+    bool                            fDontGenerateLilyPondCode;
 };
 typedef SMARTP<lpsrOptions> S_lpsrOptions;
 
@@ -1572,12 +1570,12 @@ class EXP lpsrScoreBlock : public lpsrElement
     // ------------------------------------------------------
 
     void          appendPartgroupBlockToParallelMusic (
-                    S_lpsrPartgroupBlock partgroupCommand)
+                    S_lpsrPartgroupBlock partgroupBlock)
                       {
                         fScoreBlockParallelMusic->
-                          addElementToParallelMusic (partgroupCommand);
+                          addElementToParallelMusic (partgroupBlock);
                           
-         //               fScoreBlockElements.push_back(partgroupCommand);
+         //               fScoreBlockElements.push_back(partgroupBlock);
                       }
 
     void          appendVoiceUseToParallelMusic (

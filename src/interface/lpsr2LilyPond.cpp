@@ -43,7 +43,7 @@ void lpsr2LilyPond (
   S_lpsrOptions&    lpsrOpts,
   ostream&          os) 
 {  
-  // build LPSR score from MSR score
+  // generate LilyPond code from LPSR score
   generateLilyPondCodeFromLpsrScore (
     lpScore, msrOpts, lpsrOpts, os);
 }

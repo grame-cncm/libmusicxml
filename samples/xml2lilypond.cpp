@@ -155,8 +155,9 @@ void printUsage (int exitStatus)
     "    --comments" << endl <<
     "          Generate comments showing the structure of the score" << endl <<
     "          such as '% part P_POne (P1)'." << endl <<
-    "    --noStems" << endl <<
-    "          Don't generate \\stemUp nor \\stemDown LilyPond commands." << endl <<
+    "    --stems" << endl <<
+    "          Generate \\stemUp and \\stemDown LilyPond commands." << endl <<
+    "          By default, LilyPond will take care of that by itself." << endl <<
     "    --noAutoBeaming" << endl <<
     "          Generate '\\set Voice.autoBeaming = ##f' in each voice " << endl <<
     "          to prevent LilyPond from handling beams automatically." << endl <<
@@ -164,8 +165,8 @@ void printUsage (int exitStatus)
     "    --nolpl, --dontGenerateLilyPondLyrics" << endl <<
     "          Don't generate lyrics in the LilyPond code." << endl <<
     endl <<
-    "    --nolpc, --dontDisplayLilyPondCode" << endl <<
-    "          Don't write the LilyPond code to standard output." << endl <<
+    "    --nolpc, --dontGenerateLilyPondCode" << endl <<
+    "          Don't generate LilyPond code." << endl <<
     "          This can be useful if only a summary of the score is needed." << endl <<
     endl <<
 
@@ -229,7 +230,7 @@ void analyzeOptions (
   lpsrOpts->fNoAutoBeaming                    = false;
   lpsrOpts->fGeneratePositions                = false;
 
-  lpsrOpts->fDontDisplayLilyPondCode          = false;
+  lpsrOpts->fDontGenerateLilyPondCode         = false;
 
 
   // General options
@@ -284,7 +285,7 @@ void analyzeOptions (
   
   int dontGenerateLilyPondLyricsPresent = 0;
 
-  int dontDisplayLilyPondCodePresent    = 0;
+  int dontGenerateLilyPondCodePresent   = 0;
 
 
   static struct option long_options [] =
@@ -536,12 +537,12 @@ void analyzeOptions (
     {
       "nolpc",
       no_argument,
-      &dontDisplayLilyPondCodePresent, 1
+      &dontGenerateLilyPondCodePresent, 1
     },
     {
-      "dontDisplayLilyPondCode",
+      "dontGenerateLilyPondCode",
       no_argument,
-      &dontDisplayLilyPondCodePresent, 1
+      &dontGenerateLilyPondCodePresent, 1
     },
 
     {0, 0, 0, 0}
@@ -819,11 +820,11 @@ void analyzeOptions (
           dontGenerateLilyPondLyricsPresent = false;
         }
         
-        if (dontGenerateLilyPondLyricsPresent) {
-          lpsrOpts->fDontDisplayLilyPondCode = true;
+        if (dontGenerateLilyPondCodePresent) {
+          lpsrOpts->fDontGenerateLilyPondCode = true;
           msrOpts->fCommandLineOptions +=
-            "--dontDisplayLilyPondCode ";
-          dontGenerateLilyPondLyricsPresent = false;
+            "--dontGenerateLilyPondCode ";
+          dontGenerateLilyPondCodePresent = false;
         }
 
         }
@@ -1020,8 +1021,8 @@ void printOptions (
       string(lpsrOpts->fDontGenerateLilyPondLyrics
         ? "true" : "false") << endl <<
 
-    idtr << setw(fieldWidth) << "dontDisplayLilyPondCode" << " : " <<
-      string(lpsrOpts->fDontDisplayLilyPondCode
+    idtr << setw(fieldWidth) << "dontGenerateLilyPondCode" << " : " <<
+      string(lpsrOpts->fDontGenerateLilyPondCode
       ? "true" : "false") << endl;
 
   idtr--;
@@ -1172,17 +1173,19 @@ int main (int argc, char *argv[])
   // generate LilyPond code from LPSR
   // ------------------------------------------------------
 
-  if (outputFileName.size())
-    lpsr2LilyPond (lpScore, msrOpts, lpsrOpts, outStream);
-  else
-    lpsr2LilyPond (lpScore, msrOpts, lpsrOpts, cout);
-  
-  if (outputFileName.size()) {
-    if (msrOpts->fDebug)
-      cerr << idtr <<
-        "Closing file '" << outputFileName << "'" << endl;
-        
-    outStream.close ();
+  if (! lpsrOpts->fDontGenerateLilyPondCode) {
+    if (outputFileName.size())
+      lpsr2LilyPond (lpScore, msrOpts, lpsrOpts, outStream);
+    else
+      lpsr2LilyPond (lpScore, msrOpts, lpsrOpts, cout);
+    
+    if (outputFileName.size()) {
+      if (msrOpts->fDebug)
+        cerr << idtr <<
+          "Closing file '" << outputFileName << "'" << endl;
+          
+      outStream.close ();
+    }
   }
   
   if (! true) { // JMI

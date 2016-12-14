@@ -2588,7 +2588,7 @@ lpsrScore::~lpsrScore() {}
 void lpsrScore::appendPartgroupToStoreCommand (S_msrVoice voice)
 {
   S_lpsrPartgroupBlock
-    partgroupCommand =
+    partgroupBlock =
       lpsrPartgroupBlock::create (
         fMsrOptions, 
         fLpsrOptions, 

@@ -441,9 +441,10 @@ void msr2SummaryVisitor::visitStart (S_msrTempo& elt)
     fOstream << idtr <<
       "--> Start visiting msrTempo" << endl;
 
-  fOstream <<
+  fOstream << idtr <<
     "Tempo" << " " <<
-    elt->getTempoUnit () << " " << elt->getPerMinute () << endl;
+    elt->getTempoUnit () << " " << elt->getPerMinute () <<
+    endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrTempo& elt)

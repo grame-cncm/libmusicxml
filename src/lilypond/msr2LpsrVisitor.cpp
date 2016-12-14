@@ -89,7 +89,7 @@ void msr2LpsrVisitor::visitStart (S_msrScore& elt)
   // push it onto this visitors's stack,
   // making it the current partgroup command
   fPartgroupBlocksStack.push (
-    partgroupCommand);
+    partgroupBlock);
     */
 }
 
@@ -102,7 +102,7 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
 /* JMI
   // get top level pargroup command from the stack
   S_lpsrPartgroupBlock
-    partgroupCommand =
+    partgroupBlock =
       fPartgroupBlocksStack.top ();
 
   // pop it from the stack
@@ -248,14 +248,14 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
 
   // create a partgroup command
   S_lpsrPartgroupBlock
-    partgroupCommand =
+    partgroupBlock =
       lpsrPartgroupBlock::create (
         fMsrOptions, fLpsrOptions, fCurrentPartgroupClone);
 
   // push it onto this visitors's stack,
   // making it the current partgroup command
   fPartgroupBlocksStack.push (
-    partgroupCommand);
+    partgroupBlock);
   
   // get the LPSR store command
   S_lpsrScoreBlock
@@ -265,7 +265,7 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
   // append the pargroup clone to the score command
   scoreCommand->
     appendPartgroupBlockToParallelMusic (
-      partgroupCommand);
+      partgroupBlock);
 
   // append the partgroup command to the LPSR score command
 
