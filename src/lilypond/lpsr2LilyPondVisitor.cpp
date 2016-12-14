@@ -1746,7 +1746,29 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
   // indent before the fist note of the msrVoicechunk if needed
   if (++ fVoicechunkNotesAndChordsCountersStack.top () == 1)
     fOstream << idtr;
+
+  /*
+  if (stemDirection != fCurrentStemDirection)
+    fCurrentStemDirection = stemDirection;
   
+  if (stemDirection != fCurrentStemDirection) {
+  // JMI  if (fMsrOptions->fGenerateStems) {
+      switch (stemDirection) {
+        case kStemNeutral:
+          // \stemNeutral JMI
+          break;
+        case kStemUp:
+          // \stemUp JMI
+          break;
+        case kStemDown:
+          // \stemDown JMI
+          break;
+      } // switch
+ //   }
+    fCurrentStemDirection = stemDirection;
+  }
+
+     */
   switch (elt->getNoteKind ()) {
     
     case msrNote::kStandaloneNote:

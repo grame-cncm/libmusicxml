@@ -70,6 +70,9 @@ xml2MsrVisitor::xml2MsrVisitor (
 
   fOnGoingNote = false;
 
+  fCurrentStemDirection = kStemNeutral;
+  fCurrentStem = "";
+
   fOnGoingChord = false;
   
   fOnGoingSlur = false;
@@ -2946,14 +2949,15 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
 
   // assuming voice number 1, unless S_voice states otherwise afterwards
   fCurrentVoiceNumber = 1;
-  
+
+  fCurrentStemDirection = kStemNeutral;
   fCurrentStem = "";
 
   fCurrentSyllabic = "";
   fCurrentText = "";  
   // assume this note hasn't got lyrics until S_lyric is met
   fCurrentNoteHasLyrics = false;
-  
+
   fCurrentBeam = 0;
   
   fCurrentTiedOrientation = "";
@@ -3038,6 +3042,10 @@ void xml2MsrVisitor::visitStart ( S_dot& elt )
        
 void xml2MsrVisitor::visitStart ( S_type& elt )
 {
+/*
+ Type indicates the graphic note type, Valid values (from shortest to longest) are 1024th, 512th, 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, long, and maxima. The size attribute indicates full, cue, or large size, with full the default for regular notes and cue the default for cue and grace notes.
+*/
+
   fCurrentNoteType = elt->getValue();
 }
 
@@ -3046,39 +3054,38 @@ void xml2MsrVisitor::visitStart ( S_stem& elt )
   //         <stem default-y="28.5">up</stem>
 
   string        stem = elt->getValue();
-  StemDirection stemDirection;
+
+  msrStemDirection stemDirection;
   
   if      (stem == "up")
     stemDirection = kStemUp;
   else if (stem == "down")
     stemDirection = kStemDown;
   else
-    stemDirection = kStemNeutral; // JMI
-
-  if (stemDirection != fCurrentStemDirection) {
-  // JMI  if (fMsrOptions->fGenerateStems) {
-      switch (stemDirection) {
-        case kStemNeutral:
-          // \stemNeutral JMI
-          break;
-        case kStemUp:
-          // \stemUp JMI
-          break;
-        case kStemDown:
-          // \stemDown JMI
-          break;
-      } // switch
- //   }
-    fCurrentStemDirection = stemDirection;
+    stemDirection = kStemNeutral;
+  else {
+    stringstream s;
+    
+    s <<
+      "stem \"" << fCurrentBeamValue <<
+      "\"" << "is unknown";
+      
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      inputLineNumber,
+      s.str());
   }
-  
+
   fCurrentStem = stem;
 }
 
 void xml2MsrVisitor::visitStart ( S_beam& elt )
 {
 /*
-Each beam in a note is represented with a separate beam element, starting with the eighth note beam using a number attribute of 1. Note that the beam number does not distinguish sets of beams that overlap, as it does for slur and other elements.
+  Each beam in a note is represented with a separate beam element,
+  starting with the eighth note beam using a number attribute of 1.
+  Note that the beam number does not distinguish sets of beams
+  that overlap, as it does for slur and other elements.
 */
   //        <beam number="1">begin</beam>
 
@@ -3878,6 +3885,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   fMusicXMLNoteData.fMusicXMLVoiceNumber = fCurrentVoiceNumber;
 
   fCurrentStemDirection = kStemNeutral;
+  fCurrentStem = "";
   
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -4000,6 +4008,15 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
 void xml2MsrVisitor::handleNoteBelongingToAChord (
   S_msrNote newNote)
 {
+/*
+  The chord element indicates that this note is an additional
+  chord tone with the preceding note. The duration of this
+  note can be no longer than the preceding note. In MuseData,
+  a missing duration indicates the same length as the previous
+  note, but the MusicXML format requires a duration for chord
+  notes too.
+*/
+
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "xml2MsrVisitor::handleNoteBelongingToAChord " <<

@@ -810,6 +810,9 @@ class EXP msrNote : public msrElement
       kStandaloneNote,  kGraceNote,
       kChordMemberNote, kTupletMemberNote};
       
+    enum msrStemDirection {
+      kStemNeutral, kStemUp, kStemDown };
+
     enum msrGraceKind {
         k_NoGrace,
         kStartGrace, kContinueGrace, kStopGrace};
@@ -907,6 +910,14 @@ class EXP msrNote : public msrElement
                           fMusicXMLNoteData.fDiatonicPitch;
                       }
 
+    // stems
+    void          setStemDirection (msrStemDirection stemDirection)
+                      { fStemDirection = stemDirection; }
+
+    msrStemDirection
+                  getStemDirection () const
+                      { return fStemDirection; }
+
     // grace notes
     bool          getNoteIsGraceNote () const // JMI
                       {
@@ -919,8 +930,6 @@ class EXP msrNote : public msrElement
 
     msrGraceKind  getGraceKind () const
                       { return fGraceKind; }
-
-    string        notePitchAsString () const;
 
     // divisions per whole note
     void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
@@ -992,6 +1001,8 @@ class EXP msrNote : public msrElement
     void          applyTupletMemberDisplayFactor (
                     int actualNotes, int normalNotes);
                     
+    string        notePitchAsString () const;
+
     string        noteAsString () const;
     
     string        noteDiatonicPitchAsString () const;
@@ -1028,6 +1039,8 @@ class EXP msrNote : public msrElement
     // LilyPond informations
 
     msrNoteKind               fNoteKind;
+
+    msrStemDirection          fStemDirection;
 
     S_msrBeam                 fNoteBeam;
     

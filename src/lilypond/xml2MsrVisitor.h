@@ -598,12 +598,9 @@ class EXP xml2MsrVisitor :
     int                       fDisplayOctave;
 
     // stem handling
-    // ------------------------------------------------------
-    enum StemDirection {
-      kStemNeutral, kStemUp, kStemDown };
-    
+    // ------------------------------------------------------    
     string                    fCurrentStem;
-    StemDirection             fCurrentStemDirection;
+    msrStemDirection          fCurrentStemDirection;
 
     // beam handling
     // ------------------------------------------------------

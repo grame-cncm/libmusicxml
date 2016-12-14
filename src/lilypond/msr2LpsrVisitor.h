@@ -281,6 +281,10 @@ class msr2LpsrVisitor :
     // lyrics chunks
     // ------------------------------------------------------
     S_msrLyricschunk        fCurrentLyricschunkClone;
+
+    // stems
+    // ------------------------------------------------------
+    msrStemDirection          fCurrentStemDirection;
     
     // chords
     // ------------------------------------------------------
