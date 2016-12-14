@@ -46,7 +46,7 @@ msr2LpsrVisitor::msr2LpsrVisitor (
 
   fOnGoingIdentification = false;
 
-  fCurrentStemDirection  = kStemNeutral;
+  fCurrentStemDirection  = msrNote::k_NoStemDirection;
   
   fOnGoingStaff          = false;
 

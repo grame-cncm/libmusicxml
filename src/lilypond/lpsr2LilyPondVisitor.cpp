@@ -46,6 +46,8 @@ lpsr2LilyPondVisitor::lpsr2LilyPondVisitor (
   
   fOnGoingStaff  = false;
 
+  fCurrentStemDirection = msrNote::k_NoStemDirection;
+
   fOngoingNonEmptyLyrics = false;
 
   fOnGoingScoreBlock = false;
@@ -1149,6 +1151,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoice& elt)
   fRelativeOctaveReference = 0;
 
 //  JMI fCurrentMsrVoiceNotesCounter = 0;
+
+  fCurrentStemDirection = msrNote::k_NoStemDirection;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrVoice& elt)
@@ -1747,28 +1751,34 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
   if (++ fVoicechunkNotesAndChordsCountersStack.top () == 1)
     fOstream << idtr;
 
-  /*
-  if (stemDirection != fCurrentStemDirection)
-    fCurrentStemDirection = stemDirection;
-  
-  if (stemDirection != fCurrentStemDirection) {
-  // JMI  if (fMsrOptions->fGenerateStems) {
+  // should stem direction be generated?
+  if (fLpsrOptions->fGenerateStems) {
+    
+    // get note stem direction 
+    msrNote::msrStemDirection
+      stemDirection =
+        elt->getStemDirection ();
+
+    // should stem direction be generated?
+    if (stemDirection != fCurrentStemDirection) {
       switch (stemDirection) {
-        case kStemNeutral:
-          // \stemNeutral JMI
+        case msrNote::k_NoStemDirection:
+          fOstream << "\\stemNeutral" " ";
           break;
-        case kStemUp:
-          // \stemUp JMI
+        case msrNote::kStemDirectionUp:
+          fOstream << "\\stemUp" " ";
           break;
-        case kStemDown:
-          // \stemDown JMI
+        case msrNote::kStemDirectionDown:
+          fOstream << "\\stemDown" " ";
           break;
       } // switch
- //   }
-    fCurrentStemDirection = stemDirection;
-  }
+    }
 
-     */
+    // is there a change?
+    if (stemDirection != fCurrentStemDirection)
+      fCurrentStemDirection = stemDirection;
+    }
+  
   switch (elt->getNoteKind ()) {
     
     case msrNote::kStandaloneNote:

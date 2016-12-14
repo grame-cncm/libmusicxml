@@ -811,7 +811,8 @@ class EXP msrNote : public msrElement
       kChordMemberNote, kTupletMemberNote};
       
     enum msrStemDirection {
-      kStemNeutral, kStemUp, kStemDown };
+      k_NoStemDirection,
+      kStemDirectionUp, kStemDirectionDown };
 
     enum msrGraceKind {
         k_NoGrace,

@@ -70,7 +70,7 @@ xml2MsrVisitor::xml2MsrVisitor (
 
   fOnGoingNote = false;
 
-  fCurrentStemDirection = kStemNeutral;
+  fCurrentStemDirection = msrNote::k_NoStemDirection;
   fCurrentStem = "";
 
   fOnGoingChord = false;
@@ -2950,7 +2950,7 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   // assuming voice number 1, unless S_voice states otherwise afterwards
   fCurrentVoiceNumber = 1;
 
-  fCurrentStemDirection = kStemNeutral;
+  fCurrentStemDirection = msrNote::k_NoStemDirection;
   fCurrentStem = "";
 
   fCurrentSyllabic = "";
@@ -3054,15 +3054,11 @@ void xml2MsrVisitor::visitStart ( S_stem& elt )
   //         <stem default-y="28.5">up</stem>
 
   string        stem = elt->getValue();
-
-  msrStemDirection stemDirection;
   
   if      (stem == "up")
-    stemDirection = kStemUp;
+    fCurrentStemDirection = msrNote::kStemDirectionUp;
   else if (stem == "down")
-    stemDirection = kStemDown;
-  else
-    stemDirection = kStemNeutral;
+    fCurrentStemDirection = msrNote::kStemDirectionDown;
   else {
     stringstream s;
     
@@ -3072,7 +3068,7 @@ void xml2MsrVisitor::visitStart ( S_stem& elt )
       
     msrMusicXMLError (
       fMsrOptions->fInputSourceName,
-      inputLineNumber,
+      elt->getInputLineNumber (),
       s.str());
   }
 
@@ -3884,9 +3880,6 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   // store voice number in MusicXML note data
   fMusicXMLNoteData.fMusicXMLVoiceNumber = fCurrentVoiceNumber;
 
-  fCurrentStemDirection = kStemNeutral;
-  fCurrentStem = "";
-  
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "fMusicXMLNoteData.fMusicXMLDivisions = " << 
@@ -3921,6 +3914,11 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   // take it's duration into account
   currentVoice->incrementPositionInMeasure (
     fMusicXMLNoteData.fMusicXMLDivisions);
+
+  // set its stem
+  note->
+    setStemDirection (
+      fCurrentStemDirection);
 
   // set its beam if any
   if (fCurrentBeam)

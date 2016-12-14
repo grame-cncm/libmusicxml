@@ -347,7 +347,10 @@ class lpsr2LilyPondVisitor :
     // sequential music
     // ------------------------------------------------------
     int                   fSequentialMusicElementsCounter;
-    
+
+    // stems
+    msrNote::msrStemDirection fCurrentStemDirection;
+
     // chords
     // ------------------------------------------------------
 // JMI     S_msrChord           fCurrentMsrChordClone;
