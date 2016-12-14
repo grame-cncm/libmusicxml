@@ -284,7 +284,8 @@ class msr2LpsrVisitor :
 
     // stems
     // ------------------------------------------------------
-    msrNote::msrStemDirection fCurrentStemDirection;
+    msrNote::msrStemDirectionKind
+                              fCurrentStemDirection;
     
     // chords
     // ------------------------------------------------------

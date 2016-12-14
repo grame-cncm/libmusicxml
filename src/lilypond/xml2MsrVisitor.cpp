@@ -70,7 +70,7 @@ xml2MsrVisitor::xml2MsrVisitor (
 
   fOnGoingNote = false;
 
-  fCurrentStemDirection = msrNote::k_NoStemDirection;
+  fCurrentStemDirectionKind = msrNote::k_NoStemDirection;
   fCurrentStem = "";
 
   fOnGoingChord = false;
@@ -2950,7 +2950,7 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   // assuming voice number 1, unless S_voice states otherwise afterwards
   fCurrentVoiceNumber = 1;
 
-  fCurrentStemDirection = msrNote::k_NoStemDirection;
+  fCurrentStemDirectionKind = msrNote::k_NoStemDirection;
   fCurrentStem = "";
 
   fCurrentSyllabic = "";
@@ -3056,9 +3056,9 @@ void xml2MsrVisitor::visitStart ( S_stem& elt )
   string        stem = elt->getValue();
   
   if      (stem == "up")
-    fCurrentStemDirection = msrNote::kStemDirectionUp;
+    fCurrentStemDirectionKind = msrNote::kStemDirectionUp;
   else if (stem == "down")
-    fCurrentStemDirection = msrNote::kStemDirectionDown;
+    fCurrentStemDirectionKind = msrNote::kStemDirectionDown;
   else {
     stringstream s;
     
@@ -3917,8 +3917,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
 
   // set its stem
   note->
-    setStemDirection (
-      fCurrentStemDirection);
+    setStemDirectionKind (
+      fCurrentStemDirectionKind);
 
   // set its beam if any
   if (fCurrentBeam)

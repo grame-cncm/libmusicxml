@@ -1455,6 +1455,19 @@ void msrNote::print (ostream& os)
         */
     endl;
 
+  // print the stem direction if any
+  switch (fStemDirectionKind) {
+    case msrNote::k_NoStemDirection:
+      os << "\\stemNeutral" " ";
+      break;
+    case msrNote::kStemDirectionUp:
+      os << "\\stemUp" " ";
+      break;
+    case msrNote::kStemDirectionDown:
+      os << "\\stemDown" " ";
+      break;
+  } // switch
+
   // print the beam if any
   if (fNoteBeam) {
     os <<

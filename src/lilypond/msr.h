@@ -489,19 +489,75 @@ class musicXMLBeatData // JMI ???
 };
 
 /*!
-\brief A msr beam representation.
+\brief A msr stem representation.
 
   A beam is represented by a msrBeamKind value
 */
+
+//______________________________________________________________________________
+/*
+class EXP msrStem : public msrElement
+{
+  public:
+
+    enum msrStemKind {
+      k_NoStem,
+      kUpStem, kDownStem};
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrStem> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      msrStemKind   stemKind);
+
+  protected:
+
+    msrStem (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      msrStemKind   stemKind);
+      
+    virtual ~msrStem();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrStemKind getStemKind () const { return fStemKind; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrStemKind fStemKind;
+};
+typedef SMARTP<msrStem> S_msrStem;
+EXP ostream& operator<< (ostream& os, const S_msrStem& elt);
+*/
+
 //______________________________________________________________________________
 class EXP msrBeam : public msrElement
 {
   public:
 
     enum msrBeamKind {
-            kBeginBeam, kContinueBeam, kEndBeam,
-            kForwardHookBeam, kBackwardHookBeam,
-            k_NoBeam };
+      k_NoBeam,
+      kBeginBeam, kContinueBeam, kEndBeam,
+      kForwardHookBeam, kBackwardHookBeam};
     
     // creation from MusicXML
     // ------------------------------------------------------
@@ -810,13 +866,13 @@ class EXP msrNote : public msrElement
       kStandaloneNote,  kGraceNote,
       kChordMemberNote, kTupletMemberNote};
       
-    enum msrStemDirection {
+    enum msrStemDirectionKind {
       k_NoStemDirection,
-      kStemDirectionUp, kStemDirectionDown };
+      kStemDirectionUp, kStemDirectionDown};
 
     enum msrGraceKind {
-        k_NoGrace,
-        kStartGrace, kContinueGrace, kStopGrace};
+      k_NoGrace,
+      kStartGrace, kContinueGrace, kStopGrace};
         
     // creation from MusicXML
     // ------------------------------------------------------
@@ -912,12 +968,12 @@ class EXP msrNote : public msrElement
                       }
 
     // stems
-    void          setStemDirection (msrStemDirection stemDirection)
-                      { fStemDirection = stemDirection; }
+    void          setStemDirectionKind (msrStemDirectionKind stemDirectionKind)
+                      { fStemDirectionKind = stemDirectionKind; }
 
-    msrStemDirection
-                  getStemDirection () const
-                      { return fStemDirection; }
+    msrStemDirectionKind
+                  getStemDirectionKind () const
+                      { return fStemDirectionKind; }
 
     // grace notes
     bool          getNoteIsGraceNote () const // JMI
@@ -1041,7 +1097,7 @@ class EXP msrNote : public msrElement
 
     msrNoteKind               fNoteKind;
 
-    msrStemDirection          fStemDirection;
+    msrStemDirectionKind      fStemDirectionKind;
 
     S_msrBeam                 fNoteBeam;
     

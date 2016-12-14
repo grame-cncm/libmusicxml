@@ -600,7 +600,8 @@ class EXP xml2MsrVisitor :
     // stem handling
     // ------------------------------------------------------    
     string                    fCurrentStem;
-    msrNote::msrStemDirection fCurrentStemDirection;
+    msrNote::msrStemDirectionKind
+                              fCurrentStemDirectionKind;
 
     // beam handling
     // ------------------------------------------------------

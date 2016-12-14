@@ -46,7 +46,7 @@ lpsr2LilyPondVisitor::lpsr2LilyPondVisitor (
   
   fOnGoingStaff  = false;
 
-  fCurrentStemDirection = msrNote::k_NoStemDirection;
+  fCurrentStemDirectionKind = msrNote::k_NoStemDirection;
 
   fOngoingNonEmptyLyrics = false;
 
@@ -1152,7 +1152,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoice& elt)
 
 //  JMI fCurrentMsrVoiceNotesCounter = 0;
 
-  fCurrentStemDirection = msrNote::k_NoStemDirection;
+  fCurrentStemDirectionKind = msrNote::k_NoStemDirection;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrVoice& elt)
@@ -1755,13 +1755,13 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
   if (fLpsrOptions->fGenerateStems) {
     
     // get note stem direction 
-    msrNote::msrStemDirection
-      stemDirection =
-        elt->getStemDirection ();
+    msrNote::msrStemDirectionKind
+      stemDirectionKind =
+        elt->getStemDirectionKind ();
 
     // should stem direction be generated?
-    if (stemDirection != fCurrentStemDirection) {
-      switch (stemDirection) {
+    if (stemDirectionKind != fCurrentStemDirectionKind) {
+      switch (stemDirectionKind) {
         case msrNote::k_NoStemDirection:
           fOstream << "\\stemNeutral" " ";
           break;
@@ -1775,8 +1775,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
     }
 
     // is there a change?
-    if (stemDirection != fCurrentStemDirection)
-      fCurrentStemDirection = stemDirection;
+    if (stemDirectionKind != fCurrentStemDirectionKind)
+      fCurrentStemDirectionKind = stemDirectionKind;
     }
   
   switch (elt->getNoteKind ()) {
