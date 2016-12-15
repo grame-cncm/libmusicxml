@@ -981,21 +981,22 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewLyricsBlock& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrNewLyricsBlock" << endl;
 
-//  if (fOngoingNonEmptyLyrics) {
-  if (true || fOngoingNonEmptyLyrics) { // JMI
-    fOstream <<
-      idtr <<
-        "\\new Lyrics" <<
+  if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
+    if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) {
+      fOstream <<
+        idtr <<
+          "\\new Lyrics" <<
+        endl;
+  
+      idtr++;
+      
+      fOstream <<
+        idtr << "\\lyricsto" << " " <<
+          "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
+      endl <<
+      idtr << "\\" << elt->getLyrics ()->getLyricsName () <<
       endl;
-
-    idtr++;
-    
-    fOstream <<
-      idtr << "\\lyricsto" << " " <<
-        "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
-    endl <<
-    idtr << "\\" << elt->getLyrics ()->getLyricsName () <<
-    endl;
+    }
   }
 }
 
@@ -1005,9 +1006,10 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewLyricsBlock& elt)
     fOstream << idtr <<
       "% --> End visiting lpsrNewLyricsBlock" << endl;
 
-//  if (fOngoingNonEmptyLyrics) {
-  if (true || fOngoingNonEmptyLyrics) { // JMI
-    idtr--;
+  if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
+    if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) {
+      idtr--;
+    }
   }
 }
 
@@ -1257,20 +1259,21 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyrics& elt)
     fOstream << idtr <<
       "% --> Start visiting msrLyrics" << endl;
 
-  fOngoingNonEmptyLyrics =
-    elt->getLyricsTextPresent ();
+  if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
+    fOngoingNonEmptyLyrics =
+      elt->getLyricsTextPresent ();
 
-//  if (fOngoingNonEmptyLyrics) {
-  if (true || fOngoingNonEmptyLyrics) { // JMI
-    fOstream << idtr <<
-      elt->getLyricsName () << " = " << "\\lyricmode" << " {" <<
-      endl;
+    if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) {
+      fOstream << idtr <<
+        elt->getLyricsName () << " = " << "\\lyricmode" << " {" <<
+        endl;
+        
+      idtr++;
       
-    idtr++;
-    
-    fOstream << idtr;
-    
-    fLyricschunksCounter = 0;
+      fOstream << idtr;
+      
+      fLyricschunksCounter = 0;
+    }
   }
 }
 
@@ -1280,17 +1283,18 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrLyrics& elt)
     fOstream << idtr <<
       "% --> End visiting msrLyrics" << endl;
 
-//  if (fOngoingNonEmptyLyrics) {
-  if (true || fOngoingNonEmptyLyrics) { // JMI
-    idtr--;
-  
-    fOstream <<
-      idtr << "}" <<
-      endl <<
-      endl;
-  }
+  if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
+    if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) {
+      idtr--;
+    
+      fOstream <<
+        idtr << "}" <<
+        endl <<
+        endl;
+    }
 
-  fOngoingNonEmptyLyrics = false;
+    fOngoingNonEmptyLyrics = false;
+  }
 }
 
 //________________________________________________________________________
@@ -1300,82 +1304,83 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
     fOstream << idtr <<
       "% --> Start visiting msrLyricschunk" << endl;
 
-//  if (fOngoingNonEmptyLyrics) {
-  if (true || fOngoingNonEmptyLyrics) { // JMI
-    if (++fLyricschunksCounter > 10) {
-      fOstream <<
-        endl <<
-        idtr;
-      fLyricschunksCounter = 1;
-    }
+  if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
+    if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) {
+      if (++fLyricschunksCounter > 10) {
+        fOstream <<
+          endl <<
+          idtr;
+        fLyricschunksCounter = 1;
+      }
+      
+      switch (elt->getLyricschunkKind ()) {
+        case msrLyricschunk::kSingleChunk:
+          fOstream <<
+            quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
+          break;
+          
+        case msrLyricschunk::kBeginChunk:
+          fOstream <<
+            quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
+          break;
+          
+        case msrLyricschunk::kMiddleChunk:
+          fOstream <<
+            "-- " <<
+            quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
+          break;
+          
+        case msrLyricschunk::kEndChunk:
+          fOstream <<
+            "-- " <<
+            quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
+          break;
+          
+        case msrLyricschunk::kSkipChunk:
+          fOstream <<
+            "\\skip" <<
+              elt->getLyricschunkNote ()->noteDivisionsAsMSRString () <<
+              " ";
+          break;
+          
+        case msrLyricschunk::kSlurChunk:
+          fOstream <<
+            "%{ slur " << "\"" << elt->getChunkText () << "\"" << " %}" <<
+            endl <<
+            idtr;
+          break;
+  
+        case msrLyricschunk::kTiedChunk:
+          fOstream <<
+            "%{ ~ " << "\"" << elt->getChunkText () << "\"" << " %}" <<
+            endl <<
+            idtr;
+          break;
+          
+        case msrLyricschunk::kSlurBeyondEndChunk:
+  // JMI       fOstream <<
+   //         "__ " << " ";
+          break;
+  
+        case msrLyricschunk::kBarcheckChunk:
+          fOstream <<
+     // JMI       "%{ | % " << elt->getChunkText () << " %}" <<
+            "| %{ " << elt->getChunkText () << " %}" <<
+            endl <<
+            idtr;
+          break;
     
-    switch (elt->getLyricschunkKind ()) {
-      case msrLyricschunk::kSingleChunk:
-        fOstream <<
-          quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
-        break;
-        
-      case msrLyricschunk::kBeginChunk:
-        fOstream <<
-          quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
-        break;
-        
-      case msrLyricschunk::kMiddleChunk:
-        fOstream <<
-          "-- " <<
-          quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
-        break;
-        
-      case msrLyricschunk::kEndChunk:
-        fOstream <<
-          "-- " <<
-          quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
-        break;
-        
-      case msrLyricschunk::kSkipChunk:
-        fOstream <<
-          "\\skip" <<
-            elt->getLyricschunkNote ()->noteDivisionsAsMSRString () <<
-            " ";
-        break;
-        
-      case msrLyricschunk::kSlurChunk:
-        fOstream <<
-          "%{ slur " << "\"" << elt->getChunkText () << "\"" << " %}" <<
-          endl <<
-          idtr;
-        break;
-
-      case msrLyricschunk::kTiedChunk:
-        fOstream <<
-          "%{ ~ " << "\"" << elt->getChunkText () << "\"" << " %}" <<
-          endl <<
-          idtr;
-        break;
-        
-      case msrLyricschunk::kSlurBeyondEndChunk:
-// JMI       fOstream <<
- //         "__ " << " ";
-        break;
-
-      case msrLyricschunk::kBarcheckChunk:
-        fOstream <<
-   // JMI       "%{ | % " << elt->getChunkText () << " %}" <<
-          "| %{ " << elt->getChunkText () << " %}" <<
-          endl <<
-          idtr;
-        break;
-  
-      case msrLyricschunk::kBreakChunk:
-        fOstream <<
-          "%{ break " << "\"" << elt->getChunkText () << "\"" << " %}" <<
-          endl <<
-          idtr;
-        break;
-  
-      case msrLyricschunk::k_NoChunk: // JMI
-        break;
-    } // switch
+        case msrLyricschunk::kBreakChunk:
+          fOstream <<
+            "%{ break " << "\"" << elt->getChunkText () << "\"" << " %}" <<
+            endl <<
+            idtr;
+          break;
+    
+        case msrLyricschunk::k_NoChunk: // JMI
+          break;
+      } // switch
+    }
   }
 }
 
