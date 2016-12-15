@@ -53,6 +53,9 @@ namespace MusicXML2
 //______________________________________________________________________________
 // PRE-declarations for class dependencies
 
+class msrNote;
+typedef SMARTP<msrNote> S_msrNote;
+
 class msrLyrics;
 typedef SMARTP<msrLyrics> S_msrLyrics;
 
@@ -849,6 +852,142 @@ class EXP msrWedge : public msrElement
 };
 typedef SMARTP<msrWedge> S_msrWedge;
 EXP ostream& operator<< (ostream& os, const S_msrWedge& elt);
+
+/*!
+\brief The msr sequential music element
+*/
+//______________________________________________________________________________
+class EXP msrVoicechunk : public msrElement
+{
+  public:
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrVoicechunk> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+
+    SMARTP<msrVoicechunk> createEmptyClone ();
+
+  protected:
+
+    msrVoicechunk (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber);
+      
+    virtual ~msrVoicechunk();
+    
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const list<S_msrElement>&
+                  getVoicechunkElements () const
+                      { return fVoicechunkElements; }
+                      
+    string        voicechunkAsString ();
+
+    // services
+    // ------------------------------------------------------
+
+    void          prependElementToVoicechunk (S_msrElement elem)
+                      { fVoicechunkElements.push_front (elem); }
+    void          appendElementToVoicechunk  (S_msrElement elem)
+                      { fVoicechunkElements.push_back (elem); }
+    
+    S_msrElement  getLastElementOfVoicechunk () const
+                      { return fVoicechunkElements.back (); }
+                      
+    void          removeLastElementFromVoicechunk ()
+                      { fVoicechunkElements.pop_back (); }
+
+//    void          removeElementFromVoicechunk (S_msrElement elem);
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    list<S_msrElement>   fVoicechunkElements;
+};
+typedef SMARTP<msrVoicechunk> S_msrVoicechunk;
+EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
+
+/*!
+\brief A msr repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common part
+    - a vector of sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
+class EXP msrGracenotes : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrGracenotes> create (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      S_msrNote       noteUplink);
+    
+    SMARTP<msrGracenotes> createEmptyClone (
+      S_msrVoice clonedVoice);
+
+  protected:
+
+    msrGracenotes (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      S_msrNote       noteUplink);
+      
+    virtual ~msrGracenotes();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_msrVoicechunk
+              getGracenotesVoicechunk () const
+                { return fGracenotesVoicechunk; }
+
+    S_msrNote
+              getGracenotesNoteUplink () const
+                { return fGracenotesNoteUplink; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    S_msrVoicechunk          fGracenotesVoicechunk;
+    
+    S_msrNote                fGracenotesNoteUplink;
+};
+typedef SMARTP<msrGracenotes> S_msrGracenotes;
+EXP ostream& operator<< (ostream& os, const S_msrGracenotes& elt);
 
 /*!
 \brief A msr note representation.
@@ -2663,75 +2802,6 @@ class EXP msrBarline : public msrElement
 };
 typedef SMARTP<msrBarline> S_msrBarline;
 EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);
-
-/*!
-\brief The msr sequential music element
-*/
-//______________________________________________________________________________
-class EXP msrVoicechunk : public msrElement
-{
-  public:
-    
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrVoicechunk> create (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
-
-    SMARTP<msrVoicechunk> createEmptyClone ();
-
-  protected:
-
-    msrVoicechunk (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber);
-      
-    virtual ~msrVoicechunk();
-    
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    const list<S_msrElement>&
-                  getVoicechunkElements () const
-                      { return fVoicechunkElements; }
-                      
-    string        voicechunkAsString ();
-
-    // services
-    // ------------------------------------------------------
-
-    void          prependElementToVoicechunk (S_msrElement elem)
-                      { fVoicechunkElements.push_front (elem); }
-    void          appendElementToVoicechunk  (S_msrElement elem)
-                      { fVoicechunkElements.push_back (elem); }
-    
-    S_msrElement  getLastElementOfVoicechunk () const
-                      { return fVoicechunkElements.back (); }
-                      
-    void          removeLastElementFromVoicechunk ()
-                      { fVoicechunkElements.pop_back (); }
-
-//    void          removeElementFromVoicechunk (S_msrElement elem);
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void print (ostream& os);
-
-  private:
-
-    list<S_msrElement>   fVoicechunkElements;
-};
-typedef SMARTP<msrVoicechunk> S_msrVoicechunk;
-EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
 
 /*!
 \brief A msr repeat representation.

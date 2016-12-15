@@ -854,6 +854,158 @@ void msrSlur::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrGracenotes msrGracenotes::create (
+  S_msrOptions&   msrOpts, 
+  int             inputLineNumber,
+  S_msrNote       noteUplink)
+{
+  msrGracenotes* o =
+    new msrGracenotes (
+      msrOpts, inputLineNumber, noteUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrGracenotes::msrGracenotes (
+  S_msrOptions&   msrOpts, 
+  int             inputLineNumber,
+  S_msrNote       noteUplink)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fGracenotesVoicechunk =
+    msrVoicechunk::create (
+      fMsrOptions, fInputLineNumber);
+
+  fGracenotesNoteUplink    = noteUplink;
+}
+
+msrGracenotes::~msrGracenotes() {}
+
+S_msrGracenotes msrGracenotes::createEmptyClone (S_msrVoice clonedVoice)
+{
+  S_msrVoicechunk
+    voicechunk =
+      msrVoicechunk::create (
+        fMsrOptions, fInputLineNumber);
+
+//  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating an empty clone of a repeat" << endl;
+  
+  S_msrGracenotes
+    clone =
+      msrGracenotes::create (
+        fMsrOptions,
+        fInputLineNumber,
+        voicechunk,
+        clonedVoice);
+  
+  return clone;
+}
+
+void msrGracenotes::setGracenotesCommonPart (
+  S_msrVoicechunk repeatCommonPart)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Setting repeat common part containing " <<
+      repeatCommonPart->getVoicechunkElements ().size () <<
+      " elements" <<
+      endl;
+      
+  fGracenotesCommonPart = repeatCommonPart;
+}
+
+void msrGracenotes::addGracenotesending (S_msrGracenotesending repeatending)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Adding an ending to repeat" << endl;
+      
+  fGracenotesEndings.push_back (repeatending);
+
+  repeatending->setGracenotesendingNumber (
+    ++ fGracenotesEndingsCounter);
+}
+
+void msrGracenotes::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrGracenotes::acceptIn()" << endl;
+      
+  if (visitor<S_msrGracenotes>*
+    p =
+      dynamic_cast<visitor<S_msrGracenotes>*> (v)) {
+        S_msrGracenotes elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrGracenotes::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrGracenotes::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrGracenotes::acceptOut()" << endl;
+
+  if (visitor<S_msrGracenotes>*
+    p =
+      dynamic_cast<visitor<S_msrGracenotes>*> (v)) {
+        S_msrGracenotes elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrGracenotes::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrGracenotes::browseData (basevisitor* v)
+{
+  // browse the common part
+  msrBrowser<msrVoicechunk> browser (v);
+  browser.browse (*fGracenotesCommonPart);
+  
+  // browse the alternatives
+  for (
+    vector<S_msrGracenotesending>::iterator i = fGracenotesEndings.begin();
+    i != fGracenotesEndings.end();
+    i++) {
+    // browse the alternative
+    msrBrowser<msrGracenotesending> browser (v);
+    browser.browse (*(*i));
+  } // for
+}
+
+ostream& operator<< (ostream& os, const S_msrGracenotes& rept)
+{
+  rept->print (os);
+  return os;
+}
+
+void msrGracenotes::print (ostream& os)
+{
+  os <<
+    endl <<
+    idtr << "Gracenotes" <<
+    ", input line: " << fInputLineNumber <<
+    endl;
+  
+  idtr++;
+  
+  os << fGracenotesCommonPart;
+  
+  vector<S_msrGracenotesending>::const_iterator i;
+  for (i=fGracenotesEndings.begin(); i!=fGracenotesEndings.end(); i++) {
+    os << idtr << (*i);
+  } // for
+    
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_msrNote msrNote::createFromMusicXMLData (
   S_msrOptions&        msrOpts,
   int                  inputLineNumber,
