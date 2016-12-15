@@ -898,7 +898,7 @@ S_msrGraceexpression msrGraceexpression::createEmptyClone (
       msrGraceexpression::create (
         fMsrOptions,
         fInputLineNumber,
-        fGraceexpressionNoteUplink); // JMI
+        clonedNote);
   
   return clone;
 }

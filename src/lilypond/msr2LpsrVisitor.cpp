@@ -687,6 +687,11 @@ void msr2LpsrVisitor::visitStart (S_msrGraceexpression& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrGraceexpression" << endl;
+
+  fCurrentGraceexpressionClone =
+    elt->
+      createEmptyClone (
+        elt->getGraceexpressionNoteUplink ()); // JMI ???
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrGraceexpression& elt)
@@ -736,14 +741,18 @@ void msr2LpsrVisitor::visitStart (S_msrNote& elt)
       break;
       
     case msrNote::kGraceNote:
-      if (fMsrOptions->fDebug)
-        cerr << idtr <<
-          "--> appending " <<
-          elt->noteAsString () << " to voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
-          
-      fCurrentVoiceClone->
-        appendNoteToVoice (elt);
+    if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+      cerr <<  idtr <<
+        "--> appending note " <<
+        elt->notePitchAsString () <<
+        ":" << elt->getNoteMusicXMLDivisions () <<
+        " to the grace expression in voice " <<
+        fCurrentVoiceClone->getVoiceName () <<
+        endl;
+    }
+      
+      fCurrentGraceexpressionClone->
+        appendNoteToGraceexpression (elt);
       break;
       
     case msrNote::kRestNote:
@@ -791,15 +800,38 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
   switch (elt->getNoteKind ()) {
     case msrNote::kStandaloneNote:
       break;
+      
     case msrNote::kGraceNote:
       break;
+      
     case msrNote::kRestNote:
       break;
+      
     case msrNote::kChordMemberNote:
       break;
+      
     case msrNote::kTupletMemberNote:
       break;
   } // switch
+
+  // attach the grace expression to elt
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+    cerr <<  idtr <<
+      "--> attaching the grace expression to note " <<
+      elt->notePitchAsString () <<
+      ":" << elt->getNoteMusicXMLDivisions () <<
+      " in voice " <<
+      fCurrentVoiceClone->getVoiceName () <<
+      endl;
+  }
+  
+  if (fCurrentGraceexpressionClone) {
+    elt->
+      setNoteGraceexpression (
+        fCurrentGraceexpressionClone); // JMI
+
+  fCurrentGraceexpressionClone = 0;
+  }
 }
 
 //________________________________________________________________________

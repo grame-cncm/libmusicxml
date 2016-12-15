@@ -296,6 +296,10 @@ class msr2LpsrVisitor :
     // ------------------------------------------------------
     S_msrStem                 fCurrentStem;
     
+    // grace expressions
+    // ------------------------------------------------------
+    S_msrGraceexpression      fCurrentGraceexpressionClone;
+    
     // chords
     // ------------------------------------------------------
     S_msrChord                fCurrentChordClone;
