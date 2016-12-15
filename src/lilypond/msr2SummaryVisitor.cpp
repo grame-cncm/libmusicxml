@@ -18,7 +18,7 @@
 #include <stdlib.h>     /* abort, NULL */
 #include <climits>      /* INT_MIN */
 #include <algorithm>    /* for_each */
-
+#include <iomanip>      // setw, set::precision, ...
 #include "conversions.h"
 
 #include "msr2SummaryVisitor.h"
@@ -133,16 +133,22 @@ void msr2SummaryVisitor::visitStart (S_msrPartgroup& elt)
 
   idtr++;
 
-  fOstream <<
-    idtr << "PartgroupName            : \"" <<
-     elt->getPartgroupName  () << "\"" << endl <<
-    idtr << "PartgroupAbbrevation     : \"" <<
-     elt->getPartgroupAbbreviation  () << "\"" << endl;
-  fOstream <<
-    idtr << "fPartgroupSymbolDefaultX : " <<
-     elt->getPartgroupSymbolDefaultX  () << endl;
-  fOstream <<
-    idtr << "fPartgroupSymbolKind     : \"";
+  fOstream << left <<
+    idtr <<
+      setw(24) << "PartgroupName" << " : \"" <<
+      elt->getPartgroupName  () << "\"" <<
+      endl <<
+    idtr <<
+      setw(24) << "PartgroupAbbrevation" << " : \"" <<
+      elt->getPartgroupAbbreviation  () << "\"" <<
+      endl <<
+    idtr <<
+      setw(24) << "fPartgroupSymbolDefaultX" << " : " <<
+      elt->getPartgroupSymbolDefaultX  () <<
+      endl <<
+    idtr <<
+    setw(24) << "fPartgroupSymbolKind" << " : \"";
+    
   switch (elt->getPartgroupSymbolKind ()) {
     case msrPartgroup::kBracePartgroupSymbol:
       fOstream << "brace";
@@ -159,14 +165,18 @@ void msr2SummaryVisitor::visitStart (S_msrPartgroup& elt)
     case msrPartgroup::k_NoPartgroupSymbol:
       break;
   } // switch
-  fOstream << "\"" << endl;
-  fOstream <<
-    idtr << "PartgroupBarline         : ";
+  
+  fOstream << "\"" <<
+    endl <<
+    idtr <<
+      setw(24) << "PartgroupBarline" << " : ";
+      
   if (elt->getPartgroupBarline ())
     fOstream << "true";
   else
     fOstream << "false";
-  fOstream << endl << endl;
+  fOstream <<
+    endl << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrPartgroup& elt)
@@ -198,25 +208,31 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
     
   idtr++;
   
-  fOstream <<
+  fOstream << left <<
     idtr <<
-      "PartMusicXMLID     : \"" <<
-      elt->getPartMusicXMLID () << "\"" << endl <<
+      setw(21) << "PartMusicXMLID" << " : \"" <<
+      elt->getPartMusicXMLID () << "\"" <<
+      endl <<
     idtr <<
-      "PartMSRName          : \"" <<
-      elt->getPartMSRName () << "\"" << endl <<
+      setw(21) << "PartMSRName" << " : \"" <<
+      elt->getPartMSRName () << "\"" <<
+      endl <<
     idtr <<
-      "PartAbbrevation      : \"" <<
-      elt->getPartAbbreviation () << "\"" << endl <<
-  
+      setw(21) << "PartName" << " : \"" <<
+      elt->getPartName  () << "\"" <<
+      endl <<
     idtr <<
-      "DivisionsPerWholeNote : " <<
-      elt->getDivisionsPerWholeNote () << endl <<
-
+      setw(21) << "PartAbbrevation" << " : \"" <<
+      elt->getPartAbbreviation () << "\"" <<
+      endl <<
     idtr <<
-      "PartInstrumentName     : \"" <<
-      elt->getPartInstrumentName () << "\"" << endl <<
-      
+      setw(21) << "DivisionsPerWholeNote" << " : " <<
+      elt->getDivisionsPerWholeNote () <<
+      endl <<
+    idtr <<
+      setw(21) << "PartInstrumentName" << " : \"" <<
+      elt->getPartInstrumentName () << "\"" <<
+      endl <<
     endl;
 }
 
@@ -375,8 +391,7 @@ void msr2SummaryVisitor::visitStart (S_msrClef& elt)
     fOstream << idtr <<
       "Clef" << " \"" << elt->getSign () << "\"" <<
       " line " << elt->getLine () <<
-      ", " << elt->getOctaveChange () << "*8" <<
-      endl;
+      ", " << elt->getOctaveChange () << "*8";
   }
 }
 
@@ -401,7 +416,6 @@ void msr2SummaryVisitor::visitStart (S_msrKey& elt)
       fOstream << "\\major";
     else
       fOstream << "\\minor";
-    fOstream << endl;
   }
 }
 
@@ -422,8 +436,7 @@ void msr2SummaryVisitor::visitStart (S_msrTime& elt)
   if (! fOnGoingStaff) {    
     fOstream << idtr <<
       "Time " << 
-      elt->getBeatsNumber () << "/" << elt->getBeatsValue () <<
-      endl;
+      elt->getBeatsNumber () << "/" << elt->getBeatsValue ();
   }
 }
 

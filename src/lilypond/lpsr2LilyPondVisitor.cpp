@@ -682,7 +682,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
       
     if (fLpsrOptions->fGenerateComments)
       fOstream <<
-        setw(30) << "% part group " <<
+        setw(30) << " " << "% part group " <<
         elt->getPartgroup ()->getPartgroupCombinedName ();
         
     fOstream <<
@@ -719,7 +719,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupBlock& elt)
       ">>";
     if (fLpsrOptions->fGenerateComments)
       fOstream <<
-        setw(30) << "% part group " <<
+        setw(30) << " " << "% part group " <<
         elt->getPartgroup ()->getPartgroupCombinedName ();
     fOstream <<
       endl << endl;
@@ -746,7 +746,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartBlock& elt)
     
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
-      setw(30) << "% part " <<
+      setw(30) << " " << "% part " <<
       elt->getPart ()->getPartCombinedName ();
       
   if (partInstrumentName.size ())
@@ -776,7 +776,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartBlock& elt)
     
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
-      setw(30) << "% part " <<
+      setw(30) << " " << "% part " <<
       elt->getPart ()->getPartCombinedName ();
       
   fOstream <<
@@ -811,7 +811,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
     
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
-      setw(30) << "% staff " <<
+      setw(30) << " " << "% staff " <<
       elt->getStaff ()->getStaffName ();
       
   fOstream << endl;
@@ -846,7 +846,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffBlock& elt)
     ">>";
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
-      setw(30) << "% staff " <<
+      setw(30) << " " << "% staff " <<
       elt->getStaff ()->getStaffName ();
   fOstream << endl;
 }
@@ -1200,7 +1200,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
       "{" <<
-      setw(30) << "% start of msrVoicechunk" <<
+      setw(30) << " " << "% start of msrVoicechunk" <<
       endl;
 
     idtr++;
@@ -1229,7 +1229,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
       endl <<
       idtr <<
       "}" <<
-      setw(30) << "% end of msrVoicechunk" <<
+      setw(30) << " " << "% end of msrVoicechunk" <<
       endl;
   }
   /*
