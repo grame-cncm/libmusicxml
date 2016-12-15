@@ -70,6 +70,8 @@ xml2MsrVisitor::xml2MsrVisitor (
 
   fOnGoingNote = false;
 
+  fOnGoingGracenotes = false;
+
   fOnGoingChord = false;
   
   fOnGoingSlur = false;
@@ -4181,6 +4183,16 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
       // this the first grace note in a grace notes group
 
       // create the grace notes
+      if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+        cerr <<  idtr <<
+          "--> creating a grace notes for note " <<
+          newNote->notePitchAsString () <<
+          ":" << newNote->getNoteMusicXMLDivisions () <<
+          " in voice " <<
+          currentVoice->getVoiceName () <<
+          endl;
+      }
+      
       fCurrentGracenotes =
         msrGracenotes::create (
           fMsrOptions, 
@@ -4196,6 +4208,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
   }
 
   else {
+    // standalone note or rest
 
     if (fMusicXMLNoteData.fMusicXMLStepIsARest)
       newNote->
@@ -4214,14 +4227,15 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     }
   
     if (fOnGoingGracenotes) {
-      // this the first note after the grace notes,
+      // newNote is the first note after the grace notes,
       // i.e. the note to which the latter belongs
 
       // attach the grace notes to newNote
       newNote->
         setNoteGracenotes (fCurrentGracenotes);
 
-      fOnGoingGracenotes = true;
+      fCurrentGracenotes = 0;
+      fOnGoingGracenotes = false;
     }
 
     // append the newNote to the current voice

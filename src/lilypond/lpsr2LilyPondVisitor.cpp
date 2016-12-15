@@ -105,7 +105,8 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     noteIsChordFirstNote;
 */
 
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
+ // if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
+  if (fMsrOptions->fDebugDebug) {
     cerr << left <<
       endl <<
       idtr <<
@@ -213,7 +214,8 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
           +
         referenceDiatonicPitch - msrMusicXMLNoteData::kC;
 
-    if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
+//    if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
+    if (fMsrOptions->fDebugDebug) {
       cerr << left <<
 /*
         idtr <<
@@ -1715,7 +1717,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrGracenotes& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
 {
-//  if (true || fMsrOptions->fDebug) { // JMI
+//  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebug) {
     fOstream << idtr <<
       "% --> Start visiting ";

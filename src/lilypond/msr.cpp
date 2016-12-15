@@ -1104,9 +1104,10 @@ msrNote::msrNote (
   msrMusicXMLNoteData::msrMusicXMLAlterationKind
     musicXMLAlterationKind; // JMI
 
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
+//   if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
+  if (fMsrOptions->fDebugDebug) {
     cerr <<
-      "--> fMusicXMLNoteData.fMusicXMLAlter= " <<
+      "--> fMusicXMLNoteData.fMusicXMLAlter = " <<
       fMusicXMLNoteData.fMusicXMLAlter <<
       endl;
   }
@@ -5519,8 +5520,7 @@ void msrVoice::addSkipLyricschunkToVoice (
     cerr << idtr <<
       "--> Adding skip lyrics chunk"
       ", line " << inputLineNumber <<
-      ", divisions = " << divisions <<
-      endl;
+      ", divisions = " << divisions;
 
 /*
     string lyricschunkKindAsString =
