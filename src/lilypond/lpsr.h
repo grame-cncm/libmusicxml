@@ -1570,31 +1570,13 @@ class EXP lpsrScoreBlock : public lpsrElement
     // ------------------------------------------------------
 
     void          appendPartgroupBlockToParallelMusic (
-                    S_lpsrPartgroupBlock partgroupBlock)
-                      {
-                        fScoreBlockParallelMusic->
-                          addElementToParallelMusic (partgroupBlock);
-                          
-         //               fScoreBlockElements.push_back(partgroupBlock);
-                      }
+                    S_lpsrPartgroupBlock partgroupBlock);
 
     void          appendVoiceUseToParallelMusic (
-                    S_lpsrUseVoiceCommand voiceUse)
-                      {
-                        fScoreBlockParallelMusic->
-                          addElementToParallelMusic (voiceUse);
-                          
-      //                  fScoreBlockElements.push_back(voiceUse);
-                      }
-                  
+                    S_lpsrUseVoiceCommand voiceUse);
+
     void          appendLyricsUseToParallelMusic (
-                    S_lpsrNewLyricsBlock lyricsUse)
-                      {
-                        fScoreBlockParallelMusic->
-                          addElementToParallelMusic (lyricsUse);
-                          
-     //                   fScoreBlockElements.push_back(lyricsUse);
-                      }
+                    S_lpsrNewLyricsBlock lyricsUse);
 
     // visitors
     // ------------------------------------------------------

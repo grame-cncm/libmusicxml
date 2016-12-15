@@ -2336,6 +2336,54 @@ lpsrScoreBlock::lpsrScoreBlock (
 
 lpsrScoreBlock::~lpsrScoreBlock() {}
 
+void lpsrScoreBlock::appendPartgroupBlockToParallelMusic (
+  S_lpsrPartgroupBlock partgroupBlock)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending part group block " <<
+       partgroupBlock-> getPartgroup ()-> getPartgroupCombinedName() <<
+       " to LPSR score" <<
+       endl;
+
+  fScoreBlockParallelMusic->
+    addElementToParallelMusic (partgroupBlock);
+    
+//               fScoreBlockElements.push_back(partgroupBlock);
+}
+
+void lpsrScoreBlock::appendVoiceUseToParallelMusic (
+  S_lpsrUseVoiceCommand voiceUse)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending the use of voice " <<
+       voiceUse-> getVoice ()-> getVoiceName() <<
+       " to LPSR score" <<
+       endl;
+
+  fScoreBlockParallelMusic->
+    addElementToParallelMusic (voiceUse);
+    
+//                  fScoreBlockElements.push_back(voiceUse);
+}
+                  
+void lpsrScoreBlock::appendLyricsUseToParallelMusic (
+  S_lpsrNewLyricsBlock lyricsUse)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending the use of lyrics " <<
+       lyricsUse-> getLyrics ()-> getLyricsName() <<
+       " to LPSR score" <<
+       endl;
+
+  fScoreBlockParallelMusic->
+    addElementToParallelMusic (lyricsUse);
+    
+//                   fScoreBlockElements.push_back(lyricsUse);
+}
+
 void lpsrScoreBlock::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<

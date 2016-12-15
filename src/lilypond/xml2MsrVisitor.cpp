@@ -951,7 +951,7 @@ void xml2MsrVisitor::visitStart (S_part_abbreviation& elt)
 
 void xml2MsrVisitor::visitStart (S_instrument_name& elt)
 {
-  fCurrentPartInstrumentName = elt->getValue(); // jMI
+  fCurrentPartInstrumentName = elt->getValue();
 }
 
 void xml2MsrVisitor::visitEnd (S_score_part& elt)
