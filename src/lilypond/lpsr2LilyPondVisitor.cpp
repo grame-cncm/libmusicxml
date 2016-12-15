@@ -1757,6 +1757,36 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
   if (++ fVoicechunkNotesAndChordsCountersStack.top () == 1)
     fOstream << idtr;
 
+  // should stem direction be generated?
+  if (fLpsrOptions->fGenerateStems) {
+
+    if (fCurrentStem) {
+      // get note stem kind 
+      msrStem::msrStemKind
+        stemKind =
+          fCurrentStem->getStemKind ();
+    
+      // should stem direction be generated?
+      if (stemKind != fCurrentStemKind) {
+        switch (stemKind) {
+          case msrStem::k_NoStem:
+            fOstream << "\\stemNeutral" " ";
+            break;
+          case msrStem::kStemUp:
+            fOstream << "\\stemUp" " ";
+            break;
+          case msrStem::kStemDown:
+            fOstream << "\\stemDown" " ";
+            break;
+        } // switch
+      }
+    
+      // is there a change?
+      if (stemKind != fCurrentStemKind)
+        fCurrentStemKind = stemKind;
+    }
+  }
+
   switch (elt->getNoteKind ()) {
     
     case msrNote::kStandaloneNote:
@@ -1911,33 +1941,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrStem& elt)
     fOstream << idtr <<
       "% --> Start visiting msrStem" << endl;
 
-  // should stem direction be generated?
-  if (fLpsrOptions->fGenerateStems) {
-    
-    // get note stem kind 
-    msrStem::msrStemKind
-      stemKind =
-        elt->getStemKind ();
-
-    // should stem direction be generated?
-    if (stemKind != fCurrentStemKind) {
-      switch (stemKind) {
-        case msrStem::k_NoStem:
-          fOstream << "\\stemNeutral" " ";
-          break;
-        case msrStem::kStemUp:
-          fOstream << "\\stemUp" " ";
-          break;
-        case msrStem::kStemDown:
-          fOstream << "\\stemDown" " ";
-          break;
-      } // switch
-    }
-
-    // is there a change?
-    if (stemKind != fCurrentStemKind)
-      fCurrentStemKind = stemKind;
-  }
+  fCurrentStem = elt;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrStem& elt)
