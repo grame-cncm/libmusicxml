@@ -71,6 +71,8 @@ class msr2LpsrVisitor :
   public visitor<S_msrWedge>,
   
   public visitor<S_msrNote>,
+  
+  public visitor<S_msrStem>,
   public visitor<S_msrBeam>,
     
   public visitor<S_msrChord>,
@@ -172,6 +174,9 @@ class msr2LpsrVisitor :
 
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
+
+    virtual void visitStart (S_msrStem& elt);
+    virtual void visitEnd   (S_msrStem& elt);
 
     virtual void visitStart (S_msrBeam& elt);
     virtual void visitEnd   (S_msrBeam& elt);

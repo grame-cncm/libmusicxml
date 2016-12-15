@@ -70,8 +70,6 @@ xml2MsrVisitor::xml2MsrVisitor (
 
   fOnGoingNote = false;
 
-  fCurrentStem = "";
-
   fOnGoingChord = false;
   
   fOnGoingSlur = false;
@@ -2948,8 +2946,6 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
 
   // assuming voice number 1, unless S_voice states otherwise afterwards
   fCurrentVoiceNumber = 1;
-
-  fCurrentStem = "";
 
   fCurrentSyllabic = "";
   fCurrentText = "";  

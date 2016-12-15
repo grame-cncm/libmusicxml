@@ -100,6 +100,8 @@ class lpsr2LilyPondVisitor :
   public visitor<S_msrWedge>,
   
   public visitor<S_msrNote>,
+  
+  public visitor<S_msrStem>,
   public visitor<S_msrBeam>,
     
   public visitor<S_msrChord>,
@@ -252,6 +254,9 @@ class lpsr2LilyPondVisitor :
 
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
+
+    virtual void visitStart (S_msrStem& elt);
+    virtual void visitEnd   (S_msrStem& elt);
 
     virtual void visitStart (S_msrBeam& elt);
     virtual void visitEnd   (S_msrBeam& elt);

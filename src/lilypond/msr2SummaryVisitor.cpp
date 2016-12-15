@@ -637,6 +637,21 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
 }
 
 //________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrStem& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrStem" << endl;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrStem& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrStem" << endl;
+}
+
+//________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrBeam& elt)
 {
   if (fMsrOptions->fDebug)
