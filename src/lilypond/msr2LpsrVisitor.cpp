@@ -682,18 +682,18 @@ void msr2LpsrVisitor::visitEnd (S_msrWedge& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrVisitor::visitStart (S_msrGracenotes& elt)
+void msr2LpsrVisitor::visitStart (S_msrGraceexpression& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrGracenotes" << endl;
+      "--> Start visiting msrGraceexpression" << endl;
 }
 
-void msr2LpsrVisitor::visitEnd (S_msrGracenotes& elt)
+void msr2LpsrVisitor::visitEnd (S_msrGraceexpression& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrGracenotes" << endl;
+      "--> End visiting msrGraceexpression" << endl;
 }
 
 //________________________________________________________________________

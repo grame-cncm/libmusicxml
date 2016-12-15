@@ -70,7 +70,7 @@ xml2MsrVisitor::xml2MsrVisitor (
 
   fOnGoingNote = false;
 
-  fOnGoingGracenotes = false;
+  fOnGoingGraceexpression = false;
 
   fOnGoingChord = false;
   
@@ -2958,7 +2958,7 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   
   fCurrentTiedOrientation = "";
 
-  fOnGoingGracenotes = false;
+  fOnGoingGraceexpression = false;
   
   fCurrentSlurNumber = -1;
   fCurrentSlurType = "";
@@ -4175,17 +4175,52 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
     
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+    cerr <<
+      endl <<
+      idtr <<
+        "--> handleStandaloneOrGraceNoteOrRest() on " <<
+        newNote->notePitchAsString () <<
+        ":" << newNote->getNoteMusicXMLDivisions () <<
+        " in voice " <<
+        currentVoice->getVoiceName () <<
+        endl <<
+      idtr <<
+        "--> line = " <<
+        newNote->getInputLineNumber () <<
+        endl <<
+      idtr <<
+        "--> fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote = " <<
+        fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote <<
+        endl <<
+      idtr <<
+        "--> fOnGoingGraceexpression = " <<
+        fOnGoingGraceexpression <<
+        endl <<
+      idtr <<
+        "--> fCurrentGraceexpression = ";
+        
+    if (fCurrentGraceexpression)
+      cerr << fCurrentGraceexpression;
+    else
+      cerr << "NULL";
+
+    cerr <<
+      endl <<
+    endl;
+  }
+
   if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote) {
     newNote->
       setNoteKind (msrNote::kGraceNote);
-
-    if (! fOnGoingGracenotes) {
+  
+    if (! fOnGoingGraceexpression) {
       // this the first grace note in a grace notes group
 
       // create the grace notes
       if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
         cerr <<  idtr <<
-          "--> creating a grace notes for note " <<
+          "--> creating a grace expression for note " <<
           newNote->notePitchAsString () <<
           ":" << newNote->getNoteMusicXMLDivisions () <<
           " in voice " <<
@@ -4193,18 +4228,28 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
           endl;
       }
       
-      fCurrentGracenotes =
-        msrGracenotes::create (
+      fCurrentGraceexpression =
+        msrGraceexpression::create (
           fMsrOptions, 
           newNote->getInputLineNumber (),
           newNote);
    
-      fOnGoingGracenotes = true;
+      fOnGoingGraceexpression = true;
     }
 
-    // append newNote to the grace notes
-    fCurrentGracenotes->
-      appendNoteToGracenotes (newNote);
+    // append newNote to the grace expression
+    if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+      cerr <<  idtr <<
+        "--> appending note " <<
+        newNote->notePitchAsString () <<
+        ":" << newNote->getNoteMusicXMLDivisions () <<
+        " to the grace expression in voice " <<
+        currentVoice->getVoiceName () <<
+        endl;
+    }
+
+    fCurrentGraceexpression->
+      appendNoteToGraceexpression (newNote);
   }
 
   else {
@@ -4226,16 +4271,26 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         " to current voice" << endl;
     }
   
-    if (fOnGoingGracenotes) {
-      // newNote is the first note after the grace notes,
+    if (fOnGoingGraceexpression) {
+      // newNote is the first note after the grace expression,
       // i.e. the note to which the latter belongs
 
-      // attach the grace notes to newNote
+      // attach the grace expression to newNote
+      if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+        cerr <<  idtr <<
+          "--> attaching the grace expression to note " <<
+          newNote->notePitchAsString () <<
+          ":" << newNote->getNoteMusicXMLDivisions () <<
+          " in voice " <<
+          currentVoice->getVoiceName () <<
+          endl;
+      }
+      
       newNote->
-        setNoteGracenotes (fCurrentGracenotes);
+        setNoteGraceexpression (fCurrentGraceexpression);
 
-      fCurrentGracenotes = 0;
-      fOnGoingGracenotes = false;
+      fCurrentGraceexpression = 0;
+      fOnGoingGraceexpression = false;
     }
 
     // append the newNote to the current voice

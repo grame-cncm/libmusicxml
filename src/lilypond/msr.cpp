@@ -854,34 +854,35 @@ void msrSlur::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrGracenotes msrGracenotes::create (
+S_msrGraceexpression msrGraceexpression::create (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   S_msrNote       noteUplink)
 {
-  msrGracenotes* o =
-    new msrGracenotes (
+  msrGraceexpression* o =
+    new msrGraceexpression (
       msrOpts, inputLineNumber, noteUplink);
   assert(o!=0);
   return o;
 }
 
-msrGracenotes::msrGracenotes (
+msrGraceexpression::msrGraceexpression (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   S_msrNote       noteUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fGracenotesVoicechunk =
+  fGraceexpressionVoicechunk =
     msrVoicechunk::create (
       fMsrOptions, fInputLineNumber);
 
-  fGracenotesNoteUplink = noteUplink;
+  fGraceexpressionNoteUplink = noteUplink;
 }
 
-msrGracenotes::~msrGracenotes() {}
+msrGraceexpression::~msrGraceexpression() {}
 
-S_msrGracenotes msrGracenotes::createEmptyClone (S_msrVoice clonedVoice)
+S_msrGraceexpression msrGraceexpression::createEmptyClone (
+  S_msrNote clonedNote)
 {
   S_msrVoicechunk
     voicechunk =
@@ -892,74 +893,74 @@ S_msrGracenotes msrGracenotes::createEmptyClone (S_msrVoice clonedVoice)
     cerr << idtr <<
       "--> Creating an empty clone of a repeat" << endl;
   
-  S_msrGracenotes
+  S_msrGraceexpression
     clone =
-      msrGracenotes::create (
+      msrGraceexpression::create (
         fMsrOptions,
         fInputLineNumber,
-        fGracenotesNoteUplink); // JMI
+        fGraceexpressionNoteUplink); // JMI
   
   return clone;
 }
 
-void msrGracenotes::acceptIn (basevisitor* v) {
+void msrGraceexpression::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrGracenotes::acceptIn()" << endl;
+      "==> msrGraceexpression::acceptIn()" << endl;
       
-  if (visitor<S_msrGracenotes>*
+  if (visitor<S_msrGraceexpression>*
     p =
-      dynamic_cast<visitor<S_msrGracenotes>*> (v)) {
-        S_msrGracenotes elem = this;
+      dynamic_cast<visitor<S_msrGraceexpression>*> (v)) {
+        S_msrGraceexpression elem = this;
         
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrGracenotes::visitStart()" << endl;
+            "==> Launching msrGraceexpression::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void msrGracenotes::acceptOut (basevisitor* v) {
+void msrGraceexpression::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrGracenotes::acceptOut()" << endl;
+      "==> msrGraceexpression::acceptOut()" << endl;
 
-  if (visitor<S_msrGracenotes>*
+  if (visitor<S_msrGraceexpression>*
     p =
-      dynamic_cast<visitor<S_msrGracenotes>*> (v)) {
-        S_msrGracenotes elem = this;
+      dynamic_cast<visitor<S_msrGraceexpression>*> (v)) {
+        S_msrGraceexpression elem = this;
       
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrGracenotes::visitEnd()" << endl;
+            "==> Launching msrGraceexpression::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void msrGracenotes::browseData (basevisitor* v)
+void msrGraceexpression::browseData (basevisitor* v)
 {
   // browse the common part
   msrBrowser<msrVoicechunk> browser (v);
-  browser.browse (*fGracenotesVoicechunk);
+  browser.browse (*fGraceexpressionVoicechunk);
 }
 
-ostream& operator<< (ostream& os, const S_msrGracenotes& gracenotes)
+ostream& operator<< (ostream& os, const S_msrGraceexpression& graceexpression)
 {
-  gracenotes->print (os);
+  graceexpression->print (os);
   return os;
 }
 
-void msrGracenotes::print (ostream& os)
+void msrGraceexpression::print (ostream& os)
 {
   os <<
     endl <<
-    idtr << "Gracenotes" <<
+    idtr << "Graceexpression" <<
     ", input line: " << fInputLineNumber <<
     endl;
   
   idtr++;
   
-  os << fGracenotesVoicechunk;
+  os << fGraceexpressionVoicechunk;
       
   idtr--;
 }
@@ -1333,10 +1334,10 @@ void msrNote::browseData (basevisitor* v)
     idtr--;
   }
 
-  if (fNoteGracenotes) {
+  if (fNoteGraceexpression) {
     // browse the grace notes
-    msrBrowser<msrGracenotes> browser (v);
-    browser.browse (*fNoteGracenotes);
+    msrBrowser<msrGraceexpression> browser (v);
+    browser.browse (*fNoteGraceexpression);
   }
 
 /* JMI
@@ -1734,9 +1735,9 @@ void msrNote::print (ostream& os)
   }
 
   // print the grace notes if any
-  if (fNoteGracenotes) {
+  if (fNoteGraceexpression) {
     os <<
-      idtr << fNoteGracenotes;
+      idtr << fNoteGraceexpression;
   }
   
   // print the slur if any

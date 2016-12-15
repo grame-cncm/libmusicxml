@@ -99,7 +99,7 @@ class lpsr2LilyPondVisitor :
   public visitor<S_msrDynamics>,
   public visitor<S_msrWedge>,
     
-  public visitor<S_msrGracenotes>,
+  public visitor<S_msrGraceexpression>,
   
   public visitor<S_msrNote>,
   
@@ -254,8 +254,8 @@ class lpsr2LilyPondVisitor :
     virtual void visitStart (S_msrWedge& elt);
     virtual void visitEnd   (S_msrWedge& elt);
 
-    virtual void visitStart (S_msrGracenotes& elt);
-    virtual void visitEnd   (S_msrGracenotes& elt);
+    virtual void visitStart (S_msrGraceexpression& elt);
+    virtual void visitEnd   (S_msrGraceexpression& elt);
 
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);

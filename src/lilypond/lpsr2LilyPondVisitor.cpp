@@ -1691,24 +1691,24 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrWedge& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrGracenotes& elt)
+void lpsr2LilyPondVisitor::visitStart (S_msrGraceexpression& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting msrGracenotes" << endl;
+      "% --> Start visiting msrGraceexpression" << endl;
 
  //   S_msrVoicechunk
- //             getGracenotesVoicechunk () // JMI
+ //             getGraceexpressionVoicechunk () // JMI
 
   fOstream <<
     "\\grace" " " "{ ";
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_msrGracenotes& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_msrGraceexpression& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting msrGracenotes" << endl;
+      "% --> End visiting msrGraceexpression" << endl;
 
   fOstream <<
     "} ";
