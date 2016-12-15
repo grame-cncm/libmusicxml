@@ -730,7 +730,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupBlock& elt)
       fOstream <<
         setw(30) << "% part group " <<
         elt->getPartgroup ()->getPartgroupCombinedName ();
-    fOstream << endl;
+    fOstream <<
+      endl << endl;
   }
 }
 
@@ -764,7 +765,8 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartBlock& elt)
       "\"" <<
       endl;
 
-  fOstream << endl;
+  fOstream <<
+    endl;
   
   idtr++;
 }
@@ -786,7 +788,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartBlock& elt)
       setw(30) << "% part " <<
       elt->getPart ()->getPartCombinedName ();
       
-  fOstream << endl;
+  fOstream <<
+    endl << endl;
 }
 
 //________________________________________________________________________

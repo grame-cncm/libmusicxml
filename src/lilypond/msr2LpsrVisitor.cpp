@@ -262,12 +262,8 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
     scoreCommand =
       fLpsrScore->getScoreBlock ();
 
-  // append the pargroup clone to the score command
-  scoreCommand->
-    appendPartgroupBlockToParallelMusic (
-      partgroupBlock);
-
-  // append the partgroup command to the LPSR score command
+  // don't append the pargroup block to the score command now:
+  // this will be done when it gets popped from the stack
 
 /*
  *   fCurrentVoiceClone =
@@ -296,9 +292,20 @@ void msr2LpsrVisitor::visitEnd (S_msrPartgroup& elt)
     fOstream << idtr <<
       "--> End visiting msrPartgroup" << endl;
 
-  // pop current partgroup from this visitors's stack
+  // get the LPSR store command
+  S_lpsrScoreBlock
+    scoreCommand =
+      fLpsrScore->getScoreBlock ();
+
+  // append the pargroup clone to the score command
+  scoreCommand->
+    appendPartgroupBlockToParallelMusic (
+      fPartgroupBlocksStack.top ());
+
+
+  // pop current partgroup from this visitors's stack,
+  // only now to restore the appearence order
   fPartgroupBlocksStack.pop ();
-      
 }
 
 //________________________________________________________________________
