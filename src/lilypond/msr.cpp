@@ -236,6 +236,97 @@ void musicXMLBeatData::print (ostream& os)
 };
 
 //______________________________________________________________________________
+S_msrStem msrStem::create (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  msrStemKind   stemKind)
+{
+  msrStem* o =
+    new msrStem (
+      msrOpts, inputLineNumber, stemKind);
+  assert(o!=0);
+  return o;
+}
+
+msrStem::msrStem (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  msrStemKind   stemKind)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fStemKind   = stemKind; 
+}
+
+msrStem::~msrStem() {}
+
+void msrStem::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrStem::acceptIn()" << endl;
+      
+  if (visitor<S_msrStem>*
+    p =
+      dynamic_cast<visitor<S_msrStem>*> (v)) {
+        S_msrStem elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrStem::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrStem::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrStem::acceptOut()" << endl;
+
+  if (visitor<S_msrStem>*
+    p =
+      dynamic_cast<visitor<S_msrStem>*> (v)) {
+        S_msrStem elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrStem::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrStem::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrStem& beam)
+{
+  beam->print (os);
+  return os;
+}
+
+void msrStem::print (ostream& os)
+{
+  idtr++;
+  
+  os <<
+    "Stem" <<
+    ", kind: ";
+
+  switch (fStemKind) {
+    case k_NoStem:
+      os << "none";
+      break;
+    case kStemUp:
+      os << "up";
+      break;
+    case kStemDown:
+      os << "down";
+      break;
+  } // switch
+  os << endl;
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_msrBeam msrBeam::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
@@ -1082,6 +1173,12 @@ void msrNote::acceptOut (basevisitor* v) {
 
 void msrNote::browseData (basevisitor* v)
 {
+  if (fNoteStem) {
+    // browse the stem
+    msrBrowser<msrStem> browser (v);
+    browser.browse (*fNoteStem);
+  }
+
   if (fNoteBeam) {
     // browse the beam
     msrBrowser<msrBeam> browser (v);
@@ -1455,22 +1552,11 @@ void msrNote::print (ostream& os)
         */
     endl;
 
-  // print the stem direction if any
-  idtr++;
-  os << idtr << "Stem: ";
-  switch (fStemDirectionKind) {
-    case msrNote::k_NoStemDirection:
-      os << "none";
-      break;
-    case msrNote::kStemDirectionUp:
-      os << "up";
-      break;
-    case msrNote::kStemDirectionDown:
-      os << "down";
-      break;
-  } // switch
-  os << endl;
-  idtr--;
+  // print the stem if any
+  if (fNoteBeam) {
+    os <<
+      idtr << fNoteBeam;
+  }
 
   // print the beam if any
   if (fNoteBeam) {

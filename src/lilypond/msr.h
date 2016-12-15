@@ -495,14 +495,15 @@ class musicXMLBeatData // JMI ???
 */
 
 //______________________________________________________________________________
-/*
+
 class EXP msrStem : public msrElement
 {
   public:
 
     enum msrStemKind {
       k_NoStem,
-      kUpStem, kDownStem};
+      kStemUp, kStemDown};
+
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -547,7 +548,6 @@ class EXP msrStem : public msrElement
 };
 typedef SMARTP<msrStem> S_msrStem;
 EXP ostream& operator<< (ostream& os, const S_msrStem& elt);
-*/
 
 //______________________________________________________________________________
 class EXP msrBeam : public msrElement
@@ -866,10 +866,6 @@ class EXP msrNote : public msrElement
       kStandaloneNote,  kGraceNote,
       kChordMemberNote, kTupletMemberNote};
       
-    enum msrStemDirectionKind {
-      k_NoStemDirection,
-      kStemDirectionUp, kStemDirectionDown};
-
     enum msrGraceKind {
       k_NoGrace,
       kStartGrace, kContinueGrace, kStopGrace};
@@ -968,12 +964,11 @@ class EXP msrNote : public msrElement
                       }
 
     // stems
-    void          setStemDirectionKind (msrStemDirectionKind stemDirectionKind)
-                      { fStemDirectionKind = stemDirectionKind; }
+    void          setStem (S_msrStem stem)
+                      { fNoteStem = stem; }
 
-    msrStemDirectionKind
-                  getStemDirectionKind () const
-                      { return fStemDirectionKind; }
+    S_msrStem     getNoteStem () const
+                      { return fNoteStem; }
 
     // grace notes
     bool          getNoteIsGraceNote () const // JMI
@@ -1097,7 +1092,7 @@ class EXP msrNote : public msrElement
 
     msrNoteKind               fNoteKind;
 
-    msrStemDirectionKind      fStemDirectionKind;
+    S_msrStem                 fNoteStem;
 
     S_msrBeam                 fNoteBeam;
     

@@ -45,8 +45,6 @@ msr2LpsrVisitor::msr2LpsrVisitor (
  // gCurrentLocation.fPositionInMeasure = 1;
 
   fOnGoingIdentification = false;
-
-  fCurrentStemDirection  = msrNote::k_NoStemDirection;
   
   fOnGoingStaff          = false;
 

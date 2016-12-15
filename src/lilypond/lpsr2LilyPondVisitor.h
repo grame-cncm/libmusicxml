@@ -349,8 +349,8 @@ class lpsr2LilyPondVisitor :
     int                   fSequentialMusicElementsCounter;
 
     // stems
-    msrNote::msrStemDirectionKind
-                          fCurrentStemDirectionKind;
+    msrStem::msrStemKind  fCurrentStemKind;
+    S_msrStem             fCurrentStem;
 
     // chords
     // ------------------------------------------------------
