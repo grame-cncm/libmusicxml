@@ -2957,8 +2957,6 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   fCurrentBeam = 0;
   
   fCurrentTiedOrientation = "";
-
-  fOnGoingGraceexpression = false;
   
   fCurrentSlurNumber = -1;
   fCurrentSlurType = "";
@@ -4215,9 +4213,9 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
       setNoteKind (msrNote::kGraceNote);
   
     if (! fOnGoingGraceexpression) {
-      // this the first grace note in a grace notes group
+      // this is the first grace note in a grace expression
 
-      // create the grace notes
+      // create the grace expression
       if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
         cerr <<  idtr <<
           "--> creating a grace expression for note " <<
@@ -4268,7 +4266,9 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         "--> adding standalone " <<
         newNote->notePitchAsString () <<
         ":" << newNote->getNoteMusicXMLDivisions () <<
-        " to current voice" << endl;
+        " to voice " <<
+        currentVoice->getVoiceName () <<
+        endl;
     }
   
     if (fOnGoingGraceexpression) {
@@ -4293,10 +4293,10 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
       fOnGoingGraceexpression = false;
     }
 
-    // append the newNote to the current voice
+    // append newNote to the current voice
     currentVoice->
       appendNoteToVoice (newNote);
-    }
+  }
 
   // handle the pending tuplets
   handleTupletsPendingOnTupletStack ();

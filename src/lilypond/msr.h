@@ -417,8 +417,7 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
   
     enum msrDiatonicPitch {
       // starting at C for LilyPond relative octave calculations
-      kC, kD, kE, kF, kG, kA, kB, 
-      kRest}; // JMI, k_NoDiatonicPitch};
+      kC, kD, kE, kF, kG, kA, kB}; // JMI, k_NoDiatonicPitch};
     
     enum msrMusicXMLAlterationKind {
       kSesquiFlat, kFlat, kSemiFlat,
@@ -463,7 +462,7 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
 
     int                       fMusicXMLDotsNumber;
     
-    bool                      fMusicXMLNoteIsAGraceNote; // JMI ???
+    bool                      fMusicXMLNoteIsAGraceNote;
     
     bool                      fMusicXMLNoteBelongsToAChord;
     
@@ -1010,6 +1009,7 @@ class EXP msrNote : public msrElement
   public:
 
     enum msrNoteKind {
+      k_NoNoteKind,
       kRestNote, 
       kStandaloneNote,  kGraceNote,
       kChordMemberNote, kTupletMemberNote};

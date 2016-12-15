@@ -953,8 +953,7 @@ ostream& operator<< (ostream& os, const S_msrGraceexpression& graceexpression)
 void msrGraceexpression::print (ostream& os)
 {
   os <<
-    endl <<
-    idtr << "Graceexpression" <<
+    "Graceexpression" <<
     ", input line: " << fInputLineNumber <<
     endl;
   
@@ -1036,23 +1035,30 @@ msrNote::msrNote (
       fMusicXMLNoteData;
   }
 
-  if (fMusicXMLNoteData.fMusicXMLStepIsARest)
+  fNoteKind = k_NoNoteKind;
+  
+/* JMI ??? ???
+  if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
+    fNoteKind = msrNote::kGraceNote;
+  else if (fMusicXMLNoteData.fMusicXMLStepIsARest)
     fNoteKind = msrNote::kRestNote;
   else
     fNoteKind = msrNote::kStandaloneNote;
       // may become msrNote::kChordMemberNote later
 
+
   // take rests into account
   if (fNoteKind == msrNote::kRestNote) {
-    /*
+    / *
     cerr <<
       "--> REST, fMusicXMLDuration/fMusicXMLDivisions = " <<
       fMusicXMLNoteData.fMusicXMLDuration << 
      "/" <<
      fMusicXMLNoteData.fMusicXMLDivisions << endl;
-    */
+    * /
     fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kRest;
   }
+*/
 
   if (
     fMusicXMLNoteData.fMusicXMLStep < 'A'
@@ -1565,7 +1571,7 @@ string msrNote::noteAsString () const
   switch (fNoteKind) {
     case msrNote::kStandaloneNote:
       s <<
-        "Grace note" <<
+        "Standalone note" <<
         " " <<
         notePitchAsString () <<
         "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
@@ -1575,7 +1581,7 @@ string msrNote::noteAsString () const
       
     case msrNote::kGraceNote:
       s <<
-        "Standalone note" <<
+        "Grace note" <<
         " " <<
         notePitchAsString () <<
         "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
@@ -1683,6 +1689,16 @@ void msrNote::print (ostream& os)
       idtr << fNoteBeam;
   }
   
+  // print the grace notes if any
+  if (fNoteGraceexpression) {
+    idtr++;
+    
+    os <<
+      idtr << fNoteGraceexpression;
+
+    idtr--;
+  }
+  
   // print the articulations if any
   if (fNoteArticulations.size()) {
     idtr++;
@@ -1734,12 +1750,6 @@ void msrNote::print (ostream& os)
     idtr--;
   }
 
-  // print the grace notes if any
-  if (fNoteGraceexpression) {
-    os <<
-      idtr << fNoteGraceexpression;
-  }
-  
   // print the slur if any
   if (fNoteSlurKind != msrSlur::k_NoSlur) { // JMI
     idtr++;
