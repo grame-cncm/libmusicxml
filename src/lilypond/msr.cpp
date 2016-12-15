@@ -1030,7 +1030,7 @@ msrNote::msrNote (
     fMusicXMLNoteData.fMusicXMLStep < 'A'
       ||
     fMusicXMLNoteData.fMusicXMLStep > 'G') {
-    if (fNoteKind != msrNote::kRestNote) {
+    if (! fMusicXMLNoteData.fMusicXMLStepIsARest) {
       stringstream s;
       
       s <<

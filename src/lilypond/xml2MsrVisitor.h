@@ -609,7 +609,6 @@ class EXP xml2MsrVisitor :
 
     // beam handling
     // ------------------------------------------------------
-    bool                      fOnGoingGraceexpression;
     S_msrGraceexpression      fCurrentGraceexpression;
 
     // note/rest handling

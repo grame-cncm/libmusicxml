@@ -70,8 +70,6 @@ xml2MsrVisitor::xml2MsrVisitor (
 
   fOnGoingNote = false;
 
-  fOnGoingGraceexpression = false;
-
   fOnGoingChord = false;
   
   fOnGoingSlur = false;
@@ -1382,7 +1380,7 @@ void xml2MsrVisitor::visitEnd ( S_metronome& elt )
     msrMusicXMLWarning (
       fMsrOptions->fInputSourceName,
       inputLineNumber,
-      "multiple beats found, but only per-minute tempos is supported");
+      "multiple beats found, but only per-minute tempo is supported");
     return;
   }
   
@@ -1390,7 +1388,7 @@ void xml2MsrVisitor::visitEnd ( S_metronome& elt )
     msrMusicXMLWarning (
       fMsrOptions->fInputSourceName,
       inputLineNumber,
-      "per-minute not found, only per-minute tempos is supported");
+      "per-minute not found, only per-minute tempo is supported");
     return;    // support per minute tempo only (for now)
   }
 
@@ -4192,10 +4190,6 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote <<
         endl <<
       idtr <<
-        "--> fOnGoingGraceexpression = " <<
-        fOnGoingGraceexpression <<
-        endl <<
-      idtr <<
         "--> fCurrentGraceexpression = ";
         
     if (fCurrentGraceexpression)
@@ -4212,7 +4206,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     newNote->
       setNoteKind (msrNote::kGraceNote);
   
-    if (! fOnGoingGraceexpression) {
+    if (! fCurrentGraceexpression) {
       // this is the first grace note in a grace expression
 
       // create the grace expression
@@ -4236,11 +4230,9 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
       currentVoice->
         appendGraceexpressionToVoice (
           fCurrentGraceexpression);
-
-      fOnGoingGraceexpression = true;
     }
 
-    // append newNote to the grace expression
+    // append newNote to the current grace expression
     if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
       cerr <<  idtr <<
         "--> appending note " <<

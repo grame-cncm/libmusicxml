@@ -212,7 +212,7 @@ void displayMsrScore (
       endl <<
       idtr << separator <<
       endl <<
-      "Optionnal pass: outputting a view of the MSR" <<
+      "Optional pass: outputting a view of the MSR" <<
       endl <<
       idtr << separator <<
       endl;
@@ -238,7 +238,7 @@ void displayMsrScoreSummary (
       endl <<
       idtr << separator <<
       endl <<
-      "Optionnal pass: outputting a summary of the MSR" <<
+      "Optional pass: outputting a summary of the MSR" <<
       endl <<
       idtr << separator <<
       endl;

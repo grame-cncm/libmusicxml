@@ -1205,11 +1205,13 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
 
     idtr++;
   }
+  /*
   else {
     fOstream <<
       idtr << "{" << // JMI
       endl;
   }
+  */
 
   fVoicechunkNotesAndChordsCountersStack.push (0);
 }
@@ -1230,6 +1232,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
       setw(30) << "% end of msrVoicechunk" <<
       endl;
   }
+  /*
   else {
     fOstream <<
       endl <<
@@ -1237,6 +1240,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
       "}" << // JMI
       endl;
   }
+  */
 
   fVoicechunkNotesAndChordsCountersStack.pop ();
 }
@@ -1697,9 +1701,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrGraceexpression& elt)
     fOstream << idtr <<
       "% --> Start visiting msrGraceexpression" << endl;
 
- //   S_msrVoicechunk
- //             getGraceexpressionVoicechunk () // JMI
-
   fOstream <<
     "\\grace" " " "{ ";
 }
@@ -1819,6 +1820,34 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       // print the note duration
       fOstream <<
         elt->noteDivisionsAsMSRString ();
+      
+      // print the tie if any
+      if (
+        elt->getNoteTieKind ()
+          ==
+        msrMusicXMLNoteData::kStartTie) {
+          fOstream << " ~";
+      }
+
+      // this note is the new relative octave reference
+      fRelativeOctaveReference = elt;
+      break;
+
+    case msrNote::kGraceNote:
+      if (++fSequentialMusicElementsCounter > 10) {
+        fOstream <<
+          endl <<
+          idtr;
+        fSequentialMusicElementsCounter = 1;
+      }
+
+      // print the note name
+      fOstream <<
+        noteMsrPitchAsLilyPondString (elt);
+      
+      // print the note duration
+      fOstream <<
+        elt->noteTypeAsMSRString ();
       
       // print the tie if any
       if (

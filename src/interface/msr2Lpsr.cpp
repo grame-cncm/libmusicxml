@@ -110,7 +110,7 @@ void displayLpsrScore (
       endl <<
       idtr << separator <<
       endl <<
-      "Optionnal pass: outputting a view of the LPSR" <<
+      "Optional pass: outputting a view of the LPSR" <<
       endl <<
       idtr << separator <<
       endl;

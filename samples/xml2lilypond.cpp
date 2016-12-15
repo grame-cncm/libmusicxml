@@ -123,7 +123,8 @@ void printUsage (int exitStatus)
     endl <<
 
     "    --sum, --displayMSRScoreSummary" << endl <<
-    "          Write a summary of the MSR score to standard error." << endl <<
+    "          Only write a summary of the MSR score to standard error." << endl <<
+    "          This implies that no LilyPond code is generated." << endl <<
     endl <<
 
     "    --part, --partName 'originalName = newName'" << endl <<
@@ -720,6 +721,7 @@ void analyzeOptions (
 
         if (displayMSRScoreSummaryPresent) {
           msrOpts->fDisplayMSRScoreSummary = true;
+          lpsrOpts->fDontGenerateLilyPondCode = true;
           msrOpts->fCommandLineOptions +=
             "--displayScoreSummary ";
           displayMSRScoreSummaryPresent = false;
@@ -1156,18 +1158,20 @@ int main (int argc, char *argv[])
 
   S_lpsrScore lpScore;
         
-  if (outputFileName.size())
-    lpScore =
-      msr2Lpsr (mScore, msrOpts, lpsrOpts, outStream);
-  else
-    lpScore =
-      msr2Lpsr (mScore, msrOpts, lpsrOpts, cout);
-  
-  if (! lpScore) {
-    cerr <<
-      "### Conversion from MSR to LPSR failed ###" << endl <<
-      endl;
-    return 1;
+  if (! lpsrOpts->fDontGenerateLilyPondCode) {
+    if (outputFileName.size())
+      lpScore =
+        msr2Lpsr (mScore, msrOpts, lpsrOpts, outStream);
+    else
+      lpScore =
+        msr2Lpsr (mScore, msrOpts, lpsrOpts, cout);
+    
+    if (! lpScore) {
+      cerr <<
+        "### Conversion from MSR to LPSR failed ###" << endl <<
+        endl;
+      return 1;
+    }
   }
 
   // generate LilyPond code from LPSR
