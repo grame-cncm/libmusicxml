@@ -4187,23 +4187,20 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
           newNote->getInputLineNumber (),
           newNote);
    
-      currentVoice->
-        appendNoteToVoice (fCurrentGracenotes);
-
       fOnGoingGracenotes = true;
     }
 
+    // append newNote to the grace notes
     fCurrentGracenotes->
       appendNoteToGracenotes (newNote);
-
   }
 
   else {
 
-    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+    if (fMusicXMLNoteData.fMusicXMLStepIsARest)
       newNote->
         setNoteKind (msrNote::kRestNote);
-    else {
+    else
       newNote->
         setNoteKind (msrNote::kStandaloneNote);
   
@@ -4216,20 +4213,26 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         " to current voice" << endl;
     }
   
-      currentVoice->
-        appendNoteToVoice (newNote);
-    }
-      
-        
-        
+    if (fOnGoingGracenotes) {
+      // this the first note after the grace notes,
+      // i.e. the note to which the latter belongs
+
+      // attach the grace notes to newNote
+      newNote->
+        setNoteGracenotes (fCurrentGracenotes);
+
       fOnGoingGracenotes = true;
     }
-  
+
+    // append the newNote to the current voice
+    currentVoice->
+      appendNoteToVoice (newNote);
+    }
+
+  // handle the pending tuplets
   handleTupletsPendingOnTupletStack ();
 
-
-  // lyrics has to be handled in all cases,
-  // to handle melismae
+  // lyrics has to be handled in all cases to handle melismata
   handleLyrics (newNote);
 
   // account for chord not being built

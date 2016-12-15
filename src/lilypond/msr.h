@@ -964,16 +964,21 @@ class EXP msrGracenotes : public msrElement
     // ------------------------------------------------------
 
     S_msrVoicechunk
-              getGracenotesVoicechunk () const
-                { return fGracenotesVoicechunk; }
+                getGracenotesVoicechunk () const
+                    { return fGracenotesVoicechunk; }
 
-    S_msrNote
-              getGracenotesNoteUplink () const
-                { return fGracenotesNoteUplink; }
+    S_msrNote   getGracenotesNoteUplink () const
+                    { return fGracenotesNoteUplink; }
 
     // services
     // ------------------------------------------------------
 
+    void      appendNoteToGracenotes (S_msrNote note)
+                  {
+                    fGracenotesVoicechunk->
+                      appendElementToVoicechunk (note);
+                  }
+    
     // visitors
     // ------------------------------------------------------
 
@@ -3183,8 +3188,6 @@ class EXP msrVoice : public msrElement
     void          appendChordToVoice      (S_msrChord chord);
     void          appendTupletToVoice     (S_msrTuplet tuplet);
     
-    void          appendGracenotesToVoice (S_msrGracenotes gracenotes);
-
     void          addTextLyricschunkToVoice (
                     int       lyricsNumber,
                     string    syllabic,
