@@ -2956,6 +2956,8 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   
   fCurrentTiedOrientation = "";
 
+  fOnGoingGracenotes = false;
+  
   fCurrentSlurNumber = -1;
   fCurrentSlurType = "";
   fCurrentSlurPlacement = "";
@@ -3403,7 +3405,7 @@ void xml2MsrVisitor::visitStart ( S_wedge& elt )
 //______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_grace& elt )
 {
-  fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote = true;;
+  fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote = true;
 }
        
 //______________________________________________________________________________
@@ -4163,29 +4165,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
       newNote <<
       endl;
 
-  if (fMusicXMLNoteData.fMusicXMLStepIsARest)
-    newNote->
-      setNoteKind (msrNote::kRestNote);
-      
-  else if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
-    newNote->
-      setNoteKind (msrNote::kGraceNote);
-      
-  else
-    newNote->
-      setNoteKind (msrNote::kStandaloneNote);
-
-  handleTupletsPendingOnTupletStack ();
-
-  // register note/rest as standalone
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
-    cerr <<  idtr <<
-      "--> adding standalone " <<
-      newNote->notePitchAsString () <<
-      ":" << newNote->getNoteMusicXMLDivisions () <<
-      " to current voice" << endl;
-  }
-
+  // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
@@ -4193,8 +4173,60 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
     
-  currentVoice->
-    appendNoteToVoice (newNote);
+  if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote) {
+    newNote->
+      setNoteKind (msrNote::kGraceNote);
+
+    if (! fOnGoingGracenotes) {
+      // this the first grace note in a grace notes group
+
+      // create the grace notes
+      fCurrentGracenotes =
+        msrGracenotes::create (
+          fMsrOptions, 
+          newNote->getInputLineNumber (),
+          newNote);
+   
+      currentVoice->
+        appendNoteToVoice (fCurrentGracenotes);
+
+      fOnGoingGracenotes = true;
+    }
+
+    fCurrentGracenotes->
+      appendNoteToGracenotes (newNote);
+
+  }
+
+  else {
+
+    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+      newNote->
+        setNoteKind (msrNote::kRestNote);
+    else {
+      newNote->
+        setNoteKind (msrNote::kStandaloneNote);
+  
+    // register note/rest as standalone
+    if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
+      cerr <<  idtr <<
+        "--> adding standalone " <<
+        newNote->notePitchAsString () <<
+        ":" << newNote->getNoteMusicXMLDivisions () <<
+        " to current voice" << endl;
+    }
+  
+      currentVoice->
+        appendNoteToVoice (newNote);
+    }
+      
+        
+        
+      fOnGoingGracenotes = true;
+    }
+  
+  handleTupletsPendingOnTupletStack ();
+
 
   // lyrics has to be handled in all cases,
   // to handle melismae

@@ -73,13 +73,6 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   
   //JMI assertMsr(fMsrPitch != k_NoMsrPitch, "fMsrPitch != k_NoMsrPitch");
 
-  bool noteIsGraceNote =
-    note->getNoteIsGraceNote ();
-    
-  if (noteIsGraceNote)
-    s <<
-      "\\grace { ";
-
   if (note->getNoteIsUnpitched ())
     s << "unpitched ";
   else
@@ -271,10 +264,6 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
       } // while
     }
   }
-  
-  if (noteIsGraceNote)
-    s <<
-      " } ";
 
 /*
   if (noteIsChordFirstNote)
@@ -1697,6 +1686,30 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrWedge& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrWedge" << endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrGracenotes& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrGracenotes" << endl;
+
+ //   S_msrVoicechunk
+ //             getGracenotesVoicechunk () // JMI
+
+  fOstream <<
+    "\\grace" " " "{ ";
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrGracenotes& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrGracenotes" << endl;
+
+  fOstream <<
+    "} ";
 }
 
 //________________________________________________________________________

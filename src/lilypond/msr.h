@@ -934,6 +934,10 @@ class EXP msrGracenotes : public msrElement
 {
   public:
 
+    enum msrGraceKind { // JMI ???
+      k_NoGrace,
+      kStartGrace, kContinueGrace, kStopGrace};
+        
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -1005,10 +1009,6 @@ class EXP msrNote : public msrElement
       kStandaloneNote,  kGraceNote,
       kChordMemberNote, kTupletMemberNote};
       
-    enum msrGraceKind {
-      k_NoGrace,
-      kStartGrace, kContinueGrace, kStopGrace};
-        
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -1110,17 +1110,12 @@ class EXP msrNote : public msrElement
                       { return fNoteStem; }
 
     // grace notes
-    bool          getNoteIsGraceNote () const // JMI
-                      {
-                        return
-                          fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote;
-                      }
+    S_msrGracenotes
+                  getNoteGracenotes () const
+                      { return fNoteGracenotes; }
                       
-    void          setGraceKind (msrGraceKind graceKind)
-                      { fGraceKind = graceKind; }
-
-    msrGraceKind  getGraceKind () const
-                      { return fGraceKind; }
+    void          setNoteGracenotes (S_msrGracenotes gracenotes)
+                      { fNoteGracenotes = gracenotes; }
 
     // divisions per whole note
     void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
@@ -1241,7 +1236,7 @@ class EXP msrNote : public msrElement
     list<S_msrWedge>          fNoteWedges;
 
 
-    msrGraceKind              fGraceKind;
+    S_msrGracenotes           fNoteGracenotes;
                                   
     msrSlur::msrSlurKind      fNoteSlurKind;
 
@@ -3174,19 +3169,21 @@ class EXP msrVoice : public msrElement
     // services
     // ------------------------------------------------------
 
-    void          handleForward         (int duration); // JMI
+    void          handleForward           (int duration); // JMI
     
-    void          appendClefToVoice     (S_msrClef clef);
-    void          appendKeyToVoice      (S_msrKey  key);
-    void          appendTimeToVoice     (S_msrTime time);
+    void          appendClefToVoice       (S_msrClef clef);
+    void          appendKeyToVoice        (S_msrKey  key);
+    void          appendTimeToVoice       (S_msrTime time);
 
-    void          appendWordsToVoice    (S_msrWords words);
+    void          appendWordsToVoice      (S_msrWords words);
     
-    void          appendTempoToVoice    (S_msrTempo tempo);
+    void          appendTempoToVoice      (S_msrTempo tempo);
     
-    void          appendNoteToVoice     (S_msrNote note);
-    void          appendChordToVoice    (S_msrChord chord);
-    void          appendTupletToVoice   (S_msrTuplet tuplet);
+    void          appendNoteToVoice       (S_msrNote note);
+    void          appendChordToVoice      (S_msrChord chord);
+    void          appendTupletToVoice     (S_msrTuplet tuplet);
+    
+    void          appendGracenotesToVoice (S_msrGracenotes gracenotes);
 
     void          addTextLyricschunkToVoice (
                     int       lyricsNumber,

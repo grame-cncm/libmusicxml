@@ -876,7 +876,7 @@ msrGracenotes::msrGracenotes (
     msrVoicechunk::create (
       fMsrOptions, fInputLineNumber);
 
-  fGracenotesNoteUplink    = noteUplink;
+  fGracenotesNoteUplink = noteUplink;
 }
 
 msrGracenotes::~msrGracenotes() {}
@@ -897,35 +897,9 @@ S_msrGracenotes msrGracenotes::createEmptyClone (S_msrVoice clonedVoice)
       msrGracenotes::create (
         fMsrOptions,
         fInputLineNumber,
-        voicechunk,
-        clonedVoice);
+        fGracenotesNoteUplink); // JMI
   
   return clone;
-}
-
-void msrGracenotes::setGracenotesCommonPart (
-  S_msrVoicechunk repeatCommonPart)
-{
-  if (fMsrOptions->fTrace)
-    cerr << idtr <<
-      "Setting repeat common part containing " <<
-      repeatCommonPart->getVoicechunkElements ().size () <<
-      " elements" <<
-      endl;
-      
-  fGracenotesCommonPart = repeatCommonPart;
-}
-
-void msrGracenotes::addGracenotesending (S_msrGracenotesending repeatending)
-{
-  if (fMsrOptions->fTrace)
-    cerr << idtr <<
-      "Adding an ending to repeat" << endl;
-      
-  fGracenotesEndings.push_back (repeatending);
-
-  repeatending->setGracenotesendingNumber (
-    ++ fGracenotesEndingsCounter);
 }
 
 void msrGracenotes::acceptIn (basevisitor* v) {
@@ -966,22 +940,12 @@ void msrGracenotes::browseData (basevisitor* v)
 {
   // browse the common part
   msrBrowser<msrVoicechunk> browser (v);
-  browser.browse (*fGracenotesCommonPart);
-  
-  // browse the alternatives
-  for (
-    vector<S_msrGracenotesending>::iterator i = fGracenotesEndings.begin();
-    i != fGracenotesEndings.end();
-    i++) {
-    // browse the alternative
-    msrBrowser<msrGracenotesending> browser (v);
-    browser.browse (*(*i));
-  } // for
+  browser.browse (*fGracenotesVoicechunk);
 }
 
-ostream& operator<< (ostream& os, const S_msrGracenotes& rept)
+ostream& operator<< (ostream& os, const S_msrGracenotes& gracenotes)
 {
-  rept->print (os);
+  gracenotes->print (os);
   return os;
 }
 
@@ -995,13 +959,8 @@ void msrGracenotes::print (ostream& os)
   
   idtr++;
   
-  os << fGracenotesCommonPart;
-  
-  vector<S_msrGracenotesending>::const_iterator i;
-  for (i=fGracenotesEndings.begin(); i!=fGracenotesEndings.end(); i++) {
-    os << idtr << (*i);
-  } // for
-    
+  os << fGracenotesVoicechunk;
+      
   idtr--;
 }
 
@@ -1371,6 +1330,12 @@ void msrNote::browseData (basevisitor* v)
       browser.browse (*(*i));
     } // for
     idtr--;
+  }
+
+  if (fNoteGracenotes) {
+    // browse the grace notes
+    msrBrowser<msrGracenotes> browser (v);
+    browser.browse (*fNoteGracenotes);
   }
 
 /* JMI
@@ -1767,6 +1732,12 @@ void msrNote::print (ostream& os)
     idtr--;
   }
 
+  // print the grace notes if any
+  if (fNoteGracenotes) {
+    os <<
+      idtr << fNoteGracenotes;
+  }
+  
   // print the slur if any
   if (fNoteSlurKind != msrSlur::k_NoSlur) { // JMI
     idtr++;

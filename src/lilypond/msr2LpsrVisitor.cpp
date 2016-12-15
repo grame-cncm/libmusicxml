@@ -682,6 +682,21 @@ void msr2LpsrVisitor::visitEnd (S_msrWedge& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrVisitor::visitStart (S_msrGracenotes& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrGracenotes" << endl;
+}
+
+void msr2LpsrVisitor::visitEnd (S_msrGracenotes& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrGracenotes" << endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrNote& elt)
 {
   if (fMsrOptions->fDebug) {

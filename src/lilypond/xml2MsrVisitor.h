@@ -607,6 +607,11 @@ class EXP xml2MsrVisitor :
     int                       fCurrentBeamNumber;
     S_msrBeam                 fCurrentBeam;
 
+    // beam handling
+    // ------------------------------------------------------
+    bool                      fOnGoingGracenotes;
+    S_msrGracenotes           fCurrentGracenotes;
+
     // note/rest handling
     // ------------------------------------------------------
     void                      handleStandaloneOrGraceNoteOrRest (
