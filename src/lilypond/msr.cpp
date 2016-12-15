@@ -856,49 +856,38 @@ void msrSlur::print (ostream& os)
 //______________________________________________________________________________
 S_msrGraceexpression msrGraceexpression::create (
   S_msrOptions&   msrOpts, 
-  int             inputLineNumber,
-  S_msrNote       noteUplink)
+  int             inputLineNumber)
 {
   msrGraceexpression* o =
     new msrGraceexpression (
-      msrOpts, inputLineNumber, noteUplink);
+      msrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrGraceexpression::msrGraceexpression (
   S_msrOptions&   msrOpts, 
-  int             inputLineNumber,
-  S_msrNote       noteUplink)
+  int             inputLineNumber)
     : msrElement (msrOpts, inputLineNumber)
 {
   fGraceexpressionVoicechunk =
     msrVoicechunk::create (
       fMsrOptions, fInputLineNumber);
-
-  fGraceexpressionNoteUplink = noteUplink;
 }
 
 msrGraceexpression::~msrGraceexpression() {}
 
-S_msrGraceexpression msrGraceexpression::createEmptyClone (
-  S_msrNote clonedNote)
+S_msrGraceexpression msrGraceexpression::createEmptyClone ()
 {
-  S_msrVoicechunk
-    voicechunk =
-      msrVoicechunk::create (
-        fMsrOptions, fInputLineNumber);
-
-//  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> Creating an empty clone of a repeat" << endl;
+      "--> Creating an empty clone of a grace expression" << endl;
   
   S_msrGraceexpression
     clone =
       msrGraceexpression::create (
         fMsrOptions,
-        fInputLineNumber,
-        clonedNote);
+        fInputLineNumber);
   
   return clone;
 }
@@ -939,7 +928,7 @@ void msrGraceexpression::acceptOut (basevisitor* v) {
 
 void msrGraceexpression::browseData (basevisitor* v)
 {
-  // browse the common part
+  // browse the voicechunk
   msrBrowser<msrVoicechunk> browser (v);
   browser.browse (*fGraceexpressionVoicechunk);
 }
@@ -1036,29 +1025,6 @@ msrNote::msrNote (
   }
 
   fNoteKind = k_NoNoteKind;
-  
-/* JMI ??? ???
-  if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote)
-    fNoteKind = msrNote::kGraceNote;
-  else if (fMusicXMLNoteData.fMusicXMLStepIsARest)
-    fNoteKind = msrNote::kRestNote;
-  else
-    fNoteKind = msrNote::kStandaloneNote;
-      // may become msrNote::kChordMemberNote later
-
-
-  // take rests into account
-  if (fNoteKind == msrNote::kRestNote) {
-    / *
-    cerr <<
-      "--> REST, fMusicXMLDuration/fMusicXMLDivisions = " <<
-      fMusicXMLNoteData.fMusicXMLDuration << 
-     "/" <<
-     fMusicXMLNoteData.fMusicXMLDivisions << endl;
-    * /
-    fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kRest;
-  }
-*/
 
   if (
     fMusicXMLNoteData.fMusicXMLStep < 'A'
@@ -1338,12 +1304,6 @@ void msrNote::browseData (basevisitor* v)
       browser.browse (*(*i));
     } // for
     idtr--;
-  }
-
-  if (fNoteGraceexpression) {
-    // browse the grace notes
-    msrBrowser<msrGraceexpression> browser (v);
-    browser.browse (*fNoteGraceexpression);
   }
 
 /* JMI
@@ -1688,17 +1648,7 @@ void msrNote::print (ostream& os)
     os <<
       idtr << fNoteBeam;
   }
-  
-  // print the grace notes if any
-  if (fNoteGraceexpression) {
-    idtr++;
     
-    os <<
-      idtr << fNoteGraceexpression;
-
-    idtr--;
-  }
-  
   // print the articulations if any
   if (fNoteArticulations.size()) {
     idtr++;
@@ -5444,6 +5394,21 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
   S_msrElement t = tuplet;
   fVoicechunk->
     appendElementToVoicechunk (t);
+
+  fMusicHasBeenInserted = true;
+}
+
+void msrVoice::appendGraceexpressionToVoice (
+  S_msrGraceexpression graceexpression)
+{
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "Appending grace expression " << graceexpression <<
+      " to voice " << getVoiceName () << endl;
+
+  S_msrElement g = graceexpression;
+  fVoicechunk->
+    appendElementToVoicechunk (g);
 
   fMusicHasBeenInserted = true;
 }

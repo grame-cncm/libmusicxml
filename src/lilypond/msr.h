@@ -932,28 +932,21 @@ EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
 class EXP msrGraceexpression : public msrElement
 {
   public:
-
-    enum msrGraceKind { // JMI ???
-      k_NoGrace,
-      kStartGrace, kContinueGrace, kStopGrace};
         
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrGraceexpression> create (
       S_msrOptions&   msrOpts, 
-      int             inputLineNumber,
-      S_msrNote       noteUplink);
+      int             inputLineNumber);
     
-    SMARTP<msrGraceexpression> createEmptyClone (
-      S_msrNote clonedNote);
+    SMARTP<msrGraceexpression> createEmptyClone ();
 
   protected:
 
     msrGraceexpression (
       S_msrOptions&   msrOpts, 
-      int             inputLineNumber,
-      S_msrNote       noteUplink);
+      int             inputLineNumber);
       
     virtual ~msrGraceexpression();
   
@@ -965,9 +958,6 @@ class EXP msrGraceexpression : public msrElement
     S_msrVoicechunk
                 getGraceexpressionVoicechunk () const
                     { return fGraceexpressionVoicechunk; }
-
-    S_msrNote   getGraceexpressionNoteUplink () const
-                    { return fGraceexpressionNoteUplink; }
 
     // services
     // ------------------------------------------------------
@@ -991,8 +981,6 @@ class EXP msrGraceexpression : public msrElement
   private:
 
     S_msrVoicechunk          fGraceexpressionVoicechunk;
-    
-    S_msrNote                fGraceexpressionNoteUplink;
 };
 typedef SMARTP<msrGraceexpression> S_msrGraceexpression;
 EXP ostream& operator<< (ostream& os, const S_msrGraceexpression& elt);
@@ -1114,15 +1102,6 @@ class EXP msrNote : public msrElement
     S_msrStem     getNoteStem () const
                       { return fNoteStem; }
 
-    // grace notes
-    S_msrGraceexpression
-                  getNoteGraceexpression () const
-                      { return fNoteGraceexpression; }
-                      
-    void          setNoteGraceexpression (
-                    S_msrGraceexpression graceexpression)
-                      { fNoteGraceexpression = graceexpression; }
-
     // divisions per whole note
     void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
                       {
@@ -1235,15 +1214,13 @@ class EXP msrNote : public msrElement
     S_msrStem                 fNoteStem;
 
     S_msrBeam                 fNoteBeam;
-    
+                                      
     list<S_msrArticulation>   fNoteArticulations;
     
     list<S_msrDynamics>       fNoteDynamics;
     list<S_msrWedge>          fNoteWedges;
 
 
-    S_msrGraceexpression      fNoteGraceexpression;
-                                  
     msrSlur::msrSlurKind      fNoteSlurKind;
 
     int                       fDivisionsPerWholeNote;
@@ -3175,19 +3152,23 @@ class EXP msrVoice : public msrElement
     // services
     // ------------------------------------------------------
 
-    void          handleForward           (int duration); // JMI
+    void          handleForward       (int duration); // JMI
     
-    void          appendClefToVoice       (S_msrClef clef);
-    void          appendKeyToVoice        (S_msrKey  key);
-    void          appendTimeToVoice       (S_msrTime time);
+    void          appendClefToVoice   (S_msrClef clef);
+    void          appendKeyToVoice    (S_msrKey  key);
+    void          appendTimeToVoice   (S_msrTime time);
 
-    void          appendWordsToVoice      (S_msrWords words);
+    void          appendWordsToVoice  (S_msrWords words);
     
-    void          appendTempoToVoice      (S_msrTempo tempo);
+    void          appendTempoToVoice  (S_msrTempo tempo);
     
-    void          appendNoteToVoice       (S_msrNote note);
-    void          appendChordToVoice      (S_msrChord chord);
-    void          appendTupletToVoice     (S_msrTuplet tuplet);
+    void          appendNoteToVoice   (S_msrNote note);
+    void          appendChordToVoice  (S_msrChord chord);
+    void          appendTupletToVoice (S_msrTuplet tuplet);
+    
+    void          appendGraceexpressionToVoice
+                                      (S_msrGraceexpression
+                                        graceexpression);
     
     void          addTextLyricschunkToVoice (
                     int       lyricsNumber,

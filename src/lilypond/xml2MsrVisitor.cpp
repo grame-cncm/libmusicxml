@@ -4225,13 +4225,18 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
           currentVoice->getVoiceName () <<
           endl;
       }
-      
+
+      // create grace expression
       fCurrentGraceexpression =
         msrGraceexpression::create (
           fMsrOptions, 
-          newNote->getInputLineNumber (),
-          newNote);
-   
+          newNote->getInputLineNumber ());
+
+      // append it to the current voice
+      currentVoice->
+        appendGraceexpressionToVoice (
+          fCurrentGraceexpression);
+
       fOnGoingGraceexpression = true;
     }
 
@@ -4253,6 +4258,11 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
   else {
     // standalone note or rest
 
+    if (fCurrentGraceexpression)
+      // this is the first note after the grace expression,
+      // forget about the latter
+      fCurrentGraceexpression = 0;
+
     if (fMusicXMLNoteData.fMusicXMLStepIsARest)
       newNote->
         setNoteKind (msrNote::kRestNote);
@@ -4271,28 +4281,6 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         endl;
     }
   
-    if (fOnGoingGraceexpression) {
-      // newNote is the first note after the grace expression,
-      // i.e. the note to which the latter belongs
-
-      // attach the grace expression to newNote
-      if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-        cerr <<  idtr <<
-          "--> attaching the grace expression to note " <<
-          newNote->notePitchAsString () <<
-          ":" << newNote->getNoteMusicXMLDivisions () <<
-          " in voice " <<
-          currentVoice->getVoiceName () <<
-          endl;
-      }
-      
-      newNote->
-        setNoteGraceexpression (fCurrentGraceexpression);
-
-      fCurrentGraceexpression = 0;
-      fOnGoingGraceexpression = false;
-    }
-
     // append newNote to the current voice
     currentVoice->
       appendNoteToVoice (newNote);

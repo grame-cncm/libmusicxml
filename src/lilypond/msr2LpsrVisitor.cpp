@@ -688,10 +688,15 @@ void msr2LpsrVisitor::visitStart (S_msrGraceexpression& elt)
     fOstream << idtr <<
       "--> Start visiting msrGraceexpression" << endl;
 
+  // create a clone of this grace expression
   fCurrentGraceexpressionClone =
     elt->
-      createEmptyClone (
-        elt->getGraceexpressionNoteUplink ()); // JMI ???
+      createEmptyClone ();
+
+  // append it to the current voice clone
+  fCurrentVoiceClone->
+    appendGraceexpressionToVoice (
+      fCurrentGraceexpressionClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrGraceexpression& elt)
@@ -699,6 +704,9 @@ void msr2LpsrVisitor::visitEnd (S_msrGraceexpression& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrGraceexpression" << endl;
+
+  // forget about this grace expression
+  fCurrentGraceexpressionClone = 0;
 }
 
 //________________________________________________________________________
@@ -726,50 +734,6 @@ void msr2LpsrVisitor::visitStart (S_msrNote& elt)
     } // switch
     fOstream << " msrNote" << endl;
   }
-
-  switch (elt->getNoteKind ()) {
-    
-    case msrNote::kStandaloneNote:
-      if (fMsrOptions->fDebug)
-        cerr << idtr <<
-          "--> appending " <<
-          elt->noteAsString () << " to voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
-          
-      fCurrentVoiceClone->
-        appendNoteToVoice (elt);
-      break;
-      
-    case msrNote::kGraceNote:
-    if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-      cerr <<  idtr <<
-        "--> appending note " <<
-        elt->notePitchAsString () <<
-        ":" << elt->getNoteMusicXMLDivisions () <<
-        " to the grace expression in voice " <<
-        fCurrentVoiceClone->getVoiceName () <<
-        endl;
-    }
-      
-      fCurrentGraceexpressionClone->
-        appendNoteToGraceexpression (elt);
-      break;
-      
-    case msrNote::kRestNote:
-      fCurrentVoiceClone->
-        appendNoteToVoice (elt);
-      break;
-      
-    case msrNote::kChordMemberNote:
-      fCurrentChordClone->
-        addNoteToChord (elt);
-      break;
-      
-    case msrNote::kTupletMemberNote:
-      fTupletClonesStack.top ()->
-        addElementToTuplet (elt);
-      break;
-  } // switch
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
@@ -798,40 +762,50 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
   }
 
   switch (elt->getNoteKind ()) {
+    
     case msrNote::kStandaloneNote:
+      if (fMsrOptions->fDebug) {
+        cerr << idtr <<
+          "--> appending " <<
+          elt->noteAsString () << " to voice " <<
+          fCurrentVoiceClone->getVoiceName () << endl;
+      }
+          
+      fCurrentVoiceClone->
+        appendNoteToVoice (elt);
       break;
       
     case msrNote::kGraceNote:
+    /* JMI
+      if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+        cerr <<  idtr <<
+          "--> appending note " <<
+          elt->notePitchAsString () <<
+          ":" << elt->getNoteMusicXMLDivisions () <<
+          " to the grace expression in voice " <<
+          fCurrentVoiceClone->getVoiceName () <<
+          endl;
+      }
+      */
+      fCurrentGraceexpressionClone->
+        appendNoteToGraceexpression (elt);
       break;
       
     case msrNote::kRestNote:
+      fCurrentVoiceClone->
+        appendNoteToVoice (elt);
       break;
       
     case msrNote::kChordMemberNote:
+      fCurrentChordClone->
+        addNoteToChord (elt);
       break;
       
     case msrNote::kTupletMemberNote:
+      fTupletClonesStack.top ()->
+        addElementToTuplet (elt);
       break;
   } // switch
-
-  // attach the grace expression to elt
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-    cerr <<  idtr <<
-      "--> attaching the grace expression to note " <<
-      elt->notePitchAsString () <<
-      ":" << elt->getNoteMusicXMLDivisions () <<
-      " in voice " <<
-      fCurrentVoiceClone->getVoiceName () <<
-      endl;
-  }
-  
-  if (fCurrentGraceexpressionClone) {
-    elt->
-      setNoteGraceexpression (
-        fCurrentGraceexpressionClone); // JMI
-
-  fCurrentGraceexpressionClone = 0;
-  }
 }
 
 //________________________________________________________________________
