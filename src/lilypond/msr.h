@@ -3175,7 +3175,7 @@ class EXP msrVoice : public msrElement
     void          appendKeyToVoice    (S_msrKey  key);
     void          appendTimeToVoice   (S_msrTime time);
 
-    void          appendWordsToVoice  (S_msrWords words);
+// JMI    void          appendWordsToVoice  (S_msrWords words);
     
     void          appendTempoToVoice  (S_msrTempo tempo);
     

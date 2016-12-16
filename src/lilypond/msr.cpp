@@ -1516,7 +1516,6 @@ string msrNote::noteDivisionsAsMSRString () const
 string msrNote::noteTypeAsMSRString () const
 {
   string result;
-  int    computedNumberOfDots;
   string errorMessage;
 
   result =
@@ -1553,6 +1552,9 @@ string msrNote::noteAsString () const
   stringstream s;
 
   switch (fNoteKind) {
+    case msrNote::k_NoNoteKind:
+      break;
+      
     case msrNote::kStandaloneNote:
       s <<
         "Standalone note" <<
@@ -5356,6 +5358,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
     appendElementToVoicechunk (t);
 }
 
+/* JMI
 void msrVoice::appendWordsToVoice (S_msrWords words)
 {
   if (fMsrOptions->fTrace)
@@ -5367,6 +5370,7 @@ void msrVoice::appendWordsToVoice (S_msrWords words)
   fVoicechunk->
     appendElementToVoicechunk (w);
 }
+*/
 
 void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 {
@@ -6560,7 +6564,7 @@ S_msrStaff msrPart::addStaffToPart (
       " to part " << getPartCombinedName () << "\"" <<
       endl;
 
-  if (staffNumber < 0) cout << 0/0 << endl; // JMI
+  assert (staffNumber > 0); // JMI
   
   // create the staff
   S_msrStaff
