@@ -1325,7 +1325,41 @@ void xml2MsrVisitor::visitStart (S_direction_type& elt)
 
 void xml2MsrVisitor::visitStart (S_words& elt)
 {
-  fCurrentWordsContents += elt->getValue ();
+/*
+          <words default-y="-73" font-style="italic" relative-x="5">cresc.</words>
+*/
+
+  fCurrentWordsContents = elt->getValue ();
+
+  fCurrentFontStyle   = elt->getAttributeValue ("font-style");
+  fCurrentFontSize    = elt->getAttributeValue ("font-size");
+  fCurrentFontWeight  = elt->getAttributeValue ("font-weight");
+  fCurrentFontXMLLang = elt->getAttributeValue ("xml:lanG");
+
+  if (! fCurrentFontXMLLang.size ())
+    fCurrentFontXMLLang = "it"; // default value
+
+  if (fCurrentWordsContents.size ()) {
+    if (fMsrOptions->fTrace)
+      cerr << idtr <<
+        "Creating words \"" << fCurrentWordsContents << "\"" <<
+        ", placement = \"" << fCurrentDirectionPlacement << "\"" <<
+        endl;
+
+    S_msrWords
+      words =
+        msrWords::create (
+          fMsrOptions,
+          elt->getInputLineNumber (),
+          fCurrentWordsPlacementKind,
+          fCurrentWordsContents,
+          fCurrentFontStyle,
+          fCurrentFontSize,
+          fCurrentFontWeight,
+          fCurrentFontXMLLang);
+
+    fPendingWords.push_back (words);
+  }
 }
 
 //________________________________________________________________________
@@ -1449,44 +1483,7 @@ void xml2MsrVisitor::visitEnd (S_direction& elt)
         setTempoIndication (fCurrentWordsContents);
   }
 
-  else if (fCurrentWordsContents.size ()) {
-      if (fMsrOptions->fTrace)
-        cerr << idtr <<
-          "Creating words \"" << fCurrentWordsContents << "\"" <<
-          ", placement = \"" << fCurrentDirectionPlacement << "\"" <<
-          endl;
-
-      S_msrWords
-        words =
-          msrWords::create (
-            fMsrOptions,
-            inputLineNumber,
-            fCurrentWordsPlacementKind,
-            fCurrentWordsContents);
-        
-      fPendingWords.push_back (words);
-
-      /* JMI
-      if (fMsrOptions->fTrace)
-        cerr << idtr <<
-          "Creating words \"" << fCurrentWordsContents << "\"" <<
-          ", placement = \"" << fCurrentDirectionPlacement << "\"" <<
-          endl;
-
-      // create words element
-      fCurrentWords =
-        msrWords::create (
-          fMsrOptions, 
-          inputLineNumber,
-          fCurrentWordsPlacementKind,
-          fCurrentWordsContents);
-
-      // append to current voice
-      currentVoice->
-        appendWordsToVoice (fCurrentWords);
-        */
-  }
-  
+ // JMI  
   fOnGoingDirectionType = false;
 }
 

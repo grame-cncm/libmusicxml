@@ -3183,29 +3183,47 @@ void msrTime::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrWords msrWords::create (
-  S_msrOptions& msrOpts, 
-  int           inputLineNumber,
-  msrWordsPlacementKind
-                wordsPlacementKind,
-  string        wordsContents)
+  S_msrOptions&         msrOpts, 
+  int                   inputLineNumber,
+  msrWordsPlacementKind wordsPlacementKind,
+  string                wordsContents,
+  string                wordsFontStyle,
+  string                wordsFontSize,
+  string                wordsFontWeight,
+  string                wordsFontXMLLang)
 {
   msrWords* o =
     new msrWords (
-      msrOpts, inputLineNumber, wordsPlacementKind, wordsContents);
+      msrOpts, inputLineNumber,
+      wordsPlacementKind,
+      wordsContents,
+      wordsFontStyle,
+      wordsFontSize,
+      wordsFontWeight,
+      wordsFontXMLLang);
   assert(o!=0);
   return o;
 }
 
 msrWords::msrWords (
-  S_msrOptions& msrOpts, 
-  int           inputLineNumber,
-  msrWordsPlacementKind
-                wordsPlacementKind,
-  string        wordsContents)
+  S_msrOptions&         msrOpts, 
+  int                   inputLineNumber,
+  msrWordsPlacementKind wordsPlacementKind,
+  string                wordsContents,
+  string                wordsFontStyle,
+  string                wordsFontSize,
+  string                wordsFontWeight,
+  string                wordsFontXMLLang)
     : msrElement (msrOpts, inputLineNumber)
 {
   fWordsPlacementKind = wordsPlacementKind;
+  
   fWordsContents      = wordsContents;
+
+  fWordsFontStyle     = wordsFontStyle;
+  fWordsFontSize      = wordsFontSize;
+  fWordsFontWeight    = wordsFontWeight;
+  fWordsFontXMLLang   = wordsFontXMLLang;
 }
 msrWords::~msrWords() {}
 
@@ -3275,7 +3293,44 @@ string msrWords::wordsAsString () const
 
 void msrWords::print (ostream& os)
 {
-  os << wordsAsString () << endl;
+// JMI  os << wordsAsString () << endl;
+
+  os <<
+    idtr << "Words" " \"" << fWordsContents << "\"" <<
+    endl;
+
+  idtr ++;
+
+  os <<
+    idtr <<
+      setw(16) << "Placement" << " = ";
+
+  switch (fWordsPlacementKind) {
+    case kAbove:
+      os << "above";
+      break;
+    case kBelow:
+      os << "below";
+      break;
+  } // switch
+  os << endl;
+
+  os << left <<
+    idtr <<
+      setw(16) << "WordsFontStyle" << " = " << fWordsFontStyle <<
+      endl <<
+    idtr <<
+      setw(16) << "WordsFontSize" << " = " << fWordsFontSize <<
+      endl <<
+    idtr <<
+      setw(16) << "WordsFontWeight" << " = " << fWordsFontWeight <<
+      endl <<
+    idtr <<
+      setw(16) << "WordsFontXMLLang" << " = " << fWordsFontXMLLang <<
+      endl <<
+    endl;
+  
+  idtr--;
 }
 
 //______________________________________________________________________________

@@ -499,6 +499,11 @@ class EXP xml2MsrVisitor :
     // ------------------------------------------------------
     string                    fCurrentDirectionPlacement;
     string                    fCurrentWordsContents;
+    string                    fCurrentFontStyle;
+    string                    fCurrentFontSize;
+    string                    fCurrentFontWeight;
+    string                    fCurrentFontXMLLang;
+
     msrWords::msrWordsPlacementKind
                               fCurrentWordsPlacementKind; // JMI
     bool                      fOnGoingDirectionType;
@@ -536,6 +541,7 @@ class EXP xml2MsrVisitor :
     int                       fCurrentLyricsNumber;
     bool                      fCurrentNoteHasLyrics;
     bool                      fCurrentLyricsHasText;
+    
     void                      handleLyrics (S_msrNote newNote);
 
     // repeat handling
@@ -543,6 +549,7 @@ class EXP xml2MsrVisitor :
     S_msrRepeat               fCurrentRepeat;
     stack<S_msrBarline>       fPendingBarlines;
     bool                      fOnGoingRepeat;
+    
     void                      handleRepeatStart (
                                 S_barline     elt,
                                 S_msrBarline& barline);
@@ -620,6 +627,7 @@ class EXP xml2MsrVisitor :
     // chord handling
     S_msrChord                fCurrentChord; // cannot be local to a method? JMI
     bool                      fOnGoingChord;
+    
     S_msrChord                createChordFromCurrentNote ();
     void                      handleNoteBelongingToAChord (
                                 S_msrNote newNote);
@@ -633,6 +641,7 @@ class EXP xml2MsrVisitor :
     list<S_msrDynamics>       fPendingDynamics;
     list<S_msrWords>          fPendingWords;
     list<S_msrWedge>          fPendingWedges;
+    
     void                      attachPendingDynamicsWordsAndWedgesToNote (
                                 S_msrNote note);
        
