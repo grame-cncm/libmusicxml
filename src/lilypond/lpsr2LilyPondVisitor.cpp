@@ -818,14 +818,14 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
 
   idtr++;
 
-  if (partName.size ())
+ // JMI if (partName.size ())
     fOstream << idtr <<
       "\\set Staff.instrumentName = \"" <<
       partName <<
       "\"" <<
       endl;
 
-  if (partAbbreviation.size ())
+// JMI  if (partAbbreviation.size ())
     fOstream << idtr <<
       "\\set Staff.shortInstrumentName = \"" <<
       partAbbreviation <<

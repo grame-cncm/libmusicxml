@@ -237,8 +237,10 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
       "--> Start visiting msrPartgroup" << endl;
 
   // create a partgroup clone
+  // current partgroup clone is the uplink of the new one
   fCurrentPartgroupClone =
-    elt->createEmptyClone (fCurrentPartgroupClone);
+    elt->createEmptyPartgroupClone (
+      fCurrentPartgroupClone);
 
   // add it to the MSR score clone
   fCurrentScoreClone->
@@ -317,7 +319,8 @@ void msr2LpsrVisitor::visitStart (S_msrPart& elt)
 
   // create a part clone
   fCurrentPartClone =
-    elt->createEmptyClone (fCurrentPartgroupClone);
+    elt->createEmptyPartClone (
+      fCurrentPartgroupClone);
 
   // add it to the partgroup clone
   fCurrentPartgroupClone->

@@ -2174,9 +2174,21 @@ void lpsrPartBlock::print (ostream& os)
   os <<
     "PartBlock" << " " <<
     "for part " << fPart->getPartCombinedName () <<
-    endl << endl;
+    endl;
 
   idtr++;
+
+  os << left <<
+    idtr <<
+      setw(20) << string ("(") + "PartName = \"" <<
+      fPart->getPartName () << "\")" <<
+      endl <<
+    idtr <<
+      setw(20) << string ("(") + "PartAbbreviation = \"" <<
+      fPart->getPartAbbreviation () << "\")" <<
+      endl;
+
+  os << endl;
 
   if (fPartBlockElements.size()) {  
     list<S_msrElement>::const_iterator
@@ -2279,6 +2291,8 @@ ostream& operator<< (ostream& os, const S_lpsrPartgroupBlock& scr)
 void lpsrPartgroupBlock::print (ostream& os)
 {
   os <<
+    endl <<
+    idtr <<
     "PartgroupBlock" << " " <<
     "for partgroup " << fPartgroup->getPartgroupCombinedName () <<
     endl << endl;

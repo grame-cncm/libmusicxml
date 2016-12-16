@@ -3410,7 +3410,7 @@ class EXP msrPart : public msrElement
       string         partMusicXMLID,
       S_msrPartgroup partPartgroupUplink);
                 
-    SMARTP<msrPart> createEmptyClone (
+    SMARTP<msrPart> createEmptyPartClone (
       S_msrPartgroup clonedPartgroup);
 
   protected:
@@ -3519,7 +3519,7 @@ class EXP msrPart : public msrElement
                               // if renamed,
                               // coined in constructor
 
-    string                  fPartName; // from '<part-name'
+    string                  fPartName; // from '<part-name/>'
     string                  fPartAbbreviation;
     string                  fPartInstrumentName;
 
@@ -3581,8 +3581,8 @@ class EXP msrPartgroup : public msrElement
       bool                   partgroupBarline,
       S_msrPartgroup         partgroupPartgroupUplink);
 
-    SMARTP<msrPartgroup> createEmptyClone (
-      S_msrPartgroup clonedPartgroup);
+    SMARTP<msrPartgroup> createEmptyPartgroupClone (
+      S_msrPartgroup clonedPartgroup); // the uplink
 
   protected:
 

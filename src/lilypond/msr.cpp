@@ -6410,7 +6410,7 @@ msrPart::msrPart (
 
 msrPart::~msrPart() {}
 
-S_msrPart msrPart::createEmptyClone (S_msrPartgroup clonedPartgroup)
+S_msrPart msrPart::createEmptyPartClone (S_msrPartgroup clonedPartgroup)
 {
   S_msrPart
     clone =
@@ -6419,6 +6419,10 @@ S_msrPart msrPart::createEmptyClone (S_msrPartgroup clonedPartgroup)
         fInputLineNumber,
         fPartMusicXMLID,
         clonedPartgroup);
+
+  clone->fPartName           = fPartName;
+  clone->fPartAbbreviation   = fPartAbbreviation;
+  clone->fPartInstrumentName = fPartInstrumentName;
   
   return clone;
 }
@@ -6519,7 +6523,7 @@ S_msrStaff msrPart::addStaffToPart (
       " to part " << getPartCombinedName () << "\"" <<
       endl;
 
-if (staffNumber < 0) cout << 0/0 << endl;
+  if (staffNumber < 0) cout << 0/0 << endl; // JMI
   
   // create the staff
   S_msrStaff
@@ -6723,9 +6727,12 @@ msrPartgroup::msrPartgroup (
 
 msrPartgroup::~msrPartgroup() {}
 
-S_msrPartgroup msrPartgroup::createEmptyClone (
+S_msrPartgroup msrPartgroup::createEmptyPartgroupClone (
   S_msrPartgroup clonedPartgroup)
 {
+
+// JMI  cerr <<
+
   S_msrPartgroup
     clone =
       msrPartgroup::create (
@@ -6739,7 +6746,9 @@ S_msrPartgroup msrPartgroup::createEmptyClone (
         fPartgroupBarline,
         clonedPartgroup);
 
-  // get fPartgroupAbsoluteNumber from cloned msrPartgroup ??? JMI
+  // avoid part group clone to keep its (new) absolute number
+  clone->fPartgroupAbsoluteNumber =
+    fPartgroupAbsoluteNumber;
   
   return clone;
 }
