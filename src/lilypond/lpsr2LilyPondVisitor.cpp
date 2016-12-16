@@ -507,6 +507,12 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPaper& elt)
   setprecision(4) << 1.5 << "\\cm" <<
   endl;
 
+  // generate the default 'short-indent' setting ready for the user
+  fOstream << idtr << 
+    setw(13) << left << "short-indent" << " = " <<
+  setprecision(4) << 0.0 << "\\cm" <<
+  endl;
+
   // generate a 'page-count' comment ready for the user
   fOstream << idtr << 
     setw(13) << left << "%" "page-count" << " = " <<
