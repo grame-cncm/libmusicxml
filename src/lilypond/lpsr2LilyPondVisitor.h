@@ -122,6 +122,8 @@ class lpsr2LilyPondVisitor :
   public visitor<S_msrRepeat>,
   public visitor<S_msrRepeatending>,
       
+  public visitor<S_msrRehearsal>,
+  
   public visitor<S_msrMidi>
 
 {
@@ -290,6 +292,9 @@ class lpsr2LilyPondVisitor :
     virtual void visitEnd   (S_msrRepeat& elt);
     virtual void visitStart (S_msrRepeatending& elt);
     virtual void visitEnd   (S_msrRepeatending& elt);
+
+    virtual void visitStart (S_msrRehearsal& elt);
+    virtual void visitEnd   (S_msrRehearsal& elt);
 
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);

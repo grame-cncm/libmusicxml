@@ -521,6 +521,110 @@ void msrArticulation::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrRehearsal msrRehearsal::create (
+  S_msrOptions&    msrOpts, 
+  int              inputLineNumber,
+  msrRehearsalKind rehearsalKind,
+  string           rehearsalText)
+{
+  msrRehearsal* o =
+    new msrRehearsal (
+      msrOpts, inputLineNumber, rehearsalKind, rehearsalText);
+  assert (o!=0);
+  return o;
+}
+
+msrRehearsal::msrRehearsal (
+  S_msrOptions&    msrOpts, 
+  int              inputLineNumber,
+  msrRehearsalKind rehearsalKind,
+  string           rehearsalText)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fRehearsalKind = rehearsalKind;
+
+  fRehearsalText = rehearsalText;
+}
+
+msrRehearsal::~msrRehearsal() {}
+
+void msrRehearsal::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrRehearsal::acceptIn()" << endl;
+      
+  if (visitor<S_msrRehearsal>*
+    p =
+      dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
+        S_msrRehearsal elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrRehearsal::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrRehearsal::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrRehearsal::acceptOut()" << endl;
+
+  if (visitor<S_msrRehearsal>*
+    p =
+      dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
+        S_msrRehearsal elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrRehearsal::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrRehearsal::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrRehearsal& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrRehearsal::print (ostream& os)
+{
+  os <<
+    "Rehearsal" << " " << fRehearsalText <<
+    " kind: ";
+
+  switch (fRehearsalKind) {
+    case kNone:
+      os << "none";
+      break;
+    case kRectangle:
+      os << "rectangle";
+      break;
+    case kOval:
+      os << "oval";
+      break;
+    case kCircle:
+      os << "circle";
+      break;
+    case kBracket:
+      os << "bracket";
+      break;
+    case kTriangle:
+      os << "triangle";
+      break;
+    case kDiamond:
+      os << "diamond";
+      break;
+  } // switch
+  
+  os << endl;
+}
+
+//______________________________________________________________________________
 S_msrDynamics msrDynamics::create (
   S_msrOptions& msrOpts, 
   int                    inputLineNumber,
@@ -5467,6 +5571,18 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
   S_msrElement t = tempo;
   fVoicechunk->
     appendElementToVoicechunk (t);
+}
+
+void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending rehearsal '" << rehearsal->getRehearsalText () <<
+      "' to voice " << getVoiceName () << endl;
+
+  S_msrElement r = rehearsal;
+  fVoicechunk->
+    appendElementToVoicechunk (r);
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {

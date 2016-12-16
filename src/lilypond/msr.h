@@ -672,6 +672,75 @@ typedef SMARTP<msrArticulation> S_msrArticulation;
 EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
 
 /*!
+\brief A msr rehearsal representation.
+
+  An rehearsal is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP msrRehearsal : public msrElement
+{
+  public:
+    
+    enum msrRehearsalKind {
+        kNone,
+        kRectangle, kOval, kCircle, kBracket, kTriangle, kDiamond };
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrRehearsal> create (
+      S_msrOptions&    msrOpts, 
+      int              inputLineNumber,
+      msrRehearsalKind rehearsalKind,
+      string           rehearsalText);
+
+  protected:
+
+    msrRehearsal (
+      S_msrOptions&    msrOpts, 
+      int              inputLineNumber,
+      msrRehearsalKind rehearsalKind,
+      string           rehearsalText);
+      
+    virtual ~msrRehearsal();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrRehearsalKind
+            getRehearsalKind () const
+                { return fRehearsalKind; }
+        
+    // services
+    string
+            getRehearsalText () const
+                { return fRehearsalText; }
+        
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrRehearsalKind fRehearsalKind;
+
+    string           fRehearsalText;
+};
+typedef SMARTP<msrRehearsal> S_msrRehearsal;
+EXP ostream& operator<< (ostream& os, const S_msrRehearsal& elt);
+
+/*!
 \brief A msr slur representation.
 
   A slur is represented by a SlurKind value (hairpins in LilyPond)
@@ -3211,6 +3280,8 @@ class EXP msrVoice : public msrElement
 // JMI    void          appendWordsToVoice  (S_msrWords words);
     
     void          appendTempoToVoice  (S_msrTempo tempo);
+    
+    void          appendRehearsalToVoice (S_msrRehearsal rehearsal);
     
     void          appendNoteToVoice   (S_msrNote note);
     void          appendChordToVoice  (S_msrChord chord);

@@ -203,7 +203,9 @@ class EXP xml2MsrVisitor :
   public visitor<S_actual_notes>,
   public visitor<S_normal_notes>,
   public visitor<S_normal_type>,
-  public visitor<S_tuplet>
+  public visitor<S_tuplet>,
+  
+  public visitor<S_rehearsal>
 {
   public:
   
@@ -378,6 +380,8 @@ class EXP xml2MsrVisitor :
     virtual void visitStart ( S_normal_notes& elt);
     virtual void visitStart ( S_normal_type& elt);
     virtual void visitStart ( S_tuplet& elt);
+    
+    virtual void visitStart ( S_rehearsal& elt);
 
   private:
                      

@@ -3085,7 +3085,7 @@ void xml2MsrVisitor::visitStart ( S_beam& elt )
   
   msrBeam::msrBeamKind beamKind;
 
-  if (fCurrentBeamValue == "begin") {
+  if      (fCurrentBeamValue == "begin") {
     beamKind = msrBeam::kBeginBeam;
   }
   else if (fCurrentBeamValue == "continue") {
@@ -5188,6 +5188,76 @@ void xml2MsrVisitor::handleEndingEnd (
   }
 }
 
+void xml2MsrVisitor::visitStart ( S_rehearsal& elt )
+{
+/*
+  Each beam in a note is represented with a separate beam element,
+  starting with the eighth note beam using a number attribute of 1.
+  Note that the beam number does not distinguish sets of beams
+  that overlap, as it does for slur and other elements.
+*/
+  //        <beam number="1">begin</beam>
+
+  string rehearsalValue = elt->getValue();
+
+  string rehearsalEnclosure = 
+    elt->getAttributeValue ("enclosure");
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+  
+  msrRehearsal::msrRehearsalKind rehearsalKind;
+
+  if      (rehearsalValue == "none") {
+    rehearsalKind = msrRehearsal::kNone;
+  }
+  else if (rehearsalValue == "kRectangle") {
+    rehearsalKind = msrRehearsal::kRectangle;
+  }
+  else if (rehearsalValue == "kOval") {
+    rehearsalKind = msrRehearsal::kOval;
+  }
+  else if (rehearsalValue == "kCircle") {
+    rehearsalKind = msrRehearsal::kCircle;
+  }
+  else if (rehearsalValue == "kBracket") {
+    rehearsalKind = msrRehearsal::kBracket;
+  }
+  else if (rehearsalValue == "kTriangle") {
+    rehearsalKind = msrRehearsal::kTriangle;
+  }
+  else if (rehearsalValue == "kDiamond") {
+    rehearsalKind = msrRehearsal::kDiamond;
+  }
+  else {
+    stringstream s;
+    s <<
+      "beam \"" << rehearsalValue <<
+      "\"" << "is not handled, ignored";
+    msrMusicXMLWarning (
+      fMsrOptions->fInputSourceName,
+      inputLineNumber,
+      s.str());
+  }
+    
+  S_msrRehearsal
+    rehearsal =
+      msrRehearsal::create (
+        fMsrOptions,
+        inputLineNumber,
+        rehearsalKind,
+        rehearsalValue);
+
+  S_msrVoice
+    currentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        inputLineNumber,
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
+  currentVoice->
+    appendRehearsalToVoice (rehearsal);
+}
 
 
 } // namespace

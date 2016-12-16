@@ -2462,6 +2462,29 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrComment& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrRehearsal& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrRehearsal" << endl;
+
+  fOstream <<
+    endl <<
+    idtr <<
+    "\\mark" " "<< elt->getRehearsalText () <<
+    endl <<
+    idtr;
+  
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrRehearsal& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrRehearsal" << endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrMidi& elt)
 {
   if (fMsrOptions->fDebug)
