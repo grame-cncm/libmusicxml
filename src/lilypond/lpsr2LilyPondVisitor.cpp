@@ -464,34 +464,60 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPaper& elt)
   if (elt->getPaperWidth () > 0) {
     fOstream << idtr <<
       setw(13) << left << "paper-width" << " = " <<
-      setprecision(4) << elt->getPaperWidth () << "\\cm" << endl;
+      setprecision(4) << elt->getPaperWidth () << "\\cm" <<
+      endl;
   }
   if (elt->getPaperHeight () > 0) {
     fOstream << idtr << 
       setw(13) << left << "paper-height" << " = " <<
-      setprecision(4) << elt->getPaperHeight () << "\\cm" << endl;
+      setprecision(4) << elt->getPaperHeight () << "\\cm" <<
+      endl;
   }
   
   if (elt->getTopMargin () > 0) {
     fOstream << idtr << 
       setw(13) << left << "top-margin" << " = " <<
-      setprecision(4) << elt->getTopMargin () << "\\cm" << endl;
+      setprecision(4) << elt->getTopMargin () << "\\cm" <<
+      endl;
   }
   if (elt->getBottomMargin () > 0) {
     fOstream << idtr << 
       setw(13) << left << "bottom-margin" << " = " <<
-      setprecision(4) << elt->getBottomMargin () << "\\cm" << endl;
+      setprecision(4) << elt->getBottomMargin () << "\\cm" <<
+      endl;
   }
   if (elt->getLeftMargin () > 0) {
     fOstream << idtr << 
       setw(13) << left << "left-margin" << " = " <<
-      setprecision(4) << elt->getLeftMargin () << "\\cm" << endl;
+      setprecision(4) << elt->getLeftMargin () << "\\cm" <<
+      endl;
   }
   if (elt->getRightMargin () > 0) {
     fOstream << idtr << 
       setw(13) << left << "right-margin" << " = " <<
-    setprecision(4) << elt->getRightMargin () << "\\cm" << endl;
+    setprecision(4) << elt->getRightMargin () << "\\cm" <<
+    endl;
   }
+
+  fOstream << endl;
+
+  // generate the default 'indent' setting ready for the user
+  fOstream << idtr << 
+    setw(13) << left << "indent" << " = " <<
+  setprecision(4) << 1.5 << "\\cm" <<
+  endl;
+
+  // generate a 'page-count' comment ready for the user
+  fOstream << idtr << 
+    setw(13) << left << "%" "page-count" << " = " <<
+  setprecision(4) << 1 <<
+  endl;
+
+  // generate a 'system-count' comment ready for the user
+  fOstream << idtr << 
+    setw(13) << left << "%" "system-count" << " = " <<
+  setprecision(4) << 1 <<
+  endl;
 
 /*
  * 
@@ -687,13 +713,15 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
         
     fOstream <<
       endl;
-  
+
+  /* JMI
     if (partgroupInstrumentName.size ())
       fOstream << idtr <<
         "\\set PianoStaff.instrumentName = #\"" <<
         partgroupInstrumentName <<
         "\"" <<
         endl;
+  */
   
     fOstream <<
       endl;
@@ -748,13 +776,15 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartBlock& elt)
     fOstream <<
       setw(30) << " " << "% part " <<
       elt->getPart ()->getPartCombinedName ();
-      
+
+      /* JMI
   if (partInstrumentName.size ())
     fOstream << idtr <<
       "\\set Staff.instrumentName = #\"" <<
       partInstrumentName <<
       "\"" <<
       endl;
+      */
 
   fOstream <<
     endl;
@@ -818,19 +848,17 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
 
   idtr++;
 
- // JMI if (partName.size ())
-    fOstream << idtr <<
-      "\\set Staff.instrumentName = \"" <<
-      partName <<
-      "\"" <<
-      endl;
+  fOstream << idtr <<
+    "\\set Staff.instrumentName = \"" <<
+    partName <<
+    "\"" <<
+    endl;
 
-// JMI  if (partAbbreviation.size ())
-    fOstream << idtr <<
-      "\\set Staff.shortInstrumentName = \"" <<
-      partAbbreviation <<
-      "\"" <<
-      endl;
+  fOstream << idtr <<
+    "\\set Staff.shortInstrumentName = \"" <<
+    partAbbreviation <<
+    "\"" <<
+    endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffBlock& elt)
@@ -1848,6 +1876,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       // print the note duration
       fOstream <<
         elt->noteTypeAsMSRString ();
+
+      // print the dots if any
+      for (int i = 0; i < elt->getNoteMusicXMLDotsNumber (); i++) {
+        fOstream << ".";
+      } // for
       
       // print the tie if any
       if (

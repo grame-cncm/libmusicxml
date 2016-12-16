@@ -1497,7 +1497,6 @@ string msrNote::noteTypeAsMSRString () const
   result =
     noteTypeAsMSRDuration (
       fMusicXMLNoteData.fMusicXMLType,
-// JMI      computedNumberOfDots,
       errorMessage);
 
   if (errorMessage.size ())
@@ -1547,6 +1546,9 @@ string msrNote::noteAsString () const
         "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
         ":" <<
         noteTypeAsMSRString ();
+      for (int i = 0; i < fMusicXMLNoteData.fMusicXMLDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
       
     case msrNote::kRestNote:
