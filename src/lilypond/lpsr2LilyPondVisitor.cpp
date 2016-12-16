@@ -1675,7 +1675,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrArticulation& elt)
       fOstream << "\\trill";
       break;
     case msrArticulation::kArpeggiato:
-      fOstream << "\\arpeggiato";
+      fOstream << "\\arpeggio";
       break;
   } // switch
   fOstream << " ";
@@ -2470,8 +2470,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRehearsal& elt)
 
   fOstream <<
     endl <<
+    endl <<
     idtr <<
-    "\\mark" " "<< elt->getRehearsalText () <<
+    "\\mark" " \""<< elt->getRehearsalText () << "\"" <<
     endl <<
     idtr;
   

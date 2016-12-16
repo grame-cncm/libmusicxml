@@ -100,6 +100,8 @@ class msr2LpsrVisitor :
   public visitor<S_msrPageGeometry>,
   public visitor<S_msrLayout>,
   
+  public visitor<S_msrRehearsal>,
+  
   public visitor<S_msrMidi>
 
 {
@@ -222,6 +224,9 @@ class msr2LpsrVisitor :
 
     virtual void visitStart (S_msrLayout& elt);
     virtual void visitEnd   (S_msrLayout& elt);
+
+    virtual void visitStart (S_msrRehearsal& elt);
+    virtual void visitEnd   (S_msrRehearsal& elt);
 
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);

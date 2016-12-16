@@ -5191,12 +5191,12 @@ void xml2MsrVisitor::handleEndingEnd (
 void xml2MsrVisitor::visitStart ( S_rehearsal& elt )
 {
 /*
-  Each beam in a note is represented with a separate beam element,
-  starting with the eighth note beam using a number attribute of 1.
-  Note that the beam number does not distinguish sets of beams
-  that overlap, as it does for slur and other elements.
+      <direction placement="above">
+        <direction-type>
+          <rehearsal default-y="15" font-size="11.3" font-weight="bold">A</rehearsal>
+        </direction-type>
+      </direction>
 */
-  //        <beam number="1">begin</beam>
 
   string rehearsalValue = elt->getValue();
 
@@ -5206,40 +5206,59 @@ void xml2MsrVisitor::visitStart ( S_rehearsal& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
   
-  msrRehearsal::msrRehearsalKind rehearsalKind;
+  msrRehearsal::msrRehearsalKind
+    rehearsalKind =
+      msrRehearsal::kNone; // default value
 
-  if      (rehearsalValue == "none") {
+  if      (rehearsalEnclosure == "none") {
     rehearsalKind = msrRehearsal::kNone;
   }
-  else if (rehearsalValue == "kRectangle") {
+  else if (rehearsalEnclosure == "kRectangle") {
     rehearsalKind = msrRehearsal::kRectangle;
   }
-  else if (rehearsalValue == "kOval") {
+  else if (rehearsalEnclosure == "kOval") {
     rehearsalKind = msrRehearsal::kOval;
   }
-  else if (rehearsalValue == "kCircle") {
+  else if (rehearsalEnclosure == "kCircle") {
     rehearsalKind = msrRehearsal::kCircle;
   }
-  else if (rehearsalValue == "kBracket") {
+  else if (rehearsalEnclosure == "kBracket") {
     rehearsalKind = msrRehearsal::kBracket;
   }
-  else if (rehearsalValue == "kTriangle") {
+  else if (rehearsalEnclosure == "kTriangle") {
     rehearsalKind = msrRehearsal::kTriangle;
   }
-  else if (rehearsalValue == "kDiamond") {
+  else if (rehearsalEnclosure == "kDiamond") {
     rehearsalKind = msrRehearsal::kDiamond;
   }
   else {
-    stringstream s;
-    s <<
-      "beam \"" << rehearsalValue <<
-      "\"" << "is not handled, ignored";
-    msrMusicXMLWarning (
-      fMsrOptions->fInputSourceName,
-      inputLineNumber,
-      s.str());
+    if (rehearsalEnclosure.size ()) {
+      stringstream s;
+      s <<
+        "rehearsal enclosure \"" << rehearsalEnclosure <<
+        "\"" << " is not handled, ignored";
+      msrMusicXMLWarning (
+        fMsrOptions->fInputSourceName,
+        inputLineNumber,
+        s.str());
+    }    
   }
+
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        inputLineNumber,
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
     
+  // create a rehearsal
+ // if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "Creating rehearsal \"" << rehearsalValue << "\"" <<
+      " in voice " <<
+      currentVoice->getVoiceName () << endl;
+
   S_msrRehearsal
     rehearsal =
       msrRehearsal::create (
@@ -5248,13 +5267,7 @@ void xml2MsrVisitor::visitStart ( S_rehearsal& elt )
         rehearsalKind,
         rehearsalValue);
 
-  S_msrVoice
-    currentVoice =
-      createVoiceInStaffInCurrentPartIfNeeded (
-        inputLineNumber,
-        fCurrentStaffNumber,
-        fCurrentVoiceNumber);
-
+  // append the rehearsal to the current voice
   currentVoice->
     appendRehearsalToVoice (rehearsal);
 }

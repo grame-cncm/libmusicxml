@@ -1444,5 +1444,23 @@ void msr2LpsrVisitor::visitEnd (S_msrMidi& elt)
       "--> End visiting msrMidi" << endl;
 }
 
+//________________________________________________________________________
+void msr2LpsrVisitor::visitStart (S_msrRehearsal& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrRehearsal" << endl;
+
+  fCurrentVoiceClone->
+    appendRehearsalToVoice (elt);
+}
+
+void msr2LpsrVisitor::visitEnd (S_msrRehearsal& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrRehearsal" << endl;
+}
+
 
 } // namespace
