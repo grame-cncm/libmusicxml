@@ -856,20 +856,24 @@ void msrSlur::print (ostream& os)
 //______________________________________________________________________________
 S_msrGraceexpression msrGraceexpression::create (
   S_msrOptions&   msrOpts, 
-  int             inputLineNumber)
+  int             inputLineNumber,
+  bool            slashed)
 {
   msrGraceexpression* o =
     new msrGraceexpression (
-      msrOpts, inputLineNumber);
+      msrOpts, inputLineNumber, slashed);
   assert(o!=0);
   return o;
 }
 
 msrGraceexpression::msrGraceexpression (
   S_msrOptions&   msrOpts, 
-  int             inputLineNumber)
+  int             inputLineNumber,
+  bool            slashed)
     : msrElement (msrOpts, inputLineNumber)
 {
+  fGraceexpressionIsSlashed = slashed;
+  
   fGraceexpressionVoicechunk =
     msrVoicechunk::create (
       fMsrOptions, fInputLineNumber);
@@ -887,7 +891,8 @@ S_msrGraceexpression msrGraceexpression::createEmptyClone ()
     clone =
       msrGraceexpression::create (
         fMsrOptions,
-        fInputLineNumber);
+        fInputLineNumber,
+        fGraceexpressionIsSlashed);
   
   return clone;
 }
@@ -944,6 +949,11 @@ void msrGraceexpression::print (ostream& os)
   os <<
     "Graceexpression" <<
     ", input line: " << fInputLineNumber <<
+    ", slashed: " <<
+    string (
+      fGraceexpressionIsSlashed
+        ? "yes"
+        : "no") <<
     endl;
   
   idtr++;
@@ -1702,6 +1712,23 @@ void msrNote::print (ostream& os)
     list<S_msrDynamics>::const_iterator
       iBegin = fNoteDynamics.begin(),
       iEnd   = fNoteDynamics.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    idtr--;
+  }
+
+  // print the words if any
+  if (fNoteWords.size()) {
+    idtr++;
+    
+    list<S_msrWords>::const_iterator
+      iBegin = fNoteWords.begin(),
+      iEnd   = fNoteWords.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -3296,7 +3323,7 @@ void msrWords::print (ostream& os)
 // JMI  os << wordsAsString () << endl;
 
   os <<
-    idtr << "Words" " \"" << fWordsContents << "\"" <<
+    "Words" " \"" << fWordsContents << "\"" <<
     endl;
 
   idtr ++;

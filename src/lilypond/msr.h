@@ -938,7 +938,8 @@ class EXP msrGraceexpression : public msrElement
 
     static SMARTP<msrGraceexpression> create (
       S_msrOptions&   msrOpts, 
-      int             inputLineNumber);
+      int             inputLineNumber,
+      bool            slashed);
     
     SMARTP<msrGraceexpression> createEmptyClone ();
 
@@ -946,7 +947,8 @@ class EXP msrGraceexpression : public msrElement
 
     msrGraceexpression (
       S_msrOptions&   msrOpts, 
-      int             inputLineNumber);
+      int             inputLineNumber,
+      bool            slashed);
       
     virtual ~msrGraceexpression();
   
@@ -954,6 +956,10 @@ class EXP msrGraceexpression : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    bool
+                getGraceexpressionIsSlashed () const
+                    { return fGraceexpressionIsSlashed; }
 
     S_msrVoicechunk
                 getGraceexpressionVoicechunk () const
@@ -980,6 +986,8 @@ class EXP msrGraceexpression : public msrElement
 
   private:
 
+    bool                     fGraceexpressionIsSlashed;
+    
     S_msrVoicechunk          fGraceexpressionVoicechunk;
 };
 typedef SMARTP<msrGraceexpression> S_msrGraceexpression;

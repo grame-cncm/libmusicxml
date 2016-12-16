@@ -3390,6 +3390,25 @@ void xml2MsrVisitor::visitStart ( S_wedge& elt )
 void xml2MsrVisitor::visitStart ( S_grace& elt )
 {
   fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote = true;
+
+  string slash = elt->getAttributeValue ("slash");
+
+  // check part group barline
+  if (slash == "yes")
+    fCurrentGraceIsSlashed = true;
+    
+  else
+  if (slash == "no")
+    fCurrentGraceIsSlashed = false;
+    
+  else {
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      "unknown grace slash \"" +
+        slash +
+        "\", should be 'yes' or 'no'");
+  }
 }
        
 //______________________________________________________________________________
@@ -4261,7 +4280,8 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
       fCurrentGraceexpression =
         msrGraceexpression::create (
           fMsrOptions, 
-          newNote->getInputLineNumber ());
+          newNote->getInputLineNumber (),
+          fCurrentGraceIsSlashed);
 
       // append it to the current voice
       currentVoice->

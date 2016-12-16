@@ -1736,8 +1736,13 @@ void lpsr2LilyPondVisitor::visitStart (S_msrGraceexpression& elt)
     fOstream << idtr <<
       "% --> Start visiting msrGraceexpression" << endl;
 
-  fOstream <<
-    "\\grace" " " "{ ";
+  if (elt->getGraceexpressionIsSlashed ())
+    fOstream <<
+      "\\grace";
+  else
+    fOstream <<
+      "\\acciaccatura";
+  fOstream << " { ";
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrGraceexpression& elt)
@@ -1747,7 +1752,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrGraceexpression& elt)
       "% --> End visiting msrGraceexpression" << endl;
 
   fOstream <<
-    "} ";
+    " } ";
 }
 
 //________________________________________________________________________
