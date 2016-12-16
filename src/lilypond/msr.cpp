@@ -514,6 +514,9 @@ void msrArticulation::print (ostream& os)
     case kTrill:
       os << "trill";
       break;
+    case kArpeggiato:
+      os << "arpeggiato";
+      break;
   } // switch
 }
 

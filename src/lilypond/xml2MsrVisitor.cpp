@@ -3174,6 +3174,18 @@ void xml2MsrVisitor::visitStart ( S_trill_mark& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
+void xml2MsrVisitor::visitStart ( S_arpeggiate& elt )
+{
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kArpeggiato);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
   /*
 
 Component   Type  Occurs  Default   Description 
@@ -3402,12 +3414,14 @@ void xml2MsrVisitor::visitStart ( S_grace& elt )
     fCurrentGraceIsSlashed = false;
     
   else {
-    msrMusicXMLError (
-      fMsrOptions->fInputSourceName,
-      elt->getInputLineNumber (),
-      "unknown grace slash \"" +
-        slash +
-        "\", should be 'yes' or 'no'");
+    if (slash.size ()) {
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
+        elt->getInputLineNumber (),
+        "unknown grace slash \"" +
+          slash +
+          "\", should be 'yes' or 'no'");
+    }
   }
 }
        

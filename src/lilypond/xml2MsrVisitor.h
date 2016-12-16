@@ -167,6 +167,7 @@ class EXP xml2MsrVisitor :
   public visitor<S_staccato>,
   public visitor<S_staccatissimo>,
   public visitor<S_trill_mark>,
+  public visitor<S_arpeggiate>,
   public visitor<S_fermata>,
 
   public visitor<S_f>,
@@ -338,6 +339,7 @@ class EXP xml2MsrVisitor :
     virtual void visitStart ( S_staccatissimo& elt );
     virtual void visitStart ( S_fermata& elt );
     virtual void visitStart ( S_trill_mark& elt );
+    virtual void visitStart ( S_arpeggiate& elt );
     
     virtual void visitStart ( S_f& elt);
     virtual void visitStart ( S_ff& elt);

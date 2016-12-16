@@ -1674,6 +1674,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrArticulation& elt)
     case msrArticulation::kTrill:
       fOstream << "\\trill";
       break;
+    case msrArticulation::kArpeggiato:
+      fOstream << "\\arpeggiato";
+      break;
   } // switch
   fOstream << " ";
 }
