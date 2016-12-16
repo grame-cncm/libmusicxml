@@ -1464,16 +1464,8 @@ void xml2MsrVisitor::visitEnd (S_direction& elt)
             fCurrentWordsPlacementKind,
             fCurrentWordsContents);
         
-      S_msrVoice
-        currentVoice =
-          createVoiceInStaffInCurrentPartIfNeeded (
-            inputLineNumber,
-            fCurrentStaffNumber,
-            fCurrentVoiceNumber);
-        
-      currentVoice->
-        appendWordsToVoice (words);
-    
+      fPendingWords.push_back (words);
+
       /* JMI
       if (fMsrOptions->fTrace)
         cerr << idtr <<
@@ -3563,6 +3555,7 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
   chord->addNoteToChord (fCurrentNote);
 
   // move the pending articulations if any from the first note to the chord
+  {
   list<S_msrArticulation>
     noteArticulations =
       fCurrentNote->getNoteArticulations ();
@@ -3579,41 +3572,66 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
       noteArticulations.pop_front ();
     } // while
   }
+  }
   
+  // move the pending words if any from the first note to the chord
+  {
+  list<S_msrWords>
+    noteWords =
+      fCurrentNote->getNoteWords();
+    
+  if (! noteWords.empty()) {
+    if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> moving words from current note to chord" << endl;
+        
+    while (! noteWords.empty ()) {
+      S_msrWords
+        wrds = noteWords.front ();
+      chord->addWords (wrds);
+      noteWords.pop_front ();
+    } // while
+  }
+  }
+ 
   // move the pending dynamics if any from the first note to the chord
+  {
   list<S_msrDynamics>
     noteDynamics =
       fCurrentNote->getNoteDynamics();
     
-  if (! noteDynamics.empty()) {
+  if (! noteDynamics.empty ()) {
     if (fMsrOptions->fDebug)
       cerr << idtr <<
         "--> moving dynamics from current note to chord" << endl;
         
-    while (! noteDynamics.empty()) {
+    while (! noteDynamics.empty ()) {
       S_msrDynamics
-        dyn = noteDynamics.front();
+        dyn = noteDynamics.front ();
       chord->addDynamics (dyn);
       noteDynamics.pop_front ();
     } // while
   }
+  }
  
   // move the pending wedges if any from the first note to the chord
+  {
   list<S_msrWedge>
     noteWedges =
       fCurrentNote->getNoteWedges();
     
-  if (! noteWedges.empty()) {
+  if (! noteWedges.empty ()) {
     if (fMsrOptions->fDebug)
       cerr << idtr <<
         "--> moving wedges from current note to chord" << endl;
         
-    while (! noteWedges.empty()) {
+    while (! noteWedges.empty ()) {
       S_msrWedge
-        wdg = noteWedges.front();
+        wdg = noteWedges.front ();
       chord->addWedge (wdg);
-      noteWedges.pop_front();
+      noteWedges.pop_front ();
     } // while
+  }
   }
   
   return chord;
@@ -3760,7 +3778,7 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote lastNote)
 }          
 
 //______________________________________________________________________________
-void xml2MsrVisitor::attachPendingDynamicsAndWedgesToNote (
+void xml2MsrVisitor::attachPendingDynamicsWordsAndWedgesToNote (
   S_msrNote note)
 {
   // attach the pending dynamics if any to the note
@@ -3778,18 +3796,43 @@ void xml2MsrVisitor::attachPendingDynamicsAndWedgesToNote (
       }
     }
     else {
-      while (! fPendingDynamics.empty()) {
+      while (! fPendingDynamics.empty ()) {
         S_msrDynamics
           dyn =
-            fPendingDynamics.front();
+            fPendingDynamics.front ();
         note->addDynamics (dyn);
-        fPendingDynamics.pop_front();
+        fPendingDynamics.pop_front ();
+      } // while
+    }
+  }
+    
+  // attach the pending words if any to the note
+  if (! fPendingWords.empty()) {
+    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+ // JMI     if (fMsrOptions->fDelayRestsDynamics) {
+        cerr << idtr <<
+          "--> Delaying words attached to a rest until next note" << endl;
+ //   }
+ //   else {
+        msrMusicXMLWarning (
+          fMsrOptions->fInputSourceName,
+          note->getInputLineNumber (),
+          "there is words attached to a rest");
+ //     }
+    }
+    else {
+      while (! fPendingWords.empty ()) {
+        S_msrWords
+          wrds =
+            fPendingWords.front ();
+        note->addWords (wrds);
+        fPendingWords.pop_front ();
       } // while
     }
   }
   
   // attach the pending wedges if any to the note
-  if (! fPendingWedges.empty()) {
+  if (! fPendingWedges.empty ()) {
     if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
       if (fMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
@@ -3808,12 +3851,12 @@ void xml2MsrVisitor::attachPendingDynamicsAndWedgesToNote (
       }
     }
     else {
-      while (! fPendingWedges.empty()) {
+      while (! fPendingWedges.empty ()) {
         S_msrWedge
           wdg =
-            fPendingWedges.front();
+            fPendingWedges.front ();
         note->addWedge (wdg);
-        fPendingWedges.pop_front();
+        fPendingWedges.pop_front ();
       } // while
     }
   }
@@ -3935,7 +3978,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   } // while
 
   // attach the pending dynamics and wedges, if any, to the note
-  attachPendingDynamicsAndWedgesToNote (note);
+  attachPendingDynamicsWordsAndWedgesToNote (note);
 
   /*
   A rest can be standalone or belong to a tuplet

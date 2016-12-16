@@ -38,7 +38,7 @@ void printUsage (int exitStatus)
     "                   Welcome to xml2lilypond, " << endl <<
     "              the MusicXML to LilyPond translator" << endl <<
     "          delivered as part of the libmusicxml2 library." << endl <<
-    "        https://github.com/dfober/libmusicxml/tree/master" << endl <<
+    "        https://github.com/dfober/libmusicxml/tree/lilypond" << endl <<
     endl <<
     "Usage:" << endl <<
     endl <<
@@ -64,8 +64,10 @@ void printUsage (int exitStatus)
 
     "  General:" << endl <<
     endl <<
-    "    --help" << endl <<
-    "          Display this help." << endl <<
+    "    --h, --help" << endl <<
+    "          Display this help and exit." << endl <<
+    "    --v, --version" << endl <<
+    "          Display xml2lilypond's version number and exit." << endl <<
     endl <<
 
     "    --of, --outputFile fileName" << endl <<
@@ -146,6 +148,7 @@ void printUsage (int exitStatus)
     "          By default, relative octaves are generated." << endl <<
     endl <<
 
+//    "    --indent" << endl <<
     "    --noBreaks, --dontKeepLineBreaks" << endl <<
     "          Don't keep the line breaks from the MusicXML input" << endl <<
     "          and let LilyPond decide about them." << endl <<
@@ -163,12 +166,12 @@ void printUsage (int exitStatus)
     "          Generate '\\set Voice.autoBeaming = ##f' in each voice " << endl <<
     "          to prevent LilyPond from handling beams automatically." << endl <<
     endl <<
-    "    --nolpl, --dontGenerateLilyPondLyrics" << endl <<
-    "          Don't generate lyrics in the LilyPond code." << endl <<
-    endl <<
     "    --nolpc, --dontGenerateLilyPondCode" << endl <<
     "          Don't generate LilyPond code." << endl <<
     "          This can be useful if only a summary of the score is needed." << endl <<
+    endl <<
+    "    --nolpl, --dontGenerateLilyPondLyrics" << endl <<
+    "          Don't generate lyrics in the LilyPond code." << endl <<
     endl <<
 
     endl <<
@@ -238,6 +241,7 @@ void analyzeOptions (
   // ---------------
 
   int helpPresent                       = 0;
+  int versionPresent                    = 0;
 
   int noTracePresent                    = 0;
   
@@ -297,25 +301,35 @@ void analyzeOptions (
     // ---------------
 
     {
+      "h",
+      no_argument, &helpPresent, 1
+    },
+    {
       "help",
-      no_argument,
-      &helpPresent, 1
+      no_argument, &helpPresent, 1
+    },
+    
+    {
+      "v",
+      no_argument, &versionPresent, 1
+    },
+    {
+      "version",
+      no_argument, &versionPresent, 1
     },
     
     {
       "of",
-      required_argument,
-      &outputFilePresent, 1
+      required_argument, &outputFilePresent, 1
     },
     {
       "outputFile",
-      required_argument,
-      &outputFilePresent, 1
+      required_argument, &outputFilePresent, 1
     },
+    
     {
       "i",
-      no_argument,
-      &interactivePresent, 1
+      no_argument, &interactivePresent, 1
     },
     {
       "interactive",
@@ -330,62 +344,50 @@ void analyzeOptions (
     },
     {
       "noTrace",
-      no_argument,
-      &noTracePresent, 1
+      no_argument, &noTracePresent, 1
     },
     
     {
       "d",
-      no_argument,
-      &debugPresent, 1
+      no_argument, &debugPresent, 1
     },
     {
       "debug",
-      no_argument,
-      &debugPresent, 1
+      no_argument, &debugPresent, 1
     },
-    
     {
       "dd",
-      no_argument,
-      &debugDebugPresent, 1
+      no_argument, &debugDebugPresent, 1
     },
     {
       "debugDebug",
-      no_argument,
-      &debugDebugPresent, 1
+      no_argument, &debugDebugPresent, 1
     },
     
     {
       "fd",
-      no_argument,
-      &forceDebugPresent, 1
+      no_argument, &forceDebugPresent, 1
     },
     {
       "forceDebug",
-      no_argument,
-      &forceDebugPresent, 1
+      no_argument, &forceDebugPresent, 1
     },
     
     {
       "dm",
-      required_argument,
-      &debugMeasuresPresent, 1
+      required_argument, &debugMeasuresPresent, 1
     },
     {
       "debugMeasures",
-      required_argument,
-      &debugMeasuresPresent, 1
+      required_argument, &debugMeasuresPresent, 1
     },
     {
       "ddm",
-      required_argument,
-      &debugdebugMeasuresPresent, 1
+      required_argument, &debugdebugMeasuresPresent, 1
     },
     {
       "debugDebugMeasures",
-      required_argument,
-      &debugdebugMeasuresPresent, 1
+      required_argument, &debugdebugMeasuresPresent, 1
     },
 
     // MSR options
@@ -393,8 +395,7 @@ void analyzeOptions (
 
     {
       "language",
-      required_argument,
-      &languagePresent, 1
+      required_argument, &languagePresent, 1
     },
     
     {
@@ -404,62 +405,51 @@ void analyzeOptions (
     },
     {
       "staffRelativeVoiceNumbers",
-      no_argument,
-      &staffRelativeVoiceNumbersPresent, 1
+      no_argument, &staffRelativeVoiceNumbersPresent, 1
     },
     
     {
       "noml",
-      no_argument,
-      &dontDisplayMSRLyricsPresent, 1
+      no_argument, &dontDisplayMSRLyricsPresent, 1
     },
     {
       "dontDisplayMSRLyrics",
-      no_argument,
-      &dontDisplayMSRLyricsPresent, 1
+      no_argument, &dontDisplayMSRLyricsPresent, 1
     },
 
     {
       "drd",
-      no_argument,
-      &delayRestsDynamicsPresent, 1
+      no_argument, &delayRestsDynamicsPresent, 1
     },
     {
       "delayRestsDynamics",
-      no_argument,
-      &delayRestsDynamicsPresent, 1
+      no_argument, &delayRestsDynamicsPresent, 1
     },
    
     {
       "msr",
-      no_argument,
-      &displayMSRPresent, 1},
+      no_argument, &displayMSRPresent, 1},
     {
       "displayMSR",
-      no_argument,
-      &displayMSRPresent, 1
+      no_argument, &displayMSRPresent, 1
     },
 
     {
       "sum",
-      no_argument,
-      &displayMSRScoreSummaryPresent, 1
+      no_argument, &displayMSRScoreSummaryPresent, 1
     },
     {
       "displayMSRScoreSummary",
-      no_argument,
-      &displayMSRScoreSummaryPresent, 1
+      no_argument, &displayMSRScoreSummaryPresent, 1
     },
 
     {
       "part",
-      required_argument,
-      &partNamePresent, 1
+      required_argument, &partNamePresent, 1
     },
     {
       "partName",
-      required_argument,
-      &partNamePresent, 1
+      required_argument, &partNamePresent, 1
     },
 
     // LPSR options
@@ -467,46 +457,46 @@ void analyzeOptions (
 
     {
       "lpsr",
-      no_argument,
-      &displayLPSRPresent, 1},
+      no_argument, &displayLPSRPresent, 1},
     {
       "displayLPSR",
-      no_argument,
-      &displayLPSRPresent, 1
+      no_argument, &displayLPSRPresent, 1
     },
 
     {
       "abs",
-      no_argument,
-      &absolutePresent, 1
+      no_argument, &absolutePresent, 1
     },
     {
       "absolute",
-      no_argument,
-      &absolutePresent, 1
+      no_argument, &absolutePresent, 1
     },
     
     {
       "noBreaks",
-      no_argument,
-      &fDontKeepLineBreaksPresent, 1
+      no_argument, &fDontKeepLineBreaksPresent, 1
     },
     {
       "fDontKeepLineBreaks",
-      no_argument,
-      &fDontKeepLineBreaksPresent, 1
+      no_argument, &fDontKeepLineBreaksPresent, 1
     },
     
     {
       "numericalTime",
+      no_argument, &numericaltimePresent, 1
+    },
+    
+    {
+      "com",
       no_argument,
-      &numericaltimePresent, 1
+      &commentsPresent, 1
     },
     {
       "comments",
       no_argument,
       &commentsPresent, 1
     },
+    
     {
       "stems",
       no_argument,
@@ -514,36 +504,30 @@ void analyzeOptions (
     },
     {
       "noAutoBeaming",
-      no_argument,
-      &noAutoBeamingPresent, 1
+      no_argument, &noAutoBeamingPresent, 1
     },
     {
       "positions",
-      no_argument,
-      &positionsPresent, 1
+      no_argument, &positionsPresent, 1
     },
     
 
     {
-      "nolpl",
-      no_argument,
-      &dontGenerateLilyPondLyricsPresent, 1
-    },
-    {
-      "dontGenerateLilyPondLyrics",
-      no_argument,
-      &dontGenerateLilyPondLyricsPresent, 1
-    },
-
-    {
       "nolpc",
-      no_argument,
-      &dontGenerateLilyPondCodePresent, 1
+      no_argument, &dontGenerateLilyPondCodePresent, 1
     },
     {
       "dontGenerateLilyPondCode",
-      no_argument,
-      &dontGenerateLilyPondCodePresent, 1
+      no_argument, &dontGenerateLilyPondCodePresent, 1
+    },
+
+    {
+      "nolpl",
+      no_argument, &dontGenerateLilyPondLyricsPresent, 1
+    },
+    {
+      "dontGenerateLilyPondLyrics",
+      no_argument, &dontGenerateLilyPondLyricsPresent, 1
     },
 
     {0, 0, 0, 0}
@@ -586,6 +570,33 @@ void analyzeOptions (
         {
         if (helpPresent) {
           printUsage (0);
+          break;
+        }
+
+        if (versionPresent) {
+          idtr ++;
+          
+          cerr <<
+            endl <<
+            idtr <<
+              "This is xml2lilypond version " <<
+              musicxml2MsrVersionStr () << "," <<
+              endl <<
+            idtr <<
+              "an open translator of MusicXML into LilyPond." <<
+              endl <<
+              endl <<
+            idtr <<
+              "See https://github.com/dfober/libmusicxml/tree/lilypond" <<
+              endl <<
+            idtr <<
+              "for more information and access to the source code." <<
+              endl <<
+            endl;
+
+          idtr --;
+          
+          exit (0);
           break;
         }
 

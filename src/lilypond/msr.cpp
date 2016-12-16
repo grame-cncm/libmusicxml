@@ -1199,30 +1199,37 @@ void msrNote::applyTupletMemberDisplayFactor (
     normalNotes;
 }
 
-void msrNote::addArticulation (S_msrArticulation art)
+void msrNote::addDynamics (S_msrDynamics dynamics)
 {
-  fNoteArticulations.push_back(art);
+  fNoteDynamics.push_back (dynamics);
 }
 
-void msrNote::addDynamics (S_msrDynamics dyn) {
-  fNoteDynamics.push_back(dyn);
-}
-void msrNote::addWedge (S_msrWedge wdg) {
-  fNoteWedges.push_back(wdg);
+void msrNote::addWords (S_msrWords words)
+{
+  fNoteWords.push_back (words);
 }
 
-S_msrDynamics msrNote::removeFirstDynamics () {
-  S_msrDynamics dyn = fNoteDynamics.front();
-  fNoteDynamics.pop_front();
+void msrNote::addWedge (S_msrWedge wedge)
+{
+  fNoteWedges.push_back (wedge);
+}
+
+S_msrDynamics msrNote::removeFirstDynamics ()
+{
+  S_msrDynamics dyn = fNoteDynamics.front ();
+  fNoteDynamics.pop_front ();
   return dyn;
 }
-S_msrWedge msrNote::removeFirstWedge () {
-  S_msrWedge wdg = fNoteWedges.front();
-  fNoteWedges.pop_front();
+
+S_msrWedge msrNote::removeFirstWedge ()
+{
+  S_msrWedge wdg = fNoteWedges.front ();
+  fNoteWedges.pop_front ();
   return wdg;
 }
 
-void msrNote::acceptIn (basevisitor* v) {
+void msrNote::acceptIn (basevisitor* v)
+{
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrNote::acceptIn()" << endl;
@@ -1239,7 +1246,8 @@ void msrNote::acceptIn (basevisitor* v) {
   }
 }
 
-void msrNote::acceptOut (basevisitor* v) {
+void msrNote::acceptOut (basevisitor* v)
+{
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrNote::acceptOut()" << endl;
@@ -1294,6 +1302,18 @@ void msrNote::browseData (basevisitor* v)
     idtr--;
   }
 
+  // browse the words if any
+  if (fNoteWords.size()) {
+    idtr++;
+    list<S_msrWords>::const_iterator i;
+    for (i=fNoteWords.begin(); i!=fNoteWords.end(); i++) {
+      // browse the articulation
+      msrBrowser<msrWords> browser (v);
+      browser.browse (*(*i));
+    } // for
+    idtr--;
+  }
+  
   // browse the wedges if any
   if (fNoteWedges.size()) {
     idtr++;
@@ -1910,6 +1930,16 @@ void msrChord::print (ostream& os)
     idtr++;
     list<S_msrDynamics>::const_iterator i;
     for (i=fChordDynamics.begin(); i!=fChordDynamics.end(); i++) {
+      os << idtr << (*i);
+    } // for
+    idtr--;
+  }
+
+  // print the words if any
+  if (fChordWords.size()) {
+    idtr++;
+    list<S_msrWords>::const_iterator i;
+    for (i=fChordWords.begin(); i!=fChordWords.end(); i++) {
       os << idtr << (*i);
     } // for
     idtr--;

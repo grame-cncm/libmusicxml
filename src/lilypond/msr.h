@@ -986,6 +986,75 @@ typedef SMARTP<msrGraceexpression> S_msrGraceexpression;
 EXP ostream& operator<< (ostream& os, const S_msrGraceexpression& elt);
 
 /*!
+\brief A words representation.
+
+  A words is represented by the lyrics to use
+*/
+//______________________________________________________________________________
+class EXP msrWords : public msrElement
+{
+  public:
+
+    enum msrWordsPlacementKind {
+      kAbove, kBelow};
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrWords> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      msrWordsPlacementKind
+                    wordsPlacementKind,
+      string        wordsContents);
+
+  protected:
+
+    msrWords (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      msrWordsPlacementKind
+                    wordsPlacementKind,
+      string        wordsContents);
+      
+    virtual ~msrWords();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrWordsPlacementKind
+              getWordsPlacementKind () const
+                  { return fWordsPlacementKind; }
+
+    string    getWordsContents () const
+                  { return fWordsContents; }
+
+    // services
+    // ------------------------------------------------------
+
+    string    wordsAsString () const;
+    
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+                        
+  msrWordsPlacementKind fWordsPlacementKind;
+  string                fWordsContents;
+};
+typedef SMARTP<msrWords> S_msrWords;
+EXP ostream& operator<< (ostream& os, const S_msrWords& elt);
+
+/*!
 \brief A msr note representation.
 
   A note is represented by its name, optional accidentals,
@@ -1117,10 +1186,17 @@ class EXP msrNote : public msrElement
                   getNoteArticulations () const
                       { return fNoteArticulations; }
                       
-    // dynamics and wedges
+    // dynamics
     const list<S_msrDynamics>&
                   getNoteDynamics () const
                       { return fNoteDynamics; };
+
+    // words
+    const list<S_msrWords>&
+                  getNoteWords () const
+                      { return fNoteWords; };
+                      
+    // wedges
     const list<S_msrWedge>&
                   getNoteWedges () const
                       { return fNoteWedges; };
@@ -1184,12 +1260,17 @@ class EXP msrNote : public msrElement
     // articulations
     void          addArticulation (S_msrArticulation art);
     
-    // dynamics and wedges
-    void          addDynamics (S_msrDynamics dyn);
-    void          addWedge    (S_msrWedge    wdg);
+    // dynamics
+    void          addDynamics (S_msrDynamics dynamics);
 
-    S_msrDynamics removeFirstDynamics ();
-    S_msrWedge    removeFirstWedge ();
+    // words
+    void          addWords (S_msrWords words);
+    
+    //  wedges
+    void          addWedge (S_msrWedge wedge);
+
+    S_msrDynamics removeFirstDynamics (); // ???
+    S_msrWedge    removeFirstWedge (); // JMI
 
     // visitors
     // ------------------------------------------------------
@@ -1216,8 +1297,9 @@ class EXP msrNote : public msrElement
     S_msrBeam                 fNoteBeam;
                                       
     list<S_msrArticulation>   fNoteArticulations;
-    
+        
     list<S_msrDynamics>       fNoteDynamics;
+    list<S_msrWords>          fNoteWords;
     list<S_msrWedge>          fNoteWedges;
 
 
@@ -1309,13 +1391,16 @@ class EXP msrChord : public msrElement
     void          addNoteToChord (S_msrNote note);
 
     void          addArticulation (S_msrArticulation art)
-                      { fChordArticulations.push_back(art); }
+                      { fChordArticulations.push_back (art); }
     
     void          addDynamics (S_msrDynamics dyn)
-                      { fChordDynamics.push_back(dyn); }
+                      { fChordDynamics.push_back (dyn); }
+                    
+    void          addWords (S_msrWords dyn)
+                      { fChordWords.push_back (dyn); }
                     
     void          addWedge (S_msrWedge wdg)
-                      { fChordWedges.push_back(wdg); }
+                      { fChordWedges.push_back (wdg); }
 
     string        chordDivisionsAsMSRString () const;
 
@@ -1343,6 +1428,7 @@ class EXP msrChord : public msrElement
     list<S_msrArticulation>   fChordArticulations;
     
     list<S_msrDynamics>       fChordDynamics;
+    list<S_msrWords>          fChordWords;
     list<S_msrWedge>          fChordWedges;
 
     msrMusicXMLNoteData::msrMusicXMLTieKind
@@ -2237,75 +2323,6 @@ class EXP msrTime : public msrElement
 };
 typedef SMARTP<msrTime> S_msrTime;
 EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
-
-/*!
-\brief A words representation.
-
-  A words is represented by the lyrics to use
-*/
-//______________________________________________________________________________
-class EXP msrWords : public msrElement
-{
-  public:
-
-    enum msrWordsPlacementKind {
-      kAbove, kBelow};
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrWords> create (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      msrWordsPlacementKind
-                    wordsPlacementKind,
-      string        wordsContents);
-
-  protected:
-
-    msrWords (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      msrWordsPlacementKind
-                    wordsPlacementKind,
-      string        wordsContents);
-      
-    virtual ~msrWords();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrWordsPlacementKind
-              getWordsPlacementKind () const
-                  { return fWordsPlacementKind; }
-
-    string    getWordsContents () const
-                  { return fWordsContents; }
-
-    // services
-    // ------------------------------------------------------
-
-    string    wordsAsString () const;
-    
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    virtual void print (ostream& os);
-
-  private:
-                        
-  msrWordsPlacementKind fWordsPlacementKind;
-  string                fWordsContents;
-};
-typedef SMARTP<msrWords> S_msrWords;
-EXP ostream& operator<< (ostream& os, const S_msrWords& elt);
 
 /*!
 \brief A tempo representation.
