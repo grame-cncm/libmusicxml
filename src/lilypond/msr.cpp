@@ -1199,6 +1199,11 @@ void msrNote::applyTupletMemberDisplayFactor (
     normalNotes;
 }
 
+void msrNote::addArticulation (S_msrArticulation art)
+{
+  fNoteArticulations.push_back (art);
+}
+
 void msrNote::addDynamics (S_msrDynamics dynamics)
 {
   fNoteDynamics.push_back (dynamics);

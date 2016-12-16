@@ -1753,7 +1753,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       "% --> Start visiting ";
       
     switch (elt->getNoteKind ()) {
-      
+
+      case msrNote::k_NoNoteKind:
+        break;
+        
       case msrNote::kStandaloneNote:
         if (++fSequentialMusicElementsCounter > 10) {
           fOstream <<
@@ -1834,6 +1837,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
 
   switch (elt->getNoteKind ()) {
     
+    case msrNote::k_NoNoteKind:
+      break;
+        
     case msrNote::kStandaloneNote:
       if (++fSequentialMusicElementsCounter > 10) {
         fOstream <<
@@ -1971,15 +1977,25 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
     fOstream << idtr <<
       "% --> Start visiting ";
     switch (elt->getNoteKind ()) {
+      case msrNote::k_NoNoteKind:
+        break;
+        
       case msrNote::kStandaloneNote:
         fOstream << "standalone";
         break;
+        
+      case msrNote::kGraceNote:
+        fOstream << "grace";
+        break;
+        
       case msrNote::kRestNote:
         fOstream << "rest";
         break;
+        
       case msrNote::kChordMemberNote:
         fOstream << "chord member";
         break;
+        
       case msrNote::kTupletMemberNote:
         fOstream << "tuplet member";
         break;
@@ -1989,6 +2005,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
 
   switch (elt->getNoteKind ()) {
     case msrNote::kStandaloneNote:
+      break;
+    case msrNote::kGraceNote:
       break;
     case msrNote::kRestNote:
       break;
@@ -2002,11 +2020,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
     case msrSlur::kStartSlur:
       fOstream << "( ";
       break;
+      
     case msrSlur::kContinueSlur:
       break;
+      
     case msrSlur::kStopSlur:
       fOstream << ") ";
       break;
+      
     case msrSlur::k_NoSlur:
       break;
   } // switch  
