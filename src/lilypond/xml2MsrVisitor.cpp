@@ -1389,7 +1389,7 @@ void xml2MsrVisitor::visitEnd ( S_metronome& elt )
       fMsrOptions->fInputSourceName,
       inputLineNumber,
       "per-minute not found, only per-minute tempo is supported");
-    return;    // support per minute tempo only (for now)
+    return;
   }
 
   musicXMLBeatData b = fBeatsData[0];
@@ -1449,23 +1449,21 @@ void xml2MsrVisitor::visitEnd (S_direction& elt)
         setTempoIndication (fCurrentWordsContents);
   }
 
-  else {
-    if (fCurrentWordsContents.size ()) {
+  else if (fCurrentWordsContents.size ()) {
       if (fMsrOptions->fTrace)
         cerr << idtr <<
-          "Creating tempo \"" << fCurrentWordsContents << "\"" <<
+          "Creating words \"" << fCurrentWordsContents << "\"" <<
           ", placement = \"" << fCurrentDirectionPlacement << "\"" <<
           endl;
 
-      fCurrentTempo =
-        msrTempo::create (
-          fMsrOptions,
-          inputLineNumber,
-          0, 0);
+      S_msrWords
+        words =
+          msrWords::create (
+            fMsrOptions,
+            inputLineNumber,
+            fCurrentWordsPlacementKind,
+            fCurrentWordsContents);
         
-      fCurrentTempo->
-        setTempoIndication (fCurrentWordsContents);
-
       S_msrVoice
         currentVoice =
           createVoiceInStaffInCurrentPartIfNeeded (
@@ -1474,7 +1472,7 @@ void xml2MsrVisitor::visitEnd (S_direction& elt)
             fCurrentVoiceNumber);
         
       currentVoice->
-        appendTempoToVoice (fCurrentTempo);
+        appendWordsToVoice (words);
     
       /* JMI
       if (fMsrOptions->fTrace)
@@ -1495,7 +1493,6 @@ void xml2MsrVisitor::visitEnd (S_direction& elt)
       currentVoice->
         appendWordsToVoice (fCurrentWords);
         */
-    }
   }
   
   fOnGoingDirectionType = false;

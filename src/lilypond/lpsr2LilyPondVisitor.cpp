@@ -1578,16 +1578,17 @@ void lpsr2LilyPondVisitor::visitStart (S_msrWords& elt)
   fOstream << idtr;
   switch (wordsPlacementKind) {
     case msrWords::kAbove:
-      fOstream << "<>^"; // JMI
+      fOstream << "^";
       break;
     case msrWords::kBelow:
-      fOstream << "<>_";
+      fOstream << "_";
       break;
   } // switch
 
   fOstream <<
-    "\\markup" << " { " << wordsContents << " } " <<
-    endl;
+    "\\markup" << " { " <<
+    quoteStringIfNonAlpha (wordsContents) <<
+    " } ";
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrWords& elt)

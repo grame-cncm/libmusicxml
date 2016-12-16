@@ -2180,11 +2180,11 @@ void lpsrPartBlock::print (ostream& os)
 
   os << left <<
     idtr <<
-      setw(20) << string ("(") + "PartName = \"" <<
+      setw(17) << string ("(") + "PartName" << " = \"" <<
       fPart->getPartName () << "\")" <<
       endl <<
     idtr <<
-      setw(20) << string ("(") + "PartAbbreviation = \"" <<
+      setw(17) << string ("(") + "PartAbbreviation" << " = \"" <<
       fPart->getPartAbbreviation () << "\")" <<
       endl;
 
