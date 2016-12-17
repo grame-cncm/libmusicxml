@@ -1288,6 +1288,10 @@ class EXP msrNote : public msrElement
                   getNoteArticulations () const
                       { return fNoteArticulations; }
                       
+    list<S_msrArticulation>&
+                  getNoteArticulationsToModify ()
+                      { return fNoteArticulations; }
+                      
     // dynamics
     const list<S_msrDynamics>&
                   getNoteDynamics () const
@@ -1530,7 +1534,9 @@ class EXP msrChord : public msrElement
     list<S_msrArticulation>   fChordArticulations;
     
     list<S_msrDynamics>       fChordDynamics;
+    
     list<S_msrWords>          fChordWords;
+    
     list<S_msrWedge>          fChordWedges;
 
     msrMusicXMLNoteData::msrMusicXMLTieKind

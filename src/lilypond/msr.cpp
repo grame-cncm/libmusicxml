@@ -518,6 +518,7 @@ void msrArticulation::print (ostream& os)
       os << "arpeggiato";
       break;
   } // switch
+  os << endl;
 }
 
 //______________________________________________________________________________
@@ -1985,8 +1986,44 @@ void msrChord::browseData (basevisitor* v)
     vector<S_msrNote>::const_iterator i = fChordNotes.begin();
     i != fChordNotes.end();
     i++ ) {
-    // browse chord note
+    // browse chord member note
     msrBrowser<msrNote> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  for (
+    list<S_msrArticulation>::const_iterator i = fChordArticulations.begin();
+    i != fChordArticulations.end();
+    i++ ) {
+    // browse the articulation
+    msrBrowser<msrArticulation> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  for (
+    list<S_msrDynamics>::const_iterator i = fChordDynamics.begin();
+    i != fChordDynamics.end();
+    i++ ) {
+    // browse the dynamics
+    msrBrowser<msrDynamics> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  for (
+    list<S_msrWords>::const_iterator i = fChordWords.begin();
+    i != fChordWords.end();
+    i++ ) {
+    // browse the words
+    msrBrowser<msrWords> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  for (
+    list<S_msrWedge>::const_iterator i = fChordWedges.begin();
+    i != fChordWedges.end();
+    i++ ) {
+    // browse the wedge
+    msrBrowser<msrWedge> browser (v);
     browser.browse (*(*i));
   } // for
 }
@@ -2043,6 +2080,7 @@ void msrChord::print (ostream& os)
 
   idtr++;
   
+  // print the member notes if any
   if (fChordNotes.size()) {
     vector<S_msrNote>::const_iterator
       iBegin = fChordNotes.begin(),
