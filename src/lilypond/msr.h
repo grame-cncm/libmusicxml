@@ -1297,14 +1297,26 @@ class EXP msrNote : public msrElement
                   getNoteDynamics () const
                       { return fNoteDynamics; };
 
+    list<S_msrDynamics>&
+                  getNoteDynamicsToModify ()
+                      { return fNoteDynamics; };
+
     // words
     const list<S_msrWords>&
                   getNoteWords () const
                       { return fNoteWords; };
                       
+    list<S_msrWords>&
+                  getNoteWordsToModify ()
+                      { return fNoteWords; };
+                      
     // wedges
     const list<S_msrWedge>&
                   getNoteWedges () const
+                      { return fNoteWedges; };
+
+    list<S_msrWedge>&
+                  getNoteWedgesToModify ()
                       { return fNoteWedges; };
 
     // chord members

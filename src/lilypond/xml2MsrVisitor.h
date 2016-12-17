@@ -648,7 +648,9 @@ class EXP xml2MsrVisitor :
                                 S_msrNote note);
     void                      attachCurrentArticulationsToChord (
                                 S_msrChord chord);
-    
+    void                      moveNoteArticulationsToChord (
+                                S_msrNote note, S_msrChord chord);
+                                
     // dynamics, words and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
     list<S_msrDynamics>       fPendingDynamics;
@@ -659,6 +661,13 @@ class EXP xml2MsrVisitor :
                                 S_msrNote note);
     void                      attachPendingDynamicsWordsAndWedgesToChord (
                                 S_msrChord chord);
+                                
+    void                      moveNoteDynamicsToChord (
+                                S_msrNote note, S_msrChord chord);
+    void                      moveNoteWordsToChord (
+                                S_msrNote note, S_msrChord chord);
+    void                      moveNoteWedgesToChord (
+                                S_msrNote note, S_msrChord chord);
        
     // description of the current MSR note
     // ------------------------------------------------------

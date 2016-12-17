@@ -3587,103 +3587,124 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
     addNoteToChord (firstNote);
 
   // move firstNote's articulations if any to the chord
-  {
+  moveNoteArticulationsToChord (firstNote, chord);
   
-  list<S_msrArticulation>
-    noteArticulations =
-      firstNote->getNoteArticulations ();
+  // move the firstNote's dynamics if any from the first note to the chord
+  moveNoteDynamicsToChord (firstNote, chord);
+  
+  // move the firstNote's words if any from the first note to the chord
+  moveNoteWordsToChord (firstNote, chord);
+  
+  // move the firstNote's wedges if any from the first note to the chord
+  moveNoteWedgesToChord (firstNote, chord);
+  
+  return chord;
+}
 
-  if (! firstNote->getNoteArticulationsToModify ().empty()) {
+//______________________________________________________________________________
+void xml2MsrVisitor::moveNoteArticulationsToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // move note's articulations if any from the first note to chord
+  
+  // don't use a local copy of the articulations list,
+  // but access it directly instead
+  
+  if (! note->getNoteArticulationsToModify ().empty()) {
  // JMI   if (fMsrOptions->fDebug)
       cerr << idtr <<
-        "--> moving articulations from note " << firstNote <<
+        "--> moving articulations from note " << note <<
         " to chord" <<
         endl;
         
-    while (! firstNote->getNoteArticulationsToModify ().empty ()) {
+    while (! note->getNoteArticulationsToModify ().empty ()) {
       S_msrArticulation
-        art = firstNote->getNoteArticulationsToModify ().front ();
+        art = note->getNoteArticulationsToModify ().front ();
         
       // JMI   if (fMsrOptions->fDebug)
         cerr << idtr <<
           "--> moving '" << art <<
-          "' from note " << firstNote <<
+          "' from note " << note <<
           " to chord" <<
           endl;
 
       chord->addArticulationToChord (art);
-      firstNote->getNoteArticulationsToModify ().pop_front ();
+      note->getNoteArticulationsToModify ().pop_front ();
     } // while
+  }
+}
 
-  cerr << "##### " << noteArticulations.size() << endl;
-  cerr << "##### " << firstNote->getNoteArticulations ().size() << endl;
-  }
-  }
+//______________________________________________________________________________
+void xml2MsrVisitor::moveNoteDynamicsToChord (
+  S_msrNote note, S_msrChord chord)
+{
+  // move note's dynamics if any from the first note to chord
+
+  // don't use a local copy of the dynamics list,
+  // but access it directly instead
   
-  // move the pending words if any from the first note to the chord
-  {
-  list<S_msrWords>
-    noteWords =
-      firstNote->getNoteWords();
-    
-  if (! noteWords.empty()) {
-    if (fMsrOptions->fDebug)
-      cerr << idtr <<
-        "--> moving words from current note to chord" << endl;
-        
-    while (! noteWords.empty ()) {
-      S_msrWords
-        wrds = noteWords.front ();
-        
-      chord->addWordsToChord (wrds);
-      noteWords.pop_front ();
-    } // while
-  }
-  }
- 
-  // move the pending dynamics if any from the first note to the chord
-  {
-  list<S_msrDynamics>
-    noteDynamics =
-      firstNote->getNoteDynamics();
-    
-  if (! noteDynamics.empty ()) {
-    if (fMsrOptions->fDebug)
+  if (! note->getNoteDynamicsToModify ().empty ()) {
+ // JMI   if (fMsrOptions->fDebug)
       cerr << idtr <<
         "--> moving dynamics from current note to chord" << endl;
         
-    while (! noteDynamics.empty ()) {
+    while (! note->getNoteDynamicsToModify ().empty ()) {
       S_msrDynamics
-        dyn = noteDynamics.front ();
+        dyn = note->getNoteDynamicsToModify ().front ();
         
       chord->addDynamicsToChord (dyn);
-      noteDynamics.pop_front ();
+      note->getNoteDynamicsToModify ().pop_front ();
     } // while
   }
+}
+
+//______________________________________________________________________________
+void xml2MsrVisitor::moveNoteWordsToChord (
+  S_msrNote note, S_msrChord chord)
+{
+  // move note's words if any from the first note to chord
+
+  // don't use a local copy of the words list,
+  // but access it directly instead
+  
+  if (! note->getNoteWordsToModify ().empty()) {
+ // JMI   if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> moving words from current note to chord" << endl;
+        
+    while (! note->getNoteWordsToModify ().empty ()) {
+      S_msrWords
+        wrds = note->getNoteWordsToModify ().front ();
+        
+      chord->addWordsToChord (wrds);
+      note->getNoteWordsToModify ().pop_front ();
+      note->getNoteWordsToModify ().pop_front ();
+    } // while
   }
- 
-  // move the pending wedges if any from the first note to the chord
-  {
-  list<S_msrWedge>
-    noteWedges =
-      firstNote->getNoteWedges();
-    
-  if (! noteWedges.empty ()) {
-    if (fMsrOptions->fDebug)
+}
+
+//______________________________________________________________________________
+void xml2MsrVisitor::moveNoteWedgesToChord (
+  S_msrNote note, S_msrChord chord)
+{
+  // move note's wedges if any from the first note to chord
+
+  // don't use a local copy of the wedges list,
+  // but access it directly instead
+      
+  if (! note->getNoteWedgesToModify ().empty ()) {
+ // JMI   if (fMsrOptions->fDebug)
       cerr << idtr <<
         "--> moving wedges from current note to chord" << endl;
         
-    while (! noteWedges.empty ()) {
+    while (! note->getNoteWedgesToModify ().empty ()) {
       S_msrWedge
-        wdg = noteWedges.front ();
+        wdg = note->getNoteWedgesToModify ().front ();
         
       chord->addWedgeToChord (wdg);
-      noteWedges.pop_front ();
+      note->getNoteWedgesToModify ().pop_front ();
     } // while
   }
-  }
-  
-  return chord;
 }
 
 //______________________________________________________________________________
