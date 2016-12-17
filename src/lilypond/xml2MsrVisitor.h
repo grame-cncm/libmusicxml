@@ -635,7 +635,8 @@ class EXP xml2MsrVisitor :
     S_msrChord                fCurrentChord; // cannot be local to a method? JMI
     bool                      fOnGoingChord;
     
-    S_msrChord                createChordFromCurrentNote ();
+    S_msrChord                createChordFromItsFirstNote (
+                                S_msrNote firstNote);
     void                      handleNoteBelongingToAChord (
                                 S_msrNote newNote);
     
@@ -655,7 +656,7 @@ class EXP xml2MsrVisitor :
     // description of the current MSR note
     // ------------------------------------------------------
     string                    fCurrentNoteType;
-    S_msrNote                 fCurrentNote;
+    S_msrNote                 fLastHandledNote; // needed for chords
     bool                      fOnGoingNote;
 
     // tuplet handling

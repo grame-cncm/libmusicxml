@@ -1360,16 +1360,16 @@ class EXP msrNote : public msrElement
     string        noteTypeAsMSRString () const;
 
     // articulations
-    void          addArticulation (S_msrArticulation art);
+    void          addArticulationToNote (S_msrArticulation art);
     
     // dynamics
-    void          addDynamics (S_msrDynamics dynamics);
+    void          addDynamicsToNote (S_msrDynamics dynamics);
 
     // words
-    void          addWords (S_msrWords words);
+    void          addWordsToNote (S_msrWords words);
     
     //  wedges
-    void          addWedge (S_msrWedge wedge);
+    void          addWedgeToNote (S_msrWedge wedge);
 
     S_msrDynamics removeFirstDynamics (); // ???
     S_msrWedge    removeFirstWedge (); // JMI
@@ -1492,16 +1492,16 @@ class EXP msrChord : public msrElement
 
     void          addNoteToChord (S_msrNote note);
 
-    void          addArticulation (S_msrArticulation art)
+    void          addArticulationToChord (S_msrArticulation art)
                       { fChordArticulations.push_back (art); }
     
-    void          addDynamics (S_msrDynamics dyn)
+    void          addDynamicsToChord (S_msrDynamics dyn)
                       { fChordDynamics.push_back (dyn); }
                     
-    void          addWords (S_msrWords dyn)
+    void          addWordsToChord (S_msrWords dyn)
                       { fChordWords.push_back (dyn); }
                     
-    void          addWedge (S_msrWedge wdg)
+    void          addWedgeToChord (S_msrWedge wdg)
                       { fChordWedges.push_back (wdg); }
 
     string        chordDivisionsAsMSRString () const;

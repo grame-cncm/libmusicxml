@@ -3542,15 +3542,16 @@ void xml2MsrVisitor::visitEnd ( S_unpitched& elt)
 }
 
 //______________________________________________________________________________
-S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
+S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
+  S_msrNote firstNote)
 {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> creating a chord on its 2nd note" <<
-      fCurrentNote <<
+      firstNote <<
       endl;
   
-  // fCurrentNote has been registered standalone in the part element sequence,
+  // firstNote has been registered standalone in the part element sequence,
   // but it is actually the first note of a chord
   
   // create a chord
@@ -3558,49 +3559,63 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
     chord =
       msrChord::create (
         fMsrOptions,
-        fCurrentNote->getInputLineNumber (),
-        fCurrentNote->getNoteMusicXMLDivisions ());
+        firstNote->getInputLineNumber (),
+        firstNote->getNoteMusicXMLDivisions ());
 
   // chord's divisions per whole note is that of its first note
   chord->
     setDivisionsPerWholeNote (
-      fCurrentNote-> getDivisionsPerWholeNote ());
+      firstNote-> getDivisionsPerWholeNote ());
   
   // chord's location is that of its first note
   chord->
     setChordMeasureLocation (
-      fCurrentNote->getNoteMeasureLocation ());
+      firstNote->getNoteMeasureLocation ());
 
   // chord's tie kind is that of its first note
   chord->
     setChordTieKind (
-      fCurrentNote->getNoteTieKind ());
+      firstNote->getNoteTieKind ());
   
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> adding first note " << fCurrentNote->notePitchAsString() <<
+      "--> adding first note " << firstNote->notePitchAsString() <<
       " to new chord" << endl;
     
-  // register fCurrentNote as a member of chord
-  chord->addNoteToChord (fCurrentNote);
+  // register firstNote as a member of chord
+  chord->
+    addNoteToChord (firstNote);
 
-  // move the pending articulations if any from the first note to the chord
+  // move firstNote's articulations if any to the chord
   {
   list<S_msrArticulation>
     noteArticulations =
-      fCurrentNote->getNoteArticulations ();
+      firstNote->getNoteArticulations ();
 
   if (! noteArticulations.empty()) {
-    if (fMsrOptions->fDebug)
+ // JMI   if (fMsrOptions->fDebug)
       cerr << idtr <<
-        "--> moving articulations from current note to chord" << endl;
+        "--> moving articulations from note " << firstNote <<
+        " to chord" <<
+        endl;
         
-    while (! noteArticulations.empty()) {
+    while (! noteArticulations.empty ()) {
       S_msrArticulation
-        art = noteArticulations.front();
-      chord->addArticulation (art);
+        art = noteArticulations.front ();
+        
+      // JMI   if (fMsrOptions->fDebug)
+        cerr << idtr <<
+          "--> moving '" << art <<
+          "' from note " << firstNote <<
+          " to chord" <<
+          endl;
+
+      chord->addArticulationToChord (art);
       noteArticulations.pop_front ();
     } // while
+
+  cerr << "##### " << noteArticulations.size() << endl;
+  cerr << "##### " << firstNote->getNoteArticulations ().size() << endl;
   }
   }
   
@@ -3608,7 +3623,7 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
   {
   list<S_msrWords>
     noteWords =
-      fCurrentNote->getNoteWords();
+      firstNote->getNoteWords();
     
   if (! noteWords.empty()) {
     if (fMsrOptions->fDebug)
@@ -3618,7 +3633,8 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
     while (! noteWords.empty ()) {
       S_msrWords
         wrds = noteWords.front ();
-      chord->addWords (wrds);
+        
+      chord->addWordsToChord (wrds);
       noteWords.pop_front ();
     } // while
   }
@@ -3628,7 +3644,7 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
   {
   list<S_msrDynamics>
     noteDynamics =
-      fCurrentNote->getNoteDynamics();
+      firstNote->getNoteDynamics();
     
   if (! noteDynamics.empty ()) {
     if (fMsrOptions->fDebug)
@@ -3638,7 +3654,8 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
     while (! noteDynamics.empty ()) {
       S_msrDynamics
         dyn = noteDynamics.front ();
-      chord->addDynamics (dyn);
+        
+      chord->addDynamicsToChord (dyn);
       noteDynamics.pop_front ();
     } // while
   }
@@ -3648,7 +3665,7 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
   {
   list<S_msrWedge>
     noteWedges =
-      fCurrentNote->getNoteWedges();
+      firstNote->getNoteWedges();
     
   if (! noteWedges.empty ()) {
     if (fMsrOptions->fDebug)
@@ -3658,7 +3675,8 @@ S_msrChord xml2MsrVisitor::createChordFromCurrentNote ()
     while (! noteWedges.empty ()) {
       S_msrWedge
         wdg = noteWedges.front ();
-      chord->addWedge (wdg);
+        
+      chord->addWedgeToChord (wdg);
       noteWedges.pop_front ();
     } // while
   }
@@ -3830,7 +3848,8 @@ void xml2MsrVisitor::attachPendingDynamicsWordsAndWedgesToNote (
         S_msrDynamics
           dyn =
             fPendingDynamics.front ();
-        note->addDynamics (dyn);
+            
+        note->addDynamicsToNote (dyn);
         fPendingDynamics.pop_front ();
       } // while
     }
@@ -3855,7 +3874,8 @@ void xml2MsrVisitor::attachPendingDynamicsWordsAndWedgesToNote (
         S_msrWords
           wrds =
             fPendingWords.front ();
-        note->addWords (wrds);
+            
+        note->addWordsToNote (wrds);
         fPendingWords.pop_front ();
       } // while
     }
@@ -3885,7 +3905,8 @@ void xml2MsrVisitor::attachPendingDynamicsWordsAndWedgesToNote (
         S_msrWedge
           wdg =
             fPendingWedges.front ();
-        note->addWedge (wdg);
+            
+        note->addWedgeToNote (wdg);
         fPendingWedges.pop_front ();
       } // while
     }
@@ -3914,6 +3935,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // fetch current staff
   S_msrStaff
     staff =
       createStaffInCurrentPartIfNeeded (
@@ -3936,6 +3958,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       endl;
   }
 
+  // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
@@ -3943,6 +3966,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
+  // fetch current voice
   currentVoice =
     createVoiceInStaffInCurrentPartIfNeeded (
       inputLineNumber,
@@ -3952,6 +3976,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   // store voice number in MusicXML note data
   fMusicXMLNoteData.fMusicXMLVoiceNumber = fCurrentVoiceNumber;
 
+  // set note's divisions per whole note
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "fMusicXMLNoteData.fMusicXMLDivisions = " << 
@@ -3961,11 +3986,12 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       
   currentVoice->setDivisionsPerWholeNote (
     fCurrentDivisionsPerQuarterNote * 4);
-    
+
+  // register current note type
   fMusicXMLNoteData.fMusicXMLType =
     fCurrentNoteType;
   
-  //cerr << "::: creating a note" << endl;
+  // create the note
   S_msrNote
     note =
       msrNote::createFromMusicXMLData (
@@ -4002,8 +4028,9 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     S_msrArticulation
       art =
         fCurrentArticulations.front();
+        
     note->
-      addArticulation (art);
+      addArticulationToNote (art);
     fCurrentArticulations.pop_front();
   } // while
 
@@ -4021,7 +4048,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
 
   // handling note
   if (fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet)
-    // set note display divisions
+    // set tuplet member note display divisions
     note->
       applyTupletMemberDisplayFactor (
         fCurrentActualNotes, fCurrentNormalNotes);
@@ -4042,15 +4069,12 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     
   }
 
-  // keep track of current note
-  fCurrentNote = note;
-    
  // JMI if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebug) {
     cerr <<
       idtr <<
         "!!!! AFTER visitEnd (S_note) " <<
-        fCurrentNote->notePitchAsString () <<
+        note->notePitchAsString () <<
         " we have:" <<
       endl <<
       idtr << idtr <<
@@ -4071,6 +4095,10 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
         endl;
   }
 
+  // keep track of current note
+  // in case it is the first note of a chord
+  fLastHandledNote = note;
+    
   fOnGoingNote = false;
 }
 
@@ -4103,9 +4131,11 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
     setNoteKind (msrNote::kChordMemberNote);
 
   if (! fOnGoingChord) {
-    // create a chord with fCurrentNote as its first note
+    // create a chord with fLastHandledNote
+    // (i.e the note preceding newNote)
+    // as its first note
     fCurrentChord =
-      createChordFromCurrentNote ();
+      createChordFromItsFirstNote (fLastHandledNote);
 
     // account for chord being built
     fOnGoingChord = true;
@@ -4140,17 +4170,16 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
 
   // substract it's duration from the current measure location
   currentVoice->incrementPositionInMeasure (
-    -
-      newNote->
-        getNoteMusicXMLDivisions ());
+    - newNote-> getNoteMusicXMLDivisions ());
 
-  // remove previous current note or the previous state of the chord
+  // remove previous current note or the previous state of the chord JMI ???
   // from the current voice sequence
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> removing last element " <<
-// JMI ???      currentVoice->getVoiceSequentialMusicLastElement () <<
-      " from current voice" << endl;
+      " from voice " << currentVoice->getVoiceName () <<
+      endl;
+      
   currentVoice->
     removeLastElementFromVoice ();
 
@@ -4159,6 +4188,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
     cerr << idtr <<
       "--> appending chord " << fCurrentChord <<
       " to current voice" << endl;
+      
   currentVoice->
     appendChordToVoice (fCurrentChord);
 }

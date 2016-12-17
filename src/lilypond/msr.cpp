@@ -1316,22 +1316,22 @@ void msrNote::applyTupletMemberDisplayFactor (
     normalNotes;
 }
 
-void msrNote::addArticulation (S_msrArticulation art)
+void msrNote::addArticulationToNote (S_msrArticulation art)
 {
   fNoteArticulations.push_back (art);
 }
 
-void msrNote::addDynamics (S_msrDynamics dynamics)
+void msrNote::addDynamicsToNote (S_msrDynamics dynamics)
 {
   fNoteDynamics.push_back (dynamics);
 }
 
-void msrNote::addWords (S_msrWords words)
+void msrNote::addWordsToNote (S_msrWords words)
 {
   fNoteWords.push_back (words);
 }
 
-void msrNote::addWedge (S_msrWedge wedge)
+void msrNote::addWedgeToNote (S_msrWedge wedge)
 {
   fNoteWedges.push_back (wedge);
 }
