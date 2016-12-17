@@ -1474,7 +1474,7 @@ void xml2MsrVisitor::visitStart ( S_per_minute& elt )
 
 void xml2MsrVisitor::visitEnd (S_direction& elt)
 {
-  int inputLineNumber =
+  int inputLineNumber = // JMI
     elt->getInputLineNumber ();
 
   if (fCurrentTempo) {
@@ -3880,7 +3880,7 @@ void xml2MsrVisitor::attachCurrentArticulationsToChord (
 }
 
 //______________________________________________________________________________
-void xml2MsrVisitor::attachPendingDynamicsWordsAndWedgesToNote (
+void xml2MsrVisitor::attachPendingDynamicsToNote (
   S_msrNote note)
 {
   // attach the pending dynamics if any to the note
@@ -3908,33 +3908,48 @@ void xml2MsrVisitor::attachPendingDynamicsWordsAndWedgesToNote (
       } // while
     }
   }
-    
+}
+
+//______________________________________________________________________________
+void xml2MsrVisitor::attachPendingWordsToNote (
+  S_msrNote note)
+{
   // attach the pending words if any to the note
-  if (! fPendingWords.empty()) {
+  if (! fPendingWords.empty ()) {
     if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
- // JMI     if (fMsrOptions->fDelayRestsDynamics) {
+      if (fMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
           "--> Delaying words attached to a rest until next note" << endl;
- //   }
- //   else {
-        msrMusicXMLWarning (
-          fMsrOptions->fInputSourceName,
-          note->getInputLineNumber (),
-          "there is words attached to a rest");
- //     }
+      }
+      else {
+        for (
+            list<S_msrWords>::const_iterator i = fPendingWords.begin();
+            i != fPendingWords.end();
+            i++) {
+          msrMusicXMLWarning (
+            fMsrOptions->fInputSourceName,
+            (*i)->getInputLineNumber (),
+            "there is words attached to a rest");
+        } // for
+      }
     }
     else {
       while (! fPendingWords.empty ()) {
         S_msrWords
-          wrds =
+          wdg =
             fPendingWords.front ();
             
-        note->addWordsToNote (wrds);
+        note->addWordsToNote (wdg);
         fPendingWords.pop_front ();
       } // while
     }
   }
-  
+}
+
+//______________________________________________________________________________
+void xml2MsrVisitor::attachPendingWedgesToNote (
+  S_msrNote note)
+{
   // attach the pending wedges if any to the note
   if (! fPendingWedges.empty ()) {
     if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
@@ -3968,7 +3983,7 @@ void xml2MsrVisitor::attachPendingDynamicsWordsAndWedgesToNote (
 }
 
 //______________________________________________________________________________
-void xml2MsrVisitor::attachPendingDynamicsWordsAndWedgesToChord (
+void xml2MsrVisitor::attachPendingDynamicsToChord (
   S_msrChord chord)
 {
   // attach the pending dynamics if any to the chord
@@ -3982,7 +3997,11 @@ void xml2MsrVisitor::attachPendingDynamicsWordsAndWedgesToChord (
       fPendingDynamics.pop_front ();
     } // while
   }
+}
     
+void xml2MsrVisitor::attachPendingWordsToChord (
+  S_msrChord chord)
+{
   // attach the pending words if any to the chord
   if (! fPendingWords.empty()) {
     while (! fPendingWords.empty ()) {
@@ -3994,7 +4013,11 @@ void xml2MsrVisitor::attachPendingDynamicsWordsAndWedgesToChord (
       fPendingWords.pop_front ();
     } // while
   }
+}
   
+void xml2MsrVisitor::attachPendingWedgesToChord (
+  S_msrChord chord)
+{
   // attach the pending wedges if any to the chord
   if (! fPendingWedges.empty ()) {
     while (! fPendingWedges.empty ()) {
@@ -4248,8 +4271,14 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
   // attach the articulations if any to the note
   attachCurrentArticulationsToChord (fCurrentChord);
 
-  // attach the pending dynamics and wedges, if any, to the note
-  attachPendingDynamicsWordsAndWedgesToChord (fCurrentChord);
+  // attach the pending dynamics, if any, to the chord
+  attachPendingDynamicsToChord (fCurrentChord);
+
+  // attach the pending words, if any, to the chord
+  attachPendingWordsToChord (fCurrentChord);
+
+  // attach the pending wedges, if any, to the chord
+  attachPendingWedgesToChord (fCurrentChord);
 
   // fetch current voice
   S_msrVoice
@@ -4301,8 +4330,14 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
   // attach the articulations if any to the note
   attachCurrentArticulationsToNote (note);
 
+  // attach the pending dynamics, if any, to the note
+  attachPendingDynamicsToNote (note);
+
+  // attach the pending words, if any, to the note
+  attachPendingWordsToNote (note);
+
   // attach the pending dynamics and wedges, if any, to the note
-  attachPendingDynamicsWordsAndWedgesToNote (note);
+  attachPendingWedgesToNote (note);
 
   switch (fCurrentTupletKind) {
     case msrTuplet::kStartTuplet:
@@ -4475,8 +4510,14 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     // attach the articulations if any to the note
     attachCurrentArticulationsToNote (newNote);
   
+    // attach the pending dynamics, if any, to the note
+    attachPendingDynamicsToNote (newNote);
+
+    // attach the pending words, if any, to the note
+    attachPendingWordsToNote (newNote);
+
     // attach the pending dynamics and wedges, if any, to the note
-    attachPendingDynamicsWordsAndWedgesToNote (newNote);
+    attachPendingWedgesToNote (newNote);
   
     // append newNote to the current voice
     currentVoice->

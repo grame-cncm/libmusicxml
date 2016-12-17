@@ -657,11 +657,20 @@ class EXP xml2MsrVisitor :
     list<S_msrWords>          fPendingWords;
     list<S_msrWedge>          fPendingWedges;
     
-    void                      attachPendingDynamicsWordsAndWedgesToNote (
+    void                      attachPendingDynamicsToNote (
                                 S_msrNote note);
-    void                      attachPendingDynamicsWordsAndWedgesToChord (
+    void                      attachPendingWordsToNote (
+                                S_msrNote note);
+    void                      attachPendingWedgesToNote (
+                                S_msrNote note);
+
+    void                      attachPendingDynamicsToChord (
                                 S_msrChord chord);
-                                
+    void                      attachPendingWordsToChord (
+                                S_msrChord chord);
+    void                      attachPendingWedgesToChord (
+                                S_msrChord chord);
+
     void                      moveNoteDynamicsToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      moveNoteWordsToChord (
