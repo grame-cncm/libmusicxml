@@ -4268,6 +4268,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
     setNoteMeasureLocation (
       fCurrentChord->getChordMeasureLocation ());
 
+/* JMI ???
   // attach the articulations if any to the note
   attachCurrentArticulationsToChord (fCurrentChord);
 
@@ -4279,6 +4280,20 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
 
   // attach the pending wedges, if any, to the chord
   attachPendingWedgesToChord (fCurrentChord);
+*/
+
+  // move firstNote's articulations if any to the chord
+  moveNoteArticulationsToChord (newNote, fCurrentChord);
+  
+  // move the firstNote's dynamics if any from the first note to the chord
+  moveNoteDynamicsToChord (newNote, fCurrentChord);
+  
+  // move the firstNote's words if any from the first note to the chord
+  moveNoteWordsToChord (newNote, fCurrentChord);
+  
+  // move the firstNote's wedges if any from the first note to the chord
+  moveNoteWedgesToChord (newNote, fCurrentChord);
+  
 
   // fetch current voice
   S_msrVoice
