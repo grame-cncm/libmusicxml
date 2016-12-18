@@ -460,19 +460,19 @@ string msrArticulation::articulationKindAsString () const
   
   switch (fArticulationKind) {
     case kStaccato:
-      result = "Staccato";
+      result = "staccato";
       break;
     case kStaccatissimo:
-      result = "Staccatissimo";
+      result = "staccatissimo";
       break;
     case kFermata:
-      result = "Fermata";
+      result = "fermata";
       break;
     case kTrill:
-      result = "Trill";
+      result = "trill";
       break;
     case kArpeggiato:
-      result = "Arpeggiato";
+      result = "arpeggiato";
       break;
   } // switch
 
