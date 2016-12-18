@@ -3586,6 +3586,7 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
   chord->
     addNoteToChord (firstNote);
 
+/*
   // move firstNote's articulations if any to the chord
   moveNoteArticulationsToChord (firstNote, chord);
   
@@ -3597,7 +3598,7 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
   
   // move the firstNote's wedges if any from the first note to the chord
   moveNoteWedgesToChord (firstNote, chord);
-  
+*/
   return chord;
 }
 
@@ -3851,12 +3852,30 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote lastNote)
 void xml2MsrVisitor::attachCurrentArticulationsToNote (
   S_msrNote note)
 {
+  /*
+  list<S_msrArticulation>::const_iterator i;
+  for (
+    i=fCurrentArticulations.begin();
+    i!=fCurrentArticulations.end();
+    i++) {
+
+    note->
+      addArticulationToNote ((*i));
+    } // for
+  */
+
   // attach the current articulations if any to the note
   while (! fCurrentArticulations.empty()) {
     S_msrArticulation
       art =
         fCurrentArticulations.front();
         
+//    if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> attaching articulation " << art << " to note " <<
+        note <<
+        endl;
+
     note->
       addArticulationToNote (art);
     fCurrentArticulations.pop_front();
@@ -3867,6 +3886,21 @@ void xml2MsrVisitor::attachCurrentArticulationsToNote (
 void xml2MsrVisitor::attachCurrentArticulationsToChord (
   S_msrChord chord)
 {
+  list<S_msrArticulation>::const_iterator i;
+  for (
+    i=fCurrentArticulations.begin();
+    i!=fCurrentArticulations.end();
+    i++) {
+//    if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> attaching articulation " <<  (*i) << " to chord " <<
+        chord <<
+        endl;
+        
+    chord->
+      addArticulationToChord ((*i));
+    } // for
+/*  
   // attach the current articulations if any to the note
   while (! fCurrentArticulations.empty()) {
     S_msrArticulation
@@ -3875,8 +3909,9 @@ void xml2MsrVisitor::attachCurrentArticulationsToChord (
         
     chord->
       addArticulationToChord (art);
-    fCurrentArticulations.pop_front();
+// JMI    fCurrentArticulations.pop_front();
   } // while
+  */
 }
 
 //______________________________________________________________________________
@@ -4123,14 +4158,6 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     setDivisionsPerWholeNote (
       currentVoice-> getDivisionsPerWholeNote ());
   
-  // set its location
-  note->setNoteMeasureLocation (
-    currentVoice->getVoiceMeasureLocation ());
-
-  // take it's duration into account
-  currentVoice->incrementPositionInMeasure (
-    fMusicXMLNoteData.fMusicXMLDivisions);
-
   // set its stem if any
   if (fCurrentBeam)
     note->
@@ -4140,6 +4167,17 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   if (fCurrentBeam)
     note->
       setBeam (fCurrentBeam);
+
+  // set its location
+  note->setNoteMeasureLocation (
+    currentVoice->getVoiceMeasureLocation ());
+
+  // attach the articulations if any to the note
+  attachCurrentArticulationsToNote (note);
+
+  // take it's duration into account
+  currentVoice->incrementPositionInMeasure (
+    fMusicXMLNoteData.fMusicXMLDivisions);
 
   /*
   A rest can be standalone or belong to a tuplet
@@ -4268,10 +4306,13 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
     setNoteMeasureLocation (
       fCurrentChord->getChordMeasureLocation ());
 
-/* JMI ???
+  // attach the articulations if any to the note
+//  attachCurrentArticulationsToNote (newNote);
+
   // attach the articulations if any to the note
   attachCurrentArticulationsToChord (fCurrentChord);
 
+/* JMI ???
   // attach the pending dynamics, if any, to the chord
   attachPendingDynamicsToChord (fCurrentChord);
 
@@ -4280,21 +4321,20 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
 
   // attach the pending wedges, if any, to the chord
   attachPendingWedgesToChord (fCurrentChord);
-*/
 
-  // move firstNote's articulations if any to the chord
+  // move newNote's articulations if any to the chord
   moveNoteArticulationsToChord (newNote, fCurrentChord);
   
-  // move the firstNote's dynamics if any from the first note to the chord
+  // move newNote's dynamics if any from the first note to the chord
   moveNoteDynamicsToChord (newNote, fCurrentChord);
   
-  // move the firstNote's words if any from the first note to the chord
+  // move newNote's words if any from the first note to the chord
   moveNoteWordsToChord (newNote, fCurrentChord);
   
-  // move the firstNote's wedges if any from the first note to the chord
+  // move newNote's wedges if any from the first note to the chord
   moveNoteWedgesToChord (newNote, fCurrentChord);
+*/
   
-
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -4343,7 +4383,7 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
     setNoteKind (msrNote::kTupletMemberNote);
 
   // attach the articulations if any to the note
-  attachCurrentArticulationsToNote (note);
+//  attachCurrentArticulationsToNote (note);
 
   // attach the pending dynamics, if any, to the note
   attachPendingDynamicsToNote (note);
@@ -4523,7 +4563,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     }
   
     // attach the articulations if any to the note
-    attachCurrentArticulationsToNote (newNote);
+//    attachCurrentArticulationsToNote (newNote);
   
     // attach the pending dynamics, if any, to the note
     attachPendingDynamicsToNote (newNote);
