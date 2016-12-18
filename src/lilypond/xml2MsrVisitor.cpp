@@ -3586,10 +3586,10 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
   chord->
     addNoteToChord (firstNote);
 
-/*
-  // move firstNote's articulations if any to the chord
-  moveNoteArticulationsToChord (firstNote, chord);
+  // copy firstNote's articulations if any to the chord
+  copyNoteArticulationsToChord (firstNote, chord);
   
+/*
   // move the firstNote's dynamics if any from the first note to the chord
   moveNoteDynamicsToChord (firstNote, chord);
   
@@ -3603,36 +3603,31 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
 }
 
 //______________________________________________________________________________
-void xml2MsrVisitor::moveNoteArticulationsToChord (
+void xml2MsrVisitor::copyNoteArticulationsToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // move note's articulations if any from the first note to chord
   
-  // don't use a local copy of the articulations list,
-  // but access it directly instead
-  
-  if (! note->getNoteArticulationsToModify ().empty()) {
- // JMI   if (fMsrOptions->fDebug)
+  list<S_msrArticulation>
+    noteArticulations =
+      note->
+        getNoteArticulations ();
+                          
+  list<S_msrArticulation>::const_iterator i;
+  for (
+    i=noteArticulations.begin();
+    i!=noteArticulations.end();
+    i++) {
+
+    // JMI   if (fMsrOptions->fDebug)
       cerr << idtr <<
-        "--> moving articulations from note " << note <<
+        "--> copying '" << (*i) <<
+        "' from note " << note <<
         " to chord" <<
         endl;
-        
-    while (! note->getNoteArticulationsToModify ().empty ()) {
-      S_msrArticulation
-        art = note->getNoteArticulationsToModify ().front ();
-        
-      // JMI   if (fMsrOptions->fDebug)
-        cerr << idtr <<
-          "--> moving '" << art <<
-          "' from note " << note <<
-          " to chord" <<
-          endl;
 
-      chord->addArticulationToChord (art);
-      note->getNoteArticulationsToModify ().pop_front ();
-    } // while
-  }
+    chord->addArticulationToChord ((*i));
+  } // for      
 }
 
 //______________________________________________________________________________
@@ -4306,11 +4301,8 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
     setNoteMeasureLocation (
       fCurrentChord->getChordMeasureLocation ());
 
-  // attach the articulations if any to the note
-//  attachCurrentArticulationsToNote (newNote);
-
-  // attach the articulations if any to the note
-  attachCurrentArticulationsToChord (fCurrentChord);
+  // copy newNote's articulations if any to the chord
+  copyNoteArticulationsToChord (newNote, fCurrentChord);
 
 /* JMI ???
   // attach the pending dynamics, if any, to the chord
@@ -4323,7 +4315,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
   attachPendingWedgesToChord (fCurrentChord);
 
   // move newNote's articulations if any to the chord
-  moveNoteArticulationsToChord (newNote, fCurrentChord);
+  copyNoteArticulationsToChord (newNote, fCurrentChord);
   
   // move newNote's dynamics if any from the first note to the chord
   moveNoteDynamicsToChord (newNote, fCurrentChord);
@@ -4381,9 +4373,6 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
   // register note as a tuplet member
   note->
     setNoteKind (msrNote::kTupletMemberNote);
-
-  // attach the articulations if any to the note
-//  attachCurrentArticulationsToNote (note);
 
   // attach the pending dynamics, if any, to the note
   attachPendingDynamicsToNote (note);
@@ -4561,10 +4550,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         currentVoice->getVoiceName () <<
         endl;
     }
-  
-    // attach the articulations if any to the note
-//    attachCurrentArticulationsToNote (newNote);
-  
+    
     // attach the pending dynamics, if any, to the note
     attachPendingDynamicsToNote (newNote);
 

@@ -654,6 +654,8 @@ class EXP msrArticulation : public msrElement
     // services
     // ------------------------------------------------------
 
+    string  articulationKindAsString () const;
+
     // visitors
     // ------------------------------------------------------
 
@@ -1508,9 +1510,8 @@ class EXP msrChord : public msrElement
 
     void          addNoteToChord (S_msrNote note);
 
-    void          addArticulationToChord (S_msrArticulation art)
-                      { fChordArticulations.push_back (art); }
-    
+    void          addArticulationToChord (S_msrArticulation art);
+     
     void          addDynamicsToChord (S_msrDynamics dyn)
                       { fChordDynamics.push_back (dyn); }
                     

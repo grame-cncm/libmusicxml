@@ -648,7 +648,7 @@ class EXP xml2MsrVisitor :
                                 S_msrNote note);
     void                      attachCurrentArticulationsToChord (
                                 S_msrChord chord);
-    void                      moveNoteArticulationsToChord (
+    void                      copyNoteArticulationsToChord (
                                 S_msrNote note, S_msrChord chord);
                                 
     // dynamics, words and wedges remain pending until the next note

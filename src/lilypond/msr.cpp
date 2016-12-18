@@ -454,6 +454,31 @@ msrArticulation::msrArticulation (
 
 msrArticulation::~msrArticulation() {}
 
+string msrArticulation::articulationKindAsString () const
+{
+  string result;
+  
+  switch (fArticulationKind) {
+    case kStaccato:
+      result = "Staccato";
+      break;
+    case kStaccatissimo:
+      result = "Staccatissimo";
+      break;
+    case kFermata:
+      result = "Fermata";
+      break;
+    case kTrill:
+      result = "Trill";
+      break;
+    case kArpeggiato:
+      result = "Arpeggiato";
+      break;
+  } // switch
+
+  return result;
+}
+
 void msrArticulation::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -499,26 +524,10 @@ ostream& operator<< (ostream& os, const S_msrArticulation& elt)
 
 void msrArticulation::print (ostream& os)
 {
-  os << "Articulation" << " ";
-
-  switch (fArticulationKind) {
-    case kStaccato:
-      os << "staccato";
-      break;
-    case kStaccatissimo:
-      os << "staccatissimo";
-      break;
-    case kFermata:
-      os << "fermata";
-      break;
-    case kTrill:
-      os << "trill";
-      break;
-    case kArpeggiato:
-      os << "arpeggiato";
-      break;
-  } // switch
-  os << endl;
+  os <<
+    "Articulation" << " " <<
+    articulationKindAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -1944,6 +1953,32 @@ void msrChord::addNoteToChord (S_msrNote note)
   fChordNotes.push_back (note);
   
   note->setNoteBelongsToAChord ();
+}
+
+void msrChord::addArticulationToChord (S_msrArticulation art)
+{
+  msrArticulation::msrArticulationKind
+    articulationKind =
+      art->
+        getArticulationKind ();
+
+  // don't add the same articulation several times
+  for (
+    list<S_msrArticulation>::const_iterator i = fChordArticulations.begin();
+    i!=fChordArticulations.end();
+    i++) {
+      if ((*i)->getArticulationKind () == articulationKind)
+        return;
+  } // for
+
+//  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> adding articulation '" <<
+      art->articulationKindAsString () <<
+      "' to chord" <<
+      endl;
+
+  fChordArticulations.push_back (art);
 }
 
 void msrChord::acceptIn (basevisitor* v) {
