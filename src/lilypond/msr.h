@@ -1505,6 +1505,10 @@ class EXP msrChord : public msrElement
                   getChordTieKind () const
                       { return fChordTieKind; }
 
+    const list<S_msrArticulation>&
+                  getChordArticulations () const
+                      { return fChordArticulations; }
+
     // services
     // ------------------------------------------------------
 

@@ -2140,6 +2140,40 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
     ">" <<
     elt->chordDivisionsAsMSRString () << " ";
 
+  // print the articulations if any
+  list<S_msrArticulation>
+    chordArticulations =
+      elt->getChordArticulations ();
+      
+  if (chordArticulations.size()) {
+    list<S_msrArticulation>::const_iterator i;
+    for (
+      i=chordArticulations.begin();
+      i!=chordArticulations.end();
+      i++) {
+        
+      switch ((*i)->getArticulationKind ()) {
+        case msrArticulation::kStaccato:
+          fOstream << "-.";
+          break;
+        case msrArticulation::kStaccatissimo:
+          fOstream << "-^";
+          break;
+        case msrArticulation::kFermata:
+          fOstream << "\\fermata";
+          break;
+        case msrArticulation::kTrill:
+          fOstream << "\\trill";
+          break;
+        case msrArticulation::kArpeggiato:
+          fOstream << "\\arpeggio";
+          break;
+      } // switch
+      
+      fOstream << " ";
+    } // for
+  }
+
   // print the tie if any
   if (
     elt->getChordTieKind ()

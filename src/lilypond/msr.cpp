@@ -1553,69 +1553,6 @@ string msrNote::notePitchAsString () const
   return s.str();
 }
 
-  /*
-    switch (fNoteMsrPitch) {
-      
-      case k_aeseh: s << "aeseh"; break;
-      case k_aes:   s << "aes"; break;
-      case k_aeh:   s << "aeh"; break;
-      case k_a:     s << "a"; break;
-      case k_aih:   s << "aih"; break;
-      case k_ais:   s << "ais"; break;
-      case k_aisih: s << "aisih"; break;
-        
-      case k_beseh: s << "beseh"; break;
-      case k_bes:   s << "bes"; break;
-      case k_beh:   s << "beh"; break;
-      case k_b:     s << "b"; break;
-      case k_bih:   s << "bih"; break;
-      case k_bis:   s << "bis"; break;
-      case k_bisih: s << "bisih"; break;
-        
-      case k_ceseh: s << "ceseh"; break;
-      case k_ces:   s << "ces"; break;
-      case k_ceh:   s << "ceh"; break;
-      case k_c:     s << "c"; break;
-      case k_cih:   s << "cih"; break;
-      case k_cis:   s << "cis"; break;
-      case k_cisih: s << "cisih"; break;
-        
-      case k_deseh: s << "deseh"; break;
-      case k_des:   s << "des"; break;
-      case k_deh:   s << "deh"; break;
-      case k_d:     s << "d"; break;
-      case k_dih:   s << "dih"; break;
-      case k_dis:   s << "dis"; break;
-      case k_disih: s << "disih"; break;
-  
-      case k_eeseh: s << "eeseh"; break;
-      case k_ees:   s << "ees"; break;
-      case k_eeh:   s << "eeh"; break;
-      case k_e:     s << "e"; break;
-      case k_eih:   s << "eih"; break;
-      case k_eis:   s << "eis"; break;
-      case k_eisih: s << "eisih"; break;
-        
-      case k_feseh: s << "feseh"; break;
-      case k_fes:   s << "fes"; break;
-      case k_feh:   s << "feh"; break;
-      case k_f:     s << "f"; break;
-      case k_fih:   s << "fih"; break;
-      case k_fis:   s << "fis"; break;
-      case k_fisih: s << "fisih"; break;
-        
-      case k_geseh: s << "geseh"; break;
-      case k_ges:   s << "ges"; break;
-      case k_geh:   s << "geh"; break;
-      case k_g:     s << "g"; break;
-      case k_gih:   s << "gih"; break;
-      case k_gis:   s << "gis"; break;
-      case k_gisih: s << "gisih"; break;
-      
-      default: s << "Note" << fNoteMsrPitch << "???";
-    } // switch
-    */
-
 string msrNote::noteDivisionsAsMSRString () const
 {
   string result;
@@ -1890,7 +1827,6 @@ void msrNote::print (ostream& os)
       default:
         os << idtr << "Slur" << fNoteSlurKind << "???";
     } // switch
-    os << endl;
     
     idtr--;
   }
@@ -1941,6 +1877,7 @@ S_msrChord msrChord::createEmptyChordClone ()
     
   clone->fChordTieKind = fChordTieKind;
 
+/* JMI
   // get the articulations if any
   if (fChordArticulations.size()) {
     list<S_msrArticulation>::const_iterator i;
@@ -1948,7 +1885,7 @@ S_msrChord msrChord::createEmptyChordClone ()
       clone->addArticulationToChord ((*i));
     } // for
   }
-  
+*/  
   return clone;
 }
     
@@ -7962,3 +7899,65 @@ void msrMidi::print (ostream& os)
   fLyricsTextPresent = true;
   */
 
+  /*
+    switch (fNoteMsrPitch) {
+      
+      case k_aeseh: s << "aeseh"; break;
+      case k_aes:   s << "aes"; break;
+      case k_aeh:   s << "aeh"; break;
+      case k_a:     s << "a"; break;
+      case k_aih:   s << "aih"; break;
+      case k_ais:   s << "ais"; break;
+      case k_aisih: s << "aisih"; break;
+        
+      case k_beseh: s << "beseh"; break;
+      case k_bes:   s << "bes"; break;
+      case k_beh:   s << "beh"; break;
+      case k_b:     s << "b"; break;
+      case k_bih:   s << "bih"; break;
+      case k_bis:   s << "bis"; break;
+      case k_bisih: s << "bisih"; break;
+        
+      case k_ceseh: s << "ceseh"; break;
+      case k_ces:   s << "ces"; break;
+      case k_ceh:   s << "ceh"; break;
+      case k_c:     s << "c"; break;
+      case k_cih:   s << "cih"; break;
+      case k_cis:   s << "cis"; break;
+      case k_cisih: s << "cisih"; break;
+        
+      case k_deseh: s << "deseh"; break;
+      case k_des:   s << "des"; break;
+      case k_deh:   s << "deh"; break;
+      case k_d:     s << "d"; break;
+      case k_dih:   s << "dih"; break;
+      case k_dis:   s << "dis"; break;
+      case k_disih: s << "disih"; break;
+  
+      case k_eeseh: s << "eeseh"; break;
+      case k_ees:   s << "ees"; break;
+      case k_eeh:   s << "eeh"; break;
+      case k_e:     s << "e"; break;
+      case k_eih:   s << "eih"; break;
+      case k_eis:   s << "eis"; break;
+      case k_eisih: s << "eisih"; break;
+        
+      case k_feseh: s << "feseh"; break;
+      case k_fes:   s << "fes"; break;
+      case k_feh:   s << "feh"; break;
+      case k_f:     s << "f"; break;
+      case k_fih:   s << "fih"; break;
+      case k_fis:   s << "fis"; break;
+      case k_fisih: s << "fisih"; break;
+        
+      case k_geseh: s << "geseh"; break;
+      case k_ges:   s << "ges"; break;
+      case k_geh:   s << "geh"; break;
+      case k_g:     s << "g"; break;
+      case k_gih:   s << "gih"; break;
+      case k_gis:   s << "gis"; break;
+      case k_gisih: s << "gisih"; break;
+      
+      default: s << "Note" << fNoteMsrPitch << "???";
+    } // switch
+    */
