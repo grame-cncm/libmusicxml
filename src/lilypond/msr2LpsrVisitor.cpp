@@ -846,7 +846,7 @@ void msr2LpsrVisitor::visitStart (S_msrChord& elt)
       "--> Start visiting msrChord" << endl;
 
   fCurrentChordClone =
-    elt->createEmptyClone ();
+    elt->createEmptyChordClone ();
 
   // appending the chord to the voice at once
   fCurrentVoiceClone->

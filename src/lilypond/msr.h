@@ -1450,7 +1450,7 @@ class EXP msrChord : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    SMARTP<msrChord> createEmptyClone ();
+    SMARTP<msrChord> createEmptyChordClone ();
 
   protected:
 

@@ -3621,8 +3621,9 @@ void xml2MsrVisitor::copyNoteArticulationsToChord (
 
     // JMI   if (fMsrOptions->fDebug)
       cerr << idtr <<
-        "--> copying '" << (*i) <<
-        "' from note " << note <<
+        "--> copying articulation '" <<
+        (*i)->articulationKindAsString () <<
+        "' from note " << note->noteAsString () <<
         " to chord" <<
         endl;
 
@@ -3867,8 +3868,9 @@ void xml2MsrVisitor::attachCurrentArticulationsToNote (
         
 //    if (fMsrOptions->fDebug)
       cerr << idtr <<
-        "--> attaching articulation " << art << " to note " <<
-        note <<
+        "--> attaching articulation '" <<
+        art->articulationKindAsString () <<
+        "' to note " << note->noteAsString () <<
         endl;
 
     note->

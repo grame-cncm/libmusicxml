@@ -1922,7 +1922,7 @@ msrChord::msrChord (
 
 msrChord::~msrChord() {}
 
-S_msrChord msrChord::createEmptyClone ()
+S_msrChord msrChord::createEmptyChordClone ()
 {
   S_msrChord
     clone =
@@ -1940,6 +1940,14 @@ S_msrChord msrChord::createEmptyClone ()
     setChordMeasureLocation (fChordMeasureLocation);
     
   clone->fChordTieKind = fChordTieKind;
+
+  // get the articulations if any
+  if (fChordArticulations.size()) {
+    list<S_msrArticulation>::const_iterator i;
+    for (i=fChordArticulations.begin(); i!=fChordArticulations.end(); i++) {
+      clone->addArticulationToChord ((*i));
+    } // for
+  }
   
   return clone;
 }
@@ -2131,42 +2139,34 @@ void msrChord::print (ostream& os)
   
   // print the articulations if any
   if (fChordArticulations.size()) {
-    idtr++;
     list<S_msrArticulation>::const_iterator i;
     for (i=fChordArticulations.begin(); i!=fChordArticulations.end(); i++) {
       os << idtr << (*i);
     } // for
-    idtr--;
   }
 
   // print the dynamics if any
   if (fChordDynamics.size()) {
-    idtr++;
     list<S_msrDynamics>::const_iterator i;
     for (i=fChordDynamics.begin(); i!=fChordDynamics.end(); i++) {
       os << idtr << (*i);
     } // for
-    idtr--;
   }
 
   // print the words if any
   if (fChordWords.size()) {
-    idtr++;
     list<S_msrWords>::const_iterator i;
     for (i=fChordWords.begin(); i!=fChordWords.end(); i++) {
       os << idtr << (*i);
     } // for
-    idtr--;
   }
 
   // print the wedges if any
   if (fChordWedges.size()) {
-    idtr++;
     list<S_msrWedge>::const_iterator i;
     for (i=fChordWedges.begin(); i!=fChordWedges.end(); i++) {
       os << idtr << (*i);
     } // for
-    idtr--;
   }
 
   idtr--;
