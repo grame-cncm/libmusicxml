@@ -1661,6 +1661,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrArticulation& elt)
     fOstream << idtr <<
       "% --> Start visiting msrArticulation" << endl;
 
+  // don't generate the articulation now,
+  // the note or chord will do it in its visitEnd() method
+
+  /* JMI
   switch (elt->getArticulationKind ()) {
     case msrArticulation::kStaccato:
       fOstream << "-.";
@@ -1675,10 +1679,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrArticulation& elt)
       fOstream << "\\trill";
       break;
     case msrArticulation::kArpeggiato:
-      fOstream << "\\arpeggio";
+      fOstream << "\\arpeggio YYY";
       break;
   } // switch
   fOstream << " ";
+  */
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrArticulation& elt)
@@ -2030,6 +2035,47 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
       break;
   } // switch
 
+  // print the articulations if any
+  list<S_msrArticulation>
+    noteArticulations =
+      elt->getNoteArticulations ();
+      
+  if (noteArticulations.size()) {
+    list<S_msrArticulation>::const_iterator i;
+    for (
+      i=noteArticulations.begin();
+      i!=noteArticulations.end();
+      i++) {
+        
+      switch ((*i)->getArticulationKind ()) {
+        case msrArticulation::kStaccato:
+          fOstream << "-.";
+          break;
+        case msrArticulation::kStaccatissimo:
+          fOstream << "-^";
+          break;
+        case msrArticulation::kFermata:
+          fOstream << "\\fermata";
+          break;
+        case msrArticulation::kTrill:
+          fOstream << "\\trill";
+          break;
+        case msrArticulation::kArpeggiato:
+          fOstream << "\\arpeggio";
+          break;
+      } // switch
+      
+      fOstream << " ";
+    } // for
+  }
+
+  // print the tie if any
+  if (
+    elt->getNoteTieKind ()
+      ==
+    msrMusicXMLNoteData::kStartTie) {
+      fOstream << "~ ";
+  }
   switch (elt->getNoteSlurKind ()) {
     case msrSlur::kStartSlur:
       fOstream << "( ";
