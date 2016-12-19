@@ -306,7 +306,7 @@ ostream& operator<< (ostream& os, const S_msrOctaveShift& beam)
   return os;
 }
 
-string msrOctaveShift::octaveShiftAsString () const
+string msrOctaveShift::octaveShiftKindAsString () const
 {
   string result;
   
@@ -334,7 +334,8 @@ void msrOctaveShift::print (ostream& os)
   
   os <<
     "OctaveShift" <<
-    ", kind: " << octaveShiftAsString () <<
+    ", kind: " << octaveShiftKindAsString () <<
+    ", size: " << fOctaveShiftSize <<
     endl;
 
   idtr--;
@@ -5767,8 +5768,10 @@ void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending octave shift '" << octaveShift->octaveShiftAsString () <<
-      "' to voice " << getVoiceName () << endl;
+      "Appending octave shift '" <<
+      octaveShift->octaveShiftKindAsString () <<
+      "', size: " << octaveShift->getOctaveShiftSize () <<
+      " to voice " << getVoiceName () << endl;
 
   S_msrElement o = octaveShift;
   fVoicechunk->

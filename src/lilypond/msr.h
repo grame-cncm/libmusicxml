@@ -540,7 +540,7 @@ class EXP msrOctaveShift : public msrElement
     // services
     // ------------------------------------------------------
 
-    string              octaveShiftAsString () const;
+    string              octaveShiftKindAsString () const;
 
     // visitors
     // ------------------------------------------------------
