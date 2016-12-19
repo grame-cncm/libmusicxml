@@ -1330,6 +1330,19 @@ void xml2MsrVisitor::visitStart (S_octave_shift& elt)
 */
   int    size = elt->getAttributeIntValue ("size", 0);
 
+  if (size != 8 && size != 15) {
+    stringstream s;
+    
+    s <<
+      "octave shift size \"" << size <<
+      "\"" << "is unknown";
+      
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      s.str());
+  }
+
   string type = elt->getAttributeValue ("type");
 
   msrOctaveShift::msrOctaveShiftKind octaveShiftKind;
@@ -1376,17 +1389,6 @@ void xml2MsrVisitor::visitStart (S_octave_shift& elt)
   // append octave shift to the current voice
   currentVoice->
     appendOctaveShiftToVoice (octaveShift);
-
-  switch (octaveShiftKind) { // JMI
-    
-    case msrOctaveShift::kOctaveShiftUp:
-    case msrOctaveShift::kOctaveShiftDown:
-
-      break;
-      
-    case msrOctaveShift::kOctaveShiftStop:
-      break;
-  } // switch
 }
 
 void xml2MsrVisitor::visitStart (S_words& elt)

@@ -311,9 +311,6 @@ string msrOctaveShift::octaveShiftKindAsString () const
   string result;
   
   switch (fOctaveShiftKind) {
-    case k_NoOctaveShift:
-      result = "none";
-      break;
     case kOctaveShiftUp:
       result = "up";
       break;

@@ -301,9 +301,6 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    void      changeAssocValue (string value)
-                  { fVariableValue = value; }
-
     lpsrCommentedKind
               getCommentedKind () const
                   { return fCommentedKind; };
@@ -339,6 +336,13 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
 
     // services
     // ------------------------------------------------------
+
+    void      changeAssocVariableName (string name)
+                  { fVariableName = name; }
+
+    void      changeAssocVariableValue (string value)
+                  { fVariableValue = value; }
+
 
     // visitors
     // ------------------------------------------------------
@@ -1138,6 +1142,9 @@ class EXP lpsrHeader : public lpsrElement
     // ------------------------------------------------------
 
     int         maxLilyPondVariablesNamesLength ();
+
+    void        changeWorkTitleVariableName (string name);
+    void        changeMovementTitleVariableName (string name);
 
     // visitors
     // ------------------------------------------------------

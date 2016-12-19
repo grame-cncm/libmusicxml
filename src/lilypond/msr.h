@@ -503,7 +503,6 @@ class EXP msrOctaveShift : public msrElement
   public:
 
     enum msrOctaveShiftKind {
-      k_NoOctaveShift,
       kOctaveShiftUp, kOctaveShiftDown,
       kOctaveShiftStop};
 

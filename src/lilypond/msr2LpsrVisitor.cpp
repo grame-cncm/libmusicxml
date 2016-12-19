@@ -45,7 +45,10 @@ msr2LpsrVisitor::msr2LpsrVisitor (
  // gCurrentLocation.fPositionInMeasure = 1;
 
   fOnGoingIdentification = false;
-  
+
+  fWorkTitleKnown        = false;
+  fMovementTitleKnown    = false;
+
   fOnGoingStaff          = false;
 
   fOnGoingNote           = false;
@@ -99,6 +102,20 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrScore" << endl;
+
+  // fetch score header
+  S_lpsrHeader
+    header =
+      fLpsrScore-> getHeader();
+
+  if (fWorkTitleKnown && fMovementTitleKnown) {
+    // we have the title and subtitle available
+    header->
+      changeWorkTitleVariableName ("title");
+    header->
+      changeMovementTitleVariableName ("subtitle");
+  }
+
 
 /* JMI
   // get top level pargroup command from the stack
@@ -830,6 +847,24 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrVisitor::visitStart (S_msrOctaveShift& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrOctaveShift" << endl;
+
+  fCurrentVoiceClone->
+    appendOctaveShiftToVoice (elt);
+}
+
+void msr2LpsrVisitor::visitEnd (S_msrOctaveShift& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrOctaveShift" << endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrStem& elt)
 {
   if (fMsrOptions->fDebug)
@@ -1388,44 +1423,58 @@ void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
     variableValueAux.end(),
     stringQuoteEscaper (variableValue));
 
-  if (variableName == "work-number")
+  if      (variableName == "work-number") {
     fLpsrScore->
       getHeader()->setWorkNumber (
         inputLineNumber, variableValue);
-  else
-  if (variableName == "work-title")
+  }
+  
+  else if (variableName == "work-title") {
     fLpsrScore->
       getHeader()->setWorkTitle (
         inputLineNumber, variableValue);
-  else
-  if (variableName == "movement-number")
+        
+    fWorkTitleKnown = true;
+  }
+  
+  else if (variableName == "movement-number") {
     fLpsrScore->
       getHeader()->setMovementNumber (
         inputLineNumber, variableValue);
-  else
-  if (variableName == "movement-title")
+  }
+  
+  else if (variableName == "movement-title") {
     fLpsrScore->
       getHeader()->setMovementTitle (
         inputLineNumber, variableValue);
-  else
-  if (variableName == "creator")
+        
+    fMovementTitleKnown = true;
+  }
+  
+  else if (variableName == "creator") {
     fLpsrScore->
       getHeader()->addCreator (
         inputLineNumber, variableName, variableValue);
-  if (variableName == "rights")
+  }
+
+
+  if (variableName == "rights") {
     fLpsrScore->
       getHeader()->setRights (
         inputLineNumber, variableValue);
-  else
-  if (variableName == "software")
+  }
+  
+  else if (variableName == "software") {
     fLpsrScore->
       getHeader()->addSoftware (
         inputLineNumber, variableValue);
-  else
-  if (variableName == "encoding-date")
+  }
+  
+  else if (variableName == "encoding-date") {
     fLpsrScore->
       getHeader()->setEncodingDate (
         inputLineNumber, variableValue);
+  }
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrVarValAssoc& elt)

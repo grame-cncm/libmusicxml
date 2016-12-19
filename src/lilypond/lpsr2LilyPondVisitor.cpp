@@ -359,9 +359,11 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrLilypondVarValAssoc& elt)
     case lpsrLilypondVarValAssoc::kWithEndl:
       fOstream << endl;
       break;
+      
     case lpsrLilypondVarValAssoc::kWithEndlTwice:
       fOstream << endl << endl;
       break;
+      
     case lpsrLilypondVarValAssoc::kWithoutEndl:
       break;
   } // switch
@@ -2094,6 +2096,53 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrOctaveShift& elt)
+{
+ // if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrOctaveShift" << endl;
+
+  int octaveShiftSize =
+    elt->getOctaveShiftSize ();
+
+  string sign;
+  
+  if (octaveShiftSize < 0)
+    sign = "-";
+
+  int octaveNumber;
+
+  if (octaveShiftSize == 8)
+    octaveNumber = 1;
+  else if (octaveNumber == 15)
+    octaveNumber = 2;
+    
+  fOstream <<
+    "\\ottava #" << sign;
+    
+  switch (elt->getOctaveShiftKind ()) {
+    case msrOctaveShift::kOctaveShiftUp:
+      fOstream << octaveNumber;
+      break;
+    case msrOctaveShift::kOctaveShiftDown:
+      fOstream << octaveNumber;
+      break;
+    case msrOctaveShift::kOctaveShiftStop:
+      fOstream << 0;
+      break;
+  } // switch
+  
+  fOstream << " ";
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrOctaveShift& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrOctaveShift" << endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrStem& elt)
 {
   if (fMsrOptions->fDebug)
@@ -2345,7 +2394,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
     case msrBarline::kHookedEndingEnd:
     case msrBarline::kHooklessEndingEnd:
       // should not occur, since
-      // LilyPond will take care of the repeat display
+      // LilyPond will take care of displaying the repeat
       break;
 
   } // switch

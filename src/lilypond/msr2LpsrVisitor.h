@@ -73,6 +73,7 @@ class msr2LpsrVisitor :
   public visitor<S_msrGraceexpression>,
   
   public visitor<S_msrNote>,
+  public visitor<S_msrOctaveShift>,
   
   public visitor<S_msrStem>,
   public visitor<S_msrBeam>,
@@ -182,6 +183,9 @@ class msr2LpsrVisitor :
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
 
+    virtual void visitStart (S_msrOctaveShift& elt);
+    virtual void visitEnd   (S_msrOctaveShift& elt);
+
     virtual void visitStart (S_msrStem& elt);
     virtual void visitEnd   (S_msrStem& elt);
 
@@ -251,6 +255,11 @@ class msr2LpsrVisitor :
     // identification
     // ------------------------------------------------------
     bool                      fOnGoingIdentification;
+
+    // header
+    // ------------------------------------------------------
+    bool                      fWorkTitleKnown;
+    bool                      fMovementTitleKnown;
 
     // page geometry
     // ------------------------------------------------------

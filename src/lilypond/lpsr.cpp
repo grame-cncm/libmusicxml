@@ -1489,6 +1489,16 @@ void lpsrHeader::setScoreInstrument (
       lpsrLilypondVarValAssoc::kWithoutEndl);
 }
 
+void lpsrHeader::changeWorkTitleVariableName (string name)
+{
+  fWorkTitle->changeAssocVariableName (name);
+}
+
+void lpsrHeader::changeMovementTitleVariableName (string name)
+{
+  fMovementTitle->changeAssocVariableName (name);
+}
+
 int lpsrHeader::maxLilyPondVariablesNamesLength ()
 {
   int result = 0;

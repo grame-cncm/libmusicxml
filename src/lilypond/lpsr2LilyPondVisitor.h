@@ -262,6 +262,9 @@ class lpsr2LilyPondVisitor :
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
 
+    virtual void visitStart (S_msrOctaveShift& elt);
+    virtual void visitEnd   (S_msrOctaveShift& elt);
+
     virtual void visitStart (S_msrStem& elt);
     virtual void visitEnd   (S_msrStem& elt);
 
