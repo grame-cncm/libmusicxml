@@ -498,6 +498,69 @@ class musicXMLBeatData // JMI ???
 
 //______________________________________________________________________________
 
+class EXP msrOctaveShift : public msrElement
+{
+  public:
+
+    enum msrOctaveShiftKind {
+      k_NoOctaveShift,
+      kOctaveShiftUp, kOctaveShiftDown,
+      kOctaveShiftStop};
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrOctaveShift> create (
+      S_msrOptions&      msrOpts, 
+      int                inputLineNumber,
+      msrOctaveShiftKind octaveShiftKind,
+      int                octaveShiftSize);
+
+  protected:
+
+    msrOctaveShift (
+      S_msrOptions&      msrOpts, 
+      int                inputLineNumber,
+      msrOctaveShiftKind octaveShiftKind,
+      int                octaveShiftSize);
+      
+    virtual ~msrOctaveShift();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrOctaveShiftKind  getOctaveShiftKind () const
+                            { return fOctaveShiftKind; }
+
+    int                 getOctaveShiftSize () const
+                            { return fOctaveShiftSize; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrOctaveShiftKind fOctaveShiftKind;
+
+    int                fOctaveShiftSize;
+};
+typedef SMARTP<msrOctaveShift> S_msrOctaveShift;
+EXP ostream& operator<< (ostream& os, const S_msrOctaveShift& elt);
+
+//______________________________________________________________________________
+
 class EXP msrStem : public msrElement
 {
   public:
@@ -505,7 +568,6 @@ class EXP msrStem : public msrElement
     enum msrStemKind {
       k_NoStem,
       kStemUp, kStemDown};
-
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -1270,6 +1332,14 @@ class EXP msrNote : public msrElement
                           fMusicXMLNoteData.fDiatonicPitch;
                       }
 
+    // octave shifts
+    void          setOctaveShift (S_msrOctaveShift stem)
+                      { fNoteOctaveShift = stem; }
+
+    S_msrOctaveShift
+                  getNoteOctaveShift () const
+                      { return fNoteOctaveShift; }
+
     // stems
     void          setStem (S_msrStem stem)
                       { fNoteStem = stem; }
@@ -1414,6 +1484,8 @@ class EXP msrNote : public msrElement
 
     msrNoteKind               fNoteKind;
 
+    S_msrOctaveShift          fNoteOctaveShift;
+    
     S_msrStem                 fNoteStem;
 
     S_msrBeam                 fNoteBeam;

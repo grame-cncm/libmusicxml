@@ -52,7 +52,7 @@ xml2MsrVisitor::xml2MsrVisitor (
     msrScore::create (fMsrOptions, 0);
 
   fCurrentWordsContents = "";
-  
+
   fCurrentTimeStaffNumber = 1; // it may be absent
 
   fCurrentForwardVoiceNumber = 1; // JMI
@@ -1321,6 +1321,57 @@ void xml2MsrVisitor::visitStart (S_direction& elt)
 void xml2MsrVisitor::visitStart (S_direction_type& elt)
 {
   fOnGoingDirectionType = true;
+}
+
+void xml2MsrVisitor::visitStart (S_octave_shift& elt)
+{
+/*
+        <octave-shift dash-length="7.5" default-y="33" size="8" space-length="7.5" type="down"/>
+*/
+  int    size = elt->getAttributeIntValue ("size", 0);
+
+  string type = elt->getAttributeValue ("type");
+
+  msrOctaveShift::msrOctaveShiftKind octaveShiftKind;
+  
+  if      (type == "up")
+    octaveShiftKind = msrOctaveShift::kOctaveShiftUp;
+    
+  else if (type == "down")
+    octaveShiftKind = msrOctaveShift::kOctaveShiftDown;
+    
+  else if (type == "stop")
+    octaveShiftKind = msrOctaveShift::kOctaveShiftStop;
+    
+  else {
+    stringstream s;
+    
+    s <<
+      "octave shift type \"" << type <<
+      "\"" << "is unknown";
+      
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      s.str());
+  }
+
+  switch (octaveShiftKind) {
+    
+    case msrOctaveShift::kOctaveShiftUp:
+    case msrOctaveShift::kOctaveShiftDown:
+      fCurrentOctaveShift =
+        msrOctaveShift::create (
+          fMsrOptions,
+          elt->getInputLineNumber (),
+          octaveShiftKind,
+          size);
+      break;
+      
+    case msrOctaveShift::kOctaveShiftStop:
+      fCurrentOctaveShift = 0;
+      break;
+  } // switch
 }
 
 void xml2MsrVisitor::visitStart (S_words& elt)
@@ -4156,7 +4207,12 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       currentVoice-> getDivisionsPerWholeNote ());
   
   // set its stem if any
-  if (fCurrentBeam)
+  if (fCurrentOctaveShift)
+    note->
+      setOctaveShift (fCurrentOctaveShift);
+
+  // set its stem if any
+  if (fCurrentStem)
     note->
       setStem (fCurrentStem);
 

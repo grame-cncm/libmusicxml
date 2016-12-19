@@ -134,6 +134,7 @@ class EXP xml2MsrVisitor :
   public visitor<S_direction>,
   public visitor<S_direction_type>,
   public visitor<S_words>,
+  public visitor<S_octave_shift>,
   
   public visitor<S_metronome>,
   public visitor<S_beat_unit>,
@@ -302,6 +303,7 @@ class EXP xml2MsrVisitor :
     virtual void visitEnd   ( S_direction& elt );
     virtual void visitStart ( S_direction_type& elt );
     virtual void visitStart ( S_words& elt );
+    virtual void visitStart ( S_octave_shift& elt );
     
     virtual void visitStart ( S_metronome& elt );
     virtual void visitEnd   ( S_metronome& elt );
@@ -512,6 +514,9 @@ class EXP xml2MsrVisitor :
 
     msrWords::msrWordsPlacementKind
                               fCurrentWordsPlacementKind; // JMI
+
+    S_msrOctaveShift          fCurrentOctaveShift;
+
     bool                      fOnGoingDirectionType;
   
     // metronome handling

@@ -236,6 +236,104 @@ void musicXMLBeatData::print (ostream& os)
 };
 
 //______________________________________________________________________________
+S_msrOctaveShift msrOctaveShift::create (
+  S_msrOptions&      msrOpts, 
+  int                inputLineNumber,
+  msrOctaveShiftKind octaveShiftKind,
+  int                octaveShiftSize)
+{
+  msrOctaveShift* o =
+    new msrOctaveShift (
+      msrOpts, inputLineNumber, octaveShiftKind, octaveShiftSize);
+  assert(o!=0);
+  return o;
+}
+
+msrOctaveShift::msrOctaveShift (
+  S_msrOptions&      msrOpts, 
+  int                inputLineNumber,
+  msrOctaveShiftKind octaveShiftKind,
+  int                octaveShiftSize)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fOctaveShiftKind = octaveShiftKind;
+
+  fOctaveShiftSize = octaveShiftSize;
+}
+
+msrOctaveShift::~msrOctaveShift() {}
+
+void msrOctaveShift::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrOctaveShift::acceptIn()" << endl;
+      
+  if (visitor<S_msrOctaveShift>*
+    p =
+      dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
+        S_msrOctaveShift elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrOctaveShift::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrOctaveShift::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrOctaveShift::acceptOut()" << endl;
+
+  if (visitor<S_msrOctaveShift>*
+    p =
+      dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
+        S_msrOctaveShift elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrOctaveShift::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrOctaveShift::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrOctaveShift& beam)
+{
+  beam->print (os);
+  return os;
+}
+
+void msrOctaveShift::print (ostream& os)
+{
+  idtr++;
+  
+  os <<
+    "OctaveShift" <<
+    ", kind: ";
+
+  switch (fOctaveShiftKind) {
+    case k_NoOctaveShift:
+      os << "none";
+      break;
+    case kOctaveShiftUp:
+      os << "up";
+      break;
+    case kOctaveShiftDown:
+      os << "down";
+      break;
+    case kOctaveShiftStop:
+      os << "stop";
+      break;
+  } // switch
+  os << endl;
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_msrStem msrStem::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
@@ -1144,6 +1242,8 @@ S_msrNote msrNote::createBareNoteClone ()
 
   clone->fNoteKind = fNoteKind;
   
+  clone->fNoteOctaveShift = fNoteOctaveShift;
+  
   clone->fNoteStem = fNoteStem;  
   clone->fNoteBeam = fNoteBeam;  
 
@@ -1420,6 +1520,12 @@ void msrNote::acceptOut (basevisitor* v)
 
 void msrNote::browseData (basevisitor* v)
 {
+  if (fNoteOctaveShift) {
+    // browse the octave shift
+    msrBrowser<msrOctaveShift> browser (v);
+    browser.browse (*fNoteOctaveShift);
+  }
+
   if (fNoteStem) {
     // browse the stem
     msrBrowser<msrStem> browser (v);
@@ -1752,16 +1858,28 @@ void msrNote::print (ostream& os)
         */
     endl;
 
-  // print the stem if any
-  if (fNoteBeam) {
+  // print the octave shift if any
+  if (fNoteOctaveShift) {
+    idtr++;
     os <<
-      idtr << fNoteBeam;
+      idtr << fNoteOctaveShift;
+    idtr--;
+  }
+
+  // print the stem if any
+  if (fNoteStem) {
+    idtr++;
+    os <<
+      idtr << fNoteStem;
+    idtr--;
   }
 
   // print the beam if any
   if (fNoteBeam) {
+    idtr++;
     os <<
       idtr << fNoteBeam;
+    idtr--;
   }
     
   // print the articulations if any
@@ -1835,20 +1953,23 @@ void msrNote::print (ostream& os)
   // print the slur if any
   if (fNoteSlurKind != msrSlur::k_NoSlur) { // JMI
     idtr++;
-    
+
+    os <<
+      idtr << "Slur, kind: ";
     switch (fNoteSlurKind) {
       case msrSlur::kStartSlur:
-        os << idtr << "Slur start";
+        os << "start";
         break;
       case msrSlur::kContinueSlur:
-        os << idtr << "Slur continue";
+        os << "continue";
         break;
       case msrSlur::kStopSlur:
-        os << idtr << "Slur stop";
+        os << "stop";
         break;
       default:
-        os << idtr << "Slur" << fNoteSlurKind << "???";
+        os << fNoteSlurKind << "???";
     } // switch
+    os << endl;
     
     idtr--;
   }
@@ -3494,8 +3615,7 @@ void msrWords::print (ostream& os)
       endl <<
     idtr <<
       setw(16) << "WordsFontXMLLang" << " = " << fWordsFontXMLLang <<
-      endl <<
-    endl;
+      endl;
   
   idtr--;
 }
