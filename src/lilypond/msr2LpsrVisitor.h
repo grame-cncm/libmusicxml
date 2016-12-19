@@ -297,6 +297,11 @@ class msr2LpsrVisitor :
     // ------------------------------------------------------
     S_msrLyricschunk          fCurrentLyricschunkClone;
 
+    // notes
+    // ------------------------------------------------------
+    bool                      fOnGoingNote;
+    S_msrNote                 fCurrentNoteClone;
+
     // stems
     // ------------------------------------------------------
     S_msrStem                 fCurrentStem;
@@ -307,6 +312,7 @@ class msr2LpsrVisitor :
     
     // chords
     // ------------------------------------------------------
+    bool                      fOnGoingChord;
     S_msrChord                fCurrentChordClone;
     
     // tuplets

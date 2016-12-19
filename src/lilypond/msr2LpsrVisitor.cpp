@@ -48,6 +48,9 @@ msr2LpsrVisitor::msr2LpsrVisitor (
   
   fOnGoingStaff          = false;
 
+  fOnGoingNote           = false;
+  fOnGoingChord          = false;
+  
   fOnGoingRepeat         = false;
 };
   
@@ -627,6 +630,17 @@ void msr2LpsrVisitor::visitStart (S_msrArticulation& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrArticulation" << endl;
+
+  if (fOnGoingNote) {
+    // don't add articulations to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addArticulationToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addArticulationToChord (elt);
+  }
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrArticulation& elt)
@@ -734,6 +748,11 @@ void msr2LpsrVisitor::visitStart (S_msrNote& elt)
     } // switch
     fOstream << " msrNote" << endl;
   }
+
+  fCurrentNoteClone =
+    elt->createBareNoteClone ();
+    
+  fOnGoingNote = true;
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
@@ -761,22 +780,18 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
     fOstream << " msrNote" << endl;
   }
 
-  S_msrNote
-    noteClone =
-      elt->createBareNoteClone ();
-      
-  switch (noteClone->getNoteKind ()) {
+  switch (fCurrentNoteClone->getNoteKind ()) {
     
     case msrNote::kStandaloneNote:
       if (fMsrOptions->fDebug) {
         cerr << idtr <<
           "--> appending " <<
-          noteClone->noteAsString () << " to voice " <<
+          fCurrentNoteClone->noteAsString () << " to voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
       }
           
       fCurrentVoiceClone->
-        appendNoteToVoice (noteClone);
+        appendNoteToVoice (fCurrentNoteClone);
       break;
       
     case msrNote::kGraceNote:
@@ -784,32 +799,34 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
       if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
         cerr <<  idtr <<
           "--> appending note " <<
-          noteClone->notePitchAsString () <<
-          ":" << noteClone->getNoteMusicXMLDivisions () <<
+          fCurrentNoteClone->notePitchAsString () <<
+          ":" << fCurrentNoteClone->getNoteMusicXMLDivisions () <<
           " to the grace expression in voice " <<
           fCurrentVoiceClone->getVoiceName () <<
           endl;
       }
       */
       fCurrentGraceexpressionClone->
-        appendNoteToGraceexpression (noteClone);
+        appendNoteToGraceexpression (fCurrentNoteClone);
       break;
       
     case msrNote::kRestNote:
       fCurrentVoiceClone->
-        appendNoteToVoice (noteClone);
+        appendNoteToVoice (fCurrentNoteClone);
       break;
       
     case msrNote::kChordMemberNote:
       fCurrentChordClone->
-        addNoteToChord (noteClone);
+        addNoteToChord (fCurrentNoteClone);
       break;
       
     case msrNote::kTupletMemberNote:
       fTupletClonesStack.top ()->
-        addElementToTuplet (noteClone);
+        addElementToTuplet (fCurrentNoteClone);
       break;
   } // switch
+
+  fOnGoingNote = false;
 }
 
 //________________________________________________________________________
@@ -855,6 +872,8 @@ void msr2LpsrVisitor::visitStart (S_msrChord& elt)
   // appending the chord to the voice at once
   fCurrentVoiceClone->
     appendChordToVoice (fCurrentChordClone);
+
+  fOnGoingChord = true;
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrChord& elt)
@@ -862,6 +881,8 @@ void msr2LpsrVisitor::visitEnd (S_msrChord& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrChord" << endl;
+
+  fOnGoingChord = false;
 }
 
 //________________________________________________________________________
