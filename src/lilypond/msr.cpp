@@ -1132,6 +1132,28 @@ S_msrNote msrNote::createRest (
   return o;
 }    
 
+S_msrNote msrNote::createBareNoteClone ()
+{
+  S_msrNote
+    clone =
+      msrNote::createFromMusicXMLData (
+        fMsrOptions,
+        fInputLineNumber,
+        fMusicXMLNoteData,
+        fNoteSlurKind);
+
+  clone->fNoteKind = fNoteKind;
+  
+  clone->fNoteStem = fNoteStem;  
+  clone->fNoteBeam = fNoteBeam;  
+
+  clone->fDivisionsPerWholeNote = fDivisionsPerWholeNote;
+  
+  clone->fNoteMeasureLocation = fNoteMeasureLocation;  
+
+  return clone;
+}
+
 msrNote::msrNote (
   S_msrOptions&        msrOpts,
   int                  inputLineNumber,
@@ -1877,7 +1899,7 @@ S_msrChord msrChord::createEmptyChordClone ()
     
   clone->fChordTieKind = fChordTieKind;
 
-/* JMI
+/*
   // get the articulations if any
   if (fChordArticulations.size()) {
     list<S_msrArticulation>::const_iterator i;
@@ -1885,7 +1907,8 @@ S_msrChord msrChord::createEmptyChordClone ()
       clone->addArticulationToChord ((*i));
     } // for
   }
-*/  
+*/
+
   return clone;
 }
     

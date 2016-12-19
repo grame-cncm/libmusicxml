@@ -761,18 +761,22 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
     fOstream << " msrNote" << endl;
   }
 
-  switch (elt->getNoteKind ()) {
+  S_msrNote
+    noteClone =
+      elt->createBareNoteClone ();
+      
+  switch (noteClone->getNoteKind ()) {
     
     case msrNote::kStandaloneNote:
       if (fMsrOptions->fDebug) {
         cerr << idtr <<
           "--> appending " <<
-          elt->noteAsString () << " to voice " <<
+          noteClone->noteAsString () << " to voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
       }
           
       fCurrentVoiceClone->
-        appendNoteToVoice (elt);
+        appendNoteToVoice (noteClone);
       break;
       
     case msrNote::kGraceNote:
@@ -780,30 +784,30 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
       if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
         cerr <<  idtr <<
           "--> appending note " <<
-          elt->notePitchAsString () <<
-          ":" << elt->getNoteMusicXMLDivisions () <<
+          noteClone->notePitchAsString () <<
+          ":" << noteClone->getNoteMusicXMLDivisions () <<
           " to the grace expression in voice " <<
           fCurrentVoiceClone->getVoiceName () <<
           endl;
       }
       */
       fCurrentGraceexpressionClone->
-        appendNoteToGraceexpression (elt);
+        appendNoteToGraceexpression (noteClone);
       break;
       
     case msrNote::kRestNote:
       fCurrentVoiceClone->
-        appendNoteToVoice (elt);
+        appendNoteToVoice (noteClone);
       break;
       
     case msrNote::kChordMemberNote:
       fCurrentChordClone->
-        addNoteToChord (elt);
+        addNoteToChord (noteClone);
       break;
       
     case msrNote::kTupletMemberNote:
       fTupletClonesStack.top ()->
-        addElementToTuplet (elt);
+        addElementToTuplet (noteClone);
       break;
   } // switch
 }

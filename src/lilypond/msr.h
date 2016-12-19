@@ -1183,6 +1183,8 @@ class EXP msrNote : public msrElement
         int                  inputLineNumber,
         msrMusicXMLNoteData& musicXMLNoteData,
         msrSlur::msrSlurKind slurKind);
+
+    SMARTP<msrNote> createBareNoteClone ();
     
     // creation from xml2Msr
     // ------------------------------------------------------
