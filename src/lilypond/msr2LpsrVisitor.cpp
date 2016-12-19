@@ -46,8 +46,11 @@ msr2LpsrVisitor::msr2LpsrVisitor (
 
   fOnGoingIdentification = false;
 
-  fWorkTitleKnown        = false;
-  fMovementTitleKnown    = false;
+  fWorkNumberKnown     = false;
+  fWorkTitleKnown      = false;
+  fMovementNumberKnown = false;
+  fCreatorKnown        = false;
+  fRightsKnown         = false;
 
   fOnGoingStaff          = false;
 
@@ -108,15 +111,41 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
     header =
       fLpsrScore-> getHeader();
 
+  // try to set header title and subtitle
   if (fWorkTitleKnown && fMovementTitleKnown) {
-    // we have the title and subtitle available
+    // we have both the work and movement titles available
     header->
       changeWorkTitleVariableName ("title");
     header->
       changeMovementTitleVariableName ("subtitle");
   }
+  else if (fWorkTitleKnown) {
+    // we only have the work title available
+    header->
+      changeWorkTitleVariableName ("title");
+  }
+  else {
+    // we only have the movement title available
+    header->
+      changeMovementTitleVariableName ("title");
+  }
 
-
+  // try to set header copyright
+  if (fRightsKnown) {
+    header->
+      changeRightsTitleVariableName ("copyright");
+  }
+  
+  // try to set header opus
+  if (fWorkNumberKnown) {
+    header->
+      changeWorkNumberVariableName ("opus");
+  }
+  if (fMovementNumberKnown) {
+    header->
+      changeMovementNumberVariableName ("opus");
+  }
+  
 /* JMI
   // get top level pargroup command from the stack
   S_lpsrPartgroupBlock
@@ -1427,6 +1456,8 @@ void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
     fLpsrScore->
       getHeader()->setWorkNumber (
         inputLineNumber, variableValue);
+
+    fWorkNumberKnown = true;
   }
   
   else if (variableName == "work-title") {
@@ -1441,6 +1472,8 @@ void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
     fLpsrScore->
       getHeader()->setMovementNumber (
         inputLineNumber, variableValue);
+
+    fMovementNumberKnown = true;
   }
   
   else if (variableName == "movement-title") {
@@ -1455,6 +1488,8 @@ void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
     fLpsrScore->
       getHeader()->addCreator (
         inputLineNumber, variableName, variableValue);
+
+    fCreatorKnown = true;
   }
 
 
@@ -1462,6 +1497,8 @@ void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
     fLpsrScore->
       getHeader()->setRights (
         inputLineNumber, variableValue);
+
+    fRightsKnown = true;
   }
   
   else if (variableName == "software") {

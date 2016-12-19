@@ -1499,6 +1499,21 @@ void lpsrHeader::changeMovementTitleVariableName (string name)
   fMovementTitle->changeAssocVariableName (name);
 }
 
+void lpsrHeader::changeWorkNumberVariableName (string name)
+{
+  fWorkNumber->changeAssocVariableName (name);
+}
+
+void lpsrHeader::changeMovementNumberVariableName (string name)
+{
+  fMovementNumber->changeAssocVariableName (name);
+}
+
+void lpsrHeader::changeRightsTitleVariableName (string name)
+{
+  fRights->changeAssocVariableName (name);
+}
+
 int lpsrHeader::maxLilyPondVariablesNamesLength ()
 {
   int result = 0;

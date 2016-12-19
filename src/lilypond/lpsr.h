@@ -1141,10 +1141,15 @@ class EXP lpsrHeader : public lpsrElement
     // services
     // ------------------------------------------------------
 
-    int         maxLilyPondVariablesNamesLength ();
-
     void        changeWorkTitleVariableName (string name);
     void        changeMovementTitleVariableName (string name);
+    
+    void        changeWorkNumberVariableName (string name);
+    void        changeMovementNumberVariableName (string name);
+    
+    void        changeRightsTitleVariableName (string name);
+
+    int         maxLilyPondVariablesNamesLength ();
 
     // visitors
     // ------------------------------------------------------

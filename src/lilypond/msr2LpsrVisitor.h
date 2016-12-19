@@ -258,8 +258,13 @@ class msr2LpsrVisitor :
 
     // header
     // ------------------------------------------------------
+    bool                      fWorkNumberKnown;
     bool                      fWorkTitleKnown;
+    bool                      fMovementNumberKnown;
     bool                      fMovementTitleKnown;
+    bool                      fCreatorKnown;
+    bool                      fRightsKnown;
+    
 
     // page geometry
     // ------------------------------------------------------
