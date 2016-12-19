@@ -306,29 +306,36 @@ ostream& operator<< (ostream& os, const S_msrOctaveShift& beam)
   return os;
 }
 
+string msrOctaveShift::octaveShiftAsString () const
+{
+  string result;
+  
+  switch (fOctaveShiftKind) {
+    case k_NoOctaveShift:
+      result = "none";
+      break;
+    case kOctaveShiftUp:
+      result = "up";
+      break;
+    case kOctaveShiftDown:
+      result = "down";
+      break;
+    case kOctaveShiftStop:
+      result = "stop";
+      break;
+  } // switch
+
+  return result;
+}
+
 void msrOctaveShift::print (ostream& os)
 {
   idtr++;
   
   os <<
     "OctaveShift" <<
-    ", kind: ";
-
-  switch (fOctaveShiftKind) {
-    case k_NoOctaveShift:
-      os << "none";
-      break;
-    case kOctaveShiftUp:
-      os << "up";
-      break;
-    case kOctaveShiftDown:
-      os << "down";
-      break;
-    case kOctaveShiftStop:
-      os << "stop";
-      break;
-  } // switch
-  os << endl;
+    ", kind: " << octaveShiftAsString () <<
+    endl;
 
   idtr--;
 }
@@ -4079,8 +4086,12 @@ void msrLyrics::addTextChunkToLyrics (
 {
   // create a lyrics text chunk
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart  part  = staff-> getStaffPartUplink ();
+    S_msrStaff
+      staff =
+        fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart
+      part =
+        staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding text lyrics chunk"
@@ -4121,8 +4132,12 @@ void msrLyrics::addSkipChunkToLyrics (
   S_msrNote note)
 {
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart  part  = staff-> getStaffPartUplink ();
+    S_msrStaff
+      staff =
+        fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart
+      part =
+        staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding 'Skip' lyrics chunk:" << divisions <<
@@ -4188,8 +4203,12 @@ void msrLyrics::addTiedChunkToLyrics (
   S_msrNote note)
 {
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart  part  = staff-> getStaffPartUplink ();
+    S_msrStaff
+      staff =
+        fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart
+      part =
+        staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding 'Tied' lyrics chunk: " << divisions <<
@@ -4216,8 +4235,12 @@ void msrLyrics::addSlurChunkToLyrics (
   S_msrNote note)
 {
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart  part  = staff-> getStaffPartUplink ();
+    S_msrStaff
+      staff =
+        fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart
+      part =
+        staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding 'Slur' lyrics chunk:" << divisions <<
@@ -4244,8 +4267,12 @@ void msrLyrics::addSlurBeyondEndChunkToLyrics (
   S_msrNote note)
 {
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart  part  = staff-> getStaffPartUplink ();
+    S_msrStaff
+      staff =
+        fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart
+      part =
+        staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding a 'SlurBeyondEnd' lyrics chunk: " << divisions <<
@@ -4271,8 +4298,12 @@ void msrLyrics::addBarcheckChunkToLyrics (
   int nextMeasureNumber)
 {
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart  part  = staff-> getStaffPartUplink ();
+    S_msrStaff
+      staff =
+        fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart
+      part =
+        staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding a 'barcheck' lyrics chunk" <<
@@ -4312,8 +4343,12 @@ void msrLyrics::addBreakChunkToLyrics (
   int nextMeasureNumber)
 {
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart  part  = staff-> getStaffPartUplink ();
+    S_msrStaff
+      staff =
+        fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart
+      part =
+        staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding a 'Break' lyrics chunk" <<
@@ -4841,7 +4876,7 @@ S_msrRepeatending msrRepeatending::create (
   string              repeatendingMusicXMLNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
   S_msrVoicechunk     voicechunk,
-  S_msrRepeat         repeat)
+  S_msrRepeat         repeatUplink)
 {
   msrRepeatending* o =
     new msrRepeatending (
@@ -4849,7 +4884,7 @@ S_msrRepeatending msrRepeatending::create (
       repeatendingMusicXMLNumber,
       repeatendingKind,
       voicechunk,
-      repeat);
+      repeatUplink);
   assert(o!=0);
   return o;
 }
@@ -4860,7 +4895,7 @@ msrRepeatending::msrRepeatending (
   string              repeatendingMusicXMLNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
   S_msrVoicechunk     voicechunk,
-  S_msrRepeat         repeat)
+  S_msrRepeat         repeatUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
   fRepeatendingMusicXMLNumber = repeatendingMusicXMLNumber;
@@ -4871,7 +4906,7 @@ msrRepeatending::msrRepeatending (
   fRepeatendingKind = repeatendingKind;
   
   fRepeatendingVoicechunk   = voicechunk;
-  fRepeatendingRepeatUplink = repeat;
+  fRepeatendingRepeatUplink = repeatUplink;
 }
 
 msrRepeatending::~msrRepeatending() {}
@@ -4970,11 +5005,11 @@ S_msrRepeat msrRepeat::create (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   S_msrVoicechunk commonPart,
-  S_msrVoice      voice)
+  S_msrVoice      voiceUplink)
 {
   msrRepeat* o =
     new msrRepeat (
-      msrOpts, inputLineNumber, commonPart, voice);
+      msrOpts, inputLineNumber, commonPart, voiceUplink);
   assert(o!=0);
   return o;
 }
@@ -4983,12 +5018,12 @@ msrRepeat::msrRepeat (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   S_msrVoicechunk commonPart,
-  S_msrVoice      voice)
+  S_msrVoice      voiceUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
   fRepeatCommonPart     = commonPart;
   fRepeatEndingsCounter = 0;
-  fRepeatVoiceUplink    = voice;
+  fRepeatVoiceUplink    = voiceUplink;
 }
 
 msrRepeat::~msrRepeat() {}
@@ -5122,11 +5157,11 @@ S_msrUpbeat msrUpbeat::create (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   int             divisions,
-  S_msrVoice      voice)
+  S_msrVoice      voiceUplink)
 {
   msrUpbeat* o =
     new msrUpbeat (
-      msrOpts, inputLineNumber, divisions, voice);
+      msrOpts, inputLineNumber, divisions, voiceUplink);
   assert(o!=0);
   return o;
 }
@@ -5135,11 +5170,11 @@ msrUpbeat::msrUpbeat (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   int             divisions,
-  S_msrVoice      voice)
+  S_msrVoice      voiceUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
   fUpbeatDivisions   = divisions;
-  fUpbeatVoiceUplink = voice;
+  fUpbeatVoiceUplink = voiceUplink;
 }
 
 msrUpbeat::~msrUpbeat() {}
@@ -5211,7 +5246,8 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
   string errorMessage;
 
   int divisionsPerWholeNote =
-    fUpbeatVoiceUplink->getDivisionsPerWholeNote ();
+    fUpbeatVoiceUplink->
+      getDivisionsPerWholeNote ();
   
   if (fMsrOptions->fDebug)
     cout <<
@@ -5311,14 +5347,15 @@ msrVoice::msrVoice (
 {
   fVoiceNumber = voiceNumber;
   fStaffRelativeVoiceNumber = staffRelativeVoiceNumber;
-  fVoiceStaffUplink  = voiceStaffUplink;
+  fVoiceStaffUplink = voiceStaffUplink;
 
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Creating voice " << getVoiceName () << endl;
 
   fDivisionsPerWholeNote =
-    fVoiceStaffUplink->getDivisionsPerWholeNote ();
+    fVoiceStaffUplink->
+      getDivisionsPerWholeNote ();
     
   // there may be an anacrusis
   fVoiceMeasureLocation.fMeasureNumber = 0;
@@ -5724,6 +5761,18 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
   S_msrElement t = tempo;
   fVoicechunk->
     appendElementToVoicechunk (t);
+}
+
+void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending octave shift '" << octaveShift->octaveShiftAsString () <<
+      "' to voice " << getVoiceName () << endl;
+
+  S_msrElement o = octaveShift;
+  fVoicechunk->
+    appendElementToVoicechunk (o);
 }
 
 void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
@@ -6425,7 +6474,8 @@ msrStaff::msrStaff (
       endl;
 
   fDivisionsPerWholeNote =
-    fStaffPartUplink->getDivisionsPerWholeNote ();
+    fStaffPartUplink->
+      getDivisionsPerWholeNote ();
     
   // create the implicit initial G line 2 clef
   fStaffClef =

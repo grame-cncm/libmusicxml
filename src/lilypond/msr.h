@@ -540,6 +540,8 @@ class EXP msrOctaveShift : public msrElement
     // services
     // ------------------------------------------------------
 
+    string              octaveShiftAsString () const;
+
     // visitors
     // ------------------------------------------------------
 
@@ -3022,7 +3024,7 @@ class EXP msrRepeatending : public msrElement
       string              repeatendingMusicXMLNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
       S_msrVoicechunk     voicechunk,
-      S_msrRepeat         repeat);
+      S_msrRepeat         repeatUplink);
     
     SMARTP<msrRepeatending> createEmptyClone (
       S_msrRepeat clonedRepeat);
@@ -3035,7 +3037,7 @@ class EXP msrRepeatending : public msrElement
       string              repeatendingMusicXMLNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
       S_msrVoicechunk     voicechunk,
-      S_msrRepeat         repeat);
+      S_msrRepeat         repeatUplink);
       
     virtual ~msrRepeatending();
   
@@ -3113,7 +3115,7 @@ class EXP msrRepeat : public msrElement
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
       S_msrVoicechunk commonPart,
-      S_msrVoice      voice);
+      S_msrVoice      voiceUplink);
     
     SMARTP<msrRepeat> createEmptyClone (
       S_msrVoice clonedVoice);
@@ -3124,7 +3126,7 @@ class EXP msrRepeat : public msrElement
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
       S_msrVoicechunk commonPart,
-      S_msrVoice      voice);
+      S_msrVoice      voiceUplink);
       
     virtual ~msrRepeat();
   
@@ -3194,7 +3196,7 @@ class EXP msrUpbeat : public msrElement
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
       int             divisions,
-      S_msrVoice      voice);
+      S_msrVoice      voiceUplink);
     
     SMARTP<msrUpbeat> createEmptyClone (
       S_msrVoice clonedVoice);
@@ -3205,7 +3207,7 @@ class EXP msrUpbeat : public msrElement
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
       int             divisions,
-      S_msrVoice      voice);
+      S_msrVoice      voiceUplink);
       
     virtual ~msrUpbeat();
   
@@ -3379,6 +3381,8 @@ class EXP msrVoice : public msrElement
     void          appendTempoToVoice  (S_msrTempo tempo);
     
     void          appendRehearsalToVoice (S_msrRehearsal rehearsal);
+    
+    void          appendOctaveShiftToVoice (S_msrOctaveShift octaveShift);
     
     void          appendNoteToVoice   (S_msrNote note);
     void          appendChordToVoice  (S_msrChord chord);

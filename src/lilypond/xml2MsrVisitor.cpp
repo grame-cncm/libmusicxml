@@ -1356,20 +1356,35 @@ void xml2MsrVisitor::visitStart (S_octave_shift& elt)
       s.str());
   }
 
-  switch (octaveShiftKind) {
+  // create an octave shift
+  S_msrOctaveShift
+    octaveShift =
+      msrOctaveShift::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        octaveShiftKind,
+        size);
+
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
+  // append octave shift to the current voice
+  currentVoice->
+    appendOctaveShiftToVoice (octaveShift);
+
+  switch (octaveShiftKind) { // JMI
     
     case msrOctaveShift::kOctaveShiftUp:
     case msrOctaveShift::kOctaveShiftDown:
-      fCurrentOctaveShift =
-        msrOctaveShift::create (
-          fMsrOptions,
-          elt->getInputLineNumber (),
-          octaveShiftKind,
-          size);
+
       break;
       
     case msrOctaveShift::kOctaveShiftStop:
-      fCurrentOctaveShift = 0;
       break;
   } // switch
 }
@@ -1492,7 +1507,8 @@ void xml2MsrVisitor::visitEnd ( S_metronome& elt )
       fMsrOptions,
       inputLineNumber,
       r.getDenominator(), fPerMinute);
-    
+
+  // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
@@ -1745,6 +1761,7 @@ void xml2MsrVisitor::visitEnd (S_backup& elt )
       "Handling 'backup <<< " << fCurrentBackupDuration <<
       " divisions'" << endl;
 
+  // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
@@ -1817,6 +1834,7 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
       createStaffInCurrentPartIfNeeded (
         inputLineNumber, fCurrentStaffNumber);
 
+  // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
@@ -2048,6 +2066,7 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
     implicit =
       elt->getAttributeValue ("implicit");
 
+  // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
@@ -2146,6 +2165,7 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
           "line = " << inputLineNumber << endl;
       }
 
+      // fetch current voice
       S_msrVoice
         currentVoice =
           createVoiceInStaffInCurrentPartIfNeeded (
@@ -3822,6 +3842,7 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote lastNote)
       lastNote <<
       endl;
       
+  // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
@@ -4206,11 +4227,6 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     setDivisionsPerWholeNote (
       currentVoice-> getDivisionsPerWholeNote ());
   
-  // set its stem if any
-  if (fCurrentOctaveShift)
-    note->
-      setOctaveShift (fCurrentOctaveShift);
-
   // set its stem if any
   if (fCurrentStem)
     note->
@@ -4636,6 +4652,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
 //______________________________________________________________________________
 void xml2MsrVisitor::handleTupletsPendingOnTupletStack ()
 {
+  // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
@@ -4791,6 +4808,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
   }
 
+  // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
@@ -4934,6 +4952,7 @@ void xml2MsrVisitor::handleRepeatStart (
   barline->
     setBarlineCategory (msrBarline::kRepeatStart);
 
+  // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
@@ -4999,6 +5018,7 @@ void xml2MsrVisitor::handleHookedEndingEnd (
   barline->
     setBarlineCategory (msrBarline::kHookedEndingEnd);
 
+  // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
@@ -5168,6 +5188,7 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
   barline->
     setBarlineCategory (msrBarline::kHooklessEndingEnd);
   
+  // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
@@ -5332,6 +5353,7 @@ void xml2MsrVisitor::handleEndingStart (
   barline->
     setBarlineCategory (msrBarline::kEndingStart);
   
+  // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
@@ -5375,6 +5397,7 @@ void xml2MsrVisitor::handleEndingEnd (
   barline->
     setBarlineCategory (msrBarline::kRepeatEnd);
 
+  // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (

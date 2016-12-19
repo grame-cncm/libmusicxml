@@ -515,8 +515,6 @@ class EXP xml2MsrVisitor :
     msrWords::msrWordsPlacementKind
                               fCurrentWordsPlacementKind; // JMI
 
-    S_msrOctaveShift          fCurrentOctaveShift;
-
     bool                      fOnGoingDirectionType;
   
     // metronome handling
