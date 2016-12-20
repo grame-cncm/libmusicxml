@@ -102,6 +102,7 @@ class lpsr2LilyPondVisitor :
   public visitor<S_msrGraceexpression>,
   
   public visitor<S_msrNote>,
+  public visitor<S_msrOctaveShift>,
   
   public visitor<S_msrStem>,
   public visitor<S_msrBeam>,

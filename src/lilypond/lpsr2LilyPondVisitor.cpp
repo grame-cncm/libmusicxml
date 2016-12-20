@@ -2098,34 +2098,22 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrOctaveShift& elt)
 {
- // if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrOctaveShift" << endl;
 
   int octaveShiftSize =
-    elt->getOctaveShiftSize ();
-
-  string sign;
-  
-  if (octaveShiftSize < 0)
-    sign = "-";
-
-  int octaveNumber;
-
-  if (octaveShiftSize == 8)
-    octaveNumber = 1;
-  else if (octaveNumber == 15)
-    octaveNumber = 2;
+    elt->getOctaveShiftSize (); // 8 or 15
     
   fOstream <<
-    "\\ottava #" << sign;
+    "\\ottava #";
     
   switch (elt->getOctaveShiftKind ()) {
     case msrOctaveShift::kOctaveShiftUp:
-      fOstream << octaveNumber;
+      fOstream << "-" << (octaveShiftSize - 1) / 7; // 1 or 2
       break;
     case msrOctaveShift::kOctaveShiftDown:
-      fOstream << octaveNumber;
+      fOstream << (octaveShiftSize - 1) / 7; // 1 or 2
       break;
     case msrOctaveShift::kOctaveShiftStop:
       fOstream << 0;
