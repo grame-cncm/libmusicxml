@@ -1260,6 +1260,56 @@ void xml2MsrVisitor::visitEnd ( S_time& elt )
   }
 }
 
+//______________________________________________________________________________
+void xml2MsrVisitor::visitStart ( S_transpose& elt )
+{
+  /*
+  https://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-transpose.htm
+
+        <transpose>
+          <diatonic>-2</diatonic>
+          <chromatic>-3</chromatic>
+        </transpose>
+  */
+  fCurrentDiatonic  = 0;
+  fCurrentChromatic = 0;
+}
+
+void xml2MsrVisitor::visitStart ( S_diatonic& elt )
+{ fCurrentDiatonic = (int)(*elt); }
+  
+void xml2MsrVisitor::visitStart ( S_chromatic& elt )
+  { fCurrentChromatic = (int)(*elt); }
+ 
+void xml2MsrVisitor::visitEnd ( S_transpose& elt ) 
+{  
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+/*
+  // create msrTime
+  S_msrTime
+    time =
+      msrTime::create (
+        fMsrOptions,
+        inputLineNumber,
+        fCurrentTimeBeats,
+        fCurrentTimeBeatType);
+
+  if (fCurrentTimeStaffNumber == 0)
+    fCurrentPart->
+      setAllPartStavesTime (time);
+    
+  else {
+    S_msrStaff
+      staff =
+        createStaffInCurrentPartIfNeeded (
+          inputLineNumber, fCurrentStaffNumber);
+
+    staff->setStaffTime (time);
+  }
+  */
+}
+
 //________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_direction& elt)
 {

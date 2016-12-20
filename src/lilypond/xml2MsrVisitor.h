@@ -116,20 +116,24 @@ class EXP xml2MsrVisitor :
   public visitor<S_backup>,
   public visitor<S_forward>,
   
-  public visitor<S_time>,
-  public visitor<S_beats>,
-  public visitor<S_beat_type>,
-  public visitor<S_senza_misura>,
+  public visitor<S_clef>,
+  public visitor<S_sign>,
+  public visitor<S_line>,
+  public visitor<S_clef_octave_change>,
 
   public visitor<S_key>,
   public visitor<S_cancel>,
   public visitor<S_fifths>,
   public visitor<S_mode>,
 
-  public visitor<S_clef>,
-  public visitor<S_sign>,
-  public visitor<S_line>,
-  public visitor<S_clef_octave_change>,
+  public visitor<S_time>,
+  public visitor<S_beats>,
+  public visitor<S_beat_type>,
+  public visitor<S_senza_misura>,
+
+  public visitor<S_transpose>,
+  public visitor<S_diatonic>,
+  public visitor<S_chromatic>,
 
   public visitor<S_direction>,
   public visitor<S_direction_type>,
@@ -281,11 +285,11 @@ class EXP xml2MsrVisitor :
     virtual void visitStart ( S_forward& elt );
     virtual void visitEnd   ( S_forward& elt );
     
-    virtual void visitStart ( S_time& elt );
-    virtual void visitEnd   ( S_time& elt );
-    virtual void visitStart ( S_beats& elt );
-    virtual void visitStart ( S_beat_type& elt );
-    virtual void visitStart ( S_senza_misura& elt );
+    virtual void visitStart ( S_clef& elt );
+    virtual void visitEnd   ( S_clef& elt );
+    virtual void visitStart ( S_sign& elt );
+    virtual void visitStart ( S_line& elt );
+    virtual void visitStart ( S_clef_octave_change& elt );
 
     virtual void visitStart ( S_key& elt );
     virtual void visitEnd   ( S_key& elt );
@@ -293,11 +297,16 @@ class EXP xml2MsrVisitor :
     virtual void visitStart ( S_fifths& elt );
     virtual void visitStart ( S_mode& elt );
 
-    virtual void visitStart ( S_clef& elt );
-    virtual void visitEnd   ( S_clef& elt );
-    virtual void visitStart ( S_sign& elt );
-    virtual void visitStart ( S_line& elt );
-    virtual void visitStart ( S_clef_octave_change& elt );
+    virtual void visitStart ( S_time& elt );
+    virtual void visitEnd   ( S_time& elt );
+    virtual void visitStart ( S_beats& elt );
+    virtual void visitStart ( S_beat_type& elt );
+    virtual void visitStart ( S_senza_misura& elt );
+
+    virtual void visitStart ( S_transpose& elt );
+    virtual void visitEnd   ( S_transpose& elt );
+    virtual void visitStart ( S_diatonic& elt );
+    virtual void visitStart ( S_chromatic& elt );
 
     virtual void visitStart ( S_direction& elt );
     virtual void visitEnd   ( S_direction& elt );
@@ -489,6 +498,13 @@ class EXP xml2MsrVisitor :
                                 int            staffNumber,
                                 int            voiceNumber);
     
+    // clef handling
+    // ------------------------------------------------------
+    string                    fCurrentClefSign;
+    int                       fCurrentClefLine;
+    int                       fCurrentClefOctaveChange; // JMI
+    int                       fCurrentClefStaffNumber;
+
     // key handling
     // ------------------------------------------------------
     int                       fCurrentKeyStaffNumber;
@@ -496,12 +512,10 @@ class EXP xml2MsrVisitor :
     int                       fCurrentCancel;
     string                    fCurrentMode;
 
-    // clef handling
+    // transpose handling
     // ------------------------------------------------------
-    string                    fCurrentClefSign;
-    int                       fCurrentClefLine;
-    int                       fCurrentClefOctaveChange; // JMI
-    int                       fCurrentClefStaffNumber;
+    int                       fCurrentDiatonic;
+    int                       fCurrentChromatic;
 
     // direction handling
     // ------------------------------------------------------
@@ -730,7 +744,6 @@ class EXP xml2MsrVisitor :
     int                       fCurrentForwardVoiceNumber;
     int                       fCurrentForwardStaffNumber;
     bool                      fOnGoingForward;
-
 };
 
 /*

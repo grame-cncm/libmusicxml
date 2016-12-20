@@ -2525,6 +2525,69 @@ typedef SMARTP<msrTime> S_msrTime;
 EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
 
 /*!
+\brief A msr time representation.
+
+  A time is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP msrTranspose : public msrElement
+{
+  public:
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrTranspose> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           transposeDiatonic,
+      int           transposeChromatic);
+
+  protected:
+
+    msrTranspose (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           transposeDiatonic,
+      int           transposeChromatic);
+      
+    virtual ~msrTranspose();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int       getTransposeDiatonic () const
+                  { return fTransposeDiatonic; }
+                  
+    int       getTransposeChromatic () const
+                  { return fTransposeChromatic; }
+                  
+    // services
+    // ------------------------------------------------------
+
+    string    transposeAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    int      fTransposeDiatonic;
+    int      fTransposeChromatic;
+};
+typedef SMARTP<msrTranspose> S_msrTranspose;
+EXP ostream& operator<< (ostream& os, const S_msrTranspose& elt);
+
+/*!
 \brief A tempo representation.
 
   A tempo is represented by the lyrics to use

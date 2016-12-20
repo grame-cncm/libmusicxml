@@ -3475,6 +3475,94 @@ void msrTime::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrTranspose msrTranspose::create (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  int           transposeDiatonic,
+  int           transposeChromatic)
+{
+  msrTranspose* o =
+    new msrTranspose (
+      msrOpts, inputLineNumber,
+      transposeDiatonic, transposeChromatic);
+  assert (o!=0);
+  return o;
+}
+
+msrTranspose::msrTranspose (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  int           transposeDiatonic,
+  int           transposeChromatic)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fTransposeDiatonic  = transposeDiatonic;
+  fTransposeChromatic = transposeChromatic;
+}
+
+msrTranspose::~msrTranspose() {}
+
+void msrTranspose::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrTranspose::acceptIn()" << endl;
+      
+  if (visitor<S_msrTranspose>*
+    p =
+      dynamic_cast<visitor<S_msrTranspose>*> (v)) {
+        S_msrTranspose elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrTranspose::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrTranspose::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrTranspose::acceptOut()" << endl;
+
+  if (visitor<S_msrTranspose>*
+    p =
+      dynamic_cast<visitor<S_msrTranspose>*> (v)) {
+        S_msrTranspose elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrTranspose::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrTranspose::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrTranspose& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrTranspose::transposeAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Transpose " << 
+    "diatonic = " << fTransposeDiatonic <<
+    ", chromatic= " << fTransposeChromatic;
+
+  return s.str();
+}
+
+void msrTranspose::print (ostream& os)
+{
+  os << transposeAsString () << endl;
+}
+
+//______________________________________________________________________________
 S_msrWords msrWords::create (
   S_msrOptions&         msrOpts, 
   int                   inputLineNumber,
