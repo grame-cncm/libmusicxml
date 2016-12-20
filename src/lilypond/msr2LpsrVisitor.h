@@ -266,8 +266,6 @@ class msr2LpsrVisitor :
     bool                      fWorkTitleKnown;
     bool                      fMovementNumberKnown;
     bool                      fMovementTitleKnown;
-    bool                      fCreatorKnown;
-    bool                      fRightsKnown;
     
 
     // page geometry

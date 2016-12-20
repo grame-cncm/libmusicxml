@@ -46,10 +46,11 @@ msr2LpsrVisitor::msr2LpsrVisitor (
 
   fOnGoingIdentification = false;
 
-  fWorkNumberKnown     = false;
-  fWorkTitleKnown      = false;
-  fMovementNumberKnown = false;
-
+  fWorkNumberKnown       = false;
+  fWorkTitleKnown        = false;
+  fMovementNumberKnown   = false;
+  fMovementTitleKnown    = false;
+   
   fOnGoingStaff          = false;
 
   fOnGoingNote           = false;
@@ -122,20 +123,22 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
     fLpsrScoreHeader->
       changeWorkTitleVariableName ("title");
   }
-  else {
+  else if (fMovementTitleKnown) {
     // we only have the movement title available
     fLpsrScoreHeader->
       changeMovementTitleVariableName ("title");
+  }
+
+  // try to set header subsubtitle
+  if (fMovementNumberKnown) {
+    fLpsrScoreHeader->
+      changeMovementNumberVariableName ("subsubtitle");
   }
   
   // try to set header opus
   if (fWorkNumberKnown) {
     fLpsrScoreHeader->
       changeWorkNumberVariableName ("opus");
-  }
-  if (fMovementNumberKnown) {
-    fLpsrScoreHeader->
-      changeMovementNumberVariableName ("opus");
   }
   
 /* JMI
