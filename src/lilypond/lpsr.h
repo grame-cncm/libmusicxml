@@ -309,7 +309,7 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
               getBackslashKind () const
                   { return fBackslashKind; }
                   
-    string    getVariableName  () const
+    string    getVariableName () const
                   { return fVariableName; };
                   
     lpsrVarValSeparator
@@ -1081,7 +1081,8 @@ class EXP lpsrHeader : public lpsrElement
                   int    inputLineNumber,
                   string val);
 
-    void        addCreator (
+    S_lpsrLilypondVarValAssoc
+                addCreator (
                   int    inputLineNumber,
                   string type,
                   string val);
@@ -1148,6 +1149,8 @@ class EXP lpsrHeader : public lpsrElement
     void        changeMovementNumberVariableName (string name);
     
     void        changeRightsTitleVariableName (string name);
+    
+    void        changeCreatorVariableName (string typeName, string newName);
 
     int         maxLilyPondVariablesNamesLength ();
 

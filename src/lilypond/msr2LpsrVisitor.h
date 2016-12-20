@@ -248,6 +248,10 @@ class msr2LpsrVisitor :
     // ------------------------------------------------------
     S_lpsrScore               fLpsrScore;
 
+    // it's header
+    // ------------------------------------------------------
+    S_lpsrHeader              fLpsrScoreHeader;
+
     // score
     // ------------------------------------------------------
     S_msrScore                fCurrentScoreClone;

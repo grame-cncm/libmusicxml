@@ -49,8 +49,6 @@ msr2LpsrVisitor::msr2LpsrVisitor (
   fWorkNumberKnown     = false;
   fWorkTitleKnown      = false;
   fMovementNumberKnown = false;
-  fCreatorKnown        = false;
-  fRightsKnown         = false;
 
   fOnGoingStaff          = false;
 
@@ -92,6 +90,11 @@ void msr2LpsrVisitor::visitStart (S_msrScore& elt)
   fLpsrScore =
     lpsrScore::create (
       fMsrOptions, fLpsrOptions, 0, fCurrentScoreClone);
+      
+  // fetch score header
+  fLpsrScoreHeader =
+    fLpsrScore-> getHeader();
+
 /*
   // push it onto this visitors's stack,
   // making it the current partgroup command
@@ -106,43 +109,32 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
     fOstream << idtr <<
       "--> End visiting msrScore" << endl;
 
-  // fetch score header
-  S_lpsrHeader
-    header =
-      fLpsrScore-> getHeader();
-
   // try to set header title and subtitle
   if (fWorkTitleKnown && fMovementTitleKnown) {
     // we have both the work and movement titles available
-    header->
+    fLpsrScoreHeader->
       changeWorkTitleVariableName ("title");
-    header->
+    fLpsrScoreHeader->
       changeMovementTitleVariableName ("subtitle");
   }
   else if (fWorkTitleKnown) {
     // we only have the work title available
-    header->
+    fLpsrScoreHeader->
       changeWorkTitleVariableName ("title");
   }
   else {
     // we only have the movement title available
-    header->
+    fLpsrScoreHeader->
       changeMovementTitleVariableName ("title");
-  }
-
-  // try to set header copyright
-  if (fRightsKnown) {
-    header->
-      changeRightsTitleVariableName ("copyright");
   }
   
   // try to set header opus
   if (fWorkNumberKnown) {
-    header->
+    fLpsrScoreHeader->
       changeWorkNumberVariableName ("opus");
   }
   if (fMovementNumberKnown) {
-    header->
+    fLpsrScoreHeader->
       changeMovementNumberVariableName ("opus");
   }
   
@@ -776,6 +768,9 @@ void msr2LpsrVisitor::visitStart (S_msrNote& elt)
     fOstream << idtr <<
       "--> Start visiting ";
     switch (elt->getNoteKind ()) {
+      case msrNote::k_NoNoteKind:
+        fOstream << "standalone";
+        break;
       case msrNote::kStandaloneNote:
         fOstream << "standalone";
         break;
@@ -807,6 +802,8 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
     fOstream << idtr <<
       "--> Start visiting ";
     switch (elt->getNoteKind ()) {
+      case msrNote::k_NoNoteKind:
+        break;
       case msrNote::kStandaloneNote:
         fOstream << "standalone";
         break;
@@ -828,6 +825,9 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
 
   switch (fCurrentNoteClone->getNoteKind ()) {
     
+    case msrNote::k_NoNoteKind:
+      break;
+      
     case msrNote::kStandaloneNote:
       if (fMsrOptions->fDebug) {
         cerr << idtr <<
@@ -1453,64 +1453,90 @@ void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
     stringQuoteEscaper (variableValue));
 
   if      (variableName == "work-number") {
-    fLpsrScore->
-      getHeader()->setWorkNumber (
+    fLpsrScoreHeader->
+      setWorkNumber (
         inputLineNumber, variableValue);
 
     fWorkNumberKnown = true;
   }
   
   else if (variableName == "work-title") {
-    fLpsrScore->
-      getHeader()->setWorkTitle (
+    fLpsrScoreHeader->
+      setWorkTitle (
         inputLineNumber, variableValue);
         
     fWorkTitleKnown = true;
   }
   
   else if (variableName == "movement-number") {
-    fLpsrScore->
-      getHeader()->setMovementNumber (
+    fLpsrScoreHeader->
+      setMovementNumber (
         inputLineNumber, variableValue);
 
     fMovementNumberKnown = true;
   }
   
   else if (variableName == "movement-title") {
-    fLpsrScore->
-      getHeader()->setMovementTitle (
+    fLpsrScoreHeader->
+      setMovementTitle (
         inputLineNumber, variableValue);
         
     fMovementTitleKnown = true;
   }
   
-  else if (variableName == "creator") {
-    fLpsrScore->
-      getHeader()->addCreator (
-        inputLineNumber, variableName, variableValue);
-
-    fCreatorKnown = true;
+  else if (variableName == "composer") {
+    S_lpsrLilypondVarValAssoc
+      assoc =
+        fLpsrScoreHeader->
+          addCreator (
+            inputLineNumber, variableName, variableValue);
+  }
+  
+  else if (variableName == "arranger") {
+    S_lpsrLilypondVarValAssoc
+      assoc =
+        fLpsrScoreHeader->
+          addCreator (
+            inputLineNumber, variableName, variableValue);
+  }
+  
+  else if (variableName == "lyricist") {
+    S_lpsrLilypondVarValAssoc
+      assoc =
+        fLpsrScoreHeader->
+          addCreator (
+            inputLineNumber, "poet", variableValue);
   }
 
-
-  if (variableName == "rights") {
-    fLpsrScore->
-      getHeader()->setRights (
+  else if (variableName == "rights") {
+    fLpsrScoreHeader->setRights (
         inputLineNumber, variableValue);
 
-    fRightsKnown = true;
+    fLpsrScoreHeader->
+      changeRightsTitleVariableName ("copyright");
   }
   
   else if (variableName == "software") {
-    fLpsrScore->
-      getHeader()->addSoftware (
+    fLpsrScoreHeader->addSoftware (
         inputLineNumber, variableValue);
   }
   
   else if (variableName == "encoding-date") {
-    fLpsrScore->
-      getHeader()->setEncodingDate (
+    fLpsrScoreHeader->setEncodingDate (
         inputLineNumber, variableValue);
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "### msrVarValAssoc name '" << variableName << "'" <<
+      " is not handled";
+
+    msrMusicXMLWarning (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      s.str());
   }
 }
 

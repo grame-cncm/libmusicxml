@@ -1396,24 +1396,28 @@ void lpsrHeader::setMovementTitle (
       lpsrLilypondVarValAssoc::kWithoutEndl);
 }
 
-void lpsrHeader::addCreator (
+S_lpsrLilypondVarValAssoc lpsrHeader::addCreator (
   int    inputLineNumber,
   string type,
   string val)
 {
-  fCreators.push_back(
-    lpsrLilypondVarValAssoc::create (
-      fMsrOptions, fLpsrOptions, inputLineNumber,
-      lpsrLilypondVarValAssoc::kUncommented,
-      lpsrLilypondVarValAssoc::kWithoutBackslash,
-      type,
-      lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kQuotesAroundValue,
-      val,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithoutEndl)
-  );
+  S_lpsrLilypondVarValAssoc
+    result =
+      lpsrLilypondVarValAssoc::create (
+        fMsrOptions, fLpsrOptions, inputLineNumber,
+        lpsrLilypondVarValAssoc::kUncommented,
+        lpsrLilypondVarValAssoc::kWithoutBackslash,
+        type,
+        lpsrLilypondVarValAssoc::kEqualSign,
+        lpsrLilypondVarValAssoc::kQuotesAroundValue,
+        val,
+        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+        lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithoutEndl);
+
+  fCreators.push_back (result);
+
+  return result;
 }
 
 void lpsrHeader::setRights (
@@ -1512,6 +1516,16 @@ void lpsrHeader::changeMovementNumberVariableName (string name)
 void lpsrHeader::changeRightsTitleVariableName (string name)
 {
   fRights->changeAssocVariableName (name);
+}
+
+void lpsrHeader::changeCreatorVariableName (
+  string variableName, string newName)
+{
+  vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
+  for (i=fCreators.begin(); i!=fCreators.end(); i++) {
+    if ((*i)->getVariableName () == variableName)
+      (*i)->changeAssocVariableName (newName);
+  } // for
 }
 
 int lpsrHeader::maxLilyPondVariablesNamesLength ()
