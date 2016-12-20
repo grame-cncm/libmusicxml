@@ -514,8 +514,9 @@ class EXP xml2MsrVisitor :
 
     // transpose handling
     // ------------------------------------------------------
-    int                       fCurrentDiatonic;
-    int                       fCurrentChromatic;
+    int                       fCurrentTransposeNumber;
+    int                       fCurrentTransposeDiatonic;
+    int                       fCurrentTransposeChromatic;
 
     // direction handling
     // ------------------------------------------------------

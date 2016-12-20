@@ -1266,38 +1266,47 @@ void xml2MsrVisitor::visitStart ( S_transpose& elt )
   /*
   https://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-transpose.htm
 
+  The optional number attribute refers to staff numbers,
+  from top to bottom on the system.
+  If absent, the transposition applies to all staves in the part.
+  Per-staff transposition is most often used in parts
+  that represent multiple instruments.
+
         <transpose>
           <diatonic>-2</diatonic>
           <chromatic>-3</chromatic>
         </transpose>
   */
-  fCurrentDiatonic  = 0;
-  fCurrentChromatic = 0;
+
+  fCurrentTransposeNumber = elt->getAttributeIntValue ("number", 0);
+  
+  fCurrentTransposeDiatonic  = 0;
+  fCurrentTransposeChromatic = 0;
 }
 
 void xml2MsrVisitor::visitStart ( S_diatonic& elt )
-{ fCurrentDiatonic = (int)(*elt); }
+{ fCurrentTransposeDiatonic = (int)(*elt); }
   
 void xml2MsrVisitor::visitStart ( S_chromatic& elt )
-  { fCurrentChromatic = (int)(*elt); }
+  { fCurrentTransposeChromatic = (int)(*elt); }
  
 void xml2MsrVisitor::visitEnd ( S_transpose& elt ) 
 {  
   int inputLineNumber =
     elt->getInputLineNumber ();
-/*
-  // create msrTime
-  S_msrTime
-    time =
-      msrTime::create (
+
+  // create msrTranspose
+  S_msrTranspose
+    transpose =
+      msrTranspose::create (
         fMsrOptions,
         inputLineNumber,
-        fCurrentTimeBeats,
-        fCurrentTimeBeatType);
+        fCurrentTransposeDiatonic,
+        fCurrentTransposeChromatic);
 
-  if (fCurrentTimeStaffNumber == 0)
+  if (fCurrentTransposeNumber == 0)
     fCurrentPart->
-      setAllPartStavesTime (time);
+      setAllPartsTranspose (time);
     
   else {
     S_msrStaff
@@ -1305,7 +1314,7 @@ void xml2MsrVisitor::visitEnd ( S_transpose& elt )
         createStaffInCurrentPartIfNeeded (
           inputLineNumber, fCurrentStaffNumber);
 
-    staff->setStaffTime (time);
+    staff->setStaffTranspose (transpose);
   }
   */
 }

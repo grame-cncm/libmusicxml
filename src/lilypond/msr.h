@@ -3606,6 +3606,8 @@ class EXP msrStaff : public msrElement
     void        setStaffClef (S_msrClef clef);
     void        setStaffKey  (S_msrKey  key);
     void        setStaffTime (S_msrTime time);
+    
+    void        setStaffTranspose (S_msrTranspose transpose);
 
     const map<int, S_msrVoice>&
                 getStaffVoicesMap ()

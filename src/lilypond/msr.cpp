@@ -6751,6 +6751,20 @@ void msrStaff::setStaffTime (S_msrTime time)
   appendTimeToAllStaffVoices (time);
 }
 
+void msrStaff::setStaffTranspose (S_msrTranspose transpose)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Setting transpose '" << time->timeAsString () <<
+      "' in staff " << fStaffNumber <<
+      " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
+      endl;
+
+  fStaffTranspose = transpose;
+
+  appendTransposeToAllStaffVoices (transpose);
+}
+
 void msrStaff::appendClefToAllStaffVoices (S_msrClef clef)
 {
   for (
