@@ -2134,7 +2134,7 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
-  if (implicit != "yes")
+ // JMI if (implicit != "yes")
     currentVoice->
       setMeasureNumber (
         inputLineNumber, measureNumber);

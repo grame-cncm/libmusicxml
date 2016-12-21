@@ -5447,7 +5447,8 @@ msrVoice::msrVoice (
   fVoiceMeasureLocation.fMeasureNumber = 0;
 
   fVoiceMeasureLocation.fPositionInMeasure = 1;
-  
+
+  fMeasureZeroHasBeenMet   = false;
   fMeasureNumberHasBeenSet = false;
   fMusicHasBeenInserted    = false;
   
@@ -5559,7 +5560,7 @@ void msrVoice::setMeasureNumber (
 {
   enum voiceAnacrusisKind {
       k_NoAnacrusis, kExplicitAnacrusis, kImplicitAnacrusis };
-      
+
   voiceAnacrusisKind anacrusisKind = k_NoAnacrusis;
 
   if (fMsrOptions->fDebug)
@@ -5592,10 +5593,13 @@ void msrVoice::setMeasureNumber (
     positionInMeasure =
       getPositionInMeasure ();
 
-  if (fMsrOptions->fDebug)
+//    if (gMsrOptions->fForceDebug || fMsrOptions->fDebug)
     cerr <<
-      "--> setMeasureNumber, " << endl <<
-      "    measureNumber = " << measureNumber << endl <<
+      endl <<
+      idtr <<
+      "====== measureNumber == " << measureNumber <<
+      ", positionInMeasure = " << positionInMeasure <<
+      endl <<
       "    fVoiceMeasureLocation.fMeasureNumber = " <<
            fVoiceMeasureLocation.fMeasureNumber << endl <<
       "    inputLineNumber       = " << inputLineNumber << endl <<
@@ -5603,14 +5607,44 @@ void msrVoice::setMeasureNumber (
       "    beatsValue            = " << beatsValue << endl <<
       "    divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
       "    divisionsPerMeasure   = " << divisionsPerMeasure << endl <<
-      "    positionInMeasure     = " << positionInMeasure << endl <<
       endl;
+
+  if (measureNumber == 0) {  
+    fMeasureZeroHasBeenMet = true;
+  }
+  
+  else if (measureNumber == 1) {
+    if (
+      positionInMeasure > 1 // there may be initial measures without music
+        &&
+      positionInMeasure <= divisionsPerMeasure) {
+        
+      if (fMeasureZeroHasBeenMet) {
+        int upbeatDivisions = positionInMeasure;
+  
+  //    if (gMsrOptions->fForceDebug || fMsrOptions->fDebug)
+        cerr <<
+          "====== upbeat found, upbeatDivisions = " <<
+          upbeatDivisions <<
+          endl;
+      }
+    
+      else {
+      }
+  
+    }
+
+    else {
+    }
+  }
+  
+
 
   if (
     positionInMeasure > 1 // there may be initial measures without music...
       &&
     positionInMeasure <= divisionsPerMeasure) {
-    anacrusisKind = kExplicitAnacrusis;
+ //   anacrusisKind = kExplicitAnacrusis;
   }
     
 /*

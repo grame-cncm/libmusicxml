@@ -3532,6 +3532,7 @@ class EXP msrVoice : public msrElement
 
     // anacrusis detection
     S_msrUpbeat               fVoiceAnacrusis;
+    bool                      fMeasureZeroHasBeenMet;
     bool                      fMeasureNumberHasBeenSet;
     bool                      fMusicHasBeenInserted;
     
