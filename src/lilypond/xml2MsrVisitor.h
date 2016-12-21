@@ -311,6 +311,7 @@ class EXP xml2MsrVisitor :
     virtual void visitStart ( S_direction& elt );
     virtual void visitEnd   ( S_direction& elt );
     virtual void visitStart ( S_direction_type& elt );
+    virtual void visitEnd   ( S_direction_type& elt );
     virtual void visitStart ( S_words& elt );
     virtual void visitStart ( S_octave_shift& elt );
     
@@ -520,6 +521,7 @@ class EXP xml2MsrVisitor :
 
     // direction handling
     // ------------------------------------------------------
+    int                       fCurrentDirectionStaffNumber;
     string                    fCurrentDirectionPlacement;
     string                    fCurrentWordsContents;
     string                    fCurrentFontStyle;
@@ -529,7 +531,10 @@ class EXP xml2MsrVisitor :
 
     msrWords::msrWordsPlacementKind
                               fCurrentWordsPlacementKind; // JMI
+    bool                      fOnGoingDirection;
 
+    // direction handling
+    // ------------------------------------------------------
     bool                      fOnGoingDirectionType;
   
     // metronome handling
@@ -645,6 +650,7 @@ class EXP xml2MsrVisitor :
 
     // note/rest handling
     // ------------------------------------------------------
+    int                       fCurrentNoteStaffNumber; // used throughout
     void                      handleStandaloneOrGraceNoteOrRest (
                                 S_msrNote newNote);
 

@@ -72,9 +72,10 @@ xml2MsrVisitor::xml2MsrVisitor (
 
   fOnGoingChord = false;
   
-  fOnGoingSlur = false;
+  fOnGoingSlur          = false;
   fOnGoingSlurHasLyrics = false;
 
+  fOnGoingDirection     = true;
   fOnGoingDirectionType = false;
 
   fOnGoingRepeat = false;
@@ -1107,6 +1108,9 @@ void xml2MsrVisitor::visitStart ( S_clef& elt )
 { 
   // The optional number attribute refers to staff numbers.
   // If absent (0), apply to all part staves.
+
+  // https://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-clef.htm
+  
   fCurrentClefStaffNumber =
     elt->getAttributeIntValue("number", 0); 
 
@@ -1145,7 +1149,7 @@ void xml2MsrVisitor::visitEnd ( S_clef& elt )
     S_msrStaff
       staff =
         createStaffInCurrentPartIfNeeded (
-          inputLineNumber, fCurrentStaffNumber);
+          inputLineNumber, fCurrentClefStaffNumber);
     
     staff->setStaffClef (clef);
   }
@@ -1194,7 +1198,7 @@ void xml2MsrVisitor::visitEnd ( S_key& elt )
     S_msrStaff
       staff =
         createStaffInCurrentPartIfNeeded (
-          inputLineNumber, fCurrentStaffNumber);
+          inputLineNumber, fCurrentKeyStaffNumber);
 
     staff->setStaffKey (key);
   }
@@ -1254,7 +1258,7 @@ void xml2MsrVisitor::visitEnd ( S_time& elt )
     S_msrStaff
       staff =
         createStaffInCurrentPartIfNeeded (
-          inputLineNumber, fCurrentStaffNumber);
+          inputLineNumber, fCurrentTimeStaffNumber);
 
     staff->setStaffTime (time);
   }
@@ -1312,7 +1316,7 @@ void xml2MsrVisitor::visitEnd ( S_transpose& elt )
     S_msrStaff
       staff =
         createStaffInCurrentPartIfNeeded (
-          inputLineNumber, fCurrentStaffNumber);
+          inputLineNumber, fCurrentTransposeNumber);
 
     staff->setStaffTranspose (transpose);
   }
@@ -1322,29 +1326,39 @@ void xml2MsrVisitor::visitEnd ( S_transpose& elt )
 void xml2MsrVisitor::visitStart (S_direction& elt)
 {
 /*
-      <direction placement="above">
-        <direction-type>
-          <words default-y="48" font-size="10.5" font-weight="bold" relative-x="-40" xml:lang="de">Sehr langsam</words>
-        </direction-type>
-        <staff>1</staff>
-        <sound tempo="26"/>
-      </direction>
+  A direction is a musical indication that is not attached to a specific note.
+  Two or more may be combined to indicate starts and stops of wedges, dashes, etc.
+   
+  By default, a series of direction-type elements and a series
+  of child elements of a direction-type within a single direction element
+  follow one another in sequence visually.
+  
+  For a series of direction-type children, non-positional formatting attributes
+  are carried over from the previous element by default.
 
-      <direction placement="above" directive="yes">
-        <direction-type>
-          <words default-y="40" font-size="6.6" font-weight="bold">Moderato</words>
-        </direction-type>
-        <direction-type>
-          <words font-size="6.6" font-weight="normal"> </words>
-        </direction-type>
-        <direction-type>
-          <metronome font-family="EngraverTextT" font-size="5.7" parentheses="yes">
-            <beat-unit>quarter</beat-unit>
-            <per-minute>85</per-minute>
-          </metronome>
-        </direction-type>
-        <sound tempo="85"/>
-      </direction>
+  <direction placement="above">
+    <direction-type>
+      <words default-y="48" font-size="10.5" font-weight="bold" relative-x="-40" xml:lang="de">Sehr langsam</words>
+    </direction-type>
+    <staff>1</staff>
+    <sound tempo="26"/>
+  </direction>
+
+  <direction placement="above" directive="yes">
+    <direction-type>
+      <words default-y="40" font-size="6.6" font-weight="bold">Moderato</words>
+    </direction-type>
+    <direction-type>
+      <words font-size="6.6" font-weight="normal"> </words>
+    </direction-type>
+    <direction-type>
+      <metronome font-family="EngraverTextT" font-size="5.7" parentheses="yes">
+        <beat-unit>quarter</beat-unit>
+        <per-minute>85</per-minute>
+      </metronome>
+    </direction-type>
+    <sound tempo="85"/>
+  </direction>
 */
 
   fCurrentDirectionPlacement = elt->getAttributeValue ("placement");
@@ -1374,6 +1388,8 @@ void xml2MsrVisitor::visitStart (S_direction& elt)
 
   fCurrentWords = 0;
   fCurrentTempo = 0;
+
+  fOnGoingDirection = true;
 }
 
 void xml2MsrVisitor::visitStart (S_direction_type& elt)
@@ -1381,10 +1397,29 @@ void xml2MsrVisitor::visitStart (S_direction_type& elt)
   fOnGoingDirectionType = true;
 }
 
+void xml2MsrVisitor::visitEnd (S_direction_type& elt)
+{
+  fOnGoingDirectionType = false;
+}
+
 void xml2MsrVisitor::visitStart (S_octave_shift& elt)
 {
 /*
-        <octave-shift dash-length="7.5" default-y="33" size="8" space-length="7.5" type="down"/>
+      <direction>
+        <direction-type>
+          <octave-shift default-y="29" size="8" type="down"/>
+        </direction-type>
+        <offset>-1</offset>
+        <staff>1</staff>
+      </direction>
+
+      <direction>
+        <direction-type>
+          <octave-shift size="8" type="stop"/>
+        </direction-type>
+        <offset>-2</offset>
+        <staff>1</staff>
+      </direction>
 */
   int    size = elt->getAttributeIntValue ("size", 0);
 
@@ -1441,7 +1476,7 @@ void xml2MsrVisitor::visitStart (S_octave_shift& elt)
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
         elt->getInputLineNumber (),
-        fCurrentStaffNumber,
+        fCurrentDirectionStaffNumber,
         fCurrentVoiceNumber);
 
   // append octave shift to the current voice
@@ -1523,7 +1558,19 @@ void xml2MsrVisitor::visitStart ( S_metronome& elt )
 }
   
 void xml2MsrVisitor::visitEnd ( S_metronome& elt )
-{ 
+{
+/*
+     <direction placement="above">
+        <direction-type>
+          <metronome default-y="20" font-family="EngraverTextT" font-size="12" halign="left" relative-x="-32">
+            <beat-unit>eighth</beat-unit>
+            <per-minute>132-144</per-minute>
+          </metronome>
+        </direction-type>
+        <sound tempo="69"/>
+      </direction>
+
+*/
  // if (fSkipDirection) return;
 
   int inputLineNumber =
@@ -1573,7 +1620,7 @@ void xml2MsrVisitor::visitEnd ( S_metronome& elt )
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
-        fCurrentStaffNumber,
+        fCurrentDirectionStaffNumber,
         fCurrentVoiceNumber);
 
   currentVoice->
@@ -1610,8 +1657,7 @@ void xml2MsrVisitor::visitEnd (S_direction& elt)
         setTempoIndication (fCurrentWordsContents);
   }
 
- // JMI  
-  fOnGoingDirectionType = false;
+  fOnGoingDirection = false;
 }
 
 //________________________________________________________________________
@@ -1699,17 +1745,27 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
     fCurrentForwardStaffNumber = staffNumber;
 
   }
+  
   else if (fOnGoingNote) {
 
     // regular staff indication in note/rest
-    fCurrentStaffNumber = staffNumber;
+    fCurrentNoteStaffNumber = staffNumber;
 
   }
-  else if (fOnGoingDirectionType) {
+  
+  else if (fOnGoingDirection) {
 
-    // JMI
+    // regular staff indication in <direction/>, such as <staff/>
+    fCurrentDirectionStaffNumber = staffNumber;
     
   }
+  
+  else if (fOnGoingDirectionType) {
+
+    // JMI ???
+    
+  }
+  
   else {
     
     stringstream s;
@@ -1749,7 +1805,7 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
   S_msrStaff
     staff =
       createStaffInCurrentPartIfNeeded (
-        inputLineNumber, fCurrentStaffNumber);
+        inputLineNumber, fCurrentNoteStaffNumber);
 
   if (false && fMsrOptions->fDebug)
 //  if (fMsrOptions->fDebug)
@@ -1758,8 +1814,8 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
         "--> S_voice, voiceNumber         = " <<
         voiceNumber << endl <<
       idtr <<
-        "--> S_voice, fCurrentStaffNumber = " <<
-        fCurrentStaffNumber << endl <<
+        "--> S_voice, fCurrentNoteStaffNumber = " <<
+        fCurrentNoteStaffNumber << endl <<
       idtr <<
         "--> S_voice, current staff name  = " <<
         staff->getStaffName() <<
@@ -1836,11 +1892,11 @@ void xml2MsrVisitor::visitEnd (S_backup& elt )
   
   currentVoice->
     setPositionInMeasure (
-      currentVoice->getPositionInMeasure ()
+      currentVoice->getVoicePositionInMeasure ()
         -
       fCurrentBackupDuration);
 
-  if (currentVoice->getPositionInMeasure () < 0) {
+  if (currentVoice->getVoicePositionInMeasure () < 0) {
     stringstream s;
     s <<
       "backup divisions " << fCurrentBackupDuration <<
@@ -3907,7 +3963,7 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote lastNote)
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
         lastNote->getInputLineNumber (),
-        fCurrentStaffNumber,
+        fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
 
   // get tuplet from top of tuplet stack
@@ -4221,7 +4277,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   S_msrStaff
     staff =
       createStaffInCurrentPartIfNeeded (
-        inputLineNumber, fCurrentStaffNumber);
+        inputLineNumber, fCurrentNoteStaffNumber);
 
 // JMI  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebug) {
@@ -4229,8 +4285,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       idtr <<
       "!!!! BEFORE visitEnd (S_note) we have:" << endl <<
       idtr << idtr <<
-        "--> fCurrentStaffNumber = " <<
-        fCurrentStaffNumber << endl <<
+        "--> fCurrentNoteStaffNumber = " <<
+        fCurrentNoteStaffNumber << endl <<
       idtr << idtr <<
         "--> current staff name  = " <<
         staff->getStaffName() << endl <<
@@ -4245,14 +4301,14 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
-        fCurrentStaffNumber,
+        fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
 
   // fetch current voice
   currentVoice =
     createVoiceInStaffInCurrentPartIfNeeded (
       inputLineNumber,
-      fCurrentStaffNumber,
+      fCurrentNoteStaffNumber,
       fCurrentVoiceNumber);
 
   // store voice number in MusicXML note data
@@ -4349,8 +4405,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
         " we have:" <<
       endl <<
       idtr << idtr <<
-        "--> fCurrentStaffNumber = " <<
-        fCurrentStaffNumber <<
+        "--> fCurrentNoteStaffNumber = " <<
+        fCurrentNoteStaffNumber <<
       endl <<
       idtr << idtr <<
         "--> current staff name  = " <<
@@ -4466,7 +4522,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
         newNote->getInputLineNumber (),
-        fCurrentStaffNumber,
+        fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
 
   // substract it's duration from the current measure location
@@ -4579,7 +4635,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
         newNote->getInputLineNumber (),
-        fCurrentStaffNumber,
+        fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
     
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
@@ -4717,7 +4773,7 @@ void xml2MsrVisitor::handleTupletsPendingOnTupletStack ()
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
         -111, // JMI ??? inputLineNumber,
-        fCurrentStaffNumber,
+        fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
 
   // handle tuplets pending on the tuplet stack
@@ -4873,7 +4929,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
         newNote->getInputLineNumber (),
-        fCurrentStaffNumber,
+        fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
 
   if (fCurrentLyricschunkKind != msrLyricschunk::k_NoChunk) {

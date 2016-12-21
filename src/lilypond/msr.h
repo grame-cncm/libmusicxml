@@ -3407,7 +3407,7 @@ class EXP msrVoice : public msrElement
                           increment;
                       }
 
-    const int     getPositionInMeasure () const
+    const int     getVoicePositionInMeasure () const
                       {
                         return fVoiceMeasureLocation.fPositionInMeasure;
                       }
@@ -3531,10 +3531,10 @@ class EXP msrVoice : public msrElement
     msrMeasureLocation        fVoiceMeasureLocation;
 
     // anacrusis detection
+    bool                      fMeasureZeroHasBeenMetInVoice;
+    bool                      fMeasureNumberHasBeenSetInVoice;
+    bool                      fMusicHasBeenInsertedInVoice;
     S_msrUpbeat               fVoiceAnacrusis;
-    bool                      fMeasureZeroHasBeenMet;
-    bool                      fMeasureNumberHasBeenSet;
-    bool                      fMusicHasBeenInserted;
     
     // the chunk in the voice contain the music elements
     // it is created implicitly for every voice,

@@ -5448,9 +5448,9 @@ msrVoice::msrVoice (
 
   fVoiceMeasureLocation.fPositionInMeasure = 1;
 
-  fMeasureZeroHasBeenMet   = false;
-  fMeasureNumberHasBeenSet = false;
-  fMusicHasBeenInserted    = false;
+  fMeasureZeroHasBeenMetInVoice   = false;
+  fMeasureNumberHasBeenSetInVoice = false;
+  fMusicHasBeenInsertedInVoice    = false;
   
   fVoiceContainsActualNotes = false;
 
@@ -5562,17 +5562,18 @@ void msrVoice::setMeasureNumber (
       k_NoAnacrusis, kExplicitAnacrusis, kImplicitAnacrusis };
 
   voiceAnacrusisKind anacrusisKind = k_NoAnacrusis;
-
+/*
   if (fMsrOptions->fDebug)
     cerr <<
       "--> setMeasureNumber, " << endl <<
       "    measureNumber = " << measureNumber << endl <<
       "    fVoiceMeasureLocation.fMeasureNumber = " <<
            fVoiceMeasureLocation.fMeasureNumber << endl <<
-      "    fMeasureNumberHasBeenSet = " << fMeasureNumberHasBeenSet << endl <<
+      "    fMeasureNumberHasBeenSetInVoice = " <<
+      fMeasureNumberHasBeenSetSetInVoice << endl <<
       "    fMusicHasBeenInserted = " << fMusicHasBeenInserted << endl <<
       endl;
-
+*/
   int
     beatsNumber =
       fVoiceStaffUplink->
@@ -5591,41 +5592,64 @@ void msrVoice::setMeasureNumber (
       divisionsPerWholeNote * beatsNumber / beatsValue,
           
     positionInMeasure =
-      getPositionInMeasure ();
+      getVoicePositionInMeasure ();
 
 //    if (gMsrOptions->fForceDebug || fMsrOptions->fDebug)
     cerr <<
       endl <<
-      idtr <<
-      "====== measureNumber == " << measureNumber <<
+      idtr << left <<
+      "=== measure " << measureNumber <<
+      ", voice = " << fVoiceNumber <<
+      ", voice name = " << getVoiceName () <<
       ", positionInMeasure = " << positionInMeasure <<
       endl <<
-      "    fVoiceMeasureLocation.fMeasureNumber = " <<
-           fVoiceMeasureLocation.fMeasureNumber << endl <<
-      "    inputLineNumber       = " << inputLineNumber << endl <<
-      "    beatsNumber           = " << beatsNumber << endl <<
-      "    beatsValue            = " << beatsValue << endl <<
-      "    divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
-      "    divisionsPerMeasure   = " << divisionsPerMeasure << endl <<
+      idtr <<
+        setw(36) << "fVoiceMeasureLocation.fMeasureNumber" << " = " <<
+        fVoiceMeasureLocation.fMeasureNumber <<
+        endl <<
+      idtr <<
+        setw(36) << "inputLineNumber" << " = " <<
+        inputLineNumber <<
+        endl <<
+      idtr <<
+        setw(36) << "fMeasureZeroHasBeenMetInVoice" << " = " <<
+        fMeasureZeroHasBeenMetInVoice <<
+        endl <<
+      idtr <<
+        setw(36) << "beatsNumber" << " = " <<
+        beatsNumber <<
+        endl <<
+      idtr <<
+        setw(36) << "beatsValue" << " = " <<
+        beatsValue <<
+        endl <<
+      idtr <<
+        setw(36) << "divisionsPerWholeNote" << " = " <<
+        divisionsPerWholeNote <<
+        endl <<
+      idtr <<
+        setw(36) << "divisionsPerMeasure" << " = " <<
+        divisionsPerMeasure <<
+        endl <<
       endl;
 
   if (measureNumber == 0) {  
-    fMeasureZeroHasBeenMet = true;
+    fMeasureZeroHasBeenMetInVoice = true;
   }
   
   else if (measureNumber == 1) {
     if (
       positionInMeasure > 1 // there may be initial measures without music
         &&
-      positionInMeasure <= divisionsPerMeasure) {
+      positionInMeasure <= divisionsPerMeasure) { // positions start at 1
         
-      if (fMeasureZeroHasBeenMet) {
+      if (fMeasureZeroHasBeenMetInVoice) {
         int upbeatDivisions = positionInMeasure;
   
   //    if (gMsrOptions->fForceDebug || fMsrOptions->fDebug)
         cerr <<
           "====== upbeat found, upbeatDivisions = " <<
-          upbeatDivisions <<
+          upbeatDivisions << "======" <<
           endl;
       }
     
@@ -5651,7 +5675,7 @@ void msrVoice::setMeasureNumber (
   if (measureNumber == 2)
     cerr <<
       "====== measureNumber == 2, positionInMeasure = " <<
-      getPositionInMeasure () <<
+      getVoicePositionInMeasure () <<
       endl;
 
   if (
@@ -5662,7 +5686,7 @@ void msrVoice::setMeasureNumber (
   }
   / *
   else if (
-//    getPositionInMeasure () == 13 JMI
+//    getVoicePositionInMeasure () == 13 JMI
  //     &&
     measureNumber == 2
       &&
@@ -5678,7 +5702,7 @@ void msrVoice::setMeasureNumber (
     int    computedNumberOfDots; // value not used
     string errorMessage;
     
-    anacrusisDivisions = getPositionInMeasure () - 1 ;
+    anacrusisDivisions = getVoicePositionInMeasure () - 1 ;
     anacrusisDivisionsAsString =
       divisionsAsMSRDuration (
         anacrusisDivisions,
@@ -5725,7 +5749,7 @@ void msrVoice::setMeasureNumber (
   fVoiceMeasureLocation.fMeasureNumber =
     measureNumber;
 
-  fMeasureNumberHasBeenSet = true;
+  fMeasureNumberHasBeenSetInVoice = true;
 }
 
 void msrVoice::setNewVoicechunkForVoice (
@@ -5946,7 +5970,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       lyricsDivisions,
       note); // JMI
 
-  fMusicHasBeenInserted = true;
+  fMusicHasBeenInsertedInVoice = true;
 }
 
 void msrVoice::appendChordToVoice (S_msrChord chord)
@@ -5960,7 +5984,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
   fVoicechunk->
     appendElementToVoicechunk (c);
 
-  fMusicHasBeenInserted = true;
+  fMusicHasBeenInsertedInVoice = true;
 }
 
 void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
@@ -5973,7 +5997,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
   fVoicechunk->
     appendElementToVoicechunk (t);
 
-  fMusicHasBeenInserted = true;
+  fMusicHasBeenInsertedInVoice = true;
 }
 
 void msrVoice::appendGraceexpressionToVoice (
@@ -5988,7 +6012,7 @@ void msrVoice::appendGraceexpressionToVoice (
   fVoicechunk->
     appendElementToVoicechunk (g);
 
-  fMusicHasBeenInserted = true;
+  fMusicHasBeenInsertedInVoice = true;
 }
 
 void msrVoice::addTextLyricschunkToVoice (
@@ -7130,13 +7154,11 @@ S_msrStaff msrPart::addStaffToPart (
     return fPartStavesMap [staffNumber];
   }
 
-  if (fMsrOptions->fTrace)
+// JMI  if (fMsrOptions->fForceDebug || fMsrOptions->fTrace)
     cerr << idtr <<
       "Adding staff " << staffNumber <<
       " to part " << getPartCombinedName () << "\"" <<
       endl;
-
-  assert (staffNumber > 0); // JMI
   
   // create the staff
   S_msrStaff
