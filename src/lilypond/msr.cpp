@@ -7717,7 +7717,7 @@ void msrIdentification::setEncodingDate (
     msrVarValAssoc::create (
       fMsrOptions,
       inputLineNumber,
-      "encodingdate", val);
+      "encoding-date", val);
 }
 
 void msrIdentification::setScoreInstrumentAssoc (
