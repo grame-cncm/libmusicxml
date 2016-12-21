@@ -3437,6 +3437,8 @@ class EXP msrVoice : public msrElement
     void          appendClefToVoice   (S_msrClef clef);
     void          appendKeyToVoice    (S_msrKey  key);
     void          appendTimeToVoice   (S_msrTime time);
+    
+    void          appendTransposeToVoice (S_msrTranspose transpose);
 
 // JMI    void          appendWordsToVoice  (S_msrWords words);
     
@@ -3603,6 +3605,9 @@ class EXP msrStaff : public msrElement
     S_msrKey    getStaffKey  () const { return fStaffKey; };
     S_msrTime   getStaffTime () const { return fStaffTime; };
     
+    S_msrTranspose
+                getStaffTranspose () const { return fStaffTranspose; };
+    
     void        setStaffClef (S_msrClef clef);
     void        setStaffKey  (S_msrKey  key);
     void        setStaffTime (S_msrTime time);
@@ -3644,6 +3649,8 @@ class EXP msrStaff : public msrElement
     void        appendClefToAllStaffVoices (S_msrClef clef);
     void        appendKeyToAllStaffVoices  (S_msrKey   key);
     void        appendTimeToAllStaffVoices (S_msrTime time);
+    
+    void        appendTransposeToAllStaffVoices (S_msrTranspose transpose);
               
     // visitors
     // ------------------------------------------------------
@@ -3669,6 +3676,8 @@ class EXP msrStaff : public msrElement
     S_msrClef               fStaffClef;
     S_msrKey                fStaffKey;
     S_msrTime               fStaffTime;
+
+    S_msrTranspose          fStaffTranspose;
 
     int                     fNextRelativeStaffVoiceNumber;
 
@@ -3778,6 +3787,8 @@ class EXP msrPart : public msrElement
     void          setAllPartStavesKey  (S_msrKey  key);
               
     void          setAllPartStavesTime (S_msrTime time);
+              
+    void          setAllPartStavesTranspose (S_msrTranspose transpose);
               
     S_msrStaff    addStaffToPart (
                     int inputLineNumber,

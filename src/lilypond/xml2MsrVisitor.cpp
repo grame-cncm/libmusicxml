@@ -1306,7 +1306,7 @@ void xml2MsrVisitor::visitEnd ( S_transpose& elt )
 
   if (fCurrentTransposeNumber == 0)
     fCurrentPart->
-      setAllPartsTranspose (time);
+      setAllPartStavesTranspose (transpose);
     
   else {
     S_msrStaff
@@ -1316,7 +1316,6 @@ void xml2MsrVisitor::visitEnd ( S_transpose& elt )
 
     staff->setStaffTranspose (transpose);
   }
-  */
 }
 
 //________________________________________________________________________

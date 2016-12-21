@@ -5823,6 +5823,18 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
     appendElementToVoicechunk (t);
 }
 
+void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
+{
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending transpose '" << transpose->transposeAsString () <<
+      "' to voice " << getVoiceName () << endl;
+
+  S_msrElement t = transpose;
+  fVoicechunk->
+    appendElementToVoicechunk (t);
+}
+
 /* JMI
 void msrVoice::appendWordsToVoice (S_msrWords words)
 {
@@ -6755,7 +6767,7 @@ void msrStaff::setStaffTranspose (S_msrTranspose transpose)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Setting transpose '" << time->timeAsString () <<
+      "Setting transpose '" << transpose->transposeAsString () <<
       "' in staff " << fStaffNumber <<
       " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
       endl;
@@ -6792,6 +6804,16 @@ void msrStaff::appendTimeToAllStaffVoices (S_msrTime time)
     i != fStaffVoicesMap.end();
     i++) {
     (*i).second->appendTimeToVoice (time);
+  } // for
+}
+
+void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
+{
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    (*i).second->appendTransposeToVoice (transpose);
   } // for
 }
  
@@ -7022,6 +7044,16 @@ void msrPart::setAllPartStavesDivisionsPerWholeNote (int divisions)
   } // for
 }
 
+void msrPart::setAllPartStavesClef (S_msrClef clef)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->setStaffClef (clef);
+  } // for
+}
+
 void msrPart::setAllPartStavesKey (S_msrKey  key)
 {
   for (
@@ -7042,13 +7074,13 @@ void msrPart::setAllPartStavesTime  (S_msrTime time)
   } // for
 }
           
-void msrPart::setAllPartStavesClef (S_msrClef clef)
+void msrPart::setAllPartStavesTranspose (S_msrTranspose transpose)
 {
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->setStaffClef (clef);
+    (*i).second->setStaffTranspose (transpose);
   } // for
 }
 
