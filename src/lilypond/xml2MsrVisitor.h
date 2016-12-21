@@ -651,6 +651,7 @@ class EXP xml2MsrVisitor :
     // note/rest handling
     // ------------------------------------------------------
     int                       fCurrentNoteStaffNumber; // used throughout
+    int                       fCurrentNoteVoiceNumber;
     void                      handleStandaloneOrGraceNoteOrRest (
                                 S_msrNote newNote);
 

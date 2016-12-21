@@ -5439,6 +5439,8 @@ msrVoice::msrVoice (
     cerr << idtr <<
       "Creating voice " << getVoiceName () << endl;
 
+  assert(voiceNumber != 9);
+  
   fDivisionsPerWholeNote =
     fVoiceStaffUplink->
       getDivisionsPerWholeNote ();

@@ -68,7 +68,9 @@ xml2MsrVisitor::xml2MsrVisitor (
   
   fCurrentBackupDuration = -1;
 
-  fOnGoingNote = false;
+  fCurrentNoteStaffNumber = 0;
+  fCurrentNoteVoiceNumber = 0;
+  fOnGoingNote            = false;
 
   fOnGoingChord = false;
   
@@ -1802,35 +1804,52 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  S_msrStaff
-    staff =
-      createStaffInCurrentPartIfNeeded (
-        inputLineNumber, fCurrentNoteStaffNumber);
-
-  if (false && fMsrOptions->fDebug)
-//  if (fMsrOptions->fDebug)
-    cerr <<
-      idtr <<
-        "--> S_voice, voiceNumber         = " <<
-        voiceNumber << endl <<
-      idtr <<
-        "--> S_voice, fCurrentNoteStaffNumber = " <<
-        fCurrentNoteStaffNumber << endl <<
-      idtr <<
-        "--> S_voice, current staff name  = " <<
-        staff->getStaffName() <<
-      endl;
-
   if (fOnGoingForward) {
 
     fCurrentForwardVoiceNumber = voiceNumber;
 
+    S_msrStaff
+      staff =
+        createStaffInCurrentPartIfNeeded (
+          inputLineNumber, fCurrentForwardVoiceNumber);
+  
+    if (false && fMsrOptions->fDebug)
+  //  if (fMsrOptions->fDebug)
+      cerr <<
+        idtr <<
+          "--> S_voice, voiceNumber         = " <<
+          voiceNumber << endl <<
+        idtr <<
+          "--> S_voice, fCurrentForwardVoiceNumber = " <<
+          fCurrentForwardVoiceNumber << endl <<
+        idtr <<
+          "--> S_voice, current staff name  = " <<
+          staff->getStaffName() <<
+        endl;
   }
   else if (fOnGoingNote) {
 
     // regular voice indication in note/rest
-    fCurrentVoiceNumber = voiceNumber;
+    fCurrentNoteVoiceNumber = voiceNumber;
 
+    S_msrStaff
+      staff =
+        createStaffInCurrentPartIfNeeded (
+          inputLineNumber, fCurrentNoteStaffNumber);
+  
+    if (false && fMsrOptions->fDebug)
+  //  if (fMsrOptions->fDebug)
+      cerr <<
+        idtr <<
+          "--> S_voice, voiceNumber         = " <<
+          voiceNumber << endl <<
+        idtr <<
+          "--> S_voice, fCurrentNoteStaffNumber = " <<
+          fCurrentNoteStaffNumber << endl <<
+        idtr <<
+          "--> S_voice, current staff name  = " <<
+          staff->getStaffName() <<
+        endl;
 /*
     currentVoice = // ???
       createVoiceInStaffInCurrentPartIfNeeded (
