@@ -5441,7 +5441,9 @@ msrVoice::msrVoice (
 
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Creating voice " << getVoiceName () << endl;
+      "Creating voice \"" << getVoiceName () <<
+      "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
+      endl;
 
   // the voice number should be in the 1..4 range  
   if (voiceNumber < 1 || voiceNumber > 4) {
@@ -5479,13 +5481,12 @@ msrVoice::msrVoice (
     msrVoicechunk::create (
       fMsrOptions, inputLineNumber);
 
-  // create the d
-  /*
-  // get the initial clef from the staff
+  // get the initial clef from the staff if any
+  {
   S_msrClef
     clef =
       fVoiceStaffUplink->getStaffClef ();
-      
+      /*
   if (! clef)
     // it doesn't exist yet, create default G clef
     clef =
@@ -5493,17 +5494,21 @@ msrVoice::msrVoice (
         msrOpts,
         inputLineNumber,
         "G", 2, 0);
-        
-  // append it to the voice chunk
-  S_msrElement c = clef;
-  fVoicechunk->
-    appendElementToVoicechunk (c);
+        */
+  if (clef) {
+    // append it to the voice chunk
+    S_msrElement c = clef;
+    fVoicechunk->
+      appendElementToVoicechunk (c);
+    }
+  }
     
-  // get the initial key from the staff
+  // get the initial key from the staff if any
+  {
   S_msrKey
     key =
       fVoiceStaffUplink->getStaffKey ();
-      
+  /*    JMI
   if (! key)
     // it doesn't exist yet, create default C major key
     key =
@@ -5511,30 +5516,50 @@ msrVoice::msrVoice (
         msrOpts,
         inputLineNumber,
         0, "major", 0);
-        
-  // append it to the voice chunk
-  S_msrElement k = key;
-  fVoicechunk->
-    appendElementToVoicechunk (k);
+        */
+    if (key) {
+    // append it to the voice chunk
+    S_msrElement k = key;
+    fVoicechunk->
+      appendElementToVoicechunk (k);
+    }
+  }
   
-  // get the initial time from the staff
-  S_msrTime
-    time =
-      fVoiceStaffUplink->getStaffTime ();
-      
-  if (! time)
-    // it doesn't exist yet, create default 4/4 time
-    time =
-      msrTime::create (
-        msrOpts,
-        inputLineNumber,
-        4, 4);
-
-  // append it to the voice chunk
-  S_msrElement t = time;
-  fVoicechunk->
-    appendElementToVoicechunk (t);
-    */
+  // get the initial time from the staff if any
+  {
+    S_msrTime
+      time =
+        fVoiceStaffUplink->getStaffTime ();
+        /*
+    if (! time)
+      // it doesn't exist yet, create default 4/4 time
+      time =
+        msrTime::create (
+          msrOpts,
+          inputLineNumber,
+          4, 4);
+  */
+    if (time) {
+      // append it to the voice chunk
+      S_msrElement t = time;
+      fVoicechunk->
+        appendElementToVoicechunk (t);
+    }
+  }
+  
+  // get the initial transpose from the staff if any
+  {
+    S_msrTranspose
+      transpose =
+        fVoiceStaffUplink->getStaffTranspose ();
+        
+    if (transpose) {
+      // append it to the voice chunk
+      S_msrElement t = transpose;
+      fVoicechunk->
+        appendElementToVoicechunk (t);
+    }
+  }
   
   // add the master lyrics to this voice, to
   // collect skips along the way that are used as a 'prelude'
@@ -6642,8 +6667,8 @@ msrStaff::msrStaff (
 
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Creating staff " << getStaffName () <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      "Creating staff \"" << getStaffName () <<
+      "\" in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
       endl;
 
   // the staff number should be positive 
