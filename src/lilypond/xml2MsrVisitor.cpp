@@ -53,7 +53,7 @@ xml2MsrVisitor::xml2MsrVisitor (
 
   fCurrentWordsContents = "";
 
-  fCurrentTimeStaffNumber = 1; // it may be absent
+ // JMI fCurrentTimeStaffNumber = 1; // it may be absent
 
   fCurrentForwardVoiceNumber = 1; // JMI
   fCurrentVoiceNumber = 1; // JMI

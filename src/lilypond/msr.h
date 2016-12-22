@@ -2439,7 +2439,7 @@ class EXP msrKey : public msrElement
     msrKeyMode  getKeyMode () const
                     { return fKeyMode; }
 
-    const msrKeyMode&
+    const msrMeasureLocation&
                 getMeasureLocation () const
                     { return fMeasureLocation; }
 

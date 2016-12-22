@@ -7116,7 +7116,7 @@ msrPart::msrPart (
   S_msrPartgroup partPartgroupUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
-  // replace spaced in part ID
+  // replace spaces in part ID
   for_each (
     partMusicXMLID.begin(),
     partMusicXMLID.end(),
@@ -7322,9 +7322,6 @@ void msrPart::setAllPartStavesTranspose (S_msrTranspose transpose)
     (*i).second->setStaffTranspose (transpose);
   } // for
 }
-
-
- 
 
 S_msrStaff msrPart::addStaffToPart (
   int inputLineNumber,
