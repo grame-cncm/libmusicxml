@@ -123,6 +123,8 @@ class EXP xmlpart2guido :
 	void stackClean	();
 
 	int  checkArticulation ( const notevisitor& note );			// returns the count of articulations pushed on the stack
+    int  checkChordOrnaments ( const notevisitor& note );			// returns the count of articulations pushed on the stack
+    void generateOrnaments(const notevisitor& note);            // generates ornaments for Guido from XML accidental-mark
     
 	std::vector<Sxmlelement>  getChord ( const S_note& note );	// build a chord vector
 	void checkStaff		 (int staff );					// check for staff change

@@ -52,7 +52,10 @@ void notevisitor::reset ()
 	fStrongAccent = 0;
 	fStaccato = 0;
     fTenuto = 0;
-	fTrill = 0;
+    fTrill = 0;
+	fTurn = 0;
+    fInvertedTurn = 0;
+    fAccidentalMark = 0;
     fMordent = 0;
     fInvertedMordent = 0;
 	fBreathMark = 0;

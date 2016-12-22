@@ -1068,7 +1068,6 @@ namespace MusicXML2
                         iterChord = nextnote->find(k_chord);
                         if (iterChord == nextnote->end())
                         {
-                            
                             ctree<xmlelement>::iterator iter;
                             iter = nextnote->find(k_notations);
                             if (iter != nextnote->end())
@@ -1084,13 +1083,17 @@ namespace MusicXML2
                                     if ((iterTuplet->getAttributeValue("type")=="stop")&&(newTupletNumber==thisTupletNumber))
                                     {
                                         numberOfEventsInTuplet++;
+                                        //cout<<"\t"<<nextnote->getName()<< " ENDED to "<<numberOfEventsInTuplet<<endl;
                                         break;
                                     }
+                                }else {
+                                    //cout<<"\t There is k_notation but not k_tuplet: SHOULD INCREASE"<<endl;
+                                    numberOfEventsInTuplet++;
                                 }
-                                
                             }else {
                                 // no notation tag on next note. Just increment numberOfEventsInTuplet
                                 numberOfEventsInTuplet++;
+                                //cout<<"\t"<<nextnote->getName()<< " increased to "<<numberOfEventsInTuplet<<endl;
                             }
                         }
                     }
@@ -1132,7 +1135,7 @@ namespace MusicXML2
                 
                 /// Generate tag and parameters
                 // Avoid generating parameter for triplets since Guido does this automatically
-                if ((numberOfEventsInTuplet!=3)||(dispNotePar.size()))
+                if ((numberOfEventsInTuplet!=3) ||(dispNotePar.size()))
                 {
                     Sguidoelement tag = guidotag::create("tuplet");
                     /// Add number visualiser
@@ -1400,30 +1403,102 @@ namespace MusicXML2
             n++;
         }
         
-        /// Also check ornaments
+        return n;
+    }
+    
+    //---------------------
+    int xmlpart2guido::checkChordOrnaments(const notevisitor& note)
+    {
+        // We can visit mordent, tremolo, trill, turn, inverted-turn, trill-mark, wave-line, vertical-turn, and accidental-mark
+        // See http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-ornaments.htm
+        /// NOTE: In Guido, the following ornaments accept CHORD as input: trill, mord, turn
+        ///         On the contrary, trem accept note list (to be moved to Articulation??)
+        
+        
+        int n = 0;
+        Sguidoelement tag;
         if (note.fTrill) {
             tag = guidotag::create("trill");
-            if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fTrill, tag);
             push(tag);
             n++;
         }
         
-        if (note.fMordent) {
-            tag = guidotag::create("mordent");
-            if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fMordent, tag);
+        // Inversed mordent in Guido is mordent with inversed chord structure. See generateOrnaments.
+        if (note.fMordent || note.fInvertedMordent) {
+            tag = guidotag::create("mord");
+            //if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fMordent, tag);
             push(tag);
             n++;
         }
         
-        // TODO: distinguish between mordent and inverted mordent!!!
-        if (note.fInvertedMordent) {
-            tag = guidotag::create("mordent");
-            if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fInvertedMordent, tag);
+        if (note.fTurn || note.fInvertedTurn) {
+            tag = guidotag::create("turn");
+            //if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fInvertedMordent, tag);
             push(tag);
             n++;
         }
         
         return n;
+    }
+    
+    /// generates ornaments for Guido from XML accidental-mark
+    void xmlpart2guido::generateOrnaments(const notevisitor& note)
+    {
+        notevisitor baseNote = note;
+        
+        // parse accidental-mark as it'll be used by all
+        string accidentalMark = note.fAccidentalMark->getValue();
+        string guidoAccident="";
+        if (accidentalMark=="sharp")
+        {
+            guidoAccident = "#";
+        }
+        if (accidentalMark=="flat")
+        {
+            guidoAccident = "&";
+        }
+        guidonoteduration dur = noteDuration(note);
+        int octave = note.getOctave() - 3;			// octave offset between MusicXML and GUIDO is -3
+        
+        
+        // In case of a TRILL, generate ornament ONLY if there is an accidental-mark
+        if ( note.fTrill && note.fAccidentalMark) {
+            string stepString = note.getStep();
+            int stepi = step2i(stepString) + 1;
+            string newName = i2step(stepi);
+            
+            if (!newName.empty()) newName[0]=tolower(newName[0]);
+
+            Sguidoelement note2add = guidonote::create(fTargetVoice, newName, octave, dur, guidoAccident);
+            add (note2add);
+        }
+        
+        // Nothing to do for regular mordent. For inverse mordent, just add step-1
+        if (note.fInvertedMordent) {
+            string stepString = note.getStep();
+            int stepi = step2i(stepString) - 1;
+            string newName = i2step(stepi);
+            
+            if (!newName.empty()) newName[0]=tolower(newName[0]);
+            
+            Sguidoelement note2add = guidonote::create(fTargetVoice, newName, octave, dur, guidoAccident);
+            add (note2add);
+        }
+        
+        // Nothing to do for regular turn. For inverse turn, add step-1 and step
+        if (note.fInvertedTurn) {
+            string originalName = note.getStep();
+            int stepi = step2i(originalName) - 1;
+            string newName = i2step(stepi);
+            
+            if (!newName.empty()) newName[0]=tolower(newName[0]);
+            
+            Sguidoelement note2add = guidonote::create(fTargetVoice, newName, octave, dur, guidoAccident);
+            add (note2add);
+            
+            note2add = guidonote::create(fTargetVoice, originalName, octave, dur, alter2accident(note.getAlter()));
+            add (note2add);
+        }
     }
     
     //______________________________________________________________________________
@@ -1597,18 +1672,23 @@ namespace MusicXML2
         int pendingPops  = checkFermata(*this);
         pendingPops += checkArticulation(*this);
         
-        ///////// restFormat
+        int chordOrnaments = checkChordOrnaments(*this);
+        pendingPops += chordOrnaments;
+        
         if (notevisitor::getType()==kRest)
             pendingPops += checkRestFormat(*this);
         
         vector<Sxmlelement> chord = getChord(elt);
-        if (chord.size()) {
+        if (chord.size() || (chordOrnaments>0))     // also enforce chord creation in case of Guido Ornaments Trill, Turn and Mord
+        {
             Sguidoelement chord = guidochord::create();
             push (chord);
             pendingPops++;
             isProcessingChord = true;
         }
+        
         newNote (*this);
+        // Add chord notes (in case of a real chord)
         for (vector<Sxmlelement>::const_iterator iter = chord.begin(); iter != chord.end(); iter++) {
             notevisitor nv;
             xml_tree_browser browser(&nv);
@@ -1617,7 +1697,12 @@ namespace MusicXML2
             checkStaff(nv.getStaff());
             newNote (nv);
         }
+        // generate Guido Ornaments in case of checkChordOrnaments
+        if (chordOrnaments>0) {
+            generateOrnaments(*this);
+        }
         isProcessingChord = false;
+        
         while (pendingPops--) pop();
         
         checkTupletEnd(notevisitor::getTuplet());
