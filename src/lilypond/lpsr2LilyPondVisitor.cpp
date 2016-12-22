@@ -777,14 +777,16 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartBlock& elt)
     partInstrumentName =
       part->getPartInstrumentName ();
 
-  fOstream << idtr <<
-    "\\new StaffGroup" <<  " " "<<";
-    
-  if (fLpsrOptions->fGenerateComments)
-    fOstream <<
-      setw(30) << " " << "% part " <<
-      elt->getPart ()->getPartCombinedName ();
-
+  if (fLpsrOptions->fGenerateComments) {
+    fOstream << left <<
+      idtr <<
+      setw(30) << "\\new StaffGroup <<" <<
+      " % part " << elt->getPart ()->getPartCombinedName ();
+  }
+  else {
+    fOstream << idtr <<
+      "\\new StaffGroup" <<  " " "<<";      
+  }
       /* JMI
   if (partInstrumentName.size ())
     fOstream << idtr <<
@@ -795,7 +797,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartBlock& elt)
       */
 
   fOstream <<
-    endl;
+    endl << endl;
   
   idtr++;
 }
@@ -808,15 +810,19 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartBlock& elt)
 
   idtr--;
 
-  fOstream <<
-    idtr <<
-    ">>";
-    
-  if (fLpsrOptions->fGenerateComments)
+  if (fLpsrOptions->fGenerateComments) {
     fOstream <<
-      setw(30) << " " << "% part " <<
+      idtr <<
+      setw(30) << ">>" <<    
+      " % part " <<
       elt->getPart ()->getPartCombinedName ();
-      
+  }
+  else {
+    fOstream <<
+      idtr <<
+      ">>";
+  }
+  
   fOstream <<
     endl << endl;
 }
@@ -844,15 +850,19 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
     partAbbreviation =
       part->getPartAbbreviation ();
 
-  fOstream << idtr <<
-    "\\new Staff" " " "<<";
-    
-  if (fLpsrOptions->fGenerateComments)
-    fOstream <<
-      setw(30) << " " << "% staff " <<
-      elt->getStaff ()->getStaffName ();
+  if (fLpsrOptions->fGenerateComments) {
+    fOstream << left <<
+      idtr <<
+      setw(30) << "\\new Staff <<" <<
+      " % staff " << elt->getStaff ()->getStaffName ();
+  }
+  else {
+    fOstream << idtr <<
+      "\\new Staff" <<  " " "<<";      
+  }
       
-  fOstream << endl;
+  fOstream <<
+    endl;
 
   idtr++;
 
@@ -877,14 +887,21 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffBlock& elt)
 
   idtr--;
 
-  fOstream <<
-    idtr <<
-    ">>";
-  if (fLpsrOptions->fGenerateComments)
+  if (fLpsrOptions->fGenerateComments) {
     fOstream <<
-      setw(30) << " " << "% staff " <<
+      idtr <<
+      setw(30) << ">>" <<    
+      " % staff " <<
       elt->getStaff ()->getStaffName ();
-  fOstream << endl;
+  }
+  else {
+    fOstream <<
+      idtr <<
+      ">>";
+  }
+
+  fOstream <<
+    endl << endl;
 }
 
 /*
@@ -1816,6 +1833,13 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         break;
         
       case msrNote::kTupletMemberNote:
+        if (++fSequentialMusicElementsCounter > 10) {
+          fOstream <<
+            endl <<
+            idtr;
+          fSequentialMusicElementsCounter = 1;
+        }
+
         fOstream << "tuplet member";
         break;
     } // switch

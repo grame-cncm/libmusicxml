@@ -114,8 +114,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
     endl << \
 \
     message << \
-    endl << endl << \
-    idtr; \
+    endl << endl; \
 }
 
 /*!

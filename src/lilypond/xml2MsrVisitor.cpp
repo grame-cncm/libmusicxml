@@ -3154,6 +3154,8 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   fCurrentSlurPlacement = "";
   fCurrentSlurKind = msrSlur::k_NoSlur;
 
+  fCurrentNoteStaffNumber = 1; // it may be absent
+  fCurrentNoteVoiceNumber = 1; // it may be absent
   fOnGoingNote = true;
 }
 

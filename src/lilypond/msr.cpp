@@ -6646,6 +6646,17 @@ msrStaff::msrStaff (
       " in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
+  // the staff number should be positive 
+  if (staffNumber <= 0) {
+    stringstream s;
+
+    s <<
+      "staff number " << staffNumber <<
+      " is not positive";
+      
+    msrAssert (false, s.str());
+  }
+
   fDivisionsPerWholeNote =
     fStaffPartUplink->
       getDivisionsPerWholeNote ();
