@@ -344,7 +344,7 @@ void xml2MsrVisitor::visitStart ( S_system_distance& elt )
 {
   int systemDistance = (int)(*elt);
   
-//  cout << "--> systemDistance = " << systemDistance << endl;
+//  cerr << "--> systemDistance = " << systemDistance << endl;
   fMsrScore->getPageGeometry ()->
     setBetweenSystemSpace (
       1.0 * systemDistance * fMillimeters / fTenths / 10);  
@@ -354,7 +354,7 @@ void xml2MsrVisitor::visitStart ( S_top_system_distance& elt )
 {
   int topSystemDistance = (int)(*elt);
   
-//  cout << "--> fTopSystemDistance = " << topSystemDistance << endl;
+//  cerr << "--> fTopSystemDistance = " << topSystemDistance << endl;
     fMsrScore->getPageGeometry ()->
     setPageTopSpace (
       1.0 * topSystemDistance * fMillimeters / fTenths / 10);  
@@ -375,7 +375,7 @@ void xml2MsrVisitor::visitStart ( S_page_height& elt )
   if (fOnGoingPageLayout) {
     int pageHeight = (int)(*elt);
     
-    //cout << "--> pageHeight = " << pageHeight << endl;
+    //cerr << "--> pageHeight = " << pageHeight << endl;
     fMsrScore->getPageGeometry ()->
       setPaperHeight (
         1.0 * pageHeight * fMillimeters / fTenths / 10);  
@@ -387,7 +387,7 @@ void xml2MsrVisitor::visitStart ( S_page_width& elt )
   if (fOnGoingPageLayout) {
     int pageWidth = (int)(*elt);
     
-    //cout << "--> pageWidth = " << pageWidth << endl;
+    //cerr << "--> pageWidth = " << pageWidth << endl;
     fMsrScore->getPageGeometry ()->
       setPaperWidth (
         1.0 * pageWidth * fMillimeters / fTenths / 10);  
@@ -399,7 +399,7 @@ void xml2MsrVisitor::visitStart ( S_left_margin& elt )
   if (fOnGoingPageLayout) {
     int leftMargin = (int)(*elt);
     
-    //cout << "--> leftMargin = " << leftMargin << endl;
+    //cerr << "--> leftMargin = " << leftMargin << endl;
     fMsrScore->getPageGeometry ()->
       setLeftMargin (
         1.0 * leftMargin * fMillimeters / fTenths / 10);  
@@ -411,7 +411,7 @@ void xml2MsrVisitor::visitStart ( S_right_margin& elt )
   if (fOnGoingPageLayout) {
     int rightMargin = (int)(*elt);
     
-    //cout << "--> rightMargin = " << rightMargin << endl;
+    //cerr << "--> rightMargin = " << rightMargin << endl;
     fMsrScore->getPageGeometry ()->
       setRightMargin (
         1.0 * rightMargin * fMillimeters / fTenths / 10);  
@@ -423,7 +423,7 @@ void xml2MsrVisitor::visitStart ( S_top_margin& elt )
   if (fOnGoingPageLayout) {
     int topMargin = (int)(*elt);
     
-    //cout << "--> topMargin = " << topMargin << endl;
+    //cerr << "--> topMargin = " << topMargin << endl;
     fMsrScore->getPageGeometry ()->
       setTopMargin (
         1.0 * topMargin * fMillimeters / fTenths / 10);  
@@ -435,7 +435,7 @@ void xml2MsrVisitor::visitStart ( S_bottom_margin& elt )
   if (fOnGoingPageLayout) {
     int bottomMargin = (int)(*elt);
     
-    //cout << "--> bottomMargin = " << bottomMargin << endl;
+    //cerr << "--> bottomMargin = " << bottomMargin << endl;
     fMsrScore->getPageGeometry ()->
       setBottomMargin (
         1.0 * bottomMargin * fMillimeters / fTenths / 10);  
@@ -1920,7 +1920,8 @@ void xml2MsrVisitor::visitEnd (S_backup& elt )
     s <<
       "backup divisions " << fCurrentBackupDuration <<
       " from position " << saveCurrentPositionInMeasure <<
-      " crosses measure left boundary";
+      " in voice \"" << currentVoice->getVoiceName () <<
+      "\" crosses measure left boundary";
       
 // JMI    msrMusicXMLError (s.str());
     msrMusicXMLWarning (

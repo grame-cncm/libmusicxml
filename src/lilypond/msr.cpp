@@ -4538,7 +4538,7 @@ void msrLyrics::print (ostream& os)
 {  
   os <<
     "Lyrics" << " " << getLyricsName () <<
-    ", " << fLyricschunks.size () << " lyrics chunks";
+    " (" << fLyricschunks.size () << " lyrics chunks)";
     
   if (! fLyricsTextPresent)
     os << " (No actual text)";
@@ -4597,7 +4597,7 @@ msrBarline::msrBarline (
   fRepeatDirection = repeatDirection;
   fRepeatWinged    = repeatWinged;
   
-  // JMI cout << "fEndingNumber = " << fEndingNumber << endl;
+  // JMI cerr << "fEndingNumber = " << fEndingNumber << endl;
   
   // extract individual numbers from fEndingNumber
   // that may contain "1, 2"
@@ -4839,11 +4839,11 @@ void msrVoicechunk::removeElementFromVoicechunk (
   S_msrElement elem)
 {
   for (
-    list<S_msrElement>::iterator i = fVoicechunkElements.begin();
-    i != fVoicechunkElements.end();
+    list<S_msrElement>::iterator i = fVoicechunkElementsList.begin();
+    i != fVoicechunkElementsList.end();
     i++) {
     if ((*i) == elem) {
-      fVoicechunkElements.erase (i);
+      fVoicechunkElementsList.erase (i);
       break;
     }
   } // for
@@ -4890,8 +4890,8 @@ void msrVoicechunk::browseData (basevisitor* v)
       "==> msrVoicechunk::browseData()" << endl;
 
   for (
-    list<S_msrElement>::iterator i = fVoicechunkElements.begin();
-    i != fVoicechunkElements.end();
+    list<S_msrElement>::iterator i = fVoicechunkElementsList.begin();
+    i != fVoicechunkElementsList.end();
     i++) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -4908,10 +4908,10 @@ string msrVoicechunk::voicechunkAsString ()
   stringstream s;
 
   s << "Voicechunk" ;
-  if (! fVoicechunkElements.size ())
+  if (! fVoicechunkElementsList.size ())
     s << "(No actual notes)";
   else
-    s << "(" << fVoicechunkElements.size () << " elements)";
+    s << "(" << fVoicechunkElementsList.size () << " elements)";
 
   return s.str();
 }
@@ -4924,7 +4924,10 @@ ostream& operator<< (ostream& os, const S_msrVoicechunk& elt)
 
 void msrVoicechunk::print (ostream& os)
 {  
-  os << idtr << "Voicechunk" << endl;
+  os << idtr <<
+    "Voicechunk" <<
+    " (" << fVoicechunkElementsList.size() << " elements)" <<
+    endl;
 
   idtr++;
     
@@ -4933,14 +4936,14 @@ void msrVoicechunk::print (ostream& os)
 
   idtr++;
   
-  if (! fVoicechunkElements.size ())
+  if (! fVoicechunkElementsList.size ())
     os << " none";
   else {
     os << endl;
     
     list<S_msrElement>::const_iterator
-      iBegin = fVoicechunkElements.begin(),
-      iEnd   = fVoicechunkElements.end(),
+      iBegin = fVoicechunkElementsList.begin(),
+      iEnd   = fVoicechunkElementsList.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -5224,6 +5227,7 @@ void msrRepeat::print (ostream& os)
     endl <<
     idtr << "Repeat" <<
     ", input line: " << fInputLineNumber <<
+    " (" << fRepeatEndings.size() << " repeat endings)" <<
     endl;
   
   idtr++;
@@ -5336,7 +5340,7 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
       getDivisionsPerWholeNote ();
   
   if (fMsrOptions->fDebug)
-    cout <<
+    cerr <<
       endl <<
       idtr <<
         "% --> fUpbeatDivisions = " << fUpbeatDivisions <<
@@ -5439,7 +5443,16 @@ msrVoice::msrVoice (
     cerr << idtr <<
       "Creating voice " << getVoiceName () << endl;
 
-  assert(voiceNumber != 9);
+  // the voice number should be in the 1..4 range  
+  if (voiceNumber < 1 || voiceNumber > 4) {
+    stringstream s;
+
+    s <<
+      "voice number " << voiceNumber <<
+      " is not in the 1..4 range";
+      
+    msrAssert (false, s.str());
+  }
   
   fDivisionsPerWholeNote =
     fVoiceStaffUplink->
@@ -6557,7 +6570,7 @@ void msrVoice::print (ostream& os)
 {
   os <<
     "Voice" << " " << getVoiceName () <<
-    ", " << fVoiceLyricsMap.size() << " lyrics" <<
+    " (" << fVoiceLyricsMap.size() << " lyrics)" <<
     endl;
 
   idtr++;
@@ -6947,7 +6960,10 @@ ostream& operator<< (ostream& os, const S_msrStaff& elt)
 
 void msrStaff::print (ostream& os)
 {
-  os << "Staff" << " " << getStaffName () << endl;
+  os <<
+    "Staff" << " " << getStaffName () <<
+    " (" << fStaffVoicesMap.size() << " voices)" <<
+    endl;
 
   idtr++;
 
@@ -7264,7 +7280,9 @@ ostream& operator<< (ostream& os, const S_msrPart& elt)
 void msrPart::print (ostream& os)
 {
   os <<
-    "Part" << " " << getPartCombinedName () << endl;
+    "Part" << " " << getPartCombinedName () <<
+    " (" << fPartStavesMap.size() << " staves)" <<
+    endl;
     
   idtr++;
   
@@ -7615,7 +7633,9 @@ string msrPartgroup::pargroupSymbolKindAsString (
 void msrPartgroup::print (ostream& os)
 {
   os <<
-    "Partgroup" << " " << getPartgroupCombinedName () << endl;
+    "Partgroup" << " " << getPartgroupCombinedName () <<
+    " (" << fPartgroupPartsMap.size() << " parts)" <<
+    endl;
     
   idtr++;
 
@@ -8098,8 +8118,10 @@ ostream& operator<< (ostream& os, const S_msrScore& elt)
 
 void msrScore::print (ostream& os)
 {
-  os << "MSR Score" << endl;
-  os << endl;
+  os <<
+    "MSR Score" <<
+    " (" << fPartgroupsList.size() << " part groups)" <<
+    endl << endl;
 
   idtr++;
   

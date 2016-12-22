@@ -535,7 +535,7 @@ class EXP xml2MsrVisitor :
 
     // direction handling
     // ------------------------------------------------------
-    bool                      fOnGoingDirectionType;
+    bool                      fOnGoingDirectionType; // JMI
   
     // metronome handling
     // ------------------------------------------------------

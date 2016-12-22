@@ -93,7 +93,6 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 #define msrAssert( condition, messageIfFalse ) \
 { \
   if (! condition) { \
-    cout << flush; \
     cerr << \
       messageIfFalse << endl << flush; \
     assert(condition); \
@@ -1019,7 +1018,7 @@ class EXP msrVoicechunk : public msrElement
 
     const list<S_msrElement>&
                   getVoicechunkElements () const
-                      { return fVoicechunkElements; }
+                      { return fVoicechunkElementsList; }
                       
     string        voicechunkAsString ();
 
@@ -1027,15 +1026,15 @@ class EXP msrVoicechunk : public msrElement
     // ------------------------------------------------------
 
     void          prependElementToVoicechunk (S_msrElement elem)
-                      { fVoicechunkElements.push_front (elem); }
+                      { fVoicechunkElementsList.push_front (elem); }
     void          appendElementToVoicechunk  (S_msrElement elem)
-                      { fVoicechunkElements.push_back (elem); }
+                      { fVoicechunkElementsList.push_back (elem); }
     
     S_msrElement  getLastElementOfVoicechunk () const
-                      { return fVoicechunkElements.back (); }
+                      { return fVoicechunkElementsList.back (); }
                       
     void          removeLastElementFromVoicechunk ()
-                      { fVoicechunkElements.pop_back (); }
+                      { fVoicechunkElementsList.pop_back (); }
 
 //    void          removeElementFromVoicechunk (S_msrElement elem);
 
@@ -1051,7 +1050,7 @@ class EXP msrVoicechunk : public msrElement
 
   private:
 
-    list<S_msrElement>   fVoicechunkElements;
+    list<S_msrElement>   fVoicechunkElementsList;
 };
 typedef SMARTP<msrVoicechunk> S_msrVoicechunk;
 EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
