@@ -1145,7 +1145,7 @@ void xml2MsrVisitor::visitEnd ( S_clef& elt )
  
   if (fCurrentClefStaffNumber == 0)
     fCurrentPart->
-      setAllPartStavesClef (clef);
+      setPartClef (clef);
     
   else {
     S_msrStaff
@@ -1194,7 +1194,8 @@ void xml2MsrVisitor::visitEnd ( S_key& elt )
         fCurrentFifths, fCurrentMode, fCurrentCancel);
 
   if (fCurrentKeyStaffNumber == 0)
-    fCurrentPart->setAllPartStavesKey (key);
+    fCurrentPart->
+      setPartKey (key);
     
   else {
     S_msrStaff
@@ -1254,7 +1255,7 @@ void xml2MsrVisitor::visitEnd ( S_time& elt )
 
   if (fCurrentTimeStaffNumber == 0)
     fCurrentPart->
-      setAllPartStavesTime (time);
+      setPartTime (time);
     
   else {
     S_msrStaff
@@ -1312,7 +1313,7 @@ void xml2MsrVisitor::visitEnd ( S_transpose& elt )
 
   if (fCurrentTransposeNumber == 0)
     fCurrentPart->
-      setAllPartStavesTranspose (transpose);
+      setPartTranspose (transpose);
     
   else {
     S_msrStaff

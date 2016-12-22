@@ -6685,27 +6685,78 @@ msrStaff::msrStaff (
   fDivisionsPerWholeNote =
     fStaffPartUplink->
       getDivisionsPerWholeNote ();
+
+  // get the initial clef from the staff if any
+  {
+    S_msrClef
+      clef =
+        fStaffPartUplink->getPartClef ();
+  
+    if (clef) {
+      fStaffClef = clef;
+      appendClefToAllStaffVoices (clef);
+    }
+    else {
+      // create the implicit initial G line 2 clef
+      fStaffClef =
+        msrClef::create (
+          msrOpts,
+          inputLineNumber,
+          "G", 2, 0);
+    }
+  }
     
-  // create the implicit initial G line 2 clef
-  fStaffClef =
-    msrClef::create (
-      msrOpts,
-      inputLineNumber,
-      "G", 2, 0);
+  // get the initial key from the staff if any
+  {
+    S_msrKey
+      key =
+        fStaffPartUplink->getPartKey ();
+  
+    if (key) {
+      fStaffKey = key;
+      appendKeyToAllStaffVoices (key);
+    }
+    else {
+      // create the implicit initial C major key
+      fStaffKey =
+        msrKey::create (
+          msrOpts,
+          inputLineNumber,
+          0, "major", 0);
+    }
+  }
+  
+  // get the initial time from the staff if any
+  {
+    S_msrTime
+      time =
+        fStaffPartUplink->getPartTime ();
 
-  // create the implicit initial C major key
-  fStaffKey =
-    msrKey::create (
-      msrOpts,
-      inputLineNumber,
-      0, "major", 0);
-
-  // create the implicit initial 4/4 time signature
-  fStaffTime =
-    msrTime::create (
-      msrOpts,
-      inputLineNumber,
-      4, 4);
+    if (time) {
+      fStaffTime = time;
+      appendTimeToAllStaffVoices (time);
+    }
+    else {
+      // create the implicit initial 4/4 time signature
+      fStaffTime =
+        msrTime::create (
+          msrOpts,
+          inputLineNumber,
+          4, 4);
+    }
+  }
+  
+  // get the initial transpose from the staff if any
+  {
+    S_msrTranspose
+      transpose =
+        fStaffPartUplink->getPartTranspose ();
+        
+    if (transpose) {
+      fStaffTranspose = transpose;
+      appendTransposeToAllStaffVoices (transpose);
+    }
+  }
 }
 
 msrStaff::~msrStaff() {}
@@ -6839,8 +6890,10 @@ void msrStaff::setStaffClef (S_msrClef clef)
       " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
       endl;
 
+  // set staff clef
   fStaffClef = clef;
 
+  // propagate it to all voices
   appendClefToAllStaffVoices (clef);
 }
 
@@ -6853,8 +6906,10 @@ void msrStaff::setStaffKey  (S_msrKey  key)
       " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
       endl;
 
+  // set staff key
   fStaffKey = key;
 
+  // propagate it to all voices
   appendKeyToAllStaffVoices (key);
 }
 
@@ -6867,8 +6922,10 @@ void msrStaff::setStaffTime (S_msrTime time)
       " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
       endl;
 
+  // set staff time
   fStaffTime = time;
 
+  // propagate it to all voices
   appendTimeToAllStaffVoices (time);
 }
 
@@ -6881,8 +6938,10 @@ void msrStaff::setStaffTranspose (S_msrTranspose transpose)
       " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
       endl;
 
+  // set staff transpose
   fStaffTranspose = transpose;
 
+  // propagate it to all voices
   appendTransposeToAllStaffVoices (transpose);
 }
 
@@ -7146,6 +7205,74 @@ string msrPart::getPartCombinedName () const
     " (" + fPartMusicXMLID + ")";
 }
 
+void msrPart::setPartClef (S_msrClef clef)
+{
+//  if (ffMsrOptions->fTrace)
+    cerr << idtr <<
+      "Setting part clef \"" << clef->clefAsString () <<
+      "\" in part \"" <<
+      getPartCombinedName () <<
+      "\"" <<
+    endl;
+
+  // set part clef
+  fPartClef = clef;
+
+  // propagate it to all staves
+  setAllPartStavesClef (clef);
+}
+
+void msrPart::setPartKey  (S_msrKey  key)
+{
+//  if (ffMsrOptions->fTrace)
+    cerr << idtr <<
+      "Setting part key \"" << key->keyAsString () <<
+      "\" in part \"" <<
+      getPartCombinedName () <<
+      "\"" <<
+    endl;
+
+  // set part key
+  fPartKey = key;
+
+  // propagate it to all staves
+  setAllPartStavesKey (key);
+}
+
+void msrPart::setPartTime (S_msrTime time)
+{
+//  if (ffMsrOptions->fTrace)
+    cerr << idtr <<
+      "Setting part time \"" << time->timeAsString () <<
+      "\" in part \"" <<
+      getPartCombinedName () <<
+      "\"" <<
+    endl;
+
+  // set part time
+  fPartTime = time;
+
+  // propagate it to all staves
+  setAllPartStavesTime (time);
+}
+
+void msrPart::setPartTranspose (S_msrTranspose transpose)
+{
+//  if (ffMsrOptions->fTrace)
+    cerr << idtr <<
+      "Setting part transpose \"" << transpose->transposeAsString () <<
+      "\" in part \"" <<
+      getPartCombinedName () <<
+      "\"" <<
+    endl;
+
+  // set part transpose
+  fPartTranspose = transpose;
+
+  // propagate it to all staves
+  setAllPartStavesTranspose (transpose);
+}
+
 void msrPart::setAllPartStavesDivisionsPerWholeNote (int divisions)
 {
   for (
@@ -7195,6 +7322,9 @@ void msrPart::setAllPartStavesTranspose (S_msrTranspose transpose)
     (*i).second->setStaffTranspose (transpose);
   } // for
 }
+
+
+ 
 
 S_msrStaff msrPart::addStaffToPart (
   int inputLineNumber,

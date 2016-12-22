@@ -3775,7 +3775,20 @@ class EXP msrPart : public msrElement
     const int     getDivisionsPerWholeNote () const
                       { return fDivisionsPerWholeNote; }
           
-    // services
+    S_msrClef     getPartClef () const { return fPartClef; };
+    S_msrKey      getPartKey  () const { return fPartKey; };
+    S_msrTime     getPartTime () const { return fPartTime; };
+    
+    S_msrTranspose
+                  getPartTranspose () const { return fPartTranspose; };
+    
+    void          setPartClef (S_msrClef clef);
+    void          setPartKey  (S_msrKey  key);
+    void          setPartTime (S_msrTime time);
+
+    void          setPartTranspose (S_msrTranspose transpose);
+    
+     // services
     // ------------------------------------------------------
 
     void          setAllPartStavesDivisionsPerWholeNote (
@@ -3825,7 +3838,11 @@ class EXP msrPart : public msrElement
 
     int                     fDivisionsPerWholeNote;
 
-// JMI    int                     fPartMusicXMLDivisions;
+    S_msrClef               fPartClef;
+    S_msrKey                fPartKey;
+    S_msrTime               fPartTime;
+
+    S_msrTranspose          fPartTranspose;
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);
