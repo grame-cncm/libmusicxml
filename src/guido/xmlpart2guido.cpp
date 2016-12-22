@@ -1447,7 +1447,9 @@ namespace MusicXML2
         notevisitor baseNote = note;
         
         // parse accidental-mark as it'll be used by all
-        string accidentalMark = note.fAccidentalMark->getValue();
+        string accidentalMark="";
+        if (note.fAccidentalMark)
+            accidentalMark = note.fAccidentalMark->getValue();
         string guidoAccident="";
         if (accidentalMark=="sharp")
         {
