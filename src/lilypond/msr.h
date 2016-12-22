@@ -290,6 +290,15 @@ class msrMeasureLocation
 
     int         fMeasureNumber;
     int         fPositionInMeasure; // divisions
+
+    bool        operator==
+                  (const msrMeasureLocation& other) const 
+                    {
+                      return
+                        fMeasureNumber == other.fMeasureNumber
+                          &&
+                        fPositionInMeasure == other.fPositionInMeasure;
+                    }    
 };
 
 /*!
@@ -2430,6 +2439,10 @@ class EXP msrKey : public msrElement
     msrKeyMode  getKeyMode () const
                     { return fKeyMode; }
 
+    const msrKeyMode&
+                getMeasureLocation () const
+                    { return fMeasureLocation; }
+
     // services
     // ------------------------------------------------------
 
@@ -2447,12 +2460,14 @@ class EXP msrKey : public msrElement
   
   private:
 
-    int        fFifths;
-    string     fMode;
-    int        fCancel;
+    int                 fFifths;
+    string              fMode;
+    int                 fCancel;
 
-    string     fTonic;
-    msrKeyMode fKeyMode;
+    string              fTonic;
+    msrKeyMode          fKeyMode;
+                        
+    msrMeasureLocation  fMeasureLocation;
 };
 typedef SMARTP<msrKey> S_msrKey;
 EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
