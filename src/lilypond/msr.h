@@ -291,6 +291,19 @@ class msrMeasureLocation
     int         fMeasureNumber;
     int         fPositionInMeasure; // divisions
 
+    msrMeasureLocation ()
+                    {
+                      fMeasureNumber     = 1;
+                      fPositionInMeasure = 1;
+                    }
+    
+    msrMeasureLocation (
+                  int measureNumber, int positionInMeasure)
+                    {
+                      fMeasureNumber     = measureNumber;
+                      fPositionInMeasure = positionInMeasure;
+                    }
+    
     bool        operator==
                   (const msrMeasureLocation& other) const 
                     {
@@ -3646,6 +3659,15 @@ class EXP msrStaff : public msrElement
     const int   getDivisionsPerWholeNote () const
                     { return fDivisionsPerWholeNote; }
           
+    // location in measure
+    void          setStaffMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fStaffMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getStaffMeasureLocation () const
+                      { return fStaffMeasureLocation; }
+
     // services
     // ------------------------------------------------------
 
@@ -3687,6 +3709,10 @@ class EXP msrStaff : public msrElement
 
     string                  fStaffInstrumentName;
 
+    int                     fDivisionsPerWholeNote;    
+
+    msrMeasureLocation      fStaffMeasureLocation;
+
     S_msrClef               fStaffClef;
     S_msrKey                fStaffKey;
     S_msrTime               fStaffTime;
@@ -3694,8 +3720,6 @@ class EXP msrStaff : public msrElement
     S_msrTranspose          fStaffTranspose;
 
     int                     fNextRelativeStaffVoiceNumber;
-
-    int                     fDivisionsPerWholeNote;    
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
@@ -3803,12 +3827,23 @@ class EXP msrPart : public msrElement
 
     void          setPartTranspose (S_msrTranspose transpose);
     
-     // services
+    // location in measure
+    void          setPartMeasureLocation (
+                    const msrMeasureLocation& measureLocation);
+                      
+    const msrMeasureLocation&
+                  getPartMeasureLocation () const
+                      { return fPartMeasureLocation; }
+
+    // services
     // ------------------------------------------------------
 
     void          setAllPartStavesDivisionsPerWholeNote (
                     int divisions);
     
+    void          setAllPartStavesMeasureLocation (
+                    const msrMeasureLocation& measureLocation);
+
     void          setAllPartStavesClef (S_msrClef clef);
               
     void          setAllPartStavesKey  (S_msrKey  key);
@@ -3852,6 +3887,8 @@ class EXP msrPart : public msrElement
     map<int, S_msrStaff>    fPartStavesMap;
 
     int                     fDivisionsPerWholeNote;
+
+    msrMeasureLocation      fPartMeasureLocation;
 
     S_msrClef               fPartClef;
     S_msrKey                fPartKey;

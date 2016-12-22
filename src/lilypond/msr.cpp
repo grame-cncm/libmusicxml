@@ -5471,6 +5471,11 @@ msrVoice::msrVoice (
   
   fVoiceContainsActualNotes = false;
 
+  // get measure location from staff uplink
+  fVoiceMeasureLocation =
+    fVoiceStaffUplink->
+      getStaffMeasureLocation ();
+  
   // create the voice chunk
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -6686,6 +6691,11 @@ msrStaff::msrStaff (
     fStaffPartUplink->
       getDivisionsPerWholeNote ();
 
+  // get measure location from part uplink
+  fStaffMeasureLocation =
+    fStaffPartUplink->
+      getPartMeasureLocation ();
+  
   // get the initial clef from the staff if any
   {
     S_msrClef
@@ -7205,6 +7215,16 @@ string msrPart::getPartCombinedName () const
     " (" + fPartMusicXMLID + ")";
 }
 
+void msrPart::setPartMeasureLocation (
+  const msrMeasureLocation& measureLocation)
+{
+  // set part measure location
+  fPartMeasureLocation = measureLocation;
+
+  // propagate it to all staves
+  setAllPartStavesMeasureLocation (measureLocation);  
+}
+
 void msrPart::setPartClef (S_msrClef clef)
 {
 //  if (ffMsrOptions->fTrace)
@@ -7280,6 +7300,17 @@ void msrPart::setAllPartStavesDivisionsPerWholeNote (int divisions)
     i != fPartStavesMap.end();
     i++) {
     (*i).second->setDivisionsPerWholeNote (divisions);
+  } // for
+}
+
+void msrPart::setAllPartStavesMeasureLocation (
+  const msrMeasureLocation& measureLocation)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->setStaffMeasureLocation (measureLocation);
   } // for
 }
 
