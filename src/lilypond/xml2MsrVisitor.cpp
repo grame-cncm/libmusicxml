@@ -2203,6 +2203,7 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
     implicit =
       elt->getAttributeValue ("implicit");
 
+/*
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -2261,16 +2262,17 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
       // it may not have been created yet JMI
       currentVoice->
         appendBarCheckToVoice (barCheck);
-/*
+/ *
       // add a break chunk to the voice master lyrics
       currentVoice->
         getVoiceMasterLyrics ()->
           addBarCheckChunkToLyrics (
             inputLineNumber,
             currentVoice->getVoiceMeasureLocation ().fMeasureNumber);
-            */
+            * /
     }
   }
+  */
 }
 
 void xml2MsrVisitor::visitEnd (S_measure& elt)
