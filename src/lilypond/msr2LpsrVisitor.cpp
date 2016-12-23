@@ -1349,6 +1349,27 @@ void msr2LpsrVisitor::visitEnd (S_msrBarline& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrVisitor::visitStart (S_msrSegno& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrSegno" << endl;
+
+  fCurrentVoiceClone->
+    appendSegnoToVoice (elt);
+}
+
+void msr2LpsrVisitor::visitStart (S_msrCoda& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrCoda" << endl;
+
+  fCurrentVoiceClone->
+    appendCodaToVoice (elt);
+}
+
+//________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrBarCheck& elt)
 {
   if (fMsrOptions->fDebug)

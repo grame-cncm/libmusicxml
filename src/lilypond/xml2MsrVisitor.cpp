@@ -1431,6 +1431,10 @@ void xml2MsrVisitor::visitEnd (S_direction_type& elt)
     segno->
       setSegnoMeasureLocation (
         currentVoice->getVoiceMeasureLocation ());
+
+    // append it to the current voice
+    currentVoice->
+      appendSegnoToVoice (segno);
   }
   
   if (fCurrentDirectionTypeHasCoda) {
@@ -1453,6 +1457,10 @@ void xml2MsrVisitor::visitEnd (S_direction_type& elt)
     coda->
       setCodaMeasureLocation (
         currentVoice->getVoiceMeasureLocation ());
+
+    // append it to the current voice
+    currentVoice->
+      appendCodaToVoice (coda);
   }
 
   fOnGoingDirectionType = false;

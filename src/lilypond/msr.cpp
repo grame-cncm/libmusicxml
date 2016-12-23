@@ -4625,7 +4625,8 @@ void msrSegno::print (ostream& os)
 {
   os <<
     "Segno" <<
-    ", input line: " << fInputLineNumber;
+    ", input line: " << fInputLineNumber <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -4695,7 +4696,8 @@ void msrCoda::print (ostream& os)
 {
   os <<
     "Coda" <<
-    ", input line: " << fInputLineNumber;
+    ", input line: " << fInputLineNumber <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -6475,7 +6477,8 @@ void msrVoice::addSlurBeyondEndLyricschunkToVoice (
 //      ", type = \"" << lyricschunkKindAsString << "\"" <<
 //      ", elision: " << elision <<
 //      " in lyrics " << lyricsNumber <<
-      " in voice " << getVoiceName () << endl;
+      " in voice \"" << getVoiceName () << "\"" <<
+      endl;
   }
 
   // is lyrics fCurrentLyricsNumber present in this voice?
@@ -6509,7 +6512,8 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Appending bar check '" << barCheck <<
-      "' to voice " << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () <<  "\"" <<
+      endl;
 
   fVoicechunk->
     appendElementToVoicechunk (barCheck);
@@ -6526,7 +6530,8 @@ void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Appending barnumber check '" << bnc <<
-      "' to voice " << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () <<  "\"" <<
+      endl;
 
   fVoicechunk->
     appendElementToVoicechunk (bnc);
@@ -6545,7 +6550,7 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Appending break '" << break_ <<
-      "' to voice " << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () << endl;
 
   fVoicechunk->
     appendElementToVoicechunk (break_);
@@ -6618,7 +6623,8 @@ void msrVoice::addSlurLyricschunkToVoice (
 void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending repeat to voice " << getVoiceName () << endl;
+      "Appending repeat to voice \"" << getVoiceName () <<  "\"" <<
+      endl;
 
   S_msrElement r = repeat;
   fVoicechunk->
@@ -6628,7 +6634,7 @@ void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
 void msrVoice::prependBarlineToVoice (S_msrBarline barline) {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Prepending a barline to voice " << getVoiceName () <<
+      "Prepending a barline to voice \"" << getVoiceName () << "\"" <<
       ":" << endl;
     idtr++;
     cerr << idtr << barline;
@@ -6643,7 +6649,7 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
   if (fMsrOptions->fDebugDebug)
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending a barline to voice " << getVoiceName () <<
+      "Appending a barline to voice \"" << getVoiceName () << "\"" <<
       ":" << endl;
     idtr++;
     cerr << idtr << barline;
@@ -6652,6 +6658,30 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
   S_msrElement b = barline;
   fVoicechunk->
     appendElementToVoicechunk (b);
+}
+
+void msrVoice::appendSegnoToVoice (S_msrSegno segno) {
+  if (fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending a segno to voice \"" << getVoiceName () << "\"" <<
+      endl;
+
+  S_msrElement s = segno;
+  fVoicechunk->
+    appendElementToVoicechunk (s);
+}
+
+void msrVoice::appendCodaToVoice (S_msrCoda coda) {
+  if (fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending a coda to voice \"" << getVoiceName () << "\"" <<
+      ":" << endl;
+
+  S_msrElement c = coda;
+  fVoicechunk->
+    appendElementToVoicechunk (c);
 }
 
 /* JMI

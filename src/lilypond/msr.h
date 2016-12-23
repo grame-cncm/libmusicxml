@@ -3657,6 +3657,9 @@ class EXP msrVoice : public msrElement
     void          prependBarlineToVoice (S_msrBarline barline);
     void          appendBarlineToVoice  (S_msrBarline barline);
     
+    void          appendSegnoToVoice (S_msrSegno segno);
+    void          appendCodaToVoice (S_msrCoda coda);
+    
     void          removeLastElementFromVoice ();
 
     S_msrLyrics

@@ -86,6 +86,9 @@ class msr2LpsrVisitor :
   
   public visitor<S_msrBarline>,
   
+  public visitor<S_msrSegno>,
+  public visitor<S_msrCoda>,
+  
   public visitor<S_msrBarCheck>,
   public visitor<S_msrBarnumberCheck>,
   
@@ -203,6 +206,9 @@ class msr2LpsrVisitor :
 
     virtual void visitStart (S_msrBarline& elt);
     virtual void visitEnd   (S_msrBarline& elt);
+
+    virtual void visitStart (S_msrSegno& elt);
+    virtual void visitStart (S_msrCoda& elt);
 
     virtual void visitStart (S_msrBarCheck& elt);
     virtual void visitEnd   (S_msrBarCheck& elt);
