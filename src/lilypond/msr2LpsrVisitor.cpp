@@ -697,6 +697,17 @@ void msr2LpsrVisitor::visitStart (S_msrDynamics& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrDynamics" << endl;
+
+  if (fOnGoingNote) {
+    // don't add dynamics to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addDynamicsToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addDynamicsToChord (elt);
+  }
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrDynamics& elt)
@@ -712,6 +723,17 @@ void msr2LpsrVisitor::visitStart (S_msrWords& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrWords" << endl;
+
+  if (fOnGoingNote) {
+    // don't add words to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addWordsToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addWordsToChord (elt);
+  }
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrWords& elt)
@@ -727,6 +749,17 @@ void msr2LpsrVisitor::visitStart (S_msrWedge& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrWedge" << endl;
+
+  if (fOnGoingNote) {
+    // don't add wedges to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addWedgeToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addWedgeToChord (elt);
+  }
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrWedge& elt)

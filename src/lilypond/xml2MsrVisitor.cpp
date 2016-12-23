@@ -1719,7 +1719,7 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
         <beam number="1">end</beam>
       </note>
 */
-  int  staffNumber = int(*elt);
+  fCurrentStaffNumber = int(*elt);
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -1727,13 +1727,10 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
   S_msrStaff
     staff =
       createStaffInCurrentPartIfNeeded (
-        inputLineNumber, staffNumber);
+        inputLineNumber, fCurrentStaffNumber);
 
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     cerr <<
-      idtr <<
-        "--> S_staff, staffNumber         = " <<
-        staffNumber << endl <<
       idtr <<
         "--> S_staff, fCurrentStaffNumber = " <<
         fCurrentStaffNumber << endl <<
@@ -1745,21 +1742,21 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
 
   if (fOnGoingForward) {
 
-    fCurrentForwardStaffNumber = staffNumber;
+    fCurrentForwardStaffNumber = fCurrentStaffNumber;
 
   }
   
   else if (fOnGoingNote) {
 
     // regular staff indication in note/rest
-    fCurrentNoteStaffNumber = staffNumber;
+    fCurrentNoteStaffNumber = fCurrentStaffNumber;
 
   }
   
   else if (fOnGoingDirection) {
 
     // regular staff indication in <direction/>, such as <staff/>
-    fCurrentDirectionStaffNumber = staffNumber;
+    fCurrentDirectionStaffNumber = fCurrentStaffNumber;
     
   }
   
@@ -1773,7 +1770,7 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
     
     stringstream s;
     
-    s << "staff " << staffNumber << " is out of context";
+    s << "staff " << fCurrentStaffNumber << " is out of context";
     
     msrMusicXMLError (
 // JMI    msrMusicXMLWarning (
@@ -1800,26 +1797,25 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
         <beam number="1">end</beam>
       </note>
 */
-  int voiceNumber = int(*elt);
+  fCurrentVoiceNumber = int(*elt);
   
   int inputLineNumber =
     elt->getInputLineNumber ();
 
   if (fOnGoingForward) {
 
-    fCurrentForwardVoiceNumber = voiceNumber;
+    fCurrentForwardVoiceNumber = fCurrentVoiceNumber;
 
     S_msrStaff
       staff =
         createStaffInCurrentPartIfNeeded (
           inputLineNumber, fCurrentForwardVoiceNumber);
   
-    if (false && fMsrOptions->fDebug)
   //  if (fMsrOptions->fDebug)
       cerr <<
         idtr <<
-          "--> S_voice, voiceNumber         = " <<
-          voiceNumber << endl <<
+          "--> S_voice, fCurrentVoiceNumber         = " <<
+          fCurrentVoiceNumber << endl <<
         idtr <<
           "--> S_voice, fCurrentForwardVoiceNumber = " <<
           fCurrentForwardVoiceNumber << endl <<
@@ -1831,19 +1827,18 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
   else if (fOnGoingNote) {
 
     // regular voice indication in note/rest
-    fCurrentNoteVoiceNumber = voiceNumber;
+    fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
 
     S_msrStaff
       staff =
         createStaffInCurrentPartIfNeeded (
           inputLineNumber, fCurrentNoteStaffNumber);
   
-    if (false && fMsrOptions->fDebug)
   //  if (fMsrOptions->fDebug)
       cerr <<
         idtr <<
-          "--> S_voice, voiceNumber         = " <<
-          voiceNumber << endl <<
+          "--> fCurrentNoteVoiceNumber        = " <<
+          fCurrentNoteVoiceNumber << endl <<
         idtr <<
           "--> S_voice, fCurrentNoteStaffNumber = " <<
           fCurrentNoteStaffNumber << endl <<
@@ -1862,12 +1857,13 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
   else {
     
     stringstream s;
-    s << "voice " << voiceNumber << " is out of context";
+    
+    s << "voice " << fCurrentVoiceNumber << " is out of context";
+    
     msrMusicXMLError (
       fMsrOptions->fInputSourceName,
       inputLineNumber,
       s.str());
-    
   }
 }
 
@@ -3589,6 +3585,113 @@ void xml2MsrVisitor::visitStart( S_pppppp& elt)
   fPendingDynamics.push_back(dyn);
 }
 
+void xml2MsrVisitor::visitStart( S_fp& elt)
+{        
+  S_msrDynamics
+    dyn =
+      msrDynamics::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrDynamics::kFP);
+        
+  fPendingDynamics.push_back(dyn);
+}
+void xml2MsrVisitor::visitStart( S_fz& elt)
+{        
+  S_msrDynamics
+    dyn =
+      msrDynamics::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrDynamics::kFZ);
+        
+  fPendingDynamics.push_back(dyn);
+}
+
+void xml2MsrVisitor::visitStart( S_rf& elt)
+{        
+  S_msrDynamics
+    dyn =
+      msrDynamics::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrDynamics::kRF);
+        
+  fPendingDynamics.push_back(dyn);
+}
+
+void xml2MsrVisitor::visitStart( S_sf& elt)
+{        
+  S_msrDynamics
+    dyn =
+      msrDynamics::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrDynamics::kSF);
+        
+  fPendingDynamics.push_back(dyn);
+}
+
+void xml2MsrVisitor::visitStart( S_rfz& elt)
+{        
+  S_msrDynamics
+    dyn =
+      msrDynamics::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrDynamics::kRFZ);
+        
+  fPendingDynamics.push_back(dyn);
+}
+
+void xml2MsrVisitor::visitStart( S_sfz& elt)
+{        
+  S_msrDynamics
+    dyn =
+      msrDynamics::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrDynamics::kSFZ);
+        
+  fPendingDynamics.push_back(dyn);
+}
+
+void xml2MsrVisitor::visitStart( S_sfp& elt)
+{        
+  S_msrDynamics
+    dyn =
+      msrDynamics::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrDynamics::kSFP);
+        
+  fPendingDynamics.push_back(dyn);
+}
+
+void xml2MsrVisitor::visitStart( S_sfpp& elt)
+{        
+  S_msrDynamics
+    dyn =
+      msrDynamics::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrDynamics::kSFPP);
+        
+  fPendingDynamics.push_back(dyn);
+}
+
+void xml2MsrVisitor::visitStart( S_sffz& elt)
+{        
+  S_msrDynamics
+    dyn =
+      msrDynamics::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrDynamics::kSFFZ);
+        
+  fPendingDynamics.push_back(dyn);
+}
+
 //______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_wedge& elt )
 {
@@ -4304,11 +4407,20 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+/*
   // fetch current staff
   S_msrStaff
     staff =
       createStaffInCurrentPartIfNeeded (
         inputLineNumber, fCurrentNoteStaffNumber);
+*/
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        inputLineNumber,
+        fCurrentNoteStaffNumber,
+        fCurrentNoteVoiceNumber);
 
 // JMI  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebug) {
@@ -4319,28 +4431,14 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
         "--> fCurrentNoteStaffNumber = " <<
         fCurrentNoteStaffNumber << endl <<
       idtr << idtr <<
-        "--> current staff name  = " <<
-        staff->getStaffName() << endl <<
+        "--> fCurrentNoteVoiceNumber = " <<
+        fCurrentNoteVoiceNumber <<
       idtr << idtr <<
-        "--> fCurrentVoiceNumber = " <<
-        fCurrentVoiceNumber <<
+        "--> current voice  = \"" <<
+        currentVoice->getVoiceName () << "\"" <<
+        endl <<
       endl;
   }
-
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      createVoiceInStaffInCurrentPartIfNeeded (
-        inputLineNumber,
-        fCurrentNoteStaffNumber,
-        fCurrentVoiceNumber);
-
-  // fetch current voice
-  currentVoice =
-    createVoiceInStaffInCurrentPartIfNeeded (
-      inputLineNumber,
-      fCurrentNoteStaffNumber,
-      fCurrentVoiceNumber);
 
   // store voice number in MusicXML note data
   fMusicXMLNoteData.fMusicXMLVoiceNumber = fCurrentVoiceNumber;
@@ -4437,20 +4535,15 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       endl <<
       idtr << idtr <<
         "--> fCurrentNoteStaffNumber = " <<
-        fCurrentNoteStaffNumber <<
-      endl <<
+        fCurrentNoteStaffNumber << endl <<
       idtr << idtr <<
-        "--> current staff name  = " <<
-        staff->getStaffName() <<
-      endl <<
+        "--> fCurrentNoteVoiceNumber = " <<
+        fCurrentNoteVoiceNumber <<
       idtr << idtr <<
-        "--> fCurrentVoiceNumber = " <<
-        fCurrentVoiceNumber <<
-      endl <<
-      idtr << idtr <<
-        "--> currentVoice        = " <<
-        currentVoice->getVoiceName() <<
-        endl;
+        "--> current voice  = \"" <<
+        currentVoice->getVoiceName () << "\"" <<
+        endl <<
+      endl;
   }
 
   // keep track of current note

@@ -189,6 +189,18 @@ class EXP xml2MsrVisitor :
   public visitor<S_ppppp>,
   public visitor<S_pppppp>,
 
+  public visitor<S_fp>,
+  public visitor<S_fz>,
+  
+  public visitor<S_rf>,
+  public visitor<S_sf>,
+  public visitor<S_rfz>,
+  public visitor<S_sfz>,
+  
+  public visitor<S_sfp>,
+  public visitor<S_sfpp>,
+  public visitor<S_sffz>,
+
   public visitor<S_wedge>,
   
   public visitor<S_grace>,
@@ -368,6 +380,18 @@ class EXP xml2MsrVisitor :
     virtual void visitStart ( S_pppp& elt);
     virtual void visitStart ( S_ppppp& elt);
     virtual void visitStart ( S_pppppp& elt);
+    
+    virtual void visitStart ( S_fp& elt);
+    virtual void visitStart ( S_fz& elt);
+    
+    virtual void visitStart ( S_rf& elt);
+    virtual void visitStart ( S_sf& elt);
+    virtual void visitStart ( S_rfz& elt);
+    virtual void visitStart ( S_sfz& elt);
+    
+    virtual void visitStart ( S_sfp& elt);
+    virtual void visitStart ( S_sfpp& elt);
+    virtual void visitStart ( S_sffz& elt);
 
     virtual void visitStart ( S_wedge& elt);
 
@@ -650,7 +674,7 @@ class EXP xml2MsrVisitor :
 
     // note/rest handling
     // ------------------------------------------------------
-    int                       fCurrentNoteStaffNumber; // used throughout
+    int                       fCurrentNoteStaffNumber;
     int                       fCurrentNoteVoiceNumber;
     void                      handleStandaloneOrGraceNoteOrRest (
                                 S_msrNote newNote);
