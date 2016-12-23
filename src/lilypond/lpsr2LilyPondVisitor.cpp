@@ -2355,7 +2355,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrSegno& elt)
     fOstream << idtr <<
       "% --> Start visiting msrSegno" << endl;
 
-  fOstream << "\\segno ";
+  fOstream <<
+    "\\mark \\markup { \\musicglyph #\"scripts.segno\" } ";
 }
 
 void lpsr2LilyPondVisitor::visitStart (S_msrCoda& elt)
@@ -2364,7 +2365,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrCoda& elt)
     fOstream << idtr <<
       "% --> Start visiting msrCoda" << endl;
 
-  fOstream << "\\coda ";
+  fOstream <<
+    "\\mark \\markup { \\musicglyph #\"scripts.coda\" } ";
 }
 
 //________________________________________________________________________
@@ -2421,9 +2423,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
         endl << idtr;
 
       if (elt->getBarlineHasSegno ())
-        fOstream << "\\segno ";
+        fOstream <<
+          "\\mark \\markup { \\musicglyph #\"scripts.segno\" } ";
       if (elt->getBarlineHasCoda ())
-        fOstream << "\\coda ";
+        fOstream <<
+          "\\mark \\markup { \\musicglyph #\"scripts.coda\" } ";
       break;
 
     case msrBarline::kRepeatStart:
