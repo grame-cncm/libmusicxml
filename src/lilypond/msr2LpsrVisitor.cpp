@@ -1370,6 +1370,27 @@ void msr2LpsrVisitor::visitStart (S_msrCoda& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrVisitor::visitStart (S_msrEyeglasses& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting eyeglasses" << endl;
+
+  fCurrentVoiceClone->
+    appendEyeglassesToVoice (elt);
+}
+
+void msr2LpsrVisitor::visitStart (S_msrPedal& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting pedal" << endl;
+
+  fCurrentVoiceClone->
+    appendPedalToVoice (elt);
+}
+
+//________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrBarCheck& elt)
 {
   if (fMsrOptions->fDebug)

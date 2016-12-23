@@ -2725,6 +2725,73 @@ void xml2MsrVisitor::visitStart ( S_eyeglasses& elt )
 
 void xml2MsrVisitor::visitStart ( S_pedal& elt ) 
 {
+  /* start-stop-change-continue */
+  /*
+    The pedal type represents piano pedal marks. The change and continue types are used when the line attribute is yes. The change type indicates a pedal lift and retake indicated with an inverted V marking. The continue type allows more precise formatting across system breaks and for more complex pedaling lines. The alignment attributes are ignored if the line attribute is yes.
+    
+    The line attribute is yes if pedal lines are used. The change and continue types are used when the line attribute is yes.
+    
+    The sign attribute is yes if Ped and * signs are used. For MusicXML 2.0 compatibility, the sign attribute is yes by default if the line attribute is no, and is no by default if the line attribute is yes. 
+    */
+
+  string
+    pedalType = elt->getAttributeValue ("type");
+    
+  msrPedal::msrPedalTypeKind
+    pedalTypeKind;
+
+  if       (pedalType == "start") {
+    pedalTypeKind =
+      msrPedal::kPedalStart;
+  }
+  else  if (pedalType == "continue") {
+    pedalTypeKind =
+      msrPedal::kPedalContinue;
+  }
+  else  if (pedalType == "change") {
+    pedalTypeKind =
+      msrPedal::kPedalChange;
+  }
+  else  if (pedalType == "stop") {
+    pedalTypeKind =
+      msrPedal::kPedalStop;
+  }
+  else {
+    stringstream s;
+    
+    s << "pedal type " << pedalType << " is unknown";
+    
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      s.str());
+  }
+
+  string
+    pedalLine = elt->getAttributeValue ("line");
+    
+  msrPedal::msrPedalLineKind
+    pedalLineKind;
+
+  if       (pedalLine == "yes") {
+    pedalLineKind =
+      msrPedal::kPedalLineYes;
+  }
+  else  if (pedalLine == "no") {
+    pedalLineKind =
+      msrPedal::kPedalLineNo;
+  }
+  else {
+    stringstream s;
+    
+    s << "pedal line " << pedalLine << " is unknown";
+    
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      s.str());
+  }
+
   if (fOnGoingDirectionType) {
     int inputLineNumber =
       elt->getInputLineNumber ();
@@ -2742,7 +2809,9 @@ void xml2MsrVisitor::visitStart ( S_pedal& elt )
       pedal =
         msrPedal::create (
           fMsrOptions,
-          inputLineNumber);
+          inputLineNumber,
+          pedalTypeKind,
+          pedalLineKind);
   
     // set the pedal measure location
     pedal->
@@ -2779,7 +2848,9 @@ void xml2MsrVisitor::visitStart ( S_ending& elt )
   }
   else {
     stringstream s;
+    
     s << "ending type " << fCurrentEndingtype << " is unknown";
+    
     msrMusicXMLError (
       fMsrOptions->fInputSourceName,
       elt->getInputLineNumber (),

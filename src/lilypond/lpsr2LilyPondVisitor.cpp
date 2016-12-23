@@ -2370,6 +2370,39 @@ void lpsr2LilyPondVisitor::visitStart (S_msrCoda& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrEyeglasses& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting eyeglasses" << endl;
+
+  fOstream <<
+    "\\eyeglasses ";
+}
+
+void lpsr2LilyPondVisitor::visitStart (S_msrPedal& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting pedal" << endl;
+
+  switch (elt->getPedalTypeKind ()) {
+    case msrPedal::kPedalStart:
+      fOstream << "\\sustainOn ";
+      break;
+    case msrPedal::kPedalContinue:
+      fOstream << "continue pedal";
+      break;
+    case msrPedal::kPedalChange:
+      fOstream << "change pedal";
+      break;
+    case msrPedal::kPedalStop:
+      fOstream << "\sustainOff ";
+      break;
+  } // switch
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
 {
   if (fMsrOptions->fDebug)

@@ -3100,19 +3100,29 @@ EXP ostream& operator<< (ostream& os, const S_msrEyeglasses& elt);
 class EXP msrPedal : public msrElement
 {
   public:
+
+    enum msrPedalTypeKind {
+      kPedalStart, kPedalContinue, kPedalChange, kPedalStop };
+      
+    enum msrPedalLineKind {
+      kPedalLineYes, kPedalLineNo};
       
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrPedal> create (
-      S_msrOptions&             msrOpts, 
-      int                       inputLineNumber);
+      S_msrOptions&    msrOpts, 
+      int              inputLineNumber,
+      msrPedalTypeKind pedaTypeKind,
+      msrPedalLineKind pedalLineKind);
 
   protected:
 
     msrPedal (
-      S_msrOptions&             msrOpts, 
-      int                       inputLineNumber);
+      S_msrOptions&    msrOpts, 
+      int              inputLineNumber,
+      msrPedalTypeKind pedaTypeKind,
+      msrPedalLineKind pedalLineKind);
       
     virtual ~msrPedal();
   
@@ -3121,6 +3131,14 @@ class EXP msrPedal : public msrElement
     // set and get
     // ------------------------------------------------------
     
+    msrPedalTypeKind
+                getPedalTypeKind () const
+                    { return fPedalTypeKind; }
+                    
+    msrPedalLineKind
+                getPedalLineKind () const
+                    { return fPedalLineKind; }
+                    
     // position in measure
     void          setPedalMeasureLocation (
                     const msrMeasureLocation& location)
@@ -3133,6 +3151,9 @@ class EXP msrPedal : public msrElement
     // services
     // ------------------------------------------------------
 
+    string        pedalTypeKindAsString ();
+    string        pedalLineKindAsString ();
+    
     // visitors
     // ------------------------------------------------------
 
@@ -3145,7 +3166,10 @@ class EXP msrPedal : public msrElement
 
   private:
 
-    msrMeasureLocation          fPedalMeasureLocation;
+    msrPedalTypeKind    fPedalTypeKind;
+    msrPedalLineKind    fPedalLineKind;
+
+    msrMeasureLocation  fPedalMeasureLocation;
 
 };
 typedef SMARTP<msrPedal> S_msrPedal;

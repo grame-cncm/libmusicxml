@@ -118,6 +118,9 @@ class lpsr2LilyPondVisitor :
   public visitor<S_msrSegno>,
   public visitor<S_msrCoda>,
   
+  public visitor<S_msrEyeglasses>,
+  public visitor<S_msrPedal>,
+
   public visitor<S_msrBarCheck>,
   public visitor<S_msrBarnumberCheck>,
   
@@ -289,6 +292,9 @@ class lpsr2LilyPondVisitor :
 
     virtual void visitStart (S_msrSegno& elt);
     virtual void visitStart (S_msrCoda& elt);
+
+    virtual void visitStart (S_msrEyeglasses& elt);
+    virtual void visitStart (S_msrPedal& elt);
 
     virtual void visitStart (S_msrBarCheck& elt);
     virtual void visitEnd   (S_msrBarCheck& elt);

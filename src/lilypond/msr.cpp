@@ -4773,23 +4773,69 @@ void msrEyeglasses::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrPedal msrPedal::create (
-  S_msrOptions&             msrOpts, 
-  int                       inputLineNumber)
+  S_msrOptions&    msrOpts, 
+  int              inputLineNumber,
+  msrPedalTypeKind pedalTypeKind,
+  msrPedalLineKind pedalLineKind)
 {
   msrPedal* o =
     new msrPedal (
-      msrOpts, inputLineNumber);
+      msrOpts, inputLineNumber,
+      pedalTypeKind, pedalLineKind);
   assert(o!=0);
   return o;
 }
 
 msrPedal::msrPedal (
-  S_msrOptions&             msrOpts, 
-  int                       inputLineNumber)
+  S_msrOptions&    msrOpts, 
+  int              inputLineNumber,
+  msrPedalTypeKind pedalTypeKind,
+  msrPedalLineKind pedalLineKind)
     : msrElement (msrOpts, inputLineNumber)
-{}
+{
+  fPedalTypeKind = pedalTypeKind;
+  fPedalLineKind = pedalLineKind;
+}
 
 msrPedal::~msrPedal() {}
+
+string msrPedal::pedalTypeKindAsString ()
+{
+  string result;
+  
+  switch (fPedalTypeKind) {
+    case kPedalStart:
+      result = "start pedal";
+      break;
+    case kPedalContinue:
+      result = "continue pedal";
+      break;
+    case kPedalChange:
+      result = "change pedal";
+      break;
+    case kPedalStop:
+      result = "stop pedal";
+      break;
+  } // switch
+
+  return result;
+}
+      
+string msrPedal::pedalLineKindAsString ()
+{
+  string result;
+  
+  switch (fPedalLineKind) {
+    case kPedalLineYes:
+      result = "pedal line: yes";
+      break;
+    case kPedalLineNo:
+      result = "pedal line: no";
+      break;
+  } // switch
+
+  return result;
+}
 
 void msrPedal::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
@@ -4839,6 +4885,8 @@ void msrPedal::print (ostream& os)
   os <<
     "Pedal" <<
     ", input line: " << fInputLineNumber <<
+    pedalTypeKindAsString () << ", " <<
+    pedalLineKindAsString () <<
     endl;
 }
 
