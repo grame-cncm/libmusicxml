@@ -491,6 +491,7 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
     msrMusicXMLTieKind        fMusicXMLTieKind;
                     
     int                       fMusicXMLVoiceNumber;
+    int                       fMusicXMLStaffNumber;
 };
 EXP ostream& operator<< (ostream& os, msrMusicXMLNoteData& elt);
 
@@ -1276,6 +1277,7 @@ class EXP msrNote : public msrElement
         S_msrOptions& msrOpts,
         int           inputLineNumber,
         int           divisions,
+        int           staffNumber,
         int           voiceNumber);
     
   protected:

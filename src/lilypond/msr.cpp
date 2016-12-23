@@ -154,6 +154,7 @@ msrMusicXMLNoteData::msrMusicXMLNoteData ()
 
   fMusicXMLTieKind = k_NoTie;
 
+  fMusicXMLStaffNumber = -1;
   fMusicXMLVoiceNumber = -1;
 }
 
@@ -184,46 +185,59 @@ void msrMusicXMLNoteData::print (ostream& os)
   os <<
     idtr << "  " << left <<
       setw(29) <<
-      "fMusicXMLStep" << " = " << fMusicXMLStep <<  endl <<
+      "fMusicXMLStep" << " = " << fMusicXMLStep <<
+      endl <<
     idtr << "  " << left <<
       setw(29) << "fMusicXMLStepIsARest" << " = " <<
-      fMusicXMLStepIsARest <<  endl <<
+      fMusicXMLStepIsARest <<
+      endl <<
     idtr << "  " << left <<
       setw(29) << "fMusicXMLAlteration" << " = " <<
-      fMusicXMLAlteration <<  endl <<
+      fMusicXMLAlteration <<
+      endl <<
     idtr << "  " << left <<
       setw(29) << "fMusicXMLOctave" << " = " <<
-      fMusicXMLOctave <<  endl <<
+      fMusicXMLOctave <<
+      endl <<
     idtr << "  " << left <<
       setw(29) << "fMusicXMLDivisions" << " = " <<
-      fMusicXMLDivisions <<  endl <<
+      fMusicXMLDivisions <<
+      endl <<
     idtr << "  " << left <<
       setw(29) << "fMusicXMLDisplayDivisions" << " = " <<
-      fMusicXMLDisplayDivisions <<  endl <<
+      fMusicXMLDisplayDivisions <<
+      endl <<
     idtr << "  " << left <<
       setw(29) << "fMusicXMLDotsNumber" << " = " <<
-      fMusicXMLDotsNumber <<  endl <<
+      fMusicXMLDotsNumber <<
+      endl <<
       
 //    idtr << endl <<
     
     idtr << "  " << left <<
       setw(29) << "fMusicXMLNoteBelongsToAChord" << " = " <<
-      fMusicXMLNoteBelongsToAChord <<  endl <<
+      fMusicXMLNoteBelongsToAChord <<
+      endl <<
       
 //    idtr << endl <<
     
     idtr << "  " << left <<
       setw(29) << "fMusicXMLNoteBelongsToATuplet" << " = " <<
-      fMusicXMLNoteBelongsToATuplet <<  endl <<
+      fMusicXMLNoteBelongsToATuplet <<
+      endl <<
     idtr << "  " << left <<
       setw(29) << "fMusicXMLType" << " = " <<
-      fMusicXMLType <<  endl <<
+      fMusicXMLType <<
+      endl <<
       
 //    idtr << endl <<
     
     idtr << "  " << left <<
+      setw(29) << "fMusicXMLStaffNumber" << " = " <<
+      fMusicXMLStaffNumber <<
       setw(29) << "fMusicXMLVoiceNumber" << " = " <<
-      fMusicXMLVoiceNumber <<  endl;
+      fMusicXMLVoiceNumber <<
+      endl;
 };
 
 
@@ -1201,6 +1215,7 @@ S_msrNote msrNote::createRest (
   S_msrOptions& msrOpts,
   int           inputLineNumber,
   int           divisions,
+  int           staffNumber,
   int           voiceNumber)
 {
   msrMusicXMLNoteData musicXMLNoteData;
@@ -1226,6 +1241,7 @@ S_msrNote msrNote::createRest (
   musicXMLNoteData.fMusicXMLTieKind =
     msrMusicXMLNoteData::k_NoTie;
   
+  musicXMLNoteData.fMusicXMLStaffNumber = staffNumber;
   musicXMLNoteData.fMusicXMLVoiceNumber = voiceNumber;
 
   msrNote * o =
@@ -7243,8 +7259,8 @@ S_msrVoice msrStaff::addVoiceToStaff (
   // register it in this staff
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Adding voice " << voiceNumber <<
-      " " << voice->getVoiceName () <<
+      "Adding voice \"" << voiceNumber <<
+      "\" " << voice->getVoiceName () <<
       " to staff " << fStaffNumber <<
       " in part " << fStaffPartUplink->getPartCombinedName () << endl;
   
@@ -7260,8 +7276,8 @@ void msrStaff::addVoiceToStaff (S_msrVoice voice)
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Adding voice " << voice->getVoiceNumber () <<
-      " " << voice->getVoiceName () <<
-      " to staff " << fStaffNumber <<
+      " \"" << voice->getVoiceName () <<
+      "\" to staff " << fStaffNumber <<
       " in part " << fStaffPartUplink->getPartCombinedName () << endl;
   
   fStaffVoicesMap [voice->getVoiceNumber ()] = voice;

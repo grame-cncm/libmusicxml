@@ -1600,7 +1600,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrWords& elt)
   string wordsContents =
     elt->getWordsContents ();
 
-  fOstream << idtr;
   switch (wordsPlacementKind) {
     case msrWords::kAbove:
       fOstream << "^";
@@ -2356,7 +2355,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrSegno& elt)
       "% --> Start visiting msrSegno" << endl;
 
   fOstream <<
-    "\\mark \\markup { \\musicglyph #\"scripts.segno\" } ";
+    "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
+    endl;
 }
 
 void lpsr2LilyPondVisitor::visitStart (S_msrCoda& elt)
@@ -2366,7 +2366,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrCoda& elt)
       "% --> Start visiting msrCoda" << endl;
 
   fOstream <<
-    "\\mark \\markup { \\musicglyph #\"scripts.coda\" } ";
+    "\\mark \\markup { \\musicglyph #\"scripts.coda\" }" <<
+    endl;
 }
 
 //________________________________________________________________________
@@ -2375,6 +2376,13 @@ void lpsr2LilyPondVisitor::visitStart (S_msrEyeglasses& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting eyeglasses" << endl;
+
+  if (++fLyricschunksCounter > 10) {
+    fOstream <<
+      endl <<
+      idtr;
+    fLyricschunksCounter = 1;
+  }
 
   fOstream <<
     "\\eyeglasses ";
@@ -2386,18 +2394,25 @@ void lpsr2LilyPondVisitor::visitStart (S_msrPedal& elt)
     fOstream << idtr <<
       "% --> Start visiting pedal" << endl;
 
+  if (++fLyricschunksCounter > 10) {
+    fOstream <<
+      endl <<
+      idtr;
+    fLyricschunksCounter = 1;
+  }
+      
   switch (elt->getPedalTypeKind ()) {
     case msrPedal::kPedalStart:
-      fOstream << "\\sustainOn ";
+      fOstream << "<> \\sustainOn ";
       break;
     case msrPedal::kPedalContinue:
-      fOstream << "continue pedal";
+      fOstream << "\\continue pedal"; // JMI
       break;
     case msrPedal::kPedalChange:
-      fOstream << "change pedal";
+      fOstream << "\\change pedal"; // JMI
       break;
     case msrPedal::kPedalStop:
-      fOstream << "\sustainOff ";
+      fOstream << "<> \\sustainOff ";
       break;
   } // switch
 }

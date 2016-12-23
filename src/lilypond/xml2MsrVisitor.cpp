@@ -57,6 +57,7 @@ xml2MsrVisitor::xml2MsrVisitor (
 
  // JMI fCurrentTimeStaffNumber = 1; // it may be absent
 
+  fCurrentForwardStaffNumber = 1; // JMI
   fCurrentForwardVoiceNumber = 1; // JMI
   fCurrentVoiceNumber = 1; // JMI
   
@@ -835,11 +836,10 @@ void xml2MsrVisitor::visitEnd (S_part_group& elt)
   msrPartgroup::msrPartgroupTypeKind partgroupTypeKind;
 
   // check part group type
-  if (fCurrentPartgroupType == "start")
+  if      (fCurrentPartgroupType == "start")
     partgroupTypeKind = msrPartgroup::kStartPartgroupType;
     
-  else
-  if (fCurrentPartgroupType == "stop")
+  else if (fCurrentPartgroupType == "stop")
     partgroupTypeKind = msrPartgroup::kStopPartgroupType;
     
   else {
@@ -849,6 +849,7 @@ void xml2MsrVisitor::visitEnd (S_part_group& elt)
         fMsrOptions->fInputSourceName,
         inputLineNumber,
         "unknown part group type \"" + fCurrentPartgroupType + "\"");
+        
     partgroupTypeKind = msrPartgroup::k_NoPartgroupType;
   }
 
@@ -858,23 +859,19 @@ void xml2MsrVisitor::visitEnd (S_part_group& elt)
   // Values include none,
   //  brace, line, bracket, and square; the default is none
  
-  if (fCurrentPartgroupSymbol == "brace")
+  if      (fCurrentPartgroupSymbol == "brace")
     partgroupSymbolKind = msrPartgroup::kBracePartgroupSymbol;
     
-  else
-  if (fCurrentPartgroupSymbol == "bracket")
+  else if (fCurrentPartgroupSymbol == "bracket")
     partgroupSymbolKind = msrPartgroup::kBracketPartgroupSymbol;
     
-  else
-  if (fCurrentPartgroupSymbol == "line")
+  else if (fCurrentPartgroupSymbol == "line")
     partgroupSymbolKind = msrPartgroup::kLinePartgroupSymbol;
     
-  else
-  if (fCurrentPartgroupSymbol == "square")
+  else if (fCurrentPartgroupSymbol == "square")
     partgroupSymbolKind = msrPartgroup::kSquarePartgroupSymbol;
     
-  else
-  if (fCurrentPartgroupSymbol == "none")
+  else if (fCurrentPartgroupSymbol == "none")
     partgroupSymbolKind = msrPartgroup::k_NoPartgroupSymbol;
     
   else {
@@ -890,11 +887,10 @@ void xml2MsrVisitor::visitEnd (S_part_group& elt)
   bool partgroupBarline;
   
   // check part group barline
-  if (fCurrentPartgroupBarline == "yes")
+  if      (fCurrentPartgroupBarline == "yes")
     partgroupBarline = true;
     
-  else
-  if (fCurrentPartgroupBarline == "no")
+  else if (fCurrentPartgroupBarline == "no")
     partgroupBarline = false;
     
   else {
@@ -924,7 +920,7 @@ void xml2MsrVisitor::visitEnd (S_part_group& elt)
   } // switch
 
   idtr--;
-} // visitEnd (S_part_group& elt)
+}
 
 //________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_score_part& elt)
@@ -1826,6 +1822,7 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
           staff->getStaffName() <<
         endl;
   }
+  
   else if (fOnGoingNote) {
 
     // regular voice indication in note/rest
@@ -1856,6 +1853,7 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
         fCurrentVoiceNumber);
   */  
   }
+  
   else {
     
     stringstream s;
@@ -1943,14 +1941,14 @@ void xml2MsrVisitor::visitStart ( S_forward& elt )
       </forward>
 */
 
-  // the <voice /> element is present only
-  // in case of a voice change
-  fCurrentForwardVoiceNumber = fCurrentVoiceNumber;
-  
   // the <staff /> element is present only
   // in case of a staff change
   fCurrentForwardStaffNumber = fCurrentStaffNumber;
 
+  // the <voice /> element is present only
+  // in case of a voice change
+  fCurrentForwardVoiceNumber = fCurrentVoiceNumber;
+  
   handleTupletsPendingOnTupletStack ();
   
   fOnGoingForward = true;
@@ -1969,7 +1967,9 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
       createStaffInCurrentPartIfNeeded (
         inputLineNumber, fCurrentStaffNumber);
 
-  // fetch current voice
+  // change voice
+  fCurrentVoiceNumber = fCurrentForwardVoiceNumber;
+
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
@@ -1980,9 +1980,8 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Handling 'forward >>> " << fCurrentForwardDuration <<
-      "', thus switching to " <<
-      "voice " << currentVoice->getVoiceName () <<
-      " in staff " << staff->getStaffName () <<
+      "', thus switching to voice \"" << currentVoice->getVoiceName () <<
+      "\" in staff \"" << staff->getStaffName () << "\"" <<
       endl;
 
 //  currentVoice->handleForward (fCurrentForwardDuration); // JMI
@@ -1997,6 +1996,7 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
           fMsrOptions,
           inputLineNumber,
           1, // JMI
+          fCurrentStaffNumber,
           fCurrentVoiceNumber);
   
     // set rest's divisions per whole note
@@ -3376,6 +3376,7 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   fMusicXMLNoteData.fMusicXMLTieKind =
     msrMusicXMLNoteData::k_NoTie;
   
+  fMusicXMLNoteData.fMusicXMLStaffNumber = 0;
   fMusicXMLNoteData.fMusicXMLVoiceNumber = 0;
 
   // assuming staff number 1, unless S_staff states otherwise afterwards
@@ -3439,11 +3440,13 @@ void xml2MsrVisitor::visitStart ( S_duration& elt )
     fCurrentBackupDuration = musicXMLduration;
 
   }
+  
   else if (fOnGoingForward) {
   
     fCurrentForwardDuration = musicXMLduration;
     
   }
+  
   else if (fOnGoingNote) {
   
     fMusicXMLNoteData.fMusicXMLDivisions = musicXMLduration;
@@ -3454,10 +3457,13 @@ void xml2MsrVisitor::visitStart ( S_duration& elt )
     fMusicXMLNoteData.fMusicXMLDisplayDivisions =
       fMusicXMLNoteData.fMusicXMLDivisions;
   }
+  
   else {
     
     stringstream s;
+    
     s << "duration " << musicXMLduration << " is out of context";
+    
  // JMI   msrMusicXMLError (s.str());
     msrMusicXMLWarning (
       fMsrOptions->fInputSourceName,
@@ -4427,7 +4433,7 @@ void xml2MsrVisitor::attachCurrentArticulationsToNote (
       art =
         fCurrentArticulations.front();
         
-//    if (fMsrOptions->fDebug)
+    if (fMsrOptions->fDebug)
       cerr << idtr <<
         "--> attaching articulation '" <<
         art->articulationKindAsString () <<
@@ -4449,7 +4455,7 @@ void xml2MsrVisitor::attachCurrentArticulationsToChord (
     i=fCurrentArticulations.begin();
     i!=fCurrentArticulations.end();
     i++) {
-//    if (fMsrOptions->fDebug)
+    if (fMsrOptions->fDebug)
       cerr << idtr <<
         "--> attaching articulation " <<  (*i) << " to chord " <<
         chord <<
@@ -4665,7 +4671,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   if (fMsrOptions->fDebug) {
     cerr <<
       idtr <<
-      "!!!! BEFORE visitEnd (S_note) we have:" << endl <<
+      "!!!! BEFORE visitEnd (S_note&) we have:" << endl <<
       idtr << idtr <<
         "--> fCurrentNoteStaffNumber = " <<
         fCurrentNoteStaffNumber << endl <<
@@ -4679,7 +4685,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       endl;
   }
 
-  // store voice number in MusicXML note data
+  // store voice and staff numbers in MusicXML note data
+  fMusicXMLNoteData.fMusicXMLStaffNumber = fCurrentStaffNumber;
   fMusicXMLNoteData.fMusicXMLVoiceNumber = fCurrentVoiceNumber;
 
   // set note's divisions per whole note
@@ -4768,7 +4775,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   if (fMsrOptions->fDebug) {
     cerr <<
       idtr <<
-        "!!!! AFTER visitEnd (S_note) " <<
+        "!!!! AFTER visitEnd (S_note&) " <<
         note->notePitchAsString () <<
         " we have:" <<
       endl <<
