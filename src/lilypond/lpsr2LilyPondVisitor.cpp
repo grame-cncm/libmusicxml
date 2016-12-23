@@ -2049,6 +2049,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
   }
 
   switch (elt->getNoteKind ()) {
+    case msrNote::k_NoNoteKind:
+      break;
     case msrNote::kStandaloneNote:
       break;
     case msrNote::kGraceNote:
@@ -2398,6 +2400,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
       fOstream <<
         endl <<
         endl << idtr;
+
+      if (elt->getBarlineHasSegno ())
+        fOstream << "\\segno ";
+      if (elt->getBarlineHasCoda ())
+        fOstream << "\\coda ";
       break;
 
     case msrBarline::kRepeatStart:

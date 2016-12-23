@@ -158,6 +158,8 @@ class EXP xml2MsrVisitor :
   public visitor<S_print>,
   
   public visitor<S_barline>,
+  public visitor<S_segno>,
+  public visitor<S_coda>,
   public visitor<S_bar_style>,
   public visitor<S_repeat>,
   public visitor<S_ending>,
@@ -349,6 +351,8 @@ class EXP xml2MsrVisitor :
     virtual void visitStart ( S_print& elt);
     
     virtual void visitStart ( S_barline& elt);
+    virtual void visitStart ( S_segno& elt);
+    virtual void visitStart ( S_coda& elt);
     virtual void visitStart ( S_bar_style& elt);
     virtual void visitStart ( S_repeat& elt);
     virtual void visitStart ( S_ending& elt);
@@ -422,6 +426,17 @@ class EXP xml2MsrVisitor :
   private:
                      
     S_msrOptions              fMsrOptions;
+
+    // dividing quater notes in MusicXML
+    // ------------------------------------------------------
+    int                       fCurrentDivisionsPerQuarterNote;
+
+    // measure locations
+    // ------------------------------------------------------
+// JMI    msrMeasureLocation        fCurrentMeasureLocation;
+    
+    // description of the current MusicXML note
+    msrMusicXMLNoteData       fMusicXMLNoteData;
 
     // the MSR score we're building
     // ------------------------------------------------------
@@ -559,7 +574,9 @@ class EXP xml2MsrVisitor :
 
     // direction handling
     // ------------------------------------------------------
-    bool                      fOnGoingDirectionType; // JMI
+    bool                      fOnGoingDirectionType;
+    bool                      fCurrentDirectionTypeHasSegno;
+    bool                      fCurrentDirectionTypeHasCoda;
   
     // metronome handling
     // ------------------------------------------------------
@@ -597,6 +614,31 @@ class EXP xml2MsrVisitor :
     
     void                      handleLyrics (S_msrNote newNote);
 
+    // barline handling
+    // ------------------------------------------------------
+    bool                      fOnGoingBarline;
+    bool                      fCurrentBarlineHasSegno;
+    bool                      fCurrentBarlineHasCoda;
+    string                    fCurrentLocation;
+    string                    fCurrentStyle;
+    string                    fCurrentEndingtype;
+    string                    fCurrentEndingNumber;
+    string                    fCurrentRepeatDirection;
+    string                    fCurrentRepeatWinged;
+
+    msrBarline::msrBarlineLocation
+                              fCurrentBarlineLocation;
+    msrBarline::msrBarlineStyle
+                              fCurrentBarlineStyle;
+    msrBarline::msrBarlineEndingType
+                              fCurrentBarlineEndingType;
+    string                    fCurrentBarlineEndingNumber;
+                                // may be "1, 2"
+    msrBarline::msrBarlineRepeatDirection
+                              fCurrentBarlineRepeatDirection;
+    msrBarline::msrBarlineRepeatWinged
+                              fCurrentBarlineRepeatWinged;
+
     // repeat handling
     // ------------------------------------------------------
     S_msrRepeat               fCurrentRepeat;
@@ -619,39 +661,6 @@ class EXP xml2MsrVisitor :
                                 S_barline     elt,
                                 S_msrBarline& barline);
     
-    // barline handling
-    // ------------------------------------------------------
-    string                    fCurrentLocation;
-    string                    fCurrentStyle;
-    string                    fCurrentEndingtype;
-    string                    fCurrentEndingNumber;
-    string                    fCurrentRepeatDirection;
-    string                    fCurrentRepeatWinged;
-
-    msrBarline::msrBarlineLocation
-                              fCurrentBarlineLocation;
-    msrBarline::msrBarlineStyle
-                              fCurrentBarlineStyle;
-    msrBarline::msrBarlineEndingType
-                              fCurrentBarlineEndingType;
-    string                    fCurrentBarlineEndingNumber;
-                                // may be "1, 2"
-    msrBarline::msrBarlineRepeatDirection
-                              fCurrentBarlineRepeatDirection;
-    msrBarline::msrBarlineRepeatWinged
-                              fCurrentBarlineRepeatWinged;
-
-    // dividing quater notes in MusicXML
-    // ------------------------------------------------------
-    int                       fCurrentDivisionsPerQuarterNote;
-
-    // measure locations
-    // ------------------------------------------------------
-// JMI    msrMeasureLocation        fCurrentMeasureLocation;
-    
-    // description of the current MusicXML note
-    msrMusicXMLNoteData       fMusicXMLNoteData;
-
     // unpitched notes handling
     // ------------------------------------------------------
     char                      fDisplayStep;

@@ -2984,6 +2984,8 @@ class EXP msrBarline : public msrElement
     static SMARTP<msrBarline> create (
       S_msrOptions&             msrOpts, 
       int                       inputLineNumber,
+      bool                      barlineHasSegno,
+      bool                      barlineHasCoda,
       msrBarlineLocation        location,
       msrBarlineStyle           style,
       msrBarlineEndingType      endingType,
@@ -2996,6 +2998,8 @@ class EXP msrBarline : public msrElement
     msrBarline (
       S_msrOptions&             msrOpts, 
       int                       inputLineNumber,
+      bool                      barlineHasSegno,
+      bool                      barlineHasCoda,
       msrBarlineLocation        location,
       msrBarlineStyle           style,
       msrBarlineEndingType      endingType,
@@ -3009,6 +3013,13 @@ class EXP msrBarline : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    bool
+                getBarlineHasSegno () const
+                    { return fBarlineHasSegno; }
+    bool
+                getBarlineHasCoda () const
+                    { return fBarlineHasCoda; }
 
     msrBarlineLocation
                 getLocation () const
@@ -3069,6 +3080,9 @@ class EXP msrBarline : public msrElement
     virtual void print (ostream& os);
 
   private:
+
+    bool                        fBarlineHasSegno;
+    bool                        fBarlineHasCoda;
 
     msrBarlineLocation          fLocation;
     msrBarlineStyle             fStyle;

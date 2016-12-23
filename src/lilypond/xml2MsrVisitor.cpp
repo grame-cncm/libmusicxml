@@ -51,6 +51,8 @@ xml2MsrVisitor::xml2MsrVisitor (
   fMsrScore =
     msrScore::create (fMsrOptions, 0);
 
+  fOnGoingBarline = false;
+  
   fCurrentWordsContents = "";
 
  // JMI fCurrentTimeStaffNumber = 1; // it may be absent
@@ -79,6 +81,8 @@ xml2MsrVisitor::xml2MsrVisitor (
 
   fOnGoingDirection     = true;
   fOnGoingDirectionType = false;
+  fCurrentDirectionTypeHasSegno = false;
+  fCurrentDirectionTypeHasCoda  = false;
 
   fOnGoingRepeat = false;
   
@@ -1398,11 +1402,19 @@ void xml2MsrVisitor::visitStart (S_direction& elt)
 void xml2MsrVisitor::visitStart (S_direction_type& elt)
 {
   fOnGoingDirectionType = true;
+  fCurrentDirectionTypeHasSegno = false;
+  fCurrentDirectionTypeHasCoda  = false;
 }
 
 void xml2MsrVisitor::visitEnd (S_direction_type& elt)
 {
   fOnGoingDirectionType = false;
+
+  if (fCurrentDirectionTypeHasSegno) {
+  }
+  
+  if (fCurrentDirectionTypeHasCoda) {
+  }
 }
 
 void xml2MsrVisitor::visitStart (S_octave_shift& elt)
@@ -2501,6 +2513,14 @@ void xml2MsrVisitor::visitStart ( S_barline& elt )
         <ending type="stop" number="1"/>
         <repeat direction="backward"/>
       </barline>
+
+      <barline>
+        <segno default-y="16" relative-x="0"/>
+      </barline>
+
+      <barline>
+        <coda default-y="16" relative-x="0"/>
+      </barline>
 */
   fCurrentLocation        = "";
   fCurrentStyle           = "";
@@ -2508,6 +2528,9 @@ void xml2MsrVisitor::visitStart ( S_barline& elt )
   fCurrentEndingNumber    = "";
   fCurrentRepeatDirection = "";
   fCurrentRepeatWinged    = "";
+
+  fCurrentBarlineHasSegno = false;
+  fCurrentBarlineHasCoda  = false;
 
   fCurrentBarlineLocation        = msrBarline::k_NoLocation;
   fCurrentBarlineStyle           = msrBarline::k_NoStyle;
@@ -2541,6 +2564,8 @@ void xml2MsrVisitor::visitStart ( S_barline& elt )
       elt->getInputLineNumber (),
       s.str());
   }
+
+  fOnGoingBarline = true;
 }
 
 //______________________________________________________________________________
@@ -2600,6 +2625,27 @@ void xml2MsrVisitor::visitStart ( S_bar_style& elt )
 }
 
 //______________________________________________________________________________
+void xml2MsrVisitor::visitStart ( S_segno& elt ) 
+{
+  if (fOnGoingDirectionType) {
+    fCurrentDirectionTypeHasSegno = true;
+  }
+  else if (fOnGoingBarline) {
+    fCurrentBarlineHasSegno = true;
+  }
+}
+
+void xml2MsrVisitor::visitStart ( S_coda& elt ) 
+{
+  if (fOnGoingDirectionType) {
+    fCurrentDirectionTypeHasCoda = true;
+  }
+  else if (fOnGoingBarline) {
+    fCurrentBarlineHasCoda = true;
+  }
+}
+
+//______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_ending& elt ) 
 {  
   fCurrentEndingtype   = elt->getAttributeValue ("type");  
@@ -2655,7 +2701,9 @@ void xml2MsrVisitor::visitStart ( S_repeat& elt )
   }
   else {
     stringstream s;
+    
     s << "repeat direction " << fCurrentRepeatDirection << " is unknown";
+    
     msrMusicXMLError (
       fMsrOptions->fInputSourceName,
       inputLineNumber,
@@ -2684,7 +2732,9 @@ void xml2MsrVisitor::visitStart ( S_repeat& elt )
     }
     else {
       stringstream s;
+      
       s << "repeat winged " << fCurrentRepeatWinged << " is unknown";
+      
       msrMusicXMLError (
         fMsrOptions->fInputSourceName,
         inputLineNumber,
@@ -2713,6 +2763,8 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
       msrBarline::create (
         fMsrOptions,
         inputLineNumber,
+        fCurrentBarlineHasSegno,
+        fCurrentBarlineHasCoda,
         fCurrentBarlineLocation,
         fCurrentBarlineStyle,
         fCurrentBarlineEndingType,
@@ -3064,6 +3116,8 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
       inputLineNumber,
       s.str());
   }
+
+  fOnGoingBarline = false;
 }
   
   /*
@@ -5337,6 +5391,8 @@ void xml2MsrVisitor::handleHookedEndingEnd (
         msrBarline::create (
           fMsrOptions,
           inputLineNumber,
+          false, // no segno
+          false, // no coda
           msrBarline::kLeft,
           msrBarline::kHeavyLight,
           msrBarline::kStart,
@@ -5502,6 +5558,8 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
         msrBarline::create (
           fMsrOptions,
           inputLineNumber,
+          false, // no segno
+          false, // no coda
           msrBarline::kLeft,
           msrBarline::kHeavyLight,
           msrBarline::kStart,
@@ -5662,6 +5720,8 @@ void xml2MsrVisitor::handleEndingEnd (
         msrBarline::create (
           fMsrOptions,
           inputLineNumber,
+          false, // no segno
+          false, // no coda
           msrBarline::kLeft,
           msrBarline::kHeavyLight,
           msrBarline::kStart,

@@ -4562,6 +4562,8 @@ void msrLyrics::print (ostream& os)
 S_msrBarline msrBarline::create (
   S_msrOptions&             msrOpts, 
   int                       inputLineNumber,
+  bool                      barlineHasSegno,
+  bool                      barlineHasCoda,
   msrBarlineLocation        location,
   msrBarlineStyle           style,
   msrBarlineEndingType      endingType,
@@ -4572,6 +4574,7 @@ S_msrBarline msrBarline::create (
   msrBarline* o =
     new msrBarline (
       msrOpts, inputLineNumber,
+      barlineHasSegno, barlineHasCoda,
       location, style,
       endingType, endingMusicXMLNumber,
       repeatDirection, repeatWinged);
@@ -4582,6 +4585,8 @@ S_msrBarline msrBarline::create (
 msrBarline::msrBarline (
   S_msrOptions&             msrOpts, 
   int                       inputLineNumber,
+  bool                      barlineHasSegno,
+  bool                      barlineHasCoda,
   msrBarlineLocation        location,
   msrBarlineStyle           style,
   msrBarlineEndingType      endingType,
@@ -4590,6 +4595,9 @@ msrBarline::msrBarline (
   msrBarlineRepeatWinged    repeatWinged)
     : msrElement (msrOpts, inputLineNumber)
 {
+  fBarlineHasSegno = barlineHasSegno;
+  fBarlineHasCoda  = barlineHasCoda;
+  
   fLocation        = location;
   fStyle           = style;
   fEndingType      = endingType;
@@ -4657,6 +4665,11 @@ void msrBarline::print (ostream& os)
   os <<
     "Barline" <<
     ", input line: " << fInputLineNumber << ", ";
+
+  if (fBarlineHasSegno)
+    os << "has segno, ";
+  if (fBarlineHasCoda)
+      os << "has coda, ";
 
   switch (fBarlineCategory) {
     case kStandaloneBar:
