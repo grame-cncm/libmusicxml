@@ -1408,13 +1408,54 @@ void xml2MsrVisitor::visitStart (S_direction_type& elt)
 
 void xml2MsrVisitor::visitEnd (S_direction_type& elt)
 {
-  fOnGoingDirectionType = false;
-
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+  
   if (fCurrentDirectionTypeHasSegno) {
+    // there may be a segno in a part before any music
+    S_msrVoice
+      currentVoice =
+        createVoiceInStaffInCurrentPartIfNeeded (
+          inputLineNumber,
+          fCurrentStaffNumber,
+          fCurrentVoiceNumber);
+  
+    // create the segno
+    S_msrSegno
+      segno =
+        msrSegno::create (
+          fMsrOptions,
+          inputLineNumber);
+  
+    // set the segno measure location
+    segno->
+      setSegnoMeasureLocation (
+        currentVoice->getVoiceMeasureLocation ());
   }
   
   if (fCurrentDirectionTypeHasCoda) {
+    // there may be a coda in a part before any music
+    S_msrVoice
+      currentVoice =
+        createVoiceInStaffInCurrentPartIfNeeded (
+          inputLineNumber,
+          fCurrentStaffNumber,
+          fCurrentVoiceNumber);
+  
+    // create the coda
+    S_msrCoda
+      coda =
+        msrCoda::create (
+          fMsrOptions,
+          inputLineNumber);
+  
+    // set the coda measure location
+    coda->
+      setCodaMeasureLocation (
+        currentVoice->getVoiceMeasureLocation ());
   }
+
+  fOnGoingDirectionType = false;
 }
 
 void xml2MsrVisitor::visitStart (S_octave_shift& elt)

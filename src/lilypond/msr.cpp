@@ -4559,6 +4559,146 @@ void msrLyrics::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrSegno msrSegno::create (
+  S_msrOptions&             msrOpts, 
+  int                       inputLineNumber)
+{
+  msrSegno* o =
+    new msrSegno (
+      msrOpts, inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrSegno::msrSegno (
+  S_msrOptions&             msrOpts, 
+  int                       inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
+{}
+
+msrSegno::~msrSegno() {}
+
+void msrSegno::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrSegno::acceptIn()" << endl;
+      
+  if (visitor<S_msrSegno>*
+    p =
+      dynamic_cast<visitor<S_msrSegno>*> (v)) {
+        S_msrSegno elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrSegno::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrSegno::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrSegno::acceptOut()" << endl;
+
+  if (visitor<S_msrSegno>*
+    p =
+      dynamic_cast<visitor<S_msrSegno>*> (v)) {
+        S_msrSegno elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrSegno::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrSegno::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrSegno& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrSegno::print (ostream& os)
+{
+  os <<
+    "Segno" <<
+    ", input line: " << fInputLineNumber;
+}
+
+//______________________________________________________________________________
+S_msrCoda msrCoda::create (
+  S_msrOptions&             msrOpts, 
+  int                       inputLineNumber)
+{
+  msrCoda* o =
+    new msrCoda (
+      msrOpts, inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrCoda::msrCoda (
+  S_msrOptions&             msrOpts, 
+  int                       inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
+{}
+
+msrCoda::~msrCoda() {}
+
+void msrCoda::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrCoda::acceptIn()" << endl;
+      
+  if (visitor<S_msrCoda>*
+    p =
+      dynamic_cast<visitor<S_msrCoda>*> (v)) {
+        S_msrCoda elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrCoda::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrCoda::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrCoda::acceptOut()" << endl;
+
+  if (visitor<S_msrCoda>*
+    p =
+      dynamic_cast<visitor<S_msrCoda>*> (v)) {
+        S_msrCoda elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrCoda::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrCoda::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrCoda& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrCoda::print (ostream& os)
+{
+  os <<
+    "Coda" <<
+    ", input line: " << fInputLineNumber;
+}
+
+//______________________________________________________________________________
 S_msrBarline msrBarline::create (
   S_msrOptions&             msrOpts, 
   int                       inputLineNumber,

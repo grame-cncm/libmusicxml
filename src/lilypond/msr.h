@@ -2917,6 +2917,126 @@ EXP ostream& operator<< (ostream& os, const S_msrLyrics& elt);
   A barline is represented by the number of the next bar
 */
 //______________________________________________________________________________
+class EXP msrSegno : public msrElement
+{
+  public:
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrSegno> create (
+      S_msrOptions&             msrOpts, 
+      int                       inputLineNumber);
+
+  protected:
+
+    msrSegno (
+      S_msrOptions&             msrOpts, 
+      int                       inputLineNumber);
+      
+    virtual ~msrSegno();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+    
+    // position in measure
+    void          setSegnoMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fSegnoMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getSegnoMeasureLocation () const
+                      { return fSegnoMeasureLocation; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrMeasureLocation          fSegnoMeasureLocation;
+
+};
+typedef SMARTP<msrSegno> S_msrSegno;
+EXP ostream& operator<< (ostream& os, const S_msrSegno& elt);
+
+/*!
+\brief A msr barline representation.
+
+  A barline is represented by the number of the next bar
+*/
+//______________________________________________________________________________
+class EXP msrCoda : public msrElement
+{
+  public:
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrCoda> create (
+      S_msrOptions&             msrOpts, 
+      int                       inputLineNumber);
+
+  protected:
+
+    msrCoda (
+      S_msrOptions&             msrOpts, 
+      int                       inputLineNumber);
+      
+    virtual ~msrCoda();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+    
+    // position in measure
+    void          setCodaMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fCodaMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getCodaMeasureLocation () const
+                      { return fCodaMeasureLocation; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrMeasureLocation          fCodaMeasureLocation;
+
+};
+typedef SMARTP<msrCoda> S_msrCoda;
+EXP ostream& operator<< (ostream& os, const S_msrCoda& elt);
+
+/*!
+\brief A msr barline representation.
+
+  A barline is represented by the number of the next bar
+*/
+//______________________________________________________________________________
 class EXP msrBarline : public msrElement
 {
   public:

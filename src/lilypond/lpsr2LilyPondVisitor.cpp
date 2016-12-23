@@ -2349,6 +2349,25 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrSlur& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrSegno& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrSegno" << endl;
+
+  fOstream << "\\segno ";
+}
+
+void lpsr2LilyPondVisitor::visitStart (S_msrCoda& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrCoda" << endl;
+
+  fOstream << "\\coda ";
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
 {
   if (fMsrOptions->fDebug)
