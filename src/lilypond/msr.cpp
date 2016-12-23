@@ -4701,6 +4701,148 @@ void msrCoda::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrEyeglasses msrEyeglasses::create (
+  S_msrOptions&             msrOpts, 
+  int                       inputLineNumber)
+{
+  msrEyeglasses* o =
+    new msrEyeglasses (
+      msrOpts, inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrEyeglasses::msrEyeglasses (
+  S_msrOptions&             msrOpts, 
+  int                       inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
+{}
+
+msrEyeglasses::~msrEyeglasses() {}
+
+void msrEyeglasses::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrEyeglasses::acceptIn()" << endl;
+      
+  if (visitor<S_msrEyeglasses>*
+    p =
+      dynamic_cast<visitor<S_msrEyeglasses>*> (v)) {
+        S_msrEyeglasses elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrEyeglasses::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrEyeglasses::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrEyeglasses::acceptOut()" << endl;
+
+  if (visitor<S_msrEyeglasses>*
+    p =
+      dynamic_cast<visitor<S_msrEyeglasses>*> (v)) {
+        S_msrEyeglasses elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrEyeglasses::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrEyeglasses::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrEyeglasses& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrEyeglasses::print (ostream& os)
+{
+  os <<
+    "Eyeglasses" <<
+    ", input line: " << fInputLineNumber <<
+    endl;
+}
+
+//______________________________________________________________________________
+S_msrPedal msrPedal::create (
+  S_msrOptions&             msrOpts, 
+  int                       inputLineNumber)
+{
+  msrPedal* o =
+    new msrPedal (
+      msrOpts, inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrPedal::msrPedal (
+  S_msrOptions&             msrOpts, 
+  int                       inputLineNumber)
+    : msrElement (msrOpts, inputLineNumber)
+{}
+
+msrPedal::~msrPedal() {}
+
+void msrPedal::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrPedal::acceptIn()" << endl;
+      
+  if (visitor<S_msrPedal>*
+    p =
+      dynamic_cast<visitor<S_msrPedal>*> (v)) {
+        S_msrPedal elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrPedal::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrPedal::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrPedal::acceptOut()" << endl;
+
+  if (visitor<S_msrPedal>*
+    p =
+      dynamic_cast<visitor<S_msrPedal>*> (v)) {
+        S_msrPedal elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrPedal::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrPedal::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrPedal& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrPedal::print (ostream& os)
+{
+  os <<
+    "Pedal" <<
+    ", input line: " << fInputLineNumber <<
+    endl;
+}
+
+//______________________________________________________________________________
 S_msrBarline msrBarline::create (
   S_msrOptions&             msrOpts, 
   int                       inputLineNumber,
@@ -6682,6 +6824,30 @@ void msrVoice::appendCodaToVoice (S_msrCoda coda) {
   S_msrElement c = coda;
   fVoicechunk->
     appendElementToVoicechunk (c);
+}
+
+void msrVoice::appendEyeglassesToVoice (S_msrEyeglasses eyeglasses) {
+  if (fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending a eyeglasses to voice \"" << getVoiceName () << "\"" <<
+      endl;
+
+  S_msrElement e = eyeglasses;
+  fVoicechunk->
+    appendElementToVoicechunk (e);
+}
+
+void msrVoice::appendPedalToVoice (S_msrPedal pedal) {
+  if (fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "Appending a pedal to voice \"" << getVoiceName () << "\"" <<
+      endl;
+
+  S_msrElement e = pedal;
+  fVoicechunk->
+    appendElementToVoicechunk (e);
 }
 
 /* JMI

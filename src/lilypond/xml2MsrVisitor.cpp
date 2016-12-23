@@ -81,8 +81,6 @@ xml2MsrVisitor::xml2MsrVisitor (
 
   fOnGoingDirection     = true;
   fOnGoingDirectionType = false;
-  fCurrentDirectionTypeHasSegno = false;
-  fCurrentDirectionTypeHasCoda  = false;
 
   fOnGoingRepeat = false;
   
@@ -1402,67 +1400,10 @@ void xml2MsrVisitor::visitStart (S_direction& elt)
 void xml2MsrVisitor::visitStart (S_direction_type& elt)
 {
   fOnGoingDirectionType = true;
-  fCurrentDirectionTypeHasSegno = false;
-  fCurrentDirectionTypeHasCoda  = false;
 }
 
 void xml2MsrVisitor::visitEnd (S_direction_type& elt)
 {
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-  
-  if (fCurrentDirectionTypeHasSegno) {
-    // there may be a segno in a part before any music
-    S_msrVoice
-      currentVoice =
-        createVoiceInStaffInCurrentPartIfNeeded (
-          inputLineNumber,
-          fCurrentStaffNumber,
-          fCurrentVoiceNumber);
-  
-    // create the segno
-    S_msrSegno
-      segno =
-        msrSegno::create (
-          fMsrOptions,
-          inputLineNumber);
-  
-    // set the segno measure location
-    segno->
-      setSegnoMeasureLocation (
-        currentVoice->getVoiceMeasureLocation ());
-
-    // append it to the current voice
-    currentVoice->
-      appendSegnoToVoice (segno);
-  }
-  
-  if (fCurrentDirectionTypeHasCoda) {
-    // there may be a coda in a part before any music
-    S_msrVoice
-      currentVoice =
-        createVoiceInStaffInCurrentPartIfNeeded (
-          inputLineNumber,
-          fCurrentStaffNumber,
-          fCurrentVoiceNumber);
-  
-    // create the coda
-    S_msrCoda
-      coda =
-        msrCoda::create (
-          fMsrOptions,
-          inputLineNumber);
-  
-    // set the coda measure location
-    coda->
-      setCodaMeasureLocation (
-        currentVoice->getVoiceMeasureLocation ());
-
-    // append it to the current voice
-    currentVoice->
-      appendCodaToVoice (coda);
-  }
-
   fOnGoingDirectionType = false;
 }
 
@@ -2677,8 +2618,34 @@ void xml2MsrVisitor::visitStart ( S_bar_style& elt )
 void xml2MsrVisitor::visitStart ( S_segno& elt ) 
 {
   if (fOnGoingDirectionType) {
-    fCurrentDirectionTypeHasSegno = true;
+    int inputLineNumber =
+      elt->getInputLineNumber ();
+      
+    // fetch current voice
+    S_msrVoice
+      currentVoice =
+        createVoiceInStaffInCurrentPartIfNeeded (
+          inputLineNumber,
+          fCurrentStaffNumber,
+          fCurrentVoiceNumber);
+  
+    // create the segno
+    S_msrSegno
+      segno =
+        msrSegno::create (
+          fMsrOptions,
+          inputLineNumber);
+  
+    // set the segno measure location
+    segno->
+      setSegnoMeasureLocation (
+        currentVoice->getVoiceMeasureLocation ());
+
+    // append it to the current voice
+    currentVoice->
+      appendSegnoToVoice (segno);
   }
+  
   else if (fOnGoingBarline) {
     fCurrentBarlineHasSegno = true;
   }
@@ -2687,8 +2654,106 @@ void xml2MsrVisitor::visitStart ( S_segno& elt )
 void xml2MsrVisitor::visitStart ( S_coda& elt ) 
 {
   if (fOnGoingDirectionType) {
-    fCurrentDirectionTypeHasCoda = true;
+    int inputLineNumber =
+      elt->getInputLineNumber ();
+      
+    // fetch current voice
+    S_msrVoice
+      currentVoice =
+        createVoiceInStaffInCurrentPartIfNeeded (
+          inputLineNumber,
+          fCurrentStaffNumber,
+          fCurrentVoiceNumber);
+  
+    // create the coda
+    S_msrCoda
+      coda =
+        msrCoda::create (
+          fMsrOptions,
+          inputLineNumber);
+  
+    // set the coda measure location
+    coda->
+      setCodaMeasureLocation (
+        currentVoice->getVoiceMeasureLocation ());
+
+    // append it to the current voice
+    currentVoice->
+      appendCodaToVoice (coda);
   }
+  
+  else if (fOnGoingBarline) {
+    fCurrentBarlineHasCoda = true;
+  }
+}
+
+void xml2MsrVisitor::visitStart ( S_eyeglasses& elt ) 
+{
+  if (fOnGoingDirectionType) {
+    int inputLineNumber =
+      elt->getInputLineNumber ();
+      
+    // fetch current voice
+    S_msrVoice
+      currentVoice =
+        createVoiceInStaffInCurrentPartIfNeeded (
+          inputLineNumber,
+          fCurrentStaffNumber,
+          fCurrentVoiceNumber);
+  
+    // create the eyeglasses
+    S_msrEyeglasses
+      eyeglasses =
+        msrEyeglasses::create (
+          fMsrOptions,
+          inputLineNumber);
+  
+    // set the eyeglasses measure location
+    eyeglasses->
+      setEyeglassesMeasureLocation (
+        currentVoice->getVoiceMeasureLocation ());
+
+    // append it to the current voice
+    currentVoice->
+      appendEyeglassesToVoice (eyeglasses);
+  }
+  
+  else if (fOnGoingBarline) {
+    fCurrentBarlineHasCoda = true;
+  }
+}
+
+void xml2MsrVisitor::visitStart ( S_pedal& elt ) 
+{
+  if (fOnGoingDirectionType) {
+    int inputLineNumber =
+      elt->getInputLineNumber ();
+      
+    // fetch current voice
+    S_msrVoice
+      currentVoice =
+        createVoiceInStaffInCurrentPartIfNeeded (
+          inputLineNumber,
+          fCurrentStaffNumber,
+          fCurrentVoiceNumber);
+  
+    // create the pedal
+    S_msrPedal
+      pedal =
+        msrPedal::create (
+          fMsrOptions,
+          inputLineNumber);
+  
+    // set the pedal measure location
+    pedal->
+      setPedalMeasureLocation (
+        currentVoice->getVoiceMeasureLocation ());
+
+    // append it to the current voice
+    currentVoice->
+      appendPedalToVoice (pedal);
+  }
+  
   else if (fOnGoingBarline) {
     fCurrentBarlineHasCoda = true;
   }

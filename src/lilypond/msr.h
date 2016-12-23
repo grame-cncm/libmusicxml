@@ -3037,6 +3037,126 @@ EXP ostream& operator<< (ostream& os, const S_msrCoda& elt);
   A barline is represented by the number of the next bar
 */
 //______________________________________________________________________________
+class EXP msrEyeglasses : public msrElement
+{
+  public:
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrEyeglasses> create (
+      S_msrOptions&             msrOpts, 
+      int                       inputLineNumber);
+
+  protected:
+
+    msrEyeglasses (
+      S_msrOptions&             msrOpts, 
+      int                       inputLineNumber);
+      
+    virtual ~msrEyeglasses();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+    
+    // position in measure
+    void          setEyeglassesMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fEyeglassesMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getEyeglassesMeasureLocation () const
+                      { return fEyeglassesMeasureLocation; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrMeasureLocation          fEyeglassesMeasureLocation;
+
+};
+typedef SMARTP<msrEyeglasses> S_msrEyeglasses;
+EXP ostream& operator<< (ostream& os, const S_msrEyeglasses& elt);
+
+/*!
+\brief A msr barline representation.
+
+  A barline is represented by the number of the next bar
+*/
+//______________________________________________________________________________
+class EXP msrPedal : public msrElement
+{
+  public:
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrPedal> create (
+      S_msrOptions&             msrOpts, 
+      int                       inputLineNumber);
+
+  protected:
+
+    msrPedal (
+      S_msrOptions&             msrOpts, 
+      int                       inputLineNumber);
+      
+    virtual ~msrPedal();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+    
+    // position in measure
+    void          setPedalMeasureLocation (
+                    const msrMeasureLocation& location)
+                      { fPedalMeasureLocation = location; }
+                      
+    const msrMeasureLocation&
+                  getPedalMeasureLocation () const
+                      { return fPedalMeasureLocation; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrMeasureLocation          fPedalMeasureLocation;
+
+};
+typedef SMARTP<msrPedal> S_msrPedal;
+EXP ostream& operator<< (ostream& os, const S_msrPedal& elt);
+
+/*!
+\brief A msr barline representation.
+
+  A barline is represented by the number of the next bar
+*/
+//______________________________________________________________________________
 class EXP msrBarline : public msrElement
 {
   public:
@@ -3659,6 +3779,8 @@ class EXP msrVoice : public msrElement
     
     void          appendSegnoToVoice (S_msrSegno segno);
     void          appendCodaToVoice (S_msrCoda coda);
+    void          appendEyeglassesToVoice (S_msrEyeglasses eyeglasses);
+    void          appendPedalToVoice (S_msrPedal pedal);
     
     void          removeLastElementFromVoice ();
 

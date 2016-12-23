@@ -160,6 +160,8 @@ class EXP xml2MsrVisitor :
   public visitor<S_barline>,
   public visitor<S_segno>,
   public visitor<S_coda>,
+  public visitor<S_eyeglasses>,
+  public visitor<S_pedal>,
   public visitor<S_bar_style>,
   public visitor<S_repeat>,
   public visitor<S_ending>,
@@ -353,6 +355,8 @@ class EXP xml2MsrVisitor :
     virtual void visitStart ( S_barline& elt);
     virtual void visitStart ( S_segno& elt);
     virtual void visitStart ( S_coda& elt);
+    virtual void visitStart ( S_eyeglasses& elt);
+    virtual void visitStart ( S_pedal& elt);
     virtual void visitStart ( S_bar_style& elt);
     virtual void visitStart ( S_repeat& elt);
     virtual void visitStart ( S_ending& elt);
@@ -572,11 +576,9 @@ class EXP xml2MsrVisitor :
                               fCurrentWordsPlacementKind; // JMI
     bool                      fOnGoingDirection;
 
-    // direction handling
+    // direction-type handling
     // ------------------------------------------------------
     bool                      fOnGoingDirectionType;
-    bool                      fCurrentDirectionTypeHasSegno;
-    bool                      fCurrentDirectionTypeHasCoda;
   
     // metronome handling
     // ------------------------------------------------------
