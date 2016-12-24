@@ -2404,7 +2404,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrPedal& elt)
     fSequentialMusicElementsCounter = 1;
   }
       
-  switch (elt->getPedalTypeKind ()) {
+  switch (elt->getPedalType ()) {
     case msrPedal::kPedalStart:
       fOstream << "<> \\sustainOn ";
       break;

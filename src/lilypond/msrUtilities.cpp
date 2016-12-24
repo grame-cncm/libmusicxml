@@ -522,6 +522,173 @@ std::pair<std::string, std::string> extractNamesPairFromString (
 string divisionsAsMSRDuration (
   int     divisions,
   int     divisionsPerWholeNote,
+  string& errorMessage,
+  bool    debugMode)
+{
+  // MusicXML divisions are per quater note,
+  // MSR and LilyPond durations are in whole notes
+
+  //debugMode = true; // TEMP, for tests
+  
+  if (divisions <= 0) {
+    stringstream s;
+    
+    s << 
+      "divisions " <<
+        divisions <<
+      ", divisionsPerWholeNote = " <<
+      divisionsPerWholeNote <<
+      ": should be positive" << endl;
+      
+    errorMessage = s.str();
+    
+    return "";
+  }
+
+  stringstream s;
+
+  div_t
+    divresult =
+      div (divisions, divisionsPerWholeNote);
+       
+  int div = divresult.quot;
+  int mod = divresult.rem;
+
+  if (debugMode)
+    cerr << endl <<
+      "% --> divisions = " << divisions <<
+      ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
+      "% --> div = " << div << ", mod = " << mod << endl;
+
+  int divisionsAccountedFor = divisions - mod;
+  int remainingDivisions    = mod;
+
+  int limit;
+  
+  switch (div) {
+    case 15:
+    case 14:
+    case 13:
+    case 12:
+    case 11:
+    case 10:
+    case 9:
+    case 8:
+      s << "\\maxima";
+      break;
+      
+    case 7:
+    case 6:
+    case 5:
+    case 4:
+      s << "\\longa";
+      break;
+      
+    case 3:
+    case 2:
+      s << "\\breve";
+      break;
+      
+    case 1:
+      s << "1";
+      break;
+      
+    case 0:
+      {
+      // this duration is shorter than a whole note,
+      // display it as a fration of such
+
+      // compute the reciprocal, i.e. the fraction's denominator,
+      // trying 1/2, 1/4, 1/8... in order
+      int
+        reciprocal = 2, // half note
+        n          = divisions * 2;
+
+      if (debugMode)
+        cerr <<
+          "% --> reciprocal = " << reciprocal << ", n = " << n <<
+          endl;
+      
+      while (n < divisionsPerWholeNote) {
+        if (debugMode)
+          cerr <<
+            "% --> n = " << n << ", reciprocal = " << reciprocal <<
+            endl;
+            
+        reciprocal *= 2;
+        n *= 2;
+      } // while
+
+      // generate the reciprocal
+      s << reciprocal;
+
+      divisionsAccountedFor = divisionsPerWholeNote / reciprocal;
+      remainingDivisions    = mod - divisionsAccountedFor;
+
+      limit = divisionsAccountedFor * 2;
+        // an infinite sequence of dots tends to this
+
+      }
+      break;
+      
+    default:
+      {
+      stringstream s;
+      
+      s << 
+        "% note divisions " <<
+          divisions <<
+        "/" <<
+        divisionsPerWholeNote <<
+        " exceeds a maxima" << endl;
+        
+      errorMessage = s.str();
+
+      return "";
+      }
+  } // switch
+
+  if (debugMode)
+    cerr <<
+      endl << endl <<
+      "% --> we've got '" << s.str() << "'" << endl << 
+      "% --> divisionsAccountedFor = " << divisionsAccountedFor << endl <<
+      "% --> remainingDivisions    = " << remainingDivisions << endl <<
+      endl;
+
+  // compute the number of dots if any
+  if (remainingDivisions > 0) {
+    int
+      m               = remainingDivisions,
+      currentWeight   = divisionsAccountedFor / 2,
+      cumulatedWeight = 0,
+      numberOfDots    = 0;
+
+    while (cumulatedWeight < remainingDivisions) {
+      numberOfDots++;
+      
+      cumulatedWeight += currentWeight;
+      currentWeight /= 2;
+      
+      if (debugMode)
+        cerr <<
+          "% cumulatedWeight = " << cumulatedWeight <<
+          ", currentWeight = " << currentWeight <<
+          ", " << numberOfDots <<
+          endl;      
+    } // while
+    
+    for (int i = 0; i < numberOfDots; i++)
+      s << ".";
+  }
+
+  return s.str();
+}
+
+//______________________________________________________________________________
+string divisionsAsMSRDuration (
+  int     divisions,
+  int     divisionsPerWholeNote,
   int     inputSourceSuppliedNumberOfDots,
   int&    computedNumberOfDots,
   string& errorMessage,
@@ -663,15 +830,17 @@ string divisionsAsMSRDuration (
   // compute the number of dots if any
   if (remainingDivisions > 0) {
     int
-      m            = remainingDivisions,
-      currentWeight = divisionsAccountedFor / 2,
+      m               = remainingDivisions,
+      currentWeight   = divisionsAccountedFor / 2,
       cumulatedWeight = 0,
-      numberOfDots = 0;
+      numberOfDots    = 0;
 
     while (cumulatedWeight < remainingDivisions) {
       numberOfDots++;
+      
       cumulatedWeight += currentWeight;
       currentWeight /= 2;
+      
       if (debugMode)
         cerr <<
           "% cumulatedWeight = " << cumulatedWeight <<

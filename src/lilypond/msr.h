@@ -3107,10 +3107,10 @@ class EXP msrPedal : public msrElement
 {
   public:
 
-    enum msrPedalTypeKind {
+    enum msrPedalType {
       kPedalStart, kPedalContinue, kPedalChange, kPedalStop };
       
-    enum msrPedalLineKind {
+    enum msrPedalLine {
       kPedalLineYes, kPedalLineNo};
       
     // creation from MusicXML
@@ -3119,16 +3119,16 @@ class EXP msrPedal : public msrElement
     static SMARTP<msrPedal> create (
       S_msrOptions&    msrOpts, 
       int              inputLineNumber,
-      msrPedalTypeKind pedaTypeKind,
-      msrPedalLineKind pedalLineKind);
+      msrPedalType pedaTypeKind,
+      msrPedalLine pedalLine);
 
   protected:
 
     msrPedal (
       S_msrOptions&    msrOpts, 
       int              inputLineNumber,
-      msrPedalTypeKind pedaTypeKind,
-      msrPedalLineKind pedalLineKind);
+      msrPedalType pedaTypeKind,
+      msrPedalLine pedalLine);
       
     virtual ~msrPedal();
   
@@ -3137,13 +3137,13 @@ class EXP msrPedal : public msrElement
     // set and get
     // ------------------------------------------------------
     
-    msrPedalTypeKind
-                getPedalTypeKind () const
-                    { return fPedalTypeKind; }
+    msrPedalType
+                getPedalType () const
+                    { return fPedalType; }
                     
-    msrPedalLineKind
-                getPedalLineKind () const
-                    { return fPedalLineKind; }
+    msrPedalLine
+                getPedalLine () const
+                    { return fPedalLine; }
                     
     // position in measure
     void          setPedalMeasureLocation (
@@ -3157,8 +3157,8 @@ class EXP msrPedal : public msrElement
     // services
     // ------------------------------------------------------
 
-    string        pedalTypeKindAsString ();
-    string        pedalLineKindAsString ();
+    string        pedalTypeAsString ();
+    string        pedalLineAsString ();
     
     // visitors
     // ------------------------------------------------------
@@ -3172,8 +3172,8 @@ class EXP msrPedal : public msrElement
 
   private:
 
-    msrPedalTypeKind    fPedalTypeKind;
-    msrPedalLineKind    fPedalLineKind;
+    msrPedalType        fPedalType;
+    msrPedalLine        fPedalLine;
 
     msrMeasureLocation  fPedalMeasureLocation;
 
@@ -3750,6 +3750,8 @@ class EXP msrVoice : public msrElement
     void          handleForward       (int duration); // JMI
     
     void          catchupToMeasureLocation (
+                    int                       inputLineNumber,
+                    int                       divisionsPerWholeNote,
                     const msrMeasureLocation& measureLocation);
 
     void          appendClefToVoice   (S_msrClef clef);

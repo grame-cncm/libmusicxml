@@ -1722,6 +1722,17 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // the staff number should be positive
+  if (fCurrentStaffNumber <= 0) {
+    stringstream s;
+
+    s <<
+      "staff number " << fCurrentStaffNumber <<
+      " is not positive";
+      
+    msrAssert (false, s.str());
+  }
+  
   S_msrStaff
     staff =
       createStaffInCurrentPartIfNeeded (
@@ -1800,6 +1811,17 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // the voice number should be in the 1..4 range
+  if (fCurrentVoiceNumber < 1 || fCurrentVoiceNumber > 4) {
+    stringstream s;
+
+    s <<
+      "voice number " << fCurrentVoiceNumber <<
+      " is not in the 1..4 range";
+      
+    msrAssert (false, s.str());
+  }
+  
   if (fOnGoingForward) {
 
     fCurrentForwardVoiceNumber = fCurrentVoiceNumber;
@@ -1833,7 +1855,7 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
         createStaffInCurrentPartIfNeeded (
           inputLineNumber, fCurrentNoteStaffNumber);
   
-  //  if (fMsrOptions->fDebug)
+    if (fMsrOptions->fDebug)
       cerr <<
         idtr <<
           "--> fCurrentNoteVoiceNumber        = " <<
@@ -2735,31 +2757,31 @@ void xml2MsrVisitor::visitStart ( S_pedal& elt )
     */
 
   string
-    pedalType = elt->getAttributeValue ("type");
+    type = elt->getAttributeValue ("type");
     
-  msrPedal::msrPedalTypeKind
-    pedalTypeKind;
+  msrPedal::msrPedalType
+    pedalType;
 
-  if       (pedalType == "start") {
-    pedalTypeKind =
+  if       (type == "start") {
+    pedalType =
       msrPedal::kPedalStart;
   }
-  else  if (pedalType == "continue") {
-    pedalTypeKind =
+  else  if (type == "continue") {
+    pedalType =
       msrPedal::kPedalContinue;
   }
-  else  if (pedalType == "change") {
-    pedalTypeKind =
+  else  if (type == "change") {
+    pedalType =
       msrPedal::kPedalChange;
   }
-  else  if (pedalType == "stop") {
-    pedalTypeKind =
+  else  if (type == "stop") {
+    pedalType =
       msrPedal::kPedalStop;
   }
   else {
     stringstream s;
     
-    s << "pedal type " << pedalType << " is unknown";
+    s << "pedal type " << type << " is unknown";
     
     msrMusicXMLError (
       fMsrOptions->fInputSourceName,
@@ -2768,23 +2790,23 @@ void xml2MsrVisitor::visitStart ( S_pedal& elt )
   }
 
   string
-    pedalLine = elt->getAttributeValue ("line");
+    line = elt->getAttributeValue ("line");
     
-  msrPedal::msrPedalLineKind
-    pedalLineKind;
+  msrPedal::msrPedalLine
+    pedalLine;
 
-  if       (pedalLine == "yes") {
-    pedalLineKind =
+  if       (line == "yes") {
+    pedalLine =
       msrPedal::kPedalLineYes;
   }
-  else  if (pedalLine == "no") {
-    pedalLineKind =
+  else  if (line == "no") {
+    pedalLine =
       msrPedal::kPedalLineNo;
   }
   else {
     stringstream s;
     
-    s << "pedal line " << pedalLine << " is unknown";
+    s << "pedal line " << line << " is unknown";
     
     msrMusicXMLError (
       fMsrOptions->fInputSourceName,
@@ -2810,8 +2832,8 @@ void xml2MsrVisitor::visitStart ( S_pedal& elt )
         msrPedal::create (
           fMsrOptions,
           inputLineNumber,
-          pedalTypeKind,
-          pedalLineKind);
+          pedalType,
+          pedalLine);
   
     // set the pedal measure location
     pedal->

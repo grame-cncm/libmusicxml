@@ -229,6 +229,12 @@ pair<string, string> extractNamesPairFromString (
 string divisionsAsMSRDuration (
   int     divisions,
   int     divisionsPerWholeNote,
+  string& errorMessage,
+  bool    debugMode = false);
+
+string divisionsAsMSRDuration (
+  int     divisions,
+  int     divisionsPerWholeNote,
   int     inputSourceSuppliedNumberOfDots,
   int&    computedNumberOfDots,
   string& errorMessage,

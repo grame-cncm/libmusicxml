@@ -4791,13 +4791,13 @@ void msrEyeglasses::print (ostream& os)
 S_msrPedal msrPedal::create (
   S_msrOptions&    msrOpts, 
   int              inputLineNumber,
-  msrPedalTypeKind pedalTypeKind,
-  msrPedalLineKind pedalLineKind)
+  msrPedalType     pedalType,
+  msrPedalLine     pedalLine)
 {
   msrPedal* o =
     new msrPedal (
       msrOpts, inputLineNumber,
-      pedalTypeKind, pedalLineKind);
+      pedalType, pedalLine);
   assert(o!=0);
   return o;
 }
@@ -4805,21 +4805,21 @@ S_msrPedal msrPedal::create (
 msrPedal::msrPedal (
   S_msrOptions&    msrOpts, 
   int              inputLineNumber,
-  msrPedalTypeKind pedalTypeKind,
-  msrPedalLineKind pedalLineKind)
+  msrPedalType     pedalType,
+  msrPedalLine     pedalLine)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fPedalTypeKind = pedalTypeKind;
-  fPedalLineKind = pedalLineKind;
+  fPedalType = pedalType;
+  fPedalLine = pedalLine;
 }
 
 msrPedal::~msrPedal() {}
 
-string msrPedal::pedalTypeKindAsString ()
+string msrPedal::pedalTypeAsString ()
 {
   string result;
   
-  switch (fPedalTypeKind) {
+  switch (fPedalType) {
     case kPedalStart:
       result = "start pedal";
       break;
@@ -4837,11 +4837,11 @@ string msrPedal::pedalTypeKindAsString ()
   return result;
 }
       
-string msrPedal::pedalLineKindAsString ()
+string msrPedal::pedalLineAsString ()
 {
   string result;
   
-  switch (fPedalLineKind) {
+  switch (fPedalLine) {
     case kPedalLineYes:
       result = "pedal line: yes";
       break;
@@ -4901,8 +4901,8 @@ void msrPedal::print (ostream& os)
   os <<
     "Pedal" <<
     ", input line: " << fInputLineNumber <<
-    pedalTypeKindAsString () << ", " <<
-    pedalLineKindAsString () <<
+    pedalTypeAsString () << ", " <<
+    pedalLineAsString () <<
     endl;
 }
 
@@ -5967,6 +5967,8 @@ void msrVoice::handleForward (int duration)
 {} // JMI ???
 
 void msrVoice::catchupToMeasureLocation (
+  int                       inputLineNumber,
+  int                       divisionsPerWholeNote,
   const msrMeasureLocation& measureLocation)
 {
   // fill the gaps in voice with skip if needed
@@ -5978,10 +5980,82 @@ void msrVoice::catchupToMeasureLocation (
     * 
    */
 
+//  if (gMsrOptions->fForceDebug || fMsrOptions->fDebug)
+    cerr <<
+      endl <<
+      idtr << left <<
+        "=== catchupToMeasureLocation (), " <<
+        "line " << inputLineNumber <<
+        endl <<
+      idtr <<
+        ", divisionsPerWholeNote = " <<
+        divisionsPerWholeNote <<
+        endl <<
+      idtr <<
+        "from:" <<
+        endl <<
+      idtr <<
+        "fVoiceMeasureLocation.fMeasureNumber = " <<
+        fVoiceMeasureLocation.fMeasureNumber <<
+        endl <<
+      idtr <<
+        "fVoiceMeasureLocation.fPositionInMeasure = " <<
+        fVoiceMeasureLocation.fPositionInMeasure <<
+        endl <<
+      idtr <<
+        "to:" <<
+        endl <<
+      idtr <<
+        "measureLocation.fMeasureNumber = " <<
+        measureLocation.fMeasureNumber <<
+        endl <<
+      idtr <<
+        "measureLocation.fPositionInMeasure = " <<
+        measureLocation.fPositionInMeasure <<
+        endl <<
+      " in voice \"" << getVoiceName () << "\"" <<
+      endl;
+
   if (
     fVoiceMeasureLocation.fMeasureNumber
-      <
+      ==
     measureLocation.fMeasureNumber ) {
+
+    if (
+      fVoiceMeasureLocation.fPositionInMeasure
+        <
+      measureLocation.fPositionInMeasure ) {
+      // append rests to the voice to catch up
+      int
+        divisionsToCatchup =
+          measureLocation.fPositionInMeasure
+            -
+          fVoiceMeasureLocation.fPositionInMeasure;
+
+      string
+        errorMessage,
+        duration =
+          divisionsAsMSRDuration (
+            divisionsToCatchup,
+            divisionsPerWholeNote,
+            errorMessage,
+            false); // 'true' to debug it
+
+      if (errorMessage.size ())
+        msrMusicXMLError (
+          fMsrOptions->fInputSourceName,
+          inputLineNumber,
+          errorMessage);
+
+//      if (gMsrOptions->fForceDebug || fMsrOptions->fDebug)
+        cerr <<
+          endl <<
+          idtr << left <<
+          "=== catching up with \"" << duration <<
+          "\" (" << divisionsToCatchup << ")" <<
+          " in voice \"" << getVoiceName () << "\"" <<
+          endl;
+    }
   }
 }
 
@@ -6121,6 +6195,7 @@ void msrVoice::setMeasureNumber (
   int    anacrusisDivisions;
   string anacrusisDivisionsAsString;
   
+  
   if (anacrusisKind != k_NoAnacrusis) {
     int    computedNumberOfDots; // value not used
     string errorMessage;
@@ -6169,10 +6244,15 @@ void msrVoice::setMeasureNumber (
         this);
   }
 
+  // register voice new measure number
   fVoiceMeasureLocation.fMeasureNumber =
     measureNumber;
 
-  // JMI catchupToMeasureLocation ();
+  // catchup with rests if needed
+  catchupToMeasureLocation (
+    inputLineNumber,
+    divisionsPerWholeNote,
+    fVoiceMeasureLocation);
 
   fMeasureNumberHasBeenSetInVoice = true;
 }
@@ -6380,7 +6460,14 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       "Appending note '" << note <<
       "' to voice " << getVoiceName () << endl;
 
+  // catchup with rests if needed
+  catchupToMeasureLocation (
+    note->getInputLineNumber (),
+    fDivisionsPerWholeNote,
+    fVoiceMeasureLocation);
+
   if (note->getNoteKind () != msrNote::kRestNote)
+    // register actual note
     fVoiceContainsActualNotes = true;
 
   // append the note to the voice chunk
