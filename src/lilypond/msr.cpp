@@ -1115,7 +1115,7 @@ msrGraceexpression::msrGraceexpression (
 
 msrGraceexpression::~msrGraceexpression() {}
 
-S_msrGraceexpression msrGraceexpression::createEmptyClone ()
+S_msrGraceexpression msrGraceexpression::createGraceexpressionBareClone ()
 {
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug)
     cerr << idtr <<
@@ -1251,7 +1251,7 @@ S_msrNote msrNote::createRest (
   return o;
 }    
 
-S_msrNote msrNote::createBareNoteClone ()
+S_msrNote msrNote::createNoteBareClone ()
 {
   S_msrNote
     clone =
@@ -2627,7 +2627,7 @@ msrTuplet::msrTuplet (
 
 msrTuplet::~msrTuplet() {}
 
-S_msrTuplet msrTuplet::createEmptyClone ()
+S_msrTuplet msrTuplet::createTupletBareClone ()
 {
   S_msrTuplet
     clone =
@@ -3869,7 +3869,7 @@ msrLyricschunk::msrLyricschunk (
 
 msrLyricschunk::~msrLyricschunk() {}
 
-S_msrLyricschunk msrLyricschunk::createEmptyClone ()
+S_msrLyricschunk msrLyricschunk::createLyricschunkBareClone ()
 {
   S_msrLyricschunk
     clone =
@@ -4162,7 +4162,7 @@ string msrLyrics::getLyricsName () const
 
 msrLyrics::~msrLyrics() {}
 
-S_msrLyrics msrLyrics::createEmptyClone (S_msrVoice clonedVoice)
+S_msrLyrics msrLyrics::createLyricsBareClone (S_msrVoice clonedVoice)
 {
   S_msrLyrics
     clone =
@@ -5185,7 +5185,7 @@ msrVoicechunk::msrVoicechunk (
 
 msrVoicechunk::~msrVoicechunk() {}
 
-S_msrVoicechunk msrVoicechunk::createEmptyClone ()
+S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone ()
 {
   S_msrVoicechunk
     clone =
@@ -5361,7 +5361,7 @@ msrRepeatending::msrRepeatending (
 
 msrRepeatending::~msrRepeatending() {}
 
-S_msrRepeatending msrRepeatending::createEmptyClone (
+S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
   S_msrRepeat clonedRepeat)
 {
 //  if (fMsrOptions->fDebug)
@@ -5478,7 +5478,7 @@ msrRepeat::msrRepeat (
 
 msrRepeat::~msrRepeat() {}
 
-S_msrRepeat msrRepeat::createEmptyClone (S_msrVoice clonedVoice)
+S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
 {
   S_msrVoicechunk
     voicechunk =
@@ -5630,7 +5630,7 @@ msrUpbeat::msrUpbeat (
 
 msrUpbeat::~msrUpbeat() {}
 
-S_msrUpbeat msrUpbeat::createEmptyClone (S_msrVoice clonedVoice)
+S_msrUpbeat msrUpbeat::createUpbeatBareClone (S_msrVoice clonedVoice)
 {
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -5756,7 +5756,7 @@ S_msrVoice msrVoice::create (
   return o;
 }
 
-S_msrVoice msrVoice::createEmptyClone (S_msrStaff clonedStaff)
+S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
 {
   S_msrVoice
     clone =
@@ -7217,7 +7217,7 @@ msrStaff::msrStaff (
 
 msrStaff::~msrStaff() {}
 
-S_msrStaff msrStaff::createEmptyClone (S_msrPart clonedPart)
+S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
 {
   S_msrStaff
     clone =
@@ -8681,7 +8681,7 @@ msrScore::msrScore (
 
 msrScore::~msrScore() {}
 
-S_msrScore msrScore::createEmptyClone ()
+S_msrScore msrScore::createScoreBareClone ()
 {
   S_msrScore
     clone =

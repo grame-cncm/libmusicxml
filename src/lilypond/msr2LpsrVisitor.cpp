@@ -85,7 +85,7 @@ void msr2LpsrVisitor::visitStart (S_msrScore& elt)
   // not sharing the visitiged MSR score allows cleaner data handling
   // and optimisations of the LPSR data
   fCurrentScoreClone =
-    fVisitedMsrScore->createEmptyClone ();
+    fVisitedMsrScore->createScoreBareClone ();
 
   // create the LPSR score
   fLpsrScore =
@@ -311,7 +311,7 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
 
 /*
  *   fCurrentVoiceClone =
-    elt->createEmptyClone (fCurrentStaffClone);
+    elt->createVoiceBareClone (fCurrentStaffClone);
     
   fCurrentStaffClone->
     addVoiceToStaff (fCurrentVoiceClone);
@@ -400,7 +400,7 @@ void msr2LpsrVisitor::visitStart (S_msrStaff& elt)
   
   // create a staff clone
   fCurrentStaffClone =
-    elt->createEmptyClone (fCurrentPartClone);
+    elt->createStaffBareClone (fCurrentPartClone);
     
   // add it to the part clone
   fCurrentPartClone->
@@ -440,7 +440,7 @@ void msr2LpsrVisitor::visitStart (S_msrVoice& elt)
 
   // create a voice clone
   fCurrentVoiceClone =
-    elt->createEmptyClone (fCurrentStaffClone);
+    elt->createVoiceBareClone (fCurrentStaffClone);
     
   // add it to the staff clone
   fCurrentStaffClone->
@@ -476,7 +476,7 @@ void msr2LpsrVisitor::visitStart (S_msrUpbeat& elt)
   // create a upbeat clone
   S_msrUpbeat
     upbeat =
-      elt->createEmptyClone (fCurrentVoiceClone);
+      elt->createUpbeatBareClone (fCurrentVoiceClone);
     
   // add it to the current voice clone
   fCurrentVoiceClone->
@@ -501,7 +501,7 @@ void msr2LpsrVisitor::visitStart (S_msrVoicechunk& elt)
 
   // create a clone of the voice chunk
   fCurrentVoicechunkClone =
-    elt->createEmptyClone ();
+    elt->createVoicechunkBareClone ();
 /* JMI
   // append it to the current voice
   fCurrentVoiceClone->
@@ -528,7 +528,7 @@ void msr2LpsrVisitor::visitStart (S_msrLyrics& elt)
 
 //  if (elt->getLyricsTextPresent ()) { // JMI
     fCurrentLyricsClone =
-      elt->createEmptyClone (fCurrentVoiceClone);
+      elt->createLyricsBareClone (fCurrentVoiceClone);
   
     // don't add the lyrics to fCurrentVoiceClone
   
@@ -561,7 +561,7 @@ void msr2LpsrVisitor::visitStart (S_msrLyricschunk& elt)
       "--> Start visiting msrLyricschunk" << endl;
 
   fCurrentLyricschunkClone =
-    elt->createEmptyClone ();
+    elt->createLyricschunkBareClone ();
     
 // JMI  fCurrentLyricsClone->
     //addChunkToLyrics (fCurrentLyricschunkClone);
@@ -779,7 +779,7 @@ void msr2LpsrVisitor::visitStart (S_msrGraceexpression& elt)
   // create a clone of this grace expression
   fCurrentGraceexpressionClone =
     elt->
-      createEmptyClone ();
+      createGraceexpressionBareClone ();
 
   // append it to the current voice clone
   fCurrentVoiceClone->
@@ -827,7 +827,7 @@ void msr2LpsrVisitor::visitStart (S_msrNote& elt)
   }
 
   fCurrentNoteClone =
-    elt->createBareNoteClone ();
+    elt->createNoteBareClone ();
     
   fOnGoingNote = true;
 }
@@ -995,7 +995,7 @@ void msr2LpsrVisitor::visitStart (S_msrTuplet& elt)
   // create the tuplet clone
   S_msrTuplet
     tupletClone =
-      elt->createEmptyClone ();
+      elt->createTupletBareClone ();
 
   // register it in this visitor
 //  if (fMsrOptions->fDebug)
@@ -1107,7 +1107,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       /*
       if (! fCurrentRepeatClone)
         fCurrentRepeatClone =
-          elt->createEmptyClone (
+          elt->createBarlineBareClone (
             fCurrentVoiceClone);
 // */
 
@@ -1453,7 +1453,7 @@ void msr2LpsrVisitor::visitStart (S_msrRepeat& elt)
 
   // create an LPSR repeat
   fCurrentRepeatClone =
-    elt->createEmptyClone (
+    elt->createRepeatBareClone (
       fCurrentVoiceClone);
 
 /* JMI
@@ -1484,7 +1484,7 @@ void msr2LpsrVisitor::visitStart (S_msrRepeatending& elt)
 /* JMI
   S_msrRepeatending
     repeatending =
-      elt->createEmptyClone (fCurrentRepeatClone);
+      elt->createRepeatnendingBareClone (fCurrentRepeatClone);
 
   fCurrentRepeatClone->
     addRepeatending (repeatending);

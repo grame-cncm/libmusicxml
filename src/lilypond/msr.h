@@ -1026,7 +1026,7 @@ class EXP msrVoicechunk : public msrElement
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
 
-    SMARTP<msrVoicechunk> createEmptyClone ();
+    SMARTP<msrVoicechunk> createVoicechunkBareClone ();
 
   protected:
 
@@ -1100,7 +1100,7 @@ class EXP msrGraceexpression : public msrElement
       int             inputLineNumber,
       bool            slashed);
     
-    SMARTP<msrGraceexpression> createEmptyClone ();
+    SMARTP<msrGraceexpression> createGraceexpressionBareClone ();
 
   protected:
 
@@ -1271,7 +1271,7 @@ class EXP msrNote : public msrElement
         msrMusicXMLNoteData& musicXMLNoteData,
         msrSlur::msrSlurKind slurKind);
 
-    SMARTP<msrNote> createBareNoteClone ();
+    SMARTP<msrNote> createNoteBareClone ();
     
     // creation from xml2Msr
     // ------------------------------------------------------
@@ -2247,7 +2247,7 @@ class EXP msrTuplet : public msrElement
       int           normalNotes,
       S_msrNote     firstNote);
 
-    SMARTP<msrTuplet> createEmptyClone ();
+    SMARTP<msrTuplet> createTupletBareClone ();
 
     enum msrTupletKind {
       kStartTuplet, kContinueTuplet, kStopTuplet, 
@@ -2721,7 +2721,7 @@ class EXP msrLyricschunk : public msrElement
       S_msrNote          lyricschunkNote,
       S_msrLyrics        lyricschunkLyricsUplink);
 
-    SMARTP<msrLyricschunk> createEmptyClone ();
+    SMARTP<msrLyricschunk> createLyricschunkBareClone ();
 
   protected:
 
@@ -2806,7 +2806,7 @@ class EXP msrLyrics : public msrElement
       msrLyricsMasterStatus lyricsMasterStatus,
       S_msrVoice            lyricsVoiceUplink);
     
-    SMARTP<msrLyrics> createEmptyClone (
+    SMARTP<msrLyrics> createLyricsBareClone (
       S_msrVoice clonedVoice);
 
   protected:
@@ -3398,7 +3398,7 @@ class EXP msrRepeatending : public msrElement
       S_msrVoicechunk     voicechunk,
       S_msrRepeat         repeatUplink);
     
-    SMARTP<msrRepeatending> createEmptyClone (
+    SMARTP<msrRepeatending> createRepeatendingBareClone (
       S_msrRepeat clonedRepeat);
 
   protected:
@@ -3489,7 +3489,7 @@ class EXP msrRepeat : public msrElement
       S_msrVoicechunk commonPart,
       S_msrVoice      voiceUplink);
     
-    SMARTP<msrRepeat> createEmptyClone (
+    SMARTP<msrRepeat> createRepeatBareClone (
       S_msrVoice clonedVoice);
 
   protected:
@@ -3570,7 +3570,7 @@ class EXP msrUpbeat : public msrElement
       int             divisions,
       S_msrVoice      voiceUplink);
     
-    SMARTP<msrUpbeat> createEmptyClone (
+    SMARTP<msrUpbeat> createUpbeatBareClone (
       S_msrVoice clonedVoice);
 
   protected:
@@ -3647,7 +3647,7 @@ class EXP msrVoice : public msrElement
       int           divisions,
       int           voiceNumber);
     
-    SMARTP<msrVoice> createEmptyClone (
+    SMARTP<msrVoice> createVoiceBareClone (
       S_msrStaff clonedStaff);
 
   protected:
@@ -3899,7 +3899,7 @@ class EXP msrStaff : public msrElement
       int           staffNumber,
       S_msrPart     fStaffPartUplink);
     
-    SMARTP<msrStaff> createEmptyClone (
+    SMARTP<msrStaff> createStaffBareClone (
       S_msrPart clonedPart);
 
   protected:
@@ -4391,7 +4391,7 @@ class EXP msrScore : public msrElement
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
 
-    SMARTP<msrScore> createEmptyClone ();
+    SMARTP<msrScore> createScoreBareClone ();
 
   protected:
 
