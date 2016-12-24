@@ -2533,6 +2533,9 @@ class EXP msrTime : public msrElement
     // services
     // ------------------------------------------------------
 
+    int       timeDuration () const
+                  { return fBeatsNumber * fBeatsValue; }
+                  
     string    timeAsString () const;
 
     // visitors
@@ -2549,8 +2552,6 @@ class EXP msrTime : public msrElement
 
     int      fBeatsNumber;
     int      fBeatsValue;
-
-    bool     fGenerateNumericalTime; // JMI
 };
 typedef SMARTP<msrTime> S_msrTime;
 EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
@@ -3748,6 +3749,9 @@ class EXP msrVoice : public msrElement
 
     void          handleForward       (int duration); // JMI
     
+    void          catchupToMeasureLocation (
+                    const msrMeasureLocation& measureLocation);
+
     void          appendClefToVoice   (S_msrClef clef);
     void          appendKeyToVoice    (S_msrKey  key);
     void          appendTimeToVoice   (S_msrTime time);
@@ -3846,6 +3850,8 @@ class EXP msrVoice : public msrElement
     bool                      fVoiceContainsActualNotes;
 
     int                       fDivisionsPerWholeNote;
+
+    S_msrTime                 fVoiceTime;
 
     msrMeasureLocation        fVoiceMeasureLocation;
     S_msrVoice                fVoiceVoicemaster;

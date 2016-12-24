@@ -5966,6 +5966,25 @@ string msrVoice::getVoiceName () const
 void msrVoice::handleForward (int duration)
 {} // JMI ???
 
+void msrVoice::catchupToMeasureLocation (
+  const msrMeasureLocation& measureLocation)
+{
+  // fill the gaps in voice with skip if needed
+  /*
+   int         ;
+    int         fPositionInMeasure; // divisions
+    *
+    fVoiceTime
+    * 
+   */
+
+  if (
+    fVoiceMeasureLocation.fMeasureNumber
+      <
+    measureLocation.fMeasureNumber ) {
+  }
+}
+
 void msrVoice::setMeasureNumber (
   int inputLineNumber, int measureNumber)
 {
@@ -6287,6 +6306,10 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
       "Appending time '" << time->timeAsString () <<
       "' to voice " << getVoiceName () << endl;
 
+  // register time in voice
+  fVoiceTime = time;
+
+  // append it to the voice chunk
   S_msrElement t = time;
   fVoicechunk->
     appendElementToVoicechunk (t);
