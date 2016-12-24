@@ -5806,13 +5806,14 @@ msrVoice::msrVoice (
       "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
       endl;
 
-  // the voice number should be in the 1..4 range  
-  if (voiceNumber < 1 || voiceNumber > 4) {
+  // the voice number should be in the 0..4 range
+  // (0 is used for the part voir master)
+  if (voiceNumber < 0 || voiceNumber > 4) {
     stringstream s;
 
     s <<
       "voice number " << voiceNumber <<
-      " is not in the 1..4 range";
+      " is not in the 0..4 range";
       
     msrAssert (false, s.str());
   }
@@ -5837,6 +5838,21 @@ msrVoice::msrVoice (
     fVoiceStaffUplink->
       getStaffMeasureLocation ();
   
+  // fetch voice master from staff uplink
+  fVoiceVoicemaster =
+    fVoiceStaffUplink -> getStaffVoicemaster ();
+    
+  // add the master lyrics to this voice, to
+  // collect skips along the way that are used as a 'prelude'
+  // by actual lyrics that start at later points
+  fVoiceLyricsmaster =
+    msrLyrics::create (
+      fMsrOptions,
+      inputLineNumber,
+      -1,    // this lyrics number is unused anyway
+      msrLyrics::kMasterLyrics,
+      this);
+
   // create the voice chunk
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -5926,17 +5942,6 @@ msrVoice::msrVoice (
         appendElementToVoicechunk (t);
     }
   }
-  
-  // add the master lyrics to this voice, to
-  // collect skips along the way that are used as a 'prelude'
-  // by actual lyrics that start at later points
-  fVoiceMasterLyrics =
-    msrLyrics::create (
-      fMsrOptions,
-      inputLineNumber,
-      -1,    // this lyrics number is unused anyway
-      msrLyrics::kMasterLyrics,
-      this);
 }
 
 msrVoice::~msrVoice() {}
@@ -6203,11 +6208,11 @@ S_msrLyrics msrVoice::addLyricsToVoice (
 
   fVoiceLyricsMap [lyricsNumber] = lyrics;
 
-  // catch up with fVoiceMasterLyrics
+  // catch up with fVoiceLyricsmaster
   // in case the lyrics does not start upon the first voice note
   vector<S_msrLyricschunk>
     masterChunks =
-      fVoiceMasterLyrics->getLyricschunks ();
+      fVoiceLyricsmaster->getLyricschunks ();
 
   if (masterChunks.size()) {
     if (fMsrOptions->fTrace)
@@ -6357,20 +6362,25 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       "Appending note '" << note <<
       "' to voice " << getVoiceName () << endl;
 
+  if (note->getNoteKind () != msrNote::kRestNote)
+    fVoiceContainsActualNotes = true;
+
   // append the note to the voice chunk
   S_msrElement n = note;
   fVoicechunk->
     appendElementToVoicechunk (n);
 
-  if (note->getNoteKind () != msrNote::kRestNote)
-    fVoiceContainsActualNotes = true;
-    
+  // add a rest of the same duration to the voice master
+  fVoiceVoicemaster->
+    getVoicechunk () ->
+      appendElementToVoicechunk (n); 
+  
   // add a skip chunk of the same duration to the master lyrics
   int
     lyricsDivisions =
       note->getNoteMusicXMLDivisions ();
 
-  fVoiceMasterLyrics->
+  fVoiceLyricsmaster->
     addSkipChunkToLyrics (
       note->getInputLineNumber (),
       lyricsDivisions,
@@ -6725,7 +6735,7 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
     appendElementToVoicechunk (barCheck);
 
   // add bar check chunk to the voice master lyrics
-  fVoiceMasterLyrics->
+  fVoiceLyricsmaster->
     addBarcheckChunkToLyrics (
       barCheck->getInputLineNumber (),
       fVoiceMeasureLocation.fMeasureNumber);
@@ -6744,7 +6754,7 @@ void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
 
 /*
   // add barnumber check chunk to the voice master lyrics
-  fVoiceMasterLyrics->
+  fVoiceLyricsmaster->
     addBarnumberCheckChunkToLyrics (
       bnc->getInputLineNumber (),
       fVoiceMeasureLocation.fMeasureNumber);
@@ -6762,7 +6772,7 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
     appendElementToVoicechunk (break_);
 
   // add break chunk to the voice master lyrics
-  fVoiceMasterLyrics->
+  fVoiceLyricsmaster->
     addBreakChunkToLyrics (
       break_->getInputLineNumber (),
       fVoiceMeasureLocation.fMeasureNumber);
@@ -7032,7 +7042,7 @@ void msrVoice::print (ostream& os)
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     // print the master lyrics
     os << idtr <<
-      fVoiceMasterLyrics <<
+      fVoiceLyricsmaster <<
       endl;    
   }
   
@@ -7089,8 +7099,9 @@ msrStaff::msrStaff (
       "\" in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
       endl;
 
-  // the staff number should be positive 
-  if (staffNumber <= 0) {
+  // the staff number should not be negative
+  // (0 is used for hidden staff containing the part voice master)
+  if (staffNumber < 0) {
     stringstream s;
 
     s <<
@@ -7109,6 +7120,10 @@ msrStaff::msrStaff (
     fStaffPartUplink->
       getPartMeasureLocation ();
   
+  // fetch voice master from part uplink
+  fStaffVoicemaster =
+    fStaffPartUplink->getPartVoicemaster ();
+    
   // get the initial clef from the staff if any
   {
     S_msrClef
@@ -7569,6 +7584,23 @@ msrPart::msrPart (
       "Creating part " << getPartCombinedName () << endl;
 
   fDivisionsPerWholeNote = 0;
+
+  // create the part voice master
+  S_msrStaff
+    hiddenStaff =
+      msrStaff::create (
+      fMsrOptions, 
+      0,            // inputLineNumber
+      0,            // staffNumber
+      this);        // fStaffPartUplink
+
+  fPartVoicemaster =
+    msrVoice::create (
+      fMsrOptions, 
+      0,            // inputLineNumber
+      0,            // voiceNumber
+      0,            // staffRelativeVoiceNumber
+      hiddenStaff); // voiceStaffUplink
 }
 
 msrPart::~msrPart() {}

@@ -94,7 +94,10 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 { \
   if (! condition) { \
     cerr << \
-      messageIfFalse << endl << flush; \
+      endl << \
+      "#### " << messageIfFalse << \
+      endl << endl << \
+      flush; \
     assert(condition); \
   } \
 }
@@ -3687,8 +3690,8 @@ class EXP msrVoice : public msrElement
                   getVoicechunk () const
                       { return fVoicechunk; }
 
-    S_msrLyrics   getVoiceMasterLyrics () const
-                      { return fVoiceMasterLyrics; }
+    S_msrLyrics   getVoiceLyricsmaster () const
+                      { return fVoiceLyricsmaster; }
                
     // divisions per whole note
     void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
@@ -3734,6 +3737,11 @@ class EXP msrVoice : public msrElement
     const msrMeasureLocation&
                   getVoiceMeasureLocation () const
                       { return fVoiceMeasureLocation; }
+
+    // voice master
+    const S_msrVoice
+                  getVoiceVoicemaster () const
+                      { return fVoiceVoicemaster; }
 
     // services
     // ------------------------------------------------------
@@ -3840,6 +3848,7 @@ class EXP msrVoice : public msrElement
     int                       fDivisionsPerWholeNote;
 
     msrMeasureLocation        fVoiceMeasureLocation;
+    S_msrVoice                fVoiceVoicemaster;
 
     // anacrusis detection
     bool                      fMeasureZeroHasBeenMetInVoice;
@@ -3854,7 +3863,7 @@ class EXP msrVoice : public msrElement
     // the master lyrics, collecting skips along the way,
     // to be used as a 'prelude' by actual lyrics
     // that start at later points
-    S_msrLyrics               fVoiceMasterLyrics;
+    S_msrLyrics               fVoiceLyricsmaster;
     
     // the lyrics map
     map<int, S_msrLyrics>     fVoiceLyricsMap;
@@ -3953,6 +3962,11 @@ class EXP msrStaff : public msrElement
                   getStaffMeasureLocation () const
                       { return fStaffMeasureLocation; }
 
+    // voice master
+    const S_msrVoice
+                  getStaffVoicemaster () const
+                      { return fStaffVoicemaster; }
+
     // services
     // ------------------------------------------------------
 
@@ -3997,6 +4011,7 @@ class EXP msrStaff : public msrElement
     int                     fDivisionsPerWholeNote;    
 
     msrMeasureLocation      fStaffMeasureLocation;
+    S_msrVoice              fStaffVoicemaster;
 
     S_msrClef               fStaffClef;
     S_msrKey                fStaffKey;
@@ -4111,7 +4126,7 @@ class EXP msrPart : public msrElement
     void          setPartTime (S_msrTime time);
 
     void          setPartTranspose (S_msrTranspose transpose);
-    
+
     // location in measure
     void          setPartMeasureLocation (
                     const msrMeasureLocation& measureLocation);
@@ -4119,6 +4134,11 @@ class EXP msrPart : public msrElement
     const msrMeasureLocation&
                   getPartMeasureLocation () const
                       { return fPartMeasureLocation; }
+
+    // voice master
+    const S_msrVoice
+                  getPartVoicemaster () const
+                      { return fPartVoicemaster; }
 
     // services
     // ------------------------------------------------------
@@ -4174,6 +4194,7 @@ class EXP msrPart : public msrElement
     int                     fDivisionsPerWholeNote;
 
     msrMeasureLocation      fPartMeasureLocation;
+    S_msrVoice              fPartVoicemaster;
 
     S_msrClef               fPartClef;
     S_msrKey                fPartKey;
