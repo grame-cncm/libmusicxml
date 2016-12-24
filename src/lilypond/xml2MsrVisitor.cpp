@@ -2227,7 +2227,8 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
     measureLocation (measureNumber, 1);
   
   fCurrentPart->
-    setPartMeasureLocation (measureLocation);
+    setPartMeasureLocation (
+      inputLineNumber, measureLocation);
 
 /*
   // fetch current voice

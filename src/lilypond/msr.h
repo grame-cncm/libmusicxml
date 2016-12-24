@@ -3732,8 +3732,8 @@ class EXP msrVoice : public msrElement
           
     // location in measure
     void          setVoiceMeasureLocation (
-                    const msrMeasureLocation& measureLocation)
-                      { fVoiceMeasureLocation = measureLocation; }
+                    int                       inputLineNumber,
+                    const msrMeasureLocation& measureLocation);
                       
     const msrMeasureLocation&
                   getVoiceMeasureLocation () const
@@ -3963,6 +3963,7 @@ class EXP msrStaff : public msrElement
           
     // location in measure
     void          setStaffMeasureLocation (
+                    int                       inputLineNumber,
                     const msrMeasureLocation& measureLocation);
                       
     const msrMeasureLocation&
@@ -3981,6 +3982,7 @@ class EXP msrStaff : public msrElement
                   int divisions);
 
     void        setAllStaffVoicesMeasureLocation (
+                  int                       inputLineNumber,
                   const msrMeasureLocation& measureLocation);
   
     S_msrVoice  addVoiceToStaff (
@@ -4139,6 +4141,7 @@ class EXP msrPart : public msrElement
 
     // location in measure
     void          setPartMeasureLocation (
+                    int                       inputLineNumber,
                     const msrMeasureLocation& measureLocation);
                       
     const msrMeasureLocation&
@@ -4157,6 +4160,7 @@ class EXP msrPart : public msrElement
                     int divisions);
     
     void          setAllPartStavesMeasureLocation (
+                    int                       inputLineNumber,
                     const msrMeasureLocation& measureLocation);
 
     void          setAllPartStavesClef (S_msrClef clef);

@@ -5825,6 +5825,7 @@ msrVoice::msrVoice (
   // there may be an anacrusis
   fVoiceMeasureLocation.fMeasureNumber = 0;
 
+  // positions start at 1
   fVoiceMeasureLocation.fPositionInMeasure = 1;
 
   fMeasureZeroHasBeenMetInVoice   = false;
@@ -5980,7 +5981,8 @@ void msrVoice::catchupToMeasureLocation (
     * 
    */
 
-//  if (gMsrOptions->fForceDebug || fMsrOptions->fDebug)
+//  if (gMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+  if (true) {
     cerr <<
       endl <<
       idtr << left <<
@@ -5988,12 +5990,16 @@ void msrVoice::catchupToMeasureLocation (
         "line " << inputLineNumber <<
         endl <<
       idtr <<
-        ", divisionsPerWholeNote = " <<
+        "divisionsPerWholeNote = " <<
         divisionsPerWholeNote <<
         endl <<
       idtr <<
         "from:" <<
-        endl <<
+        endl;
+
+    idtr++;
+
+    cerr <<
       idtr <<
         "fVoiceMeasureLocation.fMeasureNumber = " <<
         fVoiceMeasureLocation.fMeasureNumber <<
@@ -6001,10 +6007,18 @@ void msrVoice::catchupToMeasureLocation (
       idtr <<
         "fVoiceMeasureLocation.fPositionInMeasure = " <<
         fVoiceMeasureLocation.fPositionInMeasure <<
-        endl <<
+        endl;
+
+    idtr--;
+
+    cerr <<
       idtr <<
         "to:" <<
-        endl <<
+        endl;
+
+    idtr++;
+
+    cerr <<
       idtr <<
         "measureLocation.fMeasureNumber = " <<
         measureLocation.fMeasureNumber <<
@@ -6012,9 +6026,15 @@ void msrVoice::catchupToMeasureLocation (
       idtr <<
         "measureLocation.fPositionInMeasure = " <<
         measureLocation.fPositionInMeasure <<
-        endl <<
-      " in voice \"" << getVoiceName () << "\"" <<
+        endl;
+
+    idtr--;
+
+    cerr <<
+      idtr <<
+      "in voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   if (
     fVoiceMeasureLocation.fMeasureNumber
@@ -6057,6 +6077,83 @@ void msrVoice::catchupToMeasureLocation (
           endl;
     }
   }
+}
+
+void msrVoice::setVoiceMeasureLocation (
+  int                       inputLineNumber,
+  const msrMeasureLocation& measureLocation)
+{
+  // register voice new measure number
+  fVoiceMeasureLocation = measureLocation;
+
+  int
+    beatsNumber =
+      fVoiceStaffUplink->
+        getStaffTime ()->
+          getBeatsNumber (),
+          
+    beatsValue =
+      fVoiceStaffUplink->
+        getStaffTime ()->
+          getBeatsValue (),
+
+    divisionsPerWholeNote =
+      fDivisionsPerWholeNote,
+      
+    divisionsPerMeasure =
+      divisionsPerWholeNote * beatsNumber / beatsValue,
+          
+    positionInMeasure =
+      getVoicePositionInMeasure ();
+
+//    if (gMsrOptions->fForceDebug || fMsrOptions->fDebug)
+    cerr <<
+      endl <<
+      idtr << left <<
+        "=== setVoiceMeasureLocation ()" <<
+        ", voice = " << fVoiceNumber <<
+        ", voice name = " << getVoiceName () <<
+        ", positionInMeasure = " << positionInMeasure <<
+        endl <<
+      idtr <<
+        setw(36) << "fVoiceMeasureLocation.fMeasureNumber" << " = " <<
+        fVoiceMeasureLocation.fMeasureNumber <<
+        endl <<
+      idtr <<
+        setw(36) << "inputLineNumber" << " = " <<
+        inputLineNumber <<
+        endl <<
+      idtr <<
+        setw(36) << "fMusicHasBeenInsertedInVoice" << " = " <<
+        fMusicHasBeenInsertedInVoice <<
+        endl <<
+      idtr <<
+        setw(36) << "fMeasureZeroHasBeenMetInVoice" << " = " <<
+        fMeasureZeroHasBeenMetInVoice <<
+        endl <<
+      idtr <<
+        setw(36) << "beatsNumber" << " = " <<
+        beatsNumber <<
+        endl <<
+      idtr <<
+        setw(36) << "beatsValue" << " = " <<
+        beatsValue <<
+        endl <<
+      idtr <<
+        setw(36) << "divisionsPerWholeNote" << " = " <<
+        divisionsPerWholeNote <<
+        endl <<
+      idtr <<
+        setw(36) << "divisionsPerMeasure" << " = " <<
+        divisionsPerMeasure <<
+        endl <<
+      endl;
+
+  // catchup with rests if needed
+  catchupToMeasureLocation (
+    inputLineNumber,
+    divisionsPerWholeNote,
+    fVoiceMeasureLocation);
 }
 
 void msrVoice::setMeasureNumber (
@@ -6129,6 +6226,16 @@ void msrVoice::setMeasureNumber (
         divisionsPerMeasure <<
         endl <<
       endl;
+
+  // register voice new measure number
+  fVoiceMeasureLocation.fMeasureNumber =
+    measureNumber;
+
+  // catchup with rests if needed
+  catchupToMeasureLocation (
+    inputLineNumber,
+    divisionsPerWholeNote,
+    fVoiceMeasureLocation);
 
   if (measureNumber == 0) {  
     fMeasureZeroHasBeenMetInVoice = true;
@@ -6243,16 +6350,6 @@ void msrVoice::setMeasureNumber (
         anacrusisDivisions,
         this);
   }
-
-  // register voice new measure number
-  fVoiceMeasureLocation.fMeasureNumber =
-    measureNumber;
-
-  // catchup with rests if needed
-  catchupToMeasureLocation (
-    inputLineNumber,
-    divisionsPerWholeNote,
-    fVoiceMeasureLocation);
 
   fMeasureNumberHasBeenSetInVoice = true;
 }
@@ -6469,6 +6566,9 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   if (note->getNoteKind () != msrNote::kRestNote)
     // register actual note
     fVoiceContainsActualNotes = true;
+
+  fVoiceMeasureLocation.fPositionInMeasure +=
+    note->getNoteMusicXMLDivisions ();
 
   // append the note to the voice chunk
   S_msrElement n = note;
@@ -7339,23 +7439,28 @@ void msrStaff::setAllStaffVoicesDivisionsPerWholeNote (int divisions)
 }
 
 void msrStaff::setStaffMeasureLocation (
+  int                       inputLineNumber,
   const msrMeasureLocation& measureLocation)
 {
   // set staff measure location
   fStaffMeasureLocation = measureLocation;
 
   // propagate it to all staves
-  setAllStaffVoicesMeasureLocation (measureLocation);  
+  setAllStaffVoicesMeasureLocation (
+    inputLineNumber, measureLocation);  
 }
 
 void msrStaff::setAllStaffVoicesMeasureLocation (
+  int                       inputLineNumber,
   const msrMeasureLocation& measureLocation)
 {
   for (
     map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
     i != fStaffVoicesMap.end();
     i++) {
-    (*i).second->setVoiceMeasureLocation (measureLocation);
+    (*i).second->
+      setVoiceMeasureLocation (
+        inputLineNumber, measureLocation);
   } // for
 }
 
@@ -7787,13 +7892,15 @@ string msrPart::getPartCombinedName () const
 }
 
 void msrPart::setPartMeasureLocation (
+  int                       inputLineNumber,
   const msrMeasureLocation& measureLocation)
 {
   // set part measure location
   fPartMeasureLocation = measureLocation;
 
   // propagate it to all staves
-  setAllPartStavesMeasureLocation (measureLocation);  
+  setAllPartStavesMeasureLocation (
+    inputLineNumber, measureLocation);  
 }
 
 void msrPart::setPartClef (S_msrClef clef)
@@ -7875,13 +7982,15 @@ void msrPart::setAllPartStavesDivisionsPerWholeNote (int divisions)
 }
 
 void msrPart::setAllPartStavesMeasureLocation (
+  int                       inputLineNumber,
   const msrMeasureLocation& measureLocation)
 {
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->setStaffMeasureLocation (measureLocation);
+    (*i).second->setStaffMeasureLocation (
+      inputLineNumber, measureLocation);
   } // for
 }
 
