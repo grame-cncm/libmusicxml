@@ -2089,6 +2089,9 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
           break;
         case msrArticulation::kArpeggiato:
           fOstream << "\\arpeggio";
+          /* JMI
+  \once \set StaffGroup.connectArpeggios = ##t
+  */
           break;
       } // switch
       
@@ -2226,14 +2229,14 @@ void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
     fOstream << idtr;
 
   // don't take the chord into account for line breaking
-  /* JMI
+  // * JMI
   if (++fSequentialMusicElementsCounter > 10) {
     fOstream <<
       endl <<
       idtr;
     fSequentialMusicElementsCounter = 1;
   }
-  */
+  //*/
   
   fOstream << "<";
 }
@@ -2377,11 +2380,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrEyeglasses& elt)
     fOstream << idtr <<
       "% --> Start visiting eyeglasses" << endl;
 
-  if (++fLyricschunksCounter > 10) {
+  if (++fSequentialMusicElementsCounter > 10) {
     fOstream <<
       endl <<
       idtr;
-    fLyricschunksCounter = 1;
+    fSequentialMusicElementsCounter = 1;
   }
 
   fOstream <<
@@ -2394,11 +2397,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrPedal& elt)
     fOstream << idtr <<
       "% --> Start visiting pedal" << endl;
 
-  if (++fLyricschunksCounter > 10) {
+  if (++fSequentialMusicElementsCounter > 10) {
     fOstream <<
       endl <<
       idtr;
-    fLyricschunksCounter = 1;
+    fSequentialMusicElementsCounter = 1;
   }
       
   switch (elt->getPedalTypeKind ()) {

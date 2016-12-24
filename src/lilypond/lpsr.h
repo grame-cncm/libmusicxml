@@ -863,7 +863,6 @@ EXP ostream& operator<< (ostream& os, const S_lpsrVariableUseCommand& elt);
   A lyrics use is represented by the lyrics to use
 */
 //______________________________________________________________________________
-/*
 class EXP lpsrUseLyricsCommand : public lpsrElement
 {
   public:
@@ -911,7 +910,6 @@ class EXP lpsrUseLyricsCommand : public lpsrElement
 };
 typedef SMARTP<lpsrUseLyricsCommand> S_lpsrUseLyricsCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrUseLyricsCommand& elt);
-*/
 
 /*!
 \brief A context representation.
