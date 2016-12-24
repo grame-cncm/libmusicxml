@@ -6083,9 +6083,6 @@ void msrVoice::setVoiceMeasureLocation (
   int                       inputLineNumber,
   const msrMeasureLocation& measureLocation)
 {
-  // register voice new measure number
-  fVoiceMeasureLocation = measureLocation;
-
   int
     beatsNumber =
       fVoiceStaffUplink->
@@ -6153,7 +6150,10 @@ void msrVoice::setVoiceMeasureLocation (
   catchupToMeasureLocation (
     inputLineNumber,
     divisionsPerWholeNote,
-    fVoiceMeasureLocation);
+    measureLocation);
+
+  // register voice new measure number
+  fVoiceMeasureLocation = measureLocation;
 }
 
 void msrVoice::setMeasureNumber (
@@ -7194,9 +7194,9 @@ void msrVoice::browseData (basevisitor* v)
       "==> msrVoice::browseData()" << endl;
 
   if (fVoiceAnacrusis) {
-  // browse the voice anacrusis
-  msrBrowser<msrUpbeat> browser (v);
-  browser.browse (*fVoiceAnacrusis);
+    // browse the voice anacrusis
+    msrBrowser<msrUpbeat> browser (v);
+    browser.browse (*fVoiceAnacrusis);
   }
   
   // browse the voice chunk
