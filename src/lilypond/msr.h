@@ -1452,8 +1452,8 @@ class EXP msrNote : public msrElement
 
     // location in measure
     void          setNoteMeasureLocation (
-                    const msrMeasureLocation& location)
-                      { fNoteMeasureLocation = location; }
+                    const msrMeasureLocation& measureLocation)
+                      { fNoteMeasureLocation = measureLocation; }
                       
     const msrMeasureLocation&
                   getNoteMeasureLocation () const
@@ -1588,8 +1588,8 @@ class EXP msrChord : public msrElement
           
     // location in measure
     void          setChordMeasureLocation (
-                    const msrMeasureLocation& location)
-                      { fChordMeasureLocation = location; }
+                    const msrMeasureLocation& measureLocation)
+                      { fChordMeasureLocation = measureLocation; }
                       
     const msrMeasureLocation&
                   getChordMeasureLocation () const
@@ -2294,8 +2294,8 @@ class EXP msrTuplet : public msrElement
           
     // location in measure
     void          setTupletMeasureLocation (
-                    const msrMeasureLocation& location)
-                      { fTupletMeasureLocation = location; }
+                    const msrMeasureLocation& measureLocation)
+                      { fTupletMeasureLocation = measureLocation; }
                       
     const msrMeasureLocation&
                   getTupletMeasureLocation () const
@@ -2949,8 +2949,8 @@ class EXP msrSegno : public msrElement
     
     // position in measure
     void          setSegnoMeasureLocation (
-                    const msrMeasureLocation& location)
-                      { fSegnoMeasureLocation = location; }
+                    const msrMeasureLocation& measureLocation)
+                      { fSegnoMeasureLocation = measureLocation; }
                       
     const msrMeasureLocation&
                   getSegnoMeasureLocation () const
@@ -3009,8 +3009,8 @@ class EXP msrCoda : public msrElement
     
     // position in measure
     void          setCodaMeasureLocation (
-                    const msrMeasureLocation& location)
-                      { fCodaMeasureLocation = location; }
+                    const msrMeasureLocation& measureLocation)
+                      { fCodaMeasureLocation = measureLocation; }
                       
     const msrMeasureLocation&
                   getCodaMeasureLocation () const
@@ -3069,8 +3069,8 @@ class EXP msrEyeglasses : public msrElement
     
     // position in measure
     void          setEyeglassesMeasureLocation (
-                    const msrMeasureLocation& location)
-                      { fEyeglassesMeasureLocation = location; }
+                    const msrMeasureLocation& measureLocation)
+                      { fEyeglassesMeasureLocation = measureLocation; }
                       
     const msrMeasureLocation&
                   getEyeglassesMeasureLocation () const
@@ -3147,8 +3147,8 @@ class EXP msrPedal : public msrElement
                     
     // position in measure
     void          setPedalMeasureLocation (
-                    const msrMeasureLocation& location)
-                      { fPedalMeasureLocation = location; }
+                    const msrMeasureLocation& measureLocation)
+                      { fPedalMeasureLocation = measureLocation; }
                       
     const msrMeasureLocation&
                   getPedalMeasureLocation () const
@@ -3329,8 +3329,8 @@ class EXP msrBarline : public msrElement
     
     // position in measure
     void          setBarlineMeasureLocation (
-                    const msrMeasureLocation& location)
-                      { fBarlineMeasureLocation = location; }
+                    const msrMeasureLocation& measureLocation)
+                      { fBarlineMeasureLocation = measureLocation; }
                       
     const msrMeasureLocation&
                   getBarlineMeasureLocation () const
@@ -3732,8 +3732,8 @@ class EXP msrVoice : public msrElement
           
     // location in measure
     void          setVoiceMeasureLocation (
-                    const msrMeasureLocation& location)
-                      { fVoiceMeasureLocation = location; }
+                    const msrMeasureLocation& measureLocation)
+                      { fVoiceMeasureLocation = measureLocation; }
                       
     const msrMeasureLocation&
                   getVoiceMeasureLocation () const
@@ -3961,8 +3961,7 @@ class EXP msrStaff : public msrElement
           
     // location in measure
     void          setStaffMeasureLocation (
-                    const msrMeasureLocation& location)
-                      { fStaffMeasureLocation = location; }
+                    const msrMeasureLocation& measureLocation);
                       
     const msrMeasureLocation&
                   getStaffMeasureLocation () const
@@ -3979,6 +3978,9 @@ class EXP msrStaff : public msrElement
     void        setAllStaffVoicesDivisionsPerWholeNote (
                   int divisions);
 
+    void        setAllStaffVoicesMeasureLocation (
+                  const msrMeasureLocation& measureLocation);
+  
     S_msrVoice  addVoiceToStaff (
                   int inputLineNumber,
                   int voiceNumber);

@@ -5992,18 +5992,7 @@ void msrVoice::setMeasureNumber (
       k_NoAnacrusis, kExplicitAnacrusis, kImplicitAnacrusis };
 
   voiceAnacrusisKind anacrusisKind = k_NoAnacrusis;
-/*
-  if (fMsrOptions->fDebug)
-    cerr <<
-      "--> setMeasureNumber, " << endl <<
-      "    measureNumber = " << measureNumber << endl <<
-      "    fVoiceMeasureLocation.fMeasureNumber = " <<
-           fVoiceMeasureLocation.fMeasureNumber << endl <<
-      "    fMeasureNumberHasBeenSetInVoice = " <<
-      fMeasureNumberHasBeenSetSetInVoice << endl <<
-      "    fMusicHasBeenInserted = " << fMusicHasBeenInserted << endl <<
-      endl;
-*/
+
   int
     beatsNumber =
       fVoiceStaffUplink->
@@ -6040,6 +6029,10 @@ void msrVoice::setMeasureNumber (
       idtr <<
         setw(36) << "inputLineNumber" << " = " <<
         inputLineNumber <<
+        endl <<
+      idtr <<
+        setw(36) << "fMusicHasBeenInsertedInVoice" << " = " <<
+        fMusicHasBeenInsertedInVoice <<
         endl <<
       idtr <<
         setw(36) << "fMeasureZeroHasBeenMetInVoice" << " = " <<
@@ -6178,6 +6171,8 @@ void msrVoice::setMeasureNumber (
 
   fVoiceMeasureLocation.fMeasureNumber =
     measureNumber;
+
+  // JMI catchupToMeasureLocation ();
 
   fMeasureNumberHasBeenSetInVoice = true;
 }
@@ -7253,6 +7248,27 @@ void msrStaff::setAllStaffVoicesDivisionsPerWholeNote (int divisions)
     i != fStaffVoicesMap.end();
     i++) {
     (*i).second->setDivisionsPerWholeNote (divisions);
+  } // for
+}
+
+void msrStaff::setStaffMeasureLocation (
+  const msrMeasureLocation& measureLocation)
+{
+  // set staff measure location
+  fStaffMeasureLocation = measureLocation;
+
+  // propagate it to all staves
+  setAllStaffVoicesMeasureLocation (measureLocation);  
+}
+
+void msrStaff::setAllStaffVoicesMeasureLocation (
+  const msrMeasureLocation& measureLocation)
+{
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    (*i).second->setVoiceMeasureLocation (measureLocation);
   } // for
 }
 
