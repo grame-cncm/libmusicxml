@@ -188,7 +188,10 @@ ostream& operator<< (ostream& os, const S_lpsrParallelMusic& elt)
 
 void lpsrParallelMusic::print (ostream& os)
 {
-  os << "ParallelMusic" << endl;
+  os <<
+    "ParallelMusic" <<
+    ", " << fParallelMusicElements.size() << " elements" <<
+    endl;
   
   idtr++;
   
@@ -436,7 +439,9 @@ void lpsrUseVoiceCommand::print (ostream& os)
 {
   os <<
     "UseVoiceCommand" << " " <<
-    fVoice->getVoiceName () << endl;
+    fVoice->getVoiceName () <<
+    ", " << fVoice->getVoiceLyricsMap ().size() << " lyrics" <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -2108,6 +2113,7 @@ void lpsrStaffBlock::print (ostream& os)
   os <<
     "StaffBlock" << " " <<
     "for staff " << fStaff->getStaffName () <<
+    ", " << fStaffBlockElements.size() << " elements" <<
     endl << endl;
 
   idtr++;
@@ -2215,6 +2221,7 @@ void lpsrPartBlock::print (ostream& os)
   os <<
     "PartBlock" << " " <<
     "for part " << fPart->getPartCombinedName () <<
+    ", " << fPartBlockElements.size() << " elements" <<
     endl;
 
   idtr++;
@@ -2336,6 +2343,7 @@ void lpsrPartgroupBlock::print (ostream& os)
     idtr <<
     "PartgroupBlock" << " " <<
     "for partgroup " << fPartgroup->getPartgroupCombinedName () <<
+    ", " << fPartgroupBlockElements.size() << " elements" <<
     endl << endl;
 
   idtr++;

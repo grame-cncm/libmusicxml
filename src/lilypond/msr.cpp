@@ -1847,11 +1847,31 @@ void msrNote::print (ostream& os)
   // print the note itself and its position
   os <<
     noteAsString () <<
-    ", input line " << fInputLineNumber << ", " <<
-    "(" <<
-    fMusicXMLNoteData.fMusicXMLDivisions <<
-    "_" <<
-    fMusicXMLNoteData.fMusicXMLDisplayDivisions <<
+    ", line " << fInputLineNumber << ", " <<
+    "(";
+    
+  if (fNoteKind == kGraceNote) {
+    os <<
+      fMusicXMLNoteData.fMusicXMLDisplayDivisions;
+  }
+  
+  else {
+    if (
+        fMusicXMLNoteData.fMusicXMLDivisions
+          ==
+        fMusicXMLNoteData.fMusicXMLDisplayDivisions) {
+      os <<
+        fMusicXMLNoteData.fMusicXMLDivisions;
+    }
+    else {
+      os <<
+        fMusicXMLNoteData.fMusicXMLDivisions <<
+        "_" <<
+        fMusicXMLNoteData.fMusicXMLDisplayDivisions;
+    }
+  }
+
+  os <<
     "/" <<
     fDivisionsPerWholeNote <<
     ") @"<<

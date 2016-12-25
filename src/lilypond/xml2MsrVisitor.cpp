@@ -4438,7 +4438,7 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
       firstNote-> getDivisionsPerWholeNote ());
   
   // register it in this visitor
-//  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "++> pushing tuplet " <<
       tuplet->getActualNotes () <<
@@ -4448,7 +4448,7 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
   fTupletsStack.push (tuplet);
 
   // add note as first note of the stack top tuplet
-//JMI  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "==> adding first note " << firstNote->notePitchAsString() <<
       " to the " <<
