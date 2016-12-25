@@ -1488,6 +1488,7 @@ class EXP msrNote : public msrElement
 
 
     msrSlur::msrSlurKind      fNoteSlurKind;
+    list<S_msrSlur>           fNoteSlurs; // JMI
 
     int                       fDivisionsPerWholeNote;
     

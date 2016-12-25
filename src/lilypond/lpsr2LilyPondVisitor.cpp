@@ -2535,7 +2535,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarnumberCheck& elt)
 
   fOstream <<
     "\\barNumberCheck #" << elt->getNextBarNumber () <<
-    endl << idtr;
+    endl <<
+    idtr;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarnumberCheck& elt)

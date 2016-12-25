@@ -55,8 +55,6 @@ xml2MsrVisitor::xml2MsrVisitor (
   
   fCurrentWordsContents = "";
 
- // JMI fCurrentTimeStaffNumber = 1; // it may be absent
-
   fCurrentForwardStaffNumber = 1; // JMI
   fCurrentForwardVoiceNumber = 1; // JMI
   fCurrentVoiceNumber = 1; // JMI
@@ -1064,6 +1062,7 @@ void xml2MsrVisitor::visitStart (S_part& elt)
   idtr++;
 
   fCurrentStaffNumber = 1; // default if there are no <staff> element
+  fCurrentVoiceNumber = 1; // default if there are no <voice> element
 
   fOnGoingRepeat = false;
 }
@@ -2092,7 +2091,28 @@ void xml2MsrVisitor::visitStart (S_tied& elt )
 //________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_slur& elt )
 {
-//          <slur number="1" placement="above" type="start"/>
+/*
+Slur types are empty. Most slurs are represented with two elements: one with a start type, and one with a stop type. Slurs can add more elements using a continue type. This is typically used to specify the formatting of cross-system slurs, or to specify the shape of very complex slurs.
+
+      <note default-x="80">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="5">up</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <slur number="1" placement="below" type="start"/>
+        </notations>
+      </note>
+
+http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
+
+*/
+
   fCurrentSlurNumber =
     elt->getAttributeIntValue ("number", 0);
 
