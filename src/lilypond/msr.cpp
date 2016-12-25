@@ -1907,7 +1907,7 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteArticulations.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i) << endl;
+      os << idtr << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -2222,7 +2222,12 @@ void msrChord::print (ostream& os)
   
   // print the member notes if any
   if (fChordNotes.size()) {
-    vector<S_msrNote>::const_iterator
+    vector<S_msrNote>::const_iterator i;
+    for (i=fChordNotes.begin(); i!=fChordNotes.end(); i++) {
+      os << idtr << (*i);
+    } // for
+
+/* JMI   vector<S_msrNote>::const_iterator
       iBegin = fChordNotes.begin(),
       iEnd   = fChordNotes.end(),
       i      = iBegin;
@@ -2230,8 +2235,9 @@ void msrChord::print (ostream& os)
    //   os << (*i)->notePitchAsString (); JMI
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+ //     os << endl;
     } // for
+    */
   }
   
   // print the articulations if any

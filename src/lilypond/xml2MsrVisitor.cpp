@@ -4178,7 +4178,16 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
   // copy firstNote's articulations if any to the chord
   copyNoteArticulationsToChord (firstNote, chord);
   
-/*
+  // copy firstNote's dynamics if any to the chord
+  copyNoteDynamicsToChord (firstNote, chord);
+  
+  // copy firstNote's words if any to the chord
+  copyNoteWordsToChord (firstNote, chord);
+  
+  // copy firstNote's wedges if any to the chord
+  copyNoteWedgesToChord (firstNote, chord);
+  
+/* JMI ???
   // move the firstNote's dynamics if any from the first note to the chord
   moveNoteDynamicsToChord (firstNote, chord);
   
@@ -4275,6 +4284,35 @@ void xml2MsrVisitor::copyNoteWedgesToChord (
         endl;
 
     chord->addWedgeToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
+void xml2MsrVisitor::copyNoteWordsToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's words if any from the first note to chord
+  
+  list<S_msrWords>
+    noteWords =
+      note->
+        getNoteWords ();
+                          
+  list<S_msrWords>::const_iterator i;
+  for (
+    i=noteWords.begin();
+    i!=noteWords.end();
+    i++) {
+
+    // JMI   if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> copying articulation '" <<
+        (*i)->wordsAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+
+    chord->addWordsToChord ((*i));
   } // for      
 }
 
@@ -4952,6 +4990,15 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
   // copy newNote's articulations if any to the chord
   copyNoteArticulationsToChord (newNote, fCurrentChord);
 
+  // copy newNote's dynamics if any to the chord
+  copyNoteDynamicsToChord (newNote, fCurrentChord);
+
+  // copy newNote's words if any to the chord
+  copyNoteWordsToChord (newNote, fCurrentChord);
+
+  // copy newNote's wedges if any to the chord
+  copyNoteWedgesToChord (newNote, fCurrentChord);
+
 /* JMI ???
   // attach the pending dynamics, if any, to the chord
   attachPendingDynamicsToChord (fCurrentChord);
@@ -4962,9 +5009,6 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
   // attach the pending wedges, if any, to the chord
   attachPendingWedgesToChord (fCurrentChord);
 
-  // move newNote's articulations if any to the chord
-  copyNoteArticulationsToChord (newNote, fCurrentChord);
-  
   // move newNote's dynamics if any from the first note to the chord
   moveNoteDynamicsToChord (newNote, fCurrentChord);
   

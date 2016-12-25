@@ -733,15 +733,16 @@ class EXP xml2MsrVisitor :
 
     void                      copyNoteDynamicsToChord (
                                 S_msrNote note, S_msrChord chord);
-  
+    void                      copyNoteWordsToChord (
+                                S_msrNote note, S_msrChord chord);
     void                      copyNoteWedgesToChord (
                                 S_msrNote note, S_msrChord chord);
   
-    void                      moveNoteDynamicsToChord (
+    void                      moveNoteDynamicsToChord ( // JMI
                                 S_msrNote note, S_msrChord chord);
-    void                      moveNoteWordsToChord (
+    void                      moveNoteWordsToChord ( // JMI
                                 S_msrNote note, S_msrChord chord);
-    void                      moveNoteWedgesToChord (
+    void                      moveNoteWedgesToChord ( // JMI
                                 S_msrNote note, S_msrChord chord);
        
     // description of the current MSR note
