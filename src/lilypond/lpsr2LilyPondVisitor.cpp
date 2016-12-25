@@ -1718,7 +1718,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrDynamics& elt)
     fOstream << idtr <<
       "% --> Start visiting msrDynamics" << endl;
       
-  fOstream << elt->dynamicsKindAsLilypondString () << " ";
+  fOstream <<
+    "\\" << elt->dynamicsKindAsString () << " ";
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrDynamics& elt)

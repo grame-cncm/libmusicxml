@@ -4195,7 +4195,7 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
 void xml2MsrVisitor::copyNoteArticulationsToChord (
   S_msrNote note, S_msrChord chord)
 {  
-  // move note's articulations if any from the first note to chord
+  // copy note's articulations if any from the first note to chord
   
   list<S_msrArticulation>
     noteArticulations =
@@ -4217,6 +4217,64 @@ void xml2MsrVisitor::copyNoteArticulationsToChord (
         endl;
 
     chord->addArticulationToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
+void xml2MsrVisitor::copyNoteDynamicsToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's dynamics if any from the first note to chord
+  
+  list<S_msrDynamics>
+    noteDynamics =
+      note->
+        getNoteDynamics ();
+                          
+  list<S_msrDynamics>::const_iterator i;
+  for (
+    i=noteDynamics.begin();
+    i!=noteDynamics.end();
+    i++) {
+
+    // JMI   if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> copying articulation '" <<
+        (*i)->dynamicsKindAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+
+    chord->addDynamicsToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
+void xml2MsrVisitor::copyNoteWedgesToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's wedges if any from the first note to chord
+  
+  list<S_msrWedge>
+    noteWedges =
+      note->
+        getNoteWedges ();
+                          
+  list<S_msrWedge>::const_iterator i;
+  for (
+    i=noteWedges.begin();
+    i!=noteWedges.end();
+    i++) {
+
+    // JMI   if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> copying articulation '" <<
+        (*i)->wedgeKindAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+
+    chord->addWedgeToChord ((*i));
   } // for      
 }
 
@@ -4417,6 +4475,7 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote lastNote)
     fTupletsStack.top ()->
       addElementToTuplet (tuplet);
   }
+  
   else {
     // tup is a top level tuplet
 //    if (fMsrOptions->fDebug)
@@ -4507,6 +4566,7 @@ void xml2MsrVisitor::attachPendingDynamicsToNote (
 {
   // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {
+    
     if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
       if (fMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
@@ -4519,6 +4579,7 @@ void xml2MsrVisitor::attachPendingDynamicsToNote (
           "there is dynamics attached to a rest");
       }
     }
+    
     else {
       while (! fPendingDynamics.empty ()) {
         S_msrDynamics
@@ -4538,6 +4599,7 @@ void xml2MsrVisitor::attachPendingWordsToNote (
 {
   // attach the pending words if any to the note
   if (! fPendingWords.empty ()) {
+    
     if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
       if (fMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
@@ -4555,6 +4617,7 @@ void xml2MsrVisitor::attachPendingWordsToNote (
         } // for
       }
     }
+    
     else {
       while (! fPendingWords.empty ()) {
         S_msrWords
@@ -4574,6 +4637,7 @@ void xml2MsrVisitor::attachPendingWedgesToNote (
 {
   // attach the pending wedges if any to the note
   if (! fPendingWedges.empty ()) {
+    
     if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
       if (fMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
@@ -4591,6 +4655,7 @@ void xml2MsrVisitor::attachPendingWedgesToNote (
         } // for
       }
     }
+    
     else {
       while (! fPendingWedges.empty ()) {
         S_msrWedge
@@ -6000,6 +6065,7 @@ void xml2MsrVisitor::handleEndingEnd (
   }
 }
 
+//______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_rehearsal& elt )
 {
 /*

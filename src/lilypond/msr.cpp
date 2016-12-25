@@ -844,11 +844,6 @@ string msrDynamics::dynamicsKindAsString ()
   return s.str();
 }
 
-string msrDynamics::dynamicsKindAsLilypondString ()
-{
-  return "\\"+dynamicsKindAsString ();
-}
-
 void msrDynamics::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<

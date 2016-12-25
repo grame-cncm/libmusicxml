@@ -731,6 +731,12 @@ class EXP xml2MsrVisitor :
     void                      attachPendingWedgesToChord (
                                 S_msrChord chord);
 
+    void                      copyNoteDynamicsToChord (
+                                S_msrNote note, S_msrChord chord);
+  
+    void                      copyNoteWedgesToChord (
+                                S_msrNote note, S_msrChord chord);
+  
     void                      moveNoteDynamicsToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      moveNoteWordsToChord (

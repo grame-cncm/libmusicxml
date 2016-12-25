@@ -42,12 +42,6 @@ namespace MusicXML2
   The classes in this file implement the
   
               MSR (Music Score Representation)
-              
-    - the base class is msrElement
-    - the msrElement tree can be converted to:
-        - a text description with         printMSR()
-        - a MusicXML text equivalent with printMusicXML()
-        - LilyPond source code with       printLilypondCode()
 */
 
 //______________________________________________________________________________
@@ -161,35 +155,6 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 \
   assert(false); \
 }
-  
-/*!
-\brief Global variables.
-
-  An global variable is implemented as a static member of this class.
-*/
-//______________________________________________________________________________
-/*
-class EXP msrGlobalVariables {
-  public:
-    
-    enum msrDisplayKind {
-      kMusicXML, kMSR, kScoreSummary, kLilypondCode,
-      k_NoDisplay};
-
-    // set and get
-    // ------------------------------------------------------
-
-    static msrDisplayKind getDisplayKind ()
-      { return sDisplayKind; }
-      
-    static void setDisplayKind (msrDisplayKind kind)
-      { sDisplayKind = kind; }
-  
-  private:
-  
-    static msrDisplayKind sDisplayKind;
-};
-*/
 
 //______________________________________________________________________________
 /*!
@@ -930,7 +895,6 @@ class EXP msrDynamics : public msrElement
                   { return fDynamicsKind; }
 
     string  dynamicsKindAsString ();
-    string  dynamicsKindAsLilypondString ();
 
     // services
     // ------------------------------------------------------
