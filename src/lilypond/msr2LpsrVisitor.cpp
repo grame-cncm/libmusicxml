@@ -776,6 +776,14 @@ void msr2LpsrVisitor::visitStart (S_msrGraceexpression& elt)
     fOstream << idtr <<
       "--> Start visiting msrGraceexpression" << endl;
 
+  if (fCurrentNoteClone->noteHasATrill ()) {
+//    if (ffMsrOptions->fForceDebug || MsrOptions->fDebug)
+      fOstream <<
+        "### msrGraceexpression on a TRILLED note" <<
+        endl;
+  }
+
+  else {
   // create a clone of this grace expression
   fCurrentGraceexpressionClone =
     elt->
@@ -785,6 +793,7 @@ void msr2LpsrVisitor::visitStart (S_msrGraceexpression& elt)
   fCurrentVoiceClone->
     appendGraceexpressionToVoice (
       fCurrentGraceexpressionClone);
+  }
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrGraceexpression& elt)

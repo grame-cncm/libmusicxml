@@ -1258,13 +1258,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
 
     idtr++;
   }
-  /*
-  else {
-    fOstream <<
-      idtr << "{" << // JMI
-      endl;
-  }
-  */
 
   fVoicechunkNotesAndChordsCountersStack.push (0);
 }
@@ -1285,15 +1278,9 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
       setw(30) << " " << "% end of msrVoicechunk" <<
       endl;
   }
-  /*
-  else {
+  else
     fOstream <<
-      endl <<
-      idtr <<
-      "}" << // JMI
       endl;
-  }
-  */
 
   fVoicechunkNotesAndChordsCountersStack.pop ();
 }
@@ -1938,11 +1925,14 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       } // for
       
       // print the tie if any
-      if (
-        elt->getNoteTie ()->getTieKind ()
-          ==
-        msrTie::kStartTie) {
-          fOstream << " ~";
+      {
+        S_msrTie noteTie = elt->getNoteTie ();
+      
+        if (noteTie) {
+          if (noteTie->getTieKind () == msrTie::kStartTie) {
+            fOstream << "~ ";
+          }
+        }
       }
 
       // this note is the new relative octave reference
@@ -2002,11 +1992,14 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         elt->noteDivisionsAsMSRString ();
 
       // print the tie if any
-      if (
-        elt->getNoteTie ()->getTieKind ()
-          ==
-        msrTie::kStartTie) {
-          fOstream << " ~";
+      {
+        S_msrTie noteTie = elt->getNoteTie ();
+      
+        if (noteTie) {
+          if (noteTie->getTieKind () == msrTie::kStartTie) {
+            fOstream << "~ ";
+          }
+        }
       }
 
       // a rest is no relative octave reference,
@@ -2094,6 +2087,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
         case msrArticulation::kArpeggiato:
           fOstream << "\\arpeggio";
           /* JMI
+           in one of the voices add:
   \once \set StaffGroup.connectArpeggios = ##t
   */
           break;
@@ -2346,6 +2340,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTie& elt)
       "% --> Start visiting msrTie" << endl;
   
   switch (elt->getTieKind ()) {
+    case msrTie::k_NoTie:
+      break;
     case msrTie::kStartTie:
       fOstream << "~ ";
       break;
@@ -2353,9 +2349,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTie& elt)
       break;
     case msrTie::kStopTie:
       break;
-    default:
-      fOstream << "Tie" << elt->getTieKind () << "###";
-  } // switch
+   } // switch
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrTie& elt)
@@ -2373,6 +2367,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrSlur& elt)
       "% --> Start visiting msrSlur" << endl;
   
   switch (elt->getSlurKind ()) {
+    case msrSlur::k_NoSlur:
+      break;
     case msrSlur::kStartSlur:
       fOstream << "( ";
       break;
@@ -2381,8 +2377,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrSlur& elt)
     case msrSlur::kStopSlur:
       fOstream << ") ";
       break;
-    default:
-      fOstream << "Slur" << elt->getSlurKind () << "###";
   } // switch
 }
 

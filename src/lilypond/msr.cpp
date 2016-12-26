@@ -1479,6 +1479,8 @@ msrNote::msrNote (
       s.str());
   }
 
+  fNoteHasATrill = false;
+  
 /* JMI
   if (fMsrOptions->fDebugDebug)
     cerr <<
@@ -1523,6 +1525,9 @@ void msrNote::applyTupletMemberDisplayFactor (
 void msrNote::addArticulationToNote (S_msrArticulation art)
 {
   fNoteArticulations.push_back (art);
+
+  if (art->getArticulationKind () == msrArticulation::kTrill)
+    fNoteHasATrill = true;
 }
 
 void msrNote::addDynamicsToNote (S_msrDynamics dynamics)
@@ -1879,12 +1884,14 @@ string msrNote::noteAsString () const
       break;
   } // switch
 
+/* JMI
   if (fNoteTie) {
     if (fNoteTie->getTieKind () != msrTie::k_NoTie ) {
       s <<
         ", " << fNoteTie->tieKindAsString ();
     }
   }
+*/
 
   return s.str();
 }
@@ -6069,8 +6076,7 @@ void msrVoice::catchupToMeasureLocation (
     * 
    */
 
-//  if (gMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-  if (true) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     cerr <<
       endl <<
       idtr << left <<
@@ -6191,48 +6197,49 @@ void msrVoice::setVoiceMeasureLocation (
     positionInMeasure =
       getVoicePositionInMeasure ();
 
-//    if (gMsrOptions->fForceDebug || fMsrOptions->fDebug)
-    cerr <<
-      endl <<
-      idtr << left <<
-        "=== setVoiceMeasureLocation ()" <<
-        ", voice = " << fVoiceNumber <<
-        ", voice name = " << getVoiceName () <<
-        ", positionInMeasure = " << positionInMeasure <<
+    if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+      cerr <<
         endl <<
-      idtr <<
-        setw(36) << "fVoiceMeasureLocation.fMeasureNumber" << " = " <<
-        fVoiceMeasureLocation.fMeasureNumber <<
-        endl <<
-      idtr <<
-        setw(36) << "inputLineNumber" << " = " <<
-        inputLineNumber <<
-        endl <<
-      idtr <<
-        setw(36) << "fMusicHasBeenInsertedInVoice" << " = " <<
-        fMusicHasBeenInsertedInVoice <<
-        endl <<
-      idtr <<
-        setw(36) << "fMeasureZeroHasBeenMetInVoice" << " = " <<
-        fMeasureZeroHasBeenMetInVoice <<
-        endl <<
-      idtr <<
-        setw(36) << "beatsNumber" << " = " <<
-        beatsNumber <<
-        endl <<
-      idtr <<
-        setw(36) << "beatsValue" << " = " <<
-        beatsValue <<
-        endl <<
-      idtr <<
-        setw(36) << "divisionsPerWholeNote" << " = " <<
-        divisionsPerWholeNote <<
-        endl <<
-      idtr <<
-        setw(36) << "divisionsPerMeasure" << " = " <<
-        divisionsPerMeasure <<
-        endl <<
-      endl;
+        idtr << left <<
+          "=== setVoiceMeasureLocation ()" <<
+          ", voice = " << fVoiceNumber <<
+          ", voice name = " << getVoiceName () <<
+          ", positionInMeasure = " << positionInMeasure <<
+          endl <<
+        idtr <<
+          setw(36) << "fVoiceMeasureLocation.fMeasureNumber" << " = " <<
+          fVoiceMeasureLocation.fMeasureNumber <<
+          endl <<
+        idtr <<
+          setw(36) << "inputLineNumber" << " = " <<
+          inputLineNumber <<
+          endl <<
+        idtr <<
+          setw(36) << "fMusicHasBeenInsertedInVoice" << " = " <<
+          fMusicHasBeenInsertedInVoice <<
+          endl <<
+        idtr <<
+          setw(36) << "fMeasureZeroHasBeenMetInVoice" << " = " <<
+          fMeasureZeroHasBeenMetInVoice <<
+          endl <<
+        idtr <<
+          setw(36) << "beatsNumber" << " = " <<
+          beatsNumber <<
+          endl <<
+        idtr <<
+          setw(36) << "beatsValue" << " = " <<
+          beatsValue <<
+          endl <<
+        idtr <<
+          setw(36) << "divisionsPerWholeNote" << " = " <<
+          divisionsPerWholeNote <<
+          endl <<
+        idtr <<
+          setw(36) << "divisionsPerMeasure" << " = " <<
+          divisionsPerMeasure <<
+          endl <<
+        endl;
+    }
 
   // catchup with rests if needed
   catchupToMeasureLocation (

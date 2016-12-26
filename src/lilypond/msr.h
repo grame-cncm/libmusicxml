@@ -1533,7 +1533,10 @@ class EXP msrNote : public msrElement
     list<S_msrArticulation>&
                   getNoteArticulationsToModify ()
                       { return fNoteArticulations; }
-                      
+
+    bool          noteHasATrill () const
+                      { return fNoteHasATrill; }
+                  
     // ties
     void          setNoteTie (S_msrTie tie) { fNoteTie = tie; }
     S_msrTie      getNoteTie () const       { return fNoteTie; }
@@ -1654,6 +1657,9 @@ class EXP msrNote : public msrElement
     list<S_msrSlur>           fNoteSlurs;
 
  // JMI   bool                      fNoteIsChordFirstNote;
+
+    // this is useful to produce a nice \aftergrace in LilyPond 
+    bool                      fNoteHasATrill;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
