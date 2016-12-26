@@ -433,6 +433,8 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
     // services
     // ------------------------------------------------------
 
+    void          init ();
+    
     string        tieKindAsString () const;
 
     // print

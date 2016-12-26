@@ -3395,32 +3395,9 @@ The discontinue value is typically used for the last ending in a set, where ther
 void xml2MsrVisitor::visitStart ( S_note& elt ) 
 {
   //  cerr << "--> xml2MsrVisitor::visitStart ( S_note& elt ) " << endl;
-  fNoteData.fStep = '_';
-  fNoteData.fStepIsARest = false;
-  fNoteData.fStepIsUnpitched = false;
 
-  fNoteData.fAlter = 0.0;
-  fNoteData.fAlteration = msrNoteData::kNatural;
-  
-  fNoteData.fOctave = -13;
-  
-  fNoteData.fDivisions  = -13;
-  fNoteData.fDotsNumber = 0;
-  
-  fNoteData.fNoteIsAGraceNote = false;
-  
-  // assume this note doesn't belong to a chord until S_chord is met
-  fNoteData.fNoteBelongsToAChord = false;
-  
-  // assume this note doesn't belong to a tuplet until S_tuplet is met
-  fNoteData.fNoteBelongsToATuplet = false;
-  fNoteData.fType = "";
-  
-  fNoteData.fTieKind =
-    msrNoteData::k_NoTie;
-  
-  fNoteData.fStaffNumber = 0;
-  fNoteData.fVoiceNumber = 0;
+  // initialize note data to a neutral state
+  fNoteData.init ();
 
   // assuming staff number 1, unless S_staff states otherwise afterwards
   fCurrentStaffNumber = 1;

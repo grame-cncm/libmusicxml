@@ -123,12 +123,13 @@ ostream& operator<< (ostream& os, msrNoteData& noteData)
   return os;
 }
 
-msrNoteData::msrNoteData ()
+void msrNoteData::init ()
 {
   fStep = '?';
   fStepIsARest = false;;
   fStepIsUnpitched = false;;
   
+  fAlter = 0.0;
   fAlteration = kNatural;
   
   fOctave = -1;
@@ -141,21 +142,27 @@ msrNoteData::msrNoteData ()
   fDivisions = -17;
 
   // tuplets member notes need another value for display
-  fDisplayDivisions = 19;
+  fDisplayDivisions = -19;
 
-  fDotsNumber = -1;
+  fDotsNumber = 0;
   
+  fType = "";
+
   fNoteIsAGraceNote = false;;
   
   fNoteBelongsToAChord = false;;
   
   fNoteBelongsToATuplet = false;;
-  fType = "";
 
-  fTieKind = k_NoTie;
+  fTieKind = k_NoTie; // ???
 
-  fStaffNumber = -1;
-  fVoiceNumber = -1;
+  fStaffNumber = 0;
+  fVoiceNumber = 0;
+}
+
+msrNoteData::msrNoteData ()
+{
+  init ();
 }
 
 string msrNoteData::tieKindAsString () const
