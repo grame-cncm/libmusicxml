@@ -1485,7 +1485,7 @@ class EXP msrNote : public msrElement
                       { return fNoteData.fDiatonicPitch; }
 
     // octave shifts
-    void          setOctaveShift (S_msrOctaveShift octaveShift)
+    void          setNoteOctaveShift (S_msrOctaveShift octaveShift)
                       { fNoteOctaveShift = octaveShift; }
 
     S_msrOctaveShift
@@ -1493,7 +1493,7 @@ class EXP msrNote : public msrElement
                       { return fNoteOctaveShift; }
 
     // stems
-    void          setStem (S_msrStem stem)
+    void          setNoteStem (S_msrStem stem)
                       { fNoteStem = stem; }
 
     S_msrStem     getNoteStem () const
@@ -1522,8 +1522,8 @@ class EXP msrNote : public msrElement
 */
 
     // beams
-    void          setBeam (S_msrBeam beam)  { fNoteBeam = beam; }
-    S_msrBeam     getBeam () const          { return fNoteBeam; }
+    void          setNoteBeam (S_msrBeam beam)  { fNoteBeam = beam; }
+    S_msrBeam     getNoteBeam () const          { return fNoteBeam; }
 
     // articulations
     const list<S_msrArticulation>&

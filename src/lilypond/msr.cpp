@@ -1064,7 +1064,9 @@ ostream& operator<< (ostream& os, const S_msrTie& elt)
 
 void msrTie::print (ostream& os)
 {
-  os << "Tie" << " " << tieKindAsString ();
+  os <<
+    "Tie" << " " << tieKindAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -1620,6 +1622,12 @@ void msrNote::browseData (basevisitor* v)
     idtr--;
   }
   
+  if (fNoteTie) {
+    // browse the tie
+    msrBrowser<msrTie> browser (v);
+    browser.browse (*fNoteTie);
+  }
+
   // browse the dynamics if any
   if (fNoteDynamics.size()) {
     idtr++;
@@ -1987,6 +1995,14 @@ void msrNote::print (ostream& os)
     idtr--;
   }
   
+  // print the tie if any
+  if (fNoteTie) {
+    idtr++;
+    os <<
+      idtr << fNoteTie;
+    idtr--;
+  }
+    
   // print the dynamics if any
   if (fNoteDynamics.size()) {
     idtr++;

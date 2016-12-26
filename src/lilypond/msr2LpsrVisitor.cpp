@@ -1060,6 +1060,26 @@ void msr2LpsrVisitor::visitEnd (S_msrTuplet& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrVisitor::visitStart (S_msrTie& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrTie" << endl;
+
+  // we don't need the kTieStop or kContinue for LilyPond
+  if (elt->getTieKind () == msrTie::kStartTie)
+    fCurrentNoteClone->
+      setNoteTie (elt);
+}
+
+void msr2LpsrVisitor::visitEnd (S_msrTie& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrTie" << endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrSlur& elt)
 {
   if (fMsrOptions->fDebug)

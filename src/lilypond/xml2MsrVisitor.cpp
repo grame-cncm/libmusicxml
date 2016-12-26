@@ -2050,6 +2050,8 @@ void xml2MsrVisitor::visitStart (S_tied& elt )
   
   fCurrentTiedOrientation =
     elt->getAttributeValue ("orientation");
+
+  fCurrentTieKind = msrTie::k_NoTie;
   
   if (tiedType == "start") { // JMI
     
@@ -2086,6 +2088,13 @@ void xml2MsrVisitor::visitStart (S_tied& elt )
       }
       
   }
+
+  if (fCurrentTieKind != msrTie::k_NoTie)
+    fCurrentTie =
+      msrTie::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        fCurrentTieKind);
 }
 
 //________________________________________________________________________
@@ -3411,7 +3420,8 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   fCurrentNoteHasLyrics = false;
 
   fCurrentBeam = 0;
-  
+
+  fCurrentTie = 0;
   fCurrentTiedOrientation = "";
   
   fCurrentSlurNumber = -1;
@@ -4839,16 +4849,22 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   note->
     setDivisionsPerWholeNote (
       currentVoice-> getDivisionsPerWholeNote ());
+
+  // set its tie if any
+  if (fCurrentTie) {
+    note->
+      setNoteTie (fCurrentTie);
+  }
   
   // set its stem if any
   if (fCurrentStem)
     note->
-      setStem (fCurrentStem);
+      setNoteStem (fCurrentStem);
 
   // set its beam if any
   if (fCurrentBeam)
     note->
-      setBeam (fCurrentBeam);
+      setNoteBeam (fCurrentBeam);
 
   // set its location
   note->setNoteMeasureLocation (

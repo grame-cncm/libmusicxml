@@ -82,6 +82,8 @@ class msr2LpsrVisitor :
   
   public visitor<S_msrTuplet>,
   
+  public visitor<S_msrTie>,
+  
   public visitor<S_msrSlur>,
   
   public visitor<S_msrBarline>,
@@ -203,6 +205,9 @@ class msr2LpsrVisitor :
 
     virtual void visitStart (S_msrTuplet& elt);
     virtual void visitEnd   (S_msrTuplet& elt);
+
+    virtual void visitStart (S_msrTie& elt);
+    virtual void visitEnd   (S_msrTie& elt);
 
     virtual void visitStart (S_msrSlur& elt);
     virtual void visitEnd   (S_msrSlur& elt);

@@ -2103,6 +2103,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
     } // for
   }
 
+/* JMI
   // print the tie if any
   {
     S_msrTie noteTie = elt->getNoteTie ();
@@ -2114,7 +2115,6 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
     }
   }
 
-/* JMI
   // print the slurs if any
   switch (elt->getNoteSlur ()->getSlurKind ()) {
     case msrSlur::kStartSlur:
@@ -2296,6 +2296,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
     } // for
   }
 
+/*
   // print the tie if any
   {
     S_msrTie chordTie = elt->getChordTie ();
@@ -2306,6 +2307,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
       }
     }
   }
+*/
 
   // if the preceding item is a chord, the first note of the chord
   // is used as the reference point for the octave placement
@@ -2334,6 +2336,33 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrTuplet& elt)
       "% --> End visiting msrTuplet" << endl;
 
   fOstream << " } ";
+}
+
+//________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrTie& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrTie" << endl;
+  
+  switch (elt->getTieKind ()) {
+    case msrTie::kStartTie:
+      fOstream << "~ ";
+      break;
+    case msrTie::kContinueTie:
+      break;
+    case msrTie::kStopTie:
+      break;
+    default:
+      fOstream << "Tie" << elt->getTieKind () << "###";
+  } // switch
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrTie& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrTie" << endl;
 }
 
 //________________________________________________________________________
