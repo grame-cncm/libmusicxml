@@ -4241,7 +4241,8 @@ string msrLyrics::getLyricsName () const
 
   string
     lyricsNameSuffix =
-      fLyricsMasterStatus == kMasterLyrics
+ //     fLyricsMasterStatus == kMasterLyrics
+      fLyricsNumber == 0
         ? "MASTER"
         : int2EnglishWord (fLyricsNumber);
         
@@ -5941,7 +5942,7 @@ msrVoice::msrVoice (
     msrLyrics::create (
       fMsrOptions,
       inputLineNumber,
-      -1,    // this lyrics number is unused anyway
+      0,    // this lyrics number is unused anyway
       msrLyrics::kMasterLyrics,
       this);
 

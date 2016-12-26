@@ -2183,6 +2183,19 @@ void xml2MsrVisitor::visitStart (S_lyric& elt )
   fCurrentLyricsNumber =
     elt->getAttributeIntValue ("number", 0);
 
+  if (fCurrentLyricsNumber < 0) {
+    stringstream s;
+
+    s <<
+      "lyric number " << fCurrentLyricsNumber <<
+      " is not positive";
+
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      s.str());
+  }
+  
   fCurrentLyricsHasText = false;
   fCurrentElision = false;
 
