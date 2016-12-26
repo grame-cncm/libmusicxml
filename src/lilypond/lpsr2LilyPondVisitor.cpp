@@ -1902,11 +1902,14 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         elt->noteDivisionsAsMSRString ();
       
       // print the tie if any
-      if (
-        elt->getNoteTie ()->getTieKind ()
-          ==
-        msrTie::kStartTie) {
-          fOstream << " ~";
+      {
+        S_msrTie noteTie = elt->getNoteTie ();
+      
+        if (noteTie) {
+          if (noteTie->getTieKind () == msrTie::kStartTie) {
+            fOstream << " ~";
+          }
+        }
       }
 
       // this note is the new relative octave reference
@@ -2101,12 +2104,16 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
   }
 
   // print the tie if any
-  if (
-    elt->getNoteTie ()->getTieKind ()
-      ==
-    msrTie::kStartTie) {
-      fOstream << "~ ";
+  {
+    S_msrTie noteTie = elt->getNoteTie ();
+  
+    if (noteTie) {
+      if (noteTie->getTieKind () == msrTie::kStartTie) {
+        fOstream << "~ ";
+      }
+    }
   }
+
 /* JMI
   // print the slurs if any
   switch (elt->getNoteSlur ()->getSlurKind ()) {
@@ -2290,11 +2297,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
   }
 
   // print the tie if any
-  if (
-    elt->getChordTie ()->getTieKind ()
-      ==
-    msrTie::kStartTie) {
-      fOstream << "~ ";
+  {
+    S_msrTie chordTie = elt->getChordTie ();
+  
+    if (chordTie) {
+      if (chordTie->getTieKind () == msrTie::kStartTie) {
+        fOstream << "~ ";
+      }
+    }
   }
 
   // if the preceding item is a chord, the first note of the chord

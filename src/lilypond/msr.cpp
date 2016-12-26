@@ -1012,33 +1012,11 @@ string msrTie::tieKindAsString (msrTieKind tieKind)
       s << "stop";
       break;
     default:
-      s << "Tie" << fTieKind << "???";
+      s << "Tie" << tieKind << "???";
   } // switch
     
   return s.str();
 }
-
-string msrTie::tieKindAsString ()
-{
-  stringstream s;
-  
-  switch (fTieKind) {
-    case msrTie::kStartTie:
-      s << "start";
-      break;
-    case msrTie::kContinueTie:
-      s << "continue";
-      break;
-    case msrTie::kStopTie:
-      s << "stop";
-      break;
-    default:
-      s << "Tie" << fTieKind << "???";
-  } // switch
-    
-  return s.str();
-}
-
 
 void msrTie::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
@@ -1892,13 +1870,12 @@ string msrNote::noteAsString () const
           noteDivisionsAsMSRString ();
       break;
   } // switch
-     
-  if (
-    fNoteTie->getTieKind ()
-      !=
-    msrTie::k_NoTie ) {
+
+  if (fNoteTie) {
+    if (fNoteTie->getTieKind () != msrTie::k_NoTie ) {
       s <<
-        ", " << fNoteData.tieKindAsString ();
+        ", " << fNoteTie->tieKindAsString ();
+    }
   }
 
   return s.str();
