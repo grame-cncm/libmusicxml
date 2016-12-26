@@ -2053,20 +2053,20 @@ void xml2MsrVisitor::visitStart (S_tied& elt )
   
   if (tiedType == "start") { // JMI
     
-    fNoteData.fTieKind =
-      msrNoteData::kStartTie;
+    fCurrentTieKind =
+      msrTie::kStartTie;
     
   }
   else if (tiedType == "continue") {
     
-    fNoteData.fTieKind =
-      msrNoteData::kContinueTie;
+    fCurrentTieKind =
+      msrTie::kContinueTie;
     
   }
   else if (tiedType == "stop") {
     
-    fNoteData.fTieKind =
-      msrNoteData::kStopTie;
+    fCurrentTieKind =
+      msrTie::kStopTie;
     
   }
   else {
@@ -4160,8 +4160,8 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
 
   // chord's tie kind is that of its first note
   chord->
-    setChordTieKind (
-      firstNote->getNoteTieKind ());
+    setChordTie (
+      firstNote->getNoteTie ());
   
   if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -5362,7 +5362,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 
     cerr <<
       idtr <<
-        setw(38) << "fNoteData.fTieKind" << " = " <<
+        setw(38) << "fCurrentTieKind" << " = " <<
         fNoteData.tieKindAsString () <<
       endl;
         
@@ -5468,10 +5468,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
       fCurrentNoteHasLyrics) { // JMI
     }
     
-    if (
-      fNoteData.fTieKind
-        !=
-      msrNoteData::k_NoTie) {
+    if (fCurrentTieKind != msrTie::k_NoTie) {
       fCurrentLyricschunkKind = msrLyricschunk::kTiedChunk;
       
       currentVoice->

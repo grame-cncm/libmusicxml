@@ -771,6 +771,7 @@ class EXP xml2MsrVisitor :
     // ties handling
     // ------------------------------------------------------
 // JMI    string                    fCurrentTiedType;
+    msrTie::msrTieKind        fCurrentTieKind;
     string                    fCurrentTiedOrientation; // JMI
 
     // slurs handling

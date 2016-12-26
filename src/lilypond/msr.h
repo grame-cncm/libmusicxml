@@ -869,7 +869,9 @@ class EXP msrTie : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrTieKind { kStartTie, kContinueTie, kStopTie };        
+    enum msrTieKind {
+      k_NoTie,
+      kStartTie, kContinueTie, kStopTie};        
     
     // creation from MusicXML
     // ------------------------------------------------------
@@ -1532,8 +1534,8 @@ class EXP msrNote : public msrElement
                       { return fNoteArticulations; }
                       
     // ties
-    void          setTie (S_msrTie tie) { fNoteTie = tie; }
-    S_msrTie      getTie () const       { return fNoteTie; }
+    void          setNoteTie (S_msrTie tie) { fNoteTie = tie; }
+    S_msrTie      getNoteTie () const       { return fNoteTie; }
 
     // slurs
     const list<S_msrSlur>&
