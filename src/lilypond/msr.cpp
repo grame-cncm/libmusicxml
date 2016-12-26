@@ -117,52 +117,52 @@ void msrElement::print (ostream& os)
 }
 
 //______________________________________________________________________________
-ostream& operator<< (ostream& os, msrMusicXMLNoteData& musicXMLNoteData)
+ostream& operator<< (ostream& os, msrNoteData& noteData)
 {
-  musicXMLNoteData.print (os);
+  noteData.print (os);
   return os;
 }
 
-msrMusicXMLNoteData::msrMusicXMLNoteData ()
+msrNoteData::msrNoteData ()
 {
-  fMusicXMLStep = '?';
-  fMusicXMLStepIsARest = false;;
-  fMusicXMLStepIsUnpitched = false;;
+  fStep = '?';
+  fStepIsARest = false;;
+  fStepIsUnpitched = false;;
   
-  fMusicXMLAlteration = kNatural;
+  fAlteration = kNatural;
   
-  fMusicXMLOctave = -1;
+  fOctave = -1;
 
   // MusicXML durations are in divisions per quarter note.
   // LilyPond durations are in whole notes,
   // hence the "* 4" multiplications
   
   // the note duration when played
-  fMusicXMLDivisions = -17;
+  fDivisions = -17;
 
   // tuplets member notes need another value for display
-  fMusicXMLDisplayDivisions = 19;
+  fDisplayDivisions = 19;
 
-  fMusicXMLDotsNumber = -1;
+  fDotsNumber = -1;
   
-  fMusicXMLNoteIsAGraceNote = false;;
+  fNoteIsAGraceNote = false;;
   
-  fMusicXMLNoteBelongsToAChord = false;;
+  fNoteBelongsToAChord = false;;
   
-  fMusicXMLNoteBelongsToATuplet = false;;
-  fMusicXMLType = "";
+  fNoteBelongsToATuplet = false;;
+  fType = "";
 
-  fMusicXMLTieKind = k_NoTie;
+  fTieKind = k_NoTie;
 
-  fMusicXMLStaffNumber = -1;
-  fMusicXMLVoiceNumber = -1;
+  fStaffNumber = -1;
+  fVoiceNumber = -1;
 }
 
-string msrMusicXMLNoteData::musicXMLTieKindAsString () const
+string msrNoteData::musicXMLTieKindAsString () const
 {
   string result;
   
-  switch (fMusicXMLTieKind) {
+  switch (fTieKind) {
     case kStartTie:
       result = "start tie";
       break;
@@ -180,63 +180,63 @@ string msrMusicXMLNoteData::musicXMLTieKindAsString () const
   return result;
 }
 
-void msrMusicXMLNoteData::print (ostream& os)
+void msrNoteData::print (ostream& os)
 {
   os <<
     idtr << "  " << left <<
       setw(29) <<
-      "fMusicXMLStep" << " = " << fMusicXMLStep <<
+      "fStep" << " = " << fStep <<
       endl <<
     idtr << "  " << left <<
-      setw(29) << "fMusicXMLStepIsARest" << " = " <<
-      fMusicXMLStepIsARest <<
+      setw(29) << "fStepIsARest" << " = " <<
+      fStepIsARest <<
       endl <<
     idtr << "  " << left <<
-      setw(29) << "fMusicXMLAlteration" << " = " <<
-      fMusicXMLAlteration <<
+      setw(29) << "fAlteration" << " = " <<
+      fAlteration <<
       endl <<
     idtr << "  " << left <<
-      setw(29) << "fMusicXMLOctave" << " = " <<
-      fMusicXMLOctave <<
+      setw(29) << "fOctave" << " = " <<
+      fOctave <<
       endl <<
     idtr << "  " << left <<
-      setw(29) << "fMusicXMLDivisions" << " = " <<
-      fMusicXMLDivisions <<
+      setw(29) << "fDivisions" << " = " <<
+      fDivisions <<
       endl <<
     idtr << "  " << left <<
-      setw(29) << "fMusicXMLDisplayDivisions" << " = " <<
-      fMusicXMLDisplayDivisions <<
+      setw(29) << "fDisplayDivisions" << " = " <<
+      fDisplayDivisions <<
       endl <<
     idtr << "  " << left <<
-      setw(29) << "fMusicXMLDotsNumber" << " = " <<
-      fMusicXMLDotsNumber <<
-      endl <<
-      
-//    idtr << endl <<
-    
-    idtr << "  " << left <<
-      setw(29) << "fMusicXMLNoteBelongsToAChord" << " = " <<
-      fMusicXMLNoteBelongsToAChord <<
+      setw(29) << "fDotsNumber" << " = " <<
+      fDotsNumber <<
       endl <<
       
 //    idtr << endl <<
     
     idtr << "  " << left <<
-      setw(29) << "fMusicXMLNoteBelongsToATuplet" << " = " <<
-      fMusicXMLNoteBelongsToATuplet <<
-      endl <<
-    idtr << "  " << left <<
-      setw(29) << "fMusicXMLType" << " = " <<
-      fMusicXMLType <<
+      setw(29) << "fNoteBelongsToAChord" << " = " <<
+      fNoteBelongsToAChord <<
       endl <<
       
 //    idtr << endl <<
     
     idtr << "  " << left <<
-      setw(29) << "fMusicXMLStaffNumber" << " = " <<
-      fMusicXMLStaffNumber <<
-      setw(29) << "fMusicXMLVoiceNumber" << " = " <<
-      fMusicXMLVoiceNumber <<
+      setw(29) << "fNoteBelongsToATuplet" << " = " <<
+      fNoteBelongsToATuplet <<
+      endl <<
+    idtr << "  " << left <<
+      setw(29) << "fType" << " = " <<
+      fType <<
+      endl <<
+      
+//    idtr << endl <<
+    
+    idtr << "  " << left <<
+      setw(29) << "fStaffNumber" << " = " <<
+      fStaffNumber <<
+      setw(29) << "fVoiceNumber" << " = " <<
+      fVoiceNumber <<
       endl;
 };
 
@@ -833,7 +833,9 @@ string msrDynamics::dynamicsKindAsString ()
     default:
       {
       stringstream s;
+      
       s << "Dynamics " << fDynamicsKind << " is unknown";
+      
       msrMusicXMLError (
         fMsrOptions->fInputSourceName,
         fInputLineNumber,
@@ -1193,15 +1195,15 @@ void msrGraceexpression::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrNote msrNote::createFromMusicXMLData (
-  S_msrOptions&        msrOpts,
-  int                  inputLineNumber,
-  msrMusicXMLNoteData& musicXMLNoteData,
+S_msrNote msrNote::createFromNoteData (
+  S_msrOptions& msrOpts,
+  int           inputLineNumber,
+  msrNoteData & noteData,
   msrSlur::msrSlurKind slurKind)
 {  
   msrNote * o =
     new msrNote (
-      msrOpts, inputLineNumber, musicXMLNoteData, slurKind);
+      msrOpts, inputLineNumber, noteData, slurKind);
   assert(o!=0); 
   return o;
 }
@@ -1213,35 +1215,35 @@ S_msrNote msrNote::createRest (
   int           staffNumber,
   int           voiceNumber)
 {
-  msrMusicXMLNoteData musicXMLNoteData;
+  msrNoteData noteData;
 
-  musicXMLNoteData.fMusicXMLStep = 'r';
-  musicXMLNoteData.fMusicXMLStepIsARest = true;
-  musicXMLNoteData.fMusicXMLStepIsUnpitched = false;
+  noteData.fStep = 'r';
+  noteData.fStepIsARest = true;
+  noteData.fStepIsUnpitched = false;
 
-  musicXMLNoteData.fMusicXMLAlter = 0.0;
-  musicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kNatural;
-  musicXMLNoteData.fMusicXMLOctave = 0;
+  noteData.fAlter = 0.0;
+  noteData.fAlteration = msrNoteData::kNatural;
+  noteData.fOctave = 0;
   
-  musicXMLNoteData.fMusicXMLDivisions = divisions;
+  noteData.fDivisions = divisions;
 
-  musicXMLNoteData.fMusicXMLDotsNumber = 0;
+  noteData.fDotsNumber = 0;
   
-  musicXMLNoteData.fMusicXMLNoteIsAGraceNote = false;
+  noteData.fNoteIsAGraceNote = false;
   
-  musicXMLNoteData.fMusicXMLNoteBelongsToAChord = false;
+  noteData.fNoteBelongsToAChord = false;
   
-  musicXMLNoteData.fMusicXMLNoteBelongsToATuplet = false;
+  noteData.fNoteBelongsToATuplet = false;
   
-  musicXMLNoteData.fMusicXMLTieKind =
-    msrMusicXMLNoteData::k_NoTie;
+  noteData.fTieKind =
+    msrNoteData::k_NoTie;
   
-  musicXMLNoteData.fMusicXMLStaffNumber = staffNumber;
-  musicXMLNoteData.fMusicXMLVoiceNumber = voiceNumber;
+  noteData.fStaffNumber = staffNumber;
+  noteData.fVoiceNumber = voiceNumber;
 
   msrNote * o =
     new msrNote (
-      msrOpts, inputLineNumber, musicXMLNoteData, msrSlur::k_NoSlur);
+      msrOpts, inputLineNumber, noteData, msrSlur::k_NoSlur);
   assert(o!=0); 
   return o;
 }    
@@ -1250,10 +1252,10 @@ S_msrNote msrNote::createNoteBareClone ()
 {
   S_msrNote
     clone =
-      msrNote::createFromMusicXMLData (
+      msrNote::createFromNoteData (
         fMsrOptions,
         fInputLineNumber,
-        fMusicXMLNoteData,
+        fNoteData,
         fNoteSlurKind);
 
   clone->fNoteKind = fNoteKind;
@@ -1271,35 +1273,35 @@ S_msrNote msrNote::createNoteBareClone ()
 }
 
 msrNote::msrNote (
-  S_msrOptions&        msrOpts,
-  int                  inputLineNumber,
-  msrMusicXMLNoteData& musicXMLNoteData,
+  S_msrOptions& msrOpts,
+  int           inputLineNumber,
+  msrNoteData&  noteData,
   msrSlur::msrSlurKind slurKind)
   :
     msrElement (msrOpts, inputLineNumber),
-    fMusicXMLNoteData (musicXMLNoteData)
+    fNoteData (noteData)
 {
   fNoteSlurKind = slurKind;
 
 //  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
   if (fMsrOptions->fDebugDebug) {
     cerr << idtr <<
-      "==> fMusicXMLNoteData contains:" << endl;
+      "==> fNoteData contains:" << endl;
     cerr <<
-      fMusicXMLNoteData;
+      fNoteData;
   }
 
   fNoteKind = k_NoNoteKind;
 
   if (
-    fMusicXMLNoteData.fMusicXMLStep < 'A'
+    fNoteData.fStep < 'A'
       ||
-    fMusicXMLNoteData.fMusicXMLStep > 'G') {
-    if (! fMusicXMLNoteData.fMusicXMLStepIsARest) {
+    fNoteData.fStep > 'G') {
+    if (! fNoteData.fStepIsARest) {
       stringstream s;
       
       s <<
-        "step value " << fMusicXMLNoteData.fMusicXMLStep <<
+        "step value " << fNoteData.fStep <<
         " is not a letter from A to G";
         
     //  msrMusicXMLError (s.str()); JMI
@@ -1310,24 +1312,24 @@ msrNote::msrNote (
     }
   }
 
-//  cerr << "=== xmlPart2MsrVisitor::visitStart ( S_step& elt ) " << fCurrentMusicXMLStep << endl;
+//  cerr << "=== xmlPart2MsrVisitor::visitStart ( S_step& elt ) " << fCurrentStep << endl;
 // JMI
 
-  switch (fMusicXMLNoteData.fMusicXMLStep) {
-    case 'A': fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kA; break;
-    case 'B': fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kB; break;
-    case 'C': fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kC; break;
-    case 'D': fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kD; break;
-    case 'E': fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kE; break;
-    case 'F': fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kF; break;
-    case 'G': fMusicXMLNoteData.fDiatonicPitch = msrMusicXMLNoteData::kG; break;
+  switch (fNoteData.fStep) {
+    case 'A': fNoteData.fDiatonicPitch = msrNoteData::kA; break;
+    case 'B': fNoteData.fDiatonicPitch = msrNoteData::kB; break;
+    case 'C': fNoteData.fDiatonicPitch = msrNoteData::kC; break;
+    case 'D': fNoteData.fDiatonicPitch = msrNoteData::kD; break;
+    case 'E': fNoteData.fDiatonicPitch = msrNoteData::kE; break;
+    case 'F': fNoteData.fDiatonicPitch = msrNoteData::kF; break;
+    case 'G': fNoteData.fDiatonicPitch = msrNoteData::kG; break;
     default: {}
   } // switch
 
   // how many quater tones from A?s
   int noteQuatertonesFromA;
   
-  switch (fMusicXMLNoteData.fMusicXMLStep) {
+  switch (fNoteData.fStep) {
     case 'A': noteQuatertonesFromA =  0; break;
     case 'B': noteQuatertonesFromA =  4; break;
     case 'C': noteQuatertonesFromA =  6; break;
@@ -1339,14 +1341,14 @@ msrNote::msrNote (
   } // switch
 
   // flat or sharp,possibly semi- or sesqui-?
-  msrMusicXMLNoteData::msrMusicXMLAlterationKind
+  msrNoteData::msrAlterationKind
     musicXMLAlterationKind; // JMI
 
 //   if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
   if (fMsrOptions->fDebugDebug) {
     cerr <<
-      "--> fMusicXMLNoteData.fMusicXMLAlter = " <<
-      fMusicXMLNoteData.fMusicXMLAlter <<
+      "--> fNoteData.fAlter = " <<
+      fNoteData.fAlter <<
       endl;
   }
 
@@ -1370,43 +1372,43 @@ msrNote::msrNote (
     \relative c'' { ceseh ces ceh c cih cis cisih }
 */
 
-  if      (fMusicXMLNoteData.fMusicXMLAlter == 0 ) {
-    fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kNatural;
+  if      (fNoteData.fAlter == 0 ) {
+    fNoteData.fAlteration = msrNoteData::kNatural;
   }
   
-  else if (fMusicXMLNoteData.fMusicXMLAlter == -1 ) {
-    fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kFlat;
+  else if (fNoteData.fAlter == -1 ) {
+    fNoteData.fAlteration = msrNoteData::kFlat;
     noteQuatertonesFromA -= 2;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
-  else if (fMusicXMLNoteData.fMusicXMLAlter == 1 ) {
-    fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kSharp;
+  else if (fNoteData.fAlter == 1 ) {
+    fNoteData.fAlteration = msrNoteData::kSharp;
     noteQuatertonesFromA += 2;
   }
   
-  else if (fMusicXMLNoteData.fMusicXMLAlter == -0.5 ) {
-    fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kSemiFlat;
+  else if (fNoteData.fAlter == -0.5 ) {
+    fNoteData.fAlteration = msrNoteData::kSemiFlat;
     noteQuatertonesFromA -= 1;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
-  else if (fMusicXMLNoteData.fMusicXMLAlter == +0.5 ) {
-    fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kSemiSharp;
+  else if (fNoteData.fAlter == +0.5 ) {
+    fNoteData.fAlteration = msrNoteData::kSemiSharp;
     noteQuatertonesFromA += 1;
   }
   
-  else if (fMusicXMLNoteData.fMusicXMLAlter == -1.5 ) {
-    fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kSesquiFlat;
+  else if (fNoteData.fAlter == -1.5 ) {
+    fNoteData.fAlteration = msrNoteData::kSesquiFlat;
     noteQuatertonesFromA -= 3;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
-  else if (fMusicXMLNoteData.fMusicXMLAlter == +1.5 ) {
-    fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kSesquiSharp;
+  else if (fNoteData.fAlter == +1.5 ) {
+    fNoteData.fAlteration = msrNoteData::kSesquiSharp;
     noteQuatertonesFromA += 3;
   }
   
@@ -1414,7 +1416,7 @@ msrNote::msrNote (
     stringstream s;
     
     s <<
-      "MusicXML alter " << fMusicXMLNoteData.fMusicXMLAlter <<
+      " alter " << fNoteData.fAlter <<
       " should be -1.5, -1, -0.5, 0, +0.5, +1 or +1.5";
       
     msrMusicXMLError (
@@ -1442,7 +1444,7 @@ void msrNote::setNoteBelongsToAChord () {
       "--> note " << this <<
       " is set to belong to a chord" << endl;
 
-  fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = true;
+  fNoteData.fNoteBelongsToAChord = true;
   fNoteKind = msrNote::kChordMemberNote;
 }
 
@@ -1456,8 +1458,8 @@ void msrNote::applyTupletMemberDisplayFactor (
       " to note " << this <<
       endl;
 
-  fMusicXMLNoteData.fMusicXMLDisplayDivisions =
-    fMusicXMLNoteData.fMusicXMLDisplayDivisions
+  fNoteData.fDisplayDivisions =
+    fNoteData.fDisplayDivisions
       *
     actualNotes
       /
@@ -1618,28 +1620,28 @@ string msrNote::notePitchAsString () const
   
   /*
   cerr << "msrNote::notePitchAsString (), isRest = " <<
-    fMusicXMLNoteData.fMusicXMLStepIsARest <<
+    fNoteData.fStepIsARest <<
     ", fMsrPitch = " << fMsrPitch << endl;
   */
   
-  if (fMusicXMLNoteData.fMusicXMLStepIsARest)
+  if (fNoteData.fStepIsARest)
 
-    s << "r";
+    s << "r"; // JMI R ???
 
-  else if (fMusicXMLNoteData.fMusicXMLStepIsUnpitched)
+  else if (fNoteData.fStepIsUnpitched)
 
     s << "unpitched ";
 
   else {
 
-    switch (fMusicXMLNoteData.fDiatonicPitch) {
-      case msrMusicXMLNoteData::kA: s << "a"; break;
-      case msrMusicXMLNoteData::kB: s << "b"; break;
-      case msrMusicXMLNoteData::kC: s << "c"; break;
-      case msrMusicXMLNoteData::kD: s << "d"; break;
-      case msrMusicXMLNoteData::kE: s << "e"; break;
-      case msrMusicXMLNoteData::kF: s << "f"; break;
-      case msrMusicXMLNoteData::kG: s << "g"; break;
+    switch (fNoteData.fDiatonicPitch) {
+      case msrNoteData::kA: s << "a"; break;
+      case msrNoteData::kB: s << "b"; break;
+      case msrNoteData::kC: s << "c"; break;
+      case msrNoteData::kD: s << "d"; break;
+      case msrNoteData::kE: s << "e"; break;
+      case msrNoteData::kF: s << "f"; break;
+      case msrNoteData::kG: s << "g"; break;
       default: s << "?";
     } // switch
 
@@ -1663,32 +1665,32 @@ string msrNote::notePitchAsString () const
       \relative c'' { ceseh ces ceh c cih cis cisih }
   */
 
-    switch (fMusicXMLNoteData.fMusicXMLAlteration) {
+    switch (fNoteData.fAlteration) {
 
-      case msrMusicXMLNoteData::kSesquiFlat:
+      case msrNoteData::kSesquiFlat:
         s << "eseh";
         break;
         
-      case msrMusicXMLNoteData::kFlat:
+      case msrNoteData::kFlat:
         s << "es";
         break;
         
-      case msrMusicXMLNoteData::kSemiFlat:
+      case msrNoteData::kSemiFlat:
         s << "eh";
         break;
         
-      case msrMusicXMLNoteData::kNatural:
+      case msrNoteData::kNatural:
         break;
         
-      case msrMusicXMLNoteData::kSemiSharp:
+      case msrNoteData::kSemiSharp:
         s << "ih";
         break;
         
-      case msrMusicXMLNoteData::kSharp:
+      case msrNoteData::kSharp:
         s << "is";
         break;
         
-      case msrMusicXMLNoteData::kSesquiSharp:
+      case msrNoteData::kSesquiSharp:
         s << "isih";
         break;      
     } // switch  
@@ -1705,9 +1707,9 @@ string msrNote::noteDivisionsAsMSRString () const
 
   result =
     divisionsAsMSRDuration (
-      fMusicXMLNoteData.fMusicXMLDisplayDivisions,
+      fNoteData.fDisplayDivisions,
       fDivisionsPerWholeNote,
-      fMusicXMLNoteData.fMusicXMLDotsNumber,
+      fNoteData.fDotsNumber,
       computedNumberOfDots,
       errorMessage,
       false); // 'true' to debug it
@@ -1728,7 +1730,7 @@ string msrNote::noteTypeAsMSRString () const
 
   result =
     noteTypeAsMSRDuration (
-      fMusicXMLNoteData.fMusicXMLType,
+      fNoteData.fType,
       errorMessage);
 
   if (errorMessage.size ())
@@ -1742,15 +1744,15 @@ string msrNote::noteTypeAsMSRString () const
 
 string msrNote::noteDiatonicPitchAsString () const
 {
-  // fMusicXMLNoteData.fMusicXMLStep is a char
-  switch (fMusicXMLNoteData.fDiatonicPitch) {
-    case msrMusicXMLNoteData::kA: return "A"; break;
-    case msrMusicXMLNoteData::kB: return "B"; break;
-    case msrMusicXMLNoteData::kC: return "C"; break;
-    case msrMusicXMLNoteData::kD: return "D"; break;
-    case msrMusicXMLNoteData::kE: return "E"; break;
-    case msrMusicXMLNoteData::kF: return "F"; break;
-    case msrMusicXMLNoteData::kG: return "G"; break;
+  // fNoteData.fStep is a char
+  switch (fNoteData.fDiatonicPitch) {
+    case msrNoteData::kA: return "A"; break;
+    case msrNoteData::kB: return "B"; break;
+    case msrNoteData::kC: return "C"; break;
+    case msrNoteData::kD: return "D"; break;
+    case msrNoteData::kE: return "E"; break;
+    case msrNoteData::kF: return "F"; break;
+    case msrNoteData::kG: return "G"; break;
     default: return "?";
   } // switch
 }
@@ -1768,7 +1770,7 @@ string msrNote::noteAsString () const
         "Standalone note" <<
         " " <<
         notePitchAsString () <<
-        "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
+        "[" << fNoteData.fOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
       break;
@@ -1778,10 +1780,10 @@ string msrNote::noteAsString () const
         "Grace note" <<
         " " <<
         notePitchAsString () <<
-        "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
+        "[" << fNoteData.fOctave << "]" <<
         ":" <<
         noteTypeAsMSRString ();
-      for (int i = 0; i < fMusicXMLNoteData.fMusicXMLDotsNumber; i++) {
+      for (int i = 0; i < fNoteData.fDotsNumber; i++) {
         s << ".";
       } // for
       break;
@@ -1798,7 +1800,7 @@ string msrNote::noteAsString () const
         "Chord member note" <<
         " " <<
         notePitchAsString () <<
-        "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
+        "[" << fNoteData.fOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
       break;
@@ -1809,20 +1811,20 @@ string msrNote::noteAsString () const
         " " <<
         notePitchAsString ();
 
-      if (! fMusicXMLNoteData.fMusicXMLStepIsARest)
+      if (! fNoteData.fStepIsARest)
         s <<
-          "[" << fMusicXMLNoteData.fMusicXMLOctave << "]" <<
+          "[" << fNoteData.fOctave << "]" <<
           ":" <<
           noteDivisionsAsMSRString ();
       break;
   } // switch
      
   if (
-    fMusicXMLNoteData.fMusicXMLTieKind
+    fNoteData.fTieKind
       !=
-    msrMusicXMLNoteData::k_NoTie ) {
+    msrNoteData::k_NoTie ) {
       s <<
-        ", " << fMusicXMLNoteData.musicXMLTieKindAsString ();
+        ", " << fNoteData.musicXMLTieKindAsString ();
   }
 
   return s.str();
@@ -1852,22 +1854,22 @@ void msrNote::print (ostream& os)
     
   if (fNoteKind == kGraceNote) {
     os <<
-      fMusicXMLNoteData.fMusicXMLDisplayDivisions;
+      fNoteData.fDisplayDivisions;
   }
   
   else {
     if (
-        fMusicXMLNoteData.fMusicXMLDivisions
+        fNoteData.fDivisions
           ==
-        fMusicXMLNoteData.fMusicXMLDisplayDivisions) {
+        fNoteData.fDisplayDivisions) {
       os <<
-        fMusicXMLNoteData.fMusicXMLDivisions;
+        fNoteData.fDivisions;
     }
     else {
       os <<
-        fMusicXMLNoteData.fMusicXMLDivisions <<
+        fNoteData.fDivisions <<
         "_" <<
-        fMusicXMLNoteData.fMusicXMLDisplayDivisions;
+        fNoteData.fDisplayDivisions;
     }
   }
 
@@ -2032,7 +2034,7 @@ msrChord::msrChord (
 {
   fChordDivisions = chordDivisions;
 
-  fChordTieKind = msrMusicXMLNoteData::k_NoTie;
+  fChordTieKind = msrNoteData::k_NoTie;
 }
 
 msrChord::~msrChord() {}
@@ -2202,7 +2204,7 @@ string msrChord::chordDivisionsAsMSRString () const
 
   int inputSourceSuppliedNumberOfDots =
     fChordNotes [0]-> 
-      getNoteMusicXMLDotsNumber (); // any chord member note is fine
+      getNoteDotsNumber (); // any chord member note is fine
     
   result =
     divisionsAsMSRDuration (
@@ -2636,7 +2638,7 @@ msrTuplet::msrTuplet (
 
 /*
   fTupletDivisions =
-    firstNote->getNoteMusicXMLDivisions ();
+    firstNote->getNoteDivisions ();
   fTupletDisplayDivisions =
     firstNote->getNoteDisplayDivisions ();
 
@@ -4936,7 +4938,7 @@ S_msrBarline msrBarline::create (
   msrBarlineLocation        location,
   msrBarlineStyle           style,
   msrBarlineEndingType      endingType,
-  string                    endingMusicXMLNumber,
+  string                    endingNumber,
   msrBarlineRepeatDirection repeatDirection,
   msrBarlineRepeatWinged    repeatWinged)
 {
@@ -4945,7 +4947,7 @@ S_msrBarline msrBarline::create (
       msrOpts, inputLineNumber,
       barlineHasSegno, barlineHasCoda,
       location, style,
-      endingType, endingMusicXMLNumber,
+      endingType, endingNumber,
       repeatDirection, repeatWinged);
   assert(o!=0);
   return o;
@@ -4959,7 +4961,7 @@ msrBarline::msrBarline (
   msrBarlineLocation        location,
   msrBarlineStyle           style,
   msrBarlineEndingType      endingType,
-  string                    endingMusicXMLNumber,
+  string                    endingNumber,
   msrBarlineRepeatDirection repeatDirection,
   msrBarlineRepeatWinged    repeatWinged)
     : msrElement (msrOpts, inputLineNumber)
@@ -4970,7 +4972,7 @@ msrBarline::msrBarline (
   fLocation        = location;
   fStyle           = style;
   fEndingType      = endingType;
-  fEndingNumber    = endingMusicXMLNumber;
+  fEndingNumber    = endingNumber;
   fRepeatDirection = repeatDirection;
   fRepeatWinged    = repeatWinged;
   
@@ -5344,7 +5346,7 @@ void msrVoicechunk::print (ostream& os)
 S_msrRepeatending msrRepeatending::create (
   S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
-  string              repeatendingMusicXMLNumber, // may be "1, 2"
+  string              repeatendingNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
   S_msrVoicechunk     voicechunk,
   S_msrRepeat         repeatUplink)
@@ -5352,7 +5354,7 @@ S_msrRepeatending msrRepeatending::create (
   msrRepeatending* o =
     new msrRepeatending (
       msrOpts, inputLineNumber,
-      repeatendingMusicXMLNumber,
+      repeatendingNumber,
       repeatendingKind,
       voicechunk,
       repeatUplink);
@@ -5363,15 +5365,15 @@ S_msrRepeatending msrRepeatending::create (
 msrRepeatending::msrRepeatending (
   S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
-  string              repeatendingMusicXMLNumber, // may be "1, 2"
+  string              repeatendingNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
   S_msrVoicechunk     voicechunk,
   S_msrRepeat         repeatUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fRepeatendingMusicXMLNumber = repeatendingMusicXMLNumber;
+  fRepeatendingNumber = repeatendingNumber;
   
-  fRepeatendingNumber = 0;
+  fRepeatendingInternalNumber = 0;
     // will be set by msrRepeat::addRepeatending ()
   
   fRepeatendingKind = repeatendingKind;
@@ -5394,7 +5396,7 @@ S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
       msrRepeatending::create (
         fMsrOptions,
         fInputLineNumber,
-        fRepeatendingMusicXMLNumber,
+        fRepeatendingNumber,
         fRepeatendingKind,
         clonedRepeat->getRepeatCommonPart (),
         clonedRepeat);
@@ -6589,7 +6591,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     fVoiceContainsActualNotes = true;
 
   fVoiceMeasureLocation.fPositionInMeasure +=
-    note->getNoteMusicXMLDivisions ();
+    note->getNoteDivisions ();
 
   // append the note to the voice chunk
   S_msrElement n = note;
@@ -6604,7 +6606,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   // add a skip chunk of the same duration to the master lyrics
   int
     lyricsDivisions =
-      note->getNoteMusicXMLDivisions ();
+      note->getNoteDivisions ();
 
   fVoiceLyricsmaster->
     addSkipChunkToLyrics (
@@ -7789,12 +7791,12 @@ void msrStaff::print (ostream& os)
 S_msrPart msrPart::create (
   S_msrOptions&  msrOpts, 
   int            inputLineNumber,
-  string         partMusicXMLID,
+  string         partID,
   S_msrPartgroup partPartgroupUplink)
 {
   msrPart* o =
     new msrPart (
-      msrOpts, inputLineNumber, partMusicXMLID, partPartgroupUplink);
+      msrOpts, inputLineNumber, partID, partPartgroupUplink);
   assert(o!=0);
   return o;
 }
@@ -7802,24 +7804,22 @@ S_msrPart msrPart::create (
 msrPart::msrPart (
   S_msrOptions&  msrOpts, 
   int            inputLineNumber,
-  string         partMusicXMLID,
+  string         partID,
   S_msrPartgroup partPartgroupUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
   // replace spaces in part ID
   for_each (
-    partMusicXMLID.begin(),
-    partMusicXMLID.end(),
-    stringSpaceReplacer (fPartMusicXMLID, '_'));
-
- // JMI fPartMusicXMLID      = partMusicXMLID;
+    partID.begin(),
+    partID.end(),
+    stringSpaceReplacer (fPartID, '_'));
  
   fPartPartgroupUplink = partPartgroupUplink;
 
   // is this part name in the part renaming map?
   map<string, string>::iterator
     it =
-      msrOpts->fPartsRenaming.find (fPartMusicXMLID);
+      msrOpts->fPartsRenaming.find (fPartID);
         
   if (it != msrOpts->fPartsRenaming.end ()) {
     // yes, rename the part accordinglingly
@@ -7828,7 +7828,7 @@ msrPart::msrPart (
   else {
     // coin the name from the argument
     fPartMSRName =
-      "P_"+stringNumbersToEnglishWords (fPartMusicXMLID);
+      "P_"+stringNumbersToEnglishWords (fPartID);
   }
     
   if (fMsrOptions->fTrace)
@@ -7864,7 +7864,7 @@ S_msrPart msrPart::createEmptyPartClone (S_msrPartgroup clonedPartgroup)
       msrPart::create (
         fMsrOptions,
         fInputLineNumber,
-        fPartMusicXMLID,
+        fPartID,
         clonedPartgroup);
 
   clone->fPartName           = fPartName;
@@ -7909,7 +7909,7 @@ string msrPart::getPartCombinedName () const
 {
   return
     "\"" + fPartMSRName + "\"" +
-    " (" + fPartMusicXMLID + ")";
+    " (" + fPartID + ")";
 }
 
 void msrPart::setPartMeasureLocation (
@@ -8316,14 +8316,14 @@ string msrPartgroup::getPartgroupCombinedName () const
 
 S_msrPart msrPartgroup::addPartToPartgroup (
   int    inputLineNumber,
-  string partMusicXMLID)
+  string partID)
 {
-  if (fPartgroupPartsMap.count (partMusicXMLID)) {
+  if (fPartgroupPartsMap.count (partID)) {
     cerr << idtr <<
-      "### Internal error: partMusicXMLID " << partMusicXMLID <<
+      "### Internal error: partID " << partID <<
       " already exists in this part group" << endl;
 
-    return fPartgroupPartsMap [partMusicXMLID];
+    return fPartgroupPartsMap [partID];
   }
 
   // create the part
@@ -8332,7 +8332,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
       msrPart::create (
         fMsrOptions,
         inputLineNumber,
-        partMusicXMLID,
+        partID,
         this);
 
   // register it in this part group
@@ -8343,7 +8343,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
       " to part group " << fPartgroupNumber << endl;
   }
   
-  fPartgroupPartsMap [partMusicXMLID] = part;
+  fPartgroupPartsMap [partID] = part;
   fPartgroupElements.push_back (part);
 
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
@@ -8396,7 +8396,7 @@ void msrPartgroup::addPartToPartgroup (S_msrPart part)
       " to part group " << fPartgroupNumber << endl;
   }
   
-  fPartgroupPartsMap [part->getPartMusicXMLID ()] = part;
+  fPartgroupPartsMap [part->getPartID ()] = part;
   fPartgroupElements.push_back (part);
 }
 
@@ -8413,7 +8413,7 @@ void msrPartgroup::prependSubPartgroupToPartgroup (
 }
 
 S_msrPart msrPartgroup::fetchPartFromPartgroup (
-  string partMusicXMLID)
+  string partID)
 {
   if (fMsrOptions->fDebugDebug) {
     cerr << idtr <<
@@ -8432,8 +8432,8 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
   
   S_msrPart result;
   
-  if (fPartgroupPartsMap.count (partMusicXMLID)) {
-    result = fPartgroupPartsMap [partMusicXMLID];
+  if (fPartgroupPartsMap.count (partID)) {
+    result = fPartgroupPartsMap [partID];
   }
 
   return result;

@@ -440,7 +440,7 @@ class EXP xml2MsrVisitor :
 // JMI    msrMeasureLocation        fCurrentMeasureLocation;
     
     // description of the current MusicXML note
-    msrMusicXMLNoteData       fMusicXMLNoteData;
+    msrNoteData               fNoteData;
 
     // the MSR score we're building
     // ------------------------------------------------------

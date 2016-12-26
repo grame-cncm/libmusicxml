@@ -373,7 +373,7 @@ template <typename T> class EXP msrBrowser : public browser<T>
 \brief A note description for MusicXML.
 */
 //______________________________________________________________________________
-class msrMusicXMLNoteData
+class msrNoteData
 {
   public:
 
@@ -407,16 +407,16 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
       // starting at C for LilyPond relative octave calculations
       kC, kD, kE, kF, kG, kA, kB}; // JMI, k_NoDiatonicPitch};
     
-    enum msrMusicXMLAlterationKind {
+    enum msrAlterationKind {
       kSesquiFlat, kFlat, kSemiFlat,
       kNatural,
       kSemiSharp, kSharp, kSesquiSharp};
 
-    enum msrMusicXMLTieKind {
+    enum msrTieKind {
         k_NoTie,
         kStartTie, kContinueTie, kStopTie};
         
-    msrMusicXMLNoteData ();
+    msrNoteData ();
 
     string        musicXMLTieKindAsString () const;
 
@@ -424,44 +424,44 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
  
   public:
   
-    char                      fMusicXMLStep;
-    bool                      fMusicXMLStepIsARest;
-    bool                      fMusicXMLStepIsUnpitched;
+    char                      fStep;
+    bool                      fStepIsARest;
+    bool                      fStepIsUnpitched;
 
     // The alter element represents chromatic alteration
     // in number of semitones (e.g., -1 for flat, 1 for sharp).
     // Decimal values like 0.5 (quarter tone sharp) are used for microtones.
     msrDiatonicPitch          fDiatonicPitch;
-    float                     fMusicXMLAlter;
-    msrMusicXMLAlterationKind fMusicXMLAlteration;
+    float                     fAlter;
+    msrAlterationKind         fAlteration;
                           
-    int                       fMusicXMLOctave;
+    int                       fOctave;
 
     // MusicXML durations are in divisions per quarter note.
     // LilyPond durations are in whole notes,
     // hence the "* 4" multiplications
     
     // the note duration when played
-    int                       fMusicXMLDivisions;
+    int                       fDivisions;
 
     // tuplets member notes need another value for display
-    int                       fMusicXMLDisplayDivisions;
-    string                    fMusicXMLType; // "whole", "32nd", ...
+    int                       fDisplayDivisions;
+    string                    fType; // "whole", "32nd", ...
 
-    int                       fMusicXMLDotsNumber;
+    int                       fDotsNumber;
     
-    bool                      fMusicXMLNoteIsAGraceNote;
+    bool                      fNoteIsAGraceNote;
     
-    bool                      fMusicXMLNoteBelongsToAChord;
+    bool                      fNoteBelongsToAChord;
     
-    bool                      fMusicXMLNoteBelongsToATuplet;
+    bool                      fNoteBelongsToATuplet;
 
-    msrMusicXMLTieKind        fMusicXMLTieKind;
+    msrTieKind                fTieKind;
                     
-    int                       fMusicXMLVoiceNumber;
-    int                       fMusicXMLStaffNumber;
+    int                       fVoiceNumber;
+    int                       fStaffNumber;
 };
-EXP ostream& operator<< (ostream& os, msrMusicXMLNoteData& elt);
+EXP ostream& operator<< (ostream& os, msrNoteData& elt);
 
 /*!
 \brief A beat description for MusicXML.
@@ -1229,10 +1229,10 @@ class EXP msrNote : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrNote> createFromMusicXMLData (
-        S_msrOptions&        msrOpts,
-        int                  inputLineNumber,
-        msrMusicXMLNoteData& musicXMLNoteData,
+    static SMARTP<msrNote> createFromNoteData (
+        S_msrOptions& msrOpts,
+        int           inputLineNumber,
+        msrNoteData&  noteData,
         msrSlur::msrSlurKind slurKind);
 
     SMARTP<msrNote> createNoteBareClone ();
@@ -1250,9 +1250,9 @@ class EXP msrNote : public msrElement
   protected:
  
     msrNote (
-        S_msrOptions&        msrOpts,
-        int                  inputLineNumber,
-        msrMusicXMLNoteData& musicXMLNoteData,
+        S_msrOptions& msrOpts,
+        int           inputLineNumber,
+        msrNoteData&  noteData,
         msrSlur::msrSlurKind slurKind);
     
     virtual ~msrNote();
@@ -1269,14 +1269,14 @@ class EXP msrNote : public msrElement
                     // useful for rest tuplet members
                       {
                         return
-                          fMusicXMLNoteData.fMusicXMLStepIsUnpitched;
+                          fNoteData.fStepIsUnpitched;
                       }
                       
     bool          getNoteIsARest () const
                     // useful for rest tuplet members
                       {
                         return
-                          fMusicXMLNoteData.fMusicXMLStepIsARest;
+                          fNoteData.fStepIsARest;
                       }
                       
     void          setNoteKind (msrNoteKind noteKind)
@@ -1285,41 +1285,41 @@ class EXP msrNote : public msrElement
     msrNoteKind   getNoteKind () const
                       { return fNoteKind; }
 
-    int           getNoteMusicXMLDivisions () const
+    int           getNoteDivisions () const
                       {
                         return
-                          fMusicXMLNoteData.fMusicXMLDivisions;
+                          fNoteData.fDivisions;
                       }
 
-    void          setNoteMusicXMLDisplayDivisions (int divisions)
+    void          setNoteDisplayDivisions (int divisions)
                       {
-                        fMusicXMLNoteData.fMusicXMLDisplayDivisions =
+                        fNoteData.fDisplayDivisions =
                           divisions;
                       }
 
-    int           getNoteMusicXMLDisplayDivisions () const
+    int           getNoteDisplayDivisions () const
                       {
                         return
-                          fMusicXMLNoteData.fMusicXMLDisplayDivisions;
+                          fNoteData.fDisplayDivisions;
                       }
 
-    int           getNoteMusicXMLDotsNumber () const
+    int           getNoteDotsNumber () const
                       {
                         return
-                          fMusicXMLNoteData.fMusicXMLDotsNumber;
+                          fNoteData.fDotsNumber;
                       }
 
-    int           getNoteMusicXMLOctave () const
+    int           getNoteOctave () const
                       {
                         return
-                          fMusicXMLNoteData.fMusicXMLOctave;
+                          fNoteData.fOctave;
                       }
 
-    msrMusicXMLNoteData::msrDiatonicPitch
+    msrNoteData::msrDiatonicPitch
                   getDiatonicPitch () const
                       {
                         return
-                          fMusicXMLNoteData.fDiatonicPitch;
+                          fNoteData.fDiatonicPitch;
                       }
 
     // octave shifts
@@ -1392,18 +1392,18 @@ class EXP msrNote : public msrElement
     bool          getNoteBelongsToAChord () const
                       {
                         return
-                          fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord;
+                          fNoteData.fNoteBelongsToAChord;
                       }
 /*
     bool          getNoteIsChordFirstNote () const
                       { return fNoteIsChordFirstNote; }
 */
     // ties
-    msrMusicXMLNoteData::msrMusicXMLTieKind
+    msrNoteData::msrTieKind
                   getNoteTieKind () const
                       {
                         return
-                          fMusicXMLNoteData.fMusicXMLTieKind;
+                          fNoteData.fTieKind;
                       }
 
     // slurs
@@ -1468,7 +1468,7 @@ class EXP msrNote : public msrElement
 
     // MusicXML informations
     
-    msrMusicXMLNoteData       fMusicXMLNoteData;
+    msrNoteData               fNoteData;
 
     // LilyPond informations
 
@@ -1563,10 +1563,10 @@ class EXP msrChord : public msrElement
     // ties
     void          setChordTieKind (
                     const
-                      msrMusicXMLNoteData::msrMusicXMLTieKind kind)
+                      msrNoteData::msrTieKind kind)
                       { fChordTieKind = kind; }
 
-    msrMusicXMLNoteData::msrMusicXMLTieKind
+    msrNoteData::msrTieKind
                   getChordTieKind () const
                       { return fChordTieKind; }
 
@@ -1621,7 +1621,7 @@ class EXP msrChord : public msrElement
     
     list<S_msrWedge>          fChordWedges;
 
-    msrMusicXMLNoteData::msrMusicXMLTieKind
+    msrNoteData::msrTieKind
                               fChordTieKind;
 };
 typedef SMARTP<msrChord> S_msrChord;
@@ -3224,7 +3224,7 @@ class EXP msrBarline : public msrElement
       msrBarlineLocation        location,
       msrBarlineStyle           style,
       msrBarlineEndingType      endingType,
-      string                    endingMusicXMLNumber,
+      string                    endingNumber,
       msrBarlineRepeatDirection repeatDirection,
       msrBarlineRepeatWinged    repeatWinged);
 
@@ -3238,7 +3238,7 @@ class EXP msrBarline : public msrElement
       msrBarlineLocation        location,
       msrBarlineStyle           style,
       msrBarlineEndingType      endingType,
-      string                    endingMusicXMLNumber,
+      string                    endingNumber,
       msrBarlineRepeatDirection repeatDirection,
       msrBarlineRepeatWinged    repeatWinged);
       
@@ -3358,7 +3358,7 @@ class EXP msrRepeatending : public msrElement
     static SMARTP<msrRepeatending> create (
       S_msrOptions&       msrOpts, 
       int                 inputLineNumber,
-      string              repeatendingMusicXMLNumber, // may be "1, 2"
+      string              repeatendingNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
       S_msrVoicechunk     voicechunk,
       S_msrRepeat         repeatUplink);
@@ -3371,7 +3371,7 @@ class EXP msrRepeatending : public msrElement
     msrRepeatending (
       S_msrOptions&       msrOpts, 
       int                 inputLineNumber,
-      string              repeatendingMusicXMLNumber, // may be "1, 2"
+      string              repeatendingNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
       S_msrVoicechunk     voicechunk,
       S_msrRepeat         repeatUplink);
@@ -3383,14 +3383,14 @@ class EXP msrRepeatending : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    string    getRepeatendingMusicXMLNumber () const
-                  { return fRepeatendingMusicXMLNumber; }
+    string    getRepeatendingNumber () const
+                  { return fRepeatendingNumber; }
                 
     void      setRepeatendingNumber (int repeatendingNumber)
                   { fRepeatendingNumber = repeatendingNumber; }
                 
-    int       getRepeatendingNumber () const
-                  { return fRepeatendingNumber; }
+    int       getRepeatendingInternalNumber () const
+                  { return fRepeatendingInternalNumber; }
                 
     S_msrVoicechunk
               getRepeatendingVoicechunk () const
@@ -3421,8 +3421,8 @@ class EXP msrRepeatending : public msrElement
 
   private:
   
-    string              fRepeatendingMusicXMLNumber; // may be "1, 2"
-    int                 fRepeatendingNumber; // internally assigned
+    string              fRepeatendingNumber; // may be "1, 2"
+    int                 fRepeatendingInternalNumber; // internally assigned
     
     msrRepeatendingKind fRepeatendingKind;
     
@@ -4017,7 +4017,7 @@ class EXP msrPart : public msrElement
     static SMARTP<msrPart> create (
       S_msrOptions&  msrOpts, 
       int            inputLineNumber,
-      string         partMusicXMLID,
+      string         partID,
       S_msrPartgroup partPartgroupUplink);
                 
     SMARTP<msrPart> createEmptyPartClone (
@@ -4028,7 +4028,7 @@ class EXP msrPart : public msrElement
     msrPart (
       S_msrOptions&  msrOpts, 
       int            inputLineNumber,
-      string         partMusicXMLID,
+      string         partID,
       S_msrPartgroup partPartgroupUplink);
       
     virtual ~msrPart();
@@ -4044,16 +4044,16 @@ class EXP msrPart : public msrElement
     void          setPartInstrumentName (string partInstrumentName)
                       { fPartInstrumentName = partInstrumentName; }
                               
-    void          setPartMusicXMLID (string partMusicXMLID)
-                      { fPartMusicXMLID = partMusicXMLID; }
+    void          setPartID (string partID)
+                      { fPartID = partID; }
     
     void          setPartMSRName (string partMSRName);
     
     void          setPartName (string partName)
                       { fPartName = partName; }
     
-    string        getPartMusicXMLID () const
-                      { return fPartMusicXMLID; }
+    string        getPartID () const
+                      { return fPartID; }
 
     string        getPartMSRName () const
                       { return fPartMSRName; }
@@ -4156,9 +4156,9 @@ class EXP msrPart : public msrElement
 
   private:
     
-    string                  fPartMusicXMLID; // native
+    string                  fPartID; // native
     string                  fPartMSRName;
-                              // may be different than fPartMusicXMLID
+                              // may be different than fPartID
                               // if renamed,
                               // coined in constructor
 
@@ -4297,14 +4297,14 @@ class EXP msrPartgroup : public msrElement
 
     S_msrPart addPartToPartgroup (
                 int    inputLineNumber,
-                string partMusicXMLID);
+                string partID);
     
     void      addPartToPartgroup (S_msrPart part);
                 
     void      prependSubPartgroupToPartgroup (
                 S_msrPartgroup partgroup);
 
-    S_msrPart fetchPartFromPartgroup (string partMusicXMLID);
+    S_msrPart fetchPartFromPartgroup (string partID);
 
     // visitors
     // ------------------------------------------------------

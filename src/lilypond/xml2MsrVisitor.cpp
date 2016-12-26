@@ -2053,20 +2053,20 @@ void xml2MsrVisitor::visitStart (S_tied& elt )
   
   if (tiedType == "start") { // JMI
     
-    fMusicXMLNoteData.fMusicXMLTieKind =
-      msrMusicXMLNoteData::kStartTie;
+    fNoteData.fTieKind =
+      msrNoteData::kStartTie;
     
   }
   else if (tiedType == "continue") {
     
-    fMusicXMLNoteData.fMusicXMLTieKind =
-      msrMusicXMLNoteData::kContinueTie;
+    fNoteData.fTieKind =
+      msrNoteData::kContinueTie;
     
   }
   else if (tiedType == "stop") {
     
-    fMusicXMLNoteData.fMusicXMLTieKind =
-      msrMusicXMLNoteData::kStopTie;
+    fNoteData.fTieKind =
+      msrNoteData::kStopTie;
     
   }
   else {
@@ -3395,32 +3395,32 @@ The discontinue value is typically used for the last ending in a set, where ther
 void xml2MsrVisitor::visitStart ( S_note& elt ) 
 {
   //  cerr << "--> xml2MsrVisitor::visitStart ( S_note& elt ) " << endl;
-  fMusicXMLNoteData.fMusicXMLStep = '_';
-  fMusicXMLNoteData.fMusicXMLStepIsARest = false;
-  fMusicXMLNoteData.fMusicXMLStepIsUnpitched = false;
+  fNoteData.fStep = '_';
+  fNoteData.fStepIsARest = false;
+  fNoteData.fStepIsUnpitched = false;
 
-  fMusicXMLNoteData.fMusicXMLAlter = 0.0;
-  fMusicXMLNoteData.fMusicXMLAlteration = msrMusicXMLNoteData::kNatural;
+  fNoteData.fAlter = 0.0;
+  fNoteData.fAlteration = msrNoteData::kNatural;
   
-  fMusicXMLNoteData.fMusicXMLOctave = -13;
+  fNoteData.fOctave = -13;
   
-  fMusicXMLNoteData.fMusicXMLDivisions  = -13;
-  fMusicXMLNoteData.fMusicXMLDotsNumber = 0;
+  fNoteData.fDivisions  = -13;
+  fNoteData.fDotsNumber = 0;
   
-  fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote = false;
+  fNoteData.fNoteIsAGraceNote = false;
   
   // assume this note doesn't belong to a chord until S_chord is met
-  fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = false;
+  fNoteData.fNoteBelongsToAChord = false;
   
   // assume this note doesn't belong to a tuplet until S_tuplet is met
-  fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet = false;
-  fMusicXMLNoteData.fMusicXMLType = "";
+  fNoteData.fNoteBelongsToATuplet = false;
+  fNoteData.fType = "";
   
-  fMusicXMLNoteData.fMusicXMLTieKind =
-    msrMusicXMLNoteData::k_NoTie;
+  fNoteData.fTieKind =
+    msrNoteData::k_NoTie;
   
-  fMusicXMLNoteData.fMusicXMLStaffNumber = 0;
-  fMusicXMLNoteData.fMusicXMLVoiceNumber = 0;
+  fNoteData.fStaffNumber = 0;
+  fNoteData.fVoiceNumber = 0;
 
   // assuming staff number 1, unless S_staff states otherwise afterwards
   fCurrentStaffNumber = 1;
@@ -3461,17 +3461,17 @@ void xml2MsrVisitor::visitStart ( S_step& elt )
       s.str());
   }
 
-  fMusicXMLNoteData.fMusicXMLStep = step[0];
+  fNoteData.fStep = step[0];
 }
 
 void xml2MsrVisitor::visitStart ( S_alter& elt)
 {
-  fMusicXMLNoteData.fMusicXMLAlter = (float)(*elt);
+  fNoteData.fAlter = (float)(*elt);
 }
 
 void xml2MsrVisitor::visitStart ( S_octave& elt)
 {
-  fMusicXMLNoteData.fMusicXMLOctave = (int)(*elt);
+  fNoteData.fOctave = (int)(*elt);
 }
 
 void xml2MsrVisitor::visitStart ( S_duration& elt )
@@ -3492,13 +3492,13 @@ void xml2MsrVisitor::visitStart ( S_duration& elt )
   
   else if (fOnGoingNote) {
   
-    fMusicXMLNoteData.fMusicXMLDivisions = musicXMLduration;
+    fNoteData.fDivisions = musicXMLduration;
     
-    // all notes have their fMusicXMLDisplayDivisions
-    // set to fMusicXMLNoteData.fMusicXMLDivision,
+    // all notes have their fDisplayDivisions
+    // set to fNoteData.fDivision,
     // except tuplet member notes
-    fMusicXMLNoteData.fMusicXMLDisplayDivisions =
-      fMusicXMLNoteData.fMusicXMLDivisions;
+    fNoteData.fDisplayDivisions =
+      fNoteData.fDivisions;
   }
   
   else {
@@ -3514,12 +3514,12 @@ void xml2MsrVisitor::visitStart ( S_duration& elt )
       s.str());
   }
     
-//  cerr << "=== xml2MsrVisitor::visitStart ( S_duration& elt ), fCurrentMusicXMLDuration = " << fCurrentMusicXMLDuration << endl; JMI
+//  cerr << "=== xml2MsrVisitor::visitStart ( S_duration& elt ), fCurrentDuration = " << fCurrentDuration << endl; JMI
 }
 
 void xml2MsrVisitor::visitStart ( S_dot& elt )
 {
-  fMusicXMLNoteData.fMusicXMLDotsNumber++;
+  fNoteData.fDotsNumber++;
 }
        
 void xml2MsrVisitor::visitStart ( S_type& elt )
@@ -4010,7 +4010,7 @@ void xml2MsrVisitor::visitStart ( S_wedge& elt )
 //______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_grace& elt )
 {
-  fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote = true;
+  fNoteData.fNoteIsAGraceNote = true;
 
   string slash = elt->getAttributeValue ("slash");
 
@@ -4037,7 +4037,7 @@ void xml2MsrVisitor::visitStart ( S_grace& elt )
 //______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_chord& elt)
 {
-  fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord = true;
+  fNoteData.fNoteBelongsToAChord = true;
 }
 
 //______________________________________________________________________________
@@ -4047,7 +4047,7 @@ void xml2MsrVisitor::visitStart ( S_time_modification& elt )
   // in the tuplet notes after the first one,
   // so we detect tuplet notes on '<time-modification>'
   // so we detect tuplet notes on '<time-modification>'
-  fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet = true;
+  fNoteData.fNoteBelongsToATuplet = true;
 }
 
 void xml2MsrVisitor::visitStart ( S_actual_notes& elt )
@@ -4108,7 +4108,7 @@ void xml2MsrVisitor::visitStart ( S_rest& elt)
       </note>
 */
   //  cerr << "--> xml2MsrVisitor::visitStart ( S_rest& elt ) " << endl;
-  fMusicXMLNoteData.fMusicXMLStepIsARest = true;
+  fNoteData.fStepIsARest = true;
 }
 
 //______________________________________________________________________________
@@ -4145,9 +4145,9 @@ void xml2MsrVisitor::visitEnd ( S_unpitched& elt)
           <display-octave>5</display-octave>
         </unpitched>
 */
-  fMusicXMLNoteData.fMusicXMLStepIsUnpitched = true;
-  fMusicXMLNoteData.fMusicXMLStep = fDisplayStep;
-  fMusicXMLNoteData.fMusicXMLOctave = fDisplayOctave;
+  fNoteData.fStepIsUnpitched = true;
+  fNoteData.fStep = fDisplayStep;
+  fNoteData.fOctave = fDisplayOctave;
 }
 
 //______________________________________________________________________________
@@ -4169,7 +4169,7 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
       msrChord::create (
         fMsrOptions,
         firstNote->getInputLineNumber (),
-        firstNote->getNoteMusicXMLDivisions ());
+        firstNote->getNoteDivisions ());
 
   // chord's divisions per whole note is that of its first note
   chord->
@@ -4625,7 +4625,7 @@ void xml2MsrVisitor::attachPendingDynamicsToNote (
   // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {
     
-    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+    if (fNoteData.fStepIsARest) {
       if (fMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
           "--> Delaying dynamics attached to a rest until next note" << endl;
@@ -4658,7 +4658,7 @@ void xml2MsrVisitor::attachPendingWordsToNote (
   // attach the pending words if any to the note
   if (! fPendingWords.empty ()) {
     
-    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+    if (fNoteData.fStepIsARest) {
       if (fMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
           "--> Delaying words attached to a rest until next note" << endl;
@@ -4696,7 +4696,7 @@ void xml2MsrVisitor::attachPendingWedgesToNote (
   // attach the pending wedges if any to the note
   if (! fPendingWedges.empty ()) {
     
-    if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+    if (fNoteData.fStepIsARest) {
       if (fMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
           "--> Delaying wedge attached to a rest until next note" << endl;
@@ -4832,14 +4832,14 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   }
 
   // store voice and staff numbers in MusicXML note data
-  fMusicXMLNoteData.fMusicXMLStaffNumber = fCurrentStaffNumber;
-  fMusicXMLNoteData.fMusicXMLVoiceNumber = fCurrentVoiceNumber;
+  fNoteData.fStaffNumber = fCurrentStaffNumber;
+  fNoteData.fVoiceNumber = fCurrentVoiceNumber;
 
   // set note's divisions per whole note
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "fMusicXMLNoteData.fMusicXMLDivisions = " << 
-      fMusicXMLNoteData.fMusicXMLDivisions << ", " << 
+      "fNoteData.fDivisions = " << 
+      fNoteData.fDivisions << ", " << 
       "fCurrentDivisionsPerQuarterNote * 4 = " <<
       fCurrentDivisionsPerQuarterNote * 4 << endl;
       
@@ -4847,16 +4847,16 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     fCurrentDivisionsPerQuarterNote * 4);
 
   // register current note type
-  fMusicXMLNoteData.fMusicXMLType =
+  fNoteData.fType =
     fCurrentNoteType;
   
   // create the note
   S_msrNote
     note =
-      msrNote::createFromMusicXMLData (
+      msrNote::createFromNoteData (
         fMsrOptions,
         inputLineNumber,
-        fMusicXMLNoteData,
+        fNoteData,
         fCurrentSlurKind);
 
   // set note's divisions per whole note
@@ -4883,7 +4883,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
 
   // take it's duration into account
   currentVoice->incrementPositionInMeasure (
-    fMusicXMLNoteData.fMusicXMLDivisions);
+    fNoteData.fDivisions);
 
   /*
   A rest can be standalone or belong to a tuplet
@@ -4895,19 +4895,19 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   */
 
   // are the display divisions different than the duration?
-  if (fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet)
+  if (fNoteData.fNoteBelongsToATuplet)
     // set tuplet member note display divisions
     note->
       applyTupletMemberDisplayFactor (
         fCurrentActualNotes, fCurrentNormalNotes);
 
   // handle note
-  if (fMusicXMLNoteData.fMusicXMLNoteBelongsToAChord) {
+  if (fNoteData.fNoteBelongsToAChord) {
     // chord member note
     handleNoteBelongingToAChord (note);
   }
   
-  else if (fMusicXMLNoteData.fMusicXMLNoteBelongsToATuplet) {
+  else if (fNoteData.fNoteBelongsToATuplet) {
     // tuplet member note
     handleNoteBelongingToATuplet (note);
   }
@@ -4964,7 +4964,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
       newNote <<
       endl;
       
-  if (fMusicXMLNoteData.fMusicXMLStepIsARest)
+  if (fNoteData.fStepIsARest)
     msrMusicXMLError (
       fMsrOptions->fInputSourceName,
       newNote->getInputLineNumber (),
@@ -5049,7 +5049,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
 
   // substract it's duration from the current measure location
   currentVoice->incrementPositionInMeasure (
-    - newNote-> getNoteMusicXMLDivisions ());
+    - newNote-> getNoteDivisions ());
 
   // remove previous current note or the previous state of the chord JMI ???
   // from the current voice sequence
@@ -5166,7 +5166,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
       idtr <<
         "--> handleStandaloneOrGraceNoteOrRest() on " <<
         newNote->notePitchAsString () <<
-        ":" << newNote->getNoteMusicXMLDivisions () <<
+        ":" << newNote->getNoteDivisions () <<
         " in voice " <<
         currentVoice->getVoiceName () <<
         endl <<
@@ -5175,8 +5175,8 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         newNote->getInputLineNumber () <<
         endl <<
       idtr <<
-        "--> fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote = " <<
-        fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote <<
+        "--> fNoteData.fNoteIsAGraceNote = " <<
+        fNoteData.fNoteIsAGraceNote <<
         endl <<
       idtr <<
         "--> fCurrentGraceexpression = ";
@@ -5191,7 +5191,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     endl;
   }
 
-  if (fMusicXMLNoteData.fMusicXMLNoteIsAGraceNote) {
+  if (fNoteData.fNoteIsAGraceNote) {
     newNote->
       setNoteKind (msrNote::kGraceNote);
   
@@ -5203,7 +5203,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         cerr <<  idtr <<
           "--> creating a grace expression for note " <<
           newNote->notePitchAsString () <<
-          ":" << newNote->getNoteMusicXMLDivisions () <<
+          ":" << newNote->getNoteDivisions () <<
           " in voice " <<
           currentVoice->getVoiceName () <<
           endl;
@@ -5227,7 +5227,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
       cerr <<  idtr <<
         "--> appending note " <<
         newNote->notePitchAsString () <<
-        ":" << newNote->getNoteMusicXMLDivisions () <<
+        ":" << newNote->getNoteDivisions () <<
         " to the grace expression in voice " <<
         currentVoice->getVoiceName () <<
         endl;
@@ -5245,7 +5245,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
       // forget about the latter
       fCurrentGraceexpression = 0;
 
-    if (fMusicXMLNoteData.fMusicXMLStepIsARest)
+    if (fNoteData.fStepIsARest)
       newNote->
         setNoteKind (msrNote::kRestNote);
     else
@@ -5257,7 +5257,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
       cerr <<  idtr <<
         "--> adding standalone " <<
         newNote->notePitchAsString () <<
-        ":" << newNote->getNoteMusicXMLDivisions () <<
+        ":" << newNote->getNoteDivisions () <<
         " to voice " <<
         currentVoice->getVoiceName () <<
         endl;
@@ -5365,19 +5365,19 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
         "Handling lyrics" <<
         ", line = " << inputLineNumber <<
         " with:" << endl <<
-        fMusicXMLNoteData;
+        fNoteData;
 
     idtr++;
     
     cerr <<
       idtr <<
         setw(38) << "fCurrentText" << " = \"" << fCurrentText <<
-        "\":" << fMusicXMLNoteData.fMusicXMLDivisions << ", " << endl <<
+        "\":" << fNoteData.fDivisions << ", " << endl <<
       idtr <<
         setw(38) << "fCurrentElision" << " = " << fCurrentElision << endl <<
       idtr <<
-        setw(38) << "fMusicXMLNoteData.fMusicXMLStepIsARest" << " = ";
-    if (fMusicXMLNoteData.fMusicXMLStepIsARest)
+        setw(38) << "fNoteData.fStepIsARest" << " = ";
+    if (fNoteData.fStepIsARest)
       cerr << "true";
     else
       cerr << "false";
@@ -5385,8 +5385,8 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 
     cerr <<
       idtr <<
-        setw(38) << "fMusicXMLNoteData.fMusicXMLTieKind" << " = " <<
-        fMusicXMLNoteData.musicXMLTieKindAsString () <<
+        setw(38) << "fNoteData.fTieKind" << " = " <<
+        fNoteData.musicXMLTieKindAsString () <<
       endl;
         
     cerr <<
@@ -5474,7 +5474,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
         fCurrentLyricschunkKind,
         fCurrentText,
         fCurrentElision,
-        fMusicXMLNoteData.fMusicXMLDivisions,
+        fNoteData.fDivisions,
         newNote);
 
     if (fOnGoingSlur)
@@ -5492,25 +5492,25 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     }
     
     if (
-      fMusicXMLNoteData.fMusicXMLTieKind
+      fNoteData.fTieKind
         !=
-      msrMusicXMLNoteData::k_NoTie) {
+      msrNoteData::k_NoTie) {
       fCurrentLyricschunkKind = msrLyricschunk::kTiedChunk;
       
       currentVoice->
         addTiedLyricschunkToVoice (
           fCurrentLyricsNumber,
-          fMusicXMLNoteData.fMusicXMLDivisions,
+          fNoteData.fDivisions,
           newNote);
     }
   
-    else if (fMusicXMLNoteData.fMusicXMLStepIsARest) {
+    else if (fNoteData.fStepIsARest) {
       fCurrentLyricschunkKind = msrLyricschunk::kSkipChunk;
 
       currentVoice->
         addSkipLyricschunkToVoice (
           fCurrentLyricsNumber,
-          fMusicXMLNoteData.fMusicXMLDivisions,
+          fNoteData.fDivisions,
           newNote);
     }
   
@@ -5524,7 +5524,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
         currentVoice->
           addSlurBeyondEndLyricschunkToVoice ( 
             fCurrentLyricsNumber,
-            fMusicXMLNoteData.fMusicXMLDivisions,
+            fNoteData.fDivisions,
             newNote);
       }
       else {        
@@ -5533,7 +5533,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
         currentVoice->
           addSlurLyricschunkToVoice ( 
             fCurrentLyricsNumber,
-            fMusicXMLNoteData.fMusicXMLDivisions,
+            fNoteData.fDivisions,
             newNote);
       }
     }
@@ -5545,7 +5545,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
         currentVoice->
           addSlurBeyondEndLyricschunkToVoice (
             fCurrentLyricsNumber,
-            fMusicXMLNoteData.fMusicXMLDivisions,
+            fNoteData.fDivisions,
             newNote);
       }
       else {        
@@ -5554,7 +5554,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
         currentVoice->
           addSlurLyricschunkToVoice ( 
             fCurrentLyricsNumber,
-            fMusicXMLNoteData.fMusicXMLDivisions,
+            fNoteData.fDivisions,
             newNote);
       }
     }

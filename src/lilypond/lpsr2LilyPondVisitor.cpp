@@ -80,7 +80,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   
   // in MusicXML, octave number is 4 for the octave starting with middle C
 
-  msrMusicXMLNoteData::msrDiatonicPitch
+  msrNoteData::msrDiatonicPitch
     noteDiatonicPitch =
       note->getDiatonicPitch ();
       
@@ -89,7 +89,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
       note->noteDiatonicPitchAsString ();
         
   int noteAbsoluteOctave =
-    note->getNoteMusicXMLOctave ();
+    note->getNoteOctave ();
 
 /*
   bool noteIsChordFirstNote =
@@ -185,7 +185,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     
     // generate LilyPond octave relative to fRelativeOctaveReference
 
-    msrMusicXMLNoteData::msrDiatonicPitch
+    msrNoteData::msrDiatonicPitch
       referenceDiatonicPitch =
         fRelativeOctaveReference->getDiatonicPitch ();
 
@@ -195,7 +195,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
         
     int
       referenceAbsoluteOctave =
-        fRelativeOctaveReference->getNoteMusicXMLOctave ();
+        fRelativeOctaveReference->getNoteOctave ();
 
     /*
       If no octave changing mark is used on a pitch, its octave is calculated
@@ -207,12 +207,12 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
       noteAboluteDiatonicOrdinal =
         noteAbsoluteOctave * 7
           +
-        noteDiatonicPitch - msrMusicXMLNoteData::kC,
+        noteDiatonicPitch - msrNoteData::kC,
         
       referenceAboluteDiatonicOrdinal =
         referenceAbsoluteOctave * 7
           +
-        referenceDiatonicPitch - msrMusicXMLNoteData::kC;
+        referenceDiatonicPitch - msrNoteData::kC;
 
 //    if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
     if (fMsrOptions->fDebugDebug) {
@@ -1905,7 +1905,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       if (
         elt->getNoteTieKind ()
           ==
-        msrMusicXMLNoteData::kStartTie) {
+        msrNoteData::kStartTie) {
           fOstream << " ~";
       }
 
@@ -1930,7 +1930,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         elt->noteTypeAsMSRString ();
 
       // print the dots if any
-      for (int i = 0; i < elt->getNoteMusicXMLDotsNumber (); i++) {
+      for (int i = 0; i < elt->getNoteDotsNumber (); i++) {
         fOstream << ".";
       } // for
       
@@ -1938,7 +1938,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       if (
         elt->getNoteTieKind ()
           ==
-        msrMusicXMLNoteData::kStartTie) {
+        msrNoteData::kStartTie) {
           fOstream << " ~";
       }
 
@@ -2002,7 +2002,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       if (
         elt->getNoteTieKind ()
           ==
-        msrMusicXMLNoteData::kStartTie) {
+        msrNoteData::kStartTie) {
           fOstream << " ~";
       }
 
@@ -2104,7 +2104,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
   if (
     elt->getNoteTieKind ()
       ==
-    msrMusicXMLNoteData::kStartTie) {
+    msrNoteData::kStartTie) {
       fOstream << "~ ";
   }
   switch (elt->getNoteSlurKind ()) {
@@ -2290,7 +2290,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
   if (
     elt->getChordTieKind ()
       ==
-    msrMusicXMLNoteData::kStartTie) {
+    msrNoteData::kStartTie) {
       fOstream << "~ ";
   }
 
@@ -2618,7 +2618,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeatending& elt)
     fOstream << idtr <<
       "% --> Start visiting msrRepeatending" << endl;
 
-  if (elt->getRepeatendingNumber () == 1) {
+  if (elt->getRepeatendingInternalNumber () == 1) {
     
     idtr--;
     
@@ -2647,7 +2647,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeatending& elt)
 
   if (
   // JMI warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-    elt->getRepeatendingNumber ()
+    elt->getRepeatendingInternalNumber ()
       ==
     (int) elt->getRepeatendingRepeatUplink ()->getRepeatEndings ().size()) {
       
