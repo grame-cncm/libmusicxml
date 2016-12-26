@@ -4833,8 +4833,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       msrNote::createFromNoteData (
         fMsrOptions,
         inputLineNumber,
-        fNoteData,
-        fCurrentSlurKind);
+        fNoteData);
 
   // set note's divisions per whole note
   note->
@@ -4858,6 +4857,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   // attach the articulations if any to the note
   attachCurrentArticulationsToNote (note);
 
+  // JMI fCurrentSlurKind ???
+  
   // take it's duration into account
   currentVoice->incrementPositionInMeasure (
     fNoteData.fDivisions);
@@ -5363,7 +5364,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     cerr <<
       idtr <<
         setw(38) << "fCurrentTieKind" << " = " <<
-        fNoteData.tieKindAsString () <<
+        msrTie::tieKindAsString (fCurrentTieKind) <<
       endl;
         
     cerr <<

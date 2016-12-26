@@ -431,8 +431,6 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
 
     void          init ();
     
-    string        tieKindAsString () const;
-
     // print
     // ------------------------------------------------------
 
@@ -898,12 +896,17 @@ class EXP msrTie : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrTieKind getTieKind () const { return fTieKind; }
-
-    string     tieKindAsString ();
+    msrTieKind  getTieKind () const
+                    { return fTieKind; }
 
     // services
     // ------------------------------------------------------
+
+    static string
+               tieKindAsString (msrTieKind tieKind);
+
+    string     tieKindAsString () const
+                  { return tieKindAsString (fTieKind); }
 
     // visitors
     // ------------------------------------------------------
@@ -1414,8 +1417,7 @@ class EXP msrNote : public msrElement
     static SMARTP<msrNote> createFromNoteData (
         S_msrOptions& msrOpts,
         int           inputLineNumber,
-        msrNoteData&  noteData,
-        msrSlur::msrSlurKind slurKind);
+        msrNoteData&  noteData);
 
     SMARTP<msrNote> createNoteBareClone ();
     
@@ -1437,8 +1439,7 @@ class EXP msrNote : public msrElement
     msrNote (
         S_msrOptions& msrOpts,
         int           inputLineNumber,
-        msrNoteData&  noteData,
-        msrSlur::msrSlurKind slurKind);
+        msrNoteData&  noteData);
     
     virtual ~msrNote();
     

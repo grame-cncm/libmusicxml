@@ -1903,9 +1903,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       
       // print the tie if any
       if (
-        elt->getNoteTieKind ()
+        elt->getNoteTie ()->getTieKind ()
           ==
-        msrNoteData::kStartTie) {
+        msrTie::kStartTie) {
           fOstream << " ~";
       }
 
@@ -1936,9 +1936,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       
       // print the tie if any
       if (
-        elt->getNoteTieKind ()
+        elt->getNoteTie ()->getTieKind ()
           ==
-        msrNoteData::kStartTie) {
+        msrTie::kStartTie) {
           fOstream << " ~";
       }
 
@@ -2000,9 +2000,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
 
       // print the tie if any
       if (
-        elt->getNoteTieKind ()
+        elt->getNoteTie ()->getTieKind ()
           ==
-        msrNoteData::kStartTie) {
+        msrTie::kStartTie) {
           fOstream << " ~";
       }
 
@@ -2102,12 +2102,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
 
   // print the tie if any
   if (
-    elt->getNoteTieKind ()
+    elt->getNoteTie ()->getTieKind ()
       ==
-    msrNoteData::kStartTie) {
+    msrTie::kStartTie) {
       fOstream << "~ ";
   }
-  switch (elt->getNoteSlurKind ()) {
+/* JMI
+  // print the slurs if any
+  switch (elt->getNoteSlur ()->getSlurKind ()) {
     case msrSlur::kStartSlur:
       fOstream << "( ";
       break;
@@ -2121,7 +2123,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
       
     case msrSlur::k_NoSlur:
       break;
-  } // switch  
+  } // switch
+  */
 }
 
 //________________________________________________________________________
@@ -2288,9 +2291,9 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
 
   // print the tie if any
   if (
-    elt->getChordTieKind ()
+    elt->getChordTie ()->getTieKind ()
       ==
-    msrNoteData::kStartTie) {
+    msrTie::kStartTie) {
       fOstream << "~ ";
   }
 

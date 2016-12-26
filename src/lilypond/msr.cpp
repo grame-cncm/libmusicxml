@@ -154,8 +154,6 @@ void msrNoteData::init ()
   
   fNoteBelongsToATuplet = false;;
 
-  fTieKind = k_NoTie; // ???
-
   fStaffNumber = 0;
   fVoiceNumber = 0;
 }
@@ -163,28 +161,6 @@ void msrNoteData::init ()
 msrNoteData::msrNoteData ()
 {
   init ();
-}
-
-string msrNoteData::tieKindAsString () const
-{
-  string result;
-  
-  switch (fTieKind) {
-    case kStartTie:
-      result = "start tie";
-      break;
-    case kContinueTie:
-      result = "continue tie";
-      break;
-    case kStopTie:
-      result = "stop tie";
-      break;
-    case k_NoTie:
-      result = "NO_TIE";
-      break;
-  } // switch
-
-  return result;
 }
 
 void msrNoteData::print (ostream& os)
@@ -1021,6 +997,27 @@ msrTie::msrTie (
 }
 msrTie::~msrTie() {}
 
+string msrTie::tieKindAsString (msrTieKind tieKind)
+{
+  stringstream s;
+  
+  switch (tieKind) {
+    case kStartTie:
+      s << "start";
+      break;
+    case kContinueTie:
+      s << "continue";
+      break;
+    case kStopTie:
+      s << "stop";
+      break;
+    default:
+      s << "Tie" << fTieKind << "???";
+  } // switch
+    
+  return s.str();
+}
+
 string msrTie::tieKindAsString ()
 {
   stringstream s;
@@ -1041,6 +1038,7 @@ string msrTie::tieKindAsString ()
     
   return s.str();
 }
+
 
 void msrTie::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
@@ -1298,12 +1296,11 @@ void msrGraceexpression::print (ostream& os)
 S_msrNote msrNote::createFromNoteData (
   S_msrOptions& msrOpts,
   int           inputLineNumber,
-  msrNoteData & noteData,
-  msrSlur::msrSlurKind slurKind)
+  msrNoteData & noteData)
 {  
   msrNote * o =
     new msrNote (
-      msrOpts, inputLineNumber, noteData, slurKind);
+      msrOpts, inputLineNumber, noteData);
   assert(o!=0); 
   return o;
 }
@@ -1319,31 +1316,16 @@ S_msrNote msrNote::createRest (
 
   noteData.fStep = 'r';
   noteData.fStepIsARest = true;
-  noteData.fStepIsUnpitched = false;
-
-  noteData.fAlter = 0.0;
-  noteData.fAlteration = msrNoteData::kNatural;
-  noteData.fOctave = 0;
   
   noteData.fDivisions = divisions;
-
-  noteData.fDotsNumber = 0;
-  
-  noteData.fNoteIsAGraceNote = false;
-  
-  noteData.fNoteBelongsToAChord = false;
-  
-  noteData.fNoteBelongsToATuplet = false;
-  
-  noteData.fTieKind =
-    msrNoteData::k_NoTie;
-  
+  noteData.fDisplayDivisions = divisions;
+    
   noteData.fStaffNumber = staffNumber;
   noteData.fVoiceNumber = voiceNumber;
 
   msrNote * o =
     new msrNote (
-      msrOpts, inputLineNumber, noteData, msrSlur::k_NoSlur);
+      msrOpts, inputLineNumber, noteData);
   assert(o!=0); 
   return o;
 }    
@@ -1355,15 +1337,14 @@ S_msrNote msrNote::createNoteBareClone ()
       msrNote::createFromNoteData (
         fMsrOptions,
         fInputLineNumber,
-        fNoteData,
-        fNoteSlurKind);
+        fNoteData);
 
   clone->fNoteKind = fNoteKind;
   
   clone->fNoteOctaveShift = fNoteOctaveShift;
   
   clone->fNoteStem = fNoteStem;  
-  clone->fNoteBeam = fNoteBeam;  
+  clone->fNoteBeam = fNoteBeam;
 
   clone->fDivisionsPerWholeNote = fDivisionsPerWholeNote;
   
@@ -1375,14 +1356,11 @@ S_msrNote msrNote::createNoteBareClone ()
 msrNote::msrNote (
   S_msrOptions& msrOpts,
   int           inputLineNumber,
-  msrNoteData&  noteData,
-  msrSlur::msrSlurKind slurKind)
+  msrNoteData&  noteData)
   :
     msrElement (msrOpts, inputLineNumber),
     fNoteData (noteData)
 {
-  fNoteSlurKind = slurKind;
-
 //  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
   if (fMsrOptions->fDebugDebug) {
     cerr << idtr <<
@@ -1439,10 +1417,6 @@ msrNote::msrNote (
     case 'G': noteQuatertonesFromA = 20; break;
     default: {}    
   } // switch
-
-  // flat or sharp,possibly semi- or sesqui-?
-  msrNoteData::msrAlterationKind
-    alterationKind; // JMI
 
 //   if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
   if (fMsrOptions->fDebugDebug) {
@@ -1920,9 +1894,9 @@ string msrNote::noteAsString () const
   } // switch
      
   if (
-    fNoteData.fTieKind
+    fNoteTie->getTieKind ()
       !=
-    msrNoteData::k_NoTie ) {
+    msrTie::k_NoTie ) {
       s <<
         ", " << fNoteData.tieKindAsString ();
   }
@@ -2086,7 +2060,7 @@ void msrNote::print (ostream& os)
     
     idtr--;
   }
-
+/*
   // print the slur if any
   if (fNoteSlurKind != msrSlur::k_NoSlur) { // JMI
     idtr++;
@@ -2110,6 +2084,7 @@ void msrNote::print (ostream& os)
     
     idtr--;
   }
+  */
 }
 
 //______________________________________________________________________________
@@ -2132,8 +2107,6 @@ msrChord::msrChord (
     : msrElement (msrOpts, inputLineNumber)
 {
   fChordDivisions = chordDivisions;
-
-  fChordTieKind = msrNoteData::k_NoTie;
 }
 
 msrChord::~msrChord() {}
@@ -2155,7 +2128,7 @@ S_msrChord msrChord::createEmptyChordClone ()
   clone->
     setChordMeasureLocation (fChordMeasureLocation);
     
-  clone->fChordTieKind = fChordTieKind;
+  clone->fChordTie = fChordTie; // JMI
 
 /*
   // get the articulations if any
