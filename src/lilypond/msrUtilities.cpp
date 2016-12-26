@@ -903,6 +903,43 @@ string divisionsAsMSRDuration (
 }
 
 //______________________________________________________________________________
+int noteTypeAsDivisions (
+  string  noteType,
+  int     divisionsPerWholeNote,
+  string& errorMessage)
+{
+  int result;
+
+  int divisionsPerQuaterNote = divisionsPerWholeNote / 4;
+  
+  if      (noteType == "256th")   { result = divisionsPerQuaterNote / 256; }
+  else if (noteType == "128th")   { result = divisionsPerQuaterNote / 128; } 
+  else if (noteType == "64th")    { result = divisionsPerQuaterNote / 64; } 
+  else if (noteType == "32nd")    { result = divisionsPerQuaterNote / 32; } 
+  else if (noteType == "16th")    { result = divisionsPerQuaterNote / 16; } 
+  else if (noteType == "eighth")  { result = divisionsPerQuaterNote / 8; } 
+  else if (noteType == "quarter") { result = divisionsPerQuaterNote / 4; } 
+  else if (noteType == "half")    { result = divisionsPerQuaterNote / 2; } 
+  else if (noteType == "whole")   { result = divisionsPerQuaterNote / 1; } 
+  else if (noteType == "breve")   { result = divisionsPerQuaterNote * 2; } 
+  else if (noteType == "long")    { result = divisionsPerQuaterNote * 4; }
+  else {
+    stringstream s;
+    
+    s << 
+      endl << 
+      "--> unknown tuplet member type " << noteType <<
+      endl;
+      
+   errorMessage = s.str();
+
+   return 0;
+  }
+
+  return result;
+}
+
+//______________________________________________________________________________
 string noteTypeAsMSRDuration (
   string  noteType,
   string& errorMessage)

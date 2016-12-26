@@ -226,6 +226,12 @@ pair<string, string> extractNamesPairFromString (
   bool   debugMode = false);
 
 //______________________________________________________________________________
+int noteTypeAsDivisions (
+  string  noteType,
+  int     divisionsPerWholeNote,
+  string& errorMessage);
+
+//______________________________________________________________________________
 string divisionsAsMSRDuration (
   int     divisions,
   int     divisionsPerWholeNote,

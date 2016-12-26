@@ -4002,11 +4002,10 @@ void xml2MsrVisitor::visitStart ( S_grace& elt )
   string slash = elt->getAttributeValue ("slash");
 
   // check part group barline
-  if (slash == "yes")
+  if      (slash == "yes")
     fCurrentGraceIsSlashed = true;
     
-  else
-  if (slash == "no")
+  else if (slash == "no")
     fCurrentGraceIsSlashed = false;
     
   else {
@@ -4818,6 +4817,9 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       endl;
   }
 
+  int divisionsPerWholeNote =
+    fCurrentDivisionsPerQuarterNote * 4;
+
   // store voice and staff numbers in MusicXML note data
   fNoteData.fStaffNumber = fCurrentStaffNumber;
   fNoteData.fVoiceNumber = fCurrentVoiceNumber;
@@ -4827,16 +4829,36 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     cerr << idtr <<
       "fNoteData.fDivisions = " << 
       fNoteData.fDivisions << ", " << 
-      "fCurrentDivisionsPerQuarterNote * 4 = " <<
-      fCurrentDivisionsPerQuarterNote * 4 << endl;
+      "divisionsPerWholeNote = " <<
+      divisionsPerWholeNote << endl;
       
   currentVoice->setDivisionsPerWholeNote (
-    fCurrentDivisionsPerQuarterNote * 4);
+    divisionsPerWholeNote);
 
   // register current note type
   fNoteData.fType =
     fCurrentNoteType;
-  
+
+  if (fCurrentNoteType.size ()) {
+    // set current note divisions (for grace notes)
+    string errorMessage;
+    
+    fNoteData.fDivisions =
+      noteTypeAsDivisions (
+        fCurrentNoteType,
+        divisionsPerWholeNote,
+        errorMessage);
+
+    if (errorMessage.size ())
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
+        inputLineNumber,
+        errorMessage);
+
+    fNoteData.fDisplayDivisions =
+      fNoteData.fDivisions;
+  }
+
   // create the note
   S_msrNote
     note =
@@ -5192,7 +5214,6 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     if (! fCurrentGraceexpression) {
       // this is the first grace note in a grace expression
 
-      // create the grace expression
       if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
         cerr <<  idtr <<
           "--> creating a grace expression for note " <<
