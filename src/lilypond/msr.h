@@ -421,10 +421,6 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
       kNatural,
       kSemiSharp, kSharp, kSesquiSharp};
 
-    enum msrTieKind {
-        k_NoTie,
-        kStartTie, kContinueTie, kStopTie};
-        
     // constructors/destructor
     // ------------------------------------------------------
 
@@ -475,8 +471,6 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
     bool                      fNoteBelongsToAChord;
     
     bool                      fNoteBelongsToATuplet;
-
-    msrTieKind                fTieKind;
                     
     int                       fVoiceNumber;
     int                       fStaffNumber;
@@ -861,6 +855,73 @@ class EXP msrRehearsal : public msrElement
 };
 typedef SMARTP<msrRehearsal> S_msrRehearsal;
 EXP ostream& operator<< (ostream& os, const S_msrRehearsal& elt);
+
+/*!
+\brief A msr tie representation.
+
+  A tie is represented by a msrTieKind value (hairpins in LilyPond)
+*/
+//______________________________________________________________________________
+class EXP msrTie : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrTieKind { kStartTie, kContinueTie, kStopTie };        
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrTie> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      msrTieKind    tieKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrTie (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      msrTieKind    tieKind);
+      
+    virtual ~msrTie();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrTieKind getTieKind () const { return fTieKind; }
+
+    string     tieKindAsString ();
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrTieKind fTieKind;
+};
+typedef SMARTP<msrTie> S_msrTie;
+EXP ostream& operator<< (ostream& os, const S_msrTie& elt);
 
 /*!
 \brief A msr slur representation.
@@ -1389,17 +1450,11 @@ class EXP msrNote : public msrElement
 
     bool          getNoteIsUnpitched () const
                     // useful for rest tuplet members
-                      {
-                        return
-                          fNoteData.fStepIsUnpitched;
-                      }
+                      { return fNoteData.fStepIsUnpitched; }
                       
     bool          getNoteIsARest () const
                     // useful for rest tuplet members
-                      {
-                        return
-                          fNoteData.fStepIsARest;
-                      }
+                      { return fNoteData.fStepIsARest; }
                       
     void          setNoteKind (msrNoteKind noteKind)
                       { fNoteKind = noteKind; }
@@ -1408,45 +1463,27 @@ class EXP msrNote : public msrElement
                       { return fNoteKind; }
 
     int           getNoteDivisions () const
-                      {
-                        return
-                          fNoteData.fDivisions;
-                      }
+                      { return fNoteData.fDivisions; }
 
     void          setNoteDisplayDivisions (int divisions)
-                      {
-                        fNoteData.fDisplayDivisions =
-                          divisions;
-                      }
+                      { fNoteData.fDisplayDivisions = divisions; }
 
     int           getNoteDisplayDivisions () const
-                      {
-                        return
-                          fNoteData.fDisplayDivisions;
-                      }
+                      { return fNoteData.fDisplayDivisions; }
 
     int           getNoteDotsNumber () const
-                      {
-                        return
-                          fNoteData.fDotsNumber;
-                      }
+                      { return fNoteData.fDotsNumber; }
 
     int           getNoteOctave () const
-                      {
-                        return
-                          fNoteData.fOctave;
-                      }
+                      { return fNoteData.fOctave; }
 
     msrNoteData::msrDiatonicPitch
                   getDiatonicPitch () const
-                      {
-                        return
-                          fNoteData.fDiatonicPitch;
-                      }
+                      { return fNoteData.fDiatonicPitch; }
 
     // octave shifts
-    void          setOctaveShift (S_msrOctaveShift stem)
-                      { fNoteOctaveShift = stem; }
+    void          setOctaveShift (S_msrOctaveShift octaveShift)
+                      { fNoteOctaveShift = octaveShift; }
 
     S_msrOctaveShift
                   getNoteOctaveShift () const
@@ -1462,13 +1499,29 @@ class EXP msrNote : public msrElement
     // divisions per whole note
     void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
                       {
-                        fDivisionsPerWholeNote =
-                          divisionsPerWholeNote;
+                        fDivisionsPerWholeNote = divisionsPerWholeNote;
                       }
                       
     const int     getDivisionsPerWholeNote () const
                       { return fDivisionsPerWholeNote; }
           
+    // chord members
+    void          setNoteBelongsToAChord ();
+/*
+    void          setNoteIsChordFirstNote (bool value)
+                      { fNoteIsChordFirstNote = value; }
+*/
+    bool          getNoteBelongsToAChord () const
+                      { return fNoteData.fNoteBelongsToAChord; }
+/*
+    bool          getNoteIsChordFirstNote () const
+                      { return fNoteIsChordFirstNote; }
+*/
+
+    // beams
+    void          setBeam (S_msrBeam beam)  { fNoteBeam = beam; }
+    S_msrBeam     getBeam () const          { return fNoteBeam; }
+
     // articulations
     const list<S_msrArticulation>&
                   getNoteArticulations () const
@@ -1478,6 +1531,15 @@ class EXP msrNote : public msrElement
                   getNoteArticulationsToModify ()
                       { return fNoteArticulations; }
                       
+    // ties
+    void          setTie (S_msrTie tie) { fNoteTie = tie; }
+    S_msrTie      getTie () const       { return fNoteTie; }
+
+    // slurs
+    const list<S_msrSlur>&
+                  getNoteSlurs () const
+                      { return fNoteSlurs; }
+
     // dynamics
     const list<S_msrDynamics>&
                   getNoteDynamics () const
@@ -1504,37 +1566,6 @@ class EXP msrNote : public msrElement
     list<S_msrWedge>&
                   getNoteWedgesToModify ()
                       { return fNoteWedges; };
-
-    // chord members
-    void          setNoteBelongsToAChord ();
-/*
-    void          setNoteIsChordFirstNote (bool value)
-                      { fNoteIsChordFirstNote = value; }
-*/
-    bool          getNoteBelongsToAChord () const
-                      {
-                        return
-                          fNoteData.fNoteBelongsToAChord;
-                      }
-/*
-    bool          getNoteIsChordFirstNote () const
-                      { return fNoteIsChordFirstNote; }
-*/
-    // ties
-    msrNoteData::msrTieKind
-                  getNoteTieKind () const
-                      {
-                        return
-                          fNoteData.fTieKind;
-                      }
-
-    // slurs
-    msrSlur::msrSlurKind
-                  getNoteSlurKind () const { return fNoteSlurKind; }
-
-    // beams
-    void          setBeam (S_msrBeam beam)  { fNoteBeam = beam; }
-    S_msrBeam     getBeam () const          { return fNoteBeam; }
 
     // location in measure
     void          setNoteMeasureLocation (
@@ -1606,18 +1637,18 @@ class EXP msrNote : public msrElement
     S_msrBeam                 fNoteBeam;
                                       
     list<S_msrArticulation>   fNoteArticulations;
-        
-    list<S_msrDynamics>       fNoteDynamics;
-    list<S_msrWords>          fNoteWords;
-    list<S_msrWedge>          fNoteWedges;
-
-
-    msrSlur::msrSlurKind      fNoteSlurKind;
-    list<S_msrSlur>           fNoteSlurs; // JMI
 
     int                       fDivisionsPerWholeNote;
     
     msrMeasureLocation        fNoteMeasureLocation;
+
+    S_msrTie                  fNoteTie;
+    
+    list<S_msrDynamics>       fNoteDynamics;
+    list<S_msrWords>          fNoteWords;
+    list<S_msrWedge>          fNoteWedges;
+
+    list<S_msrSlur>           fNoteSlurs;
 
  // JMI   bool                      fNoteIsChordFirstNote;
 };
@@ -1689,14 +1720,13 @@ class EXP msrChord : public msrElement
                       { return fChordMeasureLocation; }
 
     // ties
-    void          setChordTieKind (
-                    const
-                      msrNoteData::msrTieKind kind)
-                      { fChordTieKind = kind; }
+    void          setChordTie (
+                    const S_msrTie tie)
+                      { fChordTie = tie; }
 
-    msrNoteData::msrTieKind
-                  getChordTieKind () const
-                      { return fChordTieKind; }
+    S_msrTie
+                  getChordTie () const
+                      { return fChordTie; }
 
     const list<S_msrArticulation>&
                   getChordArticulations () const
@@ -1743,8 +1773,9 @@ class EXP msrChord : public msrElement
     
     int                       fChordDivisions;
                               
-
     list<S_msrArticulation>   fChordArticulations;
+
+    S_msrTie                  fChordTie;
     
     list<S_msrDynamics>       fChordDynamics;
     
@@ -1752,8 +1783,6 @@ class EXP msrChord : public msrElement
     
     list<S_msrWedge>          fChordWedges;
 
-    msrNoteData::msrTieKind
-                              fChordTieKind;
 };
 typedef SMARTP<msrChord> S_msrChord;
 EXP ostream& operator<< (ostream& os, const S_msrChord& elt);

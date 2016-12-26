@@ -321,9 +321,9 @@ void msrOctaveShift::acceptOut (basevisitor* v) {
 void msrOctaveShift::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrOctaveShift& beam)
+ostream& operator<< (ostream& os, const S_msrOctaveShift& elt)
 {
-  beam->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -420,9 +420,9 @@ void msrStem::acceptOut (basevisitor* v) {
 void msrStem::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrStem& beam)
+ostream& operator<< (ostream& os, const S_msrStem& elt)
 {
-  beam->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -514,9 +514,9 @@ void msrBeam::acceptOut (basevisitor* v) {
 void msrBeam::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrBeam& beam)
+ostream& operator<< (ostream& os, const S_msrBeam& elt)
 {
-  beam->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -891,9 +891,9 @@ void msrDynamics::acceptOut (basevisitor* v) {
 void msrDynamics::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrDynamics& dyn)
+ostream& operator<< (ostream& os, const S_msrDynamics& elt)
 {
-  dyn->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -985,9 +985,9 @@ void msrWedge::acceptOut (basevisitor* v) {
 void msrWedge::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrWedge& wdg)
+ostream& operator<< (ostream& os, const S_msrWedge& elt)
 {
-  wdg->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -996,6 +996,99 @@ void msrWedge::print (ostream& os)
   os <<
     "Wedge" << " " << wedgeKindAsString () <<
     endl;
+}
+
+//______________________________________________________________________________
+S_msrTie msrTie::create (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  msrTieKind    tieKind)
+{
+  msrTie* o =
+    new msrTie (
+      msrOpts, inputLineNumber, tieKind);
+  assert(o!=0);
+  return o;
+}
+
+msrTie::msrTie (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  msrTieKind    tieKind)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fTieKind = tieKind; 
+}
+msrTie::~msrTie() {}
+
+string msrTie::tieKindAsString ()
+{
+  stringstream s;
+  
+  switch (fTieKind) {
+    case msrTie::kStartTie:
+      s << "start";
+      break;
+    case msrTie::kContinueTie:
+      s << "continue";
+      break;
+    case msrTie::kStopTie:
+      s << "stop";
+      break;
+    default:
+      s << "Tie" << fTieKind << "???";
+  } // switch
+    
+  return s.str();
+}
+
+void msrTie::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrTie::acceptIn()" << endl;
+      
+  if (visitor<S_msrTie>*
+    p =
+      dynamic_cast<visitor<S_msrTie>*> (v)) {
+        S_msrTie elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrTie::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrTie::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrTie::acceptOut()" << endl;
+
+  if (visitor<S_msrTie>*
+    p =
+      dynamic_cast<visitor<S_msrTie>*> (v)) {
+        S_msrTie elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrTie::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+
+void msrTie::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrTie& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrTie::print (ostream& os)
+{
+  os << "Tie" << " " << tieKindAsString ();
 }
 
 //______________________________________________________________________________
@@ -1080,9 +1173,9 @@ void msrSlur::acceptOut (basevisitor* v) {
 void msrSlur::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrSlur& wdg)
+ostream& operator<< (ostream& os, const S_msrSlur& elt)
 {
-  wdg->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -1176,9 +1269,9 @@ void msrGraceexpression::browseData (basevisitor* v)
   browser.browse (*fGraceexpressionVoicechunk);
 }
 
-ostream& operator<< (ostream& os, const S_msrGraceexpression& graceexpression)
+ostream& operator<< (ostream& os, const S_msrGraceexpression& elt)
 {
-  graceexpression->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -1839,7 +1932,6 @@ string msrNote::noteAsString () const
 
 ostream& operator<< (ostream& os, const S_msrNote& elt)
 {
-//  if (elt) // JMI JMI
   elt->print (os);
   return os;
 }
@@ -2197,9 +2289,9 @@ void msrChord::browseData (basevisitor* v)
   } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrChord& chrd)
+ostream& operator<< (ostream& os, const S_msrChord& elt)
 {
-  chrd->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -2867,8 +2959,8 @@ void msrPageGeometry::browseData (basevisitor* v)
   */
 }
 
-ostream& operator<< (ostream& os, const S_msrPageGeometry& pap) {
-  pap->print (os);
+ostream& operator<< (ostream& os, const S_msrPageGeometry& elt) {
+  elt->print (os);
   return os;
 }
 
@@ -3022,8 +3114,8 @@ void msrVarValAssoc::acceptOut (basevisitor* v) {
 void msrVarValAssoc::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrVarValAssoc& assoc) {
-  assoc->print (os);
+ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt) {
+  elt->print (os);
   return os;
 }
 
@@ -3124,9 +3216,9 @@ void msrLayout::browseData (basevisitor* v)
   } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrLayout& lay)
+ostream& operator<< (ostream& os, const S_msrLayout& elt)
 {
-  lay->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -3219,9 +3311,9 @@ void msrClef::acceptOut (basevisitor* v) {
 void msrClef::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrClef& clef)
+ostream& operator<< (ostream& os, const S_msrClef& elt)
 {
-  clef->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -3409,9 +3501,9 @@ void msrKey::acceptOut (basevisitor* v) {
 void msrKey::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrKey& key)
+ostream& operator<< (ostream& os, const S_msrKey& elt)
 {
-  key->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -3692,9 +3784,9 @@ void msrWords::acceptOut (basevisitor* v) {
 void msrWords::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrWords& nstf)
+ostream& operator<< (ostream& os, const S_msrWords& elt)
 {
-  nstf->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -3837,9 +3929,9 @@ void msrTempo::acceptOut (basevisitor* v) {
 void msrTempo::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrTempo& nstf)
+ostream& operator<< (ostream& os, const S_msrTempo& elt)
 {
-  nstf->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -3952,9 +4044,9 @@ void msrLyricschunk::acceptOut (basevisitor* v) {
 void msrLyricschunk::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrLyricschunk& lyr)
+ostream& operator<< (ostream& os, const S_msrLyricschunk& elt)
 {
-  lyr->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -4574,9 +4666,9 @@ void msrLyrics::browseData (basevisitor* v)
       "<== msrLyrics::browseData()" << endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrLyrics& stan)
+ostream& operator<< (ostream& os, const S_msrLyrics& elt)
 {
-  stan->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -5452,9 +5544,9 @@ void msrRepeatending::browseData (basevisitor* v)
   browser.browse (*fRepeatendingVoicechunk);
 }
 
-ostream& operator<< (ostream& os, const S_msrRepeatending& rept)
+ostream& operator<< (ostream& os, const S_msrRepeatending& elt)
 {
-  rept->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -5606,9 +5698,9 @@ void msrRepeat::browseData (basevisitor* v)
   } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrRepeat& rept)
+ostream& operator<< (ostream& os, const S_msrRepeat& elt)
 {
-  rept->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -5714,9 +5806,9 @@ void msrUpbeat::acceptOut (basevisitor* v) {
 void msrUpbeat::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrUpbeat& rept)
+ostream& operator<< (ostream& os, const S_msrUpbeat& elt)
 {
-  rept->print (os);
+  elt->print (os);
   return os;
 }
 
@@ -9103,9 +9195,9 @@ void msrMidi::acceptOut (basevisitor* v) {
 void msrMidi::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrMidi& mid)
+ostream& operator<< (ostream& os, const S_msrMidi& elt)
 {
-  mid->print (os);
+  elt->print (os);
   return os;
 }
 
