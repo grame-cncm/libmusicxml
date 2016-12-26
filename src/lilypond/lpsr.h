@@ -60,6 +60,9 @@ class EXP lpsrOptions : public smartable {
     
   public:
   
+    // constructors/destructor
+    // ------------------------------------------------------
+
     lpsrOptions();
     
     virtual ~lpsrOptions();
@@ -108,6 +111,9 @@ class EXP lpsrElement : public msrElement
 
   protected:
          
+    // constructors/destructor
+    // ------------------------------------------------------
+
     lpsrElement (
       S_msrOptions   msrOpts,
       S_lpsrOptions& lpsrOpts, 
@@ -179,6 +185,9 @@ class EXP lpsrParallelMusic : public lpsrElement
 {
   public:
     
+    // data types
+    // ------------------------------------------------------
+
     enum lpsrElementsSeparator { kEndOfLine, kSpace };
 
     // creation from MusicXML
@@ -191,6 +200,9 @@ class EXP lpsrParallelMusic : public lpsrElement
       lpsrElementsSeparator elementsSeparator);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     lpsrParallelMusic (
       S_msrOptions          msrOpts,
@@ -251,6 +263,9 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum lpsrCommentedKind   { kCommented, kUncommented };
     enum lpsrBackslashKind   { kWithBackslash, kWithoutBackslash };
     enum lpsrVarValSeparator { kSpace, kEqualSign };
@@ -278,6 +293,9 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
         lpsrEndlKind        endlKind);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     lpsrLilypondVarValAssoc (
         S_msrOptions&       msrOpts, 
@@ -379,6 +397,9 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum lpsrCommentedKind { kCommented, kUncommented };
     enum lpsrEndlKind      { kWithEndl, kWithEndlTwice, kWithoutEndl };
 
@@ -399,6 +420,9 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
       lpsrEndlKind      endlKind);
     
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     lpsrSchemeVarValAssoc (
       S_msrOptions&     msrOpts, 
@@ -474,6 +498,9 @@ class EXP lpsrComment : public lpsrElement
 {
   public:
     
+    // data types
+    // ------------------------------------------------------
+
     enum lpsrGapKind { kGapAfterwards, kNoGapAfterwards };
 
     // creation from MusicXML
@@ -487,6 +514,9 @@ class EXP lpsrComment : public lpsrElement
       lpsrGapKind    gapKind = kNoGapAfterwards);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     lpsrComment (
       S_msrOptions&  msrOpts, 
@@ -551,6 +581,9 @@ class EXP lpsrBarNumberCheck : public lpsrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     lpsrBarNumberCheck(
           S_msrOptions&     msrOpts, 
       S_lpsrOptions&    lpsrOpts, 
@@ -605,6 +638,9 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
       int            inputLineNumberr);
      
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     lpsrNewStaffgroupBlock (
       S_msrOptions&  msrOpts, 
@@ -664,6 +700,9 @@ class EXP lpsrNewStaffBlock : public lpsrElement
      
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     lpsrNewStaffBlock (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
@@ -722,6 +761,9 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
       S_msrVoice     voice);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     lpsrUseVoiceCommand (
       S_msrOptions&  msrOpts, 
@@ -783,6 +825,9 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
       S_msrVoice     voice);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     lpsrNewLyricsBlock (
       S_msrOptions&  msrOpts, 
@@ -846,6 +891,9 @@ class EXP lpsrVariableUseCommand : public lpsrElement
       string         variableName);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     lpsrVariableUseCommand (
       S_msrOptions&  msrOpts, 
@@ -925,6 +973,9 @@ class EXP lpsrUseLyricsCommand : public lpsrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     lpsrUseLyricsCommand (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
@@ -953,6 +1004,9 @@ class EXP lpsrContext : public lpsrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum lpsrContextKind { kExistingContext, kNewContext };
     
     // creation from MusicXML
@@ -967,6 +1021,9 @@ class EXP lpsrContext : public lpsrElement
       string          contextName);
     
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     lpsrContext (
       S_msrOptions&   msrOpts, 
@@ -1033,6 +1090,9 @@ class EXP lpsrBarCommand : public lpsrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     lpsrBarCommand (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
@@ -1085,6 +1145,9 @@ class EXP lpsrHeader : public lpsrElement
       int            inputLineNumber);
     
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     lpsrHeader (
       S_msrOptions&  msrOpts, 
@@ -1238,6 +1301,9 @@ class EXP lpsrPaper : public msrElement
     
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     lpsrPaper (
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
@@ -1321,6 +1387,9 @@ class EXP lpsrLayout : public lpsrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     lpsrLayout (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts, 
@@ -1392,6 +1461,9 @@ class EXP lpsrStaffBlock : public lpsrElement
       S_msrStaff     staff);
      
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     lpsrStaffBlock (
       S_msrOptions&  msrOpts, 
@@ -1468,6 +1540,9 @@ class EXP lpsrPartBlock : public lpsrElement
      
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     lpsrPartBlock (
       S_msrOptions&  msrOpts, 
       S_lpsrOptions& lpsrOpts,
@@ -1535,6 +1610,9 @@ class EXP lpsrPartgroupBlock : public lpsrElement
       S_msrPartgroup partgroup);
      
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     lpsrPartgroupBlock (
       S_msrOptions&  msrOpts, 
@@ -1604,6 +1682,9 @@ class EXP lpsrScoreBlock : public lpsrElement
       int            inputLineNumber);
      
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     lpsrScoreBlock (
       S_msrOptions&  msrOpts, 
@@ -1690,6 +1771,9 @@ class EXP lpsrScore : public lpsrElement
       S_msrScore     mScore);
      
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     lpsrScore (
       S_msrOptions&  msrOpts, 

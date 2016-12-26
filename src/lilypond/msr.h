@@ -187,6 +187,9 @@ class EXP msrOptions : public smartable
     
   protected:
   
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrOptions();
   
     virtual ~msrOptions();
@@ -509,6 +512,9 @@ class EXP msrOctaveShift : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum msrOctaveShiftKind {
       kOctaveShiftUp, kOctaveShiftDown,
       kOctaveShiftStop};
@@ -523,6 +529,9 @@ class EXP msrOctaveShift : public msrElement
       int                octaveShiftSize);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrOctaveShift (
       S_msrOptions&      msrOpts, 
@@ -576,6 +585,9 @@ class EXP msrStem : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum msrStemKind {
       k_NoStem,
       kStemUp, kStemDown};
@@ -589,6 +601,9 @@ class EXP msrStem : public msrElement
       msrStemKind   stemKind);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrStem (
       S_msrOptions& msrOpts, 
@@ -632,6 +647,9 @@ class EXP msrBeam : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum msrBeamKind {
       k_NoBeam,
       kBeginBeam, kContinueBeam, kEndBeam,
@@ -647,6 +665,9 @@ class EXP msrBeam : public msrElement
       msrBeamKind   beamKind);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrBeam (
       S_msrOptions& msrOpts, 
@@ -698,6 +719,9 @@ class EXP msrArticulation : public msrElement
 {
   public:
     
+    // data types
+    // ------------------------------------------------------
+
     enum msrArticulationKind {
         kStaccato, kStaccatissimo,
         kFermata,
@@ -713,6 +737,9 @@ class EXP msrArticulation : public msrElement
       msrArticulationKind articulationKind);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrArticulation (
       S_msrOptions&       msrOpts, 
@@ -765,6 +792,9 @@ class EXP msrRehearsal : public msrElement
 {
   public:
     
+    // data types
+    // ------------------------------------------------------
+
     enum msrRehearsalKind {
         kNone,
         kRectangle, kOval, kCircle, kBracket, kTriangle, kDiamond };
@@ -779,6 +809,9 @@ class EXP msrRehearsal : public msrElement
       string           rehearsalText);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrRehearsal (
       S_msrOptions&    msrOpts, 
@@ -837,6 +870,9 @@ class EXP msrSlur : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum msrSlurKind { kStartSlur, kContinueSlur, kStopSlur, k_NoSlur };
     
     // creation from MusicXML
@@ -848,6 +884,9 @@ class EXP msrSlur : public msrElement
       msrSlurKind   slurKind);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrSlur (
       S_msrOptions& msrOpts, 
@@ -898,6 +937,9 @@ class EXP msrDynamics : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum msrDynamicsKind {
           kF, kFF, kFFF, kFFFF, kFFFFF, kFFFFFF,
           kP, kPP, kPPP, kPPPP, kPPPPP, kPPPPPP,
@@ -913,6 +955,9 @@ class EXP msrDynamics : public msrElement
       msrDynamicsKind           dynamicsKind);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrDynamics (
       S_msrOptions& msrOpts, 
@@ -965,6 +1010,9 @@ class EXP msrWedge : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum msrWedgeKind
       { kCrescendoWedge, kDecrescendoWedge, kStopWedge };
     
@@ -977,6 +1025,9 @@ class EXP msrWedge : public msrElement
       msrWedgeKind  wedgeKind);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrWedge (
       S_msrOptions& msrOpts, 
@@ -1035,6 +1086,9 @@ class EXP msrVoicechunk : public msrElement
     SMARTP<msrVoicechunk> createVoicechunkBareClone ();
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrVoicechunk (
       S_msrOptions& msrOpts, 
@@ -1113,6 +1167,9 @@ class EXP msrGraceexpression : public msrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrGraceexpression (
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
@@ -1174,6 +1231,9 @@ class EXP msrWords : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum msrWordsPlacementKind {
       kAbove, kBelow};
 
@@ -1191,6 +1251,9 @@ class EXP msrWords : public msrElement
       string                wordsFontXMLLang);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrWords (
       S_msrOptions&         msrOpts, 
@@ -1271,6 +1334,9 @@ class EXP msrNote : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum msrNoteKind {
       k_NoNoteKind,
       kRestNote, 
@@ -1300,6 +1366,9 @@ class EXP msrNote : public msrElement
     
   protected:
  
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrNote (
         S_msrOptions& msrOpts,
         int           inputLineNumber,
@@ -1573,6 +1642,9 @@ class EXP msrChord : public msrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrChord (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
@@ -1703,6 +1775,9 @@ class EXP msrVarValAssoc : public msrElement
     
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrVarValAssoc (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
@@ -1766,6 +1841,9 @@ class EXP msrIdentification : public msrElement
       int            inputLineNumber);
     
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrIdentification (
       S_msrOptions&  msrOpts, 
@@ -1902,6 +1980,9 @@ class EXP msrPageGeometry : public msrElement
     
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrPageGeometry (
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
@@ -1995,6 +2076,9 @@ class EXP msrLayout : public msrElement
     
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrLayout (
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
@@ -2043,6 +2127,9 @@ class EXP msrComment : public msrElement
 {
   public:
     
+    // data types
+    // ------------------------------------------------------
+
     enum msrGapKind { kGapAfterwards, kNoGapAfterwards };
 
     // creation from MusicXML
@@ -2055,6 +2142,9 @@ class EXP msrComment : public msrElement
       msrGapKind    gapKind = kNoGapAfterwards);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrComment (
       S_msrOptions& msrOpts, 
@@ -2116,6 +2206,9 @@ class EXP msrBreak : public msrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrBreak (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
@@ -2173,6 +2266,9 @@ class EXP msrBarCheck : public msrElement
       int           nextBarNumber);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrBarCheck (
       S_msrOptions& msrOpts, 
@@ -2232,6 +2328,9 @@ class EXP msrBarnumberCheck : public msrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrBarnumberCheck (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
@@ -2282,6 +2381,13 @@ class EXP msrTuplet : public msrElement
 {
   public:
     
+    // data types
+    // ------------------------------------------------------
+
+    enum msrTupletKind {
+      kStartTuplet, kContinueTuplet, kStopTuplet, 
+      k_NoTuplet };
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -2295,11 +2401,10 @@ class EXP msrTuplet : public msrElement
 
     SMARTP<msrTuplet> createTupletBareClone ();
 
-    enum msrTupletKind {
-      kStartTuplet, kContinueTuplet, kStopTuplet, 
-      k_NoTuplet };
-
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrTuplet (
       S_msrOptions& msrOpts, 
@@ -2394,7 +2499,10 @@ EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
 class EXP msrClef : public msrElement
 {
   public:
-    
+
+    // data types
+    // ------------------------------------------------------
+
     enum msrClefLineKind {
       kStandardLine,
       kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
@@ -2410,6 +2518,9 @@ class EXP msrClef : public msrElement
       int          octaveChange);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrClef (
       S_msrOptions& msrOpts, 
@@ -2469,6 +2580,9 @@ class EXP msrKey : public msrElement
 {
   public:
     
+    // data types
+    // ------------------------------------------------------
+
     enum msrKeyMode { kMajor, kMinor };
 
     // creation from MusicXML
@@ -2482,6 +2596,9 @@ class EXP msrKey : public msrElement
       int           cancel);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrKey (
       S_msrOptions& msrOpts, 
@@ -2566,6 +2683,9 @@ class EXP msrTime : public msrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrTime (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
@@ -2635,6 +2755,9 @@ class EXP msrTranspose : public msrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrTranspose (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
@@ -2701,6 +2824,9 @@ class EXP msrTempo : public msrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrTempo (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
@@ -2764,6 +2890,9 @@ class EXP msrLyricschunk : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     // we want to end the line in the LilyPond code at a break
     enum msrLyricschunkKind {
       k_NoChunk,
@@ -2788,6 +2917,9 @@ class EXP msrLyricschunk : public msrElement
     SMARTP<msrLyricschunk> createLyricschunkBareClone ();
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrLyricschunk (
       S_msrOptions&      msrOpts, 
@@ -2860,6 +2992,9 @@ class EXP msrLyrics : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum msrLyricsMasterStatus {
        kMasterLyrics, kRegularLyrics };
 
@@ -2877,6 +3012,9 @@ class EXP msrLyrics : public msrElement
       S_msrVoice clonedVoice);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrLyrics (
       S_msrOptions&         msrOpts, 
@@ -3006,6 +3144,9 @@ class EXP msrSegno : public msrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrSegno (
       S_msrOptions&             msrOpts, 
       int                       inputLineNumber);
@@ -3068,6 +3209,9 @@ class EXP msrCoda : public msrElement
       int                       inputLineNumber);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrCoda (
       S_msrOptions&             msrOpts, 
@@ -3132,6 +3276,9 @@ class EXP msrEyeglasses : public msrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrEyeglasses (
       S_msrOptions&             msrOpts, 
       int                       inputLineNumber);
@@ -3186,6 +3333,9 @@ class EXP msrPedal : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum msrPedalType {
       kPedalStart, kPedalContinue, kPedalChange, kPedalStop };
       
@@ -3202,6 +3352,9 @@ class EXP msrPedal : public msrElement
       msrPedalLine pedalLine);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrPedal (
       S_msrOptions&    msrOpts, 
@@ -3302,6 +3455,9 @@ class EXP msrBarline : public msrElement
 >
 */
 
+    // data types
+    // ------------------------------------------------------
+
     enum msrBarlineLocation {
       k_NoLocation,
       kLeft, kMiddle, kRight}; // kRight by default
@@ -3346,6 +3502,9 @@ class EXP msrBarline : public msrElement
       msrBarlineRepeatWinged    repeatWinged);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrBarline (
       S_msrOptions&             msrOpts, 
@@ -3468,6 +3627,9 @@ class EXP msrRepeatending : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum msrRepeatendingKind {
       kHookedEnding,
       kHooklessEnding};
@@ -3487,6 +3649,9 @@ class EXP msrRepeatending : public msrElement
       S_msrRepeat clonedRepeat);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrRepeatending (
       S_msrOptions&       msrOpts, 
@@ -3582,6 +3747,9 @@ class EXP msrRepeat : public msrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrRepeat (
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
@@ -3666,6 +3834,9 @@ class EXP msrUpbeat : public msrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrUpbeat (
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
@@ -3745,6 +3916,9 @@ class EXP msrVoice : public msrElement
       S_msrStaff clonedStaff);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrVoice (
       S_msrOptions& msrOpts, 
@@ -4003,6 +4177,9 @@ class EXP msrStaff : public msrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrStaff (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
@@ -4159,6 +4336,9 @@ class EXP msrPart : public msrElement
       S_msrPartgroup clonedPartgroup);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrPart (
       S_msrOptions&  msrOpts, 
@@ -4346,6 +4526,9 @@ class EXP msrPartgroup : public msrElement
       </part-group>
     */
 
+    // data types
+    // ------------------------------------------------------
+
     enum msrPartgroupTypeKind {
         k_NoPartgroupType,
         kStartPartgroupType, kStopPartgroupType};
@@ -4373,6 +4556,9 @@ class EXP msrPartgroup : public msrElement
       S_msrPartgroup clonedPartgroup); // the uplink
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrPartgroup (
       S_msrOptions&          msrOpts, 
@@ -4507,6 +4693,9 @@ class EXP msrScore : public msrElement
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrScore (
       S_msrOptions& msrOpts, 
       int           inputLineNumber);
@@ -4577,6 +4766,9 @@ class EXP msrMidi : public msrElement
       int                    inputLineNumber);
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrMidi (
       S_msrOptions& msrOpts, 
