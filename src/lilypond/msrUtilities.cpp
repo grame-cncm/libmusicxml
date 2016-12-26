@@ -57,6 +57,8 @@ string int2EnglishWord (int n)
   if (n < 0) {
     s << "Minus_";
     n = -n;
+
+    assert(false); // JMI
   }
 
   if      (n >= 1000) {
@@ -534,15 +536,17 @@ string divisionsAsMSRDuration (
     stringstream s;
     
     s << 
-      "divisions " <<
-        divisions <<
-      ", divisionsPerWholeNote = " <<
-      divisionsPerWholeNote <<
-      ": should be positive" << endl;
+      "### divisionsAsMSRDuration ():" << endl <<
+      "divisionsPerWholeNote = " <<
+      divisionsPerWholeNote << endl <<
+      "divisions = " <<
+      divisions <<
+      ": should be positive 2" <<
+      endl;
       
-    errorMessage = s.str();
+    // JMI errorMessage = s.str();
     
-    return "";
+    return "???";
   }
 
   stringstream s;
@@ -705,11 +709,13 @@ string divisionsAsMSRDuration (
     stringstream s;
     
     s << 
-      "divisions " <<
-        divisions <<
-      ", divisionsPerWholeNote = " <<
-      divisionsPerWholeNote <<
-      ": should be positive" << endl;
+      "### divisionsAsMSRDuration ():" << endl <<
+      "divisionsPerWholeNote = " <<
+      divisionsPerWholeNote << endl <<
+      "divisions = " <<
+      divisions <<
+      ": should be positive 1" <<
+      endl;
       
     errorMessage = s.str();
     
@@ -906,27 +912,28 @@ string divisionsAsMSRDuration (
 int noteTypeAsDivisions (
   string  noteType,
   int     divisionsPerWholeNote,
-  string& errorMessage)
+  string& errorMessage,
+  bool    debugMode)
 {
   int result;
 
-  int divisionsPerQuaterNote = divisionsPerWholeNote / 4;
+  //debugMode = true; // for tests
   
-  if      (noteType == "256th")   { result = divisionsPerQuaterNote / 256; }
-  else if (noteType == "128th")   { result = divisionsPerQuaterNote / 128; } 
-  else if (noteType == "64th")    { result = divisionsPerQuaterNote / 64; } 
-  else if (noteType == "32nd")    { result = divisionsPerQuaterNote / 32; } 
-  else if (noteType == "16th")    { result = divisionsPerQuaterNote / 16; } 
-  else if (noteType == "eighth")  { result = divisionsPerQuaterNote / 8; } 
-  else if (noteType == "quarter") { result = divisionsPerQuaterNote / 4; } 
-  else if (noteType == "half")    { result = divisionsPerQuaterNote / 2; } 
-  else if (noteType == "whole")   { result = divisionsPerQuaterNote / 1; } 
-  else if (noteType == "breve")   { result = divisionsPerQuaterNote * 2; } 
-  else if (noteType == "long")    { result = divisionsPerQuaterNote * 4; }
+  if      (noteType == "256th")   { result = divisionsPerWholeNote / 256; }
+  else if (noteType == "128th")   { result = divisionsPerWholeNote / 128; } 
+  else if (noteType == "64th")    { result = divisionsPerWholeNote / 64; } 
+  else if (noteType == "32nd")    { result = divisionsPerWholeNote / 32; } 
+  else if (noteType == "16th")    { result = divisionsPerWholeNote / 16; } 
+  else if (noteType == "eighth")  { result = divisionsPerWholeNote / 8; } 
+  else if (noteType == "quarter") { result = divisionsPerWholeNote / 4; } 
+  else if (noteType == "half")    { result = divisionsPerWholeNote / 2; } 
+  else if (noteType == "whole")   { result = divisionsPerWholeNote / 1; } 
+  else if (noteType == "breve")   { result = divisionsPerWholeNote * 2; } 
+  else if (noteType == "long")    { result = divisionsPerWholeNote * 4; }
   else {
     stringstream s;
     
-    s << 
+    s <<
       endl << 
       "--> unknown tuplet member type " << noteType <<
       endl;
@@ -935,6 +942,14 @@ int noteTypeAsDivisions (
 
    return 0;
   }
+
+  if (debugMode)
+    cerr << endl <<
+      "% --> noteTypeAsDivisions ()" << endl <<
+      "% noteType = " << noteType << endl <<
+      "divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
+      "result = " << result << endl <<
+      endl;
 
   return result;
 }

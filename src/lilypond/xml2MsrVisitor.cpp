@@ -1858,10 +1858,12 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
       cerr <<
         idtr <<
           "--> fCurrentNoteVoiceNumber        = " <<
-          fCurrentNoteVoiceNumber << endl <<
+          fCurrentNoteVoiceNumber <<
+          endl <<
         idtr <<
           "--> S_voice, fCurrentNoteStaffNumber = " <<
-          fCurrentNoteStaffNumber << endl <<
+          fCurrentNoteStaffNumber <<
+          endl <<
         idtr <<
           "--> S_voice, current staff name  = " <<
           staff->getStaffName() <<
@@ -2006,7 +2008,15 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
       endl;
 
 //  currentVoice->handleForward (fCurrentForwardDuration); // JMI
-
+/* JMI
+  currentVoice->
+    catchupToMeasureLocation (
+      inputLineNumber,
+      divisionsPerWholeNote,
+      measureLocation);
+        */
+                    
+/* JMI
   for (int i = 0; i < fCurrentForwardDuration; i++) {
     // generate rests for the duration of the forward move
     int restDivisions = 1;
@@ -2036,6 +2046,7 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
     currentVoice->incrementPositionInMeasure (
       restDivisions);
   } // for
+  */
   
   fOnGoingForward = false;
 }
@@ -2212,7 +2223,7 @@ void xml2MsrVisitor::visitEnd ( S_text& elt )
     text.begin(), text.end(), stringSpaceRemover (dest));
 
   if (fCurrentElision)
-    fCurrentText += " "+dest;
+    fCurrentText += " " + dest;
   else
     fCurrentText = dest;
 
@@ -3414,6 +3425,8 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
   // assuming voice number 1, unless S_voice states otherwise afterwards
   fCurrentVoiceNumber = 1;
 
+  fCurrentNoteType = "";
+
   fCurrentSyllabic = "";
   fCurrentText = "";  
   // assume this note hasn't got lyrics until S_lyric is met
@@ -3431,6 +3444,7 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
 
   fCurrentNoteStaffNumber = 1; // it may be absent
   fCurrentNoteVoiceNumber = 1; // it may be absent
+  
   fOnGoingNote = true;
 }
 
@@ -4799,19 +4813,21 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
         fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
 
-// JMI  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     cerr <<
       idtr <<
-      "!!!! BEFORE visitEnd (S_note&) we have:" << endl <<
+      "!!!! BEFORE visitEnd (S_note&) we have:" <<
+        endl <<
+      idtr <<
+        setw(27) << "--> fCurrentNoteStaffNumber" << " = " <<
+        fCurrentNoteStaffNumber <<
+        endl <<
       idtr << idtr <<
-        "--> fCurrentNoteStaffNumber = " <<
-        fCurrentNoteStaffNumber << endl <<
-      idtr << idtr <<
-        "--> fCurrentNoteVoiceNumber = " <<
+        setw(27) << "--> fCurrentNoteVoiceNumber" << " = " <<
         fCurrentNoteVoiceNumber <<
-      idtr << idtr <<
-        "--> current voice  = \"" <<
+        endl <<
+      idtr <<
+        setw(27) << "--> current voice" << " = \"" <<
         currentVoice->getVoiceName () << "\"" <<
         endl <<
       endl;
@@ -4847,7 +4863,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       noteTypeAsDivisions (
         fCurrentNoteType,
         divisionsPerWholeNote,
-        errorMessage);
+        errorMessage,
+        false); // 'true' to debug it
 
     if (errorMessage.size ())
       msrMusicXMLError (
@@ -4940,15 +4957,17 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
         "!!!! AFTER visitEnd (S_note&) " <<
         note->notePitchAsString () <<
         " we have:" <<
-      endl <<
+        endl <<
       idtr << idtr <<
-        "--> fCurrentNoteStaffNumber = " <<
-        fCurrentNoteStaffNumber << endl <<
+        setw(27) << "--> fCurrentNoteStaffNumber" << " = " <<
+        fCurrentNoteStaffNumber <<
+        endl <<
       idtr << idtr <<
-        "--> fCurrentNoteVoiceNumber = " <<
+        setw(27) << "--> fCurrentNoteVoiceNumber" << " = " <<
         fCurrentNoteVoiceNumber <<
+        endl <<
       idtr << idtr <<
-        "--> current voice  = \"" <<
+        setw(27) << "--> current voice" << " = \"" <<
         currentVoice->getVoiceName () << "\"" <<
         endl <<
       endl;
@@ -5200,7 +5219,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     if (fCurrentGraceexpression)
       cerr << fCurrentGraceexpression;
     else
-      cerr << "NULL";
+      cerr << "NULL"; // JMI
 
     cerr <<
       endl <<
@@ -5371,27 +5390,26 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
   int inputLineNumber =
     newNote->getInputLineNumber ();
      
- // JMI if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
-    
+  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {    
     cerr <<
       endl <<
       idtr <<
         "Handling lyrics" <<
-        ", line = " << inputLineNumber <<
-        " with:" << endl <<
-        fNoteData;
+        ", line = " << inputLineNumber << ", with:" <<
+        endl;
 
     idtr++;
-    
+
     cerr <<
+      fNoteData <<
+        
       idtr <<
-        setw(38) << "fCurrentText" << " = \"" << fCurrentText <<
+        setw(27) << "fCurrentText" << " = \"" << fCurrentText <<
         "\":" << fNoteData.fDivisions << ", " << endl <<
       idtr <<
-        setw(38) << "fCurrentElision" << " = " << fCurrentElision << endl <<
+        setw(27) << "fCurrentElision" << " = " << fCurrentElision << endl <<
       idtr <<
-        setw(38) << "fNoteData.fStepIsARest" << " = ";
+        setw(27) << "fNoteData.fStepIsARest" << " = ";
     if (fNoteData.fStepIsARest)
       cerr << "true";
     else
@@ -5400,13 +5418,13 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 
     cerr <<
       idtr <<
-        setw(38) << "fCurrentTieKind" << " = " <<
+        setw(27) << "fCurrentTieKind" << " = " <<
         msrTie::tieKindAsString (fCurrentTieKind) <<
       endl;
         
     cerr <<
       idtr <<
-        setw(38) << "fCurrentSlurKind" << " = \"";
+        setw(27) << "fCurrentSlurKind" << " = \"";
     switch (fCurrentSlurKind) {
       case msrSlur::kStartSlur:
         cerr << "start";
@@ -5425,23 +5443,23 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 
     cerr <<
       idtr <<
-        setw(38) <<
+        setw(27) <<
         "fOnGoingSlur" << " = " << fOnGoingSlur <<
         endl <<
       idtr <<
-        setw(38) <<
+        setw(27) <<
         "fOnGoingSlurHasLyrics" << " = " << fOnGoingSlurHasLyrics <<
         endl;
 
     cerr <<
       idtr <<
-        setw(38) << "fFirstLyricschunkInSlurKind" << " = \"" <<
+        setw(27) << "fFirstLyricschunkInSlurKind" << " = \"" <<
         fFirstLyricschunkInSlurKind << // JMI->lyricschunkKindAsString () <<
         "\"" << endl;
 
     cerr <<
       idtr <<
-        setw(38) << "fCurrentLyricschunkKind" << " = \""<<
+        setw(27) << "fCurrentLyricschunkKind" << " = \""<<
         fCurrentLyricschunkKind << // JMI ->lyricschunkKindAsString () <<
         "\"" << endl;
         

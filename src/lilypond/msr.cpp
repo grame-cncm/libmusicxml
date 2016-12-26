@@ -166,58 +166,54 @@ msrNoteData::msrNoteData ()
 void msrNoteData::print (ostream& os)
 {
   os <<
-    idtr << "  " << left <<
+    idtr << left <<
       setw(29) <<
       "fStep" << " = " << fStep <<
       endl <<
-    idtr << "  " << left <<
+    idtr << left <<
       setw(29) << "fStepIsARest" << " = " <<
       fStepIsARest <<
       endl <<
-    idtr << "  " << left <<
+    idtr << left <<
       setw(29) << "fAlteration" << " = " <<
       fAlteration <<
       endl <<
-    idtr << "  " << left <<
+    idtr << left <<
       setw(29) << "fOctave" << " = " <<
       fOctave <<
       endl <<
-    idtr << "  " << left <<
+    idtr << left <<
       setw(29) << "fDivisions" << " = " <<
       fDivisions <<
       endl <<
-    idtr << "  " << left <<
+    idtr << left <<
       setw(29) << "fDisplayDivisions" << " = " <<
       fDisplayDivisions <<
       endl <<
-    idtr << "  " << left <<
+    idtr << left <<
       setw(29) << "fDotsNumber" << " = " <<
       fDotsNumber <<
       endl <<
-      
-//    idtr << endl <<
-    
-    idtr << "  " << left <<
-      setw(29) << "fNoteBelongsToAChord" << " = " <<
-      fNoteBelongsToAChord <<
-      endl <<
-      
-//    idtr << endl <<
-    
-    idtr << "  " << left <<
-      setw(29) << "fNoteBelongsToATuplet" << " = " <<
-      fNoteBelongsToATuplet <<
-      endl <<
-    idtr << "  " << left <<
+    idtr << left <<
       setw(29) << "fType" << " = " <<
       fType <<
       endl <<
       
-//    idtr << endl <<
-    
-    idtr << "  " << left <<
+    idtr << left <<
+      setw(29) << "fNoteBelongsToAChord" << " = " <<
+      fNoteBelongsToAChord <<
+      endl <<
+          
+    idtr << left <<
+      setw(29) << "fNoteBelongsToATuplet" << " = " <<
+      fNoteBelongsToATuplet <<
+      endl <<
+          
+    idtr << left <<
       setw(29) << "fStaffNumber" << " = " <<
       fStaffNumber <<
+      endl <<
+    idtr <<
       setw(29) << "fVoiceNumber" << " = " <<
       fVoiceNumber <<
       endl;
@@ -228,8 +224,8 @@ void msrNoteData::print (ostream& os)
 void msrBeatData::print (ostream& os)
 {
   os <<
-    "  " << left << setw(26) << "fBeatUnit = " << fBeatUnit <<  endl <<
-    "  " << left << setw(26) << "fDots = " << fDots <<  endl;
+    left << setw(26) << "fBeatUnit = " << fBeatUnit <<  endl <<
+    left << setw(26) << "fDots = " << fDots <<  endl;
 };
 
 //______________________________________________________________________________
@@ -4246,7 +4242,7 @@ string msrLyrics::getLyricsName () const
   string
     lyricsNameSuffix =
       fLyricsMasterStatus == kMasterLyrics
-        ? "Master"
+        ? "MASTER"
         : int2EnglishWord (fLyricsNumber);
         
   return
@@ -6076,7 +6072,8 @@ void msrVoice::catchupToMeasureLocation (
     * 
    */
 
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) { JMI
+  if (fMsrOptions->fDebug) {
     cerr <<
       endl <<
       idtr << left <<
@@ -6486,7 +6483,7 @@ S_msrLyrics msrVoice::addLyricsToVoice (
         this);
 
   // register it in this voice
-  if (fMsrOptions->fTrace)
+  if (fMsrOptions->fForceDebug || fMsrOptions->fTrace)
     cerr << idtr <<
       "Adding lyrics " << lyrics->getLyricsName () <<
       " (" << lyricsNumber <<
@@ -6814,13 +6811,13 @@ void msrVoice::addSkipLyricschunkToVoice (
     cerr << idtr <<
       "--> Adding skip lyrics chunk"
       ", line " << inputLineNumber <<
-      ", divisions = " << divisions;
+      ", divisions = " << divisions <<
 
 /*
     string lyricschunkKindAsString =
       lyricschunkAsString ();
   */
-    cerr <<
+
 //      ", type = \"" << lyricschunkKindAsString << "\"" <<
 //      ", elision: " << elision <<
 //      " in lyrics " << lyricsNumber <<
@@ -6867,20 +6864,19 @@ void msrVoice::addTiedLyricschunkToVoice (
 //    S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding skip lyrics chunk"
+      "--> Adding tied lyrics chunk"
       ", line " << inputLineNumber <<
       ", divisions = " << divisions <<
-      endl;
 
 /*
     string lyricschunkKindAsString =
       lyricschunkAsString ();
   */
-    cerr <<
 //      ", type = \"" << lyricschunkKindAsString << "\"" <<
 //      ", elision: " << elision <<
 //      " in lyrics " << lyricsNumber <<
-      " in voice " << getVoiceName () << endl;
+      " in voice " << getVoiceName () <<
+      endl;
   }
 
   // is lyrics fCurrentLyricsNumber present in this voice?
@@ -6937,7 +6933,8 @@ void msrVoice::addSlurLyricschunkToVoice (
 //      ", type = \"" << lyricschunkKindAsString << "\"" <<
 //      ", elision: " << elision <<
       " in lyrics " << lyricsNumber <<
-      " in voice " << getVoiceName () << endl;
+      " in voice " << getVoiceName () <<
+      endl;
   }
 
   // is lyrics fCurrentLyricsNumber present in this voice?
