@@ -582,10 +582,9 @@ class EXP xml2MsrVisitor :
   
     // metronome handling
     // ------------------------------------------------------
-    vector<musicXMLBeatData>
-                              fBeatsData; // JMI
+    vector<msrBeatData>       fBeatsData; // JMI
     int                       fPerMinute;
-    musicXMLBeatData          fCurrentBeat;
+    msrBeatData               fCurrentBeat;
     bool                      fParentheses;
     S_msrWords                fCurrentWords;
     S_msrTempo                fCurrentTempo;

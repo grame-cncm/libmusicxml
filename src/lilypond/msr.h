@@ -323,6 +323,9 @@ class EXP msrElement : public smartable
 
     virtual void browseData (basevisitor* v) = 0;
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
     
   protected:
@@ -403,6 +406,9 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
 
     */
   
+    // data types
+    // ------------------------------------------------------
+
     enum msrDiatonicPitch {
       // starting at C for LilyPond relative octave calculations
       kC, kD, kE, kF, kG, kA, kB}; // JMI, k_NoDiatonicPitch};
@@ -416,9 +422,18 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
         k_NoTie,
         kStartTie, kContinueTie, kStopTie};
         
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrNoteData ();
 
-    string        musicXMLTieKindAsString () const;
+    // services
+    // ------------------------------------------------------
+
+    string        tieKindAsString () const;
+
+    // print
+    // ------------------------------------------------------
 
     virtual void  print (ostream& os);
  
@@ -467,10 +482,13 @@ EXP ostream& operator<< (ostream& os, msrNoteData& elt);
 \brief A beat description for MusicXML.
 */
 //______________________________________________________________________________
-class musicXMLBeatData // JMI ???
+class msrBeatData // JMI ???
 {
   public:
   
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
  
   public:
@@ -538,6 +556,9 @@ class EXP msrOctaveShift : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -593,6 +614,9 @@ class EXP msrStem : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -650,6 +674,9 @@ class EXP msrBeam : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -715,6 +742,9 @@ class EXP msrArticulation : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -783,6 +813,9 @@ class EXP msrRehearsal : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -842,6 +875,9 @@ class EXP msrSlur : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -907,6 +943,9 @@ class EXP msrDynamics : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -965,6 +1004,9 @@ class EXP msrWedge : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -1035,6 +1077,9 @@ class EXP msrVoicechunk : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -1104,6 +1149,9 @@ class EXP msrGraceexpression : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -1192,6 +1240,9 @@ class EXP msrWords : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -1462,6 +1513,9 @@ class EXP msrNote : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -1600,6 +1654,9 @@ class EXP msrChord : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -1677,6 +1734,9 @@ class EXP msrVarValAssoc : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -1802,6 +1862,9 @@ class EXP msrIdentification : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -1888,6 +1951,9 @@ class EXP msrPageGeometry : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
 
@@ -1954,6 +2020,9 @@ class EXP msrLayout : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -2014,6 +2083,9 @@ class EXP msrComment : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -2070,6 +2142,9 @@ class EXP msrBreak : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -2125,6 +2200,9 @@ class EXP msrBarCheck : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -2179,6 +2257,9 @@ class EXP msrBarnumberCheck : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -2280,6 +2361,9 @@ class EXP msrTuplet : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -2361,6 +2445,9 @@ class EXP msrClef : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -2439,6 +2526,9 @@ class EXP msrKey : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
   
   private:
@@ -2511,6 +2601,9 @@ class EXP msrTime : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -2573,6 +2666,9 @@ class EXP msrTranspose : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -2641,6 +2737,9 @@ class EXP msrTempo : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -2733,6 +2832,9 @@ class EXP msrLyricschunk : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -2865,6 +2967,9 @@ class EXP msrLyrics : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -2932,6 +3037,9 @@ class EXP msrSegno : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -2992,6 +3100,9 @@ class EXP msrCoda : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -3051,6 +3162,9 @@ class EXP msrEyeglasses : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -3132,6 +3246,9 @@ class EXP msrPedal : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -3312,6 +3429,9 @@ class EXP msrBarline : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -3417,6 +3537,9 @@ class EXP msrRepeatending : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -3500,6 +3623,9 @@ class EXP msrRepeat : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -3574,6 +3700,9 @@ class EXP msrUpbeat : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -3806,6 +3935,9 @@ class EXP msrVoice : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -3971,6 +4103,9 @@ class EXP msrStaff : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -4152,6 +4287,9 @@ class EXP msrPart : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -4314,6 +4452,9 @@ class EXP msrPartgroup : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -4402,6 +4543,9 @@ class EXP msrScore : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -4455,6 +4599,9 @@ class EXP msrMidi : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 

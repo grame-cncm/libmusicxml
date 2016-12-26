@@ -1599,7 +1599,7 @@ void xml2MsrVisitor::visitEnd ( S_metronome& elt )
     return;
   }
 
-  musicXMLBeatData b = fBeatsData[0];
+  msrBeatData b = fBeatsData[0];
   rational         r = 
     NoteType::type2rational(
       NoteType::xml (b.fBeatUnit)), rdot(3,2);
@@ -3476,23 +3476,23 @@ void xml2MsrVisitor::visitStart ( S_octave& elt)
 
 void xml2MsrVisitor::visitStart ( S_duration& elt )
 {
-  int musicXMLduration = (int)(*elt);
+  int duration = (int)(*elt);
 
   if      (fOnGoingBackup) {
   
-    fCurrentBackupDuration = musicXMLduration;
+    fCurrentBackupDuration = duration;
 
   }
   
   else if (fOnGoingForward) {
   
-    fCurrentForwardDuration = musicXMLduration;
+    fCurrentForwardDuration = duration;
     
   }
   
   else if (fOnGoingNote) {
   
-    fNoteData.fDivisions = musicXMLduration;
+    fNoteData.fDivisions = duration;
     
     // all notes have their fDisplayDivisions
     // set to fNoteData.fDivision,
@@ -3505,7 +3505,7 @@ void xml2MsrVisitor::visitStart ( S_duration& elt )
     
     stringstream s;
     
-    s << "duration " << musicXMLduration << " is out of context";
+    s << "duration " << duration << " is out of context";
     
  // JMI   msrMusicXMLError (s.str());
     msrMusicXMLWarning (
@@ -5386,7 +5386,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
     cerr <<
       idtr <<
         setw(38) << "fNoteData.fTieKind" << " = " <<
-        fNoteData.musicXMLTieKindAsString () <<
+        fNoteData.tieKindAsString () <<
       endl;
         
     cerr <<

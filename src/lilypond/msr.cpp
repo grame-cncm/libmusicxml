@@ -158,7 +158,7 @@ msrNoteData::msrNoteData ()
   fVoiceNumber = -1;
 }
 
-string msrNoteData::musicXMLTieKindAsString () const
+string msrNoteData::tieKindAsString () const
 {
   string result;
   
@@ -242,7 +242,7 @@ void msrNoteData::print (ostream& os)
 
 
 //______________________________________________________________________________
-void musicXMLBeatData::print (ostream& os)
+void msrBeatData::print (ostream& os)
 {
   os <<
     "  " << left << setw(26) << "fBeatUnit = " << fBeatUnit <<  endl <<
@@ -1342,7 +1342,7 @@ msrNote::msrNote (
 
   // flat or sharp,possibly semi- or sesqui-?
   msrNoteData::msrAlterationKind
-    musicXMLAlterationKind; // JMI
+    alterationKind; // JMI
 
 //   if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
   if (fMsrOptions->fDebugDebug) {
@@ -1824,7 +1824,7 @@ string msrNote::noteAsString () const
       !=
     msrNoteData::k_NoTie ) {
       s <<
-        ", " << fNoteData.musicXMLTieKindAsString ();
+        ", " << fNoteData.tieKindAsString ();
   }
 
   return s.str();

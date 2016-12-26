@@ -37,10 +37,6 @@ namespace MusicXML2
   The classes in this file implement the
   
               LPSR (LilyPond Semantic Representation)
-              
-    - the base class is lpsrElement, derived from msrElement
-    - the lpsrElement tree can be converted to:
-        - a text description with         print()
 */
 
 //______________________________________________________________________________
@@ -233,6 +229,9 @@ class EXP lpsrParallelMusic : public lpsrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -352,6 +351,9 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -442,6 +444,9 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -512,6 +517,9 @@ class EXP lpsrComment : public lpsrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -567,6 +575,9 @@ class EXP lpsrBarNumberCheck : public lpsrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -620,6 +631,9 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -676,6 +690,9 @@ class EXP lpsrNewStaffBlock : public lpsrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -731,6 +748,9 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -792,6 +812,9 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -848,6 +871,9 @@ class EXP lpsrVariableUseCommand : public lpsrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -891,6 +917,9 @@ class EXP lpsrUseLyricsCommand : public lpsrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -968,6 +997,9 @@ class EXP lpsrContext : public lpsrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -1023,6 +1055,9 @@ class EXP lpsrBarCommand : public lpsrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -1163,6 +1198,9 @@ class EXP lpsrHeader : public lpsrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -1241,6 +1279,9 @@ class EXP lpsrPaper : public msrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
 
@@ -1317,6 +1358,9 @@ class EXP lpsrLayout : public lpsrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -1390,6 +1434,9 @@ class EXP lpsrStaffBlock : public lpsrElement
 
     virtual void browseData (basevisitor* v);
 
+    // print
+    // ------------------------------------------------------
+
     virtual void print (ostream& os);
 
   private:
@@ -1454,6 +1501,9 @@ class EXP lpsrPartBlock : public lpsrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -1520,6 +1570,9 @@ class EXP lpsrPartgroupBlock : public lpsrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -1598,6 +1651,9 @@ class EXP lpsrScoreBlock : public lpsrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
@@ -1720,6 +1776,9 @@ class EXP lpsrScore : public lpsrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
 
     virtual void print (ostream& os);
 
