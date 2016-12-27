@@ -1331,7 +1331,7 @@ S_msrNote msrNote::createNoteBareClone ()
 
   clone->fNoteDivisionsPerWholeNote = fNoteDivisionsPerWholeNote;
   
-  clone->fNoteMeasureLocation = fNoteMeasureLocation;  
+//  clone->fNoteMeasureLocation = fNoteMeasureLocation;  
 
   return clone;
 }
@@ -1909,7 +1909,7 @@ void msrNote::print (ostream& os)
 {
   rational
     position (
-      fNoteMeasureLocation.fPositionInMeasure,
+    3, // JMI  fNoteMeasureLocation.fPositionInMeasure,
       fNoteDivisionsPerWholeNote);
 
   position.rationalise ();
@@ -1945,13 +1945,13 @@ void msrNote::print (ostream& os)
     "/" <<
     fNoteDivisionsPerWholeNote <<
     ") @"<<
-    fNoteMeasureLocation.fMeasureNumber <<
+ 3 << // JMI   fNoteMeasureLocation.fMeasureNumber <<
     ":" <<
     position.getNumerator() <<
     "/" <<
     position.getDenominator() <<
     " (" <<
-    fNoteMeasureLocation.fPositionInMeasure <<
+ 7 << // JMI   fNoteMeasureLocation.fPositionInMeasure <<
     "/" <<
     fNoteDivisionsPerWholeNote <<
     ")" <<
@@ -6139,11 +6139,12 @@ msrVoice::msrVoice (
   
   fVoiceActualNotesCounter = 0;
 
+/* JMI
   // get measure location from staff uplink
   fVoiceMeasureLocation =
     fVoiceStaffUplink->
       getStaffMeasureLocation ();
-  
+ */ 
   // fetch voice master from staff uplink
   fVoiceVoicemaster =
     fVoiceStaffUplink -> getStaffVoicemaster ();
@@ -6271,9 +6272,6 @@ string msrVoice::getVoiceName () const
     int2EnglishWord (voiceNumber);
 }
 
-void msrVoice::handleForward (int duration)
-{} // JMI ???
-
 void msrVoice::catchupToMeasureLocation (
   int                       inputLineNumber,
   int                       divisionsPerWholeNote,
@@ -6386,6 +6384,7 @@ void msrVoice::catchupToMeasureLocation (
   }
 }
 
+/*
 void msrVoice::setVoiceMeasureLocation (
   int                       inputLineNumber,
   const msrMeasureLocation& measureLocation)
@@ -6465,10 +6464,13 @@ void msrVoice::setVoiceMeasureLocation (
   // register voice new measure number
   fVoiceMeasureLocation = measureLocation;
 }
+*/
 
-void msrVoice::setMeasureNumber (
+void msrVoice::setVoiceMeasureNumber (
   int inputLineNumber, int measureNumber)
 {
+  fVoiceMeasureNumber = measureNumber;
+  
   enum voiceAnacrusisKind {
       k_NoAnacrusis, kExplicitAnacrusis, kImplicitAnacrusis };
 
@@ -6614,7 +6616,6 @@ void msrVoice::setMeasureNumber (
   
   
   if (anacrusisKind != k_NoAnacrusis) {
-    int    computedNumberOfDots; // value not used
     string errorMessage;
     
     anacrusisDivisions = getVoicePositionInMeasure () - 1 ;
@@ -7634,11 +7635,12 @@ msrStaff::msrStaff (
     fStaffPartUplink->
       getPartDivisionsPerWholeNote ();
 
+/*
   // get measure location from part uplink
   fStaffMeasureLocation =
     fStaffPartUplink->
       getPartMeasureLocation ();
-  
+  */
   // fetch voice master from part uplink
   fStaffVoicemaster =
     fStaffPartUplink->getPartVoicemaster ();
@@ -7759,6 +7761,19 @@ void msrStaff::setAllStaffVoicesDivisionsPerWholeNote (int divisions)
   } // for
 }
 
+void msrStaff::setStaffMeasureNumber (
+  int inputLineNumber,
+  int measureNumber)
+{
+  // set part measure location
+  fStaffMeasureNumber = measureNumber;
+
+  // propagate it to all staves
+  setAllStaffVoicesMeasureNumber (
+    inputLineNumber, measureNumber);  
+}
+
+/*
 void msrStaff::setStaffMeasureLocation (
   int                       inputLineNumber,
   const msrMeasureLocation& measureLocation)
@@ -7782,6 +7797,21 @@ void msrStaff::setAllStaffVoicesMeasureLocation (
     (*i).second->
       setVoiceMeasureLocation (
         inputLineNumber, measureLocation);
+  } // for
+}
+*/
+
+void msrStaff::setAllStaffVoicesMeasureNumber (
+  int inputLineNumber,
+  int measureNumber)
+{
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    (*i).second->
+      setVoiceMeasureNumber (
+        inputLineNumber, measureNumber);
   } // for
 }
 
@@ -8300,6 +8330,7 @@ void msrPart::setAllPartStavesDivisionsPerWholeNote (int divisions)
   } // for
 }
 
+/*
 void msrPart::setAllPartStavesMeasureLocation (
   int                       inputLineNumber,
   const msrMeasureLocation& measureLocation)
@@ -8310,6 +8341,20 @@ void msrPart::setAllPartStavesMeasureLocation (
     i++) {
     (*i).second->setStaffMeasureLocation (
       inputLineNumber, measureLocation);
+  } // for
+}
+*/
+
+void msrPart::setAllPartStavesMeasureNumber (
+  int inputLineNumber,
+  int measureNumber)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->setStaffMeasureNumber (
+      inputLineNumber, measureNumber);
   } // for
 }
 

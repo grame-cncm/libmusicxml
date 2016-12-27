@@ -1920,7 +1920,7 @@ void xml2MsrVisitor::visitEnd (S_backup& elt )
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
-
+/* JMI
   int
     saveCurrentPositionInMeasure =
       currentVoice->
@@ -1946,6 +1946,7 @@ void xml2MsrVisitor::visitEnd (S_backup& elt )
       inputLineNumber,
       s.str());
   }
+  */
   
   fOnGoingBackup = false;
 }
@@ -2398,7 +2399,7 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
             fMsrOptions,
             inputLineNumber,
             currentVoice->
-              getVoiceMeasureLocation ().fMeasureNumber);
+              getVoiceMeasureNumber ());
             
       // append it to the voice
 // JMI      S_msrElement bnc = barnumbercheck_;
@@ -2418,7 +2419,7 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
             fMsrOptions,
             inputLineNumber,
             currentVoice->
-              getVoiceMeasureLocation ().fMeasureNumber);
+              getVoiceMeasureNumber ());
   
       // append it to the voice
       currentVoice->
@@ -2711,12 +2712,13 @@ void xml2MsrVisitor::visitStart ( S_segno& elt )
         msrSegno::create (
           fMsrOptions,
           inputLineNumber);
-  
+  /*
     // set the segno measure location
     segno->
       setSegnoMeasureLocation (
-        currentVoice->getVoiceMeasureLocation ());
-
+        currentVoice->
+          getVoiceMeasureNumber ());
+*/
     // append it to the current voice
     currentVoice->
       appendSegnoToVoice (segno);
@@ -2747,12 +2749,12 @@ void xml2MsrVisitor::visitStart ( S_coda& elt )
         msrCoda::create (
           fMsrOptions,
           inputLineNumber);
-  
+  /*
     // set the coda measure location
     coda->
       setCodaMeasureLocation (
         currentVoice->getVoiceMeasureLocation ());
-
+*/
     // append it to the current voice
     currentVoice->
       appendCodaToVoice (coda);
@@ -2783,12 +2785,12 @@ void xml2MsrVisitor::visitStart ( S_eyeglasses& elt )
         msrEyeglasses::create (
           fMsrOptions,
           inputLineNumber);
-  
+  /*
     // set the eyeglasses measure location
     eyeglasses->
       setEyeglassesMeasureLocation (
         currentVoice->getVoiceMeasureLocation ());
-
+*/
     // append it to the current voice
     currentVoice->
       appendEyeglassesToVoice (eyeglasses);
@@ -2888,12 +2890,12 @@ void xml2MsrVisitor::visitStart ( S_pedal& elt )
           inputLineNumber,
           pedalType,
           pedalLine);
-  
+  /*
     // set the pedal measure location
     pedal->
       setPedalMeasureLocation (
         currentVoice->getVoiceMeasureLocation ());
-
+*/
     // append it to the current voice
     currentVoice->
       appendPedalToVoice (pedal);
@@ -3032,12 +3034,12 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentBarlineEndingNumber,
         fCurrentBarlineRepeatDirection,
         fCurrentBarlineRepeatWinged);
-
+/*
   // set the barline measure location
   barline->
     setBarlineMeasureLocation (
       currentVoice->getVoiceMeasureLocation ());
-
+*/
   // don't display the barline yet in case of debug,
   // wait until its category is defined
   // to append the barline to the current voice chunk
@@ -4198,11 +4200,13 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
   chord->
     setChordDivisionsPerWholeNote (
       firstNote-> getNoteDivisionsPerWholeNote ());
-  
+
+  /*
   // chord's location is that of its first note
   chord->
     setChordMeasureLocation (
       firstNote->getNoteMeasureLocation ());
+*/
 
   // chord's tie kind is that of its first note
   chord->
@@ -4927,11 +4931,11 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   if (fCurrentBeam)
     note->
       setNoteBeam (fCurrentBeam);
-
+/*
   // set its location
   note->setNoteMeasureLocation (
     currentVoice->getVoiceMeasureLocation ());
-
+*/
   // attach the articulations if any to the note
   attachCurrentArticulationsToNote (note);
 
@@ -5059,12 +5063,13 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
       " as a member of current chord" << endl;
   fCurrentChord->
     addNoteToChord (newNote);
-    
+
+    /*
   // a chord member's measure location is that of the chord
   newNote->
     setNoteMeasureLocation (
       fCurrentChord->getChordMeasureLocation ());
-
+*/
   // copy newNote's articulations if any to the chord
   copyNoteArticulationsToChord (newNote, fCurrentChord);
 

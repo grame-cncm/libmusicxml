@@ -4188,12 +4188,12 @@ class EXP msrVoice : public msrElement
                       }
           
     // measure number
-    void          setPartMeasureNumber (
+    void          setVoiceMeasureNumber (
                     int inputLineNumber,
                     int measureNumber);
                       
- // JMI  const int     getPartMeasureNumber () const
-  //                    { return fPartMeasureNumber; }
+    const int     getVoiceMeasureNumber () const
+                      { return fVoiceMeasureNumber; }
 
     // voice master
     const S_msrVoice
@@ -4313,6 +4313,8 @@ class EXP msrVoice : public msrElement
     S_msrTime                 fVoiceTime;
 
     msrMeasureLocation        fVoiceMeasureLocation;
+
+    int                       fVoiceMeasureNumber;
     
     S_msrVoice                fVoiceVoicemaster;
 
@@ -4427,8 +4429,8 @@ class EXP msrStaff : public msrElement
                     int inputLineNumber,
                     int measureNumber);
                       
-// JMI    const int     getPartMeasureNumber () const
-      //                { return fPartMeasureNumber; }
+    const int     getPartMeasureNumber () const
+                      { return fStaffMeasureNumber; }
 
     // voice master
     const S_msrVoice
@@ -4441,6 +4443,10 @@ class EXP msrStaff : public msrElement
     void        setAllStaffVoicesDivisionsPerWholeNote (
                   int divisions);
 
+    void        setAllStaffVoicesMeasureNumber (
+                  int inputLineNumber,
+                  int measureNumber);
+  
     void        setAllStaffVoicesMeasureLocation (
                   int                       inputLineNumber,
                   const msrMeasureLocation& measureLocation);
@@ -4486,6 +4492,8 @@ class EXP msrStaff : public msrElement
     int                     fStaffDivisionsPerWholeNote;    
 
     msrMeasureLocation      fStaffMeasureLocation;
+    int                     fStaffMeasureNumber;
+    
     S_msrVoice              fStaffVoicemaster;
 
     S_msrClef               fStaffClef;
@@ -4624,6 +4632,10 @@ class EXP msrPart : public msrElement
     void          setAllPartStavesDivisionsPerWholeNote (
                     int divisions);
     
+    void          setAllPartStavesMeasureNumber (
+                    int inputLineNumber,
+                    int measureNumber);
+  
     void          setAllPartStavesMeasureLocation (
                     int                       inputLineNumber,
                     const msrMeasureLocation& measureLocation);

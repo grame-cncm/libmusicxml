@@ -43,10 +43,11 @@ msr2SummaryVisitor::msr2SummaryVisitor (
   fOnGoingStaff = false;
   
   fScoreStandaloneNotesCounter = 0;
-  fScoreRestNotesCounter = 0;
-  fScoreChordNotesCounter = 0;
-  fScoreTupletNotesCounter = 0;
-  fScoreChordsCounter = 0;
+  fScoreRestNotesCounter       = 0;
+  fScoreGraceNotesCounter      = 0;
+  fScoreChordNotesCounter      = 0;
+  fScoreTupletNotesCounter     = 0;
+  fScoreChordsCounter          = 0;
 };
   
 msr2SummaryVisitor::~msr2SummaryVisitor ()
@@ -103,6 +104,8 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
       fScoreStandaloneNotesCounter <<" standalone notes" << endl <<
     idtr <<
       fScoreRestNotesCounter << " rest notes" << endl <<
+    idtr <<
+      fScoreGraceNotesCounter << " grace notes" << endl <<
     idtr <<
       fScoreChordNotesCounter << " chord notes" << endl <<
     idtr <<
@@ -598,11 +601,16 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
     fOstream << idtr <<
       "--> Start visiting ";
     switch (elt->getNoteKind ()) {
+      case msrNote::k_NoNoteKind:
+        break;
       case msrNote::kStandaloneNote:
         fOstream << "standalone";
         break;
       case msrNote::kRestNote:
         fOstream << "rest";
+        break;
+      case msrNote::kGraceNote:
+        fOstream << "grace";
         break;
       case msrNote::kChordMemberNote:
         fOstream << "chord member";
@@ -615,11 +623,16 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
   }
 
   switch (elt->getNoteKind ()) {
+    case msrNote::k_NoNoteKind:
+      break;
     case msrNote::kStandaloneNote:
       fScoreStandaloneNotesCounter++;
       break;
     case msrNote::kRestNote:
       fScoreRestNotesCounter++;
+      break;
+    case msrNote::kGraceNote:
+      fScoreGraceNotesCounter++;
       break;
     case msrNote::kChordMemberNote:
       fScoreChordNotesCounter++;
@@ -636,11 +649,16 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
     fOstream << idtr <<
       "--> Start visiting ";
     switch (elt->getNoteKind ()) {
+      case msrNote::k_NoNoteKind:
+        break;
       case msrNote::kStandaloneNote:
         fOstream << "standalone";
         break;
       case msrNote::kRestNote:
         fOstream << "rest";
+        break;
+      case msrNote::kGraceNote:
+        fOstream << "grace";
         break;
       case msrNote::kChordMemberNote:
         fOstream << "chord member";
@@ -653,9 +671,13 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
   }
 
   switch (elt->getNoteKind ()) {
+    case msrNote::k_NoNoteKind:
+      break;
     case msrNote::kStandaloneNote:
       break;
     case msrNote::kRestNote:
+      break;
+    case msrNote::kGraceNote:
       break;
     case msrNote::kChordMemberNote:
       break;
