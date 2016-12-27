@@ -1151,6 +1151,14 @@ class EXP msrMeasure : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
+    enum msrMeasureKind {
+      kRegularMeasure,
+      kIncompleteVoicechunkStartMeasure,
+      kIncompleteVoicechunkEndMeasure};
+    
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -1195,7 +1203,12 @@ class EXP msrMeasure : public msrElement
     int           getMeasureDivisions () const
                       { return fMeasureDivisions; }
 
-    string        getMeasureDivisionsAsString () const;
+    void          setMeasureKind (msrMeasureKind measureKind)
+                      { fMeasureKind = measureKind; }
+
+    msrMeasureKind
+                  getMeasureKind () const
+                      { return fMeasureKind; }
 
     S_msrVoicechunk
                   getMeasureVoicechunkUplink () const
@@ -1203,6 +1216,10 @@ class EXP msrMeasure : public msrElement
 
     // services
     // ------------------------------------------------------
+
+    string        getMeasureDivisionsAsString () const;
+    
+    string        getMeasureKindAsString () const;
 
     void          prependElementToMeasure (S_msrElement elem)
                       { fMeasureElementsList.push_front (elem); }
@@ -1236,6 +1253,8 @@ class EXP msrMeasure : public msrElement
     int                       fMeasureNumber;
     
     int                       fMeasureDivisions;
+
+    msrMeasureKind            fMeasureKind;
 
     list<S_msrElement>        fMeasureElementsList;
     
@@ -1298,6 +1317,14 @@ class EXP msrVoicechunk : public msrElement
     const int     getVoicechunkDivisionsPerWholeNote () const
                       { return fVoicechunkDivisionsPerWholeNote; }
           
+    // measure number
+    void          setVoicechunkMeasureNumber (
+                    int inputLineNumber,
+                    int measureNumber);
+                      
+    const int     getVoicechunkMeasureNumber () const
+                      { return fVoicechunkMeasureNumber; }
+
     // services
     // ------------------------------------------------------
 
@@ -1355,6 +1382,10 @@ class EXP msrVoicechunk : public msrElement
     // the measures in the voice chunk contain the mmusic
     // it is created implicitly for every voice,
     list<S_msrMeasure>   fVoicechunkMeasuresList;
+
+    int                  fVoicechunkMeasureNumber;
+
+    bool                 fMeasureNumberHasBeenSetInVoiceChunk;
 
     S_msrVoice           fVoicechunVoicekUplink;
 };
@@ -4178,15 +4209,7 @@ class EXP msrVoice : public msrElement
                       {
                         return fVoiceMeasureLocation.fPositionInMeasure;
                       }
-          
-    void          setMeasureNumber (
-                    int inputLineNumber, int measureNumber);
-
-    const int     getMeasureNumber () const
-                      {
-                        return fVoiceMeasureLocation.fMeasureNumber;
-                      }
-          
+                    
     // measure number
     void          setVoiceMeasureNumber (
                     int inputLineNumber,

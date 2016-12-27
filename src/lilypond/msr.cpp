@@ -5291,6 +5291,8 @@ msrMeasure::msrMeasure (
   fMeasureNumber           = measureNumber;
   
   fMeasureDivisions        = divisions;
+
+  fMeasureKind             = kRegularMeasure;
   
   fMeasureVoicechunkUplink = voicechunkUplink;
 }
@@ -5410,17 +5412,39 @@ string msrMeasure::getMeasureDivisionsAsString () const
   return result;
 }
 
+string msrMeasure::getMeasureKindAsString () const
+{
+  string result;
+
+  switch (fMeasureKind) {
+    case kRegularMeasure:
+      result = "regular";
+      break;
+    case kIncompleteVoicechunkStartMeasure:
+      result = "incomplete voice chunk start";
+      break;
+    case kIncompleteVoicechunkEndMeasure:
+      result = "incomplete voice chunk end";
+      break;
+  } // switch
+
+  return result;
+}
+
 void msrMeasure::print (ostream& os)
 {
   os <<
     endl <<
     idtr << "Measure " << fMeasureNumber <<
       ", line: " << fInputLineNumber <<
+/*
       ", voice " <<
       fMeasureVoicechunkUplink->getVoiceUplink ()->getVoiceName () <<
+*/
       ", " << fMeasureDivisions << " divisions" <<
       " (" << getMeasureDivisionsAsString () << ")" <<
-      ", " << fMeasureElementsList.size() << " elements" <<
+      ", " << fMeasureElementsList.size () << " elements" <<
+      ", " << getMeasureKindAsString () <<
     endl;
 
   idtr++;
@@ -5475,7 +5499,7 @@ msrVoicechunk::msrVoicechunk (
 
   fVoicechunkDivisionsPerWholeNote =
     fVoicechunVoicekUplink->getVoiceDivisionsPerWholeNote ();
-    
+
   // create a first measure
   S_msrMeasure
     measure =
@@ -5487,6 +5511,8 @@ msrVoicechunk::msrVoicechunk (
         this);
   
   fVoicechunkMeasuresList.push_front (measure);
+
+  fMeasureNumberHasBeenSetInVoiceChunk = false;
 }
 
 msrVoicechunk::~msrVoicechunk() {}
@@ -5501,6 +5527,29 @@ S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone (
         clonedVoice);
   
   return clone;
+}
+
+void msrVoicechunk::setVoicechunkMeasureNumber (
+  int inputLineNumber,
+  int measureNumber)
+{
+  fVoicechunkMeasureNumber = measureNumber;
+
+  // create a new measure
+  S_msrMeasure
+    newMeasure =
+      msrMeasure::create (
+        fMsrOptions,
+        inputLineNumber,
+        measureNumber,
+        fVoicechunkDivisionsPerWholeNote,
+        this);
+
+  // append it to the voice chunk's measures list
+  fVoicechunkMeasuresList.push_back (
+    newMeasure);
+
+  fMeasureNumberHasBeenSetInVoiceChunk = true;
 }
 
 /* JMI
@@ -6160,7 +6209,7 @@ msrVoice::msrVoice (
       msrLyrics::kMasterLyrics,
       this);
 
-  // create the voice chunk
+  // create the initial voice chunk
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Creating the initial voice chunk for voice \"" <<
@@ -6467,10 +6516,20 @@ void msrVoice::setVoiceMeasureLocation (
 */
 
 void msrVoice::setVoiceMeasureNumber (
-  int inputLineNumber, int measureNumber)
+  int inputLineNumber,
+  int measureNumber)
 {
   fVoiceMeasureNumber = measureNumber;
+
+  fVoicechunk->
+    setVoicechunkMeasureNumber (
+      inputLineNumber,
+      fVoiceMeasureNumber);
+
+  fMeasureNumberHasBeenSetInVoice = true;
+}
   
+  /*
   enum voiceAnacrusisKind {
       k_NoAnacrusis, kExplicitAnacrusis, kImplicitAnacrusis };
 
@@ -6587,7 +6646,7 @@ void msrVoice::setVoiceMeasureNumber (
  //   anacrusisKind = kExplicitAnacrusis;
   }
     
-/*
+/ *
   if (measureNumber == 2)
     cerr <<
       "====== measureNumber == 2, positionInMeasure = " <<
@@ -6609,7 +6668,7 @@ void msrVoice::setVoiceMeasureNumber (
     ) {
     anacrusisKind = kImplicitAnacrusis;
   }
-*/
+* /
 
   int    anacrusisDivisions;
   string anacrusisDivisionsAsString;
@@ -6636,12 +6695,12 @@ void msrVoice::setVoiceMeasureNumber (
         cerr << idtr <<
           "Voice  " << getVoiceName () << " has an ";
 
-/*
+/ *
       if (anacrusisKind == kExplicitAnacrusis)
         cerr << "explicit";
       else
         cerr << "implicit";
-*/
+* /
 
       cerr <<
         " anacrusis of " <<
@@ -6659,9 +6718,7 @@ void msrVoice::setVoiceMeasureNumber (
         anacrusisDivisions,
         this);
   }
-
-  fMeasureNumberHasBeenSetInVoice = true;
-}
+*/
 
 void msrVoice::setNewVoicechunkForVoice (
   int inputLineNumber)
