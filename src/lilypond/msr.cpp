@@ -1253,7 +1253,7 @@ void msrGraceexpression::print (ostream& os)
 {
   os <<
     "Graceexpression" <<
-    ", input line: " << fInputLineNumber <<
+    ", line: " << fInputLineNumber <<
     ", slashed: " <<
     string (
       fGraceexpressionIsSlashed
@@ -4733,7 +4733,7 @@ void msrSegno::print (ostream& os)
 {
   os <<
     "Segno" <<
-    ", input line: " << fInputLineNumber <<
+    ", line: " << fInputLineNumber <<
     endl;
 }
 
@@ -4804,7 +4804,7 @@ void msrCoda::print (ostream& os)
 {
   os <<
     "Coda" <<
-    ", input line: " << fInputLineNumber <<
+    ", line: " << fInputLineNumber <<
     endl;
 }
 
@@ -4875,7 +4875,7 @@ void msrEyeglasses::print (ostream& os)
 {
   os <<
     "Eyeglasses" <<
-    ", input line: " << fInputLineNumber <<
+    ", line: " << fInputLineNumber <<
     endl;
 }
 
@@ -4992,7 +4992,7 @@ void msrPedal::print (ostream& os)
 {
   os <<
     "Pedal" <<
-    ", input line: " << fInputLineNumber <<
+    ", line: " << fInputLineNumber <<
     pedalTypeAsString () << ", " <<
     pedalLineAsString () <<
     endl;
@@ -5104,7 +5104,7 @@ void msrBarline::print (ostream& os)
 {
   os <<
     "Barline" <<
-    ", input line: " << fInputLineNumber << ", ";
+    ", line: " << fInputLineNumber << ", ";
 
   if (fBarlineHasSegno)
     os << "has segno, ";
@@ -5679,7 +5679,7 @@ void msrRepeat::print (ostream& os)
   os <<
     endl <<
     idtr << "Repeat" <<
-    ", input line: " << fInputLineNumber <<
+    ", line: " << fInputLineNumber <<
     " (" << fRepeatEndings.size() << " repeat endings)" <<
     endl;
   
@@ -5693,6 +5693,141 @@ void msrRepeat::print (ostream& os)
   } // for
     
   idtr--;
+}
+
+//______________________________________________________________________________
+S_msrMeasure msrMeasure::create (
+  S_msrOptions&   msrOpts, 
+  int             inputLineNumber,
+  int             divisions,
+  S_msrVoice      voiceUplink)
+{
+  msrMeasure* o =
+    new msrMeasure (
+      msrOpts, inputLineNumber, divisions, voiceUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrMeasure::msrMeasure (
+  S_msrOptions&   msrOpts, 
+  int             inputLineNumber,
+  int             divisions,
+  S_msrVoice      voiceUplink)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fMeasureDivisions   = divisions;
+  fMeasureVoiceUplink = voiceUplink;
+}
+
+msrMeasure::~msrMeasure() {}
+
+S_msrMeasure msrMeasure::createMeasureBareClone (S_msrVoice clonedVoice)
+{
+//  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating an empty clone of a measure" << endl;
+  
+  S_msrMeasure
+    clone =
+      msrMeasure::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fMeasureDivisions,
+        clonedVoice);
+  
+  return clone;
+}
+
+void msrMeasure::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrMeasure::acceptIn()" << endl;
+      
+  if (visitor<S_msrMeasure>*
+    p =
+      dynamic_cast<visitor<S_msrMeasure>*> (v)) {
+        S_msrMeasure elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrMeasure::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrMeasure::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrMeasure::acceptOut()" << endl;
+
+  if (visitor<S_msrMeasure>*
+    p =
+      dynamic_cast<visitor<S_msrMeasure>*> (v)) {
+        S_msrMeasure elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrMeasure::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrMeasure::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrMeasure& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrMeasure::getMeasureDivisionsAsString () const
+{
+  string result;
+  int    computedNumberOfDots; // value not used
+  string errorMessage;
+
+  int divisionsPerWholeNote =
+    fMeasureVoiceUplink->
+      getDivisionsPerWholeNote ();
+  
+  if (fMsrOptions->fDebug)
+    cerr <<
+      endl <<
+      idtr <<
+        "% --> fMeasureDivisions = " << fMeasureDivisions <<
+        ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
+      endl;
+
+  result =
+    divisionsAsMSRDuration (
+      fMeasureDivisions,
+      divisionsPerWholeNote,
+      fMeasureDivisions, // JMI
+      computedNumberOfDots,
+      errorMessage,
+      false); // 'true' to debug it;
+
+  if (errorMessage.size ())
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      fInputLineNumber,
+      errorMessage);
+
+  return result;
+}
+
+void msrMeasure::print (ostream& os)
+{
+  os <<
+    endl <<
+    idtr << "Measure" <<
+      ", line: " << fInputLineNumber <<
+      ", voice " << fMeasureVoiceUplink->getVoiceName () << ", " <<
+      fMeasureDivisions << " divisions" <<
+      " (" << getMeasureDivisionsAsString () << ")" <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -5823,7 +5958,7 @@ void msrUpbeat::print (ostream& os)
   os <<
     endl <<
     idtr << "Upbeat" <<
-      ", input line: " << fInputLineNumber <<
+      ", line: " << fInputLineNumber <<
       ", voice " << fUpbeatVoiceUplink->getVoiceName () << ", " <<
       fUpbeatDivisions << " divisions" <<
       " (" << getUpbeatDivisionsAsString () << ")" <<
@@ -6669,9 +6804,11 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     appendElementToVoicechunk (n);
 
   // add a rest of the same duration to the voice master
+  /* JMI
   fVoiceVoicemaster->
     getVoicechunk () ->
       appendElementToVoicechunk (n); 
+  */
   
   // add a skip chunk of the same duration to the master lyrics
   int
@@ -7422,6 +7559,13 @@ msrStaff::msrStaff (
   fStaffVoicemaster =
     fStaffPartUplink->getPartVoicemaster ();
     
+  // create the maximum pssible number of voices
+  // those that remain note-free will be removed afterwards
+  for (int i = 1; i <= gMaxStaffVoices; i++) {
+    addVoiceToStaff (
+      fInputLineNumber, i);
+  } // for
+
   // get the initial clef from the staff if any
   {
     S_msrClef

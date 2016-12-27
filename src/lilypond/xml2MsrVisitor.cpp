@@ -5328,7 +5328,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
   handleTupletsPendingOnTupletStack ();
 
   // lyrics has to be handled in all cases to handle melismata
-  handleLyrics (newNote);
+// JMI  handleLyrics (newNote);
 
   // account for chord not being built
   fOnGoingChord = false;

@@ -3856,6 +3856,84 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
+class EXP msrMeasure : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrMeasure> create (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      int             divisions,
+      S_msrVoice      voiceUplink);
+    
+    SMARTP<msrMeasure> createMeasureBareClone (
+      S_msrVoice clonedVoice);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrMeasure (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      int             divisions,
+      S_msrVoice      voiceUplink);
+      
+    virtual ~msrMeasure();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+//    void          setMeasureDivisions (int divisions)
+//                      { fMeasureDivisions = divisions; }
+
+    int           getMeasureDivisions () const
+                      { return fMeasureDivisions; }
+
+    string        getMeasureDivisionsAsString () const;
+
+    S_msrVoice    getMeasureVoiceUplink () const
+                      { return fMeasureVoiceUplink; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    int                       fMeasureDivisions;
+    
+    S_msrVoice                fMeasureVoiceUplink;
+};
+typedef SMARTP<msrMeasure> S_msrMeasure;
+EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
+
+/*!
+\brief A msr repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common part
+    - a vector of sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
 class EXP msrUpbeat : public msrElement
 {
   public:
