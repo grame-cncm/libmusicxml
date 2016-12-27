@@ -1648,9 +1648,6 @@ void xml2MsrVisitor::visitStart ( S_per_minute& elt )
 
 void xml2MsrVisitor::visitEnd (S_direction& elt)
 {
-  int inputLineNumber = // JMI
-    elt->getInputLineNumber ();
-
   if (fCurrentTempo) {
     if (fCurrentWordsContents.size ())
       fCurrentTempo->
@@ -4001,7 +3998,7 @@ void xml2MsrVisitor::visitStart ( S_wedge& elt )
   
   msrWedge::msrWedgeKind wedgeKind;
 
-  if (type == "crescendo") {
+  if      (type == "crescendo") {
     wedgeKind = msrWedge::kCrescendoWedge;
   }
   else if (type == "diminuendo") {
@@ -4009,6 +4006,16 @@ void xml2MsrVisitor::visitStart ( S_wedge& elt )
   }
   else if (type == "stop") {
     wedgeKind = msrWedge::kStopWedge;
+  }
+  else {
+    if (type.size ()) {
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
+        elt->getInputLineNumber (),
+        "unknown wedge type \"" +
+          type +
+          "\", should be 'crescendo', 'diminuendo' or 'stop'");
+    }
   }
   
   S_msrWedge
@@ -4861,7 +4868,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       "divisionsPerWholeNote = " <<
       divisionsPerWholeNote << endl;
       
-  currentVoice->setDivisionsPerWholeNote (
+  currentVoice->setVoiceDivisionsPerWholeNote (
     divisionsPerWholeNote);
 
   // register current note type
@@ -4899,8 +4906,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
 
   // set note's divisions per whole note
   note->
-    setDivisionsPerWholeNote (
-      currentVoice-> getDivisionsPerWholeNote ());
+    setNoteDivisionsPerWholeNote (
+      currentVoice-> getVoiceDivisionsPerWholeNote ());
 
   // set its tie if any
   if (fCurrentTie) {

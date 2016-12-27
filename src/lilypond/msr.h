@@ -1288,13 +1288,14 @@ class EXP msrVoicechunk : public msrElement
                       { return fVoicechunkMeasuresList; }
                       
     // divisions per whole note
-    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
+    void          setVoicechunkDivisionsPerWholeNote (
+                    int divisionsPerWholeNote)
                       {
                         fVoicechunkDivisionsPerWholeNote =
                           divisionsPerWholeNote;
                       }
                       
-    const int     getDivisionsPerWholeNote () const
+    const int     getVoicechunkDivisionsPerWholeNote () const
                       { return fVoicechunkDivisionsPerWholeNote; }
           
     // services

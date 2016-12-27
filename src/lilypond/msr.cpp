@@ -913,8 +913,6 @@ string msrWedge::wedgeKindAsString ()
     case msrWedge::kStopWedge:
       s << "stop";
       break;
-    default:
-      s << "Wedge" << fWedgeKind << "???";
   } // switch
     
   return s.str();
@@ -1198,7 +1196,7 @@ S_msrGraceexpression msrGraceexpression::createGraceexpressionBareClone (
 {
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> Creating an empty clone of a grace expression" << endl;
+      "--> Creating an bare clone of a grace expression" << endl;
   
   S_msrGraceexpression
     clone =
@@ -1331,7 +1329,7 @@ S_msrNote msrNote::createNoteBareClone ()
   clone->fNoteStem = fNoteStem;  
   clone->fNoteBeam = fNoteBeam;
 
-  clone->fDivisionsPerWholeNote = fDivisionsPerWholeNote;
+  clone->fNoteDivisionsPerWholeNote = fNoteDivisionsPerWholeNote;
   
   clone->fNoteMeasureLocation = fNoteMeasureLocation;  
 
@@ -1778,7 +1776,7 @@ string msrNote::noteDivisionsAsMSRString () const
   result =
     divisionsAsMSRDuration (
       fNoteData.fDisplayDivisions,
-      fDivisionsPerWholeNote,
+      fNoteDivisionsPerWholeNote,
       fNoteData.fDotsNumber,
       computedNumberOfDots,
       errorMessage,
@@ -1912,7 +1910,7 @@ void msrNote::print (ostream& os)
   rational
     position (
       fNoteMeasureLocation.fPositionInMeasure,
-      fDivisionsPerWholeNote);
+      fNoteDivisionsPerWholeNote);
 
   position.rationalise ();
   
@@ -1945,7 +1943,7 @@ void msrNote::print (ostream& os)
 
   os <<
     "/" <<
-    fDivisionsPerWholeNote <<
+    fNoteDivisionsPerWholeNote <<
     ") @"<<
     fNoteMeasureLocation.fMeasureNumber <<
     ":" <<
@@ -1955,7 +1953,7 @@ void msrNote::print (ostream& os)
     " (" <<
     fNoteMeasureLocation.fPositionInMeasure <<
     "/" <<
-    fDivisionsPerWholeNote <<
+    fNoteDivisionsPerWholeNote <<
     ")" <<
     /*
     " first = " <<
@@ -2126,7 +2124,7 @@ S_msrChord msrChord::createEmptyChordClone ()
         fChordDivisions);
 
   clone->
-    fDivisionsPerWholeNote = fDivisionsPerWholeNote;
+    fChordDivisionsPerWholeNote = fChordDivisionsPerWholeNote;
 
   // use setChordMeasureLocation() for its side effects
   // instead of a direct assignment to fChordMeasureLocation
@@ -2286,7 +2284,7 @@ string msrChord::chordDivisionsAsMSRString () const
   result =
     divisionsAsMSRDuration (
       fChordDivisions,
-      fDivisionsPerWholeNote,
+      fChordDivisionsPerWholeNote,
       inputSourceSuppliedNumberOfDots,
       computedNumberOfDots,
       errorMessage,
@@ -2308,13 +2306,13 @@ void msrChord::print (ostream& os)
     " (" <<
     chordDivisionsAsMSRString () <<
     "/" <<
-    fDivisionsPerWholeNote <<
+    fChordDivisionsPerWholeNote <<
     ") @"<<
     fChordMeasureLocation.fMeasureNumber <<
     ":" <<
     fChordMeasureLocation.fPositionInMeasure <<
     "/" <<
-    fDivisionsPerWholeNote <<
+    fChordDivisionsPerWholeNote <<
     endl;
 
   idtr++;
@@ -2710,8 +2708,8 @@ msrTuplet::msrTuplet (
 {  
   fTupletNumber = number;
   
-  fActualNotes = actualNotes;
-  fNormalNotes = normalNotes;
+  fTupletActualNotes = actualNotes;
+  fTupletNormalNotes = normalNotes;
 
 /*
   fTupletDivisions =
@@ -2735,8 +2733,8 @@ S_msrTuplet msrTuplet::createTupletBareClone ()
         fMsrOptions,
         fInputLineNumber,
         fTupletNumber,
-        fActualNotes,
-        fNormalNotes,
+        fTupletActualNotes,
+        fTupletNormalNotes,
  // JMI       fTupletElements [0]); // any element would be fine
         0); // any element would be fine
   
@@ -2799,16 +2797,16 @@ ostream& operator<< (ostream& os, const S_msrTuplet& elt)
 void msrTuplet::print (ostream& os)
 {
   os <<
-    "Tuplet " << fActualNotes << "/" << fNormalNotes <<
+    "Tuplet " << fTupletActualNotes << "/" << fTupletNormalNotes <<
     " (" << fTupletDivisions <<
     "/" <<
-    fDivisionsPerWholeNote <<
+    fTupletDivisionsPerWholeNote <<
     ") @"<<
     fTupletMeasureLocation.fMeasureNumber <<
     ":" <<
     fTupletMeasureLocation.fPositionInMeasure <<
     "/" <<
-    fDivisionsPerWholeNote <<
+    fTupletDivisionsPerWholeNote <<
     endl;
     
   idtr++;
@@ -5304,7 +5302,8 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
 {
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> Creating an empty clone of a measure" << endl;
+      "--> Creating an bare clone of measure " << fMeasureNumber <<
+      endl;
   
   S_msrMeasure
     clone =
@@ -5353,7 +5352,24 @@ void msrMeasure::acceptOut (basevisitor* v) {
 }
 
 void msrMeasure::browseData (basevisitor* v)
-{}
+{
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrMeasure::browseData()" << endl;
+
+  for (
+    list<S_msrElement>::iterator i = fMeasureElementsList.begin();
+    i != fMeasureElementsList.end();
+    i++) {
+    // browse the element
+    msrBrowser<msrElement> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "<== msrMeasure::browseData()" << endl;
+}
 
 ostream& operator<< (ostream& os, const S_msrMeasure& elt)
 {
@@ -5368,17 +5384,15 @@ string msrMeasure::getMeasureDivisionsAsString () const
 
   int divisionsPerWholeNote =
     fMeasureVoicechunkUplink->
-      getDivisionsPerWholeNote ();
+      getVoicechunkDivisionsPerWholeNote ();
   
-//  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr <<
       endl <<
       idtr <<
         "% --> fMeasureDivisions = " << fMeasureDivisions <<
         ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
       endl;
-
-  return "23";
   
   result =
     divisionsAsMSRDuration (
@@ -5406,7 +5420,35 @@ void msrMeasure::print (ostream& os)
       fMeasureVoicechunkUplink->getVoiceUplink ()->getVoiceName () <<
       ", " << fMeasureDivisions << " divisions" <<
       " (" << getMeasureDivisionsAsString () << ")" <<
+      ", " << fMeasureElementsList.size() << " elements" <<
     endl;
+
+  idtr++;
+    
+  os <<
+    idtr << "Elements" <<
+    endl;
+
+  idtr++;
+  
+  if (! fMeasureElementsList.size ())
+    os << " none";
+  else {    
+    list<S_msrElement>::const_iterator
+      iBegin = fMeasureElementsList.begin(),
+      iEnd   = fMeasureElementsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+  // JMI    os << endl;
+    } // for
+  }
+  os << endl;
+    
+  idtr--;
+
+  idtr--;
 }
 
 //______________________________________________________________________________
@@ -5431,6 +5473,9 @@ msrVoicechunk::msrVoicechunk (
 {
   fVoicechunVoicekUplink = voicechunVoicekUplink;
 
+  fVoicechunkDivisionsPerWholeNote =
+    fVoicechunVoicekUplink->getVoiceDivisionsPerWholeNote ();
+    
   // create a first measure
   S_msrMeasure
     measure =
@@ -5438,7 +5483,7 @@ msrVoicechunk::msrVoicechunk (
         fMsrOptions,
         inputLineNumber,
         1, // may be changed afterwards if 0 is found in MusicXML data
-        fVoicechunVoicekUplink->getDivisionsPerWholeNote (),
+        fVoicechunVoicekUplink->getVoiceDivisionsPerWholeNote (),
         this);
   
   fVoicechunkMeasuresList.push_front (measure);
@@ -5518,7 +5563,7 @@ void msrVoicechunk::browseData (basevisitor* v)
     i != fVoicechunkMeasuresList.end();
     i++) {
     // browse the element
-    msrBrowser<msrElement> browser (v);
+    msrBrowser<msrMeasure> browser (v);
     browser.browse (*(*i));
   } // for
 
@@ -5562,9 +5607,7 @@ void msrVoicechunk::print (ostream& os)
   
   if (! fVoicechunkMeasuresList.size ())
     os << " none";
-  else {
-    os << endl;
-    
+  else {    
     list<S_msrMeasure>::const_iterator
       iBegin = fVoicechunkMeasuresList.begin(),
       iEnd   = fVoicechunkMeasuresList.end(),
@@ -5629,7 +5672,7 @@ S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
 {
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> Creating an empty clone of a repeat ending" << endl;
+      "--> Creating an bare clone of a repeat ending" << endl;
   
   S_msrRepeatending
     clone =
@@ -5751,7 +5794,7 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
 
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> Creating an empty clone of a repeat" << endl;
+      "--> Creating an bare clone of a repeat" << endl;
   
   S_msrRepeat
     clone =
@@ -5898,7 +5941,7 @@ S_msrUpbeat msrUpbeat::createUpbeatBareClone (S_msrVoice clonedVoice)
 {
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> Creating an empty clone of a Upbeat" << endl;
+      "--> Creating an bare clone of an Upbeat" << endl;
   
   S_msrUpbeat
     clone =
@@ -5961,7 +6004,7 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
 
   int divisionsPerWholeNote =
     fUpbeatVoiceUplink->
-      getDivisionsPerWholeNote ();
+      getVoiceDivisionsPerWholeNote ();
   
   if (fMsrOptions->fDebug)
     cerr <<
@@ -6029,8 +6072,8 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
         clonedStaff);
 
   // populate the voice measure location
-  clone->fDivisionsPerWholeNote =
-    fDivisionsPerWholeNote;
+  clone->fVoiceDivisionsPerWholeNote =
+    fVoiceDivisionsPerWholeNote;
   clone->fVoiceMeasureLocation.fMeasureNumber =
     fVoiceMeasureLocation.fMeasureNumber;
   clone->fVoiceMeasureLocation.fPositionInMeasure =
@@ -6080,9 +6123,9 @@ msrVoice::msrVoice (
     msrAssert (false, s.str());
   }
   
-  fDivisionsPerWholeNote =
+  fVoiceDivisionsPerWholeNote =
     fVoiceStaffUplink->
-      getDivisionsPerWholeNote ();
+      getStaffDivisionsPerWholeNote ();
     
   // there may be an anacrusis
   fVoiceMeasureLocation.fMeasureNumber = 0;
@@ -6359,7 +6402,7 @@ void msrVoice::setVoiceMeasureLocation (
           getBeatsValue (),
 
     divisionsPerWholeNote =
-      fDivisionsPerWholeNote,
+      fVoiceDivisionsPerWholeNote,
       
     divisionsPerMeasure =
       divisionsPerWholeNote * beatsNumber / beatsValue,
@@ -6441,7 +6484,7 @@ void msrVoice::setMeasureNumber (
           getBeatsValue (),
 
     divisionsPerWholeNote =
-      fDivisionsPerWholeNote,
+      fVoiceDivisionsPerWholeNote,
       
     divisionsPerMeasure =
       divisionsPerWholeNote * beatsNumber / beatsValue,
@@ -6576,7 +6619,7 @@ void msrVoice::setMeasureNumber (
     anacrusisDivisionsAsString =
       divisionsAsMSRDuration (
         anacrusisDivisions,
-        fDivisionsPerWholeNote,
+        fVoiceDivisionsPerWholeNote,
         errorMessage,
         false); // 'true' to debug it
     
@@ -6824,7 +6867,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   // catchup with rests if needed
   catchupToMeasureLocation (
     note->getInputLineNumber (),
-    fDivisionsPerWholeNote,
+    fVoiceDivisionsPerWholeNote,
     fVoiceMeasureLocation);
 
   if (note->getNoteKind () != msrNote::kRestNote)
@@ -7582,9 +7625,9 @@ msrStaff::msrStaff (
     msrAssert (false, s.str());
   }
 
-  fDivisionsPerWholeNote =
+  fStaffDivisionsPerWholeNote =
     fStaffPartUplink->
-      getDivisionsPerWholeNote ();
+      getPartDivisionsPerWholeNote ();
 
   // get measure location from part uplink
   fStaffMeasureLocation =
@@ -7707,7 +7750,7 @@ void msrStaff::setAllStaffVoicesDivisionsPerWholeNote (int divisions)
     map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
     i != fStaffVoicesMap.end();
     i++) {
-    (*i).second->setDivisionsPerWholeNote (divisions);
+    (*i).second->setVoiceDivisionsPerWholeNote (divisions);
   } // for
 }
 
@@ -8085,7 +8128,7 @@ msrPart::msrPart (
     cerr << idtr <<
       "Creating part " << getPartCombinedName () << endl;
 
-  fDivisionsPerWholeNote = 0;
+  fPartDivisionsPerWholeNote = 0;
 
   // create the part voice master
   S_msrStaff
@@ -8248,7 +8291,7 @@ void msrPart::setAllPartStavesDivisionsPerWholeNote (int divisions)
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->setDivisionsPerWholeNote (divisions);
+    (*i).second->setStaffDivisionsPerWholeNote (divisions);
   } // for
 }
 
@@ -8433,8 +8476,8 @@ void msrPart::print (ostream& os)
   
   os << left <<
     idtr <<
-      setw(22) << "DivisionsPerWholeNote" << ": " <<
-      fDivisionsPerWholeNote << endl <<
+      setw(22) << "PartDivisionsPerWholeNote" << ": " <<
+      fPartDivisionsPerWholeNote << endl <<
     idtr <<
       setw(22) << "PartMSRName" << ": \"" <<
       fPartMSRName << "\"" << endl <<
