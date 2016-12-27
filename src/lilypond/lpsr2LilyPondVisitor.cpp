@@ -1286,6 +1286,48 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting S_msrMeasure" << endl;
+
+  if (fLpsrOptions->fGenerateComments) {
+    fOstream << idtr <<
+      "{" <<
+      setw(30) << " " << "% start of S_msrMeasure" <<
+      endl;
+
+    idtr++;
+  }
+
+  fVoicechunkNotesAndChordsCountersStack.push (0);
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrMeasure& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting S_msrMeasure" << endl;
+
+  if (fLpsrOptions->fGenerateComments) {
+    idtr--;
+    
+    fOstream <<
+      endl <<
+      idtr <<
+      "}" <<
+      setw(30) << " " << "% end of S_msrMeasure" <<
+      endl;
+  }
+  else
+    fOstream <<
+      endl;
+
+  fVoicechunkNotesAndChordsCountersStack.pop ();
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrLyrics& elt)
 {
   if (fMsrOptions->fDebug)

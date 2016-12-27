@@ -235,6 +235,9 @@ class lpsr2LilyPondVisitor :
     virtual void visitStart (S_msrVoicechunk& elt);
     virtual void visitEnd   (S_msrVoicechunk& elt);
 
+    virtual void visitStart (S_msrMeasure& elt);
+    virtual void visitEnd   (S_msrMeasure& elt);
+
     virtual void visitStart (S_msrLyrics& elt);
     virtual void visitEnd   (S_msrLyrics& elt);
 
