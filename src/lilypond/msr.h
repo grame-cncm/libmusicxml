@@ -2619,8 +2619,8 @@ class EXP msrTuplet : public msrElement
     
     int           getTupletNumber () const { return fTupletNumber; }
 
-    int           getActualNotes () const { return fTupletActualNotes; }
-    int           getNormalNotes () const { return fTupletNormalNotes; }
+    int           getTupletActualNotes () const { return fTupletActualNotes; }
+    int           getTupletNormalNotes () const { return fTupletNormalNotes; }
     
     const vector<S_msrElement>&
                   getTupletElements () const
@@ -4316,7 +4316,7 @@ class EXP msrVoice : public msrElement
     int                       fStaffRelativeVoiceNumber;
     S_msrStaff                fVoiceStaffUplink;
 
-    bool                      fVoiceContainsActualNotes;
+    bool                      fVoiceActualNotesCounter;
 
     int                       fVoiceDivisionsPerWholeNote;
 

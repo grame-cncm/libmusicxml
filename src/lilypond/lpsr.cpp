@@ -2114,7 +2114,7 @@ void lpsrStaffBlock::print (ostream& os)
     "StaffBlock" << " " <<
     "for staff " << fStaff->getStaffName () <<
     ", " << fStaffBlockElements.size() << " elements" <<
-    endl << endl;
+    endl;
 
   idtr++;
 
@@ -2126,7 +2126,7 @@ void lpsrStaffBlock::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+ // JMI     os << endl;
     } // for
   }
 

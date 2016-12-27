@@ -6137,7 +6137,7 @@ msrVoice::msrVoice (
   fMeasureNumberHasBeenSetInVoice = false;
   fMusicHasBeenInsertedInVoice    = false;
   
-  fVoiceContainsActualNotes = false;
+  fVoiceActualNotesCounter = 0;
 
   // get measure location from staff uplink
   fVoiceMeasureLocation =
@@ -6459,6 +6459,8 @@ void msrVoice::setVoiceMeasureLocation (
     inputLineNumber,
     divisionsPerWholeNote,
     measureLocation);
+
+  // create a new measure
 
   // register voice new measure number
   fVoiceMeasureLocation = measureLocation;
@@ -6872,7 +6874,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   if (note->getNoteKind () != msrNote::kRestNote)
     // register actual note
-    fVoiceContainsActualNotes = true;
+    fVoiceActualNotesCounter++;
 
   fVoiceMeasureLocation.fPositionInMeasure +=
     note->getNoteDivisions ();
@@ -7187,7 +7189,7 @@ void msrVoice::addSlurBeyondEndLyricschunkToVoice (
 {
   int inputLineNumber =
     newNote->getInputLineNumber ();
-    
+  
   // create a lyrics text chunk
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
 //    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink (); // JMI
@@ -7537,7 +7539,10 @@ void msrVoice::print (ostream& os)
 {
   os <<
     "Voice" << " " << getVoiceName () <<
-    " (" << fVoiceLyricsMap.size() << " lyrics)" <<
+    " (" << fVoiceActualNotesCounter <<
+    " actual notes" <<
+     ", " << fVoiceLyricsMap.size() << " lyrics" <<
+    ")" <<
     endl;
 
   idtr++;
@@ -7547,7 +7552,7 @@ void msrVoice::print (ostream& os)
   if (fVoiceAnacrusis)
     os << fVoiceAnacrusis;
   else
-    os << "none" << endl;
+    os << "no anacrusis" << endl;
   os << endl;
 
   // print the voice chunk

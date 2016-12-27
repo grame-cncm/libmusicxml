@@ -1038,9 +1038,9 @@ void msr2LpsrVisitor::visitStart (S_msrTuplet& elt)
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "++> pushing tuplet " <<
-      tupletClone->getActualNotes () <<
+      tupletClone->getTupletActualNotes () <<
       "/" <<
-      tupletClone->getNormalNotes () <<
+      tupletClone->getTupletNormalNotes () <<
       " to tuplets stack" << endl;
       
   fTupletClonesStack.push (tupletClone);
@@ -1055,9 +1055,9 @@ void msr2LpsrVisitor::visitEnd (S_msrTuplet& elt)
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> popping tuplet " <<
-      elt->getActualNotes () <<
+      elt->getTupletActualNotes () <<
        "/" <<
-      elt->getNormalNotes () <<
+      elt->getTupletNormalNotes () <<
       " from tuplets stack" << endl;
       
     fTupletClonesStack.pop ();
@@ -1067,13 +1067,13 @@ void msr2LpsrVisitor::visitEnd (S_msrTuplet& elt)
 //    if (fMsrOptions->fDebug)
       cerr << idtr <<
         "=== adding embedded tuplet " <<
-      elt->getActualNotes () <<
+      elt->getTupletActualNotes () <<
        "/" <<
-      elt->getNormalNotes () <<
+      elt->getTupletNormalNotes () <<
         " to " <<
-      fTupletClonesStack.top ()->getActualNotes () <<
+      fTupletClonesStack.top ()->getTupletActualNotes () <<
        "/" <<
-      fTupletClonesStack.top ()->getNormalNotes () <<
+      fTupletClonesStack.top ()->getTupletNormalNotes () <<
       " current stack top tuplet" << endl;
     
     fTupletClonesStack.top ()->
@@ -1084,9 +1084,9 @@ void msr2LpsrVisitor::visitEnd (S_msrTuplet& elt)
 //    if (fMsrOptions->fDebug)
       cerr << idtr <<
         "=== adding top level tuplet " <<
-      elt->getActualNotes () <<
+      elt->getTupletActualNotes () <<
        "/" <<
-      elt->getNormalNotes () <<
+      elt->getTupletNormalNotes () <<
       " to voice" <<
       fCurrentVoiceClone->getVoiceName () <<
       endl;

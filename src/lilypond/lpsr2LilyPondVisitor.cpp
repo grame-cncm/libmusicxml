@@ -2318,9 +2318,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTuplet& elt)
 
   fOstream <<
     "\\tuplet " <<
-    elt->getActualNotes () <<
+    elt->getTupletActualNotes () <<
     "/" <<
-    elt->getNormalNotes() << " { ";
+    elt->getTupletNormalNotes() << " { ";
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrTuplet& elt)
