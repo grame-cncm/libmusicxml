@@ -1729,14 +1729,13 @@ class EXP msrNote : public msrElement
                   getNoteWedgesToModify ()
                       { return fNoteWedges; };
 
-    // location in measure
-    void          setNoteMeasureLocation (
-                    const msrMeasureLocation& measureLocation)
-                      { fNoteMeasureLocation = measureLocation; }
+    // measure number
+    void          setPartMeasureNumber (
+                    int inputLineNumber,
+                    int measureNumber);
                       
-    const msrMeasureLocation&
-                  getNoteMeasureLocation () const
-                      { return fNoteMeasureLocation; }
+    const int     getPartMeasureNumber () const
+                      { return fPartMeasureNumber; }
 
     // services
     // ------------------------------------------------------
@@ -1802,7 +1801,7 @@ class EXP msrNote : public msrElement
 
     int                       fNoteDivisionsPerWholeNote;
     
-    msrMeasureLocation        fNoteMeasureLocation;
+    int                       fPartMeasureNumber;
 
     S_msrTie                  fNoteTie;
     
@@ -2822,10 +2821,6 @@ class EXP msrKey : public msrElement
     msrKeyMode  getKeyMode () const
                     { return fKeyMode; }
 
-    const msrMeasureLocation&
-                getMeasureLocation () const
-                    { return fMeasureLocation; }
-
     // services
     // ------------------------------------------------------
 
@@ -2852,8 +2847,6 @@ class EXP msrKey : public msrElement
 
     string              fTonic;
     msrKeyMode          fKeyMode;
-                        
-    msrMeasureLocation  fMeasureLocation;
 };
 typedef SMARTP<msrKey> S_msrKey;
 EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
@@ -4168,7 +4161,7 @@ class EXP msrVoice : public msrElement
     const int     getVoiceDivisionsPerWholeNote () const
                       { return fVoiceDivisionsPerWholeNote; }
           
-    // location in measure
+    // measure position
     void          setPositionInMeasure (int positionInMeasure)
                       {
                         fVoiceMeasureLocation.fPositionInMeasure =
@@ -4194,14 +4187,13 @@ class EXP msrVoice : public msrElement
                         return fVoiceMeasureLocation.fMeasureNumber;
                       }
           
-    // location in measure
-    void          setVoiceMeasureLocation (
-                    int                       inputLineNumber,
-                    const msrMeasureLocation& measureLocation);
+    // measure number
+    void          setPartMeasureNumber (
+                    int inputLineNumber,
+                    int measureNumber);
                       
-    const msrMeasureLocation&
-                  getVoiceMeasureLocation () const
-                      { return fVoiceMeasureLocation; }
+ // JMI  const int     getPartMeasureNumber () const
+  //                    { return fPartMeasureNumber; }
 
     // voice master
     const S_msrVoice
@@ -4210,8 +4202,6 @@ class EXP msrVoice : public msrElement
 
     // services
     // ------------------------------------------------------
-
-    void          handleForward       (int duration); // JMI
     
     void          catchupToMeasureLocation (
                     int                       inputLineNumber,
@@ -4323,6 +4313,7 @@ class EXP msrVoice : public msrElement
     S_msrTime                 fVoiceTime;
 
     msrMeasureLocation        fVoiceMeasureLocation;
+    
     S_msrVoice                fVoiceVoicemaster;
 
     // anacrusis detection
@@ -4431,14 +4422,13 @@ class EXP msrStaff : public msrElement
     const int   getStaffDivisionsPerWholeNote () const
                     { return fStaffDivisionsPerWholeNote; }
           
-    // location in measure
-    void          setStaffMeasureLocation (
-                    int                       inputLineNumber,
-                    const msrMeasureLocation& measureLocation);
+    // measure number
+    void          setStaffMeasureNumber (
+                    int inputLineNumber,
+                    int measureNumber);
                       
-    const msrMeasureLocation&
-                  getStaffMeasureLocation () const
-                      { return fStaffMeasureLocation; }
+// JMI    const int     getPartMeasureNumber () const
+      //                { return fPartMeasureNumber; }
 
     // voice master
     const S_msrVoice
@@ -4615,14 +4605,13 @@ class EXP msrPart : public msrElement
 
     void          setPartTranspose (S_msrTranspose transpose);
 
-    // location in measure
-    void          setPartMeasureLocation (
-                    int                       inputLineNumber,
-                    const msrMeasureLocation& measureLocation);
+    // measure number
+    void          setPartMeasureNumber (
+                    int inputLineNumber,
+                    int measureNumber);
                       
-    const msrMeasureLocation&
-                  getPartMeasureLocation () const
-                      { return fPartMeasureLocation; }
+    const int     getPartMeasureNumber () const
+                      { return fPartMeasureNumber; }
 
     // voice master
     const S_msrVoice
@@ -4686,7 +4675,8 @@ class EXP msrPart : public msrElement
 
     int                     fPartDivisionsPerWholeNote;
 
-    msrMeasureLocation      fPartMeasureLocation;
+    int                     fPartMeasureNumber;
+    
     S_msrVoice              fPartVoicemaster;
 
     S_msrClef               fPartClef;

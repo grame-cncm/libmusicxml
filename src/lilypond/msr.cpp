@@ -8210,16 +8210,16 @@ string msrPart::getPartCombinedName () const
     " (" + fPartID + ")";
 }
 
-void msrPart::setPartMeasureLocation (
-  int                       inputLineNumber,
-  const msrMeasureLocation& measureLocation)
+void msrPart::setPartMeasureNumber (
+  int inputLineNumber,
+  int measureNumber)
 {
   // set part measure location
-  fPartMeasureLocation = measureLocation;
+  fPartMeasureNumber = measureNumber;
 
   // propagate it to all staves
-  setAllPartStavesMeasureLocation (
-    inputLineNumber, measureLocation);  
+  setAllPartStavesMeasureNumber (
+    inputLineNumber, measureNumber);  
 }
 
 void msrPart::setPartClef (S_msrClef clef)

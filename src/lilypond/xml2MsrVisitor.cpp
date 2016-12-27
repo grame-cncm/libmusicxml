@@ -2273,14 +2273,17 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
     implicit =
       elt->getAttributeValue ("implicit");
 
-  msrMeasureLocation
-    measureLocation (measureNumber, 1);
+//  msrMeasureLocation
+ //   measureLocation (measureNumber, 1);
   
   fCurrentPart->
-    setPartMeasureLocation (
+    setPartMeasureNumber (
+      inputLineNumber, measureNumber);
+    
+/*    setPartMeasureLocation (
       inputLineNumber, measureLocation);
 
-/*
+
   // fetch current voice
   S_msrVoice
     currentVoice =
