@@ -56,6 +56,9 @@ typedef SMARTP<msrLyrics> S_msrLyrics;
 class msrVoice;
 typedef SMARTP<msrVoice> S_msrVoice;
 
+class msrVoicechunk;
+typedef SMARTP<msrVoicechunk> S_msrVoicechunk;
+
 class msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
 
@@ -1137,6 +1140,99 @@ typedef SMARTP<msrWedge> S_msrWedge;
 EXP ostream& operator<< (ostream& os, const S_msrWedge& elt);
 
 /*!
+\brief A msr repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common part
+    - a vector of sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
+class EXP msrMeasure : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrMeasure> create (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      int             divisions,
+      S_msrVoicechunk voicechunkUplink);
+    
+    SMARTP<msrMeasure> createMeasureBareClone (
+      S_msrVoicechunk clonedVoicechunk);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrMeasure (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      int             divisions,
+      S_msrVoicechunk voicechunkUplink);
+      
+    virtual ~msrMeasure();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+//    void          setMeasureDivisions (int divisions)
+//                      { fMeasureDivisions = divisions; }
+
+    int           getMeasureDivisions () const
+                      { return fMeasureDivisions; }
+
+    string        getMeasureDivisionsAsString () const;
+
+    S_msrVoicechunk
+                  getMeasureVoicechunkUplink () const
+                      { return fMeasureVoicechunkUplink; }
+
+    // services
+    // ------------------------------------------------------
+
+    void          prependElementToVoicechunk (S_msrElement elem)
+                      { fMeasureElementsList.push_front (elem); }
+    void          appendElementToMeasure  (S_msrElement elem)
+                      { fMeasureElementsList.push_back (elem); }
+    
+    S_msrElement  getLastElementOfMeasure () const
+                      { return fMeasureElementsList.back (); }
+                      
+    void          removeLastElementFromMeasure ()
+                      { fMeasureElementsList.pop_back (); }
+
+//    void          removeElementFromMeasure (S_msrElement elem);
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    int                       fMeasureDivisions;
+
+    list<S_msrElement>        fMeasureElementsList;
+    
+    S_msrVoicechunk           fMeasureVoicechunkUplink;
+};
+typedef SMARTP<msrMeasure> S_msrMeasure;
+EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
+
+/*!
 \brief The msr sequential music element
 */
 //______________________________________________________________________________
@@ -1169,15 +1265,25 @@ class EXP msrVoicechunk : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    const list<S_msrElement>&
-                  getVoicechunkElements () const
-                      { return fVoicechunkElementsList; }
+    const list<S_msrMeasure>&
+                  getVoicechunkMeasuresList () const
+                      { return fVoicechunkMeasuresList; }
                       
     string        voicechunkAsString ();
 
     // services
     // ------------------------------------------------------
 
+    void          appendMeasureToVoicechunk (S_msrMeasure measure)
+                      { fVoicechunkMeasuresList.push_front (measure); }
+
+    void          appendElementToVoicechunk (S_msrElement elem)
+                      {
+                        fVoicechunkMeasuresList.front ()->
+                          appendElementToMeasure (elem);
+                      }
+        
+/*
     void          prependElementToVoicechunk (S_msrElement elem)
                       { fVoicechunkElementsList.push_front (elem); }
     void          appendElementToVoicechunk  (S_msrElement elem)
@@ -1190,6 +1296,7 @@ class EXP msrVoicechunk : public msrElement
                       { fVoicechunkElementsList.pop_back (); }
 
 //    void          removeElementFromVoicechunk (S_msrElement elem);
+*/
 
     // visitors
     // ------------------------------------------------------
@@ -1206,7 +1313,9 @@ class EXP msrVoicechunk : public msrElement
 
   private:
 
-    list<S_msrElement>   fVoicechunkElementsList;
+    // the measures in the voice chunk contain the mmusic
+    // it is created implicitly for every voice,
+    list<S_msrMeasure>   fVoicechunkMeasuresList;
 };
 typedef SMARTP<msrVoicechunk> S_msrVoicechunk;
 EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
@@ -3856,84 +3965,6 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrMeasure : public msrElement
-{
-  public:
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrMeasure> create (
-      S_msrOptions&   msrOpts, 
-      int             inputLineNumber,
-      int             divisions,
-      S_msrVoice      voiceUplink);
-    
-    SMARTP<msrMeasure> createMeasureBareClone (
-      S_msrVoice clonedVoice);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrMeasure (
-      S_msrOptions&   msrOpts, 
-      int             inputLineNumber,
-      int             divisions,
-      S_msrVoice      voiceUplink);
-      
-    virtual ~msrMeasure();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-//    void          setMeasureDivisions (int divisions)
-//                      { fMeasureDivisions = divisions; }
-
-    int           getMeasureDivisions () const
-                      { return fMeasureDivisions; }
-
-    string        getMeasureDivisionsAsString () const;
-
-    S_msrVoice    getMeasureVoiceUplink () const
-                      { return fMeasureVoiceUplink; }
-
-    // services
-    // ------------------------------------------------------
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void print (ostream& os);
-
-  private:
-
-    int                       fMeasureDivisions;
-    
-    S_msrVoice                fMeasureVoiceUplink;
-};
-typedef SMARTP<msrMeasure> S_msrMeasure;
-EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
-
-/*!
-\brief A msr repeat representation.
-
-  A repeat is represented by:
-    - a sequence of elements for the common part
-    - a vector of sequences of elements for the alternate endings
-*/
-//______________________________________________________________________________
 class EXP msrUpbeat : public msrElement
 {
   public:
@@ -4253,7 +4284,7 @@ class EXP msrVoice : public msrElement
     bool                      fMusicHasBeenInsertedInVoice;
     S_msrUpbeat               fVoiceAnacrusis;
     
-    // the chunk in the voice contain the music elements
+    // the chunk in the voice contains the measures
     // it is created implicitly for every voice,
     S_msrVoicechunk           fVoicechunk;
 

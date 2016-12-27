@@ -5258,6 +5258,142 @@ void msrBarline::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrMeasure msrMeasure::create (
+  S_msrOptions&   msrOpts, 
+  int             inputLineNumber,
+  int             divisions,
+  S_msrVoicechunk voicechunkUplink)
+{
+  msrMeasure* o =
+    new msrMeasure (
+      msrOpts, inputLineNumber, divisions, voicechunkUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrMeasure::msrMeasure (
+    S_msrOptions&   msrOpts, 
+    int             inputLineNumber,
+    int             divisions,
+    S_msrVoicechunk voicechunkUplink)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fMeasureDivisions        = divisions;
+  fMeasureVoicechunkUplink = voicechunkUplink;
+}
+
+msrMeasure::~msrMeasure() {}
+
+S_msrMeasure msrMeasure::createMeasureBareClone (
+  S_msrVoicechunk clonedVoicechunk)
+{
+//  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating an empty clone of a measure" << endl;
+  
+  S_msrMeasure
+    clone =
+      msrMeasure::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fMeasureDivisions,
+        clonedVoice);
+  
+  return clone;
+}
+
+void msrMeasure::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrMeasure::acceptIn()" << endl;
+      
+  if (visitor<S_msrMeasure>*
+    p =
+      dynamic_cast<visitor<S_msrMeasure>*> (v)) {
+        S_msrMeasure elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrMeasure::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrMeasure::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrMeasure::acceptOut()" << endl;
+
+  if (visitor<S_msrMeasure>*
+    p =
+      dynamic_cast<visitor<S_msrMeasure>*> (v)) {
+        S_msrMeasure elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrMeasure::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrMeasure::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrMeasure& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrMeasure::getMeasureDivisionsAsString () const
+{
+  string result;
+  int    computedNumberOfDots; // value not used
+  string errorMessage;
+
+  int divisionsPerWholeNote =
+    fMeasureVoiceUplink->
+      getDivisionsPerWholeNote ();
+  
+  if (fMsrOptions->fDebug)
+    cerr <<
+      endl <<
+      idtr <<
+        "% --> fMeasureDivisions = " << fMeasureDivisions <<
+        ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
+      endl;
+
+  result =
+    divisionsAsMSRDuration (
+      fMeasureDivisions,
+      divisionsPerWholeNote,
+      fMeasureDivisions, // JMI
+      computedNumberOfDots,
+      errorMessage,
+      false); // 'true' to debug it;
+
+  if (errorMessage.size ())
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      fInputLineNumber,
+      errorMessage);
+
+  return result;
+}
+
+void msrMeasure::print (ostream& os)
+{
+  os <<
+    endl <<
+    idtr << "Measure" <<
+      ", line: " << fInputLineNumber <<
+      ", voice " << fMeasureVoiceUplink->getVoiceName () << ", " <<
+      fMeasureDivisions << " divisions" <<
+      " (" << getMeasureDivisionsAsString () << ")" <<
+    endl;
+}
+
+//______________________________________________________________________________
 S_msrVoicechunk msrVoicechunk::create (
   S_msrOptions&        msrOpts, 
   int                  inputLineNumber)
@@ -5693,141 +5829,6 @@ void msrRepeat::print (ostream& os)
   } // for
     
   idtr--;
-}
-
-//______________________________________________________________________________
-S_msrMeasure msrMeasure::create (
-  S_msrOptions&   msrOpts, 
-  int             inputLineNumber,
-  int             divisions,
-  S_msrVoice      voiceUplink)
-{
-  msrMeasure* o =
-    new msrMeasure (
-      msrOpts, inputLineNumber, divisions, voiceUplink);
-  assert(o!=0);
-  return o;
-}
-
-msrMeasure::msrMeasure (
-  S_msrOptions&   msrOpts, 
-  int             inputLineNumber,
-  int             divisions,
-  S_msrVoice      voiceUplink)
-    : msrElement (msrOpts, inputLineNumber)
-{
-  fMeasureDivisions   = divisions;
-  fMeasureVoiceUplink = voiceUplink;
-}
-
-msrMeasure::~msrMeasure() {}
-
-S_msrMeasure msrMeasure::createMeasureBareClone (S_msrVoice clonedVoice)
-{
-//  if (fMsrOptions->fDebug)
-    cerr << idtr <<
-      "--> Creating an empty clone of a measure" << endl;
-  
-  S_msrMeasure
-    clone =
-      msrMeasure::create (
-        fMsrOptions,
-        fInputLineNumber,
-        fMeasureDivisions,
-        clonedVoice);
-  
-  return clone;
-}
-
-void msrMeasure::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrMeasure::acceptIn()" << endl;
-      
-  if (visitor<S_msrMeasure>*
-    p =
-      dynamic_cast<visitor<S_msrMeasure>*> (v)) {
-        S_msrMeasure elem = this;
-        
-        if (fMsrOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> Launching msrMeasure::visitStart()" << endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrMeasure::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrMeasure::acceptOut()" << endl;
-
-  if (visitor<S_msrMeasure>*
-    p =
-      dynamic_cast<visitor<S_msrMeasure>*> (v)) {
-        S_msrMeasure elem = this;
-      
-        if (fMsrOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> Launching msrMeasure::visitEnd()" << endl;
-        p->visitEnd (elem);
-  }
-}
-
-void msrMeasure::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrMeasure& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-string msrMeasure::getMeasureDivisionsAsString () const
-{
-  string result;
-  int    computedNumberOfDots; // value not used
-  string errorMessage;
-
-  int divisionsPerWholeNote =
-    fMeasureVoiceUplink->
-      getDivisionsPerWholeNote ();
-  
-  if (fMsrOptions->fDebug)
-    cerr <<
-      endl <<
-      idtr <<
-        "% --> fMeasureDivisions = " << fMeasureDivisions <<
-        ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
-      endl;
-
-  result =
-    divisionsAsMSRDuration (
-      fMeasureDivisions,
-      divisionsPerWholeNote,
-      fMeasureDivisions, // JMI
-      computedNumberOfDots,
-      errorMessage,
-      false); // 'true' to debug it;
-
-  if (errorMessage.size ())
-    msrMusicXMLError (
-      fMsrOptions->fInputSourceName,
-      fInputLineNumber,
-      errorMessage);
-
-  return result;
-}
-
-void msrMeasure::print (ostream& os)
-{
-  os <<
-    endl <<
-    idtr << "Measure" <<
-      ", line: " << fInputLineNumber <<
-      ", voice " << fMeasureVoiceUplink->getVoiceName () << ", " <<
-      fMeasureDivisions << " divisions" <<
-      " (" << getMeasureDivisionsAsString () << ")" <<
-    endl;
 }
 
 //______________________________________________________________________________
