@@ -1331,11 +1331,11 @@ class EXP msrVoicechunk : public msrElement
     string        voicechunkAsString ();
 
     void          appendMeasureToVoicechunk (S_msrMeasure measure)
-                      { fVoicechunkMeasuresList.push_front (measure); }
+                      { fVoicechunkMeasuresList.push_back (measure); }
 
     void          appendElementToVoicechunk (S_msrElement elem)
                       {
-                        fVoicechunkMeasuresList.front ()->
+                        fVoicechunkMeasuresList.back ()->
                           appendElementToMeasure (elem);
                       }
         
@@ -1347,7 +1347,7 @@ class EXP msrVoicechunk : public msrElement
 
     void          removeLastElementFromVoicechunk ()
                       {
-                        fVoicechunkMeasuresList.front ()->
+                        fVoicechunkMeasuresList.back ()->
                           removeLastElementFromMeasure ();
                       }
 

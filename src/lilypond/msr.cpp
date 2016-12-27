@@ -2058,7 +2058,7 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+  // JMI    os << endl;
     } // for
     
     idtr--;
@@ -5510,7 +5510,7 @@ msrVoicechunk::msrVoicechunk (
         fVoicechunVoicekUplink->getVoiceDivisionsPerWholeNote (),
         this);
   
-  fVoicechunkMeasuresList.push_front (measure);
+  fVoicechunkMeasuresList.push_back (measure);
 
   fMeasureNumberHasBeenSetInVoiceChunk = false;
 }
