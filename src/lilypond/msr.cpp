@@ -5270,12 +5270,14 @@ void msrBarline::print (ostream& os)
 S_msrMeasure msrMeasure::create (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
+  int             measureNumber,
   int             divisions,
   S_msrVoicechunk voicechunkUplink)
 {
   msrMeasure* o =
     new msrMeasure (
-      msrOpts, inputLineNumber, divisions, voicechunkUplink);
+      msrOpts, inputLineNumber,
+      measureNumber, divisions, voicechunkUplink);
   assert(o!=0);
   return o;
 }
@@ -5283,11 +5285,15 @@ S_msrMeasure msrMeasure::create (
 msrMeasure::msrMeasure (
     S_msrOptions&   msrOpts, 
     int             inputLineNumber,
+    int             measureNumber,
     int             divisions,
     S_msrVoicechunk voicechunkUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
+  fMeasureNumber           = measureNumber;
+  
   fMeasureDivisions        = divisions;
+  
   fMeasureVoicechunkUplink = voicechunkUplink;
 }
 
@@ -5305,6 +5311,7 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
       msrMeasure::create (
         fMsrOptions,
         fInputLineNumber,
+        fMeasureNumber,
         fMeasureDivisions,
         clonedVoicechunk);
   
@@ -5357,14 +5364,13 @@ ostream& operator<< (ostream& os, const S_msrMeasure& elt)
 string msrMeasure::getMeasureDivisionsAsString () const
 {
   string result;
-  int    computedNumberOfDots; // value not used
   string errorMessage;
 
   int divisionsPerWholeNote =
     fMeasureVoicechunkUplink->
       getDivisionsPerWholeNote ();
   
-  if (fMsrOptions->fDebug)
+//  if (fMsrOptions->fDebug)
     cerr <<
       endl <<
       idtr <<
@@ -5372,12 +5378,12 @@ string msrMeasure::getMeasureDivisionsAsString () const
         ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
       endl;
 
+  return "23";
+  
   result =
     divisionsAsMSRDuration (
       fMeasureDivisions,
       divisionsPerWholeNote,
-      fMeasureDivisions, // JMI
-      computedNumberOfDots,
       errorMessage,
       false); // 'true' to debug it;
 
@@ -5394,7 +5400,7 @@ void msrMeasure::print (ostream& os)
 {
   os <<
     endl <<
-    idtr << "Measure" <<
+    idtr << "Measure " << fMeasureNumber <<
       ", line: " << fInputLineNumber <<
       ", voice " <<
       fMeasureVoicechunkUplink->getVoiceUplink ()->getVoiceName () <<
@@ -5429,11 +5435,12 @@ msrVoicechunk::msrVoicechunk (
   S_msrMeasure
     measure =
       msrMeasure::create (
-      fMsrOptions, 
-      inputLineNumber,
-      fVoicechunVoicekUplink->getDivisionsPerWholeNote (),
-      this);
-
+        fMsrOptions,
+        inputLineNumber,
+        1, // may be changed afterwards if 0 is found in MusicXML data
+        fVoicechunVoicekUplink->getDivisionsPerWholeNote (),
+        this);
+  
   fVoicechunkMeasuresList.push_front (measure);
 }
 
@@ -5950,7 +5957,6 @@ ostream& operator<< (ostream& os, const S_msrUpbeat& elt)
 string msrUpbeat::getUpbeatDivisionsAsString () const
 {
   string result;
-  int    computedNumberOfDots; // value not used
   string errorMessage;
 
   int divisionsPerWholeNote =
@@ -5969,8 +5975,6 @@ string msrUpbeat::getUpbeatDivisionsAsString () const
     divisionsAsMSRDuration (
       fUpbeatDivisions,
       divisionsPerWholeNote,
-      fUpbeatDivisions, // JMI
-      computedNumberOfDots,
       errorMessage,
       false); // 'true' to debug it;
 
@@ -6115,8 +6119,9 @@ msrVoice::msrVoice (
   // create the voice chunk
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Creating the initial voice chunk for voice " <<
-      getVoiceName () << endl;
+      "Creating the initial voice chunk for voice \"" <<
+      getVoiceName () << "\"" <<
+      endl;
       
   fVoicechunk =
     msrVoicechunk::create (
@@ -6572,8 +6577,6 @@ void msrVoice::setMeasureNumber (
       divisionsAsMSRDuration (
         anacrusisDivisions,
         fDivisionsPerWholeNote,
-        anacrusisDivisions, // JMI
-        computedNumberOfDots,
         errorMessage,
         false); // 'true' to debug it
     

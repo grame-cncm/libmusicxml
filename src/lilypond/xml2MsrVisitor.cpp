@@ -1098,7 +1098,7 @@ void xml2MsrVisitor::visitStart ( S_divisions& elt )
   }
 
   fCurrentPart->
-    setDivisionsPerWholeNote (
+    setPartDivisionsPerWholeNote (
       fCurrentDivisionsPerQuarterNote * 4);
 }
 
@@ -4186,8 +4186,8 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
 
   // chord's divisions per whole note is that of its first note
   chord->
-    setDivisionsPerWholeNote (
-      firstNote-> getDivisionsPerWholeNote ());
+    setChordDivisionsPerWholeNote (
+      firstNote-> getNoteDivisionsPerWholeNote ());
   
   // chord's location is that of its first note
   chord->
@@ -4447,8 +4447,8 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
 
   // tuplets's divisions per whole note is that of its first note
   tuplet->
-    setDivisionsPerWholeNote (
-      firstNote-> getDivisionsPerWholeNote ());
+    setTupletDivisionsPerWholeNote (
+      firstNote-> getNoteDivisionsPerWholeNote ());
   
   // register it in this visitor
   if (fMsrOptions->fDebug)

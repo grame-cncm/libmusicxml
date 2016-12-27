@@ -210,27 +210,27 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
   
   fOstream << left <<
     idtr <<
-      setw(21) << "PartID" << " : \"" <<
+      setw(25) << "PartID" << " : \"" <<
       elt->getPartID () << "\"" <<
       endl <<
     idtr <<
-      setw(21) << "PartMSRName" << " : \"" <<
+      setw(25) << "PartMSRName" << " : \"" <<
       elt->getPartMSRName () << "\"" <<
       endl <<
     idtr <<
-      setw(21) << "PartName" << " : \"" <<
+      setw(25) << "PartName" << " : \"" <<
       elt->getPartName  () << "\"" <<
       endl <<
     idtr <<
-      setw(21) << "PartAbbrevation" << " : \"" <<
+      setw(25) << "PartAbbrevation" << " : \"" <<
       elt->getPartAbbreviation () << "\"" <<
       endl <<
     idtr <<
-      setw(21) << "DivisionsPerWholeNote" << " : " <<
-      elt->getDivisionsPerWholeNote () <<
+      setw(25) << "PartDivisionsPerWholeNote" << " : " <<
+      elt->getPartDivisionsPerWholeNote () <<
       endl <<
     idtr <<
-      setw(21) << "PartInstrumentName" << " : \"" <<
+      setw(25) << "PartInstrumentName" << " : \"" <<
       elt->getPartInstrumentName () << "\"" <<
       endl <<
     endl;

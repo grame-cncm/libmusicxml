@@ -1157,6 +1157,7 @@ class EXP msrMeasure : public msrElement
     static SMARTP<msrMeasure> create (
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
+      int             measureNumber,
       int             divisions,
       S_msrVoicechunk voicechunkUplink);
     
@@ -1171,6 +1172,7 @@ class EXP msrMeasure : public msrElement
     msrMeasure (
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
+      int             measureNumber,
       int             divisions,
       S_msrVoicechunk voicechunkUplink);
       
@@ -1181,7 +1183,13 @@ class EXP msrMeasure : public msrElement
     // set and get
     // ------------------------------------------------------
 
-//    void          setMeasureDivisions (int divisions)
+    void          setMeasureNumber (int measureNumber)
+                      { fMeasureNumber = measureNumber; }
+
+    int           getMeasureNumber () const
+                      { return fMeasureNumber; }
+
+//  JMI  void          setMeasureDivisions (int divisions)
 //                      { fMeasureDivisions = divisions; }
 
     int           getMeasureDivisions () const
@@ -1225,6 +1233,8 @@ class EXP msrMeasure : public msrElement
 
   private:
 
+    int                       fMeasureNumber;
+    
     int                       fMeasureDivisions;
 
     list<S_msrElement>        fMeasureElementsList;
@@ -1280,11 +1290,12 @@ class EXP msrVoicechunk : public msrElement
     // divisions per whole note
     void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
                       {
-                        fDivisionsPerWholeNote = divisionsPerWholeNote;
+                        fVoicechunkDivisionsPerWholeNote =
+                          divisionsPerWholeNote;
                       }
                       
     const int     getDivisionsPerWholeNote () const
-                      { return fDivisionsPerWholeNote; }
+                      { return fVoicechunkDivisionsPerWholeNote; }
           
     // services
     // ------------------------------------------------------
@@ -1338,7 +1349,7 @@ class EXP msrVoicechunk : public msrElement
 
   private:
 
-    int                  fDivisionsPerWholeNote;
+    int                  fVoicechunkDivisionsPerWholeNote;
 
     // the measures in the voice chunk contain the mmusic
     // it is created implicitly for every voice,
@@ -1643,13 +1654,14 @@ class EXP msrNote : public msrElement
                       { return fNoteStem; }
 
     // divisions per whole note
-    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
+    void          setNoteDivisionsPerWholeNote (int divisionsPerWholeNote)
                       {
-                        fDivisionsPerWholeNote = divisionsPerWholeNote;
+                        fNoteDivisionsPerWholeNote =
+                          divisionsPerWholeNote;
                       }
                       
-    const int     getDivisionsPerWholeNote () const
-                      { return fDivisionsPerWholeNote; }
+    const int     getNoteDivisionsPerWholeNote () const
+                      { return fNoteDivisionsPerWholeNote; }
           
     // chord members
     void          setNoteBelongsToAChord ();
@@ -1787,7 +1799,7 @@ class EXP msrNote : public msrElement
                                       
     list<S_msrArticulation>   fNoteArticulations;
 
-    int                       fDivisionsPerWholeNote;
+    int                       fNoteDivisionsPerWholeNote;
     
     msrMeasureLocation        fNoteMeasureLocation;
 
@@ -1853,14 +1865,14 @@ class EXP msrChord : public msrElement
                       { return fChordDivisions; }
             
     // divisions per whole note
-    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
+    void          setChordDivisionsPerWholeNote (int divisionsPerWholeNote)
                       {
-                        fDivisionsPerWholeNote =
+                        fChordDivisionsPerWholeNote =
                           divisionsPerWholeNote;
                       }
                       
-    const int     getDivisionsPerWholeNote () const
-                      { return fDivisionsPerWholeNote; }
+    const int     getChordDivisionsPerWholeNote () const
+                      { return fChordDivisionsPerWholeNote; }
           
     // location in measure
     void          setChordMeasureLocation (
@@ -1919,7 +1931,7 @@ class EXP msrChord : public msrElement
   
     vector<S_msrNote>         fChordNotes;
 
-    int                       fDivisionsPerWholeNote;
+    int                       fChordDivisionsPerWholeNote;
 
     msrMeasureLocation        fChordMeasureLocation;
     
@@ -2606,8 +2618,8 @@ class EXP msrTuplet : public msrElement
     
     int           getTupletNumber () const { return fTupletNumber; }
 
-    int           getActualNotes () const { return fActualNotes; }
-    int           getNormalNotes () const { return fNormalNotes; }
+    int           getActualNotes () const { return fTupletActualNotes; }
+    int           getNormalNotes () const { return fTupletNormalNotes; }
     
     const vector<S_msrElement>&
                   getTupletElements () const
@@ -2617,14 +2629,14 @@ class EXP msrTuplet : public msrElement
                       { return fTupletDivisions; }
             
     // divisions per whole note
-    void        setDivisionsPerWholeNote (int divisionsPerWholeNote)
+    void        setTupletDivisionsPerWholeNote (int divisionsPerWholeNote)
                     {
-                      fDivisionsPerWholeNote =
+                      fTupletDivisionsPerWholeNote =
                         divisionsPerWholeNote;
                     }
                       
-    const int   getDivisionsPerWholeNote () const
-                    { return fDivisionsPerWholeNote; }
+    const int   getTupletDivisionsPerWholeNote () const
+                    { return fTupletDivisionsPerWholeNote; }
           
     // location in measure
     void          setTupletMeasureLocation (
@@ -2658,13 +2670,13 @@ class EXP msrTuplet : public msrElement
 
     int                  fTupletNumber;
     
-    int                  fActualNotes;
-    int                  fNormalNotes;
+    int                  fTupletActualNotes;
+    int                  fTupletNormalNotes;
 
     int                  fTupletDivisions;
     int                  fTupletDisplayDivisions;
 
-    int                  fDivisionsPerWholeNote;
+    int                  fTupletDivisionsPerWholeNote;
 
     msrMeasureLocation   fTupletMeasureLocation;
     
@@ -4146,14 +4158,14 @@ class EXP msrVoice : public msrElement
                       { return fVoiceLyricsmaster; }
                
     // divisions per whole note
-    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
+    void          setVoiceDivisionsPerWholeNote (int divisionsPerWholeNote)
                       {
-                        fDivisionsPerWholeNote =
+                        fVoiceDivisionsPerWholeNote =
                           divisionsPerWholeNote;
                       }
                       
-    const int     getDivisionsPerWholeNote () const
-                      { return fDivisionsPerWholeNote; }
+    const int     getVoiceDivisionsPerWholeNote () const
+                      { return fVoiceDivisionsPerWholeNote; }
           
     // location in measure
     void          setPositionInMeasure (int positionInMeasure)
@@ -4305,7 +4317,7 @@ class EXP msrVoice : public msrElement
 
     bool                      fVoiceContainsActualNotes;
 
-    int                       fDivisionsPerWholeNote;
+    int                       fVoiceDivisionsPerWholeNote;
 
     S_msrTime                 fVoiceTime;
 
@@ -4405,18 +4417,18 @@ class EXP msrStaff : public msrElement
                     { return fStaffVoicesMap; }
 
     // divisions per whole note
-    void        setDivisionsPerWholeNote (
+    void        setStaffDivisionsPerWholeNote (
                   int divisionsPerWholeNote)
                     {
-                      fDivisionsPerWholeNote =
+                      fStaffDivisionsPerWholeNote =
                         divisionsPerWholeNote;
 
                       setAllStaffVoicesDivisionsPerWholeNote (
                         divisionsPerWholeNote);
                     }
                       
-    const int   getDivisionsPerWholeNote () const
-                    { return fDivisionsPerWholeNote; }
+    const int   getStaffDivisionsPerWholeNote () const
+                    { return fStaffDivisionsPerWholeNote; }
           
     // location in measure
     void          setStaffMeasureLocation (
@@ -4480,7 +4492,7 @@ class EXP msrStaff : public msrElement
 
     string                  fStaffInstrumentName;
 
-    int                     fDivisionsPerWholeNote;    
+    int                     fStaffDivisionsPerWholeNote;    
 
     msrMeasureLocation      fStaffMeasureLocation;
     S_msrVoice              fStaffVoicemaster;
@@ -4576,18 +4588,18 @@ class EXP msrPart : public msrElement
     string        getPartCombinedName () const;
 
     // divisions per whole note
-    void          setDivisionsPerWholeNote (
+    void          setPartDivisionsPerWholeNote (
                     int divisionsPerWholeNote)
                       {
-                        fDivisionsPerWholeNote =
+                        fPartDivisionsPerWholeNote =
                           divisionsPerWholeNote;
 
                         setAllPartStavesDivisionsPerWholeNote (
                           divisionsPerWholeNote);
                       }
                       
-    const int     getDivisionsPerWholeNote () const
-                      { return fDivisionsPerWholeNote; }
+    const int     getPartDivisionsPerWholeNote () const
+                      { return fPartDivisionsPerWholeNote; }
           
     S_msrClef     getPartClef () const { return fPartClef; };
     S_msrKey      getPartKey  () const { return fPartKey; };
@@ -4671,7 +4683,7 @@ class EXP msrPart : public msrElement
 
     map<int, S_msrStaff>    fPartStavesMap;
 
-    int                     fDivisionsPerWholeNote;
+    int                     fPartDivisionsPerWholeNote;
 
     msrMeasureLocation      fPartMeasureLocation;
     S_msrVoice              fPartVoicemaster;
