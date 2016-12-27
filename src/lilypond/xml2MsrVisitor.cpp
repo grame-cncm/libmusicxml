@@ -5261,7 +5261,8 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         msrGraceexpression::create (
           fMsrOptions, 
           newNote->getInputLineNumber (),
-          fCurrentGraceIsSlashed);
+          fCurrentGraceIsSlashed,
+          currentVoice);
 
       // append it to the current voice
       currentVoice->

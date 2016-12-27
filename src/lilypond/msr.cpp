@@ -1162,11 +1162,13 @@ void msrSlur::print (ostream& os)
 S_msrGraceexpression msrGraceexpression::create (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
-  bool            slashed)
+  bool            slashed,
+  S_msrVoice      graceexpressionVoiceUplink)
 {
   msrGraceexpression* o =
     new msrGraceexpression (
-      msrOpts, inputLineNumber, slashed);
+      msrOpts, inputLineNumber,
+      slashed, graceexpressionVoiceUplink);
   assert(o!=0);
   return o;
 }
@@ -1174,19 +1176,25 @@ S_msrGraceexpression msrGraceexpression::create (
 msrGraceexpression::msrGraceexpression (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
-  bool            slashed)
+  bool            slashed,
+  S_msrVoice      graceexpressionVoiceUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
   fGraceexpressionIsSlashed = slashed;
-  
+
+  fGraceexpressionVoiceUplink =
+    graceexpressionVoiceUplink;
+    
   fGraceexpressionVoicechunk =
     msrVoicechunk::create (
-      fMsrOptions, fInputLineNumber);
+      fMsrOptions, fInputLineNumber,
+      graceexpressionVoiceUplink);
 }
 
 msrGraceexpression::~msrGraceexpression() {}
 
-S_msrGraceexpression msrGraceexpression::createGraceexpressionBareClone ()
+S_msrGraceexpression msrGraceexpression::createGraceexpressionBareClone (
+  S_msrVoice voiceClone)
 {
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug)
     cerr << idtr <<
@@ -1197,7 +1205,8 @@ S_msrGraceexpression msrGraceexpression::createGraceexpressionBareClone ()
       msrGraceexpression::create (
         fMsrOptions,
         fInputLineNumber,
-        fGraceexpressionIsSlashed);
+        fGraceexpressionIsSlashed,
+        voiceClone);
   
   return clone;
 }
@@ -5297,7 +5306,7 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
         fMsrOptions,
         fInputLineNumber,
         fMeasureDivisions,
-        clonedVoice);
+        clonedVoicechunk);
   
   return clone;
 }
@@ -5352,7 +5361,7 @@ string msrMeasure::getMeasureDivisionsAsString () const
   string errorMessage;
 
   int divisionsPerWholeNote =
-    fMeasureVoiceUplink->
+    fMeasureVoicechunkUplink->
       getDivisionsPerWholeNote ();
   
   if (fMsrOptions->fDebug)
@@ -5387,38 +5396,57 @@ void msrMeasure::print (ostream& os)
     endl <<
     idtr << "Measure" <<
       ", line: " << fInputLineNumber <<
-      ", voice " << fMeasureVoiceUplink->getVoiceName () << ", " <<
-      fMeasureDivisions << " divisions" <<
+      ", voice " <<
+      fMeasureVoicechunkUplink->getVoiceUplink ()->getVoiceName () <<
+      ", " << fMeasureDivisions << " divisions" <<
       " (" << getMeasureDivisionsAsString () << ")" <<
     endl;
 }
 
 //______________________________________________________________________________
 S_msrVoicechunk msrVoicechunk::create (
-  S_msrOptions&        msrOpts, 
-  int                  inputLineNumber)
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  S_msrVoice    voicechunVoicekUplink)
 {
   msrVoicechunk* o =
     new msrVoicechunk (
-      msrOpts, inputLineNumber);
+      msrOpts, inputLineNumber,
+      voicechunVoicekUplink);
   assert(o!=0);
   return o;
 }
 
 msrVoicechunk::msrVoicechunk (
-  S_msrOptions&        msrOpts, 
-  int                  inputLineNumber)
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  S_msrVoice    voicechunVoicekUplink)
     : msrElement (msrOpts, inputLineNumber)
-{}
+{
+  fVoicechunVoicekUplink = voicechunVoicekUplink;
+
+  // create a first measure
+  S_msrMeasure
+    measure =
+      msrMeasure::create (
+      fMsrOptions, 
+      inputLineNumber,
+      fVoicechunVoicekUplink->getDivisionsPerWholeNote (),
+      this);
+
+  fVoicechunkMeasuresList.push_front (measure);
+}
 
 msrVoicechunk::~msrVoicechunk() {}
 
-S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone ()
+S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone (
+  S_msrVoice clonedVoice)
 {
   S_msrVoicechunk
     clone =
       msrVoicechunk::create (
-        fMsrOptions, fInputLineNumber);
+        fMsrOptions, fInputLineNumber,
+        clonedVoice);
   
   return clone;
 }
@@ -5428,11 +5456,11 @@ void msrVoicechunk::removeElementFromVoicechunk (
   S_msrElement elem)
 {
   for (
-    list<S_msrElement>::iterator i = fVoicechunkElementsList.begin();
-    i != fVoicechunkElementsList.end();
+    list<S_msrElement>::iterator i = fVoicechunkMeasuresList.begin();
+    i != fVoicechunkMeasuresList.end();
     i++) {
     if ((*i) == elem) {
-      fVoicechunkElementsList.erase (i);
+      fVoicechunkMeasuresList.erase (i);
       break;
     }
   } // for
@@ -5479,8 +5507,8 @@ void msrVoicechunk::browseData (basevisitor* v)
       "==> msrVoicechunk::browseData()" << endl;
 
   for (
-    list<S_msrElement>::iterator i = fVoicechunkElementsList.begin();
-    i != fVoicechunkElementsList.end();
+    list<S_msrMeasure>::iterator i = fVoicechunkMeasuresList.begin();
+    i != fVoicechunkMeasuresList.end();
     i++) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -5497,10 +5525,10 @@ string msrVoicechunk::voicechunkAsString ()
   stringstream s;
 
   s << "Voicechunk" ;
-  if (! fVoicechunkElementsList.size ())
-    s << "(No actual notes)";
+  if (! fVoicechunkMeasuresList.size ())
+    s << "(No actual measures)";
   else
-    s << "(" << fVoicechunkElementsList.size () << " elements)";
+    s << "(" << fVoicechunkMeasuresList.size () << " measures)";
 
   return s.str();
 }
@@ -5515,24 +5543,24 @@ void msrVoicechunk::print (ostream& os)
 {  
   os << idtr <<
     "Voicechunk" <<
-    " (" << fVoicechunkElementsList.size() << " elements)" <<
+    " (" << fVoicechunkMeasuresList.size() << " measures)" <<
     endl;
 
   idtr++;
     
   os <<
-    idtr << "Elements";
+    idtr << "Measures";
 
   idtr++;
   
-  if (! fVoicechunkElementsList.size ())
+  if (! fVoicechunkMeasuresList.size ())
     os << " none";
   else {
     os << endl;
     
-    list<S_msrElement>::const_iterator
-      iBegin = fVoicechunkElementsList.begin(),
-      iEnd   = fVoicechunkElementsList.end(),
+    list<S_msrMeasure>::const_iterator
+      iBegin = fVoicechunkMeasuresList.begin(),
+      iEnd   = fVoicechunkMeasuresList.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -5711,7 +5739,8 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
   S_msrVoicechunk
     voicechunk =
       msrVoicechunk::create (
-        fMsrOptions, fInputLineNumber);
+        fMsrOptions, fInputLineNumber,
+        clonedVoice);
 
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -5734,8 +5763,8 @@ void msrRepeat::setRepeatCommonPart (
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Setting repeat common part containing " <<
-      repeatCommonPart->getVoicechunkElements ().size () <<
-      " elements" <<
+      repeatCommonPart->getVoicechunkMeasuresList ().size () <<
+      " measures" <<
       endl;
       
   fRepeatCommonPart = repeatCommonPart;
@@ -6011,7 +6040,8 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
       
   clone->fVoicechunk =
     msrVoicechunk::create (
-      clone->fMsrOptions, clone->fInputLineNumber);
+      clone->fMsrOptions, clone->fInputLineNumber,
+      clone);
   
   return clone;
 }
@@ -6090,7 +6120,8 @@ msrVoice::msrVoice (
       
   fVoicechunk =
     msrVoicechunk::create (
-      fMsrOptions, inputLineNumber);
+      fMsrOptions, inputLineNumber,
+      this);
 
   // get the initial clef from the staff if any
   {
@@ -6594,7 +6625,8 @@ void msrVoice::setNewVoicechunkForVoice (
       
   fVoicechunk =
     msrVoicechunk::create (
-      fMsrOptions, inputLineNumber);
+      fMsrOptions, inputLineNumber,
+      this);
 }
 
 S_msrLyrics msrVoice::addLyricsToVoice (

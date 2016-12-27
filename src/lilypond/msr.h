@@ -1196,8 +1196,9 @@ class EXP msrMeasure : public msrElement
     // services
     // ------------------------------------------------------
 
-    void          prependElementToVoicechunk (S_msrElement elem)
+    void          prependElementToMeasure (S_msrElement elem)
                       { fMeasureElementsList.push_front (elem); }
+                      
     void          appendElementToMeasure  (S_msrElement elem)
                       { fMeasureElementsList.push_back (elem); }
     
@@ -1207,7 +1208,8 @@ class EXP msrMeasure : public msrElement
     void          removeLastElementFromMeasure ()
                       { fMeasureElementsList.pop_back (); }
 
-//    void          removeElementFromMeasure (S_msrElement elem);
+    void          removeElementFromMeasure (S_msrElement elem);
+
     // visitors
     // ------------------------------------------------------
 
@@ -1245,9 +1247,11 @@ class EXP msrVoicechunk : public msrElement
 
     static SMARTP<msrVoicechunk> create (
       S_msrOptions& msrOpts, 
-      int           inputLineNumber);
+      int           inputLineNumber,
+      S_msrVoice    voicechunVoicekUplink);
 
-    SMARTP<msrVoicechunk> createVoicechunkBareClone ();
+    SMARTP<msrVoicechunk> createVoicechunkBareClone (
+      S_msrVoice clonedVoice);
 
   protected:
 
@@ -1256,7 +1260,8 @@ class EXP msrVoicechunk : public msrElement
 
     msrVoicechunk (
       S_msrOptions& msrOpts, 
-      int           inputLineNumber);
+      int           inputLineNumber,
+      S_msrVoice    voicechunVoicekUplink);
       
     virtual ~msrVoicechunk();
     
@@ -1265,14 +1270,26 @@ class EXP msrVoicechunk : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    S_msrVoice    getVoiceUplink () const
+                      { return fVoicechunVoicekUplink; }
+                      
     const list<S_msrMeasure>&
                   getVoicechunkMeasuresList () const
                       { return fVoicechunkMeasuresList; }
                       
-    string        voicechunkAsString ();
-
+    // divisions per whole note
+    void          setDivisionsPerWholeNote (int divisionsPerWholeNote)
+                      {
+                        fDivisionsPerWholeNote = divisionsPerWholeNote;
+                      }
+                      
+    const int     getDivisionsPerWholeNote () const
+                      { return fDivisionsPerWholeNote; }
+          
     // services
     // ------------------------------------------------------
+
+    string        voicechunkAsString ();
 
     void          appendMeasureToVoicechunk (S_msrMeasure measure)
                       { fVoicechunkMeasuresList.push_front (measure); }
@@ -1283,17 +1300,25 @@ class EXP msrVoicechunk : public msrElement
                           appendElementToMeasure (elem);
                       }
         
-/*
     void          prependElementToVoicechunk (S_msrElement elem)
-                      { fVoicechunkElementsList.push_front (elem); }
+                      {
+                        fVoicechunkMeasuresList.front ()->
+                          prependElementToMeasure (elem);
+                      }
+
+    void          removeLastElementFromVoicechunk ()
+                      {
+                        fVoicechunkMeasuresList.front ()->
+                          removeLastElementFromMeasure ();
+                      }
+
+/*
     void          appendElementToVoicechunk  (S_msrElement elem)
                       { fVoicechunkElementsList.push_back (elem); }
     
     S_msrElement  getLastElementOfVoicechunk () const
                       { return fVoicechunkElementsList.back (); }
                       
-    void          removeLastElementFromVoicechunk ()
-                      { fVoicechunkElementsList.pop_back (); }
 
 //    void          removeElementFromVoicechunk (S_msrElement elem);
 */
@@ -1313,9 +1338,13 @@ class EXP msrVoicechunk : public msrElement
 
   private:
 
+    int                  fDivisionsPerWholeNote;
+
     // the measures in the voice chunk contain the mmusic
     // it is created implicitly for every voice,
     list<S_msrMeasure>   fVoicechunkMeasuresList;
+
+    S_msrVoice           fVoicechunVoicekUplink;
 };
 typedef SMARTP<msrVoicechunk> S_msrVoicechunk;
 EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
@@ -1338,9 +1367,11 @@ class EXP msrGraceexpression : public msrElement
     static SMARTP<msrGraceexpression> create (
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
-      bool            slashed);
+      bool            slashed,
+      S_msrVoice      graceexpressionVoiceUplink);
     
-    SMARTP<msrGraceexpression> createGraceexpressionBareClone ();
+    SMARTP<msrGraceexpression> createGraceexpressionBareClone (
+      S_msrVoice voiceClone);
 
   protected:
 
@@ -1350,7 +1381,8 @@ class EXP msrGraceexpression : public msrElement
     msrGraceexpression (
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
-      bool            slashed);
+      bool            slashed,
+      S_msrVoice      graceexpressionVoiceUplink);
       
     virtual ~msrGraceexpression();
   
@@ -1370,11 +1402,11 @@ class EXP msrGraceexpression : public msrElement
     // services
     // ------------------------------------------------------
 
-    void      appendNoteToGraceexpression (S_msrNote note)
-                  {
-                    fGraceexpressionVoicechunk->
-                      appendElementToVoicechunk (note);
-                  }
+    void        appendNoteToGraceexpression (S_msrNote note)
+                    {
+                      fGraceexpressionVoicechunk->
+                        appendElementToVoicechunk (note);
+                    }
     
     // visitors
     // ------------------------------------------------------
@@ -1391,9 +1423,11 @@ class EXP msrGraceexpression : public msrElement
 
   private:
 
-    bool                     fGraceexpressionIsSlashed;
+    bool               fGraceexpressionIsSlashed;
     
-    S_msrVoicechunk          fGraceexpressionVoicechunk;
+    S_msrVoicechunk    fGraceexpressionVoicechunk;
+
+    S_msrVoice         fGraceexpressionVoiceUplink;
 };
 typedef SMARTP<msrGraceexpression> S_msrGraceexpression;
 EXP ostream& operator<< (ostream& os, const S_msrGraceexpression& elt);

@@ -501,7 +501,8 @@ void msr2LpsrVisitor::visitStart (S_msrVoicechunk& elt)
 
   // create a clone of the voice chunk
   fCurrentVoicechunkClone =
-    elt->createVoicechunkBareClone ();
+    elt->createVoicechunkBareClone (
+      fCurrentVoiceClone);
 /* JMI
   // append it to the current voice
   fCurrentVoiceClone->
@@ -515,6 +516,32 @@ void msr2LpsrVisitor::visitEnd (S_msrVoicechunk& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrVoicechunk" << endl;
+}
+
+//________________________________________________________________________
+void msr2LpsrVisitor::visitStart (S_msrMeasure& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrMeasure" << endl;
+
+  // create a clone of the measure
+  fCurrentMeasureClone =
+    elt->createMeasureBareClone (
+      fCurrentVoicechunkClone);
+/* JMI
+  // append it to the current voice
+  fCurrentVoiceClone->
+    appendVoicechunkToVoice (
+      fCurrentVoicechunkClone);
+      */
+}
+
+void msr2LpsrVisitor::visitEnd (S_msrMeasure& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrMeasure" << endl;
 }
 
 //________________________________________________________________________
@@ -787,7 +814,8 @@ void msr2LpsrVisitor::visitStart (S_msrGraceexpression& elt)
   // create a clone of this grace expression
   fCurrentGraceexpressionClone =
     elt->
-      createGraceexpressionBareClone ();
+      createGraceexpressionBareClone (
+        fCurrentVoiceClone);
 
   // append it to the current voice clone
   fCurrentVoiceClone->

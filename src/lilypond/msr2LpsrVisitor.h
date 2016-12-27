@@ -64,6 +64,8 @@ class msr2LpsrVisitor :
   public visitor<S_msrTempo>,
   
   public visitor<S_msrVoicechunk>,
+  
+  public visitor<S_msrMeasure>,
     
   public visitor<S_msrArticulation>,
 
@@ -175,6 +177,9 @@ class msr2LpsrVisitor :
 
     virtual void visitStart (S_msrVoicechunk& elt);
     virtual void visitEnd   (S_msrVoicechunk& elt);
+
+    virtual void visitStart (S_msrMeasure& elt);
+    virtual void visitEnd   (S_msrMeasure& elt);
 
     virtual void visitStart (S_msrArticulation& elt);
     virtual void visitEnd   (S_msrArticulation& elt);
@@ -313,6 +318,10 @@ class msr2LpsrVisitor :
     S_msrRepeat               fCurrentRepeatClone;
     bool                      fOnGoingRepeat;
  //   S_lpsrRepeatalternative fCurrentLpsrRepeatalternative;
+
+    // measures
+    // ------------------------------------------------------
+    S_msrMeasure              fCurrentMeasureClone;
     
     // voice chunks
     // ------------------------------------------------------
