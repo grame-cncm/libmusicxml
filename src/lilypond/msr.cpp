@@ -2599,7 +2599,8 @@ ostream& operator<< (ostream& os, const S_msrBarCheck& elt)
 void msrBarCheck::print (ostream& os)
 {
   os <<
-    "BarCheck" << ", next bar number = " << fNextBarNumber;
+    "BarCheck" << ", next bar number = " << fNextBarNumber <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -5523,7 +5524,8 @@ msrVoicechunk::msrVoicechunk (
         1, // may be changed afterwards if 0 is found in MusicXML data
         fVoicechunVoicekUplink->getVoiceDivisionsPerWholeNote (),
         this);
-  
+
+  // append it to the voice chunk
   fVoicechunkMeasuresList.push_back (measure);
 
   fMeasureNumberHasBeenSetInVoiceChunk = false;
@@ -5549,19 +5551,25 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
 {
   fVoicechunkMeasureNumber = measureNumber;
 
-  // create a new measure
-  S_msrMeasure
-    newMeasure =
-      msrMeasure::create (
-        fMsrOptions,
-        inputLineNumber,
-        measureNumber,
-        fVoicechunkDivisionsPerWholeNote,
-        this);
+  // don't create measure one since it is created initially by default
+  if (
+    fVoicechunkMeasuresList.back ()->getMeasureNumber ()
+      !=
+    measureNumber) {
+    // create a new measure
+    S_msrMeasure
+      newMeasure =
+        msrMeasure::create (
+          fMsrOptions,
+          inputLineNumber,
+          measureNumber,
+          fVoicechunkDivisionsPerWholeNote,
+          this);
 
-  // append it to the voice chunk's measures list
-  fVoicechunkMeasuresList.push_back (
-    newMeasure);
+    // append it to the voice chunk's measures list
+    fVoicechunkMeasuresList.push_back (
+      newMeasure);
+  }
 
   fMeasureNumberHasBeenSetInVoiceChunk = true;
 }
@@ -7697,11 +7705,13 @@ S_msrVoice msrStaff::addVoiceToStaff (
   fNextRelativeStaffVoiceNumber++;
   
   if (fNextRelativeStaffVoiceNumber > msrStaff::gMaxStaffVoices) {
-    stringstream s;    
+    stringstream s;
+    
     s <<
       "staff " << getStaffName () <<
       " is already filled up with" << msrStaff::gMaxStaffVoices <<
       " voices, voice " << voiceNumber << " overflows it" << endl;
+      
 // JMI    msrMusicXMLError (s.str());
     msrMusicXMLWarning (
       fMsrOptions->fInputSourceName,
