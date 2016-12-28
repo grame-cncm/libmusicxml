@@ -258,6 +258,7 @@ typedef SMARTP<msrOptions> S_msrOptions;
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
+/*
 class msrMeasureLocation
 {
   public:
@@ -287,6 +288,7 @@ class msrMeasureLocation
                         fPositionInMeasure == other.fPositionInMeasure;
                     }    
 };
+*/
 
 /*!
 \brief A generic msr element representation.
@@ -1197,6 +1199,12 @@ class EXP msrMeasure : public msrElement
     int           getMeasureNumber () const
                       { return fMeasureNumber; }
 
+    void          setMeasurePosition (int measurePosition)
+                      { fMeasurePosition = measurePosition; }
+
+    int           getMeasurePosition () const
+                      { return fMeasurePosition; }
+
 //  JMI  void          setMeasureDivisions (int divisions)
 //                      { fMeasureDivisions = divisions; }
 
@@ -1253,6 +1261,8 @@ class EXP msrMeasure : public msrElement
     int                       fMeasureNumber;
     
     int                       fMeasureDivisions;
+
+    int                       fMeasurePosition; // in divisions
 
     msrMeasureKind            fMeasureKind;
 
@@ -1766,7 +1776,15 @@ class EXP msrNote : public msrElement
                     int measureNumber);
                       
     const int     getPartMeasureNumber () const
-                      { return fPartMeasureNumber; }
+                      { return fNoteMeasureNumber; }
+
+    // position in measure
+    void          setNotePositionInMeasure (
+                    int positionInMeasure)
+                      { fNotePositionInMeasure = positionInMeasure; }
+                      
+    int           getNotePositionInMeasure () const
+                      { return fNotePositionInMeasure; }
 
     // services
     // ------------------------------------------------------
@@ -1832,7 +1850,8 @@ class EXP msrNote : public msrElement
 
     int                       fNoteDivisionsPerWholeNote;
     
-    int                       fPartMeasureNumber;
+    int                       fNoteMeasureNumber;
+    int                       fNotePositionInMeasure;
 
     S_msrTie                  fNoteTie;
     
@@ -1904,7 +1923,8 @@ class EXP msrChord : public msrElement
                       
     const int     getChordDivisionsPerWholeNote () const
                       { return fChordDivisionsPerWholeNote; }
-          
+
+       /*   
     // location in measure
     void          setChordMeasureLocation (
                     const msrMeasureLocation& measureLocation)
@@ -1913,7 +1933,7 @@ class EXP msrChord : public msrElement
     const msrMeasureLocation&
                   getChordMeasureLocation () const
                       { return fChordMeasureLocation; }
-
+*/
     // ties
     void          setChordTie (
                     const S_msrTie tie)
@@ -1964,7 +1984,9 @@ class EXP msrChord : public msrElement
 
     int                       fChordDivisionsPerWholeNote;
 
-    msrMeasureLocation        fChordMeasureLocation;
+//    msrMeasureLocation        fChordMeasureLocation;
+
+    int                       fChordPositionInMeasure;
     
     int                       fChordDivisions;
                               
@@ -2670,6 +2692,7 @@ class EXP msrTuplet : public msrElement
                     { return fTupletDivisionsPerWholeNote; }
           
     // location in measure
+/*
     void          setTupletMeasureLocation (
                     const msrMeasureLocation& measureLocation)
                       { fTupletMeasureLocation = measureLocation; }
@@ -2677,7 +2700,7 @@ class EXP msrTuplet : public msrElement
     const msrMeasureLocation&
                   getTupletMeasureLocation () const
                       { return fTupletMeasureLocation; }
-
+*/
     // services
     // ------------------------------------------------------
 
@@ -2709,7 +2732,8 @@ class EXP msrTuplet : public msrElement
 
     int                  fTupletDivisionsPerWholeNote;
 
-    msrMeasureLocation   fTupletMeasureLocation;
+    int                  fTupletMeasureNumber;
+    int                  fTupletPositionInMeasure;
     
     vector<S_msrElement> fTupletElements;
 };
@@ -3379,6 +3403,7 @@ class EXP msrSegno : public msrElement
     // ------------------------------------------------------
     
     // position in measure
+/*
     void          setSegnoMeasureLocation (
                     const msrMeasureLocation& measureLocation)
                       { fSegnoMeasureLocation = measureLocation; }
@@ -3386,7 +3411,7 @@ class EXP msrSegno : public msrElement
     const msrMeasureLocation&
                   getSegnoMeasureLocation () const
                       { return fSegnoMeasureLocation; }
-
+*/
     // services
     // ------------------------------------------------------
 
@@ -3405,7 +3430,7 @@ class EXP msrSegno : public msrElement
 
   private:
 
-    msrMeasureLocation          fSegnoMeasureLocation;
+//    msrMeasureLocation          fSegnoMeasureLocation;
 
 };
 typedef SMARTP<msrSegno> S_msrSegno;
@@ -3443,7 +3468,7 @@ class EXP msrCoda : public msrElement
 
     // set and get
     // ------------------------------------------------------
-    
+    /*
     // position in measure
     void          setCodaMeasureLocation (
                     const msrMeasureLocation& measureLocation)
@@ -3452,7 +3477,7 @@ class EXP msrCoda : public msrElement
     const msrMeasureLocation&
                   getCodaMeasureLocation () const
                       { return fCodaMeasureLocation; }
-
+*/
     // services
     // ------------------------------------------------------
 
@@ -3471,7 +3496,7 @@ class EXP msrCoda : public msrElement
 
   private:
 
-    msrMeasureLocation          fCodaMeasureLocation;
+ //   msrMeasureLocation          fCodaMeasureLocation;
 
 };
 typedef SMARTP<msrCoda> S_msrCoda;
@@ -3509,7 +3534,7 @@ class EXP msrEyeglasses : public msrElement
 
     // set and get
     // ------------------------------------------------------
-    
+    /*
     // position in measure
     void          setEyeglassesMeasureLocation (
                     const msrMeasureLocation& measureLocation)
@@ -3518,7 +3543,7 @@ class EXP msrEyeglasses : public msrElement
     const msrMeasureLocation&
                   getEyeglassesMeasureLocation () const
                       { return fEyeglassesMeasureLocation; }
-
+*/
     // services
     // ------------------------------------------------------
 
@@ -3537,7 +3562,7 @@ class EXP msrEyeglasses : public msrElement
 
   private:
 
-    msrMeasureLocation          fEyeglassesMeasureLocation;
+ //   msrMeasureLocation          fEyeglassesMeasureLocation;
 
 };
 typedef SMARTP<msrEyeglasses> S_msrEyeglasses;
@@ -3598,6 +3623,7 @@ class EXP msrPedal : public msrElement
                     { return fPedalLine; }
                     
     // position in measure
+/*
     void          setPedalMeasureLocation (
                     const msrMeasureLocation& measureLocation)
                       { fPedalMeasureLocation = measureLocation; }
@@ -3605,7 +3631,7 @@ class EXP msrPedal : public msrElement
     const msrMeasureLocation&
                   getPedalMeasureLocation () const
                       { return fPedalMeasureLocation; }
-
+*/
     // services
     // ------------------------------------------------------
 
@@ -3630,7 +3656,7 @@ class EXP msrPedal : public msrElement
     msrPedalType        fPedalType;
     msrPedalLine        fPedalLine;
 
-    msrMeasureLocation  fPedalMeasureLocation;
+ //   msrMeasureLocation  fPedalMeasureLocation;
 
 };
 typedef SMARTP<msrPedal> S_msrPedal;
@@ -3788,14 +3814,21 @@ class EXP msrBarline : public msrElement
                   msrBarlineCategory barlineCategory)
                     { fBarlineCategory = barlineCategory; }
     
-    // position in measure
-    void          setBarlineMeasureLocation (
-                    const msrMeasureLocation& measureLocation)
-                      { fBarlineMeasureLocation = measureLocation; }
+    // measure number
+    void          setBarlineMeasureNumber (
+                    int positionInMeasure)
+                      { fBarlineMeasureNumber= positionInMeasure; }
                       
-    const msrMeasureLocation&
-                  getBarlineMeasureLocation () const
-                      { return fBarlineMeasureLocation; }
+    int           getBarlineMeasureNumber() const
+                      { return fBarlineMeasureNumber; }
+
+    // position in measure
+    void          setBarlinePositionInMeasure (
+                    int positionInMeasure)
+                      { fBarlinePositionInMeasure = positionInMeasure; }
+                      
+    int           getBarlinePositionInMeasure () const
+                      { return fBarlinePositionInMeasure; }
 
     // services
     // ------------------------------------------------------
@@ -3827,7 +3860,8 @@ class EXP msrBarline : public msrElement
 
     msrBarlineCategory          fBarlineCategory;
 
-    msrMeasureLocation          fBarlineMeasureLocation;
+    int                         fBarlineMeasureNumber;
+    int                         fBarlinePositionInMeasure;
 
     // the numbers extracted from fEndingNumber
     list<int>                   fEndingNumbersList;
@@ -4107,7 +4141,8 @@ class EXP msrVoice : public msrElement
     const int     getVoiceDivisionsPerWholeNote () const
                       { return fVoiceDivisionsPerWholeNote; }
           
-    // measure position
+    // position in measure
+/*
     void          setPositionInMeasure (int positionInMeasure)
                       {
                         fVoiceMeasureLocation.fPositionInMeasure =
@@ -4124,7 +4159,7 @@ class EXP msrVoice : public msrElement
                       {
                         return fVoiceMeasureLocation.fPositionInMeasure;
                       }
-                    
+      */              
     // measure number
     void          setVoiceMeasureNumber (
                     int inputLineNumber,
@@ -4140,12 +4175,12 @@ class EXP msrVoice : public msrElement
 
     // services
     // ------------------------------------------------------
-    
+    /*
     void          catchupToMeasureLocation (
                     int                       inputLineNumber,
                     int                       divisionsPerWholeNote,
                     const msrMeasureLocation& measureLocation);
-
+*/
     void          appendClefToVoice   (S_msrClef clef);
     void          appendKeyToVoice    (S_msrKey  key);
     void          appendTimeToVoice   (S_msrTime time);
@@ -4250,7 +4285,7 @@ class EXP msrVoice : public msrElement
 
     S_msrTime                 fVoiceTime;
 
-    msrMeasureLocation        fVoiceMeasureLocation;
+ //   msrMeasureLocation        fVoiceMeasureLocation;
 
     int                       fVoiceMeasureNumber;
     
@@ -4383,11 +4418,11 @@ class EXP msrStaff : public msrElement
     void        setAllStaffVoicesMeasureNumber (
                   int inputLineNumber,
                   int measureNumber);
-  
+  /*
     void        setAllStaffVoicesMeasureLocation (
                   int                       inputLineNumber,
                   const msrMeasureLocation& measureLocation);
-  
+  */
     S_msrVoice  addVoiceToStaff (
                   int inputLineNumber,
                   int voiceNumber);
@@ -4428,7 +4463,7 @@ class EXP msrStaff : public msrElement
 
     int                     fStaffDivisionsPerWholeNote;    
 
-    msrMeasureLocation      fStaffMeasureLocation;
+ //   msrMeasureLocation      fStaffMeasureLocation;
     int                     fStaffMeasureNumber;
     
     S_msrVoice              fStaffVoicemaster;
@@ -4572,11 +4607,11 @@ class EXP msrPart : public msrElement
     void          setAllPartStavesMeasureNumber (
                     int inputLineNumber,
                     int measureNumber);
-  
+  /*
     void          setAllPartStavesMeasureLocation (
                     int                       inputLineNumber,
                     const msrMeasureLocation& measureLocation);
-
+*/
     void          setAllPartStavesClef (S_msrClef clef);
               
     void          setAllPartStavesKey  (S_msrKey  key);

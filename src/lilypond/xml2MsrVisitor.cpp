@@ -38,9 +38,6 @@ xml2MsrVisitor::xml2MsrVisitor (
 {
   fMsrOptions = msrOpts;
 
- // JMI fCurrentMeasureLocation.fMeasureNumber     = 0; // in case of an anacrusis
- // fCurrentMeasureLocation.fPositionInMeasure = 1;
-
   fMillimeters       = -1;
   fTenths            = -1;
   fOnGoingPageLayout = false;
@@ -2005,7 +2002,6 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
       "\" in staff \"" << staff->getStaffName () << "\"" <<
       endl;
 
-//  currentVoice->handleForward (fCurrentForwardDuration); // JMI
 /* JMI
   currentVoice->
     catchupToMeasureLocation (
@@ -2273,17 +2269,12 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
   string
     implicit =
       elt->getAttributeValue ("implicit");
-
-//  msrMeasureLocation
- //   measureLocation (measureNumber, 1);
   
   fCurrentPart->
     setPartMeasureNumber (
       inputLineNumber, measureNumber);
     
-/*    setPartMeasureLocation (
-      inputLineNumber, measureLocation);
-
+/*
 
   // fetch current voice
   S_msrVoice
@@ -2424,15 +2415,7 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
       // append it to the voice
       currentVoice->
         appendBreakToVoice (break_);
- /* JMI   
-      // add a break chunk to the voice master lyrics
-      currentVoice->
-        getVoiceMasterLyrics ()->
-          addBreakChunkToLyrics (
-            inputLineNumber,
-            currentVoice->getVoiceMeasureLocation ().fMeasureNumber);
-            */
-    }
+     }
     
     else if (newSystem == "no") {
       // ignore it
@@ -2712,13 +2695,7 @@ void xml2MsrVisitor::visitStart ( S_segno& elt )
         msrSegno::create (
           fMsrOptions,
           inputLineNumber);
-  /*
-    // set the segno measure location
-    segno->
-      setSegnoMeasureLocation (
-        currentVoice->
-          getVoiceMeasureNumber ());
-*/
+
     // append it to the current voice
     currentVoice->
       appendSegnoToVoice (segno);
@@ -2749,12 +2726,7 @@ void xml2MsrVisitor::visitStart ( S_coda& elt )
         msrCoda::create (
           fMsrOptions,
           inputLineNumber);
-  /*
-    // set the coda measure location
-    coda->
-      setCodaMeasureLocation (
-        currentVoice->getVoiceMeasureLocation ());
-*/
+
     // append it to the current voice
     currentVoice->
       appendCodaToVoice (coda);
@@ -2785,12 +2757,7 @@ void xml2MsrVisitor::visitStart ( S_eyeglasses& elt )
         msrEyeglasses::create (
           fMsrOptions,
           inputLineNumber);
-  /*
-    // set the eyeglasses measure location
-    eyeglasses->
-      setEyeglassesMeasureLocation (
-        currentVoice->getVoiceMeasureLocation ());
-*/
+
     // append it to the current voice
     currentVoice->
       appendEyeglassesToVoice (eyeglasses);
@@ -2890,12 +2857,7 @@ void xml2MsrVisitor::visitStart ( S_pedal& elt )
           inputLineNumber,
           pedalType,
           pedalLine);
-  /*
-    // set the pedal measure location
-    pedal->
-      setPedalMeasureLocation (
-        currentVoice->getVoiceMeasureLocation ());
-*/
+
     // append it to the current voice
     currentVoice->
       appendPedalToVoice (pedal);
@@ -3034,12 +2996,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
         fCurrentBarlineEndingNumber,
         fCurrentBarlineRepeatDirection,
         fCurrentBarlineRepeatWinged);
-/*
-  // set the barline measure location
-  barline->
-    setBarlineMeasureLocation (
-      currentVoice->getVoiceMeasureLocation ());
-*/
+
   // don't display the barline yet in case of debug,
   // wait until its category is defined
   // to append the barline to the current voice chunk
@@ -4201,13 +4158,6 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
     setChordDivisionsPerWholeNote (
       firstNote-> getNoteDivisionsPerWholeNote ());
 
-  /*
-  // chord's location is that of its first note
-  chord->
-    setChordMeasureLocation (
-      firstNote->getNoteMeasureLocation ());
-*/
-
   // chord's tie kind is that of its first note
   chord->
     setChordTie (
@@ -4931,19 +4881,9 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   if (fCurrentBeam)
     note->
       setNoteBeam (fCurrentBeam);
-/*
-  // set its location
-  note->setNoteMeasureLocation (
-    currentVoice->getVoiceMeasureLocation ());
-*/
+
   // attach the articulations if any to the note
   attachCurrentArticulationsToNote (note);
-
-  // JMI fCurrentSlurKind ???
-  
-  // take it's duration into account
-  currentVoice->incrementPositionInMeasure (
-    fNoteData.fDivisions);
 
   /*
   A rest can be standalone or belong to a tuplet
@@ -5064,12 +5004,6 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
   fCurrentChord->
     addNoteToChord (newNote);
 
-    /*
-  // a chord member's measure location is that of the chord
-  newNote->
-    setNoteMeasureLocation (
-      fCurrentChord->getChordMeasureLocation ());
-*/
   // copy newNote's articulations if any to the chord
   copyNoteArticulationsToChord (newNote, fCurrentChord);
 
@@ -5111,8 +5045,10 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
         fCurrentVoiceNumber);
 
   // substract it's duration from the current measure location
+  /* JMI ???
   currentVoice->incrementPositionInMeasure (
     - newNote-> getNoteDivisions ());
+*/
 
   // remove previous current note or the previous state of the chord JMI ???
   // from the current voice sequence
@@ -6042,9 +5978,9 @@ void xml2MsrVisitor::handleEndingStart (
       endl <<
       idtr <<
         "--> measure " <<
-          barline->getBarlineMeasureLocation ().fMeasureNumber <<
+          barline->getBarlineMeasureNumber () <<
         ", position " <<
-          barline->getBarlineMeasureLocation ().fPositionInMeasure <<
+          barline->getBarlinePositionInMeasure () <<
       endl <<
       idtr <<
       "--> barline, left and start: ending start" <<

@@ -1331,8 +1331,6 @@ S_msrNote msrNote::createNoteBareClone ()
 
   clone->fNoteDivisionsPerWholeNote = fNoteDivisionsPerWholeNote;
   
-//  clone->fNoteMeasureLocation = fNoteMeasureLocation;  
-
   return clone;
 }
 
@@ -1909,7 +1907,7 @@ void msrNote::print (ostream& os)
 {
   rational
     position (
-    3, // JMI  fNoteMeasureLocation.fPositionInMeasure, ???
+      fNotePositionInMeasure,
       fNoteDivisionsPerWholeNote);
 
   position.rationalise ();
@@ -1945,13 +1943,13 @@ void msrNote::print (ostream& os)
     "/" <<
     fNoteDivisionsPerWholeNote <<
     ") @"<<
- 3 << // JMI   fNoteMeasureLocation.fMeasureNumber << ???
+    fNotePositionInMeasure <<
     ":" <<
     position.getNumerator() <<
     "/" <<
     position.getDenominator() <<
     " (" <<
- 7 << // JMI   fNoteMeasureLocation.fPositionInMeasure << ???
+    fNotePositionInMeasure <<
     "/" <<
     fNoteDivisionsPerWholeNote <<
     ")" <<
@@ -2126,10 +2124,8 @@ S_msrChord msrChord::createEmptyChordClone ()
   clone->
     fChordDivisionsPerWholeNote = fChordDivisionsPerWholeNote;
 
-  // use setChordMeasureLocation() for its side effects
-  // instead of a direct assignment to fChordMeasureLocation
   clone->
-    setChordMeasureLocation (fChordMeasureLocation);
+    fChordPositionInMeasure = fChordPositionInMeasure;
     
   clone->fChordTie = fChordTie; // JMI
 
@@ -2308,9 +2304,9 @@ void msrChord::print (ostream& os)
     "/" <<
     fChordDivisionsPerWholeNote <<
     ") @"<<
-    fChordMeasureLocation.fMeasureNumber <<
+    fChordPositionInMeasure <<
     ":" <<
-    fChordMeasureLocation.fPositionInMeasure <<
+    fChordPositionInMeasure <<
     "/" <<
     fChordDivisionsPerWholeNote <<
     endl;
@@ -2715,11 +2711,10 @@ msrTuplet::msrTuplet (
     firstNote->getNoteDivisions ();
   fTupletDisplayDivisions =
     firstNote->getNoteDisplayDivisions ();
-
-  // measure location is that of the first note
-  fTupletMeasureLocation =
-    firstNote->getNoteMeasureLocation ();
-    */
+*/
+  // position in measure is that of the first note
+  fTupletPositionInMeasure =
+    firstNote->getNotePositionInMeasure ();
 }
 
 msrTuplet::~msrTuplet() {}
@@ -2801,9 +2796,9 @@ void msrTuplet::print (ostream& os)
     "/" <<
     fTupletDivisionsPerWholeNote <<
     ") @"<<
-    fTupletMeasureLocation.fMeasureNumber <<
+    fTupletMeasureNumber <<
     ":" <<
-    fTupletMeasureLocation.fPositionInMeasure <<
+    fTupletPositionInMeasure <<
     "/" <<
     fTupletDivisionsPerWholeNote <<
     endl;
@@ -5291,6 +5286,8 @@ msrMeasure::msrMeasure (
   
   fMeasureDivisions        = divisions;
 
+  fMeasurePosition         = 1; // ready to receive the first note
+
   fMeasureKind             = kRegularMeasure;
   
   fMeasureVoicechunkUplink = voicechunkUplink;
@@ -5991,13 +5988,9 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
         fStaffRelativeVoiceNumber,
         clonedStaff);
 
-  // populate the voice measure location
+  // populate the voice clone
   clone->fVoiceDivisionsPerWholeNote =
     fVoiceDivisionsPerWholeNote;
-  clone->fVoiceMeasureLocation.fMeasureNumber =
-    fVoiceMeasureLocation.fMeasureNumber;
-  clone->fVoiceMeasureLocation.fPositionInMeasure =
-    fVoiceMeasureLocation.fPositionInMeasure;
 
   // create the voice chunk
   if (fMsrOptions->fTrace)
@@ -6048,10 +6041,7 @@ msrVoice::msrVoice (
       getStaffDivisionsPerWholeNote ();
     
   // there may be an anacrusis
-  fVoiceMeasureLocation.fMeasureNumber = 0;
-
-  // positions start at 1
-  fVoiceMeasureLocation.fPositionInMeasure = 1;
+  fVoiceMeasureNumber = 0;
 
   fMeasureZeroHasBeenMetInVoice   = false;
   fMeasureNumberHasBeenSetInVoice = false;
@@ -6059,12 +6049,6 @@ msrVoice::msrVoice (
   
   fVoiceActualNotesCounter = 0;
 
-/* JMI
-  // get measure location from staff uplink
-  fVoiceMeasureLocation =
-    fVoiceStaffUplink->
-      getStaffMeasureLocation ();
- */ 
   // fetch voice master from staff uplink
   fVoiceVoicemaster =
     fVoiceStaffUplink -> getStaffVoicemaster ();
@@ -6192,19 +6176,20 @@ string msrVoice::getVoiceName () const
     int2EnglishWord (voiceNumber);
 }
 
+/*
 void msrVoice::catchupToMeasureLocation (
   int                       inputLineNumber,
   int                       divisionsPerWholeNote,
   const msrMeasureLocation& measureLocation)
 {
   // fill the gaps in voice with skip if needed
-  /*
+  / *
    int         ;
     int         fPositionInMeasure; // divisions
     *
     fVoiceTime
     * 
-   */
+   * /
 
 //  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) { JMI
   if (fMsrOptions->fDebug) {
@@ -6303,6 +6288,7 @@ void msrVoice::catchupToMeasureLocation (
     }
   }
 }
+*/
 
 /*
 void msrVoice::setVoiceMeasureLocation (
@@ -6747,17 +6733,16 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       "' to voice " << getVoiceName () << endl;
 
   // catchup with rests if needed
+  /*
   catchupToMeasureLocation (
     note->getInputLineNumber (),
     fVoiceDivisionsPerWholeNote,
     fVoiceMeasureLocation);
+*/
 
   if (note->getNoteKind () != msrNote::kRestNote)
     // register actual note
     fVoiceActualNotesCounter++;
-
-  fVoiceMeasureLocation.fPositionInMeasure +=
-    note->getNoteDivisions ();
 
   // append the note to the voice chunk
   S_msrElement n = note;
@@ -7131,10 +7116,12 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
     appendElementToVoicechunk (barCheck);
 
   // add bar check chunk to the voice master lyrics
+  /*
   fVoiceLyricsmaster->
     addBarcheckChunkToLyrics (
       barCheck->getInputLineNumber (),
       fVoiceMeasureLocation.fMeasureNumber);
+      */
 }
 
 void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
@@ -7168,10 +7155,12 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
     appendElementToVoicechunk (break_);
 
   // add break chunk to the voice master lyrics
+  /*
   fVoiceLyricsmaster->
     addBreakChunkToLyrics (
       break_->getInputLineNumber (),
       fVoiceMeasureLocation.fMeasureNumber);
+      */
 }
 
 /*
@@ -7496,16 +7485,11 @@ msrStaff::msrStaff (
     msrAssert (false, s.str());
   }
 
+  // populate the staff
   fStaffDivisionsPerWholeNote =
     fStaffPartUplink->
       getPartDivisionsPerWholeNote ();
 
-/*
-  // get measure location from part uplink
-  fStaffMeasureLocation =
-    fStaffPartUplink->
-      getPartMeasureLocation ();
-  */
   // fetch voice master from part uplink
   fStaffVoicemaster =
     fStaffPartUplink->getPartVoicemaster ();
