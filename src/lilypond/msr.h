@@ -1232,6 +1232,7 @@ class EXP msrMeasure : public msrElement
     void          prependElementToMeasure (S_msrElement elem)
                       { fMeasureElementsList.push_front (elem); }
                       
+    void          appendNoteToMeasure (S_msrNote note);
     void          appendElementToMeasure  (S_msrElement elem)
                       { fMeasureElementsList.push_back (elem); }
     
@@ -1343,6 +1344,11 @@ class EXP msrVoicechunk : public msrElement
     void          appendMeasureToVoicechunk (S_msrMeasure measure)
                       { fVoicechunkMeasuresList.push_back (measure); }
 
+    void          appendNoteToVoicechunk (S_msrNote note)
+                      {
+                        fVoicechunkMeasuresList.back ()->
+                          appendNoteToMeasure (note);
+                      }
     void          appendElementToVoicechunk (S_msrElement elem)
                       {
                         fVoicechunkMeasuresList.back ()->
@@ -1770,13 +1776,20 @@ class EXP msrNote : public msrElement
                   getNoteWedgesToModify ()
                       { return fNoteWedges; };
 
-    // measure number
-    void          setPartMeasureNumber (
-                    int inputLineNumber,
-                    int measureNumber);
+    // measure uplink
+    void          setNoteMeasureUplink (
+                    const S_msrMeasure& measure)
+                      { fNoteMeasureUplink = measure; }
                       
-    const int     getPartMeasureNumber () const
-                      { return fNoteMeasureNumber; }
+    S_msrMeasure  getNoteMeasureUplink () const
+                      { return fNoteMeasureUplink; }
+
+    // measure number
+    int           getNoteMeasureNumber () const
+                      {
+                        return
+                          fNoteMeasureUplink->getMeasureNumber ();
+                      }
 
     // position in measure
     void          setNotePositionInMeasure (
@@ -1850,7 +1863,6 @@ class EXP msrNote : public msrElement
 
     int                       fNoteDivisionsPerWholeNote;
     
-    int                       fNoteMeasureNumber;
     int                       fNotePositionInMeasure;
 
     S_msrTie                  fNoteTie;
@@ -1865,6 +1877,8 @@ class EXP msrNote : public msrElement
 
     // this is useful to produce a nice \aftergrace in LilyPond 
     bool                      fNoteHasATrill;
+
+    S_msrMeasure              fNoteMeasureUplink;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
@@ -2833,7 +2847,7 @@ class EXP msrKey : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrKeyMode { kMajor, kMinor };
+    enum msrKeyModeKind { kMajor, kMinor };
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -2864,17 +2878,17 @@ class EXP msrKey : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int         getFifths () const
-                    { return fFifths; }
-    string      getMode () const
-                    { return fMode; }
-    int         getCancel () const
-                    { return fCancel; }
+    int             getKeyFifths () const
+                        { return fKeyFifths; }
+    string          getKeyMode () const
+                        { return fKeyMode; }
+    int             getKeyCancel () const
+                        { return fKeyCancel; }
 
-    string      getTonic () const
-                    { return fTonic; }
-    msrKeyMode  getKeyMode () const
-                    { return fKeyMode; }
+    string          getKeyTonic () const
+                        { return fKeyTonic; }
+    msrKeyModeKind  getKeyModeKind () const
+                        { return fKeyModeKind; }
 
     // services
     // ------------------------------------------------------
@@ -2896,12 +2910,12 @@ class EXP msrKey : public msrElement
   
   private:
 
-    int                 fFifths;
-    string              fMode;
-    int                 fCancel;
+    int                 fKeyFifths;
+    string              fKeyMode;
+    int                 fKeyCancel;
 
-    string              fTonic;
-    msrKeyMode          fKeyMode;
+    string              fKeyTonic;
+    msrKeyModeKind      fKeyModeKind;
 };
 typedef SMARTP<msrKey> S_msrKey;
 EXP ostream& operator<< (ostream& os, const S_msrKey& elt);

@@ -2873,18 +2873,31 @@ ostream& operator<< (ostream& os, const S_lpsrScore& scr)
 
 void lpsrScore::print (ostream& os)
 {
-  os << "LPSR Score" << endl << endl;
+  os <<
+    "LPSR Score" <<
+    endl << endl;
 
   idtr++;
 
   if (fMsrOptions->fDebugDebug)
-    os << idtr << fMsrScore;
+    os <<
+      idtr << fMsrScore;
 
-  os << idtr << fLilyPondVersion << endl;
-  os << idtr << fGlobalStaffSizeAssoc << endl;
-  os << idtr << fHeader << endl;
-  os << idtr << fPaper << endl;
-  os << idtr << fScoreLayout << endl;
+  os <<
+    idtr << fLilyPondVersion <<
+    endl;
+  os <<
+    idtr << fGlobalStaffSizeAssoc <<
+    endl;
+  os <<
+    idtr << fHeader <<
+    endl;
+  os <<
+    idtr << fPaper <<
+    endl;
+  os <<
+    idtr << fScoreLayout <<
+    endl;
   
   if (fScoreElements.size()) {  
     list<S_msrElement>::const_iterator
@@ -2896,9 +2909,12 @@ void lpsrScore::print (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
+    os << endl;
   }
 
-  os << idtr << fScoreBlock << endl;
+  os <<
+    idtr << fScoreBlock <<
+    endl;
 
   idtr--;
 }

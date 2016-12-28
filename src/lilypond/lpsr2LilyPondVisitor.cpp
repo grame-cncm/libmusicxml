@@ -1541,9 +1541,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrKey& elt)
       "% --> Start visiting msrKey" << endl;
 
   fOstream << idtr <<
-    "\\key " << elt->getTonic () << " ";
+    "\\key " << elt->getKeyTonic () << " ";
 
-  switch (elt->getKeyMode ()) {
+  switch (elt->getKeyModeKind ()) {
     case msrKey::kMajor:
       fOstream << "\\major";
       break;

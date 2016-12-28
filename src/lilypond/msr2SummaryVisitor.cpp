@@ -414,8 +414,8 @@ void msr2SummaryVisitor::visitStart (S_msrKey& elt)
 
   if (! fOnGoingStaff) {
     fOstream << idtr <<
-      "Key " << elt->getTonic () << " ";
-    if (elt->getKeyMode () == msrKey::kMajor)
+      "Key " << elt->getKeyTonic () << " ";
+    if (elt->getKeyModeKind () == msrKey::kMajor)
       fOstream << "\\major";
     else
       fOstream << "\\minor";

@@ -1943,7 +1943,7 @@ void msrNote::print (ostream& os)
     "/" <<
     fNoteDivisionsPerWholeNote <<
     ") @"<<
-    fNotePositionInMeasure <<
+    getNoteMeasureNumber () <<
     ":" <<
     position.getNumerator() <<
     "/" <<
@@ -3347,79 +3347,81 @@ msrKey::msrKey (
   int           cancel)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fFifths = fifths;
-  fMode   = mode;
-  fCancel = cancel;
+  fKeyFifths = fifths;
+  fKeyMode   = mode;
+  fKeyCancel = cancel;
 
-  string           tonicNote;
-  msrKey::msrKeyMode keyMode;
+  string                 tonicNote;
+  msrKey::msrKeyModeKind keyModeKind;
   
-  switch (fFifths) {
+  switch (fKeyFifths) {
     case 0:
       tonicNote = "c";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     case 1:
       tonicNote = "g";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     case 2:
       tonicNote = "d";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     case 3:
       tonicNote = "a";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     case 4:
       tonicNote = "e";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     case 5:
       tonicNote = "b";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     case 6:
        tonicNote = "fis";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     case 7:
       tonicNote = "cis";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     case -1:
       tonicNote = "f";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     case -2:
       tonicNote = "bes";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     case -3:
       tonicNote = "ees";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     case -4:
       tonicNote = "aes";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     case -5:
       tonicNote = "des";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     case -6:
       tonicNote = "ges";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     case -7:
       tonicNote = "ces";
-      keyMode = msrKey::kMajor;
+      keyModeKind = msrKey::kMajor;
       break;
     default: // unknown key sign !!
       {
       stringstream s;
+      
       s << 
-        "ERROR: unknown key sign \"" << fFifths << "\"" << endl;
+        "ERROR: unknown key sign \"" << fKeyFifths << "\"";
+        
       msrMusicXMLError (
         fMsrOptions->fInputSourceName,
         fInputLineNumber,
@@ -3427,8 +3429,8 @@ msrKey::msrKey (
       }
   } // switch
   
-  fTonic   = tonicNote;
-  fKeyMode = keyMode; 
+  fKeyTonic    = tonicNote;
+  fKeyModeKind = keyModeKind; 
 }
 
 msrKey::~msrKey() {}
@@ -3481,8 +3483,8 @@ string msrKey::keyAsString () const
 {
   stringstream s;
 
-  s << "Key " << fTonic << " ";
-  if (fKeyMode == kMajor)
+  s << "Key " << fKeyTonic << " ";
+  if (fKeyModeKind == kMajor)
     s << "\\major";
   else
     s << "\\minor";
@@ -5315,6 +5317,21 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
   return clone;
 }
 
+void msrMeasure::appendNoteToMeasure (S_msrNote note)
+{
+  fMeasureElementsList.push_back (note);
+
+  // populate measure uplink
+  note->setNoteMeasureUplink (this);
+
+  // register note measure position
+  note->setNotePositionInMeasure (fMeasurePosition);
+  
+  // account for note duration in measure position
+  fMeasurePosition +=
+    note->getNoteDivisions ();
+}
+
 void msrMeasure::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -6745,9 +6762,9 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     fVoiceActualNotesCounter++;
 
   // append the note to the voice chunk
-  S_msrElement n = note;
+// JMI  S_msrElement n = note;
   fVoicechunk->
-    appendElementToVoicechunk (n);
+    appendNoteToVoicechunk (note);
 
   // add a rest of the same duration to the voice master
   /* JMI
@@ -7953,13 +7970,30 @@ void msrStaff::print (ostream& os)
   os << endl;
 
   if (fStaffVoicesMap.size ()) {
+    map<int, S_msrVoice>::const_iterator
+      iBegin = fStaffVoicesMap.begin(),
+      iEnd   = fStaffVoicesMap.end(),
+      i      = iBegin;
+      
+    idtr++;
+    for ( ; ; ) {
+      cerr << idtr << (*i).second;
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+    idtr--;
+  }
+
+/* JMI
     for (
       map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
       i != fStaffVoicesMap.end();
       i++) {
       os << idtr << (*i).second;
     } // for
+    
   }
+  */
 
   idtr--;
 }
