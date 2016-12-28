@@ -4029,84 +4029,6 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
 
 /*!
-\brief A msr repeat representation.
-
-  A repeat is represented by:
-    - a sequence of elements for the common part
-    - a vector of sequences of elements for the alternate endings
-*/
-//______________________________________________________________________________
-class EXP msrUpbeat : public msrElement
-{
-  public:
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrUpbeat> create (
-      S_msrOptions&   msrOpts, 
-      int             inputLineNumber,
-      int             divisions,
-      S_msrVoice      voiceUplink);
-    
-    SMARTP<msrUpbeat> createUpbeatBareClone (
-      S_msrVoice clonedVoice);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrUpbeat (
-      S_msrOptions&   msrOpts, 
-      int             inputLineNumber,
-      int             divisions,
-      S_msrVoice      voiceUplink);
-      
-    virtual ~msrUpbeat();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-//    void          setUpbeatDivisions (int divisions)
-//                      { fUpbeatDivisions = divisions; }
-
-    int           getUpbeatDivisions () const
-                      { return fUpbeatDivisions; }
-
-    string        getUpbeatDivisionsAsString () const;
-
-    S_msrVoice    getUpbeatVoiceUplink () const
-                      { return fUpbeatVoiceUplink; }
-
-    // services
-    // ------------------------------------------------------
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void print (ostream& os);
-
-  private:
-
-    int                       fUpbeatDivisions;
-    
-    S_msrVoice                fUpbeatVoiceUplink;
-};
-typedef SMARTP<msrUpbeat> S_msrUpbeat;
-EXP ostream& operator<< (ostream& os, const S_msrUpbeat& elt);
-
-/*!
 \brief A msr voice representation.
 
   A vpoce is represented by a its string contents
@@ -4166,14 +4088,7 @@ class EXP msrVoice : public msrElement
 
     string        getVoiceName () const;
 
-    void          setVoiceAnacrusis (
-                    const S_msrUpbeat& upbeat)
-                      { fVoiceAnacrusis = upbeat; }
-
-    S_msrUpbeat   getVoiceAnacrusis () const
-                      { return fVoiceAnacrusis; }
-
-    void          setNewVoicechunkForVoice (int inputLineNumber);
+    void          setNewVoicechunkForVoice (int inputLineNumber); // JMI
 
     S_msrVoicechunk
                   getVoicechunk () const
@@ -4345,7 +4260,6 @@ class EXP msrVoice : public msrElement
     bool                      fMeasureZeroHasBeenMetInVoice;
     bool                      fMeasureNumberHasBeenSetInVoice;
     bool                      fMusicHasBeenInsertedInVoice;
-    S_msrUpbeat               fVoiceAnacrusis;
     
     // the chunk in the voice contains the measures
     // it is created implicitly for every voice,

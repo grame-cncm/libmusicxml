@@ -5962,138 +5962,6 @@ void msrRepeat::print (ostream& os)
   idtr--;
 }
 
-//______________________________________________________________________________
-S_msrUpbeat msrUpbeat::create (
-  S_msrOptions&   msrOpts, 
-  int             inputLineNumber,
-  int             divisions,
-  S_msrVoice      voiceUplink)
-{
-  msrUpbeat* o =
-    new msrUpbeat (
-      msrOpts, inputLineNumber, divisions, voiceUplink);
-  assert(o!=0);
-  return o;
-}
-
-msrUpbeat::msrUpbeat (
-  S_msrOptions&   msrOpts, 
-  int             inputLineNumber,
-  int             divisions,
-  S_msrVoice      voiceUplink)
-    : msrElement (msrOpts, inputLineNumber)
-{
-  fUpbeatDivisions   = divisions;
-  fUpbeatVoiceUplink = voiceUplink;
-}
-
-msrUpbeat::~msrUpbeat() {}
-
-S_msrUpbeat msrUpbeat::createUpbeatBareClone (S_msrVoice clonedVoice)
-{
-//  if (fMsrOptions->fDebug)
-    cerr << idtr <<
-      "--> Creating an bare clone of an Upbeat" << endl;
-  
-  S_msrUpbeat
-    clone =
-      msrUpbeat::create (
-        fMsrOptions,
-        fInputLineNumber,
-        fUpbeatDivisions,
-        clonedVoice);
-  
-  return clone;
-}
-
-void msrUpbeat::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrUpbeat::acceptIn()" << endl;
-      
-  if (visitor<S_msrUpbeat>*
-    p =
-      dynamic_cast<visitor<S_msrUpbeat>*> (v)) {
-        S_msrUpbeat elem = this;
-        
-        if (fMsrOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> Launching msrUpbeat::visitStart()" << endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrUpbeat::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrUpbeat::acceptOut()" << endl;
-
-  if (visitor<S_msrUpbeat>*
-    p =
-      dynamic_cast<visitor<S_msrUpbeat>*> (v)) {
-        S_msrUpbeat elem = this;
-      
-        if (fMsrOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> Launching msrUpbeat::visitEnd()" << endl;
-        p->visitEnd (elem);
-  }
-}
-
-void msrUpbeat::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrUpbeat& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-string msrUpbeat::getUpbeatDivisionsAsString () const
-{
-  string result;
-  string errorMessage;
-
-  int divisionsPerWholeNote =
-    fUpbeatVoiceUplink->
-      getVoiceDivisionsPerWholeNote ();
-  
-  if (fMsrOptions->fDebug)
-    cerr <<
-      endl <<
-      idtr <<
-        "% --> fUpbeatDivisions = " << fUpbeatDivisions <<
-        ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
-      endl;
-
-  result =
-    divisionsAsMSRDuration (
-      fUpbeatDivisions,
-      divisionsPerWholeNote,
-      errorMessage,
-      false); // 'true' to debug it;
-
-  if (errorMessage.size ())
-    msrMusicXMLError (
-      fMsrOptions->fInputSourceName,
-      fInputLineNumber,
-      errorMessage);
-
-  return result;
-}
-
-void msrUpbeat::print (ostream& os)
-{
-  os <<
-    endl <<
-    idtr << "Upbeat" <<
-      ", line: " << fInputLineNumber <<
-      ", voice " << fUpbeatVoiceUplink->getVoiceName () << ", " <<
-      fUpbeatDivisions << " divisions" <<
-      " (" << getUpbeatDivisionsAsString () << ")" <<
-    endl;
-}
-
 //______________________________________________________________________________ 
 S_msrVoice msrVoice::create (
   S_msrOptions& msrOpts, 
@@ -6646,7 +6514,6 @@ void msrVoice::setVoiceMeasureNumber (
     positionInMeasure > 1 // there may be initial measures without music...
       &&
     positionInMeasure <= divisionsPerMeasure) {
- //   anacrusisKind = kExplicitAnacrusis;
   }
     
 / *
@@ -6660,7 +6527,6 @@ void msrVoice::setVoiceMeasureNumber (
     measureNumber == 0
       &&
     ! fMeasureNumberHasBeenSet) {
-    anacrusisKind = kExplicitAnacrusis;
   }
   / *
   else if (
@@ -6669,57 +6535,10 @@ void msrVoice::setVoiceMeasureNumber (
     measureNumber == 2
       &&
     ) {
-    anacrusisKind = kImplicitAnacrusis;
   }
 * /
 
-  int    anacrusisDivisions;
-  string anacrusisDivisionsAsString;
-  
-  
-  if (anacrusisKind != k_NoAnacrusis) {
-    string errorMessage;
-    
-    anacrusisDivisions = getVoicePositionInMeasure () - 1 ;
-    anacrusisDivisionsAsString =
-      divisionsAsMSRDuration (
-        anacrusisDivisions,
-        fVoiceDivisionsPerWholeNote,
-        errorMessage,
-        false); // 'true' to debug it
-    
-      if (errorMessage.size ())
-        msrMusicXMLError (
-          fMsrOptions->fInputSourceName,
-          fInputLineNumber,
-          errorMessage);
 
-      if (fMsrOptions->fTrace) {
-        cerr << idtr <<
-          "Voice  " << getVoiceName () << " has an ";
-
-/ *
-      if (anacrusisKind == kExplicitAnacrusis)
-        cerr << "explicit";
-      else
-        cerr << "implicit";
-* /
-
-      cerr <<
-        " anacrusis of " <<
-        anacrusisDivisions <<
-        " divisions, " <<
-        "(" << anacrusisDivisionsAsString << ")" <<
-        endl;
-    }
-
-    // create the anacrusis
-    fVoiceAnacrusis =
-      msrUpbeat::create (
-        fMsrOptions,
-        fInputLineNumber,
-        anacrusisDivisions,
-        this);
   }
 */
 
@@ -7565,12 +7384,6 @@ void msrVoice::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrVoice::browseData()" << endl;
 
-  if (fVoiceAnacrusis) {
-    // browse the voice anacrusis
-    msrBrowser<msrUpbeat> browser (v);
-    browser.browse (*fVoiceAnacrusis);
-  }
-  
   // browse the voice chunk
   msrBrowser<msrVoicechunk> browser (v);
   browser.browse (*fVoicechunk);
@@ -7607,16 +7420,6 @@ void msrVoice::print (ostream& os)
     endl;
 
   idtr++;
-
-/*
-  // print the anacrusis if any
-  os << idtr;
-  if (fVoiceAnacrusis)
-    os << fVoiceAnacrusis;
-  else
-    os << "no anacrusis" << endl;
-  os << endl;
-*/
 
   // print the voice chunk
   os << fVoicechunk;

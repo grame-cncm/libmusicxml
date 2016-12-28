@@ -465,34 +465,6 @@ void msr2LpsrVisitor::visitEnd (S_msrVoice& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrVisitor::visitStart (S_msrUpbeat& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "--> Start visiting msrUpbeat" << endl;
-
-  idtr++;
-
-  // create a upbeat clone
-  S_msrUpbeat
-    upbeat =
-      elt->createUpbeatBareClone (fCurrentVoiceClone);
-    
-  // add it to the current voice clone
-  fCurrentVoiceClone->
-    setVoiceAnacrusis (upbeat);
-}
-
-void msr2LpsrVisitor::visitEnd (S_msrUpbeat& elt)
-{
-  idtr--;
-
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "--> End visiting msrUpbeat" << endl;
-}
-
-//________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrVoicechunk& elt)
 {
   if (fMsrOptions->fDebug)

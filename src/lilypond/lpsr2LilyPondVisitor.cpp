@@ -1217,33 +1217,6 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoice& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrUpbeat& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> Start visiting msrUpbeat" << endl;
-
-  int upbeatDivisions =
-    elt->getUpbeatDivisions ();
-    
-  string upbeatDivisionsAsString =
-    elt->getUpbeatDivisionsAsString ();
-
-  fOstream << idtr <<
-    "\\partial" " " <<
-    upbeatDivisionsAsString <<
-    " % (" << upbeatDivisions << ")" <<
-  endl;
-}
-
-void lpsr2LilyPondVisitor::visitEnd (S_msrUpbeat& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> End visiting msrUpbeat" << endl;
-}
-
-//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
 {
   if (fMsrOptions->fDebug)
