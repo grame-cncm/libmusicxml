@@ -498,12 +498,12 @@ void msr2LpsrVisitor::visitStart (S_msrVoicechunk& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrVoicechunk" << endl;
-
+/*
   // create a clone of the voice chunk
   fCurrentVoicechunkClone =
     elt->createVoicechunkBareClone (
       fCurrentVoiceClone);
-/* JMI
+
   // append it to the current voice
   fCurrentVoiceClone->
     appendVoicechunkToVoice (
@@ -525,11 +525,17 @@ void msr2LpsrVisitor::visitStart (S_msrMeasure& elt)
     fOstream << idtr <<
       "--> Start visiting msrMeasure" << endl;
 
+  fCurrentPartClone->
+    setPartMeasureNumber (
+      elt->getInputLineNumber (),
+      elt->getMeasureNumber ());
+      
+/* JMI
+
   // create a clone of the measure
   fCurrentMeasureClone =
     elt->createMeasureBareClone (
       fCurrentVoicechunkClone);
-/* JMI
   // append it to the current voice
   fCurrentVoiceClone->
     appendVoicechunkToVoice (
@@ -542,6 +548,31 @@ void msr2LpsrVisitor::visitEnd (S_msrMeasure& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrMeasure" << endl;
+
+  switch (elt->getMeasureKind ()) {
+    case msrMeasure::kRegularMeasure:
+      {
+        // generate a bar check
+        S_msrBarCheck
+          barCheck =
+            msrBarCheck::create (
+              fMsrOptions,
+              elt->getInputLineNumber (),
+              elt->getMeasureNumber () + 1);
+                  
+        // append it to the current voice clone
+        fCurrentVoiceClone->
+          appendBarCheckToVoice (barCheck);
+      }
+      break;
+      
+    case msrMeasure::kIncompleteVoicechunkStartMeasure:
+      break;
+      
+    case msrMeasure::kIncompleteVoicechunkEndMeasure:
+      break;
+  } // switch
+
 }
 
 //________________________________________________________________________

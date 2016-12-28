@@ -2592,7 +2592,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarCheck& elt)
   // don't generate a bar check before the end of measure 1
   if (nextBarNumber > 1)
     fOstream <<
-      " | % " << nextBarNumber <<
+      "| % " << nextBarNumber <<
       endl <<
       idtr;
 }

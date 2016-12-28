@@ -1909,7 +1909,7 @@ void msrNote::print (ostream& os)
 {
   rational
     position (
-    3, // JMI  fNoteMeasureLocation.fPositionInMeasure,
+    3, // JMI  fNoteMeasureLocation.fPositionInMeasure, ???
       fNoteDivisionsPerWholeNote);
 
   position.rationalise ();
@@ -1945,13 +1945,13 @@ void msrNote::print (ostream& os)
     "/" <<
     fNoteDivisionsPerWholeNote <<
     ") @"<<
- 3 << // JMI   fNoteMeasureLocation.fMeasureNumber <<
+ 3 << // JMI   fNoteMeasureLocation.fMeasureNumber << ???
     ":" <<
     position.getNumerator() <<
     "/" <<
     position.getDenominator() <<
     " (" <<
- 7 << // JMI   fNoteMeasureLocation.fPositionInMeasure <<
+ 7 << // JMI   fNoteMeasureLocation.fPositionInMeasure << ???
     "/" <<
     fNoteDivisionsPerWholeNote <<
     ")" <<
@@ -2603,8 +2603,7 @@ ostream& operator<< (ostream& os, const S_msrBarCheck& elt)
 void msrBarCheck::print (ostream& os)
 {
   os <<
-    "BarCheck" << ", next bar number = " << fNextBarNumber <<
-    endl;
+    "BarCheck" << ", next bar number = " << fNextBarNumber;
 }
 
 //______________________________________________________________________________
@@ -5450,14 +5449,15 @@ void msrMeasure::print (ostream& os)
   idtr++;
     
   os <<
-    idtr << "Elements" <<
-    endl;
-
-  idtr++;
+    idtr << "Elements:";
   
   if (! fMeasureElementsList.size ())
     os << " none";
-  else {    
+    
+  else {
+    os << endl;
+    idtr++;
+    
     list<S_msrElement>::const_iterator
       iBegin = fMeasureElementsList.begin(),
       iEnd   = fMeasureElementsList.end(),
@@ -5467,11 +5467,11 @@ void msrMeasure::print (ostream& os)
       if (++i == iEnd) break;
   // JMI    os << endl;
     } // for
-  }
-  os << endl;
     
   idtr--;
-
+  }
+//  os << endl;
+    
   idtr--;
 }
 
@@ -5650,13 +5650,15 @@ void msrVoicechunk::print (ostream& os)
   idtr++;
     
   os <<
-    idtr << "Measures";
-
-  idtr++;
+    idtr << "Measures:";
   
   if (! fVoicechunkMeasuresList.size ())
     os << " none";
+    
   else {    
+ //   os << endl;
+    idtr++;
+    
     list<S_msrMeasure>::const_iterator
       iBegin = fVoicechunkMeasuresList.begin(),
       iEnd   = fVoicechunkMeasuresList.end(),
@@ -5666,11 +5668,12 @@ void msrVoicechunk::print (ostream& os)
       if (++i == iEnd) break;
   // JMI    os << endl;
     } // for
-  }
-  os << endl;
     
   idtr--;
+  }
 
+  os << endl;
+  
   idtr--;
 }
 
@@ -7605,6 +7608,7 @@ void msrVoice::print (ostream& os)
 
   idtr++;
 
+/*
   // print the anacrusis if any
   os << idtr;
   if (fVoiceAnacrusis)
@@ -7612,9 +7616,10 @@ void msrVoice::print (ostream& os)
   else
     os << "no anacrusis" << endl;
   os << endl;
+*/
 
   // print the voice chunk
-  os << fVoicechunk << endl;
+  os << fVoicechunk;
   
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     // print the master lyrics
