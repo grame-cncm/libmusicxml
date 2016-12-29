@@ -1495,6 +1495,14 @@ msrNote::msrNote (
 msrNote::~msrNote()
 {}
 
+int msrNote::getNoteMeasureNumber () const
+{
+  return
+    fNoteMeasureUplink
+      ? fNoteMeasureUplink->getMeasureNumber ()
+      : -94;
+}
+
 void msrNote::setNoteBelongsToAChord () {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
@@ -5555,20 +5563,60 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
       fVoicechunkMeasuresList.back ();
 
   // fetch its current measure position
-  int currentMeasurePosition =
-    currentMeasure->getMeasurePosition ();
+  int
+    currentMeasurePosition =
+      currentMeasure->getMeasurePosition (),
+    currentMeasureLength =
+      currentMeasurePosition - 1;
 
-  // set the measure divisions (it's actual length)
+  // set current measure divisions
   currentMeasure->
-    setMeasureDivisions (currentMeasurePosition - 1);
-  
-  // is the current measure full?
-  if (
-    currentMeasurePosition
-      <=
-    currentMeasure->getMeasureDivisions ()) {
+    setMeasureDivisions (currentMeasureLength);
+
+  // fetch the current voice time duration
+  S_msrTime
+    voiceTime =
+      fVoicechunVoicekUplink->getVoiceTime ();
+
+  if (! voiceTime) {
+    // use the implicit initial 4/4 time signature
+    voiceTime =
+      msrTime::create (
+        fMsrOptions,
+        fInputLineNumber,
+        4, 4);
+  }
+
+  // fetch the duration of a full measure
+  int fullMeasureDuration =
+      voiceTime->timeDuration ();
+        
+ // JMI if (fMsrOptions->fDebug)
+    cerr <<
+      idtr <<
+        "==> setVoicechunkMeasureNumber()" <<
+        endl <<
+      idtr <<
+        setw(22) << "currentMeasurePosition" << " = " <<
+        currentMeasurePosition <<
+        endl <<
+      idtr <<
+        setw(22) << "fullMeasureDuration" << " = " <<
+        fullMeasureDuration <<
+        endl;
       
+  // is the current measure full? (positions start at 1)
+  if (
+    currentMeasurePosition <= fullMeasureDuration) {
     // no, register current measure as incomplete
+    // JMI if (fMsrOptions->fDebug)
+        cerr <<
+          idtr <<
+            "==> measure " << measureNumber <<
+            " is incomplete" <<
+          endl <<
+          idtr;
+    
     if (fVoicechunkMeasuresList.size () == 1) {
       // this is the first measure in the voice chunk
       currentMeasure->

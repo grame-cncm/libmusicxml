@@ -1788,12 +1788,8 @@ class EXP msrNote : public msrElement
                       { return fNoteMeasureUplink; }
 
     // measure number
-    int           getNoteMeasureNumber () const
-                      {
-                        return
-                          fNoteMeasureUplink->getMeasureNumber ();
-                      }
-
+    int           getNoteMeasureNumber () const;
+ 
     // position in measure
     void          setNotePositionInMeasure (
                     int positionInMeasure)
@@ -4160,7 +4156,11 @@ class EXP msrVoice : public msrElement
                       
     const int     getVoiceDivisionsPerWholeNote () const
                       { return fVoiceDivisionsPerWholeNote; }
-          
+
+
+    S_msrTime     getVoiceTime () const
+                      { return fVoiceTime; }
+               
     // position in measure
 /*
     void          setPositionInMeasure (int positionInMeasure)

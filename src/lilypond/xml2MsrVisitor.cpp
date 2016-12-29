@@ -66,6 +66,8 @@ xml2MsrVisitor::xml2MsrVisitor (
   
   fCurrentBackupDuration = -1;
 
+  fCurrentDirectionStaffNumber = 1; // it may be absent
+  
   fCurrentNoteStaffNumber = 0;
   fCurrentNoteVoiceNumber = 0;
   fOnGoingNote            = false;
