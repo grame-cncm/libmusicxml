@@ -7880,7 +7880,19 @@ void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
     (*i).second->appendTransposeToVoice (transpose);
   } // for
 }
- 
+
+void msrStaff::removeStaffEmptyVoices ()
+{
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    if (! (*i).second->getVoiceActualNotesCounter ()) {
+      fStaffVoicesMap.erase (i);
+    }
+  } // for
+}
+
 void msrStaff::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -8346,6 +8358,16 @@ S_msrStaff msrPart::fetchStaffFromPart (
   }
 
   return result;
+}
+
+void msrPart::removePartEmptyVoices ()
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    ((*i).second->removeStaffEmptyVoices ());
+  } // for
 }
 
 void msrPart::acceptIn (basevisitor* v) {

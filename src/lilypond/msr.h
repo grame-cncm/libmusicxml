@@ -4145,6 +4145,9 @@ class EXP msrVoice : public msrElement
     S_msrLyrics   getVoiceLyricsmaster () const
                       { return fVoiceLyricsmaster; }
                
+    int           getVoiceActualNotesCounter () const
+                      { return fVoiceActualNotesCounter; }
+
     // divisions per whole note
     void          setVoiceDivisionsPerWholeNote (int divisionsPerWholeNote)
                       {
@@ -4450,7 +4453,9 @@ class EXP msrStaff : public msrElement
     void        appendTimeToAllStaffVoices (S_msrTime time);
     
     void        appendTransposeToAllStaffVoices (S_msrTranspose transpose);
-              
+
+    void        removeStaffEmptyVoices ();
+    
     // visitors
     // ------------------------------------------------------
 
@@ -4641,6 +4646,8 @@ class EXP msrPart : public msrElement
     void          addStaffToPart (S_msrStaff staff);
 
     S_msrStaff    fetchStaffFromPart (int staffNumber);
+
+    void          removePartEmptyVoices ();
 
     // visitors
     // ------------------------------------------------------

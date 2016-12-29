@@ -1053,7 +1053,7 @@ void xml2MsrVisitor::visitStart (S_part& elt)
       "--------------------------------------------" <<
       endl <<
       idtr <<
-      "Analyzing part \"" << fCurrentPartID << "\"" <<
+      "Analyzing part \"" << fCurrentPartID << "\", start" <<
       endl;
 
   idtr++;
@@ -1066,6 +1066,20 @@ void xml2MsrVisitor::visitStart (S_part& elt)
 
 void xml2MsrVisitor::visitEnd (S_part& elt)
 {
+  if (fMsrOptions->fTrace)
+    cerr <<
+      idtr <<
+      "--------------------------------------------" <<
+      endl <<
+      idtr <<
+      "Analyzing part \"" << fCurrentPartID << "\", end" <<
+      endl;
+
+  // all voices were generated from the start,
+  // but some may have remained empty
+  fCurrentPart->
+    removePartEmptyVoices ();
+
   idtr--;
 }
 
