@@ -1275,6 +1275,28 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
   }
 
   fVoicechunkNotesAndChordsCountersStack.push (0);
+
+  switch (elt->getMeasureKind ()) {
+    case kRegularMeasure:
+      break;
+    case kIncompleteVoicechunkStartMeasure:
+      {
+        string& errorMessage;
+
+        fOstream <<
+          "\\partial" "" <<
+          divisionsAsMSRDuration (
+            elt->getMeasurePosition ()) <<
+            elt->getMeasureDivisionsPerWholeNote (),
+            errorMessage,
+            false) << // 'true' to debug it
+          endl <<
+          idtr;
+      }
+      break;
+    case kIncompleteVoicechunkEndMeasure:
+      break;
+  } // switch
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrMeasure& elt)

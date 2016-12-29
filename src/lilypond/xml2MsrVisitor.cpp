@@ -1069,10 +1069,10 @@ void xml2MsrVisitor::visitEnd (S_part& elt)
   if (fMsrOptions->fTrace)
     cerr <<
       idtr <<
+      "Analyzing part \"" << fCurrentPartID << "\", end" <<
+      idtr <<
       "--------------------------------------------" <<
       endl <<
-      idtr <<
-      "Analyzing part \"" << fCurrentPartID << "\", end" <<
       endl;
 
   // all voices were generated from the start,

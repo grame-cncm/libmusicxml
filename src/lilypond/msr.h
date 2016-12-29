@@ -1199,17 +1199,23 @@ class EXP msrMeasure : public msrElement
     int           getMeasureNumber () const
                       { return fMeasureNumber; }
 
+    void          setMeasureDivisionsPerWholeNote (int divisions)
+                      { fMeasureDivisionsPerWholeNote = divisions; }
+
+    int           getMeasureDivisionsPerWholeNote () const
+                      { return fMeasureDivisionsPerWholeNote; }
+
+    void          setMeasureDivisions (int divisions)
+                      { fMeasureDivisions = divisions; }
+
+    int           getMeasureDivisions () const
+                      { return fMeasureDivisions; }
+
     void          setMeasurePosition (int measurePosition)
                       { fMeasurePosition = measurePosition; }
 
     int           getMeasurePosition () const
                       { return fMeasurePosition; }
-
-//  JMI  void          setMeasureDivisions (int divisions)
-//                      { fMeasureDivisions = divisions; }
-
-    int           getMeasureDivisions () const
-                      { return fMeasureDivisions; }
 
     void          setMeasureKind (msrMeasureKind measureKind)
                       { fMeasureKind = measureKind; }
@@ -1262,6 +1268,7 @@ class EXP msrMeasure : public msrElement
     int                       fMeasureNumber;
     
     int                       fMeasureDivisions;
+    int                       fMeasureDivisionsPerWholeNote;
 
     int                       fMeasurePosition; // in divisions
 
@@ -1344,11 +1351,7 @@ class EXP msrVoicechunk : public msrElement
     void          appendMeasureToVoicechunk (S_msrMeasure measure)
                       { fVoicechunkMeasuresList.push_back (measure); }
 
-    void          appendNoteToVoicechunk (S_msrNote note)
-                      {
-                        fVoicechunkMeasuresList.back ()->
-                          appendNoteToMeasure (note);
-                      }
+    void          appendNoteToVoicechunk (S_msrNote note);
     void          appendElementToVoicechunk (S_msrElement elem)
                       {
                         fVoicechunkMeasuresList.back ()->
@@ -4302,8 +4305,6 @@ class EXP msrVoice : public msrElement
 
     S_msrTime                 fVoiceTime;
 
- //   msrMeasureLocation        fVoiceMeasureLocation;
-
     int                       fVoiceMeasureNumber;
     
     S_msrVoice                fVoiceVoicemaster;
@@ -4435,11 +4436,7 @@ class EXP msrStaff : public msrElement
     void        setAllStaffVoicesMeasureNumber (
                   int inputLineNumber,
                   int measureNumber);
-  /*
-    void        setAllStaffVoicesMeasureLocation (
-                  int                       inputLineNumber,
-                  const msrMeasureLocation& measureLocation);
-  */
+
     S_msrVoice  addVoiceToStaff (
                   int inputLineNumber,
                   int voiceNumber);

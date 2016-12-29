@@ -5549,11 +5549,46 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
+  // fetch voice chunk measure
+  S_msrMeasure
+    currentMeasure =
+      fVoicechunkMeasuresList.back ();
+
+  // fetch its current measure position
+  int currentMeasurePosition =
+    currentMeasure->getMeasurePosition ();
+
+  // set the measure divisions (it's actual length)
+  currentMeasure->
+    setMeasureDivisions (currentMeasurePosition - 1);
+  
+  // is the current measure full?
+  if (
+    currentMeasurePosition
+      <=
+    currentMeasure->getMeasureDivisions ()) {
+      
+    // no, register current measure as incomplete
+    if (fVoicechunkMeasuresList.size () == 1) {
+      // this is the first measure in the voice chunk
+      currentMeasure->
+        setMeasureKind (
+          msrMeasure::kIncompleteVoicechunkStartMeasure);
+    }
+    
+    else {
+      // this is the last measure in the voice chunk
+      currentMeasure->
+        setMeasureKind (
+          msrMeasure::kIncompleteVoicechunkEndMeasure);
+    }
+  }
+  
   fVoicechunkMeasureNumber = measureNumber;
 
   // don't create measure one since it is created initially by default
   if (
-    fVoicechunkMeasuresList.back ()->getMeasureNumber ()
+    currentMeasure->getMeasureNumber ()
       !=
     measureNumber) {
     // create a new measure
@@ -5572,6 +5607,12 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   }
 
   fMeasureNumberHasBeenSetInVoiceChunk = true;
+}
+
+void msrVoicechunk::appendNoteToVoicechunk (S_msrNote note)
+{
+  fVoicechunkMeasuresList.back ()->
+    appendNoteToMeasure (note);
 }
 
 /* JMI

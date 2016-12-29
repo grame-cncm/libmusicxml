@@ -497,13 +497,11 @@ void msr2LpsrVisitor::visitStart (S_msrMeasure& elt)
     fOstream << idtr <<
       "--> Start visiting msrMeasure" << endl;
 
-/* JMI tout de meme ???
- * 
   fCurrentPartClone->
     setPartMeasureNumber (
       elt->getInputLineNumber (),
       elt->getMeasureNumber ());
-  */
+  //*/
       
 /* JMI
 
