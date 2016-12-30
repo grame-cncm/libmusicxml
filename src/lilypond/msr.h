@@ -1674,20 +1674,20 @@ EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrGraceexpression : public msrElement
+class EXP msrGracenotes : public msrElement
 {
   public:
         
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrGraceexpression> create (
+    static SMARTP<msrGracenotes> create (
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
       bool            slashed,
-      S_msrVoice      graceexpressionVoiceUplink);
+      S_msrVoice      gracenotesVoiceUplink);
     
-    SMARTP<msrGraceexpression> createGraceexpressionBareClone (
+    SMARTP<msrGracenotes> createGracenotesBareClone (
       S_msrVoice voiceClone);
 
   protected:
@@ -1695,13 +1695,13 @@ class EXP msrGraceexpression : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrGraceexpression (
+    msrGracenotes (
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
       bool            slashed,
-      S_msrVoice      graceexpressionVoiceUplink);
+      S_msrVoice      gracenotesVoiceUplink);
       
-    virtual ~msrGraceexpression();
+    virtual ~msrGracenotes();
   
   public:
 
@@ -1709,19 +1709,19 @@ class EXP msrGraceexpression : public msrElement
     // ------------------------------------------------------
 
     bool
-                getGraceexpressionIsSlashed () const
-                    { return fGraceexpressionIsSlashed; }
+                getGracenotesIsSlashed () const
+                    { return fGracenotesIsSlashed; }
 
     S_msrVoicechunk
-                getGraceexpressionVoicechunk () const
-                    { return fGraceexpressionVoicechunk; }
+                getGracenotesVoicechunk () const
+                    { return fGracenotesVoicechunk; }
 
     // services
     // ------------------------------------------------------
 
-    void        appendNoteToGraceexpression (S_msrNote note)
+    void        appendNoteToGracenotes (S_msrNote note)
                     {
-                      fGraceexpressionVoicechunk->
+                      fGracenotesVoicechunk->
                         appendElementToVoicechunk (note);
                     }
     
@@ -1740,14 +1740,14 @@ class EXP msrGraceexpression : public msrElement
 
   private:
 
-    bool               fGraceexpressionIsSlashed;
+    bool               fGracenotesIsSlashed;
     
-    S_msrVoicechunk    fGraceexpressionVoicechunk;
+    S_msrVoicechunk    fGracenotesVoicechunk;
 
-    S_msrVoice         fGraceexpressionVoiceUplink;
+    S_msrVoice         fGracenotesVoiceUplink;
 };
-typedef SMARTP<msrGraceexpression> S_msrGraceexpression;
-EXP ostream& operator<< (ostream& os, const S_msrGraceexpression& elt);
+typedef SMARTP<msrGracenotes> S_msrGracenotes;
+EXP ostream& operator<< (ostream& os, const S_msrGracenotes& elt);
 
 /*!
 \brief A words representation.
@@ -4236,9 +4236,8 @@ class EXP msrVoice : public msrElement
     void          appendChordToVoice  (S_msrChord chord);
     void          appendTupletToVoice (S_msrTuplet tuplet);
     
-    void          appendGraceexpressionToVoice
-                                      (S_msrGraceexpression
-                                        graceexpression);
+    void          appendGracenotesToVoice (
+                    S_msrGracenotes gracenotes);
     
     void          addTextLyricschunkToVoice (
                     int       lyricsNumber,

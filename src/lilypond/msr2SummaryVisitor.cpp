@@ -580,18 +580,18 @@ void msr2SummaryVisitor::visitEnd (S_msrWedge& elt)
 }
 
 //________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrGraceexpression& elt)
+void msr2SummaryVisitor::visitStart (S_msrGracenotes& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrGraceexpression" << endl;
+      "--> Start visiting msrGracenotes" << endl;
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrGraceexpression& elt)
+void msr2SummaryVisitor::visitEnd (S_msrGracenotes& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrGraceexpression" << endl;
+      "--> End visiting msrGracenotes" << endl;
 }
 
 //________________________________________________________________________

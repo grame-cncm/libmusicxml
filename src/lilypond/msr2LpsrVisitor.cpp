@@ -826,41 +826,41 @@ void msr2LpsrVisitor::visitEnd (S_msrWedge& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrVisitor::visitStart (S_msrGraceexpression& elt)
+void msr2LpsrVisitor::visitStart (S_msrGracenotes& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrGraceexpression" << endl;
+      "--> Start visiting msrGracenotes" << endl;
 
   if (fCurrentNoteClone->noteHasATrill ()) {
 //    if (ffMsrOptions->fForceDebug || MsrOptions->fDebug)
       fOstream <<
-        "### msrGraceexpression on a TRILLED note" <<
+        "### msrGracenotes on a TRILLED note" <<
         endl;
   }
 
   else {
   // create a clone of this grace expression
-  fCurrentGraceexpressionClone =
+  fCurrentGracenotesClone =
     elt->
-      createGraceexpressionBareClone (
+      createGracenotesBareClone (
         fCurrentVoiceClone);
 
   // append it to the current voice clone
   fCurrentVoiceClone->
-    appendGraceexpressionToVoice (
-      fCurrentGraceexpressionClone);
+    appendGracenotesToVoice (
+      fCurrentGracenotesClone);
   }
 }
 
-void msr2LpsrVisitor::visitEnd (S_msrGraceexpression& elt)
+void msr2LpsrVisitor::visitEnd (S_msrGracenotes& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrGraceexpression" << endl;
+      "--> End visiting msrGracenotes" << endl;
 
   // forget about this grace expression
-  fCurrentGraceexpressionClone = 0;
+  fCurrentGracenotesClone = 0;
 }
 
 //________________________________________________________________________
@@ -954,8 +954,8 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
           endl;
       }
       */
-      fCurrentGraceexpressionClone->
-        appendNoteToGraceexpression (fCurrentNoteClone);
+      fCurrentGracenotesClone->
+        appendNoteToGracenotes (fCurrentNoteClone);
       break;
       
     case msrNote::kRestNote:

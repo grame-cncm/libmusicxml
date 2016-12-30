@@ -1157,120 +1157,120 @@ void msrSlur::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrGraceexpression msrGraceexpression::create (
+S_msrGracenotes msrGracenotes::create (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   bool            slashed,
-  S_msrVoice      graceexpressionVoiceUplink)
+  S_msrVoice      gracenotesVoiceUplink)
 {
-  msrGraceexpression* o =
-    new msrGraceexpression (
+  msrGracenotes* o =
+    new msrGracenotes (
       msrOpts, inputLineNumber,
-      slashed, graceexpressionVoiceUplink);
+      slashed, gracenotesVoiceUplink);
   assert(o!=0);
   return o;
 }
 
-msrGraceexpression::msrGraceexpression (
+msrGracenotes::msrGracenotes (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   bool            slashed,
-  S_msrVoice      graceexpressionVoiceUplink)
+  S_msrVoice      gracenotesVoiceUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fGraceexpressionIsSlashed = slashed;
+  fGracenotesIsSlashed = slashed;
 
-  fGraceexpressionVoiceUplink =
-    graceexpressionVoiceUplink;
+  fGracenotesVoiceUplink =
+    gracenotesVoiceUplink;
     
-  fGraceexpressionVoicechunk =
+  fGracenotesVoicechunk =
     msrVoicechunk::create (
       fMsrOptions, fInputLineNumber,
-      graceexpressionVoiceUplink);
+      gracenotesVoiceUplink);
 }
 
-msrGraceexpression::~msrGraceexpression() {}
+msrGracenotes::~msrGracenotes() {}
 
-S_msrGraceexpression msrGraceexpression::createGraceexpressionBareClone (
+S_msrGracenotes msrGracenotes::createGracenotesBareClone (
   S_msrVoice voiceClone)
 {
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug)
     cerr << idtr <<
       "--> Creating an bare clone of a grace expression" << endl;
   
-  S_msrGraceexpression
+  S_msrGracenotes
     clone =
-      msrGraceexpression::create (
+      msrGracenotes::create (
         fMsrOptions,
         fInputLineNumber,
-        fGraceexpressionIsSlashed,
+        fGracenotesIsSlashed,
         voiceClone);
   
   return clone;
 }
 
-void msrGraceexpression::acceptIn (basevisitor* v) {
+void msrGracenotes::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrGraceexpression::acceptIn()" << endl;
+      "==> msrGracenotes::acceptIn()" << endl;
       
-  if (visitor<S_msrGraceexpression>*
+  if (visitor<S_msrGracenotes>*
     p =
-      dynamic_cast<visitor<S_msrGraceexpression>*> (v)) {
-        S_msrGraceexpression elem = this;
+      dynamic_cast<visitor<S_msrGracenotes>*> (v)) {
+        S_msrGracenotes elem = this;
         
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrGraceexpression::visitStart()" << endl;
+            "==> Launching msrGracenotes::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void msrGraceexpression::acceptOut (basevisitor* v) {
+void msrGracenotes::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrGraceexpression::acceptOut()" << endl;
+      "==> msrGracenotes::acceptOut()" << endl;
 
-  if (visitor<S_msrGraceexpression>*
+  if (visitor<S_msrGracenotes>*
     p =
-      dynamic_cast<visitor<S_msrGraceexpression>*> (v)) {
-        S_msrGraceexpression elem = this;
+      dynamic_cast<visitor<S_msrGracenotes>*> (v)) {
+        S_msrGracenotes elem = this;
       
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrGraceexpression::visitEnd()" << endl;
+            "==> Launching msrGracenotes::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void msrGraceexpression::browseData (basevisitor* v)
+void msrGracenotes::browseData (basevisitor* v)
 {
   // browse the voicechunk
   msrBrowser<msrVoicechunk> browser (v);
-  browser.browse (*fGraceexpressionVoicechunk);
+  browser.browse (*fGracenotesVoicechunk);
 }
 
-ostream& operator<< (ostream& os, const S_msrGraceexpression& elt)
+ostream& operator<< (ostream& os, const S_msrGracenotes& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrGraceexpression::print (ostream& os)
+void msrGracenotes::print (ostream& os)
 {
   os <<
-    "Graceexpression" <<
+    "Gracenotes" <<
     ", line: " << fInputLineNumber <<
     ", slashed: " <<
     string (
-      fGraceexpressionIsSlashed
+      fGracenotesIsSlashed
         ? "yes"
         : "no") <<
     endl;
   
   idtr++;
   
-  os << fGraceexpressionVoicechunk;
+  os << fGracenotesVoicechunk;
       
   idtr--;
 }
@@ -6968,15 +6968,15 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
   fMusicHasBeenInsertedInVoice = true;
 }
 
-void msrVoice::appendGraceexpressionToVoice (
-  S_msrGraceexpression graceexpression)
+void msrVoice::appendGracenotesToVoice (
+  S_msrGracenotes gracenotes)
 {
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "Appending grace expression " << graceexpression <<
+      "Appending grace expression " << gracenotes <<
       " to voice " << getVoiceName () << endl;
 
-  S_msrElement g = graceexpression;
+  S_msrElement g = gracenotes;
   fVoiceVoicechunk->
     appendElementToVoicechunk (g);
 

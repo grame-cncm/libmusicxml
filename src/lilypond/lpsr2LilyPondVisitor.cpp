@@ -1785,13 +1785,13 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrWedge& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrGraceexpression& elt)
+void lpsr2LilyPondVisitor::visitStart (S_msrGracenotes& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting msrGraceexpression" << endl;
+      "% --> Start visiting msrGracenotes" << endl;
 
-  if (elt->getGraceexpressionIsSlashed ())
+  if (elt->getGracenotesIsSlashed ())
     fOstream << idtr <<
       "\\grace";
   else
@@ -1800,11 +1800,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrGraceexpression& elt)
   fOstream << " { ";
 }
 
-void lpsr2LilyPondVisitor::visitEnd (S_msrGraceexpression& elt)
+void lpsr2LilyPondVisitor::visitEnd (S_msrGracenotes& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting msrGraceexpression" << endl;
+      "% --> End visiting msrGracenotes" << endl;
 
   fOstream <<
     " } ";
