@@ -5280,7 +5280,8 @@ S_msrMeasure msrMeasure::create (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   int             measureNumber,
-  int             divisions,
+  int             divisionsPerWholeNote,
+  int             divisionsPerWholeMeasure,
   S_msrVoicechunk voicechunkUplink)
 {
   msrMeasure* o =
@@ -5292,18 +5293,20 @@ S_msrMeasure msrMeasure::create (
 }
 
 msrMeasure::msrMeasure (
-    S_msrOptions&   msrOpts, 
-    int             inputLineNumber,
-    int             measureNumber,
-    int             divisions,
-    S_msrVoicechunk voicechunkUplink)
+  S_msrOptions&   msrOpts, 
+  int             inputLineNumber,
+  int             measureNumber,
+  int             divisionsPerWholeNote,
+  int             divisionsPerWholeMeasure,
+  S_msrVoicechunk voicechunkUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
   fMeasureNumber           = measureNumber;
   
-  fMeasureDivisions        = divisions;
   fMeasureDivisionsPerWholeNote =
-    voicechunkUplink->getVoicechunkDivisionsPerWholeNote ();
+    divisionsPerWholeNote;
+  fMeasureDivisionsPerWholeMeasure =
+    divisionsPerWholeMeasure;
 
   fMeasurePosition         = 1; // ready to receive the first note
 
@@ -5344,12 +5347,12 @@ int msrMeasure::measureFullDuration ()
 {
   // fetch the current voice time duration
   S_msrTime
-    voiceTime =
-      fVoicechunVoicekUplink->getVoiceTime ();
+    voicechunkTime =
+      fMeasureVoicechunkUplink->getVoicechunkTime ();
 
-  if (! voiceTime) {
+  if (! voicechunkTime) {
     // use the implicit initial 4/4 time signature
-    voiceTime =
+    voicechunkTime =
       msrTime::create (
         fMsrOptions,
         fInputLineNumber,
@@ -5358,7 +5361,7 @@ int msrMeasure::measureFullDuration ()
 
   // fetch the duration of a full measure
   int fullMeasureDuration =
-      voiceTime->timeDuration ();
+      voicechunkTime->timeDuration ();
 
   return fullMeasureDuration;
 }
@@ -5480,10 +5483,10 @@ string msrMeasure::getMeasureKindAsString () const
       result = "regular";
       break;
     case kIncompleteVoicechunkStartMeasure:
-      result = "incomplete voice chunk start";
+      result = "incomplete vc start";
       break;
     case kIncompleteVoicechunkEndMeasure:
-      result = "incomplete voice chunk end";
+      result = "incomplete vc end";
       break;
   } // switch
 
@@ -5502,7 +5505,8 @@ void msrMeasure::print (ostream& os)
 */
       ", " << fMeasureDivisions << " divisions" <<
       " (" << getMeasureDivisionsAsString () << ")" <<
-      ", position " << fMeasurePosition << 
+// JMI      ", full measure: " << measureFullDuration () << " divs" <<
+      ", pos: " << fMeasurePosition << 
       ", " << fMeasureElementsList.size () << " elements" <<
       ", " << getMeasureKindAsString () <<
     endl;
@@ -5561,13 +5565,17 @@ msrVoicechunk::msrVoicechunk (
   fVoicechunkDivisionsPerWholeNote =
     fVoicechunVoicekUplink->getVoiceDivisionsPerWholeNote ();
 
+  fVoicechunkDivisionsPerWholeMeasure =
+    fVoicechunVoicekUplink->getVoiceDivisionsPerWholeNote ();
+
   // create a first measure
   S_msrMeasure
     measure =
       msrMeasure::create (
         fMsrOptions,
         inputLineNumber,
-        1, // may be changed afterwards if 0 is found in MusicXML data
+        1, // measure number may be changed afterwards
+           // if <measure/> 0 is found in MusicXML data
         fVoicechunVoicekUplink->getVoiceDivisionsPerWholeNote (),
         this);
 
@@ -5591,6 +5599,16 @@ S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone (
   return clone;
 }
 
+void msrVoicechunk::appendTimeToVoicechunk (S_msrTime time)
+{
+  // retister time in voice chunk
+  fVoicechunkTime = time;
+
+  // append it to this voice chunk
+  S_msrElement t = time;
+  appendElementToVoicechunk (t);
+}
+
 void msrVoicechunk::setVoicechunkMeasureNumber (
   int inputLineNumber,
   int measureNumber)
@@ -5611,8 +5629,8 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   currentMeasure->
     setMeasureDivisions (currentMeasureLength);
 
-  int fullMeasureDuration =
-    measureFullDuration ();
+  int measureDivisions =
+    currentMeasure->getMeasureDivisions();
         
  // JMI if (fMsrOptions->fDebug)
     cerr <<
@@ -5624,12 +5642,12 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
         currentMeasurePosition <<
         endl <<
       idtr <<
-        setw(22) << "fullMeasureDuration" << " = " <<
-        fullMeasureDuration <<
+        setw(22) << "measureDivisions" << " = " <<
+        measureDivisions <<
         endl;
       
   // is the current measure full? (positions start at 1)
-  if (currentMeasurePosition <= fullMeasureDuration) {
+  if (currentMeasurePosition <= measureDivisions) {
     // no, register current measure as incomplete
     // JMI if (fMsrOptions->fDebug)
         cerr <<
@@ -5799,7 +5817,17 @@ void msrVoicechunk::print (ostream& os)
     endl;
 
   idtr++;
-    
+
+  os <<
+    idtr <<
+      "fVoicechunkDivisionsPerWholeNote = " <<
+      fVoicechunkDivisionsPerWholeNote <<
+      endl <<
+    idtr <<
+      "fVoicechunkTime = " <<
+      fVoicechunkTime->timeAsString () <<
+      endl;
+
   os <<
     idtr << "Measures:";
   
@@ -6811,9 +6839,8 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   fVoiceTime = time;
 
   // append it to the voice chunk
-  S_msrElement t = time;
   fVoiceVoicechunk->
-    appendElementToVoicechunk (t);
+    appendTimeToVoicechunk (time);
 }
 
 void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)

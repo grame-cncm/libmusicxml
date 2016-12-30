@@ -1142,6 +1142,244 @@ typedef SMARTP<msrWedge> S_msrWedge;
 EXP ostream& operator<< (ostream& os, const S_msrWedge& elt);
 
 /*!
+\brief A msr clef representation.
+
+  A clef is represented by its name
+*/
+//______________________________________________________________________________
+class EXP msrClef : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrClefLineKind {
+      kStandardLine,
+      kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrClef> create (
+      S_msrOptions& msrOpts, 
+      int          inputLineNumber,
+      string       sign,
+      int          line,
+      int          octaveChange);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrClef (
+      S_msrOptions& msrOpts, 
+      int          inputLineNumber,
+      string       sign,
+      int          line,
+      int          octaveChange);
+      
+    virtual ~msrClef();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string  getSign () const
+                { return fSign; }
+    int     getLine () const
+                { return fLine; }
+    int     getOctaveChange () const
+                { return fOctaveChange; }
+                
+    // services
+    // ------------------------------------------------------
+
+    string  clefAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    string fSign;
+    int    fLine;
+    int    fOctaveChange;
+};
+typedef SMARTP<msrClef> S_msrClef;
+EXP ostream& operator<< (ostream& os, const S_msrClef& elt);
+
+/*!
+\brief A msr key representation.
+
+  A key is represented by the tonic and the mode
+*/
+//______________________________________________________________________________
+class EXP msrKey : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrKeyModeKind { kMajor, kMinor };
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrKey> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           fifths,
+      string        mode,
+      int           cancel);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrKey (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           fifths,
+      string        mode,
+      int           cancel);
+      
+    virtual ~msrKey();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int             getKeyFifths () const
+                        { return fKeyFifths; }
+    string          getKeyMode () const
+                        { return fKeyMode; }
+    int             getKeyCancel () const
+                        { return fKeyCancel; }
+
+    string          getKeyTonic () const
+                        { return fKeyTonic; }
+    msrKeyModeKind  getKeyModeKind () const
+                        { return fKeyModeKind; }
+
+    // services
+    // ------------------------------------------------------
+
+    string      keyAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+  
+  private:
+
+    int                 fKeyFifths;
+    string              fKeyMode;
+    int                 fKeyCancel;
+
+    string              fKeyTonic;
+    msrKeyModeKind      fKeyModeKind;
+};
+typedef SMARTP<msrKey> S_msrKey;
+EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
+
+/*!
+\brief A msr time representation.
+
+  A time is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP msrTime : public msrElement
+{
+  public:
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrTime> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           beatsNumber,
+      int           beatsValue);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrTime (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           beatsNumber,
+      int           beatsValue);
+      
+    virtual ~msrTime();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int       getBeatsNumber () const
+                  { return fBeatsNumber; }
+                  
+    int       getBeatsValue () const
+                  { return fBeatsValue; }
+                  
+    // services
+    // ------------------------------------------------------
+
+    int       timeDuration () const
+                  { return fBeatsNumber * fBeatsValue; }
+                  
+    string    timeAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    int      fBeatsNumber;
+    int      fBeatsValue;
+};
+typedef SMARTP<msrTime> S_msrTime;
+EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
+
+/*!
 \brief A msr repeat representation.
 
   A repeat is represented by:
@@ -1168,7 +1406,8 @@ class EXP msrMeasure : public msrElement
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
       int             measureNumber,
-      int             divisions,
+      int             divisionsPerWholeNote,
+      int             divisionsPerWholeMeasure,
       S_msrVoicechunk voicechunkUplink);
     
     SMARTP<msrMeasure> createMeasureBareClone (
@@ -1183,7 +1422,8 @@ class EXP msrMeasure : public msrElement
       S_msrOptions&   msrOpts, 
       int             inputLineNumber,
       int             measureNumber,
-      int             divisions,
+      int             divisionsPerWholeNote,
+      int             divisionsPerWholeMeasure,
       S_msrVoicechunk voicechunkUplink);
       
     virtual ~msrMeasure();
@@ -1205,11 +1445,11 @@ class EXP msrMeasure : public msrElement
     int           getMeasureDivisionsPerWholeNote () const
                       { return fMeasureDivisionsPerWholeNote; }
 
-    void          setMeasureDivisions (int divisions)
-                      { fMeasureDivisions = divisions; }
+    void          setMeasureDivisionsPerWholeMeasure (int divisions)
+                      { fMeasureDivisionsPerWholeMeasure = divisions; }
 
-    int           getMeasureDivisions () const
-                      { return fMeasureDivisions; }
+    int           getMeasureDivisionsPerWholeMeasure () const
+                      { return fMeasureDivisionsPerWholeMeasure; }
 
     void          setMeasurePosition (int measurePosition)
                       { fMeasurePosition = measurePosition; }
@@ -1269,8 +1509,8 @@ class EXP msrMeasure : public msrElement
 
     int                       fMeasureNumber;
     
-    int                       fMeasureDivisions;
     int                       fMeasureDivisionsPerWholeNote;
+    int                       fMeasureDivisionsPerWholeMeasure;
 
     int                       fMeasurePosition; // in divisions
 
@@ -1337,6 +1577,12 @@ class EXP msrVoicechunk : public msrElement
     const int     getVoicechunkDivisionsPerWholeNote () const
                       { return fVoicechunkDivisionsPerWholeNote; }
           
+    void          setVoicechunkTime (S_msrTime time)
+                      { fVoicechunkTime = time; }
+
+    S_msrTime     getVoicechunkTime () const
+                      { return fVoicechunkTime; }
+
     // measure number
     void          setVoicechunkMeasureNumber (
                     int inputLineNumber,
@@ -1352,6 +1598,7 @@ class EXP msrVoicechunk : public msrElement
 
     void          appendMeasureToVoicechunkClone (S_msrMeasure measure);
 
+    void          appendTimeToVoicechunk   (S_msrTime time);
     void          appendNoteToVoicechunk (S_msrNote note);
     void          appendElementToVoicechunk (S_msrElement elem)
                       {
@@ -1397,6 +1644,8 @@ class EXP msrVoicechunk : public msrElement
 
   private:
 
+    S_msrTime            fVoicechunkTime;
+    
     int                  fVoicechunkDivisionsPerWholeNote;
 
     // the measures in the voice chunk contain the mmusic
@@ -2753,244 +3002,6 @@ class EXP msrTuplet : public msrElement
 };
 typedef SMARTP<msrTuplet> S_msrTuplet;
 EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
-
-/*!
-\brief A msr clef representation.
-
-  A clef is represented by its name
-*/
-//______________________________________________________________________________
-class EXP msrClef : public msrElement
-{
-  public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum msrClefLineKind {
-      kStandardLine,
-      kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrClef> create (
-      S_msrOptions& msrOpts, 
-      int          inputLineNumber,
-      string       sign,
-      int          line,
-      int          octaveChange);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrClef (
-      S_msrOptions& msrOpts, 
-      int          inputLineNumber,
-      string       sign,
-      int          line,
-      int          octaveChange);
-      
-    virtual ~msrClef();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    string  getSign () const
-                { return fSign; }
-    int     getLine () const
-                { return fLine; }
-    int     getOctaveChange () const
-                { return fOctaveChange; }
-                
-    // services
-    // ------------------------------------------------------
-
-    string  clefAsString () const;
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void print (ostream& os);
-
-  private:
-
-    string fSign;
-    int    fLine;
-    int    fOctaveChange;
-};
-typedef SMARTP<msrClef> S_msrClef;
-EXP ostream& operator<< (ostream& os, const S_msrClef& elt);
-
-/*!
-\brief A msr key representation.
-
-  A key is represented by the tonic and the mode
-*/
-//______________________________________________________________________________
-class EXP msrKey : public msrElement
-{
-  public:
-    
-    // data types
-    // ------------------------------------------------------
-
-    enum msrKeyModeKind { kMajor, kMinor };
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrKey> create (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           fifths,
-      string        mode,
-      int           cancel);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrKey (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           fifths,
-      string        mode,
-      int           cancel);
-      
-    virtual ~msrKey();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    int             getKeyFifths () const
-                        { return fKeyFifths; }
-    string          getKeyMode () const
-                        { return fKeyMode; }
-    int             getKeyCancel () const
-                        { return fKeyCancel; }
-
-    string          getKeyTonic () const
-                        { return fKeyTonic; }
-    msrKeyModeKind  getKeyModeKind () const
-                        { return fKeyModeKind; }
-
-    // services
-    // ------------------------------------------------------
-
-    string      keyAsString () const;
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void print (ostream& os);
-  
-  private:
-
-    int                 fKeyFifths;
-    string              fKeyMode;
-    int                 fKeyCancel;
-
-    string              fKeyTonic;
-    msrKeyModeKind      fKeyModeKind;
-};
-typedef SMARTP<msrKey> S_msrKey;
-EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
-
-/*!
-\brief A msr time representation.
-
-  A time is represented by the numerator and denominator
-*/
-//______________________________________________________________________________
-class EXP msrTime : public msrElement
-{
-  public:
-    
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrTime> create (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           beatsNumber,
-      int           beatsValue);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrTime (
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           beatsNumber,
-      int           beatsValue);
-      
-    virtual ~msrTime();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    int       getBeatsNumber () const
-                  { return fBeatsNumber; }
-                  
-    int       getBeatsValue () const
-                  { return fBeatsValue; }
-                  
-    // services
-    // ------------------------------------------------------
-
-    int       timeDuration () const
-                  { return fBeatsNumber * fBeatsValue; }
-                  
-    string    timeAsString () const;
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void print (ostream& os);
-
-  private:
-
-    int      fBeatsNumber;
-    int      fBeatsValue;
-};
-typedef SMARTP<msrTime> S_msrTime;
-EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
 
 /*!
 \brief A msr time representation.
