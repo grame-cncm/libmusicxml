@@ -5287,7 +5287,9 @@ S_msrMeasure msrMeasure::create (
   msrMeasure* o =
     new msrMeasure (
       msrOpts, inputLineNumber,
-      measureNumber, divisions, voicechunkUplink);
+      measureNumber,
+      divisionsPerWholeNote, divisionsPerWholeMeasure,
+      voicechunkUplink);
   assert(o!=0);
   return o;
 }
@@ -5301,16 +5303,16 @@ msrMeasure::msrMeasure (
   S_msrVoicechunk voicechunkUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fMeasureNumber           = measureNumber;
+  fMeasureNumber = measureNumber;
   
   fMeasureDivisionsPerWholeNote =
     divisionsPerWholeNote;
   fMeasureDivisionsPerWholeMeasure =
     divisionsPerWholeMeasure;
 
-  fMeasurePosition         = 1; // ready to receive the first note
+  fMeasurePosition = 1; // ready to receive the first note
 
-  fMeasureKind             = kRegularMeasure;
+  fMeasureKind = kRegularMeasure;
   
   fMeasureVoicechunkUplink = voicechunkUplink;
 }
@@ -5331,11 +5333,9 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
         fMsrOptions,
         fInputLineNumber,
         fMeasureNumber,
-        fMeasureDivisions,
+        fMeasureDivisionsPerWholeNote,
+        fMeasureDivisionsPerWholeMeasure,
         clonedVoicechunk);
-
-  clone->fMeasureDivisionsPerWholeNote =
-    fMeasureDivisionsPerWholeNote;
     
   clone->fMeasureKind =
     fMeasureKind;
@@ -5441,27 +5441,27 @@ ostream& operator<< (ostream& os, const S_msrMeasure& elt)
   return os;
 }
 
-string msrMeasure::getMeasureDivisionsAsString () const
+string msrMeasure::getMeasureLengthAsString () const
 {
   string result;
   string errorMessage;
 
-  int divisionsPerWholeNote =
-    fMeasureVoicechunkUplink->
-      getVoicechunkDivisionsPerWholeNote ();
+  int
+    measureLength =
+      getMeasureLength (); 
   
   if (fMsrOptions->fDebug)
     cerr <<
       endl <<
       idtr <<
-        "% --> fMeasureDivisions = " << fMeasureDivisions <<
-        ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
+        "% --> measureLength = " << measureLength <<
+        ", fMeasureDivisionsPerWholeNote = " << fMeasureDivisionsPerWholeNote <<
       endl;
   
   result =
     divisionsAsMSRDuration (
-      fMeasureDivisions,
-      divisionsPerWholeNote,
+      measureLength,
+      fMeasureDivisionsPerWholeNote,
       errorMessage,
       false); // 'true' to debug it;
 
@@ -5503,8 +5503,8 @@ void msrMeasure::print (ostream& os)
       ", voice " <<
       fMeasureVoicechunkUplink->getVoiceUplink ()->getVoiceName () <<
 */
-      ", " << fMeasureDivisions << " divisions" <<
-      " (" << getMeasureDivisionsAsString () << ")" <<
+      ", length: " << getMeasureLength () << " divisions" <<
+      " (" << getMeasureLengthAsString () << ")" <<
 // JMI      ", full measure: " << measureFullDuration () << " divs" <<
       ", pos: " << fMeasurePosition << 
       ", " << fMeasureElementsList.size () << " elements" <<
@@ -5576,7 +5576,8 @@ msrVoicechunk::msrVoicechunk (
         inputLineNumber,
         1, // measure number may be changed afterwards
            // if <measure/> 0 is found in MusicXML data
-        fVoicechunVoicekUplink->getVoiceDivisionsPerWholeNote (),
+        fVoicechunkDivisionsPerWholeNote,
+        fVoicechunkDivisionsPerWholeMeasure,
         this);
 
   // append it to the voice chunk
@@ -5623,31 +5624,34 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
     currentMeasurePosition =
       currentMeasure->getMeasurePosition (),
     currentMeasureLength =
-      currentMeasurePosition - 1;
+      currentMeasure->getMeasureLength ();
 
+/*
   // set current measure divisions
   currentMeasure->
     setMeasureDivisions (currentMeasureLength);
 
-  int measureDivisions =
-    currentMeasure->getMeasureDivisions();
+        */
+        
+  int measureDivisionsPerWholeMeasure =
+    currentMeasure->getMeasureDivisionsPerWholeMeasure ();
+
         
  // JMI if (fMsrOptions->fDebug)
     cerr <<
       idtr <<
-        "==> setVoicechunkMeasureNumber()" <<
         endl <<
       idtr <<
         setw(22) << "currentMeasurePosition" << " = " <<
         currentMeasurePosition <<
         endl <<
       idtr <<
-        setw(22) << "measureDivisions" << " = " <<
-        measureDivisions <<
+        setw(22) << "currentMeasureLength" << " = " <<
+        currentMeasureLength <<
         endl;
       
   // is the current measure full? (positions start at 1)
-  if (currentMeasurePosition <= measureDivisions) {
+  if (currentMeasurePosition <= measureDivisionsPerWholeMeasure) {
     // no, register current measure as incomplete
     // JMI if (fMsrOptions->fDebug)
         cerr <<
@@ -5674,7 +5678,7 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   
   fVoicechunkMeasureNumber = measureNumber;
 
-  // don't create measure one since it is created initially by default
+  // don't create measure 1 since it is created initially by default
   if (
     currentMeasure->getMeasureNumber ()
       !=
@@ -5687,6 +5691,7 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
           inputLineNumber,
           measureNumber,
           fVoicechunkDivisionsPerWholeNote,
+          measureDivisionsPerWholeMeasure,
           this);
 
     // append it to the voice chunk's measures list

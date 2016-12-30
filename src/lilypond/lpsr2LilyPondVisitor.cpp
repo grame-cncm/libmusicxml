@@ -1287,7 +1287,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
 
         string partialDuration =
           divisionsAsMSRDuration (
-            elt->getMeasureDivisions (),
+            elt->getMeasureLength (),
             elt->getMeasureDivisionsPerWholeNote (),
             errorMessage,
             false); // 'true' to debug it

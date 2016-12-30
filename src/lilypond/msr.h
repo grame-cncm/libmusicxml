@@ -1471,9 +1471,12 @@ class EXP msrMeasure : public msrElement
     // services
     // ------------------------------------------------------
 
-    int           measureFullDuration ();
+    int           getMeasureLength () const // divisions
+                      { return fMeasurePosition -1; } // positions start at 1
+                      
+    int           measureFullDuration (); // ??? JMI
 
-    string        getMeasureDivisionsAsString () const;
+    string        getMeasureLengthAsString () const;
     
     string        getMeasureKindAsString () const;
 
@@ -1576,6 +1579,9 @@ class EXP msrVoicechunk : public msrElement
                       
     const int     getVoicechunkDivisionsPerWholeNote () const
                       { return fVoicechunkDivisionsPerWholeNote; }
+                      
+    const int     getVoicechunkDivisionsPerWholeMeasure () const
+                      { return fVoicechunkDivisionsPerWholeMeasure; }
           
     void          setVoicechunkTime (S_msrTime time)
                       { fVoicechunkTime = time; }
@@ -1647,6 +1653,7 @@ class EXP msrVoicechunk : public msrElement
     S_msrTime            fVoicechunkTime;
     
     int                  fVoicechunkDivisionsPerWholeNote;
+    int                  fVoicechunkDivisionsPerWholeMeasure;
 
     // the measures in the voice chunk contain the mmusic
     // it is created implicitly for every voice,
