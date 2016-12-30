@@ -1474,8 +1474,6 @@ class EXP msrMeasure : public msrElement
     int           getMeasureLength () const // divisions
                       { return fMeasurePosition -1; } // positions start at 1
                       
-    int           measureFullDuration (); // ??? JMI
-
     string        getMeasureLengthAsString () const;
     
     string        getMeasureKindAsString () const;

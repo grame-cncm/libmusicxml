@@ -533,8 +533,11 @@ void msr2LpsrVisitor::visitEnd (S_msrMeasure& elt)
     
     case msrMeasure::kRegularMeasure:
       // is the measure full? (positions start at 1)
-      if (elt->getMeasurePosition () >= elt->measureFullDuration ()) {
-        // yes, generate a bar check
+      if (
+        elt->getMeasureLength ()
+          >=
+        elt->getMeasureDivisionsPerWholeMeasure ()) {
+        // yes, create a bar check
         S_msrBarCheck
           barCheck =
             msrBarCheck::create (
@@ -549,6 +552,19 @@ void msr2LpsrVisitor::visitEnd (S_msrMeasure& elt)
       break;
       
     case msrMeasure::kIncompleteVoicechunkStartMeasure:
+      {
+        // create a bar check
+        S_msrBarCheck
+          barCheck =
+            msrBarCheck::create (
+              fMsrOptions,
+              elt->getInputLineNumber (),
+              elt->getMeasureNumber () + 1);
+                  
+        // append it to the current voice clone
+        fCurrentVoiceClone->
+          appendBarCheckToVoice (barCheck);
+      }
       break;
       
     case msrMeasure::kIncompleteVoicechunkEndMeasure:

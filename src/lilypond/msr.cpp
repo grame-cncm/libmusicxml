@@ -5343,29 +5343,6 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
   return clone;
 }
 
-int msrMeasure::measureFullDuration ()
-{
-  // fetch the current voice time duration
-  S_msrTime
-    voicechunkTime =
-      fMeasureVoicechunkUplink->getVoicechunkTime ();
-
-  if (! voicechunkTime) {
-    // use the implicit initial 4/4 time signature
-    voicechunkTime =
-      msrTime::create (
-        fMsrOptions,
-        fInputLineNumber,
-        4, 4);
-  }
-
-  // fetch the duration of a full measure
-  int fullMeasureDuration =
-      voicechunkTime->timeDuration ();
-
-  return fullMeasureDuration;
-}
-
 void msrMeasure::appendNoteToMeasure (S_msrNote note)
 {
   fMeasureElementsList.push_back (note);
@@ -5483,10 +5460,10 @@ string msrMeasure::getMeasureKindAsString () const
       result = "regular";
       break;
     case kIncompleteVoicechunkStartMeasure:
-      result = "incomplete vc start";
+      result = "incomplete voice chunk start";
       break;
     case kIncompleteVoicechunkEndMeasure:
-      result = "incomplete vc end";
+      result = "incomplete voice chunk end";
       break;
   } // switch
 
@@ -5505,7 +5482,6 @@ void msrMeasure::print (ostream& os)
 */
       ", length: " << getMeasureLength () << " divisions" <<
       " (" << getMeasureLengthAsString () << ")" <<
-// JMI      ", full measure: " << measureFullDuration () << " divs" <<
       ", pos: " << fMeasurePosition << 
       ", " << fMeasureElementsList.size () << " elements" <<
       ", " << getMeasureKindAsString () <<
