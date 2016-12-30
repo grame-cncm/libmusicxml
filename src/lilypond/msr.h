@@ -1602,7 +1602,7 @@ class EXP msrVoicechunk : public msrElement
 
     void          appendMeasureToVoicechunkClone (S_msrMeasure measure);
 
-    void          appendTimeToVoicechunk   (S_msrTime time);
+    void          appendTimeToVoicechunk (S_msrTime time);
     void          appendNoteToVoicechunk (S_msrNote note);
     void          appendElementToVoicechunk (S_msrElement elem)
                       {

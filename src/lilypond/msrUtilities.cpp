@@ -208,8 +208,8 @@ string stringNumbersToEnglishWords (string str)
       // digit
       if (state != kWorkingOnDigits) {
         // create a new chunck for digits
-        chunks.push_back("");
-        states.push_back(kWorkingOnDigits);
+        chunks.push_back ("");
+        states.push_back (kWorkingOnDigits);
         state = kWorkingOnDigits;
       }
       chunks.back().push_back(ch);
@@ -218,8 +218,8 @@ string stringNumbersToEnglishWords (string str)
       // non digit
       if (state != kWorkingOnNonDigits) {
         // create a new chunck for non digits
-        chunks.push_back("");
-        states.push_back(kWorkingOnNonDigits);
+        chunks.push_back ("");
+        states.push_back (kWorkingOnNonDigits);
         state = kWorkingOnNonDigits;
       }
       chunks.back().push_back(ch);
@@ -544,9 +544,9 @@ string divisionsAsMSRDuration (
       ": should be positive 2" <<
       endl;
       
-    // JMI errorMessage = s.str();
-    
-    return "???";
+    errorMessage = s.str();
+
+    return "?";
   }
 
   stringstream s;
@@ -648,7 +648,7 @@ string divisionsAsMSRDuration (
         
       errorMessage = s.str();
 
-      return "";
+      return "?";
       }
   } // switch
 
@@ -719,7 +719,7 @@ string divisionsAsMSRDuration (
       
     errorMessage = s.str();
     
-    return "";
+    return "?";
   }
 
   stringstream s;
@@ -821,7 +821,7 @@ string divisionsAsMSRDuration (
         
       errorMessage = s.str();
 
-      return "";
+      return "?";
       }
   } // switch
 
@@ -982,7 +982,7 @@ string noteTypeAsMSRDuration (
       
    errorMessage = s.str();
 
-   return "";
+   return "?";
   }
 
   return result;

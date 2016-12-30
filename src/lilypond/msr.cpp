@@ -5572,12 +5572,21 @@ S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone (
       msrVoicechunk::create (
         fMsrOptions, fInputLineNumber,
         clonedVoice);
+
+  clone->fVoicechunkTime = fVoicechunkTime;
   
   return clone;
 }
 
 void msrVoicechunk::appendTimeToVoicechunk (S_msrTime time)
 {
+// JMI  if (fMsrOptions->fDebug)
+    cerr <<
+      idtr <<
+        "--> appending time " << time->timeAsString () <<
+        " to voice chunk" <<
+      endl;
+      
   // retister time in voice chunk
   fVoicechunkTime = time;
 
