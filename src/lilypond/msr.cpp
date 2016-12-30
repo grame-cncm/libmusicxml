@@ -5427,26 +5427,30 @@ string msrMeasure::getMeasureLengthAsString () const
     measureLength =
       getMeasureLength (); 
   
-  if (fMsrOptions->fDebug)
+// JMI  if (fMsrOptions->fDebug)
     cerr <<
       endl <<
       idtr <<
         "% --> measureLength = " << measureLength <<
         ", fMeasureDivisionsPerWholeNote = " << fMeasureDivisionsPerWholeNote <<
       endl;
-  
-  result =
-    divisionsAsMSRDuration (
-      measureLength,
-      fMeasureDivisionsPerWholeNote,
-      errorMessage,
-      false); // 'true' to debug it;
 
-  if (errorMessage.size ())
-    msrMusicXMLError (
-      fMsrOptions->fInputSourceName,
-      fInputLineNumber,
-      errorMessage);
+  if (measureLength > 0) {
+    result =
+      divisionsAsMSRDuration (
+        measureLength,
+        fMeasureDivisionsPerWholeNote,
+        errorMessage,
+        false); // 'true' to debug it;
+  
+    if (errorMessage.size ())
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
+        fInputLineNumber,
+        errorMessage);
+  }
+  else
+    result = "0";
 
   return result;
 }
@@ -5537,6 +5541,9 @@ msrVoicechunk::msrVoicechunk (
     : msrElement (msrOpts, inputLineNumber)
 {
   fVoicechunVoicekUplink = voicechunVoicekUplink;
+
+  fVoicechunkTime =
+    fVoicechunVoicekUplink->getVoiceTime ();
 
   fVoicechunkDivisionsPerWholeNote =
     fVoicechunVoicekUplink->getVoiceDivisionsPerWholeNote ();
