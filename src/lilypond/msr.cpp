@@ -5322,7 +5322,13 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
         fMeasureNumber,
         fMeasureDivisions,
         clonedVoicechunk);
-  
+
+  clone->fMeasureDivisionsPerWholeNote =
+    fMeasureDivisionsPerWholeNote;
+    
+  clone->fMeasureKind =
+    fMeasureKind;
+    
   return clone;
 }
 

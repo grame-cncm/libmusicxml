@@ -1261,14 +1261,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
 {
-  if (fMsrOptions->fDebug)
+//  if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting S_msrMeasure" << endl;
+      "% --> Start visiting msrMeasure" << endl;
 
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
       "{" <<
-      setw(30) << " " << "% start of S_msrMeasure" <<
+      setw(30) << " " << "% start of msrMeasure" <<
       endl;
 
     idtr++;
@@ -1305,9 +1305,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrMeasure& elt)
 {
-  if (fMsrOptions->fDebug)
+//  if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting S_msrMeasure" << endl;
+      "% --> End visiting msrMeasure" << endl;
 
   if (fLpsrOptions->fGenerateComments) {
     idtr--;
@@ -1316,7 +1316,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrMeasure& elt)
       endl <<
       idtr <<
       "}" <<
-      setw(30) << " " << "% end of S_msrMeasure" <<
+      setw(30) << " " << "% end of msrMeasure" <<
       endl;
   }
   else

@@ -81,6 +81,7 @@ class lpsr2LilyPondVisitor :
   public visitor<S_msrVoice>,
   
   public visitor<S_msrVoicechunk>,
+  public visitor<S_msrMeasure>,
 
   public visitor<S_msrLyrics>,
   public visitor<S_msrLyricschunk>,
