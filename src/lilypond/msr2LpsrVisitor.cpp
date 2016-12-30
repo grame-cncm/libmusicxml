@@ -470,6 +470,12 @@ void msr2LpsrVisitor::visitStart (S_msrVoicechunk& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrVoicechunk" << endl;
+
+  // fetch the current voicechunk clone
+  fCurrentVoicechunkClone =
+    fCurrentVoiceClone->
+      getVoiceVoicechunk ();
+
 /*
   // create a clone of the voice chunk
   fCurrentVoicechunkClone =
@@ -497,23 +503,24 @@ void msr2LpsrVisitor::visitStart (S_msrMeasure& elt)
     fOstream << idtr <<
       "--> Start visiting msrMeasure" << endl;
 
+/* JMI
   fCurrentPartClone->
     setPartMeasureNumber (
       elt->getInputLineNumber (),
       elt->getMeasureNumber ());
+      */
   //*/
       
-/* JMI
 
   // create a clone of the measure
   fCurrentMeasureClone =
     elt->createMeasureBareClone (
       fCurrentVoicechunkClone);
-  // append it to the current voice
-  fCurrentVoiceClone->
-    appendVoicechunkToVoice (
-      fCurrentVoicechunkClone);
-      */
+      
+  // append it to the current voice clone
+  fCurrentVoicechunkClone->
+    appendMeasureToVoicechunk (
+      fCurrentMeasureClone);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrMeasure& elt)
@@ -1160,7 +1167,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       S_msrVoicechunk
         currentVoicechunk =
           fCurrentVoiceClone->
-            getVoicechunk ();
+            getVoiceVoicechunk ();
 
 
       // create an LPSR repeat if not yet done
@@ -1205,7 +1212,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       S_msrVoicechunk
         currentVoicechunk =
           fCurrentVoiceClone->
-            getVoicechunk ();
+            getVoiceVoicechunk ();
 
       // set the current voice chunk as the repeat's common part
       fCurrentRepeatClone->
@@ -1245,7 +1252,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       S_msrVoicechunk
         currentVoicechunk =
           fCurrentVoiceClone->
-            getVoicechunk ();
+            getVoiceVoicechunk ();
 
 /*
       // set the current voice chunk as the repeat's common part
@@ -1284,7 +1291,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       S_msrVoicechunk
         currentVoicechunk =
           fCurrentVoiceClone->
-            getVoicechunk ();
+            getVoiceVoicechunk ();
 
       // create a new voice chunk for the voice
 //      if (fMsrOptions->fDebug)
@@ -1351,7 +1358,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       S_msrVoicechunk
         currentVoicechunk =
           fCurrentVoiceClone->
-            getVoicechunk ();
+            getVoiceVoicechunk ();
 
       // create a new voice chunk for the voice
 //      if (fMsrOptions->fDebug)

@@ -6112,7 +6112,7 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
       "Creating the initial voice chunk for voice " <<
       clone->getVoiceName () << endl;
       
-  clone->fVoicechunk =
+  clone->fVoiceVoicechunk =
     msrVoicechunk::create (
       clone->fMsrOptions, clone->fInputLineNumber,
       clone);
@@ -6185,7 +6185,7 @@ msrVoice::msrVoice (
       getVoiceName () << "\"" <<
       endl;
       
-  fVoicechunk =
+  fVoiceVoicechunk =
     msrVoicechunk::create (
       fMsrOptions, inputLineNumber,
       this);
@@ -6207,7 +6207,7 @@ msrVoice::msrVoice (
   if (clef) {
     // append it to the voice chunk
     S_msrElement c = clef;
-    fVoicechunk->
+    fVoiceVoicechunk->
       appendElementToVoicechunk (c);
     }
   }
@@ -6229,7 +6229,7 @@ msrVoice::msrVoice (
     if (key) {
     // append it to the voice chunk
     S_msrElement k = key;
-    fVoicechunk->
+    fVoiceVoicechunk->
       appendElementToVoicechunk (k);
     }
   }
@@ -6251,7 +6251,7 @@ msrVoice::msrVoice (
     if (time) {
       // append it to the voice chunk
       S_msrElement t = time;
-      fVoicechunk->
+      fVoiceVoicechunk->
         appendElementToVoicechunk (t);
     }
   }
@@ -6265,7 +6265,7 @@ msrVoice::msrVoice (
     if (transpose) {
       // append it to the voice chunk
       S_msrElement t = transpose;
-      fVoicechunk->
+      fVoiceVoicechunk->
         appendElementToVoicechunk (t);
     }
   }
@@ -6492,7 +6492,7 @@ void msrVoice::setVoiceMeasureNumber (
 {
   fVoiceMeasureNumber = measureNumber;
 
-  fVoicechunk->
+  fVoiceVoicechunk->
     setVoicechunkMeasureNumber (
       inputLineNumber,
       fVoiceMeasureNumber);
@@ -6651,7 +6651,7 @@ void msrVoice::setNewVoicechunkForVoice (
       "Creating a new voice chunk for voice " <<
       getVoiceName () << endl;
       
-  fVoicechunk =
+  fVoiceVoicechunk =
     msrVoicechunk::create (
       fMsrOptions, inputLineNumber,
       this);
@@ -6744,7 +6744,7 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement c = clef;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (c);
 }
 
@@ -6756,7 +6756,7 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement k = key;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (k);
 }
 
@@ -6772,7 +6772,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
 
   // append it to the voice chunk
   S_msrElement t = time;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (t);
 }
 
@@ -6784,7 +6784,7 @@ void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement t = transpose;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (t);
 }
 
@@ -6797,7 +6797,7 @@ void msrVoice::appendWordsToVoice (S_msrWords words)
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement w = words;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (w);
 }
 */
@@ -6810,7 +6810,7 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement t = tempo;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (t);
 }
 
@@ -6824,7 +6824,7 @@ void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
       " to voice " << getVoiceName () << endl;
 
   S_msrElement o = octaveShift;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (o);
 }
 
@@ -6836,7 +6836,7 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement r = rehearsal;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (r);
 }
 
@@ -6860,7 +6860,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   // append the note to the voice chunk
 // JMI  S_msrElement n = note;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendNoteToVoicechunk (note);
 
   // add a rest of the same duration to the voice master
@@ -6892,7 +6892,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement c = chord;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (c);
 
   fMusicHasBeenInsertedInVoice = true;
@@ -6905,7 +6905,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement t = tuplet;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (t);
 
   fMusicHasBeenInsertedInVoice = true;
@@ -6920,7 +6920,7 @@ void msrVoice::appendGraceexpressionToVoice (
       " to voice " << getVoiceName () << endl;
 
   S_msrElement g = graceexpression;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (g);
 
   fMusicHasBeenInsertedInVoice = true;
@@ -7226,7 +7226,7 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
 
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (barCheck);
 
   // add bar check chunk to the voice master lyrics
@@ -7246,7 +7246,7 @@ void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
 
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (bnc);
 
 /*
@@ -7265,7 +7265,7 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
       "Appending break '" << break_ <<
       "' to voice \"" << getVoiceName () << endl;
 
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (break_);
 
   // add break chunk to the voice master lyrics
@@ -7342,7 +7342,7 @@ void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
       endl;
 
   S_msrElement r = repeat;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (r);
 }
 
@@ -7356,7 +7356,7 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline) {
     idtr--;
 
   S_msrElement b = barline;
-  fVoicechunk->
+  fVoiceVoicechunk->
     prependElementToVoicechunk (b);
 }
 
@@ -7371,7 +7371,7 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
     idtr--;
 
   S_msrElement b = barline;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (b);
 }
 
@@ -7383,7 +7383,7 @@ void msrVoice::appendSegnoToVoice (S_msrSegno segno) {
       endl;
 
   S_msrElement s = segno;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (s);
 }
 
@@ -7395,7 +7395,7 @@ void msrVoice::appendCodaToVoice (S_msrCoda coda) {
       ":" << endl;
 
   S_msrElement c = coda;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (c);
 }
 
@@ -7407,7 +7407,7 @@ void msrVoice::appendEyeglassesToVoice (S_msrEyeglasses eyeglasses) {
       endl;
 
   S_msrElement e = eyeglasses;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (e);
 }
 
@@ -7419,7 +7419,7 @@ void msrVoice::appendPedalToVoice (S_msrPedal pedal) {
       endl;
 
   S_msrElement e = pedal;
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (e);
 }
 
@@ -7431,7 +7431,7 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
       "Appending element '" << elem <<
       "' to voice " << getVoiceName () << endl;
 
-  fVoicechunk->
+  fVoiceVoicechunk->
     appendElementToVoicechunk (elem);
 }
 */
@@ -7443,7 +7443,7 @@ void msrVoice::removeLastElementFromVoice ()
       "Removing last element " <<
       " from voice " << getVoiceName () << endl;
 
-  fVoicechunk->
+  fVoiceVoicechunk->
     removeLastElementFromVoicechunk ();
 }
 
@@ -7489,7 +7489,7 @@ void msrVoice::browseData (basevisitor* v)
 
   // browse the voice chunk
   msrBrowser<msrVoicechunk> browser (v);
-  browser.browse (*fVoicechunk);
+  browser.browse (*fVoiceVoicechunk);
 
   // browse the voice lyrics
   for (
@@ -7525,7 +7525,7 @@ void msrVoice::print (ostream& os)
   idtr++;
 
   // print the voice chunk
-  os << fVoicechunk;
+  os << fVoiceVoicechunk;
   
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     // print the master lyrics

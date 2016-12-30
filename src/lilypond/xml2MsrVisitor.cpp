@@ -5613,7 +5613,7 @@ void xml2MsrVisitor::handleRepeatStart (
   S_msrVoicechunk
     currentVoicechunk =
       currentVoice->
-        getVoicechunk ();
+        getVoiceVoicechunk ();
 
   if (! fCurrentRepeat) {
     // create the repeat
@@ -5683,7 +5683,7 @@ void xml2MsrVisitor::handleHookedEndingEnd (
   S_msrVoicechunk
     currentVoicechunk =
       currentVoice->
-        getVoicechunk ();
+        getVoiceVoicechunk ();
 
   // create new voice chunk from current voice
   if (fMsrOptions->fDebug)
@@ -5768,7 +5768,7 @@ void xml2MsrVisitor::handleHookedEndingEnd (
     S_msrVoicechunk
       currentVoicechunk =
         currentVoice->
-          getVoicechunk ();
+          getVoiceVoicechunk ();
 
     if (! fCurrentRepeat) {
       // create the repeat
@@ -5855,7 +5855,7 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
   S_msrVoicechunk
     currentVoicechunk =
       currentVoice->
-        getVoicechunk ();
+        getVoiceVoicechunk ();
 
   // create a repeat ending from the current voice chunk
   if (fMsrOptions->fDebug)
@@ -5935,7 +5935,7 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
     S_msrVoicechunk
       currentVoicechunk =
         currentVoice->
-          getVoicechunk ();
+          getVoiceVoicechunk ();
 
     if (! fCurrentRepeat) {
       // create the repeat
@@ -6023,7 +6023,7 @@ void xml2MsrVisitor::handleEndingStart (
   S_msrVoicechunk
     currentVoicechunk =
       currentVoice->
-        getVoicechunk ();
+        getVoiceVoicechunk ();
 
   // push the barline onto the stack
   fPendingBarlines.push (barline);
@@ -6097,7 +6097,7 @@ void xml2MsrVisitor::handleEndingEnd (
     S_msrVoicechunk
       currentVoicechunk =
         currentVoice->
-          getVoicechunk ();
+          getVoiceVoicechunk ();
 
     if (! fCurrentRepeat) {
       // create the repeat

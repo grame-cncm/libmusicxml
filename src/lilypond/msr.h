@@ -4138,8 +4138,8 @@ class EXP msrVoice : public msrElement
     void          setNewVoicechunkForVoice (int inputLineNumber); // JMI
 
     S_msrVoicechunk
-                  getVoicechunk () const
-                      { return fVoicechunk; }
+                  getVoiceVoicechunk () const
+                      { return fVoiceVoicechunk; }
 
     S_msrLyrics   getVoiceLyricsmaster () const
                       { return fVoiceLyricsmaster; }
@@ -4316,7 +4316,7 @@ class EXP msrVoice : public msrElement
     
     // the chunk in the voice contains the measures
     // it is created implicitly for every voice,
-    S_msrVoicechunk           fVoicechunk;
+    S_msrVoicechunk           fVoiceVoicechunk;
 
     // the master lyrics, collecting skips along the way,
     // to be used as a 'prelude' by actual lyrics
