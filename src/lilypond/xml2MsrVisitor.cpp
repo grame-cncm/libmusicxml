@@ -4848,25 +4848,27 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   fNoteData.fType =
     fCurrentNoteType;
 
-  if (fCurrentNoteType.size ()) {
-    // set current note divisions (for grace notes)
-    string errorMessage;
-    
-    fNoteData.fDivisions =
-      noteTypeAsDivisions (
-        fCurrentNoteType,
-        divisionsPerWholeNote,
-        errorMessage,
-        false); // 'true' to debug it
-
-    if (errorMessage.size ())
-      msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
-        inputLineNumber,
-        errorMessage);
-
-    fNoteData.fDisplayDivisions =
-      fNoteData.fDivisions;
+  if (fNoteData.fType.size ()) {
+    if (fNoteData.fNoteIsAGraceNote) {
+      // set current grace note divisions
+      string errorMessage;
+      
+      fNoteData.fDivisions =
+        noteTypeAsDivisions (
+          fCurrentNoteType,
+          divisionsPerWholeNote,
+          errorMessage,
+          false); // 'true' to debug it
+  
+      if (errorMessage.size ())
+        msrMusicXMLError (
+          fMsrOptions->fInputSourceName,
+          inputLineNumber,
+          errorMessage);
+  
+      fNoteData.fDisplayDivisions =
+        fNoteData.fDivisions;
+    }
   }
 
   // create the note

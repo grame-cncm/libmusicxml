@@ -162,7 +162,7 @@ void printUsage (int exitStatus)
     "    --stems" << endl <<
     "          Generate \\stemUp and \\stemDown LilyPond commands." << endl <<
     "          By default, LilyPond will take care of that by itself." << endl <<
-    "    --noAutoBeaming" << endl <<
+    "    --noab, --noAutoBeaming" << endl <<
     "          Generate '\\set Voice.autoBeaming = ##f' in each voice " << endl <<
     "          to prevent LilyPond from handling beams automatically." << endl <<
     endl <<
@@ -333,14 +333,12 @@ void analyzeOptions (
     },
     {
       "interactive",
-      no_argument,
-      &interactivePresent, 1
+      no_argument, &interactivePresent, 1
     },
     
     {
       "nt",
-      no_argument,
-      &noTracePresent, 1
+      no_argument, &noTracePresent, 1
     },
     {
       "noTrace",
@@ -488,24 +486,27 @@ void analyzeOptions (
     
     {
       "com",
-      no_argument,
-      &commentsPresent, 1
+      no_argument, &commentsPresent, 1
     },
     {
       "comments",
-      no_argument,
-      &commentsPresent, 1
+      no_argument, &commentsPresent, 1
     },
     
     {
       "stems",
-      no_argument,
-      &stemsPresent, 1
+      no_argument, &stemsPresent, 1
+    },
+    
+    {
+      "noab",
+      no_argument, &noAutoBeamingPresent, 1
     },
     {
       "noAutoBeaming",
       no_argument, &noAutoBeamingPresent, 1
     },
+    
     {
       "positions",
       no_argument, &positionsPresent, 1

@@ -1261,7 +1261,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
 {
-//  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrMeasure" << endl;
 
@@ -1269,7 +1269,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
     fOstream << idtr <<
       "{" <<
       setw(30) << " " << "% start of msrMeasure" <<
-      endl;
+      endl <<
+      idtr;
 
     idtr++;
   }
@@ -1286,15 +1287,14 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
 
         string partialDuration =
           divisionsAsMSRDuration (
-            elt->getMeasurePosition (),
+            elt->getMeasureDivisions (),
             elt->getMeasureDivisionsPerWholeNote (),
             errorMessage,
             false); // 'true' to debug it
             
-        fOstream <<
-          "\\partial" "" << partialDuration <<
-          endl <<
-          idtr;
+        fOstream << idtr <<
+          "\\partial" " " << partialDuration <<
+          endl;
       }
       break;
       
@@ -1305,7 +1305,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrMeasure& elt)
 {
-//  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrMeasure" << endl;
 

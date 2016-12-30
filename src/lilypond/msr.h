@@ -1231,6 +1231,8 @@ class EXP msrMeasure : public msrElement
     // services
     // ------------------------------------------------------
 
+    int           measureFullDuration ();
+
     string        getMeasureDivisionsAsString () const;
     
     string        getMeasureKindAsString () const;

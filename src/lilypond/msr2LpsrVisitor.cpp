@@ -530,9 +530,11 @@ void msr2LpsrVisitor::visitEnd (S_msrMeasure& elt)
       "--> End visiting msrMeasure" << endl;
 
   switch (elt->getMeasureKind ()) {
+    
     case msrMeasure::kRegularMeasure:
-      {
-        // generate a bar check
+      // is the measure full? (positions start at 1)
+      if (elt->getMeasurePosition () >= elt->measureFullDuration ()) {
+        // yes, generate a bar check
         S_msrBarCheck
           barCheck =
             msrBarCheck::create (
@@ -540,7 +542,7 @@ void msr2LpsrVisitor::visitEnd (S_msrMeasure& elt)
               elt->getInputLineNumber (),
               elt->getMeasureNumber () + 1);
                   
-        // append it to the current voice clone
+        // and append it to the current voice clone
         fCurrentVoiceClone->
           appendBarCheckToVoice (barCheck);
       }
