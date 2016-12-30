@@ -5657,6 +5657,24 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   fMeasureNumberHasBeenSetInVoiceChunk = true;
 }
 
+void msrVoicechunk::appendMeasureToVoicechunkClone (S_msrMeasure measure)
+{
+  if (fVoicechunkMeasuresList.size ()) {
+    // don't append a measure if one with the same
+    // measure number is already present
+    
+    if (fVoicechunkMeasuresList.back ()->getMeasureNumber ()
+      ==
+    measure->getMeasureNumber ()) {
+      // remove previous measure with same number
+      fVoicechunkMeasuresList.pop_back ();
+    }
+  }
+
+  // append measure to the voice chunk
+  fVoicechunkMeasuresList.push_back (measure);
+}
+
 void msrVoicechunk::appendNoteToVoicechunk (S_msrNote note)
 {
   fVoicechunkMeasuresList.back ()->

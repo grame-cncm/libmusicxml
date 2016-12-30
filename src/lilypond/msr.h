@@ -1348,8 +1348,7 @@ class EXP msrVoicechunk : public msrElement
 
     string        voicechunkAsString ();
 
-    void          appendMeasureToVoicechunk (S_msrMeasure measure)
-                      { fVoicechunkMeasuresList.push_back (measure); }
+    void          appendMeasureToVoicechunkClone (S_msrMeasure measure);
 
     void          appendNoteToVoicechunk (S_msrNote note);
     void          appendElementToVoicechunk (S_msrElement elem)
