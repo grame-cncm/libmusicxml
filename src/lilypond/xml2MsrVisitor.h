@@ -716,7 +716,10 @@ class EXP xml2MsrVisitor :
     list<S_msrWords>          fPendingWords;
     list<S_msrSlur>           fPendingSlurs;
     list<S_msrWedge>          fPendingWedges;
-    
+
+    void                      attachPendingElementsToNote (
+                                S_msrNote note);
+                                
     void                      attachPendingDynamicsToNote (
                                 S_msrNote note);
     void                      attachPendingWordsToNote (
@@ -725,14 +728,17 @@ class EXP xml2MsrVisitor :
                                 S_msrNote note);
     void                      attachPendingWedgesToNote (
                                 S_msrNote note);
-
+/*
     void                      attachPendingDynamicsToChord (
                                 S_msrChord chord);
     void                      attachPendingWordsToChord (
                                 S_msrChord chord);
     void                      attachPendingWedgesToChord (
                                 S_msrChord chord);
-
+*/
+    void                      copyNoteElementsToChord (
+                                S_msrNote note, S_msrChord chord);
+                                
     void                      copyNoteDynamicsToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteWordsToChord (
@@ -741,13 +747,14 @@ class EXP xml2MsrVisitor :
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteWedgesToChord (
                                 S_msrNote note, S_msrChord chord);
-  
+  /*
     void                      moveNoteDynamicsToChord ( // JMI
                                 S_msrNote note, S_msrChord chord);
     void                      moveNoteWordsToChord ( // JMI
                                 S_msrNote note, S_msrChord chord);
     void                      moveNoteWedgesToChord ( // JMI
                                 S_msrNote note, S_msrChord chord);
+       */
        
     // description of the current MSR note
     // ------------------------------------------------------

@@ -2151,7 +2151,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
   }
 
   // print the slurs if any
-  switch (elt->getNoteSlur ()->getSlurKind ()) {
+  switch (elt->getNoteslur ()->getSlurKind ()) {
     case msrSlur::kStartSlur:
       fOstream << "( ";
       break;

@@ -1551,6 +1551,11 @@ void msrNote::addWordsToNote (S_msrWords words)
 
 void msrNote::addSlurToNote (S_msrSlur slur)
 {
+  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "% --> adding slur " << slur << " to note " << noteAsString ()
+       << endl;
+
   fNoteSlurs.push_back (slur);
 }
 
@@ -2064,6 +2069,23 @@ void msrNote::print (ostream& os)
     idtr--;
   }
 
+  // print the slurs if any
+  if (fNoteSlurs.size()) {
+    idtr++;
+    
+    list<S_msrSlur>::const_iterator
+      iBegin = fNoteSlurs.begin(),
+      iEnd   = fNoteSlurs.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+  // JMI    os << endl;
+    } // for
+    
+    idtr--;
+  }
+  
   // print the wedges if any
   if (fNoteWedges.size()) {
     idtr++;
@@ -2271,6 +2293,15 @@ void msrChord::browseData (basevisitor* v)
   } // for
 
   for (
+    list<S_msrSlur>::const_iterator i = fChordSlurs.begin();
+    i != fChordSlurs.end();
+    i++ ) {
+    // browse the slur
+    msrBrowser<msrSlur> browser (v);
+    browser.browse (*(*i));
+  } // for
+  
+  for (
     list<S_msrWedge>::const_iterator i = fChordWedges.begin();
     i != fChordWedges.end();
     i++ ) {
@@ -2372,6 +2403,14 @@ void msrChord::print (ostream& os)
   if (fChordWords.size()) {
     list<S_msrWords>::const_iterator i;
     for (i=fChordWords.begin(); i!=fChordWords.end(); i++) {
+      os << idtr << (*i);
+    } // for
+  }
+
+  // print the slurs if any
+  if (fChordSlurs.size()) {
+    list<S_msrSlur>::const_iterator i;
+    for (i=fChordSlurs.begin(); i!=fChordSlurs.end(); i++) {
       os << idtr << (*i);
     } // for
   }
@@ -5592,7 +5631,7 @@ S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone (
 
 void msrVoicechunk::appendTimeToVoicechunk (S_msrTime time)
 {
-// JMI  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr <<
       idtr <<
         "--> appending time " << time->timeAsString () <<
@@ -5634,7 +5673,7 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
     currentMeasure->getMeasureDivisionsPerWholeMeasure ();
 
         
- // JMI if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr <<
       idtr <<
         endl <<

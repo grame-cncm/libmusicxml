@@ -1151,6 +1151,9 @@ void msr2LpsrVisitor::visitStart (S_msrSlur& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrSlur" << endl;
+
+  fCurrentNoteClone->
+    addSlurToNote (elt);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrSlur& elt)

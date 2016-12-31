@@ -1052,10 +1052,10 @@ void xml2MsrVisitor::visitStart (S_part& elt)
   if (fMsrOptions->fTrace)
     cerr <<
       idtr <<
-      "--------------------------------------------" <<
-      endl <<
+        "--------------------------------------------" <<
+        endl <<
       idtr <<
-      "Analyzing part \"" << fCurrentPartID << "\", start" <<
+        "Analyzing part \"" << fCurrentPartID << "\", start" <<
       endl;
 
   idtr++;
@@ -1071,10 +1071,11 @@ void xml2MsrVisitor::visitEnd (S_part& elt)
   if (fMsrOptions->fTrace)
     cerr <<
       idtr <<
-      "Analyzing part \"" << fCurrentPartID << "\", end" <<
+        "Analyzing part \"" << fCurrentPartID << "\", end" <<
+        endl <<
       idtr <<
-      "--------------------------------------------" <<
-      endl <<
+        "--------------------------------------------" <<
+        endl <<
       endl;
 
   // all voices were generated from the start,
@@ -2185,8 +2186,54 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
           s.str());
       }
   }
+
+  S_msrSlur
+    slur =
+      msrSlur::create(
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        fCurrentSlurKind);
+        
+  fPendingSlurs.push_back (slur);
 }
 
+//______________________________________________________________________________
+void xml2MsrVisitor::visitStart ( S_wedge& elt )
+{
+  string type = elt->getAttributeValue("type");
+  
+  msrWedge::msrWedgeKind wedgeKind;
+
+  if      (type == "crescendo") {
+    wedgeKind = msrWedge::kCrescendoWedge;
+  }
+  else if (type == "diminuendo") {
+    wedgeKind = msrWedge::kDecrescendoWedge;
+  }
+  else if (type == "stop") {
+    wedgeKind = msrWedge::kStopWedge;
+  }
+  else {
+    if (type.size ()) {
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
+        elt->getInputLineNumber (),
+        "unknown wedge type \"" +
+          type +
+          "\", should be 'crescendo', 'diminuendo' or 'stop'");
+    }
+  }
+  
+  S_msrWedge
+    wedge =
+      msrWedge::create(
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        wedgeKind);
+        
+  fPendingWedges.push_back (wedge);
+}
+    
 //________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_lyric& elt )
 { 
@@ -3970,43 +4017,6 @@ void xml2MsrVisitor::visitStart( S_sffz& elt)
 }
 
 //______________________________________________________________________________
-void xml2MsrVisitor::visitStart ( S_wedge& elt )
-{
-  string type = elt->getAttributeValue("type");
-  
-  msrWedge::msrWedgeKind wedgeKind;
-
-  if      (type == "crescendo") {
-    wedgeKind = msrWedge::kCrescendoWedge;
-  }
-  else if (type == "diminuendo") {
-    wedgeKind = msrWedge::kDecrescendoWedge;
-  }
-  else if (type == "stop") {
-    wedgeKind = msrWedge::kStopWedge;
-  }
-  else {
-    if (type.size ()) {
-      msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
-        elt->getInputLineNumber (),
-        "unknown wedge type \"" +
-          type +
-          "\", should be 'crescendo', 'diminuendo' or 'stop'");
-    }
-  }
-  
-  S_msrWedge
-    wedge =
-      msrWedge::create(
-        fMsrOptions,
-        elt->getInputLineNumber (),
-        wedgeKind);
-        
-  fPendingWedges.push_back (wedge);
-}
-    
-//______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_grace& elt )
 {
   fNoteData.fNoteIsAGraceNote = true;
@@ -4188,18 +4198,9 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
   chord->
     addNoteToChord (firstNote);
 
-  // copy firstNote's articulations if any to the chord
-  copyNoteArticulationsToChord (firstNote, chord);
-  
-  // copy firstNote's dynamics if any to the chord
-  copyNoteDynamicsToChord (firstNote, chord);
-  
-  // copy firstNote's words if any to the chord
-  copyNoteWordsToChord (firstNote, chord);
-  
-  // copy firstNote's wedges if any to the chord
-  copyNoteWedgesToChord (firstNote, chord);
-  
+  // copy firstNote's elements if any to the chord
+  copyNoteElementsToChord (firstNote, chord);
+    
 /* JMI ???
   // move the firstNote's dynamics if any from the first note to the chord
   moveNoteDynamicsToChord (firstNote, chord);
@@ -4272,6 +4273,35 @@ void xml2MsrVisitor::copyNoteDynamicsToChord (
 }
 
 //______________________________________________________________________________
+void xml2MsrVisitor::copyNoteWordsToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's words if any from the first note to chord
+  
+  list<S_msrWords>
+    noteWords =
+      note->
+        getNoteWords ();
+                          
+  list<S_msrWords>::const_iterator i;
+  for (
+    i=noteWords.begin();
+    i!=noteWords.end();
+    i++) {
+
+    // JMI   if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> copying articulation '" <<
+        (*i)->wordsAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+
+    chord->addWordsToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
 void xml2MsrVisitor::copyNoteSlursToChord (
   S_msrNote note, S_msrChord chord)
 {  
@@ -4330,35 +4360,27 @@ void xml2MsrVisitor::copyNoteWedgesToChord (
 }
 
 //______________________________________________________________________________
-void xml2MsrVisitor::copyNoteWordsToChord (
+void xml2MsrVisitor::copyNoteElementsToChord (
   S_msrNote note, S_msrChord chord)
 {  
-  // copy note's words if any from the first note to chord
-  
-  list<S_msrWords>
-    noteWords =
-      note->
-        getNoteWords ();
-                          
-  list<S_msrWords>::const_iterator i;
-  for (
-    i=noteWords.begin();
-    i!=noteWords.end();
-    i++) {
+  // copy newNote's articulations if any to the chord
+  copyNoteArticulationsToChord (note, fCurrentChord);
 
-    // JMI   if (fMsrOptions->fDebug)
-      cerr << idtr <<
-        "--> copying articulation '" <<
-        (*i)->wordsAsString () <<
-        "' from note " << note->noteAsString () <<
-        " to chord" <<
-        endl;
+  // copy newNote's dynamics if any to the chord
+  copyNoteDynamicsToChord (note, fCurrentChord);
 
-    chord->addWordsToChord ((*i));
-  } // for      
+  // copy newNote's words if any to the chord
+  copyNoteWordsToChord (note, fCurrentChord);
+
+  // copy newNote's slurs if any to the chord
+  copyNoteSlursToChord (note, fCurrentChord);
+
+  // copy newNote's wedges if any to the chord
+  copyNoteWedgesToChord (note, fCurrentChord);
 }
 
 //______________________________________________________________________________
+/*
 void xml2MsrVisitor::moveNoteDynamicsToChord (
   S_msrNote note, S_msrChord chord)
 {
@@ -4430,6 +4452,7 @@ void xml2MsrVisitor::moveNoteWedgesToChord (
     } // while
   }
 }
+*/
 
 //______________________________________________________________________________
 void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
@@ -4701,10 +4724,10 @@ void xml2MsrVisitor::attachPendingWordsToNote (
     else {
       while (! fPendingWords.empty ()) {
         S_msrWords
-          wedge =
+          words =
             fPendingWords.front ();
             
-        note->addWordsToNote (wedge);
+        note->addWordsToNote (words);
         fPendingWords.pop_front ();
       } // while
     }
@@ -4787,7 +4810,24 @@ void xml2MsrVisitor::attachPendingWedgesToNote (
   }
 }
 
+void xml2MsrVisitor::attachPendingElementsToNote (
+  S_msrNote note)
+{
+  // attach the pending dynamics, if any, to the note
+  attachPendingDynamicsToNote (note);
+
+  // attach the pending words, if any, to the note
+  attachPendingWordsToNote (note);
+
+  // attach the pending slurs, if any, to the note
+  attachPendingSlursToNote (note);
+
+  // attach the pending wedges, if any, to the note
+  attachPendingWedgesToNote (note);
+}
+
 //______________________________________________________________________________
+/*
 void xml2MsrVisitor::attachPendingDynamicsToChord (
   S_msrChord chord)
 {
@@ -4835,6 +4875,7 @@ void xml2MsrVisitor::attachPendingWedgesToChord (
     } // while
   }
 }
+*/
 
 //______________________________________________________________________________
 void xml2MsrVisitor::visitEnd ( S_note& elt )
@@ -5089,17 +5130,8 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
   fCurrentChord->
     addNoteToChord (newNote);
 
-  // copy newNote's articulations if any to the chord
-  copyNoteArticulationsToChord (newNote, fCurrentChord);
-
-  // copy newNote's dynamics if any to the chord
-  copyNoteDynamicsToChord (newNote, fCurrentChord);
-
-  // copy newNote's words if any to the chord
-  copyNoteWordsToChord (newNote, fCurrentChord);
-
-  // copy newNote's wedges if any to the chord
-  copyNoteWedgesToChord (newNote, fCurrentChord);
+  // copy newNote's elements if any to the chord
+  copyNoteElementsToChord (newNote, fCurrentChord);
 
 /* JMI ???
   // attach the pending dynamics, if any, to the chord
@@ -5170,14 +5202,8 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
   note->
     setNoteKind (msrNote::kTupletMemberNote);
 
-  // attach the pending dynamics, if any, to the note
-  attachPendingDynamicsToNote (note);
-
-  // attach the pending words, if any, to the note
-  attachPendingWordsToNote (note);
-
-  // attach the pending dynamics and wedges, if any, to the note
-  attachPendingWedgesToNote (note);
+  // attach the pending elements, if any, to the note
+  attachPendingElementsToNote (note);
 
   switch (fCurrentTupletKind) {
     case msrTuplet::kStartTuplet:
@@ -5347,14 +5373,8 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         endl;
     }
     
-    // attach the pending dynamics, if any, to the note
-    attachPendingDynamicsToNote (newNote);
-
-    // attach the pending words, if any, to the note
-    attachPendingWordsToNote (newNote);
-
-    // attach the pending dynamics and wedges, if any, to the note
-    attachPendingWedgesToNote (newNote);
+    // attach the pending elements, if any, to the note
+    attachPendingElementsToNote (newNote);
   
     // append newNote to the current voice
     currentVoice->
