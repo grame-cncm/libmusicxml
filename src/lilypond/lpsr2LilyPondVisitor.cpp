@@ -1758,6 +1758,37 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrDynamics& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrSlur& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrSlur" << endl;
+
+  fPendingChordSlurs.push_back (elt);
+  /*
+  switch (elt->getSlurKind ()) {
+    case msrSlur::k_NoSlur:
+      break;
+    case msrSlur::kStartSlur:
+      fOstream << "( ";
+      break;
+    case msrSlur::kContinueSlur:
+      break;
+    case msrSlur::kStopSlur:
+      fOstream << ") ";
+      break;
+  } // switch
+  */
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrSlur& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrSlur" << endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrWedge& elt)
 {
   if (fMsrOptions->fDebug)
@@ -1902,7 +1933,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         } // switch
       }
     
-      // is there a change?
+      // is there a stem kind change?
       if (stemKind != fCurrentStemKind)
         fCurrentStemKind = stemKind;
     }
@@ -2095,10 +2126,12 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
     case msrNote::kRestNote:
       break;
     case msrNote::kChordMemberNote:
+    /*
       if (elt == fCurrentChordClone->chordLastNote ())
         fOstream << // JMI
           ">" <<
           fCurrentChordClone->chordDivisionsAsMSRString () << " ";
+*/
       break;
     case msrNote::kTupletMemberNote:
       break;
@@ -2296,11 +2329,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrChord" << endl;
-/*
+
   fOstream <<
     ">" <<
     elt->chordDivisionsAsMSRString () << " ";
-*/
+
   // print the articulations if any
   list<S_msrArticulation>
     chordArticulations =
@@ -2334,6 +2367,36 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
       fOstream << " ";
     } // for
   }
+
+  // print the pending slurs if any
+  list<S_msrSlur>
+    chordSlurs =
+      elt->getChordSlurs ();
+      
+  if (chordSlurs.size()) {
+    list<S_msrSlur>::const_iterator i;
+    for (
+      i=chordSlurs.begin();
+      i!=chordSlurs.end();
+      i++) {
+        
+      switch ((*i)->getSlurKind ()) {
+        case msrSlur::k_NoSlur:
+          break;
+        case msrSlur::kStartSlur:
+          fOstream << "( ";
+          break;
+        case msrSlur::kContinueSlur:
+          break;
+        case msrSlur::kStopSlur:
+          fOstream << ") ";
+          break;
+      } // switch
+      
+      fOstream << " ";
+    } // for
+  }
+
 
 /*
   // print the tie if any
@@ -2402,34 +2465,6 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrTie& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrTie" << endl;
-}
-
-//________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrSlur& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> Start visiting msrSlur" << endl;
-  
-  switch (elt->getSlurKind ()) {
-    case msrSlur::k_NoSlur:
-      break;
-    case msrSlur::kStartSlur:
-      fOstream << "( ";
-      break;
-    case msrSlur::kContinueSlur:
-      break;
-    case msrSlur::kStopSlur:
-      fOstream << ") ";
-      break;
-  } // switch
-}
-
-void lpsr2LilyPondVisitor::visitEnd (S_msrSlur& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> End visiting msrSlur" << endl;
 }
 
 //________________________________________________________________________

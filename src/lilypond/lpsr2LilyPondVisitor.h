@@ -391,6 +391,7 @@ class lpsr2LilyPondVisitor :
     // chords
     // ------------------------------------------------------
 // JMI     S_msrChord           fCurrentMsrChordClone;
+    list<S_msrSlur>       fPendingChordSlurs;
     
     // tuplets
     // ------------------------------------------------------

@@ -404,7 +404,7 @@ void msrStem::print (ostream& os)
   
   os <<
     "Stem" <<
-    ", kind: ";
+    ", ";
 
   switch (fStemKind) {
     case k_NoStem:
@@ -499,7 +499,7 @@ void msrBeam::print (ostream& os)
   os <<
     "Beam" <<
     " number " << fBeamNumber <<
-    ", kind: ";
+    ", ";
 
   switch (fBeamKind) {
     case kBeginBeam:
