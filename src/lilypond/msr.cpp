@@ -1678,6 +1678,18 @@ void msrNote::browseData (basevisitor* v)
     idtr--;
   }
   
+  // browse the slur if any
+  if (fNoteSlurs.size()) {
+    idtr++;
+    list<S_msrSlur>::const_iterator i;
+    for (i=fNoteSlurs.begin(); i!=fNoteSlurs.end(); i++) {
+      // browse the slur
+      msrBrowser<msrSlur> browser (v);
+      browser.browse (*(*i));
+    } // for
+    idtr--;
+  }
+
   // browse the wedges if any
   if (fNoteWedges.size()) {
     idtr++;

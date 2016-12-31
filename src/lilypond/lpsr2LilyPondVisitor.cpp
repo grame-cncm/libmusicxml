@@ -2095,6 +2095,10 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
     case msrNote::kRestNote:
       break;
     case msrNote::kChordMemberNote:
+      if (elt == fCurrentChordClone->chordLastNote ())
+        fOstream << // JMI
+          ">" <<
+          fCurrentChordClone->chordDivisionsAsMSRString () << " ";
       break;
     case msrNote::kTupletMemberNote:
       break;
@@ -2292,11 +2296,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrChord" << endl;
-
+/*
   fOstream <<
     ">" <<
     elt->chordDivisionsAsMSRString () << " ";
-
+*/
   // print the articulations if any
   list<S_msrArticulation>
     chordArticulations =

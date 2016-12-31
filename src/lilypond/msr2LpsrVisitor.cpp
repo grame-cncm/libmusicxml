@@ -1148,7 +1148,7 @@ void msr2LpsrVisitor::visitEnd (S_msrTie& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrSlur& elt)
 {
-  if (fMsrOptions->fDebug)
+ // if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrSlur" << endl;
 

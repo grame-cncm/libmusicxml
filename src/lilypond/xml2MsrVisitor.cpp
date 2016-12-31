@@ -4364,19 +4364,19 @@ void xml2MsrVisitor::copyNoteElementsToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy newNote's articulations if any to the chord
-  copyNoteArticulationsToChord (note, fCurrentChord);
+  copyNoteArticulationsToChord (note, chord);
 
   // copy newNote's dynamics if any to the chord
-  copyNoteDynamicsToChord (note, fCurrentChord);
+  copyNoteDynamicsToChord (note, chord);
 
   // copy newNote's words if any to the chord
-  copyNoteWordsToChord (note, fCurrentChord);
+  copyNoteWordsToChord (note, chord);
 
   // copy newNote's slurs if any to the chord
-  copyNoteSlursToChord (note, fCurrentChord);
+  copyNoteSlursToChord (note, chord);
 
   // copy newNote's wedges if any to the chord
-  copyNoteWedgesToChord (note, fCurrentChord);
+  copyNoteWedgesToChord (note, chord);
 }
 
 //______________________________________________________________________________
