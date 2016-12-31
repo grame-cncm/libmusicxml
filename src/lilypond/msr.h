@@ -2218,6 +2218,10 @@ class EXP msrChord : public msrElement
                   getChordArticulations () const
                       { return fChordArticulations; }
 
+    const list<S_msrSlur>&
+                  getChordSlurs () const
+                      { return fChordSlurs; }
+
     // services
     // ------------------------------------------------------
 
