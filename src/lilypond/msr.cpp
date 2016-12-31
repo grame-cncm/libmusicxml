@@ -1200,9 +1200,10 @@ msrGracenotes::~msrGracenotes() {}
 S_msrGracenotes msrGracenotes::createGracenotesBareClone (
   S_msrVoice voiceClone)
 {
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug)
+//  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> Creating an bare clone of a grace expression" << endl;
+      "--> Creating an bare clone of grace notes" <<
+      endl;
   
   S_msrGracenotes
     clone =
@@ -5489,7 +5490,7 @@ string msrMeasure::getMeasureLengthAsString () const
     measureLength =
       getMeasureLength (); 
   
-// JMI  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr <<
       endl <<
       idtr <<
@@ -6811,7 +6812,8 @@ S_msrLyrics msrVoice::addLyricsToVoice (
     cerr << idtr <<
       "Adding lyrics " << lyrics->getLyricsName () <<
       " (" << lyricsNumber <<
-      ") to voice " << getVoiceName () << endl;
+      ") to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   fVoiceLyricsMap [lyricsNumber] = lyrics;
 
@@ -6846,7 +6848,8 @@ void msrVoice::addLyricsToVoice (S_msrLyrics lyrics)
     cerr << idtr <<
       "Adding lyrics " << lyrics->getLyricsName () <<
       " (" << lyrics->getLyricsNumber () <<
-      ") to voice " << getVoiceName () << endl;
+      ") to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   fVoiceLyricsMap [lyrics->getLyricsNumber ()] = lyrics;
 }
@@ -6868,7 +6871,8 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Appending clef '" << clef->clefAsString () <<
-      "' to voice " << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   S_msrElement c = clef;
   fVoiceVoicechunk->
@@ -6880,7 +6884,8 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Appending key '" << key->keyAsString () <<
-      "' to voice " << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   S_msrElement k = key;
   fVoiceVoicechunk->
@@ -6892,7 +6897,8 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Appending time '" << time->timeAsString () <<
-      "' to voice " << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   // register time in voice
   fVoiceTime = time;
@@ -6907,7 +6913,8 @@ void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Appending transpose '" << transpose->transposeAsString () <<
-      "' to voice " << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   S_msrElement t = transpose;
   fVoiceVoicechunk->
@@ -6933,7 +6940,8 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Appending tempo '" << tempo->tempoAsString () <<
-      "' to voice " << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   S_msrElement t = tempo;
   fVoiceVoicechunk->
@@ -6947,7 +6955,8 @@ void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
       "Appending octave shift '" <<
       octaveShift->octaveShiftKindAsString () <<
       "', size: " << octaveShift->getOctaveShiftSize () <<
-      " to voice " << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   S_msrElement o = octaveShift;
   fVoiceVoicechunk->
@@ -6959,7 +6968,8 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Appending rehearsal '" << rehearsal->getRehearsalText () <<
-      "' to voice " << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   S_msrElement r = rehearsal;
   fVoiceVoicechunk->
@@ -6970,7 +6980,8 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Appending note '" << note <<
-      "' to voice " << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   // catchup with rests if needed
   /*
@@ -7015,7 +7026,8 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Appending chord '" << chord <<
-      "' to voice " << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   S_msrElement c = chord;
   fVoiceVoicechunk->
@@ -7028,7 +7040,8 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Appending tuplet '" << tuplet <<
-      "' to voice " << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   S_msrElement t = tuplet;
   fVoiceVoicechunk->
@@ -7040,10 +7053,12 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
 void msrVoice::appendGracenotesToVoice (
   S_msrGracenotes gracenotes)
 {
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug)
+  if (true || fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug)
+//  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "Appending grace expression " << gracenotes <<
-      " to voice " << getVoiceName () << endl;
+      "Appending grace notes " << // JMI gracenotes <<
+      " to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   S_msrElement g = gracenotes;
   fVoiceVoicechunk->
@@ -7389,7 +7404,8 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Appending break '" << break_ <<
-      "' to voice \"" << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   fVoiceVoicechunk->
     appendElementToVoicechunk (break_);
@@ -7555,7 +7571,8 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
       "Appending element '" << elem <<
-      "' to voice " << getVoiceName () << endl;
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
 
   fVoiceVoicechunk->
     appendElementToVoicechunk (elem);
