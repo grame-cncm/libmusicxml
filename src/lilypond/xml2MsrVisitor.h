@@ -714,11 +714,14 @@ class EXP xml2MsrVisitor :
     // (they precede the note in MusicXML but follow it in LilyPond)
     list<S_msrDynamics>       fPendingDynamics;
     list<S_msrWords>          fPendingWords;
+    list<S_msrSlur>           fPendingSlurs;
     list<S_msrWedge>          fPendingWedges;
     
     void                      attachPendingDynamicsToNote (
                                 S_msrNote note);
     void                      attachPendingWordsToNote (
+                                S_msrNote note);
+    void                      attachPendingSlursToNote (
                                 S_msrNote note);
     void                      attachPendingWedgesToNote (
                                 S_msrNote note);
@@ -733,6 +736,8 @@ class EXP xml2MsrVisitor :
     void                      copyNoteDynamicsToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteWordsToChord (
+                                S_msrNote note, S_msrChord chord);
+    void                      copyNoteSlursToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteWedgesToChord (
                                 S_msrNote note, S_msrChord chord);

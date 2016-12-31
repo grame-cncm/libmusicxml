@@ -4272,6 +4272,35 @@ void xml2MsrVisitor::copyNoteDynamicsToChord (
 }
 
 //______________________________________________________________________________
+void xml2MsrVisitor::copyNoteSlursToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's slurs if any from the first note to chord
+  
+  list<S_msrSlur>
+    noteSlurs =
+      note->
+        getNoteSlurs ();
+                          
+  list<S_msrSlur>::const_iterator i;
+  for (
+    i=noteSlurs.begin();
+    i!=noteSlurs.end();
+    i++) {
+
+    // JMI   if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> copying articulation '" <<
+        (*i)->slurKindAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+
+    chord->addSlurToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
 void xml2MsrVisitor::copyNoteWedgesToChord (
   S_msrNote note, S_msrChord chord)
 {  
@@ -4394,9 +4423,9 @@ void xml2MsrVisitor::moveNoteWedgesToChord (
         
     while (! note->getNoteWedgesToModify ().empty ()) {
       S_msrWedge
-        wdg = note->getNoteWedgesToModify ().front ();
+        wedge = note->getNoteWedgesToModify ().front ();
         
-      chord->addWedgeToChord (wdg);
+      chord->addWedgeToChord (wedge);
       note->getNoteWedgesToModify ().pop_front ();
     } // while
   }
@@ -4672,11 +4701,49 @@ void xml2MsrVisitor::attachPendingWordsToNote (
     else {
       while (! fPendingWords.empty ()) {
         S_msrWords
-          wdg =
+          wedge =
             fPendingWords.front ();
             
-        note->addWordsToNote (wdg);
+        note->addWordsToNote (wedge);
         fPendingWords.pop_front ();
+      } // while
+    }
+  }
+}
+
+//______________________________________________________________________________
+void xml2MsrVisitor::attachPendingSlursToNote (
+  S_msrNote note)
+{
+  // attach the pending slurs if any to the note
+  if (! fPendingSlurs.empty ()) {
+    
+    if (fNoteData.fStepIsARest) {
+      if (fMsrOptions->fDelayRestsDynamics) {
+        cerr << idtr <<
+          "--> Delaying slur attached to a rest until next note" << endl;
+      }
+      else {
+        for (
+            list<S_msrSlur>::const_iterator i = fPendingSlurs.begin();
+            i != fPendingSlurs.end();
+            i++) {
+          msrMusicXMLWarning (
+            fMsrOptions->fInputSourceName,
+            (*i)->getInputLineNumber (),
+            "there is a slur attached to a rest");
+        } // for
+      }
+    }
+    
+    else {
+      while (! fPendingSlurs.empty ()) {
+        S_msrSlur
+          slur =
+            fPendingSlurs.front ();
+            
+        note->addSlurToNote (slur);
+        fPendingSlurs.pop_front ();
       } // while
     }
   }
@@ -4710,10 +4777,10 @@ void xml2MsrVisitor::attachPendingWedgesToNote (
     else {
       while (! fPendingWedges.empty ()) {
         S_msrWedge
-          wdg =
+          wedge =
             fPendingWedges.front ();
             
-        note->addWedgeToNote (wdg);
+        note->addWedgeToNote (wedge);
         fPendingWedges.pop_front ();
       } // while
     }
@@ -4760,10 +4827,10 @@ void xml2MsrVisitor::attachPendingWedgesToChord (
   if (! fPendingWedges.empty ()) {
     while (! fPendingWedges.empty ()) {
       S_msrWedge
-        wdg =
+        wedge =
           fPendingWedges.front ();
           
-      chord->addWedgeToChord (wdg);
+      chord->addWedgeToChord (wedge);
       fPendingWedges.pop_front ();
     } // while
   }

@@ -1549,6 +1549,11 @@ void msrNote::addWordsToNote (S_msrWords words)
   fNoteWords.push_back (words);
 }
 
+void msrNote::addSlurToNote (S_msrSlur slur)
+{
+  fNoteSlurs.push_back (slur);
+}
+
 void msrNote::addWedgeToNote (S_msrWedge wedge)
 {
   fNoteWedges.push_back (wedge);
@@ -1563,9 +1568,9 @@ S_msrDynamics msrNote::removeFirstDynamics ()
 
 S_msrWedge msrNote::removeFirstWedge ()
 {
-  S_msrWedge wdg = fNoteWedges.front ();
+  S_msrWedge wedge = fNoteWedges.front ();
   fNoteWedges.pop_front ();
-  return wdg;
+  return wedge;
 }
 
 void msrNote::acceptIn (basevisitor* v)

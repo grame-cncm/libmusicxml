@@ -2078,6 +2078,9 @@ class EXP msrNote : public msrElement
     // words
     void          addWordsToNote (S_msrWords words);
     
+    // slurs
+    void          addSlurToNote (S_msrSlur slur);
+    
     //  wedges
     void          addWedgeToNote (S_msrWedge wedge);
 
@@ -2228,8 +2231,11 @@ class EXP msrChord : public msrElement
     void          addWordsToChord (S_msrWords dyn)
                       { fChordWords.push_back (dyn); }
                     
-    void          addWedgeToChord (S_msrWedge wdg)
-                      { fChordWedges.push_back (wdg); }
+    void          addSlurToChord (S_msrSlur slur)
+                      { fChordSlurs.push_back (slur); }
+                      
+    void          addWedgeToChord (S_msrWedge wedge)
+                      { fChordWedges.push_back (wedge); }
 
     string        chordDivisionsAsMSRString () const;
 
@@ -2266,6 +2272,8 @@ class EXP msrChord : public msrElement
     
     list<S_msrWords>          fChordWords;
     
+    list<S_msrSlur>           fChordSlurs;
+
     list<S_msrWedge>          fChordWedges;
 
 };
