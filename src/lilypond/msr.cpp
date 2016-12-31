@@ -5611,12 +5611,21 @@ msrVoicechunk::msrVoicechunk (
   fVoicechunkTime =
     fVoicechunVoicekUplink->getVoiceTime ();
 
+  if (! fVoicechunkTime) {
+    // use the implicit initial 4/4 time signature
+    fVoicechunkTime =
+      msrTime::create (
+        fMsrOptions,
+        fInputLineNumber,
+        4, 4);
+  }
+
   fVoicechunkDivisionsPerWholeNote =
-    fVoicechunVoicekUplink->getVoiceDivisionsPerWholeNote ();
-
+    fVoicechunkTime->timeDuration () / 4;
+    
   fVoicechunkDivisionsPerWholeMeasure =
-    fVoicechunVoicekUplink->getVoiceDivisionsPerWholeMeasure ();
-
+    fVoicechunkTime->timeDuration ();
+    
   // create a first measure
   S_msrMeasure
     measure =
@@ -5662,6 +5671,10 @@ void msrVoicechunk::appendTimeToVoicechunk (S_msrTime time)
       
   // retister time in voice chunk
   fVoicechunkTime = time;
+
+  // compute the number of divisions per whole measure
+  fVoicechunkDivisionsPerWholeMeasure =
+    time->timeDuration ();
 
   // append it to this voice chunk
   S_msrElement t = time;
@@ -6434,6 +6447,16 @@ string msrVoice::getVoiceName () const
     int2EnglishWord (voiceNumber);
 }
 
+void msrVoice::setVoiceDivisionsPerWholeNote (
+  int divisionsPerWholeNote)
+{
+  fVoiceDivisionsPerWholeNote =
+    divisionsPerWholeNote;
+
+  setAllVoicechunksDivisionsPerWholeNote (
+    divisionsPerWholeNote);
+}
+
 /*
 void msrVoice::catchupToMeasureLocation (
   int                       inputLineNumber,
@@ -6922,10 +6945,6 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   // append it to the voice chunk
   fVoiceVoicechunk->
     appendTimeToVoicechunk (time);
-
-  // compute the number of divisions per whole measure
-  fVoiceDivisionsPerWholeMeasure =
-    time->timeDuration ();
 }
 
 void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
@@ -7877,6 +7896,16 @@ string msrStaff::getStaffName () const
     int2EnglishWord (fStaffNumber);
   }
 
+void msrStaff::setStaffDivisionsPerWholeNote (
+  int divisionsPerWholeNote)
+{
+  fStaffDivisionsPerWholeNote =
+    divisionsPerWholeNote;
+
+  setAllStaffVoicesDivisionsPerWholeNote (
+    divisionsPerWholeNote);
+}
+
 void msrStaff::setAllStaffVoicesDivisionsPerWholeNote (int divisions)
 {
   for (
@@ -8395,6 +8424,16 @@ string msrPart::getPartCombinedName () const
   return
     "\"" + fPartMSRName + "\"" +
     " (" + fPartID + ")";
+}
+
+void msrPart::setPartDivisionsPerWholeNote (
+  int divisionsPerWholeNote)
+{
+  fPartDivisionsPerWholeNote =
+    divisionsPerWholeNote;
+
+  setAllPartStavesDivisionsPerWholeNote (
+    divisionsPerWholeNote);
 }
 
 void msrPart::setPartMeasureNumber (

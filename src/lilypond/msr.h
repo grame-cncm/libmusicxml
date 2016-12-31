@@ -1407,7 +1407,6 @@ class EXP msrMeasure : public msrElement
       int             inputLineNumber,
       int             measureNumber,
       int             divisionsPerWholeNote,
-      int             divisionsPerWholeMeasure,
       S_msrVoicechunk voicechunkUplink);
     
     SMARTP<msrMeasure> createMeasureBareClone (
@@ -1423,7 +1422,6 @@ class EXP msrMeasure : public msrElement
       int             inputLineNumber,
       int             measureNumber,
       int             divisionsPerWholeNote,
-      int             divisionsPerWholeMeasure,
       S_msrVoicechunk voicechunkUplink);
       
     virtual ~msrMeasure();
@@ -1444,9 +1442,6 @@ class EXP msrMeasure : public msrElement
 
     int           getMeasureDivisionsPerWholeNote () const
                       { return fMeasureDivisionsPerWholeNote; }
-
-    void          setMeasureDivisionsPerWholeMeasure (int divisions)
-                      { fMeasureDivisionsPerWholeMeasure = divisions; }
 
     int           getMeasureDivisionsPerWholeMeasure () const
                       { return fMeasureDivisionsPerWholeMeasure; }
@@ -1511,7 +1506,6 @@ class EXP msrMeasure : public msrElement
     int                       fMeasureNumber;
     
     int                       fMeasureDivisionsPerWholeNote;
-    int                       fMeasureDivisionsPerWholeMeasure;
 
     int                       fMeasurePosition; // in divisions
 
@@ -1651,7 +1645,6 @@ class EXP msrVoicechunk : public msrElement
     S_msrTime            fVoicechunkTime;
     
     int                  fVoicechunkDivisionsPerWholeNote;
-    int                  fVoicechunkDivisionsPerWholeMeasure;
 
     // the measures in the voice chunk contain the mmusic
     // it is created implicitly for every voice,
@@ -2118,7 +2111,7 @@ class EXP msrNote : public msrElement
                                       
     list<S_msrArticulation>   fNoteArticulations;
 
-    int                       fNoteDivisionsPerWholeNote;
+    int                       fNoteDivisionsPerWholeNote; // JMI
     
     int                       fNotePositionInMeasure;
 
@@ -4192,18 +4185,11 @@ class EXP msrVoice : public msrElement
                       { return fVoiceActualNotesCounter; }
 
     // divisions per whole note
-    void          setVoiceDivisionsPerWholeNote (int divisionsPerWholeNote)
-                      {
-                        fVoiceDivisionsPerWholeNote =
-                          divisionsPerWholeNote;
-                      }
+    void          setVoiceDivisionsPerWholeNote (
+                    int divisionsPerWholeNote);
                       
     const int     getVoiceDivisionsPerWholeNote () const
                       { return fVoiceDivisionsPerWholeNote; }
-
-    const int     getVoiceDivisionsPerWholeMeasure () const
-                      { return fVoiceDivisionsPerWholeMeasure; }
-
 
     S_msrTime     getVoiceTime () const
                       { return fVoiceTime; }
@@ -4348,7 +4334,6 @@ class EXP msrVoice : public msrElement
     bool                      fVoiceActualNotesCounter;
 
     int                       fVoiceDivisionsPerWholeNote;
-    int                       fVoiceDivisionsPerWholeMeasure;
 
     S_msrTime                 fVoiceTime;
 
@@ -4449,14 +4434,7 @@ class EXP msrStaff : public msrElement
 
     // divisions per whole note
     void        setStaffDivisionsPerWholeNote (
-                  int divisionsPerWholeNote)
-                    {
-                      fStaffDivisionsPerWholeNote =
-                        divisionsPerWholeNote;
-
-                      setAllStaffVoicesDivisionsPerWholeNote (
-                        divisionsPerWholeNote);
-                    }
+                  int divisionsPerWholeNote);
                       
     const int   getStaffDivisionsPerWholeNote () const
                     { return fStaffDivisionsPerWholeNote; }
@@ -4623,14 +4601,7 @@ class EXP msrPart : public msrElement
 
     // divisions per whole note
     void          setPartDivisionsPerWholeNote (
-                    int divisionsPerWholeNote)
-                      {
-                        fPartDivisionsPerWholeNote =
-                          divisionsPerWholeNote;
-
-                        setAllPartStavesDivisionsPerWholeNote (
-                          divisionsPerWholeNote);
-                      }
+                    int divisionsPerWholeNote);
                       
     const int     getPartDivisionsPerWholeNote () const
                       { return fPartDivisionsPerWholeNote; }
