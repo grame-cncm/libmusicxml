@@ -1615,42 +1615,6 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrTime& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrWords& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> Start visiting msrWords" << endl;
-
-  msrWords::msrWordsPlacementKind
-    wordsPlacementKind =
-      elt->getWordsPlacementKind ();
-
-  string wordsContents =
-    elt->getWordsContents ();
-
-  switch (wordsPlacementKind) {
-    case msrWords::kAbove:
-      fOstream << "^";
-      break;
-    case msrWords::kBelow:
-      fOstream << "_";
-      break;
-  } // switch
-
-  fOstream <<
-    "\\markup" << " { " <<
-    quoteStringIfNonAlpha (wordsContents) <<
-    " } ";
-}
-
-void lpsr2LilyPondVisitor::visitEnd (S_msrWords& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> End visiting msrWords" << endl;
-}
-
-//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrTempo& elt)
 {
   if (fMsrOptions->fDebug)
@@ -1745,9 +1709,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrDynamics& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrDynamics" << endl;
-      
-  fOstream <<
-    "\\" << elt->dynamicsKindAsString () << " ";
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrDynamics& elt)
@@ -1758,27 +1719,26 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrDynamics& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrWords& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrWords" << endl;
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrWords& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrWords" << endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrSlur& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrSlur" << endl;
-
-  fPendingChordSlurs.push_back (elt);
-  /*
-  switch (elt->getSlurKind ()) {
-    case msrSlur::k_NoSlur:
-      break;
-    case msrSlur::kStartSlur:
-      fOstream << "( ";
-      break;
-    case msrSlur::kContinueSlur:
-      break;
-    case msrSlur::kStopSlur:
-      fOstream << ") ";
-      break;
-  } // switch
-  */
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrSlur& elt)
@@ -1794,18 +1754,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrWedge& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrWedge" << endl;
-
-  switch (elt->getWedgeKind ()) {
-    case msrWedge::kCrescendoWedge:
-      fOstream << "\\< ";
-      break;
-    case msrWedge::kDecrescendoWedge:
-      fOstream << "\\> ";
-      break;
-    case msrWedge::kStopWedge:
-      fOstream << "\\! ";
-      break;
-  } // switch
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrWedge& elt)
@@ -2126,18 +2074,12 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
     case msrNote::kRestNote:
       break;
     case msrNote::kChordMemberNote:
-    /*
-      if (elt == fCurrentChordClone->chordLastNote ())
-        fOstream << // JMI
-          ">" <<
-          fCurrentChordClone->chordDivisionsAsMSRString () << " ";
-*/
       break;
     case msrNote::kTupletMemberNote:
       break;
   } // switch
 
-  // print the articulations if any
+  // print the note articulations if any
   list<S_msrArticulation>
     noteArticulations =
       elt->getNoteArticulations ();
@@ -2168,6 +2110,113 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
            in one of the voices add:
   \once \set StaffGroup.connectArpeggios = ##t
   */
+          break;
+      } // switch
+      
+      fOstream << " ";
+    } // for
+  }
+
+  // print the note dynamics if any
+  list<S_msrDynamics>
+    noteDynamics =
+      elt->getNoteDynamics ();
+      
+  if (noteDynamics.size()) {
+    list<S_msrDynamics>::const_iterator i;
+    for (
+      i=noteDynamics.begin();
+      i!=noteDynamics.end();
+      i++) {
+      fOstream <<
+        "\\" << (*i)->dynamicsKindAsString () << " ";
+    } // for
+  }
+
+  // print the note words if any
+  list<S_msrWords>
+    noteWords =
+      elt->getNoteWords ();
+      
+  if (noteWords.size()) {
+    list<S_msrWords>::const_iterator i;
+    for (
+      i=noteWords.begin();
+      i!=noteWords.end();
+      i++) {
+      msrWords::msrWordsPlacementKind
+        wordsPlacementKind =
+          (*i)->getWordsPlacementKind ();
+    
+      string wordsContents =
+        (*i)->getWordsContents ();
+    
+      switch (wordsPlacementKind) {
+        case msrWords::kAbove:
+          fOstream << "^";
+          break;
+        case msrWords::kBelow:
+          fOstream << "_";
+          break;
+      } // switch
+    
+      fOstream <<
+        "\\markup" << " { " <<
+        quoteStringIfNonAlpha (wordsContents) <<
+        " } ";
+    } // for
+  }
+
+  // print the note slurs if any
+  list<S_msrSlur>
+    noteSlurs =
+      elt->getNoteSlurs ();
+      
+  if (noteSlurs.size()) {
+    list<S_msrSlur>::const_iterator i;
+    for (
+      i=noteSlurs.begin();
+      i!=noteSlurs.end();
+      i++) {
+        
+      switch ((*i)->getSlurKind ()) {
+        case msrSlur::k_NoSlur:
+          break;
+        case msrSlur::kStartSlur:
+          fOstream << "( ";
+          break;
+        case msrSlur::kContinueSlur:
+          break;
+        case msrSlur::kStopSlur:
+          fOstream << ") ";
+          break;
+      } // switch
+      
+      fOstream << " ";
+    } // for
+  }
+
+  // print the note wedges if any
+  list<S_msrWedge>
+    noteWedges =
+      elt->getNoteWedges ();
+      
+  if (noteWedges.size()) {
+    list<S_msrWedge>::const_iterator i;
+    for (
+      i=noteWedges.begin();
+      i!=noteWedges.end();
+      i++) {
+        
+      switch ((*i)->getWedgeKind ()) {
+        case msrWedge::kCrescendoWedge:
+          fOstream << "\\<";
+          break;
+        case msrWedge::kDecrescendoWedge:
+          fOstream << "\\>";
+          break;
+        case msrWedge::kStopWedge:
+          fOstream << "\\!";
           break;
       } // switch
       
@@ -2334,7 +2383,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
     ">" <<
     elt->chordDivisionsAsMSRString () << " ";
 
-  // print the articulations if any
+  // print the chord articulations if any
   list<S_msrArticulation>
     chordArticulations =
       elt->getChordArticulations ();
@@ -2368,7 +2417,57 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
     } // for
   }
 
-  // print the pending slurs if any
+  // print the chord dynamics if any
+  list<S_msrDynamics>
+    chordDynamics =
+      elt->getChordDynamics ();
+      
+  if (chordDynamics.size()) {
+    list<S_msrDynamics>::const_iterator i;
+    for (
+      i=chordDynamics.begin();
+      i!=chordDynamics.end();
+      i++) {
+      fOstream <<
+        "\\" << (*i)->dynamicsKindAsString () << " ";
+    } // for
+  }
+
+  // print the chord words if any
+  list<S_msrWords>
+    chordWords =
+      elt->getChordWords ();
+      
+  if (chordWords.size()) {
+    list<S_msrWords>::const_iterator i;
+    for (
+      i=chordWords.begin();
+      i!=chordWords.end();
+      i++) {
+      msrWords::msrWordsPlacementKind
+        wordsPlacementKind =
+          (*i)->getWordsPlacementKind ();
+    
+      string wordsContents =
+        (*i)->getWordsContents ();
+    
+      switch (wordsPlacementKind) {
+        case msrWords::kAbove:
+          fOstream << "^";
+          break;
+        case msrWords::kBelow:
+          fOstream << "_";
+          break;
+      } // switch
+    
+      fOstream <<
+        "\\markup" << " { " <<
+        quoteStringIfNonAlpha (wordsContents) <<
+        " } ";
+    } // for
+  }
+
+  // print the chord slurs if any
   list<S_msrSlur>
     chordSlurs =
       elt->getChordSlurs ();
@@ -2390,6 +2489,34 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
           break;
         case msrSlur::kStopSlur:
           fOstream << ") ";
+          break;
+      } // switch
+      
+      fOstream << " ";
+    } // for
+  }
+
+  // print the chord wedges if any
+  list<S_msrWedge>
+    chordWedges =
+      elt->getChordWedges ();
+      
+  if (chordWedges.size()) {
+    list<S_msrWedge>::const_iterator i;
+    for (
+      i=chordWedges.begin();
+      i!=chordWedges.end();
+      i++) {
+        
+      switch ((*i)->getWedgeKind ()) {
+        case msrWedge::kCrescendoWedge:
+          fOstream << "\\<";
+          break;
+        case msrWedge::kDecrescendoWedge:
+          fOstream << "\\>";
+          break;
+        case msrWedge::kStopWedge:
+          fOstream << "\\!";
           break;
       } // switch
       

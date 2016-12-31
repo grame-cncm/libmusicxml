@@ -403,8 +403,7 @@ void msrStem::print (ostream& os)
   idtr++;
   
   os <<
-    "Stem" <<
-    ", ";
+    "Stem" " ";
 
   switch (fStemKind) {
     case k_NoStem:
@@ -417,7 +416,9 @@ void msrStem::print (ostream& os)
       os << "down";
       break;
   } // switch
-  os << endl;
+  os <<
+    ", line " << fInputLineNumber <<
+    endl;
 
   idtr--;
 }
@@ -499,7 +500,7 @@ void msrBeam::print (ostream& os)
   os <<
     "Beam" <<
     " number " << fBeamNumber <<
-    ", ";
+    ", line " << fInputLineNumber << " ";
 
   switch (fBeamKind) {
     case kBeginBeam:
@@ -621,8 +622,9 @@ ostream& operator<< (ostream& os, const S_msrArticulation& elt)
 void msrArticulation::print (ostream& os)
 {
   os <<
-    "Articulation" << " " <<
+    "Articulation" " " <<
     articulationKindAsString () <<
+    ", line " << fInputLineNumber <<
     endl;
 }
 
@@ -872,7 +874,8 @@ ostream& operator<< (ostream& os, const S_msrDynamics& elt)
 void msrDynamics::print (ostream& os)
 {
   os <<
-    "Dynamics" << " " << dynamicsKindAsString () <<
+    "Dynamics" " " << dynamicsKindAsString () <<
+    ", line " << fInputLineNumber <<
     endl;
 }
 
@@ -1154,7 +1157,8 @@ ostream& operator<< (ostream& os, const S_msrSlur& elt)
 void msrSlur::print (ostream& os)
 {
   os <<
-    "Slur" << " " << slurKindAsString () <<
+    "Slur" " " << slurKindAsString () <<
+    ", line " << fInputLineNumber << " " <<
     endl;
 }
 

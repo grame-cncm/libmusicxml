@@ -2218,9 +2218,21 @@ class EXP msrChord : public msrElement
                   getChordArticulations () const
                       { return fChordArticulations; }
 
+    const list<S_msrDynamics>&
+                  getChordDynamics () const
+                      { return fChordDynamics; }
+                      
+    const list<S_msrWords>&
+                  getChordWords () const
+                      { return fChordWords; }
+                      
     const list<S_msrSlur>&
                   getChordSlurs () const
                       { return fChordSlurs; }
+                      
+    const list<S_msrWedge>&
+                  getChordWedges () const
+                      { return fChordWedges; }
 
     // services
     // ------------------------------------------------------
