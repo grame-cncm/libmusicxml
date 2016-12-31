@@ -857,24 +857,43 @@ void msr2LpsrVisitor::visitStart (S_msrGracenotes& elt)
     fOstream << idtr <<
       "--> Start visiting msrGracenotes" << endl;
 
-  if (fCurrentNoteClone->noteHasATrill ()) {
-//    if (ffMsrOptions->fForceDebug || MsrOptions->fDebug)
-      fOstream <<
-        "### msrGracenotes on a TRILLED note" <<
-        endl;
+  if (fCurrentNoteClone) {
+    // there is a note before these grace notes
+    
+    if (fCurrentNoteClone->noteHasATrill ()) {
+  //    if (ffMsrOptions->fForceDebug || MsrOptions->fDebug)
+        fOstream <<
+          "### msrGracenotes on a TRILLED note" <<
+          endl;
+    }
+  
+    else {
+      // create a clone of this grace notes
+      fCurrentGracenotesClone =
+        elt->
+          createGracenotesBareClone (
+            fCurrentVoiceClone);
+    
+      // append it to the current voice clone
+      fCurrentVoiceClone->
+        appendGracenotesToVoice (
+          fCurrentGracenotesClone);
+    }
   }
 
   else {
-  // create a clone of this grace expression
-  fCurrentGracenotesClone =
-    elt->
-      createGracenotesBareClone (
-        fCurrentVoiceClone);
-
-  // append it to the current voice clone
-  fCurrentVoiceClone->
-    appendGracenotesToVoice (
-      fCurrentGracenotesClone);
+    // these grace notes are at the beginning of a voice JMI
+    
+    // create a clone of this grace note
+    fCurrentGracenotesClone =
+      elt->
+        createGracenotesBareClone (
+          fCurrentVoiceClone);
+  
+    // append it to the current voice clone
+    fCurrentVoiceClone->
+      appendGracenotesToVoice (
+        fCurrentGracenotesClone);
   }
 }
 
@@ -884,7 +903,7 @@ void msr2LpsrVisitor::visitEnd (S_msrGracenotes& elt)
     fOstream << idtr <<
       "--> End visiting msrGracenotes" << endl;
 
-  // forget about this grace expression
+  // forget about this grace notes
   fCurrentGracenotesClone = 0;
 }
 
@@ -968,17 +987,18 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
       break;
       
     case msrNote::kGraceNote:
-    /* JMI
-      if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+    //* JMI
+      if (true || fMsrOptions->fDebug) {
+ //     if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
         cerr <<  idtr <<
           "--> appending note " <<
           fCurrentNoteClone->notePitchAsString () <<
-          ":" << fCurrentNoteClone->getNoteMusicXMLDivisions () <<
-          " to the grace expression in voice " <<
-          fCurrentVoiceClone->getVoiceName () <<
+          ":" << fCurrentNoteClone->getNoteDivisions () <<
+          " to the grace notes in voice \"" <<
+          fCurrentVoiceClone->getVoiceName () << "\"" <<
           endl;
       }
-      */
+      //*/
       fCurrentGracenotesClone->
         appendNoteToGracenotes (fCurrentNoteClone);
       break;

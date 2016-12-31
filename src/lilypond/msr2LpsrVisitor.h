@@ -343,7 +343,7 @@ class msr2LpsrVisitor :
     // ------------------------------------------------------
     S_msrStem                 fCurrentStem;
     
-    // grace expressions
+    // grace notes
     // ------------------------------------------------------
     S_msrGracenotes           fCurrentGracenotesClone;
     

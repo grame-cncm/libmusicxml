@@ -5306,11 +5306,11 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
       setNoteKind (msrNote::kGraceNote);
   
     if (! fCurrentGracenotes) {
-      // this is the first grace note in a grace expression
+      // this is the first grace note in grace notes
 
       if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
         cerr <<  idtr <<
-          "--> creating a grace expression for note " <<
+          "--> creating grace notes for note " <<
           newNote->notePitchAsString () <<
           ":" << newNote->getNoteDivisions () <<
           " in voice " <<
@@ -5318,7 +5318,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
           endl;
       }
 
-      // create grace expression
+      // create grace notes
       fCurrentGracenotes =
         msrGracenotes::create (
           fMsrOptions, 
@@ -5332,13 +5332,13 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
           fCurrentGracenotes);
     }
 
-    // append newNote to the current grace expression
+    // append newNote to the current grace notes
     if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
       cerr <<  idtr <<
         "--> appending note " <<
         newNote->notePitchAsString () <<
         ":" << newNote->getNoteDivisions () <<
-        " to the grace expression in voice " <<
+        " to the grace notes in voice " <<
         currentVoice->getVoiceName () <<
         endl;
     }
@@ -5351,7 +5351,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     // standalone note or rest
 
     if (fCurrentGracenotes)
-      // this is the first note after the grace expression,
+      // this is the first note after the grace notes,
       // forget about the latter
       fCurrentGracenotes = 0;
 

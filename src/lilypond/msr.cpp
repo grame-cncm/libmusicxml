@@ -5879,12 +5879,12 @@ void msrVoicechunk::print (ostream& os)
 
   os <<
     idtr <<
-      "fVoicechunkDivisionsPerWholeNote = " <<
-      fVoicechunkDivisionsPerWholeNote <<
+      "(fVoicechunkDivisionsPerWholeNote = " <<
+      fVoicechunkDivisionsPerWholeNote << ")" <<
       endl <<
     idtr <<
-      "fVoicechunkTime = " <<
-      fVoicechunkTime->timeAsString () <<
+      "(fVoicechunkTime = " <<
+      fVoicechunkTime->timeAsString () << ")" <<
       endl;
 
   os <<
