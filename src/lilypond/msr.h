@@ -4201,6 +4201,9 @@ class EXP msrVoice : public msrElement
     const int     getVoiceDivisionsPerWholeNote () const
                       { return fVoiceDivisionsPerWholeNote; }
 
+    const int     getVoiceDivisionsPerWholeMeasure () const
+                      { return fVoiceDivisionsPerWholeMeasure; }
+
 
     S_msrTime     getVoiceTime () const
                       { return fVoiceTime; }
@@ -4345,6 +4348,7 @@ class EXP msrVoice : public msrElement
     bool                      fVoiceActualNotesCounter;
 
     int                       fVoiceDivisionsPerWholeNote;
+    int                       fVoiceDivisionsPerWholeMeasure;
 
     S_msrTime                 fVoiceTime;
 

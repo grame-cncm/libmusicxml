@@ -1821,6 +1821,7 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+/* JMI
   // the voice number should be in the 1..4 range
   if (fCurrentVoiceNumber < 1 || fCurrentVoiceNumber > 4) {
     stringstream s;
@@ -1831,6 +1832,7 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
       
     msrAssert (false, s.str());
   }
+  */
   
   if (fOnGoingForward) {
 

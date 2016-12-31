@@ -5490,19 +5490,22 @@ string msrMeasure::getMeasureLengthAsString () const
     measureLength =
       getMeasureLength (); 
   
-  if (fMsrOptions->fDebug)
+//  if (fMsrOptions->fDebug)
     cerr <<
       endl <<
       idtr <<
         "% --> measureLength = " << measureLength <<
-        ", fMeasureDivisionsPerWholeNote = " << fMeasureDivisionsPerWholeNote <<
+        ", measureDivisionsPerWholeNote = " <<
+        fMeasureDivisionsPerWholeNote <<
+        ", measureDivisionsPerWholeMeasure = " <<
+        fMeasureDivisionsPerWholeMeasure <<
       endl;
 
   if (measureLength > 0) {
     result =
       divisionsAsMSRDuration (
         measureLength,
-        fMeasureDivisionsPerWholeNote,
+        fMeasureDivisionsPerWholeMeasure,
         errorMessage,
         false); // 'true' to debug it;
   
@@ -5612,7 +5615,7 @@ msrVoicechunk::msrVoicechunk (
     fVoicechunVoicekUplink->getVoiceDivisionsPerWholeNote ();
 
   fVoicechunkDivisionsPerWholeMeasure =
-    fVoicechunVoicekUplink->getVoiceDivisionsPerWholeNote ();
+    fVoicechunVoicekUplink->getVoiceDivisionsPerWholeMeasure ();
 
   // create a first measure
   S_msrMeasure
@@ -5878,10 +5881,23 @@ void msrVoicechunk::print (ostream& os)
 
   idtr++;
 
+  if (! fVoicechunkTime) {
+    // use the implicit initial 4/4 time signature
+    fVoicechunkTime =
+      msrTime::create (
+        fMsrOptions,
+        fInputLineNumber,
+        4, 4);
+  }
+
   os <<
     idtr <<
-      "(fVoicechunkDivisionsPerWholeNote = " <<
+      "(VoicechunkDivisionsPerWholeNote = " <<
       fVoicechunkDivisionsPerWholeNote << ")" <<
+      endl <<
+    idtr <<
+      "(VoicechunkDivisionsPerWholeMeasure = " <<
+      fVoicechunkDivisionsPerWholeMeasure << ")" <<
       endl <<
     idtr <<
       "(fVoicechunkTime = " <<
@@ -6268,7 +6284,7 @@ msrVoice::msrVoice (
 
   // the voice number should be in the 0..4 range
   // (0 is used for the part voir master)
-  if (voiceNumber < 0 || voiceNumber > 4) {
+  if (voiceNumber < 0) { // JMI || voiceNumber > 4) {
     stringstream s;
 
     s <<
@@ -6906,6 +6922,10 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   // append it to the voice chunk
   fVoiceVoicechunk->
     appendTimeToVoicechunk (time);
+
+  // compute the number of divisions per whole measure
+  fVoiceDivisionsPerWholeMeasure =
+    time->timeDuration ();
 }
 
 void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
