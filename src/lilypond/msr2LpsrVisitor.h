@@ -69,6 +69,7 @@ class msr2LpsrVisitor :
   public visitor<S_msrArticulation>,
 
   public visitor<S_msrDynamics>,
+  public visitor<S_msrSlur>,
   public visitor<S_msrWedge>,
   
   public visitor<S_msrGracenotes>,
@@ -84,9 +85,7 @@ class msr2LpsrVisitor :
   public visitor<S_msrTuplet>,
   
   public visitor<S_msrTie>,
-  
-  public visitor<S_msrSlur>,
-  
+    
   public visitor<S_msrBarline>,
   
   public visitor<S_msrSegno>,

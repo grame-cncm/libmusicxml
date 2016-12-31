@@ -1153,7 +1153,9 @@ ostream& operator<< (ostream& os, const S_msrSlur& elt)
 
 void msrSlur::print (ostream& os)
 {
-  os << "Slur" << " " << slurKindAsString ();
+  os <<
+    "Slur" << " " << slurKindAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________

@@ -1152,8 +1152,16 @@ void msr2LpsrVisitor::visitStart (S_msrSlur& elt)
     fOstream << idtr <<
       "--> Start visiting msrSlur" << endl;
 
-  fCurrentNoteClone->
-    addSlurToNote (elt);
+  if (fOnGoingNote) {
+    // don't add slurs to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addSlurToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addSlurToChord (elt);
+  }
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrSlur& elt)
