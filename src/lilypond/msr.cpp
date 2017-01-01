@@ -5344,14 +5344,12 @@ S_msrMeasure msrMeasure::create (
   int             inputLineNumber,
   int             measureNumber,
   int             divisionsPerWholeNote,
-  int             divisionsPerWholeMeasure,
   S_msrVoicechunk voicechunkUplink)
 {
   msrMeasure* o =
     new msrMeasure (
       msrOpts, inputLineNumber,
-      measureNumber,
-      divisionsPerWholeNote, divisionsPerWholeMeasure,
+      measureNumber, divisionsPerWholeNote,
       voicechunkUplink);
   assert(o!=0);
   return o;
@@ -5362,7 +5360,6 @@ msrMeasure::msrMeasure (
   int             inputLineNumber,
   int             measureNumber,
   int             divisionsPerWholeNote,
-  int             divisionsPerWholeMeasure,
   S_msrVoicechunk voicechunkUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
@@ -5370,17 +5367,31 @@ msrMeasure::msrMeasure (
   
   fMeasureDivisionsPerWholeNote =
     divisionsPerWholeNote;
-  fMeasureDivisionsPerWholeMeasure =
-    divisionsPerWholeMeasure;
 
+  fMeasureVoicechunkUplink = voicechunkUplink;
+
+  setMeasureTime (
+    fMeasureVoicechunkUplink->
+      getVoicechunkTime ());
+      
   fMeasurePosition = 1; // ready to receive the first note
 
   fMeasureKind = kRegularMeasure;
-  
-  fMeasureVoicechunkUplink = voicechunkUplink;
 }
 
 msrMeasure::~msrMeasure() {}
+
+void msrMeasure::setMeasureTime (S_msrTime time)
+{ 
+  fMeasureTime = time;
+  
+  fMeasureDivisionsPerWholeMeasure =
+    fMeasureDivisionsPerWholeNote * 4
+      *
+    time->getBeatsNumber ()
+      /
+    time->getBeatsValue ();
+}
 
 S_msrMeasure msrMeasure::createMeasureBareClone (
   S_msrVoicechunk clonedVoicechunk)
@@ -5397,8 +5408,10 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
         fInputLineNumber,
         fMeasureNumber,
         fMeasureDivisionsPerWholeNote,
-        fMeasureDivisionsPerWholeMeasure,
         clonedVoicechunk);
+
+  clone->
+    setMeasureTime (fMeasureTime);
     
   clone->fMeasureKind =
     fMeasureKind;
@@ -5608,8 +5621,13 @@ msrVoicechunk::msrVoicechunk (
 {
   fVoicechunVoicekUplink = voicechunVoicekUplink;
 
+  fVoicechunkDivisionsPerWholeNote =
+    fVoicechunVoicekUplink->
+      getVoiceDivisionsPerWholeNote ();
+
   fVoicechunkTime =
-    fVoicechunVoicekUplink->getVoiceTime ();
+    fVoicechunVoicekUplink->
+      getVoiceTime ();
 
   if (! fVoicechunkTime) {
     // use the implicit initial 4/4 time signature
@@ -5619,13 +5637,7 @@ msrVoicechunk::msrVoicechunk (
         fInputLineNumber,
         4, 4);
   }
-
-  fVoicechunkDivisionsPerWholeNote =
-    fVoicechunkTime->timeDuration () / 4;
-    
-  fVoicechunkDivisionsPerWholeMeasure =
-    fVoicechunkTime->timeDuration ();
-    
+        
   // create a first measure
   S_msrMeasure
     measure =
@@ -5635,7 +5647,6 @@ msrVoicechunk::msrVoicechunk (
         1, // measure number may be changed afterwards
            // if <measure/> 0 is found in MusicXML data
         fVoicechunkDivisionsPerWholeNote,
-        fVoicechunkDivisionsPerWholeMeasure,
         this);
 
   // append it to the voice chunk
@@ -5655,7 +5666,11 @@ S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone (
         fMsrOptions, fInputLineNumber,
         clonedVoice);
 
-  clone->fVoicechunkTime = fVoicechunkTime;
+  clone->fVoicechunkTime =
+    fVoicechunkTime;
+    
+  clone->fVoicechunkDivisionsPerWholeNote =
+    fVoicechunkDivisionsPerWholeNote;
   
   return clone;
 }
@@ -5671,10 +5686,6 @@ void msrVoicechunk::appendTimeToVoicechunk (S_msrTime time)
       
   // retister time in voice chunk
   fVoicechunkTime = time;
-
-  // compute the number of divisions per whole measure
-  fVoicechunkDivisionsPerWholeMeasure =
-    time->timeDuration ();
 
   // append it to this voice chunk
   S_msrElement t = time;
@@ -5762,7 +5773,6 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
           inputLineNumber,
           measureNumber,
           fVoicechunkDivisionsPerWholeNote,
-          measureDivisionsPerWholeMeasure,
           this);
 
     // append it to the voice chunk's measures list
@@ -5907,10 +5917,6 @@ void msrVoicechunk::print (ostream& os)
     idtr <<
       "(VoicechunkDivisionsPerWholeNote = " <<
       fVoicechunkDivisionsPerWholeNote << ")" <<
-      endl <<
-    idtr <<
-      "(VoicechunkDivisionsPerWholeMeasure = " <<
-      fVoicechunkDivisionsPerWholeMeasure << ")" <<
       endl <<
     idtr <<
       "(fVoicechunkTime = " <<
@@ -6453,8 +6459,9 @@ void msrVoice::setVoiceDivisionsPerWholeNote (
   fVoiceDivisionsPerWholeNote =
     divisionsPerWholeNote;
 
-  setAllVoicechunksDivisionsPerWholeNote (
-    divisionsPerWholeNote);
+  fVoiceVoicechunk->
+    setVoicechunkDivisionsPerWholeNote (
+      divisionsPerWholeNote);
 }
 
 /*

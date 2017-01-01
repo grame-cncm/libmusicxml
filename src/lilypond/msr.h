@@ -1443,6 +1443,11 @@ class EXP msrMeasure : public msrElement
     int           getMeasureDivisionsPerWholeNote () const
                       { return fMeasureDivisionsPerWholeNote; }
 
+    void          setMeasureTime (S_msrTime time);
+
+    S_msrTime     getMeasureTime () const
+                      { return fMeasureTime; }
+
     int           getMeasureDivisionsPerWholeMeasure () const
                       { return fMeasureDivisionsPerWholeMeasure; }
 
@@ -1506,6 +1511,8 @@ class EXP msrMeasure : public msrElement
     int                       fMeasureNumber;
     
     int                       fMeasureDivisionsPerWholeNote;
+    S_msrTime                 fMeasureTime;
+    int                       fMeasureDivisionsPerWholeMeasure;
 
     int                       fMeasurePosition; // in divisions
 
@@ -1571,10 +1578,10 @@ class EXP msrVoicechunk : public msrElement
                       
     const int     getVoicechunkDivisionsPerWholeNote () const
                       { return fVoicechunkDivisionsPerWholeNote; }
-                      
+ /* JMI                     
     const int     getVoicechunkDivisionsPerWholeMeasure () const
                       { return fVoicechunkDivisionsPerWholeMeasure; }
-          
+       */   
     void          setVoicechunkTime (S_msrTime time)
                       { fVoicechunkTime = time; }
 
