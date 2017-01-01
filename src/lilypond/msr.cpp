@@ -5665,7 +5665,7 @@ msrVoicechunk::msrVoicechunk (
       msrMeasure::create (
         fMsrOptions,
         inputLineNumber,
-        1, // measure number may be changed afterwards
+        0, // measure number may be changed afterwards
            // if <measure/> 0 is found in MusicXML data
         fVoicechunkDivisionsPerWholeNote,
         this);
@@ -5724,13 +5724,21 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
 
   // fetch its current measure position and length
   int
-    currentMeasurePosition =
-      currentMeasure->getMeasurePosition (),
-    currentMeasureLength =
-      currentMeasure->getMeasureLength ();
+    currentMeasureNumber =
+      currentMeasure->
+        getMeasureNumber (),
         
-  int measureDivisionsPerWholeMeasure =
-    currentMeasure->getMeasureDivisionsPerWholeMeasure ();
+    currentMeasurePosition =
+      currentMeasure->
+        getMeasurePosition (),
+      
+    currentMeasureLength =
+      currentMeasure->
+        getMeasureLength (),
+      
+    measureDivisionsPerWholeMeasure =
+      currentMeasure->
+        getMeasureDivisionsPerWholeMeasure ();
 
         
 // JMI  if (fMsrOptions->fDebug)
@@ -5740,6 +5748,10 @@ if (measureNumber <= 1)
         setw(31) << "--> setVoicechunkMeasureNumber (" <<
         measureNumber <<
         "): " <<
+        endl <<
+      idtr <<
+        setw(31) << "currentMeasureNumber" << " = " <<
+        currentMeasureNumber <<
         endl <<
       idtr <<
         setw(31) << "measureDivisionsPerWholeMeasure" << " = " <<
@@ -5785,8 +5797,9 @@ if (measureNumber <= 1)
     // yes, current measure is full JMI
   }
   
-  fVoicechunkMeasureNumber = measureNumber;
+  fVoicechunkMeasureNumber = measureNumber; // JMI
 
+/*
   if (measureNumber == 0) {
     // measure 1 has already been created by default, re-number it a 0
   // JMI  if (fMsrOptions->fDebug)
@@ -5803,11 +5816,17 @@ if (measureNumber <= 1)
   }
 
   else {
-    // don't create measure 1 since it is created by default
+  */
     if (
-      currentMeasure->getMeasureNumber ()
-        !=
-      measureNumber) {
+      currentMeasure->getMeasureNumber () == 1
+        &&
+      measureNumber == 1
+        &&
+      currentMeasureLength == 0) {
+      // don't re-create measure 1 since it is already there
+      }
+
+    else {
       // create a new measure
       S_msrMeasure
         newMeasure =
@@ -5822,7 +5841,7 @@ if (measureNumber <= 1)
       fVoicechunkMeasuresList.push_back (
         newMeasure);
     }
-  }
+//  }
 
   fMeasureNumberHasBeenSetInVoiceChunk = true;
 }
@@ -6434,10 +6453,10 @@ msrVoice::msrVoice (
         0, "major", 0);
         */
     if (key) {
-    // append it to the voice chunk
-    S_msrElement k = key;
-    fVoiceVoicechunk->
-      appendElementToVoicechunk (k);
+      // append it to the voice chunk
+      S_msrElement k = key;
+      fVoiceVoicechunk->
+        appendElementToVoicechunk (k);
     }
   }
   
