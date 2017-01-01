@@ -519,7 +519,7 @@ void msr2LpsrVisitor::visitStart (S_msrMeasure& elt)
       
   // append it to the current voice clone
   fCurrentVoicechunkClone->
-    appendMeasureToVoicechunkClone (
+    appendMeasureToVoicechunk (
       fCurrentMeasureClone);
 }
 

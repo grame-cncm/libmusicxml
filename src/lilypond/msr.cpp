@@ -5436,6 +5436,23 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // account for note duration in measure position
   fMeasurePosition +=
     note->getNoteDivisions ();
+
+  if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
+    // measure overflows, create a new one
+    S_msrMeasure
+      newMeasure =
+        msrMeasure::create (
+          fMsrOptions,
+          note->getInputLineNumber (),
+          fMeasureNumber + 1,
+          fMeasureDivisionsPerWholeNote,
+          fMeasureVoicechunkUplink);
+
+    // append it to the voice chunk
+    fMeasureVoicechunkUplink->
+      appendMeasureToVoicechunk (
+        newMeasure);
+  }
 }
 
 void msrMeasure::acceptIn (basevisitor* v) {
@@ -5775,6 +5792,9 @@ if (measureNumber <= 1)
   // JMI  if (fMsrOptions->fDebug)
       cerr <<
         idtr <<
+          "### there are currently " << " measures in voice chunk" <<
+          endl <<
+        idtr <<
           setw(31) << "--> renumbering measure 1 as 0" <<
           endl;
           
@@ -5807,7 +5827,7 @@ if (measureNumber <= 1)
   fMeasureNumberHasBeenSetInVoiceChunk = true;
 }
 
-void msrVoicechunk::appendMeasureToVoicechunkClone (S_msrMeasure measure)
+void msrVoicechunk::appendMeasureToVoicechunk (S_msrMeasure measure)
 {
   if (fVoicechunkMeasuresList.size ()) {
     // don't append a measure if one with the same

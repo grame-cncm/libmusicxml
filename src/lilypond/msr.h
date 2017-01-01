@@ -1481,9 +1481,10 @@ class EXP msrMeasure : public msrElement
     void          prependElementToMeasure (S_msrElement elem)
                       { fMeasureElementsList.push_front (elem); }
                       
-    void          appendNoteToMeasure (S_msrNote note);
     void          appendElementToMeasure  (S_msrElement elem)
                       { fMeasureElementsList.push_back (elem); }
+    
+    void          appendNoteToMeasure (S_msrNote note);
     
     S_msrElement  getLastElementOfMeasure () const
                       { return fMeasureElementsList.back (); }
@@ -1567,7 +1568,7 @@ class EXP msrVoicechunk : public msrElement
     const list<S_msrMeasure>&
                   getVoicechunkMeasuresList () const
                       { return fVoicechunkMeasuresList; }
-                      
+                                            
     // divisions per whole note
     void          setVoicechunkDivisionsPerWholeNote (
                     int divisionsPerWholeNote)
@@ -1601,7 +1602,7 @@ class EXP msrVoicechunk : public msrElement
 
     string        voicechunkAsString ();
 
-    void          appendMeasureToVoicechunkClone (S_msrMeasure measure);
+    void          appendMeasureToVoicechunk (S_msrMeasure measure);
 
     void          appendTimeToVoicechunk (S_msrTime time);
     void          appendNoteToVoicechunk (S_msrNote note);
