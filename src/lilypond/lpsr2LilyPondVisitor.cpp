@@ -2086,6 +2086,11 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
       break;
   } // switch
 
+//  if (fMsrOptions->fDebug)
+    // print the note line number as a comment
+    fOstream <<
+      "%{ " << elt->getInputLineNumber () << " %} ";
+  
   // print the note articulations if any
   list<S_msrArticulation>
     noteArticulations =

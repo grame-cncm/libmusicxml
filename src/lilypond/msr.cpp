@@ -5783,7 +5783,7 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   if (currentMeasurePosition <= currentMeasureDivisionsPerWholeMeasure) {
     // no, register current measure as incomplete
     
-    // JMI if (fMsrOptions->fDebug)
+     if (fMsrOptions->fForceDebug || fMsrOptions->fDebug)
         cerr <<
           idtr <<
             "==> measure " << measureNumber <<
