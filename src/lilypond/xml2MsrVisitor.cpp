@@ -2333,12 +2333,6 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
   int measureNumber =
       elt->getAttributeIntValue ("number", -1);
 
-  cout <<
-    "### visitStart (S_measure& elt)" <<
-    ", line = " << inputLineNumber <<
-    ", measureNumber = " << measureNumber <<
-    endl;
-
   // Measures with an implicit attribute set to "yes"
   // never display a measure number,
   // regardless of the measure-numbering setting.

@@ -1202,7 +1202,7 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
 {
 //  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> Creating an bare clone of grace notes" <<
+      "--> Creating a bare clone of grace notes" <<
       endl;
   
   S_msrGracenotes
@@ -5384,9 +5384,9 @@ msrMeasure::~msrMeasure() {}
 S_msrMeasure msrMeasure::createMeasureBareClone (
   S_msrVoicechunk clonedVoicechunk)
 {
-//  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> Creating an bare clone of measure " << fMeasureNumber <<
+      "--> Creating a bare clone of measure " << fMeasureNumber <<
       endl;
   
   S_msrMeasure
@@ -5524,7 +5524,7 @@ string msrMeasure::getMeasureLengthAsString () const
     measureLength =
       getMeasureLength (); 
   
-//  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr <<
       endl <<
       idtr <<
@@ -5736,13 +5736,17 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
       currentMeasure->
         getMeasureLength (),
       
-    measureDivisionsPerWholeMeasure =
+    currentMeasureDivisionsPerWholeMeasure =
       currentMeasure->
         getMeasureDivisionsPerWholeMeasure ();
 
+  msrMeasure::msrMeasureKind
+    currentMeasureKind =
+      currentMeasure->
+        getMeasureKind ();
+
         
-// JMI  if (fMsrOptions->fDebug)
-if (measureNumber <= 1)
+  if (fMsrOptions->fDebug)
     cerr <<
       idtr <<
         setw(31) << "--> setVoicechunkMeasureNumber (" <<
@@ -5754,8 +5758,8 @@ if (measureNumber <= 1)
         currentMeasureNumber <<
         endl <<
       idtr <<
-        setw(31) << "measureDivisionsPerWholeMeasure" << " = " <<
-        measureDivisionsPerWholeMeasure <<
+        setw(31) << "currentMeasureDivisionsPerWholeMeasure" << " = " <<
+        currentMeasureDivisionsPerWholeMeasure <<
         endl <<
       idtr <<
         setw(31) << "currentMeasurePosition" << " = " <<
@@ -5767,7 +5771,7 @@ if (measureNumber <= 1)
         endl;
       
   // is the current measure full? (positions start at 1)
-  if (currentMeasurePosition <= measureDivisionsPerWholeMeasure) {
+  if (currentMeasurePosition <= currentMeasureDivisionsPerWholeMeasure) {
     // no, register current measure as incomplete
     
     // JMI if (fMsrOptions->fDebug)
@@ -5817,31 +5821,41 @@ if (measureNumber <= 1)
 
   else {
   */
-    if (
-      currentMeasure->getMeasureNumber () == 1
-        &&
-      measureNumber == 1
-        &&
-      currentMeasureLength == 0) {
-      // don't re-create measure 1 since it is already there
-      }
 
-    else {
-      // create a new measure
-      S_msrMeasure
-        newMeasure =
-          msrMeasure::create (
-            fMsrOptions,
-            inputLineNumber,
-            measureNumber,
-            fVoicechunkDivisionsPerWholeNote,
-            this);
+  /*
+  An empty measure is created for measure 1 in case there is no upbeat,
+  at which time the first measure still has number 0 by default
+  */
   
-      // append it to the voice chunk's measures list
-      fVoicechunkMeasuresList.push_back (
-        newMeasure);
+  if (! currentMeasureLength) {
+    // remove empty measure
+    fVoicechunkMeasuresList.pop_back ();
+
+    // set new current measure number to 1 instead of 0
+    if (fVoicechunkMeasuresList.size ()) {
+      S_msrMeasure
+        newCurrentMeasure =
+          fVoicechunkMeasuresList.back ();
+          
+      if (newCurrentMeasure->getMeasureNumber () == 0)
+        newCurrentMeasure->
+          setMeasureNumber (1);
     }
-//  }
+  }
+
+  // create a new measure
+  S_msrMeasure
+    newMeasure =
+      msrMeasure::create (
+        fMsrOptions,
+        inputLineNumber,
+        measureNumber,
+        fVoicechunkDivisionsPerWholeNote,
+        this);
+
+  // append it to the voice chunk's measures list
+  fVoicechunkMeasuresList.push_back (
+    newMeasure);
 
   fMeasureNumberHasBeenSetInVoiceChunk = true;
 }
@@ -6059,9 +6073,9 @@ msrRepeatending::~msrRepeatending() {}
 S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
   S_msrRepeat clonedRepeat)
 {
-//  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> Creating an bare clone of a repeat ending" << endl;
+      "--> Creating a bare clone of a repeat ending" << endl;
   
   S_msrRepeatending
     clone =
@@ -6181,9 +6195,9 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
         fMsrOptions, fInputLineNumber,
         clonedVoice);
 
-//  if (fMsrOptions->fDebug)
+  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> Creating an bare clone of a repeat" << endl;
+      "--> Creating a bare clone of a repeat" << endl;
   
   S_msrRepeat
     clone =
