@@ -1191,7 +1191,8 @@ msrGracenotes::msrGracenotes (
 
   fGracenotesVoiceUplink =
     gracenotesVoiceUplink;
-    
+
+  // create the voice chunk that will receive the notes
   fGracenotesVoicechunk =
     msrVoicechunk::create (
       fMsrOptions, fInputLineNumber,

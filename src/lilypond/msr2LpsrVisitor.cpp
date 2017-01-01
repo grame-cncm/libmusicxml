@@ -866,6 +866,17 @@ void msr2LpsrVisitor::visitStart (S_msrGracenotes& elt)
         fOstream <<
           "### msrGracenotes on a TRILLED note" <<
           endl;
+
+      // create a clone of this grace notes
+      fCurrentGracenotesClone =
+        elt->
+          createGracenotesBareClone (
+            fCurrentVoiceClone);
+    
+      // append it to the current voice clone
+      fCurrentVoiceClone->
+        appendGracenotesToVoice (
+          fCurrentGracenotesClone);
     }
   
     else {

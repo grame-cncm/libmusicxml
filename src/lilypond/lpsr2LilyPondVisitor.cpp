@@ -1766,7 +1766,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrWedge& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrGracenotes& elt)
 {
-  if (fMsrOptions->fDebug)
+//  if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrGracenotes" << endl;
 
@@ -1781,7 +1781,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrGracenotes& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrGracenotes& elt)
 {
-  if (fMsrOptions->fDebug)
+//  if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrGracenotes" << endl;
 
