@@ -2194,6 +2194,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
       msrSlur::create(
         fMsrOptions,
         elt->getInputLineNumber (),
+        fCurrentSlurNumber,
         fCurrentSlurKind);
         
   fPendingSlurs.push_back (slur);

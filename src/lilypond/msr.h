@@ -954,6 +954,7 @@ class EXP msrSlur : public msrElement
     static SMARTP<msrSlur> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
+      int           slurNumber,
       msrSlurKind   slurKind);
 
   protected:
@@ -964,6 +965,7 @@ class EXP msrSlur : public msrElement
     msrSlur (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
+      int           slurNumber,
       msrSlurKind   slurKind);
       
     virtual ~msrSlur();
@@ -973,12 +975,14 @@ class EXP msrSlur : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    int         getSlurNumber () const { return fSlurNumber; }
+    
     msrSlurKind getSlurKind () const { return fSlurKind; }
-
-    string  slurKindAsString ();
 
     // services
     // ------------------------------------------------------
+
+    string      slurKindAsString ();
 
     // visitors
     // ------------------------------------------------------
@@ -994,6 +998,8 @@ class EXP msrSlur : public msrElement
     virtual void print (ostream& os);
 
   private:
+
+    int         fSlurNumber;
 
     msrSlurKind fSlurKind;
 };

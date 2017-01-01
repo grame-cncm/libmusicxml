@@ -1070,11 +1070,12 @@ void msrTie::print (ostream& os)
 S_msrSlur msrSlur::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
+  int           slurNumber,
   msrSlurKind   slurKind)
 {
   msrSlur* o =
     new msrSlur (
-      msrOpts, inputLineNumber, slurKind);
+      msrOpts, inputLineNumber, slurNumber, slurKind);
   assert(o!=0);
   return o;
 }
@@ -1082,10 +1083,12 @@ S_msrSlur msrSlur::create (
 msrSlur::msrSlur (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
+  int           slurNumber,
   msrSlurKind   slurKind)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fSlurKind = slurKind; 
+  fSlurNumber = slurNumber;
+  fSlurKind   = slurKind; 
 }
 msrSlur::~msrSlur() {}
 
@@ -1569,7 +1572,42 @@ void msrNote::addSlurToNote (S_msrSlur slur)
       "% --> adding slur " << slur << " to note " << noteAsString ()
        << endl;
 
-  fNoteSlurs.push_back (slur);
+  if (fNoteSlurs.size ()) {
+    if (
+      fNoteSlurs.back ()->getSlurKind () == msrSlur::kStartSlur
+        &&
+      slur->getSlurKind () == msrSlur::kStopSlur
+        &&
+      fNoteSlurs.back ()->getSlurNumber () == slur->getSlurNumber ()
+      ) {
+      // it may happen that a given note has a 'slur start'
+      // and a 'slur stop' in sequence, ignore both
+
+      stringstream s;
+      
+      s <<
+        "a 'slur start' is immediately followed by a 'slur stop'" <<
+        endl <<
+        "with the same number, ignoring both of them at line " <<
+        slur->getInputLineNumber ();
+        
+      msrMusicXMLWarning (
+        fMsrOptions->fInputSourceName,
+        slur->getInputLineNumber (),
+        s.str());
+        
+      // rmeove 'slur start'
+      fNoteSlurs.pop_back ();
+
+      // don't register 'slur stop'
+    }
+
+    else
+      fNoteSlurs.push_back (slur);
+  }
+
+  else
+    fNoteSlurs.push_back (slur);
 }
 
 void msrNote::addWedgeToNote (S_msrWedge wedge)
