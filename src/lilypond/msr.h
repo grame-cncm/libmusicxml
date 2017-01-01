@@ -1945,6 +1945,12 @@ class EXP msrNote : public msrElement
                   getDiatonicPitch () const
                       { return fNoteData.fDiatonicPitch; }
 
+    void          setNoteOccupiesAFullMeasure ()
+                      { fNoteOccupiesAFullMeasure = true; }
+                      
+    bool          getNoteOccupiesAFullMeasure () const
+                      { return fNoteOccupiesAFullMeasure; }
+
     // octave shifts
     void          setNoteOctaveShift (S_msrOctaveShift octaveShift)
                       { fNoteOctaveShift = octaveShift; }
@@ -1972,16 +1978,9 @@ class EXP msrNote : public msrElement
           
     // chord members
     void          setNoteBelongsToAChord ();
-/*
-    void          setNoteIsChordFirstNote (bool value)
-                      { fNoteIsChordFirstNote = value; }
-*/
+
     bool          getNoteBelongsToAChord () const
                       { return fNoteData.fNoteBelongsToAChord; }
-/*
-    bool          getNoteIsChordFirstNote () const
-                      { return fNoteIsChordFirstNote; }
-*/
 
     // beams
     void          setNoteBeam (S_msrBeam beam)  { fNoteBeam = beam; }
@@ -2106,6 +2105,7 @@ class EXP msrNote : public msrElement
     // MusicXML informations
     
     msrNoteData               fNoteData;
+    bool                      fNoteOccupiesAFullMeasure;
 
     // LilyPond informations
 
@@ -2120,6 +2120,7 @@ class EXP msrNote : public msrElement
     list<S_msrArticulation>   fNoteArticulations;
 
     int                       fNoteDivisionsPerWholeNote; // JMI
+
     
     int                       fNotePositionInMeasure;
 

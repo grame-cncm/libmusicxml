@@ -124,10 +124,11 @@ class lpsr2LilyPondVisitor :
   public visitor<S_msrPedal>,
 
   public visitor<S_msrBarCheck>,
+  
   public visitor<S_msrBarnumberCheck>,
   
   public visitor<S_msrBreak>,
-  
+   
   public visitor<S_msrRepeat>,
   public visitor<S_msrRepeatending>,
       
@@ -303,6 +304,7 @@ class lpsr2LilyPondVisitor :
 
     virtual void visitStart (S_msrBarCheck& elt);
     virtual void visitEnd   (S_msrBarCheck& elt);
+    
     virtual void visitStart (S_msrBarnumberCheck& elt);
     virtual void visitEnd   (S_msrBarnumberCheck& elt);
 

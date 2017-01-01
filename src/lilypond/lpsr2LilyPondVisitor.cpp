@@ -1969,7 +1969,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       
       // print the rest name
       fOstream <<
-        "r";
+        string (
+          elt->getNoteOccupiesAFullMeasure ()
+            ? "R"
+            : "r");
       
       // print the note duration
       fOstream <<
@@ -2000,9 +2003,13 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       }
       
       // print the note name
-      if (elt->getNoteIsARest ())
+      if (elt->getNoteIsARest ()) {
         fOstream <<
-          "r";
+          string (
+            elt->getNoteOccupiesAFullMeasure ()
+              ? "R"
+              : "r");
+      }
       else
         fOstream <<
           noteMsrPitchAsLilyPondString (elt);
@@ -2755,7 +2762,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarCheck& elt)
     elt->getNextBarNumber ();
 
   // don't generate a bar check before the end of measure 1
-  if (nextBarNumber > 1)
+ // JMI if (nextBarNumber > 1)
     fOstream <<
       "| % " << nextBarNumber <<
       endl <<

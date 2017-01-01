@@ -1487,6 +1487,8 @@ msrNote::msrNote (
       s.str());
   }
 
+  fNoteOccupiesAFullMeasure = false;
+  
   fNoteHasATrill = false;
   
 /* JMI
@@ -5433,9 +5435,16 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // register note measure position
   note->setNotePositionInMeasure (fMeasurePosition);
   
-  // account for note duration in measure position
-  fMeasurePosition +=
+  // fetch note divisions
+  int noteDivisions =
     note->getNoteDivisions ();
+    
+  // account for note duration in measure position
+  fMeasurePosition += noteDivisions;
+
+  // determine if the note occupies a full measure
+  if (noteDivisions == fMeasureDivisionsPerWholeMeasure)
+    note->setNoteOccupiesAFullMeasure ();
 
   if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
     // measure overflows, create a new one

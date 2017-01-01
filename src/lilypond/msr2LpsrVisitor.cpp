@@ -309,7 +309,7 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
   // don't append the pargroup block to the score command now:
   // this will be done when it gets popped from the stack
 
-/*
+/* JMI
  *   fCurrentVoiceClone =
     elt->createVoiceBareClone (fCurrentStaffClone);
     
@@ -471,12 +471,12 @@ void msr2LpsrVisitor::visitStart (S_msrVoicechunk& elt)
     fOstream << idtr <<
       "--> Start visiting msrVoicechunk" << endl;
 
-  // fetch the current voicechunk clone
+  // fetch the current voice chunk clone
   fCurrentVoicechunkClone =
     fCurrentVoiceClone->
       getVoiceVoicechunk ();
 
-/*
+/* JMI
   // create a clone of the voice chunk
   fCurrentVoicechunkClone =
     elt->createVoicechunkBareClone (
@@ -584,7 +584,8 @@ void msr2LpsrVisitor::visitStart (S_msrLyrics& elt)
 
 //  if (elt->getLyricsTextPresent ()) { // JMI
     fCurrentLyricsClone =
-      elt->createLyricsBareClone (fCurrentVoiceClone);
+      elt->createLyricsBareClone (
+        fCurrentVoiceClone);
   
     // don't add the lyrics to fCurrentVoiceClone
   
