@@ -5010,10 +5010,10 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     note->
       setNoteStem (fCurrentStem);
 
-  // set its beam if any
+  // add its beam if any
   if (fCurrentBeam)
     note->
-      setNoteBeam (fCurrentBeam);
+      addBeamToNote (fCurrentBeam);
 
   // attach the articulations if any to the note
   attachCurrentArticulationsToNote (note);

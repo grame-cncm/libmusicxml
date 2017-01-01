@@ -1983,8 +1983,9 @@ class EXP msrNote : public msrElement
                       { return fNoteData.fNoteBelongsToAChord; }
 
     // beams
-    void          setNoteBeam (S_msrBeam beam)  { fNoteBeam = beam; }
-    S_msrBeam     getNoteBeam () const          { return fNoteBeam; }
+    const list<S_msrBeam>&
+                  getNoteBeams () const
+                      { return fNoteBeams; }
 
     // articulations
     const list<S_msrArticulation>&
@@ -2069,6 +2070,9 @@ class EXP msrNote : public msrElement
     string        noteDivisionsAsMSRString () const;
     string        noteTypeAsMSRString () const;
 
+    // beams
+    void          addBeamToNote (S_msrBeam beam);
+    
     // articulations
     void          addArticulationToNote (S_msrArticulation art);
     
@@ -2115,7 +2119,7 @@ class EXP msrNote : public msrElement
     
     S_msrStem                 fNoteStem;
 
-    S_msrBeam                 fNoteBeam;
+    list<S_msrBeam>           fNoteBeams;
                                       
     list<S_msrArticulation>   fNoteArticulations;
 

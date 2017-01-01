@@ -1267,7 +1267,7 @@ void msrGracenotes::print (ostream& os)
 {
   os <<
     "Gracenotes" <<
-    ", line: " << fInputLineNumber <<
+    ", line " << fInputLineNumber <<
     ", slashed: " <<
     string (
       fGracenotesIsSlashed
@@ -1334,7 +1334,6 @@ S_msrNote msrNote::createNoteBareClone ()
   clone->fNoteOctaveShift = fNoteOctaveShift;
   
   clone->fNoteStem = fNoteStem;  
-  clone->fNoteBeam = fNoteBeam;
 
   clone->fNoteDivisionsPerWholeNote = fNoteDivisionsPerWholeNote;
   
@@ -1540,6 +1539,11 @@ void msrNote::applyTupletMemberDisplayFactor (
     normalNotes;
 }
 
+void msrNote::addBeamToNote (S_msrBeam beam)
+{
+  fNoteBeams.push_back (beam);
+}
+
 void msrNote::addArticulationToNote (S_msrArticulation art)
 {
   fNoteArticulations.push_back (art);
@@ -1637,12 +1641,18 @@ void msrNote::browseData (basevisitor* v)
     browser.browse (*fNoteStem);
   }
 
-  if (fNoteBeam) {
-    // browse the beam
-    msrBrowser<msrBeam> browser (v);
-    browser.browse (*fNoteBeam);
+  // browse the beams if any
+  if (fNoteBeams.size()) {
+    idtr++;
+    list<S_msrBeam>::const_iterator i;
+    for (i=fNoteBeams.begin(); i!=fNoteBeams.end(); i++) {
+      // browse the articulation
+      msrBrowser<msrBeam> browser (v);
+      browser.browse (*(*i));
+    } // for
+    idtr--;
   }
-
+  
   // browse the articulations if any
   if (fNoteArticulations.size()) {
     idtr++;
@@ -2022,15 +2032,24 @@ void msrNote::print (ostream& os)
       idtr << fNoteStem;
     idtr--;
   }
-
-  // print the beam if any
-  if (fNoteBeam) {
+    
+  // print the beams if any
+  if (fNoteBeams.size()) {
     idtr++;
-    os <<
-      idtr << fNoteBeam;
+
+    list<S_msrBeam>::const_iterator
+      iBegin = fNoteBeams.begin(),
+      iEnd   = fNoteBeams.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+        
     idtr--;
   }
-    
+  
   // print the articulations if any
   if (fNoteArticulations.size()) {
     idtr++;
@@ -4816,7 +4835,7 @@ void msrSegno::print (ostream& os)
 {
   os <<
     "Segno" <<
-    ", line: " << fInputLineNumber <<
+    ", line " << fInputLineNumber <<
     endl;
 }
 
@@ -4887,7 +4906,7 @@ void msrCoda::print (ostream& os)
 {
   os <<
     "Coda" <<
-    ", line: " << fInputLineNumber <<
+    ", line " << fInputLineNumber <<
     endl;
 }
 
@@ -4958,7 +4977,7 @@ void msrEyeglasses::print (ostream& os)
 {
   os <<
     "Eyeglasses" <<
-    ", line: " << fInputLineNumber <<
+    ", line " << fInputLineNumber <<
     endl;
 }
 
@@ -5075,7 +5094,7 @@ void msrPedal::print (ostream& os)
 {
   os <<
     "Pedal" <<
-    ", line: " << fInputLineNumber <<
+    ", line " << fInputLineNumber <<
     pedalTypeAsString () << ", " <<
     pedalLineAsString () <<
     endl;
@@ -5187,7 +5206,7 @@ void msrBarline::print (ostream& os)
 {
   os <<
     "Barline" <<
-    ", line: " << fInputLineNumber << ", ";
+    ", line " << fInputLineNumber << ", ";
 
   if (fBarlineHasSegno)
     os << "has segno, ";
@@ -5588,7 +5607,7 @@ void msrMeasure::print (ostream& os)
   os <<
     endl <<
     idtr << "Measure " << fMeasureNumber <<
-      ", line: " << fInputLineNumber <<
+      ", line " << fInputLineNumber <<
 /*
       ", voice " <<
       fMeasureVoicechunkUplink->getVoiceUplink ()->getVoiceName () <<
@@ -6306,7 +6325,7 @@ void msrRepeat::print (ostream& os)
   os <<
     endl <<
     idtr << "Repeat" <<
-    ", line: " << fInputLineNumber <<
+    ", line " << fInputLineNumber <<
     " (" << fRepeatEndings.size() << " repeat endings)" <<
     endl;
   
