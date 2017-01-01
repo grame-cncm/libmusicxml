@@ -1699,7 +1699,7 @@ void xml2MsrVisitor::visitStart (S_staves& elt)
   }
 
   if (stavesNumber > 1) {
-    // add n-1 staves to current part
+    // add n-1 staves to current part since 1 already exists
     int n = 2;
     
     while (n <= stavesNumber) {
@@ -2322,11 +2322,22 @@ void xml2MsrVisitor::visitEnd ( S_lyric& elt )
 //________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_measure& elt)
 {
+/*
+  Measures have a required number attribute (going from partwise to timewise,
+  measures are grouped via the number).
+*/
+
   int inputLineNumber =
     elt->getInputLineNumber ();
 
   int measureNumber =
-      elt->getAttributeIntValue ("number", 0);
+      elt->getAttributeIntValue ("number", -1);
+
+  cout <<
+    "### visitStart (S_measure& elt)" <<
+    ", line = " << inputLineNumber <<
+    ", measureNumber = " << measureNumber <<
+    endl;
 
   // Measures with an implicit attribute set to "yes"
   // never display a measure number,

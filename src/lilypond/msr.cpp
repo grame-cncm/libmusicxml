@@ -5381,18 +5381,6 @@ msrMeasure::msrMeasure (
 
 msrMeasure::~msrMeasure() {}
 
-void msrMeasure::setMeasureTime (S_msrTime time)
-{ 
-  fMeasureTime = time;
-  
-  fMeasureDivisionsPerWholeMeasure =
-    fMeasureDivisionsPerWholeNote * 4
-      *
-    time->getBeatsNumber ()
-      /
-    time->getBeatsValue ();
-}
-
 S_msrMeasure msrMeasure::createMeasureBareClone (
   S_msrVoicechunk clonedVoicechunk)
 {
@@ -5417,6 +5405,22 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
     fMeasureKind;
     
   return clone;
+}
+
+void msrMeasure::setMeasureTime (S_msrTime time)
+{ 
+/*
+  The divisions element indicates how many divisions per quarter note are used to indicate a note's duration. For example, if duration = 1 and divisions = 2, this is an eighth note duration.
+*/
+
+  fMeasureTime = time;
+  
+  fMeasureDivisionsPerWholeMeasure =
+    fMeasureDivisionsPerWholeNote
+      *
+    time->getBeatsNumber ()
+      /
+    time->getBeatsValue ();
 }
 
 void msrMeasure::appendNoteToMeasure (S_msrNote note)
@@ -5696,45 +5700,47 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
-  // fetch voice chunk measure
+  // fetch voice chunk current measure
   S_msrMeasure
     currentMeasure =
       fVoicechunkMeasuresList.back ();
 
-  // fetch its current measure position
+  // fetch its current measure position and length
   int
     currentMeasurePosition =
       currentMeasure->getMeasurePosition (),
     currentMeasureLength =
       currentMeasure->getMeasureLength ();
-
-/*
-  // set current measure divisions
-  currentMeasure->
-    setMeasureDivisions (currentMeasureLength);
-
-        */
         
   int measureDivisionsPerWholeMeasure =
     currentMeasure->getMeasureDivisionsPerWholeMeasure ();
 
         
-  if (fMsrOptions->fDebug)
+// JMI  if (fMsrOptions->fDebug)
+if (measureNumber <= 1)
     cerr <<
       idtr <<
+        setw(31) << "--> setVoicechunkMeasureNumber (" <<
+        measureNumber <<
+        "): " <<
         endl <<
       idtr <<
-        setw(22) << "currentMeasurePosition" << " = " <<
+        setw(31) << "measureDivisionsPerWholeMeasure" << " = " <<
+        measureDivisionsPerWholeMeasure <<
+        endl <<
+      idtr <<
+        setw(31) << "currentMeasurePosition" << " = " <<
         currentMeasurePosition <<
         endl <<
       idtr <<
-        setw(22) << "currentMeasureLength" << " = " <<
+        setw(31) << "currentMeasureLength" << " = " <<
         currentMeasureLength <<
         endl;
       
   // is the current measure full? (positions start at 1)
   if (currentMeasurePosition <= measureDivisionsPerWholeMeasure) {
     // no, register current measure as incomplete
+    
     // JMI if (fMsrOptions->fDebug)
         cerr <<
           idtr <<
@@ -5758,26 +5764,44 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
     }
   }
   
+  else {
+    // yes, current measure is full JMI
+  }
+  
   fVoicechunkMeasureNumber = measureNumber;
 
-  // don't create measure 1 since it is created initially by default
-  if (
-    currentMeasure->getMeasureNumber ()
-      !=
-    measureNumber) {
-    // create a new measure
-    S_msrMeasure
-      newMeasure =
-        msrMeasure::create (
-          fMsrOptions,
-          inputLineNumber,
-          measureNumber,
-          fVoicechunkDivisionsPerWholeNote,
-          this);
+  if (measureNumber == 0) {
+    // measure 1 has already been created by default, re-number it a 0
+  // JMI  if (fMsrOptions->fDebug)
+      cerr <<
+        idtr <<
+          setw(31) << "--> renumbering measure 1 as 0" <<
+          endl;
+          
+    currentMeasure->
+      setMeasureNumber (measureNumber);
+  }
 
-    // append it to the voice chunk's measures list
-    fVoicechunkMeasuresList.push_back (
-      newMeasure);
+  else {
+    // don't create measure 1 since it is created by default
+    if (
+      currentMeasure->getMeasureNumber ()
+        !=
+      measureNumber) {
+      // create a new measure
+      S_msrMeasure
+        newMeasure =
+          msrMeasure::create (
+            fMsrOptions,
+            inputLineNumber,
+            measureNumber,
+            fVoicechunkDivisionsPerWholeNote,
+            this);
+  
+      // append it to the voice chunk's measures list
+      fVoicechunkMeasuresList.push_back (
+        newMeasure);
+    }
   }
 
   fMeasureNumberHasBeenSetInVoiceChunk = true;
@@ -7997,7 +8021,7 @@ S_msrVoice msrStaff::addVoiceToStaff (
     
     s <<
       "staff " << getStaffName () <<
-      " is already filled up with" << msrStaff::gMaxStaffVoices <<
+      " is already filled up with " << msrStaff::gMaxStaffVoices <<
       " voices, voice " << voiceNumber << " overflows it" << endl;
       
 // JMI    msrMusicXMLError (s.str());
@@ -8556,8 +8580,9 @@ void msrPart::setAllPartStavesMeasureNumber (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->setStaffMeasureNumber (
-      inputLineNumber, measureNumber);
+    (*i).second->
+      setStaffMeasureNumber (
+        inputLineNumber, measureNumber);
   } // for
 }
 
