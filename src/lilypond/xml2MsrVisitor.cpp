@@ -1055,7 +1055,7 @@ void xml2MsrVisitor::visitStart (S_part& elt)
         "--------------------------------------------" <<
         endl <<
       idtr <<
-        "Analyzing part \"" << fCurrentPartID << "\", start" <<
+        "Analyzing part \"" << fCurrentPartID << "\" -- start" <<
       endl;
 
   idtr++;
@@ -1071,7 +1071,7 @@ void xml2MsrVisitor::visitEnd (S_part& elt)
   if (fMsrOptions->fTrace)
     cerr <<
       idtr <<
-        "Analyzing part \"" << fCurrentPartID << "\", end" <<
+        "Analyzing part \"" << fCurrentPartID << "\" -- end" <<
         endl <<
       idtr <<
         "--------------------------------------------" <<
@@ -2302,11 +2302,11 @@ void xml2MsrVisitor::visitEnd ( S_text& elt )
 
   fCurrentLyricsHasText = true;
 
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug)
-    cerr << idtr <<
-      "--> fCurrentLyricsNumber = " << fCurrentLyricsNumber <<
-      ", fCurrentSyllabic = " << fCurrentSyllabic <<
-      ", fCurrentText = |" << fCurrentText << "|" << endl;
+// JMI  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug)
+    cerr << idtr << left <<
+      "--> fCurrentLyricsNumber" << " = " << fCurrentLyricsNumber <<
+      ", fCurrentSyllabic" << " = " << setw(6) << fCurrentSyllabic <<
+      ", fCurrentText" << " = |" << fCurrentText << "|" << endl;
 }
 
 void xml2MsrVisitor::visitEnd ( S_elision& elt ) 
@@ -5393,7 +5393,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
   handleTupletsPendingOnTupletStack ();
 
   // lyrics has to be handled in all cases to handle melismata
-// JMI  handleLyrics (newNote);
+  handleLyrics (newNote);
 
   // account for chord not being built
   fOnGoingChord = false;

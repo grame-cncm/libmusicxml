@@ -2181,31 +2181,6 @@ void msrNote::print (ostream& os)
     
     idtr--;
   }
-/*
-  // print the slur if any
-  if (fNoteSlurKind != msrSlur::k_NoSlur) { // JMI
-    idtr++;
-
-    os <<
-      idtr << "Slur, kind: ";
-    switch (fNoteSlurKind) {
-      case msrSlur::kStartSlur:
-        os << "start";
-        break;
-      case msrSlur::kContinueSlur:
-        os << "continue";
-        break;
-      case msrSlur::kStopSlur:
-        os << "stop";
-        break;
-      default:
-        os << fNoteSlurKind << "???";
-    } // switch
-    os << endl;
-    
-    idtr--;
-  }
-  */
 }
 
 //______________________________________________________________________________
@@ -4218,104 +4193,100 @@ string msrLyricschunk::lyricschunkAsString ()
   
   switch (fLyricschunkKind) {
     case kSingleChunk:
-      s << "single" << ":" << fChunkDivisions;
-      if (fChunkText.size())
-        s << " " << "\"" << fChunkText << "\"";
-      s <<
-        ", line " << fInputLineNumber <<
+      s << left <<
+        setw(15) << "single" << ":" << fChunkDivisions <<
+        ", line " << right << setw(5) << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
       
     case kBeginChunk:
-      s << "begin" << ":" << fChunkDivisions;
-      if (fChunkText.size())
-        s << " " << "\"" << fChunkText << "\"";
-      s <<
-        ", line " << fInputLineNumber <<
+      s << left <<
+        setw(15) << "begin" << ":" << fChunkDivisions <<
+        ", line " << right << setw(5) << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
       
     case kMiddleChunk:
-      s << "middle" << ":" << fChunkDivisions;
-      if (fChunkText.size())
-        s << " " << "\"" << fChunkText << "\"";
-      s <<
-        ", line " << fInputLineNumber <<
+      s << left <<
+        setw(15) << "middle" << ":" << fChunkDivisions <<
+        ", line " << right << setw(5) << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
       
     case kEndChunk:
-      s << "end" << ":" << fChunkDivisions;
-      if (fChunkText.size())
-        s << " " << "\"" << fChunkText << "\"";
-      s <<
-        ", line " << fInputLineNumber <<
+      s << left <<
+        setw(15) << "end" << ":" << fChunkDivisions <<
+        ", line " << right << setw(5) << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
       
     case kSkipChunk:
-      s << "skip" << ":" << fChunkDivisions;
-      if (fChunkText.size())
-        s << " " << fChunkText;
-      s <<
-        ", line " << fInputLineNumber <<
-        " (" <<
+      s << left <<
+        setw(15) << "skip" << ":" << fChunkDivisions <<
+        ", line " << right << setw(5) << fInputLineNumber <<
+        ", " <<
         fLyricschunkNote->notePitchAsString () <<
         ":" <<
         fLyricschunkNote->noteDivisionsAsMSRString () <<
-        ")" <<
         endl;
       break;
       
     case kSlurChunk:
-      s << "slur" << ":" << fChunkDivisions;
-      if (fChunkText.size())
-        s << " " << fChunkText;
-      s <<
-        ", line " << fInputLineNumber <<
+      s << left <<
+        setw(15) << "slur" << ":" << fChunkDivisions <<
+        ", line " << right << setw(5) << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+ // JMI       ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
       
     case kSlurBeyondEndChunk:
-      s << "slur beyond end" << ":" << fChunkDivisions;
-      if (fChunkText.size())
-        s << " " << fChunkText;
-      s <<
-        ", line " << fInputLineNumber <<
+      s << left <<
+        setw(15) << "slur beyond end" << ":" << fChunkDivisions <<
+        ", line " << right << setw(5) << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+ // JMI       ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
       
     case kTiedChunk:
-      s << "tied" << ":" << fChunkDivisions;
-      if (fChunkText.size())
-        s << " " << fChunkText;
-      s <<
-        ", line " << fInputLineNumber <<
+      s << left <<
+        setw(15) << "tied" << ":" << fChunkDivisions <<
+        ", line " << right << setw(5) << fInputLineNumber <<
         ", " << fLyricschunkNote->notePitchAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        " " << "\"" << fChunkText << "\"" <<
         endl;
       break;
       
     case kBarcheckChunk:
       // fChunkText contains the measure number
-      s << "barCheck" << " measure " << fChunkText << endl;
+      s << left <<
+        setw(15) << "barCheck" <<
+        " measure " << fChunkText <<
+        endl;
       break;
       
     case kBreakChunk:
       // fChunkText contains the measure number
-      s << "break" << " measure " << fChunkText << endl << endl;
+      s << left <<
+        setw(15) << "break" <<
+        " measure " << fChunkText <<
+        endl << endl;
       break;
       
     case k_NoChunk:
@@ -4397,6 +4368,11 @@ msrLyrics::~msrLyrics() {}
 
 S_msrLyrics msrLyrics::createLyricsBareClone (S_msrVoice clonedVoice)
 {
+//  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+    cerr << idtr <<
+      "--> Creating a lyrics bare clone" <<
+      endl;
+
   S_msrLyrics
     clone =
       msrLyrics::create (
@@ -6911,11 +6887,18 @@ S_msrLyrics msrVoice::addLyricsToVoice (
   int lyricsNumber)
 {
   if (fVoiceLyricsMap.count (lyricsNumber)) {
-    cerr << idtr <<
-      "### Internal error: lyrics " << lyricsNumber <<
-      " already exists in this voice" << endl;
+    stringstream s;
+    
+    s <<
+      "lyrics " << lyricsNumber <<
+      " already exists in this voice";
 
-    return fVoiceLyricsMap [lyricsNumber];
+    msrInternalError (
+      fMsrOptions->fInputSourceName,
+      inputLineNumber,
+      s.str());
+
+// JMI    return fVoiceLyricsMap [lyricsNumber];
   }
 
   // create the lyrics
@@ -6942,9 +6925,9 @@ void msrVoice::addLyricsToVoice (S_msrLyrics lyrics)
     lyrics->getLyricsNumber ();
     
   // register lyrics in this voice
-  if (fMsrOptions->fForceDebug || fMsrOptions->fTrace)
+ // JMI if (fMsrOptions->fForceDebug || fMsrOptions->fTrace)
     cerr << idtr <<
-      "Adding lyrics " << lyrics->getLyricsName () <<
+      "### Adding lyrics " << lyrics->getLyricsName () <<
       " (" << lyricsNumber <<
       ") to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -6958,7 +6941,7 @@ void msrVoice::addLyricsToVoice (S_msrLyrics lyrics)
       fVoiceLyricsmaster->getLyricschunks ();
 
   if (masterChunks.size()) {
-    if (fMsrOptions->fTrace)
+// JMI    if (fMsrOptions->fTrace)
       cerr << idtr <<
         "Copying current contents of voice master lyrics to new lyrics" << endl;
     for (
@@ -7753,14 +7736,16 @@ void msrVoice::browseData (basevisitor* v)
   browser.browse (*fVoiceVoicechunk);
 
   // browse the voice lyrics
-  for (
-    map<int, S_msrLyrics>::iterator i = fVoiceLyricsMap.begin();
-    i != fVoiceLyricsMap.end();
-    i++) {
-    // browse the lyrics
-    msrBrowser<msrLyrics> browser (v);
-    browser.browse (*((*i).second));
-  } // for
+  if (fVoiceLyricsMap.size ()) {
+    for (
+      map<int, S_msrLyrics>::iterator i = fVoiceLyricsMap.begin();
+      i != fVoiceLyricsMap.end();
+      i++) {
+      // browse the lyrics
+      msrBrowser<msrLyrics> browser (v);
+      browser.browse (*((*i).second));
+    } // for
+  }
 
   if (fMsrOptions->fDebug)
     cerr << idtr <<
