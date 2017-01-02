@@ -2317,8 +2317,233 @@ void xml2MsrVisitor::visitEnd ( S_elision& elt )
 
 void xml2MsrVisitor::visitEnd ( S_lyric& elt )
 {
-  // the handling of lyrics is done in handleLyrics (),
-  // at the end of visitEnd ( S_note )
+   int inputLineNumber =
+      elt->getInputLineNumber ();
+
+ // JMI if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+  if (true) {  
+    cerr <<
+      endl <<
+      idtr <<
+        "Handling lyrics" <<
+        ", line = " << inputLineNumber << ", with:" <<
+        endl;
+
+    idtr++;
+
+    cerr <<
+      fNoteData <<
+        
+      idtr <<
+        setw(27) << "fCurrentLyricsNumber" << " = " << fCurrentLyricsNumber <<
+        endl <<
+      idtr <<
+        setw(27) << "fCurrentText" << " = \"" << fCurrentText <<
+        "\":" << fNoteData.fDivisions << ", " <<
+        endl <<
+      idtr <<
+        setw(27) << "fCurrentElision" << " = " << fCurrentElision <<
+        endl <<
+      idtr <<
+        setw(27) << "fNoteData.fStepIsARest" << " = ";
+    if (fNoteData.fStepIsARest)
+      cerr << "true";
+    else
+      cerr << "false";
+    cerr <<
+      endl;
+
+    cerr <<
+      idtr <<
+        setw(27) << "fCurrentTieKind" << " = " <<
+        msrTie::tieKindAsString (fCurrentTieKind) <<
+      endl;
+        
+    cerr <<
+      idtr <<
+        setw(27) << "fCurrentSlurKind" << " = \"";
+    switch (fCurrentSlurKind) {
+      case msrSlur::kStartSlur:
+        cerr << "start";
+        break;
+      case msrSlur::kContinueSlur:
+        cerr << "start";
+        break;
+      case msrSlur::kStopSlur:
+        cerr << "start";
+        break;
+      case msrSlur::k_NoSlur:
+        cerr << "NO_SLUR";
+        break;
+    } // switch
+    cerr << "\"" << endl;
+
+    cerr <<
+      idtr <<
+        setw(27) <<
+        "fOnGoingSlur" << " = " << fOnGoingSlur <<
+        endl <<
+      idtr <<
+        setw(27) <<
+        "fOnGoingSlurHasLyrics" << " = " << fOnGoingSlurHasLyrics <<
+        endl;
+
+    cerr <<
+      idtr <<
+        setw(27) << "fFirstLyricschunkInSlurKind" << " = \"" <<
+        fFirstLyricschunkInSlurKind << // JMI->lyricschunkKindAsString () <<
+        "\"" << endl;
+
+    cerr <<
+      idtr <<
+        setw(27) << "fCurrentLyricschunkKind" << " = \""<<
+        fCurrentLyricschunkKind << // JMI ->lyricschunkKindAsString () <<
+        "\"" << endl;
+        
+    idtr--;
+  }
+
+  if      (fCurrentSyllabic == "single")
+    fCurrentLyricschunkKind = msrLyricschunk::kSingleChunk;
+  else if (fCurrentSyllabic == "begin")
+    fCurrentLyricschunkKind = msrLyricschunk::kBeginChunk;
+  else if (fCurrentSyllabic == "middle")
+    fCurrentLyricschunkKind = msrLyricschunk::kMiddleChunk;
+  else if (fCurrentSyllabic == "end")
+    fCurrentLyricschunkKind = msrLyricschunk::kEndChunk;
+  else {
+    // no <syllabic /> specified for this note
+    fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
+  }
+
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      createVoiceInStaffInCurrentPartIfNeeded (
+        inputLineNumber,
+        fCurrentNoteStaffNumber,
+        fCurrentVoiceNumber);
+
+  S_msrLyricschunk
+    lyricschunk;
+
+  if (fCurrentLyricschunkKind != msrLyricschunk::k_NoChunk) {
+
+ //   string lyricschunkKindAsString;
+    
+    if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+      /*
+      cerr <<
+        ", type = \"" << lyricschunkKindAsString << "\"" <<
+        ", elision: " << fCurrentElision << 
+        " to " << getLyricsName () << endl;
+*/
+    }
+
+    // create the lyrics chunk
+    lyricschunk =
+      currentVoice->
+        addTextLyricschunkToVoice (
+          inputLineNumber,
+          fCurrentLyricsNumber,
+          fCurrentSyllabic,
+          fCurrentLyricschunkKind,
+          fCurrentText,
+          fCurrentElision,
+          fNoteData.fDivisions);
+  
+    if (fOnGoingSlur)
+      fOnGoingSlurHasLyrics = true;
+      
+    fCurrentNoteHasLyrics = true;
+  }
+  
+  else {
+
+    if (
+      fCurrentSlurKind == msrSlur::kStartSlur
+        &&
+      fCurrentNoteHasLyrics) { // JMI
+    }
+    
+    if (fCurrentTieKind != msrTie::k_NoTie) {
+      fCurrentLyricschunkKind = msrLyricschunk::kTiedChunk;
+      
+      lyricschunk =
+        currentVoice->
+          addTiedLyricschunkToVoice (
+            inputLineNumber,
+            fCurrentLyricsNumber,
+            fNoteData.fDivisions);
+    }
+  
+    else if (fNoteData.fStepIsARest) {
+      fCurrentLyricschunkKind = msrLyricschunk::kSkipChunk;
+
+      lyricschunk =
+        currentVoice->
+          addSkipLyricschunkToVoice (
+            inputLineNumber,
+            fCurrentLyricsNumber,
+            fNoteData.fDivisions);
+    }
+  
+    else if (
+      fOnGoingSlurHasLyrics
+        &&
+      ! fCurrentText.size ()) {
+      if (fFirstLyricschunkInSlurKind == msrLyricschunk::kEndChunk) {
+        fCurrentLyricschunkKind = msrLyricschunk::kSlurBeyondEndChunk;
+  
+        lyricschunk =
+          currentVoice->
+            addSlurBeyondEndLyricschunkToVoice ( 
+              inputLineNumber,
+              fCurrentLyricsNumber,
+              fNoteData.fDivisions);
+      }
+      else {        
+        fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
+  
+        lyricschunk =
+          currentVoice->
+            addSlurLyricschunkToVoice ( 
+              inputLineNumber,
+              fCurrentLyricsNumber,
+              fNoteData.fDivisions);
+      }
+    }
+    
+    else if (fOnGoingSlur) {
+      if (fFirstLyricschunkInSlurKind == msrLyricschunk::kEndChunk) {
+        fCurrentLyricschunkKind = msrLyricschunk::kSlurBeyondEndChunk;
+  
+        lyricschunk =
+          currentVoice->
+            addSlurBeyondEndLyricschunkToVoice (
+              inputLineNumber,
+              fCurrentLyricsNumber,
+              fNoteData.fDivisions);
+      }
+      else {        
+        fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
+  
+        lyricschunk =
+          currentVoice->
+            addSlurLyricschunkToVoice ( 
+              inputLineNumber,
+              fCurrentLyricsNumber,
+              fNoteData.fDivisions);
+      }
+    }
+    
+    else { // JMI
+    }
+  }
+
+  if (lyricschunk)
+    // register lyrics chunk in current note's lyric chunks list
+    fCurrentNoteLyricchunks.push_back (lyricschunk);
 }
 
 //________________________________________________________________________
@@ -5467,222 +5692,20 @@ void xml2MsrVisitor::handleTupletsPendingOnTupletStack ()
 //______________________________________________________________________________
 void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 {
-        if (fCurrentLyricsNumber != 6) cout << 0 / 0;
-
-  int inputLineNumber =
-    newNote->getInputLineNumber ();
-     
- // JMI if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-  if (true) {  
-    cerr <<
-      endl <<
-      idtr <<
-        "Handling lyrics" <<
-        ", line = " << inputLineNumber << ", with:" <<
-        endl;
-
-    idtr++;
-
-    cerr <<
-      fNoteData <<
-        
-      idtr <<
-        setw(27) << "fCurrentLyricsNumber" << " = " << fCurrentLyricsNumber <<
-        endl <<
-      idtr <<
-        setw(27) << "fCurrentText" << " = \"" << fCurrentText <<
-        "\":" << fNoteData.fDivisions << ", " <<
-        endl <<
-      idtr <<
-        setw(27) << "fCurrentElision" << " = " << fCurrentElision <<
-        endl <<
-      idtr <<
-        setw(27) << "fNoteData.fStepIsARest" << " = ";
-    if (fNoteData.fStepIsARest)
-      cerr << "true";
-    else
-      cerr << "false";
-    cerr <<
-      endl;
-
-    cerr <<
-      idtr <<
-        setw(27) << "fCurrentTieKind" << " = " <<
-        msrTie::tieKindAsString (fCurrentTieKind) <<
-      endl;
-        
-    cerr <<
-      idtr <<
-        setw(27) << "fCurrentSlurKind" << " = \"";
-    switch (fCurrentSlurKind) {
-      case msrSlur::kStartSlur:
-        cerr << "start";
-        break;
-      case msrSlur::kContinueSlur:
-        cerr << "start";
-        break;
-      case msrSlur::kStopSlur:
-        cerr << "start";
-        break;
-      case msrSlur::k_NoSlur:
-        cerr << "NO_SLUR";
-        break;
-    } // switch
-    cerr << "\"" << endl;
-
-    cerr <<
-      idtr <<
-        setw(27) <<
-        "fOnGoingSlur" << " = " << fOnGoingSlur <<
-        endl <<
-      idtr <<
-        setw(27) <<
-        "fOnGoingSlurHasLyrics" << " = " << fOnGoingSlurHasLyrics <<
-        endl;
-
-    cerr <<
-      idtr <<
-        setw(27) << "fFirstLyricschunkInSlurKind" << " = \"" <<
-        fFirstLyricschunkInSlurKind << // JMI->lyricschunkKindAsString () <<
-        "\"" << endl;
-
-    cerr <<
-      idtr <<
-        setw(27) << "fCurrentLyricschunkKind" << " = \""<<
-        fCurrentLyricschunkKind << // JMI ->lyricschunkKindAsString () <<
-        "\"" << endl;
-        
-    idtr--;
+  if (fCurrentNoteLyricchunks.size ()) {
+    for (
+      list<S_msrLyricschunk>::const_iterator i =
+        fCurrentNoteLyricchunks.begin();
+      i != fCurrentNoteLyricchunks.end();
+      i++ ) {
+      // set lyrics chunk note uplink to newNote
+      (*i)->setLyricschunkNote (newNote);
+    } // for
   }
 
-  if      (fCurrentSyllabic == "single")
-    fCurrentLyricschunkKind = msrLyricschunk::kSingleChunk;
-  else if (fCurrentSyllabic == "begin")
-    fCurrentLyricschunkKind = msrLyricschunk::kBeginChunk;
-  else if (fCurrentSyllabic == "middle")
-    fCurrentLyricschunkKind = msrLyricschunk::kMiddleChunk;
-  else if (fCurrentSyllabic == "end")
-    fCurrentLyricschunkKind = msrLyricschunk::kEndChunk;
-  else {
-    // no <syllabic /> specified for this note
-    fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
-  }
-
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      createVoiceInStaffInCurrentPartIfNeeded (
-        newNote->getInputLineNumber (),
-        fCurrentNoteStaffNumber,
-        fCurrentVoiceNumber);
-
-  if (fCurrentLyricschunkKind != msrLyricschunk::k_NoChunk) {
-
- //   string lyricschunkKindAsString;
-    
-    if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-      /*
-      cerr <<
-        ", type = \"" << lyricschunkKindAsString << "\"" <<
-        ", elision: " << fCurrentElision << 
-        " to " << getLyricsName () << endl;
-*/
-    }
-
-      
-    currentVoice->
-      addTextLyricschunkToVoice (
-        fCurrentLyricsNumber,
-        fCurrentSyllabic,
-        fCurrentLyricschunkKind,
-        fCurrentText,
-        fCurrentElision,
-        fNoteData.fDivisions,
-        newNote);
-
-    if (fOnGoingSlur)
-      fOnGoingSlurHasLyrics = true;
-      
-    fCurrentNoteHasLyrics = true;
-  }
+  // forget all of newNote's lyric chunks
+  fCurrentNoteLyricchunks.clear ();
   
-  else {
-
-    if (
-      fCurrentSlurKind == msrSlur::kStartSlur
-        &&
-      fCurrentNoteHasLyrics) { // JMI
-    }
-    
-    if (fCurrentTieKind != msrTie::k_NoTie) {
-      fCurrentLyricschunkKind = msrLyricschunk::kTiedChunk;
-      
-      currentVoice->
-        addTiedLyricschunkToVoice (
-          fCurrentLyricsNumber,
-          fNoteData.fDivisions,
-          newNote);
-    }
-  
-    else if (fNoteData.fStepIsARest) {
-      fCurrentLyricschunkKind = msrLyricschunk::kSkipChunk;
-
-      currentVoice->
-        addSkipLyricschunkToVoice (
-          fCurrentLyricsNumber,
-          fNoteData.fDivisions,
-          newNote);
-    }
-  
-    else if (
-      fOnGoingSlurHasLyrics
-        &&
-      ! fCurrentText.size ()) {
-      if (fFirstLyricschunkInSlurKind == msrLyricschunk::kEndChunk) {
-        fCurrentLyricschunkKind = msrLyricschunk::kSlurBeyondEndChunk;
-  
-        currentVoice->
-          addSlurBeyondEndLyricschunkToVoice ( 
-            fCurrentLyricsNumber,
-            fNoteData.fDivisions,
-            newNote);
-      }
-      else {        
-        fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
-  
-        currentVoice->
-          addSlurLyricschunkToVoice ( 
-            fCurrentLyricsNumber,
-            fNoteData.fDivisions,
-            newNote);
-      }
-    }
-    
-    else if (fOnGoingSlur) {
-      if (fFirstLyricschunkInSlurKind == msrLyricschunk::kEndChunk) {
-        fCurrentLyricschunkKind = msrLyricschunk::kSlurBeyondEndChunk;
-  
-        currentVoice->
-          addSlurBeyondEndLyricschunkToVoice (
-            fCurrentLyricsNumber,
-            fNoteData.fDivisions,
-            newNote);
-      }
-      else {        
-        fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
-  
-        currentVoice->
-          addSlurLyricschunkToVoice ( 
-            fCurrentLyricsNumber,
-            fNoteData.fDivisions,
-            newNote);
-      }
-    }
-    
-    else { // JMI
-    }
-  }
-
   if (fCurrentSlurKind == msrSlur::kStartSlur)
     fFirstLyricschunkInSlurKind = fCurrentLyricschunkKind;
     

@@ -4044,14 +4044,13 @@ S_msrLyricschunk msrLyricschunk::create (
   msrLyricschunkKind lyricschunkKind,
   string             chunkText,
   int                divisions,
-  S_msrNote          lyricschunkNote,
   S_msrLyrics        lyricschunkLyricsUplink)
 {
   msrLyricschunk* o =
     new msrLyricschunk (
       msrOpts, inputLineNumber,
       lyricschunkKind, chunkText, divisions,
-      lyricschunkNote, lyricschunkLyricsUplink);
+      lyricschunkLyricsUplink);
   assert(o!=0);
   return o;
 }
@@ -4062,7 +4061,6 @@ msrLyricschunk::msrLyricschunk (
   msrLyricschunkKind lyricschunkKind,
   string             chunkText,
   int                divisions,
-  S_msrNote          lyricschunkNote,
   S_msrLyrics        lyricschunkLyricsUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
@@ -4070,7 +4068,8 @@ msrLyricschunk::msrLyricschunk (
   fChunkText       = chunkText;
   fChunkDivisions  = divisions;
 
-  fLyricschunkNote = lyricschunkNote;
+  // fLyricschunkNote will be set by setLyricschunkNote later
+  
   fLyricschunkLyricsUplink = lyricschunkLyricsUplink;
 }
 
@@ -4086,7 +4085,6 @@ S_msrLyricschunk msrLyricschunk::createLyricschunkBareClone ()
         fLyricschunkKind,
         fChunkText,
         fChunkDivisions,
-        fLyricschunkNote,
         fLyricschunkLyricsUplink);
   
   return clone;
@@ -4465,7 +4463,6 @@ void msrLyrics::addSkipChunkToLyrics (
         fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kSkipChunk, "", divisions,
-        note,
         this);
   
   // add chunk to this lyrics
@@ -4683,7 +4680,6 @@ void msrLyrics::addBreakChunkToLyrics (
         inputLineNumber,
         msrLyricschunk::kBreakChunk,
         s.str(),
-        0,
         0,
         this);
         
@@ -7219,19 +7215,16 @@ void msrVoice::appendGracenotesToVoice (
   fMusicHasBeenInsertedInVoice = true;
 }
 
-void msrVoice::addTextLyricschunkToVoice (
+S_msrLyricschunk msrVoice::addTextLyricschunkToVoice (
+  int       inputLineNumber,
   int       lyricsNumber,
   string    syllabic,
   msrLyricschunk::msrLyricschunkKind
             lyricschunkKind,
   string    text,
   bool      elision,
-  int       divisions,
-  S_msrNote newNote)
+  int       divisions)
 {
-  int inputLineNumber =
-    newNote->getInputLineNumber ();
-    
   // create a 'Text' lyrics chunk
  if (true || fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
  // JMI  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
@@ -7257,29 +7250,28 @@ void msrVoice::addTextLyricschunkToVoice (
         inputLineNumber, lyricsNumber);
 
   S_msrLyricschunk
-    lyricshunk =
+    lyricschunk =
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
         lyricschunkKind,
         text,
         divisions,
-        newNote,
         lyrics);
 
   // add it to the lyrics
   lyrics->
-    addChunkToLyrics (lyricshunk);
+    addChunkToLyrics (lyricschunk);
+
+  // and return it
+  return lyricschunk;
 }
 
-void msrVoice::addSkipLyricschunkToVoice (
+S_msrLyricschunk msrVoice::addSkipLyricschunkToVoice (
+  int       inputLineNumber,
   int       lyricsNumber,
-  int       divisions,
-  S_msrNote newNote)
+  int       divisions)
 {
-  int inputLineNumber =
-    newNote->getInputLineNumber ();
-    
   // create a 'Skip' lyrics text chunk
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     cerr << idtr <<
@@ -7297,27 +7289,26 @@ void msrVoice::addSkipLyricschunkToVoice (
   
   // create 'Skip' lyrics chunk
   S_msrLyricschunk
-    lyricshunk =
+    lyricschunk =
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kSkipChunk, "", divisions,
-        newNote,
         lyrics);
         
   // add it to the lyrics
   lyrics->
-    addChunkToLyrics (lyricshunk);
+    addChunkToLyrics (lyricschunk);
+
+  // and return it
+  return lyricschunk;
 }
 
-void msrVoice::addTiedLyricschunkToVoice (
+S_msrLyricschunk msrVoice::addTiedLyricschunkToVoice (
+  int       inputLineNumber,
   int       lyricsNumber,
-  int       divisions,
-  S_msrNote newNote)
+  int       divisions)
 {
-  int inputLineNumber =
-    newNote->getInputLineNumber ();
-    
   // create a 'Tied' lyrics chunk
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     cerr << idtr <<
@@ -7341,22 +7332,21 @@ void msrVoice::addTiedLyricschunkToVoice (
         fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kTiedChunk, "", divisions,
-        newNote,
         lyrics);
         
   // add it to the lyrics
   lyrics->
     addChunkToLyrics (lyricschunk);
+
+  // and return it
+  return lyricschunk;
 }
 
-void msrVoice::addSlurLyricschunkToVoice (
+S_msrLyricschunk msrVoice::addSlurLyricschunkToVoice (
+  int       inputLineNumber,
   int       lyricsNumber,
-  int       divisions,
-  S_msrNote newNote)
+  int       divisions)
 {
-  int inputLineNumber =
-    newNote->getInputLineNumber ();
-    
   // create a 'Slur' lyrics text chunk
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     cerr << idtr <<
@@ -7376,27 +7366,26 @@ void msrVoice::addSlurLyricschunkToVoice (
   
   // create lyrics slur chunk
   S_msrLyricschunk
-    lyricshunk =
+    lyricschunk =
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kSlurChunk, "", divisions,
-        newNote,
         lyrics);
         
   // add it to the lyrics
   lyrics->
-    addChunkToLyrics (lyricshunk);
+    addChunkToLyrics (lyricschunk);
+
+  // and return it
+  return lyricschunk;
 }
 
-void msrVoice::addSlurBeyondEndLyricschunkToVoice (
+S_msrLyricschunk msrVoice::addSlurBeyondEndLyricschunkToVoice (
+  int       inputLineNumber,
   int       lyricsNumber,
-  int       divisions,
-  S_msrNote newNote)
+  int       divisions)
 {
-  int inputLineNumber =
-    newNote->getInputLineNumber ();
-  
   // create a 'SlurBeyondEnd' lyrics chunk
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     cerr << idtr <<
@@ -7415,17 +7404,19 @@ void msrVoice::addSlurBeyondEndLyricschunkToVoice (
   
   // create lyrics 'SlurBeyondEnd' chunk
   S_msrLyricschunk
-    lyricshunk =
+    lyricschunk =
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kSlurBeyondEndChunk, "", divisions,
-        newNote,
         lyrics);
         
   // add it to the lyrics
   lyrics->
-    addChunkToLyrics (lyricshunk);
+    addChunkToLyrics (lyricschunk);
+
+  // and return it
+  return lyricschunk;
 }
 
 void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
@@ -9687,14 +9678,14 @@ void msrMidi::print (ostream& os)
     case msrLyricschunk::kBeginChunk:
       {  
       // add lyrics chunk to this lyrics
-      fLyricschunks.push_back (lyricshunk);
+      fLyricschunks.push_back (lyricschunk);
       }
       break;
 
     case msrLyricschunk::kMiddleChunk:
     case msrLyricschunk::kEndChunk:
       // add chunk to this lyrics
-      fLyricschunks.push_back (lyricshunk);
+      fLyricschunks.push_back (lyricschunk);
       break;
       
     case msrLyricschunk::kSkipChunk:

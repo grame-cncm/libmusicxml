@@ -612,7 +612,9 @@ class EXP xml2MsrVisitor :
     int                       fCurrentLyricsNumber;
     bool                      fCurrentNoteHasLyrics;
     bool                      fCurrentLyricsHasText;
-    
+
+    list<S_msrLyricschunk>    fCurrentNoteLyricchunks;
+
     void                      handleLyrics (S_msrNote newNote);
 
     // barline handling

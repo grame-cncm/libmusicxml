@@ -3223,7 +3223,6 @@ class EXP msrLyricschunk : public msrElement
       msrLyricschunkKind lyricschunkKind,
       string             chunkText,
       int                divisions,
-      S_msrNote          lyricschunkNote,
       S_msrLyrics        lyricschunkLyricsUplink);
 
     SMARTP<msrLyricschunk> createLyricschunkBareClone ();
@@ -3239,7 +3238,6 @@ class EXP msrLyricschunk : public msrElement
       msrLyricschunkKind lyricschunkKind,
       string             chunkText,
       int                divisions,
-      S_msrNote          lyricschunkNote,
       S_msrLyrics        lyricschunkLyricsUplink);
         
     virtual ~msrLyricschunk();
@@ -3261,6 +3259,9 @@ class EXP msrLyricschunk : public msrElement
 
     int       getChunkDivisions () const
                   { return fChunkDivisions; }
+
+    void      setLyricschunkNote (S_msrNote note)
+                  { fLyricschunkNote = note; }
 
     // services
     // ------------------------------------------------------
@@ -4254,35 +4255,40 @@ class EXP msrVoice : public msrElement
     void          appendGracenotesToVoice (
                     S_msrGracenotes gracenotes);
     
-    void          addTextLyricschunkToVoice (
+    S_msrLyricschunk
+                  addTextLyricschunkToVoice (
+                    int       inputLineNumber,
                     int       lyricsNumber,
                     string    syllabic,
                     msrLyricschunk::msrLyricschunkKind
                               lyricschunkKind,
                     string    text,
                     bool      elision,
-                    int       divisions,
-                    S_msrNote newNote);
+                    int       divisions);
     
-    void          addSkipLyricschunkToVoice (
+    S_msrLyricschunk
+                  addSkipLyricschunkToVoice (
+                    int       inputLineNumber,
                     int       lyricsNumber,
-                    int       divisions,
-                    S_msrNote newNote);
+                    int       divisions);
     
-    void          addTiedLyricschunkToVoice (
+    S_msrLyricschunk
+                  addTiedLyricschunkToVoice (
+                    int       inputLineNumber,
                     int       lyricsNumber,
-                    int       divisions,
-                    S_msrNote newNote);
+                    int       divisions);
     
-    void          addSlurLyricschunkToVoice (
+    S_msrLyricschunk
+                  addSlurLyricschunkToVoice (
+                    int       inputLineNumber,
                     int       lyricsNumber,
-                    int       divisions,
-                    S_msrNote newNote);
+                    int       divisions);
     
-    void          addSlurBeyondEndLyricschunkToVoice (
+    S_msrLyricschunk
+                  addSlurBeyondEndLyricschunkToVoice (
+                    int       inputLineNumber,
                     int       lyricsNumber,
-                    int       divisions,
-                    S_msrNote newNote);
+                    int       divisions);
     
     void          appendBarCheckToVoice (S_msrBarCheck bnc);
     void          appendBarnumberCheckToVoice
