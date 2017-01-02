@@ -1683,7 +1683,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrArticulation& elt)
       fOstream << "-.";
       break;
     case msrArticulation::kStaccatissimo:
-      fOstream << "-^";
+      fOstream << "-!";
       break;
     case msrArticulation::kFermata:
       fOstream << "\\fermata";
@@ -2111,7 +2111,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
           fOstream << "-.";
           break;
         case msrArticulation::kStaccatissimo:
-          fOstream << "-^";
+          fOstream << "-!";
           break;
         case msrArticulation::kFermata:
           fOstream << "\\fermata";
@@ -2415,7 +2415,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
           fOstream << "-.";
           break;
         case msrArticulation::kStaccatissimo:
-          fOstream << "-^";
+          fOstream << "-!";
           break;
         case msrArticulation::kFermata:
           fOstream << "\\fermata";
