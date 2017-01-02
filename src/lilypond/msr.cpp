@@ -4693,6 +4693,34 @@ void msrLyrics::addChunkToLyrics (S_msrLyricschunk chunk)
       "--> Adding chunk to lyrics" << getLyricsName () << endl;
       
   fLyricschunks.push_back (chunk);
+
+  // does this lyrics contain text?
+  switch (chunk->getLyricschunkKind ()) {
+    case msrLyricschunk::kSingleChunk:
+    case msrLyricschunk::kBeginChunk:
+    case msrLyricschunk::kMiddleChunk:
+    case msrLyricschunk::kEndChunk:
+      // only now, in case addChunkToLyrics() is called
+      // from LPSR for example
+      this->setLyricsTextPresent ();
+      break;
+      
+    case msrLyricschunk::kSkipChunk:
+    case msrLyricschunk::kSlurChunk:
+    case msrLyricschunk::kSlurBeyondEndChunk:
+    case msrLyricschunk::kTiedChunk:
+    case msrLyricschunk::kBarcheckChunk:
+    case msrLyricschunk::kBreakChunk:
+      break;
+      
+    case msrLyricschunk::k_NoChunk:
+      msrInternalError (
+        fMsrOptions->fInputSourceName,
+        fInputLineNumber,
+        "lyrics chunk type has not been set");
+      break;
+  } // switch
+
 }
 
 void msrLyrics::acceptIn (basevisitor* v) {
@@ -7182,6 +7210,7 @@ void msrVoice::addTextLyricschunkToVoice (
     newNote->getInputLineNumber ();
     
   // create a lyrics text chunk
+ // JMI if (true || fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
 //    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink (); JMI
 //    S_msrPart  part  = staff-> getStaffPartUplink ();
@@ -7201,7 +7230,8 @@ void msrVoice::addTextLyricschunkToVoice (
 //      ", type = \"" << lyricschunkKindAsString << "\"" <<
       ", elision: " << elision <<
       " to lyrics " << lyricsNumber <<
-      " in voice " << getVoiceName () << endl;
+      " in voice \"" << getVoiceName () << "\"" <<
+      endl;
   }
 
   // is lyrics fCurrentLyricsNumber present in this voice?
@@ -7229,10 +7259,6 @@ void msrVoice::addTextLyricschunkToVoice (
   // add it to the lyrics
   lyrics->
     addChunkToLyrics (lyricshunk);
-
-  // this lyrics does contain text
-  lyrics->
-    setLyricsTextPresent ();
 }
 
 void msrVoice::addSkipLyricschunkToVoice (
