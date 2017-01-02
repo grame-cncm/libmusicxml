@@ -1,5 +1,5 @@
 -----------------------------------------------------------
-              MusicXML to Guido converter
+              MusicXML to LilyPond converter
 -----------------------------------------------------------
  You'll find below the list of elements supported by 
  the converter, followed by the list of unsupported 

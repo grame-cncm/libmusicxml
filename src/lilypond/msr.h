@@ -1495,8 +1495,7 @@ class EXP msrMeasure : public msrElement
     S_msrElement  getLastElementOfMeasure () const
                       { return fMeasureElementsList.back (); }
                       
-    void          removeLastElementFromMeasure ()
-                      { fMeasureElementsList.pop_back (); }
+    void          removeLastElementFromMeasure ();
 
     void          removeElementFromMeasure (S_msrElement elem);
 
@@ -1666,7 +1665,7 @@ class EXP msrVoicechunk : public msrElement
 
     int                  fVoicechunkMeasureNumber;
 
-    bool                 fMeasureNumberHasBeenSetInVoiceChunk;
+    bool                 fMeasureNumberHasBeenSetInVoiceChunk; // JMI
 
     S_msrVoice           fVoicechunVoicekUplink;
 };
@@ -4213,26 +4212,7 @@ class EXP msrVoice : public msrElement
     S_msrTime     getVoiceTime () const
                       { return fVoiceTime; }
                
-    // position in measure
-/*
-    void          setPositionInMeasure (int positionInMeasure)
-                      {
-                        fVoiceMeasureLocation.fPositionInMeasure =
-                          positionInMeasure;
-                      }
-                        
-    void          incrementPositionInMeasure (int increment)
-                      {
-                        fVoiceMeasureLocation.fPositionInMeasure +=
-                          increment;
-                      }
-
-    const int     getVoicePositionInMeasure () const
-                      {
-                        return fVoiceMeasureLocation.fPositionInMeasure;
-                      }
-      */              
-    // measure number
+     // measure number
     void          setVoiceMeasureNumber (
                     int inputLineNumber,
                     int measureNumber);
@@ -4358,7 +4338,7 @@ class EXP msrVoice : public msrElement
 
     int                       fVoiceMeasureNumber;
     
-    S_msrVoice                fVoiceVoicemaster;
+    S_msrVoice                fVoiceVoicemaster; // JMI
 
     // anacrusis detection
     bool                      fMeasureZeroHasBeenMetInVoice;

@@ -5522,6 +5522,15 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   }
 }
 
+void msrMeasure::removeLastElementFromMeasure ()
+{
+  if (fMeasureElementsList.size ())
+    fMeasureElementsList.pop_back ();
+  else {
+    //JMI
+  }
+}
+
 void msrMeasure::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -5890,8 +5899,8 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   */
 
   /*
-  An empty measure is created for measure 1 in case there is no upbeat,
-  at which time the first measure still has number 0 by default
+    An empty measure is created for measure 1 in case there is no upbeat,
+    at which time the first measure still has number 0 by default
   */
   
   if (! currentMeasureLength) {
@@ -6722,88 +6731,6 @@ void msrVoice::catchupToMeasureLocation (
 }
 */
 
-/*
-void msrVoice::setVoiceMeasureLocation (
-  int                       inputLineNumber,
-  const msrMeasureLocation& measureLocation)
-{
-  int
-    beatsNumber =
-      fVoiceStaffUplink->
-        getStaffTime ()->
-          getBeatsNumber (),
-          
-    beatsValue =
-      fVoiceStaffUplink->
-        getStaffTime ()->
-          getBeatsValue (),
-
-    divisionsPerWholeNote =
-      fVoiceDivisionsPerWholeNote,
-      
-    divisionsPerMeasure =
-      divisionsPerWholeNote * beatsNumber / beatsValue,
-          
-    positionInMeasure =
-      getVoicePositionInMeasure ();
-
-    if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-      cerr <<
-        endl <<
-        idtr << left <<
-          "=== setVoiceMeasureLocation ()" <<
-          ", voice = " << fVoiceNumber <<
-          ", voice name = " << getVoiceName () <<
-          ", positionInMeasure = " << positionInMeasure <<
-          endl <<
-        idtr <<
-          setw(36) << "fVoiceMeasureLocation.fMeasureNumber" << " = " <<
-          fVoiceMeasureLocation.fMeasureNumber <<
-          endl <<
-        idtr <<
-          setw(36) << "inputLineNumber" << " = " <<
-          inputLineNumber <<
-          endl <<
-        idtr <<
-          setw(36) << "fMusicHasBeenInsertedInVoice" << " = " <<
-          fMusicHasBeenInsertedInVoice <<
-          endl <<
-        idtr <<
-          setw(36) << "fMeasureZeroHasBeenMetInVoice" << " = " <<
-          fMeasureZeroHasBeenMetInVoice <<
-          endl <<
-        idtr <<
-          setw(36) << "beatsNumber" << " = " <<
-          beatsNumber <<
-          endl <<
-        idtr <<
-          setw(36) << "beatsValue" << " = " <<
-          beatsValue <<
-          endl <<
-        idtr <<
-          setw(36) << "divisionsPerWholeNote" << " = " <<
-          divisionsPerWholeNote <<
-          endl <<
-        idtr <<
-          setw(36) << "divisionsPerMeasure" << " = " <<
-          divisionsPerMeasure <<
-          endl <<
-        endl;
-    }
-
-  // catchup with rests if needed
-  catchupToMeasureLocation (
-    inputLineNumber,
-    divisionsPerWholeNote,
-    measureLocation);
-
-  // create a new measure
-
-  // register voice new measure number
-  fVoiceMeasureLocation = measureLocation;
-}
-*/
-
 void msrVoice::setVoiceMeasureNumber (
   int inputLineNumber,
   int measureNumber)
@@ -6816,6 +6743,10 @@ void msrVoice::setVoiceMeasureNumber (
       fVoiceMeasureNumber);
 
   fMeasureNumberHasBeenSetInVoice = true;
+
+  if (measureNumber == 0) {  
+    fMeasureZeroHasBeenMetInVoice = true;
+  }
 }
   
   /*
@@ -6997,7 +6928,20 @@ S_msrLyrics msrVoice::addLyricsToVoice (
         msrLyrics::kRegularLyrics,
         this);
 
-  // register it in this voice
+  // add it to this voice
+  addLyricsToVoice (lyrics);
+
+  // return it
+  return lyrics;
+}
+
+void msrVoice::addLyricsToVoice (S_msrLyrics lyrics)
+{
+  // get lyrics number
+  int lyricsNumber =
+    lyrics->getLyricsNumber ();
+    
+  // register lyrics in this voice
   if (fMsrOptions->fForceDebug || fMsrOptions->fTrace)
     cerr << idtr <<
       "Adding lyrics " << lyrics->getLyricsName () <<
@@ -7026,22 +6970,6 @@ S_msrLyrics msrVoice::addLyricsToVoice (
       lyrics->addChunkToLyrics ((*i));
     } // for
   }
-
-  // return it
-  return lyrics;
-}
-
-void msrVoice::addLyricsToVoice (S_msrLyrics lyrics)
-{
-  // register it in this voice
-  if (fMsrOptions->fTrace)
-    cerr << idtr <<
-      "Adding lyrics " << lyrics->getLyricsName () <<
-      " (" << lyrics->getLyricsNumber () <<
-      ") to voice \"" << getVoiceName () << "\"" <<
-      endl;
-
-  fVoiceLyricsMap [lyrics->getLyricsNumber ()] = lyrics;
 }
 
 S_msrLyrics msrVoice::fetchLyricsFromVoice (

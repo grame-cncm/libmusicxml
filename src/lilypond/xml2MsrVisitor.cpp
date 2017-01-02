@@ -2296,7 +2296,7 @@ void xml2MsrVisitor::visitEnd ( S_text& elt )
     text.begin(), text.end(), stringSpaceRemover (dest));
 
   if (fCurrentElision)
-    fCurrentText += " " + dest;
+    fCurrentText += " " + dest; // append to a list? JMI
   else
     fCurrentText = dest;
 

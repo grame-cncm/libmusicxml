@@ -858,6 +858,8 @@ void msr2LpsrVisitor::visitStart (S_msrGracenotes& elt)
     fOstream << idtr <<
       "--> Start visiting msrGracenotes" << endl;
 
+  bool doCreateAGraceNoteClone = false;
+  
   if (fCurrentNoteClone) {
     // there is a note before these grace notes
     
@@ -867,35 +869,20 @@ void msr2LpsrVisitor::visitStart (S_msrGracenotes& elt)
           "### msrGracenotes on a TRILLED note" <<
           endl;
 
-      // create a clone of this grace notes
-      fCurrentGracenotesClone =
-        elt->
-          createGracenotesBareClone (
-            fCurrentVoiceClone);
-    
-      // append it to the current voice clone
-      fCurrentVoiceClone->
-        appendGracenotesToVoice (
-          fCurrentGracenotesClone);
+      doCreateAGraceNoteClone = true; // JMI
     }
   
     else {
-      // create a clone of this grace notes
-      fCurrentGracenotesClone =
-        elt->
-          createGracenotesBareClone (
-            fCurrentVoiceClone);
-    
-      // append it to the current voice clone
-      fCurrentVoiceClone->
-        appendGracenotesToVoice (
-          fCurrentGracenotesClone);
+      doCreateAGraceNoteClone = true;
     }
   }
 
   else {
     // these grace notes are at the beginning of a voice JMI
-    
+    doCreateAGraceNoteClone = true; // JMI    
+  }
+
+  if (doCreateAGraceNoteClone) {
     // create a clone of this grace note
     fCurrentGracenotesClone =
       elt->
