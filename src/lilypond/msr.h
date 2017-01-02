@@ -4309,7 +4309,9 @@ class EXP msrVoice : public msrElement
 
     void          addLyricsToVoice (S_msrLyrics lyrics);
     
-    S_msrLyrics   fetchLyricsFromVoice (int lyricsNumber);
+    S_msrLyrics   createLyricsInVoiceIfNeeded (
+                    int inputLineNumber,
+                    int lyricsNumber);
     
     // visitors
     // ------------------------------------------------------

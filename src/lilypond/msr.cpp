@@ -4385,6 +4385,8 @@ S_msrLyrics msrLyrics::createLyricsBareClone (S_msrVoice clonedVoice)
   return clone;
 }
 
+/*
+
 void msrLyrics::addTextChunkToLyrics (
   int       inputLineNumber,
   string    syllabic,
@@ -4411,10 +4413,10 @@ void msrLyrics::addTextChunkToLyrics (
       ", syllabic = \"" << syllabic << "\"" <<
       ", text = \"" << text << "\"";
 
-/*
+/ *
     string lyricschunkKindAsString =
       lyricschunkAsString ();
-  */
+  * /
     cerr <<
  //     ", type = \"" << lyricschunkKindAsString << "\"" <<
       ", elision: " << elision << 
@@ -4436,6 +4438,7 @@ void msrLyrics::addTextChunkToLyrics (
 
   fLyricsTextPresent = true;
 }
+*/
 
 void msrLyrics::addSkipChunkToLyrics (
   int       inputLineNumber,
@@ -4508,6 +4511,7 @@ void msrLyrics::addSkipChunkToLyrics (
   */
 }
 
+/*
 void msrLyrics::addTiedChunkToLyrics (
   int       inputLineNumber,
   int       divisions,
@@ -4626,14 +4630,14 @@ void msrLyrics::addBarcheckChunkToLyrics (
   s << nextMeasureNumber;
   
   // create lyrics break chunk
-  /*
+  / *
   S_msrDuration
     nullMsrDuration =
       msrDuration::create (
         fMsrOptions,
         inputLineNumber,
         0, 1, 0, "");
-    */    
+    * /    
   S_msrLyricschunk
     chunk =
       msrLyricschunk::create (
@@ -4648,6 +4652,7 @@ void msrLyrics::addBarcheckChunkToLyrics (
   // add chunk to this lyrics
   fLyricschunks.push_back (chunk);
 }
+*/
 
 void msrLyrics::addBreakChunkToLyrics (
   int inputLineNumber,
@@ -5820,11 +5825,12 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
       currentMeasure->
         getMeasureDivisionsPerWholeMeasure ();
 
+/* JMI
   msrMeasure::msrMeasureKind
     currentMeasureKind =
       currentMeasure->
         getMeasureKind ();
-
+*/
         
   if (fMsrOptions->fDebug)
     cerr <<
@@ -6983,16 +6989,26 @@ void msrVoice::addLyricsToVoice (S_msrLyrics lyrics)
   }
 }
 
-S_msrLyrics msrVoice::fetchLyricsFromVoice (
+S_msrLyrics msrVoice::createLyricsInVoiceIfNeeded (
+  int inputLineNumber,
   int lyricsNumber)
 {
-  S_msrLyrics result;
-  
+  S_msrLyrics lyrics;
+
+  // is lyricsNumber already known in voice?
   if (fVoiceLyricsMap.count (lyricsNumber)) {
-    result = fVoiceLyricsMap [lyricsNumber];
+    // yes, use it
+    lyrics = fVoiceLyricsMap [lyricsNumber];
+  }
+  
+  else {
+    // no, add it to the voice
+    lyrics =
+      addLyricsToVoice (
+        inputLineNumber, lyricsNumber);
   }
 
-  return result;
+  return lyrics;
 }
 
 void msrVoice::appendClefToVoice (S_msrClef clef)
@@ -7227,16 +7243,11 @@ void msrVoice::addTextLyricschunkToVoice (
       endl;
   }
 
-  // is lyrics fCurrentLyricsNumber present in this voice?
+  // fetch lyricsNumber in this voice
   S_msrLyrics
     lyrics =
-      fetchLyricsFromVoice (lyricsNumber);
-
-  if (! lyrics)
-    // no, add it to the voice
-    lyrics =
-      addLyricsToVoice (
-        newNote->getInputLineNumber (), lyricsNumber);
+      createLyricsInVoiceIfNeeded (
+        inputLineNumber, lyricsNumber);
 
   S_msrLyricschunk
     lyricshunk =
@@ -7271,16 +7282,11 @@ void msrVoice::addSkipLyricschunkToVoice (
       " in voice " << getVoiceName () << endl;
   }
 
-  // is lyrics fCurrentLyricsNumber present in this voice?
+  // fetch lyricsNumber in this voice
   S_msrLyrics
     lyrics =
-      fetchLyricsFromVoice (lyricsNumber);
-
-  if (! lyrics)
-    // no, add it to the voice
-    lyrics =
-      addLyricsToVoice (
-        newNote->getInputLineNumber (), lyricsNumber);
+      createLyricsInVoiceIfNeeded (
+        inputLineNumber, lyricsNumber);
   
   // create 'Skip' lyrics chunk
   S_msrLyricschunk
@@ -7315,17 +7321,12 @@ void msrVoice::addTiedLyricschunkToVoice (
       endl;
   }
 
-  // is lyrics fCurrentLyricsNumber present in this voice?
+  // fetch lyricsNumber in this voice
   S_msrLyrics
     lyrics =
-      fetchLyricsFromVoice (lyricsNumber);
+      createLyricsInVoiceIfNeeded (
+        inputLineNumber, lyricsNumber);
 
-  if (! lyrics)
-    // no, add it to the voice
-    lyrics =
-      addLyricsToVoice (
-        newNote->getInputLineNumber (), lyricsNumber);
-  
   // create lyrics slur chunk
   S_msrLyricschunk
     lyricschunk =
@@ -7360,16 +7361,11 @@ void msrVoice::addSlurLyricschunkToVoice (
       endl;
   }
 
-  // is lyrics fCurrentLyricsNumber present in this voice?
+  // fetch lyricsNumber in this voice
   S_msrLyrics
     lyrics =
-      fetchLyricsFromVoice (lyricsNumber);
-
-  if (! lyrics)
-    // no, add it to the voice
-    lyrics =
-      addLyricsToVoice (
-        newNote->getInputLineNumber (), lyricsNumber);
+      createLyricsInVoiceIfNeeded (
+        inputLineNumber, lyricsNumber);
   
   // create lyrics slur chunk
   S_msrLyricschunk
@@ -7404,16 +7400,11 @@ void msrVoice::addSlurBeyondEndLyricschunkToVoice (
       endl;
   }
 
-  // is lyrics fCurrentLyricsNumber present in this voice?
+  // fetch lyricsNumber in this voice
   S_msrLyrics
     lyrics =
-      fetchLyricsFromVoice (lyricsNumber);
-
-  if (! lyrics)
-    // no, add it to the voice
-    lyrics =
-      addLyricsToVoice (
-        newNote->getInputLineNumber (), lyricsNumber);
+      createLyricsInVoiceIfNeeded (
+        inputLineNumber, lyricsNumber);
   
   // create lyrics 'SlurBeyondEnd' chunk
   S_msrLyricschunk
