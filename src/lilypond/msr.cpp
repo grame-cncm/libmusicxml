@@ -4235,9 +4235,9 @@ string msrLyricschunk::lyricschunkAsString ()
         setw(15) << "skip" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
         ", " <<
-        fLyricschunkNote->notePitchAsString () <<
+  // JMI      fLyricschunkNote->notePitchAsString () <<
         ":" <<
-        fLyricschunkNote->noteDivisionsAsMSRString () <<
+  // JMI      fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
       

@@ -969,7 +969,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
 
   S_msrVoice voice = elt->getVoice ();
 
-  S_msrStaff staff = voice-> getVoiceStaffUplink ();
+ // S_msrStaff staff = voice-> getVoiceStaffUplink ();
 
   fOstream << idtr <<
     "\\context Voice" << " = " <<
@@ -985,7 +985,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
       "\\set Voice.autoBeaming = ##f" <<
       endl;
 
-  if (staff->getStaffVoicesMap ().size () > 1) {
+  if (fCurrentMsrStaffClone->getStaffVoicesMap ().size () > 1) {
     fOstream << idtr;
     switch (voice->getVoiceNumber ()) {
       case 1:
