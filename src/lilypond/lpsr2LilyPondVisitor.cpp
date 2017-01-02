@@ -51,6 +51,14 @@ lpsr2LilyPondVisitor::lpsr2LilyPondVisitor (
   fOnGoingScoreBlock = false;
 
   fCurrentStemKind = msrStem::k_NoStem;
+
+  fMusicElementsCounter = 0;
+  
+  fMaxMusicElementsOnOneLine =
+    fLpsrOptions->fGenerateNoteInputLineNumbers
+      ?  5
+      : 10;
+  fMaxLyricchunksOnOneLine = 10;
 };
   
 lpsr2LilyPondVisitor::~lpsr2LilyPondVisitor () {}
@@ -1202,7 +1210,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoice& elt)
 
   fRelativeOctaveReference = 0;
 
-//  JMI fCurrentMsrVoiceNotesCounter = 0;
+  fMusicElementsCounter = 0;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrVoice& elt)
@@ -1383,7 +1391,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
     if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) {
-      if (++fLyricschunksCounter > 10) {
+      if (++fLyricschunksCounter > fMaxLyricchunksOnOneLine) {
         fOstream <<
           endl <<
           idtr;
@@ -1806,33 +1814,33 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         break;
         
       case msrNote::kStandaloneNote:
-        if (++fSequentialMusicElementsCounter > 10) {
+        if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
           fOstream <<
             endl <<
             idtr;
-          fSequentialMusicElementsCounter = 1;
+          fMusicElementsCounter = 1;
         }
 
         fOstream << "standalone";
         break;
         
       case msrNote::kGraceNote:
-        if (++fSequentialMusicElementsCounter > 10) {
+        if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
           fOstream <<
             endl <<
             idtr;
-          fSequentialMusicElementsCounter = 1;
+          fMusicElementsCounter = 1;
         }
 
         fOstream << "grace";
         break;
         
       case msrNote::kRestNote:
-        if (++fSequentialMusicElementsCounter > 10) {
+        if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
           fOstream <<
             endl <<
             idtr;
-          fSequentialMusicElementsCounter = 1;
+          fMusicElementsCounter = 1;
         }
         
         fOstream << "rest";
@@ -1843,11 +1851,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         break;
         
       case msrNote::kTupletMemberNote:
-        if (++fSequentialMusicElementsCounter > 10) {
+        if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
           fOstream <<
             endl <<
             idtr;
-          fSequentialMusicElementsCounter = 1;
+          fMusicElementsCounter = 1;
         }
 
         fOstream << "tuplet member";
@@ -1890,19 +1898,26 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
     }
   }
 
+  if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
+    fOstream <<
+      endl <<
+      idtr;
+    fMusicElementsCounter = 1;
+  }
+
+  /*
+  cout <<
+    "#### fMusicElementsCounter = " << fMusicElementsCounter << endl <<
+    "#### fMaxMusicElementsOnOneLine = " << fMaxMusicElementsOnOneLine << endl <<
+    endl;
+  */
+  
   switch (elt->getNoteKind ()) {
     
     case msrNote::k_NoNoteKind:
       break;
         
     case msrNote::kStandaloneNote:
-      if (++fSequentialMusicElementsCounter > 10) {
-        fOstream <<
-          endl <<
-          idtr;
-        fSequentialMusicElementsCounter = 1;
-      }
-
       // print the note name
       fOstream <<
         noteMsrPitchAsLilyPondString (elt);
@@ -1927,13 +1942,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       break;
 
     case msrNote::kGraceNote:
-      if (++fSequentialMusicElementsCounter > 10) {
-        fOstream <<
-          endl <<
-          idtr;
-        fSequentialMusicElementsCounter = 1;
-      }
-
       // print the note name
       fOstream <<
         noteMsrPitchAsLilyPondString (elt);
@@ -1962,14 +1970,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       fRelativeOctaveReference = elt;
       break;
       
-    case msrNote::kRestNote:
-      if (++fSequentialMusicElementsCounter > 10) {
-        fOstream <<
-          endl <<
-          idtr;
-        fSequentialMusicElementsCounter = 1;
-      }
-      
+    case msrNote::kRestNote:      
       // print the rest name
       fOstream <<
         string (
@@ -1998,13 +1999,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       break;
       
     case msrNote::kTupletMemberNote:
-      if (++fSequentialMusicElementsCounter > 10) {
-        fOstream <<
-          endl <<
-          idtr;
-        fSequentialMusicElementsCounter = 1;
-      }
-      
       // print the note name
       if (elt->getNoteIsARest ()) {
         fOstream <<
@@ -2377,11 +2371,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
 
   // don't take the chord into account for line breaking
   // * JMI
-  if (++fSequentialMusicElementsCounter > 10) {
+  if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
     fOstream <<
       endl <<
       idtr;
-    fSequentialMusicElementsCounter = 1;
+    fMusicElementsCounter = 1;
   }
   //*/
   
@@ -2639,11 +2633,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrEyeglasses& elt)
     fOstream << idtr <<
       "% --> Start visiting eyeglasses" << endl;
 
-  if (++fSequentialMusicElementsCounter > 10) {
+  if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
     fOstream <<
       endl <<
       idtr;
-    fSequentialMusicElementsCounter = 1;
+    fMusicElementsCounter = 1;
   }
 
   fOstream <<
@@ -2656,11 +2650,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrPedal& elt)
     fOstream << idtr <<
       "% --> Start visiting pedal" << endl;
 
-  if (++fSequentialMusicElementsCounter > 10) {
+  if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
     fOstream <<
       endl <<
       idtr;
-    fSequentialMusicElementsCounter = 1;
+    fMusicElementsCounter = 1;
   }
       
   switch (elt->getPedalType ()) {
@@ -2817,7 +2811,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBreak& elt)
     endl <<
     idtr;
 
-  fSequentialMusicElementsCounter = 1;
+  fMusicElementsCounter = 1;
   fLyricschunksCounter = 1;
 }
 

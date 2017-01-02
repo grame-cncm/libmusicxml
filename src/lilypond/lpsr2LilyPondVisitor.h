@@ -382,10 +382,6 @@ class lpsr2LilyPondVisitor :
     // ------------------------------------------------------
     S_msrLyricschunk      fCurrentMsrLyricschunkClone;
 
-    // sequential music
-    // ------------------------------------------------------
-    int                   fSequentialMusicElementsCounter;
-
     // stems
     msrStem::msrStemKind  fCurrentStemKind;
     S_msrStem             fCurrentStem;
@@ -399,7 +395,13 @@ class lpsr2LilyPondVisitor :
 
     // header handling
     // ------------------------------------------------------
-    bool                 fOnGoingHeader;
+    bool                  fOnGoingHeader;
+
+    // limiting line size
+    int                   fMusicElementsCounter;
+
+    int                   fMaxMusicElementsOnOneLine;
+    int                   fMaxLyricchunksOnOneLine;
 
 };
 
