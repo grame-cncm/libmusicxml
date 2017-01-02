@@ -617,11 +617,18 @@ void msr2LpsrVisitor::visitStart (S_msrLyricschunk& elt)
     fOstream << idtr <<
       "--> Start visiting msrLyricschunk" << endl;
 
+  // create the lyrics chunk clone
   fCurrentLyricschunkClone =
     elt->createLyricschunkBareClone ();
     
 // JMI  fCurrentLyricsClone->
     //addChunkToLyrics (fCurrentLyricschunkClone);
+
+  // set its note to the current note clone
+  elt->setLyricschunkNote (
+    fCurrentNoteClone);
+
+  // add it to the current lyrics clone
   fCurrentLyricsClone->
     addChunkToLyrics (elt);
 }
