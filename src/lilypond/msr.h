@@ -2775,8 +2775,8 @@ class EXP msrBreak : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int getNextBarNumber () const
-            { return fNextBarNumber; }
+    int         getNextBarNumber () const
+                  { return fNextBarNumber; }
 
     // services
     // ------------------------------------------------------

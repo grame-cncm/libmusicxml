@@ -1026,7 +1026,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewLyricsBlock& elt)
       "% --> Start visiting lpsrNewLyricsBlock" << endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
-    if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) {
+ //   if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) {
       fOstream <<
         idtr <<
           "\\new Lyrics" <<
@@ -1035,12 +1035,16 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewLyricsBlock& elt)
       idtr++;
       
       fOstream <<
-        idtr << "\\lyricsto" << " " <<
+        idtr <<
+          "\\lyricsto" << " " <<
           "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
-      endl <<
-      idtr << "\\" << elt->getLyrics ()->getLyricsName () <<
-      endl;
-    }
+          endl <<
+        idtr <<
+          "\\" << elt->getLyrics ()->getLyricsName () <<
+        endl;
+
+      idtr--;
+ //   }
   }
 }
 
@@ -1051,8 +1055,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewLyricsBlock& elt)
       "% --> End visiting lpsrNewLyricsBlock" << endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
-    if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) {
-      idtr--;
+    if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) { // JMI
     }
   }
 }
@@ -1337,7 +1340,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyrics& elt)
     fOngoingNonEmptyLyrics =
       elt->getLyricsTextPresent ();
 
-    if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) {
+    if (fOngoingNonEmptyLyrics) {
       fOstream << idtr <<
         elt->getLyricsName () << " = " << "\\lyricmode" << " {" <<
         endl;
@@ -1358,7 +1361,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrLyrics& elt)
       "% --> End visiting msrLyrics" << endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
-    if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) {
+    if (fOngoingNonEmptyLyrics) {
       idtr--;
     
       fOstream <<

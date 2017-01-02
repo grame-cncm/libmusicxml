@@ -7209,27 +7209,20 @@ void msrVoice::addTextLyricschunkToVoice (
   int inputLineNumber =
     newNote->getInputLineNumber ();
     
-  // create a lyrics text chunk
- // JMI if (true || fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+  // create a 'Text' lyrics chunk
+ if (true || fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+ // JMI  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
 //    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink (); JMI
 //    S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding text lyrics chunk"
+      "--> Adding 'Text' lyrics chunk"
       ", line " << inputLineNumber <<
       ", divisions = " << divisions << 
+      ", lyricsNumber = \"" << lyricsNumber << "\"" <<
       ", syllabic = \"" << syllabic << "\"" <<
-      ", text = \"" << text << "\"";
-
-/*
-    string lyricschunkKindAsString =
-      lyricschunkAsString ();
-  */
-    cerr <<
-//      ", type = \"" << lyricschunkKindAsString << "\"" <<
+      ", text = \"" << text << "\"" <<
       ", elision: " << elision <<
-      " to lyrics " << lyricsNumber <<
       " in voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -7269,24 +7262,12 @@ void msrVoice::addSkipLyricschunkToVoice (
   int inputLineNumber =
     newNote->getInputLineNumber ();
     
-  // create a lyrics text chunk
+  // create a 'Skip' lyrics text chunk
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink (); JMI
-//    S_msrPart  part  = staff-> getStaffPartUplink ();
-    
     cerr << idtr <<
-      "--> Adding skip lyrics chunk"
+      "--> Adding 'Skip' lyrics chunk"
       ", line " << inputLineNumber <<
       ", divisions = " << divisions <<
-
-/*
-    string lyricschunkKindAsString =
-      lyricschunkAsString ();
-  */
-
-//      ", type = \"" << lyricschunkKindAsString << "\"" <<
-//      ", elision: " << elision <<
-//      " in lyrics " << lyricsNumber <<
       " in voice " << getVoiceName () << endl;
   }
 
@@ -7301,13 +7282,13 @@ void msrVoice::addSkipLyricschunkToVoice (
       addLyricsToVoice (
         newNote->getInputLineNumber (), lyricsNumber);
   
-  // create lyrics slur chunk
+  // create 'Skip' lyrics chunk
   S_msrLyricschunk
     lyricshunk =
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        msrLyricschunk::kSlurBeyondEndChunk, "", divisions,
+        msrLyricschunk::kSkipChunk, "", divisions,
         newNote,
         lyrics);
         
@@ -7324,23 +7305,12 @@ void msrVoice::addTiedLyricschunkToVoice (
   int inputLineNumber =
     newNote->getInputLineNumber ();
     
-  // create a lyrics text chunk
+  // create a 'Tied' lyrics chunk
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink (); JMI
-//    S_msrPart  part  = staff-> getStaffPartUplink ();
-    
     cerr << idtr <<
-      "--> Adding tied lyrics chunk"
+      "--> Adding 'Tied' lyrics chunk"
       ", line " << inputLineNumber <<
       ", divisions = " << divisions <<
-
-/*
-    string lyricschunkKindAsString =
-      lyricschunkAsString ();
-  */
-//      ", type = \"" << lyricschunkKindAsString << "\"" <<
-//      ", elision: " << elision <<
-//      " in lyrics " << lyricsNumber <<
       " in voice " << getVoiceName () <<
       endl;
   }
@@ -7362,7 +7332,7 @@ void msrVoice::addTiedLyricschunkToVoice (
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        msrLyricschunk::kSlurBeyondEndChunk, "", divisions,
+        msrLyricschunk::kTiedChunk, "", divisions,
         newNote,
         lyrics);
         
@@ -7379,25 +7349,12 @@ void msrVoice::addSlurLyricschunkToVoice (
   int inputLineNumber =
     newNote->getInputLineNumber ();
     
-  // create a lyrics text chunk
+  // create a 'Slur' lyrics text chunk
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink (); JMI
-//    S_msrPart  part  = staff-> getStaffPartUplink ();
-    
     cerr << idtr <<
       "--> Adding 'Slur' lyrics chunk"
       ", line " << inputLineNumber <<
       ", divisions = " << divisions <<
-/*
-      endl;
-
-    string lyricschunkKindAsString =
-      lyricschunkAsString ();
-    cerr <<
-  */
-
-//      ", type = \"" << lyricschunkKindAsString << "\"" <<
-//      ", elision: " << elision <<
       " in lyrics " << lyricsNumber <<
       " in voice " << getVoiceName () <<
       endl;
@@ -7420,7 +7377,7 @@ void msrVoice::addSlurLyricschunkToVoice (
       msrLyricschunk::create (
         fMsrOptions,
         inputLineNumber,
-        msrLyricschunk::kSlurBeyondEndChunk, "", divisions,
+        msrLyricschunk::kSlurChunk, "", divisions,
         newNote,
         lyrics);
         
@@ -7437,25 +7394,12 @@ void msrVoice::addSlurBeyondEndLyricschunkToVoice (
   int inputLineNumber =
     newNote->getInputLineNumber ();
   
-  // create a lyrics text chunk
+  // create a 'SlurBeyondEnd' lyrics chunk
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink (); // JMI
-//    S_msrPart  part  = staff-> getStaffPartUplink ();
-    
     cerr << idtr <<
       "--> Adding 'SlurBeyondEnd' lyrics chunk"
       ", line " << inputLineNumber <<
       ", divisions = " << divisions <<
-      endl;
-
-/*
-    string lyricschunkKindAsString =
-      lyricschunkAsString ();
-  */
-    cerr <<
-//      ", type = \"" << lyricschunkKindAsString << "\"" <<
-//      ", elision: " << elision <<
-//      " in lyrics " << lyricsNumber <<
       " in voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -7471,7 +7415,7 @@ void msrVoice::addSlurBeyondEndLyricschunkToVoice (
       addLyricsToVoice (
         newNote->getInputLineNumber (), lyricsNumber);
   
-  // create lyrics slur chunk
+  // create lyrics 'SlurBeyondEnd' chunk
   S_msrLyricschunk
     lyricshunk =
       msrLyricschunk::create (
@@ -7498,7 +7442,7 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
     appendElementToVoicechunk (barCheck);
 
   // add bar check chunk to the voice master lyrics
-  /*
+  /* JMI
   fVoiceLyricsmaster->
     addBarcheckChunkToLyrics (
       barCheck->getInputLineNumber (),
@@ -7538,71 +7482,11 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
     appendElementToVoicechunk (break_);
 
   // add break chunk to the voice master lyrics
-  /*
   fVoiceLyricsmaster->
     addBreakChunkToLyrics (
       break_->getInputLineNumber (),
-      fVoiceMeasureLocation.fMeasureNumber);
-      */
+      break_->getNextBarNumber ());
 }
-
-/*
-void msrVoice::addSlurLyricschunkToVoice (
-  int       lyricsNumber,
-  int       divisions,
-  S_msrNote newNote)
-{
-  int inputLineNumber =
-    newNote->getInputLineNumber ();
-    
-  // create a lyrics text chunk
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
-//    S_msrPart  part  = staff-> getStaffPartUplink ();
-    
-    cerr << idtr <<
-      "--> Adding skip lyrics chunk"
-      ", line " << inputLineNumber <<
-      ", divisions = " << divisions <<
-      endl;
-
-/ *
-    string lyricschunkKindAsString =
-      lyricschunkAsString ();
-  * /
-    cerr <<
-//      ", type = \"" << lyricschunkKindAsString << "\"" <<
-//      ", elision: " << elision <<
-//      " in lyrics " << lyricsNumber <<
-      " in voice " << getVoiceName () << endl;
-  }
-
-  // is lyrics fCurrentLyricsNumber present in this voice?
-  S_msrLyrics
-    lyrics =
-      fetchLyricsFromVoice (lyricsNumber);
-
-  if (! lyrics)
-    // no, add it to the voice
-    lyrics =
-      addLyricsToVoice (
-        newNote->getInputLineNumber (), lyricsNumber);
-  
-  // create lyrics slur chunk
-  S_msrLyricschunk
-    lyricshunk =
-      msrLyricschunk::create (
-        fMsrOptions,
-        inputLineNumber,
-        msrLyricschunk::kSlurBeyondEndChunk, "", divisions,
-        newNote,
-        lyrics);
-        
-  // add it to the lyrics
-  lyrics->
-    addChunkToLyrics (lyricshunk);
-}
-*/
 
 void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
   if (fMsrOptions->fTrace)
