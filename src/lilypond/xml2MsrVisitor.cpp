@@ -2303,9 +2303,10 @@ void xml2MsrVisitor::visitEnd ( S_text& elt )
   fCurrentLyricsHasText = true;
 
 // JMI  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug)
-    cerr << idtr << left <<
-      "--> fCurrentLyricsNumber" << " = " << fCurrentLyricsNumber <<
-      ", fCurrentSyllabic" << " = " << setw(6) << fCurrentSyllabic <<
+    cerr << idtr <<
+      "--> line " << right << setw(5) << elt->getInputLineNumber () <<
+      ", fCurrentLyricsNumber" << " = " << fCurrentLyricsNumber <<
+      ", fCurrentSyllabic" << " = " << left << setw(6) << fCurrentSyllabic <<
       ", fCurrentText" << " = |" << fCurrentText << "|" << endl;
 }
 
@@ -3470,6 +3471,7 @@ void xml2MsrVisitor::visitStart ( S_note& elt )
 
   fCurrentNoteType = "";
 
+  fCurrentLyricsNumber = -1;
   fCurrentSyllabic = "";
   fCurrentText = "";  
   // assume this note hasn't got lyrics until S_lyric is met
@@ -5465,10 +5467,13 @@ void xml2MsrVisitor::handleTupletsPendingOnTupletStack ()
 //______________________________________________________________________________
 void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 {
+        if (fCurrentLyricsNumber != 6) cout << 0 / 0;
+
   int inputLineNumber =
     newNote->getInputLineNumber ();
      
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {    
+ // JMI if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+  if (true) {  
     cerr <<
       endl <<
       idtr <<
@@ -5482,17 +5487,23 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
       fNoteData <<
         
       idtr <<
-        setw(27) << "fCurrentText" << " = \"" << fCurrentText <<
-        "\":" << fNoteData.fDivisions << ", " << endl <<
+        setw(27) << "fCurrentLyricsNumber" << " = " << fCurrentLyricsNumber <<
+        endl <<
       idtr <<
-        setw(27) << "fCurrentElision" << " = " << fCurrentElision << endl <<
+        setw(27) << "fCurrentText" << " = \"" << fCurrentText <<
+        "\":" << fNoteData.fDivisions << ", " <<
+        endl <<
+      idtr <<
+        setw(27) << "fCurrentElision" << " = " << fCurrentElision <<
+        endl <<
       idtr <<
         setw(27) << "fNoteData.fStepIsARest" << " = ";
     if (fNoteData.fStepIsARest)
       cerr << "true";
     else
       cerr << "false";
-    cerr << endl;
+    cerr <<
+      endl;
 
     cerr <<
       idtr <<
@@ -5577,6 +5588,7 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
         " to " << getLyricsName () << endl;
 */
     }
+
       
     currentVoice->
       addTextLyricschunkToVoice (

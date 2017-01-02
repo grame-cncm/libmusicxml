@@ -6993,6 +6993,13 @@ S_msrLyrics msrVoice::createLyricsInVoiceIfNeeded (
   int inputLineNumber,
   int lyricsNumber)
 {
+ // if (fMsrOptions->fTrace)
+    cerr << idtr <<
+      "### --> createLyricsInVoiceIfNeeded (" << inputLineNumber <<
+      ", " << lyricsNumber << ")" <<
+      ", fVoiceLyricsMap.size() = " << fVoiceLyricsMap.size () <<
+      endl;
+
   S_msrLyrics lyrics;
 
   // is lyricsNumber already known in voice?
