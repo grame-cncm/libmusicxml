@@ -2089,7 +2089,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
       break;
   } // switch
 
-//  if (fMsrOptions->fDebug)
+  if (fLpsrOptions->fGenerateNoteInputLineNumbers)
     // print the note line number as a comment
     fOstream <<
       "%{ " << elt->getInputLineNumber () << " %} ";

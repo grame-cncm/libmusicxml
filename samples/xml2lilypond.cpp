@@ -165,6 +165,9 @@ void printUsage (int exitStatus)
     "    --noab, --noAutoBeaming" << endl <<
     "          Generate '\\set Voice.autoBeaming = ##f' in each voice " << endl <<
     "          to prevent LilyPond from handling beams automatically." << endl <<
+    "    --niln, --noteInputLineNumbers" << endl <<
+    "          Generate after each note a comment containing" << endl <<
+    "          its MusicXML input line number." << endl <<
     endl <<
     "    --nolpc, --dontGenerateLilyPondCode" << endl <<
     "          Don't generate LilyPond code." << endl <<
@@ -232,7 +235,7 @@ void analyzeOptions (
   lpsrOpts->fGenerateComments                 = false;
   lpsrOpts->fGenerateStems                    = false;
   lpsrOpts->fNoAutoBeaming                    = false;
-  lpsrOpts->fGeneratePositions                = false;
+  lpsrOpts->fGenerateNoteInputLineNumbers     = false;
 
   lpsrOpts->fDontGenerateLilyPondCode         = false;
 
@@ -277,7 +280,7 @@ void analyzeOptions (
 
   int displayLPSRPresent                = 0;
 
-  int fDontKeepLineBreaksPresent        = 0;
+  int dontKeepLineBreaksPresent         = 0;
 //  int fKeepStaffSizePresent             = 0; JMI
   
   int absolutePresent                   = 0;
@@ -286,7 +289,7 @@ void analyzeOptions (
   int commentsPresent                   = 0;
   int stemsPresent                      = 0;
   int noAutoBeamingPresent              = 0;
-  int positionsPresent                  = 0;
+  int noteInputLineNumbersPresent       = 0;
   
   int dontGenerateLilyPondLyricsPresent = 0;
 
@@ -472,11 +475,11 @@ void analyzeOptions (
     
     {
       "noBreaks",
-      no_argument, &fDontKeepLineBreaksPresent, 1
+      no_argument, &dontKeepLineBreaksPresent, 1
     },
     {
-      "fDontKeepLineBreaks",
-      no_argument, &fDontKeepLineBreaksPresent, 1
+      "dontKeepLineBreaks",
+      no_argument, &dontKeepLineBreaksPresent, 1
     },
     
     {
@@ -508,10 +511,13 @@ void analyzeOptions (
     },
     
     {
-      "positions",
-      no_argument, &positionsPresent, 1
+      "niln",
+      no_argument, &noteInputLineNumbersPresent, 1
     },
-    
+    {
+      "noteInputLineNumbers",
+      no_argument, &noteInputLineNumbersPresent, 1
+    },    
 
     {
       "nolpc",
@@ -792,39 +798,42 @@ void analyzeOptions (
           absolutePresent = false;
         }
 
-        if (fDontKeepLineBreaksPresent) {
+        if (dontKeepLineBreaksPresent) {
           lpsrOpts->fDontKeepLineBreaks = true;
           msrOpts->fCommandLineOptions +=
             "--dontKeepLineBreaks ";
-          fDontKeepLineBreaksPresent = false;
+          dontKeepLineBreaksPresent = false;
         }
 
         if (numericaltimePresent) {
           lpsrOpts->fGenerateNumericalTime = true;
           msrOpts->fCommandLineOptions +=
             "--numericalTime ";
+          numericaltimePresent = false;
         }
         if (commentsPresent) {
           lpsrOpts->fGenerateComments = true;
           msrOpts->fCommandLineOptions +=
             "--comments ";
-          numericaltimePresent = false;
+          commentsPresent = false;
         }
         if (stemsPresent) {
           lpsrOpts->fGenerateStems = true;
           msrOpts->fCommandLineOptions +=
             "--stems ";
+          stemsPresent = false;
         }
         if (noAutoBeamingPresent) {
           lpsrOpts->fNoAutoBeaming = true;
           msrOpts->fCommandLineOptions +=
             "--noAutoBeaming ";
+          noAutoBeamingPresent = false;
         }
-        if (positionsPresent) {
-          lpsrOpts->fGeneratePositions = true;
+        if (noteInputLineNumbersPresent) {
+          lpsrOpts->fGenerateNoteInputLineNumbers = true;
           msrOpts->fCommandLineOptions +=
-            "--positions ";
-          positionsPresent = false;
+            "--noteInputLineNumbers ";
+          noteInputLineNumbersPresent = false;
         }
         
         if (dontGenerateLilyPondLyricsPresent) {
@@ -1027,9 +1036,9 @@ void printOptions (
     idtr << setw(fieldWidth) << "noAutoBeaming" << " : " <<
       string(lpsrOpts->fNoAutoBeaming
       ? "true" : "false") << endl <<
-//      setw(fieldWidth) << "generatePositions" << " : " <<
-//        string(lpsrOpts->fGeneratePositions
-//        ? "true" : "false") << endl <<
+     idtr << setw(fieldWidth) << "generateNoteInputLineNumbers" << " : " <<
+      string(lpsrOpts->fGenerateNoteInputLineNumbers
+        ? "true" : "false") << endl <<
 
     idtr << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
       string(lpsrOpts->fDontGenerateLilyPondLyrics
