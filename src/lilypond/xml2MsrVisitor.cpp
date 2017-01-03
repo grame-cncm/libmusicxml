@@ -3921,6 +3921,18 @@ void xml2MsrVisitor::visitStart ( S_staccatissimo& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
+void xml2MsrVisitor::visitStart ( S_detached_legato& elt )
+{
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kDetachedLegato);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
 void xml2MsrVisitor::visitStart ( S_fermata& elt )
 {
   // type : upright inverted  (Binchois20.xml)
@@ -4436,16 +4448,6 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
   // copy firstNote's elements if any to the chord
   copyNoteElementsToChord (firstNote, chord);
     
-/* JMI ???
-  // move the firstNote's dynamics if any from the first note to the chord
-  moveNoteDynamicsToChord (firstNote, chord);
-  
-  // move the firstNote's words if any from the first note to the chord
-  moveNoteWordsToChord (firstNote, chord);
-  
-  // move the firstNote's wedges if any from the first note to the chord
-  moveNoteWedgesToChord (firstNote, chord);
-*/
   return chord;
 }
 
@@ -5349,7 +5351,6 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
     fOnGoingChord = true;
   }
 
-
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> adding new note " <<
@@ -5367,26 +5368,6 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
 
   // copy newNote's elements if any to the chord
   copyNoteElementsToChord (newNote, fCurrentChord);
-
-/* JMI ???
-  // attach the pending dynamics, if any, to the chord
-  attachPendingDynamicsToChord (fCurrentChord);
-
-  // attach the pending words, if any, to the chord
-  attachPendingWordsToChord (fCurrentChord);
-
-  // attach the pending wedges, if any, to the chord
-  attachPendingWedgesToChord (fCurrentChord);
-
-  // move newNote's dynamics if any from the first note to the chord
-  moveNoteDynamicsToChord (newNote, fCurrentChord);
-  
-  // move newNote's words if any from the first note to the chord
-  moveNoteWordsToChord (newNote, fCurrentChord);
-  
-  // move newNote's wedges if any from the first note to the chord
-  moveNoteWedgesToChord (newNote, fCurrentChord);
-*/
   
   // fetch current voice
   S_msrVoice
@@ -5598,8 +5579,8 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         setNoteKind (msrNote::kStandaloneNote);
   
     // register note/rest as standalone
-    if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
-      cerr <<  idtr <<
+// JMI   if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
+  {    cerr <<  idtr <<
         "--> adding standalone " <<
         newNote->notePitchAsString () <<
         ":" << newNote->getNoteDivisions () <<
@@ -5621,6 +5602,13 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
 
   // lyrics has to be handled in all cases to handle melismata
   handleLyrics (newNote);
+
+  // take care of slurs JMI ???
+  if (fCurrentSlurKind == msrSlur::kStartSlur)
+    fFirstLyricschunkInSlurKind = fCurrentLyricschunkKind;
+    
+  if (fCurrentSlurKind == msrSlur::kStopSlur)
+    fFirstLyricschunkInSlurKind = msrLyricschunk::k_NoChunk;
 
   // account for chord not being built
   fOnGoingChord = false;
@@ -5705,12 +5693,6 @@ void xml2MsrVisitor::handleLyrics (S_msrNote newNote)
 
   // forget all of newNote's lyric chunks
   fCurrentNoteLyricchunks.clear ();
-  
-  if (fCurrentSlurKind == msrSlur::kStartSlur)
-    fFirstLyricschunkInSlurKind = fCurrentLyricschunkKind;
-    
-  if (fCurrentSlurKind == msrSlur::kStopSlur)
-    fFirstLyricschunkInSlurKind = msrLyricschunk::k_NoChunk;
 }
 
 //______________________________________________________________________________

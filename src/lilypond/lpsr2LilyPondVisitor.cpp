@@ -1682,29 +1682,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrArticulation& elt)
     fOstream << idtr <<
       "% --> Start visiting msrArticulation" << endl;
 
-  // don't generate the articulation now,
+  // don't generate the articulation here,
   // the note or chord will do it in its visitEnd() method
-
-  /* JMI
-  switch (elt->getArticulationKind ()) {
-    case msrArticulation::kStaccato:
-      fOstream << "-.";
-      break;
-    case msrArticulation::kStaccatissimo:
-      fOstream << "-!";
-      break;
-    case msrArticulation::kFermata:
-      fOstream << "\\fermata";
-      break;
-    case msrArticulation::kTrill:
-      fOstream << "\\trill";
-      break;
-    case msrArticulation::kArpeggiato:
-      fOstream << "\\arpeggio YYY";
-      break;
-  } // switch
-  fOstream << " ";
-  */
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrArticulation& elt)
@@ -2107,6 +2086,9 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
         case msrArticulation::kStaccatissimo:
           fOstream << "-!";
           break;
+        case msrArticulation::kDetachedLegato:
+          fOstream << "-_";
+          break;
         case msrArticulation::kFermata:
           fOstream << "\\fermata";
           break;
@@ -2423,6 +2405,9 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
           break;
         case msrArticulation::kStaccatissimo:
           fOstream << "-!";
+          break;
+        case msrArticulation::kDetachedLegato:
+          fOstream << "-_";
           break;
         case msrArticulation::kFermata:
           fOstream << "\\fermata";

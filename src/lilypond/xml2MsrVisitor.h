@@ -175,6 +175,7 @@ class EXP xml2MsrVisitor :
   
   public visitor<S_staccato>,
   public visitor<S_staccatissimo>,
+  public visitor<S_detached_legato>,
   public visitor<S_trill_mark>,
   public visitor<S_arpeggiate>,
   public visitor<S_fermata>,
@@ -371,6 +372,7 @@ class EXP xml2MsrVisitor :
     
     virtual void visitStart ( S_staccato& elt );
     virtual void visitStart ( S_staccatissimo& elt );
+    virtual void visitStart ( S_detached_legato& elt );
     virtual void visitStart ( S_fermata& elt );
     virtual void visitStart ( S_trill_mark& elt );
     virtual void visitStart ( S_arpeggiate& elt );
@@ -730,14 +732,7 @@ class EXP xml2MsrVisitor :
                                 S_msrNote note);
     void                      attachPendingWedgesToNote (
                                 S_msrNote note);
-/*
-    void                      attachPendingDynamicsToChord (
-                                S_msrChord chord);
-    void                      attachPendingWordsToChord (
-                                S_msrChord chord);
-    void                      attachPendingWedgesToChord (
-                                S_msrChord chord);
-*/
+
     void                      copyNoteElementsToChord (
                                 S_msrNote note, S_msrChord chord);
                                 
@@ -749,14 +744,6 @@ class EXP xml2MsrVisitor :
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteWedgesToChord (
                                 S_msrNote note, S_msrChord chord);
-  /*
-    void                      moveNoteDynamicsToChord ( // JMI
-                                S_msrNote note, S_msrChord chord);
-    void                      moveNoteWordsToChord ( // JMI
-                                S_msrNote note, S_msrChord chord);
-    void                      moveNoteWedgesToChord ( // JMI
-                                S_msrNote note, S_msrChord chord);
-       */
        
     // description of the current MSR note
     // ------------------------------------------------------

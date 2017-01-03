@@ -562,6 +562,9 @@ string msrArticulation::articulationKindAsString () const
     case kStaccatissimo:
       result = "staccatissimo";
       break;
+    case kDetachedLegato:
+      result = "detached legato";
+      break;
     case kFermata:
       result = "fermata";
       break;

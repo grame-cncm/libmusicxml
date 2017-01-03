@@ -723,6 +723,7 @@ class EXP msrArticulation : public msrElement
 
     enum msrArticulationKind {
         kStaccato, kStaccatissimo,
+        kDetachedLegato,
         kFermata,
         kTrill,
         kArpeggiato };
