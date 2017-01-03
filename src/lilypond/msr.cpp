@@ -5505,7 +5505,24 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       s.str());
   }
 
-  fMeasureElementsList.push_back (note);
+  // first check whether there is a measure change
+// JMI  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
+  if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { // XXL
+    // measure overflows, create a new one
+    S_msrMeasure
+      newMeasure =
+        msrMeasure::create (
+          fMsrOptions,
+          note->getInputLineNumber (),
+          fMeasureNumber + 1,
+          fMeasureDivisionsPerWholeNote,
+          fMeasureVoicechunkUplink);
+
+    // append it to the voice chunk
+    fMeasureVoicechunkUplink->
+      appendMeasureToVoicechunk (
+        newMeasure);
+  }
 
   // populate measure uplink
   note->setNoteMeasureUplink (this);
@@ -5524,23 +5541,10 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   if (noteDivisions == fMeasureDivisionsPerWholeMeasure)
     note->setNoteOccupiesAFullMeasure ();
 
-  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
-// JMI  if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { XXL
-    // measure overflows, create a new one
-    S_msrMeasure
-      newMeasure =
-        msrMeasure::create (
-          fMsrOptions,
-          note->getInputLineNumber (),
-          fMeasureNumber + 1,
-          fMeasureDivisionsPerWholeNote,
-          fMeasureVoicechunkUplink);
-
-    // append it to the voice chunk
-    fMeasureVoicechunkUplink->
-      appendMeasureToVoicechunk (
-        newMeasure);
-  }
+  // append the note to the measure elements list
+  // only now to make it possible to remove it afterwards
+  // if it happens to be the first note of a chord
+  fMeasureElementsList.push_back (note);
 }
 
 void msrMeasure::removeLastElementFromMeasure ()
@@ -8550,7 +8554,7 @@ void msrPart::removePartEmptyVoices ()
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
- // JMI   ((*i).second->removeStaffEmptyVoices ());
+    ((*i).second->removeStaffEmptyVoices ());
   } // for
 }
 

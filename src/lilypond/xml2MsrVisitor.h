@@ -695,7 +695,7 @@ class EXP xml2MsrVisitor :
 
     // ------------------------------------------------------
     // chord handling
-    S_msrChord                fCurrentChord; // cannot be local to a method? JMI
+    S_msrChord                fCurrentChord;
     bool                      fOnGoingChord;
     
     S_msrChord                createChordFromItsFirstNote (
