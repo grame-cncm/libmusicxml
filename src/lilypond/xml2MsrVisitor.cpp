@@ -67,7 +67,7 @@ xml2MsrVisitor::xml2MsrVisitor (
   fCurrentBackupDuration = -1;
 
   fCurrentDirectionStaffNumber = 1; // it may be absent
-  
+
   fCurrentNoteStaffNumber = 0;
   fCurrentNoteVoiceNumber = 0;
   fOnGoingNote            = false;
@@ -4293,6 +4293,8 @@ void xml2MsrVisitor::visitStart ( S_grace& elt )
 void xml2MsrVisitor::visitStart ( S_chord& elt)
 {
   fNoteData.fNoteBelongsToAChord = true;
+
+  fOnGoingChord = true;
 }
 
 //______________________________________________________________________________
@@ -4409,9 +4411,9 @@ void xml2MsrVisitor::visitEnd ( S_unpitched& elt)
 S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
   S_msrNote firstNote)
 {
-  if (fMsrOptions->fDebug)
+//  if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> creating a chord on its 2nd note" <<
+      "--> creating a chord from its first note " <<
       firstNote <<
       endl;
   
@@ -5328,19 +5330,21 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
       "xml2MsrVisitor::handleNoteBelongingToAChord " <<
       newNote <<
       endl;
-      
+
+  int inputLineNumber =
+    newNote->getInputLineNumber ();
+    
   if (fNoteData.fStepIsARest)
     msrMusicXMLError (
       fMsrOptions->fInputSourceName,
-      newNote->getInputLineNumber (),
+      inputLineNumber,
       "a rest cannot belong to a chord");
 
   newNote->
     setNoteKind (msrNote::kChordMemberNote);
 
-
   // should a chord be created?
-  if (! fOnGoingChord) {
+  if (! fCurrentChord) {
     // create a chord with fLastHandledNote
     // (i.e the note preceding newNote)
     // as its first note
@@ -5358,10 +5362,11 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
       " to current chord" << endl;
     
   // register note as a member of fCurrentChord
-  if (fMsrOptions->fDebug)
+// JMI  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> registering new note " <<
-      newNote->notePitchAsString() <<
+      newNote->noteAsString () <<
+      ", line " << inputLineNumber <<
       " as a member of current chord" << endl;
   fCurrentChord->
     addNoteToChord (newNote);
@@ -5373,7 +5378,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
-        newNote->getInputLineNumber (),
+        inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
 
@@ -5385,10 +5390,8 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
       " from voice " << currentVoice->getVoiceName () <<
       endl;
 
-  /* JMI
   currentVoice->
     removeLastElementFromVoice ();
-*/
 
   // add fCurrentChord to the part sequence instead
   if (fMsrOptions->fDebug)
@@ -5474,11 +5477,14 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
       newNote <<
       endl;
 
+  int inputLineNumber =
+    newNote->getInputLineNumber ();
+    
   // fetch current voice
   S_msrVoice
     currentVoice =
       createVoiceInStaffInCurrentPartIfNeeded (
-        newNote->getInputLineNumber (),
+        inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
     
@@ -5494,7 +5500,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         endl <<
       idtr <<
         setw(31) << "--> inputLineNumber" << " = " <<
-        newNote->getInputLineNumber () <<
+        inputLineNumber <<
         endl <<
       idtr <<
         setw(31) << "--> fNoteData.fNoteIsAGraceNote" << " = " <<
@@ -5534,7 +5540,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
       fCurrentGracenotes =
         msrGracenotes::create (
           fMsrOptions, 
-          newNote->getInputLineNumber (),
+          inputLineNumber,
           fCurrentGraceIsSlashed,
           currentVoice);
 

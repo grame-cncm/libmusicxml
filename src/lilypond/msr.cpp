@@ -148,11 +148,11 @@ void msrNoteData::init ()
   
   fType = "";
 
-  fNoteIsAGraceNote = false;;
+  fNoteIsAGraceNote = false;
   
-  fNoteBelongsToAChord = false;;
+  fNoteBelongsToAChord = false;
   
-  fNoteBelongsToATuplet = false;;
+  fNoteBelongsToATuplet = false;
 
   fStaffNumber = 0;
   fVoiceNumber = 0;
@@ -2242,7 +2242,7 @@ S_msrChord msrChord::createEmptyChordClone ()
     
 void msrChord::addNoteToChord (S_msrNote note)
 {
-  /*
+  /* JMI
   if (! fChordNotes.size ())
     note->setNoteIsChordFirstNote (true);
 */
@@ -5524,7 +5524,8 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   if (noteDivisions == fMeasureDivisionsPerWholeMeasure)
     note->setNoteOccupiesAFullMeasure ();
 
-  if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
+  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
+// JMI  if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { XXL
     // measure overflows, create a new one
     S_msrMeasure
       newMeasure =
