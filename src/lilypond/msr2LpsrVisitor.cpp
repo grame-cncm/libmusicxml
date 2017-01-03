@@ -536,15 +536,12 @@ void msr2LpsrVisitor::visitEnd (S_msrMeasure& elt)
   switch (elt->getMeasureKind ()) {
     
     case msrMeasure::kRegularMeasure:
-      {
       // is the measure full? (positions start at 1)
-      /* JMI
       if (
         elt->getMeasureLength ()
           >=
         elt->getMeasureDivisionsPerWholeMeasure ()) {
         // yes, create a bar check
-        */
         S_msrBarCheck
           barCheck =
             msrBarCheck::create (

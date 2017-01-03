@@ -6084,11 +6084,11 @@ void msrVoicechunk::print (ostream& os)
 
   os <<
     idtr <<
-      "(VoicechunkDivisionsPerWholeNote = " <<
+      setw(32) << "(VoicechunkDivisionsPerWholeNote" << " = " <<
       fVoicechunkDivisionsPerWholeNote << ")" <<
       endl <<
     idtr <<
-      "(fVoicechunkTime = " <<
+      setw(32) << "(fVoicechunkTime" << " = " <<
       fVoicechunkTime->timeAsString () << ")" <<
       endl;
 
@@ -7551,6 +7551,32 @@ void msrVoice::print (ostream& os)
     endl;
 
   idtr++;
+
+  os <<
+    idtr <<
+      setw(32) << "(fMeasureZeroHasBeenMetInVoice" << " = " <<
+      string (
+        fMeasureZeroHasBeenMetInVoice
+          ? "true"
+          : "false") <<
+      ")" <<
+      endl <<
+    idtr <<
+      setw(32) << "(fMeasureNumberHasBeenSetInVoice" << " = " <<
+      string (
+        fMeasureNumberHasBeenSetInVoice
+          ? "true"
+          : "false") <<
+      ")" <<
+      endl <<
+    idtr <<
+      setw(32) << "(fMusicHasBeenInsertedInVoice" << " = " <<
+      string (
+        fMusicHasBeenInsertedInVoice
+          ? "true"
+          : "false") <<
+      ")" <<
+      endl;
 
   // print the voice chunk
   os << fVoiceVoicechunk;
