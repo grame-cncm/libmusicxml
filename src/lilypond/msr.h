@@ -1605,6 +1605,8 @@ class EXP msrVoicechunk : public msrElement
     // services
     // ------------------------------------------------------
 
+    void          forceVoicechunkMeasureNumberTo (int measureNumber);
+
     string        voicechunkAsString ();
 
     void          appendMeasureToVoicechunk (S_msrMeasure measure);
@@ -4203,6 +4205,9 @@ class EXP msrVoice : public msrElement
     int           getVoiceActualNotesCounter () const
                       { return fVoiceActualNotesCounter; }
 
+    int           getMeasureZeroHasBeenMetInVoice () const
+                      { return fMeasureZeroHasBeenMetInVoice; }
+
     // divisions per whole note
     void          setVoiceDivisionsPerWholeNote (
                     int divisionsPerWholeNote);
@@ -4234,6 +4239,9 @@ class EXP msrVoice : public msrElement
                     int                       divisionsPerWholeNote,
                     const msrMeasureLocation& measureLocation);
 */
+
+    void          forceVoiceMeasureNumberTo (int measureNumber);
+                      
     void          appendClefToVoice   (S_msrClef clef);
     void          appendKeyToVoice    (S_msrKey  key);
     void          appendTimeToVoice   (S_msrTime time);

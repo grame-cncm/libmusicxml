@@ -441,6 +441,10 @@ void msr2LpsrVisitor::visitStart (S_msrVoice& elt)
   // create a voice clone
   fCurrentVoiceClone =
     elt->createVoiceBareClone (fCurrentStaffClone);
+
+  // re-number it's first measure to 1 if needed
+  if (! fCurrentVoiceClone->getMeasureZeroHasBeenMetInVoice ())
+    fCurrentVoiceClone->forceVoiceMeasureNumberTo (1);
     
   // add it to the staff clone
   fCurrentStaffClone->
@@ -532,12 +536,15 @@ void msr2LpsrVisitor::visitEnd (S_msrMeasure& elt)
   switch (elt->getMeasureKind ()) {
     
     case msrMeasure::kRegularMeasure:
+      {
       // is the measure full? (positions start at 1)
+      /* JMI
       if (
         elt->getMeasureLength ()
           >=
         elt->getMeasureDivisionsPerWholeMeasure ()) {
         // yes, create a bar check
+        */
         S_msrBarCheck
           barCheck =
             msrBarCheck::create (

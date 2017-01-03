@@ -969,7 +969,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
 
   S_msrVoice voice = elt->getVoice ();
 
- // S_msrStaff staff = voice-> getVoiceStaffUplink ();
+  S_msrStaff staff = voice-> getVoiceStaffUplink ();
 
   fOstream << idtr <<
     "\\context Voice" << " = " <<
@@ -985,7 +985,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
       "\\set Voice.autoBeaming = ##f" <<
       endl;
 
-  if (fCurrentMsrStaffClone->getStaffVoicesMap ().size () > 1) {
+  if (staff->getStaffVoicesMap ().size () > 1) {
     fOstream << idtr;
     switch (voice->getVoiceNumber ()) {
       case 1:
@@ -1185,7 +1185,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrStaff& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrStaff" << endl;
-
+  
   fOnGoingStaff = false;
 }
 
@@ -1332,7 +1332,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrMeasure& elt)
   }
   else
     fOstream <<
-      endl;
+      endl <<
+      idtr;
 
   fVoicechunkNotesAndChordsCountersStack.pop ();
 }
@@ -2767,8 +2768,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarCheck& elt)
  // JMI if (nextBarNumber > 1)
     fOstream <<
       "| % " << nextBarNumber <<
-      endl <<
-      idtr;
+      endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarCheck& elt)

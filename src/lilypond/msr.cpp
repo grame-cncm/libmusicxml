@@ -5777,23 +5777,6 @@ S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone (
   return clone;
 }
 
-void msrVoicechunk::appendTimeToVoicechunk (S_msrTime time)
-{
-  if (fMsrOptions->fDebug)
-    cerr <<
-      idtr <<
-        "--> appending time " << time->timeAsString () <<
-        " to voice chunk" <<
-      endl;
-      
-  // retister time in voice chunk
-  fVoicechunkTime = time;
-
-  // append it to this voice chunk
-  S_msrElement t = time;
-  appendElementToVoicechunk (t);
-}
-
 void msrVoicechunk::setVoicechunkMeasureNumber (
   int inputLineNumber,
   int measureNumber)
@@ -5940,6 +5923,33 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
     newMeasure);
 
   fMeasureNumberHasBeenSetInVoiceChunk = true;
+}
+
+void msrVoicechunk::forceVoicechunkMeasureNumberTo (int measureNumber)
+{
+  fVoicechunkMeasureNumber = measureNumber;
+
+  if (fVoicechunkMeasuresList.size ()) {
+    fVoicechunkMeasuresList.back ()->
+      setMeasureNumber (measureNumber);
+  }
+};
+
+void msrVoicechunk::appendTimeToVoicechunk (S_msrTime time)
+{
+  if (fMsrOptions->fDebug)
+    cerr <<
+      idtr <<
+        "--> appending time " << time->timeAsString () <<
+        " to voice chunk" <<
+      endl;
+      
+  // retister time in voice chunk
+  fVoicechunkTime = time;
+
+  // append it to this voice chunk
+  S_msrElement t = time;
+  appendElementToVoicechunk (t);
 }
 
 void msrVoicechunk::appendMeasureToVoicechunk (S_msrMeasure measure)
@@ -6428,6 +6438,13 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
   clone->fVoiceDivisionsPerWholeNote =
     fVoiceDivisionsPerWholeNote;
 
+  clone->fMeasureZeroHasBeenMetInVoice =
+    fMeasureZeroHasBeenMetInVoice;
+  clone->fMeasureNumberHasBeenSetInVoice =
+    fMeasureNumberHasBeenSetInVoice;
+  clone->fMusicHasBeenInsertedInVoice =
+    fMusicHasBeenInsertedInVoice;
+
   // create the voice chunk
   if (fMsrOptions->fTrace)
     cerr << idtr <<
@@ -6754,148 +6771,14 @@ void msrVoice::setVoiceMeasureNumber (
     fMeasureZeroHasBeenMetInVoice = true;
   }
 }
-  
-  /*
-  enum voiceAnacrusisKind {
-      k_NoAnacrusis, kExplicitAnacrusis, kImplicitAnacrusis };
 
-  voiceAnacrusisKind anacrusisKind = k_NoAnacrusis;
+void msrVoice::forceVoiceMeasureNumberTo (int measureNumber)
+{
+  fVoiceMeasureNumber = measureNumber;
 
-  int
-    beatsNumber =
-      fVoiceStaffUplink->
-        getStaffTime ()->
-          getBeatsNumber (),
-          
-    beatsValue =
-      fVoiceStaffUplink->
-        getStaffTime ()->
-          getBeatsValue (),
-
-    divisionsPerWholeNote =
-      fVoiceDivisionsPerWholeNote,
-      
-    divisionsPerMeasure =
-      divisionsPerWholeNote * beatsNumber / beatsValue,
-          
-    positionInMeasure =
-      getVoicePositionInMeasure ();
-
-//    if (gMsrOptions->fForceDebug || fMsrOptions->fDebug)
-    cerr <<
-      endl <<
-      idtr << left <<
-      "=== measure " << measureNumber <<
-      ", voice = " << fVoiceNumber <<
-      ", voice name = " << getVoiceName () <<
-      ", positionInMeasure = " << positionInMeasure <<
-      endl <<
-      idtr <<
-        setw(36) << "fVoiceMeasureLocation.fMeasureNumber" << " = " <<
-        fVoiceMeasureLocation.fMeasureNumber <<
-        endl <<
-      idtr <<
-        setw(36) << "inputLineNumber" << " = " <<
-        inputLineNumber <<
-        endl <<
-      idtr <<
-        setw(36) << "fMusicHasBeenInsertedInVoice" << " = " <<
-        fMusicHasBeenInsertedInVoice <<
-        endl <<
-      idtr <<
-        setw(36) << "fMeasureZeroHasBeenMetInVoice" << " = " <<
-        fMeasureZeroHasBeenMetInVoice <<
-        endl <<
-      idtr <<
-        setw(36) << "beatsNumber" << " = " <<
-        beatsNumber <<
-        endl <<
-      idtr <<
-        setw(36) << "beatsValue" << " = " <<
-        beatsValue <<
-        endl <<
-      idtr <<
-        setw(36) << "divisionsPerWholeNote" << " = " <<
-        divisionsPerWholeNote <<
-        endl <<
-      idtr <<
-        setw(36) << "divisionsPerMeasure" << " = " <<
-        divisionsPerMeasure <<
-        endl <<
-      endl;
-
-  // register voice new measure number
-  fVoiceMeasureLocation.fMeasureNumber =
-    measureNumber;
-
-  // catchup with rests if needed
-  catchupToMeasureLocation (
-    inputLineNumber,
-    divisionsPerWholeNote,
-    fVoiceMeasureLocation);
-
-  if (measureNumber == 0) {  
-    fMeasureZeroHasBeenMetInVoice = true;
-  }
-  
-  else if (measureNumber == 1) {
-    if (
-      positionInMeasure > 1 // there may be initial measures without music
-        &&
-      positionInMeasure <= divisionsPerMeasure) { // positions start at 1
-        
-      if (fMeasureZeroHasBeenMetInVoice) {
-        int upbeatDivisions = positionInMeasure;
-  
-  //    if (gMsrOptions->fForceDebug || fMsrOptions->fDebug)
-        cerr <<
-          "====== upbeat found, upbeatDivisions = " <<
-          upbeatDivisions << "======" <<
-          endl;
-      }
-    
-      else {
-      }
-  
-    }
-
-    else {
-    }
-  }
-  
-
-
-  if (
-    positionInMeasure > 1 // there may be initial measures without music...
-      &&
-    positionInMeasure <= divisionsPerMeasure) {
-  }
-    
-/ *
-  if (measureNumber == 2)
-    cerr <<
-      "====== measureNumber == 2, positionInMeasure = " <<
-      getVoicePositionInMeasure () <<
-      endl;
-
-  if (
-    measureNumber == 0
-      &&
-    ! fMeasureNumberHasBeenSet) {
-  }
-  / *
-  else if (
-//    getVoicePositionInMeasure () == 13 JMI
- //     &&
-    measureNumber == 2
-      &&
-    ) {
-  }
-* /
-
-
-  }
-*/
+  fVoiceVoicechunk->
+    forceVoicechunkMeasureNumberTo (measureNumber);
+};
 
 void msrVoice::setNewVoicechunkForVoice (
   int inputLineNumber)

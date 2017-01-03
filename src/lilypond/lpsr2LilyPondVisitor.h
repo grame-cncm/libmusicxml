@@ -350,7 +350,7 @@ class lpsr2LilyPondVisitor :
     
     // staves
     // ------------------------------------------------------
-    S_msrStaff            fCurrentMsrStaffClone;
+   // JMI S_msrStaff            fCurrentMsrStaffClone;
     // prevent clef, key and time from being handled twice
     bool                  fOnGoingStaff;
 
