@@ -2160,7 +2160,13 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
     
       string wordsContents =
         (*i)->getWordsContents ();
-    
+
+      string wordsFontStyle =
+        (*i)->getWordsFontStyle ();
+        
+      string wordsFontWeight =
+        (*i)->getWordsFontWeight ();
+
       switch (wordsPlacementKind) {
         case msrWords::kAbove:
           fOstream << "^";
@@ -2171,7 +2177,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
       } // switch
     
       fOstream <<
-        "\\markup" << " { " <<
+        "\\markup" << " { ";
+      if (wordsFontStyle.size ())
+        fOstream <<
+          "\\" << wordsFontStyle << " ";
+      if (wordsFontWeight.size ())
+        fOstream <<
+          "\\" << wordsFontWeight << " ";
+      fOstream <<
         quoteStringIfNonAlpha (wordsContents) <<
         " } ";
     } // for

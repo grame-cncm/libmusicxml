@@ -6493,8 +6493,8 @@ msrVoice::msrVoice (
     fVoiceStaffUplink->
       getStaffDivisionsPerWholeNote ();
     
-  // there may be an anacrusis
-  fVoiceMeasureNumber = 0;
+  // there may be an anacrusis, but let's start with 1 anyway
+  fVoiceMeasureNumber = 1;
 
   fMeasureZeroHasBeenMetInVoice   = false;
   fMeasureNumberHasBeenSetInVoice = false;
