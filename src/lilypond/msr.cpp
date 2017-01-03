@@ -2795,12 +2795,12 @@ S_msrTuplet msrTuplet::create (
   int           number,
   int           actualNotes,
   int           normalNotes,
-  S_msrNote     firstNote)
+  int           notePositionInMeasure)
 {
   msrTuplet* o =
     new msrTuplet (
       msrOpts, inputLineNumber,
-      number, actualNotes, normalNotes, firstNote);
+      number, actualNotes, normalNotes, notePositionInMeasure);
   assert(o!=0);
   return o;
 }
@@ -2811,23 +2811,22 @@ msrTuplet::msrTuplet (
   int           number,
   int           actualNotes,
   int           normalNotes,
-  S_msrNote     firstNote)
+  int           notePositionInMeasure)
     : msrElement (msrOpts, inputLineNumber)
 {  
   fTupletNumber = number;
   
   fTupletActualNotes = actualNotes;
   fTupletNormalNotes = normalNotes;
-
-/*
+  
+/* JMI
   fTupletDivisions =
     firstNote->getNoteDivisions ();
   fTupletDisplayDivisions =
     firstNote->getNoteDisplayDivisions ();
 */
-  // position in measure is that of the first note
-  fTupletPositionInMeasure =
-    firstNote->getNotePositionInMeasure ();
+
+  fTupletPositionInMeasure = notePositionInMeasure;
 }
 
 msrTuplet::~msrTuplet() {}
@@ -2842,8 +2841,7 @@ S_msrTuplet msrTuplet::createTupletBareClone ()
         fTupletNumber,
         fTupletActualNotes,
         fTupletNormalNotes,
- // JMI       fTupletElements [0]); // any element would be fine
-        0); // any element would be fine
+        fTupletPositionInMeasure);
   
   return clone;
 }

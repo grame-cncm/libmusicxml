@@ -4710,7 +4710,7 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
         fCurrentTupletNumber,
         fCurrentActualNotes,
         fCurrentNormalNotes,
-        firstNote);
+        firstNote->getNotePositionInMeasure ());
 
   // tuplets's divisions per whole note is that of its first note
   tuplet->
@@ -5866,11 +5866,11 @@ void xml2MsrVisitor::handleHookedEndingEnd (
     addRepeatending (repeatEnding);
   
   if (fPendingBarlines.empty ()) {
-//       if (fMsrOptions->fDebug)
-    cerr <<
-      idtr <<
-      "--> there's an implicit repeat start at the beginning of the part" <<
-      endl;
+    if (fMsrOptions->fTrace)
+      cerr <<
+        idtr <<
+        "There's an implicit repeat start at the beginning of the part" <<
+        endl;
 
     // create the implicit barline
     S_msrBarline
@@ -5906,8 +5906,9 @@ void xml2MsrVisitor::handleHookedEndingEnd (
       // create the repeat
       if (fMsrOptions->fTrace)
         cerr << idtr <<
-          "Creating a repeat in voice " <<
-          currentVoice->getVoiceName () << endl;
+          "Creating a repeat containing current voice chunk in voice \"" <<
+          currentVoice->getVoiceName () << "\"" <<
+          endl;
 
       fCurrentRepeat =
         msrRepeat::create (
@@ -5917,20 +5918,22 @@ void xml2MsrVisitor::handleHookedEndingEnd (
     }
     
     // create a new voice chunk for the voice
-    if (fMsrOptions->fDebug)
+    if (fMsrOptions->fTrace)
       cerr << idtr <<
-        "--> setting new voice chunk for voice " <<
-        currentVoice->getVoiceName () << endl;
+        "Setting new voice chunk for voice " <<
+        currentVoice->getVoiceName () <<
+        endl;
         
     currentVoice->
       setNewVoicechunkForVoice (
         inputLineNumber);
 
     // add the repeat to the new voice chunk
-    if (fMsrOptions->fDebug)
+    if (fMsrOptions->fTrace)
       cerr << idtr <<
-        "--> appending the repeat to voice " <<
-        currentVoice->getVoiceName () << endl;
+        "Appending the repeat to voice \"" <<
+        currentVoice->getVoiceName () << "\"" <<
+        endl;
 
     currentVoice->
       appendRepeatToVoice (fCurrentRepeat);
@@ -6033,11 +6036,11 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
     appendRepeatToVoice (fCurrentRepeat);
 
   if (fPendingBarlines.empty ()) {
-//       if (fMsrOptions->fDebug)
-    cerr <<
-      idtr <<
-      "--> there's an implicit repeat start at the beginning of the part" <<
-      endl;
+    if (fMsrOptions->fTrace)
+      cerr <<
+        idtr <<
+        "There is an implicit repeat start at the beginning of the part" <<
+        endl;
 
     // create the implicit barline
     S_msrBarline
@@ -6195,11 +6198,11 @@ void xml2MsrVisitor::handleEndingEnd (
     appendBarlineToVoice (barline);
 
   if (fPendingBarlines.empty ()) {
-//       if (fMsrOptions->fDebug)
-    cerr <<
-      idtr <<
-      "--> there's an implicit repeat start at the beginning of the part" <<
-      endl;
+    if (fMsrOptions->fTrace)
+      cerr <<
+        idtr <<
+        "There is an implicit repeat start at the beginning of the part" <<
+        endl;
 
     // create the implicit barline
     S_msrBarline

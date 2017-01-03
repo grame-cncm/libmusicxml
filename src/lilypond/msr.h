@@ -2953,7 +2953,7 @@ class EXP msrTuplet : public msrElement
       int           number,
       int           actualNotes,
       int           normalNotes,
-      S_msrNote     firstNote);
+      int           notePositionInMeasure);
 
     SMARTP<msrTuplet> createTupletBareClone ();
 
@@ -2968,7 +2968,7 @@ class EXP msrTuplet : public msrElement
       int           number,
       int           actualNotes,
       int           normalNotes,
-      S_msrNote     firstNote);
+      int           notePositionInMeasure);
       
     virtual ~msrTuplet();
   
@@ -2998,7 +2998,7 @@ class EXP msrTuplet : public msrElement
                       
     const int   getTupletDivisionsPerWholeNote () const
                     { return fTupletDivisionsPerWholeNote; }
-          
+                    
     // location in measure
 /*
     void          setTupletMeasureLocation (

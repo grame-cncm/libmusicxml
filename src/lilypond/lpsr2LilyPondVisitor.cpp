@@ -1280,8 +1280,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
     fOstream << idtr <<
       "{" <<
       setw(30) << " " << "% start of msrMeasure" <<
-      endl <<
-      idtr;
+      endl;
 
     idtr++;
   }
