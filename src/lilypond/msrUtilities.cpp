@@ -1016,5 +1016,15 @@ string quoteStringIfNonAlpha (
     return result;
 }
 
+//______________________________________________________________________________
+string booleanAsString (bool value)
+{
+  return
+    string (
+      value
+        ? "true"
+        : "false");
+}
+
 
 }

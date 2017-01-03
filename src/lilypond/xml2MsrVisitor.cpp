@@ -5516,15 +5516,15 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         currentVoice->getVoiceName () <<
         endl <<
       idtr <<
-        "--> line = " <<
+        setw(31) << "--> inputLineNumber" << " = " <<
         newNote->getInputLineNumber () <<
         endl <<
       idtr <<
-        "--> fNoteData.fNoteIsAGraceNote = " <<
-        fNoteData.fNoteIsAGraceNote <<
+        setw(31) << "--> fNoteData.fNoteIsAGraceNote" << " = " <<
+        booleanAsString (fNoteData.fNoteIsAGraceNote) <<
         endl <<
       idtr <<
-        "--> fCurrentGracenotes = ";
+        setw(31) << "--> fCurrentGracenotes" << " = ";
         
     if (fCurrentGracenotes)
       cerr << fCurrentGracenotes;

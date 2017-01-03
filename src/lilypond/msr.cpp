@@ -8605,19 +8605,19 @@ void msrPart::print (ostream& os)
   
   os << left <<
     idtr <<
-      setw(22) << "PartDivisionsPerWholeNote" << ": " <<
+      setw(25) << "PartDivisionsPerWholeNote" << ": " <<
       fPartDivisionsPerWholeNote << endl <<
     idtr <<
-      setw(22) << "PartMSRName" << ": \"" <<
+      setw(25) << "PartMSRName" << ": \"" <<
       fPartMSRName << "\"" << endl <<
     idtr <<
-      setw(22) << "PartName" << ": \"" <<
+      setw(25) << "PartName" << ": \"" <<
       fPartName << "\"" << endl <<
     idtr <<
-      setw(22) << "PartAbbrevation" << ": \"" <<
+      setw(25) << "PartAbbrevation" << ": \"" <<
       fPartAbbreviation << "\"" << endl <<
     idtr <<
-      setw(22) << "PartInstrumentName" << ": \"" <<
+      setw(25) << "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" << endl;
 
   if (fPartStavesMap.size()) {

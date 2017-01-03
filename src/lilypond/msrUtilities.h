@@ -256,6 +256,9 @@ string noteTypeAsMSRDuration (
 string quoteStringIfNonAlpha (
   string     theString);
 
+//______________________________________________________________________________
+string booleanAsString (bool value);
+
 
 } // namespace MusicXML2
 
