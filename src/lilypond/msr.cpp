@@ -1619,14 +1619,14 @@ void msrNote::addWedgeToNote (S_msrWedge wedge)
   fNoteWedges.push_back (wedge);
 }
 
-S_msrDynamics msrNote::removeFirstDynamics ()
+S_msrDynamics msrNote::removeFirstDynamics () // JMI
 {
   S_msrDynamics dyn = fNoteDynamics.front ();
   fNoteDynamics.pop_front ();
   return dyn;
 }
 
-S_msrWedge msrNote::removeFirstWedge ()
+S_msrWedge msrNote::removeFirstWedge () // JMI
 {
   S_msrWedge wedge = fNoteWedges.front ();
   fNoteWedges.pop_front ();
@@ -5491,6 +5491,20 @@ void msrMeasure::setMeasureTime (S_msrTime time)
 
 void msrMeasure::appendNoteToMeasure (S_msrNote note)
 {
+  if (note->getNoteKind () == msrNote::kChordMemberNote) {
+    stringstream s;
+
+    s <<
+      "appendNoteToMeasure(): chord member note " <<
+      note->noteAsString () <<
+      " appears outside of a chord";
+
+    msrInternalError (
+      fMsrOptions->fInputSourceName,
+      note->getInputLineNumber (),
+      s.str());
+  }
+
   fMeasureElementsList.push_back (note);
 
   // populate measure uplink
@@ -5533,7 +5547,10 @@ void msrMeasure::removeLastElementFromMeasure ()
   if (fMeasureElementsList.size ())
     fMeasureElementsList.pop_back ();
   else {
-    //JMI
+    msrInternalError (
+      fMsrOptions->fInputSourceName,
+      10000,
+      "cannot removeLastElementFromMeasure () since it is empty");
   }
 }
 
@@ -5895,7 +5912,8 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   
   if (! currentMeasureLength) {
     // remove empty measure
-    fVoicechunkMeasuresList.pop_back ();
+    if (! fVoicechunkMeasuresList.size ())
+      fVoicechunkMeasuresList.pop_back (); // JMI
 
     // set new current measure number to 1 instead of 0
     if (fVoicechunkMeasuresList.size ()) {
@@ -8531,7 +8549,7 @@ void msrPart::removePartEmptyVoices ()
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    ((*i).second->removeStaffEmptyVoices ());
+ // JMI   ((*i).second->removeStaffEmptyVoices ());
   } // for
 }
 

@@ -1019,8 +1019,22 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
       break;
       
     case msrNote::kChordMemberNote:
-      fCurrentChordClone->
-        addNoteToChord (fCurrentNoteClone);
+      if (fOnGoingChord)
+        fCurrentChordClone->
+          addNoteToChord (fCurrentNoteClone);
+      else {
+        stringstream s;
+
+        s <<
+          "msr2LpsrVisitor:::visitEnd (S_msrNote& elt): chord member note " <<
+          elt->noteAsString () <<
+          " appears outside of a chord";
+
+        msrInternalError (
+          fMsrOptions->fInputSourceName,
+          elt->getInputLineNumber (),
+          s.str());
+        }
       break;
       
     case msrNote::kTupletMemberNote:

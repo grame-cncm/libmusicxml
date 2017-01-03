@@ -1078,7 +1078,7 @@ void xml2MsrVisitor::visitEnd (S_part& elt)
         endl <<
       endl;
 
-  // all voices were generated from the start,
+  // all voices were generated from the start, // JMI
   // but some may have remained empty
   fCurrentPart->
     removePartEmptyVoices ();
@@ -5377,12 +5377,6 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
 
-  // substract it's duration from the current measure location
-  /* JMI ???
-  currentVoice->incrementPositionInMeasure (
-    - newNote-> getNoteDivisions ());
-*/
-
   // remove previous current note or the previous state of the chord JMI ???
   // from the current voice sequence
   if (fMsrOptions->fDebug)
@@ -5390,9 +5384,11 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
       "--> removing last element " <<
       " from voice " << currentVoice->getVoiceName () <<
       endl;
-      
+
+  /* JMI
   currentVoice->
     removeLastElementFromVoice ();
+*/
 
   // add fCurrentChord to the part sequence instead
   if (fMsrOptions->fDebug)
