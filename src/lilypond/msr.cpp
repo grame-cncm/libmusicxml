@@ -2210,7 +2210,7 @@ msrChord::msrChord (
 
 msrChord::~msrChord() {}
 
-S_msrChord msrChord::createEmptyChordClone ()
+S_msrChord msrChord::createChordBareClone ()
 {
   S_msrChord
     clone =
@@ -5567,16 +5567,24 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   fMeasureElementsList.push_back (note);
 }
 
-void msrMeasure::removeLastElementFromMeasure ()
+S_msrElement msrMeasure::removeLastElementFromMeasure (
+  int inputLineNumber)
 {
-  if (fMeasureElementsList.size ())
+  S_msrElement result;
+  
+  if (fMeasureElementsList.size ()) {
+    result = fMeasureElementsList.back ();
     fMeasureElementsList.pop_back ();
+  }
+  
   else {
     msrInternalError (
       fMsrOptions->fInputSourceName,
-      10000,
+      inputLineNumber,
       "cannot removeLastElementFromMeasure () since it is empty");
   }
+
+  return result;
 }
 
 void msrMeasure::acceptIn (basevisitor* v) {
@@ -7501,7 +7509,8 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
 }
 */
 
-void msrVoice::removeLastElementFromVoice ()
+S_msrElement msrVoice::removeLastElementFromVoice (
+  int inputLineNumber)
 {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -7509,7 +7518,8 @@ void msrVoice::removeLastElementFromVoice ()
       " from voice " << getVoiceName () << endl;
 
   fVoiceVoicechunk->
-    removeLastElementFromVoicechunk ();
+    removeLastElementFromVoicechunk (
+      inputLineNumber);
 }
 
 void msrVoice::acceptIn (basevisitor* v) {
@@ -8282,7 +8292,7 @@ msrPart::msrPart (
 
 msrPart::~msrPart() {}
 
-S_msrPart msrPart::createEmptyPartClone (S_msrPartgroup clonedPartgroup)
+S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
 {
   S_msrPart
     clone =
@@ -8738,7 +8748,7 @@ msrPartgroup::msrPartgroup (
 
 msrPartgroup::~msrPartgroup() {}
 
-S_msrPartgroup msrPartgroup::createEmptyPartgroupClone (
+S_msrPartgroup msrPartgroup::createPartgroupBareClone (
   S_msrPartgroup clonedPartgroup)
 {
 

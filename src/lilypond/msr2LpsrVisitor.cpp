@@ -283,7 +283,7 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
   // create a partgroup clone
   // current partgroup clone is the uplink of the new one
   fCurrentPartgroupClone =
-    elt->createEmptyPartgroupClone (
+    elt->createPartgroupBareClone (
       fCurrentPartgroupClone);
 
   // add it to the MSR score clone
@@ -363,7 +363,7 @@ void msr2LpsrVisitor::visitStart (S_msrPart& elt)
 
   // create a part clone
   fCurrentPartClone =
-    elt->createEmptyPartClone (
+    elt->createPartBareClone (
       fCurrentPartgroupClone);
 
   // add it to the partgroup clone
@@ -1096,7 +1096,7 @@ void msr2LpsrVisitor::visitStart (S_msrChord& elt)
       "--> Start visiting msrChord" << endl;
 
   fCurrentChordClone =
-    elt->createEmptyChordClone ();
+    elt->createChordBareClone ();
 
   // appending the chord to the voice at once
   fCurrentVoiceClone->

@@ -4292,6 +4292,9 @@ void xml2MsrVisitor::visitStart ( S_grace& elt )
 //______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_chord& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   fNoteData.fNoteBelongsToAChord = true;
 
   // should a chord be created?
@@ -4307,7 +4310,7 @@ void xml2MsrVisitor::visitStart ( S_chord& elt)
     S_msrVoice
       currentVoice =
         createVoiceInStaffInCurrentPartIfNeeded (
-          elt->getInputLineNumber (),
+          inputLineNumber,
           fCurrentNoteStaffNumber,
           fCurrentVoiceNumber);
   
@@ -4318,9 +4321,27 @@ void xml2MsrVisitor::visitStart ( S_chord& elt)
         fLastHandledNote->noteAsString () <<
         " from voice \"" << currentVoice->getVoiceName () << "\"" <<
         endl;
+
+    S_msrElement
+      lastElementFromVoice =
+        currentVoice->
+          removeLastElementFromVoice (inputLineNumber);
+
+    if (lastElementFromVoice != fLastHandledNote) {
+      stringstream s;
   
-    currentVoice->
-      removeLastElementFromVoice ();
+      s <<
+        "last element of voice just removed is:" << endl <<
+        lastElementFromVoice << endl <<
+        "while it should be:" <<
+        fLastHandledNote << endl <<
+        endl;
+        
+      msrInternalError (
+        fMsrOptions->fInputSourceName,
+        inputLineNumber,
+        s.str());
+    }
   
     // add fCurrentChord to the voice instead
     if (fMsrOptions->fDebug)

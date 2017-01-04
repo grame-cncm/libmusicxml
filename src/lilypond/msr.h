@@ -1496,7 +1496,8 @@ class EXP msrMeasure : public msrElement
     S_msrElement  getLastElementOfMeasure () const
                       { return fMeasureElementsList.back (); }
                       
-    void          removeLastElementFromMeasure ();
+    S_msrElement  removeLastElementFromMeasure (
+                    int inputLineNumber);
 
     void          removeElementFromMeasure (S_msrElement elem);
 
@@ -1626,10 +1627,13 @@ class EXP msrVoicechunk : public msrElement
                           prependElementToMeasure (elem);
                       }
 
-    void          removeLastElementFromVoicechunk ()
+    S_msrElement  removeLastElementFromVoicechunk (
+                    int inputLineNumber)
                       {
-                        fVoicechunkMeasuresList.back ()->
-                          removeLastElementFromMeasure ();
+                        return
+                          fVoicechunkMeasuresList.back ()->
+                            removeLastElementFromMeasure (
+                              inputLineNumber);
                       }
 
 /*
@@ -2170,7 +2174,7 @@ class EXP msrChord : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    SMARTP<msrChord> createEmptyChordClone ();
+    SMARTP<msrChord> createChordBareClone ();
 
   protected:
 
@@ -4319,7 +4323,8 @@ class EXP msrVoice : public msrElement
     void          appendEyeglassesToVoice (S_msrEyeglasses eyeglasses);
     void          appendPedalToVoice (S_msrPedal pedal);
     
-    void          removeLastElementFromVoice ();
+    S_msrElement  removeLastElementFromVoice (
+                    int inputLineNumber);
 
     S_msrLyrics
                   addLyricsToVoice (
@@ -4559,7 +4564,7 @@ class EXP msrPart : public msrElement
       string         partID,
       S_msrPartgroup partPartgroupUplink);
                 
-    SMARTP<msrPart> createEmptyPartClone (
+    SMARTP<msrPart> createPartBareClone (
       S_msrPartgroup clonedPartgroup);
 
   protected:
@@ -4778,7 +4783,7 @@ class EXP msrPartgroup : public msrElement
       bool                   partgroupBarline,
       S_msrPartgroup         partgroupPartgroupUplink);
 
-    SMARTP<msrPartgroup> createEmptyPartgroupClone (
+    SMARTP<msrPartgroup> createPartgroupBareClone (
       S_msrPartgroup clonedPartgroup); // the uplink
 
   protected:
