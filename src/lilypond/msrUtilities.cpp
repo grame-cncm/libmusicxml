@@ -47,7 +47,34 @@ void indenter::print (ostream& os) const
   while (i-- > 0) os << fSpacer;
 }
 
-indenter indenter::gIndenter; // global variable for general use
+indenter indenter::gIndenter;
+
+//______________________________________________________________________________
+outputLineElementsCounter::outputLineElementsCounter (int maxElementsPerLine)
+{
+  fElementsCounter    = 0;
+  fMaxElementsPerLine = maxElementsPerLine;
+}
+
+outputLineElementsCounter::~outputLineElementsCounter () {}
+
+outputLineElementsCounter& outputLineElementsCounter::operator++ (int)
+{
+  fElementsCounter++;
+  
+  if (fElementsCounter > fMaxElementsPerLine) {
+    cerr <<
+      endl <<
+      indenter::gIndenter;
+
+    fElementsCounter = 0;
+  }
+    
+  return *this;
+}
+
+outputLineElementsCounter
+outputLineElementsCounter::gOutputLineElementsCounter;
 
 //______________________________________________________________________________
 string int2EnglishWord (int n)

@@ -52,15 +52,15 @@ class indenter {
           if (fIndent < 0) {
             cerr <<
               endl <<
-              "### Indentation has become negative..." << endl <<
-              endl;
+              "### Indentation has become negative..." <<
+              endl << endl;
             assert(false);
           }
             
           return *this;
         }
     
-    // reset the indentation to none
+    // output as much space as specified
     void print (ostream& os) const;
 
     // global variable for general use
@@ -72,6 +72,33 @@ class indenter {
     string fSpacer;
 };
 ostream& operator<< (ostream& os, const indenter& number);
+
+//______________________________________________________________________________
+/*!
+\internal
+\brief Provides easy control of output lines length.
+*/
+class outputLineElementsCounter {
+  public:
+
+    outputLineElementsCounter (int maxElementsPerLine = 10);
+    virtual ~outputLineElementsCounter();
+
+    // increase the counter
+    outputLineElementsCounter& operator++ (int);
+    
+    // initialize the counter
+    void init (int value)
+        { fElementsCounter = value; }
+    
+    // global variable for general use
+    static outputLineElementsCounter gOutputLineElementsCounter; 
+
+  private:
+
+    int    fElementsCounter;
+    int    fMaxElementsPerLine;
+};
 
 /*!
 \brief A utility to escape quotes in strings.

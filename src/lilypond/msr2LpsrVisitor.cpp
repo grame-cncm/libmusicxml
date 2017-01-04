@@ -533,48 +533,42 @@ void msr2LpsrVisitor::visitEnd (S_msrMeasure& elt)
     fOstream << idtr <<
       "--> End visiting msrMeasure" << endl;
 
+  bool doCreateABarCheck = false;
+  
   switch (elt->getMeasureKind ()) {
     
     case msrMeasure::kRegularMeasure:
+    /* JMI
       // is the measure full? (positions start at 1)
       if (
         elt->getMeasureLength ()
           >=
-        elt->getMeasureDivisionsPerWholeMeasure ()) {
-        // yes, create a bar check
-        S_msrBarCheck
-          barCheck =
-            msrBarCheck::create (
-              fMsrOptions,
-              elt->getInputLineNumber (),
-              elt->getMeasureNumber () + 1);
-                  
-        // and append it to the current voice clone
-        fCurrentVoiceClone->
-          appendBarCheckToVoice (barCheck);
-      }
+        elt->getMeasureDivisionsPerWholeMeasure ()) 
+        */
+      doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kIncompleteVoicechunkStartMeasure:
-      {
-        // create a bar check
-        S_msrBarCheck
-          barCheck =
-            msrBarCheck::create (
-              fMsrOptions,
-              elt->getInputLineNumber (),
-              elt->getMeasureNumber () + 1);
-                  
-        // append it to the current voice clone
-        fCurrentVoiceClone->
-          appendBarCheckToVoice (barCheck);
-      }
+    case msrMeasure::kIncompleteLeftMeasure:
+      doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kIncompleteVoicechunkEndMeasure:
+    case msrMeasure::kIncompleteRightMeasure:
       break;
   } // switch
 
+  if (doCreateABarCheck) {
+    // create a bar check
+    S_msrBarCheck
+      barCheck =
+        msrBarCheck::create (
+          fMsrOptions,
+          elt->getInputLineNumber (),
+          elt->getMeasureNumber () + 1);
+              
+    // append it to the current voice clone
+    fCurrentVoiceClone->
+      appendBarCheckToVoice (barCheck);
+  }
 }
 
 //________________________________________________________________________

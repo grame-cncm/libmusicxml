@@ -144,8 +144,8 @@
     <measure number="2" width="200.68">
       <barline location="left">
         <bar-style>heavy-light</bar-style>
-        <repeat direction="forward"/>
         <ending number="1" type="start"/>
+        <repeat direction="forward"/>
         </barline>
       <note default-x="12.00" default-y="-35.00">
         <pitch>

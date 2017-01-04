@@ -1403,8 +1403,8 @@ class EXP msrMeasure : public msrElement
 
     enum msrMeasureKind {
       kRegularMeasure,
-      kIncompleteVoicechunkStartMeasure,
-      kIncompleteVoicechunkEndMeasure};
+      kIncompleteLeftMeasure,
+      kIncompleteRightMeasure};
     
     // creation from MusicXML
     // ------------------------------------------------------

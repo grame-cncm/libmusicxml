@@ -5667,11 +5667,11 @@ string msrMeasure::getMeasureKindAsString () const
     case kRegularMeasure:
       result = "regular";
       break;
-    case kIncompleteVoicechunkStartMeasure:
-      result = "incomplete voice chunk start";
+    case kIncompleteLeftMeasure:
+      result = "incomplete left";
       break;
-    case kIncompleteVoicechunkEndMeasure:
-      result = "incomplete voice chunk end";
+    case kIncompleteRightMeasure:
+      result = "incomplete right";
       break;
   } // switch
 
@@ -5874,14 +5874,14 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
       // this is the first measure in the voice chunk
       currentMeasure->
         setMeasureKind (
-          msrMeasure::kIncompleteVoicechunkStartMeasure);
+          msrMeasure::kIncompleteLeftMeasure);
     }
     
     else {
       // this is the last measure in the voice chunk
       currentMeasure->
         setMeasureKind (
-          msrMeasure::kIncompleteVoicechunkEndMeasure);
+          msrMeasure::kIncompleteRightMeasure);
     }
   }
   

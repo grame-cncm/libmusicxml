@@ -368,7 +368,7 @@ class lpsr2LilyPondVisitor :
 
     // voice chunks
     // ------------------------------------------------------
-    // we need handle embedded msrVoicechunk's to indent notes
+    // we need to handle embedded msrVoicechunk's to indent notes
     // in a consistent way
     stack<int>            fVoicechunkNotesAndChordsCountersStack;
 

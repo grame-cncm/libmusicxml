@@ -1256,15 +1256,16 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
     idtr--;
     
     fOstream <<
-      endl <<
       idtr <<
       "}" <<
       setw(30) << " " << "% end of msrVoicechunk" <<
       endl;
   }
+  /* JMI
   else
     fOstream <<
       endl;
+*/
 
   fVoicechunkNotesAndChordsCountersStack.pop ();
 }
@@ -1291,7 +1292,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
     case msrMeasure::kRegularMeasure:
       break;
       
-    case msrMeasure::kIncompleteVoicechunkStartMeasure:
+    case msrMeasure::kIncompleteLeftMeasure:
       {
         string errorMessage;
 
@@ -1308,7 +1309,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
       }
       break;
       
-    case msrMeasure::kIncompleteVoicechunkEndMeasure:
+    case msrMeasure::kIncompleteRightMeasure:
+      // there's no need for '\partial' in this case
       break;
   } // switch
 }
@@ -1323,16 +1325,17 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrMeasure& elt)
     idtr--;
     
     fOstream <<
-      endl <<
       idtr <<
       "}" <<
       setw(30) << " " << "% end of msrMeasure" <<
       endl;
   }
+  /* JMI
   else
     fOstream <<
       endl <<
       idtr;
+*/
 
   fVoicechunkNotesAndChordsCountersStack.pop ();
 }
@@ -1793,33 +1796,33 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         break;
         
       case msrNote::kStandaloneNote:
-        if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
+        if (fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
           fOstream <<
             endl <<
             idtr;
-          fMusicElementsCounter = 1;
+          fMusicElementsCounter = 0;
         }
 
         fOstream << "standalone";
         break;
         
       case msrNote::kGraceNote:
-        if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
+        if (fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
           fOstream <<
             endl <<
             idtr;
-          fMusicElementsCounter = 1;
+          fMusicElementsCounter = 0;
         }
 
         fOstream << "grace";
         break;
         
       case msrNote::kRestNote:
-        if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
+        if (fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
           fOstream <<
             endl <<
             idtr;
-          fMusicElementsCounter = 1;
+          fMusicElementsCounter = 0;
         }
         
         fOstream << "rest";
@@ -1830,17 +1833,19 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         break;
         
       case msrNote::kTupletMemberNote:
-        if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
+        if (fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
           fOstream <<
             endl <<
             idtr;
-          fMusicElementsCounter = 1;
+          fMusicElementsCounter = 0;
         }
 
         fOstream << "tuplet member";
         break;
     } // switch
+    
     fOstream << " msrNote" << endl;
+    fMusicElementsCounter++;
   }
 
   // indent before the fist note of the msrVoicechunk if needed
@@ -2836,9 +2841,16 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeat& elt)
   s <<
     "\\repeat volta " << voltaNumber << " {";
   
-  fOstream << idtr <<
-    setw(30) << s.str() << "% start of repeat" <<
-    endl;
+  if (fLpsrOptions->fGenerateComments) {
+    fOstream << idtr <<
+      setw(30) << s.str() << "% start of repeat" <<
+      endl;
+  }
+  else {
+    fOstream << idtr <<
+      s.str() <<
+      endl;
+  }
 
   idtr++;
 }
@@ -2854,9 +2866,22 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
 
     idtr --;
     
-    fOstream << idtr <<
-      setw(30) << "}" << "% end of repeat" <<
-      endl << endl;
+    if (fLpsrOptions->fGenerateComments) {
+      idtr--;
+      
+      fOstream <<
+        idtr <<
+        "}" <<
+        setw(30) << " " << "% end of repeat" <<
+        endl;
+    }
+    else {
+      fOstream <<
+        endl <<
+        idtr <<
+        "}" <<
+        endl;
+    }
   }
 }
 
