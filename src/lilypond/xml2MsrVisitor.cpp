@@ -5627,6 +5627,9 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         endl;
     }
 
+    // attach the pending elements, if any, to newNote
+    attachPendingElementsToNote (newNote);
+
     fCurrentGracenotes->
       appendNoteToGracenotes (newNote);
   }
@@ -5664,7 +5667,17 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     currentVoice->
       appendNoteToVoice (newNote);
 
-    if (true)
+    if (false) // XXL, lyricschunk sans fLyricschunkNote assigne
+    /*
+xml2MsrVisitor.cpp:4249
+   switch (fLyricschunkKind) {
+    case kSingleChunk:
+      s << left <<
+        setw(15) << "single" << ":" << fChunkDivisions <<
+        ", line " << right << setw(5) << fInputLineNumber <<
+        ", " << fLyricschunkNote->notePitchAsString () <<
+        ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+     */
       cerr <<
         endl << endl <<
         "&&&&&&&&&&&&&&&&&& currentVoice (" <<
