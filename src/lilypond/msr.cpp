@@ -2590,6 +2590,16 @@ msrBreak::msrBreak (
 
 msrBreak::~msrBreak() {}
 
+string msrBreak::breakAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Break" << ", next bar number = " << fNextBarNumber;
+
+  return s.str();
+}
+
 void msrBreak::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -2636,8 +2646,8 @@ ostream& operator<< (ostream& os, const S_msrBreak& elt)
 void msrBreak::print (ostream& os)
 {
   os <<
-    "Break" << ", next bar number = " << fNextBarNumber << endl <<
-    endl;
+    breakAsString () <<
+    endl << endl;
 }
 
 //______________________________________________________________________________
@@ -4109,6 +4119,26 @@ S_msrLyricschunk msrLyricschunk::createLyricschunkBareClone ()
         fLyricschunkLyricsUplink);
   
   return clone;
+}
+
+    S_msrElement  msrLyricschunk::removeLastElementFromVoicechunk (
+                    int inputLineNumber) {}
+
+S_msrElement msrLyricschunk::removeLastElementFromVoicechunk (
+  int inputLineNumber)
+{
+  if (fVoicechunkMeasuresList.size ()) {
+    return
+      fVoicechunkMeasuresList.back ()->
+        removeLastElementFromMeasure (inputLineNumber);
+  }
+  
+  else {
+    msrInternalError (
+      fMsrOptions->fInputSourceName,
+      inputLineNumber,
+      "cannot removeLastElementFromVoicechunk () since it is empty");
+  }
 }
 
 void msrLyricschunk::acceptIn (basevisitor* v) {
@@ -7378,7 +7408,7 @@ void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending barnumber check '" << bnc <<
+      "Appending barnumber check '" << bnc->barnumberCheckAsString () <<
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
 
@@ -7398,7 +7428,7 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending break '" << break_ <<
+      "Appending break '" << break_->breakAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
@@ -7517,8 +7547,9 @@ S_msrElement msrVoice::removeLastElementFromVoice (
       "Removing last element " <<
       " from voice " << getVoiceName () << endl;
 
-  fVoiceVoicechunk->
-    removeLastElementFromVoicechunk (inputLineNumber);
+  return
+    fVoiceVoicechunk->
+      removeLastElementFromVoicechunk (inputLineNumber);
 }
 
 void msrVoice::acceptIn (basevisitor* v) {

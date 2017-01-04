@@ -1628,13 +1628,7 @@ class EXP msrVoicechunk : public msrElement
                       }
 
     S_msrElement  removeLastElementFromVoicechunk (
-                    int inputLineNumber)
-                      {
-                        return
-                          fVoicechunkMeasuresList.back ()->
-                            removeLastElementFromMeasure (
-                              inputLineNumber);
-                      }
+                    int inputLineNumber);
 
 /*
     void          appendElementToVoicechunk  (S_msrElement elem)
@@ -2787,6 +2781,8 @@ class EXP msrBreak : public msrElement
 
     // services
     // ------------------------------------------------------
+
+    string      breakAsString () const;
 
     // visitors
     // ------------------------------------------------------
