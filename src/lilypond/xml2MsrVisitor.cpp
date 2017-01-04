@@ -4333,7 +4333,7 @@ void xml2MsrVisitor::visitStart ( S_chord& elt)
       s <<
         "last element of voice just removed is:" << endl <<
         lastElementFromVoice << endl <<
-        "while it should be:" <<
+        "when it should be:" << endl <<
         fLastHandledNote << endl <<
         endl;
         
