@@ -4299,7 +4299,7 @@ void xml2MsrVisitor::visitStart ( S_chord& elt)
 
   // should a chord be created?
   if (! fOnGoingChord) {
-    // this is the second note of a chord to be created,
+    // this is the second note of the chord to be created,
     // fLastHandledNote being the first one
 
     // create the chord from its first note
@@ -4317,9 +4317,9 @@ void xml2MsrVisitor::visitStart ( S_chord& elt)
     // remove last handled (previous current) note from the current voice
 //    if (fMsrOptions->fDebug)
       cerr << idtr <<
-        "--> removing last element " <<
-        fLastHandledNote->noteAsString () <<
-        " from voice \"" << currentVoice->getVoiceName () << "\"" <<
+        "--> removing last element" <<
+        ", line " << inputLineNumber <<
+        ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
         endl;
 
     S_msrElement
@@ -4477,7 +4477,10 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
       "--> creating a chord from its first note " <<
       firstNote <<
       endl;
-  
+
+  int inputLineNumber =
+    firstNote->getInputLineNumber ();
+    
   // firstNote has been registered standalone in the part element sequence,
   // but it is actually the first note of a chord
   
@@ -4486,7 +4489,7 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
     chord =
       msrChord::create (
         fMsrOptions,
-        firstNote->getInputLineNumber (),
+        inputLineNumber,
         firstNote->getNoteDivisions ());
 
   // chord's divisions per whole note is that of its first note
@@ -4502,7 +4505,8 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
   if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> adding first note " << firstNote->noteAsString() <<
-      " to new chord" << endl;
+      ", line " << inputLineNumber <<
+      ", to new chord" << endl;
     
   // register firstNote as a member of chord
   chord->
@@ -5216,14 +5220,18 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
 
   if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
     cerr <<
+      endl <<
       idtr <<
-      "!!!! BEFORE visitEnd (S_note&) we have:" <<
+        "==== BEFORE visitEnd (S_note&)" <<
+// JMI        elt->noteAsString () <<
+        ", line " << inputLineNumber <<
+        " we have:" <<
         endl <<
       idtr <<
         setw(27) << "--> fCurrentNoteStaffNumber" << " = " <<
         fCurrentNoteStaffNumber <<
         endl <<
-      idtr << idtr <<
+      idtr <<
         setw(27) << "--> fCurrentNoteVoiceNumber" << " = " <<
         fCurrentNoteVoiceNumber <<
         endl <<
@@ -5346,9 +5354,11 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
  // JMI if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
   if (fMsrOptions->fDebug) {
     cerr <<
+      endl <<
       idtr <<
-        "!!!! AFTER visitEnd (S_note&) " <<
+        "==== AFTER visitEnd (S_note&) " <<
         note->noteAsString () <<
+        ", line " << inputLineNumber <<
         " we have:" <<
         endl <<
       idtr << idtr <<

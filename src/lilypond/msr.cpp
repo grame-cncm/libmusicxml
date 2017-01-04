@@ -1521,8 +1521,9 @@ int msrNote::getNoteMeasureNumber () const
 void msrNote::setNoteBelongsToAChord () {
   if (fMsrOptions->fDebug)
     cerr << idtr <<
-      "--> note " << this <<
-      " is set to belong to a chord" << endl;
+      "--> note " << noteAsString () <<
+      ", line " << fInputLineNumber <<
+      ", is set to belong to a chord" << endl;
 
   fNoteData.fNoteBelongsToAChord = true;
   fNoteKind = msrNote::kChordMemberNote;
@@ -1536,6 +1537,7 @@ void msrNote::applyTupletMemberDisplayFactor (
       "--> applying tuplet display factor " <<
       actualNotes << "/" << normalNotes <<
       " to note " << this <<
+      ", line " << fInputLineNumber <<
       endl;
 
   fNoteData.fDisplayDivisions =
@@ -5972,7 +5974,7 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   */
   
   if (! currentMeasureLength) {
-    // remove empty measure
+    // remove empty measure XXL
   //  if (! fVoicechunkMeasuresList.size ())
   //    fVoicechunkMeasuresList.pop_back (); // JMI
 
