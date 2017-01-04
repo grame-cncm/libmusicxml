@@ -4302,10 +4302,6 @@ void xml2MsrVisitor::visitStart ( S_chord& elt)
     // this is the second note of the chord to be created,
     // fLastHandledNote being the first one
 
-    // create the chord from its first note
-    fCurrentChord =
-      createChordFromItsFirstNote (fLastHandledNote);
-
     // fetch current voice
     S_msrVoice
       currentVoice =
@@ -4313,7 +4309,17 @@ void xml2MsrVisitor::visitStart ( S_chord& elt)
           inputLineNumber,
           fCurrentNoteStaffNumber,
           fCurrentVoiceNumber);
-  
+
+    // fetch last handled note for this voice
+    S_msrNote
+      lastHandledNoteInVoice =
+        fLastHandledNoteInVoice [currentVoice];
+        
+    // create the chord from its first note
+    fCurrentChord =
+      createChordFromItsFirstNote (
+        lastHandledNoteInVoice);
+
     // remove last handled (previous current) note from the current voice
 //    if (fMsrOptions->fDebug)
       cerr << idtr <<
@@ -4327,14 +4333,14 @@ void xml2MsrVisitor::visitStart ( S_chord& elt)
         currentVoice->
           removeLastElementFromVoice (inputLineNumber);
 
-    if (lastElementFromVoice != fLastHandledNote) {
+    if (lastElementFromVoice != lastHandledNoteInVoice) {
       stringstream s;
   
       s <<
         "last element of voice just removed is:" << endl <<
         lastElementFromVoice << endl <<
         "when it should be:" << endl <<
-        fLastHandledNote << endl <<
+        lastHandledNoteInVoice << endl <<
         endl;
         
       msrInternalError (
@@ -5386,9 +5392,10 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     }
   }
 
-  // keep track of current note
-  // in case it is the first note of a chord
-  fLastHandledNote = note;
+  // keep track of current note in the current voice,
+  // in case we learn later by <chord/> in the next note
+  // that it is actually the first note of a chord
+  fLastHandledNoteInVoice [currentVoice] = note;
     
   fOnGoingNote = false;
 }
@@ -5625,7 +5632,8 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
   {    cerr <<  idtr <<
         "--> adding standalone " <<
         newNote->noteAsString () <<
-        " to voice \"" <<
+        ", line " << newNote->getInputLineNumber () <<
+        ", to voice \"" <<
         currentVoice->getVoiceName () << "\"" <<
         endl;
     }
@@ -5636,6 +5644,16 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     // append newNote to the current voice
     currentVoice->
       appendNoteToVoice (newNote);
+
+    if (true)
+      cerr <<
+        endl << endl <<
+        "&&&&&&&&&&&&&&&&&& currentVoice (" <<
+        currentVoice->getVoiceName () <<
+        ") contents &&&&&&&&&&&&&&&&&&" <<
+        endl <<
+        currentVoice <<
+        endl << endl;
   }
 
   // handle the pending tuplets

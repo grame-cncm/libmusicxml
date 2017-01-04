@@ -748,8 +748,9 @@ class EXP xml2MsrVisitor :
     // description of the current MSR note
     // ------------------------------------------------------
     string                    fCurrentNoteType;
-    S_msrNote                 fLastHandledNote; // needed for chords
     bool                      fOnGoingNote;
+     // needed for chords
+    map<S_msrVoice, S_msrNote>  fLastHandledNoteInVoice;
 
     // tuplet handling
      // ------------------------------------------------------
