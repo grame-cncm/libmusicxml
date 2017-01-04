@@ -84,6 +84,7 @@ anything	[^-]
 
 %option yylineno
 %option never-interactive
+%option nounput
 
 %S COMMENTSECT DATASECT XMLSECT PISECT DOCTYPESECT
 
