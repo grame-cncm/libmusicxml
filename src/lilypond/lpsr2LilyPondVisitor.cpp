@@ -2649,8 +2649,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrPedal& elt)
 void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
 {
   if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> Start visiting msrBarline" << endl;
+    fOstream <<
+      endl <<
+      idtr << "% --> Start visiting msrBarline" << endl;
 
   switch (elt->getBarlineCategory ()) {
     
@@ -2721,8 +2722,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarline& elt)
 {
   if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> End visiting msrBarline" << endl;
+    fOstream <<
+      endl <<
+      idtr << "% --> End visiting msrBarline" << endl;
 }
 
 //________________________________________________________________________

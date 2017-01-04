@@ -5945,8 +5945,8 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   
   if (! currentMeasureLength) {
     // remove empty measure
-    if (! fVoicechunkMeasuresList.size ())
-      fVoicechunkMeasuresList.pop_back (); // JMI
+  //  if (! fVoicechunkMeasuresList.size ())
+  //    fVoicechunkMeasuresList.pop_back (); // JMI
 
     // set new current measure number to 1 instead of 0
     if (fVoicechunkMeasuresList.size ()) {
@@ -6014,7 +6014,7 @@ void msrVoicechunk::appendMeasureToVoicechunk (S_msrMeasure measure)
       ==
     measure->getMeasureNumber ()) {
       // remove previous measure with same number
-      fVoicechunkMeasuresList.pop_back ();
+  // JMI    fVoicechunkMeasuresList.pop_back ();
     }
   }
 
@@ -7518,8 +7518,7 @@ S_msrElement msrVoice::removeLastElementFromVoice (
       " from voice " << getVoiceName () << endl;
 
   fVoiceVoicechunk->
-    removeLastElementFromVoicechunk (
-      inputLineNumber);
+    removeLastElementFromVoicechunk (inputLineNumber);
 }
 
 void msrVoice::acceptIn (basevisitor* v) {
