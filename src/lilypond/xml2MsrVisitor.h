@@ -699,6 +699,7 @@ class EXP xml2MsrVisitor :
     bool                      fOnGoingChord;
     
     S_msrChord                createChordFromItsFirstNote (
+                                S_msrVoice voice,
                                 S_msrNote firstNote);
     void                      handleNoteBelongingToAChord (
                                 S_msrNote newNote);

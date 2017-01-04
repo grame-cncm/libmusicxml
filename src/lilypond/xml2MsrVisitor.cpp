@@ -4297,71 +4297,9 @@ void xml2MsrVisitor::visitStart ( S_chord& elt)
     
   fNoteData.fNoteBelongsToAChord = true;
 
-  // should a chord be created?
-  if (! fOnGoingChord) {
-    // this is the second note of the chord to be created,
-    // fLastHandledNote being the first one
-
-    // fetch current voice
-    S_msrVoice
-      currentVoice =
-        createVoiceInStaffInCurrentPartIfNeeded (
-          inputLineNumber,
-          fCurrentNoteStaffNumber,
-          fCurrentVoiceNumber);
-
-    // fetch last handled note for this voice
-    S_msrNote
-      lastHandledNoteInVoice =
-        fLastHandledNoteInVoice [currentVoice];
-        
-    // create the chord from its first note
-    fCurrentChord =
-      createChordFromItsFirstNote (
-        lastHandledNoteInVoice);
-
-    // remove last handled (previous current) note from the current voice
-//    if (fMsrOptions->fDebug)
-      cerr << idtr <<
-        "--> removing last element" <<
-        ", line " << inputLineNumber <<
-        ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
-        endl;
-
-    S_msrElement
-      lastElementFromVoice =
-        currentVoice->
-          removeLastElementFromVoice (inputLineNumber);
-
-    if (lastElementFromVoice != lastHandledNoteInVoice) {
-      stringstream s;
-  
-      s <<
-        "last element of voice just removed is:" << endl <<
-        lastElementFromVoice << endl <<
-        "when it should be:" << endl <<
-        lastHandledNoteInVoice << endl <<
-        endl;
-        
-      msrInternalError (
-        fMsrOptions->fInputSourceName,
-        inputLineNumber,
-        s.str());
-    }
-  
-    // add fCurrentChord to the voice instead
-    if (fMsrOptions->fDebug)
-      cerr << idtr <<
-        "--> appending chord " << fCurrentChord <<
-        " to current voice \"" << "\"" <<
-        endl;
-        
-    currentVoice->
-      appendChordToVoice (fCurrentChord);
-
-    // account for chord being built
-    fOnGoingChord = true;
-  }
+  // delay the handling until 'visitEnd ( S_note& elt)',
+  // because we don't know yet the voice and staff numbers for sure
+  // (they can be specified after <chord/> in the <note/>)
 }
 
 //______________________________________________________________________________
@@ -4476,12 +4414,15 @@ void xml2MsrVisitor::visitEnd ( S_unpitched& elt)
 
 //______________________________________________________________________________
 S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
+  S_msrVoice voice,
   S_msrNote firstNote)
 {
 //  if (fMsrOptions->fDebug)
     cerr << idtr <<
       "--> creating a chord from its first note " <<
       firstNote <<
+      ", line " << firstNote->getInputLineNumber () <<
+      ", in voice \"" << voice->getVoiceName () << "\"" <<
       endl;
 
   int inputLineNumber =
@@ -5428,6 +5369,84 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
       inputLineNumber,
       "a rest cannot belong to a chord");
 
+  // should a chord be created?
+  if (! fOnGoingChord) {
+    // this is the second note of the chord to be created,
+    // fLastHandledNote being the first one
+
+    // fetch current voice
+    S_msrVoice
+      currentVoice =
+        createVoiceInStaffInCurrentPartIfNeeded (
+          inputLineNumber,
+          fCurrentNoteStaffNumber,
+          fCurrentVoiceNumber);
+
+    // fetch last handled note for this voice
+    S_msrNote
+      lastHandledNoteInVoice =
+        fLastHandledNoteInVoice [currentVoice];
+        
+    // create the chord from its first note
+    fCurrentChord =
+      createChordFromItsFirstNote (
+        currentVoice,
+        lastHandledNoteInVoice);
+
+    // remove last handled (previous current) note from the current voice
+//    if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> removing last element" <<
+        ", line " << inputLineNumber <<
+        ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
+        endl;
+
+    if (true)
+      cerr <<
+        endl << endl <<
+        "&&&&&&&&&&&&&&&&&& currentVoice (" <<
+        currentVoice->getVoiceName () <<
+        ") contents &&&&&&&&&&&&&&&&&&" <<
+        endl <<
+        currentVoice <<
+        endl << endl;
+
+    S_msrElement
+      lastElementFromVoice =
+        currentVoice->
+          removeLastElementFromVoice (inputLineNumber);
+
+    if (lastElementFromVoice != lastHandledNoteInVoice) {
+      stringstream s;
+  
+      s <<
+        "last element of voice just removed is:" << endl <<
+        lastElementFromVoice << endl <<
+        "when it should be:" << endl <<
+        lastHandledNoteInVoice << endl <<
+        endl;
+        
+      msrInternalError (
+        fMsrOptions->fInputSourceName,
+        inputLineNumber,
+        s.str());
+    }
+  
+    // add fCurrentChord to the voice instead
+    if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> appending chord " << fCurrentChord <<
+        " to current voice \"" << "\"" <<
+        endl;
+        
+    currentVoice->
+      appendChordToVoice (fCurrentChord);
+
+    // account for chord being built
+    fOnGoingChord = true;
+  }
+
+  // set new note kind as a chord member
   newNote->
     setNoteKind (msrNote::kChordMemberNote);
 
