@@ -398,11 +398,10 @@ class lpsr2LilyPondVisitor :
     bool                  fOnGoingHeader;
 
     // limiting line size
-    int                   fMusicElementsCounter;
-
-    int                   fMaxMusicElementsOnOneLine;
-    int                   fMaxLyricchunksOnOneLine;
-
+    outputLineElementsCounter
+                          fMusicOlec;
+    outputLineElementsCounter
+                          fLyricsOlec;
 };
 
 

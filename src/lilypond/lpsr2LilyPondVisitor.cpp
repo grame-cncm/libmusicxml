@@ -51,14 +51,13 @@ lpsr2LilyPondVisitor::lpsr2LilyPondVisitor (
   fOnGoingScoreBlock = false;
 
   fCurrentStemKind = msrStem::k_NoStem;
-
-  fMusicElementsCounter = 0;
   
-  fMaxMusicElementsOnOneLine =
+  fMusicOlec.setMaxElementsPerLine (
     fLpsrOptions->fGenerateNoteInputLineNumbers
       ?  5
-      : 10;
-  fMaxLyricchunksOnOneLine = 10;
+      : 10);
+      
+  fLyricsOlec.setMaxElementsPerLine (10);
 };
   
 lpsr2LilyPondVisitor::~lpsr2LilyPondVisitor () {}
@@ -1210,7 +1209,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoice& elt)
 
   fRelativeOctaveReference = 0;
 
-  fMusicElementsCounter = 0;
+  fMusicOlec.reset ();
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrVoice& elt)
@@ -1325,6 +1324,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrMeasure& elt)
     idtr--;
     
     fOstream <<
+      endl <<
       idtr <<
       "}" <<
       setw(30) << " " << "% end of msrMeasure" <<
@@ -1360,7 +1360,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyrics& elt)
       
       fOstream << idtr;
       
-      fLyricschunksCounter = 0;
+      fLyricsOlec.reset ();
     }
   }
 }
@@ -1394,12 +1394,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
     if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) {
-      if (++fLyricschunksCounter > fMaxLyricchunksOnOneLine) {
-        fOstream <<
-          endl <<
-          idtr;
-        fLyricschunksCounter = 1;
-      }
       
       switch (elt->getLyricschunkKind ()) {
         case msrLyricschunk::kSingleChunk:
@@ -1468,6 +1462,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
         case msrLyricschunk::k_NoChunk: // JMI
           break;
       } // switch
+
+      fLyricsOlec++;
     }
   }
 }
@@ -1796,35 +1792,22 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         break;
         
       case msrNote::kStandaloneNote:
+      /*
         if (fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
           fOstream <<
             endl <<
             idtr;
           fMusicElementsCounter = 0;
         }
-
+*/
         fOstream << "standalone";
         break;
         
       case msrNote::kGraceNote:
-        if (fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
-          fOstream <<
-            endl <<
-            idtr;
-          fMusicElementsCounter = 0;
-        }
-
         fOstream << "grace";
         break;
         
-      case msrNote::kRestNote:
-        if (fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
-          fOstream <<
-            endl <<
-            idtr;
-          fMusicElementsCounter = 0;
-        }
-        
+      case msrNote::kRestNote:        
         fOstream << "rest";
         break;
         
@@ -1833,19 +1816,12 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         break;
         
       case msrNote::kTupletMemberNote:
-        if (fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
-          fOstream <<
-            endl <<
-            idtr;
-          fMusicElementsCounter = 0;
-        }
-
         fOstream << "tuplet member";
         break;
     } // switch
     
     fOstream << " msrNote" << endl;
-    fMusicElementsCounter++;
+    fMusicOlec++;
   }
 
   // indent before the fist note of the msrVoicechunk if needed
@@ -1876,18 +1852,21 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         } // switch
       }
     
+      fMusicOlec++;
+
       // is there a stem kind change?
       if (stemKind != fCurrentStemKind)
         fCurrentStemKind = stemKind;
     }
   }
-
+/*
   if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
     fOstream <<
       endl <<
       idtr;
     fMusicElementsCounter = 1;
   }
+*/
 
   /*
   cout <<
@@ -2018,6 +1997,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
   } // switch
 
   fOstream << " ";
+
+  fMusicOlec++;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
@@ -2369,17 +2350,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
   if (++ fVoicechunkNotesAndChordsCountersStack.top () == 1)
     fOstream << idtr;
 
-  // don't take the chord into account for line breaking
-  // * JMI
-  if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
-    fOstream <<
-      endl <<
-      idtr;
-    fMusicElementsCounter = 1;
-  }
-  //*/
+  // don't take the chord into account for line breaking ??? JMI
   
   fOstream << "<";
+  fMusicOlec++;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
@@ -2636,15 +2610,9 @@ void lpsr2LilyPondVisitor::visitStart (S_msrEyeglasses& elt)
     fOstream << idtr <<
       "% --> Start visiting eyeglasses" << endl;
 
-  if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
-    fOstream <<
-      endl <<
-      idtr;
-    fMusicElementsCounter = 1;
-  }
-
   fOstream <<
     "\\eyeglasses ";
+  fMusicOlec++;
 }
 
 void lpsr2LilyPondVisitor::visitStart (S_msrPedal& elt)
@@ -2652,13 +2620,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrPedal& elt)
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting pedal" << endl;
-
-  if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
-    fOstream <<
-      endl <<
-      idtr;
-    fMusicElementsCounter = 1;
-  }
       
   switch (elt->getPedalType ()) {
     case msrPedal::kPedalStart:
@@ -2674,6 +2635,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrPedal& elt)
       fOstream << "<> \\sustainOff ";
       break;
   } // switch
+
+  fMusicOlec++;
 }
 
 //________________________________________________________________________
@@ -2771,6 +2734,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarCheck& elt)
     fOstream <<
       "| % " << nextBarNumber <<
       endl;
+
+    fMusicOlec.reset ();
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarCheck& elt)
@@ -2791,6 +2756,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarnumberCheck& elt)
     "\\barNumberCheck #" << elt->getNextBarNumber () <<
     endl <<
     idtr;
+
+  fMusicOlec.reset ();
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarnumberCheck& elt)
@@ -2813,8 +2780,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBreak& elt)
     endl <<
     idtr;
 
-  fMusicElementsCounter = 1;
-  fLyricschunksCounter = 1;
+  fMusicOlec.reset ();
+  fLyricsOlec.reset ();
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBreak& elt)
@@ -2853,6 +2820,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeat& elt)
   }
 
   idtr++;
+
+  fMusicOlec.reset ();
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
@@ -2883,6 +2852,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
         endl;
     }
   }
+
+  fMusicOlec.reset ();
 }
 
 //________________________________________________________________________
@@ -2911,6 +2882,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeatending& elt)
     
     idtr++;
   }
+
+  fMusicOlec.reset ();
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrRepeatending& elt)
@@ -2935,6 +2908,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeatending& elt)
       setw(30) << "}" << "% end of alternative" <<
       endl << endl;
   }
+
+  fMusicOlec.reset ();
 }
 
 //________________________________________________________________________

@@ -36,6 +36,27 @@ indenter::indenter (string spacer)
 
 indenter::~indenter () {}
 
+indenter& indenter::operator++ (int value)
+{
+  fIndent++;
+  return *this;
+}
+
+indenter& indenter::operator-- (int value)
+{
+  fIndent--;
+  
+  if (fIndent < 0) {
+    cerr <<
+      endl <<
+      "### Indentation has become negative..." <<
+      endl << endl;
+    assert(false);
+  }
+    
+  return *this;
+}
+
 ostream& operator<< (ostream& os, const indenter& idtr) {
   idtr.print(os);
   return os;
@@ -58,11 +79,22 @@ outputLineElementsCounter::outputLineElementsCounter (int maxElementsPerLine)
 
 outputLineElementsCounter::~outputLineElementsCounter () {}
 
-outputLineElementsCounter& outputLineElementsCounter::operator++ (int)
+void outputLineElementsCounter::setMaxElementsPerLine (
+  int maxElementsPerLine)
+{
+  fMaxElementsPerLine = maxElementsPerLine;
+}
+
+void outputLineElementsCounter::reset (int value)
+{
+  fElementsCounter = value;
+}
+
+outputLineElementsCounter& outputLineElementsCounter::operator++ (int value)
 {
   fElementsCounter++;
   
-  if (fElementsCounter > fMaxElementsPerLine) {
+  if (fElementsCounter >= fMaxElementsPerLine) {
     cerr <<
       endl <<
       indenter::gIndenter;
@@ -71,6 +103,11 @@ outputLineElementsCounter& outputLineElementsCounter::operator++ (int)
   }
     
   return *this;
+}
+
+bool outputLineElementsCounter::operator== (int value)
+{
+  return fElementsCounter == value;
 }
 
 outputLineElementsCounter

@@ -38,27 +38,10 @@ class indenter {
     virtual ~indenter();
 
     // increase the indentation
-    indenter& operator++ (int)
-        {
-          fIndent++;
-          return *this;
-        }
+    indenter& operator++ (int value);
     
     // decrease the indentation
-    indenter& operator-- (int)
-        {
-          fIndent--;
-          
-          if (fIndent < 0) {
-            cerr <<
-              endl <<
-              "### Indentation has become negative..." <<
-              endl << endl;
-            assert(false);
-          }
-            
-          return *this;
-        }
+    indenter& operator-- (int value);
     
     // output as much space as specified
     void print (ostream& os) const;
@@ -85,11 +68,16 @@ class outputLineElementsCounter {
     virtual ~outputLineElementsCounter();
 
     // increase the counter
-    outputLineElementsCounter& operator++ (int);
+    outputLineElementsCounter& operator++ (int value);
     
-    // initialize the counter
-    void init (int value)
-        { fElementsCounter = value; }
+    // set the maximum number of elements per line
+    void setMaxElementsPerLine (int maxElementsPerLine);
+    
+    // reset the counter
+    void reset (int value = 0);
+    
+    // compare the counter with a value
+    bool operator== (int value);
     
     // global variable for general use
     static outputLineElementsCounter gOutputLineElementsCounter; 

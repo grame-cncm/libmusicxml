@@ -47,6 +47,13 @@ typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
 
 
 /*!
+\internal
+\brief A macro to simplify output line elements counting
+*/
+//______________________________________________________________________________
+#define olec ioutputLineElementsCounter::gOutputLineElementsCounter
+
+/*!
   \brief The LPSR code generation options.
 
   A class is used to avoid passing arguments one by one
