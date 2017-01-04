@@ -59,7 +59,7 @@ namespace MusicXML2
         if (header.fTitle) {
             Sguidoelement tag = guidotag::create("title");
             string title = header.fTitle->getValue();
-            int pos = title.find ('"');
+            size_t pos = title.find ('"');
             while (pos != string::npos) {
                 title = title.replace (pos, 1, "'");
                 pos = title.find ('"', pos);
