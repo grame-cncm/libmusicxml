@@ -2839,11 +2839,13 @@ class EXP msrBarCheck : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int getNextBarNumber () const
-            { return fNextBarNumber; }
+    int         getNextBarNumber () const
+                    { return fNextBarNumber; }
 
     // services
     // ------------------------------------------------------
+
+    string      barCheckAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -2900,11 +2902,13 @@ class EXP msrBarnumberCheck : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int getNextBarNumber () const
-            { return fNextBarNumber; }
+    int         getNextBarNumber () const
+                    { return fNextBarNumber; }
 
     // services
     // ------------------------------------------------------
+
+    string      barnumberCheckAsString () const;
 
     // visitors
     // ------------------------------------------------------

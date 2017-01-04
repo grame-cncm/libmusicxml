@@ -2668,6 +2668,16 @@ msrBarCheck::msrBarCheck (
 }
 msrBarCheck::~msrBarCheck() {}
 
+string msrBarCheck::barCheckAsString () const
+{
+  stringstream s;
+
+  s <<
+    "BarCheck" << ", next bar number = " << fNextBarNumber;
+
+  return s.str();
+}
+
 void msrBarCheck::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -2714,7 +2724,7 @@ ostream& operator<< (ostream& os, const S_msrBarCheck& elt)
 void msrBarCheck::print (ostream& os)
 {
   os <<
-    "BarCheck" << ", next bar number = " << fNextBarNumber <<
+    barCheckAsString () <<
     endl;
 }
 
@@ -2740,6 +2750,16 @@ msrBarnumberCheck::msrBarnumberCheck (
   fNextBarNumber=nextBarNumber; 
 }
 msrBarnumberCheck::~msrBarnumberCheck() {}
+
+string msrBarnumberCheck::barnumberCheckAsString () const
+{
+  stringstream s;
+
+  s <<
+    "BarnumberCheck" << ", next bar number = " << fNextBarNumber;
+
+  return s.str();
+}
 
 void msrBarnumberCheck::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
@@ -2787,8 +2807,8 @@ ostream& operator<< (ostream& os, const S_msrBarnumberCheck& elt)
 void msrBarnumberCheck::print (ostream& os)
 {
   os <<
-    "BarnumberCheck" << ", next bar number = " << fNextBarNumber <<
-    endl << endl;
+    barnumberCheckAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -7328,9 +7348,9 @@ S_msrLyricschunk msrVoice::addSlurBeyondEndLyricschunkToVoice (
 
 void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
 {
-  if (fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending bar check '" << barCheck <<
+      "Appending bar check '" << barCheck->barCheckAsString () <<
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
 
@@ -7348,7 +7368,7 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
 
 void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
 {
-  if (fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Appending barnumber check '" << bnc <<
       "' to voice \"" << getVoiceName () <<  "\"" <<
@@ -7368,7 +7388,7 @@ void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
 
 void msrVoice::appendBreakToVoice (S_msrBreak break_)
 {
-  if (fMsrOptions->fDebugDebug)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Appending break '" << break_ <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -7410,7 +7430,6 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline) {
 }
 
 void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
-  if (fMsrOptions->fDebugDebug)
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Appending a barline to voice \"" << getVoiceName () << "\"" <<
@@ -7425,7 +7444,6 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
 }
 
 void msrVoice::appendSegnoToVoice (S_msrSegno segno) {
-  if (fMsrOptions->fDebugDebug)
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Appending a segno to voice \"" << getVoiceName () << "\"" <<
@@ -7437,7 +7455,6 @@ void msrVoice::appendSegnoToVoice (S_msrSegno segno) {
 }
 
 void msrVoice::appendCodaToVoice (S_msrCoda coda) {
-  if (fMsrOptions->fDebugDebug)
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Appending a coda to voice \"" << getVoiceName () << "\"" <<
@@ -7449,7 +7466,6 @@ void msrVoice::appendCodaToVoice (S_msrCoda coda) {
 }
 
 void msrVoice::appendEyeglassesToVoice (S_msrEyeglasses eyeglasses) {
-  if (fMsrOptions->fDebugDebug)
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Appending a eyeglasses to voice \"" << getVoiceName () << "\"" <<
@@ -7461,7 +7477,6 @@ void msrVoice::appendEyeglassesToVoice (S_msrEyeglasses eyeglasses) {
 }
 
 void msrVoice::appendPedalToVoice (S_msrPedal pedal) {
-  if (fMsrOptions->fDebugDebug)
   if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Appending a pedal to voice \"" << getVoiceName () << "\"" <<

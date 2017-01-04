@@ -972,9 +972,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
 
   fOstream << idtr <<
     "\\context Voice" << " = " <<
-    "\"" << voice->getVoiceName () << "\""<<
-    " " <<
-    "{" <<
+    "\"" << voice->getVoiceName () << "\"" " " "{" <<
      endl;
 
   idtr++;
@@ -1043,7 +1041,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewLyricsBlock& elt)
       
       fOstream <<
         idtr <<
-          "\\lyricsto" << " " <<
+          "\\lyricsto" " " <<
           "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
           endl <<
         idtr <<
@@ -1236,7 +1234,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
       "{" <<
-      setw(30) << " " << "% start of msrVoicechunk" <<
+      setw(30) << " " "% start of msrVoicechunk" <<
       endl;
 
     idtr++;
@@ -1257,7 +1255,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
     fOstream <<
       idtr <<
       "}" <<
-      setw(30) << " " << "% end of msrVoicechunk" <<
+      setw(30) << " " "% end of msrVoicechunk" <<
       endl;
   }
   /* JMI
@@ -1279,7 +1277,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
       "{" <<
-      setw(30) << " " << "% start of msrMeasure" <<
+      setw(30) << " " "% start of msrMeasure" <<
       endl;
 
     idtr++;
@@ -1327,7 +1325,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrMeasure& elt)
       endl <<
       idtr <<
       "}" <<
-      setw(30) << " " << "% end of msrMeasure" <<
+      setw(30) << " " "% end of msrMeasure" <<
       endl;
   }
   /* JMI
@@ -1450,6 +1448,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
             "| %{ " << elt->getChunkText () << " %}" <<
             endl <<
             idtr;
+
+          fLyricsOlec.reset ();
           break;
     
         case msrLyricschunk::kBreakChunk:
@@ -1610,7 +1610,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTime& elt)
     fOstream << "\\numericTimeSignature ";
     
   fOstream << idtr <<
-    "\\time" << " " <<
+    "\\time" " " <<
     elt->getBeatsNumber () <<
     "/" <<
     elt->getBeatsValue () <<
@@ -1851,7 +1851,6 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
             break;
         } // switch
       }
-    
       fMusicOlec++;
 
       // is there a stem kind change?
@@ -2091,6 +2090,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
       } // switch
       
       fOstream << " ";
+      fMusicOlec++;
     } // for
   }
 
@@ -2107,6 +2107,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
       i++) {
       fOstream <<
         "\\" << (*i)->dynamicsKindAsString () << " ";
+      fMusicOlec++;
     } // for
   }
 
@@ -2154,6 +2155,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
       fOstream <<
         quoteStringIfNonAlpha (wordsContents) <<
         " } ";
+
+      fMusicOlec++;
     } // for
   }
 
@@ -2173,16 +2176,15 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
         case msrSlur::k_NoSlur:
           break;
         case msrSlur::kStartSlur:
-          fOstream << "( ";
+          fOstream << "(" " ";
           break;
         case msrSlur::kContinueSlur:
           break;
         case msrSlur::kStopSlur:
-          fOstream << ") ";
+          fOstream << ")" " ";
           break;
       } // switch
-      
-      fOstream << " ";
+      fMusicOlec++;
     } // for
   }
 
@@ -2200,17 +2202,16 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
         
       switch ((*i)->getWedgeKind ()) {
         case msrWedge::kCrescendoWedge:
-          fOstream << "\\<";
+          fOstream << "\\<" " ";
           break;
         case msrWedge::kDecrescendoWedge:
-          fOstream << "\\>";
+          fOstream << "\\>" " ";
           break;
         case msrWedge::kStopWedge:
-          fOstream << "\\!";
+          fOstream << "\\!" " ";
           break;
       } // switch
-      
-      fOstream << " ";
+      fMusicOlec++;
     } // for
   }
 
@@ -2271,6 +2272,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrOctaveShift& elt)
   } // switch
   
   fOstream << " ";
+  fMusicOlec++;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrOctaveShift& elt)
@@ -2365,6 +2367,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
   fOstream <<
     ">" <<
     elt->chordDivisionsAsMSRString () << " ";
+  fMusicOlec++;
 
   // print the chord articulations if any
   list<S_msrArticulation>
@@ -2400,6 +2403,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
       } // switch
       
       fOstream << " ";
+      fMusicOlec++;
     } // for
   }
 
@@ -2416,6 +2420,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
       i++) {
       fOstream <<
         "\\" << (*i)->dynamicsKindAsString () << " ";
+      fMusicOlec++;
     } // for
   }
 
@@ -2430,6 +2435,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
       i=chordWords.begin();
       i!=chordWords.end();
       i++) {
+        
       msrWords::msrWordsPlacementKind
         wordsPlacementKind =
           (*i)->getWordsPlacementKind ();
@@ -2450,6 +2456,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
         "\\markup" << " { " <<
         quoteStringIfNonAlpha (wordsContents) <<
         " } ";
+
+      fMusicOlec++;      
     } // for
   }
 
@@ -2469,17 +2477,16 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
         case msrSlur::k_NoSlur:
           break;
         case msrSlur::kStartSlur:
-          fOstream << "( ";
+          fOstream << "(" " ";
           break;
         case msrSlur::kContinueSlur:
           break;
         case msrSlur::kStopSlur:
-          fOstream << ") ";
+          fOstream << ")" " ";
           break;
       } // switch
-      
-      fOstream << " ";
-    } // for
+      fMusicOlec++;
+   } // for
   }
 
   // print the chord wedges if any
@@ -2496,17 +2503,16 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
         
       switch ((*i)->getWedgeKind ()) {
         case msrWedge::kCrescendoWedge:
-          fOstream << "\\<";
+          fOstream << "\\<" " ";
           break;
         case msrWedge::kDecrescendoWedge:
-          fOstream << "\\>";
+          fOstream << "\\>" " ";
           break;
         case msrWedge::kStopWedge:
-          fOstream << "\\!";
+          fOstream << "\\!" " ";
           break;
       } // switch
-      
-      fOstream << " ";
+      fMusicOlec++;
     } // for
   }
 
@@ -2564,7 +2570,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTie& elt)
     case msrTie::k_NoTie:
       break;
     case msrTie::kStartTie:
-      fOstream << "~ ";
+      fOstream << "~" " ";
       break;
     case msrTie::kContinueTie:
       break;
@@ -2841,7 +2847,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
       fOstream <<
         idtr <<
         "}" <<
-        setw(30) << " " << "% end of repeat" <<
+        setw(30) << " " "% end of repeat" <<
         endl;
     }
     else {
@@ -2876,8 +2882,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeatending& elt)
     // first repeat ending is in charge of
     // outputting the start of the alternative
     fOstream << idtr <<
-      setw(30) << "\\alternative" " " "{" <<
-      "% start of alternative" <<
+      setw(30) << "\\alternative" " " "{" "% start of alternative" <<
       endl;
     
     idtr++;
