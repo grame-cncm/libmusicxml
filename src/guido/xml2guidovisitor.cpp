@@ -66,7 +66,7 @@ namespace MusicXML2
             }
             tag->add (guidoparam::create(title));
             add (tag);
-            header.fTitle = 0;
+            header.fTitle = (void*)0;
         }
         vector<S_creator>::const_iterator i;
         for (i=header.fCreators.begin(); i!=header.fCreators.end(); i++) {
@@ -105,7 +105,7 @@ namespace MusicXML2
             s2 << "dx=" << offset << "hs";
             tag->add (guidoparam::create(s2.str(), false));
             add (tag);
-            header.fPartName = 0;
+            header.fPartName = (void*)0;
         }
     }
     
@@ -172,21 +172,20 @@ namespace MusicXML2
             //// Add Accolade if countStaves on this Part is >1, and we are entering span
             if ((ps.countStaves()>1)&&(fCurrentStaffIndex>fCurrentAccoladeIndex))
             {
-                std::string accolParams = "id="+std::to_string(fCurrentAccoladeIndex)+", range=\"";
-                std::string barformatParams = "style= \"system\", range=\"";
                 int rangeEnd = fCurrentStaffIndex + ps.countStaves() - 1;
-                
-                accolParams += std::to_string(fCurrentStaffIndex)+"-"+std::to_string(rangeEnd)+"\"";
-                barformatParams += std::to_string(fCurrentStaffIndex)+"-"+std::to_string(rangeEnd)+"\"";
-                //barformatParams += std::to_string(fCurrentStaffIndex)+":"+std::to_string(fCurrentStaffIndex+1)+"-"+std::to_string(rangeEnd)+"\"";
-                
+
+				stringstream accol;
+				accol << "id=" << fCurrentAccoladeIndex << ", range=\"" << fCurrentStaffIndex << "-" << rangeEnd << "\"";
+				stringstream barformat;
+				barformat << "style= \"system\", range=\"" << fCurrentStaffIndex << "-" << rangeEnd << "\"";
+				
                 Sguidoelement tag3 = guidotag::create("accol");
-                tag3->add (guidoparam::create(accolParams, false));
+                tag3->add (guidoparam::create(accol.str(), false));
                 add (tag3);
                 
                 // add new barFormat tag
                 Sguidoelement tag4 = guidotag::create("barFormat");
-                tag4->add (guidoparam::create(barformatParams, false));
+                tag4->add (guidoparam::create(barformat.str(), false));
                 add (tag4);
                 //cout<<"\tAdded MULTI barlineformat "<< barformatParams <<endl;
                 
@@ -196,9 +195,10 @@ namespace MusicXML2
                 // if the staff is not in the prior range, then add barFormat
                 if (fCurrentStaffIndex>fCurrentAccoladeIndex)
                 {
-                    std::string barformatParams = "style= \"system\", range=\""+ std::to_string(fCurrentStaffIndex)+"\"";
+					stringstream barformat;
+					barformat << "style= \"system\", range=\"" << fCurrentStaffIndex << "\"";
                     Sguidoelement tag4 = guidotag::create("barFormat");
-                    tag4->add (guidoparam::create(barformatParams, false));
+                    tag4->add (guidoparam::create(barformat.str(), false));
                     add (tag4);
                     //cout<<"\tAdded SINGLE barlineformat "<< barformatParams <<endl;
                 }

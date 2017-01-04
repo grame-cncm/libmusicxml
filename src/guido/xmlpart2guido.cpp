@@ -1139,9 +1139,10 @@ namespace MusicXML2
                 {
                     Sguidoelement tag = guidotag::create("tuplet");
                     /// Add number visualiser
-                    std::string tupletParameters = (withBracket? "-" : "") + std::to_string(numberOfEventsInTuplet) + (withBracket? "-" : "");
-                    tag->add (guidoparam::create(tupletParameters));
-                    
+					stringstream tuplet;
+					tuplet << (withBracket? "-" : "") << numberOfEventsInTuplet << (withBracket? "-" : "");
+                    tag->add (guidoparam::create(tuplet.str()));
+
                     /// set dispNote, Possible values : "/1", "/2" "/4", "/8", "/16"
                     if (dispNotePar.size())
                     {
