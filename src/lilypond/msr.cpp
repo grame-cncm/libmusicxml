@@ -4121,9 +4121,7 @@ S_msrLyricschunk msrLyricschunk::createLyricschunkBareClone ()
   return clone;
 }
 
-    S_msrElement  msrLyricschunk::removeLastElementFromVoicechunk (
-                    int inputLineNumber) {}
-
+/*
 S_msrElement msrLyricschunk::removeLastElementFromVoicechunk (
   int inputLineNumber)
 {
@@ -4140,7 +4138,7 @@ S_msrElement msrLyricschunk::removeLastElementFromVoicechunk (
       "cannot removeLastElementFromVoicechunk () since it is empty");
   }
 }
-
+*/
 void msrLyricschunk::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<

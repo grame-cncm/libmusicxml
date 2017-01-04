@@ -1628,19 +1628,22 @@ class EXP msrVoicechunk : public msrElement
                       }
 
     S_msrElement  removeLastElementFromVoicechunk (
-                    int inputLineNumber);
-
-/*
-    void          appendElementToVoicechunk  (S_msrElement elem)
-                      { fVoicechunkElementsList.push_back (elem); }
-    
-    S_msrElement  getLastElementOfVoicechunk () const
-                      { return fVoicechunkElementsList.back (); }
-                      
-
-//    void          removeElementFromVoicechunk (S_msrElement elem);
-*/
-
+                    int inputLineNumber)
+                      {
+                        if (fVoicechunkMeasuresList.size ()) {
+                          return
+                            fVoicechunkMeasuresList.back ()->
+                              removeLastElementFromMeasure (inputLineNumber);
+                        }
+                        
+                        else {
+                          msrInternalError (
+                            fMsrOptions->fInputSourceName,
+                            inputLineNumber,
+                            "cannot removeLastElementFromVoicechunk () since it is empty");
+                        }
+                      }
+                    
     // visitors
     // ------------------------------------------------------
 
