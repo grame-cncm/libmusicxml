@@ -812,7 +812,7 @@ namespace MusicXML2
                 if (timesymbol == "common") {
                     // simulation of timesignvisitor::timesign function
                     //rational ts = timesignvisitor::timesign(0);
-                    int index = 0;
+                    size_t index = 0;
                     rational ts(0,1);
                     if (index < fTimeSignInternal.size()) {
                         const pair<string,string>& tss = fTimeSignInternal[index];
@@ -842,7 +842,7 @@ namespace MusicXML2
                         //fCurrentTimeSign += timesignvisitor::timesign(i);
                         // simulation of timesignvisitor::timesign function
                         //rational ts = timesignvisitor::timesign(i);
-                        int index = i;
+                        size_t index = i;
                         rational ts(0,1);
                         if (index < fTimeSignInternal.size()) {
                             const pair<string,string>& tss = fTimeSignInternal[index];
@@ -1286,7 +1286,7 @@ namespace MusicXML2
          }*/
         
         float minDur4Space = 1;
-        int minStringSize4Space = 2;
+        size_t minStringSize4Space = 2;
         
         float thisDuration = (float)(getDuration()) / (float)(fCurrentDivision*1);
         
@@ -1298,7 +1298,7 @@ namespace MusicXML2
             if ( (thisDuration< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
             {
                 Sguidoelement tag = guidotag::create("space");
-                int additionalSpace = notevisitor::getLyricText().size() - minStringSize4Space;
+                size_t additionalSpace = notevisitor::getLyricText().size() - minStringSize4Space;
                 //cout<< "\t Adding space "<<additionalSpace <<"..."<<endl;
                 tag->add (guidoparam::create(8 + additionalSpace, false));
                 add(tag);
