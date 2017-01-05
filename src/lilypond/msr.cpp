@@ -733,6 +733,25 @@ string msrOrnament::ornamentKindAsString () const
   return result;
 }
 
+string msrOrnament::ornamentPlacementKindAsString () const
+{
+  string result;
+  
+  switch (fOrnamentPlacementKind) {
+    case msrOrnament::k_NoPlacementKind:
+      result = "none";
+      break;
+    case msrOrnament::kAbove:
+      result = "above";
+      break;
+    case msrOrnament::kBelow:
+      result = "below";
+      break;
+  } // switch
+
+  return result;
+}
+
 void msrOrnament::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -782,6 +801,7 @@ void msrOrnament::print (ostream& os)
     "Ornament" " " <<
     ornamentKindAsString () <<
     ", line " << fInputLineNumber <<
+    ", placement " << ornamentPlacementKindAsString () <<
     endl;
 }
 

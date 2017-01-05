@@ -1375,7 +1375,8 @@ void xml2MsrVisitor::visitStart (S_direction& elt)
   </direction>
 */
 
-  fCurrentDirectionPlacement = elt->getAttributeValue ("placement");
+  fCurrentDirectionPlacement =
+    elt->getAttributeValue ("placement");
 
   if (fCurrentDirectionPlacement == "above")
     fCurrentWordsPlacementKind = msrWords::kAbove;
@@ -4247,6 +4248,59 @@ void xml2MsrVisitor::visitStart ( S_shake& elt )
 
 void xml2MsrVisitor::visitStart ( S_accidental_mark& elt )
 {
+  fCurrentAccidentalMark =
+    elt->getValue ();
+
+  if (fCurrentAccidentalMark == "above")
+    fCurrentWordsPlacementKind = msrWords::kAbove;
+    
+  else if (fCurrentAccidentalMark == "below")
+    fCurrentWordsPlacementKind = msrWords::kBelow;
+    
+  else if (fCurrentAccidentalMark.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "accidental mark \"" << fCurrentAccidentalMark <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      s.str());    
+  }
+
+  string
+    currentAccidentalMarkPlacement =
+      elt->getAttributeValue ("placement");
+
+  fCurrentOrnamentPlacementKind =
+    msrOrnament::k_NoPlacementKind;
+
+  if (currentAccidentalMarkPlacement == "above")
+    fCurrentOrnamentPlacementKind = msrOrnament::kAbove;
+    
+  else if (currentAccidentalMarkPlacement == "below")
+    fCurrentOrnamentPlacementKind = msrOrnament::kBelow;
+    
+  else if (currentAccidentalMarkPlacement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "ornament placement \"" << currentAccidentalMarkPlacement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      s.str());    
+  }
+
+  fCurrentOrnament->
+    setOrnamentPlacementKind (
+      fCurrentOrnamentPlacementKind);
 }
 
 void xml2MsrVisitor::visitEnd ( S_ornaments& elt )

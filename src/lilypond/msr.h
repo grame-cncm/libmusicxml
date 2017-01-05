@@ -806,6 +806,9 @@ class EXP msrOrnament : public msrElement
         kMordent, kInvertedMordent,
         kSchleifer, kShake};
 
+    enum msrOrnamentPlacementKind {
+      k_NoPlacementKind, kAbove, kBelow};
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -832,13 +835,23 @@ class EXP msrOrnament : public msrElement
     // ------------------------------------------------------
 
     msrOrnamentKind
-            getOrnamentKind () const
-                { return fOrnamentKind; }
+              getOrnamentKind () const
+                  { return fOrnamentKind; }
+        
+    void      setOrnamentPlacementKind (
+                msrOrnamentPlacementKind ornamentPlacementKind)
+                  { fOrnamentPlacementKind = ornamentPlacementKind; }
+        
+    msrOrnamentPlacementKind
+              getOrnamentPlacementKind () const
+                  { return fOrnamentPlacementKind; }
         
     // services
     // ------------------------------------------------------
 
     string  ornamentKindAsString () const;
+
+    string  ornamentPlacementKindAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -855,7 +868,9 @@ class EXP msrOrnament : public msrElement
 
   private:
 
-    msrOrnamentKind fOrnamentKind;
+    msrOrnamentKind          fOrnamentKind;
+
+    msrOrnamentPlacementKind fOrnamentPlacementKind;
 };
 typedef SMARTP<msrOrnament> S_msrOrnament;
 EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);

@@ -807,6 +807,10 @@ class EXP xml2MsrVisitor :
     S_msrOrnament             fCurrentOrnament;
     list<S_msrOrnament>       fCurrentOrnamentsList;
 
+    string                    fCurrentAccidentalMark;
+    msrOrnament::msrOrnamentPlacementKind
+                              fCurrentOrnamentPlacementKind;
+
     void                      attachCurrentOrnamentsToNote (
                                 S_msrNote note);
 
