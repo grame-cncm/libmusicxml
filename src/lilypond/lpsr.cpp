@@ -2343,6 +2343,7 @@ void lpsrPartgroupBlock::print (ostream& os)
     idtr <<
     "PartgroupBlock" << " " <<
     "for partgroup " << fPartgroup->getPartgroupCombinedName () <<
+    ", " << fPartgroup->pargroupSymbolKindAsString () <<
     ", " << fPartgroupBlockElements.size() << " elements" <<
     endl << endl;
 

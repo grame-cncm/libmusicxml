@@ -3977,6 +3977,13 @@ void xml2MsrVisitor::visitStart ( S_arpeggiate& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
+/*
+          <ornaments>
+            <turn placement="above"/>
+            <accidental-mark placement="below">natural</accidental-mark>
+          </ornaments>
+*/
+
   /*
 
 Component   Type  Occurs  Default   Description 

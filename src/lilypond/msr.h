@@ -4824,6 +4824,13 @@ class EXP msrPartgroup : public msrElement
     static string pargroupSymbolKindAsString (
                   msrPartgroupSymbolKind partgroupSymbolKind);
 
+    string        pargroupSymbolKindAsString ()
+                      {
+                        return
+                          pargroupSymbolKindAsString (
+                            fPartgroupSymbolKind);
+                      }
+
     int           getPartgroupSymbolDefaultX () const
                       { return fPartgroupSymbolDefaultX; }
 

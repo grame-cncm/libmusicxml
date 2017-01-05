@@ -705,7 +705,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
         break;
         
       case msrPartgroup::kBracketPartgroupSymbol:
-        partGroupContextName = "GrandStaff";
+        partGroupContextName = "PianoStaff";
         break;
         
       case msrPartgroup::kLinePartgroupSymbol:
