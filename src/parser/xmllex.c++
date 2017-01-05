@@ -66,6 +66,7 @@ typedef int16_t flex_int16_t;
 typedef uint16_t flex_uint16_t;
 typedef int32_t flex_int32_t;
 typedef uint32_t flex_uint32_t;
+typedef uint64_t flex_uint64_t;
 #else
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
@@ -385,7 +386,7 @@ static void yy_fatal_error (yyconst char msg[]  );
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
-	libmxmlleng = (size_t) (yy_cp - yy_bp); \
+	libmxmlleng = (yy_size_t) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
@@ -821,7 +822,7 @@ void lexend() {
 #define fread	wfread
 
 
-#line 825 "xmllex.c++"
+#line 826 "xmllex.c++"
 
 #define INITIAL 0
 #define COMMENTSECT 1
@@ -885,8 +886,6 @@ extern int libmxmlwrap (void );
 #endif
 #endif
 
-    static void yyunput (int c,char *buf_ptr  );
-    
 #ifndef yytext_ptr
 static void yy_flex_strncpy (char *,yyconst char *,int );
 #endif
@@ -1008,11 +1007,11 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 90 "xml.l"
+#line 91 "xml.l"
 
 
 
-#line 1016 "xmllex.c++"
+#line 1015 "xmllex.c++"
 
 	if ( !(yy_init) )
 		{
@@ -1104,142 +1103,142 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 93 "xml.l"
+#line 94 "xml.l"
 { BEGIN COMMENTSECT; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 94 "xml.l"
+#line 95 "xml.l"
 { BEGIN 0; }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 95 "xml.l"
+#line 96 "xml.l"
 { return COMMENT; }
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 98 "xml.l"
+#line 99 "xml.l"
 { BEGIN XMLSECT; return XMLDECL; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 99 "xml.l"
+#line 100 "xml.l"
 { BEGIN 0; return ENDXMLDECL; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 100 "xml.l"
+#line 101 "xml.l"
 { return VERSION; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 101 "xml.l"
+#line 102 "xml.l"
 { return ENCODING; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 102 "xml.l"
+#line 103 "xml.l"
 { return STANDALONE; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 103 "xml.l"
+#line 104 "xml.l"
 { libmxmllval=1; return YES; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 104 "xml.l"
+#line 105 "xml.l"
 { libmxmllval=0; return NO; }
 	YY_BREAK
 case 11:
 /* rule 11 can match eol */
 YY_RULE_SETUP
-#line 106 "xml.l"
+#line 107 "xml.l"
 { BEGIN PISECT; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 107 "xml.l"
+#line 108 "xml.l"
 { BEGIN 0; return PI; }
 	YY_BREAK
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 108 "xml.l"
+#line 109 "xml.l"
 { return PI; }
 	YY_BREAK
 case 14:
 /* rule 14 can match eol */
 YY_RULE_SETUP
-#line 110 "xml.l"
+#line 111 "xml.l"
 { BEGIN DOCTYPESECT; return DOCTYPE; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 111 "xml.l"
+#line 112 "xml.l"
 { return PUBLIC; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 112 "xml.l"
+#line 113 "xml.l"
 { return SYSTEM; }
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 114 "xml.l"
+#line 115 "xml.l"
 { BEGIN 0; return LT; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 115 "xml.l"
+#line 116 "xml.l"
 { BEGIN DATASECT; return GT; }
 	YY_BREAK
 case 19:
 /* rule 19 can match eol */
 YY_RULE_SETUP
-#line 116 "xml.l"
+#line 117 "xml.l"
 { BEGIN 0; return ENDXMLS; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 117 "xml.l"
+#line 118 "xml.l"
 { return ENDXMLE; }
 	YY_BREAK
 case 21:
 /* rule 21 can match eol */
 YY_RULE_SETUP
-#line 119 "xml.l"
+#line 120 "xml.l"
 { return SPACE; }
 	YY_BREAK
 case 22:
 /* rule 22 can match eol */
 YY_RULE_SETUP
-#line 120 "xml.l"
+#line 121 "xml.l"
 { return DATA; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 121 "xml.l"
+#line 122 "xml.l"
 { return NAME; }
 	YY_BREAK
 case 24:
 /* rule 24 can match eol */
 YY_RULE_SETUP
-#line 122 "xml.l"
+#line 123 "xml.l"
 { return QUOTEDSTR; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 123 "xml.l"
+#line 124 "xml.l"
 { return EQ; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 125 "xml.l"
+#line 126 "xml.l"
 { /* extra space ignored*/ }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
@@ -1248,15 +1247,15 @@ case YY_STATE_EOF(DATASECT):
 case YY_STATE_EOF(XMLSECT):
 case YY_STATE_EOF(PISECT):
 case YY_STATE_EOF(DOCTYPESECT):
-#line 127 "xml.l"
+#line 128 "xml.l"
 yyterminate();
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 128 "xml.l"
+#line 129 "xml.l"
 ECHO;
 	YY_BREAK
-#line 1260 "xmllex.c++"
+#line 1259 "xmllex.c++"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1582,47 +1581,6 @@ static int yy_get_next_buffer (void)
 	yy_is_jam = (yy_current_state == 228);
 
 	return yy_is_jam ? 0 : yy_current_state;
-}
-
-    static void yyunput (int c, register char * yy_bp )
-{
-	register char *yy_cp;
-    
-    yy_cp = (yy_c_buf_p);
-
-	/* undo effects of setting up libmxmltext */
-	*yy_cp = (yy_hold_char);
-
-	if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
-		{ /* need to shift things up to make room */
-		/* +2 for EOB chars. */
-		register yy_size_t number_to_move = (yy_n_chars) + 2;
-		register char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
-					YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
-		register char *source =
-				&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move];
-
-		while ( source > YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
-			*--dest = *--source;
-
-		yy_cp += (int) (dest - source);
-		yy_bp += (int) (dest - source);
-		YY_CURRENT_BUFFER_LVALUE->yy_n_chars =
-			(yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->yy_buf_size;
-
-		if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
-			YY_FATAL_ERROR( "flex scanner push-back overflow" );
-		}
-
-	*--yy_cp = (char) c;
-
-    if ( c == '\n' ){
-        --libmxmllineno;
-    }
-
-	(yytext_ptr) = yy_bp;
-	(yy_hold_char) = *yy_cp;
-	(yy_c_buf_p) = yy_cp;
 }
 
 #ifndef YY_NO_INPUT
@@ -2260,4 +2218,4 @@ void libmxmlfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 128 "xml.l"
+#line 129 "xml.l"

@@ -52,14 +52,15 @@ all :
 help :
 	@echo libmusicxml makefile - Targets are :
 	@echo "   all (default): build the libmusicxml library for the current platform,"	
-	@echo "                        the libmusicxml tools,"	
+	@echo "                  build the libmusicxml tools,"	
 	@echo 
-	@echo "Platform targets to build the GUIDOEngine library are:"	
+	@echo "Platform targets to build the libmusicxml library are:"	
 	@echo "   macos     build the library for macos"	
 	@echo "   macc++11  build the library for macos, linked to libc"	
-	@echo "   windows   build 32 and 64 bits library"
-	@echo "   linux"	
-	@echo "   android      : build the libmusicxml static library for Android"	
+	@echo "   windows   build 32 and 64 bits library for windows"
+	@echo "   linux     build the library for linux"
+	@echo "   android   build a static library for Android"	
+	@echo "   ios       build a static library for iOS"	
 	@echo "the platform targets is automatically evaluated by the default target."	
 	@echo "NOTE: windows targets are based on $(WIN32VS)"	
 

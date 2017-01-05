@@ -134,7 +134,7 @@ endif()
 if(NOT APPLE)
 install ( TARGETS ${target} ${TOOLS} 
 	RUNTIME DESTINATION bin 
-    	LIBRARY DESTINATION lib 
+    	LIBRARY DESTINATION /usr/lib 
     	ARCHIVE DESTINATION lib 
     	FRAMEWORK DESTINATION "/Library/Frameworks" CONFIGURATIONS Release
     	PUBLIC_HEADER DESTINATION include/libmusicxml
