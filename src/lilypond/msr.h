@@ -3933,6 +3933,7 @@ class EXP msrBarline : public msrElement
 
     enum msrBarlineRepeatWinged {
       k_NoRepeatWinged,
+      kNone,
       kStraight, kCurved, kDoubleStraight, kDoubleCurved };
 
     enum msrBarlineCategory {

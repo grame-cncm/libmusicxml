@@ -2129,12 +2129,16 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
            in one of the voices add:
             \once \set StaffGroup.connectArpeggios = ##t
           */
+          break;
         case msrArticulation::kDoit:
           fOstream << "\\bendAfter #+4";
+          break;
         case msrArticulation::kFalloff:
           fOstream << "\\bendAfter #-4";
+          break;
         case msrArticulation::kPlop:
           fOstream << "\\plop";
+          break;
         case msrArticulation::kScoop:
           fOstream << "\\scoop";
           break;

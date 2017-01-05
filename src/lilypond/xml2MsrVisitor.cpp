@@ -3225,7 +3225,7 @@ void xml2MsrVisitor::visitStart ( S_repeat& elt )
   else {
     stringstream s;
     
-    s << "repeat direction " << fCurrentRepeatDirection << " is unknown";
+    s << "repeat direction '" << fCurrentRepeatDirection << "' is unknown";
     
     msrMusicXMLError (
       fMsrOptions->fInputSourceName,
@@ -3237,7 +3237,11 @@ void xml2MsrVisitor::visitStart ( S_repeat& elt )
     msrBarline::k_NoRepeatWinged;
 
   if (fCurrentRepeatWinged.size()) {
-    if       (fCurrentRepeatWinged == "straight") {
+    if       (fCurrentRepeatWinged == "none") {
+      fCurrentBarlineRepeatWinged =
+        msrBarline::kNone;
+    }
+    else if (fCurrentRepeatWinged == "straight") {
       fCurrentBarlineRepeatWinged =
         msrBarline::kStraight;
     }
@@ -3256,7 +3260,7 @@ void xml2MsrVisitor::visitStart ( S_repeat& elt )
     else {
       stringstream s;
       
-      s << "repeat winged " << fCurrentRepeatWinged << " is unknown";
+      s << "repeat winged '" << fCurrentRepeatWinged << "' is unknown";
       
       msrMusicXMLError (
         fMsrOptions->fInputSourceName,

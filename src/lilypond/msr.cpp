@@ -5695,6 +5695,9 @@ void msrBarline::print (ostream& os)
     idtr << setw(15) << "RepeatWinged" << " : ";
   switch (fRepeatWinged) {
     case k_NoRepeatWinged:
+      os << "none"; // ??? JMI
+      break;
+    case kNone:
       os << "none";
       break;
     case kStraight:
