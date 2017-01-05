@@ -1299,10 +1299,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
             elt->getMeasureDivisionsPerWholeNote (),
             errorMessage,
             false); // 'true' to debug it
-            
-        fOstream << idtr <<
-          "\\partial" " " << partialDuration <<
-          endl;
+
+        if (partialDuration != "?")  // JMI
+          fOstream << idtr <<
+            "\\partial" " " << partialDuration <<
+            endl;
       }
       break;
       

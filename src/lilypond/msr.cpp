@@ -6578,7 +6578,9 @@ ostream& operator<< (ostream& os, const S_msrRepeatending& elt)
 void msrRepeatending::print (ostream& os)
 {
   os <<
-    "Repeatending" " number " << fRepeatendingNumber << ", ";
+    "Repeatending" <<
+    ", line " << fInputLineNumber <<
+    ", number " << fRepeatendingNumber << ", ";
 
   switch (fRepeatendingKind) {
     case kHookedEnding:
