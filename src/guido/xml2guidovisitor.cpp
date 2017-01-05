@@ -218,7 +218,7 @@ namespace MusicXML2
             
             flushHeader (fHeader);
             flushPartHeader (fPartHeaders[elt->getAttributeValue("id")]);
-            flushPartGroup(elt->getAttributeValue("id"));
+            flushPartGroup  (elt->getAttributeValue("id"));
             
             //// Add Accolade if countStaves on this Part is >1, and we are entering span
             if ((ps.countStaves()>1)&&(fCurrentStaffIndex>fCurrentAccoladeIndex))
@@ -244,15 +244,16 @@ namespace MusicXML2
                 fCurrentAccoladeIndex = rangeEnd;
             }else {
                 
-                // if the staff is not in the prior range, then add barFormat
-                /*if (fCurrentStaffIndex>fCurrentAccoladeIndex)
+                // if we have multiple staves, and this staff has NO barFormat, then we should add one like \barFormat<style="system", range="1">
+                // Otherwise there'll be no bar lines!!!
+                if (checkLonelyBarFormat(fCurrentStaffIndex))
                 {
                     std::string barformatParams = "style= \"system\", range=\""+ std::to_string(fCurrentStaffIndex)+"\"";
                     Sguidoelement tag4 = guidotag::create("barFormat");
                     tag4->add (guidoparam::create(barformatParams, false));
                     add (tag4);
                     //cout<<"\tAdded SINGLE barlineformat "<< barformatParams <<endl;
-                }*/
+                }
             }
             
             ////

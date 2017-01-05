@@ -28,11 +28,12 @@ namespace MusicXML2
     
     class EXP partGroup {
     public:
-        partGroup() {};
+        partGroup(): bracket(false), barlineGrouping(false), visited(false) {};
         virtual ~partGroup() {};
         
         std::vector<std::string> partIDs;
         std::string guidoRange;
+        int guidoRangeStart, guidoRangeStop;
         bool bracket;
         bool barlineGrouping;
         std::string fGroupName;             // optional name of the group
@@ -77,9 +78,20 @@ namespace MusicXML2
         
         std::map<std::string, partHeader> fPartHeaders;
         
+        /*!
+         \brief Returns the part group with first occurence of partID (string)
+         */
         partGroup* find_first_of_partID_inGroup(std::string partID);
         
-        std::string partID2range(std::vector<std::string> partIDs);
+        /*!
+         \brief Converts XML Part ID list to Guido's Staff range string
+         */
+        void partID2range(partGroup &pGroup);
+        
+        /*!
+         \brief Checks if current staff is lonely in terms of BarFormat definition
+         */
+        bool checkLonelyBarFormat(int staffID);
         
     protected:
         

@@ -20,9 +20,7 @@ namespace MusicXML2
     {
     }
     
-    /*!
-     \brief Returns the part group with first occurence of partID (string)
-     */
+    
     partGroup* partlistvisitor::find_first_of_partID_inGroup(std::string partID)
     {
         // search if this part ID exists in any grouping
@@ -54,21 +52,40 @@ namespace MusicXML2
         return NULL;
     }
     
-    std::string partlistvisitor::partID2range(std::vector<std::string> partIDs)
+    void partlistvisitor::partID2range(partGroup &pGroup)
     {
         std::vector<int> staves;
-        for (int i=0; i<partIDs.size();i++)
+        for (int i=0; i<pGroup.partIDs.size();i++)
         {
-            staves.push_back(part2staffmap[partIDs[i]]);
+            staves.push_back(part2staffmap[pGroup.partIDs[i]]);
         }
         std::vector<int>::iterator rangeEnd = std::max_element(staves.begin(), staves.end());
         std::vector<int>::iterator rangeBegin = std::min_element(staves.begin(), staves.begin());
         
-        return "\""+std::to_string(*rangeBegin)+"-"+std::to_string(*rangeEnd)+"\"";
-
+        pGroup.guidoRange = "\""+std::to_string(*rangeBegin)+"-"+std::to_string(*rangeEnd)+"\"";
+        pGroup.guidoRangeStart = *rangeBegin;
+        pGroup.guidoRangeStop = *rangeEnd;
     }
     
-    
+    bool partlistvisitor::checkLonelyBarFormat(int staffID)
+    {
+        std::map<int, partGroup>::iterator partGroupIt;
+        for (partGroupIt=fPartGroups.begin();
+             partGroupIt != fPartGroups.end();
+             partGroupIt++)
+        {
+            if (partGroupIt->second.barlineGrouping == true)
+            {
+                // see if this staff is in range
+                if ( (staffID>= partGroupIt->second.guidoRangeStart)&&(staffID<=partGroupIt->second.guidoRangeStop))
+                {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
     
     /// Visitors
     
@@ -113,7 +130,7 @@ namespace MusicXML2
                 }
                 
                 // calculate Guido Range and set
-                fPartGroups[*ito].guidoRange = partID2range(fPartGroups[*ito].partIDs);
+                partID2range(fPartGroups[*ito]);
                 
                 // Do Erase
                 if (ito != fCurrentPartGroupIndex.end())
