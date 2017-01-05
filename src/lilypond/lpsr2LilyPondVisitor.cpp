@@ -2088,10 +2088,10 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
         
       switch ((*i)->getArticulationKind ()) {
         case msrArticulation::kAccent:
-          fOstream << "\\accent";
+          fOstream << "->";
           break;
         case msrArticulation::kBreathMark:
-          fOstream << "\\breathMark";
+          fOstream << "\\breathe";
           break;
         case msrArticulation::kCaesura:
           fOstream << "\\caesura";
@@ -2100,10 +2100,10 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
           fOstream << "\\spiccato";
           break;
         case msrArticulation::kStaccato:
-          fOstream << "\\-.";
+          fOstream << "-.";
           break;
         case msrArticulation::kStaccatissimo:
-          fOstream << "\\-!";
+          fOstream << "-!";
           break;
         case msrArticulation::kStress:
           fOstream << "\\stress";
@@ -2112,13 +2112,13 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
           fOstream << "\\unstress";
           break;
         case msrArticulation::kDetachedLegato:
-          fOstream << "\\-_";
+          fOstream << "-_";
           break;
         case msrArticulation::kStrongAccent:
           fOstream << "\\strong accent";
           break;
         case msrArticulation::kTenuto:
-          fOstream << "\\tenuto";
+          fOstream << "--";
           break;
         case msrArticulation::kFermata:
           fOstream << "\\fermata";
@@ -2130,9 +2130,9 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
             \once \set StaffGroup.connectArpeggios = ##t
           */
         case msrArticulation::kDoit:
-          fOstream << "\\doit";
+          fOstream << "\\bendAfter #+4";
         case msrArticulation::kFalloff:
-          fOstream << "\\falloff";
+          fOstream << "\\bendAfter #-4";
         case msrArticulation::kPlop:
           fOstream << "\\plop";
         case msrArticulation::kScoop:
