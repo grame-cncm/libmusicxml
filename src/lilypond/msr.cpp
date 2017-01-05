@@ -574,9 +574,6 @@ string msrArticulation::articulationKindAsString () const
     case kFermata:
       result = "fermata";
       break;
-    case kTrill:
-      result = "trill";
-      break;
     case kArpeggiato:
       result = "arpeggiato";
       break;
@@ -666,23 +663,8 @@ string msrOrnament::ornamentKindAsString () const
   string result;
   
   switch (fOrnamentKind) {
-    case kStaccato:
-      result = "staccato";
-      break;
-    case kStaccatissimo:
-      result = "staccatissimo";
-      break;
-    case kDetachedLegato:
-      result = "detached legato";
-      break;
-    case kFermata:
-      result = "fermata";
-      break;
-    case kTrill:
+    case kTrillMark:
       result = "trill";
-      break;
-    case kArpeggiato:
-      result = "arpeggiato";
       break;
   } // switch
 
@@ -1666,8 +1648,13 @@ void msrNote::addBeamToNote (S_msrBeam beam)
 void msrNote::addArticulationToNote (S_msrArticulation art)
 {
   fNoteArticulations.push_back (art);
+}
 
-  if (art->getArticulationKind () == msrArticulation::kTrill)
+void msrNote::addOrnamentToNote (S_msrOrnament art)
+{
+  fNoteOrnaments.push_back (art);
+
+  if (art->getOrnamentKind () == msrOrnament::kTrillMark)
     fNoteHasATrill = true;
 }
 
@@ -1800,7 +1787,7 @@ void msrNote::browseData (basevisitor* v)
     idtr++;
     list<S_msrBeam>::const_iterator i;
     for (i=fNoteBeams.begin(); i!=fNoteBeams.end(); i++) {
-      // browse the articulation
+      // browse the beam
       msrBrowser<msrBeam> browser (v);
       browser.browse (*(*i));
     } // for
@@ -1814,6 +1801,18 @@ void msrNote::browseData (basevisitor* v)
     for (i=fNoteArticulations.begin(); i!=fNoteArticulations.end(); i++) {
       // browse the articulation
       msrBrowser<msrArticulation> browser (v);
+      browser.browse (*(*i));
+    } // for
+    idtr--;
+  }
+  
+  // browse the ornaments if any
+  if (fNoteOrnaments.size()) {
+    idtr++;
+    list<S_msrOrnament>::const_iterator i;
+    for (i=fNoteOrnaments.begin(); i!=fNoteOrnaments.end(); i++) {
+      // browse the ornament
+      msrBrowser<msrOrnament> browser (v);
       browser.browse (*(*i));
     } // for
     idtr--;
@@ -1842,7 +1841,7 @@ void msrNote::browseData (basevisitor* v)
     idtr++;
     list<S_msrWords>::const_iterator i;
     for (i=fNoteWords.begin(); i!=fNoteWords.end(); i++) {
-      // browse the articulation
+      // browse the words
       msrBrowser<msrWords> browser (v);
       browser.browse (*(*i));
     } // for
@@ -2221,6 +2220,23 @@ void msrNote::print (ostream& os)
     idtr--;
   }
   
+  // print the ornaments if any
+  if (fNoteOrnaments.size()) {
+    idtr++;
+
+    list<S_msrOrnament>::const_iterator
+      iBegin = fNoteOrnaments.begin(),
+      iEnd   = fNoteOrnaments.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+        
+    idtr--;
+  }
+  
   // print the tie if any
   if (fNoteTie) {
     idtr++;
@@ -2339,16 +2355,6 @@ S_msrChord msrChord::createChordBareClone ()
     
   clone->fChordTie = fChordTie; // JMI
 
-/*
-  // get the articulations if any
-  if (fChordArticulations.size()) {
-    list<S_msrArticulation>::const_iterator i;
-    for (i=fChordArticulations.begin(); i!=fChordArticulations.end(); i++) {
-      clone->addArticulationToChord ((*i));
-    } // for
-  }
-*/
-
   return clone;
 }
     
@@ -2387,6 +2393,32 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
       endl;
 
   fChordArticulations.push_back (art);
+}
+
+void msrChord::addOrnamentToChord (S_msrOrnament orn)
+{
+  msrOrnament::msrOrnamentKind
+    ornamentKind =
+      orn->
+        getOrnamentKind ();
+
+  // don't add the same ornament several times
+  for (
+    list<S_msrOrnament>::const_iterator i = fChordOrnaments.begin();
+    i!=fChordOrnaments.end();
+    i++) {
+      if ((*i)->getOrnamentKind () == ornamentKind)
+        return;
+  } // for
+
+//  if (fMsrOptions->fDebug)
+    cerr << idtr <<
+      "--> adding ornament '" <<
+      orn->ornamentKindAsString () <<
+      "' to chord" <<
+      endl;
+
+  fChordOrnaments.push_back (orn);
 }
 
 void msrChord::acceptIn (basevisitor* v) {
@@ -2440,6 +2472,15 @@ void msrChord::browseData (basevisitor* v)
     i++ ) {
     // browse the articulation
     msrBrowser<msrArticulation> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  for (
+    list<S_msrOrnament>::const_iterator i = fChordOrnaments.begin();
+    i != fChordOrnaments.end();
+    i++ ) {
+    // browse the ornament
+    msrBrowser<msrOrnament> browser (v);
     browser.browse (*(*i));
   } // for
 
@@ -2556,6 +2597,14 @@ void msrChord::print (ostream& os)
   if (fChordArticulations.size()) {
     list<S_msrArticulation>::const_iterator i;
     for (i=fChordArticulations.begin(); i!=fChordArticulations.end(); i++) {
+      os << idtr << (*i);
+    } // for
+  }
+
+  // print the ornaments if any
+  if (fChordOrnaments.size()) {
+    list<S_msrOrnament>::const_iterator i;
+    for (i=fChordOrnaments.begin(); i!=fChordOrnaments.end(); i++) {
       os << idtr << (*i);
     } // for
   }

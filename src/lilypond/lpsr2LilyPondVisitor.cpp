@@ -1693,6 +1693,24 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrArticulation& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrOrnament& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrOrnament" << endl;
+
+  // don't generate the ornament here,
+  // the note or chord will do it in its visitEnd() method
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrOrnament& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrOrnament" << endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrDynamics& elt)
 {
   if (fMsrOptions->fDebug)
@@ -1761,10 +1779,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrGracenotes& elt)
 
   if (elt->getGracenotesIsSlashed ())
     fOstream << idtr <<
-      "\\grace";
+      "\\slashedGrace"; // JMI "\\grace";
   else
     fOstream << idtr <<
-      "\\acciaccatura";
+      "\\appoggiatura"; // JMI "\\acciaccatura";
   fOstream << " { ";
 }
 
@@ -2081,15 +2099,35 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
         case msrArticulation::kFermata:
           fOstream << "\\fermata";
           break;
-        case msrArticulation::kTrill:
-          fOstream << "\\trill";
-          break;
         case msrArticulation::kArpeggiato:
           fOstream << "\\arpeggio";
           /* JMI
            in one of the voices add:
   \once \set StaffGroup.connectArpeggios = ##t
   */
+          break;
+      } // switch
+      
+      fOstream << " ";
+      fMusicOlec++;
+    } // for
+  }
+
+  // print the note ornaments if any
+  list<S_msrOrnament>
+    noteOrnaments =
+      elt->getNoteOrnaments ();
+      
+  if (noteOrnaments.size()) {
+    list<S_msrOrnament>::const_iterator i;
+    for (
+      i=noteOrnaments.begin();
+      i!=noteOrnaments.end();
+      i++) {
+        
+      switch ((*i)->getOrnamentKind ()) {
+        case msrOrnament::kTrillMark:
+          fOstream << "\\trill";
           break;
       } // switch
       
@@ -2398,11 +2436,31 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
         case msrArticulation::kFermata:
           fOstream << "\\fermata";
           break;
-        case msrArticulation::kTrill:
-          fOstream << "\\trill";
-          break;
         case msrArticulation::kArpeggiato:
           fOstream << "\\arpeggio";
+          break;
+      } // switch
+      
+      fOstream << " ";
+      fMusicOlec++;
+    } // for
+  }
+
+  // print the chord ornaments if any
+  list<S_msrOrnament>
+    chordOrnaments =
+      elt->getChordOrnaments ();
+      
+  if (chordOrnaments.size()) {
+    list<S_msrOrnament>::const_iterator i;
+    for (
+      i=chordOrnaments.begin();
+      i!=chordOrnaments.end();
+      i++) {
+        
+      switch ((*i)->getOrnamentKind ()) {
+        case msrOrnament::kTrillMark:
+          fOstream << "\\trill";
           break;
       } // switch
       

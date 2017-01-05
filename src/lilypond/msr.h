@@ -2323,6 +2323,10 @@ class EXP msrChord : public msrElement
                   getChordArticulations () const
                       { return fChordArticulations; }
 
+    const list<S_msrOrnament>&
+                  getChordOrnaments () const
+                      { return fChordOrnaments; }
+
     const list<S_msrDynamics>&
                   getChordDynamics () const
                       { return fChordDynamics; }
@@ -2348,6 +2352,8 @@ class EXP msrChord : public msrElement
                       { return fChordNotes.back (); }
 
     void          addArticulationToChord (S_msrArticulation art);
+     
+    void          addOrnamentToChord (S_msrOrnament orn);
      
     void          addDynamicsToChord (S_msrDynamics dyn)
                       { fChordDynamics.push_back (dyn); }
@@ -2389,6 +2395,8 @@ class EXP msrChord : public msrElement
     int                       fChordDivisions;
                               
     list<S_msrArticulation>   fChordArticulations;
+
+    list<S_msrOrnament>       fChordOrnaments;
 
     S_msrTie                  fChordTie;
     

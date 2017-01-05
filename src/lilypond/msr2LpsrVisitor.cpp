@@ -754,6 +754,32 @@ void msr2LpsrVisitor::visitEnd (S_msrArticulation& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrVisitor::visitStart (S_msrOrnament& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrOrnament" << endl;
+
+  if (fOnGoingNote) {
+    // don't add ornaments to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addOrnamentToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addOrnamentToChord (elt);
+  }
+}
+
+void msr2LpsrVisitor::visitEnd (S_msrOrnament& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrOrnament" << endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrDynamics& elt)
 {
   if (fMsrOptions->fDebug)

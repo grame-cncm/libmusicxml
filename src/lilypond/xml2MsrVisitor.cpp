@@ -3903,6 +3903,10 @@ void xml2MsrVisitor::visitStart ( S_beam& elt )
 }
 
 //______________________________________________________________________________
+void xml2MsrVisitor::visitStart ( S_articulations& elt )
+{
+}
+
 void xml2MsrVisitor::visitStart ( S_staccato& elt )
 {
   S_msrArticulation
@@ -3952,19 +3956,6 @@ void xml2MsrVisitor::visitStart ( S_fermata& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void xml2MsrVisitor::visitStart ( S_trill_mark& elt )
-{
-  // type : upright inverted  (Binchois20.xml)
-  S_msrArticulation
-    articulation =
-      msrArticulation::create (
-        fMsrOptions,
-        elt->getInputLineNumber (),
-        msrArticulation::kTrill);
-      
-  fCurrentArticulations.push_back (articulation);
-}
-
 void xml2MsrVisitor::visitStart ( S_arpeggiate& elt )
 {
   S_msrArticulation
@@ -3976,6 +3967,33 @@ void xml2MsrVisitor::visitStart ( S_arpeggiate& elt )
       
   fCurrentArticulations.push_back (articulation);
 }
+
+void xml2MsrVisitor::visitEnd ( S_articulations& elt )
+{
+}
+
+//______________________________________________________________________________
+void xml2MsrVisitor::visitStart ( S_ornaments& elt )
+{
+}
+
+void xml2MsrVisitor::visitStart ( S_trill_mark& elt )
+{
+  // type : upright inverted  (Binchois20.xml)
+  S_msrOrnament
+    ornament =
+      msrOrnament::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrOrnament::kTrillMark);
+      
+  fCurrentOrnaments.push_back (ornament);
+}
+
+void xml2MsrVisitor::visitEnd ( S_ornaments& elt )
+{
+}
+
 
 /*
           <ornaments>
@@ -4508,6 +4526,35 @@ void xml2MsrVisitor::copyNoteArticulationsToChord (
 }
 
 //______________________________________________________________________________
+void xml2MsrVisitor::copyNoteOrnamentsToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's ornaments if any from the first note to chord
+  
+  list<S_msrOrnament>
+    noteOrnaments =
+      note->
+        getNoteOrnaments ();
+                          
+  list<S_msrOrnament>::const_iterator i;
+  for (
+    i=noteOrnaments.begin();
+    i!=noteOrnaments.end();
+    i++) {
+
+    // JMI   if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> copying ornament '" <<
+        (*i)->ornamentKindAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+
+    chord->addOrnamentToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
 void xml2MsrVisitor::copyNoteDynamicsToChord (
   S_msrNote note, S_msrChord chord)
 {  
@@ -4526,7 +4573,7 @@ void xml2MsrVisitor::copyNoteDynamicsToChord (
 
     // JMI   if (fMsrOptions->fDebug)
       cerr << idtr <<
-        "--> copying articulation '" <<
+        "--> copying dymaics '" <<
         (*i)->dynamicsKindAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -4555,7 +4602,7 @@ void xml2MsrVisitor::copyNoteWordsToChord (
 
     // JMI   if (fMsrOptions->fDebug)
       cerr << idtr <<
-        "--> copying articulation '" <<
+        "--> copying words '" <<
         (*i)->wordsAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -4584,7 +4631,7 @@ void xml2MsrVisitor::copyNoteSlursToChord (
 
     // JMI   if (fMsrOptions->fDebug)
       cerr << idtr <<
-        "--> copying articulation '" <<
+        "--> copying slurs '" <<
         (*i)->slurKindAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -4613,7 +4660,7 @@ void xml2MsrVisitor::copyNoteWedgesToChord (
 
     // JMI   if (fMsrOptions->fDebug)
       cerr << idtr <<
-        "--> copying articulation '" <<
+        "--> copying wedges '" <<
         (*i)->wedgeKindAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -4629,6 +4676,9 @@ void xml2MsrVisitor::copyNoteElementsToChord (
 {  
   // copy newNote's articulations if any to the chord
   copyNoteArticulationsToChord (note, chord);
+
+  // copy newNote's ornaments if any to the chord
+  copyNoteOrnamentsToChord (note, chord);
 
   // copy newNote's dynamics if any to the chord
   copyNoteDynamicsToChord (note, chord);
@@ -4896,6 +4946,41 @@ void xml2MsrVisitor::attachCurrentArticulationsToNote (
 }
 
 //______________________________________________________________________________
+void xml2MsrVisitor::attachCurrentOrnamentsToNote (
+  S_msrNote note)
+{
+  /*
+  list<S_msrOrnament>::const_iterator i;
+  for (
+    i=fCurrentOrnaments.begin();
+    i!=fCurrentOrnaments.end();
+    i++) {
+
+    note->
+      addOrnamentToNote ((*i));
+    } // for
+  */
+
+  // attach the current ornaments if any to the note
+  while (! fCurrentOrnaments.empty()) {
+    S_msrOrnament
+      art =
+        fCurrentOrnaments.front();
+        
+    if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> attaching ornament '" <<
+        art->ornamentKindAsString () <<
+        "' to note " << note->noteAsString () <<
+        endl;
+
+    note->
+      addOrnamentToNote (art);
+    fCurrentOrnaments.pop_front();
+  } // while
+}
+
+//______________________________________________________________________________
 void xml2MsrVisitor::attachCurrentArticulationsToChord (
   S_msrChord chord)
 {
@@ -4923,6 +5008,38 @@ void xml2MsrVisitor::attachCurrentArticulationsToChord (
     chord->
       addArticulationToChord (art);
 // JMI    fCurrentArticulations.pop_front();
+  } // while
+  */
+}
+
+//______________________________________________________________________________
+void xml2MsrVisitor::attachCurrentOrnamentsToChord (
+  S_msrChord chord)
+{
+  list<S_msrOrnament>::const_iterator i;
+  for (
+    i=fCurrentOrnaments.begin();
+    i!=fCurrentOrnaments.end();
+    i++) {
+    if (fMsrOptions->fDebug)
+      cerr << idtr <<
+        "--> attaching ornament " <<  (*i) << " to chord " <<
+        chord <<
+        endl;
+        
+    chord->
+      addOrnamentToChord ((*i));
+    } // for
+/*  
+  // attach the current ornaments if any to the note
+  while (! fCurrentOrnaments.empty()) {
+    S_msrOrnament
+      art =
+        fCurrentOrnaments.front();
+        
+    chord->
+      addOrnamentToChord (art);
+// JMI    fCurrentOrnaments.pop_front();
   } // while
   */
 }
@@ -5278,6 +5395,9 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
 
   // attach the articulations if any to the note
   attachCurrentArticulationsToNote (note);
+
+  // attach the ornaments if any to the note
+  attachCurrentOrnamentsToNote (note);
 
   /*
   A rest can be standalone or belong to a tuplet
