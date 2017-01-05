@@ -562,20 +562,52 @@ string msrArticulation::articulationKindAsString () const
   string result;
   
   switch (fArticulationKind) {
-    case kStaccato:
+    case msrArticulation::kAccent:
+      result = "accent";
+      break;
+    case msrArticulation::kBreathMark:
+      result = "breathMark";
+      break;
+    case msrArticulation::kCaesura:
+      result = "caesura";
+      break;
+    case msrArticulation::kSpiccato:
+      result = "spiccato";
+      break;
+    case msrArticulation::kStaccato:
       result = "staccato";
       break;
-    case kStaccatissimo:
+    case msrArticulation::kStaccatissimo:
       result = "staccatissimo";
       break;
-    case kDetachedLegato:
+    case msrArticulation::kStress:
+      result = "stress";
+      break;
+    case msrArticulation::kUnstress:
+      result = "unstress";
+      break;
+    case msrArticulation::kDetachedLegato:
       result = "detached legato";
       break;
-    case kFermata:
+    case msrArticulation::kStrongAccent:
+      result = "strong accent";
+      break;
+    case msrArticulation::kTenuto:
+      result = "tenuto";
+      break;
+    case msrArticulation::kFermata:
       result = "fermata";
       break;
-    case kArpeggiato:
+    case msrArticulation::kArpeggiato:
       result = "arpeggiato";
+    case msrArticulation::kDoit:
+      result = "doit";
+    case msrArticulation::kFalloff:
+      result = "falloff";
+    case msrArticulation::kPlop:
+      result = "plop";
+    case msrArticulation::kScoop:
+      result = "scoop";
       break;
   } // switch
 
