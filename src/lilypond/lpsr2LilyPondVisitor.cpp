@@ -1498,8 +1498,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrClef& elt)
     }
   }
     
-  else
-  if ( elt->getSign () == "F") {
+  else if ( elt->getSign () == "F") {
     
     if ( elt->getLine () == 4 )
       fOstream << "bass"; 
@@ -1511,8 +1510,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrClef& elt)
     }
   }
     
-  else
-  if ( elt->getSign () == "C") {
+  else if ( elt->getSign () == "C") {
     
     if ( elt->getLine () == 4 )
       fOstream << "tenor"; 
@@ -1528,18 +1526,15 @@ void lpsr2LilyPondVisitor::visitStart (S_msrClef& elt)
     }
   }
 
-  else
-  if ( elt->getSign () == "percussion") {
+  else if ( elt->getSign () == "percussion") {
     fOstream << "perc";
   }
 
-  else
-  if ( elt->getSign () == "TAB") {
-    fOstream << "TAB";
+  else if ( elt->getSign () == "tab" || elt->getSign () == "TAB") {
+    fOstream << "tab";
   }
 
-  else
-  if ( elt->getSign () == "none") {
+  else if ( elt->getSign () == "none") {
     fOstream << "none";
   }
     
@@ -1554,8 +1549,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrClef& elt)
         
   if (elt->getOctaveChange () == 1)
     fOstream << "^8";
-  else
-  if (elt->getOctaveChange () == -1)
+  else if (elt->getOctaveChange () == -1)
     fOstream << "_8";
 
   fOstream <<
