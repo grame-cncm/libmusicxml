@@ -589,7 +589,7 @@ class EXP msrStem : public msrElement
 
     enum msrStemKind {
       k_NoStem,
-      kStemUp, kStemDown};
+      kStemUp, kStemDown, kStemNone, kStemDouble};
 
     // creation from MusicXML
     // ------------------------------------------------------

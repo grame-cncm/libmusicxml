@@ -415,6 +415,12 @@ void msrStem::print (ostream& os)
     case kStemDown:
       os << "down";
       break;
+    case kStemNone:
+      os << "none";
+      break;
+    case kStemDouble:
+      os << "double";
+      break;
   } // switch
   os <<
     ", line " << fInputLineNumber <<

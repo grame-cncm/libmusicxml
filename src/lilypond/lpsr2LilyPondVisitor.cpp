@@ -1849,6 +1849,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
           case msrStem::kStemDown:
             fOstream << "\\stemDown" " ";
             break;
+          case msrStem::kStemNone: // JMI ???
+            break;
+          case msrStem::kStemDouble: // JMI ???
+            break;
         } // switch
       }
       fMusicOlec++;

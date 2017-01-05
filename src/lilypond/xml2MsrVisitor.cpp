@@ -3816,6 +3816,12 @@ void xml2MsrVisitor::visitStart ( S_stem& elt )
   else if (stem == "down")
     stemKind = msrStem::kStemDown;
     
+  else if (stem == "none")
+    stemKind = msrStem::kStemNone;
+    
+  else if (stem == "double")
+    stemKind = msrStem::kStemDouble;
+    
   else {
     stringstream s;
     
