@@ -6893,4 +6893,20 @@ void xml2MsrVisitor::visitStart ( S_rehearsal& elt )
 }
 
 
+/*
+ http://usermanuals.musicxml.com/MusicXML/Content/CT-MusicXML-harmony.htm
+  
+      <harmony default-y="40" font-size="15.4">
+        <root>
+          <root-step>B</root-step>
+        </root>
+        <kind text="Maj7">major-seventh</kind>
+        <bass>
+          <bass-step>D</bass-step>
+          <bass-alter>1</bass-alter>
+        </bass>
+      </harmony>
+*/
+
+
 } // namespace

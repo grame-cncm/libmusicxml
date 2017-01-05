@@ -2287,7 +2287,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
       if (wordsFontStyle.size ())
         fOstream <<
           "\\" << wordsFontStyle << " ";
-      if (wordsFontWeight.size ())
+      if (wordsFontWeight.size () && wordsFontWeight != "normal") // JMI
         fOstream <<
           "\\" << wordsFontWeight << " ";
       fOstream <<
