@@ -2129,6 +2129,33 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
         case msrOrnament::kTrillMark:
           fOstream << "\\trill";
           break;
+        case msrOrnament::kWavyLine:
+          fOstream << "\\wayvy line";
+          break;
+        case msrOrnament::kTurn:
+          fOstream << "\\turn";
+          break;
+        case msrOrnament::kInvertedTurn:
+          fOstream << "\\inverted turn";
+          break;
+        case msrOrnament::kDelayedInvertedTurn:
+          fOstream << "\\delayed inverted turn";
+          break;
+        case msrOrnament::kVerticalTurn:
+          fOstream << "\\vertical turn";
+          break;
+        case msrOrnament::kMordent:
+          fOstream << "\\mordent";
+          break;
+        case msrOrnament::kInvertedMordent:
+          fOstream << "\\inverted mordent";
+          break;
+        case msrOrnament::kSchleifer:
+          fOstream << "\\schleifer";
+          break;
+        case msrOrnament::kShake:
+          fOstream << "\\shake";
+          break;
       } // switch
       
       fOstream << " ";

@@ -663,8 +663,35 @@ string msrOrnament::ornamentKindAsString () const
   string result;
   
   switch (fOrnamentKind) {
-    case kTrillMark:
+    case msrOrnament::kTrillMark:
       result = "trill";
+      break;
+    case msrOrnament::kWavyLine:
+      result = "wayvy line";
+      break;
+    case msrOrnament::kTurn:
+      result = "turn";
+      break;
+    case msrOrnament::kInvertedTurn:
+      result = "inverted turn";
+      break;
+    case msrOrnament::kDelayedInvertedTurn:
+      result = "delayed inverted turn";
+      break;
+    case msrOrnament::kVerticalTurn:
+      result = "vertical turn";
+      break;
+    case msrOrnament::kMordent:
+      result = "mordent";
+      break;
+    case msrOrnament::kInvertedMordent:
+      result = "inverted mordent";
+      break;
+    case msrOrnament::kSchleifer:
+      result = "schleifer";
+      break;
+    case msrOrnament::kShake:
+      result = "shake";
       break;
   } // switch
 
