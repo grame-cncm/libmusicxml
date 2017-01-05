@@ -6906,6 +6906,43 @@ void xml2MsrVisitor::visitStart ( S_rehearsal& elt )
           <bass-alter>1</bass-alter>
         </bass>
       </harmony>
+      
+
+        <clef>
+          <sign>TAB</sign>
+          <line>5</line>
+        </clef>
+        <staff-details>
+          <staff-lines>6</staff-lines>
+          <staff-tuning line="1">
+            <tuning-step>D</tuning-step>
+            <tuning-octave>2</tuning-octave>
+          </staff-tuning>
+          <staff-tuning line="2">
+            <tuning-step>A</tuning-step>
+            <tuning-octave>2</tuning-octave>
+          </staff-tuning>
+          <staff-tuning line="3">
+            <tuning-step>D</tuning-step>
+            <tuning-octave>3</tuning-octave>
+          </staff-tuning>
+          <staff-tuning line="4">
+            <tuning-step>G</tuning-step>
+            <tuning-octave>3</tuning-octave>
+          </staff-tuning>
+          <staff-tuning line="5">
+            <tuning-step>B</tuning-step>
+            <tuning-octave>3</tuning-octave>
+          </staff-tuning>
+          <staff-tuning line="6">
+            <tuning-step>D</tuning-step>
+            <tuning-octave>4</tuning-octave>
+          </staff-tuning>
+          <capo>4</capo>
+          <staff-size>183</staff-size>
+        </staff-details>
+      </attributes>
+
 */
 
 
