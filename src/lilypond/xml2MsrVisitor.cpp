@@ -3907,6 +3907,54 @@ void xml2MsrVisitor::visitStart ( S_articulations& elt )
 {
 }
 
+void xml2MsrVisitor::visitStart ( S_accent& elt )
+{
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kAccent);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
+void xml2MsrVisitor::visitStart ( S_breath_mark& elt )
+{
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kBreathMark);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
+void xml2MsrVisitor::visitStart ( S_caesura& elt )
+{
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kCaesura);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
+void xml2MsrVisitor::visitStart ( S_spiccato& elt )
+{
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kSpiccato);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
 void xml2MsrVisitor::visitStart ( S_staccato& elt )
 {
   S_msrArticulation
@@ -3931,6 +3979,30 @@ void xml2MsrVisitor::visitStart ( S_staccatissimo& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
+void xml2MsrVisitor::visitStart ( S_stress& elt )
+{
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kStress);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
+void xml2MsrVisitor::visitStart ( S_unstress& elt )
+{
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kUnstress);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
 void xml2MsrVisitor::visitStart ( S_detached_legato& elt )
 {
   S_msrArticulation
@@ -3939,6 +4011,32 @@ void xml2MsrVisitor::visitStart ( S_detached_legato& elt )
         fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kDetachedLegato);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
+void xml2MsrVisitor::visitStart ( S_strong_accent& elt )
+{
+  // type : upright inverted  (Binchois20.xml)
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kStrongAccent);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
+void xml2MsrVisitor::visitStart ( S_tenuto& elt )
+{
+  // type : upright inverted  (Binchois20.xml)
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kTenuto);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -3964,6 +4062,54 @@ void xml2MsrVisitor::visitStart ( S_arpeggiate& elt )
         fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kArpeggiato);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
+void xml2MsrVisitor::visitStart ( S_doit& elt )
+{
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kDoit);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
+void xml2MsrVisitor::visitStart ( S_falloff& elt )
+{
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kFalloff);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
+void xml2MsrVisitor::visitStart ( S_plop& elt )
+{
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kPlop);
+      
+  fCurrentArticulations.push_back (articulation);
+}
+
+void xml2MsrVisitor::visitStart ( S_scoop& elt )
+{
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        msrArticulation::kScoop);
       
   fCurrentArticulations.push_back (articulation);
 }

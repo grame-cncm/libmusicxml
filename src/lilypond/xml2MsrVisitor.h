@@ -174,11 +174,23 @@ class EXP xml2MsrVisitor :
   public visitor<S_dot>,
   
   public visitor<S_articulations>,
+  public visitor<S_accent>,
+  public visitor<S_breath_mark>,
+  public visitor<S_caesura>,
+  public visitor<S_spiccato>,
   public visitor<S_staccato>,
   public visitor<S_staccatissimo>,
+  public visitor<S_stress>,
+  public visitor<S_unstress>,
   public visitor<S_detached_legato>,
-  public visitor<S_arpeggiate>,
+  public visitor<S_strong_accent>,
+  public visitor<S_tenuto>,
   public visitor<S_fermata>,
+  public visitor<S_arpeggiate>,
+  public visitor<S_doit>,
+  public visitor<S_falloff>,
+  public visitor<S_plop>,
+  public visitor<S_scoop>,
 
   public visitor<S_ornaments>,
   public visitor<S_trill_mark>,
@@ -386,12 +398,24 @@ class EXP xml2MsrVisitor :
     
     virtual void visitStart ( S_articulations& elt );
     virtual void visitEnd   ( S_articulations& elt );
+    virtual void visitStart ( S_accent& elt );
+    virtual void visitStart ( S_breath_mark& elt );
+    virtual void visitStart ( S_caesura& elt );
+    virtual void visitStart ( S_spiccato& elt );
     virtual void visitStart ( S_staccato& elt );
     virtual void visitStart ( S_staccatissimo& elt );
+    virtual void visitStart ( S_stress& elt );
+    virtual void visitStart ( S_unstress& elt );
     virtual void visitStart ( S_detached_legato& elt );
+    virtual void visitStart ( S_strong_accent& elt );
+    virtual void visitStart ( S_tenuto& elt );
     virtual void visitStart ( S_fermata& elt );
     virtual void visitStart ( S_arpeggiate& elt );
-    
+    virtual void visitStart ( S_doit& elt );
+    virtual void visitStart ( S_falloff& elt );
+    virtual void visitStart ( S_plop& elt );
+    virtual void visitStart ( S_scoop& elt );
+        
     virtual void visitStart ( S_ornaments& elt );
     virtual void visitEnd   ( S_ornaments& elt );
     virtual void visitStart ( S_trill_mark& elt );

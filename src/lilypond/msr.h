@@ -729,7 +729,8 @@ class EXP msrArticulation : public msrElement
         kDetachedLegato,
         kStrongAccent, kTenuto,
         kFermata, // barline ???
-        kArpeggiato, kDoit, kFalloff, kPlop, kScoop};
+        kArpeggiato, // ???
+        kDoit, kFalloff, kPlop, kScoop};
 
     // creation from MusicXML
     // ------------------------------------------------------

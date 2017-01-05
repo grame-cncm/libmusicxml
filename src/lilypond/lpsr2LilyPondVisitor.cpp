@@ -2138,6 +2138,9 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
         case msrOrnament::kInvertedTurn:
           fOstream << "\\inverted turn";
           break;
+        case msrOrnament::kDelayedTurn:
+          fOstream << "\\delayed turn";
+          break;
         case msrOrnament::kDelayedInvertedTurn:
           fOstream << "\\delayed inverted turn";
           break;

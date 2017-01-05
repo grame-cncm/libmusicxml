@@ -675,6 +675,9 @@ string msrOrnament::ornamentKindAsString () const
     case msrOrnament::kInvertedTurn:
       result = "inverted turn";
       break;
+    case msrOrnament::kDelayedTurn:
+      result = "delayed turn";
+      break;
     case msrOrnament::kDelayedInvertedTurn:
       result = "delayed inverted turn";
       break;
