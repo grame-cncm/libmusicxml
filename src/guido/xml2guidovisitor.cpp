@@ -88,10 +88,10 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xml2guidovisitor::flushPartHeader ( partHeader& header )
     {
-        if (header.fPartName && header.fPartName->getValue().size()) {
+        if ( (header.visited==false) && header.fPartName.size()) {
             Sguidoelement tag = guidotag::create("instr");
             stringstream s1, s2;
-            string instr = header.fPartName->getValue();
+            string instr = header.fPartName;
             int offset = instr.size() * 2;
             
             s1 << "dx=-" << offset << "hs";
@@ -105,7 +105,48 @@ namespace MusicXML2
             s2 << "dx=" << offset << "hs";
             tag->add (guidoparam::create(s2.str(), false));
             add (tag);
-            header.fPartName = 0;
+            header.visited = true;
+        }
+    }
+    
+    void xml2guidovisitor::flushPartGroup (std::string partID)
+    {
+        //cout<< "Entering flushPartGroup with ID "<<partID<<endl;
+        /// Add groupings (accolade and barformat)
+        // search if this part ID exists in any grouping
+        // Guido Limitation: One \accol tag per staff ONLY (for nested definitions)
+        // IDEA: Treat the FIRST occurence of partID in grouping and get rid of it.
+        partGroup* partGroupIt = find_first_of_partID_inGroup(partID);
+        
+        if (partGroupIt != NULL)
+        {
+            /// something was found. Generate Accolades and BarFormat if any
+            
+            if (partGroupIt->bracket)
+            {
+                //+std::to_string(partGroupIt->first)
+                std::string accolParams = "id=1, range="+partGroupIt->guidoRange;
+                
+                Sguidoelement tag3 = guidotag::create("accol");
+                tag3->add (guidoparam::create(accolParams, false));
+                add (tag3);
+                
+                //cout<<"\t Added ACCOL "<<accolParams<<endl;
+            }
+            
+            if (partGroupIt->barlineGrouping)
+            {
+                std::string barformatParams = "style= \"system\", range="+partGroupIt->guidoRange;
+                
+                Sguidoelement tag4 = guidotag::create("barFormat");
+                tag4->add (guidoparam::create(barformatParams, false));
+                add (tag4);
+                
+                //cout<<"\t Added BarFormat "<<barformatParams<<endl;
+            }
+            
+            /// Make sure that this group pattern won't be visited next time
+            partGroupIt->visited = true;
         }
     }
     
@@ -119,8 +160,8 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xml2guidovisitor::visitStart ( S_movement_title& elt )		{ fHeader.fTitle = elt; }
     void xml2guidovisitor::visitStart ( S_creator& elt )			{ fHeader.fCreators.push_back(elt); }
-    void xml2guidovisitor::visitStart ( S_score_part& elt )			{ fCurrentPartID = elt->getAttributeValue("id"); }
-    void xml2guidovisitor::visitStart ( S_part_name& elt )			{ fPartHeaders[fCurrentPartID].fPartName = elt; }
+    //void xml2guidovisitor::visitStart ( S_score_part& elt )			{ fCurrentPartID = elt->getAttributeValue("id"); }
+    //void xml2guidovisitor::visitStart ( S_part_name& elt )			{ fPartHeaders[fCurrentPartID].fPartName = elt; }
     
     //______________________________________________________________________________
     void xml2guidovisitor::visitStart ( S_part& elt )
@@ -147,8 +188,6 @@ namespace MusicXML2
                 fCurrentStaffIndex++;
             }
             
-            //cout<<"Generating PART with voice "<<targetVoice<<" staff "<<targetStaff<<" coveringStaffs: "<<ps.countStaves()<< " notesOnly="<<(int)(notesOnly) <<endl;
-            
             Sguidoelement seq = guidoseq::create();
             push (seq);
             
@@ -158,16 +197,28 @@ namespace MusicXML2
             
             //// Add staffFormat if needed
             // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
-            if (previousStaffHasLyrics)
+            int stafflines = elt->getIntValue(k_staff_lines, 0);
+            
+            if ((previousStaffHasLyrics)||stafflines)
             {
                 Sguidoelement tag2 = guidotag::create("staffFormat");
-                tag2->add (guidoparam::create("dy=-5", false));
+                if (previousStaffHasLyrics)
+                {
+                    tag2->add (guidoparam::create("dy=-5", false));
+                }
+                
+                if (stafflines>0)
+                {
+                    std::string staffstyle = "style=\""+std::to_string(stafflines)+"-line\"";
+                    tag2->add (guidoparam::create(staffstyle,false));
+                }
                 add (tag2);
             }
             ////
             
             flushHeader (fHeader);
             flushPartHeader (fPartHeaders[elt->getAttributeValue("id")]);
+            flushPartGroup(elt->getAttributeValue("id"));
             
             //// Add Accolade if countStaves on this Part is >1, and we are entering span
             if ((ps.countStaves()>1)&&(fCurrentStaffIndex>fCurrentAccoladeIndex))
@@ -194,14 +245,14 @@ namespace MusicXML2
             }else {
                 
                 // if the staff is not in the prior range, then add barFormat
-                if (fCurrentStaffIndex>fCurrentAccoladeIndex)
+                /*if (fCurrentStaffIndex>fCurrentAccoladeIndex)
                 {
                     std::string barformatParams = "style= \"system\", range=\""+ std::to_string(fCurrentStaffIndex)+"\"";
                     Sguidoelement tag4 = guidotag::create("barFormat");
                     tag4->add (guidoparam::create(barformatParams, false));
                     add (tag4);
                     //cout<<"\tAdded SINGLE barlineformat "<< barformatParams <<endl;
-                }
+                }*/
             }
             
             ////
