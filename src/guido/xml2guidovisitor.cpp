@@ -206,8 +206,9 @@ namespace MusicXML2
                 
                 if (stafflines>0)
                 {
-                    std::string staffstyle = "style=\""+std::to_string(stafflines)+"-line\"";
-                    tag2->add (guidoparam::create(staffstyle,false));
+                    stringstream staffstyle;
+                    staffstyle << "style=\"" << stafflines<<"-line\"";
+                    tag2->add (guidoparam::create(staffstyle.str(),false));
                 }
                 add (tag2);
             }

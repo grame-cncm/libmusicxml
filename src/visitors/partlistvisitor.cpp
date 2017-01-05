@@ -62,7 +62,9 @@ namespace MusicXML2
         std::vector<int>::iterator rangeEnd = std::max_element(staves.begin(), staves.end());
         std::vector<int>::iterator rangeBegin = std::min_element(staves.begin(), staves.begin());
         
-        pGroup.guidoRange = "\""+std::to_string(*rangeBegin)+"-"+std::to_string(*rangeEnd)+"\"";
+        stringstream rangeStream;
+        rangeStream << "\""<< (*rangeBegin)<<"-"<<(*rangeEnd)<<"\"";
+        pGroup.guidoRange = rangeStream.str();
         pGroup.guidoRangeStart = *rangeBegin;
         pGroup.guidoRangeStop = *rangeEnd;
     }
