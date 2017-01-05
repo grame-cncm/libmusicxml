@@ -1714,12 +1714,20 @@ void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
             inputLineNumber, variableName, variableValue);
   }
   
-  else if (variableName == "lyricist") {
+  else if (variableName == "poet") {
     S_lpsrLilypondVarValAssoc
       assoc =
         fLpsrScoreHeader->
           addCreator (
             inputLineNumber, "poet", variableValue);
+  }
+
+  else if (variableName == "lyricist") {
+    S_lpsrLilypondVarValAssoc
+      assoc =
+        fLpsrScoreHeader->
+          addCreator (
+            inputLineNumber, "poet", variableValue); // JMI ???
   }
 
   else if (variableName == "rights") {
