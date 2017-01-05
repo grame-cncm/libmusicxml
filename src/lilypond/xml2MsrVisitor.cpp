@@ -4251,14 +4251,19 @@ void xml2MsrVisitor::visitStart ( S_accidental_mark& elt )
   fCurrentAccidentalMark =
     elt->getValue ();
 
-  if (fCurrentAccidentalMark == "above")
-    fCurrentWordsPlacementKind = msrWords::kAbove;
+  msrOrnament::msrOrnamentAccidentalMarkKind
+    currentOrnamentAccidentalMarkKind;
     
-  else if (fCurrentAccidentalMark == "below")
-    fCurrentWordsPlacementKind = msrWords::kBelow;
+  if (fCurrentAccidentalMark == "natural")
+    currentOrnamentAccidentalMarkKind = msrOrnament::kNatural;
+    
+  else if (fCurrentAccidentalMark == "sharp")
+    currentOrnamentAccidentalMarkKind = msrOrnament::kSharp;
+    
+  else if (fCurrentAccidentalMark == "flat")
+    currentOrnamentAccidentalMarkKind = msrOrnament::kFlat;
     
   else if (fCurrentAccidentalMark.size ()) {
-    
     stringstream s;
     
     s <<
@@ -4301,6 +4306,10 @@ void xml2MsrVisitor::visitStart ( S_accidental_mark& elt )
   fCurrentOrnament->
     setOrnamentPlacementKind (
       fCurrentOrnamentPlacementKind);
+      
+  fCurrentOrnament->
+    setOrnamentAccidentalMarkKind (
+      currentOrnamentAccidentalMarkKind);
 }
 
 void xml2MsrVisitor::visitEnd ( S_ornaments& elt )

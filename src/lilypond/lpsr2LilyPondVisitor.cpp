@@ -2195,6 +2195,35 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
       
       fOstream << " ";
       fMusicOlec++;
+
+      switch ((*i)->getOrnamentPlacementKind ()) {
+        case msrOrnament::k_NoPlacementKind:
+          break;
+        case msrOrnament::kAbove:
+          fOstream << "^";
+          break;
+        case msrOrnament::kBelow:
+          fOstream << "_";
+          break;
+      } // switch
+
+      fOstream << " ";
+      fMusicOlec++;
+
+      switch ((*i)->getOrnamentAccidentalMarkKind ()) {
+        case msrOrnament::kNatural:
+          fOstream << "\\markup { \\natural }";
+          break;
+        case msrOrnament::kSharp:
+          fOstream << "\\markup { \\sharp }";
+          break;
+        case msrOrnament::kFlat:
+          fOstream << "\\markup { \\flat }";
+          break;
+      } // switch
+
+      fOstream << " ";
+      fMusicOlec++;
     } // for
   }
 

@@ -752,6 +752,25 @@ string msrOrnament::ornamentPlacementKindAsString () const
   return result;
 }
 
+string msrOrnament::ornamentAccidentalMarkKindAsString () const
+{
+  string result;
+  
+  switch (fOrnamentAccidentalMarkKind) {
+    case msrOrnament::kNatural:
+      result = "natural";
+      break;
+    case msrOrnament::kSharp:
+      result = "sharp";
+      break;
+    case msrOrnament::kFlat:
+      result = "flat";
+      break;
+  } // switch
+
+  return result;
+}
+
 void msrOrnament::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -801,7 +820,8 @@ void msrOrnament::print (ostream& os)
     "Ornament" " " <<
     ornamentKindAsString () <<
     ", line " << fInputLineNumber <<
-    ", placement " << ornamentPlacementKindAsString () <<
+    ", placement" << " = " << ornamentPlacementKindAsString () <<
+    ", accidental mark" << " = " << ornamentAccidentalMarkKindAsString () <<
     endl;
 }
 
