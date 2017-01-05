@@ -799,9 +799,9 @@ class EXP msrOrnament : public msrElement
     // ------------------------------------------------------
 
     enum msrOrnamentKind {
-        kTrillMark, kWavyMark,
-        kTurn, kInvertedTurn,
-        kDelayedInvertedTurn, kDelayedTurn, kVerticalTurn,
+        kTrillMark, kWavyLine,
+        kTurn, kInvertedTurn, kDelayedTurn,
+        kDelayedInvertedTurn, kVerticalTurn,
         kMordent, kInvertedMordent,
         kSchleifer, kShake};
 

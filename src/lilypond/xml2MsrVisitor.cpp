@@ -3980,14 +3980,127 @@ void xml2MsrVisitor::visitStart ( S_ornaments& elt )
 void xml2MsrVisitor::visitStart ( S_trill_mark& elt )
 {
   // type : upright inverted  (Binchois20.xml)
-  S_msrOrnament
-    ornament =
-      msrOrnament::create (
-        fMsrOptions,
-        elt->getInputLineNumber (),
-        msrOrnament::kTrillMark);
+  fCurrentOrnament =
+    msrOrnament::create (
+      fMsrOptions,
+      elt->getInputLineNumber (),
+      msrOrnament::kTrillMark);
       
-  fCurrentOrnaments.push_back (ornament);
+  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+}
+
+void xml2MsrVisitor::visitStart ( S_wavy_line& elt )
+{
+  fCurrentOrnament =
+    msrOrnament::create (
+      fMsrOptions,
+      elt->getInputLineNumber (),
+      msrOrnament::kWavyLine);
+      
+  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+}
+
+void xml2MsrVisitor::visitStart ( S_turn& elt )
+{
+  fCurrentOrnament =
+    msrOrnament::create (
+      fMsrOptions,
+      elt->getInputLineNumber (),
+      msrOrnament::kTurn);
+      
+  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+}
+
+void xml2MsrVisitor::visitStart ( S_inverted_turn& elt )
+{
+  fCurrentOrnament =
+    msrOrnament::create (
+      fMsrOptions,
+      elt->getInputLineNumber (),
+      msrOrnament::kInvertedTurn);
+      
+  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+}
+
+void xml2MsrVisitor::visitStart ( S_delayed_turn& elt )
+{
+  fCurrentOrnament =
+    msrOrnament::create (
+      fMsrOptions,
+      elt->getInputLineNumber (),
+      msrOrnament::kDelayedTurn);
+      
+  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+}
+
+void xml2MsrVisitor::visitStart ( S_delayed_inverted_turn& elt )
+{
+  fCurrentOrnament =
+    msrOrnament::create (
+      fMsrOptions,
+      elt->getInputLineNumber (),
+      msrOrnament::kDelayedInvertedTurn);
+      
+  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+}
+
+void xml2MsrVisitor::visitStart ( S_vertical_turn& elt )
+{
+  fCurrentOrnament =
+    msrOrnament::create (
+      fMsrOptions,
+      elt->getInputLineNumber (),
+      msrOrnament::kVerticalTurn);
+      
+  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+}
+
+void xml2MsrVisitor::visitStart ( S_mordent& elt )
+{
+  fCurrentOrnament =
+    msrOrnament::create (
+      fMsrOptions,
+      elt->getInputLineNumber (),
+      msrOrnament::kMordent);
+      
+  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+}
+
+void xml2MsrVisitor::visitStart ( S_inverted_mordent& elt )
+{
+  fCurrentOrnament =
+    msrOrnament::create (
+      fMsrOptions,
+      elt->getInputLineNumber (),
+      msrOrnament::kInvertedMordent);
+      
+  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+}
+
+void xml2MsrVisitor::visitStart ( S_schleifer& elt )
+{
+  fCurrentOrnament =
+    msrOrnament::create (
+      fMsrOptions,
+      elt->getInputLineNumber (),
+      msrOrnament::kSchleifer);
+      
+  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+}
+
+void xml2MsrVisitor::visitStart ( S_shake& elt )
+{
+  fCurrentOrnament =
+    msrOrnament::create (
+      fMsrOptions,
+      elt->getInputLineNumber (),
+      msrOrnament::kShake);
+      
+  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+}
+
+void xml2MsrVisitor::visitStart ( S_accidental_mark& elt )
+{
 }
 
 void xml2MsrVisitor::visitEnd ( S_ornaments& elt )
@@ -4952,8 +5065,8 @@ void xml2MsrVisitor::attachCurrentOrnamentsToNote (
   /*
   list<S_msrOrnament>::const_iterator i;
   for (
-    i=fCurrentOrnaments.begin();
-    i!=fCurrentOrnaments.end();
+    i=fCurrentOrnamentsList.begin();
+    i!=fCurrentOrnamentsList.end();
     i++) {
 
     note->
@@ -4962,10 +5075,10 @@ void xml2MsrVisitor::attachCurrentOrnamentsToNote (
   */
 
   // attach the current ornaments if any to the note
-  while (! fCurrentOrnaments.empty()) {
+  while (! fCurrentOrnamentsList.empty()) {
     S_msrOrnament
       art =
-        fCurrentOrnaments.front();
+        fCurrentOrnamentsList.front();
         
     if (fMsrOptions->fDebug)
       cerr << idtr <<
@@ -4976,7 +5089,7 @@ void xml2MsrVisitor::attachCurrentOrnamentsToNote (
 
     note->
       addOrnamentToNote (art);
-    fCurrentOrnaments.pop_front();
+    fCurrentOrnamentsList.pop_front();
   } // while
 }
 
@@ -5018,8 +5131,8 @@ void xml2MsrVisitor::attachCurrentOrnamentsToChord (
 {
   list<S_msrOrnament>::const_iterator i;
   for (
-    i=fCurrentOrnaments.begin();
-    i!=fCurrentOrnaments.end();
+    i=fCurrentOrnamentsList.begin();
+    i!=fCurrentOrnamentsList.end();
     i++) {
     if (fMsrOptions->fDebug)
       cerr << idtr <<
@@ -5032,14 +5145,14 @@ void xml2MsrVisitor::attachCurrentOrnamentsToChord (
     } // for
 /*  
   // attach the current ornaments if any to the note
-  while (! fCurrentOrnaments.empty()) {
+  while (! fCurrentOrnamentsList.empty()) {
     S_msrOrnament
       art =
-        fCurrentOrnaments.front();
+        fCurrentOrnamentsList.front();
         
     chord->
       addOrnamentToChord (art);
-// JMI    fCurrentOrnaments.pop_front();
+// JMI    fCurrentOrnamentsList.pop_front();
   } // while
   */
 }

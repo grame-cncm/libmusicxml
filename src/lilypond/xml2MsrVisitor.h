@@ -182,6 +182,17 @@ class EXP xml2MsrVisitor :
 
   public visitor<S_ornaments>,
   public visitor<S_trill_mark>,
+  public visitor<S_wavy_line>,
+  public visitor<S_turn>,
+  public visitor<S_inverted_turn>,
+  public visitor<S_delayed_turn>,
+  public visitor<S_delayed_inverted_turn>,
+  public visitor<S_vertical_turn>,
+  public visitor<S_mordent>,
+  public visitor<S_inverted_mordent>,
+  public visitor<S_schleifer>,
+  public visitor<S_shake>,
+  public visitor<S_accidental_mark>,
 
   public visitor<S_f>,
   public visitor<S_ff>,
@@ -384,6 +395,17 @@ class EXP xml2MsrVisitor :
     virtual void visitStart ( S_ornaments& elt );
     virtual void visitEnd   ( S_ornaments& elt );
     virtual void visitStart ( S_trill_mark& elt );
+    virtual void visitStart ( S_wavy_line& elt );
+    virtual void visitStart ( S_turn& elt );
+    virtual void visitStart ( S_inverted_turn& elt );
+    virtual void visitStart ( S_delayed_turn& elt );
+    virtual void visitStart ( S_delayed_inverted_turn& elt );
+    virtual void visitStart ( S_vertical_turn& elt );
+    virtual void visitStart ( S_mordent& elt );
+    virtual void visitStart ( S_inverted_mordent& elt );
+    virtual void visitStart ( S_schleifer& elt );
+    virtual void visitStart ( S_shake& elt );
+    virtual void visitStart ( S_accidental_mark& elt );
 
     virtual void visitStart ( S_f& elt);
     virtual void visitStart ( S_ff& elt);
@@ -718,17 +740,11 @@ class EXP xml2MsrVisitor :
 
     void                      attachCurrentArticulationsToNote (
                                 S_msrNote note);
-    void                      attachCurrentOrnamentsToNote (
-                                S_msrNote note);
                                 
     void                      attachCurrentArticulationsToChord (
                                 S_msrChord chord);
-    void                      attachCurrentOrnamentsToChord (
-                                S_msrChord chord);
                                 
     void                      copyNoteArticulationsToChord (
-                                S_msrNote note, S_msrChord chord);
-    void                      copyNoteOrnamentsToChord (
                                 S_msrNote note, S_msrChord chord);
                                 
     // dynamics, words and wedges remain pending until the next note
@@ -764,7 +780,17 @@ class EXP xml2MsrVisitor :
        
     // ------------------------------------------------------
     // ornaments handling
-    list<S_msrOrnament>       fCurrentOrnaments;
+    S_msrOrnament             fCurrentOrnament;
+    list<S_msrOrnament>       fCurrentOrnamentsList;
+
+    void                      attachCurrentOrnamentsToNote (
+                                S_msrNote note);
+
+    void                      attachCurrentOrnamentsToChord (
+                                S_msrChord chord);
+
+    void                      copyNoteOrnamentsToChord (
+                                S_msrNote note, S_msrChord chord);
 
     // description of the current MSR note
     // ------------------------------------------------------
