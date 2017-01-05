@@ -722,11 +722,14 @@ class EXP msrArticulation : public msrElement
     // ------------------------------------------------------
 
     enum msrArticulationKind {
+        kAccent, kBreathMark, kCaesura, 
+        kSpiccato,
         kStaccato, kStaccatissimo,
+        kStress, kUnstress,
         kDetachedLegato,
-        kFermata,
-        kTrill,
-        kArpeggiato };
+        kStrongAccent, kTenuto,
+        kFermata, // barline ???
+        kArpeggiato, kDoit, kFalloff, kPlop, kScoop};
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -781,6 +784,80 @@ class EXP msrArticulation : public msrElement
 };
 typedef SMARTP<msrArticulation> S_msrArticulation;
 EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
+
+/*!
+\brief A msr ornament representation.
+
+  An ornament is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP msrOrnament : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrOrnamentKind {
+        kTrillMark, kWavyMark,
+        kTurn, kInvertedTurn,
+        kDelayedInvertedTurn, kDelayedTurn, kVerticalTurn,
+        kMordent, kInvertedMordent,
+        kSchleifer, kShake};
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrOrnament> create (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      msrOrnamentKind ornamentKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOrnament (
+      S_msrOptions&   msrOpts, 
+      int             inputLineNumber,
+      msrOrnamentKind ornamentKind);
+      
+    virtual ~msrOrnament();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrOrnamentKind
+            getOrnamentKind () const
+                { return fOrnamentKind; }
+        
+    // services
+    // ------------------------------------------------------
+
+    string  ornamentKindAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrOrnamentKind fOrnamentKind;
+};
+typedef SMARTP<msrOrnament> S_msrOrnament;
+EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);
 
 /*!
 \brief A msr rehearsal representation.
@@ -2005,6 +2082,15 @@ class EXP msrNote : public msrElement
                   getNoteArticulationsToModify ()
                       { return fNoteArticulations; }
 
+    // ornaments
+    const list<S_msrOrnament>&
+                  getNoteOrnaments () const
+                      { return fNoteOrnaments; }
+                      
+    list<S_msrOrnament>&
+                  getNoteOrnamentsToModify ()
+                      { return fNoteOrnaments; }
+
     bool          noteHasATrill () const
                       { return fNoteHasATrill; }
                   
@@ -2085,6 +2171,9 @@ class EXP msrNote : public msrElement
     // articulations
     void          addArticulationToNote (S_msrArticulation art);
     
+    // ornaments
+    void          addOrnamentToNote (S_msrOrnament art);
+    
     // dynamics
     void          addDynamicsToNote (S_msrDynamics dynamics);
 
@@ -2132,9 +2221,10 @@ class EXP msrNote : public msrElement
                                       
     list<S_msrArticulation>   fNoteArticulations;
 
+    list<S_msrOrnament>       fNoteOrnaments;
+
     int                       fNoteDivisionsPerWholeNote; // JMI
 
-    
     int                       fNotePositionInMeasure;
 
     S_msrTie                  fNoteTie;

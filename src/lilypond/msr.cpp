@@ -638,6 +638,110 @@ void msrArticulation::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrOrnament msrOrnament::create (
+  S_msrOptions&   msrOpts, 
+  int             inputLineNumber,
+  msrOrnamentKind ornamentKind)
+{
+  msrOrnament* o =
+    new msrOrnament (
+      msrOpts, inputLineNumber, ornamentKind);
+  assert (o!=0);
+  return o;
+}
+
+msrOrnament::msrOrnament (
+  S_msrOptions&   msrOpts, 
+  int             inputLineNumber,
+  msrOrnamentKind ornamentKind)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fOrnamentKind = ornamentKind;
+}
+
+msrOrnament::~msrOrnament() {}
+
+string msrOrnament::ornamentKindAsString () const
+{
+  string result;
+  
+  switch (fOrnamentKind) {
+    case kStaccato:
+      result = "staccato";
+      break;
+    case kStaccatissimo:
+      result = "staccatissimo";
+      break;
+    case kDetachedLegato:
+      result = "detached legato";
+      break;
+    case kFermata:
+      result = "fermata";
+      break;
+    case kTrill:
+      result = "trill";
+      break;
+    case kArpeggiato:
+      result = "arpeggiato";
+      break;
+  } // switch
+
+  return result;
+}
+
+void msrOrnament::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrOrnament::acceptIn()" << endl;
+      
+  if (visitor<S_msrOrnament>*
+    p =
+      dynamic_cast<visitor<S_msrOrnament>*> (v)) {
+        S_msrOrnament elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrOrnament::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrOrnament::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrOrnament::acceptOut()" << endl;
+
+  if (visitor<S_msrOrnament>*
+    p =
+      dynamic_cast<visitor<S_msrOrnament>*> (v)) {
+        S_msrOrnament elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrOrnament::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrOrnament::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrOrnament& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrOrnament::print (ostream& os)
+{
+  os <<
+    "Ornament" " " <<
+    ornamentKindAsString () <<
+    ", line " << fInputLineNumber <<
+    endl;
+}
+
+//______________________________________________________________________________
 S_msrRehearsal msrRehearsal::create (
   S_msrOptions&    msrOpts, 
   int              inputLineNumber,
