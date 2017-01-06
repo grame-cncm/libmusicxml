@@ -3645,6 +3645,31 @@ msrClef::msrClef (
 
 msrClef::~msrClef() {}
 
+bool msrClef::isATablatureClef () const
+{
+  switch (fClefKind) {
+    case msrClef::kTablature4Clef:
+    case msrClef::kTablature5Clef:
+    case msrClef::kTablature6Clef:
+    case msrClef::kTablature7Clef:
+      return true;
+      break;
+    default:
+      return false;
+  } // switch
+}
+
+bool msrClef::isAPercussionClef () const
+{
+  switch (fClefKind) {
+    case msrClef::kPercussionClef:
+      return true;
+      break;
+    default:
+      return false;
+  } // switch
+}
+
 void msrClef::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
@@ -3756,7 +3781,7 @@ string msrClef::clefAsString () const
   } // switch
 
   s <<
-    ", line " << fInputLineNumber;
+    "\", line " << fInputLineNumber;
 
   return s.str();
 }
@@ -3925,11 +3950,14 @@ string msrKey::keyAsString () const
 {
   stringstream s;
 
-  s << "Key " << fKeyTonic << " ";
+  s << "Key \"" << fKeyTonic << " ";
   if (fKeyModeKind == kMajor)
-    s << "\\major";
+    s << "major";
   else
-    s << "\\minor";
+    s << "minor";
+
+  s <<
+    "\", line " << fInputLineNumber;
 
   return s.str();
 }
@@ -4015,8 +4043,9 @@ string msrTime::timeAsString () const
   stringstream s;
 
   s <<
-    "Time " << 
-    fBeatsNumber << "/" << fBeatsValue;
+    "Time \"" << 
+    fBeatsNumber << "/" << fBeatsValue <<
+    "\", line " << fInputLineNumber;
 
   return s.str();
 }
@@ -8009,7 +8038,9 @@ msrStaff::msrStaff (
   int           staffNumber,
   S_msrPart     staffPartUplink)
     : msrElement (msrOpts, inputLineNumber)
-{  
+{
+  fStaffKind = kRegularStaff;
+  
   fStaffNumber = staffNumber;
   fStaffPartUplink   = staffPartUplink;
 
@@ -8322,7 +8353,13 @@ void msrStaff::setStaffClef (S_msrClef clef)
   // set staff clef
   fStaffClef = clef;
 
-  // propagate it to all voices
+  // is this a tablature or percussion staff?
+  if (clef->isATablatureClef ())
+    fStaffKind = kTablatureStaff;
+  else if (clef->isAPercussionClef ())
+    fStaffKind = kPercussionStaff;
+  
+  // propagate clef to all voices
   appendClefToAllStaffVoices (clef);
 }
 
@@ -8497,7 +8534,21 @@ ostream& operator<< (ostream& os, const S_msrStaff& elt)
 void msrStaff::print (ostream& os)
 {
   os <<
-    "Staff" << " " << getStaffName () <<
+    "Staff" " " << getStaffName ();
+
+  switch (fStaffKind) {
+    case msrStaff::kRegularStaff:
+      os << "regular";
+      break;
+    case msrStaff::kTablatureStaff:
+      os << "tablature";
+      break;
+    case msrStaff::kPercussionStaff:
+      os << "percussion";
+      break;
+  } // switch
+
+  os <<
     " (" << fStaffVoicesMap.size() << " voices)" <<
     endl;
 

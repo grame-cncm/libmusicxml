@@ -1311,7 +1311,11 @@ class EXP msrClef : public msrElement
     // services
     // ------------------------------------------------------
 
-    string  clefAsString () const;
+    string        clefAsString () const;
+
+    bool          isATablatureClef () const;
+    
+    bool          isAPercussionClef () const;
 
     // visitors
     // ------------------------------------------------------
@@ -4525,6 +4529,9 @@ class EXP msrStaff : public msrElement
 {
   public:
 
+    enum msrStaffKind {
+      kRegularStaff, kTablatureStaff, kPercussionStaff};
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -4555,6 +4562,10 @@ class EXP msrStaff : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    msrStaffKind
+                getStaffKind () const
+                    { return fStaffKind; }
+                
     int         getStaffNumber () const
                     { return fStaffNumber; }
                 
@@ -4644,6 +4655,8 @@ class EXP msrStaff : public msrElement
 
   private:
 
+    msrStaffKind            fStaffKind;
+    
     static int              gMaxStaffVoices;
 
     int                     fStaffNumber;

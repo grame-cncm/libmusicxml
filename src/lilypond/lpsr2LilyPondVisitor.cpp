@@ -857,15 +857,29 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
     partAbbreviation =
       part->getPartAbbreviation ();
 
+  string staffCommand;
+  
+  switch (staff->getStaffKind ()) {
+    case msrStaff::kRegularStaff:
+      staffCommand = "Staff";
+      break;
+    case msrStaff::kTablatureStaff:
+      staffCommand = "TabStaff";
+      break;
+    case msrStaff::kPercussionStaff:
+      staffCommand = "DrumStaff";
+      break;
+  } // switch
+
   if (fLpsrOptions->fGenerateComments) {
     fOstream << left <<
       idtr <<
-      setw(30) << "\\new Staff <<" <<
+      setw(30) << "\\new " << staffCommand << " <<" <<
       " % staff " << elt->getStaff ()->getStaffName ();
   }
   else {
     fOstream << idtr <<
-      "\\new Staff" <<  " " "<<";      
+      "\\new " << staffCommand << " <<";      
   }
       
   fOstream <<
@@ -2264,28 +2278,42 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
       string wordsFontWeight =
         (*i)->getWordsFontWeight ();
 
-      switch (wordsPlacementKind) {
-        case msrWords::kAbove:
-          fOstream << "^";
-          break;
-        case msrWords::kBelow:
-          fOstream << "_";
-          break;
-      } // switch
-    
-      fOstream <<
-        "\\markup" << " { ";
-      if (wordsFontStyle.size ())
-        fOstream <<
-          "\\" << wordsFontStyle << " ";
-      if (wordsFontWeight.size () && wordsFontWeight != "normal") // JMI
-        fOstream <<
-          "\\" << wordsFontWeight << " ";
-      fOstream <<
-        quoteStringIfNonAlpha (wordsContents) <<
-        " } ";
+      string markup;
+      
+      {
+        // create markup apart to have its length available
+        stringstream s;
+        
+        switch (wordsPlacementKind) {
+          case msrWords::kAbove:
+            s << "^";
+            break;
+          case msrWords::kBelow:
+            s << "_";
+            break;
+        } // switch
+      
+        s <<
+          "\\markup" << " { ";
+        if (wordsFontStyle.size ())
+          s <<
+            "\\" << wordsFontStyle << " ";
+        if (wordsFontWeight.size () && wordsFontWeight != "normal") // JMI
+          s <<
+            "\\" << wordsFontWeight << " ";
+        s <<
+          quoteStringIfNonAlpha (wordsContents) <<
+          " } ";
 
-      fMusicOlec++;
+        markup = s.str();
+        }
+
+      fOstream <<
+        markup;
+
+      // don't allow too long a line
+      for (int i = 1; i <= markup.size () / 4; i++)
+        fMusicOlec++;
     } // for
   }
 
