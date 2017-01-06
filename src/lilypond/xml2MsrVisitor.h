@@ -110,6 +110,15 @@ class EXP xml2MsrVisitor :
 
   public visitor<S_staves>,
   public visitor<S_staff>,
+  
+  public visitor<S_staff_details>,
+  public visitor<S_staff_type>,
+  public visitor<S_staff_lines>,
+  public visitor<S_staff_tuning>,
+  public visitor<S_tuning_step>,
+  public visitor<S_tuning_octave>,
+  public visitor<S_capo>,
+  public visitor<S_staff_size>,
 
   public visitor<S_voice>,
 
@@ -321,6 +330,15 @@ class EXP xml2MsrVisitor :
     
     virtual void visitStart ( S_staff& elt);
     
+    virtual void visitStart ( S_staff_details& elt);
+    virtual void visitStart ( S_staff_type& elt);
+    virtual void visitStart ( S_staff_lines& elt);
+    virtual void visitStart ( S_staff_tuning& elt);
+    virtual void visitStart ( S_tuning_step& elt);
+    virtual void visitStart ( S_tuning_octave& elt);
+    virtual void visitStart ( S_capo& elt);
+    virtual void visitStart ( S_staff_size& elt);
+
     virtual void visitStart ( S_voice& elt );
     
     virtual void visitStart ( S_backup& elt );
@@ -464,7 +482,6 @@ class EXP xml2MsrVisitor :
 //    virtual void visitStart ( S_voice& elt);
     virtual void visitStart ( S_type& elt);
     virtual void visitStart ( S_stem& elt);
-//    virtual void visitStart ( S_staff& elt);
     virtual void visitEnd   ( S_note& elt);
 
     virtual void visitStart ( S_rest& elt);

@@ -1897,6 +1897,7 @@ void xml2MsrVisitor::visitStart (S_staves& elt)
   }
 }
 
+//________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_staff& elt)
 {
   /*
@@ -1985,6 +1986,45 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
   }
 }
     
+//________________________________________________________________________
+void xml2MsrVisitor::visitStart (S_staff_details& elt )
+{
+  fStaffDetailsNumber = getAttributeIntValue ("number", 0);
+
+  // show-frets
+
+  fCurrentStaffDetailsLinesNumber = 5; // default
+}
+
+void xml2MsrVisitor::visitStart (S_staff_type& elt )
+{
+  // ossia, cue, editorial, regular, or alternate.
+}
+
+void xml2MsrVisitor::visitStart (S_staff_lines& elt )
+{
+  fCurrentStaffDetailsLinesNumber = (int)(*elt);
+}
+
+void xml2MsrVisitor::visitStart (S_staff_tuning& elt )
+{
+  /*
+          <staff-tuning line="1">
+            <tuning-step>E</tuning-step>
+            <tuning-octave>2</tuning-octave>
+          </staff-tuning>  */
+}
+
+void xml2MsrVisitor::visitStart (S_capo& elt )
+{
+  fCurrentStaffDetailsCapo = (int)(*elt);
+}
+
+void xml2MsrVisitor::visitStart (S_staff_size& elt )
+{
+  fCurrentStaffDetailsSize = (int)(*elt);
+}
+
 //________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_voice& elt )
 {
