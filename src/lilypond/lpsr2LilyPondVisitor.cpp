@@ -671,77 +671,86 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrPartgroupBlock" << endl;
 
+  // fetch part group
+  S_msrPartgroup
+    partgroup =
+      elt->getPartgroup ();
+      
   // the top level part group is the score block's S_lpsrParallelMusic
   
-  if (elt->getPartgroup ()->getPartgroupPartgroupUplink ()) {
+  if (partgroup->getPartgroupPartgroupUplink ()) {
     // the part group is not the top level one
 
-    S_msrPartgroup
-      partgroup =
-        elt->getPartgroup ();
-        
-    msrPartgroup::msrPartgroupSymbolKind
-      partgroupSymbolKind =
-        partgroup->getPartgroupSymbolKind ();
-  
-    string
-      partgroupInstrumentName =
-        partgroup->getPartgroupInstrumentName ();
-        
-    string partGroupContextName;
-  
-    // LPNR, page 567
-    
-    switch (partgroupSymbolKind) {
-      case msrPartgroup::k_NoPartgroupSymbol:
-        partGroupContextName = "";
-        break;
-        
-      case msrPartgroup::kBracePartgroupSymbol: // JMI
-        if (partgroupInstrumentName.size ())
-          partGroupContextName = "PianoStaff";
-        else
-          partGroupContextName = "GrandStaff";
-        break;
-        
-      case msrPartgroup::kBracketPartgroupSymbol:
-        partGroupContextName = "PianoStaff";
-        break;
-        
-      case msrPartgroup::kLinePartgroupSymbol:
-        partGroupContextName = "StaffGroup";
-        break;
-        
-      case msrPartgroup::kSquarePartgroupSymbol:
-        partGroupContextName = "StaffGroup";
-        break;
-    } // switch
-  
-  
-    fOstream << idtr <<
-      "\\new " << partGroupContextName << " " "<<";
-      
-    if (fLpsrOptions->fGenerateComments)
-      fOstream <<
-        setw(30) << " " << "% part group " <<
-        elt->getPartgroup ()->getPartgroupCombinedName ();
-        
-    fOstream <<
-      endl;
+    if (partgroup->getPartgroupElements ().size () > 1) {
+      // don't generate code for a part group with only one element
 
-  /* JMI
-    if (partgroupInstrumentName.size ())
+      S_msrPartgroup
+        partgroup =
+          elt->getPartgroup ();
+          
+      msrPartgroup::msrPartgroupSymbolKind
+        partgroupSymbolKind =
+          partgroup->getPartgroupSymbolKind ();
+    
+      string
+        partgroupInstrumentName =
+          partgroup->getPartgroupInstrumentName ();
+          
+      string partGroupContextName;
+    
+      // LPNR, page 567
+      
+      switch (partgroupSymbolKind) {
+        case msrPartgroup::k_NoPartgroupSymbol:
+          partGroupContextName = "";
+          break;
+          
+        case msrPartgroup::kBracePartgroupSymbol: // JMI
+          if (partgroupInstrumentName.size ())
+            partGroupContextName = "PianoStaff";
+          else
+            partGroupContextName = "GrandStaff";
+          break;
+          
+        case msrPartgroup::kBracketPartgroupSymbol:
+          partGroupContextName = "PianoStaff";
+          break;
+          
+        case msrPartgroup::kLinePartgroupSymbol:
+          partGroupContextName = "StaffGroup";
+          break;
+          
+        case msrPartgroup::kSquarePartgroupSymbol:
+          partGroupContextName = "StaffGroup";
+          break;
+      } // switch
+    
+    
       fOstream << idtr <<
-        "\\set PianoStaff.instrumentName = #\"" <<
-        partgroupInstrumentName <<
-        "\"" <<
+        "\\new " << partGroupContextName << " " "<<";
+        
+      if (fLpsrOptions->fGenerateComments)
+        fOstream <<
+          setw(30) << " " << "% part group " <<
+          partgroup->getPartgroupCombinedName ();
+          
+      fOstream <<
         endl;
-  */
   
-    fOstream <<
-      endl;
-  
-    idtr++;
+    /* JMI
+      if (partgroupInstrumentName.size ())
+        fOstream << idtr <<
+          "\\set PianoStaff.instrumentName = #\"" <<
+          partgroupInstrumentName <<
+          "\"" <<
+          endl;
+    */
+    
+      fOstream <<
+        endl;
+    
+      idtr++;
+    }
   }
 }
 
@@ -751,21 +760,31 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupBlock& elt)
     fOstream << idtr <<
       "% --> End visiting lpsrPartgroupBlock" << endl;
 
+  // fetch part group
+  S_msrPartgroup
+    partgroup =
+      elt->getPartgroup ();
+      
   // the top level part group is the score block's S_lpsrParallelMusic
   
-  if (elt->getPartgroup ()->getPartgroupPartgroupUplink ()) {
+  if (partgroup->getPartgroupPartgroupUplink ()) {
     // the part group is not the top level one
-    idtr--;
 
-    fOstream <<
-      idtr <<
-      ">>";
-    if (fLpsrOptions->fGenerateComments)
+    if (partgroup->getPartgroupElements ().size () > 1) {
+      // don't generate code for a part group with only one element
+
+      idtr--;
+  
       fOstream <<
-        setw(30) << " " << "% part group " <<
-        elt->getPartgroup ()->getPartgroupCombinedName ();
-    fOstream <<
-      endl << endl;
+        idtr <<
+        ">>";
+      if (fLpsrOptions->fGenerateComments)
+        fOstream <<
+          setw(30) << " " << "% part group " <<
+          partgroup->getPartgroupCombinedName ();
+      fOstream <<
+        endl << endl;
+    }
   }
 }
 
@@ -776,62 +795,76 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartBlock& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrPartBlock" << endl;
 
+  // fetch part
   S_msrPart
     part =
       elt->getPart ();
       
-  string
-    partInstrumentName =
-      part->getPartInstrumentName ();
+  if (part->getPartStavesMap ().size () > 1) {
+    // don't generate code for a part with only one stave
 
-  if (fLpsrOptions->fGenerateComments) {
-    fOstream << left <<
-      idtr <<
-      setw(30) << "\\new StaffGroup <<" <<
-      " % part " << elt->getPart ()->getPartCombinedName ();
-  }
-  else {
-    fOstream << idtr <<
-      "\\new StaffGroup" <<  " " "<<";      
-  }
-      /* JMI
-  if (partInstrumentName.size ())
-    fOstream << idtr <<
-      "\\set Staff.instrumentName = #\"" <<
-      partInstrumentName <<
-      "\"" <<
-      endl;
-      */
-
-  fOstream <<
-    endl << endl;
+    string
+      partInstrumentName =
+        part->getPartInstrumentName ();
   
-  idtr++;
+    if (fLpsrOptions->fGenerateComments) {
+      fOstream << left <<
+        idtr <<
+        setw(30) << "\\new StaffGroup <<" <<
+        " % part " << part->getPartCombinedName ();
+    }
+    else {
+      fOstream << idtr <<
+        "\\new StaffGroup" <<  " " "<<";      
+    }
+        /* JMI
+    if (partInstrumentName.size ())
+      fOstream << idtr <<
+        "\\set Staff.instrumentName = #\"" <<
+        partInstrumentName <<
+        "\"" <<
+        endl;
+        */
+  
+    fOstream <<
+      endl << endl;
+    
+    idtr++;
+  }
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartBlock& elt)
 {
+  // fetch part
+  S_msrPart
+    part =
+      elt->getPart ();
+      
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrPartBlock" << endl;
 
-  idtr--;
+  if (part->getPartStavesMap ().size () > 1) {
+    // don't generate code for a part with only one stave
 
-  if (fLpsrOptions->fGenerateComments) {
-    fOstream <<
-      idtr <<
-      setw(30) << ">>" <<    
-      " % part " <<
-      elt->getPart ()->getPartCombinedName ();
-  }
-  else {
-    fOstream <<
-      idtr <<
-      ">>";
-  }
+    idtr--;
   
-  fOstream <<
-    endl << endl;
+    if (fLpsrOptions->fGenerateComments) {
+      fOstream <<
+        idtr <<
+        setw(30) << ">>" <<    
+        " % part " <<
+        part->getPartCombinedName ();
+    }
+    else {
+      fOstream <<
+        idtr <<
+        ">>";
+    }
+    
+    fOstream <<
+      endl << endl;
+  }
 }
 
 //________________________________________________________________________
@@ -857,29 +890,29 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
     partAbbreviation =
       part->getPartAbbreviation ();
 
-  string staffCommand;
+  string staffContextName;
   
   switch (staff->getStaffKind ()) {
     case msrStaff::kRegularStaff:
-      staffCommand = "Staff";
+      staffContextName = "Staff";
       break;
     case msrStaff::kTablatureStaff:
-      staffCommand = "TabStaff";
+      staffContextName = "TabStaff";
       break;
     case msrStaff::kPercussionStaff:
-      staffCommand = "DrumStaff";
+      staffContextName = "DrumStaff";
       break;
   } // switch
 
   if (fLpsrOptions->fGenerateComments) {
     fOstream << left <<
       idtr <<
-      setw(30) << "\\new " << staffCommand << " <<" <<
-      " % staff " << elt->getStaff ()->getStaffName ();
+      setw(30) << "\\new " << staffContextName << " <<" <<
+      " % staff " << staff->getStaffName ();
   }
   else {
     fOstream << idtr <<
-      "\\new " << staffCommand << " <<";      
+      "\\new " << staffContextName << " <<";      
   }
       
   fOstream <<
@@ -888,13 +921,13 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
   idtr++;
 
   fOstream << idtr <<
-    "\\set " << staffCommand << ".instrumentName = \"" <<
+    "\\set " << staffContextName << ".instrumentName = \"" <<
     partName <<
     "\"" <<
     endl;
 
   fOstream << idtr <<
-    "\\set " << staffCommand << ".shortInstrumentName = \"" <<
+    "\\set " << staffContextName << ".shortInstrumentName = \"" <<
     partAbbreviation <<
     "\"" <<
     endl;
@@ -989,23 +1022,23 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
   msrStaff::msrStaffKind
     staffKind = staff->getStaffKind ();
   
-  string voiceCommand;
+  string voiceContextName;
   
   switch (staffKind) {
     case msrStaff::kRegularStaff:
-      voiceCommand = "Staff";
+      voiceContextName = "Staff";
       break;
     case msrStaff::kTablatureStaff:
-      voiceCommand = "TabVoice";
+      voiceContextName = "TabStaff";
       break;
     case msrStaff::kPercussionStaff:
-      voiceCommand = "DrumVoice";
+      voiceContextName = "DrumVoice";
       break;
   } // switch
 
 
   fOstream << idtr <<
-    "\\context " << voiceCommand << " = " <<
+    "\\context " << voiceContextName << " = " <<
     "\"" << voice->getVoiceName () << "\"" " " "{" <<
      endl;
 
@@ -1013,7 +1046,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
 
   if (fLpsrOptions->fNoAutoBeaming)
     fOstream << idtr <<
-      "\\set " << voiceCommand << ".autoBeaming = ##f" <<
+      "\\set " << voiceContextName << ".autoBeaming = ##f" <<
       endl;
 
   if (staffKind == msrStaff::kRegularStaff) {
