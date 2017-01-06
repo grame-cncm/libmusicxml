@@ -1277,8 +1277,8 @@ class EXP msrClef : public msrElement
       kTreblePlus8Clef, kTreblePlus15Clef, 
       kBassMinus15Clef, kBassMinus8Clef,
       kBassPlus8Clef, kBassPlus15Clef,
-      kTablature4Clef, kTablature5Clef kTablature6Clef, kTablature7Clef,
-      kPercussionClef }
+      kTablature4Clef, kTablature5Clef, kTablature6Clef, kTablature7Clef,
+      kPercussionClef};
       
     // creation from MusicXML
     // ------------------------------------------------------

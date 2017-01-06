@@ -600,6 +600,7 @@ class EXP xml2MsrVisitor :
     
     // clef handling
     // ------------------------------------------------------
+    int                       fCurrentClefStaffNumber;
     string                    fCurrentClefSign;
     int                       fCurrentClefLine;
     int                       fCurrentClefOctaveChange;

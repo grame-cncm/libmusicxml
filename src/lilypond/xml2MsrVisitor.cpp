@@ -1172,7 +1172,7 @@ void xml2MsrVisitor::visitEnd ( S_clef& elt )
     fCurrentClefSign.begin(),
     ::toupper);
 
-  msrClefKind clefKind;
+  msrClef::msrClefKind clefKind;
   
   if (fCurrentClefSign == "G") {
     
@@ -1181,20 +1181,22 @@ void xml2MsrVisitor::visitEnd ( S_clef& elt )
         case -2:
           clefKind = msrClef::kTrebleMinus15Clef;
           break;
-        case 1:
+        case -1:
           clefKind = msrClef::kTrebleMinus8Clef;
           break;
         case 0:
           clefKind = msrClef::kTrebleClef;
           break;
-        case 1:
+        case +1:
           clefKind = msrClef::kTreblePlus8Clef;
           break;
-        case 2:
+        case +2:
           clefKind = msrClef::kTreblePlus15Clef;
           break;
         default:
-          // should not occur
+          {
+            // should not occur
+          }
       } // switch
     }
       
@@ -1222,20 +1224,22 @@ void xml2MsrVisitor::visitEnd ( S_clef& elt )
         case -2:
           clefKind = msrClef::kBassMinus15Clef;
           break;
-        case 1:
+        case -1:
           clefKind = msrClef::kBassMinus8Clef;
           break;
         case 0:
           clefKind = msrClef::kBassClef;
           break;
-        case 1:
+        case +1:
           clefKind = msrClef::kBassPlus8Clef;
           break;
-        case 2:
+        case +2:
           clefKind = msrClef::kBassPlus15Clef;
           break;
         default:
-          // should not occur
+          {
+            // should not occur
+          }
       } // switch
     }
     
@@ -1278,16 +1282,16 @@ void xml2MsrVisitor::visitEnd ( S_clef& elt )
   else if ("TAB") {
     
     switch (fCurrentClefLine) {
-      case -2:
+      case 4:
         clefKind = msrClef::kTablature4Clef;
         break;
-      case 1:
+      case 5:
         clefKind = msrClef::kTablature5Clef;
         break;
-      case 0:
+      case 6:
         clefKind = msrClef::kTablature6Clef;
         break;
-      case 1:
+      case 7:
         clefKind = msrClef::kTablature7Clef;
         break;
       default:

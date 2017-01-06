@@ -392,9 +392,7 @@ void msr2SummaryVisitor::visitStart (S_msrClef& elt)
 
   if (! fOnGoingStaff) {
     fOstream << idtr <<
-      "Clef" << " \"" << elt->getSign () << "\"" <<
-      " line " << elt->getLine () <<
-      ", " << elt->getOctaveChange () << "*8";
+      elt->clefAsString ();
   }
 }
 
