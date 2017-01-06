@@ -1483,75 +1483,72 @@ void lpsr2LilyPondVisitor::visitStart (S_msrClef& elt)
     fOstream << idtr <<
       "% --> Start visiting msrClef" << endl;
 
-  fOstream << idtr <<
-    "\\clef" << " \"";
+  msrClef::msrClefKind clefKind = elt->getClefKind ();
 
-  if ( elt->getSign () == "G") {
-    
-    if ( elt->getLine () == 2 )
-      fOstream << "treble"; 
-    else { // unknown G clef line !!
-      cerr << 
-        "warning: unknown G clef line \"" << elt->getLine () << "\"" <<
-        endl;
-      return; 
-    }
+  if (clefKind != msrClef::k_NoClef) {
+    fOstream << idtr <<
+      "\\clef" " \"";
+  
+    switch (clefKind) {
+      case msrClef::k_NoClef:
+        break;
+      case msrClef::kTrebleClef:
+        fOstream << "treble";
+        break;
+      case msrClef::kAltoClef:
+        fOstream << "alto";
+        break;
+      case msrClef::kTenorClef:
+        fOstream << "tenor";
+        break;
+      case msrClef::kBassClef:
+        fOstream << "bass";
+        break;
+      case msrClef::kTrebleLine1Clef:
+        fOstream << "treble line 1";
+        break;
+      case msrClef::kTrebleMinus15Clef:
+        fOstream << "treble_15";
+        break;
+      case msrClef::kTrebleMinus8Clef:
+        fOstream << "treble_8";
+        break;
+      case msrClef::kTreblePlus8Clef:
+        fOstream << "treble^8";
+        break;
+      case msrClef::kTreblePlus15Clef:
+        fOstream << "treble^15";
+        break;
+      case msrClef::kBassMinus15Clef:
+        fOstream << "bass_15";
+        break;
+      case msrClef::kBassMinus8Clef:
+        fOstream << "bass_8";
+        break;
+      case msrClef::kBassPlus8Clef:
+        fOstream << "bass^8";
+        break;
+      case msrClef::kBassPlus15Clef:
+        fOstream << "bass^15";
+        break;
+      case msrClef::kTablature4Clef:
+        fOstream << "tab 4";
+        break;
+      case msrClef::kTablature5Clef:
+        fOstream << "tab 5";
+        break;
+      case msrClef::kTablature6Clef:
+        fOstream << "tab 6";
+        break;
+      case msrClef::kTablature7Clef:
+        fOstream << "tab 7";
+        break;
+      case msrClef::kPercussionClef:
+        fOstream << "perc";
+        break;
+    } // switch
   }
-    
-  else if ( elt->getSign () == "F") {
-    
-    if ( elt->getLine () == 4 )
-      fOstream << "bass"; 
-    else { // unknown F clef line !!
-      cerr << 
-        "warning: unknown F clef line \"" << elt->getLine () << "\"" <<
-        endl;
-      return; 
-    }
-  }
-    
-  else if ( elt->getSign () == "C") {
-    
-    if ( elt->getLine () == 4 )
-      fOstream << "tenor"; 
-    else if ( elt->getLine () == 3 )
-      fOstream << "alto"; 
-    else { // unknown C clef line !!
-      cerr << 
-        "warning: unknown C clef line \"" <<
-        elt->getLine () << 
-        "\"" <<
-        endl;
-      return; 
-    }
-  }
-
-  else if ( elt->getSign () == "percussion") {
-    fOstream << "perc";
-  }
-
-  else if ( elt->getSign () == "tab" || elt->getSign () == "TAB") {
-    fOstream << "tab";
-  }
-
-  else if ( elt->getSign () == "none") {
-    fOstream << "none";
-  }
-    
-  else { // unknown clef sign !!
-    cerr << 
-      "warning: unknown clef sign \"" <<
-       elt->getSign () << 
-       "\"" <<
-      endl;
-    return; 
-  }
-        
-  if (elt->getOctaveChange () == 1)
-    fOstream << "^8";
-  else if (elt->getOctaveChange () == -1)
-    fOstream << "_8";
-
+  
   fOstream <<
     "\"" <<
     endl;

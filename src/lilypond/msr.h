@@ -1296,7 +1296,6 @@ class EXP msrClef : public msrElement
     msrClef (
       S_msrOptions& msrOpts, 
       int          inputLineNumber,
-      string       sign,
       msrClefKind  clefKind);
       
     virtual ~msrClef();
@@ -1306,7 +1305,7 @@ class EXP msrClef : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrClefKind   getSign () const
+    msrClefKind   getClefKind () const
                       { return fClefKind; }
                 
     // services
