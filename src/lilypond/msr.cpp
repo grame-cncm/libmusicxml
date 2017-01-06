@@ -3645,7 +3645,7 @@ msrClef::msrClef (
 
 msrClef::~msrClef() {}
 
-bool msrClef::isATablatureClef () const
+bool msrClef::clefIsATablatureClef () const
 {
   switch (fClefKind) {
     case msrClef::kTablature4Clef:
@@ -3659,7 +3659,7 @@ bool msrClef::isATablatureClef () const
   } // switch
 }
 
-bool msrClef::isAPercussionClef () const
+bool msrClef::clefIsAPercussionClef () const
 {
   switch (fClefKind) {
     case msrClef::kPercussionClef:
@@ -7952,8 +7952,8 @@ ostream& operator<< (ostream& os, const S_msrVoice& elt)
 void msrVoice::print (ostream& os)
 {
   os <<
-    "Voice" << " " << getVoiceName () <<
-    " (" << fVoiceActualNotesCounter <<
+    "Voice" " \"" << getVoiceName () <<
+    "\" (" << fVoiceActualNotesCounter <<
     " actual notes" <<
      ", " << fVoiceLyricsMap.size() << " lyrics" <<
     ")" <<
@@ -8087,10 +8087,34 @@ msrStaff::msrStaff (
         fStaffPartUplink->getPartClef ();
   
     if (clef) {
+      if (fMsrOptions->fTrace)
+        cerr << idtr <<
+          "Setting clef '" << clef->clefAsString () <<
+          "' in staff " << fStaffNumber <<
+          " in part \"" << fStaffPartUplink->getPartCombinedName () <<
+          "\"" <<
+          endl;
+
       fStaffClef = clef;
+
+      // is this a tablature or percussion staff?
+      if (clef->clefIsATablatureClef ())
+        fStaffKind = kTablatureStaff;
+      else if (clef->clefIsAPercussionClef ())
+        fStaffKind = kPercussionStaff;
+
       appendClefToAllStaffVoices (clef);
     }
+    
     else {
+      if (fMsrOptions->fTrace)
+        cerr << idtr <<
+          "Setting default treble clef " <<
+          " in staff " << fStaffNumber <<
+          " in part \"" << fStaffPartUplink->getPartCombinedName () <<
+          "\"" <<
+          endl;
+
       // create the implicit initial G line 2 clef
       fStaffClef =
         msrClef::create (
@@ -8107,10 +8131,27 @@ msrStaff::msrStaff (
         fStaffPartUplink->getPartKey ();
   
     if (key) {
+      if (fMsrOptions->fTrace)
+        cerr << idtr <<
+          "Setting key '" << key->keyAsString () <<
+          "' in staff " << fStaffNumber <<
+          " in part \"" << fStaffPartUplink->getPartCombinedName () <<
+          "\"" <<
+          endl;
+
       fStaffKey = key;
+      
       appendKeyToAllStaffVoices (key);
     }
     else {
+      if (fMsrOptions->fTrace)
+        cerr << idtr <<
+          "Setting default C major key " <<
+          " in staff " << fStaffNumber <<
+          " in part \"" << fStaffPartUplink->getPartCombinedName () <<
+          "\"" <<
+          endl;
+          
       // create the implicit initial C major key
       fStaffKey =
         msrKey::create (
@@ -8127,10 +8168,27 @@ msrStaff::msrStaff (
         fStaffPartUplink->getPartTime ();
 
     if (time) {
+      if (fMsrOptions->fTrace)
+        cerr << idtr <<
+          "Setting time '" << time->timeAsString () <<
+          "' in staff " << fStaffNumber <<
+          " in part \"" << fStaffPartUplink->getPartCombinedName () <<
+          "\"" <<
+          endl;
+
       fStaffTime = time;
+
       appendTimeToAllStaffVoices (time);
     }
     else {
+      if (fMsrOptions->fTrace)
+        cerr << idtr <<
+          "Setting default 4/4 time " <<
+          " in staff " << fStaffNumber <<
+          " in part \"" << fStaffPartUplink->getPartCombinedName () <<
+          "\"" <<
+          endl;
+          
       // create the implicit initial 4/4 time signature
       fStaffTime =
         msrTime::create (
@@ -8354,9 +8412,9 @@ void msrStaff::setStaffClef (S_msrClef clef)
   fStaffClef = clef;
 
   // is this a tablature or percussion staff?
-  if (clef->isATablatureClef ())
+  if (clef->clefIsATablatureClef ())
     fStaffKind = kTablatureStaff;
-  else if (clef->isAPercussionClef ())
+  else if (clef->clefIsAPercussionClef ())
     fStaffKind = kPercussionStaff;
   
   // propagate clef to all voices
@@ -8759,7 +8817,7 @@ void msrPart::setPartMeasureNumber (
 
 void msrPart::setPartClef (S_msrClef clef)
 {
-//  if (ffMsrOptions->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Setting part clef \"" << clef->clefAsString () <<
       "\" in part \"" <<
@@ -8776,7 +8834,7 @@ void msrPart::setPartClef (S_msrClef clef)
 
 void msrPart::setPartKey  (S_msrKey  key)
 {
-//  if (ffMsrOptions->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Setting part key \"" << key->keyAsString () <<
       "\" in part \"" <<
@@ -8793,7 +8851,7 @@ void msrPart::setPartKey  (S_msrKey  key)
 
 void msrPart::setPartTime (S_msrTime time)
 {
-//  if (ffMsrOptions->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Setting part time \"" << time->timeAsString () <<
       "\" in part \"" <<
@@ -8810,7 +8868,7 @@ void msrPart::setPartTime (S_msrTime time)
 
 void msrPart::setPartTranspose (S_msrTranspose transpose)
 {
-//  if (ffMsrOptions->fTrace)
+  if (fMsrOptions->fTrace)
     cerr << idtr <<
       "Setting part transpose \"" << transpose->transposeAsString () <<
       "\" in part \"" <<
@@ -9387,8 +9445,8 @@ string msrPartgroup::pargroupSymbolKindAsString (
 void msrPartgroup::print (ostream& os)
 {
   os <<
-    "Partgroup" << " " << getPartgroupCombinedName () <<
-    " (" << fPartgroupPartsMap.size() << " parts)" <<
+    "Partgroup" " \"" << getPartgroupCombinedName () <<
+    "\" (" << fPartgroupPartsMap.size() << " parts)" <<
     endl;
     
   idtr++;

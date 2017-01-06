@@ -1313,9 +1313,9 @@ class EXP msrClef : public msrElement
 
     string        clefAsString () const;
 
-    bool          isATablatureClef () const;
+    bool          clefIsATablatureClef () const;
     
-    bool          isAPercussionClef () const;
+    bool          clefIsAPercussionClef () const;
 
     // visitors
     // ------------------------------------------------------

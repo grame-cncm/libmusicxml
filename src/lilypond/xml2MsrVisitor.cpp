@@ -6045,7 +6045,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
         ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
         endl;
 
-    if (true)
+    if (false)
       cerr <<
         endl << endl <<
         "&&&&&&&&&&&&&&&&&& currentVoice (" <<
@@ -6100,7 +6100,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
       newNote->noteAsString() <<
       " to current chord" << endl;
 
-    cout << "###### fOnGoingChord = " << fOnGoingChord << endl;
+ // JMI   cout << "###### fOnGoingChord = " << fOnGoingChord << endl;
     
   // register note as a member of fCurrentChord
 // JMI  if (fMsrOptions->fDebug)

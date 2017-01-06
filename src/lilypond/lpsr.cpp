@@ -438,9 +438,9 @@ ostream& operator<< (ostream& os, const S_lpsrUseVoiceCommand& nlc)
 void lpsrUseVoiceCommand::print (ostream& os)
 {
   os <<
-    "UseVoiceCommand" << " " <<
+    "UseVoiceCommand" << " \"" <<
     fVoice->getVoiceName () <<
-    ", " << fVoice->getVoiceLyricsMap ().size() << " lyrics" <<
+    "\", " << fVoice->getVoiceLyricsMap ().size() << " lyrics" <<
     endl;
 }
 
@@ -2112,8 +2112,8 @@ void lpsrStaffBlock::print (ostream& os)
 {
   os <<
     "StaffBlock" << " " <<
-    "for staff " << fStaff->getStaffName () <<
-    " (" << fStaff->staffKindAsString () <<
+    "for staff \"" << fStaff->getStaffName () <<
+    "\" (" << fStaff->staffKindAsString () <<
     "), " << fStaffBlockElements.size () << " elements" <<
     endl;
 
@@ -2343,8 +2343,8 @@ void lpsrPartgroupBlock::print (ostream& os)
     endl <<
     idtr <<
     "PartgroupBlock" << " " <<
-    "for partgroup " << fPartgroup->getPartgroupCombinedName () <<
-    ", " << fPartgroup->pargroupSymbolKindAsString () <<
+    "for partgroup \"" << fPartgroup->getPartgroupCombinedName () <<
+    "\", " << fPartgroup->pargroupSymbolKindAsString () <<
     ", " << fPartgroupBlockElements.size() << " elements" <<
     endl << endl;
 
@@ -2422,9 +2422,9 @@ void lpsrScoreBlock::appendVoiceUseToParallelMusic (
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Appending the use of voice " <<
+      "Appending the use of voice \"" <<
        voiceUse-> getVoice ()-> getVoiceName() <<
-       " to LPSR score" <<
+       "\" to LPSR score" <<
        endl;
 
   fScoreBlockParallelMusic->
