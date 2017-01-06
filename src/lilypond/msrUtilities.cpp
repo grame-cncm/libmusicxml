@@ -770,7 +770,7 @@ string divisionsAsMSRDuration (
 
   //debugMode = true; // TEMP, for tests
   
-  if (divisions <= 0) {
+  if (divisionsPerWholeNote <= 0) {
     stringstream s;
     
     s << 
@@ -779,7 +779,7 @@ string divisionsAsMSRDuration (
       divisionsPerWholeNote << endl <<
       "divisions = " <<
       divisions <<
-      ": should be positive 1" <<
+      ": should be positive !" <<
       endl;
       
     errorMessage = s.str();
