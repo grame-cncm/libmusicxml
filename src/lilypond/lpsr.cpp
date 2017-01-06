@@ -2113,7 +2113,8 @@ void lpsrStaffBlock::print (ostream& os)
   os <<
     "StaffBlock" << " " <<
     "for staff " << fStaff->getStaffName () <<
-    ", " << fStaffBlockElements.size() << " elements" <<
+    " (" << fStaff->staffKindAsString () <<
+    "), " << fStaffBlockElements.size () << " elements" <<
     endl;
 
   idtr++;

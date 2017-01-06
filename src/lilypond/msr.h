@@ -4617,6 +4617,8 @@ class EXP msrStaff : public msrElement
     // services
     // ------------------------------------------------------
 
+    string      staffKindAsString () const;
+    
     void        setAllStaffVoicesDivisionsPerWholeNote (
                   int divisions);
 

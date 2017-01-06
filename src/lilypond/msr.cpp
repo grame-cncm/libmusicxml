@@ -8531,24 +8531,30 @@ ostream& operator<< (ostream& os, const S_msrStaff& elt)
   return os;
 }
 
-void msrStaff::print (ostream& os)
+string msrStaff::staffKindAsString () const
 {
-  os <<
-    "Staff" " " << getStaffName ();
-
+  string result;
+  
   switch (fStaffKind) {
     case msrStaff::kRegularStaff:
-      os << "regular";
+      result = "regular";
       break;
     case msrStaff::kTablatureStaff:
-      os << "tablature";
+      result = "tablature";
       break;
     case msrStaff::kPercussionStaff:
-      os << "percussion";
+      result = "percussion";
       break;
   } // switch
 
+  return result;
+}
+
+void msrStaff::print (ostream& os)
+{
   os <<
+    "Staff" " " << getStaffName () <<
+    ", " << staffKindAsString () <<
     " (" << fStaffVoicesMap.size() << " voices)" <<
     endl;
 
