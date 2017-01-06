@@ -8072,13 +8072,18 @@ msrStaff::msrStaff (
   // fetch voice master from part uplink
   fStaffVoicemaster =
     fStaffPartUplink->getPartVoicemaster ();
-    
+
+  /* JMI
   // create the maximum pssible number of voices
   // those that remain note-free will be removed afterwards
   for (int i = 1; i <= gMaxStaffVoices; i++) {
     addVoiceToStaff (
       fInputLineNumber, i);
   } // for
+  */
+  // add an initial voice 1
+  addVoiceToStaff (
+    fInputLineNumber, 1);
 
   // get the initial clef from the staff if any
   {

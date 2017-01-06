@@ -1048,6 +1048,9 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
       "\\set " << voiceContextName << ".autoBeaming = ##f" <<
       endl;
 
+
+cout << "####### staff->getStaffVoicesMap ().size () = " << staff->getStaffVoicesMap ().size () << endl;
+
   if (staffKind == msrStaff::kRegularStaff) {
     if (staff->getStaffVoicesMap ().size () > 1) {
       fOstream << idtr;
