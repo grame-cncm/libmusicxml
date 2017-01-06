@@ -3625,9 +3625,7 @@ void msrLayout::print (ostream& os)
 S_msrClef msrClef::create (
   S_msrOptions& msrOpts, 
   int          inputLineNumber,
-  string       sign,
-  int          line,
-  int          octaveChange)
+  msrClefKind  clefKind)
 {
   msrClef* o =
     new msrClef (
@@ -3639,14 +3637,10 @@ S_msrClef msrClef::create (
 msrClef::msrClef (
   S_msrOptions& msrOpts, 
   int          inputLineNumber,
-  string       sign,
-  int          line,
-  int          octaveChange)
+  msrClefKind  clefKind)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fSign         = sign;
-  fLine         = line;
-  fOctaveChange = octaveChange;
+  fClefKind = clefKind;
 }
 
 msrClef::~msrClef() {}
@@ -3700,26 +3694,74 @@ string msrClef::clefAsString () const
 
   s <<
     "Clef" << " \"" << fSign << "\"" <<
-    " line " << fLine;
+    ", line " << fInputLineNumber;
 
-  if (fOctaveChange != 0) {
-    s << ", octaveChange:";
-    
-    switch (fOctaveChange) {
-      case 1:
-        s << "8";
+       ,
+      , , , ,
+      , kTrebleMinus8Clef,
+      kTreblePlus15Clef, ,
+      , ,
+      kBassPlus15Clef, kBassPlus8Clef,
+      , };
+   
+    switch (fClefKind) {
+      case msrClef::k_NoClef:
+        s << "none";
         break;
-      case -1:
-        s << "-8";
+      case msrClef::kTrebleClef:
+        s << "treble";
         break;
-      case 2:
-        s << "15";
+      case msrClef::kAltoClef:
+        s << "alto";
         break;
-      case -2:
-        s << "-15";
+      case msrClef::kTenorClef:
+        s << "tenor";
         break;
-      default:
-        s << "octaveChange" << fOctaveChange << "???";
+      case msrClef::kBassClef:
+        s << "bass";
+        break;
+      case msrClef::kTrebleLine1Clef:
+        s << "treble line 1";
+        break;
+      case msrClef::kTrebleMinus15Clef:
+        s << "treble -15";
+        break;
+      case msrClef::kTrebleMinus8Clef:
+        s << "treble -8";
+        break;
+      case msrClef::kTreblePlus8Clef:
+        s << "treble +8";
+        break;
+      case msrClef::kTreblePlus15Clef:
+        s << "treble +15";
+        break;
+      case msrClef::kBassMinus15Clef:
+        s << "bass -15";
+        break;
+      case msrClef::kBassMinus8Clef:
+        s << "bass -8";
+        break;
+      case msrClef::kBassPlus8Clef:
+        s << "bass +8";
+        break;
+      case msrClef::kBassPlus15Clef:
+        s << "bass +15";
+        break;
+      case msrClef::kTablature4Clef:
+        s << "tablature";
+        break;
+      case msrClef::kTablature4Clef:
+        s << "tablature";
+        break;
+      case msrClef::kTablature5Clef:
+        s << "tablature";
+        break;
+      case msrClef::kTablature6Clef:
+        s << "tablature";
+        break;
+      case msrClef::kTablature7Clef:
+        s << "percussion";
+        break;
     } // switch
   }
 

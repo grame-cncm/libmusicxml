@@ -1269,19 +1269,24 @@ class EXP msrClef : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrClefLineKind {
-      kStandardLine,
-      kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
-
+    enum msrClefKind {
+      k_NoClef,
+      kTrebleClef, kAltoClef, kTenorClef, kBassClef,
+      kTrebleLine1Clef,
+      kTrebleMinus15Clef, kTrebleMinus8Clef,
+      kTreblePlus8Clef, kTreblePlus15Clef, 
+      kBassMinus15Clef, kBassMinus8Clef,
+      kBassPlus8Clef, kBassPlus15Clef,
+      kTablature4Clef, kTablature5Clef kTablature6Clef, kTablature7Clef,
+      kPercussionClef }
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrClef> create (
       S_msrOptions& msrOpts, 
       int          inputLineNumber,
-      string       sign,
-      int          line,
-      int          octaveChange);
+      msrClefKind  clefKind);
 
   protected:
 
@@ -1292,8 +1297,7 @@ class EXP msrClef : public msrElement
       S_msrOptions& msrOpts, 
       int          inputLineNumber,
       string       sign,
-      int          line,
-      int          octaveChange);
+      msrClefKind  clefKind);
       
     virtual ~msrClef();
   
@@ -1302,12 +1306,8 @@ class EXP msrClef : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    string  getSign () const
-                { return fSign; }
-    int     getLine () const
-                { return fLine; }
-    int     getOctaveChange () const
-                { return fOctaveChange; }
+    msrClefKind   getSign () const
+                      { return fClefKind; }
                 
     // services
     // ------------------------------------------------------
@@ -1329,9 +1329,7 @@ class EXP msrClef : public msrElement
 
   private:
 
-    string fSign;
-    int    fLine;
-    int    fOctaveChange;
+    msrClefKind  fClefKind;
 };
 typedef SMARTP<msrClef> S_msrClef;
 EXP ostream& operator<< (ostream& os, const S_msrClef& elt);

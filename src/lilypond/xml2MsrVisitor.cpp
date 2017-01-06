@@ -1119,10 +1119,10 @@ void xml2MsrVisitor::visitStart ( S_divisions& elt )
 //______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_clef& elt )
 { 
+  // https://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-clef.htm
+
   // The optional number attribute refers to staff numbers.
   // If absent (0), apply to all part staves.
-
-  // https://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-clef.htm
   
   fCurrentClefStaffNumber =
     elt->getAttributeIntValue("number", 0); 
@@ -1132,28 +1132,211 @@ void xml2MsrVisitor::visitStart ( S_clef& elt )
   fCurrentClefSign = "";
 }
 
-void xml2MsrVisitor::visitStart ( S_clef_octave_change& elt )
-  { fCurrentClefOctaveChange = (int)(*elt); }
-  
-void xml2MsrVisitor::visitStart ( S_line& elt )
-  { fCurrentClefLine = (int)(*elt); }
-  
 void xml2MsrVisitor::visitStart ( S_sign& elt )
-  { fCurrentClefSign = elt->getValue(); }
+{
+  fCurrentClefSign = elt->getValue();
+}
 
+void xml2MsrVisitor::visitStart ( S_line& elt )
+{
+  fCurrentClefLine = (int)(*elt);
+}
+  
+void xml2MsrVisitor::visitStart ( S_clef_octave_change& elt )
+{
+  fCurrentClefOctaveChange = (int)(*elt);
+
+  if (fCurrentClefOctaveChange < -2 || fCurrentClefOctaveChange > 2) {
+    stringstream s;
+    
+    s <<
+      "octave change \"" << fCurrentClefOctaveChange <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      s.str());    
+  }
+}
+  
 void xml2MsrVisitor::visitEnd ( S_clef& elt ) 
 {    
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  // create msrClef
+  // convert clef to upper case for analysis
+  std::transform (
+    fCurrentClefSign.begin(),
+    fCurrentClefSign.end(),
+    fCurrentClefSign.begin(),
+    ::toupper);
+
+  msrClefKind clefKind;
+  
+  if (fCurrentClefSign == "G") {
+    
+    if      (fCurrentClefLine == 2) {
+      switch (fCurrentClefOctaveChange) {
+        case -2:
+          clefKind = msrClef::kTrebleMinus15Clef;
+          break;
+        case 1:
+          clefKind = msrClef::kTrebleMinus8Clef;
+          break;
+        case 0:
+          clefKind = msrClef::kTrebleClef;
+          break;
+        case 1:
+          clefKind = msrClef::kTreblePlus8Clef;
+          break;
+        case 2:
+          clefKind = msrClef::kTreblePlus15Clef;
+          break;
+        default:
+          // should not occur
+      } // switch
+    }
+      
+    else if (fCurrentClefLine == 1)
+      clefKind = msrClef::kTrebleLine1Clef;
+      
+    else {
+      stringstream s;
+      
+      s <<
+        "'G' clef line \"" << fCurrentClefLine <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
+        elt->getInputLineNumber (),
+        s.str());    
+    }
+  }
+
+  else if (fCurrentClefSign == "F") {
+    
+    if ( fCurrentClefLine == 4 ) {
+      switch (fCurrentClefOctaveChange) {
+        case -2:
+          clefKind = msrClef::kBassMinus15Clef;
+          break;
+        case 1:
+          clefKind = msrClef::kBassMinus8Clef;
+          break;
+        case 0:
+          clefKind = msrClef::kBassClef;
+          break;
+        case 1:
+          clefKind = msrClef::kBassPlus8Clef;
+          break;
+        case 2:
+          clefKind = msrClef::kBassPlus15Clef;
+          break;
+        default:
+          // should not occur
+      } // switch
+    }
+    
+    else {
+      stringstream s;
+      
+      s <<
+        "'F' clef line \"" << fCurrentClefLine <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
+        elt->getInputLineNumber (),
+        s.str());    
+    }
+  }
+    
+  else if (fCurrentClefSign == "C") {
+    
+    if      ( fCurrentClefLine == 4 )
+      clefKind = msrClef::kTenorClef;
+      
+    else if ( fCurrentClefLine == 3 )
+      clefKind = msrClef::kAltoClef;
+      
+    else {
+      stringstream s;
+      
+      s <<
+        "'C' clef line \"" << fCurrentClefLine <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        fMsrOptions->fInputSourceName,
+        elt->getInputLineNumber (),
+        s.str());    
+    }
+  }
+
+  else if ("TAB") {
+    
+    switch (fCurrentClefLine) {
+      case -2:
+        clefKind = msrClef::kTablature4Clef;
+        break;
+      case 1:
+        clefKind = msrClef::kTablature5Clef;
+        break;
+      case 0:
+        clefKind = msrClef::kTablature6Clef;
+        break;
+      case 1:
+        clefKind = msrClef::kTablature7Clef;
+        break;
+      default:
+        {
+          stringstream s;
+          
+          s <<
+            "tablature line \"" << fCurrentClefLine <<
+            "\" is unknown";
+          
+          msrMusicXMLError (
+            fMsrOptions->fInputSourceName,
+            elt->getInputLineNumber (),
+            s.str());    
+        }
+    } // switch
+  }
+
+  else if (fCurrentClefSign == "PERCUSSION") {
+    clefKind = msrClef::kPercussionClef;
+  }
+
+  else if (fCurrentClefSign == "NONE") {
+    clefKind = msrClef::k_NoClef;
+  }
+    
+  else {
+    // unknown clef sign
+    stringstream s;
+    
+    s <<
+      "clef sign \"" << fCurrentClefSign <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      s.str());    
+  }
+
+  // create clef
   S_msrClef
     clef =
       msrClef::create (
         fMsrOptions,
         inputLineNumber,
-        fCurrentClefSign, fCurrentClefLine, fCurrentClefOctaveChange);
- 
+        clefKind);
+
+  // register it in part or staff
   if (fCurrentClefStaffNumber == 0)
     fCurrentPart->
       setPartClef (clef);
@@ -1385,7 +1568,6 @@ void xml2MsrVisitor::visitStart (S_direction& elt)
     fCurrentWordsPlacementKind = msrWords::kBelow;
     
   else if (fCurrentDirectionPlacement.size ()) {
-    
     stringstream s;
     
     s <<
@@ -1393,7 +1575,6 @@ void xml2MsrVisitor::visitStart (S_direction& elt)
       "\" is unknown";
     
     msrMusicXMLError (
-  //  msrMusicXMLWarning (
       fMsrOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());    

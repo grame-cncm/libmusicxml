@@ -602,8 +602,7 @@ class EXP xml2MsrVisitor :
     // ------------------------------------------------------
     string                    fCurrentClefSign;
     int                       fCurrentClefLine;
-    int                       fCurrentClefOctaveChange; // JMI
-    int                       fCurrentClefStaffNumber;
+    int                       fCurrentClefOctaveChange;
 
     // key handling
     // ------------------------------------------------------
