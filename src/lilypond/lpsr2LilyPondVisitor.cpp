@@ -1049,7 +1049,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
       endl;
 
 
-cout << "####### staff->getStaffVoicesMap ().size () = " << staff->getStaffVoicesMap ().size () << endl;
+// ??? cout << "####### staff->getStaffVoicesMap ().size () = " << staff->getStaffVoicesMap ().size () << endl;
 
   if (staffKind == msrStaff::kRegularStaff) {
     if (staff->getStaffVoicesMap ().size () > 1) {
