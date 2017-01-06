@@ -1038,8 +1038,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
 
 
   fOstream << idtr <<
-    "\\context " << voiceContextName << " = " <<
-    "\"" << voice->getVoiceName () << "\"" " " "{" <<
+    "\\context " << voiceContextName << " <<" <<
      endl;
 
   idtr++;
@@ -1079,7 +1078,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
   idtr--;
   
   fOstream <<
-    idtr << "}" <<
+    idtr << ">>" <<
     endl;
 
  // JMI \context Voice = "PartPOneVoiceOne" { \PartPOneVoiceOne }
@@ -1601,16 +1600,16 @@ void lpsr2LilyPondVisitor::visitStart (S_msrClef& elt)
         fOstream << "bass^15";
         break;
       case msrClef::kTablature4Clef:
-        fOstream << "tab 4";
+        fOstream << "tab";
         break;
       case msrClef::kTablature5Clef:
-        fOstream << "tab 5";
+        fOstream << "tab";
         break;
       case msrClef::kTablature6Clef:
-        fOstream << "tab 6";
+        fOstream << "tab";
         break;
       case msrClef::kTablature7Clef:
-        fOstream << "tab 7";
+        fOstream << "tab";
         break;
       case msrClef::kPercussionClef:
         fOstream << "perc";
