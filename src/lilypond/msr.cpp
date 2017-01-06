@@ -8089,7 +8089,7 @@ msrStaff::msrStaff (
     if (clef) {
       if (fMsrOptions->fTrace)
         cerr << idtr <<
-          "Setting clef '" << clef->clefAsString () <<
+          "Setting staff clef '" << clef->clefAsString () <<
           "' in staff " << fStaffNumber <<
           " in part \"" << fStaffPartUplink->getPartCombinedName () <<
           "\"" <<
@@ -8133,7 +8133,7 @@ msrStaff::msrStaff (
     if (key) {
       if (fMsrOptions->fTrace)
         cerr << idtr <<
-          "Setting key '" << key->keyAsString () <<
+          "Setting staff key '" << key->keyAsString () <<
           "' in staff " << fStaffNumber <<
           " in part \"" << fStaffPartUplink->getPartCombinedName () <<
           "\"" <<
@@ -8170,7 +8170,7 @@ msrStaff::msrStaff (
     if (time) {
       if (fMsrOptions->fTrace)
         cerr << idtr <<
-          "Setting time '" << time->timeAsString () <<
+          "Setting staff time '" << time->timeAsString () <<
           "' in staff " << fStaffNumber <<
           " in part \"" << fStaffPartUplink->getPartCombinedName () <<
           "\"" <<
@@ -8222,6 +8222,8 @@ S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
         fInputLineNumber,
         fStaffNumber,
         clonedPart);
+
+  clone->fStaffKind = fStaffKind;
   
   return clone;
 }
@@ -8403,7 +8405,7 @@ void msrStaff::setStaffClef (S_msrClef clef)
 {
   if (fMsrOptions->fTrace)
     cerr << idtr <<
-      "Setting clef '" << clef->clefAsString () <<
+      "Setting staff clef '" << clef->clefAsString () <<
       "' in staff " << fStaffNumber <<
       " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
       endl;

@@ -888,13 +888,13 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
   idtr++;
 
   fOstream << idtr <<
-    "\\set Staff.instrumentName = \"" <<
+    "\\set " << staffCommand << ".instrumentName = \"" <<
     partName <<
     "\"" <<
     endl;
 
   fOstream << idtr <<
-    "\\set Staff.shortInstrumentName = \"" <<
+    "\\set " << staffCommand << ".shortInstrumentName = \"" <<
     partAbbreviation <<
     "\"" <<
     endl;
@@ -980,12 +980,32 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrUseVoiceCommand" << endl;
 
-  S_msrVoice voice = elt->getVoice ();
+  S_msrVoice
+    voice = elt->getVoice ();
 
-  S_msrStaff staff = voice-> getVoiceStaffUplink ();
+  S_msrStaff
+    staff = voice-> getVoiceStaffUplink ();
+
+  msrStaff::msrStaffKind
+    staffKind = staff->getStaffKind ();
+  
+  string voiceCommand;
+  
+  switch (staffKind) {
+    case msrStaff::kRegularStaff:
+      voiceCommand = "Staff";
+      break;
+    case msrStaff::kTablatureStaff:
+      voiceCommand = "TabVoice";
+      break;
+    case msrStaff::kPercussionStaff:
+      voiceCommand = "DrumVoice";
+      break;
+  } // switch
+
 
   fOstream << idtr <<
-    "\\context Voice" << " = " <<
+    "\\context " << voiceCommand << " = " <<
     "\"" << voice->getVoiceName () << "\"" " " "{" <<
      endl;
 
@@ -993,29 +1013,31 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
 
   if (fLpsrOptions->fNoAutoBeaming)
     fOstream << idtr <<
-      "\\set Voice.autoBeaming = ##f" <<
+      "\\set " << voiceCommand << ".autoBeaming = ##f" <<
       endl;
 
-  if (staff->getStaffVoicesMap ().size () > 1) {
-    fOstream << idtr;
-    switch (voice->getVoiceNumber ()) {
-      case 1:
-        fOstream << "\\voiceOne ";
-        break;
-      case 2:
-        fOstream << "\\voiceTwo ";
-        break;
-      case 3:
-        fOstream << "\\voiceThree ";
-        break;
-      case 4:
-        fOstream << "\\voiceFour ";
-        break;
-      default:
-        {}
-    } // switch
-    fOstream <<
-      endl;
+  if (staffKind == msrStaff::kRegularStaff) {
+    if (staff->getStaffVoicesMap ().size () > 1) {
+      fOstream << idtr;
+      switch (voice->getVoiceNumber ()) {
+        case 1:
+          fOstream << "\\voiceOne ";
+          break;
+        case 2:
+          fOstream << "\\voiceTwo ";
+          break;
+        case 3:
+          fOstream << "\\voiceThree ";
+          break;
+        case 4:
+          fOstream << "\\voiceFour ";
+          break;
+        default:
+          {}
+      } // switch
+      fOstream <<
+        endl;
+    }
   }
 
   fOstream <<
