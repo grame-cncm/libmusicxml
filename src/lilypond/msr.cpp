@@ -8689,6 +8689,18 @@ void msrStaff::browseData (basevisitor* v)
     they're thus not browsed
   */
 
+  if (fStaffTuningsList.size ()) {
+    for (
+      list<S_msrStaffTuning>::iterator i = fStaffTuningsList.begin();
+      i != fStaffTuningsList.end();
+      i++) {
+      // browse the voice
+      msrBrowser<msrStaffTuning> browser (v);
+      browser.browse ((*i));
+    } // for
+    idtr--;
+  }
+
   if (fStaffVoicesMap.size ()) {
     for (
       map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
@@ -8758,6 +8770,21 @@ void msrStaff::print (ostream& os)
   os <<
     idtr << "StaffInstrumentName: \"" <<
     fStaffInstrumentName << "\"" << endl;
+
+  if (fStaffTuningsList.size ()) {
+    list<S_msrStaffTuning>::const_iterator
+      iBegin = fStaffTuningsList.begin(),
+      iEnd   = fStaffTuningsList.end(),
+      i      = iBegin;
+      
+    idtr++;
+    for ( ; ; ) {
+      cerr << idtr << (*i).second;
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+    idtr--;
+  }
 
   os << endl;
 
