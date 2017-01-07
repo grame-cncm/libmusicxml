@@ -2017,9 +2017,22 @@ void xml2MsrVisitor::visitStart (S_staff_tuning& elt )
     
 void xml2MsrVisitor::visitStart (S_tuning_step& elt )
 {
-  fCurrentStaffDetailTuningStep = elt->getValue ();
+  string tuningStep = elt->getValue();
+  
+  if (tuningStep.length() != 1) {
+    stringstream s;
+    
+    s <<
+      "tuning step value \"" << tuningStep <<
+      "\" should be a single letter from A to G";
+    
+    msrMusicXMLError (
+      fMsrOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      s.str());
+  }
 
-  if 
+  fCurrentStaffDetailTuningStep = tuningStep [0];
 }
 
 void xml2MsrVisitor::visitStart (S_tuning_octave& elt )
@@ -3967,14 +3980,18 @@ void xml2MsrVisitor::visitStart ( S_step& elt )
   
   if (step.length() != 1) {
     stringstream s;
-    s << "step value " << step << " should be a single letter from A to G";
+    
+    s <<
+      "step value " << step <<
+      " should be a single letter from A to G";
+      
     msrMusicXMLError (
       fMsrOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
 
-  fNoteData.fStep = step[0];
+  fNoteData.fStep = step [0];
 }
 
 void xml2MsrVisitor::visitStart ( S_alter& elt)
