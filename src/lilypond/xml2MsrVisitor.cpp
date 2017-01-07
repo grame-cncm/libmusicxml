@@ -1989,7 +1989,7 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
 //________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_staff_details& elt )
 {
-  fStaffDetailsNumber = getAttributeIntValue ("number", 0);
+  fStaffDetailsNumber = elt->getAttributeIntValue ("number", 0);
 
   // show-frets
 
@@ -2013,6 +2013,18 @@ void xml2MsrVisitor::visitStart (S_staff_tuning& elt )
             <tuning-step>E</tuning-step>
             <tuning-octave>2</tuning-octave>
           </staff-tuning>  */
+}
+    
+void xml2MsrVisitor::visitStart (S_tuning_step& elt )
+{
+  fCurrentStaffDetailTuningStep = elt->getValue ();
+
+  if 
+}
+
+void xml2MsrVisitor::visitStart (S_tuning_octave& elt )
+{
+  fCurrentStaffDetailsTuningOctave = (int)(*elt);
 }
 
 void xml2MsrVisitor::visitStart (S_capo& elt )

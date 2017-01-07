@@ -606,6 +606,13 @@ class EXP xml2MsrVisitor :
                                 int            inputLineNumber,
                                 int            staffNumber);
 
+    int                       fStaffDetailsNumber;
+    int                       fCurrentStaffDetailsLinesNumber;
+    char                      fCurrentStaffDetailTuningStep;
+    int                       fCurrentStaffDetailsTuningOctave;
+    int                       fCurrentStaffDetailsCapo;
+    int                       fCurrentStaffDetailsSize;
+  
     // voice handling
     // ------------------------------------------------------
     int                       fCurrentVoiceNumber; // used throughout
