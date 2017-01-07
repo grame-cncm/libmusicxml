@@ -4568,6 +4568,11 @@ class EXP msrStafftuning : public msrElement
 
     int         getStafftuningOctave () const
                     { return fStafftuningOctave; }
+
+    // services
+    // ------------------------------------------------------
+
+    string      stafftuningAsString () const;
          
     // visitors
     // ------------------------------------------------------

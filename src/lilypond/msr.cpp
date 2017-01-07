@@ -8105,31 +8105,23 @@ ostream& operator<< (ostream& os, const S_msrStafftuning& elt)
   return os;
 }
 
-/* JMI
 string msrStafftuning::stafftuningAsString () const
 {
-  string result;
-  
-  switch (fStaffKind) {
-    case msrStaff::kRegularStaff:
-      result = "regular";
-      break;
-    case msrStaff::kTablatureStaff:
-      result = "tablature";
-      break;
-    case msrStaff::kPercussionStaff:
-      result = "percussion";
-      break;
-  } // switch
+  stringstream s;
 
-  return result;
+  s <<
+    "line" << fStafftuningLineNumber <<
+    ", " << fStafftuningStep <<
+    ", octave " << fStafftuningOctave;
+    
+  return s.str();
 }
-*/
 
 void msrStafftuning::print (ostream& os)
 {
   os <<
-    "Stafftuning";
+    "Stafftuning" <<
+    endl;
 
   idtr++;
 
