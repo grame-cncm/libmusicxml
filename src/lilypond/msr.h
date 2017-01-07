@@ -4532,7 +4532,7 @@ class EXP msrStaffTuning : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrStaff> create (
+    static SMARTP<msrStaffTuning> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
       int           staffTuningLineNumber,
@@ -4724,9 +4724,8 @@ class EXP msrStaff : public msrElement
     void        appendTransposeToAllStaffVoices (S_msrTranspose transpose);
 
     void        addStaffTuningToStaff (
-                  int  fStaffTuningLineNumber,
-                  char fStaffTuningStep,
-                  int  fStaffTuningOctave);
+                  S_msrStaffTuning staffTuning)
+                    { fStaffTuningsList.push_back (staffTuning); }
                   
     void        removeStaffEmptyVoices ();
     

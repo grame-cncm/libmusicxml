@@ -2063,6 +2063,8 @@ void xml2MsrVisitor::visitEnd (S_staff_details& elt )
   S_msrStaffTuning
     staffTuning =
       msrStaffTuning::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
         fCurrentStaffDetailsLinesNumber,
         fCurrentStaffDetailTuningStep,
         fCurrentStaffDetailsTuningOctave);
@@ -4926,9 +4928,6 @@ void xml2MsrVisitor::visitStart ( S_grace& elt )
 //______________________________________________________________________________
 void xml2MsrVisitor::visitStart ( S_chord& elt)
 {
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   fNoteData.fNoteBelongsToAChord = true;
 
   // delay the handling until 'visitEnd ( S_note& elt)',

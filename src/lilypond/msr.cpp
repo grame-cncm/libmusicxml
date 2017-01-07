@@ -8017,16 +8017,17 @@ void msrVoice::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrStaff msrStaff::create (
+S_msrStaffTuning msrStaffTuning::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           staffTuningLineNumber,
   char          staffTuningStep,
   int           staffTuningOctave)
 {
-  msrStaff* o =
-    new msrStaff (
-      msrOpts, inputLineNumber, staffNumber, staffPartUplink);
+  msrStaffTuning* o =
+    new msrStaffTuning (
+      msrOpts, inputLineNumber,
+      staffTuningLineNumber, staffTuningStep, staffTuningOctave);
   assert(o!=0);
   return o;
 }
@@ -8037,21 +8038,99 @@ msrStaffTuning::msrStaffTuning (
   int           staffTuningLineNumber,
   char          staffTuningStep,
   int           staffTuningOctave)
+    : msrElement (msrOpts, inputLineNumber)
 {
   fStaffTuningLineNumber = staffTuningLineNumber;
   fStaffTuningStep       = staffTuningStep;
-  fStaffTuningOctave      = staffTuningOctave;
+  fStaffTuningOctave     = staffTuningOctave;
 }
 
 msrStaffTuning::~ msrStaffTuning ()
 {}
 
+void msrStaffTuning::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrStaffTuning::acceptIn()" << endl;
+      
+  if (visitor<S_msrStaffTuning>*
+    p =
+      dynamic_cast<visitor<S_msrStaffTuning>*> (v)) {
+        S_msrStaffTuning elem = this;
+        
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrStaffTuning::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
 
-      S_msrOptions& msrOpts, 
-      int           inputLineNumber,
-      int           staffTuningLineNumber,
-      char          staffTuningStep,
-      int           staffTuningOctave
+void msrStaffTuning::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrStaffTuning::acceptOut()" << endl;
+
+  if (visitor<S_msrStaffTuning>*
+    p =
+      dynamic_cast<visitor<S_msrStaffTuning>*> (v)) {
+        S_msrStaffTuning elem = this;
+      
+        if (fMsrOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrStaffTuning::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrStaffTuning::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrStaffTuning& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+/* JMI
+string msrStaffTuning::staffTuningAsString () const
+{
+  string result;
+  
+  switch (fStaffKind) {
+    case msrStaff::kRegularStaff:
+      result = "regular";
+      break;
+    case msrStaff::kTablatureStaff:
+      result = "tablature";
+      break;
+    case msrStaff::kPercussionStaff:
+      result = "percussion";
+      break;
+  } // switch
+
+  return result;
+}
+*/
+
+void msrStaffTuning::print (ostream& os)
+{
+  os <<
+    "StaffTuning";
+
+  idtr++;
+
+  os << left <<  
+    idtr <<
+      setw(21) << "StaffTuningLineNumber" << " = " << fStaffTuningLineNumber <<
+    idtr <<
+      setw(21) << "StaffTuningStep" << " = " << fStaffTuningStep <<
+    idtr <<
+      setw(21) << "fStaffTuningOctave" << " = " << fStaffTuningOctave <<
+    endl;
+
+  idtr--;
+}
+
 //______________________________________________________________________________
 int msrStaff::gMaxStaffVoices = 4;
 
@@ -8562,14 +8641,6 @@ void msrStaff::removeStaffEmptyVoices ()
       fStaffVoicesMap.erase (i);
     }
   } // for
-}
-
-void msrStaff::appendStaffTuningToStaff (
-  S_msrTuning staffTuning)
-{
-  fStaffTuningsList.push_back (
-    msrStaffTuning (
-      ));
 }
 
 void msrStaff::acceptIn (basevisitor* v) {
