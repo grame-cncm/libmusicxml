@@ -8696,7 +8696,7 @@ void msrStaff::browseData (basevisitor* v)
       i++) {
       // browse the voice
       msrBrowser<msrStaffTuning> browser (v);
-      browser.browse ((*i));
+      browser.browse (*(*i));
     } // for
     idtr--;
   }
@@ -8779,7 +8779,7 @@ void msrStaff::print (ostream& os)
       
     idtr++;
     for ( ; ; ) {
-      cerr << idtr << (*i).second;
+      cerr << idtr << (*i);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
