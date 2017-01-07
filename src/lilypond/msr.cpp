@@ -8017,6 +8017,42 @@ void msrVoice::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrStaff msrStaff::create (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  int           staffTuningLineNumber,
+  char          staffTuningStep,
+  int           staffTuningOctave)
+{
+  msrStaff* o =
+    new msrStaff (
+      msrOpts, inputLineNumber, staffNumber, staffPartUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrStaffTuning::msrStaffTuning (
+  S_msrOptions& msrOpts, 
+  int           inputLineNumber,
+  int           staffTuningLineNumber,
+  char          staffTuningStep,
+  int           staffTuningOctave)
+{
+  fStaffTuningLineNumber = staffTuningLineNumber;
+  fStaffTuningStep       = staffTuningStep;
+  fStaffTuningOctave      = staffTuningOctave;
+}
+
+msrStaffTuning::~ msrStaffTuning ()
+{}
+
+
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           staffTuningLineNumber,
+      char          staffTuningStep,
+      int           staffTuningOctave
+//______________________________________________________________________________
 int msrStaff::gMaxStaffVoices = 4;
 
 S_msrStaff msrStaff::create (
@@ -8526,6 +8562,14 @@ void msrStaff::removeStaffEmptyVoices ()
       fStaffVoicesMap.erase (i);
     }
   } // for
+}
+
+void msrStaff::appendStaffTuningToStaff (
+  S_msrTuning staffTuning)
+{
+  fStaffTuningsList.push_back (
+    msrStaffTuning (
+      ));
 }
 
 void msrStaff::acceptIn (basevisitor* v) {

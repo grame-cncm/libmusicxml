@@ -4525,6 +4525,85 @@ EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 Staff assignment is only needed for music notated on multiple staves. Used by both notes and directions. Staff values are numbers, with 1 referring to the top-most staff in a part.
 */
 //______________________________________________________________________________
+class EXP msrStaffTuning : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrStaff> create (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           staffTuningLineNumber,
+      char          staffTuningStep,
+      int           staffTuningOctave);
+    
+    SMARTP<msrStaff> createStaffTuningBareClone ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrStaffTuning (
+      S_msrOptions& msrOpts, 
+      int           inputLineNumber,
+      int           staffTuningLineNumber,
+      char          staffTuningStep,
+      int           staffTuningOctave);
+         
+    ~ msrStaffTuning ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int         getStaffTuningLineNumber () const
+                    { return fStaffTuningLineNumber; }
+
+    int         getStaffTuningStep () const
+                    { return fStaffTuningStep; }
+
+    int         getStaffTuningOctave () const
+                    { return fStaffTuningOctave; }
+         
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+    
+  public:
+  
+    // data
+    // ------------------------------------------------------
+    
+    int       fStaffTuningLineNumber;
+    char      fStaffTuningStep;
+    int       fStaffTuningOctave;
+};
+typedef SMARTP<msrStaffTuning> S_msrStaffTuning;
+EXP ostream& operator<< (ostream& os, const S_msrStaffTuning& elt);
+
+/*!
+\brief A msr staff representation.
+
+  A staff is represented by a its string contents
+*/
+
+/*
+Staff assignment is only needed for music notated on multiple staves. Used by both notes and directions. Staff values are numbers, with 1 referring to the top-most staff in a part.
+*/
+//______________________________________________________________________________
 class EXP msrStaff : public msrElement
 {
   public:
@@ -4594,6 +4673,10 @@ class EXP msrStaff : public msrElement
                 getStaffVoicesMap ()
                     { return fStaffVoicesMap; }
 
+    const list<S_msrStaffTuning>&
+                getStaffTuningsList ()
+                    { return fStaffTuningsList; }
+
     // divisions per whole note
     void        setStaffDivisionsPerWholeNote (
                   int divisionsPerWholeNote);
@@ -4640,6 +4723,11 @@ class EXP msrStaff : public msrElement
     
     void        appendTransposeToAllStaffVoices (S_msrTranspose transpose);
 
+    void        addStaffTuningToStaff (
+                  int  fStaffTuningLineNumber,
+                  char fStaffTuningStep,
+                  int  fStaffTuningOctave);
+                  
     void        removeStaffEmptyVoices ();
     
     // visitors
@@ -4657,6 +4745,8 @@ class EXP msrStaff : public msrElement
 
   private:
 
+    // data
+    
     msrStaffKind            fStaffKind;
     
     static int              gMaxStaffVoices;
@@ -4682,6 +4772,8 @@ class EXP msrStaff : public msrElement
     S_msrTranspose          fStaffTranspose;
 
     int                     fNextRelativeStaffVoiceNumber;
+
+    list<S_msrStaffTuning>  fStaffTuningsList;
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);

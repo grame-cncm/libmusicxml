@@ -1989,7 +1989,7 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
 //________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_staff_details& elt )
 {
-  fStaffDetailsNumber = elt->getAttributeIntValue ("number", 0);
+  fStaffDetailsStaffNumber = elt->getAttributeIntValue ("number", 0);
 
   // show-frets
 
@@ -2048,6 +2048,29 @@ void xml2MsrVisitor::visitStart (S_capo& elt )
 void xml2MsrVisitor::visitStart (S_staff_size& elt )
 {
   fCurrentStaffDetailsSize = (int)(*elt);
+}
+
+void xml2MsrVisitor::visitEnd (S_staff_details& elt )
+{
+  // fetch relevant staff
+  S_msrStaff
+    staff =
+      createStaffInCurrentPartIfNeeded (
+        elt->getInputLineNumber (),
+        fStaffDetailsStaffNumber);
+
+  // create the staff tuning
+  S_msrStaffTuning
+    staffTuning =
+      msrStaffTuning::create (
+        fCurrentStaffDetailsLinesNumber,
+        fCurrentStaffDetailTuningStep,
+        fCurrentStaffDetailsTuningOctave);
+        
+  // add it to the staff
+  staff->
+    addStaffTuningToStaff (
+      staffTuning);
 }
 
 //________________________________________________________________________
