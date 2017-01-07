@@ -608,9 +608,9 @@ class EXP xml2MsrVisitor :
                                 int            staffNumber);
 
     int                       fStaffDetailsStaffNumber;
-    int                       fCurrentStaffDetailsLinesNumber;
-    char                      fCurrentStaffDetailTuningStep;
-    int                       fCurrentStaffDetailsTuningOctave;
+    int                       fCurrentStaffTuningLinesNumber;
+    char                      fCurrentStaffTuningStep;
+    int                       fCurrentStaffTuningOctave;
     int                       fCurrentStaffDetailsCapo;
     int                       fCurrentStaffDetailsStaffSize;
   
