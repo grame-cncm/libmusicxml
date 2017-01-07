@@ -1994,6 +1994,22 @@ void xml2MsrVisitor::visitStart (S_staff_details& elt )
 
   // show-frets
 
+  if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
+    cerr <<
+      idtr <<
+        "Hangling staff details:" <<
+        endl;
+
+    idtr ++;
+
+    cerr <<
+      idtr <<
+        setw(32) << "StaffDetailsStaffNumber" << " = " <<
+        fStaffDetailsStaffNumber <<
+        endl;
+  }
+
   fCurrentStaffTuningLinesNumber = 5; // default
 
   fCurrentStaffDetailsCapo = 0;
@@ -2011,6 +2027,9 @@ void xml2MsrVisitor::visitStart (S_staff_lines& elt )
 
 void xml2MsrVisitor::visitStart (S_staff_tuning& elt )
 {
+  fCurrentStaffTuningLine =
+    elt->getAttributeIntValue ("line", 0);
+
   /*
           <staff-tuning line="1">
             <tuning-step>E</tuning-step>
@@ -2043,17 +2062,7 @@ void xml2MsrVisitor::visitStart (S_tuning_octave& elt )
   fCurrentStaffTuningOctave = (int)(*elt);
 }
 
-void xml2MsrVisitor::visitStart (S_capo& elt )
-{
-  fCurrentStaffDetailsCapo = (int)(*elt);
-}
-
-void xml2MsrVisitor::visitStart (S_staff_size& elt )
-{
-  fCurrentStaffDetailsStaffSize = (int)(*elt);
-}
-
-void xml2MsrVisitor::visitEnd (S_staff_details& elt )
+void xml2MsrVisitor::visitEnd (S_staff_tuning& elt )
 {
   // fetch relevant staff
   S_msrStaff
@@ -2067,28 +2076,31 @@ void xml2MsrVisitor::visitEnd (S_staff_details& elt )
 //  if (fMsrOptions->fDebug) {
     cerr <<
       idtr <<
-        setw(30) << "Hangling staff details" <<
+        setw(30) << "Creating staff tuning:" <<
         endl;
 
     idtr++;
 
     cerr <<
+/* JMI
       idtr <<
         setw(32) << "fStaffDetailsStaffNumber" << " = " <<
         fStaffDetailsStaffNumber <<
         endl <<
+        */
       idtr <<
-        setw(32) << "fCurrentStaffTuningStep" << " = " <<
+        setw(24) << "fCurrentStaffTuningLine" << " = " <<
+        fCurrentStaffTuningLine <<
+        endl <<
+      idtr <<
+        setw(24) << "fCurrentStaffTuningStep" << " = " <<
         fCurrentStaffTuningStep <<
         endl <<
       idtr <<
-        setw(32) << "fCurrentStaffTuningStep" << " = " <<
-        fCurrentStaffTuningStep <<
-        endl <<
-      idtr <<
-        setw(32) << "fCurrentStaffTuningOctave" << " = " <<
+        setw(24) << "CurrentStaffTuningOctave" << " = " <<
         fCurrentStaffTuningOctave <<
-        endl <<
+        endl;
+        /*
       idtr <<
         setw(32) << "fCurrentStaffDetailsCapo" << " = " <<
         fCurrentStaffDetailsCapo <<
@@ -2096,7 +2108,7 @@ void xml2MsrVisitor::visitEnd (S_staff_details& elt )
       idtr <<
         setw(32) << "fCurrentStaffDetailsStaffSize" << " = " <<
         fCurrentStaffDetailsStaffSize <<
-        endl;
+        endl; */
 
     idtr--;
   } 
@@ -2113,6 +2125,34 @@ void xml2MsrVisitor::visitEnd (S_staff_details& elt )
   // add it to the staff
   staff->
     addStafftuningToStaff (stafftuning);
+}
+    
+void xml2MsrVisitor::visitStart (S_capo& elt )
+{
+  fCurrentStaffDetailsCapo = (int)(*elt);
+}
+
+void xml2MsrVisitor::visitStart (S_staff_size& elt )
+{
+  fCurrentStaffDetailsStaffSize = (int)(*elt);
+}
+
+void xml2MsrVisitor::visitEnd (S_staff_details& elt )
+{
+  if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
+    cerr <<
+      idtr <<
+        setw(32) << "fCurrentStaffDetailsCapo" << " = " <<
+        fCurrentStaffDetailsCapo <<
+        endl <<
+      idtr <<
+        setw(24) << "fCurrentStaffDetailsStaffSize" << " = " <<
+        fCurrentStaffDetailsStaffSize <<
+        endl;
+  }
+
+  idtr--;
 }
 
 //________________________________________________________________________
