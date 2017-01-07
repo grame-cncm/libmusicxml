@@ -8110,7 +8110,7 @@ string msrStafftuning::stafftuningAsString () const
   stringstream s;
 
   s <<
-    "line" << fStafftuningLineNumber <<
+    "line " << fStafftuningLineNumber <<
     ", " << fStafftuningStep <<
     ", octave " << fStafftuningOctave;
     
@@ -8778,6 +8778,10 @@ void msrStaff::print (ostream& os)
     fStaffInstrumentName << "\"" << endl;
 
   if (fStafftuningsList.size ()) {
+    os <<
+      idtr << "Staff tunings:" <<
+      endl;
+      
     list<S_msrStafftuning>::const_iterator
       iBegin = fStafftuningsList.begin(),
       iEnd   = fStafftuningsList.end(),
@@ -8785,7 +8789,7 @@ void msrStaff::print (ostream& os)
       
     idtr++;
     for ( ; ; ) {
-      cerr << idtr << (*i);
+      cerr << idtr << (*i)->stafftuningAsString ();
       if (++i == iEnd) break;
       cerr << endl;
     } // for

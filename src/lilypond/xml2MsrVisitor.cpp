@@ -1989,11 +1989,14 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
 //________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_staff_details& elt )
 {
-  fStaffDetailsStaffNumber = elt->getAttributeIntValue ("number", 0);
+  fStaffDetailsStaffNumber =
+    elt->getAttributeIntValue ("number", 0);
 
   // show-frets
 
   fCurrentStaffDetailsLinesNumber = 5; // default
+
+  fCurrentStaffDetailsCapo = 0;
 }
 
 void xml2MsrVisitor::visitStart (S_staff_type& elt )
@@ -2047,7 +2050,7 @@ void xml2MsrVisitor::visitStart (S_capo& elt )
 
 void xml2MsrVisitor::visitStart (S_staff_size& elt )
 {
-  fCurrentStaffDetailsSize = (int)(*elt);
+  fCurrentStaffDetailsStaffSize = (int)(*elt);
 }
 
 void xml2MsrVisitor::visitEnd (S_staff_details& elt )
@@ -2060,6 +2063,44 @@ void xml2MsrVisitor::visitEnd (S_staff_details& elt )
         fStaffDetailsStaffNumber);
 
   // create the staff tuning
+  if (true || fMsrOptions->fDebug) {
+//  if (fMsrOptions->fDebug) {
+    cerr <<
+      idtr <<
+        setw(30) << "Hangling staff details" <<
+        endl;
+
+    idtr++;
+
+    cerr <<
+      idtr <<
+        setw(32) << "fStaffDetailsStaffNumber" << " = " <<
+        fStaffDetailsStaffNumber <<
+        endl <<
+      idtr <<
+        setw(32) << "fCurrentStaffDetailsLinesNumber" << " = " <<
+        fCurrentStaffDetailsLinesNumber <<
+        endl <<
+      idtr <<
+        setw(32) << "fCurrentStaffDetailTuningStep" << " = " <<
+        fCurrentStaffDetailTuningStep <<
+        endl <<
+      idtr <<
+        setw(32) << "fCurrentStaffDetailsTuningOctave" << " = " <<
+        fCurrentStaffDetailsTuningOctave <<
+        endl <<
+      idtr <<
+        setw(32) << "fCurrentStaffDetailsCapo" << " = " <<
+        fCurrentStaffDetailsCapo <<
+        endl <<
+      idtr <<
+        setw(32) << "fCurrentStaffDetailsStaffSize" << " = " <<
+        fCurrentStaffDetailsStaffSize <<
+        endl;
+
+    idtr--;
+  } 
+    
   S_msrStafftuning
     stafftuning =
       msrStafftuning::create (
@@ -2071,8 +2112,7 @@ void xml2MsrVisitor::visitEnd (S_staff_details& elt )
         
   // add it to the staff
   staff->
-    addStafftuningToStaff (
-      stafftuning);
+    addStafftuningToStaff (stafftuning);
 }
 
 //________________________________________________________________________

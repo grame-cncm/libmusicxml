@@ -612,7 +612,7 @@ class EXP xml2MsrVisitor :
     char                      fCurrentStaffDetailTuningStep;
     int                       fCurrentStaffDetailsTuningOctave;
     int                       fCurrentStaffDetailsCapo;
-    int                       fCurrentStaffDetailsSize;
+    int                       fCurrentStaffDetailsStaffSize;
   
     // voice handling
     // ------------------------------------------------------
