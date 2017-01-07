@@ -4525,49 +4525,49 @@ EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 Staff assignment is only needed for music notated on multiple staves. Used by both notes and directions. Staff values are numbers, with 1 referring to the top-most staff in a part.
 */
 //______________________________________________________________________________
-class EXP msrStaffTuning : public msrElement
+class EXP msrStafftuning : public msrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrStaffTuning> create (
+    static SMARTP<msrStafftuning> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
-      int           staffTuningLineNumber,
-      char          staffTuningStep,
-      int           staffTuningOctave);
+      int           stafftuningLineNumber,
+      char          stafftuningStep,
+      int           stafftuningOctave);
     
-    SMARTP<msrStaff> createStaffTuningBareClone ();
+    SMARTP<msrStafftuning> createStafftuningBareClone ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrStaffTuning (
+    msrStafftuning (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
-      int           staffTuningLineNumber,
-      char          staffTuningStep,
-      int           staffTuningOctave);
+      int           stafftuningLineNumber,
+      char          stafftuningStep,
+      int           stafftuningOctave);
          
-    ~ msrStaffTuning ();
+    ~ msrStafftuning ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    int         getStaffTuningLineNumber () const
-                    { return fStaffTuningLineNumber; }
+    int         getStafftuningLineNumber () const
+                    { return fStafftuningLineNumber; }
 
-    int         getStaffTuningStep () const
-                    { return fStaffTuningStep; }
+    int         getStafftuningStep () const
+                    { return fStafftuningStep; }
 
-    int         getStaffTuningOctave () const
-                    { return fStaffTuningOctave; }
+    int         getStafftuningOctave () const
+                    { return fStafftuningOctave; }
          
     // visitors
     // ------------------------------------------------------
@@ -4587,12 +4587,12 @@ class EXP msrStaffTuning : public msrElement
     // data
     // ------------------------------------------------------
     
-    int       fStaffTuningLineNumber;
-    char      fStaffTuningStep;
-    int       fStaffTuningOctave;
+    int       fStafftuningLineNumber;
+    char      fStafftuningStep;
+    int       fStafftuningOctave;
 };
-typedef SMARTP<msrStaffTuning> S_msrStaffTuning;
-EXP ostream& operator<< (ostream& os, const S_msrStaffTuning& elt);
+typedef SMARTP<msrStafftuning> S_msrStafftuning;
+EXP ostream& operator<< (ostream& os, const S_msrStafftuning& elt);
 
 /*!
 \brief A msr staff representation.
@@ -4673,9 +4673,9 @@ class EXP msrStaff : public msrElement
                 getStaffVoicesMap ()
                     { return fStaffVoicesMap; }
 
-    const list<S_msrStaffTuning>&
-                getStaffTuningsList ()
-                    { return fStaffTuningsList; }
+    const list<S_msrStafftuning>&
+                getStafftuningsList ()
+                    { return fStafftuningsList; }
 
     // divisions per whole note
     void        setStaffDivisionsPerWholeNote (
@@ -4723,9 +4723,9 @@ class EXP msrStaff : public msrElement
     
     void        appendTransposeToAllStaffVoices (S_msrTranspose transpose);
 
-    void        addStaffTuningToStaff (
-                  S_msrStaffTuning staffTuning)
-                    { fStaffTuningsList.push_back (staffTuning); }
+    void        addStafftuningToStaff (
+                  S_msrStafftuning stafftuning)
+                    { fStafftuningsList.push_back (stafftuning); }
                   
     void        removeStaffEmptyVoices ();
     
@@ -4772,7 +4772,7 @@ class EXP msrStaff : public msrElement
 
     int                     fNextRelativeStaffVoiceNumber;
 
-    list<S_msrStaffTuning>  fStaffTuningsList;
+    list<S_msrStafftuning>  fStafftuningsList;
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);

@@ -688,6 +688,70 @@ typedef SMARTP<lpsrNewStaffgroupBlock> S_lpsrNewStaffgroupBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffgroupBlock& elt);
 
 /*!
+\brief A lpsr new staff tuning representation.
+
+  A new staff tuning is represented by a vactor of elements
+*/
+//______________________________________________________________________________
+class EXP lpsrNewStafftuningBlock : public lpsrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrNewStafftuningBlock> create (
+      S_msrOptions&    msrOpts, 
+      S_lpsrOptions&   lpsrOpts, 
+      int              inputLineNumber,
+      S_msrStafftuning stafftuning);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrNewStafftuningBlock (
+      S_msrOptions&    msrOpts, 
+      S_lpsrOptions&   lpsrOpts, 
+      int              inputLineNumber,
+      S_msrStafftuning stafftuning);
+      
+    virtual ~lpsrNewStafftuningBlock();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_msrStafftuning
+                getStafftuning () const
+                    { return fStafftuning; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+  
+    S_msrStafftuning fStafftuning;
+};
+typedef SMARTP<lpsrNewStafftuningBlock> S_lpsrNewStafftuningBlock;
+EXP ostream& operator<< (ostream& os, const S_lpsrNewStafftuningBlock& elt);
+
+/*!
 \brief A lpsr new staff representation.
 
   A new staff is represented by a vactor of elements

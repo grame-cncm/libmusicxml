@@ -8017,82 +8017,96 @@ void msrVoice::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrStaffTuning msrStaffTuning::create (
+S_msrStafftuning msrStafftuning::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
-  int           staffTuningLineNumber,
-  char          staffTuningStep,
-  int           staffTuningOctave)
+  int           StafftuningLineNumber,
+  char          StafftuningStep,
+  int           StafftuningOctave)
 {
-  msrStaffTuning* o =
-    new msrStaffTuning (
+  msrStafftuning* o =
+    new msrStafftuning (
       msrOpts, inputLineNumber,
-      staffTuningLineNumber, staffTuningStep, staffTuningOctave);
+      StafftuningLineNumber, StafftuningStep, StafftuningOctave);
   assert(o!=0);
   return o;
 }
 
-msrStaffTuning::msrStaffTuning (
+msrStafftuning::msrStafftuning (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
-  int           staffTuningLineNumber,
-  char          staffTuningStep,
-  int           staffTuningOctave)
+  int           StafftuningLineNumber,
+  char          StafftuningStep,
+  int           StafftuningOctave)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fStaffTuningLineNumber = staffTuningLineNumber;
-  fStaffTuningStep       = staffTuningStep;
-  fStaffTuningOctave     = staffTuningOctave;
+  fStafftuningLineNumber = StafftuningLineNumber;
+  fStafftuningStep       = StafftuningStep;
+  fStafftuningOctave     = StafftuningOctave;
 }
 
-msrStaffTuning::~ msrStaffTuning ()
+msrStafftuning::~ msrStafftuning ()
 {}
 
-void msrStaffTuning::acceptIn (basevisitor* v) {
+S_msrStafftuning msrStafftuning::createStafftuningBareClone ()
+{
+  S_msrStafftuning
+    clone =
+      msrStafftuning::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fStafftuningLineNumber,
+        fStafftuningStep,
+        fStafftuningOctave);
+  
+  return clone;
+}
+
+void msrStafftuning::acceptIn (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrStaffTuning::acceptIn()" << endl;
+      "==> msrStafftuning::acceptIn()" << endl;
       
-  if (visitor<S_msrStaffTuning>*
+  if (visitor<S_msrStafftuning>*
     p =
-      dynamic_cast<visitor<S_msrStaffTuning>*> (v)) {
-        S_msrStaffTuning elem = this;
+      dynamic_cast<visitor<S_msrStafftuning>*> (v)) {
+        S_msrStafftuning elem = this;
         
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrStaffTuning::visitStart()" << endl;
+            "==> Launching msrStafftuning::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void msrStaffTuning::acceptOut (basevisitor* v) {
+void msrStafftuning::acceptOut (basevisitor* v) {
   if (fMsrOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrStaffTuning::acceptOut()" << endl;
+      "==> msrStafftuning::acceptOut()" << endl;
 
-  if (visitor<S_msrStaffTuning>*
+  if (visitor<S_msrStafftuning>*
     p =
-      dynamic_cast<visitor<S_msrStaffTuning>*> (v)) {
-        S_msrStaffTuning elem = this;
+      dynamic_cast<visitor<S_msrStafftuning>*> (v)) {
+        S_msrStafftuning elem = this;
       
         if (fMsrOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrStaffTuning::visitEnd()" << endl;
+            "==> Launching msrStafftuning::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void msrStaffTuning::browseData (basevisitor* v)
+void msrStafftuning::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrStaffTuning& elt)
+ostream& operator<< (ostream& os, const S_msrStafftuning& elt)
 {
   elt->print (os);
   return os;
 }
 
 /* JMI
-string msrStaffTuning::staffTuningAsString () const
+string msrStafftuning::stafftuningAsString () const
 {
   string result;
   
@@ -8112,20 +8126,20 @@ string msrStaffTuning::staffTuningAsString () const
 }
 */
 
-void msrStaffTuning::print (ostream& os)
+void msrStafftuning::print (ostream& os)
 {
   os <<
-    "StaffTuning";
+    "Stafftuning";
 
   idtr++;
 
   os << left <<  
     idtr <<
-      setw(21) << "StaffTuningLineNumber" << " = " << fStaffTuningLineNumber <<
+      setw(21) << "StafftuningLineNumber" << " = " << fStafftuningLineNumber <<
     idtr <<
-      setw(21) << "StaffTuningStep" << " = " << fStaffTuningStep <<
+      setw(21) << "StafftuningStep" << " = " << fStafftuningStep <<
     idtr <<
-      setw(21) << "fStaffTuningOctave" << " = " << fStaffTuningOctave <<
+      setw(21) << "fStafftuningOctave" << " = " << fStafftuningOctave <<
     endl;
 
   idtr--;
@@ -8689,13 +8703,13 @@ void msrStaff::browseData (basevisitor* v)
     they're thus not browsed
   */
 
-  if (fStaffTuningsList.size ()) {
+  if (fStafftuningsList.size ()) {
     for (
-      list<S_msrStaffTuning>::iterator i = fStaffTuningsList.begin();
-      i != fStaffTuningsList.end();
+      list<S_msrStafftuning>::iterator i = fStafftuningsList.begin();
+      i != fStafftuningsList.end();
       i++) {
       // browse the voice
-      msrBrowser<msrStaffTuning> browser (v);
+      msrBrowser<msrStafftuning> browser (v);
       browser.browse (*(*i));
     } // for
     idtr--;
@@ -8771,10 +8785,10 @@ void msrStaff::print (ostream& os)
     idtr << "StaffInstrumentName: \"" <<
     fStaffInstrumentName << "\"" << endl;
 
-  if (fStaffTuningsList.size ()) {
-    list<S_msrStaffTuning>::const_iterator
-      iBegin = fStaffTuningsList.begin(),
-      iEnd   = fStaffTuningsList.end(),
+  if (fStafftuningsList.size ()) {
+    list<S_msrStafftuning>::const_iterator
+      iBegin = fStafftuningsList.begin(),
+      iEnd   = fStafftuningsList.end(),
       i      = iBegin;
       
     idtr++;

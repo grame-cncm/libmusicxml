@@ -2060,9 +2060,9 @@ void xml2MsrVisitor::visitEnd (S_staff_details& elt )
         fStaffDetailsStaffNumber);
 
   // create the staff tuning
-  S_msrStaffTuning
-    staffTuning =
-      msrStaffTuning::create (
+  S_msrStafftuning
+    stafftuning =
+      msrStafftuning::create (
         fMsrOptions,
         elt->getInputLineNumber (),
         fCurrentStaffDetailsLinesNumber,
@@ -2071,8 +2071,8 @@ void xml2MsrVisitor::visitEnd (S_staff_details& elt )
         
   // add it to the staff
   staff->
-    addStaffTuningToStaff (
-      staffTuning);
+    addStafftuningToStaff (
+      stafftuning);
 }
 
 //________________________________________________________________________

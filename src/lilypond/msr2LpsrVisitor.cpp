@@ -98,7 +98,7 @@ void msr2LpsrVisitor::visitStart (S_msrScore& elt)
 
 /*
   // push it onto this visitors's stack,
-  // making it the current partgroup command
+  // making it the current partgroup block
   fPartgroupBlocksStack.push (
     partgroupBlock);
     */
@@ -142,7 +142,7 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
   }
   
 /* JMI
-  // get top level pargroup command from the stack
+  // get top level pargroup block from the stack
   S_lpsrPartgroupBlock
     partgroupBlock =
       fPartgroupBlocksStack.top ();
@@ -154,7 +154,7 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
   if (fPartgroupBlocksStack.size())
     msrInternalError (
       1,
-      "the partgroup command stack is not exmpty at the end of the visit");
+      "the partgroup block stack is not exmpty at the end of the visit");
    */ 
 }
 
@@ -232,12 +232,12 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
   fLpsrScore->
     setGlobalStaffSize (globalStaffSize);
 
-  // get LPSR score command layout
+  // get LPSR score block layout
   S_lpsrLayout
-    scoreCommandLayout =
+    scoreBlockLayout =
       fLpsrScore->getScoreBlock ()->getScoreBlockLayout ();
 
-  // create the score command layout staff-size Scheme assoc
+  // create the score block layout staff-size Scheme assoc
   stringstream s;
   s << globalStaffSize;
   S_lpsrSchemeVarValAssoc
@@ -252,8 +252,8 @@ void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
         "Uncomment and adapt next line as needed (default is 20)",
         lpsrSchemeVarValAssoc::kWithEndl);
 
-  // populate score command layout
-  scoreCommandLayout->
+  // populate score block layout
+  scoreBlockLayout->
     addSchemeVarValAssoc (assoc);
 
 /* JMI
@@ -290,23 +290,23 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
   fCurrentScoreClone->
     addPartgroupToScore (fCurrentPartgroupClone);
 
-  // create a partgroup command
+  // create a partgroup block
   S_lpsrPartgroupBlock
     partgroupBlock =
       lpsrPartgroupBlock::create (
         fMsrOptions, fLpsrOptions, fCurrentPartgroupClone);
 
   // push it onto this visitors's stack,
-  // making it the current partgroup command
+  // making it the current partgroup block
   fPartgroupBlocksStack.push (
     partgroupBlock);
   
-  // get the LPSR store command
+  // get the LPSR store block
   S_lpsrScoreBlock
-    scoreCommand =
+    scoreBlock =
       fLpsrScore->getScoreBlock ();
 
-  // don't append the pargroup block to the score command now:
+  // don't append the pargroup block to the score block now:
   // this will be done when it gets popped from the stack
 
 /* JMI
@@ -320,9 +320,9 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
   fLpsrScore ->
     appendVoiceToScoreElements (fCurrentVoiceClone);
 
-  // append the voice use to the LPSR score command
+  // append the voice use to the LPSR score block
   fLpsrScore ->
-    appendVoiceUseToStoreCommand (fCurrentVoiceClone);
+    appendVoiceUseToStoreBlock (fCurrentVoiceClone);
 */
 
   idtr++;
@@ -336,13 +336,13 @@ void msr2LpsrVisitor::visitEnd (S_msrPartgroup& elt)
     fOstream << idtr <<
       "--> End visiting msrPartgroup" << endl;
 
-  // get the LPSR store command
+  // get the LPSR store block
   S_lpsrScoreBlock
-    scoreCommand =
+    scoreBlock =
       fLpsrScore->getScoreBlock ();
 
-  // append the pargroup clone to the score command
-  scoreCommand->
+  // append the pargroup clone to the score block
+  scoreBlock->
     appendPartgroupBlockToParallelMusic (
       fPartgroupBlocksStack.top ());
 
@@ -370,12 +370,12 @@ void msr2LpsrVisitor::visitStart (S_msrPart& elt)
   fCurrentPartgroupClone->
     addPartToPartgroup (fCurrentPartClone);
 
-  // create a part command
+  // create a part block
   fCurrentPartBlock =
     lpsrPartBlock::create (
       fMsrOptions, fLpsrOptions, fCurrentPartClone);
 
-  // append it to the current partgroup command
+  // append it to the current partgroup block
   fPartgroupBlocksStack.top ()->
     appendElementToPartgroupBlock (fCurrentPartBlock);
 }
@@ -406,16 +406,47 @@ void msr2LpsrVisitor::visitStart (S_msrStaff& elt)
   fCurrentPartClone->
     addStaffToPart (fCurrentStaffClone);
 
-  // create a staff command
+  // create a staff block
   fCurrentStaffBlock =
     lpsrStaffBlock::create (
       fMsrOptions, fLpsrOptions, fCurrentStaffClone);
 
-  // append it to the current part command
+  // append it to the current part block
   fCurrentPartBlock->
     appendElementToPartBlock (fCurrentStaffBlock);
 
   fOnGoingStaff = true;
+}
+
+//________________________________________________________________________
+void msr2LpsrVisitor::visitStart (S_msrStafftuning& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrStafftuning" << endl;
+
+  idtr++;
+  
+  // create a staff tuning clone
+  fCurrentStafftuningClone =
+    elt->createStafftuningBareClone ();
+    
+  // add it to the staff clone
+  fCurrentStaffClone->
+    addStafftuningToStaff (fCurrentStafftuningClone);
+
+  // create a staff tuning block
+  S_lpsrNewStafftuningBlock
+    newStafftuningBlock =
+      lpsrNewStafftuningBlock::create (
+        fMsrOptions,
+        fLpsrOptions,
+        fCurrentStafftuningClone->getInputLineNumber (),
+        fCurrentStafftuningClone);
+
+  // append it to the current staff block
+  fCurrentStaffBlock->
+    appendElementToStaffBlock (newStafftuningBlock);
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrStaff& elt)
@@ -424,7 +455,7 @@ void msr2LpsrVisitor::visitEnd (S_msrStaff& elt)
 
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrStaff" << endl;
+      "--> End visiting S_msrStafftuning" << endl;
 
   fOnGoingStaff = false;
 }
@@ -454,7 +485,7 @@ void msr2LpsrVisitor::visitStart (S_msrVoice& elt)
   fLpsrScore ->
     appendVoiceToScoreElements (fCurrentVoiceClone);
 
-  // append a use of the voice to the current staff command
+  // append a use of the voice to the current staff block
   fCurrentStaffBlock->
     appendVoiceUseToStaffBlock (fCurrentVoiceClone);
 }

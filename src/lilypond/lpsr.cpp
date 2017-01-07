@@ -973,6 +973,87 @@ void lpsrNewStaffgroupBlock::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_lpsrNewStafftuningBlock lpsrNewStafftuningBlock::create (
+  S_msrOptions&    msrOpts, 
+  S_lpsrOptions&   lpsrOpts, 
+  int              inputLineNumber,
+  S_msrStafftuning stafftuning)
+{
+  lpsrNewStafftuningBlock* o =
+    new lpsrNewStafftuningBlock (
+      msrOpts, lpsrOpts, inputLineNumber, stafftuning);
+  assert(o!=0);
+  return o;
+}
+
+lpsrNewStafftuningBlock::lpsrNewStafftuningBlock (
+  S_msrOptions&    msrOpts, 
+  S_lpsrOptions&   lpsrOpts, 
+  int              inputLineNumber,
+  S_msrStafftuning stafftuning)
+    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+{
+  fStafftuning = stafftuning;
+}
+
+lpsrNewStafftuningBlock::~lpsrNewStafftuningBlock() {}
+
+void lpsrNewStafftuningBlock::acceptIn (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrNewStafftuningBlock::acceptIn()" << endl;
+      
+  if (visitor<S_lpsrNewStafftuningBlock>*
+    p =
+      dynamic_cast<visitor<S_lpsrNewStafftuningBlock>*> (v)) {
+        S_lpsrNewStafftuningBlock elem = this;
+        
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrNewStafftuningBlock::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void lpsrNewStafftuningBlock::acceptOut (basevisitor* v) {
+  if (fMsrOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrNewStafftuningBlock::acceptOut()" << endl;
+
+  if (visitor<S_lpsrNewStafftuningBlock>*
+    p =
+      dynamic_cast<visitor<S_lpsrNewStafftuningBlock>*> (v)) {
+        S_lpsrNewStafftuningBlock elem = this;
+      
+        if (fMsrOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrNewStafftuningBlock::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrNewStafftuningBlock::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_lpsrNewStafftuningBlock& nstf)
+{
+  nstf->print (os);
+  return os;
+}
+
+void lpsrNewStafftuningBlock::print (ostream& os)
+{
+  os << "NewStafftuningBlock" << endl;
+
+  idtr++;
+  
+  os <<
+    idtr << fStafftuning;
+  
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_lpsrNewStaffBlock lpsrNewStaffBlock::create (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 

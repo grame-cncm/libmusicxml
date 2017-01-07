@@ -48,6 +48,7 @@ class msr2LpsrVisitor :
   public visitor<S_msrPart>,
   
   public visitor<S_msrStaff>,
+  public visitor<S_msrStafftuning>,
   
   public visitor<S_msrVoice>,
 
@@ -146,6 +147,7 @@ class msr2LpsrVisitor :
     virtual void visitEnd   (S_msrPart& elt);
 
     virtual void visitStart (S_msrStaff& elt);
+    virtual void visitStart (S_msrStafftuning& elt);
     virtual void visitEnd   (S_msrStaff& elt);
 
     virtual void visitStart (S_msrVoice& elt);
@@ -312,6 +314,7 @@ class msr2LpsrVisitor :
     S_lpsrStaffBlock          fCurrentStaffBlock;
     // prevent clef, key and time from being handled twice
     bool                      fOnGoingStaff;
+    S_msrStafftuning          fCurrentStafftuningClone;
 
     // repeats
     // ------------------------------------------------------
