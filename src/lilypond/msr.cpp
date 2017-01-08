@@ -8123,7 +8123,8 @@ string msrStafftuning::stafftuningAsString () const
   s <<
     "line " << fStafftuningLineNumber <<
     ", " << fStafftuningStep <<
-    ", octave " << fStafftuningOctave;
+    ", octave " << fStafftuningOctave <<
+    ", alter " << fStaffTuningAlter;
     
   return s.str();
 }
