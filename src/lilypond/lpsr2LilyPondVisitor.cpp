@@ -72,6 +72,61 @@ void lpsr2LilyPondVisitor::generateLilyPondCodeFromLpsrScore ()
   }
 }
 
+string lpsr2LilyPondVisitor::absoluteOctaveAsLilypondString (
+  integer absoluteOctave)
+    // generate LilyPond absolute octave
+    switch (absoluteOctave) {
+      case 0:
+        return ",,,";
+        break;
+      case 1:
+        return ",,";
+        break;
+      case 2:
+        return ",";
+        break;
+      case 3:
+        return "";
+        break;
+      case 4:
+        return "'";
+        break;
+      case 5:
+        return "''";
+        break;
+      case 6:
+        return "'''";
+        break;
+      case 7:
+        return "''''";
+        break;
+      case 8:
+        return "'''''";
+        break;
+      default:
+        return "###";
+    } // switch
+}
+
+//________________________________________________________________________
+string lpsr2LilyPondVisitor::stafftuningAsLilypondString (
+  char tuningStep, integer tuningOctave)
+{
+     "line " << fStafftuningLineNumber <<
+    ", " << fStafftuningStep <<
+    ", octave " << fStafftuningOctave;
+
+  stringstream s;
+
+  s <<
+    tolower (tuningStep);
+          absoluteOctaveAsLilypondString (noteAbsoluteOctave);
+
+    
+  // in MusicXML, octave number is 4 for the octave starting with middle C
+
+}
+
 //________________________________________________________________________
 string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   S_msrNote& note)
@@ -155,37 +210,9 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
   if (genAbsoluteOctave) {
     
     // generate LilyPond absolute octave
-    switch (noteAbsoluteOctave) {
-      case 0:
-        s << ",,,";
-        break;
-      case 1:
-        s << ",,";
-        break;
-      case 2:
-        s << ",";
-        break;
-      case 3:
-        s << "";
-        break;
-      case 4:
-        s << "'";
-        break;
-      case 5:
-        s << "''";
-        break;
-      case 6:
-        s << "'''";
-        break;
-      case 7:
-        s << "''''";
-        break;
-      case 8:
-        s << "'''''";
-        break;
-      default:
-        s << "###";
-    } // switch
+    s <<
+      absoluteOctaveAsLilypondString (noteAbsoluteOctave);
+
   }
 
   else {
@@ -930,7 +957,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
     "\"" <<
     endl;
 
-  fOstream << idtr <<
+  fOstream << idtr <<...
     "\\set " << staffContextName << ".shortInstrumentName = \"" <<
     partAbbreviation <<
     "\"" <<
@@ -954,6 +981,9 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
     for ( ; ; ) {
       fOstream <<
         (*i)->getStafftuningStep ();
+           tolower (tuningStep);
+          absoluteOctaveAsLilypondString (noteAbsoluteOctave);
+
       if (++i == iEnd) break;
       cerr << " ";
     } // for
