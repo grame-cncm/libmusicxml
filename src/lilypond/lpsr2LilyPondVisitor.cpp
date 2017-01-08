@@ -868,24 +868,6 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartBlock& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondVisitor::visitStart (S_msrStafftuning& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> Start visiting msrStafftuning" << endl;
-
-  fOstream <<
-    elt->stafftuningAsString () << " ";
-}
-
-void lpsr2LilyPondVisitor::visitEnd (S_msrStafftuning& elt)
-{
-  if (fMsrOptions->fDebug)
-    fOstream << idtr <<
-      "% --> End visiting msrStafftuning" << endl;
-}
-
-//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
 {
   if (fMsrOptions->fDebug)
@@ -954,22 +936,39 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
     "\"" <<
     endl;
 
-  if (stafftuningsList.size ())
+  if (stafftuningsList.size ()) {
+    // The string with the highest number (generally the lowest string)
+    // must come first in the chord, so we reverse the list
+    stafftuningsList.reverse ();
+    
+    // \set Staff.stringTunings = \stringTuning <c' g' d'' a''>
+
     fOstream << idtr <<
       "\\set Staff.stringTunings = <";
+
+    list<S_msrStafftuning>::const_iterator
+      iBegin = stafftuningsList.begin(),
+      iEnd   = stafftuningsList.end(),
+      i       = iBegin;
+      
+    for ( ; ; ) {
+      fOstream <<
+        (*i)->getStafftuningStep ();
+      if (++i == iEnd) break;
+      cerr << " ";
+    } // for
+
+    fOstream << idtr <<
+      ">" <<
+      endl;
+  }
 }
-//     \set Staff.stringTunings = \stringTuning <c' g' d'' a''>
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrStaffBlock" << endl;
-
-  if (stafftuningsList.size ())
-    fOstream << idtr <<
-      ">" <<
-      endl;
 
   idtr--;
 

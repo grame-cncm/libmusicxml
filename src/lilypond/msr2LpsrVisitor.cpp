@@ -431,9 +431,6 @@ void msr2LpsrVisitor::visitStart (S_msrStafftuning& elt)
   fCurrentStafftuningClone =
     elt->createStafftuningBareClone ();
 
-  // The string with the highest number (generally the lowest string)
-  // must come first in the chord
-
   // add it to the staff clone
   fCurrentStaffClone->
     addStafftuningToStaff (fCurrentStafftuningClone);
