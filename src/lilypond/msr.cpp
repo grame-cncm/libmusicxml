@@ -8215,15 +8215,7 @@ msrStaff::msrStaff (
   fStaffVoicemaster =
     fStaffPartUplink->getPartVoicemaster ();
 
-  /* JMI
-  // create the maximum pssible number of voices
-  // those that remain note-free will be removed afterwards
-  for (int i = 1; i <= gMaxStaffVoices; i++) {
-    addVoiceToStaff (
-      fInputLineNumber, i);
-  } // for
-  */
-  // add an initial voice 1
+  // create this staff's voice 1
   addVoiceToStaff (
     fInputLineNumber, 1);
 
@@ -8377,13 +8369,16 @@ S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
 
 string msrStaff::getStaffName () const
   {
-  // not stored in a field,
-  // because the staff part may change name
-  // when it is re-used
   return
-    fStaffPartUplink->getPartMSRName () +
-    "_S_" +
-    int2EnglishWord (fStaffNumber);
+    fStaffNumber == 0
+      ?
+        fStaffPartUplink->getPartMSRName () +
+        "_S_" +
+        "(MASTER)"
+      :
+        fStaffPartUplink->getPartMSRName () +
+        "_S_" +
+        int2EnglishWord (fStaffNumber);
   }
 
 void msrStaff::setStaffDivisionsPerWholeNote (
@@ -8900,12 +8895,12 @@ msrPart::msrPart (
 
   // create the part voice master
   S_msrStaff
-    hiddenStaff =
+    hiddenMasterStaff =
       msrStaff::create (
-      fMsrOptions, 
-      0,            // inputLineNumber
-      0,            // staffNumber
-      this);        // fStaffPartUplink
+        fMsrOptions, 
+        0,            // inputLineNumber
+        0,            // staffNumber
+        this);        // fStaffPartUplink
 
   fPartVoicemaster =
     msrVoice::create (
@@ -8913,7 +8908,7 @@ msrPart::msrPart (
       0,            // inputLineNumber
       0,            // voiceNumber
       0,            // staffRelativeVoiceNumber
-      hiddenStaff); // voiceStaffUplink
+      hiddenMasterStaff); // voiceStaffUplink
 }
 
 msrPart::~msrPart() {}
@@ -9301,7 +9296,9 @@ void msrPart::print (ostream& os)
       map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
       i != fPartStavesMap.end();
       i++) {
-      os << idtr << (*i).second;
+      os <<
+        idtr << (*i).second <<
+        endl;
     } // for
   }
 

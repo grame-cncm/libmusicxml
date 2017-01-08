@@ -1990,7 +1990,7 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
 void xml2MsrVisitor::visitStart (S_staff_details& elt )
 {
   fStaffDetailsStaffNumber =
-    elt->getAttributeIntValue ("number", 0);
+    elt->getAttributeIntValue ("number", 1);
 
   // show-frets
 

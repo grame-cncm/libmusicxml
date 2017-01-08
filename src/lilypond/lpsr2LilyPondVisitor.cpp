@@ -988,10 +988,6 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
     endl;
 
   if (stafftuningsList.size ()) {
-    // The string with the highest number (generally the lowest string)
-    // must come first in the chord, so we reverse the list
-    stafftuningsList.reverse ();
-    
     // \set Staff.stringTunings = \stringTuning <c' g' d'' a''>
 
     fOstream << idtr <<
