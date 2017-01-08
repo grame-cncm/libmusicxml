@@ -944,7 +944,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
     // \set Staff.stringTunings = \stringTuning <c' g' d'' a''>
 
     fOstream << idtr <<
-      "\\set Staff.stringTunings = <";
+      "\\set Staff.stringTunings = \\stringTuning <";
 
     list<S_msrStafftuning>::const_iterator
       iBegin = stafftuningsList.begin(),
