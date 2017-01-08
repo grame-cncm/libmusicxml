@@ -548,8 +548,8 @@ Jonatha Brooke</credit-words>
           <staff-lines>6</staff-lines>
           <staff-tuning line="1">
             <tuning-step>D</tuning-step>
+            <tuning-alter>0</tuning-alter>
             <tuning-octave>2</tuning-octave>
-            <tuning-alter>1</tuning-alter>
           </staff-tuning>
           <staff-tuning line="2">
             <tuning-step>A</tuning-step>
