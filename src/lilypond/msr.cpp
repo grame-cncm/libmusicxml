@@ -8127,12 +8127,17 @@ void msrStafftuning::print (ostream& os)
 
   os << left <<  
     idtr <<
-      setw(21) << "StafftuningLineNumber" << " = " << fStafftuningLineNumber <<
+      setw(21) << "StafftuningLineNumber" << " = " <<
+      fStafftuningLineNumber <<
+      endl <<
     idtr <<
-      setw(21) << "StafftuningStep" << " = " << fStafftuningStep <<
+      setw(21) << "StafftuningStep" << " = " <<
+      fStafftuningStep <<
+      endl <<
     idtr <<
-      setw(21) << "fStafftuningOctave" << " = " << fStafftuningOctave <<
-    endl;
+      setw(21) << "fStafftuningOctave" << " = " <<
+      fStafftuningOctave <<
+      endl;
 
   idtr--;
 }

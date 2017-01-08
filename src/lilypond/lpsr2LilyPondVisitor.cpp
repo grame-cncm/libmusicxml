@@ -868,6 +868,24 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartBlock& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondVisitor::visitStart (S_msrStafftuning& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrStafftuning" << endl;
+
+  fOstream <<
+    elt->stafftuningAsString () << " ";
+}
+
+void lpsr2LilyPondVisitor::visitEnd (S_msrStafftuning& elt)
+{
+  if (fMsrOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrStafftuning" << endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
 {
   if (fMsrOptions->fDebug)
@@ -881,6 +899,10 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
   S_msrPart
     part =
       staff->getStaffPartUplink ();
+
+  list<S_msrStafftuning>
+    stafftuningsList =
+      staff->getStafftuningsList ();
       
   string
     staffInstrumentName = // JMI
@@ -931,13 +953,23 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
     partAbbreviation <<
     "\"" <<
     endl;
+
+  if (stafftuningsList.size ())
+    fOstream << idtr <<
+      "\\set Staff.stringTunings = <";
 }
+//     \set Staff.stringTunings = \stringTuning <c' g' d'' a''>
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffBlock& elt)
 {
   if (fMsrOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrStaffBlock" << endl;
+
+  if (stafftuningsList.size ())
+    fOstream << idtr <<
+      ">" <<
+      endl;
 
   idtr--;
 
