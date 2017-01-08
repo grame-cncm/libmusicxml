@@ -2030,6 +2030,7 @@ void xml2MsrVisitor::visitStart (S_staff_tuning& elt )
   fCurrentStaffTuningLine =
     elt->getAttributeIntValue ("line", 0);
 
+  fCurrentStaffTuningAlter = 0.0;
   /*
           <staff-tuning line="1">
             <tuning-step>E</tuning-step>
@@ -2060,6 +2061,11 @@ void xml2MsrVisitor::visitStart (S_tuning_step& elt )
 void xml2MsrVisitor::visitStart (S_tuning_octave& elt )
 {
   fCurrentStaffTuningOctave = (int)(*elt);
+}
+
+void xml2MsrVisitor::visitStart (S_tuning_alter& elt )
+{
+  fCurrentStaffTuningAlter = (float)(*elt);
 }
 
 void xml2MsrVisitor::visitEnd (S_staff_tuning& elt )
@@ -2120,7 +2126,8 @@ void xml2MsrVisitor::visitEnd (S_staff_tuning& elt )
         elt->getInputLineNumber (),
         fCurrentStaffTuningLine,
         fCurrentStaffTuningStep,
-        fCurrentStaffTuningOctave);
+        fCurrentStaffTuningOctave,
+        fCurrentStaffTuningAlter);
         
   // add it to the staff
   staff->

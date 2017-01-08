@@ -8024,14 +8024,18 @@ void msrVoice::print (ostream& os)
 S_msrStafftuning msrStafftuning::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
-  int           StafftuningLineNumber,
-  char          StafftuningStep,
-  int           StafftuningOctave)
+  int           stafftuningLineNumber,
+  char          stafftuningStep,
+  int           stafftuningOctave,
+  float         staffTuningAlter)
 {
   msrStafftuning* o =
     new msrStafftuning (
       msrOpts, inputLineNumber,
-      StafftuningLineNumber, StafftuningStep, StafftuningOctave);
+      stafftuningLineNumber,
+      stafftuningStep,
+      stafftuningOctave,
+      staffTuningAlter);
   assert(o!=0);
   return o;
 }
@@ -8039,14 +8043,16 @@ S_msrStafftuning msrStafftuning::create (
 msrStafftuning::msrStafftuning (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
-  int           StafftuningLineNumber,
-  char          StafftuningStep,
-  int           StafftuningOctave)
+  int           stafftuningLineNumber,
+  char          stafftuningStep,
+  int           stafftuningOctave,
+  float         staffTuningAlter)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fStafftuningLineNumber = StafftuningLineNumber;
-  fStafftuningStep       = StafftuningStep;
-  fStafftuningOctave     = StafftuningOctave;
+  fStafftuningLineNumber = stafftuningLineNumber;
+  fStafftuningStep       = stafftuningStep;
+  fStafftuningOctave     = stafftuningOctave;
+  fStaffTuningAlter      = staffTuningAlter;
 }
 
 msrStafftuning::~ msrStafftuning ()
@@ -8061,7 +8067,8 @@ S_msrStafftuning msrStafftuning::createStafftuningBareClone ()
         fInputLineNumber,
         fStafftuningLineNumber,
         fStafftuningStep,
-        fStafftuningOctave);
+        fStafftuningOctave,
+        fStaffTuningAlter);
   
   return clone;
 }
@@ -8139,8 +8146,12 @@ void msrStafftuning::print (ostream& os)
       fStafftuningStep <<
       endl <<
     idtr <<
-      setw(21) << "fStafftuningOctave" << " = " <<
+      setw(21) << "StafftuningOctave" << " = " <<
       fStafftuningOctave <<
+      endl <<
+    idtr <<
+      setw(21) << "StaffTuningAlter" << " = " <<
+      fStaffTuningAlter <<
       endl;
 
   idtr--;

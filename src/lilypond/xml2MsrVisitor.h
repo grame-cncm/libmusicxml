@@ -117,6 +117,7 @@ class EXP xml2MsrVisitor :
   public visitor<S_staff_tuning>,
   public visitor<S_tuning_step>,
   public visitor<S_tuning_octave>,
+  public visitor<S_tuning_alter>,
   public visitor<S_capo>,
   public visitor<S_staff_size>,
 
@@ -338,6 +339,7 @@ class EXP xml2MsrVisitor :
     virtual void visitEnd   ( S_staff_tuning& elt);
     virtual void visitStart ( S_tuning_step& elt);
     virtual void visitStart ( S_tuning_octave& elt);
+    virtual void visitStart ( S_tuning_alter& elt);
     virtual void visitStart ( S_capo& elt);
     virtual void visitStart ( S_staff_size& elt);
 
@@ -610,9 +612,12 @@ class EXP xml2MsrVisitor :
 
     int                       fStaffDetailsStaffNumber;
     int                       fCurrentStaffTuningLinesNumber;
+    
     int                       fCurrentStaffTuningLine;
     char                      fCurrentStaffTuningStep;
     int                       fCurrentStaffTuningOctave;
+    float                     fCurrentStaffTuningAlter;
+    
     int                       fCurrentStaffDetailsCapo;
     int                       fCurrentStaffDetailsStaffSize;
   

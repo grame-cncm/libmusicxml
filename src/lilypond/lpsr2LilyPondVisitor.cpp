@@ -1003,10 +1003,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
       i      = iBegin;
       
     for ( ; ; ) {
-      char ch =
-        tolower ((*i)->getStafftuningStep ());
       fOstream <<
-        ch <<
         char (tolower ((*i)->getStafftuningStep ())) <<
         absoluteOctaveAsLilypondString (
           (*i)->getStafftuningOctave ());
@@ -1014,7 +1011,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
       fOstream << " ";
     } // for
 
-    fOstream << idtr <<
+    fOstream <<
       ">" <<
       endl;
   }

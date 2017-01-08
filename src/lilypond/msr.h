@@ -4537,7 +4537,8 @@ class EXP msrStafftuning : public msrElement
       int           inputLineNumber,
       int           stafftuningLineNumber,
       char          stafftuningStep,
-      int           stafftuningOctave);
+      int           stafftuningOctave,
+      float         staffTuningAlter);
     
     SMARTP<msrStafftuning> createStafftuningBareClone ();
 
@@ -4551,7 +4552,8 @@ class EXP msrStafftuning : public msrElement
       int           inputLineNumber,
       int           stafftuningLineNumber,
       char          stafftuningStep,
-      int           stafftuningOctave);
+      int           stafftuningOctave,
+      float         staffTuningAlter);
          
     ~ msrStafftuning ();
   
@@ -4568,6 +4570,9 @@ class EXP msrStafftuning : public msrElement
 
     int         getStafftuningOctave () const
                     { return fStafftuningOctave; }
+
+    float       getCurrentStaffTuningAlter () const
+                    { return fStaffTuningAlter; }
 
     // services
     // ------------------------------------------------------
@@ -4595,6 +4600,7 @@ class EXP msrStafftuning : public msrElement
     int       fStafftuningLineNumber;
     char      fStafftuningStep;
     int       fStafftuningOctave;
+    float     fStaffTuningAlter;
 };
 typedef SMARTP<msrStafftuning> S_msrStafftuning;
 EXP ostream& operator<< (ostream& os, const S_msrStafftuning& elt);
