@@ -56,9 +56,29 @@ S_msrGeneralOptions msrGeneralOptions::create ()
   return o;
 }
 
-msrGeneralOptions::msrGeneralOptions () {}
+msrGeneralOptions::msrGeneralOptions ()
+{
+  // interactive mode
+  fInteractive = false;
+  
+  // trace
+  fTrace = true;
+  
+  // debug
+  fDebug = false;
+  fDebugDebug = false;
+
+  // forcing debug information at specific places in the code
+  fForceDebug = false;
+  
+  // measure number-selective debug
+  fSaveDebug = false;
+  fSaveDebugDebug = false;
+}
 
 msrGeneralOptions::~msrGeneralOptions () {}
+
+S_msrGeneralOptions gGeneralOptions;
 
 //_______________________________________________________________________________
 S_msrOptions msrOptions::create ()

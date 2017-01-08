@@ -614,11 +614,13 @@ void analyzeOptions (
 
           s <<
             "--outputFile" << " " << outputFileName;
+          gGeneralOptions->fCommandLineOptions += s.str();
           msrOpts->fCommandLineOptions += s.str();
           outputFilePresent = false;
         }
 
         if (interactivePresent) {
+          gGeneralOptions->fInteractive = false;
           msrOpts->fInteractive = false;
           msrOpts->fCommandLineOptions +=
             "--interactive ";
@@ -626,6 +628,7 @@ void analyzeOptions (
         }
         
         if (noTracePresent) {
+          gGeneralOptions->fTrace = false;
           msrOpts->fTrace = false;
           msrOpts->fCommandLineOptions +=
             "--noTrace ";
@@ -633,29 +636,41 @@ void analyzeOptions (
         }
         
         if (debugPresent) {
+          gGeneralOptions->fTrace = true;
           msrOpts->fTrace = true;
+          gGeneralOptions->fDebug = true;
           msrOpts->fDebug = true;
           msrOpts->fCommandLineOptions +=
             "--debug ";
           debugPresent = false;
         }
         if (debugDebugPresent) {
+          gGeneralOptions->fTrace = true;
           msrOpts->fTrace = true;
+          gGeneralOptions->fDebugDebug = true;
           msrOpts->fDebugDebug = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--debugDebug ";
           msrOpts->fCommandLineOptions +=
             "--debugDebug ";
           debugDebugPresent = false;
         }
         if (forceDebugPresent) {
+          gGeneralOptions->fTrace = true;
           msrOpts->fTrace = true;
+          gGeneralOptions->fForceDebug = true;
           msrOpts->fForceDebug = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--forceDebug ";
           msrOpts->fCommandLineOptions +=
             "--forceDebug ";
           forceDebugPresent = false;
         }
         
         if (debugMeasuresPresent) {
+          gGeneralOptions->fTrace = true;
           msrOpts->fTrace = true;
+          gGeneralOptions->fDebug = true;
           msrOpts->fDebug = true;
           
           char*        measuresSpec = optarg;
@@ -663,15 +678,21 @@ void analyzeOptions (
 
           s <<
             "--debugMeasures" << " " << measuresSpec << " ";
+          gGeneralOptions->fCommandLineOptions += s.str();
           msrOpts->fCommandLineOptions += s.str();
             
+          gGeneralOptions->fDebugMeasureNumbersSet =
+            decipherNumbersSetSpecification (
+              measuresSpec, false); // 'true' to debug it
           msrOpts->fDebugMeasureNumbersSet =
             decipherNumbersSetSpecification (
               measuresSpec, false); // 'true' to debug it
           debugMeasuresPresent = false;
         }
         if (debugdebugMeasuresPresent) {
+          gGeneralOptions->fTrace = true;
           msrOpts->fTrace = true;
+          gGeneralOptions->fDebugDebug = true;
           msrOpts->fDebugDebug = true;
           
           char*        measuresSpec = optarg;
@@ -679,8 +700,12 @@ void analyzeOptions (
 
           s <<
             "--debugDebugMeasures" << " " << measuresSpec;
+          gGeneralOptions->fCommandLineOptions += s.str();
           msrOpts->fCommandLineOptions += s.str();
             
+          gGeneralOptions->fDebugMeasureNumbersSet =
+            decipherNumbersSetSpecification (
+              measuresSpec, false); // 'true' to debug it
           msrOpts->fDebugMeasureNumbersSet =
             decipherNumbersSetSpecification (
               measuresSpec, false); // 'true' to debug it
@@ -878,7 +903,7 @@ void printOptions (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts )
 {
-  if (msrOpts->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "The command line options and arguments have been analyzed" <<
       endl;
@@ -888,11 +913,11 @@ void printOptions (
   cerr << idtr <<
     "The command line options are: ";
     
-  if (msrOpts->fCommandLineOptions.size()) {
+  if (gGeneralOptions->fCommandLineOptions.size()) {
     idtr++;
     cerr <<
       endl <<
-      idtr << msrOpts->fCommandLineOptions;
+      idtr << gGeneralOptions->fCommandLineOptions;
     idtr--;
   }
   else
@@ -911,6 +936,49 @@ void printOptions (
 
   idtr++;
 
+  cerr << left <<
+    idtr << setw(fieldWidth) << "input source name" << " : " <<
+      gGeneralOptions->fInputSourceName << endl <<
+      
+    idtr << setw(fieldWidth) << "translation date" << " : " <<
+      gGeneralOptions->fTranslationDate << endl <<
+      
+    idtr << setw(fieldWidth) << "interactive" << " : " <<
+      string(gGeneralOptions->fInteractive
+        ? "true" : "false") << endl <<
+        
+    idtr << setw(fieldWidth) << "trace" << " : " <<
+      string(gGeneralOptions->fTrace
+        ? "true" : "false") << endl <<
+        
+    idtr << setw(fieldWidth) << "debug" << " : " <<
+      string(gGeneralOptions->fDebug
+        ? "true" : "false") << endl <<
+    idtr << setw(fieldWidth) << "debugDebug" << " : " <<
+      string(gGeneralOptions->fDebugDebug
+        ? "true" : "false") << endl <<
+    idtr << setw(fieldWidth) << "forceDebug" << " : " <<
+      string(gGeneralOptions->fForceDebug
+        ? "true" : "false") << endl <<
+    idtr << setw(fieldWidth) << "debugMeasureNumbersSet" << " : ";
+
+  if (gGeneralOptions->fDebugMeasureNumbersSet.empty ())
+    cerr << "none";
+  else
+    for (
+      set<int>::const_iterator i =
+        gGeneralOptions->fDebugMeasureNumbersSet.begin();
+      i != gGeneralOptions->fDebugMeasureNumbersSet.end();
+      i++) {
+        cerr << (*i) << " ";
+    } // for
+  
+  cerr << endl;
+
+  /*
+  cerr << endl;
+
+  
   cerr << left <<
     idtr << setw(fieldWidth) << "input source name" << " : " <<
       msrOpts->fInputSourceName << endl <<
@@ -949,6 +1017,7 @@ void printOptions (
     } // for
   
   cerr << endl;
+  */
   
   idtr--;
 
@@ -1066,6 +1135,9 @@ int main (int argc, char *argv[])
   // analyze the command line options
   // ------------------------------------------------------
 
+  gGeneralOptions = msrGeneralOptions::create ();
+  assert(gGeneralOptions != 0);
+
   S_msrOptions msrOpts = msrOptions::create ();
   assert(msrOpts != 0);
 
@@ -1084,9 +1156,9 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   if (inputFileName == "-")
-    msrOpts->fInputSourceName = "standard input";
+    gGeneralOptions->fInputSourceName = "standard input";
   else
-    msrOpts->fInputSourceName = "\"" + inputFileName + "\"";
+    gGeneralOptions->fInputSourceName = "\"" + inputFileName + "\"";
   
   // translation date
   // ------------------------------------------------------
@@ -1099,12 +1171,12 @@ int main (int argc, char *argv[])
   timeinfo = localtime (&rawtime);
 
   strftime (buffer, 80, "%A %F @ %T %Z", timeinfo);
-  msrOpts->fTranslationDate = buffer;
+  gGeneralOptions->fTranslationDate = buffer;
   
   // trace
   // ------------------------------------------------------
 
-  if (msrOpts->fTrace) {
+  if (gGeneralOptions->fTrace) {
     cerr <<  idtr <<
       "This is xml2Lilypond v" << musicxml2MsrVersionStr() << 
       " from libmusicxml2 v" << musicxmllibVersionStr() <<

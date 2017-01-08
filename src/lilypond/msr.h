@@ -199,14 +199,10 @@ class EXP msrGeneralOptions : public smartable
  
   public:
 
-    // General
-    // ------------------------------------------------------
-
     // synthetic view
     string                          fCommandLineOptions;
     string                          fInputSourceName;
     string                          fTranslationDate;
-    
 
     // interactive mode
     bool                            fInteractive;
@@ -228,7 +224,8 @@ class EXP msrGeneralOptions : public smartable
 };
 typedef SMARTP<msrGeneralOptions> S_msrGeneralOptions;
 
-S_msrGeneralOptions 
+extern S_msrGeneralOptions gGeneralOptions;
+
 //______________________________________________________________________________
 /*!
   \brief The MSR code generation options.
