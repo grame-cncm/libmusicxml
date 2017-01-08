@@ -2118,7 +2118,7 @@ void xml2MsrVisitor::visitEnd (S_staff_tuning& elt )
       msrStafftuning::create (
         fMsrOptions,
         elt->getInputLineNumber (),
-        fCurrentStaffTuningLinesNumber,
+        fCurrentStaffTuningLine,
         fCurrentStaffTuningStep,
         fCurrentStaffTuningOctave);
         

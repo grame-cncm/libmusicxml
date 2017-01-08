@@ -600,12 +600,16 @@ string msrArticulation::articulationKindAsString () const
       break;
     case msrArticulation::kArpeggiato:
       result = "arpeggiato";
+      break;
     case msrArticulation::kDoit:
       result = "doit";
+      break;
     case msrArticulation::kFalloff:
       result = "falloff";
+      break;
     case msrArticulation::kPlop:
       result = "plop";
+      break;
     case msrArticulation::kScoop:
       result = "scoop";
       break;

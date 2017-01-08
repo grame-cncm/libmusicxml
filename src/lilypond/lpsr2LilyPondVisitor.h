@@ -327,10 +327,10 @@ class lpsr2LilyPondVisitor :
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);
 
-    string    noteMsrPitchAsLilyPondString (S_msrNote& note);
+    string      absoluteOctaveAsLilypondString (
+                  int absoluteOctave);
 
-    string    stafftuningAsLilypondString (
-                char tuningStep, integer tuningOctave);
+    string      noteMsrPitchAsLilyPondString (S_msrNote& note);
 
   private:
                      

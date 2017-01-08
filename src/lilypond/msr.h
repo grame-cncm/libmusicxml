@@ -4563,7 +4563,7 @@ class EXP msrStafftuning : public msrElement
     int         getStafftuningLineNumber () const
                     { return fStafftuningLineNumber; }
 
-    int         getStafftuningStep () const
+    char        getStafftuningStep () const
                     { return fStafftuningStep; }
 
     int         getStafftuningOctave () const

@@ -72,59 +72,42 @@ void lpsr2LilyPondVisitor::generateLilyPondCodeFromLpsrScore ()
   }
 }
 
-string lpsr2LilyPondVisitor::absoluteOctaveAsLilypondString (
-  integer absoluteOctave)
-    // generate LilyPond absolute octave
-    switch (absoluteOctave) {
-      case 0:
-        return ",,,";
-        break;
-      case 1:
-        return ",,";
-        break;
-      case 2:
-        return ",";
-        break;
-      case 3:
-        return "";
-        break;
-      case 4:
-        return "'";
-        break;
-      case 5:
-        return "''";
-        break;
-      case 6:
-        return "'''";
-        break;
-      case 7:
-        return "''''";
-        break;
-      case 8:
-        return "'''''";
-        break;
-      default:
-        return "###";
-    } // switch
-}
-
 //________________________________________________________________________
-string lpsr2LilyPondVisitor::stafftuningAsLilypondString (
-  char tuningStep, integer tuningOctave)
+string lpsr2LilyPondVisitor::absoluteOctaveAsLilypondString (
+  int absoluteOctave)
 {
-     "line " << fStafftuningLineNumber <<
-    ", " << fStafftuningStep <<
-    ", octave " << fStafftuningOctave;
-
-  stringstream s;
-
-  s <<
-    tolower (tuningStep);
-          absoluteOctaveAsLilypondString (noteAbsoluteOctave);
-
-    
-  // in MusicXML, octave number is 4 for the octave starting with middle C
-
+  // generate LilyPond absolute octave
+  switch (absoluteOctave) {
+    case 0:
+      return ",,,";
+      break;
+    case 1:
+      return ",,";
+      break;
+    case 2:
+      return ",";
+      break;
+    case 3:
+      return "";
+      break;
+    case 4:
+      return "'";
+      break;
+    case 5:
+      return "''";
+      break;
+    case 6:
+      return "'''";
+      break;
+    case 7:
+      return "''''";
+      break;
+    case 8:
+      return "'''''";
+      break;
+    default:
+      return "###";
+  } // switch
 }
 
 //________________________________________________________________________
@@ -957,7 +940,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
     "\"" <<
     endl;
 
-  fOstream << idtr <<...
+  fOstream << idtr <<
     "\\set " << staffContextName << ".shortInstrumentName = \"" <<
     partAbbreviation <<
     "\"" <<
@@ -980,12 +963,11 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
       
     for ( ; ; ) {
       fOstream <<
-        (*i)->getStafftuningStep ();
-           tolower (tuningStep);
-          absoluteOctaveAsLilypondString (noteAbsoluteOctave);
-
+        tolower ((*i)->getStafftuningStep ()) <<
+        absoluteOctaveAsLilypondString (
+          (*i)->getStafftuningOctave ());
       if (++i == iEnd) break;
-      cerr << " ";
+      fOstream << " ";
     } // for
 
     fOstream << idtr <<
@@ -2657,20 +2639,65 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
       i++) {
         
       switch ((*i)->getArticulationKind ()) {
+
+        case msrArticulation::kAccent:
+          fOstream << "->";
+          break;
+        case msrArticulation::kBreathMark:
+          fOstream << "\\breathe";
+          break;
+        case msrArticulation::kCaesura:
+          fOstream <<
+            endl <<
+            idtr <<
+              "\\override BreathingSign.text = \\markup {"
+              "\\musicglyph #\"scripts.caesura.curved\"}" <<
+            endl <<
+          idtr <<
+            "\\breathe" <<
+            endl;
+          break;
+        case msrArticulation::kSpiccato:
+          fOstream << "spiccato";
+          break;
         case msrArticulation::kStaccato:
           fOstream << "-.";
           break;
         case msrArticulation::kStaccatissimo:
           fOstream << "-!";
           break;
+        case msrArticulation::kStress:
+          fOstream << "stress";
+          break;
+        case msrArticulation::kUnstress:
+          fOstream << "unstress";
+          break;
         case msrArticulation::kDetachedLegato:
-          fOstream << "-_";
+          fOstream << "-_"; // portato
+          break;
+        case msrArticulation::kStrongAccent:
+          fOstream << "-^"; // marcato
+          break;
+        case msrArticulation::kTenuto:
+          fOstream << "--";
           break;
         case msrArticulation::kFermata:
           fOstream << "\\fermata";
           break;
         case msrArticulation::kArpeggiato:
           fOstream << "\\arpeggio";
+          break;
+        case msrArticulation::kDoit:
+          fOstream << "\\bendAfter #+4";
+          break;
+        case msrArticulation::kFalloff:
+          fOstream << "\\bendAfter #-4";
+          break;
+        case msrArticulation::kPlop:
+          fOstream << "plop";
+          break;
+        case msrArticulation::kScoop:
+          fOstream << "scoop";
           break;
       } // switch
       
