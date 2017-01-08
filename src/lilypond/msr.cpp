@@ -49,16 +49,28 @@ msrNoteNamesLanguage getMsrNoteNamesLanguage (string lang)
 }
 
 //_______________________________________________________________________________
-S_msrOptions msrOptions::create()
+S_msrGeneralOptions msrGeneralOptions::create ()
+{
+  msrGeneralOptions* o = new msrGeneralOptions();
+  assert(o!=0);
+  return o;
+}
+
+msrGeneralOptions::msrGeneralOptions () {}
+
+msrGeneralOptions::~msrGeneralOptions () {}
+
+//_______________________________________________________________________________
+S_msrOptions msrOptions::create ()
 {
   msrOptions* o = new msrOptions();
   assert(o!=0);
   return o;
 }
 
-msrOptions::msrOptions() {}
+msrOptions::msrOptions () {}
 
-msrOptions::~msrOptions() {}
+msrOptions::~msrOptions () {}
 
 //______________________________________________________________________________
 msrElement::msrElement (
