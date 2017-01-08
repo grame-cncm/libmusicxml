@@ -332,6 +332,9 @@ class lpsr2LilyPondVisitor :
 
     string      noteMsrPitchAsLilyPondString (S_msrNote& note);
 
+    string      ornamentKindAsLilyPondString (
+                  msrOrnament::msrOrnamentKind ornamentKind);
+
   private:
                      
     S_msrOptions          fMsrOptions;

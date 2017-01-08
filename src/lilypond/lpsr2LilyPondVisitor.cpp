@@ -291,7 +291,48 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
 
   return s.str();
 }
-        
+
+//________________________________________________________________________
+string lpsr2LilyPondVisitor::ornamentKindAsLilyPondString (
+  msrOrnament::msrOrnamentKind ornamentKind)
+{
+  switch (ornamentKind) {
+    case msrOrnament::kTrillMark:
+      return "\\trill";
+      break;
+    case msrOrnament::kWavyLine:
+      return "\\wayvy line";
+      break;
+    case msrOrnament::kTurn:
+      return "\\turn";
+      break;
+    case msrOrnament::kInvertedTurn:
+      return "\\inverted turn";
+      break;
+    case msrOrnament::kDelayedTurn:
+      return "\\turn"; // JMI ??? "\\delayed turn";
+      break;
+    case msrOrnament::kDelayedInvertedTurn:
+      return "\\delayed inverted turn";
+      break;
+    case msrOrnament::kVerticalTurn:
+      return "\\vertical turn";
+      break;
+    case msrOrnament::kMordent:
+      return "\\mordent";
+      break;
+    case msrOrnament::kInvertedMordent:
+      return "\\inverted mordent";
+      break;
+    case msrOrnament::kSchleifer:
+      return "\\schleifer";
+      break;
+    case msrOrnament::kShake:
+      return "\\shake";
+      break;
+  } // switch
+}
+
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrScore& elt)
 {
@@ -959,11 +1000,14 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
     list<S_msrStafftuning>::const_iterator
       iBegin = stafftuningsList.begin(),
       iEnd   = stafftuningsList.end(),
-      i       = iBegin;
+      i      = iBegin;
       
     for ( ; ; ) {
+      char ch =
+        tolower ((*i)->getStafftuningStep ());
       fOstream <<
-        tolower ((*i)->getStafftuningStep ()) <<
+        ch <<
+        char (tolower ((*i)->getStafftuningStep ())) <<
         absoluteOctaveAsLilypondString (
           (*i)->getStafftuningOctave ());
       if (++i == iEnd) break;
@@ -2266,44 +2310,10 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
       i=noteOrnaments.begin();
       i!=noteOrnaments.end();
       i++) {
-        
-      switch ((*i)->getOrnamentKind ()) {
-        case msrOrnament::kTrillMark:
-          fOstream << "\\trill";
-          break;
-        case msrOrnament::kWavyLine:
-          fOstream << "\\wayvy line";
-          break;
-        case msrOrnament::kTurn:
-          fOstream << "\\turn";
-          break;
-        case msrOrnament::kInvertedTurn:
-          fOstream << "\\inverted turn";
-          break;
-        case msrOrnament::kDelayedTurn:
-          fOstream << "\\turn"; // JMI ??? "\\delayed turn";
-          break;
-        case msrOrnament::kDelayedInvertedTurn:
-          fOstream << "\\delayed inverted turn";
-          break;
-        case msrOrnament::kVerticalTurn:
-          fOstream << "\\vertical turn";
-          break;
-        case msrOrnament::kMordent:
-          fOstream << "\\mordent";
-          break;
-        case msrOrnament::kInvertedMordent:
-          fOstream << "\\inverted mordent";
-          break;
-        case msrOrnament::kSchleifer:
-          fOstream << "\\schleifer";
-          break;
-        case msrOrnament::kShake:
-          fOstream << "\\shake";
-          break;
-      } // switch
-      
-      fOstream << " ";
+      fOstream <<
+        ornamentKindAsLilyPondString (
+          (*i)->getOrnamentKind ()) <<
+        " ";
       fMusicOlec++;
 
       switch ((*i)->getOrnamentPlacementKind ()) {
@@ -2717,14 +2727,10 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
       i=chordOrnaments.begin();
       i!=chordOrnaments.end();
       i++) {
-        
-      switch ((*i)->getOrnamentKind ()) {
-        case msrOrnament::kTrillMark:
-          fOstream << "\\trill";
-          break;
-      } // switch
-      
-      fOstream << " ";
+      fOstream <<
+        ornamentKindAsLilyPondString (
+          (*i)->getOrnamentKind ()) <<
+        " ";
       fMusicOlec++;
     } // for
   }
