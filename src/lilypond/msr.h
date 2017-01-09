@@ -3603,6 +3603,129 @@ typedef SMARTP<msrLyrics> S_msrLyrics;
 EXP ostream& operator<< (ostream& os, const S_msrLyrics& elt);
 
 /*!
+\brief A msr harmony representation.
+
+  A harmony is represented by a list of lyrics chunks,
+*/
+//______________________________________________________________________________
+class EXP msrHarmony : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrHarmonyKind {
+       kMinorSeventh, kMajorSeventh };
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrHarmony> create (
+      S_msrOptions&         msrOpts, 
+      int                   inputLineNumber,
+      char                  harmonyRootStep,
+      float                 harmonyRootAlter,
+      msrHarmonyKind        harmonyKind,
+      string                harmonyKindText,
+      char                  harmonyBassStep,
+      float                 harmonyBassAlter,
+      S_msrPart             harmonyPartUplink);
+    
+    SMARTP<msrHarmony> createHarmonyBareClone (
+      S_msrVoice clonedVoice);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrHarmony (
+      S_msrOptions&         msrOpts, 
+      int                   inputLineNumber,
+      char                  harmonyRootStep,
+      float                 harmonyRootAlter,
+      msrHarmonyKind        harmonyKind,
+      string                harmonyKindText,
+      char                  harmonyBassStep,
+      float                 harmonyBassAlter,
+      S_msrPart             harmonyPartUplink);
+
+    virtual ~msrLyrics();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    char      getHarmonyNumber () const
+                  { return fHarmonyNumber; }
+                
+    string    getHarmonyName () const;
+                
+    S_msrVoice
+              getHarmonyVoiceUplink () const
+                  { return fHarmonyVoiceUplink; }
+                
+    msrHarmonyKind
+              getHarmonyKind () const
+                  { return fHarmonyKind; }
+                
+    string
+              getHarmonyKindText () const
+                  { return fHarmonyKindText; }
+                
+
+    // services
+    // ------------------------------------------------------
+
+   
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    char                      fHarmonyRootStep;
+    float                     fHarmonyRootAlter;
+
+    msrHarmonyKind            fHarmonyKind;
+    string                    fHarmonyKindText;
+
+    char                      fHarmonyBassStep;
+    float                     fHarmonyBassAlter;
+    
+    S_msrVoice                fLyricsVoiceUplink;
+};
+typedef SMARTP<msrLyrics> S_msrLyrics;
+EXP ostream& operator<< (ostream& os, const S_msrLyrics& elt);
+/*
+ http://usermanuals.musicxml.com/MusicXML/Content/CT-MusicXML-harmony.htm
+  
+      <harmony default-y="40" font-size="15.4">
+        <root>
+          <root-step>B</root-step>
+        </root>
+        <kind text="Maj7">major-seventh</kind>
+        <bass>
+          <bass-step>D</bass-step>
+          <bass-alter>1</bass-alter>
+        </bass>
+      </harmony>
+      
+*/
+
+
+/*!
 \brief A msr barline representation.
 
   A barline is represented by the number of the next bar
