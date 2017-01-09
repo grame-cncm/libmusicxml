@@ -5290,6 +5290,9 @@ string msrHarmony::harmonyKindAsString () const
     case msrHarmony::kMinor:
       return "Minor";
       break;
+    case msrHarmony::kSuspendedFourth:
+      return "SuspendedFourth";
+      break;
     case msrHarmony::kMajorSeventh:
       return "MajorSeventh";
       break;
@@ -8471,7 +8474,7 @@ msrStaff::msrStaff (
   // create all 'gMaxStaffVoices' voices for this staff
   // those that remain without music will be removed later
   for (int i = 1; i <= gMaxStaffVoices; i++)
-    addVoiceToStaff (
+    addVoiceToStaffByItsNumber (
       fInputLineNumber, i);
 
   // get the initial clef from the staff if any
@@ -8650,10 +8653,11 @@ void msrStaff::setStaffDivisionsPerWholeNote (
 void msrStaff::setAllStaffVoicesDivisionsPerWholeNote (int divisions)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    vector<S_msrVoice>::iterator i =
+      fStaffRelativeNumberedVoicesVector.begin();
+    i != fStaffRelativeNumberedVoicesVector.end();
     i++) {
-    (*i).second->setVoiceDivisionsPerWholeNote (divisions);
+    (*i)->setVoiceDivisionsPerWholeNote (divisions);
   } // for
 }
 
@@ -8687,7 +8691,8 @@ void msrStaff::setAllStaffVoicesMeasureLocation (
   const msrMeasureLocation& measureLocation)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    map<int, S_msrVoice>::iterator i =
+      fStaffRelativeNumberedVoicesVector.begin();
     i != fStaffVoicesMap.end();
     i++) {
     (*i).second->
@@ -8697,7 +8702,7 @@ void msrStaff::setAllStaffVoicesMeasureLocation (
 }
 */
 
-S_msrVoice msrStaff::addVoiceToStaff (
+S_msrVoice msrStaff::addVoiceToStaffByItsNumber (
   int inputLineNumber,
   int voiceNumber)
 {
@@ -8735,7 +8740,11 @@ S_msrVoice msrStaff::addVoiceToStaff (
        "\" in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
         endl;
   
-  fStaffVoicesMap [fNextRelativeStaffVoiceNumber] = voice;
+  fStaffRelativeNumberedVoicesVector [fNextRelativeStaffVoiceNumber] =
+    voice;
+
+  // register it by number
+  fStaffVoicesMap [voiceNumber] = voice;
 
   // take this new voice into account
   fNextRelativeStaffVoiceNumber++;

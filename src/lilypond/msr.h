@@ -4884,7 +4884,7 @@ class EXP msrStaff : public msrElement
                   int inputLineNumber,
                   int measureNumber);
 
-    S_msrVoice  addVoiceToStaff (
+    S_msrVoice  addVoiceToStaffByItsNumber (
                   int inputLineNumber,
                   int voiceNumber);
 
@@ -4932,6 +4932,8 @@ class EXP msrStaff : public msrElement
     S_msrPart               fStaffPartUplink;
 
     map<int, S_msrVoice>    fStaffVoicesMap;
+    vector<S_msrVoice>      fStaffRelativeNumberedVoicesVector;
+                              // [0] is not used
 
     string                  fStaffInstrumentName;
 
