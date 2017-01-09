@@ -2900,10 +2900,23 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
   string
     implicit =
       elt->getAttributeValue ("implicit");
-  
+
+  // set part measure number
   fCurrentPart->
     setPartMeasureNumber (
       inputLineNumber, measureNumber);
+
+  // is this measure number in the debug set?
+  set<int>::iterator
+    it =
+      gGeneralOptions->
+        fDebugMeasureNumbersSet.find (measureNumber);
+        
+  if (it != gGeneralOptions->fDebugMeasureNumbersSet.end ()) {
+    // yes, activate debug for it
+    gGeneralOptions->fSaveDebug = gGeneralOptions->fDebug;
+    gGeneralOptions->fSaveDebugDebug = gGeneralOptions->fDebugDebug;
+  }
 
     /* JMI
   // fetch current voice
@@ -2919,17 +2932,6 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
     setVoiceDivisionsPerWholeNote (
       fCurrentDivisionsPerQuarterNote);
     
-  // is this measure number in the debug set?
-  set<int>::iterator
-    it =
-      gGeneralOptions->
-        fDebugMeasureNumbersSet.find (measureNumber);
-        
-  if (it != gGeneralOptions->fDebugMeasureNumbersSet.end ()) {
-    // yes, activate debug for it
-    gGeneralOptions->fSaveDebug = gGeneralOptions->fDebug;
-    gGeneralOptions->fSaveDebugDebug = gGeneralOptions->fDebugDebug;
-  }
 */
 
 /*
