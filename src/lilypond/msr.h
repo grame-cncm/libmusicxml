@@ -1632,6 +1632,9 @@ class EXP msrMeasure : public msrElement
     S_msrElement  removeLastElementFromMeasure (
                     int inputLineNumber);
 
+    void          bringMeasureToPosition (
+                    int measurePosition);
+
     void          removeElementFromMeasure (S_msrElement elem);
 
     // visitors
@@ -4437,12 +4440,14 @@ class EXP msrVoice : public msrElement
       int           voiceNumber,
       int           staffRelativeVoiceNumber,
       S_msrStaff    voiceStaffUplink);
-                          
+
+                          /* JMI
     static SMARTP<msrVoice> createRest (
       S_msrOptions& msrOpts,
       int           inputLineNumber,
       int           divisions,
       int           voiceNumber);
+    */
     
     SMARTP<msrVoice> createVoiceBareClone (
       S_msrStaff clonedStaff);

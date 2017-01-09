@@ -4459,7 +4459,8 @@ msrLyricschunk::msrLyricschunk (
   fLyricschunkLyricsUplink = lyricschunkLyricsUplink;
 }
 
-msrLyricschunk::~msrLyricschunk() {}
+msrLyricschunk::~msrLyricschunk()
+{}
 
 S_msrLyricschunk msrLyricschunk::createLyricschunkBareClone ()
 {
@@ -6135,6 +6136,32 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   fMeasureElementsList.push_back (note);
 }
 
+void msrMeasure::bringMeasureToPosition (
+  int measurePosition)
+{
+  if (fMeasurePosition < measurePosition) {
+    // appending a rest to this measure to reach measurePosition
+    int deltaPosition =
+      measurePosition - fMeasurePosition;
+
+    // fetch the staff
+    S_msrStaff
+      staff =
+        fMeasureVoicechunkUplink->
+          getMeasureVoicechunkUplink ();
+    
+    // create the rest
+   S_msrNote
+      rest =
+        msrNote::createRest (
+          fMsrOptions,
+          10000, // JMI
+          deltaPosition,
+          staffNumber,
+          voiceNumber);
+  }
+}
+
 S_msrElement msrMeasure::removeLastElementFromMeasure (
   int inputLineNumber)
 {
@@ -6541,6 +6568,13 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
     newMeasure);
 
   fMeasureNumberHasBeenSetInVoiceChunk = true;
+}
+
+void msrVoicechunk::bringVoicechunkToPosition (
+  int measurePosition)
+{
+  fVoicechunkMeasuresList.back ()->
+    bringMeasureToPosition (measurePosition);
 }
 
 void msrVoicechunk::forceVoicechunkMeasureNumberTo (int measureNumber)
@@ -7394,6 +7428,8 @@ void msrVoice::setVoiceMeasureNumber (
 void msrVoice::bringVoiceToPosition (
   int measurePosition)
 {
+  fVoiceVoicechunk->
+    bringVoicechunkToPosition (measurePosition);
 }
 
 void msrVoice::forceVoiceMeasureNumberTo (int measureNumber)
