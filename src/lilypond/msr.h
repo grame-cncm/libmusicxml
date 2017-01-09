@@ -4477,6 +4477,9 @@ class EXP msrVoice : public msrElement
     int           getVoiceNumber () const
                       { return fVoiceNumber; }
                 
+    int           getStaffRelativeVoiceNumber () const
+                      { return fStaffRelativeVoiceNumber; }
+                
     S_msrStaff    getVoiceStaffUplink () const
                       { return fVoiceStaffUplink; }
                 
@@ -4639,8 +4642,12 @@ class EXP msrVoice : public msrElement
 
   private:
 
+    // voice number in MusicXML may be greater than 4
+    // while there can only be 4 in a staff
+    // we thus have to cope with that
     int                       fVoiceNumber;
     int                       fStaffRelativeVoiceNumber;
+
     S_msrStaff                fVoiceStaffUplink;
 
     bool                      fVoiceActualNotesCounter;

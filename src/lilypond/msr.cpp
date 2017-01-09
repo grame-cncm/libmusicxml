@@ -6152,10 +6152,13 @@ void msrMeasure::bringMeasureToPosition (
     
     // create the rest
  //   if (gGeneralOptions->fDebug)
-      cerr << idtr <<
+      cerr <<
+      endl <<
+       idtr <<
         "?????????????????? --> bringing voice \"" << voice->getVoiceName () <<
         "\" to position measurePosition, delta = " << deltaPosition <<
-        endl;
+        "?????????????????" <<
+        endl << endl;
     
    S_msrNote
       rest =
@@ -7111,10 +7114,11 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
       "Creating the initial voice chunk for voice " <<
       clone->getVoiceName () << endl;
       
-  clone->fVoiceVoicechunk =
-    msrVoicechunk::create (
-      clone->fMsrOptions, clone->fInputLineNumber,
-      clone);
+  clone->
+    fVoiceVoicechunk =
+      msrVoicechunk::create (
+        clone->fMsrOptions, clone->fInputLineNumber,
+        clone);
   
   return clone;
 }
@@ -7537,7 +7541,7 @@ S_msrLyrics msrVoice::createLyricsInVoiceIfNeeded (
   int inputLineNumber,
   int lyricsNumber)
 {
-  if (gGeneralOptions->fTrace)
+  if (false && gGeneralOptions->fTrace) // JMI
     cerr << idtr <<
       "### --> createLyricsInVoiceIfNeeded (" << inputLineNumber <<
       ", " << lyricsNumber << ")" <<
@@ -8435,7 +8439,7 @@ msrStaff::msrStaff (
   fStaffNumber = staffNumber;
   fStaffPartUplink   = staffPartUplink;
 
-  fNextRelativeStaffVoiceNumber = 0;
+  fNextRelativeStaffVoiceNumber = 1;
 
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
@@ -8697,17 +8701,6 @@ S_msrVoice msrStaff::addVoiceToStaff (
   int inputLineNumber,
   int voiceNumber)
 {
-  if (fStaffVoicesMap.count (voiceNumber)) {
-    cerr << idtr <<
-      "### Internal error: voice " << voiceNumber <<
-      " already exists in this staff" << endl;
-
-    return fStaffVoicesMap [voiceNumber];
-  }
-
-  // take this new voice into account
-  fNextRelativeStaffVoiceNumber++;
-  
   if (fNextRelativeStaffVoiceNumber > msrStaff::gMaxStaffVoices) {
     stringstream s;
     
@@ -8717,7 +8710,7 @@ S_msrVoice msrStaff::addVoiceToStaff (
       " voices, voice " << voiceNumber << " overflows it" << endl;
       
     msrMusicXMLError (
-// JMI    msrMusicXMLWarning (
+// JMI    msrMusicXMLWarning ( JMI
       inputLineNumber,
       s.str());
   }
@@ -8732,31 +8725,38 @@ S_msrVoice msrStaff::addVoiceToStaff (
         fNextRelativeStaffVoiceNumber,
         this);
 
-  // register it in this staff
+  // register it by its relative number in this staff
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Adding voice \"" << voiceNumber <<
       "\" " << voice->getVoiceName () <<
-      " to staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () << endl;
+      " as relative voice " << fNextRelativeStaffVoiceNumber <<
+      " to staff \"" << getStaffName () <<
+       "\" in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
+        endl;
   
-  fStaffVoicesMap [voiceNumber] = voice;
+  fStaffVoicesMap [fNextRelativeStaffVoiceNumber] = voice;
 
-  // return it
+  // take this new voice into account
+  fNextRelativeStaffVoiceNumber++;
+  
+  // return the voice
   return voice;
 }
 
 void msrStaff::addVoiceToStaff (S_msrVoice voice)
 {
-  // register voic in this staff
+  // register voice in this staff
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Adding voice " << voice->getVoiceNumber () <<
       " \"" << voice->getVoiceName () <<
-      "\" to staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () << endl;
+       " as relative voice " << fNextRelativeStaffVoiceNumber <<
+     "\" to staff " << getStaffName () <<
+      " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
+      endl;
   
-  fStaffVoicesMap [voice->getVoiceNumber ()] = voice;
+  fStaffVoicesMap [voice->getStaffRelativeVoiceNumber ()] = voice;
 }
 
 S_msrVoice msrStaff::fetchVoiceFromStaff (

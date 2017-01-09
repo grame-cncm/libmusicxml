@@ -2636,7 +2636,7 @@ void xml2MsrVisitor::visitEnd ( S_text& elt )
 
   fCurrentLyricsHasText = true;
 
-// JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> line " << right << setw(5) << elt->getInputLineNumber () <<
       ", fCurrentLyricsNumber" << " = " << fCurrentLyricsNumber <<
@@ -6418,8 +6418,8 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         setNoteKind (msrNote::kStandaloneNote);
   
     // register note/rest as standalone
-// JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
-  {    cerr <<  idtr <<
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
+      cerr <<  idtr <<
         "--> adding standalone " <<
         newNote->noteAsString () <<
         ", line " << newNote->getInputLineNumber () <<
