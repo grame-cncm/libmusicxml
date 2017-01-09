@@ -64,7 +64,7 @@ lpsrElement::lpsrElement (
 lpsrElement::~lpsrElement() {}
 
 void lpsrElement::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrElement::acceptIn()" << endl;
       
@@ -73,7 +73,7 @@ void lpsrElement::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrElement>*> (v)) {
         S_lpsrElement elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrElement::visitStart()" << endl;
         p->visitStart (elem);
@@ -81,7 +81,7 @@ void lpsrElement::acceptIn (basevisitor* v) {
 }
 
 void lpsrElement::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrElement::acceptOut()" << endl;
 
@@ -90,7 +90,7 @@ void lpsrElement::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrElement>*> (v)) {
         S_lpsrElement elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrElement::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -127,7 +127,7 @@ lpsrParallelMusic::lpsrParallelMusic (
 lpsrParallelMusic::~lpsrParallelMusic() {}
 
 void lpsrParallelMusic::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrParallelMusic::acceptIn()" << endl;
       
@@ -136,7 +136,7 @@ void lpsrParallelMusic::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrParallelMusic>*> (v)) {
         S_lpsrParallelMusic elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrParallelMusic::visitStart()" << endl;
         p->visitStart (elem);
@@ -144,7 +144,7 @@ void lpsrParallelMusic::acceptIn (basevisitor* v) {
 }
 
 void lpsrParallelMusic::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrParallelMusic::acceptOut()" << endl;
 
@@ -153,7 +153,7 @@ void lpsrParallelMusic::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrParallelMusic>*> (v)) {
         S_lpsrParallelMusic elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrParallelMusic::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -162,7 +162,7 @@ void lpsrParallelMusic::acceptOut (basevisitor* v) {
 
 void lpsrParallelMusic::browseData (basevisitor* v)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "==> lpsrParallelMusic::browseData()" << endl;
   
@@ -175,7 +175,7 @@ void lpsrParallelMusic::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "<== lpsrParallelMusic::browseData()" << endl;
 }
@@ -241,7 +241,7 @@ lpsrComment::lpsrComment (
 lpsrComment::~lpsrComment() {}
 
 void lpsrComment::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrComment::acceptIn()" << endl;
       
@@ -250,7 +250,7 @@ void lpsrComment::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrComment>*> (v)) {
         S_lpsrComment elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrComment::visitStart()" << endl;
         p->visitStart (elem);
@@ -258,7 +258,7 @@ void lpsrComment::acceptIn (basevisitor* v) {
 }
 
 void lpsrComment::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrComment::acceptOut()" << endl;
 
@@ -267,7 +267,7 @@ void lpsrComment::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrComment>*> (v)) {
         S_lpsrComment elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrComment::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -318,7 +318,7 @@ lpsrBarNumberCheck::lpsrBarNumberCheck (
 lpsrBarNumberCheck::~lpsrBarNumberCheck() {}
 
 void lpsrBarNumberCheck::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrBarNumberCheck::acceptIn()" << endl;
       
@@ -327,7 +327,7 @@ void lpsrBarNumberCheck::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrBarNumberCheck>*> (v)) {
         S_lpsrBarNumberCheck elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrBarNumberCheck::visitStart()" << endl;
         p->visitStart (elem);
@@ -335,7 +335,7 @@ void lpsrBarNumberCheck::acceptIn (basevisitor* v) {
 }
 
 void lpsrBarNumberCheck::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrBarNumberCheck::acceptOut()" << endl;
 
@@ -344,7 +344,7 @@ void lpsrBarNumberCheck::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrBarNumberCheck>*> (v)) {
         S_lpsrBarNumberCheck elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrBarNumberCheck::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -393,7 +393,7 @@ lpsrUseVoiceCommand::lpsrUseVoiceCommand (
 lpsrUseVoiceCommand::~lpsrUseVoiceCommand() {}
 
 void lpsrUseVoiceCommand::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrUseVoiceCommand::acceptIn()" << endl;
       
@@ -402,7 +402,7 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrUseVoiceCommand>*> (v)) {
         S_lpsrUseVoiceCommand elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrUseVoiceCommand::visitStart()" << endl;
         p->visitStart (elem);
@@ -410,7 +410,7 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v) {
 }
 
 void lpsrUseVoiceCommand::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrUseVoiceCommand::acceptOut()" << endl;
 
@@ -419,7 +419,7 @@ void lpsrUseVoiceCommand::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrUseVoiceCommand>*> (v)) {
         S_lpsrUseVoiceCommand elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrUseVoiceCommand::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -475,7 +475,7 @@ lpsrNewLyricsBlock::lpsrNewLyricsBlock (
 lpsrNewLyricsBlock::~lpsrNewLyricsBlock() {}
 
 void lpsrNewLyricsBlock::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrNewLyricsBlock::acceptIn()" << endl;
       
@@ -484,7 +484,7 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrNewLyricsBlock>*> (v)) {
         S_lpsrNewLyricsBlock elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrNewLyricsBlock::visitStart()" << endl;
         p->visitStart (elem);
@@ -492,7 +492,7 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v) {
 }
 
 void lpsrNewLyricsBlock::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrNewLyricsBlock::acceptOut()" << endl;
 
@@ -501,7 +501,7 @@ void lpsrNewLyricsBlock::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrNewLyricsBlock>*> (v)) {
         S_lpsrNewLyricsBlock elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrNewLyricsBlock::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -588,7 +588,7 @@ string const lpsrLilypondVarValAssoc::g_VarValAssocNoUnit    = "";
 string const lpsrLilypondVarValAssoc::g_VarValAssocNoComment = "";
 
 void lpsrLilypondVarValAssoc::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrLilypondVarValAssoc::acceptIn()" << endl;
       
@@ -597,7 +597,7 @@ void lpsrLilypondVarValAssoc::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrLilypondVarValAssoc>*> (v)) {
         S_lpsrLilypondVarValAssoc elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrLilypondVarValAssoc::visitStart()" << endl;
         p->visitStart (elem);
@@ -605,7 +605,7 @@ void lpsrLilypondVarValAssoc::acceptIn (basevisitor* v) {
 }
 
 void lpsrLilypondVarValAssoc::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrLilypondVarValAssoc::acceptOut()" << endl;
 
@@ -614,7 +614,7 @@ void lpsrLilypondVarValAssoc::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrLilypondVarValAssoc>*> (v)) {
         S_lpsrLilypondVarValAssoc elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrLilypondVarValAssoc::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -785,7 +785,7 @@ string const lpsrSchemeVarValAssoc::g_SchemeVarValAssocNoUnit    = "";
 string const lpsrSchemeVarValAssoc::g_SchemeVarValAssocNoComment = "";
 
 void lpsrSchemeVarValAssoc::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrSchemeVarValAssoc::acceptIn()" << endl;
       
@@ -794,7 +794,7 @@ void lpsrSchemeVarValAssoc::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrSchemeVarValAssoc>*> (v)) {
         S_lpsrSchemeVarValAssoc elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrSchemeVarValAssoc::visitStart()" << endl;
         p->visitStart (elem);
@@ -802,7 +802,7 @@ void lpsrSchemeVarValAssoc::acceptIn (basevisitor* v) {
 }
 
 void lpsrSchemeVarValAssoc::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrSchemeVarValAssoc::acceptOut()" << endl;
 
@@ -811,7 +811,7 @@ void lpsrSchemeVarValAssoc::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrSchemeVarValAssoc>*> (v)) {
         S_lpsrSchemeVarValAssoc elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrSchemeVarValAssoc::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -915,7 +915,7 @@ lpsrNewStaffgroupBlock::lpsrNewStaffgroupBlock (
 lpsrNewStaffgroupBlock::~lpsrNewStaffgroupBlock() {}
 
 void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrNewStaffgroupBlock::acceptIn()" << endl;
       
@@ -924,7 +924,7 @@ void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrNewStaffgroupBlock>*> (v)) {
         S_lpsrNewStaffgroupBlock elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrNewStaffgroupBlock::visitStart()" << endl;
         p->visitStart (elem);
@@ -932,7 +932,7 @@ void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v) {
 }
 
 void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrNewStaffgroupBlock::acceptOut()" << endl;
 
@@ -941,7 +941,7 @@ void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrNewStaffgroupBlock>*> (v)) {
         S_lpsrNewStaffgroupBlock elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrNewStaffgroupBlock::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -999,7 +999,7 @@ lpsrNewStafftuningBlock::lpsrNewStafftuningBlock (
 lpsrNewStafftuningBlock::~lpsrNewStafftuningBlock() {}
 
 void lpsrNewStafftuningBlock::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrNewStafftuningBlock::acceptIn()" << endl;
       
@@ -1008,7 +1008,7 @@ void lpsrNewStafftuningBlock::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrNewStafftuningBlock>*> (v)) {
         S_lpsrNewStafftuningBlock elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrNewStafftuningBlock::visitStart()" << endl;
         p->visitStart (elem);
@@ -1016,7 +1016,7 @@ void lpsrNewStafftuningBlock::acceptIn (basevisitor* v) {
 }
 
 void lpsrNewStafftuningBlock::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrNewStafftuningBlock::acceptOut()" << endl;
 
@@ -1025,7 +1025,7 @@ void lpsrNewStafftuningBlock::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrNewStafftuningBlock>*> (v)) {
         S_lpsrNewStafftuningBlock elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrNewStafftuningBlock::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -1076,7 +1076,7 @@ lpsrNewStaffBlock::lpsrNewStaffBlock (
 lpsrNewStaffBlock::~lpsrNewStaffBlock() {}
 
 void lpsrNewStaffBlock::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrNewStaffBlock::acceptIn()" << endl;
       
@@ -1085,7 +1085,7 @@ void lpsrNewStaffBlock::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrNewStaffBlock>*> (v)) {
         S_lpsrNewStaffBlock elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrNewStaffBlock::visitStart()" << endl;
         p->visitStart (elem);
@@ -1093,7 +1093,7 @@ void lpsrNewStaffBlock::acceptIn (basevisitor* v) {
 }
 
 void lpsrNewStaffBlock::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrNewStaffBlock::acceptOut()" << endl;
 
@@ -1102,7 +1102,7 @@ void lpsrNewStaffBlock::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrNewStaffBlock>*> (v)) {
         S_lpsrNewStaffBlock elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrNewStaffBlock::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -1160,7 +1160,7 @@ lpsrVariableUseCommand::lpsrVariableUseCommand (
 lpsrVariableUseCommand::~lpsrVariableUseCommand() {}
 
 void lpsrVariableUseCommand::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrVariableUseCommand::acceptIn()" << endl;
       
@@ -1169,7 +1169,7 @@ void lpsrVariableUseCommand::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrVariableUseCommand>*> (v)) {
         S_lpsrVariableUseCommand elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrVariableUseCommand::visitStart()" << endl;
         p->visitStart (elem);
@@ -1177,7 +1177,7 @@ void lpsrVariableUseCommand::acceptIn (basevisitor* v) {
 }
 
 void lpsrVariableUseCommand::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrVariableUseCommand::acceptOut()" << endl;
 
@@ -1186,7 +1186,7 @@ void lpsrVariableUseCommand::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrVariableUseCommand>*> (v)) {
         S_lpsrVariableUseCommand elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrVariableUseCommand::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -1250,7 +1250,7 @@ lpsrContext::lpsrContext (
 lpsrContext::~lpsrContext() {}
 
 void lpsrContext::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrContext::acceptIn()" << endl;
       
@@ -1259,7 +1259,7 @@ void lpsrContext::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrContext>*> (v)) {
         S_lpsrContext elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrContext::visitStart()" << endl;
         p->visitStart (elem);
@@ -1267,7 +1267,7 @@ void lpsrContext::acceptIn (basevisitor* v) {
 }
 
 void lpsrContext::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrContext::acceptOut()" << endl;
 
@@ -1276,7 +1276,7 @@ void lpsrContext::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrContext>*> (v)) {
         S_lpsrContext elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrContext::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -1336,7 +1336,7 @@ lpsrBarCommand::lpsrBarCommand (
 lpsrBarCommand::~lpsrBarCommand() {}
 
 void lpsrBarCommand::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrBarCommand::acceptIn()" << endl;
       
@@ -1345,7 +1345,7 @@ void lpsrBarCommand::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrBarCommand>*> (v)) {
         S_lpsrBarCommand elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrBarCommand::visitStart()" << endl;
         p->visitStart (elem);
@@ -1353,7 +1353,7 @@ void lpsrBarCommand::acceptIn (basevisitor* v) {
 }
 
 void lpsrBarCommand::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrBarCommand::acceptOut()" << endl;
 
@@ -1362,7 +1362,7 @@ void lpsrBarCommand::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrBarCommand>*> (v)) {
         S_lpsrBarCommand elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrBarCommand::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -1670,7 +1670,7 @@ int lpsrHeader::maxLilyPondVariablesNamesLength ()
 }
 
 void lpsrHeader::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrHeader::acceptIn()" << endl;
       
@@ -1679,7 +1679,7 @@ void lpsrHeader::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrHeader>*> (v)) {
         S_lpsrHeader elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrHeader::visitStart()" << endl;
         p->visitStart (elem);
@@ -1687,7 +1687,7 @@ void lpsrHeader::acceptIn (basevisitor* v) {
 }
 
 void lpsrHeader::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrHeader::acceptOut()" << endl;
 
@@ -1696,7 +1696,7 @@ void lpsrHeader::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrHeader>*> (v)) {
         S_lpsrHeader elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrHeader::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -1866,7 +1866,7 @@ lpsrPaper::lpsrPaper (
 lpsrPaper::~lpsrPaper() {}
 
 void lpsrPaper::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrPaper::acceptIn()" << endl;
       
@@ -1875,7 +1875,7 @@ void lpsrPaper::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrPaper>*> (v)) {
         S_lpsrPaper elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrPaper::visitStart()" << endl;
         p->visitStart (elem);
@@ -1883,7 +1883,7 @@ void lpsrPaper::acceptIn (basevisitor* v) {
 }
 
 void lpsrPaper::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrPaper::acceptOut()" << endl;
 
@@ -1892,7 +1892,7 @@ void lpsrPaper::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrPaper>*> (v)) {
         S_lpsrPaper elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrPaper::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -1995,7 +1995,7 @@ lpsrLayout::lpsrLayout (
 lpsrLayout::~lpsrLayout() {}
 
 void lpsrLayout::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrLayout::acceptIn()" << endl;
       
@@ -2004,7 +2004,7 @@ void lpsrLayout::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrLayout>*> (v)) {
         S_lpsrLayout elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrLayout::visitStart()" << endl;
         p->visitStart (elem);
@@ -2012,7 +2012,7 @@ void lpsrLayout::acceptIn (basevisitor* v) {
 }
 
 void lpsrLayout::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrLayout::acceptOut()" << endl;
 
@@ -2021,7 +2021,7 @@ void lpsrLayout::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrLayout>*> (v)) {
         S_lpsrLayout elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrLayout::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2130,7 +2130,7 @@ void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrLyrics lyrics)
 }
 
 void lpsrStaffBlock::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrStaffBlock::acceptIn()" << endl;
       
@@ -2139,7 +2139,7 @@ void lpsrStaffBlock::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrStaffBlock>*> (v)) {
         S_lpsrStaffBlock elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrStaffBlock::visitStart()" << endl;
         p->visitStart (elem);
@@ -2147,7 +2147,7 @@ void lpsrStaffBlock::acceptIn (basevisitor* v) {
 }
 
 void lpsrStaffBlock::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrStaffBlock::acceptOut()" << endl;
 
@@ -2156,7 +2156,7 @@ void lpsrStaffBlock::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrStaffBlock>*> (v)) {
         S_lpsrStaffBlock elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrStaffBlock::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2165,7 +2165,7 @@ void lpsrStaffBlock::acceptOut (basevisitor* v) {
 
 void lpsrStaffBlock::browseData (basevisitor* v)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "==> lpsrStaffBlock::browseData()" << endl;
 
@@ -2178,7 +2178,7 @@ void lpsrStaffBlock::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "<== lpsrStaffBlock::browseData()" << endl;
 }
@@ -2239,7 +2239,7 @@ lpsrPartBlock::lpsrPartBlock (
 lpsrPartBlock::~lpsrPartBlock() {}
 
 void lpsrPartBlock::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrPartBlock::acceptIn()" << endl;
       
@@ -2248,7 +2248,7 @@ void lpsrPartBlock::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrPartBlock>*> (v)) {
         S_lpsrPartBlock elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrPartBlock::visitStart()" << endl;
         p->visitStart (elem);
@@ -2256,7 +2256,7 @@ void lpsrPartBlock::acceptIn (basevisitor* v) {
 }
 
 void lpsrPartBlock::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrPartBlock::acceptOut()" << endl;
 
@@ -2265,7 +2265,7 @@ void lpsrPartBlock::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrPartBlock>*> (v)) {
         S_lpsrPartBlock elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrPartBlock::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2274,7 +2274,7 @@ void lpsrPartBlock::acceptOut (basevisitor* v) {
 
 void lpsrPartBlock::browseData (basevisitor* v)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "==> lpsrPartBlock::browseData()" << endl;
 
@@ -2287,7 +2287,7 @@ void lpsrPartBlock::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "<== lpsrPartBlock::browseData()" << endl;
 }
@@ -2359,7 +2359,7 @@ lpsrPartgroupBlock::lpsrPartgroupBlock (
 lpsrPartgroupBlock::~lpsrPartgroupBlock() {}
 
 void lpsrPartgroupBlock::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrPartgroupBlock::acceptIn()" << endl;
       
@@ -2368,7 +2368,7 @@ void lpsrPartgroupBlock::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrPartgroupBlock>*> (v)) {
         S_lpsrPartgroupBlock elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrPartgroupBlock::visitStart()" << endl;
         p->visitStart (elem);
@@ -2376,7 +2376,7 @@ void lpsrPartgroupBlock::acceptIn (basevisitor* v) {
 }
 
 void lpsrPartgroupBlock::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrPartgroupBlock::acceptOut()" << endl;
 
@@ -2385,7 +2385,7 @@ void lpsrPartgroupBlock::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrPartgroupBlock>*> (v)) {
         S_lpsrPartgroupBlock elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrPartgroupBlock::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2394,7 +2394,7 @@ void lpsrPartgroupBlock::acceptOut (basevisitor* v) {
 
 void lpsrPartgroupBlock::browseData (basevisitor* v)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "==> lpsrPartgroupBlock::browseData()" << endl;
 
@@ -2407,7 +2407,7 @@ void lpsrPartgroupBlock::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "<== lpsrPartgroupBlock::browseData()" << endl;
 }
@@ -2531,7 +2531,7 @@ void lpsrScoreBlock::appendLyricsUseToParallelMusic (
 }
 
 void lpsrScoreBlock::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrScoreBlock::acceptIn()" << endl;
       
@@ -2540,7 +2540,7 @@ void lpsrScoreBlock::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrScoreBlock>*> (v)) {
         S_lpsrScoreBlock elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrScoreBlock::visitStart()" << endl;
         p->visitStart (elem);
@@ -2548,7 +2548,7 @@ void lpsrScoreBlock::acceptIn (basevisitor* v) {
 }
 
 void lpsrScoreBlock::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrScoreBlock::acceptOut()" << endl;
 
@@ -2557,7 +2557,7 @@ void lpsrScoreBlock::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrScoreBlock>*> (v)) {
         S_lpsrScoreBlock elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrScoreBlock::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2566,7 +2566,7 @@ void lpsrScoreBlock::acceptOut (basevisitor* v) {
 
 void lpsrScoreBlock::browseData (basevisitor* v)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "==> lpsrScoreBlock::browseData()" << endl;
 
@@ -2598,7 +2598,7 @@ void lpsrScoreBlock::browseData (basevisitor* v)
     browser.browse (*fScoreBlockMidi);
   }
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "<== lpsrScoreBlock::browseData()" << endl;
 }
@@ -2827,7 +2827,7 @@ void lpsrScore::appendLyricsUseToStoreCommand (S_msrLyrics lyrics)
 }
 
 void lpsrScore::acceptIn (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrScore::acceptIn()" << endl;
       
@@ -2836,7 +2836,7 @@ void lpsrScore::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrScore>*> (v)) {
         S_lpsrScore elem = this;
         
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrScore::visitStart()" << endl;
         p->visitStart (elem);
@@ -2844,7 +2844,7 @@ void lpsrScore::acceptIn (basevisitor* v) {
 }
 
 void lpsrScore::acceptOut (basevisitor* v) {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> lpsrScore::acceptOut()" << endl;
 
@@ -2853,7 +2853,7 @@ void lpsrScore::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_lpsrScore>*> (v)) {
         S_lpsrScore elem = this;
       
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "==> Launching lpsrScore::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2862,7 +2862,7 @@ void lpsrScore::acceptOut (basevisitor* v) {
 
 void lpsrScore::browseData (basevisitor* v)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "==> lpsrScore::browseData()" << endl;
 
@@ -2943,7 +2943,7 @@ void lpsrScore::browseData (basevisitor* v)
     browser.browse (*fScoreBlock);
   }
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "<== lpsrScore::browseData()" << endl;
 }
@@ -2962,7 +2962,7 @@ void lpsrScore::print (ostream& os)
 
   idtr++;
 
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     os <<
       idtr << fMsrScore;
 

@@ -77,7 +77,7 @@ void msr2LpsrVisitor::buildLpsrScoreFromMsrScore ()
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrScore& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrScore" << endl;
 
@@ -106,7 +106,7 @@ void msr2LpsrVisitor::visitStart (S_msrScore& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrScore" << endl;
 
@@ -161,7 +161,7 @@ void msr2LpsrVisitor::visitEnd (S_msrScore& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrIdentification& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrIdentification" << endl;
 
@@ -176,7 +176,7 @@ void msr2LpsrVisitor::visitEnd (S_msrIdentification& elt)
   
   idtr--;
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrIdentification" << endl;
 }
@@ -184,7 +184,7 @@ void msr2LpsrVisitor::visitEnd (S_msrIdentification& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrPageGeometry& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrPageGeometry" << endl;
 
@@ -268,7 +268,7 @@ void msr2LpsrVisitor::visitEnd (S_msrPageGeometry& elt)
 {  
   idtr--;
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrPageGeometry" << endl;
 }
@@ -276,7 +276,7 @@ void msr2LpsrVisitor::visitEnd (S_msrPageGeometry& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrPartgroup" << endl;
 
@@ -332,7 +332,7 @@ void msr2LpsrVisitor::visitEnd (S_msrPartgroup& elt)
 {
   idtr--;
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrPartgroup" << endl;
 
@@ -355,7 +355,7 @@ void msr2LpsrVisitor::visitEnd (S_msrPartgroup& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrPart& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrPart" << endl;
 
@@ -384,7 +384,7 @@ void msr2LpsrVisitor::visitEnd (S_msrPart& elt)
 {
   idtr--;
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrPart" << endl;
 }
@@ -392,7 +392,7 @@ void msr2LpsrVisitor::visitEnd (S_msrPart& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrStaff& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrStaff" << endl;
 
@@ -421,7 +421,7 @@ void msr2LpsrVisitor::visitStart (S_msrStaff& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrStafftuning& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrStafftuning" << endl;
 
@@ -453,7 +453,7 @@ void msr2LpsrVisitor::visitEnd (S_msrStaff& elt)
 {
   idtr--;
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting S_msrStafftuning" << endl;
 
@@ -463,7 +463,7 @@ void msr2LpsrVisitor::visitEnd (S_msrStaff& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrVoice& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrVoice" << endl;
 
@@ -494,7 +494,7 @@ void msr2LpsrVisitor::visitEnd (S_msrVoice& elt)
 {
   idtr--;
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrVoice" << endl;
 }
@@ -502,7 +502,7 @@ void msr2LpsrVisitor::visitEnd (S_msrVoice& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrVoicechunk& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrVoicechunk" << endl;
 
@@ -526,7 +526,7 @@ void msr2LpsrVisitor::visitStart (S_msrVoicechunk& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrVoicechunk& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrVoicechunk" << endl;
 }
@@ -534,7 +534,7 @@ void msr2LpsrVisitor::visitEnd (S_msrVoicechunk& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrMeasure& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrMeasure" << endl;
 
@@ -560,7 +560,7 @@ void msr2LpsrVisitor::visitStart (S_msrMeasure& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrMeasure& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrMeasure" << endl;
 
@@ -605,7 +605,7 @@ void msr2LpsrVisitor::visitEnd (S_msrMeasure& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrLyrics& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrLyrics" << endl;
 
@@ -634,7 +634,7 @@ void msr2LpsrVisitor::visitEnd (S_msrLyrics& elt)
 {
   idtr--;
   
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrLyrics" << endl;
 }
@@ -642,7 +642,7 @@ void msr2LpsrVisitor::visitEnd (S_msrLyrics& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrLyricschunk& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrLyricschunk" << endl;
 
@@ -664,7 +664,7 @@ void msr2LpsrVisitor::visitStart (S_msrLyricschunk& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrLyricschunk& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrLyricschunk" << endl;
 }
@@ -672,7 +672,7 @@ void msr2LpsrVisitor::visitEnd (S_msrLyricschunk& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrClef& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrClef" << endl;
 
@@ -682,7 +682,7 @@ void msr2LpsrVisitor::visitStart (S_msrClef& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrClef& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrClef" << endl;
 }
@@ -690,7 +690,7 @@ void msr2LpsrVisitor::visitEnd (S_msrClef& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrKey& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrKey" << endl;
 
@@ -700,7 +700,7 @@ void msr2LpsrVisitor::visitStart (S_msrKey& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrKey& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrKey" << endl;
 }
@@ -708,7 +708,7 @@ void msr2LpsrVisitor::visitEnd (S_msrKey& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrTime& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrTime" << endl;
 
@@ -718,7 +718,7 @@ void msr2LpsrVisitor::visitStart (S_msrTime& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrTime& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrTime" << endl;
 }
@@ -726,7 +726,7 @@ void msr2LpsrVisitor::visitEnd (S_msrTime& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrTempo& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrTempo" << endl;
 
@@ -736,7 +736,7 @@ void msr2LpsrVisitor::visitStart (S_msrTempo& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrTempo& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrTempo" << endl;
 }
@@ -745,14 +745,14 @@ void msr2LpsrVisitor::visitEnd (S_msrTempo& elt)
 /*
 void msr2LpsrVisitor::visitStart (S_msrDuration& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrDuration" << endl;
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrDuration& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrDuration" << endl;
 }
@@ -761,7 +761,7 @@ void msr2LpsrVisitor::visitEnd (S_msrDuration& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrArticulation& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrArticulation" << endl;
 
@@ -779,7 +779,7 @@ void msr2LpsrVisitor::visitStart (S_msrArticulation& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrArticulation& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrArticulation" << endl;
 }
@@ -787,7 +787,7 @@ void msr2LpsrVisitor::visitEnd (S_msrArticulation& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrOrnament& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrOrnament" << endl;
 
@@ -805,7 +805,7 @@ void msr2LpsrVisitor::visitStart (S_msrOrnament& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrOrnament& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrOrnament" << endl;
 }
@@ -813,7 +813,7 @@ void msr2LpsrVisitor::visitEnd (S_msrOrnament& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrDynamics& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrDynamics" << endl;
 
@@ -831,7 +831,7 @@ void msr2LpsrVisitor::visitStart (S_msrDynamics& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrDynamics& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrDynamics" << endl;
 }
@@ -839,7 +839,7 @@ void msr2LpsrVisitor::visitEnd (S_msrDynamics& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrWords& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrWords" << endl;
 
@@ -857,7 +857,7 @@ void msr2LpsrVisitor::visitStart (S_msrWords& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrWords& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrWords" << endl;
 }
@@ -865,7 +865,7 @@ void msr2LpsrVisitor::visitEnd (S_msrWords& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrSlur& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrSlur" << endl;
 
@@ -883,14 +883,14 @@ void msr2LpsrVisitor::visitStart (S_msrSlur& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrSlur& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrSlur" << endl;
 }
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrWedge& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrWedge" << endl;
 
@@ -908,7 +908,7 @@ void msr2LpsrVisitor::visitStart (S_msrWedge& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrWedge& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrWedge" << endl;
 }
@@ -916,7 +916,7 @@ void msr2LpsrVisitor::visitEnd (S_msrWedge& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrGracenotes& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrGracenotes" << endl;
 
@@ -926,7 +926,7 @@ void msr2LpsrVisitor::visitStart (S_msrGracenotes& elt)
     // there is a note before these grace notes
     
     if (fCurrentNoteClone->noteHasATrill ()) {
-  //    if (ffMsrOptions->fForceDebug || MsrOptions->fDebug)
+  //    if (fgGeneralOptions->fForceDebug || MsrOptions->fDebug)
         fOstream <<
           "### msrGracenotes on a TRILLED note" <<
           endl;
@@ -960,7 +960,7 @@ void msr2LpsrVisitor::visitStart (S_msrGracenotes& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrGracenotes& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrGracenotes" << endl;
 
@@ -971,7 +971,7 @@ void msr2LpsrVisitor::visitEnd (S_msrGracenotes& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrNote& elt)
 {
-  if (fMsrOptions->fDebug) {
+  if (gGeneralOptions->fDebug) {
     fOstream << idtr <<
       "--> Start visiting ";
     switch (elt->getNoteKind ()) {
@@ -1005,7 +1005,7 @@ void msr2LpsrVisitor::visitStart (S_msrNote& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
 {
-  if (fMsrOptions->fDebug) {
+  if (gGeneralOptions->fDebug) {
     fOstream << idtr <<
       "--> Start visiting ";
     switch (elt->getNoteKind ()) {
@@ -1036,7 +1036,7 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
       break;
       
     case msrNote::kStandaloneNote:
-      if (fMsrOptions->fDebug) {
+      if (gGeneralOptions->fDebug) {
         cerr << idtr <<
           "--> appending " <<
           fCurrentNoteClone->noteAsString () << " to voice " <<
@@ -1049,8 +1049,8 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
       
     case msrNote::kGraceNote:
     //* JMI
-      if (true || fMsrOptions->fDebug) {
- //     if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+      if (true || gGeneralOptions->fDebug) {
+ //     if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
         cerr <<  idtr <<
           "--> appending note " <<
           fCurrentNoteClone->notePitchAsString () <<
@@ -1100,7 +1100,7 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrOctaveShift& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrOctaveShift" << endl;
 
@@ -1110,7 +1110,7 @@ void msr2LpsrVisitor::visitStart (S_msrOctaveShift& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrOctaveShift& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrOctaveShift" << endl;
 }
@@ -1118,14 +1118,14 @@ void msr2LpsrVisitor::visitEnd (S_msrOctaveShift& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrStem& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrStem" << endl;
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrStem& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrStem" << endl;
 }
@@ -1133,14 +1133,14 @@ void msr2LpsrVisitor::visitEnd (S_msrStem& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrBeam& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrBeam" << endl;
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrBeam& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrBeam" << endl;
 }
@@ -1148,7 +1148,7 @@ void msr2LpsrVisitor::visitEnd (S_msrBeam& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrChord& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrChord" << endl;
 
@@ -1164,7 +1164,7 @@ void msr2LpsrVisitor::visitStart (S_msrChord& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrChord& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrChord" << endl;
 
@@ -1174,7 +1174,7 @@ void msr2LpsrVisitor::visitEnd (S_msrChord& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrTuplet& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrTuplet" << endl;
 
@@ -1184,7 +1184,7 @@ void msr2LpsrVisitor::visitStart (S_msrTuplet& elt)
       elt->createTupletBareClone ();
 
   // register it in this visitor
-//  if (fMsrOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "++> pushing tuplet " <<
       tupletClone->getTupletActualNotes () <<
@@ -1197,11 +1197,11 @@ void msr2LpsrVisitor::visitStart (S_msrTuplet& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrTuplet& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrTuplet" << endl;
 
-//  if (fMsrOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> popping tuplet " <<
       elt->getTupletActualNotes () <<
@@ -1213,7 +1213,7 @@ void msr2LpsrVisitor::visitEnd (S_msrTuplet& elt)
 
   if (fTupletClonesStack.size ()) {
     // tuplet is an embedded tuplet
-//    if (fMsrOptions->fDebug)
+//    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "=== adding embedded tuplet " <<
       elt->getTupletActualNotes () <<
@@ -1230,7 +1230,7 @@ void msr2LpsrVisitor::visitEnd (S_msrTuplet& elt)
   }
   else {
     // tup is a top level tuplet
-//    if (fMsrOptions->fDebug)
+//    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "=== adding top level tuplet " <<
       elt->getTupletActualNotes () <<
@@ -1248,7 +1248,7 @@ void msr2LpsrVisitor::visitEnd (S_msrTuplet& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrTie& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrTie" << endl;
 
@@ -1260,7 +1260,7 @@ void msr2LpsrVisitor::visitStart (S_msrTie& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrTie& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrTie" << endl;
 }
@@ -1269,7 +1269,7 @@ void msr2LpsrVisitor::visitEnd (S_msrTie& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrBarline" << endl;
   
@@ -1282,7 +1282,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       
     case msrBarline::kRepeatStart:
       {
- //     if (fMsrOptions->fDebug)
+ //     if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> handling kRepeatStart in voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
@@ -1308,7 +1308,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
         setRepeatCommonPart (currentVoicechunk);
 
       // create a new voice chunk for the voice
-      if (fMsrOptions->fDebug)
+      if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> setting new voice chunk for voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
@@ -1324,7 +1324,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
 
     case msrBarline::kRepeatEnd:
       {
- //     if (fMsrOptions->fDebug)
+ //     if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> handling kRepeatEnd in voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
@@ -1343,7 +1343,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
         setRepeatCommonPart (currentVoicechunk);
       
       // create a new voice chunk for the voice
-      if (fMsrOptions->fDebug)
+      if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> setting new voice chunk for voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
@@ -1354,7 +1354,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
 
       if (fOnGoingRepeat) {
         // add the repeat to the new voice chunk
-   //     if (fMsrOptions->fDebug)
+   //     if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "--> appending the repeat to voice " <<
             fCurrentVoiceClone->getVoiceName () << endl;
@@ -1367,7 +1367,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
             
     case msrBarline::kEndingStart:
       {
- //     if (fMsrOptions->fDebug)
+ //     if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> handling kEndingStart in voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
@@ -1384,7 +1384,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
         setRepeatCommonPart (currentVoicechunk);
   */    
       // create a new voice chunk for the voice
-      if (fMsrOptions->fDebug)
+      if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> setting new voice chunk for voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
@@ -1403,7 +1403,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       
     case msrBarline::kHookedEndingEnd:
       {
- //     if (fMsrOptions->fDebug)
+ //     if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> handling kHookedEndingEnd in voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
@@ -1418,7 +1418,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
             getVoiceVoicechunk ();
 
       // create a new voice chunk for the voice
-//      if (fMsrOptions->fDebug)
+//      if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> setting new voice chunk for voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
@@ -1428,7 +1428,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
           elt->getInputLineNumber ());
 
       // create a repeat ending from the current voice chunk
-//      if (fMsrOptions->fDebug)
+//      if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> creating a new hooked ending for voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
@@ -1443,7 +1443,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
             fCurrentRepeatClone);
 
       // add the repeat ending to the current repeat
-//      if (fMsrOptions->fDebug)
+//      if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> adding hooked ending to current repeat in voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
@@ -1454,7 +1454,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
 /*
       if (fOnGoingRepeat) {
         // add the repeat to the new voice chunk
-   //     if (fMsrOptions->fDebug)
+   //     if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "--> appending the repeat to voice " <<
             fCurrentVoiceClone->getVoiceName () << endl;
@@ -1468,7 +1468,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
       
     case msrBarline::kHooklessEndingEnd:
       {
- //     if (fMsrOptions->fDebug)
+ //     if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> handling kEndOfAHooklessEnding in voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
@@ -1485,7 +1485,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
             getVoiceVoicechunk ();
 
       // create a new voice chunk for the voice
-//      if (fMsrOptions->fDebug)
+//      if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> setting new voice chunk for voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
@@ -1495,7 +1495,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
           elt->getInputLineNumber ());
 
       // create a repeat ending from the current voice chunk
-//      if (fMsrOptions->fDebug)
+//      if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> creating a new hookless ending for voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
@@ -1510,7 +1510,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
             fCurrentRepeatClone);
 
       // add the repeat ending to the current repeat
-//      if (fMsrOptions->fDebug)
+//      if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> adding hookless ending to current repeat in voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
@@ -1520,7 +1520,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
 
       if (fOnGoingRepeat) {
         // add the repeat to the new voice chunk
-   //     if (fMsrOptions->fDebug)
+   //     if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "--> appending the repeat to voice " <<
             fCurrentVoiceClone->getVoiceName () << endl;
@@ -1535,7 +1535,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarline& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrBarline& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrBarline" << endl;
 }
@@ -1543,7 +1543,7 @@ void msr2LpsrVisitor::visitEnd (S_msrBarline& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrSegno& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrSegno" << endl;
 
@@ -1553,7 +1553,7 @@ void msr2LpsrVisitor::visitStart (S_msrSegno& elt)
 
 void msr2LpsrVisitor::visitStart (S_msrCoda& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrCoda" << endl;
 
@@ -1564,7 +1564,7 @@ void msr2LpsrVisitor::visitStart (S_msrCoda& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrEyeglasses& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting eyeglasses" << endl;
 
@@ -1574,7 +1574,7 @@ void msr2LpsrVisitor::visitStart (S_msrEyeglasses& elt)
 
 void msr2LpsrVisitor::visitStart (S_msrPedal& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting pedal" << endl;
 
@@ -1585,7 +1585,7 @@ void msr2LpsrVisitor::visitStart (S_msrPedal& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrBarCheck& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrBarCheck" << endl;
 
@@ -1595,7 +1595,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarCheck& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrBarCheck& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrBarCheck" << endl;
 }
@@ -1603,7 +1603,7 @@ void msr2LpsrVisitor::visitEnd (S_msrBarCheck& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrBarnumberCheck& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrBarnumberCheck" << endl;
 
@@ -1613,7 +1613,7 @@ void msr2LpsrVisitor::visitStart (S_msrBarnumberCheck& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrBarnumberCheck& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrBarnumberCheck" << endl;
 }
@@ -1621,7 +1621,7 @@ void msr2LpsrVisitor::visitEnd (S_msrBarnumberCheck& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrBreak& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrBreak" << endl;
 
@@ -1631,7 +1631,7 @@ void msr2LpsrVisitor::visitStart (S_msrBreak& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrBreak& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrBreak" << endl;
 }
@@ -1639,7 +1639,7 @@ void msr2LpsrVisitor::visitEnd (S_msrBreak& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrRepeat& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrRepeat" << endl;
 
@@ -1659,7 +1659,7 @@ void msr2LpsrVisitor::visitStart (S_msrRepeat& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrRepeat" << endl;
       
@@ -1670,7 +1670,7 @@ void msr2LpsrVisitor::visitEnd (S_msrRepeat& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrRepeatending& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrRepeatending" << endl;
 /* JMI
@@ -1685,7 +1685,7 @@ void msr2LpsrVisitor::visitStart (S_msrRepeatending& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrRepeatending& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrRepeatending" << endl;
 }
@@ -1693,14 +1693,14 @@ void msr2LpsrVisitor::visitEnd (S_msrRepeatending& elt)
 //________________________________________________________________________
 /*void msr2LpsrVisitor::visitStart (S_msrComment& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrComment" << endl;
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrComment& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrComment" << endl;
 }
@@ -1708,7 +1708,7 @@ void msr2LpsrVisitor::visitEnd (S_msrComment& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrVarValAssoc" << endl;
 
@@ -1821,7 +1821,7 @@ void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrVarValAssoc& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrVarValAssoc" << endl;
 }
@@ -1829,7 +1829,7 @@ void msr2LpsrVisitor::visitEnd (S_msrVarValAssoc& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrLayout& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrLayout" << endl;
 
@@ -1840,7 +1840,7 @@ void msr2LpsrVisitor::visitEnd (S_msrLayout& elt)
 {
   idtr--;
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrLayout" << endl;
 }
@@ -1848,14 +1848,14 @@ void msr2LpsrVisitor::visitEnd (S_msrLayout& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrMidi& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrMidi" << endl;
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrMidi& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrMidi" << endl;
 }
@@ -1863,7 +1863,7 @@ void msr2LpsrVisitor::visitEnd (S_msrMidi& elt)
 //________________________________________________________________________
 void msr2LpsrVisitor::visitStart (S_msrRehearsal& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrRehearsal" << endl;
 
@@ -1873,7 +1873,7 @@ void msr2LpsrVisitor::visitStart (S_msrRehearsal& elt)
 
 void msr2LpsrVisitor::visitEnd (S_msrRehearsal& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrRehearsal" << endl;
 }

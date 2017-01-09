@@ -250,36 +250,6 @@ class EXP msrOptions : public smartable
  
   public:
 
-    // General
-    // ------------------------------------------------------
-
-    // synthetic view
- //   string                          fCommandLineOptions;
- //   string                          fInputSourceName;
-//    string                          fTranslationDate;
-    
-
-    // interactive mode
-    bool                            fInteractive;
-    
-    // trace
-//    bool                            fTrace;
-    
-    // debug
-    bool                            fDebug;
-    bool                            fDebugDebug;
-
-    // forcing debug information at specific places in the code
-    bool                            fForceDebug;
-    
-    // measure number-selective debug
-    set<int>                        fDebugMeasureNumbersSet;
-    bool                            fSaveDebug;
-    bool                            fSaveDebugDebug;
-
-    // MSR
-    // ------------------------------------------------------
-
     // languages
     string                          fMsrNoteNamesLanguageAsString;
     msrNoteNamesLanguage            fMsrNoteNamesLanguage;

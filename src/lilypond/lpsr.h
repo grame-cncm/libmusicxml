@@ -76,7 +76,7 @@ class EXP lpsrOptions : public smartable {
  
   public:
 
-    // MSR display
+    // LPSR display
     bool                            fDisplayLPSR;
 
     // LilyPond code generation

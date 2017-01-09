@@ -150,8 +150,8 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
     noteIsChordFirstNote;
 */
 
- // if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
-  if (fMsrOptions->fDebugDebug) {
+ // if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fDebugDebug) {
     cerr << left <<
       endl <<
       idtr <<
@@ -231,8 +231,8 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
           +
         referenceDiatonicPitch - msrNoteData::kC;
 
-//    if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
-    if (fMsrOptions->fDebugDebug) {
+//    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
+    if (gGeneralOptions->fDebugDebug) {
       cerr << left <<
 /*
         idtr <<
@@ -336,7 +336,7 @@ string lpsr2LilyPondVisitor::ornamentKindAsLilyPondString (
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrScore& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrScore" << endl;
 
@@ -347,7 +347,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrScore& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrScore& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrScore" << endl;
 
@@ -359,7 +359,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrScore& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrLilypondVarValAssoc& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
 
@@ -429,7 +429,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrLilypondVarValAssoc& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrLilypondVarValAssoc& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrLilypondVarValAssoc" << endl;
 }
@@ -437,7 +437,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrLilypondVarValAssoc& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrSchemeVarValAssoc& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrSchemeVarValAssoc" << endl;
 
@@ -472,7 +472,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrSchemeVarValAssoc& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrSchemeVarValAssoc& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrSchemeVarValAssoc" << endl;
 }
@@ -480,7 +480,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrSchemeVarValAssoc& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrHeader& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrHeader" << endl;
 
@@ -499,7 +499,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrHeader& elt)
 
   idtr--;
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrHeader" << endl;
 
@@ -511,7 +511,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrHeader& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrPaper& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrPaper" << endl;
 
@@ -601,7 +601,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPaper& elt)
 {
   idtr--;
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrPaper" << endl;
       
@@ -613,7 +613,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPaper& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrLayout& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrLayout" << endl;
 
@@ -628,7 +628,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrLayout& elt)
 {
   idtr--;
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrLayout" << endl;
 
@@ -640,7 +640,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrLayout& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrScoreBlock& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrScoreBlock" << endl;
 
@@ -663,7 +663,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrScoreBlock& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrScoreBlock& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrScoreBlock" << endl;
 /*
@@ -687,7 +687,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrScoreBlock& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrParallelMusic& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrParallelMusic" << endl;
 
@@ -702,7 +702,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrParallelMusic& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrParallelMusic& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrParallelMusic" << endl;
 
@@ -718,7 +718,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrParallelMusic& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrPartgroupBlock" << endl;
 
@@ -807,7 +807,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupBlock& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrPartgroupBlock" << endl;
 
@@ -842,7 +842,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartgroupBlock& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrPartBlock& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrPartBlock" << endl;
 
@@ -891,7 +891,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartBlock& elt)
     part =
       elt->getPart ();
       
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrPartBlock" << endl;
 
@@ -921,7 +921,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrPartBlock& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrStaffBlock" << endl;
 
@@ -1015,7 +1015,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffBlock& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrStaffBlock" << endl;
 
@@ -1042,7 +1042,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrStaffBlock& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrNewStaffgroupBlock& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrNewStaffgroupBlock" << endl;
 
@@ -1055,7 +1055,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewStaffgroupBlock& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewStaffgroupBlock& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrNewStaffgroupBlock" << endl;
 
@@ -1069,7 +1069,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewStaffgroupBlock& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrNewStaffBlock& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrNewStaffBlock" << endl;
 
@@ -1078,7 +1078,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewStaffBlock& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewStaffBlock& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrNewStaffBlock" << endl;
 
@@ -1089,7 +1089,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewStaffBlock& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrUseVoiceCommand" << endl;
 
@@ -1169,7 +1169,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
 }
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrUseVoiceCommand& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrUseVoiceCommand" << endl;
 }
@@ -1177,12 +1177,12 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrUseVoiceCommand& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrNewLyricsBlock& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrNewLyricsBlock" << endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
- //   if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) {
+ //   if (gGeneralOptions->fForceDebug || fOngoingNonEmptyLyrics) {
       fOstream <<
         idtr <<
           "\\new Lyrics" <<
@@ -1206,12 +1206,12 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrNewLyricsBlock& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewLyricsBlock& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrNewLyricsBlock" << endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
-    if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) { // JMI
+    if (gGeneralOptions->fForceDebug || fOngoingNonEmptyLyrics) { // JMI
     }
   }
 }
@@ -1219,7 +1219,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrNewLyricsBlock& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrVariableUseCommand& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrVariableUseCommand" << endl;
 
@@ -1228,7 +1228,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrVariableUseCommand& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrVariableUseCommand& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrVariableUseCommand" << endl;
 
@@ -1238,7 +1238,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrVariableUseCommand& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrContext& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrContext" << endl;
 
@@ -1247,7 +1247,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrContext& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrContext& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrContext" << endl;
 
@@ -1257,7 +1257,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrContext& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrBarCommand& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrBarCommand" << endl;
 
@@ -1266,7 +1266,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrBarCommand& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrBarCommand& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrBarCommand" << endl;
 
@@ -1276,14 +1276,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrBarCommand& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrScore& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrScore" << endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrScore& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrScore" << endl;
 }
@@ -1291,14 +1291,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrScore& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrPartgroup& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrPartgroup" << endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrPartgroup& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrPartgroup" << endl;
 }
@@ -1306,14 +1306,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrPartgroup& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrPart& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrPart" << endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrPart& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrPart" << endl;
 }
@@ -1321,7 +1321,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrPart& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrStaff& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrStaff" << endl;
   
@@ -1330,7 +1330,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrStaff& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrStaff& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrStaff" << endl;
   
@@ -1340,7 +1340,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrStaff& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrVoice& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrVoice" << endl;
 
@@ -1365,7 +1365,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoice& elt)
 {
   idtr--;
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrVoice" << endl;
   
@@ -1378,7 +1378,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoice& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrVoicechunk" << endl;
 
@@ -1396,7 +1396,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrVoicechunk& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrVoicechunk" << endl;
 
@@ -1421,7 +1421,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrVoicechunk& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrMeasure" << endl;
 
@@ -1466,7 +1466,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrMeasure& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrMeasure" << endl;
 
@@ -1493,7 +1493,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrMeasure& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrLyrics& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrLyrics" << endl;
 
@@ -1517,7 +1517,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyrics& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrLyrics& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrLyrics" << endl;
 
@@ -1538,12 +1538,12 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrLyrics& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrLyricschunk" << endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
-    if (fMsrOptions->fForceDebug || fOngoingNonEmptyLyrics) {
+    if (gGeneralOptions->fForceDebug || fOngoingNonEmptyLyrics) {
       
       switch (elt->getLyricschunkKind ()) {
         case msrLyricschunk::kSingleChunk:
@@ -1622,7 +1622,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrLyricschunk& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrLyricschunk& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrLyricschunk" << endl;
 }
@@ -1630,7 +1630,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrLyricschunk& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrClef& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrClef" << endl;
 
@@ -1707,7 +1707,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrClef& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrClef& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrClef" << endl;
 }
@@ -1715,7 +1715,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrClef& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrKey& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrKey" << endl;
 
@@ -1737,7 +1737,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrKey& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrKey& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrKey" << endl;
 }
@@ -1745,7 +1745,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrKey& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrTime& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrTime" << endl;
 
@@ -1762,7 +1762,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTime& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrTime& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrTime" << endl;
 }
@@ -1770,7 +1770,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrTime& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrTempo& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrTempo" << endl;
 
@@ -1795,7 +1795,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTempo& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrTempo& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrTempo" << endl;
 }
@@ -1804,14 +1804,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrTempo& elt)
 /*
 void lpsr2LilyPondVisitor::visitStart (S_msrDuration& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrDuration" << endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrDuration& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrDuration" << endl;
 }
@@ -1820,7 +1820,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrDuration& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrArticulation& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrArticulation" << endl;
 
@@ -1830,7 +1830,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrArticulation& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrArticulation& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrArticulation" << endl;
 }
@@ -1838,7 +1838,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrArticulation& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrOrnament& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrOrnament" << endl;
 
@@ -1848,7 +1848,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrOrnament& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrOrnament& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrOrnament" << endl;
 }
@@ -1856,14 +1856,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrOrnament& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrDynamics& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrDynamics" << endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrDynamics& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrDynamics" << endl;
 }
@@ -1871,14 +1871,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrDynamics& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrWords& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrWords" << endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrWords& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrWords" << endl;
 }
@@ -1886,14 +1886,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrWords& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrSlur& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrSlur" << endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrSlur& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrSlur" << endl;
 }
@@ -1901,14 +1901,14 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrSlur& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrWedge& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrWedge" << endl;
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrWedge& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrWedge" << endl;
 }
@@ -1916,7 +1916,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrWedge& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrGracenotes& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrGracenotes" << endl;
 
@@ -1931,7 +1931,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrGracenotes& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrGracenotes& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrGracenotes" << endl;
 
@@ -1942,8 +1942,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrGracenotes& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
 {
-//  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fDebug) {
     fOstream << idtr <<
       "% --> Start visiting ";
       
@@ -2167,7 +2167,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
 {
-  if (fMsrOptions->fDebug) {
+  if (gGeneralOptions->fDebug) {
     fOstream << idtr <<
       "% --> Start visiting ";
     switch (elt->getNoteKind ()) {
@@ -2509,7 +2509,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrOctaveShift& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrOctaveShift" << endl;
 
@@ -2537,7 +2537,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrOctaveShift& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrOctaveShift& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrOctaveShift" << endl;
 }
@@ -2545,7 +2545,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrOctaveShift& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrStem& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrStem" << endl;
 
@@ -2554,7 +2554,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrStem& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrStem& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrStem" << endl;
 }
@@ -2562,7 +2562,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrStem& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrBeam& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrBeam" << endl;
 
@@ -2596,7 +2596,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBeam& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBeam& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrBeam" << endl;
 }
@@ -2604,7 +2604,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrBeam& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrChord" << endl;
 
@@ -2620,7 +2620,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrChord& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrChord" << endl;
 
@@ -2860,7 +2860,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrTuplet& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrTuplet" << endl;
 
@@ -2873,7 +2873,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTuplet& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrTuplet& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrTuplet" << endl;
 
@@ -2883,7 +2883,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrTuplet& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrTie& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrTie" << endl;
   
@@ -2902,7 +2902,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrTie& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrTie& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrTie" << endl;
 }
@@ -2910,7 +2910,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrTie& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrSegno& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrSegno" << endl;
 
@@ -2921,7 +2921,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrSegno& elt)
 
 void lpsr2LilyPondVisitor::visitStart (S_msrCoda& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrCoda" << endl;
 
@@ -2933,7 +2933,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrCoda& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrEyeglasses& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting eyeglasses" << endl;
 
@@ -2944,7 +2944,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrEyeglasses& elt)
 
 void lpsr2LilyPondVisitor::visitStart (S_msrPedal& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting pedal" << endl;
       
@@ -2969,7 +2969,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrPedal& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream <<
       endl <<
       idtr << "% --> Start visiting msrBarline" << endl;
@@ -3042,7 +3042,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarline& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream <<
       endl <<
       idtr << "% --> End visiting msrBarline" << endl;
@@ -3051,7 +3051,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrBarline& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrBarCheck& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrBarCheck" << endl;
       
@@ -3069,7 +3069,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarCheck& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarCheck& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrBarCheck" << endl;
 }
@@ -3077,7 +3077,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrBarCheck& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrBarnumberCheck& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrBarnumberCheck" << endl;
 
@@ -3091,7 +3091,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarnumberCheck& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarnumberCheck& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrBarnumberCheck" << endl;
 }
@@ -3099,7 +3099,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrBarnumberCheck& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrBreak& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrBreak" << endl;
 
@@ -3114,7 +3114,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBreak& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBreak& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrBreak" << endl;
 }
@@ -3122,7 +3122,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrBreak& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrRepeat& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrRepeat" << endl;
 
@@ -3154,7 +3154,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeat& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrRepeat" << endl;
 
@@ -3187,7 +3187,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrRepeatending& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrRepeatending" << endl;
 
@@ -3215,7 +3215,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRepeatending& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrRepeatending& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrRepeatending" << endl;
 
@@ -3242,7 +3242,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeatending& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_lpsrComment& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting lpsrComment" << endl;
 
@@ -3256,7 +3256,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrComment& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrComment& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrComment" << endl;
 }
@@ -3264,7 +3264,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_lpsrComment& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrRehearsal& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrRehearsal" << endl;
 
@@ -3280,7 +3280,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrRehearsal& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrRehearsal& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrRehearsal" << endl;
 }
@@ -3288,7 +3288,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRehearsal& elt)
 //________________________________________________________________________
 void lpsr2LilyPondVisitor::visitStart (S_msrMidi& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrMidi" << endl;
 
@@ -3311,7 +3311,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMidi& elt)
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrMidi& elt)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrMidi" << endl;
 }

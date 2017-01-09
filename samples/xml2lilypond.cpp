@@ -193,16 +193,6 @@ void analyzeOptions (
   string&        inputFileName,
   string&        outputFileName)
 {
-  // General options
-  // ---------------
-  
-  msrOpts->fInteractive                       = false;
-    
-  msrOpts->fDebug                             = false;
-  msrOpts->fDebugDebug                        = false;
-  
-  msrOpts->fForceDebug                        = false;
-
   // MSR options
   // -----------
 
@@ -618,7 +608,6 @@ void analyzeOptions (
 
         if (interactivePresent) {
           gGeneralOptions->fInteractive = false;
-          msrOpts->fInteractive = false;
           gGeneralOptions->fCommandLineOptions +=
             "--interactive ";
           interactivePresent = false;
@@ -634,7 +623,6 @@ void analyzeOptions (
         if (debugPresent) {
           gGeneralOptions->fTrace = true;
           gGeneralOptions->fDebug = true;
-          msrOpts->fDebug = true;
           gGeneralOptions->fCommandLineOptions +=
             "--debug ";
           debugPresent = false;
@@ -642,7 +630,6 @@ void analyzeOptions (
         if (debugDebugPresent) {
           gGeneralOptions->fTrace = true;
           gGeneralOptions->fDebugDebug = true;
-          msrOpts->fDebugDebug = true;
           gGeneralOptions->fCommandLineOptions +=
             "--debugDebug ";
           debugDebugPresent = false;
@@ -650,7 +637,6 @@ void analyzeOptions (
         if (forceDebugPresent) {
           gGeneralOptions->fTrace = true;
           gGeneralOptions->fForceDebug = true;
-          msrOpts->fForceDebug = true;
           gGeneralOptions->fCommandLineOptions +=
             "--forceDebug ";
           forceDebugPresent = false;
@@ -659,7 +645,6 @@ void analyzeOptions (
         if (debugMeasuresPresent) {
           gGeneralOptions->fTrace = true;
           gGeneralOptions->fDebug = true;
-          msrOpts->fDebug = true;
           
           char*        measuresSpec = optarg;
           stringstream s;
@@ -671,15 +656,11 @@ void analyzeOptions (
           gGeneralOptions->fDebugMeasureNumbersSet =
             decipherNumbersSetSpecification (
               measuresSpec, false); // 'true' to debug it
-          msrOpts->fDebugMeasureNumbersSet =
-            decipherNumbersSetSpecification (
-              measuresSpec, false); // 'true' to debug it
           debugMeasuresPresent = false;
         }
         if (debugdebugMeasuresPresent) {
           gGeneralOptions->fTrace = true;
           gGeneralOptions->fDebugDebug = true;
-          msrOpts->fDebugDebug = true;
           
           char*        measuresSpec = optarg;
           stringstream s;
@@ -689,9 +670,6 @@ void analyzeOptions (
           gGeneralOptions->fCommandLineOptions += s.str();
             
           gGeneralOptions->fDebugMeasureNumbersSet =
-            decipherNumbersSetSpecification (
-              measuresSpec, false); // 'true' to debug it
-          msrOpts->fDebugMeasureNumbersSet =
             decipherNumbersSetSpecification (
               measuresSpec, false); // 'true' to debug it
           debugdebugMeasuresPresent = false;
@@ -970,50 +948,6 @@ void printOptions (
   
   cerr << endl;
 
-  /*
-  cerr << endl;
-
-  
-  cerr << left <<
-    idtr << setw(fieldWidth) << "input source name" << " : " <<
-      gGeneralOptions->fInputSourceName << endl <<
-      
-    idtr << setw(fieldWidth) << "translation date" << " : " <<
-      msrOpts->fTranslationDate << endl <<
-      
-    idtr << setw(fieldWidth) << "interactive" << " : " <<
-      string(msrOpts->fInteractive
-        ? "true" : "false") << endl <<
-        
-    idtr << setw(fieldWidth) << "trace" << " : " <<
-      string(msrOpts->fTrace
-        ? "true" : "false") << endl <<
-        
-    idtr << setw(fieldWidth) << "debug" << " : " <<
-      string(msrOpts->fDebug
-        ? "true" : "false") << endl <<
-    idtr << setw(fieldWidth) << "debugDebug" << " : " <<
-      string(msrOpts->fDebugDebug
-        ? "true" : "false") << endl <<
-    idtr << setw(fieldWidth) << "forceDebug" << " : " <<
-      string(msrOpts->fForceDebug
-        ? "true" : "false") << endl <<
-    idtr << setw(fieldWidth) << "debugMeasureNumbersSet" << " : ";
-
-  if (msrOpts->fDebugMeasureNumbersSet.empty ())
-    cerr << "none";
-  else
-    for (
-      set<int>::const_iterator i =
-        msrOpts->fDebugMeasureNumbersSet.begin();
-      i != msrOpts->fDebugMeasureNumbersSet.end();
-      i++) {
-        cerr << (*i) << " ";
-    } // for
-  
-  cerr << endl;
-  */
-  
   idtr--;
 
   // MSR options
@@ -1200,7 +1134,7 @@ int main (int argc, char *argv[])
   ofstream outStream;
 
   if (outputFileName.size()) {
-    if (msrOpts->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "Opening file '" << outputFileName << "' for writing" << endl;
         
@@ -1272,7 +1206,7 @@ int main (int argc, char *argv[])
       lpsr2LilyPond (lpScore, msrOpts, lpsrOpts, cout);
     
     if (outputFileName.size()) {
-      if (msrOpts->fDebug)
+      if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "Closing file '" << outputFileName << "'" << endl;
           

@@ -556,8 +556,8 @@ void xml2MsrVisitor::visitStart ( S_group_barline& elt)
 //________________________________________________________________________
 void xml2MsrVisitor::showPartgroupsData (string context)
 {    
-// JMI  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+// JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartgroupsMap contains:" << endl;
     if (fPartgroupsMap.size()) {
@@ -578,7 +578,7 @@ void xml2MsrVisitor::showPartgroupsData (string context)
     cerr << idtr << "<== fPartgroupsMap" << endl;
   }
 
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartgroupsList contains:" << endl;
     if (fPartgroupsList.size()) {
@@ -924,7 +924,7 @@ void xml2MsrVisitor::visitStart (S_score_part& elt)
 {
   fCurrentPartID = elt->getAttributeValue ("id");
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "Found part name \"" << fCurrentPartID << "\"" << endl;
 
@@ -1935,7 +1935,7 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
       createStaffInCurrentPartIfNeeded (
         inputLineNumber, fCurrentStaffNumber);
 
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     cerr <<
       idtr <<
         "--> S_staff, fCurrentStaffNumber = " <<
@@ -1994,8 +1994,8 @@ void xml2MsrVisitor::visitStart (S_staff_details& elt )
 
   // show-frets
 
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
+  if (true || gGeneralOptions->fDebug) {
+//  if (gGeneralOptions->fDebug) {
     cerr <<
       idtr <<
         "Hangling staff details:" <<
@@ -2078,8 +2078,8 @@ void xml2MsrVisitor::visitEnd (S_staff_tuning& elt )
         fStaffDetailsStaffNumber);
 
   // create the staff tuning
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
+  if (true || gGeneralOptions->fDebug) {
+//  if (gGeneralOptions->fDebug) {
     cerr <<
       idtr <<
         setw(30) << "Creating staff tuning:" <<
@@ -2146,8 +2146,8 @@ void xml2MsrVisitor::visitStart (S_staff_size& elt )
 
 void xml2MsrVisitor::visitEnd (S_staff_details& elt )
 {
-  if (true || fMsrOptions->fDebug) {
-//  if (fMsrOptions->fDebug) {
+  if (true || gGeneralOptions->fDebug) {
+//  if (gGeneralOptions->fDebug) {
     cerr <<
       idtr <<
         setw(32) << "fCurrentStaffDetailsCapo" << " = " <<
@@ -2206,7 +2206,7 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
         createStaffInCurrentPartIfNeeded (
           inputLineNumber, fCurrentForwardVoiceNumber);
   
-  //  if (fMsrOptions->fDebug)
+  //  if (gGeneralOptions->fDebug)
       cerr <<
         idtr <<
           "--> S_voice, fCurrentVoiceNumber         = " <<
@@ -2230,7 +2230,7 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
         createStaffInCurrentPartIfNeeded (
           inputLineNumber, fCurrentNoteStaffNumber);
   
-    if (fMsrOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr <<
         idtr <<
           "--> fCurrentNoteVoiceNumber        = " <<
@@ -2665,7 +2665,7 @@ void xml2MsrVisitor::visitEnd ( S_text& elt )
 
   fCurrentLyricsHasText = true;
 
-// JMI  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug)
+// JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> line " << right << setw(5) << elt->getInputLineNumber () <<
       ", fCurrentLyricsNumber" << " = " << fCurrentLyricsNumber <<
@@ -2683,7 +2683,7 @@ void xml2MsrVisitor::visitEnd ( S_lyric& elt )
    int inputLineNumber =
       elt->getInputLineNumber ();
 
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
  // JMI if (true) {  
     cerr <<
       endl <<
@@ -2794,7 +2794,7 @@ void xml2MsrVisitor::visitEnd ( S_lyric& elt )
 
  //   string lyricschunkKindAsString;
     
-    if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
       /*
       cerr <<
         ", type = \"" << lyricschunkKindAsString << "\"" <<
@@ -2933,9 +2933,8 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
   fCurrentPart->
     setPartMeasureNumber (
       inputLineNumber, measureNumber);
-    
-/*
 
+    /* JMI
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -2944,32 +2943,29 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
- // JMI if (implicit != "yes")
-    currentVoice->
-      setMeasureNumber (
-        inputLineNumber, measureNumber);
-
+  // populate current voice
+  currentVoice->
+    setVoiceDivisionsPerWholeNote (
+      fCurrentDivisionsPerQuarterNote);
+    
   // is this measure number in the debug set?
   set<int>::iterator
     it =
-      fMsrOptions->
-        fDebugMeasureNumbersSet.find (
-          currentVoice->
-            getVoiceMeasureLocation ().fMeasureNumber);
+      gGeneralOptions->
+        fDebugMeasureNumbersSet.find (measureNumber);
         
-  if (it != fMsrOptions->fDebugMeasureNumbersSet.end ()) {
+  if (it != gGeneralOptions->fDebugMeasureNumbersSet.end ()) {
     // yes, activate debug for it
-    fMsrOptions->fSaveDebug = fMsrOptions->fDebug;
-    fMsrOptions->fSaveDebugDebug = fMsrOptions->fDebugDebug;
+    gGeneralOptions->fSaveDebug = gGeneralOptions->fDebug;
+    gGeneralOptions->fSaveDebugDebug = gGeneralOptions->fDebugDebug;
   }
+*/
 
-  currentVoice->
-    setDivisionsPerWholeNote (
-      fCurrentDivisionsPerQuarterNote);
+/*
+
+
     
-  currentVoice->setPositionInMeasure (1);
-    
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr << 
       "=== MEASURE " <<
       currentVoice->
@@ -3010,8 +3006,8 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
 void xml2MsrVisitor::visitEnd (S_measure& elt)
 {
   // restore debug options in case they were set in visitStart()
-  fMsrOptions->fDebug = fMsrOptions->fSaveDebug;
-  fMsrOptions->fDebugDebug = fMsrOptions->fSaveDebugDebug;
+  gGeneralOptions->fDebug = gGeneralOptions->fSaveDebug;
+  gGeneralOptions->fDebugDebug = gGeneralOptions->fSaveDebugDebug;
 }
 
 //______________________________________________________________________________
@@ -3030,7 +3026,7 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
         elt->getInputLineNumber ();
       
       // create a barnumbercheck command
-      if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+      if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
         cerr << idtr << 
           "Creating a barnumber check, " <<
           "line = " << inputLineNumber << endl;
@@ -3058,7 +3054,7 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
         appendBarnumberCheckToVoice (barnumbercheck_);
   
       // create a break command
-      if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+      if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
         cerr << idtr << 
           "Creating a break, " <<
           "line = " << inputLineNumber << endl;
@@ -3838,7 +3834,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
 /* JMI
       if (
         fCurrentBarlineLocation == msrBarline::msrBarline::kRight) {
-   //       if (fMsrOptions->fDebug)
+   //       if (gGeneralOptions->fDebug)
             cerr <<
               idtr << "--> input line " << inputLineNumber <<
               endl <<
@@ -3940,7 +3936,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
               <ending number="2" type="stop"/>
             </barline>
             * /
-     //       if (fMsrOptions->fDebug)
+     //       if (gGeneralOptions->fDebug)
               cerr <<
                 idtr << "--> input line " << inputLineNumber <<
                 endl <<
@@ -3972,7 +3968,7 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
   }
   
   // now we can display the barline in case of debug
-  if (fMsrOptions->fDebug) {
+  if (gGeneralOptions->fDebug) {
     cerr << idtr <<
       "Creating a barline in voice " <<
       currentVoice->getVoiceName () << ":" <<
@@ -5137,7 +5133,7 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
   S_msrVoice voice,
   S_msrNote firstNote)
 {
-//  if (fMsrOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating a chord from its first note " <<
       firstNote <<
@@ -5169,7 +5165,7 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
     setChordTie (
       firstNote->getNoteTie ());
   
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> adding first note " << firstNote->noteAsString() <<
       ", line " << inputLineNumber <<
@@ -5202,7 +5198,7 @@ void xml2MsrVisitor::copyNoteArticulationsToChord (
     i!=noteArticulations.end();
     i++) {
 
-    // JMI   if (fMsrOptions->fDebug)
+    // JMI   if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> copying articulation '" <<
         (*i)->articulationKindAsString () <<
@@ -5231,7 +5227,7 @@ void xml2MsrVisitor::copyNoteOrnamentsToChord (
     i!=noteOrnaments.end();
     i++) {
 
-    // JMI   if (fMsrOptions->fDebug)
+    // JMI   if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> copying ornament '" <<
         (*i)->ornamentKindAsString () <<
@@ -5260,7 +5256,7 @@ void xml2MsrVisitor::copyNoteDynamicsToChord (
     i!=noteDynamics.end();
     i++) {
 
-    // JMI   if (fMsrOptions->fDebug)
+    // JMI   if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> copying dymaics '" <<
         (*i)->dynamicsKindAsString () <<
@@ -5289,7 +5285,7 @@ void xml2MsrVisitor::copyNoteWordsToChord (
     i!=noteWords.end();
     i++) {
 
-    // JMI   if (fMsrOptions->fDebug)
+    // JMI   if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> copying words '" <<
         (*i)->wordsAsString () <<
@@ -5318,7 +5314,7 @@ void xml2MsrVisitor::copyNoteSlursToChord (
     i!=noteSlurs.end();
     i++) {
 
-    // JMI   if (fMsrOptions->fDebug)
+    // JMI   if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> copying slurs '" <<
         (*i)->slurKindAsString () <<
@@ -5347,7 +5343,7 @@ void xml2MsrVisitor::copyNoteWedgesToChord (
     i!=noteWedges.end();
     i++) {
 
-    // JMI   if (fMsrOptions->fDebug)
+    // JMI   if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> copying wedges '" <<
         (*i)->wedgeKindAsString () <<
@@ -5393,7 +5389,7 @@ void xml2MsrVisitor::moveNoteDynamicsToChord (
   // but access it directly instead
   
   if (! note->getNoteDynamicsToModify ().empty ()) {
- // JMI   if (fMsrOptions->fDebug)
+ // JMI   if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> moving dynamics from current note to chord" << endl;
         
@@ -5417,7 +5413,7 @@ void xml2MsrVisitor::moveNoteWordsToChord (
   // but access it directly instead
   
   if (! note->getNoteWordsToModify ().empty()) {
- // JMI   if (fMsrOptions->fDebug)
+ // JMI   if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> moving words from current note to chord" << endl;
         
@@ -5442,7 +5438,7 @@ void xml2MsrVisitor::moveNoteWedgesToChord (
   // but access it directly instead
       
   if (! note->getNoteWedgesToModify ().empty ()) {
- // JMI   if (fMsrOptions->fDebug)
+ // JMI   if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> moving wedges from current note to chord" << endl;
         
@@ -5463,7 +5459,7 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
   // firstNote is the first tuplet note,
   // and is currently at the end of the voice
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "xml2MsrVisitor::createTupletWithItsFirstNote " <<
       firstNote <<
@@ -5486,7 +5482,7 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
       firstNote-> getNoteDivisionsPerWholeNote ());
   
   // register it in this visitor
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "++> pushing tuplet " <<
       tuplet->getTupletActualNotes () <<
@@ -5496,7 +5492,7 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
   fTupletsStack.push (tuplet);
 
   // add note as first note of the stack top tuplet
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "==> adding first note " << firstNote->noteAsString() <<
       " to the " <<
@@ -5518,7 +5514,7 @@ void xml2MsrVisitor::createTupletWithItsFirstNote (S_msrNote firstNote)
 //______________________________________________________________________________
 void xml2MsrVisitor::finalizeTuplet (S_msrNote lastNote)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "xml2MsrVisitor::finalizeTuplet " <<
       lastNote <<
@@ -5544,7 +5540,7 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote lastNote)
 */
 
   // add lastNote to the tuplet
-//  if (fMsrOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "==> adding last note " << lastNote->noteAsString () <<
       " to tuplets stack top " <<
@@ -5555,7 +5551,7 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote lastNote)
   tuplet->addElementToTuplet (lastNote);
 
   // pop from the tuplets stack
-//  if (fMsrOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> popping tuplet " <<
       fTupletsStack.top ()->getTupletActualNotes () <<
@@ -5566,7 +5562,7 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote lastNote)
 
   if (fTupletsStack.size ()) {
     // tuplet is an embedded tuplet
-//    if (fMsrOptions->fDebug)
+//    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "=== adding embedded tuplet " <<
       tuplet->getTupletActualNotes () <<
@@ -5584,7 +5580,7 @@ void xml2MsrVisitor::finalizeTuplet (S_msrNote lastNote)
   
   else {
     // tup is a top level tuplet
-//    if (fMsrOptions->fDebug)
+//    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "=== adding top level tuplet " <<
       tuplet->getTupletActualNotes () <<
@@ -5621,7 +5617,7 @@ void xml2MsrVisitor::attachCurrentArticulationsToNote (
       art =
         fCurrentArticulations.front();
         
-    if (fMsrOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> attaching articulation '" <<
         art->articulationKindAsString () <<
@@ -5656,7 +5652,7 @@ void xml2MsrVisitor::attachCurrentOrnamentsToNote (
       art =
         fCurrentOrnamentsList.front();
         
-    if (fMsrOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> attaching ornament '" <<
         art->ornamentKindAsString () <<
@@ -5678,7 +5674,7 @@ void xml2MsrVisitor::attachCurrentArticulationsToChord (
     i=fCurrentArticulations.begin();
     i!=fCurrentArticulations.end();
     i++) {
-    if (fMsrOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> attaching articulation " <<  (*i) << " to chord " <<
         chord <<
@@ -5710,7 +5706,7 @@ void xml2MsrVisitor::attachCurrentOrnamentsToChord (
     i=fCurrentOrnamentsList.begin();
     i!=fCurrentOrnamentsList.end();
     i++) {
-    if (fMsrOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> attaching ornament " <<  (*i) << " to chord " <<
         chord <<
@@ -5984,7 +5980,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
         fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
 
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     cerr <<
       endl <<
       idtr <<
@@ -6016,7 +6012,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   fNoteData.fVoiceNumber = fCurrentVoiceNumber;
 
   // set note's divisions per whole note
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "fNoteData.fDivisions = " << 
       fNoteData.fDivisions << ", " << 
@@ -6120,8 +6116,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     handleStandaloneOrGraceNoteOrRest (note);
   }
 
- // JMI if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
-  if (fMsrOptions->fDebug) {
+ // JMI if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fDebug) {
     cerr <<
       endl <<
       idtr <<
@@ -6176,7 +6172,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
   notes too.
 */
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "xml2MsrVisitor::handleNoteBelongingToAChord " <<
       newNote <<
@@ -6216,7 +6212,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
         lastHandledNoteInVoice);
 
     // remove last handled (previous current) note from the current voice
-//    if (fMsrOptions->fDebug)
+//    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> removing last element" <<
         ", line " << inputLineNumber <<
@@ -6255,7 +6251,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
     }
   
     // add fCurrentChord to the voice instead
-    if (fMsrOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> appending chord " << fCurrentChord <<
         " to current voice \"" << "\"" <<
@@ -6272,7 +6268,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
   newNote->
     setNoteKind (msrNote::kChordMemberNote);
 
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> adding new note " <<
       newNote->noteAsString() <<
@@ -6281,7 +6277,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
  // JMI   cout << "###### fOnGoingChord = " << fOnGoingChord << endl;
     
   // register note as a member of fCurrentChord
-// JMI  if (fMsrOptions->fDebug)
+// JMI  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> registering " <<
       newNote->noteAsString () <<
@@ -6298,7 +6294,7 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
 void xml2MsrVisitor::handleNoteBelongingToATuplet (
   S_msrNote note)
 {
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "xml2MsrVisitor::handleNoteBelongingToATuplet " <<
       note <<
@@ -6326,7 +6322,7 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
     case msrTuplet::kContinueTuplet:
       {
         // populate the tuplet at the top of the stack
-        if (fMsrOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "--> adding note " << note <<
             " to stack top tuplet " <<
@@ -6362,7 +6358,7 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
 void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
   S_msrNote newNote)
 {
-  if (fMsrOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest " <<
       newNote <<
@@ -6379,7 +6375,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
     
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     cerr <<
       endl <<
       idtr <<
@@ -6416,7 +6412,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     if (! fCurrentGracenotes) {
       // this is the first grace note in grace notes
 
-      if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+      if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
         cerr <<  idtr <<
           "--> creating grace notes for note " <<
           newNote->noteAsString () <<
@@ -6440,7 +6436,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     }
 
     // append newNote to the current grace notes
-    if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
       cerr <<  idtr <<
         "--> appending note " <<
         newNote->noteAsString () <<
@@ -6472,7 +6468,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         setNoteKind (msrNote::kStandaloneNote);
   
     // register note/rest as standalone
-// JMI   if (fMsrOptions->fForceDebug || fMsrOptions->fDebugDebug) {
+// JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
   {    cerr <<  idtr <<
         "--> adding standalone " <<
         newNote->noteAsString () <<
@@ -6546,7 +6542,7 @@ void xml2MsrVisitor::handleTupletsPendingOnTupletStack ()
         
     // pop it from the tuplets stack
 
-//  if (fMsrOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> popping tuplet " <<
         pendingTuplet->getTupletActualNotes () <<
@@ -6557,7 +6553,7 @@ void xml2MsrVisitor::handleTupletsPendingOnTupletStack ()
 
     if (fTupletsStack.size ()) {
       // tuplet is an embedded tuplet
-  //    if (fMsrOptions->fDebug)
+  //    if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "=== adding embedded tuplet " <<
         pendingTuplet->getTupletActualNotes () <<
@@ -6574,7 +6570,7 @@ void xml2MsrVisitor::handleTupletsPendingOnTupletStack ()
     }
     else {
       // tup is a top level tuplet
-  //    if (fMsrOptions->fDebug)
+  //    if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "=== adding top level tuplet " <<
         pendingTuplet->getTupletActualNotes () <<
@@ -6616,7 +6612,7 @@ void xml2MsrVisitor::handleRepeatStart (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-//      if (fMsrOptions->fDebug)
+//      if (gGeneralOptions->fDebug)
     cerr <<
       idtr << "--> input line " << inputLineNumber <<
       endl <<
@@ -6657,7 +6653,7 @@ void xml2MsrVisitor::handleRepeatStart (
   }
   
   // create a new voice chunk for the voice
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> setting new voice chunk for voice " <<
       currentVoice->getVoiceName () << endl;
@@ -6682,7 +6678,7 @@ void xml2MsrVisitor::handleHookedEndingEnd (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-//       if (fMsrOptions->fDebug)
+//       if (gGeneralOptions->fDebug)
     cerr <<
       idtr << "--> input line " << inputLineNumber <<
       endl <<
@@ -6713,7 +6709,7 @@ void xml2MsrVisitor::handleHookedEndingEnd (
         getVoiceVoicechunk ();
 
   // create new voice chunk from current voice
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> setting new voice chunk for voice " <<
       currentVoice->getVoiceName () << endl;
@@ -6737,7 +6733,7 @@ void xml2MsrVisitor::handleHookedEndingEnd (
   }
     
   // create a repeat ending from the current voice chunk
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating a new hooked repeat ending for voice " <<
       currentVoice->getVoiceName () << endl;
@@ -6752,7 +6748,7 @@ void xml2MsrVisitor::handleHookedEndingEnd (
         fCurrentRepeat);
 
   // append it to the current repeat
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> appending repeat ending to current repeat in voice " <<
       currentVoice->getVoiceName () << endl;
@@ -6857,7 +6853,7 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
   int inputLineNumber =
     elt->getInputLineNumber ();
   
-//  if (fMsrOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr <<
       idtr << "--> input line " << inputLineNumber <<
       endl <<
@@ -6888,7 +6884,7 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
         getVoiceVoicechunk ();
 
   // create a repeat ending from the current voice chunk
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating a new hookless repeat ending for voice " <<
       currentVoice->getVoiceName () << endl;
@@ -6903,7 +6899,7 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
         fCurrentRepeat);
 
   // add the repeat ending it to the current repeat
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> appending repeat ending to current repeat in voice " <<
       currentVoice->getVoiceName () << endl;
@@ -6912,7 +6908,7 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
     addRepeatending (repeatEnding);
 
   // create new voice chunk from current voice
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> setting new voice chunk for voice " <<
       currentVoice->getVoiceName () << endl;
@@ -6922,7 +6918,7 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
       inputLineNumber);
 
   // add the repeat to the voice
-  if (fMsrOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> appending the repeat to voice " <<
       currentVoice->getVoiceName () << endl;
@@ -6982,7 +6978,7 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
     }
     
     // create a new voice chunk for the voice
-    if (fMsrOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> setting new voice chunk for voice " <<
         currentVoice->getVoiceName () << endl;
@@ -6992,7 +6988,7 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
         inputLineNumber);
 
     // add the repeat to the new voice chunk
-    if (fMsrOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> appending the repeat to voice " <<
         currentVoice->getVoiceName () << endl;
@@ -7017,7 +7013,7 @@ void xml2MsrVisitor::handleEndingStart (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-//  if (fMsrOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr <<
       idtr << "--> input line " <<
         inputLineNumber <<
@@ -7067,7 +7063,7 @@ void xml2MsrVisitor::handleEndingEnd (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (fMsrOptions->fForceDebug || fMsrOptions->fDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     cerr <<
       idtr << "--> input line " << inputLineNumber <<
       endl <<
@@ -7144,7 +7140,7 @@ void xml2MsrVisitor::handleEndingEnd (
     }
     
     // create a new voice chunk for the voice
-    if (fMsrOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> setting new voice chunk for voice " <<
         currentVoice->getVoiceName () << endl;
@@ -7154,7 +7150,7 @@ void xml2MsrVisitor::handleEndingEnd (
         inputLineNumber);
 
     // add the repeat to the new voice chunk
-    if (fMsrOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> appending the repeat to voice " <<
         currentVoice->getVoiceName () << endl;
@@ -7217,9 +7213,11 @@ void xml2MsrVisitor::visitStart ( S_rehearsal& elt )
   else {
     if (rehearsalEnclosure.size ()) {
       stringstream s;
+      
       s <<
         "rehearsal enclosure \"" << rehearsalEnclosure <<
         "\"" << " is not handled, ignored";
+        
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         inputLineNumber,
@@ -7236,7 +7234,7 @@ void xml2MsrVisitor::visitStart ( S_rehearsal& elt )
         fCurrentVoiceNumber);
     
   // create a rehearsal
- // if (fMsrOptions->fDebug)
+ // if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "Creating rehearsal \"" << rehearsalValue << "\"" <<
       " in voice " <<
