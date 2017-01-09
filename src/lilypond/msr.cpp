@@ -1051,7 +1051,7 @@ string msrDynamics::dynamicsKindAsString ()
       s << "Dynamics " << fDynamicsKind << " is unknown";
       
       msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
         s.str());
       }
@@ -1608,7 +1608,7 @@ msrNote::msrNote (
         
     //  msrMusicXMLError (s.str()); JMI
     msrMusicXMLWarning (
-      fMsrOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       fInputLineNumber,
       s.str());
     }
@@ -1718,7 +1718,7 @@ msrNote::msrNote (
       " should be -1.5, -1, -0.5, 0, +0.5, +1 or +1.5";
       
     msrMusicXMLError (
-      fMsrOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       fInputLineNumber,
       s.str());
   }
@@ -1833,7 +1833,7 @@ void msrNote::addSlurToNote (S_msrSlur slur)
         slur->getInputLineNumber ();
         
       msrMusicXMLWarning (
-        fMsrOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         slur->getInputLineNumber (),
         s.str());
         
@@ -2122,7 +2122,7 @@ string msrNote::noteDivisionsAsMSRString () const
 
   if (errorMessage.size ())
     msrMusicXMLError (
-      fMsrOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       fInputLineNumber,
       errorMessage);
 
@@ -2141,7 +2141,7 @@ string msrNote::noteTypeAsMSRString () const
 
   if (errorMessage.size ())
     msrMusicXMLError (
-      fMsrOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       fInputLineNumber,
       errorMessage);
 
@@ -2686,7 +2686,7 @@ string msrChord::chordDivisionsAsMSRString () const
 
   if (errorMessage.size ())
     msrMusicXMLError (
-      fMsrOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       fInputLineNumber,
       errorMessage);
 
@@ -3926,7 +3926,7 @@ msrKey::msrKey (
         "ERROR: unknown key sign \"" << fKeyFifths << "\"";
         
       msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
         s.str());
       }
@@ -4496,7 +4496,7 @@ S_msrElement msrLyricschunk::removeLastElementFromVoicechunk (
   
   else {
     msrInternalError (
-      fMsrOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       "cannot removeLastElementFromVoicechunk () since it is empty");
   }
@@ -4588,7 +4588,7 @@ string msrLyricschunk::lyricschunkKindAsString ()
       
     case msrLyricschunk::k_NoChunk:
       msrInternalError (
-        fMsrOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
         "lyrics chunk type has not been set");
       break;
@@ -4701,7 +4701,7 @@ string msrLyricschunk::lyricschunkAsString ()
       
     case k_NoChunk:
       msrInternalError (
-        fMsrOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
         "lyrics chunk type has not been set");
       break;
@@ -4907,7 +4907,7 @@ void msrLyrics::addSkipChunkToLyrics (
     
     if (errorMessage.size ())
       msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
         errorMessage);
 
@@ -5128,7 +5128,7 @@ void msrLyrics::addChunkToLyrics (S_msrLyricschunk chunk)
       
     case msrLyricschunk::k_NoChunk:
       msrInternalError (
-        fMsrOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
         "lyrics chunk type has not been set");
       break;
@@ -5914,7 +5914,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       " appears outside of a chord";
 
     msrInternalError (
-      fMsrOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       note->getInputLineNumber (),
       s.str());
   }
@@ -5973,7 +5973,7 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
   
   else {
     msrInternalError (
-      fMsrOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       "cannot removeLastElementFromMeasure () since it is empty");
   }
@@ -6071,7 +6071,7 @@ string msrMeasure::getMeasureLengthAsString () const
   
     if (errorMessage.size ())
       msrMusicXMLError (
-        fMsrOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
         errorMessage);
   }
@@ -7185,7 +7185,7 @@ void msrVoice::catchupToMeasureLocation (
 
       if (errorMessage.size ())
         msrMusicXMLError (
-          fMsrOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           errorMessage);
 
@@ -7255,7 +7255,7 @@ S_msrLyrics msrVoice::addLyricsToVoice (
       " already exists in this voice";
 
     msrInternalError (
-      fMsrOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       s.str());
 
@@ -8512,7 +8512,7 @@ S_msrVoice msrStaff::addVoiceToStaff (
       
 // JMI    msrMusicXMLError (s.str());
     msrMusicXMLWarning (
-      fMsrOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       999,
       s.str()); // JMI
   }
@@ -10254,7 +10254,7 @@ void msrMidi::print (ostream& os)
     case msrLyricschunk::kBreakChunk:
       {
         msrInternalError (
-          fMsrOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           fInputLineNumber,
           "a text chunk type can only be "
           "'single', 'begin', 'middle' or 'end'");
@@ -10263,7 +10263,7 @@ void msrMidi::print (ostream& os)
       
     case msrLyricschunk::k_NoChunk:
       msrInternalError (
-        fMsrOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
         "lyrics chunk type has not been set");
       break;
@@ -10297,7 +10297,7 @@ void msrMidi::print (ostream& os)
     case msrLyricschunk::kBreakChunk:
       {
         msrInternalError (
-          fMsrOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           fInputLineNumber,
           "a text chunk type can only be "
           "'single', 'begin', 'middle' or 'end'");
@@ -10306,7 +10306,7 @@ void msrMidi::print (ostream& os)
       
     case msrLyricschunk::k_NoChunk:
       msrInternalError (
-        fMsrOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
         "lyrics chunk type has not been set");
       break;

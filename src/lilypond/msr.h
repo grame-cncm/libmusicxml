@@ -255,8 +255,8 @@ class EXP msrOptions : public smartable
 
     // synthetic view
  //   string                          fCommandLineOptions;
-    string                          fInputSourceName;
-    string                          fTranslationDate;
+ //   string                          fInputSourceName;
+//    string                          fTranslationDate;
     
 
     // interactive mode
@@ -1798,9 +1798,10 @@ class EXP msrVoicechunk : public msrElement
                         
                         else {
                           msrInternalError (
-                            fMsrOptions->fInputSourceName,
+                            gGeneralOptions->fInputSourceName,
                             inputLineNumber,
-                            "cannot removeLastElementFromVoicechunk () since it is empty");
+                            "cannot removeLastElementFromVoicechunk () "
+                            "since it is empty");
                         }
                       }
                     

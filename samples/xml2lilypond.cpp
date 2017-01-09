@@ -976,7 +976,7 @@ void printOptions (
   
   cerr << left <<
     idtr << setw(fieldWidth) << "input source name" << " : " <<
-      msrOpts->fInputSourceName << endl <<
+      gGeneralOptions->fInputSourceName << endl <<
       
     idtr << setw(fieldWidth) << "translation date" << " : " <<
       msrOpts->fTranslationDate << endl <<
@@ -1179,7 +1179,7 @@ int main (int argc, char *argv[])
 
     cerr <<  idtr <<
       "Launching conversion of " <<
-      msrOpts->fInputSourceName <<
+      gGeneralOptions->fInputSourceName <<
       " to LilyPond" <<
       endl;
 

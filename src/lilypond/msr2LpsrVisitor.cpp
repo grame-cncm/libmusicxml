@@ -1082,7 +1082,7 @@ void msr2LpsrVisitor::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          fMsrOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           elt->getInputLineNumber (),
           s.str());
         }
@@ -1813,7 +1813,7 @@ void msr2LpsrVisitor::visitStart (S_msrVarValAssoc& elt)
       " is not handled";
 
     msrMusicXMLWarning (
-      fMsrOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
