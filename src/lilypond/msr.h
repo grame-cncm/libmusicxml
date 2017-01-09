@@ -3633,7 +3633,7 @@ class EXP msrHarmony : public msrElement
       S_msrPart             harmonyPartUplink);
     
     SMARTP<msrHarmony> createHarmonyBareClone (
-      S_msrVoice clonedVoice);
+      S_msrPart clonedPart);
 
   protected:
 
@@ -3651,34 +3651,43 @@ class EXP msrHarmony : public msrElement
       float                 harmonyBassAlter,
       S_msrPart             harmonyPartUplink);
 
-    virtual ~msrLyrics();
+    virtual ~msrHarmony();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    char      getHarmonyNumber () const
-                  { return fHarmonyNumber; }
+    char        getHarmonyRootStep () const
+                  { return fHarmonyRootStep; }
                 
-    string    getHarmonyName () const;
-                
-    S_msrVoice
-              getHarmonyVoiceUplink () const
-                  { return fHarmonyVoiceUplink; }
+    float       getHarmonyRootAlter () const
+                  { return fHarmonyRootAlter; }
                 
     msrHarmonyKind
-              getHarmonyKind () const
+                getHarmonyKind () const
                   { return fHarmonyKind; }
                 
-    string
-              getHarmonyKindText () const
+    string      getHarmonyKindText () const
                   { return fHarmonyKindText; }
+                
+                
+    char        getHarmonyBassStep () const
+                  { return fHarmonyBassStep; }
+                
+    float       getHarmonyBassAlter () const
+                  { return fHarmonyBassAlter; }
+                
+    S_msrPart  getHarmonyVoiceUplink () const
+                  { return fHarmonyPartUplink; }
                 
 
     // services
     // ------------------------------------------------------
 
+    string    harmonyKindAsString () const;
+    
+    string    harmonyAsString () const;
    
     // visitors
     // ------------------------------------------------------
@@ -3704,11 +3713,11 @@ class EXP msrHarmony : public msrElement
     char                      fHarmonyBassStep;
     float                     fHarmonyBassAlter;
     
-    S_msrVoice                fLyricsVoiceUplink;
+    S_msrPart                 fHarmonyPartUplink;
 };
-typedef SMARTP<msrLyrics> S_msrLyrics;
-EXP ostream& operator<< (ostream& os, const S_msrLyrics& elt);
-/*
+typedef SMARTP<msrHarmony> S_msrHarmony;
+EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
+/* JMI
  http://usermanuals.musicxml.com/MusicXML/Content/CT-MusicXML-harmony.htm
   
       <harmony default-y="40" font-size="15.4">

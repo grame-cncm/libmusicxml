@@ -5212,6 +5212,158 @@ void msrLyrics::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrHarmony msrHarmony::create (
+  S_msrOptions&         msrOpts, 
+  int                   inputLineNumber,
+  char                  harmonyRootStep,
+  float                 harmonyRootAlter,
+  msrHarmonyKind        harmonyKind,
+  string                harmonyKindText,
+  char                  harmonyBassStep,
+  float                 harmonyBassAlter,
+  S_msrPart             harmonyPartUplink)
+{
+  msrHarmony* o =
+    new msrHarmony (
+      msrOpts, inputLineNumber,
+      harmonyRootStep, harmonyRootAlter,
+      harmonyKind, harmonyKindText,
+      harmonyBassStep, harmonyBassAlter,
+      harmonyPartUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrHarmony::msrHarmony (
+  S_msrOptions&         msrOpts, 
+  int                   inputLineNumber,
+  char                  harmonyRootStep,
+  float                 harmonyRootAlter,
+  msrHarmonyKind        harmonyKind,
+  string                harmonyKindText,
+  char                  harmonyBassStep,
+  float                 harmonyBassAlter,
+  S_msrPart             harmonyPartUplink)
+    : msrElement (msrOpts, inputLineNumber)
+{
+  fHarmonyRootStep   = harmonyRootStep;
+  fHarmonyRootAlter  = harmonyRootAlter;
+ 
+  fHarmonyKind       = harmonyKind;
+  fHarmonyKindText   = harmonyKindText;
+ 
+  fHarmonyBassStep   = harmonyBassStep;
+  fHarmonyBassAlter  = harmonyBassAlter;
+ 
+  fHarmonyPartUplink = harmonyPartUplink;
+}
+
+msrHarmony::~msrHarmony() {}
+
+S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
+{
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+    cerr << idtr <<
+      "--> Creating a harmony bare clone" <<
+      endl;
+
+  S_msrHarmony
+    clone =
+      msrHarmony::create (
+        fMsrOptions,
+        fInputLineNumber,
+        fHarmonyRootStep, fHarmonyRootAlter,
+        fHarmonyKind, fHarmonyKindText,
+        fHarmonyBassStep, fHarmonyBassAlter,
+        clonedPart);
+  
+  return clone;
+}
+
+string msrHarmony::harmonyKindAsString () const
+{
+  switch (fHarmonyKind) {
+    case msrHarmony::kMinorSeventh:
+      return "MinorSeventh";
+      break;
+    case msrHarmony::kMajorSeventh:
+      return "MajorSeventh";
+      break;
+  } // switch
+}
+
+string msrHarmony::harmonyAsString () const
+{
+  stringstream s;
+
+  s <<
+    fHarmonyRootStep << fHarmonyRootAlter <<
+    harmonyKindAsString () << fHarmonyKindText <<
+    fHarmonyBassStep << fHarmonyBassAlter;
+
+  return s.str();
+}
+
+void msrHarmony::acceptIn (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrHarmony::acceptIn()" << endl;
+      
+  if (visitor<S_msrHarmony>*
+    p =
+      dynamic_cast<visitor<S_msrHarmony>*> (v)) {
+        S_msrHarmony elem = this;
+        
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrHarmony::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrHarmony::acceptOut (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrHarmony::acceptOut()" << endl;
+
+  if (visitor<S_msrHarmony>*
+    p =
+      dynamic_cast<visitor<S_msrHarmony>*> (v)) {
+        S_msrHarmony elem = this;
+      
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrHarmony::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrHarmony::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrHarmony& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrHarmony::print (ostream& os)
+{  
+  os <<
+    "Harmony" <<
+    endl;
+    
+  idtr++;
+
+  os <<
+    fHarmonyRootStep << fHarmonyRootAlter <<
+    harmonyKindAsString () << fHarmonyKindText <<
+    fHarmonyBassStep << fHarmonyBassAlter;
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_msrSegno msrSegno::create (
   S_msrOptions&             msrOpts, 
   int                       inputLineNumber)
