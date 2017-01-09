@@ -170,6 +170,11 @@ class EXP xml2MsrVisitor :
   public visitor<S_kind>,
   public visitor<S_bass_step>,
   public visitor<S_bass_alter>,
+  
+  public visitor<S_degree_value>,
+  public visitor<S_degree_alter>,
+  public visitor<S_degree_type>,
+
 
   public visitor<S_measure>,
   public visitor<S_print>,
@@ -410,6 +415,10 @@ class EXP xml2MsrVisitor :
     virtual void visitStart ( S_kind& elt);
     virtual void visitStart ( S_bass_step& elt);
     virtual void visitStart ( S_bass_alter& elt);
+    
+    virtual void visitStart ( S_degree_value& elt);
+    virtual void visitStart ( S_degree_alter& elt);
+    virtual void visitStart ( S_degree_type& elt);
 
     virtual void visitStart ( S_measure& elt);
     virtual void visitEnd   ( S_measure& elt);
@@ -729,6 +738,10 @@ class EXP xml2MsrVisitor :
     string                    fCurrentHarmonyKindText;
     char                      fCurrentHarmonyBassStep;
     float                     fCurrentHarmonyBassAlter;
+
+    int                       fCurrentHarmonyDegreeValue;
+    float                     fCurrentHarmonyDegreeAlter;
+    
 
     // barline handling
     // ------------------------------------------------------

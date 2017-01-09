@@ -3619,7 +3619,10 @@ class EXP msrHarmony : public msrElement
       kMajor, kMinor,
       kSuspendedFourth,
       kMajorSeventh,kMinorSeventh,
-      kMajorNinthkMinorNinth};
+      kMajorNinth, kMinorNinth};
+
+    enum msrHarmonyDegreeTypeKind {
+      kAdd, kAlter, kSubstract};
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -5072,6 +5075,8 @@ class EXP msrPart : public msrElement
     void          addStaffToPart (S_msrStaff staff);
 
     S_msrStaff    fetchStaffFromPart (int staffNumber);
+
+    void          appendHarmonyToPart (S_msrHarmony harmony) {} // JMI
 
     void          removePartEmptyVoices ();
 

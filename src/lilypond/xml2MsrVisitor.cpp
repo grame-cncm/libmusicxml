@@ -7236,35 +7236,33 @@ void xml2MsrVisitor::visitStart ( S_kind& elt )
   string kind = elt->getValue ();
 
   fCurrentHarmonyKindText =
-    elt->getAttributeValue ("text")
+    elt->getAttributeValue ("text");
 
   // check harmony kind
   if      (kind == "major")
-    partgroupTypeKind = msrPartgroup::kMajor;
+    fCurrentHarmonyKind = msrHarmony::kMajor;
     
   else if (kind == "minor")
-    partgroupTypeKind = msrPartgroup::kMinor;
+    fCurrentHarmonyKind = msrHarmony::kMinor;
     
   else if (kind == "suspended-fourth")
-    partgroupTypeKind = msrPartgroup::kSuspendedFourth;
+    fCurrentHarmonyKind = msrHarmony::kSuspendedFourth;
     
   else if (kind == "major-seventh")
-    partgroupTypeKind = msrPartgroup::kMajorSeventh;
+    fCurrentHarmonyKind = msrHarmony::kMajorSeventh;
     
   else if (kind == "minor-seventh")
-    partgroupTypeKind = msrPartgroup::kMinorSeventh;
+    fCurrentHarmonyKind = msrHarmony::kMinorSeventh;
     
   else if (kind == "major-ninth")
-    partgroupTypeKind = msrPartgroup::kMajorNinth;
+    fCurrentHarmonyKind = msrHarmony::kMajorNinth;
     
   else if (kind == "minor-ninth")
-    partgroupTypeKind = msrPartgroup::kMinorNinth;
+    fCurrentHarmonyKind = msrHarmony::kMinorNinth;
     
   else {
-  // JMI  if (fCurrentPartgroupType.size())
-      // part group type may be absent
       msrMusicXMLError (
-        inputLineNumber,
+        elt->getInputLineNumber (),
         "unknown harmony kind \"" + kind + "\"");
   }
 }
@@ -7293,30 +7291,65 @@ void xml2MsrVisitor::visitStart ( S_bass_alter& elt )
   fCurrentHarmonyBassAlter = (float)(*elt);
 }
 
+void xml2MsrVisitor::visitStart ( S_degree_value& elt )
+{
+  fCurrentHarmonyDegreeValue = (int)(*elt);
+}
+
+void xml2MsrVisitor::visitStart ( S_degree_alter& elt )
+{
+  fCurrentHarmonyDegreeAlter = (float)(*elt);
+}
+
+void xml2MsrVisitor::visitStart ( S_degree_type& elt )
+{
+  string degreeType = elt->getValue ();
+
+  msrHarmony::msrHarmonyDegreeTypeKind
+    degreeTypeKind;
+
+  // check harmony degree type
+  if      (degreeType == "add")
+    degreeTypeKind = msrHarmony::kAdd;
+    
+  else if (degreeType == "alter")
+    degreeTypeKind = msrHarmony::kAlter;
+    
+  else if (degreeType == "substract")
+    degreeTypeKind = msrHarmony::kSubstract;
+    
+  else {
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        "unknown harmony degree type \"" + degreeType + "\"");
+  }
+}
+
 void xml2MsrVisitor::visitEnd ( S_harmony& elt )
 {
+  // create the harmony
+  S_msrHarmony
+    harmony =
+      msrHarmony::create (
+        fMsrOptions,
+        elt->getInputLineNumber (),
+        fCurrentHarmonyRootStep, fCurrentHarmonyRootStep,
+        fCurrentHarmonyKind, fCurrentHarmonyKindText,
+        fCurrentHarmonyBassStep, fCurrentHarmonyBassAlter,
+        fCurrentPart);
+
+  // append it to current part
+  fCurrentPart->
+    appendHarmonyToPart (harmony);
 }
 
-}
-
-
-
-    char                      ;
-    float                     ;
-    msrHarmony::msrHarmonyKind
-                              fCurrentHarmonyKind;
-    string                    fCurrentHarmonyKindText;
-    string                    fCurrentHarmonyKindText;
-    char                      ;
-    float                     ;
-
-   virtual void visitStart ( S_harmony& elt);
-    virtual void    ( S_harmony& elt);
-    virtual void visitStart ( & elt);
-    virtual void visitStart ( & elt);
-    virtual void visitStart ( & elt);
-    virtual void visitStart ( & elt);
-    virtual void visitStart ( & elt);
+/*
+       <degree>
+          <degree-value>13</degree-value>
+          <degree-alter>-1</degree-alter>
+          <degree-type>add</degree-type>
+        </degree>
+*/
 
 /*
  http://usermanuals.musicxml.com/MusicXML/Content/CT-MusicXML-harmony.htm
@@ -7326,6 +7359,11 @@ void xml2MsrVisitor::visitEnd ( S_harmony& elt )
           <root-step>B</root-step>
         </root>
         <kind text="Maj7">major-seventh</kind>
+       <degree>
+          <degree-value>13</degree-value>
+          <degree-alter>-1</degree-alter>
+          <degree-type>add</degree-type>
+        </degree>
         <bass>
           <bass-step>D</bass-step>
           <bass-alter>1</bass-alter>
