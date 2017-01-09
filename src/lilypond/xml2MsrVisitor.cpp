@@ -705,7 +705,6 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
       "part group " << fCurrentPartgroupNumber <<
       " not found in this visitor's part groups map" << endl;
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       s.str());
   }
@@ -731,7 +730,6 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
         " not found in part groups list";
         
       msrInternalError (
-      gGeneralOptions->fInputSourceName,
         inputLineNumber,
         s.str());
       break;
@@ -783,7 +781,6 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
         partgroupToBeStopped->getPartgroupNumber () <<
         " as sub part group of itself";
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         s.str());
     }
@@ -843,7 +840,6 @@ void xml2MsrVisitor::visitEnd (S_part_group& elt)
     if (fCurrentPartgroupType.size())
       // part group type may be absent
       msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         "unknown part group type \"" + fCurrentPartgroupType + "\"");
         
@@ -875,7 +871,6 @@ void xml2MsrVisitor::visitEnd (S_part_group& elt)
    if (fCurrentPartgroupSymbol.size())
       // part group type may be absent
       msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         "unknown part group symbol \"" + fCurrentPartgroupSymbol + "\"");
     partgroupSymbolKind = msrPartgroup::k_NoPartgroupSymbol;
@@ -892,7 +887,6 @@ void xml2MsrVisitor::visitEnd (S_part_group& elt)
     
   else {
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       "unknown part group barline \"" + fCurrentPartgroupBarline + "\"");
     partgroupBarline = false;
@@ -1043,7 +1037,6 @@ void xml2MsrVisitor::visitStart (S_part& elt)
       
   else
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       "part " +
         fCurrentPartID +
@@ -1093,7 +1086,6 @@ void xml2MsrVisitor::visitStart ( S_divisions& elt )
   
   if (fCurrentDivisionsPerQuarterNote <= 0)
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       "divisions per quarter note should be positive");
   
@@ -1154,7 +1146,6 @@ void xml2MsrVisitor::visitStart ( S_clef_octave_change& elt )
       "\" is unknown";
     
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());    
   }
@@ -1211,7 +1202,6 @@ void xml2MsrVisitor::visitEnd ( S_clef& elt )
         "\" is unknown";
       
       msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
         s.str());    
     }
@@ -1251,7 +1241,6 @@ void xml2MsrVisitor::visitEnd ( S_clef& elt )
         "\" is unknown";
       
       msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
         s.str());    
     }
@@ -1273,7 +1262,6 @@ void xml2MsrVisitor::visitEnd ( S_clef& elt )
         "\" is unknown";
       
       msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
         s.str());    
     }
@@ -1303,7 +1291,6 @@ void xml2MsrVisitor::visitEnd ( S_clef& elt )
             "\" is unknown";
           
           msrMusicXMLError (
-            gGeneralOptions->fInputSourceName,
             elt->getInputLineNumber (),
             s.str());    
         }
@@ -1327,7 +1314,6 @@ void xml2MsrVisitor::visitEnd ( S_clef& elt )
       "\" is unknown";
     
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());    
   }
@@ -1579,7 +1565,6 @@ void xml2MsrVisitor::visitStart (S_direction& elt)
       "\" is unknown";
     
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());    
   }
@@ -1631,7 +1616,6 @@ void xml2MsrVisitor::visitStart (S_octave_shift& elt)
       "\"" << "is unknown";
       
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
@@ -1657,7 +1641,6 @@ void xml2MsrVisitor::visitStart (S_octave_shift& elt)
       "\"" << "is unknown";
       
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
@@ -1750,7 +1733,6 @@ void xml2MsrVisitor::visitStart ( S_metronome& elt )
         " should be 'yes' or 'no'";
       
       msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
         s.str());
     }
@@ -1785,7 +1767,6 @@ void xml2MsrVisitor::visitEnd ( S_metronome& elt )
   
   if (fBeatsData.size() != 1) {
     msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       "multiple beats found, but only per-minute tempo is supported");
     return;
@@ -1793,7 +1774,6 @@ void xml2MsrVisitor::visitEnd ( S_metronome& elt )
   
   if (! fPerMinute) {
     msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       "per-minute not found, only per-minute tempo is supported");
     return;
@@ -1980,7 +1960,6 @@ void xml2MsrVisitor::visitStart (S_staff& elt)
     
     msrMusicXMLError (
 // JMI    msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       s.str());    
   }
@@ -2050,7 +2029,6 @@ void xml2MsrVisitor::visitStart (S_tuning_step& elt )
       "\" should be a single letter from A to G";
     
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
@@ -2260,7 +2238,6 @@ void xml2MsrVisitor::visitStart (S_voice& elt )
     s << "voice " << fCurrentVoiceNumber << " is out of context";
     
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       s.str());
   }
@@ -2321,7 +2298,6 @@ void xml2MsrVisitor::visitEnd (S_backup& elt )
       
 // JMI    msrMusicXMLError (s.str());
     msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       s.str());
   }
@@ -2469,7 +2445,6 @@ void xml2MsrVisitor::visitStart (S_tied& elt )
         s << "tied type" << fCurrentSlurType << "unknown";
         
         msrMusicXMLError (
-          gGeneralOptions->fInputSourceName,
           elt->getInputLineNumber (),
           s.str());
       }
@@ -2546,7 +2521,6 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
         s << "slur type" << fCurrentSlurType << "unknown";
         
         msrMusicXMLError (
-          gGeneralOptions->fInputSourceName,
           elt->getInputLineNumber (),
           s.str());
       }
@@ -2582,7 +2556,6 @@ void xml2MsrVisitor::visitStart ( S_wedge& elt )
   else {
     if (type.size ()) {
       msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
         "unknown wedge type \"" +
           type +
@@ -2614,7 +2587,6 @@ void xml2MsrVisitor::visitStart (S_lyric& elt )
       " is not positive";
 
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
@@ -2643,7 +2615,6 @@ void xml2MsrVisitor::visitStart ( S_syllabic& elt )
     s << "--> syllabic \"" << fCurrentSyllabic << "\" is unknown";
     
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
@@ -3084,7 +3055,6 @@ void xml2MsrVisitor::visitStart ( S_print& elt )
       "' in '<print />', should be 'yes', 'no' or empty";
       
       msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         s.str());
     }
@@ -3266,7 +3236,6 @@ void xml2MsrVisitor::visitStart ( S_barline& elt )
     stringstream s;
     s << "barline location " << fCurrentLocation << " is unknown";
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
@@ -3324,7 +3293,6 @@ void xml2MsrVisitor::visitStart ( S_bar_style& elt )
   }
   else {
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       "barline style " + fCurrentStyle + " is unknown");
   }
@@ -3463,7 +3431,6 @@ void xml2MsrVisitor::visitStart ( S_pedal& elt )
     s << "pedal type " << type << " is unknown";
     
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
@@ -3488,7 +3455,6 @@ void xml2MsrVisitor::visitStart ( S_pedal& elt )
     s << "pedal line " << line << " is unknown";
     
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
@@ -3548,7 +3514,6 @@ void xml2MsrVisitor::visitStart ( S_ending& elt )
     s << "ending type " << fCurrentEndingtype << " is unknown";
     
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
@@ -3586,7 +3551,6 @@ void xml2MsrVisitor::visitStart ( S_repeat& elt )
     s << "repeat direction '" << fCurrentRepeatDirection << "' is unknown";
     
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       s.str());
   }
@@ -3621,7 +3585,6 @@ void xml2MsrVisitor::visitStart ( S_repeat& elt )
       s << "repeat winged '" << fCurrentRepeatWinged << "' is unknown";
       
       msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         s.str());
     }
@@ -3992,7 +3955,6 @@ void xml2MsrVisitor::visitEnd ( S_barline& elt )
       idtr << "repeat winged = " << fCurrentRepeatWinged;
       
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       s.str());
   }
@@ -4094,7 +4056,6 @@ void xml2MsrVisitor::visitStart ( S_step& elt )
       " should be a single letter from A to G";
       
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
@@ -4147,7 +4108,6 @@ void xml2MsrVisitor::visitStart ( S_duration& elt )
     
  // JMI   msrMusicXMLError (s.str());
     msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
@@ -4197,7 +4157,6 @@ void xml2MsrVisitor::visitStart ( S_stem& elt )
       "\"" << "is unknown";
       
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
@@ -4252,7 +4211,6 @@ void xml2MsrVisitor::visitStart ( S_beam& elt )
       "beam \"" << fCurrentBeamValue <<
       "\"" << "is not handled, ignored";
     msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       s.str());
 
@@ -4637,7 +4595,6 @@ void xml2MsrVisitor::visitStart ( S_accidental_mark& elt )
       "\" is unknown";
     
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());    
   }
@@ -4664,7 +4621,6 @@ void xml2MsrVisitor::visitStart ( S_accidental_mark& elt )
       "\" is unknown";
     
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());    
   }
@@ -4999,7 +4955,6 @@ void xml2MsrVisitor::visitStart ( S_grace& elt )
   else {
     if (slash.size ()) {
       msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
         "unknown grace slash \"" +
           slash +
@@ -5067,9 +5022,10 @@ void xml2MsrVisitor::visitStart ( S_tuplet& elt )
     fCurrentTupletKind = msrTuplet::kStopTuplet;
   else {
     stringstream s;
+    
     s << "tuplet type " << tupletType << " is unknown";
+    
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
@@ -5102,7 +5058,6 @@ void xml2MsrVisitor::visitStart ( S_display_step& elt)
       " should be a single letter from A to G";
       
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str());
   }
@@ -5743,7 +5698,6 @@ void xml2MsrVisitor::attachPendingDynamicsToNote (
       }
       else {
         msrMusicXMLWarning (
-          gGeneralOptions->fInputSourceName,
           note->getInputLineNumber (),
           "there is dynamics attached to a rest");
       }
@@ -5780,7 +5734,6 @@ void xml2MsrVisitor::attachPendingWordsToNote (
             i != fPendingWords.end();
             i++) {
           msrMusicXMLWarning (
-            gGeneralOptions->fInputSourceName,
             (*i)->getInputLineNumber (),
             "there is words attached to a rest");
         } // for
@@ -5818,7 +5771,6 @@ void xml2MsrVisitor::attachPendingSlursToNote (
             i != fPendingSlurs.end();
             i++) {
           msrMusicXMLWarning (
-            gGeneralOptions->fInputSourceName,
             (*i)->getInputLineNumber (),
             "there is a slur attached to a rest");
         } // for
@@ -5856,7 +5808,6 @@ void xml2MsrVisitor::attachPendingWedgesToNote (
             i != fPendingWedges.end();
             i++) {
           msrMusicXMLWarning (
-            gGeneralOptions->fInputSourceName,
             (*i)->getInputLineNumber (),
             "there is a wedge attached to a rest");
         } // for
@@ -6040,7 +5991,6 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   
       if (errorMessage.size ())
         msrMusicXMLError (
-          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           errorMessage);
   
@@ -6183,7 +6133,6 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
     
   if (fNoteData.fStepIsARest)
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       "a rest cannot belong to a chord");
 
@@ -6245,7 +6194,6 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
         endl;
         
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         s.str());
     }
@@ -7219,7 +7167,6 @@ void xml2MsrVisitor::visitStart ( S_rehearsal& elt )
         "\"" << " is not handled, ignored";
         
       msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         s.str());
     }    

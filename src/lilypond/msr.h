@@ -104,12 +104,13 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 \brief A macro to emit warning messages regarding MusicXML data
 */
 //______________________________________________________________________________
-#define msrMusicXMLWarning( inputSourceName, inputLineNumber, message ) \
+#define msrMusicXMLWarning( inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
 \
   cerr << \
-    "!!! MusicXML WARNING !!!, " << inputSourceName << \
+    "!!! MusicXML WARNING !!!, " << \
+    gGeneralOptions->fInputSourceName << \
     ", input line " << inputLineNumber << ":" << \
     endl << \
 \
@@ -122,12 +123,13 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 \brief A macro to emit error messages regarding MusicXML data and exit
 */
 //______________________________________________________________________________
-#define msrMusicXMLError( inputSourceName, inputLineNumber, message ) \
+#define msrMusicXMLError( inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
 \
   cerr << \
-    "### MusicXML ERROR ###, " << inputSourceName << \
+    "### MusicXML ERROR ###, " << \
+    gGeneralOptions->fInputSourceName << \
     ", input line " << inputLineNumber << ":" << \
     endl << \
 \
@@ -143,12 +145,13 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 \brief A macro to emit error messages regarding MSR and exit
 */
 //______________________________________________________________________________
-#define msrInternalError( inputSourceName, inputLineNumber, message ) \
+#define msrInternalError( inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
 \
   cerr << \
-    "[[[ MSR INTERNAL ERROR ]]], " << inputSourceName << \
+    "[[[ MSR INTERNAL ERROR ]]], " << \
+    gGeneralOptions->fInputSourceName << \
     ", input line " << inputLineNumber << ":" << \
     endl << \
 \
@@ -1768,7 +1771,6 @@ class EXP msrVoicechunk : public msrElement
                         
                         else {
                           msrInternalError (
-                            gGeneralOptions->fInputSourceName,
                             inputLineNumber,
                             "cannot removeLastElementFromVoicechunk () "
                             "since it is empty");
