@@ -6151,6 +6151,12 @@ void msrMeasure::bringMeasureToPosition (
           getVoicechunkVoiceUplink ();
     
     // create the rest
+ //   if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "?????????????????? --> bringing voice \"" << voice->getVoiceName () <<
+        "\" to position measurePosition, delta = " << deltaPosition <<
+        endl;
+    
    S_msrNote
       rest =
         msrNote::createRest (
@@ -7497,7 +7503,7 @@ void msrVoice::addLyricsToVoice (S_msrLyrics lyrics)
     lyrics->getLyricsNumber ();
     
   // register lyrics in this voice
- // JMI if (gGeneralOptions->fForceDebug || gGeneralOptions->fTrace)
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fTrace)
     cerr << idtr <<
       "### Adding lyrics " << lyrics->getLyricsName () <<
       " (" << lyricsNumber <<
@@ -7531,7 +7537,7 @@ S_msrLyrics msrVoice::createLyricsInVoiceIfNeeded (
   int inputLineNumber,
   int lyricsNumber)
 {
- // if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "### --> createLyricsInVoiceIfNeeded (" << inputLineNumber <<
       ", " << lyricsNumber << ")" <<
@@ -9673,9 +9679,16 @@ S_msrPart msrPartgroup::addPartToPartgroup (
   string partID)
 {
   if (fPartgroupPartsMap.count (partID)) {
-    cerr << idtr <<
-      "### Internal error: partID " << partID <<
-      " already exists in this part group" << endl;
+    stringstream s;
+
+    s <<
+      "partID \"" << partID <<
+      "\" already exists in part group " <<
+      getPartgroupCombinedName ();
+
+    msrMusicXMLWarning ( // JMI
+      inputLineNumber,
+      s.str ());
 
     return fPartgroupPartsMap [partID];
   }
