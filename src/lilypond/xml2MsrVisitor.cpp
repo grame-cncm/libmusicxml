@@ -7202,6 +7202,121 @@ void xml2MsrVisitor::visitStart ( S_rehearsal& elt )
     appendRehearsalToVoice (rehearsal);
 }
 
+//______________________________________________________________________________
+void xml2MsrVisitor::visitStart ( S_harmony& elt )
+{
+}
+
+void xml2MsrVisitor::visitStart ( S_root_step& elt )
+{
+  string step = elt->getValue ();
+  
+  if (step.length() != 1) {
+    stringstream s;
+    
+    s <<
+      "root step value " << step <<
+      " should be a single letter from A to G";
+      
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
+
+  fCurrentHarmonyRootStep = step [0];
+}
+
+void xml2MsrVisitor::visitStart ( S_root_alter& elt )
+{
+  fCurrentHarmonyRootAlter = (float)(*elt);
+}
+
+void xml2MsrVisitor::visitStart ( S_kind& elt )
+{
+  string kind = elt->getValue ();
+
+  fCurrentHarmonyKindText =
+    elt->getAttributeValue ("text")
+
+  // check harmony kind
+  if      (kind == "major")
+    partgroupTypeKind = msrPartgroup::kMajor;
+    
+  else if (kind == "minor")
+    partgroupTypeKind = msrPartgroup::kMinor;
+    
+  else if (kind == "suspended-fourth")
+    partgroupTypeKind = msrPartgroup::kSuspendedFourth;
+    
+  else if (kind == "major-seventh")
+    partgroupTypeKind = msrPartgroup::kMajorSeventh;
+    
+  else if (kind == "minor-seventh")
+    partgroupTypeKind = msrPartgroup::kMinorSeventh;
+    
+  else if (kind == "major-ninth")
+    partgroupTypeKind = msrPartgroup::kMajorNinth;
+    
+  else if (kind == "minor-ninth")
+    partgroupTypeKind = msrPartgroup::kMinorNinth;
+    
+  else {
+  // JMI  if (fCurrentPartgroupType.size())
+      // part group type may be absent
+      msrMusicXMLError (
+        inputLineNumber,
+        "unknown harmony kind \"" + kind + "\"");
+  }
+}
+
+void xml2MsrVisitor::visitStart ( S_bass_step& elt )
+{
+  string step = elt->getValue();
+  
+  if (step.length() != 1) {
+    stringstream s;
+    
+    s <<
+      "bass step value " << step <<
+      " should be a single letter from A to G";
+      
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
+
+  fCurrentHarmonyBassStep = step [0];
+}
+
+void xml2MsrVisitor::visitStart ( S_bass_alter& elt )
+{
+  fCurrentHarmonyBassAlter = (float)(*elt);
+}
+
+void xml2MsrVisitor::visitEnd ( S_harmony& elt )
+{
+}
+
+}
+
+
+
+    char                      ;
+    float                     ;
+    msrHarmony::msrHarmonyKind
+                              fCurrentHarmonyKind;
+    string                    fCurrentHarmonyKindText;
+    string                    fCurrentHarmonyKindText;
+    char                      ;
+    float                     ;
+
+   virtual void visitStart ( S_harmony& elt);
+    virtual void    ( S_harmony& elt);
+    virtual void visitStart ( & elt);
+    virtual void visitStart ( & elt);
+    virtual void visitStart ( & elt);
+    virtual void visitStart ( & elt);
+    virtual void visitStart ( & elt);
 
 /*
  http://usermanuals.musicxml.com/MusicXML/Content/CT-MusicXML-harmony.htm

@@ -5283,11 +5283,23 @@ S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
 string msrHarmony::harmonyKindAsString () const
 {
   switch (fHarmonyKind) {
-    case msrHarmony::kMinorSeventh:
-      return "MinorSeventh";
+    case msrHarmony::kMajor:
+      return "Major";
+      break;
+    case msrHarmony::kMinor:
+      return "Minor";
       break;
     case msrHarmony::kMajorSeventh:
       return "MajorSeventh";
+      break;
+    case msrHarmony::kMinorSeventh:
+      return "MinorSeventh";
+      break;
+    case msrHarmony::kMajorNinth:
+      return "MajorNinth";
+      break;
+    case msrHarmony::kMinorNinth:
+      return "MinorNinth";
       break;
   } // switch
 }
@@ -5355,10 +5367,19 @@ void msrHarmony::print (ostream& os)
     
   idtr++;
 
-  os <<
-    fHarmonyRootStep << fHarmonyRootAlter <<
-    harmonyKindAsString () << fHarmonyKindText <<
-    fHarmonyBassStep << fHarmonyBassAlter;
+  os << left <<
+    idtr <<
+      setw(15) << "HarmonyRoot" << " = " << fHarmonyRootStep << fHarmonyRootAlter <<
+      endl <<
+    idtr <<
+      setw(15) << "HarmonyKind" << " = " << harmonyKindAsString () <<
+      endl <<
+    idtr <<
+      setw(15) << "HarmonyKindText" << " = " << fHarmonyKindText <<
+      endl <<
+    idtr <<
+      setw(15) << "HarmonyBass" << " = " << fHarmonyBassStep << fHarmonyBassAlter <<
+      endl;
 
   idtr--;
 }

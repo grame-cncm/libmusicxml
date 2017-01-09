@@ -3616,7 +3616,10 @@ class EXP msrHarmony : public msrElement
     // ------------------------------------------------------
 
     enum msrHarmonyKind {
-       kMinorSeventh, kMajorSeventh };
+      kMajor, kMinor,
+      kSuspendedFourth,
+      kMajorSeventh,kMinorSeventh,
+      kMajorNinthkMinorNinth};
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -3717,22 +3720,6 @@ class EXP msrHarmony : public msrElement
 };
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
-/* JMI
- http://usermanuals.musicxml.com/MusicXML/Content/CT-MusicXML-harmony.htm
-  
-      <harmony default-y="40" font-size="15.4">
-        <root>
-          <root-step>B</root-step>
-        </root>
-        <kind text="Maj7">major-seventh</kind>
-        <bass>
-          <bass-step>D</bass-step>
-          <bass-alter>1</bass-alter>
-        </bass>
-      </harmony>
-      
-*/
-
 
 /*!
 \brief A msr barline representation.

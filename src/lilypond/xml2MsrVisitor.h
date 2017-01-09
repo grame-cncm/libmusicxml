@@ -163,6 +163,13 @@ class EXP xml2MsrVisitor :
   public visitor<S_syllabic>,
   public visitor<S_text>,
   public visitor<S_elision>,
+  
+  public visitor<S_harmony>,
+  public visitor<S_root_step>,
+  public visitor<S_root_alter>,
+  public visitor<S_kind>,
+  public visitor<S_bass_step>,
+  public visitor<S_bass_alter>,
 
   public visitor<S_measure>,
   public visitor<S_print>,
@@ -395,7 +402,15 @@ class EXP xml2MsrVisitor :
     virtual void visitStart ( S_syllabic& elt);
     virtual void visitEnd   ( S_text& elt );
     virtual void visitEnd   ( S_elision& elt );
-    
+
+    virtual void visitStart ( S_harmony& elt);
+    virtual void visitEnd   ( S_harmony& elt);
+    virtual void visitStart ( S_root_step& elt);
+    virtual void visitStart ( S_root_alter& elt);
+    virtual void visitStart ( S_kind& elt);
+    virtual void visitStart ( S_bass_step& elt);
+    virtual void visitStart ( S_bass_alter& elt);
+
     virtual void visitStart ( S_measure& elt);
     virtual void visitEnd   ( S_measure& elt);
     
@@ -704,6 +719,16 @@ class EXP xml2MsrVisitor :
     list<S_msrLyricschunk>    fCurrentNoteLyricchunks;
 
     void                      handleLyrics (S_msrNote newNote);
+
+    // harmony handling
+    // ------------------------------------------------------
+    char                      fCurrentHarmonyRootStep;
+    float                     fCurrentHarmonyRootAlter;
+    msrHarmony::msrHarmonyKind
+                              fCurrentHarmonyKind;
+    string                    fCurrentHarmonyKindText;
+    char                      fCurrentHarmonyBassStep;
+    float                     fCurrentHarmonyBassAlter;
 
     // barline handling
     // ------------------------------------------------------
