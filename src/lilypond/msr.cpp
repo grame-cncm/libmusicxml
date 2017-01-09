@@ -8474,7 +8474,7 @@ msrStaff::msrStaff (
   // create all 'gMaxStaffVoices' voices for this staff
   // those that remain without music will be removed later
   for (int i = 1; i <= gMaxStaffVoices; i++)
-    addVoiceToStaffByItsNumber (
+    addVoiceToStaffByItsRelativeNumber (
       fInputLineNumber, i);
 
   // get the initial clef from the staff if any
@@ -8702,60 +8702,61 @@ void msrStaff::setAllStaffVoicesMeasureLocation (
 }
 */
 
-S_msrVoice msrStaff::addVoiceToStaffByItsNumber (
+S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
   int inputLineNumber,
-  int voiceNumber)
+  int voiceRelativeNumber)
 {
-  if (fNextRelativeStaffVoiceNumber > msrStaff::gMaxStaffVoices) {
-    stringstream s;
-    
-    s <<
-      "staff " << getStaffName () <<
-      " is already filled up with " << msrStaff::gMaxStaffVoices <<
-      " voices, voice " << voiceNumber << " overflows it" << endl;
-      
-    msrMusicXMLError (
-// JMI    msrMusicXMLWarning ( JMI
-      inputLineNumber,
-      s.str());
-  }
-
   // create the voice
   S_msrVoice
     voice =
       msrVoice::create (
         fMsrOptions,
         inputLineNumber,
-        voiceNumber,
-        fNextRelativeStaffVoiceNumber,
+        voiceRelativeNumber,
+          // fVoiceNumber may change afterwards
+          // depending on the actual numbers of voices
+        voiceRelativeNumber,
         this);
 
-  // register it by its relative number in this staff
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Adding voice \"" << voiceNumber <<
-      "\" " << voice->getVoiceName () <<
-      " as relative voice " << fNextRelativeStaffVoiceNumber <<
-      " to staff \"" << getStaffName () <<
-       "\" in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
-        endl;
-  
-  fStaffRelativeNumberedVoicesVector [fNextRelativeStaffVoiceNumber] =
-    voice;
-
-  // register it by number
-  fStaffVoicesMap [voiceNumber] = voice;
-
-  // take this new voice into account
-  fNextRelativeStaffVoiceNumber++;
+  // add it to this staff
+  fStaffRelativeNumberedVoicesVector [voiceRelativeNumber] = voice;
   
   // return the voice
   return voice;
 }
 
-void msrStaff::addVoiceToStaff (S_msrVoice voice)
+S_msrVoice msrStaff::registerVoiceToStaffByItsNumber (
+  int inputLineNumber,
+  int voiceNumber)
 {
-  // register voice in this staff
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fStaffRelativeNumberedVoicesVector [
+        fNextRelativeStaffVoiceNumber];
+      
+  // update the voice number
+  voice->
+    setVoiceNumber (voiceNumber);
+
+  // take this new voice into account
+  fNextRelativeStaffVoiceNumber++;
+
+  return voice;
+}
+
+/*
+  for (int i = 1; i <= fNextRelativeStaffVoiceNumber; i++) {
+    if (
+      fStaffRelativeNumberedVoicesVector [i]-> getVoiceNumber ()) {
+      result = fStaffRelativeNumberedVoicesVector [i];
+      break;
+    }
+  } // for
+*/
+
+void msrStaff::registerVoiceToStaff (S_msrVoice voice)
+{
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Adding voice " << voice->getVoiceNumber () <<
@@ -8764,19 +8765,55 @@ void msrStaff::addVoiceToStaff (S_msrVoice voice)
      "\" to staff " << getStaffName () <<
       " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
       endl;
-  
+
+  // are there too many voices in this staff? 
+  if (fNextRelativeStaffVoiceNumber > msrStaff::gMaxStaffVoices) {
+    stringstream s;
+    
+    s <<
+      "staff \"" << getStaffName () <<
+      "\" is already filled up with " << msrStaff::gMaxStaffVoices <<
+      " voices, voice " << voice->getVoiceName () << " overflows it" <<
+      endl;
+      
+    msrMusicXMLError (
+// JMI    msrMusicXMLWarning ( JMI
+      inputLineNumber,
+      s.str());
+  }
+
+  // register voice in this staff
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Registering voice \"" << voice->getVoiceName () <<
+      "\" as relative voice " << fNextRelativeStaffVoiceNumber <<
+      " if staff \"" << getStaffName () <<
+       "\" in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
+      endl;
+
+  // register is by its relative number
+  fStaffRelativeNumberedVoicesVector [fNextRelativeStaffVoiceNumber] =
+    voice;
+
+  // register it by its number
   fStaffVoicesMap [voice->getStaffRelativeVoiceNumber ()] = voice;
+
 }
 
 S_msrVoice msrStaff::fetchVoiceFromStaff (
   int voiceNumber)
 {
   S_msrVoice result;
-  
-  if (fStaffVoicesMap.count (voiceNumber)) {
-    result = fStaffVoicesMap [voiceNumber];
-  }
-  /* else {
+
+  for (int i = 1; i <= fNextRelativeStaffVoiceNumber; i++) {
+    if (
+      fStaffRelativeNumberedVoicesVector [i]-> getVoiceNumber ()) {
+      result = fStaffRelativeNumberedVoicesVector [i];
+      break;
+    }
+  } // for
+
+  /* else { JMI
     stringstream s;
     s <<
       "staff " << getStaffName () <<

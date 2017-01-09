@@ -4477,6 +4477,9 @@ class EXP msrVoice : public msrElement
     int           getVoiceNumber () const
                       { return fVoiceNumber; }
                 
+    void          setVoiceNumber (int fVoiceNumber)
+                      { fVoiceNumber = fVoiceNumber; }
+
     int           getStaffRelativeVoiceNumber () const
                       { return fStaffRelativeVoiceNumber; }
                 
@@ -4875,6 +4878,14 @@ class EXP msrStaff : public msrElement
     // services
     // ------------------------------------------------------
 
+    S_msrVoice    addVoiceToStaffByItsRelativeNumber (
+                    int inputLineNumber,
+                    int voiceRelativeNumber);
+  
+    S_msrVoice    registerVoiceToStaffByItsNumber (
+                    int inputLineNumber,
+                    int voiceNumber);
+  
     string      staffKindAsString () const;
     
     void        setAllStaffVoicesDivisionsPerWholeNote (
