@@ -197,9 +197,7 @@ void analyzeOptions (
   // ---------------
   
   msrOpts->fInteractive                       = false;
-  
-  msrOpts->fTrace                             = true;
-  
+    
   msrOpts->fDebug                             = false;
   msrOpts->fDebugDebug                        = false;
   
@@ -615,61 +613,51 @@ void analyzeOptions (
           s <<
             "--outputFile" << " " << outputFileName;
           gGeneralOptions->fCommandLineOptions += s.str();
-          msrOpts->fCommandLineOptions += s.str();
           outputFilePresent = false;
         }
 
         if (interactivePresent) {
           gGeneralOptions->fInteractive = false;
           msrOpts->fInteractive = false;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--interactive ";
           interactivePresent = false;
         }
         
         if (noTracePresent) {
           gGeneralOptions->fTrace = false;
-          msrOpts->fTrace = false;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--noTrace ";
           noTracePresent = false;
         }
         
         if (debugPresent) {
           gGeneralOptions->fTrace = true;
-          msrOpts->fTrace = true;
           gGeneralOptions->fDebug = true;
           msrOpts->fDebug = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--debug ";
           debugPresent = false;
         }
         if (debugDebugPresent) {
           gGeneralOptions->fTrace = true;
-          msrOpts->fTrace = true;
           gGeneralOptions->fDebugDebug = true;
           msrOpts->fDebugDebug = true;
           gGeneralOptions->fCommandLineOptions +=
-            "--debugDebug ";
-          msrOpts->fCommandLineOptions +=
             "--debugDebug ";
           debugDebugPresent = false;
         }
         if (forceDebugPresent) {
           gGeneralOptions->fTrace = true;
-          msrOpts->fTrace = true;
           gGeneralOptions->fForceDebug = true;
           msrOpts->fForceDebug = true;
           gGeneralOptions->fCommandLineOptions +=
-            "--forceDebug ";
-          msrOpts->fCommandLineOptions +=
             "--forceDebug ";
           forceDebugPresent = false;
         }
         
         if (debugMeasuresPresent) {
           gGeneralOptions->fTrace = true;
-          msrOpts->fTrace = true;
           gGeneralOptions->fDebug = true;
           msrOpts->fDebug = true;
           
@@ -679,7 +667,6 @@ void analyzeOptions (
           s <<
             "--debugMeasures" << " " << measuresSpec << " ";
           gGeneralOptions->fCommandLineOptions += s.str();
-          msrOpts->fCommandLineOptions += s.str();
             
           gGeneralOptions->fDebugMeasureNumbersSet =
             decipherNumbersSetSpecification (
@@ -691,7 +678,6 @@ void analyzeOptions (
         }
         if (debugdebugMeasuresPresent) {
           gGeneralOptions->fTrace = true;
-          msrOpts->fTrace = true;
           gGeneralOptions->fDebugDebug = true;
           msrOpts->fDebugDebug = true;
           
@@ -701,7 +687,6 @@ void analyzeOptions (
           s <<
             "--debugDebugMeasures" << " " << measuresSpec;
           gGeneralOptions->fCommandLineOptions += s.str();
-          msrOpts->fCommandLineOptions += s.str();
             
           gGeneralOptions->fDebugMeasureNumbersSet =
             decipherNumbersSetSpecification (
@@ -727,7 +712,7 @@ void analyzeOptions (
             msrOpts->fMsrNoteNamesLanguageAsString = "dutch";
             msrOpts->fMsrNoteNamesLanguage = kNederlands;
           }
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--language " +
             msrOpts->fMsrNoteNamesLanguageAsString +
             " ";
@@ -736,28 +721,28 @@ void analyzeOptions (
              
         if (staffRelativeVoiceNumbersPresent) {
           msrOpts->fCreateStaffRelativeVoiceNumbers = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--staffRelativeVoiceNumbers ";
           staffRelativeVoiceNumbersPresent = false;
         }
         
         if (dontDisplayMSRLyricsPresent) {
           msrOpts->fDontDisplayMSRLyrics = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--dontGenerateLyrics ";
           dontDisplayMSRLyricsPresent = false;
         }
         
         if (delayRestsDynamicsPresent) {
           msrOpts->fDelayRestsDynamics = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--delayRestsDynamics ";
           delayRestsDynamicsPresent = false;
         }
         
         if (displayMSRPresent) {
           msrOpts->fDisplayMSR = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--displayMSR ";
           displayMSRPresent = false;
         }
@@ -765,7 +750,7 @@ void analyzeOptions (
         if (displayMSRScoreSummaryPresent) {
           msrOpts->fDisplayMSRScoreSummary = true;
           lpsrOpts->fDontGenerateLilyPondCode = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--displayScoreSummary ";
           displayMSRScoreSummaryPresent = false;
         }
@@ -776,7 +761,7 @@ void analyzeOptions (
 
           s <<
             "--partName" << " \"" << partNameSpec << "\" ";
-          msrOpts->fCommandLineOptions += s.str();
+          gGeneralOptions->fCommandLineOptions += s.str();
 
           std::pair<string, string>
             pair =
@@ -811,66 +796,66 @@ void analyzeOptions (
 
         if (displayLPSRPresent) {
           lpsrOpts->fDisplayLPSR = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--displayLPSR ";
           displayLPSRPresent = false;
         }
 
         if (absolutePresent) {
           lpsrOpts->fGenerateAbsoluteOctaves = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--absolute ";
           absolutePresent = false;
         }
 
         if (dontKeepLineBreaksPresent) {
           lpsrOpts->fDontKeepLineBreaks = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--dontKeepLineBreaks ";
           dontKeepLineBreaksPresent = false;
         }
 
         if (numericaltimePresent) {
           lpsrOpts->fGenerateNumericalTime = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--numericalTime ";
           numericaltimePresent = false;
         }
         if (commentsPresent) {
           lpsrOpts->fGenerateComments = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--comments ";
           commentsPresent = false;
         }
         if (stemsPresent) {
           lpsrOpts->fGenerateStems = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--stems ";
           stemsPresent = false;
         }
         if (noAutoBeamingPresent) {
           lpsrOpts->fNoAutoBeaming = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--noAutoBeaming ";
           noAutoBeamingPresent = false;
         }
         if (noteInputLineNumbersPresent) {
           lpsrOpts->fGenerateNoteInputLineNumbers = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--noteInputLineNumbers ";
           noteInputLineNumbersPresent = false;
         }
         
         if (dontGenerateLilyPondLyricsPresent) {
           lpsrOpts->fDontGenerateLilyPondLyrics = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--dontGenerateLyrics ";
           dontGenerateLilyPondLyricsPresent = false;
         }
         
         if (dontGenerateLilyPondCodePresent) {
           lpsrOpts->fDontGenerateLilyPondCode = true;
-          msrOpts->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineOptions +=
             "--dontGenerateLilyPondCode ";
           dontGenerateLilyPondCodePresent = false;
         }
@@ -937,30 +922,40 @@ void printOptions (
   idtr++;
 
   cerr << left <<
-    idtr << setw(fieldWidth) << "input source name" << " : " <<
-      gGeneralOptions->fInputSourceName << endl <<
+    idtr <<
+      setw(fieldWidth) << "input source name" << " : " <<
+      gGeneralOptions->fInputSourceName <<
+      endl <<
       
-    idtr << setw(fieldWidth) << "translation date" << " : " <<
-      gGeneralOptions->fTranslationDate << endl <<
+    idtr <<
+      setw(fieldWidth) << "translation date" << " : " <<
+      gGeneralOptions->fTranslationDate <<
+      endl <<
       
-    idtr << setw(fieldWidth) << "interactive" << " : " <<
-      string(gGeneralOptions->fInteractive
-        ? "true" : "false") << endl <<
+    idtr <<
+      setw(fieldWidth) << "interactive" << " : " <<
+      booleanAsString (gGeneralOptions->fInteractive) <<
+      endl <<
         
-    idtr << setw(fieldWidth) << "trace" << " : " <<
-      string(gGeneralOptions->fTrace
-        ? "true" : "false") << endl <<
+    idtr <<
+      setw(fieldWidth) << "trace" << " : " <<
+      booleanAsString (gGeneralOptions->fTrace) <<
+      endl <<
         
-    idtr << setw(fieldWidth) << "debug" << " : " <<
-      string(gGeneralOptions->fDebug
-        ? "true" : "false") << endl <<
-    idtr << setw(fieldWidth) << "debugDebug" << " : " <<
-      string(gGeneralOptions->fDebugDebug
-        ? "true" : "false") << endl <<
-    idtr << setw(fieldWidth) << "forceDebug" << " : " <<
-      string(gGeneralOptions->fForceDebug
-        ? "true" : "false") << endl <<
-    idtr << setw(fieldWidth) << "debugMeasureNumbersSet" << " : ";
+    idtr <<
+      setw(fieldWidth) << "debug" << " : " <<
+      booleanAsString (gGeneralOptions->fDebug) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "debugDebug" << " : " <<
+      booleanAsString (gGeneralOptions->fDebugDebug) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "forceDebug" << " : " <<
+      booleanAsString (gGeneralOptions->fForceDebug) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "debugMeasureNumbersSet" << " : ";
 
   if (gGeneralOptions->fDebugMeasureNumbersSet.empty ())
     cerr << "none";

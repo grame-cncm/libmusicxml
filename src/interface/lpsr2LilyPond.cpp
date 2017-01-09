@@ -57,7 +57,7 @@ void generateLilyPondCodeFromLpsrScore (
 {
   string separator = "%---------------------------------------------";
 
-  if (msrOpts->fTrace) {
+  if (gGeneralOptions->fTrace) {
     
     cerr <<
       endl <<
@@ -75,7 +75,7 @@ void generateLilyPondCodeFromLpsrScore (
   // build the LPSR score    
   visitor.generateLilyPondCodeFromLpsrScore ();
   
-  if (msrOpts->fTrace)
+  if (gGeneralOptions->fTrace)
     os << separator << endl;
 }
 

@@ -2485,7 +2485,7 @@ lpsrScoreBlock::~lpsrScoreBlock() {}
 void lpsrScoreBlock::appendPartgroupBlockToParallelMusic (
   S_lpsrPartgroupBlock partgroupBlock)
 {
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Appending part group block " <<
        partgroupBlock-> getPartgroup ()-> getPartgroupCombinedName() <<
@@ -2501,7 +2501,7 @@ void lpsrScoreBlock::appendPartgroupBlockToParallelMusic (
 void lpsrScoreBlock::appendVoiceUseToParallelMusic (
   S_lpsrUseVoiceCommand voiceUse)
 {
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Appending the use of voice \"" <<
        voiceUse-> getVoice ()-> getVoiceName() <<
@@ -2517,7 +2517,7 @@ void lpsrScoreBlock::appendVoiceUseToParallelMusic (
 void lpsrScoreBlock::appendLyricsUseToParallelMusic (
   S_lpsrNewLyricsBlock lyricsUse)
 {
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Appending the use of lyrics " <<
        lyricsUse-> getLyrics ()-> getLyricsName() <<
@@ -2692,8 +2692,8 @@ lpsrScore::lpsrScore (
     comment =
       "Options were: ";
 
-    if (fMsrOptions->fCommandLineOptions.size ())
-      comment += fMsrOptions->fCommandLineOptions;
+    if (gGeneralOptions->fCommandLineOptions.size ())
+      comment += gGeneralOptions->fCommandLineOptions;
     else
       comment += "none";
       

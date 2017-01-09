@@ -63,7 +63,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   S_lpsrOptions&   lpsrOpts,
   ostream&         os)
 {
-  if (msrOpts->fTrace) {
+  if (gGeneralOptions->fTrace) {
     string separator = "%----------------------------------------";
     
     cerr <<
@@ -76,7 +76,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       endl;
       // ------------------------------------------------------
   }
-  if (msrOpts->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       endl;
       // ------------------------------------------------------
@@ -103,7 +103,7 @@ void displayLpsrScore (
 {
   string separator = "%----------------------------------------";
 
-  if (msrOpts->fTrace) {
+  if (gGeneralOptions->fTrace) {
     string separator = "%----------------------------------------";
     
     cerr <<
@@ -117,9 +117,9 @@ void displayLpsrScore (
       // ------------------------------------------------------
   }
   
-  if (msrOpts->fTrace) os << "%{" << endl;
+  if (gGeneralOptions->fTrace) os << "%{" << endl;
   os << lpScore;
-  if (msrOpts->fTrace) os << "%}" << endl;
+  if (gGeneralOptions->fTrace) os << "%}" << endl;
   
   os << separator << endl;
 }

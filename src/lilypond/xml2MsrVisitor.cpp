@@ -121,7 +121,7 @@ S_msrPartgroup xml2MsrVisitor::createImplicitMSRPartgroup (
   // create an implicit part group
   fCurrentPartgroupNumber = 1;
   
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Creating an implicit part group with number " <<
       fCurrentPartgroupNumber << endl;
@@ -145,7 +145,7 @@ S_msrPartgroup xml2MsrVisitor::createImplicitMSRPartgroup (
   */
   
   // add implicit part group to the map of this visitor
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Adding implicit part group " << fCurrentPartgroupNumber <<
       " to visitor's data" << endl;
@@ -330,7 +330,7 @@ void xml2MsrVisitor::visitStart ( S_tenths& elt )
 
 void xml2MsrVisitor::visitEnd ( S_scaling& elt)
 {
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "There are " << fTenths <<
       " tenths for " <<  fMillimeters <<
@@ -453,7 +453,7 @@ void xml2MsrVisitor::visitStart ( S_instrument_name& elt)
 //________________________________________________________________________
 void xml2MsrVisitor::visitStart (S_part_list& elt)
 {
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Analysing part list" << endl;
 
@@ -637,7 +637,7 @@ void xml2MsrVisitor::handlePartgroupStart (
         currentPartgroup);
 
     // add it to the part group map of this visitor
-    if (fMsrOptions->fTrace)
+    if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Adding part group " << fCurrentPartgroupNumber <<
         " to visitor's part group map" << endl;
@@ -646,7 +646,7 @@ void xml2MsrVisitor::handlePartgroupStart (
   }
   
   // add it to the part group list of this visitor
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Adding part group " << fCurrentPartgroupNumber <<
       " to visitor's part groups list" << endl;
@@ -711,7 +711,7 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
   }
 
   // remove the part group to be stopped from the part group list
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Removing part group " <<
       partgroupToBeStopped->getPartgroupNumber () <<
@@ -753,7 +753,7 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
     
     // we're just removed the only part group in the list:
     // append it to the MSR score
-    if (fMsrOptions->fTrace)
+    if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Appending part group " <<
         partgroupToBeStopped->getPartgroupNumber () <<
@@ -789,7 +789,7 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
     }
     
     // insert current group into future current group
-    if (fMsrOptions->fTrace)
+    if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Preending (sub-)part group " <<
         partgroupToBeStopped->getPartgroupNumber () <<
@@ -803,7 +803,7 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
 
   // remove part group from the map
   // CAUTION: erase() destroys the element it removes!
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Removing part group " << fCurrentPartgroupNumber <<
       " from visitor's part group map" << endl;
@@ -823,7 +823,7 @@ void xml2MsrVisitor::visitEnd (S_part_group& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Handling part group " << fCurrentPartgroupNumber <<
       ", type: \"" << fCurrentPartgroupType << "\""  << endl;
@@ -956,7 +956,7 @@ void xml2MsrVisitor::visitEnd (S_score_part& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
    cerr <<
       idtr <<
       "--------------------------------------------" <<
@@ -1049,7 +1049,7 @@ void xml2MsrVisitor::visitStart (S_part& elt)
         fCurrentPartID +
         " is not registered in this visitor's part map");
 
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr <<
       idtr <<
         "--------------------------------------------" <<
@@ -1068,7 +1068,7 @@ void xml2MsrVisitor::visitStart (S_part& elt)
 
 void xml2MsrVisitor::visitEnd (S_part& elt)
 {
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr <<
       idtr <<
         "Analyzing part \"" << fCurrentPartID << "\" -- end" <<
@@ -1097,7 +1097,7 @@ void xml2MsrVisitor::visitStart ( S_divisions& elt )
       elt->getInputLineNumber (),
       "divisions per quarter note should be positive");
   
-  if (fMsrOptions->fTrace) {
+  if (gGeneralOptions->fTrace) {
     cerr << idtr;
     if (fCurrentDivisionsPerQuarterNote== 1)
       cerr << "There is 1 division";
@@ -1701,7 +1701,7 @@ void xml2MsrVisitor::visitStart (S_words& elt)
     fCurrentFontXMLLang = "it"; // default value
 
   if (fCurrentWordsContents.size ()) {
-    if (fMsrOptions->fTrace)
+    if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Creating words \"" << fCurrentWordsContents << "\"" <<
         ", placement = \"" << fCurrentDirectionPlacement << "\"" <<
@@ -1865,7 +1865,7 @@ void xml2MsrVisitor::visitStart (S_staves& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (fMsrOptions->fTrace) {
+  if (gGeneralOptions->fTrace) {
     switch (stavesNumber) {
       case 0:
         cerr << idtr <<
@@ -2287,7 +2287,7 @@ void xml2MsrVisitor::visitEnd (S_backup& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Handling 'backup <<< " << fCurrentBackupDuration <<
       " divisions'" << endl;
@@ -2377,7 +2377,7 @@ void xml2MsrVisitor::visitEnd ( S_forward& elt )
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
-  if (fMsrOptions->fTrace)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Handling 'forward >>> " << fCurrentForwardDuration <<
       "', thus switching to voice \"" << currentVoice->getVoiceName () <<
@@ -6644,7 +6644,7 @@ void xml2MsrVisitor::handleRepeatStart (
 
   if (! fCurrentRepeat) {
     // create the repeat
-    if (fMsrOptions->fTrace)
+    if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Creating a repeat in voice " <<
         currentVoice->getVoiceName () << endl;
@@ -6724,7 +6724,7 @@ void xml2MsrVisitor::handleHookedEndingEnd (
 
   if (! fCurrentRepeat) {
     // create the repeat
-    if (fMsrOptions->fTrace)
+    if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Creating a repeat for voice " <<
         currentVoice->getVoiceName () << endl;
@@ -6761,7 +6761,7 @@ void xml2MsrVisitor::handleHookedEndingEnd (
     addRepeatending (repeatEnding);
   
   if (fPendingBarlines.empty ()) {
-    if (fMsrOptions->fTrace)
+    if (gGeneralOptions->fTrace)
       cerr <<
         idtr <<
         "There's an implicit repeat start at the beginning of the part" <<
@@ -6799,7 +6799,7 @@ void xml2MsrVisitor::handleHookedEndingEnd (
 
     if (! fCurrentRepeat) {
       // create the repeat
-      if (fMsrOptions->fTrace)
+      if (gGeneralOptions->fTrace)
         cerr << idtr <<
           "Creating a repeat containing current voice chunk in voice \"" <<
           currentVoice->getVoiceName () << "\"" <<
@@ -6813,7 +6813,7 @@ void xml2MsrVisitor::handleHookedEndingEnd (
     }
     
     // create a new voice chunk for the voice
-    if (fMsrOptions->fTrace)
+    if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Setting new voice chunk for voice " <<
         currentVoice->getVoiceName () <<
@@ -6824,7 +6824,7 @@ void xml2MsrVisitor::handleHookedEndingEnd (
         inputLineNumber);
 
     // add the repeat to the new voice chunk
-    if (fMsrOptions->fTrace)
+    if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Appending the repeat to voice \"" <<
         currentVoice->getVoiceName () << "\"" <<
@@ -6931,7 +6931,7 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
     appendRepeatToVoice (fCurrentRepeat);
 
   if (fPendingBarlines.empty ()) {
-    if (fMsrOptions->fTrace)
+    if (gGeneralOptions->fTrace)
       cerr <<
         idtr <<
         "There is an implicit repeat start at the beginning of the part" <<
@@ -6969,7 +6969,7 @@ void xml2MsrVisitor::handleHooklessEndingEnd (
 
     if (! fCurrentRepeat) {
       // create the repeat
-      if (fMsrOptions->fTrace)
+      if (gGeneralOptions->fTrace)
         cerr << idtr <<
           "Creating a repeat in voice " <<
           currentVoice->getVoiceName () << endl;
@@ -7093,7 +7093,7 @@ void xml2MsrVisitor::handleEndingEnd (
     appendBarlineToVoice (barline);
 
   if (fPendingBarlines.empty ()) {
-    if (fMsrOptions->fTrace)
+    if (gGeneralOptions->fTrace)
       cerr <<
         idtr <<
         "There is an implicit repeat start at the beginning of the part" <<
@@ -7131,7 +7131,7 @@ void xml2MsrVisitor::handleEndingEnd (
 
     if (! fCurrentRepeat) {
       // create the repeat
-      if (fMsrOptions->fTrace)
+      if (gGeneralOptions->fTrace)
         cerr << idtr <<
           "Creating a repeat in voice " <<
           currentVoice->getVoiceName () << endl;

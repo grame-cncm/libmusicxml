@@ -254,7 +254,7 @@ class EXP msrOptions : public smartable
     // ------------------------------------------------------
 
     // synthetic view
-    string                          fCommandLineOptions;
+ //   string                          fCommandLineOptions;
     string                          fInputSourceName;
     string                          fTranslationDate;
     
@@ -263,7 +263,7 @@ class EXP msrOptions : public smartable
     bool                            fInteractive;
     
     // trace
-    bool                            fTrace;
+//    bool                            fTrace;
     
     // debug
     bool                            fDebug;

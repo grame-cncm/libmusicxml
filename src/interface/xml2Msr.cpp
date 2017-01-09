@@ -69,7 +69,7 @@ EXP S_msrScore musicxmlFile2Msr (
   S_msrOptions& msrOpts,
   ostream&      os) 
 {
-  if (msrOpts->fTrace) {
+  if (gGeneralOptions->fTrace) {
     string separator =
       "%------------------------------------------------------";
     
@@ -102,7 +102,7 @@ EXP S_msrScore musicxmlFd2Msr (
   S_msrOptions& msrOpts,
   ostream&      os) 
 {
-  if (msrOpts->fTrace) {
+  if (gGeneralOptions->fTrace) {
     string separator =
       "%---------------------------------------------------";
     
@@ -136,7 +136,7 @@ EXP S_msrScore musicxmlString2Msr (
   S_msrOptions& msrOpts,
   ostream&      os) 
 {
-  if (msrOpts->fTrace) {
+  if (gGeneralOptions->fTrace) {
     string separator =
       "%-----------------------------------------------------";
     
@@ -169,7 +169,7 @@ S_msrScore buildMsrScoreFromElementsTree (
   S_msrOptions& msrOpts,
   Sxmlelement   xmlTree)
 {
-  if (msrOpts->fTrace) {
+  if (gGeneralOptions->fTrace) {
     string separator =
       "%----------------------------------------------";
     
@@ -204,7 +204,7 @@ void displayMsrScore (
   S_msrScore    mScore,
   ostream&      os)
 {
-  if (msrOpts->fTrace) {
+  if (gGeneralOptions->fTrace) {
     string separator =
       "%-------------------------------------------";
     
@@ -219,9 +219,9 @@ void displayMsrScore (
       // ------------------------------------------------------
   }
 
-  if (msrOpts->fTrace) os << "%{" << endl;
+  if (gGeneralOptions->fTrace) os << "%{" << endl;
   os << mScore;
-  if (msrOpts->fTrace) os << "%}" << endl;
+  if (gGeneralOptions->fTrace) os << "%}" << endl;
 }
 
 //_______________________________________________________________________________
@@ -230,7 +230,7 @@ void displayMsrScoreSummary (
   S_msrScore    mScore,
   ostream&      os)
 {
-  if (msrOpts->fTrace) {
+  if (gGeneralOptions->fTrace) {
     string separator =
       "%----------------------------------------------";
     
@@ -248,11 +248,11 @@ void displayMsrScoreSummary (
   // create an msr2SummaryVisitor visitor
   msr2SummaryVisitor visitor (msrOpts, os);
 
-  if (msrOpts->fTrace) os << "%{" << std::endl;
+  if (gGeneralOptions->fTrace) os << "%{" << std::endl;
   
   visitor.printSummaryFromMsrScore (mScore);
   
-  if (msrOpts->fTrace) os << "%}" << std::endl;
+  if (gGeneralOptions->fTrace) os << "%}" << std::endl;
 }
 
 
