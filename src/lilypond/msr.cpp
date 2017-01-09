@@ -6019,7 +6019,8 @@ msrMeasure::msrMeasure (
   fMeasureKind = kRegularMeasure;
 }
 
-msrMeasure::~msrMeasure() {}
+msrMeasure::~msrMeasure()
+{}
 
 S_msrMeasure msrMeasure::createMeasureBareClone (
   S_msrVoicechunk clonedVoicechunk)
@@ -6081,7 +6082,21 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // first check whether there is a measure change
 // JMI  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
   if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { // XXL
-    // measure overflows, create a new one
+    // measure overflows, we must synchonize all voices in this part
+    
+    // fetch measure part
+    S_msrPart
+      measurePart =
+        fMeasureVoicechunkUplink->
+          getVoicechunkVoiceUplink ()->
+            getVoiceStaffUplink ()->
+              getStaffPartUplink ();
+
+    // bring all part's voices to the same position
+    measurePart->
+      bringAllPartVoicesToPosition (fMeasurePosition);
+      
+    // create a new measure
     S_msrMeasure
       newMeasure =
         msrMeasure::create (
@@ -7376,6 +7391,11 @@ void msrVoice::setVoiceMeasureNumber (
   }
 }
 
+void msrVoice::bringVoiceToPosition (
+  int measurePosition)
+{
+}
+
 void msrVoice::forceVoiceMeasureNumberTo (int measureNumber)
 {
   fVoiceMeasureNumber = measureNumber;
@@ -8539,7 +8559,8 @@ msrStaff::msrStaff (
   }
 }
 
-msrStaff::~msrStaff() {}
+msrStaff::~msrStaff()
+{}
 
 S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
 {
@@ -8629,20 +8650,6 @@ void msrStaff::setAllStaffVoicesMeasureLocation (
   } // for
 }
 */
-
-void msrStaff::setAllStaffVoicesMeasureNumber (
-  int inputLineNumber,
-  int measureNumber)
-{
-  for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
-    i++) {
-    (*i).second->
-      setVoiceMeasureNumber (
-        inputLineNumber, measureNumber);
-  } // for
-}
 
 S_msrVoice msrStaff::addVoiceToStaff (
   int inputLineNumber,
@@ -8838,6 +8845,31 @@ void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
     i != fStaffVoicesMap.end();
     i++) {
     (*i).second->appendTransposeToVoice (transpose);
+  } // for
+}
+
+void msrStaff::setAllStaffVoicesMeasureNumber (
+  int inputLineNumber,
+  int measureNumber)
+{
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    (*i).second->
+      setVoiceMeasureNumber (
+        inputLineNumber, measureNumber);
+  } // for
+}
+
+void msrStaff::bringAllStaffVoicesToPosition (
+  int measurePosition)
+{
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    (*i).second->bringVoiceToPosition (measurePosition);
   } // for
 }
 
@@ -9370,13 +9402,29 @@ S_msrStaff msrPart::fetchStaffFromPart (
   return result;
 }
 
+void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
+{
+  // JMI
+}
+
+void msrPart::bringAllPartVoicesToPosition (
+  int measurePosition)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->bringAllStaffVoicesToPosition (measurePosition);
+  } // for
+}
+
 void msrPart::removePartEmptyVoices ()
 {
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    ((*i).second->removeStaffEmptyVoices ());
+    (*i).second->removeStaffEmptyVoices ();
   } // for
 }
 

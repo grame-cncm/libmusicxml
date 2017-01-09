@@ -1702,7 +1702,7 @@ class EXP msrVoicechunk : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrVoice    getVoiceUplink () const
+    S_msrVoice    getVoicechunkVoiceUplink () const
                       { return fVoicechunVoicekUplink; }
                       
     const list<S_msrMeasure>&
@@ -4608,7 +4608,10 @@ class EXP msrVoice : public msrElement
                     int lyricsNumber);
 
     void          addLyricsToVoice (S_msrLyrics lyrics);
-    
+
+    void          bringVoiceToPosition (
+                    int measurePosition);
+
     S_msrLyrics   createLyricsInVoiceIfNeeded (
                     int inputLineNumber,
                     int lyricsNumber);
@@ -4884,6 +4887,9 @@ class EXP msrStaff : public msrElement
                   S_msrStafftuning stafftuning)
                     { fStafftuningsList.push_back (stafftuning); }
                   
+    void        bringAllStaffVoicesToPosition (
+                  int measurePosition);
+
     void        removeStaffEmptyVoices ();
     
     // visitors
@@ -5076,7 +5082,10 @@ class EXP msrPart : public msrElement
 
     S_msrStaff    fetchStaffFromPart (int staffNumber);
 
-    void          appendHarmonyToPart (S_msrHarmony harmony) {} // JMI
+    void          appendHarmonyToPart (S_msrHarmony harmony);
+
+    void          bringAllPartVoicesToPosition (
+                    int measurePosition);
 
     void          removePartEmptyVoices ();
 
