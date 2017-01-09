@@ -1780,6 +1780,9 @@ class EXP msrVoicechunk : public msrElement
                         }
                       }
                     
+    void          bringVoicechunkToPosition (
+                    int measurePosition);
+
     // visitors
     // ------------------------------------------------------
 

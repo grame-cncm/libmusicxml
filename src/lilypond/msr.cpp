@@ -6144,11 +6144,11 @@ void msrMeasure::bringMeasureToPosition (
     int deltaPosition =
       measurePosition - fMeasurePosition;
 
-    // fetch the staff
-    S_msrStaff
-      staff =
+    // fetch the voice
+    S_msrVoice
+      voice =
         fMeasureVoicechunkUplink->
-          getMeasureVoicechunkUplink ();
+          getVoicechunkVoiceUplink ();
     
     // create the rest
    S_msrNote
@@ -6157,8 +6157,8 @@ void msrMeasure::bringMeasureToPosition (
           fMsrOptions,
           10000, // JMI
           deltaPosition,
-          staffNumber,
-          voiceNumber);
+          voice->getVoiceStaffUplink ()->getStaffNumber (),
+          voice->getVoiceNumber ());
   }
 }
 
