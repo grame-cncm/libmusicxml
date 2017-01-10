@@ -4527,8 +4527,8 @@ class EXP msrVoice : public msrElement
 
     // voice master
     const S_msrVoice
-                  getVoiceVoicemaster () const
-                      { return fVoiceVoicemaster; }
+                  getVoiceVoiceMaster () const
+                      { return fVoiceVoiceMaster; }
 
     // services
     // ------------------------------------------------------
@@ -4661,7 +4661,7 @@ class EXP msrVoice : public msrElement
 
     int                       fVoiceMeasureNumber;
     
-    S_msrVoice                fVoiceVoicemaster; // JMI
+    S_msrVoice                fVoiceVoiceMaster; // JMI
 
     // anacrusis detection
     bool                      fMeasureZeroHasBeenMetInVoice;
@@ -4872,8 +4872,8 @@ class EXP msrStaff : public msrElement
 
     // voice master
     const S_msrVoice
-                  getStaffVoicemaster () const
-                      { return fStaffVoicemaster; }
+                  getStaffVoiceMaster () const
+                      { return fStaffVoiceMaster; }
 
     // services
     // ------------------------------------------------------
@@ -4953,10 +4953,9 @@ class EXP msrStaff : public msrElement
 
     int                     fStaffDivisionsPerWholeNote;    
 
- //   msrMeasureLocation      fStaffMeasureLocation;
     int                     fStaffMeasureNumber;
     
-    S_msrVoice              fStaffVoicemaster;
+    S_msrVoice              fStaffVoiceMaster;
 
     S_msrClef               fStaffClef;
     S_msrKey                fStaffKey;
@@ -5078,10 +5077,12 @@ class EXP msrPart : public msrElement
     const int     getPartMeasureNumber () const
                       { return fPartMeasureNumber; }
 
+/* JMI
     // voice master
     const S_msrVoice
                   getPartVoicemaster () const
                       { return fPartVoicemaster; }
+*/
 
     // services
     // ------------------------------------------------------
@@ -5153,7 +5154,7 @@ class EXP msrPart : public msrElement
 
     int                     fPartMeasureNumber;
     
-    S_msrVoice              fPartVoicemaster;
+ // JMI   S_msrVoice              fPartVoicemaster;
 
     S_msrClef               fPartClef;
     S_msrKey                fPartKey;

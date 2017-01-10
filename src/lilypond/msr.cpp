@@ -2180,6 +2180,8 @@ string msrNote::noteAsString () const
 
   switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
+      s <<
+        "k_NoNoteKind ???";
       break;
       
     case msrNote::kStandaloneNote:
@@ -7218,8 +7220,8 @@ msrVoice::msrVoice (
   fVoiceActualNotesCounter = 0;
 
   // fetch voice master from staff uplink
-  fVoiceVoicemaster =
-    fVoiceStaffUplink -> getStaffVoicemaster ();
+  fVoiceVoiceMaster =
+    fVoiceStaffUplink -> getStaffVoiceMaster ();
     
   // add the master lyrics to this voice, to
   // collect skips along the way that are used as a 'prelude'
@@ -7728,11 +7730,22 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
-      "Appending note '" << note <<
-      "' to voice \"" << getVoiceName () << "\"" <<
+      "Appending note:" <<
       endl;
+
+    idtr++;
+    
+    cerr <<
+      idtr <<
+        note <<
+      idtr <<
+        "to voice \"" << getVoiceName () << "\"" <<
+        endl;
+
+    idtr--;
+  }
 
   if (note->getNoteKind () != msrNote::kRestNote)
     // register actual note
@@ -8504,15 +8517,17 @@ msrStaff::msrStaff (
     fStaffPartUplink->
       getPartDivisionsPerWholeNote ();
 
-  // fetch voice master from part uplink
-  fStaffVoicemaster =
-    fStaffPartUplink->getPartVoicemaster ();
-
   // create all 'gMaxStaffVoices' voices for this staff
-  // those that remain without music will be removed later  
-  for (int i = 1; i <= gMaxStaffVoices; i++)
+  // those that remain without music will be removed later
+  // also create the staff voice master with relative number 0
+  for (int i = 0; i <= gMaxStaffVoices; i++) {
     addVoiceToStaffByItsRelativeNumber (
       fInputLineNumber, i);
+  } // for
+
+  // set staff voice master
+  fStaffVoiceMaster =
+    fRegisteredVoicesMap [0];
 
   // get the initial clef from the staff if any
   {
@@ -9244,6 +9259,7 @@ msrPart::msrPart (
 
   fPartDivisionsPerWholeNote = 0;
 
+/* JMI
   // create the part voice master
   S_msrStaff
     hiddenMasterStaff =
@@ -9260,6 +9276,8 @@ msrPart::msrPart (
       0,            // voiceNumber
       0,            // staffRelativeVoiceNumber
       hiddenMasterStaff); // voiceStaffUplink
+      *
+*/
 }
 
 msrPart::~msrPart() {}

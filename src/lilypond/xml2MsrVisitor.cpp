@@ -6344,12 +6344,13 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     cerr <<
       idtr <<
         "handleStandaloneOrGraceNoteOrRest:" <<
-        endl <<
+        endl;
+
+    idtr++;
+
+    cerr <<
       idtr <<
-        newNote <<
-        endl <<
-      idtr <<
-        "in voice \"" <<
+        "--> in voice \"" <<
         currentVoice->getVoiceName () << "\"" <<
         endl <<
       idtr <<
@@ -6371,6 +6372,8 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
     cerr <<
       endl <<
     endl;
+
+    idtr--;
   }
 
   if (fNoteData.fNoteIsAGraceNote) {
