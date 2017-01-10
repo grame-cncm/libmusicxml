@@ -296,41 +296,45 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
 string lpsr2LilyPondVisitor::ornamentKindAsLilyPondString (
   msrOrnament::msrOrnamentKind ornamentKind)
 {
+  string result;
+  
   switch (ornamentKind) {
     case msrOrnament::kTrillMark:
-      return "\\trill";
+      result = "\\trill";
       break;
     case msrOrnament::kWavyLine:
-      return "\\wayvy line";
+      result = "\\wayvy line";
       break;
     case msrOrnament::kTurn:
-      return "\\turn";
+      result = "\\turn";
       break;
     case msrOrnament::kInvertedTurn:
-      return "\\inverted turn";
+      result = "\\inverted turn";
       break;
     case msrOrnament::kDelayedTurn:
-      return "\\turn"; // JMI ??? "\\delayed turn";
+      result = "\\turn"; // JMI ??? "\\delayed turn";
       break;
     case msrOrnament::kDelayedInvertedTurn:
-      return "\\delayed inverted turn";
+      result = "\\delayed inverted turn";
       break;
     case msrOrnament::kVerticalTurn:
-      return "\\vertical turn";
+      result = "\\vertical turn";
       break;
     case msrOrnament::kMordent:
-      return "\\mordent";
+      result = "\\mordent";
       break;
     case msrOrnament::kInvertedMordent:
-      return "\\inverted mordent";
+      result = "\\inverted mordent";
       break;
     case msrOrnament::kSchleifer:
-      return "\\schleifer";
+      result = "\\schleifer";
       break;
     case msrOrnament::kShake:
-      return "\\shake";
+      result = "\\shake";
       break;
   } // switch
+
+  return result;
 }
 
 //________________________________________________________________________
@@ -2415,7 +2419,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
         markup;
 
       // don't allow too long a line
-      for (int i = 1; i <= markup.size () / 4; i++)
+      for (string::size_type i = 1; i <= markup.size () / 4; i++)
         fMusicOlec++;
     } // for
   }

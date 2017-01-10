@@ -649,7 +649,7 @@ class EXP xml2MsrVisitor :
     // ------------------------------------------------------
     int                       fCurrentVoiceNumber; // used throughout
 
-    S_msrVoice                createVoiceInStaffInCurrentPartIfNeeded (
+    S_msrVoice                registerVoiceInStaffInCurrentPartIfNeeded (
                                 int            inputLineNumber,
                                 int            staffNumber,
                                 int            voiceNumber);

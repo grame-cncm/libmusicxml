@@ -4899,7 +4899,9 @@ class EXP msrStaff : public msrElement
                   int inputLineNumber,
                   int voiceNumber);
 
-    void        registerVoiceInStaff (S_msrVoice voice);
+    void        registerVoiceInStaff (
+                  int inputLineNumber,
+                  S_msrVoice voice);
     
     S_msrVoice  fetchVoiceFromStaff (int voiceNumber);
                               
@@ -4943,8 +4945,9 @@ class EXP msrStaff : public msrElement
     S_msrPart               fStaffPartUplink;
 
     map<int, S_msrVoice>    fStaffVoicesMap;
-    vector<S_msrVoice>      fStaffRelativeNumberedVoicesVector;
-                              // [0] is not used
+                              //numbered 1 to gMaxStaffVoices
+    map<int, S_msrVoice>    fRegisteredVoicesMap;
+                              // [0] is used form staff master voice
 
     string                  fStaffInstrumentName;
 
@@ -4961,7 +4964,7 @@ class EXP msrStaff : public msrElement
 
     S_msrTranspose          fStaffTranspose;
 
-    int                     fNextRelativeStaffVoiceNumber;
+    int                     fRegisteredVoicesCounter;
 
     list<S_msrStafftuning>  fStafftuningsList;
 };
