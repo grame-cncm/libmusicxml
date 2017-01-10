@@ -8725,7 +8725,7 @@ S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
   return voice;
 }
 
-S_msrVoice msrStaff::registerVoiceToStaffByItsNumber (
+S_msrVoice msrStaff::registerVoiceInStaffByItsNumber (
   int inputLineNumber,
   int voiceNumber)
 {
@@ -8755,7 +8755,7 @@ S_msrVoice msrStaff::registerVoiceToStaffByItsNumber (
   } // for
 */
 
-void msrStaff::registerVoiceToStaff (S_msrVoice voice)
+void msrStaff::registerVoiceInStaff (S_msrVoice voice)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
@@ -8778,7 +8778,7 @@ void msrStaff::registerVoiceToStaff (S_msrVoice voice)
       
     msrMusicXMLError (
 // JMI    msrMusicXMLWarning ( JMI
-      inputLineNumber,
+      voice->getInputLineNumber (),
       s.str());
   }
 

@@ -4882,7 +4882,7 @@ class EXP msrStaff : public msrElement
                     int inputLineNumber,
                     int voiceRelativeNumber);
   
-    S_msrVoice    registerVoiceToStaffByItsNumber (
+    S_msrVoice    registerVoiceInStaffByItsNumber (
                     int inputLineNumber,
                     int voiceNumber);
   
@@ -4899,7 +4899,7 @@ class EXP msrStaff : public msrElement
                   int inputLineNumber,
                   int voiceNumber);
 
-    void        addVoiceToStaff (S_msrVoice voice);
+    void        registerVoiceInStaff (S_msrVoice voice);
     
     S_msrVoice  fetchVoiceFromStaff (int voiceNumber);
                               

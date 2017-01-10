@@ -314,7 +314,7 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
     elt->createVoiceBareClone (fCurrentStaffClone);
     
   fCurrentStaffClone->
-    addVoiceToStaff (fCurrentVoiceClone);
+    registerVoiceInStaff (fCurrentVoiceClone);
 
   // append the voice to the LPSR score elements list
   fLpsrScore ->
@@ -479,7 +479,7 @@ void msr2LpsrVisitor::visitStart (S_msrVoice& elt)
     
   // add it to the staff clone
   fCurrentStaffClone->
-    addVoiceToStaff (fCurrentVoiceClone);
+    registerVoiceInStaff (fCurrentVoiceClone);
 
   // append the voice to the LPSR score elements list
   fLpsrScore ->
