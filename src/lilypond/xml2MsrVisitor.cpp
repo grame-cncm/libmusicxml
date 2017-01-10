@@ -124,7 +124,8 @@ S_msrPartgroup xml2MsrVisitor::createImplicitMSRPartgroup (
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Creating an implicit part group with number " <<
-      fCurrentPartgroupNumber << endl;
+      fCurrentPartgroupNumber <<
+      endl;
 
   S_msrPartgroup
     partgroup =
@@ -148,7 +149,8 @@ S_msrPartgroup xml2MsrVisitor::createImplicitMSRPartgroup (
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Adding implicit part group " << fCurrentPartgroupNumber <<
-      " to visitor's data" << endl;
+      " to visitor's data" <<
+      endl;
       
   fPartgroupsMap [fCurrentPartgroupNumber] = partgroup;
   fPartgroupsList.push_front (partgroup);
@@ -455,7 +457,8 @@ void xml2MsrVisitor::visitStart (S_part_list& elt)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Analysing part list" << endl;
+      "Analysing part list" <<
+      endl;
 
   idtr++;
 }
@@ -559,7 +562,8 @@ void xml2MsrVisitor::showPartgroupsData (string context)
 // JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
   if (gGeneralOptions->fDebug) {
     cerr << idtr <<
-      "==> " << context << ": fPartgroupsMap contains:" << endl;
+      "==> " << context << ": fPartgroupsMap contains:" <<
+      endl;
     if (fPartgroupsMap.size()) {
       map<int, S_msrPartgroup>::const_iterator
         iBegin = fPartgroupsMap.begin(),
@@ -575,12 +579,15 @@ void xml2MsrVisitor::showPartgroupsData (string context)
       } // for
       idtr--;
     }
-    cerr << idtr << "<== fPartgroupsMap" << endl;
+    cerr <<
+      idtr << "<== fPartgroupsMap" <<
+      endl;
   }
 
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
-      "==> " << context << ": fPartgroupsList contains:" << endl;
+      "==> " << context << ": fPartgroupsList contains:" <<
+      endl;
     if (fPartgroupsList.size()) {
       list<S_msrPartgroup>::const_iterator
         iBegin = fPartgroupsList.begin(),
@@ -595,7 +602,9 @@ void xml2MsrVisitor::showPartgroupsData (string context)
       } // for
       idtr--;
     }
-    cerr << idtr << "<== fPartgroupsList" << endl;
+    cerr <<
+      idtr << "<== fPartgroupsList" <<
+      endl;
   }
 }
 
@@ -640,7 +649,8 @@ void xml2MsrVisitor::handlePartgroupStart (
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Adding part group " << fCurrentPartgroupNumber <<
-        " to visitor's part group map" << endl;
+        " to visitor's part group map" <<
+        endl;
     fPartgroupsMap [fCurrentPartgroupNumber] =
       partgroupToBeStarted;
   }
@@ -649,7 +659,8 @@ void xml2MsrVisitor::handlePartgroupStart (
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Adding part group " << fCurrentPartgroupNumber <<
-      " to visitor's part groups list" << endl;
+      " to visitor's part groups list" <<
+      endl;
 
   if (! fPartgroupsList.size())
     // insert first part group ahead of the list
@@ -714,7 +725,8 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
     cerr << idtr <<
       "Removing part group " <<
       partgroupToBeStopped->getPartgroupNumber () <<
-      " from visitor's part groups list" << endl;
+      " from visitor's part groups list" <<
+      endl;
 
   list<S_msrPartgroup>::iterator
     iBegin = fPartgroupsList.begin(),
@@ -755,12 +767,15 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
       cerr << idtr <<
         "Appending part group " <<
         partgroupToBeStopped->getPartgroupNumber () <<
-        " to MSR score" << endl;
+        " to MSR score" <<
+        endl;
         
     fMsrScore->
       addPartgroupToScore (partgroupToBeStopped);
       
-  } else {
+  }
+  
+  else {
 
     // the front element in the part group list is
     // the new current part group
@@ -773,7 +788,8 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
         newCurrentPartgroup->getPartgroupNumber () ) {
       cerr << idtr <<
         "--> partgroupToBeStopped = " << partgroupToBeStopped <<
-        ", newCurrentPartgroup = " << newCurrentPartgroup << endl;
+        ", newCurrentPartgroup = " << newCurrentPartgroup <<
+        endl;
 
       stringstream s;
       s <<
@@ -791,7 +807,8 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
         "Preending (sub-)part group " <<
         partgroupToBeStopped->getPartgroupNumber () <<
         " at the beginning of part group " <<
-        newCurrentPartgroup->getPartgroupNumber () << endl;
+        newCurrentPartgroup->getPartgroupNumber () <<
+        endl;
 
     newCurrentPartgroup->
       prependSubPartgroupToPartgroup (
@@ -803,16 +820,19 @@ void xml2MsrVisitor::handlePartgroupStop (int inputLineNumber)
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Removing part group " << fCurrentPartgroupNumber <<
-      " from visitor's part group map" << endl;
+      " from visitor's part group map" <<
+      endl;
   try {
     fPartgroupsMap.erase (fCurrentPartgroupNumber);
   }
   catch (int e) {
-    cerr << "An exception number " << e << " occurred" << endl;
+    cerr <<
+      "An exception number " << e << " occurred" <<
+      endl;
   }
 
   showPartgroupsData ("AFTER STOP");
-} // handlePartgroupStop ()
+}
 
 //________________________________________________________________________
 void xml2MsrVisitor::visitEnd (S_part_group& elt)
@@ -823,7 +843,8 @@ void xml2MsrVisitor::visitEnd (S_part_group& elt)
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Handling part group " << fCurrentPartgroupNumber <<
-      ", type: \"" << fCurrentPartgroupType << "\""  << endl;
+      ", type: \"" << fCurrentPartgroupType << "\""  <<
+      endl;
 
   idtr++;
   
@@ -920,7 +941,8 @@ void xml2MsrVisitor::visitStart (S_score_part& elt)
 
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "Found part name \"" << fCurrentPartID << "\"" << endl;
+      "Found part name \"" << fCurrentPartID << "\"" <<
+      endl;
 
   fCurrentPartName         = "";
   fCurrentPartAbbreviation = "";
@@ -976,7 +998,9 @@ void xml2MsrVisitor::visitEnd (S_score_part& elt)
     partgroup = fPartgroupsList.front ();
   }
   catch (int e) {
-    cerr << "An exception number " << e << " occurred" << endl;
+    cerr <<
+      "An exception number " << e << " occurred" <<
+      endl;
   }
         
   // is this part already present in the current part group?
@@ -1973,16 +1997,14 @@ void xml2MsrVisitor::visitStart (S_staff_details& elt )
 
   // show-frets
 
+  idtr++;
+
   if (true || gGeneralOptions->fDebug) {
 //  if (gGeneralOptions->fDebug) {
     cerr <<
       idtr <<
         "Hangling staff details:" <<
-        endl;
-
-    idtr ++;
-
-    cerr <<
+        endl <<
       idtr <<
         setw(32) << "StaffDetailsStaffNumber" << " = " <<
         fStaffDetailsStaffNumber <<
@@ -2066,12 +2088,6 @@ void xml2MsrVisitor::visitEnd (S_staff_tuning& elt )
     idtr++;
 
     cerr <<
-/* JMI
-      idtr <<
-        setw(32) << "fStaffDetailsStaffNumber" << " = " <<
-        fStaffDetailsStaffNumber <<
-        endl <<
-        */
       idtr <<
         setw(24) << "fCurrentStaffTuningLine" << " = " <<
         fCurrentStaffTuningLine <<
@@ -2084,15 +2100,6 @@ void xml2MsrVisitor::visitEnd (S_staff_tuning& elt )
         setw(24) << "CurrentStaffTuningOctave" << " = " <<
         fCurrentStaffTuningOctave <<
         endl;
-        /*
-      idtr <<
-        setw(32) << "fCurrentStaffDetailsCapo" << " = " <<
-        fCurrentStaffDetailsCapo <<
-        endl <<
-      idtr <<
-        setw(32) << "fCurrentStaffDetailsStaffSize" << " = " <<
-        fCurrentStaffDetailsStaffSize <<
-        endl; */
 
     idtr--;
   } 
@@ -2127,6 +2134,10 @@ void xml2MsrVisitor::visitEnd (S_staff_details& elt )
   if (true || gGeneralOptions->fDebug) {
 //  if (gGeneralOptions->fDebug) {
     cerr <<
+      idtr <<
+        setw(32) << "fStaffDetailsStaffNumber" << " = " <<
+        fStaffDetailsStaffNumber <<
+        endl <<
       idtr <<
         setw(32) << "fCurrentStaffDetailsCapo" << " = " <<
         fCurrentStaffDetailsCapo <<

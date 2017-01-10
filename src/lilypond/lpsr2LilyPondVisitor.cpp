@@ -3165,7 +3165,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
   if (elt->getRepeatEndings ().size() == 0) {
     // the end of the repeat has not been generated yet
 
-    idtr --;
+    idtr--;
     
     if (fLpsrOptions->fGenerateComments) {
       idtr--;

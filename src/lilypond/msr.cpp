@@ -4289,7 +4289,7 @@ void msrWords::print (ostream& os)
     "Words" " \"" << fWordsContents << "\"" <<
     endl;
 
-  idtr ++;
+  idtr++;
 
   os <<
     idtr <<

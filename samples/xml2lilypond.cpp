@@ -569,7 +569,7 @@ void analyzeOptions (
         }
 
         if (versionPresent) {
-          idtr ++;
+          idtr++;
           
           cerr <<
             endl <<
@@ -589,7 +589,7 @@ void analyzeOptions (
               endl <<
             endl;
 
-          idtr --;
+          idtr--;
           
           exit (0);
           break;
@@ -964,24 +964,24 @@ void printOptions (
       msrOpts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
     
     idtr << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
-      string(msrOpts->fCreateStaffRelativeVoiceNumbers
-        ? "true" : "false") << endl <<
+      booleanAsString (msrOpts->fCreateStaffRelativeVoiceNumbers) <<
+      endl <<
 
     idtr << setw(fieldWidth) << "dontDisplayMSRLyrics" << " : " <<
-      string(msrOpts->fDontDisplayMSRLyrics
-        ? "true" : "false") << endl <<
+      booleanAsString (msrOpts->fDontDisplayMSRLyrics) <<
+      endl <<
 
     idtr << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
-      string(msrOpts->fDelayRestsDynamics
-        ? "true" : "false") << endl <<
+      booleanAsString (msrOpts->fDelayRestsDynamics) <<
+      endl <<
 
     idtr << setw(fieldWidth) << "displayMSR" << " : " <<
-      string(msrOpts->fDisplayMSR
-        ? "true" : "false") << endl <<
+      booleanAsString (msrOpts->fDisplayMSR) <<
+      endl <<
     
     idtr << setw(fieldWidth) << "displayMSRScoreSummary" << " : " <<
-      string(msrOpts->fDisplayMSRScoreSummary
-        ? "true" : "false") << endl <<
+      booleanAsString (msrOpts->fDisplayMSRScoreSummary) <<
+      endl <<
     
     idtr << setw(fieldWidth) << "partRenamingSpecifications" << " : ";
     
@@ -1011,40 +1011,40 @@ void printOptions (
   
   cerr << left <<
     idtr << setw(fieldWidth) << "displayLPSR" << " : " <<
-      string(lpsrOpts->fDisplayLPSR
-        ? "true" : "false") << endl <<
+      booleanAsString (lpsrOpts->fDisplayLPSR) <<
+      endl <<
 
     idtr << setw(fieldWidth) << "generateAbsoluteOctaves" << " : " <<
-      string(lpsrOpts->fGenerateAbsoluteOctaves
-        ? "true" : "false") << endl <<
+      booleanAsString (lpsrOpts->fGenerateAbsoluteOctaves) <<
+      endl <<
     
     idtr << setw(fieldWidth) << "dontKeepLineBreaks" << " : " <<
-      string(lpsrOpts->fDontKeepLineBreaks
+      booleanAsString (lpsrOpts->fDontKeepLineBreaks
         ? "true" : "false") << endl <<
     
     idtr << setw(fieldWidth) << "generateNumericalTime" << " : " <<
-      string(lpsrOpts->fGenerateNumericalTime
-        ? "true" : "false") << endl <<
+      booleanAsString (lpsrOpts->fGenerateNumericalTime) <<
+      endl <<
     idtr << setw(fieldWidth) << "generateComments" << " : " <<
-      string(lpsrOpts->fGenerateComments
-      ? "true" : "false") << endl <<
+      booleanAsString (lpsrOpts->fGenerateComments) <<
+      endl <<
     idtr << setw(fieldWidth) << "generateStems" << " : " <<
-      string(lpsrOpts->fGenerateStems
-      ? "true" : "false") << endl <<
+      booleanAsString (lpsrOpts->fGenerateStems) <<
+      endl <<
     idtr << setw(fieldWidth) << "noAutoBeaming" << " : " <<
-      string(lpsrOpts->fNoAutoBeaming
-      ? "true" : "false") << endl <<
+      booleanAsString (lpsrOpts->fNoAutoBeaming) <<
+      endl <<
      idtr << setw(fieldWidth) << "generateNoteInputLineNumbers" << " : " <<
-      string(lpsrOpts->fGenerateNoteInputLineNumbers
-        ? "true" : "false") << endl <<
+      booleanAsString (lpsrOpts->fGenerateNoteInputLineNumbers) <<
+      endl <<
 
     idtr << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
-      string(lpsrOpts->fDontGenerateLilyPondLyrics
-        ? "true" : "false") << endl <<
+      booleanAsString (lpsrOpts->fDontGenerateLilyPondLyrics) <<
+      endl <<
 
     idtr << setw(fieldWidth) << "dontGenerateLilyPondCode" << " : " <<
-      string(lpsrOpts->fDontGenerateLilyPondCode
-      ? "true" : "false") << endl;
+      booleanAsString (lpsrOpts->fDontGenerateLilyPondCode) <<
+      endl;
 
   idtr--;
 
