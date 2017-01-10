@@ -6,6 +6,8 @@
 //
 //
 
+#include <algorithm>
+
 #include "partlistvisitor.h"
 
 #include "rational.h"
@@ -55,7 +57,7 @@ namespace MusicXML2
     void partlistvisitor::partID2range(partGroup &pGroup)
     {
         std::vector<int> staves;
-        for (int i=0; i<pGroup.partIDs.size();i++)
+        for (size_t i=0; i<pGroup.partIDs.size();i++)
         {
             staves.push_back(part2staffmap[pGroup.partIDs[i]]);
         }
@@ -155,7 +157,7 @@ namespace MusicXML2
         // add groupings if any
         if (fCurrentPartGroupIndex.size())
         {
-            for (int ind=0; ind < fCurrentPartGroupIndex.size(); ind++)
+            for (size_t ind=0; ind < fCurrentPartGroupIndex.size(); ind++)
             {
                 fPartGroups[fCurrentPartGroupIndex[ind]].partIDs.push_back(PartID);
                 //cout<<"\tAdding "<<fCurrentPartID<<" to group "<<fCurrentPartGroupIndex[ind]<<endl;

@@ -46,7 +46,7 @@ namespace MusicXML2
     public:
         partHeader(): visited(false) {};
         partHeader(std::string name, std::string nameabbr):
-            visited(false), fPartName(name), fPartNameAbbr(nameabbr)
+            fPartName(name), fPartNameAbbr(nameabbr), visited(false)
         {};
         virtual ~partHeader()
         {
