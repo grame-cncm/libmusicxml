@@ -7149,7 +7149,7 @@ msrVoice::msrVoice (
       endl;
 
   // the voice number should be in the 0..4 range
-  // (0 is used for the part voir master)
+  // (0 is used for the part voice master)
   if (voiceNumber < 0) { // JMI || voiceNumber > 4) {
     stringstream s;
 
@@ -7690,29 +7690,13 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  // catchup with rests if needed
-  /*
-  catchupToMeasureLocation (
-    note->getInputLineNumber (),
-    fVoiceDivisionsPerWholeNote,
-    fVoiceMeasureLocation);
-*/
-
   if (note->getNoteKind () != msrNote::kRestNote)
     // register actual note
     fVoiceActualNotesCounter++;
 
   // append the note to the voice chunk
-// JMI  S_msrElement n = note;
   fVoiceVoicechunk->
     appendNoteToVoicechunk (note);
-
-  // add a rest of the same duration to the voice master
-  /* JMI
-  fVoiceVoicemaster->
-    getVoicechunk () ->
-      appendElementToVoicechunk (n); 
-  */
   
   // add a skip chunk of the same duration to the master lyrics
   int
@@ -8451,7 +8435,7 @@ msrStaff::msrStaff (
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Creating staff \"" << getStaffName () <<
-      "\" in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
+      "\" in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // the staff number should not be negative
@@ -8492,8 +8476,7 @@ msrStaff::msrStaff (
         cerr << idtr <<
           "Setting staff clef '" << clef->clefAsString () <<
           "' in staff " << fStaffNumber <<
-          " in part \"" << fStaffPartUplink->getPartCombinedName () <<
-          "\"" <<
+          " in part " << fStaffPartUplink->getPartCombinedName () <<
           endl;
 
       fStaffClef = clef;
@@ -8512,8 +8495,7 @@ msrStaff::msrStaff (
         cerr << idtr <<
           "Setting default treble clef " <<
           " in staff " << fStaffNumber <<
-          " in part \"" << fStaffPartUplink->getPartCombinedName () <<
-          "\"" <<
+          " in part " << fStaffPartUplink->getPartCombinedName () <<
           endl;
 
       // create the implicit initial G line 2 clef
@@ -8536,8 +8518,7 @@ msrStaff::msrStaff (
         cerr << idtr <<
           "Setting staff key '" << key->keyAsString () <<
           "' in staff " << fStaffNumber <<
-          " in part \"" << fStaffPartUplink->getPartCombinedName () <<
-          "\"" <<
+          " in part " << fStaffPartUplink->getPartCombinedName () <<
           endl;
 
       fStaffKey = key;
@@ -8549,8 +8530,7 @@ msrStaff::msrStaff (
         cerr << idtr <<
           "Setting default C major key " <<
           " in staff " << fStaffNumber <<
-          " in part \"" << fStaffPartUplink->getPartCombinedName () <<
-          "\"" <<
+          " in part " << fStaffPartUplink->getPartCombinedName () <<
           endl;
           
       // create the implicit initial C major key
@@ -8573,8 +8553,7 @@ msrStaff::msrStaff (
         cerr << idtr <<
           "Setting staff time '" << time->timeAsString () <<
           "' in staff " << fStaffNumber <<
-          " in part \"" << fStaffPartUplink->getPartCombinedName () <<
-          "\"" <<
+          " in part " << fStaffPartUplink->getPartCombinedName () <<
           endl;
 
       fStaffTime = time;
@@ -8586,8 +8565,7 @@ msrStaff::msrStaff (
         cerr << idtr <<
           "Setting default 4/4 time " <<
           " in staff " << fStaffNumber <<
-          " in part \"" << fStaffPartUplink->getPartCombinedName () <<
-          "\"" <<
+          " in part " << fStaffPartUplink->getPartCombinedName () <<
           endl;
           
       // create the implicit initial 4/4 time signature
@@ -8738,9 +8716,9 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsNumber (
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Registering voice " << voiceNumber <<
-       " as relative voice " << fRegisteredVoicesCounter + 1 <<
-     "\" of staff " << getStaffName () <<
-      " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
+       " as relative voice " << fRegisteredVoicesCounter <<
+     " of staff " << getStaffName () <<
+      " in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // are there too many voices in this staff? 
@@ -8809,7 +8787,7 @@ void msrStaff::registerVoiceInStaff (
       "Registering voice \"" << voice->getVoiceName () <<
       "\" as relative voice " << fRegisteredVoicesCounter <<
       " of staff \"" << getStaffName () <<
-       "\" in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
+       "\" in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // register is by its relative number
@@ -8853,7 +8831,7 @@ void msrStaff::setStaffClef (S_msrClef clef)
     cerr << idtr <<
       "Setting staff clef '" << clef->clefAsString () <<
       "' in staff " << fStaffNumber <<
-      " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
+      " in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // set staff clef
@@ -8875,7 +8853,7 @@ void msrStaff::setStaffKey  (S_msrKey  key)
     cerr << idtr <<
       "Setting key '" << key->keyAsString () <<
       "' in staff " << fStaffNumber <<
-      " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
+      " in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // set staff key
@@ -8891,7 +8869,7 @@ void msrStaff::setStaffTime (S_msrTime time)
     cerr << idtr <<
       "Setting time '" << time->timeAsString () <<
       "' in staff " << fStaffNumber <<
-      " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
+      " in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // set staff time
@@ -8907,7 +8885,7 @@ void msrStaff::setStaffTranspose (S_msrTranspose transpose)
     cerr << idtr <<
       "Setting transpose '" << transpose->transposeAsString () <<
       "' in staff " << fStaffNumber <<
-      " in part \"" << fStaffPartUplink->getPartCombinedName () << "\"" <<
+      " in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // set staff transpose
@@ -9260,8 +9238,8 @@ void msrPart::setPartMSRName (string partMSRName)
 
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
-        "Setting part name of \"" << getPartCombinedName () <<
-        "\" to \"" << fPartMSRName << "\"" <<
+        "Setting part name of " << getPartCombinedName () <<
+        " to \"" << fPartMSRName << "\"" <<
          endl;
   }
   else {
@@ -9271,9 +9249,7 @@ void msrPart::setPartMSRName (string partMSRName)
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Keeping partID \"" << partMSRName <<
-        "\" as part name  for \"" <<
-        getPartCombinedName () <<
-        "\"" <<
+        "\" as part name  for " << getPartCombinedName () <<
       endl;
   }
 }
@@ -9312,9 +9288,7 @@ void msrPart::setPartClef (S_msrClef clef)
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Setting part clef \"" << clef->clefAsString () <<
-      "\" in part \"" <<
-      getPartCombinedName () <<
-      "\"" <<
+      "\" in part " << getPartCombinedName () <<
     endl;
 
   // set part clef
@@ -9329,9 +9303,7 @@ void msrPart::setPartKey  (S_msrKey  key)
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Setting part key \"" << key->keyAsString () <<
-      "\" in part \"" <<
-      getPartCombinedName () <<
-      "\"" <<
+      "\" in part " << getPartCombinedName () <<
     endl;
 
   // set part key
@@ -9346,9 +9318,7 @@ void msrPart::setPartTime (S_msrTime time)
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Setting part time \"" << time->timeAsString () <<
-      "\" in part \"" <<
-      getPartCombinedName () <<
-      "\"" <<
+      "\" in part " << getPartCombinedName () <<
     endl;
 
   // set part time
@@ -9363,9 +9333,7 @@ void msrPart::setPartTranspose (S_msrTranspose transpose)
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Setting part transpose \"" << transpose->transposeAsString () <<
-      "\" in part \"" <<
-      getPartCombinedName () <<
-      "\"" <<
+      "\" in part " << getPartCombinedName () <<
     endl;
 
   // set part transpose
@@ -9461,7 +9429,8 @@ S_msrStaff msrPart::addStaffToPart (
   if (fPartStavesMap.count (staffNumber)) {
     cerr << idtr <<
       "### Internal error: staffNumber " << staffNumber <<
-      " already exists in part " << " " << getPartCombinedName () << endl;
+      " already exists in part " << " " << getPartCombinedName () <<
+      endl;
 
     return fPartStavesMap [staffNumber];
   }
@@ -9469,7 +9438,7 @@ S_msrStaff msrPart::addStaffToPart (
 // JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fTrace)
     cerr << idtr <<
       "Adding staff " << staffNumber <<
-      " to part " << getPartCombinedName () << "\"" <<
+      " to part " << getPartCombinedName () <<
       endl;
   
   // create the staff
@@ -9493,7 +9462,8 @@ void msrPart::addStaffToPart (S_msrStaff staff)
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Adding staff " << staff->getStaffNumber () <<
-      " to part " << getPartCombinedName () << endl;
+      " to part " << getPartCombinedName () <<
+      endl;
 
   // register staff in this part
   fPartStavesMap [staff->getStaffNumber ()] = staff;
@@ -9774,7 +9744,8 @@ S_msrPart msrPartgroup::addPartToPartgroup (
     cerr << idtr <<
       "Adding part " <<
       part->getPartCombinedName () <<
-      " to part group " << fPartgroupNumber << endl;
+      " to part group " << fPartgroupNumber <<
+      endl;
   }
   
   fPartgroupPartsMap [partID] = part;
@@ -9790,15 +9761,19 @@ S_msrPart msrPartgroup::addPartToPartgroup (
         i++) {
       cerr << idtr <<
         "\"" << (*i).first << "\" ----> " <<
-        (*i).second->getPartCombinedName() << endl;
+        (*i).second->getPartCombinedName() <<
+        endl;
     } // for
     idtr--;
-    cerr << idtr << "<== addPartToPartgroup" << endl;
+    cerr << idtr <<
+      "<== addPartToPartgroup" <<
+      endl;
   }
 
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
-      "==> After addPartToPartgroup, fPartgroupPartsList contains:" << endl;
+      "==> After addPartToPartgroup, fPartgroupPartsList contains:" <<
+      endl;
     if (fPartgroupElements.size()) {
       list<S_msrElement>::const_iterator
         iBegin = fPartgroupElements.begin(),
@@ -9827,7 +9802,8 @@ void msrPartgroup::addPartToPartgroup (S_msrPart part)
     cerr << idtr <<
       "Adding part " <<
       part->getPartCombinedName () <<
-      " to part group " << fPartgroupNumber << endl;
+      " to part group " << fPartgroupNumber <<
+      endl;
   }
   
   fPartgroupPartsMap [part->getPartID ()] = part;
@@ -9858,10 +9834,12 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
         i++) {
       cerr << idtr <<
         (*i).first << " ----> " <<
-        (*i).second->getPartCombinedName() << endl;
+        (*i).second->getPartCombinedName() <<
+        endl;
     } // for
     cerr << idtr <<
-      "<== fetchPartFromPartgroup" << endl;
+      "<== fetchPartFromPartgroup" <<
+      endl;
   }
   
   S_msrPart result;
