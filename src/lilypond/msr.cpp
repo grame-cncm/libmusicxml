@@ -1558,6 +1558,12 @@ S_msrNote msrNote::createRest (
 
 S_msrNote msrNote::createNoteBareClone ()
 {
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating a bare clone of note " <<
+      noteAsString () <<
+      endl;
+
   S_msrNote
     clone =
       msrNote::createFromNoteData (
@@ -2472,6 +2478,11 @@ msrChord::~msrChord() {}
 
 S_msrChord msrChord::createChordBareClone ()
 {
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating a bare clone of chord" <<
+      endl;
+
   S_msrChord
     clone =
       msrChord::create (
@@ -3158,6 +3169,11 @@ msrTuplet::~msrTuplet() {}
 
 S_msrTuplet msrTuplet::createTupletBareClone ()
 {
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating a bare clone of a tuplet" <<
+      endl;
+
   S_msrTuplet
     clone =
       msrTuplet::create (
@@ -4464,6 +4480,11 @@ msrLyricschunk::~msrLyricschunk()
 
 S_msrLyricschunk msrLyricschunk::createLyricschunkBareClone ()
 {
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating a bare clone of a lyrics chunk" <<
+      endl;
+
   S_msrLyricschunk
     clone =
       msrLyricschunk::create (
@@ -4770,7 +4791,7 @@ S_msrLyrics msrLyrics::createLyricsBareClone (S_msrVoice clonedVoice)
 {
 //  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     cerr << idtr <<
-      "--> Creating a lyrics bare clone" <<
+      "--> Creating a bare clone of a lyrics" <<
       endl;
 
   S_msrLyrics
@@ -5265,7 +5286,7 @@ S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
 {
 //  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     cerr << idtr <<
-      "--> Creating a harmony bare clone" <<
+      "--> Creating a bare clone or a harmony" <<
       endl;
 
   S_msrHarmony
@@ -6422,6 +6443,11 @@ msrVoicechunk::~msrVoicechunk() {}
 S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone (
   S_msrVoice clonedVoice)
 {
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating a bare clone of a voice chunk" <<
+      endl;
+
   S_msrVoicechunk
     clone =
       msrVoicechunk::create (
@@ -7095,6 +7121,13 @@ S_msrVoice msrVoice::create (
 
 S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
 {
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating a bare clone of voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      endl;
+
   S_msrVoice
     clone =
       msrVoice::create (
@@ -8304,7 +8337,12 @@ msrStafftuning::~ msrStafftuning ()
 
 S_msrStafftuning msrStafftuning::createStafftuningBareClone ()
 {
-  S_msrStafftuning
+ //  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating a bare clone of a staff tuning" <<
+      endl;
+
+ S_msrStafftuning
     clone =
       msrStafftuning::create (
         fMsrOptions,
@@ -8595,6 +8633,13 @@ msrStaff::~msrStaff()
 
 S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
 {
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating a bare clone of staff \"" <<
+      getStaffName () <<
+      "\"" <<
+      endl;
+
   S_msrStaff
     clone =
       msrStaff::create (
@@ -9210,6 +9255,12 @@ msrPart::~msrPart() {}
 
 S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
 {
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating a bare clone of part " <<
+      getPartCombinedName () <<
+      endl;
+
   S_msrPart
     clone =
       msrPart::create (
@@ -9257,8 +9308,7 @@ void msrPart::setPartMSRName (string partMSRName)
 string msrPart::getPartCombinedName () const
 {
   return
-    "\"" + fPartMSRName + "\"" +
-    " (" + fPartID + ")";
+    "\"" + fPartMSRName + "\"" + " (" + fPartID + ")";
 }
 
 void msrPart::setPartDivisionsPerWholeNote (
@@ -9672,13 +9722,21 @@ msrPartgroup::msrPartgroup (
       endl;
 }
 
-msrPartgroup::~msrPartgroup() {}
+msrPartgroup::~msrPartgroup()
+{}
 
 S_msrPartgroup msrPartgroup::createPartgroupBareClone (
   S_msrPartgroup clonedPartgroup)
 {
-
-// JMI  cerr <<
+  if (gGeneralOptions->fTrace)
+    cerr <<
+      idtr <<
+      "--------------------------------------------" <<
+      endl <<
+      idtr <<
+      "Creating a bare clone part group " <<
+      getPartgroupCombinedName () <<
+      endl;
 
   S_msrPartgroup
     clone =
@@ -10312,6 +10370,11 @@ msrScore::~msrScore() {}
 
 S_msrScore msrScore::createScoreBareClone ()
 {
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating a bare clone of a score" <<
+      endl;
+
   S_msrScore
     clone =
       msrScore::create (
