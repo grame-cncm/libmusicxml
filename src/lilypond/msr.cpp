@@ -7219,10 +7219,6 @@ msrVoice::msrVoice (
   
   fVoiceActualNotesCounter = 0;
 
-  // fetch voice master from staff uplink
-  fVoiceVoiceMaster =
-    fVoiceStaffUplink -> getStaffVoiceMaster ();
-    
   // add the master lyrics to this voice, to
   // collect skips along the way that are used as a 'prelude'
   // by actual lyrics that start at later points
@@ -7747,9 +7743,11 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     idtr--;
   }
 
-  if (note->getNoteKind () != msrNote::kRestNote)
+  if (note->getNoteKind () != msrNote::kRestNote) {
     // register actual note
     fVoiceActualNotesCounter++;
+    fMusicHasBeenInsertedInVoice = true;
+  }
 
   // append the note to the voice chunk
   fVoiceVoicechunk->
@@ -8529,6 +8527,10 @@ msrStaff::msrStaff (
   fStaffVoiceMaster =
     fRegisteredVoicesMap [0];
 
+  // mark it as containing music, to prevent it being removed
+  fStaffVoiceMaster->
+    setMusicHasBeenInsertedInVoice ();
+
   // get the initial clef from the staff if any
   {
     S_msrClef
@@ -8788,8 +8790,8 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsNumber (
     cerr << idtr <<
       "Registering voice " << voiceNumber <<
        " as relative voice " << fRegisteredVoicesCounter <<
-     " of staff " << getStaffName () <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
+     " of staff \"" << getStaffName () <<
+      "\" in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // are there too many voices in this staff? 
@@ -9037,7 +9039,8 @@ void msrStaff::removeStaffEmptyVoices ()
     map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
     i != fStaffVoicesMap.end();
     i++) {
-    if (! (*i).second->getVoiceActualNotesCounter ()) {
+ // JMI   if (! (*i).second->getVoiceActualNotesCounter ()) {
+    if (! (*i).second->getMusicHasBeenInsertedInVoice ()) {
       fStaffVoicesMap.erase (i);
     }
   } // for
@@ -9193,10 +9196,11 @@ void msrStaff::print (ostream& os)
 
   os << endl;
 
-  if (fStaffVoicesMap.size ()) {
+  // print the registered voices
+  if (fRegisteredVoicesMap.size ()) {
     map<int, S_msrVoice>::const_iterator
-      iBegin = fStaffVoicesMap.begin(),
-      iEnd   = fStaffVoicesMap.end(),
+      iBegin = fRegisteredVoicesMap.begin(),
+      iEnd   = fRegisteredVoicesMap.end(),
       i      = iBegin;
       
     for ( ; ; ) {

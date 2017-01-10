@@ -4525,10 +4525,12 @@ class EXP msrVoice : public msrElement
     const int     getVoiceMeasureNumber () const
                       { return fVoiceMeasureNumber; }
 
-    // voice master
-    const S_msrVoice
-                  getVoiceVoiceMaster () const
-                      { return fVoiceVoiceMaster; }
+    // has music been inserted in the voice?
+    void          setMusicHasBeenInsertedInVoice ()
+                      { fMusicHasBeenInsertedInVoice = true; }
+
+    bool          getMusicHasBeenInsertedInVoice () const
+                      { return fMusicHasBeenInsertedInVoice; }
 
     // services
     // ------------------------------------------------------
@@ -4661,8 +4663,6 @@ class EXP msrVoice : public msrElement
 
     int                       fVoiceMeasureNumber;
     
-    S_msrVoice                fVoiceVoiceMaster; // JMI
-
     // anacrusis detection
     bool                      fMeasureZeroHasBeenMetInVoice;
     bool                      fMeasureNumberHasBeenSetInVoice;
@@ -4848,8 +4848,12 @@ class EXP msrStaff : public msrElement
     void        setStaffTranspose (S_msrTranspose transpose);
 
     const map<int, S_msrVoice>&
-                getStaffVoicesMap ()
+                getStaffVoicesMap () const
                     { return fStaffVoicesMap; }
+
+    const map<int, S_msrVoice>&
+                getRegisteredVoicesMap () const
+                    { return fRegisteredVoicesMap; }
 
     const list<S_msrStafftuning>&
                 getStafftuningsList ()

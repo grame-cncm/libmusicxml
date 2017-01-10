@@ -6343,7 +6343,7 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
     cerr <<
       idtr <<
-        "handleStandaloneOrGraceNoteOrRest:" <<
+        "--> handleStandaloneOrGraceNoteOrRest:" <<
         endl;
 
     idtr++;
