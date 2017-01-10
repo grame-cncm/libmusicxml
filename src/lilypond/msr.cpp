@@ -7327,19 +7327,20 @@ msrVoice::~msrVoice() {}
 
 string msrVoice::getVoiceName () const
 {
-  // not stored in a field,
-  // because the voice staff may change name
-  // when the part it belongs to is re-used
-
   int voiceNumber =
     fMsrOptions-> fCreateStaffRelativeVoiceNumbers
       ? fStaffRelativeVoiceNumber
       : fVoiceNumber;
-    
+
+  string suffix =
+    fStaffRelativeVoiceNumber == 0
+      ? "MASTER"
+      : int2EnglishWord (voiceNumber);
+      
   return
     fVoiceStaffUplink->getStaffName() +
     "_V_" +
-    int2EnglishWord (voiceNumber);
+    suffix;
 }
 
 void msrVoice::setVoiceDivisionsPerWholeNote (
@@ -8747,7 +8748,7 @@ void msrStaff::setAllStaffVoicesMeasureLocation (
   for (
     map<int, S_msrVoice>::iterator i =
       fRegisteredVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    i != fRegisteredVoicesMap.end();
     i++) {
     (*i).second->
       setVoiceMeasureLocation (
@@ -8867,7 +8868,7 @@ void msrStaff::registerVoiceInStaff (
   fRegisteredVoicesMap [fRegisteredVoicesCounter] = voice;
 
   // register it by its number
-  fStaffVoicesMap [voice->getStaffRelativeVoiceNumber ()] = voice;
+  fStaffVoicesMap [voice->getStaffRelativeVoiceNumber ()] = voice; // JMI
 }
 
 S_msrVoice msrStaff::fetchVoiceFromStaff (
@@ -8971,8 +8972,8 @@ void msrStaff::setStaffTranspose (S_msrTranspose transpose)
 void msrStaff::appendClefToAllStaffVoices (S_msrClef clef)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fRegisteredVoicesMap.begin();
+    i != fRegisteredVoicesMap.end();
     i++) {
     (*i).second->appendClefToVoice (clef);
   } // for
@@ -8981,8 +8982,8 @@ void msrStaff::appendClefToAllStaffVoices (S_msrClef clef)
 void msrStaff::appendKeyToAllStaffVoices (S_msrKey  key)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fRegisteredVoicesMap.begin();
+    i != fRegisteredVoicesMap.end();
     i++) {
     (*i).second->appendKeyToVoice (key);
   } // for
@@ -8991,8 +8992,8 @@ void msrStaff::appendKeyToAllStaffVoices (S_msrKey  key)
 void msrStaff::appendTimeToAllStaffVoices (S_msrTime time)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fRegisteredVoicesMap.begin();
+    i != fRegisteredVoicesMap.end();
     i++) {
     (*i).second->appendTimeToVoice (time);
   } // for
@@ -9001,8 +9002,8 @@ void msrStaff::appendTimeToAllStaffVoices (S_msrTime time)
 void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fRegisteredVoicesMap.begin();
+    i != fRegisteredVoicesMap.end();
     i++) {
     (*i).second->appendTransposeToVoice (transpose);
   } // for
@@ -9013,8 +9014,8 @@ void msrStaff::setAllStaffVoicesMeasureNumber (
   int measureNumber)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fRegisteredVoicesMap.begin();
+    i != fRegisteredVoicesMap.end();
     i++) {
     (*i).second->
       setVoiceMeasureNumber (
@@ -9026,8 +9027,8 @@ void msrStaff::bringAllStaffVoicesToPosition (
   int measurePosition)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fRegisteredVoicesMap.begin();
+    i != fRegisteredVoicesMap.end();
     i++) {
     (*i).second->bringVoiceToPosition (measurePosition);
   } // for
@@ -9036,12 +9037,12 @@ void msrStaff::bringAllStaffVoicesToPosition (
 void msrStaff::removeStaffEmptyVoices ()
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fRegisteredVoicesMap.begin();
+    i != fRegisteredVoicesMap.end();
     i++) {
  // JMI   if (! (*i).second->getVoiceActualNotesCounter ()) {
     if (! (*i).second->getMusicHasBeenInsertedInVoice ()) {
-      fStaffVoicesMap.erase (i);
+      fRegisteredVoicesMap.erase (i);
     }
   } // for
 }
@@ -9104,10 +9105,10 @@ void msrStaff::browseData (basevisitor* v)
     idtr--;
   }
 
-  if (fStaffVoicesMap.size ()) {
+  if (fRegisteredVoicesMap.size ()) {
     for (
-      map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-      i != fStaffVoicesMap.end();
+      map<int, S_msrVoice>::iterator i = fRegisteredVoicesMap.begin();
+      i != fRegisteredVoicesMap.end();
       i++) {
       // browse the voice
       msrBrowser<msrVoice> browser (v);
@@ -9150,7 +9151,7 @@ void msrStaff::print (ostream& os)
   os <<
     "Staff" " " << getStaffName () <<
     ", " << staffKindAsString () <<
-    " (" << fStaffVoicesMap.size() << " voices)" <<
+    " (" << fRegisteredVoicesMap.size() << " voices)" <<
     endl;
 
   idtr++;

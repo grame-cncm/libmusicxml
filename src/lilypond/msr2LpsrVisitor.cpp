@@ -324,14 +324,10 @@ void msr2LpsrVisitor::visitStart (S_msrPartgroup& elt)
   fLpsrScore ->
     appendVoiceUseToStoreBlock (fCurrentVoiceClone);
 */
-
-  idtr++;
 }
 
 void msr2LpsrVisitor::visitEnd (S_msrPartgroup& elt)
 {
-  idtr--;
-
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrPartgroup" << endl;
