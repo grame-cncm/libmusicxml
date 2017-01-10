@@ -424,8 +424,6 @@ void msr2LpsrVisitor::visitStart (S_msrStafftuning& elt)
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrStafftuning" << endl;
-
-  idtr++;
   
   // create a staff tuning clone
   fCurrentStafftuningClone =

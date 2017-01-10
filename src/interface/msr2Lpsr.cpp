@@ -80,16 +80,12 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
     cerr << idtr <<
       endl;
       // ------------------------------------------------------
-
-  idtr++;
   
   // create an msr2LpsrVisitor
   msr2LpsrVisitor visitor (msrOpts, lpsrOpts, os, mScore);
       
   // build the LPSR score
   visitor.buildLpsrScoreFromMsrScore ();
-
-  idtr--;
 
   return visitor.getLpsrScore ();
 }

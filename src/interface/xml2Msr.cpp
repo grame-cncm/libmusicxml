@@ -182,8 +182,6 @@ S_msrScore buildMsrScoreFromElementsTree (
       idtr << separator <<
       endl;
   }
-
-  idtr++;
   
   // create an xml2MsrVisitor
   xml2MsrVisitor visitor (msrOpts);
@@ -192,8 +190,6 @@ S_msrScore buildMsrScoreFromElementsTree (
   S_msrScore
     mScore =
       visitor.buildMsrScoreFromXMLElementTree (xmlTree);
-
-  idtr--;
 
   return mScore;
 }
