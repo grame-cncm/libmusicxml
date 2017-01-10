@@ -559,11 +559,11 @@ void xml2MsrVisitor::visitStart ( S_group_barline& elt)
 //________________________________________________________________________
 void xml2MsrVisitor::showPartgroupsData (string context)
 {    
-// JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-  if (gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartgroupsMap contains:" <<
       endl;
+      
     if (fPartgroupsMap.size()) {
       map<int, S_msrPartgroup>::const_iterator
         iBegin = fPartgroupsMap.begin(),
@@ -581,13 +581,12 @@ void xml2MsrVisitor::showPartgroupsData (string context)
     }
     cerr <<
       idtr << "<== fPartgroupsMap" <<
-      endl;
-  }
-
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
-    cerr << idtr <<
+      endl << endl <<
+      
+    idtr <<
       "==> " << context << ": fPartgroupsList contains:" <<
       endl;
+      
     if (fPartgroupsList.size()) {
       list<S_msrPartgroup>::const_iterator
         iBegin = fPartgroupsList.begin(),
@@ -604,7 +603,7 @@ void xml2MsrVisitor::showPartgroupsData (string context)
     }
     cerr <<
       idtr << "<== fPartgroupsList" <<
-      endl;
+      endl << endl;
   }
 }
 
@@ -5948,11 +5947,14 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     cerr <<
       endl <<
       idtr <<
-        "==== BEFORE visitEnd (S_note&)" <<
-// JMI        elt->noteAsString () <<
+        "==> BEFORE visitEnd (S_note&)" <<
         ", line " << inputLineNumber <<
         " we have:" <<
-        endl <<
+        endl;
+
+    idtr++;
+
+    cerr <<
       idtr <<
         setw(27) << "--> fCurrentNoteStaffNumber" << " = " <<
         fCurrentNoteStaffNumber <<
@@ -5964,8 +5966,14 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       idtr <<
         setw(27) << "--> current voice" << " = \"" <<
         currentVoice->getVoiceName () << "\"" <<
-        endl <<
       endl;
+
+    idtr--;
+
+    cerr <<
+      idtr <<
+        "<==" <<
+        endl << endl;
   }
 
   int divisionsPerWholeNote =
@@ -6084,7 +6092,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     cerr <<
       endl <<
       idtr <<
-        "==== AFTER visitEnd (S_note&) " <<
+        "==> AFTER visitEnd (S_note&) " <<
         note->noteAsString () <<
         ", line " << inputLineNumber <<
         " we have:" <<
@@ -6100,6 +6108,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
       idtr << idtr <<
         setw(27) << "--> current voice" << " = \"" <<
         currentVoice->getVoiceName () << "\"" <<
+        endl <<
+        "<==" <<
         endl <<
       endl;
   }
@@ -6319,12 +6329,6 @@ void xml2MsrVisitor::handleNoteBelongingToATuplet (
 void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
   S_msrNote newNote)
 {
-  if (gGeneralOptions->fDebugDebug)
-    cerr << idtr <<
-      "xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest " <<
-      newNote <<
-      endl;
-
   int inputLineNumber =
     newNote->getInputLineNumber ();
     
@@ -6336,13 +6340,16 @@ void xml2MsrVisitor::handleStandaloneOrGraceNoteOrRest (
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
     
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
     cerr <<
-      endl <<
       idtr <<
-        "--> handleStandaloneOrGraceNoteOrRest() on " <<
-        newNote->noteAsString () <<
-        " in voice \"" <<
+        "handleStandaloneOrGraceNoteOrRest:" <<
+        endl <<
+      idtr <<
+        newNote <<
+        endl <<
+      idtr <<
+        "in voice \"" <<
         currentVoice->getVoiceName () << "\"" <<
         endl <<
       idtr <<

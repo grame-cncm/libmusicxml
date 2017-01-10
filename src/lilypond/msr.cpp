@@ -1593,9 +1593,20 @@ msrNote::msrNote (
 //  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
   if (gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
-      "==> fNoteData contains:" << endl;
+      "==> fNoteData contains:" <<
+      endl;
+
+    idtr++;
+    
     cerr <<
       fNoteData;
+
+    idtr--;
+
+    cerr <<
+      idtr <<
+        "<==" <<
+        endl << endl;
   }
 
   fNoteKind = k_NoNoteKind;
@@ -1648,7 +1659,7 @@ msrNote::msrNote (
 
 //   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
   if (gGeneralOptions->fDebugDebug) {
-    cerr <<
+    cerr << idtr <<
       "--> fNoteData.fAlter = " <<
       fNoteData.fAlter <<
       endl;
@@ -9810,7 +9821,9 @@ S_msrPart msrPartgroup::addPartToPartgroup (
   fPartgroupElements.push_back (part);
 
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
-    cerr << idtr <<
+    cerr <<
+    endl <<
+    idtr <<
       "==> After addPartToPartgroup, fPartgroupPartsMap contains:" << endl;
     idtr++;
     for (
@@ -9825,11 +9838,9 @@ S_msrPart msrPartgroup::addPartToPartgroup (
     idtr--;
     cerr << idtr <<
       "<== addPartToPartgroup" <<
-      endl;
-  }
+      endl << endl <<
 
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
-    cerr << idtr <<
+    idtr <<
       "==> After addPartToPartgroup, fPartgroupPartsList contains:" <<
       endl;
     if (fPartgroupElements.size()) {
@@ -9846,12 +9857,14 @@ S_msrPart msrPartgroup::addPartToPartgroup (
       } // for
       idtr--;
     }
-    cerr << idtr << "<== addPartToPartgroup" << endl;
+    cerr <<
+      idtr << "<== addPartToPartgroup" <<
+      endl << endl;
   }
   
   // return the part
   return part;
-} // addPartToPartgroup
+}
 
 void msrPartgroup::addPartToPartgroup (S_msrPart part)
 {
