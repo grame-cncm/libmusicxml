@@ -242,7 +242,7 @@ S_msrVoice xml2MsrVisitor::registerVoiceInStaffInCurrentPartIfNeeded (
     // no, add it to the staff
     voice =
       staff->
-        registerVoiceInStaffByItsNumber (
+        registerVoiceInStaffByItsExternalNumber (
           inputLineNumber, voiceNumber);
 
   return voice;

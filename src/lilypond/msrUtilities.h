@@ -77,7 +77,12 @@ class outputLineElementsCounter {
     void reset (int value = 0);
     
     // compare the counter with a value
+    bool operator< (int value);
+    bool operator<= (int value);
     bool operator== (int value);
+    bool operator!= (int value);
+    bool operator>= (int value);
+    bool operator> (int value);
     
     // global variable for general use
     static outputLineElementsCounter gOutputLineElementsCounter; 

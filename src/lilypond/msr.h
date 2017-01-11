@@ -2038,7 +2038,7 @@ class EXP msrNote : public msrElement
         int           inputLineNumber,
         int           divisions,
         int           staffNumber,
-        int           voiceNumber);
+        int           externalVoiceNumber);
     
   protected:
  
@@ -4440,8 +4440,7 @@ class EXP msrVoice : public msrElement
     static SMARTP<msrVoice> create (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
-      int           voiceNumber,
-      int           staffRelativeVoiceNumber,
+      int           externalVoiceNumber,
       S_msrStaff    voiceStaffUplink);
 
                           /* JMI
@@ -4449,7 +4448,7 @@ class EXP msrVoice : public msrElement
       S_msrOptions& msrOpts,
       int           inputLineNumber,
       int           divisions,
-      int           voiceNumber);
+      int           externalVoiceNumber);
     */
     
     SMARTP<msrVoice> createVoiceBareClone (
@@ -4463,8 +4462,7 @@ class EXP msrVoice : public msrElement
     msrVoice (
       S_msrOptions& msrOpts, 
       int           inputLineNumber,
-      int           voiceNumber,
-      int           staffRelativeVoiceNumber,
+      int           externalVoiceNumber,
       S_msrStaff    voiceStaffUplink);
       
     virtual ~msrVoice();
@@ -4474,11 +4472,11 @@ class EXP msrVoice : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int           getVoiceNumber () const
-                      { return fVoiceNumber; }
+    int           getExternalVoiceNumber () const
+                      { return fExternalVoiceNumber; }
                 
-    void          setVoiceNumber (int fVoiceNumber)
-                      { fVoiceNumber = fVoiceNumber; }
+    void          setExternalVoiceNumber (int externalVoiceNumber)
+                      { fExternalVoiceNumber = externalVoiceNumber; }
 
     int           getStaffRelativeVoiceNumber () const
                       { return fStaffRelativeVoiceNumber; }
@@ -4650,7 +4648,7 @@ class EXP msrVoice : public msrElement
     // voice number in MusicXML may be greater than 4
     // while there can only be 4 in a staff
     // we thus have to cope with that
-    int                       fVoiceNumber;
+    int                       fExternalVoiceNumber;
     int                       fStaffRelativeVoiceNumber;
 
     S_msrStaff                fVoiceStaffUplink;
@@ -4867,28 +4865,28 @@ class EXP msrStaff : public msrElement
                     { return fStaffDivisionsPerWholeNote; }
           
     // measure number
-    void          setStaffMeasureNumber (
-                    int inputLineNumber,
-                    int measureNumber);
+    void        setStaffMeasureNumber (
+                  int inputLineNumber,
+                  int measureNumber);
                       
-    const int     getPartMeasureNumber () const
-                      { return fStaffMeasureNumber; }
+    const int   getPartMeasureNumber () const
+                    { return fStaffMeasureNumber; }
 
     // voice master
     const S_msrVoice
-                  getStaffVoiceMaster () const
-                      { return fStaffVoiceMaster; }
+                getStaffVoiceMaster () const
+                    { return fStaffVoiceMaster; }
 
     // services
     // ------------------------------------------------------
 
-    S_msrVoice    addVoiceToStaffByItsRelativeNumber (
-                    int inputLineNumber,
-                    int voiceRelativeNumber);
+    S_msrVoice  addVoiceToStaffByItsRelativeNumber (
+                  int inputLineNumber,
+                  int voiceRelativeNumber);
   
-    S_msrVoice    registerVoiceInStaffByItsNumber (
-                    int inputLineNumber,
-                    int voiceNumber);
+    S_msrVoice  registerVoiceInStaffByItsExternalNumber (
+                  int inputLineNumber,
+                  int externalVoiceNumber);
   
     string      staffKindAsString () const;
     
@@ -4901,14 +4899,14 @@ class EXP msrStaff : public msrElement
 
     S_msrVoice  addVoiceToStaffByItsNumber (
                   int inputLineNumber,
-                  int voiceNumber);
+                  int externalVoiceNumber);
 
     void        registerVoiceInStaff (
                   int inputLineNumber,
                   S_msrVoice voice);
     
     S_msrVoice  fetchVoiceFromStaff (
-                  int inputLineNumber, int voiceNumber);
+                  int inputLineNumber, int externalVoiceNumber);
                               
     void        appendClefToAllStaffVoices (S_msrClef clef);
     void        appendKeyToAllStaffVoices  (S_msrKey   key);

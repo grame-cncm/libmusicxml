@@ -1135,7 +1135,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
   if (staffKind == msrStaff::kRegularStaff) {
     if (staff->getStaffVoicesMap ().size () > 1) {
       fOstream << idtr;
-      switch (voice->getVoiceNumber ()) {
+      switch (voice->getStaffRelativeVoiceNumber ()) {
         case 1:
           fOstream << "\\voiceOne ";
           break;
@@ -3059,7 +3059,12 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarCheck& elt)
 
   // don't generate a bar check before the end of measure 1
  // JMI if (nextBarNumber > 1)
+  if (fMusicOlec > 0)
     fOstream <<
+      "| % " << nextBarNumber <<
+      endl;
+  else
+    fOstream << idtr <<
       "| % " << nextBarNumber <<
       endl;
 

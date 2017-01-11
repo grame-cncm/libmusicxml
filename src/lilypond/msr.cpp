@@ -1536,7 +1536,7 @@ S_msrNote msrNote::createRest (
   int           inputLineNumber,
   int           divisions,
   int           staffNumber,
-  int           voiceNumber)
+  int           externalVoiceNumber)
 {
   msrNoteData noteData;
 
@@ -1547,7 +1547,7 @@ S_msrNote msrNote::createRest (
   noteData.fDisplayDivisions = divisions;
     
   noteData.fStaffNumber = staffNumber;
-  noteData.fVoiceNumber = voiceNumber;
+  noteData.fVoiceNumber = externalVoiceNumber;
 
   msrNote * o =
     new msrNote (
@@ -6211,7 +6211,7 @@ void msrMeasure::bringMeasureToPosition (
           10000, // JMI
           deltaPosition,
           voice->getVoiceStaffUplink ()->getStaffNumber (),
-          voice->getVoiceNumber ());
+          voice->getExternalVoiceNumber ());
   }
 }
 
@@ -7121,15 +7121,13 @@ void msrRepeat::print (ostream& os)
 S_msrVoice msrVoice::create (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
-  int           voiceNumber,
-  int           staffRelativeVoiceNumber,
+  int           externalVoiceNumber,
   S_msrStaff    voiceStaffUplink)
 {
   msrVoice* o =
     new msrVoice (
       msrOpts, inputLineNumber,
-      voiceNumber,
-      staffRelativeVoiceNumber,
+      externalVoiceNumber,
       voiceStaffUplink);
   assert(o!=0);
   return o;
@@ -7149,13 +7147,15 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
       msrVoice::create (
         fMsrOptions,
         fInputLineNumber,
-        fVoiceNumber,
-        fStaffRelativeVoiceNumber,
+        fExternalVoiceNumber,
         clonedStaff);
 
   // populate the voice clone
   clone->fVoiceDivisionsPerWholeNote =
     fVoiceDivisionsPerWholeNote;
+
+  clone->fExternalVoiceNumber =
+    fExternalVoiceNumber;
 
   clone->fMeasureZeroHasBeenMetInVoice =
     fMeasureZeroHasBeenMetInVoice;
@@ -7182,13 +7182,15 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
 msrVoice::msrVoice (
   S_msrOptions& msrOpts, 
   int           inputLineNumber,
-  int           voiceNumber,
-  int           staffRelativeVoiceNumber,
+  int           externalVoiceNumber,
   S_msrStaff    voiceStaffUplink)
     : msrElement (msrOpts, inputLineNumber)
 {
-  fVoiceNumber = voiceNumber;
-  fStaffRelativeVoiceNumber = staffRelativeVoiceNumber;
+  fExternalVoiceNumber = externalVoiceNumber;
+  
+  fStaffRelativeVoiceNumber = externalVoiceNumber;
+    // may be changed afterwards
+  
   fVoiceStaffUplink = voiceStaffUplink;
 
   if (gGeneralOptions->fTrace)
@@ -7197,13 +7199,13 @@ msrVoice::msrVoice (
       "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
       endl;
 
-  // the voice number should be in the 0..4 range
+  // the external voice number should not be negative
   // (0 is used for the part voice master)
-  if (voiceNumber < 0) { // JMI || voiceNumber > 4) {
+  if (externalVoiceNumber < 0) {
     stringstream s;
 
     s <<
-      "voice number " << voiceNumber <<
+      "voice number " << externalVoiceNumber <<
       " is not in the 0..4 range";
       
     msrAssert (false, s.str());
@@ -7333,7 +7335,7 @@ string msrVoice::getVoiceName () const
   int voiceNumber =
     fMsrOptions-> fCreateStaffRelativeVoiceNumbers // JMI use
       ? fStaffRelativeVoiceNumber
-      : fVoiceNumber;
+      : fExternalVoiceNumber;
 
   string suffix =
     fStaffRelativeVoiceNumber == 0
@@ -8771,9 +8773,6 @@ S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
         fMsrOptions,
         inputLineNumber,
         voiceRelativeNumber,
-          // fVoiceNumber may change afterwards
-          // depending on the actual numbers of voices
-        voiceRelativeNumber,
         this);
 
   // add it to this staff
@@ -8783,16 +8782,16 @@ S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
   return voice;
 }
 
-S_msrVoice msrStaff::registerVoiceInStaffByItsNumber (
+S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
   int inputLineNumber,
-  int voiceNumber)
+  int externalVoiceNumber)
 {
   // take this new voice into account
   fRegisteredVoicesCounter++;
 
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Registering voice " << voiceNumber <<
+      "Registering voice " << externalVoiceNumber <<
        " as relative voice " << fRegisteredVoicesCounter <<
      " of staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<
@@ -8806,7 +8805,7 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsNumber (
     s <<
       "staff \"" << getStaffName () <<
       "\" is already filled up with " << msrStaff::gMaxStaffVoices <<
-      " voices, voice " << voiceNumber << " overflows it" <<
+      " voices, voice " << externalVoiceNumber << " overflows it" <<
       endl;
       
     msrMusicXMLError (
@@ -8822,22 +8821,22 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsNumber (
       
   // update it's voice number
   voice->
-    setVoiceNumber (voiceNumber);
+    setExternalVoiceNumber (externalVoiceNumber);
 
   // register it by its number
-  fStaffVoicesCorrespondanceMap [voiceNumber] = voice;
+  fStaffVoicesCorrespondanceMap [externalVoiceNumber] = voice;
 
   return voice;
 }
 
 S_msrVoice msrStaff::fetchVoiceFromStaff (
-  int inputLineNumber, int voiceNumber)
+  int inputLineNumber, int externalVoiceNumber)
 {
   S_msrVoice result;
 
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Fetching voice " << voiceNumber <<
+      "Fetching external voice number " << externalVoiceNumber <<
      " in staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<
       " in part " << fStaffPartUplink->getPartCombinedName () <<
@@ -8848,14 +8847,15 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
     i != fStaffVoicesCorrespondanceMap.end();
     i++) {
     if (
-      (*i).second->getVoiceNumber ()
+      (*i).second->getExternalVoiceNumber ()
         ==
-      voiceNumber  ) {
-      if (gGeneralOptions->fTrace)
+      externalVoiceNumber  ) {
+      if (gGeneralOptions->fTrace) {
         cerr << idtr <<
-          "Found it as voice " << result = (*i).first <<
+          "Found it as staff relative voice " << (*i).first <<
           endl;
-          
+      }
+        
       result = (*i).second;
       break;
     }
@@ -8900,7 +8900,9 @@ void msrStaff::registerVoiceInStaff (
   fStaffVoicesMap [fRegisteredVoicesCounter] = voice;
 
   // register it by its number
-  fStaffVoicesCorrespondanceMap [voice->getVoiceNumber ()] = voice;
+  fStaffVoicesCorrespondanceMap [
+    voice->getExternalVoiceNumber ()] =
+      voice;
 }
 
 void msrStaff::setStaffClef (S_msrClef clef)
@@ -9282,7 +9284,6 @@ msrPart::msrPart (
     msrVoice::create (
       fMsrOptions, 
       0,            // inputLineNumber
-      0,            // voiceNumber
       0,            // staffRelativeVoiceNumber
       hiddenMasterStaff); // voiceStaffUplink
       *

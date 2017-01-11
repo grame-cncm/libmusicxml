@@ -106,9 +106,34 @@ outputLineElementsCounter& outputLineElementsCounter::operator++ (int value)
   return *this;
 }
 
+bool outputLineElementsCounter::operator< (int value)
+{
+  return fElementsCounter < value;
+}
+
+bool outputLineElementsCounter::operator<= (int value)
+{
+  return fElementsCounter <= value;
+}
+
 bool outputLineElementsCounter::operator== (int value)
 {
   return fElementsCounter == value;
+}
+
+bool outputLineElementsCounter::operator!= (int value)
+{
+  return fElementsCounter != value;
+}
+
+bool outputLineElementsCounter::operator>= (int value)
+{
+  return fElementsCounter >= value;
+}
+
+bool outputLineElementsCounter::operator> (int value)
+{
+  return fElementsCounter > value;
 }
 
 outputLineElementsCounter
