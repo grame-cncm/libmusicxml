@@ -963,15 +963,20 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
       break;
   } // switch
 
+  string newContext;
+
+  newContext =
+    "\\new " + staffContextName + " <<" ;
+      
   if (fLpsrOptions->fGenerateComments) {
     fOstream << left <<
       idtr <<
-      setw(30) << "\\new " << staffContextName << " <<" <<
+      setw(30) << newContext <<
       " % staff " << staff->getStaffName ();
   }
   else {
     fOstream << idtr <<
-      "\\new " << staffContextName << " <<";      
+      newContext << " <<";      
   }
       
   fOstream <<
@@ -1428,6 +1433,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
     fOstream << idtr <<
       "{" <<
       setw(30) << " " "% start of msrMeasure" <<
+      elt->getMeasureNumber () <<
       endl;
 
     idtr++;
@@ -1477,6 +1483,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrMeasure& elt)
       idtr <<
       "}" <<
       setw(30) << " " "% end of msrMeasure" <<
+      elt->getMeasureNumber () <<
       endl;
   }
   /* JMI

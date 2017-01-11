@@ -6204,7 +6204,7 @@ void msrMeasure::bringMeasureToPosition (
         "?????????????????" <<
         endl << endl;
     
-   S_msrNote
+    S_msrNote
       rest =
         msrNote::createRest (
           fMsrOptions,
@@ -6212,6 +6212,28 @@ void msrMeasure::bringMeasureToPosition (
           deltaPosition,
           voice->getVoiceStaffUplink ()->getStaffNumber (),
           voice->getExternalVoiceNumber ());
+
+    // apppend the rest to the measure
+// JMI    appendNoteToMeasure (rest);
+
+  // register note measure position
+  rest->setNotePositionInMeasure (fMeasurePosition);
+  
+  // fetch note divisions
+  int noteDivisions =
+    rest->getNoteDivisions ();
+    
+  // account for note duration in measure position
+  fMeasurePosition += noteDivisions;
+
+  // determine if the note occupies a full measure
+  if (noteDivisions == fMeasureDivisionsPerWholeMeasure)
+    rest->setNoteOccupiesAFullMeasure ();
+
+  // append the note to the measure elements list
+  // only now to make it possible to remove it afterwards
+  // if it happens to be the first note of a chord
+  fMeasureElementsList.push_back (rest);
   }
 }
 
@@ -9573,6 +9595,11 @@ S_msrStaff msrPart::fetchStaffFromPart (
 void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
 {
   // JMI
+}
+
+void msrPart:: handleBackup (int divisions)
+{
+ // JMI bringAllPartVoicesToPosition ();
 }
 
 void msrPart::bringAllPartVoicesToPosition (

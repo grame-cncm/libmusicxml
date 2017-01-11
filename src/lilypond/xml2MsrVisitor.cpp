@@ -2280,6 +2280,16 @@ void xml2MsrVisitor::visitEnd (S_backup& elt )
       "Handling 'backup <<< " << fCurrentBackupDuration <<
       " divisions'" << endl;
 
+  fCurrentPart->
+    handleBackup (fCurrentBackupDuration);
+    
+    /* JMI
+  // fetch current staff
+  S_msrStaff
+    staff =
+      createStaffInCurrentPartIfNeeded (
+        inputLineNumber, fCurrentStaffNumber);
+
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -2287,7 +2297,8 @@ void xml2MsrVisitor::visitEnd (S_backup& elt )
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
-/* JMI
+
+  
   int
     saveCurrentPositionInMeasure =
       currentVoice->

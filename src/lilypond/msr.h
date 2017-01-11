@@ -5119,6 +5119,8 @@ class EXP msrPart : public msrElement
 
     void          appendHarmonyToPart (S_msrHarmony harmony);
 
+    void          handleBackup (int divisions);
+    
     void          bringAllPartVoicesToPosition (
                     int measurePosition);
 
