@@ -896,6 +896,9 @@ class EXP xml2MsrVisitor :
     bool                      fOnGoingNote;
      // needed for chords
     map<S_msrVoice, S_msrNote>  fLastHandledNoteInVoice;
+    void                      displayLastHandledNoteInVoice (
+                                string header);
+
 
     // tuplet handling
      // ------------------------------------------------------

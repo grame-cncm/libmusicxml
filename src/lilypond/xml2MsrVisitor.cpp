@@ -5101,17 +5101,17 @@ S_msrChord xml2MsrVisitor::createChordFromItsFirstNote (
   S_msrVoice voice,
   S_msrNote firstNote)
 {
+  int inputLineNumber =
+    firstNote->getInputLineNumber ();
+    
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating a chord from its first note " <<
       firstNote <<
-      ", line " << firstNote->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       ", in voice \"" << voice->getVoiceName () << "\"" <<
       endl;
 
-  int inputLineNumber =
-    firstNote->getInputLineNumber ();
-    
   // firstNote has been registered standalone in the part element sequence,
   // but it is actually the first note of a chord
   
@@ -6128,9 +6128,43 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   // keep track of current note in the current voice,
   // in case we learn later by <chord/> in the next note
   // that it is actually the first note of a chord
+  if (true || gGeneralOptions->fDebug) {
+    displayLastHandledNoteInVoice ("Before");
+  }
   fLastHandledNoteInVoice [currentVoice] = note;
+  if (true || gGeneralOptions->fDebug) {
+    displayLastHandledNoteInVoice ("Before");
+  }
     
   fOnGoingNote = false;
+}
+
+void xml2MsrVisitor::displayLastHandledNoteInVoice (string header)
+{
+  cerr <<
+    idtr << header << ":";
+
+  if (! fLastHandledNoteInVoice.size ()) {
+    cerr <<
+      " none" <<
+      endl;
+  }
+  else {
+    map<S_msrVoice, S_msrNote>::const_iterator
+      iBegin = fLastHandledNoteInVoice.begin(),
+      iEnd   = fLastHandledNoteInVoice.end(),
+      i      = iBegin;
+      
+    idtr++;
+    for ( ; ; ) {
+      cerr << idtr <<
+        "\"" << (*i).first << "\" ----> " << (*i).second;
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+    cerr << endl;
+    idtr--;
+  }
 }
 
 //______________________________________________________________________________
@@ -6177,6 +6211,21 @@ void xml2MsrVisitor::handleNoteBelongingToAChord (
     S_msrNote
       lastHandledNoteInVoice =
         fLastHandledNoteInVoice [currentVoice];
+
+    if (! lastHandledNoteInVoice) {
+      stringstream s;
+
+      s <<
+        "handleNoteBelongingToAChord:" <<
+        endl <<
+        idtr <<
+          "lastHandledNoteInVoice is null on " <<
+          newNote->noteAsString ();
+        
+      msrInternalError (
+        inputLineNumber,
+        s.str());
+    }
         
     // create the chord from its first note
     fCurrentChord =
