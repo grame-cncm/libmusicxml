@@ -6129,11 +6129,11 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   // in case we learn later by <chord/> in the next note
   // that it is actually the first note of a chord
   if (true || gGeneralOptions->fDebug) {
-    displayLastHandledNoteInVoice ("Before");
+    displayLastHandledNoteInVoice ("############## Before fLastHandledNoteInVoice");
   }
   fLastHandledNoteInVoice [currentVoice] = note;
   if (true || gGeneralOptions->fDebug) {
-    displayLastHandledNoteInVoice ("Before");
+    displayLastHandledNoteInVoice ("############## After  fLastHandledNoteInVoice");
   }
     
   fOnGoingNote = false;
@@ -6142,7 +6142,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
 void xml2MsrVisitor::displayLastHandledNoteInVoice (string header)
 {
   cerr <<
-    idtr << header << ":";
+    endl <<
+    idtr << header << ", fLastHandledNoteInVoice contains:";
 
   if (! fLastHandledNoteInVoice.size ()) {
     cerr <<
@@ -6155,16 +6156,23 @@ void xml2MsrVisitor::displayLastHandledNoteInVoice (string header)
       iEnd   = fLastHandledNoteInVoice.end(),
       i      = iBegin;
       
+    cerr << endl;
+    
     idtr++;
     for ( ; ; ) {
       cerr << idtr <<
-        "\"" << (*i).first << "\" ----> " << (*i).second;
+        "\"" << (*i).first->getVoiceName () <<
+        "\" ----> " << (*i).second->noteAsString ();
       if (++i == iEnd) break;
       cerr << endl;
     } // for
-    cerr << endl;
+    cerr <<
+      endl;
     idtr--;
   }
+
+  cerr <<
+    endl;
 }
 
 //______________________________________________________________________________
