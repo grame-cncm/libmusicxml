@@ -7331,7 +7331,7 @@ msrVoice::~msrVoice() {}
 string msrVoice::getVoiceName () const
 {
   int voiceNumber =
-    fMsrOptions-> fCreateStaffRelativeVoiceNumbers
+    fMsrOptions-> fCreateStaffRelativeVoiceNumbers // JMI use
       ? fStaffRelativeVoiceNumber
       : fVoiceNumber;
 
@@ -8831,9 +8831,17 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsNumber (
 }
 
 S_msrVoice msrStaff::fetchVoiceFromStaff (
-  int voiceNumber)
+  int inputLineNumber, int voiceNumber)
 {
   S_msrVoice result;
+
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Fetching voice " << voiceNumber <<
+     " in staff \"" << getStaffName () <<
+      "\", line " << inputLineNumber <<
+      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      endl;
 
   for (
     map<int, S_msrVoice>::iterator i = fStaffVoicesCorrespondanceMap.begin();
@@ -8843,8 +8851,13 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
       (*i).second->getVoiceNumber ()
         ==
       voiceNumber  ) {
-        result = (*i).second;
-        break;
+      if (gGeneralOptions->fTrace)
+        cerr << idtr <<
+          "Found it as voice " << result = (*i).first <<
+          endl;
+          
+      result = (*i).second;
+      break;
     }
   } // for
 
@@ -8876,7 +8889,7 @@ void msrStaff::registerVoiceInStaff (
   // register voice in this staff
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Registering voice \"" << voice->getVoiceName () <<
+      "Registering FOO voice \"" << voice->getVoiceName () <<
       "\" as relative voice " << fRegisteredVoicesCounter <<
       " of staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<

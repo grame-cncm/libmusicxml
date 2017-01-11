@@ -4907,7 +4907,8 @@ class EXP msrStaff : public msrElement
                   int inputLineNumber,
                   S_msrVoice voice);
     
-    S_msrVoice  fetchVoiceFromStaff (int voiceNumber);
+    S_msrVoice  fetchVoiceFromStaff (
+                  int inputLineNumber, int voiceNumber);
                               
     void        appendClefToAllStaffVoices (S_msrClef clef);
     void        appendKeyToAllStaffVoices  (S_msrKey   key);

@@ -235,7 +235,8 @@ S_msrVoice xml2MsrVisitor::registerVoiceInStaffInCurrentPartIfNeeded (
   S_msrVoice
     voice =
       staff->
-        fetchVoiceFromStaff (voiceNumber);
+        fetchVoiceFromStaff (
+          inputLineNumber, voiceNumber);
 
   if (! voice) 
     // no, add it to the staff
