@@ -1477,22 +1477,26 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrMeasure& elt)
 
   if (fLpsrOptions->fGenerateComments) {
     idtr--;
-    
-    fOstream <<
-      endl <<
-      idtr <<
-      "}" <<
-      setw(30) << " " "% end of msrMeasure" <<
-      elt->getMeasureNumber () <<
-      endl;
-  }
-  /* JMI
-  else
-    fOstream <<
-      endl <<
-      idtr;
-*/
 
+    if (fMusicOlec > 0) {
+      fOstream <<
+        endl <<
+        idtr <<
+        "}" <<
+        setw(30) << " " "% end of msrMeasure" <<
+        elt->getMeasureNumber () <<
+        endl << endl;
+    }
+    else {
+      fOstream <<
+        idtr <<
+        "}" <<
+        setw(30) << " " "% end of msrMeasure" <<
+        elt->getMeasureNumber () <<
+        endl << endl;      
+    }
+  }
+ 
   fVoicechunkNotesAndChordsCountersStack.pop ();
 }
 
