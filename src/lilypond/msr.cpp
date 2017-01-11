@@ -5326,6 +5326,9 @@ string msrHarmony::harmonyKindAsString () const
     case msrHarmony::kMinor:
       result = "Minor";
       break;
+    case msrHarmony::kDominant:
+      result = "Dominant";
+      break;
     case msrHarmony::kSuspendedFourth:
       result = "SuspendedFourth";
       break;
@@ -8820,6 +8823,9 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsNumber (
   voice->
     setVoiceNumber (voiceNumber);
 
+  // register it by its number
+  fStaffVoicesMap [fRegisteredVoicesCounter] = voice;
+
   return voice;
 }
 
@@ -8868,7 +8874,7 @@ void msrStaff::registerVoiceInStaff (
   fRegisteredVoicesMap [fRegisteredVoicesCounter] = voice;
 
   // register it by its number
-  fStaffVoicesMap [voice->getStaffRelativeVoiceNumber ()] = voice; // JMI
+  fStaffVoicesMap [voice->getStaffRelativeVoiceNumber ()] = voice;
 }
 
 S_msrVoice msrStaff::fetchVoiceFromStaff (
@@ -8876,13 +8882,16 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
 {
   S_msrVoice result;
 
-  for (int i = 1; i <= fRegisteredVoicesCounter; i++) {
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
     if (
-      fRegisteredVoicesMap [i]-> getVoiceNumber ()
+      (*i).second->getVoiceNumber ()
         ==
-      voiceNumber) {
-      result = fRegisteredVoicesMap [i];
-      break;
+      voiceNumber  ) {
+        result = (*i).second;
+        break;
     }
   } // for
 

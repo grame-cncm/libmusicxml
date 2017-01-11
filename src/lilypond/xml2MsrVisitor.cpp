@@ -7266,6 +7266,9 @@ void xml2MsrVisitor::visitStart ( S_kind& elt )
   else if (kind == "minor")
     fCurrentHarmonyKind = msrHarmony::kMinor;
     
+  else if (kind == "dominant")
+    fCurrentHarmonyKind = msrHarmony::kDominant;
+    
   else if (kind == "suspended-fourth")
     fCurrentHarmonyKind = msrHarmony::kSuspendedFourth;
     
@@ -7282,9 +7285,11 @@ void xml2MsrVisitor::visitStart ( S_kind& elt )
     fCurrentHarmonyKind = msrHarmony::kMinorNinth;
     
   else {
+    if (kind.size ()) {
       msrMusicXMLError (
         elt->getInputLineNumber (),
         "unknown harmony kind \"" + kind + "\"");
+    }
   }
 }
 
