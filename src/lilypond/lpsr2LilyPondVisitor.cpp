@@ -1120,9 +1120,17 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
       break;
   } // switch
 
-
+  /* JMI
   fOstream << idtr <<
     "\\context " << voiceContextName << " <<" <<
+     endl;
+
+  idtr++;
+*/
+
+  fOstream << idtr <<
+    "\\context " << "Voice" <<
+    " = " "\"" << voice->getVoiceName () << "\"" << " <<" <<
      endl;
 
   idtr++;
@@ -1168,6 +1176,13 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
     idtr << ">>" <<
     endl;
 
+/*
+  idtr--;
+  
+  fOstream <<
+    idtr << ">>" <<
+    endl;
+*/
  // JMI \context Voice = "PartPOneVoiceOne" { \PartPOneVoiceOne }
  
 }
