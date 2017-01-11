@@ -4848,12 +4848,12 @@ class EXP msrStaff : public msrElement
     void        setStaffTranspose (S_msrTranspose transpose);
 
     const map<int, S_msrVoice>&
-                getStaffVoicesMap () const
-                    { return fStaffVoicesMap; }
+                getStaffVoicesCorrespondanceMap () const
+                    { return fStaffVoicesCorrespondanceMap; }
 
     const map<int, S_msrVoice>&
-                getRegisteredVoicesMap () const
-                    { return fRegisteredVoicesMap; }
+                getStaffVoicesMap () const
+                    { return fStaffVoicesMap; }
 
     const list<S_msrStafftuning>&
                 getStafftuningsList ()
@@ -4948,9 +4948,9 @@ class EXP msrStaff : public msrElement
     int                     fStaffNumber;
     S_msrPart               fStaffPartUplink;
 
-    map<int, S_msrVoice>    fStaffVoicesMap;
+    map<int, S_msrVoice>    fStaffVoicesCorrespondanceMap;
                               //numbered 1 to gMaxStaffVoices
-    map<int, S_msrVoice>    fRegisteredVoicesMap;
+    map<int, S_msrVoice>    fStaffVoicesMap;
                               // [0] is used form staff master voice
 
     string                  fStaffInstrumentName;

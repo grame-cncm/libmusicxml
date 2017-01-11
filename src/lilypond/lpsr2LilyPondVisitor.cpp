@@ -1120,14 +1120,6 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
       break;
   } // switch
 
-  /* JMI
-  fOstream << idtr <<
-    "\\context " << voiceContextName << " <<" <<
-     endl;
-
-  idtr++;
-*/
-
   fOstream << idtr <<
     "\\context " << "Voice" <<
     " = " "\"" << voice->getVoiceName () << "\"" << " <<" <<
@@ -1139,9 +1131,6 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
     fOstream << idtr <<
       "\\set " << voiceContextName << ".autoBeaming = ##f" <<
       endl;
-
-
-// ??? cout << "####### staff->getStaffVoicesMap ().size () = " << staff->getStaffVoicesMap ().size () << endl;
 
   if (staffKind == msrStaff::kRegularStaff) {
     if (staff->getStaffVoicesMap ().size () > 1) {
@@ -1174,18 +1163,9 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
   
   fOstream <<
     idtr << ">>" <<
-    endl;
-
-/*
-  idtr--;
-  
-  fOstream <<
-    idtr << ">>" <<
-    endl;
-*/
- // JMI \context Voice = "PartPOneVoiceOne" { \PartPOneVoiceOne }
- 
+    endl; 
 }
+
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrUseVoiceCommand& elt)
 {
   if (gGeneralOptions->fDebug)
