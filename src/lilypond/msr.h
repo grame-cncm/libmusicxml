@@ -1607,6 +1607,9 @@ class EXP msrMeasure : public msrElement
     S_msrVoicechunk
                   getMeasureVoicechunkUplink () const
                       { return fMeasureVoicechunkUplink; }
+                      
+    S_msrPart     getMeasurePartDirectUplink () const
+                      { return fMeasurePartDirectUplink; }
 
     // services
     // ------------------------------------------------------
@@ -1659,6 +1662,8 @@ class EXP msrMeasure : public msrElement
     int                       fMeasureDivisionsPerWholeMeasure;
 
     int                       fMeasurePosition; // in divisions
+    S_msrPart                 fMeasurePartDirectUplink; // to accelerate
+  
 
     msrMeasureKind            fMeasureKind;
 
@@ -5080,6 +5085,13 @@ class EXP msrPart : public msrElement
     const int     getPartMeasureNumber () const
                       { return fPartMeasureNumber; }
 
+    void          updatePartMeasurePositionHighTide (
+                    int inputLineNumber,
+                    int position);
+                      
+    const int     getPartMeasurePositionHighTide () const
+                      { return fPartMeasurePositionHighTide; }
+
 /* JMI
     // voice master
     const S_msrVoice
@@ -5158,9 +5170,8 @@ class EXP msrPart : public msrElement
     int                     fPartDivisionsPerWholeNote;
 
     int                     fPartMeasureNumber;
+    int                     fPartMeasurePositionHighTide;
     
- // JMI   S_msrVoice              fPartVoicemaster;
-
     S_msrClef               fPartClef;
     S_msrKey                fPartKey;
     S_msrTime               fPartTime;

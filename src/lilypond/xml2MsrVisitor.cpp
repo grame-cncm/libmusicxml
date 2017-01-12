@@ -2940,6 +2940,18 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
     gGeneralOptions->fSaveDebugDebug = gGeneralOptions->fDebugDebug;
   }
 
+
+  if (measureNumber > 2) {
+    cout <<
+      endl <<
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+      endl <<
+      fCurrentPart <<
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+      endl << endl;
+    cout << 0/0;
+  }
+
     /* JMI
   // fetch current voice
   S_msrVoice

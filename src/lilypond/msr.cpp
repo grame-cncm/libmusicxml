@@ -6055,13 +6055,24 @@ msrMeasure::msrMeasure (
 
   fMeasureVoicechunkUplink = voicechunkUplink;
 
+  // set measure part direct link
+  fMeasurePartDirectUplink =
+    fMeasureVoicechunkUplink->
+      getVoicechunkVoiceUplink ()->
+        getVoiceStaffUplink ()->
+          getStaffPartUplink ();
+
+//    fPartMeasurePositionHighTide
+
   setMeasureTime (
     fMeasureVoicechunkUplink->
       getVoicechunkTime ());
       
+  fMeasureKind = kRegularMeasure;
+
   fMeasurePosition = 1; // ready to receive the first note
 
-  fMeasureKind = kRegularMeasure;
+
 }
 
 msrMeasure::~msrMeasure()
@@ -6111,6 +6122,9 @@ void msrMeasure::setMeasureTime (S_msrTime time)
 
 void msrMeasure::appendNoteToMeasure (S_msrNote note)
 {
+  int inputLineNumber =
+    note->getInputLineNumber ();
+    
   if (note->getNoteKind () == msrNote::kChordMemberNote) {
     stringstream s;
 
@@ -6120,7 +6134,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       " appears outside of a chord";
 
     msrInternalError (
-      note->getInputLineNumber (),
+      inputLineNumber,
       s.str());
   }
 
@@ -6129,16 +6143,8 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { // XXL
     // measure overflows, we must synchonize all voices in this part
     
-    // fetch measure part
-    S_msrPart
-      measurePart =
-        fMeasureVoicechunkUplink->
-          getVoicechunkVoiceUplink ()->
-            getVoiceStaffUplink ()->
-              getStaffPartUplink ();
-
     // bring all part's voices to the same position
-    measurePart->
+    fMeasurePartDirectUplink->
       bringAllPartVoicesToPosition (fMeasurePosition);
       
     // create a new measure
@@ -6146,7 +6152,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       newMeasure =
         msrMeasure::create (
           fMsrOptions,
-          note->getInputLineNumber (),
+          inputLineNumber,
           fMeasureNumber + 1,
           fMeasureDivisionsPerWholeNote,
           fMeasureVoicechunkUplink);
@@ -6169,6 +6175,11 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     
   // account for note duration in measure position
   fMeasurePosition += noteDivisions;
+
+  // update part measure position high tide if need be
+  fMeasurePartDirectUplink->
+    updatePartMeasurePositionHighTide (
+      inputLineNumber, fMeasurePosition);
 
   // determine if the note occupies a full measure
   if (noteDivisions == fMeasureDivisionsPerWholeMeasure)
@@ -7771,11 +7782,11 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     idtr--;
   }
 
-  if (note->getNoteKind () != msrNote::kRestNote) {
+// JMI  if (note->getNoteKind () != msrNote::kRestNote) {
     // register actual note
     fVoiceActualNotesCounter++;
     fMusicHasBeenInsertedInVoice = true;
-  }
+//  }
 
   // append the note to the voice chunk
   fVoiceVoicechunk->
@@ -9292,6 +9303,8 @@ msrPart::msrPart (
 
   fPartDivisionsPerWholeNote = 0;
 
+  fPartMeasurePositionHighTide = 1;
+
 /* JMI
   // create the part voice master
   S_msrStaff
@@ -9335,6 +9348,14 @@ S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
   clone->fPartInstrumentName = fPartInstrumentName;
   
   return clone;
+}
+
+void msrPart::updatePartMeasurePositionHighTide (
+  int inputLineNumber,
+  int measurePosition)
+{
+  if (measurePosition > fPartMeasurePositionHighTide)
+    fPartMeasurePositionHighTide = measurePosition;
 }
 
 void msrPart::setPartMSRName (string partMSRName)
