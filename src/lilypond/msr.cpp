@@ -6072,7 +6072,8 @@ msrMeasure::msrMeasure (
 
   fMeasurePosition = 1; // ready to receive the first note
 
-
+  fMeasurePartDirectUplink->
+    setPartMeasurePositionHighTide (1);
 }
 
 msrMeasure::~msrMeasure()

@@ -5085,10 +5085,14 @@ class EXP msrPart : public msrElement
     const int     getPartMeasureNumber () const
                       { return fPartMeasureNumber; }
 
+    void          setPartMeasurePositionHighTide (
+                    int position)
+                      { fPartMeasurePositionHighTide = position; }
+                      
     void          updatePartMeasurePositionHighTide (
                     int inputLineNumber,
                     int position);
-                      
+                    
     const int     getPartMeasurePositionHighTide () const
                       { return fPartMeasurePositionHighTide; }
 
