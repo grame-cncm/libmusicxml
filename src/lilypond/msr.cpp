@@ -6194,10 +6194,14 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
 void msrMeasure::bringMeasureToPosition (
   int measurePosition)
 {
-  if (fMeasurePosition < measurePosition) {
+  int partMeasurePositionHighTide =
+    fMeasurePartDirectUplink->
+      getPartMeasurePositionHighTide ();
+    
+  if (fMeasurePosition < partMeasurePositionHighTide) {
     // appending a rest to this measure to reach measurePosition
     int deltaPosition =
-      measurePosition - fMeasurePosition;
+      partMeasurePositionHighTide - fMeasurePosition;
 
     // fetch the voice
     S_msrVoice
