@@ -6285,12 +6285,15 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
 
 void msrMeasure::finalizeMeasure ()
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "Finalizing measure " <<
+      "--> finalizing measure " <<
       endl;
 
-  // JMI
+  fMeasurePartDirectUplink->
+    bringAllPartVoicesToPosition (
+      fMeasurePartDirectUplink->
+        getPartMeasurePositionHighTide ());
 }
 
 void msrMeasure::acceptIn (basevisitor* v) {
@@ -8252,9 +8255,9 @@ S_msrElement msrVoice::removeLastElementFromVoice (
 
 void msrVoice::finalizeLastVoiceMeasure ()
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "Finalizing last measure " <<
+      "--> finalizing last measure " <<
       " from voice " << getVoiceName () << endl;
 }
 

@@ -1664,7 +1664,7 @@ class EXP msrMeasure : public msrElement
     int                       fMeasureDivisionsPerWholeMeasure;
 
     int                       fMeasurePosition; // in divisions
-    S_msrPart                 fMeasurePartDirectUplink; // to accelerate
+    S_msrPart                 fMeasurePartDirectUplink; // to accelerate things
   
 
     msrMeasureKind            fMeasureKind;
