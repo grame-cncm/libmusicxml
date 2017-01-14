@@ -333,6 +333,7 @@ class lpsr2LilyPondVisitor :
     string      noteMsrPitchAsLilyPondString (S_msrNote& note);
 
     string      ornamentKindAsLilyPondString (
+                  int                          inputLineNumber,
                   msrOrnament::msrOrnamentKind ornamentKind);
 
   private:

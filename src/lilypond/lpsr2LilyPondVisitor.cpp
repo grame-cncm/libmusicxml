@@ -53,7 +53,7 @@ lpsr2LilyPondVisitor::lpsr2LilyPondVisitor (
   fCurrentStemKind = msrStem::k_NoStem;
   
   fMusicOlec.setMaxElementsPerLine (
-    fLpsrOptions->fGenerateNoteInputLineNumbers
+    fLpsrOptions->fGenerateInputLineNumbers
       ?  5
       : 10);
       
@@ -294,6 +294,7 @@ string lpsr2LilyPondVisitor::noteMsrPitchAsLilyPondString (
 
 //________________________________________________________________________
 string lpsr2LilyPondVisitor::ornamentKindAsLilyPondString (
+  int                          inputLineNumber,
   msrOrnament::msrOrnamentKind ornamentKind)
 {
   string result;
@@ -312,13 +313,41 @@ string lpsr2LilyPondVisitor::ornamentKindAsLilyPondString (
       result = "\\inverted turn";
       break;
     case msrOrnament::kDelayedTurn:
-      result = "\\turn"; // JMI ??? "\\delayed turn";
+      {
+        string message =
+          "delayed turn is not supported, replaced by turn, "
+          "see http://lilypond.org/doc/v2.18/Documentation/snippets/expressive-marks";
+        
+        msrMusicXMLWarning (
+          inputLineNumber,
+          message);
+          
+        result = "\\turn %{ " + message + " %}";
+      }
       break;
     case msrOrnament::kDelayedInvertedTurn:
-      result = "\\delayed inverted turn";
+      {
+        string message =
+          "verticalturn is not supported, ignored";
+        
+        msrMusicXMLWarning (
+          inputLineNumber,
+          message);
+          
+        result = "%{ " + message + " %}";
+      }
       break;
     case msrOrnament::kVerticalTurn:
-      result = "\\vertical turn";
+      {
+        string message =
+          "delayed inverted turn is not supported, ignored";
+        
+        msrMusicXMLWarning (
+          inputLineNumber,
+          message);
+          
+        result = "%{ " + message + " %}";
+      }
       break;
     case msrOrnament::kMordent:
       result = "\\mordent";
@@ -2222,7 +2251,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
       break;
   } // switch
 
-  if (fLpsrOptions->fGenerateNoteInputLineNumbers)
+  if (fLpsrOptions->fGenerateInputLineNumbers)
     // print the note line number as a comment
     fOstream <<
       "%{ " << elt->getInputLineNumber () << " %} ";
@@ -2315,6 +2344,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
       i++) {
       fOstream <<
         ornamentKindAsLilyPondString (
+          (*i)->getInputLineNumber (), // some ornaments are not yet supported
           (*i)->getOrnamentKind ()) <<
         " ";
       fMusicOlec++;
@@ -2330,7 +2360,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
           break;
       } // switch
 
-      fOstream << " ";
+      fOstream << " ^";
       fMusicOlec++;
 
       switch ((*i)->getOrnamentAccidentalMarkKind ()) {
@@ -2732,6 +2762,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrChord& elt)
       i++) {
       fOstream <<
         ornamentKindAsLilyPondString (
+          (*i)->getInputLineNumber (), // some ornaments are not yet supported
           (*i)->getOrnamentKind ()) <<
         " ";
       fMusicOlec++;
@@ -3036,6 +3067,11 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarline& elt)
       if (elt->getBarlineHasCoda ())
         fOstream <<
           "\\mark \\markup { \\musicglyph #\"scripts.coda\" } ";
+
+      if (fLpsrOptions->fGenerateInputLineNumbers)
+        // print the barline line number as a comment
+        fOstream <<
+          "%{ " << elt->getInputLineNumber () << " %} ";
       break;
 
     case msrBarline::kRepeatStart:

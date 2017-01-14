@@ -89,7 +89,7 @@ class EXP lpsrOptions : public smartable {
     bool                            fGenerateComments;
     bool                            fGenerateStems;
     bool                            fNoAutoBeaming;
-    bool                            fGenerateNoteInputLineNumbers;
+    bool                            fGenerateInputLineNumbers;
     
     bool                            fDontGenerateLilyPondLyrics;
 

@@ -165,8 +165,8 @@ void printUsage (int exitStatus)
     "    --noab, --noAutoBeaming" << endl <<
     "          Generate '\\set Voice.autoBeaming = ##f' in each voice " << endl <<
     "          to prevent LilyPond from handling beams automatically." << endl <<
-    "    --niln, --noteInputLineNumbers" << endl <<
-    "          Generate after each note a comment containing" << endl <<
+    "    --niln, --generateInputLineNumbers" << endl <<
+    "          Generate after each note and barline a comment containing" << endl <<
     "          its MusicXML input line number." << endl <<
     endl <<
     "    --nolpc, --dontGenerateLilyPondCode" << endl <<
@@ -223,7 +223,7 @@ void analyzeOptions (
   lpsrOpts->fGenerateComments                 = false;
   lpsrOpts->fGenerateStems                    = false;
   lpsrOpts->fNoAutoBeaming                    = false;
-  lpsrOpts->fGenerateNoteInputLineNumbers     = false;
+  lpsrOpts->fGenerateInputLineNumbers         = false;
 
   lpsrOpts->fDontGenerateLilyPondCode         = false;
 
@@ -818,7 +818,7 @@ void analyzeOptions (
           noAutoBeamingPresent = false;
         }
         if (noteInputLineNumbersPresent) {
-          lpsrOpts->fGenerateNoteInputLineNumbers = true;
+          lpsrOpts->fGenerateInputLineNumbers = true;
           gGeneralOptions->fCommandLineOptions +=
             "--noteInputLineNumbers ";
           noteInputLineNumbersPresent = false;
@@ -1034,8 +1034,8 @@ void printOptions (
     idtr << setw(fieldWidth) << "noAutoBeaming" << " : " <<
       booleanAsString (lpsrOpts->fNoAutoBeaming) <<
       endl <<
-     idtr << setw(fieldWidth) << "generateNoteInputLineNumbers" << " : " <<
-      booleanAsString (lpsrOpts->fGenerateNoteInputLineNumbers) <<
+     idtr << setw(fieldWidth) << "generateInputLineNumbers" << " : " <<
+      booleanAsString (lpsrOpts->fGenerateInputLineNumbers) <<
       endl <<
 
     idtr << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
