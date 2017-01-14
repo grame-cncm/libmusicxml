@@ -5971,7 +5971,7 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
         fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
 
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
     cerr <<
       endl <<
       idtr <<
@@ -6115,8 +6115,8 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
     handleStandaloneOrGraceNoteOrRest (note);
   }
 
- // JMI if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-  if (gGeneralOptions->fDebug) {
+ // JMI if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fDebugDebug) {
     cerr <<
       endl <<
       idtr <<

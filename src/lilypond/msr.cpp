@@ -4528,6 +4528,7 @@ S_msrElement msrLyricschunk::removeLastElementFromVoicechunk (
   }
 }
 */
+
 void msrLyricschunk::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
@@ -6707,6 +6708,18 @@ void msrVoicechunk::forceVoicechunkMeasureNumberTo (int measureNumber)
   }
 };
 
+void msrVoicechunk::finalizeLastVoicechunkMeasure ()
+{
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> finalizing last measure" <<
+      " in voice chunk" <<
+      endl;
+
+  fVoicechunkMeasuresList.back ()->
+    finalizeMeasure ();
+}
+
 void msrVoicechunk::appendTimeToVoicechunk (S_msrTime time)
 {
   if (gGeneralOptions->fDebug)
@@ -8257,11 +8270,13 @@ void msrVoice::finalizeLastVoiceMeasure ()
 {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> finalizing last measure " <<
-      " from voice " << getVoiceName () << endl;
+      "--> finalizing last measure" <<
+      " in voice " << getVoiceName () <<
+      endl;
+
+  fVoiceVoicechunk->
+    finalizeLastVoicechunkMeasure ();
 }
-
-
 
 void msrVoice::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fDebugDebug)
@@ -9767,7 +9782,9 @@ void msrPart::print (ostream& os)
 {
   os <<
     "Part" << " " << getPartCombinedName () <<
-    " (" << fPartStavesMap.size() << " staves)" <<
+    " (" << fPartStavesMap.size() << " staves" <<
+    ", position high tide " << fPartMeasurePositionHighTide <<
+    ")" <<
     endl;
     
   idtr++;
