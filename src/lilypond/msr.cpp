@@ -6055,23 +6055,34 @@ msrMeasure::msrMeasure (
 
   fMeasureVoicechunkUplink = voicechunkUplink;
 
+  // fetch measures's voice
+  S_msrVoice
+    voice =
+      fMeasureVoicechunkUplink->
+        getVoicechunkVoiceUplink ();
+
+ if (gGeneralOptions->fTrace)
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating measure " << fMeasureNumber <<
+      "in voice \"" << voice->getExternalVoiceNumber () << "\"" <<
+      endl;
+  
   // set measure part direct link
   fMeasurePartDirectUplink =
-    fMeasureVoicechunkUplink->
-      getVoicechunkVoiceUplink ()->
-        getVoiceStaffUplink ()->
-          getStaffPartUplink ();
-
-//    fPartMeasurePositionHighTide
+    voice->
+      getVoiceStaffUplink ()->
+        getStaffPartUplink ();
 
   setMeasureTime (
     fMeasureVoicechunkUplink->
       getVoicechunkTime ());
       
-  fMeasureKind = kRegularMeasure;
+  fMeasureKind = kRegularMeasure; // may be changed afterwards
 
   fMeasurePosition = 1; // ready to receive the first note
 
+  // initialize measure position high tide
   fMeasurePartDirectUplink->
     setPartMeasurePositionHighTide (1);
 }
