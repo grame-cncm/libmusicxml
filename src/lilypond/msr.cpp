@@ -6065,7 +6065,7 @@ msrMeasure::msrMeasure (
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating measure " << fMeasureNumber <<
-      "in voice \"" << voice->getExternalVoiceNumber () << "\"" <<
+      " in voice \"" << voice->getExternalVoiceNumber () << "\"" <<
       endl;
   
   // set measure part direct link
@@ -6281,6 +6281,16 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
   }
 
   return result;
+}
+
+void msrMeasure::finalizeMeasure ()
+{
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "Finalizing measure " <<
+      endl;
+
+  // JMI
 }
 
 void msrMeasure::acceptIn (basevisitor* v) {
@@ -8240,6 +8250,16 @@ S_msrElement msrVoice::removeLastElementFromVoice (
       removeLastElementFromVoicechunk (inputLineNumber);
 }
 
+void msrVoice::finalizeLastVoiceMeasure ()
+{
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "Finalizing last measure " <<
+      " from voice " << getVoiceName () << endl;
+}
+
+
+
 void msrVoice::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
@@ -9102,6 +9122,16 @@ void msrStaff::removeStaffEmptyVoices ()
   } // for
 }
 
+void msrStaff::finalizeLastStaffMeasure ()
+{
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    (*i).second->finalizeLastVoiceMeasure ();
+  } // for
+}
+
 void msrStaff::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
@@ -9657,6 +9687,16 @@ void msrPart::removePartEmptyVoices ()
     i != fPartStavesMap.end();
     i++) {
     (*i).second->removeStaffEmptyVoices ();
+  } // for
+}
+
+void msrPart::finalizeLastPartMeasure ()
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->finalizeLastStaffMeasure ();
   } // for
 }
 

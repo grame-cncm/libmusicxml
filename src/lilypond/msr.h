@@ -1640,6 +1640,8 @@ class EXP msrMeasure : public msrElement
 
     void          removeElementFromMeasure (S_msrElement elem);
 
+    void          finalizeMeasure ();
+
     // visitors
     // ------------------------------------------------------
 
@@ -4635,6 +4637,8 @@ class EXP msrVoice : public msrElement
                     int inputLineNumber,
                     int lyricsNumber);
     
+    void          finalizeLastVoiceMeasure ();
+
     // visitors
     // ------------------------------------------------------
 
@@ -4927,6 +4931,8 @@ class EXP msrStaff : public msrElement
                   int measurePosition);
 
     void        removeStaffEmptyVoices ();
+
+    void        finalizeLastStaffMeasure ();
     
     // visitors
     // ------------------------------------------------------
@@ -5141,6 +5147,8 @@ class EXP msrPart : public msrElement
                     int measurePosition);
 
     void          removePartEmptyVoices ();
+
+    void          finalizeLastPartMeasure ();
 
     // visitors
     // ------------------------------------------------------

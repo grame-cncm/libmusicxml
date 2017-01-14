@@ -3012,6 +3012,10 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
 
 void xml2MsrVisitor::visitEnd (S_measure& elt)
 {
+    // finalize last part measure to update master voice
+  fCurrentPart->
+    finalizeLastPartMeasure ();
+
   // restore debug options in case they were set in visitStart()
   gGeneralOptions->fDebug = gGeneralOptions->fSaveDebug;
   gGeneralOptions->fDebugDebug = gGeneralOptions->fSaveDebugDebug;
