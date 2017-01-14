@@ -560,7 +560,7 @@ void xml2MsrVisitor::visitStart ( S_group_barline& elt)
 //________________________________________________________________________
 void xml2MsrVisitor::showPartgroupsData (string context)
 {    
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartgroupsMap contains:" <<
       endl;
@@ -3014,7 +3014,8 @@ void xml2MsrVisitor::visitEnd (S_measure& elt)
 {
     // finalize last part measure to update master voice
   fCurrentPart->
-    finalizeLastPartMeasure ();
+    finalizeLastPartMeasure (
+      elt->getInputLineNumber ());
 
   // restore debug options in case they were set in visitStart()
   gGeneralOptions->fDebug = gGeneralOptions->fSaveDebug;
@@ -6155,12 +6156,14 @@ void xml2MsrVisitor::visitEnd ( S_note& elt )
   // keep track of current note in the current voice,
   // in case we learn later by <chord/> in the next note
   // that it is actually the first note of a chord
-  if (true || gGeneralOptions->fDebug) {
-    displayLastHandledNoteInVoice ("############## Before fLastHandledNoteInVoice");
+  if (gGeneralOptions->fDebugDebug) {
+    displayLastHandledNoteInVoice (
+      "############## Before fLastHandledNoteInVoice");
   }
   fLastHandledNoteInVoice [currentVoice] = note;
-  if (true || gGeneralOptions->fDebug) {
-    displayLastHandledNoteInVoice ("############## After  fLastHandledNoteInVoice");
+  if (gGeneralOptions->fDebugDebug) {
+    displayLastHandledNoteInVoice (
+      "############## After  fLastHandledNoteInVoice");
   }
     
   fOnGoingNote = false;

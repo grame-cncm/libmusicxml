@@ -1636,11 +1636,12 @@ class EXP msrMeasure : public msrElement
                     int inputLineNumber);
 
     void          bringMeasureToPosition (
+                    int inputLineNumber,
                     int measurePosition);
 
     void          removeElementFromMeasure (S_msrElement elem);
 
-    void          finalizeMeasure ();
+    void          finalizeMeasure (int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------
@@ -1788,9 +1789,10 @@ class EXP msrVoicechunk : public msrElement
                       }
                     
     void          bringVoicechunkToPosition (
+                    int inputLineNumber,
                     int measurePosition);
 
-    void          finalizeLastVoicechunkMeasure ();
+    void          finalizeLastVoicechunkMeasure (int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------
@@ -4633,13 +4635,14 @@ class EXP msrVoice : public msrElement
     void          addLyricsToVoice (S_msrLyrics lyrics);
 
     void          bringVoiceToPosition (
+                    int inputLineNumber,
                     int measurePosition);
 
     S_msrLyrics   createLyricsInVoiceIfNeeded (
                     int inputLineNumber,
                     int lyricsNumber);
     
-    void          finalizeLastVoiceMeasure ();
+    void          finalizeLastVoiceMeasure (int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------
@@ -4828,113 +4831,113 @@ class EXP msrStaff : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrStaffKind
-                getStaffKind () const
-                    { return fStaffKind; }
+    msrStaffKind  getStaffKind () const
+                      { return fStaffKind; }
                 
-    int         getStaffNumber () const
-                    { return fStaffNumber; }
+    int           getStaffNumber () const
+                      { return fStaffNumber; }
                 
-    S_msrPart   getStaffPartUplink () const
-                    { return fStaffPartUplink; }
+    S_msrPart     getStaffPartUplink () const
+                      { return fStaffPartUplink; }
 
-    string      getStaffName () const;
+    string        getStaffName () const;
 
-    string      getStaffInstrumentName () const
-                    { return fStaffInstrumentName; }
+    string        getStaffInstrumentName () const
+                      { return fStaffInstrumentName; }
 
-    S_msrClef   getStaffClef () const { return fStaffClef; };
-    S_msrKey    getStaffKey  () const { return fStaffKey; };
-    S_msrTime   getStaffTime () const { return fStaffTime; };
+    S_msrClef     getStaffClef () const { return fStaffClef; };
+    S_msrKey      getStaffKey  () const { return fStaffKey; };
+    S_msrTime     getStaffTime () const { return fStaffTime; };
     
     S_msrTranspose
-                getStaffTranspose () const { return fStaffTranspose; };
+                  getStaffTranspose () const { return fStaffTranspose; };
     
-    void        setStaffClef (S_msrClef clef);
-    void        setStaffKey  (S_msrKey  key);
-    void        setStaffTime (S_msrTime time);
+    void          setStaffClef (S_msrClef clef);
+    void          setStaffKey  (S_msrKey  key);
+    void          setStaffTime (S_msrTime time);
     
-    void        setStaffTranspose (S_msrTranspose transpose);
+    void          setStaffTranspose (S_msrTranspose transpose);
 
     const map<int, S_msrVoice>&
-                getStaffVoicesCorrespondanceMap () const
-                    { return fStaffVoicesCorrespondanceMap; }
+                  getStaffVoicesCorrespondanceMap () const
+                      { return fStaffVoicesCorrespondanceMap; }
 
     const map<int, S_msrVoice>&
-                getStaffVoicesMap () const
-                    { return fStaffVoicesMap; }
+                  getStaffVoicesMap () const
+                      { return fStaffVoicesMap; }
 
     const list<S_msrStafftuning>&
-                getStafftuningsList ()
-                    { return fStafftuningsList; }
+                  getStafftuningsList ()
+                      { return fStafftuningsList; }
 
     // divisions per whole note
-    void        setStaffDivisionsPerWholeNote (
-                  int divisionsPerWholeNote);
+    void          setStaffDivisionsPerWholeNote (
+                    int divisionsPerWholeNote);
                       
-    const int   getStaffDivisionsPerWholeNote () const
-                    { return fStaffDivisionsPerWholeNote; }
+    const int     getStaffDivisionsPerWholeNote () const
+                      { return fStaffDivisionsPerWholeNote; }
           
     // measure number
-    void        setStaffMeasureNumber (
+    void          setStaffMeasureNumber (
                   int inputLineNumber,
                   int measureNumber);
                       
-    const int   getPartMeasureNumber () const
-                    { return fStaffMeasureNumber; }
+    const int     getPartMeasureNumber () const
+                      { return fStaffMeasureNumber; }
 
     // voice master
     const S_msrVoice
-                getStaffVoiceMaster () const
-                    { return fStaffVoiceMaster; }
+                  getStaffVoiceMaster () const
+                      { return fStaffVoiceMaster; }
 
     // services
     // ------------------------------------------------------
 
-    S_msrVoice  addVoiceToStaffByItsRelativeNumber (
-                  int inputLineNumber,
-                  int voiceRelativeNumber);
+    S_msrVoice    addVoiceToStaffByItsRelativeNumber (
+                    int inputLineNumber,
+                    int voiceRelativeNumber);
   
-    S_msrVoice  registerVoiceInStaffByItsExternalNumber (
-                  int inputLineNumber,
-                  int externalVoiceNumber);
+    S_msrVoice    registerVoiceInStaffByItsExternalNumber (
+                    int inputLineNumber,
+                    int externalVoiceNumber);
   
-    string      staffKindAsString () const;
+    string        staffKindAsString () const;
     
-    void        setAllStaffVoicesDivisionsPerWholeNote (
-                  int divisions);
+    void          setAllStaffVoicesDivisionsPerWholeNote (
+                    int divisions);
 
-    void        setAllStaffVoicesMeasureNumber (
-                  int inputLineNumber,
-                  int measureNumber);
+    void          setAllStaffVoicesMeasureNumber (
+                    int inputLineNumber,
+                    int measureNumber);
 
-    S_msrVoice  addVoiceToStaffByItsNumber (
-                  int inputLineNumber,
-                  int externalVoiceNumber);
+    S_msrVoice    addVoiceToStaffByItsNumber (
+                    int inputLineNumber,
+                    int externalVoiceNumber);
 
-    void        registerVoiceInStaff (
-                  int inputLineNumber,
-                  S_msrVoice voice);
+    void          registerVoiceInStaff (
+                    int inputLineNumber,
+                    S_msrVoice voice);
     
-    S_msrVoice  fetchVoiceFromStaff (
-                  int inputLineNumber, int externalVoiceNumber);
+    S_msrVoice    fetchVoiceFromStaff (
+                    int inputLineNumber, int externalVoiceNumber);
                               
-    void        appendClefToAllStaffVoices (S_msrClef clef);
-    void        appendKeyToAllStaffVoices  (S_msrKey   key);
-    void        appendTimeToAllStaffVoices (S_msrTime time);
+    void          appendClefToAllStaffVoices (S_msrClef clef);
+    void          appendKeyToAllStaffVoices  (S_msrKey   key);
+    void          appendTimeToAllStaffVoices (S_msrTime time);
     
-    void        appendTransposeToAllStaffVoices (S_msrTranspose transpose);
+    void          appendTransposeToAllStaffVoices (S_msrTranspose transpose);
 
-    void        addStafftuningToStaff (
+    void          addStafftuningToStaff (
                   S_msrStafftuning stafftuning)
-                    { fStafftuningsList.push_back (stafftuning); }
+                      { fStafftuningsList.push_back (stafftuning); }
                   
-    void        bringAllStaffVoicesToPosition (
-                  int measurePosition);
+    void          bringAllStaffVoicesToPosition (
+                    int inputLineNumber,
+                    int measurePosition);
 
-    void        removeStaffEmptyVoices ();
+    void          removeStaffEmptyVoices ();
 
-    void        finalizeLastStaffMeasure ();
+    void          finalizeLastStaffMeasure (int inputLineNumber);
     
     // visitors
     // ------------------------------------------------------
@@ -5146,11 +5149,12 @@ class EXP msrPart : public msrElement
     void          handleBackup (int divisions);
     
     void          bringAllPartVoicesToPosition (
+                    int inputLineNumber,
                     int measurePosition);
 
     void          removePartEmptyVoices ();
 
-    void          finalizeLastPartMeasure ();
+    void          finalizeLastPartMeasure (int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------
