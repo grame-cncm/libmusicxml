@@ -6481,7 +6481,7 @@ msrVoicechunk::msrVoicechunk (
       msrMeasure::create (
         fMsrOptions,
         inputLineNumber,
-        0, // measure number may be changed afterwards
+        1, // measure number may be changed afterwards
            // if <measure/> 0 is found in MusicXML data
         fVoicechunkDivisionsPerWholeNote,
         this);
