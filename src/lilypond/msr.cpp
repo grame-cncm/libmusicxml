@@ -1535,6 +1535,7 @@ S_msrNote msrNote::createRest (
   S_msrOptions& msrOpts,
   int           inputLineNumber,
   int           divisions,
+  int           divisionsPerWholeNote,
   int           staffNumber,
   int           externalVoiceNumber)
 {
@@ -1555,6 +1556,8 @@ S_msrNote msrNote::createRest (
   assert(o!=0);
 
   o->fNoteKind = kRestNote;
+  
+  o->fNoteDivisionsPerWholeNote = divisionsPerWholeNote;
   
   return o;
 }    
@@ -6248,10 +6251,20 @@ void msrMeasure::bringMeasureToPosition (
           fMsrOptions,
           inputLineNumber,
           restDuration,
-          voice->getVoiceStaffUplink ()->getStaffNumber (),
-          voice->getExternalVoiceNumber ());
+          fMeasureVoicechunkUplink->
+            getVoicechunkDivisionsPerWholeNote (),
+          voice->
+            getVoiceStaffUplink ()->getStaffNumber (),
+          voice->
+            getExternalVoiceNumber ());
 
     // apppend the rest to the measure
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+       "--> appending rest " << rest->noteAsString () <<
+       " to last measure in voice \" " << voice->getVoiceName () <<
+       endl;
+       
     appendNoteToMeasure (rest);
 
     // register note measure position
@@ -6297,16 +6310,25 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
 void msrMeasure::finalizeMeasure (int inputLineNumber)
 {
   if (gGeneralOptions->fDebug)
-    cerr << idtr <<
+    cerr <<
+      endl <<
+      idtr <<
       "--> finalizing measure" <<
       ", line " << inputLineNumber <<
-      endl;
+      endl << endl;
 
+  bringMeasureToPosition (
+    inputLineNumber,
+    fMeasurePartDirectUplink->
+      getPartMeasurePositionHighTide ());
+
+    /* JMI
   fMeasurePartDirectUplink->
     bringAllPartVoicesToPosition (
       inputLineNumber,
       fMeasurePartDirectUplink->
         getPartMeasurePositionHighTide ());
+        */
 }
 
 void msrMeasure::acceptIn (basevisitor* v) {
@@ -6707,10 +6729,12 @@ void msrVoicechunk::bringVoicechunkToPosition (
   int inputLineNumber,
   int measurePosition)
 {
+  /* JMI
   fVoicechunkMeasuresList.back ()->
     bringMeasureToPosition (
       inputLineNumber,
       measurePosition);
+      */
 }
 
 void msrVoicechunk::forceVoicechunkMeasureNumberTo (int measureNumber)
@@ -6723,7 +6747,7 @@ void msrVoicechunk::forceVoicechunkMeasureNumberTo (int measureNumber)
   }
 };
 
-void msrVoicechunk::finalizeLastVoicechunkMeasure (int inputLineNumber)
+void msrVoicechunk::finalizeLastMeasureOfVoicechunk (int inputLineNumber)
 {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -8284,7 +8308,7 @@ S_msrElement msrVoice::removeLastElementFromVoice (
       removeLastElementFromVoicechunk (inputLineNumber);
 }
 
-void msrVoice::finalizeLastVoiceMeasure (int inputLineNumber)
+void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
 {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -8294,7 +8318,7 @@ void msrVoice::finalizeLastVoiceMeasure (int inputLineNumber)
       endl;
 
   fVoiceVoicechunk->
-    finalizeLastVoicechunkMeasure (inputLineNumber);
+    finalizeLastMeasureOfVoicechunk (inputLineNumber);
 }
 
 void msrVoice::acceptIn (basevisitor* v) {
@@ -9162,7 +9186,7 @@ void msrStaff::removeStaffEmptyVoices ()
   } // for
 }
 
-void msrStaff::finalizeLastStaffMeasure (int inputLineNumber)
+void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
 {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -9175,7 +9199,7 @@ void msrStaff::finalizeLastStaffMeasure (int inputLineNumber)
     map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
     i != fStaffVoicesMap.end();
     i++) {
-    (*i).second->finalizeLastVoiceMeasure (inputLineNumber);
+    (*i).second->finalizeLastMeasureOfVoice (inputLineNumber);
   } // for
 }
 
@@ -9713,7 +9737,7 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
 
 void msrPart:: handleBackup (int divisions)
 {
- // JMI bringAllPartVoicesToPosition ();
+ // JMI 
 }
 
 void msrPart::bringAllPartVoicesToPosition (
@@ -9740,7 +9764,7 @@ void msrPart::removePartEmptyVoices ()
   } // for
 }
 
-void msrPart::finalizeLastPartMeasure (int inputLineNumber)
+void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
 {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -9753,7 +9777,7 @@ void msrPart::finalizeLastPartMeasure (int inputLineNumber)
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->finalizeLastStaffMeasure (inputLineNumber);
+    (*i).second->finalizeLastMeasureOfStaff (inputLineNumber);
   } // for
 }
 

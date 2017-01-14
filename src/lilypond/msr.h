@@ -1792,7 +1792,7 @@ class EXP msrVoicechunk : public msrElement
                     int inputLineNumber,
                     int measurePosition);
 
-    void          finalizeLastVoicechunkMeasure (int inputLineNumber);
+    void          finalizeLastMeasureOfVoicechunk (int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------
@@ -2048,6 +2048,7 @@ class EXP msrNote : public msrElement
         S_msrOptions& msrOpts,
         int           inputLineNumber,
         int           divisions,
+        int           divisionsPerWholeNote,
         int           staffNumber,
         int           externalVoiceNumber);
     
@@ -2126,7 +2127,8 @@ class EXP msrNote : public msrElement
                       { return fNoteStem; }
 
     // divisions per whole note
-    void          setNoteDivisionsPerWholeNote (int divisionsPerWholeNote)
+    void          setNoteDivisionsPerWholeNote (
+                    int divisionsPerWholeNote)
                       {
                         fNoteDivisionsPerWholeNote =
                           divisionsPerWholeNote;
@@ -2364,7 +2366,8 @@ class EXP msrChord : public msrElement
                       { return fChordDivisions; }
             
     // divisions per whole note
-    void          setChordDivisionsPerWholeNote (int divisionsPerWholeNote)
+    void          setChordDivisionsPerWholeNote (
+                    int divisionsPerWholeNote)
                       {
                         fChordDivisionsPerWholeNote =
                           divisionsPerWholeNote;
@@ -2460,8 +2463,6 @@ class EXP msrChord : public msrElement
     vector<S_msrNote>         fChordNotes;
 
     int                       fChordDivisionsPerWholeNote;
-
-//    msrMeasureLocation        fChordMeasureLocation;
 
     int                       fChordPositionInMeasure;
     
@@ -3156,10 +3157,13 @@ class EXP msrTuplet : public msrElement
     // set and get
     // ------------------------------------------------------
     
-    int           getTupletNumber () const { return fTupletNumber; }
+    int           getTupletNumber () const
+                      { return fTupletNumber; }
 
-    int           getTupletActualNotes () const { return fTupletActualNotes; }
-    int           getTupletNormalNotes () const { return fTupletNormalNotes; }
+    int           getTupletActualNotes () const
+                      { return fTupletActualNotes; }
+    int           getTupletNormalNotes () const
+                      { return fTupletNormalNotes; }
     
     const vector<S_msrElement>&
                   getTupletElements () const
@@ -3169,7 +3173,8 @@ class EXP msrTuplet : public msrElement
                       { return fTupletDivisions; }
             
     // divisions per whole note
-    void        setTupletDivisionsPerWholeNote (int divisionsPerWholeNote)
+    void        setTupletDivisionsPerWholeNote (
+                  int divisionsPerWholeNote)
                     {
                       fTupletDivisionsPerWholeNote =
                         divisionsPerWholeNote;
@@ -4642,7 +4647,7 @@ class EXP msrVoice : public msrElement
                     int inputLineNumber,
                     int lyricsNumber);
     
-    void          finalizeLastVoiceMeasure (int inputLineNumber);
+    void          finalizeLastMeasureOfVoice (int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------
@@ -4937,7 +4942,7 @@ class EXP msrStaff : public msrElement
 
     void          removeStaffEmptyVoices ();
 
-    void          finalizeLastStaffMeasure (int inputLineNumber);
+    void          finalizeLastMeasureOfStaff (int inputLineNumber);
     
     // visitors
     // ------------------------------------------------------
@@ -5154,7 +5159,7 @@ class EXP msrPart : public msrElement
 
     void          removePartEmptyVoices ();
 
-    void          finalizeLastPartMeasure (int inputLineNumber);
+    void          finalizeLastMeasureOfPart (int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------

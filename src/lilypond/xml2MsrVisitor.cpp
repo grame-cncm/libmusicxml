@@ -3014,7 +3014,7 @@ void xml2MsrVisitor::visitEnd (S_measure& elt)
 {
     // finalize last part measure to update master voice
   fCurrentPart->
-    finalizeLastPartMeasure (
+    finalizeLastMeasureOfPart (
       elt->getInputLineNumber ());
 
   // restore debug options in case they were set in visitStart()

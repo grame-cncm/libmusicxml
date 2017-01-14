@@ -791,27 +791,27 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrPartgroupBlock& elt)
           
         case msrPartgroup::kBracePartgroupSymbol: // JMI
           if (partgroupInstrumentName.size ())
-            partGroupContextName = "PianoStaff";
+            partGroupContextName = "\\new PianoStaff";
           else
-            partGroupContextName = "GrandStaff";
+            partGroupContextName = "\\new GrandStaff";
           break;
           
         case msrPartgroup::kBracketPartgroupSymbol:
-          partGroupContextName = "PianoStaff";
+          partGroupContextName = "\\new PianoStaff";
           break;
           
         case msrPartgroup::kLinePartgroupSymbol:
-          partGroupContextName = "StaffGroup";
+          partGroupContextName = "\\new StaffGroup";
           break;
           
         case msrPartgroup::kSquarePartgroupSymbol:
-          partGroupContextName = "StaffGroup";
+          partGroupContextName = "\\new StaffGroup";
           break;
       } // switch
     
     
       fOstream << idtr <<
-        "\\new " << partGroupContextName << " " "<<";
+        " " << partGroupContextName << " " "<<";
         
       if (fLpsrOptions->fGenerateComments)
         fOstream <<
@@ -1005,7 +1005,7 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrStaffBlock& elt)
   }
   else {
     fOstream << idtr <<
-      newContext << " <<";      
+      newContext;   
   }
       
   fOstream <<
@@ -1140,64 +1140,68 @@ void lpsr2LilyPondVisitor::visitStart (S_lpsrUseVoiceCommand& elt)
   msrStaff::msrStaffKind
     staffKind = staff->getStaffKind ();
   
-  string voiceContextName;
+  string voiceContextName; // JMI ???
   
   switch (staffKind) {
     case msrStaff::kRegularStaff:
-      voiceContextName = "Staff";
+      voiceContextName = "\\context Staff";
       break;
     case msrStaff::kTablatureStaff:
-      voiceContextName = "TabStaff";
+      voiceContextName = "\\context TabStaff";
       break;
     case msrStaff::kPercussionStaff:
-      voiceContextName = "DrumVoice";
+      voiceContextName = "\\context DrumVoice";
       break;
   } // switch
 
-  fOstream << idtr <<
-    "\\context " << "Voice" <<
-    " = " "\"" << voice->getVoiceName () << "\"" << " <<" <<
-     endl;
-
-  idtr++;
-
-  if (fLpsrOptions->fNoAutoBeaming)
+  if (voice->getStaffRelativeVoiceNumber () > 0) {
+    // don't include the master voice in the staff by default
+    
     fOstream << idtr <<
-      "\\set " << voiceContextName << ".autoBeaming = ##f" <<
-      endl;
-
-  if (staffKind == msrStaff::kRegularStaff) {
-    if (staff->getStaffVoicesMap ().size () > 1) {
-      fOstream << idtr;
-      switch (voice->getStaffRelativeVoiceNumber ()) {
-        case 1:
-          fOstream << "\\voiceOne ";
-          break;
-        case 2:
-          fOstream << "\\voiceTwo ";
-          break;
-        case 3:
-          fOstream << "\\voiceThree ";
-          break;
-        case 4:
-          fOstream << "\\voiceFour ";
-          break;
-        default:
-          {}
-      } // switch
-      fOstream <<
-        endl;
-    }
-  }
-
-  fOstream <<
-    idtr << "\\" << voice->getVoiceName () << endl;
-
-  idtr--;
+      "\\context " "Voice" " = " "\"" <<
+      voice->getVoiceName () << "\"" << " <<" <<
+       endl;
   
-  fOstream <<
-    idtr << ">>" <<
-    endl; 
+    idtr++;
+  
+    if (fLpsrOptions->fNoAutoBeaming)
+      fOstream << idtr <<
+        "\\set " << voiceContextName << ".autoBeaming = ##f" <<
+        endl;
+  
+    if (staffKind == msrStaff::kRegularStaff) {
+      if (staff->getStaffVoicesMap ().size () > 1) {
+        fOstream << idtr;
+        switch (voice->getStaffRelativeVoiceNumber ()) {
+          case 1:
+            fOstream << "\\voiceOne ";
+            break;
+          case 2:
+            fOstream << "\\voiceTwo ";
+            break;
+          case 3:
+            fOstream << "\\voiceThree ";
+            break;
+          case 4:
+            fOstream << "\\voiceFour ";
+            break;
+          default:
+            {}
+        } // switch
+        fOstream <<
+          endl;
+      }
+    }
+  
+    fOstream <<
+      idtr << "\\" << voice->getVoiceName () << endl;
+  
+    idtr--;
+    
+    fOstream <<
+      idtr << ">>" <<
+      endl;
+  }
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_lpsrUseVoiceCommand& elt)
