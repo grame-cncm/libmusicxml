@@ -446,9 +446,9 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
       kC, kD, kE, kF, kG, kA, kB}; // JMI, k_NoDiatonicPitch};
     
     enum msrAlterationKind {
-      kSesquiFlat, kFlat, kSemiFlat,
+      kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
       kNatural,
-      kSemiSharp, kSharp, kSesquiSharp};
+      kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
 
     // constructors/destructor
     // ------------------------------------------------------

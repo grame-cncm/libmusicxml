@@ -1731,12 +1731,24 @@ msrNote::msrNote (
     noteQuatertonesFromA += 3;
   }
   
+  else if (fNoteData.fAlter == -2 ) {
+    fNoteData.fAlteration = msrNoteData::kSesquiFlat;
+    noteQuatertonesFromA -= 3;
+    if (noteQuatertonesFromA < 0)
+      noteQuatertonesFromA += 24; // it is below A
+  }
+  
+  else if (fNoteData.fAlter == +2 ) {
+    fNoteData.fAlteration = msrNoteData::kSesquiSharp;
+    noteQuatertonesFromA += 3;
+  }
+  
   else {
     stringstream s;
     
     s <<
       " alter " << fNoteData.fAlter <<
-      " should be -1.5, -1, -0.5, 0, +0.5, +1 or +1.5";
+      " should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
       
     msrMusicXMLError (
       fInputLineNumber,
@@ -2092,6 +2104,10 @@ string msrNote::notePitchAsString () const
 
     switch (fNoteData.fAlteration) {
 
+      case msrNoteData::kDoubleFlat:
+        s << "eses";
+        break;
+        
       case msrNoteData::kSesquiFlat:
         s << "eseh";
         break;
@@ -2117,6 +2133,10 @@ string msrNote::notePitchAsString () const
         
       case msrNoteData::kSesquiSharp:
         s << "isih";
+        break;
+        
+      case msrNoteData::kDoubleSharp:
+        s << "isis";
         break;      
     } // switch  
   }
@@ -6667,7 +6687,6 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   
   fVoicechunkMeasureNumber = measureNumber; // JMI
 
-/*
   if (measureNumber == 0) {
     // measure 1 has already been created by default, re-number it a 0
   // JMI  if (gGeneralOptions->fDebug)
@@ -6684,43 +6703,39 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   }
 
   else {
-  */
-
-  /*
-    An empty measure is created for measure 1 in case there is no upbeat,
-    at which time the first measure still has number 0 by default
-  */
+    /* JMI
+    if (! currentMeasureLength) {
+      // remove empty measure XXL
+    //  if (! fVoicechunkMeasuresList.size ())
+    //    fVoicechunkMeasuresList.pop_back (); // JMI
   
-  if (! currentMeasureLength) {
-    // remove empty measure XXL
-  //  if (! fVoicechunkMeasuresList.size ())
-  //    fVoicechunkMeasuresList.pop_back (); // JMI
-
-    // set new current measure number to 1 instead of 0
-    if (fVoicechunkMeasuresList.size ()) {
-      S_msrMeasure
-        newCurrentMeasure =
-          fVoicechunkMeasuresList.back ();
-          
-      if (newCurrentMeasure->getMeasureNumber () == 0)
-        newCurrentMeasure->
-          setMeasureNumber (1);
+      // set new current measure number to 1 instead of 0
+      if (fVoicechunkMeasuresList.size ()) {
+        S_msrMeasure
+          newCurrentMeasure =
+            fVoicechunkMeasuresList.back ();
+            
+        if (newCurrentMeasure->getMeasureNumber () == 0)
+          newCurrentMeasure->
+            setMeasureNumber (1);
+      }
     }
+    */
+  
+    // create a new measure
+    S_msrMeasure
+      newMeasure =
+        msrMeasure::create (
+          fMsrOptions,
+          inputLineNumber,
+          measureNumber,
+          fVoicechunkDivisionsPerWholeNote,
+          this);
+  
+    // append it to the voice chunk's measures list
+    fVoicechunkMeasuresList.push_back (
+      newMeasure);
   }
-
-  // create a new measure
-  S_msrMeasure
-    newMeasure =
-      msrMeasure::create (
-        fMsrOptions,
-        inputLineNumber,
-        measureNumber,
-        fVoicechunkDivisionsPerWholeNote,
-        this);
-
-  // append it to the voice chunk's measures list
-  fVoicechunkMeasuresList.push_back (
-    newMeasure);
 
   fMeasureNumberHasBeenSetInVoiceChunk = true;
 }

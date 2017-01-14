@@ -3113,7 +3113,8 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarCheck& elt)
   if (fMusicOlec > 0)
     fOstream <<
       "| % " << nextBarNumber <<
-      endl;
+      endl <<
+      idtr;
   else
     fOstream << idtr <<
       "| % " << nextBarNumber <<
