@@ -6185,17 +6185,16 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       s.str());
   }
 
-/*********** JMI
   // first check whether there is a measure change
 // JMI  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
   if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { // XXL
-    // measure overflows, we must synchonize all voices in this part
+    /*
+      measure overflows, we must synchonize all voices in this part
+    */
     
-    // bring all part's voices to the same position
-    fMeasurePartDirectUplink->
-      bringAllPartVoicesToPosition (
-        inputLineNumber,
-        fMeasurePosition);
+    // finalize this measure
+    this->
+      finalizeMeasure (inputLineNumber);
       
     // create a new measure
     S_msrMeasure
@@ -6211,35 +6210,44 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     fMeasureVoicechunkUplink->
       appendMeasureToVoicechunk (
         newMeasure);
+
+    // append note to it thru the voice chunk
+    fMeasureVoicechunkUplink->
+      appendNoteToVoicechunk (note);
   }
-*****/
 
-  // populate measure uplink
-  note->setNoteMeasureUplink (this);
-
-  // register note measure position
-  note->setNotePositionInMeasure (fMeasurePosition);
-  
-  // fetch note divisions
-  int noteDivisions =
-    note->getNoteDivisions ();
+  else {
+    /*
+      regular insertion in current measure
+    */
     
-  // account for note duration in measure position
-  fMeasurePosition += noteDivisions;
-
-  // update part measure position high tide if need be
-  fMeasurePartDirectUplink->
-    updatePartMeasurePositionHighTide (
-      inputLineNumber, fMeasurePosition);
-
-  // determine if the note occupies a full measure
-  if (noteDivisions == fMeasureDivisionsPerWholeMeasure)
-    note->setNoteOccupiesAFullMeasure ();
-
-  // append the note to the measure elements list
-  // only now to make it possible to remove it afterwards
-  // if it happens to be the first note of a chord
-  fMeasureElementsList.push_back (note);
+    // populate measure uplink
+    note->setNoteMeasureUplink (this);
+  
+    // register note measure position
+    note->setNotePositionInMeasure (fMeasurePosition);
+    
+    // fetch note divisions
+    int noteDivisions =
+      note->getNoteDivisions ();
+      
+    // account for note duration in measure position
+    fMeasurePosition += noteDivisions;
+  
+    // update part measure position high tide if need be
+    fMeasurePartDirectUplink->
+      updatePartMeasurePositionHighTide (
+        inputLineNumber, fMeasurePosition);
+  
+    // determine if the note occupies a full measure
+    if (noteDivisions == fMeasureDivisionsPerWholeMeasure)
+      note->setNoteOccupiesAFullMeasure ();
+  
+    // append the note to the measure elements list
+    // only now to make it possible to remove it afterwards
+    // if it happens to be the first note of a chord
+    fMeasureElementsList.push_back (note);
+  }
 }
 
 /*
@@ -6680,7 +6688,9 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
     // JMI  if (gGeneralOptions->fDebug)
         cerr <<
           idtr <<
-            "### there are currently " << " measures in voice chunk" <<
+            "### there are currently " <<
+            fVoicechunkMeasuresList.size () <<
+            " measures in voice chunk" <<
             endl <<
           idtr <<
             setw(31) << "--> renumbering measure 1 as 0" <<
@@ -6698,7 +6708,9 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
       // JMI  if (gGeneralOptions->fDebug)
           cerr <<
             idtr <<
-              "### there are currently " << " measures in voice chunk" <<
+              "### there are currently " <<
+              fVoicechunkMeasuresList.size () <<
+            " measures in voice chunk" <<
               endl <<
             idtr <<
               setw(31) <<
@@ -6716,7 +6728,9 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
       // JMI  if (gGeneralOptions->fDebug)
         cerr <<
           idtr <<
-            "### there are currently " << " measures in voice chunk" <<
+            "### there are currently " <<
+            fVoicechunkMeasuresList.size () <<
+            " measures in voice chunk" <<
             endl <<
           idtr <<
             setw(31) <<
@@ -8881,7 +8895,7 @@ void msrStaff::setStaffMeasureNumber (
 {
  // if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> setStaffMeasureNumber(), " <<
+      "### --> setStaffMeasureNumber(), " <<
       ", line " << inputLineNumber <<
       ", measureNumber = " << measureNumber <<
       ", in staff \"" << getStaffName () << "\"" <<
@@ -9192,7 +9206,7 @@ void msrStaff::setAllStaffVoicesMeasureNumber (
 {
  // if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> setAllStaffVoicesMeasureNumber(), " <<
+      "### --> setAllStaffVoicesMeasureNumber(), " <<
       ", line " << inputLineNumber <<
       ", measureNumber = " << measureNumber <<
       ", in staff \"" << getStaffName () << "\"" <<
@@ -9583,7 +9597,7 @@ void msrPart::setPartMeasureNumber (
 {
  // if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> setPartMeasureNumber()" <<
+      "### --> setPartMeasureNumber()" <<
       ", line " << inputLineNumber <<
       ", measureNumber = " << measureNumber <<
       ", in part " << getPartCombinedName () <<
@@ -9688,7 +9702,7 @@ void msrPart::setAllPartStavesMeasureNumber (
 {
  // if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> setAllPartStavesMeasureNumber()" <<
+      "### --> setAllPartStavesMeasureNumber()" <<
       ", line " << inputLineNumber <<
       ", measureNumber = " << measureNumber <<
       ", in part " << getPartCombinedName () <<
