@@ -1464,8 +1464,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrMeasure& elt)
 
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
-      "{" <<
-      setw(30) << " " "% start of msrMeasure" <<
+      setw(30) << "{" << "% start of msrMeasure " <<
       elt->getMeasureNumber () <<
       endl;
 
@@ -1515,18 +1514,16 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrMeasure& elt)
       fOstream <<
         endl <<
         idtr <<
-        "}" <<
-        setw(30) << " " "% end of msrMeasure" <<
-        elt->getMeasureNumber () <<
-        endl << endl;
+          setw(30) << "}" << "% end of msrMeasure " <<
+          elt->getMeasureNumber () <<
+          endl << endl;
     }
     else {
       fOstream <<
         idtr <<
-        "}" <<
-        setw(30) << " " "% end of msrMeasure" <<
-        elt->getMeasureNumber () <<
-        endl << endl;      
+          setw(30) << "}" << "% end of msrMeasure " <<
+          elt->getMeasureNumber () <<
+          endl << endl;      
     }
   }
  
@@ -3235,16 +3232,17 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
     fOstream << idtr <<
       "% --> End visiting msrRepeat" << endl;
 
+  idtr--;
+
   if (elt->getRepeatEndings ().size() == 0) {
     // the end of the repeat has not been generated yet
 
-    idtr--;
+// JMI    idtr--;
     
     if (fLpsrOptions->fGenerateComments) {      
       fOstream <<
         idtr <<
-        "}" <<
-        setw(30) << " " "% end of repeat" <<
+        setw(30) << "}" << "% end of repeat" <<
         endl;
     }
     else {
@@ -3255,8 +3253,6 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
         endl;
     }
   }
-
-  idtr--;
 
   fMusicOlec.reset ();
 }
