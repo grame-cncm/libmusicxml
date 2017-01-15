@@ -2028,7 +2028,7 @@ class EXP msrNote : public msrElement
 
     enum msrNoteKind {
       k_NoNoteKind,
-      kRestNote, 
+      kRestNote, kSkipNote,
       kStandaloneNote,  kGraceNote,
       kChordMemberNote, kTupletMemberNote};
       
@@ -2045,7 +2045,7 @@ class EXP msrNote : public msrElement
     // creation from xml2Msr
     // ------------------------------------------------------
 
-    static SMARTP<msrNote> createRest (
+    static SMARTP<msrNote> createSkipNote (
         S_msrOptions& msrOpts,
         int           inputLineNumber,
         int           divisions,

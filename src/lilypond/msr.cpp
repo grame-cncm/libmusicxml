@@ -1531,7 +1531,7 @@ S_msrNote msrNote::createFromNoteData (
   return o;
 }
 
-S_msrNote msrNote::createRest (
+S_msrNote msrNote::createSkipNote (
   S_msrOptions& msrOpts,
   int           inputLineNumber,
   int           divisions,
@@ -1541,7 +1541,7 @@ S_msrNote msrNote::createRest (
 {
   msrNoteData noteData;
 
-  noteData.fStep = 'r';
+  noteData.fStep = 's';
   noteData.fStepIsARest = true;
   
   noteData.fDivisions = divisions;
@@ -1556,7 +1556,7 @@ S_msrNote msrNote::createRest (
   assert(o!=0);
 
   // set rest's note kind
-  o->fNoteKind = kRestNote;
+  o->fNoteKind = kSkipNote;
   
   // set rest's divisions per whole note
   o->fNoteDivisionsPerWholeNote = divisionsPerWholeNote;
@@ -2238,6 +2238,13 @@ string msrNote::noteAsString () const
     case msrNote::kRestNote:
       s <<
         "Rest" <<
+        ":" <<
+        noteDivisionsAsMSRString ();
+      break;
+      
+    case msrNote::kSkipNote:
+      s <<
+        "Skip" <<
         ":" <<
         noteDivisionsAsMSRString ();
       break;
@@ -6286,24 +6293,11 @@ void msrMeasure::finalizeMeasure (int inputLineNumber)
       voice =
         fMeasureVoicechunkUplink->
           getVoicechunkVoiceUplink ();
-
-/* JMI    
- //   if (gGeneralOptions->fDebug)
-      cerr <<
-       idtr <<
-        "--> bringing position in measure " << fMeasureNumber <<
-        " in voice \" " << voice->getVoiceName () <<
-        "\" from  " << fMeasurePosition <<
-        " to " << partMeasurePositionHighTide <<
-        ", line " << inputLineNumber <<
-        ", rest duration = " << restDuration <<
-        endl;
-    */
     
     // create the rest
     S_msrNote
       rest =
-        msrNote::createRest (
+        msrNote::createSkipNote (
           fMsrOptions,
           inputLineNumber,
           restDuration,
@@ -6326,21 +6320,19 @@ void msrMeasure::finalizeMeasure (int inputLineNumber)
       cerr << idtr <<
        "--> appending rest " << rest->noteAsString () <<
        " (" << restDuration <<
-       " divs.) to measure " << fMeasureNumber <<
+       " divs.) to finalize measure " << fMeasureNumber <<
        " of voice \" " << voice->getVoiceName () <<
        " (pos. " << fMeasurePosition <<
        " --> " << partMeasurePositionHighTide << ")" <<
        endl;
        
+    // append the rest to the measure elements list
+    // only now to make it possible to remove it afterwards
+    // if it happens to be the first note of a chord
     appendNoteToMeasure (rest);
 
     // account for rest duration in measure position
     fMeasurePosition += restDuration;
-  
-    // append the rest to the measure elements list
-    // only now to make it possible to remove it afterwards
-    // if it happens to be the first note of a chord
-    fMeasureElementsList.push_back (rest);
   }
 }
 
@@ -7901,11 +7893,9 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     idtr--;
   }
 
-// JMI  if (note->getNoteKind () != msrNote::kRestNote) {
-    // register actual note
-    fVoiceActualNotesCounter++;
-    fMusicHasBeenInsertedInVoice = true;
-//  }
+  // register actual note
+  fVoiceActualNotesCounter++;
+  fMusicHasBeenInsertedInVoice = true;
 
   // append the note to the voice chunk
   fVoiceVoicechunk->

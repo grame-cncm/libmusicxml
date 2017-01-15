@@ -2015,6 +2015,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
         fOstream << "rest";
         break;
         
+      case msrNote::kSkipNote:        
+        fOstream << "skip";
+        break;
+        
       case msrNote::kChordMemberNote:
         fOstream << "chord member";
         break;
@@ -2156,6 +2160,18 @@ void lpsr2LilyPondVisitor::visitStart (S_msrNote& elt)
       // the preceding one is kept
       break;
       
+    case msrNote::kSkipNote:      
+      // print the skip name
+      fOstream << "s";
+      
+      // print the note duration
+      fOstream <<
+        elt->noteDivisionsAsMSRString ();
+
+      // a rest is no relative octave reference,
+      // the preceding one is kept
+      break;
+      
     case msrNote::kChordMemberNote:
       // print the note name
       fOstream <<
@@ -2229,6 +2245,10 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
         fOstream << "rest";
         break;
         
+      case msrNote::kSkipNote:
+        fOstream << "skip";
+        break;
+        
       case msrNote::kChordMemberNote:
         fOstream << "chord member";
         break;
@@ -2240,7 +2260,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
     fOstream << " msrNote" << endl;
   }
 
-  switch (elt->getNoteKind ()) {
+  switch (elt->getNoteKind ()) { // JMI
     case msrNote::k_NoNoteKind:
       break;
     case msrNote::kStandaloneNote:
@@ -2248,6 +2268,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrNote& elt)
     case msrNote::kGraceNote:
       break;
     case msrNote::kRestNote:
+      break;
+    case msrNote::kSkipNote:
       break;
     case msrNote::kChordMemberNote:
       break;

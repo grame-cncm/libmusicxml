@@ -44,6 +44,7 @@ msr2SummaryVisitor::msr2SummaryVisitor (
   
   fScoreStandaloneNotesCounter = 0;
   fScoreRestNotesCounter       = 0;
+  fScoreSkipNotesCounter       = 0;
   fScoreGraceNotesCounter      = 0;
   fScoreChordNotesCounter      = 0;
   fScoreTupletNotesCounter     = 0;
@@ -101,17 +102,26 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
   
   fOstream <<
     idtr <<
-      fScoreStandaloneNotesCounter <<" standalone notes" << endl <<
+      fScoreStandaloneNotesCounter <<" standalone notes" <<
+      endl <<
     idtr <<
-      fScoreRestNotesCounter << " rest notes" << endl <<
+      fScoreRestNotesCounter << " rest notes" <<
+      endl <<
     idtr <<
-      fScoreGraceNotesCounter << " grace notes" << endl <<
+      fScoreSkipNotesCounter << " skip notes" <<
+      endl <<
     idtr <<
-      fScoreChordNotesCounter << " chord notes" << endl <<
+      fScoreGraceNotesCounter << " grace notes" <<
+      endl <<
     idtr <<
-      fScoreTupletNotesCounter << " tuplet notes" << endl <<
+      fScoreChordNotesCounter << " chord notes" <<
+      endl <<
     idtr <<
-      fScoreChordsCounter << " chords" << endl;
+      fScoreTupletNotesCounter << " tuplet notes" <<
+      endl <<
+    idtr <<
+      fScoreChordsCounter << " chords" <<
+      endl;
 
   idtr--;
 }
@@ -607,6 +617,9 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
       case msrNote::kRestNote:
         fOstream << "rest";
         break;
+      case msrNote::kSkipNote:
+        fOstream << "skip";
+        break;
       case msrNote::kGraceNote:
         fOstream << "grace";
         break;
@@ -628,6 +641,9 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
       break;
     case msrNote::kRestNote:
       fScoreRestNotesCounter++;
+      break;
+    case msrNote::kSkipNote:
+      fScoreSkipNotesCounter++;
       break;
     case msrNote::kGraceNote:
       fScoreGraceNotesCounter++;
@@ -655,6 +671,9 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
       case msrNote::kRestNote:
         fOstream << "rest";
         break;
+      case msrNote::kSkipNote:
+        fOstream << "skip";
+        break;
       case msrNote::kGraceNote:
         fOstream << "grace";
         break;
@@ -668,12 +687,14 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
     fOstream << " msrNote" << endl;
   }
 
-  switch (elt->getNoteKind ()) {
+  switch (elt->getNoteKind ()) { // JMI
     case msrNote::k_NoNoteKind:
       break;
     case msrNote::kStandaloneNote:
       break;
     case msrNote::kRestNote:
+      break;
+    case msrNote::kSkipNote:
       break;
     case msrNote::kGraceNote:
       break;

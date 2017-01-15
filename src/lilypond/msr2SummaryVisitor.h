@@ -236,6 +236,7 @@ class msr2SummaryVisitor :
     // ------------------------------------------------------
     int            fScoreStandaloneNotesCounter;
     int            fScoreRestNotesCounter;
+    int            fScoreSkipNotesCounter;
     int            fScoreGraceNotesCounter;
 
     // chords
