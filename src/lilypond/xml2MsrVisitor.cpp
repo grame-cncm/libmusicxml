@@ -2941,7 +2941,7 @@ void xml2MsrVisitor::visitStart (S_measure& elt)
   }
 
 
-  if (measureNumber > 2000) {
+  if (measureNumber > 2000) { // JMI
     cout <<
       endl <<
       "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<

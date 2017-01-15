@@ -6592,7 +6592,7 @@ S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone (
 void msrVoicechunk::setVoicechunkMeasureNumber (
   int inputLineNumber,
   int measureNumber)
-{
+{  
   // fetch voice chunk current measure
   S_msrMeasure
     currentMeasure =
@@ -9462,6 +9462,11 @@ msrPart::msrPart (
   fPartDivisionsPerWholeNote = 0;
 
   fPartMeasurePositionHighTide = 1;
+
+  // create a first staff for the part
+  this->
+    addStaffToPart (
+      inputLineNumber, 1);
 
 /* JMI
   // create the part voice master
