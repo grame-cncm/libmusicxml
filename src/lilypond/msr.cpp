@@ -6097,7 +6097,7 @@ msrMeasure::msrMeasure (
       fMeasureVoicechunkUplink->
         getVoicechunkVoiceUplink ();
 
-  if (gGeneralOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating measure " << fMeasureNumber <<
       " in voice \"" << voice->getExternalVoiceNumber () << "\"" <<
@@ -6128,7 +6128,7 @@ msrMeasure::~msrMeasure()
 S_msrMeasure msrMeasure::createMeasureBareClone (
   S_msrVoicechunk clonedVoicechunk)
 {
-  if (gGeneralOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of measure " << fMeasureNumber <<
       endl;
@@ -6284,8 +6284,8 @@ void msrMeasure::finalizeMeasure (int inputLineNumber)
       getPartMeasurePositionHighTide ();
     
   if (fMeasurePosition < partMeasurePositionHighTide) {
-    // appending a rest to this measure to reach measurePosition
-    int restDuration =
+    // appending a skip to this measure to reach measurePosition
+    int skipDuration =
       partMeasurePositionHighTide - fMeasurePosition;
 
     // fetch the voice
@@ -6294,13 +6294,13 @@ void msrMeasure::finalizeMeasure (int inputLineNumber)
         fMeasureVoicechunkUplink->
           getVoicechunkVoiceUplink ();
     
-    // create the rest
+    // create the skip
     S_msrNote
-      rest =
+      skip =
         msrNote::createSkipNote (
           fMsrOptions,
           inputLineNumber,
-          restDuration,
+          skipDuration,
           fMeasureVoicechunkUplink->
             getVoicechunkDivisionsPerWholeNote (),
           voice->
@@ -6308,31 +6308,31 @@ void msrMeasure::finalizeMeasure (int inputLineNumber)
           voice->
             getExternalVoiceNumber ());
 
-    // does the rest occupy a full measure?
-    if (restDuration == fMeasureDivisionsPerWholeMeasure)
-      rest->setNoteOccupiesAFullMeasure ();
+    // does the skip occupy a full measure?
+    if (skipDuration == fMeasureDivisionsPerWholeMeasure)
+      skip->setNoteOccupiesAFullMeasure ();
   
-    // register rest's measure position
-    rest->setNotePositionInMeasure (fMeasurePosition);
+    // register skip's measure position
+    skip->setNotePositionInMeasure (fMeasurePosition);
     
-    // apppend the rest to the measure
+    // apppend the skip to the measure
  //   if (gGeneralOptions->fDebug)
       cerr << idtr <<
-       "--> appending rest " << rest->noteAsString () <<
-       " (" << restDuration <<
-       " divs.) to finalize measure " << fMeasureNumber <<
-       " of voice \" " << voice->getVoiceName () <<
-       " (pos. " << fMeasurePosition <<
-       " --> " << partMeasurePositionHighTide << ")" <<
+       "--> appending " << skip->noteAsString () <<
+       " (" << skipDuration <<
+       " divs.) to finalize \"" << voice->getVoiceName () <<
+       "\" measure: @" << fMeasureNumber << ":" << fMeasurePosition <<
+       " --> @" << fMeasureNumber <<
+       ":" << partMeasurePositionHighTide <<
        endl;
        
-    // append the rest to the measure elements list
+    // append the skip to the measure elements list
     // only now to make it possible to remove it afterwards
     // if it happens to be the first note of a chord
-    appendNoteToMeasure (rest);
+    appendNoteToMeasure (skip);
 
-    // account for rest duration in measure position
-    fMeasurePosition += restDuration;
+    // account for skip duration in measure position
+    fMeasurePosition += skipDuration;
   }
 }
 
@@ -7304,17 +7304,20 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
   clone->fMusicHasBeenInsertedInVoice =
     fMusicHasBeenInsertedInVoice;
 
+/* JMI
   // create the voice chunk
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Creating the initial voice chunk for voice " <<
-      clone->getVoiceName () << endl;
+      "Creating the initial voice chunk clone for voice \"" <<
+      clone->getVoiceName () << "\"" <<
+      endl;
       
   clone->
     fVoiceVoicechunk =
       msrVoicechunk::create (
         clone->fMsrOptions, clone->fInputLineNumber,
         clone);
+  */
   
   return clone;
 }
@@ -7375,7 +7378,7 @@ msrVoice::msrVoice (
       msrLyrics::kMasterLyrics,
       this);
 
-  // create the initial voice chunk
+  // create the initial voice chunk for this voice
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Creating the initial voice chunk for voice \"" <<
@@ -7641,7 +7644,7 @@ void msrVoice::bringVoiceToPosition (
 }
 */
 
-void msrVoice::forceVoiceMeasureNumberTo (int measureNumber)
+void msrVoice::forceVoiceMeasureNumberTo (int measureNumber) // JMI
 {
   fVoiceMeasureNumber = measureNumber;
 
@@ -8876,6 +8879,14 @@ void msrStaff::setStaffMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
+ // if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> setStaffMeasureNumber(), " <<
+      ", line " << inputLineNumber <<
+      ", measureNumber = " << measureNumber <<
+      ", in staff \"" << getStaffName () << "\"" <<
+      endl;
+
   // set part measure location
   fStaffMeasureNumber = measureNumber;
 
@@ -9179,6 +9190,14 @@ void msrStaff::setAllStaffVoicesMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
+ // if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> setAllStaffVoicesMeasureNumber(), " <<
+      ", line " << inputLineNumber <<
+      ", measureNumber = " << measureNumber <<
+      ", in staff \"" << getStaffName () << "\"" <<
+      endl;
+
   for (
     map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
     i != fStaffVoicesMap.end();
@@ -9297,9 +9316,11 @@ void msrStaff::browseData (basevisitor* v)
       map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
       i != fStaffVoicesMap.end();
       i++) {
-      // browse the voice
-      msrBrowser<msrVoice> browser (v);
-      browser.browse (*((*i).second));
+      if ((*i).second->getStaffRelativeVoiceNumber () != 0) {
+        // browse the voice, but not if it is the master voice JMI
+        msrBrowser<msrVoice> browser (v);
+        browser.browse (*((*i).second));
+      }
     } // for
   }
 
@@ -9560,6 +9581,14 @@ void msrPart::setPartMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
+ // if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> setPartMeasureNumber()" <<
+      ", line " << inputLineNumber <<
+      ", measureNumber = " << measureNumber <<
+      ", in part " << getPartCombinedName () <<
+      endl;
+
   // set part measure location
   fPartMeasureNumber = measureNumber;
 
@@ -9657,6 +9686,14 @@ void msrPart::setAllPartStavesMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
+ // if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> setAllPartStavesMeasureNumber()" <<
+      ", line " << inputLineNumber <<
+      ", measureNumber = " << measureNumber <<
+      ", in part " << getPartCombinedName () <<
+      endl;
+
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();

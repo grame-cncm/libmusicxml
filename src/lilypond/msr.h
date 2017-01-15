@@ -4556,7 +4556,7 @@ class EXP msrVoice : public msrElement
                     const msrMeasureLocation& measureLocation);
 */
 
-    void          forceVoiceMeasureNumberTo (int measureNumber);
+    void          forceVoiceMeasureNumberTo (int measureNumber); // JMI
                       
     void          appendClefToVoice   (S_msrClef clef);
     void          appendKeyToVoice    (S_msrKey  key);
