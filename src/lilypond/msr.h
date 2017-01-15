@@ -1634,11 +1634,11 @@ class EXP msrMeasure : public msrElement
                       
     S_msrElement  removeLastElementFromMeasure (
                     int inputLineNumber);
-
+/*
     void          bringMeasureToPosition (
                     int inputLineNumber,
                     int measurePosition);
-
+*/
     void          removeElementFromMeasure (S_msrElement elem);
 
     void          finalizeMeasure (int inputLineNumber);
@@ -1787,11 +1787,11 @@ class EXP msrVoicechunk : public msrElement
                             "since it is empty");
                         }
                       }
-                    
+  /*                  
     void          bringVoicechunkToPosition (
                     int inputLineNumber,
                     int measurePosition);
-
+*/
     void          finalizeLastMeasureOfVoicechunk (int inputLineNumber);
 
     // visitors
@@ -4639,10 +4639,11 @@ class EXP msrVoice : public msrElement
 
     void          addLyricsToVoice (S_msrLyrics lyrics);
 
+/*
     void          bringVoiceToPosition (
                     int inputLineNumber,
                     int measurePosition);
-
+*/
     S_msrLyrics   createLyricsInVoiceIfNeeded (
                     int inputLineNumber,
                     int lyricsNumber);
@@ -4935,11 +4936,11 @@ class EXP msrStaff : public msrElement
     void          addStafftuningToStaff (
                   S_msrStafftuning stafftuning)
                       { fStafftuningsList.push_back (stafftuning); }
-                  
+                  /*
     void          bringAllStaffVoicesToPosition (
                     int inputLineNumber,
                     int measurePosition);
-
+*/
     void          removeStaffEmptyVoices ();
 
     void          finalizeLastMeasureOfStaff (int inputLineNumber);
@@ -5152,11 +5153,11 @@ class EXP msrPart : public msrElement
     void          appendHarmonyToPart (S_msrHarmony harmony);
 
     void          handleBackup (int divisions);
-    
+  /*  
     void          bringAllPartVoicesToPosition (
                     int inputLineNumber,
                     int measurePosition);
-
+*/
     void          removePartEmptyVoices ();
 
     void          finalizeLastMeasureOfPart (int inputLineNumber);
