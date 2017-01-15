@@ -3120,7 +3120,7 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarCheck& elt)
       "| % " << nextBarNumber <<
       endl;
 
-    fMusicOlec.reset ();
+  fMusicOlec.reset ();
 }
 
 void lpsr2LilyPondVisitor::visitEnd (S_msrBarCheck& elt)
@@ -3219,9 +3219,7 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
 
     idtr--;
     
-    if (fLpsrOptions->fGenerateComments) {
-      idtr--;
-      
+    if (fLpsrOptions->fGenerateComments) {      
       fOstream <<
         idtr <<
         "}" <<
@@ -3236,6 +3234,8 @@ void lpsr2LilyPondVisitor::visitEnd (S_msrRepeat& elt)
         endl;
     }
   }
+
+  idtr--;
 
   fMusicOlec.reset ();
 }

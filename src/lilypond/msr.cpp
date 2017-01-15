@@ -6712,6 +6712,10 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   } // switch
 
   if (doCreateAMeasure) {
+    // finalize current measure
+    currentMeasure->
+      finalizeMeasure (inputLineNumber);
+      
     // create a new measure
     S_msrMeasure
       newMeasure =
