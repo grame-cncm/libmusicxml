@@ -1436,7 +1436,7 @@ msrGracenotes::~msrGracenotes() {}
 S_msrGracenotes msrGracenotes::createGracenotesBareClone (
   S_msrVoice voiceClone)
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of grace notes" <<
       endl;
@@ -1566,7 +1566,7 @@ S_msrNote msrNote::createRest (
 
 S_msrNote msrNote::createNoteBareClone ()
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of note " <<
       noteAsString () <<
@@ -2519,7 +2519,7 @@ msrChord::~msrChord() {}
 
 S_msrChord msrChord::createChordBareClone ()
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of chord" <<
       endl;
@@ -3210,7 +3210,7 @@ msrTuplet::~msrTuplet() {}
 
 S_msrTuplet msrTuplet::createTupletBareClone ()
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of a tuplet" <<
       endl;
@@ -4521,7 +4521,7 @@ msrLyricschunk::~msrLyricschunk()
 
 S_msrLyricschunk msrLyricschunk::createLyricschunkBareClone ()
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of a lyrics chunk" <<
       endl;
@@ -4831,7 +4831,7 @@ msrLyrics::~msrLyrics() {}
 
 S_msrLyrics msrLyrics::createLyricsBareClone (S_msrVoice clonedVoice)
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of a lyrics" <<
       endl;
@@ -4848,7 +4848,7 @@ S_msrLyrics msrLyrics::createLyricsBareClone (S_msrVoice clonedVoice)
   return clone;
 }
 
-/*
+/* JMI
 
 void msrLyrics::addTextChunkToLyrics (
   int       inputLineNumber,
@@ -5326,7 +5326,7 @@ msrHarmony::~msrHarmony() {}
 
 S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone or a harmony" <<
       endl;
@@ -6090,8 +6090,7 @@ msrMeasure::msrMeasure (
       fMeasureVoicechunkUplink->
         getVoicechunkVoiceUplink ();
 
- if (gGeneralOptions->fTrace)
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating measure " << fMeasureNumber <<
       " in voice \"" << voice->getExternalVoiceNumber () << "\"" <<
@@ -6570,7 +6569,7 @@ msrVoicechunk::~msrVoicechunk() {}
 S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone (
   S_msrVoice clonedVoice)
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of a voice chunk" <<
       endl;
@@ -6624,7 +6623,7 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
         getMeasureKind ();
 */
         
-  if (gGeneralOptions->fDebug)
+ // if (gGeneralOptions->fDebug)
     cerr <<
       idtr <<
         setw(31) << "--> setVoicechunkMeasureNumber (" <<
@@ -6682,32 +6681,57 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   fVoicechunkMeasureNumber = measureNumber; // JMI
 
   bool doCreateAMeasure = false;
-  
-// JMI  if (gGeneralOptions->fDebug)
-    cerr <<
-      idtr <<
-        "### there are currently " << " measures in voice chunk" <<
-        endl <<
-      idtr <<
-        setw(31) << "--> renumbering measure 1 as 0" <<
-        endl;
-            
+              
   switch (measureNumber) {
     case 0:
       // measure 1 has already been created by default, re-number it a 0
+    // JMI  if (gGeneralOptions->fDebug)
+        cerr <<
+          idtr <<
+            "### there are currently " << " measures in voice chunk" <<
+            endl <<
+          idtr <<
+            setw(31) << "--> renumbering measure 1 as 0" <<
+            endl;
+  
       currentMeasure->
         setMeasureNumber (0);
+        
+      doCreateAMeasure = false;    
       break;
 
     case 1:
-      if (currentMeasure->getMeasureNumber () == 0)
+      if (currentMeasure->getMeasureNumber () == 0) {
         // this is the second measure, that should be created
+      // JMI  if (gGeneralOptions->fDebug)
+          cerr <<
+            idtr <<
+              "### there are currently " << " measures in voice chunk" <<
+              endl <<
+            idtr <<
+              setw(31) <<
+                "--> measure 1 found after measure 0, "
+                "a new measure is being created" <<
+              endl;
+              
         doCreateAMeasure = true;
+      }
       // else
         // measure 1 has already been created by default
       break;
       
     default:
+      // JMI  if (gGeneralOptions->fDebug)
+        cerr <<
+          idtr <<
+            "### there are currently " << " measures in voice chunk" <<
+            endl <<
+          idtr <<
+            setw(31) <<
+              "--> measure " << measureNumber <<
+              " found, a new measure is being created" <<
+            endl;
+              
       doCreateAMeasure = true;    
   } // switch
 
@@ -7259,7 +7283,7 @@ S_msrVoice msrVoice::create (
 
 S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of voice \"" <<
       getVoiceName () <<
@@ -7692,7 +7716,7 @@ void msrVoice::addLyricsToVoice (S_msrLyrics lyrics)
   // register lyrics in this voice
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fTrace)
     cerr << idtr <<
-      "### Adding lyrics " << lyrics->getLyricsName () <<
+      "Adding lyrics " << lyrics->getLyricsName () <<
       " (" << lyricsNumber <<
       ") to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -7958,21 +7982,17 @@ S_msrLyricschunk msrVoice::addTextLyricschunkToVoice (
   int       divisions)
 {
   // create a 'Text' lyrics chunk
- if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
- // JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-//    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink (); JMI
-//    S_msrPart  part  = staff-> getStaffPartUplink ();
-    
-    cerr << idtr <<
-      "--> Adding 'Text' lyrics chunk"
-      ", line " << inputLineNumber <<
-      ", divisions = " << divisions << 
-      ", lyricsNumber = \"" << lyricsNumber << "\"" <<
-      ", syllabic = \"" << syllabic << "\"" <<
-      ", text = \"" << text << "\"" <<
-      ", elision: " << elision <<
-      " in voice \"" << getVoiceName () << "\"" <<
-      endl;
+ if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  cerr << idtr <<
+    "--> Adding 'Text' lyrics chunk"
+    ", line " << inputLineNumber <<
+    ", divisions = " << divisions << 
+    ", lyricsNumber = \"" << lyricsNumber << "\"" <<
+    ", syllabic = \"" << syllabic << "\"" <<
+    ", text = \"" << text << "\"" <<
+    ", elision: " << elision <<
+    " in voice \"" << getVoiceName () << "\"" <<
+    endl;
   }
 
   // fetch lyricsNumber in this voice
@@ -8506,7 +8526,7 @@ msrStafftuning::~ msrStafftuning ()
 
 S_msrStafftuning msrStafftuning::createStafftuningBareClone ()
 {
- //  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of a staff tuning" <<
       endl;
@@ -8662,9 +8682,9 @@ msrStaff::msrStaff (
     fStaffPartUplink->
       getPartDivisionsPerWholeNote ();
 
-  // create all 'gMaxStaffVoices' voices for this staff
+  // create the staff voice master with relative number 0
+  // and all 'gMaxStaffVoices' voices for this staff
   // those that remain without music will be removed later
-  // also create the staff voice master with relative number 0
   for (int i = 0; i <= gMaxStaffVoices; i++) {
     addVoiceToStaffByItsRelativeNumber (
       fInputLineNumber, i);
@@ -8808,7 +8828,7 @@ msrStaff::~msrStaff()
 
 S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of staff \"" <<
       getStaffName () <<
@@ -8999,11 +9019,11 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
       (*i).second->getExternalVoiceNumber ()
         ==
       externalVoiceNumber  ) {
-      if (gGeneralOptions->fTrace) {
+      if (gGeneralOptions->fDebug) {
         cerr << idtr <<
-          "Voice " << externalVoiceNumber <<
+          "--> voice " << externalVoiceNumber <<
           " in staff " << getStaffName () <<
-          " gets staff relative number " << (*i).first <<
+          " has staff relative number " << (*i).first <<
           endl;
       }
         
@@ -9467,7 +9487,7 @@ msrPart::~msrPart() {}
 
 S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of part " <<
       getPartCombinedName () <<
@@ -10620,7 +10640,7 @@ msrScore::~msrScore() {}
 
 S_msrScore msrScore::createScoreBareClone ()
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of a score" <<
       endl;
