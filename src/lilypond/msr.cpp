@@ -7672,7 +7672,7 @@ void msrVoice::setNewVoicechunkForVoice (
       this);
 }
 
-S_msrLyrics msrVoice::addLyricsToVoice (
+S_msrLyrics msrVoice::addLyricsToVoiceByItsNumber (
   int inputLineNumber,
   int lyricsNumber)
 {
@@ -7766,7 +7766,7 @@ S_msrLyrics msrVoice::createLyricsInVoiceIfNeeded (
   else {
     // no, add it to the voice
     lyrics =
-      addLyricsToVoice (
+      addLyricsToVoiceByItsNumber (
         inputLineNumber, lyricsNumber);
   }
 
@@ -9463,12 +9463,12 @@ msrPart::msrPart (
 
   fPartMeasurePositionHighTide = 1;
 
+/* JMI
   // create a first staff for the part
   this->
     addStaffToPart (
       inputLineNumber, 1);
 
-/* JMI
   // create the part voice master
   S_msrStaff
     hiddenMasterStaff =
@@ -9717,7 +9717,7 @@ void msrPart::setAllPartStavesTranspose (S_msrTranspose transpose)
   } // for
 }
 
-S_msrStaff msrPart::addStaffToPart (
+S_msrStaff msrPart::addStaffToPartByItsNumber (
   int inputLineNumber,
   int staffNumber)
 {
@@ -9756,7 +9756,7 @@ void msrPart::addStaffToPart (S_msrStaff staff)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Adding staff " << staff->getStaffNumber () <<
+      "Adding staff " << staff->getStaffName () <<
       " to part " << getPartCombinedName () <<
       endl;
 
@@ -10042,7 +10042,7 @@ string msrPartgroup::getPartgroupCombinedName () const
   return s.str();
 }
 
-S_msrPart msrPartgroup::addPartToPartgroup (
+S_msrPart msrPartgroup::addPartToPartgroupByItsID (
   int    inputLineNumber,
   string partID)
 {
@@ -10086,7 +10086,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
     cerr <<
     endl <<
     idtr <<
-      "==> After addPartToPartgroup, fPartgroupPartsMap contains:" << endl;
+      "==> After addPartToPartgroupByItsID, fPartgroupPartsMap contains:" << endl;
     idtr++;
     for (
         map<string, S_msrPart>::const_iterator i = fPartgroupPartsMap.begin();
@@ -10103,7 +10103,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
       endl << endl <<
 
     idtr <<
-      "==> After addPartToPartgroup, fPartgroupPartsList contains:" <<
+      "==> After addPartToPartgroupByItsID, fPartgroupPartsList contains:" <<
       endl;
     if (fPartgroupElements.size()) {
       list<S_msrElement>::const_iterator
@@ -10120,7 +10120,7 @@ S_msrPart msrPartgroup::addPartToPartgroup (
       idtr--;
     }
     cerr <<
-      idtr << "<== addPartToPartgroup" <<
+      idtr << "<== addPartToPartgroupByItsID" <<
       endl << endl;
   }
   

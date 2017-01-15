@@ -213,7 +213,7 @@ S_msrStaff xml2MsrVisitor::createStaffInCurrentPartIfNeeded (
     // no, add it to fCurrentPart
     staff =
       fCurrentPart->
-        addStaffToPart (
+        addStaffToPartByItsNumber (
           inputLineNumber, staffNumber);
 
   return staff;
@@ -1013,7 +1013,7 @@ void xml2MsrVisitor::visitEnd (S_score_part& elt)
     // no, add it to the current part group
     part =
       partgroup->
-        addPartToPartgroup (
+        addPartToPartgroupByItsID (
           inputLineNumber, fCurrentPartID);
   }
   
@@ -1894,7 +1894,7 @@ void xml2MsrVisitor::visitStart (S_staves& elt)
     
     while (n <= stavesNumber) {
       fCurrentPart->
-        addStaffToPart (
+        addStaffToPartByItsNumber (
           inputLineNumber, n);
       n++;
     } // while
@@ -2018,7 +2018,47 @@ void xml2MsrVisitor::visitStart (S_staff_details& elt )
 
 void xml2MsrVisitor::visitStart (S_staff_type& elt )
 {
-  // ossia, cue, editorial, regular, or alternate.
+  string staffType = elt->getValue ();
+  
+  if (staffType == "ossia") {
+    
+    fCurrentStaffTypeKind =
+      msrStaff::kOssiaStaffType;
+    
+  }
+  else if (staffType == "cue") {
+    
+    fCurrentStaffTypeKind =
+      msrStaff::kCueStaffType;
+    
+  }
+  else if (staffType == "editorial") {
+    
+    fCurrentStaffTypeKind =
+      msrStaff::kEditorialStaffType;
+    
+  }
+  else if (staffType == "regular") {
+    
+    fCurrentStaffTypeKind =
+      msrStaff::kRegularStaffType;
+    
+  }
+  else if (staffType == "alternate") {
+    
+    fCurrentStaffTypeKind =
+      msrStaff::kAlternateStaffType;
+    
+  }
+else {
+  stringstream s;
+  
+  s << "staff type" << staffType << "unknown";
+  
+  msrMusicXMLError (
+    elt->getInputLineNumber (),
+    s.str());      
+  }
 }
 
 void xml2MsrVisitor::visitStart (S_staff_lines& elt )

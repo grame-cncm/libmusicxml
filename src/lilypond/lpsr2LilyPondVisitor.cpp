@@ -3110,11 +3110,10 @@ void lpsr2LilyPondVisitor::visitStart (S_msrBarCheck& elt)
 
   // don't generate a bar check before the end of measure 1
  // JMI if (nextBarNumber > 1)
-  if (fMusicOlec > 0)
+  if (fMusicOlec > 0) // JMI
     fOstream <<
       "| % " << nextBarNumber <<
-      endl <<
-      idtr;
+      endl;
   else
     fOstream << idtr <<
       "| % " << nextBarNumber <<

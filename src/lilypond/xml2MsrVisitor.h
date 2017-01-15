@@ -30,12 +30,6 @@ namespace MusicXML2
 
 /*!
 \brief Produces a summary of a MusicXML part.
-
-  A part summary consists in 
-  - a number of staves
-  - a map that associates each stave with the corresponding number of notes
-  - a map that associates each stave with the corresponding voices and notes
-  - a map that associates each stave with the correcponding lyricss
 */
 class EXP xml2MsrVisitor : 
 
@@ -629,6 +623,8 @@ class EXP xml2MsrVisitor :
     // staff handling
     // ------------------------------------------------------
     int                       fCurrentStaffNumber; // used throughout
+    msrStaff::msrStaffTypeKind
+                              fCurrentStaffTypeKind;
     
     S_msrStaff                createStaffInCurrentPartIfNeeded (
                                 int            inputLineNumber,

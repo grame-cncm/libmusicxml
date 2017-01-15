@@ -1777,7 +1777,8 @@ class EXP msrVoicechunk : public msrElement
                         if (fVoicechunkMeasuresList.size ()) {
                           return
                             fVoicechunkMeasuresList.back ()->
-                              removeLastElementFromMeasure (inputLineNumber);
+                              removeLastElementFromMeasure (
+                                inputLineNumber);
                         }
                         
                         else {
@@ -4614,26 +4615,27 @@ class EXP msrVoice : public msrElement
                     int       divisions);
     
     void          appendBarCheckToVoice (S_msrBarCheck bnc);
-    void          appendBarnumberCheckToVoice
-                                        (S_msrBarnumberCheck bnc);
+    void          appendBarnumberCheckToVoice (
+                    S_msrBarnumberCheck bnc);
 
-    void          appendBreakToVoice    (S_msrBreak break_);
+    void          appendBreakToVoice (S_msrBreak break_);
 
-    void          appendRepeatToVoice   (S_msrRepeat repeat);
+    void          appendRepeatToVoice (S_msrRepeat repeat);
     
     void          prependBarlineToVoice (S_msrBarline barline);
-    void          appendBarlineToVoice  (S_msrBarline barline);
+    void          appendBarlineToVoice (S_msrBarline barline);
     
     void          appendSegnoToVoice (S_msrSegno segno);
     void          appendCodaToVoice (S_msrCoda coda);
-    void          appendEyeglassesToVoice (S_msrEyeglasses eyeglasses);
+    void          appendEyeglassesToVoice (
+                    S_msrEyeglasses eyeglasses);
     void          appendPedalToVoice (S_msrPedal pedal);
     
     S_msrElement  removeLastElementFromVoice (
                     int inputLineNumber);
 
     S_msrLyrics
-                  addLyricsToVoice (
+                  addLyricsToVoiceByItsNumber (
                     int inputLineNumber,
                     int lyricsNumber);
 
@@ -4807,6 +4809,10 @@ class EXP msrStaff : public msrElement
     enum msrStaffKind {
       kRegularStaff, kTablatureStaff, kPercussionStaff};
 
+    enum msrStaffTypeKind {
+      kOssiaStaffType, kCueStaffType, kEditorialStaffType,
+      kRegularStaffType, kAlternateStaffType};
+     
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -5142,7 +5148,7 @@ class EXP msrPart : public msrElement
               
     void          setAllPartStavesTranspose (S_msrTranspose transpose);
               
-    S_msrStaff    addStaffToPart (
+    S_msrStaff    addStaffToPartByItsNumber (
                     int inputLineNumber,
                     int staffNumber);
     
@@ -5329,16 +5335,16 @@ class EXP msrPartgroup : public msrElement
     // services
     // ------------------------------------------------------
 
-    S_msrPart addPartToPartgroup (
-                int    inputLineNumber,
-                string partID);
+    S_msrPart   addPartToPartgroupByItsID (
+                  int    inputLineNumber,
+                  string partID);
     
-    void      addPartToPartgroup (S_msrPart part);
+    void        addPartToPartgroup (S_msrPart part);
                 
-    void      prependSubPartgroupToPartgroup (
-                S_msrPartgroup partgroup);
+    void        prependSubPartgroupToPartgroup (
+                  S_msrPartgroup partgroup);
 
-    S_msrPart fetchPartFromPartgroup (string partID);
+    S_msrPart   fetchPartFromPartgroup (string partID);
 
     // visitors
     // ------------------------------------------------------
