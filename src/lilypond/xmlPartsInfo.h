@@ -222,7 +222,7 @@ class EXP xmlPartsInfoElement : public smartable
     
   protected:
 
-    S_xmlPartsInfoOptions   fxmlPartsInfoOptions;
+    S_xmlPartsInfoOptions   fXmlPartsInfoOptions;
      
     int            fInputLineNumber;
 };
@@ -787,8 +787,6 @@ class EXP msrVoice : public xmlPartsInfoElement
                     int inputLineNumber,
                     int lyricsNumber);
     
-    void          finalizeLastMeasureOfVoice (int inputLineNumber);
-
     // print
     // ------------------------------------------------------
 
@@ -937,8 +935,6 @@ class EXP msrStaff : public xmlPartsInfoElement
                     int inputLineNumber, int externalVoiceNumber);
                               
     void          removeStaffEmptyVoices ();
-
-    void          finalizeLastMeasureOfStaff (int inputLineNumber);
     
     // print
     // ------------------------------------------------------
@@ -1081,8 +1077,6 @@ class EXP msrPart : public xmlPartsInfoElement
     void          appendHarmonyToPart (S_msrHarmony harmony);
 
     void          removePartEmptyVoices ();
-
-    void          finalizeLastMeasureOfPart (int inputLineNumber);
 
     // print
     // ------------------------------------------------------

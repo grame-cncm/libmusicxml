@@ -41,7 +41,7 @@ xmlPartsInfoElement::xmlPartsInfoElement (
   S_xmlPartsInfoOptions& msrOpts, 
   int           inputLineNumber)
 {
-  fxmlPartsInfoOptions      = msrOpts;
+  fXmlPartsInfoOptions      = msrOpts;
   fInputLineNumber = inputLineNumber;  
 }
 
@@ -393,7 +393,7 @@ msrVoice::~msrVoice() {}
 string msrVoice::getVoiceName () const
 {
   int voiceNumber =
-    true // fMsrOptions-> fCreateStaffRelativeVoiceNumbers // JMI use
+    true // fXmlPartsInfoOptions-> fCreateStaffRelativeVoiceNumbers // JMI use
       ? fStaffRelativeVoiceNumber
       : fExternalVoiceNumber;
 
@@ -428,11 +428,6 @@ void msrVoice::setVoiceMeasureNumber (
   }
 }
 
-void msrVoice::forceVoiceMeasureNumberTo (int measureNumber) // JMI
-{
-  fVoiceMeasureNumber = measureNumber;
-};
-
 S_msrLyrics msrVoice::addLyricsToVoiceByItsNumber (
   int inputLineNumber,
   int lyricsNumber)
@@ -455,7 +450,7 @@ S_msrLyrics msrVoice::addLyricsToVoiceByItsNumber (
   S_msrLyrics
     lyrics =
       msrLyrics::create (
-        fMsrOptions,
+        fXmlPartsInfoOptions,
         inputLineNumber,
         lyricsNumber,
         msrLyrics::kRegularLyrics,
@@ -483,26 +478,6 @@ void msrVoice::addLyricsToVoice (S_msrLyrics lyrics)
       endl;
 
   fVoiceLyricsMap [lyricsNumber] = lyrics;
-
-  // catch up with fVoiceLyricsmaster
-  // in case the lyrics does not start upon the first voice note
-  vector<S_msrLyricschunk>
-    masterChunks =
-      fVoiceLyricsmaster->getLyricschunks ();
-
-  if (masterChunks.size()) {
-// JMI    if (gGeneralOptions->fTrace)
-      cerr << idtr <<
-        "Copying current contents of voice master lyrics to new lyrics" << endl;
-    for (
-      vector<S_msrLyricschunk>::const_iterator i =
-        masterChunks.begin();
-      i != masterChunks.end();
-      i++) {
-      // add chunk to lyrics
-      lyrics->addChunkToLyrics ((*i));
-    } // for
-  }
 }
 
 S_msrLyrics msrVoice::createLyricsInVoiceIfNeeded (
@@ -532,32 +507,6 @@ S_msrLyrics msrVoice::createLyricsInVoiceIfNeeded (
   }
 
   return lyrics;
-}
-
-S_xmlPartsInfoElement msrVoice::removeLastElementFromVoice (
-  int inputLineNumber)
-{
-  if (gGeneralOptions->fDebugDebug)
-    cerr << idtr <<
-      "Removing last element " <<
-      " from voice " << getVoiceName () << endl;
-
-  return
-    fVoiceVoicechunk->
-      removeLastElementFromVoicechunk (inputLineNumber);
-}
-
-void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
-{
- // if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "### --> finalizing last measure in voice " <<
-      getVoiceName () <<
-      ", line " << inputLineNumber <<
-      endl;
-
-  fVoiceVoicechunk->
-    finalizeLastMeasureOfVoicechunk (inputLineNumber);
 }
 
 ostream& operator<< (ostream& os, const S_msrVoice& elt)
@@ -659,146 +608,6 @@ msrStaff::msrStaff (
   fStaffDivisionsPerWholeNote =
     fStaffPartUplink->
       getPartDivisionsPerWholeNote ();
-
-  // create the staff voice master with relative number 0
-  // and all 'gMaxStaffVoices' voices for this staff
-  // those that remain without music will be removed later
-  for (int i = 0; i <= gMaxStaffVoices; i++) {
-    addVoiceToStaffByItsRelativeNumber (
-      fInputLineNumber, i);
-  } // for
-
-  // set staff voice master
-  fStaffVoiceMaster =
-    fStaffVoicesMap [0];
-
-  // mark it as containing music, to prevent it being removed
-  fStaffVoiceMaster->
-    setMusicHasBeenInsertedInVoice ();
-
-  // get the initial clef from the staff if any
-  {
-    S_msrClef
-      clef =
-        fStaffPartUplink->getPartClef ();
-  
-    if (clef) {
-      if (gGeneralOptions->fTrace)
-        cerr << idtr <<
-          "Setting staff clef '" << clef->clefAsString () <<
-          "' in staff " << fStaffNumber <<
-          " in part " << fStaffPartUplink->getPartCombinedName () <<
-          endl;
-
-      fStaffClef = clef;
-
-      // is this a tablature or percussion staff?
-      if (clef->clefIsATablatureClef ())
-        fStaffKind = kTablatureStaff;
-      else if (clef->clefIsAPercussionClef ())
-        fStaffKind = kPercussionStaff;
-
-      appendClefToAllStaffVoices (clef);
-    }
-    
-    else {
-      if (gGeneralOptions->fTrace)
-        cerr << idtr <<
-          "Setting default treble clef " <<
-          " in staff " << fStaffNumber <<
-          " in part " << fStaffPartUplink->getPartCombinedName () <<
-          endl;
-
-      // create the implicit initial G line 2 clef
-      fStaffClef =
-        msrClef::create (
-          msrOpts,
-          inputLineNumber,
-          msrClef::kTrebleClef);
-    }
-  }
-    
-  // get the initial key from the staff if any
-  {
-    S_msrKey
-      key =
-        fStaffPartUplink->getPartKey ();
-  
-    if (key) {
-      if (gGeneralOptions->fTrace)
-        cerr << idtr <<
-          "Setting staff key '" << key->keyAsString () <<
-          "' in staff " << fStaffNumber <<
-          " in part " << fStaffPartUplink->getPartCombinedName () <<
-          endl;
-
-      fStaffKey = key;
-      
-      appendKeyToAllStaffVoices (key);
-    }
-    else {
-      if (gGeneralOptions->fTrace)
-        cerr << idtr <<
-          "Setting default C major key " <<
-          " in staff " << fStaffNumber <<
-          " in part " << fStaffPartUplink->getPartCombinedName () <<
-          endl;
-          
-      // create the implicit initial C major key
-      fStaffKey =
-        msrKey::create (
-          msrOpts,
-          inputLineNumber,
-          0, "major", 0);
-    }
-  }
-  
-  // get the initial time from the staff if any
-  {
-    S_msrTime
-      time =
-        fStaffPartUplink->getPartTime ();
-
-    if (time) {
-      if (gGeneralOptions->fTrace)
-        cerr << idtr <<
-          "Setting staff time '" << time->timeAsString () <<
-          "' in staff " << fStaffNumber <<
-          " in part " << fStaffPartUplink->getPartCombinedName () <<
-          endl;
-
-      fStaffTime = time;
-
-      appendTimeToAllStaffVoices (time);
-    }
-    else {
-      if (gGeneralOptions->fTrace)
-        cerr << idtr <<
-          "Setting default 4/4 time " <<
-          " in staff " << fStaffNumber <<
-          " in part " << fStaffPartUplink->getPartCombinedName () <<
-          endl;
-          
-      // create the implicit initial 4/4 time signature
-      fStaffTime =
-        msrTime::create (
-          msrOpts,
-          inputLineNumber,
-          4, 4);
-    }
-  }
-  
-  // get the initial transpose from the staff if any
-  {
-    S_msrTranspose
-      transpose =
-        fStaffPartUplink->getPartTranspose ();
-        
-    if (transpose) {
-      fStaffTranspose = transpose;
-      appendTransposeToAllStaffVoices (transpose);
-    }
-  }
 }
 
 msrStaff::~msrStaff()
@@ -895,7 +704,7 @@ S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
   S_msrVoice
     voice =
       msrVoice::create (
-        fMsrOptions,
+        fXmlPartsInfoOptions,
         inputLineNumber,
         voiceRelativeNumber,
         this);
@@ -1039,116 +848,6 @@ void msrStaff::registerVoiceInStaff (
     voice;
 }
 
-void msrStaff::setStaffClef (S_msrClef clef)
-{
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Setting staff clef '" << clef->clefAsString () <<
-      "' in staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
-      endl;
-
-  // set staff clef
-  fStaffClef = clef;
-
-  // is this a tablature or percussion staff?
-  if (clef->clefIsATablatureClef ())
-    fStaffKind = kTablatureStaff;
-  else if (clef->clefIsAPercussionClef ())
-    fStaffKind = kPercussionStaff;
-  
-  // propagate clef to all voices
-  appendClefToAllStaffVoices (clef);
-}
-
-void msrStaff::setStaffKey  (S_msrKey  key)
-{
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Setting key '" << key->keyAsString () <<
-      "' in staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
-      endl;
-
-  // set staff key
-  fStaffKey = key;
-
-  // propagate it to all voices
-  appendKeyToAllStaffVoices (key);
-}
-
-void msrStaff::setStaffTime (S_msrTime time)
-{
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Setting time '" << time->timeAsString () <<
-      "' in staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
-      endl;
-
-  // set staff time
-  fStaffTime = time;
-
-  // propagate it to all voices
-  appendTimeToAllStaffVoices (time);
-}
-
-void msrStaff::setStaffTranspose (S_msrTranspose transpose)
-{
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Setting transpose '" << transpose->transposeAsString () <<
-      "' in staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
-      endl;
-
-  // set staff transpose
-  fStaffTranspose = transpose;
-
-  // propagate it to all voices
-  appendTransposeToAllStaffVoices (transpose);
-}
-
-void msrStaff::appendClefToAllStaffVoices (S_msrClef clef)
-{
-  for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
-    i++) {
-    (*i).second->appendClefToVoice (clef);
-  } // for
-}
-
-void msrStaff::appendKeyToAllStaffVoices (S_msrKey  key)
-{
-  for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
-    i++) {
-    (*i).second->appendKeyToVoice (key);
-  } // for
-}
-
-void msrStaff::appendTimeToAllStaffVoices (S_msrTime time)
-{
-  for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
-    i++) {
-    (*i).second->appendTimeToVoice (time);
-  } // for
-}
-
-void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
-{
-  for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
-    i++) {
-    (*i).second->appendTransposeToVoice (transpose);
-  } // for
-}
-
 void msrStaff::setAllStaffVoicesMeasureNumber (
   int inputLineNumber,
   int measureNumber)
@@ -1170,21 +869,6 @@ void msrStaff::setAllStaffVoicesMeasureNumber (
         inputLineNumber, measureNumber);
   } // for
 }
-/*
-void msrStaff::bringAllStaffVoicesToPosition (
-  int inputLineNumber,
-  int measurePosition)
-{
-  for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
-    i++) {
-    (*i).second->bringVoiceToPosition (
-      inputLineNumber,
-      measurePosition);
-  } // for
-}
-*/
 
 void msrStaff::removeStaffEmptyVoices ()
 {
@@ -1196,23 +880,6 @@ void msrStaff::removeStaffEmptyVoices ()
     if (! (*i).second->getMusicHasBeenInsertedInVoice ()) {
       fStaffVoicesMap.erase (i);
     }
-  } // for
-}
-
-void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
-{
- // if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "### --> finalizing last measure in staff " <<
-      getStaffName () <<
-      ", line " << inputLineNumber <<
-      endl;
-
-  for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
-    i++) {
-    (*i).second->finalizeLastMeasureOfVoice (inputLineNumber);
   } // for
 }
 
@@ -1251,47 +918,6 @@ void msrStaff::print (ostream& os)
 
   idtr++;
 
-  if (fStaffClef)
-    os << idtr << fStaffClef;
-  else
-    os << idtr << "NO_CLEF" << endl;
-
-  if (fStaffKey)
-    os << idtr << fStaffKey;
-  else
-    os << idtr << "NO_KEY" << endl;
-
-  if (fStaffTime)
-    os << idtr << fStaffTime;
-  else
-    os << idtr << "NO_TIME" << endl;
-
-  os <<
-    idtr << "StaffInstrumentName: \"" <<
-    fStaffInstrumentName << "\"" << endl;
-
-  if (fStafftuningsList.size ()) {
-    os <<
-      idtr << "Staff tunings:" <<
-      endl;
-      
-    list<S_msrStafftuning>::const_iterator
-      iBegin = fStafftuningsList.begin(),
-      iEnd   = fStafftuningsList.end(),
-      i      = iBegin;
-      
-    idtr++;
-    for ( ; ; ) {
-      cerr << idtr << (*i)->stafftuningAsString ();
-      if (++i == iEnd) break;
-      cerr << endl;
-    } // for
-    cerr << endl;
-    idtr--;
-  }
-
-  os << endl;
-
   // print the registered voices
   if (fStaffVoicesMap.size ()) {
     map<int, S_msrVoice>::const_iterator
@@ -1313,12 +939,11 @@ void msrStaff::print (ostream& os)
 S_msrPart msrPart::create (
   S_xmlPartsInfoOptions&  msrOpts, 
   int            inputLineNumber,
-  string         partID,
-  S_msrPartgroup partPartgroupUplink)
+  string         partID)
 {
   msrPart* o =
     new msrPart (
-      msrOpts, inputLineNumber, partID, partPartgroupUplink);
+      msrOpts, inputLineNumber, partID);
   assert(o!=0);
   return o;
 }
@@ -1326,8 +951,7 @@ S_msrPart msrPart::create (
 msrPart::msrPart (
   S_xmlPartsInfoOptions&  msrOpts, 
   int            inputLineNumber,
-  string         partID,
-  S_msrPartgroup partPartgroupUplink)
+  string         partID)
     : xmlPartsInfoElement (msrOpts, inputLineNumber)
 {
   // replace spaces in part ID
@@ -1335,24 +959,7 @@ msrPart::msrPart (
     partID.begin(),
     partID.end(),
     stringSpaceReplacer (fPartID, '_'));
- 
-  fPartPartgroupUplink = partPartgroupUplink;
-
-  // is this part name in the part renaming map?
-  map<string, string>::iterator
-    it =
-      msrOpts->fPartsRenaming.find (fPartID);
-        
-  if (it != msrOpts->fPartsRenaming.end ()) {
-    // yes, rename the part accordinglingly
-    fPartMSRName = (*it).second;
-  }
-  else {
-    // coin the name from the argument
-    fPartMSRName =
-      "P_"+stringNumbersToEnglishWords (fPartID);
-  }
-    
+     
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Creating part " << getPartCombinedName () << endl;
@@ -1360,71 +967,13 @@ msrPart::msrPart (
   fPartDivisionsPerWholeNote = 0;
 
   fMeasureZeroHasBeenMetInPart = false;
-  
-  fPartMeasurePositionHighTide = 1;
-
-/* JMI
-  // create a first staff for the part
-  this->
-    addStaffToPart (
-      inputLineNumber, 1);
-
-  // create the part voice master
-  S_msrStaff
-    hiddenMasterStaff =
-      msrStaff::create (
-        fMsrOptions, 
-        0,            // inputLineNumber
-        0,            // staffNumber
-        this);        // fStaffPartUplink
-
-  fPartVoicemaster =
-    msrVoice::create (
-      fMsrOptions, 
-      0,            // inputLineNumber
-      0,            // staffRelativeVoiceNumber
-      hiddenMasterStaff); // voiceStaffUplink
-      *
-*/
 }
 
 msrPart::~msrPart() {}
 
-void msrPart::updatePartMeasurePositionHighTide (
-  int inputLineNumber,
-  int measurePosition)
-{
-  if (measurePosition > fPartMeasurePositionHighTide)
-    fPartMeasurePositionHighTide = measurePosition;
-}
-
 void msrPart::setPartMSRName (string partMSRName)
 {
-  // is this part name in the part renaming map?
-  map<string, string>::iterator
-    it =
-      fMsrOptions->fPartsRenaming.find (fPartMSRName);
-        
-  if (it != fMsrOptions->fPartsRenaming.end ()) {
-    // yes, rename the part accordinglingly
-    fPartMSRName = (*it).second;
-
-    if (gGeneralOptions->fTrace)
-      cerr << idtr <<
-        "Setting part name of " << getPartCombinedName () <<
-        " to \"" << fPartMSRName << "\"" <<
-         endl;
-  }
-  else {
-    // use the argument
-    fPartMSRName = partMSRName;
-
-    if (gGeneralOptions->fTrace)
-      cerr << idtr <<
-        "Keeping partID \"" << partMSRName <<
-        "\" as part name  for " << getPartCombinedName () <<
-      endl;
-  }
+  // JMI
 }
 
 string msrPart::getPartCombinedName () const
@@ -1465,66 +1014,6 @@ void msrPart::setPartMeasureNumber (
   // propagate it to all staves
   setAllPartStavesMeasureNumber (
     inputLineNumber, measureNumber);  
-}
-
-void msrPart::setPartClef (S_msrClef clef)
-{
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Setting part clef \"" << clef->clefAsString () <<
-      "\" in part " << getPartCombinedName () <<
-    endl;
-
-  // set part clef
-  fPartClef = clef;
-
-  // propagate it to all staves
-  setAllPartStavesClef (clef);
-}
-
-void msrPart::setPartKey  (S_msrKey  key)
-{
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Setting part key \"" << key->keyAsString () <<
-      "\" in part " << getPartCombinedName () <<
-    endl;
-
-  // set part key
-  fPartKey = key;
-
-  // propagate it to all staves
-  setAllPartStavesKey (key);
-}
-
-void msrPart::setPartTime (S_msrTime time)
-{
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Setting part time \"" << time->timeAsString () <<
-      "\" in part " << getPartCombinedName () <<
-    endl;
-
-  // set part time
-  fPartTime = time;
-
-  // propagate it to all staves
-  setAllPartStavesTime (time);
-}
-
-void msrPart::setPartTranspose (S_msrTranspose transpose)
-{
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Setting part transpose \"" << transpose->transposeAsString () <<
-      "\" in part " << getPartCombinedName () <<
-    endl;
-
-  // set part transpose
-  fPartTranspose = transpose;
-
-  // propagate it to all staves
-  setAllPartStavesTranspose (transpose);
 }
 
 void msrPart::setAllPartStavesDivisionsPerWholeNote (int divisions)
@@ -1574,46 +1063,6 @@ void msrPart::setAllPartStavesMeasureNumber (
   } // for
 }
 
-void msrPart::setAllPartStavesClef (S_msrClef clef)
-{
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->setStaffClef (clef);
-  } // for
-}
-
-void msrPart::setAllPartStavesKey (S_msrKey  key)
-{
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->setStaffKey (key);
-  } // for
-}
-          
-void msrPart::setAllPartStavesTime  (S_msrTime time)
-{
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->setStaffTime (time);
-  } // for
-}
-          
-void msrPart::setAllPartStavesTranspose (S_msrTranspose transpose)
-{
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->setStaffTranspose (transpose);
-  } // for
-}
-
 S_msrStaff msrPart::addStaffToPartByItsNumber (
   int inputLineNumber,
   int staffNumber)
@@ -1637,7 +1086,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
   S_msrStaff
     staff =
       msrStaff::create (
-        fMsrOptions,
+        fXmlPartsInfoOptions,
         inputLineNumber,
         staffNumber,
         this);
@@ -1678,26 +1127,6 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
   // JMI
 }
 
-void msrPart:: handleBackup (int divisions)
-{
- // JMI 
-}
-
-/*
-void msrPart::bringAllPartVoicesToPosition (
-  int inputLineNumber,
-  int measurePosition)
-{
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->bringAllStaffVoicesToPosition (
-      inputLineNumber,
-      measurePosition);
-  } // for
-}
-*/
 void msrPart::removePartEmptyVoices ()
 {
   for (
@@ -1705,23 +1134,6 @@ void msrPart::removePartEmptyVoices ()
     i != fPartStavesMap.end();
     i++) {
     (*i).second->removeStaffEmptyVoices ();
-  } // for
-}
-
-void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
-{
- // if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "### --> finalizing last measure in part " <<
-      getPartName () <<
-      ", line " << inputLineNumber <<
-      endl;
-
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->finalizeLastMeasureOfStaff (inputLineNumber);
   } // for
 }
 
@@ -1736,7 +1148,6 @@ void msrPart::print (ostream& os)
   os <<
     "Part" << " " << getPartCombinedName () <<
     " (" << fPartStavesMap.size() << " staves" <<
-    ", position high tide " << fPartMeasurePositionHighTide <<
     ")" <<
     endl;
     
@@ -1791,22 +1202,12 @@ xmlPartsInfo::xmlPartsInfo (
   int           inputLineNumber)
     : xmlPartsInfoElement (msrOpts, inputLineNumber)
 {
-  fIdentification =
-    msrIdentification::create (
-      msrOpts, inputLineNumber);
-      
   fPageGeometry =
     msrPageGeometry::create (
       msrOpts, inputLineNumber);
 }
 
 xmlPartsInfo::~xmlPartsInfo() {}
-
-void xmlPartsInfo::addPartgroupToScore (S_msrPartgroup partgroup)
-{
-  // register it in this score
-  fPartgroupsList.push_back (partgroup);
-}
 
 ostream& operator<< (ostream& os, const S_xmlPartsInfo& elt)
 {
@@ -1817,26 +1218,14 @@ ostream& operator<< (ostream& os, const S_xmlPartsInfo& elt)
 void xmlPartsInfo::print (ostream& os)
 {
   os <<
-    "MSR Score" <<
-    " (" << fPartgroupsList.size() << " part groups)" <<
+    "XML parts info" <<
     endl << endl;
 
   idtr++;
   
-  if (fIdentification) {
-    os << idtr << fIdentification;
-  }
-  
   if (fPageGeometry) {
     os << idtr << fPageGeometry;
   }
-  
-  for (
-    list<S_msrPartgroup>::iterator i = fPartgroupsList.begin();
-    i != fPartgroupsList.end();
-    i++) {
-    os << idtr << (*i);
-  } // for
   
   idtr--;
 }
