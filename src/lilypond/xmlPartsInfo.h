@@ -28,8 +28,6 @@
 
 #include "msrUtilities.h"
 
-//JMI #include "musicxml2msr.h"
-
 namespace MusicXML2 
 {
 
@@ -178,8 +176,8 @@ class EXP xmlPartsInfoOptions : public smartable
     bool                            fCreateStaffRelativeVoiceNumbers;
     bool                            fDelayRestsDynamics;
 
-    // MSR display
-    bool                            fDisplayMSR;
+    // parts info display
+    bool                            fDisplayPartsInfo;
 
     // lyrics display
     bool                            fDontDisplayMSRLyrics;
