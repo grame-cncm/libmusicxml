@@ -20,7 +20,7 @@
 
 #include "msrUtilities.h"
 
-#include "xml2PartsInformation.h"
+#include "xml2PartsInfo.h"
 #include "xml2Msr.h"
 
 #include "lpsr.h"
@@ -1152,21 +1152,21 @@ int main (int argc, char *argv[])
     // input comes from standard input
     if (outputFileName.size())
       mScore =
-        musicxmlFd2PartsInformation (stdin, msrOpts, outStream);
+        musicxmlFd2PartsInfo (stdin, msrOpts, outStream);
     else
       mScore =
-        musicxmlFd2PartsInformation (stdin, msrOpts, cout);
+        musicxmlFd2PartsInfo (stdin, msrOpts, cout);
   }
   
   else {
     // input comes from a file
     if (outputFileName.size())
       mScore =
-        musicxmlFile2PartsInformation (
+        musicxmlFile2PartsInfo (
           inputFileName.c_str(), msrOpts, outStream);
     else
       mScore =
-        musicxmlFile2PartsInformation (
+        musicxmlFile2PartsInfo (
           inputFileName.c_str(), msrOpts, cout);
   }
     
