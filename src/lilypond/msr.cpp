@@ -6553,16 +6553,26 @@ msrVoicechunk::msrVoicechunk (
       getVoiceStaffUplink ()->
         getStaffPartUplink ()->
           getMeasureZeroHasBeenMetInPart ();
-          
+
+  // first measure number
+  int firstMeasureNumber =
+    measureZeroHasBeenMet
+      ? 0
+      : 1;
+
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "### --> Creating voice chunk first measure with number " <<
+      firstMeasureNumber <<
+      endl;
+
   // create a first measure
   S_msrMeasure
     measure =
       msrMeasure::create (
         fMsrOptions,
         inputLineNumber,
-        measureZeroHasBeenMet
-          ? 0
-          : 1,
+        firstMeasureNumber,
         fVoicechunkDivisionsPerWholeNote,
         this);
 
