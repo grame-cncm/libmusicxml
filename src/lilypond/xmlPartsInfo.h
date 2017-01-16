@@ -48,14 +48,14 @@ namespace MusicXML2
 class msrLyrics;
 typedef SMARTP<msrLyrics> S_msrLyrics;
 
-class msrVoice;
-typedef SMARTP<msrVoice> S_msrVoice;
+class xmlVoice;
+typedef SMARTP<xmlVoice> S_xmlVoice;
 
-class msrStaff;
-typedef SMARTP<msrStaff> S_msrStaff;
+class xmlStaff;
+typedef SMARTP<xmlStaff> S_xmlStaff;
 
-class msrPart;
-typedef SMARTP<msrPart> S_msrPart;
+class xmlPart;
+typedef SMARTP<xmlPart> S_xmlPart;
 
 
 /*!
@@ -235,27 +235,27 @@ EXP ostream& operator<< (ostream& os, const S_xmlPartsInfoElement& elt);
   A page geometry is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrPageGeometry : public xmlPartsInfoElement
+class EXP xmlPageGeometry : public xmlPartsInfoElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrPageGeometry> create (
+    static SMARTP<xmlPageGeometry> create (
       S_xmlPartsInfoOptions& msrOpts, 
-      int           inputLineNumber);
+      int                    inputLineNumber);
     
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrPageGeometry (
+    xmlPageGeometry (
       S_xmlPartsInfoOptions& msrOpts, 
-      int           inputLineNumber);
+      int                    inputLineNumber);
       
-    virtual ~msrPageGeometry();
+    virtual ~xmlPageGeometry();
   
   public:
 
@@ -284,8 +284,8 @@ class EXP msrPageGeometry : public xmlPartsInfoElement
     int               fMillimeters;
     int               fTenths;
 };
-typedef SMARTP<msrPageGeometry> S_msrPageGeometry;
-EXP ostream& operator<< (ostream& os, const S_msrPageGeometry& elt);
+typedef SMARTP<xmlPageGeometry> S_xmlPageGeometry;
+EXP ostream& operator<< (ostream& os, const S_xmlPageGeometry& elt);
 
 /*!
 \brief A msr lyrics representation.
@@ -311,7 +311,7 @@ class EXP msrLyrics : public xmlPartsInfoElement
       int                   inputLineNumber,
       int                   lyricsNumber,
       msrLyricsMasterStatus lyricsMasterStatus,
-      S_msrVoice            lyricsVoiceUplink);
+      S_xmlVoice            lyricsVoiceUplink);
     
   protected:
 
@@ -323,7 +323,7 @@ class EXP msrLyrics : public xmlPartsInfoElement
       int                   inputLineNumber,
       int                   lyricsNumber,
       msrLyricsMasterStatus lyricsMasterStatus,
-      S_msrVoice            lyricsVoiceUplink);
+      S_xmlVoice            lyricsVoiceUplink);
 
     virtual ~msrLyrics();
   
@@ -337,7 +337,7 @@ class EXP msrLyrics : public xmlPartsInfoElement
                 
     string  getLyricsName () const;
                 
-    S_msrVoice
+    S_xmlVoice
             getLyricsVoiceUplink () const
                 { return fLyricsVoiceUplink; }
                 
@@ -363,7 +363,7 @@ class EXP msrLyrics : public xmlPartsInfoElement
 
     bool                      fLyricsTextPresent;
 
-    S_msrVoice                fLyricsVoiceUplink;
+    S_xmlVoice                fLyricsVoiceUplink;
 
 };
 typedef SMARTP<msrLyrics> S_msrLyrics;
@@ -403,7 +403,7 @@ class EXP msrHarmony : public xmlPartsInfoElement
       string                harmonyKindText,
       char                  harmonyBassStep,
       float                 harmonyBassAlter,
-      S_msrPart             harmonyPartUplink);
+      S_xmlPart             harmonyPartUplink);
     
   protected:
 
@@ -419,7 +419,7 @@ class EXP msrHarmony : public xmlPartsInfoElement
       string                harmonyKindText,
       char                  harmonyBassStep,
       float                 harmonyBassAlter,
-      S_msrPart             harmonyPartUplink);
+      S_xmlPart             harmonyPartUplink);
 
     virtual ~msrHarmony();
   
@@ -448,7 +448,7 @@ class EXP msrHarmony : public xmlPartsInfoElement
     float       getHarmonyBassAlter () const
                   { return fHarmonyBassAlter; }
                 
-    S_msrPart  getHarmonyVoiceUplink () const
+    S_xmlPart  getHarmonyVoiceUplink () const
                   { return fHarmonyPartUplink; }
                 
 
@@ -475,7 +475,7 @@ class EXP msrHarmony : public xmlPartsInfoElement
     char                      fHarmonyBassStep;
     float                     fHarmonyBassAlter;
     
-    S_msrPart                 fHarmonyPartUplink;
+    S_xmlPart                 fHarmonyPartUplink;
 };
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
@@ -686,39 +686,31 @@ EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);
   A vpoce is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrVoice : public xmlPartsInfoElement
+class EXP xmlVoice : public xmlPartsInfoElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrVoice> create (
+    static SMARTP<xmlVoice> create (
       S_xmlPartsInfoOptions& msrOpts, 
       int           inputLineNumber,
       int           externalVoiceNumber,
-      S_msrStaff    voiceStaffUplink);
-
-                          /* JMI
-    static SMARTP<msrVoice> createRest (
-      S_xmlPartsInfoOptions& msrOpts,
-      int           inputLineNumber,
-      int           divisions,
-      int           externalVoiceNumber);
-    */
+      S_xmlStaff    voiceStaffUplink);
     
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrVoice (
+    xmlVoice (
       S_xmlPartsInfoOptions& msrOpts, 
       int           inputLineNumber,
       int           externalVoiceNumber,
-      S_msrStaff    voiceStaffUplink);
+      S_xmlStaff    voiceStaffUplink);
       
-    virtual ~msrVoice();
+    virtual ~xmlVoice();
   
   public:
 
@@ -734,7 +726,7 @@ class EXP msrVoice : public xmlPartsInfoElement
     int           getStaffRelativeVoiceNumber () const
                       { return fStaffRelativeVoiceNumber; }
                 
-    S_msrStaff    getVoiceStaffUplink () const
+    S_xmlStaff    getVoiceStaffUplink () const
                       { return fVoiceStaffUplink; }
                 
     const map<int, S_msrLyrics>&
@@ -800,7 +792,7 @@ class EXP msrVoice : public xmlPartsInfoElement
     int                       fExternalVoiceNumber;
     int                       fStaffRelativeVoiceNumber;
 
-    S_msrStaff                fVoiceStaffUplink;
+    S_xmlStaff                fVoiceStaffUplink;
 
     bool                      fVoiceActualNotesCounter;
 
@@ -816,7 +808,7 @@ class EXP msrVoice : public xmlPartsInfoElement
     // the lyrics map
     map<int, S_msrLyrics>     fVoiceLyricsMap;
 };
-EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
+EXP ostream& operator<< (ostream& os, const S_xmlVoice& elt);
 
 /*!
 \brief A msr staff representation.
@@ -828,51 +820,51 @@ EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 Staff assignment is only needed for music notated on multiple staves. Used by both notes and directions. Staff values are numbers, with 1 referring to the top-most staff in a part.
 */
 //______________________________________________________________________________
-class EXP msrStaff : public xmlPartsInfoElement
+class EXP xmlStaff : public xmlPartsInfoElement
 {
   public:
 
-    enum msrStaffKind {
+    enum xmlStaffKind {
       kRegularStaff, kTablatureStaff, kPercussionStaff};
 
-    enum msrStaffTypeKind {
+    enum xmlStaffTypeKind {
       kOssiaStaffType, kCueStaffType, kEditorialStaffType,
       kRegularStaffType, kAlternateStaffType};
      
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrStaff> create (
+    static SMARTP<xmlStaff> create (
       S_xmlPartsInfoOptions& msrOpts, 
       int           inputLineNumber,
       int           staffNumber,
-      S_msrPart     fStaffPartUplink);
+      S_xmlPart     fStaffPartUplink);
     
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrStaff (
+    xmlStaff (
       S_xmlPartsInfoOptions& msrOpts, 
       int           inputLineNumber,
       int           staffNumber,
-      S_msrPart     fStaffPartUplink);
+      S_xmlPart     fStaffPartUplink);
       
-    virtual ~msrStaff();
+    virtual ~xmlStaff();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    msrStaffKind  getStaffKind () const
+    xmlStaffKind  getStaffKind () const
                       { return fStaffKind; }
                 
     int           getStaffNumber () const
                       { return fStaffNumber; }
                 
-    S_msrPart     getStaffPartUplink () const
+    S_xmlPart     getStaffPartUplink () const
                       { return fStaffPartUplink; }
 
     string        getStaffName () const;
@@ -880,11 +872,11 @@ class EXP msrStaff : public xmlPartsInfoElement
     string        getStaffInstrumentName () const
                       { return fStaffInstrumentName; }
 
-    const map<int, S_msrVoice>&
+    const map<int, S_xmlVoice>&
                   getStaffVoicesCorrespondanceMap () const
                       { return fStaffVoicesCorrespondanceMap; }
 
-    const map<int, S_msrVoice>&
+    const map<int, S_xmlVoice>&
                   getStaffVoicesMap () const
                       { return fStaffVoicesMap; }
 
@@ -906,11 +898,11 @@ class EXP msrStaff : public xmlPartsInfoElement
     // services
     // ------------------------------------------------------
 
-    S_msrVoice    addVoiceToStaffByItsRelativeNumber (
+    S_xmlVoice    addVoiceToStaffByItsRelativeNumber (
                     int inputLineNumber,
                     int voiceRelativeNumber);
   
-    S_msrVoice    registerVoiceInStaffByItsExternalNumber (
+    S_xmlVoice    registerVoiceInStaffByItsExternalNumber (
                     int inputLineNumber,
                     int externalVoiceNumber);
   
@@ -923,15 +915,15 @@ class EXP msrStaff : public xmlPartsInfoElement
                     int inputLineNumber,
                     int measureNumber);
 
-    S_msrVoice    addVoiceToStaffByItsNumber (
+    S_xmlVoice    addVoiceToStaffByItsNumber (
                     int inputLineNumber,
                     int externalVoiceNumber);
 
     void          registerVoiceInStaff (
                     int inputLineNumber,
-                    S_msrVoice voice);
+                    S_xmlVoice voice);
     
-    S_msrVoice    fetchVoiceFromStaff (
+    S_xmlVoice    fetchVoiceFromStaff (
                     int inputLineNumber, int externalVoiceNumber);
                               
     void          removeStaffEmptyVoices ();
@@ -945,16 +937,16 @@ class EXP msrStaff : public xmlPartsInfoElement
 
     // data
     
-    msrStaffKind            fStaffKind;
+    xmlStaffKind            fStaffKind;
     
     static int              gMaxStaffVoices;
 
     int                     fStaffNumber;
-    S_msrPart               fStaffPartUplink;
+    S_xmlPart               fStaffPartUplink;
 
-    map<int, S_msrVoice>    fStaffVoicesCorrespondanceMap;
+    map<int, S_xmlVoice>    fStaffVoicesCorrespondanceMap;
                               //numbered 1 to gMaxStaffVoices
-    map<int, S_msrVoice>    fStaffVoicesMap;
+    map<int, S_xmlVoice>    fStaffVoicesMap;
                               // [0] is used form staff master voice
 
     string                  fStaffInstrumentName;
@@ -965,8 +957,8 @@ class EXP msrStaff : public xmlPartsInfoElement
     
     int                     fRegisteredVoicesCounter;
 };
-typedef SMARTP<msrStaff> S_msrStaff;
-EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
+typedef SMARTP<xmlStaff> S_xmlStaff;
+EXP ostream& operator<< (ostream& os, const S_xmlStaff& elt);
 
 /*!
 \brief A msr part representation.
@@ -974,14 +966,14 @@ EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
   A part is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrPart : public xmlPartsInfoElement
+class EXP xmlPart : public xmlPartsInfoElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrPart> create (
+    static SMARTP<xmlPart> create (
       S_xmlPartsInfoOptions&  msrOpts, 
       int            inputLineNumber,
       string         partID);
@@ -991,12 +983,12 @@ class EXP msrPart : public xmlPartsInfoElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrPart (
+    xmlPart (
       S_xmlPartsInfoOptions&  msrOpts, 
       int            inputLineNumber,
       string         partID);
       
-    virtual ~msrPart();
+    virtual ~xmlPart();
   
   public:
 
@@ -1032,7 +1024,7 @@ class EXP msrPart : public xmlPartsInfoElement
     string        getPartInstrumentName () const
                       { return fPartInstrumentName; }
                 
-    const map<int, S_msrStaff>&
+    const map<int, S_xmlStaff>&
                   getPartStavesMap ()
                       { return fPartStavesMap; }
 
@@ -1066,13 +1058,13 @@ class EXP msrPart : public xmlPartsInfoElement
                     int inputLineNumber,
                     int measureNumber);
 
-    S_msrStaff    addStaffToPartByItsNumber (
+    S_xmlStaff    addStaffToPartByItsNumber (
                     int inputLineNumber,
                     int staffNumber);
     
-    void          addStaffToPart (S_msrStaff staff);
+    void          addStaffToPart (S_xmlStaff staff);
 
-    S_msrStaff    fetchStaffFromPart (int staffNumber);
+    S_xmlStaff    fetchStaffFromPart (int staffNumber);
 
     void          appendHarmonyToPart (S_msrHarmony harmony);
 
@@ -1095,15 +1087,15 @@ class EXP msrPart : public xmlPartsInfoElement
     string                  fPartAbbreviation;
     string                  fPartInstrumentName;
 
-    map<int, S_msrStaff>    fPartStavesMap;
+    map<int, S_xmlStaff>    fPartStavesMap;
 
     int                     fPartDivisionsPerWholeNote;
 
     int                     fPartMeasureNumber;
     bool                    fMeasureZeroHasBeenMetInPart;
 };
-typedef SMARTP<msrPart> S_msrPart;
-EXP ostream& operator<< (ostream& os, const S_msrPart& elt);
+typedef SMARTP<xmlPart> S_xmlPart;
+EXP ostream& operator<< (ostream& os, const S_xmlPart& elt);
 
 /*!
 \brief A msr score representation.
@@ -1138,7 +1130,7 @@ class EXP xmlPartsInfo : public xmlPartsInfoElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrPageGeometry
+    S_xmlPageGeometry
                 getPageGeometry () const
                     { return fPageGeometry; }
     
@@ -1152,7 +1144,7 @@ class EXP xmlPartsInfo : public xmlPartsInfoElement
 
   private:
 
-    S_msrPageGeometry    fPageGeometry;
+    S_xmlPageGeometry    fPageGeometry;
 };
 typedef SMARTP<xmlPartsInfo> S_xmlPartsInfo;
 EXP ostream& operator<< (ostream& os, const S_xmlPartsInfo& elt);

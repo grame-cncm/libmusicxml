@@ -59,29 +59,29 @@ void xmlPartsInfoElement::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrPageGeometry msrPageGeometry::create (
+S_xmlPageGeometry xmlPageGeometry::create (
   S_xmlPartsInfoOptions& msrOpts, 
-  int           inputLineNumber)
+  int                    inputLineNumber)
 {
-  msrPageGeometry* o =
-    new msrPageGeometry (
+  xmlPageGeometry* o =
+    new xmlPageGeometry (
       msrOpts, inputLineNumber);
   assert(o!=0);
   return o;
 }
 
-msrPageGeometry::msrPageGeometry (
+xmlPageGeometry::xmlPageGeometry (
   S_xmlPartsInfoOptions& msrOpts, 
-  int           inputLineNumber)
+  int                    inputLineNumber)
     : xmlPartsInfoElement (msrOpts, inputLineNumber)
 {
   fMillimeters = -1;
   fTenths      = -1;
 }
 
-msrPageGeometry::~msrPageGeometry() {}
+xmlPageGeometry::~xmlPageGeometry() {}
 
-float msrPageGeometry::globalStaffSize () const
+float xmlPageGeometry::globalStaffSize () const
 {
   if (fMillimeters > 0)
     return fMillimeters * 72.27 / 25.4;
@@ -89,12 +89,12 @@ float msrPageGeometry::globalStaffSize () const
     return 20.0; // LilyPond default
 }
 
-ostream& operator<< (ostream& os, const S_msrPageGeometry& elt) {
+ostream& operator<< (ostream& os, const S_xmlPageGeometry& elt) {
   elt->print (os);
   return os;
 }
 
-void msrPageGeometry::print (ostream& os) {
+void xmlPageGeometry::print (ostream& os) {
   os << "PageGeometry" << endl;
 
   bool emptyGeometry = true;
@@ -130,7 +130,7 @@ S_msrLyrics msrLyrics::create (
   int                   inputLineNumber,
   int                   lyricsNumber,
   msrLyricsMasterStatus lyricsMasterStatus,
-  S_msrVoice            lyricsVoiceUplink)
+  S_xmlVoice            lyricsVoiceUplink)
 {
   msrLyrics* o =
     new msrLyrics (
@@ -147,7 +147,7 @@ msrLyrics::msrLyrics (
   int                   inputLineNumber,
   int                   lyricsNumber,
   msrLyricsMasterStatus lyricsMasterStatus,
-  S_msrVoice            lyricsVoiceUplink)
+  S_xmlVoice            lyricsVoiceUplink)
     : xmlPartsInfoElement (msrOpts, inputLineNumber)
 {
   fLyricsNumber       = lyricsNumber;
@@ -210,7 +210,7 @@ S_msrHarmony msrHarmony::create (
   string                harmonyKindText,
   char                  harmonyBassStep,
   float                 harmonyBassAlter,
-  S_msrPart             harmonyPartUplink)
+  S_xmlPart             harmonyPartUplink)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -232,7 +232,7 @@ msrHarmony::msrHarmony (
   string                harmonyKindText,
   char                  harmonyBassStep,
   float                 harmonyBassAlter,
-  S_msrPart             harmonyPartUplink)
+  S_xmlPart             harmonyPartUplink)
     : xmlPartsInfoElement (msrOpts, inputLineNumber)
 {
   fHarmonyRootStep   = harmonyRootStep;
@@ -327,14 +327,14 @@ void msrHarmony::print (ostream& os)
 }
 
 //______________________________________________________________________________ 
-S_msrVoice msrVoice::create (
+S_xmlVoice xmlVoice::create (
   S_xmlPartsInfoOptions& msrOpts, 
   int           inputLineNumber,
   int           externalVoiceNumber,
-  S_msrStaff    voiceStaffUplink)
+  S_xmlStaff    voiceStaffUplink)
 {
-  msrVoice* o =
-    new msrVoice (
+  xmlVoice* o =
+    new xmlVoice (
       msrOpts, inputLineNumber,
       externalVoiceNumber,
       voiceStaffUplink);
@@ -342,11 +342,11 @@ S_msrVoice msrVoice::create (
   return o;
 }
 
-msrVoice::msrVoice (
+xmlVoice::xmlVoice (
   S_xmlPartsInfoOptions& msrOpts, 
   int           inputLineNumber,
   int           externalVoiceNumber,
-  S_msrStaff    voiceStaffUplink)
+  S_xmlStaff    voiceStaffUplink)
     : xmlPartsInfoElement (msrOpts, inputLineNumber)
 {
   fExternalVoiceNumber = externalVoiceNumber;
@@ -388,9 +388,9 @@ msrVoice::msrVoice (
   fVoiceActualNotesCounter = 0;
 }
 
-msrVoice::~msrVoice() {}
+xmlVoice::~xmlVoice() {}
 
-string msrVoice::getVoiceName () const
+string xmlVoice::getVoiceName () const
 {
   int voiceNumber =
     true // fXmlPartsInfoOptions-> fCreateStaffRelativeVoiceNumbers // JMI use
@@ -408,14 +408,14 @@ string msrVoice::getVoiceName () const
     suffix;
 }
 
-void msrVoice::setVoiceDivisionsPerWholeNote (
+void xmlVoice::setVoiceDivisionsPerWholeNote (
   int divisionsPerWholeNote)
 {
   fVoiceDivisionsPerWholeNote =
     divisionsPerWholeNote;
 }
 
-void msrVoice::setVoiceMeasureNumber (
+void xmlVoice::setVoiceMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
@@ -428,7 +428,7 @@ void msrVoice::setVoiceMeasureNumber (
   }
 }
 
-S_msrLyrics msrVoice::addLyricsToVoiceByItsNumber (
+S_msrLyrics xmlVoice::addLyricsToVoiceByItsNumber (
   int inputLineNumber,
   int lyricsNumber)
 {
@@ -463,7 +463,7 @@ S_msrLyrics msrVoice::addLyricsToVoiceByItsNumber (
   return lyrics;
 }
 
-void msrVoice::addLyricsToVoice (S_msrLyrics lyrics)
+void xmlVoice::addLyricsToVoice (S_msrLyrics lyrics)
 {
   // get lyrics number
   int lyricsNumber =
@@ -480,7 +480,7 @@ void msrVoice::addLyricsToVoice (S_msrLyrics lyrics)
   fVoiceLyricsMap [lyricsNumber] = lyrics;
 }
 
-S_msrLyrics msrVoice::createLyricsInVoiceIfNeeded (
+S_msrLyrics xmlVoice::createLyricsInVoiceIfNeeded (
   int inputLineNumber,
   int lyricsNumber)
 {
@@ -509,13 +509,13 @@ S_msrLyrics msrVoice::createLyricsInVoiceIfNeeded (
   return lyrics;
 }
 
-ostream& operator<< (ostream& os, const S_msrVoice& elt)
+ostream& operator<< (ostream& os, const S_xmlVoice& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrVoice::print (ostream& os)
+void xmlVoice::print (ostream& os)
 {
   os <<
     "Voice" " \"" << getVoiceName () <<
@@ -557,26 +557,26 @@ void msrVoice::print (ostream& os)
 }
 
 //______________________________________________________________________________
-int msrStaff::gMaxStaffVoices = 4;
+int xmlStaff::gMaxStaffVoices = 4;
 
-S_msrStaff msrStaff::create (
+S_xmlStaff xmlStaff::create (
   S_xmlPartsInfoOptions& msrOpts, 
   int           inputLineNumber,
   int           staffNumber,
-  S_msrPart     staffPartUplink)
+  S_xmlPart     staffPartUplink)
 {
-  msrStaff* o =
-    new msrStaff (
+  xmlStaff* o =
+    new xmlStaff (
       msrOpts, inputLineNumber, staffNumber, staffPartUplink);
   assert(o!=0);
   return o;
 }
 
-msrStaff::msrStaff (
+xmlStaff::xmlStaff (
   S_xmlPartsInfoOptions& msrOpts, 
   int           inputLineNumber,
   int           staffNumber,
-  S_msrPart     staffPartUplink)
+  S_xmlPart     staffPartUplink)
     : xmlPartsInfoElement (msrOpts, inputLineNumber)
 {
   fStaffKind = kRegularStaff;
@@ -610,10 +610,10 @@ msrStaff::msrStaff (
       getPartDivisionsPerWholeNote ();
 }
 
-msrStaff::~msrStaff()
+xmlStaff::~xmlStaff()
 {}
 
-string msrStaff::getStaffName () const
+string xmlStaff::getStaffName () const
   {
   return
     fStaffNumber == 0
@@ -627,7 +627,7 @@ string msrStaff::getStaffName () const
         int2EnglishWord (fStaffNumber);
   }
 
-void msrStaff::setStaffDivisionsPerWholeNote (
+void xmlStaff::setStaffDivisionsPerWholeNote (
   int divisionsPerWholeNote)
 {
   fStaffDivisionsPerWholeNote =
@@ -637,17 +637,17 @@ void msrStaff::setStaffDivisionsPerWholeNote (
     divisionsPerWholeNote);
 }
 
-void msrStaff::setAllStaffVoicesDivisionsPerWholeNote (int divisions)
+void xmlStaff::setAllStaffVoicesDivisionsPerWholeNote (int divisions)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    map<int, S_xmlVoice>::iterator i = fStaffVoicesMap.begin();
     i != fStaffVoicesMap.end();
     i++) {
     (*i).second->setVoiceDivisionsPerWholeNote (divisions);
   } // for
 }
 
-void msrStaff::setStaffMeasureNumber (
+void xmlStaff::setStaffMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
@@ -667,43 +667,14 @@ void msrStaff::setStaffMeasureNumber (
     inputLineNumber, measureNumber);  
 }
 
-/*
-void msrStaff::setStaffMeasureLocation (
-  int                       inputLineNumber,
-  const msrMeasureLocation& measureLocation)
-{
-  // set staff measure location
-  fStaffMeasureLocation = measureLocation;
-
-  // propagate it to all staves
-  setAllStaffVoicesMeasureLocation (
-    inputLineNumber, measureLocation);  
-}
-
-void msrStaff::setAllStaffVoicesMeasureLocation (
-  int                       inputLineNumber,
-  const msrMeasureLocation& measureLocation)
-{
-  for (
-    map<int, S_msrVoice>::iterator i =
-      fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
-    i++) {
-    (*i).second->
-      setVoiceMeasureLocation (
-        inputLineNumber, measureLocation);
-  } // for
-}
-*/
-
-S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
+S_xmlVoice xmlStaff::addVoiceToStaffByItsRelativeNumber (
   int inputLineNumber,
   int voiceRelativeNumber)
 {
   // create the voice
-  S_msrVoice
+  S_xmlVoice
     voice =
-      msrVoice::create (
+      xmlVoice::create (
         fXmlPartsInfoOptions,
         inputLineNumber,
         voiceRelativeNumber,
@@ -716,7 +687,7 @@ S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
   return voice;
 }
 
-S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
+S_xmlVoice xmlStaff::registerVoiceInStaffByItsExternalNumber (
   int inputLineNumber,
   int externalVoiceNumber)
 {
@@ -733,12 +704,12 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
       endl;
 
   // are there too many voices in this staff? 
-  if (fRegisteredVoicesCounter > msrStaff::gMaxStaffVoices) {
+  if (fRegisteredVoicesCounter > xmlStaff::gMaxStaffVoices) {
     stringstream s;
     
     s <<
       "staff \"" << getStaffName () <<
-      "\" is already filled up with " << msrStaff::gMaxStaffVoices <<
+      "\" is already filled up with " << xmlStaff::gMaxStaffVoices <<
       " voices, voice " << externalVoiceNumber << " overflows it" <<
       endl;
       
@@ -749,7 +720,7 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
   }
 
   // fetch the voice
-  S_msrVoice
+  S_xmlVoice
     voice =
       fStaffVoicesMap [fRegisteredVoicesCounter];
       
@@ -771,10 +742,10 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
   return voice;
 }
 
-S_msrVoice msrStaff::fetchVoiceFromStaff (
+S_xmlVoice xmlStaff::fetchVoiceFromStaff (
   int inputLineNumber, int externalVoiceNumber)
 {
-  S_msrVoice result;
+  S_xmlVoice result;
 
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -785,7 +756,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesCorrespondanceMap.begin();
+    map<int, S_xmlVoice>::iterator i = fStaffVoicesCorrespondanceMap.begin();
     i != fStaffVoicesCorrespondanceMap.end();
     i++) {
     if (
@@ -808,19 +779,19 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
   return result;
 }
 
-void msrStaff::registerVoiceInStaff (
-  int inputLineNumber, S_msrVoice voice)
+void xmlStaff::registerVoiceInStaff (
+  int inputLineNumber, S_xmlVoice voice)
 {
   // take this new voice into account
   fRegisteredVoicesCounter++;
 
   // are there too many voices in this staff? 
-  if (fRegisteredVoicesCounter > msrStaff::gMaxStaffVoices) {
+  if (fRegisteredVoicesCounter > xmlStaff::gMaxStaffVoices) {
     stringstream s;
     
     s <<
       "staff \"" << getStaffName () <<
-      "\" is already filled up with " << msrStaff::gMaxStaffVoices <<
+      "\" is already filled up with " << xmlStaff::gMaxStaffVoices <<
       " voices, voice " << voice->getVoiceName () << " overflows it" <<
       endl;
       
@@ -848,7 +819,7 @@ void msrStaff::registerVoiceInStaff (
     voice;
 }
 
-void msrStaff::setAllStaffVoicesMeasureNumber (
+void xmlStaff::setAllStaffVoicesMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
@@ -861,7 +832,7 @@ void msrStaff::setAllStaffVoicesMeasureNumber (
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    map<int, S_xmlVoice>::iterator i = fStaffVoicesMap.begin();
     i != fStaffVoicesMap.end();
     i++) {
     (*i).second->
@@ -870,10 +841,10 @@ void msrStaff::setAllStaffVoicesMeasureNumber (
   } // for
 }
 
-void msrStaff::removeStaffEmptyVoices ()
+void xmlStaff::removeStaffEmptyVoices ()
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    map<int, S_xmlVoice>::iterator i = fStaffVoicesMap.begin();
     i != fStaffVoicesMap.end();
     i++) {
  // JMI   if (! (*i).second->getVoiceActualNotesCounter ()) {
@@ -883,24 +854,24 @@ void msrStaff::removeStaffEmptyVoices ()
   } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrStaff& elt)
+ostream& operator<< (ostream& os, const S_xmlStaff& elt)
 {
   elt->print (os);
   return os;
 }
 
-string msrStaff::staffKindAsString () const
+string xmlStaff::staffKindAsString () const
 {
   string result;
   
   switch (fStaffKind) {
-    case msrStaff::kRegularStaff:
+    case xmlStaff::kRegularStaff:
       result = "regular";
       break;
-    case msrStaff::kTablatureStaff:
+    case xmlStaff::kTablatureStaff:
       result = "tablature";
       break;
-    case msrStaff::kPercussionStaff:
+    case xmlStaff::kPercussionStaff:
       result = "percussion";
       break;
   } // switch
@@ -908,7 +879,7 @@ string msrStaff::staffKindAsString () const
   return result;
 }
 
-void msrStaff::print (ostream& os)
+void xmlStaff::print (ostream& os)
 {
   os <<
     "Staff" " " << getStaffName () <<
@@ -920,7 +891,7 @@ void msrStaff::print (ostream& os)
 
   // print the registered voices
   if (fStaffVoicesMap.size ()) {
-    map<int, S_msrVoice>::const_iterator
+    map<int, S_xmlVoice>::const_iterator
       iBegin = fStaffVoicesMap.begin(),
       iEnd   = fStaffVoicesMap.end(),
       i      = iBegin;
@@ -936,19 +907,19 @@ void msrStaff::print (ostream& os)
 }
 
 //______________________________________________________________________________ 
-S_msrPart msrPart::create (
+S_xmlPart xmlPart::create (
   S_xmlPartsInfoOptions&  msrOpts, 
   int            inputLineNumber,
   string         partID)
 {
-  msrPart* o =
-    new msrPart (
+  xmlPart* o =
+    new xmlPart (
       msrOpts, inputLineNumber, partID);
   assert(o!=0);
   return o;
 }
 
-msrPart::msrPart (
+xmlPart::xmlPart (
   S_xmlPartsInfoOptions&  msrOpts, 
   int            inputLineNumber,
   string         partID)
@@ -969,20 +940,20 @@ msrPart::msrPart (
   fMeasureZeroHasBeenMetInPart = false;
 }
 
-msrPart::~msrPart() {}
+xmlPart::~xmlPart() {}
 
-void msrPart::setPartMSRName (string partMSRName)
+void xmlPart::setPartMSRName (string partMSRName)
 {
   // JMI
 }
 
-string msrPart::getPartCombinedName () const
+string xmlPart::getPartCombinedName () const
 {
   return
     "\"" + fPartMSRName + "\"" + " (" + fPartID + ")";
 }
 
-void msrPart::setPartDivisionsPerWholeNote (
+void xmlPart::setPartDivisionsPerWholeNote (
   int divisionsPerWholeNote)
 {
   fPartDivisionsPerWholeNote =
@@ -992,7 +963,7 @@ void msrPart::setPartDivisionsPerWholeNote (
     divisionsPerWholeNote);
 }
 
-void msrPart::setPartMeasureNumber (
+void xmlPart::setPartMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
@@ -1016,32 +987,17 @@ void msrPart::setPartMeasureNumber (
     inputLineNumber, measureNumber);  
 }
 
-void msrPart::setAllPartStavesDivisionsPerWholeNote (int divisions)
+void xmlPart::setAllPartStavesDivisionsPerWholeNote (int divisions)
 {
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_xmlStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->setStaffDivisionsPerWholeNote (divisions);
   } // for
 }
 
-/*
-void msrPart::setAllPartStavesMeasureLocation (
-  int                       inputLineNumber,
-  const msrMeasureLocation& measureLocation)
-{
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->setStaffMeasureLocation (
-      inputLineNumber, measureLocation);
-  } // for
-}
-*/
-
-void msrPart::setAllPartStavesMeasureNumber (
+void xmlPart::setAllPartStavesMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
@@ -1054,7 +1010,7 @@ void msrPart::setAllPartStavesMeasureNumber (
       endl;
 
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_xmlStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
@@ -1063,7 +1019,7 @@ void msrPart::setAllPartStavesMeasureNumber (
   } // for
 }
 
-S_msrStaff msrPart::addStaffToPartByItsNumber (
+S_xmlStaff xmlPart::addStaffToPartByItsNumber (
   int inputLineNumber,
   int staffNumber)
 {
@@ -1083,9 +1039,9 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
       endl;
   
   // create the staff
-  S_msrStaff
+  S_xmlStaff
     staff =
-      msrStaff::create (
+      xmlStaff::create (
         fXmlPartsInfoOptions,
         inputLineNumber,
         staffNumber,
@@ -1098,7 +1054,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
   return staff;
 }
 
-void msrPart::addStaffToPart (S_msrStaff staff)
+void xmlPart::addStaffToPart (S_xmlStaff staff)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
@@ -1110,10 +1066,10 @@ void msrPart::addStaffToPart (S_msrStaff staff)
   fPartStavesMap [staff->getStaffNumber ()] = staff;
 }
 
-S_msrStaff msrPart::fetchStaffFromPart (
+S_xmlStaff xmlPart::fetchStaffFromPart (
   int staffNumber)
 {
-  S_msrStaff result;
+  S_xmlStaff result;
   
   if (fPartStavesMap.count (staffNumber)) {
     result = fPartStavesMap [staffNumber];
@@ -1122,28 +1078,28 @@ S_msrStaff msrPart::fetchStaffFromPart (
   return result;
 }
 
-void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
+void xmlPart::appendHarmonyToPart (S_msrHarmony harmony)
 {
   // JMI
 }
 
-void msrPart::removePartEmptyVoices ()
+void xmlPart::removePartEmptyVoices ()
 {
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_xmlStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->removeStaffEmptyVoices ();
   } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrPart& elt)
+ostream& operator<< (ostream& os, const S_xmlPart& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrPart::print (ostream& os)
+void xmlPart::print (ostream& os)
 {
   os <<
     "Part" << " " << getPartCombinedName () <<
@@ -1173,7 +1129,7 @@ void msrPart::print (ostream& os)
   if (fPartStavesMap.size()) {
     os << endl;
     for (
-      map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+      map<int, S_xmlStaff>::iterator i = fPartStavesMap.begin();
       i != fPartStavesMap.end();
       i++) {
       os <<
@@ -1203,11 +1159,12 @@ xmlPartsInfo::xmlPartsInfo (
     : xmlPartsInfoElement (msrOpts, inputLineNumber)
 {
   fPageGeometry =
-    msrPageGeometry::create (
+    xmlPageGeometry::create (
       msrOpts, inputLineNumber);
 }
 
-xmlPartsInfo::~xmlPartsInfo() {}
+xmlPartsInfo::~xmlPartsInfo()
+{}
 
 ostream& operator<< (ostream& os, const S_xmlPartsInfo& elt)
 {

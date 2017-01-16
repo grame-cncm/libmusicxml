@@ -139,21 +139,21 @@ class EXP xml2PartsInfoExtractor :
     string                    fCurrentPartID; // used throughout
     string                    fCurrentPartName;
 
-    map<string, S_msrPart>    fPartsMap;
+    map<string, S_xmlPart>    fPartsMap;
     
-    S_msrPart                 fCurrentPart; // used throughout
+    S_xmlPart                 fCurrentPart; // used throughout
 
-    S_msrPart                 createDownToPartIfNeeded (
+    S_xmlPart                 createDownToPartIfNeeded (
                                 int            inputLineNumber,
                                 string         partID);
 
     // staff handling
     // ------------------------------------------------------
     int                       fCurrentStaffNumber; // used throughout
-    msrStaff::msrStaffTypeKind
+    xmlStaff::xmlStaffTypeKind
                               fCurrentStaffTypeKind;
     
-    S_msrStaff                createStaffInCurrentPartIfNeeded (
+    S_xmlStaff                createStaffInCurrentPartIfNeeded (
                                 int            inputLineNumber,
                                 int            staffNumber);
   

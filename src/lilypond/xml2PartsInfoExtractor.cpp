@@ -84,78 +84,13 @@ S_xmlPartsInfo xml2PartsInfoExtractor::extractPartsInfoFromXMLElementTree (
   return result;
 }
 
-//________________________________________________________________________
-S_msrPartgroup xml2PartsInfoExtractor::createImplicitMSRPartgroup (
-  int inputLineNumber)
-{
-  /*
-  A first part group is created with all the needed contents
-  if none is specified in the MusicXML data.
-  */
-
-  // create an implicit part group
-  fCurrentPartgroupNumber = 1;
-  
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Creating an implicit part group with number " <<
-      fCurrentPartgroupNumber <<
-      endl;
-
-  S_msrPartgroup
-    partgroup =
-      msrPartgroup::create (
-        fxmlPartsInfoOptions,
-        inputLineNumber,
-        fCurrentPartgroupNumber,
-        "Implicit",
-        "Impl.",
-        msrPartgroup::kBracketPartgroupSymbol,
-        0,
-        true,
-        0); // the top level part group has an empty uplink
-
-  /*
-    this implicit part group will be added to the MSR score
-    in method 'visitEnd (S_part_list& elt)'
-  */
-  
-  // add implicit part group to the map of this visitor
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Adding implicit part group " << fCurrentPartgroupNumber <<
-      " to visitor's data" <<
-      endl;
-      
-  fPartgroupsMap [fCurrentPartgroupNumber] = partgroup;
-  fPartgroupsList.push_front (partgroup);
-
-  fImplicitPartgroup = partgroup;
-  
-  return partgroup;
-}
-
 //______________________________________________________________________________
-S_msrPartgroup xml2PartsInfoExtractor::fetchPartgroupInThisVisitor (
-  int partgroupNumber)
-{
-  S_msrPartgroup result;
-  
-  if (fPartgroupsMap.count (partgroupNumber)) {
-    result =
-      fPartgroupsMap [partgroupNumber];
-  }
-
-  return result;
-}
-
-//______________________________________________________________________________
-S_msrStaff xml2PartsInfoExtractor::createStaffInCurrentPartIfNeeded (
+S_xmlStaff xml2PartsInfoExtractor::createStaffInCurrentPartIfNeeded (
   int            inputLineNumber,
   int            staffNumber)
 {    
   // is staffNumber already present in part?
-  S_msrStaff
+  S_xmlStaff
     staff =
       fCurrentPart->
         fetchStaffFromPart (staffNumber);
@@ -176,7 +111,7 @@ S_msrVoice xml2PartsInfoExtractor::registerVoiceInStaffInCurrentPartIfNeeded (
   int            staffNumber,
   int            voiceNumber)
 {
-  S_msrStaff
+  S_xmlStaff
     staff =
       createStaffInCurrentPartIfNeeded (
         inputLineNumber,
@@ -300,40 +235,6 @@ void xml2PartsInfoExtractor::visitEnd (S_score_part& elt)
 
   idtr++;
 
-  S_msrPartgroup partgroup;
-
-  // is there a current part group?
-  if (! fPartgroupsList.size()) {
-    // no, create an implicit one
-    partgroup =
-      createImplicitMSRPartgroup (
-        inputLineNumber);
-  }
-
-  // fetch current part group
-  try {
-    partgroup = fPartgroupsList.front ();
-  }
-  catch (int e) {
-    cerr <<
-      "An exception number " << e << " occurred" <<
-      endl;
-  }
-        
-  // is this part already present in the current part group?
-  S_msrPart
-    part =
-      partgroup->
-        fetchPartFromPartgroup (fCurrentPartID);
-
-  if (! part) {
-    // no, add it to the current part group
-    part =
-      partgroup->
-        addPartToPartgroupByItsID (
-          inputLineNumber, fCurrentPartID);
-  }
-  
   // populate current part
   // fPartMSRName has already been set by the constructor // JMI
   part->
@@ -562,7 +463,7 @@ void xml2PartsInfoExtractor::visitStart (S_staff& elt)
     msrAssert (false, s.str());
   }
   
-  S_msrStaff
+  S_xmlStaff
     staff =
       createStaffInCurrentPartIfNeeded (
         inputLineNumber, fCurrentStaffNumber);
@@ -656,7 +557,7 @@ void xml2PartsInfoExtractor::visitStart (S_voice& elt )
 
     fCurrentForwardVoiceNumber = fCurrentVoiceNumber;
 
-    S_msrStaff
+    S_xmlStaff
       staff =
         createStaffInCurrentPartIfNeeded (
           inputLineNumber, fCurrentForwardVoiceNumber);
@@ -680,7 +581,7 @@ void xml2PartsInfoExtractor::visitStart (S_voice& elt )
     // regular voice indication in note/rest
     fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
 
-    S_msrStaff
+    S_xmlStaff
       staff =
         createStaffInCurrentPartIfNeeded (
           inputLineNumber, fCurrentNoteStaffNumber);
@@ -1223,7 +1124,7 @@ void xml2PartsInfoExtractor::visitEnd ( S_note& elt )
 
 /*
   // fetch current staff
-  S_msrStaff
+  S_xmlStaff
     staff =
       createStaffInCurrentPartIfNeeded (
         inputLineNumber, fCurrentNoteStaffNumber);
