@@ -6279,11 +6279,11 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
 
 void msrMeasure::finalizeMeasure (int inputLineNumber)
 {
-  if (gGeneralOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr <<
       endl <<
       idtr <<
-      "--> finalizing measure " << fMeasureNumber <<
+      "### --> finalizing measure " << fMeasureNumber <<
       ", line " << inputLineNumber <<
       endl << endl;
 
@@ -6546,15 +6546,23 @@ msrVoicechunk::msrVoicechunk (
         fInputLineNumber,
         4, 4);
   }
-        
+
+  // has measure number 0 been met?
+  bool measureZeroHasBeenMet = // JMI
+    fVoicechunVoicekUplink->
+      getVoiceStaffUplink ()->
+        getStaffPartUplink ()->
+          getMeasureZeroHasBeenMetInPart ();
+          
   // create a first measure
   S_msrMeasure
     measure =
       msrMeasure::create (
         fMsrOptions,
         inputLineNumber,
-        1, // measure number may be changed afterwards
-           // if <measure/> 0 is found in MusicXML data
+        measureZeroHasBeenMet
+          ? 0
+          : 1,
         fVoicechunkDivisionsPerWholeNote,
         this);
 
@@ -6789,9 +6797,9 @@ void msrVoicechunk::forceVoicechunkMeasureNumberTo (int measureNumber)
 
 void msrVoicechunk::finalizeLastMeasureOfVoicechunk (int inputLineNumber)
 {
-  if (gGeneralOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> finalizing last measure in voice chunk" <<
+      "### --> finalizing last measure in voice chunk" <<
       ", line " << inputLineNumber <<
       endl;
 
@@ -8348,9 +8356,9 @@ S_msrElement msrVoice::removeLastElementFromVoice (
 
 void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
 {
-  if (gGeneralOptions->fDebug)
+ // if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> finalizing last measure in voice " <<
+      "### --> finalizing last measure in voice " <<
       getVoiceName () <<
       ", line " << inputLineNumber <<
       endl;
@@ -9252,9 +9260,9 @@ void msrStaff::removeStaffEmptyVoices ()
 
 void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
 {
-  if (gGeneralOptions->fDebug)
+ // if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> finalizing last measure in staff " <<
+      "### --> finalizing last measure in staff " <<
       getStaffName () <<
       ", line " << inputLineNumber <<
       endl;
@@ -9486,6 +9494,8 @@ msrPart::msrPart (
 
   fPartDivisionsPerWholeNote = 0;
 
+  fMeasureZeroHasBeenMetInPart = false;
+  
   fPartMeasurePositionHighTide = 1;
 
 /* JMI
@@ -9605,6 +9615,10 @@ void msrPart::setPartMeasureNumber (
 
   // set part measure location
   fPartMeasureNumber = measureNumber;
+
+  if (measureNumber == 0) {  
+    fMeasureZeroHasBeenMetInPart = true;
+  }
 
   // propagate it to all staves
   setAllPartStavesMeasureNumber (
@@ -9854,9 +9868,9 @@ void msrPart::removePartEmptyVoices ()
 
 void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
 {
-  if (gGeneralOptions->fDebug)
+ // if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> finalizing last measure in part " <<
+      "### --> finalizing last measure in part " <<
       getPartName () <<
       ", line " << inputLineNumber <<
       endl;

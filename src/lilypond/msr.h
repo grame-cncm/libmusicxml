@@ -5108,6 +5108,9 @@ class EXP msrPart : public msrElement
     const int     getPartMeasureNumber () const
                       { return fPartMeasureNumber; }
 
+    const bool    getMeasureZeroHasBeenMetInPart () const
+                      { return fMeasureZeroHasBeenMetInPart; }
+
     void          setPartMeasurePositionHighTide (
                     int position)
                       { fPartMeasurePositionHighTide = position; }
@@ -5200,6 +5203,7 @@ class EXP msrPart : public msrElement
     int                     fPartDivisionsPerWholeNote;
 
     int                     fPartMeasureNumber;
+    bool                    fMeasureZeroHasBeenMetInPart;
     int                     fPartMeasurePositionHighTide;
     
     S_msrClef               fPartClef;
