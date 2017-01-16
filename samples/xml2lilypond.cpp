@@ -20,6 +20,7 @@
 
 #include "msrUtilities.h"
 
+#include "xml2PartsInformation.h"
 #include "xml2Msr.h"
 
 #include "lpsr.h"
@@ -1136,11 +1137,49 @@ int main (int argc, char *argv[])
   if (outputFileName.size()) {
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "Opening file '" << outputFileName << "' for writing" << endl;
+        "Opening file '" << outputFileName << "' for writing" <<
+        endl;
         
     outStream.open (outputFileName.c_str(), ofstream::out);
   }
       
+  // extract parts informations from MusicXML contents
+  // ------------------------------------------------------
+
+  S_msrScore mScore;
+
+  if (inputFileName == "-") {
+    // input comes from standard input
+    if (outputFileName.size())
+      mScore =
+        musicxmlFd2PartsInformation (stdin, msrOpts, outStream);
+    else
+      mScore =
+        musicxmlFd2PartsInformation (stdin, msrOpts, cout);
+  }
+  
+  else {
+    // input comes from a file
+    if (outputFileName.size())
+      mScore =
+        musicxmlFile2PartsInformation (
+          inputFileName.c_str(), msrOpts, outStream);
+    else
+      mScore =
+        musicxmlFile2PartsInformation (
+          inputFileName.c_str(), msrOpts, cout);
+  }
+    
+  if (! mScore) {
+    cerr <<
+      "### Extraction of parts information from MusicCML data failed ###" <<
+      endl <<
+      endl;
+    return 1;
+  }
+
+/* JMI
+ * 
   // create MSR from MusicXML contents
   // ------------------------------------------------------
 
@@ -1170,7 +1209,8 @@ int main (int argc, char *argv[])
     
   if (! mScore) {
     cerr <<
-      "### Conversion from MusicCML to MSR failed ###" << endl <<
+      "### Conversion from MusicCML to MSR failed ###" <<
+      endl <<
       endl;
     return 1;
   }
@@ -1190,7 +1230,8 @@ int main (int argc, char *argv[])
     
     if (! lpScore) {
       cerr <<
-        "### Conversion from MSR to LPSR failed ###" << endl <<
+        "### Conversion from MSR to LPSR failed ###" <<
+        endl <<
         endl;
       return 1;
     }
@@ -1216,10 +1257,12 @@ int main (int argc, char *argv[])
   
   if (! true) { // JMI
     cerr <<
-      "### Conversion from LPSR to LilyPond code failed ###" << endl <<
+      "### Conversion from LPSR to LilyPond code failed ###" <<
+      endl <<
       endl;
     return 1;
   }
 
   return 0;
+  */
 }
