@@ -16,7 +16,7 @@
 #include <map>
 // JMI #include <vector>
 
-#include "xml2PartsInformation.h"
+#include "xmlPartsInformation.h"
 
 namespace MusicXML2
 {

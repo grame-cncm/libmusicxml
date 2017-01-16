@@ -157,27 +157,23 @@ typedef SMARTP<msrPart> S_msrPart;
   A class is used to avoid passing arguments one by one
   to the various methods that need them.
 */
-class EXP msrOptions : public smartable
+class EXP xmlPartsInformationOptions : public smartable
 {
   public:
 
-    static SMARTP<msrOptions> create ();
+    static SMARTP<xmlPartsInformationOptions> create ();
     
   protected:
   
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptions();
+    xmlPartsInformationOptions();
   
-    virtual ~msrOptions();
+    virtual ~xmlPartsInformationOptions();
  
   public:
 
-    // languages
-    string                          fMsrNoteNamesLanguageAsString;
-    msrNoteNamesLanguage            fMsrNoteNamesLanguage;
-    
     // advanced options
     bool                            fCreateStaffRelativeVoiceNumbers;
     bool                            fDelayRestsDynamics;
@@ -191,10 +187,8 @@ class EXP msrOptions : public smartable
     // MSR score summary
     bool                            fDisplaySummary;
 
-    // parts renaming
-    map<string, string>             fPartsRenaming;
 };
-typedef SMARTP<msrOptions> S_msrOptions;
+typedef SMARTP<xmlPartsInformationOptions> S_xmlPartsInformationOptions;
 
 //______________________________________________________________________________
 class EXP xmlPartsInformationElement : public smartable
@@ -207,7 +201,7 @@ class EXP xmlPartsInformationElement : public smartable
   protected:
 
      xmlPartsInformationElement (
-      S_msrOptions& msrOpts, 
+      S_xmlPartsInformationOptions& msrOpts, 
       int           inputLineNumber);
 
     virtual ~xmlPartsInformationElement();
@@ -238,7 +232,7 @@ class EXP xmlPartsInformationElement : public smartable
     
   protected:
 
-    S_msrOptions   fMsrOptions;
+    S_xmlPartsInformationOptions   fxmlPartsInformationOptions;
      
     int            fInputLineNumber;
 };
@@ -266,7 +260,7 @@ class EXP msrWords : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     static SMARTP<msrWords> create (
-      S_msrOptions&         msrOpts, 
+      S_xmlPartsInformationOptions&         msrOpts, 
       int                   inputLineNumber,
       msrWordsPlacementKind wordsPlacementKind,
       string                wordsContents,
@@ -281,7 +275,7 @@ class EXP msrWords : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     msrWords (
-      S_msrOptions&         msrOpts, 
+      S_xmlPartsInformationOptions&         msrOpts, 
       int                   inputLineNumber,
       msrWordsPlacementKind wordsPlacementKind,
       string                wordsContents,
@@ -362,7 +356,7 @@ class EXP msrPageGeometry : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     static SMARTP<msrPageGeometry> create (
-      S_msrOptions& msrOpts, 
+      S_xmlPartsInformationOptions& msrOpts, 
       int           inputLineNumber);
     
   protected:
@@ -371,7 +365,7 @@ class EXP msrPageGeometry : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     msrPageGeometry (
-      S_msrOptions& msrOpts, 
+      S_xmlPartsInformationOptions& msrOpts, 
       int           inputLineNumber);
       
     virtual ~msrPageGeometry();
@@ -471,7 +465,7 @@ class EXP msrLyricschunk : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     static SMARTP<msrLyricschunk> create (
-      S_msrOptions&      msrOpts, 
+      S_xmlPartsInformationOptions&      msrOpts, 
       int                inputLineNumber,
       msrLyricschunkKind lyricschunkKind,
       string             chunkText,
@@ -486,7 +480,7 @@ class EXP msrLyricschunk : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     msrLyricschunk (
-      S_msrOptions&      msrOpts, 
+      S_xmlPartsInformationOptions&      msrOpts, 
       int                inputLineNumber,
       msrLyricschunkKind lyricschunkKind,
       string             chunkText,
@@ -568,7 +562,7 @@ class EXP msrLyrics : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     static SMARTP<msrLyrics> create (
-      S_msrOptions&         msrOpts, 
+      S_xmlPartsInformationOptions&         msrOpts, 
       int                   inputLineNumber,
       int                   lyricsNumber,
       msrLyricsMasterStatus lyricsMasterStatus,
@@ -583,7 +577,7 @@ class EXP msrLyrics : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     msrLyrics (
-      S_msrOptions&         msrOpts, 
+      S_xmlPartsInformationOptions&         msrOpts, 
       int                   inputLineNumber,
       int                   lyricsNumber,
       msrLyricsMasterStatus lyricsMasterStatus,
@@ -717,7 +711,7 @@ class EXP msrHarmony : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     static SMARTP<msrHarmony> create (
-      S_msrOptions&         msrOpts, 
+      S_xmlPartsInformationOptions&         msrOpts, 
       int                   inputLineNumber,
       char                  harmonyRootStep,
       float                 harmonyRootAlter,
@@ -736,7 +730,7 @@ class EXP msrHarmony : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     msrHarmony (
-      S_msrOptions&         msrOpts, 
+      S_xmlPartsInformationOptions&         msrOpts, 
       int                   inputLineNumber,
       char                  harmonyRootStep,
       float                 harmonyRootAlter,
@@ -888,7 +882,7 @@ class EXP msrBarline : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     static SMARTP<msrBarline> create (
-      S_msrOptions&             msrOpts, 
+      S_xmlPartsInformationOptions&             msrOpts, 
       int                       inputLineNumber,
       bool                      barlineHasSegno,
       bool                      barlineHasCoda,
@@ -905,7 +899,7 @@ class EXP msrBarline : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     msrBarline (
-      S_msrOptions&             msrOpts, 
+      S_xmlPartsInformationOptions&             msrOpts, 
       int                       inputLineNumber,
       bool                      barlineHasSegno,
       bool                      barlineHasCoda,
@@ -1035,14 +1029,14 @@ class EXP msrVoice : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     static SMARTP<msrVoice> create (
-      S_msrOptions& msrOpts, 
+      S_xmlPartsInformationOptions& msrOpts, 
       int           inputLineNumber,
       int           externalVoiceNumber,
       S_msrStaff    voiceStaffUplink);
 
                           /* JMI
     static SMARTP<msrVoice> createRest (
-      S_msrOptions& msrOpts,
+      S_xmlPartsInformationOptions& msrOpts,
       int           inputLineNumber,
       int           divisions,
       int           externalVoiceNumber);
@@ -1057,7 +1051,7 @@ class EXP msrVoice : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     msrVoice (
-      S_msrOptions& msrOpts, 
+      S_xmlPartsInformationOptions& msrOpts, 
       int           inputLineNumber,
       int           externalVoiceNumber,
       S_msrStaff    voiceStaffUplink);
@@ -1307,7 +1301,7 @@ class EXP msrStaff : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     static SMARTP<msrStaff> create (
-      S_msrOptions& msrOpts, 
+      S_xmlPartsInformationOptions& msrOpts, 
       int           inputLineNumber,
       int           staffNumber,
       S_msrPart     fStaffPartUplink);
@@ -1321,7 +1315,7 @@ class EXP msrStaff : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     msrStaff (
-      S_msrOptions& msrOpts, 
+      S_xmlPartsInformationOptions& msrOpts, 
       int           inputLineNumber,
       int           staffNumber,
       S_msrPart     fStaffPartUplink);
@@ -1505,7 +1499,7 @@ class EXP msrPart : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     static SMARTP<msrPart> create (
-      S_msrOptions&  msrOpts, 
+      S_xmlPartsInformationOptions&  msrOpts, 
       int            inputLineNumber,
       string         partID,
       S_msrPartgroup partPartgroupUplink);
@@ -1519,7 +1513,7 @@ class EXP msrPart : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     msrPart (
-      S_msrOptions&  msrOpts, 
+      S_xmlPartsInformationOptions&  msrOpts, 
       int            inputLineNumber,
       string         partID,
       S_msrPartgroup partPartgroupUplink);
@@ -1745,7 +1739,7 @@ class EXP msrPartgroup : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     static SMARTP<msrPartgroup> create (
-      S_msrOptions&          msrOpts, 
+      S_xmlPartsInformationOptions&          msrOpts, 
       int                    inputLineNumber,
       int                    partgroupNumber,
       string                 partgroupName,
@@ -1764,7 +1758,7 @@ class EXP msrPartgroup : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     msrPartgroup (
-      S_msrOptions&          msrOpts, 
+      S_xmlPartsInformationOptions&          msrOpts, 
       int                    inputLineNumber,
       int                    partgroupNumber,
       string                 partgroupName,
@@ -1896,7 +1890,7 @@ class EXP xmlPartsInformation : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     static SMARTP<xmlPartsInformation> create (
-      S_msrOptions& msrOpts, 
+      S_xmlPartsInformationOptions& msrOpts, 
       int           inputLineNumber);
 
   protected:
@@ -1905,7 +1899,7 @@ class EXP xmlPartsInformation : public xmlPartsInformationElement
     // ------------------------------------------------------
 
     xmlPartsInformation (
-      S_msrOptions& msrOpts, 
+      S_xmlPartsInformationOptions& msrOpts, 
       int           inputLineNumber);
       
     virtual ~xmlPartsInformation();
