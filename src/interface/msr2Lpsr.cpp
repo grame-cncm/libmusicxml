@@ -24,7 +24,7 @@
 
 #include "msr2Lpsr.h"
 
-#include "msr2LpsrVisitor.h"
+#include "msr2LpsrTranslator.h"
 
 using namespace std;
 

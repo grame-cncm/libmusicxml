@@ -25,7 +25,7 @@
 
 #include "lpsr2LilyPond.h"
 
-#include "lpsr2LilyPondVisitor.h"
+#include "lpsr2LilyPondTranslator.h"
 
 using namespace std;
 

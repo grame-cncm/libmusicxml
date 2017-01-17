@@ -25,8 +25,8 @@
 
 #include "xml2Msr.h"
 
-#include "xml2MsrVisitor.h"
-#include "msr2SummaryVisitor.h"
+#include "xml2MsrTranslator.h"
+#include "msr2Summary.h"
 
 using namespace std;
 
