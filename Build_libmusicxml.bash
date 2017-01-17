@@ -13,6 +13,11 @@ exec > $(basename $0).log 2>&1
 
 echo
 
+echo "==> date is:"
+date
+
+echo
+
 echo "==> Building libmusicxml and the samples"
 echo
 echo
@@ -22,14 +27,14 @@ cd cmake
 pwd
 echo
 
-if [ 1 -eq 1 ]; then # adapt to force running cmake after filenames changes
+if [ 0 -eq 1 ]; then # adapt to force running cmake after filenames changes
   echo '--> cmake .'
   echo
   cmake .
   echo
 fi
 
-if [ 1 -eq 1 ]; then # adapt to force make on everything
+if [ 0 -eq 1 ]; then # adapt to force make on everything
   echo '--> make clean'
   echo
   make clean

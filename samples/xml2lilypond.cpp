@@ -20,7 +20,6 @@
 
 #include "msrUtilities.h"
 
-#include "xml2PartsInfo.h"
 #include "xml2Msr.h"
 
 #include "lpsr.h"
@@ -1143,6 +1142,7 @@ int main (int argc, char *argv[])
     outStream.open (outputFileName.c_str(), ofstream::out);
   }
       
+/* JMI
   // extract parts informations from MusicXML contents
   // ------------------------------------------------------
 
@@ -1177,9 +1177,8 @@ int main (int argc, char *argv[])
       endl;
     return 1;
   }
+*/
 
-/* JMI
- * 
   // create MSR from MusicXML contents
   // ------------------------------------------------------
 
@@ -1264,5 +1263,4 @@ int main (int argc, char *argv[])
   }
 
   return 0;
-  */
 }

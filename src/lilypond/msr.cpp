@@ -49,38 +49,6 @@ msrNoteNamesLanguage getMsrNoteNamesLanguage (string lang)
 }
 
 //_______________________________________________________________________________
-S_msrGeneralOptions msrGeneralOptions::create ()
-{
-  msrGeneralOptions* o = new msrGeneralOptions();
-  assert(o!=0);
-  return o;
-}
-
-msrGeneralOptions::msrGeneralOptions ()
-{
-  // interactive mode
-  fInteractive = false;
-  
-  // trace
-  fTrace = true;
-  
-  // debug
-  fDebug = false;
-  fDebugDebug = false;
-
-  // forcing debug information at specific places in the code
-  fForceDebug = false;
-  
-  // measure number-selective debug
-  fSaveDebug = false;
-  fSaveDebugDebug = false;
-}
-
-msrGeneralOptions::~msrGeneralOptions () {}
-
-S_msrGeneralOptions gGeneralOptions;
-
-//_______________________________________________________________________________
 S_msrOptions msrOptions::create ()
 {
   msrOptions* o = new msrOptions();

@@ -27,6 +27,7 @@
 #include "tree_browser.h"
 
 #include "msrUtilities.h"
+#include "msrGeneralOptions.h"
 
 //JMI#include "musicxml2msr.h"
 
@@ -177,57 +178,6 @@ static msrNoteNamesLanguageMap gMsrNoteNamesLanguageMap;
 
 void                 initializeMsrNoteNamesLanguage ();
 msrNoteNamesLanguage getMsrNoteNamesLanguage (string lang);
-  
-//______________________________________________________________________________
-/*!
-  \brief The general options.
-
-  A class is used to avoid passing arguments one by one
-  to the various methods that need them.
-*/
-class EXP msrGeneralOptions : public smartable
-{
-  public:
-
-    static SMARTP<msrGeneralOptions> create ();
-    
-  protected:
-  
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrGeneralOptions();
-  
-    virtual ~msrGeneralOptions();
- 
-  public:
-
-    // synthetic view
-    string                          fCommandLineOptions;
-    string                          fInputSourceName;
-    string                          fTranslationDate;
-
-    // interactive mode
-    bool                            fInteractive;
-    
-    // trace
-    bool                            fTrace;
-    
-    // debug
-    bool                            fDebug;
-    bool                            fDebugDebug;
-
-    // forcing debug information at specific places in the code
-    bool                            fForceDebug;
-    
-    // measure number-selective debug
-    set<int>                        fDebugMeasureNumbersSet;
-    bool                            fSaveDebug;
-    bool                            fSaveDebugDebug;
-};
-typedef SMARTP<msrGeneralOptions> S_msrGeneralOptions;
-
-extern S_msrGeneralOptions gGeneralOptions;
 
 //______________________________________________________________________________
 /*!
