@@ -64,10 +64,8 @@ S_msrOptions gMsrOptions;
 
 //______________________________________________________________________________
 msrElement::msrElement (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber)
 {
-  fMsrOptions      = msrOpts;
   fInputLineNumber = inputLineNumber;  
 }
 
@@ -232,24 +230,22 @@ void msrBeatData::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrOctaveShift msrOctaveShift::create (
-  S_msrOptions&      msrOpts, 
   int                inputLineNumber,
   msrOctaveShiftKind octaveShiftKind,
   int                octaveShiftSize)
 {
   msrOctaveShift* o =
     new msrOctaveShift (
-      msrOpts, inputLineNumber, octaveShiftKind, octaveShiftSize);
+      inputLineNumber, octaveShiftKind, octaveShiftSize);
   assert(o!=0);
   return o;
 }
 
 msrOctaveShift::msrOctaveShift (
-  S_msrOptions&      msrOpts, 
   int                inputLineNumber,
   msrOctaveShiftKind octaveShiftKind,
   int                octaveShiftSize)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fOctaveShiftKind = octaveShiftKind;
 
@@ -335,22 +331,20 @@ void msrOctaveShift::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrStem msrStem::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   msrStemKind   stemKind)
 {
   msrStem* o =
     new msrStem (
-      msrOpts, inputLineNumber, stemKind);
+      inputLineNumber, stemKind);
   assert(o!=0);
   return o;
 }
 
 msrStem::msrStem (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   msrStemKind   stemKind)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fStemKind   = stemKind; 
 }
@@ -433,24 +427,22 @@ void msrStem::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrBeam msrBeam::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           number,
   msrBeamKind   beamKind)
 {
   msrBeam* o =
     new msrBeam (
-      msrOpts, inputLineNumber, number, beamKind);
+      inputLineNumber, number, beamKind);
   assert(o!=0);
   return o;
 }
 
 msrBeam::msrBeam (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           number,
   msrBeamKind   beamKind)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fBeamNumber = number;
   fBeamKind   = beamKind; 
@@ -543,7 +535,7 @@ S_msrArticulation msrArticulation::create (
 {
   msrArticulation* o =
     new msrArticulation (
-      msrOpts, inputLineNumber, articulationKind);
+      inputLineNumber, articulationKind);
   assert (o!=0);
   return o;
 }
@@ -552,7 +544,7 @@ msrArticulation::msrArticulation (
   S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
   msrArticulationKind articulationKind)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fArticulationKind = articulationKind;
 }
@@ -680,7 +672,7 @@ S_msrOrnament msrOrnament::create (
 {
   msrOrnament* o =
     new msrOrnament (
-      msrOpts, inputLineNumber, ornamentKind);
+      inputLineNumber, ornamentKind);
   assert (o!=0);
   return o;
 }
@@ -689,7 +681,7 @@ msrOrnament::msrOrnament (
   S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   msrOrnamentKind ornamentKind)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fOrnamentKind = ornamentKind;
 }
@@ -840,7 +832,7 @@ S_msrRehearsal msrRehearsal::create (
 {
   msrRehearsal* o =
     new msrRehearsal (
-      msrOpts, inputLineNumber, rehearsalKind, rehearsalText);
+      inputLineNumber, rehearsalKind, rehearsalText);
   assert (o!=0);
   return o;
 }
@@ -850,7 +842,7 @@ msrRehearsal::msrRehearsal (
   int              inputLineNumber,
   msrRehearsalKind rehearsalKind,
   string           rehearsalText)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fRehearsalKind = rehearsalKind;
 
@@ -937,22 +929,20 @@ void msrRehearsal::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrDynamics msrDynamics::create (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  msrDynamicsKind           dynamicsKind)
+  int             inputLineNumber,
+  msrDynamicsKind dynamicsKind)
 {
   msrDynamics* o =
     new msrDynamics (
-      msrOpts, inputLineNumber, dynamicsKind);
+      inputLineNumber, dynamicsKind);
     assert(o!=0);
   return o;
 }
 
 msrDynamics::msrDynamics (
-  S_msrOptions& msrOpts, 
-  int                    inputLineNumber,
-  msrDynamicsKind           dynamicsKind)
-    : msrElement (msrOpts, inputLineNumber)
+  int             inputLineNumber,
+  msrDynamicsKind dynamicsKind)
+    : msrElement (inputLineNumber)
 {
   fDynamicsKind = dynamicsKind; 
 }
@@ -1083,22 +1073,20 @@ void msrDynamics::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrWedge msrWedge::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   msrWedgeKind  wedgeKind)
 {
   msrWedge* o =
     new msrWedge (
-      msrOpts, inputLineNumber, wedgeKind);
+      inputLineNumber, wedgeKind);
   assert(o!=0);
   return o;
 }
 
 msrWedge::msrWedge (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   msrWedgeKind  wedgeKind)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fWedgeKind = wedgeKind; 
 }
@@ -1175,22 +1163,20 @@ void msrWedge::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTie msrTie::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   msrTieKind    tieKind)
 {
   msrTie* o =
     new msrTie (
-      msrOpts, inputLineNumber, tieKind);
+      inputLineNumber, tieKind);
   assert(o!=0);
   return o;
 }
 
 msrTie::msrTie (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   msrTieKind    tieKind)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fTieKind = tieKind; 
 }
@@ -1270,24 +1256,22 @@ void msrTie::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrSlur msrSlur::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           slurNumber,
   msrSlurKind   slurKind)
 {
   msrSlur* o =
     new msrSlur (
-      msrOpts, inputLineNumber, slurNumber, slurKind);
+      inputLineNumber, slurNumber, slurKind);
   assert(o!=0);
   return o;
 }
 
 msrSlur::msrSlur (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           slurNumber,
   msrSlurKind   slurKind)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fSlurNumber = slurNumber;
   fSlurKind   = slurKind; 
@@ -1376,7 +1360,7 @@ S_msrGracenotes msrGracenotes::create (
 {
   msrGracenotes* o =
     new msrGracenotes (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       slashed, gracenotesVoiceUplink);
   assert(o!=0);
   return o;
@@ -1387,7 +1371,7 @@ msrGracenotes::msrGracenotes (
   int             inputLineNumber,
   bool            slashed,
   S_msrVoice      gracenotesVoiceUplink)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fGracenotesIsSlashed = slashed;
 
@@ -1496,7 +1480,7 @@ S_msrNote msrNote::createFromNoteData (
 {  
   msrNote * o =
     new msrNote (
-      msrOpts, inputLineNumber, noteData);
+      inputLineNumber, noteData);
   assert(o!=0); 
   return o;
 }
@@ -1522,7 +1506,7 @@ S_msrNote msrNote::createSkipNote (
 
   msrNote * o =
     new msrNote (
-      msrOpts, inputLineNumber, noteData);
+      inputLineNumber, noteData);
   assert(o!=0);
 
   // set rest's note kind
@@ -1565,7 +1549,7 @@ msrNote::msrNote (
   int           inputLineNumber,
   msrNoteData&  noteData)
   :
-    msrElement (msrOpts, inputLineNumber),
+    msrElement (inputLineNumber),
     fNoteData (noteData)
 {
 //  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
@@ -2472,22 +2456,20 @@ void msrNote::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrChord msrChord::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           chordDivisions)
 {
   msrChord* o =
     new msrChord (
-      msrOpts, inputLineNumber, chordDivisions);
+      inputLineNumber, chordDivisions);
   assert(o!=0);
   return o;
 }
 
 msrChord::msrChord (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           chordDivisions)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fChordDivisions = chordDivisions;
 }
@@ -2806,24 +2788,22 @@ void msrChord::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrComment msrComment::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   string        contents,
   msrGapKind    gapKind)
 {
   msrComment* o =
     new msrComment (
-      msrOpts, inputLineNumber, contents, gapKind);
+      inputLineNumber, contents, gapKind);
   assert(o!=0);
   return o;
 }
 
 msrComment::msrComment (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   string        contents,
   msrGapKind    gapKind)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fContents = contents;
   fGapKind  = gapKind;
@@ -2884,22 +2864,20 @@ void msrComment::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrBreak msrBreak::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           nextBarNumber)
 {
   msrBreak* o =
     new msrBreak (
-      msrOpts, inputLineNumber, nextBarNumber);
+      inputLineNumber, nextBarNumber);
   assert(o!=0);
   return o;
 }
 
 msrBreak::msrBreak (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           nextBarNumber)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fNextBarNumber = nextBarNumber; 
 
@@ -2973,22 +2951,20 @@ void msrBreak::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrBarCheck msrBarCheck::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           nextBarNumber)
 {
   msrBarCheck* o =
     new msrBarCheck (
-      msrOpts, inputLineNumber, nextBarNumber);
+      inputLineNumber, nextBarNumber);
   assert(o!=0);
   return o;
 }
 
 msrBarCheck::msrBarCheck (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           nextBarNumber)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fNextBarNumber = nextBarNumber; 
 
@@ -3061,22 +3037,20 @@ void msrBarCheck::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrBarnumberCheck msrBarnumberCheck::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           nextBarNumber)
 {
   msrBarnumberCheck* o =
     new msrBarnumberCheck (
-      msrOpts, inputLineNumber, nextBarNumber);
+      inputLineNumber, nextBarNumber);
   assert(o!=0);
   return o;
 }
 
 msrBarnumberCheck::msrBarnumberCheck (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           nextBarNumber)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fNextBarNumber=nextBarNumber; 
 }
@@ -3144,7 +3118,6 @@ void msrBarnumberCheck::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           number,
   int           actualNotes,
@@ -3153,20 +3126,19 @@ S_msrTuplet msrTuplet::create (
 {
   msrTuplet* o =
     new msrTuplet (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       number, actualNotes, normalNotes, notePositionInMeasure);
   assert(o!=0);
   return o;
 }
 
 msrTuplet::msrTuplet (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           number,
   int           actualNotes,
   int           normalNotes,
   int           notePositionInMeasure)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {  
   fTupletNumber = number;
   
@@ -3285,20 +3257,18 @@ void msrTuplet::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrPageGeometry msrPageGeometry::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber)
 {
   msrPageGeometry* o =
     new msrPageGeometry (
-      msrOpts, inputLineNumber);
+      inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrPageGeometry::msrPageGeometry (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fPaperWidth   = -1.0;
   fPaperHeight  = -1.0;
@@ -3490,25 +3460,23 @@ void msrPageGeometry::print (ostream& os) {
 //______________________________________________________________________________
 
 S_msrVarValAssoc msrVarValAssoc::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   string        variableName,
   string        value)
 {
   msrVarValAssoc* o =
     new msrVarValAssoc(
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       variableName, value);
   assert(o!=0);
   return o;
 }
 
 msrVarValAssoc::msrVarValAssoc (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   string        variableName,
   string        value)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fVariableName    = variableName;
   fVariableValue   = value;
@@ -3593,20 +3561,18 @@ void msrVarValAssoc::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrLayout msrLayout::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber)
 {
   msrLayout* o =
     new msrLayout (
-      msrOpts, inputLineNumber);
+      inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrLayout::msrLayout (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {}
 msrLayout::~msrLayout() {}
 
@@ -3686,22 +3652,20 @@ void msrLayout::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrClef msrClef::create (
-  S_msrOptions& msrOpts, 
   int          inputLineNumber,
   msrClefKind  clefKind)
 {
   msrClef* o =
     new msrClef (
-      msrOpts, inputLineNumber, clefKind);
+      inputLineNumber, clefKind);
   assert(o!=0);
   return o;
 }
 
 msrClef::msrClef (
-  S_msrOptions& msrOpts, 
   int          inputLineNumber,
   msrClefKind  clefKind)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fClefKind = clefKind;
 }
@@ -3856,7 +3820,6 @@ void msrClef::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrKey msrKey::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           fifths,
   string        mode,
@@ -3864,18 +3827,17 @@ S_msrKey msrKey::create (
 {
   msrKey* o =
     new msrKey (
-      msrOpts, inputLineNumber, fifths, mode, cancel);
+      inputLineNumber, fifths, mode, cancel);
   assert (o!=0);
   return o;
 }
 
 msrKey::msrKey (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           fifths,
   string        mode,
   int           cancel)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fKeyFifths = fifths;
   fKeyMode   = mode;
@@ -4031,25 +3993,23 @@ void msrKey::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTime msrTime::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           beatsNumber,
   int           beatsValue)
 {
   msrTime* o =
     new msrTime (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       beatsNumber, beatsValue);
   assert (o!=0);
   return o;
 }
 
 msrTime::msrTime (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           beatsNumber,
   int           beatsValue)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fBeatsNumber = beatsNumber;
   fBeatsValue  = beatsValue;
@@ -4119,25 +4079,23 @@ void msrTime::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTranspose msrTranspose::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           transposeDiatonic,
   int           transposeChromatic)
 {
   msrTranspose* o =
     new msrTranspose (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       transposeDiatonic, transposeChromatic);
   assert (o!=0);
   return o;
 }
 
 msrTranspose::msrTranspose (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           transposeDiatonic,
   int           transposeChromatic)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fTransposeDiatonic  = transposeDiatonic;
   fTransposeChromatic = transposeChromatic;
@@ -4218,7 +4176,7 @@ S_msrWords msrWords::create (
 {
   msrWords* o =
     new msrWords (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       wordsPlacementKind,
       wordsContents,
       wordsFontStyle,
@@ -4238,7 +4196,7 @@ msrWords::msrWords (
   string                wordsFontSize,
   string                wordsFontWeight,
   string                wordsFontXMLLang)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fWordsPlacementKind = wordsPlacementKind;
   
@@ -4358,24 +4316,22 @@ void msrWords::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTempo msrTempo::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           tempoUnit,
   int           perMinute)
 {
   msrTempo* o =
     new msrTempo (
-      msrOpts, inputLineNumber, tempoUnit, perMinute);
+      inputLineNumber, tempoUnit, perMinute);
   assert(o!=0);
   return o;
 }
 
 msrTempo::msrTempo (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           tempoUnit,
   int           perMinute)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fTempoIndication = "";
   
@@ -4459,7 +4415,6 @@ void msrTempo::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrLyricschunk msrLyricschunk::create (
-  S_msrOptions&      msrOpts, 
   int                inputLineNumber,
   msrLyricschunkKind lyricschunkKind,
   string             chunkText,
@@ -4468,7 +4423,7 @@ S_msrLyricschunk msrLyricschunk::create (
 {
   msrLyricschunk* o =
     new msrLyricschunk (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       lyricschunkKind, chunkText, divisions,
       lyricschunkLyricsUplink);
   assert(o!=0);
@@ -4476,13 +4431,12 @@ S_msrLyricschunk msrLyricschunk::create (
 }
 
 msrLyricschunk::msrLyricschunk (
-  S_msrOptions&      msrOpts, 
   int                inputLineNumber,
   msrLyricschunkKind lyricschunkKind,
   string             chunkText,
   int                divisions,
   S_msrLyrics        lyricschunkLyricsUplink)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fLyricschunkKind = lyricschunkKind;
   fChunkText       = chunkText;
@@ -4757,7 +4711,7 @@ S_msrLyrics msrLyrics::create (
 {
   msrLyrics* o =
     new msrLyrics (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       lyricsNumber,
       lyricsMasterStatus,
       lyricsVoiceUplink);
@@ -4771,7 +4725,7 @@ msrLyrics::msrLyrics (
   int                   lyricsNumber,
   msrLyricsMasterStatus lyricsMasterStatus,
   S_msrVoice            lyricsVoiceUplink)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fLyricsNumber       = lyricsNumber;
   fLyricsMasterStatus = lyricsMasterStatus;
@@ -5266,7 +5220,7 @@ S_msrHarmony msrHarmony::create (
 {
   msrHarmony* o =
     new msrHarmony (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       harmonyRootStep, harmonyRootAlter,
       harmonyKind, harmonyKindText,
       harmonyBassStep, harmonyBassAlter,
@@ -5285,7 +5239,7 @@ msrHarmony::msrHarmony (
   char                  harmonyBassStep,
   float                 harmonyBassAlter,
   S_msrPart             harmonyPartUplink)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fHarmonyRootStep   = harmonyRootStep;
   fHarmonyRootAlter  = harmonyRootAlter;
@@ -5442,7 +5396,7 @@ S_msrSegno msrSegno::create (
 {
   msrSegno* o =
     new msrSegno (
-      msrOpts, inputLineNumber);
+      inputLineNumber);
   assert(o!=0);
   return o;
 }
@@ -5450,7 +5404,7 @@ S_msrSegno msrSegno::create (
 msrSegno::msrSegno (
   S_msrOptions&             msrOpts, 
   int                       inputLineNumber)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {}
 
 msrSegno::~msrSegno() {}
@@ -5513,7 +5467,7 @@ S_msrCoda msrCoda::create (
 {
   msrCoda* o =
     new msrCoda (
-      msrOpts, inputLineNumber);
+      inputLineNumber);
   assert(o!=0);
   return o;
 }
@@ -5521,7 +5475,7 @@ S_msrCoda msrCoda::create (
 msrCoda::msrCoda (
   S_msrOptions&             msrOpts, 
   int                       inputLineNumber)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {}
 
 msrCoda::~msrCoda() {}
@@ -5584,7 +5538,7 @@ S_msrEyeglasses msrEyeglasses::create (
 {
   msrEyeglasses* o =
     new msrEyeglasses (
-      msrOpts, inputLineNumber);
+      inputLineNumber);
   assert(o!=0);
   return o;
 }
@@ -5592,7 +5546,7 @@ S_msrEyeglasses msrEyeglasses::create (
 msrEyeglasses::msrEyeglasses (
   S_msrOptions&             msrOpts, 
   int                       inputLineNumber)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {}
 
 msrEyeglasses::~msrEyeglasses() {}
@@ -5657,7 +5611,7 @@ S_msrPedal msrPedal::create (
 {
   msrPedal* o =
     new msrPedal (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       pedalType, pedalLine);
   assert(o!=0);
   return o;
@@ -5668,7 +5622,7 @@ msrPedal::msrPedal (
   int              inputLineNumber,
   msrPedalType     pedalType,
   msrPedalLine     pedalLine)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fPedalType = pedalType;
   fPedalLine = pedalLine;
@@ -5782,7 +5736,7 @@ S_msrBarline msrBarline::create (
 {
   msrBarline* o =
     new msrBarline (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       barlineHasSegno, barlineHasCoda,
       location, style,
       endingType, endingNumber,
@@ -5802,7 +5756,7 @@ msrBarline::msrBarline (
   string                    endingNumber,
   msrBarlineRepeatDirection repeatDirection,
   msrBarlineRepeatWinged    repeatWinged)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fBarlineHasSegno = barlineHasSegno;
   fBarlineHasCoda  = barlineHasCoda;
@@ -6039,7 +5993,7 @@ S_msrMeasure msrMeasure::create (
 {
   msrMeasure* o =
     new msrMeasure (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       measureNumber, divisionsPerWholeNote,
       voicechunkUplink);
   assert(o!=0);
@@ -6052,7 +6006,7 @@ msrMeasure::msrMeasure (
   int             measureNumber,
   int             divisionsPerWholeNote,
   S_msrVoicechunk voicechunkUplink)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fMeasureNumber = measureNumber;
   
@@ -6480,23 +6434,21 @@ void msrMeasure::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrVoicechunk msrVoicechunk::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   S_msrVoice    voicechunVoicekUplink)
 {
   msrVoicechunk* o =
     new msrVoicechunk (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       voicechunVoicekUplink);
   assert(o!=0);
   return o;
 }
 
 msrVoicechunk::msrVoicechunk (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   S_msrVoice    voicechunVoicekUplink)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fVoicechunVoicekUplink = voicechunVoicekUplink;
 
@@ -6983,7 +6935,7 @@ S_msrRepeatending msrRepeatending::create (
 {
   msrRepeatending* o =
     new msrRepeatending (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       repeatendingNumber,
       repeatendingKind,
       voicechunk,
@@ -6999,7 +6951,7 @@ msrRepeatending::msrRepeatending (
   msrRepeatendingKind repeatendingKind,
   S_msrVoicechunk     voicechunk,
   S_msrRepeat         repeatUplink)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fRepeatendingNumber = repeatendingNumber;
   
@@ -7114,7 +7066,7 @@ S_msrRepeat msrRepeat::create (
 {
   msrRepeat* o =
     new msrRepeat (
-      msrOpts, inputLineNumber, commonPart, voiceUplink);
+      inputLineNumber, commonPart, voiceUplink);
   assert(o!=0);
   return o;
 }
@@ -7124,7 +7076,7 @@ msrRepeat::msrRepeat (
   int             inputLineNumber,
   S_msrVoicechunk commonPart,
   S_msrVoice      voiceUplink)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fRepeatCommonPart     = commonPart;
   fRepeatEndingsCounter = 0;
@@ -7261,14 +7213,13 @@ void msrRepeat::print (ostream& os)
 
 //______________________________________________________________________________ 
 S_msrVoice msrVoice::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           externalVoiceNumber,
   S_msrStaff    voiceStaffUplink)
 {
   msrVoice* o =
     new msrVoice (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       externalVoiceNumber,
       voiceStaffUplink);
   assert(o!=0);
@@ -7325,11 +7276,10 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
 }
 
 msrVoice::msrVoice (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           externalVoiceNumber,
   S_msrStaff    voiceStaffUplink)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fExternalVoiceNumber = externalVoiceNumber;
   
@@ -8490,7 +8440,6 @@ void msrVoice::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrStafftuning msrStafftuning::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           stafftuningLineNumber,
   char          stafftuningStep,
@@ -8499,7 +8448,7 @@ S_msrStafftuning msrStafftuning::create (
 {
   msrStafftuning* o =
     new msrStafftuning (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       stafftuningLineNumber,
       stafftuningStep,
       stafftuningOctave,
@@ -8509,13 +8458,12 @@ S_msrStafftuning msrStafftuning::create (
 }
 
 msrStafftuning::msrStafftuning (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           stafftuningLineNumber,
   char          stafftuningStep,
   int           stafftuningOctave,
   float         staffTuningAlter)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fStafftuningLineNumber = stafftuningLineNumber;
   fStafftuningStep       = stafftuningStep;
@@ -8635,24 +8583,22 @@ void msrStafftuning::print (ostream& os)
 int msrStaff::gMaxStaffVoices = 4;
 
 S_msrStaff msrStaff::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           staffNumber,
   S_msrPart     staffPartUplink)
 {
   msrStaff* o =
     new msrStaff (
-      msrOpts, inputLineNumber, staffNumber, staffPartUplink);
+      inputLineNumber, staffNumber, staffPartUplink);
   assert(o!=0);
   return o;
 }
 
 msrStaff::msrStaff (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber,
   int           staffNumber,
   S_msrPart     staffPartUplink)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fStaffKind = kRegularStaff;
   
@@ -9539,7 +9485,7 @@ S_msrPart msrPart::create (
 {
   msrPart* o =
     new msrPart (
-      msrOpts, inputLineNumber, partID, partPartgroupUplink);
+      inputLineNumber, partID, partPartgroupUplink);
   assert(o!=0);
   return o;
 }
@@ -9549,7 +9495,7 @@ msrPart::msrPart (
   int            inputLineNumber,
   string         partID,
   S_msrPartgroup partPartgroupUplink)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   // replace spaces in part ID
   for_each (
@@ -10137,7 +10083,7 @@ S_msrPartgroup msrPartgroup::create (
 {
   msrPartgroup* o =
     new msrPartgroup (
-      msrOpts, inputLineNumber,
+      inputLineNumber,
       partgroupNumber,
       partgroupName,
       partgroupAbbreviation,
@@ -10159,7 +10105,7 @@ msrPartgroup::msrPartgroup (
   int                    partgroupSymbolDefaultX,
   bool                   partgroupBarline,
   S_msrPartgroup         partgroupPartgroupUplink)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fPartgroupAbsoluteNumber = ++gPartgroupsCounter;
   
@@ -10583,20 +10529,18 @@ void msrPartgroup::printStructure (ostream& os)
 
 //______________________________________________________________________________
 S_msrIdentification msrIdentification::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber)
 {
   msrIdentification* o =
     new msrIdentification (
-      msrOpts, inputLineNumber);
+      inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrIdentification::msrIdentification (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {}
 
 msrIdentification::~msrIdentification() {}
@@ -10871,28 +10815,26 @@ void msrIdentification::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrScore msrScore::create (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber)
 {
   msrScore* o =
     new msrScore (
-      msrOpts, inputLineNumber);
+      inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrScore::msrScore (
-  S_msrOptions& msrOpts, 
   int           inputLineNumber)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   fIdentification =
     msrIdentification::create (
-      msrOpts, inputLineNumber);
+      inputLineNumber);
       
   fPageGeometry =
     msrPageGeometry::create (
-      msrOpts, inputLineNumber);
+      inputLineNumber);
 }
 
 msrScore::~msrScore() {}
@@ -11072,20 +11014,18 @@ void msrScore::printStructure (ostream& os)
 
 //______________________________________________________________________________
 S_msrMidi msrMidi::create (
-  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
 {
   msrMidi* o =
     new msrMidi (
-      msrOpts, inputLineNumber);
+      inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrMidi::msrMidi (
-  S_msrOptions& msrOpts, 
   int                    inputLineNumber)
-    : msrElement (msrOpts, inputLineNumber)
+    : msrElement (inputLineNumber)
 {
 }
 msrMidi::~msrMidi() {}

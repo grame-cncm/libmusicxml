@@ -45,20 +45,16 @@ S_lpsrOptions gLpsrOptions;
 
 //_______________________________________________________________________________
 S_lpsrElement lpsrElement::create (
-  S_msrOptions   msrOpts,
-  S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
 {
   lpsrElement* o =
     new lpsrElement (
-      msrOpts, lpsrOpts, inputLineNumber);
+      inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 lpsrElement::lpsrElement (
-  S_msrOptions   msrOpts,
-  S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
     : msrElement (msrOpts, inputLineNumber)
 {
@@ -113,7 +109,7 @@ S_lpsrParallelMusic lpsrParallelMusic::create (
 {
   lpsrParallelMusic* o =
     new lpsrParallelMusic (
-      msrOpts, lpsrOpts, inputLineNumber, elementsSeparator);
+      inputLineNumber, elementsSeparator);
   assert(o!=0);
   return o;
 }
@@ -123,7 +119,7 @@ lpsrParallelMusic::lpsrParallelMusic (
   S_lpsrOptions&        lpsrOpts, 
   int                   inputLineNumber,
   lpsrElementsSeparator elementsSeparator)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {
   fElementsSeparator=elementsSeparator;
 }
@@ -227,7 +223,7 @@ S_lpsrComment lpsrComment::create (
 {
   lpsrComment* o = new
     lpsrComment (
-      msrOpts, lpsrOpts, inputLineNumber, contents, gapKind);
+      inputLineNumber, contents, gapKind);
   assert(o!=0);
   return o;
 }
@@ -238,7 +234,7 @@ lpsrComment::lpsrComment (
   int            inputLineNumber,
   string         contents,
   lpsrGapKind    gapKind)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {
   fContents = contents;
   fGapKind  = gapKind;
@@ -307,7 +303,7 @@ S_lpsrBarNumberCheck lpsrBarNumberCheck::create (
 {
   lpsrBarNumberCheck* o =
     new lpsrBarNumberCheck (
-      msrOpts, lpsrOpts, inputLineNumber, nextBarNumber);
+      inputLineNumber, nextBarNumber);
   assert(o!=0);
   return o;
 }
@@ -317,7 +313,7 @@ lpsrBarNumberCheck::lpsrBarNumberCheck (
   S_lpsrOptions&    lpsrOpts, 
   int                    inputLineNumber,
   int                    nextBarNumber)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {
   fNextBarNumber=nextBarNumber; 
 }
@@ -382,7 +378,7 @@ S_lpsrUseVoiceCommand lpsrUseVoiceCommand::create (
 {
   lpsrUseVoiceCommand* o =
     new lpsrUseVoiceCommand (
-      msrOpts, lpsrOpts, inputLineNumber,
+      inputLineNumber,
       voice);
   assert(o!=0);
   return o;
@@ -393,7 +389,7 @@ lpsrUseVoiceCommand::lpsrUseVoiceCommand (
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber,
   S_msrVoice     voice)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {
   fVoice  = voice;
 }
@@ -464,7 +460,7 @@ S_lpsrNewLyricsBlock lpsrNewLyricsBlock::create (
 {
   lpsrNewLyricsBlock* o =
     new lpsrNewLyricsBlock (
-      msrOpts, lpsrOpts, inputLineNumber,
+      inputLineNumber,
       lyrics, voice);
   assert(o!=0);
   return o;
@@ -476,7 +472,7 @@ lpsrNewLyricsBlock::lpsrNewLyricsBlock (
   int            inputLineNumber,
   S_msrLyrics    lyrics,
   S_msrVoice     voice)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {
   fLyrics = lyrics;
   fVoice  = voice;
@@ -553,7 +549,7 @@ S_lpsrLilypondVarValAssoc lpsrLilypondVarValAssoc::create (
 {
   lpsrLilypondVarValAssoc* o =
     new lpsrLilypondVarValAssoc(
-      msrOpts, lpsrOpts, inputLineNumber,
+      inputLineNumber,
       commentedKind,
       backslashKind,
       variableName,
@@ -580,7 +576,7 @@ lpsrLilypondVarValAssoc::lpsrLilypondVarValAssoc (
   string              unit,
   string              comment,
   lpsrEndlKind        endlKind)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {
   fBackslashKind   = backslashKind;
   fVariableName    = variableName;
@@ -763,7 +759,7 @@ S_lpsrSchemeVarValAssoc lpsrSchemeVarValAssoc::create (
 {
   lpsrSchemeVarValAssoc* o =
     new lpsrSchemeVarValAssoc (
-      msrOpts, lpsrOpts, inputLineNumber,
+      inputLineNumber,
       commentedKind, variableName, value, comment, endlKind);
   assert(o!=0);
   return o;
@@ -778,7 +774,7 @@ lpsrSchemeVarValAssoc::lpsrSchemeVarValAssoc (
   string            value, 
   string            comment,
   lpsrEndlKind      endlKind)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {
   fCommentedKind = commentedKind;
 
@@ -911,7 +907,7 @@ S_lpsrNewStaffgroupBlock lpsrNewStaffgroupBlock::create (
 {
   lpsrNewStaffgroupBlock* o =
     new lpsrNewStaffgroupBlock (
-      msrOpts, lpsrOpts, inputLineNumber);
+      inputLineNumber);
   assert(o!=0);
   return o;
 }
@@ -920,7 +916,7 @@ lpsrNewStaffgroupBlock::lpsrNewStaffgroupBlock (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {}
 
 lpsrNewStaffgroupBlock::~lpsrNewStaffgroupBlock() {}
@@ -992,7 +988,7 @@ S_lpsrNewStafftuningBlock lpsrNewStafftuningBlock::create (
 {
   lpsrNewStafftuningBlock* o =
     new lpsrNewStafftuningBlock (
-      msrOpts, lpsrOpts, inputLineNumber, stafftuning);
+      inputLineNumber, stafftuning);
   assert(o!=0);
   return o;
 }
@@ -1002,7 +998,7 @@ lpsrNewStafftuningBlock::lpsrNewStafftuningBlock (
   S_lpsrOptions&   lpsrOpts, 
   int              inputLineNumber,
   S_msrStafftuning stafftuning)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {
   fStafftuning = stafftuning;
 }
@@ -1072,7 +1068,7 @@ S_lpsrNewStaffBlock lpsrNewStaffBlock::create (
 {
   lpsrNewStaffBlock* o =
     new lpsrNewStaffBlock (
-      msrOpts, lpsrOpts, inputLineNumber);
+      inputLineNumber);
   assert(o!=0);
   return o;
 }
@@ -1081,7 +1077,7 @@ lpsrNewStaffBlock::lpsrNewStaffBlock (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {}
 
 lpsrNewStaffBlock::~lpsrNewStaffBlock() {}
@@ -1153,7 +1149,7 @@ S_lpsrVariableUseCommand lpsrVariableUseCommand::create (
 {
   lpsrVariableUseCommand* o =
     new lpsrVariableUseCommand (
-      msrOpts, lpsrOpts, inputLineNumber, variableName);
+      inputLineNumber, variableName);
   assert(o!=0);
   return o;
 }
@@ -1163,7 +1159,7 @@ lpsrVariableUseCommand::lpsrVariableUseCommand (
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber,
   string         variableName)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {
   fVariableName = variableName;
 }
@@ -1232,7 +1228,7 @@ S_lpsrContext lpsrContext::create (
 {
   lpsrContext* o =
     new lpsrContext (
-      msrOpts, lpsrOpts, inputLineNumber,
+      inputLineNumber,
       contextKind, contextType, contextName);
   assert(o!=0);
   return o;
@@ -1245,7 +1241,7 @@ lpsrContext::lpsrContext (
   lpsrContextKind contextKind,
   string          contextType,
   string          contextName)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {
   fContextKind = contextKind;
   fContextType = contextType;
@@ -1325,7 +1321,7 @@ S_lpsrBarCommand lpsrBarCommand::create (
 {
   lpsrBarCommand* o =
     new lpsrBarCommand (
-      msrOpts, lpsrOpts, inputLineNumber);
+      inputLineNumber);
   assert(o!=0);
   return o;
 }
@@ -1334,7 +1330,7 @@ lpsrBarCommand::lpsrBarCommand (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {}
 
 lpsrBarCommand::~lpsrBarCommand() {}
@@ -1404,7 +1400,7 @@ S_lpsrHeader lpsrHeader::create (
 {
   lpsrHeader* o =
     new lpsrHeader (
-      msrOpts, lpsrOpts, inputLineNumber);
+      inputLineNumber);
   assert(o!=0);
   return o;
 }
@@ -1413,7 +1409,7 @@ lpsrHeader::lpsrHeader (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {}
 
 lpsrHeader::~lpsrHeader() {}
@@ -1993,7 +1989,7 @@ lpsrLayout::lpsrLayout (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {
   fStaffSize = 20; // LilyPond default // JMI
 }
@@ -2465,7 +2461,7 @@ S_lpsrScoreBlock lpsrScoreBlock::create (
   int            inputLineNumber)
 {
   lpsrScoreBlock* o = new lpsrScoreBlock (
-    msrOpts, lpsrOpts, inputLineNumber);
+    inputLineNumber);
   assert(o!=0);
   return o;
 }
@@ -2474,18 +2470,18 @@ lpsrScoreBlock::lpsrScoreBlock (
   S_msrOptions&  msrOpts, 
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {
   // create the score command parallel music
   fScoreBlockParallelMusic =
     lpsrParallelMusic::create (
-      msrOpts, lpsrOpts, inputLineNumber,
+      inputLineNumber,
       lpsrParallelMusic::kEndOfLine);
   
   // create the score command layout
   fScoreBlockLayout =
     lpsrLayout::create (
-      msrOpts, lpsrOpts, inputLineNumber);
+      inputLineNumber);
   
   // create the score command midi
   fScoreBlockMidi =
@@ -2648,7 +2644,7 @@ S_lpsrScore lpsrScore::create (
   S_msrScore     mScore)
 {
   lpsrScore* o = new lpsrScore (
-    msrOpts, lpsrOpts, inputLineNumber, mScore);
+    inputLineNumber, mScore);
   assert(o!=0);
   return o;
 }
@@ -2658,14 +2654,14 @@ lpsrScore::lpsrScore (
   S_lpsrOptions& lpsrOpts, 
   int            inputLineNumber,
   S_msrScore     mScore)
-    : lpsrElement (msrOpts, lpsrOpts, inputLineNumber)
+    : lpsrElement (inputLineNumber)
 {
   fMsrScore = mScore;
 
   // create the LilyPond version assoc
   fLilyPondVersion =
     lpsrLilypondVarValAssoc::create (
-      msrOpts, lpsrOpts, inputLineNumber,
+      inputLineNumber,
       lpsrLilypondVarValAssoc::kUncommented,
       lpsrLilypondVarValAssoc::kWithBackslash,
       "version",
@@ -2686,7 +2682,7 @@ lpsrScore::lpsrScore (
       
   fInputSourceNameComment =
     lpsrComment::create (
-      msrOpts, lpsrOpts, inputLineNumber,
+      inputLineNumber,
       s.str(),
       lpsrComment::kNoGapAfterwards);
   }
@@ -2699,7 +2695,7 @@ lpsrScore::lpsrScore (
       
   fTranslationDateComment =
     lpsrComment::create (
-      msrOpts, lpsrOpts, inputLineNumber,
+      inputLineNumber,
       comment,
       lpsrComment::kNoGapAfterwards);
   }
@@ -2717,7 +2713,7 @@ lpsrScore::lpsrScore (
       
   fCommandLineOptionsComment =
     lpsrComment::create (
-      msrOpts, lpsrOpts, inputLineNumber,
+      inputLineNumber,
       comment,
       lpsrComment::kGapAfterwards);
   }
@@ -2735,7 +2731,7 @@ lpsrScore::lpsrScore (
   // create the header
   fHeader =
     lpsrHeader::create (
-      msrOpts, lpsrOpts, inputLineNumber);
+      inputLineNumber);
   
   // create the paper
   fPaper =
@@ -2745,7 +2741,7 @@ lpsrScore::lpsrScore (
   // create the score layout
   fScoreLayout =
     lpsrLayout::create (
-      msrOpts, lpsrOpts, inputLineNumber);
+      inputLineNumber);
 
   // create the 'myBreakIsBreak' assoc
   {
@@ -2794,7 +2790,7 @@ lpsrScore::lpsrScore (
   // create the score command
   fScoreBlock =
     lpsrScoreBlock::create (
-      msrOpts, lpsrOpts, inputLineNumber);
+      inputLineNumber);
 }
 
 lpsrScore::~lpsrScore() {}
