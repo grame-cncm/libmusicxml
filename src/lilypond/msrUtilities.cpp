@@ -1116,5 +1116,23 @@ string booleanAsString (bool value)
         : "false");
 }
 
+//______________________________________________________________________________
+string singularOrPlural (int number, string singularName, string pluralName)
+{
+  stringstream s;
+
+  s <<
+    number << " ";
+  
+  if (number <= 1)
+    s <<
+      singularName;
+  else
+    s <<
+      pluralName;
+      
+  return s.str ();
+}
+
 
 }

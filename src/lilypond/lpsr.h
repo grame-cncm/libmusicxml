@@ -1963,7 +1963,7 @@ class EXP lpsrScore : public lpsrElement
     list<S_msrElement>        fScoreElements;
 
     // score command
-    S_lpsrScoreBlock        fScoreBlock;
+    S_lpsrScoreBlock          fScoreBlock;
 };
 typedef SMARTP<lpsrScore> S_lpsrScore;
 EXP ostream& operator<< (ostream& os, const S_lpsrScore& elt);

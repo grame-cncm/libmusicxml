@@ -2983,9 +2983,9 @@ void lpsrScore::print (ostream& os)
     idtr << fScoreLayout <<
     endl;
 
-  // print the structure without the voices
-  printStructure (os);
-
+  // print the structure (without the voices)
+  os << idtr;
+  fMsrScore->printStructure (os);
   os << endl;
 
   // print the voices

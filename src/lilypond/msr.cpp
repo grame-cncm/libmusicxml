@@ -8420,9 +8420,12 @@ void msrVoice::print (ostream& os)
 {
   os <<
     "Voice" " \"" << getVoiceName () <<
-    "\" (" << fVoiceActualNotesCounter <<
-    " actual notes" <<
-     ", " << fVoiceLyricsMap.size() << " lyrics" <<
+    "\" (" <<
+    singularOrPlural (
+      fVoiceActualNotesCounter, "actual note", "actual notes") <<
+     ", " <<
+    singularOrPlural (
+      fVoiceLyricsMap.size(), "lyric", "lyrics") <<
     ")" <<
     endl;
 
@@ -9363,7 +9366,10 @@ void msrStaff::print (ostream& os)
   os <<
     "Staff" " " << getStaffName () <<
     ", " << staffKindAsString () <<
-    " (" << fStaffVoicesMap.size() << " voices)" <<
+    " (" <<
+    singularOrPlural (
+      fStaffVoicesMap.size(), "voice", "voices") <<
+    ")" <<
     endl;
 
   idtr++;
@@ -9433,7 +9439,10 @@ void msrStaff::printStructure (ostream& os)
   os <<
     "Staff" " " << getStaffName () <<
     ", " << staffKindAsString () <<
-    " (" << fStaffVoicesMap.size() << " voices)" <<
+    " (" <<
+    singularOrPlural (
+      fStaffVoicesMap.size(), "voice", "voices") <<
+    ")" <<
     endl;
 
   idtr++;
@@ -10003,7 +10012,9 @@ void msrPart::print (ostream& os)
 {
   os <<
     "Part" << " " << getPartCombinedName () <<
-    " (" << fPartStavesMap.size() << " staves" <<
+    " (" <<
+    singularOrPlural (
+      fPartStavesMap.size(), "staff", "staves") <<
     ", position high tide " << fPartMeasurePositionHighTide <<
     ")" <<
     endl;
@@ -10046,7 +10057,9 @@ void msrPart::printStructure (ostream& os)
 {
   os <<
     "Part" << " " << getPartCombinedName () <<
-    " (" << fPartStavesMap.size() << " staves" <<
+    " (" <<
+    singularOrPlural (
+      fPartStavesMap.size(), "staff", "staves") <<
     ", position high tide " << fPartMeasurePositionHighTide <<
     ")" <<
     endl;
@@ -10430,7 +10443,10 @@ void msrPartgroup::print (ostream& os)
 {
   os <<
     "Partgroup" " \"" << getPartgroupCombinedName () <<
-    "\" (" << fPartgroupPartsMap.size() << " parts)" <<
+    "\" (" <<
+    singularOrPlural (
+      fPartgroupPartsMap.size(), "part", "parts") <<
+    ")" <<
     endl;
     
   idtr++;
@@ -10487,7 +10503,10 @@ void msrPartgroup::printStructure (ostream& os)
 {
   os <<
     "Partgroup" " \"" << getPartgroupCombinedName () <<
-    "\" (" << fPartgroupPartsMap.size() << " parts)" <<
+    "\" (" <<
+    singularOrPlural (
+      fPartgroupPartsMap.size(), "part", "parts") <<
+    ")" <<
     endl;
     
   idtr++;
