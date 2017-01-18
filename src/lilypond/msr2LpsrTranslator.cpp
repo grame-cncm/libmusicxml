@@ -387,7 +387,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       "--> Start visiting msrStaff" << endl;
 
   idtr++;
-  
+
   // create a staff clone
   fCurrentStaffClone =
     elt->createStaffBareClone (fCurrentPartClone);

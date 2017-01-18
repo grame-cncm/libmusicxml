@@ -1496,7 +1496,12 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       break;
       
     case msrMeasure::kIncompleteRightMeasure:
-      // there's no need for '\partial' in this case
+      {
+      // we should set the score measure length in this case
+      fOstream <<
+        "\\set Score.measureLength = #(ly:make-moment 1/1)" <<
+        endl;
+      }
       break;
   } // switch
 }

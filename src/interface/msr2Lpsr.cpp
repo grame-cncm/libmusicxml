@@ -82,7 +82,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       // ------------------------------------------------------
   
   // create an msr2LpsrTranslator
-  msr2LpsrTranslator translator (msrOpts, lpsrOpts, os, mScore);
+  msr2LpsrTranslator translator (os, mScore);
       
   // build the LPSR score
   translator.buildLpsrScoreFromMsrScore ();

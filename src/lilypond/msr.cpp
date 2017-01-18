@@ -6435,10 +6435,13 @@ msrVoicechunk::msrVoicechunk (
       : 1;
 
 //  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "### --> Creating voice chunk first measure with number " <<
-      firstMeasureNumber <<
-      endl;
+    cerr <<
+      endl <<
+      idtr <<
+        "### --> Creating voice chunk first measure with number " <<
+        firstMeasureNumber <<
+        " in voice \"" << fVoicechunVoicekUplink->getVoiceName () << "\"" <<
+        endl << endl;
 
   // create a first measure
   S_msrMeasure
@@ -9559,12 +9562,14 @@ void msrPart::setPartMeasureNumber (
   int measureNumber)
 {
  // if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "### --> setPartMeasureNumber()" <<
-      ", line " << inputLineNumber <<
-      ", measureNumber = " << measureNumber <<
-      ", in part " << getPartCombinedName () <<
-      endl;
+    cerr <<
+      endl <<
+      idtr <<
+        "### --> setPartMeasureNumber()" <<
+        ", line " << inputLineNumber <<
+        ", measureNumber = " << measureNumber <<
+        ", in part " << getPartCombinedName () <<
+        endl << endl;
 
   // set part measure location
   fPartMeasureNumber = measureNumber;
@@ -9763,8 +9768,8 @@ void msrPart::addStaffToPart (S_msrStaff staff)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Adding staff " << staff->getStaffName () <<
-      " to part " << getPartCombinedName () <<
+      "Adding staff \"" << staff->getStaffName () <<
+      "\" to part " << getPartCombinedName () <<
       endl;
 
   // register staff in this part
