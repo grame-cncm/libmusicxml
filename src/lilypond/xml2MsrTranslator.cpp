@@ -33,11 +33,8 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-xml2MsrTranslator::xml2MsrTranslator (
-  S_msrOptions& msrOpts)
+xml2MsrTranslator::xml2MsrTranslator ()
 {
-  fMsrOptions = msrOpts;
-
   fMillimeters       = -1;
   fTenths            = -1;
   fOnGoingPageLayout = false;
@@ -46,7 +43,7 @@ xml2MsrTranslator::xml2MsrTranslator (
 
   // create the MSR score
   fMsrScore =
-    msrScore::create (fMsrOptions, 0);
+    msrScore::create (0);
 
   fOnGoingBarline = false;
   
@@ -130,7 +127,6 @@ S_msrPartgroup xml2MsrTranslator::createImplicitMSRPartgroup (
   S_msrPartgroup
     partgroup =
       msrPartgroup::create (
-        fMsrOptions,
         inputLineNumber,
         fCurrentPartgroupNumber,
         "Implicit",
@@ -635,7 +631,6 @@ void xml2MsrTranslator::handlePartgroupStart (
     // no, create it
     partgroupToBeStarted =
       msrPartgroup::create (
-        fMsrOptions,
         inputLineNumber,
         fCurrentPartgroupNumber,
         fCurrentPartgroupName,
@@ -1346,7 +1341,6 @@ void xml2MsrTranslator::visitEnd ( S_clef& elt )
   S_msrClef
     clef =
       msrClef::create (
-        fMsrOptions,
         inputLineNumber,
         clefKind);
 
@@ -1397,7 +1391,6 @@ void xml2MsrTranslator::visitEnd ( S_key& elt )
   S_msrKey
     key =
       msrKey::create (
-        fMsrOptions,
         inputLineNumber,
         fCurrentFifths, fCurrentMode, fCurrentCancel);
 
@@ -1456,7 +1449,6 @@ void xml2MsrTranslator::visitEnd ( S_time& elt )
   S_msrTime
     time =
       msrTime::create (
-        fMsrOptions,
         inputLineNumber,
         fCurrentTimeBeats,
         fCurrentTimeBeatType);
@@ -1514,7 +1506,6 @@ void xml2MsrTranslator::visitEnd ( S_transpose& elt )
   S_msrTranspose
     transpose =
       msrTranspose::create (
-        fMsrOptions,
         inputLineNumber,
         fCurrentTransposeDiatonic,
         fCurrentTransposeChromatic);
@@ -1673,7 +1664,6 @@ void xml2MsrTranslator::visitStart (S_octave_shift& elt)
   S_msrOctaveShift
     octaveShift =
       msrOctaveShift::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         octaveShiftKind,
         size);
@@ -1717,7 +1707,6 @@ void xml2MsrTranslator::visitStart (S_words& elt)
     S_msrWords
       words =
         msrWords::create (
-          fMsrOptions,
           elt->getInputLineNumber (),
           fCurrentWordsPlacementKind,
           fCurrentWordsContents,
@@ -1815,7 +1804,6 @@ void xml2MsrTranslator::visitEnd ( S_metronome& elt )
 
   fCurrentTempo =
     msrTempo::create (
-      fMsrOptions,
       inputLineNumber,
       r.getDenominator(), fPerMinute);
 
@@ -2147,7 +2135,6 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
   S_msrStafftuning
     stafftuning =
       msrStafftuning::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         fCurrentStaffTuningLine,
         fCurrentStaffTuningStep,
@@ -2438,8 +2425,7 @@ void xml2MsrTranslator::visitEnd ( S_forward& elt )
     S_msrNote
       rest =
         msrNote::createRest (
-          fMsrOptions,
-          inputLineNumber,
+            inputLineNumber,
           1, // JMI
           fCurrentStaffNumber,
           fCurrentVoiceNumber);
@@ -2516,7 +2502,6 @@ void xml2MsrTranslator::visitStart (S_tied& elt )
   if (fCurrentTieKind != msrTie::k_NoTie)
     fCurrentTie =
       msrTie::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         fCurrentTieKind);
 }
@@ -2591,7 +2576,6 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
   S_msrSlur
     slur =
       msrSlur::create(
-        fMsrOptions,
         elt->getInputLineNumber (),
         fCurrentSlurNumber,
         fCurrentSlurKind);
@@ -2628,7 +2612,6 @@ void xml2MsrTranslator::visitStart ( S_wedge& elt )
   S_msrWedge
     wedge =
       msrWedge::create(
-        fMsrOptions,
         elt->getInputLineNumber (),
         wedgeKind);
         
@@ -3027,8 +3010,7 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
     S_msrBarCheck
       barCheck =
         msrBarCheck::create (
-          fMsrOptions,
-          inputLineNumber,
+            inputLineNumber,
           currentVoice->
             getVoiceMeasureLocation ().fMeasureNumber);
               
@@ -3095,7 +3077,6 @@ void xml2MsrTranslator::visitStart ( S_print& elt )
       S_msrBarnumberCheck
         barnumbercheck_ =
           msrBarnumberCheck::create (
-            fMsrOptions,
             inputLineNumber,
             currentVoice->
               getVoiceMeasureNumber ());
@@ -3115,7 +3096,6 @@ void xml2MsrTranslator::visitStart ( S_print& elt )
       S_msrBreak
         break_ =
           msrBreak::create(
-            fMsrOptions,
             inputLineNumber,
             currentVoice->
               getVoiceMeasureNumber ());
@@ -3398,7 +3378,6 @@ void xml2MsrTranslator::visitStart ( S_segno& elt )
     S_msrSegno
       segno =
         msrSegno::create (
-          fMsrOptions,
           inputLineNumber);
 
     // append it to the current voice
@@ -3429,7 +3408,6 @@ void xml2MsrTranslator::visitStart ( S_coda& elt )
     S_msrCoda
       coda =
         msrCoda::create (
-          fMsrOptions,
           inputLineNumber);
 
     // append it to the current voice
@@ -3460,7 +3438,6 @@ void xml2MsrTranslator::visitStart ( S_eyeglasses& elt )
     S_msrEyeglasses
       eyeglasses =
         msrEyeglasses::create (
-          fMsrOptions,
           inputLineNumber);
 
     // append it to the current voice
@@ -3556,7 +3533,6 @@ void xml2MsrTranslator::visitStart ( S_pedal& elt )
     S_msrPedal
       pedal =
         msrPedal::create (
-          fMsrOptions,
           inputLineNumber,
           pedalType,
           pedalLine);
@@ -3690,7 +3666,6 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
   S_msrBarline
     barline =
       msrBarline::create (
-        fMsrOptions,
         inputLineNumber,
         fCurrentBarlineHasSegno,
         fCurrentBarlineHasCoda,
@@ -4244,7 +4219,6 @@ void xml2MsrTranslator::visitStart ( S_stem& elt )
 
   fCurrentStem =
     msrStem::create (
-      fMsrOptions,
       elt->getInputLineNumber (),
       stemKind);
 }
@@ -4301,7 +4275,6 @@ void xml2MsrTranslator::visitStart ( S_beam& elt )
   if (beamIsOK) {
     fCurrentBeam =
       msrBeam::create (
-        fMsrOptions,
         inputLineNumber,
         fCurrentBeamNumber,
         beamKind);
@@ -4318,7 +4291,6 @@ void xml2MsrTranslator::visitStart ( S_accent& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kAccent);
       
@@ -4330,7 +4302,6 @@ void xml2MsrTranslator::visitStart ( S_breath_mark& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kBreathMark);
       
@@ -4342,7 +4313,6 @@ void xml2MsrTranslator::visitStart ( S_caesura& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kCaesura);
       
@@ -4354,7 +4324,6 @@ void xml2MsrTranslator::visitStart ( S_spiccato& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kSpiccato);
       
@@ -4366,7 +4335,6 @@ void xml2MsrTranslator::visitStart ( S_staccato& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kStaccato);
       
@@ -4378,7 +4346,6 @@ void xml2MsrTranslator::visitStart ( S_staccatissimo& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kStaccatissimo);
       
@@ -4390,7 +4357,6 @@ void xml2MsrTranslator::visitStart ( S_stress& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kStress);
       
@@ -4402,7 +4368,6 @@ void xml2MsrTranslator::visitStart ( S_unstress& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kUnstress);
       
@@ -4414,7 +4379,6 @@ void xml2MsrTranslator::visitStart ( S_detached_legato& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kDetachedLegato);
       
@@ -4427,7 +4391,6 @@ void xml2MsrTranslator::visitStart ( S_strong_accent& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kStrongAccent);
       
@@ -4440,7 +4403,6 @@ void xml2MsrTranslator::visitStart ( S_tenuto& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kTenuto);
       
@@ -4453,7 +4415,6 @@ void xml2MsrTranslator::visitStart ( S_fermata& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kFermata);
       
@@ -4465,7 +4426,6 @@ void xml2MsrTranslator::visitStart ( S_arpeggiate& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kArpeggiato);
       
@@ -4477,7 +4437,6 @@ void xml2MsrTranslator::visitStart ( S_doit& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kDoit);
       
@@ -4489,7 +4448,6 @@ void xml2MsrTranslator::visitStart ( S_falloff& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kFalloff);
       
@@ -4501,7 +4459,6 @@ void xml2MsrTranslator::visitStart ( S_plop& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kPlop);
       
@@ -4513,7 +4470,6 @@ void xml2MsrTranslator::visitStart ( S_scoop& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrArticulation::kScoop);
       
@@ -4534,7 +4490,6 @@ void xml2MsrTranslator::visitStart ( S_trill_mark& elt )
   // type : upright inverted  (Binchois20.xml)
   fCurrentOrnament =
     msrOrnament::create (
-      fMsrOptions,
       elt->getInputLineNumber (),
       msrOrnament::kTrillMark);
       
@@ -4545,7 +4500,6 @@ void xml2MsrTranslator::visitStart ( S_wavy_line& elt )
 {
   fCurrentOrnament =
     msrOrnament::create (
-      fMsrOptions,
       elt->getInputLineNumber (),
       msrOrnament::kWavyLine);
       
@@ -4556,7 +4510,6 @@ void xml2MsrTranslator::visitStart ( S_turn& elt )
 {
   fCurrentOrnament =
     msrOrnament::create (
-      fMsrOptions,
       elt->getInputLineNumber (),
       msrOrnament::kTurn);
       
@@ -4567,7 +4520,6 @@ void xml2MsrTranslator::visitStart ( S_inverted_turn& elt )
 {
   fCurrentOrnament =
     msrOrnament::create (
-      fMsrOptions,
       elt->getInputLineNumber (),
       msrOrnament::kInvertedTurn);
       
@@ -4578,7 +4530,6 @@ void xml2MsrTranslator::visitStart ( S_delayed_turn& elt )
 {
   fCurrentOrnament =
     msrOrnament::create (
-      fMsrOptions,
       elt->getInputLineNumber (),
       msrOrnament::kDelayedTurn);
       
@@ -4589,7 +4540,6 @@ void xml2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
 {
   fCurrentOrnament =
     msrOrnament::create (
-      fMsrOptions,
       elt->getInputLineNumber (),
       msrOrnament::kDelayedInvertedTurn);
       
@@ -4600,7 +4550,6 @@ void xml2MsrTranslator::visitStart ( S_vertical_turn& elt )
 {
   fCurrentOrnament =
     msrOrnament::create (
-      fMsrOptions,
       elt->getInputLineNumber (),
       msrOrnament::kVerticalTurn);
       
@@ -4611,7 +4560,6 @@ void xml2MsrTranslator::visitStart ( S_mordent& elt )
 {
   fCurrentOrnament =
     msrOrnament::create (
-      fMsrOptions,
       elt->getInputLineNumber (),
       msrOrnament::kMordent);
       
@@ -4622,7 +4570,6 @@ void xml2MsrTranslator::visitStart ( S_inverted_mordent& elt )
 {
   fCurrentOrnament =
     msrOrnament::create (
-      fMsrOptions,
       elt->getInputLineNumber (),
       msrOrnament::kInvertedMordent);
       
@@ -4633,7 +4580,6 @@ void xml2MsrTranslator::visitStart ( S_schleifer& elt )
 {
   fCurrentOrnament =
     msrOrnament::create (
-      fMsrOptions,
       elt->getInputLineNumber (),
       msrOrnament::kSchleifer);
       
@@ -4644,7 +4590,6 @@ void xml2MsrTranslator::visitStart ( S_shake& elt )
 {
   fCurrentOrnament =
     msrOrnament::create (
-      fMsrOptions,
       elt->getInputLineNumber (),
       msrOrnament::kShake);
       
@@ -4783,7 +4728,6 @@ void xml2MsrTranslator::visitStart( S_f& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kF);
         
@@ -4794,7 +4738,6 @@ void xml2MsrTranslator::visitStart( S_ff& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kFF);
         
@@ -4805,7 +4748,6 @@ void xml2MsrTranslator::visitStart( S_fff& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kFFF);
         
@@ -4816,7 +4758,6 @@ void xml2MsrTranslator::visitStart( S_ffff& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kFFFF);
         
@@ -4827,7 +4768,6 @@ void xml2MsrTranslator::visitStart( S_fffff& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kFFFFF);
         
@@ -4838,7 +4778,6 @@ void xml2MsrTranslator::visitStart( S_ffffff& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kFFFFFF);
         
@@ -4850,7 +4789,6 @@ void xml2MsrTranslator::visitStart( S_p& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kP);
         
@@ -4861,7 +4799,6 @@ void xml2MsrTranslator::visitStart( S_pp& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kPP);
         
@@ -4872,7 +4809,6 @@ void xml2MsrTranslator::visitStart( S_ppp& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kPP);
         
@@ -4883,7 +4819,6 @@ void xml2MsrTranslator::visitStart( S_pppp& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kPPPP);
         
@@ -4894,7 +4829,6 @@ void xml2MsrTranslator::visitStart( S_ppppp& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kPPPPP);
         
@@ -4905,7 +4839,6 @@ void xml2MsrTranslator::visitStart( S_pppppp& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kPPPPPP);
         
@@ -4917,7 +4850,6 @@ void xml2MsrTranslator::visitStart( S_fp& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kFP);
         
@@ -4928,7 +4860,6 @@ void xml2MsrTranslator::visitStart( S_fz& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kFZ);
         
@@ -4940,7 +4871,6 @@ void xml2MsrTranslator::visitStart( S_rf& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kRF);
         
@@ -4952,7 +4882,6 @@ void xml2MsrTranslator::visitStart( S_sf& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kSF);
         
@@ -4964,7 +4893,6 @@ void xml2MsrTranslator::visitStart( S_rfz& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kRFZ);
         
@@ -4976,7 +4904,6 @@ void xml2MsrTranslator::visitStart( S_sfz& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kSFZ);
         
@@ -4988,7 +4915,6 @@ void xml2MsrTranslator::visitStart( S_sfp& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kSFP);
         
@@ -5000,7 +4926,6 @@ void xml2MsrTranslator::visitStart( S_sfpp& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kSFPP);
         
@@ -5012,7 +4937,6 @@ void xml2MsrTranslator::visitStart( S_sffz& elt)
   S_msrDynamics
     dyn =
       msrDynamics::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         msrDynamics::kSFFZ);
         
@@ -5187,7 +5111,6 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
   S_msrChord
     chord =
       msrChord::create (
-        fMsrOptions,
         inputLineNumber,
         firstNote->getNoteDivisions ());
 
@@ -5505,7 +5428,6 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
   S_msrTuplet
     tuplet =
       msrTuplet::create (
-        fMsrOptions,
         firstNote->getInputLineNumber (),
         fCurrentTupletNumber,
         fCurrentActualNotes,
@@ -5773,7 +5695,7 @@ void xml2MsrTranslator::attachPendingDynamicsToNote (
   if (! fPendingDynamics.empty()) {
     
     if (fNoteData.fStepIsARest) {
-      if (fMsrOptions->fDelayRestsDynamics) {
+      if (gMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
           "--> Delaying dynamics attached to a rest until next note" << endl;
       }
@@ -5805,7 +5727,7 @@ void xml2MsrTranslator::attachPendingWordsToNote (
   if (! fPendingWords.empty ()) {
     
     if (fNoteData.fStepIsARest) {
-      if (fMsrOptions->fDelayRestsDynamics) {
+      if (gMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
           "--> Delaying words attached to a rest until next note" << endl;
       }
@@ -5842,7 +5764,7 @@ void xml2MsrTranslator::attachPendingSlursToNote (
   if (! fPendingSlurs.empty ()) {
     
     if (fNoteData.fStepIsARest) {
-      if (fMsrOptions->fDelayRestsDynamics) {
+      if (gMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
           "--> Delaying slur attached to a rest until next note" << endl;
       }
@@ -5879,7 +5801,7 @@ void xml2MsrTranslator::attachPendingWedgesToNote (
   if (! fPendingWedges.empty ()) {
     
     if (fNoteData.fStepIsARest) {
-      if (fMsrOptions->fDelayRestsDynamics) {
+      if (gMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
           "--> Delaying wedge attached to a rest until next note" << endl;
       }
@@ -6093,7 +6015,6 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   S_msrNote
     note =
       msrNote::createFromNoteData (
-        fMsrOptions,
         inputLineNumber,
         fNoteData);
 
@@ -6523,7 +6444,6 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
       // create grace notes
       fCurrentGracenotes =
         msrGracenotes::create (
-          fMsrOptions, 
           inputLineNumber,
           fCurrentGraceIsSlashed,
           currentVoice);
@@ -6746,7 +6666,7 @@ void xml2MsrTranslator::handleRepeatStart (
 
     fCurrentRepeat =
       msrRepeat::create (
-        fMsrOptions, inputLineNumber,
+        inputLineNumber,
         currentVoicechunk,
         currentVoice);
   }
@@ -6826,7 +6746,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
 
     fCurrentRepeat =
       msrRepeat::create (
-        fMsrOptions, inputLineNumber,
+        inputLineNumber,
         currentVoicechunk,
         currentVoice);
   }
@@ -6840,7 +6760,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   S_msrRepeatending
     repeatEnding =
       msrRepeatending::create (
-        fMsrOptions, inputLineNumber,
+        inputLineNumber,
         fCurrentBarlineEndingNumber,
         msrRepeatending::kHookedEnding,
         currentVoicechunk,
@@ -6866,7 +6786,6 @@ void xml2MsrTranslator::handleHookedEndingEnd (
     S_msrBarline
       implicitBarline =
         msrBarline::create (
-          fMsrOptions,
           inputLineNumber,
           false, // no segno
           false, // no coda
@@ -6902,7 +6821,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
 
       fCurrentRepeat =
         msrRepeat::create (
-          fMsrOptions, inputLineNumber,
+          inputLineNumber,
           currentVoicechunk,
           currentVoice);
     }
@@ -6991,7 +6910,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
   S_msrRepeatending
     repeatEnding =
       msrRepeatending::create (
-        fMsrOptions, inputLineNumber,
+        inputLineNumber,
         fCurrentBarlineEndingNumber,
         msrRepeatending::kHooklessEnding,
         currentVoicechunk,
@@ -7036,7 +6955,6 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
     S_msrBarline
       implicitBarline =
         msrBarline::create (
-          fMsrOptions,
           inputLineNumber,
           false, // no segno
           false, // no coda
@@ -7071,7 +6989,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
 
       fCurrentRepeat =
         msrRepeat::create (
-          fMsrOptions, inputLineNumber,
+          inputLineNumber,
           currentVoicechunk,
           currentVoice);
     }
@@ -7198,7 +7116,6 @@ void xml2MsrTranslator::handleEndingEnd (
     S_msrBarline
       implicitBarline =
         msrBarline::create (
-          fMsrOptions,
           inputLineNumber,
           false, // no segno
           false, // no coda
@@ -7233,7 +7150,7 @@ void xml2MsrTranslator::handleEndingEnd (
 
       fCurrentRepeat =
         msrRepeat::create (
-          fMsrOptions, inputLineNumber,
+          inputLineNumber,
           currentVoicechunk,
           currentVoice);
     }
@@ -7341,7 +7258,6 @@ void xml2MsrTranslator::visitStart ( S_rehearsal& elt )
   S_msrRehearsal
     rehearsal =
       msrRehearsal::create (
-        fMsrOptions,
         inputLineNumber,
         rehearsalKind,
         rehearsalValue);
@@ -7485,7 +7401,6 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
   S_msrHarmony
     harmony =
       msrHarmony::create (
-        fMsrOptions,
         elt->getInputLineNumber (),
         fCurrentHarmonyRootStep, fCurrentHarmonyRootStep,
         fCurrentHarmonyKind, fCurrentHarmonyKindText,

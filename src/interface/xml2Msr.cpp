@@ -180,7 +180,7 @@ S_msrScore buildMsrScoreFromElementsTree (
   }
   
   // create an xml2MsrTranslator
-  xml2MsrTranslator translator (msrOpts);
+  xml2MsrTranslator translator;
 
   // build the MSR score
   S_msrScore

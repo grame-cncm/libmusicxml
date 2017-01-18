@@ -273,8 +273,7 @@ class EXP xml2MsrTranslator :
 {
   public:
   
-    xml2MsrTranslator (
-      S_msrOptions& msrOpts);
+    xml2MsrTranslator ();
 
     virtual ~xml2MsrTranslator ();
 
@@ -524,8 +523,6 @@ class EXP xml2MsrTranslator :
 
   private:
                      
-    S_msrOptions              fMsrOptions;
-
     // dividing quater notes in MusicXML
     // ------------------------------------------------------
     int                       fCurrentDivisionsPerQuarterNote;

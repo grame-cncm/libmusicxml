@@ -120,8 +120,6 @@ class msr2LpsrTranslator :
   public:
   
     msr2LpsrTranslator (
-      S_msrOptions&  msrOpts,
-      S_lpsrOptions& lpsrOpts,
       ostream&       os,
       S_msrScore     mScore);
         
@@ -261,9 +259,6 @@ class msr2LpsrTranslator :
 
   private:
                      
-    S_msrOptions              fMsrOptions;
-    S_lpsrOptions             fLpsrOptions;
-    
     ostream&                  fOstream;
     
     S_msrScore                fVisitedMsrScore;

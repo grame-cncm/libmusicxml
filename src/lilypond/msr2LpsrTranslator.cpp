@@ -31,14 +31,10 @@ namespace MusicXML2
 
 //________________________________________________________________________
 msr2LpsrTranslator::msr2LpsrTranslator (
-  S_msrOptions&  msrOpts,
-  S_lpsrOptions& lpsrOpts,
   ostream&       os,
   S_msrScore     mScore)
     : fOstream (os)
 {
-  fMsrOptions      = msrOpts;
-  fLpsrOptions     = lpsrOpts;
   fVisitedMsrScore = mScore;
 
 // JMI  gCurrentLocation.fMeasureNumber     = 0; // in case of an anacrusis
@@ -90,7 +86,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // create the LPSR score
   fLpsrScore =
     lpsrScore::create (
-      fMsrOptions, fLpsrOptions, 0, fCurrentScoreClone);
+      0, fCurrentScoreClone);
       
   // fetch score header
   fLpsrScoreHeader =
@@ -243,8 +239,6 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   S_lpsrSchemeVarValAssoc
     assoc =
       lpsrSchemeVarValAssoc::create (
-        fMsrOptions,
-        fLpsrOptions,
         0, // JMI
         lpsrSchemeVarValAssoc::kCommented,
         "layout-set-staff-size",
@@ -294,7 +288,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
   S_lpsrPartgroupBlock
     partgroupBlock =
       lpsrPartgroupBlock::create (
-        fMsrOptions, fLpsrOptions, fCurrentPartgroupClone);
+        fCurrentPartgroupClone);
 
   // push it onto this visitors's stack,
   // making it the current partgroup block
@@ -369,7 +363,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
   // create a part block
   fCurrentPartBlock =
     lpsrPartBlock::create (
-      fMsrOptions, fLpsrOptions, fCurrentPartClone);
+      fCurrentPartClone);
 
   // append it to the current partgroup block
   fPartgroupBlocksStack.top ()->
@@ -405,7 +399,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
   // create a staff block
   fCurrentStaffBlock =
     lpsrStaffBlock::create (
-      fMsrOptions, fLpsrOptions, fCurrentStaffClone);
+      fCurrentStaffClone);
 
   // append it to the current part block
   fCurrentPartBlock->
@@ -433,8 +427,6 @@ void msr2LpsrTranslator::visitStart (S_msrStafftuning& elt)
   S_lpsrNewStafftuningBlock
     newStafftuningBlock =
       lpsrNewStafftuningBlock::create (
-        fMsrOptions,
-        fLpsrOptions,
         fCurrentStafftuningClone->getInputLineNumber (),
         fCurrentStafftuningClone);
 
@@ -586,7 +578,6 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     S_msrBarCheck
       barCheck =
         msrBarCheck::create (
-          fMsrOptions,
           elt->getInputLineNumber (),
           elt->getMeasureNumber () + 1);
               
@@ -920,7 +911,7 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
     // there is a note before these grace notes
     
     if (fCurrentNoteClone->noteHasATrill ()) {
-  //    if (fgGeneralOptions->fForceDebug || MsrOptions->fDebug)
+  //    if (gGeneralOptions->fForceDebug || gMsrOptions->fDebug)
         fOstream <<
           "### msrGracenotes on a TRILLED note" <<
           endl;
@@ -1429,7 +1420,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       S_msrRepeatending
         repeatEnding =
           msrRepeatending::create (
-            fMsrOptions, elt->getInputLineNumber (),
+            elt->getInputLineNumber (),
             elt->getEndingNumber (),
             msrRepeatending::kHookedEnding,
             currentVoicechunk,
@@ -1496,7 +1487,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       S_msrRepeatending
         repeatEnding =
           msrRepeatending::create (
-            fMsrOptions, elt->getInputLineNumber (),
+            elt->getInputLineNumber (),
             elt->getEndingNumber (),
             msrRepeatending::kHooklessEnding,
             currentVoicechunk,
