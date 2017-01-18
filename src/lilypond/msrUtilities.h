@@ -26,6 +26,12 @@ using namespace std;
 namespace MusicXML2 
 {
 
+/*!
+\addtogroup utilities
+@{
+*/
+
+
 //______________________________________________________________________________
 /*!
 \internal

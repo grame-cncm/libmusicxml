@@ -46,19 +46,6 @@ The library includes a high level API to convert
 
 //______________________________________________________________________________
 /*!
-  \brief Gives the msr converter version number.
-  \return a version number as an integer (e.g. version 1.0.0 is returned as 100)
-*/
-EXP int           musicxml2MsrVersionNbr();
-
-/*!
-  \brief Gives the msr converter version as a string.
-  \return a string
-*/
-EXP const char*   musicxml2MsrVersionStr();
-
-//______________________________________________________________________________
-/*!
   \brief Converts a MusicXML representation to the LilyPond format.
   \param file a file name 
   \param msrOpts the MSR options to be used

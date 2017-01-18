@@ -34,10 +34,6 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-EXP int         musicxml2MsrVersionNbr () { return 010; }
-EXP const char* musicxml2MsrVersionStr () { return "0.1.0"; }
-
-//_______________________________________________________________________________
 static S_msrScore xml2Msr (
   SXMLFile&     xmlfile,
   S_msrOptions& msrOpts,

@@ -18,6 +18,7 @@
 
 #include <fstream>      // ofstream, ofstream::open(), ofstream::close()
 
+#include "msrVersion.h"
 #include "msrUtilities.h"
 
 #include "xml2Msr.h"
@@ -575,7 +576,7 @@ void analyzeOptions (
             endl <<
             idtr <<
               "This is xml2lilypond version " <<
-              musicxml2MsrVersionStr () << "," <<
+              MSRVersionNumberAsString () << "," <<
               endl <<
             idtr <<
               "an open translator of MusicXML into LilyPond." <<
@@ -1107,8 +1108,8 @@ int main (int argc, char *argv[])
 
   if (gGeneralOptions->fTrace) {
     cerr <<  idtr <<
-      "This is xml2Lilypond v" << musicxml2MsrVersionStr() << 
-      " from libmusicxml2 v" << musicxmllibVersionStr() <<
+      "This is xml2Lilypond v" << MSRVersionNumberAsString () << 
+      " from libmusicxml2 v" << musicxmllibVersionStr () <<
       endl;
 
     cerr <<  idtr <<

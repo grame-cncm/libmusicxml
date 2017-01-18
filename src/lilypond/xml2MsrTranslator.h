@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 /*!
-\addtogroup visitors
+\addtogroup xml2msr
 @{
 */
 
