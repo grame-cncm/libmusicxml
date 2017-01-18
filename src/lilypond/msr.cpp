@@ -9466,7 +9466,7 @@ void msrStaff::printStructure (ostream& os)
     idtr << "StaffInstrumentName: \"" <<
     fStaffInstrumentName << "\"" << endl;
 
-/*
+
   if (fStafftuningsList.size ()) {
     os <<
       idtr << "Staff tunings:" <<
@@ -9487,23 +9487,42 @@ void msrStaff::printStructure (ostream& os)
     idtr--;
   }
 
-  os << endl;
-*/
-
   // print the registered voices names
   if (fStaffVoicesMap.size ()) {
+    os << idtr <<
+      "Voices:" <<
+      endl;
+  
+    idtr++;
+    
     map<int, S_msrVoice>::const_iterator
       iBegin = fStaffVoicesMap.begin(),
       iEnd   = fStaffVoicesMap.end(),
       i      = iBegin;
       
     for ( ; ; ) {
-      os <<
-        idtr <<
-        (*i).second->getVoiceName ();
+      S_msrVoice
+        voice =
+          (*i).second;
+          
+      os << idtr << left <<
+        setw(30) << voice->getVoiceName () <<
+        " (" <<
+        singularOrPlural (
+          voice->getVoiceActualNotesCounter (),
+          "actual note",
+          "actual notes") <<
+        ", " <<
+        singularOrPlural (
+          voice->getVoiceLyricsMap ().size(),
+          "lyric",
+          "lyrics") <<
+        ")";
       if (++i == iEnd) break;
       os << endl;
     } // for
+
+    idtr --;
   }
 
   idtr--;
