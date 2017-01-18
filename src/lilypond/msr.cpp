@@ -529,7 +529,6 @@ void msrBeam::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrArticulation msrArticulation::create (
-  S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
   msrArticulationKind articulationKind)
 {
@@ -541,7 +540,6 @@ S_msrArticulation msrArticulation::create (
 }
 
 msrArticulation::msrArticulation (
-  S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
   msrArticulationKind articulationKind)
     : msrElement (inputLineNumber)
@@ -666,7 +664,6 @@ void msrArticulation::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrOrnament msrOrnament::create (
-  S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   msrOrnamentKind ornamentKind)
 {
@@ -678,7 +675,6 @@ S_msrOrnament msrOrnament::create (
 }
 
 msrOrnament::msrOrnament (
-  S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   msrOrnamentKind ornamentKind)
     : msrElement (inputLineNumber)
@@ -825,7 +821,6 @@ void msrOrnament::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrRehearsal msrRehearsal::create (
-  S_msrOptions&    msrOpts, 
   int              inputLineNumber,
   msrRehearsalKind rehearsalKind,
   string           rehearsalText)
@@ -838,7 +833,6 @@ S_msrRehearsal msrRehearsal::create (
 }
 
 msrRehearsal::msrRehearsal (
-  S_msrOptions&    msrOpts, 
   int              inputLineNumber,
   msrRehearsalKind rehearsalKind,
   string           rehearsalText)
@@ -1353,7 +1347,6 @@ void msrSlur::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrGracenotes msrGracenotes::create (
-  S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   bool            slashed,
   S_msrVoice      gracenotesVoiceUplink)
@@ -1367,7 +1360,6 @@ S_msrGracenotes msrGracenotes::create (
 }
 
 msrGracenotes::msrGracenotes (
-  S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   bool            slashed,
   S_msrVoice      gracenotesVoiceUplink)
@@ -1381,7 +1373,7 @@ msrGracenotes::msrGracenotes (
   // create the voice chunk that will receive the notes
   fGracenotesVoicechunk =
     msrVoicechunk::create (
-      fMsrOptions, fInputLineNumber,
+      fInputLineNumber,
       gracenotesVoiceUplink);
 }
 
@@ -1398,7 +1390,6 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
   S_msrGracenotes
     clone =
       msrGracenotes::create (
-        fMsrOptions,
         fInputLineNumber,
         fGracenotesIsSlashed,
         voiceClone);
@@ -1474,7 +1465,6 @@ void msrGracenotes::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrNote msrNote::createFromNoteData (
-  S_msrOptions& msrOpts,
   int           inputLineNumber,
   msrNoteData & noteData)
 {  
@@ -1486,7 +1476,6 @@ S_msrNote msrNote::createFromNoteData (
 }
 
 S_msrNote msrNote::createSkipNote (
-  S_msrOptions& msrOpts,
   int           inputLineNumber,
   int           divisions,
   int           divisionsPerWholeNote,
@@ -1529,7 +1518,6 @@ S_msrNote msrNote::createNoteBareClone ()
   S_msrNote
     clone =
       msrNote::createFromNoteData (
-        fMsrOptions,
         fInputLineNumber,
         fNoteData);
 
@@ -1545,7 +1533,6 @@ S_msrNote msrNote::createNoteBareClone ()
 }
 
 msrNote::msrNote (
-  S_msrOptions& msrOpts,
   int           inputLineNumber,
   msrNoteData&  noteData)
   :
@@ -2486,7 +2473,6 @@ S_msrChord msrChord::createChordBareClone ()
   S_msrChord
     clone =
       msrChord::create (
-        fMsrOptions,
         fInputLineNumber,
         fChordDivisions);
 
@@ -3167,7 +3153,6 @@ S_msrTuplet msrTuplet::createTupletBareClone ()
   S_msrTuplet
     clone =
       msrTuplet::create (
-        fMsrOptions,
         fInputLineNumber,
         fTupletNumber,
         fTupletActualNotes,
@@ -4165,7 +4150,6 @@ void msrTranspose::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrWords msrWords::create (
-  S_msrOptions&         msrOpts, 
   int                   inputLineNumber,
   msrWordsPlacementKind wordsPlacementKind,
   string                wordsContents,
@@ -4188,7 +4172,6 @@ S_msrWords msrWords::create (
 }
 
 msrWords::msrWords (
-  S_msrOptions&         msrOpts, 
   int                   inputLineNumber,
   msrWordsPlacementKind wordsPlacementKind,
   string                wordsContents,
@@ -4460,7 +4443,6 @@ S_msrLyricschunk msrLyricschunk::createLyricschunkBareClone ()
   S_msrLyricschunk
     clone =
       msrLyricschunk::create (
-        fMsrOptions,
         fInputLineNumber,
         fLyricschunkKind,
         fChunkText,
@@ -4703,7 +4685,6 @@ void msrLyricschunk::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrLyrics msrLyrics::create (
-  S_msrOptions&         msrOpts, 
   int                   inputLineNumber,
   int                   lyricsNumber,
   msrLyricsMasterStatus lyricsMasterStatus,
@@ -4720,7 +4701,6 @@ S_msrLyrics msrLyrics::create (
 }
 
 msrLyrics::msrLyrics (
-  S_msrOptions&         msrOpts, 
   int                   inputLineNumber,
   int                   lyricsNumber,
   msrLyricsMasterStatus lyricsMasterStatus,
@@ -4770,7 +4750,6 @@ S_msrLyrics msrLyrics::createLyricsBareClone (S_msrVoice clonedVoice)
   S_msrLyrics
     clone =
       msrLyrics::create (
-        fMsrOptions,
         fInputLineNumber,
         fLyricsNumber,
         fLyricsMasterStatus,
@@ -4821,7 +4800,6 @@ void msrLyrics::addTextChunkToLyrics (
   S_msrLyricschunk
     chunk =
       msrLyricschunk::create (
-        fMsrOptions,
         inputLineNumber,
         lyricschunkKind, text, divisions,
         note,
@@ -4856,7 +4834,6 @@ void msrLyrics::addSkipChunkToLyrics (
   S_msrLyricschunk
     lyricschunk =
       msrLyricschunk::create (
-        fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kSkipChunk, "", divisions,
         this);
@@ -4926,7 +4903,6 @@ void msrLyrics::addTiedChunkToLyrics (
   S_msrLyricschunk
     chunk =
       msrLyricschunk::create (
-        fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kTiedChunk, "", divisions,
         note,
@@ -4958,7 +4934,6 @@ void msrLyrics::addSlurChunkToLyrics (
   S_msrLyricschunk
     chunk =
       msrLyricschunk::create (
-        fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kSlurChunk, "", divisions,
         note,
@@ -4990,7 +4965,6 @@ void msrLyrics::addSlurBeyondEndChunkToLyrics (
   S_msrLyricschunk
     chunk =
       msrLyricschunk::create (
-        fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kSlurBeyondEndChunk, "", divisions,
         note,
@@ -5026,14 +5000,12 @@ void msrLyrics::addBarcheckChunkToLyrics (
   S_msrDuration
     nullMsrDuration =
       msrDuration::create (
-        fMsrOptions,
         inputLineNumber,
         0, 1, 0, "");
     * /    
   S_msrLyricschunk
     chunk =
       msrLyricschunk::create (
-        fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kBarcheckChunk,
         s.str(),
@@ -5071,7 +5043,6 @@ void msrLyrics::addBreakChunkToLyrics (
   S_msrLyricschunk
     chunk =
       msrLyricschunk::create (
-        fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kBreakChunk,
         s.str(),
@@ -5208,7 +5179,6 @@ void msrLyrics::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrHarmony msrHarmony::create (
-  S_msrOptions&         msrOpts, 
   int                   inputLineNumber,
   char                  harmonyRootStep,
   float                 harmonyRootAlter,
@@ -5230,7 +5200,6 @@ S_msrHarmony msrHarmony::create (
 }
 
 msrHarmony::msrHarmony (
-  S_msrOptions&         msrOpts, 
   int                   inputLineNumber,
   char                  harmonyRootStep,
   float                 harmonyRootAlter,
@@ -5265,7 +5234,6 @@ S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
   S_msrHarmony
     clone =
       msrHarmony::create (
-        fMsrOptions,
         fInputLineNumber,
         fHarmonyRootStep, fHarmonyRootAlter,
         fHarmonyKind, fHarmonyKindText,
@@ -5391,7 +5359,6 @@ void msrHarmony::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrSegno msrSegno::create (
-  S_msrOptions&             msrOpts, 
   int                       inputLineNumber)
 {
   msrSegno* o =
@@ -5402,7 +5369,6 @@ S_msrSegno msrSegno::create (
 }
 
 msrSegno::msrSegno (
-  S_msrOptions&             msrOpts, 
   int                       inputLineNumber)
     : msrElement (inputLineNumber)
 {}
@@ -5462,7 +5428,6 @@ void msrSegno::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrCoda msrCoda::create (
-  S_msrOptions&             msrOpts, 
   int                       inputLineNumber)
 {
   msrCoda* o =
@@ -5473,7 +5438,6 @@ S_msrCoda msrCoda::create (
 }
 
 msrCoda::msrCoda (
-  S_msrOptions&             msrOpts, 
   int                       inputLineNumber)
     : msrElement (inputLineNumber)
 {}
@@ -5533,7 +5497,6 @@ void msrCoda::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrEyeglasses msrEyeglasses::create (
-  S_msrOptions&             msrOpts, 
   int                       inputLineNumber)
 {
   msrEyeglasses* o =
@@ -5544,7 +5507,6 @@ S_msrEyeglasses msrEyeglasses::create (
 }
 
 msrEyeglasses::msrEyeglasses (
-  S_msrOptions&             msrOpts, 
   int                       inputLineNumber)
     : msrElement (inputLineNumber)
 {}
@@ -5604,7 +5566,6 @@ void msrEyeglasses::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrPedal msrPedal::create (
-  S_msrOptions&    msrOpts, 
   int              inputLineNumber,
   msrPedalType     pedalType,
   msrPedalLine     pedalLine)
@@ -5618,7 +5579,6 @@ S_msrPedal msrPedal::create (
 }
 
 msrPedal::msrPedal (
-  S_msrOptions&    msrOpts, 
   int              inputLineNumber,
   msrPedalType     pedalType,
   msrPedalLine     pedalLine)
@@ -5723,7 +5683,6 @@ void msrPedal::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrBarline msrBarline::create (
-  S_msrOptions&             msrOpts, 
   int                       inputLineNumber,
   bool                      barlineHasSegno,
   bool                      barlineHasCoda,
@@ -5746,7 +5705,6 @@ S_msrBarline msrBarline::create (
 }
 
 msrBarline::msrBarline (
-  S_msrOptions&             msrOpts, 
   int                       inputLineNumber,
   bool                      barlineHasSegno,
   bool                      barlineHasCoda,
@@ -5985,7 +5943,6 @@ void msrBarline::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrMeasure msrMeasure::create (
-  S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   int             measureNumber,
   int             divisionsPerWholeNote,
@@ -6001,7 +5958,6 @@ S_msrMeasure msrMeasure::create (
 }
 
 msrMeasure::msrMeasure (
-  S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   int             measureNumber,
   int             divisionsPerWholeNote,
@@ -6060,7 +6016,6 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
   S_msrMeasure
     clone =
       msrMeasure::create (
-        fMsrOptions,
         fInputLineNumber,
         fMeasureNumber,
         fMeasureDivisionsPerWholeNote,
@@ -6124,7 +6079,6 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     S_msrMeasure
       newMeasure =
         msrMeasure::create (
-          fMsrOptions,
           inputLineNumber,
           fMeasureNumber + 1,
           fMeasureDivisionsPerWholeNote,
@@ -6230,7 +6184,6 @@ void msrMeasure::finalizeMeasure (int inputLineNumber)
     S_msrNote
       skip =
         msrNote::createSkipNote (
-          fMsrOptions,
           inputLineNumber,
           skipDuration,
           fMeasureVoicechunkUplink->
@@ -6464,7 +6417,6 @@ msrVoicechunk::msrVoicechunk (
     // use the implicit initial 4/4 time signature
     fVoicechunkTime =
       msrTime::create (
-        fMsrOptions,
         fInputLineNumber,
         4, 4);
   }
@@ -6492,7 +6444,6 @@ msrVoicechunk::msrVoicechunk (
   S_msrMeasure
     measure =
       msrMeasure::create (
-        fMsrOptions,
         inputLineNumber,
         firstMeasureNumber,
         fVoicechunkDivisionsPerWholeNote,
@@ -6517,7 +6468,7 @@ S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone (
   S_msrVoicechunk
     clone =
       msrVoicechunk::create (
-        fMsrOptions, fInputLineNumber,
+        fInputLineNumber,
         clonedVoice);
 
   clone->fVoicechunkTime =
@@ -6690,7 +6641,6 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
     S_msrMeasure
       newMeasure =
         msrMeasure::create (
-          fMsrOptions,
           inputLineNumber,
           measureNumber,
           fVoicechunkDivisionsPerWholeNote,
@@ -6881,7 +6831,6 @@ void msrVoicechunk::print (ostream& os)
     // use the implicit initial 4/4 time signature
     fVoicechunkTime =
       msrTime::create (
-        fMsrOptions,
         fInputLineNumber,
         4, 4);
   }
@@ -6926,7 +6875,6 @@ void msrVoicechunk::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrRepeatending msrRepeatending::create (
-  S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
   string              repeatendingNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
@@ -6945,7 +6893,6 @@ S_msrRepeatending msrRepeatending::create (
 }
 
 msrRepeatending::msrRepeatending (
-  S_msrOptions&       msrOpts, 
   int                 inputLineNumber,
   string              repeatendingNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
@@ -6976,7 +6923,6 @@ S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
   S_msrRepeatending
     clone =
       msrRepeatending::create (
-        fMsrOptions,
         fInputLineNumber,
         fRepeatendingNumber,
         fRepeatendingKind,
@@ -7059,7 +7005,6 @@ void msrRepeatending::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrRepeat msrRepeat::create (
-  S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   S_msrVoicechunk commonPart,
   S_msrVoice      voiceUplink)
@@ -7072,7 +7017,6 @@ S_msrRepeat msrRepeat::create (
 }
 
 msrRepeat::msrRepeat (
-  S_msrOptions&   msrOpts, 
   int             inputLineNumber,
   S_msrVoicechunk commonPart,
   S_msrVoice      voiceUplink)
@@ -7090,7 +7034,7 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
   S_msrVoicechunk
     voicechunk =
       msrVoicechunk::create (
-        fMsrOptions, fInputLineNumber,
+        fInputLineNumber,
         clonedVoice);
 
   if (gGeneralOptions->fDebug)
@@ -7100,7 +7044,6 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
   S_msrRepeat
     clone =
       msrRepeat::create (
-        fMsrOptions,
         fInputLineNumber,
         voicechunk,
         clonedVoice);
@@ -7238,7 +7181,6 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
   S_msrVoice
     clone =
       msrVoice::create (
-        fMsrOptions,
         fInputLineNumber,
         fExternalVoiceNumber,
         clonedStaff);
@@ -7268,7 +7210,7 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
   clone->
     fVoiceVoicechunk =
       msrVoicechunk::create (
-        clone->fMsrOptions, clone->fInputLineNumber,
+        clone->fInputLineNumber,
         clone);
   */
   
@@ -7324,7 +7266,6 @@ msrVoice::msrVoice (
   // by actual lyrics that start at later points
   fVoiceLyricsmaster =
     msrLyrics::create (
-      fMsrOptions,
       inputLineNumber,
       0,    // this lyrics number is unused anyway
       msrLyrics::kMasterLyrics,
@@ -7339,7 +7280,7 @@ msrVoice::msrVoice (
       
   fVoiceVoicechunk =
     msrVoicechunk::create (
-      fMsrOptions, inputLineNumber,
+      inputLineNumber,
       this);
 
   // get the initial clef from the staff if any
@@ -7352,7 +7293,6 @@ msrVoice::msrVoice (
     // it doesn't exist yet, create default G clef
     clef =
       msrClef::create (
-        msrOpts,
         inputLineNumber,
         "G", 2, 0);
         */
@@ -7374,7 +7314,6 @@ msrVoice::msrVoice (
     // it doesn't exist yet, create default C major key
     key =
       msrKey::create (
-        msrOpts,
         inputLineNumber,
         0, "major", 0);
         */
@@ -7396,7 +7335,6 @@ msrVoice::msrVoice (
       // it doesn't exist yet, create default 4/4 time
       time =
         msrTime::create (
-          msrOpts,
           inputLineNumber,
           4, 4);
   */
@@ -7428,7 +7366,7 @@ msrVoice::~msrVoice() {}
 string msrVoice::getVoiceName () const
 {
   int voiceNumber =
-    fMsrOptions-> fCreateStaffRelativeVoiceNumbers // JMI use
+    gMsrOptions-> fCreateStaffRelativeVoiceNumbers // JMI use
       ? fStaffRelativeVoiceNumber
       : fExternalVoiceNumber;
 
@@ -7615,7 +7553,7 @@ void msrVoice::setNewVoicechunkForVoice (
       
   fVoiceVoicechunk =
     msrVoicechunk::create (
-      fMsrOptions, inputLineNumber,
+      inputLineNumber,
       this);
 }
 
@@ -7641,7 +7579,6 @@ S_msrLyrics msrVoice::addLyricsToVoiceByItsNumber (
   S_msrLyrics
     lyrics =
       msrLyrics::create (
-        fMsrOptions,
         inputLineNumber,
         lyricsNumber,
         msrLyrics::kRegularLyrics,
@@ -7949,7 +7886,6 @@ S_msrLyricschunk msrVoice::addTextLyricschunkToVoice (
   S_msrLyricschunk
     lyricschunk =
       msrLyricschunk::create (
-        fMsrOptions,
         inputLineNumber,
         lyricschunkKind,
         text,
@@ -7988,7 +7924,6 @@ S_msrLyricschunk msrVoice::addSkipLyricschunkToVoice (
   S_msrLyricschunk
     lyricschunk =
       msrLyricschunk::create (
-        fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kSkipChunk, "", divisions,
         lyrics);
@@ -8026,7 +7961,6 @@ S_msrLyricschunk msrVoice::addTiedLyricschunkToVoice (
   S_msrLyricschunk
     lyricschunk =
       msrLyricschunk::create (
-        fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kTiedChunk, "", divisions,
         lyrics);
@@ -8065,7 +7999,6 @@ S_msrLyricschunk msrVoice::addSlurLyricschunkToVoice (
   S_msrLyricschunk
     lyricschunk =
       msrLyricschunk::create (
-        fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kSlurChunk, "", divisions,
         lyrics);
@@ -8103,7 +8036,6 @@ S_msrLyricschunk msrVoice::addSlurBeyondEndLyricschunkToVoice (
   S_msrLyricschunk
     lyricschunk =
       msrLyricschunk::create (
-        fMsrOptions,
         inputLineNumber,
         msrLyricschunk::kSlurBeyondEndChunk, "", divisions,
         lyrics);
@@ -8419,7 +8351,7 @@ void msrVoice::print (ostream& os)
       endl;    
   }
   
-  if (! fMsrOptions->fDontDisplayMSRLyrics) {
+  if (! gMsrOptions->fDontDisplayMSRLyrics) {
     // print the lyrics
     if (fVoiceLyricsMap.size()) {
       map<int, S_msrLyrics>::const_iterator
@@ -8484,7 +8416,6 @@ S_msrStafftuning msrStafftuning::createStafftuningBareClone ()
  S_msrStafftuning
     clone =
       msrStafftuning::create (
-        fMsrOptions,
         fInputLineNumber,
         fStafftuningLineNumber,
         fStafftuningStep,
@@ -8682,7 +8613,6 @@ msrStaff::msrStaff (
       // create the implicit initial G line 2 clef
       fStaffClef =
         msrClef::create (
-          msrOpts,
           inputLineNumber,
           msrClef::kTrebleClef);
     }
@@ -8717,7 +8647,6 @@ msrStaff::msrStaff (
       // create the implicit initial C major key
       fStaffKey =
         msrKey::create (
-          msrOpts,
           inputLineNumber,
           0, "major", 0);
     }
@@ -8752,7 +8681,6 @@ msrStaff::msrStaff (
       // create the implicit initial 4/4 time signature
       fStaffTime =
         msrTime::create (
-          msrOpts,
           inputLineNumber,
           4, 4);
     }
@@ -8786,7 +8714,6 @@ S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
   S_msrStaff
     clone =
       msrStaff::create (
-        fMsrOptions,
         fInputLineNumber,
         fStaffNumber,
         clonedPart);
@@ -8887,7 +8814,6 @@ S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
   S_msrVoice
     voice =
       msrVoice::create (
-        fMsrOptions,
         inputLineNumber,
         voiceRelativeNumber,
         this);
@@ -9478,7 +9404,6 @@ void msrStaff::printStructure (ostream& os)
 
 //______________________________________________________________________________ 
 S_msrPart msrPart::create (
-  S_msrOptions&  msrOpts, 
   int            inputLineNumber,
   string         partID,
   S_msrPartgroup partPartgroupUplink)
@@ -9491,7 +9416,6 @@ S_msrPart msrPart::create (
 }
 
 msrPart::msrPart (
-  S_msrOptions&  msrOpts, 
   int            inputLineNumber,
   string         partID,
   S_msrPartgroup partPartgroupUplink)
@@ -9508,9 +9432,9 @@ msrPart::msrPart (
   // is this part name in the part renaming map?
   map<string, string>::iterator
     it =
-      msrOpts->fPartsRenaming.find (fPartID);
+      gMsrOptions->fPartsRenaming.find (fPartID);
         
-  if (it != msrOpts->fPartsRenaming.end ()) {
+  if (it != gMsrOptions->fPartsRenaming.end ()) {
     // yes, rename the part accordinglingly
     fPartMSRName = (*it).second;
   }
@@ -9540,14 +9464,12 @@ msrPart::msrPart (
   S_msrStaff
     hiddenMasterStaff =
       msrStaff::create (
-        fMsrOptions, 
         0,            // inputLineNumber
         0,            // staffNumber
         this);        // fStaffPartUplink
 
   fPartVoicemaster =
     msrVoice::create (
-      fMsrOptions, 
       0,            // inputLineNumber
       0,            // staffRelativeVoiceNumber
       hiddenMasterStaff); // voiceStaffUplink
@@ -9568,7 +9490,6 @@ S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
   S_msrPart
     clone =
       msrPart::create (
-        fMsrOptions,
         fInputLineNumber,
         fPartID,
         clonedPartgroup);
@@ -9593,9 +9514,9 @@ void msrPart::setPartMSRName (string partMSRName)
   // is this part name in the part renaming map?
   map<string, string>::iterator
     it =
-      fMsrOptions->fPartsRenaming.find (fPartMSRName);
+      gMsrOptions->fPartsRenaming.find (fPartMSRName);
         
-  if (it != fMsrOptions->fPartsRenaming.end ()) {
+  if (it != gMsrOptions->fPartsRenaming.end ()) {
     // yes, rename the part accordinglingly
     fPartMSRName = (*it).second;
 
@@ -9827,7 +9748,6 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
   S_msrStaff
     staff =
       msrStaff::create (
-        fMsrOptions,
         inputLineNumber,
         staffNumber,
         this);
@@ -10071,7 +9991,6 @@ void msrPart::printStructure (ostream& os)
 int msrPartgroup::gPartgroupsCounter = 0;
 
 S_msrPartgroup msrPartgroup::create (
-  S_msrOptions&          msrOpts, 
   int                    inputLineNumber,
   int                    partgroupNumber,
   string                 partgroupName,
@@ -10096,7 +10015,6 @@ S_msrPartgroup msrPartgroup::create (
 }
 
 msrPartgroup::msrPartgroup (
-  S_msrOptions&          msrOpts, 
   int                    inputLineNumber,
   int                    partgroupNumber,
   string                 partgroupName,
@@ -10150,7 +10068,6 @@ S_msrPartgroup msrPartgroup::createPartgroupBareClone (
   S_msrPartgroup
     clone =
       msrPartgroup::create (
-        fMsrOptions,
         fInputLineNumber,
         fPartgroupNumber,
         fPartgroupName,
@@ -10201,7 +10118,6 @@ S_msrPart msrPartgroup::addPartToPartgroupByItsID (
   S_msrPart
     part =
       msrPart::create (
-        fMsrOptions,
         inputLineNumber,
         partID,
         this);
@@ -10551,7 +10467,6 @@ void msrIdentification::setWorkNumber (
   {
   fWorkNumber =
     msrVarValAssoc::create (
-      fMsrOptions,
       inputLineNumber,
       "work-number", val);
   }
@@ -10562,7 +10477,6 @@ void msrIdentification::setWorkTitle (
   {
   fWorkTitle =
     msrVarValAssoc::create (
-      fMsrOptions,
       inputLineNumber,
       "work-title", val);
   }
@@ -10573,7 +10487,6 @@ void msrIdentification::setMovementNumber (
   {
   fMovementNumber =
     msrVarValAssoc::create (
-      fMsrOptions,
       inputLineNumber,
       "movement-number", val);
   }
@@ -10584,7 +10497,6 @@ void msrIdentification::setMovementTitle (
 {
   fMovementTitle =
     msrVarValAssoc::create (
-      fMsrOptions,
       inputLineNumber,
       "movement-title", val);
 }
@@ -10596,7 +10508,6 @@ void msrIdentification::addCreator (
 {
   fCreators.push_back(
     msrVarValAssoc::create (
-      fMsrOptions,
       inputLineNumber,
       type, val)
   );
@@ -10608,7 +10519,6 @@ void msrIdentification::setRights (
   {
   fRights =
     msrVarValAssoc::create (
-      fMsrOptions,
       inputLineNumber,
       "rights", val);
   }
@@ -10619,7 +10529,6 @@ void msrIdentification::addSoftware (
 {
   fSoftwares.push_back(
     msrVarValAssoc::create (
-      fMsrOptions,
       inputLineNumber,
       "software", val)
   );
@@ -10631,7 +10540,6 @@ void msrIdentification::setEncodingDate (
 {
   fEncodingDate =
     msrVarValAssoc::create (
-      fMsrOptions,
       inputLineNumber,
       "encoding-date", val);
 }
@@ -10642,7 +10550,6 @@ void msrIdentification::setScoreInstrumentAssoc (
 {
   fScoreInstrumentAssoc =
     msrVarValAssoc::create (
-      fMsrOptions,
       inputLineNumber,
       "score-instrument", val);
 }
@@ -10849,7 +10756,6 @@ S_msrScore msrScore::createScoreBareClone ()
   S_msrScore
     clone =
       msrScore::create (
-        fMsrOptions,
         fInputLineNumber);
 
   return clone;
