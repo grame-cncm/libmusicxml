@@ -189,44 +189,42 @@ void printUsage (int exitStatus)
 void analyzeOptions (
   int            argc,
   char*          argv[],
-  S_msrOptions&  msrOpts, 
-  S_lpsrOptions& lpsrOpts,
   string&        inputFileName,
   string&        outputFileName)
 {
   // MSR options
   // -----------
 
-  msrOpts->fMsrNoteNamesLanguageAsString      = "dutch";
-  msrOpts->fMsrNoteNamesLanguage              = kNederlands;
+  gMsrOptions->fMsrNoteNamesLanguageAsString      = "dutch";
+  gMsrOptions->fMsrNoteNamesLanguage              = kNederlands;
   
-  msrOpts->fCreateStaffRelativeVoiceNumbers   = false;
+  gMsrOptions->fCreateStaffRelativeVoiceNumbers   = false;
   
-  msrOpts->fDontDisplayMSRLyrics              = false;
+  gMsrOptions->fDontDisplayMSRLyrics              = false;
 
-  msrOpts->fDelayRestsDynamics                = false;
+  gMsrOptions->fDelayRestsDynamics                = false;
   
-  msrOpts->fDisplayMSR                        = false;
+  gMsrOptions->fDisplayMSR                        = false;
 
-  msrOpts->fDisplayMSRScoreSummary            = false;
+  gMsrOptions->fDisplayMSRScoreSummary            = false;
 
   // LPSR options
   // ------------
 
-  lpsrOpts->fDisplayLPSR                      = false;
+  gLpsrOptions->fDisplayLPSR                      = false;
 
-  lpsrOpts->fDontKeepLineBreaks               = false;
-  lpsrOpts->fKeepStaffSize                    = false;
+  gLpsrOptions->fDontKeepLineBreaks               = false;
+  gLpsrOptions->fKeepStaffSize                    = false;
     
-  lpsrOpts->fGenerateAbsoluteOctaves          = false;
+  gLpsrOptions->fGenerateAbsoluteOctaves          = false;
 
-  lpsrOpts->fGenerateNumericalTime            = false;
-  lpsrOpts->fGenerateComments                 = false;
-  lpsrOpts->fGenerateStems                    = false;
-  lpsrOpts->fNoAutoBeaming                    = false;
-  lpsrOpts->fGenerateInputLineNumbers         = false;
+  gLpsrOptions->fGenerateNumericalTime            = false;
+  gLpsrOptions->fGenerateComments                 = false;
+  gLpsrOptions->fGenerateStems                    = false;
+  gLpsrOptions->fNoAutoBeaming                    = false;
+  gLpsrOptions->fGenerateInputLineNumbers         = false;
 
-  lpsrOpts->fDontGenerateLilyPondCode         = false;
+  gLpsrOptions->fDontGenerateLilyPondCode         = false;
 
 
   // General options
@@ -682,53 +680,53 @@ void analyzeOptions (
         if (languagePresent) {
           // optarg contains the language name
           if (gMsrNoteNamesLanguageMap.count(optarg)) {
-            msrOpts->fMsrNoteNamesLanguageAsString = optarg;
+            gMsrOptions->fMsrNoteNamesLanguageAsString = optarg;
           }
           else {
             cerr <<
               "--> Unknown language name \"" << optarg <<
               "\", using \"dutch\" instead" << endl;
-            msrOpts->fMsrNoteNamesLanguageAsString = "dutch";
-            msrOpts->fMsrNoteNamesLanguage = kNederlands;
+            gMsrOptions->fMsrNoteNamesLanguageAsString = "dutch";
+            gMsrOptions->fMsrNoteNamesLanguage = kNederlands;
           }
           gGeneralOptions->fCommandLineOptions +=
             "--language " +
-            msrOpts->fMsrNoteNamesLanguageAsString +
+            gMsrOptions->fMsrNoteNamesLanguageAsString +
             " ";
           languagePresent = false;
           }
              
         if (staffRelativeVoiceNumbersPresent) {
-          msrOpts->fCreateStaffRelativeVoiceNumbers = true;
+          gMsrOptions->fCreateStaffRelativeVoiceNumbers = true;
           gGeneralOptions->fCommandLineOptions +=
             "--staffRelativeVoiceNumbers ";
           staffRelativeVoiceNumbersPresent = false;
         }
         
         if (dontDisplayMSRLyricsPresent) {
-          msrOpts->fDontDisplayMSRLyrics = true;
+          gMsrOptions->fDontDisplayMSRLyrics = true;
           gGeneralOptions->fCommandLineOptions +=
             "--dontGenerateLyrics ";
           dontDisplayMSRLyricsPresent = false;
         }
         
         if (delayRestsDynamicsPresent) {
-          msrOpts->fDelayRestsDynamics = true;
+          gMsrOptions->fDelayRestsDynamics = true;
           gGeneralOptions->fCommandLineOptions +=
             "--delayRestsDynamics ";
           delayRestsDynamicsPresent = false;
         }
         
         if (displayMSRPresent) {
-          msrOpts->fDisplayMSR = true;
+          gMsrOptions->fDisplayMSR = true;
           gGeneralOptions->fCommandLineOptions +=
             "--displayMSR ";
           displayMSRPresent = false;
         }
 
         if (displayMSRScoreSummaryPresent) {
-          msrOpts->fDisplayMSRScoreSummary = true;
-          lpsrOpts->fDontGenerateLilyPondCode = true;
+          gMsrOptions->fDisplayMSRScoreSummary = true;
+          gLpsrOptions->fDontGenerateLilyPondCode = true;
           gGeneralOptions->fCommandLineOptions +=
             "--displayScoreSummary ";
           displayMSRScoreSummaryPresent = false;
@@ -758,13 +756,13 @@ void analyzeOptions (
           // is this part name in the part renaming map?
           map<string, string>::iterator
             it =
-              msrOpts->fPartsRenaming.find (pair.first);
+              gMsrOptions->fPartsRenaming.find (pair.first);
                 
-          if (it != msrOpts->fPartsRenaming.end ()) {
+          if (it != gMsrOptions->fPartsRenaming.end ()) {
             // yes, issue error message
           }
           else
-            msrOpts->fPartsRenaming [pair.first] =
+            gMsrOptions->fPartsRenaming [pair.first] =
               pair.second;
 
           partNamePresent = false;
@@ -774,66 +772,66 @@ void analyzeOptions (
         // ------------
 
         if (displayLPSRPresent) {
-          lpsrOpts->fDisplayLPSR = true;
+          gLpsrOptions->fDisplayLPSR = true;
           gGeneralOptions->fCommandLineOptions +=
             "--displayLPSR ";
           displayLPSRPresent = false;
         }
 
         if (absolutePresent) {
-          lpsrOpts->fGenerateAbsoluteOctaves = true;
+          gLpsrOptions->fGenerateAbsoluteOctaves = true;
           gGeneralOptions->fCommandLineOptions +=
             "--absolute ";
           absolutePresent = false;
         }
 
         if (dontKeepLineBreaksPresent) {
-          lpsrOpts->fDontKeepLineBreaks = true;
+          gLpsrOptions->fDontKeepLineBreaks = true;
           gGeneralOptions->fCommandLineOptions +=
             "--dontKeepLineBreaks ";
           dontKeepLineBreaksPresent = false;
         }
 
         if (numericaltimePresent) {
-          lpsrOpts->fGenerateNumericalTime = true;
+          gLpsrOptions->fGenerateNumericalTime = true;
           gGeneralOptions->fCommandLineOptions +=
             "--numericalTime ";
           numericaltimePresent = false;
         }
         if (commentsPresent) {
-          lpsrOpts->fGenerateComments = true;
+          gLpsrOptions->fGenerateComments = true;
           gGeneralOptions->fCommandLineOptions +=
             "--comments ";
           commentsPresent = false;
         }
         if (stemsPresent) {
-          lpsrOpts->fGenerateStems = true;
+          gLpsrOptions->fGenerateStems = true;
           gGeneralOptions->fCommandLineOptions +=
             "--stems ";
           stemsPresent = false;
         }
         if (noAutoBeamingPresent) {
-          lpsrOpts->fNoAutoBeaming = true;
+          gLpsrOptions->fNoAutoBeaming = true;
           gGeneralOptions->fCommandLineOptions +=
             "--noAutoBeaming ";
           noAutoBeamingPresent = false;
         }
         if (noteInputLineNumbersPresent) {
-          lpsrOpts->fGenerateInputLineNumbers = true;
+          gLpsrOptions->fGenerateInputLineNumbers = true;
           gGeneralOptions->fCommandLineOptions +=
             "--noteInputLineNumbers ";
           noteInputLineNumbersPresent = false;
         }
         
         if (dontGenerateLilyPondLyricsPresent) {
-          lpsrOpts->fDontGenerateLilyPondLyrics = true;
+          gLpsrOptions->fDontGenerateLilyPondLyrics = true;
           gGeneralOptions->fCommandLineOptions +=
             "--dontGenerateLyrics ";
           dontGenerateLilyPondLyricsPresent = false;
         }
         
         if (dontGenerateLilyPondCodePresent) {
-          lpsrOpts->fDontGenerateLilyPondCode = true;
+          gLpsrOptions->fDontGenerateLilyPondCode = true;
           gGeneralOptions->fCommandLineOptions +=
             "--dontGenerateLilyPondCode ";
           dontGenerateLilyPondCodePresent = false;
@@ -863,9 +861,7 @@ void analyzeOptions (
 }
 
 //_______________________________________________________________________________
-void printOptions (
-  S_msrOptions&  msrOpts, 
-  S_lpsrOptions& lpsrOpts )
+void printOptions ()
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
@@ -962,37 +958,37 @@ void printOptions (
   
   cerr << left <<
     idtr << setw(fieldWidth) << "noteNamesLanguageName" << " : \"" <<
-      msrOpts->fMsrNoteNamesLanguageAsString << "\"" << endl <<
+      gMsrOptions->fMsrNoteNamesLanguageAsString << "\"" << endl <<
     
     idtr << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
-      booleanAsString (msrOpts->fCreateStaffRelativeVoiceNumbers) <<
+      booleanAsString (gMsrOptions->fCreateStaffRelativeVoiceNumbers) <<
       endl <<
 
     idtr << setw(fieldWidth) << "dontDisplayMSRLyrics" << " : " <<
-      booleanAsString (msrOpts->fDontDisplayMSRLyrics) <<
+      booleanAsString (gMsrOptions->fDontDisplayMSRLyrics) <<
       endl <<
 
     idtr << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
-      booleanAsString (msrOpts->fDelayRestsDynamics) <<
+      booleanAsString (gMsrOptions->fDelayRestsDynamics) <<
       endl <<
 
     idtr << setw(fieldWidth) << "displayMSR" << " : " <<
-      booleanAsString (msrOpts->fDisplayMSR) <<
+      booleanAsString (gMsrOptions->fDisplayMSR) <<
       endl <<
     
     idtr << setw(fieldWidth) << "displayMSRScoreSummary" << " : " <<
-      booleanAsString (msrOpts->fDisplayMSRScoreSummary) <<
+      booleanAsString (gMsrOptions->fDisplayMSRScoreSummary) <<
       endl <<
     
     idtr << setw(fieldWidth) << "partRenamingSpecifications" << " : ";
     
-  if (msrOpts->fPartsRenaming.empty ())
+  if (gMsrOptions->fPartsRenaming.empty ())
     cerr << "none";
   else
     for (
       map<string, string>::const_iterator i =
-        msrOpts->fPartsRenaming.begin();
-      i != msrOpts->fPartsRenaming.end();
+        gMsrOptions->fPartsRenaming.begin();
+      i != gMsrOptions->fPartsRenaming.end();
       i++) {
         cerr << "\"" << ((*i).first) << " = " << ((*i).second) << "\" ";
     } // for
@@ -1012,39 +1008,39 @@ void printOptions (
   
   cerr << left <<
     idtr << setw(fieldWidth) << "displayLPSR" << " : " <<
-      booleanAsString (lpsrOpts->fDisplayLPSR) <<
+      booleanAsString (gLpsrOptions->fDisplayLPSR) <<
       endl <<
 
     idtr << setw(fieldWidth) << "generateAbsoluteOctaves" << " : " <<
-      booleanAsString (lpsrOpts->fGenerateAbsoluteOctaves) <<
+      booleanAsString (gLpsrOptions->fGenerateAbsoluteOctaves) <<
       endl <<
     
     idtr << setw(fieldWidth) << "dontKeepLineBreaks" << " : " <<
-      booleanAsString (lpsrOpts->fDontKeepLineBreaks
+      booleanAsString (gLpsrOptions->fDontKeepLineBreaks
         ? "true" : "false") << endl <<
     
     idtr << setw(fieldWidth) << "generateNumericalTime" << " : " <<
-      booleanAsString (lpsrOpts->fGenerateNumericalTime) <<
+      booleanAsString (gLpsrOptions->fGenerateNumericalTime) <<
       endl <<
     idtr << setw(fieldWidth) << "generateComments" << " : " <<
-      booleanAsString (lpsrOpts->fGenerateComments) <<
+      booleanAsString (gLpsrOptions->fGenerateComments) <<
       endl <<
     idtr << setw(fieldWidth) << "generateStems" << " : " <<
-      booleanAsString (lpsrOpts->fGenerateStems) <<
+      booleanAsString (gLpsrOptions->fGenerateStems) <<
       endl <<
     idtr << setw(fieldWidth) << "noAutoBeaming" << " : " <<
-      booleanAsString (lpsrOpts->fNoAutoBeaming) <<
+      booleanAsString (gLpsrOptions->fNoAutoBeaming) <<
       endl <<
      idtr << setw(fieldWidth) << "generateInputLineNumbers" << " : " <<
-      booleanAsString (lpsrOpts->fGenerateInputLineNumbers) <<
+      booleanAsString (gLpsrOptions->fGenerateInputLineNumbers) <<
       endl <<
 
     idtr << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
-      booleanAsString (lpsrOpts->fDontGenerateLilyPondLyrics) <<
+      booleanAsString (gLpsrOptions->fDontGenerateLilyPondLyrics) <<
       endl <<
 
     idtr << setw(fieldWidth) << "dontGenerateLilyPondCode" << " : " <<
-      booleanAsString (lpsrOpts->fDontGenerateLilyPondCode) <<
+      booleanAsString (gLpsrOptions->fDontGenerateLilyPondCode) <<
       endl;
 
   idtr--;
@@ -1068,18 +1064,17 @@ int main (int argc, char *argv[])
   gGeneralOptions = msrGeneralOptions::create ();
   assert(gGeneralOptions != 0);
 
-  S_msrOptions msrOpts = msrOptions::create ();
-  assert(msrOpts != 0);
+  gMsrOptions = msrOptions::create ();
+  assert(gMsrOptions != 0);
 
-  S_lpsrOptions lpsrOpts = lpsrOptions::create();
-  assert(lpsrOpts != 0);
+  gLpsrOptions = lpsrOptions::create();
+  assert(gLpsrOptions != 0);
   
   string    inputFileName;
   string    outputFileName;
   
   analyzeOptions (
     argc, argv,
-    msrOpts, lpsrOpts,
     inputFileName, outputFileName);
 
   // input source name
@@ -1126,7 +1121,7 @@ int main (int argc, char *argv[])
       cerr << "standard output";
     cerr << endl;
     
-    printOptions (msrOpts, lpsrOpts);
+    printOptions ();
   }
     
   // open output file if need be
@@ -1153,10 +1148,10 @@ int main (int argc, char *argv[])
     // input comes from standard input
     if (outputFileName.size())
       mScore =
-        musicxmlFd2PartsInfo (stdin, msrOpts, outStream);
+        musicxmlFd2PartsInfo (stdin, gMsrOptions, outStream);
     else
       mScore =
-        musicxmlFd2PartsInfo (stdin, msrOpts, cout);
+        musicxmlFd2PartsInfo (stdin, gMsrOptions, cout);
   }
   
   else {
@@ -1164,11 +1159,11 @@ int main (int argc, char *argv[])
     if (outputFileName.size())
       mScore =
         musicxmlFile2PartsInfo (
-          inputFileName.c_str(), msrOpts, outStream);
+          inputFileName.c_str(), gMsrOptions, outStream);
     else
       mScore =
         musicxmlFile2PartsInfo (
-          inputFileName.c_str(), msrOpts, cout);
+          inputFileName.c_str(), gMsrOptions, cout);
   }
     
   if (! mScore) {
@@ -1189,10 +1184,10 @@ int main (int argc, char *argv[])
     // input comes from standard input
     if (outputFileName.size())
       mScore =
-        musicxmlFd2Msr (stdin, msrOpts, outStream);
+        musicxmlFd2Msr (stdin, gMsrOptions, outStream);
     else
       mScore =
-        musicxmlFd2Msr (stdin, msrOpts, cout);
+        musicxmlFd2Msr (stdin, gMsrOptions, cout);
   }
   
   else {
@@ -1200,11 +1195,11 @@ int main (int argc, char *argv[])
     if (outputFileName.size())
       mScore =
         musicxmlFile2Msr (
-          inputFileName.c_str(), msrOpts, outStream);
+          inputFileName.c_str(), gMsrOptions, outStream);
     else
       mScore =
         musicxmlFile2Msr (
-          inputFileName.c_str(), msrOpts, cout);
+          inputFileName.c_str(), gMsrOptions, cout);
   }
     
   if (! mScore) {
@@ -1220,13 +1215,13 @@ int main (int argc, char *argv[])
 
   S_lpsrScore lpScore;
         
-  if (! lpsrOpts->fDontGenerateLilyPondCode) {
+  if (! gLpsrOptions->fDontGenerateLilyPondCode) {
     if (outputFileName.size())
       lpScore =
-        msr2Lpsr (mScore, msrOpts, lpsrOpts, outStream);
+        msr2Lpsr (mScore, gMsrOptions, gLpsrOptions, outStream);
     else
       lpScore =
-        msr2Lpsr (mScore, msrOpts, lpsrOpts, cout);
+        msr2Lpsr (mScore, gMsrOptions, gLpsrOptions, cout);
     
     if (! lpScore) {
       cerr <<
@@ -1240,11 +1235,11 @@ int main (int argc, char *argv[])
   // generate LilyPond code from LPSR
   // ------------------------------------------------------
 
-  if (! lpsrOpts->fDontGenerateLilyPondCode) {
+  if (! gLpsrOptions->fDontGenerateLilyPondCode) {
     if (outputFileName.size())
-      lpsr2LilyPond (lpScore, msrOpts, lpsrOpts, outStream);
+      lpsr2LilyPond (lpScore, gMsrOptions, gLpsrOptions, outStream);
     else
-      lpsr2LilyPond (lpScore, msrOpts, lpsrOpts, cout);
+      lpsr2LilyPond (lpScore, gMsrOptions, gLpsrOptions, cout);
     
     if (outputFileName.size()) {
       if (gGeneralOptions->fDebug)

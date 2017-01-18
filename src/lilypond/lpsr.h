@@ -97,6 +97,8 @@ class EXP lpsrOptions : public smartable {
 };
 typedef SMARTP<lpsrOptions> S_lpsrOptions;
 
+extern S_lpsrOptions gLpsrOptions;
+
 /*!
 \brief A generic msr element representation.
 
@@ -112,8 +114,6 @@ class EXP lpsrElement : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrElement> create (
-      S_msrOptions   msrOpts,
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
 
   protected:
@@ -122,8 +122,6 @@ class EXP lpsrElement : public msrElement
     // ------------------------------------------------------
 
     lpsrElement (
-      S_msrOptions   msrOpts,
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
 
     virtual ~lpsrElement();
@@ -143,10 +141,6 @@ class EXP lpsrElement : public msrElement
     virtual void acceptOut (basevisitor* v);
 
     virtual void browseData (basevisitor* v);
-
-  protected:
-
-    S_lpsrOptions fLpsrOptions;
 };
 typedef SMARTP<lpsrElement> S_lpsrElement;
 EXP ostream& operator<< (ostream& os, const S_lpsrElement& elt);
@@ -201,8 +195,6 @@ class EXP lpsrParallelMusic : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrParallelMusic> create (
-      S_msrOptions          msrOpts,
-      S_lpsrOptions&        lpsrOpts, 
       int                   inputLineNumber,
       lpsrElementsSeparator elementsSeparator);
 
@@ -212,8 +204,6 @@ class EXP lpsrParallelMusic : public lpsrElement
     // ------------------------------------------------------
 
     lpsrParallelMusic (
-      S_msrOptions          msrOpts,
-      S_lpsrOptions&        lpsrOpts, 
       int                   inputLineNumber,
       lpsrElementsSeparator elementsSeparato);
       
@@ -286,18 +276,16 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrLilypondVarValAssoc> create (
-        S_msrOptions&       msrOpts, 
-        S_lpsrOptions&      lpsrOpts, 
-        int                 inputLineNumber,
-        lpsrCommentedKind   commentedKind,
-        lpsrBackslashKind   backslashKind,
-        string              variableName,
-        lpsrVarValSeparator varValSeparator,
-        lpsrQuotesKind      quotesKind,
-        string              value, 
-        string              unit,
-        string              comment,
-        lpsrEndlKind        endlKind);
+      int                 inputLineNumber,
+      lpsrCommentedKind   commentedKind,
+      lpsrBackslashKind   backslashKind,
+      string              variableName,
+      lpsrVarValSeparator varValSeparator,
+      lpsrQuotesKind      quotesKind,
+      string              value, 
+      string              unit,
+      string              comment,
+      lpsrEndlKind        endlKind);
 
   protected:
 
@@ -305,18 +293,16 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
     // ------------------------------------------------------
 
     lpsrLilypondVarValAssoc (
-        S_msrOptions&       msrOpts, 
-        S_lpsrOptions&      lpsrOpts, 
-        int                 inputLineNumber,
-        lpsrCommentedKind   commentedKind,
-        lpsrBackslashKind   backslashKind,
-        string              variableName,
-        lpsrVarValSeparator varValSeparator,
-        lpsrQuotesKind      quotesKind,
-        string              value, 
-        string              unit,
-        string              comment,
-        lpsrEndlKind        endlKind);
+      int                 inputLineNumber,
+      lpsrCommentedKind   commentedKind,
+      lpsrBackslashKind   backslashKind,
+      string              variableName,
+      lpsrVarValSeparator varValSeparator,
+      lpsrQuotesKind      quotesKind,
+      string              value, 
+      string              unit,
+      string              comment,
+      lpsrEndlKind        endlKind);
       
     virtual ~lpsrLilypondVarValAssoc();
   
@@ -417,8 +403,6 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrSchemeVarValAssoc> create (
-      S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
       int               inputLineNumber,
       lpsrCommentedKind commentedKind,
       string            variableName,
@@ -432,8 +416,6 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
     // ------------------------------------------------------
 
     lpsrSchemeVarValAssoc (
-      S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
       int               inputLineNumber,
       lpsrCommentedKind commentedKind,
       string            variableName,
@@ -514,8 +496,6 @@ class EXP lpsrComment : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrComment> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       string         contents,
       lpsrGapKind    gapKind = kNoGapAfterwards);
@@ -526,8 +506,6 @@ class EXP lpsrComment : public lpsrElement
     // ------------------------------------------------------
 
     lpsrComment (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       string         contents,
       lpsrGapKind    gapKind = kNoGapAfterwards);
@@ -581,8 +559,6 @@ class EXP lpsrBarNumberCheck : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrBarNumberCheck> create (
-          S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
       int                    inputLineNumber,
       int                    nextBarNumber);
 
@@ -592,8 +568,6 @@ class EXP lpsrBarNumberCheck : public lpsrElement
     // ------------------------------------------------------
 
     lpsrBarNumberCheck(
-          S_msrOptions&     msrOpts, 
-      S_lpsrOptions&    lpsrOpts, 
       int                    inputLineNumber,
       int                    nextBarNumber);
       
@@ -640,8 +614,6 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrNewStaffgroupBlock> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumberr);
      
   protected:
@@ -650,8 +622,6 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
     // ------------------------------------------------------
 
     lpsrNewStaffgroupBlock (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
       
     virtual ~lpsrNewStaffgroupBlock();
@@ -701,8 +671,6 @@ class EXP lpsrNewStafftuningBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrNewStafftuningBlock> create (
-      S_msrOptions&    msrOpts, 
-      S_lpsrOptions&   lpsrOpts, 
       int              inputLineNumber,
       S_msrStafftuning stafftuning);
      
@@ -712,8 +680,6 @@ class EXP lpsrNewStafftuningBlock : public lpsrElement
     // ------------------------------------------------------
 
     lpsrNewStafftuningBlock (
-      S_msrOptions&    msrOpts, 
-      S_lpsrOptions&   lpsrOpts, 
       int              inputLineNumber,
       S_msrStafftuning stafftuning);
       
@@ -765,8 +731,6 @@ class EXP lpsrNewStaffBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrNewStaffBlock> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
      
   protected:
@@ -775,8 +739,6 @@ class EXP lpsrNewStaffBlock : public lpsrElement
     // ------------------------------------------------------
 
     lpsrNewStaffBlock (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
       
     virtual ~lpsrNewStaffBlock();
@@ -826,8 +788,6 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrUseVoiceCommand> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       S_msrVoice     voice);
 
@@ -837,8 +797,6 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
     // ------------------------------------------------------
 
     lpsrUseVoiceCommand (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       S_msrVoice     voice);
       
@@ -889,8 +847,6 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrNewLyricsBlock> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       S_msrLyrics    lyrics,
       S_msrVoice     voice);
@@ -901,8 +857,6 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
     // ------------------------------------------------------
 
     lpsrNewLyricsBlock (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       S_msrLyrics    lyrics,
       S_msrVoice );
@@ -956,8 +910,6 @@ class EXP lpsrVariableUseCommand : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrVariableUseCommand> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       string         variableName);
 
@@ -967,8 +919,6 @@ class EXP lpsrVariableUseCommand : public lpsrElement
     // ------------------------------------------------------
 
     lpsrVariableUseCommand (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       string         variableName);
       
@@ -1016,8 +966,6 @@ class EXP lpsrUseLyricsCommand : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrUseLyricsCommand> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       S_msrLyrics&   lyrics);
 
@@ -1048,8 +996,6 @@ class EXP lpsrUseLyricsCommand : public lpsrElement
     // ------------------------------------------------------
 
     lpsrUseLyricsCommand (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       S_msrLyrics&   lyrics);
       
@@ -1084,8 +1030,6 @@ class EXP lpsrContext : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrContext> create (
-      S_msrOptions&   msrOpts, 
-      S_lpsrOptions&  lpsrOpts, 
       int             inputLineNumber,
       lpsrContextKind contextKind,
       string          contextType,
@@ -1097,8 +1041,6 @@ class EXP lpsrContext : public lpsrElement
     // ------------------------------------------------------
 
     lpsrContext (
-      S_msrOptions&   msrOpts, 
-      S_lpsrOptions&  lpsrOpts, 
       int             inputLineNumber,
       lpsrContextKind contextKind,
       string          contextType,
@@ -1155,8 +1097,6 @@ class EXP lpsrBarCommand : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrBarCommand> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
 
   protected:
@@ -1165,8 +1105,6 @@ class EXP lpsrBarCommand : public lpsrElement
     // ------------------------------------------------------
 
     lpsrBarCommand (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
       
     virtual ~lpsrBarCommand();
@@ -1211,8 +1149,6 @@ class EXP lpsrHeader : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrHeader> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
     
   protected:
@@ -1221,8 +1157,6 @@ class EXP lpsrHeader : public lpsrElement
     // ------------------------------------------------------
 
     lpsrHeader (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
       
     virtual ~lpsrHeader();
@@ -1367,7 +1301,6 @@ class EXP lpsrPaper : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrPaper> create (
-      S_msrOptions& msrOpts, 
       int           inputLineNumber);
     
   protected:
@@ -1376,7 +1309,6 @@ class EXP lpsrPaper : public msrElement
     // ------------------------------------------------------
 
     lpsrPaper (
-      S_msrOptions& msrOpts, 
       int           inputLineNumber);
       
     virtual ~lpsrPaper();
@@ -1452,8 +1384,6 @@ class EXP lpsrLayout : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrLayout> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
 
   protected:
@@ -1462,8 +1392,6 @@ class EXP lpsrLayout : public lpsrElement
     // ------------------------------------------------------
 
     lpsrLayout (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
       
     virtual ~lpsrLayout();
@@ -1527,8 +1455,6 @@ class EXP lpsrStaffBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrStaffBlock> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts,
       S_msrStaff     staff);
      
   protected:
@@ -1537,8 +1463,6 @@ class EXP lpsrStaffBlock : public lpsrElement
     // ------------------------------------------------------
 
     lpsrStaffBlock (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts,
       S_msrStaff     staff);
       
     virtual ~lpsrStaffBlock();
@@ -1605,8 +1529,6 @@ class EXP lpsrPartBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrPartBlock> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts,
       S_msrPart      part);
      
   protected:
@@ -1615,8 +1537,6 @@ class EXP lpsrPartBlock : public lpsrElement
     // ------------------------------------------------------
 
     lpsrPartBlock (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts,
       S_msrPart      part);
       
     virtual ~lpsrPartBlock();
@@ -1676,8 +1596,6 @@ class EXP lpsrPartgroupBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrPartgroupBlock> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts,
       S_msrPartgroup partgroup);
      
   protected:
@@ -1686,8 +1604,6 @@ class EXP lpsrPartgroupBlock : public lpsrElement
     // ------------------------------------------------------
 
     lpsrPartgroupBlock (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts,
       S_msrPartgroup partgroup);
       
     virtual ~lpsrPartgroupBlock();
@@ -1748,8 +1664,6 @@ class EXP lpsrScoreBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrScoreBlock> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
      
   protected:
@@ -1758,8 +1672,6 @@ class EXP lpsrScoreBlock : public lpsrElement
     // ------------------------------------------------------
 
     lpsrScoreBlock (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber);
       
     virtual ~lpsrScoreBlock();
@@ -1836,8 +1748,6 @@ class EXP lpsrScore : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrScore> create (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       S_msrScore     mScore);
      
@@ -1847,8 +1757,6 @@ class EXP lpsrScore : public lpsrElement
     // ------------------------------------------------------
 
     lpsrScore (
-      S_msrOptions&  msrOpts, 
-      S_lpsrOptions& lpsrOpts, 
       int            inputLineNumber,
       S_msrScore     mScore);
       

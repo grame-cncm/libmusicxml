@@ -60,6 +60,8 @@ msrOptions::msrOptions () {}
 
 msrOptions::~msrOptions () {}
 
+S_msrOptions gMsrOptions;
+
 //______________________________________________________________________________
 msrElement::msrElement (
   S_msrOptions& msrOpts, 

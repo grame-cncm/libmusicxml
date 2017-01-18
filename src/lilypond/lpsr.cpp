@@ -41,6 +41,8 @@ S_lpsrOptions lpsrOptions::create()
 lpsrOptions::lpsrOptions() {}
 lpsrOptions::~lpsrOptions() {}
 
+S_lpsrOptions gLpsrOptions;
+
 //_______________________________________________________________________________
 S_lpsrElement lpsrElement::create (
   S_msrOptions   msrOpts,
