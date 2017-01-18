@@ -190,7 +190,9 @@ void lpsrParallelMusic::print (ostream& os)
 {
   os <<
     "ParallelMusic" <<
-    ", " << fParallelMusicElements.size() << " elements" <<
+    ", " <<
+    singularOrPlural (
+      fParallelMusicElements.size(), "element", "elements") <<
     endl;
   
   idtr++;
@@ -362,7 +364,9 @@ ostream& operator<< (ostream& os, const S_lpsrBarNumberCheck& elt)
 
 void lpsrBarNumberCheck::print (ostream& os)
 {
-  os << "BarNumberCheck" << " " << fNextBarNumber << endl;
+  os <<
+    "BarNumberCheck" << " " << fNextBarNumber <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -440,7 +444,9 @@ void lpsrUseVoiceCommand::print (ostream& os)
   os <<
     "UseVoiceCommand" << " \"" <<
     fVoice->getVoiceName () <<
-    "\", " << fVoice->getVoiceLyricsMap ().size() << " lyrics" <<
+    "\", " <<
+    singularOrPlural (
+      fVoice->getVoiceLyricsMap ().size(), "lyric", "lyrics") <<
     endl;
 }
 
@@ -522,7 +528,8 @@ void lpsrNewLyricsBlock::print (ostream& os)
   os <<
     "NewLyricsBlock" << " " <<
     fLyrics->getLyricsName () << " " <<
-    fVoice->getVoiceName () << endl;
+    fVoice->getVoiceName () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -1210,13 +1217,6 @@ void lpsrVariableUseCommand::print (ostream& os)
   idtr--;
 }
 
-/*
-void lpsrVariableUseCommand::printLilyPondCode (ostream& os)
-{
-  os << "\\" << fVariableName << endl;
-}
-*/
-
 //______________________________________________________________________________
 S_lpsrContext lpsrContext::create (
     S_msrOptions&   msrOpts, 
@@ -1380,7 +1380,9 @@ ostream& operator<< (ostream& os, const S_lpsrBarCommand& nstf)
 
 void lpsrBarCommand::print (ostream& os)
 {
-  os << "BarCommand" << " " << "\"|.\"" << endl;
+  os <<
+    "BarCommand" << " " << "\"|.\"" <<
+    endl;
 }
 
 /*
@@ -2195,7 +2197,9 @@ void lpsrStaffBlock::print (ostream& os)
     "StaffBlock" << " " <<
     "for staff \"" << fStaff->getStaffName () <<
     "\" (" << fStaff->staffKindAsString () <<
-    "), " << fStaffBlockElements.size () << " elements" <<
+    "), " <<
+    singularOrPlural (
+      fStaffBlockElements.size(), "element", "elements") <<
     endl;
 
   idtr++;
@@ -2303,7 +2307,9 @@ void lpsrPartBlock::print (ostream& os)
   os <<
     "PartBlock" << " " <<
     "for part " << fPart->getPartCombinedName () <<
-    ", " << fPartBlockElements.size() << " elements" <<
+    ", " <<
+    singularOrPlural (
+      fPartBlockElements.size(), "element", "elements") <<
     endl;
 
   idtr++;
@@ -2426,7 +2432,9 @@ void lpsrPartgroupBlock::print (ostream& os)
     "PartgroupBlock" << " " <<
     "for partgroup \"" << fPartgroup->getPartgroupCombinedName () <<
     "\", " << fPartgroup->pargroupSymbolKindAsString () <<
-    ", " << fPartgroupBlockElements.size() << " elements" <<
+    ", " <<
+    singularOrPlural (
+      fPartgroupBlockElements.size(), "element", "elements") <<
     endl << endl;
 
   idtr++;
@@ -2615,9 +2623,15 @@ void lpsrScoreBlock::print (ostream& os)
 
   idtr++;
 
-  os << idtr << fScoreBlockParallelMusic << endl;
-  os << idtr << fScoreBlockLayout << endl;
-  os << idtr << fScoreBlockMidi << endl;
+  os << idtr <<
+    fScoreBlockParallelMusic <<
+    endl;
+  os << idtr <<
+    fScoreBlockLayout <<
+    endl;
+  os << idtr <<
+    fScoreBlockMidi <<
+    endl;
 
   idtr--;
 }
