@@ -31,7 +31,7 @@ namespace MusicXML2
 /*!
 \brief Produces a summary of a MusicXML part.
 */
-class EXP xml2MsrVisitor : 
+class EXP xml2MsrTranslator : 
 
 /*
   <part-list>
@@ -273,10 +273,10 @@ class EXP xml2MsrVisitor :
 {
   public:
   
-    xml2MsrVisitor (
+    xml2MsrTranslator (
       S_msrOptions& msrOpts);
 
-    virtual ~xml2MsrVisitor ();
+    virtual ~xml2MsrTranslator ();
 
     S_msrScore buildMsrScoreFromXMLElementTree (
         const Sxmlelement& xmlTree);

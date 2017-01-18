@@ -8238,9 +8238,11 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline) {
     cerr << idtr <<
       "Prepending a barline to voice \"" << getVoiceName () << "\"" <<
       ":" << endl;
-    idtr++;
-    cerr << idtr << barline;
-    idtr--;
+      
+  idtr++;
+  cerr << idtr <<
+    barline;
+  idtr--;
 
   S_msrElement b = barline;
   fVoiceVoicechunk->
@@ -8252,9 +8254,11 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
     cerr << idtr <<
       "Appending a barline to voice \"" << getVoiceName () << "\"" <<
       ":" << endl;
-    idtr++;
-    cerr << idtr << barline;
-    idtr--;
+      
+  idtr++;
+  cerr << idtr <<
+    barline;
+  idtr--;
 
   S_msrElement b = barline;
   fVoiceVoicechunk->
@@ -8659,7 +8663,7 @@ msrStaff::msrStaff (
       endl;
 
   // the staff number should not be negative
-  // (0 is used for hidden staff containing the part voice master)
+  // (0 is used for hidden staff containing the part voice master) JMI
   if (staffNumber < 0) {
     stringstream s;
 
@@ -9207,7 +9211,7 @@ void msrStaff::setAllStaffVoicesMeasureNumber (
         inputLineNumber, measureNumber);
   } // for
 }
-/*
+/* JMI
 void msrStaff::bringAllStaffVoicesToPosition (
   int inputLineNumber,
   int measurePosition)
@@ -9395,11 +9399,12 @@ void msrStaff::print (ostream& os)
       
     idtr++;
     for ( ; ; ) {
-      cerr << idtr << (*i)->stafftuningAsString ();
+      os << idtr <<
+        (*i)->stafftuningAsString ();
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
     } // for
-    cerr << endl;
+    os << endl;
     idtr--;
   }
 
@@ -9413,9 +9418,82 @@ void msrStaff::print (ostream& os)
       i      = iBegin;
       
     for ( ; ; ) {
-      cerr << idtr << (*i).second;
+      os << idtr <<
+        (*i).second;
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
+    } // for
+  }
+
+  idtr--;
+}
+
+void msrStaff::printStructure (ostream& os)
+{
+  os <<
+    "Staff" " " << getStaffName () <<
+    ", " << staffKindAsString () <<
+    " (" << fStaffVoicesMap.size() << " voices)" <<
+    endl;
+
+  idtr++;
+
+  if (fStaffClef)
+    os << idtr << fStaffClef;
+  else
+    os << idtr << "NO_CLEF" << endl;
+
+  if (fStaffKey)
+    os << idtr << fStaffKey;
+  else
+    os << idtr << "NO_KEY" << endl;
+
+  if (fStaffTime)
+    os << idtr << fStaffTime;
+  else
+    os << idtr << "NO_TIME" << endl;
+
+  os <<
+    idtr << "StaffInstrumentName: \"" <<
+    fStaffInstrumentName << "\"" << endl;
+
+/*
+  if (fStafftuningsList.size ()) {
+    os <<
+      idtr << "Staff tunings:" <<
+      endl;
+      
+    list<S_msrStafftuning>::const_iterator
+      iBegin = fStafftuningsList.begin(),
+      iEnd   = fStafftuningsList.end(),
+      i      = iBegin;
+      
+    idtr++;
+    for ( ; ; ) {
+      os << idtr << (*i)->stafftuningAsString ();
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+    os << endl;
+    idtr--;
+  }
+
+  os << endl;
+*/
+
+  // print the registered voices names
+  if (fStaffVoicesMap.size ()) {
+    map<int, S_msrVoice>::const_iterator
+      iBegin = fStaffVoicesMap.begin(),
+      iEnd   = fStaffVoicesMap.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os <<
+        idtr <<
+        (*i).second->getVoiceName ();
+      if (++i == iEnd) break;
+      os << endl;
     } // for
   }
 
@@ -9964,6 +10042,51 @@ void msrPart::print (ostream& os)
   idtr--;
 }
 
+void msrPart::printStructure (ostream& os)
+{
+  os <<
+    "Part" << " " << getPartCombinedName () <<
+    " (" << fPartStavesMap.size() << " staves" <<
+    ", position high tide " << fPartMeasurePositionHighTide <<
+    ")" <<
+    endl;
+    
+  idtr++;
+  
+  os << left <<
+    idtr <<
+      setw(25) << "PartDivisionsPerWholeNote" << ": " <<
+      fPartDivisionsPerWholeNote << endl <<
+    idtr <<
+      setw(25) << "PartMSRName" << ": \"" <<
+      fPartMSRName << "\"" << endl <<
+    idtr <<
+      setw(25) << "PartName" << ": \"" <<
+      fPartName << "\"" << endl <<
+    idtr <<
+      setw(25) << "PartAbbrevation" << ": \"" <<
+      fPartAbbreviation << "\"" << endl <<
+    idtr <<
+      setw(25) << "PartInstrumentName" << ": \"" <<
+      fPartInstrumentName << "\"" << endl;
+
+  if (fPartStavesMap.size()) {
+    os << endl;
+    for (
+      map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+      i != fPartStavesMap.end();
+      i++) {
+      os <<
+        idtr;
+        (*i).second->printStructure (os);
+        os <<
+          endl;
+    } // for
+  }
+
+  idtr--;
+}
+
 //______________________________________________________________________________
 int msrPartgroup::gPartgroupsCounter = 0;
 
@@ -10351,6 +10474,64 @@ void msrPartgroup::print (ostream& os)
     idtr++;
     for ( ; ; ) {
       os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+    idtr--;
+  }
+  
+  idtr--;
+}
+
+void msrPartgroup::printStructure (ostream& os)
+{
+  os <<
+    "Partgroup" " \"" << getPartgroupCombinedName () <<
+    "\" (" << fPartgroupPartsMap.size() << " parts)" <<
+    endl;
+    
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw(24) << "PartgroupName" << " : \"" <<
+      fPartgroupName <<
+      "\"" <<
+      endl <<
+    idtr <<
+      setw(24) << "PartgroupAbbrevation" << " : \"" <<
+      fPartgroupAbbreviation <<
+      "\"" <<
+      endl <<
+    idtr <<
+      setw(24) << "fPartgroupSymbolDefaultX" << " : " <<
+      fPartgroupSymbolDefaultX <<
+        endl <<
+    idtr <<
+      setw(24) << "fPartgroupSymbolKind" << " : \"" <<
+      pargroupSymbolKindAsString (fPartgroupSymbolKind) <<
+      "\"" <<
+      endl;
+    
+  os <<
+    idtr << "PartgroupBarline         : ";
+  if (fPartgroupBarline)
+    os << "true";
+  else
+    os << "false";
+  os << endl;
+
+  if (fPartgroupElements.size()) {
+    os << endl;
+    list<S_msrElement>::const_iterator
+      iBegin = fPartgroupElements.begin(),
+      iEnd   = fPartgroupElements.end(),
+      i      = iBegin;
+      
+    idtr++;
+    for ( ; ; ) {
+      os << idtr;
+      (*i)->printStructure (os);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -10816,6 +10997,34 @@ void msrScore::print (ostream& os)
     i != fPartgroupsList.end();
     i++) {
     os << idtr << (*i);
+  } // for
+  
+  idtr--;
+}
+
+void msrScore::printStructure (ostream& os)
+{
+  os <<
+    "MSR structure" <<
+    " (" << fPartgroupsList.size() << " part groups)" <<
+    endl << endl;
+
+  idtr++;
+  
+  if (fIdentification) {
+    os << idtr << fIdentification;
+  }
+  
+  if (fPageGeometry) {
+    os << idtr << fPageGeometry;
+  }
+  
+  for (
+    list<S_msrPartgroup>::iterator i = fPartgroupsList.begin();
+    i != fPartgroupsList.end();
+    i++) {
+    os << idtr;
+    (*i)->printStructure (os);
   } // for
   
   idtr--;

@@ -81,13 +81,13 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       endl;
       // ------------------------------------------------------
   
-  // create an msr2LpsrVisitor
-  msr2LpsrVisitor visitor (msrOpts, lpsrOpts, os, mScore);
+  // create an msr2LpsrTranslator
+  msr2LpsrTranslator translator (msrOpts, lpsrOpts, os, mScore);
       
   // build the LPSR score
-  visitor.buildLpsrScoreFromMsrScore ();
+  translator.buildLpsrScoreFromMsrScore ();
 
-  return visitor.getLpsrScore ();
+  return translator.getLpsrScore ();
 }
 
 //_______________________________________________________________________________

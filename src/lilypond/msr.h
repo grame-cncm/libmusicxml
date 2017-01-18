@@ -232,45 +232,6 @@ typedef SMARTP<msrOptions> S_msrOptions;
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-/*
-class msrMeasureLocation
-{
-  public:
-
-    int         fMeasureNumber;
-    int         fPositionInMeasure; // divisions
-
-    msrMeasureLocation ()
-                    {
-                      fMeasureNumber     = 1;
-                      fPositionInMeasure = 1;
-                    }
-    
-    msrMeasureLocation (
-                  int measureNumber, int positionInMeasure)
-                    {
-                      fMeasureNumber     = measureNumber;
-                      fPositionInMeasure = positionInMeasure;
-                    }
-    
-    bool        operator==
-                  (const msrMeasureLocation& other) const 
-                    {
-                      return
-                        fMeasureNumber == other.fMeasureNumber
-                          &&
-                        fPositionInMeasure == other.fPositionInMeasure;
-                    }    
-};
-*/
-
-/*!
-\brief A generic msr element representation.
-
-  An element is represented by its name and the
-  list of its enclosed elements plus optional parameters.
-*/
-//______________________________________________________________________________
 class EXP msrElement : public smartable
 {
   public:
@@ -309,6 +270,8 @@ class EXP msrElement : public smartable
     // ------------------------------------------------------
 
     virtual void print (ostream& os);
+
+    virtual void printStructure (ostream& os) {}
     
   protected:
 
@@ -4914,6 +4877,8 @@ class EXP msrStaff : public msrElement
 
     virtual void print (ostream& os);
 
+    virtual void printStructure (ostream& os);
+
   private:
 
     // data
@@ -5134,6 +5099,8 @@ class EXP msrPart : public msrElement
 
     virtual void print (ostream& os);
 
+    virtual void printStructure (ostream& os);
+
   private:
     
     string                  fPartID; // native
@@ -5313,6 +5280,8 @@ class EXP msrPartgroup : public msrElement
 
     virtual void print (ostream& os);
 
+    virtual void printStructure (ostream& os);
+
   private:
 
     static int              gPartgroupsCounter;
@@ -5406,6 +5375,8 @@ class EXP msrScore : public msrElement
     // ------------------------------------------------------
 
     virtual void print (ostream& os);
+    
+    virtual void printStructure (ostream& os);
 
   private:
 

@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsr2LilyPondVisitor__
-#define __lpsr2LilyPondVisitor__
+#ifndef __lpsr2LilyPondTranslator__
+#define __lpsr2LilyPondTranslator__
 
 #include <map>
 #include <vector>
@@ -37,7 +37,7 @@ namespace MusicXML2
   - a map that associates each stave with the corresponding voices and notes
   - a map that associates each stave with the correcponding lyricss
 */
-class lpsr2LilyPondVisitor :
+class lpsr2LilyPondTranslator :
 
   // LPSR
   
@@ -141,13 +141,13 @@ class lpsr2LilyPondVisitor :
 {
   public:
   
-    lpsr2LilyPondVisitor (
+    lpsr2LilyPondTranslator (
       S_msrOptions&  msrOpts,
       S_lpsrOptions& lpsrOpts,
       ostream&       os,
       S_lpsrScore    lpScore);
         
-    virtual ~lpsr2LilyPondVisitor ();
+    virtual ~lpsr2LilyPondTranslator ();
 
     void generateLilyPondCodeFromLpsrScore ();
 

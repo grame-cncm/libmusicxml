@@ -183,13 +183,13 @@ S_msrScore buildMsrScoreFromElementsTree (
       endl;
   }
   
-  // create an xml2MsrVisitor
-  xml2MsrVisitor visitor (msrOpts);
+  // create an xml2MsrTranslator
+  xml2MsrTranslator translator (msrOpts);
 
   // build the MSR score
   S_msrScore
     mScore =
-      visitor.buildMsrScoreFromXMLElementTree (xmlTree);
+      translator.buildMsrScoreFromXMLElementTree (xmlTree);
 
   return mScore;
 }

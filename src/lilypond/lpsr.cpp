@@ -2966,6 +2966,7 @@ void lpsrScore::print (ostream& os)
     os <<
       idtr << fMsrScore;
 
+  // print basic information
   os <<
     idtr << fLilyPondVersion <<
     endl;
@@ -2981,7 +2982,13 @@ void lpsrScore::print (ostream& os)
   os <<
     idtr << fScoreLayout <<
     endl;
-  
+
+  // print the structure without the voices
+  printStructure (os);
+
+  os << endl;
+
+  // print the voices
   if (fScoreElements.size()) {  
     list<S_msrElement>::const_iterator
       iBegin = fScoreElements.begin(),
@@ -2995,6 +3002,7 @@ void lpsrScore::print (ostream& os)
     os << endl;
   }
 
+  // print the score block
   os <<
     idtr << fScoreBlock <<
     endl;

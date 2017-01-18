@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msr2LpsrVisitor__
-#define __msr2LpsrVisitor__
+#ifndef __msr2LpsrTranslator__
+#define __msr2LpsrTranslator__
 
 #include <map>
 #include <vector>
@@ -37,7 +37,7 @@ namespace MusicXML2
   - a map that associates each stave with the corresponding voices and notes
   - a map that associates each stave with the correcponding lyricss
 */
-class msr2LpsrVisitor :
+class msr2LpsrTranslator :
 
   public visitor<S_msrScore>,
   
@@ -119,13 +119,13 @@ class msr2LpsrVisitor :
 {
   public:
   
-    msr2LpsrVisitor (
+    msr2LpsrTranslator (
       S_msrOptions&  msrOpts,
       S_lpsrOptions& lpsrOpts,
       ostream&       os,
       S_msrScore     mScore);
         
-    virtual ~msr2LpsrVisitor ();
+    virtual ~msr2LpsrTranslator ();
 
     void buildLpsrScoreFromMsrScore ();
 

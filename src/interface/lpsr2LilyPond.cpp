@@ -69,11 +69,11 @@ void generateLilyPondCodeFromLpsrScore (
       endl;
   }
   
-  // create an lpsr2LilyPondVisitor
-  lpsr2LilyPondVisitor visitor (msrOpts, lpsrOpts, os, lpScore);
+  // create an lpsr2LilyPondTranslator
+  lpsr2LilyPondTranslator translator (msrOpts, lpsrOpts, os, lpScore);
   
   // build the LPSR score    
-  visitor.generateLilyPondCodeFromLpsrScore ();
+  translator.generateLilyPondCodeFromLpsrScore ();
   
   if (gGeneralOptions->fTrace)
     os << separator << endl;
