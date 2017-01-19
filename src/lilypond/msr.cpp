@@ -2494,6 +2494,32 @@ void msrChord::addNoteToChord (S_msrNote note)
     fChordPositionInMeasure);
 }
 
+void msrChord::setChordFirstNotePositionInMeasure (
+  int position)
+{
+  if (fChordNotes.size ()) {
+    fChordNotes.front ()->
+      setNotePositionInMeasure (position);
+  }
+  else {
+    // JMI XXL
+   // abort ();
+ }
+}
+                    
+void msrChord::setChordFirstNoteMeasureNumber (
+  int measureNumber)
+{
+  if (fChordNotes.size ()) {
+    fChordNotes.front ()->
+      setNoteMeasureNumber (measureNumber);
+  }
+  else {
+    // JMI XXL
+   // abort ();
+ }
+}
+                    
 void msrChord::addArticulationToChord (S_msrArticulation art)
 {
   msrArticulation::msrArticulationKind
@@ -6198,10 +6224,20 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
     chord->setChordMeasureUplink (this);
 
     // register chord measure number
-    chord->setChordMeasureNumber (fMeasureNumber);
+    chord->
+      setChordMeasureNumber (fMeasureNumber);
     
     // register chord measure position
-    chord->setChordPositionInMeasure (fMeasurePosition);
+    chord->
+      setChordPositionInMeasure (fMeasurePosition);
+
+    // copy measure number to first note, that was created beforehand
+    chord->
+      setChordFirstNoteMeasureNumber (fMeasureNumber);
+    
+    // copy measure position to first note, that was created beforehand
+    chord->
+      setChordFirstNotePositionInMeasure (fMeasurePosition);
     
     // fetch chord divisions
     int chordDivisions =
@@ -6237,10 +6273,12 @@ S_msrNote msrMeasure::removeLastNoteFromMeasure (
         
         fMeasurePosition -=
           fMeasureLastNote->getNoteDivisions ();
+/*
 // JMI
         // set note's measure position, needed for chord handling
         fMeasureLastNote->
           setNotePositionInMeasure (fMeasurePosition);
+*/
       }
 
       else {

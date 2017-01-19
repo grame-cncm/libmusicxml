@@ -2298,9 +2298,15 @@ class EXP msrChord : public msrElement
     // ------------------------------------------------------
 
     void          addNoteToChord (S_msrNote note);
-    
-    S_msrNote     chordLastNote () const
-                      { return fChordNotes.back (); }
+
+    void          setChordFirstNotePositionInMeasure (
+                    int position);
+                    
+    void          setChordFirstNoteMeasureNumber (
+                    int measureNumber);
+                    
+ // JMI   S_msrNote     chordLastNote () const
+       //               { return fChordNotes.back (); }
 
     void          addArticulationToChord (S_msrArticulation art);
      
