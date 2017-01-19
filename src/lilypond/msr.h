@@ -2074,7 +2074,12 @@ class EXP msrNote : public msrElement
                       { return fNoteMeasureUplink; }
 
     // measure number
-    int           getNoteMeasureNumber () const;
+    void          setNoteMeasureNumber (
+                    int measureNumber)
+                      { fNoteMeasureNumber = measureNumber; }
+
+    int           getNoteMeasureNumber () const
+                      { return fNoteMeasureNumber; }
  
     // position in measure
     void          setNotePositionInMeasure (
@@ -2160,6 +2165,7 @@ class EXP msrNote : public msrElement
 
     int                       fNoteDivisionsPerWholeNote; // JMI
 
+    int                       fNoteMeasureNumber;
     int                       fNotePositionInMeasure;
 
     S_msrTie                  fNoteTie;
@@ -2241,8 +2247,13 @@ class EXP msrChord : public msrElement
                       { return fChordMeasureUplink; }
 
     // measure number
-    int           getChordMeasureNumber () const;
+    void          setChordMeasureNumber (
+                    int measureNumber)
+                      { fChordMeasureNumber = measureNumber; }
 
+    int           getChordMeasureNumber () const
+                      { return fChordMeasureNumber; }
+ 
     // position in measure
     void          setChordPositionInMeasure (int position)
                       { fChordPositionInMeasure = position; }
@@ -2332,6 +2343,7 @@ class EXP msrChord : public msrElement
 
     S_msrMeasure              fChordMeasureUplink;
 
+    int                       fChordMeasureNumber;
     int                       fChordPositionInMeasure;
     
     int                       fChordDivisions;

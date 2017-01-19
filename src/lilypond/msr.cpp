@@ -1713,14 +1713,6 @@ msrNote::msrNote (
 msrNote::~msrNote()
 {}
 
-int msrNote::getNoteMeasureNumber () const
-{
-  return
-    fNoteMeasureUplink
-      ? fNoteMeasureUplink->getMeasureNumber ()
-      : -94;
-}
-
 void msrNote::setNoteBelongsToAChord () {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -2478,14 +2470,6 @@ S_msrChord msrChord::createChordBareClone ()
   return clone;
 }
     
-int msrChord::getChordMeasureNumber () const
-{
-  return
-    fChordMeasureUplink
-      ? fChordMeasureUplink->getMeasureNumber ()
-      : -9994;
-}
-
 void msrChord::addNoteToChord (S_msrNote note)
 {
 //  if (gGeneralOptions->fDebug)
@@ -2501,6 +2485,10 @@ void msrChord::addNoteToChord (S_msrNote note)
   
   note->setNoteBelongsToAChord ();
   
+  // populate note's measure number
+  note->setNoteMeasureNumber (
+    fChordMeasureNumber);
+
   // populate note's position in measure
   note->setNotePositionInMeasure (
     fChordPositionInMeasure);
@@ -6122,7 +6110,10 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     
     // populate measure uplink
     note->setNoteMeasureUplink (this);
-  
+
+    // register note measure number
+    note->setNoteMeasureNumber (fMeasureNumber);
+    
     // register note measure position
     note->setNotePositionInMeasure (fMeasurePosition);
     
@@ -6205,7 +6196,10 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
   
     // populate measure uplink
     chord->setChordMeasureUplink (this);
-  
+
+    // register chord measure number
+    chord->setChordMeasureNumber (fMeasureNumber);
+    
     // register chord measure position
     chord->setChordPositionInMeasure (fMeasurePosition);
     
@@ -6232,9 +6226,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
 
 S_msrNote msrMeasure::removeLastNoteFromMeasure (
   int inputLineNumber)
-{
-  S_msrNote lastNote;
-  
+{  
   if (fMeasureElementsList.size ()) {
 
     if (fMeasureLastNote) {
@@ -6244,7 +6236,11 @@ S_msrNote msrMeasure::removeLastNoteFromMeasure (
         fMeasureElementsList.pop_back ();
         
         fMeasurePosition -=
-          lastNote->getNoteDivisions ();
+          fMeasureLastNote->getNoteDivisions ();
+// JMI
+        // set note's measure position, needed for chord handling
+        fMeasureLastNote->
+          setNotePositionInMeasure (fMeasurePosition);
       }
 
       else {
@@ -6269,7 +6265,7 @@ S_msrNote msrMeasure::removeLastNoteFromMeasure (
       "cannot removeLastNoteFromMeasure () since it is empty");
   }
 
-  return lastNote;
+  return fMeasureLastNote;
 }
 
 void msrMeasure::finalizeMeasure (int inputLineNumber)
