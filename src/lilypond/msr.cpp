@@ -2693,9 +2693,9 @@ string msrChord::chordDivisionsAsMSRString () const
 
 string msrChord::chordAsString () const
 {
-  string result;
+  stringstream s;
 
-  result += "<";
+  s << "<";
 
   if (fChordNotes.size ()) {
     vector<S_msrNote>::const_iterator
@@ -2703,15 +2703,23 @@ string msrChord::chordAsString () const
       iEnd   = fChordNotes.end(),
       i      = iBegin;
     for ( ; ; ) {
-      result += (*i)->notePitchAsString ();
+      S_msrNote
+        note = (*i);
+        
+      s <<
+        note->noteAsString () <<
+        "[" << note->getNoteOctave () << "]" <<
+        ":" <<
+        note->noteDivisionsAsMSRString ();
+
       if (++i == iEnd) break;
-      result += " ";
+      s << " ";
     } // for
   }
 
-  result += ">";
+  s << ">";
   
-  return result;
+  return s.str();
 }
 
 void msrChord::print (ostream& os)
@@ -6199,6 +6207,17 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
       regular insertion in current measure
     */
     
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> appending chord '" << chord->chordAsString () <<
+      "' to measure " << fMeasureNumber <<
+      " in voice \"" <<
+      fMeasureVoicechunkUplink->
+        getVoicechunkVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      endl;
+  
     // populate measure uplink
     chord->setChordMeasureUplink (this);
   
