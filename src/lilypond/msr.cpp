@@ -1708,8 +1708,6 @@ msrNote::msrNote (
       "--> noteQuatertonesFromA = " << noteQuatertonesFromA <<
       endl;
 */
-
-//  fNoteIsChordFirstNote = false;
 }
 
 msrNote::~msrNote()
@@ -2288,13 +2286,6 @@ void msrNote::print (ostream& os)
     "/" <<
     fNoteDivisionsPerWholeNote <<
     ")" <<
-    /*
-    " first = " <<
-    string (
-      fNoteIsChordFirstNote
-        ? "true"
-        : "false" ) <<
-        */
     endl;
 
   // print the octave shift if any
@@ -2496,6 +2487,13 @@ void msrChord::addNoteToChord (S_msrNote note)
   fChordNotes.push_back (note);
   
   note->setNoteBelongsToAChord ();
+
+  // populate measure uplink
+ // XXL note->setNoteMeasureUplink (this);
+  
+  // populate position in measure
+  note->setNotePositionInMeasure (
+    fChordPositionInMeasure);
 }
 
 void msrChord::addArticulationToChord (S_msrArticulation art)
@@ -6128,13 +6126,72 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   }
 }
 
-/*
-void msrMeasure::bringMeasureToPosition (
-  int inputLineNumber,
-  int measurePosition)
+void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
 {
+  int inputLineNumber =
+    chord->getInputLineNumber ();
+    
+  // first check whether there is a measure change
+// JMI  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
+  if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { // XXL
+    /*
+      measure overflows, we must synchonize all voices in this part
+    */
+    
+    // finalize this measure
+    this->
+      finalizeMeasure (inputLineNumber);
+      
+    // create a new measure
+    S_msrMeasure
+      newMeasure =
+        msrMeasure::create (
+          inputLineNumber,
+          fMeasureNumber + 1,
+          fMeasureDivisionsPerWholeNote,
+          fMeasureVoicechunkUplink);
+
+    // append it to the voice chunk
+    fMeasureVoicechunkUplink->
+      appendMeasureToVoicechunk (
+        newMeasure);
+
+    // append chord to it thru the voice chunk
+    fMeasureVoicechunkUplink->
+      appendChordToVoicechunk (chord);
+  }
+
+  else {
+    /*
+      regular insertion in current measure
+    */
+    
+    // populate measure uplink
+    chord->setChordMeasureUplink (this);
+  
+    // register chord measure position
+    chord->setChordPositionInMeasure (fMeasurePosition);
+    
+    // fetch chord divisions
+    int chordDivisions =
+      chord->getChordDivisions ();
+      
+    // account for chord duration in measure position
+    fMeasurePosition += chordDivisions;
+  
+    // update part measure position high tide if need be
+    fMeasurePartDirectUplink->
+      updatePartMeasurePositionHighTide (
+        inputLineNumber, fMeasurePosition);
+  
+    // determine if the chord occupies a full measure
+// XXL    if (chordDivisions == fMeasureDivisionsPerWholeMeasure)
+      // chord->setChordOccupiesAFullMeasure ();
+  
+    // append the chord to the measure elements list
+    fMeasureElementsList.push_back (chord);
+  }
 }
-*/
 
 S_msrElement msrMeasure::removeLastElementFromMeasure (
   int inputLineNumber)
@@ -6479,6 +6536,9 @@ S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone (
     
   clone->fVoicechunkDivisionsPerWholeNote =
     fVoicechunkDivisionsPerWholeNote;
+
+  // remove the initial measure created implicitly
+  fVoicechunkMeasuresList.clear ();
   
   return clone;
 }
@@ -6656,19 +6716,6 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   
   fMeasureNumberHasBeenSetInVoiceChunk = true;
 }
-/*
-void msrVoicechunk::bringVoicechunkToPosition (
-  int inputLineNumber,
-  int measurePosition)
-{
-  / * JMI
-  fVoicechunkMeasuresList.back ()->
-    bringMeasureToPosition (
-      inputLineNumber,
-      measurePosition);
-      * /
-}
-*/
 
 void msrVoicechunk::forceVoicechunkMeasureNumberTo (int measureNumber)
 {
@@ -6731,6 +6778,12 @@ void msrVoicechunk::appendNoteToVoicechunk (S_msrNote note)
 {
   fVoicechunkMeasuresList.back ()->
     appendNoteToMeasure (note);
+}
+
+void msrVoicechunk::appendChordToVoicechunk (S_msrChord chord) // XXL
+{
+  fVoicechunkMeasuresList.back ()->
+    appendChordToMeasure (chord);
 }
 
 /* JMI
@@ -7395,119 +7448,6 @@ void msrVoice::setVoiceDivisionsPerWholeNote (
       divisionsPerWholeNote);
 }
 
-/*
-void msrVoice::catchupToMeasureLocation (
-  int                       inputLineNumber,
-  int                       divisionsPerWholeNote,
-  const msrMeasureLocation& measureLocation)
-{
-  // fill the gaps in voice with skip if needed
-  / *
-   int         ;
-    int         fPositionInMeasure; // divisions
-    *
-    fVoiceTime
-    * 
-   * /
-
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) { JMI
-  if (gGeneralOptions->fDebug) {
-    cerr <<
-      endl <<
-      idtr << left <<
-        "=== catchupToMeasureLocation (), " <<
-        "line " << inputLineNumber <<
-        endl <<
-      idtr <<
-        "divisionsPerWholeNote = " <<
-        divisionsPerWholeNote <<
-        endl <<
-      idtr <<
-        "from:" <<
-        endl;
-
-    idtr++;
-
-    cerr <<
-      idtr <<
-        "fVoiceMeasureLocation.fMeasureNumber = " <<
-        fVoiceMeasureLocation.fMeasureNumber <<
-        endl <<
-      idtr <<
-        "fVoiceMeasureLocation.fPositionInMeasure = " <<
-        fVoiceMeasureLocation.fPositionInMeasure <<
-        endl;
-
-    idtr--;
-
-    cerr <<
-      idtr <<
-        "to:" <<
-        endl;
-
-    idtr++;
-
-    cerr <<
-      idtr <<
-        "measureLocation.fMeasureNumber = " <<
-        measureLocation.fMeasureNumber <<
-        endl <<
-      idtr <<
-        "measureLocation.fPositionInMeasure = " <<
-        measureLocation.fPositionInMeasure <<
-        endl;
-
-    idtr--;
-
-    cerr <<
-      idtr <<
-      "in voice \"" << getVoiceName () << "\"" <<
-      endl;
-  }
-
-  if (
-    fVoiceMeasureLocation.fMeasureNumber
-      ==
-    measureLocation.fMeasureNumber ) {
-
-    if (
-      fVoiceMeasureLocation.fPositionInMeasure
-        <
-      measureLocation.fPositionInMeasure ) {
-      // append rests to the voice to catch up
-      int
-        divisionsToCatchup =
-          measureLocation.fPositionInMeasure
-            -
-          fVoiceMeasureLocation.fPositionInMeasure;
-
-      string
-        errorMessage,
-        duration =
-          divisionsAsMSRDuration (
-            divisionsToCatchup,
-            divisionsPerWholeNote,
-            errorMessage,
-            false); // 'true' to debug it
-
-      if (errorMessage.size ())
-        msrMusicXMLError (
-          inputLineNumber,
-          errorMessage);
-
-//      if (gMsrOptions->fForceDebug || gGeneralOptions->fDebug)
-        cerr <<
-          endl <<
-          idtr << left <<
-          "=== catching up with \"" << duration <<
-          "\" (" << divisionsToCatchup << ")" <<
-          " in voice \"" << getVoiceName () << "\"" <<
-          endl;
-    }
-  }
-}
-*/
-
 void msrVoice::setVoiceMeasureNumber (
   int inputLineNumber,
   int measureNumber)
@@ -7525,17 +7465,6 @@ void msrVoice::setVoiceMeasureNumber (
     fMeasureZeroHasBeenMetInVoice = true;
   }
 }
-/*
-void msrVoice::bringVoiceToPosition (
-  int inputLineNumber,
-  int measurePosition)
-{
-  fVoiceVoicechunk->
-    bringVoicechunkToPosition (
-      inputLineNumber,
-      measurePosition);
-}
-*/
 
 void msrVoice::forceVoiceMeasureNumberTo (int measureNumber) // JMI
 {
@@ -7818,9 +7747,15 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
+// XXL fChordMeasureUplink
+
   S_msrElement c = chord;
   fVoiceVoicechunk->
     appendElementToVoicechunk (c);
+
+  // set position in measure XXL
+  chord->setChordPositionInMeasure (
+    this->getVoiceMeasureNumber ());
 
   fMusicHasBeenInsertedInVoice = true;
 }
@@ -8780,35 +8715,6 @@ void msrStaff::setStaffMeasureNumber (
     inputLineNumber, measureNumber);  
 }
 
-/*
-void msrStaff::setStaffMeasureLocation (
-  int                       inputLineNumber,
-  const msrMeasureLocation& measureLocation)
-{
-  // set staff measure location
-  fStaffMeasureLocation = measureLocation;
-
-  // propagate it to all staves
-  setAllStaffVoicesMeasureLocation (
-    inputLineNumber, measureLocation);  
-}
-
-void msrStaff::setAllStaffVoicesMeasureLocation (
-  int                       inputLineNumber,
-  const msrMeasureLocation& measureLocation)
-{
-  for (
-    map<int, S_msrVoice>::iterator i =
-      fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
-    i++) {
-    (*i).second->
-      setVoiceMeasureLocation (
-        inputLineNumber, measureLocation);
-  } // for
-}
-*/
-
 S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
   int inputLineNumber,
   int voiceRelativeNumber)
@@ -9091,21 +8997,6 @@ void msrStaff::setAllStaffVoicesMeasureNumber (
         inputLineNumber, measureNumber);
   } // for
 }
-/* JMI
-void msrStaff::bringAllStaffVoicesToPosition (
-  int inputLineNumber,
-  int measurePosition)
-{
-  for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
-    i++) {
-    (*i).second->bringVoiceToPosition (
-      inputLineNumber,
-      measurePosition);
-  } // for
-}
-*/
 
 void msrStaff::removeStaffEmptyVoices ()
 {
@@ -9653,21 +9544,6 @@ void msrPart::setAllPartStavesDivisionsPerWholeNote (int divisions)
   } // for
 }
 
-/*
-void msrPart::setAllPartStavesMeasureLocation (
-  int                       inputLineNumber,
-  const msrMeasureLocation& measureLocation)
-{
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->setStaffMeasureLocation (
-      inputLineNumber, measureLocation);
-  } // for
-}
-*/
-
 void msrPart::setAllPartStavesMeasureNumber (
   int inputLineNumber,
   int measureNumber)
@@ -9798,21 +9674,6 @@ void msrPart:: handleBackup (int divisions)
  // JMI 
 }
 
-/*
-void msrPart::bringAllPartVoicesToPosition (
-  int inputLineNumber,
-  int measurePosition)
-{
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->bringAllStaffVoicesToPosition (
-      inputLineNumber,
-      measurePosition);
-  } // for
-}
-*/
 void msrPart::removePartEmptyVoices ()
 {
   for (

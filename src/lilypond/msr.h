@@ -51,6 +51,9 @@ namespace MusicXML2
 class msrNote;
 typedef SMARTP<msrNote> S_msrNote;
 
+class msrChord;
+typedef SMARTP<msrChord> S_msrChord;
+
 class msrLyrics;
 typedef SMARTP<msrLyrics> S_msrLyrics;
 
@@ -1512,17 +1515,14 @@ class EXP msrMeasure : public msrElement
                       { fMeasureElementsList.push_back (elem); }
     
     void          appendNoteToMeasure (S_msrNote note);
-    
+    void          appendChordToMeasure (S_msrChord chord);
+
     S_msrElement  getLastElementOfMeasure () const
                       { return fMeasureElementsList.back (); }
                       
     S_msrElement  removeLastElementFromMeasure (
                     int inputLineNumber);
-/*
-    void          bringMeasureToPosition (
-                    int inputLineNumber,
-                    int measurePosition);
-*/
+
     void          removeElementFromMeasure (S_msrElement elem);
 
     void          finalizeMeasure (int inputLineNumber);
@@ -1640,7 +1640,10 @@ class EXP msrVoicechunk : public msrElement
     void          appendMeasureToVoicechunk (S_msrMeasure measure);
 
     void          appendTimeToVoicechunk (S_msrTime time);
+    
     void          appendNoteToVoicechunk (S_msrNote note);
+    void          appendChordToVoicechunk (S_msrChord chord);
+    
     void          appendElementToVoicechunk (S_msrElement elem)
                       {
                         fVoicechunkMeasuresList.back ()->
@@ -1670,11 +1673,7 @@ class EXP msrVoicechunk : public msrElement
                             "since it is empty");
                         }
                       }
-  /*                  
-    void          bringVoicechunkToPosition (
-                    int inputLineNumber,
-                    int measurePosition);
-*/
+
     void          finalizeLastMeasureOfVoicechunk (int inputLineNumber);
 
     // visitors
@@ -1697,7 +1696,6 @@ class EXP msrVoicechunk : public msrElement
     int                  fVoicechunkDivisionsPerWholeNote;
 
     // the measures in the voice chunk contain the mmusic
-    // it is created implicitly for every voice,
     list<S_msrMeasure>   fVoicechunkMeasuresList;
 
     int                  fVoicechunkMeasureNumber;
@@ -2183,8 +2181,6 @@ class EXP msrNote : public msrElement
 
     list<S_msrSlur>           fNoteSlurs;
 
- // JMI   bool                      fNoteIsChordFirstNote;
-
     // this is useful to produce a nice \aftergrace in LilyPond 
     bool                      fNoteHasATrill;
 
@@ -2243,20 +2239,25 @@ class EXP msrChord : public msrElement
                         fChordDivisionsPerWholeNote =
                           divisionsPerWholeNote;
                       }
-                      
+
     const int     getChordDivisionsPerWholeNote () const
                       { return fChordDivisionsPerWholeNote; }
 
-       /*   
-    // location in measure
-    void          setChordMeasureLocation (
-                    const msrMeasureLocation& measureLocation)
-                      { fChordMeasureLocation = measureLocation; }
+    // measure uplink
+    void          setChordMeasureUplink (
+                    const S_msrMeasure& measure)
+                      { fChordMeasureUplink = measure; }
                       
-    const msrMeasureLocation&
-                  getChordMeasureLocation () const
-                      { return fChordMeasureLocation; }
-*/
+    S_msrMeasure  getChordMeasureUplink () const
+                      { return fChordMeasureUplink; }
+
+    // position in measure
+    void          setChordPositionInMeasure (int position)
+                      { fChordPositionInMeasure = position; }
+
+    const int     getChordPositionInMeasure () const
+                      { return fChordPositionInMeasure; }
+                      
     // ties
     void          setChordTie (
                     const S_msrTie tie)
@@ -2334,6 +2335,8 @@ class EXP msrChord : public msrElement
     vector<S_msrNote>         fChordNotes;
 
     int                       fChordDivisionsPerWholeNote;
+
+    S_msrMeasure              fChordMeasureUplink;
 
     int                       fChordPositionInMeasure;
     
@@ -3036,16 +3039,6 @@ class EXP msrTuplet : public msrElement
     const int   getTupletDivisionsPerWholeNote () const
                     { return fTupletDivisionsPerWholeNote; }
                     
-    // location in measure
-/*
-    void          setTupletMeasureLocation (
-                    const msrMeasureLocation& measureLocation)
-                      { fTupletMeasureLocation = measureLocation; }
-                      
-    const msrMeasureLocation&
-                  getTupletMeasureLocation () const
-                      { return fTupletMeasureLocation; }
-*/
     // services
     // ------------------------------------------------------
 
@@ -3621,15 +3614,7 @@ class EXP msrSegno : public msrElement
     // ------------------------------------------------------
     
     // position in measure
-/*
-    void          setSegnoMeasureLocation (
-                    const msrMeasureLocation& measureLocation)
-                      { fSegnoMeasureLocation = measureLocation; }
-                      
-    const msrMeasureLocation&
-                  getSegnoMeasureLocation () const
-                      { return fSegnoMeasureLocation; }
-*/
+
     // services
     // ------------------------------------------------------
 
@@ -3647,9 +3632,6 @@ class EXP msrSegno : public msrElement
     virtual void print (ostream& os);
 
   private:
-
-//    msrMeasureLocation          fSegnoMeasureLocation;
-
 };
 typedef SMARTP<msrSegno> S_msrSegno;
 EXP ostream& operator<< (ostream& os, const S_msrSegno& elt);
@@ -3684,16 +3666,7 @@ class EXP msrCoda : public msrElement
 
     // set and get
     // ------------------------------------------------------
-    /*
-    // position in measure
-    void          setCodaMeasureLocation (
-                    const msrMeasureLocation& measureLocation)
-                      { fCodaMeasureLocation = measureLocation; }
-                      
-    const msrMeasureLocation&
-                  getCodaMeasureLocation () const
-                      { return fCodaMeasureLocation; }
-*/
+
     // services
     // ------------------------------------------------------
 
@@ -3711,9 +3684,6 @@ class EXP msrCoda : public msrElement
     virtual void print (ostream& os);
 
   private:
-
- //   msrMeasureLocation          fCodaMeasureLocation;
-
 };
 typedef SMARTP<msrCoda> S_msrCoda;
 EXP ostream& operator<< (ostream& os, const S_msrCoda& elt);
@@ -3748,16 +3718,7 @@ class EXP msrEyeglasses : public msrElement
 
     // set and get
     // ------------------------------------------------------
-    /*
-    // position in measure
-    void          setEyeglassesMeasureLocation (
-                    const msrMeasureLocation& measureLocation)
-                      { fEyeglassesMeasureLocation = measureLocation; }
-                      
-    const msrMeasureLocation&
-                  getEyeglassesMeasureLocation () const
-                      { return fEyeglassesMeasureLocation; }
-*/
+
     // services
     // ------------------------------------------------------
 
@@ -3775,9 +3736,6 @@ class EXP msrEyeglasses : public msrElement
     virtual void print (ostream& os);
 
   private:
-
- //   msrMeasureLocation          fEyeglassesMeasureLocation;
-
 };
 typedef SMARTP<msrEyeglasses> S_msrEyeglasses;
 EXP ostream& operator<< (ostream& os, const S_msrEyeglasses& elt);
@@ -3834,16 +3792,6 @@ class EXP msrPedal : public msrElement
                 getPedalLine () const
                     { return fPedalLine; }
                     
-    // position in measure
-/*
-    void          setPedalMeasureLocation (
-                    const msrMeasureLocation& measureLocation)
-                      { fPedalMeasureLocation = measureLocation; }
-                      
-    const msrMeasureLocation&
-                  getPedalMeasureLocation () const
-                      { return fPedalMeasureLocation; }
-*/
     // services
     // ------------------------------------------------------
 
@@ -3867,9 +3815,6 @@ class EXP msrPedal : public msrElement
 
     msrPedalType        fPedalType;
     msrPedalLine        fPedalLine;
-
- //   msrMeasureLocation  fPedalMeasureLocation;
-
 };
 typedef SMARTP<msrPedal> S_msrPedal;
 EXP ostream& operator<< (ostream& os, const S_msrPedal& elt);
@@ -4374,12 +4319,6 @@ class EXP msrVoice : public msrElement
 
     // services
     // ------------------------------------------------------
-    /*
-    void          catchupToMeasureLocation (
-                    int                       inputLineNumber,
-                    int                       divisionsPerWholeNote,
-                    const msrMeasureLocation& measureLocation);
-*/
 
     void          forceVoiceMeasureNumberTo (int measureNumber); // JMI
                       
@@ -4466,11 +4405,6 @@ class EXP msrVoice : public msrElement
 
     void          addLyricsToVoice (S_msrLyrics lyrics);
 
-/*
-    void          bringVoiceToPosition (
-                    int inputLineNumber,
-                    int measurePosition);
-*/
     S_msrLyrics   createLyricsInVoiceIfNeeded (
                     int inputLineNumber,
                     int lyricsNumber);
@@ -4763,11 +4697,7 @@ class EXP msrStaff : public msrElement
     void          addStafftuningToStaff (
                   S_msrStafftuning stafftuning)
                       { fStafftuningsList.push_back (stafftuning); }
-                  /*
-    void          bringAllStaffVoicesToPosition (
-                    int inputLineNumber,
-                    int measurePosition);
-*/
+
     void          removeStaffEmptyVoices ();
 
     void          finalizeLastMeasureOfStaff (int inputLineNumber);
@@ -4959,11 +4889,7 @@ class EXP msrPart : public msrElement
     void          setAllPartStavesMeasureNumber (
                     int inputLineNumber,
                     int measureNumber);
-  /*
-    void          setAllPartStavesMeasureLocation (
-                    int                       inputLineNumber,
-                    const msrMeasureLocation& measureLocation);
-*/
+
     void          setAllPartStavesClef (S_msrClef clef);
               
     void          setAllPartStavesKey  (S_msrKey  key);
@@ -4983,11 +4909,7 @@ class EXP msrPart : public msrElement
     void          appendHarmonyToPart (S_msrHarmony harmony);
 
     void          handleBackup (int divisions);
-  /*  
-    void          bringAllPartVoicesToPosition (
-                    int inputLineNumber,
-                    int measurePosition);
-*/
+
     void          removePartEmptyVoices ();
 
     void          finalizeLastMeasureOfPart (int inputLineNumber);
