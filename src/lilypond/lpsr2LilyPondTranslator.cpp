@@ -1141,7 +1141,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
         endl;
   
     if (staffKind == msrStaff::kRegularStaff) {
-      if (staff->getStaffVoicesMap ().size () > 1) {
+      if (staff->getStaffVoicesCorrespondanceMap ().size () > 1) {
         fOstream << idtr;
         switch (voice->getStaffRelativeVoiceNumber ()) {
           case 1:
