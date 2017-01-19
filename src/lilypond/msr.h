@@ -1483,6 +1483,9 @@ class EXP msrMeasure : public msrElement
 
     int           getMeasurePosition () const
                       { return fMeasurePosition; }
+                      
+    S_msrNote      getMeasureLastNote () const
+                      { return fMeasureLastNote; }
 
     void          setMeasureKind (msrMeasureKind measureKind)
                       { fMeasureKind = measureKind; }
@@ -1520,7 +1523,7 @@ class EXP msrMeasure : public msrElement
     S_msrElement  getLastElementOfMeasure () const
                       { return fMeasureElementsList.back (); }
                       
-    S_msrElement  removeLastElementFromMeasure (
+    S_msrNote     removeLastNoteFromMeasure (
                     int inputLineNumber);
 
     void          removeElementFromMeasure (S_msrElement elem);
@@ -1549,8 +1552,9 @@ class EXP msrMeasure : public msrElement
     int                       fMeasureDivisionsPerWholeMeasure;
 
     int                       fMeasurePosition; // in divisions
+    S_msrNote                 fMeasureLastNote; // for chords handling
+    
     S_msrPart                 fMeasurePartDirectUplink; // to accelerate things
-  
 
     msrMeasureKind            fMeasureKind;
 
@@ -1656,23 +1660,8 @@ class EXP msrVoicechunk : public msrElement
                           prependElementToMeasure (elem);
                       }
 
-    S_msrElement  removeLastElementFromVoicechunk (
-                    int inputLineNumber)
-                      {
-                        if (fVoicechunkMeasuresList.size ()) {
-                          return
-                            fVoicechunkMeasuresList.back ()->
-                              removeLastElementFromMeasure (
-                                inputLineNumber);
-                        }
-                        
-                        else {
-                          msrInternalError (
-                            inputLineNumber,
-                            "cannot removeLastElementFromVoicechunk () "
-                            "since it is empty");
-                        }
-                      }
+    S_msrNote     removeLastNoteFromVoicechunk (
+                    int inputLineNumber);
 
     void          finalizeLastMeasureOfVoicechunk (int inputLineNumber);
 
@@ -3296,7 +3285,7 @@ class EXP msrLyricschunk : public msrElement
 
     // services
     // ------------------------------------------------------
-
+  
     string    lyricschunkKindAsString ();
 
     string    lyricschunkAsString ();
@@ -4400,7 +4389,7 @@ class EXP msrVoice : public msrElement
                     S_msrEyeglasses eyeglasses);
     void          appendPedalToVoice (S_msrPedal pedal);
     
-    S_msrElement  removeLastElementFromVoice (
+    S_msrNote     removeLastNoteFromVoice (
                     int inputLineNumber);
 
     S_msrLyrics

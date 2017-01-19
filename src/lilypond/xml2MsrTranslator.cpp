@@ -6250,17 +6250,17 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         currentVoice <<
         endl << endl;
 
-    S_msrElement
-      lastElementFromVoice =
+    S_msrNote
+      lastNoteFromVoice =
         currentVoice->
-          removeLastElementFromVoice (inputLineNumber);
+          removeLastNoteFromVoice (inputLineNumber);
 
-    if (lastElementFromVoice != lastHandledNoteInVoice) {
+    if (lastNoteFromVoice != lastHandledNoteInVoice) {
       stringstream s;
   
       s <<
-        "last element of voice just removed is:" << endl <<
-        lastElementFromVoice << endl <<
+        "last note of voice just removed is:" << endl <<
+        lastNoteFromVoice << endl <<
         "when it should be:" << endl <<
         lastHandledNoteInVoice << endl <<
         endl;
