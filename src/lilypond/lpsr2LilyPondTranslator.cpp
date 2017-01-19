@@ -136,19 +136,11 @@ string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
   int noteAbsoluteOctave =
     note->getNoteOctave ();
 
-/*
-  bool noteIsChordFirstNote =
-    note->getNoteIsChordFirstNote ();
-  */  
   // should an absolute octave be generated?
   bool genAbsoluteOctave =
     fLpsrOptions->fGenerateAbsoluteOctaves
       ||
     ! fRelativeOctaveReference;
-/* JMI
-      ||
-    noteIsChordFirstNote;
-*/
 
  // if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
   if (gGeneralOptions->fDebugDebug) {
@@ -171,23 +163,7 @@ string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
         noteAbsoluteOctave <<
         " -" <<
         endl <<
-        /*
-      idtr <<
-        setw(33) << "% noteIsChordFirstNote" <<
-        " = " <<
-        string (noteIsChordFirstNote
-          ? "true"
-          : "false") <<
-        endl <<
-        */
-/*
-      idtr <<
-        setw(33) << "% noteDiatonicPitch" <<
-        " = " <<
-        noteDiatonicPitch <<
-        endl <<
-*/
-    endl;
+      endl;
   }
 
   if (genAbsoluteOctave) {
@@ -283,11 +259,6 @@ string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
       } // while
     }
   }
-
-/*
-  if (noteIsChordFirstNote)
-    fRelativeOctaveReference = note;
-*/
 
   return s.str();
 }

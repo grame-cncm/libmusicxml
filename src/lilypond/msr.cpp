@@ -2478,18 +2478,19 @@ S_msrChord msrChord::createChordBareClone ()
   return clone;
 }
     
+int msrChord::getChordMeasureNumber () const
+{
+  return
+    fChordMeasureUplink
+      ? fChordMeasureUplink->getMeasureNumber ()
+      : -9994;
+}
+
 void msrChord::addNoteToChord (S_msrNote note)
 {
-  /* JMI
-  if (! fChordNotes.size ())
-    note->setNoteIsChordFirstNote (true);
-*/
   fChordNotes.push_back (note);
   
   note->setNoteBelongsToAChord ();
-
-  // populate measure uplink
- // XXL note->setNoteMeasureUplink (this);
   
   // populate position in measure
   note->setNotePositionInMeasure (
@@ -2690,7 +2691,7 @@ void msrChord::print (ostream& os)
     "/" <<
     fChordDivisionsPerWholeNote <<
     ") @"<<
-    fChordPositionInMeasure <<
+    getChordMeasureNumber () <<
     ":" <<
     fChordPositionInMeasure <<
     "/" <<
@@ -7747,15 +7748,8 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-// XXL fChordMeasureUplink
-
-  S_msrElement c = chord;
   fVoiceVoicechunk->
-    appendElementToVoicechunk (c);
-
-  // set position in measure XXL
-  chord->setChordPositionInMeasure (
-    this->getVoiceMeasureNumber ());
+    appendChordToVoicechunk (chord);
 
   fMusicHasBeenInsertedInVoice = true;
 }

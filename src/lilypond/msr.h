@@ -2251,6 +2251,9 @@ class EXP msrChord : public msrElement
     S_msrMeasure  getChordMeasureUplink () const
                       { return fChordMeasureUplink; }
 
+    // measure number
+    int           getChordMeasureNumber () const;
+
     // position in measure
     void          setChordPositionInMeasure (int position)
                       { fChordPositionInMeasure = position; }
