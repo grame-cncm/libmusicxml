@@ -2501,7 +2501,7 @@ void msrChord::addNoteToChord (S_msrNote note)
   
   note->setNoteBelongsToAChord ();
   
-  // populate position in measure
+  // populate note's position in measure
   note->setNotePositionInMeasure (
     fChordPositionInMeasure);
 }
@@ -2697,15 +2697,17 @@ string msrChord::chordAsString () const
 
   result += "<";
 
-  vector<S_msrNote>::const_iterator
-    iBegin = fChordNotes.begin(),
-    iEnd   = fChordNotes.end(),
-    i      = iBegin;
-  for ( ; ; ) {
-    result += (*i)->notePitchAsString ();
-    if (++i == iEnd) break;
-    result += " ";
-  } // for
+  if (fChordNotes.size ()) {
+    vector<S_msrNote>::const_iterator
+      iBegin = fChordNotes.begin(),
+      iEnd   = fChordNotes.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      result += (*i)->notePitchAsString ();
+      if (++i == iEnd) break;
+      result += " ";
+    } // for
+  }
 
   result += ">";
   
