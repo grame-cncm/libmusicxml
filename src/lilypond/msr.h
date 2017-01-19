@@ -2320,6 +2320,8 @@ class EXP msrChord : public msrElement
 
     string        chordDivisionsAsMSRString () const;
 
+    string        chordAsString () const;
+
     // visitors
     // ------------------------------------------------------
 

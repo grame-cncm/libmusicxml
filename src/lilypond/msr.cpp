@@ -2488,6 +2488,15 @@ int msrChord::getChordMeasureNumber () const
 
 void msrChord::addNoteToChord (S_msrNote note)
 {
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> adding note '" <<
+      note->noteAsString () <<
+      "' to chord '" <<
+      chordAsString () <<
+      "'" <<
+      endl;
+
   fChordNotes.push_back (note);
   
   note->setNoteBelongsToAChord ();
@@ -2679,6 +2688,27 @@ string msrChord::chordDivisionsAsMSRString () const
       fInputLineNumber,
       errorMessage);
 
+  return result;
+}
+
+string msrChord::chordAsString () const
+{
+  string result;
+
+  result += "<";
+
+  vector<S_msrNote>::const_iterator
+    iBegin = fChordNotes.begin(),
+    iEnd   = fChordNotes.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    result += (*i)->notePitchAsString ();
+    if (++i == iEnd) break;
+    result += " ";
+  } // for
+
+  result += ">";
+  
   return result;
 }
 
