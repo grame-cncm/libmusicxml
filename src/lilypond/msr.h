@@ -1470,6 +1470,18 @@ class EXP msrMeasure : public msrElement
     int           getMeasureDivisionsPerWholeNote () const
                       { return fMeasureDivisionsPerWholeNote; }
 
+    void          setMeasureClef (S_msrClef clef)
+                      { fMeasureClef = clef; }
+
+    S_msrClef     getMeasureClef () const
+                      { return fMeasureClef; }
+
+    void          setMeasureKey (S_msrKey key)
+                      { fMeasureKey = key; }
+
+    S_msrKey      getMeasureKey () const
+                      { return fMeasureKey; }
+
     void          setMeasureTime (S_msrTime time);
 
     S_msrTime     getMeasureTime () const
@@ -1548,8 +1560,11 @@ class EXP msrMeasure : public msrElement
     int                       fMeasureNumber;
     
     int                       fMeasureDivisionsPerWholeNote;
-    S_msrTime                 fMeasureTime;
     int                       fMeasureDivisionsPerWholeMeasure;
+
+    S_msrClef                 fMeasureClef;
+    S_msrKey                  fMeasureKey;
+    S_msrTime                 fMeasureTime;
 
     int                       fMeasurePosition; // in divisions
     S_msrNote                 fMeasureLastNote; // for chords handling

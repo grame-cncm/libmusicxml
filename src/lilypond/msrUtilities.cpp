@@ -49,9 +49,9 @@ indenter& indenter::operator-- (int value)
   if (fIndent < 0) {
     cerr <<
       endl <<
-      "### Indentation has become negative..." <<
+      "% ### Indentation has become negative..." <<
       endl << endl;
-    assert(false);
+  //  assert(false);
   }
     
   return *this;

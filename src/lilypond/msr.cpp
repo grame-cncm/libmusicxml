@@ -5377,16 +5377,20 @@ void msrHarmony::print (ostream& os)
 
   os << left <<
     idtr <<
-      setw(15) << "HarmonyRoot" << " = " << fHarmonyRootStep << fHarmonyRootAlter <<
+      setw(15) << "HarmonyRoot" << " = " <<
+      fHarmonyRootStep << fHarmonyRootAlter <<
       endl <<
     idtr <<
-      setw(15) << "HarmonyKind" << " = " << harmonyKindAsString () <<
+      setw(15) << "HarmonyKind" << " = " <<
+      harmonyKindAsString () <<
       endl <<
     idtr <<
-      setw(15) << "HarmonyKindText" << " = " << fHarmonyKindText <<
+      setw(15) << "HarmonyKindText" << " = " <<
+      fHarmonyKindText <<
       endl <<
     idtr <<
-      setw(15) << "HarmonyBass" << " = " << fHarmonyBassStep << fHarmonyBassAlter <<
+      setw(15) << "HarmonyBass" << " = " <<
+      fHarmonyBassStep << fHarmonyBassAlter <<
       endl;
 
   idtr--;
@@ -6535,9 +6539,9 @@ void msrMeasure::print (ostream& os)
   // JMI    os << endl;
     } // for
     
-  idtr--;
+    idtr--;
   }
-//  os << endl;
+//  os << endl; JMI
     
   idtr--;
 }
