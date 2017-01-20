@@ -4756,7 +4756,7 @@ msrLyrics::msrLyrics (
 
 string msrLyrics::getLyricsName () const
 {
-  // not stored in a field,
+  // not stored in a field, // JMI
   // because the lyrics voice and staff may change name
   // when the part they belong to is re-used
 
@@ -4768,7 +4768,7 @@ string msrLyrics::getLyricsName () const
         : int2EnglishWord (fLyricsNumber);
         
   return
-   fLyricsVoiceUplink->getVoiceName() +
+    fLyricsVoiceUplink->getVoiceName() +
     "_L_" +
     lyricsNameSuffix;
 }
@@ -5394,6 +5394,184 @@ void msrHarmony::print (ostream& os)
       endl;
 
   idtr--;
+}
+
+//______________________________________________________________________________
+S_msrChords msrChords::create (
+  int       inputLineNumber,
+  S_msrPart chordsPartUplink)
+{
+  msrChords* o =
+    new msrChords (
+      inputLineNumber,
+      chordsPartUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrChords::msrChords (
+  int       inputLineNumber,
+  S_msrPart chordsPartUplink)
+    : msrElement (inputLineNumber)
+{
+  fChordsPartUplink  = chordsPartUplink;
+  
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Creating chords " << getChordsName () << endl;
+
+  fChordsPresent = false;
+}
+
+string msrChords::getChordsName () const
+{
+  return
+    fChordsPartUplink->getPartName() +
+    "_Chords";
+}
+
+msrChords::~msrChords() {}
+
+S_msrChords msrChords::createChordsBareClone (S_msrPart clonedPart)
+{
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating a bare clone of a chords" <<
+      endl;
+
+  S_msrChords
+    clone =
+      msrChords::create (
+        fInputLineNumber,
+        clonedPart);
+
+  clone->fChordsPresent = fChordsPresent;
+  
+  return clone;
+}
+
+void msrChords::appendSKipToChords (
+  int       inputLineNumber,
+  int       divisions)
+{
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+    cerr << idtr <<
+      "--> Adding skip:" << divisions <<
+      " to chords " << getChordsName () << endl;
+  }
+
+  /* JMI
+  // create lyrics skip chunk
+  S_msrLyricschunk
+    skip =
+      msrLyricschunk::create (
+        inputLineNumber,
+        msrLyricschunk::kSkipChunk, "", divisions,
+        this);
+  
+  // add chunk to this lyrics
+  fChordsElements.push_back (skip);
+  */
+}
+
+void msrChords::appendHarmonyToChords (S_msrHarmony harmony)
+{
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "--> Appending harmony " << harmony <<
+      " to chords" << getChordsName () << endl;
+      
+  fChordsElements.push_back (harmony);
+
+  fChordsPresent = true;
+}
+
+void msrChords::acceptIn (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrChords::acceptIn()" << endl;
+      
+  if (visitor<S_msrChords>*
+    p =
+      dynamic_cast<visitor<S_msrChords>*> (v)) {
+        S_msrChords elem = this;
+        
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrChords::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrChords::acceptOut (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrChords::acceptOut()" << endl;
+
+  if (visitor<S_msrChords>*
+    p =
+      dynamic_cast<visitor<S_msrChords>*> (v)) {
+        S_msrChords elem = this;
+      
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrChords::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrChords::browseData (basevisitor* v)
+{
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrChords::browseData()" << endl;
+
+  idtr++;
+  
+  // browse the Chords chunks
+  int n = fChordsElements.size ();
+  for (int i = 0; i < n; i++) {
+    // browse the element
+    msrBrowser<msrElement> browser (v);
+    browser.browse (*fChordsElements [i]);
+  } // for
+  cerr << endl;
+
+  idtr--;
+
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "<== msrLyrics::browseData()" << endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrChords& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrChords::print (ostream& os)
+{  
+ os <<
+    "Chords" << " " << getChordsName () <<
+    " (" << fChordsElements.size () << " chords elements)";
+
+  if (! fChordsPresent)
+    os << " (No actual chords)";
+
+  os << endl;
+  
+//  if (fChordsPresent) {  JMI
+    idtr++;
+
+    int n = fChordsElements.size();
+    for (int i = 0; i < n; i++) {
+      os << idtr << fChordsElements [i];
+    } // for
+    os << endl;
+
+    idtr--;
+ // }
 }
 
 //______________________________________________________________________________

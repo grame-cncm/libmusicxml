@@ -3626,7 +3626,7 @@ class EXP msrChords : public msrElement
 
     static SMARTP<msrChords> create (
       int       inputLineNumber,
-      S_msrPart lyricsPartUplink);
+      S_msrPart chordsPartUplink);
     
     SMARTP<msrChords> createChordsBareClone (
       S_msrPart clonedPart);
@@ -3638,7 +3638,7 @@ class EXP msrChords : public msrElement
 
     msrChords (
       int       inputLineNumber,
-      S_msrPart lyricsPartUplink);
+      S_msrPart chordsPartUplink);
 
     virtual ~msrChords();
   
@@ -3666,7 +3666,9 @@ class EXP msrChords : public msrElement
     // services
     // ------------------------------------------------------
 
-    void        appendSKipToChords (int divisions);
+    void        appendSKipToChords (
+                  int inputLineNumber,
+                  int divisions);
     
     void        appendHarmonyToChords (S_msrHarmony harmony);
                 
