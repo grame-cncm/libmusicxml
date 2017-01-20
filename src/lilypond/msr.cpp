@@ -6200,9 +6200,9 @@ msrMeasure::msrMeasure (
       fMeasureVoicechunkUplink->
         getVoicechunkVoiceUplink ();
 
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> Creating measure " << fMeasureNumber <<
+      "--> creating measure " << fMeasureNumber <<
       " in voice \"" << voice->getVoiceName () << "\"" <<
       endl;
   
@@ -6502,13 +6502,19 @@ S_msrNote msrMeasure::removeLastNoteFromMeasure (
 
 void msrMeasure::finalizeMeasure (int inputLineNumber)
 {
-//  if (gGeneralOptions->fDebug)
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fMeasureVoicechunkUplink->
+        getVoicechunkVoiceUplink ();
+    
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr <<
-      endl <<
       idtr <<
       "### --> finalizing measure " << fMeasureNumber <<
-      ", line " << inputLineNumber <<
-      endl << endl;
+      " in voice \"" << voice->getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      endl;
 
   int partMeasurePositionHighTide =
     fMeasurePartDirectUplink->
@@ -6519,12 +6525,6 @@ void msrMeasure::finalizeMeasure (int inputLineNumber)
     int skipDuration =
       partMeasurePositionHighTide - fMeasurePosition;
 
-    // fetch the voice
-    S_msrVoice
-      voice =
-        fMeasureVoicechunkUplink->
-          getVoicechunkVoiceUplink ();
-    
     // create the skip
     S_msrNote
       skip =
@@ -6655,7 +6655,8 @@ string msrMeasure::getMeasureLengthAsString () const
         false); // 'true' to debug it;
   
     if (errorMessage.size ())
-      msrMusicXMLError (
+      msrMusicXMLWarning (
+   // JMI   msrMusicXMLError (
         fInputLineNumber,
         errorMessage);
   }
@@ -6779,14 +6780,13 @@ msrVoicechunk::msrVoicechunk (
       ? 0
       : 1;
 
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr <<
-      endl <<
       idtr <<
-        "### --> Creating voice chunk first measure with number " <<
+        "--> Creating voice chunk first measure with number " <<
         firstMeasureNumber <<
         " in voice \"" << fVoicechunVoicekUplink->getVoiceName () << "\"" <<
-        endl << endl;
+        endl;
 
   // create a first measure
   S_msrMeasure
@@ -7037,7 +7037,7 @@ void msrVoicechunk::appendTimeToVoicechunk (S_msrTime time)
         " to voice chunk" <<
       endl;
       
-  // retister time in voice chunk
+  // register time in voice chunk
   fVoicechunkTime = time;
 
   // append it to this voice chunk
@@ -7048,17 +7048,26 @@ void msrVoicechunk::appendTimeToVoicechunk (S_msrTime time)
 void msrVoicechunk::appendMeasureToVoicechunk (S_msrMeasure measure)
 {  
   if (fVoicechunkMeasuresList.size ()) {
-    // don't append a measure if one with the same
-    // measure number is already present
-    
     S_msrMeasure
       lastMeasure =
         fVoicechunkMeasuresList.back ();
 
-    if (
-      lastMeasure->getMeasureNumber ()
-        ==
-      measure->getMeasureNumber ()) {
+    int
+      measureNumber =
+        measure->getMeasureNumber (),
+      lastMeasureNumber =
+        lastMeasure->getMeasureNumber ();
+      
+// JMI    if (lastMeasureNumber == measureNumber) {
+    if (lastMeasureNumber == 1 && measureNumber == 1) {
+      // don't append measure 1 if it is already present
+
+  //  if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "### --> replacing initial measure 1 by new one" <<
+        ", line " << measure-> getInputLineNumber () <<
+        endl;
+
       // fetch lastMeasure clef, key and time if any
       measure->setMeasureClef (
         lastMeasure->getMeasureClef ());
@@ -7068,6 +7077,18 @@ void msrVoicechunk::appendMeasureToVoicechunk (S_msrMeasure measure)
         lastMeasure->getMeasureTime ());
         
       // remove previous measure with same number XXL
+      fVoicechunkMeasuresList.pop_back ();
+    }
+    
+    else if (lastMeasureNumber == 1 && measureNumber == 0) {
+      // remove initial measure 1
+
+  //  if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "### --> replacing initial measure 1 by measure 0" <<
+        ", line " << measure-> getInputLineNumber () <<
+        endl;
+
       fVoicechunkMeasuresList.pop_back ();
     }
   }

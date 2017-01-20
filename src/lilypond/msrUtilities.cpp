@@ -20,6 +20,8 @@
 #include <cassert>
 #include <vector>
 
+#include "rational.h"
+
 #include <msrUtilities.h>
 
 using namespace std;
@@ -728,12 +730,17 @@ string divisionsAsMSRDuration (
     default:
       {
       stringstream s;
+
+      rational r (divisions, divisionsPerWholeNote);
+      r.rationalise ();
       
       s << 
         "% note divisions " <<
           divisions <<
         "/" <<
         divisionsPerWholeNote <<
+        " (" << r.getNumerator () << "/" <<
+        r.getDenominator () << ")" <<
         " exceeds a maxima" << endl;
         
       errorMessage = s.str();

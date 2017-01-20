@@ -20,7 +20,7 @@
 #include <map>
 
 #include "smartpointer.h"
-#include "rational.h"
+/*
 #include "exports.h"
 #include "typedefs.h"
 
@@ -29,6 +29,7 @@
 #include "msrUtilities.h"
 
 //JMI #include "musicxml2msr.h"
+*/
 
 namespace MusicXML2 
 {
