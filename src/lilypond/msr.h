@@ -3503,6 +3503,7 @@ class EXP msrHarmony : public msrElement
 
     enum msrHarmonyKind {
       kMajor, kMinor, kDominant,
+      kAugmented, kDiminished,
       kSuspendedFourth,
       kMajorSeventh,kMinorSeventh,
       kMajorNinth, kMinorNinth};

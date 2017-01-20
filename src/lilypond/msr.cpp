@@ -5292,6 +5292,12 @@ string msrHarmony::harmonyKindAsString () const
     case msrHarmony::kDominant:
       result = "Dominant";
       break;
+    case msrHarmony::kAugmented:
+      result = "Augmented";
+      break;
+    case msrHarmony::kDiminished:
+      result = "Diminished";
+      break;
     case msrHarmony::kSuspendedFourth:
       result = "SuspendedFourth";
       break;

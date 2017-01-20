@@ -7313,6 +7313,12 @@ void xml2MsrTranslator::visitStart ( S_kind& elt )
   else if (kind == "dominant")
     fCurrentHarmonyKind = msrHarmony::kDominant;
     
+  else if (kind == "augmented")
+    fCurrentHarmonyKind = msrHarmony::kAugmented;
+    
+  else if (kind == "diminished")
+    fCurrentHarmonyKind = msrHarmony::kDiminished;
+    
   else if (kind == "suspended-fourth")
     fCurrentHarmonyKind = msrHarmony::kSuspendedFourth;
     
