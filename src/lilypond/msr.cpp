@@ -6015,7 +6015,7 @@ msrMeasure::msrMeasure (
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating measure " << fMeasureNumber <<
-      " in voice \"" << voice->getExternalVoiceNumber () << "\"" <<
+      " in voice \"" << voice->getVoiceName () << "\"" <<
       endl;
   
   // set measure part direct link
@@ -6106,6 +6106,12 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       measure overflows, we must synchonize all voices in this part
     */
     
+  //  if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "@@@@@@@@@@@@@@@@@ --> measure " << fMeasureNumber <<
+        " overflows" <<
+        endl;
+  
     // finalize this measure
     this->
       finalizeMeasure (inputLineNumber);
@@ -6768,8 +6774,9 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
               
         doCreateAMeasure = true;
       }
-      // else
+      else {
         // measure 1 has already been created by default
+      }
       break;
       
     default:
@@ -6851,16 +6858,29 @@ void msrVoicechunk::appendTimeToVoicechunk (S_msrTime time)
 }
 
 void msrVoicechunk::appendMeasureToVoicechunk (S_msrMeasure measure)
-{
+{  
   if (fVoicechunkMeasuresList.size ()) {
     // don't append a measure if one with the same
     // measure number is already present
     
-    if (fVoicechunkMeasuresList.back ()->getMeasureNumber ()
-      ==
-    measure->getMeasureNumber ()) {
-      // remove previous measure with same number
-  // JMI    fVoicechunkMeasuresList.pop_back ();
+    S_msrMeasure
+      lastMeasure =
+        fVoicechunkMeasuresList.back ();
+
+    if (
+      lastMeasure->getMeasureNumber ()
+        ==
+      measure->getMeasureNumber ()) {
+      // fetch lastMeasure clef, key and time if any
+      measure->setMeasureClef (
+        lastMeasure->getMeasureClef ());
+      measure->setMeasureKey (
+        lastMeasure->getMeasureKey ());
+      measure->setMeasureTime (
+        lastMeasure->getMeasureTime ());
+        
+      // remove previous measure with same number XXL
+      fVoicechunkMeasuresList.pop_back ();
     }
   }
 

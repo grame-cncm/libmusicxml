@@ -533,7 +533,9 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
       elt->getInputLineNumber (),
       elt->getMeasureNumber ());
     */
-    
+
+  // measure 1 is created by default initially
+  
   // create a clone of the measure
   fCurrentMeasureClone =
     elt->createMeasureBareClone (
