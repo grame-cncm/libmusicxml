@@ -3394,72 +3394,71 @@ class EXP msrLyrics : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int     getLyricsNumber () const
-                { return fLyricsNumber; }
+    int         getLyricsNumber () const
+                    { return fLyricsNumber; }
                 
-    string  getLyricsName () const;
+    string      getLyricsName () const;
                 
-    S_msrVoice
-            getLyricsVoiceUplink () const
-                { return fLyricsVoiceUplink; }
+    S_msrVoice  getLyricsVoiceUplink () const
+                    { return fLyricsVoiceUplink; }
                 
     msrLyricsMasterStatus
-            getLyricsMasterStatus () const
-                { return fLyricsMasterStatus; }
+                getLyricsMasterStatus () const
+                    { return fLyricsMasterStatus; }
                 
     const vector<S_msrLyricschunk>&
-            getLyricschunks () const
-                { return fLyricschunks; }
+                getLyricschunks () const
+                    { return fLyricschunks; }
 
-    void    setLyricsTextPresent ()
-                { fLyricsTextPresent = true; }
+    void        setLyricsTextPresent ()
+                    { fLyricsTextPresent = true; }
 
-    bool    getLyricsTextPresent () const
-                { return fLyricsTextPresent; }
+    bool        getLyricsTextPresent () const
+                    { return fLyricsTextPresent; }
 
 
     // services
     // ------------------------------------------------------
 
-    void    addTextChunkToLyrics (
-              int       inputLineNumber,
-              string    syllabic,
-              msrLyricschunk::msrLyricschunkKind
-                        lyricschunkKind,
-              string    text,
-              bool      elision,
-              int       divisions,
-              S_msrNote note);
+    void        addTextChunkToLyrics (
+                  int       inputLineNumber,
+                  string    syllabic,
+                  msrLyricschunk::msrLyricschunkKind
+                            lyricschunkKind,
+                  string    text,
+                  bool      elision,
+                  int       divisions,
+                  S_msrNote note);
       
-    void    addSkipChunkToLyrics (
-              int       inputLineNumber,
-              int       divisions,
-              S_msrNote note);
+    void        addSkipChunkToLyrics (
+                  int       inputLineNumber,
+                  int       divisions,
+                  S_msrNote note);
 
-    void    addTiedChunkToLyrics (
-              int       inputLineNumber,
-              int       divisions,
-              S_msrNote note);
+    void        addTiedChunkToLyrics (
+                  int       inputLineNumber,
+                  int       divisions,
+                  S_msrNote note);
 
-    void    addSlurChunkToLyrics (
-              int       inputLineNumber,
-              int       divisions,
-              S_msrNote note);
+    void        addSlurChunkToLyrics (
+                  int       inputLineNumber,
+                  int       divisions,
+                  S_msrNote note);
 
-    void    addSlurBeyondEndChunkToLyrics (
-              int       inputLineNumber,
-              int       divisions,
-              S_msrNote note);
+    void        addSlurBeyondEndChunkToLyrics (
+                  int       inputLineNumber,
+                  int       divisions,
+                  S_msrNote note);
 
-    void    addBarcheckChunkToLyrics (
-              int inputLineNumber,
-              int nextMeasureNumber);
+    void        addBarcheckChunkToLyrics (
+                  int inputLineNumber,
+                  int nextMeasureNumber);
 
-    void    addBreakChunkToLyrics (
-              int inputLineNumber,
-              int nextMeasureNumber);
+    void        addBreakChunkToLyrics (
+                  int inputLineNumber,
+                  int nextMeasureNumber);
 
-    void    addChunkToLyrics (S_msrLyricschunk chunk);
+    void        addChunkToLyrics (S_msrLyricschunk chunk);
                 
     // visitors
     // ------------------------------------------------------
@@ -3569,16 +3568,16 @@ class EXP msrHarmony : public msrElement
     float       getHarmonyBassAlter () const
                   { return fHarmonyBassAlter; }
                 
-    S_msrPart  getHarmonyVoiceUplink () const
+    S_msrPart   getHarmonyVoiceUplink () const
                   { return fHarmonyPartUplink; }
                 
 
     // services
     // ------------------------------------------------------
 
-    string    harmonyKindAsString () const;
+    string      harmonyKindAsString () const;
     
-    string    harmonyAsString () const;
+    string      harmonyAsString () const;
    
     // visitors
     // ------------------------------------------------------
@@ -3608,6 +3607,93 @@ class EXP msrHarmony : public msrElement
 };
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
+
+/*!
+\brief A msr chords representation.
+
+  A lyrics is represented by a list of lyrics chunks,
+*/
+//______________________________________________________________________________
+class EXP msrChords : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrChords> create (
+      int       inputLineNumber,
+      S_msrPart lyricsPartUplink);
+    
+    SMARTP<msrChords> createChordsBareClone (
+      S_msrPart clonedPart);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrChords (
+      int       inputLineNumber,
+      S_msrPart lyricsPartUplink);
+
+    virtual ~msrChords();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string      getChordsName () const;
+                
+    S_msrPart   getChordsPartUplink () const
+                    { return fChordsPartUplink; }
+                
+    const vector<S_msrElement>&
+                getChordsElements () const
+                    { return fChordsElements; }
+
+    void        setChordsPresent ()
+                    { fChordsPresent = true; }
+
+    bool        getChordsPresent () const
+                    { return fChordsPresent; }
+
+
+    // services
+    // ------------------------------------------------------
+
+    void        appendSKipToChords (int divisions);
+    
+    void        appendHarmonyToChords (S_msrHarmony harmony);
+                
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    vector<S_msrElement>      fChordsElements;
+
+    bool                      fChordsPresent;
+
+    S_msrPart                 fChordsPartUplink;
+
+};
+typedef SMARTP<msrChords> S_msrChords;
+EXP ostream& operator<< (ostream& os, const S_msrChords& elt);
 
 /*!
 \brief A msr barline representation.
