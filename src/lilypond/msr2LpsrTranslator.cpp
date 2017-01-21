@@ -275,20 +275,29 @@ void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
       "--> Start visiting msrPartgroup" << endl;
 
   // create a partgroup clone
-  // current partgroup clone is the uplink of the new one
-  fCurrentPartgroupClone =
-    elt->createPartgroupBareClone (
-      fCurrentPartgroupClone);
+  // current partgroup clone, i.e. the top of the stack,
+  // is the uplink of the new one
+  S_msrPartgroup
+    partgroupClone =
+      elt->createPartgroupBareClone (
+        fPartgroupsStack.top ());
 
+  // push it onto this visitors's stack,
+  // making it the current partgroup block
+  fPartgroupsStack.push (
+    partgroupClone);
+  
+/*
   // add it to the MSR score clone
   fCurrentScoreClone->
     addPartgroupToScore (fCurrentPartgroupClone);
+*/
 
-  // create a partgroup block
+  // create a partgroup block refering to the part group clone
   S_lpsrPartgroupBlock
     partgroupBlock =
       lpsrPartgroupBlock::create (
-        fCurrentPartgroupClone);
+        partgroupClone);
 
   // push it onto this visitors's stack,
   // making it the current partgroup block
@@ -331,11 +340,13 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
     scoreBlock =
       fLpsrScore->getScoreBlock ();
 
-  // append the pargroup clone to the score block
+  // append the current pargroup clone to the score block
   scoreBlock->
     appendPartgroupBlockToParallelMusic (
       fPartgroupBlocksStack.top ());
 
+  // pop current partgroup from this visitors's stack
+  fPartgroupsStack.pop ();
 
   // pop current partgroup from this visitors's stack,
   // only now to restore the appearence order
@@ -354,10 +365,10 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
   // create a part clone
   fCurrentPartClone =
     elt->createPartBareClone (
-      fCurrentPartgroupClone);
+      fPartgroupsStack.top ());
 
   // add it to the partgroup clone
-  fCurrentPartgroupClone->
+  fPartgroupsStack.top ()->
     addPartToPartgroup (fCurrentPartClone);
 
   // create a part block

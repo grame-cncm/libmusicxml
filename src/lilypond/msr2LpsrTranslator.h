@@ -293,7 +293,11 @@ class msr2LpsrTranslator :
     
     // part groups
     // ------------------------------------------------------
-    S_msrPartgroup            fCurrentPartgroupClone;
+  //  S_msrPartgroup            fCurrentPartgroupClone; JMI
+
+    // the current partgroup is the top of the stack
+    stack<S_msrPartgroup>     fPartgroupsStack;
+    
     // the current partgroup command is the top of the stack
     stack<S_lpsrPartgroupBlock>
                               fPartgroupBlocksStack;
