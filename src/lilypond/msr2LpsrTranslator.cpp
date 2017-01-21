@@ -276,11 +276,14 @@ void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
 
   // create a partgroup clone
   // current partgroup clone, i.e. the top of the stack,
-  // is the uplink of the new one
+  // is the uplink of the new one if it exists
+
   S_msrPartgroup
     partgroupClone =
       elt->createPartgroupBareClone (
-        fPartgroupsStack.top ());
+        fPartgroupsStack.size ()
+          ? fPartgroupsStack.top ()
+          : 0);
 
   // push it onto this visitors's stack,
   // making it the current partgroup block
@@ -341,9 +344,11 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
       fLpsrScore->getScoreBlock ();
 
   // append the current pargroup clone to the score block
-  scoreBlock->
-    appendPartgroupBlockToParallelMusic (
-      fPartgroupBlocksStack.top ());
+  // if it is the top-level one, i.e it's alone in the stack
+  if (fPartgroupBlocksStack.size () == 1)
+    scoreBlock->
+      appendPartgroupBlockToParallelMusic (
+        fPartgroupBlocksStack.top ());
 
   // pop current partgroup from this visitors's stack
   fPartgroupsStack.pop ();
