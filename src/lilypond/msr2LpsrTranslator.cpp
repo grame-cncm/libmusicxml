@@ -383,7 +383,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
       
   // append the current pargroup clone to the score block
   // if it is the top-level one, i.e it's alone in the stack
-  if (fPartgroupBlocksStack.size () == 1)
+ // JMI BOF if (fPartgroupBlocksStack.size () == 1)
     scoreBlock->
       appendPartgroupBlockToParallelMusic (
         fPartgroupBlocksStack.top ());
