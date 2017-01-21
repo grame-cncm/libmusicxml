@@ -4908,34 +4908,44 @@ class EXP msrPart : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void          setPartAbbreviation (string partAbbreviation)
-                      { fPartAbbreviation = partAbbreviation; }
-                
-    void          setPartInstrumentName (string partInstrumentName)
-                      { fPartInstrumentName = partInstrumentName; }
-                              
     void          setPartID (string partID)
                       { fPartID = partID; }
-    
-    void          setPartMSRName (string partMSRName);
-    
-    void          setPartName (string partName)
-                      { fPartName = partName; }
     
     string        getPartID () const
                       { return fPartID; }
 
+    void          setPartMSRName (string partMSRName);
+    
     string        getPartMSRName () const
                       { return fPartMSRName; }
 
+    void          setPartName (string partName)
+                      { fPartName = partName; }
+    
     string        getPartName () const
                       { return fPartName; }
 
+    void          setPartAbbreviation (string partAbbreviation)
+                      { fPartAbbreviation = partAbbreviation; }
+                
     string        getPartAbbreviation () const
                       { return fPartAbbreviation; }
                 
+    void          setPartInstrumentName (string partInstrumentName)
+                      { fPartInstrumentName = partInstrumentName; }
+                              
     string        getPartInstrumentName () const
                       { return fPartInstrumentName; }
+                
+    void          setPartInstrumentAbbreviation (
+                    string partInstrumentAbbreviation)
+                      {
+                        fPartInstrumentAbbreviation =
+                          partInstrumentAbbreviation;
+                      }
+                              
+    string        getPartInstrumentAbbreviation() const
+                      { return fPartInstrumentAbbreviation; }
                 
     S_msrPartgroup
                   getPartPartgroupUplink () const
@@ -5055,7 +5065,9 @@ class EXP msrPart : public msrElement
 
     string                  fPartName; // from '<part-name/>'
     string                  fPartAbbreviation;
+    
     string                  fPartInstrumentName;
+    string                  fPartInstrumentAbbreviation;
 
     S_msrPartgroup          fPartPartgroupUplink;
 

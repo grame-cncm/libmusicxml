@@ -84,8 +84,6 @@ class EXP xml2MsrTranslator :
   public visitor<S_top_margin>,
   public visitor<S_bottom_margin>,
 
-// JMI  public visitor<S_instrument_name>,
-
   public visitor<S_part_list>,
   
   public visitor<S_part_group>,
@@ -101,6 +99,7 @@ class EXP xml2MsrTranslator :
   public visitor<S_part_name>,
   public visitor<S_part_abbreviation>,
   public visitor<S_instrument_name>,
+  public visitor<S_instrument_abbreviation>,
   
   public visitor<S_part>,
   public visitor<S_divisions>,
@@ -312,8 +311,6 @@ class EXP xml2MsrTranslator :
     virtual void visitStart ( S_right_margin& elt);
     virtual void visitStart ( S_top_margin& elt);
     virtual void visitStart ( S_bottom_margin& elt);
-
- // JMI   virtual void visitStart ( S_instrument_name& elt);
         
     virtual void visitStart ( S_part_list& elt);
     virtual void visitEnd   ( S_part_list& elt);
@@ -333,6 +330,7 @@ class EXP xml2MsrTranslator :
     virtual void visitStart ( S_part_name& elt);
     virtual void visitStart ( S_part_abbreviation& elt);
     virtual void visitStart ( S_instrument_name& elt);
+    virtual void visitStart ( S_instrument_abbreviation& elt);
     
     virtual void visitStart ( S_part& elt);
     virtual void visitEnd   ( S_part& elt);
@@ -616,6 +614,7 @@ class EXP xml2MsrTranslator :
     string                    fCurrentPartName;
     string                    fCurrentPartAbbreviation;
     string                    fCurrentPartInstrumentName;
+    string                    fCurrentPartInstrumentAbbreviation;
 
     map<string, S_msrPart>    fPartsMap;
     

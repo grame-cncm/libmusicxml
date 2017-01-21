@@ -446,14 +446,6 @@ void xml2MsrTranslator::visitStart ( S_bottom_margin& elt )
 }
 
 //________________________________________________________________________
-/* JMI
-void xml2MsrTranslator::visitStart ( S_instrument_name& elt)
-{
-  fCurrentInstrumentName = elt->getValue();
-}
-*/
-
-//________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_part_list& elt)
 {
   if (gGeneralOptions->fTrace)
@@ -983,6 +975,7 @@ void xml2MsrTranslator::visitStart (S_score_part& elt)
   fCurrentPartAbbreviation = "";
   
   fCurrentPartInstrumentName = "";
+  fCurrentPartInstrumentAbbreviation = "";
 }
 
 void xml2MsrTranslator::visitStart (S_part_name& elt)
@@ -998,6 +991,11 @@ void xml2MsrTranslator::visitStart (S_part_abbreviation& elt)
 void xml2MsrTranslator::visitStart (S_instrument_name& elt)
 {
   fCurrentPartInstrumentName = elt->getValue();
+}
+
+void xml2MsrTranslator::visitStart (S_instrument_abbreviation& elt)
+{
+  fCurrentPartInstrumentAbbreviation = elt->getValue();
 }
 
 void xml2MsrTranslator::visitEnd (S_score_part& elt)
@@ -1060,6 +1058,8 @@ void xml2MsrTranslator::visitEnd (S_score_part& elt)
     setPartAbbreviation (fCurrentPartAbbreviation);
   part->
     setPartInstrumentName (fCurrentPartInstrumentName);
+  part->
+    setPartInstrumentAbbreviation (fCurrentPartInstrumentAbbreviation);
 
   // register it in this visitor's parts map
   fPartsMap [partID] = part;

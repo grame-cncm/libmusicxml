@@ -896,16 +896,20 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
       fOstream << idtr <<
         "\\new PianoStaff" <<  " " "<<";      
     }
-
-    if (partInstrumentName.size ())
+    fOstream <<
+      endl;
+    
+    if (partInstrumentName.size ()) {
+      idtr++;
       fOstream << idtr <<
         "\\set PianoStaff.instrumentName = #\"" <<
         partInstrumentName <<
         "\"" <<
         endl;
-
+      idtr--;
+    }
     fOstream <<
-      endl << endl;
+      endl;
     
     idtr++;
   }
@@ -965,11 +969,11 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
       staff->getStafftuningsList ();
       
   string
-    staffInstrumentName = // JMI
+    staffInstrumentName =
       staff->getStaffInstrumentName (),
-    partName =
+    partName =  // JMI
       part->getPartName (),
-    partAbbreviation =
+    partAbbreviation =  // JMI
       part->getPartAbbreviation ();
 
   string staffContextName;
@@ -1007,11 +1011,12 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   idtr++;
 
-  fOstream << idtr <<
-    "\\set " << staffContextName << ".instrumentName = \"" <<
-    partName <<
-    "\"" <<
-    endl;
+  if (staffInstrumentName.size ())
+    fOstream << idtr <<
+      "\\set " << staffContextName << ".instrumentName = \"" <<
+      staffInstrumentName <<
+      "\"" <<
+      endl;
 
   fOstream << idtr <<
     "\\set " << staffContextName << ".shortInstrumentName = \"" <<
