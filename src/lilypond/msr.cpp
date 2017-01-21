@@ -10195,6 +10195,8 @@ S_msrPartgroup msrPartgroup::create (
   int                    inputLineNumber,
   int                    partgroupNumber,
   string                 partgroupName,
+  string                 partgroupDisplayText,
+  string                 partgroupAccidentalText,
   string                 partgroupAbbreviation,
   msrPartgroupSymbolKind partgroupSymbolKind,
   int                    partgroupSymbolDefaultX,
@@ -10206,6 +10208,8 @@ S_msrPartgroup msrPartgroup::create (
       inputLineNumber,
       partgroupNumber,
       partgroupName,
+      partgroupDisplayText,
+      partgroupAccidentalText,
       partgroupAbbreviation,
       partgroupSymbolKind,
       partgroupSymbolDefaultX,
@@ -10219,6 +10223,8 @@ msrPartgroup::msrPartgroup (
   int                    inputLineNumber,
   int                    partgroupNumber,
   string                 partgroupName,
+  string                 partgroupDisplayText,
+  string                 partgroupAccidentalText,
   string                 partgroupAbbreviation,
   msrPartgroupSymbolKind partgroupSymbolKind,
   int                    partgroupSymbolDefaultX,
@@ -10231,6 +10237,10 @@ msrPartgroup::msrPartgroup (
   fPartgroupNumber = partgroupNumber;
         
   fPartgroupName = partgroupName;
+
+  fPartgroupDisplayText    = partgroupDisplayText;
+  fPartgroupAccidentalText = partgroupAccidentalText;
+  
   fPartgroupAbbreviation = partgroupAbbreviation;
 
   fPartgroupSymbolKind = partgroupSymbolKind;
@@ -10272,6 +10282,8 @@ S_msrPartgroup msrPartgroup::createPartgroupBareClone (
         fInputLineNumber,
         fPartgroupNumber,
         fPartgroupName,
+        fPartgroupDisplayText,
+        fPartgroupAccidentalText,
         fPartgroupAbbreviation,
         fPartgroupSymbolKind,
         fPartgroupSymbolDefaultX,
@@ -10539,6 +10551,16 @@ void msrPartgroup::print (ostream& os)
     idtr <<
       setw(24) << "PartgroupName" << " : \"" <<
       fPartgroupName <<
+      "\"" <<
+      endl <<
+    idtr <<
+      setw(24) << "PartgroupDisplayText" << " : \"" <<
+      fPartgroupDisplayText <<
+      "\"" <<
+      endl <<
+    idtr <<
+      setw(24) << "PartgroupAccidentalText" << " : \"" <<
+      fPartgroupAccidentalText <<
       "\"" <<
       endl <<
     idtr <<

@@ -90,10 +90,13 @@ class EXP xml2MsrTranslator :
   
   public visitor<S_part_group>,
   public visitor<S_group_name>,
+  public visitor<S_group_name_display>,
+  public visitor<S_display_text>,
+  public visitor<S_accidental_text>,
   public visitor<S_group_abbreviation>,
   public visitor<S_group_symbol>,
   public visitor<S_group_barline>,
-  
+
   public visitor<S_score_part>,
   public visitor<S_part_name>,
   public visitor<S_part_abbreviation>,
@@ -318,6 +321,9 @@ class EXP xml2MsrTranslator :
     virtual void visitStart ( S_part_group& elt);
     virtual void visitEnd   ( S_part_group& elt);
     virtual void visitStart ( S_group_name& elt);
+    virtual void visitStart ( S_group_name_display& elt);
+    virtual void visitStart ( S_display_text& elt);
+    virtual void visitStart ( S_accidental_text& elt);
     virtual void visitStart ( S_group_abbreviation& elt);
     virtual void visitStart ( S_group_symbol& elt);
     virtual void visitStart ( S_group_barline& elt);
@@ -564,6 +570,9 @@ class EXP xml2MsrTranslator :
     int                       fCurrentPartgroupNumber;
     string                    fCurrentPartgroupType;
     string                    fCurrentPartgroupName;
+    bool                      fOnGoingGroupNameDisplay;
+    string                    fCurrentPartgroupDisplayText;
+    string                    fCurrentPartgroupAccidentalText;
     string                    fCurrentPartgroupAbbreviation;
     string                    fCurrentPartgroupSymbol;
     int                       fCurrentPartgroupSymbolDefaultX;

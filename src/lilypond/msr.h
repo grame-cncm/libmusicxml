@@ -5119,6 +5119,8 @@ class EXP msrPartgroup : public msrElement
       int                    inputLineNumber,
       int                    partgroupNumber,
       string                 partgroupName,
+      string                 partgroupDisplayText,
+      string                 partgroupAccidentalText,
       string                 partgroupAbbreviation,
       msrPartgroupSymbolKind partgroupSymbolKind,
       int                    partgroupSymbolDefaultX,
@@ -5137,6 +5139,8 @@ class EXP msrPartgroup : public msrElement
       int                    inputLineNumber,
       int                    partgroupNumber,
       string                 partgroupName,
+      string                 partgroupDisplayText,
+      string                 partgroupAccidentalText,
       string                 partgroupAbbreviation,
       msrPartgroupSymbolKind partgroupSymbolKind,
       int                    partgroupSymbolDefaultX,
@@ -5153,6 +5157,12 @@ class EXP msrPartgroup : public msrElement
     int           getPartgroupNumber () const
                       { return fPartgroupNumber; }
     
+    string        getPartgroupDisplayText () const
+                      { return fPartgroupDisplayText; }
+
+    string        getPartgroupAccidentalText () const
+                      { return fPartgroupAccidentalText; }
+
     string        getPartgroupName () const
                       { return fPartgroupName; }
 
@@ -5233,6 +5243,10 @@ class EXP msrPartgroup : public msrElement
     int                     fPartgroupNumber;
         
     string                  fPartgroupName;
+
+    string                  fPartgroupDisplayText;
+    string                  fPartgroupAccidentalText;
+    
     string                  fPartgroupAbbreviation;
 
     msrPartgroupSymbolKind  fPartgroupSymbolKind;

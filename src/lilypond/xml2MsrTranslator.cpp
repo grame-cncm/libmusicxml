@@ -45,6 +45,8 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fMsrScore =
     msrScore::create (0);
 
+  fOnGoingGroupNameDisplay = false;
+  
   fOnGoingBarline = false;
   
   fCurrentWordsContents = "";
@@ -130,6 +132,8 @@ S_msrPartgroup xml2MsrTranslator::createImplicitMSRPartgroup (
         inputLineNumber,
         fCurrentPartgroupNumber,
         "Implicit",
+        "",
+        "",
         "Impl.",
         msrPartgroup::kBracketPartgroupSymbol,
         0,
@@ -512,6 +516,21 @@ void xml2MsrTranslator::visitEnd (S_part_list& elt)
   <group-symbol default-x="-12">brace</group-symbol>
   <group-barline>yes</group-barline>
   </part-group>
+
+    <part-group number="3" type="start">
+      <group-name>Trumpet in B flat</group-name>
+      <group-name-display>
+        <display-text>Trumpet in B</display-text>
+        <accidental-text>flat</accidental-text>
+      </group-name-display>
+      <group-abbreviation>Trp. in B flat</group-abbreviation>
+      <group-abbreviation-display>
+        <display-text>Trp. in B</display-text>
+        <accidental-text>flat</accidental-text>
+      </group-abbreviation-display>
+      <group-symbol default-x="-10">square</group-symbol>
+      <group-barline>yes</group-barline>
+    </part-group>
 */
 
 //________________________________________________________________________
@@ -524,6 +543,8 @@ void xml2MsrTranslator::visitStart (S_part_group& elt)
     elt->getAttributeValue ("type");
 
   fCurrentPartgroupName = "";
+  fCurrentPartgroupDisplayText = "";
+  fCurrentPartgroupAccidentalText = "";
   fCurrentPartgroupAbbreviation = "";
   fCurrentPartgroupSymbol = "";
   fCurrentPartgroupSymbolDefaultX = INT_MIN;
@@ -533,6 +554,23 @@ void xml2MsrTranslator::visitStart (S_part_group& elt)
 void xml2MsrTranslator::visitStart (S_group_name& elt)
 {
   fCurrentPartgroupName = elt->getValue();
+}
+
+void xml2MsrTranslator::visitStart (S_group_name_display& elt)
+{
+  fOnGoingGroupNameDisplay = true;
+}
+
+void xml2MsrTranslator::visitStart (S_display_text& elt)
+{
+  if (fOnGoingGroupNameDisplay)
+    fCurrentPartgroupDisplayText = elt->getValue();
+}
+
+void xml2MsrTranslator::visitStart (S_accidental_text& elt)
+{
+  if (fOnGoingGroupNameDisplay)
+    fCurrentPartgroupAccidentalText = elt->getValue();
 }
 
 void xml2MsrTranslator::visitStart (S_group_abbreviation& elt)
@@ -634,6 +672,8 @@ void xml2MsrTranslator::handlePartgroupStart (
         inputLineNumber,
         fCurrentPartgroupNumber,
         fCurrentPartgroupName,
+        fCurrentPartgroupDisplayText,
+        fCurrentPartgroupAccidentalText,
         fCurrentPartgroupAbbreviation,
         partgroupSymbol,
         fCurrentPartgroupSymbolDefaultX,
