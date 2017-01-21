@@ -746,7 +746,11 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
       msrPartgroup::msrPartgroupSymbolKind
         partgroupSymbolKind =
           partgroup->getPartgroupSymbolKind ();
-    
+
+      bool
+        partgroupBarline =
+          partgroup->getPartgroupBarline ();
+          
       string
         partgroupInstrumentName =
           partgroup->getPartgroupInstrumentName ();
@@ -761,14 +765,26 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
           break;
           
         case msrPartgroup::kBracePartgroupSymbol: // JMI
+        /*
+         *
+         * check whether individual part have instrument names
+         * 
           if (partgroupInstrumentName.size ())
             partGroupContextName = "\\new PianoStaff";
           else
             partGroupContextName = "\\new GrandStaff";
+            */
+          partGroupContextName =
+            partgroupBarline // only partgroup has an instrument name
+              ? "\\new PianoStaff"
+              : "\\new GrandStaff";
           break;
           
         case msrPartgroup::kBracketPartgroupSymbol:
-          partGroupContextName = "\\new PianoStaff";
+          partGroupContextName =
+            partgroupBarline
+              ? "\\new StaffGroup"
+              : "\\new ChoirStaff";
           break;
           
         case msrPartgroup::kLinePartgroupSymbol:
@@ -800,7 +816,12 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
           "\"" <<
           endl;
     */
-    
+
+      if (partgroupSymbolKind == msrPartgroup::kSquarePartgroupSymbol)
+        fOstream << idtr <<
+          "\\set StaffGroup.systemStartDelimiter = #'SystemStartSquare" <<
+          endl;
+           
       fOstream <<
         endl;
     
@@ -865,22 +886,21 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
     if (fLpsrOptions->fGenerateComments) {
       fOstream << left <<
         idtr <<
-        setw(30) << "\\new StaffGroup <<" <<
+        setw(30) << "\\new PianoStaff <<" <<
         " % part " << part->getPartCombinedName ();
     }
     else {
       fOstream << idtr <<
-        "\\new StaffGroup" <<  " " "<<";      
+        "\\new PianoStaff" <<  " " "<<";      
     }
-        /* JMI
+
     if (partInstrumentName.size ())
       fOstream << idtr <<
-        "\\set Staff.instrumentName = #\"" <<
+        "\\set PianoStaff.instrumentName = #\"" <<
         partInstrumentName <<
         "\"" <<
         endl;
-        */
-  
+
     fOstream <<
       endl << endl;
     
