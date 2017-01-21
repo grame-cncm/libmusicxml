@@ -428,9 +428,9 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
   // append it to the current partgroup block
 //  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "--> popping part group clone " <<
+      "--> appending part block " <<
       fPartgroupsStack.top ()->getPartgroupCombinedName () <<
-      " from stack" <<
+      " to stack" <<
       endl;
 
   fPartgroupBlocksStack.top ()->
@@ -1041,6 +1041,9 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
       case msrNote::kRestNote:
         fOstream << "rest";
         break;
+      case msrNote::kSkipNote:
+        fOstream << "skip";
+        break;
       case msrNote::kChordMemberNote:
         fOstream << "chord member";
         break;
@@ -1073,6 +1076,9 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         break;
       case msrNote::kRestNote:
         fOstream << "rest";
+        break;
+      case msrNote::kSkipNote:
+        fOstream << "skip";
         break;
       case msrNote::kChordMemberNote:
         fOstream << "chord member";
@@ -1119,6 +1125,11 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
       
     case msrNote::kRestNote:
+      fCurrentVoiceClone->
+        appendNoteToVoice (fCurrentNoteClone);
+      break;
+      
+    case msrNote::kSkipNote: // JMI
       fCurrentVoiceClone->
         appendNoteToVoice (fCurrentNoteClone);
       break;

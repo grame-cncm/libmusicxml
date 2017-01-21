@@ -6231,7 +6231,7 @@ msrMeasure::~msrMeasure()
 S_msrMeasure msrMeasure::createMeasureBareClone (
   S_msrVoicechunk clonedVoicechunk)
 {
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of measure " << fMeasureNumber <<
       endl;
@@ -6927,7 +6927,7 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   switch (measureNumber) {
     case 0:
       // measure 1 has already been created by default, re-number it a 0
-    // JMI  if (gGeneralOptions->fDebug)
+      if (gGeneralOptions->fDebug)
         cerr <<
           idtr <<
             "### there are currently " <<
@@ -6947,7 +6947,7 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
     case 1:
       if (currentMeasure->getMeasureNumber () == 0) {
         // this is the second measure, that should be created
-      // JMI  if (gGeneralOptions->fDebug)
+        if (gGeneralOptions->fDebug)
           cerr <<
             idtr <<
               "### there are currently " <<
@@ -6968,7 +6968,7 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
       break;
       
     default:
-      // JMI  if (gGeneralOptions->fDebug)
+      if (gGeneralOptions->fDebug)
         cerr <<
           idtr <<
             "### there are currently " <<
@@ -7018,7 +7018,7 @@ void msrVoicechunk::forceVoicechunkMeasureNumberTo (int measureNumber)
 
 void msrVoicechunk::finalizeLastMeasureOfVoicechunk (int inputLineNumber)
 {
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "### --> finalizing last measure in voice chunk" <<
       ", line " << inputLineNumber <<
@@ -7062,7 +7062,7 @@ void msrVoicechunk::appendMeasureToVoicechunk (S_msrMeasure measure)
     if (lastMeasureNumber == 1 && measureNumber == 1) {
       // don't append measure 1 if it is already present
 
-  //  if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "### --> replacing initial measure 1 by new one" <<
         ", line " << measure-> getInputLineNumber () <<
@@ -7083,7 +7083,7 @@ void msrVoicechunk::appendMeasureToVoicechunk (S_msrMeasure measure)
     else if (lastMeasureNumber == 1 && measureNumber == 0) {
       // remove initial measure 1
 
-  //  if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "### --> replacing initial measure 1 by measure 0" <<
         ", line " << measure-> getInputLineNumber () <<
@@ -7906,7 +7906,7 @@ S_msrLyrics msrVoice::createLyricsInVoiceIfNeeded (
   int inputLineNumber,
   int lyricsNumber)
 {
-  if (false && gGeneralOptions->fTrace) // JMI
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "### --> createLyricsInVoiceIfNeeded (" << inputLineNumber <<
       ", " << lyricsNumber << ")" <<
@@ -8495,7 +8495,7 @@ S_msrNote msrVoice::removeLastNoteFromVoice (
 
 void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
 {
- // if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "### --> finalizing last measure in voice " <<
       getVoiceName () <<
@@ -9034,7 +9034,7 @@ void msrStaff::setStaffMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
- // if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "### --> setStaffMeasureNumber(), " <<
       ", line " << inputLineNumber <<
@@ -9315,7 +9315,7 @@ void msrStaff::setAllStaffVoicesMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
- // if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "### --> setAllStaffVoicesMeasureNumber(), " <<
       ", line " << inputLineNumber <<
@@ -9348,7 +9348,7 @@ void msrStaff::removeStaffEmptyVoices ()
 
 void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
 {
- // if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "### --> finalizing last measure in staff " <<
       getStaffName () <<
@@ -9787,7 +9787,7 @@ void msrPart::setPartMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
- // if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr <<
       endl <<
       idtr <<
@@ -9883,7 +9883,7 @@ void msrPart::setAllPartStavesMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
- // if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "### --> setAllPartStavesMeasureNumber()" <<
       ", line " << inputLineNumber <<
@@ -10021,7 +10021,7 @@ void msrPart::removePartEmptyVoices ()
 
 void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
 {
- // if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "### --> finalizing last measure in part " <<
       getPartName () <<
