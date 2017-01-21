@@ -849,7 +849,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
   if (partgroup->getPartgroupPartgroupUplink ()) {
     // the part group is not the top level one
 
-    if (partgroup->getPartgroupElements ().size () > 1) {
+ // JMI   if (partgroup->getPartgroupElements ().size () > 1) {
       // don't generate code for a part group with only one element
 
       idtr--;
@@ -863,7 +863,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
           partgroup->getPartgroupCombinedName ();
       fOstream <<
         endl << endl;
-    }
+   // }
   }
 }
 

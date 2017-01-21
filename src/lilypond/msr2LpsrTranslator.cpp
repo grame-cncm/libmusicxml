@@ -92,7 +92,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   fLpsrScoreHeader =
     fLpsrScore-> getHeader();
 
-/*
+/* JMI
   // push it onto this visitors's stack,
   // making it the current partgroup block
   fPartgroupBlocksStack.push (
