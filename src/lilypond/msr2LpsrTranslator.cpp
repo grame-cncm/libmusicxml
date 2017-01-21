@@ -343,12 +343,11 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
     scoreBlock =
       fLpsrScore->getScoreBlock ();
 
-  // append the current pargroup clone to the score block
+  // add the current pargroup clone to the MSR score clone
   // if it is the top-level one, i.e it's alone in the stack
-  if (fPartgroupBlocksStack.size () == 1)
-    scoreBlock->
-      appendPartgroupBlockToParallelMusic (
-        fPartgroupBlocksStack.top ());
+  if (fPartgroupsStack.size () == 1)
+    fCurrentScoreClone->
+      addPartgroupToScore (fPartgroupsStack.top ());
 
   // pop current partgroup from this visitors's stack
   fPartgroupsStack.pop ();
