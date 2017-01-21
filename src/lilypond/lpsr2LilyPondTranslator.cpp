@@ -736,7 +736,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
   if (partgroup->getPartgroupPartgroupUplink ()) {
     // the part group is not the top level one
 
-    if (partgroup->getPartgroupElements ().size () > 1) {
+ // JMI   if (partgroup->getPartgroupElements ().size () > 1) {
       // don't generate code for a part group with only one element
 
       S_msrPartgroup
@@ -797,8 +797,10 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
       } // switch
     
     
-      fOstream << idtr <<
-        " " << partGroupContextName << " " "<<";
+      fOstream << idtr;
+ // JMI     if (partgroupSymbolKind != msrPartgroup::k_NoPartgroupSymbol)
+  //      fOstream << " ";
+      fOstream << partGroupContextName << " " "<<";
         
       if (fLpsrOptions->fGenerateComments)
         fOstream <<
@@ -808,25 +810,26 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
       fOstream <<
         endl;
   
-    /* JMI
       if (partgroupInstrumentName.size ())
         fOstream << idtr <<
           "\\set PianoStaff.instrumentName = #\"" <<
           partgroupInstrumentName <<
           "\"" <<
           endl;
-    */
 
-      if (partgroupSymbolKind == msrPartgroup::kSquarePartgroupSymbol)
+      if (partgroupSymbolKind == msrPartgroup::kSquarePartgroupSymbol) {
+        idtr++;
         fOstream << idtr <<
           "\\set StaffGroup.systemStartDelimiter = #'SystemStartSquare" <<
           endl;
+        idtr--;
+      }
            
       fOstream <<
         endl;
     
       idtr++;
-    }
+// JMI    }
   }
 }
 
