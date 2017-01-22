@@ -4725,8 +4725,8 @@ class EXP msrStaff : public msrElement
 
     string        getStaffName () const;
 
-    string        getStaffInstrumentName () const
-                      { return fStaffInstrumentName; }
+// JMI    string        getStaffInstrumentName () const
+      //                { return fStaffInstrumentName; }
 
     S_msrClef     getStaffClef () const { return fStaffClef; };
     S_msrKey      getStaffKey  () const { return fStaffKey; };
@@ -4849,7 +4849,7 @@ class EXP msrStaff : public msrElement
     map<int, S_msrVoice>    fStaffVoicesMap;
                               // [0] is used form staff master voice
 
-    string                  fStaffInstrumentName;
+ // JMI   string                  fStaffInstrumentName;
 
     int                     fStaffDivisionsPerWholeNote;    
 

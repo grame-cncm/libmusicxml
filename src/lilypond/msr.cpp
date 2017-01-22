@@ -9492,9 +9492,11 @@ void msrStaff::print (ostream& os)
   else
     os << idtr << "NO_TIME" << endl;
 
+/* JMI
   os <<
     idtr << "StaffInstrumentName: \"" <<
     fStaffInstrumentName << "\"" << endl;
+*/
 
   if (fStafftuningsList.size ()) {
     os <<
@@ -9565,10 +9567,11 @@ void msrStaff::printStructure (ostream& os)
   else
     os << idtr << "NO_TIME" << endl;
 
+/* JMI
   os <<
     idtr << "StaffInstrumentName: \"" <<
     fStaffInstrumentName << "\"" << endl;
-
+*/
 
   if (fStafftuningsList.size ()) {
     os <<
@@ -9725,7 +9728,9 @@ S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
 
   clone->fPartName           = fPartName;
   clone->fPartAbbreviation   = fPartAbbreviation;
-  clone->fPartInstrumentName = fPartInstrumentName;
+  
+  clone->fPartInstrumentName         = fPartInstrumentName;
+  clone->fPartInstrumentAbbreviation = fPartInstrumentAbbreviation;
   
   return clone;
 }

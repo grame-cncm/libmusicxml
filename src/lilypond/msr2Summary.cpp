@@ -296,9 +296,11 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
     fOstream << idtr << "NO_TIME";
   fOstream << endl;
 
+/* JMI
   fOstream <<
     idtr << "StaffInstrumentName: \"" <<
     elt->getStaffInstrumentName () << "\"" << endl;
+*/
 
   fOstream << endl;
 

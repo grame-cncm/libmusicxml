@@ -883,8 +883,14 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
     // don't generate code for a part with only one stave
 
     string
-      partInstrumentName =
-        part->getPartInstrumentName ();
+      partName =
+        part->getPartName (),
+      partAbbreviation =
+        part->getPartAbbreviation (),
+      partInstrumentName =  // JMI
+        part->getPartInstrumentName (),
+    partInstrumentAbbreviation =  // JMI
+      part->getPartInstrumentAbbreviation ();
   
     if (fLpsrOptions->fGenerateComments) {
       fOstream << left <<
@@ -899,19 +905,26 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
     fOstream <<
       endl;
     
-    if (partInstrumentName.size ()) {
-      idtr++;
+    idtr++;
+
+    if (partName.size ()) {
       fOstream << idtr <<
         "\\set PianoStaff.instrumentName = #\"" <<
-        partInstrumentName <<
+        partName <<
         "\"" <<
         endl;
-      idtr--;
     }
+    
+    if (partAbbreviation.size ()) {
+      fOstream << idtr <<
+        "\\set PianoStaff.shortInstrumentName = #\"" <<
+        partAbbreviation <<
+        "\"" <<
+        endl;
+    }
+
     fOstream <<
       endl;
-    
-    idtr++;
   }
 }
 
@@ -969,8 +982,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
       staff->getStafftuningsList ();
       
   string
-    staffInstrumentName =
-      staff->getStaffInstrumentName (),
+// JMI    staffInstrumentName =
+      // staff->getStaffInstrumentName (),
     partName =  // JMI
       part->getPartName (),
     partAbbreviation =  // JMI
@@ -1011,6 +1024,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   idtr++;
 
+/* JMI
   if (staffInstrumentName.size ())
     fOstream << idtr <<
       "\\set " << staffContextName << ".instrumentName = \"" <<
@@ -1018,11 +1032,13 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
       "\"" <<
       endl;
 
-  fOstream << idtr <<
-    "\\set " << staffContextName << ".shortInstrumentName = \"" <<
-    partAbbreviation <<
-    "\"" <<
-    endl;
+  if (staffInstrumentAbbreviation.size ())
+    fOstream << idtr <<
+      "\\set " << staffContextName << ".shortInstrumentName = \"" <<
+      staffInstrumentAbbreviation <<
+      "\"" <<
+      endl;
+*/
 
   if (stafftuningsList.size ()) {
     // \set Staff.stringTunings = \stringTuning <c' g' d'' a''>
