@@ -1024,21 +1024,20 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   idtr++;
 
-/* JMI
-  if (staffInstrumentName.size ())
+// JMI
+  if (partName.size ())
     fOstream << idtr <<
       "\\set " << staffContextName << ".instrumentName = \"" <<
-      staffInstrumentName <<
+      partName <<
       "\"" <<
       endl;
 
-  if (staffInstrumentAbbreviation.size ())
+  if (partAbbreviation.size ())
     fOstream << idtr <<
       "\\set " << staffContextName << ".shortInstrumentName = \"" <<
-      staffInstrumentAbbreviation <<
+      partAbbreviation <<
       "\"" <<
       endl;
-*/
 
   if (stafftuningsList.size ()) {
     // \set Staff.stringTunings = \stringTuning <c' g' d'' a''>
