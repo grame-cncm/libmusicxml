@@ -10418,11 +10418,23 @@ void msrPartgroup::prependSubPartgroupToPartgroup (
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Adding (sub-)part group " << partgroup->getPartgroupNumber () <<
+      "Prepending (sub-)part group " << partgroup->getPartgroupNumber () <<
       " to part group " << getPartgroupNumber ()  << endl;
 
   // register it in this part group
   fPartgroupElements.push_front (partgroup);
+}
+
+void msrPartgroup::appendSubPartgroupToPartgroup (
+  S_msrPartgroup partgroup)
+{
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Appending (sub-)part group " << partgroup->getPartgroupNumber () <<
+      " to part group " << getPartgroupNumber ()  << endl;
+
+  // register it in this part group
+  fPartgroupElements.push_back (partgroup);
 }
 
 S_msrPart msrPartgroup::fetchPartFromPartgroup (

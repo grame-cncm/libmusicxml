@@ -5220,16 +5220,19 @@ class EXP msrPartgroup : public msrElement
     // services
     // ------------------------------------------------------
 
-    S_msrPart   addPartToPartgroupByItsID (
-                  int    inputLineNumber,
-                  string partID);
+    S_msrPart     addPartToPartgroupByItsID (
+                    int    inputLineNumber,
+                    string partID);
     
-    void        addPartToPartgroup (S_msrPart part);
+    void          addPartToPartgroup (S_msrPart part);
                 
-    void        prependSubPartgroupToPartgroup (
-                  S_msrPartgroup partgroup);
+    void          prependSubPartgroupToPartgroup (
+                    S_msrPartgroup partgroup);
 
-    S_msrPart   fetchPartFromPartgroup (string partID);
+    void          appendSubPartgroupToPartgroup (
+                    S_msrPartgroup partgroup);
+
+    S_msrPart     fetchPartFromPartgroup (string partID);
 
     // visitors
     // ------------------------------------------------------
