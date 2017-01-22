@@ -731,106 +731,102 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
     partgroup =
       elt->getPartgroup ();
       
-  // the top level part group is the score block's S_lpsrParallelMusic
+// JMI  // the top level part group is the score block's S_lpsrParallelMusic
   
-  if (partgroup->getPartgroupPartgroupUplink ()) {
+ // JMI if (partgroup->getPartgroupPartgroupUplink ()) {
     // the part group is not the top level one
 
  // JMI   if (partgroup->getPartgroupElements ().size () > 1) {
       // don't generate code for a part group with only one element
 
-      S_msrPartgroup
-        partgroup =
-          elt->getPartgroup ();
-          
-      msrPartgroup::msrPartgroupSymbolKind
-        partgroupSymbolKind =
-          partgroup->getPartgroupSymbolKind ();
+  msrPartgroup::msrPartgroupSymbolKind
+    partgroupSymbolKind =
+      partgroup->getPartgroupSymbolKind ();
 
-      bool
-        partgroupBarline =
-          partgroup->getPartgroupBarline ();
-          
-      string
-        partgroupInstrumentName =
-          partgroup->getPartgroupInstrumentName ();
-          
-      string partGroupContextName;
-    
-      // LPNR, page 567
+  bool
+    partgroupBarline =
+      partgroup->getPartgroupBarline ();
       
-      switch (partgroupSymbolKind) {
-        case msrPartgroup::k_NoPartgroupSymbol:
-          partGroupContextName = "";
-          break;
-          
-        case msrPartgroup::kBracePartgroupSymbol: // JMI
-        /*
-         *
-         * check whether individual part have instrument names
-         * 
-          if (partgroupInstrumentName.size ())
-            partGroupContextName = "\\new PianoStaff";
-          else
-            partGroupContextName = "\\new GrandStaff";
-            */
-          partGroupContextName =
-            partgroupBarline // only partgroup has an instrument name
-              ? "\\new PianoStaff"
-              : "\\new GrandStaff";
-          break;
-          
-        case msrPartgroup::kBracketPartgroupSymbol:
-          partGroupContextName =
-            partgroupBarline
-              ? "\\new StaffGroup"
-              : "\\new ChoirStaff";
-          break;
-          
-        case msrPartgroup::kLinePartgroupSymbol:
-          partGroupContextName = "\\new StaffGroup";
-          break;
-          
-        case msrPartgroup::kSquarePartgroupSymbol:
-          partGroupContextName = "\\new StaffGroup";
-          break;
-      } // switch
-    
-    
-      fOstream << idtr;
- // JMI     if (partgroupSymbolKind != msrPartgroup::k_NoPartgroupSymbol)
-  //      fOstream << " ";
-      fOstream << partGroupContextName << " " "<<";
-        
-      if (fLpsrOptions->fGenerateComments)
-        fOstream <<
-          setw(30) << " " << "% part group " <<
-          partgroup->getPartgroupCombinedName ();
-          
-      fOstream <<
-        endl;
-  
-      if (partgroupInstrumentName.size ())
-        fOstream << idtr <<
-          "\\set PianoStaff.instrumentName = #\"" <<
-          partgroupInstrumentName <<
-          "\"" <<
-          endl;
+  string
+    partgroupInstrumentName =
+      partgroup->getPartgroupInstrumentName ();
+      
+  string partGroupContextName;
 
-      if (partgroupSymbolKind == msrPartgroup::kSquarePartgroupSymbol) {
-        idtr++;
-        fOstream << idtr <<
-          "\\set StaffGroup.systemStartDelimiter = #'SystemStartSquare" <<
-          endl;
-        idtr--;
-      }
-           
-      fOstream <<
-        endl;
+  // LPNR, page 567
+  
+  switch (partgroupSymbolKind) {
+    case msrPartgroup::k_NoPartgroupSymbol:
+      partGroupContextName = "";
+      break;
+      
+    case msrPartgroup::kBracePartgroupSymbol: // JMI
+    /*
+     *
+     * check whether individual part have instrument names
+     * 
+      if (partgroupInstrumentName.size ())
+        partGroupContextName = "\\new PianoStaff";
+      else
+        partGroupContextName = "\\new GrandStaff";
+        */
+      partGroupContextName =
+        partgroupBarline // only partgroup has an instrument name
+          ? "\\new PianoStaff"
+          : "\\new GrandStaff";
+      break;
+      
+    case msrPartgroup::kBracketPartgroupSymbol:
+      partGroupContextName =
+        partgroupBarline
+          ? "\\new StaffGroup"
+          : "\\new ChoirStaff";
+      break;
+      
+    case msrPartgroup::kLinePartgroupSymbol:
+      partGroupContextName = "\\new StaffGroup";
+      break;
+      
+    case msrPartgroup::kSquarePartgroupSymbol:
+      partGroupContextName = "\\new StaffGroup";
+      break;
+  } // switch
+
+
+  fOstream << idtr;
+// JMI     if (partgroupSymbolKind != msrPartgroup::k_NoPartgroupSymbol)
+//      fOstream << " ";
+  fOstream << partGroupContextName << " " "<<";
     
-      idtr++;
-// JMI    }
+  if (fLpsrOptions->fGenerateComments)
+    fOstream <<
+      setw(30) << " " << "% part group " <<
+      partgroup->getPartgroupCombinedName ();
+      
+  fOstream <<
+    endl;
+
+  if (partgroupInstrumentName.size ())
+    fOstream << idtr <<
+      "\\set PianoStaff.instrumentName = #\"" <<
+      partgroupInstrumentName <<
+      "\"" <<
+      endl;
+
+  if (partgroupSymbolKind == msrPartgroup::kSquarePartgroupSymbol) {
+    idtr++;
+    fOstream << idtr <<
+      "\\set StaffGroup.systemStartDelimiter = #'SystemStartSquare" <<
+      endl;
+    idtr--;
   }
+       
+  fOstream <<
+    endl;
+
+  idtr++;
+// JMI    }
+// JMI  }
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
@@ -846,25 +842,25 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
       
   // the top level part group is the score block's S_lpsrParallelMusic
   
-  if (partgroup->getPartgroupPartgroupUplink ()) {
+// JMI  if (partgroup->getPartgroupPartgroupUplink ()) {
     // the part group is not the top level one
 
  // JMI   if (partgroup->getPartgroupElements ().size () > 1) {
       // don't generate code for a part group with only one element
 
-      idtr--;
-  
-      fOstream <<
-        idtr <<
-        ">>";
-      if (fLpsrOptions->fGenerateComments)
-        fOstream <<
-          setw(30) << " " << "% part group " <<
-          partgroup->getPartgroupCombinedName ();
-      fOstream <<
-        endl << endl;
+  idtr--;
+
+  fOstream <<
+    idtr <<
+    ">>";
+  if (fLpsrOptions->fGenerateComments)
+    fOstream <<
+      setw(30) << " " << "% part group " <<
+      partgroup->getPartgroupCombinedName ();
+  fOstream <<
+    endl << endl;
    // }
-  }
+ // }
 }
 
 //________________________________________________________________________
