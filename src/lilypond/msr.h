@@ -1793,6 +1793,87 @@ typedef SMARTP<msrGracenotes> S_msrGracenotes;
 EXP ostream& operator<< (ostream& os, const S_msrGracenotes& elt);
 
 /*!
+\brief A msr repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common part
+    - a vector of sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
+class EXP msrAftergracenotes : public msrElement
+{
+  public:
+        
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrAftergracenotes> create (
+      int             inputLineNumber,
+      bool            slashed,
+      S_msrVoice      aftergracenotesVoiceUplink);
+    
+    SMARTP<msrAftergracenotes> createAftergracenotesBareClone (
+      S_msrVoice voiceClone);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrAftergracenotes (
+      int             inputLineNumber,
+      bool            slashed,
+      S_msrVoice      aftergracenotesVoiceUplink);
+      
+    virtual ~msrAftergracenotes();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    bool
+                getAftergracenotesIsSlashed () const
+                    { return fAftergracenotesIsSlashed; }
+
+    S_msrVoicechunk
+                getAftergracenotesVoicechunk () const
+                    { return fAftergracenotesVoicechunk; }
+
+    // services
+    // ------------------------------------------------------
+
+    void        appendNoteToAftergracenotes (S_msrNote note)
+                    {
+                      fAftergracenotesVoicechunk->
+                        appendElementToVoicechunk (note);
+                    }
+    
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    bool               fAftergracenotesIsSlashed;
+    
+    S_msrVoicechunk    fAftergracenotesVoicechunk;
+
+    S_msrVoice         fAftergracenotesVoiceUplink;
+};
+typedef SMARTP<msrAftergracenotes> S_msrAftergracenotes;
+EXP ostream& operator<< (ostream& os, const S_msrAftergracenotes& elt);
+
+/*!
 \brief A words representation.
 
   A words is represented by the lyrics to use

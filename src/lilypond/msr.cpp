@@ -1382,9 +1382,9 @@ msrGracenotes::~msrGracenotes() {}
 S_msrGracenotes msrGracenotes::createGracenotesBareClone (
   S_msrVoice voiceClone)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> Creating a bare clone of grace notes" <<
+      "--> creating a bare clone of grace notes" <<
       endl;
   
   S_msrGracenotes
@@ -1459,6 +1459,124 @@ void msrGracenotes::print (ostream& os)
   idtr++;
   
   os << fGracenotesVoicechunk;
+      
+  idtr--;
+}
+
+//______________________________________________________________________________
+S_msrAftergracenotes msrAftergracenotes::create (
+  int             inputLineNumber,
+  bool            slashed,
+  S_msrVoice      aftergracenotesVoiceUplink)
+{
+  msrAftergracenotes* o =
+    new msrAftergracenotes (
+      inputLineNumber,
+      slashed, aftergracenotesVoiceUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrAftergracenotes::msrAftergracenotes (
+  int             inputLineNumber,
+  bool            slashed,
+  S_msrVoice      aftergracenotesVoiceUplink)
+    : msrElement (inputLineNumber)
+{
+  fAftergracenotesIsSlashed = slashed;
+
+  fAftergracenotesVoiceUplink =
+    aftergracenotesVoiceUplink;
+
+  // create the voice chunk that will receive the notes
+  fAftergracenotesVoicechunk =
+    msrVoicechunk::create (
+      fInputLineNumber,
+      aftergracenotesVoiceUplink);
+}
+
+msrAftergracenotes::~msrAftergracenotes() {}
+
+S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
+  S_msrVoice voiceClone)
+{
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> creating a bare clone of grace notes" <<
+      endl;
+  
+  S_msrAftergracenotes
+    clone =
+      msrAftergracenotes::create (
+        fInputLineNumber,
+        fAftergracenotesIsSlashed,
+        voiceClone);
+  
+  return clone;
+}
+
+void msrAftergracenotes::acceptIn (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrAftergracenotes::acceptIn()" << endl;
+      
+  if (visitor<S_msrAftergracenotes>*
+    p =
+      dynamic_cast<visitor<S_msrAftergracenotes>*> (v)) {
+        S_msrAftergracenotes elem = this;
+        
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrAftergracenotes::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrAftergracenotes::acceptOut (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrAftergracenotes::acceptOut()" << endl;
+
+  if (visitor<S_msrAftergracenotes>*
+    p =
+      dynamic_cast<visitor<S_msrAftergracenotes>*> (v)) {
+        S_msrAftergracenotes elem = this;
+      
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrAftergracenotes::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrAftergracenotes::browseData (basevisitor* v)
+{
+  // browse the voicechunk
+  msrBrowser<msrVoicechunk> browser (v);
+  browser.browse (*fAftergracenotesVoicechunk);
+}
+
+ostream& operator<< (ostream& os, const S_msrAftergracenotes& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrAftergracenotes::print (ostream& os)
+{
+  os <<
+    "Aftergracenotes" <<
+    ", line " << fInputLineNumber <<
+    ", slashed: " <<
+    string (
+      fAftergracenotesIsSlashed
+        ? "yes"
+        : "no") <<
+    endl;
+  
+  idtr++;
+  
+  os << fAftergracenotesVoicechunk;
       
   idtr--;
 }
@@ -7590,6 +7708,9 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
   clone->fExternalVoiceNumber =
     fExternalVoiceNumber;
 
+  clone->fVoiceTime =
+    fVoiceTime;
+
   clone->fMeasureZeroHasBeenMetInVoice =
     fMeasureZeroHasBeenMetInVoice;
   clone->fMeasureNumberHasBeenSetInVoice =
@@ -8614,6 +8735,11 @@ void msrVoice::print (ostream& os)
       ")" <<
       endl;
 
+  // print the voice time // JMI
+  os << idtr <<
+    fVoiceTime->timeAsString () <<
+    endl;
+    
   // print the voice chunk
   os << fVoiceVoicechunk;
   

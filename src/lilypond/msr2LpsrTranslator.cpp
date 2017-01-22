@@ -1042,7 +1042,7 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
   }
 
   else {
-    // these grace notes are at the beginning of a voice JMI
+    // these grace notes are at the beginning of a voice chunk JMI
     doCreateAGraceNoteClone = true; // JMI    
   }
 
