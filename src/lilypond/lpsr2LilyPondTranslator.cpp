@@ -731,14 +731,6 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
     partgroup =
       elt->getPartgroup ();
       
-// JMI  // the top level part group is the score block's S_lpsrParallelMusic
-  
- // JMI if (partgroup->getPartgroupPartgroupUplink ()) {
-    // the part group is not the top level one
-
- // JMI   if (partgroup->getPartgroupElements ().size () > 1) {
-      // don't generate code for a part group with only one element
-
   msrPartgroup::msrPartgroupSymbolKind
     partgroupSymbolKind =
       partgroup->getPartgroupSymbolKind ();
@@ -825,8 +817,6 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
     endl;
 
   idtr++;
-// JMI    }
-// JMI  }
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
@@ -840,14 +830,6 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
     partgroup =
       elt->getPartgroup ();
       
-  // the top level part group is the score block's S_lpsrParallelMusic
-  
-// JMI  if (partgroup->getPartgroupPartgroupUplink ()) {
-    // the part group is not the top level one
-
- // JMI   if (partgroup->getPartgroupElements ().size () > 1) {
-      // don't generate code for a part group with only one element
-
   idtr--;
 
   fOstream <<
@@ -859,8 +841,6 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
       partgroup->getPartgroupCombinedName ();
   fOstream <<
     endl << endl;
-   // }
- // }
 }
 
 //________________________________________________________________________
@@ -2391,25 +2371,24 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
         case msrOrnament::k_NoPlacementKind:
           break;
         case msrOrnament::kAbove:
-          fOstream << "^";
+ // JMI         fOstream << "^";
           break;
         case msrOrnament::kBelow:
-          fOstream << "_";
+ // JMI         fOstream << "_";
           break;
       } // switch
 
-      fOstream << " ^";
       fMusicOlec++;
 
       switch ((*i)->getOrnamentAccidentalMarkKind ()) {
         case msrOrnament::kNatural:
-          fOstream << "\\markup { \\natural }";
+          fOstream << " ^" "\\markup { \\natural }";
           break;
         case msrOrnament::kSharp:
-          fOstream << "\\markup { \\sharp }";
+          fOstream << " ^" "\\markup { \\sharp }";
           break;
         case msrOrnament::kFlat:
-          fOstream << "\\markup { \\flat }";
+          fOstream << " ^" "\\markup { \\flat }";
           break;
       } // switch
 
