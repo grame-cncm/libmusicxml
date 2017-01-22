@@ -390,16 +390,51 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
     scoreBlock =
       fLpsrScore->getScoreBlock ();
       
-  // append the current pargroup block to the score block
-  // if it is the top-level one, i.e it's alone in the stack
- // JMI BOF if (fPartgroupBlocksStack.size () == 1)
-    scoreBlock->
-      appendPartgroupBlockToParallelMusic (
-        fPartgroupBlocksStack.top ());
+  S_lpsrPartgroupBlock
+    currentPartgroupBlock =
+      fPartgroupBlocksStack.top ();
+      
+  if (fPartgroupsStack.size () == 1) {
+    // add the current pargroup clone to the LPSR score's parallel music
+    // if it is the top-level one, i.e it's alone in the stack
+    
+    if (gGeneralOptions->fDebug)
+      fOstream << idtr <<
+        "--> adding part group clone " <<
+ // JMI       currentPartgroupBlock->getPartgroupCombinedName () <<
+        " to MSR score" <<
+        endl;
 
-  // pop current partgroup block from this visitors's stack,
-  // only now to restore the appearence order
-  fPartgroupBlocksStack.pop ();
+    // append the current pargroup block to the score block
+    // if it is the top-level one, i.e it's alone in the stack
+   // JMI BOF if (fPartgroupBlocksStack.size () == 1)
+      scoreBlock->
+        appendPartgroupBlockToParallelMusic (
+          fPartgroupBlocksStack.top ());
+          
+    // pop current partgroup block from this visitors's stack,
+    // only now to restore the appearence order
+    fPartgroupBlocksStack.pop ();
+  }
+
+  else {
+    // pop current partgroup block from this visitors's stack
+  //  if (gGeneralOptions->fDebug)
+      fOstream << idtr <<
+        "--> popping part group block clone " <<
+ // JMI       fPartgroupBlocksStack.top ()->getPartgroupCombinedName () <<
+        " from stack" <<
+        endl;
+
+    fPartgroupBlocksStack.pop ();
+
+    // append the current part group block to the one one level higher,
+    // i.e. the new current part group block
+    fPartgroupBlocksStack.top ()->
+      appendElementToPartgroupBlock (
+        currentPartgroupBlock);
+  }
+
 }
 
 //________________________________________________________________________

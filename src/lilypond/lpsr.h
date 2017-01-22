@@ -634,8 +634,8 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
     // services
     // ------------------------------------------------------
 
-    void addElementToNewStaff (S_msrElement elem)
-        { fNewStaffgroupElements.push_back(elem); }
+    void addElementToNewStaffgroupBlock (S_msrElement elem)
+        { fNewStaffgroupElements.push_back (elem); }
 
     // visitors
     // ------------------------------------------------------
