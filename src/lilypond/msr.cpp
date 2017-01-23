@@ -3419,6 +3419,50 @@ ostream& operator<< (ostream& os, const S_msrTuplet& elt)
   return os;
 }
 
+string msrTuplet::tupletAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Tuplet " << fTupletActualNotes << "/" << fTupletNormalNotes <<
+    " (" << fTupletDivisions <<
+    "/" <<
+    fTupletDivisionsPerWholeNote <<
+    ") @"<<
+    fTupletMeasureNumber <<
+    ":" <<
+    fTupletPositionInMeasure <<
+    "/" <<
+    fTupletDivisionsPerWholeNote <<
+    " ";
+
+  if (fTupletElements.size ()) {
+    vector<S_msrElement>::const_iterator
+      iBegin = fTupletElements.begin(),
+      iEnd   = fTupletElements.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrElement
+        elem = (*i);
+
+        /*
+      s <<
+        elem->notePitchAsString () <<
+        "[" << elem->getNoteOctave () << "]" <<
+        ":" <<
+        elem->noteDivisionsAsMSRString ();
+*/
+
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+  }
+
+  s << ">";
+  
+  return s.str();
+}
+
 void msrTuplet::print (ostream& os)
 {
   os <<
@@ -6605,6 +6649,99 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
   }
 }
 
+void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
+{
+  int inputLineNumber =
+    tuplet->getInputLineNumber ();
+    
+  // first check whether there is a measure change
+// JMI  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
+  if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { // XXL
+    /*
+      measure overflows, we must synchonize all voices in this part
+    */
+    
+    // finalize this measure
+    this->
+      finalizeMeasure (inputLineNumber);
+      
+    // create a new measure
+    S_msrMeasure
+      newMeasure =
+        msrMeasure::create (
+          inputLineNumber,
+          fMeasureNumber + 1,
+          fMeasureDivisionsPerWholeNote,
+          fMeasureVoicechunkUplink);
+
+    // append it to the voice chunk
+    fMeasureVoicechunkUplink->
+      appendMeasureToVoicechunk (
+        newMeasure);
+
+    // append tuplet to it thru the voice chunk
+    fMeasureVoicechunkUplink->
+      appendTupletToVoicechunk (tuplet);
+  }
+
+  else {
+    /*
+      regular insertion in current measure
+    */
+    
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> appending tuplet '" << tuplet->tupletAsString () <<
+      "' to measure " << fMeasureNumber <<
+      " in voice \"" <<
+      fMeasureVoicechunkUplink->
+        getVoicechunkVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      endl;
+  
+    // populate measure uplink
+    tuplet->setTupletMeasureUplink (this);
+
+    // register tuplet measure number
+    tuplet->
+      setTupletMeasureNumber (fMeasureNumber);
+    
+    // register tuplet measure position
+    tuplet->
+      setTupletPositionInMeasure (fMeasurePosition);
+
+/* JMI
+    // copy measure number to first note, that was created beforehand
+    tuplet->
+      setTupletFirstNoteMeasureNumber (fMeasureNumber);
+    
+    // copy measure position to first note, that was created beforehand
+    tuplet->
+      setTupletFirstNotePositionInMeasure (fMeasurePosition);
+   */
+    
+    // fetch tuplet divisions
+    int tupletDivisions =
+      tuplet->getTupletDivisions ();
+      
+    // account for tuplet duration in measure position
+    fMeasurePosition += tupletDivisions;
+  
+    // update part measure position high tide if need be
+    fMeasurePartDirectUplink->
+      updatePartMeasurePositionHighTide (
+        inputLineNumber, fMeasurePosition);
+  
+    // determine if the tuplet occupies a full measure
+// XXL    if (tupletDivisions == fMeasureDivisionsPerWholeMeasure)
+      // tuplet->setTupletOccupiesAFullMeasure ();
+  
+    // append the tuplet to the measure elements list
+    fMeasureElementsList.push_back (tuplet);
+  }
+}
+
 S_msrNote msrMeasure::removeLastNoteFromMeasure (
   int inputLineNumber)
 {  
@@ -7258,6 +7395,12 @@ void msrVoicechunk::appendChordToVoicechunk (S_msrChord chord) // XXL
 {
   fVoicechunkMeasuresList.back ()->
     appendChordToMeasure (chord);
+}
+
+void msrVoicechunk::appendTupletToVoicechunk (S_msrTuplet tuplet) // XXL
+{
+  fVoicechunkMeasuresList.back ()->
+    appendTupletToMeasure (tuplet);
 }
 
 /* JMI
@@ -8256,9 +8399,8 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  S_msrElement t = tuplet;
   fVoiceVoicechunk->
-    appendElementToVoicechunk (t);
+    appendTupletToVoicechunk (tuplet);
 
   fMusicHasBeenInsertedInVoice = true;
 }

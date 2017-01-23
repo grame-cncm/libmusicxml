@@ -54,6 +54,9 @@ typedef SMARTP<msrNote> S_msrNote;
 class msrChord;
 typedef SMARTP<msrChord> S_msrChord;
 
+class msrTuplet;
+typedef SMARTP<msrTuplet> S_msrTuplet;
+
 class msrLyrics;
 typedef SMARTP<msrLyrics> S_msrLyrics;
 
@@ -1531,6 +1534,7 @@ class EXP msrMeasure : public msrElement
     
     void          appendNoteToMeasure (S_msrNote note);
     void          appendChordToMeasure (S_msrChord chord);
+    void          appendTupletToMeasure (S_msrTuplet tuplet);
 
     S_msrElement  getLastElementOfMeasure () const
                       { return fMeasureElementsList.back (); }
@@ -1662,6 +1666,7 @@ class EXP msrVoicechunk : public msrElement
     
     void          appendNoteToVoicechunk (S_msrNote note);
     void          appendChordToVoicechunk (S_msrChord chord);
+    void          appendTupletToVoicechunk (S_msrTuplet tuplet);
     
     void          appendElementToVoicechunk (S_msrElement elem)
                       {
@@ -3151,11 +3156,36 @@ class EXP msrTuplet : public msrElement
     const int   getTupletDivisionsPerWholeNote () const
                     { return fTupletDivisionsPerWholeNote; }
                     
+    // measure uplink
+    void          setTupletMeasureUplink (
+                    const S_msrMeasure& measure)
+                      { fTupletMeasureUplink = measure; }
+                      
+    S_msrMeasure  getTupletMeasureUplink () const
+                      { return fTupletMeasureUplink; }
+
+    // measure number
+    void          setTupletMeasureNumber (
+                    int measureNumber)
+                      { fTupletMeasureNumber = measureNumber; }
+
+    int           getTupletMeasureNumber () const
+                      { return fTupletMeasureNumber; }
+ 
+    // position in measure
+    void          setTupletPositionInMeasure (int position)
+                      { fTupletPositionInMeasure = position; }
+
+    const int     getTupletPositionInMeasure () const
+                      { return fTupletPositionInMeasure; }
+                      
     // services
     // ------------------------------------------------------
 
-    void  addElementToTuplet (S_msrElement elem)
-             { fTupletElements.push_back(elem); }
+    void          addElementToTuplet (S_msrElement elem)
+                      { fTupletElements.push_back(elem); }
+
+    string        tupletAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -3181,6 +3211,8 @@ class EXP msrTuplet : public msrElement
     int                  fTupletDisplayDivisions;
 
     int                  fTupletDivisionsPerWholeNote;
+
+    S_msrMeasure         fTupletMeasureUplink;
 
     int                  fTupletMeasureNumber;
     int                  fTupletPositionInMeasure;
