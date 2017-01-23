@@ -3146,12 +3146,12 @@ class EXP msrTuplet : public msrElement
                       { return fTupletDivisions; }
             
     // divisions per whole note
-    void        setTupletDivisionsPerWholeNote (
-                  int divisionsPerWholeNote)
-                    {
-                      fTupletDivisionsPerWholeNote =
-                        divisionsPerWholeNote;
-                    }
+    void          setTupletDivisionsPerWholeNote (
+                    int divisionsPerWholeNote)
+                      {
+                        fTupletDivisionsPerWholeNote =
+                          divisionsPerWholeNote;
+                      }
                       
     const int   getTupletDivisionsPerWholeNote () const
                     { return fTupletDivisionsPerWholeNote; }
@@ -3182,8 +3182,9 @@ class EXP msrTuplet : public msrElement
     // services
     // ------------------------------------------------------
 
-    void          addElementToTuplet (S_msrElement elem)
-                      { fTupletElements.push_back(elem); }
+    void          addNoteToTuplet (S_msrNote note);
+    void          addChordToTuplet (S_msrChord chord);
+    void          addTupletToTuplet (S_msrTuplet tuplet);
 
     string        tupletAsString () const;
 

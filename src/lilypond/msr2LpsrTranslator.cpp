@@ -1226,7 +1226,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       
     case msrNote::kTupletMemberNote:
       fTupletClonesStack.top ()->
-        addElementToTuplet (fCurrentNoteClone);
+        addNoteToTuplet (fCurrentNoteClone);
       break;
   } // switch
 
@@ -1362,7 +1362,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
       " current stack top tuplet" << endl;
     
     fTupletClonesStack.top ()->
-      addElementToTuplet (elt);
+      addTupletToTuplet (elt);
   }
   else {
     // tup is a top level tuplet

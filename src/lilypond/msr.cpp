@@ -3366,6 +3366,72 @@ S_msrTuplet msrTuplet::createTupletBareClone ()
   return clone;
 }
 
+void msrTuplet::addNoteToTuplet (S_msrNote note)
+{
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> adding note '" <<
+      note->noteAsString () <<
+      "' to tuplet '" <<
+      tupletAsString () <<
+      "'" <<
+      endl;
+
+  fTupletElements.push_back (note);
+    
+  // populate note's measure number
+  note->setNoteMeasureNumber (
+    fTupletMeasureNumber);
+
+  // populate note's position in measure
+  note->setNotePositionInMeasure (
+    fTupletPositionInMeasure);
+}
+
+void msrTuplet::addChordToTuplet (S_msrChord chord)
+{
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> adding chord '" <<
+      chord->chordAsString () <<
+      "' to tuplet '" <<
+      tupletAsString () <<
+      "'" <<
+      endl;
+
+  fTupletElements.push_back (chord);
+    
+  // populate note's measure number
+  chord->setChordMeasureNumber (
+    fTupletMeasureNumber);
+
+  // populate note's position in measure
+  chord->setChordPositionInMeasure (
+    fTupletPositionInMeasure);
+}
+
+void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
+{
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> adding tuplet '" <<
+      tuplet->tupletAsString () <<
+      "' to tuplet '" <<
+      tupletAsString () <<
+      "'" <<
+      endl;
+
+  fTupletElements.push_back (tuplet);
+    
+  // populate tuplet's measure number
+  tuplet->setTupletMeasureNumber (
+    fTupletMeasureNumber);
+
+  // populate tuplet's position in measure
+  tuplet->setTupletPositionInMeasure (
+    fTupletPositionInMeasure);
+}
+
 void msrTuplet::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
@@ -3445,7 +3511,7 @@ string msrTuplet::tupletAsString () const
       S_msrElement
         elem = (*i);
 
-        /*
+        /* JMI
       s <<
         elem->notePitchAsString () <<
         "[" << elem->getNoteOctave () << "]" <<

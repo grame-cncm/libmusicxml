@@ -5501,7 +5501,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
       fTupletsStack.top ()->getTupletNormalNotes () <<
       " tuplet" <<
       endl;
-  tuplet->addElementToTuplet (firstNote);
+  tuplet->addNoteToTuplet (firstNote);
 
 /*
   // set note display divisions
@@ -5548,7 +5548,7 @@ void xml2MsrTranslator::finalizeTuplet (S_msrNote lastNote)
        "/" <<
       fTupletsStack.top ()->getTupletNormalNotes () <<
       endl;
-  tuplet->addElementToTuplet (lastNote);
+  tuplet->addNoteToTuplet (lastNote);
 
   // pop from the tuplets stack
 //  if (gGeneralOptions->fDebug)
@@ -5575,7 +5575,7 @@ void xml2MsrTranslator::finalizeTuplet (S_msrNote lastNote)
       " current stack top tuplet" << endl;
     
     fTupletsStack.top ()->
-      addElementToTuplet (tuplet);
+      addTupletToTuplet (tuplet);
   }
   
   else {
@@ -6403,7 +6403,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
             endl;
 
         fTupletsStack.top()->
-          addElementToTuplet (note);
+          addNoteToTuplet (note);
 /*
         // set note display divisions
         note->
@@ -6652,7 +6652,7 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
         " current stack top tuplet" << endl;
       
       fTupletsStack.top ()->
-        addElementToTuplet (pendingTuplet);
+        addTupletToTuplet (pendingTuplet);
     }
     else {
       // tup is a top level tuplet
