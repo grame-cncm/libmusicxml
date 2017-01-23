@@ -1553,6 +1553,20 @@ class EXP lpsrPartBlock : public lpsrElement
                   getPartBlockElements () const
                       { return fPartBlockElements; }
 
+    void          setPartInstrumentName (
+                    string instrumentName)
+                      { fPartInstrumentName = instrumentName; }
+
+    string        getPartInstrumentName () const
+                      { return fPartInstrumentName; }
+
+    void          setPartShortInstrumentName (
+                    string shortInstrumentName)
+                      { fPartShortInstrumentName = shortInstrumentName; }
+
+    string        getPartShortInstrumentName () const
+                      { return fPartShortInstrumentName; }
+
     // services
     // ------------------------------------------------------
 
@@ -1578,6 +1592,9 @@ class EXP lpsrPartBlock : public lpsrElement
     S_msrPart          fPart;
 
     list<S_msrElement> fPartBlockElements;
+
+    string             fPartInstrumentName;
+    string             fPartShortInstrumentName;
 };
 typedef SMARTP<lpsrPartBlock> S_lpsrPartBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrPartBlock& elt);

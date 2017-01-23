@@ -1397,6 +1397,27 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
   return clone;
 }
 
+void msrGracenotes::appendNoteToGracenotes (S_msrNote note)
+{
+  fGracenotesVoicechunk->
+    appendElementToVoicechunk (note);
+
+  // JMI
+  cerr <<
+    endl <<
+    idtr;
+  this->print (cerr);
+  cerr <<
+    endl << endl;
+    
+  cerr <<
+    endl <<
+    idtr;
+  fGracenotesVoiceUplink->print (cerr);
+  cerr <<
+    endl << endl;
+}
+
 void msrGracenotes::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
@@ -1450,10 +1471,7 @@ void msrGracenotes::print (ostream& os)
     "Gracenotes" <<
     ", line " << fInputLineNumber <<
     ", slashed: " <<
-    string (
-      fGracenotesIsSlashed
-        ? "yes"
-        : "no") <<
+    booleanAsString (fGracenotesIsSlashed) <<
     endl;
   
   idtr++;
@@ -1467,12 +1485,15 @@ void msrGracenotes::print (ostream& os)
 S_msrAftergracenotes msrAftergracenotes::create (
   int             inputLineNumber,
   bool            slashed,
+  S_msrNote       aftergracenotesNote,
   S_msrVoice      aftergracenotesVoiceUplink)
 {
   msrAftergracenotes* o =
     new msrAftergracenotes (
       inputLineNumber,
-      slashed, aftergracenotesVoiceUplink);
+      slashed,
+      aftergracenotesNote,
+      aftergracenotesVoiceUplink);
   assert(o!=0);
   return o;
 }
@@ -1480,10 +1501,13 @@ S_msrAftergracenotes msrAftergracenotes::create (
 msrAftergracenotes::msrAftergracenotes (
   int             inputLineNumber,
   bool            slashed,
+  S_msrNote       aftergracenotesNote,
   S_msrVoice      aftergracenotesVoiceUplink)
     : msrElement (inputLineNumber)
 {
   fAftergracenotesIsSlashed = slashed;
+  
+  fAftergracenotesNote = aftergracenotesNote;
 
   fAftergracenotesVoiceUplink =
     aftergracenotesVoiceUplink;
@@ -1510,6 +1534,7 @@ S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
       msrAftergracenotes::create (
         fInputLineNumber,
         fAftergracenotesIsSlashed,
+        fAftergracenotesNote,
         voiceClone);
   
   return clone;
@@ -1551,9 +1576,17 @@ void msrAftergracenotes::acceptOut (basevisitor* v) {
 
 void msrAftergracenotes::browseData (basevisitor* v)
 {
+  {
+  // browse the note
+  msrBrowser<msrNote> browser (v);
+  browser.browse (*fAftergracenotesNote);
+  }
+
+  {
   // browse the voicechunk
   msrBrowser<msrVoicechunk> browser (v);
   browser.browse (*fAftergracenotesVoicechunk);
+  }
 }
 
 ostream& operator<< (ostream& os, const S_msrAftergracenotes& elt)
@@ -1568,14 +1601,14 @@ void msrAftergracenotes::print (ostream& os)
     "Aftergracenotes" <<
     ", line " << fInputLineNumber <<
     ", slashed: " <<
-    string (
-      fAftergracenotesIsSlashed
-        ? "yes"
-        : "no") <<
+    booleanAsString (fAftergracenotesIsSlashed) <<
     endl;
   
   idtr++;
-  
+
+  os << idtr <<
+    fAftergracenotesNote <<
+    endl;
   os << fAftergracenotesVoicechunk;
       
   idtr--;
@@ -8712,26 +8745,17 @@ void msrVoice::print (ostream& os)
   os <<
     idtr <<
       setw(32) << "(fMeasureZeroHasBeenMetInVoice" << " = " <<
-      string (
-        fMeasureZeroHasBeenMetInVoice
-          ? "true"
-          : "false") <<
+      booleanAsString (fMeasureZeroHasBeenMetInVoice) <<
       ")" <<
       endl <<
     idtr <<
       setw(32) << "(fMeasureNumberHasBeenSetInVoice" << " = " <<
-      string (
-        fMeasureNumberHasBeenSetInVoice
-          ? "true"
-          : "false") <<
+      booleanAsString (fMeasureNumberHasBeenSetInVoice) <<
       ")" <<
       endl <<
     idtr <<
       setw(32) << "(fMusicHasBeenInsertedInVoice" << " = " <<
-      string (
-        fMusicHasBeenInsertedInVoice
-          ? "true"
-          : "false") <<
+      booleanAsString (fMusicHasBeenInsertedInVoice) <<
       ")" <<
       endl;
 
@@ -11233,7 +11257,12 @@ void msrScore::print (ostream& os)
 {
   os <<
     "MSR Score" <<
-    " (" << fPartgroupsList.size() << " part groups)" <<
+    " (" <<
+    singularOrPlural (
+      fPartgroupsList.size(),
+      "part group",
+      "part groups") <<
+    ")" <<
     endl << endl;
 
   idtr++;
@@ -11260,7 +11289,12 @@ void msrScore::printStructure (ostream& os)
 {
   os <<
     "MSR structure" <<
-    " (" << fPartgroupsList.size() << " part groups)" <<
+    " (" <<
+    singularOrPlural (
+      fPartgroupsList.size(),
+      "part group",
+      "part groups") <<
+    ")" <<
     endl << endl;
 
   idtr++;

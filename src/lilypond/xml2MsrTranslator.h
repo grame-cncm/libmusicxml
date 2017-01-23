@@ -917,7 +917,8 @@ class EXP xml2MsrTranslator :
                                 S_msrNote note);
     void                      handleNoteBelongingToATuplet (
                                 S_msrNote newNote);
-    void                      handleTupletsPendingOnTupletStack ();
+    void                      handleTupletsPendingOnTupletStack (
+                                int inputLineNumber);
          
     // ties handling
     // ------------------------------------------------------

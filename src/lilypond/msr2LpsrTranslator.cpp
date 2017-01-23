@@ -1385,6 +1385,9 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
     fOstream << idtr <<
       "--> Start visiting msrBarline" << endl;
   
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   switch (elt->getBarlineCategory ()) {
     
     case msrBarline::kStandaloneBar:
@@ -1416,8 +1419,23 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 // */
 
       // set the current voice chunk as the repeat's common part
-      fCurrentRepeatClone->
-        setRepeatCommonPart (currentVoicechunk);
+      if (fCurrentRepeatClone)
+        fCurrentRepeatClone->
+          setRepeatCommonPart (currentVoicechunk);
+      else {
+        stringstream s;
+
+        s <<
+          "msr2LpsrTranslator::visitStart (S_msrBarline& elt):" <<
+          endl <<
+          "cannot handle barline" <<
+          elt <<
+          "fCurrentRepeatClone is null";
+
+        msrInternalError (
+          inputLineNumber,
+          s.str());
+      }
 
       // create a new voice chunk for the voice
       if (gGeneralOptions->fDebug)
@@ -1427,7 +1445,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
           
       fCurrentVoiceClone->
         setNewVoicechunkForVoice (
-          elt->getInputLineNumber ());
+          inputLineNumber);
 
       fCurrentVoiceClone->
         appendBarlineToVoice (elt);
@@ -1462,7 +1480,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
           
       fCurrentVoiceClone->
         setNewVoicechunkForVoice (
-          elt->getInputLineNumber ());
+          inputLineNumber);
 
       if (fOnGoingRepeat) {
         // add the repeat to the new voice chunk
@@ -1503,7 +1521,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
           
       fCurrentVoiceClone->
         setNewVoicechunkForVoice (
-          elt->getInputLineNumber ());
+          inputLineNumber);
 
       fCurrentVoiceClone->
         appendBarlineToVoice (elt);
@@ -1537,7 +1555,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
           
       fCurrentVoiceClone->
         setNewVoicechunkForVoice (
-          elt->getInputLineNumber ());
+          inputLineNumber);
 
       // create a repeat ending from the current voice chunk
 //      if (gGeneralOptions->fDebug)
@@ -1548,7 +1566,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       S_msrRepeatending
         repeatEnding =
           msrRepeatending::create (
-            elt->getInputLineNumber (),
+            inputLineNumber,
             elt->getEndingNumber (),
             msrRepeatending::kHookedEnding,
             currentVoicechunk,
@@ -1604,7 +1622,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
           
       fCurrentVoiceClone->
         setNewVoicechunkForVoice (
-          elt->getInputLineNumber ());
+          inputLineNumber);
 
       // create a repeat ending from the current voice chunk
 //      if (gGeneralOptions->fDebug)
@@ -1615,7 +1633,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       S_msrRepeatending
         repeatEnding =
           msrRepeatending::create (
-            elt->getInputLineNumber (),
+            inputLineNumber,
             elt->getEndingNumber (),
             msrRepeatending::kHooklessEnding,
             currentVoicechunk,

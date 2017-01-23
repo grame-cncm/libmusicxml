@@ -1762,11 +1762,7 @@ class EXP msrGracenotes : public msrElement
     // services
     // ------------------------------------------------------
 
-    void        appendNoteToGracenotes (S_msrNote note)
-                    {
-                      fGracenotesVoicechunk->
-                        appendElementToVoicechunk (note);
-                    }
+    void        appendNoteToGracenotes (S_msrNote note);
     
     // visitors
     // ------------------------------------------------------
@@ -1810,6 +1806,7 @@ class EXP msrAftergracenotes : public msrElement
     static SMARTP<msrAftergracenotes> create (
       int             inputLineNumber,
       bool            slashed,
+      S_msrNote       aftergracenotesNote,
       S_msrVoice      aftergracenotesVoiceUplink);
     
     SMARTP<msrAftergracenotes> createAftergracenotesBareClone (
@@ -1823,6 +1820,7 @@ class EXP msrAftergracenotes : public msrElement
     msrAftergracenotes (
       int             inputLineNumber,
       bool            slashed,
+      S_msrNote       aftergracenotesNote,
       S_msrVoice      aftergracenotesVoiceUplink);
       
     virtual ~msrAftergracenotes();
@@ -1835,6 +1833,10 @@ class EXP msrAftergracenotes : public msrElement
     bool
                 getAftergracenotesIsSlashed () const
                     { return fAftergracenotesIsSlashed; }
+
+    S_msrNote
+                getAftergracenotesNote () const
+                    { return fAftergracenotesNote; }
 
     S_msrVoicechunk
                 getAftergracenotesVoicechunk () const
@@ -1865,6 +1867,8 @@ class EXP msrAftergracenotes : public msrElement
   private:
 
     bool               fAftergracenotesIsSlashed;
+
+    S_msrNote          fAftergracenotesNote;
     
     S_msrVoicechunk    fAftergracenotesVoicechunk;
 

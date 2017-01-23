@@ -785,14 +785,12 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
   } // switch
 
 
-  fOstream << idtr;
-// JMI     if (partgroupSymbolKind != msrPartgroup::k_NoPartgroupSymbol)
-//      fOstream << " ";
-  fOstream << partGroupContextName << " " "<<";
+  fOstream << idtr <<
+    setw(30) << partGroupContextName + " " "<<";
     
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
-      setw(30) << " " << "% part group " <<
+      "% part group " <<
       partgroup->getPartgroupCombinedName ();
       
   fOstream <<
@@ -834,10 +832,10 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
 
   fOstream <<
     idtr <<
-    ">>";
+    setw(30) << ">>";
   if (fLpsrOptions->fGenerateComments)
     fOstream <<
-      setw(30) << " " << "% part group " <<
+       "% part group " <<
       partgroup->getPartgroupCombinedName ();
   fOstream <<
     endl << endl;
@@ -865,14 +863,14 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
         part->getPartAbbreviation (),
       partInstrumentName =  // JMI
         part->getPartInstrumentName (),
-    partInstrumentAbbreviation =  // JMI
-      part->getPartInstrumentAbbreviation ();
+      partInstrumentAbbreviation =  // JMI
+        part->getPartInstrumentAbbreviation ();
   
     if (fLpsrOptions->fGenerateComments) {
       fOstream << left <<
         idtr <<
         setw(30) << "\\new PianoStaff <<" <<
-        " % part " << part->getPartCombinedName ();
+        "% part " << part->getPartCombinedName ();
     }
     else {
       fOstream << idtr <<
@@ -884,6 +882,9 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
     idtr++;
 
     if (partName.size ()) {
+      elt->
+        setInstrumentName (partName);
+        
       fOstream << idtr <<
         "\\set PianoStaff.instrumentName = #\"" <<
         partName <<
@@ -892,6 +893,9 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
     }
     
     if (partAbbreviation.size ()) {
+      elt->
+        setshortInstrumentName (partAbbreviation);
+        
       fOstream << idtr <<
         "\\set PianoStaff.shortInstrumentName = #\"" <<
         partAbbreviation <<
@@ -902,14 +906,16 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
     fOstream <<
       endl;
   }
+
+  fCurrentPartBlock = elt;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartBlock& elt)
 {
-  // fetch part
+  // fetch current part block's part
   S_msrPart
     part =
-      elt->getPart ();
+      fCurrentPartBlock->getPart ();
       
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
@@ -924,7 +930,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartBlock& elt)
       fOstream <<
         idtr <<
         setw(30) << ">>" <<    
-        " % part " <<
+        "% part " <<
         part->getPartCombinedName ();
     }
     else {
@@ -936,6 +942,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartBlock& elt)
     fOstream <<
       endl << endl;
   }
+
+  fCurrentPartBlock = 0;
 }
 
 //________________________________________________________________________
@@ -949,22 +957,6 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
     staff =
       elt->getStaff ();
       
-  S_msrPart
-    part =
-      staff->getStaffPartUplink ();
-
-  list<S_msrStafftuning>
-    stafftuningsList =
-      staff->getStafftuningsList ();
-      
-  string
-// JMI    staffInstrumentName =
-      // staff->getStaffInstrumentName (),
-    partName =  // JMI
-      part->getPartName (),
-    partAbbreviation =  // JMI
-      part->getPartAbbreviation ();
-
   string staffContextName;
   
   switch (staff->getStaffKind ()) {
@@ -988,7 +980,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
     fOstream << left <<
       idtr <<
       setw(30) << newContext <<
-      " % staff " << staff->getStaffName ();
+      "% staff \"" << staff->getStaffName () << "\"";
   }
   else {
     fOstream << idtr <<
@@ -1000,21 +992,59 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   idtr++;
 
+  S_msrPart
+    part =
+      staff->getStaffPartUplink ();
+
+/* JMI
+  // fetch current part block's part
+  S_msrPart
+    part =
+      fCurrentPartBlock->getPart ();
+  */
+      
+  string
+    partName =
+      part->getPartName (),
+    partAbbreviation =
+      part->getPartAbbreviation ();
+
+  string
+    partBlockInstrumentName =
+      fCurrentPartBlock->getInstrumentName (),
+    partBlockShortInstrumentName =
+      fCurrentPartBlock->getShortInstrumentName ();
+
+  string staffInstrumentName;
+  string staffShortInstrumentName;
+
+  // don't set name nor abbreviation if the staff
+  // belongs to a piano part where they're already set
+
+  if (! partBlockInstrumentName.size ())
+    staffInstrumentName = partName;
+  if (! partBlockShortInstrumentName.size ())
+    staffShortInstrumentName = partName;
+
 // JMI
-  if (partName.size ())
+  if (staffInstrumentName.size ())
     fOstream << idtr <<
       "\\set " << staffContextName << ".instrumentName = \"" <<
-      partName <<
+      staffInstrumentName <<
       "\"" <<
       endl;
 
-  if (partAbbreviation.size ())
+  if (staffShortInstrumentName.size ())
     fOstream << idtr <<
       "\\set " << staffContextName << ".shortInstrumentName = \"" <<
-      partAbbreviation <<
+      staffShortInstrumentName <<
       "\"" <<
       endl;
 
+  list<S_msrStafftuning>
+    stafftuningsList =
+      staff->getStafftuningsList ();
+      
   if (stafftuningsList.size ()) {
     // \set Staff.stringTunings = \stringTuning <c' g' d'' a''>
 
@@ -1053,7 +1083,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrStaffBlock& elt)
     fOstream <<
       idtr <<
       setw(30) << ">>" <<    
-      " % staff " <<
+      "% staff " <<
       elt->getStaff ()->getStaffName ();
   }
   else {
@@ -1412,7 +1442,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoicechunk& elt)
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
       "{" <<
-      setw(30) << " " "% start of msrVoicechunk" <<
+      setw(30) << " " "% start of voice chunk" <<
       endl;
 
     idtr++;
@@ -1433,7 +1463,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrVoicechunk& elt)
     fOstream <<
       idtr <<
       "}" <<
-      setw(30) << " " "% end of msrVoicechunk" <<
+      setw(30) << " " "% end of voice chunk" <<
       endl;
   }
   /* JMI
@@ -1454,7 +1484,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
 
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
-      setw(30) << "{" << "% start of msrMeasure " <<
+      setw(30) << "{" << "% start of measure " <<
       elt->getMeasureNumber () <<
       endl;
 
@@ -1509,7 +1539,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
       fOstream <<
         endl <<
         idtr <<
-          setw(30) << "}" << "% end of msrMeasure " <<
+          setw(30) << "}" << "% end of measure " <<
           elt->getMeasureNumber () <<
           endl << endl;
     }

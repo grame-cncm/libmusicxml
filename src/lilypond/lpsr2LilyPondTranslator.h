@@ -409,6 +409,11 @@ class lpsr2LilyPondTranslator :
     // ------------------------------------------------------
     bool                  fOnGoingHeader;
 
+    // part blocks
+    // ------------------------------------------------------
+    
+    S_lpsrPartBlock       fCurrentPartBlock; // JMI
+
     // limiting line size
     outputLineElementsCounter
                           fMusicOlec;

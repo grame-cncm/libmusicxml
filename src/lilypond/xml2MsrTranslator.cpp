@@ -2332,7 +2332,8 @@ void xml2MsrTranslator::visitStart (S_backup& elt )
       </backup>
 */
 
-  handleTupletsPendingOnTupletStack ();
+  handleTupletsPendingOnTupletStack (
+    elt->getInputLineNumber ());
   
   fOnGoingBackup = true;
 }
@@ -2414,7 +2415,8 @@ void xml2MsrTranslator::visitStart ( S_forward& elt )
   // in case of a voice change
   fCurrentForwardVoiceNumber = fCurrentVoiceNumber;
   
-  handleTupletsPendingOnTupletStack ();
+  handleTupletsPendingOnTupletStack (
+    elt->getInputLineNumber ());
   
   fOnGoingForward = true;
 }
@@ -6360,6 +6362,9 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
       note <<
       endl;
 
+  int inputLineNumber =
+    note->getInputLineNumber ();
+    
   // register note as a tuplet member
   note->
     setNoteKind (msrNote::kTupletMemberNote);
@@ -6381,14 +6386,20 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
 
     case msrTuplet::kContinueTuplet:
       {
+        if (fTupletsStack.size ()) {
+          S_msrTuplet
+            currentTuplet =
+              fTupletsStack.top ();
+              
         // populate the tuplet at the top of the stack
-        if (gGeneralOptions->fDebug)
+//        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "--> adding note " << note <<
             " to stack top tuplet " <<
-            fTupletsStack.top ()->getTupletActualNotes () <<
+            currentTuplet->getTupletActualNotes () <<
              "/" <<
-            fTupletsStack.top ()->getTupletNormalNotes () <<
+            currentTuplet->getTupletNormalNotes () <<
+            ", line " << inputLineNumber <<
             endl;
 
         fTupletsStack.top()->
@@ -6400,6 +6411,20 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
             fTupletsStack.top ()->getTupletActualNotes (),
             fTupletsStack.top ()->getTupletNormalNotes ());
 */
+        }
+        else {
+          stringstream s;
+
+          s <<
+            "handleNoteBelongingToATuplet():" <<
+            endl <<
+            "tuplet member note " << note->noteAsString () <<
+            "cannot be added, tuplets stack is empty";
+
+          msrInternalError (
+            inputLineNumber,
+            s.str());
+        }
       }
       break;
 
@@ -6566,7 +6591,8 @@ xml2MsrTranslator.cpp:4249
   }
 
   // handle the pending tuplets
-  handleTupletsPendingOnTupletStack ();
+  handleTupletsPendingOnTupletStack (
+    inputLineNumber);
 
   // lyrics has to be handled in all cases to handle melismata
   handleLyrics (newNote);
@@ -6583,13 +6609,14 @@ xml2MsrTranslator.cpp:4249
 }
 
 //______________________________________________________________________________
-void xml2MsrTranslator::handleTupletsPendingOnTupletStack ()
+void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
+  int inputLineNumber)
 {
   // fetch current voice
   S_msrVoice
     currentVoice =
       registerVoiceInStaffInCurrentPartIfNeeded (
-        -111, // JMI ??? inputLineNumber,
+        inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
 
