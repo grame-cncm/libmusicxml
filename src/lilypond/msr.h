@@ -1539,7 +1539,7 @@ class EXP msrMeasure : public msrElement
     S_msrElement  getLastElementOfMeasure () const
                       { return fMeasureElementsList.back (); }
                       
-    S_msrNote     removeLastNoteFromMeasure (
+    S_msrElement  removeLastElementFromMeasure (
                     int inputLineNumber);
 
     void          removeElementFromMeasure (S_msrElement elem);
@@ -1680,7 +1680,7 @@ class EXP msrVoicechunk : public msrElement
                           prependElementToMeasure (elem);
                       }
 
-    S_msrNote     removeLastNoteFromVoicechunk (
+    S_msrElement  removeLastElementFromVoicechunk (
                     int inputLineNumber);
 
     void          finalizeLastMeasureOfVoicechunk (int inputLineNumber);
@@ -4629,7 +4629,7 @@ class EXP msrVoice : public msrElement
                     S_msrEyeglasses eyeglasses);
     void          appendPedalToVoice (S_msrPedal pedal);
     
-    S_msrNote     removeLastNoteFromVoice (
+    S_msrElement  removeLastElementFromVoice (
                     int inputLineNumber);
 
     S_msrLyrics

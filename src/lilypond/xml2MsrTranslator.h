@@ -813,22 +813,14 @@ class EXP xml2MsrTranslator :
 
     // note/rest handling
     // ------------------------------------------------------
+    string                    fCurrentNoteType;
+    bool                      fOnGoingNote;
+    
     int                       fCurrentNoteStaffNumber;
     int                       fCurrentNoteVoiceNumber;
     void                      handleStandaloneOrGraceNoteOrRest (
                                 S_msrNote newNote);
 
-    // ------------------------------------------------------
-    // chord handling
-    S_msrChord                fCurrentChord;
-    bool                      fOnGoingChord;
-    
-    S_msrChord                createChordFromItsFirstNote (
-                                S_msrVoice voice,
-                                S_msrNote firstNote);
-    void                      handleNoteBelongingToAChord (
-                                S_msrNote newNote);
-    
     // ------------------------------------------------------
     // articulations handling
     list<S_msrArticulation>   fCurrentArticulations;
@@ -891,15 +883,21 @@ class EXP xml2MsrTranslator :
     void                      copyNoteOrnamentsToChord (
                                 S_msrNote note, S_msrChord chord);
 
-    // description of the current MSR note
-    // ------------------------------------------------------
-    string                    fCurrentNoteType;
-    bool                      fOnGoingNote;
-     // needed for chords
-    map<S_msrVoice, S_msrNote>  fLastHandledNoteInVoice;
+     // ------------------------------------------------------
+    // chord handling
+    S_msrChord                fCurrentChord;
+    bool                      fOnGoingChord;
+    
+    S_msrChord                createChordFromItsFirstNote (
+                                S_msrVoice voice,
+                                S_msrNote firstNote);
+    void                      handleNoteBelongingToAChord (
+                                S_msrNote newNote);
+    
+    map<S_msrVoice, S_msrNote>
+                              fLastHandledNoteInVoice;
     void                      displayLastHandledNoteInVoice (
                                 string header);
-
 
     // tuplet handling
      // ------------------------------------------------------

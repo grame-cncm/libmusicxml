@@ -3335,12 +3335,8 @@ msrTuplet::msrTuplet (
   fTupletActualNotes = actualNotes;
   fTupletNormalNotes = normalNotes;
   
-/* JMI
-  fTupletDivisions =
-    firstNote->getNoteDivisions ();
-  fTupletDisplayDivisions =
-    firstNote->getNoteDisplayDivisions ();
-*/
+  fTupletDivisions        = 0;
+  fTupletDisplayDivisions = 0;
 
   fTupletPositionInMeasure = notePositionInMeasure;
 }
@@ -6830,7 +6826,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   }
 }
 
-S_msrNote msrMeasure::removeLastNoteFromMeasure (
+S_msrElement msrMeasure::removeLastElementFromMeasure (
   int inputLineNumber)
 {  
   if (fMeasureElementsList.size ()) {
@@ -6854,7 +6850,7 @@ S_msrNote msrMeasure::removeLastNoteFromMeasure (
       else {
         msrInternalError (
           inputLineNumber,
-          "cannot removeLastNoteFromMeasure () since "
+          "cannot removeLastElementFromMeasure () since "
           "fMeasureLastNote is not the last element");
         }
     }
@@ -6862,7 +6858,7 @@ S_msrNote msrMeasure::removeLastNoteFromMeasure (
     else {
       msrInternalError (
         inputLineNumber,
-        "cannot removeLastNoteFromMeasure () since "
+        "cannot removeLastElementFromMeasure () since "
         "fMeasureLastNote is null");
     }
   }
@@ -6870,7 +6866,7 @@ S_msrNote msrMeasure::removeLastNoteFromMeasure (
   else {
     msrInternalError (
       inputLineNumber,
-      "cannot removeLastNoteFromMeasure () since it is empty");
+      "cannot removeLastElementFromMeasure () since it is empty");
   }
 
   return fMeasureLastNote;
@@ -7507,20 +7503,24 @@ void msrVoicechunk::removeElementFromVoicechunk (
 }
 */
 
-S_msrNote msrVoicechunk::removeLastNoteFromVoicechunk (
+
+S_msrElement msrVoicechunk::removeLastElementFromVoicechunk (
   int inputLineNumber)
 {
+  // this last element can be a note or a tuplet,
+  // this method is used when the seconde note of a chord is mest
+  
   if (fVoicechunkMeasuresList.size ()) {
     return
       fVoicechunkMeasuresList.back ()->
-        removeLastNoteFromMeasure (
+        removeLastElementFromMeasure (
           inputLineNumber);
   }
   
   else {
     msrInternalError (
       inputLineNumber,
-      "cannot removeLastNoteFromVoicechunk () "
+      "cannot removeLastElementFromVoicechunk () "
       "since it is empty");
   }
 }
@@ -8864,7 +8864,7 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
 }
 */
 
-S_msrNote msrVoice::removeLastNoteFromVoice (
+S_msrElement msrVoice::removeLastElementFromVoice (
   int inputLineNumber)
 {
   if (gGeneralOptions->fDebugDebug)
@@ -8874,7 +8874,7 @@ S_msrNote msrVoice::removeLastNoteFromVoice (
 
   return
     fVoiceVoicechunk->
-      removeLastNoteFromVoicechunk (inputLineNumber);
+      removeLastElementFromVoicechunk (inputLineNumber);
 }
 
 void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
