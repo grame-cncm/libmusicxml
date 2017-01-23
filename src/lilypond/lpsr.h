@@ -54,6 +54,57 @@ typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
 #define olec ioutputLineElementsCounter::gOutputLineElementsCounter
 
 /*!
+\internal
+\brief A macro to emit warning messages regarding MusicXML data
+*/
+//______________________________________________________________________________
+#define lpsrMusicXMLWarning( inputLineNumber, message ) \
+{ \
+  cerr << endl << endl; \
+\
+  cerr << \
+    "%{" << \
+    endl << \
+    "!!! LPSR WARNING !!!, " << \
+    gGeneralOptions->fInputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << \
+    "%}" << \
+    endl << \
+    endl; \
+}
+
+/*!
+\internal
+\brief A macro to emit error messages regarding MusicXML data and exit
+*/
+//______________________________________________________________________________
+#define lpsrMusicXMLError( inputLineNumber, message ) \
+{ \
+  cerr << endl << endl; \
+\
+  cerr << \
+    "%{" << \
+    endl << \
+    "### LPSR ERROR ###, " << \
+    gGeneralOptions->fInputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << \
+    "%}" << \
+    endl << \
+    endl << \
+    idtr; \
+\
+  assert(false); \
+}
+
+/*!
   \brief The LPSR code generation options.
 
   A class is used to avoid passing arguments one by one
