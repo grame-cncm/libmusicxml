@@ -1472,26 +1472,45 @@ class EXP lpsrStaffBlock : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrStaff
-              getStaff () const
+    S_msrStaff    getStaff () const
                       { return fStaff; }
 
     const list<S_msrElement>&
-              getStaffBlockElements () const
-                  { return fStaffBlockElements; }
+                  getStaffBlockElements () const
+                      { return fStaffBlockElements; }
+
+    void          setStaffBlockInstrumentName (
+                    string instrumentName)
+                      {
+                        fStaffBlockInstrumentName =
+                          instrumentName;
+                      }
+
+    string        getStaffBlockInstrumentName () const
+                      { return fStaffBlockInstrumentName; }
+
+    void          setStaffBlockShortInstrumentName (
+                    string shortInstrumentName)
+                      {
+                        fStaffBlockShortInstrumentName =
+                          shortInstrumentName;
+                      }
+
+    string        getStaffBlockShortInstrumentName () const
+                      { return fStaffBlockShortInstrumentName; }
 
     // services
     // ------------------------------------------------------
 
-    void      appendVoiceUseToStaffBlock (
-                S_msrVoice voice);
+    void          appendVoiceUseToStaffBlock (
+                    S_msrVoice voice);
 
-    void      appendLyricsUseToStaffBlock (
-                S_msrLyrics lyrics);
+    void          appendLyricsUseToStaffBlock (
+                    S_msrLyrics lyrics);
 
-    void      appendElementToStaffBlock (
-                S_msrElement elem)
-                  { fStaffBlockElements.push_back (elem); }
+    void          appendElementToStaffBlock (
+                    S_msrElement elem)
+                      { fStaffBlockElements.push_back (elem); }
                   
     // visitors
     // ------------------------------------------------------
@@ -1511,6 +1530,9 @@ class EXP lpsrStaffBlock : public lpsrElement
     S_msrStaff         fStaff;
 
     list<S_msrElement> fStaffBlockElements;
+
+    string             fStaffBlockInstrumentName;
+    string             fStaffBlockShortInstrumentName;
 };
 typedef SMARTP<lpsrStaffBlock> S_lpsrStaffBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrStaffBlock& elt);
@@ -1599,8 +1621,8 @@ class EXP lpsrPartBlock : public lpsrElement
 
     list<S_msrElement> fPartBlockElements;
 
-    string             fPartBlockInstrumentName;
-    string             fPartBlockShortInstrumentName;
+    string             fPartBlockInstrumentName; // JMI
+    string             fPartBlockShortInstrumentName; // JMI
 };
 typedef SMARTP<lpsrPartBlock> S_lpsrPartBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrPartBlock& elt);

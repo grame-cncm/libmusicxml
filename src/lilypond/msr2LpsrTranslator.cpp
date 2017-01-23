@@ -516,7 +516,31 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
     lpsrStaffBlock::create (
       fCurrentStaffClone);
 
-  // append it to the current part block
+  string
+    partName =
+      fCurrentPartClone->getPartName (),
+    partAbbreviation =
+      fCurrentPartClone->getPartAbbreviation ();
+
+  string staffBlockInstrumentName;
+  string staffBlockShortInstrumentName;
+
+  // don't set instrument name nor short instrument name
+  // if the staff belongs to a piano part where they're already set
+  if (! partName.size ())
+    staffBlockInstrumentName = partName;
+  if (! partAbbreviation.size ())
+    staffBlockShortInstrumentName = partAbbreviation;
+
+  if (staffBlockInstrumentName.size ())
+    fCurrentStaffBlock->
+      setStaffBlockInstrumentName (staffBlockInstrumentName);
+      
+  if (staffBlockShortInstrumentName.size ())
+    fCurrentStaffBlock->
+      setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
+        
+  // append the staff block to the current part block
   fCurrentPartBlock->
     appendElementToPartBlock (fCurrentStaffBlock);
 
