@@ -5503,12 +5503,28 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
       endl;
   tuplet->addNoteToTuplet (firstNote);
 
-/*
+/* JMI
   // set note display divisions
   firstNote->
     applyTupletMemberDisplayFactor (
       fCurrentActualNotes, fCurrentNormalNotes);
   */
+
+
+  // keep track of current tuplet in the current voice,
+  // in case we learn later by <chord/> in the next note
+  // that it is actually the first note of a chord ?? JMI XXL
+  if (gGeneralOptions->fDebugDebug) {
+    displayLastHandledTupletInVoice (
+      "############## Before fLastHandledTupletInVoice");
+  }
+  
+  fLastHandledTupletInVoice [currentVoice] = tuplet;
+  
+  if (gGeneralOptions->fDebugDebug) {
+    displayLastHandledTupletInVoice (
+      "############## After  fLastHandledNoteInVoice");
+  }
 }
 
 //______________________________________________________________________________
@@ -6163,7 +6179,9 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     displayLastHandledNoteInVoice (
       "############## Before fLastHandledNoteInVoice");
   }
+  
   fLastHandledNoteInVoice [currentVoice] = note;
+  
   if (gGeneralOptions->fDebugDebug) {
     displayLastHandledNoteInVoice (
       "############## After  fLastHandledNoteInVoice");
@@ -6197,6 +6215,43 @@ void xml2MsrTranslator::displayLastHandledNoteInVoice (string header)
       cerr << idtr <<
         "\"" << (*i).first->getVoiceName () <<
         "\" ----> " << (*i).second->noteAsString ();
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+    cerr <<
+      endl;
+    idtr--;
+  }
+
+  cerr <<
+    endl;
+}
+
+void xml2MsrTranslator::displayLastHandledTupletInVoice (string header)
+{
+  cerr <<
+    endl <<
+    idtr << header << ", fLastHandledTupletInVoice contains:";
+
+  if (! fLastHandledTupletInVoice.size ()) {
+    cerr <<
+      " none" <<
+      endl;
+  }
+  
+  else {
+    map<S_msrVoice, S_msrTuplet>::const_iterator
+      iBegin = fLastHandledTupletInVoice.begin(),
+      iEnd   = fLastHandledTupletInVoice.end(),
+      i      = iBegin;
+      
+    cerr << endl;
+    
+    idtr++;
+    for ( ; ; ) {
+      cerr << idtr <<
+        "\"" << (*i).first->getVoiceName () <<
+        "\" ----> " << (*i).second->tupletAsString ();
       if (++i == iEnd) break;
       cerr << endl;
     } // for

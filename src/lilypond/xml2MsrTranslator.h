@@ -896,7 +896,12 @@ class EXP xml2MsrTranslator :
     
     map<S_msrVoice, S_msrNote>
                               fLastHandledNoteInVoice;
+    map<S_msrVoice, S_msrTuplet>
+                              fLastHandledTupletInVoice;
+                              
     void                      displayLastHandledNoteInVoice (
+                                string header);
+    void                      displayLastHandledTupletInVoice (
                                 string header);
 
     // tuplet handling
