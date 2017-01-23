@@ -3378,6 +3378,12 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
       endl;
 
   fTupletElements.push_back (note);
+
+  // account for note duration
+  fTupletDivisions +=
+    note->getNoteDivisions ();
+  fTupletDisplayDivisions += // JMI
+    note->getNoteDisplayDivisions ();  
     
   // populate note's measure number
   note->setNoteMeasureNumber (
@@ -3401,11 +3407,19 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 
   fTupletElements.push_back (chord);
     
-  // populate note's measure number
+  // account for chord duration
+  fTupletDivisions +=
+    chord->getChordDivisions ();
+    /*
+  fTupletDisplayDivisions += // JMI
+    chord->getChordDisplayDivisions ();  
+    */
+    
+  // populate chord's measure number
   chord->setChordMeasureNumber (
     fTupletMeasureNumber);
 
-  // populate note's position in measure
+  // populate chord's position in measure
   chord->setChordPositionInMeasure (
     fTupletPositionInMeasure);
 }
@@ -3422,6 +3436,14 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
       endl;
 
   fTupletElements.push_back (tuplet);
+    
+  // account for tuplet duration
+  fTupletDivisions +=
+    tuplet->getTupletDivisions ();
+    /*
+  fTupletDisplayDivisions += // JMI
+    tuplet->getTupletDisplayDivisions ();  
+    */
     
   // populate tuplet's measure number
   tuplet->setTupletMeasureNumber (

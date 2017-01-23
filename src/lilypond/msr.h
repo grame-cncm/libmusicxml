@@ -3153,8 +3153,8 @@ class EXP msrTuplet : public msrElement
                           divisionsPerWholeNote;
                       }
                       
-    const int   getTupletDivisionsPerWholeNote () const
-                    { return fTupletDivisionsPerWholeNote; }
+    const int     getTupletDivisionsPerWholeNote () const
+                      { return fTupletDivisionsPerWholeNote; }
                     
     // measure uplink
     void          setTupletMeasureUplink (
