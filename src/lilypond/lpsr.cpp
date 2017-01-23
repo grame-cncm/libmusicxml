@@ -2248,6 +2248,16 @@ void lpsrPartBlock::print (ostream& os)
       fPart->getPartAbbreviation () << "\")" <<
       endl;
 
+  os << left <<
+    idtr <<
+      setw(17) << "PartBlockInstrumentName" << " = \"" <<
+      fPartBlockInstrumentName <<
+      endl <<
+    idtr <<
+      setw(17) << "PartBlockShortInstrumentName" << " = \"" <<
+      fPartBlockShortInstrumentName <<
+      endl;
+
   os << endl;
 
   if (fPartBlockElements.size()) {  

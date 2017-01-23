@@ -883,7 +883,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
 
     if (partName.size ()) {
       elt->
-        setInstrumentName (partName);
+        setPartBlockInstrumentName (partName);
         
       fOstream << idtr <<
         "\\set PianoStaff.instrumentName = #\"" <<
@@ -894,7 +894,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
     
     if (partAbbreviation.size ()) {
       elt->
-        setshortInstrumentName (partAbbreviation);
+        setPartBlockShortInstrumentName (partAbbreviation);
         
       fOstream << idtr <<
         "\\set PianoStaff.shortInstrumentName = #\"" <<
@@ -1011,9 +1011,9 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   string
     partBlockInstrumentName =
-      fCurrentPartBlock->getInstrumentName (),
+      fCurrentPartBlock->getPartBlockInstrumentName (),
     partBlockShortInstrumentName =
-      fCurrentPartBlock->getShortInstrumentName ();
+      fCurrentPartBlock->getPartBlockShortInstrumentName ();
 
   string staffInstrumentName;
   string staffShortInstrumentName;
