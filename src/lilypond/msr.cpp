@@ -4780,8 +4780,22 @@ S_msrLyricschunk msrLyricschunk::createLyricschunkBareClone ()
         fChunkText,
         fChunkDivisions,
         fLyricschunkLyricsUplink);
-  
+
+  clone->
+    setLyricschunkNote (fLyricschunkNote);
+    
   return clone;
+}
+
+void msrLyricschunk::setLyricschunkNote (S_msrNote note)
+{
+//  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> setting fLyricschunkNote to '" <<
+      note->noteAsString () << "'" <<
+      endl;
+
+ fLyricschunkNote = note;
 }
 
 void msrLyricschunk::acceptIn (basevisitor* v) {
@@ -4927,10 +4941,10 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "skip" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", " <<
-  // JMI      fLyricschunkNote->notePitchAsString () <<
+        ", fLyricschunkNote = " <<
+        fLyricschunkNote->noteAsString () <<
         ":" <<
-  // JMI      fLyricschunkNote->noteDivisionsAsMSRString () <<
+        fLyricschunkNote->noteDivisionsAsMSRString () <<
         endl;
       break;
       
@@ -8494,18 +8508,15 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     appendNoteToVoicechunk (note);
   
   // add a skip chunk of the same duration to the master lyrics
-  // but not in the case of rests
-  if (note->getNoteKind () != msrNote::kRestNote) {
-    int
-      lyricsDivisions =
-        note->getNoteDivisions ();
-  
-    fVoiceLyricsmaster->
-      addSkipChunkToLyrics (
-        note->getInputLineNumber (),
-        lyricsDivisions,
-        note); // JMI
-  }
+  int
+    lyricsDivisions =
+      note->getNoteDivisions ();
+
+  fVoiceLyricsmaster->
+    addSkipChunkToLyrics (
+      note->getInputLineNumber (),
+      lyricsDivisions,
+      note); // JMI
 
   fMusicHasBeenInsertedInVoice = true;
 }

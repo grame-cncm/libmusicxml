@@ -5505,6 +5505,12 @@ void xml2MsrTranslator::finalizeTuplet (S_msrNote lastNote)
 void xml2MsrTranslator::attachCurrentArticulationsToNote (
   S_msrNote note)
 {
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> attaching current articulations to note " <<
+      note->noteAsString () <<
+      endl;
+
   /*
   list<S_msrArticulation>::const_iterator i;
   for (
@@ -5540,6 +5546,12 @@ void xml2MsrTranslator::attachCurrentArticulationsToNote (
 void xml2MsrTranslator::attachCurrentOrnamentsToNote (
   S_msrNote note)
 {
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> attaching current ornaments to note " <<
+      note->noteAsString () <<
+      endl;
+
   /*
   list<S_msrOrnament>::const_iterator i;
   for (
@@ -5575,6 +5587,12 @@ void xml2MsrTranslator::attachCurrentOrnamentsToNote (
 void xml2MsrTranslator::attachCurrentArticulationsToChord (
   S_msrChord chord)
 {
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> attaching current articulations to chord " <<
+      chord->chordAsString () <<
+      endl;
+
   list<S_msrArticulation>::const_iterator i;
   for (
     i=fCurrentArticulations.begin();
@@ -5607,6 +5625,12 @@ void xml2MsrTranslator::attachCurrentArticulationsToChord (
 void xml2MsrTranslator::attachCurrentOrnamentsToChord (
   S_msrChord chord)
 {
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> attaching current ornaments to chord " <<
+      chord->chordAsString () <<
+      endl;
+
   list<S_msrOrnament>::const_iterator i;
   for (
     i=fCurrentOrnamentsList.begin();
@@ -5639,7 +5663,13 @@ void xml2MsrTranslator::attachCurrentOrnamentsToChord (
 void xml2MsrTranslator::attachPendingDynamicsToNote (
   S_msrNote note)
 {
-  // attach the pending dynamics if any to the note
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> attaching pending dynamics to note " <<
+      note->noteAsString () <<
+      endl;
+
+ // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {
     
     if (fNoteData.fStepIsARest) {
@@ -5671,6 +5701,12 @@ void xml2MsrTranslator::attachPendingDynamicsToNote (
 void xml2MsrTranslator::attachPendingWordsToNote (
   S_msrNote note)
 {
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> attaching pending words to note " <<
+      note->noteAsString () <<
+      endl;
+
   // attach the pending words if any to the note
   if (! fPendingWords.empty ()) {
     
@@ -5708,6 +5744,12 @@ void xml2MsrTranslator::attachPendingWordsToNote (
 void xml2MsrTranslator::attachPendingSlursToNote (
   S_msrNote note)
 {
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> attaching pending slurs to note " <<
+      note->noteAsString () <<
+      endl;
+
   // attach the pending slurs if any to the note
   if (! fPendingSlurs.empty ()) {
     
@@ -5745,6 +5787,12 @@ void xml2MsrTranslator::attachPendingSlursToNote (
 void xml2MsrTranslator::attachPendingWedgesToNote (
   S_msrNote note)
 {
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> attaching pending wedges to note " <<
+      note->noteAsString () <<
+      endl;
+
   // attach the pending wedges if any to the note
   if (! fPendingWedges.empty ()) {
     

@@ -3422,6 +3422,8 @@ class EXP msrLyricschunk : public msrElement
               getLyricschunkKind () const
                   { return fLyricschunkKind; }
 
+    void      setLyricschunkNote (S_msrNote note);
+
     S_msrNote getLyricschunkNote () const
                   { return fLyricschunkNote; }
 
@@ -3430,9 +3432,6 @@ class EXP msrLyricschunk : public msrElement
 
     int       getChunkDivisions () const
                   { return fChunkDivisions; }
-
-    void      setLyricschunkNote (S_msrNote note)
-                  { fLyricschunkNote = note; }
 
     // services
     // ------------------------------------------------------
