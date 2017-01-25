@@ -5867,13 +5867,6 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-/*
-  // fetch current staff
-  S_msrStaff
-    staff =
-      createStaffInCurrentPartIfNeeded (
-        inputLineNumber, fCurrentNoteStaffNumber);
-*/
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -6079,80 +6072,6 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   }
     
   fOnGoingNote = false;
-}
-
-void xml2MsrTranslator::displayLastHandledNoteInVoice (string header)
-{
-  cerr <<
-    endl <<
-    idtr << header << ", fLastHandledNoteInVoice contains:";
-
-  if (! fLastHandledNoteInVoice.size ()) {
-    cerr <<
-      " none" <<
-      endl;
-  }
-  
-  else {
-    map<S_msrVoice, S_msrNote>::const_iterator
-      iBegin = fLastHandledNoteInVoice.begin(),
-      iEnd   = fLastHandledNoteInVoice.end(),
-      i      = iBegin;
-      
-    cerr << endl;
-    
-    idtr++;
-    for ( ; ; ) {
-      cerr << idtr <<
-        "\"" << (*i).first->getVoiceName () <<
-        "\" ----> " << (*i).second->noteAsString ();
-      if (++i == iEnd) break;
-      cerr << endl;
-    } // for
-    cerr <<
-      endl;
-    idtr--;
-  }
-
-  cerr <<
-    endl;
-}
-
-void xml2MsrTranslator::displayLastHandledTupletInVoice (string header)
-{
-  cerr <<
-    endl <<
-    idtr << header << ", fLastHandledTupletInVoice contains:";
-
-  if (! fLastHandledTupletInVoice.size ()) {
-    cerr <<
-      " none" <<
-      endl;
-  }
-  
-  else {
-    map<S_msrVoice, S_msrTuplet>::const_iterator
-      iBegin = fLastHandledTupletInVoice.begin(),
-      iEnd   = fLastHandledTupletInVoice.end(),
-      i      = iBegin;
-      
-    cerr << endl;
-    
-    idtr++;
-    for ( ; ; ) {
-      cerr << idtr <<
-        "\"" << (*i).first->getVoiceName () <<
-        "\" ----> " << (*i).second->tupletAsString ();
-      if (++i == iEnd) break;
-      cerr << endl;
-    } // for
-    cerr <<
-      endl;
-    idtr--;
-  }
-
-  cerr <<
-    endl;
 }
 
 //______________________________________________________________________________
@@ -6672,6 +6591,80 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
         appendTupletToVoice (pendingTuplet);
     }  
   } // while
+}
+
+void xml2MsrTranslator::displayLastHandledNoteInVoice (string header)
+{
+  cerr <<
+    endl <<
+    idtr << header << ", fLastHandledNoteInVoice contains:";
+
+  if (! fLastHandledNoteInVoice.size ()) {
+    cerr <<
+      " none" <<
+      endl;
+  }
+  
+  else {
+    map<S_msrVoice, S_msrNote>::const_iterator
+      iBegin = fLastHandledNoteInVoice.begin(),
+      iEnd   = fLastHandledNoteInVoice.end(),
+      i      = iBegin;
+      
+    cerr << endl;
+    
+    idtr++;
+    for ( ; ; ) {
+      cerr << idtr <<
+        "\"" << (*i).first->getVoiceName () <<
+        "\" ----> " << (*i).second->noteAsString ();
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+    cerr <<
+      endl;
+    idtr--;
+  }
+
+  cerr <<
+    endl;
+}
+
+void xml2MsrTranslator::displayLastHandledTupletInVoice (string header)
+{
+  cerr <<
+    endl <<
+    idtr << header << ", fLastHandledTupletInVoice contains:";
+
+  if (! fLastHandledTupletInVoice.size ()) {
+    cerr <<
+      " none" <<
+      endl;
+  }
+  
+  else {
+    map<S_msrVoice, S_msrTuplet>::const_iterator
+      iBegin = fLastHandledTupletInVoice.begin(),
+      iEnd   = fLastHandledTupletInVoice.end(),
+      i      = iBegin;
+      
+    cerr << endl;
+    
+    idtr++;
+    for ( ; ; ) {
+      cerr << idtr <<
+        "\"" << (*i).first->getVoiceName () <<
+        "\" ----> " << (*i).second->tupletAsString ();
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+    cerr <<
+      endl;
+    idtr--;
+  }
+
+  cerr <<
+    endl;
 }
 
 //______________________________________________________________________________

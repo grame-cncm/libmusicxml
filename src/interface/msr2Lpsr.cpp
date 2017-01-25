@@ -51,7 +51,7 @@ S_lpsrScore msr2Lpsr (
   // display it
   if (lpsrOpts->fDisplayLPSR)
     displayLpsrScore (
-      lpScore, msrOpts, lpsrOpts, os);
+      lpScore, msrOpts, lpsrOpts, cerr);
 
   return lpScore;
 }

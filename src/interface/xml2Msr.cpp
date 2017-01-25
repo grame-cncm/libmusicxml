@@ -50,10 +50,10 @@ static S_msrScore xml2Msr (
       buildMsrScoreFromElementsTree (msrOpts, elemsTree);
 
     if (msrOpts->fDisplayMSR)
-      displayMsrScore (msrOpts, mScore, os);
+      displayMsrScore (msrOpts, mScore, cerr);
 
     if (msrOpts->fDisplayMSRScoreSummary)
-      displayMsrScoreSummary (msrOpts, mScore, os);
+      displayMsrScoreSummary (msrOpts, mScore, cerr);
   }
 
   return mScore;

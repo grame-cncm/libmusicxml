@@ -747,7 +747,7 @@ void analyzeOptions (
                 '=',
                 false); // 'true' to debug it
           /*
-          cout <<
+          cerr <<
             "--> pair.first = \"" << pair.first << "\", " <<
             "--> pair.second = \"" << pair.second << "\"" <<
             endl;
@@ -1052,9 +1052,9 @@ void printOptions ()
 int main (int argc, char *argv[]) 
 {
  /*
-  cout << "argc = " << argc << endl;
+  cerr << "argc = " << argc << endl;
   for (int i = 0; i < argc ; i++ ) {
-    cout << "argv[ " << i << "] = " << argv[i] << endl;
+    cerr << "argv[ " << i << "] = " << argv[i] << endl;
   }
   */
 
@@ -1151,7 +1151,7 @@ int main (int argc, char *argv[])
         musicxmlFd2PartsInfo (stdin, gMsrOptions, outStream);
     else
       mScore =
-        musicxmlFd2PartsInfo (stdin, gMsrOptions, cout);
+        musicxmlFd2PartsInfo (stdin, gMsrOptions, outStream);
   }
   
   else {
@@ -1163,7 +1163,7 @@ int main (int argc, char *argv[])
     else
       mScore =
         musicxmlFile2PartsInfo (
-          inputFileName.c_str(), gMsrOptions, cout);
+          inputFileName.c_str(), gMsrOptions, outStream);
   }
     
   if (! mScore) {
@@ -1187,7 +1187,7 @@ int main (int argc, char *argv[])
         musicxmlFd2Msr (stdin, gMsrOptions, outStream);
     else
       mScore =
-        musicxmlFd2Msr (stdin, gMsrOptions, cout);
+        musicxmlFd2Msr (stdin, gMsrOptions, outStream);
   }
   
   else {
@@ -1199,7 +1199,7 @@ int main (int argc, char *argv[])
     else
       mScore =
         musicxmlFile2Msr (
-          inputFileName.c_str(), gMsrOptions, cout);
+          inputFileName.c_str(), gMsrOptions, outStream);
   }
     
   if (! mScore) {
@@ -1221,7 +1221,7 @@ int main (int argc, char *argv[])
         msr2Lpsr (mScore, gMsrOptions, gLpsrOptions, outStream);
     else
       lpScore =
-        msr2Lpsr (mScore, gMsrOptions, gLpsrOptions, cout);
+        msr2Lpsr (mScore, gMsrOptions, gLpsrOptions, outStream);
     
     if (! lpScore) {
       cerr <<
@@ -1237,14 +1237,15 @@ int main (int argc, char *argv[])
 
   if (! gLpsrOptions->fDontGenerateLilyPondCode) {
     if (outputFileName.size())
-      lpsr2LilyPond (lpScore, gMsrOptions, gLpsrOptions, outStream);
+      lpsr2LilyPond (lpScore, gMsrOptions, gLpsrOptions, cout);
     else
       lpsr2LilyPond (lpScore, gMsrOptions, gLpsrOptions, cout);
     
     if (outputFileName.size()) {
       if (gGeneralOptions->fDebug)
         cerr << idtr <<
-          "Closing file '" << outputFileName << "'" << endl;
+          "Closing file '" << outputFileName << "'" <<
+          endl;
           
       outStream.close ();
     }
