@@ -1390,12 +1390,14 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
 
   idtr++;
 
-  fOstream << // JMI
-    idtr <<
-      "\set Score.barNumberVisibility = #all-bar-numbers-visible" <<
-      endl <<
-    idtr <<
-      "\override Score.BarNumber.break-visibility = ##(#f #t #t)" <<
+ // if (gLpsrOptions->fShowAllBarNumbers) // JMI
+    fOstream <<
+      idtr <<
+        "\\set Score.barNumberVisibility = #all-bar-numbers-visible" <<
+        endl <<
+      idtr <<
+        "\\override Score.BarNumber.break-visibility = ##(#f #t #t)" <<
+        endl <<
       endl;
 
   fRelativeOctaveReference = 0;

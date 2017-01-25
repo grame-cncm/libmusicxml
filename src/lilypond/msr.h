@@ -210,24 +210,24 @@ class EXP msrOptions : public smartable
   public:
 
     // languages
-    string                          fMsrNoteNamesLanguageAsString;
-    msrNoteNamesLanguage            fMsrNoteNamesLanguage;
+    string                fMsrNoteNamesLanguageAsString;
+    msrNoteNamesLanguage  fMsrNoteNamesLanguage;
     
     // advanced options
-    bool                            fCreateStaffRelativeVoiceNumbers;
-    bool                            fDelayRestsDynamics;
+    bool                  fCreateStaffRelativeVoiceNumbers;
+    bool                  fDelayRestsDynamics;
 
     // MSR display
-    bool                            fDisplayMSR;
+    bool                  fDisplayMSR;
 
     // lyrics display
-    bool                            fDontDisplayMSRLyrics;
+    bool                  fDontDisplayMSRLyrics;
     
     // MSR score summary
-    bool                            fDisplayMSRScoreSummary;
+    bool                  fDisplayMSRScoreSummary;
 
     // parts renaming
-    map<string, string>             fPartsRenaming;
+    map<string, string>   fPartsRenaming;
 };
 typedef SMARTP<msrOptions> S_msrOptions;
 
@@ -1520,7 +1520,7 @@ class EXP msrMeasure : public msrElement
     // ------------------------------------------------------
 
     int           getMeasureLength () const // divisions
-                      { return fMeasurePosition -1; } // positions start at 1
+                      { return fMeasurePosition - 1; } // positions start at 1
                       
     string        getMeasureLengthAsString () const;
     

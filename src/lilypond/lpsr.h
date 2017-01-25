@@ -128,23 +128,27 @@ class EXP lpsrOptions : public smartable {
   public:
 
     // LPSR display
-    bool                            fDisplayLPSR;
+    bool fDisplayLPSR;
 
     // LilyPond code generation
-    bool                            fGenerateAbsoluteOctaves;
+    bool fGenerateAbsoluteOctaves;
 
-    bool                            fDontKeepLineBreaks;
-    bool                            fKeepStaffSize;
-    
-    bool                            fGenerateNumericalTime;
-    bool                            fGenerateComments;
-    bool                            fGenerateStems;
-    bool                            fNoAutoBeaming;
-    bool                            fGenerateInputLineNumbers;
-    
-    bool                            fDontGenerateLilyPondLyrics;
+    bool fDontKeepLineBreaks;
+    bool fKeepStaffSize;
 
-    bool                            fDontGenerateLilyPondCode;
+    bool fShowAllBarNumbers; // JMI
+    
+    bool fGenerateNumericalTime;
+    bool fGenerateComments;
+    bool fGenerateStems;
+    bool fNoAutoBeaming;
+    bool fGenerateInputLineNumbers;
+
+    bool fGenerateMasterVoices; // JMI
+    
+    bool fDontGenerateLilyPondLyrics;
+
+    bool fDontGenerateLilyPondCode;
 };
 typedef SMARTP<lpsrOptions> S_lpsrOptions;
 

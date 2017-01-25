@@ -7005,9 +7005,9 @@ string msrMeasure::getMeasureLengthAsString () const
 
   int
     measureLength =
-      getMeasureLength (); 
+      this->getMeasureLength (); 
   
-  if (gGeneralOptions->fDebug)
+ // JMI if (gGeneralOptions->fDebug)
     cerr <<
       endl <<
       idtr <<
@@ -7032,6 +7032,7 @@ string msrMeasure::getMeasureLengthAsString () const
         fInputLineNumber,
         errorMessage);
   }
+  
   else
     result = "0";
 
@@ -7067,6 +7068,7 @@ void msrMeasure::print (ostream& os)
       ", voice " <<
       fMeasureVoicechunkUplink->getVoiceUplink ()->getVoiceName () <<
 */
+      ", time " << fMeasureTime->timeAsString () <<
       ", length: " << getMeasureLength () << " divisions" <<
       " (" << getMeasureLengthAsString () << ")" <<
       ", pos: " << fMeasurePosition << 
@@ -7169,7 +7171,17 @@ msrVoicechunk::msrVoicechunk (
         fVoicechunkDivisionsPerWholeNote,
         this);
 
-  // append it to the voice chunk
+  // set the measure clef, key and time if any
+  /* JMI
+  measure->setMeasureClef (
+    lastMeasure->getMeasureClef ());
+  measure->setMeasureKey (
+    lastMeasure->getMeasureKey ());
+    */
+  measure->setMeasureTime (
+    fVoicechunkTime);
+        
+  // append the measure to the voice chunk
   fVoicechunkMeasuresList.push_back (measure);
 
   fMeasureNumberHasBeenSetInVoiceChunk = false;
@@ -7237,13 +7249,18 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
         getMeasureKind ();
 */
         
- // if (gGeneralOptions->fDebug)
+  if (true || gGeneralOptions->fDebug) {
+ // JMI if (gGeneralOptions->fDebug) {
     cerr <<
       idtr <<
         setw(31) << "--> setVoicechunkMeasureNumber (" <<
         measureNumber <<
         "): " <<
-        endl <<
+        endl;
+
+    idtr++;
+
+    cerr <<
       idtr <<
         setw(31) << "currentMeasureNumber" << " = " <<
         currentMeasureNumber <<
@@ -7260,18 +7277,38 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
         setw(31) << "currentMeasureLength" << " = " <<
         currentMeasureLength <<
         endl;
+
+    idtr--;
+  }
       
   // is the current measure full? (positions start at 1)
   if (currentMeasurePosition <= currentMeasureDivisionsPerWholeMeasure) {
     // no, register current measure as incomplete
     
-     if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
-        cerr <<
-          idtr <<
-            "==> measure " << measureNumber <<
-            " is incomplete" <<
+    if (gGeneralOptions->fTrace) {
+      cerr <<
+        endl <<
+        idtr <<
+          "==> measure " << measureNumber <<
+          " is incomplete" <<
+          ", line " << inputLineNumber <<
+          endl;
+
+      idtr++;
+      
+      cerr <<
+        idtr <<
+          "currentMeasurePosition = " <<
+          currentMeasurePosition <<
           endl <<
-          idtr;
+        idtr <<
+          "currentMeasureDivisionsPerWholeMeasure = " <<
+          currentMeasureDivisionsPerWholeMeasure <<
+        endl <<
+        endl;
+
+      idtr--;
+    }
     
     if (fVoicechunkMeasuresList.size () == 1) {
       // this is the first measure in the voice chunk
@@ -7378,7 +7415,7 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
   fMeasureNumberHasBeenSetInVoiceChunk = true;
 }
 
-void msrVoicechunk::forceVoicechunkMeasureNumberTo (int measureNumber)
+void msrVoicechunk::forceVoicechunkMeasureNumberTo (int measureNumber) // JMI
 {
   fVoicechunkMeasureNumber = measureNumber;
 
@@ -7412,6 +7449,10 @@ void msrVoicechunk::appendTimeToVoicechunk (S_msrTime time)
   // register time in voice chunk
   fVoicechunkTime = time;
 
+  // register time in voice chunks's current measure
+  fVoicechunkMeasuresList.back ()->
+    setMeasureTime (time);
+    
   // append it to this voice chunk
   S_msrElement t = time;
   appendElementToVoicechunk (t);
@@ -7434,11 +7475,11 @@ void msrVoicechunk::appendMeasureToVoicechunk (S_msrMeasure measure)
     if (lastMeasureNumber == 1 && measureNumber == 1) {
       // don't append measure 1 if it is already present
 
-    if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "### --> replacing initial measure 1 by new one" <<
-        ", line " << measure-> getInputLineNumber () <<
-        endl;
+      if (gGeneralOptions->fDebug)
+        cerr << idtr <<
+          "### --> replacing initial measure 1 by new one" <<
+          ", line " << measure-> getInputLineNumber () <<
+          endl;
 
       // fetch lastMeasure clef, key and time if any
       measure->setMeasureClef (

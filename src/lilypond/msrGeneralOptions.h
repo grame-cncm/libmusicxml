@@ -59,27 +59,27 @@ class EXP msrGeneralOptions : public smartable
   public:
 
     // synthetic view
-    string                          fCommandLineOptions;
-    string                          fInputSourceName;
-    string                          fTranslationDate;
+    string    fCommandLineOptions;
+    string    fInputSourceName;
+    string    fTranslationDate;
 
     // interactive mode
-    bool                            fInteractive;
+    bool      fInteractive;
     
     // trace
-    bool                            fTrace;
+    bool      fTrace;
     
     // debug
-    bool                            fDebug;
-    bool                            fDebugDebug;
+    bool      fDebug;
+    bool      fDebugDebug;
 
     // forcing debug information at specific places in the code
-    bool                            fForceDebug;
+    bool      fForceDebug;
     
     // measure number-selective debug
-    set<int>                        fDebugMeasureNumbersSet;
-    bool                            fSaveDebug;
-    bool                            fSaveDebugDebug;
+    set<int>  fDebugMeasureNumbersSet;
+    bool      fSaveDebug;
+    bool      fSaveDebugDebug;
 };
 typedef SMARTP<msrGeneralOptions> S_msrGeneralOptions;
 
