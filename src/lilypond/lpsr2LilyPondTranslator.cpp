@@ -1390,6 +1390,14 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
 
   idtr++;
 
+  fOstream << // JMI
+    idtr <<
+      "\set Score.barNumberVisibility = #all-bar-numbers-visible" <<
+      endl <<
+    idtr <<
+      "\override Score.BarNumber.break-visibility = ##(#f #t #t)" <<
+      endl;
+
   fRelativeOctaveReference = 0;
 
   fMusicOlec.reset ();

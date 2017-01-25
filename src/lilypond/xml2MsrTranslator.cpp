@@ -5915,7 +5915,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   fNoteData.fStaffNumber = fCurrentStaffNumber;
   fNoteData.fVoiceNumber = fCurrentVoiceNumber;
 
-  // set note's divisions per whole note
+  // set current voices' 'notes divisions per whole note
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "fNoteData.fDivisions = " << 
@@ -5953,70 +5953,79 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     }
   }
 
-  // create the note
+  // create the (new) note
   S_msrNote
-    note =
+    newNote =
       msrNote::createFromNoteData (
         inputLineNumber,
         fNoteData);
 
   // set note's divisions per whole note
-  note->
+  newNote->
     setNoteDivisionsPerWholeNote (
-      currentVoice-> getVoiceDivisionsPerWholeNote ());
+      divisionsPerWholeNote);
 
   // set its tie if any
   if (fCurrentTie) {
-    note->
+    newNote->
       setNoteTie (fCurrentTie);
   }
   
   // set its stem if any
   if (fCurrentStem)
-    note->
+    newNote->
       setNoteStem (fCurrentStem);
 
   // add its beam if any
   if (fCurrentBeam)
-    note->
+    newNote->
       addBeamToNote (fCurrentBeam);
 
   // attach the articulations if any to the note
-  attachCurrentArticulationsToNote (note);
+  attachCurrentArticulationsToNote (newNote);
 
   // attach the ornaments if any to the note
-  attachCurrentOrnamentsToNote (note);
+  attachCurrentOrnamentsToNote (newNote);
 
   /*
   A rest can be standalone or belong to a tuplet
 
   A note can be standalone or a member of a chord
-  and the latter can belong to a tuplet,
-  hence a note of a chord inside a tuplet is to be
-  displayed as a note in a tuplet but outside of chord
+  which can belong to a tuplet,
   */
 
   // are the display divisions different than the duration?
   if (fNoteData.fNoteBelongsToATuplet)
     // set tuplet member note display divisions
-    note->
+    newNote->
       applyTupletMemberDisplayFactor (
         fCurrentActualNotes, fCurrentNormalNotes);
 
   // handle note
-  if (fNoteData.fNoteBelongsToAChord) {
-    // chord member note
-    handleNoteBelongingToAChord (note);
+  if (fNoteData.fNoteBelongsToAChord && fNoteData.fNoteBelongsToATuplet) {
+    
+    // note is the second, third, ..., member of a chord
+    // that is a member of a tuplet
+    handleNoteBelongingToAChord (newNote);
+  }
+  
+  else if (fNoteData.fNoteBelongsToAChord) {
+    
+    // note is the second, third, ..., member of a chord
+    // whose first member is 'fLastHandledNoteInVoice [currentVoice]'
+    handleNoteBelongingToAChord (newNote);
   }
   
   else if (fNoteData.fNoteBelongsToATuplet) {
-    // tuplet member note
-    handleNoteBelongingToATuplet (note);
+    
+    // note/rest is the first, second, third, ..., member of a tuplet
+    handleNoteBelongingToATuplet (newNote);
   }
   
   else {
-    // standalone or grace note or rest
-    handleStandaloneOrGraceNoteOrRest (note);
+    
+    // note/rest is standalone or a member of grace notes
+    handleStandaloneOrGraceNoteOrRest (newNote);
   }
 
  // JMI if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
@@ -6025,7 +6034,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       endl <<
       idtr <<
         "==> AFTER visitEnd (S_note&) " <<
-        note->noteAsString () <<
+        newNote->noteAsString () <<
         ", line " << inputLineNumber <<
         " we have:" <<
         endl <<
@@ -6064,7 +6073,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       "############## Before fLastHandledNoteInVoice");
   }
   
-  fLastHandledNoteInVoice [currentVoice] = note;
+  fLastHandledNoteInVoice [currentVoice] = newNote;
   
   if (gGeneralOptions->fDebugDebug) {
     displayLastHandledNoteInVoice (
@@ -6465,6 +6474,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
       // forget about the latter
       fCurrentGracenotes = 0;
 
+    // register note/rest kind
     if (fNoteData.fStepIsARest)
       newNote->
         setNoteKind (msrNote::kRestNote);
@@ -6472,7 +6482,10 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
       newNote->
         setNoteKind (msrNote::kStandaloneNote);
   
-    // register note/rest as standalone
+    // attach the pending elements, if any, to the note
+    attachPendingElementsToNote (newNote);
+  
+    // append newNote to the current voice
     if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
       cerr <<  idtr <<
         "--> adding standalone " <<
@@ -6483,10 +6496,6 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
         endl;
     }
     
-    // attach the pending elements, if any, to the note
-    attachPendingElementsToNote (newNote);
-  
-    // append newNote to the current voice
     currentVoice->
       appendNoteToVoice (newNote);
 
