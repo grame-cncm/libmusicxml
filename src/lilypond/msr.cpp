@@ -4789,11 +4789,24 @@ S_msrLyricschunk msrLyricschunk::createLyricschunkBareClone ()
 
 void msrLyricschunk::setLyricschunkNote (S_msrNote note)
 {
-//  if (gGeneralOptions->fDebugDebug)
+  if (true || gGeneralOptions->fDebugDebug) {
+//  if (gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
-      "==> setting fLyricschunkNote to '" <<
-      note->noteAsString () << "'" <<
+      "==> setting fLyricschunkNote to '";
+
+    if (fLyricschunkNote) { // JMI
+      cerr <<
+        fLyricschunkNote->noteAsString () <<
+        ":" <<
+        fLyricschunkNote->noteDivisionsAsMSRString ();
+    }
+    else {
+      cerr << "none";
+    }
+    
+    cerr <<
       endl;
+  }
 
  fLyricschunkNote = note;
 }
@@ -4901,8 +4914,23 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "single" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", " << fLyricschunkNote->noteAsString () <<
-        ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+//        ", " << fLyricschunkNote->noteAsString () <<
+//        ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        ", fLyricschunkNote = ";
+
+      if (fLyricschunkNote) { // JMI
+        s <<
+          fLyricschunkNote->noteAsString () <<
+          ":" <<
+          fLyricschunkNote->noteDivisionsAsMSRString ();
+      }
+      else {
+        s << "none";
+      }
+      s <<
+        endl;
+
+      s <<
         ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
@@ -5173,7 +5201,11 @@ void msrLyrics::addSkipChunkToLyrics (
         inputLineNumber,
         msrLyricschunk::kSkipChunk, "", divisions,
         this);
-  
+
+  // set lyrics skip chunk note uplink
+  lyricschunk->
+    setLyricschunkNote (note);
+    
   // add chunk to this lyrics
   fLyricschunks.push_back (lyricschunk);
 
@@ -8492,7 +8524,7 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 void msrVoice::appendNoteToVoice (S_msrNote note) {
   if (gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
-      "Appending note:" <<
+      "==> appending note:" <<
       endl;
 
     idtr++;

@@ -1621,15 +1621,10 @@ void lpsr2LilyPondTranslator::visitStart (S_msrLyricschunk& elt)
           break;
           
         case msrLyricschunk::kSkipChunk:
-          if (
-            elt->getLyricschunkNote ()->getNoteKind ()
-              !=
-            msrNote::kRestNote
-            )
-            fOstream <<
-              "\\skip" <<
-                elt->getLyricschunkNote ()->noteDivisionsAsMSRString () <<
-                " ";
+          fOstream <<
+            "\\skip" <<
+              elt->getLyricschunkNote ()->noteDivisionsAsMSRString () <<
+              " ";
           break;
           
         case msrLyricschunk::kSlurChunk:
