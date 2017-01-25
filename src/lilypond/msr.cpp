@@ -7007,7 +7007,7 @@ string msrMeasure::getMeasureLengthAsString () const
     measureLength =
       this->getMeasureLength (); 
   
- // JMI if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fDebug)
     cerr <<
       endl <<
       idtr <<
@@ -7068,11 +7068,11 @@ void msrMeasure::print (ostream& os)
       ", voice " <<
       fMeasureVoicechunkUplink->getVoiceUplink ()->getVoiceName () <<
 */
-      ", time " << fMeasureTime->timeAsString () <<
-      ", length: " << getMeasureLength () << " divisions" <<
+      ", " << fMeasureTime->timeAsString () <<
+      ", length: " << getMeasureLength () <<
       " (" << getMeasureLengthAsString () << ")" <<
       ", pos: " << fMeasurePosition << 
-      ", " << fMeasureElementsList.size () << " elements" <<
+      ", " << fMeasureElementsList.size () << " elems" <<
       ", " << getMeasureKindAsString () <<
     endl;
 
