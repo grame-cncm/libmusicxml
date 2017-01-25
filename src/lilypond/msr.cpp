@@ -4901,7 +4901,7 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "single" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", " << fLyricschunkNote->notePitchAsString () <<
+        ", " << fLyricschunkNote->noteAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         ", " << "\"" << fChunkText << "\"" <<
         endl;
@@ -4911,7 +4911,7 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "begin" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", " << fLyricschunkNote->notePitchAsString () <<
+        ", " << fLyricschunkNote->noteAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         ", " << "\"" << fChunkText << "\"" <<
         endl;
@@ -4921,7 +4921,7 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "middle" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", " << fLyricschunkNote->notePitchAsString () <<
+        ", " << fLyricschunkNote->noteAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         ", " << "\"" << fChunkText << "\"" <<
         endl;
@@ -4931,7 +4931,7 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "end" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", " << fLyricschunkNote->notePitchAsString () <<
+        ", " << fLyricschunkNote->noteAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         ", " << "\"" << fChunkText << "\"" <<
         endl;
@@ -4941,10 +4941,18 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "skip" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNote = " <<
-        fLyricschunkNote->noteAsString () <<
-        ":" <<
-        fLyricschunkNote->noteDivisionsAsMSRString () <<
+        ", fLyricschunkNote = ";
+
+      if (fLyricschunkNote) { // JMI
+        s <<
+          fLyricschunkNote->noteAsString () <<
+          ":" <<
+          fLyricschunkNote->noteDivisionsAsMSRString ();
+      }
+      else {
+        s << "none";
+      }
+      s <<
         endl;
       break;
       
@@ -4952,7 +4960,7 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "slur" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", " << fLyricschunkNote->notePitchAsString () <<
+        ", " << fLyricschunkNote->noteAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
  // JMI       ", " << "\"" << fChunkText << "\"" <<
         endl;
@@ -4962,7 +4970,7 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "slur beyond end" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", " << fLyricschunkNote->notePitchAsString () <<
+        ", " << fLyricschunkNote->noteAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
  // JMI       ", " << "\"" << fChunkText << "\"" <<
         endl;
@@ -4972,7 +4980,7 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "tied" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", " << fLyricschunkNote->notePitchAsString () <<
+        ", " << fLyricschunkNote->noteAsString () <<
         ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
         " " << "\"" << fChunkText << "\"" <<
         endl;

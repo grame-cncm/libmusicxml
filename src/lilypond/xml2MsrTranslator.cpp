@@ -2346,7 +2346,9 @@ void xml2MsrTranslator::visitEnd (S_backup& elt )
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Handling 'backup <<< " << fCurrentBackupDuration <<
-      " divisions'" << endl;
+      " divisions'" <<
+      ", line " << inputLineNumber <<
+      endl;
 
   fCurrentPart->
     handleBackup (fCurrentBackupDuration);
@@ -6221,10 +6223,10 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         currentVoice->
           removeLastElementFromVoice (inputLineNumber);
 
-    bool lastElementFromVoiceIsANote =
+    bool lastElementFromVoiceIsANote = // JMI
       dynamic_cast<S_msrNote *> (&(*lastElementFromVoice)) != 0;
 
-    bool lastElementFromVoiceIsATuplet =
+    bool lastElementFromVoiceIsATuplet = // JMI
       dynamic_cast<S_msrTuplet *> (&(*lastElementFromVoice)) != 0;
 
     if (lastElementFromVoice == lastHandledNoteInVoice) {
@@ -7500,7 +7502,7 @@ void xml2MsrTranslator::visitStart ( S_degree_type& elt )
 {
   string degreeType = elt->getValue ();
 
-  msrHarmony::msrHarmonyDegreeTypeKind
+  msrHarmony::msrHarmonyDegreeTypeKind // JMI
     degreeTypeKind;
 
   // check harmony degree type
