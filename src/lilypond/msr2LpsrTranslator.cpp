@@ -288,7 +288,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
   // push it onto this visitors's stack,
   // making it the current partgroup block
  // if (gGeneralOptions->fDebug)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> pushing part group clone " <<
       partgroupClone->getPartgroupCombinedName () <<
       " onto stack" <<
@@ -354,7 +354,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
     // if it is the top-level one, i.e it's alone in the stack
     
     if (gGeneralOptions->fDebug)
-      fOstream << idtr <<
+      cerr << idtr <<
         "--> adding part group clone " <<
         currentPartgroup->getPartgroupCombinedName () <<
         " to MSR score" <<
@@ -399,7 +399,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
     // if it is the top-level one, i.e it's alone in the stack
     
     if (gGeneralOptions->fDebug)
-      fOstream << idtr <<
+      cerr << idtr <<
         "--> adding part group block clone for part group " <<
         currentPartgroupBlock->
           getPartgroup ()->
@@ -457,7 +457,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 
   // add it to the partgroup clone
 //  if (gGeneralOptions->fDebug)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> adding part clone " <<
       fCurrentPartClone->getPartCombinedName () <<
       " to part group clone \"" <<

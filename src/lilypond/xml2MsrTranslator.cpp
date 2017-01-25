@@ -2350,49 +2350,7 @@ void xml2MsrTranslator::visitEnd (S_backup& elt )
 
   fCurrentPart->
     handleBackup (fCurrentBackupDuration);
-    
-    /* JMI
-  // fetch current staff
-  S_msrStaff
-    staff =
-      createStaffInCurrentPartIfNeeded (
-        inputLineNumber, fCurrentStaffNumber);
 
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
-        inputLineNumber,
-        fCurrentStaffNumber,
-        fCurrentVoiceNumber);
-
-  
-  int
-    saveCurrentPositionInMeasure =
-      currentVoice->
-        getVoiceMeasureLocation ().fPositionInMeasure;
-  
-  currentVoice->
-    setPositionInMeasure (
-      currentVoice->getVoicePositionInMeasure ()
-        -
-      fCurrentBackupDuration);
-
-  if (currentVoice->getVoicePositionInMeasure () < 0) {
-    stringstream s;
-    s <<
-      "backup divisions " << fCurrentBackupDuration <<
-      " from position " << saveCurrentPositionInMeasure <<
-      " in voice \"" << currentVoice->getVoiceName () <<
-      "\" crosses measure left boundary";
-      
-// JMI    msrMusicXMLError (s.str());
-    msrMusicXMLWarning (
-      inputLineNumber,
-      s.str());
-  }
-  */
-  
   fOnGoingBackup = false;
 }
 
@@ -2506,7 +2464,7 @@ void xml2MsrTranslator::visitStart (S_tied& elt )
 
   fCurrentTieKind = msrTie::k_NoTie;
   
-  if (tiedType == "start") { // JMI
+  if      (tiedType == "start") {
     
     fCurrentTieKind =
       msrTie::kStartTie;
@@ -2582,7 +2540,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
   fCurrentSlurPlacement =
     elt->getAttributeValue ("placement");
 
-  if (fCurrentSlurType == "start") {
+  if      (fCurrentSlurType == "start") {
     
     fCurrentSlurKind = msrSlur::kStartSlur;
     fOnGoingSlur = true;
@@ -2832,10 +2790,9 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     fCurrentLyricschunkKind = msrLyricschunk::kMiddleChunk;
   else if (fCurrentSyllabic == "end")
     fCurrentLyricschunkKind = msrLyricschunk::kEndChunk;
-  else {
+  else
     // no <syllabic /> specified for this note
     fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
-  }
 
   // fetch current voice
   S_msrVoice
@@ -2850,7 +2807,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
 
   if (fCurrentLyricschunkKind != msrLyricschunk::k_NoChunk) {
 
- //   string lyricschunkKindAsString;
+ //   string lyricschunkKindAsString; JMI
     
     if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
       /*
@@ -3004,74 +2961,6 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
     gGeneralOptions->fSaveDebug = gGeneralOptions->fDebug;
     gGeneralOptions->fSaveDebugDebug = gGeneralOptions->fDebugDebug;
   }
-
-
-  if (measureNumber > 2000) { // JMI
-    cout <<
-      endl <<
-      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
-      endl <<
-      fCurrentPart <<
-      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
-      endl << endl;
-    cout << 0/0;
-  }
-
-    /* JMI
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
-        inputLineNumber,
-        fCurrentStaffNumber,
-        fCurrentVoiceNumber);
-
-  // populate current voice
-  currentVoice->
-    setVoiceDivisionsPerWholeNote (
-      fCurrentDivisionsPerQuarterNote);
-    
-*/
-
-/*
-
-
-    
-  if (gGeneralOptions->fDebug)
-    cerr << idtr << 
-      "=== MEASURE " <<
-      currentVoice->
-        getVoiceMeasureLocation ().fMeasureNumber <<
-      " === " <<
-      "PART " << fCurrentPart->getPartCombinedName () <<
-      " ===" <<
-      endl;
-
-  if (measureNumber != 0) {
-    // don't generate a bar check after the anacrusis
-    S_msrBarCheck
-      barCheck =
-        msrBarCheck::create (
-            inputLineNumber,
-          currentVoice->
-            getVoiceMeasureLocation ().fMeasureNumber);
-              
-    // append it to the voice
-    if (currentVoice) {
-      // it may not have been created yet JMI
-      currentVoice->
-        appendBarCheckToVoice (barCheck);
-/ *
-      // add a break chunk to the voice master lyrics
-      currentVoice->
-        getVoiceMasterLyrics ()->
-          addBarCheckChunkToLyrics (
-            inputLineNumber,
-            currentVoice->getVoiceMeasureLocation ().fMeasureNumber);
-            * /
-    }
-  }
-  */
 }
 
 void xml2MsrTranslator::visitEnd (S_measure& elt)
@@ -3105,7 +2994,8 @@ void xml2MsrTranslator::visitStart ( S_print& elt )
       if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
         cerr << idtr << 
           "Creating a barnumber check, " <<
-          "line = " << inputLineNumber << endl;
+          "line = " << inputLineNumber <<
+          endl;
       }
 
       // fetch current voice
@@ -5519,7 +5409,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
       "############## Before fLastHandledTupletInVoice");
   }
   
-  fLastHandledTupletInVoice [currentVoice] = tuplet;
+// JMI  fLastHandledTupletInVoice [currentVoice] = tuplet;
   
   if (gGeneralOptions->fDebugDebug) {
     displayLastHandledTupletInVoice (
@@ -5963,8 +5853,8 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   dynamics, wedges, chords and tuplets
   are not ordered in the same way in MusicXML and LilyPond.
 
-  Staff number is analyzed before voice number but occurs
-  after it in the MusicXML tree.
+  Staff number is analyzed before voice number
+  but occurs after it in the MusicXML tree.
   That's why the treatment below has been postponed until this method
   */
 
@@ -6040,8 +5930,9 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       "divisionsPerWholeNote = " <<
       divisionsPerWholeNote << endl;
       
-  currentVoice->setVoiceDivisionsPerWholeNote (
-    divisionsPerWholeNote);
+  currentVoice->
+    setVoiceDivisionsPerWholeNote (
+      divisionsPerWholeNote);
 
   // register current note type
   fNoteData.fType =
@@ -6457,7 +6348,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
       newNote->noteAsString() <<
       " to current chord" << endl;
 
- // JMI   cout << "###### fOnGoingChord = " << fOnGoingChord << endl;
+ // JMI   cerr << "###### fOnGoingChord = " << fOnGoingChord << endl;
     
   // copy newNote's elements if any to the chord
   copyNoteElementsToChord (newNote, fCurrentChord);

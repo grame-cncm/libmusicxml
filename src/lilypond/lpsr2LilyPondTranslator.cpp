@@ -2079,7 +2079,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
 */
 
   /*
-  cout <<
+  cerr <<
     "#### fMusicElementsCounter = " << fMusicElementsCounter << endl <<
     "#### fMaxMusicElementsOnOneLine = " << fMaxMusicElementsOnOneLine << endl <<
     endl;
