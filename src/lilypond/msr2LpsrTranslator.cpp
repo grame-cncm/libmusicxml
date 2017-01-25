@@ -475,7 +475,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 
   // append it to the current partgroup block
 //  if (gGeneralOptions->fDebug)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> appending part block " <<
       fPartgroupsStack.top ()->getPartgroupCombinedName () <<
       " to stack" <<
