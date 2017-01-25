@@ -8494,15 +8494,18 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     appendNoteToVoicechunk (note);
   
   // add a skip chunk of the same duration to the master lyrics
-  int
-    lyricsDivisions =
-      note->getNoteDivisions ();
-
-  fVoiceLyricsmaster->
-    addSkipChunkToLyrics (
-      note->getInputLineNumber (),
-      lyricsDivisions,
-      note); // JMI
+  // but not in the case of rests
+  if (note->getNoteKind () != msrNote::kRestNote) {
+    int
+      lyricsDivisions =
+        note->getNoteDivisions ();
+  
+    fVoiceLyricsmaster->
+      addSkipChunkToLyrics (
+        note->getInputLineNumber (),
+        lyricsDivisions,
+        note); // JMI
+  }
 
   fMusicHasBeenInsertedInVoice = true;
 }
