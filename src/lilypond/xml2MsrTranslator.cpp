@@ -6574,7 +6574,8 @@ xml2MsrTranslator.cpp:4249
   handleTupletsPendingOnTupletStack (
     inputLineNumber);
 
-  // lyrics has to be handled in all cases to handle melismata
+  // lyrics has to be handled in all cases
+  // in case they are empty at the beginning of the voice
   handleLyrics (newNote);
 
   // take care of slurs JMI ???
@@ -6736,7 +6737,7 @@ void xml2MsrTranslator::handleLyrics (S_msrNote newNote)
       i != fCurrentNoteLyricchunks.end();
       i++ ) {
       // set lyrics chunk note uplink to newNote
-      (*i)->setLyricschunkNote (newNote);
+      (*i)->setLyricschunkNoteUplink (newNote);
     } // for
   }
 

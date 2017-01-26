@@ -780,7 +780,7 @@ void msr2LpsrTranslator::visitStart (S_msrLyricschunk& elt)
     //addChunkToLyrics (fCurrentLyricschunkClone);
 
   // set its note to the current note clone
-  elt->setLyricschunkNote (
+  elt->setLyricschunkNoteUplink (
     fCurrentNoteClone);
 
   // add it to the current lyrics clone

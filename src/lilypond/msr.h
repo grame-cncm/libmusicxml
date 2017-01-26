@@ -3422,10 +3422,10 @@ class EXP msrLyricschunk : public msrElement
               getLyricschunkKind () const
                   { return fLyricschunkKind; }
 
-    void      setLyricschunkNote (S_msrNote note);
+    void      setLyricschunkNoteUplink (S_msrNote note);
 
-    S_msrNote getLyricschunkNote () const
-                  { return fLyricschunkNote; }
+    S_msrNote getLyricschunkNoteUplink () const
+                  { return fLyricschunkNoteUplink; }
 
     string    getChunkText () const
                   { return fChunkText; }
@@ -3459,8 +3459,9 @@ class EXP msrLyricschunk : public msrElement
     string             fChunkText;
     int                fChunkDivisions;
     
-    S_msrNote          fLyricschunkNote;
     S_msrLyrics        fLyricschunkLyricsUplink;
+
+    S_msrNote          fLyricschunkNoteUplink;
 };
 typedef SMARTP<msrLyricschunk> S_msrLyricschunk;
 EXP ostream& operator<< (ostream& os, const S_msrLyricschunk& elt);

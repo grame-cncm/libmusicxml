@@ -4756,10 +4756,11 @@ msrLyricschunk::msrLyricschunk (
   fLyricschunkKind = lyricschunkKind;
   fChunkText       = chunkText;
   fChunkDivisions  = divisions;
-
-  // fLyricschunkNote will be set by setLyricschunkNote later
   
   fLyricschunkLyricsUplink = lyricschunkLyricsUplink;
+
+  // fLyricschunkNoteUplink will be set
+  // by setLyricschunkNoteUplink() later
 }
 
 msrLyricschunk::~msrLyricschunk()
@@ -4781,18 +4782,18 @@ S_msrLyricschunk msrLyricschunk::createLyricschunkBareClone ()
         fChunkDivisions,
         fLyricschunkLyricsUplink);
 
-  clone->
-    setLyricschunkNote (fLyricschunkNote);
+  // dont't set 'clone->fLyricschunkLyricsUplink'
+  // this will be done by the caller
     
   return clone;
 }
 
-void msrLyricschunk::setLyricschunkNote (S_msrNote note)
+void msrLyricschunk::setLyricschunkNoteUplink (S_msrNote note)
 {
   if (true || gGeneralOptions->fDebugDebug) {
 //  if (gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
-      "==> setting fLyricschunkNote to '" <<
+      "==> setting fLyricschunkLyricsUplink to '" <<
       note->noteAsString () <<
       ", line " << note->getInputLineNumber () <<
       endl;
@@ -4812,7 +4813,7 @@ void msrLyricschunk::setLyricschunkNote (S_msrNote note)
       */
   }
 
- fLyricschunkNote = note;
+ fLyricschunkNoteUplink = note;
 }
 
 void msrLyricschunk::acceptIn (basevisitor* v) {
@@ -4918,7 +4919,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "single" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNote = " << fLyricschunkNote->noteAsString () <<
+        ", fLyricschunkNoteUplink = " <<
+        fLyricschunkNoteUplink->noteAsString () <<
         ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
@@ -4927,7 +4929,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "begin" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNote = " << fLyricschunkNote->noteAsString () <<
+        ", fLyricschunkNoteUplink = " <<
+        fLyricschunkNoteUplink->noteAsString () <<
         ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
@@ -4936,7 +4939,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "middle" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNote = " << fLyricschunkNote->noteAsString () <<
+        ", fLyricschunkNoteUplink = " <<
+        fLyricschunkNoteUplink->noteAsString () <<
         ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
@@ -4945,7 +4949,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "end" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNote = " << fLyricschunkNote->noteAsString () <<
+        ", fLyricschunkNoteUplink = " <<
+        fLyricschunkNoteUplink->noteAsString () <<
         ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
@@ -4961,7 +4966,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "slur" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNote = " << fLyricschunkNote->noteAsString () <<
+        ", fLyricschunkNoteUplink = " <<
+        fLyricschunkNoteUplink->noteAsString () <<
         endl;
       break;
       
@@ -4969,7 +4975,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "slur beyond end" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNote = " << fLyricschunkNote->noteAsString () <<
+        ", fLyricschunkNoteUplink = " <<
+        fLyricschunkNoteUplink->noteAsString () <<
         endl;
       break;
       
@@ -4977,7 +4984,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "tied" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNote = " << fLyricschunkNote->noteAsString () <<
+        ", fLyricschunkNoteUplink = " <<
+        fLyricschunkNoteUplink->noteAsString () <<
         " " << "\"" << fChunkText << "\"" <<
         endl;
       break;
@@ -5175,7 +5183,7 @@ void msrLyrics::addSkipChunkToLyrics (
 
   // set lyrics skip chunk note uplink
   lyricschunk->
-    setLyricschunkNote (note);
+    setLyricschunkNoteUplink (note);
     
   // add chunk to this lyrics
   fLyricschunks.push_back (lyricschunk);
@@ -8615,10 +8623,6 @@ S_msrLyricschunk msrVoice::addTextLyricschunkToVoice (
         divisions,
         lyrics);
 
-  // set lyrics skip chunk note uplink
-  lyricschunk->
-    setLyricschunkNote (note);
-
   // add lyrics skip chunk to the lyrics
   lyrics->
     addChunkToLyrics (lyricschunk);
@@ -8656,10 +8660,6 @@ S_msrLyricschunk msrVoice::addSkipLyricschunkToVoice (
         msrLyricschunk::kSkipChunk, "", divisions,
         lyrics);
         
-  // set lyrics skip chunk note uplink
-  lyricschunk->
-    setLyricschunkNote (note);
-
   // add it to the lyrics
   lyrics->
     addChunkToLyrics (lyricschunk);
@@ -8697,10 +8697,6 @@ S_msrLyricschunk msrVoice::addTiedLyricschunkToVoice (
         msrLyricschunk::kTiedChunk, "", divisions,
         lyrics);
         
-  // set lyrics skip chunk note uplink
-  lyricschunk->
-    setLyricschunkNote (note);
-
   // add it to the lyrics
   lyrics->
     addChunkToLyrics (lyricschunk);
@@ -8739,10 +8735,6 @@ S_msrLyricschunk msrVoice::addSlurLyricschunkToVoice (
         msrLyricschunk::kSlurChunk, "", divisions,
         lyrics);
         
-  // set lyrics skip chunk note uplink
-  lyricschunk->
-    setLyricschunkNote (note);
-
   // add it to the lyrics
   lyrics->
     addChunkToLyrics (lyricschunk);
@@ -8780,10 +8772,6 @@ S_msrLyricschunk msrVoice::addSlurBeyondEndLyricschunkToVoice (
         msrLyricschunk::kSlurBeyondEndChunk, "", divisions,
         lyrics);
         
-  // set lyrics skip chunk note uplink
-  lyricschunk->
-    setLyricschunkNote (note);
-
   // add it to the lyrics
   lyrics->
     addChunkToLyrics (lyricschunk);
