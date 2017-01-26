@@ -4959,6 +4959,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "skip" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
+        ", fLyricschunkNoteUplink = " <<
+        fLyricschunkNoteUplink->noteAsString () <<
         endl;
       break;
       
@@ -5027,14 +5029,14 @@ void msrLyricschunk::print (ostream& os)
 S_msrLyrics msrLyrics::create (
   int                   inputLineNumber,
   int                   lyricsNumber,
-  msrLyricsMasterStatus lyricsMasterStatus,
+  msrLyricsKind         lyricsKind,
   S_msrVoice            lyricsVoiceUplink)
 {
   msrLyrics* o =
     new msrLyrics (
       inputLineNumber,
       lyricsNumber,
-      lyricsMasterStatus,
+      lyricsKind,
       lyricsVoiceUplink);
   assert(o!=0);
   return o;
@@ -5043,12 +5045,12 @@ S_msrLyrics msrLyrics::create (
 msrLyrics::msrLyrics (
   int                   inputLineNumber,
   int                   lyricsNumber,
-  msrLyricsMasterStatus lyricsMasterStatus,
+  msrLyricsKind         lyricsKind,
   S_msrVoice            lyricsVoiceUplink)
     : msrElement (inputLineNumber)
 {
-  fLyricsNumber       = lyricsNumber;
-  fLyricsMasterStatus = lyricsMasterStatus;
+  fLyricsNumber = lyricsNumber;
+  fLyricsKind   = lyricsKind;
  
   fLyricsVoiceUplink  = lyricsVoiceUplink;
   
@@ -5067,7 +5069,7 @@ string msrLyrics::getLyricsName () const
 
   string
     lyricsNameSuffix =
- //     fLyricsMasterStatus == kMasterLyrics
+ //     fLyricsKind == kMasterLyrics
       fLyricsNumber == 0
         ? "MASTER"
         : int2EnglishWord (fLyricsNumber);
@@ -5092,7 +5094,7 @@ S_msrLyrics msrLyrics::createLyricsBareClone (S_msrVoice clonedVoice)
       msrLyrics::create (
         fInputLineNumber,
         fLyricsNumber,
-        fLyricsMasterStatus,
+        fLyricsKind,
         clonedVoice);
   
   return clone;
@@ -9080,6 +9082,10 @@ void msrVoice::print (ostream& os)
   }
   
   if (! gMsrOptions->fDontDisplayMSRLyrics) {
+    // print the voice lyrics master
+    os << idtr <<
+      fVoiceLyricsmaster;
+    
     // print the lyrics
     if (fVoiceLyricsMap.size()) {
       map<int, S_msrLyrics>::const_iterator

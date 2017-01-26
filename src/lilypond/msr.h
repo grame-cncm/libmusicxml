@@ -3479,7 +3479,7 @@ class EXP msrLyrics : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrLyricsMasterStatus {
+    enum msrLyricsKind {
        kMasterLyrics, kRegularLyrics };
 
     // creation from MusicXML
@@ -3488,7 +3488,7 @@ class EXP msrLyrics : public msrElement
     static SMARTP<msrLyrics> create (
       int                   inputLineNumber,
       int                   lyricsNumber,
-      msrLyricsMasterStatus lyricsMasterStatus,
+      msrLyricsKind         lyricsKind,
       S_msrVoice            lyricsVoiceUplink);
     
     SMARTP<msrLyrics> createLyricsBareClone (
@@ -3502,7 +3502,7 @@ class EXP msrLyrics : public msrElement
     msrLyrics (
       int                   inputLineNumber,
       int                   lyricsNumber,
-      msrLyricsMasterStatus lyricsMasterStatus,
+      msrLyricsKind         lyricsKind,
       S_msrVoice            lyricsVoiceUplink);
 
     virtual ~msrLyrics();
@@ -3520,9 +3520,9 @@ class EXP msrLyrics : public msrElement
     S_msrVoice  getLyricsVoiceUplink () const
                     { return fLyricsVoiceUplink; }
                 
-    msrLyricsMasterStatus
-                getLyricsMasterStatus () const
-                    { return fLyricsMasterStatus; }
+    msrLyricsKind
+                getLyricsKind () const
+                    { return fLyricsKind; }
                 
     const vector<S_msrLyricschunk>&
                 getLyricschunks () const
@@ -3594,7 +3594,7 @@ class EXP msrLyrics : public msrElement
   private:
 
     int                       fLyricsNumber;
-    msrLyricsMasterStatus     fLyricsMasterStatus;
+    msrLyricsKind             fLyricsKind;
 
     vector<S_msrLyricschunk>  fLyricschunks;
 
