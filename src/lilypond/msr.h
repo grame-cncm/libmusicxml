@@ -2135,8 +2135,10 @@ class EXP msrNote : public msrElement
                       { return fNoteHasATrill; }
                   
     // ties
-    void          setNoteTie (S_msrTie tie) { fNoteTie = tie; }
-    S_msrTie      getNoteTie () const       { return fNoteTie; }
+    void          setNoteTie (S_msrTie tie)
+                      { fNoteTie = tie; }
+    S_msrTie      getNoteTie () const
+                      { return fNoteTie; }
 
     // slurs
     const list<S_msrSlur>&

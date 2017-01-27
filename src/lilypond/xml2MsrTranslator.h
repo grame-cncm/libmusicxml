@@ -238,6 +238,8 @@ class EXP xml2MsrTranslator :
   public visitor<S_ppppp>,
   public visitor<S_pppppp>,
 
+  public visitor<S_mf>,
+  public visitor<S_mp>,
   public visitor<S_fp>,
   public visitor<S_fz>,
   
@@ -488,6 +490,8 @@ class EXP xml2MsrTranslator :
     virtual void visitStart ( S_ppppp& elt);
     virtual void visitStart ( S_pppppp& elt);
     
+    virtual void visitStart ( S_mf& elt);
+    virtual void visitStart ( S_mp& elt);
     virtual void visitStart ( S_fp& elt);
     virtual void visitStart ( S_fz& elt);
     

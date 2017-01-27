@@ -4779,6 +4779,28 @@ void xml2MsrTranslator::visitStart( S_pppppp& elt)
   fPendingDynamics.push_back(dyn);
 }
 
+
+void xml2MsrTranslator::visitStart( S_mf& elt)
+{        
+  S_msrDynamics
+    dyn =
+      msrDynamics::create (
+        elt->getInputLineNumber (),
+        msrDynamics::kMF);
+        
+  fPendingDynamics.push_back(dyn);
+}
+void xml2MsrTranslator::visitStart( S_mp& elt)
+{        
+  S_msrDynamics
+    dyn =
+      msrDynamics::create (
+        elt->getInputLineNumber (),
+        msrDynamics::kMP);
+        
+  fPendingDynamics.push_back(dyn);
+}
+
 void xml2MsrTranslator::visitStart( S_fp& elt)
 {        
   S_msrDynamics
