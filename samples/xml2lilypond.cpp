@@ -601,7 +601,8 @@ void analyzeOptions (
 
           s <<
             "--outputFile" << " " << outputFileName;
-          gGeneralOptions->fCommandLineOptions += s.str();
+          gGeneralOptions->fCommandLineOptions +=
+            s.str();
           outputFilePresent = false;
         }
 
@@ -650,7 +651,8 @@ void analyzeOptions (
 
           s <<
             "--debugMeasures" << " " << measuresSpec << " ";
-          gGeneralOptions->fCommandLineOptions += s.str();
+          gGeneralOptions->fCommandLineOptions +=
+            s.str();
             
           gGeneralOptions->fDebugMeasureNumbersSet =
             decipherNumbersSetSpecification (
@@ -666,7 +668,8 @@ void analyzeOptions (
 
           s <<
             "--debugDebugMeasures" << " " << measuresSpec;
-          gGeneralOptions->fCommandLineOptions += s.str();
+          gGeneralOptions->fCommandLineOptions +=
+            s.str();
             
           gGeneralOptions->fDebugMeasureNumbersSet =
             decipherNumbersSetSpecification (
@@ -738,7 +741,8 @@ void analyzeOptions (
 
           s <<
             "--partName" << " \"" << partNameSpec << "\" ";
-          gGeneralOptions->fCommandLineOptions += s.str();
+          gGeneralOptions->fCommandLineOptions +=
+            s.str();
 
           std::pair<string, string>
             pair =
@@ -1086,10 +1090,7 @@ int main (int argc, char *argv[])
   // input source name
   // ------------------------------------------------------
 
-  if (inputFileName == "-")
-    gGeneralOptions->fInputSourceName = "standard input";
-  else
-    gGeneralOptions->fInputSourceName = "\"" + inputFileName + "\"";
+  gGeneralOptions->fInputSourceName = inputFileName;
   
   // translation date
   // ------------------------------------------------------
@@ -1114,8 +1115,14 @@ int main (int argc, char *argv[])
       endl;
 
     cerr <<  idtr <<
-      "Launching conversion of " <<
-      gGeneralOptions->fInputSourceName <<
+      "Launching conversion of ";
+
+    if (gGeneralOptions->fInputSourceName == "-")
+      cerr << "standard input";
+    else
+      cerr << "\"" << gGeneralOptions->fInputSourceName << "\"";
+
+    cerr <<
       " to LilyPond" <<
       endl;
 
