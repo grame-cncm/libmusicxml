@@ -1598,29 +1598,29 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
     if (gGeneralOptions->fForceDebug || fOngoingNonEmptyLyrics) {
       
       switch (elt->getSyllableKind ()) {
-        case msrSyllable::kSingleChunk:
+        case msrSyllable::kSingleSyllable:
           fOstream <<
-            quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
+            quoteStringIfNonAlpha (elt->getSyllableText ()) << " ";
           break;
           
-        case msrSyllable::kBeginChunk:
+        case msrSyllable::kBeginSyllable:
           fOstream <<
-            quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
+            quoteStringIfNonAlpha (elt->getSyllableText ()) << " ";
           break;
           
-        case msrSyllable::kMiddleChunk:
-          fOstream <<
-            "-- " <<
-            quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
-          break;
-          
-        case msrSyllable::kEndChunk:
+        case msrSyllable::kMiddleSyllable:
           fOstream <<
             "-- " <<
-            quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
+            quoteStringIfNonAlpha (elt->getSyllableText ()) << " ";
           break;
           
-        case msrSyllable::kSkipChunk:
+        case msrSyllable::kEndSyllable:
+          fOstream <<
+            "-- " <<
+            quoteStringIfNonAlpha (elt->getSyllableText ()) << " ";
+          break;
+          
+        case msrSyllable::kSkipSyllable:
           if (
             elt->
               getSyllableNoteUplink ()->
@@ -1636,43 +1636,43 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
           }
           break;
           
-        case msrSyllable::kSlurChunk:
+        case msrSyllable::kSlurSyllable:
           fOstream <<
-            "%{ slur " << "\"" << elt->getChunkText () << "\"" << " %}" <<
+            "%{ slur " << "\"" << elt->getSyllableText () << "\"" << " %}" <<
             endl <<
             idtr;
           break;
   
-        case msrSyllable::kTiedChunk:
+        case msrSyllable::kTiedSyllable:
           fOstream <<
-            "%{ ~ " << "\"" << elt->getChunkText () << "\"" << " %}" <<
+            "%{ ~ " << "\"" << elt->getSyllableText () << "\"" << " %}" <<
             endl <<
             idtr;
           break;
           
-        case msrSyllable::kSlurBeyondEndChunk:
+        case msrSyllable::kSlurBeyondEndSyllable:
   // JMI       fOstream <<
    //         "__ " << " ";
           break;
   
-        case msrSyllable::kBarcheckChunk:
+        case msrSyllable::kBarcheckSyllable:
           fOstream <<
-     // JMI       "%{ | % " << elt->getChunkText () << " %}" <<
-            "| %{ " << elt->getChunkText () << " %}" <<
+     // JMI       "%{ | % " << elt->getSyllableText () << " %}" <<
+            "| %{ " << elt->getSyllableText () << " %}" <<
             endl <<
             idtr;
 
           fLyricsOlec.reset ();
           break;
     
-        case msrSyllable::kBreakChunk:
+        case msrSyllable::kBreakSyllable:
           fOstream <<
-            "%{ break " << "\"" << elt->getChunkText () << "\"" << " %}" <<
+            "%{ break " << "\"" << elt->getSyllableText () << "\"" << " %}" <<
             endl <<
             idtr;
           break;
     
-        case msrSyllable::k_NoChunk: // JMI
+        case msrSyllable::k_NoSyllable: // JMI
           break;
       } // switch
 

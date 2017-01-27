@@ -363,9 +363,9 @@ void msr2SummaryVisitor::visitStart (S_msrLyrics& elt)
     "Lyrics" << " " << elt->getLyricsName () <<
     " contains " << syllablesSize;
   if (syllablesSize == 1)
-    fOstream << " chunk";
+    fOstream << " syllable";
   else
-    fOstream << " chunks";
+    fOstream << " syllables";
 
   if (! elt->getLyricsTextPresent ())
     fOstream << " (No actual text)";

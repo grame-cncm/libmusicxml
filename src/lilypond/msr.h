@@ -3365,9 +3365,9 @@ typedef SMARTP<msrTempo> S_msrTempo;
 EXP ostream& operator<< (ostream& os, const S_msrTempo& elt);
 
 /*!
-\brief A msr lyrics chunk representation.
+\brief A msr syllable representation.
 
-  A lyrics chunk is represented by a type and and a string.
+  A syllable is represented by a type and and a string.
   In the case of "single", the list contains only one string
 */
 //______________________________________________________________________________
@@ -3380,12 +3380,12 @@ class EXP msrSyllable : public msrElement
 
     // we want to end the line in the LilyPond code at a break
     enum msrSyllableKind {
-      k_NoChunk,
-      kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
-      kSkipChunk,
-      kTiedChunk,
-      kSlurChunk, kSlurBeyondEndChunk,
-      kBarcheckChunk, kBreakChunk};
+      k_NoSyllable,
+      kSingleSyllable, kBeginSyllable, kMiddleSyllable, kEndSyllable,
+      kSkipSyllable,
+      kTiedSyllable,
+      kSlurSyllable, kSlurBeyondEndSyllable,
+      kBarcheckSyllable, kBreakSyllable};
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -3393,7 +3393,7 @@ class EXP msrSyllable : public msrElement
     static SMARTP<msrSyllable> create (
       int                inputLineNumber,
       msrSyllableKind syllableKind,
-      string             chunkText,
+      string             syllableText,
       int                divisions,
       S_msrLyrics        syllableLyricsUplink);
 
@@ -3407,7 +3407,7 @@ class EXP msrSyllable : public msrElement
     msrSyllable (
       int                inputLineNumber,
       msrSyllableKind syllableKind,
-      string             chunkText,
+      string             syllableText,
       int                divisions,
       S_msrLyrics        syllableLyricsUplink);
         
@@ -3427,11 +3427,11 @@ class EXP msrSyllable : public msrElement
     S_msrNote getSyllableNoteUplink () const
                   { return fSyllableNoteUplink; }
 
-    string    getChunkText () const
-                  { return fChunkText; }
+    string    getSyllableText () const
+                  { return fSyllableText; }
 
-    int       getChunkDivisions () const
-                  { return fChunkDivisions; }
+    int       getSyllableDivisions () const
+                  { return fSyllableDivisions; }
 
     // services
     // ------------------------------------------------------
@@ -3456,8 +3456,8 @@ class EXP msrSyllable : public msrElement
   private:
   
     msrSyllableKind fSyllableKind;
-    string             fChunkText;
-    int                fChunkDivisions;
+    string             fSyllableText;
+    int                fSyllableDivisions;
     
     S_msrLyrics        fSyllableLyricsUplink;
 
@@ -3469,7 +3469,7 @@ EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
 /*!
 \brief A msr lyrics representation.
 
-  A lyrics is represented by a list of lyrics chunks,
+  A lyrics is represented by a list of syllables,
 */
 //______________________________________________________________________________
 class EXP msrLyrics : public msrElement
@@ -3538,7 +3538,7 @@ class EXP msrLyrics : public msrElement
     // services
     // ------------------------------------------------------
 
-    void        addTextChunkToLyrics (
+    void        addTextSyllableToLyrics (
                   int       inputLineNumber,
                   string    syllabic,
                   msrSyllable::msrSyllableKind
@@ -3548,35 +3548,35 @@ class EXP msrLyrics : public msrElement
                   int       divisions,
                   S_msrNote note);
       
-    void        addSkipChunkToLyrics (
+    void        addSkipSyllableToLyrics (
                   int       inputLineNumber,
                   int       divisions,
                   S_msrNote note);
 
-    void        addTiedChunkToLyrics (
+    void        addTiedSyllableToLyrics (
                   int       inputLineNumber,
                   int       divisions,
                   S_msrNote note);
 
-    void        addSlurChunkToLyrics (
+    void        addSlurSyllableToLyrics (
                   int       inputLineNumber,
                   int       divisions,
                   S_msrNote note);
 
-    void        addSlurBeyondEndChunkToLyrics (
+    void        addSlurBeyondEndSyllableToLyrics (
                   int       inputLineNumber,
                   int       divisions,
                   S_msrNote note);
 
-    void        addBarcheckChunkToLyrics (
+    void        addBarcheckSyllableToLyrics (
                   int inputLineNumber,
                   int nextMeasureNumber);
 
-    void        addBreakChunkToLyrics (
+    void        addBreakSyllableToLyrics (
                   int inputLineNumber,
                   int nextMeasureNumber);
 
-    void        addChunkToLyrics (S_msrSyllable chunk);
+    void        addSyllableToLyrics (S_msrSyllable syllable);
                 
     // visitors
     // ------------------------------------------------------
@@ -3609,7 +3609,7 @@ EXP ostream& operator<< (ostream& os, const S_msrLyrics& elt);
 /*!
 \brief A msr harmony representation.
 
-  A harmony is represented by a list of lyrics chunks,
+  A harmony is represented by a list of syllables,
 */
 //______________________________________________________________________________
 class EXP msrHarmony : public msrElement
@@ -3730,7 +3730,7 @@ EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
 /*!
 \brief A msr chords representation.
 
-  A lyrics is represented by a list of lyrics chunks,
+  A lyrics is represented by a list of syllables,
 */
 //______________________________________________________________________________
 class EXP msrChords : public msrElement
@@ -4681,7 +4681,7 @@ class EXP msrVoice : public msrElement
     bool                      fMeasureNumberHasBeenSetInVoice;
     bool                      fMusicHasBeenInsertedInVoice;
     
-    // the chunk in the voice contains the measures
+    // the syllable in the voice contains the measures
     // it is created implicitly for every voice,
     S_msrSegment           fVoiceSegment;
 

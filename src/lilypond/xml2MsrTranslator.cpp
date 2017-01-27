@@ -60,8 +60,8 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fCurrentText = "";
   fCurrentElision = false;
   
-  fCurrentSyllableKind     = msrSyllable::k_NoChunk;
-  fFirstSyllableInSlurKind = msrSyllable::k_NoChunk;
+  fCurrentSyllableKind     = msrSyllable::k_NoSyllable;
+  fFirstSyllableInSlurKind = msrSyllable::k_NoSyllable;
   
   fCurrentBackupDuration = -1;
 
@@ -2649,13 +2649,13 @@ void xml2MsrTranslator::visitStart ( S_syllabic& elt )
   fCurrentSyllabic = elt->getValue();
   
   if      (fCurrentSyllabic == "single")
-    fCurrentSyllableKind = msrSyllable::kSingleChunk;
+    fCurrentSyllableKind = msrSyllable::kSingleSyllable;
   else if (fCurrentSyllabic == "begin")
-    fCurrentSyllableKind = msrSyllable::kBeginChunk;
+    fCurrentSyllableKind = msrSyllable::kBeginSyllable;
   else if (fCurrentSyllabic == "middle")
-    fCurrentSyllableKind = msrSyllable::kMiddleChunk;
+    fCurrentSyllableKind = msrSyllable::kMiddleSyllable;
   else if (fCurrentSyllabic == "end")
-    fCurrentSyllableKind = msrSyllable::kEndChunk;
+    fCurrentSyllableKind = msrSyllable::kEndSyllable;
   else {
     stringstream s;
     
@@ -2785,16 +2785,16 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
   }
 
   if      (fCurrentSyllabic == "single")
-    fCurrentSyllableKind = msrSyllable::kSingleChunk;
+    fCurrentSyllableKind = msrSyllable::kSingleSyllable;
   else if (fCurrentSyllabic == "begin")
-    fCurrentSyllableKind = msrSyllable::kBeginChunk;
+    fCurrentSyllableKind = msrSyllable::kBeginSyllable;
   else if (fCurrentSyllabic == "middle")
-    fCurrentSyllableKind = msrSyllable::kMiddleChunk;
+    fCurrentSyllableKind = msrSyllable::kMiddleSyllable;
   else if (fCurrentSyllabic == "end")
-    fCurrentSyllableKind = msrSyllable::kEndChunk;
+    fCurrentSyllableKind = msrSyllable::kEndSyllable;
   else
     // no <syllabic /> specified for this note
-    fCurrentSyllableKind = msrSyllable::k_NoChunk;
+    fCurrentSyllableKind = msrSyllable::k_NoSyllable;
 
   // fetch current voice
   S_msrVoice
@@ -2807,7 +2807,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
   S_msrSyllable
     syllable;
 
-  if (fCurrentSyllableKind != msrSyllable::k_NoChunk) {
+  if (fCurrentSyllableKind != msrSyllable::k_NoSyllable) {
 
  //   string syllableKindAsString; JMI
     
@@ -2820,7 +2820,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
 */
     }
 
-    // create the lyrics chunk
+    // create the syllable
     syllable =
       currentVoice->
         addTextSyllableToVoice (
@@ -2847,7 +2847,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     }
     
     if (fCurrentTieKind != msrTie::k_NoTie) {
-      fCurrentSyllableKind = msrSyllable::kTiedChunk;
+      fCurrentSyllableKind = msrSyllable::kTiedSyllable;
       
       syllable =
         currentVoice->
@@ -2858,7 +2858,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     }
   
     else if (fNoteData.fStepIsARest) {
-      fCurrentSyllableKind = msrSyllable::kSkipChunk;
+      fCurrentSyllableKind = msrSyllable::kSkipSyllable;
 
       syllable =
         currentVoice->
@@ -2872,8 +2872,8 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
       fOnGoingSlurHasLyrics
         &&
       ! fCurrentText.size ()) {
-      if (fFirstSyllableInSlurKind == msrSyllable::kEndChunk) {
-        fCurrentSyllableKind = msrSyllable::kSlurBeyondEndChunk;
+      if (fFirstSyllableInSlurKind == msrSyllable::kEndSyllable) {
+        fCurrentSyllableKind = msrSyllable::kSlurBeyondEndSyllable;
   
         syllable =
           currentVoice->
@@ -2883,7 +2883,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
               fNoteData.fDivisions);
       }
       else {        
-        fCurrentSyllableKind = msrSyllable::kSlurChunk;
+        fCurrentSyllableKind = msrSyllable::kSlurSyllable;
   
         syllable =
           currentVoice->
@@ -2895,8 +2895,8 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     }
     
     else if (fOnGoingSlur) {
-      if (fFirstSyllableInSlurKind == msrSyllable::kEndChunk) {
-        fCurrentSyllableKind = msrSyllable::kSlurBeyondEndChunk;
+      if (fFirstSyllableInSlurKind == msrSyllable::kEndSyllable) {
+        fCurrentSyllableKind = msrSyllable::kSlurBeyondEndSyllable;
   
         syllable =
           currentVoice->
@@ -2906,7 +2906,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
               fNoteData.fDivisions);
       }
       else {        
-        fCurrentSyllableKind = msrSyllable::kSlurChunk;
+        fCurrentSyllableKind = msrSyllable::kSlurSyllable;
   
         syllable =
           currentVoice->
@@ -2922,7 +2922,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
   }
 
   if (syllable)
-    // register lyrics chunk in current note's lyric chunks list
+    // register syllable in current note's syllables list
     fCurrentNoteSyllables.push_back (syllable);
 }
 
@@ -6553,9 +6553,9 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
     /*
 xml2MsrTranslator.cpp:4249
    switch (fSyllableKind) {
-    case kSingleChunk:
+    case kSingleSyllable:
       s << left <<
-        setw(15) << "single" << ":" << fChunkDivisions <<
+        setw(15) << "single" << ":" << fSyllableDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
         ", " << fSyllableNote->notePitchAsString () <<
         ":" << fSyllableNote->noteDivisionsAsMSRString () <<
@@ -6583,7 +6583,7 @@ xml2MsrTranslator.cpp:4249
     fFirstSyllableInSlurKind = fCurrentSyllableKind;
     
   if (fCurrentSlurKind == msrSlur::kStopSlur)
-    fFirstSyllableInSlurKind = msrSyllable::k_NoChunk;
+    fFirstSyllableInSlurKind = msrSyllable::k_NoSyllable;
 
   // account for chord not being built
   fOnGoingChord = false;
@@ -6736,12 +6736,12 @@ void xml2MsrTranslator::handleLyrics (S_msrNote newNote)
         fCurrentNoteSyllables.begin();
       i != fCurrentNoteSyllables.end();
       i++ ) {
-      // set lyrics chunk note uplink to newNote
+      // set syllable note uplink to newNote
       (*i)->setSyllableNoteUplink (newNote);
     } // for
   }
 
-  // forget all of newNote's lyric chunks
+  // forget all of newNote's syllables
   fCurrentNoteSyllables.clear ();
 }
 
