@@ -4951,85 +4951,85 @@ string msrSyllable::syllableAsString ()
   
   switch (fSyllableKind) {
     case kSingleSyllable:
-      s << left <<
-        setw(15) << "single" << ":" << fSyllableDivisions <<
+      s <<
+        "single" << ":" << fSyllableDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fSyllableNoteUplink = " <<
+        ", on " <<
         fSyllableNoteUplink->noteAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       break;
       
     case kBeginSyllable:
-      s << left <<
-        setw(15) << "begin" << ":" << fSyllableDivisions <<
+      s << 
+        "begin" << ":" << fSyllableDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fSyllableNoteUplink = " <<
+        ", on " <<
         fSyllableNoteUplink->noteAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       break;
       
     case kMiddleSyllable:
-      s << left <<
-        setw(15) << "middle" << ":" << fSyllableDivisions <<
+      s << 
+        "middle" << ":" << fSyllableDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fSyllableNoteUplink = " <<
+        ", on " <<
         fSyllableNoteUplink->noteAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       break;
       
     case kEndSyllable:
-      s << left <<
-        setw(15) << "end" << ":" << fSyllableDivisions <<
+      s << 
+        "end" << ":" << fSyllableDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fSyllableNoteUplink = " <<
+        ", on " <<
         fSyllableNoteUplink->noteAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       break;
       
     case kSkipSyllable:
-      s << left <<
-        setw(15) << "skip" << ":" << fSyllableDivisions <<
+      s << 
+        "skip" << ":" << fSyllableDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fSyllableNoteUplink = " <<
+        ", on " <<
         fSyllableNoteUplink->noteAsString ();
       break;
       
     case kSlurSyllable:
-      s << left <<
-        setw(15) << "slur" << ":" << fSyllableDivisions <<
+      s << 
+        "slur" << ":" << fSyllableDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fSyllableNoteUplink = " <<
+        ", on " <<
         fSyllableNoteUplink->noteAsString ();
       break;
       
     case kSlurBeyondEndSyllable:
-      s << left <<
-        setw(15) << "slur beyond end" << ":" << fSyllableDivisions <<
+      s << 
+        "slur beyond end" << ":" << fSyllableDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fSyllableNoteUplink = " <<
+        ", on " <<
         fSyllableNoteUplink->noteAsString ();
       break;
       
     case kTiedSyllable:
-      s << left <<
-        setw(15) << "tied" << ":" << fSyllableDivisions <<
+      s << 
+        "tied" << ":" << fSyllableDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fSyllableNoteUplink = " <<
+        ", on " <<
         fSyllableNoteUplink->noteAsString () <<
         " " << "\"" << fSyllableText << "\"";
       break;
       
     case kBarcheckSyllable:
       // fSyllableText contains the measure number
-      s << left <<
-        setw(15) << "barCheck" <<
+      s << 
+        "barCheck" <<
         " measure " << fSyllableText;
       break;
       
     case kBreakSyllable:
       // fSyllableText contains the measure number
-      s << left <<
-        setw(15) << "break" <<
+      s << 
+        "break" <<
         " measure " << fSyllableText;
       break;
       
@@ -5041,7 +5041,7 @@ string msrSyllable::syllableAsString ()
   } // switch
 
   s <<
-    ", syllableExtendKindAsString" " = " <<
+    ", extend = " <<
     syllableExtendKindAsString (fSyllableExtendKind);
     
   return s.str();
