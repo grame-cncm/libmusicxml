@@ -1677,6 +1677,11 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
       } // switch
 
       fStanzaOlec++;
+
+      if (fLpsrOptions->fGenerateInputLineNumbers)
+        // print the note line number as a comment
+        fOstream <<
+          "%{ " << elt->getInputLineNumber () << " %} ";  
     }
   }
 }

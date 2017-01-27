@@ -166,7 +166,7 @@ void printUsage (int exitStatus)
     "    --noab, --noAutoBeaming" << endl <<
     "          Generate '\\set Voice.autoBeaming = ##f' in each voice " << endl <<
     "          to prevent LilyPond from handling beams automatically." << endl <<
-    "    --niln, --generateInputLineNumbers" << endl <<
+    "    --iln, --generateInputLineNumbers" << endl <<
     "          Generate after each note and barline a comment containing" << endl <<
     "          its MusicXML input line number." << endl <<
     endl <<
@@ -498,11 +498,11 @@ void analyzeOptions (
     },
     
     {
-      "niln",
+      "iln",
       no_argument, &noteInputLineNumbersPresent, 1
     },
     {
-      "noteInputLineNumbers",
+      "generateInputLineNumbers",
       no_argument, &noteInputLineNumbersPresent, 1
     },    
 
@@ -819,14 +819,14 @@ void analyzeOptions (
         if (noteInputLineNumbersPresent) {
           gLpsrOptions->fGenerateInputLineNumbers = true;
           gGeneralOptions->fCommandLineOptions +=
-            "--noteInputLineNumbers ";
+            "--generateInputLineNumbers ";
           noteInputLineNumbersPresent = false;
         }
         
         if (dontGenerateLilyPondLyricsPresent) {
           gLpsrOptions->fDontGenerateLilyPondLyrics = true;
           gGeneralOptions->fCommandLineOptions +=
-            "--dontGenerateLyrics ";
+            "--dontGenerateLilyPondLyrics ";
           dontGenerateLilyPondLyricsPresent = false;
         }
         
@@ -861,7 +861,9 @@ void analyzeOptions (
 }
 
 //_______________________________________________________________________________
-void printOptions ()
+void printOptions (
+  string programName,
+  string inputFileName)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
@@ -871,18 +873,19 @@ void printOptions ()
   idtr++;
   
   cerr << idtr <<
-    "The command line options are: ";
-    
-  if (gGeneralOptions->fCommandLineOptions.size()) {
-    idtr++;
-    cerr <<
-      endl <<
-      idtr << gGeneralOptions->fCommandLineOptions;
-    idtr--;
-  }
-  else
-    cerr << "none";
-  cerr << endl;
+    "The command line is:" <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      programName << " " <<
+      gGeneralOptions->fCommandLineOptions <<
+      inputFileName <<
+      endl;
+
+  idtr--;
 
   // the option name field width
   int const fieldWidth = 31;
@@ -1121,7 +1124,7 @@ int main (int argc, char *argv[])
       cerr << "standard output";
     cerr << endl;
     
-    printOptions ();
+    printOptions (argv [0], inputFileName);
   }
     
   // open output file if need be
