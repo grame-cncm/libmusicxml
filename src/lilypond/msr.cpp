@@ -9043,7 +9043,7 @@ void msrVoice::print (ostream& os)
       fVoiceActualNotesCounter, "actual note", "actual notes") <<
      ", " <<
     singularOrPlural (
-      fVoiceStanzasMap.size(), "lyric", "stanza") <<
+      fVoiceStanzasMap.size(), "stanza", "stanzas") <<
     ")" <<
     endl;
 
@@ -10082,8 +10082,8 @@ void msrStaff::printStructure (ostream& os)
         ", " <<
         singularOrPlural (
           voice->getVoiceStanzasMap ().size(),
-          "lyric",
-          "stanza") <<
+          "stanza",
+          "stanzas") <<
         ")";
       if (++i == iEnd) break;
       os << endl;
