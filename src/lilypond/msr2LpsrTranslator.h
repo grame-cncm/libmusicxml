@@ -28,15 +28,6 @@ namespace MusicXML2
 @{
 */
 
-/*!
-\brief Produces a summary of a MusicXML part.
-
-  A part summary consists in 
-  - a number of staves
-  - a map that associates each stave with the corresponding number of notes
-  - a map that associates each stave with the corresponding voices and notes
-  - a map that associates each stave with the correcponding lyricss
-*/
 class msr2LpsrTranslator :
 
   public visitor<S_msrScore>,
@@ -333,13 +324,13 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------    
     S_msrVoice                fCurrentVoiceClone;
     
-    // lyrics
+    // stanzas
     // ------------------------------------------------------
     S_msrStanza               fCurrentStanzaClone;
 
-    // lyrics chunks
+    // syllables
     // ------------------------------------------------------
-    S_msrSyllable            fCurrentSyllableClone;
+    S_msrSyllable             fCurrentSyllableClone;
 
     // notes
     // ------------------------------------------------------

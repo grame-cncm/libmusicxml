@@ -428,31 +428,31 @@ void lpsrUseVoiceCommand::print (ostream& os)
     fVoice->getVoiceName () <<
     "\", " <<
     singularOrPlural (
-      fVoice->getVoiceStanzasMap ().size(), "lyric", "lyrics") <<
+      fVoice->getVoiceStanzasMap ().size(), "stanza", "stanzas") <<
     endl;
 }
 
 //______________________________________________________________________________
 S_lpsrNewLyricsBlock lpsrNewLyricsBlock::create (
   int            inputLineNumber,
-  S_msrStanza    lyrics,
+  S_msrStanza    stanza,
   S_msrVoice     voice)
 {
   lpsrNewLyricsBlock* o =
     new lpsrNewLyricsBlock (
       inputLineNumber,
-      lyrics, voice);
+      stanza, voice);
   assert(o!=0);
   return o;
 }
 
 lpsrNewLyricsBlock::lpsrNewLyricsBlock (
   int            inputLineNumber,
-  S_msrStanza    lyrics,
+  S_msrStanza    stanza,
   S_msrVoice     voice)
     : lpsrElement (inputLineNumber)
 {
-  fStanza = lyrics;
+  fStanza = stanza;
   fVoice  = voice;
 }
 
@@ -2047,14 +2047,14 @@ void lpsrStaffBlock::appendVoiceUseToStaffBlock (S_msrVoice voice)
   fStaffBlockElements.push_back (useVoiceCommand);
 }
 
-void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrStanza lyrics)
+void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrStanza stanza)
 {
   S_lpsrNewLyricsBlock
     newLyricsCommand =
       lpsrNewLyricsBlock::create (
         fInputLineNumber,
-        lyrics,
-        lyrics->getStanzaVoiceUplink ());
+        stanza,
+        stanza->getStanzaVoiceUplink ());
   
   fStaffBlockElements.push_back (newLyricsCommand);
 }
@@ -2453,15 +2453,13 @@ void lpsrScoreBlock::appendLyricsUseToParallelMusic (
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Appending the use of lyrics " <<
+      "Appending the use of stanza " <<
        lyricsUse-> getStanza ()-> getStanzaName() <<
        " to LPSR score" <<
        endl;
 
   fScoreBlockParallelMusic->
     addElementToParallelMusic (lyricsUse);
-    
-//                   fScoreBlockElements.push_back(lyricsUse);
 }
 
 void lpsrScoreBlock::acceptIn (basevisitor* v) {
@@ -2743,14 +2741,14 @@ void lpsrScore::appendVoiceUseToStoreCommand (S_msrVoice voice)
     appendVoiceUseToParallelMusic (useVoiceCommand);
 }
 
-void lpsrScore::appendLyricsUseToStoreCommand (S_msrStanza lyrics)
+void lpsrScore::appendLyricsUseToStoreCommand (S_msrStanza stanza)
 {
   S_lpsrNewLyricsBlock
     newLyricsCommand =
       lpsrNewLyricsBlock::create (
         fInputLineNumber,
-        lyrics,
-        lyrics->getStanzaVoiceUplink ());
+        stanza,
+        stanza->getStanzaVoiceUplink ());
   
   fScoreBlock->
     appendLyricsUseToParallelMusic (newLyricsCommand);
@@ -2856,7 +2854,7 @@ void lpsrScore::browseData (basevisitor* v)
   }
 
   {
-    // browse the voices and lyrics list
+    // browse the voices and stanzas list
     for (
       list<S_msrElement>::iterator i = fScoreElements.begin();
       i != fScoreElements.end();

@@ -742,13 +742,13 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
       elt->createStanzaBareClone (
         fCurrentVoiceClone);
   
-    // don't add the lyrics to fCurrentVoiceClone
+    // don't add the stanza clone to fCurrentVoiceClone
   
-    // append the lyrics to the LPSR score elements list
+    // append the stanza clone to the LPSR score elements list
     fLpsrScore ->
       appendStanzaToScoreElements (fCurrentStanzaClone);
   
-    // append a use of the lyrics to the current staff block
+    // append a use of the stanza to the current staff block
     fCurrentStaffBlock ->
       appendLyricsUseToStaffBlock (fCurrentStanzaClone);
 //  }
@@ -783,7 +783,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
  // JMI elt->setSyllableNoteUplink (
    // XXL fCurrentNoteClone);
 
-  // add it to the current lyrics clone
+  // add it to the current stanza clone
   fCurrentStanzaClone->
     addSyllableToStanza (elt);
 }

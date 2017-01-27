@@ -2706,7 +2706,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     cerr <<
       endl <<
       idtr <<
-        "Handling lyrics" <<
+        "Handling lyric" <<
         ", line = " << inputLineNumber << ", with:" <<
         endl;
 
@@ -4014,7 +4014,7 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
   fCurrentStanzaNumber = -1;
   fCurrentSyllabic = "";
   fCurrentText = "";  
-  // assume this note hasn't got lyrics until S_lyric is met
+  // assume this note hasn't got any stanzas until S_lyric is met
   fCurrentNoteHasStanza = false;
 
   fCurrentBeam = 0;
@@ -6574,9 +6574,9 @@ xml2MsrTranslator.cpp:4249
   handleTupletsPendingOnTupletStack (
     inputLineNumber);
 
-  // lyrics has to be handled in all cases
+  // lyric has to be handled in all cases
   // in case they are empty at the beginning of the voice
-  handleStanza (newNote);
+  handleLyric (newNote);
 
   // take care of slurs JMI ???
   if (fCurrentSlurKind == msrSlur::kStartSlur)
@@ -6728,7 +6728,7 @@ void xml2MsrTranslator::displayLastHandledTupletInVoice (string header)
 }
 
 //______________________________________________________________________________
-void xml2MsrTranslator::handleStanza (S_msrNote newNote)
+void xml2MsrTranslator::handleLyric (S_msrNote newNote)
 {
   if (fCurrentNoteSyllables.size ()) {
     for (

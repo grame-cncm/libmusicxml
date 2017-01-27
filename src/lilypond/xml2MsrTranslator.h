@@ -710,7 +710,7 @@ class EXP xml2MsrTranslator :
     int                       fCurrentTimeBeatType;
     bool                      fCurrentTimeSenzaMisura;
 
-    // lyrics handling
+    // lyric handling
     // ------------------------------------------------------
     // the last sysllabic spec met (single, begin, middle or end)
     string                    fCurrentSyllabic;
@@ -718,7 +718,7 @@ class EXP xml2MsrTranslator :
                               fCurrentSyllableKind;
     msrSyllable::msrSyllableKind
                               fFirstSyllableInSlurKind;
-    // the last lyrics fragment met
+    // the last lyric fragment met
     string                    fCurrentText;
     bool                      fCurrentElision;
     
@@ -726,9 +726,9 @@ class EXP xml2MsrTranslator :
     bool                      fCurrentNoteHasStanza;
     bool                      fCurrentStanzaHasText;
 
-    list<S_msrSyllable>    fCurrentNoteSyllables;
+    list<S_msrSyllable>       fCurrentNoteSyllables;
 
-    void                      handleStanza (S_msrNote newNote);
+    void                      handleLyric (S_msrNote newNote);
 
     // harmony handling
     // ------------------------------------------------------

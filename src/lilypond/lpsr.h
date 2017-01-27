@@ -903,7 +903,7 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
 
     static SMARTP<lpsrNewLyricsBlock> create (
       int            inputLineNumber,
-      S_msrStanza    lyrics,
+      S_msrStanza    stanza,
       S_msrVoice     voice);
 
   protected:
@@ -913,7 +913,7 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
 
     lpsrNewLyricsBlock (
       int            inputLineNumber,
-      S_msrStanza    lyrics,
+      S_msrStanza    stanza,
       S_msrVoice );
       
     virtual ~lpsrNewLyricsBlock();
@@ -1022,7 +1022,7 @@ class EXP lpsrUseLyricsCommand : public lpsrElement
 
     static SMARTP<lpsrUseLyricsCommand> create (
       int            inputLineNumber,
-      S_msrStanza&   lyrics);
+      S_msrStanza&   stanza);
 
   public:
 
@@ -1052,7 +1052,7 @@ class EXP lpsrUseLyricsCommand : public lpsrElement
 
     lpsrUseLyricsCommand (
       int            inputLineNumber,
-      S_msrStanza&   lyrics);
+      S_msrStanza&   stanza);
       
     virtual ~lpsrUseLyricsCommand();
   
@@ -1561,7 +1561,7 @@ class EXP lpsrStaffBlock : public lpsrElement
                     S_msrVoice voice);
 
     void          appendLyricsUseToStaffBlock (
-                    S_msrStanza lyrics);
+                    S_msrStanza stanza);
 
     void          appendElementToStaffBlock (
                     S_msrElement elem)
@@ -1923,14 +1923,14 @@ class EXP lpsrScore : public lpsrElement
                   { fScoreElements.push_back (voice); }
                   
     void      appendStanzaToScoreElements (
-                S_msrStanza lyrics)
-                  { fScoreElements.push_back (lyrics); }
+                S_msrStanza stanza)
+                  { fScoreElements.push_back (stanza); }
 
     void      appendVoiceUseToStoreCommand (
                 S_msrVoice voice);
 
     void      appendLyricsUseToStoreCommand (
-                S_msrStanza lyrics);
+                S_msrStanza stanza);
 
     // visitors
     // ------------------------------------------------------
@@ -1967,7 +1967,7 @@ class EXP lpsrScore : public lpsrElement
     S_lpsrLilypondVarValAssoc fMyBreakIsBreakAssoc;
     S_lpsrLilypondVarValAssoc fMyBreakIsEmptyAssoc;
 
-    // variables, voices and lyrics
+    // variables, voices and stanzas
     list<S_msrElement>        fScoreElements;
 
     // score command

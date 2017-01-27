@@ -331,9 +331,9 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
     "Voice" << " " << elt->getVoiceName () <<
     " has " << voiceStanzasMapSize;
   if (voiceStanzasMapSize == 1)
-    fOstream << " lyric";
+    fOstream << " stanza";
   else
-    fOstream << " lyrics";
+    fOstream << " stanzas";
   fOstream << endl << endl;
 
   idtr++;
