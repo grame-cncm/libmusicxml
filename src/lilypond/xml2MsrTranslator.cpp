@@ -3612,7 +3612,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
 
   // don't display the barline yet in case of debug,
   // wait until its category is defined
-  // to append the barline to the current voice chunk
+  // to append the barline to the current segment
 
   // handle the barline according to:
   // http://www.musicxml.com/tutorial/the-midi-compatible-part/repeats/
@@ -3722,7 +3722,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBar);
         
-        // append the bar line to the current voice chunk
+        // append the bar line to the current segment
         currentVoice->
           appendBarlineToVoice (barline);
       
@@ -3735,7 +3735,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBar);
         
-        // append the bar line to the current voice chunk
+        // append the bar line to the current segment
         currentVoice->
           appendBarlineToVoice (barline);
               
@@ -3748,7 +3748,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBar);
         
-        // append the bar line to the current voice chunk
+        // append the bar line to the current segment
         currentVoice->
           appendBarlineToVoice (barline);
       
@@ -3761,7 +3761,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBar);
         
-        // append the bar line to the current voice chunk
+        // append the bar line to the current segment
         currentVoice->
           appendBarlineToVoice (barline);
       
@@ -3774,7 +3774,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBar);
   
-        // append the bar line to the current voice chunk
+        // append the bar line to the current segment
         currentVoice->
           appendBarlineToVoice (barline);
     
@@ -3800,7 +3800,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBar);
         
-        // append the bar line to the current voice chunk
+        // append the bar line to the current segment
         currentVoice->
           appendBarlineToVoice (barline);
           
@@ -3813,7 +3813,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBar);
         
-        // append the bar line to the current voice chunk
+        // append the bar line to the current segment
         currentVoice->
           appendBarlineToVoice (barline);
           
@@ -3826,7 +3826,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBar);
         
-        // append the bar line to the current voice chunk
+        // append the bar line to the current segment
         currentVoice->
           appendBarlineToVoice (barline);
   
@@ -3839,7 +3839,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBar);
         
-        // append the bar line to the current voice chunk
+        // append the bar line to the current segment
         currentVoice->
           appendBarlineToVoice (barline);
   
@@ -3852,7 +3852,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBar);
         
-        // append the bar line to the current voice chunk
+        // append the bar line to the current segment
         currentVoice->
           appendBarlineToVoice (barline);
   
@@ -3903,7 +3903,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
             barline->
               setBarlineCategory (msrBarline::kEndOfAHookedEnding);
             
-            // append the bar line to the current voice chunk
+            // append the bar line to the current segment
             currentVoice->
               appendBarlineToVoice (barline);
   
@@ -6773,11 +6773,11 @@ void xml2MsrTranslator::handleRepeatStart (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
-  // get the current voice chunk
-  S_msrVoicechunk
-    currentVoicechunk =
+  // get the current segment
+  S_msrSegment
+    currentSegment =
       currentVoice->
-        getVoiceVoicechunk ();
+        getVoiceSegment ();
 
   if (! fCurrentRepeat) {
     // create the repeat
@@ -6789,21 +6789,21 @@ void xml2MsrTranslator::handleRepeatStart (
     fCurrentRepeat =
       msrRepeat::create (
         inputLineNumber,
-        currentVoicechunk,
+        currentSegment,
         currentVoice);
   }
   
-  // create a new voice chunk for the voice
+  // create a new segment for the voice
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> setting new voice chunk for voice " <<
+      "--> setting new segment for voice " <<
       currentVoice->getVoiceName () << endl;
       
   currentVoice->
-    setNewVoicechunkForVoice (
+    setNewSegmentForVoice (
       inputLineNumber);
 
-  // append the bar line to the new current voice chunk
+  // append the bar line to the new current segment
   currentVoice->
     appendBarlineToVoice (barline);
 
@@ -6839,24 +6839,24 @@ void xml2MsrTranslator::handleHookedEndingEnd (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
-  // append the bar line to the current voice chunk
+  // append the bar line to the current segment
   currentVoice->
     appendBarlineToVoice (barline);
 
-  // get the current voice chunk
-  S_msrVoicechunk
-    currentVoicechunk =
+  // get the current segment
+  S_msrSegment
+    currentSegment =
       currentVoice->
-        getVoiceVoicechunk ();
+        getVoiceSegment ();
 
-  // create new voice chunk from current voice
+  // create new segment from current voice
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> setting new voice chunk for voice " <<
+      "--> setting new segment for voice " <<
       currentVoice->getVoiceName () << endl;
       
   currentVoice->
-    setNewVoicechunkForVoice (
+    setNewSegmentForVoice (
       inputLineNumber);
 
   if (! fCurrentRepeat) {
@@ -6869,11 +6869,11 @@ void xml2MsrTranslator::handleHookedEndingEnd (
     fCurrentRepeat =
       msrRepeat::create (
         inputLineNumber,
-        currentVoicechunk,
+        currentSegment,
         currentVoice);
   }
     
-  // create a repeat ending from the current voice chunk
+  // create a repeat ending from the current segment
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating a new hooked repeat ending for voice " <<
@@ -6885,7 +6885,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
         inputLineNumber,
         fCurrentBarlineEndingNumber,
         msrRepeatending::kHookedEnding,
-        currentVoicechunk,
+        currentSegment,
         fCurrentRepeat);
 
   // append it to the current repeat
@@ -6923,43 +6923,43 @@ void xml2MsrTranslator::handleHookedEndingEnd (
       setBarlineCategory (
         msrBarline::kRepeatStart);
   
-    // prepend the implicit barline to the current voice chunk
+    // prepend the implicit barline to the current segment
     currentVoice->
       prependBarlineToVoice (implicitBarline);
             
-    // get the current voice chunk
-    S_msrVoicechunk
-      currentVoicechunk =
+    // get the current segment
+    S_msrSegment
+      currentSegment =
         currentVoice->
-          getVoiceVoicechunk ();
+          getVoiceSegment ();
 
     if (! fCurrentRepeat) {
       // create the repeat
       if (gGeneralOptions->fTrace)
         cerr << idtr <<
-          "Creating a repeat containing current voice chunk in voice \"" <<
+          "Creating a repeat containing current segment in voice \"" <<
           currentVoice->getVoiceName () << "\"" <<
           endl;
 
       fCurrentRepeat =
         msrRepeat::create (
           inputLineNumber,
-          currentVoicechunk,
+          currentSegment,
           currentVoice);
     }
     
-    // create a new voice chunk for the voice
+    // create a new segment for the voice
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
-        "Setting new voice chunk for voice " <<
+        "Setting new segment for voice " <<
         currentVoice->getVoiceName () <<
         endl;
         
     currentVoice->
-      setNewVoicechunkForVoice (
+      setNewSegmentForVoice (
         inputLineNumber);
 
-    // add the repeat to the new voice chunk
+    // add the repeat to the new segment
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Appending the repeat to voice \"" <<
@@ -7013,17 +7013,17 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
-  // append the bar line to the current voice chunk
+  // append the bar line to the current segment
   currentVoice->
     appendBarlineToVoice (barline);
 
-  // get the current voice chunk
-  S_msrVoicechunk
-    currentVoicechunk =
+  // get the current segment
+  S_msrSegment
+    currentSegment =
       currentVoice->
-        getVoiceVoicechunk ();
+        getVoiceSegment ();
 
-  // create a repeat ending from the current voice chunk
+  // create a repeat ending from the current segment
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating a new hookless repeat ending for voice " <<
@@ -7035,7 +7035,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
         inputLineNumber,
         fCurrentBarlineEndingNumber,
         msrRepeatending::kHooklessEnding,
-        currentVoicechunk,
+        currentSegment,
         fCurrentRepeat);
 
   // add the repeat ending it to the current repeat
@@ -7047,14 +7047,14 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
   fCurrentRepeat->
     addRepeatending (repeatEnding);
 
-  // create new voice chunk from current voice
+  // create new segment from current voice
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> setting new voice chunk for voice " <<
+      "--> setting new segment for voice " <<
       currentVoice->getVoiceName () << endl;
       
   currentVoice->
-    setNewVoicechunkForVoice (
+    setNewSegmentForVoice (
       inputLineNumber);
 
   // add the repeat to the voice
@@ -7092,15 +7092,15 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
       setBarlineCategory (
         msrBarline::kRepeatStart);
   
-    // prepend the implicit barline to the current voice chunk
+    // prepend the implicit barline to the current segment
     currentVoice->
       prependBarlineToVoice (implicitBarline);
             
-    // get the current voice chunk
-    S_msrVoicechunk
-      currentVoicechunk =
+    // get the current segment
+    S_msrSegment
+      currentSegment =
         currentVoice->
-          getVoiceVoicechunk ();
+          getVoiceSegment ();
 
     if (! fCurrentRepeat) {
       // create the repeat
@@ -7112,21 +7112,21 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
       fCurrentRepeat =
         msrRepeat::create (
           inputLineNumber,
-          currentVoicechunk,
+          currentSegment,
           currentVoice);
     }
     
-    // create a new voice chunk for the voice
+    // create a new segment for the voice
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "--> setting new voice chunk for voice " <<
+        "--> setting new segment for voice " <<
         currentVoice->getVoiceName () << endl;
         
     currentVoice->
-      setNewVoicechunkForVoice (
+      setNewSegmentForVoice (
         inputLineNumber);
 
-    // add the repeat to the new voice chunk
+    // add the repeat to the new segment
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> appending the repeat to voice " <<
@@ -7179,16 +7179,16 @@ void xml2MsrTranslator::handleEndingStart (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
-  // append the bar line to the current voice chunk
+  // append the bar line to the current segment
   currentVoice->
     appendBarlineToVoice (barline);
 
 
-  // get the current voice chunk
-  S_msrVoicechunk
-    currentVoicechunk =
+  // get the current segment
+  S_msrSegment
+    currentSegment =
       currentVoice->
-        getVoiceVoicechunk ();
+        getVoiceSegment ();
 
   // push the barline onto the stack
   fPendingBarlines.push (barline);
@@ -7223,7 +7223,7 @@ void xml2MsrTranslator::handleEndingEnd (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
-  // append the bar line to the current voice chunk
+  // append the bar line to the current segment
   currentVoice->
     appendBarlineToVoice (barline);
 
@@ -7253,15 +7253,15 @@ void xml2MsrTranslator::handleEndingEnd (
       setBarlineCategory (
         msrBarline::kRepeatStart);
   
-    // prepend the implicit barline to the current voice chunk
+    // prepend the implicit barline to the current segment
     currentVoice->
       prependBarlineToVoice (implicitBarline);
             
-    // get the current voice chunk
-    S_msrVoicechunk
-      currentVoicechunk =
+    // get the current segment
+    S_msrSegment
+      currentSegment =
         currentVoice->
-          getVoiceVoicechunk ();
+          getVoiceSegment ();
 
     if (! fCurrentRepeat) {
       // create the repeat
@@ -7273,21 +7273,21 @@ void xml2MsrTranslator::handleEndingEnd (
       fCurrentRepeat =
         msrRepeat::create (
           inputLineNumber,
-          currentVoicechunk,
+          currentSegment,
           currentVoice);
     }
     
-    // create a new voice chunk for the voice
+    // create a new segment for the voice
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "--> setting new voice chunk for voice " <<
+        "--> setting new segment for voice " <<
         currentVoice->getVoiceName () << endl;
         
     currentVoice->
-      setNewVoicechunkForVoice (
+      setNewSegmentForVoice (
         inputLineNumber);
 
-    // add the repeat to the new voice chunk
+    // add the repeat to the new segment
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> appending the repeat to voice " <<

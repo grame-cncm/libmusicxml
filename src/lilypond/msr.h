@@ -63,8 +63,8 @@ typedef SMARTP<msrLyrics> S_msrLyrics;
 class msrVoice;
 typedef SMARTP<msrVoice> S_msrVoice;
 
-class msrVoicechunk;
-typedef SMARTP<msrVoicechunk> S_msrVoicechunk;
+class msrSegment;
+typedef SMARTP<msrSegment> S_msrSegment;
 
 class msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
@@ -1438,10 +1438,10 @@ class EXP msrMeasure : public msrElement
       int             inputLineNumber,
       int             measureNumber,
       int             divisionsPerWholeNote,
-      S_msrVoicechunk voicechunkUplink);
+      S_msrSegment segmentUplink);
     
     SMARTP<msrMeasure> createMeasureBareClone (
-      S_msrVoicechunk clonedVoicechunk);
+      S_msrSegment clonedSegment);
 
   protected:
 
@@ -1452,7 +1452,7 @@ class EXP msrMeasure : public msrElement
       int             inputLineNumber,
       int             measureNumber,
       int             divisionsPerWholeNote,
-      S_msrVoicechunk voicechunkUplink);
+      S_msrSegment segmentUplink);
       
     virtual ~msrMeasure();
   
@@ -1509,9 +1509,9 @@ class EXP msrMeasure : public msrElement
                   getMeasureKind () const
                       { return fMeasureKind; }
 
-    S_msrVoicechunk
-                  getMeasureVoicechunkUplink () const
-                      { return fMeasureVoicechunkUplink; }
+    S_msrSegment
+                  getMeasureSegmentUplink () const
+                      { return fMeasureSegmentUplink; }
                       
     S_msrPart     getMeasurePartDirectUplink () const
                       { return fMeasurePartDirectUplink; }
@@ -1579,7 +1579,7 @@ class EXP msrMeasure : public msrElement
 
     list<S_msrElement>        fMeasureElementsList;
     
-    S_msrVoicechunk           fMeasureVoicechunkUplink;
+    S_msrSegment           fMeasureSegmentUplink;
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
@@ -1588,18 +1588,18 @@ EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
 \brief The msr sequential music element
 */
 //______________________________________________________________________________
-class EXP msrVoicechunk : public msrElement
+class EXP msrSegment : public msrElement
 {
   public:
     
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrVoicechunk> create (
+    static SMARTP<msrSegment> create (
       int           inputLineNumber,
       S_msrVoice    voicechunVoicekUplink);
 
-    SMARTP<msrVoicechunk> createVoicechunkBareClone (
+    SMARTP<msrSegment> createSegmentBareClone (
       S_msrVoice clonedVoice);
 
   protected:
@@ -1607,83 +1607,83 @@ class EXP msrVoicechunk : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrVoicechunk (
+    msrSegment (
       int           inputLineNumber,
       S_msrVoice    voicechunVoicekUplink);
       
-    virtual ~msrVoicechunk();
+    virtual ~msrSegment();
     
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    S_msrVoice    getVoicechunkVoiceUplink () const
+    S_msrVoice    getSegmentVoiceUplink () const
                       { return fVoicechunVoicekUplink; }
                       
     const list<S_msrMeasure>&
-                  getVoicechunkMeasuresList () const
-                      { return fVoicechunkMeasuresList; }
+                  getSegmentMeasuresList () const
+                      { return fSegmentMeasuresList; }
                                             
     // divisions per whole note
-    void          setVoicechunkDivisionsPerWholeNote (
+    void          setSegmentDivisionsPerWholeNote (
                     int divisionsPerWholeNote)
                       {
-                        fVoicechunkDivisionsPerWholeNote =
+                        fSegmentDivisionsPerWholeNote =
                           divisionsPerWholeNote;
                       }
                       
-    const int     getVoicechunkDivisionsPerWholeNote () const
-                      { return fVoicechunkDivisionsPerWholeNote; }
+    const int     getSegmentDivisionsPerWholeNote () const
+                      { return fSegmentDivisionsPerWholeNote; }
  /* JMI                     
-    const int     getVoicechunkDivisionsPerWholeMeasure () const
-                      { return fVoicechunkDivisionsPerWholeMeasure; }
+    const int     getSegmentDivisionsPerWholeMeasure () const
+                      { return fSegmentDivisionsPerWholeMeasure; }
        */   
-    void          setVoicechunkTime (S_msrTime time)
-                      { fVoicechunkTime = time; }
+    void          setSegmentTime (S_msrTime time)
+                      { fSegmentTime = time; }
 
-    S_msrTime     getVoicechunkTime () const
-                      { return fVoicechunkTime; }
+    S_msrTime     getSegmentTime () const
+                      { return fSegmentTime; }
 
     // measure number
-    void          setVoicechunkMeasureNumber (
+    void          setSegmentMeasureNumber (
                     int inputLineNumber,
                     int measureNumber);
                       
-    const int     getVoicechunkMeasureNumber () const
-                      { return fVoicechunkMeasureNumber; }
+    const int     getSegmentMeasureNumber () const
+                      { return fSegmentMeasureNumber; }
 
     // services
     // ------------------------------------------------------
 
-    void          forceVoicechunkMeasureNumberTo (int measureNumber);
+    void          forceSegmentMeasureNumberTo (int measureNumber);
 
-    string        voicechunkAsString ();
+    string        segmentAsString ();
 
-    void          appendMeasureToVoicechunk (S_msrMeasure measure);
+    void          appendMeasureToSegment (S_msrMeasure measure);
 
-    void          appendTimeToVoicechunk (S_msrTime time);
+    void          appendTimeToSegment (S_msrTime time);
     
-    void          appendNoteToVoicechunk (S_msrNote note);
-    void          appendChordToVoicechunk (S_msrChord chord);
-    void          appendTupletToVoicechunk (S_msrTuplet tuplet);
+    void          appendNoteToSegment (S_msrNote note);
+    void          appendChordToSegment (S_msrChord chord);
+    void          appendTupletToSegment (S_msrTuplet tuplet);
     
-    void          appendElementToVoicechunk (S_msrElement elem)
+    void          appendElementToSegment (S_msrElement elem)
                       {
-                        fVoicechunkMeasuresList.back ()->
+                        fSegmentMeasuresList.back ()->
                           appendElementToMeasure (elem);
                       }
         
-    void          prependElementToVoicechunk (S_msrElement elem)
+    void          prependElementToSegment (S_msrElement elem)
                       {
-                        fVoicechunkMeasuresList.front ()->
+                        fSegmentMeasuresList.front ()->
                           prependElementToMeasure (elem);
                       }
 
-    S_msrElement  removeLastElementFromVoicechunk (
+    S_msrElement  removeLastElementFromSegment (
                     int inputLineNumber);
 
-    void          finalizeLastMeasureOfVoicechunk (int inputLineNumber);
+    void          finalizeLastMeasureOfSegment (int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------
@@ -1700,21 +1700,21 @@ class EXP msrVoicechunk : public msrElement
 
   private:
 
-    S_msrTime            fVoicechunkTime;
+    S_msrTime            fSegmentTime;
     
-    int                  fVoicechunkDivisionsPerWholeNote;
+    int                  fSegmentDivisionsPerWholeNote;
 
-    // the measures in the voice chunk contain the mmusic
-    list<S_msrMeasure>   fVoicechunkMeasuresList;
+    // the measures in the segment contain the mmusic
+    list<S_msrMeasure>   fSegmentMeasuresList;
 
-    int                  fVoicechunkMeasureNumber;
+    int                  fSegmentMeasureNumber;
 
-    bool                 fMeasureNumberHasBeenSetInVoiceChunk; // JMI
+    bool                 fMeasureNumberHasBeenSetInSegment; // JMI
 
     S_msrVoice           fVoicechunVoicekUplink;
 };
-typedef SMARTP<msrVoicechunk> S_msrVoicechunk;
-EXP ostream& operator<< (ostream& os, const S_msrVoicechunk& elt);
+typedef SMARTP<msrSegment> S_msrSegment;
+EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);
 
 /*!
 \brief A msr repeat representation.
@@ -1760,9 +1760,9 @@ class EXP msrGracenotes : public msrElement
                 getGracenotesIsSlashed () const
                     { return fGracenotesIsSlashed; }
 
-    S_msrVoicechunk
-                getGracenotesVoicechunk () const
-                    { return fGracenotesVoicechunk; }
+    S_msrSegment
+                getGracenotesSegment () const
+                    { return fGracenotesSegment; }
 
     // services
     // ------------------------------------------------------
@@ -1786,7 +1786,7 @@ class EXP msrGracenotes : public msrElement
 
     bool               fGracenotesIsSlashed;
     
-    S_msrVoicechunk    fGracenotesVoicechunk;
+    S_msrSegment    fGracenotesSegment;
 
     S_msrVoice         fGracenotesVoiceUplink;
 };
@@ -1843,17 +1843,17 @@ class EXP msrAftergracenotes : public msrElement
                 getAftergracenotesNote () const
                     { return fAftergracenotesNote; }
 
-    S_msrVoicechunk
-                getAftergracenotesVoicechunk () const
-                    { return fAftergracenotesVoicechunk; }
+    S_msrSegment
+                getAftergracenotesSegment () const
+                    { return fAftergracenotesSegment; }
 
     // services
     // ------------------------------------------------------
 
     void        appendNoteToAftergracenotes (S_msrNote note)
                     {
-                      fAftergracenotesVoicechunk->
-                        appendElementToVoicechunk (note);
+                      fAftergracenotesSegment->
+                        appendElementToSegment (note);
                     }
     
     // visitors
@@ -1875,7 +1875,7 @@ class EXP msrAftergracenotes : public msrElement
 
     S_msrNote          fAftergracenotesNote;
     
-    S_msrVoicechunk    fAftergracenotesVoicechunk;
+    S_msrSegment    fAftergracenotesSegment;
 
     S_msrVoice         fAftergracenotesVoiceUplink;
 };
@@ -4285,7 +4285,7 @@ class EXP msrRepeatending : public msrElement
       int                 inputLineNumber,
       string              repeatendingNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
-      S_msrVoicechunk     voicechunk,
+      S_msrSegment     segment,
       S_msrRepeat         repeatUplink);
     
     SMARTP<msrRepeatending> createRepeatendingBareClone (
@@ -4300,7 +4300,7 @@ class EXP msrRepeatending : public msrElement
       int                 inputLineNumber,
       string              repeatendingNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
-      S_msrVoicechunk     voicechunk,
+      S_msrSegment     segment,
       S_msrRepeat         repeatUplink);
       
     virtual ~msrRepeatending();
@@ -4319,9 +4319,9 @@ class EXP msrRepeatending : public msrElement
     int       getRepeatendingInternalNumber () const
                   { return fRepeatendingInternalNumber; }
                 
-    S_msrVoicechunk
-              getRepeatendingVoicechunk () const
-                  { return fRepeatendingVoicechunk; }
+    S_msrSegment
+              getRepeatendingSegment () const
+                  { return fRepeatendingSegment; }
                 
     S_msrRepeat
               getRepeatendingRepeatUplink () const
@@ -4330,10 +4330,10 @@ class EXP msrRepeatending : public msrElement
     // services
     // ------------------------------------------------------
 
-    void      appendElementToVoicechunk  (S_msrElement elem)
+    void      appendElementToSegment  (S_msrElement elem)
                   {
-                    fRepeatendingVoicechunk->
-                      appendElementToVoicechunk (elem);
+                    fRepeatendingSegment->
+                      appendElementToSegment (elem);
                   }
                     
     // visitors
@@ -4356,7 +4356,7 @@ class EXP msrRepeatending : public msrElement
     
     msrRepeatendingKind fRepeatendingKind;
     
-    S_msrVoicechunk     fRepeatendingVoicechunk;
+    S_msrSegment     fRepeatendingSegment;
 
     S_msrRepeat         fRepeatendingRepeatUplink;
 };
@@ -4380,7 +4380,7 @@ class EXP msrRepeat : public msrElement
 
     static SMARTP<msrRepeat> create (
       int             inputLineNumber,
-      S_msrVoicechunk commonPart,
+      S_msrSegment commonPart,
       S_msrVoice      voiceUplink);
     
     SMARTP<msrRepeat> createRepeatBareClone (
@@ -4393,7 +4393,7 @@ class EXP msrRepeat : public msrElement
 
     msrRepeat (
       int             inputLineNumber,
-      S_msrVoicechunk commonPart,
+      S_msrSegment commonPart,
       S_msrVoice      voiceUplink);
       
     virtual ~msrRepeat();
@@ -4404,9 +4404,9 @@ class EXP msrRepeat : public msrElement
     // ------------------------------------------------------
 
     void      setRepeatCommonPart (
-                S_msrVoicechunk repeatCommonPart);
+                S_msrSegment repeatCommonPart);
                   
-    S_msrVoicechunk
+    S_msrSegment
               getRepeatCommonPart () const
                 { return fRepeatCommonPart; }
 
@@ -4438,7 +4438,7 @@ class EXP msrRepeat : public msrElement
 
   private:
 
-    S_msrVoicechunk           fRepeatCommonPart;
+    S_msrSegment           fRepeatCommonPart;
     
     vector<S_msrRepeatending> fRepeatEndings;
     int                       fRepeatEndingsCounter;
@@ -4511,11 +4511,11 @@ class EXP msrVoice : public msrElement
 
     string        getVoiceName () const;
 
-    void          setNewVoicechunkForVoice (int inputLineNumber); // JMI
+    void          setNewSegmentForVoice (int inputLineNumber); // JMI
 
-    S_msrVoicechunk
-                  getVoiceVoicechunk () const
-                      { return fVoiceVoicechunk; }
+    S_msrSegment
+                  getVoiceSegment () const
+                      { return fVoiceSegment; }
 
     S_msrLyrics   getVoiceLyricsmaster () const
                       { return fVoiceLyricsmaster; }
@@ -4683,7 +4683,7 @@ class EXP msrVoice : public msrElement
     
     // the chunk in the voice contains the measures
     // it is created implicitly for every voice,
-    S_msrVoicechunk           fVoiceVoicechunk;
+    S_msrSegment           fVoiceSegment;
 
     // the master lyrics, collecting skips along the way,
     // to be used as a 'prelude' by actual lyrics

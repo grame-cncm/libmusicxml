@@ -628,35 +628,35 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrVoicechunk& elt)
+void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
 {
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrVoicechunk" << endl;
+      "--> Start visiting msrSegment" << endl;
 
-  // fetch the current voice chunk clone
-  fCurrentVoicechunkClone =
+  // fetch the current segment clone
+  fCurrentSegmentClone =
     fCurrentVoiceClone->
-      getVoiceVoicechunk ();
+      getVoiceSegment ();
 
 /* JMI
-  // create a clone of the voice chunk
-  fCurrentVoicechunkClone =
-    elt->createVoicechunkBareClone (
+  // create a clone of the segment
+  fCurrentSegmentClone =
+    elt->createSegmentBareClone (
       fCurrentVoiceClone);
 
   // append it to the current voice
   fCurrentVoiceClone->
-    appendVoicechunkToVoice (
-      fCurrentVoicechunkClone);
+    appendSegmentToVoice (
+      fCurrentSegmentClone);
       */
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrVoicechunk& elt)
+void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
 {
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrVoicechunk" << endl;
+      "--> End visiting msrSegment" << endl;
 }
 
 //________________________________________________________________________
@@ -678,11 +678,11 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
   // create a clone of the measure
   fCurrentMeasureClone =
     elt->createMeasureBareClone (
-      fCurrentVoicechunkClone);
+      fCurrentSegmentClone);
       
   // append it to the current voice clone
-  fCurrentVoicechunkClone->
-    appendMeasureToVoicechunk (
+  fCurrentSegmentClone->
+    appendMeasureToSegment (
       fCurrentMeasureClone);
 }
 
@@ -1066,7 +1066,7 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
   }
 
   else {
-    // these grace notes are at the beginning of a voice chunk JMI
+    // these grace notes are at the beginning of a segment JMI
     doCreateAGraceNoteClone = true; // JMI    
   }
 
@@ -1426,11 +1426,11 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
           "--> handling kRepeatStart in voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
 
-      // get the current voice chunk
-      S_msrVoicechunk
-        currentVoicechunk =
+      // get the current segment
+      S_msrSegment
+        currentSegment =
           fCurrentVoiceClone->
-            getVoiceVoicechunk ();
+            getVoiceSegment ();
 
 
       // create an LPSR repeat if not yet done
@@ -1442,10 +1442,10 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             fCurrentVoiceClone);
 // */
 
-      // set the current voice chunk as the repeat's common part
+      // set the current segment as the repeat's common part
       if (fCurrentRepeatClone)
         fCurrentRepeatClone->
-          setRepeatCommonPart (currentVoicechunk);
+          setRepeatCommonPart (currentSegment);
       else {
         stringstream s;
 
@@ -1461,14 +1461,14 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
           s.str());
       }
 
-      // create a new voice chunk for the voice
+      // create a new segment for the voice
       if (gGeneralOptions->fDebug)
         cerr << idtr <<
-          "--> setting new voice chunk for voice " <<
+          "--> setting new segment for voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
           
       fCurrentVoiceClone->
-        setNewVoicechunkForVoice (
+        setNewSegmentForVoice (
           inputLineNumber);
 
       fCurrentVoiceClone->
@@ -1486,28 +1486,28 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       fCurrentVoiceClone->
         appendBarlineToVoice (elt);
 
-      // get the current voice chunk
-      S_msrVoicechunk
-        currentVoicechunk =
+      // get the current segment
+      S_msrSegment
+        currentSegment =
           fCurrentVoiceClone->
-            getVoiceVoicechunk ();
+            getVoiceSegment ();
 
-      // set the current voice chunk as the repeat's common part
+      // set the current segment as the repeat's common part
       fCurrentRepeatClone->
-        setRepeatCommonPart (currentVoicechunk);
+        setRepeatCommonPart (currentSegment);
       
-      // create a new voice chunk for the voice
+      // create a new segment for the voice
       if (gGeneralOptions->fDebug)
         cerr << idtr <<
-          "--> setting new voice chunk for voice " <<
+          "--> setting new segment for voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
           
       fCurrentVoiceClone->
-        setNewVoicechunkForVoice (
+        setNewSegmentForVoice (
           inputLineNumber);
 
       if (fOnGoingRepeat) {
-        // add the repeat to the new voice chunk
+        // add the repeat to the new segment
    //     if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "--> appending the repeat to voice " <<
@@ -1526,25 +1526,25 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
           "--> handling kEndingStart in voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
 
-      // get the current voice chunk
-      S_msrVoicechunk
-        currentVoicechunk =
+      // get the current segment
+      S_msrSegment
+        currentSegment =
           fCurrentVoiceClone->
-            getVoiceVoicechunk ();
+            getVoiceSegment ();
 
 /*
-      // set the current voice chunk as the repeat's common part
+      // set the current segment as the repeat's common part
       fCurrentRepeatClone->
-        setRepeatCommonPart (currentVoicechunk);
+        setRepeatCommonPart (currentSegment);
   */    
-      // create a new voice chunk for the voice
+      // create a new segment for the voice
       if (gGeneralOptions->fDebug)
         cerr << idtr <<
-          "--> setting new voice chunk for voice " <<
+          "--> setting new segment for voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
           
       fCurrentVoiceClone->
-        setNewVoicechunkForVoice (
+        setNewSegmentForVoice (
           inputLineNumber);
 
       fCurrentVoiceClone->
@@ -1565,23 +1565,23 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       fCurrentVoiceClone->
         appendBarlineToVoice (elt);
 
-      // get the current voice chunk
-      S_msrVoicechunk
-        currentVoicechunk =
+      // get the current segment
+      S_msrSegment
+        currentSegment =
           fCurrentVoiceClone->
-            getVoiceVoicechunk ();
+            getVoiceSegment ();
 
-      // create a new voice chunk for the voice
+      // create a new segment for the voice
 //      if (gGeneralOptions->fDebug)
         cerr << idtr <<
-          "--> setting new voice chunk for voice " <<
+          "--> setting new segment for voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
           
       fCurrentVoiceClone->
-        setNewVoicechunkForVoice (
+        setNewSegmentForVoice (
           inputLineNumber);
 
-      // create a repeat ending from the current voice chunk
+      // create a repeat ending from the current segment
 //      if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> creating a new hooked ending for voice " <<
@@ -1593,7 +1593,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             inputLineNumber,
             elt->getEndingNumber (),
             msrRepeatending::kHookedEnding,
-            currentVoicechunk,
+            currentSegment,
             fCurrentRepeatClone);
 
       // add the repeat ending to the current repeat
@@ -1607,7 +1607,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 
 /*
       if (fOnGoingRepeat) {
-        // add the repeat to the new voice chunk
+        // add the repeat to the new segment
    //     if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "--> appending the repeat to voice " <<
@@ -1632,23 +1632,23 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       fCurrentVoiceClone->
         appendBarlineToVoice (elt);
 
-      // get the current voice chunk
-      S_msrVoicechunk
-        currentVoicechunk =
+      // get the current segment
+      S_msrSegment
+        currentSegment =
           fCurrentVoiceClone->
-            getVoiceVoicechunk ();
+            getVoiceSegment ();
 
-      // create a new voice chunk for the voice
+      // create a new segment for the voice
 //      if (gGeneralOptions->fDebug)
         cerr << idtr <<
-          "--> setting new voice chunk for voice " <<
+          "--> setting new segment for voice " <<
           fCurrentVoiceClone->getVoiceName () << endl;
           
       fCurrentVoiceClone->
-        setNewVoicechunkForVoice (
+        setNewSegmentForVoice (
           inputLineNumber);
 
-      // create a repeat ending from the current voice chunk
+      // create a repeat ending from the current segment
 //      if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> creating a new hookless ending for voice " <<
@@ -1660,7 +1660,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             inputLineNumber,
             elt->getEndingNumber (),
             msrRepeatending::kHooklessEnding,
-            currentVoicechunk,
+            currentSegment,
             fCurrentRepeatClone);
 
       // add the repeat ending to the current repeat
@@ -1673,7 +1673,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         addRepeatending (repeatEnding);
 
       if (fOnGoingRepeat) {
-        // add the repeat to the new voice chunk
+        // add the repeat to the new segment
    //     if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "--> appending the repeat to voice " <<

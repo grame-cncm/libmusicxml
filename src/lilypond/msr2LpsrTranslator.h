@@ -63,7 +63,7 @@ class msr2LpsrTranslator :
   
   public visitor<S_msrTempo>,
   
-  public visitor<S_msrVoicechunk>,
+  public visitor<S_msrSegment>,
   
   public visitor<S_msrMeasure>,
     
@@ -172,8 +172,8 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrTempo& elt);
     virtual void visitEnd   (S_msrTempo& elt);
 
-    virtual void visitStart (S_msrVoicechunk& elt);
-    virtual void visitEnd   (S_msrVoicechunk& elt);
+    virtual void visitStart (S_msrSegment& elt);
+    virtual void visitEnd   (S_msrSegment& elt);
 
     virtual void visitStart (S_msrMeasure& elt);
     virtual void visitEnd   (S_msrMeasure& elt);
@@ -325,9 +325,9 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     S_msrMeasure              fCurrentMeasureClone;
     
-    // voice chunks
+    // segments
     // ------------------------------------------------------
-    S_msrVoicechunk           fCurrentVoicechunkClone;
+    S_msrSegment           fCurrentSegmentClone;
     
     // voices
     // ------------------------------------------------------    

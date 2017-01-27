@@ -80,7 +80,7 @@ class lpsr2LilyPondTranslator :
   
   public visitor<S_msrVoice>,
   
-  public visitor<S_msrVoicechunk>,
+  public visitor<S_msrSegment>,
   public visitor<S_msrMeasure>,
 
   public visitor<S_msrLyrics>,
@@ -232,8 +232,8 @@ class lpsr2LilyPondTranslator :
     virtual void visitStart (S_msrVoice& elt);
     virtual void visitEnd   (S_msrVoice& elt);
 
-    virtual void visitStart (S_msrVoicechunk& elt);
-    virtual void visitEnd   (S_msrVoicechunk& elt);
+    virtual void visitStart (S_msrSegment& elt);
+    virtual void visitEnd   (S_msrSegment& elt);
 
     virtual void visitStart (S_msrMeasure& elt);
     virtual void visitEnd   (S_msrMeasure& elt);
@@ -378,11 +378,11 @@ class lpsr2LilyPondTranslator :
     // repeats
     // ------------------------------------------------------
 
-    // voice chunks
+    // segments
     // ------------------------------------------------------
-    // we need to handle embedded msrVoicechunk's to indent notes
+    // we need to handle embedded msrSegment's to indent notes
     // in a consistent way
-    stack<int>            fVoicechunkNotesAndChordsCountersStack;
+    stack<int>            fSegmentNotesAndChordsCountersStack;
 
     // lyrics
     // ------------------------------------------------------

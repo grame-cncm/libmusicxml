@@ -1370,9 +1370,9 @@ msrGracenotes::msrGracenotes (
   fGracenotesVoiceUplink =
     gracenotesVoiceUplink;
 
-  // create the voice chunk that will receive the notes
-  fGracenotesVoicechunk =
-    msrVoicechunk::create (
+  // create the segment that will receive the notes
+  fGracenotesSegment =
+    msrSegment::create (
       fInputLineNumber,
       gracenotesVoiceUplink);
 }
@@ -1399,8 +1399,8 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
 
 void msrGracenotes::appendNoteToGracenotes (S_msrNote note)
 {
-  fGracenotesVoicechunk->
-    appendElementToVoicechunk (note);
+  fGracenotesSegment->
+    appendElementToSegment (note);
 
   // JMI
   cerr <<
@@ -1454,9 +1454,9 @@ void msrGracenotes::acceptOut (basevisitor* v) {
 
 void msrGracenotes::browseData (basevisitor* v)
 {
-  // browse the voicechunk
-  msrBrowser<msrVoicechunk> browser (v);
-  browser.browse (*fGracenotesVoicechunk);
+  // browse the segment
+  msrBrowser<msrSegment> browser (v);
+  browser.browse (*fGracenotesSegment);
 }
 
 ostream& operator<< (ostream& os, const S_msrGracenotes& elt)
@@ -1476,7 +1476,7 @@ void msrGracenotes::print (ostream& os)
   
   idtr++;
   
-  os << fGracenotesVoicechunk;
+  os << fGracenotesSegment;
       
   idtr--;
 }
@@ -1512,9 +1512,9 @@ msrAftergracenotes::msrAftergracenotes (
   fAftergracenotesVoiceUplink =
     aftergracenotesVoiceUplink;
 
-  // create the voice chunk that will receive the notes
-  fAftergracenotesVoicechunk =
-    msrVoicechunk::create (
+  // create the segment that will receive the notes
+  fAftergracenotesSegment =
+    msrSegment::create (
       fInputLineNumber,
       aftergracenotesVoiceUplink);
 }
@@ -1583,9 +1583,9 @@ void msrAftergracenotes::browseData (basevisitor* v)
   }
 
   {
-  // browse the voicechunk
-  msrBrowser<msrVoicechunk> browser (v);
-  browser.browse (*fAftergracenotesVoicechunk);
+  // browse the segment
+  msrBrowser<msrSegment> browser (v);
+  browser.browse (*fAftergracenotesSegment);
   }
 }
 
@@ -1609,7 +1609,7 @@ void msrAftergracenotes::print (ostream& os)
   os << idtr <<
     fAftergracenotesNote <<
     endl;
-  os << fAftergracenotesVoicechunk;
+  os << fAftergracenotesSegment;
       
   idtr--;
 }
@@ -6483,13 +6483,13 @@ S_msrMeasure msrMeasure::create (
   int             inputLineNumber,
   int             measureNumber,
   int             divisionsPerWholeNote,
-  S_msrVoicechunk voicechunkUplink)
+  S_msrSegment segmentUplink)
 {
   msrMeasure* o =
     new msrMeasure (
       inputLineNumber,
       measureNumber, divisionsPerWholeNote,
-      voicechunkUplink);
+      segmentUplink);
   assert(o!=0);
   return o;
 }
@@ -6498,7 +6498,7 @@ msrMeasure::msrMeasure (
   int             inputLineNumber,
   int             measureNumber,
   int             divisionsPerWholeNote,
-  S_msrVoicechunk voicechunkUplink)
+  S_msrSegment segmentUplink)
     : msrElement (inputLineNumber)
 {
   fMeasureNumber = measureNumber;
@@ -6506,13 +6506,13 @@ msrMeasure::msrMeasure (
   fMeasureDivisionsPerWholeNote =
     divisionsPerWholeNote;
 
-  fMeasureVoicechunkUplink = voicechunkUplink;
+  fMeasureSegmentUplink = segmentUplink;
 
   // fetch measures's voice
   S_msrVoice
     voice =
-      fMeasureVoicechunkUplink->
-        getVoicechunkVoiceUplink ();
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ();
 
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -6527,8 +6527,8 @@ msrMeasure::msrMeasure (
         getStaffPartUplink ();
 
   setMeasureTime (
-    fMeasureVoicechunkUplink->
-      getVoicechunkTime ());
+    fMeasureSegmentUplink->
+      getSegmentTime ());
       
   fMeasureKind = kRegularMeasure; // may be changed afterwards
 
@@ -6543,7 +6543,7 @@ msrMeasure::~msrMeasure()
 {}
 
 S_msrMeasure msrMeasure::createMeasureBareClone (
-  S_msrVoicechunk clonedVoicechunk)
+  S_msrSegment clonedSegment)
 {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -6556,7 +6556,7 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
         fInputLineNumber,
         fMeasureNumber,
         fMeasureDivisionsPerWholeNote,
-        clonedVoicechunk);
+        clonedSegment);
 
   clone->
     setMeasureTime (fMeasureTime);
@@ -6625,16 +6625,16 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
           inputLineNumber,
           fMeasureNumber + 1,
           fMeasureDivisionsPerWholeNote,
-          fMeasureVoicechunkUplink);
+          fMeasureSegmentUplink);
 
-    // append it to the voice chunk
-    fMeasureVoicechunkUplink->
-      appendMeasureToVoicechunk (
+    // append it to the segment
+    fMeasureSegmentUplink->
+      appendMeasureToSegment (
         newMeasure);
 
-    // append note to it thru the voice chunk
-    fMeasureVoicechunkUplink->
-      appendNoteToVoicechunk (note);
+    // append note to it thru the segment
+    fMeasureSegmentUplink->
+      appendNoteToSegment (note);
   }
 
   else {
@@ -6700,16 +6700,16 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
           inputLineNumber,
           fMeasureNumber + 1,
           fMeasureDivisionsPerWholeNote,
-          fMeasureVoicechunkUplink);
+          fMeasureSegmentUplink);
 
-    // append it to the voice chunk
-    fMeasureVoicechunkUplink->
-      appendMeasureToVoicechunk (
+    // append it to the segment
+    fMeasureSegmentUplink->
+      appendMeasureToSegment (
         newMeasure);
 
-    // append chord to it thru the voice chunk
-    fMeasureVoicechunkUplink->
-      appendChordToVoicechunk (chord);
+    // append chord to it thru the segment
+    fMeasureSegmentUplink->
+      appendChordToSegment (chord);
   }
 
   else {
@@ -6722,8 +6722,8 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
       "--> appending chord '" << chord->chordAsString () <<
       "' to measure " << fMeasureNumber <<
       " in voice \"" <<
-      fMeasureVoicechunkUplink->
-        getVoicechunkVoiceUplink ()->
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
           getVoiceName () <<
       "\"" <<
       endl;
@@ -6791,16 +6791,16 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
           inputLineNumber,
           fMeasureNumber + 1,
           fMeasureDivisionsPerWholeNote,
-          fMeasureVoicechunkUplink);
+          fMeasureSegmentUplink);
 
-    // append it to the voice chunk
-    fMeasureVoicechunkUplink->
-      appendMeasureToVoicechunk (
+    // append it to the segment
+    fMeasureSegmentUplink->
+      appendMeasureToSegment (
         newMeasure);
 
-    // append tuplet to it thru the voice chunk
-    fMeasureVoicechunkUplink->
-      appendTupletToVoicechunk (tuplet);
+    // append tuplet to it thru the segment
+    fMeasureSegmentUplink->
+      appendTupletToSegment (tuplet);
   }
 
   else {
@@ -6813,8 +6813,8 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
       "--> appending tuplet '" << tuplet->tupletAsString () <<
       "' to measure " << fMeasureNumber <<
       " in voice \"" <<
-      fMeasureVoicechunkUplink->
-        getVoicechunkVoiceUplink ()->
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
           getVoiceName () <<
       "\"" <<
       endl;
@@ -6912,8 +6912,8 @@ void msrMeasure::finalizeMeasure (int inputLineNumber)
   // fetch the voice
   S_msrVoice
     voice =
-      fMeasureVoicechunkUplink->
-        getVoicechunkVoiceUplink ();
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ();
     
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr <<
@@ -6938,8 +6938,8 @@ void msrMeasure::finalizeMeasure (int inputLineNumber)
         msrNote::createSkipNote (
           inputLineNumber,
           skipDuration,
-          fMeasureVoicechunkUplink->
-            getVoicechunkDivisionsPerWholeNote (),
+          fMeasureSegmentUplink->
+            getSegmentDivisionsPerWholeNote (),
           voice->
             getVoiceStaffUplink ()->getStaffNumber (),
           voice->
@@ -7101,7 +7101,7 @@ void msrMeasure::print (ostream& os)
       ", line " << fInputLineNumber <<
 /*
       ", voice " <<
-      fMeasureVoicechunkUplink->getVoiceUplink ()->getVoiceName () <<
+      fMeasureSegmentUplink->getVoiceUplink ()->getVoiceName () <<
 */
       ", " << fMeasureTime->timeAsString () <<
       ", length: " << getMeasureLength () <<
@@ -7141,36 +7141,36 @@ void msrMeasure::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrVoicechunk msrVoicechunk::create (
+S_msrSegment msrSegment::create (
   int           inputLineNumber,
   S_msrVoice    voicechunVoicekUplink)
 {
-  msrVoicechunk* o =
-    new msrVoicechunk (
+  msrSegment* o =
+    new msrSegment (
       inputLineNumber,
       voicechunVoicekUplink);
   assert(o!=0);
   return o;
 }
 
-msrVoicechunk::msrVoicechunk (
+msrSegment::msrSegment (
   int           inputLineNumber,
   S_msrVoice    voicechunVoicekUplink)
     : msrElement (inputLineNumber)
 {
   fVoicechunVoicekUplink = voicechunVoicekUplink;
 
-  fVoicechunkDivisionsPerWholeNote =
+  fSegmentDivisionsPerWholeNote =
     fVoicechunVoicekUplink->
       getVoiceDivisionsPerWholeNote ();
 
-  fVoicechunkTime =
+  fSegmentTime =
     fVoicechunVoicekUplink->
       getVoiceTime ();
 
-  if (! fVoicechunkTime) {
+  if (! fSegmentTime) {
     // use the implicit initial 4/4 time signature
-    fVoicechunkTime =
+    fSegmentTime =
       msrTime::create (
         fInputLineNumber,
         4, 4);
@@ -7192,7 +7192,7 @@ msrVoicechunk::msrVoicechunk (
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr <<
       idtr <<
-        "--> Creating voice chunk first measure with number " <<
+        "--> Creating segment first measure with number " <<
         firstMeasureNumber <<
         " in voice \"" << fVoicechunVoicekUplink->getVoiceName () << "\"" <<
         endl;
@@ -7203,7 +7203,7 @@ msrVoicechunk::msrVoicechunk (
       msrMeasure::create (
         inputLineNumber,
         firstMeasureNumber,
-        fVoicechunkDivisionsPerWholeNote,
+        fSegmentDivisionsPerWholeNote,
         this);
 
   // set the measure clef, key and time if any
@@ -7214,50 +7214,50 @@ msrVoicechunk::msrVoicechunk (
     lastMeasure->getMeasureKey ());
     */
   measure->setMeasureTime (
-    fVoicechunkTime);
+    fSegmentTime);
         
-  // append the measure to the voice chunk
-  fVoicechunkMeasuresList.push_back (measure);
+  // append the measure to the segment
+  fSegmentMeasuresList.push_back (measure);
 
-  fMeasureNumberHasBeenSetInVoiceChunk = false;
+  fMeasureNumberHasBeenSetInSegment = false;
 }
 
-msrVoicechunk::~msrVoicechunk() {}
+msrSegment::~msrSegment() {}
 
-S_msrVoicechunk msrVoicechunk::createVoicechunkBareClone (
+S_msrSegment msrSegment::createSegmentBareClone (
   S_msrVoice clonedVoice)
 {
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> Creating a bare clone of a voice chunk" <<
+      "--> Creating a bare clone of a segment" <<
       endl;
 
-  S_msrVoicechunk
+  S_msrSegment
     clone =
-      msrVoicechunk::create (
+      msrSegment::create (
         fInputLineNumber,
         clonedVoice);
 
-  clone->fVoicechunkTime =
-    fVoicechunkTime;
+  clone->fSegmentTime =
+    fSegmentTime;
     
-  clone->fVoicechunkDivisionsPerWholeNote =
-    fVoicechunkDivisionsPerWholeNote;
+  clone->fSegmentDivisionsPerWholeNote =
+    fSegmentDivisionsPerWholeNote;
 
   // remove the initial measure created implicitly
-  fVoicechunkMeasuresList.clear ();
+  fSegmentMeasuresList.clear ();
   
   return clone;
 }
 
-void msrVoicechunk::setVoicechunkMeasureNumber (
+void msrSegment::setSegmentMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {  
-  // fetch voice chunk current measure
+  // fetch segment current measure
   S_msrMeasure
     currentMeasure =
-      fVoicechunkMeasuresList.back ();
+      fSegmentMeasuresList.back ();
 
   // fetch its current measure position and length
   int
@@ -7288,7 +7288,7 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
  // JMI if (gGeneralOptions->fDebug) {
     cerr <<
       idtr <<
-        setw(31) << "--> setVoicechunkMeasureNumber (" <<
+        setw(31) << "--> setSegmentMeasureNumber (" <<
         measureNumber <<
         "): " <<
         endl;
@@ -7345,15 +7345,15 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
       idtr--;
     }
     
-    if (fVoicechunkMeasuresList.size () == 1) {
-      // this is the first measure in the voice chunk
+    if (fSegmentMeasuresList.size () == 1) {
+      // this is the first measure in the segment
       currentMeasure->
         setMeasureKind (
           msrMeasure::kIncompleteLeftMeasure);
     }
     
     else {
-      // this is the last measure in the voice chunk
+      // this is the last measure in the segment
       currentMeasure->
         setMeasureKind (
           msrMeasure::kIncompleteRightMeasure);
@@ -7364,7 +7364,7 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
     // yes, current measure is full JMI
   }
   
-  fVoicechunkMeasureNumber = measureNumber; // JMI
+  fSegmentMeasureNumber = measureNumber; // JMI
 
   bool doCreateAMeasure = false;
               
@@ -7375,8 +7375,8 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
         cerr <<
           idtr <<
             "### there are currently " <<
-            fVoicechunkMeasuresList.size () <<
-            " measures in voice chunk" <<
+            fSegmentMeasuresList.size () <<
+            " measures in segment" <<
             endl <<
           idtr <<
             setw(31) << "--> renumbering measure 1 as 0" <<
@@ -7395,8 +7395,8 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
           cerr <<
             idtr <<
               "### there are currently " <<
-              fVoicechunkMeasuresList.size () <<
-            " measures in voice chunk" <<
+              fSegmentMeasuresList.size () <<
+            " measures in segment" <<
               endl <<
             idtr <<
               setw(31) <<
@@ -7416,8 +7416,8 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
         cerr <<
           idtr <<
             "### there are currently " <<
-            fVoicechunkMeasuresList.size () <<
-            " measures in voice chunk" <<
+            fSegmentMeasuresList.size () <<
+            " measures in segment" <<
             endl <<
           idtr <<
             setw(31) <<
@@ -7439,66 +7439,66 @@ void msrVoicechunk::setVoicechunkMeasureNumber (
         msrMeasure::create (
           inputLineNumber,
           measureNumber,
-          fVoicechunkDivisionsPerWholeNote,
+          fSegmentDivisionsPerWholeNote,
           this);
   
-    // append it to the voice chunk's measures list
-    fVoicechunkMeasuresList.push_back (
+    // append it to the segment's measures list
+    fSegmentMeasuresList.push_back (
       newMeasure);
   }
   
-  fMeasureNumberHasBeenSetInVoiceChunk = true;
+  fMeasureNumberHasBeenSetInSegment = true;
 }
 
-void msrVoicechunk::forceVoicechunkMeasureNumberTo (int measureNumber) // JMI
+void msrSegment::forceSegmentMeasureNumberTo (int measureNumber) // JMI
 {
-  fVoicechunkMeasureNumber = measureNumber;
+  fSegmentMeasureNumber = measureNumber;
 
-  if (fVoicechunkMeasuresList.size ()) {
-    fVoicechunkMeasuresList.back ()->
+  if (fSegmentMeasuresList.size ()) {
+    fSegmentMeasuresList.back ()->
       setMeasureNumber (measureNumber);
   }
 };
 
-void msrVoicechunk::finalizeLastMeasureOfVoicechunk (int inputLineNumber)
+void msrSegment::finalizeLastMeasureOfSegment (int inputLineNumber)
 {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "### --> finalizing last measure in voice chunk" <<
+      "### --> finalizing last measure in segment" <<
       ", line " << inputLineNumber <<
       endl;
 
-  fVoicechunkMeasuresList.back ()->
+  fSegmentMeasuresList.back ()->
     finalizeMeasure (inputLineNumber);
 }
 
-void msrVoicechunk::appendTimeToVoicechunk (S_msrTime time)
+void msrSegment::appendTimeToSegment (S_msrTime time)
 {
   if (gGeneralOptions->fDebug)
     cerr <<
       idtr <<
         "--> appending time " << time->timeAsString () <<
-        " to voice chunk" <<
+        " to segment" <<
       endl;
       
-  // register time in voice chunk
-  fVoicechunkTime = time;
+  // register time in segment
+  fSegmentTime = time;
 
-  // register time in voice chunks's current measure
-  fVoicechunkMeasuresList.back ()->
+  // register time in segments's current measure
+  fSegmentMeasuresList.back ()->
     setMeasureTime (time);
     
-  // append it to this voice chunk
+  // append it to this segment
   S_msrElement t = time;
-  appendElementToVoicechunk (t);
+  appendElementToSegment (t);
 }
 
-void msrVoicechunk::appendMeasureToVoicechunk (S_msrMeasure measure)
+void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 {  
-  if (fVoicechunkMeasuresList.size ()) {
+  if (fSegmentMeasuresList.size ()) {
     S_msrMeasure
       lastMeasure =
-        fVoicechunkMeasuresList.back ();
+        fSegmentMeasuresList.back ();
 
     int
       measureNumber =
@@ -7525,7 +7525,7 @@ void msrVoicechunk::appendMeasureToVoicechunk (S_msrMeasure measure)
         lastMeasure->getMeasureTime ());
         
       // remove previous measure with same number XXL
-      fVoicechunkMeasuresList.pop_back ();
+      fSegmentMeasuresList.pop_back ();
     }
     
     else if (lastMeasureNumber == 1 && measureNumber == 0) {
@@ -7537,42 +7537,42 @@ void msrVoicechunk::appendMeasureToVoicechunk (S_msrMeasure measure)
         ", line " << measure-> getInputLineNumber () <<
         endl;
 
-      fVoicechunkMeasuresList.pop_back ();
+      fSegmentMeasuresList.pop_back ();
     }
   }
 
-  // append measure to the voice chunk
-  fVoicechunkMeasuresList.push_back (measure);
+  // append measure to the segment
+  fSegmentMeasuresList.push_back (measure);
 }
 
-void msrVoicechunk::appendNoteToVoicechunk (S_msrNote note)
+void msrSegment::appendNoteToSegment (S_msrNote note)
 {
-  fVoicechunkMeasuresList.back ()->
+  fSegmentMeasuresList.back ()->
     appendNoteToMeasure (note);
 }
 
-void msrVoicechunk::appendChordToVoicechunk (S_msrChord chord) // XXL
+void msrSegment::appendChordToSegment (S_msrChord chord) // XXL
 {
-  fVoicechunkMeasuresList.back ()->
+  fSegmentMeasuresList.back ()->
     appendChordToMeasure (chord);
 }
 
-void msrVoicechunk::appendTupletToVoicechunk (S_msrTuplet tuplet) // XXL
+void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // XXL
 {
-  fVoicechunkMeasuresList.back ()->
+  fSegmentMeasuresList.back ()->
     appendTupletToMeasure (tuplet);
 }
 
 /* JMI
-void msrVoicechunk::removeElementFromVoicechunk (
+void msrSegment::removeElementFromSegment (
   S_msrElement elem)
 {
   for (
-    list<S_msrElement>::iterator i = fVoicechunkMeasuresList.begin();
-    i != fVoicechunkMeasuresList.end();
+    list<S_msrElement>::iterator i = fSegmentMeasuresList.begin();
+    i != fSegmentMeasuresList.end();
     i++) {
     if ((*i) == elem) {
-      fVoicechunkMeasuresList.erase (i);
+      fSegmentMeasuresList.erase (i);
       break;
     }
   } // for
@@ -7580,15 +7580,15 @@ void msrVoicechunk::removeElementFromVoicechunk (
 */
 
 
-S_msrElement msrVoicechunk::removeLastElementFromVoicechunk (
+S_msrElement msrSegment::removeLastElementFromSegment (
   int inputLineNumber)
 {
   // this last element can be a note or a tuplet,
   // this method is used when the seconde note of a chord is mest
   
-  if (fVoicechunkMeasuresList.size ()) {
+  if (fSegmentMeasuresList.size ()) {
     return
-      fVoicechunkMeasuresList.back ()->
+      fSegmentMeasuresList.back ()->
         removeLastElementFromMeasure (
           inputLineNumber);
   }
@@ -7596,54 +7596,54 @@ S_msrElement msrVoicechunk::removeLastElementFromVoicechunk (
   else {
     msrInternalError (
       inputLineNumber,
-      "cannot removeLastElementFromVoicechunk () "
+      "cannot removeLastElementFromSegment () "
       "since it is empty");
   }
 }
 
-void msrVoicechunk::acceptIn (basevisitor* v) {
+void msrSegment::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrVoicechunk::acceptIn()" << endl;
+      "==> msrSegment::acceptIn()" << endl;
       
-  if (visitor<S_msrVoicechunk>*
+  if (visitor<S_msrSegment>*
     p =
-      dynamic_cast<visitor<S_msrVoicechunk>*> (v)) {
-        S_msrVoicechunk elem = this;
+      dynamic_cast<visitor<S_msrSegment>*> (v)) {
+        S_msrSegment elem = this;
         
         if (gGeneralOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrVoicechunk::visitStart()" << endl;
+            "==> Launching msrSegment::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void msrVoicechunk::acceptOut (basevisitor* v) {
+void msrSegment::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrVoicechunk::acceptOut()" << endl;
+      "==> msrSegment::acceptOut()" << endl;
 
-  if (visitor<S_msrVoicechunk>*
+  if (visitor<S_msrSegment>*
     p =
-      dynamic_cast<visitor<S_msrVoicechunk>*> (v)) {
-        S_msrVoicechunk elem = this;
+      dynamic_cast<visitor<S_msrSegment>*> (v)) {
+        S_msrSegment elem = this;
       
         if (gGeneralOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrVoicechunk::visitEnd()" << endl;
+            "==> Launching msrSegment::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void msrVoicechunk::browseData (basevisitor* v)
+void msrSegment::browseData (basevisitor* v)
 {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrVoicechunk::browseData()" << endl;
+      "==> msrSegment::browseData()" << endl;
 
   for (
-    list<S_msrMeasure>::iterator i = fVoicechunkMeasuresList.begin();
-    i != fVoicechunkMeasuresList.end();
+    list<S_msrMeasure>::iterator i = fSegmentMeasuresList.begin();
+    i != fSegmentMeasuresList.end();
     i++) {
     // browse the element
     msrBrowser<msrMeasure> browser (v);
@@ -7652,40 +7652,40 @@ void msrVoicechunk::browseData (basevisitor* v)
 
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "<== msrVoicechunk::browseData()" << endl;
+      "<== msrSegment::browseData()" << endl;
 }
 
-string msrVoicechunk::voicechunkAsString ()
+string msrSegment::segmentAsString ()
 {
   stringstream s;
 
-  s << "Voicechunk" ;
-  if (! fVoicechunkMeasuresList.size ())
+  s << "Segment" ;
+  if (! fSegmentMeasuresList.size ())
     s << "(No actual measures)";
   else
-    s << "(" << fVoicechunkMeasuresList.size () << " measures)";
+    s << "(" << fSegmentMeasuresList.size () << " measures)";
 
   return s.str();
 }
 
-ostream& operator<< (ostream& os, const S_msrVoicechunk& elt)
+ostream& operator<< (ostream& os, const S_msrSegment& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrVoicechunk::print (ostream& os)
+void msrSegment::print (ostream& os)
 {  
   os << idtr <<
-    "Voicechunk" <<
-    " (" << fVoicechunkMeasuresList.size() << " measures)" <<
+    "Segment" <<
+    " (" << fSegmentMeasuresList.size() << " measures)" <<
     endl;
 
   idtr++;
 
-  if (! fVoicechunkTime) {
+  if (! fSegmentTime) {
     // use the implicit initial 4/4 time signature
-    fVoicechunkTime =
+    fSegmentTime =
       msrTime::create (
         fInputLineNumber,
         4, 4);
@@ -7693,18 +7693,18 @@ void msrVoicechunk::print (ostream& os)
 
   os <<
     idtr <<
-      setw(32) << "(VoicechunkDivisionsPerWholeNote" << " = " <<
-      fVoicechunkDivisionsPerWholeNote << ")" <<
+      setw(32) << "(SegmentDivisionsPerWholeNote" << " = " <<
+      fSegmentDivisionsPerWholeNote << ")" <<
       endl <<
     idtr <<
-      setw(32) << "(fVoicechunkTime" << " = " <<
-      fVoicechunkTime->timeAsString () << ")" <<
+      setw(32) << "(fSegmentTime" << " = " <<
+      fSegmentTime->timeAsString () << ")" <<
       endl;
 
   os <<
     idtr << "Measures:";
   
-  if (! fVoicechunkMeasuresList.size ())
+  if (! fSegmentMeasuresList.size ())
     os << " none";
     
   else {    
@@ -7712,8 +7712,8 @@ void msrVoicechunk::print (ostream& os)
     idtr++;
     
     list<S_msrMeasure>::const_iterator
-      iBegin = fVoicechunkMeasuresList.begin(),
-      iEnd   = fVoicechunkMeasuresList.end(),
+      iBegin = fSegmentMeasuresList.begin(),
+      iEnd   = fSegmentMeasuresList.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -7734,7 +7734,7 @@ S_msrRepeatending msrRepeatending::create (
   int                 inputLineNumber,
   string              repeatendingNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
-  S_msrVoicechunk     voicechunk,
+  S_msrSegment     segment,
   S_msrRepeat         repeatUplink)
 {
   msrRepeatending* o =
@@ -7742,7 +7742,7 @@ S_msrRepeatending msrRepeatending::create (
       inputLineNumber,
       repeatendingNumber,
       repeatendingKind,
-      voicechunk,
+      segment,
       repeatUplink);
   assert(o!=0);
   return o;
@@ -7752,7 +7752,7 @@ msrRepeatending::msrRepeatending (
   int                 inputLineNumber,
   string              repeatendingNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
-  S_msrVoicechunk     voicechunk,
+  S_msrSegment     segment,
   S_msrRepeat         repeatUplink)
     : msrElement (inputLineNumber)
 {
@@ -7763,7 +7763,7 @@ msrRepeatending::msrRepeatending (
   
   fRepeatendingKind = repeatendingKind;
   
-  fRepeatendingVoicechunk   = voicechunk;
+  fRepeatendingSegment   = segment;
   fRepeatendingRepeatUplink = repeatUplink;
 }
 
@@ -7824,9 +7824,9 @@ void msrRepeatending::acceptOut (basevisitor* v) {
 
 void msrRepeatending::browseData (basevisitor* v)
 {
-  // browse the voice chunk
-  msrBrowser<msrVoicechunk> browser (v);
-  browser.browse (*fRepeatendingVoicechunk);
+  // browse the segment
+  msrBrowser<msrSegment> browser (v);
+  browser.browse (*fRepeatendingSegment);
 }
 
 ostream& operator<< (ostream& os, const S_msrRepeatending& elt)
@@ -7854,7 +7854,7 @@ void msrRepeatending::print (ostream& os)
   
   idtr++;
 
-  os << fRepeatendingVoicechunk;
+  os << fRepeatendingSegment;
 
   idtr--;
 }
@@ -7862,7 +7862,7 @@ void msrRepeatending::print (ostream& os)
 //______________________________________________________________________________
 S_msrRepeat msrRepeat::create (
   int             inputLineNumber,
-  S_msrVoicechunk commonPart,
+  S_msrSegment commonPart,
   S_msrVoice      voiceUplink)
 {
   msrRepeat* o =
@@ -7874,7 +7874,7 @@ S_msrRepeat msrRepeat::create (
 
 msrRepeat::msrRepeat (
   int             inputLineNumber,
-  S_msrVoicechunk commonPart,
+  S_msrSegment commonPart,
   S_msrVoice      voiceUplink)
     : msrElement (inputLineNumber)
 {
@@ -7887,9 +7887,9 @@ msrRepeat::~msrRepeat() {}
 
 S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
 {
-  S_msrVoicechunk
-    voicechunk =
-      msrVoicechunk::create (
+  S_msrSegment
+    segment =
+      msrSegment::create (
         fInputLineNumber,
         clonedVoice);
 
@@ -7901,19 +7901,19 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
     clone =
       msrRepeat::create (
         fInputLineNumber,
-        voicechunk,
+        segment,
         clonedVoice);
   
   return clone;
 }
 
 void msrRepeat::setRepeatCommonPart (
-  S_msrVoicechunk repeatCommonPart)
+  S_msrSegment repeatCommonPart)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Setting repeat common part containing " <<
-      repeatCommonPart->getVoicechunkMeasuresList ().size () <<
+      repeatCommonPart->getSegmentMeasuresList ().size () <<
       " measures" <<
       endl;
       
@@ -7969,7 +7969,7 @@ void msrRepeat::acceptOut (basevisitor* v) {
 void msrRepeat::browseData (basevisitor* v)
 {
   // browse the common part
-  msrBrowser<msrVoicechunk> browser (v);
+  msrBrowser<msrSegment> browser (v);
   browser.browse (*fRepeatCommonPart);
   
   // browse the alternatives
@@ -8059,16 +8059,16 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
     fMusicHasBeenInsertedInVoice;
 
 /* JMI
-  // create the voice chunk
+  // create the segment
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Creating the initial voice chunk clone for voice \"" <<
+      "Creating the initial segment clone for voice \"" <<
       clone->getVoiceName () << "\"" <<
       endl;
       
   clone->
-    fVoiceVoicechunk =
-      msrVoicechunk::create (
+    fVoiceSegment =
+      msrSegment::create (
         clone->fInputLineNumber,
         clone);
   */
@@ -8130,15 +8130,15 @@ msrVoice::msrVoice (
       msrLyrics::kMasterLyrics,
       this);
 
-  // create the initial voice chunk for this voice
+  // create the initial segment for this voice
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Creating the initial voice chunk for voice \"" <<
+      "Creating the initial segment for voice \"" <<
       getVoiceName () << "\"" <<
       endl;
       
-  fVoiceVoicechunk =
-    msrVoicechunk::create (
+  fVoiceSegment =
+    msrSegment::create (
       inputLineNumber,
       this);
 
@@ -8156,10 +8156,10 @@ msrVoice::msrVoice (
         "G", 2, 0);
         */
   if (clef) {
-    // append it to the voice chunk
+    // append it to the segment
     S_msrElement c = clef;
-    fVoiceVoicechunk->
-      appendElementToVoicechunk (c);
+    fVoiceSegment->
+      appendElementToSegment (c);
     }
   }
     
@@ -8177,10 +8177,10 @@ msrVoice::msrVoice (
         0, "major", 0);
         */
     if (key) {
-      // append it to the voice chunk
+      // append it to the segment
       S_msrElement k = key;
-      fVoiceVoicechunk->
-        appendElementToVoicechunk (k);
+      fVoiceSegment->
+        appendElementToSegment (k);
     }
   }
   
@@ -8198,10 +8198,10 @@ msrVoice::msrVoice (
           4, 4);
   */
     if (time) {
-      // append it to the voice chunk
+      // append it to the segment
       S_msrElement t = time;
-      fVoiceVoicechunk->
-        appendElementToVoicechunk (t);
+      fVoiceSegment->
+        appendElementToSegment (t);
     }
   }
   
@@ -8212,10 +8212,10 @@ msrVoice::msrVoice (
         fVoiceStaffUplink->getStaffTranspose ();
         
     if (transpose) {
-      // append it to the voice chunk
+      // append it to the segment
       S_msrElement t = transpose;
-      fVoiceVoicechunk->
-        appendElementToVoicechunk (t);
+      fVoiceSegment->
+        appendElementToSegment (t);
     }
   }
 }
@@ -8246,8 +8246,8 @@ void msrVoice::setVoiceDivisionsPerWholeNote (
   fVoiceDivisionsPerWholeNote =
     divisionsPerWholeNote;
 
-  fVoiceVoicechunk->
-    setVoicechunkDivisionsPerWholeNote (
+  fVoiceSegment->
+    setSegmentDivisionsPerWholeNote (
       divisionsPerWholeNote);
 }
 
@@ -8257,8 +8257,8 @@ void msrVoice::setVoiceMeasureNumber (
 {
   fVoiceMeasureNumber = measureNumber;
 
-  fVoiceVoicechunk->
-    setVoicechunkMeasureNumber (
+  fVoiceSegment->
+    setSegmentMeasureNumber (
       inputLineNumber,
       fVoiceMeasureNumber);
 
@@ -8273,21 +8273,21 @@ void msrVoice::forceVoiceMeasureNumberTo (int measureNumber) // JMI
 {
   fVoiceMeasureNumber = measureNumber;
 
-  fVoiceVoicechunk->
-    forceVoicechunkMeasureNumberTo (measureNumber);
+  fVoiceSegment->
+    forceSegmentMeasureNumberTo (measureNumber);
 };
 
-void msrVoice::setNewVoicechunkForVoice (
+void msrVoice::setNewSegmentForVoice (
   int inputLineNumber)
 {
-  // create the voice chunk
+  // create the segment
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Creating a new voice chunk for voice " <<
+      "Creating a new segment for voice " <<
       getVoiceName () << endl;
       
-  fVoiceVoicechunk =
-    msrVoicechunk::create (
+  fVoiceSegment =
+    msrSegment::create (
       inputLineNumber,
       this);
 }
@@ -8401,8 +8401,8 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
       endl;
 
   S_msrElement c = clef;
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (c);
+  fVoiceSegment->
+    appendElementToSegment (c);
 }
 
 void msrVoice::appendKeyToVoice (S_msrKey key)
@@ -8414,8 +8414,8 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
       endl;
 
   S_msrElement k = key;
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (k);
+  fVoiceSegment->
+    appendElementToSegment (k);
 }
 
 void msrVoice::appendTimeToVoice (S_msrTime time)
@@ -8429,9 +8429,9 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   // register time in voice
   fVoiceTime = time;
 
-  // append it to the voice chunk
-  fVoiceVoicechunk->
-    appendTimeToVoicechunk (time);
+  // append it to the segment
+  fVoiceSegment->
+    appendTimeToSegment (time);
 }
 
 void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
@@ -8443,8 +8443,8 @@ void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
       endl;
 
   S_msrElement t = transpose;
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (t);
+  fVoiceSegment->
+    appendElementToSegment (t);
 }
 
 /* JMI
@@ -8456,8 +8456,8 @@ void msrVoice::appendWordsToVoice (S_msrWords words)
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement w = words;
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (w);
+  fVoiceSegment->
+    appendElementToSegment (w);
 }
 */
 
@@ -8470,8 +8470,8 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
       endl;
 
   S_msrElement t = tempo;
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (t);
+  fVoiceSegment->
+    appendElementToSegment (t);
 }
 
 void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
@@ -8485,8 +8485,8 @@ void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
       endl;
 
   S_msrElement o = octaveShift;
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (o);
+  fVoiceSegment->
+    appendElementToSegment (o);
 }
 
 void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
@@ -8498,8 +8498,8 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
       endl;
 
   S_msrElement r = rehearsal;
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (r);
+  fVoiceSegment->
+    appendElementToSegment (r);
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
@@ -8524,9 +8524,9 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   fVoiceActualNotesCounter++;
   fMusicHasBeenInsertedInVoice = true;
 
-  // append the note to the voice chunk
-  fVoiceVoicechunk->
-    appendNoteToVoicechunk (note);
+  // append the note to the segment
+  fVoiceSegment->
+    appendNoteToSegment (note);
   
   // add a skip chunk of the same duration to the master lyrics
   int
@@ -8550,8 +8550,8 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceVoicechunk->
-    appendChordToVoicechunk (chord);
+  fVoiceSegment->
+    appendChordToSegment (chord);
 
   fMusicHasBeenInsertedInVoice = true;
 }
@@ -8563,8 +8563,8 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceVoicechunk->
-    appendTupletToVoicechunk (tuplet);
+  fVoiceSegment->
+    appendTupletToSegment (tuplet);
 
   fMusicHasBeenInsertedInVoice = true;
 }
@@ -8580,8 +8580,8 @@ void msrVoice::appendGracenotesToVoice (
       endl;
 
   S_msrElement g = gracenotes;
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (g);
+  fVoiceSegment->
+    appendElementToSegment (g);
 
   fMusicHasBeenInsertedInVoice = true;
 }
@@ -8790,8 +8790,8 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
 
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (barCheck);
+  fVoiceSegment->
+    appendElementToSegment (barCheck);
 
   // add bar check chunk to the voice master lyrics
   /* JMI
@@ -8810,8 +8810,8 @@ void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
 
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (bnc);
+  fVoiceSegment->
+    appendElementToSegment (bnc);
 
 /*
   // add barnumber check chunk to the voice master lyrics
@@ -8830,8 +8830,8 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (break_);
+  fVoiceSegment->
+    appendElementToSegment (break_);
 
   // add break chunk to the voice master lyrics
   fVoiceLyricsmaster->
@@ -8847,8 +8847,8 @@ void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
       endl;
 
   S_msrElement r = repeat;
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (r);
+  fVoiceSegment->
+    appendElementToSegment (r);
 }
 
 void msrVoice::prependBarlineToVoice (S_msrBarline barline) {
@@ -8863,8 +8863,8 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline) {
   idtr--;
 
   S_msrElement b = barline;
-  fVoiceVoicechunk->
-    prependElementToVoicechunk (b);
+  fVoiceSegment->
+    prependElementToSegment (b);
 }
 
 void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
@@ -8879,8 +8879,8 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
   idtr--;
 
   S_msrElement b = barline;
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (b);
+  fVoiceSegment->
+    appendElementToSegment (b);
 }
 
 void msrVoice::appendSegnoToVoice (S_msrSegno segno) {
@@ -8890,8 +8890,8 @@ void msrVoice::appendSegnoToVoice (S_msrSegno segno) {
       endl;
 
   S_msrElement s = segno;
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (s);
+  fVoiceSegment->
+    appendElementToSegment (s);
 }
 
 void msrVoice::appendCodaToVoice (S_msrCoda coda) {
@@ -8901,8 +8901,8 @@ void msrVoice::appendCodaToVoice (S_msrCoda coda) {
       ":" << endl;
 
   S_msrElement c = coda;
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (c);
+  fVoiceSegment->
+    appendElementToSegment (c);
 }
 
 void msrVoice::appendEyeglassesToVoice (S_msrEyeglasses eyeglasses) {
@@ -8912,8 +8912,8 @@ void msrVoice::appendEyeglassesToVoice (S_msrEyeglasses eyeglasses) {
       endl;
 
   S_msrElement e = eyeglasses;
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (e);
+  fVoiceSegment->
+    appendElementToSegment (e);
 }
 
 void msrVoice::appendPedalToVoice (S_msrPedal pedal) {
@@ -8923,8 +8923,8 @@ void msrVoice::appendPedalToVoice (S_msrPedal pedal) {
       endl;
 
   S_msrElement e = pedal;
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (e);
+  fVoiceSegment->
+    appendElementToSegment (e);
 }
 
 /* JMI
@@ -8936,8 +8936,8 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceVoicechunk->
-    appendElementToVoicechunk (elem);
+  fVoiceSegment->
+    appendElementToSegment (elem);
 }
 */
 
@@ -8950,8 +8950,8 @@ S_msrElement msrVoice::removeLastElementFromVoice (
       " from voice " << getVoiceName () << endl;
 
   return
-    fVoiceVoicechunk->
-      removeLastElementFromVoicechunk (inputLineNumber);
+    fVoiceSegment->
+      removeLastElementFromSegment (inputLineNumber);
 }
 
 void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
@@ -8963,8 +8963,8 @@ void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
       ", line " << inputLineNumber <<
       endl;
 
-  fVoiceVoicechunk->
-    finalizeLastMeasureOfVoicechunk (inputLineNumber);
+  fVoiceSegment->
+    finalizeLastMeasureOfSegment (inputLineNumber);
 }
 
 void msrVoice::acceptIn (basevisitor* v) {
@@ -9007,9 +9007,9 @@ void msrVoice::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrVoice::browseData()" << endl;
 
-  // browse the voice chunk
-  msrBrowser<msrVoicechunk> browser (v);
-  browser.browse (*fVoiceVoicechunk);
+  // browse the segment
+  msrBrowser<msrSegment> browser (v);
+  browser.browse (*fVoiceSegment);
 
   // browse the voice lyrics
   if (fVoiceLyricsMap.size ()) {
@@ -9071,8 +9071,8 @@ void msrVoice::print (ostream& os)
     fVoiceTime->timeAsString () <<
     endl;
     
-  // print the voice chunk
-  os << fVoiceVoicechunk;
+  // print the segment
+  os << fVoiceSegment;
   
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     // print the master lyrics

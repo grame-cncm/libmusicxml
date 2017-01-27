@@ -1420,29 +1420,29 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrVoice& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondTranslator::visitStart (S_msrVoicechunk& elt)
+void lpsr2LilyPondTranslator::visitStart (S_msrSegment& elt)
 {
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting msrVoicechunk" << endl;
+      "% --> Start visiting msrSegment" << endl;
 
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
       "{" <<
-      setw(30) << " " "% start of voice chunk" <<
+      setw(30) << " " "% start of segment" <<
       endl;
 
     idtr++;
   }
 
-  fVoicechunkNotesAndChordsCountersStack.push (0);
+  fSegmentNotesAndChordsCountersStack.push (0);
 }
 
-void lpsr2LilyPondTranslator::visitEnd (S_msrVoicechunk& elt)
+void lpsr2LilyPondTranslator::visitEnd (S_msrSegment& elt)
 {
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting msrVoicechunk" << endl;
+      "% --> End visiting msrSegment" << endl;
 
   if (fLpsrOptions->fGenerateComments) {
     idtr--;
@@ -1450,7 +1450,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrVoicechunk& elt)
     fOstream <<
       idtr <<
       "}" <<
-      setw(30) << " " "% end of voice chunk" <<
+      setw(30) << " " "% end of segment" <<
       endl;
   }
   /* JMI
@@ -1459,7 +1459,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrVoicechunk& elt)
       endl;
 */
 
-  fVoicechunkNotesAndChordsCountersStack.pop ();
+  fSegmentNotesAndChordsCountersStack.pop ();
 }
 
 //________________________________________________________________________
@@ -1478,7 +1478,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
     idtr++;
   }
 
-  fVoicechunkNotesAndChordsCountersStack.push (0);
+  fSegmentNotesAndChordsCountersStack.push (0);
 
   switch (elt->getMeasureKind ()) {
     case msrMeasure::kRegularMeasure:
@@ -1539,7 +1539,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
     }
   }
  
-  fVoicechunkNotesAndChordsCountersStack.pop ();
+  fSegmentNotesAndChordsCountersStack.pop ();
 }
 
 //________________________________________________________________________
@@ -2050,8 +2050,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
     fMusicOlec++;
   }
 
-  // indent before the fist note of the msrVoicechunk if needed
-  if (++ fVoicechunkNotesAndChordsCountersStack.top () == 1)
+  // indent before the fist note of the msrSegment if needed
+  if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
     fOstream << idtr;
 
   // should stem direction be generated?
@@ -2691,8 +2691,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrChord& elt)
     fOstream << idtr <<
       "% --> Start visiting msrChord" << endl;
 
-  // indent before the fist chord of the msrVoicechunk if needed
-  if (++ fVoicechunkNotesAndChordsCountersStack.top () == 1)
+  // indent before the fist chord of the msrSegment if needed
+  if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
     fOstream << idtr;
 
   // don't take the chord into account for line breaking ??? JMI
