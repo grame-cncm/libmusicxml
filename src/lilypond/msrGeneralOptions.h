@@ -59,6 +59,7 @@ class EXP msrGeneralOptions : public smartable
   public:
 
     // synthetic view
+    string    fProgramName;
     string    fCommandLineOptions;
     string    fInputSourceName;
     string    fTranslationDate;

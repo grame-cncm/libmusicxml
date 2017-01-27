@@ -3389,11 +3389,17 @@ class EXP msrSyllable : public msrElement
       kSlurSyllable, kSlurBeyondEndSyllable,
       kBarcheckSyllable, kBreakSyllable};
 
+    static string syllableKindAsString (
+      msrSyllableKind syllableKind);
+      
     enum msrSyllableExtendKind {
       k_NoSyllableExtend,
       kStandaloneSyllableExtend,
       kStartSyllableExtend, kContinueSyllableExtend, kStopSyllableExtend};
-    
+
+    static string syllableExtendKindAsString (
+      msrSyllableExtendKind syllableExtendKind);
+
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -3451,7 +3457,6 @@ class EXP msrSyllable : public msrElement
     // ------------------------------------------------------
   
     string            syllableKindAsString ();
-    string            syllableExtendKindAsString ();
 
     string            syllableAsString ();
 

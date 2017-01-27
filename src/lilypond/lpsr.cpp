@@ -2622,19 +2622,19 @@ lpsrScore::lpsrScore (
 
   // create the command line options comment
   {
-  string
-    comment =
-      "Options were: ";
-
-    if (gGeneralOptions->fCommandLineOptions.size ())
-      comment += gGeneralOptions->fCommandLineOptions;
-    else
-      comment += "none";
+  stringstream s;
+  
+  s <<
+    "Command was:" <<
+    endl <<
+    gGeneralOptions->fProgramName << " " <<
+    gGeneralOptions->fCommandLineOptions <<
+    gGeneralOptions->fInputSourceName;
       
   fCommandLineOptionsComment =
     lpsrComment::create (
       inputLineNumber,
-      comment,
+      s.str (),
       lpsrComment::kGapAfterwards);
   }
 

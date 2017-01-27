@@ -1673,6 +1673,13 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
           break;
     
         case msrSyllable::k_NoSyllable: // JMI
+          if (
+            elt->getSyllableExtendKind ()
+              ==
+            msrSyllable::kStandaloneSyllableExtend)
+            fOstream <<
+              "__ ";
+
           break;
       } // switch
 

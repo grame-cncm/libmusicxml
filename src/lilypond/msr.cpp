@@ -4919,11 +4919,12 @@ string msrSyllable::syllableKindAsString ()
   return result;
 }
 
-string msrSyllable::syllableExtendKindAsString ()
+string msrSyllable::syllableExtendKindAsString (
+  msrSyllableExtendKind syllableExtendKind)
 {
   string result;
   
-  switch (fSyllableExtendKind) {
+  switch (syllableExtendKind) {
     case msrSyllable::kStandaloneSyllableExtend:
       result = "StandaloneSyllableExtend";
       break;
@@ -4955,8 +4956,7 @@ string msrSyllable::syllableAsString ()
         ", line " << right << setw(5) << fInputLineNumber <<
         ", fSyllableNoteUplink = " <<
         fSyllableNoteUplink->noteAsString () <<
-        ", " << "\"" << fSyllableText << "\"" <<
-        endl;
+        ", " << "\"" << fSyllableText << "\"";
       break;
       
     case kBeginSyllable:
@@ -4965,8 +4965,7 @@ string msrSyllable::syllableAsString ()
         ", line " << right << setw(5) << fInputLineNumber <<
         ", fSyllableNoteUplink = " <<
         fSyllableNoteUplink->noteAsString () <<
-        ", " << "\"" << fSyllableText << "\"" <<
-        endl;
+        ", " << "\"" << fSyllableText << "\"";
       break;
       
     case kMiddleSyllable:
@@ -4975,8 +4974,7 @@ string msrSyllable::syllableAsString ()
         ", line " << right << setw(5) << fInputLineNumber <<
         ", fSyllableNoteUplink = " <<
         fSyllableNoteUplink->noteAsString () <<
-        ", " << "\"" << fSyllableText << "\"" <<
-        endl;
+        ", " << "\"" << fSyllableText << "\"";
       break;
       
     case kEndSyllable:
@@ -4985,8 +4983,7 @@ string msrSyllable::syllableAsString ()
         ", line " << right << setw(5) << fInputLineNumber <<
         ", fSyllableNoteUplink = " <<
         fSyllableNoteUplink->noteAsString () <<
-        ", " << "\"" << fSyllableText << "\"" <<
-        endl;
+        ", " << "\"" << fSyllableText << "\"";
       break;
       
     case kSkipSyllable:
@@ -4994,8 +4991,7 @@ string msrSyllable::syllableAsString ()
         setw(15) << "skip" << ":" << fSyllableDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
         ", fSyllableNoteUplink = " <<
-        fSyllableNoteUplink->noteAsString () <<
-        endl;
+        fSyllableNoteUplink->noteAsString ();
       break;
       
     case kSlurSyllable:
@@ -5003,8 +4999,7 @@ string msrSyllable::syllableAsString ()
         setw(15) << "slur" << ":" << fSyllableDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
         ", fSyllableNoteUplink = " <<
-        fSyllableNoteUplink->noteAsString () <<
-        endl;
+        fSyllableNoteUplink->noteAsString ();
       break;
       
     case kSlurBeyondEndSyllable:
@@ -5012,8 +5007,7 @@ string msrSyllable::syllableAsString ()
         setw(15) << "slur beyond end" << ":" << fSyllableDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
         ", fSyllableNoteUplink = " <<
-        fSyllableNoteUplink->noteAsString () <<
-        endl;
+        fSyllableNoteUplink->noteAsString ();
       break;
       
     case kTiedSyllable:
@@ -5022,24 +5016,21 @@ string msrSyllable::syllableAsString ()
         ", line " << right << setw(5) << fInputLineNumber <<
         ", fSyllableNoteUplink = " <<
         fSyllableNoteUplink->noteAsString () <<
-        " " << "\"" << fSyllableText << "\"" <<
-        endl;
+        " " << "\"" << fSyllableText << "\"";
       break;
       
     case kBarcheckSyllable:
       // fSyllableText contains the measure number
       s << left <<
         setw(15) << "barCheck" <<
-        " measure " << fSyllableText <<
-        endl;
+        " measure " << fSyllableText;
       break;
       
     case kBreakSyllable:
       // fSyllableText contains the measure number
       s << left <<
         setw(15) << "break" <<
-        " measure " << fSyllableText <<
-        endl << endl;
+        " measure " << fSyllableText;
       break;
       
     case k_NoSyllable:
@@ -5050,8 +5041,8 @@ string msrSyllable::syllableAsString ()
   } // switch
 
   s <<
-    ", syllableExtendKindAsString = " " = " <<
-    syllableExtendKindAsString ();
+    ", syllableExtendKindAsString" " = " <<
+    syllableExtendKindAsString (fSyllableExtendKind);
     
   return s.str();
 }
@@ -5060,7 +5051,9 @@ string msrSyllable::syllableAsString ()
 void msrSyllable::print (ostream& os)
 {  
   os <<
-    "Syllable" << " " << setw(15) << syllableAsString ();
+    "Syllable" << " " <<
+    setw(15) << syllableAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________

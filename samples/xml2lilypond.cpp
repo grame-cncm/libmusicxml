@@ -861,9 +861,7 @@ void analyzeOptions (
 }
 
 //_______________________________________________________________________________
-void printOptions (
-  string programName,
-  string inputFileName)
+void printOptions ()
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
@@ -880,9 +878,9 @@ void printOptions (
 
   cerr <<
     idtr <<
-      programName << " " <<
+      gGeneralOptions->fProgramName << " " <<
       gGeneralOptions->fCommandLineOptions <<
-      inputFileName <<
+      gGeneralOptions->fInputSourceName <<
       endl;
 
   idtr--;
@@ -1080,6 +1078,11 @@ int main (int argc, char *argv[])
     argc, argv,
     inputFileName, outputFileName);
 
+  // program name
+  // ------------------------------------------------------
+  
+  gGeneralOptions->fProgramName = argv [0];
+  
   // input source name
   // ------------------------------------------------------
 
@@ -1124,7 +1127,7 @@ int main (int argc, char *argv[])
       cerr << "standard output";
     cerr << endl;
     
-    printOptions (argv [0], inputFileName);
+    printOptions ();
   }
     
   // open output file if need be
