@@ -405,8 +405,8 @@ class EXP xml2MsrTranslator :
     virtual void visitStart ( S_lyric& elt);
     virtual void visitEnd   ( S_lyric& elt);
     virtual void visitStart ( S_syllabic& elt);
-    virtual void visitStart   ( S_text& elt );
-    virtual void visitStart   ( S_elision& elt );
+    virtual void visitStart ( S_text& elt );
+    virtual void visitStart ( S_elision& elt );
     virtual void visitStart ( S_extend& elt);
 
     virtual void visitStart ( S_harmony& elt);
@@ -718,6 +718,7 @@ class EXP xml2MsrTranslator :
 
     // lyric handling
     // ------------------------------------------------------
+    bool                      fOnGoingLyric;
     // the last sysllabic spec met (single, begin, middle or end)
     string                    fCurrentSyllabic;
     msrSyllable::msrSyllableKind
@@ -727,6 +728,7 @@ class EXP xml2MsrTranslator :
     // the last lyric fragment met
     string                    fCurrentText;
     bool                      fCurrentElision;
+    bool                      fOnGoingSyllableExtend;
     string                    fCurrentExtendType;
     msrSyllable::msrSyllableExtendKind
                               fCurrentSyllableExtendKind;

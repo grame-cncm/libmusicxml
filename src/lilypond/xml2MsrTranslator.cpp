@@ -54,13 +54,16 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fCurrentForwardStaffNumber = 1; // JMI
   fCurrentForwardVoiceNumber = 1; // JMI
   fCurrentVoiceNumber = 1; // JMI
-  
+
+  fOnGoingLyric = false;
+  fOnGoingSyllableExtend = false;
   fCurrentStanzaNumber = -1; // JMI
   fCurrentSyllabic = "";
   fCurrentText = "";
   fCurrentElision = false;
   
   fCurrentSyllableKind     = msrSyllable::k_NoSyllable;
+  
   fFirstSyllableInSlurKind = msrSyllable::k_NoSyllable;
   
   fCurrentBackupDuration = -1;
@@ -2644,6 +2647,8 @@ void xml2MsrTranslator::visitStart (S_lyric& elt )
   fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
 
   fCurrentNoteHasStanza = true;
+
+  fOnGoingLyric = true;
 }
 
 void xml2MsrTranslator::visitStart ( S_syllabic& elt )
@@ -2703,34 +2708,34 @@ void xml2MsrTranslator::visitStart ( S_extend& elt )
   fCurrentExtendType =
     elt->getAttributeValue ("type");
 
-  if      (fCurrentExtendType == "start") {
-    
-    fCurrentSyllableExtendKind = msrSyllable::kStartSyllableExtend;
-    fOnGoingSlur = true;
-    
-  }
-  else if (fCurrentExtendType == "continue") {
-    
-    fCurrentSyllableExtendKind = msrSyllable::kContinueSyllableExtend;
-    
-  }
-  else if (fCurrentExtendType == "stop") {
-    
-    fCurrentSyllableExtendKind = msrSyllable::kStopSyllableExtend;
-    fOnGoingSlur = false;
-    
-  }
-  else if (fCurrentExtendType.size()) {
-      stringstream s;
+  if (fOnGoingLyric) {
+    if      (fCurrentExtendType == "start") {
       
-      s << "slur type" << fCurrentExtendType << "unknown";
+      fCurrentSyllableExtendKind = msrSyllable::kStartSyllableExtend;
       
-      msrMusicXMLError (
-        elt->getInputLineNumber (),
-        s.str());
-  }
-  else {
-    fCurrentSyllableExtendKind = msrSyllable::kStandaloneSyllableExtend;
+    }
+    else if (fCurrentExtendType == "continue") {
+      
+      fCurrentSyllableExtendKind = msrSyllable::kContinueSyllableExtend;
+      
+    }
+    else if (fCurrentExtendType == "stop") {
+      
+      fCurrentSyllableExtendKind = msrSyllable::kStopSyllableExtend;
+      
+    }
+    else if (fCurrentExtendType.size()) {
+        stringstream s;
+        
+        s << "slur type" << fCurrentExtendType << "unknown";
+        
+        msrMusicXMLError (
+          elt->getInputLineNumber (),
+          s.str());
+    }
+    else {
+      fCurrentSyllableExtendKind = msrSyllable::kStandaloneSyllableExtend;
+    }
   }
 }
 
@@ -2967,6 +2972,8 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
   if (syllable)
     // register syllable in current note's syllables list
     fCurrentNoteSyllables.push_back (syllable);
+
+  fOnGoingLyric = false;
 }
 
 //________________________________________________________________________
@@ -6808,6 +6815,23 @@ void xml2MsrTranslator::handleLyric (S_msrNote newNote)
 
   // forget all of newNote's syllables
   fCurrentNoteSyllables.clear ();
+
+  switch (fCurrentSyllableExtendKind) {
+    case msrSyllable::kStandaloneSyllableExtend:
+      fOnGoingSyllableExtend = true;
+      break;
+    case msrSyllable::kStartSyllableExtend:
+      // keep fOnGoingSyllableExtend unchanged
+      break;
+    case msrSyllable::kContinueSyllableExtend:
+      fOnGoingSyllableExtend = false;
+      break;
+    case msrSyllable::kStopSyllableExtend:
+      fOnGoingSyllableExtend = false;
+      break;
+    case msrSyllable::k_NoSyllableExtend:
+      break;
+  } // switch
 }
 
 //______________________________________________________________________________
