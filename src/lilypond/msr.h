@@ -3389,15 +3389,22 @@ class EXP msrSyllable : public msrElement
       kSlurSyllable, kSlurBeyondEndSyllable,
       kBarcheckSyllable, kBreakSyllable};
 
+    enum msrSyllableExtendKind {
+      k_NoSyllableExtend,
+      kStandaloneSyllableExtend,
+      kStartSyllableExtend, kContinueSyllableExtend, kStopSyllableExtend};
+    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrSyllable> create (
-      int                inputLineNumber,
-      msrSyllableKind syllableKind,
-      string             syllableText,
-      int                divisions,
-      S_msrStanza        syllableStanzaUplink);
+      int                   inputLineNumber,
+      msrSyllableKind       syllableKind,
+      string                syllableText,
+      msrSyllableExtendKind syllableExtendKind,
+      int                   divisions,
+      S_msrStanza           syllableStanzaUplink);
 
     SMARTP<msrSyllable> createSyllableBareClone ();
 
@@ -3407,11 +3414,12 @@ class EXP msrSyllable : public msrElement
     // ------------------------------------------------------
 
     msrSyllable (
-      int                inputLineNumber,
-      msrSyllableKind syllableKind,
-      string             syllableText,
-      int                divisions,
-      S_msrStanza        syllableStanzaUplink);
+      int                   inputLineNumber,
+      msrSyllableKind       syllableKind,
+      string                syllableText,
+      msrSyllableExtendKind syllableExtendKind,
+      int                   divisions,
+      S_msrStanza           syllableStanzaUplink);
         
     virtual ~msrSyllable();
 
@@ -3421,26 +3429,31 @@ class EXP msrSyllable : public msrElement
     // ------------------------------------------------------
 
     msrSyllableKind
-              getSyllableKind () const
-                  { return fSyllableKind; }
+                      getSyllableKind () const
+                          { return fSyllableKind; }
 
-    void      setSyllableNoteUplink (S_msrNote note);
+    void              setSyllableNoteUplink (S_msrNote note);
 
-    S_msrNote getSyllableNoteUplink () const
-                  { return fSyllableNoteUplink; }
+    S_msrNote         getSyllableNoteUplink () const
+                          { return fSyllableNoteUplink; }
 
-    string    getSyllableText () const
-                  { return fSyllableText; }
+    string            getSyllableText () const
+                          { return fSyllableText; }
 
-    int       getSyllableDivisions () const
-                  { return fSyllableDivisions; }
+    msrSyllableExtendKind
+                      getSyllableExtendKind () const
+                          { return fSyllableExtendKind; }
+
+    int               getSyllableDivisions () const
+                          { return fSyllableDivisions; }
 
     // services
     // ------------------------------------------------------
   
-    string    syllableKindAsString ();
+    string            syllableKindAsString ();
+    string            syllableExtendKindAsString ();
 
-    string    syllableAsString ();
+    string            syllableAsString ();
 
     // visitors
     // ------------------------------------------------------
@@ -3457,13 +3470,15 @@ class EXP msrSyllable : public msrElement
 
   private:
   
-    msrSyllableKind fSyllableKind;
-    string             fSyllableText;
-    int                fSyllableDivisions;
+    msrSyllableKind       fSyllableKind;
+    string                fSyllableText;
+    msrSyllableExtendKind fSyllableExtendKind;
     
-    S_msrStanza        fSyllableStanzaUplink;
+    int                   fSyllableDivisions;
+    
+    S_msrStanza           fSyllableStanzaUplink;
 
-    S_msrNote          fSyllableNoteUplink;
+    S_msrNote             fSyllableNoteUplink;
 };
 typedef SMARTP<msrSyllable> S_msrSyllable;
 EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
@@ -4588,6 +4603,8 @@ class EXP msrVoice : public msrElement
                               syllableKind,
                     string    text,
                     bool      elision,
+                    msrSyllable::msrSyllableExtendKind
+                              syllableExtendKind,
                     int       divisions);
     
     S_msrSyllable

@@ -2641,6 +2641,8 @@ void xml2MsrTranslator::visitStart (S_lyric& elt )
   fCurrentStanzaHasText = false;
   fCurrentElision = false;
 
+  fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
+
   fCurrentNoteHasStanza = true;
 }
 
@@ -2667,7 +2669,7 @@ void xml2MsrTranslator::visitStart ( S_syllabic& elt )
   }
 }
 
-void xml2MsrTranslator::visitEnd ( S_text& elt ) 
+void xml2MsrTranslator::visitStart ( S_text& elt ) 
 {
   string text = elt->getValue();
 
@@ -2691,9 +2693,45 @@ void xml2MsrTranslator::visitEnd ( S_text& elt )
       ", fCurrentText" << " = |" << fCurrentText << "|" << endl;
 }
 
-void xml2MsrTranslator::visitEnd ( S_elision& elt ) 
+void xml2MsrTranslator::visitStart ( S_elision& elt ) 
 {
   fCurrentElision = true;
+}
+
+void xml2MsrTranslator::visitStart ( S_extend& elt ) 
+{
+  fCurrentExtendType =
+    elt->getAttributeValue ("type");
+
+  if      (fCurrentExtendType == "start") {
+    
+    fCurrentSyllableExtendKind = msrSyllable::kStartSyllableExtend;
+    fOnGoingSlur = true;
+    
+  }
+  else if (fCurrentExtendType == "continue") {
+    
+    fCurrentSyllableExtendKind = msrSyllable::kContinueSyllableExtend;
+    
+  }
+  else if (fCurrentExtendType == "stop") {
+    
+    fCurrentSyllableExtendKind = msrSyllable::kStopSyllableExtend;
+    fOnGoingSlur = false;
+    
+  }
+  else if (fCurrentExtendType.size()) {
+      stringstream s;
+      
+      s << "slur type" << fCurrentExtendType << "unknown";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str());
+  }
+  else {
+    fCurrentSyllableExtendKind = msrSyllable::kStandaloneSyllableExtend;
+  }
 }
 
 void xml2MsrTranslator::visitEnd ( S_lyric& elt )
@@ -2724,6 +2762,10 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         endl <<
       idtr <<
         setw(27) << "fCurrentElision" << " = " << fCurrentElision <<
+        endl <<
+      idtr <<
+        setw(27) << "fCurrentSyllableExtendKind" << " = " <<
+          fCurrentSyllableExtendKind <<
         endl <<
       idtr <<
         setw(27) << "fNoteData.fStepIsARest" << " = ";
@@ -2830,6 +2872,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
           fCurrentSyllableKind,
           fCurrentText,
           fCurrentElision,
+          fCurrentSyllableExtendKind,
           fNoteData.fDivisions);
   
     if (fOnGoingSlur)

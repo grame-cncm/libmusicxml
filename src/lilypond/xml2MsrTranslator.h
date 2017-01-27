@@ -159,6 +159,7 @@ class EXP xml2MsrTranslator :
   public visitor<S_syllabic>,
   public visitor<S_text>,
   public visitor<S_elision>,
+  public visitor<S_extend>,
   
   public visitor<S_harmony>,
   public visitor<S_root_step>,
@@ -404,8 +405,9 @@ class EXP xml2MsrTranslator :
     virtual void visitStart ( S_lyric& elt);
     virtual void visitEnd   ( S_lyric& elt);
     virtual void visitStart ( S_syllabic& elt);
-    virtual void visitEnd   ( S_text& elt );
-    virtual void visitEnd   ( S_elision& elt );
+    virtual void visitStart   ( S_text& elt );
+    virtual void visitStart   ( S_elision& elt );
+    virtual void visitStart ( S_extend& elt);
 
     virtual void visitStart ( S_harmony& elt);
     virtual void visitEnd   ( S_harmony& elt);
@@ -725,6 +727,9 @@ class EXP xml2MsrTranslator :
     // the last lyric fragment met
     string                    fCurrentText;
     bool                      fCurrentElision;
+    string                    fCurrentExtendType;
+    msrSyllable::msrSyllableExtendKind
+                              fCurrentSyllableExtendKind;
     
     int                       fCurrentStanzaNumber;
     bool                      fCurrentNoteHasStanza;
