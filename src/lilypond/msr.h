@@ -3371,7 +3371,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTempo& elt);
   In the case of "single", the list contains only one string
 */
 //______________________________________________________________________________
-class EXP msrLyricschunk : public msrElement
+class EXP msrSyllable : public msrElement
 {
   public:
 
@@ -3379,7 +3379,7 @@ class EXP msrLyricschunk : public msrElement
     // ------------------------------------------------------
 
     // we want to end the line in the LilyPond code at a break
-    enum msrLyricschunkKind {
+    enum msrSyllableKind {
       k_NoChunk,
       kSingleChunk, kBeginChunk, kMiddleChunk, kEndChunk,
       kSkipChunk,
@@ -3390,42 +3390,42 @@ class EXP msrLyricschunk : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrLyricschunk> create (
+    static SMARTP<msrSyllable> create (
       int                inputLineNumber,
-      msrLyricschunkKind lyricschunkKind,
+      msrSyllableKind syllableKind,
       string             chunkText,
       int                divisions,
-      S_msrLyrics        lyricschunkLyricsUplink);
+      S_msrLyrics        syllableLyricsUplink);
 
-    SMARTP<msrLyricschunk> createLyricschunkBareClone ();
+    SMARTP<msrSyllable> createSyllableBareClone ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrLyricschunk (
+    msrSyllable (
       int                inputLineNumber,
-      msrLyricschunkKind lyricschunkKind,
+      msrSyllableKind syllableKind,
       string             chunkText,
       int                divisions,
-      S_msrLyrics        lyricschunkLyricsUplink);
+      S_msrLyrics        syllableLyricsUplink);
         
-    virtual ~msrLyricschunk();
+    virtual ~msrSyllable();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    msrLyricschunkKind
-              getLyricschunkKind () const
-                  { return fLyricschunkKind; }
+    msrSyllableKind
+              getSyllableKind () const
+                  { return fSyllableKind; }
 
-    void      setLyricschunkNoteUplink (S_msrNote note);
+    void      setSyllableNoteUplink (S_msrNote note);
 
-    S_msrNote getLyricschunkNoteUplink () const
-                  { return fLyricschunkNoteUplink; }
+    S_msrNote getSyllableNoteUplink () const
+                  { return fSyllableNoteUplink; }
 
     string    getChunkText () const
                   { return fChunkText; }
@@ -3436,9 +3436,9 @@ class EXP msrLyricschunk : public msrElement
     // services
     // ------------------------------------------------------
   
-    string    lyricschunkKindAsString ();
+    string    syllableKindAsString ();
 
-    string    lyricschunkAsString ();
+    string    syllableAsString ();
 
     // visitors
     // ------------------------------------------------------
@@ -3455,16 +3455,16 @@ class EXP msrLyricschunk : public msrElement
 
   private:
   
-    msrLyricschunkKind fLyricschunkKind;
+    msrSyllableKind fSyllableKind;
     string             fChunkText;
     int                fChunkDivisions;
     
-    S_msrLyrics        fLyricschunkLyricsUplink;
+    S_msrLyrics        fSyllableLyricsUplink;
 
-    S_msrNote          fLyricschunkNoteUplink;
+    S_msrNote          fSyllableNoteUplink;
 };
-typedef SMARTP<msrLyricschunk> S_msrLyricschunk;
-EXP ostream& operator<< (ostream& os, const S_msrLyricschunk& elt);
+typedef SMARTP<msrSyllable> S_msrSyllable;
+EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
 
 /*!
 \brief A msr lyrics representation.
@@ -3524,9 +3524,9 @@ class EXP msrLyrics : public msrElement
                 getLyricsKind () const
                     { return fLyricsKind; }
                 
-    const vector<S_msrLyricschunk>&
-                getLyricschunks () const
-                    { return fLyricschunks; }
+    const vector<S_msrSyllable>&
+                getSyllables () const
+                    { return fSyllables; }
 
     void        setLyricsTextPresent ()
                     { fLyricsTextPresent = true; }
@@ -3541,8 +3541,8 @@ class EXP msrLyrics : public msrElement
     void        addTextChunkToLyrics (
                   int       inputLineNumber,
                   string    syllabic,
-                  msrLyricschunk::msrLyricschunkKind
-                            lyricschunkKind,
+                  msrSyllable::msrSyllableKind
+                            syllableKind,
                   string    text,
                   bool      elision,
                   int       divisions,
@@ -3576,7 +3576,7 @@ class EXP msrLyrics : public msrElement
                   int inputLineNumber,
                   int nextMeasureNumber);
 
-    void        addChunkToLyrics (S_msrLyricschunk chunk);
+    void        addChunkToLyrics (S_msrSyllable chunk);
                 
     // visitors
     // ------------------------------------------------------
@@ -3596,7 +3596,7 @@ class EXP msrLyrics : public msrElement
     int                       fLyricsNumber;
     msrLyricsKind             fLyricsKind;
 
-    vector<S_msrLyricschunk>  fLyricschunks;
+    vector<S_msrSyllable>  fSyllables;
 
     bool                      fLyricsTextPresent;
 
@@ -4577,37 +4577,37 @@ class EXP msrVoice : public msrElement
     void          appendGracenotesToVoice (
                     S_msrGracenotes gracenotes);
     
-    S_msrLyricschunk
-                  addTextLyricschunkToVoice (
+    S_msrSyllable
+                  addTextSyllableToVoice (
                     int       inputLineNumber,
                     int       lyricsNumber,
                     string    syllabic,
-                    msrLyricschunk::msrLyricschunkKind
-                              lyricschunkKind,
+                    msrSyllable::msrSyllableKind
+                              syllableKind,
                     string    text,
                     bool      elision,
                     int       divisions);
     
-    S_msrLyricschunk
-                  addSkipLyricschunkToVoice (
+    S_msrSyllable
+                  addSkipSyllableToVoice (
                     int       inputLineNumber,
                     int       lyricsNumber,
                     int       divisions);
     
-    S_msrLyricschunk
-                  addTiedLyricschunkToVoice (
+    S_msrSyllable
+                  addTiedSyllableToVoice (
                     int       inputLineNumber,
                     int       lyricsNumber,
                     int       divisions);
     
-    S_msrLyricschunk
-                  addSlurLyricschunkToVoice (
+    S_msrSyllable
+                  addSlurSyllableToVoice (
                     int       inputLineNumber,
                     int       lyricsNumber,
                     int       divisions);
     
-    S_msrLyricschunk
-                  addSlurBeyondEndLyricschunkToVoice (
+    S_msrSyllable
+                  addSlurBeyondEndSyllableToVoice (
                     int       inputLineNumber,
                     int       lyricsNumber,
                     int       divisions);

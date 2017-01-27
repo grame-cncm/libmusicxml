@@ -766,21 +766,21 @@ void msr2LpsrTranslator::visitEnd (S_msrLyrics& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrLyricschunk& elt)
+void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 {
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrLyricschunk" << endl;
+      "--> Start visiting msrSyllable" << endl;
 
   // create the lyrics chunk clone
-  fCurrentLyricschunkClone =
-    elt->createLyricschunkBareClone ();
+  fCurrentSyllableClone =
+    elt->createSyllableBareClone ();
     
 // JMI  fCurrentLyricsClone->
-    //addChunkToLyrics (fCurrentLyricschunkClone);
+    //addChunkToLyrics (fCurrentSyllableClone);
 
   // don't set its note uplink to the current note clone
- // JMI elt->setLyricschunkNoteUplink (
+ // JMI elt->setSyllableNoteUplink (
    // XXL fCurrentNoteClone);
 
   // add it to the current lyrics clone
@@ -788,11 +788,11 @@ void msr2LpsrTranslator::visitStart (S_msrLyricschunk& elt)
     addChunkToLyrics (elt);
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrLyricschunk& elt)
+void msr2LpsrTranslator::visitEnd (S_msrSyllable& elt)
 {
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrLyricschunk" << endl;
+      "--> End visiting msrSyllable" << endl;
 }
 
 //________________________________________________________________________

@@ -714,10 +714,10 @@ class EXP xml2MsrTranslator :
     // ------------------------------------------------------
     // the last sysllabic spec met (single, begin, middle or end)
     string                    fCurrentSyllabic;
-    msrLyricschunk::msrLyricschunkKind
-                              fCurrentLyricschunkKind;
-    msrLyricschunk::msrLyricschunkKind
-                              fFirstLyricschunkInSlurKind;
+    msrSyllable::msrSyllableKind
+                              fCurrentSyllableKind;
+    msrSyllable::msrSyllableKind
+                              fFirstSyllableInSlurKind;
     // the last lyrics fragment met
     string                    fCurrentText;
     bool                      fCurrentElision;
@@ -726,7 +726,7 @@ class EXP xml2MsrTranslator :
     bool                      fCurrentNoteHasLyrics;
     bool                      fCurrentLyricsHasText;
 
-    list<S_msrLyricschunk>    fCurrentNoteLyricchunks;
+    list<S_msrSyllable>    fCurrentNoteSyllables;
 
     void                      handleLyrics (S_msrNote newNote);
 

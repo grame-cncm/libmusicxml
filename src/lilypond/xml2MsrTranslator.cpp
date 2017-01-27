@@ -60,8 +60,8 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fCurrentText = "";
   fCurrentElision = false;
   
-  fCurrentLyricschunkKind     = msrLyricschunk::k_NoChunk;
-  fFirstLyricschunkInSlurKind = msrLyricschunk::k_NoChunk;
+  fCurrentSyllableKind     = msrSyllable::k_NoChunk;
+  fFirstSyllableInSlurKind = msrSyllable::k_NoChunk;
   
   fCurrentBackupDuration = -1;
 
@@ -2649,13 +2649,13 @@ void xml2MsrTranslator::visitStart ( S_syllabic& elt )
   fCurrentSyllabic = elt->getValue();
   
   if      (fCurrentSyllabic == "single")
-    fCurrentLyricschunkKind = msrLyricschunk::kSingleChunk;
+    fCurrentSyllableKind = msrSyllable::kSingleChunk;
   else if (fCurrentSyllabic == "begin")
-    fCurrentLyricschunkKind = msrLyricschunk::kBeginChunk;
+    fCurrentSyllableKind = msrSyllable::kBeginChunk;
   else if (fCurrentSyllabic == "middle")
-    fCurrentLyricschunkKind = msrLyricschunk::kMiddleChunk;
+    fCurrentSyllableKind = msrSyllable::kMiddleChunk;
   else if (fCurrentSyllabic == "end")
-    fCurrentLyricschunkKind = msrLyricschunk::kEndChunk;
+    fCurrentSyllableKind = msrSyllable::kEndChunk;
   else {
     stringstream s;
     
@@ -2771,30 +2771,30 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
 
     cerr <<
       idtr <<
-        setw(27) << "fFirstLyricschunkInSlurKind" << " = \"" <<
-        fFirstLyricschunkInSlurKind << // JMI->lyricschunkKindAsString () <<
+        setw(27) << "fFirstSyllableInSlurKind" << " = \"" <<
+        fFirstSyllableInSlurKind << // JMI->syllableKindAsString () <<
         "\"" << endl;
 
     cerr <<
       idtr <<
-        setw(27) << "fCurrentLyricschunkKind" << " = \""<<
-        fCurrentLyricschunkKind << // JMI ->lyricschunkKindAsString () <<
+        setw(27) << "fCurrentSyllableKind" << " = \""<<
+        fCurrentSyllableKind << // JMI ->syllableKindAsString () <<
         "\"" << endl;
         
     idtr--;
   }
 
   if      (fCurrentSyllabic == "single")
-    fCurrentLyricschunkKind = msrLyricschunk::kSingleChunk;
+    fCurrentSyllableKind = msrSyllable::kSingleChunk;
   else if (fCurrentSyllabic == "begin")
-    fCurrentLyricschunkKind = msrLyricschunk::kBeginChunk;
+    fCurrentSyllableKind = msrSyllable::kBeginChunk;
   else if (fCurrentSyllabic == "middle")
-    fCurrentLyricschunkKind = msrLyricschunk::kMiddleChunk;
+    fCurrentSyllableKind = msrSyllable::kMiddleChunk;
   else if (fCurrentSyllabic == "end")
-    fCurrentLyricschunkKind = msrLyricschunk::kEndChunk;
+    fCurrentSyllableKind = msrSyllable::kEndChunk;
   else
     // no <syllabic /> specified for this note
-    fCurrentLyricschunkKind = msrLyricschunk::k_NoChunk;
+    fCurrentSyllableKind = msrSyllable::k_NoChunk;
 
   // fetch current voice
   S_msrVoice
@@ -2804,30 +2804,30 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
 
-  S_msrLyricschunk
-    lyricschunk;
+  S_msrSyllable
+    syllable;
 
-  if (fCurrentLyricschunkKind != msrLyricschunk::k_NoChunk) {
+  if (fCurrentSyllableKind != msrSyllable::k_NoChunk) {
 
- //   string lyricschunkKindAsString; JMI
+ //   string syllableKindAsString; JMI
     
     if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
       /*
       cerr <<
-        ", type = \"" << lyricschunkKindAsString << "\"" <<
+        ", type = \"" << syllableKindAsString << "\"" <<
         ", elision: " << fCurrentElision << 
         " to " << getLyricsName () << endl;
 */
     }
 
     // create the lyrics chunk
-    lyricschunk =
+    syllable =
       currentVoice->
-        addTextLyricschunkToVoice (
+        addTextSyllableToVoice (
           inputLineNumber,
           fCurrentLyricsNumber,
           fCurrentSyllabic,
-          fCurrentLyricschunkKind,
+          fCurrentSyllableKind,
           fCurrentText,
           fCurrentElision,
           fNoteData.fDivisions);
@@ -2847,22 +2847,22 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     }
     
     if (fCurrentTieKind != msrTie::k_NoTie) {
-      fCurrentLyricschunkKind = msrLyricschunk::kTiedChunk;
+      fCurrentSyllableKind = msrSyllable::kTiedChunk;
       
-      lyricschunk =
+      syllable =
         currentVoice->
-          addTiedLyricschunkToVoice (
+          addTiedSyllableToVoice (
             inputLineNumber,
             fCurrentLyricsNumber,
             fNoteData.fDivisions);
     }
   
     else if (fNoteData.fStepIsARest) {
-      fCurrentLyricschunkKind = msrLyricschunk::kSkipChunk;
+      fCurrentSyllableKind = msrSyllable::kSkipChunk;
 
-      lyricschunk =
+      syllable =
         currentVoice->
-          addSkipLyricschunkToVoice (
+          addSkipSyllableToVoice (
             inputLineNumber,
             fCurrentLyricsNumber,
             fNoteData.fDivisions);
@@ -2872,22 +2872,22 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
       fOnGoingSlurHasLyrics
         &&
       ! fCurrentText.size ()) {
-      if (fFirstLyricschunkInSlurKind == msrLyricschunk::kEndChunk) {
-        fCurrentLyricschunkKind = msrLyricschunk::kSlurBeyondEndChunk;
+      if (fFirstSyllableInSlurKind == msrSyllable::kEndChunk) {
+        fCurrentSyllableKind = msrSyllable::kSlurBeyondEndChunk;
   
-        lyricschunk =
+        syllable =
           currentVoice->
-            addSlurBeyondEndLyricschunkToVoice ( 
+            addSlurBeyondEndSyllableToVoice ( 
               inputLineNumber,
               fCurrentLyricsNumber,
               fNoteData.fDivisions);
       }
       else {        
-        fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
+        fCurrentSyllableKind = msrSyllable::kSlurChunk;
   
-        lyricschunk =
+        syllable =
           currentVoice->
-            addSlurLyricschunkToVoice ( 
+            addSlurSyllableToVoice ( 
               inputLineNumber,
               fCurrentLyricsNumber,
               fNoteData.fDivisions);
@@ -2895,22 +2895,22 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     }
     
     else if (fOnGoingSlur) {
-      if (fFirstLyricschunkInSlurKind == msrLyricschunk::kEndChunk) {
-        fCurrentLyricschunkKind = msrLyricschunk::kSlurBeyondEndChunk;
+      if (fFirstSyllableInSlurKind == msrSyllable::kEndChunk) {
+        fCurrentSyllableKind = msrSyllable::kSlurBeyondEndChunk;
   
-        lyricschunk =
+        syllable =
           currentVoice->
-            addSlurBeyondEndLyricschunkToVoice (
+            addSlurBeyondEndSyllableToVoice (
               inputLineNumber,
               fCurrentLyricsNumber,
               fNoteData.fDivisions);
       }
       else {        
-        fCurrentLyricschunkKind = msrLyricschunk::kSlurChunk;
+        fCurrentSyllableKind = msrSyllable::kSlurChunk;
   
-        lyricschunk =
+        syllable =
           currentVoice->
-            addSlurLyricschunkToVoice ( 
+            addSlurSyllableToVoice ( 
               inputLineNumber,
               fCurrentLyricsNumber,
               fNoteData.fDivisions);
@@ -2921,9 +2921,9 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     }
   }
 
-  if (lyricschunk)
+  if (syllable)
     // register lyrics chunk in current note's lyric chunks list
-    fCurrentNoteLyricchunks.push_back (lyricschunk);
+    fCurrentNoteSyllables.push_back (syllable);
 }
 
 //________________________________________________________________________
@@ -6549,16 +6549,16 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
     currentVoice->
       appendNoteToVoice (newNote);
 
-    if (false) // XXL, lyricschunk sans fLyricschunkNote assigne
+    if (false) // XXL, syllable sans fSyllableNote assigne
     /*
 xml2MsrTranslator.cpp:4249
-   switch (fLyricschunkKind) {
+   switch (fSyllableKind) {
     case kSingleChunk:
       s << left <<
         setw(15) << "single" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", " << fLyricschunkNote->notePitchAsString () <<
-        ":" << fLyricschunkNote->noteDivisionsAsMSRString () <<
+        ", " << fSyllableNote->notePitchAsString () <<
+        ":" << fSyllableNote->noteDivisionsAsMSRString () <<
      */
       cerr <<
         endl << endl <<
@@ -6580,10 +6580,10 @@ xml2MsrTranslator.cpp:4249
 
   // take care of slurs JMI ???
   if (fCurrentSlurKind == msrSlur::kStartSlur)
-    fFirstLyricschunkInSlurKind = fCurrentLyricschunkKind;
+    fFirstSyllableInSlurKind = fCurrentSyllableKind;
     
   if (fCurrentSlurKind == msrSlur::kStopSlur)
-    fFirstLyricschunkInSlurKind = msrLyricschunk::k_NoChunk;
+    fFirstSyllableInSlurKind = msrSyllable::k_NoChunk;
 
   // account for chord not being built
   fOnGoingChord = false;
@@ -6730,19 +6730,19 @@ void xml2MsrTranslator::displayLastHandledTupletInVoice (string header)
 //______________________________________________________________________________
 void xml2MsrTranslator::handleLyrics (S_msrNote newNote)
 {
-  if (fCurrentNoteLyricchunks.size ()) {
+  if (fCurrentNoteSyllables.size ()) {
     for (
-      list<S_msrLyricschunk>::const_iterator i =
-        fCurrentNoteLyricchunks.begin();
-      i != fCurrentNoteLyricchunks.end();
+      list<S_msrSyllable>::const_iterator i =
+        fCurrentNoteSyllables.begin();
+      i != fCurrentNoteSyllables.end();
       i++ ) {
       // set lyrics chunk note uplink to newNote
-      (*i)->setLyricschunkNoteUplink (newNote);
+      (*i)->setSyllableNoteUplink (newNote);
     } // for
   }
 
   // forget all of newNote's lyric chunks
-  fCurrentNoteLyricchunks.clear ();
+  fCurrentNoteSyllables.clear ();
 }
 
 //______________________________________________________________________________

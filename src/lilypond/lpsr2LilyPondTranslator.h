@@ -84,7 +84,7 @@ class lpsr2LilyPondTranslator :
   public visitor<S_msrMeasure>,
 
   public visitor<S_msrLyrics>,
-  public visitor<S_msrLyricschunk>,
+  public visitor<S_msrSyllable>,
   
   public visitor<S_msrClef>,
   public visitor<S_msrKey>,
@@ -241,8 +241,8 @@ class lpsr2LilyPondTranslator :
     virtual void visitStart (S_msrLyrics& elt);
     virtual void visitEnd   (S_msrLyrics& elt);
 
-    virtual void visitStart (S_msrLyricschunk& elt);
-    virtual void visitEnd   (S_msrLyricschunk& elt);
+    virtual void visitStart (S_msrSyllable& elt);
+    virtual void visitEnd   (S_msrSyllable& elt);
 
     virtual void visitStart (S_msrClef& elt);
     virtual void visitEnd   (S_msrClef& elt);
@@ -388,11 +388,11 @@ class lpsr2LilyPondTranslator :
     // ------------------------------------------------------
     S_msrLyrics           fCurrentMsrLyricsClone;
     bool                  fOngoingNonEmptyLyrics;
-    int                   fLyricschunksCounter;
+    int                   fSyllablesCounter;
     
     // lyrics chunks
     // ------------------------------------------------------
-    S_msrLyricschunk      fCurrentMsrLyricschunkClone;
+    S_msrSyllable      fCurrentMsrSyllableClone;
 
     // stems
     msrStem::msrStemKind  fCurrentStemKind;

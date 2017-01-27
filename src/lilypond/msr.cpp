@@ -4729,71 +4729,71 @@ void msrTempo::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrLyricschunk msrLyricschunk::create (
+S_msrSyllable msrSyllable::create (
   int                inputLineNumber,
-  msrLyricschunkKind lyricschunkKind,
+  msrSyllableKind syllableKind,
   string             chunkText,
   int                divisions,
-  S_msrLyrics        lyricschunkLyricsUplink)
+  S_msrLyrics        syllableLyricsUplink)
 {
-  msrLyricschunk* o =
-    new msrLyricschunk (
+  msrSyllable* o =
+    new msrSyllable (
       inputLineNumber,
-      lyricschunkKind, chunkText, divisions,
-      lyricschunkLyricsUplink);
+      syllableKind, chunkText, divisions,
+      syllableLyricsUplink);
   assert(o!=0);
   return o;
 }
 
-msrLyricschunk::msrLyricschunk (
+msrSyllable::msrSyllable (
   int                inputLineNumber,
-  msrLyricschunkKind lyricschunkKind,
+  msrSyllableKind syllableKind,
   string             chunkText,
   int                divisions,
-  S_msrLyrics        lyricschunkLyricsUplink)
+  S_msrLyrics        syllableLyricsUplink)
     : msrElement (inputLineNumber)
 {
-  fLyricschunkKind = lyricschunkKind;
+  fSyllableKind = syllableKind;
   fChunkText       = chunkText;
   fChunkDivisions  = divisions;
   
-  fLyricschunkLyricsUplink = lyricschunkLyricsUplink;
+  fSyllableLyricsUplink = syllableLyricsUplink;
 
-  // fLyricschunkNoteUplink will be set
-  // by setLyricschunkNoteUplink() later
+  // fSyllableNoteUplink will be set
+  // by setSyllableNoteUplink() later
 }
 
-msrLyricschunk::~msrLyricschunk()
+msrSyllable::~msrSyllable()
 {}
 
-S_msrLyricschunk msrLyricschunk::createLyricschunkBareClone ()
+S_msrSyllable msrSyllable::createSyllableBareClone ()
 {
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of a lyrics chunk" <<
       endl;
 
-  S_msrLyricschunk
+  S_msrSyllable
     clone =
-      msrLyricschunk::create (
+      msrSyllable::create (
         fInputLineNumber,
-        fLyricschunkKind,
+        fSyllableKind,
         fChunkText,
         fChunkDivisions,
-        fLyricschunkLyricsUplink);
+        fSyllableLyricsUplink);
 
-  // dont't set 'clone->fLyricschunkLyricsUplink'
+  // dont't set 'clone->fSyllableLyricsUplink'
   // this will be done by the caller
     
   return clone;
 }
 
-void msrLyricschunk::setLyricschunkNoteUplink (S_msrNote note)
+void msrSyllable::setSyllableNoteUplink (S_msrNote note)
 {
   if (true || gGeneralOptions->fDebugDebug) {
 //  if (gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
-      "==> setting fLyricschunkLyricsUplink to '" <<
+      "==> setting fSyllableLyricsUplink to '" <<
       note->noteAsString () <<
       ", line " << note->getInputLineNumber () <<
       endl;
@@ -4813,94 +4813,94 @@ void msrLyricschunk::setLyricschunkNoteUplink (S_msrNote note)
       */
   }
 
- fLyricschunkNoteUplink = note;
+ fSyllableNoteUplink = note;
 }
 
-void msrLyricschunk::acceptIn (basevisitor* v) {
+void msrSyllable::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrLyricschunk::acceptIn()" << endl;
+      "==> msrSyllable::acceptIn()" << endl;
       
-  if (visitor<S_msrLyricschunk>*
+  if (visitor<S_msrSyllable>*
     p =
-      dynamic_cast<visitor<S_msrLyricschunk>*> (v)) {
-        S_msrLyricschunk elem = this;
+      dynamic_cast<visitor<S_msrSyllable>*> (v)) {
+        S_msrSyllable elem = this;
         
         if (gGeneralOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrLyricschunk::visitStart()" << endl;
+            "==> Launching msrSyllable::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void msrLyricschunk::acceptOut (basevisitor* v) {
+void msrSyllable::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrLyricschunk::acceptOut()" << endl;
+      "==> msrSyllable::acceptOut()" << endl;
 
-  if (visitor<S_msrLyricschunk>*
+  if (visitor<S_msrSyllable>*
     p =
-      dynamic_cast<visitor<S_msrLyricschunk>*> (v)) {
-        S_msrLyricschunk elem = this;
+      dynamic_cast<visitor<S_msrSyllable>*> (v)) {
+        S_msrSyllable elem = this;
       
         if (gGeneralOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrLyricschunk::visitEnd()" << endl;
+            "==> Launching msrSyllable::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void msrLyricschunk::browseData (basevisitor* v)
+void msrSyllable::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrLyricschunk& elt)
+ostream& operator<< (ostream& os, const S_msrSyllable& elt)
 {
   elt->print (os);
   return os;
 }
 
-string msrLyricschunk::lyricschunkKindAsString ()
+string msrSyllable::syllableKindAsString ()
 {
   string result;
     
-  switch (fLyricschunkKind) {
-    case msrLyricschunk::kSingleChunk:
+  switch (fSyllableKind) {
+    case msrSyllable::kSingleChunk:
       result = "single";
       break;
-    case msrLyricschunk::kBeginChunk:
+    case msrSyllable::kBeginChunk:
       result = "begin";
       break;
-    case msrLyricschunk::kMiddleChunk:
+    case msrSyllable::kMiddleChunk:
       result = "middle";
       break;
-    case msrLyricschunk::kEndChunk:
+    case msrSyllable::kEndChunk:
       result = "end";
       break;
       
-    case msrLyricschunk::kSkipChunk:
+    case msrSyllable::kSkipChunk:
       result = "skip";
       break;
       
-    case msrLyricschunk::kSlurChunk:
+    case msrSyllable::kSlurChunk:
       result = "slur";
       break;
-    case msrLyricschunk::kSlurBeyondEndChunk:
+    case msrSyllable::kSlurBeyondEndChunk:
       result = "slur beyond end";
       break;
       
-    case msrLyricschunk::kTiedChunk:
+    case msrSyllable::kTiedChunk:
       result = "tied";
       break;
       
-    case msrLyricschunk::kBarcheckChunk:
+    case msrSyllable::kBarcheckChunk:
       result = "barcheck";
       break;
       
-    case msrLyricschunk::kBreakChunk:
+    case msrSyllable::kBreakChunk:
       result = "break";
       break;
       
-    case msrLyricschunk::k_NoChunk:
+    case msrSyllable::k_NoChunk:
       msrInternalError (
         fInputLineNumber,
         "lyrics chunk type has not been set");
@@ -4910,17 +4910,17 @@ string msrLyricschunk::lyricschunkKindAsString ()
   return result;
 }
 
-string msrLyricschunk::lyricschunkAsString ()
+string msrSyllable::syllableAsString ()
 {
   stringstream s;
   
-  switch (fLyricschunkKind) {
+  switch (fSyllableKind) {
     case kSingleChunk:
       s << left <<
         setw(15) << "single" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNoteUplink = " <<
-        fLyricschunkNoteUplink->noteAsString () <<
+        ", fSyllableNoteUplink = " <<
+        fSyllableNoteUplink->noteAsString () <<
         ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
@@ -4929,8 +4929,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "begin" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNoteUplink = " <<
-        fLyricschunkNoteUplink->noteAsString () <<
+        ", fSyllableNoteUplink = " <<
+        fSyllableNoteUplink->noteAsString () <<
         ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
@@ -4939,8 +4939,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "middle" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNoteUplink = " <<
-        fLyricschunkNoteUplink->noteAsString () <<
+        ", fSyllableNoteUplink = " <<
+        fSyllableNoteUplink->noteAsString () <<
         ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
@@ -4949,8 +4949,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "end" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNoteUplink = " <<
-        fLyricschunkNoteUplink->noteAsString () <<
+        ", fSyllableNoteUplink = " <<
+        fSyllableNoteUplink->noteAsString () <<
         ", " << "\"" << fChunkText << "\"" <<
         endl;
       break;
@@ -4959,8 +4959,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "skip" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNoteUplink = " <<
-        fLyricschunkNoteUplink->noteAsString () <<
+        ", fSyllableNoteUplink = " <<
+        fSyllableNoteUplink->noteAsString () <<
         endl;
       break;
       
@@ -4968,8 +4968,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "slur" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNoteUplink = " <<
-        fLyricschunkNoteUplink->noteAsString () <<
+        ", fSyllableNoteUplink = " <<
+        fSyllableNoteUplink->noteAsString () <<
         endl;
       break;
       
@@ -4977,8 +4977,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "slur beyond end" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNoteUplink = " <<
-        fLyricschunkNoteUplink->noteAsString () <<
+        ", fSyllableNoteUplink = " <<
+        fSyllableNoteUplink->noteAsString () <<
         endl;
       break;
       
@@ -4986,8 +4986,8 @@ string msrLyricschunk::lyricschunkAsString ()
       s << left <<
         setw(15) << "tied" << ":" << fChunkDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
-        ", fLyricschunkNoteUplink = " <<
-        fLyricschunkNoteUplink->noteAsString () <<
+        ", fSyllableNoteUplink = " <<
+        fSyllableNoteUplink->noteAsString () <<
         " " << "\"" << fChunkText << "\"" <<
         endl;
       break;
@@ -5019,10 +5019,10 @@ string msrLyricschunk::lyricschunkAsString ()
 }
 
 
-void msrLyricschunk::print (ostream& os)
+void msrSyllable::print (ostream& os)
 {  
   os <<
-    "Lyricschunk" << " " << setw(15) << lyricschunkAsString ();
+    "Syllable" << " " << setw(15) << syllableAsString ();
 }
 
 //______________________________________________________________________________
@@ -5105,8 +5105,8 @@ S_msrLyrics msrLyrics::createLyricsBareClone (S_msrVoice clonedVoice)
 void msrLyrics::addTextChunkToLyrics (
   int       inputLineNumber,
   string    syllabic,
-  msrLyricschunk::msrLyricschunkKind
-            lyricschunkKind,
+  msrSyllable::msrSyllableKind
+            syllableKind,
   string    text,
   bool      elision,
   int       divisions,
@@ -5129,26 +5129,26 @@ void msrLyrics::addTextChunkToLyrics (
       ", text = \"" << text << "\"";
 
 / *
-    string lyricschunkKindAsString =
-      lyricschunkAsString ();
+    string syllableKindAsString =
+      syllableAsString ();
   * /
     cerr <<
- //     ", type = \"" << lyricschunkKindAsString << "\"" <<
+ //     ", type = \"" << syllableKindAsString << "\"" <<
       ", elision: " << elision << 
       " to lyrics " << getLyricsName () << endl;
   }
 
   // create text lyrics chunk
-  S_msrLyricschunk
+  S_msrSyllable
     chunk =
-      msrLyricschunk::create (
+      msrSyllable::create (
         inputLineNumber,
-        lyricschunkKind, text, divisions,
+        syllableKind, text, divisions,
         note,
         this);
 
   // add chunk to this lyrics
-  fLyricschunks.push_back (chunk);
+  fSyllables.push_back (chunk);
 
   fLyricsTextPresent = true;
 }
@@ -5176,19 +5176,19 @@ void msrLyrics::addSkipChunkToLyrics (
   }
   
   // create lyrics skip chunk
-  S_msrLyricschunk
-    lyricschunk =
-      msrLyricschunk::create (
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
         inputLineNumber,
-        msrLyricschunk::kSkipChunk, "", divisions,
+        msrSyllable::kSkipChunk, "", divisions,
         this);
 
   // set lyrics skip chunk note uplink
-  lyricschunk->
-    setLyricschunkNoteUplink (note);
+  syllable->
+    setSyllableNoteUplink (note);
     
   // add chunk to this lyrics
-  fLyricschunks.push_back (lyricschunk);
+  fSyllables.push_back (syllable);
 
 /*
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
@@ -5249,16 +5249,16 @@ void msrLyrics::addTiedChunkToLyrics (
   }
   
   // create lyrics tied chunk
-  S_msrLyricschunk
+  S_msrSyllable
     chunk =
-      msrLyricschunk::create (
+      msrSyllable::create (
         inputLineNumber,
-        msrLyricschunk::kTiedChunk, "", divisions,
+        msrSyllable::kTiedChunk, "", divisions,
         note,
         this);
         
   // add chunk to this lyrics
-  fLyricschunks.push_back (chunk);
+  fSyllables.push_back (chunk);
 }
 
 void msrLyrics::addSlurChunkToLyrics (
@@ -5280,16 +5280,16 @@ void msrLyrics::addSlurChunkToLyrics (
   }
   
   // create lyrics slur chunk
-  S_msrLyricschunk
+  S_msrSyllable
     chunk =
-      msrLyricschunk::create (
+      msrSyllable::create (
         inputLineNumber,
-        msrLyricschunk::kSlurChunk, "", divisions,
+        msrSyllable::kSlurChunk, "", divisions,
         note,
         this);
         
   // add chunk to this lyrics
-  fLyricschunks.push_back (chunk);
+  fSyllables.push_back (chunk);
 }
 
 void msrLyrics::addSlurBeyondEndChunkToLyrics (
@@ -5311,16 +5311,16 @@ void msrLyrics::addSlurBeyondEndChunkToLyrics (
   }
   
   // create lyrics slur chunk
-  S_msrLyricschunk
+  S_msrSyllable
     chunk =
-      msrLyricschunk::create (
+      msrSyllable::create (
         inputLineNumber,
-        msrLyricschunk::kSlurBeyondEndChunk, "", divisions,
+        msrSyllable::kSlurBeyondEndChunk, "", divisions,
         note,
         this);
         
   // add chunk to this lyrics
-  fLyricschunks.push_back (chunk);
+  fSyllables.push_back (chunk);
 }
 
 void msrLyrics::addBarcheckChunkToLyrics (
@@ -5352,18 +5352,18 @@ void msrLyrics::addBarcheckChunkToLyrics (
         inputLineNumber,
         0, 1, 0, "");
     * /    
-  S_msrLyricschunk
+  S_msrSyllable
     chunk =
-      msrLyricschunk::create (
+      msrSyllable::create (
         inputLineNumber,
-        msrLyricschunk::kBarcheckChunk,
+        msrSyllable::kBarcheckChunk,
         s.str(),
         0,
         0,
         this);
         
   // add chunk to this lyrics
-  fLyricschunks.push_back (chunk);
+  fSyllables.push_back (chunk);
 }
 */
 
@@ -5389,47 +5389,47 @@ void msrLyrics::addBreakChunkToLyrics (
   s << nextMeasureNumber;
   
   // create lyrics break chunk
-  S_msrLyricschunk
-    lyricschunk =
-      msrLyricschunk::create (
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
         inputLineNumber,
-        msrLyricschunk::kBreakChunk,
+        msrSyllable::kBreakChunk,
         s.str(),
         0,
         this);
         
   // add chunk to this lyrics
-  fLyricschunks.push_back (lyricschunk);
+  fSyllables.push_back (syllable);
 }
 
-void msrLyrics::addChunkToLyrics (S_msrLyricschunk chunk)
+void msrLyrics::addChunkToLyrics (S_msrSyllable chunk)
 {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "--> Adding chunk to lyrics" << getLyricsName () << endl;
       
-  fLyricschunks.push_back (chunk);
+  fSyllables.push_back (chunk);
 
   // does this lyrics contain text?
-  switch (chunk->getLyricschunkKind ()) {
-    case msrLyricschunk::kSingleChunk:
-    case msrLyricschunk::kBeginChunk:
-    case msrLyricschunk::kMiddleChunk:
-    case msrLyricschunk::kEndChunk:
+  switch (chunk->getSyllableKind ()) {
+    case msrSyllable::kSingleChunk:
+    case msrSyllable::kBeginChunk:
+    case msrSyllable::kMiddleChunk:
+    case msrSyllable::kEndChunk:
       // only now, in case addChunkToLyrics() is called
       // from LPSR for example
       this->setLyricsTextPresent ();
       break;
       
-    case msrLyricschunk::kSkipChunk:
-    case msrLyricschunk::kSlurChunk:
-    case msrLyricschunk::kSlurBeyondEndChunk:
-    case msrLyricschunk::kTiedChunk:
-    case msrLyricschunk::kBarcheckChunk:
-    case msrLyricschunk::kBreakChunk:
+    case msrSyllable::kSkipChunk:
+    case msrSyllable::kSlurChunk:
+    case msrSyllable::kSlurBeyondEndChunk:
+    case msrSyllable::kTiedChunk:
+    case msrSyllable::kBarcheckChunk:
+    case msrSyllable::kBreakChunk:
       break;
       
-    case msrLyricschunk::k_NoChunk:
+    case msrSyllable::k_NoChunk:
       msrInternalError (
         fInputLineNumber,
         "lyrics chunk type has not been set");
@@ -5481,11 +5481,11 @@ void msrLyrics::browseData (basevisitor* v)
   idtr++;
   
   // browse the lyrics chunks
-  int n = fLyricschunks.size ();
+  int n = fSyllables.size ();
   for (int i = 0; i < n; i++) {
     // browse the lyrics
-    msrBrowser<msrLyricschunk> browser (v);
-    browser.browse (*fLyricschunks [i]);
+    msrBrowser<msrSyllable> browser (v);
+    browser.browse (*fSyllables [i]);
   } // for
   cerr << endl;
 
@@ -5506,7 +5506,7 @@ void msrLyrics::print (ostream& os)
 {  
   os <<
     "Lyrics" << " " << getLyricsName () <<
-    " (" << fLyricschunks.size () << " lyrics chunks)";
+    " (" << fSyllables.size () << " lyrics chunks)";
     
   if (! fLyricsTextPresent)
     os << " (No actual text)";
@@ -5516,9 +5516,9 @@ void msrLyrics::print (ostream& os)
 //  if (fLyricsTextPresent) {  JMI
     idtr++;
 
-    int n = fLyricschunks.size();
+    int n = fSyllables.size();
     for (int i = 0; i < n; i++) {
-      os << idtr << fLyricschunks [i];
+      os << idtr << fSyllables [i];
     } // for
     os << endl;
 
@@ -5782,11 +5782,11 @@ void msrChords::appendSKipToChords (
 
   /* JMI
   // create lyrics skip chunk
-  S_msrLyricschunk
+  S_msrSyllable
     skip =
-      msrLyricschunk::create (
+      msrSyllable::create (
         inputLineNumber,
-        msrLyricschunk::kSkipChunk, "", divisions,
+        msrSyllable::kSkipChunk, "", divisions,
         this);
   
   // add chunk to this lyrics
@@ -8344,16 +8344,16 @@ void msrVoice::addLyricsToVoice (S_msrLyrics lyrics)
 
   // catch up with fVoiceLyricsmaster
   // in case the lyrics does not start upon the first voice note
-  vector<S_msrLyricschunk>
+  vector<S_msrSyllable>
     masterChunks =
-      fVoiceLyricsmaster->getLyricschunks ();
+      fVoiceLyricsmaster->getSyllables ();
 
   if (masterChunks.size()) {
 // JMI    if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Copying current contents of voice master lyrics to new lyrics" << endl;
     for (
-      vector<S_msrLyricschunk>::const_iterator i =
+      vector<S_msrSyllable>::const_iterator i =
         masterChunks.begin();
       i != masterChunks.end();
       i++) {
@@ -8586,12 +8586,12 @@ void msrVoice::appendGracenotesToVoice (
   fMusicHasBeenInsertedInVoice = true;
 }
 
-S_msrLyricschunk msrVoice::addTextLyricschunkToVoice (
+S_msrSyllable msrVoice::addTextSyllableToVoice (
   int       inputLineNumber,
   int       lyricsNumber,
   string    syllabic,
-  msrLyricschunk::msrLyricschunkKind
-            lyricschunkKind,
+  msrSyllable::msrSyllableKind
+            syllableKind,
   string    text,
   bool      elision,
   int       divisions)
@@ -8616,24 +8616,24 @@ S_msrLyricschunk msrVoice::addTextLyricschunkToVoice (
       createLyricsInVoiceIfNeeded (
         inputLineNumber, lyricsNumber);
 
-  S_msrLyricschunk
-    lyricschunk =
-      msrLyricschunk::create (
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
         inputLineNumber,
-        lyricschunkKind,
+        syllableKind,
         text,
         divisions,
         lyrics);
 
   // add lyrics skip chunk to the lyrics
   lyrics->
-    addChunkToLyrics (lyricschunk);
+    addChunkToLyrics (syllable);
 
   // and return it
-  return lyricschunk;
+  return syllable;
 }
 
-S_msrLyricschunk msrVoice::addSkipLyricschunkToVoice (
+S_msrSyllable msrVoice::addSkipSyllableToVoice (
   int       inputLineNumber,
   int       lyricsNumber,
   int       divisions)
@@ -8655,22 +8655,22 @@ S_msrLyricschunk msrVoice::addSkipLyricschunkToVoice (
         inputLineNumber, lyricsNumber);
   
   // create 'Skip' lyrics chunk
-  S_msrLyricschunk
-    lyricschunk =
-      msrLyricschunk::create (
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
         inputLineNumber,
-        msrLyricschunk::kSkipChunk, "", divisions,
+        msrSyllable::kSkipChunk, "", divisions,
         lyrics);
         
   // add it to the lyrics
   lyrics->
-    addChunkToLyrics (lyricschunk);
+    addChunkToLyrics (syllable);
 
   // and return it
-  return lyricschunk;
+  return syllable;
 }
 
-S_msrLyricschunk msrVoice::addTiedLyricschunkToVoice (
+S_msrSyllable msrVoice::addTiedSyllableToVoice (
   int       inputLineNumber,
   int       lyricsNumber,
   int       divisions)
@@ -8692,22 +8692,22 @@ S_msrLyricschunk msrVoice::addTiedLyricschunkToVoice (
         inputLineNumber, lyricsNumber);
 
   // create lyrics slur chunk
-  S_msrLyricschunk
-    lyricschunk =
-      msrLyricschunk::create (
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
         inputLineNumber,
-        msrLyricschunk::kTiedChunk, "", divisions,
+        msrSyllable::kTiedChunk, "", divisions,
         lyrics);
         
   // add it to the lyrics
   lyrics->
-    addChunkToLyrics (lyricschunk);
+    addChunkToLyrics (syllable);
 
   // and return it
-  return lyricschunk;
+  return syllable;
 }
 
-S_msrLyricschunk msrVoice::addSlurLyricschunkToVoice (
+S_msrSyllable msrVoice::addSlurSyllableToVoice (
   int       inputLineNumber,
   int       lyricsNumber,
   int       divisions)
@@ -8730,22 +8730,22 @@ S_msrLyricschunk msrVoice::addSlurLyricschunkToVoice (
         inputLineNumber, lyricsNumber);
   
   // create lyrics slur chunk
-  S_msrLyricschunk
-    lyricschunk =
-      msrLyricschunk::create (
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
         inputLineNumber,
-        msrLyricschunk::kSlurChunk, "", divisions,
+        msrSyllable::kSlurChunk, "", divisions,
         lyrics);
         
   // add it to the lyrics
   lyrics->
-    addChunkToLyrics (lyricschunk);
+    addChunkToLyrics (syllable);
 
   // and return it
-  return lyricschunk;
+  return syllable;
 }
 
-S_msrLyricschunk msrVoice::addSlurBeyondEndLyricschunkToVoice (
+S_msrSyllable msrVoice::addSlurBeyondEndSyllableToVoice (
   int       inputLineNumber,
   int       lyricsNumber,
   int       divisions)
@@ -8767,19 +8767,19 @@ S_msrLyricschunk msrVoice::addSlurBeyondEndLyricschunkToVoice (
         inputLineNumber, lyricsNumber);
   
   // create lyrics 'SlurBeyondEnd' chunk
-  S_msrLyricschunk
-    lyricschunk =
-      msrLyricschunk::create (
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
         inputLineNumber,
-        msrLyricschunk::kSlurBeyondEndChunk, "", divisions,
+        msrSyllable::kSlurBeyondEndChunk, "", divisions,
         lyrics);
         
   // add it to the lyrics
   lyrics->
-    addChunkToLyrics (lyricschunk);
+    addChunkToLyrics (syllable);
 
   // and return it
-  return lyricschunk;
+  return syllable;
 }
 
 void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
@@ -11706,27 +11706,27 @@ void msrMidi::print (ostream& os)
 }
 
 /*
-  switch (lyricschunkKind) {
-    case msrLyricschunk::kSingleChunk:
-    case msrLyricschunk::kBeginChunk:
+  switch (syllableKind) {
+    case msrSyllable::kSingleChunk:
+    case msrSyllable::kBeginChunk:
       {  
       // add lyrics chunk to this lyrics
-      fLyricschunks.push_back (chunk);
+      fSyllables.push_back (chunk);
       }
       break;
 
-    case msrLyricschunk::kMiddleChunk:
-    case msrLyricschunk::kEndChunk:
+    case msrSyllable::kMiddleChunk:
+    case msrSyllable::kEndChunk:
       // add chunk to this lyrics
-      fLyricschunks.push_back (chunk);
+      fSyllables.push_back (chunk);
       break;
       
-    case msrLyricschunk::kSkipChunk:
-    case msrLyricschunk::kSlurChunk:
-    case msrLyricschunk::kSlurBeyondEndChunk:
-    case msrLyricschunk::kTiedChunk:
-    case msrLyricschunk::kBarcheckChunk:
-    case msrLyricschunk::kBreakChunk:
+    case msrSyllable::kSkipChunk:
+    case msrSyllable::kSlurChunk:
+    case msrSyllable::kSlurBeyondEndChunk:
+    case msrSyllable::kTiedChunk:
+    case msrSyllable::kBarcheckChunk:
+    case msrSyllable::kBreakChunk:
       {
         msrInternalError (
           fInputLineNumber,
@@ -11735,7 +11735,7 @@ void msrMidi::print (ostream& os)
       }
       break;
       
-    case msrLyricschunk::k_NoChunk:
+    case msrSyllable::k_NoChunk:
       msrInternalError (
         fInputLineNumber,
         "lyrics chunk type has not been set");
@@ -11747,27 +11747,27 @@ void msrMidi::print (ostream& os)
 
 
 /*
-  switch (lyricschunkKind) {
-    case msrLyricschunk::kSingleChunk:
-    case msrLyricschunk::kBeginChunk:
+  switch (syllableKind) {
+    case msrSyllable::kSingleChunk:
+    case msrSyllable::kBeginChunk:
       {  
       // add lyrics chunk to this lyrics
-      fLyricschunks.push_back (lyricschunk);
+      fSyllables.push_back (syllable);
       }
       break;
 
-    case msrLyricschunk::kMiddleChunk:
-    case msrLyricschunk::kEndChunk:
+    case msrSyllable::kMiddleChunk:
+    case msrSyllable::kEndChunk:
       // add chunk to this lyrics
-      fLyricschunks.push_back (lyricschunk);
+      fSyllables.push_back (syllable);
       break;
       
-    case msrLyricschunk::kSkipChunk:
-    case msrLyricschunk::kSlurChunk:
-    case msrLyricschunk::kSlurBeyondEndChunk:
-    case msrLyricschunk::kTiedChunk:
-    case msrLyricschunk::kBarcheckChunk:
-    case msrLyricschunk::kBreakChunk:
+    case msrSyllable::kSkipChunk:
+    case msrSyllable::kSlurChunk:
+    case msrSyllable::kSlurBeyondEndChunk:
+    case msrSyllable::kTiedChunk:
+    case msrSyllable::kBarcheckChunk:
+    case msrSyllable::kBreakChunk:
       {
         msrInternalError (
           fInputLineNumber,
@@ -11776,7 +11776,7 @@ void msrMidi::print (ostream& os)
       }
       break;
       
-    case msrLyricschunk::k_NoChunk:
+    case msrSyllable::k_NoChunk:
       msrInternalError (
         fInputLineNumber,
         "lyrics chunk type has not been set");

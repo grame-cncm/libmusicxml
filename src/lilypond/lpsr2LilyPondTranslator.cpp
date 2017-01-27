@@ -1588,74 +1588,74 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrLyrics& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondTranslator::visitStart (S_msrLyricschunk& elt)
+void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
 {
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting msrLyricschunk" << endl;
+      "% --> Start visiting msrSyllable" << endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
     if (gGeneralOptions->fForceDebug || fOngoingNonEmptyLyrics) {
       
-      switch (elt->getLyricschunkKind ()) {
-        case msrLyricschunk::kSingleChunk:
+      switch (elt->getSyllableKind ()) {
+        case msrSyllable::kSingleChunk:
           fOstream <<
             quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
           break;
           
-        case msrLyricschunk::kBeginChunk:
+        case msrSyllable::kBeginChunk:
           fOstream <<
             quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
           break;
           
-        case msrLyricschunk::kMiddleChunk:
-          fOstream <<
-            "-- " <<
-            quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
-          break;
-          
-        case msrLyricschunk::kEndChunk:
+        case msrSyllable::kMiddleChunk:
           fOstream <<
             "-- " <<
             quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
           break;
           
-        case msrLyricschunk::kSkipChunk:
+        case msrSyllable::kEndChunk:
+          fOstream <<
+            "-- " <<
+            quoteStringIfNonAlpha (elt->getChunkText ()) << " ";
+          break;
+          
+        case msrSyllable::kSkipChunk:
           if (
             elt->
-              getLyricschunkNoteUplink ()->
+              getSyllableNoteUplink ()->
                 getNoteKind ()
               !=
             msrNote::kRestNote) {
             fOstream <<
               "\\skip" <<
                 elt->
-                  getLyricschunkNoteUplink ()->
+                  getSyllableNoteUplink ()->
                     noteDivisionsAsMSRString () <<
                 " ";
           }
           break;
           
-        case msrLyricschunk::kSlurChunk:
+        case msrSyllable::kSlurChunk:
           fOstream <<
             "%{ slur " << "\"" << elt->getChunkText () << "\"" << " %}" <<
             endl <<
             idtr;
           break;
   
-        case msrLyricschunk::kTiedChunk:
+        case msrSyllable::kTiedChunk:
           fOstream <<
             "%{ ~ " << "\"" << elt->getChunkText () << "\"" << " %}" <<
             endl <<
             idtr;
           break;
           
-        case msrLyricschunk::kSlurBeyondEndChunk:
+        case msrSyllable::kSlurBeyondEndChunk:
   // JMI       fOstream <<
    //         "__ " << " ";
           break;
   
-        case msrLyricschunk::kBarcheckChunk:
+        case msrSyllable::kBarcheckChunk:
           fOstream <<
      // JMI       "%{ | % " << elt->getChunkText () << " %}" <<
             "| %{ " << elt->getChunkText () << " %}" <<
@@ -1665,14 +1665,14 @@ void lpsr2LilyPondTranslator::visitStart (S_msrLyricschunk& elt)
           fLyricsOlec.reset ();
           break;
     
-        case msrLyricschunk::kBreakChunk:
+        case msrSyllable::kBreakChunk:
           fOstream <<
             "%{ break " << "\"" << elt->getChunkText () << "\"" << " %}" <<
             endl <<
             idtr;
           break;
     
-        case msrLyricschunk::k_NoChunk: // JMI
+        case msrSyllable::k_NoChunk: // JMI
           break;
       } // switch
 
@@ -1681,11 +1681,11 @@ void lpsr2LilyPondTranslator::visitStart (S_msrLyricschunk& elt)
   }
 }
 
-void lpsr2LilyPondTranslator::visitEnd (S_msrLyricschunk& elt)
+void lpsr2LilyPondTranslator::visitEnd (S_msrSyllable& elt)
 {
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting msrLyricschunk" << endl;
+      "% --> End visiting msrSyllable" << endl;
 }
 
 //________________________________________________________________________
