@@ -1983,6 +1983,128 @@ typedef SMARTP<msrWords> S_msrWords;
 EXP ostream& operator<< (ostream& os, const S_msrWords& elt);
 
 /*!
+\brief A msr syllable representation.
+
+  A syllable is represented by a type and and a string.
+  In the case of "single", the list contains only one string
+*/
+//______________________________________________________________________________
+class EXP msrSyllable : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    // we want to end the line in the LilyPond code at a break
+    enum msrSyllableKind {
+      k_NoSyllable,
+      kSingleSyllable, kBeginSyllable, kMiddleSyllable, kEndSyllable,
+      kSkipSyllable,
+      kTiedSyllable,
+      kSlurSyllable, kSlurBeyondEndSyllable,
+      kBarcheckSyllable, kBreakSyllable};
+
+    static string syllableKindAsString (
+      msrSyllableKind syllableKind);
+      
+    enum msrSyllableExtendKind {
+      k_NoSyllableExtend,
+      kStandaloneSyllableExtend,
+      kStartSyllableExtend, kContinueSyllableExtend, kStopSyllableExtend};
+
+    static string syllableExtendKindAsString (
+      msrSyllableExtendKind syllableExtendKind);
+
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrSyllable> create (
+      int                   inputLineNumber,
+      msrSyllableKind       syllableKind,
+      string                syllableText,
+      msrSyllableExtendKind syllableExtendKind,
+      int                   divisions,
+      S_msrStanza           syllableStanzaUplink);
+
+    SMARTP<msrSyllable> createSyllableBareClone ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrSyllable (
+      int                   inputLineNumber,
+      msrSyllableKind       syllableKind,
+      string                syllableText,
+      msrSyllableExtendKind syllableExtendKind,
+      int                   divisions,
+      S_msrStanza           syllableStanzaUplink);
+        
+    virtual ~msrSyllable();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrSyllableKind
+                      getSyllableKind () const
+                          { return fSyllableKind; }
+
+    void              setSyllableNoteUplink (S_msrNote note);
+
+    S_msrNote         getSyllableNoteUplink () const
+                          { return fSyllableNoteUplink; }
+
+    string            getSyllableText () const
+                          { return fSyllableText; }
+
+    msrSyllableExtendKind
+                      getSyllableExtendKind () const
+                          { return fSyllableExtendKind; }
+
+    int               getSyllableDivisions () const
+                          { return fSyllableDivisions; }
+
+    // services
+    // ------------------------------------------------------
+  
+    string            syllableKindAsString ();
+
+    string            syllableAsString ();
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+  
+    msrSyllableKind       fSyllableKind;
+    string                fSyllableText;
+    msrSyllableExtendKind fSyllableExtendKind;
+    
+    int                   fSyllableDivisions;
+    
+    S_msrStanza           fSyllableStanzaUplink;
+
+    S_msrNote             fSyllableNoteUplink;
+};
+typedef SMARTP<msrSyllable> S_msrSyllable;
+EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
+
+/*!
 \brief A msr note representation.
 
   A note is represented by its name, optional accidentals,
@@ -2254,6 +2376,9 @@ class EXP msrNote : public msrElement
     // MusicXML informations
     
     msrNoteData               fNoteData;
+    msrSyllable::msrSyllableExtendKind
+                              fNoteSyllableExtendKind; // MEGA
+    
     bool                      fNoteOccupiesAFullMeasure;
 
     // LilyPond informations
@@ -3365,128 +3490,6 @@ class EXP msrTempo : public msrElement
 };
 typedef SMARTP<msrTempo> S_msrTempo;
 EXP ostream& operator<< (ostream& os, const S_msrTempo& elt);
-
-/*!
-\brief A msr syllable representation.
-
-  A syllable is represented by a type and and a string.
-  In the case of "single", the list contains only one string
-*/
-//______________________________________________________________________________
-class EXP msrSyllable : public msrElement
-{
-  public:
-
-    // data types
-    // ------------------------------------------------------
-
-    // we want to end the line in the LilyPond code at a break
-    enum msrSyllableKind {
-      k_NoSyllable,
-      kSingleSyllable, kBeginSyllable, kMiddleSyllable, kEndSyllable,
-      kSkipSyllable,
-      kTiedSyllable,
-      kSlurSyllable, kSlurBeyondEndSyllable,
-      kBarcheckSyllable, kBreakSyllable};
-
-    static string syllableKindAsString (
-      msrSyllableKind syllableKind);
-      
-    enum msrSyllableExtendKind {
-      k_NoSyllableExtend,
-      kStandaloneSyllableExtend,
-      kStartSyllableExtend, kContinueSyllableExtend, kStopSyllableExtend};
-
-    static string syllableExtendKindAsString (
-      msrSyllableExtendKind syllableExtendKind);
-
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrSyllable> create (
-      int                   inputLineNumber,
-      msrSyllableKind       syllableKind,
-      string                syllableText,
-      msrSyllableExtendKind syllableExtendKind,
-      int                   divisions,
-      S_msrStanza           syllableStanzaUplink);
-
-    SMARTP<msrSyllable> createSyllableBareClone ();
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrSyllable (
-      int                   inputLineNumber,
-      msrSyllableKind       syllableKind,
-      string                syllableText,
-      msrSyllableExtendKind syllableExtendKind,
-      int                   divisions,
-      S_msrStanza           syllableStanzaUplink);
-        
-    virtual ~msrSyllable();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrSyllableKind
-                      getSyllableKind () const
-                          { return fSyllableKind; }
-
-    void              setSyllableNoteUplink (S_msrNote note);
-
-    S_msrNote         getSyllableNoteUplink () const
-                          { return fSyllableNoteUplink; }
-
-    string            getSyllableText () const
-                          { return fSyllableText; }
-
-    msrSyllableExtendKind
-                      getSyllableExtendKind () const
-                          { return fSyllableExtendKind; }
-
-    int               getSyllableDivisions () const
-                          { return fSyllableDivisions; }
-
-    // services
-    // ------------------------------------------------------
-  
-    string            syllableKindAsString ();
-
-    string            syllableAsString ();
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void print (ostream& os);
-
-  private:
-  
-    msrSyllableKind       fSyllableKind;
-    string                fSyllableText;
-    msrSyllableExtendKind fSyllableExtendKind;
-    
-    int                   fSyllableDivisions;
-    
-    S_msrStanza           fSyllableStanzaUplink;
-
-    S_msrNote             fSyllableNoteUplink;
-};
-typedef SMARTP<msrSyllable> S_msrSyllable;
-EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
 
 /*!
 \brief A msr stanza representation.
