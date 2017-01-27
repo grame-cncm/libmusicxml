@@ -57,8 +57,8 @@ typedef SMARTP<msrChord> S_msrChord;
 class msrTuplet;
 typedef SMARTP<msrTuplet> S_msrTuplet;
 
-class msrLyrics;
-typedef SMARTP<msrLyrics> S_msrLyrics;
+class msrStanza;
+typedef SMARTP<msrStanza> S_msrStanza;
 
 class msrVoice;
 typedef SMARTP<msrVoice> S_msrVoice;
@@ -220,8 +220,8 @@ class EXP msrOptions : public smartable
     // MSR display
     bool                  fDisplayMSR;
 
-    // lyrics display
-    bool                  fDontDisplayMSRLyrics;
+    // stanza display
+    bool                  fDontDisplayMSRStanzas;
     
     // MSR score summary
     bool                  fDisplayMSRScoreSummary;
@@ -1885,7 +1885,7 @@ EXP ostream& operator<< (ostream& os, const S_msrAftergracenotes& elt);
 /*!
 \brief A words representation.
 
-  A words is represented by the lyrics to use
+  A words is represented by the stanza to use
 */
 //______________________________________________________________________________
 class EXP msrWords : public msrElement
@@ -3293,7 +3293,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTranspose& elt);
 /*!
 \brief A tempo representation.
 
-  A tempo is represented by the lyrics to use
+  A tempo is represented by the stanza to use
 */
 //______________________________________________________________________________
 class EXP msrTempo : public msrElement
@@ -3395,7 +3395,7 @@ class EXP msrSyllable : public msrElement
       msrSyllableKind syllableKind,
       string             syllableText,
       int                divisions,
-      S_msrLyrics        syllableLyricsUplink);
+      S_msrStanza        syllableStanzaUplink);
 
     SMARTP<msrSyllable> createSyllableBareClone ();
 
@@ -3409,7 +3409,7 @@ class EXP msrSyllable : public msrElement
       msrSyllableKind syllableKind,
       string             syllableText,
       int                divisions,
-      S_msrLyrics        syllableLyricsUplink);
+      S_msrStanza        syllableStanzaUplink);
         
     virtual ~msrSyllable();
 
@@ -3459,7 +3459,7 @@ class EXP msrSyllable : public msrElement
     string             fSyllableText;
     int                fSyllableDivisions;
     
-    S_msrLyrics        fSyllableLyricsUplink;
+    S_msrStanza        fSyllableStanzaUplink;
 
     S_msrNote          fSyllableNoteUplink;
 };
@@ -3467,31 +3467,31 @@ typedef SMARTP<msrSyllable> S_msrSyllable;
 EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
 
 /*!
-\brief A msr lyrics representation.
+\brief A msr stanza representation.
 
-  A lyrics is represented by a list of syllables,
+  A stanza is represented by a list of syllables,
 */
 //______________________________________________________________________________
-class EXP msrLyrics : public msrElement
+class EXP msrStanza : public msrElement
 {
   public:
 
     // data types
     // ------------------------------------------------------
 
-    enum msrLyricsKind {
-       kMasterLyrics, kRegularLyrics };
+    enum msrStanzaKind {
+       kMasterStanza, kRegularStanza };
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrLyrics> create (
+    static SMARTP<msrStanza> create (
       int                   inputLineNumber,
-      int                   lyricsNumber,
-      msrLyricsKind         lyricsKind,
-      S_msrVoice            lyricsVoiceUplink);
+      int                   stanzaNumber,
+      msrStanzaKind         stanzaKind,
+      S_msrVoice            stanzaVoiceUplink);
     
-    SMARTP<msrLyrics> createLyricsBareClone (
+    SMARTP<msrStanza> createStanzaBareClone (
       S_msrVoice clonedVoice);
 
   protected:
@@ -3499,46 +3499,46 @@ class EXP msrLyrics : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrLyrics (
+    msrStanza (
       int                   inputLineNumber,
-      int                   lyricsNumber,
-      msrLyricsKind         lyricsKind,
-      S_msrVoice            lyricsVoiceUplink);
+      int                   stanzaNumber,
+      msrStanzaKind         stanzaKind,
+      S_msrVoice            stanzaVoiceUplink);
 
-    virtual ~msrLyrics();
+    virtual ~msrStanza();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    int         getLyricsNumber () const
-                    { return fLyricsNumber; }
+    int         getStanzaNumber () const
+                    { return fStanzaNumber; }
                 
-    string      getLyricsName () const;
+    string      getStanzaName () const;
                 
-    S_msrVoice  getLyricsVoiceUplink () const
-                    { return fLyricsVoiceUplink; }
+    S_msrVoice  getStanzaVoiceUplink () const
+                    { return fStanzaVoiceUplink; }
                 
-    msrLyricsKind
-                getLyricsKind () const
-                    { return fLyricsKind; }
+    msrStanzaKind
+                getStanzaKind () const
+                    { return fStanzaKind; }
                 
     const vector<S_msrSyllable>&
                 getSyllables () const
                     { return fSyllables; }
 
-    void        setLyricsTextPresent ()
-                    { fLyricsTextPresent = true; }
+    void        setStanzaTextPresent ()
+                    { fStanzaTextPresent = true; }
 
-    bool        getLyricsTextPresent () const
-                    { return fLyricsTextPresent; }
+    bool        getStanzaTextPresent () const
+                    { return fStanzaTextPresent; }
 
 
     // services
     // ------------------------------------------------------
 
-    void        addTextSyllableToLyrics (
+    void        addTextSyllableToStanza (
                   int       inputLineNumber,
                   string    syllabic,
                   msrSyllable::msrSyllableKind
@@ -3548,35 +3548,35 @@ class EXP msrLyrics : public msrElement
                   int       divisions,
                   S_msrNote note);
       
-    void        addSkipSyllableToLyrics (
+    void        addSkipSyllableToStanza (
                   int       inputLineNumber,
                   int       divisions,
                   S_msrNote note);
 
-    void        addTiedSyllableToLyrics (
+    void        addTiedSyllableToStanza (
                   int       inputLineNumber,
                   int       divisions,
                   S_msrNote note);
 
-    void        addSlurSyllableToLyrics (
+    void        addSlurSyllableToStanza (
                   int       inputLineNumber,
                   int       divisions,
                   S_msrNote note);
 
-    void        addSlurBeyondEndSyllableToLyrics (
+    void        addSlurBeyondEndSyllableToStanza (
                   int       inputLineNumber,
                   int       divisions,
                   S_msrNote note);
 
-    void        addBarcheckSyllableToLyrics (
+    void        addBarcheckSyllableToStanza (
                   int inputLineNumber,
                   int nextMeasureNumber);
 
-    void        addBreakSyllableToLyrics (
+    void        addBreakSyllableToStanza (
                   int inputLineNumber,
                   int nextMeasureNumber);
 
-    void        addSyllableToLyrics (S_msrSyllable syllable);
+    void        addSyllableToStanza (S_msrSyllable syllable);
                 
     // visitors
     // ------------------------------------------------------
@@ -3593,18 +3593,18 @@ class EXP msrLyrics : public msrElement
 
   private:
 
-    int                       fLyricsNumber;
-    msrLyricsKind             fLyricsKind;
+    int                       fStanzaNumber;
+    msrStanzaKind             fStanzaKind;
 
     vector<S_msrSyllable>  fSyllables;
 
-    bool                      fLyricsTextPresent;
+    bool                      fStanzaTextPresent;
 
-    S_msrVoice                fLyricsVoiceUplink;
+    S_msrVoice                fStanzaVoiceUplink;
 
 };
-typedef SMARTP<msrLyrics> S_msrLyrics;
-EXP ostream& operator<< (ostream& os, const S_msrLyrics& elt);
+typedef SMARTP<msrStanza> S_msrStanza;
+EXP ostream& operator<< (ostream& os, const S_msrStanza& elt);
 
 /*!
 \brief A msr harmony representation.
@@ -3730,7 +3730,7 @@ EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
 /*!
 \brief A msr chords representation.
 
-  A lyrics is represented by a list of syllables,
+  A stanza is represented by a list of syllables,
 */
 //______________________________________________________________________________
 class EXP msrChords : public msrElement
@@ -4505,9 +4505,9 @@ class EXP msrVoice : public msrElement
     S_msrStaff    getVoiceStaffUplink () const
                       { return fVoiceStaffUplink; }
                 
-    const map<int, S_msrLyrics>&
-                  getVoiceLyricsMap () const
-                      { return fVoiceLyricsMap; }
+    const map<int, S_msrStanza>&
+                  getVoiceStanzasMap () const
+                      { return fVoiceStanzasMap; }
 
     string        getVoiceName () const;
 
@@ -4517,8 +4517,8 @@ class EXP msrVoice : public msrElement
                   getVoiceSegment () const
                       { return fVoiceSegment; }
 
-    S_msrLyrics   getVoiceLyricsmaster () const
-                      { return fVoiceLyricsmaster; }
+    S_msrStanza   getVoiceStanzamaster () const
+                      { return fVoiceStanzamaster; }
                
     int           getVoiceActualNotesCounter () const
                       { return fVoiceActualNotesCounter; }
@@ -4580,7 +4580,7 @@ class EXP msrVoice : public msrElement
     S_msrSyllable
                   addTextSyllableToVoice (
                     int       inputLineNumber,
-                    int       lyricsNumber,
+                    int       stanzaNumber,
                     string    syllabic,
                     msrSyllable::msrSyllableKind
                               syllableKind,
@@ -4591,25 +4591,25 @@ class EXP msrVoice : public msrElement
     S_msrSyllable
                   addSkipSyllableToVoice (
                     int       inputLineNumber,
-                    int       lyricsNumber,
+                    int       stanzaNumber,
                     int       divisions);
     
     S_msrSyllable
                   addTiedSyllableToVoice (
                     int       inputLineNumber,
-                    int       lyricsNumber,
+                    int       stanzaNumber,
                     int       divisions);
     
     S_msrSyllable
                   addSlurSyllableToVoice (
                     int       inputLineNumber,
-                    int       lyricsNumber,
+                    int       stanzaNumber,
                     int       divisions);
     
     S_msrSyllable
                   addSlurBeyondEndSyllableToVoice (
                     int       inputLineNumber,
-                    int       lyricsNumber,
+                    int       stanzaNumber,
                     int       divisions);
     
     void          appendBarCheckToVoice (S_msrBarCheck bnc);
@@ -4632,16 +4632,16 @@ class EXP msrVoice : public msrElement
     S_msrElement  removeLastElementFromVoice (
                     int inputLineNumber);
 
-    S_msrLyrics
-                  addLyricsToVoiceByItsNumber (
+    S_msrStanza
+                  addStanzaToVoiceByItsNumber (
                     int inputLineNumber,
-                    int lyricsNumber);
+                    int stanzaNumber);
 
-    void          addLyricsToVoice (S_msrLyrics lyrics);
+    void          addStanzaToVoice (S_msrStanza stanza);
 
-    S_msrLyrics   createLyricsInVoiceIfNeeded (
+    S_msrStanza   createStanzaInVoiceIfNeeded (
                     int inputLineNumber,
-                    int lyricsNumber);
+                    int stanzaNumber);
     
     void          finalizeLastMeasureOfVoice (int inputLineNumber);
 
@@ -4683,15 +4683,15 @@ class EXP msrVoice : public msrElement
     
     // the syllable in the voice contains the measures
     // it is created implicitly for every voice,
-    S_msrSegment           fVoiceSegment;
+    S_msrSegment              fVoiceSegment;
 
-    // the master lyrics, collecting skips along the way,
-    // to be used as a 'prelude' by actual lyrics
+    // the master stanza, collecting skips along the way,
+    // to be used as a 'prelude' by actual stanza
     // that start at later points
-    S_msrLyrics               fVoiceLyricsmaster;
+    S_msrStanza               fVoiceStanzamaster;
     
-    // the lyrics map
-    map<int, S_msrLyrics>     fVoiceLyricsMap;
+    // the stanza map
+    map<int, S_msrStanza>     fVoiceStanzasMap;
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 

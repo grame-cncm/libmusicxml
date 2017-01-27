@@ -52,7 +52,7 @@ class msr2LpsrTranslator :
   
   public visitor<S_msrVoice>,
 
-  public visitor<S_msrLyrics>,
+  public visitor<S_msrStanza>,
   public visitor<S_msrSyllable>,
   
   public visitor<S_msrClef>,
@@ -151,8 +151,8 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrVoice& elt);
     virtual void visitEnd   (S_msrVoice& elt);
 
-    virtual void visitStart (S_msrLyrics& elt);
-    virtual void visitEnd   (S_msrLyrics& elt);
+    virtual void visitStart (S_msrStanza& elt);
+    virtual void visitEnd   (S_msrStanza& elt);
 
     virtual void visitStart (S_msrSyllable& elt);
     virtual void visitEnd   (S_msrSyllable& elt);
@@ -327,7 +327,7 @@ class msr2LpsrTranslator :
     
     // segments
     // ------------------------------------------------------
-    S_msrSegment           fCurrentSegmentClone;
+    S_msrSegment              fCurrentSegmentClone;
     
     // voices
     // ------------------------------------------------------    
@@ -335,11 +335,11 @@ class msr2LpsrTranslator :
     
     // lyrics
     // ------------------------------------------------------
-    S_msrLyrics               fCurrentLyricsClone;
+    S_msrStanza               fCurrentStanzaClone;
 
     // lyrics chunks
     // ------------------------------------------------------
-    S_msrSyllable          fCurrentSyllableClone;
+    S_msrSyllable            fCurrentSyllableClone;
 
     // notes
     // ------------------------------------------------------

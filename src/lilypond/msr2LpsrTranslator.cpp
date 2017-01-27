@@ -729,40 +729,40 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrLyrics& elt)
+void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
 {
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrLyrics" << endl;
+      "--> Start visiting msrStanza" << endl;
 
   idtr++;
 
-//  if (elt->getLyricsTextPresent ()) { // JMI
-    fCurrentLyricsClone =
-      elt->createLyricsBareClone (
+//  if (elt->getStanzaTextPresent ()) { // JMI
+    fCurrentStanzaClone =
+      elt->createStanzaBareClone (
         fCurrentVoiceClone);
   
     // don't add the lyrics to fCurrentVoiceClone
   
     // append the lyrics to the LPSR score elements list
     fLpsrScore ->
-      appendLyricsToScoreElements (fCurrentLyricsClone);
+      appendStanzaToScoreElements (fCurrentStanzaClone);
   
     // append a use of the lyrics to the current staff block
     fCurrentStaffBlock ->
-      appendLyricsUseToStaffBlock (fCurrentLyricsClone);
+      appendLyricsUseToStaffBlock (fCurrentStanzaClone);
 //  }
 //  else
-  //  fCurrentLyricsClone = 0; // JMI
+  //  fCurrentStanzaClone = 0; // JMI
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrLyrics& elt)
+void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
 {
   idtr--;
   
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrLyrics" << endl;
+      "--> End visiting msrStanza" << endl;
 }
 
 //________________________________________________________________________
@@ -776,16 +776,16 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   fCurrentSyllableClone =
     elt->createSyllableBareClone ();
     
-// JMI  fCurrentLyricsClone->
-    //addSyllableToLyrics (fCurrentSyllableClone);
+// JMI  fCurrentStanzaClone->
+    //addSyllableToStanza (fCurrentSyllableClone);
 
   // don't set its note uplink to the current note clone
  // JMI elt->setSyllableNoteUplink (
    // XXL fCurrentNoteClone);
 
   // add it to the current lyrics clone
-  fCurrentLyricsClone->
-    addSyllableToLyrics (elt);
+  fCurrentStanzaClone->
+    addSyllableToStanza (elt);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrSyllable& elt)

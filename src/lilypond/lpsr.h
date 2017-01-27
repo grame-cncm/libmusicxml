@@ -903,7 +903,7 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
 
     static SMARTP<lpsrNewLyricsBlock> create (
       int            inputLineNumber,
-      S_msrLyrics    lyrics,
+      S_msrStanza    lyrics,
       S_msrVoice     voice);
 
   protected:
@@ -913,7 +913,7 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
 
     lpsrNewLyricsBlock (
       int            inputLineNumber,
-      S_msrLyrics    lyrics,
+      S_msrStanza    lyrics,
       S_msrVoice );
       
     virtual ~lpsrNewLyricsBlock();
@@ -923,7 +923,7 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrLyrics  getLyrics () const { return fLyrics; }
+    S_msrStanza  getStanza () const { return fStanza; }
     S_msrVoice   getVoice  () const { return fVoice; }
     
     // services
@@ -944,7 +944,7 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
 
   private:
   
-    S_msrLyrics fLyrics;
+    S_msrStanza fStanza;
     S_msrVoice  fVoice;
 };
 typedef SMARTP<lpsrNewLyricsBlock> S_lpsrNewLyricsBlock;
@@ -1022,7 +1022,7 @@ class EXP lpsrUseLyricsCommand : public lpsrElement
 
     static SMARTP<lpsrUseLyricsCommand> create (
       int            inputLineNumber,
-      S_msrLyrics&   lyrics);
+      S_msrStanza&   lyrics);
 
   public:
 
@@ -1052,13 +1052,13 @@ class EXP lpsrUseLyricsCommand : public lpsrElement
 
     lpsrUseLyricsCommand (
       int            inputLineNumber,
-      S_msrLyrics&   lyrics);
+      S_msrStanza&   lyrics);
       
     virtual ~lpsrUseLyricsCommand();
   
   private:
   
-    S_msrLyrics fLyrics;
+    S_msrStanza fStanza;
 };
 typedef SMARTP<lpsrUseLyricsCommand> S_lpsrUseLyricsCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrUseLyricsCommand& elt);
@@ -1561,7 +1561,7 @@ class EXP lpsrStaffBlock : public lpsrElement
                     S_msrVoice voice);
 
     void          appendLyricsUseToStaffBlock (
-                    S_msrLyrics lyrics);
+                    S_msrStanza lyrics);
 
     void          appendElementToStaffBlock (
                     S_msrElement elem)
@@ -1922,15 +1922,15 @@ class EXP lpsrScore : public lpsrElement
                 S_msrVoice voice)
                   { fScoreElements.push_back (voice); }
                   
-    void      appendLyricsToScoreElements (
-                S_msrLyrics lyrics)
+    void      appendStanzaToScoreElements (
+                S_msrStanza lyrics)
                   { fScoreElements.push_back (lyrics); }
 
     void      appendVoiceUseToStoreCommand (
                 S_msrVoice voice);
 
     void      appendLyricsUseToStoreCommand (
-                S_msrLyrics lyrics);
+                S_msrStanza lyrics);
 
     // visitors
     // ------------------------------------------------------

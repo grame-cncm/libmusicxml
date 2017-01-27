@@ -428,14 +428,14 @@ void lpsrUseVoiceCommand::print (ostream& os)
     fVoice->getVoiceName () <<
     "\", " <<
     singularOrPlural (
-      fVoice->getVoiceLyricsMap ().size(), "lyric", "lyrics") <<
+      fVoice->getVoiceStanzasMap ().size(), "lyric", "lyrics") <<
     endl;
 }
 
 //______________________________________________________________________________
 S_lpsrNewLyricsBlock lpsrNewLyricsBlock::create (
   int            inputLineNumber,
-  S_msrLyrics    lyrics,
+  S_msrStanza    lyrics,
   S_msrVoice     voice)
 {
   lpsrNewLyricsBlock* o =
@@ -448,11 +448,11 @@ S_lpsrNewLyricsBlock lpsrNewLyricsBlock::create (
 
 lpsrNewLyricsBlock::lpsrNewLyricsBlock (
   int            inputLineNumber,
-  S_msrLyrics    lyrics,
+  S_msrStanza    lyrics,
   S_msrVoice     voice)
     : lpsrElement (inputLineNumber)
 {
-  fLyrics = lyrics;
+  fStanza = lyrics;
   fVoice  = voice;
 }
 
@@ -505,7 +505,7 @@ void lpsrNewLyricsBlock::print (ostream& os)
 {
   os <<
     "NewLyricsBlock" << " " <<
-    fLyrics->getLyricsName () << " " <<
+    fStanza->getStanzaName () << " " <<
     fVoice->getVoiceName () <<
     endl;
 }
@@ -2047,14 +2047,14 @@ void lpsrStaffBlock::appendVoiceUseToStaffBlock (S_msrVoice voice)
   fStaffBlockElements.push_back (useVoiceCommand);
 }
 
-void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrLyrics lyrics)
+void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrStanza lyrics)
 {
   S_lpsrNewLyricsBlock
     newLyricsCommand =
       lpsrNewLyricsBlock::create (
         fInputLineNumber,
         lyrics,
-        lyrics->getLyricsVoiceUplink ());
+        lyrics->getStanzaVoiceUplink ());
   
   fStaffBlockElements.push_back (newLyricsCommand);
 }
@@ -2454,7 +2454,7 @@ void lpsrScoreBlock::appendLyricsUseToParallelMusic (
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Appending the use of lyrics " <<
-       lyricsUse-> getLyrics ()-> getLyricsName() <<
+       lyricsUse-> getStanza ()-> getStanzaName() <<
        " to LPSR score" <<
        endl;
 
@@ -2743,14 +2743,14 @@ void lpsrScore::appendVoiceUseToStoreCommand (S_msrVoice voice)
     appendVoiceUseToParallelMusic (useVoiceCommand);
 }
 
-void lpsrScore::appendLyricsUseToStoreCommand (S_msrLyrics lyrics)
+void lpsrScore::appendLyricsUseToStoreCommand (S_msrStanza lyrics)
 {
   S_lpsrNewLyricsBlock
     newLyricsCommand =
       lpsrNewLyricsBlock::create (
         fInputLineNumber,
         lyrics,
-        lyrics->getLyricsVoiceUplink ());
+        lyrics->getStanzaVoiceUplink ());
   
   fScoreBlock->
     appendLyricsUseToParallelMusic (newLyricsCommand);

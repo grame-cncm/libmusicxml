@@ -112,8 +112,8 @@ void printUsage (int exitStatus)
     "          which may be global to the score." << endl <<
     endl <<
     
-    "    --noml, --dontDisplayMSRLyrics" << endl <<
-    "          Don't display MSR lyrics while displaying MSR data." << endl <<
+    "    --noms, --dontDisplayMSRStanzas" << endl <<
+    "          Don't display MSR stanzas while displaying MSR data." << endl <<
     endl <<
 
     "    --drd, --delayRestsDynamics" << endl <<
@@ -200,7 +200,7 @@ void analyzeOptions (
   
   gMsrOptions->fCreateStaffRelativeVoiceNumbers   = false;
   
-  gMsrOptions->fDontDisplayMSRLyrics              = false;
+  gMsrOptions->fDontDisplayMSRStanzas             = false;
 
   gMsrOptions->fDelayRestsDynamics                = false;
   
@@ -252,7 +252,7 @@ void analyzeOptions (
 
   int staffRelativeVoiceNumbersPresent  = 0;
   
-  int dontDisplayMSRLyricsPresent       = 0;
+  int dontDisplayMSRStanzasPresent      = 0;
 
   int delayRestsDynamicsPresent         = 0;
   
@@ -398,11 +398,11 @@ void analyzeOptions (
     
     {
       "noml",
-      no_argument, &dontDisplayMSRLyricsPresent, 1
+      no_argument, &dontDisplayMSRStanzasPresent, 1
     },
     {
-      "dontDisplayMSRLyrics",
-      no_argument, &dontDisplayMSRLyricsPresent, 1
+      "dontDisplayMSRStanzas",
+      no_argument, &dontDisplayMSRStanzasPresent, 1
     },
 
     {
@@ -703,11 +703,11 @@ void analyzeOptions (
           staffRelativeVoiceNumbersPresent = false;
         }
         
-        if (dontDisplayMSRLyricsPresent) {
-          gMsrOptions->fDontDisplayMSRLyrics = true;
+        if (dontDisplayMSRStanzasPresent) {
+          gMsrOptions->fDontDisplayMSRStanzas = true;
           gGeneralOptions->fCommandLineOptions +=
-            "--dontGenerateLyrics ";
-          dontDisplayMSRLyricsPresent = false;
+            "--dontGenerateMSRStanzas ";
+          dontDisplayMSRStanzasPresent = false;
         }
         
         if (delayRestsDynamicsPresent) {
@@ -964,8 +964,8 @@ void printOptions ()
       booleanAsString (gMsrOptions->fCreateStaffRelativeVoiceNumbers) <<
       endl <<
 
-    idtr << setw(fieldWidth) << "dontDisplayMSRLyrics" << " : " <<
-      booleanAsString (gMsrOptions->fDontDisplayMSRLyrics) <<
+    idtr << setw(fieldWidth) << "dontDisplayMSRStanzas" << " : " <<
+      booleanAsString (gMsrOptions->fDontDisplayMSRStanzas) <<
       endl <<
 
     idtr << setw(fieldWidth) << "delayRestsDynamics" << " : " <<

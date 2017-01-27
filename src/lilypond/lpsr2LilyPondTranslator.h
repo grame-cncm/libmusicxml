@@ -83,7 +83,7 @@ class lpsr2LilyPondTranslator :
   public visitor<S_msrSegment>,
   public visitor<S_msrMeasure>,
 
-  public visitor<S_msrLyrics>,
+  public visitor<S_msrStanza>,
   public visitor<S_msrSyllable>,
   
   public visitor<S_msrClef>,
@@ -238,8 +238,8 @@ class lpsr2LilyPondTranslator :
     virtual void visitStart (S_msrMeasure& elt);
     virtual void visitEnd   (S_msrMeasure& elt);
 
-    virtual void visitStart (S_msrLyrics& elt);
-    virtual void visitEnd   (S_msrLyrics& elt);
+    virtual void visitStart (S_msrStanza& elt);
+    virtual void visitEnd   (S_msrStanza& elt);
 
     virtual void visitStart (S_msrSyllable& elt);
     virtual void visitEnd   (S_msrSyllable& elt);
@@ -386,8 +386,8 @@ class lpsr2LilyPondTranslator :
 
     // lyrics
     // ------------------------------------------------------
-    S_msrLyrics           fCurrentMsrLyricsClone;
-    bool                  fOngoingNonEmptyLyrics;
+    S_msrStanza           fCurrentStanzaClone;
+    bool                  fOngoingNonEmptyStanza;
     int                   fSyllablesCounter;
     
     // lyrics chunks
@@ -413,7 +413,7 @@ class lpsr2LilyPondTranslator :
     outputLineElementsCounter
                           fMusicOlec;
     outputLineElementsCounter
-                          fLyricsOlec;
+                          fStanzaOlec;
 };
 
 

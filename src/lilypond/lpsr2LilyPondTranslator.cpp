@@ -46,7 +46,7 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
   
   fOnGoingStaff  = false;
 
-  fOngoingNonEmptyLyrics = false;
+  fOngoingNonEmptyStanza = false;
 
   fOnGoingScoreBlock = false;
 
@@ -57,7 +57,7 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
       ?  5
       : 10);
       
-  fLyricsOlec.setMaxElementsPerLine (10);
+  fStanzaOlec.setMaxElementsPerLine (10);
 };
   
 lpsr2LilyPondTranslator::~lpsr2LilyPondTranslator () {}
@@ -1216,7 +1216,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
       "% --> Start visiting lpsrNewLyricsBlock" << endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
- //   if (gGeneralOptions->fForceDebug || fOngoingNonEmptyLyrics) {
+ //   if (gGeneralOptions->fForceDebug || fOngoingNonEmptyStanza) {
       fOstream <<
         idtr <<
           "\\new Lyrics" <<
@@ -1230,7 +1230,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
           "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
           endl <<
         idtr <<
-          "\\" << elt->getLyrics ()->getLyricsName () <<
+          "\\" << elt->getStanza ()->getStanzaName () <<
         endl;
 
       idtr--;
@@ -1245,7 +1245,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrNewLyricsBlock& elt)
       "% --> End visiting lpsrNewLyricsBlock" << endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
-    if (gGeneralOptions->fForceDebug || fOngoingNonEmptyLyrics) { // JMI
+    if (gGeneralOptions->fForceDebug || fOngoingNonEmptyStanza) { // JMI
     }
   }
 }
@@ -1543,38 +1543,38 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondTranslator::visitStart (S_msrLyrics& elt)
+void lpsr2LilyPondTranslator::visitStart (S_msrStanza& elt)
 {
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "% --> Start visiting msrLyrics" << endl;
+      "% --> Start visiting msrStanza" << endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
-    fOngoingNonEmptyLyrics =
-      elt->getLyricsTextPresent ();
+    fOngoingNonEmptyStanza =
+      elt->getStanzaTextPresent ();
 
-    if (fOngoingNonEmptyLyrics) {
+    if (fOngoingNonEmptyStanza) {
       fOstream << idtr <<
-        elt->getLyricsName () << " = " << "\\lyricmode" << " {" <<
+        elt->getStanzaName () << " = " << "\\lyricmode" << " {" <<
         endl;
         
       idtr++;
       
       fOstream << idtr;
       
-      fLyricsOlec.reset ();
+      fStanzaOlec.reset ();
     }
   }
 }
 
-void lpsr2LilyPondTranslator::visitEnd (S_msrLyrics& elt)
+void lpsr2LilyPondTranslator::visitEnd (S_msrStanza& elt)
 {
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "% --> End visiting msrLyrics" << endl;
+      "% --> End visiting msrStanza" << endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
-    if (fOngoingNonEmptyLyrics) {
+    if (fOngoingNonEmptyStanza) {
       idtr--;
     
       fOstream <<
@@ -1583,7 +1583,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrLyrics& elt)
         endl;
     }
 
-    fOngoingNonEmptyLyrics = false;
+    fOngoingNonEmptyStanza = false;
   }
 }
 
@@ -1595,7 +1595,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
       "% --> Start visiting msrSyllable" << endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
-    if (gGeneralOptions->fForceDebug || fOngoingNonEmptyLyrics) {
+    if (gGeneralOptions->fForceDebug || fOngoingNonEmptyStanza) {
       
       switch (elt->getSyllableKind ()) {
         case msrSyllable::kSingleSyllable:
@@ -1662,7 +1662,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
             endl <<
             idtr;
 
-          fLyricsOlec.reset ();
+          fStanzaOlec.reset ();
           break;
     
         case msrSyllable::kBreakSyllable:
@@ -1676,7 +1676,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
           break;
       } // switch
 
-      fLyricsOlec++;
+      fStanzaOlec++;
     }
   }
 }
@@ -3203,7 +3203,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBreak& elt)
     endl;
 
   fMusicOlec.reset ();
-  fLyricsOlec.reset ();
+  fStanzaOlec.reset ();
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrBreak& elt)

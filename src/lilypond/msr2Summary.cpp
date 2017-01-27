@@ -325,12 +325,12 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
     fOstream << idtr <<
       "--> Start visiting msrVoice" << endl;
 
-  int voiceLyricsMapSize = elt->getVoiceLyricsMap ().size();
+  int voiceStanzasMapSize = elt->getVoiceStanzasMap ().size();
 
   fOstream << idtr <<
     "Voice" << " " << elt->getVoiceName () <<
-    " has " << voiceLyricsMapSize;
-  if (voiceLyricsMapSize == 1)
+    " has " << voiceStanzasMapSize;
+  if (voiceStanzasMapSize == 1)
     fOstream << " lyric";
   else
     fOstream << " lyrics";
@@ -338,7 +338,7 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
 
   idtr++;
 
-  // don't show fVoiceMasterLyrics in the summary
+  // don't show fVoiceMasterStanza in the summary
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
@@ -351,33 +351,33 @@ void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
 }
 
 //________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrLyrics& elt)
+void msr2SummaryVisitor::visitStart (S_msrStanza& elt)
 {
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "--> Start visiting msrLyrics" << endl;
+      "--> Start visiting msrStanza" << endl;
 
   int syllablesSize = elt->getSyllables ().size();
 
   fOstream << idtr <<
-    "Lyrics" << " " << elt->getLyricsName () <<
+    "Stanza" << " " << elt->getStanzaName () <<
     " contains " << syllablesSize;
   if (syllablesSize == 1)
     fOstream << " syllable";
   else
     fOstream << " syllables";
 
-  if (! elt->getLyricsTextPresent ())
+  if (! elt->getStanzaTextPresent ())
     fOstream << " (No actual text)";
     
   fOstream << endl << endl;
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrLyrics& elt)
+void msr2SummaryVisitor::visitEnd (S_msrStanza& elt)
 {
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrLyrics" << endl;
+      "--> End visiting msrStanza" << endl;
 }
 
 //________________________________________________________________________

@@ -722,13 +722,13 @@ class EXP xml2MsrTranslator :
     string                    fCurrentText;
     bool                      fCurrentElision;
     
-    int                       fCurrentLyricsNumber;
-    bool                      fCurrentNoteHasLyrics;
-    bool                      fCurrentLyricsHasText;
+    int                       fCurrentStanzaNumber;
+    bool                      fCurrentNoteHasStanza;
+    bool                      fCurrentStanzaHasText;
 
     list<S_msrSyllable>    fCurrentNoteSyllables;
 
-    void                      handleLyrics (S_msrNote newNote);
+    void                      handleStanza (S_msrNote newNote);
 
     // harmony handling
     // ------------------------------------------------------
@@ -937,7 +937,7 @@ class EXP xml2MsrTranslator :
     string                    fCurrentSlurPlacement;
     msrSlur::msrSlurKind      fCurrentSlurKind;
     bool                      fOnGoingSlur;
-    bool                      fOnGoingSlurHasLyrics;
+    bool                      fOnGoingSlurHasStanza;
 
     // backup handling
     // ------------------------------------------------------

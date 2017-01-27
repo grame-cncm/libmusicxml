@@ -55,7 +55,7 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fCurrentForwardVoiceNumber = 1; // JMI
   fCurrentVoiceNumber = 1; // JMI
   
-  fCurrentLyricsNumber = -1; // JMI
+  fCurrentStanzaNumber = -1; // JMI
   fCurrentSyllabic = "";
   fCurrentText = "";
   fCurrentElision = false;
@@ -74,7 +74,7 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fOnGoingChord        = false;
   
   fOnGoingSlur          = false;
-  fOnGoingSlurHasLyrics = false;
+  fOnGoingSlurHasStanza = false;
 
   fOnGoingDirection     = true;
   fOnGoingDirectionType = false;
@@ -2623,14 +2623,14 @@ void xml2MsrTranslator::visitStart ( S_wedge& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_lyric& elt )
 { 
-  fCurrentLyricsNumber =
+  fCurrentStanzaNumber =
     elt->getAttributeIntValue ("number", 0);
 
-  if (fCurrentLyricsNumber < 0) {
+  if (fCurrentStanzaNumber < 0) {
     stringstream s;
 
     s <<
-      "lyric number " << fCurrentLyricsNumber <<
+      "lyric number " << fCurrentStanzaNumber <<
       " is not positive";
 
     msrMusicXMLError (
@@ -2638,10 +2638,10 @@ void xml2MsrTranslator::visitStart (S_lyric& elt )
       s.str());
   }
   
-  fCurrentLyricsHasText = false;
+  fCurrentStanzaHasText = false;
   fCurrentElision = false;
 
-  fCurrentNoteHasLyrics = true;
+  fCurrentNoteHasStanza = true;
 }
 
 void xml2MsrTranslator::visitStart ( S_syllabic& elt )
@@ -2681,12 +2681,12 @@ void xml2MsrTranslator::visitEnd ( S_text& elt )
   else
     fCurrentText = dest;
 
-  fCurrentLyricsHasText = true;
+  fCurrentStanzaHasText = true;
 
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> line " << right << setw(5) << elt->getInputLineNumber () <<
-      ", fCurrentLyricsNumber" << " = " << fCurrentLyricsNumber <<
+      ", fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
       ", fCurrentSyllabic" << " = " << left << setw(6) << fCurrentSyllabic <<
       ", fCurrentText" << " = |" << fCurrentText << "|" << endl;
 }
@@ -2716,7 +2716,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
       fNoteData <<
         
       idtr <<
-        setw(27) << "fCurrentLyricsNumber" << " = " << fCurrentLyricsNumber <<
+        setw(27) << "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
         endl <<
       idtr <<
         setw(27) << "fCurrentText" << " = \"" << fCurrentText <<
@@ -2766,7 +2766,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         endl <<
       idtr <<
         setw(27) <<
-        "fOnGoingSlurHasLyrics" << " = " << fOnGoingSlurHasLyrics <<
+        "fOnGoingSlurHasStanza" << " = " << fOnGoingSlurHasStanza <<
         endl;
 
     cerr <<
@@ -2816,7 +2816,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
       cerr <<
         ", type = \"" << syllableKindAsString << "\"" <<
         ", elision: " << fCurrentElision << 
-        " to " << getLyricsName () << endl;
+        " to " << getStanzaName () << endl;
 */
     }
 
@@ -2825,7 +2825,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
       currentVoice->
         addTextSyllableToVoice (
           inputLineNumber,
-          fCurrentLyricsNumber,
+          fCurrentStanzaNumber,
           fCurrentSyllabic,
           fCurrentSyllableKind,
           fCurrentText,
@@ -2833,9 +2833,9 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
           fNoteData.fDivisions);
   
     if (fOnGoingSlur)
-      fOnGoingSlurHasLyrics = true;
+      fOnGoingSlurHasStanza = true;
       
-    fCurrentNoteHasLyrics = true;
+    fCurrentNoteHasStanza = true;
   }
   
   else {
@@ -2843,7 +2843,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     if (
       fCurrentSlurKind == msrSlur::kStartSlur
         &&
-      fCurrentNoteHasLyrics) { // JMI
+      fCurrentNoteHasStanza) { // JMI
     }
     
     if (fCurrentTieKind != msrTie::k_NoTie) {
@@ -2853,7 +2853,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         currentVoice->
           addTiedSyllableToVoice (
             inputLineNumber,
-            fCurrentLyricsNumber,
+            fCurrentStanzaNumber,
             fNoteData.fDivisions);
     }
   
@@ -2864,12 +2864,12 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         currentVoice->
           addSkipSyllableToVoice (
             inputLineNumber,
-            fCurrentLyricsNumber,
+            fCurrentStanzaNumber,
             fNoteData.fDivisions);
     }
   
     else if (
-      fOnGoingSlurHasLyrics
+      fOnGoingSlurHasStanza
         &&
       ! fCurrentText.size ()) {
       if (fFirstSyllableInSlurKind == msrSyllable::kEndSyllable) {
@@ -2879,7 +2879,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
           currentVoice->
             addSlurBeyondEndSyllableToVoice ( 
               inputLineNumber,
-              fCurrentLyricsNumber,
+              fCurrentStanzaNumber,
               fNoteData.fDivisions);
       }
       else {        
@@ -2889,7 +2889,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
           currentVoice->
             addSlurSyllableToVoice ( 
               inputLineNumber,
-              fCurrentLyricsNumber,
+              fCurrentStanzaNumber,
               fNoteData.fDivisions);
       }
     }
@@ -2902,7 +2902,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
           currentVoice->
             addSlurBeyondEndSyllableToVoice (
               inputLineNumber,
-              fCurrentLyricsNumber,
+              fCurrentStanzaNumber,
               fNoteData.fDivisions);
       }
       else {        
@@ -2912,7 +2912,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
           currentVoice->
             addSlurSyllableToVoice ( 
               inputLineNumber,
-              fCurrentLyricsNumber,
+              fCurrentStanzaNumber,
               fNoteData.fDivisions);
       }
     }
@@ -4011,11 +4011,11 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
 
   fCurrentNoteType = "";
 
-  fCurrentLyricsNumber = -1;
+  fCurrentStanzaNumber = -1;
   fCurrentSyllabic = "";
   fCurrentText = "";  
   // assume this note hasn't got lyrics until S_lyric is met
-  fCurrentNoteHasLyrics = false;
+  fCurrentNoteHasStanza = false;
 
   fCurrentBeam = 0;
 
@@ -6576,7 +6576,7 @@ xml2MsrTranslator.cpp:4249
 
   // lyrics has to be handled in all cases
   // in case they are empty at the beginning of the voice
-  handleLyrics (newNote);
+  handleStanza (newNote);
 
   // take care of slurs JMI ???
   if (fCurrentSlurKind == msrSlur::kStartSlur)
@@ -6728,7 +6728,7 @@ void xml2MsrTranslator::displayLastHandledTupletInVoice (string header)
 }
 
 //______________________________________________________________________________
-void xml2MsrTranslator::handleLyrics (S_msrNote newNote)
+void xml2MsrTranslator::handleStanza (S_msrNote newNote)
 {
   if (fCurrentNoteSyllables.size ()) {
     for (

@@ -3933,7 +3933,7 @@ void msrLayout::browseData (basevisitor* v)
   int n1 = fVarValAssocs.size();
   
   for (int i = 0; i < n1; i++ ) {
-    // browse the lyrics
+    // browse the stanza
     msrBrowser<msrVarValAssoc> browser (v);
     browser.browse (*fVarValAssocs [i]);
   } // for
@@ -4734,13 +4734,13 @@ S_msrSyllable msrSyllable::create (
   msrSyllableKind syllableKind,
   string             syllableText,
   int                divisions,
-  S_msrLyrics        syllableLyricsUplink)
+  S_msrStanza        syllableStanzaUplink)
 {
   msrSyllable* o =
     new msrSyllable (
       inputLineNumber,
       syllableKind, syllableText, divisions,
-      syllableLyricsUplink);
+      syllableStanzaUplink);
   assert(o!=0);
   return o;
 }
@@ -4750,14 +4750,14 @@ msrSyllable::msrSyllable (
   msrSyllableKind syllableKind,
   string             syllableText,
   int                divisions,
-  S_msrLyrics        syllableLyricsUplink)
+  S_msrStanza        syllableStanzaUplink)
     : msrElement (inputLineNumber)
 {
   fSyllableKind = syllableKind;
   fSyllableText       = syllableText;
   fSyllableDivisions  = divisions;
   
-  fSyllableLyricsUplink = syllableLyricsUplink;
+  fSyllableStanzaUplink = syllableStanzaUplink;
 
   // fSyllableNoteUplink will be set
   // by setSyllableNoteUplink() later
@@ -4780,9 +4780,9 @@ S_msrSyllable msrSyllable::createSyllableBareClone ()
         fSyllableKind,
         fSyllableText,
         fSyllableDivisions,
-        fSyllableLyricsUplink);
+        fSyllableStanzaUplink);
 
-  // dont't set 'clone->fSyllableLyricsUplink'
+  // dont't set 'clone->fSyllableStanzaUplink'
   // this will be done by the caller
     
   return clone;
@@ -4793,7 +4793,7 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
   if (true || gGeneralOptions->fDebugDebug) {
 //  if (gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
-      "==> setting fSyllableLyricsUplink to '" <<
+      "==> setting fSyllableStanzaUplink to '" <<
       note->noteAsString () <<
       ", line " << note->getInputLineNumber () <<
       endl;
@@ -5026,75 +5026,75 @@ void msrSyllable::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrLyrics msrLyrics::create (
+S_msrStanza msrStanza::create (
   int                   inputLineNumber,
-  int                   lyricsNumber,
-  msrLyricsKind         lyricsKind,
-  S_msrVoice            lyricsVoiceUplink)
+  int                   stanzaNumber,
+  msrStanzaKind         stanzaKind,
+  S_msrVoice            stanzaVoiceUplink)
 {
-  msrLyrics* o =
-    new msrLyrics (
+  msrStanza* o =
+    new msrStanza (
       inputLineNumber,
-      lyricsNumber,
-      lyricsKind,
-      lyricsVoiceUplink);
+      stanzaNumber,
+      stanzaKind,
+      stanzaVoiceUplink);
   assert(o!=0);
   return o;
 }
 
-msrLyrics::msrLyrics (
+msrStanza::msrStanza (
   int                   inputLineNumber,
-  int                   lyricsNumber,
-  msrLyricsKind         lyricsKind,
-  S_msrVoice            lyricsVoiceUplink)
+  int                   stanzaNumber,
+  msrStanzaKind         stanzaKind,
+  S_msrVoice            stanzaVoiceUplink)
     : msrElement (inputLineNumber)
 {
-  fLyricsNumber = lyricsNumber;
-  fLyricsKind   = lyricsKind;
+  fStanzaNumber = stanzaNumber;
+  fStanzaKind   = stanzaKind;
  
-  fLyricsVoiceUplink  = lyricsVoiceUplink;
+  fStanzaVoiceUplink  = stanzaVoiceUplink;
   
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Creating lyrics " << getLyricsName () << endl;
+      "Creating stanza " << getStanzaName () << endl;
 
-  fLyricsTextPresent = false;
+  fStanzaTextPresent = false;
 }
 
-string msrLyrics::getLyricsName () const
+string msrStanza::getStanzaName () const
 {
   // not stored in a field, // JMI
-  // because the lyrics voice and staff may change name
+  // because the stanza voice and staff may change name
   // when the part they belong to is re-used
 
   string
-    lyricsNameSuffix =
- //     fLyricsKind == kMasterLyrics
-      fLyricsNumber == 0
+    stanzaNameSuffix =
+ //     fStanzaKind == kMasterStanza
+      fStanzaNumber == 0
         ? "MASTER"
-        : int2EnglishWord (fLyricsNumber);
+        : int2EnglishWord (fStanzaNumber);
         
   return
-    fLyricsVoiceUplink->getVoiceName() +
+    fStanzaVoiceUplink->getVoiceName() +
     "_L_" +
-    lyricsNameSuffix;
+    stanzaNameSuffix;
 }
 
-msrLyrics::~msrLyrics() {}
+msrStanza::~msrStanza() {}
 
-S_msrLyrics msrLyrics::createLyricsBareClone (S_msrVoice clonedVoice)
+S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
 {
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> Creating a bare clone of a lyrics" <<
+      "--> Creating a bare clone of a stanza" <<
       endl;
 
-  S_msrLyrics
+  S_msrStanza
     clone =
-      msrLyrics::create (
+      msrStanza::create (
         fInputLineNumber,
-        fLyricsNumber,
-        fLyricsKind,
+        fStanzaNumber,
+        fStanzaKind,
         clonedVoice);
   
   return clone;
@@ -5102,7 +5102,7 @@ S_msrLyrics msrLyrics::createLyricsBareClone (S_msrVoice clonedVoice)
 
 /* JMI
 
-void msrLyrics::addTextSyllableToLyrics (
+void msrStanza::addTextSyllableToStanza (
   int       inputLineNumber,
   string    syllabic,
   msrSyllable::msrSyllableKind
@@ -5112,11 +5112,11 @@ void msrLyrics::addTextSyllableToLyrics (
   int       divisions,
   S_msrNote note)
 {
-  // create a lyrics text syllable
+  // create a stanza text syllable
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
       staff =
-        fLyricsVoiceUplink->getVoiceStaffUplink ();
+        fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
         staff-> getStaffPartUplink ();
@@ -5135,7 +5135,7 @@ void msrLyrics::addTextSyllableToLyrics (
     cerr <<
  //     ", type = \"" << syllableKindAsString << "\"" <<
       ", elision: " << elision << 
-      " to lyrics " << getLyricsName () << endl;
+      " to stanza " << getStanzaName () << endl;
   }
 
   // create text syllable
@@ -5147,14 +5147,14 @@ void msrLyrics::addTextSyllableToLyrics (
         note,
         this);
 
-  // add syllable to this lyrics
+  // add syllable to this stanza
   fSyllables.push_back (syllable);
 
-  fLyricsTextPresent = true;
+  fStanzaTextPresent = true;
 }
 */
 
-void msrLyrics::addSkipSyllableToLyrics (
+void msrStanza::addSkipSyllableToStanza (
   int       inputLineNumber,
   int       divisions,
   S_msrNote note)
@@ -5163,19 +5163,19 @@ void msrLyrics::addSkipSyllableToLyrics (
 // JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
       staff =
-        fLyricsVoiceUplink->getVoiceStaffUplink ();
+        fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> adding 'Skip' syllable:" << divisions <<
-      " to lyrics " << getLyricsName () <<
+      " to stanza " << getStanzaName () <<
       ", note = " << note->noteAsString () <<
       endl;
   }
   
-  // create lyrics skip syllable
+  // create stanza skip syllable
   S_msrSyllable
     syllable =
       msrSyllable::create (
@@ -5183,28 +5183,28 @@ void msrLyrics::addSkipSyllableToLyrics (
         msrSyllable::kSkipSyllable, "", divisions,
         this);
 
-  // set lyrics skip syllable note uplink
+  // set stanza skip syllable note uplink
   syllable->
     setSyllableNoteUplink (note);
     
-  // add syllable to this lyrics
+  // add syllable to this stanza
   fSyllables.push_back (syllable);
 
 /*
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-    S_msrStaff staff = fLyricsVoiceUplink->getVoiceStaffUplink ();
+    S_msrStaff staff = fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding 'Skip' syllable:" << divisions <<
-      " to " << getLyricsName () << endl;
+      " to " << getStanzaName () << endl;
 
     string result;
     int    computedNumberOfDots; // value not used
     string errorMessage;
   
     int divisionsPerWholeNote =
-      fLyricsVoiceUplink->getDivisionsPerWholeNote ();
+      fStanzaVoiceUplink->getDivisionsPerWholeNote ();
   
     string
       divisionsAsString =
@@ -5224,13 +5224,13 @@ void msrLyrics::addSkipSyllableToLyrics (
       "--> Adding 'Skip' syllable:" << divisions <<
       "/" << divisionsPerWholeNote << "" <<
       "(" << divisionsAsString << ")" <<
-      " to lyrics " << getLyricsName () << endl;
+      " to stanza " << getStanzaName () << endl;
   }
   */
 }
 
 /*
-void msrLyrics::addTiedSyllableToLyrics (
+void msrStanza::addTiedSyllableToStanza (
   int       inputLineNumber,
   int       divisions,
   S_msrNote note)
@@ -5238,17 +5238,17 @@ void msrLyrics::addTiedSyllableToLyrics (
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
       staff =
-        fLyricsVoiceUplink->getVoiceStaffUplink ();
+        fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding 'Tied' syllable: " << divisions <<
-      " to lyrics " << getLyricsName () << endl;
+      " to stanza " << getStanzaName () << endl;
   }
   
-  // create lyrics tied syllable
+  // create stanza tied syllable
   S_msrSyllable
     syllable =
       msrSyllable::create (
@@ -5257,11 +5257,11 @@ void msrLyrics::addTiedSyllableToLyrics (
         note,
         this);
         
-  // add syllable to this lyrics
+  // add syllable to this stanza
   fSyllables.push_back (syllable);
 }
 
-void msrLyrics::addSlurSyllableToLyrics (
+void msrStanza::addSlurSyllableToStanza (
   int       inputLineNumber,
   int       divisions,
   S_msrNote note)
@@ -5269,17 +5269,17 @@ void msrLyrics::addSlurSyllableToLyrics (
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
       staff =
-        fLyricsVoiceUplink->getVoiceStaffUplink ();
+        fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding 'Slur' syllable:" << divisions <<
-      " to lyrics " << getLyricsName () << endl;
+      " to stanza " << getStanzaName () << endl;
   }
   
-  // create lyrics slur syllable
+  // create stanza slur syllable
   S_msrSyllable
     syllable =
       msrSyllable::create (
@@ -5288,11 +5288,11 @@ void msrLyrics::addSlurSyllableToLyrics (
         note,
         this);
         
-  // add syllable to this lyrics
+  // add syllable to this stanza
   fSyllables.push_back (syllable);
 }
 
-void msrLyrics::addSlurBeyondEndSyllableToLyrics (
+void msrStanza::addSlurBeyondEndSyllableToStanza (
   int       inputLineNumber,
   int       divisions,
   S_msrNote note)
@@ -5300,17 +5300,17 @@ void msrLyrics::addSlurBeyondEndSyllableToLyrics (
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
       staff =
-        fLyricsVoiceUplink->getVoiceStaffUplink ();
+        fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding a 'SlurBeyondEnd' syllable: " << divisions <<
-      " to lyrics " << getLyricsName () << endl;
+      " to stanza " << getStanzaName () << endl;
   }
   
-  // create lyrics slur syllable
+  // create stanza slur syllable
   S_msrSyllable
     syllable =
       msrSyllable::create (
@@ -5319,32 +5319,32 @@ void msrLyrics::addSlurBeyondEndSyllableToLyrics (
         note,
         this);
         
-  // add syllable to this lyrics
+  // add syllable to this stanza
   fSyllables.push_back (syllable);
 }
 
-void msrLyrics::addBarcheckSyllableToLyrics (
+void msrStanza::addBarcheckSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
 {
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
       staff =
-        fLyricsVoiceUplink->getVoiceStaffUplink ();
+        fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding a 'barcheck' syllable" <<
-      " to lyrics " << getLyricsName () << endl;
+      " to stanza " << getStanzaName () << endl;
   }
 
   // convert nextMeasureNumber to string
   stringstream s;
   s << nextMeasureNumber;
   
-  // create lyrics break syllable
+  // create stanza break syllable
   / *
   S_msrDuration
     nullMsrDuration =
@@ -5362,33 +5362,33 @@ void msrLyrics::addBarcheckSyllableToLyrics (
         0,
         this);
         
-  // add syllable to this lyrics
+  // add syllable to this stanza
   fSyllables.push_back (syllable);
 }
 */
 
-void msrLyrics::addBreakSyllableToLyrics (
+void msrStanza::addBreakSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
 {
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
       staff =
-        fLyricsVoiceUplink->getVoiceStaffUplink ();
+        fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
       "--> Adding a 'Break' syllable" <<
-      " to lyrics " << getLyricsName () << endl;
+      " to stanza " << getStanzaName () << endl;
   }
 
   // convert nextMeasureNumber to string
   stringstream s;
   s << nextMeasureNumber;
   
-  // create lyrics break syllable
+  // create stanza break syllable
   S_msrSyllable
     syllable =
       msrSyllable::create (
@@ -5398,27 +5398,27 @@ void msrLyrics::addBreakSyllableToLyrics (
         0,
         this);
         
-  // add syllable to this lyrics
+  // add syllable to this stanza
   fSyllables.push_back (syllable);
 }
 
-void msrLyrics::addSyllableToLyrics (S_msrSyllable syllable)
+void msrStanza::addSyllableToStanza (S_msrSyllable syllable)
 {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "--> Adding syllable to lyrics" << getLyricsName () << endl;
+      "--> Adding syllable to stanza" << getStanzaName () << endl;
       
   fSyllables.push_back (syllable);
 
-  // does this lyrics contain text?
+  // does this stanza contain text?
   switch (syllable->getSyllableKind ()) {
     case msrSyllable::kSingleSyllable:
     case msrSyllable::kBeginSyllable:
     case msrSyllable::kMiddleSyllable:
     case msrSyllable::kEndSyllable:
-      // only now, in case addSyllableToLyrics() is called
+      // only now, in case addSyllableToStanza() is called
       // from LPSR for example
-      this->setLyricsTextPresent ();
+      this->setStanzaTextPresent ();
       break;
       
     case msrSyllable::kSkipSyllable:
@@ -5438,52 +5438,52 @@ void msrLyrics::addSyllableToLyrics (S_msrSyllable syllable)
 
 }
 
-void msrLyrics::acceptIn (basevisitor* v) {
+void msrStanza::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrLyrics::acceptIn()" << endl;
+      "==> msrStanza::acceptIn()" << endl;
       
-  if (visitor<S_msrLyrics>*
+  if (visitor<S_msrStanza>*
     p =
-      dynamic_cast<visitor<S_msrLyrics>*> (v)) {
-        S_msrLyrics elem = this;
+      dynamic_cast<visitor<S_msrStanza>*> (v)) {
+        S_msrStanza elem = this;
         
         if (gGeneralOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrLyrics::visitStart()" << endl;
+            "==> Launching msrStanza::visitStart()" << endl;
         p->visitStart (elem);
   }
 }
 
-void msrLyrics::acceptOut (basevisitor* v) {
+void msrStanza::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrLyrics::acceptOut()" << endl;
+      "==> msrStanza::acceptOut()" << endl;
 
-  if (visitor<S_msrLyrics>*
+  if (visitor<S_msrStanza>*
     p =
-      dynamic_cast<visitor<S_msrLyrics>*> (v)) {
-        S_msrLyrics elem = this;
+      dynamic_cast<visitor<S_msrStanza>*> (v)) {
+        S_msrStanza elem = this;
       
         if (gGeneralOptions->fDebugDebug)
           cerr << idtr <<
-            "==> Launching msrLyrics::visitEnd()" << endl;
+            "==> Launching msrStanza::visitEnd()" << endl;
         p->visitEnd (elem);
   }
 }
 
-void msrLyrics::browseData (basevisitor* v)
+void msrStanza::browseData (basevisitor* v)
 {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "==> msrLyrics::browseData()" << endl;
+      "==> msrStanza::browseData()" << endl;
 
   idtr++;
   
   // browse the syllables
   int n = fSyllables.size ();
   for (int i = 0; i < n; i++) {
-    // browse the lyrics
+    // browse the stanza
     msrBrowser<msrSyllable> browser (v);
     browser.browse (*fSyllables [i]);
   } // for
@@ -5493,27 +5493,27 @@ void msrLyrics::browseData (basevisitor* v)
 
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "<== msrLyrics::browseData()" << endl;
+      "<== msrStanza::browseData()" << endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrLyrics& elt)
+ostream& operator<< (ostream& os, const S_msrStanza& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrLyrics::print (ostream& os)
+void msrStanza::print (ostream& os)
 {  
   os <<
-    "Lyrics" << " " << getLyricsName () <<
+    "Stanza" << " " << getStanzaName () <<
     " (" << fSyllables.size () << " syllables)";
     
-  if (! fLyricsTextPresent)
+  if (! fStanzaTextPresent)
     os << " (No actual text)";
 
   os << endl;
 
-//  if (fLyricsTextPresent) {  JMI
+//  if (fStanzaTextPresent) {  JMI
     idtr++;
 
     int n = fSyllables.size();
@@ -5781,7 +5781,7 @@ void msrChords::appendSKipToChords (
   }
 
   /* JMI
-  // create lyrics skip syllable
+  // create stanza skip syllable
   S_msrSyllable
     skip =
       msrSyllable::create (
@@ -5789,7 +5789,7 @@ void msrChords::appendSKipToChords (
         msrSyllable::kSkipSyllable, "", divisions,
         this);
   
-  // add syllable to this lyrics
+  // add syllable to this stanza
   fChordsElements.push_back (skip);
   */
 }
@@ -5861,7 +5861,7 @@ void msrChords::browseData (basevisitor* v)
 
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "<== msrLyrics::browseData()" << endl;
+      "<== msrStanza::browseData()" << endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrChords& elt)
@@ -8120,14 +8120,14 @@ msrVoice::msrVoice (
   
   fVoiceActualNotesCounter = 0;
 
-  // add the master lyrics to this voice, to
+  // add the master stanza to this voice, to
   // collect skips along the way that are used as a 'prelude'
-  // by actual lyrics that start at later points
-  fVoiceLyricsmaster =
-    msrLyrics::create (
+  // by actual stanza that start at later points
+  fVoiceStanzamaster =
+    msrStanza::create (
       inputLineNumber,
-      0,    // this lyrics number is unused anyway
-      msrLyrics::kMasterLyrics,
+      0,    // this stanza number is unused anyway
+      msrStanza::kMasterStanza,
       this);
 
   // create the initial segment for this voice
@@ -8292,104 +8292,104 @@ void msrVoice::setNewSegmentForVoice (
       this);
 }
 
-S_msrLyrics msrVoice::addLyricsToVoiceByItsNumber (
+S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
   int inputLineNumber,
-  int lyricsNumber)
+  int stanzaNumber)
 {
-  if (fVoiceLyricsMap.count (lyricsNumber)) {
+  if (fVoiceStanzasMap.count (stanzaNumber)) {
     stringstream s;
     
     s <<
-      "lyrics " << lyricsNumber <<
+      "stanza " << stanzaNumber <<
       " already exists in this voice";
 
     msrInternalError (
       inputLineNumber,
       s.str());
 
-// JMI    return fVoiceLyricsMap [lyricsNumber];
+// JMI    return fVoiceStanzasMap [stanzaNumber];
   }
 
-  // create the lyrics
-  S_msrLyrics
-    lyrics =
-      msrLyrics::create (
+  // create the stanza
+  S_msrStanza
+    stanza =
+      msrStanza::create (
         inputLineNumber,
-        lyricsNumber,
-        msrLyrics::kRegularLyrics,
+        stanzaNumber,
+        msrStanza::kRegularStanza,
         this);
 
   // add it to this voice
-  addLyricsToVoice (lyrics);
+  addStanzaToVoice (stanza);
 
   // return it
-  return lyrics;
+  return stanza;
 }
 
-void msrVoice::addLyricsToVoice (S_msrLyrics lyrics)
+void msrVoice::addStanzaToVoice (S_msrStanza stanza)
 {
-  // get lyrics number
-  int lyricsNumber =
-    lyrics->getLyricsNumber ();
+  // get stanza number
+  int stanzaNumber =
+    stanza->getStanzaNumber ();
     
-  // register lyrics in this voice
+  // register stanza in this voice
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Adding lyrics " << lyrics->getLyricsName () <<
-      " (" << lyricsNumber <<
+      "Adding stanza " << stanza->getStanzaName () <<
+      " (" << stanzaNumber <<
       ") to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceLyricsMap [lyricsNumber] = lyrics;
+  fVoiceStanzasMap [stanzaNumber] = stanza;
 
-  // catch up with fVoiceLyricsmaster
-  // in case the lyrics does not start upon the first voice note
+  // catch up with fVoiceStanzamaster
+  // in case the stanza does not start upon the first voice note
   vector<S_msrSyllable>
     masterSyllables =
-      fVoiceLyricsmaster->getSyllables ();
+      fVoiceStanzamaster->getSyllables ();
 
   if (masterSyllables.size()) {
 // JMI    if (gGeneralOptions->fTrace)
       cerr << idtr <<
-        "Copying current contents of voice master lyrics to new lyrics" << endl;
+        "Copying current contents of voice master stanza to new stanza" << endl;
     for (
       vector<S_msrSyllable>::const_iterator i =
         masterSyllables.begin();
       i != masterSyllables.end();
       i++) {
-      // add syllable to lyrics
-      lyrics->addSyllableToLyrics ((*i));
+      // add syllable to stanza
+      stanza->addSyllableToStanza ((*i));
     } // for
   }
 }
 
-S_msrLyrics msrVoice::createLyricsInVoiceIfNeeded (
+S_msrStanza msrVoice::createStanzaInVoiceIfNeeded (
   int inputLineNumber,
-  int lyricsNumber)
+  int stanzaNumber)
 {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "### --> createLyricsInVoiceIfNeeded (" << inputLineNumber <<
-      ", " << lyricsNumber << ")" <<
-      ", fVoiceLyricsMap.size() = " << fVoiceLyricsMap.size () <<
+      "### --> createStanzaInVoiceIfNeeded (" << inputLineNumber <<
+      ", " << stanzaNumber << ")" <<
+      ", fVoiceStanzasMap.size() = " << fVoiceStanzasMap.size () <<
       endl;
 
-  S_msrLyrics lyrics;
+  S_msrStanza stanza;
 
-  // is lyricsNumber already known in voice?
-  if (fVoiceLyricsMap.count (lyricsNumber)) {
+  // is stanzaNumber already known in voice?
+  if (fVoiceStanzasMap.count (stanzaNumber)) {
     // yes, use it
-    lyrics = fVoiceLyricsMap [lyricsNumber];
+    stanza = fVoiceStanzasMap [stanzaNumber];
   }
   
   else {
     // no, add it to the voice
-    lyrics =
-      addLyricsToVoiceByItsNumber (
-        inputLineNumber, lyricsNumber);
+    stanza =
+      addStanzaToVoiceByItsNumber (
+        inputLineNumber, stanzaNumber);
   }
 
-  return lyrics;
+  return stanza;
 }
 
 void msrVoice::appendClefToVoice (S_msrClef clef)
@@ -8528,15 +8528,15 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   fVoiceSegment->
     appendNoteToSegment (note);
   
-  // add a skip syllable of the same duration to the master lyrics
+  // add a skip syllable of the same duration to the master stanza
   int
-    lyricsDivisions =
+    stanzaDivisions =
       note->getNoteDivisions ();
 
-  fVoiceLyricsmaster->
-    addSkipSyllableToLyrics (
+  fVoiceStanzamaster->
+    addSkipSyllableToStanza (
       note->getInputLineNumber (),
-      lyricsDivisions,
+      stanzaDivisions,
       note); // JMI
 
   fMusicHasBeenInsertedInVoice = true;
@@ -8588,7 +8588,7 @@ void msrVoice::appendGracenotesToVoice (
 
 S_msrSyllable msrVoice::addTextSyllableToVoice (
   int       inputLineNumber,
-  int       lyricsNumber,
+  int       stanzaNumber,
   string    syllabic,
   msrSyllable::msrSyllableKind
             syllableKind,
@@ -8602,7 +8602,7 @@ S_msrSyllable msrVoice::addTextSyllableToVoice (
     "--> Adding 'Text' syllable"
     ", line " << inputLineNumber <<
     ", divisions = " << divisions << 
-    ", lyricsNumber = \"" << lyricsNumber << "\"" <<
+    ", stanzaNumber = \"" << stanzaNumber << "\"" <<
     ", syllabic = \"" << syllabic << "\"" <<
     ", text = \"" << text << "\"" <<
     ", elision: " << elision <<
@@ -8610,11 +8610,11 @@ S_msrSyllable msrVoice::addTextSyllableToVoice (
     endl;
   }
 
-  // fetch lyricsNumber in this voice
-  S_msrLyrics
-    lyrics =
-      createLyricsInVoiceIfNeeded (
-        inputLineNumber, lyricsNumber);
+  // fetch stanzaNumber in this voice
+  S_msrStanza
+    stanza =
+      createStanzaInVoiceIfNeeded (
+        inputLineNumber, stanzaNumber);
 
   S_msrSyllable
     syllable =
@@ -8623,11 +8623,11 @@ S_msrSyllable msrVoice::addTextSyllableToVoice (
         syllableKind,
         text,
         divisions,
-        lyrics);
+        stanza);
 
-  // add lyrics skip syllable to the lyrics
-  lyrics->
-    addSyllableToLyrics (syllable);
+  // add stanza skip syllable to the stanza
+  stanza->
+    addSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -8635,10 +8635,10 @@ S_msrSyllable msrVoice::addTextSyllableToVoice (
 
 S_msrSyllable msrVoice::addSkipSyllableToVoice (
   int       inputLineNumber,
-  int       lyricsNumber,
+  int       stanzaNumber,
   int       divisions)
 {
-  // create a 'Skip' lyrics text syllable
+  // create a 'Skip' stanza text syllable
   if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
  // if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     cerr << idtr <<
@@ -8648,11 +8648,11 @@ S_msrSyllable msrVoice::addSkipSyllableToVoice (
       " in voice " << getVoiceName () << endl;
   }
 
-  // fetch lyricsNumber in this voice
-  S_msrLyrics
-    lyrics =
-      createLyricsInVoiceIfNeeded (
-        inputLineNumber, lyricsNumber);
+  // fetch stanzaNumber in this voice
+  S_msrStanza
+    stanza =
+      createStanzaInVoiceIfNeeded (
+        inputLineNumber, stanzaNumber);
   
   // create 'Skip' syllable
   S_msrSyllable
@@ -8660,11 +8660,11 @@ S_msrSyllable msrVoice::addSkipSyllableToVoice (
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kSkipSyllable, "", divisions,
-        lyrics);
+        stanza);
         
-  // add it to the lyrics
-  lyrics->
-    addSyllableToLyrics (syllable);
+  // add it to the stanza
+  stanza->
+    addSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -8672,7 +8672,7 @@ S_msrSyllable msrVoice::addSkipSyllableToVoice (
 
 S_msrSyllable msrVoice::addTiedSyllableToVoice (
   int       inputLineNumber,
-  int       lyricsNumber,
+  int       stanzaNumber,
   int       divisions)
 {
   // create a 'Tied' syllable
@@ -8685,23 +8685,23 @@ S_msrSyllable msrVoice::addTiedSyllableToVoice (
       endl;
   }
 
-  // fetch lyricsNumber in this voice
-  S_msrLyrics
-    lyrics =
-      createLyricsInVoiceIfNeeded (
-        inputLineNumber, lyricsNumber);
+  // fetch stanzaNumber in this voice
+  S_msrStanza
+    stanza =
+      createStanzaInVoiceIfNeeded (
+        inputLineNumber, stanzaNumber);
 
-  // create lyrics slur syllable
+  // create stanza slur syllable
   S_msrSyllable
     syllable =
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kTiedSyllable, "", divisions,
-        lyrics);
+        stanza);
         
-  // add it to the lyrics
-  lyrics->
-    addSyllableToLyrics (syllable);
+  // add it to the stanza
+  stanza->
+    addSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -8709,37 +8709,37 @@ S_msrSyllable msrVoice::addTiedSyllableToVoice (
 
 S_msrSyllable msrVoice::addSlurSyllableToVoice (
   int       inputLineNumber,
-  int       lyricsNumber,
+  int       stanzaNumber,
   int       divisions)
 {
-  // create a 'Slur' lyrics text syllable
+  // create a 'Slur' stanza text syllable
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     cerr << idtr <<
       "--> adding 'Slur' syllable"
       ", line " << inputLineNumber <<
       ", divisions = " << divisions <<
-      " in lyrics " << lyricsNumber <<
+      " in stanza " << stanzaNumber <<
       " in voice " << getVoiceName () <<
       endl;
   }
 
-  // fetch lyricsNumber in this voice
-  S_msrLyrics
-    lyrics =
-      createLyricsInVoiceIfNeeded (
-        inputLineNumber, lyricsNumber);
+  // fetch stanzaNumber in this voice
+  S_msrStanza
+    stanza =
+      createStanzaInVoiceIfNeeded (
+        inputLineNumber, stanzaNumber);
   
-  // create lyrics slur syllable
+  // create stanza slur syllable
   S_msrSyllable
     syllable =
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kSlurSyllable, "", divisions,
-        lyrics);
+        stanza);
         
-  // add it to the lyrics
-  lyrics->
-    addSyllableToLyrics (syllable);
+  // add it to the stanza
+  stanza->
+    addSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -8747,7 +8747,7 @@ S_msrSyllable msrVoice::addSlurSyllableToVoice (
 
 S_msrSyllable msrVoice::addSlurBeyondEndSyllableToVoice (
   int       inputLineNumber,
-  int       lyricsNumber,
+  int       stanzaNumber,
   int       divisions)
 {
   // create a 'SlurBeyondEnd' syllable
@@ -8760,23 +8760,23 @@ S_msrSyllable msrVoice::addSlurBeyondEndSyllableToVoice (
       endl;
   }
 
-  // fetch lyricsNumber in this voice
-  S_msrLyrics
-    lyrics =
-      createLyricsInVoiceIfNeeded (
-        inputLineNumber, lyricsNumber);
+  // fetch stanzaNumber in this voice
+  S_msrStanza
+    stanza =
+      createStanzaInVoiceIfNeeded (
+        inputLineNumber, stanzaNumber);
   
-  // create lyrics 'SlurBeyondEnd' syllable
+  // create stanza 'SlurBeyondEnd' syllable
   S_msrSyllable
     syllable =
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kSlurBeyondEndSyllable, "", divisions,
-        lyrics);
+        stanza);
         
-  // add it to the lyrics
-  lyrics->
-    addSyllableToLyrics (syllable);
+  // add it to the stanza
+  stanza->
+    addSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -8793,10 +8793,10 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
   fVoiceSegment->
     appendElementToSegment (barCheck);
 
-  // add bar check syllable to the voice master lyrics
+  // add bar check syllable to the voice master stanza
   /* JMI
-  fVoiceLyricsmaster->
-    addBarcheckSyllableToLyrics (
+  fVoiceStanzamaster->
+    addBarcheckSyllableToStanza (
       barCheck->getInputLineNumber (),
       fVoiceMeasureLocation.fMeasureNumber);
       */
@@ -8814,9 +8814,9 @@ void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
     appendElementToSegment (bnc);
 
 /*
-  // add barnumber check syllable to the voice master lyrics
-  fVoiceLyricsmaster->
-    addBarnumberCheckSyllableToLyrics (
+  // add barnumber check syllable to the voice master stanza
+  fVoiceStanzamaster->
+    addBarnumberCheckSyllableToStanza (
       bnc->getInputLineNumber (),
       fVoiceMeasureLocation.fMeasureNumber);
 */
@@ -8833,9 +8833,9 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
   fVoiceSegment->
     appendElementToSegment (break_);
 
-  // add break syllable to the voice master lyrics
-  fVoiceLyricsmaster->
-    addBreakSyllableToLyrics (
+  // add break syllable to the voice master stanza
+  fVoiceStanzamaster->
+    addBreakSyllableToStanza (
       break_->getInputLineNumber (),
       break_->getNextBarNumber ());
 }
@@ -9011,14 +9011,14 @@ void msrVoice::browseData (basevisitor* v)
   msrBrowser<msrSegment> browser (v);
   browser.browse (*fVoiceSegment);
 
-  // browse the voice lyrics
-  if (fVoiceLyricsMap.size ()) {
+  // browse the voice stanza
+  if (fVoiceStanzasMap.size ()) {
     for (
-      map<int, S_msrLyrics>::iterator i = fVoiceLyricsMap.begin();
-      i != fVoiceLyricsMap.end();
+      map<int, S_msrStanza>::iterator i = fVoiceStanzasMap.begin();
+      i != fVoiceStanzasMap.end();
       i++) {
-      // browse the lyrics
-      msrBrowser<msrLyrics> browser (v);
+      // browse the stanza
+      msrBrowser<msrStanza> browser (v);
       browser.browse (*((*i).second));
     } // for
   }
@@ -9043,7 +9043,7 @@ void msrVoice::print (ostream& os)
       fVoiceActualNotesCounter, "actual note", "actual notes") <<
      ", " <<
     singularOrPlural (
-      fVoiceLyricsMap.size(), "lyric", "lyrics") <<
+      fVoiceStanzasMap.size(), "lyric", "stanza") <<
     ")" <<
     endl;
 
@@ -9075,22 +9075,22 @@ void msrVoice::print (ostream& os)
   os << fVoiceSegment;
   
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-    // print the master lyrics
+    // print the master stanza
     os << idtr <<
-      fVoiceLyricsmaster <<
+      fVoiceStanzamaster <<
       endl;    
   }
   
-  if (! gMsrOptions->fDontDisplayMSRLyrics) {
-    // print the voice lyrics master
+  if (! gMsrOptions->fDontDisplayMSRStanzas) {
+    // print the voice stanza master
     os << idtr <<
-      fVoiceLyricsmaster;
+      fVoiceStanzamaster;
     
-    // print the lyrics
-    if (fVoiceLyricsMap.size()) {
-      map<int, S_msrLyrics>::const_iterator
-        iBegin = fVoiceLyricsMap.begin(),
-        iEnd   = fVoiceLyricsMap.end(),
+    // print the stanza
+    if (fVoiceStanzasMap.size()) {
+      map<int, S_msrStanza>::const_iterator
+        iBegin = fVoiceStanzasMap.begin(),
+        iEnd   = fVoiceStanzasMap.end(),
         i      = iBegin;
         
       for ( ; ; ) {
@@ -10081,9 +10081,9 @@ void msrStaff::printStructure (ostream& os)
           "actual notes") <<
         ", " <<
         singularOrPlural (
-          voice->getVoiceLyricsMap ().size(),
+          voice->getVoiceStanzasMap ().size(),
           "lyric",
-          "lyrics") <<
+          "stanza") <<
         ")";
       if (++i == iEnd) break;
       os << endl;
@@ -11710,14 +11710,14 @@ void msrMidi::print (ostream& os)
     case msrSyllable::kSingleSyllable:
     case msrSyllable::kBeginSyllable:
       {  
-      // add syllable to this lyrics
+      // add syllable to this stanza
       fSyllables.push_back (syllable);
       }
       break;
 
     case msrSyllable::kMiddleSyllable:
     case msrSyllable::kEndSyllable:
-      // add syllable to this lyrics
+      // add syllable to this stanza
       fSyllables.push_back (syllable);
       break;
       
@@ -11751,14 +11751,14 @@ void msrMidi::print (ostream& os)
     case msrSyllable::kSingleSyllable:
     case msrSyllable::kBeginSyllable:
       {  
-      // add syllable to this lyrics
+      // add syllable to this stanza
       fSyllables.push_back (syllable);
       }
       break;
 
     case msrSyllable::kMiddleSyllable:
     case msrSyllable::kEndSyllable:
-      // add syllable to this lyrics
+      // add syllable to this stanza
       fSyllables.push_back (syllable);
       break;
       
@@ -11783,7 +11783,7 @@ void msrMidi::print (ostream& os)
       break;
   } // switch
 
-  fLyricsTextPresent = true;
+  fStanzaTextPresent = true;
   */
 
   /*
