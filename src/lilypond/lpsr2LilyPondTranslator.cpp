@@ -3348,7 +3348,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrComment& elt)
     "% " << elt->getContents () <<
     endl;
     
-  if (elt->getGapKind () == lpsrComment::kGapAfterwards)
+  if (elt->getCommentGapKind () == lpsrComment::kGapAfterwards)
     fOstream << endl;
 }
 

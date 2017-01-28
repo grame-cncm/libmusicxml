@@ -3055,7 +3055,6 @@ void msrComment::print (ostream& os)
     
   if (fCommentGapKind == kGapAfterwards)
     os <<
-      idtr <<
       endl;
       
   idtr--;

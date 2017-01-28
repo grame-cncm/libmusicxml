@@ -244,8 +244,12 @@ class EXP lpsrParallelMusic : public lpsrElement
     // data types
     // ------------------------------------------------------
 
-    enum lpsrElementsSeparator { kEndOfLine, kSpace };
+    enum lpsrElementsSeparator {
+      kEndOfLine, kSpace};
 
+    static string elementsSeparatorAsString (
+      lpsrElementsSeparator elementsSeparator);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -318,12 +322,36 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
     // data types
     // ------------------------------------------------------
 
-    enum lpsrCommentedKind   { kCommented, kUncommented };
-    enum lpsrBackslashKind   { kWithBackslash, kWithoutBackslash };
-    enum lpsrVarValSeparator { kSpace, kEqualSign };
-    enum lpsrQuotesKind      { kQuotesAroundValue, kNoQuotesAroundValue };
-    enum lpsrEndlKind        { kWithEndl, kWithEndlTwice, kWithoutEndl };
+    enum lpsrCommentedKind {
+      kCommented, kUncommented};
 
+    static string commentedKindAsString (
+      lpsrCommentedKind commentedKind);
+      
+    enum lpsrBackslashKind {
+      kWithBackslash, kWithoutBackslash};
+
+    static string backslashKindAsString (
+      lpsrBackslashKind backslashKind);
+      
+    enum lpsrVarValSeparator {
+      kSpace, kEqualSign};
+
+    static string varValSeparatorAsString (
+      lpsrVarValSeparator varValSeparator);
+      
+    enum lpsrQuotesKind {
+      kQuotesAroundValue, kNoQuotesAroundValue};
+
+    static string quotesKindAsString (
+      lpsrQuotesKind quotesKind);
+      
+    enum lpsrEndlKind {
+      kWithEndl, kWithEndlTwice, kWithoutEndl};
+
+    static string endlKindAsString (
+      lpsrEndlKind endlKind);
+      
     static string const g_VarValAssocNoUnit;
     static string const g_VarValAssocNoComment;
 
@@ -448,9 +476,18 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
     // data types
     // ------------------------------------------------------
 
-    enum lpsrCommentedKind { kCommented, kUncommented };
-    enum lpsrEndlKind      { kWithEndl, kWithEndlTwice, kWithoutEndl };
+    enum lpsrCommentedKind {
+      kCommented, kUncommented};
 
+    static string commentedKindAsString (
+      lpsrCommentedKind commentedKind);
+      
+    enum lpsrEndlKind {
+      kWithEndl, kWithEndlTwice, kWithoutEndl};
+
+    static string endlKindAsString (
+      lpsrEndlKind endlKind);
+      
     static string const g_SchemeVarValAssocNoUnit;
     static string const g_SchemeVarValAssocNoComment;
 
@@ -545,15 +582,19 @@ class EXP lpsrComment : public lpsrElement
     // data types
     // ------------------------------------------------------
 
-    enum lpsrGapKind { kGapAfterwards, kNoGapAfterwards };
+    enum lpsrCommentGapKind {
+      kGapAfterwards, kNoGapAfterwards};
 
+    static string commentGapKindAsString (
+      lpsrCommentGapKind commentGapKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<lpsrComment> create (
-      int            inputLineNumber,
-      string         contents,
-      lpsrGapKind    gapKind = kNoGapAfterwards);
+      int                inputLineNumber,
+      string             contents,
+      lpsrCommentGapKind commentGapKind = kNoGapAfterwards);
 
   protected:
 
@@ -561,9 +602,9 @@ class EXP lpsrComment : public lpsrElement
     // ------------------------------------------------------
 
     lpsrComment (
-      int            inputLineNumber,
-      string         contents,
-      lpsrGapKind    gapKind = kNoGapAfterwards);
+      int                inputLineNumber,
+      string             contents,
+      lpsrCommentGapKind commentGapKind = kNoGapAfterwards);
       
     virtual ~lpsrComment();
   
@@ -572,9 +613,11 @@ class EXP lpsrComment : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    string       getContents () const { return fContents; }
+    string              getContents () const
+                            { return fContents; }
 
-    lpsrGapKind  getGapKind  () const { return fGapKind; }
+    lpsrCommentGapKind  getCommentGapKind  () const
+                            { return fCommentGapKind; }
 
     // services
     // ------------------------------------------------------
@@ -594,8 +637,8 @@ class EXP lpsrComment : public lpsrElement
 
   private:
 
-    string      fContents;
-    lpsrGapKind fGapKind;
+    string              fContents;
+    lpsrCommentGapKind  fCommentGapKind;
 };
 typedef SMARTP<lpsrComment> S_lpsrComment;
 EXP ostream& operator<< (ostream& os, const S_lpsrComment& elt);
@@ -1079,8 +1122,12 @@ class EXP lpsrContext : public lpsrElement
     // data types
     // ------------------------------------------------------
 
-    enum lpsrContextKind { kExistingContext, kNewContext };
+    enum lpsrContextKind {
+      kExistingContext, kNewContext};
     
+    static string contextKindAsString (
+      lpsrContextKind contextKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 

@@ -209,25 +209,25 @@ void lpsrParallelMusic::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrComment lpsrComment::create (
-  int            inputLineNumber,
-  string         contents,
-  lpsrGapKind    gapKind)
+  int                inputLineNumber,
+  string             contents,
+  lpsrCommentGapKind commentGapKind)
 {
   lpsrComment* o = new
     lpsrComment (
-      inputLineNumber, contents, gapKind);
+      inputLineNumber, contents, commentGapKind);
   assert(o!=0);
   return o;
 }
 
 lpsrComment::lpsrComment (
-  int            inputLineNumber,
-  string         contents,
-  lpsrGapKind    gapKind)
+  int                inputLineNumber,
+  string             contents,
+  lpsrCommentGapKind commentGapKind)
     : lpsrElement (inputLineNumber)
 {
-  fContents = contents;
-  fGapKind  = gapKind;
+  fContents       = contents;
+  fCommentGapKind = commentGapKind;
 }
 
 lpsrComment::~lpsrComment() {}
@@ -277,10 +277,20 @@ ostream& operator<< (ostream& os, const S_lpsrComment& elt)
 
 void lpsrComment::print (ostream& os)
 {
-  os << "Comment" << endl;
+  os <<
+    "Comment" <<
+    endl;
+  
   idtr++;
-  os << idtr << "% " << fContents << endl;
-  if (fGapKind == kGapAfterwards) os << idtr << endl;
+  
+  os << idtr <<
+    "% " << fContents <<
+    endl;
+
+  if (fCommentGapKind == kGapAfterwards)
+    os <<
+      endl;
+  
   idtr--;
 }
 
