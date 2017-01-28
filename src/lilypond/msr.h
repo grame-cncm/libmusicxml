@@ -371,7 +371,7 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
       kNatural,
       kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
 
-    static string diatonicPitchAsString (
+    static string alterationKindAsString (
       msrAlterationKind alterationKind);
       
     // constructors/destructor
@@ -466,7 +466,7 @@ class EXP msrOctaveShift : public msrElement
       kOctaveShiftUp, kOctaveShiftDown,
       kOctaveShiftStop};
 
-    static string diatonicPitchAsString (
+    static string octaveShiftKindAsString (
       msrOctaveShiftKind octaveShiftKind);
       
     // creation from MusicXML
@@ -540,7 +540,7 @@ class EXP msrStem : public msrElement
       k_NoStem,
       kStemUp, kStemDown, kStemNone, kStemDouble};
 
-    static string diatonicPitchAsString (
+    static string stemKindAsString (
       msrStemKind stemKind);
       
     // creation from MusicXML
@@ -604,7 +604,7 @@ class EXP msrBeam : public msrElement
       kBeginBeam, kContinueBeam, kEndBeam,
       kForwardHookBeam, kBackwardHookBeam};
     
-    static string diatonicPitchAsString (
+    static string beamKindAsString (
       msrBeamKind beamKind);
       
     // creation from MusicXML
@@ -683,7 +683,7 @@ class EXP msrArticulation : public msrElement
         kArpeggiato, // ???
         kDoit, kFalloff, kPlop, kScoop};
 
-    static string diatonicPitchAsString (
+    static string articulationKindAsString (
       msrArticulationKind articulationKind);
       
     // creation from MusicXML
@@ -758,19 +758,19 @@ class EXP msrOrnament : public msrElement
         kMordent, kInvertedMordent,
         kSchleifer, kShake};
 
-    static string diatonicPitchAsString (
+    static string ornamentKindAsString (
       msrOrnamentKind ornamentKind);
       
     enum msrOrnamentPlacementKind {
       k_NoPlacementKind, kAbove, kBelow};
 
-    static string diatonicPitchAsString (
+    static string ornamentPlacementKindAsString (
       msrOrnamentPlacementKind ornamentPlacementKind);
       
     enum msrOrnamentAccidentalMarkKind {
       kNatural, kSharp, kFlat};
 
-    static string diatonicPitchAsString (
+    static string ornamentAccidentalMarkKindAsString (
       msrOrnamentAccidentalMarkKind ornamentAccidentalMarkKind);
       
     // creation from MusicXML
@@ -866,7 +866,7 @@ class EXP msrRehearsal : public msrElement
         kNone,
         kRectangle, kOval, kCircle, kBracket, kTriangle, kDiamond };
 
-    static string diatonicPitchAsString (
+    static string rehearsalKindAsString (
       msrRehearsalKind rehearsalKind);
       
     // creation from MusicXML
@@ -945,7 +945,7 @@ class EXP msrTie : public msrElement
       k_NoTie,
       kStartTie, kContinueTie, kStopTie};        
     
-    static string diatonicPitchAsString (
+    static string tieKindAsString (
       msrTieKind tieKind);
       
     // creation from MusicXML
@@ -977,10 +977,7 @@ class EXP msrTie : public msrElement
     // services
     // ------------------------------------------------------
 
-    static string
-               tieKindAsString (msrTieKind tieKind);
-
-    string     tieKindAsString () const
+    string     tieKindAsString () const // JMI
                   { return tieKindAsString (fTieKind); }
 
     // visitors
@@ -1020,7 +1017,7 @@ class EXP msrSlur : public msrElement
       k_NoSlur,
       kStartSlur, kContinueSlur, kStopSlur};
     
-    static string diatonicPitchAsString (
+    static string slurKindAsString (
       msrSlurKind slurKind);
       
     // creation from MusicXML
@@ -1098,7 +1095,7 @@ class EXP msrDynamics : public msrElement
           kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
           k_NoDynamics};
     
-    static string diatonicPitchAsString (
+    static string dynamicsKindAsString (
       msrDynamicsKind dynamicsKind);
       
     // creation from MusicXML
@@ -1169,7 +1166,7 @@ class EXP msrWedge : public msrElement
     enum msrWedgeKind
       { kCrescendoWedge, kDecrescendoWedge, kStopWedge };
     
-    static string diatonicPitchAsString (
+    static string wedgeKindAsString (
       msrWedgeKind wedgeKind);
       
     // creation from MusicXML
@@ -1246,7 +1243,7 @@ class EXP msrClef : public msrElement
       kTablature4Clef, kTablature5Clef, kTablature6Clef, kTablature7Clef,
       kPercussionClef};
       
-    static string diatonicPitchAsString (
+    static string clefKindAsString (
       msrClefKind clefKind);
       
     // creation from MusicXML
@@ -1319,7 +1316,7 @@ class EXP msrKey : public msrElement
 
     enum msrKeyModeKind { kMajor, kMinor };
 
-    static string diatonicPitchAsString (
+    static string keyModeKindAsString (
       msrKeyModeKind keyModeKind);
       
     // creation from MusicXML
@@ -1481,7 +1478,7 @@ class EXP msrMeasure : public msrElement
       kIncompleteLeftMeasure,
       kIncompleteRightMeasure};
     
-    static string diatonicPitchAsString (
+    static string measureKindAsString (
       msrMeasureKind measureKind);
       
     // creation from MusicXML
@@ -1951,7 +1948,7 @@ class EXP msrWords : public msrElement
     enum msrWordsPlacementKind {
       kAbove, kBelow};
 
-    static string diatonicPitchAsString (
+    static string wordsPlacementKindAsString (
       msrWordsPlacementKind wordsPlacementKind);
       
     // creation from MusicXML
@@ -2180,7 +2177,7 @@ class EXP msrNote : public msrElement
       kStandaloneNote,  kGraceNote,
       kChordMemberNote, kTupletMemberNote};
       
-    static string diatonicPitchAsString (
+    static string noteKindAsString (
       msrNoteKind noteKind);
       
     // creation from MusicXML
@@ -3032,7 +3029,7 @@ class EXP msrComment : public msrElement
     enum msrCommentGapKind {
       kGapAfterwards, kNoGapAfterwards};
 
-    static string diatonicPitchAsString (
+    static string commentGapKindAsString (
       msrCommentGapKind commentGapKind);
       
     // creation from MusicXML
@@ -3041,7 +3038,7 @@ class EXP msrComment : public msrElement
     static SMARTP<msrComment> create (
       int               inputLineNumber,
       string            contents,
-      msrCommentGapKind gapKind = kNoGapAfterwards);
+      msrCommentGapKind commentGapKind = kNoGapAfterwards);
 
   protected:
 
@@ -3051,7 +3048,7 @@ class EXP msrComment : public msrElement
     msrComment (
       int               inputLineNumber,
       string            contents,
-      msrCommentGapKind gapKind = kNoGapAfterwards);
+      msrCommentGapKind commentGapKind = kNoGapAfterwards);
       
     virtual ~msrComment();
   
@@ -3060,10 +3057,12 @@ class EXP msrComment : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    string      getContents () const
-                    { return fContents; }
-    msrGapKind  getCommentGapKind  () const
-                    { return fGapKind; }
+    string        getContents () const
+                      { return fContents; }
+                    
+    msrCommentGapKind
+                  getCommentGapKind  () const
+                      { return fCommentGapKind; }
     
     // services
     // ------------------------------------------------------
@@ -3084,7 +3083,7 @@ class EXP msrComment : public msrElement
   private:
 
     string            fContents;
-    msrCommentGapKind fGapKind;
+    msrCommentGapKind fCommentGapKind;
 };
 typedef SMARTP<msrComment> S_msrComment;
 EXP ostream& operator<< (ostream& os, const S_msrComment& elt);
@@ -3291,7 +3290,7 @@ class EXP msrTuplet : public msrElement
       kStartTuplet, kContinueTuplet, kStopTuplet, 
       k_NoTuplet };
 
-    static string diatonicPitchAsString (
+    static string tupletKindAsString (
       msrTupletKind tupletKind);
       
     // creation from MusicXML
@@ -3575,7 +3574,7 @@ class EXP msrStanza : public msrElement
     enum msrStanzaKind {
        kMasterStanza, kRegularStanza };
 
-    static string diatonicPitchAsString (
+    static string stanzaKindAsString (
       msrStanzaKind stanzaKind);
       
     // creation from MusicXML
@@ -3722,13 +3721,13 @@ class EXP msrHarmony : public msrElement
       kMajorSeventh,kMinorSeventh,
       kMajorNinth, kMinorNinth};
 
-    static string diatonicPitchAsString (
+    static string harmonyKindAsString (
       msrHarmonyKind harmonyKind);
       
     enum msrHarmonyDegreeTypeKind {
       kAdd, kAlter, kSubstract};
 
-    static string diatonicPitchAsString (
+    static string harmonyDegreeTypeKindAsString (
       msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
       
     // creation from MusicXML
@@ -4092,13 +4091,13 @@ class EXP msrPedal : public msrElement
     enum msrPedalType {
       kPedalStart, kPedalContinue, kPedalChange, kPedalStop };
       
-    static string diatonicPitchAsString (
+    static string pedalTypeAsString (
       msrPedalType pedalType);
       
     enum msrPedalLine {
       kPedalLineYes, kPedalLineNo};
       
-    static string diatonicPitchAsString (
+    static string pedalLineAsString (
       msrPedalLine pedalLine);
       
     // creation from MusicXML
@@ -4207,8 +4206,8 @@ class EXP msrBarline : public msrElement
       k_NoLocation,
       kLeft, kMiddle, kRight}; // kRight by default
         
-    static string diatonicPitchAsString (
-      msrBarlineLocation narlineLocation);
+    static string barlineLocationAsString (
+      msrBarlineLocation barlineLocation);
       
     enum msrBarlineStyle {
       k_NoStyle,
@@ -4217,21 +4216,21 @@ class EXP msrBarline : public msrElement
       kLightLight, kLightHeavy, kHeavyLight, kHeavyHeavy,
       kTick, kShort};
 
-    static string diatonicPitchAsString (
+    static string barlineStyleAsString (
       msrBarlineStyle barlineStyle);
       
     enum msrBarlineEndingType {
       k_NoEndingType,
       kStart, kStop, kDiscontinue};
 
-    static string diatonicPitchAsString (
+    static string barlineEndingTypeAsString (
       msrBarlineEndingType barlineEndingType);
       
     enum msrBarlineRepeatDirection {
       k_NoRepeatDirection,
       kForward, kBackward};
 
-    static string diatonicPitchAsString (
+    static string barlineRepeatDirectionAsString (
       msrBarlineRepeatDirection barlineRepeatDirection);
       
     enum msrBarlineRepeatWinged {
@@ -4239,7 +4238,7 @@ class EXP msrBarline : public msrElement
       kNone,
       kStraight, kCurved, kDoubleStraight, kDoubleCurved };
 
-    static string diatonicPitchAsString (
+    static string barlineRepeatWingedAsString (
       msrBarlineRepeatWinged barlineRepeatWinged);
       
     enum msrBarlineCategory {
@@ -4247,7 +4246,7 @@ class EXP msrBarline : public msrElement
       kRepeatStart, kRepeatEnd,
       kEndingStart, kHookedEndingEnd, kHooklessEndingEnd};
       
-    static string diatonicPitchAsString (
+    static string barlineCategoryAsString (
       msrBarlineCategory barlineCategory);
       
     // creation from MusicXML
@@ -4404,8 +4403,8 @@ class EXP msrRepeatending : public msrElement
       kHookedEnding,
       kHooklessEnding};
 
-    static string diatonicPitchAsString (
-      msrDiatonicPitch diatonicPitch);
+    static string repeatendingKindAsString (
+      msrRepeatendingKind repeatendingKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
@@ -4931,15 +4930,15 @@ class EXP msrStaff : public msrElement
     enum msrStaffKind {
       kRegularStaff, kTablatureStaff, kPercussionStaff};
 
-    static string diatonicPitchAsString (
-      msrDiatonicPitch diatonicPitch);
+    static string staffKindAsString (
+      msrStaffKind staffKind);
       
     enum msrStaffTypeKind {
       kOssiaStaffType, kCueStaffType, kEditorialStaffType,
       kRegularStaffType, kAlternateStaffType};
      
-    static string diatonicPitchAsString (
-      msrDiatonicPitch diatonicPitch);
+    static string staffTypeKindAsString (
+      msrStaffTypeKind staffTypeKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
@@ -5374,16 +5373,16 @@ class EXP msrPartgroup : public msrElement
         k_NoPartgroupType,
         kStartPartgroupType, kStopPartgroupType};
           
-    static string diatonicPitchAsString (
-      msrDiatonicPitch diatonicPitch);
+    static string partgroupTypeKindAsString (
+      msrPartgroupTypeKind partgroupTypeKind);
       
     enum msrPartgroupSymbolKind {
         k_NoPartgroupSymbol,
         kBracePartgroupSymbol, kBracketPartgroupSymbol,
         kLinePartgroupSymbol, kSquarePartgroupSymbol};
           
-    static string diatonicPitchAsString (
-      msrDiatonicPitch diatonicPitch);
+    static string partgroupSymbolKindAsString (
+      msrPartgroupSymbolKind partgroupSymbolKind);
       
     // creation from MusicXML
     // ------------------------------------------------------

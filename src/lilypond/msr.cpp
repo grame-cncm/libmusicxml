@@ -2978,25 +2978,25 @@ void msrChord::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrComment msrComment::create (
-  int           inputLineNumber,
-  string        contents,
-  msrGapKind    gapKind)
+  int               inputLineNumber,
+  string            contents,
+  msrCommentGapKind commentGapKind)
 {
   msrComment* o =
     new msrComment (
-      inputLineNumber, contents, gapKind);
+      inputLineNumber, contents, commentGapKind);
   assert(o!=0);
   return o;
 }
 
 msrComment::msrComment (
-  int           inputLineNumber,
-  string        contents,
-  msrGapKind    gapKind)
+  int               inputLineNumber,
+  string            contents,
+  msrCommentGapKind commentGapKind)
     : msrElement (inputLineNumber)
 {
-  fContents = contents;
-  fGapKind  = gapKind;
+  fContents       = contents;
+  fCommentGapKind = commentGapKind;
 }
 msrComment::~msrComment() {}
 
@@ -3046,9 +3046,18 @@ ostream& operator<< (ostream& os, const S_msrComment& elt)
 void msrComment::print (ostream& os)
 {
   os << "Comment" << endl;
+  
   idtr++;
-  os << idtr << "% " << fContents << endl;
-  if (fGapKind == kGapAfterwards) os << idtr << endl;
+  
+  os << idtr <<
+    "% " << fContents <<
+    endl;
+    
+  if (fCommentGapKind == kGapAfterwards)
+    os <<
+      idtr <<
+      endl;
+      
   idtr--;
 }
 
