@@ -6423,13 +6423,29 @@ ostream& operator<< (ostream& os, const S_msrBarline& elt)
   return os;
 }
 
-string msrOctaveShift::octaveShiftKindAsString () const
+string msrBarline::barlineCategoryAsString (
+  msrBarlineCategory barlineCategory)
 {
   string result;
   
-  switch (fOctaveShiftKind) {
-    case kOctaveShiftUp:
-      result = "up";
+  switch (barlineCategory) {
+    case kStandaloneBar:
+      result = "standalone";
+      break;
+    case kRepeatStart:
+      result = "repeat start";
+      break;
+    case kRepeatEnd:
+      result = "repeat end";
+      break;
+    case kEndingStart:
+      result = "ending start";
+      break;
+    case kHookedEndingEnd:
+      result = "hooked ending end";
+      break;
+    case kHooklessEndingEnd:
+      result = "hookless ending end";
       break;
   } // switch
 
@@ -6444,30 +6460,11 @@ void msrBarline::print (ostream& os)
 
   if (fBarlineHasSegno)
     os << "has segno, ";
+    
   if (fBarlineHasCoda)
-      os << "has coda, ";
-
-  switch (fBarlineCategory) {
-    case kStandaloneBar:
-      os << "standalone";
-      break;
-    case kRepeatStart:
-      os << "repeat start";
-      break;
-    case kRepeatEnd:
-      os << "repeat end";
-      break;
-    case kEndingStart:
-      os << "ending start";
-      break;
-    case kHookedEndingEnd:
-      os << "hooked ending end";
-      break;
-    case kHooklessEndingEnd:
-      os << "hookless ending end";
-      break;
-  } // switch
-  os << endl;
+    os << "has coda, " <<
+      barlineCategoryAsString (fBarlineCategory) <<
+      endl;
 
   idtr++;
 
@@ -7953,16 +7950,20 @@ ostream& operator<< (ostream& os, const S_msrRepeatending& elt)
   return os;
 }
 
-string msrOctaveShift::octaveShiftKindAsString () const
+string msrRepeatending::repeatendingKindAsString (
+  msrRepeatendingKind repeatendingKind)
 {
   string result;
   
-  switch (fOctaveShiftKind) {
-    case kOctaveShiftUp:
-      result = "up";
+  switch (repeatendingKind) {
+    case kHookedEnding:
+      result = "hooked";
+      break;
+    case kHooklessEnding:
+      result = "hookless";
       break;
   } // switch
-
+  
   return result;
 }
 
@@ -7971,21 +7972,14 @@ void msrRepeatending::print (ostream& os)
   os <<
     "Repeatending" <<
     ", line " << fInputLineNumber <<
-    ", number " << fRepeatendingNumber << ", ";
+    ", number " << fRepeatendingNumber << ", " <<
+    repeatendingKindAsString (fRepeatendingKind) <<
+    endl;
 
-  switch (fRepeatendingKind) {
-    case kHookedEnding:
-      os << "hooked";
-      break;
-    case kHooklessEnding:
-      os << "hookless";
-      break;
-  } // switch
-  os << endl;
-  
   idtr++;
 
-  os << fRepeatendingSegment;
+  os <<
+    fRepeatendingSegment;
 
   idtr--;
 }
