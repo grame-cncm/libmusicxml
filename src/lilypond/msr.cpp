@@ -163,6 +163,25 @@ msrNoteData::msrNoteData ()
   init ();
 }
 
+string msrNoteData::diatonicPitchAsString (
+  msrDiatonicPitch diatonicPitch)
+{
+  string result;
+  
+  switch (diatonicPitch) {
+    case msrNoteData::kA: result = "a"; break;
+    case msrNoteData::kB: result = "b"; break;
+    case msrNoteData::kC: result = "c"; break;
+    case msrNoteData::kD: result = "d"; break;
+    case msrNoteData::kE: result = "e"; break;
+    case msrNoteData::kF: result = "f"; break;
+    case msrNoteData::kG: result = "g"; break;
+    default:              result = "?";
+  } // switch
+
+  return result;
+}
+
 void msrNoteData::print (ostream& os)
 {
   os <<
@@ -173,6 +192,10 @@ void msrNoteData::print (ostream& os)
     idtr << left <<
       setw(29) << "fStepIsARest" << " = " <<
       fStepIsARest <<
+      endl <<
+    idtr << left <<
+      setw(29) << "fDiatonicPitch" << " = " <<
+      diatonicPitchAsString (fDiatonicPitch) <<
       endl <<
     idtr << left <<
       setw(29) << "fAlteration" << " = " <<
@@ -394,31 +417,39 @@ ostream& operator<< (ostream& os, const S_msrStem& elt)
   return os;
 }
 
+string msrStem::stemKindAsString (
+  msrStemKind stemKind)
+{
+  string result;
+  
+  switch (stemKind) {
+    case k_NoStem:
+      result = "none";
+      break;
+    case kStemUp:
+      result = "up";
+      break;
+    case kStemDown:
+      result = "down";
+      break;
+    case kStemNone:
+      result = "none";
+      break;
+    case kStemDouble:
+      result = "double";
+      break;
+  } // switch
+
+  return result;
+}
+
 void msrStem::print (ostream& os)
 {
   idtr++;
   
   os <<
-    "Stem" " ";
-
-  switch (fStemKind) {
-    case k_NoStem:
-      os << "none";
-      break;
-    case kStemUp:
-      os << "up";
-      break;
-    case kStemDown:
-      os << "down";
-      break;
-    case kStemNone:
-      os << "none";
-      break;
-    case kStemDouble:
-      os << "double";
-      break;
-  } // switch
-  os <<
+    "Stem" " " <<
+    stemKindAsString (fStemKind) <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -493,6 +524,35 @@ ostream& operator<< (ostream& os, const S_msrBeam& elt)
   return os;
 }
 
+string msrBeam::beamKindAsString (
+  msrBeamKind beamKind)
+{
+  string result;
+  
+  switch (beamKind) {
+    case kBeginBeam:
+      result = "begin";
+      break;
+    case kContinueBeam:
+      result = "continue";
+      break;
+    case kEndBeam:
+      result = "end";
+      break;
+    case kForwardHookBeam:
+      result = "forward";
+      break;
+    case kBackwardHookBeam:
+      result = "backward";
+      break;
+    case k_NoBeam:
+      result = "### none ###";
+      break;
+  } // switch
+
+  return result;
+}
+
 void msrBeam::print (ostream& os)
 {
   idtr++;
@@ -500,29 +560,9 @@ void msrBeam::print (ostream& os)
   os <<
     "Beam" <<
     " number " << fBeamNumber <<
-    ", line " << fInputLineNumber << " ";
-
-  switch (fBeamKind) {
-    case kBeginBeam:
-      os << "begin";
-      break;
-    case kContinueBeam:
-      os << "continue";
-      break;
-    case kEndBeam:
-      os << "end";
-      break;
-    case kForwardHookBeam:
-      os << "forward";
-      break;
-    case kBackwardHookBeam:
-      os << "backward";
-      break;
-    case k_NoBeam:
-      os << "### none ###";
-      break;
-  } // switch
-  os << endl;
+    ", line " << fInputLineNumber << " " <<
+    beamKindAsString (fBeamKind) <<
+    endl;
 
   idtr--;
 }
@@ -888,37 +928,45 @@ ostream& operator<< (ostream& os, const S_msrRehearsal& elt)
   return os;
 }
 
+string msrRehearsal::rehearsalKindAsString (
+  msrRehearsalKind rehearsalKind)
+{
+  string result;
+  
+  switch (rehearsalKind) {
+    case kNone:
+      result = "none";
+      break;
+    case kRectangle:
+      result = "rectangle";
+      break;
+    case kOval:
+      result = "oval";
+      break;
+    case kCircle:
+      result = "circle";
+      break;
+    case kBracket:
+      result = "bracket";
+      break;
+    case kTriangle:
+      result = "triangle";
+      break;
+    case kDiamond:
+      result = "diamond";
+      break;
+  } // switch
+
+  return result;
+}
+
 void msrRehearsal::print (ostream& os)
 {
   os <<
     "Rehearsal" << " " << fRehearsalText <<
-    " kind: ";
-
-  switch (fRehearsalKind) {
-    case kNone:
-      os << "none";
-      break;
-    case kRectangle:
-      os << "rectangle";
-      break;
-    case kOval:
-      os << "oval";
-      break;
-    case kCircle:
-      os << "circle";
-      break;
-    case kBracket:
-      os << "bracket";
-      break;
-    case kTriangle:
-      os << "triangle";
-      break;
-    case kDiamond:
-      os << "diamond";
-      break;
-  } // switch
-  
-  os << endl;
+    " kind: " <<
+    rehearsalKindAsString (fRehearsalKind) <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -2135,6 +2183,21 @@ void msrNote::browseData (basevisitor* v)
   */
 }
 
+/*
+string msrOctaveShift::octaveShiftKindAsString () const
+{
+  string result;
+  
+  switch (fOctaveShiftKind) {
+    case kOctaveShiftUp:
+      result = "up";
+      break;
+  } // switch
+
+  return result;
+}
+*/
+
 string msrNote::notePitchAsString () const
 {
   stringstream s;
@@ -2155,17 +2218,10 @@ string msrNote::notePitchAsString () const
 
   else {
 
-    switch (fNoteData.fDiatonicPitch) {
-      case msrNoteData::kA: s << "a"; break;
-      case msrNoteData::kB: s << "b"; break;
-      case msrNoteData::kC: s << "c"; break;
-      case msrNoteData::kD: s << "d"; break;
-      case msrNoteData::kE: s << "e"; break;
-      case msrNoteData::kF: s << "f"; break;
-      case msrNoteData::kG: s << "g"; break;
-      default: s << "?";
-    } // switch
-
+    s <<
+      msrNoteData::diatonicPitchAsString (
+        fNoteData.fDiatonicPitch);
+    
     /*
     The alter element represents chromatic alteration
     in number of semitones (e.g., -1 for flat, 1 for sharp).
@@ -4576,22 +4632,31 @@ ostream& operator<< (ostream& os, const S_msrWords& elt)
   return os;
 }
 
+string msrWords::wordsPlacementKindAsString (
+  msrWordsPlacementKind wordsPlacementKind)
+{
+  string result;
+
+  switch (wordsPlacementKind) {
+    case kAbove:
+      result = "above";
+      break;
+    case kBelow:
+      result = "below";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrWords::wordsAsString () const
 {
   stringstream s;
 
   s <<
     "Words" << " " <<
-    fWordsContents << ", placement = ";
-
-  switch (fWordsPlacementKind) {
-    case kAbove:
-      s << "above";
-      break;
-    case kBelow:
-      s << "below";
-      break;
-  } // switch
+    fWordsContents << ", placement = " <<
+    wordsPlacementKindAsString (fWordsPlacementKind);
 
   return s.str();
 }
@@ -4607,20 +4672,10 @@ void msrWords::print (ostream& os)
   idtr++;
 
   os <<
-    idtr <<
-      setw(16) << "Placement" << " = ";
-
-  switch (fWordsPlacementKind) {
-    case kAbove:
-      os << "above";
-      break;
-    case kBelow:
-      os << "below";
-      break;
-  } // switch
-  os << endl;
-
-  os << left <<
+    idtr << left <<
+      setw(16) << "Placement" << " = " <<
+      wordsPlacementKindAsString (fWordsPlacementKind) <<
+      endl <<
     idtr <<
       setw(16) << "WordsFontStyle" << " = " << fWordsFontStyle <<
       endl <<
@@ -6368,6 +6423,19 @@ ostream& operator<< (ostream& os, const S_msrBarline& elt)
   return os;
 }
 
+string msrOctaveShift::octaveShiftKindAsString () const
+{
+  string result;
+  
+  switch (fOctaveShiftKind) {
+    case kOctaveShiftUp:
+      result = "up";
+      break;
+  } // switch
+
+  return result;
+}
+
 void msrBarline::print (ostream& os)
 {
   os <<
@@ -7883,6 +7951,19 @@ ostream& operator<< (ostream& os, const S_msrRepeatending& elt)
 {
   elt->print (os);
   return os;
+}
+
+string msrOctaveShift::octaveShiftKindAsString () const
+{
+  string result;
+  
+  switch (fOctaveShiftKind) {
+    case kOctaveShiftUp:
+      result = "up";
+      break;
+  } // switch
+
+  return result;
 }
 
 void msrRepeatending::print (ostream& os)
@@ -11766,87 +11847,6 @@ void msrMidi::print (ostream& os)
 
 
 }
-
-/*
-  switch (syllableKind) {
-    case msrSyllable::kSingleSyllable:
-    case msrSyllable::kBeginSyllable:
-      {  
-      // add syllable to this stanza
-      fSyllables.push_back (syllable);
-      }
-      break;
-
-    case msrSyllable::kMiddleSyllable:
-    case msrSyllable::kEndSyllable:
-      // add syllable to this stanza
-      fSyllables.push_back (syllable);
-      break;
-      
-    case msrSyllable::kSkipSyllable:
-    case msrSyllable::kSlurSyllable:
-    case msrSyllable::kSlurBeyondEndSyllable:
-    case msrSyllable::kTiedSyllable:
-    case msrSyllable::kBarcheckSyllable:
-    case msrSyllable::kBreakSyllable:
-      {
-        msrInternalError (
-          fInputLineNumber,
-          "a text syllable type can only be "
-          "'single', 'begin', 'middle' or 'end'");
-      }
-      break;
-      
-    case msrSyllable::k_NoSyllable:
-      msrInternalError (
-        fInputLineNumber,
-        "syllable type has not been set");
-      break;
-  } // switch
-
-
-*/
-
-
-/*
-  switch (syllableKind) {
-    case msrSyllable::kSingleSyllable:
-    case msrSyllable::kBeginSyllable:
-      {  
-      // add syllable to this stanza
-      fSyllables.push_back (syllable);
-      }
-      break;
-
-    case msrSyllable::kMiddleSyllable:
-    case msrSyllable::kEndSyllable:
-      // add syllable to this stanza
-      fSyllables.push_back (syllable);
-      break;
-      
-    case msrSyllable::kSkipSyllable:
-    case msrSyllable::kSlurSyllable:
-    case msrSyllable::kSlurBeyondEndSyllable:
-    case msrSyllable::kTiedSyllable:
-    case msrSyllable::kBarcheckSyllable:
-    case msrSyllable::kBreakSyllable:
-      {
-        msrInternalError (
-          fInputLineNumber,
-          "a text syllable type can only be "
-          "'single', 'begin', 'middle' or 'end'");
-      }
-      break;
-      
-    case msrSyllable::k_NoSyllable:
-      msrInternalError (
-        fInputLineNumber,
-        "syllable type has not been set");
-      break;
-  } // switch
-
-  fStanzaTextPresent = true;
-  */
 
   /*
     switch (fNoteMsrPitch) {
