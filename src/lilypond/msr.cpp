@@ -182,6 +182,72 @@ string msrNoteData::diatonicPitchAsString (
   return result;
 }
 
+string msrNoteData::alterationKindAsString (
+  msrAlterationKind alterationKind)
+{
+  /*
+    The alter element represents chromatic alteration
+    in number of semitones (e.g., -1 for flat, 1 for sharp).
+    Decimal values like 0.5 (quarter tone sharp) are used for microtones.
+  
+    The following table lists note names for quarter-tone accidentals
+    in various languages; here the pre- fixes semi- and sesqui-
+    respectively mean ‘half’ and ‘one and a half’.
+    
+    Languages that do not appear in this table do not provide special note names yet.
+    Language
+                semi-sharp semi-flat sesqui-sharp sesqui-flat
+                   +0.5      -0.5        +1.5       -1.5
+      nederlands   -ih       -eh        -isih       -eseh
+  
+    We use dutch pitches names for the enumeration below.
+    The following is a series of Cs with increasing pitches:
+      \relative c'' { ceseh ces ceh c cih cis cisih }
+  */
+
+  string result;
+  
+  switch (alterationKind) {
+
+    case msrNoteData::kDoubleFlat:
+      result = "eses";
+      break;
+      
+    case msrNoteData::kSesquiFlat:
+      result = "eseh";
+      break;
+      
+    case msrNoteData::kFlat:
+      result = "es";
+      break;
+      
+    case msrNoteData::kSemiFlat:
+      result = "eh";
+      break;
+      
+    case msrNoteData::kNatural:
+      break;
+      
+    case msrNoteData::kSemiSharp:
+      result = "ih";
+      break;
+      
+    case msrNoteData::kSharp:
+      result = "is";
+      break;
+      
+    case msrNoteData::kSesquiSharp:
+      result = "isih";
+      break;
+      
+    case msrNoteData::kDoubleSharp:
+      result = "isis";
+      break;      
+  } // switch  
+
+  return result;
+}
+
 void msrNoteData::print (ostream& os)
 {
   os <<
@@ -2183,21 +2249,6 @@ void msrNote::browseData (basevisitor* v)
   */
 }
 
-/*
-string msrOctaveShift::octaveShiftKindAsString () const
-{
-  string result;
-  
-  switch (fOctaveShiftKind) {
-    case kOctaveShiftUp:
-      result = "up";
-      break;
-  } // switch
-
-  return result;
-}
-*/
-
 string msrNote::notePitchAsString () const
 {
   stringstream s;
@@ -2220,65 +2271,10 @@ string msrNote::notePitchAsString () const
 
     s <<
       msrNoteData::diatonicPitchAsString (
-        fNoteData.fDiatonicPitch);
+        fNoteData.fDiatonicPitch) <<    
+      msrNoteData::alterationKindAsString (
+        fNoteData.fAlteration);
     
-    /*
-    The alter element represents chromatic alteration
-    in number of semitones (e.g., -1 for flat, 1 for sharp).
-    Decimal values like 0.5 (quarter tone sharp) are used for microtones.
-  
-    The following table lists note names for quarter-tone accidentals
-    in various languages; here the pre- fixes semi- and sesqui-
-    respectively mean ‘half’ and ‘one and a half’.
-    
-    Languages that do not appear in this table do not provide special note names yet.
-    Language
-                semi-sharp semi-flat sesqui-sharp sesqui-flat
-                   +0.5      -0.5        +1.5       -1.5
-      nederlands   -ih       -eh        -isih       -eseh
-  
-    We use dutch pitches names for the enumeration below.
-    The following is a series of Cs with increasing pitches:
-      \relative c'' { ceseh ces ceh c cih cis cisih }
-  */
-
-    switch (fNoteData.fAlteration) {
-
-      case msrNoteData::kDoubleFlat:
-        s << "eses";
-        break;
-        
-      case msrNoteData::kSesquiFlat:
-        s << "eseh";
-        break;
-        
-      case msrNoteData::kFlat:
-        s << "es";
-        break;
-        
-      case msrNoteData::kSemiFlat:
-        s << "eh";
-        break;
-        
-      case msrNoteData::kNatural:
-        break;
-        
-      case msrNoteData::kSemiSharp:
-        s << "ih";
-        break;
-        
-      case msrNoteData::kSharp:
-        s << "is";
-        break;
-        
-      case msrNoteData::kSesquiSharp:
-        s << "isih";
-        break;
-        
-      case msrNoteData::kDoubleSharp:
-        s << "isis";
-        break;      
-    } // switch  
   }
   
   return s.str();
