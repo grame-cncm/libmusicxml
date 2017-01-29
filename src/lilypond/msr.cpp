@@ -4192,7 +4192,9 @@ string msrClef::clefAsString () const
 
 void msrClef::print (ostream& os)
 {
-  os << clefAsString () << endl;
+  os <<
+    clefAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -5511,6 +5513,7 @@ void msrStanza::addSyllableToStanza (S_msrSyllable syllable)
 
   // does this stanza contain text?
   switch (syllable->getSyllableKind ()) {
+    
     case msrSyllable::kSingleSyllable:
     case msrSyllable::kBeginSyllable:
     case msrSyllable::kMiddleSyllable:
@@ -6419,6 +6422,29 @@ ostream& operator<< (ostream& os, const S_msrBarline& elt)
   return os;
 }
 
+string msrBarline::barlineLocationAsString (
+  msrBarlineLocation barlineLocation)
+{
+  string result;
+  
+  switch (barlineLocation) {
+    case k_NoLocation:
+      result = "none";
+      break;
+    case kLeft:
+      result = "Left";
+      break;
+    case kMiddle:
+      result = "Middle";
+      break;
+    case kRight:
+      result = "Right";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrBarline::barlineCategoryAsString (
   msrBarlineCategory barlineCategory)
 {
@@ -6465,22 +6491,9 @@ void msrBarline::print (ostream& os)
   idtr++;
 
   os <<
-    idtr << left << setw(15) << "Location" << " : ";
-  switch (fLocation) {
-    case k_NoLocation:
-      os << "none";
-      break;
-    case kLeft:
-      os << "Left";
-      break;
-    case kMiddle:
-      os << "Middle";
-      break;
-    case kRight:
-      os << "Right";
-      break;
-  } // switch
-  os << endl;
+    idtr << left << setw(15) << "Location" << " : " <<
+    barlineLocationAsString (fLocation) <<
+    endl;
   
   os <<
     idtr << setw(15) << "Style" << " : ";
