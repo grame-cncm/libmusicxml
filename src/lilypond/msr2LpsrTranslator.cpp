@@ -1138,37 +1138,6 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       endl;
   }
 
-  msrSyllable::msrSyllableExtendKind
-    noteSyllableExtendKind =
-      elt->getNoteSyllableExtendKind ();
-                  
-  switch (noteSyllableExtendKind) {
-    case msrSyllable::kStandaloneSyllableExtend:
-      {
-        // create melisma start command
-        S_lpsrMelismaCommand
-          melismaCommand =
-            lpsrMelismaCommand::create (
-              elt->getInputLineNumber (),
-              lpsrMelismaCommand::kMelismaStart);
-
-        // append it to current voice clone
-        fCurrentVoiceClone->
-          appendElementToVoice (melismaCommand);
-
-        fOnGoingSyllableExtend = true;
-      }
-      break;
-    case msrSyllable::kStartSyllableExtend:
-      break;
-    case msrSyllable::kContinueSyllableExtend:
-      break;
-    case msrSyllable::kStopSyllableExtend:
-      break;
-    case msrSyllable::k_NoSyllableExtend:
-      break;
-  } // switch
-
   switch (fCurrentNoteClone->getNoteKind ()) {
     
     case msrNote::k_NoNoteKind:
@@ -1235,6 +1204,37 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
     case msrNote::kTupletMemberNote:
       fTupletClonesStack.top ()->
         addNoteToTuplet (fCurrentNoteClone);
+      break;
+  } // switch
+
+  msrSyllable::msrSyllableExtendKind
+    noteSyllableExtendKind =
+      elt->getNoteSyllableExtendKind ();
+                  
+  switch (noteSyllableExtendKind) {
+    case msrSyllable::kStandaloneSyllableExtend:
+      {
+        // create melisma start command
+        S_lpsrMelismaCommand
+          melismaCommand =
+            lpsrMelismaCommand::create (
+              elt->getInputLineNumber (),
+              lpsrMelismaCommand::kMelismaStart);
+
+        // append it to current voice clone
+        fCurrentVoiceClone->
+          appendElementToVoice (melismaCommand);
+
+        fOnGoingSyllableExtend = true;
+      }
+      break;
+    case msrSyllable::kStartSyllableExtend:
+      break;
+    case msrSyllable::kContinueSyllableExtend:
+      break;
+    case msrSyllable::kStopSyllableExtend:
+      break;
+    case msrSyllable::k_NoSyllableExtend:
       break;
   } // switch
 

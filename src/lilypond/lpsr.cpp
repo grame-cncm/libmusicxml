@@ -1358,6 +1358,12 @@ lpsrMelismaCommand::lpsrMelismaCommand (
   lpsrMelismaKind melismaKind)
     : lpsrElement (inputLineNumber)
 {
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> creating lpsrMelismaCommand " <<
+      melismaKindAsString (melismaKind) <<
+      endl;
+  
   fMelismaKind = melismaKind;
 }
 
