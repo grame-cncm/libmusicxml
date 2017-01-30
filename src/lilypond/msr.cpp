@@ -1386,11 +1386,12 @@ msrSlur::msrSlur (
 }
 msrSlur::~msrSlur() {}
 
-string msrSlur::slurKindAsString ()
+string msrSlur::slurKindAsString (
+  msrSlurKind slurKind)
 {
   stringstream s;
   
-  switch (fSlurKind) {
+  switch (slurKind) {
     case msrSlur::kStartSlur:
       s << "start";
       break;
@@ -1401,10 +1402,16 @@ string msrSlur::slurKindAsString ()
       s << "stop";
       break;
     default:
-      s << "Slur" << fSlurKind << "???";
+      s << "Slur" << slurKind << "???";
   } // switch
     
   return s.str();
+  
+}
+      
+string msrSlur::slurKindAsString ()
+{
+  return slurKindAsString (fSlurKind);
 }
 
 void msrSlur::acceptIn (basevisitor* v) {

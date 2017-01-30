@@ -2350,6 +2350,16 @@ class EXP msrNote : public msrElement
                   getNoteWedgesToModify ()
                       { return fNoteWedges; };
 
+    // lyrics
+    void          setNoteSyllableExtendKind (
+                    msrSyllable::msrSyllableExtendKind
+                      syllableExtendKind)
+                      { fNoteSyllableExtendKind = syllableExtendKind; }
+
+    msrSyllable::msrSyllableExtendKind
+                  getNoteSyllableExtendKind () const
+                      { return fNoteSyllableExtendKind; }              
+
     // measure uplink
     void          setNoteMeasureUplink (
                     const S_msrMeasure& measure)

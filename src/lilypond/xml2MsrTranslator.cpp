@@ -2711,30 +2711,34 @@ void xml2MsrTranslator::visitStart ( S_extend& elt )
   if (fOnGoingLyric) {
     if      (fCurrentExtendType == "start") {
       
-      fCurrentSyllableExtendKind = msrSyllable::kStartSyllableExtend;
+      fCurrentSyllableExtendKind =
+        msrSyllable::kStartSyllableExtend;
       
     }
     else if (fCurrentExtendType == "continue") {
       
-      fCurrentSyllableExtendKind = msrSyllable::kContinueSyllableExtend;
+      fCurrentSyllableExtendKind =
+        msrSyllable::kContinueSyllableExtend;
       
     }
     else if (fCurrentExtendType == "stop") {
       
-      fCurrentSyllableExtendKind = msrSyllable::kStopSyllableExtend;
+      fCurrentSyllableExtendKind =
+        msrSyllable::kStopSyllableExtend;
       
     }
     else if (fCurrentExtendType.size()) {
         stringstream s;
         
-        s << "slur type" << fCurrentExtendType << "unknown";
+        s << "extend type" << fCurrentExtendType << "unknown";
         
         msrMusicXMLError (
           elt->getInputLineNumber (),
           s.str());
     }
     else {
-      fCurrentSyllableExtendKind = msrSyllable::kStandaloneSyllableExtend;
+      fCurrentSyllableExtendKind =
+        msrSyllable::kStandaloneSyllableExtend;
     }
   }
 }
@@ -2789,22 +2793,10 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         
     cerr <<
       idtr <<
-        setw(27) << "fCurrentSlurKind" << " = \"";
-    switch (fCurrentSlurKind) {
-      case msrSlur::kStartSlur:
-        cerr << "start";
-        break;
-      case msrSlur::kContinueSlur:
-        cerr << "start";
-        break;
-      case msrSlur::kStopSlur:
-        cerr << "start";
-        break;
-      case msrSlur::k_NoSlur:
-        cerr << "NO_SLUR";
-        break;
-    } // switch
-    cerr << "\"" << endl;
+        setw(27) << "fCurrentSlurKind" << " = \"" <<
+        msrSlur::slurKindAsString (fCurrentSlurKind) <<
+        "\"" <<
+        endl;
 
     cerr <<
       idtr <<
