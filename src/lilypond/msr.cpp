@@ -8764,6 +8764,17 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
   fMusicHasBeenInsertedInVoice = true;
 }
 
+void msrVoice::appendElementToVoice (S_msrElement elem) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "Appending element '" << elem <<
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
+
+  fVoiceSegment->
+    appendElementToSegment (elem);
+}
+
 void msrVoice::appendGracenotesToVoice (
   S_msrGracenotes gracenotes)
 {

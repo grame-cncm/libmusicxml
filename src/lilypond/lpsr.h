@@ -1238,6 +1238,76 @@ typedef SMARTP<lpsrBarCommand> S_lpsrBarCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrBarCommand& elt);
 
 /*!
+\brief A lpsr bar representation.
+
+  A bar is represented by a vactor of elements
+*/
+//______________________________________________________________________________
+class EXP lpsrMelismaCommand : public lpsrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum lpsrMelismaKind {
+      kMelismaStart, kMelismaEnd};
+
+    static string melismaKindAsString (
+      lpsrMelismaKind melismaKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrMelismaCommand> create (
+      int             inputLineNumber,
+      lpsrMelismaKind melismaKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrMelismaCommand (
+      int             inputLineNumber,
+      lpsrMelismaKind melismaKind);
+      
+    virtual ~lpsrMelismaCommand();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    lpsrMelismaKind
+                getMelismaKind () const
+                    { return fMelismaKind; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    lpsrMelismaKind fMelismaKind;
+
+};
+typedef SMARTP<lpsrMelismaCommand> S_lpsrMelismaCommand;
+EXP ostream& operator<< (ostream& os, const S_lpsrMelismaCommand& elt);
+
+/*!
 \brief A lpsr header representation.
 
   A header is represented by variable/value pairs

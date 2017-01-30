@@ -1308,6 +1308,30 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrBarCommand& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondTranslator::visitStart (S_lpsrMelismaCommand& elt)
+{
+  if (gGeneralOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting lpsrMelismaCommand" << endl;
+
+  switch (elt->getMelismaKind ()) {
+    case lpsrMelismaCommand::kMelismaStart:
+      fOstream << "\\melisma" " ";
+      break;
+    case lpsrMelismaCommand::kMelismaEnd:
+      fOstream << "\\melismaEnd" " ";
+      break;
+  } // switch
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_lpsrMelismaCommand& elt)
+{
+  if (gGeneralOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting lpsrMelismaCommand" << endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrScore& elt)
 {
   if (gGeneralOptions->fDebug)

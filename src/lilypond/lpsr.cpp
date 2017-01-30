@@ -1341,12 +1341,95 @@ void lpsrBarCommand::print (ostream& os)
     endl;
 }
 
-/*
-void lpsrBarCommand::printLilyPondCode (ostream& os)
-{      
-  os << "\\bar" << " " << "\"|.\"" << endl;
+//______________________________________________________________________________
+S_lpsrMelismaCommand lpsrMelismaCommand::create (
+  int             inputLineNumber,
+  lpsrMelismaKind melismaKind)
+{
+  lpsrMelismaCommand* o =
+    new lpsrMelismaCommand (
+      inputLineNumber, melismaKind);
+  assert(o!=0);
+  return o;
 }
-*/
+
+lpsrMelismaCommand::lpsrMelismaCommand (
+  int             inputLineNumber,
+  lpsrMelismaKind melismaKind)
+    : lpsrElement (inputLineNumber)
+{
+  fMelismaKind = melismaKind;
+}
+
+lpsrMelismaCommand::~lpsrMelismaCommand() {}
+
+void lpsrMelismaCommand::acceptIn (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrMelismaCommand::acceptIn()" << endl;
+      
+  if (visitor<S_lpsrMelismaCommand>*
+    p =
+      dynamic_cast<visitor<S_lpsrMelismaCommand>*> (v)) {
+        S_lpsrMelismaCommand elem = this;
+        
+        if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrMelismaCommand::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void lpsrMelismaCommand::acceptOut (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> lpsrMelismaCommand::acceptOut()" << endl;
+
+  if (visitor<S_lpsrMelismaCommand>*
+    p =
+      dynamic_cast<visitor<S_lpsrMelismaCommand>*> (v)) {
+        S_lpsrMelismaCommand elem = this;
+      
+        if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "==> Launching lpsrMelismaCommand::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrMelismaCommand::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_lpsrMelismaCommand& nstf)
+{
+  nstf->print (os);
+  return os;
+}
+
+string lpsrMelismaCommand::melismaKindAsString (
+  lpsrMelismaKind melismaKind)
+{
+  string result;
+
+  switch (melismaKind) {
+    case lpsrMelismaCommand::kMelismaStart:
+      result = "Start";
+      break;
+    case lpsrMelismaCommand::kMelismaEnd:
+      result = "End";
+      break;
+  } // switch
+
+  return result;
+}
+
+void lpsrMelismaCommand::print (ostream& os)
+{
+  os <<
+    "MelismaCommand" << " " <<
+    melismaKindAsString (fMelismaKind) <<
+    endl;
+}
 
 //______________________________________________________________________________
 S_lpsrHeader lpsrHeader::create (

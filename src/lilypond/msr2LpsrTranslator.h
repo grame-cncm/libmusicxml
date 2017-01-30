@@ -331,6 +331,7 @@ class msr2LpsrTranslator :
     // syllables
     // ------------------------------------------------------
     S_msrSyllable             fCurrentSyllableClone;
+    bool                      fOnGoingSyllableExtend;
 
     // notes
     // ------------------------------------------------------

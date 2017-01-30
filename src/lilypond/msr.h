@@ -4697,24 +4697,28 @@ class EXP msrVoice : public msrElement
 
     void          forceVoiceMeasureNumberTo (int measureNumber); // JMI
                       
-    void          appendClefToVoice   (S_msrClef clef);
-    void          appendKeyToVoice    (S_msrKey  key);
-    void          appendTimeToVoice   (S_msrTime time);
+    void          appendClefToVoice (S_msrClef clef);
+    void          appendKeyToVoice  (S_msrKey  key);
+    void          appendTimeToVoice (S_msrTime time);
     
-    void          appendTransposeToVoice (S_msrTranspose transpose);
+    void          appendTransposeToVoice (
+                    S_msrTranspose transpose);
 
 // JMI    void          appendWordsToVoice  (S_msrWords words);
     
-    void          appendTempoToVoice  (S_msrTempo tempo);
+    void          appendTempoToVoice (
+                    S_msrTempo tempo);
     
-    void          appendRehearsalToVoice (S_msrRehearsal rehearsal);
+    void          appendRehearsalToVoice (
+                    S_msrRehearsal rehearsal);
     
-    void          appendOctaveShiftToVoice (S_msrOctaveShift octaveShift);
+    void          appendOctaveShiftToVoice (
+                    S_msrOctaveShift octaveShift);
     
     void          appendNoteToVoice   (S_msrNote note);
     void          appendChordToVoice  (S_msrChord chord);
     void          appendTupletToVoice (S_msrTuplet tuplet);
-    
+
     void          appendGracenotesToVoice (
                     S_msrGracenotes gracenotes);
     
@@ -4772,6 +4776,9 @@ class EXP msrVoice : public msrElement
                     S_msrEyeglasses eyeglasses);
     void          appendPedalToVoice (S_msrPedal pedal);
     
+    void          appendElementToVoice (S_msrElement elem);
+                    // for other types of elements
+
     S_msrElement  removeLastElementFromVoice (
                     int inputLineNumber);
 

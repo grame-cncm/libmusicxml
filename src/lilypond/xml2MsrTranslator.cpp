@@ -4057,7 +4057,9 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
 
   fCurrentStanzaNumber = -1;
   fCurrentSyllabic = "";
-  fCurrentText = "";  
+  fCurrentText = "";
+  fCurrentSyllableExtendKind =
+  msrSyllable::k_NoSyllableExtend;
   // assume this note hasn't got any stanzas until S_lyric is met
   fCurrentNoteHasStanza = false;
 

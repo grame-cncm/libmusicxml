@@ -50,6 +50,9 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   fOnGoingStaff          = false;
 
   fOnGoingNote           = false;
+
+  fOnGoingSyllableExtend = false;
+  
   fOnGoingChord          = false;
   
   fOnGoingRepeat         = false;
@@ -786,6 +789,22 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   // add it to the current stanza clone
   fCurrentStanzaClone->
     addSyllableToStanza (elt);
+
+  
+  // a syllable ends the sysllable extend range if any
+  if (fOnGoingSyllableExtend) {
+    // create melisma end command
+    S_lpsrMelismaCommand
+      melismaCommand =
+        lpsrMelismaCommand::create (
+          elt->getInputLineNumber (),
+          lpsrMelismaCommand::kMelismaEnd);
+
+    // append it to current voice clone
+    fCurrentVoiceClone->
+      appendElementToVoice (melismaCommand);
+  }
+  fOnGoingSyllableExtend = false;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrSyllable& elt)
@@ -1099,31 +1118,9 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 {
   if (gGeneralOptions->fDebug) {
     fOstream << idtr <<
-      "--> Start visiting ";
-    switch (elt->getNoteKind ()) {
-      case msrNote::k_NoNoteKind:
-        fOstream << "standalone";
-        break;
-      case msrNote::kStandaloneNote:
-        fOstream << "standalone";
-        break;
-      case msrNote::kGraceNote:
-        fOstream << "grace";
-        break;
-      case msrNote::kRestNote:
-        fOstream << "rest";
-        break;
-      case msrNote::kSkipNote:
-        fOstream << "skip";
-        break;
-      case msrNote::kChordMemberNote:
-        fOstream << "chord member";
-        break;
-      case msrNote::kTupletMemberNote:
-        fOstream << "tuplet member";
-        break;
-    } // switch
-    fOstream << " msrNote" << endl;
+      "--> Start visiting " <<
+      elt->noteAsString () <<
+      endl;
   }
 
   fCurrentNoteClone =
@@ -1136,31 +1133,41 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 {
   if (gGeneralOptions->fDebug) {
     fOstream << idtr <<
-      "--> Start visiting ";
-    switch (elt->getNoteKind ()) {
-      case msrNote::k_NoNoteKind:
-        break;
-      case msrNote::kStandaloneNote:
-        fOstream << "standalone";
-        break;
-      case msrNote::kGraceNote:
-        fOstream << "grace";
-        break;
-      case msrNote::kRestNote:
-        fOstream << "rest";
-        break;
-      case msrNote::kSkipNote:
-        fOstream << "skip";
-        break;
-      case msrNote::kChordMemberNote:
-        fOstream << "chord member";
-        break;
-      case msrNote::kTupletMemberNote:
-        fOstream << "tuplet member";
-        break;
-    } // switch
-    fOstream << " msrNote" << endl;
+      "--> End visiting " <<
+      elt->noteAsString () <<
+      endl;
   }
+
+  msrSyllable::msrSyllableExtendKind
+    noteSyllableExtendKind =
+      elt->getNoteSyllableExtendKind ();
+                  
+  switch (noteSyllableExtendKind) {
+    case msrSyllable::kStandaloneSyllableExtend:
+      {
+        // create melisma start command
+        S_lpsrMelismaCommand
+          melismaCommand =
+            lpsrMelismaCommand::create (
+              elt->getInputLineNumber (),
+              lpsrMelismaCommand::kMelismaStart);
+
+        // append it to current voice clone
+        fCurrentVoiceClone->
+          appendElementToVoice (melismaCommand);
+
+        fOnGoingSyllableExtend = true;
+      }
+      break;
+    case msrSyllable::kStartSyllableExtend:
+      break;
+    case msrSyllable::kContinueSyllableExtend:
+      break;
+    case msrSyllable::kStopSyllableExtend:
+      break;
+    case msrSyllable::k_NoSyllableExtend:
+      break;
+  } // switch
 
   switch (fCurrentNoteClone->getNoteKind ()) {
     
@@ -1172,7 +1179,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         cerr << idtr <<
           "--> appending " <<
           fCurrentNoteClone->noteAsString () << " to voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
+          fCurrentVoiceClone->getVoiceName () <<
+          endl;
       }
           
       fCurrentVoiceClone->
@@ -1424,14 +1432,14 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
  //     if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> handling kRepeatStart in voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
+          fCurrentVoiceClone->getVoiceName () <<
+          endl;
 
       // get the current segment
       S_msrSegment
         currentSegment =
           fCurrentVoiceClone->
             getVoiceSegment ();
-
 
       // create an LPSR repeat if not yet done
       // JMI
@@ -1465,7 +1473,8 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> setting new segment for voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
+          fCurrentVoiceClone->getVoiceName () <<
+          endl;
           
       fCurrentVoiceClone->
         setNewSegmentForVoice (

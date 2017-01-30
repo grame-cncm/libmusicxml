@@ -56,6 +56,8 @@ class lpsr2LilyPondTranslator :
   public visitor<S_lpsrContext>,
   
   public visitor<S_lpsrBarCommand>,
+  
+  public visitor<S_lpsrMelismaCommand>,
 
   public visitor<S_lpsrComment>,
 
@@ -202,6 +204,9 @@ class lpsr2LilyPondTranslator :
   
     virtual void visitStart (S_lpsrBarCommand& elt);
     virtual void visitEnd   (S_lpsrBarCommand& elt);
+
+    virtual void visitStart (S_lpsrMelismaCommand& elt);
+    virtual void visitEnd   (S_lpsrMelismaCommand& elt);
 
     virtual void visitStart (S_lpsrComment& elt);
     virtual void visitEnd   (S_lpsrComment& elt);
