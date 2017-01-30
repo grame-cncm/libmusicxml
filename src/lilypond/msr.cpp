@@ -1779,31 +1779,6 @@ S_msrNote msrNote::createSkipNote (
   return o;
 }    
 
-S_msrNote msrNote::createNoteBareClone ()
-{
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> Creating a bare clone of note " <<
-      noteAsString () <<
-      endl;
-
-  S_msrNote
-    clone =
-      msrNote::createFromNoteData (
-        fInputLineNumber,
-        fNoteData);
-
-  clone->fNoteKind = fNoteKind;
-  
-  clone->fNoteOctaveShift = fNoteOctaveShift;
-  
-  clone->fNoteStem = fNoteStem;  
-
-  clone->fNoteDivisionsPerWholeNote = fNoteDivisionsPerWholeNote;
-  
-  return clone;
-}
-
 msrNote::msrNote (
   int           inputLineNumber,
   msrNoteData&  noteData)
@@ -1984,6 +1959,33 @@ msrNote::msrNote (
 
 msrNote::~msrNote()
 {}
+
+S_msrNote msrNote::createNoteBareClone ()
+{
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating a bare clone of note " <<
+      noteAsString () <<
+      endl;
+
+  S_msrNote
+    clone =
+      msrNote::createFromNoteData (
+        fInputLineNumber,
+        fNoteData);
+
+  clone->fNoteKind = fNoteKind;
+  
+  clone->fNoteOctaveShift = fNoteOctaveShift;
+  
+  clone->fNoteStem = fNoteStem;  
+
+  clone->fNoteDivisionsPerWholeNote = fNoteDivisionsPerWholeNote;
+  
+  clone->fNoteSyllableExtendKind = fNoteSyllableExtendKind;
+  
+  return clone;
+}
 
 void msrNote::setNoteBelongsToAChord () {
   if (gGeneralOptions->fDebug)
@@ -5119,7 +5121,7 @@ string msrSyllable::syllableAsString ()
   } // switch
 
   s <<
-    ", extend = " <<
+    ", " <<
     syllableExtendKindAsString (fSyllableExtendKind);
     
   return s.str();
