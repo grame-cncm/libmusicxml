@@ -6474,6 +6474,122 @@ string msrBarline::barlineCategoryAsString (
   return result;
 }
 
+string msrBarline::barlineStyleAsString (
+  msrBarlineStyle barlineStyle)
+{
+  string result;
+  
+  switch (barlineStyle) {
+    case k_NoStyle:
+      result = "none";
+      break;
+    case kRegular:
+      result = "Regular";
+      break;
+    case kDotted:
+      result = "Dotted";
+      break;
+    case kDashed:
+      result = "Dashed";
+      break;
+    case kHeavy:
+      result = "Heavy";
+      break;
+    case kLightLight:
+      result = "LightLight";
+      break;
+    case kLightHeavy:
+      result = "LightHeavy";
+      break;
+    case kHeavyLight:
+      result = "HeavyLight";
+      break;
+    case kHeavyHeavy:
+      result = "HeavyHeavy";
+      break;
+    case kTick:
+      result = "Tick";
+      break;
+    case kShort:
+      result = "Short";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrBarline::barlineEndingTypeAsString (
+  msrBarlineEndingType barlineEndingType)
+{
+  string result;
+  
+  switch (barlineEndingType) {
+    case k_NoEndingType:
+      result = "none";
+      break;
+    case kStart:
+      result = "Start";
+      break;
+    case kStop:
+      result = "Stop";
+      break;
+    case kDiscontinue:
+      result = "Discontinue";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrBarline::barlineRepeatDirectionAsString (
+  msrBarlineRepeatDirection barlineRepeatDirection)
+{
+  string result;
+  
+  switch (barlineRepeatDirection) {
+    case k_NoRepeatDirection:
+      result ="none";
+      break;
+    case kForward:
+      result ="Forward";
+      break;
+    case kBackward:
+      result ="Backward";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrBarline::barlineRepeatWingedAsString (
+  msrBarlineRepeatWinged barlineRepeatWinged)
+{
+  string result;
+  
+  switch (barlineRepeatWinged) {
+    case k_NoRepeatWinged:
+      result = "none"; // ??? JMI
+      break;
+    case kNone:
+      result = "none";
+      break;
+    case kStraight:
+      result = "Straight";
+      break;
+    case kCurved:
+      result = "Curved";
+      break;
+    case kDoubleStraight:
+      result = "DoubleStraight";
+      break;
+    case kDoubleCurved:
+      result = "DoubleCurved";
+      break;
+  } // switch
+
+  return result;
+}
+
 void msrBarline::print (ostream& os)
 {
   os <<
@@ -6491,69 +6607,22 @@ void msrBarline::print (ostream& os)
   idtr++;
 
   os <<
-    idtr << left << setw(15) << "Location" << " : " <<
-    barlineLocationAsString (fLocation) <<
-    endl;
+    idtr << left <<
+      setw(15) << "Location" << " : " <<
+      barlineLocationAsString (fLocation) <<
+      endl <<
+    idtr <<
+      setw(15) << "Style" << " : " <<
+      barlineStyleAsString (fStyle) <<
+      endl <<
+    idtr <<
+      setw(15) << "EndingType" << " : " <<
+      barlineEndingTypeAsString (fEndingType) <<
+      endl;
   
   os <<
-    idtr << setw(15) << "Style" << " : ";
-  switch (fStyle) {
-    case k_NoStyle:
-      os << "none";
-      break;
-    case kRegular:
-      os << "Regular";
-      break;
-    case kDotted:
-      os << "Dotted";
-      break;
-    case kDashed:
-      os << "Dashed";
-      break;
-    case kHeavy:
-      os << "Heavy";
-      break;
-    case kLightLight:
-      os << "LightLight";
-      break;
-    case kLightHeavy:
-      os << "LightHeavy";
-      break;
-    case kHeavyLight:
-      os << "HeavyLight";
-      break;
-    case kHeavyHeavy:
-      os << "HeavyHeavy";
-      break;
-    case kTick:
-      os << "Tick";
-      break;
-    case kShort:
-      os << "Short";
-      break;
-  } // switch
-  os << endl;
-  
-  os <<
-    idtr << setw(15) << "EndingType" << " : ";
-  switch (fEndingType) {
-    case k_NoEndingType:
-      os << "none";
-      break;
-    case kStart:
-      os << "Start";
-      break;
-    case kStop:
-      os << "Stop";
-      break;
-    case kDiscontinue:
-      os << "Discontinue";
-      break;
-  } // switch
-  os << endl;
-  
-  os <<
-    idtr << setw(15) << "Ending number" << " : ";
+    idtr <<
+      setw(15) << "Ending number" << " : ";
   list<int>::const_iterator i;
   for (i=fEndingNumbersList.begin(); i!=fEndingNumbersList.end(); i++) {
     os << (*i) << " ";
@@ -6561,43 +6630,16 @@ void msrBarline::print (ostream& os)
   os << endl;
  
   os <<
-    idtr << setw(15) << "RepeatDirection" << " : ";
-  switch (fRepeatDirection) {
-    case k_NoRepeatDirection:
-      os << "none";
-      break;
-    case kForward:
-      os << "Forward";
-      break;
-    case kBackward:
-      os << "Backward";
-      break;
-  } // switch
-  os << endl;
+    idtr <<
+      setw(15) << "RepeatDirection" << " : " <<
+      barlineRepeatDirectionAsString (fRepeatDirection) <<
+      endl;
   
   os <<
-    idtr << setw(15) << "RepeatWinged" << " : ";
-  switch (fRepeatWinged) {
-    case k_NoRepeatWinged:
-      os << "none"; // ??? JMI
-      break;
-    case kNone:
-      os << "none";
-      break;
-    case kStraight:
-      os << "Straight";
-      break;
-    case kCurved:
-      os << "Curved";
-      break;
-    case kDoubleStraight:
-      os << "DoubleStraight";
-      break;
-    case kDoubleCurved:
-      os << "DoubleCurved";
-      break;
-  } // switch
-  os << endl;
+    idtr <<
+      setw(15) << "RepeatWinged" << " : " <<
+      barlineRepeatWingedAsString (fRepeatWinged) <<
+      endl;
      
   idtr--;
 }
