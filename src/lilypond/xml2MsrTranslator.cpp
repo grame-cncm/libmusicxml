@@ -2869,7 +2869,11 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
           fCurrentElision,
           fCurrentSyllableExtendKind,
           fNoteData.fDivisions);
-  
+
+    // the presense of a '<lyric />' ends the effect
+    // of an on going syllable extend
+    fOnGoingSyllableExtend = false;
+    
     if (fOnGoingSlur)
       fOnGoingSlurHasStanza = true;
       
@@ -6806,11 +6810,6 @@ void xml2MsrTranslator::handleLyric (S_msrNote newNote)
   // forget all of newNote's syllables
   fCurrentNoteSyllables.clear ();
 
-  // register newNote's extend kind
-  newNote->
-    setNoteSyllableExtendKind (
-      fCurrentSyllableExtendKind);
-    
   // is '<extend />' active for newNote?
   switch (fCurrentSyllableExtendKind) {
     case msrSyllable::kStandaloneSyllableExtend:
@@ -6828,6 +6827,12 @@ void xml2MsrTranslator::handleLyric (S_msrNote newNote)
     case msrSyllable::k_NoSyllableExtend:
       break;
   } // switch
+
+  if (fOnGoingSyllableExtend) // JMI
+    // register newNote's extend kind
+    newNote->
+      setNoteSyllableExtendKind (
+        fCurrentSyllableExtendKind);
 }
 
 //______________________________________________________________________________
