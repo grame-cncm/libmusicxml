@@ -2354,7 +2354,10 @@ class EXP msrNote : public msrElement
     void          setNoteSyllableExtendKind (
                     msrSyllable::msrSyllableExtendKind
                       syllableExtendKind)
-                      { fNoteSyllableExtendKind = syllableExtendKind; }
+                      {
+                        fNoteSyllableExtendKind =
+                          syllableExtendKind;
+                      }
 
     msrSyllable::msrSyllableExtendKind
                   getNoteSyllableExtendKind () const

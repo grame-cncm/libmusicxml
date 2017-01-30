@@ -728,10 +728,10 @@ class EXP xml2MsrTranslator :
     // the last lyric fragment met
     string                    fCurrentText;
     bool                      fCurrentElision;
-    bool                      fOnGoingSyllableExtend;
     string                    fCurrentExtendType;
     msrSyllable::msrSyllableExtendKind
                               fCurrentSyllableExtendKind;
+    bool                      fOnGoingSyllableExtend;
     
     int                       fCurrentStanzaNumber;
     bool                      fCurrentNoteHasStanza;

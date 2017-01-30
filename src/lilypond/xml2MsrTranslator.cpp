@@ -56,15 +56,19 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fCurrentVoiceNumber = 1; // JMI
 
   fOnGoingLyric = false;
-  fOnGoingSyllableExtend = false;
   fCurrentStanzaNumber = -1; // JMI
   fCurrentSyllabic = "";
   fCurrentText = "";
   fCurrentElision = false;
   
-  fCurrentSyllableKind     = msrSyllable::k_NoSyllable;
-  
-  fFirstSyllableInSlurKind = msrSyllable::k_NoSyllable;
+  fCurrentSyllableKind =
+    msrSyllable::k_NoSyllable;
+  fCurrentSyllableExtendKind =
+    msrSyllable::k_NoSyllableExtend;
+  fOnGoingSyllableExtend = false;
+
+  fFirstSyllableInSlurKind =
+    msrSyllable::k_NoSyllable;
   
   fCurrentBackupDuration = -1;
 
@@ -2644,8 +2648,6 @@ void xml2MsrTranslator::visitStart (S_lyric& elt )
   fCurrentStanzaHasText = false;
   fCurrentElision = false;
 
-  fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
-
   fCurrentNoteHasStanza = true;
 
   fOnGoingLyric = true;
@@ -2777,13 +2779,9 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
           fCurrentSyllableExtendKind <<
         endl <<
       idtr <<
-        setw(27) << "fNoteData.fStepIsARest" << " = ";
-    if (fNoteData.fStepIsARest)
-      cerr << "true";
-    else
-      cerr << "false";
-    cerr <<
-      endl;
+        setw(27) << "fNoteData.fStepIsARest" << " = " <<
+        booleanAsString (fNoteData.fStepIsARest) <<
+        endl;
 
     cerr <<
       idtr <<
@@ -2847,7 +2845,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     syllable;
 
   if (fCurrentSyllableKind != msrSyllable::k_NoSyllable) {
-
+    
  //   string syllableKindAsString; JMI
     
     if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
@@ -6808,15 +6806,21 @@ void xml2MsrTranslator::handleLyric (S_msrNote newNote)
   // forget all of newNote's syllables
   fCurrentNoteSyllables.clear ();
 
+  // register newNote's extend kind
+  newNote->
+    setNoteSyllableExtendKind (
+      fCurrentSyllableExtendKind);
+    
+  // is '<extend />' active for newNote?
   switch (fCurrentSyllableExtendKind) {
     case msrSyllable::kStandaloneSyllableExtend:
       fOnGoingSyllableExtend = true;
       break;
     case msrSyllable::kStartSyllableExtend:
-      // keep fOnGoingSyllableExtend unchanged
+      fOnGoingSyllableExtend = true;
       break;
     case msrSyllable::kContinueSyllableExtend:
-      fOnGoingSyllableExtend = false;
+      // keep fOnGoingSyllableExtend unchanged
       break;
     case msrSyllable::kStopSyllableExtend:
       fOnGoingSyllableExtend = false;

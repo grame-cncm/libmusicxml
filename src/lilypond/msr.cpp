@@ -2490,6 +2490,16 @@ void msrNote::print (ostream& os)
     ")" <<
     endl;
 
+  // print the extend kind
+  idtr++;
+  os <<
+    idtr <<
+    "NoteSyllableExtendKind" " = " <<
+    msrSyllable::syllableExtendKindAsString (
+      fNoteSyllableExtendKind) <<
+    endl;
+  idtr--;
+
   // print the octave shift if any
   if (fNoteOctaveShift) {
     idtr++;
