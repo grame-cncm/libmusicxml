@@ -2537,7 +2537,8 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os <<
         idtr <<
-        " \"" << (*i)->getSyllableText () << "\"";
+        " \"" << (*i)->getSyllableText () << "\"" <<
+        ", line " << (*i)->getInputLineNumber ();
       if (++i == iEnd) break;
       os << endl;
     } // for
