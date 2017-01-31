@@ -2351,8 +2351,7 @@ class EXP msrNote : public msrElement
                       { return fNoteWedges; };
 
     // lyrics
-    void          appendNoteSyllable (S_msrSyllable syllable)
-                      { fNoteSyllables.push_back (syllable); }
+    void          appendSyllableToNote (S_msrSyllable syllable);
 
     list<S_msrSyllable>
                   getNoteSyllables () const

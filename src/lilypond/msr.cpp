@@ -2110,6 +2110,18 @@ S_msrWedge msrNote::removeFirstWedge () // JMI
   return wedge;
 }
 
+void msrNote::appendSyllableToNote (S_msrSyllable syllable)
+{
+// JMI  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> appending syllable " <<
+      syllable->syllableAsString () <<
+      "to note " << noteAsString () <<
+      endl;
+
+  fNoteSyllables.push_back (syllable);
+}
+
 void msrNote::acceptIn (basevisitor* v)
 {
   if (gGeneralOptions->fDebugDebug)
@@ -2504,12 +2516,14 @@ void msrNote::print (ostream& os)
     fNotePositionInMeasure <<
     "/" <<
     fNoteDivisionsPerWholeNote <<
-    ")";
+    ")" <<
+    endl;
 
   // are there syllables associated to this note?
   if (fNoteSyllables.size ()) {
+    idtr++;
+
     os <<
-      endl <<
       idtr <<
       "Syllables:" <<
       endl;
@@ -2529,9 +2543,12 @@ void msrNote::print (ostream& os)
     } // for
 
     idtr--;
+    
+    os <<
+      endl;
+
+    idtr--;
   }
-  os <<
-    endl;
 
   // print the extend kind
   idtr++;
@@ -4922,9 +4939,10 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
 {
  fSyllableNoteUplink = note;
 
- // set reverse link
- note->
-  appendNoteSyllable (this);
+ // register syllable in note if its text is not empty
+ if (fSyllableText.size ())
+   note->
+    appendSyllableToNote (this);
 
   if (true || gGeneralOptions->fDebugDebug) {
 //  if (gGeneralOptions->fDebugDebug) {
@@ -5661,7 +5679,7 @@ void msrStanza::browseData (basevisitor* v)
   for (int i = 0; i < n; i++) {
     // browse the stanza
     msrBrowser<msrSyllable> browser (v);
-    browser.browse (*fSyllables [i]);
+ // JMI   browser.browse (*fSyllables [i]);
   } // for
   cerr << endl;
 

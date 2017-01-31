@@ -784,8 +784,9 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
     setSyllableNoteUplink (fCurrentNoteClone);
     
   // add it to the current stanza clone
-  fCurrentStanzaClone->
-    addSyllableToStanza (fCurrentSyllableClone);
+  if (fCurrentStanzaClone) // fOnGoingStanza? JMI
+    fCurrentStanzaClone->
+      addSyllableToStanza (fCurrentSyllableClone);
 
   // a syllable ends the sysllable extend range if any
   if (fOnGoingSyllableExtend) {
