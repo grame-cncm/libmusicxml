@@ -4784,8 +4784,9 @@ class EXP msrVoice : public msrElement
                     S_msrEyeglasses eyeglasses);
     void          appendPedalToVoice (S_msrPedal pedal);
     
-    void          appendElementToVoice (S_msrElement elem);
-                    // for other types of elements
+    void          appendOtherElementToVoice (S_msrElement elem);
+                    // for other types of elements not known
+                    // in this header file, such as LPSR elements
 
     S_msrElement  removeLastElementFromVoice (
                     int inputLineNumber);

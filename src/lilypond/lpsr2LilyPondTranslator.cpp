@@ -1702,6 +1702,23 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
 
       fStanzaOlec++;
 
+      switch (elt->getSyllableExtendKind ()) {
+        case msrSyllable::kStandaloneSyllableExtend:
+          // generate a lyric extender after this syllable
+          fOstream <<
+            "__" " ";
+          fStanzaOlec++;            
+          break;
+        case msrSyllable::kStartSyllableExtend:
+          break;
+        case msrSyllable::kContinueSyllableExtend:
+          break;
+        case msrSyllable::kStopSyllableExtend:
+          break;
+        case msrSyllable::k_NoSyllableExtend:
+          break;
+      } // switch
+      
       if (fLpsrOptions->fGenerateInputLineNumbers)
         // print the note line number as a comment
         fOstream <<

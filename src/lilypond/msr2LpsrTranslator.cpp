@@ -778,17 +778,18 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   // create the syllable clone
   fCurrentSyllableClone =
     elt->createSyllableBareClone ();
-    
-// JMI  fCurrentStanzaClone->
-    //addSyllableToStanza (fCurrentSyllableClone);
 
-  // don't set its note uplink to the current note clone
- // JMI elt->setSyllableNoteUplink (
-   // XXL fCurrentNoteClone);
+  // set syllable clone's note uplink to current note clone
+  fCurrentSyllableClone->
+    setSyllableNoteUplink (fCurrentNoteClone);
+    
+  // attach current syllable clone to current note clone
+//  fCurrentNoteClone->
+//    setNoteSyllable (fCurrentSyllableClone);
 
   // add it to the current stanza clone
   fCurrentStanzaClone->
-    addSyllableToStanza (elt);
+    addSyllableToStanza (fCurrentSyllableClone);
 
   // a syllable ends the sysllable extend range if any
   if (fOnGoingSyllableExtend) {
@@ -801,7 +802,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 
     // append it to current voice clone
     fCurrentVoiceClone->
-      appendElementToVoice (melismaCommand);
+      appendOtherElementToVoice (melismaCommand);
   }
   fOnGoingSyllableExtend = false;
 }
@@ -1206,10 +1207,6 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
   } // switch
 
-  // attach current syllable clone to current note clone
-  fCurrentNoteClone->
-    setNoteSyllable (fCurrentSyllableClone);
-
   // handle melisma
   msrSyllable::msrSyllableExtendKind
     noteSyllableExtendKind =
@@ -1227,7 +1224,9 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
     
         // append it to current voice clone
         fCurrentVoiceClone->
-          appendElementToVoice (melismaCommand);
+          appendOtherElementToVoice (melismaCommand);
+
+        // append 
 
         fOnGoingSyllableExtend = true;
       }
@@ -1818,7 +1817,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
 /* JMI
   fCurrentVoiceClone->
     appendRepeatToVoice (fCurrentRepeatClone);
- // JMI ???   appendElementToVoice (fCurrentRepeatClone);
+ // JMI ???   appendOtherElementToVoice (fCurrentRepeatClone);
 */
 
   fOnGoingRepeat = true;

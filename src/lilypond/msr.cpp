@@ -5023,16 +5023,16 @@ string msrSyllable::syllableExtendKindAsString (
   
   switch (syllableExtendKind) {
     case msrSyllable::kStandaloneSyllableExtend:
-      result = "StandaloneSyllableExtend";
+      result = "standalone";
       break;
     case msrSyllable::kStartSyllableExtend:
-      result = "StartSyllableExtend";
+      result = "start";
       break;
     case msrSyllable::kContinueSyllableExtend:
-      result = "ContinueSyllableExtend";
+      result = "continue";
       break;
     case msrSyllable::kStopSyllableExtend:
-      result = "StopSyllableExtend";
+      result = "stop";
       break;
     case msrSyllable::k_NoSyllableExtend:
       result = "none";
@@ -8781,10 +8781,10 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
   fMusicHasBeenInsertedInVoice = true;
 }
 
-void msrVoice::appendElementToVoice (S_msrElement elem) {
+void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "Appending element '" << elem <<
+      "Appending other element '" << elem <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
