@@ -771,7 +771,7 @@ void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 {
-  if (gGeneralOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrSyllable" << endl;
 
@@ -1113,7 +1113,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGracenotes& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 {
-  if (gGeneralOptions->fDebug) {
+  if (true || gGeneralOptions->fDebug) {
     fOstream << idtr <<
       "--> Start visiting " <<
       elt->noteAsString () <<

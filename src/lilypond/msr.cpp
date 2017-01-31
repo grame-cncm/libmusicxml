@@ -2250,6 +2250,18 @@ void msrNote::browseData (basevisitor* v)
     idtr--;
   }
 
+  // browse the syllables if any
+  if (fNoteSyllables.size()) {
+    idtr++;
+    list<S_msrSyllable>::const_iterator i;
+    for (i=fNoteSyllables.begin(); i!=fNoteSyllables.end(); i++) {
+      // browse the wedge
+      msrBrowser<msrSyllable> browser (v);
+      browser.browse (*(*i));
+    } // for
+    idtr--;
+  }
+
 /* JMI
   // browse the slur if any
   if (fNoteSlurKind != msrSlur::k_NoSlur) {
@@ -2494,16 +2506,30 @@ void msrNote::print (ostream& os)
     fNoteDivisionsPerWholeNote <<
     ")";
 
-  // is there a syllable associated to this note?
-  if (fNoteSyllable) {
-    string noteSyllableText =
-      fNoteSyllable->getSyllableText ();
-
-    if (noteSyllableText.size ())
+  // are there syllables associated to this note?
+  if (fNoteSyllables.size ()) {
+    os <<
+      endl <<
+      idtr <<
+      "Syllables:" <<
+      endl;
+      
+    idtr++;
+    
+    list<S_msrSyllable>::const_iterator
+      iBegin = fNoteSyllables.begin(),
+      iEnd   = fNoteSyllables.end(),
+      i      = iBegin;
+    for ( ; ; ) {
       os <<
-        " \"" << noteSyllableText << "\"";
-  }
+        idtr <<
+        " \"" << (*i)->getSyllableText () << "\"";
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
 
+    idtr--;
+  }
   os <<
     endl;
 
@@ -4894,13 +4920,29 @@ S_msrSyllable msrSyllable::createSyllableBareClone ()
 
 void msrSyllable::setSyllableNoteUplink (S_msrNote note)
 {
+ fSyllableNoteUplink = note;
+
+ // set reverse link
+ note->
+  appendNoteSyllable (this);
+
   if (true || gGeneralOptions->fDebugDebug) {
 //  if (gGeneralOptions->fDebugDebug) {
-    cerr << idtr <<
-      "==> setting fSyllableStanzaUplink to '" <<
-      note->noteAsString () <<
+    cerr <<
+      idtr <<
+      "==> setting syllable note uplink for:" <<
+      endl;
+
+    idtr++;
+    
+    cerr <<
+      idtr <<
+        syllableAsString () <<
+    // JMI    "to '" << note->noteAsString () <<
       ", line " << note->getInputLineNumber () <<
       endl;
+
+    idtr--;
       
 /*
     if (note) { // JMI
@@ -4916,12 +4958,6 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
       endl;
       */
   }
-
- fSyllableNoteUplink = note;
-
- // set reverse link
- note->
-  setNoteSyllable (this);
 }
 
 void msrSyllable::acceptIn (basevisitor* v) {
@@ -5052,8 +5088,8 @@ string msrSyllable::syllableAsString ()
     case kSingleSyllable:
       s <<
         "single" << ":" << fSyllableDivisions <<
-        ", line " << right << setw(5) << fInputLineNumber <<
-        ", on " <<
+        ", line " << fInputLineNumber <<
+        ", ==> " <<
         fSyllableNoteUplink->noteAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       break;
@@ -5061,8 +5097,8 @@ string msrSyllable::syllableAsString ()
     case kBeginSyllable:
       s << 
         "begin" << ":" << fSyllableDivisions <<
-        ", line " << right << setw(5) << fInputLineNumber <<
-        ", on " <<
+        ", line " << fInputLineNumber <<
+        ", ==> " <<
         fSyllableNoteUplink->noteAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       break;
@@ -5070,8 +5106,8 @@ string msrSyllable::syllableAsString ()
     case kMiddleSyllable:
       s << 
         "middle" << ":" << fSyllableDivisions <<
-        ", line " << right << setw(5) << fInputLineNumber <<
-        ", on " <<
+        ", line " << fInputLineNumber <<
+        ", ==> " <<
         fSyllableNoteUplink->noteAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       break;
@@ -5079,8 +5115,8 @@ string msrSyllable::syllableAsString ()
     case kEndSyllable:
       s << 
         "end" << ":" << fSyllableDivisions <<
-        ", line " << right << setw(5) << fInputLineNumber <<
-        ", on " <<
+        ", line " << fInputLineNumber <<
+        ", ==> " <<
         fSyllableNoteUplink->noteAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       break;
@@ -5088,32 +5124,32 @@ string msrSyllable::syllableAsString ()
     case kSkipSyllable:
       s << 
         "skip" << ":" << fSyllableDivisions <<
-        ", line " << right << setw(5) << fInputLineNumber <<
-        ", on " <<
+        ", line " << fInputLineNumber <<
+        ", ==> " <<
         fSyllableNoteUplink->noteAsString ();
       break;
       
     case kSlurSyllable:
       s << 
         "slur" << ":" << fSyllableDivisions <<
-        ", line " << right << setw(5) << fInputLineNumber <<
-        ", on " <<
+        ", line " << fInputLineNumber <<
+        ", ==> " <<
         fSyllableNoteUplink->noteAsString ();
       break;
       
     case kSlurBeyondEndSyllable:
       s << 
         "slur beyond end" << ":" << fSyllableDivisions <<
-        ", line " << right << setw(5) << fInputLineNumber <<
-        ", on " <<
+        ", line " << fInputLineNumber <<
+        ", ==> " <<
         fSyllableNoteUplink->noteAsString ();
       break;
       
     case kTiedSyllable:
       s << 
         "tied" << ":" << fSyllableDivisions <<
-        ", line " << right << setw(5) << fInputLineNumber <<
-        ", on " <<
+        ", line " << fInputLineNumber <<
+        ", ==> " <<
         fSyllableNoteUplink->noteAsString () <<
         " " << "\"" << fSyllableText << "\"";
       break;

@@ -2351,11 +2351,12 @@ class EXP msrNote : public msrElement
                       { return fNoteWedges; };
 
     // lyrics
-    void          setNoteSyllable (S_msrSyllable syllable)
-                      { fNoteSyllable = syllable; }
+    void          appendNoteSyllable (S_msrSyllable syllable)
+                      { fNoteSyllables.push_back (syllable); }
 
-    S_msrSyllable getNoteSyllable () const
-                      { return fNoteSyllable; }              
+    list<S_msrSyllable>
+                  getNoteSyllables () const
+                      { return fNoteSyllables; }              
 
     void          setNoteSyllableExtendKind (
                     msrSyllable::msrSyllableExtendKind
@@ -2452,7 +2453,7 @@ class EXP msrNote : public msrElement
     
     msrNoteData               fNoteData;
 
-    S_msrSyllable             fNoteSyllable;
+    list<S_msrSyllable>       fNoteSyllables;
     msrSyllable::msrSyllableExtendKind
                               fNoteSyllableExtendKind; // MEGA
     
