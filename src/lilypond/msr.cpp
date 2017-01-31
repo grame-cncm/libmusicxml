@@ -2116,7 +2116,7 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
     cerr << idtr <<
       "==> appending syllable " <<
       syllable->syllableAsString () <<
-      "to note " << noteAsString () <<
+      " to note " << noteAsString () <<
       endl;
 
   fNoteSyllables.push_back (syllable);
