@@ -199,7 +199,9 @@ string msrNoteData::alterationKindAsString (
                 semi-sharp semi-flat sesqui-sharp sesqui-flat
                    +0.5      -0.5        +1.5       -1.5
       nederlands   -ih       -eh        -isih       -eseh
-  
+
+    Double flat is -2.0, and double sharp is +2.0.
+    
     We use dutch pitches names for the enumeration below.
     The following is a series of Cs with increasing pitches:
       \relative c'' { ceseh ces ceh c cih cis cisih }

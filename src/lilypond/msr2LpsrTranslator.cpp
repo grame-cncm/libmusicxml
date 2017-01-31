@@ -783,10 +783,6 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   fCurrentSyllableClone->
     setSyllableNoteUplink (fCurrentNoteClone);
     
-  // attach current syllable clone to current note clone
-//  fCurrentNoteClone->
-//    setNoteSyllable (fCurrentSyllableClone);
-
   // add it to the current stanza clone
   fCurrentStanzaClone->
     addSyllableToStanza (fCurrentSyllableClone);
@@ -803,8 +799,9 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
     // append it to current voice clone
     fCurrentVoiceClone->
       appendOtherElementToVoice (melismaCommand);
-  }
+
   fOnGoingSyllableExtend = false;
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrSyllable& elt)
