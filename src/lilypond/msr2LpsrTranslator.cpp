@@ -790,7 +790,6 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   fCurrentStanzaClone->
     addSyllableToStanza (elt);
 
-  
   // a syllable ends the sysllable extend range if any
   if (fOnGoingSyllableExtend) {
     // create melisma end command
@@ -1207,10 +1206,15 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
   } // switch
 
+  // attach current syllable clone to current note clone
+  fCurrentNoteClone->
+    setNoteSyllable (fCurrentSyllableClone);
+
+  // handle melisma
   msrSyllable::msrSyllableExtendKind
     noteSyllableExtendKind =
       elt->getNoteSyllableExtendKind ();
-                  
+
   switch (noteSyllableExtendKind) {
     case msrSyllable::kStandaloneSyllableExtend:
       {
@@ -1220,7 +1224,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
             lpsrMelismaCommand::create (
               elt->getInputLineNumber (),
               lpsrMelismaCommand::kMelismaStart);
-
+    
         // append it to current voice clone
         fCurrentVoiceClone->
           appendElementToVoice (melismaCommand);

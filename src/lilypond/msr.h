@@ -2351,6 +2351,12 @@ class EXP msrNote : public msrElement
                       { return fNoteWedges; };
 
     // lyrics
+    void          setNoteSyllable (S_msrSyllable syllable)
+                      { fNoteSyllable = syllable; }
+
+    S_msrSyllable getNoteSyllable () const
+                      { return fNoteSyllable; }              
+
     void          setNoteSyllableExtendKind (
                     msrSyllable::msrSyllableExtendKind
                       syllableExtendKind)
@@ -2445,6 +2451,8 @@ class EXP msrNote : public msrElement
     // MusicXML informations
     
     msrNoteData               fNoteData;
+
+    S_msrSyllable             fNoteSyllable;
     msrSyllable::msrSyllableExtendKind
                               fNoteSyllableExtendKind; // MEGA
     
@@ -3701,14 +3709,14 @@ class EXP msrStanza : public msrElement
 
   private:
 
-    int                       fStanzaNumber;
-    msrStanzaKind             fStanzaKind;
+    int                   fStanzaNumber;
+    msrStanzaKind         fStanzaKind;
 
-    vector<S_msrSyllable>  fSyllables;
+    vector<S_msrSyllable> fSyllables;
 
-    bool                      fStanzaTextPresent;
+    bool                  fStanzaTextPresent;
 
-    S_msrVoice                fStanzaVoiceUplink;
+    S_msrVoice            fStanzaVoiceUplink;
 
 };
 typedef SMARTP<msrStanza> S_msrStanza;

@@ -1983,7 +1983,7 @@ S_msrNote msrNote::createNoteBareClone ()
   clone->fNoteDivisionsPerWholeNote = fNoteDivisionsPerWholeNote;
   
   clone->fNoteSyllableExtendKind = fNoteSyllableExtendKind;
-  
+
   return clone;
 }
 
@@ -2476,6 +2476,7 @@ void msrNote::print (ostream& os)
     }
   }
 
+  // print measure related information
   os <<
     "/" <<
     fNoteDivisionsPerWholeNote <<
@@ -2489,7 +2490,19 @@ void msrNote::print (ostream& os)
     fNotePositionInMeasure <<
     "/" <<
     fNoteDivisionsPerWholeNote <<
-    ")" <<
+    ")";
+
+  // is there a syllable associated to this note?
+  if (fNoteSyllable) {
+    string noteSyllableText =
+      fNoteSyllable->getSyllableText ();
+
+    if (noteSyllableText.size ())
+      os <<
+        " \"" << noteSyllableText << "\"";
+  }
+
+  os <<
     endl;
 
   // print the extend kind
@@ -4903,6 +4916,10 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
   }
 
  fSyllableNoteUplink = note;
+
+ // set reverse link
+ note->
+  setNoteSyllable (this);
 }
 
 void msrSyllable::acceptIn (basevisitor* v) {
