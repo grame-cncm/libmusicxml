@@ -1322,6 +1322,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrMelismaCommand& elt)
       fOstream << "\\melismaEnd" " ";
       break;
   } // switch
+
+  fMusicOlec++;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_lpsrMelismaCommand& elt)
@@ -3198,11 +3200,13 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarCheck& elt)
   if (fMusicOlec > 0) // JMI
     fOstream <<
       "| % " << nextBarNumber <<
-      endl;
+      endl <<
+      idtr;
   else
     fOstream << idtr <<
       "| % " << nextBarNumber <<
-      endl;
+      endl <<
+      idtr;
 
   fMusicOlec.reset ();
 }
