@@ -5679,7 +5679,7 @@ void msrStanza::browseData (basevisitor* v)
   for (int i = 0; i < n; i++) {
     // browse the stanza
     msrBrowser<msrSyllable> browser (v);
- // JMI   browser.browse (*fSyllables [i]);
+    browser.browse (*fSyllables [i]);
   } // for
   cerr << endl;
 
