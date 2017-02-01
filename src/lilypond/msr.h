@@ -2126,9 +2126,11 @@ class EXP msrSyllable : public msrElement
     // services
     // ------------------------------------------------------
   
-    string            syllableKindAsString ();
+    string            syllableKindAsString () const;
 
-    string            syllableAsString ();
+    string            syllableNoteUplinkAsString () const;
+
+    string            syllableAsString () const;
 
     // visitors
     // ------------------------------------------------------

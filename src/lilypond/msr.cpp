@@ -5022,7 +5022,7 @@ ostream& operator<< (ostream& os, const S_msrSyllable& elt)
   return os;
 }
 
-string msrSyllable::syllableKindAsString ()
+string msrSyllable::syllableKindAsString () const
 {
   string result;
     
@@ -5103,7 +5103,22 @@ string msrSyllable::syllableExtendKindAsString (
   return result;
 }
 
-string msrSyllable::syllableAsString ()
+string msrSyllable::syllableNoteUplinkAsString () const
+{
+  string result;
+
+  if (fSyllableNoteUplink)
+    result =
+      fSyllableNoteUplink->noteAsString ();
+  else
+    result =
+      "syllable note uplink not yet set";
+
+  return result;
+
+}
+
+string msrSyllable::syllableAsString () const
 {
   stringstream s;
   
@@ -5113,7 +5128,7 @@ string msrSyllable::syllableAsString ()
         "single" << ":" << fSyllableDivisions <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
-        fSyllableNoteUplink->noteAsString () <<
+        syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       break;
       
@@ -5122,7 +5137,7 @@ string msrSyllable::syllableAsString ()
         "begin" << ":" << fSyllableDivisions <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
-        fSyllableNoteUplink->noteAsString () <<
+        syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       break;
       
@@ -5131,7 +5146,7 @@ string msrSyllable::syllableAsString ()
         "middle" << ":" << fSyllableDivisions <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
-        fSyllableNoteUplink->noteAsString () <<
+        syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       break;
       
@@ -5140,7 +5155,7 @@ string msrSyllable::syllableAsString ()
         "end" << ":" << fSyllableDivisions <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
-        fSyllableNoteUplink->noteAsString () <<
+        syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       break;
       
@@ -5149,7 +5164,7 @@ string msrSyllable::syllableAsString ()
         "skip" << ":" << fSyllableDivisions <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
-        fSyllableNoteUplink->noteAsString ();
+        syllableNoteUplinkAsString ();
       break;
       
     case kSlurSyllable:
@@ -5157,7 +5172,7 @@ string msrSyllable::syllableAsString ()
         "slur" << ":" << fSyllableDivisions <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
-        fSyllableNoteUplink->noteAsString ();
+        syllableNoteUplinkAsString ();
       break;
       
     case kSlurBeyondEndSyllable:
@@ -5165,7 +5180,7 @@ string msrSyllable::syllableAsString ()
         "slur beyond end" << ":" << fSyllableDivisions <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
-        fSyllableNoteUplink->noteAsString ();
+        syllableNoteUplinkAsString ();
       break;
       
     case kTiedSyllable:
@@ -5173,7 +5188,7 @@ string msrSyllable::syllableAsString ()
         "tied" << ":" << fSyllableDivisions <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
-        fSyllableNoteUplink->noteAsString () <<
+        syllableNoteUplinkAsString () <<
         " " << "\"" << fSyllableText << "\"";
       break;
       
@@ -5653,9 +5668,13 @@ void msrStanza::addBreakSyllableToStanza (
 
 void msrStanza::addSyllableToStanza (S_msrSyllable syllable)
 {
-  if (gGeneralOptions->fDebugDebug)
-    cerr << idtr <<
-      "--> Adding syllable to stanza" << getStanzaName () << endl;
+ // JMI if (gGeneralOptions->fDebug)
+    cerr <<
+      idtr <<
+        "--> adding syllable " << syllable <<
+      idtr <<
+        "to stanza" << getStanzaName () <<
+      endl;
       
   fSyllables.push_back (syllable);
 
@@ -8676,7 +8695,10 @@ void msrVoice::addStanzaToVoice (S_msrStanza stanza)
   if (masterSyllables.size()) {
 // JMI    if (gGeneralOptions->fTrace)
       cerr << idtr <<
-        "Copying current contents of voice master stanza to new stanza" << endl;
+        "Copying current contents of voice master stanza to " <<
+        stanza->getStanzaName () <<
+        endl;
+        
     for (
       vector<S_msrSyllable>::const_iterator i =
         masterSyllables.begin();
@@ -8686,6 +8708,7 @@ void msrVoice::addStanzaToVoice (S_msrStanza stanza)
       stanza->addSyllableToStanza ((*i));
     } // for
   }
+  cerr << endl << "FOO" << endl;
 }
 
 S_msrStanza msrVoice::createStanzaInVoiceIfNeeded (
