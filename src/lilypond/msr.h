@@ -4671,8 +4671,8 @@ class EXP msrVoice : public msrElement
                   getVoiceSegment () const
                       { return fVoiceSegment; }
 
-    S_msrStanza   getVoiceStanzamaster () const
-                      { return fVoiceStanzamaster; }
+    S_msrStanza   getVoiceStanzaMaster () const
+                      { return fVoiceStanzaMaster; }
                
     int           getVoiceActualNotesCounter () const
                       { return fVoiceActualNotesCounter; }
@@ -4851,10 +4851,10 @@ class EXP msrVoice : public msrElement
     // it is created implicitly for every voice,
     S_msrSegment              fVoiceSegment;
 
-    // the master stanza, collecting skips along the way,
-    // to be used as a 'prelude' by actual stanza
+    // the stanza master, collecting skips along the way,
+    // to be used as a 'prelude' by actual stanzas
     // that start at later points
-    S_msrStanza               fVoiceStanzamaster;
+    S_msrStanza               fVoiceStanzaMaster;
     
     // the stanza map
     map<int, S_msrStanza>     fVoiceStanzasMap;
@@ -5137,7 +5137,7 @@ class EXP msrStaff : public msrElement
     map<int, S_msrVoice>    fStaffVoicesCorrespondanceMap;
                               //numbered 1 to gMaxStaffVoices
     map<int, S_msrVoice>    fStaffVoicesMap;
-                              // [0] is used form staff master voice
+                              // [0] is used for the staff voice master
 
  // JMI   string                  fStaffInstrumentName;
 

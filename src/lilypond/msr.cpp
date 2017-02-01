@@ -8445,10 +8445,10 @@ msrVoice::msrVoice (
   
   fVoiceActualNotesCounter = 0;
 
-  // add the master stanza to this voice, to
+  // add the stanza master for this voice, to
   // collect skips along the way that are used as a 'prelude'
   // by actual stanza that start at later points
-  fVoiceStanzamaster =
+  fVoiceStanzaMaster =
     msrStanza::create (
       inputLineNumber,
       0,    // this stanza number is unused anyway
@@ -8658,7 +8658,7 @@ void msrVoice::addStanzaToVoice (S_msrStanza stanza)
     stanza->getStanzaNumber ();
     
   // register stanza in this voice
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fTrace)
+// JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fTrace)
     cerr << idtr <<
       "Adding stanza " << stanza->getStanzaName () <<
       " (" << stanzaNumber <<
@@ -8667,11 +8667,11 @@ void msrVoice::addStanzaToVoice (S_msrStanza stanza)
 
   fVoiceStanzasMap [stanzaNumber] = stanza;
 
-  // catch up with fVoiceStanzamaster
+  // catch up with fVoiceStanzaMaster
   // in case the stanza does not start upon the first voice note
   vector<S_msrSyllable>
     masterSyllables =
-      fVoiceStanzamaster->getSyllables ();
+      fVoiceStanzaMaster->getSyllables ();
 
   if (masterSyllables.size()) {
 // JMI    if (gGeneralOptions->fTrace)
@@ -8853,16 +8853,16 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   fVoiceSegment->
     appendNoteToSegment (note);
   
-  // add a skip syllable of the same duration to the master stanza
+  // add a skip syllable of the same duration to the stanza master
   int
     stanzaDivisions =
       note->getNoteDivisions ();
 
-  fVoiceStanzamaster->
+  fVoiceStanzaMaster->
     addSkipSyllableToStanza (
       note->getInputLineNumber (),
       stanzaDivisions,
-      note); // JMI
+      note);
 
   fMusicHasBeenInsertedInVoice = true;
 }
@@ -9141,8 +9141,8 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
   fVoiceSegment->
     appendElementToSegment (barCheck);
 
-  // add bar check syllable to the voice master stanza
-  fVoiceStanzamaster->
+  // add bar check syllable to the voice stanza master
+  fVoiceStanzaMaster->
     addBarcheckSyllableToStanza (
       barCheck->getInputLineNumber (),  // [passer barCheck directement? JMI
       barCheck->getNextBarNumber ());
@@ -9161,8 +9161,8 @@ void msrVoice::appendBarnumberCheckToVoice (
   fVoiceSegment->
     appendElementToSegment (barNumberCheck);
 
-  // add barnumber check syllable to the voice master stanza
-  fVoiceStanzamaster->
+  // add barnumber check syllable to the voice stanza master
+  fVoiceStanzaMaster->
     addBarnumberCheckSyllableToStanza (
       barNumberCheck->getInputLineNumber (),  // [passer barNumberCheck directement? JMI
       barNumberCheck->getNextBarNumber ());
@@ -9179,8 +9179,8 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
   fVoiceSegment->
     appendElementToSegment (break_);
 
-  // add break syllable to the voice master stanza
-  fVoiceStanzamaster->
+  // add break syllable to the voice stanza master
+  fVoiceStanzaMaster->
     addBreakSyllableToStanza (
       break_->getInputLineNumber (),
       break_->getNextBarNumber ());
@@ -9421,16 +9421,16 @@ void msrVoice::print (ostream& os)
   os << fVoiceSegment;
   
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-    // print the master stanza
+    // print the stanza master
     os << idtr <<
-      fVoiceStanzamaster <<
+      fVoiceStanzaMaster <<
       endl;    
   }
   
   if (! gMsrOptions->fDontDisplayMSRStanzas) {
     // print the voice stanza master
     os << idtr <<
-      fVoiceStanzamaster;
+      fVoiceStanzaMaster;
     
     // print the stanza
     if (fVoiceStanzasMap.size()) {
