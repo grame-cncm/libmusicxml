@@ -5514,6 +5514,7 @@ void msrStanza::addSlurBeyondEndSyllableToStanza (
   // add syllable to this stanza
   fSyllables.push_back (syllable);
 }
+*/
 
 void msrStanza::addBarcheckSyllableToStanza (
   int inputLineNumber,
@@ -5537,13 +5538,14 @@ void msrStanza::addBarcheckSyllableToStanza (
   s << nextMeasureNumber;
   
   // create stanza break syllable
-  / *
+  /* JMI
   S_msrDuration
     nullMsrDuration =
       msrDuration::create (
         inputLineNumber,
         0, 1, 0, "");
-    * /    
+    */
+        
   S_msrSyllable
     syllable =
       msrSyllable::create (
@@ -5552,13 +5554,11 @@ void msrStanza::addBarcheckSyllableToStanza (
         s.str(),
         msrSyllable::k_NoSyllableExtend,
         0,
-        0,
         this);
-        
+       
   // add syllable to this stanza
   fSyllables.push_back (syllable);
 }
-*/
 
 void msrStanza::addBreakSyllableToStanza (
   int inputLineNumber,
@@ -9086,12 +9086,10 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
     appendElementToSegment (barCheck);
 
   // add bar check syllable to the voice master stanza
-  /* JMI
   fVoiceStanzamaster->
     addBarcheckSyllableToStanza (
-      barCheck->getInputLineNumber (),
-      fVoiceMeasureLocation.fMeasureNumber);
-      */
+      barCheck->getInputLineNumber (),  // [passer barCheck directement? JMI
+      barCheck->getNextBarNumber ());
 }
 
 void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
