@@ -5056,7 +5056,11 @@ string msrSyllable::syllableKindAsString ()
       break;
       
     case msrSyllable::kBarcheckSyllable:
-      result = "barcheck";
+      result = "bar check";
+      break;
+      
+    case msrSyllable::kBarnumberCheckSyllable:
+      result = "barnumber check";
       break;
       
     case msrSyllable::kBreakSyllable:
@@ -5176,7 +5180,14 @@ string msrSyllable::syllableAsString ()
     case kBarcheckSyllable:
       // fSyllableText contains the measure number
       s << 
-        "barCheck" <<
+        "bar check" <<
+        " measure " << fSyllableText;
+      break;
+      
+    case kBarnumberCheckSyllable:
+      // fSyllableText contains the measure number
+      s << 
+        "bar number check" <<
         " measure " << fSyllableText;
       break;
       
@@ -5261,7 +5272,7 @@ string msrStanza::getStanzaName () const
         
   return
     fStanzaVoiceUplink->getVoiceName() +
-    "_L_" +
+    "_Stanza_" +
     stanzaNameSuffix;
 }
 
@@ -5560,6 +5571,50 @@ void msrStanza::addBarcheckSyllableToStanza (
   fSyllables.push_back (syllable);
 }
 
+void msrStanza::addBarnumberCheckSyllableToStanza (
+  int inputLineNumber,
+  int nextMeasureNumber)
+{
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+    S_msrStaff
+      staff =
+        fStanzaVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart
+      part =
+        staff-> getStaffPartUplink ();
+    
+    cerr << idtr <<
+      "--> Adding a 'barcheck' syllable" <<
+      " to stanza " << getStanzaName () << endl;
+  }
+
+  // convert nextMeasureNumber to string
+  stringstream s;
+  s << nextMeasureNumber;
+  
+  // create stanza break syllable
+  /* JMI
+  S_msrDuration
+    nullMsrDuration =
+      msrDuration::create (
+        inputLineNumber,
+        0, 1, 0, "");
+    */
+        
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
+        inputLineNumber,
+        msrSyllable::kBarnumberCheckSyllable,
+        s.str(),
+        msrSyllable::k_NoSyllableExtend,
+        0,
+        this);
+       
+  // add syllable to this stanza
+  fSyllables.push_back (syllable);
+}
+
 void msrStanza::addBreakSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
@@ -5621,6 +5676,7 @@ void msrStanza::addSyllableToStanza (S_msrSyllable syllable)
     case msrSyllable::kSlurBeyondEndSyllable:
     case msrSyllable::kTiedSyllable:
     case msrSyllable::kBarcheckSyllable:
+    case msrSyllable::kBarnumberCheckSyllable:
     case msrSyllable::kBreakSyllable:
       break;
       
@@ -8505,7 +8561,7 @@ string msrVoice::getVoiceName () const
       
   return
     fVoiceStaffUplink->getStaffName() +
-    "_V_" +
+    "_Voice_" +
     suffix;
 }
 
@@ -8772,7 +8828,7 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
-  if (gGeneralOptions->fDebugDebug) {
+  if (true || gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
       "==> appending note:" <<
       endl;
@@ -9092,24 +9148,24 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
       barCheck->getNextBarNumber ());
 }
 
-void msrVoice::appendBarnumberCheckToVoice (S_msrBarnumberCheck bnc)
+void msrVoice::appendBarnumberCheckToVoice (
+  S_msrBarnumberCheck barNumberCheck)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Appending barnumber check '" << bnc->barnumberCheckAsString () <<
+      "Appending barnumber check '" <<
+      barNumberCheck->barnumberCheckAsString () <<
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
 
   fVoiceSegment->
-    appendElementToSegment (bnc);
+    appendElementToSegment (barNumberCheck);
 
-/*
   // add barnumber check syllable to the voice master stanza
   fVoiceStanzamaster->
     addBarnumberCheckSyllableToStanza (
-      bnc->getInputLineNumber (),
-      fVoiceMeasureLocation.fMeasureNumber);
-*/
+      barNumberCheck->getInputLineNumber (),  // [passer barNumberCheck directement? JMI
+      barNumberCheck->getNextBarNumber ());
 }
 
 void msrVoice::appendBreakToVoice (S_msrBreak break_)

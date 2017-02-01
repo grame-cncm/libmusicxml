@@ -2056,7 +2056,8 @@ class EXP msrSyllable : public msrElement
       kSkipSyllable,
       kTiedSyllable,
       kSlurSyllable, kSlurBeyondEndSyllable,
-      kBarcheckSyllable, kBreakSyllable};
+      kBarcheckSyllable, kBarnumberCheckSyllable,
+      kBreakSyllable};
 
     static string syllableKindAsString (
       msrSyllableKind syllableKind);
@@ -3684,6 +3685,10 @@ class EXP msrStanza : public msrElement
                   int       divisions,
                   S_msrNote note);
 
+    void        addBarnumberCheckSyllableToStanza (
+                  int inputLineNumber,
+                  int nextMeasureNumber);
+
     void        addBarcheckSyllableToStanza (
                   int inputLineNumber,
                   int nextMeasureNumber);
@@ -4767,9 +4772,11 @@ class EXP msrVoice : public msrElement
                     int       stanzaNumber,
                     int       divisions);
     
-    void          appendBarCheckToVoice (S_msrBarCheck bnc);
+    void          appendBarCheckToVoice (
+                    S_msrBarCheck barCheck);
+                    
     void          appendBarnumberCheckToVoice (
-                    S_msrBarnumberCheck bnc);
+                    S_msrBarnumberCheck barNumberCheck);
 
     void          appendBreakToVoice (S_msrBreak break_);
 

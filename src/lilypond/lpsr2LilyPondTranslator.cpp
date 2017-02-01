@@ -1691,6 +1691,16 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
           fStanzaOlec.reset ();
           break;
     
+        case msrSyllable::kBarnumberCheckSyllable:
+          fOstream <<
+     // JMI       "%{ | % " << elt->getSyllableText () << " %}" <<
+            "%{ " << elt->getSyllableText () << " %}" <<
+            endl <<
+            idtr;
+
+          fStanzaOlec.reset ();
+          break;
+    
         case msrSyllable::kBreakSyllable:
           fOstream <<
             "%{ break " << "\"" << elt->getSyllableText () << "\"" << " %}" <<
