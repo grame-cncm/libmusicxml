@@ -51,9 +51,10 @@ msr2LpsrTranslator::msr2LpsrTranslator (
 
   fOnGoingNote           = false;
 
-  fOnGoingSyllableExtend = false;
-  
   fOnGoingChord          = false;
+  
+  fOnGoingStanza         = false;
+  fOnGoingSyllableExtend = false;
   
   fOnGoingRepeat         = false;
 };
@@ -757,6 +758,8 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
 //  }
 //  else
   //  fCurrentStanzaClone = 0; // JMI
+
+  fOnGoingStanza = true;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
@@ -766,6 +769,8 @@ void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrStanza" << endl;
+
+  fOnGoingStanza = true;
 }
 
 //________________________________________________________________________
@@ -783,10 +788,17 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   fCurrentSyllableClone->
     setSyllableNoteUplink (fCurrentNoteClone);
     
-  // add it to the current stanza clone
-  if (fCurrentStanzaClone) // fOnGoingStanza? JMI
+  // add it to the current stanza clone or current note clone
+  if (fOnGoingStanza) {
+    // visiting a syllable as a stanza member
     fCurrentStanzaClone->
       addSyllableToStanza (fCurrentSyllableClone);
+  }
+  else if (fOnGoingNote) {
+    // visiting a syllable as attached to a note
+    fCurrentNoteClone->
+      appendSyllableToNote (fCurrentSyllableClone);
+  }
 
   // a syllable ends the sysllable extend range if any
   if (fOnGoingSyllableExtend) {

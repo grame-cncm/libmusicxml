@@ -1647,18 +1647,25 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
           break;
           
         case msrSyllable::kSkipSyllable:
-          if (
-            elt->
-              getSyllableNoteUplink ()->
-                getNoteKind ()
-              !=
-            msrNote::kRestNote) {
-            fOstream <<
-              "\\skip" <<
+          {
+            S_msrNote
+              syllableNoteUplink =
                 elt->
-                  getSyllableNoteUplink ()->
+                  getSyllableNoteUplink ();
+                  
+            if (
+              syllableNoteUplink->getNoteKind ()
+                !=
+              msrNote::kRestNote) {
+              fOstream <<
+                "\\skip" <<
+                  syllableNoteUplink->
                     noteDivisionsAsMSRString () <<
-                " ";
+                  " " <<
+                  "%{" <<
+                  syllableNoteUplink->noteAsString () <<
+                  "%}";
+            }
           }
           break;
           

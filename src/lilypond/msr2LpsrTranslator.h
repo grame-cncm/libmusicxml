@@ -327,6 +327,7 @@ class msr2LpsrTranslator :
     // stanzas
     // ------------------------------------------------------
     S_msrStanza               fCurrentStanzaClone;
+    bool                      fOnGoingStanza;
 
     // syllables
     // ------------------------------------------------------
