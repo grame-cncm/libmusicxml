@@ -793,8 +793,8 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
     // visiting a syllable as a stanza member
     fCurrentStanzaClone->
       addSyllableToStanza (fCurrentSyllableClone);
-  }
-  else if (fOnGoingNote) {
+ // }
+ // JMI else if (fOnGoingNote) {
     // visiting a syllable as attached to a note
     fCurrentNoteClone->
       appendSyllableToNote (fCurrentSyllableClone);

@@ -44,11 +44,11 @@ class indenter {
     virtual ~indenter();
 
     // increase the indentation
-    indenter& operator++ (int value);
+    indenter& operator++ (const int value);
     
     // decrease the indentation
-    indenter& operator-- (int value);
-    
+    indenter& operator-- (const int value);
+
     // output as much space as specified
     void print (ostream& os) const;
 

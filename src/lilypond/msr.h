@@ -2409,6 +2409,7 @@ class EXP msrNote : public msrElement
                     
     string        notePitchAsString () const;
 
+    string        noteAsShortString () const;
     string        noteAsString () const;
     
     string        noteDiatonicPitchAsString () const;

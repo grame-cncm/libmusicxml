@@ -2371,6 +2371,72 @@ string msrNote::noteDiatonicPitchAsString () const
   } // switch
 }
 
+string msrNote::noteAsShortString () const
+{
+  stringstream s;
+
+  switch (fNoteKind) {
+    case msrNote::k_NoNoteKind:
+      s <<
+        "???";
+      break;
+      
+    case msrNote::kStandaloneNote:
+      s <<
+        notePitchAsString () <<
+        "[" << fNoteData.fOctave << "]" <<
+        ":" <<
+        noteDivisionsAsMSRString ();
+      break;
+      
+    case msrNote::kGraceNote:
+      s <<
+        notePitchAsString () <<
+        "[" << fNoteData.fOctave << "]" <<
+        ":" <<
+        noteTypeAsMSRString ();
+      for (int i = 0; i < fNoteData.fDotsNumber; i++) {
+        s << ".";
+      } // for
+      break;
+      
+    case msrNote::kRestNote:
+      s <<
+        "R" <<
+        ":" <<
+        noteDivisionsAsMSRString ();
+      break;
+      
+    case msrNote::kSkipNote:
+      s <<
+        "S" <<
+        ":" <<
+        noteDivisionsAsMSRString ();
+      break;
+      
+    case msrNote::kChordMemberNote:
+      s <<
+        notePitchAsString () <<
+        "[" << fNoteData.fOctave << "]" <<
+        ":" <<
+        noteDivisionsAsMSRString ();
+      break;
+      
+    case msrNote::kTupletMemberNote:
+      s <<
+        notePitchAsString ();
+
+      if (! fNoteData.fStepIsARest)
+        s <<
+          "[" << fNoteData.fOctave << "]" <<
+          ":" <<
+          noteDivisionsAsMSRString ();
+      break;
+  } // switch
+
+  return s.str();
+}
+
 string msrNote::noteAsString () const
 {
   stringstream s;
@@ -5764,11 +5830,12 @@ void msrStanza::browseData (basevisitor* v)
   // browse the syllables
   int n = fSyllables.size ();
   for (int i = 0; i < n; i++) {
-    // browse the stanza
+    // browse the syllable
     msrBrowser<msrSyllable> browser (v);
     browser.browse (*fSyllables [i]);
   } // for
-  cerr << endl;
+  cerr <<
+    endl;
 
   idtr--;
 

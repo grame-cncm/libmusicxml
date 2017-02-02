@@ -1662,9 +1662,13 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
                   syllableNoteUplink->
                     noteDivisionsAsMSRString () <<
                   " " <<
-                  "%{" <<
-                  syllableNoteUplink->noteAsString () <<
-                  "%}";
+                  "%{" " "<<
+                  syllableNoteUplink->
+                    noteAsShortString () <<
+                  " " "%}" " ";
+
+            fStanzaOlec++; // for the comment        
+            fStanzaOlec++; // for the comment        
             }
           }
           break;

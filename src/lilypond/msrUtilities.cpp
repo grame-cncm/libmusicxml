@@ -38,13 +38,13 @@ indenter::indenter (string spacer)
 
 indenter::~indenter () {}
 
-indenter& indenter::operator++ (int value)
+indenter& indenter::operator++ (const int value)
 {
   fIndent++;
   return *this;
 }
 
-indenter& indenter::operator-- (int value)
+indenter& indenter::operator-- (const int value)
 {
   fIndent--;
   
