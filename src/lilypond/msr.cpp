@@ -5013,13 +5013,13 @@ S_msrSyllable msrSyllable::createSyllableBareClone ()
 
 void msrSyllable::setSyllableNoteUplink (S_msrNote note)
 {
- fSyllableNoteUplink = note;
+  fSyllableNoteUplink = note;
 
- // register syllable in note if its text is not empty
- if (fSyllableText.size ())
-   note->
-    appendSyllableToNote (this);
-
+  // register syllable in note if its text is not empty
+  if (fSyllableText.size ())
+     note->
+      appendSyllableToNote (this); // JMI
+  
   if (true || gGeneralOptions->fDebugDebug) {
 //  if (gGeneralOptions->fDebugDebug) {
     cerr <<

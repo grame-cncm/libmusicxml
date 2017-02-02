@@ -791,12 +791,12 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
     setSyllableNoteUplink (fCurrentNoteClone);
     
   // add it to the current stanza clone or current note clone
-  if (false && fOnGoingStanza) {
+  if (false && fOnGoingStanza) { // JMI
     // visiting a syllable as a stanza member
     fCurrentStanzaClone->
       addSyllableToStanza (fCurrentSyllableClone);
   }
-  else if (false && fOnGoingNote) {
+  else if (false && fOnGoingNote) { // JMI
     // visiting a syllable as attached to a note
     fCurrentNoteClone->
       appendSyllableToNote (fCurrentSyllableClone);
