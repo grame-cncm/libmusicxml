@@ -2551,7 +2551,8 @@ void msrNote::print (ostream& os)
     idtr--;
   }
 
-  // print the note's voice uplink
+/*
+  // print the note's voice uplink JMI
   idtr++;
   os <<
     idtr <<
@@ -2559,6 +2560,7 @@ void msrNote::print (ostream& os)
     fNoteMeasureUplink->getMeasureVoiceDirectUplink () <<
     endl;
   idtr--;
+*/
 
   // print the extend kind
   idtr++;
