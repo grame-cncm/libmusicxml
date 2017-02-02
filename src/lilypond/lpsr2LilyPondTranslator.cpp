@@ -1576,7 +1576,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrStanza& elt)
       "% --> Start visiting msrStanza" << endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
-    fOngoingNonEmptyStanza =
+    fOngoingNonEmptyStanza = // JMI
       elt->getStanzaTextPresent ();
 
     if (fOngoingNonEmptyStanza) {

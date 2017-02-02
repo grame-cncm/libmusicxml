@@ -747,9 +747,7 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
     fCurrentStanzaClone =
       elt->createStanzaBareClone (
         fCurrentVoiceClone);
-  
-    // don't add the stanza clone to fCurrentVoiceClone
-  
+    
     // append the stanza clone to the LPSR score elements list
     fLpsrScore ->
       appendStanzaToScoreElements (fCurrentStanzaClone);
@@ -793,12 +791,12 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
     setSyllableNoteUplink (fCurrentNoteClone);
     
   // add it to the current stanza clone or current note clone
-  if (fOnGoingStanza) {
+  if (false && fOnGoingStanza) {
     // visiting a syllable as a stanza member
     fCurrentStanzaClone->
       addSyllableToStanza (fCurrentSyllableClone);
- // }
- // JMI else if (fOnGoingNote) {
+  }
+  else if (false && fOnGoingNote) {
     // visiting a syllable as attached to a note
     fCurrentNoteClone->
       appendSyllableToNote (fCurrentSyllableClone);

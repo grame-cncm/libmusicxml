@@ -5005,7 +5005,7 @@ S_msrSyllable msrSyllable::createSyllableBareClone ()
         fSyllableStanzaUplink);
     
   // dont't set 'clone->fSyllableStanzaUplink'
-  // nor 'clone->fSyllableNoteUplink'.
+  // nor 'clone->fSyllableNoteUplink',
   // this will be done by the caller
     
   return clone;
@@ -5374,7 +5374,7 @@ S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
     cerr << idtr <<
       "--> Creating a bare clone of stanza \"" <<
       getStanzaName () <<
-      "\" n voice " << clonedVoice->getVoiceName () <<
+      "\" in voice " << clonedVoice->getVoiceName () <<
       endl;
 
   S_msrStanza
@@ -5387,7 +5387,11 @@ S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
 
   clone->fStanzaTextPresent =
     fStanzaTextPresent;
-  
+
+  // add the stanza clone to the cloned voice
+  clonedVoice->
+    addStanzaToVoice (clone);
+    
   return clone;
 }
 
