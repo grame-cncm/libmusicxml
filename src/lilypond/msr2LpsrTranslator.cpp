@@ -735,9 +735,11 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
 {
-  if (gGeneralOptions->fDebug)
-    fOstream << idtr <<
-      "--> Start visiting msrStanza" << endl;
+//  if (gGeneralOptions->fDebug)
+    fOstream <<
+      endl << endl <<
+      idtr <<
+        "--> Start visiting msrStanza" << endl;
 
   idtr++;
 
@@ -766,9 +768,11 @@ void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
 {
   idtr--;
   
-  if (gGeneralOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     fOstream << idtr <<
-      "--> End visiting msrStanza" << endl;
+      "--> End visiting msrStanza" <<
+      endl << endl <<
+      endl;
 
   fOnGoingStanza = true;
 }

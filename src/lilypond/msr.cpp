@@ -5003,11 +5003,9 @@ S_msrSyllable msrSyllable::createSyllableBareClone ()
         fSyllableExtendKind,
         fSyllableDivisions,
         fSyllableStanzaUplink);
-
-  clone->fSyllableExtendKind =
-    fSyllableExtendKind;
     
   // dont't set 'clone->fSyllableStanzaUplink'
+  // nor 'clone->fSyllableNoteUplink'.
   // this will be done by the caller
     
   return clone;
@@ -5372,9 +5370,11 @@ msrStanza::~msrStanza() {}
 
 S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+ // JMI if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> Creating a bare clone of a stanza" <<
+      "--> Creating a bare clone of stanza \"" <<
+      getStanzaName () <<
+      "\" n voice " << clonedVoice->getVoiceName () <<
       endl;
 
   S_msrStanza
@@ -5384,6 +5384,9 @@ S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
         fStanzaNumber,
         fStanzaKind,
         clonedVoice);
+
+  clone->fStanzaTextPresent =
+    fStanzaTextPresent;
   
   return clone;
 }
@@ -9459,7 +9462,7 @@ void msrVoice::browseData (basevisitor* v)
   msrBrowser<msrSegment> browser (v);
   browser.browse (*fVoiceSegment);
 
-  // browse the voice stanza
+  // browse the voice stanzas
   if (fVoiceStanzasMap.size ()) {
     for (
       map<int, S_msrStanza>::iterator i = fVoiceStanzasMap.begin();
