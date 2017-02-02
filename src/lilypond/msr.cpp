@@ -2551,6 +2551,15 @@ void msrNote::print (ostream& os)
     idtr--;
   }
 
+  // print the note's voice uplink
+  idtr++;
+  os <<
+    idtr <<
+    "NoteVoiceDirectUplink" " = " <<
+    fNoteMeasureUplink->getMeasureVoiceDirectUplink () <<
+    endl;
+  idtr--;
+
   // print the extend kind
   idtr++;
   os <<
@@ -6814,10 +6823,10 @@ void msrBarline::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrMeasure msrMeasure::create (
-  int             inputLineNumber,
-  int             measureNumber,
-  int             divisionsPerWholeNote,
-  S_msrSegment segmentUplink)
+  int           inputLineNumber,
+  int           measureNumber,
+  int           divisionsPerWholeNote,
+  S_msrSegment  segmentUplink)
 {
   msrMeasure* o =
     new msrMeasure (
@@ -6829,10 +6838,10 @@ S_msrMeasure msrMeasure::create (
 }
 
 msrMeasure::msrMeasure (
-  int             inputLineNumber,
-  int             measureNumber,
-  int             divisionsPerWholeNote,
-  S_msrSegment segmentUplink)
+  int           inputLineNumber,
+  int           measureNumber,
+  int           divisionsPerWholeNote,
+  S_msrSegment  segmentUplink)
     : msrElement (inputLineNumber)
 {
   fMeasureNumber = measureNumber;
@@ -6842,24 +6851,26 @@ msrMeasure::msrMeasure (
 
   fMeasureSegmentUplink = segmentUplink;
 
-  // fetch measures's voice
-  S_msrVoice
-    voice =
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink ();
+  // set measure voice direct uplink
+  fMeasureVoiceDirectUplink =
+    fMeasureSegmentUplink->
+      getSegmentVoiceUplink ();
 
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating measure " << fMeasureNumber <<
-      " in voice \"" << voice->getVoiceName () << "\"" <<
+      " in voice \"" <<
+      fMeasureVoiceDirectUplink->getVoiceName () <<
+      "\"" <<
       endl;
-  
-  // set measure part direct link
+
+  // set measure part direct uplink
   fMeasurePartDirectUplink =
-    voice->
+    fMeasureVoiceDirectUplink->
       getVoiceStaffUplink ()->
         getStaffPartUplink ();
 
+  // fetch measure time from segment
   setMeasureTime (
     fMeasureSegmentUplink->
       getSegmentTime ());
@@ -8708,7 +8719,6 @@ void msrVoice::addStanzaToVoice (S_msrStanza stanza)
       stanza->addSyllableToStanza ((*i));
     } // for
   }
-  cerr << endl << "FOO" << endl;
 }
 
 S_msrStanza msrVoice::createStanzaInVoiceIfNeeded (

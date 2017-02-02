@@ -1485,10 +1485,10 @@ class EXP msrMeasure : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMeasure> create (
-      int             inputLineNumber,
-      int             measureNumber,
-      int             divisionsPerWholeNote,
-      S_msrSegment segmentUplink);
+      int           inputLineNumber,
+      int           measureNumber,
+      int           divisionsPerWholeNote,
+      S_msrSegment  segmentUplink);
     
     SMARTP<msrMeasure> createMeasureBareClone (
       S_msrSegment clonedSegment);
@@ -1499,10 +1499,10 @@ class EXP msrMeasure : public msrElement
     // ------------------------------------------------------
 
     msrMeasure (
-      int             inputLineNumber,
-      int             measureNumber,
-      int             divisionsPerWholeNote,
-      S_msrSegment segmentUplink);
+      int           inputLineNumber,
+      int           measureNumber,
+      int           divisionsPerWholeNote,
+      S_msrSegment  segmentUplink);
       
     virtual ~msrMeasure();
   
@@ -1563,6 +1563,9 @@ class EXP msrMeasure : public msrElement
                   getMeasureSegmentUplink () const
                       { return fMeasureSegmentUplink; }
                       
+    S_msrVoice    getMeasureVoiceDirectUplink () const
+                      { return fMeasureVoiceDirectUplink; }
+
     S_msrPart     getMeasurePartDirectUplink () const
                       { return fMeasurePartDirectUplink; }
 
@@ -1611,25 +1614,26 @@ class EXP msrMeasure : public msrElement
 
   private:
 
-    int                       fMeasureNumber;
+    int                 fMeasureNumber;
     
-    int                       fMeasureDivisionsPerWholeNote;
-    int                       fMeasureDivisionsPerWholeMeasure;
+    int                 fMeasureDivisionsPerWholeNote;
+    int                 fMeasureDivisionsPerWholeMeasure;
 
-    S_msrClef                 fMeasureClef;
-    S_msrKey                  fMeasureKey;
-    S_msrTime                 fMeasureTime;
+    S_msrClef           fMeasureClef;
+    S_msrKey            fMeasureKey;
+    S_msrTime           fMeasureTime;
 
-    int                       fMeasurePosition; // in divisions
-    S_msrNote                 fMeasureLastNote; // for chords handling
+    int                 fMeasurePosition; // in divisions
+    S_msrNote           fMeasureLastNote; // for chords handling
     
-    S_msrPart                 fMeasurePartDirectUplink; // to accelerate things
+    S_msrVoice          fMeasureVoiceDirectUplink; // to accelerate things
+    S_msrPart           fMeasurePartDirectUplink; // to accelerate things
 
-    msrMeasureKind            fMeasureKind;
+    msrMeasureKind      fMeasureKind;
 
-    list<S_msrElement>        fMeasureElementsList;
+    list<S_msrElement>  fMeasureElementsList;
     
-    S_msrSegment           fMeasureSegmentUplink;
+    S_msrSegment        fMeasureSegmentUplink;
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
