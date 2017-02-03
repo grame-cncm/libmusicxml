@@ -1647,40 +1647,19 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
           break;
           
         case msrSyllable::kRestSyllable:
-          {
-            S_msrNote
-              syllableNoteUplink =
-                elt->
-                  getSyllableNoteUplink ();
-                  
-            fOstream <<
-              "\\skip" <<
-                elt->getSyllableDivisions () <<
-                " " <<
-                "%{" " "<<
-                syllableNoteUplink->
-                  noteAsShortString () <<
-                " " "%}" " ";
+          // LilyPond ignores the skip duration
+          // when \lyricsto is used
+       //   fOstream <<
+         //   "\\skip1" " ";
 
-            fStanzaOlec++; // for the comment        
-            fStanzaOlec++; // for the comment        
-          }
+          fStanzaOlec++; // for the comment        
           break;
           
         case msrSyllable::kSkipSyllable:
+          // LilyPond ignores the skip duration
+          // when \lyricsto is used
           fOstream <<
-            "\\skip" <<
-              elt->getSyllableDivisions () <<
-     // JMI         syllableNoteUplink->
-           //     noteDivisionsAsMSRString () <<
-           /*
-              " " <<
-              "%{" " "<<
-              syllableNoteUplink->
-                noteAsShortString () <<
-              " " "%}" " "
-*/
-                  " ";
+            "\\skip1" " ";
           break;
           
         case msrSyllable::kSlurSyllable:
