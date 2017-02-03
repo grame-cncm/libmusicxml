@@ -4805,12 +4805,16 @@ class EXP msrVoice : public msrElement
     S_msrElement  removeLastElementFromVoice (
                     int inputLineNumber);
 
-    S_msrStanza
-                  addStanzaToVoiceByItsNumber (
+    S_msrStanza   addStanzaToVoiceByItsNumber (
                     int inputLineNumber,
                     int stanzaNumber);
 
-    void          addStanzaToVoice (S_msrStanza stanza);
+    void          addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza);
+
+    void          catchUpWithVoiceStanzaMaster (
+                    S_msrStanza stanza);
+                    
+    void          addStanzaToVoiceWithCatchUp (S_msrStanza stanza);
 
     S_msrStanza   createStanzaInVoiceIfNeeded (
                     int inputLineNumber,

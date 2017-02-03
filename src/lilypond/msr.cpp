@@ -5390,7 +5390,7 @@ S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
 
   // add the stanza clone to the cloned voice
   clonedVoice->
-    addStanzaToVoice (clone);
+    addStanzaToVoiceWithoutCatchUp (clone);
     
   return clone;
 }
@@ -8751,13 +8751,13 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
         this);
 
   // add it to this voice
-  addStanzaToVoice (stanza);
+  addStanzaToVoiceWithCatchUp (stanza);
 
   // return it
   return stanza;
 }
 
-void msrVoice::addStanzaToVoice (S_msrStanza stanza)
+void msrVoice::addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza)
 {
   // get stanza number
   int stanzaNumber =
@@ -8772,9 +8772,10 @@ void msrVoice::addStanzaToVoice (S_msrStanza stanza)
       endl;
 
   fVoiceStanzasMap [stanzaNumber] = stanza;
+}
 
-  // catch up with fVoiceStanzaMaster
-  // in case the stanza does not start upon the first voice note
+void msrVoice::catchUpWithVoiceStanzaMaster (S_msrStanza stanza)
+{
   vector<S_msrSyllable>
     masterSyllables =
       fVoiceStanzaMaster->getSyllables ();
@@ -8795,6 +8796,27 @@ void msrVoice::addStanzaToVoice (S_msrStanza stanza)
       stanza->addSyllableToStanza ((*i));
     } // for
   }
+}
+
+void msrVoice::addStanzaToVoiceWithCatchUp (S_msrStanza stanza)
+{
+  // get stanza number
+  int stanzaNumber =
+    stanza->getStanzaNumber ();
+    
+  // register stanza in this voice
+// JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Adding stanza " << stanza->getStanzaName () <<
+      " (" << stanzaNumber <<
+      ") to voice \"" << getVoiceName () << "\"" <<
+      endl;
+
+  fVoiceStanzasMap [stanzaNumber] = stanza;
+
+  // catch up with fVoiceStanzaMaster
+  // in case the stanza does not start upon the first voice note
+  catchUpWithVoiceStanzaMaster (stanza);
 }
 
 S_msrStanza msrVoice::createStanzaInVoiceIfNeeded (
