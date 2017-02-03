@@ -1740,7 +1740,7 @@ void msrAftergracenotes::print (ostream& os)
 //______________________________________________________________________________
 S_msrNote msrNote::createFromNoteData (
   int           inputLineNumber,
-  msrNoteData & noteData)
+  msrNoteData&  noteData)
 {  
   msrNote * o =
     new msrNote (
@@ -1748,38 +1748,6 @@ S_msrNote msrNote::createFromNoteData (
   assert(o!=0); 
   return o;
 }
-
-S_msrNote msrNote::createSkipNote (
-  int           inputLineNumber,
-  int           divisions,
-  int           divisionsPerWholeNote,
-  int           staffNumber,
-  int           externalVoiceNumber)
-{
-  msrNoteData noteData;
-
-  noteData.fStep = 's';
-  noteData.fStepIsARest = true;
-  
-  noteData.fDivisions = divisions;
-  noteData.fDisplayDivisions = divisions;
-    
-  noteData.fStaffNumber = staffNumber;
-  noteData.fVoiceNumber = externalVoiceNumber;
-
-  msrNote * o =
-    new msrNote (
-      inputLineNumber, noteData);
-  assert(o!=0);
-
-  // set rest's note kind
-  o->fNoteKind = kSkipNote;
-  
-  // set rest's divisions per whole note
-  o->fNoteDivisionsPerWholeNote = divisionsPerWholeNote;
-  
-  return o;
-}    
 
 msrNote::msrNote (
   int           inputLineNumber,
@@ -1808,6 +1776,13 @@ msrNote::msrNote (
   }
 
   fNoteKind = k_NoNoteKind;
+
+  fNoteOccupiesAFullMeasure = false;
+
+  fNoteMeasureNumber = -10011;
+  fNotePositionInMeasure = -20022;
+    
+  fNoteHasATrill = false;
 
   if (
     fNoteData.fStep < 'A'
@@ -1947,10 +1922,6 @@ msrNote::msrNote (
       s.str());
   }
 
-  fNoteOccupiesAFullMeasure = false;
-  
-  fNoteHasATrill = false;
-  
 /* JMI
   if (gGeneralOptions->fDebugDebug)
     cerr <<
@@ -1961,6 +1932,38 @@ msrNote::msrNote (
 
 msrNote::~msrNote()
 {}
+
+S_msrNote msrNote::createSkipNote (
+  int           inputLineNumber,
+  int           divisions,
+  int           divisionsPerWholeNote,
+  int           staffNumber,
+  int           externalVoiceNumber)
+{
+  msrNoteData noteData;
+
+  noteData.fStep = 's';
+  noteData.fStepIsARest = true;
+  
+  noteData.fDivisions = divisions;
+  noteData.fDisplayDivisions = divisions;
+    
+  noteData.fStaffNumber = staffNumber;
+  noteData.fVoiceNumber = externalVoiceNumber;
+
+  msrNote * o =
+    new msrNote (
+      inputLineNumber, noteData);
+  assert(o!=0);
+
+  // set rest's note kind
+  o->fNoteKind = kSkipNote;
+  
+  // set rest's divisions per whole note
+  o->fNoteDivisionsPerWholeNote = divisionsPerWholeNote;
+  
+  return o;
+}    
 
 S_msrNote msrNote::createNoteBareClone ()
 {
@@ -5004,7 +5007,7 @@ msrSyllable::msrSyllable (
     : msrElement (inputLineNumber)
 {
   fSyllableKind = syllableKind;
-  fSyllableText       = syllableText;
+  fSyllableText = syllableText;
   fSyllableDivisions  = divisions;
 
   fSyllableExtendKind = syllableExtendKind;

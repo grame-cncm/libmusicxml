@@ -839,7 +839,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
     fCurrentVoiceClone->
       appendOtherElementToVoice (melismaCommand);
 
-  fOnGoingSyllableExtend = false;
+    fOnGoingSyllableExtend = false;
   }
 }
 
