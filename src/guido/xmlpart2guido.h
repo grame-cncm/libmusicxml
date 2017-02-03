@@ -79,7 +79,7 @@ class EXP xmlpart2guido :
 	bool	fGenerateComments, fGenerateStem, fGenerateBars, fGeneratePositions, fGenerateAutoMeasureNum;
 
 	// internal parsing state
-	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending, fTupletOpened;
+	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending, fTupletOpened,fWavyTrillOpened;
     
     string tempoWord, tempoMetronome, wordParams;
     bool fGenerateTempo, directionPlacementAbove, directionWord;
@@ -142,6 +142,8 @@ class EXP xmlpart2guido :
 	void checkTiedEnd	 ( const std::vector<S_tied>& tied );
 	void checkVoiceTime	 ( const rational& currTime, const rational& voiceTime);
     int  checkRestFormat	 ( const notevisitor& stem );
+    void checkWavyTrillBegin	 ( const notevisitor& nv );
+    void checkWavyTrillEnd	 ( const notevisitor& nv );
 	void newNote		 ( const notevisitor& nv );
 
 	std::string			noteName		( const notevisitor& nv );

@@ -68,6 +68,7 @@ class EXP notevisitor :
     public visitor<S_turn>,
     public visitor<S_inverted_turn>,
     public visitor<S_trill_mark>,
+    public visitor<S_wavy_line>,
     public visitor<S_inverted_mordent>,
     public visitor<S_mordent>,
     public visitor<S_accidental_mark>,
@@ -81,6 +82,7 @@ class EXP notevisitor :
 		S_tenuto		fTenuto;
 		S_breath_mark	fBreathMark;
         S_trill_mark		fTrill;
+        S_wavy_line		fWaveLine;
         S_inverted_mordent		fInvertedMordent;
         S_mordent		fMordent;
         S_turn		fTurn;
@@ -183,6 +185,7 @@ class EXP notevisitor :
         virtual void visitStart( S_lyric& elt );
         virtual void visitStart( S_turn& elt )    { fTurn = elt; }
         virtual void visitStart( S_trill_mark& elt )    { fTrill = elt; }
+        virtual void visitStart( S_wavy_line& elt )    { fWaveLine = elt; }
         virtual void visitStart( S_accidental_mark& elt )    { fAccidentalMark = elt; }
         virtual void visitStart( S_inverted_mordent& elt )    { fInvertedMordent = elt; }
         virtual void visitStart( S_inverted_turn& elt )    { fInvertedTurn = elt; }

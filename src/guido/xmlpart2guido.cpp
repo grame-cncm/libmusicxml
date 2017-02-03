@@ -49,7 +49,7 @@ namespace MusicXML2
         fCurrentTupletNumber = 0;
         fMeasNum = 0;
         fInCue = fInGrace = fInhibitNextBar = fPendingBar
-        = fBeamOpened = fCrescPending = fSkipDirection = fTupletOpened = false;
+        = fBeamOpened = fCrescPending = fSkipDirection = fTupletOpened = fWavyTrillOpened = false;
         fCurrentStemDirection = kStemUndefined;
         fCurrentDivision = 1;
         fCurrentOffset = 0;
@@ -1408,21 +1408,57 @@ namespace MusicXML2
     }
     
     //---------------------
+    void xmlpart2guido::checkWavyTrillBegin	 ( const notevisitor& nv )
+    {
+        if (nv.fTrill)
+        {
+            Sguidoelement tag;
+            tag = guidotag::create("trill");
+            fWavyTrillOpened = true;
+            
+            // If there's a wavy-line AND the Trill is TIED, then add "<repeat="false">" attribute
+            if (nv.fWaveLine)
+            {
+                if (nv.fWaveLine->getAttributeValue("type")=="start")
+                {
+                    if (nv.getTied().size()>0) {
+                        
+                        stringstream s;
+                        s << "repeat=\"false\"";
+                        tag->add (guidoparam::create(s.str(), false));
+                    }
+                }
+            }
+            push(tag);
+        }
+    }
+    
+    void xmlpart2guido::checkWavyTrillEnd	 ( const notevisitor& nv )
+    {
+        if (nv.fWaveLine)
+        {
+            std::string wavyType = nv.fWaveLine->getAttributeValue("type");
+
+            // if type is "stop", then pop the TRILL tag
+            if (wavyType=="stop") {
+                pop();
+                fWavyTrillOpened = false;
+            }
+        }
+    }
+
+    
+    //---------------------
     int xmlpart2guido::checkChordOrnaments(const notevisitor& note)
     {
-        // We can visit mordent, tremolo, trill, turn, inverted-turn, trill-mark, wave-line, vertical-turn, and accidental-mark
+        // We can visit mordent, tremolo, trill, turn, inverted-turn, vertical-turn, and accidental-mark
         // See http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-ornaments.htm
-        /// NOTE: In Guido, the following ornaments accept CHORD as input: trill, mord, turn
+        /// NOTE: In Guido, the following ornaments accept CHORD as input: mord, turn
         ///         On the contrary, trem accept note list (to be moved to Articulation??)
-        
+        /// TRILL is now dealt with separately since they can have SCOPE
         
         int n = 0;
         Sguidoelement tag;
-        if (note.fTrill) {
-            tag = guidotag::create("trill");
-            push(tag);
-            n++;
-        }
         
         // Inversed mordent in Guido is mordent with inversed chord structure. See generateOrnaments.
         if (note.fMordent || note.fInvertedMordent) {
@@ -1672,6 +1708,8 @@ namespace MusicXML2
         checkBeamBegin (notevisitor::getBeam());
         checkLyricBegin (notevisitor::getLyric());
         
+        checkWavyTrillBegin(*this);
+        
         int pendingPops  = checkFermata(*this);
         pendingPops += checkArticulation(*this);
         
@@ -1682,7 +1720,7 @@ namespace MusicXML2
             pendingPops += checkRestFormat(*this);
         
         vector<Sxmlelement> chord = getChord(elt);
-        if (chord.size() || (chordOrnaments>0))     // also enforce chord creation in case of Guido Ornaments Trill, Turn and Mord
+        if (chord.size() || (chordOrnaments>0) || fWavyTrillOpened)     // also enforce chord creation in case of Guido Ornaments Trill, Turn and Mord
         {
             Sguidoelement chord = guidochord::create();
             push (chord);
@@ -1707,6 +1745,8 @@ namespace MusicXML2
         isProcessingChord = false;
         
         while (pendingPops--) pop();
+        
+        checkWavyTrillEnd(*this);
         
         checkTupletEnd(notevisitor::getTuplet());
         checkBeamEnd (notevisitor::getBeam());
