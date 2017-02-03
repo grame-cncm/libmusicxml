@@ -44,7 +44,9 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
 
   fOnGoingHeader = false;
   
-  fOnGoingStaff  = false;
+  fOnGoingStaff = false;
+
+  fOnGoingVoice = false;
 
   fOngoingNonEmptyStanza = false;
 
@@ -1429,6 +1431,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
   fRelativeOctaveReference = 0;
 
   fMusicOlec.reset ();
+
+  fOnGoingVoice = true;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrVoice& elt)
@@ -1443,6 +1447,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrVoice& elt)
     "}" <<
     endl <<
     endl;
+
+  fOnGoingVoice = false;
 }
 
 //________________________________________________________________________
@@ -1576,8 +1582,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrStanza& elt)
       "% --> Start visiting msrStanza" << endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
-    fOngoingNonEmptyStanza = // JMI
-      elt->getStanzaTextPresent ();
+    // don't generate code for the stanza inside the code for the voice
+    fOngoingNonEmptyStanza =
+      ! fOnGoingVoice && elt->getStanzaTextPresent ();
 
     if (fOngoingNonEmptyStanza) {
       fOstream << idtr <<
