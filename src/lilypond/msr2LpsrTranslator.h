@@ -323,6 +323,7 @@ class msr2LpsrTranslator :
     // voices
     // ------------------------------------------------------    
     S_msrVoice                fCurrentVoiceClone;
+    map<S_msrNote, S_msrNote> fVoiceNotesMap;
     
     // stanzas
     // ------------------------------------------------------

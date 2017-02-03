@@ -64,22 +64,21 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   ostream&         os)
 {
   if (gGeneralOptions->fTrace) {
-    string separator = "%----------------------------------------";
+    string separator =
+      "%--------------------------------------------------------------";
     
     cerr <<
       endl <<
       idtr << separator <<
       endl <<
-      "Pass 3: building a LPSR from the MSR" <<
+      "Pass 3: translating the MSR into a LPSR" <<
       endl <<
       idtr << separator <<
       endl;
-      // ------------------------------------------------------
   }
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       endl;
-      // ------------------------------------------------------
   
   // create an msr2LpsrTranslator
   msr2LpsrTranslator translator (os, mScore);
@@ -97,20 +96,18 @@ void displayLpsrScore (
   S_lpsrOptions&    lpsrOpts,
   ostream&          os)
 {
-  string separator = "%----------------------------------------";
+  string separator =
+    "%--------------------------------------------------------------";
 
-  if (gGeneralOptions->fTrace) {
-    string separator = "%----------------------------------------";
-    
+  if (gGeneralOptions->fTrace) {    
     cerr <<
       endl <<
       idtr << separator <<
       endl <<
-      "Optional pass: outputting a view of the LPSR" <<
+      "Optional pass: displaying the LPSR" <<
       endl <<
       idtr << separator <<
       endl;
-      // ------------------------------------------------------
   }
   
   if (gGeneralOptions->fTrace) os << "%{" << endl;

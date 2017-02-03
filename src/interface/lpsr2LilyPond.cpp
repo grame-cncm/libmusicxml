@@ -55,7 +55,8 @@ void generateLilyPondCodeFromLpsrScore (
   S_lpsrOptions&    lpsrOpts,
   ostream&          os)
 {
-  string separator = "%---------------------------------------------";
+  string separator =
+    "%--------------------------------------------------------------";
 
   if (gGeneralOptions->fTrace) {
     
@@ -63,7 +64,7 @@ void generateLilyPondCodeFromLpsrScore (
       endl <<
       idtr << separator <<
       endl <<
-      "Pass 4: generating LilyPond code from the LPSR" <<
+      "Pass 4: tranalating the LPSR into LilyPond code" <<
       endl <<
       idtr << separator <<
       endl;

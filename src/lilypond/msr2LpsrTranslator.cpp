@@ -620,6 +620,9 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
   // append a use of the voice to the current staff block
   fCurrentStaffBlock->
     appendVoiceUseToStaffBlock (fCurrentVoiceClone);
+
+  // clear the voice notes map
+  fVoiceNotesMap.clear ();
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
@@ -786,16 +789,12 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   fCurrentSyllableClone =
     elt->createSyllableBareClone ();
 
-  // set syllable clone's note uplink to current note clone
-  fCurrentSyllableClone->
-    setSyllableNoteUplink (fCurrentNoteClone);
-    
   // add it to the current stanza clone or current note clone
 
-  if (fCurrentStanzaClone)
-  fCurrentStanzaClone->
-    addSyllableToStanza (fCurrentSyllableClone);
-
+  if (fOnGoingStanza) // fCurrentStanzaClone JM
+    fCurrentStanzaClone->
+      addSyllableToStanza (fCurrentSyllableClone);
+  
   if (false && fOnGoingStanza) { // JMI
     // visiting a syllable as a stanza member
     fCurrentStanzaClone->
@@ -807,6 +806,26 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
       appendSyllableToNote (fCurrentSyllableClone);
   }
 
+  // get elt's note uplink
+  S_msrNote
+    eltNoteUplink =
+      fVoiceNotesMap [elt->getSyllableNoteUplink ()];
+    
+  if (eltNoteUplink) {
+    // set syllable clone's note uplink to the clone of elt's note uplink
+  //  if (gGeneralOptions->fDebug)
+      fOstream <<
+        idtr <<
+        "--> setting syllable note uplink " <<
+        fCurrentSyllableClone->syllableAsString () <<
+        " to " << eltNoteUplink->noteAsShortString () <<
+        endl;
+
+    fCurrentSyllableClone->
+      setSyllableNoteUplink (
+        eltNoteUplink);
+  }
+    
   // a syllable ends the sysllable extend range if any
   if (fOnGoingSyllableExtend) {
     // create melisma end command
@@ -1140,9 +1159,13 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
       endl;
   }
 
+  // create the clone
   fCurrentNoteClone =
     elt->createNoteBareClone ();
-    
+
+  // register clone in this tranlastors' voice notes map
+  fVoiceNotesMap [elt] = fCurrentNoteClone;
+  
   fOnGoingNote = true;
 }
 

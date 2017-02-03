@@ -19,7 +19,6 @@
 #include "xml.h"
 #include "xmlfile.h"
 #include "xmlreader.h"
-// JMI #include "xml_tree_browser.h"
 
 #include "versions.h"
 
@@ -67,13 +66,13 @@ EXP S_msrScore musicxmlFile2Msr (
 {
   if (gGeneralOptions->fTrace) {
     string separator =
-      "%------------------------------------------------------";
+      "%--------------------------------------------------------------";
     
     cerr <<
       endl <<
       idtr << separator <<
       endl <<
-      "Pass 1: building xmlemement tree from \"" << file << "\"" <<
+      "Pass 1: building the xmlemement tree from \"" << file << "\"" <<
       endl <<
       idtr << separator <<
       endl;
@@ -100,13 +99,13 @@ EXP S_msrScore musicxmlFd2Msr (
 {
   if (gGeneralOptions->fTrace) {
     string separator =
-      "%---------------------------------------------------";
+      "%--------------------------------------------------------------";
     
     cerr <<
       endl <<
       idtr << separator <<
       endl <<
-      "Pass 1: building xmlemement tree from standard input" <<
+      "Pass 1: building the xmlemement tree from standard input" <<
       endl <<
       idtr << separator <<
       endl;
@@ -134,13 +133,13 @@ EXP S_msrScore musicxmlString2Msr (
 {
   if (gGeneralOptions->fTrace) {
     string separator =
-      "%-----------------------------------------------------";
+      "%--------------------------------------------------------------";
     
     cerr <<
       endl <<
       idtr << separator <<
       endl <<
-      idtr << "Pass 1: building xmlemement tree from a buffer" <<
+      idtr << "Pass 1: building the xmlemement tree from a buffer" <<
       endl <<
       idtr << separator <<
       endl;
@@ -167,13 +166,13 @@ S_msrScore buildMsrScoreFromElementsTree (
 {
   if (gGeneralOptions->fTrace) {
     string separator =
-      "%----------------------------------------------";
+      "%--------------------------------------------------------------";
     
     cerr <<
       endl <<
       idtr << separator <<
       endl <<
-      "Pass 2: building a MSR from the xmlelement tree" <<
+      "Pass 2: translating the xmlelement tree into a MSR" <<
       endl <<
       idtr << separator <<
       endl;
@@ -198,17 +197,16 @@ void displayMsrScore (
 {
   if (gGeneralOptions->fTrace) {
     string separator =
-      "%-------------------------------------------";
+      "%--------------------------------------------------------------";
     
     cerr <<
       endl <<
       idtr << separator <<
       endl <<
-      "Optional pass: outputting a view of the MSR" <<
+      "Optional pass: displaying the MSR as text" <<
       endl <<
       idtr << separator <<
       endl;
-      // ------------------------------------------------------
   }
 
   if (gGeneralOptions->fTrace) os << "%{" << endl;
@@ -224,7 +222,7 @@ void displayMsrScoreSummary (
 {
   if (gGeneralOptions->fTrace) {
     string separator =
-      "%----------------------------------------------";
+      "%--------------------------------------------------------------";
     
     cerr <<
       endl <<
@@ -234,7 +232,6 @@ void displayMsrScoreSummary (
       endl <<
       idtr << separator <<
       endl;
-      // ------------------------------------------------------
   }
    
   // create an msr2SummaryVisitor visitor
