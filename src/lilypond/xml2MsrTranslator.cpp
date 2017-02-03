@@ -2900,11 +2900,11 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     }
   
     else if (fNoteData.fStepIsARest) {
-      fCurrentSyllableKind = msrSyllable::kSkipSyllable;
+      fCurrentSyllableKind = msrSyllable::kRestSyllable;
 
       syllable =
         currentVoice->
-          addSkipSyllableToVoice (
+          addRestSyllableToVoice (
             inputLineNumber,
             fCurrentStanzaNumber,
             fNoteData.fDivisions);

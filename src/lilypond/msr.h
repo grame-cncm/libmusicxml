@@ -2057,7 +2057,7 @@ class EXP msrSyllable : public msrElement
     enum msrSyllableKind {
       k_NoSyllable,
       kSingleSyllable, kBeginSyllable, kMiddleSyllable, kEndSyllable,
-      kSkipSyllable,
+      kRestSyllable, kSkipSyllable,
       kTiedSyllable,
       kSlurSyllable, kSlurBeyondEndSyllable,
       kBarcheckSyllable, kBarnumberCheckSyllable,
@@ -4753,6 +4753,12 @@ class EXP msrVoice : public msrElement
                     bool      elision,
                     msrSyllable::msrSyllableExtendKind
                               syllableExtendKind,
+                    int       divisions);
+    
+    S_msrSyllable
+                  addRestSyllableToVoice (
+                    int       inputLineNumber,
+                    int       stanzaNumber,
                     int       divisions);
     
     S_msrSyllable

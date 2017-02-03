@@ -2273,15 +2273,6 @@ void msrNote::browseData (basevisitor* v)
     } // for
     idtr--;
   }
-
-/* JMI
-  // browse the slur if any
-  if (fNoteSlurKind != msrSlur::k_NoSlur) {
-    // browse the slur
-    msrBrowser<msrDynamics> browser (v);
-    browser.browse (*(*i));
-  }
-  */
 }
 
 string msrNote::notePitchAsString () const
@@ -2628,15 +2619,55 @@ void msrNote::print (ostream& os)
   idtr--;
 */
 
-  // print the extend kind
-  idtr++;
-  os <<
-    idtr <<
-    "NoteSyllableExtendKind" " = " <<
-    msrSyllable::syllableExtendKindAsString (
-      fNoteSyllableExtendKind) <<
-    endl;
-  idtr--;
+  // print the extend kind if relevant
+  switch (fNoteSyllableExtendKind) {
+    
+    case msrSyllable::kSingleSyllable:
+    case msrSyllable::kBeginSyllable:
+    case msrSyllable::kMiddleSyllable:
+    case msrSyllable::kEndSyllable:
+      idtr++;
+      os <<
+        idtr <<
+        "NoteSyllableExtendKind" " = " <<
+        msrSyllable::syllableExtendKindAsString (
+          fNoteSyllableExtendKind) <<
+        endl;
+      idtr--;
+      break;
+      
+    case msrSyllable::kRestSyllable:
+    case msrSyllable::kSkipSyllable:
+    case msrSyllable::kSlurSyllable:
+    case msrSyllable::kSlurBeyondEndSyllable:
+    case msrSyllable::kTiedSyllable:
+    case msrSyllable::kBarcheckSyllable:
+    case msrSyllable::kBarnumberCheckSyllable:
+    case msrSyllable::kBreakSyllable:
+      break;
+      
+    case msrSyllable::k_NoSyllable:
+      break;
+  } // switch
+
+/*
+  switch (elt->getNoteKind ()) { // JMI
+    case msrNote::k_NoNoteKind:
+      break;
+    case msrNote::kStandaloneNote:
+      break;
+    case msrNote::kGraceNote:
+      break;
+    case msrNote::kRestNote:
+      break;
+    case msrNote::kSkipNote:
+      break;
+    case msrNote::kChordMemberNote:
+      break;
+    case msrNote::kTupletMemberNote:
+      break;
+  } // switch
+ */
 
   // print the octave shift if any
   if (fNoteOctaveShift) {
@@ -5115,6 +5146,10 @@ string msrSyllable::syllableKindAsString () const
       result = "end";
       break;
       
+    case msrSyllable::kRestSyllable:
+      result = "rest";
+      break;
+      
     case msrSyllable::kSkipSyllable:
       result = "skip";
       break;
@@ -5190,7 +5225,6 @@ string msrSyllable::syllableNoteUplinkAsString () const
       "syllable note uplink not yet set";
 
   return result;
-
 }
 
 string msrSyllable::syllableAsString () const
@@ -5205,6 +5239,9 @@ string msrSyllable::syllableAsString () const
         ", ==> " <<
         syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
+      s <<
+        ", " <<
+        syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
     case kBeginSyllable:
@@ -5214,6 +5251,9 @@ string msrSyllable::syllableAsString () const
         ", ==> " <<
         syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
+      s <<
+        ", " <<
+        syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
     case kMiddleSyllable:
@@ -5223,6 +5263,9 @@ string msrSyllable::syllableAsString () const
         ", ==> " <<
         syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
+      s <<
+        ", " <<
+        syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
     case kEndSyllable:
@@ -5232,14 +5275,23 @@ string msrSyllable::syllableAsString () const
         ", ==> " <<
         syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
+      s <<
+        ", " <<
+        syllableExtendKindAsString (fSyllableExtendKind);
+      break;
+      
+    case kRestSyllable:
+      s << 
+        "rest" << ":" << fSyllableDivisions <<
+        ", line " << fInputLineNumber <<
+        ", ==> " <<
+        syllableNoteUplinkAsString ();
       break;
       
     case kSkipSyllable:
       s << 
         "skip" << ":" << fSyllableDivisions <<
-        ", line " << fInputLineNumber <<
-        ", ==> " <<
-        syllableNoteUplinkAsString ();
+        ", line " << fInputLineNumber;
       break;
       
     case kSlurSyllable:
@@ -5295,10 +5347,6 @@ string msrSyllable::syllableAsString () const
       break;
   } // switch
 
-  s <<
-    ", " <<
-    syllableExtendKindAsString (fSyllableExtendKind);
-    
   return s.str();
 }
 
@@ -5774,6 +5822,7 @@ void msrStanza::addSyllableToStanza (S_msrSyllable syllable)
       this->setStanzaTextPresent ();
       break;
       
+    case msrSyllable::kRestSyllable:
     case msrSyllable::kSkipSyllable:
     case msrSyllable::kSlurSyllable:
     case msrSyllable::kSlurBeyondEndSyllable:
@@ -5789,7 +5838,6 @@ void msrStanza::addSyllableToStanza (S_msrSyllable syllable)
         "syllable type has not been set");
       break;
   } // switch
-
 }
 
 void msrStanza::acceptIn (basevisitor* v) {
@@ -8989,11 +9037,18 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     stanzaDivisions =
       note->getNoteDivisions ();
 
-  fVoiceStanzaMaster->
-    addSkipSyllableToStanza (
-      note->getInputLineNumber (),
-      stanzaDivisions,
-      note);
+  if (note->getNoteIsARest ())
+    fVoiceStanzaMaster->
+      addRestSyllableToStanza (
+        note->getInputLineNumber (),
+        stanzaDivisions,
+        note);
+  else
+    fVoiceStanzaMaster->
+      addSkipSyllableToStanza (
+        note->getInputLineNumber (),
+        stanzaDivisions,
+        note);
 
   fMusicHasBeenInsertedInVoice = true;
 }
@@ -9097,6 +9152,45 @@ S_msrSyllable msrVoice::addTextSyllableToVoice (
         stanza);
 
   // add the syllable to the stanza
+  stanza->
+    addSyllableToStanza (syllable);
+
+  // and return it
+  return syllable;
+}
+
+S_msrSyllable msrVoice::addRestSyllableToVoice (
+  int       inputLineNumber,
+  int       stanzaNumber,
+  int       divisions)
+{
+  // create a 'Rest' stanza text syllable
+  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+ // if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+    cerr << idtr <<
+      "--> adding 'Rest' syllable"
+      ", line " << inputLineNumber <<
+      ", divisions = " << divisions <<
+      " in voice " << getVoiceName () << endl;
+  }
+
+  // fetch stanzaNumber in this voice
+  S_msrStanza
+    stanza =
+      createStanzaInVoiceIfNeeded (
+        inputLineNumber, stanzaNumber);
+  
+  // create 'Rest' syllable
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
+        inputLineNumber,
+        msrSyllable::kRestSyllable, "",
+        msrSyllable::k_NoSyllableExtend,
+        divisions,
+        stanza);
+        
+  // add it to the stanza
   stanza->
     addSyllableToStanza (syllable);
 

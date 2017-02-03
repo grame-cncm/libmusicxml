@@ -1646,31 +1646,41 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
             quoteStringIfNonAlpha (elt->getSyllableText ()) << " ";
           break;
           
-        case msrSyllable::kSkipSyllable:
+        case msrSyllable::kRestSyllable:
           {
             S_msrNote
               syllableNoteUplink =
                 elt->
                   getSyllableNoteUplink ();
                   
-            if (
-              syllableNoteUplink->getNoteKind ()
-                !=
-              msrNote::kRestNote) {
-              fOstream <<
-                "\\skip" <<
-                  syllableNoteUplink->
-                    noteDivisionsAsMSRString () <<
-                  " " <<
-                  "%{" " "<<
-                  syllableNoteUplink->
-                    noteAsShortString () <<
-                  " " "%}" " ";
+            fOstream <<
+              "\\skip" <<
+                elt->getSyllableDivisions () <<
+                " " <<
+                "%{" " "<<
+                syllableNoteUplink->
+                  noteAsShortString () <<
+                " " "%}" " ";
 
             fStanzaOlec++; // for the comment        
             fStanzaOlec++; // for the comment        
-            }
           }
+          break;
+          
+        case msrSyllable::kSkipSyllable:
+          fOstream <<
+            "\\skip" <<
+              elt->getSyllableDivisions () <<
+     // JMI         syllableNoteUplink->
+           //     noteDivisionsAsMSRString () <<
+           /*
+              " " <<
+              "%{" " "<<
+              syllableNoteUplink->
+                noteAsShortString () <<
+              " " "%}" " "
+*/
+                  " ";
           break;
           
         case msrSyllable::kSlurSyllable:
@@ -1725,6 +1735,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
 
       fStanzaOlec++;
 
+/* XXL
       switch (elt->getSyllableExtendKind ()) {
         case msrSyllable::kStandaloneSyllableExtend:
           // generate a lyric extender after this syllable
@@ -1741,6 +1752,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::k_NoSyllableExtend:
           break;
       } // switch
+  */
       
       if (fLpsrOptions->fGenerateInputLineNumbers)
         // print the note line number as a comment
