@@ -2960,6 +2960,13 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     }
     
     else { // JMI
+      // note hasn't any lyric, append a skip syllable to the voice
+      syllable =
+        currentVoice->
+          addSkipSyllableToVoice (
+            inputLineNumber,
+            fCurrentStanzaNumber,
+            fNoteData.fDivisions);
     }
   }
 
@@ -4060,6 +4067,7 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
   fCurrentText = "";
   fCurrentSyllableExtendKind =
   msrSyllable::k_NoSyllableExtend;
+  
   // assume this note hasn't got any stanzas until S_lyric is met
   fCurrentNoteHasStanza = false;
 
