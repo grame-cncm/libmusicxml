@@ -5497,6 +5497,45 @@ void msrStanza::addTextSyllableToStanza (
 }
 */
 
+void msrStanza::addRestSyllableToStanza (
+  int       inputLineNumber,
+  int       divisions,
+  S_msrNote note)
+{
+  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+// JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+    S_msrStaff
+      staff =
+        fStanzaVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart
+      part =
+        staff-> getStaffPartUplink ();
+    
+    cerr << idtr <<
+      "--> adding 'Skip' syllable:" << divisions <<
+      " to stanza " << getStanzaName () <<
+      ", note = " << note->noteAsString () <<
+      endl;
+  }
+  
+  // create stanza skip syllable
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
+        inputLineNumber,
+        msrSyllable::kRestSyllable, "",
+        msrSyllable::k_NoSyllableExtend,
+        divisions,
+        this);
+
+  // set stanza skip syllable note uplink
+  syllable->
+    setSyllableNoteUplink (note);
+    
+  // add syllable to this stanza
+  fSyllables.push_back (syllable);
+}
+
 void msrStanza::addSkipSyllableToStanza (
   int       inputLineNumber,
   int       divisions,
@@ -5535,7 +5574,7 @@ void msrStanza::addSkipSyllableToStanza (
   // add syllable to this stanza
   fSyllables.push_back (syllable);
 
-/*
+/* JMI
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff staff = fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart  part  = staff-> getStaffPartUplink ();
@@ -7052,6 +7091,57 @@ void msrMeasure::setMeasureTime (S_msrTime time)
     time->getBeatsValue ();
 }
 
+void msrMeasure::appendBarCheckToMeasure (S_msrBarCheck barCheck)
+{
+  int inputLineNumber =
+    barCheck->getInputLineNumber ();
+    
+  // first check whether there is a measure change
+// JMI  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
+  if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { // XXL
+    /*
+      measure overflows, we must synchonize all voices in this part
+    */
+    
+  //  if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "@@@@@@@@@@@@@@@@@ --> measure " << fMeasureNumber <<
+        " overflows" <<
+        endl;
+  
+    // finalize this measure
+    this->
+      finalizeMeasure (inputLineNumber);
+      
+    // create a new measure
+    S_msrMeasure
+      newMeasure =
+        msrMeasure::create (
+          inputLineNumber,
+          fMeasureNumber + 1,
+          fMeasureDivisionsPerWholeNote,
+          fMeasureSegmentUplink);
+
+    // append it to the segment
+    fMeasureSegmentUplink->
+      appendMeasureToSegment (
+        newMeasure);
+
+    // append note to it thru the segment
+    fMeasureSegmentUplink->
+      appendBarCheckToSegment (barCheck);
+  }
+
+  else {
+    /*
+      regular insertion in current measure
+    */
+    
+    // append the bar check to the measure elements list
+    fMeasureElementsList.push_back (barCheck);
+  }
+}
+
 void msrMeasure::appendNoteToMeasure (S_msrNote note)
 {
   int inputLineNumber =
@@ -8012,6 +8102,19 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
   // append measure to the segment
   fSegmentMeasuresList.push_back (measure);
+}
+
+void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
+{
+  if (gGeneralOptions->fDebug)
+    cerr <<
+      idtr <<
+        "--> appending bar check " << barCheck->barCheckAsString () <<
+        " to segment" <<
+      endl;
+      
+  fSegmentMeasuresList.back ()->
+    appendBarCheckToMeasure (barCheck);
 }
 
 void msrSegment::appendNoteToSegment (S_msrNote note)

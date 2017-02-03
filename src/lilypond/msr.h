@@ -48,6 +48,9 @@ namespace MusicXML2
 //______________________________________________________________________________
 // PRE-declarations for class dependencies
 
+class msrBarCheck;
+typedef SMARTP<msrBarCheck> S_msrBarCheck;
+
 class msrNote;
 typedef SMARTP<msrNote> S_msrNote;
 
@@ -1584,6 +1587,8 @@ class EXP msrMeasure : public msrElement
                       
     void          appendElementToMeasure  (S_msrElement elem)
                       { fMeasureElementsList.push_back (elem); }
+
+    void          appendBarCheckToMeasure (S_msrBarCheck barCheck);
     
     void          appendNoteToMeasure (S_msrNote note);
     void          appendChordToMeasure (S_msrChord chord);
@@ -1717,7 +1722,9 @@ class EXP msrSegment : public msrElement
     void          appendMeasureToSegment (S_msrMeasure measure);
 
     void          appendTimeToSegment (S_msrTime time);
-    
+
+    void          appendBarCheckToSegment (S_msrBarCheck barCheck);
+
     void          appendNoteToSegment (S_msrNote note);
     void          appendChordToSegment (S_msrChord chord);
     void          appendTupletToSegment (S_msrTuplet tuplet);
@@ -3672,6 +3679,11 @@ class EXP msrStanza : public msrElement
                   int       divisions,
                   S_msrNote note);
       
+    void        addRestSyllableToStanza (
+                  int       inputLineNumber,
+                  int       divisions,
+                  S_msrNote note);
+
     void        addSkipSyllableToStanza (
                   int       inputLineNumber,
                   int       divisions,
