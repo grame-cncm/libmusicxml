@@ -9074,7 +9074,7 @@ S_msrSyllable msrVoice::addTextSyllableToVoice (
         divisions,
         stanza);
 
-  // add stanza skip syllable to the stanza
+  // add the syllable to the stanza
   stanza->
     addSyllableToStanza (syllable);
 
