@@ -1721,7 +1721,6 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
 
       fStanzaOlec++;
 
-/* XXL
       switch (elt->getSyllableExtendKind ()) {
         case msrSyllable::kStandaloneSyllableExtend:
           // generate a lyric extender after this syllable
@@ -1738,7 +1737,6 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::k_NoSyllableExtend:
           break;
       } // switch
-  */
       
       if (fLpsrOptions->fGenerateInputLineNumbers)
         // print the note line number as a comment
@@ -3385,7 +3383,10 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
   // JMI warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
     elt->getRepeatendingInternalNumber ()
       ==
-    (int) elt->getRepeatendingRepeatUplink ()->getRepeatEndings ().size()) {
+    (int)
+      elt->
+        getRepeatendingRepeatUplink ()->
+          getRepeatEndings ().size()) {
       
     idtr--;
     
