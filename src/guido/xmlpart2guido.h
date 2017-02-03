@@ -79,7 +79,7 @@ class EXP xmlpart2guido :
 	bool	fGenerateComments, fGenerateStem, fGenerateBars, fGeneratePositions, fGenerateAutoMeasureNum;
 
 	// internal parsing state
-	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending, fTupletOpened,fWavyTrillOpened;
+	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending, fTupletOpened,fWavyTrillOpened, fSingleScopeTrill;
     
     string tempoWord, tempoMetronome, wordParams;
     bool fGenerateTempo, directionPlacementAbove, directionWord;

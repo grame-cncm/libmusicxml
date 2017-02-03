@@ -49,7 +49,7 @@ namespace MusicXML2
         fCurrentTupletNumber = 0;
         fMeasNum = 0;
         fInCue = fInGrace = fInhibitNextBar = fPendingBar
-        = fBeamOpened = fCrescPending = fSkipDirection = fTupletOpened = fWavyTrillOpened = false;
+        = fBeamOpened = fCrescPending = fSkipDirection = fTupletOpened = fWavyTrillOpened = fSingleScopeTrill= false;
         fCurrentStemDirection = kStemUndefined;
         fCurrentDivision = 1;
         fCurrentOffset = 0;
@@ -1414,11 +1414,12 @@ namespace MusicXML2
         {
             Sguidoelement tag;
             tag = guidotag::create("trill");
-            fWavyTrillOpened = true;
             
             // If there's a wavy-line AND the Trill is TIED, then add "<repeat="false">" attribute
             if (nv.fWaveLine)
             {
+                fWavyTrillOpened = true;
+
                 if (nv.fWaveLine->getAttributeValue("type")=="start")
                 {
                     if (nv.getTied().size()>0) {
@@ -1428,6 +1429,10 @@ namespace MusicXML2
                         tag->add (guidoparam::create(s.str(), false));
                     }
                 }
+            }else
+            {
+                // if there is no wavy-line, then the Trill should be closed in this scope!
+                fSingleScopeTrill = true;
             }
             push(tag);
         }
@@ -1444,6 +1449,10 @@ namespace MusicXML2
                 pop();
                 fWavyTrillOpened = false;
             }
+        }else
+        if (fSingleScopeTrill) {
+            pop();
+            fSingleScopeTrill = false;
         }
     }
 
@@ -1720,7 +1729,7 @@ namespace MusicXML2
             pendingPops += checkRestFormat(*this);
         
         vector<Sxmlelement> chord = getChord(elt);
-        if (chord.size() || (chordOrnaments>0) || fWavyTrillOpened)     // also enforce chord creation in case of Guido Ornaments Trill, Turn and Mord
+        if (chord.size() || (chordOrnaments>0) || fWavyTrillOpened || fSingleScopeTrill)     // also enforce chord creation in case of Guido Ornaments Trill, Turn and Mord
         {
             Sguidoelement chord = guidochord::create();
             push (chord);
