@@ -2566,14 +2566,32 @@ void msrNote::print (ostream& os)
   os <<
     "/" <<
     fNoteDivisionsPerWholeNote <<
-    ") @"<<
-    getNoteMeasureNumber () <<
-    ":" <<
-    position.getNumerator() <<
+    ") @";
+    
+  if (getNoteMeasureNumber () < 0)
+    os << "?";
+  else
+    os << getNoteMeasureNumber ();
+    
+  os <<
+    ":";
+    
+  if (position.getNumerator () < 0)
+    os << "?";
+  else
+    position.getNumerator ();
+    
+  os <<
     "/" <<
     position.getDenominator() <<
-    " (" <<
-    fNotePositionInMeasure <<
+    " (";
+    
+  if (fNotePositionInMeasure < 0)
+    os << "?";
+  else
+    fNotePositionInMeasure;
+    
+  os <<
     "/" <<
     fNoteDivisionsPerWholeNote <<
     ")" <<
