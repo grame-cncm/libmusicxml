@@ -2880,6 +2880,15 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     fCurrentNoteHasStanza = true;
   }
   
+  else if (! fCurrentText.size ())
+    // note hasn't any lyric, append a skip syllable to the voice
+    syllable =
+      currentVoice->
+        addSkipSyllableToVoice (
+          inputLineNumber,
+          fCurrentStanzaNumber,
+          fNoteData.fDivisions);
+
   else {
 
     if (
@@ -2960,13 +2969,6 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     }
     
     else { // JMI
-      // note hasn't any lyric, append a skip syllable to the voice
-      syllable =
-        currentVoice->
-          addSkipSyllableToVoice (
-            inputLineNumber,
-            fCurrentStanzaNumber,
-            fNoteData.fDivisions);
     }
   }
 

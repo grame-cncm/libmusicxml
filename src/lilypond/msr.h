@@ -3676,6 +3676,8 @@ class EXP msrStanza : public msrElement
                             syllableKind,
                   string    text,
                   bool      elision,
+                  msrSyllable::msrSyllableExtendKind
+                            syllableExtendKind,
                   int       divisions,
                   S_msrNote note);
       

@@ -5059,7 +5059,9 @@ S_msrSyllable msrSyllable::createSyllableBareClone ()
   // dont't set 'clone->fSyllableStanzaUplink'
   // nor 'clone->fSyllableNoteUplink',
   // this will be done by the caller
-    
+
+   clone->fSyllableNoteUplink = fSyllableNoteUplink; // TEMP
+  
   return clone;
 }
 
@@ -5464,8 +5466,6 @@ S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
   return clone;
 }
 
-/* JMI
-
 void msrStanza::addTextSyllableToStanza (
   int       inputLineNumber,
   string    syllabic,
@@ -5473,6 +5473,8 @@ void msrStanza::addTextSyllableToStanza (
             syllableKind,
   string    text,
   bool      elision,
+  msrSyllable::msrSyllableExtendKind
+            syllableExtendKind,
   int       divisions,
   S_msrNote note)
 {
@@ -5490,16 +5492,10 @@ void msrStanza::addTextSyllableToStanza (
       ", line " << inputLineNumber <<
       ", divisions = " << divisions << 
       ", syllabic = \"" << syllabic << "\"" <<
-      ", text = \"" << text << "\"";
-
-/ *
-    string syllableKindAsString =
-      syllableAsString ();
-  * /
-    cerr <<
- //     ", type = \"" << syllableKindAsString << "\"" <<
+      ", text = \"" << text << "\"" <<
       ", elision: " << elision << 
-      " to stanza " << getStanzaName () << endl;
+      " to stanza " << getStanzaName () <<
+      endl;
   }
 
   // create text syllable
@@ -5507,8 +5503,10 @@ void msrStanza::addTextSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        syllableKind, text, divisions,
-        note,
+        syllableKind,
+        text,
+        syllableExtendKind,
+        divisions,
         this);
 
   // add syllable to this stanza
@@ -5516,7 +5514,6 @@ void msrStanza::addTextSyllableToStanza (
 
   fStanzaTextPresent = true;
 }
-*/
 
 void msrStanza::addRestSyllableToStanza (
   int       inputLineNumber,
@@ -5583,7 +5580,8 @@ void msrStanza::addSkipSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        msrSyllable::kSkipSyllable, "",
+        msrSyllable::kSkipSyllable,
+        "",
         msrSyllable::k_NoSyllableExtend,
         divisions,
         this);
@@ -5634,7 +5632,6 @@ void msrStanza::addSkipSyllableToStanza (
   */
 }
 
-/*
 void msrStanza::addTiedSyllableToStanza (
   int       inputLineNumber,
   int       divisions,
@@ -5658,9 +5655,10 @@ void msrStanza::addTiedSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        msrSyllable::kTiedSyllable, "",
-        msrSyllable::k_NoSyllableExtenddivisions,
-        note,
+        msrSyllable::kTiedSyllable,
+        "",
+        msrSyllable::k_NoSyllableExtend,
+        divisions,
         this);
         
   // add syllable to this stanza
@@ -5691,9 +5689,8 @@ void msrStanza::addSlurSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kSlurSyllable, "",
-        msrSyllable::k_NoSyllableExtend
+        msrSyllable::k_NoSyllableExtend,
         divisions,
-        note,
         this);
         
   // add syllable to this stanza
@@ -5724,15 +5721,13 @@ void msrStanza::addSlurBeyondEndSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kSlurBeyondEndSyllable, "",
-        msrSyllable::k_NoSyllableExtend
+        msrSyllable::k_NoSyllableExtend,
         divisions,
-        note,
         this);
         
   // add syllable to this stanza
   fSyllables.push_back (syllable);
 }
-*/
 
 void msrStanza::addBarcheckSyllableToStanza (
   int inputLineNumber,
@@ -9277,9 +9272,19 @@ S_msrSyllable msrVoice::addTextSyllableToVoice (
 
   // add the syllable to the stanza
   stanza->
-    addSyllableToStanza (syllable);
+    addTextSyllableToStanza (
 
-  // and return it
+    void        addTextSyllableToStanza (
+                  int       inputLineNumber,
+                  string    syllabic,
+                  msrSyllable::msrSyllableKind
+                            syllableKind,
+                  string    text,
+                  bool      elision,
+                  int       divisions,
+                  S_msrNote note);
+
+]  // and return it
   return syllable;
 }
 
@@ -9316,7 +9321,7 @@ S_msrSyllable msrVoice::addRestSyllableToVoice (
         
   // add it to the stanza
   stanza->
-    addSyllableToStanza (syllable);
+    addRestSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -9355,7 +9360,7 @@ S_msrSyllable msrVoice::addSkipSyllableToVoice (
         
   // add it to the stanza
   stanza->
-    addSyllableToStanza (syllable);
+    addSkipSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -9394,7 +9399,7 @@ S_msrSyllable msrVoice::addTiedSyllableToVoice (
         
   // add it to the stanza
   stanza->
-    addSyllableToStanza (syllable);
+    addTiedSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -9434,7 +9439,7 @@ S_msrSyllable msrVoice::addSlurSyllableToVoice (
         
   // add it to the stanza
   stanza->
-    addSyllableToStanza (syllable);
+    addSlurSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -9473,7 +9478,7 @@ S_msrSyllable msrVoice::addSlurBeyondEndSyllableToVoice (
         
   // add it to the stanza
   stanza->
-    addSyllableToStanza (syllable);
+    addSlurBeyondEndSyllableToStanza (syllable);
 
   // and return it
   return syllable;

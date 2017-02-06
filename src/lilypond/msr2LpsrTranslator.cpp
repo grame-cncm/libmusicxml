@@ -792,15 +792,11 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   // add it to the current stanza clone or current note clone
 
   if (fOnGoingStanza) // fCurrentStanzaClone JM
-    fCurrentStanzaClone->
-      addSyllableToStanza (fCurrentSyllableClone);
-  
-  if (false && fOnGoingStanza) { // JMI
     // visiting a syllable as a stanza member
     fCurrentStanzaClone->
       addSyllableToStanza (fCurrentSyllableClone);
-  }
-  else if (false && fOnGoingNote) { // JMI
+  
+  if (fOnGoingNote) { // JMI
     // visiting a syllable as attached to a note
     fCurrentNoteClone->
       appendSyllableToNote (fCurrentSyllableClone);
@@ -1164,7 +1160,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
     elt->createNoteBareClone ();
 
   // register clone in this tranlastors' voice notes map
-  fVoiceNotesMap [elt] = fCurrentNoteClone;
+  fVoiceNotesMap [elt] = fCurrentNoteClone; // JMI XXL
   
   fOnGoingNote = true;
 }
