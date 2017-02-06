@@ -3678,33 +3678,27 @@ class EXP msrStanza : public msrElement
                   bool      elision,
                   msrSyllable::msrSyllableExtendKind
                             syllableExtendKind,
-                  int       divisions,
-                  S_msrNote note);
+                  int       divisions);
       
     void        addRestSyllableToStanza (
                   int       inputLineNumber,
-                  int       divisions,
-                  S_msrNote note);
+                  int       divisions);
 
     void        addSkipSyllableToStanza (
                   int       inputLineNumber,
-                  int       divisions,
-                  S_msrNote note);
+                  int       divisions);
 
     void        addTiedSyllableToStanza (
                   int       inputLineNumber,
-                  int       divisions,
-                  S_msrNote note);
+                  int       divisions);
 
     void        addSlurSyllableToStanza (
                   int       inputLineNumber,
-                  int       divisions,
-                  S_msrNote note);
+                  int       divisions);
 
     void        addSlurBeyondEndSyllableToStanza (
                   int       inputLineNumber,
-                  int       divisions,
-                  S_msrNote note);
+                  int       divisions);
 
     void        addBarnumberCheckSyllableToStanza (
                   int inputLineNumber,

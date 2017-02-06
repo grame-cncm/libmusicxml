@@ -5475,8 +5475,7 @@ void msrStanza::addTextSyllableToStanza (
   bool      elision,
   msrSyllable::msrSyllableExtendKind
             syllableExtendKind,
-  int       divisions,
-  S_msrNote note)
+  int       divisions)
 {
   // create a stanza text syllable
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
@@ -5517,8 +5516,7 @@ void msrStanza::addTextSyllableToStanza (
 
 void msrStanza::addRestSyllableToStanza (
   int       inputLineNumber,
-  int       divisions,
-  S_msrNote note)
+  int       divisions)
 {
   if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
 // JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
@@ -5532,11 +5530,11 @@ void msrStanza::addRestSyllableToStanza (
     cerr << idtr <<
       "--> adding 'Skip' syllable:" << divisions <<
       " to stanza " << getStanzaName () <<
-      ", note = " << note->noteAsString () <<
+      ", divisions = " << divisions <<
       endl;
   }
   
-  // create stanza skip syllable
+  // create stanza rest syllable
   S_msrSyllable
     syllable =
       msrSyllable::create (
@@ -5546,18 +5544,13 @@ void msrStanza::addRestSyllableToStanza (
         divisions,
         this);
 
-  // set stanza skip syllable note uplink
-  syllable->
-    setSyllableNoteUplink (note);
-    
   // add syllable to this stanza
   fSyllables.push_back (syllable);
 }
 
 void msrStanza::addSkipSyllableToStanza (
   int       inputLineNumber,
-  int       divisions,
-  S_msrNote note)
+  int       divisions)
 {
   if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
 // JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
@@ -5571,7 +5564,7 @@ void msrStanza::addSkipSyllableToStanza (
     cerr << idtr <<
       "--> adding 'Skip' syllable:" << divisions <<
       " to stanza " << getStanzaName () <<
-      ", note = " << note->noteAsString () <<
+      ", divisions = " << divisions <<
       endl;
   }
   
@@ -5586,10 +5579,6 @@ void msrStanza::addSkipSyllableToStanza (
         divisions,
         this);
 
-  // set stanza skip syllable note uplink
-  syllable->
-    setSyllableNoteUplink (note);
-    
   // add syllable to this stanza
   fSyllables.push_back (syllable);
 
@@ -5634,8 +5623,7 @@ void msrStanza::addSkipSyllableToStanza (
 
 void msrStanza::addTiedSyllableToStanza (
   int       inputLineNumber,
-  int       divisions,
-  S_msrNote note)
+  int       divisions)
 {
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
@@ -5667,8 +5655,7 @@ void msrStanza::addTiedSyllableToStanza (
 
 void msrStanza::addSlurSyllableToStanza (
   int       inputLineNumber,
-  int       divisions,
-  S_msrNote note)
+  int       divisions)
 {
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
@@ -5699,8 +5686,7 @@ void msrStanza::addSlurSyllableToStanza (
 
 void msrStanza::addSlurBeyondEndSyllableToStanza (
   int       inputLineNumber,
-  int       divisions,
-  S_msrNote note)
+  int       divisions)
 {
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
@@ -9153,21 +9139,19 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   
   // add a skip syllable of the same duration to the stanza master
   int
-    stanzaDivisions =
+    noteDivisions =
       note->getNoteDivisions ();
 
   if (note->getNoteIsARest ())
     fVoiceStanzaMaster->
       addRestSyllableToStanza (
         note->getInputLineNumber (),
-        stanzaDivisions,
-        note);
+        noteDivisions);
   else
     fVoiceStanzaMaster->
       addSkipSyllableToStanza (
         note->getInputLineNumber (),
-        stanzaDivisions,
-        note);
+        noteDivisions);
 
   fMusicHasBeenInsertedInVoice = true;
 }
@@ -9260,30 +9244,16 @@ S_msrSyllable msrVoice::addTextSyllableToVoice (
       createStanzaInVoiceIfNeeded (
         inputLineNumber, stanzaNumber);
 
-  S_msrSyllable
-    syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        syllableKind,
-        text,
-        syllableExtendKind,
-        divisions,
-        stanza);
-
   // add the syllable to the stanza
   stanza->
     addTextSyllableToStanza (
-
-    void        addTextSyllableToStanza (
-                  int       inputLineNumber,
-                  string    syllabic,
-                  msrSyllable::msrSyllableKind
-                            syllableKind,
-                  string    text,
-                  bool      elision,
-                  int       divisions,
-                  S_msrNote note);
-
+      inputLineNumber,
+      syllabic,
+      syllableKind,
+      text,
+      syllableExtendKind,
+      divisions);
+      
 ]  // and return it
   return syllable;
 }
@@ -9308,20 +9278,11 @@ S_msrSyllable msrVoice::addRestSyllableToVoice (
     stanza =
       createStanzaInVoiceIfNeeded (
         inputLineNumber, stanzaNumber);
-  
-  // create 'Rest' syllable
-  S_msrSyllable
-    syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        msrSyllable::kRestSyllable, "",
-        msrSyllable::k_NoSyllableExtend,
-        divisions,
-        stanza);
-        
+          
   // add it to the stanza
   stanza->
-    addRestSyllableToStanza (syllable);
+    addRestSyllableToStanza (
+      inputLineNumber, divisions);
 
   // and return it
   return syllable;
