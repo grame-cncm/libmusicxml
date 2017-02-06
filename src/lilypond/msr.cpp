@@ -5236,6 +5236,30 @@ string msrSyllable::syllableExtendKindAsString (
   return result;
 }
 
+string msrSyllable::syllableDivisionsAsString () const
+{
+  string errorMessage;
+
+  int divisionsPerWholeNote =
+    fSyllableStanzaUplink->
+      getStanzaVoiceUplink ()->
+        getVoiceDivisionsPerWholeNote ();
+
+  string result =
+    divisionsAsMSRDuration (
+      fSyllableDivisions,
+      divisionsPerWholeNote,
+      errorMessage,
+      false); // 'true' to debug it;
+
+    if (errorMessage.size ())
+      msrInternalError (
+        fInputLineNumber,
+        errorMessage);
+
+  return result;
+}
+
 string msrSyllable::syllableNoteUplinkAsString () const
 {
   string result;
@@ -5257,7 +5281,8 @@ string msrSyllable::syllableAsString () const
   switch (fSyllableKind) {
     case kSingleSyllable:
       s <<
-        "single" << ":" << fSyllableDivisions <<
+        "single" << ":" << syllableDivisionsAsString () <<
+        " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
         syllableNoteUplinkAsString () <<
@@ -5269,7 +5294,8 @@ string msrSyllable::syllableAsString () const
       
     case kBeginSyllable:
       s << 
-        "begin" << ":" << fSyllableDivisions <<
+        "begin" << ":" << syllableDivisionsAsString () <<
+        " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
         syllableNoteUplinkAsString () <<
@@ -5281,7 +5307,8 @@ string msrSyllable::syllableAsString () const
       
     case kMiddleSyllable:
       s << 
-        "middle" << ":" << fSyllableDivisions <<
+        "middle" << ":" << syllableDivisionsAsString () <<
+        " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
         syllableNoteUplinkAsString () <<
@@ -5293,7 +5320,8 @@ string msrSyllable::syllableAsString () const
       
     case kEndSyllable:
       s << 
-        "end" << ":" << fSyllableDivisions <<
+        "end" << ":" << syllableDivisionsAsString () <<
+        " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
         syllableNoteUplinkAsString () <<
@@ -5304,8 +5332,9 @@ string msrSyllable::syllableAsString () const
       break;
       
     case kRestSyllable:
-      s << 
-        "rest" << ":" << fSyllableDivisions <<
+       s << 
+        "rest" << ":" << syllableDivisionsAsString () <<
+        " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
         syllableNoteUplinkAsString ();
@@ -5313,13 +5342,15 @@ string msrSyllable::syllableAsString () const
       
     case kSkipSyllable:
       s << 
-        "skip" << ":" << fSyllableDivisions <<
+        "skip" << ":" << syllableDivisionsAsString () <<
+        " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber;
       break;
       
     case kSlurSyllable:
       s << 
-        "slur" << ":" << fSyllableDivisions <<
+        "slur" << ":" << syllableDivisionsAsString () <<
+        " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
         syllableNoteUplinkAsString ();
@@ -5327,7 +5358,7 @@ string msrSyllable::syllableAsString () const
       
     case kSlurBeyondEndSyllable:
       s << 
-        "slur beyond end" << ":" << fSyllableDivisions <<
+        "slur beyond end" << ":" << syllableDivisionsAsString () <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
         syllableNoteUplinkAsString ();
@@ -5335,7 +5366,8 @@ string msrSyllable::syllableAsString () const
       
     case kTiedSyllable:
       s << 
-        "tied" << ":" << fSyllableDivisions <<
+        "tied" << ":" << syllableDivisionsAsString () <<
+        " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
         ", ==> " <<
         syllableNoteUplinkAsString () <<
@@ -5384,10 +5416,10 @@ void msrSyllable::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrStanza msrStanza::create (
-  int                   inputLineNumber,
-  int                   stanzaNumber,
-  msrStanzaKind         stanzaKind,
-  S_msrVoice            stanzaVoiceUplink)
+  int           inputLineNumber,
+  int           stanzaNumber,
+  msrStanzaKind stanzaKind,
+  S_msrVoice    stanzaVoiceUplink)
 {
   msrStanza* o =
     new msrStanza (
@@ -5400,10 +5432,10 @@ S_msrStanza msrStanza::create (
 }
 
 msrStanza::msrStanza (
-  int                   inputLineNumber,
-  int                   stanzaNumber,
-  msrStanzaKind         stanzaKind,
-  S_msrVoice            stanzaVoiceUplink)
+  int           inputLineNumber,
+  int           stanzaNumber,
+  msrStanzaKind stanzaKind,
+  S_msrVoice    stanzaVoiceUplink)
     : msrElement (inputLineNumber)
 {
   fStanzaNumber = stanzaNumber;
@@ -7834,11 +7866,11 @@ void msrSegment::setSegmentMeasureNumber (
         getMeasureKind ();
 */
         
-  if (true || gGeneralOptions->fDebug) {
- // JMI if (gGeneralOptions->fDebug) {
+ // JMI if (true || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fDebug) {
     cerr <<
       idtr <<
-        setw(31) << "--> setSegmentMeasureNumber (" <<
+        setw(38) << "--> setSegmentMeasureNumber (" <<
         measureNumber <<
         "): " <<
         endl;
@@ -7847,19 +7879,19 @@ void msrSegment::setSegmentMeasureNumber (
 
     cerr <<
       idtr <<
-        setw(31) << "currentMeasureNumber" << " = " <<
+        setw(38) << "currentMeasureNumber" << " = " <<
         currentMeasureNumber <<
         endl <<
       idtr <<
-        setw(31) << "currentMeasureDivisionsPerWholeMeasure" << " = " <<
+        setw(38) << "currentMeasureDivisionsPerWholeMeasure" << " = " <<
         currentMeasureDivisionsPerWholeMeasure <<
         endl <<
       idtr <<
-        setw(31) << "currentMeasurePosition" << " = " <<
+        setw(38) << "currentMeasurePosition" << " = " <<
         currentMeasurePosition <<
         endl <<
       idtr <<
-        setw(31) << "currentMeasureLength" << " = " <<
+        setw(38) << "currentMeasureLength" << " = " <<
         currentMeasureLength <<
         endl;
 
@@ -9101,7 +9133,7 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
-  if (true || gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
       "==> appending note:" <<
       endl;
@@ -9251,9 +9283,9 @@ S_msrSyllable msrVoice::addTextSyllableToVoice (
 }
 
 S_msrSyllable msrVoice::addRestSyllableToVoice (
-  int       inputLineNumber,
-  int       stanzaNumber,
-  int       divisions)
+  int inputLineNumber,
+  int stanzaNumber,
+  int divisions)
 {
   // create a 'Rest' stanza text syllable
   if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
@@ -9283,9 +9315,9 @@ S_msrSyllable msrVoice::addRestSyllableToVoice (
 }
 
 S_msrSyllable msrVoice::addSkipSyllableToVoice (
-  int       inputLineNumber,
-  int       stanzaNumber,
-  int       divisions)
+  int inputLineNumber,
+  int stanzaNumber,
+  int divisions)
 {
   // create a 'Skip' stanza text syllable
   if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
@@ -9315,9 +9347,9 @@ S_msrSyllable msrVoice::addSkipSyllableToVoice (
 }
 
 S_msrSyllable msrVoice::addTiedSyllableToVoice (
-  int       inputLineNumber,
-  int       stanzaNumber,
-  int       divisions)
+  int inputLineNumber,
+  int stanzaNumber,
+  int divisions)
 {
   // create a 'Tied' syllable
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
@@ -9347,9 +9379,9 @@ S_msrSyllable msrVoice::addTiedSyllableToVoice (
 }
 
 S_msrSyllable msrVoice::addSlurSyllableToVoice (
-  int       inputLineNumber,
-  int       stanzaNumber,
-  int       divisions)
+  int inputLineNumber,
+  int stanzaNumber,
+  int divisions)
 {
   // create a 'Slur' stanza text syllable
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
@@ -9380,9 +9412,9 @@ S_msrSyllable msrVoice::addSlurSyllableToVoice (
 }
 
 S_msrSyllable msrVoice::addSlurBeyondEndSyllableToVoice (
-  int       inputLineNumber,
-  int       stanzaNumber,
-  int       divisions)
+  int inputLineNumber,
+  int stanzaNumber,
+  int divisions)
 {
   // create a 'SlurBeyondEnd' syllable
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {

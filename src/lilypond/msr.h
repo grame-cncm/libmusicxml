@@ -2139,6 +2139,8 @@ class EXP msrSyllable : public msrElement
   
     string            syllableKindAsString () const;
 
+    string            syllableDivisionsAsString () const;
+
     string            syllableNoteUplinkAsString () const;
 
     string            syllableAsString () const;
@@ -3617,10 +3619,10 @@ class EXP msrStanza : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrStanza> create (
-      int                   inputLineNumber,
-      int                   stanzaNumber,
-      msrStanzaKind         stanzaKind,
-      S_msrVoice            stanzaVoiceUplink);
+      int           inputLineNumber,
+      int           stanzaNumber,
+      msrStanzaKind stanzaKind,
+      S_msrVoice    stanzaVoiceUplink);
     
     SMARTP<msrStanza> createStanzaBareClone (
       S_msrVoice clonedVoice);
@@ -3631,10 +3633,10 @@ class EXP msrStanza : public msrElement
     // ------------------------------------------------------
 
     msrStanza (
-      int                   inputLineNumber,
-      int                   stanzaNumber,
-      msrStanzaKind         stanzaKind,
-      S_msrVoice            stanzaVoiceUplink);
+      int           inputLineNumber,
+      int           stanzaNumber,
+      msrStanzaKind stanzaKind,
+      S_msrVoice    stanzaVoiceUplink);
 
     virtual ~msrStanza();
   
@@ -4765,33 +4767,33 @@ class EXP msrVoice : public msrElement
     
     S_msrSyllable
                   addRestSyllableToVoice (
-                    int       inputLineNumber,
-                    int       stanzaNumber,
-                    int       divisions);
+                    int inputLineNumber,
+                    int stanzaNumber,
+                    int divisions);
     
     S_msrSyllable
                   addSkipSyllableToVoice (
-                    int       inputLineNumber,
-                    int       stanzaNumber,
-                    int       divisions);
+                    int inputLineNumber,
+                    int stanzaNumber,
+                    int divisions);
     
     S_msrSyllable
                   addTiedSyllableToVoice (
-                    int       inputLineNumber,
-                    int       stanzaNumber,
-                    int       divisions);
+                    int inputLineNumber,
+                    int stanzaNumber,
+                    int divisions);
     
     S_msrSyllable
                   addSlurSyllableToVoice (
-                    int       inputLineNumber,
-                    int       stanzaNumber,
-                    int       divisions);
+                    int inputLineNumber,
+                    int stanzaNumber,
+                    int divisions);
     
     S_msrSyllable
                   addSlurBeyondEndSyllableToVoice (
-                    int       inputLineNumber,
-                    int       stanzaNumber,
-                    int       divisions);
+                    int inputLineNumber,
+                    int stanzaNumber,
+                    int divisions);
     
     void          appendBarCheckToVoice (
                     S_msrBarCheck barCheck);

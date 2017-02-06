@@ -2880,15 +2880,6 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     fCurrentNoteHasStanza = true;
   }
   
-  else if (! fCurrentText.size ())
-    // note hasn't any lyric, append a skip syllable to the voice
-    syllable =
-      currentVoice->
-        addSkipSyllableToVoice (
-          inputLineNumber,
-          fCurrentStanzaNumber,
-          fNoteData.fDivisions);
-
   else {
 
     if (
@@ -6817,10 +6808,40 @@ void xml2MsrTranslator::handleLyric (S_msrNote newNote)
       // set syllable note uplink to newNote
       (*i)->setSyllableNoteUplink (newNote);
     } // for
+
+    // forget all of newNote's syllables
+    fCurrentNoteSyllables.clear ();
   }
 
-  // forget all of newNote's syllables
-  fCurrentNoteSyllables.clear ();
+  else {
+    int inputLineNumber =
+      newNote->getInputLineNumber ();
+      
+    // fetch current voice
+    S_msrVoice
+      currentVoice =
+        registerVoiceInStaffInCurrentPartIfNeeded (
+          inputLineNumber,
+          fCurrentNoteStaffNumber,
+          fCurrentVoiceNumber);
+
+// JMI    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+      cerr <<
+        "note \"" << newNote->noteAsString () << "\"" <<
+        " has no lyrics, appending a skip syllable to voice \"" <<
+        currentVoice-> getVoiceName () <<
+        "\"" <<
+        endl;
+
+    // append a skip syllable to the voice
+    S_msrSyllable
+      syllable =
+        currentVoice->
+          addSkipSyllableToVoice (
+            inputLineNumber,
+            fCurrentStanzaNumber,
+            fNoteData.fDivisions);
+  }
 
   // is '<extend />' active for newNote?
   switch (fCurrentSyllableExtendKind) {
