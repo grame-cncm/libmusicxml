@@ -2630,10 +2630,10 @@ void xml2MsrTranslator::visitStart ( S_wedge& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_lyric& elt )
 { 
-  fCurrentStanzaNumber =
+  int stanzaNumber =
     elt->getAttributeIntValue ("number", 0);
 
-  if (fCurrentStanzaNumber < 0) {
+  if (stanzaNumber < 0) {
     stringstream s;
 
     s <<
@@ -2643,6 +2643,21 @@ void xml2MsrTranslator::visitStart (S_lyric& elt )
     msrMusicXMLError (
       elt->getInputLineNumber (),
       s.str());
+  }
+
+  if (stanzaNumber > 0) {
+    if (true || gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> setting fCurrentStanzaNumber to " <<
+        stanzaNumber <<
+        ", line " << elt->getInputLineNumber () <<
+        endl;
+        
+    // register it as current stanza number,
+    // that remains set another positive value is met,
+    // thus allowing a skip syllable to be generated
+    // for notes without lyrics
+    fCurrentStanzaNumber = stanzaNumber;
   }
   
   fCurrentStanzaHasText = false;
@@ -4055,7 +4070,9 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
 
   fCurrentNoteType = "";
 
-  fCurrentStanzaNumber = -1;
+  // keep fCurrentStanzaNumber unchanged,
+  // for use by notes without lyrics
+  
   fCurrentSyllabic = "";
   fCurrentText = "";
   fCurrentSyllableExtendKind =
@@ -6825,13 +6842,27 @@ void xml2MsrTranslator::handleLyric (S_msrNote newNote)
           fCurrentNoteStaffNumber,
           fCurrentVoiceNumber);
 
-// JMI    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+ // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+    if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
       cerr <<
-        "note \"" << newNote->noteAsString () << "\"" <<
-        " has no lyrics, appending a skip syllable to voice \"" <<
-        currentVoice-> getVoiceName () <<
-        "\"" <<
-        endl;
+        idtr <<
+          "--> note \"" << newNote->noteAsString () << "\"" <<
+          ", line " << inputLineNumber <<
+          ", has no lyrics," <<
+          endl;
+
+      idtr++;
+
+      cerr <<
+        idtr <<
+          "  appending a skip syllable to voice \"" <<
+          currentVoice-> getVoiceName () <<
+          "\"" <<
+          ", fCurrentStanzaNumber = " << fCurrentStanzaNumber <<
+          endl;
+
+      idtr--;
+      }
 
     // append a skip syllable to the voice
     S_msrSyllable
@@ -6841,6 +6872,9 @@ void xml2MsrTranslator::handleLyric (S_msrNote newNote)
             inputLineNumber,
             fCurrentStanzaNumber,
             fNoteData.fDivisions);
+
+    // this ends the current syllable extension if any
+    fOnGoingSyllableExtend = false;
   }
 
   // is '<extend />' active for newNote?
