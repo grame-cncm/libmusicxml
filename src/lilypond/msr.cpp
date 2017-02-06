@@ -5466,7 +5466,7 @@ S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
   return clone;
 }
 
-void msrStanza::addTextSyllableToStanza (
+S_msrSyllable msrStanza::addTextSyllableToStanza (
   int       inputLineNumber,
   string    syllabic,
   msrSyllable::msrSyllableKind
@@ -5512,11 +5512,14 @@ void msrStanza::addTextSyllableToStanza (
   fSyllables.push_back (syllable);
 
   fStanzaTextPresent = true;
+
+  // return new syllable
+  return syllable;
 }
 
-void msrStanza::addRestSyllableToStanza (
-  int       inputLineNumber,
-  int       divisions)
+S_msrSyllable msrStanza::addRestSyllableToStanza (
+  int inputLineNumber,
+  int divisions)
 {
   if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
 // JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
@@ -5546,11 +5549,14 @@ void msrStanza::addRestSyllableToStanza (
 
   // add syllable to this stanza
   fSyllables.push_back (syllable);
+
+  // and return it
+  return syllable;
 }
 
-void msrStanza::addSkipSyllableToStanza (
-  int       inputLineNumber,
-  int       divisions)
+S_msrSyllable msrStanza::addSkipSyllableToStanza (
+  int inputLineNumber,
+  int divisions)
 {
   if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
 // JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
@@ -5582,48 +5588,13 @@ void msrStanza::addSkipSyllableToStanza (
   // add syllable to this stanza
   fSyllables.push_back (syllable);
 
-/* JMI
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-    S_msrStaff staff = fStanzaVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart  part  = staff-> getStaffPartUplink ();
-    
-    cerr << idtr <<
-      "--> Adding 'Skip' syllable:" << divisions <<
-      " to " << getStanzaName () << endl;
-
-    string result;
-    int    computedNumberOfDots; // value not used
-    string errorMessage;
-  
-    int divisionsPerWholeNote =
-      fStanzaVoiceUplink->getDivisionsPerWholeNote ();
-  
-    string
-      divisionsAsString =
-        divisionsAsMSRDuration (
-          divisions,
-          divisionsPerWholeNote,
-          computedNumberOfDots,
-          errorMessage,
-          false); // 'true' to debug it;
-    
-    if (errorMessage.size ())
-      msrMusicXMLError (
-        fInputLineNumber,
-        errorMessage);
-
-    cerr << idtr <<
-      "--> Adding 'Skip' syllable:" << divisions <<
-      "/" << divisionsPerWholeNote << "" <<
-      "(" << divisionsAsString << ")" <<
-      " to stanza " << getStanzaName () << endl;
-  }
-  */
+  // and return it
+  return syllable;
 }
 
-void msrStanza::addTiedSyllableToStanza (
-  int       inputLineNumber,
-  int       divisions)
+S_msrSyllable msrStanza::addTiedSyllableToStanza (
+  int inputLineNumber,
+  int divisions)
 {
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
@@ -5651,11 +5622,14 @@ void msrStanza::addTiedSyllableToStanza (
         
   // add syllable to this stanza
   fSyllables.push_back (syllable);
+
+  // and return it
+  return syllable;
 }
 
-void msrStanza::addSlurSyllableToStanza (
-  int       inputLineNumber,
-  int       divisions)
+S_msrSyllable msrStanza::addSlurSyllableToStanza (
+  int inputLineNumber,
+  int divisions)
 {
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
@@ -5682,11 +5656,14 @@ void msrStanza::addSlurSyllableToStanza (
         
   // add syllable to this stanza
   fSyllables.push_back (syllable);
+
+  // and return it
+  return syllable;
 }
 
-void msrStanza::addSlurBeyondEndSyllableToStanza (
-  int       inputLineNumber,
-  int       divisions)
+S_msrSyllable msrStanza::addSlurBeyondEndSyllableToStanza (
+  int inputLineNumber,
+  int divisions)
 {
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
@@ -5713,9 +5690,12 @@ void msrStanza::addSlurBeyondEndSyllableToStanza (
         
   // add syllable to this stanza
   fSyllables.push_back (syllable);
+
+  // and return it
+  return syllable;
 }
 
-void msrStanza::addBarcheckSyllableToStanza (
+S_msrSyllable msrStanza::addBarcheckSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
 {
@@ -5757,9 +5737,12 @@ void msrStanza::addBarcheckSyllableToStanza (
        
   // add syllable to this stanza
   fSyllables.push_back (syllable);
+
+  // and return it
+  return syllable;
 }
 
-void msrStanza::addBarnumberCheckSyllableToStanza (
+S_msrSyllable msrStanza::addBarnumberCheckSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
 {
@@ -5801,9 +5784,12 @@ void msrStanza::addBarnumberCheckSyllableToStanza (
        
   // add syllable to this stanza
   fSyllables.push_back (syllable);
+
+  // and return it
+  return syllable;
 }
 
-void msrStanza::addBreakSyllableToStanza (
+S_msrSyllable msrStanza::addBreakSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
 {
@@ -5837,6 +5823,9 @@ void msrStanza::addBreakSyllableToStanza (
         
   // add syllable to this stanza
   fSyllables.push_back (syllable);
+
+  // and return it
+  return syllable;
 }
 
 void msrStanza::addSyllableToStanza (S_msrSyllable syllable)
@@ -9245,16 +9234,19 @@ S_msrSyllable msrVoice::addTextSyllableToVoice (
         inputLineNumber, stanzaNumber);
 
   // add the syllable to the stanza
-  stanza->
-    addTextSyllableToStanza (
-      inputLineNumber,
-      syllabic,
-      syllableKind,
-      text,
-      syllableExtendKind,
-      divisions);
+  S_msrSyllable
+    syllable =
+      stanza->
+        addTextSyllableToStanza (
+          inputLineNumber,
+          syllabic,
+          syllableKind,
+          text,
+          elision,
+          syllableExtendKind,
+          divisions);
       
-]  // and return it
+  // and return it
   return syllable;
 }
 
@@ -9280,9 +9272,11 @@ S_msrSyllable msrVoice::addRestSyllableToVoice (
         inputLineNumber, stanzaNumber);
           
   // add it to the stanza
-  stanza->
-    addRestSyllableToStanza (
-      inputLineNumber, divisions);
+  S_msrSyllable
+    syllable =
+      stanza->
+        addRestSyllableToStanza (
+          inputLineNumber, divisions);
 
   // and return it
   return syllable;
@@ -9312,16 +9306,9 @@ S_msrSyllable msrVoice::addSkipSyllableToVoice (
   // create 'Skip' syllable
   S_msrSyllable
     syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        msrSyllable::kSkipSyllable, "",
-        msrSyllable::k_NoSyllableExtend,
-        divisions,
-        stanza);
-        
-  // add it to the stanza
-  stanza->
-    addSkipSyllableToStanza (syllable);
+      stanza->
+        addSkipSyllableToStanza (
+          inputLineNumber, divisions);
 
   // and return it
   return syllable;
@@ -9351,16 +9338,9 @@ S_msrSyllable msrVoice::addTiedSyllableToVoice (
   // create stanza slur syllable
   S_msrSyllable
     syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        msrSyllable::kTiedSyllable, "",
-        msrSyllable::k_NoSyllableExtend,
-        divisions,
-        stanza);
-        
-  // add it to the stanza
-  stanza->
-    addTiedSyllableToStanza (syllable);
+      stanza->
+        addTiedSyllableToStanza (
+              inputLineNumber, divisions);
 
   // and return it
   return syllable;
@@ -9391,16 +9371,9 @@ S_msrSyllable msrVoice::addSlurSyllableToVoice (
   // create stanza slur syllable
   S_msrSyllable
     syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        msrSyllable::kSlurSyllable, "",
-        msrSyllable::k_NoSyllableExtend,
-        divisions,
-        stanza);
-        
-  // add it to the stanza
-  stanza->
-    addSlurSyllableToStanza (syllable);
+      stanza->
+        addSlurSyllableToStanza (
+          inputLineNumber, divisions);
 
   // and return it
   return syllable;
@@ -9430,16 +9403,9 @@ S_msrSyllable msrVoice::addSlurBeyondEndSyllableToVoice (
   // create stanza 'SlurBeyondEnd' syllable
   S_msrSyllable
     syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        msrSyllable::kSlurBeyondEndSyllable, "",
-        msrSyllable::k_NoSyllableExtend,
-        divisions,
-        stanza);
-        
-  // add it to the stanza
-  stanza->
-    addSlurBeyondEndSyllableToStanza (syllable);
+      stanza->
+        addSlurBeyondEndSyllableToStanza (
+          inputLineNumber, divisions);
 
   // and return it
   return syllable;

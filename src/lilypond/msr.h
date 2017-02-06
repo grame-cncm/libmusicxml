@@ -3669,50 +3669,50 @@ class EXP msrStanza : public msrElement
     // services
     // ------------------------------------------------------
 
-    void        addTextSyllableToStanza (
-                  int       inputLineNumber,
-                  string    syllabic,
-                  msrSyllable::msrSyllableKind
-                            syllableKind,
-                  string    text,
-                  bool      elision,
-                  msrSyllable::msrSyllableExtendKind
-                            syllableExtendKind,
-                  int       divisions);
+    S_msrSyllable addTextSyllableToStanza (
+                    int       inputLineNumber,
+                    string    syllabic,
+                    msrSyllable::msrSyllableKind
+                              syllableKind,
+                    string    text,
+                    bool      elision,
+                    msrSyllable::msrSyllableExtendKind
+                              syllableExtendKind,
+                    int       divisions);
       
-    void        addRestSyllableToStanza (
-                  int       inputLineNumber,
-                  int       divisions);
+    S_msrSyllable addRestSyllableToStanza (
+                    int inputLineNumber,
+                    int divisions);
 
-    void        addSkipSyllableToStanza (
-                  int       inputLineNumber,
-                  int       divisions);
+    S_msrSyllable addSkipSyllableToStanza (
+                    int inputLineNumber,
+                    int divisions);
 
-    void        addTiedSyllableToStanza (
-                  int       inputLineNumber,
-                  int       divisions);
+    S_msrSyllable addTiedSyllableToStanza (
+                    int inputLineNumber,
+                    int divisions);
 
-    void        addSlurSyllableToStanza (
-                  int       inputLineNumber,
-                  int       divisions);
+    S_msrSyllable addSlurSyllableToStanza (
+                    int inputLineNumber,
+                    int divisions);
 
-    void        addSlurBeyondEndSyllableToStanza (
-                  int       inputLineNumber,
-                  int       divisions);
+    S_msrSyllable addSlurBeyondEndSyllableToStanza (
+                    int inputLineNumber,
+                    int divisions);
 
-    void        addBarnumberCheckSyllableToStanza (
-                  int inputLineNumber,
-                  int nextMeasureNumber);
+    S_msrSyllable addBarnumberCheckSyllableToStanza (
+                    int inputLineNumber,
+                    int divisions);
 
-    void        addBarcheckSyllableToStanza (
-                  int inputLineNumber,
-                  int nextMeasureNumber);
+    S_msrSyllable addBarcheckSyllableToStanza (
+                    int inputLineNumber,
+                    int divisions);
 
-    void        addBreakSyllableToStanza (
-                  int inputLineNumber,
-                  int nextMeasureNumber);
+    S_msrSyllable addBreakSyllableToStanza (
+                    int inputLineNumber,
+                    int divisions);
 
-    void        addSyllableToStanza (S_msrSyllable syllable);
+    void          addSyllableToStanza (S_msrSyllable syllable);
                 
     // visitors
     // ------------------------------------------------------
