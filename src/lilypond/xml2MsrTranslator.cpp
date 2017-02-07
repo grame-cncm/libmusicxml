@@ -6842,6 +6842,7 @@ void xml2MsrTranslator::handleLyric (S_msrNote newNote)
           fCurrentNoteStaffNumber,
           fCurrentVoiceNumber);
 
+/*
  // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
       cerr <<
@@ -6875,6 +6876,7 @@ void xml2MsrTranslator::handleLyric (S_msrNote newNote)
 
     // this ends the current syllable extension if any
     fOnGoingSyllableExtend = false;
+*/
   }
 
   // is '<extend />' active for newNote?

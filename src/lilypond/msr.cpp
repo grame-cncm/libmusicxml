@@ -6964,8 +6964,10 @@ void msrBarline::print (ostream& os)
     
   if (fBarlineHasCoda)
     os << "has coda, " <<
-      barlineCategoryAsString (fBarlineCategory) <<
-      endl;
+      barlineCategoryAsString (fBarlineCategory);
+
+  os <<
+    endl;
 
   idtr++;
 
@@ -7641,7 +7643,7 @@ string msrMeasure::getMeasureLengthAsString () const
         measureLength,
         fMeasureDivisionsPerWholeMeasure,
         errorMessage,
-        false); // 'true' to debug it;
+        true); // 'true' to debug it;
   
     if (errorMessage.size ())
       msrMusicXMLWarning (
