@@ -5,6 +5,8 @@
 \usetikzlibrary{math}
 \usetikzlibrary{arrows.meta}
 
+\usepackage{changepage} % for adjustwidth
+
 \begin{document}
 
 \begin{tikzpicture}[scale=5]
@@ -40,67 +42,81 @@
   \LilyPondOrd = \LPSROrd * 2;
   %
   \RandomMusicStartAbs = -1.3;
-  \RandomMusicStartOrd = 1.1;
-  \RandomMusicInterAbs = \MXMLTreeAbs - 0.35;
-  \RandomMusicInterOrd = \MXMLTreeOrd;
-  \RandomMusicEndAbs   = \MusicXMLAbs - 0.375;
-  \RandomMusicEndOrd   = \MusicXMLOrd + 0.0;
+  \RandomMusicStartOrd = \MXMLTreeOrd - 0.15;
+  \RandomMusicInterAbs = \MXMLTreeAbs - 0.15;
+  \RandomMusicInterOrd = \MXMLTreeOrd - 0.15;
+  \RandomMusicEndAbs   = \MusicXMLAbs - 0.15;
+  \RandomMusicEndOrd   = \MusicXMLOrd - 0.15;
   %
-  \textOutputAngle = 170;
-  \textOutputLength = 1.95;
+  \textOutputAngle = 160;
+  \textOutputLength = 1.4;
   \textOutputAbs = cos(\textOutputAngle) * \textOutputLength;
   \textOutputOrd = sin(\textOutputAngle) * \textOutputLength;
   %
-  \samplesStartAbs = \MusicXMLAbs - 0.325;
-  \samplesStartOrd = \MusicXMLOrd - 0.0;
-  \samplesInterAbs = \MXMLTreeAbs - 0.2;
-  \samplesInterOrd = \MXMLTreeOrd - 0.1;
-  \samplesEndAbs   = \textOutputAbs + 0.25;
-  \samplesEndOrd   = \textOutputOrd + 0.0;
+  \toolsStartAbs = \MusicXMLAbs - 0.05;
+  \toolsStartOrd = \MusicXMLOrd - 0.15;
+  \toolsInterAbs = \MXMLTreeAbs - 0.05;
+  \toolsInterOrd = \MXMLTreeOrd - 0.1;
+  \toolsEndAbs   = \textOutputAbs + 0.15;
+  \toolsEndOrd   = \textOutputOrd + 0.0;
   %
   \xmlToGuidoInterangle = (\MXMLAngle + \GuidoAngle) / 2;
-  \xmlToGuidoInterLength = 1.1;
-  \xmlToGuidoStartAbs = \MusicXMLAbs + 0.4;
-  \xmlToGuidoStartOrd = \MusicXMLOrd - 0.0;
+  \xmlToGuidoInterLength = 0.6;
+  \xmlToGuidoStartAbs = \MusicXMLAbs + 0.15;
+  \xmlToGuidoStartOrd = \MusicXMLOrd - 0.15;
   \xmlToGuidoInterAbs = cos(\xmlToGuidoInterangle) * \xmlToGuidoInterLength;
   \xmlToGuidoInterOrd = sin(\xmlToGuidoInterangle) * \xmlToGuidoInterLength;
-  \xmlToGuidoEndAbs   = \GuidoAbs - 0.3;
-  \xmlToGuidoEndOrd   = \GuidoOrd - 0.25;
+  \xmlToGuidoEndAbs   = \GuidoAbs - 0.15;
+  \xmlToGuidoEndOrd   = \GuidoOrd - 0.15;
   %
-  \xmlToLilyPondInterAngle = mod(\MXMLAngle + \LPSRAngle, 360) / 2;
-  \xmlToLilyPondInterLength = 0.35;
-  \xmlToLilyPondStartAbs = \MusicXMLAbs + 0.35;
-  \xmlToLilyPondStartOrd = \MusicXMLOrd - 0.0;
-  \xmlToLilyPondInterAbs = cos(\xmlToLilyPondInterAngle) * \xmlToLilyPondInterLength;
-  \xmlToLilyPondInterOrd = sin(\xmlToLilyPondInterAngle) * \xmlToLilyPondInterLength;
-  \xmlToLilyPondEndAbs   = \LilyPondAbs + 0.1;
-  \xmlToLilyPondEndOrd   = \LilyPondOrd + 0.35;
+  \xmlToLilyPondInterIAngle  = mod((\MXMLAngle + \LPSRAngle) * 2 / 3, 360);
+  \xmlToLilyPondInterIIAngle = mod((\MXMLAngle + \LPSRAngle) * 1 / 3, 360);
+  \xmlToLilyPondInterLength = 0.2;
+  \xmlToLilyPondStartAbs = \MusicXMLAbs + 0.05;
+  \xmlToLilyPondStartOrd = \MusicXMLOrd - 0.15;
+  \xmlToLilyPondInterIAbs = cos(\xmlToLilyPondInterIAngle) * \xmlToLilyPondInterLength;
+  \xmlToLilyPondInterIOrd = sin(\xmlToLilyPondInterIAngle) * \xmlToLilyPondInterLength;
+  \xmlToLilyPondInterIIAbs = cos(\xmlToLilyPondInterIIAngle) * \xmlToLilyPondInterLength;
+  \xmlToLilyPondInterIIOrd = sin(\xmlToLilyPondInterIIAngle) * \xmlToLilyPondInterLength;
+  \xmlToLilyPondEndAbs   = \LilyPondAbs - 0.15;
+  \xmlToLilyPondEndOrd   = \LilyPondOrd + 0.15;
   %
-  \legendsAbs = -2.2;
+  \titleAbs = -2.2;
+  \titleOrd = 2.0;
+  %
+  \tableOrd = -1.7;
+  %
+  \bottomLineOrd = -2.4;
+  %
+  \legendAbs = \titleAbs;
+  \legendOrd = -1.4;
+  %
+  \dateAbs = 1.3;
 }
-  
+
+
 % Draw the elements
 % ------------------------------------------------
 
 \node[align=center,style={circle,minimum size=80,fill=green!20}]
   (MSR) at (\MSRAbs,\MSROrd) {MSR\\(graph)};
 
-\node[align=center,style={circle,minimum size=80,fill=red!15}]
+\node[align=center,style={rectangle,rounded corners=10pt,minimum size=80,fill=red!15}]
   (MusicXML)
   at (\MusicXMLAbs,\MusicXMLOrd) {MusicXML\\(text)};\node[align=center,style={circle,minimum size=80,fill=red!15}]
   (MXMLTree)
-  at (\MXMLTreeAbs,\MXMLTreeOrd) {MXML\\(tree)};
+  at (\MXMLTreeAbs,\MXMLTreeOrd) {xmlelement\\tree};
   
-\node[align=center,style={circle,minimum size=80,fill=brown!20}]
+\node[align=center,style={rectangle,rounded corners=10pt,minimum size=80,fill=brown!20}]
   (Guido) at (\GuidoAbs,\GuidoOrd) {Guido\\(text)};
   
-\node[align=center,style={circle,minimum size=80,fill=orange!20}]
+\node[align=center,style={rectangle,rounded corners=10pt,minimum size=80,fill=orange!20}]
   (LilyPond)
   at (\LilyPondAbs, \LilyPondOrd) {LilyPond\\(text)};\node[align=center,style={circle,minimum size=80,fill=orange!20}]
   (LPSR)
   at (\LPSRAbs, \LPSROrd) {LPSR\\(graph)};
 
-\node[align=center,style={circle,minimum size=80,fill=blue!15}]
+\node[align=center,style={rectangle,rounded corners=10pt,minimum size=80,fill=blue!15}]
   (MIDI)
   at (\MIDIAbs,\MIDIOrd) {MIDI\\(binary)};
 \node[align=center,style={circle,minimum size=80,fill=blue!15,text=gray!80}]
@@ -125,19 +141,79 @@
 \draw [->,very thick,-{Stealth[length=10pt]},loosely dashed,color=gray!50] (MDSR) -- (MSR);
 
 
-% Draw the legends  
+% Draw the title  
 % ------------------------------------------------
 
-\node[right,scale=2] (title) at (\legendsAbs,1.9) {libmusicxml:};
-\node[right,scale=2] (title) at (\legendsAbs,1.75) {architecture overview};
+\node[right,scale=2] (title) at (\titleAbs,\titleOrd) {libmusicxml:};
 
-\node[right,scale=1] at (\legendsAbs,1.6) {~Light gray indicates elements not yet available};
-\node[right,scale=1] (comment) at (\legendsAbs,1.475) {~(As of 2.2/0.1.0, February 2017)};
+\node[right,scale=2] (title) at (\titleAbs,\titleOrd-0.15) {architecture overview};
 
-\node[right,scale=1] (comment) at (\legendsAbs,-1.55) {~RandomMusic generates an MXML tree and writes it as MusicXML};
-\node[right,scale=1] (comment) at (\legendsAbs,-1.65) {~xml2lilypond performs the 4 hops from MusicXML to LilyPond};
-\node[right,scale=1] (comment) at (\legendsAbs,-1.75) {~LilyPond can generate MIDI files from its input};
+\node[right,scale=1] at (\titleAbs,\titleOrd-0.30) {~Light gray indicates items not yet available};
 
+
+% Draw the table
+% ------------------------------------------------
+
+\node[right,scale=1] (table) at (\legendAbs,\tableOrd) {
+%\begin{adjustwidth}{-0.5cm}{-0.5cm}
+%\begin{center}
+\def \contentsWidth{1.25\textwidth}
+\def \arraystretch{1.3}
+%
+\begin{tabular}[t]{lp{\contentsWidth}}
+{Entity} & {Description} \tabularnewline[0.5ex]
+\hline\\[-3.0ex]
+%
+xmlelement tree & a tree representing the MusicXML markups such as {\tt <part-list>}, {\tt <time>} and {\tt <note>}
+\tabularnewline
+
+MSR & Music Score Representation, in terms of part groups, parts, staves, voices, notes, \ldots
+\tabularnewline
+
+LPSR & LilyPond Score Representation, i.e. MSR plus data representing the {\tt $\backslash$score} block
+\tabularnewline
+
+MDSR & MIDI Score Representation, to be designed
+\tabularnewline
+
+RandomMusic & generates an xmlelement tree containing random music and writes it as MusicXML
+\tabularnewline
+
+tools & a set of other demo programs such as countnotes and partsummary, showing the use of the library
+\tabularnewline
+
+xml2lilypond & performs the 4 hops from MusicXML to LilyPond
+\tabularnewline
+
+\end{tabular}
+%\end{center}
+%\end{adjustwidth}
+};
+
+%\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.7) {~xmlelement tree: a tree representing the MusicXML markups such as {\tt <part-list>}, {\tt <time>} and {\tt <note>}};
+
+%\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.6) {~MSR: Music Score Representation, in terms of part groups, parts, staves, voices, notes, etc};
+
+%\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.5) {~LPSR: LilyPond Score Representation, i.e. MSR plus data representing the {\tt $\backslash$score} block};
+
+%\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.4) {~MDSR: MIDI Score Representation, to be designed};
+
+% Draw the legend
+% ------------------------------------------------
+
+%\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.3) {$\bullet$ RandomMusic generates an xmlelement tree containing random music and writes it as MusicXML};
+
+%\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.2) {$\bullet$ countnotes and partsummary are other sample programs showing the use of the library};
+
+%\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.1) {$\bullet$ xml2lilypond performs the 4 hops from MusicXML to LilyPond};
+
+\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.0) {$\bullet$ note: LilyPond can generate MIDI files from its input};
+
+
+% Draw the date
+% ------------------------------------------------
+
+\node[right,scale=1] (comment) at (\dateAbs,\bottomLineOrd) {v2.2/0.1.0, February 2017};
 
 % Draw Guido
 % ------------------------------------------------
@@ -145,7 +221,7 @@
 \filldraw [gray!30] 
   (\xmlToGuidoStartAbs, \xmlToGuidoStartOrd) circle [radius=0pt]  (\xmlToGuidoInterAbs,\xmlToGuidoInterOrd) circle [radius=0pt] 
   (\xmlToGuidoEndAbs,\xmlToGuidoEndOrd) circle [radius=0pt];
-  \draw [->,very thick,red,-{Stealth[length=10pt]},anchor=center]
+  \draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
   (\xmlToGuidoStartAbs, \xmlToGuidoStartOrd)
   ..
   node[above,pos=0.85,sloped] {xmlToGuido}
@@ -160,7 +236,7 @@
 \filldraw [gray!30] 
   (\RandomMusicStartAbs, \RandomMusicStartOrd) circle [radius=1pt]  (\RandomMusicInterAbs,\RandomMusicInterOrd) circle [radius=0pt] 
   (\RandomMusicEndAbs,\RandomMusicEndOrd) circle [radius=0pt];
-  \draw [->,very thick,red,-{Stealth[length=10pt]},anchor=center]
+  \draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
   (\RandomMusicStartAbs, \RandomMusicStartOrd)
   ..
   node[above,pos=0.15,sloped] {RandomMusic}
@@ -169,32 +245,44 @@
   (\RandomMusicEndAbs,\RandomMusicEndOrd);
 
 
-% Draw the samples
+% Draw the tools
 % ------------------------------------------------
 
 \filldraw [gray!30] 
-  (\samplesStartAbs, \samplesStartOrd) circle [radius=0pt]  (\samplesInterAbs,\samplesInterOrd) circle [radius=0pt] 
-  (\samplesEndAbs,\samplesEndOrd) circle [radius=0pt];
-  \draw [->,very thick,red,-{Stealth[length=10pt]},anchor=center]
-  (\samplesStartAbs, \samplesStartOrd)
+  (\toolsStartAbs, \toolsStartOrd) circle [radius=0pt]  (\toolsInterAbs,\toolsInterOrd) circle [radius=0pt] 
+  (\toolsEndAbs,\toolsEndOrd) circle [radius=0pt];
+  \draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
+  (\toolsStartAbs, \toolsStartOrd)
   ..
-  node[above,pos=0.8,sloped] {countnotes, partsummary, \dots}
-  controls (\samplesInterAbs,\samplesInterOrd)
+  node[above,pos=0.8,sloped] {tools}
+  controls (\toolsInterAbs,\toolsInterOrd)
   .. 
-  (\samplesEndAbs,\samplesEndOrd);
+  (\toolsEndAbs,\toolsEndOrd);
 
 
 % Draw xml2lilypond  
 % ------------------------------------------------
 
+%\node[align=left] (trace) at (-1, 2.5) {
+%  xmlToLilyPondInterIAbs = \xmlToLilyPondInterIAbs~
+%  xmlToLilyPondInterIOrd = \xmlToLilyPondInterIOrd~
+%  
+%  xmlToLilyPondInterIIAbs = \xmlToLilyPondInterIIAbs~
+%  xmlToLilyPondInterIIOrd = \xmlToLilyPondInterIIOrd
+%};
+
 \filldraw [gray!30] 
-  (\xmlToLilyPondStartAbs, \xmlToLilyPondStartOrd) circle [radius=0pt]  (\xmlToLilyPondInterAbs,\xmlToLilyPondInterOrd) circle [radius=0pt] 
-  (\xmlToLilyPondEndAbs,\xmlToLilyPondEndOrd) circle [radius=0pt];
-  \draw [->,very thick,red,-{Stealth[length=10pt]},anchor=center]
+  (\xmlToLilyPondStartAbs,\xmlToLilyPondStartOrd) circle [radius=0pt]  (\xmlToLilyPondInterIAbs,\xmlToLilyPondInterIOrd) circle [radius=0pt] 
+  (\xmlToLilyPondInterIIAbs,\xmlToLilyPondInterIIOrd) circle [radius=0pt] 
+  (\xmlToLilyPondEndAbs,\xmlToLilyPondEndOrd) circle [radius=1pt];
+  \draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
   (\xmlToLilyPondStartAbs, \xmlToLilyPondStartOrd)
   ..
   node[above,pos=0.75,sloped] {xml2lilypond}
-  controls (\xmlToLilyPondInterAbs,\xmlToLilyPondInterOrd)
+  controls 
+    (\xmlToLilyPondInterIAbs,\xmlToLilyPondInterIOrd)
+    and
+    (\xmlToLilyPondInterIIAbs,\xmlToLilyPondInterIIOrd)
   .. 
   (\xmlToLilyPondEndAbs,\xmlToLilyPondEndOrd);
   
