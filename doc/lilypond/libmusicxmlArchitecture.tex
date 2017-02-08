@@ -9,7 +9,8 @@
 
 \begin{document}
 
-\begin{tikzpicture}[scale=5]
+\begin{tikzpicture}
+[scale=5]
 %,auto=left,node MSR/.style={circle,minimum size=80,fill=blue!20}]
 
 % elements positions
@@ -103,7 +104,8 @@
 
 \node[align=center,style={rectangle,rounded corners=10pt,minimum size=80,fill=red!15}]
   (MusicXML)
-  at (\MusicXMLAbs,\MusicXMLOrd) {MusicXML\\(text)};\node[align=center,style={circle,minimum size=80,fill=red!15}]
+  at (\MusicXMLAbs,\MusicXMLOrd) {MusicXML\\(text)};
+\node[align=center,style={circle,minimum size=80,fill=red!15}]
   (MXMLTree)
   at (\MXMLTreeAbs,\MXMLTreeOrd) {xmlelement\\tree};
   
@@ -112,11 +114,13 @@
   
 \node[align=center,style={rectangle,rounded corners=10pt,minimum size=80,fill=orange!20}]
   (LilyPond)
-  at (\LilyPondAbs, \LilyPondOrd) {LilyPond\\(text)};\node[align=center,style={circle,minimum size=80,fill=orange!20}]
+  at (\LilyPondAbs, \LilyPondOrd) {LilyPond\\(text)};
+\node[align=center,style={circle,minimum size=80,fill=orange!20}]
   (LPSR)
   at (\LPSRAbs, \LPSROrd) {LPSR\\(graph)};
 
-\node[align=center,style={rectangle,rounded corners=10pt,minimum size=80,fill=blue!15}]
+
+\node[align=center,style={rectangle,rounded corners=10pt,minimum size=80,fill=blue!15}]
   (MIDI)
   at (\MIDIAbs,\MIDIOrd) {MIDI\\(binary)};
 \node[align=center,style={circle,minimum size=80,fill=blue!15,text=gray!80}]
@@ -207,7 +211,7 @@ xml2lilypond & performs the 4 hops from MusicXML to LilyPond
 
 %\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.1) {$\bullet$ xml2lilypond performs the 4 hops from MusicXML to LilyPond};
 
-\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.0) {$\bullet$ note: LilyPond can generate MIDI files from its input};
+\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.0) {$\bullet$ Note: LilyPond can generate MIDI files from its input};
 
 
 % Draw the date
@@ -219,9 +223,11 @@ xml2lilypond & performs the 4 hops from MusicXML to LilyPond
 % ------------------------------------------------
 
 \filldraw [gray!30] 
-  (\xmlToGuidoStartAbs, \xmlToGuidoStartOrd) circle [radius=0pt]  (\xmlToGuidoInterAbs,\xmlToGuidoInterOrd) circle [radius=0pt] 
+  (\xmlToGuidoStartAbs, \xmlToGuidoStartOrd) circle [radius=0pt]
+  (\xmlToGuidoInterAbs,\xmlToGuidoInterOrd) circle [radius=0pt] 
   (\xmlToGuidoEndAbs,\xmlToGuidoEndOrd) circle [radius=0pt];
-  \draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
+  
+\draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
   (\xmlToGuidoStartAbs, \xmlToGuidoStartOrd)
   ..
   node[above,pos=0.85,sloped] {xmlToGuido}
@@ -234,9 +240,11 @@ xml2lilypond & performs the 4 hops from MusicXML to LilyPond
 % ------------------------------------------------
 
 \filldraw [gray!30] 
-  (\RandomMusicStartAbs, \RandomMusicStartOrd) circle [radius=1pt]  (\RandomMusicInterAbs,\RandomMusicInterOrd) circle [radius=0pt] 
+  (\RandomMusicStartAbs, \RandomMusicStartOrd) circle [radius=1pt]
+  (\RandomMusicInterAbs,\RandomMusicInterOrd) circle [radius=0pt] 
   (\RandomMusicEndAbs,\RandomMusicEndOrd) circle [radius=0pt];
-  \draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
+  
+\draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
   (\RandomMusicStartAbs, \RandomMusicStartOrd)
   ..
   node[above,pos=0.15,sloped] {RandomMusic}
@@ -249,9 +257,11 @@ xml2lilypond & performs the 4 hops from MusicXML to LilyPond
 % ------------------------------------------------
 
 \filldraw [gray!30] 
-  (\toolsStartAbs, \toolsStartOrd) circle [radius=0pt]  (\toolsInterAbs,\toolsInterOrd) circle [radius=0pt] 
+  (\toolsStartAbs, \toolsStartOrd) circle [radius=0pt]
+  (\toolsInterAbs,\toolsInterOrd) circle [radius=0pt] 
   (\toolsEndAbs,\toolsEndOrd) circle [radius=0pt];
-  \draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
+  
+\draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
   (\toolsStartAbs, \toolsStartOrd)
   ..
   node[above,pos=0.85,sloped] {tools}
@@ -272,10 +282,12 @@ xml2lilypond & performs the 4 hops from MusicXML to LilyPond
 %};
 
 \filldraw [gray!30] 
-  (\xmlToLilyPondStartAbs,\xmlToLilyPondStartOrd) circle [radius=0pt]  (\xmlToLilyPondInterIAbs,\xmlToLilyPondInterIOrd) circle [radius=0pt] 
+  (\xmlToLilyPondStartAbs,\xmlToLilyPondStartOrd) circle [radius=0pt]
+  (\xmlToLilyPondInterIAbs,\xmlToLilyPondInterIOrd) circle [radius=0pt] 
   (\xmlToLilyPondInterIIAbs,\xmlToLilyPondInterIIOrd) circle [radius=0pt] 
   (\xmlToLilyPondEndAbs,\xmlToLilyPondEndOrd) circle [radius=0pt];
-  \draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
+  
+\draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
   (\xmlToLilyPondStartAbs, \xmlToLilyPondStartOrd)
   ..
   node[above,pos=0.7,sloped] {xml2lilypond}
@@ -286,7 +298,9 @@ xml2lilypond & performs the 4 hops from MusicXML to LilyPond
   .. 
   (\xmlToLilyPondEndAbs,\xmlToLilyPondEndOrd);
   
-%  \foreach \from/\to in {a/b,b/c,c/d,d/e,e/f,f/g,g/h,h/a} %   \draw [->] (\from) -- (\to)%node[midway,fill=red!20] {\from--\to};
+%  \foreach \from/\to in {a/b,b/c,c/d,d/e,e/f,f/g,g/h,h/a}
+ %   \draw [->] (\from) -- (\to)
+%node[midway,fill=red!20] {\from--\to};
 
 \end{tikzpicture}
   
