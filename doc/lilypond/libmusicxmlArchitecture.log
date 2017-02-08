@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.12.21)  8 FEB 2017 14:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.12.21)  8 FEB 2017 14:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -478,8 +478,8 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 utputIcon.png>] (./libmusicxmlArchitecture.aux) ) 
 Here is how much of TeX's memory you used:
  12750 strings out of 493054
- 265002 string characters out of 6134759
- 306044 words of memory out of 5000000
+ 265001 string characters out of 6134759
+ 306050 words of memory out of 5000000
  16055 multiletter control sequences out of 15000+600000
  3808 words of font info for 15 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -488,7 +488,7 @@ Here is how much of TeX's memory you used:
 -dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2015/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on libmusicxmlArchitecture.pdf (1 page, 52003 bytes).
+Output written on libmusicxmlArchitecture.pdf (1 page, 51923 bytes).
 PDF statistics:
  26 PDF objects out of 1000 (max. 8388607)
  17 compressed objects within 1 object stream

@@ -254,7 +254,7 @@ xml2lilypond & performs the 4 hops from MusicXML to LilyPond
   \draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
   (\toolsStartAbs, \toolsStartOrd)
   ..
-  node[above,pos=0.8,sloped] {tools}
+  node[above,pos=0.85,sloped] {tools}
   controls (\toolsInterAbs,\toolsInterOrd)
   .. 
   (\toolsEndAbs,\toolsEndOrd);
@@ -274,11 +274,11 @@ xml2lilypond & performs the 4 hops from MusicXML to LilyPond
 \filldraw [gray!30] 
   (\xmlToLilyPondStartAbs,\xmlToLilyPondStartOrd) circle [radius=0pt]  (\xmlToLilyPondInterIAbs,\xmlToLilyPondInterIOrd) circle [radius=0pt] 
   (\xmlToLilyPondInterIIAbs,\xmlToLilyPondInterIIOrd) circle [radius=0pt] 
-  (\xmlToLilyPondEndAbs,\xmlToLilyPondEndOrd) circle [radius=1pt];
+  (\xmlToLilyPondEndAbs,\xmlToLilyPondEndOrd) circle [radius=0pt];
   \draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
   (\xmlToLilyPondStartAbs, \xmlToLilyPondStartOrd)
   ..
-  node[above,pos=0.75,sloped] {xml2lilypond}
+  node[above,pos=0.7,sloped] {xml2lilypond}
   controls 
     (\xmlToLilyPondInterIAbs,\xmlToLilyPondInterIOrd)
     and
