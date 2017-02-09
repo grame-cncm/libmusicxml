@@ -1523,7 +1523,7 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
 void msrGracenotes::appendNoteToGracenotes (S_msrNote note)
 {
   fGracenotesSegment->
-    appendElementToSegment (note);
+    appendOtherElementToSegment (note);
 
   // JMI
   cerr <<
@@ -7476,6 +7476,16 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   }
 }
 
+void msrMeasure::prependOtherElementToMeasure (S_msrElement elem)
+{
+  fMeasureElementsList.push_front (elem);
+}
+  
+void msrMeasure::appendOtherElementToMeasure  (S_msrElement elem)
+{
+  fMeasureElementsList.push_back (elem);
+}
+
 S_msrElement msrMeasure::removeLastElementFromMeasure (
   int inputLineNumber)
 {  
@@ -7806,6 +7816,7 @@ msrSegment::msrSegment (
       ? 0
       : 1;
 
+/* JMI XXL
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr <<
       idtr <<
@@ -7816,6 +7827,7 @@ msrSegment::msrSegment (
         endl;
 
   // create a first measure
+  // fSegmentDivisionsPerWholeNote may be 0 though
   S_msrMeasure
     measure =
       msrMeasure::create (
@@ -7825,17 +7837,19 @@ msrSegment::msrSegment (
         this);
 
   // set the measure clef, key and time if any
-  /* JMI
+  / * JMI
   measure->setMeasureClef (
     lastMeasure->getMeasureClef ());
   measure->setMeasureKey (
     lastMeasure->getMeasureKey ());
-    */
-  measure->setMeasureTime (
-    fSegmentTime);
+    * /
+  measure->
+    setMeasureTime (
+      fSegmentTime);
         
   // append the measure to the segment
   fSegmentMeasuresList.push_back (measure);
+*/
 
   fMeasureNumberHasBeenSetInSegment = false;
 }
@@ -8121,7 +8135,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
     
   // append it to this segment
   S_msrElement t = time;
-  appendElementToSegment (t);
+  appendOtherElementToSegment (t);
 }
 
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
@@ -8814,7 +8828,7 @@ msrVoice::msrVoice (
     // append it to the segment
     S_msrElement c = clef;
     fVoiceSegment->
-      appendElementToSegment (c);
+      appendOtherElementToSegment (c);
     }
   }
     
@@ -8835,7 +8849,7 @@ msrVoice::msrVoice (
       // append it to the segment
       S_msrElement k = key;
       fVoiceSegment->
-        appendElementToSegment (k);
+        appendOtherElementToSegment (k);
     }
   }
   
@@ -8856,7 +8870,7 @@ msrVoice::msrVoice (
       // append it to the segment
       S_msrElement t = time;
       fVoiceSegment->
-        appendElementToSegment (t);
+        appendOtherElementToSegment (t);
     }
   }
   
@@ -8870,7 +8884,7 @@ msrVoice::msrVoice (
       // append it to the segment
       S_msrElement t = transpose;
       fVoiceSegment->
-        appendElementToSegment (t);
+        appendOtherElementToSegment (t);
     }
   }
 }
@@ -9089,7 +9103,7 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
 
   S_msrElement c = clef;
   fVoiceSegment->
-    appendElementToSegment (c);
+    appendOtherElementToSegment (c);
 }
 
 void msrVoice::appendKeyToVoice (S_msrKey key)
@@ -9102,7 +9116,7 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
 
   S_msrElement k = key;
   fVoiceSegment->
-    appendElementToSegment (k);
+    appendOtherElementToSegment (k);
 }
 
 void msrVoice::appendTimeToVoice (S_msrTime time)
@@ -9131,7 +9145,7 @@ void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
 
   S_msrElement t = transpose;
   fVoiceSegment->
-    appendElementToSegment (t);
+    appendOtherElementToSegment (t);
 }
 
 /* JMI
@@ -9144,7 +9158,7 @@ void msrVoice::appendWordsToVoice (S_msrWords words)
 
   S_msrElement w = words;
   fVoiceSegment->
-    appendElementToSegment (w);
+    appendOtherElementToSegment (w);
 }
 */
 
@@ -9158,7 +9172,7 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 
   S_msrElement t = tempo;
   fVoiceSegment->
-    appendElementToSegment (t);
+    appendOtherElementToSegment (t);
 }
 
 void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
@@ -9173,7 +9187,7 @@ void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
 
   S_msrElement o = octaveShift;
   fVoiceSegment->
-    appendElementToSegment (o);
+    appendOtherElementToSegment (o);
 }
 
 void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
@@ -9186,7 +9200,7 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 
   S_msrElement r = rehearsal;
   fVoiceSegment->
-    appendElementToSegment (r);
+    appendOtherElementToSegment (r);
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
@@ -9269,7 +9283,7 @@ void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
       endl;
 
   fVoiceSegment->
-    appendElementToSegment (elem);
+    appendOtherElementToSegment (elem);
 }
 
 void msrVoice::appendGracenotesToVoice (
@@ -9284,7 +9298,7 @@ void msrVoice::appendGracenotesToVoice (
 
   S_msrElement g = gracenotes;
   fVoiceSegment->
-    appendElementToSegment (g);
+    appendOtherElementToSegment (g);
 
   fMusicHasBeenInsertedInVoice = true;
 }
@@ -9509,7 +9523,7 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
       endl;
 
   fVoiceSegment->
-    appendElementToSegment (barCheck);
+    appendOtherElementToSegment (barCheck);
 
   // add bar check syllable to the voice stanza master
   fVoiceStanzaMaster->
@@ -9529,7 +9543,7 @@ void msrVoice::appendBarnumberCheckToVoice (
       endl;
 
   fVoiceSegment->
-    appendElementToSegment (barNumberCheck);
+    appendOtherElementToSegment (barNumberCheck);
 
   // add barnumber check syllable to the voice stanza master
   fVoiceStanzaMaster->
@@ -9547,7 +9561,7 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
       endl;
 
   fVoiceSegment->
-    appendElementToSegment (break_);
+    appendOtherElementToSegment (break_);
 
   // add break syllable to the voice stanza master
   fVoiceStanzaMaster->
@@ -9564,7 +9578,7 @@ void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
 
   S_msrElement r = repeat;
   fVoiceSegment->
-    appendElementToSegment (r);
+    appendOtherElementToSegment (r);
 }
 
 void msrVoice::prependBarlineToVoice (S_msrBarline barline) {
@@ -9580,7 +9594,7 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline) {
 
   S_msrElement b = barline;
   fVoiceSegment->
-    prependElementToSegment (b);
+    prependOtherElementToSegment (b);
 }
 
 void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
@@ -9596,7 +9610,7 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
 
   S_msrElement b = barline;
   fVoiceSegment->
-    appendElementToSegment (b);
+    appendOtherElementToSegment (b);
 }
 
 void msrVoice::appendSegnoToVoice (S_msrSegno segno) {
@@ -9607,7 +9621,7 @@ void msrVoice::appendSegnoToVoice (S_msrSegno segno) {
 
   S_msrElement s = segno;
   fVoiceSegment->
-    appendElementToSegment (s);
+    appendOtherElementToSegment (s);
 }
 
 void msrVoice::appendCodaToVoice (S_msrCoda coda) {
@@ -9618,7 +9632,7 @@ void msrVoice::appendCodaToVoice (S_msrCoda coda) {
 
   S_msrElement c = coda;
   fVoiceSegment->
-    appendElementToSegment (c);
+    appendOtherElementToSegment (c);
 }
 
 void msrVoice::appendEyeglassesToVoice (S_msrEyeglasses eyeglasses) {
@@ -9629,7 +9643,7 @@ void msrVoice::appendEyeglassesToVoice (S_msrEyeglasses eyeglasses) {
 
   S_msrElement e = eyeglasses;
   fVoiceSegment->
-    appendElementToSegment (e);
+    appendOtherElementToSegment (e);
 }
 
 void msrVoice::appendPedalToVoice (S_msrPedal pedal) {
@@ -9640,11 +9654,11 @@ void msrVoice::appendPedalToVoice (S_msrPedal pedal) {
 
   S_msrElement e = pedal;
   fVoiceSegment->
-    appendElementToSegment (e);
+    appendOtherElementToSegment (e);
 }
 
 /* JMI
-void msrVoice::appendElementToVoice (S_msrElement elem)
+void msrVoice::appendOtherElementToVoice (S_msrElement elem)
 {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
@@ -9653,7 +9667,7 @@ void msrVoice::appendElementToVoice (S_msrElement elem)
       endl;
 
   fVoiceSegment->
-    appendElementToSegment (elem);
+    appendOtherElementToSegment (elem);
 }
 */
 
@@ -9766,6 +9780,11 @@ void msrVoice::print (ostream& os)
   idtr++;
 
   os <<
+    idtr <<
+      setw(32) << "(fVoiceDivisionsPerWholeNote" << " = " <<
+      fVoiceDivisionsPerWholeNote <<
+      ")" <<
+      endl <<
     idtr <<
       setw(32) << "(fMeasureZeroHasBeenMetInVoice" << " = " <<
       booleanAsString (fMeasureZeroHasBeenMetInVoice) <<

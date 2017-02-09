@@ -1582,17 +1582,15 @@ class EXP msrMeasure : public msrElement
     
     string        getMeasureKindAsString () const;
 
-    void          prependElementToMeasure (S_msrElement elem)
-                      { fMeasureElementsList.push_front (elem); }
-                      
-    void          appendElementToMeasure  (S_msrElement elem)
-                      { fMeasureElementsList.push_back (elem); }
-
     void          appendBarCheckToMeasure (S_msrBarCheck barCheck);
     
     void          appendNoteToMeasure (S_msrNote note);
     void          appendChordToMeasure (S_msrChord chord);
     void          appendTupletToMeasure (S_msrTuplet tuplet);
+
+    void          prependOtherElementToMeasure (S_msrElement elem);
+                      
+    void          appendOtherElementToMeasure  (S_msrElement elem);
 
     S_msrElement  getLastElementOfMeasure () const
                       { return fMeasureElementsList.back (); }
@@ -1725,16 +1723,16 @@ class EXP msrSegment : public msrElement
     void          appendChordToSegment (S_msrChord chord);
     void          appendTupletToSegment (S_msrTuplet tuplet);
     
-    void          appendElementToSegment (S_msrElement elem)
+    void          appendOtherElementToSegment (S_msrElement elem)
                       {
                         fSegmentMeasuresList.back ()->
-                          appendElementToMeasure (elem);
+                          appendOtherElementToMeasure (elem);
                       }
         
-    void          prependElementToSegment (S_msrElement elem)
+    void          prependOtherElementToSegment (S_msrElement elem)
                       {
                         fSegmentMeasuresList.front ()->
-                          prependElementToMeasure (elem);
+                          prependOtherElementToMeasure (elem);
                       }
 
     S_msrElement  removeLastElementFromSegment (
@@ -1910,7 +1908,7 @@ class EXP msrAftergracenotes : public msrElement
     void        appendNoteToAftergracenotes (S_msrNote note)
                     {
                       fAftergracenotesSegment->
-                        appendElementToSegment (note);
+                        appendOtherElementToSegment (note);
                     }
     
     // visitors
@@ -4497,10 +4495,10 @@ class EXP msrRepeatending : public msrElement
     // services
     // ------------------------------------------------------
 
-    void      appendElementToSegment  (S_msrElement elem)
+    void      appendOtherElementToSegment  (S_msrElement elem)
                   {
                     fRepeatendingSegment->
-                      appendElementToSegment (elem);
+                      appendOtherElementToSegment (elem);
                   }
                     
     // visitors
