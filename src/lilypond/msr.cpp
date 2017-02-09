@@ -7149,10 +7149,17 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 {
   int inputLineNumber =
     barline->getInputLineNumber ();
-    
-  // first check whether there is a measure change
+
+  // the first barline in a part comes before <divisions/>,
+  // hence fMeasureDivisionsPerWholeMeasure may be 0:
+  // don't test for measure measure change in that case
+  
 // JMI  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
-  if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { // XXL
+  if (
+    fMeasureDivisionsPerWholeMeasure > 0
+      &&
+    fMeasurePosition > fMeasureDivisionsPerWholeMeasure
+    ) {
     /*
       measure overflows, we must synchonize all voices in this part
     */
@@ -7986,6 +7993,29 @@ void msrSegment::setSegmentDivisionsPerWholeNote (
 
   fSegmentDivisionsPerWholeNote =
     divisionsPerWholeNote;
+
+    
+}
+
+void msrSegment::setAllSegmentMeasuresDivisionsPerWholeNote (
+  int divisionsPerWholeNote)
+{
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "### --> setAllSegmentMeasuresDivisionsPerWholeNote()" <<
+      ", line " << fInputLineNumber <<
+      ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
+      ", in segment " << fSegmentAbsoluteNumber <<
+      endl;
+
+  for (
+    list<S_msrMeasure>::iterator i = fSegmentMeasuresList.begin();
+    i != fSegmentMeasuresList.end();
+    i++) {
+    (*i)->
+      setMeasureDivisionsPerWholeNote (
+        divisionsPerWholeNote);
+  } // for
 }
 
 void msrSegment::setSegmentMeasureNumber (
@@ -11114,7 +11144,6 @@ string msrPart::getPartCombinedName () const
 void msrPart::setPartDivisionsPerWholeNote (
   int divisionsPerWholeNote)
 {
-  assert(false);
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> setting part divisions per whole note to " <<

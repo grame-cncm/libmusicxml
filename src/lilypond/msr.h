@@ -1714,6 +1714,9 @@ class EXP msrSegment : public msrElement
     // services
     // ------------------------------------------------------
 
+    void          setAllSegmentMeasuresDivisionsPerWholeNote (
+                    int divisionsPerWholeNote);
+
     void          forceSegmentMeasureNumberTo (int measureNumber);
 
     string        segmentAsString ();
