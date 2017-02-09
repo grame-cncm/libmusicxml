@@ -7623,7 +7623,7 @@ string msrMeasure::getMeasureLengthAsString () const
         measureLength,
         fMeasureDivisionsPerWholeMeasure,
         errorMessage,
-        true); // 'true' to debug it;
+        false); // 'true' to debug it;
   
     if (errorMessage.size ())
       msrMusicXMLWarning (

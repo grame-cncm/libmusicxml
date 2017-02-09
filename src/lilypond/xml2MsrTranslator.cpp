@@ -6957,7 +6957,7 @@ void xml2MsrTranslator::handleRepeatStart (
   }
 
   // don't append fCurrentRepeat to the current voice,
-  // this will be done later
+  // this will be done later in handleEndingEnd()
 
   /***** JMIJMI
   // create a new segment for the voice
@@ -7117,27 +7117,27 @@ void xml2MsrTranslator::handleHookedEndingEnd (
           currentSegment,
           currentVoice);
     }
-    
-    // create a new segment for the voice
-    if (gGeneralOptions->fTrace)
-      cerr << idtr <<
-        "Setting new segment for voice " <<
-        currentVoice->getVoiceName () <<
-        endl;
-        
-    currentVoice->
-      setNewSegmentForVoice (
-        inputLineNumber);
 
-    // add the repeat to the new segment
-    if (gGeneralOptions->fTrace)
-      cerr << idtr <<
-        "Appending the repeat to voice \"" <<
-        currentVoice->getVoiceName () << "\"" <<
-        endl;
+  // create a new segment for the voice
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Setting new segment for voice " <<
+      currentVoice->getVoiceName () <<
+      endl;
+      
+  currentVoice->
+    setNewSegmentForVoice (
+      inputLineNumber);
 
-    currentVoice->
-      appendRepeatToVoice (fCurrentRepeat);
+  // add the repeat to the new segment
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Appending the repeat to voice \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl;
+
+  currentVoice->
+    appendRepeatToVoice (fCurrentRepeat);
   }
   
   else {
@@ -7465,7 +7465,6 @@ void xml2MsrTranslator::handleEndingEnd (
 
     currentVoice->
       appendRepeatToVoice (fCurrentRepeat);
-
     }
     
   else {
