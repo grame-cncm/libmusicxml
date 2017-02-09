@@ -1523,7 +1523,7 @@ class EXP msrMeasure : public msrElement
     int           getMeasureNumber () const
                       { return fMeasureNumber; }
 
-    void          setMeasureDivisionsPerWholeNote (int divisions)
+    void          setMeasureDivisionsPerWholeNote (int divisions) // JMI
                       { fMeasureDivisionsPerWholeNote = divisions; }
 
     int           getMeasureDivisionsPerWholeNote () const
@@ -1657,6 +1657,7 @@ class EXP msrSegment : public msrElement
 
     static SMARTP<msrSegment> create (
       int        inputLineNumber,
+      int        divisionsPerWholeNote,
       S_msrVoice segmentVoicekUplink);
 
     SMARTP<msrSegment> createSegmentBareClone (
@@ -1669,6 +1670,7 @@ class EXP msrSegment : public msrElement
 
     msrSegment (
       int        inputLineNumber,
+      int        divisionsPerWholeNote,
       S_msrVoice segmentVoicekUplink);
       
     virtual ~msrSegment();
@@ -1686,7 +1688,7 @@ class EXP msrSegment : public msrElement
                       { return fSegmentMeasuresList; }
                                             
     // divisions per whole note
-    void          setSegmentDivisionsPerWholeNote (
+    void          setSegmentDivisionsPerWholeNote ( // JMI
                     int divisionsPerWholeNote);
                       
     const int     getSegmentDivisionsPerWholeNote () const

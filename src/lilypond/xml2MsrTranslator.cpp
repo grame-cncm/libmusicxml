@@ -6922,7 +6922,8 @@ void xml2MsrTranslator::handleRepeatStart (
 
   // set the barline category
   barline->
-    setBarlineCategory (msrBarline::kRepeatStart);
+    setBarlineCategory (
+      msrBarline::kRepeatStart);
 
   // fetch current voice
   S_msrVoice
@@ -6942,8 +6943,9 @@ void xml2MsrTranslator::handleRepeatStart (
     // create the repeat
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
-        "Creating a repeat in voice " <<
-        currentVoice->getVoiceName () << endl;
+        "Creating a repeat in voice \"" <<
+        currentVoice->getVoiceName () << "\"" <<
+        endl;
 
     fCurrentRepeat =
       msrRepeat::create (

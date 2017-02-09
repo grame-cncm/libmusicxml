@@ -1497,6 +1497,8 @@ msrGracenotes::msrGracenotes (
   fGracenotesSegment =
     msrSegment::create (
       fInputLineNumber,
+      gracenotesVoiceUplink->
+        getVoiceDivisionsPerWholeNote (),
       gracenotesVoiceUplink);
 }
 
@@ -1639,6 +1641,8 @@ msrAftergracenotes::msrAftergracenotes (
   fAftergracenotesSegment =
     msrSegment::create (
       fInputLineNumber,
+      aftergracenotesVoiceUplink->
+        getVoiceDivisionsPerWholeNote (),
       aftergracenotesVoiceUplink);
 }
 
@@ -7184,7 +7188,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
       appendMeasureToSegment (
         newMeasure);
 
-    // append note to it thru the segment
+    // append barline to it thru the segment
     fMeasureSegmentUplink->
       appendBarlineToSegment (barline);
   }
@@ -7242,7 +7246,7 @@ void msrMeasure::appendBarCheckToMeasure (S_msrBarCheck barCheck)
       appendMeasureToSegment (
         newMeasure);
 
-    // append note to it thru the segment
+    // append barCheck to it thru the segment
     fMeasureSegmentUplink->
       appendBarCheckToSegment (barCheck);
   }
@@ -7843,11 +7847,13 @@ void msrMeasure::print (ostream& os)
 //______________________________________________________________________________
 S_msrSegment msrSegment::create (
   int        inputLineNumber,
+  int        divisionsPerWholeNote,
   S_msrVoice segmentVoicekUplink)
 {
   msrSegment* o =
     new msrSegment (
       inputLineNumber,
+      divisionsPerWholeNote,
       segmentVoicekUplink);
   assert(o!=0);
   return o;
@@ -7855,14 +7861,18 @@ S_msrSegment msrSegment::create (
 
 msrSegment::msrSegment (
   int        inputLineNumber,
+  int        divisionsPerWholeNote,
   S_msrVoice segmentVoicekUplink)
     : msrElement (inputLineNumber)
 {
   fSegmentVoicekUplink = segmentVoicekUplink;
 
   fSegmentDivisionsPerWholeNote =
+    divisionsPerWholeNote;
+    /*
     fSegmentVoicekUplink->
       getVoiceDivisionsPerWholeNote ();
+*/
 
   fSegmentTime =
     fSegmentVoicekUplink->
@@ -7889,7 +7899,7 @@ msrSegment::msrSegment (
       ? 0
       : 1;
 
-/* JMI XXL
+//* JMI XXL
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr <<
       idtr <<
@@ -7900,7 +7910,7 @@ msrSegment::msrSegment (
         endl;
 
   // create a first measure
-  // fSegmentDivisionsPerWholeNote may be 0 though
+  // fSegmentDivisionsPerWholeNote may be 0 though JMI ???
   S_msrMeasure
     measure =
       msrMeasure::create (
@@ -7910,19 +7920,19 @@ msrSegment::msrSegment (
         this);
 
   // set the measure clef, key and time if any
-  / * JMI
+  /* JMI
   measure->setMeasureClef (
     lastMeasure->getMeasureClef ());
   measure->setMeasureKey (
     lastMeasure->getMeasureKey ());
-    * /
+    */
   measure->
     setMeasureTime (
       fSegmentTime);
         
   // append the measure to the segment
   fSegmentMeasuresList.push_back (measure);
-*/
+//*/
 
   fMeasureNumberHasBeenSetInSegment = false;
 }
@@ -7941,13 +7951,16 @@ S_msrSegment msrSegment::createSegmentBareClone (
     clone =
       msrSegment::create (
         fInputLineNumber,
+        fSegmentDivisionsPerWholeNote,
         clonedVoice);
 
   clone->fSegmentTime =
     fSegmentTime;
-    
+
+    /* JMI
   clone->fSegmentDivisionsPerWholeNote =
     fSegmentDivisionsPerWholeNote;
+*/
 
   // remove the initial measure created implicitly
   fSegmentMeasuresList.clear ();
@@ -8271,7 +8284,10 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
         "--> appending barline " << barline->barlineAsString () <<
         " to segment" <<
       endl;
-      
+
+  if (! fSegmentMeasuresList.size ()) {// JMI
+  }
+  
   fSegmentMeasuresList.back ()->
     appendBarlineToMeasure (barline);
 }
@@ -8651,6 +8667,8 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
     segment =
       msrSegment::create (
         fInputLineNumber,
+        clonedVoice->
+          getVoiceDivisionsPerWholeNote (),
         clonedVoice);
 
   if (gGeneralOptions->fDebug)
@@ -8901,6 +8919,7 @@ msrVoice::msrVoice (
   fVoiceSegment =
     msrSegment::create (
       inputLineNumber,
+      fVoiceDivisionsPerWholeNote,
       this);
 
   // get the initial clef from the staff if any
@@ -9057,6 +9076,7 @@ void msrVoice::setNewSegmentForVoice (
   fVoiceSegment =
     msrSegment::create (
       inputLineNumber,
+      fVoiceDivisionsPerWholeNote,
       this);
 }
 
@@ -9700,9 +9720,10 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
     barline;
   idtr--;
 
-  S_msrElement b = barline;
+  assert(fVoiceSegment);
+  
   fVoiceSegment->
-    appendOtherElementToSegment (b);
+    appendBarlineToSegment (barline);
 }
 
 void msrVoice::appendSegnoToVoice (S_msrSegno segno) {
