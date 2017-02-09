@@ -935,59 +935,67 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xmlpart2guido::checkTiedBegin ( const std::vector<S_tied>& tied )
     {
-        std::vector<S_tied>::const_iterator i = findTypeValue(tied, "start");
-        if (i != tied.end()) {
-            Sguidoelement tag = guidotag::create("tieBegin");
-            string num = (*i)->getAttributeValue ("number");
-            if (num.size())
-                tag->add (guidoparam::create(num, false));
-            string placement = (*i)->getAttributeValue("placement");
-            if (placement == "below")
-                tag->add (guidoparam::create("curve=\"down\"", false));
-            add(tag);
+        std::vector<S_tied>::const_iterator i;
+        for (i = tied.begin(); i != tied.end(); i++) {
+            if ((*i)->getAttributeValue("type") == "start") {
+                Sguidoelement tag = guidotag::create("tieBegin");
+                string num = (*i)->getAttributeValue ("number");
+                if (num.size())
+                    tag->add (guidoparam::create(num, false));
+                string placement = (*i)->getAttributeValue("placement");
+                if (placement == "below")
+                    tag->add (guidoparam::create("curve=\"down\"", false));
+                add(tag);
+            }
         }
     }
     
     void xmlpart2guido::checkTiedEnd ( const std::vector<S_tied>& tied )
     {
-        std::vector<S_tied>::const_iterator i = findTypeValue(tied, "stop");
-        if (i != tied.end()) {
-            Sguidoelement tag = guidotag::create("tieEnd");
-            string num = (*i)->getAttributeValue ("number");
-            if (num.size())
-                tag->add (guidoparam::create(num, false));
-            add(tag);
+        std::vector<S_tied>::const_iterator i;
+        for (i = tied.begin(); i != tied.end(); i++) {
+            if ((*i)->getAttributeValue("type") == "stop") {
+                Sguidoelement tag = guidotag::create("tieEnd");
+                string num = (*i)->getAttributeValue ("number");
+                if (num.size())
+                    tag->add (guidoparam::create(num, false));
+                add(tag);
+            }
         }
     }
     
     //______________________________________________________________________________
     void xmlpart2guido::checkSlurBegin ( const std::vector<S_slur>& slurs )
     {
-        std::vector<S_slur>::const_iterator i = findTypeValue(slurs, "start");
-        if (i != slurs.end()) {
-            string tagName = "slurBegin";
-            string num = (*i)->getAttributeValue("number");
-            if (num.size()) tagName += ":" + num;
-            Sguidoelement tag = guidotag::create(tagName);
-            string placement = (*i)->getAttributeValue("placement");
-            string orientation = (*i)->getAttributeValue("placement");
-            if ((placement == "below")||(orientation=="under"))
-                tag->add (guidoparam::create("curve=\"down\"", false));
-            if ((placement == "above")||(orientation=="over"))
-                tag->add (guidoparam::create("curve=\"up\"", false));
-            add(tag);
+        std::vector<S_slur>::const_iterator i;
+        for (i = slurs.begin(); i != slurs.end(); i++) {
+            if ((*i)->getAttributeValue("type") == "start") {
+                string tagName = "slurBegin";
+                string num = (*i)->getAttributeValue("number");
+                if (num.size()) tagName += ":" + num;
+                Sguidoelement tag = guidotag::create(tagName);
+                string placement = (*i)->getAttributeValue("placement");
+                string orientation = (*i)->getAttributeValue("placement");
+                if ((placement == "below")||(orientation=="under"))
+                    tag->add (guidoparam::create("curve=\"down\"", false));
+                if ((placement == "above")||(orientation=="over"))
+                    tag->add (guidoparam::create("curve=\"up\"", false));
+                add(tag);
+            }
         }
     }
     
     void xmlpart2guido::checkSlurEnd ( const std::vector<S_slur>& slurs )
     {
-        std::vector<S_slur>::const_iterator i = findTypeValue(slurs, "stop");
-        if (i != slurs.end()) {
-            string tagName = "slurEnd";
-            string num = (*i)->getAttributeValue("number");
-            if (num.size()) tagName += ":" + num;
-            Sguidoelement tag = guidotag::create (tagName);
-            add(tag);
+        std::vector<S_slur>::const_iterator i;
+        for (i = slurs.begin(); i != slurs.end(); i++) {
+            if ((*i)->getAttributeValue("type") == "stop") {
+                string tagName = "slurEnd";
+                string num = (*i)->getAttributeValue("number");
+                if (num.size()) tagName += ":" + num;
+                Sguidoelement tag = guidotag::create (tagName);
+                add(tag);
+            }
         }
     }
     
