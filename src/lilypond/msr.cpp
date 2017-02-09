@@ -7213,7 +7213,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
 
 cerr <<
   endl << endl;
-print (cerr);
+fMeasureVoiceDirectUplink->print(cerr);
 cerr <<
   endl << endl;
 
@@ -7749,30 +7749,30 @@ void msrMeasure::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrSegment msrSegment::create (
-  int           inputLineNumber,
-  S_msrVoice    voicechunVoicekUplink)
+  int        inputLineNumber,
+  S_msrVoice segmentVoicekUplink)
 {
   msrSegment* o =
     new msrSegment (
       inputLineNumber,
-      voicechunVoicekUplink);
+      segmentVoicekUplink);
   assert(o!=0);
   return o;
 }
 
 msrSegment::msrSegment (
-  int           inputLineNumber,
-  S_msrVoice    voicechunVoicekUplink)
+  int        inputLineNumber,
+  S_msrVoice segmentVoicekUplink)
     : msrElement (inputLineNumber)
 {
-  fVoicechunVoicekUplink = voicechunVoicekUplink;
+  fSegmentVoicekUplink = segmentVoicekUplink;
 
   fSegmentDivisionsPerWholeNote =
-    fVoicechunVoicekUplink->
+    fSegmentVoicekUplink->
       getVoiceDivisionsPerWholeNote ();
 
   fSegmentTime =
-    fVoicechunVoicekUplink->
+    fSegmentVoicekUplink->
       getVoiceTime ();
 
   if (! fSegmentTime) {
@@ -7785,7 +7785,7 @@ msrSegment::msrSegment (
 
   // has measure number 0 been met?
   bool measureZeroHasBeenMet = // JMI
-    fVoicechunVoicekUplink->
+    fSegmentVoicekUplink->
       getVoiceStaffUplink ()->
         getStaffPartUplink ()->
           getMeasureZeroHasBeenMetInPart ();
@@ -7801,7 +7801,8 @@ msrSegment::msrSegment (
       idtr <<
         "--> Creating segment first measure with number " <<
         firstMeasureNumber <<
-        " in voice \"" << fVoicechunVoicekUplink->getVoiceName () << "\"" <<
+        ", fSegmentDivisionsPerWholeNote = " << fSegmentDivisionsPerWholeNote <<
+        ", in voice \"" << fSegmentVoicekUplink->getVoiceName () << "\"" <<
         endl;
 
   // create a first measure

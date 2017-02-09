@@ -1655,8 +1655,8 @@ class EXP msrSegment : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrSegment> create (
-      int           inputLineNumber,
-      S_msrVoice    voicechunVoicekUplink);
+      int        inputLineNumber,
+      S_msrVoice segmentVoicekUplink);
 
     SMARTP<msrSegment> createSegmentBareClone (
       S_msrVoice clonedVoice);
@@ -1667,8 +1667,8 @@ class EXP msrSegment : public msrElement
     // ------------------------------------------------------
 
     msrSegment (
-      int           inputLineNumber,
-      S_msrVoice    voicechunVoicekUplink);
+      int        inputLineNumber,
+      S_msrVoice segmentVoicekUplink);
       
     virtual ~msrSegment();
     
@@ -1678,7 +1678,7 @@ class EXP msrSegment : public msrElement
     // ------------------------------------------------------
 
     S_msrVoice    getSegmentVoiceUplink () const
-                      { return fVoicechunVoicekUplink; }
+                      { return fSegmentVoicekUplink; }
                       
     const list<S_msrMeasure>&
                   getSegmentMeasuresList () const
@@ -1772,7 +1772,7 @@ class EXP msrSegment : public msrElement
 
     bool                 fMeasureNumberHasBeenSetInSegment; // JMI
 
-    S_msrVoice           fVoicechunVoicekUplink;
+    S_msrVoice           fSegmentVoicekUplink;
 };
 typedef SMARTP<msrSegment> S_msrSegment;
 EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);

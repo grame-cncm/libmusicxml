@@ -6951,8 +6951,12 @@ void xml2MsrTranslator::handleRepeatStart (
         currentSegment,
         currentVoice);
   }
+
+  // don't append fCurrentRepeat to the current voice,
+  // this will be done later
   
   // create a new segment for the voice
+  // to collect the repeat elements
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> setting new segment for voice " <<
