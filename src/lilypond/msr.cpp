@@ -8720,10 +8720,15 @@ msrVoice::msrVoice (
   
   fVoiceStaffUplink = voiceStaffUplink;
 
+  fVoiceDivisionsPerWholeNote =
+    fVoiceStaffUplink->
+      getStaffDivisionsPerWholeNote ();
+    
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Creating voice \"" << getVoiceName () <<
       "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
+      ", fVoiceDivisionsPerWholeNote = " << fVoiceDivisionsPerWholeNote <<
       endl;
 
   // the external voice number should not be negative
@@ -8738,10 +8743,6 @@ msrVoice::msrVoice (
     msrAssert (false, s.str());
   }
   
-  fVoiceDivisionsPerWholeNote =
-    fVoiceStaffUplink->
-      getStaffDivisionsPerWholeNote ();
-    
   // there may be an anacrusis, but let's start with 1 anyway
   fVoiceMeasureNumber = 1;
 
@@ -10166,13 +10167,16 @@ void msrStaff::setStaffDivisionsPerWholeNote (
     divisionsPerWholeNote);
 }
 
-void msrStaff::setAllStaffVoicesDivisionsPerWholeNote (int divisions)
+void msrStaff::setAllStaffVoicesDivisionsPerWholeNote (
+  int divisionsPerWholeNote)
 {
   for (
     map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
     i != fStaffVoicesMap.end();
     i++) {
-    (*i).second->setVoiceDivisionsPerWholeNote (divisions);
+    (*i).second->
+      setVoiceDivisionsPerWholeNote (
+        divisionsPerWholeNote);
   } // for
 }
 
@@ -11020,13 +11024,19 @@ void msrPart::setPartTranspose (S_msrTranspose transpose)
   setAllPartStavesTranspose (transpose);
 }
 
-void msrPart::setAllPartStavesDivisionsPerWholeNote (int divisions)
+void msrPart::setAllPartStavesDivisionsPerWholeNote (
+  int divisionsPerWholeNote)
 {
+  fPartDivisionsPerWholeNote =
+    divisionsPerWholeNote;
+  
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->setStaffDivisionsPerWholeNote (divisions);
+    (*i).second->
+      setStaffDivisionsPerWholeNote (
+        divisionsPerWholeNote);
   } // for
 }
 

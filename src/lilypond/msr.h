@@ -5102,7 +5102,7 @@ class EXP msrStaff : public msrElement
     string        staffKindAsString () const;
     
     void          setAllStaffVoicesDivisionsPerWholeNote (
-                    int divisions);
+                    int divisionsPerWholeNote);
 
     void          setAllStaffVoicesMeasureNumber (
                     int inputLineNumber,
@@ -5325,7 +5325,7 @@ class EXP msrPart : public msrElement
     // ------------------------------------------------------
 
     void          setAllPartStavesDivisionsPerWholeNote (
-                    int divisions);
+                    int divisionsPerWholeNote);
     
     void          setAllPartStavesMeasureNumber (
                     int inputLineNumber,
