@@ -7845,6 +7845,8 @@ void msrMeasure::print (ostream& os)
 }
 
 //______________________________________________________________________________
+int msrSegment::gSegmentsCounter = 0;
+
 S_msrSegment msrSegment::create (
   int        inputLineNumber,
   int        divisionsPerWholeNote,
@@ -7865,6 +7867,8 @@ msrSegment::msrSegment (
   S_msrVoice segmentVoicekUplink)
     : msrElement (inputLineNumber)
 {
+  fSegmentAbsoluteNumber = ++gSegmentsCounter;
+  
   fSegmentVoicekUplink = segmentVoicekUplink;
 
   fSegmentDivisionsPerWholeNote =
@@ -7903,7 +7907,8 @@ msrSegment::msrSegment (
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr <<
       idtr <<
-        "--> Creating segment first measure with number " <<
+        "--> Creating segment " << segmentAsString () <<
+        "'s first measure with number " <<
         firstMeasureNumber <<
         ", fSegmentDivisionsPerWholeNote = " << fSegmentDivisionsPerWholeNote <<
         ", in voice \"" << fSegmentVoicekUplink->getVoiceName () << "\"" <<
@@ -7944,7 +7949,8 @@ S_msrSegment msrSegment::createSegmentBareClone (
 {
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> Creating a bare clone of a segment" <<
+      "--> Creating a bare clone of segment " <<
+      segmentAsString () <<
       endl;
 
   S_msrSegment
@@ -7973,7 +7979,8 @@ void msrSegment::setSegmentDivisionsPerWholeNote (
 {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> setting segment divisions per whole note to " <<
+      "--> setting segment " << segmentAsString () <<
+        "'s divisions per whole note to " <<
       divisionsPerWholeNote <<
       endl;
 
@@ -8021,7 +8028,7 @@ void msrSegment::setSegmentMeasureNumber (
       idtr <<
         setw(38) << "--> setSegmentMeasureNumber (" <<
         measureNumber <<
-        "): " <<
+        ") for segment " << segmentAsString () <<
         endl;
 
     idtr++;
@@ -8107,7 +8114,7 @@ void msrSegment::setSegmentMeasureNumber (
           idtr <<
             "### there are currently " <<
             fSegmentMeasuresList.size () <<
-            " measures in segment" <<
+            " measures in segment " << segmentAsString () <<
             endl <<
           idtr <<
             setw(31) << "--> renumbering measure 1 as 0" <<
@@ -8127,7 +8134,7 @@ void msrSegment::setSegmentMeasureNumber (
             idtr <<
               "### there are currently " <<
               fSegmentMeasuresList.size () <<
-            " measures in segment" <<
+            " measures in segment " << segmentAsString () <<
               endl <<
             idtr <<
               setw(31) <<
@@ -8148,7 +8155,7 @@ void msrSegment::setSegmentMeasureNumber (
           idtr <<
             "### there are currently " <<
             fSegmentMeasuresList.size () <<
-            " measures in segment" <<
+            " measures in segment " << segmentAsString () <<
             endl <<
           idtr <<
             setw(31) <<
@@ -8195,7 +8202,8 @@ void msrSegment::finalizeLastMeasureOfSegment (int inputLineNumber)
 {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "### --> finalizing last measure in segment" <<
+      "### --> finalizing last measure in segment " <<
+      segmentAsString () <<
       ", line " << inputLineNumber <<
       endl;
 
@@ -8209,8 +8217,8 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
     cerr <<
       idtr <<
         "--> appending time " << time->timeAsString () <<
-        " to segment" <<
-      endl;
+        " to segment " << segmentAsString () <<
+        endl;
       
   // register time in segment
   fSegmentTime = time;
@@ -8243,7 +8251,9 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
       if (gGeneralOptions->fDebug)
         cerr << idtr <<
-          "### --> replacing initial measure 1 by new one" <<
+          "### --> replacing initial measure 1 of segment " <<
+          segmentAsString () <<
+        " by new one" <<
           ", line " << measure-> getInputLineNumber () <<
           endl;
 
@@ -8264,7 +8274,9 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "### --> replacing initial measure 1 by measure 0" <<
+        "### --> replacing initial measure 1 of segment " <<
+        segmentAsString () <<
+        " by measure 0" <<
         ", line " << measure-> getInputLineNumber () <<
         endl;
 
@@ -8281,8 +8293,8 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
   if (gGeneralOptions->fDebug)
     cerr <<
       idtr <<
-        "--> appending barline " << barline->barlineAsString () <<
-        " to segment" <<
+        "--> appending barline '" << barline->barlineAsString () <<
+        "' to segment '" << segmentAsString () << "'" <<
       endl;
 
   if (! fSegmentMeasuresList.size ()) {// JMI
@@ -8298,7 +8310,7 @@ void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
     cerr <<
       idtr <<
         "--> appending bar check " << barCheck->barCheckAsString () <<
-        " to segment" <<
+        " to segment '" << segmentAsString () << "'" <<
       endl;
       
   fSegmentMeasuresList.back ()->
@@ -8356,8 +8368,9 @@ S_msrElement msrSegment::removeLastElementFromSegment (
   else {
     msrInternalError (
       inputLineNumber,
-      "cannot removeLastElementFromSegment () "
-      "since it is empty");
+      "cannot removeLastElementFromSegment () " <<
+      segmentAsString () <<
+      " since it is empty");
   }
 }
 
@@ -8419,11 +8432,12 @@ string msrSegment::segmentAsString ()
 {
   stringstream s;
 
-  s << "Segment" ;
+  s << "Segment " << fSegmentAbsoluteNumber;
+  
   if (! fSegmentMeasuresList.size ())
-    s << "(No actual measures)";
+    s << " (No actual measures)";
   else
-    s << "(" << fSegmentMeasuresList.size () << " measures)";
+    s << " (" << fSegmentMeasuresList.size () << " measures)";
 
   return s.str();
 }
@@ -8437,7 +8451,7 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
 void msrSegment::print (ostream& os)
 {  
   os << idtr <<
-    "Segment" <<
+    "Segment " << fSegmentAbsoluteNumber <<
     " (" << fSegmentMeasuresList.size() << " measures)" <<
     endl;
 
@@ -11100,6 +11114,7 @@ string msrPart::getPartCombinedName () const
 void msrPart::setPartDivisionsPerWholeNote (
   int divisionsPerWholeNote)
 {
+  assert(false);
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> setting part divisions per whole note to " <<

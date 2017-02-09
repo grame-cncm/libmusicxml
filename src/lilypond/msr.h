@@ -1762,6 +1762,10 @@ class EXP msrSegment : public msrElement
 
   private:
 
+    static int           gSegmentsCounter;
+
+    int                  fSegmentAbsoluteNumber;
+    
     S_msrTime            fSegmentTime;
     
     int                  fSegmentDivisionsPerWholeNote;

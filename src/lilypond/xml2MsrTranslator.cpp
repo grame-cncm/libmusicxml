@@ -1150,18 +1150,20 @@ void xml2MsrTranslator::visitStart ( S_divisions& elt )
 {
   fCurrentDivisionsPerQuarterNote = (int)(*elt);
   
-  if (fCurrentDivisionsPerQuarterNote <= 0)
+  if (fCurrentDivisionsPerQuarterNote <= 0) {
     msrMusicXMLError (
       elt->getInputLineNumber (),
       "divisions per quarter note should be positive");
+  }
   
-  if (gGeneralOptions->fTrace) {
+  if (true || gGeneralOptions->fTrace) {
+ // JMI if (gGeneralOptions->fTrace) {
     cerr << idtr;
     if (fCurrentDivisionsPerQuarterNote== 1)
       cerr << "There is 1 division";
     else
       cerr <<
-        "There are " << fCurrentDivisionsPerQuarterNote<<
+        "There are " << fCurrentDivisionsPerQuarterNote <<
         " divisions";
     cerr <<
       " per quater note in part " <<
@@ -6956,7 +6958,8 @@ void xml2MsrTranslator::handleRepeatStart (
 
   // don't append fCurrentRepeat to the current voice,
   // this will be done later
-  
+
+  //***** JMIJMI
   // create a new segment for the voice
   // to collect the repeat elements
   if (gGeneralOptions->fDebug)
@@ -6967,6 +6970,8 @@ void xml2MsrTranslator::handleRepeatStart (
   currentVoice->
     setNewSegmentForVoice (
       inputLineNumber);
+//*/
+
 
   // append the bar line to the new current segment
   currentVoice->
