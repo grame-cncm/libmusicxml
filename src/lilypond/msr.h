@@ -1745,11 +1745,7 @@ class EXP msrSegment : public msrElement
                           appendOtherElementToMeasure (elem);
                       }
         
-    void          prependOtherElementToSegment (S_msrElement elem)
-                      {
-                        fSegmentMeasuresList.front ()->
-                          prependOtherElementToMeasure (elem);
-                      }
+    void          prependBarlineToSegment (S_msrBarline barline);
 
     S_msrElement  removeLastElementFromSegment (
                     int inputLineNumber);

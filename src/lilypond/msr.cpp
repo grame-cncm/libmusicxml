@@ -7155,7 +7155,6 @@ S_msrMeasure msrMeasure::appendMeasureIfOverflow (
   // hence fMeasureDivisionsPerWholeMeasure may be 0:
   // don't test for measure measure change in that case
   
-// JMI  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
   if (
     fMeasureDivisionsPerWholeMeasure > 0
       &&
@@ -7163,7 +7162,7 @@ S_msrMeasure msrMeasure::appendMeasureIfOverflow (
     ) {
     // measure overflows, we must synchonize all voices in this part
     
-  //  if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr <<
         idtr <<
           "@@@@@@@@@@@@@@@@@ --> measure " << fMeasureNumber <<
@@ -7197,6 +7196,7 @@ S_msrMeasure msrMeasure::appendMeasureIfOverflow (
   
 void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 {
+  /* JMI
   int inputLineNumber =
     barline->getInputLineNumber ();
 
@@ -7209,7 +7209,9 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
       appendBarlineToSegment (barline);
   }
 
-  else {
+  else
+  */
+  {
     // regular insertion in current measure
     // append the bar check to the measure elements list
     fMeasureElementsList.push_back (barline);
@@ -7218,23 +7220,9 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 
 void msrMeasure::appendBarCheckToMeasure (S_msrBarCheck barCheck)
 {
-  int inputLineNumber =
-    barCheck->getInputLineNumber ();
-    
-  if (
-    appendMeasureIfOverflow (inputLineNumber)
-    ) {
-    // a new measure has been appended to the segment
-    // append barCheck to it thru the segment
-    fMeasureSegmentUplink->
-      appendBarCheckToSegment (barCheck);
-  }
-
-  else {
-    // regular insertion in current measure
-    // append the bar check to the measure elements list
-    fMeasureElementsList.push_back (barCheck);
-  }
+  // regular insertion in current measure
+  // append the bar check to the measure elements list
+  fMeasureElementsList.push_back (barCheck);
 }
 
 void msrMeasure::appendNoteToMeasure (S_msrNote note)
@@ -8183,6 +8171,19 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
   // append measure to the segment
   fSegmentMeasuresList.push_back (measure);
+}
+
+void msrSegment::prependBarlineToSegment (S_msrBarline barline)
+{
+  if (gGeneralOptions->fDebug)
+    cerr <<
+      idtr <<
+        "--> prepending barline '" << barline->barlineAsString () <<
+        "' to segment '" << segmentAsString () << "'" <<
+      endl;
+
+  fSegmentMeasuresList.front ()->
+    prependOtherElementToMeasure (barline);
 }
 
 void msrSegment::appendBarlineToSegment (S_msrBarline barline)
@@ -9615,9 +9616,8 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline) {
     barline;
   idtr--;
 
-  S_msrElement b = barline;
   fVoiceSegment->
-    prependOtherElementToSegment (b);
+    prependBarlineToSegment (barline);
 }
 
 void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
@@ -9631,7 +9631,7 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
     barline;
   idtr--;
 
-  assert(fVoiceSegment);
+  assert(fVoiceSegment); // JMI
   
   fVoiceSegment->
     appendBarlineToSegment (barline);

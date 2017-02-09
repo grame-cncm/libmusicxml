@@ -6959,7 +6959,7 @@ void xml2MsrTranslator::handleRepeatStart (
   // don't append fCurrentRepeat to the current voice,
   // this will be done later
 
-  //***** JMIJMI
+  /***** JMIJMI
   // create a new segment for the voice
   // to collect the repeat elements
   if (gGeneralOptions->fDebug)
@@ -6970,7 +6970,7 @@ void xml2MsrTranslator::handleRepeatStart (
   currentVoice->
     setNewSegmentForVoice (
       inputLineNumber);
-//*/
+/*/
 
 
   // append the bar line to the new current segment
