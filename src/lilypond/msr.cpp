@@ -7858,6 +7858,19 @@ S_msrSegment msrSegment::createSegmentBareClone (
   return clone;
 }
 
+void msrSegment::setSegmentDivisionsPerWholeNote (
+  int divisionsPerWholeNote)
+{
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "--> Setting segment divisions per whole note to " <<
+      divisionsPerWholeNote <<
+      endl;
+
+  fSegmentDivisionsPerWholeNote =
+    divisionsPerWholeNote;
+}
+
 void msrSegment::setSegmentMeasureNumber (
   int inputLineNumber,
   int measureNumber)

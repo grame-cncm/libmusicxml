@@ -1686,11 +1686,7 @@ class EXP msrSegment : public msrElement
                                             
     // divisions per whole note
     void          setSegmentDivisionsPerWholeNote (
-                    int divisionsPerWholeNote)
-                      {
-                        fSegmentDivisionsPerWholeNote =
-                          divisionsPerWholeNote;
-                      }
+                    int divisionsPerWholeNote);
                       
     const int     getSegmentDivisionsPerWholeNote () const
                       { return fSegmentDivisionsPerWholeNote; }
