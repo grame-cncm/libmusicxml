@@ -77,6 +77,7 @@ void notevisitor::reset ()
     fLyric.clear();
     fSyllabic = "";
     fLyricText="";
+    fGraphicType="";
 }
 
 //________________________________________________________________________

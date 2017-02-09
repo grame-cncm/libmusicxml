@@ -131,7 +131,9 @@ class EXP xmlpart2guido :
 	void checkStem		 ( const S_stem& stem );
 	void checkBeamBegin	 ( const std::vector<S_beam>& beams );
     void checkBeamEnd	 ( const std::vector<S_beam>& beams );
-    void checkTupletBegin( const std::vector<S_tuplet>& tuplets, const S_note& elt);
+    void checkTupletBegin( const std::vector<S_tuplet>& tuplets,
+                          const notevisitor& nv,
+                          const S_note& elt);
     void checkTupletEnd	 ( const std::vector<S_tuplet>& tuplets );
 	void checkCue		 ( const notevisitor& nv );
 	void checkGrace		 ( const notevisitor& nv );

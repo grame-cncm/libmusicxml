@@ -91,6 +91,7 @@ class EXP notevisitor :
         S_inverted_turn fInvertedTurn;
         S_accidental_mark fAccidentalMark;
         S_notehead fNotehead;
+        std::string fGraphicType;
 
 		enum	  { C, D, E, F, G, A, B, last=B, diatonicSteps=last };
 		enum type { kUndefinedType, kPitched, kUnpitched, kRest };
@@ -202,7 +203,7 @@ class EXP notevisitor :
 		int		fDots;
 		StartStop::type	fTie;
 		long	fDuration, fDynamics;
-		std::string	fStep, fGraphicType;
+		std::string	fStep;
 		float	fAlter;
 		int		fOctave;
 		int		fStaff, fVoice;

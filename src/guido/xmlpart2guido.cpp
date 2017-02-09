@@ -1048,6 +1048,7 @@ namespace MusicXML2
     
     //_______________________Tuplets___________________________________
     void xmlpart2guido::checkTupletBegin ( const std::vector<S_tuplet>& tuplets,
+                                          const notevisitor& nv,
                                           const S_note& elt )
     {
         std::vector<S_tuplet>::const_iterator i;
@@ -1064,48 +1065,45 @@ namespace MusicXML2
                 int thisTupletNumber = (*i)->getAttributeIntValue("number", 1);
                 /// Get Tuplet Placement and graphic type
                 std::string tupletPlacement = (*i)->getAttributeValue("placement");
-                std::string tupletGraphicType;
-                /// Get the Tuplet number of notes for tag parameter and Graphic Type
+                std::string tupletGraphicType = nv.fGraphicType;
                 int numberOfEventsInTuplet = 1;
+                
+                ///// Use Time-Modification to get Number of Events in Tuplet
+                numberOfEventsInTuplet = nv.getTimeModification().getDenominator();
+                                
+                //// Rational : If all note durations are equal, then use the dispNote attribute. If not, then don't!
+                bool useDispNoteAttribute = true;
+                int topNoteDur = nv.getDuration();
+                /// Browse through all elements of Tuplet until "stop"!
                 ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), elt);
                 if (nextnote != fCurrentMeasure->end()) {
-                    tupletGraphicType = nextnote->getValue(k_type);
                     nextnote++;	// advance one step
                 }
                 while (nextnote != fCurrentMeasure->end()) {
                     // looking for the next note on the target voice
                     if ((nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice)) {
-                        /// Don't count if this is part of a chord!
-                        ctree<xmlelement>::iterator iterChord;
-                        iterChord = nextnote->find(k_chord);
-                        if (iterChord == nextnote->end())
+                        
+                        if (nextnote->getIntValue(k_duration, 0) != topNoteDur) {
+                            useDispNoteAttribute =  false;
+                            break;
+                        }
+                        
+                        ctree<xmlelement>::iterator iter;
+                        iter = nextnote->find(k_notations);
+                        if (iter != nextnote->end())
                         {
-                            ctree<xmlelement>::iterator iter;
-                            iter = nextnote->find(k_notations);
-                            if (iter != nextnote->end())
+                            // There is a notation tag. Now check if there's a tuplet END with the same tuplet number.
+                            //      If yes, then increment and break.
+                            ctree<xmlelement>::iterator iterTuplet;
+                            iterTuplet = iter->find(k_tuplet);
+                            if (iterTuplet != iter->end())
                             {
-                                // There is a notation tag. Now check if there's a tuplet END with the same tuplet number.
-                                //      If yes, then increment and break.
-                                ctree<xmlelement>::iterator iterTuplet;
-                                iterTuplet = iter->find(k_tuplet);
-                                if (iterTuplet != iter->end())
+                                // There is a tuplet tag!
+                                int newTupletNumber = iterTuplet->getAttributeIntValue("number", 0);
+                                if ((iterTuplet->getAttributeValue("type")=="stop")&&(newTupletNumber==thisTupletNumber))
                                 {
-                                    // There is a tuplet tag!
-                                    int newTupletNumber = iterTuplet->getAttributeIntValue("number", 0);
-                                    if ((iterTuplet->getAttributeValue("type")=="stop")&&(newTupletNumber==thisTupletNumber))
-                                    {
-                                        numberOfEventsInTuplet++;
-                                        //cout<<"\t"<<nextnote->getName()<< " ENDED to "<<numberOfEventsInTuplet<<endl;
-                                        break;
-                                    }
-                                }else {
-                                    //cout<<"\t There is k_notation but not k_tuplet: SHOULD INCREASE"<<endl;
-                                    numberOfEventsInTuplet++;
+                                    break;
                                 }
-                            }else {
-                                // no notation tag on next note. Just increment numberOfEventsInTuplet
-                                numberOfEventsInTuplet++;
-                                //cout<<"\t"<<nextnote->getName()<< " increased to "<<numberOfEventsInTuplet<<endl;
                             }
                         }
                     }
@@ -1156,7 +1154,7 @@ namespace MusicXML2
                     tag->add (guidoparam::create(tuplet.str()));
 
                     /// set dispNote, Possible values : "/1", "/2" "/4", "/8", "/16"
-                    if (dispNotePar.size())
+                    if (dispNotePar.size() && useDispNoteAttribute)
                     {
                         tag->add(guidoparam::create(("dispNote="+dispNotePar),false));
                     }
@@ -1745,7 +1743,7 @@ namespace MusicXML2
         //	checkCue(*this);    // inhibited due to poor support in guido (including crashes)
         checkGrace(*this);
         checkSlurBegin (notevisitor::getSlur());
-        checkTupletBegin(notevisitor::getTuplet(), elt);
+        checkTupletBegin(notevisitor::getTuplet(), *this, elt);
         checkBeamBegin (notevisitor::getBeam());
         checkLyricBegin (notevisitor::getLyric());
         
