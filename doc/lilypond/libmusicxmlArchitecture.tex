@@ -1,3 +1,7 @@
+
+% libmusicxml2 architecture overview
+% Grame, 2017
+
 \documentclass[border=20pt]{standalone}
 
 \usepackage{tikz}
@@ -5,13 +9,9 @@
 \usetikzlibrary{math}
 \usetikzlibrary{arrows.meta}
 
-\usepackage{changepage} % for adjustwidth
-
 \begin{document}
 
-\begin{tikzpicture}
-[scale=5]
-%,auto=left,node MSR/.style={circle,minimum size=80,fill=blue!20}]
+\begin{tikzpicture}[scale=5]
 
 % elements positions
 % ------------------------------------------------
@@ -96,6 +96,16 @@
 }
 
 
+% Draw the title  
+% ------------------------------------------------
+
+\node[right,scale=2] (title) at (\titleAbs,\titleOrd) {libmusicxml2:};
+
+\node[right,scale=2] (title) at (\titleAbs,\titleOrd-0.15) {architecture overview};
+
+\node[right,scale=1] at (\titleAbs,\titleOrd-0.30) {~(light gray indicates items not yet available)};
+
+
 % Draw the elements
 % ------------------------------------------------
 
@@ -145,81 +155,7 @@
 \draw [->,very thick,-{Stealth[length=10pt]},loosely dashed,color=gray!50] (MDSR) -- (MSR);
 
 
-% Draw the title  
-% ------------------------------------------------
-
-\node[right,scale=2] (title) at (\titleAbs,\titleOrd) {libmusicxml:};
-
-\node[right,scale=2] (title) at (\titleAbs,\titleOrd-0.15) {architecture overview};
-
-\node[right,scale=1] at (\titleAbs,\titleOrd-0.30) {~Light gray indicates items not yet available};
-
-
-% Draw the table
-% ------------------------------------------------
-
-\node[right,scale=1] (table) at (\legendAbs,\tableOrd) {
-%\begin{adjustwidth}{-0.5cm}{-0.5cm}
-%\begin{center}
-\def \contentsWidth{1.25\textwidth}
-\def \arraystretch{1.3}
-%
-\begin{tabular}[t]{lp{\contentsWidth}}
-{Entity} & {Description} \tabularnewline[0.5ex]
-\hline\\[-3.0ex]
-%
-xmlelement tree & a tree representing the MusicXML markups such as {\tt <part-list>}, {\tt <time>} and {\tt <note>}
-\tabularnewline
-
-MSR & Music Score Representation, in terms of part groups, parts, staves, voices, notes, \ldots
-\tabularnewline
-
-LPSR & LilyPond Score Representation, i.e. MSR plus data representing the {\tt $\backslash$score} block
-\tabularnewline
-
-MDSR & MIDI Score Representation, to be designed
-\tabularnewline
-
-RandomMusic & generates an xmlelement tree containing random music and writes it as MusicXML
-\tabularnewline
-
-tools & a set of other demo programs such as countnotes and partsummary, showing the use of the library
-\tabularnewline
-
-xml2lilypond & performs the 4 hops from MusicXML to LilyPond
-\tabularnewline
-
-\end{tabular}
-%\end{center}
-%\end{adjustwidth}
-};
-
-%\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.7) {~xmlelement tree: a tree representing the MusicXML markups such as {\tt <part-list>}, {\tt <time>} and {\tt <note>}};
-
-%\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.6) {~MSR: Music Score Representation, in terms of part groups, parts, staves, voices, notes, etc};
-
-%\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.5) {~LPSR: LilyPond Score Representation, i.e. MSR plus data representing the {\tt $\backslash$score} block};
-
-%\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.4) {~MDSR: MIDI Score Representation, to be designed};
-
-% Draw the legend
-% ------------------------------------------------
-
-%\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.3) {$\bullet$ RandomMusic generates an xmlelement tree containing random music and writes it as MusicXML};
-
-%\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.2) {$\bullet$ countnotes and partsummary are other sample programs showing the use of the library};
-
-%\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.1) {$\bullet$ xml2lilypond performs the 4 hops from MusicXML to LilyPond};
-
-\node[right,scale=1] (comment) at (\legendAbs,\bottomLineOrd+0.0) {$\bullet$ Note: LilyPond can generate MIDI files from its input};
-
-
-% Draw the date
-% ------------------------------------------------
-
-\node[right,scale=1] (comment) at (\dateAbs,\bottomLineOrd) {v2.2/0.1.0, February 2017};
-
-% Draw Guido
+% Draw xml2guido
 % ------------------------------------------------
 
 \filldraw [gray!30] 
@@ -273,14 +209,6 @@ xml2lilypond & performs the 4 hops from MusicXML to LilyPond
 % Draw xml2lilypond  
 % ------------------------------------------------
 
-%\node[align=left] (trace) at (-1, 2.5) {
-%  xmlToLilyPondInterIAbs = \xmlToLilyPondInterIAbs~
-%  xmlToLilyPondInterIOrd = \xmlToLilyPondInterIOrd~
-%  
-%  xmlToLilyPondInterIIAbs = \xmlToLilyPondInterIIAbs~
-%  xmlToLilyPondInterIIOrd = \xmlToLilyPondInterIIOrd
-%};
-
 \filldraw [gray!30] 
   (\xmlToLilyPondStartAbs,\xmlToLilyPondStartOrd) circle [radius=0pt]
   (\xmlToLilyPondInterIAbs,\xmlToLilyPondInterIOrd) circle [radius=0pt] 
@@ -298,9 +226,54 @@ xml2lilypond & performs the 4 hops from MusicXML to LilyPond
   .. 
   (\xmlToLilyPondEndAbs,\xmlToLilyPondEndOrd);
   
-%  \foreach \from/\to in {a/b,b/c,c/d,d/e,e/f,f/g,g/h,h/a}
- %   \draw [->] (\from) -- (\to)
-%node[midway,fill=red!20] {\from--\to};
+  
+% Draw the table
+% ------------------------------------------------
+
+\node[right,scale=1] (table) at (\legendAbs,\tableOrd) {
+\def \contentsWidth{1.25\textwidth}
+\def \arraystretch{1.3}
+%
+\begin{tabular}[t]{lp{\contentsWidth}}
+{Entity} & {Description} \tabularnewline[0.5ex]
+\hline\\[-3.0ex]
+%
+xmlelement tree & a tree representing the MusicXML markups such as {\tt <part-list>}, {\tt <time>} and {\tt <note>}
+\tabularnewline
+
+MSR & Music Score Representation, in terms of part groups, parts, staves, voices, notes, \ldots
+\tabularnewline
+
+LPSR & LilyPond Score Representation, i.e. MSR plus LilyPond-specific items such as {\tt $\backslash$score} blocks
+\tabularnewline
+
+MDSR & MIDI Score Representation, to be designed
+\tabularnewline
+
+RandomMusic & generates an xmlelement tree containing random music and writes it as MusicXML
+\tabularnewline
+
+tools & a set of other demo programs such as {\tt countnotes} and {\tt partsummary}, showing the use of the library
+\tabularnewline
+
+xml2lilypond & performs the 4 hops from MusicXML to LilyPond to translate the former into the latter
+\tabularnewline
+
+\end{tabular}
+};
+
+
+% Draw the note
+% ------------------------------------------------
+
+\node[right,scale=1] (note) at (\legendAbs,\bottomLineOrd+0.0) {$\bullet$ Note: LilyPond can generate MIDI files from its input};
+
+
+% Draw the date
+% ------------------------------------------------
+
+\node[right,scale=1] (date) at (\dateAbs,\bottomLineOrd) {v2.2/0.1.0, February 2017};
+
 
 \end{tikzpicture}
   
