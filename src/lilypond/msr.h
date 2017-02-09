@@ -72,6 +72,9 @@ typedef SMARTP<msrVoice> S_msrVoice;
 class msrSegment;
 typedef SMARTP<msrSegment> S_msrSegment;
 
+class msrMeasure;
+typedef SMARTP<msrMeasure> S_msrMeasure;
+
 class msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
 
@@ -1583,6 +1586,9 @@ class EXP msrMeasure : public msrElement
     string        getMeasureLengthAsString () const;
     
     string        getMeasureKindAsString () const;
+
+    S_msrMeasure  appendMeasureIfOverflow (
+                    int inputLineNumber);
 
     void          appendBarlineToMeasure (S_msrBarline barline);
     void          appendBarCheckToMeasure (S_msrBarCheck barCheck);

@@ -7145,10 +7145,11 @@ void msrMeasure::setMeasureTime (S_msrTime time)
     time->getBeatsValue ();
 }
 
-void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
+S_msrMeasure msrMeasure::appendMeasureIfOverflow (
+  int inputLineNumber)
 {
-  int inputLineNumber =
-    barline->getInputLineNumber ();
+  S_msrMeasure
+    newMeasure;
 
   // the first barline in a part comes before <divisions/>,
   // hence fMeasureDivisionsPerWholeMeasure may be 0:
@@ -7160,51 +7161,56 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
       &&
     fMeasurePosition > fMeasureDivisionsPerWholeMeasure
     ) {
-    /*
-      measure overflows, we must synchonize all voices in this part
-    */
+    // measure overflows, we must synchonize all voices in this part
     
   //  if (gGeneralOptions->fDebug)
       cerr <<
         idtr <<
           "@@@@@@@@@@@@@@@@@ --> measure " << fMeasureNumber <<
-          " overflows" <<
+          " overflows, line " << inputLineNumber <<
           endl<<
         idtr <<
           "fMeasurePosition = " << fMeasurePosition <<
           ", fMeasureDivisionsPerWholeMeasure = " << fMeasureDivisionsPerWholeMeasure <<
         endl;
-
-    assert(false);
   
     // finalize this measure
     this->
       finalizeMeasure (inputLineNumber);
       
     // create a new measure
-    S_msrMeasure
-      newMeasure =
-        msrMeasure::create (
-          inputLineNumber,
-          fMeasureNumber + 1,
-          fMeasureDivisionsPerWholeNote,
-          fMeasureSegmentUplink);
+    newMeasure =
+      msrMeasure::create (
+        inputLineNumber,
+        fMeasureNumber + 1,
+        fMeasureDivisionsPerWholeNote,
+        fMeasureSegmentUplink);
 
     // append it to the segment
     fMeasureSegmentUplink->
       appendMeasureToSegment (
         newMeasure);
+  }
 
+  return newMeasure;
+}
+  
+void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
+{
+  int inputLineNumber =
+    barline->getInputLineNumber ();
+
+  if (
+    appendMeasureIfOverflow (inputLineNumber)
+    ) {
+    // a new measure has been appended to the segment
     // append barline to it thru the segment
     fMeasureSegmentUplink->
       appendBarlineToSegment (barline);
   }
 
   else {
-    /*
-      regular insertion in current measure
-    */
-    
+    // regular insertion in current measure
     // append the bar check to the measure elements list
     fMeasureElementsList.push_back (barline);
   }  
@@ -7215,54 +7221,17 @@ void msrMeasure::appendBarCheckToMeasure (S_msrBarCheck barCheck)
   int inputLineNumber =
     barCheck->getInputLineNumber ();
     
-  // first check whether there is a measure change
-// JMI  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
-  if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { // XXL
-    /*
-      measure overflows, we must synchonize all voices in this part
-    */
-    
-  //  if (gGeneralOptions->fDebug)
-      cerr <<
-        idtr <<
-          "@@@@@@@@@@@@@@@@@ --> measure " << fMeasureNumber <<
-          " overflows" <<
-          endl<<
-        idtr <<
-          "fMeasurePosition = " << fMeasurePosition <<
-          ", fMeasureDivisionsPerWholeMeasure = " << fMeasureDivisionsPerWholeMeasure <<
-        endl;
-
-    assert(false);
-  
-    // finalize this measure
-    this->
-      finalizeMeasure (inputLineNumber);
-      
-    // create a new measure
-    S_msrMeasure
-      newMeasure =
-        msrMeasure::create (
-          inputLineNumber,
-          fMeasureNumber + 1,
-          fMeasureDivisionsPerWholeNote,
-          fMeasureSegmentUplink);
-
-    // append it to the segment
-    fMeasureSegmentUplink->
-      appendMeasureToSegment (
-        newMeasure);
-
+  if (
+    appendMeasureIfOverflow (inputLineNumber)
+    ) {
+    // a new measure has been appended to the segment
     // append barCheck to it thru the segment
     fMeasureSegmentUplink->
       appendBarCheckToSegment (barCheck);
   }
 
   else {
-    /*
-      regular insertion in current measure
-    */
-    
+    // regular insertion in current measure
     // append the bar check to the measure elements list
     fMeasureElementsList.push_back (barCheck);
   }
@@ -7273,73 +7242,17 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   int inputLineNumber =
     note->getInputLineNumber ();
     
-  if (note->getNoteKind () == msrNote::kChordMemberNote) {
-    stringstream s;
-
-    s <<
-      "appendNoteToMeasure(): chord member note " <<
-      note->noteAsString () <<
-      " appears outside of a chord";
-
-    msrInternalError (
-      inputLineNumber,
-      s.str());
-  }
-
-  // first check whether there is a measure change
-// JMI  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
-  if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { // XXL
-    /*
-      measure overflows, we must synchonize all voices in this part
-    */
-    
-  //  if (gGeneralOptions->fDebug)
-      cerr <<
-        idtr <<
-          "@@@@@@@@@@@@@@@@@ --> measure " << fMeasureNumber <<
-          " overflows" <<
-          endl<<
-        idtr <<
-          "fMeasurePosition = " << fMeasurePosition <<
-          ", fMeasureDivisionsPerWholeMeasure = " << fMeasureDivisionsPerWholeMeasure <<
-        endl;
-
-
-cerr <<
-  endl << endl;
-fMeasureVoiceDirectUplink->print(cerr);
-cerr <<
-  endl << endl;
-
-    assert(false);
-    
-    // finalize this measure
-    this->
-      finalizeMeasure (inputLineNumber);
-      
-    // create a new measure
-    S_msrMeasure
-      newMeasure =
-        msrMeasure::create (
-          inputLineNumber,
-          fMeasureNumber + 1,
-          fMeasureDivisionsPerWholeNote,
-          fMeasureSegmentUplink);
-
-    // append it to the segment
-    fMeasureSegmentUplink->
-      appendMeasureToSegment (
-        newMeasure);
-
+  if (
+    appendMeasureIfOverflow (inputLineNumber)
+    ) {
+    // a new measure has been appended to the segment
     // append note to it thru the segment
     fMeasureSegmentUplink->
       appendNoteToSegment (note);
   }
 
   else {
-    /*
-      regular insertion in current measure
-    */
+    // regular insertion in current measure
     
     // populate measure uplink
     note->setNoteMeasureUplink (this);
@@ -7381,40 +7294,17 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
   int inputLineNumber =
     chord->getInputLineNumber ();
     
-  // first check whether there is a measure change
-// JMI  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
-  if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { // XXL
-    /*
-      measure overflows, we must synchonize all voices in this part
-    */
-    
-    // finalize this measure
-    this->
-      finalizeMeasure (inputLineNumber);
-      
-    // create a new measure
-    S_msrMeasure
-      newMeasure =
-        msrMeasure::create (
-          inputLineNumber,
-          fMeasureNumber + 1,
-          fMeasureDivisionsPerWholeNote,
-          fMeasureSegmentUplink);
-
-    // append it to the segment
-    fMeasureSegmentUplink->
-      appendMeasureToSegment (
-        newMeasure);
-
+  if (
+    appendMeasureIfOverflow (inputLineNumber)
+    ) {
+    // a new measure has been appended to the segment
     // append chord to it thru the segment
     fMeasureSegmentUplink->
       appendChordToSegment (chord);
   }
 
   else {
-    /*
-      regular insertion in current measure
-    */
+    // regular insertion in current measure
     
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -7472,40 +7362,17 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   int inputLineNumber =
     tuplet->getInputLineNumber ();
     
-  // first check whether there is a measure change
-// JMI  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
-  if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { // XXL
-    /*
-      measure overflows, we must synchonize all voices in this part
-    */
-    
-    // finalize this measure
-    this->
-      finalizeMeasure (inputLineNumber);
-      
-    // create a new measure
-    S_msrMeasure
-      newMeasure =
-        msrMeasure::create (
-          inputLineNumber,
-          fMeasureNumber + 1,
-          fMeasureDivisionsPerWholeNote,
-          fMeasureSegmentUplink);
-
-    // append it to the segment
-    fMeasureSegmentUplink->
-      appendMeasureToSegment (
-        newMeasure);
-
+  if (
+    appendMeasureIfOverflow (inputLineNumber)
+    ) {
+    // a new measure has been appended to the segment
     // append tuplet to it thru the segment
     fMeasureSegmentUplink->
       appendTupletToSegment (tuplet);
   }
 
   else {
-    /*
-      regular insertion in current measure
-    */
+    // regular insertion in current measure
     
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
