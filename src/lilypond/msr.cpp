@@ -6963,6 +6963,21 @@ string msrBarline::barlineRepeatWingedAsString (
   return result;
 }
 
+string msrBarline::barlineAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Barline" <<
+    ", line " << fInputLineNumber <<
+    ", EndingType" << " : " <<
+    barlineEndingTypeAsString (fEndingType) <<
+    ", RepeatDirection" << " : " <<
+    barlineRepeatDirectionAsString (fRepeatDirection);
+    
+  return s.str();
+}
+
 void msrBarline::print (ostream& os)
 {
   os <<
@@ -7124,6 +7139,64 @@ void msrMeasure::setMeasureTime (S_msrTime time)
     time->getBeatsNumber ()
       /
     time->getBeatsValue ();
+}
+
+void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
+{
+  int inputLineNumber =
+    barline->getInputLineNumber ();
+    
+  // first check whether there is a measure change
+// JMI  if (false && fMeasurePosition > fMeasureDivisionsPerWholeMeasure) {
+  if (fMeasurePosition > fMeasureDivisionsPerWholeMeasure) { // XXL
+    /*
+      measure overflows, we must synchonize all voices in this part
+    */
+    
+  //  if (gGeneralOptions->fDebug)
+      cerr <<
+        idtr <<
+          "@@@@@@@@@@@@@@@@@ --> measure " << fMeasureNumber <<
+          " overflows" <<
+          endl<<
+        idtr <<
+          "fMeasurePosition = " << fMeasurePosition <<
+          ", fMeasureDivisionsPerWholeMeasure = " << fMeasureDivisionsPerWholeMeasure <<
+        endl;
+
+    assert(false);
+  
+    // finalize this measure
+    this->
+      finalizeMeasure (inputLineNumber);
+      
+    // create a new measure
+    S_msrMeasure
+      newMeasure =
+        msrMeasure::create (
+          inputLineNumber,
+          fMeasureNumber + 1,
+          fMeasureDivisionsPerWholeNote,
+          fMeasureSegmentUplink);
+
+    // append it to the segment
+    fMeasureSegmentUplink->
+      appendMeasureToSegment (
+        newMeasure);
+
+    // append note to it thru the segment
+    fMeasureSegmentUplink->
+      appendBarlineToSegment (barline);
+  }
+
+  else {
+    /*
+      regular insertion in current measure
+    */
+    
+    // append the bar check to the measure elements list
+    fMeasureElementsList.push_back (barline);
+  }  
 }
 
 void msrMeasure::appendBarCheckToMeasure (S_msrBarCheck barCheck)
@@ -8190,6 +8263,19 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
   fSegmentMeasuresList.push_back (measure);
 }
 
+void msrSegment::appendBarlineToSegment (S_msrBarline barline)
+{
+  if (gGeneralOptions->fDebug)
+    cerr <<
+      idtr <<
+        "--> appending barline " << barline->barlineAsString () <<
+        " to segment" <<
+      endl;
+      
+  fSegmentMeasuresList.back ()->
+    appendBarlineToMeasure (barline);
+}
+
 void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
 {
   if (gGeneralOptions->fDebug)
@@ -8392,7 +8478,7 @@ S_msrRepeatending msrRepeatending::create (
   int                 inputLineNumber,
   string              repeatendingNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
-  S_msrSegment     segment,
+  S_msrSegment        segment,
   S_msrRepeat         repeatUplink)
 {
   msrRepeatending* o =
@@ -8410,7 +8496,7 @@ msrRepeatending::msrRepeatending (
   int                 inputLineNumber,
   string              repeatendingNumber, // may be "1, 2"
   msrRepeatendingKind repeatendingKind,
-  S_msrSegment     segment,
+  S_msrSegment        segment,
   S_msrRepeat         repeatUplink)
     : msrElement (inputLineNumber)
 {
@@ -8444,6 +8530,12 @@ S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
         clonedRepeat);
   
   return clone;
+}
+
+void msrRepeatending::appendElementToRepeatending (S_msrElement elem) // JMI ???
+{
+  fRepeatendingSegment->
+    appendOtherElementToSegment (elem);
 }
 
 void msrRepeatending::acceptIn (basevisitor* v) {

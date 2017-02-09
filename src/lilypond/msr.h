@@ -48,6 +48,9 @@ namespace MusicXML2
 //______________________________________________________________________________
 // PRE-declarations for class dependencies
 
+class msrBarline;
+typedef SMARTP<msrBarline> S_msrBarline;
+
 class msrBarCheck;
 typedef SMARTP<msrBarCheck> S_msrBarCheck;
 
@@ -1562,8 +1565,7 @@ class EXP msrMeasure : public msrElement
                   getMeasureKind () const
                       { return fMeasureKind; }
 
-    S_msrSegment
-                  getMeasureSegmentUplink () const
+    S_msrSegment  getMeasureSegmentUplink () const
                       { return fMeasureSegmentUplink; }
                       
     S_msrVoice    getMeasureVoiceDirectUplink () const
@@ -1582,6 +1584,7 @@ class EXP msrMeasure : public msrElement
     
     string        getMeasureKindAsString () const;
 
+    void          appendBarlineToMeasure (S_msrBarline barline);
     void          appendBarCheckToMeasure (S_msrBarCheck barCheck);
     
     void          appendNoteToMeasure (S_msrNote note);
@@ -1722,6 +1725,8 @@ class EXP msrSegment : public msrElement
     void          appendNoteToSegment (S_msrNote note);
     void          appendChordToSegment (S_msrChord chord);
     void          appendTupletToSegment (S_msrTuplet tuplet);
+    
+    void          appendBarlineToSegment (S_msrBarline barline);
     
     void          appendOtherElementToSegment (S_msrElement elem)
                       {
@@ -4385,6 +4390,8 @@ class EXP msrBarline : public msrElement
     // services
     // ------------------------------------------------------
 
+    string        barlineAsString () const;
+
     // visitors
     // ------------------------------------------------------
 
@@ -4450,7 +4457,7 @@ class EXP msrRepeatending : public msrElement
       int                 inputLineNumber,
       string              repeatendingNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
-      S_msrSegment     segment,
+      S_msrSegment        segment,
       S_msrRepeat         repeatUplink);
     
     SMARTP<msrRepeatending> createRepeatendingBareClone (
@@ -4465,7 +4472,7 @@ class EXP msrRepeatending : public msrElement
       int                 inputLineNumber,
       string              repeatendingNumber, // may be "1, 2"
       msrRepeatendingKind repeatendingKind,
-      S_msrSegment     segment,
+      S_msrSegment        segment,
       S_msrRepeat         repeatUplink);
       
     virtual ~msrRepeatending();
@@ -4475,31 +4482,25 @@ class EXP msrRepeatending : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    string    getRepeatendingNumber () const
-                  { return fRepeatendingNumber; }
+    string        getRepeatendingNumber () const
+                      { return fRepeatendingNumber; }
                 
-    void      setRepeatendingNumber (int repeatendingNumber)
-                  { fRepeatendingNumber = repeatendingNumber; }
+    void          setRepeatendingNumber (int repeatendingNumber)
+                      { fRepeatendingNumber = repeatendingNumber; }
                 
-    int       getRepeatendingInternalNumber () const
-                  { return fRepeatendingInternalNumber; }
+    int           getRepeatendingInternalNumber () const
+                      { return fRepeatendingInternalNumber; }
                 
-    S_msrSegment
-              getRepeatendingSegment () const
-                  { return fRepeatendingSegment; }
+    S_msrSegment  getRepeatendingSegment () const
+                      { return fRepeatendingSegment; }
                 
-    S_msrRepeat
-              getRepeatendingRepeatUplink () const
-                { return fRepeatendingRepeatUplink; }
+    S_msrRepeat   getRepeatendingRepeatUplink () const
+                    { return fRepeatendingRepeatUplink; }
 
     // services
     // ------------------------------------------------------
 
-    void      appendOtherElementToSegment  (S_msrElement elem)
-                  {
-                    fRepeatendingSegment->
-                      appendOtherElementToSegment (elem);
-                  }
+    void          appendElementToRepeatending (S_msrElement elem);
                     
     // visitors
     // ------------------------------------------------------
