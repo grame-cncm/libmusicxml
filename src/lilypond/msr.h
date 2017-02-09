@@ -4550,9 +4550,9 @@ class EXP msrRepeat : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrRepeat> create (
-      int             inputLineNumber,
+      int          inputLineNumber,
       S_msrSegment commonPart,
-      S_msrVoice      voiceUplink);
+      S_msrVoice   voiceUplink);
     
     SMARTP<msrRepeat> createRepeatBareClone (
       S_msrVoice clonedVoice);
@@ -4563,9 +4563,9 @@ class EXP msrRepeat : public msrElement
     // ------------------------------------------------------
 
     msrRepeat (
-      int             inputLineNumber,
+      int          inputLineNumber,
       S_msrSegment commonPart,
-      S_msrVoice      voiceUplink);
+      S_msrVoice   voiceUplink);
       
     virtual ~msrRepeat();
   
@@ -4574,25 +4574,23 @@ class EXP msrRepeat : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void      setRepeatCommonPart (
-                S_msrSegment repeatCommonPart);
+    void          setRepeatCommonPart (
+                    S_msrSegment repeatCommonPart);
                   
-    S_msrSegment
-              getRepeatCommonPart () const
-                { return fRepeatCommonPart; }
+    S_msrSegment  getRepeatCommonPart () const
+                      { return fRepeatCommonPart; }
 
     const vector<S_msrRepeatending>&
-              getRepeatEndings () const
-                { return fRepeatEndings; }
+                  getRepeatEndings () const
+                    { return fRepeatEndings; }
 
-    S_msrVoice
-              getRepeatVoiceUplink () const
-                { return fRepeatVoiceUplink; }
+    S_msrVoice    getRepeatVoiceUplink () const
+                    { return fRepeatVoiceUplink; }
 
     // services
     // ------------------------------------------------------
 
-    void      addRepeatending (S_msrRepeatending repeatending);
+    void          addRepeatending (S_msrRepeatending repeatending);
 
     // visitors
     // ------------------------------------------------------
@@ -4609,7 +4607,7 @@ class EXP msrRepeat : public msrElement
 
   private:
 
-    S_msrSegment           fRepeatCommonPart;
+    S_msrSegment              fRepeatCommonPart;
     
     vector<S_msrRepeatending> fRepeatEndings;
     int                       fRepeatEndingsCounter;

@@ -7129,10 +7129,17 @@ void msrMeasure::appendBarCheckToMeasure (S_msrBarCheck barCheck)
     */
     
   //  if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "@@@@@@@@@@@@@@@@@ --> measure " << fMeasureNumber <<
-        " overflows" <<
+      cerr <<
+        idtr <<
+          "@@@@@@@@@@@@@@@@@ --> measure " << fMeasureNumber <<
+          " overflows" <<
+          endl<<
+        idtr <<
+          "fMeasurePosition = " << fMeasurePosition <<
+          ", fMeasureDivisionsPerWholeMeasure = " << fMeasureDivisionsPerWholeMeasure <<
         endl;
+
+    assert(false);
   
     // finalize this measure
     this->
@@ -7193,11 +7200,25 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     */
     
   //  if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "@@@@@@@@@@@@@@@@@ --> measure " << fMeasureNumber <<
-        " overflows" <<
+      cerr <<
+        idtr <<
+          "@@@@@@@@@@@@@@@@@ --> measure " << fMeasureNumber <<
+          " overflows" <<
+          endl<<
+        idtr <<
+          "fMeasurePosition = " << fMeasurePosition <<
+          ", fMeasureDivisionsPerWholeMeasure = " << fMeasureDivisionsPerWholeMeasure <<
         endl;
-  
+
+
+cerr <<
+  endl << endl;
+print (cerr);
+cerr <<
+  endl << endl;
+
+    assert(false);
+    
     // finalize this measure
     this->
       finalizeMeasure (inputLineNumber);
@@ -7688,8 +7709,10 @@ void msrMeasure::print (ostream& os)
       fMeasureSegmentUplink->getVoiceUplink ()->getVoiceName () <<
 */
       ", " << fMeasureTime->timeAsString () <<
-      ", length: " << getMeasureLength () <<
+      ", len: " << getMeasureLength () <<
       " (" << getMeasureLengthAsString () << ")" <<
+      ", pwn:" << fMeasureDivisionsPerWholeNote <<
+      ", pwm:" << fMeasureDivisionsPerWholeMeasure <<
       ", pos: " << fMeasurePosition << 
       ", " << fMeasureElementsList.size () << " elems" <<
       ", " << getMeasureKindAsString () <<
@@ -8468,9 +8491,9 @@ void msrRepeatending::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrRepeat msrRepeat::create (
-  int             inputLineNumber,
+  int          inputLineNumber,
   S_msrSegment commonPart,
-  S_msrVoice      voiceUplink)
+  S_msrVoice   voiceUplink)
 {
   msrRepeat* o =
     new msrRepeat (
@@ -8480,9 +8503,9 @@ S_msrRepeat msrRepeat::create (
 }
 
 msrRepeat::msrRepeat (
-  int             inputLineNumber,
+  int          inputLineNumber,
   S_msrSegment commonPart,
-  S_msrVoice      voiceUplink)
+  S_msrVoice   voiceUplink)
     : msrElement (inputLineNumber)
 {
   fRepeatCommonPart     = commonPart;

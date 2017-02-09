@@ -629,6 +629,7 @@ void analyzeOptions (
         }
         if (debugDebugPresent) {
           gGeneralOptions->fTrace = true;
+          gGeneralOptions->fDebug = true;
           gGeneralOptions->fDebugDebug = true;
           gGeneralOptions->fCommandLineOptions +=
             "--debugDebug ";
