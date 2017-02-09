@@ -1956,11 +1956,13 @@ S_msrNote msrNote::createSkipNote (
       inputLineNumber, noteData);
   assert(o!=0);
 
-  // set rest's note kind
-  o->fNoteKind = kSkipNote;
+  // set skip's note kind
+  o->fNoteKind =
+    kSkipNote;
   
-  // set rest's divisions per whole note
-  o->fNoteDivisionsPerWholeNote = divisionsPerWholeNote;
+  // set skip's divisions per whole note
+  o->fNoteDivisionsPerWholeNote =
+    divisionsPerWholeNote;
   
   return o;
 }    
@@ -1979,15 +1981,20 @@ S_msrNote msrNote::createNoteBareClone ()
         fInputLineNumber,
         fNoteData);
 
-  clone->fNoteKind = fNoteKind;
+  clone->fNoteKind =
+    fNoteKind;
   
-  clone->fNoteOctaveShift = fNoteOctaveShift;
+  clone->fNoteOctaveShift =
+    fNoteOctaveShift;
   
-  clone->fNoteStem = fNoteStem;  
+  clone->fNoteStem =
+    fNoteStem;  
 
-  clone->fNoteDivisionsPerWholeNote = fNoteDivisionsPerWholeNote;
+  clone->fNoteDivisionsPerWholeNote =
+    fNoteDivisionsPerWholeNote;
   
-  clone->fNoteSyllableExtendKind = fNoteSyllableExtendKind;
+  clone->fNoteSyllableExtendKind =
+    fNoteSyllableExtendKind;
 
   return clone;
 }
@@ -2870,12 +2877,15 @@ S_msrChord msrChord::createChordBareClone ()
         fChordDivisions);
 
   clone->
-    fChordDivisionsPerWholeNote = fChordDivisionsPerWholeNote;
+    fChordDivisionsPerWholeNote =
+      fChordDivisionsPerWholeNote;
 
   clone->
-    fChordPositionInMeasure = fChordPositionInMeasure;
+    fChordPositionInMeasure =
+      fChordPositionInMeasure;
     
-  clone->fChordTie = fChordTie; // JMI
+  clone->fChordTie =
+    fChordTie; // JMI
 
   return clone;
 }
@@ -7861,9 +7871,9 @@ S_msrSegment msrSegment::createSegmentBareClone (
 void msrSegment::setSegmentDivisionsPerWholeNote (
   int divisionsPerWholeNote)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> Setting segment divisions per whole note to " <<
+      "--> setting segment divisions per whole note to " <<
       divisionsPerWholeNote <<
       endl;
 
@@ -8888,6 +8898,13 @@ string msrVoice::getVoiceName () const
 void msrVoice::setVoiceDivisionsPerWholeNote (
   int divisionsPerWholeNote)
 {
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> setting voice divisions per whole note to " <<
+      divisionsPerWholeNote <<
+      " in voice \"" << getVoiceName () << "\"" <<
+      endl;
+
   fVoiceDivisionsPerWholeNote =
     divisionsPerWholeNote;
 
@@ -10173,6 +10190,13 @@ string msrStaff::getStaffName () const
 void msrStaff::setStaffDivisionsPerWholeNote (
   int divisionsPerWholeNote)
 {
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> setting staff divisions per whole note to " <<
+      divisionsPerWholeNote <<
+      " in staff \"" << getStaffName () << "\"" <<
+      endl;
+
   fStaffDivisionsPerWholeNote =
     divisionsPerWholeNote;
 
@@ -10311,7 +10335,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
       if (gGeneralOptions->fDebug) {
         cerr << idtr <<
           "--> voice " << externalVoiceNumber <<
-          " in staff " << getStaffName () <<
+          " in staff \"" << getStaffName () << "\"" <<
           " has staff relative number " << (*i).first <<
           endl;
       }
@@ -10944,6 +10968,13 @@ string msrPart::getPartCombinedName () const
 void msrPart::setPartDivisionsPerWholeNote (
   int divisionsPerWholeNote)
 {
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> setting part divisions per whole note to " <<
+      divisionsPerWholeNote <<
+      " in part " << getPartCombinedName () <<
+      endl;
+
   fPartDivisionsPerWholeNote =
     divisionsPerWholeNote;
 
@@ -11040,6 +11071,12 @@ void msrPart::setPartTranspose (S_msrTranspose transpose)
 void msrPart::setAllPartStavesDivisionsPerWholeNote (
   int divisionsPerWholeNote)
 {
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> setting segment divisions per whole note to " <<
+      divisionsPerWholeNote <<
+      endl;
+
   fPartDivisionsPerWholeNote =
     divisionsPerWholeNote;
   
