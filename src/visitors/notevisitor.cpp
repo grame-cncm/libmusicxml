@@ -58,6 +58,7 @@ void notevisitor::reset ()
     fInvertedTurn = (void*)0;
     fAccidentalMark = (void*)0;
     fMordent	= (void*)0;
+    fNotehead	= (void*)0;
     fInvertedMordent = (void*)0;
 	fBreathMark = (void*)0;
 	fTimeModification.set(1,1);
@@ -204,6 +205,44 @@ void notevisitor::visitEnd ( S_note& elt )
 	cout << *this << endl;
 #endif
 }
+    
+    //________________________________________________________________________
+    std::string notevisitor::getNoteheadType () const
+    {
+        if (fNotehead)
+        {
+            std::stringstream noteHeadGuidoType;
+            
+            if (fNotehead->getAttributeValue("parantheses")=="yes")
+            {
+                noteHeadGuidoType << "(";
+            }
+            
+            std::string noteHeadXML = fNotehead->getValue();
+            if (noteHeadXML == "diamond")
+                noteHeadGuidoType << "diamond";
+            else if (noteHeadXML == "inverted triangle")
+                noteHeadGuidoType << "reversedTriangle";
+            else if (noteHeadXML == "x")
+                noteHeadGuidoType << "x";
+            else if (noteHeadXML == "triangle")
+                noteHeadGuidoType << "triangle";
+            else if (noteHeadXML == "square")
+                noteHeadGuidoType << "square";
+            else if (noteHeadXML == "square")
+                noteHeadGuidoType << "square";
+            else
+                noteHeadGuidoType << "";
+            
+            if (fNotehead->getAttributeValue("parantheses")=="yes")
+            {
+                noteHeadGuidoType << ")";
+            }
+            
+            return noteHeadGuidoType.str();
+        }else
+            return "";
+    }
     
     //________________________________________________________________________
     float notevisitor::getRestFormatDy ( string fCurClef ) const

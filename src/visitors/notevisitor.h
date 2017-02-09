@@ -15,6 +15,7 @@
 
 #include <ostream>
 #include <string>
+#include <sstream>
 #include "conversions.h"
 #include "rational.h"
 #include "typedefs.h"
@@ -72,6 +73,7 @@ class EXP notevisitor :
     public visitor<S_inverted_mordent>,
     public visitor<S_mordent>,
     public visitor<S_accidental_mark>,
+    public visitor<S_notehead>,
     public visitor<S_tuplet>
 {
  public:
@@ -88,6 +90,7 @@ class EXP notevisitor :
         S_turn		fTurn;
         S_inverted_turn fInvertedTurn;
         S_accidental_mark fAccidentalMark;
+        S_notehead fNotehead;
 
 		enum	  { C, D, E, F, G, A, B, last=B, diatonicSteps=last };
 		enum type { kUndefinedType, kPitched, kUnpitched, kRest };
@@ -106,6 +109,7 @@ class EXP notevisitor :
         int		getStaff() const	{ return fStaff; }
         int		getVoice() const	{ return fVoice; }
         float getRestFormatDy(string fCurClef) const;
+        std::string getNoteheadType() const;
 
 		/*!
 		\brief Compute the note MIDI pitch.
@@ -190,6 +194,7 @@ class EXP notevisitor :
         virtual void visitStart( S_inverted_mordent& elt )    { fInvertedMordent = elt; }
         virtual void visitStart( S_inverted_turn& elt )    { fInvertedTurn = elt; }
         virtual void visitStart( S_mordent& elt )    { fMordent = elt; }
+        virtual void visitStart( S_notehead& elt )    { fNotehead = elt; }
     
 	private:
 		bool	fGrace, fCue, fChord, fFermata;

@@ -39,6 +39,7 @@ namespace MusicXML2
         xmlpart2guido::reset();
         fHasLyrics = false;
         directionWord = false;
+        fNonStandardNoteHead = false;
     }
     
     //______________________________________________________________________________
@@ -49,7 +50,7 @@ namespace MusicXML2
         fCurrentTupletNumber = 0;
         fMeasNum = 0;
         fInCue = fInGrace = fInhibitNextBar = fPendingBar
-        = fBeamOpened = fCrescPending = fSkipDirection = fTupletOpened = fWavyTrillOpened = fSingleScopeTrill= false;
+        = fBeamOpened = fCrescPending = fSkipDirection = fTupletOpened = fWavyTrillOpened = fSingleScopeTrill = fNonStandardNoteHead = false;
         fCurrentStemDirection = kStemUndefined;
         fCurrentDivision = 1;
         fCurrentOffset = 0;
@@ -969,8 +970,11 @@ namespace MusicXML2
             if (num.size()) tagName += ":" + num;
             Sguidoelement tag = guidotag::create(tagName);
             string placement = (*i)->getAttributeValue("placement");
-            if (placement == "below")
+            string orientation = (*i)->getAttributeValue("placement");
+            if ((placement == "below")||(orientation=="under"))
                 tag->add (guidoparam::create("curve=\"down\"", false));
+            if ((placement == "above")||(orientation=="over"))
+                tag->add (guidoparam::create("curve=\"up\"", false));
             add(tag);
         }
     }
@@ -1418,10 +1422,10 @@ namespace MusicXML2
             // If there's a wavy-line AND the Trill is TIED, then add "<repeat="false">" attribute
             if (nv.fWaveLine)
             {
-                fWavyTrillOpened = true;
-
                 if (nv.fWaveLine->getAttributeValue("type")=="start")
                 {
+                    fWavyTrillOpened = true;
+
                     if (nv.getTied().size()>0) {
                         
                         stringstream s;
@@ -1661,7 +1665,27 @@ namespace MusicXML2
         
         Sguidoelement note = guidonote::create(fTargetVoice, name, octave, dur, accident);
         
+        bool notehead = false;
+        if (nv.fNotehead)
+        {
+            std::string noteFormatType = nv.getNoteheadType();
+            
+            if (noteFormatType.size())
+            {
+                Sguidoelement noteFormatTag = guidotag::create("noteFormat");
+                stringstream s;
+                s << "\"" << noteFormatType << "\"";
+                noteFormatTag->add (guidoparam::create(s.str(), false));
+                push(noteFormatTag);
+                notehead = true;
+            }
+        }
+        
         add (note);
+        
+        if (notehead)
+            pop();
+        
         checkTiedEnd (nv.getTied());
     }
     

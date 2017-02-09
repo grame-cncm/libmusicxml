@@ -15,6 +15,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 
 #include "exports.h"
 #include "smartpointer.h"
@@ -241,9 +242,11 @@ typedef SMARTP<guidochord> Sguidochord;
 class EXP guidotag : public guidoelement {
 	public:
         static SMARTP<guidotag> create(std::string name);
+    static SMARTP<guidotag> create(std::string name, std::string sep);
 
 	protected:
-		guidotag(std::string name);
+        guidotag(std::string name);
+        guidotag(std::string name, std::string sep);
 		virtual ~guidotag();
 };
 typedef SMARTP<guidotag> Sguidotag;

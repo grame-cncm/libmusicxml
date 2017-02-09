@@ -37,6 +37,7 @@ Sguidonote guidonote::create(unsigned short voice, string name, char oct, guidon
 Sguidoseq guidoseq::create()			{ guidoseq* o = new guidoseq(); assert(o!=0); return o;}
 Sguidochord guidochord::create()		{ guidochord* o = new guidochord(); assert(o!=0); return o;}
 Sguidotag guidotag::create(string name)	{ guidotag* o = new guidotag(name); assert(o!=0); return o;}
+Sguidotag guidotag::create(string name, string sep)	{ guidotag* o = new guidotag(name, sep); assert(o!=0); return o;}
 
 //______________________________________________________________________________
 guidonotestatus* guidonotestatus::fInstances[kMaxInstances] = { 0 };
@@ -128,6 +129,8 @@ void guidoelement::print(ostream& os)
             seq.cast((guidoelement *)(*ielt));
             Sguidonote note;
             note.cast((guidoelement *)(*ielt));
+            Sguidotag tag;
+            tag.cast((guidoelement *)(*ielt));
 
             if (isChord) {
                 if (note) {
@@ -137,11 +140,14 @@ void guidoelement::print(ostream& os)
                 else if (seq) {
                     os << (prevSeq ? ", " : " ");
                     prevSeq = true;
+                }else if (tag) {
+                    os << ( (prevNote||prevSeq) ? ", " : " ");
                 }
                 else os << " ";
+                
             }
             else os << " ";
-            os << *ielt;            
+            os << *ielt;
         }
        os << fEndList;
     }
@@ -220,6 +226,8 @@ guidochord::~guidochord() {}
 //______________________________________________________________________________
 guidotag::guidotag(string name) : guidoelement("\\"+name) 
 	{ fStartList="("; fEndList=")"; }
+guidotag::guidotag(string name, string sep) : guidoelement("\\"+name,sep)
+    { fStartList="("; fEndList=")"; }
 guidotag::~guidotag() {}
 
 }
