@@ -7022,8 +7022,9 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   // create new segment from current voice
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> setting new segment for voice " <<
-      currentVoice->getVoiceName () << endl;
+      "--> setting new segment for voice \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl;
       
   currentVoice->
     setNewSegmentForVoice (
@@ -7033,8 +7034,9 @@ void xml2MsrTranslator::handleHookedEndingEnd (
     // create the repeat
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
-        "Creating a repeat for voice " <<
-        currentVoice->getVoiceName () << endl;
+        "Creating a repeat for voice \"" <<
+        currentVoice->getVoiceName () << "\"" <<
+        endl;
 
     fCurrentRepeat =
       msrRepeat::create (
@@ -7046,8 +7048,9 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   // create a repeat ending from the current segment
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> creating a new hooked repeat ending for voice " <<
-      currentVoice->getVoiceName () << endl;
+      "--> creating a new hooked repeat ending for voice \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl;
       
   S_msrRepeatending
     repeatEnding =
@@ -7061,8 +7064,10 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   // append it to the current repeat
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> appending repeat ending to current repeat in voice " <<
-      currentVoice->getVoiceName () << endl;
+      "--> appending repeat ending to current repeat in voice \"" <<
+      currentVoice->getVoiceName () <<
+      "\", fPendingBarlines.size() = " << fPendingBarlines.size () <<
+      endl;
       
   fCurrentRepeat->
     addRepeatending (repeatEnding);
@@ -7071,7 +7076,8 @@ void xml2MsrTranslator::handleHookedEndingEnd (
     if (gGeneralOptions->fTrace)
       cerr <<
         idtr <<
-        "There's an implicit repeat start at the beginning of the part" <<
+        "There's an implicit repeat start at the beginning of part " <<
+        fCurrentPart->getPartCombinedName () <<
         endl;
 
     // create the implicit barline
@@ -7103,7 +7109,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
         currentVoice->
           getVoiceSegment ();
 
-    if (! fCurrentRepeat) {
+    if (! fCurrentRepeat) { // JMI
       // create the repeat
       if (gGeneralOptions->fTrace)
         cerr << idtr <<
@@ -7117,6 +7123,28 @@ void xml2MsrTranslator::handleHookedEndingEnd (
           currentSegment,
           currentVoice);
     }
+  }
+  
+  else {
+    if (gGeneralOptions->fTrace)
+      cerr << idtr <<
+        "Fetching barline from pending barlines stack top" <<
+        endl;
+
+    // fetch pending barline top
+    S_msrBarline
+      barline =
+        fPendingBarlines.top ();
+
+    // prepend the barline to the current segment
+    currentVoice->
+      prependBarlineToVoice (barline);
+            
+    // pop the barline top off the stack
+    fPendingBarlines.pop ();
+  }
+
+cerr << "FOO" << endl;
 
   // create a new segment for the voice
   if (gGeneralOptions->fTrace)
@@ -7138,12 +7166,6 @@ void xml2MsrTranslator::handleHookedEndingEnd (
 
   currentVoice->
     appendRepeatToVoice (fCurrentRepeat);
-  }
-  
-  else {
-    // pop the pending barline off the stack
-    fPendingBarlines.pop ();
-  }
 }
 
 //______________________________________________________________________________
@@ -7401,7 +7423,8 @@ void xml2MsrTranslator::handleEndingEnd (
     if (gGeneralOptions->fTrace)
       cerr <<
         idtr <<
-        "There is an implicit repeat start at the beginning of the part" <<
+        "There is an implicit repeat start at the beginning of part" <<
+        fCurrentPart->getPartCombinedName () <<
         endl;
 
     // create the implicit barline
@@ -7433,12 +7456,13 @@ void xml2MsrTranslator::handleEndingEnd (
         currentVoice->
           getVoiceSegment ();
 
-    if (! fCurrentRepeat) {
+    if (! fCurrentRepeat) { // JMI
       // create the repeat
       if (gGeneralOptions->fTrace)
         cerr << idtr <<
-          "Creating a repeat in voice " <<
-          currentVoice->getVoiceName () << endl;
+          "Creating a repeat in voice \"" <<
+          currentVoice->getVoiceName () << "\"" <<
+          endl;
 
       fCurrentRepeat =
         msrRepeat::create (
@@ -7446,31 +7470,47 @@ void xml2MsrTranslator::handleEndingEnd (
           currentSegment,
           currentVoice);
     }
-    
-    // create a new segment for the voice
-    if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "--> setting new segment for voice " <<
-        currentVoice->getVoiceName () << endl;
-        
-    currentVoice->
-      setNewSegmentForVoice (
-        inputLineNumber);
+  }
 
-    // add the repeat to the new segment
-    if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "--> appending the repeat to voice " <<
-        currentVoice->getVoiceName () << endl;
-
-    currentVoice->
-      appendRepeatToVoice (fCurrentRepeat);
-    }
-    
   else {
-    // pop the pending barline off the stack
+    if (gGeneralOptions->fTrace)
+      cerr << idtr <<
+        "Fetching barline from pending barlines stack top" <<
+        endl;
+
+    // fetch pending barline top
+    S_msrBarline
+      barline =
+        fPendingBarlines.top ();
+
+    // prepend the barline to the current segment
+    currentVoice->
+      prependBarlineToVoice (barline);
+            
+    // pop the barline top off the stack
     fPendingBarlines.pop ();
   }
+
+  // create a new segment for the voice
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> setting new segment for voice \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl;
+      
+  currentVoice->
+    setNewSegmentForVoice (
+      inputLineNumber);
+
+  // add the repeat to the new segment
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> appending the repeat to voice \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl;
+
+  currentVoice->
+    appendRepeatToVoice (fCurrentRepeat);
 }
 
 //______________________________________________________________________________
