@@ -7849,7 +7849,8 @@ void msrSegment::setSegmentDivisionsPerWholeNote (
   fSegmentDivisionsPerWholeNote =
     divisionsPerWholeNote;
 
-    
+  setAllSegmentMeasuresDivisionsPerWholeNote (
+    divisionsPerWholeNote);
 }
 
 void msrSegment::setAllSegmentMeasuresDivisionsPerWholeNote (
