@@ -131,7 +131,19 @@ void guidoelement::print(ostream& os)
             note.cast((guidoelement *)(*ielt));
             Sguidotag tag;
             tag.cast((guidoelement *)(*ielt));
-
+            bool beginTag = false, endTag = false;
+            if (tag)
+            {
+                if (tag->fName.find("End") != std::string::npos)
+                {
+                    endTag = true;
+                }else if (tag->fName.find("Begin") != std::string::npos)
+                {
+                    beginTag = true;
+                }
+            }
+            
+            // special treatment for Chord Separator
             if (isChord) {
                 if (note) {
                     os << (prevNote ? ", " : " ");
@@ -141,7 +153,20 @@ void guidoelement::print(ostream& os)
                     os << (prevSeq ? ", " : " ");
                     prevSeq = true;
                 }else if (tag) {
-                    os << ( (prevNote||prevSeq) ? ", " : " ");
+                    if (beginTag)
+                    {
+                        // happens BEFORE a note. So it should be closed by a separator if in the middle
+                        os << ( (prevNote||prevSeq) ? ", " : " ");
+                        // but it should NOT be followed next time by a separator!
+                        prevNote = false;
+                        
+                    }else if (endTag)
+                    {
+                        // this happens AFTER a note. So it should be preceded by a " ". It should be followed by a ',' if next is note!
+                        os << " ";
+                            
+                    }else
+                        os << ( (prevNote||prevSeq) ? ", " : " ");
                 }
                 else os << " ";
                 

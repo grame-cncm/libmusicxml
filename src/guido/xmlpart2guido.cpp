@@ -40,6 +40,7 @@ namespace MusicXML2
         fHasLyrics = false;
         directionWord = false;
         fNonStandardNoteHead = false;
+        fLyricsManualSpacing = false;
     }
     
     //______________________________________________________________________________
@@ -56,6 +57,7 @@ namespace MusicXML2
         fCurrentOffset = 0;
         fPendingPops = 0;
         fMeasNum = 0;
+        fLyricsManualSpacing = false;
     }
     
     //______________________________________________________________________________
@@ -68,6 +70,7 @@ namespace MusicXML2
         fCurrentTimeSign = defaultTimeSign;		// a default time signature
         fCurrentStaffIndex = guidostaff;		// the current guido staff index
         fHasLyrics = false;
+        fLyricsManualSpacing = false;
         start (seq);
     }
     
@@ -1305,7 +1308,7 @@ namespace MusicXML2
             pop();
             //cout<< "Lyric \""<<notevisitor::getLyricText()<<"\" dur "<< thisDuration<<" size:"<<notevisitor::getLyricText().size() <<" measure "<<fMeasNum <<endl;
             
-            if ( (thisDuration< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
+            if ( fLyricsManualSpacing && (thisDuration< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
             {
                 Sguidoelement tag = guidotag::create("space");
                 size_t additionalSpace = notevisitor::getLyricText().size() - minStringSize4Space;
@@ -1322,7 +1325,7 @@ namespace MusicXML2
             pop();
             //cout<< "Lyric \""<<notevisitor::getLyricText()<<"\" dur "<< thisDuration<<" size:"<<notevisitor::getLyricText().size() <<" measure "<<fMeasNum <<endl;
             
-            if ( (thisDuration< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
+            if ( fLyricsManualSpacing && (thisDuration< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
             {
                 Sguidoelement tag = guidotag::create("space");
                 int lyricStringSize = 0;
