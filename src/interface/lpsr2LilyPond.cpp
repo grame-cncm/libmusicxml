@@ -64,7 +64,7 @@ void generateLilyPondCodeFromLpsrScore (
       endl <<
       idtr << separator <<
       endl <<
-      "Pass 4: tranalating the LPSR into LilyPond code" <<
+      "Pass 4: translating the LPSR into LilyPond code" <<
       endl <<
       idtr << separator <<
       endl;

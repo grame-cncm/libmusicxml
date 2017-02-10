@@ -50,9 +50,9 @@
   \RandomMusicEndOrd   = \MusicXMLOrd - 0.15;
   %
   \textOutputAngle = 160;
-  \textOutputLength = 1.4;
-  \textOutputAbs = cos(\textOutputAngle) * \textOutputLength;
-  \textOutputOrd = sin(\textOutputAngle) * \textOutputLength;
+  \textOutputRadius = 1.4;
+  \textOutputAbs = cos(\textOutputAngle) * \textOutputRadius;
+  \textOutputOrd = sin(\textOutputAngle) * \textOutputRadius;
   %
   \toolsStartAbs = \MusicXMLAbs - 0.05;
   \toolsStartOrd = \MusicXMLOrd - 0.15;
@@ -62,23 +62,23 @@
   \toolsEndOrd   = \textOutputOrd + 0.0;
   %
   \xmlToGuidoInterangle = (\MXMLAngle + \GuidoAngle) / 2;
-  \xmlToGuidoInterLength = 0.6;
+  \xmlToGuidoInterRadius = 0.6;
   \xmlToGuidoStartAbs = \MusicXMLAbs + 0.15;
   \xmlToGuidoStartOrd = \MusicXMLOrd - 0.15;
-  \xmlToGuidoInterAbs = cos(\xmlToGuidoInterangle) * \xmlToGuidoInterLength;
-  \xmlToGuidoInterOrd = sin(\xmlToGuidoInterangle) * \xmlToGuidoInterLength;
+  \xmlToGuidoInterAbs = cos(\xmlToGuidoInterangle) * \xmlToGuidoInterRadius;
+  \xmlToGuidoInterOrd = sin(\xmlToGuidoInterangle) * \xmlToGuidoInterRadius;
   \xmlToGuidoEndAbs   = \GuidoAbs - 0.15;
   \xmlToGuidoEndOrd   = \GuidoOrd - 0.15;
   %
   \xmlToLilyPondInterIAngle  = mod((\MXMLAngle + \LPSRAngle) * 2 / 3, 360);
   \xmlToLilyPondInterIIAngle = mod((\MXMLAngle + \LPSRAngle) * 1 / 3, 360);
-  \xmlToLilyPondInterLength = 0.2;
+  \xmlToLilyPondInterRadius = 0.2;
   \xmlToLilyPondStartAbs = \MusicXMLAbs + 0.05;
   \xmlToLilyPondStartOrd = \MusicXMLOrd - 0.15;
-  \xmlToLilyPondInterIAbs = cos(\xmlToLilyPondInterIAngle) * \xmlToLilyPondInterLength;
-  \xmlToLilyPondInterIOrd = sin(\xmlToLilyPondInterIAngle) * \xmlToLilyPondInterLength;
-  \xmlToLilyPondInterIIAbs = cos(\xmlToLilyPondInterIIAngle) * \xmlToLilyPondInterLength;
-  \xmlToLilyPondInterIIOrd = sin(\xmlToLilyPondInterIIAngle) * \xmlToLilyPondInterLength;
+  \xmlToLilyPondInterIAbs = cos(\xmlToLilyPondInterIAngle) * \xmlToLilyPondInterRadius;
+  \xmlToLilyPondInterIOrd = sin(\xmlToLilyPondInterIAngle) * \xmlToLilyPondInterRadius;
+  \xmlToLilyPondInterIIAbs = cos(\xmlToLilyPondInterIIAngle) * \xmlToLilyPondInterRadius;
+  \xmlToLilyPondInterIIOrd = sin(\xmlToLilyPondInterIIAngle) * \xmlToLilyPondInterRadius;
   \xmlToLilyPondEndAbs   = \LilyPondAbs - 0.15;
   \xmlToLilyPondEndOrd   = \LilyPondOrd + 0.15;
   %

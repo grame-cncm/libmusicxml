@@ -8104,7 +8104,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
     setMeasureClef (clef);
     
   // append it to this segment
-  appendClefToSegment (clef);
+  appendOtherElementToSegment (clef);
 }
 
 void msrSegment::appendKeyToSegment (S_msrKey key)
@@ -8124,7 +8124,7 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
     setMeasureKey (key);
     
   // append it to this segment
-  appendKeyToSegment (key);
+  appendOtherElementToSegment (key);
 }
     
 void msrSegment::appendTimeToSegment (S_msrTime time)
@@ -8144,7 +8144,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
     setMeasureTime (time);
     
   // append it to this segment
-  appendTimeToSegment (time);
+  appendOtherElementToSegment (time);
 }
 
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
@@ -8720,8 +8720,10 @@ void msrRepeat::print (ostream& os)
   
   idtr++;
   
+  // print the common part
   os << fRepeatCommonPart;
   
+  // print the alternatives
   vector<S_msrRepeatending>::const_iterator i;
   for (i=fRepeatEndings.begin(); i!=fRepeatEndings.end(); i++) {
     os << idtr << (*i);
@@ -8843,7 +8845,7 @@ msrVoice::msrVoice (
       getVoiceName () << "\"" <<
       endl;
       
-  fVoiceSegment =
+  fVoiceLastSegment =
     msrSegment::create (
       inputLineNumber,
       fVoiceDivisionsPerWholeNote,
@@ -8856,8 +8858,8 @@ msrVoice::msrVoice (
         fVoiceStaffUplink->getStaffClef ();
   
     if (clef) {
-      // append it to the segment
-      fVoiceSegment->
+      // append it to the last segment
+      fVoiceLastSegment->
         appendClefToSegment (clef);
       }
   }
@@ -8869,8 +8871,8 @@ msrVoice::msrVoice (
         fVoiceStaffUplink->getStaffKey ();
 
     if (key) {
-      // append it to the segment
-      fVoiceSegment->
+      // append it to the last segment
+      fVoiceLastSegment->
         appendKeyToSegment (key);
     }
   }
@@ -8882,8 +8884,8 @@ msrVoice::msrVoice (
         fVoiceStaffUplink->getStaffTime ();
 
     if (time) {
-      // append it to the segment
-      fVoiceSegment->
+      // append it to the last segment
+      fVoiceLastSegment->
         appendTimeToSegment (time);
     }
   }
@@ -8895,9 +8897,9 @@ msrVoice::msrVoice (
         fVoiceStaffUplink->getStaffTranspose ();
         
     if (transpose) {
-      // append it to the segment
+      // append it to the last segment
       S_msrElement t = transpose;
-      fVoiceSegment->
+      fVoiceLastSegment->
         appendOtherElementToSegment (transpose); //JMI
     }
   }
@@ -8936,7 +8938,7 @@ void msrVoice::setVoiceDivisionsPerWholeNote (
   fVoiceDivisionsPerWholeNote =
     divisionsPerWholeNote;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     setSegmentDivisionsPerWholeNote (
       divisionsPerWholeNote);
 }
@@ -8947,7 +8949,7 @@ void msrVoice::setVoiceMeasureNumber (
 {
   fVoiceMeasureNumber = measureNumber;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     setSegmentMeasureNumber (
       inputLineNumber,
       fVoiceMeasureNumber);
@@ -8963,7 +8965,7 @@ void msrVoice::forceVoiceMeasureNumberTo (int measureNumber) // JMI
 {
   fVoiceMeasureNumber = measureNumber;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     forceSegmentMeasureNumberTo (measureNumber);
 };
 
@@ -8976,7 +8978,7 @@ void msrVoice::setNewSegmentForVoice (
       "Creating a new segment for voice " <<
       getVoiceName () << endl;
       
-  fVoiceSegment =
+  fVoiceLastSegment =
     msrSegment::create (
       inputLineNumber,
       fVoiceDivisionsPerWholeNote,
@@ -9116,7 +9118,7 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendClefToSegment (clef);
 }
 
@@ -9128,7 +9130,7 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendKeyToSegment (key);
 }
 
@@ -9143,8 +9145,8 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   // register time in voice
   fVoiceTime = time;
 
-  // append it to the segment
-  fVoiceSegment->
+  // append it to the last segment
+  fVoiceLastSegment->
     appendTimeToSegment (time);
 }
 
@@ -9156,7 +9158,7 @@ void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendOtherElementToSegment (transpose);
 }
 
@@ -9169,7 +9171,7 @@ void msrVoice::appendWordsToVoice (S_msrWords words)
       "' to voice " << getVoiceName () << endl;
 
   S_msrElement w = words;
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendOtherElementToSegment (w);
 }
 */
@@ -9182,7 +9184,7 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendOtherElementToSegment (tempo);
 }
 
@@ -9196,7 +9198,7 @@ void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendOtherElementToSegment (octaveShift);
 }
 
@@ -9208,7 +9210,7 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendOtherElementToSegment (rehearsal);
 }
 
@@ -9234,8 +9236,8 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   fVoiceActualNotesCounter++;
   fMusicHasBeenInsertedInVoice = true;
 
-  // append the note to the segment
-  fVoiceSegment->
+  // append the note to the last segment
+  fVoiceLastSegment->
     appendNoteToSegment (note);
   
   // add a skip syllable of the same duration to the stanza master
@@ -9265,7 +9267,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendChordToSegment (chord);
 
   fMusicHasBeenInsertedInVoice = true;
@@ -9278,7 +9280,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendTupletToSegment (tuplet);
 
   fMusicHasBeenInsertedInVoice = true;
@@ -9291,7 +9293,7 @@ void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendOtherElementToSegment (elem);
 }
 
@@ -9305,9 +9307,8 @@ void msrVoice::appendGracenotesToVoice (
       " to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  S_msrElement g = gracenotes;
-  fVoiceSegment->
-    appendOtherElementToSegment (g);
+  fVoiceLastSegment->
+    appendOtherElementToSegment (gracenotes);
 
   fMusicHasBeenInsertedInVoice = true;
 }
@@ -9531,7 +9532,7 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendOtherElementToSegment (barCheck);
 
   // add bar check syllable to the voice stanza master
@@ -9551,7 +9552,7 @@ void msrVoice::appendBarnumberCheckToVoice (
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendOtherElementToSegment (barNumberCheck);
 
   // add barnumber check syllable to the voice stanza master
@@ -9569,7 +9570,7 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendOtherElementToSegment (break_);
 
   // add break syllable to the voice stanza master
@@ -9579,7 +9580,8 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
       break_->getNextBarNumber ());
 }
 
-void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
+void msrVoice::appendRepeatToVoice (S_msrRepeat repeat)
+{
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Appending repeat to voice \"" << getVoiceName () <<  "\"" <<
@@ -9594,7 +9596,8 @@ void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
     repeat);
 }
     
-void msrVoice::prependBarlineToVoice (S_msrBarline barline) {
+void msrVoice::prependBarlineToVoice (S_msrBarline barline)
+{
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Prepending a barline to voice \"" << getVoiceName () << "\"" <<
@@ -9605,11 +9608,12 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline) {
     barline;
   idtr--;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     prependBarlineToSegment (barline);
 }
 
-void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
+void msrVoice::appendBarlineToVoice (S_msrBarline barline)
+{
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Appending a barline to voice \"" << getVoiceName () << "\"" <<
@@ -9619,55 +9623,53 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline) {
   cerr << idtr <<
     barline;
   idtr--;
-
-  assert(fVoiceSegment); // JMI
   
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendBarlineToSegment (barline);
 }
 
-void msrVoice::appendSegnoToVoice (S_msrSegno segno) {
+void msrVoice::appendSegnoToVoice (S_msrSegno segno)
+{
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Appending a segno to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  S_msrElement s = segno;
-  fVoiceSegment->
-    appendOtherElementToSegment (s);
+  fVoiceLastSegment->
+    appendOtherElementToSegment (segno);
 }
 
-void msrVoice::appendCodaToVoice (S_msrCoda coda) {
+void msrVoice::appendCodaToVoice (S_msrCoda coda)
+{
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Appending a coda to voice \"" << getVoiceName () << "\"" <<
       ":" << endl;
 
-  S_msrElement c = coda;
-  fVoiceSegment->
-    appendOtherElementToSegment (c);
+  fVoiceLastSegment->
+    appendOtherElementToSegment (coda);
 }
 
-void msrVoice::appendEyeglassesToVoice (S_msrEyeglasses eyeglasses) {
+void msrVoice::appendEyeglassesToVoice (S_msrEyeglasses eyeglasses)
+{
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Appending a eyeglasses to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  S_msrElement e = eyeglasses;
-  fVoiceSegment->
-    appendOtherElementToSegment (e);
+  fVoiceLastSegment->
+    appendOtherElementToSegment (eyeglasses);
 }
 
-void msrVoice::appendPedalToVoice (S_msrPedal pedal) {
+void msrVoice::appendPedalToVoice (S_msrPedal pedal)
+{
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Appending a pedal to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  S_msrElement e = pedal;
-  fVoiceSegment->
-    appendOtherElementToSegment (e);
+  fVoiceLastSegment->
+    appendOtherElementToSegment (pedal);
 }
 
 /* JMI
@@ -9679,7 +9681,7 @@ void msrVoice::appendOtherElementToVoice (S_msrElement elem)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     appendOtherElementToSegment (elem);
 }
 */
@@ -9693,7 +9695,7 @@ S_msrElement msrVoice::removeLastElementFromVoice (
       " from voice " << getVoiceName () << endl;
 
   return
-    fVoiceSegment->
+    fVoiceLastSegment->
       removeLastElementFromSegment (inputLineNumber);
 }
 
@@ -9706,7 +9708,7 @@ void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
       ", line " << inputLineNumber <<
       endl;
 
-  fVoiceSegment->
+  fVoiceLastSegment->
     finalizeLastMeasureOfSegment (inputLineNumber);
 }
 
@@ -9764,7 +9766,7 @@ void msrVoice::browseData (basevisitor* v)
 
   // browse the segment
   msrBrowser<msrSegment> browser (v);
-  browser.browse (*fVoiceSegment);
+  browser.browse (*fVoiceLastSegment);
 
   // browse the voice stanzas
   if (fVoiceStanzasMap.size ()) {
@@ -9831,8 +9833,23 @@ void msrVoice::print (ostream& os)
     fVoiceTime->timeAsString () <<
     endl;
     
+  // print the voice repeats and segments
+  if (fVoiceRepeatsAndSegments.size ()) {
+     list<S_msrElement>::const_iterator
+      iBegin = fVoiceRepeatsAndSegments.begin(),
+      iEnd   = fVoiceRepeatsAndSegments.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      // print the element
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+  
   // print the segment
-  os << fVoiceSegment;
+  os << fVoiceLastSegment;
   
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     // print the stanza master

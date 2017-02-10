@@ -6939,7 +6939,7 @@ void xml2MsrTranslator::handleRepeatStart (
   S_msrSegment
     currentSegment =
       currentVoice->
-        getVoiceSegment ();
+        getVoiceLastSegment ();
 
   if (! fCurrentRepeat) {
     // create the repeat
@@ -7017,7 +7017,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   S_msrSegment
     currentSegment =
       currentVoice->
-        getVoiceSegment ();
+        getVoiceLastSegment ();
 
   // create new segment from current voice
   if (gGeneralOptions->fDebug)
@@ -7107,7 +7107,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
     S_msrSegment
       currentSegment =
         currentVoice->
-          getVoiceSegment ();
+          getVoiceLastSegment ();
 
     if (! fCurrentRepeat) { // JMI
       // create the repeat
@@ -7211,7 +7211,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
   S_msrSegment
     currentSegment =
       currentVoice->
-        getVoiceSegment ();
+        getVoiceLastSegment ();
 
   // create a repeat ending from the current segment
   if (gGeneralOptions->fDebug)
@@ -7290,7 +7290,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
     S_msrSegment
       currentSegment =
         currentVoice->
-          getVoiceSegment ();
+          getVoiceLastSegment ();
 
     if (! fCurrentRepeat) {
       // create the repeat
@@ -7378,7 +7378,7 @@ void xml2MsrTranslator::handleEndingStart (
   S_msrSegment
     currentSegment =
       currentVoice->
-        getVoiceSegment ();
+        getVoiceLastSegment ();
 
   // push the barline onto the stack
   fPendingBarlines.push (barline);
@@ -7452,7 +7452,7 @@ void xml2MsrTranslator::handleEndingEnd (
     S_msrSegment
       currentSegment =
         currentVoice->
-          getVoiceSegment ();
+          getVoiceLastSegment ();
 
     if (! fCurrentRepeat) { // JMI
       // create the repeat

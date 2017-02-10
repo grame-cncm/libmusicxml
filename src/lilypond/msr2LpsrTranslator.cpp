@@ -644,7 +644,7 @@ void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
   // fetch the current segment clone
   fCurrentSegmentClone =
     fCurrentVoiceClone->
-      getVoiceSegment ();
+      getVoiceLastSegment ();
 
 /* JMI
   // create a clone of the segment
@@ -1478,7 +1478,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       S_msrSegment
         currentSegment =
           fCurrentVoiceClone->
-            getVoiceSegment ();
+            getVoiceLastSegment ();
 
       // create an LPSR repeat if not yet done
       // JMI
@@ -1538,7 +1538,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       S_msrSegment
         currentSegment =
           fCurrentVoiceClone->
-            getVoiceSegment ();
+            getVoiceLastSegment ();
 
       // set the current segment as the repeat's common part
       fCurrentRepeatClone->
@@ -1578,7 +1578,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       S_msrSegment
         currentSegment =
           fCurrentVoiceClone->
-            getVoiceSegment ();
+            getVoiceLastSegment ();
 
 /*
       // set the current segment as the repeat's common part
@@ -1617,7 +1617,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       S_msrSegment
         currentSegment =
           fCurrentVoiceClone->
-            getVoiceSegment ();
+            getVoiceLastSegment ();
 
       // create a new segment for the voice
 //      if (gGeneralOptions->fDebug)
@@ -1684,7 +1684,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       S_msrSegment
         currentSegment =
           fCurrentVoiceClone->
-            getVoiceSegment ();
+            getVoiceLastSegment ();
 
       // create a new segment for the voice
 //      if (gGeneralOptions->fDebug)

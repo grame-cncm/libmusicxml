@@ -4690,8 +4690,8 @@ class EXP msrVoice : public msrElement
     void          setNewSegmentForVoice (int inputLineNumber); // JMI
 
     S_msrSegment
-                  getVoiceSegment () const
-                      { return fVoiceSegment; }
+                  getVoiceLastSegment () const
+                      { return fVoiceLastSegment; }
 
     S_msrStanza   getVoiceStanzaMaster () const
                       { return fVoiceStanzaMaster; }
@@ -4879,12 +4879,12 @@ class EXP msrVoice : public msrElement
     bool                      fMeasureNumberHasBeenSetInVoice;
     bool                      fMusicHasBeenInsertedInVoice;
     
-    // fVoiceSegment contains the music
+    // fVoiceLastSegment contains the music
     // not yet stored in fVoiceRepeatsAndSegments,
     // it is thus logically the end of the latter,
     // and is created implicitly for every voice,
     list<S_msrElement>        fVoiceRepeatsAndSegments;
-    S_msrSegment              fVoiceSegment;
+    S_msrSegment              fVoiceLastSegment;
     // fVoiceCurrentRepeat is always null or
     // the last msrRepeat in fVoiceRepeatsAndSegments
     S_msrRepeat               fVoiceCurrentRepeat;
