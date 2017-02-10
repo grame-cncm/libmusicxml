@@ -3742,7 +3742,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
       </barline>
     */
          
-    handleEndingEnd (elt, barline);
+    handleRepeatEnd (elt, barline);
 
     barlineIsAlright = true;
   }
@@ -6935,11 +6935,13 @@ void xml2MsrTranslator::handleRepeatStart (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
+
   // get the current segment
   S_msrSegment
     currentSegment =
       currentVoice->
         getVoiceLastSegment ();
+
 
   if (! fCurrentRepeat) {
     // create the repeat
@@ -6956,26 +6958,209 @@ void xml2MsrTranslator::handleRepeatStart (
         currentVoice);
   }
 
-  // don't append fCurrentRepeat to the current voice,
-  // this will be done later in handleEndingEnd()
-
-  /***** JMIJMI
-  // create a new segment for the voice
-  // to collect the repeat elements
+  // append the repeat to the current voice
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> setting new segment for voice " <<
-      currentVoice->getVoiceName () << endl;
+      "--> appending the repeat to voice \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl;
+
+  currentVoice->
+    appendRepeatToVoice (fCurrentRepeat);
+
+  // append the bar line to the voice
+  currentVoice->
+    appendBarlineToVoice (barline);
+
+  // push the barline onto the stack
+  fPendingBarlines.push (barline);
+}
+
+//______________________________________________________________________________
+void xml2MsrTranslator::handleRepeatEnd (
+  S_barline     elt,
+  S_msrBarline& barline)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+    cerr <<
+      idtr << "--> input line " << inputLineNumber <<
+      endl <<
+      idtr <<
+      "--> barline, right and backward: repeat end" <<
+      endl;
+  }
+
+  // set the barline category
+  barline->
+    setBarlineCategory (msrBarline::kRepeatEnd);
+
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      registerVoiceInStaffInCurrentPartIfNeeded (
+        inputLineNumber,
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
+  // get the current segment
+  S_msrSegment
+    currentSegment =
+      currentVoice->
+        getVoiceLastSegment ();
+
+  // append the bar line to the current voice
+  currentVoice->
+    appendBarlineToVoice (barline);
+
+  if (fPendingBarlines.empty ()) {
+    if (gGeneralOptions->fTrace)
+      cerr <<
+        idtr <<
+        "There is an implicit repeat start at the beginning of part" <<
+        fCurrentPart->getPartCombinedName () <<
+        endl;
+
+    // create the implicit barline
+    S_msrBarline
+      implicitBarline =
+        msrBarline::create (
+          inputLineNumber,
+          false, // no segno
+          false, // no coda
+          msrBarline::kLeft,
+          msrBarline::kHeavyLight,
+          msrBarline::kStart,
+          fCurrentBarlineEndingNumber,
+          msrBarline::kForward,
+          fCurrentBarlineRepeatWinged);
+
+    // set the implicit barline category
+    implicitBarline->
+      setBarlineCategory (
+        msrBarline::kRepeatStart);
+  
+    // prepend the implicit barline to the voice
+    currentVoice->
+      prependBarlineToVoice (implicitBarline);
+            
+    if (! fCurrentRepeat) { // JMI
+      // create the repeat
+      if (gGeneralOptions->fTrace)
+        cerr << idtr <<
+          "Creating a repeat in voice \"" <<
+          currentVoice->getVoiceName () << "\"" <<
+          endl;
+
+      fCurrentRepeat =
+        msrRepeat::create (
+          inputLineNumber,
+          currentSegment,
+          currentVoice);
+
+      // append the repeat to the current voice
+      if (gGeneralOptions->fDebug)
+        cerr << idtr <<
+          "--> appending the repeat to voice \"" <<
+          currentVoice->getVoiceName () << "\"" <<
+          endl;
+    
+      currentVoice->
+        appendRepeatToVoice (fCurrentRepeat);
+    }
+  }
+
+  else {
+    /* JMI
+    if (gGeneralOptions->fTrace)
+      cerr << idtr <<
+        "Fetching barline from pending barlines stack top" <<
+        endl;
+
+    // fetch pending barline top
+    S_msrBarline
+      barline =
+        fPendingBarlines.top ();
+
+    // prepend the barline to the current segment
+    currentVoice->
+      prependBarlineToVoice (barline);
+            
+    // pop the barline top off the stack
+    fPendingBarlines.pop ();
+    */
+  }
+
+  // register current segment as current repeat's common part
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> registering last segment of voice \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      " as repeat common part" <<
+      endl;
+
+  fCurrentRepeat->
+    setRepeatCommonPart (currentSegment);
+  
+  // create a new segment for the voice
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> setting a new last segment for voice \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl;
       
   currentVoice->
     setNewSegmentForVoice (
       inputLineNumber);
-/*/
+}
 
+//______________________________________________________________________________
+void xml2MsrTranslator::handleEndingStart (
+  S_barline     elt,
+  S_msrBarline& barline)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
 
-  // append the bar line to the new current segment
+//  if (gGeneralOptions->fDebug)
+    cerr <<
+      idtr << "--> input line " <<
+        inputLineNumber <<
+      endl <<
+      idtr <<
+        "--> measure " <<
+          barline->getBarlineMeasureNumber () <<
+        ", position " <<
+          barline->getBarlinePositionInMeasure () <<
+      endl <<
+      idtr <<
+      "--> barline, left and start: ending start" <<
+      endl;
+
+  // set the barline category
+  barline->
+    setBarlineCategory (msrBarline::kEndingStart);
+  
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      registerVoiceInStaffInCurrentPartIfNeeded (
+        inputLineNumber,
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
+  // append the bar line to the current segment
   currentVoice->
     appendBarlineToVoice (barline);
+
+
+  // get the current segment
+  S_msrSegment
+    currentSegment =
+      currentVoice->
+        getVoiceLastSegment ();
 
   // push the barline onto the stack
   fPendingBarlines.push (barline);
@@ -7332,183 +7517,6 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
     // pop the pending barline off the stack
     fPendingBarlines.pop ();
   }
-}
-
-//______________________________________________________________________________
-void xml2MsrTranslator::handleEndingStart (
-  S_barline     elt,
-  S_msrBarline& barline)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-//  if (gGeneralOptions->fDebug)
-    cerr <<
-      idtr << "--> input line " <<
-        inputLineNumber <<
-      endl <<
-      idtr <<
-        "--> measure " <<
-          barline->getBarlineMeasureNumber () <<
-        ", position " <<
-          barline->getBarlinePositionInMeasure () <<
-      endl <<
-      idtr <<
-      "--> barline, left and start: ending start" <<
-      endl;
-
-  // set the barline category
-  barline->
-    setBarlineCategory (msrBarline::kEndingStart);
-  
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
-        inputLineNumber,
-        fCurrentStaffNumber,
-        fCurrentVoiceNumber);
-
-  // append the bar line to the current segment
-  currentVoice->
-    appendBarlineToVoice (barline);
-
-
-  // get the current segment
-  S_msrSegment
-    currentSegment =
-      currentVoice->
-        getVoiceLastSegment ();
-
-  // push the barline onto the stack
-  fPendingBarlines.push (barline);
-}
-
-//______________________________________________________________________________
-void xml2MsrTranslator::handleEndingEnd (
-  S_barline     elt,
-  S_msrBarline& barline)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-    cerr <<
-      idtr << "--> input line " << inputLineNumber <<
-      endl <<
-      idtr <<
-      "--> barline, right and backward: repeat end" <<
-      endl;
-  }
-
-  // set the barline category
-  barline->
-    setBarlineCategory (msrBarline::kRepeatEnd);
-
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
-        inputLineNumber,
-        fCurrentStaffNumber,
-        fCurrentVoiceNumber);
-
-  // append the bar line to the current segment
-  currentVoice->
-    appendBarlineToVoice (barline);
-
-  if (fPendingBarlines.empty ()) {
-    if (gGeneralOptions->fTrace)
-      cerr <<
-        idtr <<
-        "There is an implicit repeat start at the beginning of part" <<
-        fCurrentPart->getPartCombinedName () <<
-        endl;
-
-    // create the implicit barline
-    S_msrBarline
-      implicitBarline =
-        msrBarline::create (
-          inputLineNumber,
-          false, // no segno
-          false, // no coda
-          msrBarline::kLeft,
-          msrBarline::kHeavyLight,
-          msrBarline::kStart,
-          fCurrentBarlineEndingNumber,
-          msrBarline::kForward,
-          fCurrentBarlineRepeatWinged);
-
-    // set the implicit barline category
-    implicitBarline->
-      setBarlineCategory (
-        msrBarline::kRepeatStart);
-  
-    // prepend the implicit barline to the current segment
-    currentVoice->
-      prependBarlineToVoice (implicitBarline);
-            
-    // get the current segment
-    S_msrSegment
-      currentSegment =
-        currentVoice->
-          getVoiceLastSegment ();
-
-    if (! fCurrentRepeat) { // JMI
-      // create the repeat
-      if (gGeneralOptions->fTrace)
-        cerr << idtr <<
-          "Creating a repeat in voice \"" <<
-          currentVoice->getVoiceName () << "\"" <<
-          endl;
-
-      fCurrentRepeat =
-        msrRepeat::create (
-          inputLineNumber,
-          currentSegment,
-          currentVoice);
-    }
-  }
-
-  else {
-    if (gGeneralOptions->fTrace)
-      cerr << idtr <<
-        "Fetching barline from pending barlines stack top" <<
-        endl;
-
-    // fetch pending barline top
-    S_msrBarline
-      barline =
-        fPendingBarlines.top ();
-
-    // prepend the barline to the current segment
-    currentVoice->
-      prependBarlineToVoice (barline);
-            
-    // pop the barline top off the stack
-    fPendingBarlines.pop ();
-  }
-
-  // create a new segment for the voice
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> setting new segment for voice \"" <<
-      currentVoice->getVoiceName () << "\"" <<
-      endl;
-      
-  currentVoice->
-    setNewSegmentForVoice (
-      inputLineNumber);
-
-  // add the repeat to the new segment
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> appending the repeat to voice \"" <<
-      currentVoice->getVoiceName () << "\"" <<
-      endl;
-
-  currentVoice->
-    appendRepeatToVoice (fCurrentRepeat);
 }
 
 //______________________________________________________________________________

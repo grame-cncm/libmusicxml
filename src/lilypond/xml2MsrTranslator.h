@@ -789,16 +789,20 @@ class EXP xml2MsrTranslator :
     void                      handleRepeatStart (
                                 S_barline     elt,
                                 S_msrBarline& barline);
-    void                      handleHooklessEndingEnd (
+
+    void                      handleRepeatEnd (
                                 S_barline     elt,
                                 S_msrBarline& barline);
-    void                      handleHookedEndingEnd (
-                                S_barline     elt,
-                                S_msrBarline& barline);
+
     void                      handleEndingStart (
                                 S_barline     elt,
                                 S_msrBarline& barline);
-    void                      handleEndingEnd (
+
+    void                      handleHooklessEndingEnd (
+                                S_barline     elt,
+                                S_msrBarline& barline);
+
+    void                      handleHookedEndingEnd (
                                 S_barline     elt,
                                 S_msrBarline& barline);
     

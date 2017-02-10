@@ -8596,7 +8596,7 @@ msrRepeat::msrRepeat (
   S_msrVoice   voiceUplink)
     : msrElement (inputLineNumber)
 {
-  fRepeatCommonPart     = commonPart;
+// JMI  fRepeatCommonPart     = commonPart;
   fRepeatEndingsCounter = 0;
   fRepeatVoiceUplink    = voiceUplink;
 }
