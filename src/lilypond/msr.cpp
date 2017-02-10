@@ -8279,19 +8279,6 @@ void msrSegment::removeElementFromSegment (
 }
 */
 
-void msrSegment::appendRepeatToSegment (S_msrRepeat repeat)
-{
-  if (gGeneralOptions->fDebug)
-    cerr <<
-      idtr <<
-        "--> appending repeat " <<
-        " to segment '" << segmentAsString () << "'" <<
-      endl;
-      
-  fSegmentMeasuresList.back ()->
-    appendBarCheckToMeasure (repeat); // XXL
-}
-
 S_msrElement msrSegment::removeLastElementFromSegment (
   int inputLineNumber)
 {
@@ -9598,10 +9585,15 @@ void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
       "Appending repeat to voice \"" << getVoiceName () <<  "\"" <<
       endl;
 
-  fVoiceSegment->
-    appendRepeatToSegment (repeat);
-}
+  // register repeat as the (new) current one
+  fVoiceCurrentRepeat =
+    repeat;
 
+  // append it to the list of repeats and segments
+  fVoiceRepeatsAndSegments.push_back (
+    repeat);
+}
+    
 void msrVoice::prependBarlineToVoice (S_msrBarline barline) {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
@@ -9757,6 +9749,18 @@ void msrVoice::browseData (basevisitor* v)
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrVoice::browseData()" << endl;
+
+  // browse the voice repeats and segments
+  if (fVoiceRepeatsAndSegments.size ()) {
+    for (
+      list<S_msrElement>::iterator i = fVoiceRepeatsAndSegments.begin();
+      i != fVoiceRepeatsAndSegments.end();
+      i++) {
+      // browse the element
+      msrBrowser<msrElement> browser (v);
+      browser.browse (*(*i));
+    } // for
+  }
 
   // browse the segment
   msrBrowser<msrSegment> browser (v);

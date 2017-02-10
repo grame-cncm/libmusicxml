@@ -1740,8 +1740,6 @@ class EXP msrSegment : public msrElement
     void          appendBarlineToSegment (S_msrBarline barline);
     void          appendBarCheckToSegment (S_msrBarCheck barCheck);
     
-    void          appendRepeatToSegment (S_msrRepeat repeat);
-
     void          appendOtherElementToSegment (S_msrElement elem)
                       {
                         fSegmentMeasuresList.back ()->
@@ -4881,9 +4879,15 @@ class EXP msrVoice : public msrElement
     bool                      fMeasureNumberHasBeenSetInVoice;
     bool                      fMusicHasBeenInsertedInVoice;
     
-    // the syllable in the voice contains the measures
-    // it is created implicitly for every voice,
+    // fVoiceSegment contains the music
+    // not yet stored in fVoiceRepeatsAndSegments,
+    // it is thus logically the end of the latter,
+    // and is created implicitly for every voice,
+    list<S_msrElement>        fVoiceRepeatsAndSegments;
     S_msrSegment              fVoiceSegment;
+    // fVoiceCurrentRepeat is always null or
+    // the last msrRepeat in fVoiceRepeatsAndSegments
+    S_msrRepeat               fVoiceCurrentRepeat;
 
     // the stanza master, collecting skips along the way,
     // to be used as a 'prelude' by actual stanzas
