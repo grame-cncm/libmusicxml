@@ -8790,21 +8790,6 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
     fMeasureNumberHasBeenSetInVoice;
   clone->fMusicHasBeenInsertedInVoice =
     fMusicHasBeenInsertedInVoice;
-
-/* JMI
-  // create the segment
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Creating the initial segment clone for voice \"" <<
-      clone->getVoiceName () << "\"" <<
-      endl;
-      
-  clone->
-    fVoiceSegment =
-      msrSegment::create (
-        clone->fInputLineNumber,
-        clone);
-  */
   
   return clone;
 }
@@ -8879,37 +8864,23 @@ msrVoice::msrVoice (
 
   // get the initial clef from the staff if any
   {
-  S_msrClef
-    clef =
-      fVoiceStaffUplink->getStaffClef ();
-      /*
-  if (! clef)
-    // it doesn't exist yet, create default G clef
-    clef =
-      msrClef::create (
-        inputLineNumber,
-        "G", 2, 0);
-        */
-  if (clef) {
-    // append it to the segment
-    fVoiceSegment->
-      appendClefToSegment (clef);
-    }
+    S_msrClef
+      clef =
+        fVoiceStaffUplink->getStaffClef ();
+  
+    if (clef) {
+      // append it to the segment
+      fVoiceSegment->
+        appendClefToSegment (clef);
+      }
   }
     
   // get the initial key from the staff if any
   {
-  S_msrKey
-    key =
-      fVoiceStaffUplink->getStaffKey ();
-  /*    JMI
-  if (! key)
-    // it doesn't exist yet, create default C major key
-    key =
-      msrKey::create (
-        inputLineNumber,
-        0, "major", 0);
-        */
+    S_msrKey
+      key =
+        fVoiceStaffUplink->getStaffKey ();
+
     if (key) {
       // append it to the segment
       fVoiceSegment->
@@ -8922,14 +8893,7 @@ msrVoice::msrVoice (
     S_msrTime
       time =
         fVoiceStaffUplink->getStaffTime ();
-        /*
-    if (! time)
-      // it doesn't exist yet, create default 4/4 time
-      time =
-        msrTime::create (
-          inputLineNumber,
-          4, 4);
-  */
+
     if (time) {
       // append it to the segment
       fVoiceSegment->
@@ -9205,9 +9169,8 @@ void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  S_msrElement t = transpose;
   fVoiceSegment->
-    appendOtherElementToSegment (t);
+    appendOtherElementToSegment (transpose);
 }
 
 /* JMI
@@ -9232,9 +9195,8 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  S_msrElement t = tempo;
   fVoiceSegment->
-    appendOtherElementToSegment (t);
+    appendOtherElementToSegment (tempo);
 }
 
 void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
@@ -9247,9 +9209,8 @@ void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  S_msrElement o = octaveShift;
   fVoiceSegment->
-    appendOtherElementToSegment (o);
+    appendOtherElementToSegment (octaveShift);
 }
 
 void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
@@ -9260,9 +9221,8 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  S_msrElement r = rehearsal;
   fVoiceSegment->
-    appendOtherElementToSegment (r);
+    appendOtherElementToSegment (rehearsal);
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
