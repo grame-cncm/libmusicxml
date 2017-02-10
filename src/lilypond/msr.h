@@ -1732,6 +1732,10 @@ class EXP msrSegment : public msrElement
 
     void          appendMeasureToSegment (S_msrMeasure measure);
 
+    void          appendMeasureToSegmentIfNeeded (
+                    int inputLineNumber,
+                    int measureNumber);
+  
     void          appendClefToSegment (S_msrClef clef);
     void          appendKeyToSegment (S_msrKey key);
     void          appendTimeToSegment (S_msrTime time);
@@ -1743,11 +1747,7 @@ class EXP msrSegment : public msrElement
     void          appendBarlineToSegment (S_msrBarline barline);
     void          appendBarCheckToSegment (S_msrBarCheck barCheck);
     
-    void          appendOtherElementToSegment (S_msrElement elem)
-                      {
-                        fSegmentMeasuresList.back ()->
-                          appendOtherElementToMeasure (elem);
-                      }
+    void          appendOtherElementToSegment (S_msrElement elem);
         
     void          prependBarlineToSegment (S_msrBarline barline);
 

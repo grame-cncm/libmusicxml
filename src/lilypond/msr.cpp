@@ -7757,7 +7757,7 @@ msrSegment::msrSegment (
       ? 0
       : 1;
 
-//* JMI XXL
+/* JMI XXL
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr <<
       idtr <<
@@ -7779,19 +7779,19 @@ msrSegment::msrSegment (
         this);
 
   // set the measure clef, key and time if any
-  /* JMI
+  / * JMI
   measure->setMeasureClef (
     lastMeasure->getMeasureClef ());
   measure->setMeasureKey (
     lastMeasure->getMeasureKey ());
-    */
+    * /
   measure->
     setMeasureTime (
       fSegmentTime);
         
   // append the measure to the segment
   fSegmentMeasuresList.push_back (measure);
-//*/
+*/
 
   fMeasureNumberHasBeenSetInSegment = false;
 }
@@ -8205,6 +8205,26 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
   fSegmentMeasuresList.push_back (measure);
 }
 
+void msrSegment::appendMeasureToSegmentIfNeeded (
+  int inputLineNumber,
+  int measureNumber)
+{
+  if (! fSegmentMeasuresList.size ()) {
+    // create a new measure
+    S_msrMeasure
+      newMeasure =
+        msrMeasure::create (
+          inputLineNumber,
+          measureNumber,
+          fSegmentDivisionsPerWholeNote,
+          this);
+
+    // append it to the segment
+    appendMeasureToSegment (
+      newMeasure);
+  }
+}
+
 void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 {
   if (gGeneralOptions->fDebug)
@@ -8263,6 +8283,16 @@ void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // XXL
 {
   fSegmentMeasuresList.back ()->
     appendTupletToMeasure (tuplet);
+}
+
+void msrSegment::appendOtherElementToSegment (S_msrElement elem)
+{
+  appendMeasureToSegmentIfNeeded (
+    elem->getInputLineNumber (),
+    fSegmentMeasureNumber + 1);
+  
+  fSegmentMeasuresList.back ()->
+    appendOtherElementToMeasure (elem);
 }
 
 /* JMI
