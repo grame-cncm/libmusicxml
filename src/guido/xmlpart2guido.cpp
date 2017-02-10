@@ -482,7 +482,7 @@ namespace MusicXML2
             tag = guidotag::create(fCrescPending ? "crescEnd" : "dimEnd");
         }
         if (tag) {
-            xml2guidovisitor::addPosition(elt, tag, 18);
+            xml2guidovisitor::addPosY(elt, tag, 12, -1);    //addPosition(elt, tag, 18);
             if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
             else add (tag);
         }
@@ -526,7 +526,7 @@ namespace MusicXML2
             if ((*iter)->getType() != k_other_dynamics) {
                 Sguidoelement tag = guidotag::create("intens");
                 tag->add (guidoparam::create((*iter)->getName()));
-                if (fGeneratePositions) xml2guidovisitor::addPosY(elt, tag, 12);
+                if (fGeneratePositions) xml2guidovisitor::addPosY(elt, tag, 12, 1);
                 if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
                 else add (tag);
             }

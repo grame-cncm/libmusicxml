@@ -309,14 +309,16 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
-    void xml2guidovisitor::addPosY	( Sxmlelement elt, Sguidoelement& tag, int yoffset)
+    void xml2guidovisitor::addPosY	( Sxmlelement elt, Sguidoelement& tag, int yoffset, int ymultiplier = 1.0)
     {
         float posy = elt->getAttributeFloatValue("default-y", 0) + elt->getAttributeFloatValue("relative-y", 0);
         if (posy) {
             posy = (posy / 10) * 2;   // convert to half spaces
             posy += yoffset;		  // anchor point convertion (defaults to upper line in xml)
+            posy = posy * ymultiplier;
             stringstream s;
             s << "dy=" << posy << "hs";
+            //cout<< elt->getName()<<" XML Pos: "<< elt->getAttributeFloatValue("default-y", 0)<<" Guido Pos: "<< posy<<endl;
             tag->add (guidoparam::create(s.str(), false));
         }
     }
