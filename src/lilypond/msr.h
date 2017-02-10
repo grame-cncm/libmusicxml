@@ -1577,6 +1577,10 @@ class EXP msrMeasure : public msrElement
     S_msrPart     getMeasurePartDirectUplink () const
                       { return fMeasurePartDirectUplink; }
 
+    const list<S_msrElement>&
+                  getMeasureElementsList () const
+                      { return fMeasureElementsList; }
+
     // services
     // ------------------------------------------------------
 

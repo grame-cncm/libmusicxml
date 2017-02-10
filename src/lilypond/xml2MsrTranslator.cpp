@@ -3028,7 +3028,7 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
 
 void xml2MsrTranslator::visitEnd (S_measure& elt)
 {
-    // finalize last part measure to update master voice
+  // finalize last part measure to update master voice
   fCurrentPart->
     finalizeLastMeasureOfPart (
       elt->getInputLineNumber ());

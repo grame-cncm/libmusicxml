@@ -7058,6 +7058,8 @@ msrMeasure::msrMeasure (
 
   fMeasureSegmentUplink = segmentUplink;
 
+// JMI  assert(fMeasureSegmentUplink->getSegmentAbsoluteNumber () != 6); // XXL
+
   // set measure voice direct uplink
   fMeasureVoiceDirectUplink =
     fMeasureSegmentUplink->
@@ -7757,7 +7759,6 @@ msrSegment::msrSegment (
       ? 0
       : 1;
 
-/* JMI XXL
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr <<
       idtr <<
@@ -7779,19 +7780,18 @@ msrSegment::msrSegment (
         this);
 
   // set the measure clef, key and time if any
-  / * JMI
+  /* JMI
   measure->setMeasureClef (
     lastMeasure->getMeasureClef ());
   measure->setMeasureKey (
     lastMeasure->getMeasureKey ());
-    * /
+    */
   measure->
     setMeasureTime (
       fSegmentTime);
         
   // append the measure to the segment
-  fSegmentMeasuresList.push_back (measure);
-*/
+  appendMeasureToSegment (measure);
 
   fMeasureNumberHasBeenSetInSegment = false;
 }
@@ -8152,6 +8152,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 {  
   if (fSegmentMeasuresList.size ()) {
+    
     S_msrMeasure
       lastMeasure =
         fSegmentMeasuresList.back ();
@@ -8189,26 +8190,53 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
     else if (lastMeasureNumber == 1 && measureNumber == 0) {
       // remove initial measure 1
 
-    if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "### --> replacing initial measure 1 of segment " <<
-        segmentAsString () <<
-        " by measure 0" <<
-        ", line " << measure-> getInputLineNumber () <<
-        endl;
+      if (gGeneralOptions->fDebug)
+        cerr << idtr <<
+          "### --> replacing initial measure 1 of segment " <<
+          segmentAsString () <<
+          " by measure 0" <<
+          ", line " << measure-> getInputLineNumber () <<
+          endl;
 
       fSegmentMeasuresList.pop_back ();
     }
+
+    else if (lastMeasureNumber == measureNumber) {
+      
+      if (lastMeasure->getMeasureElementsList ().size ()) {
+        // keep existing measure, since it's empty
+      }
+      
+      else {
+        stringstream s;
+
+        s <<
+          "measure " << measureNumber <<
+          " already exists and is not empty" <<
+          " cannot append it to segment " <<
+          fSegmentAbsoluteNumber;
+
+        msrInternalError (
+          measure-> getInputLineNumber (),
+          s.str());
+      }
+    }
+    
   }
 
-  // append measure to the segment
-  fSegmentMeasuresList.push_back (measure);
+  else {
+
+    // append measure to the segment
+    fSegmentMeasuresList.push_back (measure);
+    
+  }
 }
 
-void msrSegment::appendMeasureToSegmentIfNeeded (
+void msrSegment::appendMeasureToSegmentIfNeeded ( // JMI
   int inputLineNumber,
   int measureNumber)
 {
+  /*
   if (! fSegmentMeasuresList.size ()) {
     // create a new measure
     S_msrMeasure
@@ -8223,6 +8251,7 @@ void msrSegment::appendMeasureToSegmentIfNeeded (
     appendMeasureToSegment (
       newMeasure);
   }
+  */
 }
 
 void msrSegment::prependBarlineToSegment (S_msrBarline barline)
@@ -8287,9 +8316,11 @@ void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // XXL
 
 void msrSegment::appendOtherElementToSegment (S_msrElement elem)
 {
-  appendMeasureToSegmentIfNeeded (
+  /*
+  appendMeasureToSegmentIfNeeded ( // JMI
     elem->getInputLineNumber (),
     fSegmentMeasureNumber + 1);
+  */
   
   fSegmentMeasuresList.back ()->
     appendOtherElementToMeasure (elem);
@@ -8873,7 +8904,7 @@ msrVoice::msrVoice (
   // create the initial segment for this voice
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Creating the initial segment for voice \"" <<
+      "Creating the initial last segment for voice \"" <<
       getVoiceName () << "\"" <<
       endl;
       
