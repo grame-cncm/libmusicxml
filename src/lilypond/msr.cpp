@@ -7066,6 +7066,8 @@ msrMeasure::msrMeasure (
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating measure " << fMeasureNumber <<
+      " in segment " <<
+      fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       " in voice \"" <<
       fMeasureVoiceDirectUplink->getVoiceName () <<
       "\"" <<
@@ -8975,8 +8977,10 @@ void msrVoice::setNewSegmentForVoice (
   // create the segment
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Creating a new segment for voice " <<
-      getVoiceName () << endl;
+      "Creating a new segment for voice \"" <<
+      getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
       
   fVoiceLastSegment =
     msrSegment::create (
@@ -8994,7 +8998,10 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
     
     s <<
       "stanza " << stanzaNumber <<
-      " already exists in this voice";
+      " already exists in voice \"" <<
+      getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
 
     msrInternalError (
       inputLineNumber,

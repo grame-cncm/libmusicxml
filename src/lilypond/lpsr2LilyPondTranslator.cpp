@@ -1527,6 +1527,12 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
             errorMessage,
             false); // 'true' to debug it
 
+        if (errorMessage.size ())
+       // JMI   msrMusicXMLWarning (
+          msrMusicXMLError (
+            elt->getInputLineNumber (),
+            errorMessage);
+
         if (partialDuration != "?")  // JMI
           fOstream << idtr <<
             "\\partial" " " << partialDuration <<

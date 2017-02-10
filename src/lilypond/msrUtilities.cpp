@@ -624,15 +624,30 @@ string divisionsAsMSRDuration (
 
   //debugMode = true; // TEMP, for tests
   
+  if (divisions <= 0) {
+    stringstream s;
+    
+    s << 
+      "### divisionsAsMSRDuration ():" <<
+      endl <<
+      "divisions = " << divisions <<
+      ": should be positive !" <<
+      endl;
+      
+    errorMessage = s.str();
+    
+    return "?";
+  }
+
   if (divisionsPerWholeNote <= 0) {
     stringstream s;
     
     s << 
-      "### divisionsAsMSRDuration ():" << endl <<
-      "divisionsPerWholeNote = " <<
-      divisionsPerWholeNote << endl <<
-      "divisions = " <<
-      divisions <<
+      "### divisionsAsMSRDuration ():" <<
+      endl <<
+      "divisions = " << divisions <<
+      endl <<
+      "divisionsPerWholeNote = " << divisionsPerWholeNote <<
       ": should be positive !" <<
       endl;
       
@@ -802,15 +817,30 @@ string divisionsAsMSRDuration (
 
   //debugMode = true; // TEMP, for tests
   
+  if (divisions <= 0) {
+    stringstream s;
+    
+    s << 
+      "### divisionsAsMSRDuration ():" <<
+      endl <<
+      "divisions = " << divisions <<
+      ": should be positive !" <<
+      endl;
+      
+    errorMessage = s.str();
+    
+    return "?";
+  }
+
   if (divisionsPerWholeNote <= 0) {
     stringstream s;
     
     s << 
-      "### divisionsAsMSRDuration ():" << endl <<
-      "divisionsPerWholeNote = " <<
-      divisionsPerWholeNote << endl <<
-      "divisions = " <<
-      divisions <<
+      "### divisionsAsMSRDuration ():" <<
+      endl <<
+      "divisions = " << divisions <<
+      endl <<
+      "divisionsPerWholeNote = " << divisionsPerWholeNote <<
       ": should be positive !" <<
       endl;
       

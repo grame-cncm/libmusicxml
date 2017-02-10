@@ -1686,6 +1686,9 @@ class EXP msrSegment : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    int           getSegmentAbsoluteNumber () const
+                      { return fSegmentAbsoluteNumber; }
+                      
     S_msrVoice    getSegmentVoiceUplink () const
                       { return fSegmentVoicekUplink; }
                       
