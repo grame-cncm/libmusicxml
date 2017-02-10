@@ -1525,7 +1525,7 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
 void msrGracenotes::appendNoteToGracenotes (S_msrNote note)
 {
   fGracenotesSegment->
-    appendOtherElementToSegment (note);
+    appendNoteToSegment (note);
 
   // JMI
   cerr <<
@@ -2600,7 +2600,7 @@ void msrNote::print (ostream& os)
   if (fNotePositionInMeasure < 0)
     os << "?";
   else
-    fNotePositionInMeasure;
+    os << fNotePositionInMeasure;
     
   os <<
     "/" <<
@@ -2654,10 +2654,10 @@ void msrNote::print (ostream& os)
   // print the extend kind if relevant
   switch (fNoteSyllableExtendKind) {
     
-    case msrSyllable::kSingleSyllable:
-    case msrSyllable::kBeginSyllable:
-    case msrSyllable::kMiddleSyllable:
-    case msrSyllable::kEndSyllable:
+    case msrSyllable::kStandaloneSyllableExtend:
+    case msrSyllable::kStartSyllableExtend:
+    case msrSyllable::kContinueSyllableExtend:
+    case msrSyllable::kStopSyllableExtend:
       idtr++;
       os <<
         idtr <<
@@ -2668,22 +2668,12 @@ void msrNote::print (ostream& os)
       idtr--;
       break;
       
-    case msrSyllable::kRestSyllable:
-    case msrSyllable::kSkipSyllable:
-    case msrSyllable::kSlurSyllable:
-    case msrSyllable::kSlurBeyondEndSyllable:
-    case msrSyllable::kTiedSyllable:
-    case msrSyllable::kBarcheckSyllable:
-    case msrSyllable::kBarnumberCheckSyllable:
-    case msrSyllable::kBreakSyllable:
-      break;
-      
-    case msrSyllable::k_NoSyllable:
+    case msrSyllable::k_NoSyllableExtend:
       break;
   } // switch
 
 /*
-  switch (elt->getNoteKind ()) { // JMI
+   switch (elt->getNoteKind ()) { // JMI
     case msrNote::k_NoNoteKind:
       break;
     case msrNote::kStandaloneNote:
@@ -8097,6 +8087,46 @@ void msrSegment::finalizeLastMeasureOfSegment (int inputLineNumber)
     finalizeMeasure (inputLineNumber);
 }
 
+void msrSegment::appendClefToSegment (S_msrClef clef)
+{
+  if (gGeneralOptions->fDebug)
+    cerr <<
+      idtr <<
+        "--> appending clef " << clef->clefAsString () <<
+        " to segment " << segmentAsString () <<
+        endl;
+      
+  // register clef in segment
+// JMI  fSegmentClef = clef;
+
+  // register clef in segments's current measure
+  fSegmentMeasuresList.back ()->
+    setMeasureClef (clef);
+    
+  // append it to this segment
+  appendClefToSegment (clef);
+}
+
+void msrSegment::appendKeyToSegment (S_msrKey key)
+{
+  if (gGeneralOptions->fDebug)
+    cerr <<
+      idtr <<
+        "--> appending key " << key->keyAsString () <<
+        " to segment " << segmentAsString () <<
+        endl;
+      
+  // register key in segment
+// JMI  fSegmentKey = key;
+
+  // register key in segments's current measure
+  fSegmentMeasuresList.back ()->
+    setMeasureKey (key);
+    
+  // append it to this segment
+  appendKeyToSegment (key);
+}
+    
 void msrSegment::appendTimeToSegment (S_msrTime time)
 {
   if (gGeneralOptions->fDebug)
@@ -8114,8 +8144,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
     setMeasureTime (time);
     
   // append it to this segment
-  S_msrElement t = time;
-  appendOtherElementToSegment (t);
+  appendTimeToSegment (time);
 }
 
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
@@ -8250,6 +8279,18 @@ void msrSegment::removeElementFromSegment (
 }
 */
 
+void msrSegment::appendRepeatToSegment (S_msrRepeat repeat)
+{
+  if (gGeneralOptions->fDebug)
+    cerr <<
+      idtr <<
+        "--> appending repeat " <<
+        " to segment '" << segmentAsString () << "'" <<
+      endl;
+      
+  fSegmentMeasuresList.back ()->
+    appendBarCheckToMeasure (repeat); // XXL
+}
 
 S_msrElement msrSegment::removeLastElementFromSegment (
   int inputLineNumber)
@@ -8461,7 +8502,8 @@ S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
   return clone;
 }
 
-void msrRepeatending::appendElementToRepeatending (S_msrElement elem) // JMI ???
+void msrRepeatending::appendElementToRepeatending (
+  S_msrElement elem) // JMI ???
 {
   fRepeatendingSegment->
     appendOtherElementToSegment (elem);
@@ -8850,9 +8892,8 @@ msrVoice::msrVoice (
         */
   if (clef) {
     // append it to the segment
-    S_msrElement c = clef;
     fVoiceSegment->
-      appendOtherElementToSegment (c);
+      appendClefToSegment (clef);
     }
   }
     
@@ -8871,9 +8912,8 @@ msrVoice::msrVoice (
         */
     if (key) {
       // append it to the segment
-      S_msrElement k = key;
       fVoiceSegment->
-        appendOtherElementToSegment (k);
+        appendKeyToSegment (key);
     }
   }
   
@@ -8892,9 +8932,8 @@ msrVoice::msrVoice (
   */
     if (time) {
       // append it to the segment
-      S_msrElement t = time;
       fVoiceSegment->
-        appendOtherElementToSegment (t);
+        appendTimeToSegment (time);
     }
   }
   
@@ -8908,7 +8947,7 @@ msrVoice::msrVoice (
       // append it to the segment
       S_msrElement t = transpose;
       fVoiceSegment->
-        appendOtherElementToSegment (t);
+        appendOtherElementToSegment (transpose); //JMI
     }
   }
 }
@@ -9126,9 +9165,8 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  S_msrElement c = clef;
   fVoiceSegment->
-    appendOtherElementToSegment (c);
+    appendClefToSegment (clef);
 }
 
 void msrVoice::appendKeyToVoice (S_msrKey key)
@@ -9139,9 +9177,8 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  S_msrElement k = key;
   fVoiceSegment->
-    appendOtherElementToSegment (k);
+    appendKeyToSegment (key);
 }
 
 void msrVoice::appendTimeToVoice (S_msrTime time)
@@ -9601,9 +9638,8 @@ void msrVoice::appendRepeatToVoice (S_msrRepeat repeat) {
       "Appending repeat to voice \"" << getVoiceName () <<  "\"" <<
       endl;
 
-  S_msrElement r = repeat;
   fVoiceSegment->
-    appendOtherElementToSegment (r);
+    appendRepeatToSegment (repeat);
 }
 
 void msrVoice::prependBarlineToVoice (S_msrBarline barline) {

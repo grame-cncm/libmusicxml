@@ -7144,8 +7144,6 @@ void xml2MsrTranslator::handleHookedEndingEnd (
     fPendingBarlines.pop ();
   }
 
-cerr << "FOO" << endl;
-
   // create a new segment for the voice
   if (gGeneralOptions->fTrace)
     cerr << idtr <<

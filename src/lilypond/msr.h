@@ -1729,16 +1729,19 @@ class EXP msrSegment : public msrElement
 
     void          appendMeasureToSegment (S_msrMeasure measure);
 
+    void          appendClefToSegment (S_msrClef clef);
+    void          appendKeyToSegment (S_msrKey key);
     void          appendTimeToSegment (S_msrTime time);
-
-    void          appendBarCheckToSegment (S_msrBarCheck barCheck);
 
     void          appendNoteToSegment (S_msrNote note);
     void          appendChordToSegment (S_msrChord chord);
     void          appendTupletToSegment (S_msrTuplet tuplet);
     
     void          appendBarlineToSegment (S_msrBarline barline);
+    void          appendBarCheckToSegment (S_msrBarCheck barCheck);
     
+    void          appendRepeatToSegment (S_msrRepeat repeat);
+
     void          appendOtherElementToSegment (S_msrElement elem)
                       {
                         fSegmentMeasuresList.back ()->
