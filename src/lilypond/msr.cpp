@@ -8736,8 +8736,9 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
     clone =
       msrRepeat::create (
         fInputLineNumber,
-        segment,
         clonedVoice);
+
+  // commonpart? JMI
   
   return clone;
 }

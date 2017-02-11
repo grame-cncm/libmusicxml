@@ -6953,7 +6953,6 @@ void xml2MsrTranslator::handleRepeatStart (
     fCurrentRepeat =
       msrRepeat::create (
         inputLineNumber,
-        currentSegment,
         currentVoice);
   }
 
@@ -7056,9 +7055,13 @@ void xml2MsrTranslator::handleRepeatEnd (
       fCurrentRepeat =
         msrRepeat::create (
           inputLineNumber,
-          currentSegment,
           currentVoice);
 
+      // set current segment as the repeat common part
+      fCurrentRepeat->
+        setRepeatCommonPart (
+          currentSegment);
+        
       // append the repeat to the current voice
       if (gGeneralOptions->fDebug)
         cerr << idtr <<
@@ -7167,7 +7170,6 @@ void xml2MsrTranslator::handleEndingStart (
     fCurrentRepeat =
       msrRepeat::create (
         inputLineNumber,
-        currentSegment,
         currentVoice);
 
     // set the repeat common part
@@ -7242,18 +7244,8 @@ void xml2MsrTranslator::handleHookedEndingEnd (
       currentVoice->
         getVoiceLastSegment ();
 
-  // create new segment from current voice
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> setting new segment for voice \"" <<
-      currentVoice->getVoiceName () << "\"" <<
-      endl;
-      
-  currentVoice->
-    setNewSegmentForVoice (
-      inputLineNumber);
-
-  if (! fCurrentRepeat) {
+/* JMI
+  if (! fCurrentRepeat) { // JMI
     // create the repeat
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
@@ -7267,6 +7259,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
         currentSegment,
         currentVoice);
   }
+    */
     
   // create a repeat ending from the current segment
   if (gGeneralOptions->fDebug)
@@ -7295,6 +7288,18 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   fCurrentRepeat->
     addRepeatending (repeatEnding);
   
+  // create new segment from current voice
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> setting new segment for voice \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl;
+      
+  currentVoice->
+    setNewSegmentForVoice (
+      inputLineNumber);
+
+    /*
   if (fPendingBarlines.empty ()) {
     if (gGeneralOptions->fTrace)
       cerr <<
@@ -7302,7 +7307,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
         "There's an implicit repeat start at the beginning of part " <<
         fCurrentPart->getPartCombinedName () <<
         endl;
-
+        
     // create the implicit barline
     S_msrBarline
       implicitBarline =
@@ -7349,6 +7354,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   }
   
   else {
+    /* JMI
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Fetching barline from pending barlines stack top" <<
@@ -7366,27 +7372,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
     // pop the barline top off the stack
     fPendingBarlines.pop ();
   }
-
-  // create a new segment for the voice
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Setting new segment for voice " <<
-      currentVoice->getVoiceName () <<
-      endl;
-      
-  currentVoice->
-    setNewSegmentForVoice (
-      inputLineNumber);
-
-  // add the repeat to the new segment
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Appending the repeat to voice \"" <<
-      currentVoice->getVoiceName () << "\"" <<
-      endl;
-
-  currentVoice->
-    appendRepeatToVoice (fCurrentRepeat);
+  */
 }
 
 //______________________________________________________________________________
@@ -7470,15 +7456,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
     setNewSegmentForVoice (
       inputLineNumber);
 
-  // add the repeat to the voice
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> appending the repeat to voice " <<
-      currentVoice->getVoiceName () << endl;
-      
-  currentVoice->
-    appendRepeatToVoice (fCurrentRepeat);
-
+/*
   if (fPendingBarlines.empty ()) {
     if (gGeneralOptions->fTrace)
       cerr <<
@@ -7555,6 +7533,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
     // pop the pending barline off the stack
     fPendingBarlines.pop ();
   }
+  */
 }
 
 //______________________________________________________________________________
