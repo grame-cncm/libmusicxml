@@ -155,40 +155,6 @@
 \draw [->,very thick,-{Stealth[length=10pt]},loosely dashed,color=gray!50] (MDSR) -- (MSR);
 
 
-% Draw xml2guido
-% ------------------------------------------------
-
-\filldraw [gray!30] 
-  (\xmlToGuidoStartAbs, \xmlToGuidoStartOrd) circle [radius=0pt]
-  (\xmlToGuidoInterAbs,\xmlToGuidoInterOrd) circle [radius=0pt] 
-  (\xmlToGuidoEndAbs,\xmlToGuidoEndOrd) circle [radius=0pt];
-  
-\draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
-  (\xmlToGuidoStartAbs, \xmlToGuidoStartOrd)
-  ..
-  node[above,pos=0.85,sloped] {xmlToGuido}
-  controls (\xmlToGuidoInterAbs,\xmlToGuidoInterOrd)
-  .. 
-  (\xmlToGuidoEndAbs,\xmlToGuidoEndOrd);
-
-
-% Draw RandomMusic
-% ------------------------------------------------
-
-\filldraw [gray!30] 
-  (\RandomMusicStartAbs, \RandomMusicStartOrd) circle [radius=1pt]
-  (\RandomMusicInterAbs,\RandomMusicInterOrd) circle [radius=0pt] 
-  (\RandomMusicEndAbs,\RandomMusicEndOrd) circle [radius=0pt];
-  
-\draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
-  (\RandomMusicStartAbs, \RandomMusicStartOrd)
-  ..
-  node[above,pos=0.15,sloped] {RandomMusic}
-  controls (\RandomMusicInterAbs,\RandomMusicInterOrd)
-  .. 
-  (\RandomMusicEndAbs,\RandomMusicEndOrd);
-
-
 % Draw the tools
 % ------------------------------------------------
 
@@ -206,6 +172,40 @@
   (\toolsEndAbs,\toolsEndOrd);
 
 
+% Draw RandomMusic
+% ------------------------------------------------
+
+\filldraw [gray!30] 
+  (\RandomMusicStartAbs, \RandomMusicStartOrd) circle [radius=1pt]
+  (\RandomMusicInterAbs,\RandomMusicInterOrd) circle [radius=0pt] 
+  (\RandomMusicEndAbs,\RandomMusicEndOrd) circle [radius=0pt];
+  
+\draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
+  (\RandomMusicStartAbs, \RandomMusicStartOrd)
+  ..
+  node[above,pos=0.175,sloped] {RandomMusic}
+  controls (\RandomMusicInterAbs,\RandomMusicInterOrd)
+  .. 
+  (\RandomMusicEndAbs,\RandomMusicEndOrd);
+
+
+% Draw xml2guido
+% ------------------------------------------------
+
+\filldraw [gray!30] 
+  (\xmlToGuidoStartAbs, \xmlToGuidoStartOrd) circle [radius=0pt]
+  (\xmlToGuidoInterAbs,\xmlToGuidoInterOrd) circle [radius=0pt] 
+  (\xmlToGuidoEndAbs,\xmlToGuidoEndOrd) circle [radius=0pt];
+  
+\draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
+  (\xmlToGuidoStartAbs, \xmlToGuidoStartOrd)
+  ..
+  node[above,pos=0.815,sloped] {xmlToGuido}
+  controls (\xmlToGuidoInterAbs,\xmlToGuidoInterOrd)
+  .. 
+  (\xmlToGuidoEndAbs,\xmlToGuidoEndOrd);
+
+
 % Draw xml2lilypond  
 % ------------------------------------------------
 
@@ -218,7 +218,7 @@
 \draw [->,thick,red,-{Stealth[length=10pt]},anchor=center]
   (\xmlToLilyPondStartAbs, \xmlToLilyPondStartOrd)
   ..
-  node[above,pos=0.7,sloped] {xml2lilypond}
+  node[above,pos=0.685,sloped] {xml2lilypond}
   controls 
     (\xmlToLilyPondInterIAbs,\xmlToLilyPondInterIOrd)
     and

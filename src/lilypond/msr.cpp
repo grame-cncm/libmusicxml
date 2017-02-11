@@ -8076,6 +8076,29 @@ void msrSegment::forceSegmentMeasureNumberTo (int measureNumber) // JMI
   }
 };
 
+void msrSegment::incrementSegmentLastMeasureNumber (
+  int inputLineNumber)
+{
+  if (fSegmentMeasuresList.size ()) {
+    fSegmentMeasuresList.back ()->
+      incrementMeasureNumber ();
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "segment " << fSegmentAbsoluteNumber <<
+      " contains no measure," <<
+      endl <<
+      " cannot increment the absolute number of its last measure";
+
+    msrInternalError (
+      inputLineNumber,
+      s.str());
+  }
+};
+
 void msrSegment::finalizeLastMeasureOfSegment (int inputLineNumber)
 {
   if (gGeneralOptions->fDebug)
@@ -9042,12 +9065,17 @@ void msrVoice::setNewSegmentForVoice (
       getVoiceName () << "\"" <<
       ", line " << inputLineNumber <<
       endl;
-      
+
   fVoiceLastSegment =
     msrSegment::create (
       inputLineNumber,
       fVoiceDivisionsPerWholeNote,
       this);
+
+  // increment it's first measures' number
+  fVoiceLastSegment->
+    incrementSegmentLastMeasureNumber (
+      inputLineNumber);
 }
 
 S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (

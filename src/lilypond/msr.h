@@ -1523,6 +1523,9 @@ class EXP msrMeasure : public msrElement
     void          setMeasureNumber (int measureNumber)
                       { fMeasureNumber = measureNumber; }
 
+    void          incrementMeasureNumber ()
+                      { fMeasureNumber++; }
+
     int           getMeasureNumber () const
                       { return fMeasureNumber; }
 
@@ -1730,7 +1733,9 @@ class EXP msrSegment : public msrElement
     void          setAllSegmentMeasuresDivisionsPerWholeNote (
                     int divisionsPerWholeNote);
 
-    void          forceSegmentMeasureNumberTo (int measureNumber);
+    void          forceSegmentMeasureNumberTo (int measureNumber); // JMI
+    void          incrementSegmentLastMeasureNumber (
+                    int inputLineNumber);
 
     string        segmentAsString ();
 
