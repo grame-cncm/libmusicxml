@@ -793,11 +793,7 @@ class EXP xml2MsrTranslator :
                                 S_barline     elt,
                                 S_msrBarline& barline);
 
-    void                      handleEndingStart (
-                                S_barline     elt,
-                                S_msrBarline& barline);
-
-    void                      handleHooklessEndingEnd (
+    void                      handleHookedEndingStart (
                                 S_barline     elt,
                                 S_msrBarline& barline);
 
@@ -805,6 +801,14 @@ class EXP xml2MsrTranslator :
                                 S_barline     elt,
                                 S_msrBarline& barline);
     
+    void                      handleHooklessEndingStart (
+                                S_barline     elt,
+                                S_msrBarline& barline);
+
+    void                      handleHooklessEndingEnd (
+                                S_barline     elt,
+                                S_msrBarline& barline);
+
     // unpitched notes handling
     // ------------------------------------------------------
     char                      fDisplayStep;

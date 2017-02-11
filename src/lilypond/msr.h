@@ -4535,6 +4535,8 @@ class EXP msrRepeatending : public msrElement
     // services
     // ------------------------------------------------------
 
+    string        repeatendingAsString () const;
+
     void          appendElementToRepeatending (S_msrElement elem);
                     
     // visitors
@@ -4638,7 +4640,7 @@ class EXP msrRepeat : public msrElement
     S_msrSegment              fRepeatCommonPart;
     
     vector<S_msrRepeatending> fRepeatEndings;
-    int                       fRepeatEndingsCounter;
+    int                       fRepeatEndingsInternalCounter;
     
     S_msrVoice                fRepeatVoiceUplink;
 };

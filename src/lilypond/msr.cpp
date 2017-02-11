@@ -8678,16 +8678,26 @@ string msrRepeatending::repeatendingKindAsString (
   return result;
 }
 
-void msrRepeatending::print (ostream& os)
+string msrRepeatending::repeatendingAsString () const
 {
-  os <<
-    "Repeatending" <<
+  stringstream s;
+
+  s <<
+   "Repeatending" <<
     ", line " << fInputLineNumber <<
     ", number " << fRepeatendingNumber <<
     ", internal number " << fRepeatendingInternalNumber <<
     ", " << repeatendingKindAsString (fRepeatendingKind) <<
     endl;
 
+  return s.str();
+}
+
+void msrRepeatending::print (ostream& os)
+{
+  os <<
+    repeatendingAsString ();
+ 
   idtr++;
 
   os <<
@@ -8713,8 +8723,9 @@ msrRepeat::msrRepeat (
   S_msrVoice   voiceUplink)
     : msrElement (inputLineNumber)
 {
-  fRepeatEndingsCounter = 0;
-  fRepeatVoiceUplink    = voiceUplink;
+  fRepeatEndingsInternalCounter = 0;
+  
+  fRepeatVoiceUplink = voiceUplink;
 }
 
 msrRepeat::~msrRepeat() {}
@@ -8761,14 +8772,17 @@ void msrRepeat::addRepeatending (S_msrRepeatending repeatending)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Adding an ending to repeat" << endl;
+      "Adding ending '" <<
+      repeatending->repeatendingAsString () <<
+      "' to repeat" <<
+      endl;
       
   fRepeatEndings.push_back (repeatending);
 
   // set repeat ending internal number
   repeatending->
     setRepeatendingInternalNumber (
-      ++ fRepeatEndingsCounter);
+      ++ fRepeatEndingsInternalCounter);
 }
 
 void msrRepeat::acceptIn (basevisitor* v) {

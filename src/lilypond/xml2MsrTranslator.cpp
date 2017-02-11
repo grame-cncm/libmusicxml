@@ -3723,10 +3723,23 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
   else if (
     fCurrentBarlineLocation == msrBarline::kLeft
       &&
-    fCurrentBarlineEndingType == msrBarline::kStart) {
-    // ending start
+    fCurrentBarlineEndingType == msrBarline::kStart
+     &&
+    fCurrentBarlineRepeatDirection == msrBarline::kForward) {
+    // hooked ending start
     // ------------------------------------------------------
-    handleEndingStart (elt, barline);
+    handleHookedEndingStart (elt, barline);
+
+    barlineIsAlright = true;
+  }
+
+  else if (
+    fCurrentBarlineLocation == msrBarline::kLeft
+      &&
+    fCurrentBarlineEndingType == msrBarline::kStart) {
+    // hookless ending start
+    // ------------------------------------------------------
+    handleHooklessEndingStart (elt, barline);
 
     barlineIsAlright = true;
   }
@@ -7117,7 +7130,7 @@ void xml2MsrTranslator::handleRepeatEnd (
 }
 
 //______________________________________________________________________________
-void xml2MsrTranslator::handleEndingStart (
+void xml2MsrTranslator::handleHookedEndingStart (
   S_barline     elt,
   S_msrBarline& barline)
 {
@@ -7136,7 +7149,7 @@ void xml2MsrTranslator::handleEndingStart (
           barline->getBarlinePositionInMeasure () <<
       endl <<
       idtr <<
-      "--> barline, left and start: ending start" <<
+      "--> barline, left, start and forward: hooked ending start" <<
       endl;
 
   // set the barline category
@@ -7259,7 +7272,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   }
     */
     
-  // create a repeat ending from the current segment
+  // create a hooked repeat ending from the current segment
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating a new hooked repeat ending for voice \"" <<
@@ -7275,7 +7288,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
         currentSegment,
         fCurrentRepeat);
 
-  // append it to the current repeat
+  // add the repeat ending it to the current repeat
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> appending repeat ending to current repeat in voice \"" <<
@@ -7374,6 +7387,96 @@ void xml2MsrTranslator::handleHookedEndingEnd (
 }
 
 //______________________________________________________________________________
+void xml2MsrTranslator::handleHooklessEndingStart (
+  S_barline     elt,
+  S_msrBarline& barline)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+//  if (gGeneralOptions->fDebug)
+    cerr <<
+      idtr << "--> input line " <<
+        inputLineNumber <<
+      endl <<
+      idtr <<
+        "--> measure " <<
+          barline->getBarlineMeasureNumber () <<
+        ", position " <<
+          barline->getBarlinePositionInMeasure () <<
+      endl <<
+      idtr <<
+      "--> barline, left and start: hookless ending start" <<
+      endl;
+
+  // set the barline category
+  barline->
+    setBarlineCategory (msrBarline::kEndingStart);
+  
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      registerVoiceInStaffInCurrentPartIfNeeded (
+        inputLineNumber,
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
+  // get the current segment
+  S_msrSegment
+    currentSegment =
+      currentVoice->
+        getVoiceLastSegment ();
+
+/*
+  if (! fCurrentRepeat) { // JMI
+    if (gGeneralOptions->fTrace)
+      cerr << idtr <<
+        "Creating a repeat in voice \"" <<
+        currentVoice->getVoiceName () << "\"" <<
+        endl;
+
+    // create the repeat
+    fCurrentRepeat =
+      msrRepeat::create (
+        inputLineNumber,
+        currentVoice);
+
+    // set the repeat common part
+    fCurrentRepeat->
+      setRepeatCommonPart (currentSegment);
+
+    // append the repeat to the current voice
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> appending the repeat to voice \"" <<
+        currentVoice->getVoiceName () << "\"" <<
+        endl;
+  
+    currentVoice->
+      appendRepeatToVoice (fCurrentRepeat);
+
+    // create new segment for the just starting ending
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> setting new last segment for the just starting ending in voice \"" <<
+        currentVoice->getVoiceName () << "\"" <<
+        endl;
+        
+    currentVoice->
+      setNewSegmentForVoice (
+        inputLineNumber);
+  }
+*/
+
+  // append the bar line to the voice
+  currentVoice->
+    appendBarlineToVoice (barline);
+
+  // push the barline onto the stack
+  fPendingBarlines.push (barline);
+}
+
+//______________________________________________________________________________
 void xml2MsrTranslator::handleHooklessEndingEnd (
   S_barline     elt,
   S_msrBarline& barline)
@@ -7420,11 +7523,12 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
       currentVoice->
         getVoiceLastSegment ();
 
-  // create a repeat ending from the current segment
+  // create a hookless repeat ending from the current segment
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating a new hookless repeat ending for voice " <<
-      currentVoice->getVoiceName () << endl;
+      currentVoice->getVoiceName () <<
+      endl;
       
   S_msrRepeatending
     repeatEnding =
@@ -7439,16 +7543,18 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> appending repeat ending to current repeat in voice " <<
-      currentVoice->getVoiceName () << endl;
+      currentVoice->getVoiceName () <<
+      endl;
       
   fCurrentRepeat->
     addRepeatending (repeatEnding);
 
-  // create new segment from current voice
+  // create a new segment for the voice
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> setting new segment for voice " <<
-      currentVoice->getVoiceName () << endl;
+      currentVoice->getVoiceName () <<
+      endl;
       
   currentVoice->
     setNewSegmentForVoice (
