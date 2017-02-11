@@ -4574,7 +4574,6 @@ class EXP msrRepeat : public msrElement
 
     static SMARTP<msrRepeat> create (
       int          inputLineNumber,
-      S_msrSegment commonPart,
       S_msrVoice   voiceUplink);
     
     SMARTP<msrRepeat> createRepeatBareClone (
@@ -4587,7 +4586,6 @@ class EXP msrRepeat : public msrElement
 
     msrRepeat (
       int          inputLineNumber,
-      S_msrSegment commonPart,
       S_msrVoice   voiceUplink);
       
     virtual ~msrRepeat();

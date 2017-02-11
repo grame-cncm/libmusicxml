@@ -3704,31 +3704,6 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
   else if (
     fCurrentBarlineLocation == msrBarline::kRight
       &&
-    fCurrentBarlineEndingType == msrBarline::kStop
- // JMI     &&
- //   fCurrentBarlineRepeatDirection == msrBarline::kBackward
- ) {
-    // hooked ending end
-    // ------------------------------------------------------
-    
-    /*
-    The stop value is used when the end of the ending is marked with a downward hook, as is typical for a first ending. It is usually used together with a backward repeat at the end of a measure:
-    
-      <barline location="right">
-        <bar-style>light-heavy</bar-style>
-        <ending type="stop" number="1"/>
-        <repeat direction="backward"/>
-      </barline>
-    */
-
-    handleHookedEndingEnd (elt, barline);
-    
-    barlineIsAlright = true;
-  }
-
-  else if (
-    fCurrentBarlineLocation == msrBarline::kRight
-      &&
     fCurrentBarlineRepeatDirection == msrBarline::kBackward) {
     // repeat end
     // ------------------------------------------------------
@@ -3755,6 +3730,31 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
     // ------------------------------------------------------
     handleEndingStart (elt, barline);
 
+    barlineIsAlright = true;
+  }
+
+  else if (
+    fCurrentBarlineLocation == msrBarline::kRight
+      &&
+    fCurrentBarlineEndingType == msrBarline::kStop
+ // JMI     &&
+ //   fCurrentBarlineRepeatDirection == msrBarline::kBackward
+ ) {
+    // hooked ending end
+    // ------------------------------------------------------
+    
+    /*
+    The stop value is used when the end of the ending is marked with a downward hook, as is typical for a first ending. It is usually used together with a backward repeat at the end of a measure:
+    
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        <ending type="stop" number="1"/>
+        <repeat direction="backward"/>
+      </barline>
+    */
+
+    handleHookedEndingEnd (elt, barline);
+    
     barlineIsAlright = true;
   }
 
@@ -6942,15 +6942,14 @@ void xml2MsrTranslator::handleRepeatStart (
       currentVoice->
         getVoiceLastSegment ();
 
-
   if (! fCurrentRepeat) {
-    // create the repeat
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Creating a repeat in voice \"" <<
         currentVoice->getVoiceName () << "\"" <<
         endl;
 
+    // create the repeat
     fCurrentRepeat =
       msrRepeat::create (
         inputLineNumber,
@@ -7151,16 +7150,55 @@ void xml2MsrTranslator::handleEndingStart (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
-  // append the bar line to the current segment
-  currentVoice->
-    appendBarlineToVoice (barline);
-
-
   // get the current segment
   S_msrSegment
     currentSegment =
       currentVoice->
         getVoiceLastSegment ();
+
+  if (! fCurrentRepeat) { // JMI
+    if (gGeneralOptions->fTrace)
+      cerr << idtr <<
+        "Creating a repeat in voice \"" <<
+        currentVoice->getVoiceName () << "\"" <<
+        endl;
+
+    // create the repeat
+    fCurrentRepeat =
+      msrRepeat::create (
+        inputLineNumber,
+        currentSegment,
+        currentVoice);
+
+    // set the repeat common part
+    fCurrentRepeat->
+      setRepeatCommonPart (currentSegment);
+
+    // append the repeat to the current voice
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> appending the repeat to voice \"" <<
+        currentVoice->getVoiceName () << "\"" <<
+        endl;
+  
+    currentVoice->
+      appendRepeatToVoice (fCurrentRepeat);
+
+    // create new segment from current voice
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> setting new segment for voice \"" <<
+        currentVoice->getVoiceName () << "\"" <<
+        endl;
+        
+    currentVoice->
+      setNewSegmentForVoice (
+        inputLineNumber);
+  }
+
+  // append the bar line to the voice
+  currentVoice->
+    appendBarlineToVoice (barline);
 
   // push the barline onto the stack
   fPendingBarlines.push (barline);
@@ -7179,7 +7217,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
       idtr << "--> input line " << inputLineNumber <<
       endl <<
       idtr <<
-      "--> barline right, stop and backward: hooked ending end" <<
+      "--> barline right, stop: hooked ending end" <<
       endl;
 
   // set the barline category

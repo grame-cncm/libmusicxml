@@ -8698,23 +8698,20 @@ void msrRepeatending::print (ostream& os)
 //______________________________________________________________________________
 S_msrRepeat msrRepeat::create (
   int          inputLineNumber,
-  S_msrSegment commonPart,
   S_msrVoice   voiceUplink)
 {
   msrRepeat* o =
     new msrRepeat (
-      inputLineNumber, commonPart, voiceUplink);
+      inputLineNumber, voiceUplink);
   assert(o!=0);
   return o;
 }
 
 msrRepeat::msrRepeat (
   int          inputLineNumber,
-  S_msrSegment commonPart,
   S_msrVoice   voiceUplink)
     : msrElement (inputLineNumber)
 {
-// JMI  fRepeatCommonPart     = commonPart;
   fRepeatEndingsCounter = 0;
   fRepeatVoiceUplink    = voiceUplink;
 }
