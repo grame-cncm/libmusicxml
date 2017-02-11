@@ -5557,8 +5557,8 @@ S_msrSyllable msrStanza::addRestSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
-  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-// JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+ // if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -5567,7 +5567,7 @@ S_msrSyllable msrStanza::addRestSyllableToStanza (
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> adding 'Skip' syllable:" << divisions <<
+      "--> adding 'Rest' syllable:" << divisions <<
       " to stanza " << getStanzaName () <<
       ", divisions = " << divisions <<
       endl;
@@ -5594,8 +5594,8 @@ S_msrSyllable msrStanza::addSkipSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
-  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-// JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+//  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -7511,7 +7511,7 @@ void msrMeasure::finalizeMeasure (int inputLineNumber)
     skip->setNotePositionInMeasure (fMeasurePosition);
     
     // apppend the skip to the measure
- //   if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr << idtr <<
        "--> appending " << skip->noteAsString () <<
        " (" << skipDuration <<
@@ -7869,34 +7869,34 @@ void msrSegment::setAllSegmentMeasuresDivisionsPerWholeNote (
 void msrSegment::setSegmentMeasureNumber (
   int inputLineNumber,
   int measureNumber)
-{  
-  // fetch segment current measure
+{
+  // fetch segment last measure
   S_msrMeasure
-    currentMeasure =
+    lastMeasure =
       fSegmentMeasuresList.back ();
 
-  // fetch its current measure position and length
+  // fetch its last measure position and length
   int
-    currentMeasureNumber =
-      currentMeasure->
+    lastMeasureNumber =
+      lastMeasure->
         getMeasureNumber (),
         
-    currentMeasurePosition =
-      currentMeasure->
+    lastMeasurePosition =
+      lastMeasure->
         getMeasurePosition (),
       
-    currentMeasureLength =
-      currentMeasure->
+    lastMeasureLength =
+      lastMeasure->
         getMeasureLength (),
       
-    currentMeasureDivisionsPerWholeMeasure =
-      currentMeasure->
+    lastMeasureDivisionsPerWholeMeasure =
+      lastMeasure->
         getMeasureDivisionsPerWholeMeasure ();
 
 /* JMI
   msrMeasure::msrMeasureKind
-    currentMeasureKind =
-      currentMeasure->
+    lastMeasureKind =
+      lastMeasure->
         getMeasureKind ();
 */
         
@@ -7913,71 +7913,65 @@ void msrSegment::setSegmentMeasureNumber (
 
     cerr <<
       idtr <<
-        setw(38) << "currentMeasureNumber" << " = " <<
-        currentMeasureNumber <<
+        setw(38) << "lastMeasureNumber" << " = " <<
+        lastMeasureNumber <<
         endl <<
       idtr <<
-        setw(38) << "currentMeasureDivisionsPerWholeMeasure" << " = " <<
-        currentMeasureDivisionsPerWholeMeasure <<
+        setw(38) << "lastMeasureDivisionsPerWholeMeasure" << " = " <<
+        lastMeasureDivisionsPerWholeMeasure <<
         endl <<
       idtr <<
-        setw(38) << "currentMeasurePosition" << " = " <<
-        currentMeasurePosition <<
+        setw(38) << "lastMeasurePosition" << " = " <<
+        lastMeasurePosition <<
         endl <<
       idtr <<
-        setw(38) << "currentMeasureLength" << " = " <<
-        currentMeasureLength <<
+        setw(38) << "lastMeasureLength" << " = " <<
+        lastMeasureLength <<
         endl;
 
     idtr--;
   }
       
-  // is the current measure full? (positions start at 1)
-  if (currentMeasurePosition <= currentMeasureDivisionsPerWholeMeasure) {
-    // no, register current measure as incomplete
+  // is the last measure full? (positions start at 1)
+  if (lastMeasurePosition <= lastMeasureDivisionsPerWholeMeasure) {
+    // no, register last measure as incomplete
     
     if (gGeneralOptions->fTrace) {
       cerr <<
-        endl <<
         idtr <<
-          "==> measure " << measureNumber <<
-          " is incomplete" <<
+          "Measure " << measureNumber <<
+          " of segment " << fSegmentAbsoluteNumber <<
+          " in voice \"" <<
+          getSegmentVoiceUplink ()->getVoiceName () << "\"" <<
+          " is " <<
+          string(
+            lastMeasurePosition == 1
+              ? "incomplete"
+              : "empty") <<
           ", line " << inputLineNumber <<
-          endl;
-
-      idtr++;
-      
-      cerr <<
-        idtr <<
-          "currentMeasurePosition = " <<
-          currentMeasurePosition <<
-          endl <<
-        idtr <<
-          "currentMeasureDivisionsPerWholeMeasure = " <<
-          currentMeasureDivisionsPerWholeMeasure <<
-        endl <<
+          ": position = " << lastMeasurePosition <<
+          ", divisionsPerWholeMeasure = " <<
+          lastMeasureDivisionsPerWholeMeasure <<
         endl;
-
-      idtr--;
     }
     
     if (fSegmentMeasuresList.size () == 1) {
       // this is the first measure in the segment
-      currentMeasure->
+      lastMeasure->
         setMeasureKind (
           msrMeasure::kIncompleteLeftMeasure);
     }
     
     else {
       // this is the last measure in the segment
-      currentMeasure->
+      lastMeasure->
         setMeasureKind (
           msrMeasure::kIncompleteRightMeasure);
     }
   }
   
   else {
-    // yes, current measure is full JMI
+    // yes, last measure is full JMI
   }
   
   fSegmentMeasureNumber = measureNumber; // JMI
@@ -7998,14 +7992,14 @@ void msrSegment::setSegmentMeasureNumber (
             setw(31) << "--> renumbering measure 1 as 0" <<
             endl;
   
-      currentMeasure->
+      lastMeasure->
         setMeasureNumber (0);
         
       doCreateAMeasure = false;    
       break;
 
     case 1:
-      if (currentMeasure->getMeasureNumber () == 0) {
+      if (lastMeasure->getMeasureNumber () == 0) {
         // this is the second measure, that should be created
         if (gGeneralOptions->fDebug)
           cerr <<
@@ -8045,8 +8039,8 @@ void msrSegment::setSegmentMeasureNumber (
   } // switch
 
   if (doCreateAMeasure) {
-    // finalize current measure
-    currentMeasure->
+    // finalize last measure
+    lastMeasure->
       finalizeMeasure (inputLineNumber);
       
     // create a new measure
@@ -8174,6 +8168,8 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
 
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 {
+  bool doAppendMeasure = true;
+  
   if (fSegmentMeasuresList.size ()) {
 
     int inputLineNumber =
@@ -8216,7 +8212,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
         lastMeasure->getMeasureKey ());
       measure->setMeasureTime (
         lastMeasure->getMeasureTime ());
-        
+
       // remove previous measure with same number XXL
       fSegmentMeasuresList.pop_back ();
     }
@@ -8237,26 +8233,32 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
     else if (lastMeasureNumber == measureNumber) {
       
-      if (lastMeasure->getMeasureElementsList ().size ()) {
+   //   if (lastMeasure->getMeasureElementsList ().size ()) {
         // keep existing measure, since it's empty
         if (gGeneralOptions->fDebug)
           cerr << idtr <<
-            "### --> replacing measure " << lastMeasureNumber <<
+            "### --> keeping measure " << lastMeasureNumber <<
             " of segment " << segmentAsString () <<
-            " by new one" <<
+            " that already exists" <<
             ", line " << inputLineNumber <<
             endl;
 
-      // fetch lastMeasure clef, key and time if any
-      measure->setMeasureClef (
-        lastMeasure->getMeasureClef ());
-      measure->setMeasureKey (
-        lastMeasure->getMeasureKey ());
-      measure->setMeasureTime (
-        lastMeasure->getMeasureTime ());
+      // fetch measure clef, key and time if any
+      lastMeasure->setMeasureClef (
+        measure->getMeasureClef ());
+      lastMeasure->setMeasureKey (
+        measure->getMeasureKey ());
+      lastMeasure->setMeasureTime (
+        measure->getMeasureTime ());
+
+      // use new measure's input line number for existing one
+      lastMeasure->
+        forceMeasureInputLineNumber (inputLineNumber);
         
-      // remove previous measure with same number XXL
-      fSegmentMeasuresList.pop_back ();
+      doAppendMeasure = false;
+//      // remove previous measure with same number XXL
+ // JMI     fSegmentMeasuresList.pop_back ();
+ /*
       }
       
       else {
@@ -8272,11 +8274,13 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
           inputLineNumber,
           s.str());
       }
+    */
     }
   }
 
-  // append measure to the segment
-  fSegmentMeasuresList.push_back (measure);
+  if (doAppendMeasure)
+    // append measure to the segment
+    fSegmentMeasuresList.push_back (measure);
 }
 
 void msrSegment::appendMeasureToSegmentIfNeeded ( // JMI
@@ -8472,9 +8476,13 @@ string msrSegment::segmentAsString ()
   s << "Segment " << fSegmentAbsoluteNumber;
   
   if (! fSegmentMeasuresList.size ())
-    s << " (No actual measures)";
+    s <<
+      " (No actual measures)";
   else
-    s << " (" << fSegmentMeasuresList.size () << " measures)";
+    s <<
+      " (" <<
+      singularOrPlural (
+        fSegmentMeasuresList.size (), "measure", " measures)");
 
   return s.str();
 }
@@ -8831,6 +8839,7 @@ void msrRepeat::print (ostream& os)
   idtr++;
   
   // print the common part
+  assert(fRepeatCommonPart); // JMI
   os << fRepeatCommonPart;
   
   // print the alternatives
@@ -9520,9 +9529,9 @@ S_msrSyllable msrVoice::addSkipSyllableToVoice (
   int stanzaNumber,
   int divisions)
 {
-  // create a 'Skip' stanza text syllable
-  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
- // if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  // create a 'Skip' stanza syllable
+ //  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     cerr << idtr <<
       "--> adding 'Skip' syllable"
       ", line " << inputLineNumber <<

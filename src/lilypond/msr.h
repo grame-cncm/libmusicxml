@@ -1587,6 +1587,10 @@ class EXP msrMeasure : public msrElement
     // services
     // ------------------------------------------------------
 
+    void          forceMeasureInputLineNumber (
+                    int inputLineNumber)
+                      { fInputLineNumber = inputLineNumber; }
+
     int           getMeasureLength () const // divisions
                       { return fMeasurePosition - 1; } // positions start at 1
                       
