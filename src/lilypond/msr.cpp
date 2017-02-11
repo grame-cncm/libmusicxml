@@ -8173,9 +8173,12 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
 }
 
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
-{  
+{
   if (fSegmentMeasuresList.size ()) {
-    
+
+    int inputLineNumber =
+      measure-> getInputLineNumber ();
+      
     S_msrMeasure
       lastMeasure =
         fSegmentMeasuresList.back ();
@@ -8185,6 +8188,14 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
         measure->getMeasureNumber (),
       lastMeasureNumber =
         lastMeasure->getMeasureNumber ();
+
+//    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "### --> appendMeasureToSegment (" << measureNumber <<
+        ") in segment " << segmentAsString () <<
+        ", lastMeasureNumber = " << lastMeasureNumber <<
+        ", line " << inputLineNumber <<
+        endl;
       
 // JMI    if (lastMeasureNumber == measureNumber) {
     if (lastMeasureNumber == 1 && measureNumber == 1) {
@@ -8195,7 +8206,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
           "### --> replacing initial measure 1 of segment " <<
           segmentAsString () <<
         " by new one" <<
-          ", line " << measure-> getInputLineNumber () <<
+          ", line " << inputLineNumber <<
           endl;
 
       // fetch lastMeasure clef, key and time if any
@@ -8218,7 +8229,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
           "### --> replacing initial measure 1 of segment " <<
           segmentAsString () <<
           " by measure 0" <<
-          ", line " << measure-> getInputLineNumber () <<
+          ", line " << inputLineNumber <<
           endl;
 
       fSegmentMeasuresList.pop_back ();
@@ -8228,6 +8239,24 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       
       if (lastMeasure->getMeasureElementsList ().size ()) {
         // keep existing measure, since it's empty
+        if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "### --> replacing measure " << lastMeasureNumber <<
+            " of segment " << segmentAsString () <<
+            " by new one" <<
+            ", line " << inputLineNumber <<
+            endl;
+
+      // fetch lastMeasure clef, key and time if any
+      measure->setMeasureClef (
+        lastMeasure->getMeasureClef ());
+      measure->setMeasureKey (
+        lastMeasure->getMeasureKey ());
+      measure->setMeasureTime (
+        lastMeasure->getMeasureTime ());
+        
+      // remove previous measure with same number XXL
+      fSegmentMeasuresList.pop_back ();
       }
       
       else {
@@ -8240,19 +8269,14 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
           fSegmentAbsoluteNumber;
 
         msrInternalError (
-          measure-> getInputLineNumber (),
+          inputLineNumber,
           s.str());
       }
     }
-    
   }
 
-  else {
-
-    // append measure to the segment
-    fSegmentMeasuresList.push_back (measure);
-    
-  }
+  // append measure to the segment
+  fSegmentMeasuresList.push_back (measure);
 }
 
 void msrSegment::appendMeasureToSegmentIfNeeded ( // JMI
