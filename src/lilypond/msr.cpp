@@ -8765,8 +8765,9 @@ void msrRepeat::addRepeatending (S_msrRepeatending repeatending)
       
   fRepeatEndings.push_back (repeatending);
 
+  // set repeat ending internal number
   repeatending->
-    setRepeatendingNumber (
+    setRepeatendingInternalNumber (
       ++ fRepeatEndingsCounter);
 }
 

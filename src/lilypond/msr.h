@@ -4515,7 +4515,14 @@ class EXP msrRepeatending : public msrElement
                 
     void          setRepeatendingNumber (int repeatendingNumber)
                       { fRepeatendingNumber = repeatendingNumber; }
-                
+
+    void          setRepeatendingInternalNumber (
+                    int repeatendingInternalNumber)
+                      {
+                        fRepeatendingInternalNumber =
+                          fRepeatendingInternalNumber;
+                      }
+                      
     int           getRepeatendingInternalNumber () const
                       { return fRepeatendingInternalNumber; }
                 
@@ -4550,7 +4557,7 @@ class EXP msrRepeatending : public msrElement
     
     msrRepeatendingKind fRepeatendingKind;
     
-    S_msrSegment     fRepeatendingSegment;
+    S_msrSegment        fRepeatendingSegment;
 
     S_msrRepeat         fRepeatendingRepeatUplink;
 };
