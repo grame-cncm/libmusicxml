@@ -3676,9 +3676,27 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
   // handle the barline according to:
   // http://www.musicxml.com/tutorial/the-midi-compatible-part/repeats/
 
+  /*
+    CAUTION:
+      The order of the tests in the following is most important!
+  */
+  
   bool barlineIsAlright = false;
 
   if (
+    fCurrentBarlineLocation == msrBarline::kLeft
+      &&
+    fCurrentBarlineEndingType == msrBarline::kStart
+     &&
+    fCurrentBarlineRepeatDirection == msrBarline::kForward) {
+    // hooked ending start
+    // ------------------------------------------------------
+    handleHookedEndingStart (elt, barline);
+
+    barlineIsAlright = true;
+  }
+
+  else if (
     fCurrentBarlineLocation == msrBarline::kLeft
       &&
     fCurrentBarlineRepeatDirection == msrBarline::kForward) {
@@ -3700,6 +3718,41 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
   }
   
   else if (
+    fCurrentBarlineLocation == msrBarline::kLeft
+      &&
+    fCurrentBarlineEndingType == msrBarline::kStart) { // no forward
+    // hookless ending start
+    // ------------------------------------------------------
+    handleHooklessEndingStart (elt, barline);
+
+    barlineIsAlright = true;
+  }
+
+  else if (
+    fCurrentBarlineLocation == msrBarline::kRight
+      &&
+    fCurrentBarlineEndingType == msrBarline::kStop
+      &&
+    fCurrentBarlineRepeatDirection == msrBarline::kBackward) {
+    // hooked ending end
+    // ------------------------------------------------------
+    
+    /*
+    The stop value is used when the end of the ending is marked with a downward hook, as is typical for a first ending. It is usually used together with a backward repeat at the end of a measure:
+    
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        <ending type="stop" number="1"/>
+        <repeat direction="backward"/>
+      </barline>
+    */
+
+    handleHookedEndingEnd (elt, barline);
+    
+    barlineIsAlright = true;
+  }
+
+  else if (
     fCurrentBarlineLocation == msrBarline::kRight
       &&
     fCurrentBarlineRepeatDirection == msrBarline::kBackward) {
@@ -3717,55 +3770,6 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
          
     handleRepeatEnd (elt, barline);
 
-    barlineIsAlright = true;
-  }
-
-  else if (
-    fCurrentBarlineLocation == msrBarline::kLeft
-      &&
-    fCurrentBarlineEndingType == msrBarline::kStart
-     &&
-    fCurrentBarlineRepeatDirection == msrBarline::kForward) {
-    // hooked ending start
-    // ------------------------------------------------------
-    handleHookedEndingStart (elt, barline);
-
-    barlineIsAlright = true;
-  }
-
-  else if (
-    fCurrentBarlineLocation == msrBarline::kLeft
-      &&
-    fCurrentBarlineEndingType == msrBarline::kStart) { // no forward
-    // hookless ending start
-    // ------------------------------------------------------
-    handleHooklessEndingStart (elt, barline);
-
-    barlineIsAlright = true;
-  }
-
-  else if (
-    fCurrentBarlineLocation == msrBarline::kRight
-      &&
-    fCurrentBarlineEndingType == msrBarline::kStop
-      &&
-    fCurrentBarlineRepeatDirection == msrBarline::kBackward
- ) {
-    // hooked ending end
-    // ------------------------------------------------------
-    
-    /*
-    The stop value is used when the end of the ending is marked with a downward hook, as is typical for a first ending. It is usually used together with a backward repeat at the end of a measure:
-    
-      <barline location="right">
-        <bar-style>light-heavy</bar-style>
-        <ending type="stop" number="1"/>
-        <repeat direction="backward"/>
-      </barline>
-    */
-
-    handleHookedEndingEnd (elt, barline);
-    
     barlineIsAlright = true;
   }
 
