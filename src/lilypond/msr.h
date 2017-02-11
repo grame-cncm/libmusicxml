@@ -4520,7 +4520,7 @@ class EXP msrRepeatending : public msrElement
                     int repeatendingInternalNumber)
                       {
                         fRepeatendingInternalNumber =
-                          fRepeatendingInternalNumber;
+                          repeatendingInternalNumber;
                       }
                       
     int           getRepeatendingInternalNumber () const

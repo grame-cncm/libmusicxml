@@ -8855,14 +8855,25 @@ void msrRepeat::print (ostream& os)
   
   // print the common part
   assert(fRepeatCommonPart); // JMI
-  os << fRepeatCommonPart;
+  os <<
+    fRepeatCommonPart <<
+    endl;
   
-  // print the alternatives
-  vector<S_msrRepeatending>::const_iterator i;
-  for (i=fRepeatEndings.begin(); i!=fRepeatEndings.end(); i++) {
-    os << idtr << (*i);
-  } // for
-    
+  // print the repeat endings
+  if (fRepeatEndings.size ()) {
+    vector<S_msrRepeatending>::const_iterator
+      iBegin = fRepeatEndings.begin(),
+      iEnd   = fRepeatEndings.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      // print the repeat ending
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+  // JMI    os << endl;
+    } // for
+  }
+      
   idtr--;
 }
 
