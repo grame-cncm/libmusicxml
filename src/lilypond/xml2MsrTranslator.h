@@ -764,6 +764,7 @@ class EXP xml2MsrTranslator :
     string                    fCurrentStyle;
     string                    fCurrentEndingtype;
     string                    fCurrentEndingNumber;
+                                // may be "1, 2"
     string                    fCurrentRepeatDirection;
     string                    fCurrentRepeatWinged;
 
@@ -773,8 +774,6 @@ class EXP xml2MsrTranslator :
                               fCurrentBarlineStyle;
     msrBarline::msrBarlineEndingType
                               fCurrentBarlineEndingType;
-    string                    fCurrentBarlineEndingNumber;
-                                // may be "1, 2"
     msrBarline::msrBarlineRepeatDirection
                               fCurrentBarlineRepeatDirection;
     msrBarline::msrBarlineRepeatWinged

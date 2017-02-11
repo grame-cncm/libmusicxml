@@ -3257,7 +3257,7 @@ void xml2MsrTranslator::visitStart ( S_barline& elt )
   fCurrentLocation        = "";
   fCurrentStyle           = "";
   fCurrentEndingtype      = "";
-  fCurrentEndingNumber    = "";
+  fCurrentEndingNumber    = ""; // may be "1, 2"
   fCurrentRepeatDirection = "";
   fCurrentRepeatWinged    = "";
 
@@ -3267,7 +3267,6 @@ void xml2MsrTranslator::visitStart ( S_barline& elt )
   fCurrentBarlineLocation        = msrBarline::k_NoLocation;
   fCurrentBarlineStyle           = msrBarline::k_NoStyle;
   fCurrentBarlineEndingType      = msrBarline::k_NoEndingType;
-  fCurrentBarlineEndingNumber    = ""; // may be "1, 2"
   fCurrentBarlineRepeatDirection = msrBarline::k_NoRepeatDirection;
   fCurrentBarlineRepeatWinged    = msrBarline::k_NoRepeatWinged;
 
@@ -3545,9 +3544,11 @@ void xml2MsrTranslator::visitStart ( S_pedal& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_ending& elt ) 
 {  
-  fCurrentEndingtype   = elt->getAttributeValue ("type");  
-  fCurrentEndingNumber = elt->getAttributeValue ("number");  
-  
+  fCurrentEndingNumber =
+    elt->getAttributeValue ("number"); // may be "1, 2"
+
+  fCurrentEndingtype   = elt->getAttributeValue ("type");
+      
   if       (fCurrentEndingtype == "start") {
     fCurrentBarlineEndingType =
       msrBarline::kStart;
@@ -3569,9 +3570,6 @@ void xml2MsrTranslator::visitStart ( S_ending& elt )
       elt->getInputLineNumber (),
       s.str());
   }
-
-  fCurrentBarlineEndingNumber =
-    elt->getAttributeValue ("number"); // may be "1, 2"
 }
 
 //______________________________________________________________________________
@@ -3667,7 +3665,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
         fCurrentBarlineLocation,
         fCurrentBarlineStyle,
         fCurrentBarlineEndingType,
-        fCurrentBarlineEndingNumber,
+        fCurrentEndingNumber,
         fCurrentBarlineRepeatDirection,
         fCurrentBarlineRepeatWinged);
 
@@ -7031,7 +7029,7 @@ void xml2MsrTranslator::handleRepeatEnd (
           msrBarline::kLeft,
           msrBarline::kHeavyLight,
           msrBarline::kStart,
-          fCurrentBarlineEndingNumber,
+          fCurrentEndingNumber,
           msrBarline::kForward,
           fCurrentBarlineRepeatWinged);
 
@@ -7186,10 +7184,10 @@ void xml2MsrTranslator::handleEndingStart (
     currentVoice->
       appendRepeatToVoice (fCurrentRepeat);
 
-    // create new segment from current voice
+    // create new segment for the just starting ending
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "--> setting new segment for voice \"" <<
+        "--> setting new last segment for the just starting ending in voice \"" <<
         currentVoice->getVoiceName () << "\"" <<
         endl;
         
@@ -7272,7 +7270,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
     repeatEnding =
       msrRepeatending::create (
         inputLineNumber,
-        fCurrentBarlineEndingNumber,
+        fCurrentEndingNumber,
         msrRepeatending::kHookedEnding,
         currentSegment,
         fCurrentRepeat);
@@ -7288,7 +7286,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   fCurrentRepeat->
     addRepeatending (repeatEnding);
   
-  // create new segment from current voice
+  // create a new segment for the voice
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> setting new segment for voice \"" <<
@@ -7318,7 +7316,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
           msrBarline::kLeft,
           msrBarline::kHeavyLight,
           msrBarline::kStart,
-          fCurrentBarlineEndingNumber,
+          fCurrentEndingNumber,
           msrBarline::kForward,
           fCurrentBarlineRepeatWinged);
 
@@ -7432,7 +7430,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
     repeatEnding =
       msrRepeatending::create (
         inputLineNumber,
-        fCurrentBarlineEndingNumber,
+        fCurrentEndingNumber,
         msrRepeatending::kHooklessEnding,
         currentSegment,
         fCurrentRepeat);
@@ -7474,7 +7472,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
           msrBarline::kLeft,
           msrBarline::kHeavyLight,
           msrBarline::kStart,
-          fCurrentBarlineEndingNumber,
+          fCurrentEndingNumber,
           msrBarline::kForward,
           fCurrentBarlineRepeatWinged);
 

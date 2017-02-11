@@ -8683,8 +8683,9 @@ void msrRepeatending::print (ostream& os)
   os <<
     "Repeatending" <<
     ", line " << fInputLineNumber <<
-    ", number " << fRepeatendingNumber << ", " <<
-    repeatendingKindAsString (fRepeatendingKind) <<
+    ", number " << fRepeatendingNumber <<
+    ", internal number " << fRepeatendingInternalNumber <<
+    ", " << repeatendingKindAsString (fRepeatendingKind) <<
     endl;
 
   idtr++;
@@ -8764,8 +8765,9 @@ void msrRepeat::addRepeatending (S_msrRepeatending repeatending)
       
   fRepeatEndings.push_back (repeatending);
 
-  repeatending->setRepeatendingNumber (
-    ++ fRepeatEndingsCounter);
+  repeatending->
+    setRepeatendingNumber (
+      ++ fRepeatEndingsCounter);
 }
 
 void msrRepeat::acceptIn (basevisitor* v) {
