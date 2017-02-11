@@ -3736,7 +3736,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
   else if (
     fCurrentBarlineLocation == msrBarline::kLeft
       &&
-    fCurrentBarlineEndingType == msrBarline::kStart) {
+    fCurrentBarlineEndingType == msrBarline::kStart) { // no forward
     // hookless ending start
     // ------------------------------------------------------
     handleHooklessEndingStart (elt, barline);
@@ -3748,8 +3748,8 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
     fCurrentBarlineLocation == msrBarline::kRight
       &&
     fCurrentBarlineEndingType == msrBarline::kStop
- // JMI     &&
- //   fCurrentBarlineRepeatDirection == msrBarline::kBackward
+      &&
+    fCurrentBarlineRepeatDirection == msrBarline::kBackward
  ) {
     // hooked ending end
     // ------------------------------------------------------
