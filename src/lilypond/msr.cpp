@@ -8667,10 +8667,10 @@ string msrRepeatending::repeatendingKindAsString (
   string result;
   
   switch (repeatendingKind) {
-    case kHookedEnding:
+    case msrRepeatending::kHookedEnding:
       result = "hooked";
       break;
-    case kHooklessEnding:
+    case msrRepeatending::kHooklessEnding:
       result = "hookless";
       break;
   } // switch
@@ -8821,9 +8821,11 @@ void msrRepeat::acceptOut (basevisitor* v) {
 
 void msrRepeat::browseData (basevisitor* v)
 {
+  if (fRepeatCommonPart) {
   // browse the common part
-  msrBrowser<msrSegment> browser (v);
-  browser.browse (*fRepeatCommonPart);
+    msrBrowser<msrSegment> browser (v);
+    browser.browse (*fRepeatCommonPart);
+  }
   
   // browse the alternatives
   for (

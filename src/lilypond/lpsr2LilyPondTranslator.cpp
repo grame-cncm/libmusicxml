@@ -3370,12 +3370,24 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
     // first repeat ending is in charge of
     // outputting the start of the alternative
     fOstream << idtr <<
-      setw(30) << "\\alternative" " " "{" "% start of alternative" <<
+      setw(30) << "\\alternative" " " "{" <<
+      "% start of alternative" <<
       endl;
-    
+
     idtr++;
   }
 
+  switch (elt->getRepeatendingKind ()) {
+    case msrRepeatending::kHookedEnding:
+      break;
+    case msrRepeatending::kHooklessEnding:
+      break;
+  } // switch
+
+  fOstream << idtr <<
+    "{" <<
+    endl;
+      
   fMusicOlec.reset ();
 }
 
@@ -3385,6 +3397,19 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
     fOstream << idtr <<
       "% --> End visiting msrRepeatending" << endl;
 
+  switch (elt->getRepeatendingKind ()) {
+    case msrRepeatending::kHookedEnding:
+      break;
+    case msrRepeatending::kHooklessEnding:
+      break;
+  } // switch
+
+  fOstream <<
+    endl <<
+    idtr <<
+    "}" <<
+    endl;
+      
   if (
   // JMI warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
     elt->getRepeatendingInternalNumber ()
@@ -3399,7 +3424,6 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
     // last repeat ending is in charge of
     // outputting the end of the alternative
     fOstream <<
-      endl <<
       idtr <<
       setw(30) << "}" << "% end of alternative" <<
       endl << endl;

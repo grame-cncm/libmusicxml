@@ -4526,6 +4526,10 @@ class EXP msrRepeatending : public msrElement
     int           getRepeatendingInternalNumber () const
                       { return fRepeatendingInternalNumber; }
                 
+    msrRepeatendingKind
+                  getRepeatendingKind () const
+                      { return fRepeatendingKind; }
+                
     S_msrSegment  getRepeatendingSegment () const
                       { return fRepeatendingSegment; }
                 
