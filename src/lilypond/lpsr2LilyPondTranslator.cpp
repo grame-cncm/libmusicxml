@@ -3396,7 +3396,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
       fOstream <<
         endl <<
         idtr <<
-        "{" <<
+        "\\alternative" " " "{" <<
         endl;
     }
 
@@ -3436,6 +3436,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
       break;
   } // switch
 
+  idtr++;
+  
   fMusicOlec.reset ();
 }
 
@@ -3504,6 +3506,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
     }
   }
 
+  idtr--;
+  
   fMusicOlec.reset ();
 }
 
