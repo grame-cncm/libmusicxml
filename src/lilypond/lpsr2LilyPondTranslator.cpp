@@ -1462,7 +1462,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSegment& elt)
 
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
-      setw(30) << "{" << "% start of segment" <<
+      setw(30) << "" << "% start of segment" <<
       endl;
 
     idtr++;
@@ -1482,7 +1482,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrSegment& elt)
     
     fOstream <<
       idtr <<
-      setw(30) << "}" << "% end of segment" <<
+      setw(30) << "" << "% end of segment" <<
       endl;
   }
   /* JMI
@@ -1503,7 +1503,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
 
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
-      setw(30) << "{" << "% start of measure " <<
+      setw(30) << "" << "% start of measure " <<
       elt->getMeasureNumber () <<
       endl;
 
@@ -1564,14 +1564,14 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
       fOstream <<
         endl <<
         idtr <<
-          setw(30) << "}" << "% end of measure " <<
+          setw(30) << "" << "% end of measure " <<
           elt->getMeasureNumber () <<
           endl << endl;
     }
     else {
       fOstream <<
         idtr <<
-          setw(30) << "}" << "% end of msrMeasure " <<
+          setw(30) << "" << "% end of msrMeasure " <<
           elt->getMeasureNumber () <<
           endl << endl;      
     }
@@ -3425,7 +3425,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
       if (fLpsrOptions->fGenerateComments)    
         fOstream <<
           idtr <<
-          setw(30) << "{" << "% start of repeat hooless ending" <<
+          setw(30) << "{" << "% start of repeat hookless ending" <<
           endl;
       else
         fOstream <<
@@ -3453,7 +3453,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
       if (fLpsrOptions->fGenerateComments) {
         fOstream <<
           idtr <<
-          setw(30) << "}" << "% end of repeat hookless ending" <<
+          setw(30) << "}" << "% end of repeat hooked ending" <<
           endl;
       }
       else {
