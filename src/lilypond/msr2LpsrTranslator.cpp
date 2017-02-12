@@ -55,7 +55,8 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   
   fOnGoingStanza         = false;
   fOnGoingSyllableExtend = false;
-  
+
+  fCurrentRepeatEndingsNumber = 0; // JMI
   fOnGoingRepeat         = false;
 };
   
@@ -1448,320 +1449,6 @@ void msr2LpsrTranslator::visitEnd (S_msrTie& elt)
       "--> End visiting msrTie" << endl;
 }
 
-
-//________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
-{
-  if (gGeneralOptions->fDebug)
-    fOstream << idtr <<
-      "--> Start visiting msrBarline" << endl;
-  
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  switch (elt->getBarlineCategory ()) {
-    
-    case msrBarline::kStandaloneBar:
-      fCurrentVoiceClone->
-        appendBarlineToVoice (elt);
-      break;
-      
-    case msrBarline::kRepeatStart:
-      {
- //     if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> handling kRepeatStart in voice " <<
-          fCurrentVoiceClone->getVoiceName () <<
-          endl;
-
-      // get the current segment
-      S_msrSegment
-        currentSegment =
-          fCurrentVoiceClone->
-            getVoiceLastSegment ();
-
-      // create an LPSR repeat if not yet done
-      // JMI
-      /*
-      if (! fCurrentRepeatClone)
-        fCurrentRepeatClone =
-          elt->createBarlineBareClone (
-            fCurrentVoiceClone);
-// */
-
-      // set the current segment as the repeat's common part
-      if (fCurrentRepeatClone)
-        fCurrentRepeatClone->
-          setRepeatCommonPart (currentSegment);
-      else {
-        stringstream s;
-
-        s <<
-          "msr2LpsrTranslator::visitStart (S_msrBarline& elt):" <<
-          endl <<
-          "cannot handle barline" <<
-          elt <<
-          "fCurrentRepeatClone is null";
-
-        msrInternalError (
-          inputLineNumber,
-          s.str());
-      }
-
-      // create a new segment for the voice
-      if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> setting new segment for voice " <<
-          fCurrentVoiceClone->getVoiceName () <<
-          endl;
-          
-      fCurrentVoiceClone->
-        setNewSegmentForVoice (
-          inputLineNumber);
-
-      fCurrentVoiceClone->
-        appendBarlineToVoice (elt);
-      }
-      break;
-
-    case msrBarline::kRepeatEnd:
-      {
- //     if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> handling kRepeatEnd in voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
-
-      fCurrentVoiceClone->
-        appendBarlineToVoice (elt);
-
-      // get the current segment
-      S_msrSegment
-        currentSegment =
-          fCurrentVoiceClone->
-            getVoiceLastSegment ();
-
-      // set the current segment as the repeat's common part
-      fCurrentRepeatClone->
-        setRepeatCommonPart (currentSegment);
-      
-      // create a new segment for the voice
-      if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> setting new segment for voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
-          
-      fCurrentVoiceClone->
-        setNewSegmentForVoice (
-          inputLineNumber);
-
-      if (fOnGoingRepeat) {
-        // add the repeat to the new segment
-   //     if (gGeneralOptions->fDebug)
-          cerr << idtr <<
-            "--> appending the repeat to voice " <<
-            fCurrentVoiceClone->getVoiceName () << endl;
-  
-        fCurrentVoiceClone->
-          appendRepeatToVoice (fCurrentRepeatClone);
-      }
-      }
-      break;
-            
-    case msrBarline::kHookedEndingStart:
-      {
- //     if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> handling kHookedEndingStart in voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
-
-        // get the current segment
-        S_msrSegment
-          currentSegment =
-            fCurrentVoiceClone->
-              getVoiceLastSegment ();
-  
-      // set the current segment as the repeat's common part
-      if (fCurrentRepeatClone)
-        fCurrentRepeatClone->
-          setRepeatCommonPart (currentSegment);
-      else {
-        stringstream s;
-
-        s <<
-          "msr2LpsrTranslator::visitStart (S_msrBarline& elt):" <<
-          endl <<
-          "cannot handle barline" <<
-          elt <<
-          "fCurrentRepeatClone is null";
-
-        msrInternalError (
-          inputLineNumber,
-          s.str());
-      }
-
-      // create a new segment for the voice
-      if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> setting new segment for voice " <<
-          fCurrentVoiceClone->getVoiceName () <<
-          endl;
-          
-      fCurrentVoiceClone->
-        setNewSegmentForVoice (
-          inputLineNumber);
-
-      fCurrentVoiceClone->
-        appendBarlineToVoice (elt);
-
-      if (fOnGoingRepeat) { // JMI
-        }
-      }
-      break;
-      
-    case msrBarline::kHookedEndingEnd:
-      {
- //     if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> handling kHookedEndingEnd in voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
-
-      fCurrentVoiceClone->
-        appendBarlineToVoice (elt);
-
-      // get the current segment
-      S_msrSegment
-        currentSegment =
-          fCurrentVoiceClone->
-            getVoiceLastSegment ();
-
-      // create a new segment for the voice
-//      if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> setting new segment for voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
-          
-      fCurrentVoiceClone->
-        setNewSegmentForVoice (
-          inputLineNumber);
-
-      // create a repeat ending from the current segment
-//      if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> creating a new hooked ending for voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
-          
-      S_msrRepeatending
-        repeatEnding =
-          msrRepeatending::create (
-            inputLineNumber,
-            elt->getEndingNumber (),
-            msrRepeatending::kHookedEnding,
-            currentSegment,
-            fCurrentRepeatClone);
-
-      // add the repeat ending to the current repeat
-//      if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> adding hooked ending to current repeat in voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
-          
-      fCurrentRepeatClone->
-        addRepeatending (repeatEnding);
-
-/*
-      if (fOnGoingRepeat) {
-        // add the repeat to the new segment
-   //     if (gGeneralOptions->fDebug)
-          cerr << idtr <<
-            "--> appending the repeat to voice " <<
-            fCurrentVoiceClone->getVoiceName () << endl;
-  
-        fCurrentVoiceClone->
-          appendRepeatToVoice (fCurrentRepeatClone);
-      }
-      */
-      }
-      break;
-      
-    case msrBarline::kHooklessEndingStart:
-      {
-      }
-      break;
-
-    case msrBarline::kHooklessEndingEnd:
-      {
- //     if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> handling kEndOfAHooklessEnding in voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
-
-      // no need to keep that barline in the MSR,
-      // LilyPond will take care of the repeat display
-      fCurrentVoiceClone->
-        appendBarlineToVoice (elt);
-
-      // get the current segment
-      S_msrSegment
-        currentSegment =
-          fCurrentVoiceClone->
-            getVoiceLastSegment ();
-
-      // create a new segment for the voice
-//      if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> setting new segment for voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
-          
-      fCurrentVoiceClone->
-        setNewSegmentForVoice (
-          inputLineNumber);
-
-      // create a repeat ending from the current segment
-//      if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> creating a new hookless ending for voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
-          
-      S_msrRepeatending
-        repeatEnding =
-          msrRepeatending::create (
-            inputLineNumber,
-            elt->getEndingNumber (),
-            msrRepeatending::kHooklessEnding,
-            currentSegment,
-            fCurrentRepeatClone);
-
-      // add the repeat ending to the current repeat
-//      if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> adding hookless ending to current repeat in voice " <<
-          fCurrentVoiceClone->getVoiceName () << endl;
-          
-      fCurrentRepeatClone->
-        addRepeatending (repeatEnding);
-
-      if (fOnGoingRepeat) {
-        // add the repeat to the new segment
-   //     if (gGeneralOptions->fDebug)
-          cerr << idtr <<
-            "--> appending the repeat to voice " <<
-            fCurrentVoiceClone->getVoiceName () << endl;
-  
-        fCurrentVoiceClone->
-          appendRepeatToVoice (fCurrentRepeatClone);
-      }
-      }
-      break;
-  } // switch
-}
-
-void msr2LpsrTranslator::visitEnd (S_msrBarline& elt)
-{
-  if (gGeneralOptions->fDebug)
-    fOstream << idtr <<
-      "--> End visiting msrBarline" << endl;
-}
-
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSegno& elt)
 {
@@ -1873,9 +1560,10 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
 /* JMI
   fCurrentVoiceClone->
     appendRepeatToVoice (fCurrentRepeatClone);
- // JMI ???   appendOtherElementToVoice (fCurrentRepeatClone);
 */
 
+  fCurrentRepeatEndingsNumber = 0;
+  
   fOnGoingRepeat = true;
 }
 
@@ -1886,6 +1574,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
       "--> End visiting msrRepeat" << endl;
       
   fCurrentRepeatClone = 0;
+  
   fOnGoingRepeat = false;
 }
 
@@ -1895,6 +1584,10 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> Start visiting msrRepeatending" << endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
 /* JMI
   S_msrRepeatending
     repeatending =
@@ -1903,6 +1596,48 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
   fCurrentRepeatClone->
     addRepeatending (repeatending);
     */
+
+  fCurrentRepeatEndingsNumber++;
+
+  if (fCurrentRepeatEndingsNumber == 1) {
+    // this the first repeat ending of the current repeat
+    
+    // get the current last segment
+    S_msrSegment
+      currentSegment =
+        fCurrentVoiceClone->
+          getVoiceLastSegment ();
+
+    // set the current segment as the repeat's common part
+    if (fCurrentRepeatClone)
+      fCurrentRepeatClone->
+        setRepeatCommonPart (currentSegment);
+    else {
+      stringstream s;
+  
+      s <<
+        "msr2LpsrTranslator::visitStart (S_msrBarline& elt):" <<
+        endl <<
+        "cannot handle barline" <<
+        elt <<
+        "fCurrentRepeatClone is null";
+  
+      msrInternalError (
+        inputLineNumber,
+        s.str());
+    }
+  
+    // create a new segment for the voice
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> setting new segment for voice " <<
+        fCurrentVoiceClone->getVoiceName () <<
+        endl;
+        
+    fCurrentVoiceClone->
+      setNewSegmentForVoice (
+        inputLineNumber);
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeatending& elt)
@@ -1910,6 +1645,324 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatending& elt)
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrRepeatending" << endl;
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
+{
+  if (gGeneralOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrBarline" << endl;
+  
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  switch (elt->getBarlineCategory ()) {
+    
+    case msrBarline::kStandaloneBar:
+      fCurrentVoiceClone->
+        appendBarlineToVoice (elt);
+      break;
+      
+    case msrBarline::kRepeatStart:
+      {
+   //     if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> handling kRepeatStart in voice " <<
+            fCurrentVoiceClone->getVoiceName () <<
+            endl;
+  
+  /* JMI
+        // get the currentlast segment
+        S_msrSegment
+          currentSegment =
+            fCurrentVoiceClone->
+              getVoiceLastSegment ();
+  */
+        // create an LPSR repeat if not yet done
+        // JMI
+        /*
+        if (! fCurrentRepeatClone)
+          fCurrentRepeatClone =
+            elt->createBarlineBareClone (
+              fCurrentVoiceClone);
+  // */
+  
+  /*
+        // set the current segment as the repeat's common part
+        if (fCurrentRepeatClone)
+          fCurrentRepeatClone->
+            setRepeatCommonPart (currentSegment);
+        else {
+          stringstream s;
+  
+          s <<
+            "msr2LpsrTranslator::visitStart (S_msrBarline& elt):" <<
+            endl <<
+            "cannot handle barline" <<
+            elt <<
+            "fCurrentRepeatClone is null";
+  
+          msrInternalError (
+            inputLineNumber,
+            s.str());
+        }
+  
+        // create a new segment for the voice
+        if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> setting new segment for voice " <<
+            fCurrentVoiceClone->getVoiceName () <<
+            endl;
+            
+        fCurrentVoiceClone->
+          setNewSegmentForVoice (
+            inputLineNumber);
+  */
+  
+        fCurrentVoiceClone->
+          appendBarlineToVoice (elt);
+      }
+      break;
+
+    case msrBarline::kRepeatEnd:
+      {
+   //     if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> handling kRepeatEnd in voice " <<
+            fCurrentVoiceClone->getVoiceName () << endl;
+  
+        fCurrentVoiceClone->
+          appendBarlineToVoice (elt);
+  
+        // get the current segment
+        S_msrSegment
+          currentSegment =
+            fCurrentVoiceClone->
+              getVoiceLastSegment ();
+
+        // set the current segment as the repeat's common part
+        fCurrentRepeatClone->
+          setRepeatCommonPart (currentSegment);
+        
+        // create a new segment for the voice
+        if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> setting new segment for voice " <<
+            fCurrentVoiceClone->getVoiceName () << endl;
+            
+        fCurrentVoiceClone->
+          setNewSegmentForVoice (
+            inputLineNumber);
+  
+        if (fOnGoingRepeat) {
+          // add the repeat to the new segment
+     //     if (gGeneralOptions->fDebug)
+            cerr << idtr <<
+              "--> appending the repeat to voice " <<
+              fCurrentVoiceClone->getVoiceName () << endl;
+    
+          fCurrentVoiceClone->
+            appendRepeatToVoice (fCurrentRepeatClone);
+        }
+      }
+      break;
+            
+    case msrBarline::kHookedEndingStart:
+      {
+   //     if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> handling kHookedEndingStart in voice " <<
+            fCurrentVoiceClone->getVoiceName () << endl;
+  
+          // get the current segment
+          S_msrSegment
+            currentSegment =
+              fCurrentVoiceClone->
+                getVoiceLastSegment ();
+    
+        // set the current segment as the repeat's common part
+        if (fCurrentRepeatClone)
+          fCurrentRepeatClone->
+            setRepeatCommonPart (currentSegment);
+        else {
+          stringstream s;
+  
+          s <<
+            "msr2LpsrTranslator::visitStart (S_msrBarline& elt):" <<
+            endl <<
+            "cannot handle barline" <<
+            elt <<
+            "fCurrentRepeatClone is null";
+  
+          msrInternalError (
+            inputLineNumber,
+            s.str());
+        }
+  
+        // create a new segment for the voice
+        if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> setting new segment for voice " <<
+            fCurrentVoiceClone->getVoiceName () <<
+            endl;
+            
+        fCurrentVoiceClone->
+          setNewSegmentForVoice (
+            inputLineNumber);
+  
+        fCurrentVoiceClone->
+          appendBarlineToVoice (elt);
+  
+        if (fOnGoingRepeat) { // JMI
+          }
+      }
+      break;
+      
+    case msrBarline::kHookedEndingEnd:
+      {
+   //     if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> handling kHookedEndingEnd in voice " <<
+            fCurrentVoiceClone->getVoiceName () << endl;
+  
+        fCurrentVoiceClone->
+          appendBarlineToVoice (elt);
+  
+        // get the current segment
+        S_msrSegment
+          currentSegment =
+            fCurrentVoiceClone->
+              getVoiceLastSegment ();
+  
+        // create a new segment for the voice
+  //      if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> setting new segment for voice " <<
+            fCurrentVoiceClone->getVoiceName () << endl;
+            
+        fCurrentVoiceClone->
+          setNewSegmentForVoice (
+            inputLineNumber);
+  
+        // create a repeat ending from the current segment
+  //      if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> creating a new hooked ending for voice " <<
+            fCurrentVoiceClone->getVoiceName () << endl;
+            
+        S_msrRepeatending
+          repeatEnding =
+            msrRepeatending::create (
+              inputLineNumber,
+              elt->getEndingNumber (),
+              msrRepeatending::kHookedEnding,
+              currentSegment,
+              fCurrentRepeatClone);
+  
+        // add the repeat ending to the current repeat
+  //      if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> adding hooked ending to current repeat in voice " <<
+            fCurrentVoiceClone->getVoiceName () << endl;
+            
+        fCurrentRepeatClone->
+          addRepeatending (repeatEnding);
+  
+  /*
+        if (fOnGoingRepeat) {
+          // add the repeat to the new segment
+     //     if (gGeneralOptions->fDebug)
+            cerr << idtr <<
+              "--> appending the repeat to voice " <<
+              fCurrentVoiceClone->getVoiceName () << endl;
+    
+          fCurrentVoiceClone->
+            appendRepeatToVoice (fCurrentRepeatClone);
+        }
+        */
+      }
+      break;
+      
+    case msrBarline::kHooklessEndingStart:
+      {
+      }
+      break;
+
+    case msrBarline::kHooklessEndingEnd:
+      {
+   //     if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> handling kEndOfAHooklessEnding in voice " <<
+            fCurrentVoiceClone->getVoiceName () << endl;
+  
+        // no need to keep that barline in the MSR,
+        // LilyPond will take care of the repeat display
+        fCurrentVoiceClone->
+          appendBarlineToVoice (elt);
+  
+        // get the current segment
+        S_msrSegment
+          currentSegment =
+            fCurrentVoiceClone->
+              getVoiceLastSegment ();
+  
+        // create a new segment for the voice
+  //      if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> setting new segment for voice " <<
+            fCurrentVoiceClone->getVoiceName () << endl;
+            
+        fCurrentVoiceClone->
+          setNewSegmentForVoice (
+            inputLineNumber);
+  
+        // create a repeat ending from the current segment
+  //      if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> creating a new hookless ending for voice " <<
+            fCurrentVoiceClone->getVoiceName () << endl;
+            
+        S_msrRepeatending
+          repeatEnding =
+            msrRepeatending::create (
+              inputLineNumber,
+              elt->getEndingNumber (),
+              msrRepeatending::kHooklessEnding,
+              currentSegment,
+              fCurrentRepeatClone);
+  
+        // add the repeat ending to the current repeat
+  //      if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> adding hookless ending to current repeat in voice " <<
+            fCurrentVoiceClone->getVoiceName () << endl;
+            
+        fCurrentRepeatClone->
+          addRepeatending (repeatEnding);
+  
+  /* JMI
+        if (fOnGoingRepeat) {
+          // add the repeat to the new segment
+     //     if (gGeneralOptions->fDebug)
+            cerr << idtr <<
+              "--> appending the repeat to voice " <<
+              fCurrentVoiceClone->getVoiceName () << endl;
+    
+          fCurrentVoiceClone->
+            appendRepeatToVoice (fCurrentRepeatClone);
+        }
+        */
+      }
+      break;
+  } // switch
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrBarline& elt)
+{
+  if (gGeneralOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrBarline" << endl;
 }
 
 //________________________________________________________________________

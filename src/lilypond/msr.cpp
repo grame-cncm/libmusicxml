@@ -8752,8 +8752,6 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
       msrRepeat::create (
         fInputLineNumber,
         clonedVoice);
-
-  // commonpart? JMI
   
   return clone;
 }

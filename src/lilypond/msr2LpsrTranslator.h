@@ -310,6 +310,7 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     S_msrRepeat               fCurrentRepeatClone;
     bool                      fOnGoingRepeat;
+    int                       fCurrentRepeatEndingsNumber;
  //   S_lpsrRepeatalternative fCurrentLpsrRepeatalternative;
 
     // measures
