@@ -374,6 +374,7 @@ class lpsr2LilyPondTranslator :
     
     // repeats
     // ------------------------------------------------------
+    int                   fCurrentRepeatEndingsNumber;
 
     // segments
     // ------------------------------------------------------

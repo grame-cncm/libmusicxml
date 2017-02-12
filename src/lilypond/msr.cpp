@@ -8859,10 +8859,10 @@ void msrRepeat::print (ostream& os)
   idtr++;
   
   // print the common part
-  assert(fRepeatCommonPart); // JMI
-  os <<
-    fRepeatCommonPart <<
-    endl;
+  if (fRepeatCommonPart)
+    os <<
+      fRepeatCommonPart <<
+      endl;
   
   // print the repeat endings
   if (fRepeatEndings.size ()) {

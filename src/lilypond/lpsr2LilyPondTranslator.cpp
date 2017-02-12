@@ -53,6 +53,8 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
   fOnGoingScoreBlock = false;
 
   fCurrentStemKind = msrStem::k_NoStem;
+
+  fCurrentRepeatEndingsNumber = 0;
   
   fMusicOlec.setMaxElementsPerLine (
     fLpsrOptions->fGenerateInputLineNumbers
@@ -3294,15 +3296,15 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeat& elt)
     fOstream << idtr <<
       "% --> Start visiting msrRepeat" << endl;
 
-  int voltaNumber =
+  fCurrentRepeatEndingsNumber =
     elt->getRepeatEndings ().size();
   
-  if (voltaNumber == 0)
-    voltaNumber = 2; // implicitly
+  if (fCurrentRepeatEndingsNumber == 0)
+    fCurrentRepeatEndingsNumber = 2; // implicitly
 
   stringstream s;
   s <<
-    "\\repeat volta " << voltaNumber << " {";
+    "\\repeat volta " << fCurrentRepeatEndingsNumber << " {";
   
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
@@ -3326,13 +3328,17 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeat& elt)
     fOstream << idtr <<
       "% --> End visiting msrRepeat" << endl;
 
-  idtr--;
-
+  /*
+    CAUTION:
+      the end of the repeat has to be generated
+      before the endings are handled
+  */
+  
   if (elt->getRepeatEndings ().size() == 0) {
     // the end of the repeat has not been generated yet
 
-// JMI    idtr--;
-    
+    idtr--;
+
     if (fLpsrOptions->fGenerateComments) {      
       fOstream <<
         idtr <<
@@ -3348,6 +3354,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeat& elt)
     }
   }
 
+  fCurrentRepeatEndingsNumber = 0;
+  
   fMusicOlec.reset ();
 }
 
@@ -3364,27 +3372,73 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
     
     // first repeat ending is in charge of
     // outputting the end of the repeat
-    fOstream << idtr <<
-      setw(30) << "}" << "% end of repeat" <<
-      endl << endl;
+    if (fLpsrOptions->fGenerateComments) {      
+      fOstream <<
+        idtr <<
+        setw(30) << "}" << "% end of repeat" <<
+        endl;
+    }
+    else {
+      fOstream <<
+        endl <<
+        idtr <<
+        "}" <<
+        endl;
+    }
 
     // first repeat ending is in charge of
     // outputting the start of the alternative
-    fOstream << idtr <<
-      setw(30) << "\\alternative" " " "{" <<
-      "% start of alternative" <<
-      endl;
+    if (fLpsrOptions->fGenerateComments) {      
+      fOstream << idtr <<
+        setw(30) << "\\alternative" " " "{" <<
+        "% start of alternative" <<
+        endl;
+    }
+    else {
+      fOstream <<
+        endl <<
+        idtr <<
+        "{" <<
+        endl;
+    }
 
     idtr++;
   }
 
+  // output the start of the ending
   switch (elt->getRepeatendingKind ()) {
     case msrRepeatending::kHookedEnding:
+      if (fLpsrOptions->fGenerateComments) {  
+        fOstream <<
+          idtr <<
+          setw(30) << "{" << "% start of repeat hooked ending" <<
+          endl;
+      }
+      else {
+        fOstream <<
+          endl <<
+          idtr <<
+          "{" <<
+          endl;
+      }
       break;
+      
     case msrRepeatending::kHooklessEnding:
+      if (fLpsrOptions->fGenerateComments)    
+        fOstream <<
+          idtr <<
+          setw(30) << "{" << "% start of repeat hooless ending" <<
+          endl;
+      else
+        fOstream <<
+          endl <<
+          idtr <<
+          "{" <<
+          endl;
       break;
   } // switch
 
+  // output the start of the ending
   fOstream << idtr <<
     "{" <<
     endl;
@@ -3398,27 +3452,45 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
     fOstream << idtr <<
       "% --> End visiting msrRepeatending" << endl;
 
+  // output the end of the ending
   switch (elt->getRepeatendingKind ()) {
     case msrRepeatending::kHookedEnding:
+      if (fLpsrOptions->fGenerateComments) {
+        fOstream <<
+          idtr <<
+          setw(30) << "}" << "% end of repeat hookless ending" <<
+          endl;
+      }
+      else {
+        fOstream <<
+          endl <<
+          idtr <<
+          "}" <<
+          endl;
+      }
       break;
+      
     case msrRepeatending::kHooklessEnding:
+      if (fLpsrOptions->fGenerateComments)   { 
+        fOstream <<
+          idtr <<
+          setw(30) << "}" << "% end of repeat hookless ending" <<
+          endl;
+      }
+      else {
+        fOstream <<
+          endl <<
+          idtr <<
+          "}" <<
+          endl;
+      }
       break;
   } // switch
 
-  fOstream <<
-    endl <<
-    idtr <<
-    "}" <<
-    endl;
-      
   if (
-  // JMI warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
     elt->getRepeatendingInternalNumber ()
       ==
-    (int)
-      elt->
-        getRepeatendingRepeatUplink ()->
-          getRepeatEndings ().size()) {
+    fCurrentRepeatEndingsNumber) {
       
     idtr--;
     
@@ -3427,7 +3499,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
     fOstream <<
       idtr <<
       setw(30) << "}" << "% end of alternative" <<
-      endl << endl;
+      endl <<
+      endl;
   }
 
   fMusicOlec.reset ();

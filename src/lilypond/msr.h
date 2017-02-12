@@ -4357,46 +4357,43 @@ class EXP msrBarline : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    bool
-                getBarlineHasSegno () const
-                    { return fBarlineHasSegno; }
-    bool
-                getBarlineHasCoda () const
-                    { return fBarlineHasCoda; }
+    bool          getBarlineHasSegno () const
+                      { return fBarlineHasSegno; }
+    bool          getBarlineHasCoda () const
+                      { return fBarlineHasCoda; }
 
     msrBarlineLocation
-                getLocation () const
-                    { return fLocation; }
+                  getLocation () const
+                      { return fLocation; }
                     
     msrBarlineStyle
-                getStyle () const
-                    { return fStyle; }
+                  getStyle () const
+                      { return fStyle; }
                     
     msrBarlineEndingType
-                getEndingType () const
-                    { return fEndingType; }
+                  getEndingType () const
+                      { return fEndingType; }
                     
-    string
-                getEndingNumber () const
-                    { return fEndingNumber; }
+    string        getEndingNumber () const
+                      { return fEndingNumber; }
                     
     msrBarlineRepeatDirection
-                getRepeatDirection () const
-                    { return fRepeatDirection; }
+                  getRepeatDirection () const
+                      { return fRepeatDirection; }
                     
     msrBarlineRepeatWinged
-                getRepeatWinged () const
-                    { return fRepeatWinged; }
+                  getRepeatWinged () const
+                      { return fRepeatWinged; }
                     
     const list<int>&
-                getEndingNumbersList () const
-                    { return fEndingNumbersList; }
+                  getEndingNumbersList () const
+                      { return fEndingNumbersList; }
                         
     msrBarlineCategory
-                getBarlineCategory () const
-                    { return fBarlineCategory; }
+                  getBarlineCategory () const
+                      { return fBarlineCategory; }
 
-    void        setBarlineCategory (
+    void          setBarlineCategory (
                   msrBarlineCategory barlineCategory)
                     { fBarlineCategory = barlineCategory; }
     
