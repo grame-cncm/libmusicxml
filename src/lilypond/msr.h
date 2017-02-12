@@ -4314,7 +4314,8 @@ class EXP msrBarline : public msrElement
     enum msrBarlineCategory {
       kStandaloneBar,
       kRepeatStart, kRepeatEnd,
-      kEndingStart, kHookedEndingEnd, kHooklessEndingEnd};
+      kHookedEndingStart, kHookedEndingEnd,
+      kHooklessEndingStart, kHooklessEndingEnd};
       
     static string barlineCategoryAsString (
       msrBarlineCategory barlineCategory);

@@ -3190,8 +3190,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarline& elt)
 
     case msrBarline::kRepeatStart:
     case msrBarline::kRepeatEnd:
-    case msrBarline::kEndingStart:
+    case msrBarline::kHookedEndingStart:
     case msrBarline::kHookedEndingEnd:
+    case msrBarline::kHooklessEndingStart:
     case msrBarline::kHooklessEndingEnd:
       // should not occur, since
       // LilyPond will take care of displaying the repeat

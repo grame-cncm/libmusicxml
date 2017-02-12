@@ -7158,7 +7158,7 @@ void xml2MsrTranslator::handleHookedEndingStart (
 
   // set the barline category
   barline->
-    setBarlineCategory (msrBarline::kEndingStart);
+    setBarlineCategory (msrBarline::kHookedEndingStart);
   
   // fetch current voice
   S_msrVoice
@@ -7415,7 +7415,7 @@ void xml2MsrTranslator::handleHooklessEndingStart (
 
   // set the barline category
   barline->
-    setBarlineCategory (msrBarline::kEndingStart);
+    setBarlineCategory (msrBarline::kHooklessEndingStart);
   
   // fetch current voice
   S_msrVoice

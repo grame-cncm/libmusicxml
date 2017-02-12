@@ -6827,11 +6827,14 @@ string msrBarline::barlineCategoryAsString (
     case kRepeatEnd:
       result = "repeat end";
       break;
-    case kEndingStart:
-      result = "ending start";
+    case kHookedEndingStart:
+      result = "hooked ending start";
       break;
     case kHookedEndingEnd:
       result = "hooked ending end";
+      break;
+    case kHooklessEndingStart:
+      result = "hookless ending start";
       break;
     case kHooklessEndingEnd:
       result = "hookless ending end";

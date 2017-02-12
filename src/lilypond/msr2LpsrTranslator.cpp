@@ -1567,7 +1567,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       }
       break;
             
-    case msrBarline::kEndingStart:
+    case msrBarline::kHookedEndingStart:
       {
  //     if (gGeneralOptions->fDebug)
         cerr << idtr <<
@@ -1668,6 +1668,11 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       }
       break;
       
+    case msrBarline::kHooklessEndingStart:
+      {
+      }
+      break;
+
     case msrBarline::kHooklessEndingEnd:
       {
  //     if (gGeneralOptions->fDebug)
