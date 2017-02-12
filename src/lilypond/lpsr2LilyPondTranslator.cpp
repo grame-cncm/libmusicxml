@@ -1462,8 +1462,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSegment& elt)
 
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
-      "{" <<
-      setw(30) << " " "% start of segment" <<
+      setw(30) << "{" << "% start of segment" <<
       endl;
 
     idtr++;
@@ -1483,8 +1482,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrSegment& elt)
     
     fOstream <<
       idtr <<
-      "}" <<
-      setw(30) << " " "% end of segment" <<
+      setw(30) << "}" << "% end of segment" <<
       endl;
   }
   /* JMI
@@ -3226,13 +3224,11 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarCheck& elt)
   if (fMusicOlec > 0) // JMI
     fOstream <<
       "| % " << nextBarNumber <<
-      endl <<
-      idtr;
+      endl;
   else
     fOstream << idtr <<
       "| % " << nextBarNumber <<
-      endl <<
-      idtr;
+      endl;
 
   fMusicOlec.reset ();
 }
@@ -3389,7 +3385,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
     // first repeat ending is in charge of
     // outputting the start of the alternative
     if (fLpsrOptions->fGenerateComments) {      
-      fOstream << idtr <<
+      fOstream <<
+        endl <<
+        idtr <<
         setw(30) << "\\alternative" " " "{" <<
         "% start of alternative" <<
         endl;
@@ -3438,11 +3436,6 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
       break;
   } // switch
 
-  // output the start of the ending
-  fOstream << idtr <<
-    "{" <<
-    endl;
-      
   fMusicOlec.reset ();
 }
 
@@ -3496,11 +3489,19 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
     
     // last repeat ending is in charge of
     // outputting the end of the alternative
-    fOstream <<
-      idtr <<
-      setw(30) << "}" << "% end of alternative" <<
-      endl <<
-      endl;
+    if (fLpsrOptions->fGenerateComments)   { 
+      fOstream <<
+        idtr <<
+        setw(30) << "}" << "% end of alternative" <<
+        endl;
+    }
+    else {
+      fOstream <<
+        endl <<
+        idtr <<
+        "}" <<
+        endl;
+    }
   }
 
   fMusicOlec.reset ();
