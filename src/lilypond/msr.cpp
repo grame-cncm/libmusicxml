@@ -7118,7 +7118,7 @@ void msrMeasure::setMeasureTime (S_msrTime time)
 
   fMeasureTime = time;
   
-  fMeasureDivisionsPerWholeMeasure =
+  fMeasureDivisionsPerFullMeasure =
     fMeasureDivisionsPerWholeNote
       *
     time->getBeatsNumber ()
@@ -7137,9 +7137,9 @@ S_msrMeasure msrMeasure::appendMeasureIfOverflow (
   // don't test for measure measure change in that case
   
   if (
-    fMeasureDivisionsPerWholeMeasure > 0
+    fMeasureDivisionsPerFullMeasure > 0
       &&
-    fMeasurePosition > fMeasureDivisionsPerWholeMeasure
+    fMeasurePosition > fMeasureDivisionsPerFullMeasure
     ) {
     // measure overflows, we must synchonize all voices in this part
     
@@ -7151,7 +7151,7 @@ S_msrMeasure msrMeasure::appendMeasureIfOverflow (
           endl<<
         idtr <<
           "fMeasurePosition = " << fMeasurePosition <<
-          ", fMeasureDivisionsPerWholeMeasure = " << fMeasureDivisionsPerWholeMeasure <<
+          ", fMeasureDivisionsPerFullMeasure = " << fMeasureDivisionsPerFullMeasure <<
         endl;
   
     // finalize this measure
@@ -7245,7 +7245,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
         inputLineNumber, fMeasurePosition);
   
     // determine if the note occupies a full measure
-    if (noteDivisions == fMeasureDivisionsPerWholeMeasure)
+    if (noteDivisions == fMeasureDivisionsPerFullMeasure)
       note->setNoteOccupiesAFullMeasure ();
   
     // append the note to the measure elements list
@@ -7491,7 +7491,7 @@ void msrMeasure::finalizeMeasure (int inputLineNumber)
             getExternalVoiceNumber ());
 
     // does the skip occupy a full measure?
-    if (skipDuration == fMeasureDivisionsPerWholeMeasure)
+    if (skipDuration == fMeasureDivisionsPerFullMeasure)
       skip->setNoteOccupiesAFullMeasure ();
   
     // register skip's measure position
@@ -7595,21 +7595,20 @@ string msrMeasure::getMeasureLengthAsString () const
         ", measureLength = " << measureLength <<
         ", measureDivisionsPerWholeNote = " <<
         fMeasureDivisionsPerWholeNote <<
-        ", measureDivisionsPerWholeMeasure = " <<
-        fMeasureDivisionsPerWholeMeasure <<
+        ", fMeasureDivisionsPerFullMeasure = " <<
+        fMeasureDivisionsPerFullMeasure <<
       endl;
 
   if (measureLength > 0) {
     result =
       divisionsAsMSRDuration (
         measureLength,
-        fMeasureDivisionsPerWholeMeasure,
+        fMeasureDivisionsPerWholeNote,
         errorMessage,
-        true); // 'true' to debug it;
+        false); // 'true' to debug it;
   
     if (errorMessage.size ())
-      msrMusicXMLWarning (
-   // JMI   msrMusicXMLError (
+      msrMusicXMLError (
         fInputLineNumber,
         errorMessage);
   }
@@ -7660,7 +7659,7 @@ void msrMeasure::print (ostream& os)
       ", len: " << getMeasureLength () <<
       " (" << getMeasureLengthAsString () << ")" <<
       ", pwn:" << fMeasureDivisionsPerWholeNote <<
-      ", pwm:" << fMeasureDivisionsPerWholeMeasure <<
+      ", pfm:" << fMeasureDivisionsPerFullMeasure <<
       ", pos: " << fMeasurePosition << 
       ", " << fMeasureElementsList.size () << " elems" <<
       ", " << getMeasureKindAsString () <<
@@ -7884,9 +7883,9 @@ void msrSegment::setSegmentMeasureNumber (
       lastMeasure->
         getMeasureLength (),
       
-    lastMeasureDivisionsPerWholeMeasure =
+    lastMeasureDivisionsPerFullMeasure =
       lastMeasure->
-        getMeasureDivisionsPerWholeMeasure ();
+        getMeasureDivisionsPerFullMeasure ();
 
 /* JMI
   msrMeasure::msrMeasureKind
@@ -7912,8 +7911,8 @@ void msrSegment::setSegmentMeasureNumber (
         lastMeasureNumber <<
         endl <<
       idtr <<
-        setw(38) << "lastMeasureDivisionsPerWholeMeasure" << " = " <<
-        lastMeasureDivisionsPerWholeMeasure <<
+        setw(38) << "lastMeasureDivisionsPerFullMeasure" << " = " <<
+        lastMeasureDivisionsPerFullMeasure <<
         endl <<
       idtr <<
         setw(38) << "lastMeasurePosition" << " = " <<
@@ -7928,7 +7927,7 @@ void msrSegment::setSegmentMeasureNumber (
   }
       
   // is the last measure full? (positions start at 1)
-  if (lastMeasurePosition <= lastMeasureDivisionsPerWholeMeasure) {
+  if (lastMeasurePosition <= lastMeasureDivisionsPerFullMeasure) {
     // no, register last measure as incomplete
     
     if (gGeneralOptions->fTrace) {
@@ -7946,7 +7945,7 @@ void msrSegment::setSegmentMeasureNumber (
           ", line " << inputLineNumber <<
           ": position = " << lastMeasurePosition <<
           ", divisionsPerWholeMeasure = " <<
-          lastMeasureDivisionsPerWholeMeasure <<
+          lastMeasureDivisionsPerFullMeasure <<
         endl;
     }
     

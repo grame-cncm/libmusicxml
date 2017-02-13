@@ -1554,8 +1554,8 @@ class EXP msrMeasure : public msrElement
     S_msrTime     getMeasureTime () const
                       { return fMeasureTime; }
 
-    int           getMeasureDivisionsPerWholeMeasure () const
-                      { return fMeasureDivisionsPerWholeMeasure; }
+    int           getMeasureDivisionsPerFullMeasure () const
+                      { return fMeasureDivisionsPerFullMeasure; }
 
     void          setMeasurePosition (int measurePosition)
                       { fMeasurePosition = measurePosition; }
@@ -1642,7 +1642,7 @@ class EXP msrMeasure : public msrElement
     int                 fMeasureNumber;
     
     int                 fMeasureDivisionsPerWholeNote;
-    int                 fMeasureDivisionsPerWholeMeasure;
+    int                 fMeasureDivisionsPerFullMeasure;
 
     S_msrClef           fMeasureClef;
     S_msrKey            fMeasureKey;

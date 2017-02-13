@@ -709,7 +709,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       if (
         elt->getMeasureLength ()
           >=
-        elt->getMeasureDivisionsPerWholeMeasure ()) {
+        elt->getMeasureDivisionsPerFullMeasure ()) {
         doCreateABarCheck = true;
       }
       break;

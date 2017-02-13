@@ -1543,7 +1543,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
     case msrMeasure::kIncompleteRightMeasure:
       {
       // we should set the score measure length in this case
-      fOstream <<
+      fOstream << idtr <<
         "\\set Score.measureLength = #(ly:make-moment 1/1)" <<
         endl;
       }
