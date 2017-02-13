@@ -184,7 +184,13 @@ class EXP notevisitor :
 		virtual void visitStart( S_tie& elt );
 		virtual void visitStart( S_tied& elt )			{ fTied.push_back (elt); }
 		virtual void visitStart( S_time_modification& elt );
-		virtual void visitStart( S_type& elt )			{ if (fInNote) fGraphicType = elt->getValue(); }
+		virtual void visitStart( S_type& elt )
+            {
+                if (fInNote)
+                    fGraphicType = elt->getValue();
+                if (elt->getAttributeValue("size")=="cue")
+                    fCue = true;
+            }
 		virtual void visitStart( S_unpitched& elt )		{ if (fInNote) fType = kUnpitched; }
 		virtual void visitStart( S_voice& elt )			{ fVoice = int(*elt); }
         virtual void visitStart( S_lyric& elt );

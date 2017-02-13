@@ -119,6 +119,18 @@ namespace MusicXML2
         if (fInCue) {
             pop();
             fInCue = false;
+            
+            // add EMPTY if durationInCue>0 and fCurrentMeasurePosition is not equal to fCurrentMeasureLength            
+            durationInCue.rationalise();
+            if (durationInCue.getNumerator() > 0) {
+                guidonoteduration dur (durationInCue.getNumerator(), durationInCue.getDenominator());
+                Sguidoelement note = guidonote::create(fTargetVoice, "empty", 0, dur, "");
+                add (note);
+                fCurrentVoicePosition += durationInCue;
+                fCurrentVoicePosition.rationalise();
+            }
+            
+            durationInCue = 0;
         }
         if (fInGrace) {
             pop();
@@ -1585,16 +1597,37 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xmlpart2guido::checkCue (const notevisitor& nv)
     {
+        //cout<<"Check CUE "<< nv.isCue()<<" on note ";nv.print(cout);cout<<endl;
+
         if (nv.isCue()) {
             if (!fInCue) {
                 fInCue = true;
                 Sguidoelement tag = guidotag::create("cue");
                 push(tag);
             }
+            
+            // add up duration in Cue
+            if (!nv.inChord())
+            {
+                rational r(nv.getDuration(), fCurrentDivision*4);
+                r.rationalise();
+                durationInCue += r;
+            }
         }
         else if (fInCue) {
             fInCue = false;
             pop();
+            
+            durationInCue.rationalise();
+            if (durationInCue.getNumerator() > 0) {
+                guidonoteduration dur (durationInCue.getNumerator(), durationInCue.getDenominator());
+                Sguidoelement note = guidonote::create(fTargetVoice, "empty", 0, dur, "");
+                add (note);
+                fCurrentVoicePosition += durationInCue;
+                fCurrentVoicePosition.rationalise();
+            }
+            
+            durationInCue = 0;
         }
     }
     
@@ -1731,7 +1764,7 @@ namespace MusicXML2
         isProcessingChord = false;
         
         bool scanVoice = (notevisitor::getVoice() == fTargetVoice);
-        if (!isGrace()) {
+        if (!isGrace() && !isCue()) {
             moveMeasureTime (getDuration(), scanVoice);
             checkDelayed (getDuration());		// check for delayed elements (directions with offset)
         }
@@ -1743,7 +1776,7 @@ namespace MusicXML2
         
         if (notevisitor::getType() != notevisitor::kRest)
             checkStem (notevisitor::fStem);
-        //	checkCue(*this);    // inhibited due to poor support in guido (including crashes)
+        checkCue(*this);    // inhibited due to poor support in guido (including crashes)
         checkGrace(*this);
         checkSlurBegin (notevisitor::getSlur());
         checkTupletBegin(notevisitor::getTuplet(), *this, elt);

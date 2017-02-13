@@ -197,6 +197,8 @@ class EXP xmlpart2guido :
 		virtual void visitEnd  ( S_repeat& elt);
 		virtual void visitEnd  ( S_sound& elt);
 		virtual void visitEnd  ( S_time& elt);
+    
+    rational durationInCue;
 
     public:
 				 xmlpart2guido(bool generateComments, bool generateStem, bool generateBar=true);
