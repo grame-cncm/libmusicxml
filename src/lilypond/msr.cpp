@@ -9751,7 +9751,9 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Prepending a barline to voice \"" << getVoiceName () << "\"" <<
+      "Prepending barline '" <<
+      barline->barlineAsString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
       ":" << endl;
       
   idtr++;
@@ -9767,7 +9769,9 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Appending a barline to voice \"" << getVoiceName () << "\"" <<
+      "Appending barline '" <<
+      barline->barlineAsString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
       ":" << endl;
       
   idtr++;
