@@ -5753,14 +5753,6 @@ S_msrSyllable msrStanza::addBarcheckSyllableToStanza (
   s << nextMeasureNumber;
   
   // create stanza break syllable
-  /* JMI
-  S_msrDuration
-    nullMsrDuration =
-      msrDuration::create (
-        inputLineNumber,
-        0, 1, 0, "");
-    */
-        
   S_msrSyllable
     syllable =
       msrSyllable::create (
@@ -5799,15 +5791,7 @@ S_msrSyllable msrStanza::addBarnumberCheckSyllableToStanza (
   stringstream s;
   s << nextMeasureNumber;
   
-  // create stanza break syllable
-  /* JMI
-  S_msrDuration
-    nullMsrDuration =
-      msrDuration::create (
-        inputLineNumber,
-        0, 1, 0, "");
-    */
-        
+  // create stanza break syllable        
   S_msrSyllable
     syllable =
       msrSyllable::create (

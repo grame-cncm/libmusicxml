@@ -528,23 +528,6 @@ void msr2SummaryVisitor::visitEnd (S_msrSegment& elt)
 }
 
 //________________________________________________________________________
-/*
-void msr2SummaryVisitor::visitStart (S_msrDuration& elt)
-{
-  if (gGeneralOptions->fDebug)
-    fOstream << idtr <<
-      "--> Start visiting msrDuration" << endl;
-}
-
-void msr2SummaryVisitor::visitEnd (S_msrDuration& elt)
-{
-  if (gGeneralOptions->fDebug)
-    fOstream << idtr <<
-      "--> End visiting msrDuration" << endl;
-}
-*/
-
-//________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrArticulation& elt)
 {
   if (gGeneralOptions->fDebug)

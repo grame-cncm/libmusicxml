@@ -1933,23 +1933,6 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTempo& elt)
 }
 
 //________________________________________________________________________
-/*
-void lpsr2LilyPondTranslator::visitStart (S_msrDuration& elt)
-{
-  if (gGeneralOptions->fDebug)
-    fOstream << idtr <<
-      "% --> Start visiting msrDuration" << endl;
-}
-
-void lpsr2LilyPondTranslator::visitEnd (S_msrDuration& elt)
-{
-  if (gGeneralOptions->fDebug)
-    fOstream << idtr <<
-      "% --> End visiting msrDuration" << endl;
-}
-*/
-
-//________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrArticulation& elt)
 {
   if (gGeneralOptions->fDebug)
