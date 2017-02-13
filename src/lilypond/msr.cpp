@@ -2446,6 +2446,9 @@ string msrNote::noteAsString () const
 {
   stringstream s;
 
+  s <<
+    "=== ";
+    
   switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
       s <<
@@ -2454,8 +2457,7 @@ string msrNote::noteAsString () const
       
     case msrNote::kStandaloneNote:
       s <<
-        "Standalone note" <<
-        " " <<
+        "Standalone note" " "<<
         notePitchAsString () <<
         "[" << fNoteData.fOctave << "]" <<
         ":" <<
@@ -2464,8 +2466,7 @@ string msrNote::noteAsString () const
       
     case msrNote::kGraceNote:
       s <<
-        "Grace note" <<
-        " " <<
+        "Grace note" " "<<
         notePitchAsString () <<
         "[" << fNoteData.fOctave << "]" <<
         ":" <<
@@ -2491,8 +2492,7 @@ string msrNote::noteAsString () const
       
     case msrNote::kChordMemberNote:
       s <<
-        "Chord member note" <<
-        " " <<
+        "Chord member note" " "<<
         notePitchAsString () <<
         "[" << fNoteData.fOctave << "]" <<
         ":" <<
@@ -2501,8 +2501,7 @@ string msrNote::noteAsString () const
       
     case msrNote::kTupletMemberNote:
       s <<
-        "Tuplet member note" <<
-        " " <<
+        "Tuplet member note"  " "<<
         notePitchAsString ();
 
       if (! fNoteData.fStepIsARest)
@@ -2522,6 +2521,9 @@ string msrNote::noteAsString () const
   }
 */
 
+  s <<
+    " ===";
+  
   return s.str();
 }
 
