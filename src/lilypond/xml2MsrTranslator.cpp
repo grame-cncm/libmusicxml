@@ -3024,6 +3024,16 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
     gGeneralOptions->fSaveDebug = gGeneralOptions->fDebug;
     gGeneralOptions->fSaveDebugDebug = gGeneralOptions->fDebugDebug;
   }
+
+  if (gGeneralOptions->fTrace) {
+    cerr <<
+      endl <<
+      idtr << 
+      "<!--=== measure " << measureNumber <<
+      ", line = " << inputLineNumber << "===-->" <<
+      endl;
+  }
+
 }
 
 void xml2MsrTranslator::visitEnd (S_measure& elt)
@@ -5610,173 +5620,137 @@ void xml2MsrTranslator::finalizeTuplet (S_msrNote lastNote)
 void xml2MsrTranslator::attachCurrentArticulationsToNote (
   S_msrNote note)
 {
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> attaching current articulations to note " <<
-      note->noteAsString () <<
-      endl;
-
-  /*
-  list<S_msrArticulation>::const_iterator i;
-  for (
-    i=fCurrentArticulations.begin();
-    i!=fCurrentArticulations.end();
-    i++) {
-
-    note->
-      addArticulationToNote ((*i));
-    } // for
-  */
-
   // attach the current articulations if any to the note
-  while (! fCurrentArticulations.empty()) {
-    S_msrArticulation
-      art =
-        fCurrentArticulations.front();
-        
+  if (! fCurrentArticulations.empty()) {
+
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "--> attaching articulation '" <<
-        art->articulationKindAsString () <<
-        "' to note " << note->noteAsString () <<
+        "--> attaching current articulations to note " <<
+        note->noteAsString () <<
         endl;
 
-    note->
-      addArticulationToNote (art);
-    fCurrentArticulations.pop_front();
-  } // while
+    while (! fCurrentArticulations.empty()) {
+      S_msrArticulation
+        art =
+          fCurrentArticulations.front();
+          
+      if (gGeneralOptions->fDebug)
+        cerr << idtr <<
+          "--> attaching articulation '" <<
+          art->articulationKindAsString () <<
+          "' to note " << note->noteAsString () <<
+          endl;
+  
+      note->
+        addArticulationToNote (art);
+      fCurrentArticulations.pop_front();
+    } // while
+  }
 }
 
 //______________________________________________________________________________
 void xml2MsrTranslator::attachCurrentOrnamentsToNote (
   S_msrNote note)
 {
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> attaching current ornaments to note " <<
-      note->noteAsString () <<
-      endl;
-
-  /*
-  list<S_msrOrnament>::const_iterator i;
-  for (
-    i=fCurrentOrnamentsList.begin();
-    i!=fCurrentOrnamentsList.end();
-    i++) {
-
-    note->
-      addOrnamentToNote ((*i));
-    } // for
-  */
-
   // attach the current ornaments if any to the note
-  while (! fCurrentOrnamentsList.empty()) {
-    S_msrOrnament
-      art =
-        fCurrentOrnamentsList.front();
-        
+  if (! fCurrentOrnamentsList.empty()) {
+    
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "--> attaching ornament '" <<
-        art->ornamentKindAsString () <<
-        "' to note " << note->noteAsString () <<
+        "--> attaching current ornaments to note " <<
+        note->noteAsString () <<
         endl;
 
-    note->
-      addOrnamentToNote (art);
-    fCurrentOrnamentsList.pop_front();
-  } // while
+    while (! fCurrentOrnamentsList.empty()) {
+      S_msrOrnament
+        art =
+          fCurrentOrnamentsList.front();
+          
+      if (gGeneralOptions->fDebug)
+        cerr << idtr <<
+          "--> attaching ornament '" <<
+          art->ornamentKindAsString () <<
+          "' to note " << note->noteAsString () <<
+          endl;
+  
+      note->
+        addOrnamentToNote (art);
+      fCurrentOrnamentsList.pop_front();
+    } // while
+  }
 }
 
 //______________________________________________________________________________
 void xml2MsrTranslator::attachCurrentArticulationsToChord (
   S_msrChord chord)
 {
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> attaching current articulations to chord " <<
-      chord->chordAsString () <<
-      endl;
+  if (! fCurrentArticulations.empty()) {
 
-  list<S_msrArticulation>::const_iterator i;
-  for (
-    i=fCurrentArticulations.begin();
-    i!=fCurrentArticulations.end();
-    i++) {
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "--> attaching articulation " <<  (*i) << " to chord " <<
-        chord <<
+        "--> attaching current articulations to chord " <<
+        chord->chordAsString () <<
         endl;
-        
-    chord->
-      addArticulationToChord ((*i));
-    } // for
-/*  
-  // attach the current articulations if any to the note
-  while (! fCurrentArticulations.empty()) {
-    S_msrArticulation
-      art =
-        fCurrentArticulations.front();
-        
-    chord->
-      addArticulationToChord (art);
-// JMI    fCurrentArticulations.pop_front();
-  } // while
-  */
+
+    list<S_msrArticulation>::const_iterator i;
+    for (
+      i=fCurrentArticulations.begin();
+      i!=fCurrentArticulations.end();
+      i++) {
+      if (gGeneralOptions->fDebug)
+        cerr << idtr <<
+          "--> attaching articulation " <<  (*i) << " to chord " <<
+          chord <<
+          endl;
+          
+      chord->
+        addArticulationToChord ((*i));
+      } // for
+  }
 }
 
 //______________________________________________________________________________
 void xml2MsrTranslator::attachCurrentOrnamentsToChord (
   S_msrChord chord)
 {
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> attaching current ornaments to chord " <<
-      chord->chordAsString () <<
-      endl;
+  if (! fCurrentOrnamentsList.empty()) {
 
-  list<S_msrOrnament>::const_iterator i;
-  for (
-    i=fCurrentOrnamentsList.begin();
-    i!=fCurrentOrnamentsList.end();
-    i++) {
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "--> attaching ornament " <<  (*i) << " to chord " <<
-        chord <<
+        "--> attaching current ornaments to chord " <<
+        chord->chordAsString () <<
         endl;
-        
-    chord->
-      addOrnamentToChord ((*i));
-    } // for
-/*  
-  // attach the current ornaments if any to the note
-  while (! fCurrentOrnamentsList.empty()) {
-    S_msrOrnament
-      art =
-        fCurrentOrnamentsList.front();
-        
-    chord->
-      addOrnamentToChord (art);
-// JMI    fCurrentOrnamentsList.pop_front();
-  } // while
-  */
+
+    list<S_msrOrnament>::const_iterator i;
+    for (
+      i=fCurrentOrnamentsList.begin();
+      i!=fCurrentOrnamentsList.end();
+      i++) {
+      if (gGeneralOptions->fDebug)
+        cerr << idtr <<
+          "--> attaching ornament " <<  (*i) << " to chord " <<
+          chord <<
+          endl;
+          
+      chord->
+        addOrnamentToChord ((*i));
+      } // for
+  }
 }
 
 //______________________________________________________________________________
 void xml2MsrTranslator::attachPendingDynamicsToNote (
   S_msrNote note)
 {
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> attaching pending dynamics to note " <<
-      note->noteAsString () <<
-      endl;
-
  // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {
     
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> attaching pending dynamics to note " <<
+        note->noteAsString () <<
+        endl;
+
     if (fNoteData.fStepIsARest) {
       if (gMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
@@ -5806,15 +5780,15 @@ void xml2MsrTranslator::attachPendingDynamicsToNote (
 void xml2MsrTranslator::attachPendingWordsToNote (
   S_msrNote note)
 {
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> attaching pending words to note " <<
-      note->noteAsString () <<
-      endl;
-
   // attach the pending words if any to the note
   if (! fPendingWords.empty ()) {
     
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> attaching pending words to note " <<
+        note->noteAsString () <<
+        endl;
+
     if (fNoteData.fStepIsARest) {
       if (gMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
@@ -5849,15 +5823,15 @@ void xml2MsrTranslator::attachPendingWordsToNote (
 void xml2MsrTranslator::attachPendingSlursToNote (
   S_msrNote note)
 {
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> attaching pending slurs to note " <<
-      note->noteAsString () <<
-      endl;
-
   // attach the pending slurs if any to the note
   if (! fPendingSlurs.empty ()) {
     
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> attaching pending slurs to note " <<
+        note->noteAsString () <<
+        endl;
+
     if (fNoteData.fStepIsARest) {
       if (gMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
@@ -5892,15 +5866,15 @@ void xml2MsrTranslator::attachPendingSlursToNote (
 void xml2MsrTranslator::attachPendingWedgesToNote (
   S_msrNote note)
 {
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> attaching pending wedges to note " <<
-      note->noteAsString () <<
-      endl;
-
   // attach the pending wedges if any to the note
   if (! fPendingWedges.empty ()) {
     
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> attaching pending wedges to note " <<
+        note->noteAsString () <<
+        endl;
+
     if (fNoteData.fStepIsARest) {
       if (gMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
@@ -6567,8 +6541,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
       cerr << "NULL"; // JMI
 
     cerr <<
-      endl <<
-    endl;
+      endl;
 
     idtr--;
   }
