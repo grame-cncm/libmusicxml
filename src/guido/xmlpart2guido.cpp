@@ -120,7 +120,7 @@ namespace MusicXML2
             pop();
             fInCue = false;
             
-            // add EMPTY if durationInCue>0 and fCurrentMeasurePosition is not equal to fCurrentMeasureLength            
+            // add EMPTY if durationInCue>0 and fCurrentMeasurePosition is not equal to fCurrentMeasureLength
             durationInCue.rationalise();
             if (durationInCue.getNumerator() > 0) {
                 guidonoteduration dur (durationInCue.getNumerator(), durationInCue.getDenominator());
@@ -1537,7 +1537,7 @@ namespace MusicXML2
         // In case of a TRILL, generate ornament ONLY if there is an accidental-mark
         if ( note.fTrill && note.fAccidentalMark) {
             string stepString = note.getStep();
-            int stepi = step2i(stepString) + 1;
+            int stepi = ( stepString == "B" ? notevisitor::C :  step2i(stepString) + 1);
             string newName = i2step(stepi);
             
             if (!newName.empty()) newName[0]=tolower(newName[0]);
@@ -1546,16 +1546,17 @@ namespace MusicXML2
             add (note2add);
         }
         
-        // Nothing to do for regular mordent. For inverse mordent, just add step-1
+        // Nothing to do for regular mordent. For inverse mordent, don't add anything either since otherwise you need to consider the KEY and the corresponding step to add.
+        // This seems to be sufficient for visualisations.
         if (note.fInvertedMordent) {
-            string stepString = note.getStep();
-            int stepi = step2i(stepString) - 1;
+            /*string stepString = note.getStep();
+            int stepi = ( step2i(stepString) == 0 ? notevisitor::B :  step2i(stepString) - 1);
             string newName = i2step(stepi);
             
             if (!newName.empty()) newName[0]=tolower(newName[0]);
             
             Sguidoelement note2add = guidonote::create(fTargetVoice, newName, octave, dur, guidoAccident);
-            add (note2add);
+            add (note2add);*/
         }
         
         // Nothing to do for regular turn. For inverse turn, add step-1 and step
