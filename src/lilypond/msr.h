@@ -349,7 +349,7 @@ class msrNoteData
       respectively mean ‘half’ and ‘one and a half’.
       
       Languages that do not appear in this table do not provide special note names yet.
-      * 
+      
       Language    semi-sharp semi-flat sesqui-sharp sesqui-flat
       --------    ---------- --------- ------------ -----------
                      +0.5      -0.5        +1.5       -1.5
@@ -1441,8 +1441,10 @@ class EXP msrTime : public msrElement
     // services
     // ------------------------------------------------------
 
+/* JMI
     int       timeDuration () const
                   { return fBeatsNumber * fBeatsValue; }
+*/
                   
     string    timeAsString () const;
 

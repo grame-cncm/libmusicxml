@@ -3462,7 +3462,7 @@ void xml2MsrTranslator::visitStart ( S_pedal& elt )
     
     The line attribute is yes if pedal lines are used. The change and continue types are used when the line attribute is yes.
     
-    The sign attribute is yes if Ped and * signs are used. For MusicXML 2.0 compatibility, the sign attribute is yes by default if the line attribute is no, and is no by default if the line attribute is yes. 
+    The sign attribute is yes if Ped and signs are used. For MusicXML 2.0 compatibility, the sign attribute is yes by default if the line attribute is no, and is no by default if the line attribute is yes. 
     */
 
   string

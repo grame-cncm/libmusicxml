@@ -4033,14 +4033,14 @@ void msrPageGeometry::print (ostream& os) {
 /*
   if (fBetweenSystemSpace > 0) {
     os << idtr <<
-    * "between-system-space = " <<
-    * setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
+      "between-system-space = " <<
+      setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
   }
 
   if (fPageTopSpace > 0) {
     os << idtr <<
-    * "page-top-space = " <<
-    * setprecision(4) << fPageTopSpace << "\\cm" << endl;
+      "page-top-space = " <<
+      setprecision(4) << fPageTopSpace << "\\cm" << endl;
   }
 */
 
@@ -7591,7 +7591,8 @@ string msrMeasure::getMeasureLengthAsString () const
     cerr <<
       endl <<
       idtr <<
-        "% --> measureLength = " << measureLength <<
+        "% --> measure " << fMeasureNumber <<
+        ", measureLength = " << measureLength <<
         ", measureDivisionsPerWholeNote = " <<
         fMeasureDivisionsPerWholeNote <<
         ", measureDivisionsPerWholeMeasure = " <<
@@ -7604,7 +7605,7 @@ string msrMeasure::getMeasureLengthAsString () const
         measureLength,
         fMeasureDivisionsPerWholeMeasure,
         errorMessage,
-        false); // 'true' to debug it;
+        true); // 'true' to debug it;
   
     if (errorMessage.size ())
       msrMusicXMLWarning (
@@ -7615,6 +7616,13 @@ string msrMeasure::getMeasureLengthAsString () const
   
   else
     result = "0";
+
+  if (gGeneralOptions->fDebug)
+    cerr <<
+      endl <<
+      idtr <<
+      "%--> result = " << result <<
+      endl;
 
   return result;
 }
