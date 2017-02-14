@@ -7102,7 +7102,7 @@ void xml2MsrTranslator::handleRepeatEnd (
       endl;
       
   currentVoice->
-    setNewSegmentForVoice (
+    createNewLastSegmentForVoice (
       inputLineNumber);
 }
 
@@ -7182,7 +7182,7 @@ void xml2MsrTranslator::handleHookedEndingStart (
         endl;
         
     currentVoice->
-      setNewSegmentForVoice (
+      createNewLastSegmentForVoice (
         inputLineNumber);
   }
 
@@ -7279,12 +7279,12 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   // create a new segment for the voice
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> setting new segment for voice \"" <<
+      "--> creating new last segment for voice \"" <<
       currentVoice->getVoiceName () << "\"" <<
       endl;
       
   currentVoice->
-    setNewSegmentForVoice (
+    createNewLastSegmentForVoice (
       inputLineNumber);
 
     /*
@@ -7440,7 +7440,7 @@ void xml2MsrTranslator::handleHooklessEndingStart (
         endl;
         
     currentVoice->
-      setNewSegmentForVoice (
+      createNewLastSegmentForVoice (
         inputLineNumber);
   }
 */
@@ -7529,12 +7529,12 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
   // create a new segment for the voice
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> setting new segment for voice " <<
+      "--> creating new last segment for voice " <<
       currentVoice->getVoiceName () <<
       endl;
       
   currentVoice->
-    setNewSegmentForVoice (
+    createNewLastSegmentForVoice (
       inputLineNumber);
 
 /*
@@ -7591,11 +7591,11 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
     // create a new segment for the voice
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "--> setting new segment for voice " <<
+        "--> creating new last segment for voice " <<
         currentVoice->getVoiceName () << endl;
         
     currentVoice->
-      setNewSegmentForVoice (
+      createNewLastSegmentForVoice (
         inputLineNumber);
 
     // add the repeat to the new segment

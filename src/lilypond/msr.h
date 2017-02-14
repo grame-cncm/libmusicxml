@@ -4714,8 +4714,6 @@ class EXP msrVoice : public msrElement
 
     string        getVoiceName () const;
 
-    void          setNewSegmentForVoice (int inputLineNumber); // JMI
-
     S_msrSegment
                   getVoiceLastSegment () const
                       { return fVoiceLastSegment; }
@@ -4868,6 +4866,8 @@ class EXP msrVoice : public msrElement
                     int inputLineNumber,
                     int stanzaNumber);
     
+    void          createNewLastSegmentForVoice (int inputLineNumber);
+
     void          finalizeLastMeasureOfVoice (int inputLineNumber);
 
     // visitors

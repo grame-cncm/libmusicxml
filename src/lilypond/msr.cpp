@@ -9110,70 +9110,9 @@ void msrVoice::forceVoiceMeasureNumberTo (int measureNumber) // JMI
     forceSegmentMeasureNumberTo (measureNumber);
 };
 
-void msrVoice::setNewSegmentForVoice (
+void msrVoice::createNewLastSegmentForVoice (
   int inputLineNumber)
 {
-  // fetch segment last measure
-  S_msrMeasure
-    lastMeasure =
-      fSegmentMeasuresList.back ();
-
-  // fetch its last measure position and length
-  int
-    lastMeasureNumber =
-      lastMeasure->
-        getMeasureNumber (),
-        
-    lastMeasurePosition =
-      lastMeasure->
-        getMeasurePosition (),
-      
-    lastMeasureLength =
-      lastMeasure->
-        getMeasureLength (),
-      
-    lastMeasureDivisionsPerFullMeasure =
-      lastMeasure->
-        getMeasureDivisionsPerFullMeasure ();
-
-  // is the last measure full? (positions start at 1)
-  if (lastMeasurePosition <= lastMeasureDivisionsPerFullMeasure) {
-    // no, register last measure as incomplete
-    
-    if (gGeneralOptions->fTrace) {
-      cerr <<
-        idtr <<
-          "Measure " << measureNumber <<
-          " of segment " << fSegmentAbsoluteNumber <<
-          " in voice \"" <<
-          getSegmentVoiceUplink ()->getVoiceName () << "\"" <<
-          " is " <<
-          string(
-            lastMeasurePosition == 1
-              ? "incomplete"
-              : "empty") <<
-          ", line " << inputLineNumber <<
-          ": position = " << lastMeasurePosition <<
-          ", divisionsPerWholeMeasure = " <<
-          lastMeasureDivisionsPerFullMeasure <<
-        endl;
-    }
-    
-    if (fSegmentMeasuresList.size () == 1) {
-      // this is the first measure in the segment ???
-      lastMeasure->
-        setMeasureKind (
-          msrMeasure::kIncompleteLeftMeasure);
-    }
-    
-    else {
-      // this is the last measure in the segment
-      lastMeasure->
-        setMeasureKind (
-          msrMeasure::kIncompleteRightMeasure);
-    }
-  }
-
   // create the segment
   if (gGeneralOptions->fTrace)
     cerr << idtr <<

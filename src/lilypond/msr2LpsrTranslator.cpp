@@ -1684,12 +1684,12 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         // create a new segment for the voice
         if (gGeneralOptions->fDebug)
           cerr << idtr <<
-            "--> setting new segment for voice \"" <<
+            "--> creating new last segment for voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
             
         fCurrentVoiceClone->
-          setNewSegmentForVoice (
+          createNewLastSegmentForVoice (
             inputLineNumber);
       }
       break;
@@ -1747,12 +1747,12 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
           // create a new segment for the voice
           if (gGeneralOptions->fDebug)
             cerr << idtr <<
-              "--> setting new segment for voice \"" <<
+              "--> creating new last segment for voice \"" <<
               fCurrentVoiceClone->getVoiceName () << "\"" <<
               endl;
               
           fCurrentVoiceClone->
-            setNewSegmentForVoice (
+            createNewLastSegmentForVoice (
               inputLineNumber);
         }
 
@@ -1838,12 +1838,12 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         // create a new segment for the voice
         if (gGeneralOptions->fDebug)
           cerr << idtr <<
-            "--> setting new segment for voice \"" <<
+            "--> creating new last segment for voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
             
         fCurrentVoiceClone->
-          setNewSegmentForVoice (
+          createNewLastSegmentForVoice (
             inputLineNumber);
 
   /*
@@ -1856,11 +1856,11 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         // create a new segment for the voice
   //      if (gGeneralOptions->fDebug)
           cerr << idtr <<
-            "--> setting new segment for voice \"" <<
+            "--> creating new last segment for voice \"" <<
             fCurrentVoiceClone->getVoiceName () << endl;
             
         fCurrentVoiceClone->
-          setNewSegmentForVoice (
+          createNewLastSegmentForVoice (
             inputLineNumber);
   
         // create a repeat ending from the current segment
@@ -1938,12 +1938,12 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         // create a new segment for the voice
   //      if (gGeneralOptions->fDebug)
           cerr << idtr <<
-            "--> setting new segment for voice \"" <<
+            "--> creating new last segment for voice \"" <<
             fCurrentVoiceClone->getVoiceName () <<  "\"" <<
             endl;
             
         fCurrentVoiceClone->
-          setNewSegmentForVoice (
+          createNewLastSegmentForVoice (
             inputLineNumber);
   
         // create a repeat ending from the current segment
