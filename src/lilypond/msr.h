@@ -1769,6 +1769,8 @@ class EXP msrSegment : public msrElement
     S_msrElement  removeLastElementFromSegment (
                     int inputLineNumber);
 
+    void          checkForIncompleteMeasure ();
+
     void          finalizeLastMeasureOfSegment (int inputLineNumber);
 
     // visitors

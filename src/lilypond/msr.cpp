@@ -7862,6 +7862,10 @@ void msrSegment::setAllSegmentMeasuresDivisionsPerWholeNote (
   } // for
 }
 
+void msrSegment::checkForIncompleteMeasure ()
+{
+}
+
 void msrSegment::setSegmentMeasureNumber (
   int inputLineNumber,
   int measureNumber)
