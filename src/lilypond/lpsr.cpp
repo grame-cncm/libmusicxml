@@ -2996,7 +2996,7 @@ ostream& operator<< (ostream& os, const S_lpsrScore& scr)
 void lpsrScore::print (ostream& os)
 {
   os <<
-    "LPSR Score" <<
+    "LPSR Structure" <<
     endl << endl;
 
   idtr++;
