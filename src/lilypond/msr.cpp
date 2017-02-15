@@ -7256,7 +7256,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     fMeasureElementsList.push_back (note);
 
     // register note as the last one in this measure
-    fMeasureLastNote = note;
+    fMeasureLastHandledNote = note;
   }
 }
 
@@ -7410,21 +7410,64 @@ void msrMeasure::appendOtherElementToMeasure  (S_msrElement elem)
 
 S_msrElement msrMeasure::removeLastElementFromMeasure (
   int inputLineNumber)
-{  
+{
+
+  // fetching measure last element
+  S_msrElement
+    measureLastElement =
+      fMeasureElementsList.back ();
+      
+  if (true || gGeneralOptions->fDebug) {
+//  if (gGeneralOptions->fDebug) {
+    cerr << idtr <<
+      "--> removing last element:" <<
+      endl;
+
+    idtr++;
+    cerr <<
+      idtr <<
+      measureLastElement;
+    idtr--;
+    
+    cerr <<
+      endl <<
+      idtr <<
+      " from measure '" <<
+      fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"," <<
+      endl;
+
+    idtr++;
+    cerr <<
+      idtr <<
+      "fMeasureLastHandledNote:" <<
+      endl <<
+      idtr <<
+      fMeasureLastHandledNote <<
+      endl;
+    idtr--;
+  }
+  
   if (fMeasureElementsList.size ()) {
 
-    if (fMeasureLastNote) {
+    if (fMeasureLastHandledNote) {
+      // there's at least a note in the meastuer
       
-      if (fMeasureLastNote  == fMeasureElementsList.back ()) {
-      
+      if (fMeasureLastHandledNote == measureLastElement) {
+        // remove last element
         fMeasureElementsList.pop_back ();
-        
+
+        // update position in measure
         fMeasurePosition -=
-          fMeasureLastNote->getNoteDivisions ();
+          fMeasureLastHandledNote->getNoteDivisions ();
 /*
 // JMI
         // set note's measure position, needed for chord handling
-        fMeasureLastNote->
+        fMeasureLastHandledNote->
           setNotePositionInMeasure (fMeasurePosition);
 */
       }
@@ -7433,7 +7476,7 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
         msrInternalError (
           inputLineNumber,
           "cannot removeLastElementFromMeasure () since "
-          "fMeasureLastNote is not the last element");
+          "fMeasureLastHandledNote is not the last element");
         }
     }
 
@@ -7441,17 +7484,18 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
       msrInternalError (
         inputLineNumber,
         "cannot removeLastElementFromMeasure () since "
-        "fMeasureLastNote is null");
+        "fMeasureLastHandledNote is null");
     }
   }
   
   else {
     msrInternalError (
       inputLineNumber,
-      "cannot removeLastElementFromMeasure () since it is empty");
+      "cannot removeLastElementFromMeasure () "
+      "since fMeasureElementsList is empty");
   }
 
-  return fMeasureLastNote;
+  return measureLastElement;
 }
 
 void msrMeasure::finalizeMeasure (int inputLineNumber)
@@ -10061,7 +10105,7 @@ S_msrElement msrVoice::removeLastElementFromVoice (
 {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "Removing last note " <<
+      "Removing last note" <<
       " from voice " << getVoiceName () << endl;
 
   return

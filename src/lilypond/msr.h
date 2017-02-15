@@ -1563,8 +1563,8 @@ class EXP msrMeasure : public msrElement
     int           getMeasurePosition () const
                       { return fMeasurePosition; }
                       
-    S_msrNote      getMeasureLastNote () const
-                      { return fMeasureLastNote; }
+    S_msrNote      getMeasureLastHandledNote () const
+                      { return fMeasureLastHandledNote; }
 
     void          setMeasureKind (msrMeasureKind measureKind)
                       { fMeasureKind = measureKind; }
@@ -1653,7 +1653,7 @@ class EXP msrMeasure : public msrElement
     S_msrTime           fMeasureTime;
 
     int                 fMeasurePosition; // in divisions
-    S_msrNote           fMeasureLastNote; // for chords handling
+    S_msrNote           fMeasureLastHandledNote; // for chords handling
     
     S_msrVoice          fMeasureVoiceDirectUplink; // to accelerate things
     S_msrPart           fMeasurePartDirectUplink; // to accelerate things
