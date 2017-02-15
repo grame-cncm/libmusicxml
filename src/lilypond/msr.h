@@ -1769,7 +1769,8 @@ class EXP msrSegment : public msrElement
     S_msrElement  removeLastElementFromSegment (
                     int inputLineNumber);
 
-    void          checkForIncompleteMeasure ();
+    void          checkForIncompleteSegmentLastMeasure (
+                    int inputLineNumber);
 
     void          finalizeLastMeasureOfSegment (int inputLineNumber);
 
@@ -4868,6 +4869,9 @@ class EXP msrVoice : public msrElement
                     int inputLineNumber,
                     int stanzaNumber);
     
+    void          checkForIncompleteVoiceLastMeasure (
+                    int inputLineNumber);
+
     void          createNewLastSegmentForVoice (int inputLineNumber);
 
     void          finalizeLastMeasureOfVoice (int inputLineNumber);

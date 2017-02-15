@@ -7862,8 +7862,16 @@ void msrSegment::setAllSegmentMeasuresDivisionsPerWholeNote (
   } // for
 }
 
-void msrSegment::checkForIncompleteMeasure ()
+void msrSegment::checkForIncompleteSegmentLastMeasure (
+  int inputLineNumber)
 {
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Checking for incomplete last measure in segment " <<
+      fSegmentAbsoluteNumber <<
+      ", line " << inputLineNumber <<
+      endl;
+
 }
 
 void msrSegment::setSegmentMeasureNumber (
@@ -9113,6 +9121,21 @@ void msrVoice::forceVoiceMeasureNumberTo (int measureNumber) // JMI
   fVoiceLastSegment->
     forceSegmentMeasureNumberTo (measureNumber);
 };
+
+void msrVoice::checkForIncompleteVoiceLastMeasure (
+  int inputLineNumber)
+{
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Checking for incomplete last measure in voice \"" <<
+      getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+
+  fVoiceLastSegment->
+    checkForIncompleteSegmentLastMeasure (
+      inputLineNumber);
+}
 
 void msrVoice::createNewLastSegmentForVoice (
   int inputLineNumber)
