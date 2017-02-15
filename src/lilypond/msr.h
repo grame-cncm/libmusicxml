@@ -1622,6 +1622,10 @@ class EXP msrMeasure : public msrElement
 
     void          removeElementFromMeasure (S_msrElement elem);
 
+    bool          checkForIncompleteMeasure (
+                    int                        inputLineNumber,
+                    msrMeasure::msrMeasureKind measureKind);
+
     void          finalizeMeasure (int inputLineNumber);
 
     // visitors
@@ -1769,7 +1773,7 @@ class EXP msrSegment : public msrElement
     S_msrElement  removeLastElementFromSegment (
                     int inputLineNumber);
 
-    void          checkForIncompleteSegmentLastMeasure (
+    bool          checkForIncompleteSegmentLastMeasure (
                     int                        inputLineNumber,
                     msrMeasure::msrMeasureKind measureKind);
 
@@ -4870,7 +4874,7 @@ class EXP msrVoice : public msrElement
                     int inputLineNumber,
                     int stanzaNumber);
     
-    void          checkForIncompleteVoiceLastMeasure (
+    bool          checkForIncompleteVoiceLastMeasure (
                     int inputLineNumber);
 
     void          createNewLastSegmentForVoice (int inputLineNumber);
