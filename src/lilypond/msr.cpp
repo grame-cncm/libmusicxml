@@ -7519,7 +7519,19 @@ void msrMeasure::finalizeMeasure (int inputLineNumber)
     fMeasurePosition += skipDuration;
   }
 
-  
+  bool measureIsIncomplete =
+    checkForIncompleteMeasure (
+      inputLineNumber,
+        msrMeasure::kIncompleteRightMeasure);
+
+  if (measureIsIncomplete)
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+      cerr << idtr <<
+      "### --> measure " << fMeasureNumber <<
+      " in voice \"" << voice->getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      " is incomplete" <<
+      endl;
 }
 
 void msrMeasure::acceptIn (basevisitor* v) {
