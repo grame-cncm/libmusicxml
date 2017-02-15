@@ -6095,6 +6095,18 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         inputLineNumber,
         fNoteData);
 
+/* JMI
+  S_msrElement testElement = newNote;
+  
+//  bool testElementIsANote = // JMI
+  S_msrNote
+    foo =
+      SMARTP<msrNote> cast(testElement);
+
+  cout << "testElementIsANote = " << testElementIsANote << endl;
+  assert(false);
+  */
+  
   // set note's divisions per whole note
   newNote->
     setNoteDivisionsPerWholeNote (
@@ -6308,97 +6320,97 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         currentVoice->
           removeLastElementFromVoice (inputLineNumber);
 
-    bool lastElementFromVoiceIsANote = // JMI
-      dynamic_cast<S_msrNote *> (&(*lastElementFromVoice)) != 0;
-
-    bool lastElementFromVoiceIsATuplet = // JMI
-      dynamic_cast<S_msrTuplet *> (&(*lastElementFromVoice)) != 0;
-
-    if (lastElementFromVoice == lastHandledNoteInVoice) {
-    }
+    if (lastElementFromVoice != lastHandledNoteInVoice) { // JMI
     
-    if (
-      S_msrNote*
-        lastNoteFromVoicePtr =
-          dynamic_cast<S_msrNote *> (&(*lastElementFromVoice))) {
-                  
-//        if (gGeneralOptions->fDebugDebug)
-        cerr << idtr <<
-          "==> lastElementFromVoice is note " <<
-          (*lastNoteFromVoicePtr)->noteAsString () <<
-          endl;
-          
-      // register note as a member of fCurrentChord
-    // JMI  if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> registering " <<
-          newNote->noteAsString () <<
-          ", line " << inputLineNumber <<
-          " as a new member of current chord" <<
-          endl;
-          
-      fCurrentChord->
-        addNoteToChord (newNote);
-    }
-
-    else if (
-      S_msrTuplet*
-        lastTupletFromVoicePtr =
-          dynamic_cast<S_msrTuplet *> (&(*lastElementFromVoice))) {
-                  
-//        if (gGeneralOptions->fDebugDebug)
-        cerr << idtr <<
-          "==> lastElementFromVoice is tuplet " <<
-          (*lastTupletFromVoicePtr)->tupletAsString () <<
-          endl;
-          
-      // register fCurrentChord as a member of tuplet
-    // JMI  if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> registering " <<
-          (*lastTupletFromVoicePtr)->tupletAsString () <<
-          ", line " << inputLineNumber <<
-          " as a new member of current chord" <<
-          endl;
-          
-      fCurrentChord->
-        addNoteToChord (newNote);
-
-      // add current to current tuplet
-      (*lastTupletFromVoicePtr)->
-        addChordToTuplet (fCurrentChord);
-    }
-
-    else {
-      stringstream s;
+      bool lastElementFromVoiceIsANote = // JMI
+        dynamic_cast<S_msrNote *> (&(*lastElementFromVoice)) != 0;
   
-      s <<
-        "last element just removed from voice is:" <<
-        endl <<
-        lastElementFromVoice << endl <<
-        " and it is not a note nor a tuplet:" <<
-        endl <<
-        lastHandledNoteInVoice <<
-        endl <<
-        endl;
-        
-      msrInternalError (
-        inputLineNumber,
-        s.str());
-    }
-  
-    // add fCurrentChord to the voice instead
-    if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "--> appending chord " << fCurrentChord <<
-        " to current voice \"" << "\"" <<
-        endl;
-        
-    currentVoice->
-      appendChordToVoice (fCurrentChord);
+      bool lastElementFromVoiceIsATuplet = // JMI
+        dynamic_cast<S_msrTuplet *> (&(*lastElementFromVoice)) != 0;
 
-    // account for chord being built
-    fOnGoingChord = true;
+      if (
+        S_msrNote*
+          lastNoteFromVoicePtr =
+            dynamic_cast<S_msrNote *> (&(*lastElementFromVoice))) {
+                    
+  //        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> lastElementFromVoice is note " <<
+            (*lastNoteFromVoicePtr)->noteAsString () <<
+            endl;
+            
+        // register note as a member of fCurrentChord
+      // JMI  if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> registering " <<
+            newNote->noteAsString () <<
+            ", line " << inputLineNumber <<
+            " as a new member of current chord" <<
+            endl;
+            
+        fCurrentChord->
+          addNoteToChord (newNote);
+      }
+  
+      else if (
+        S_msrTuplet*
+          lastTupletFromVoicePtr =
+            dynamic_cast<S_msrTuplet *> (&(*lastElementFromVoice))) {
+                    
+  //        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> lastElementFromVoice is tuplet " <<
+            (*lastTupletFromVoicePtr)->tupletAsString () <<
+            endl;
+            
+        // register fCurrentChord as a member of tuplet
+      // JMI  if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> registering " <<
+            (*lastTupletFromVoicePtr)->tupletAsString () <<
+            ", line " << inputLineNumber <<
+            " as a new member of current chord" <<
+            endl;
+            
+        fCurrentChord->
+          addNoteToChord (newNote);
+  
+        // add current to current tuplet
+        (*lastTupletFromVoicePtr)->
+          addChordToTuplet (fCurrentChord);
+      }
+  
+      else {
+        stringstream s;
+    
+        s <<
+          "last element just removed from voice is:" <<
+          endl <<
+          lastElementFromVoice << endl <<
+          " and it is not the note or tuplet:" <<
+          endl <<
+          lastHandledNoteInVoice <<
+          endl <<
+          endl;
+          
+        msrInternalError (
+          inputLineNumber,
+          s.str());
+      }
+    
+      // add fCurrentChord to the voice instead
+      if (gGeneralOptions->fDebug)
+        cerr << idtr <<
+          "--> appending chord " << fCurrentChord <<
+          " to current voice \"" << "\"" <<
+          endl;
+          
+      currentVoice->
+        appendChordToVoice (fCurrentChord);
+  
+      // account for chord being built
+      fOnGoingChord = true;
+    }
   }
 
   // set new note kind as a chord member

@@ -7904,7 +7904,7 @@ void msrSegment::setAllSegmentMeasuresDivisionsPerWholeNote (
 {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "### --> setAllSegmentMeasuresDivisionsPerWholeNote()" <<
+      "--> setAllSegmentMeasuresDivisionsPerWholeNote()" <<
       ", line " << fInputLineNumber <<
       ", divisionsPerWholeNote = " << divisionsPerWholeNote <<
       ", in segment " << fSegmentAbsoluteNumber <<
