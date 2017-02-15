@@ -453,6 +453,14 @@ void xml2MsrTranslator::visitStart ( S_bottom_margin& elt )
 }
 
 //________________________________________________________________________
+void xml2MsrTranslator::visitStart ( S_credit_words& elt )
+{
+  string credit = elt->getValue ();
+  
+  fCurrentCreditsList.push_back (credit);
+}
+
+//________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_part_list& elt)
 {
   if (gGeneralOptions->fTrace)
