@@ -1620,7 +1620,12 @@ class EXP msrMeasure : public msrElement
     S_msrElement  removeLastElementFromMeasure (
                     int inputLineNumber);
 
-    void          removeElementFromMeasure (S_msrElement elem);
+    void          removeNoteFromMeasure (
+                    int       inputLineNumber,
+                    S_msrNote note);
+                      // for chords' first notes
+
+    void          removeElementFromMeasure (S_msrElement elem); // JMI
 
     bool          checkForIncompleteMeasure (
                     int                        inputLineNumber,
@@ -1772,6 +1777,11 @@ class EXP msrSegment : public msrElement
 
     S_msrElement  removeLastElementFromSegment (
                     int inputLineNumber);
+
+    void          removeNoteFromSegment (
+                    int       inputLineNumber,
+                    S_msrNote note);
+                      // for chords' first notes
 
     bool          checkForIncompleteSegmentLastMeasure (
                     int                        inputLineNumber,
@@ -4853,11 +4863,16 @@ class EXP msrVoice : public msrElement
     void          appendPedalToVoice (S_msrPedal pedal);
     
     void          appendOtherElementToVoice (S_msrElement elem);
-                    // for other types of elements not known
-                    // in this header file, such as LPSR elements
+                      // for other types of elements not known
+                      // in this header file, such as LPSR elements
 
     S_msrElement  removeLastElementFromVoice (
                     int inputLineNumber);
+
+    void          removeNoteFromVoice (
+                    int       inputLineNumber,
+                    S_msrNote note);
+                      // for chords' first notes
 
     S_msrStanza   addStanzaToVoiceByItsNumber (
                     int inputLineNumber,

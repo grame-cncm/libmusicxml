@@ -7408,10 +7408,71 @@ void msrMeasure::appendOtherElementToMeasure  (S_msrElement elem)
   fMeasureElementsList.push_back (elem);
 }
 
+void msrMeasure::removeNoteFromMeasure (
+  int       inputLineNumber,
+  S_msrNote note)
+{
+  // this method is called when the second note of a chord is met
+  
+  if (true || gGeneralOptions->fDebug) {
+//  if (gGeneralOptions->fDebug) {
+    cerr << idtr <<
+      "--> removing note:" <<
+      endl;
+
+    idtr++;
+    cerr <<
+      idtr <<
+      note->noteAsShortString ();
+    idtr--;
+    
+    cerr <<
+      endl <<
+      idtr <<
+      " from measure '" <<
+      fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"," <<
+      endl;
+
+    idtr++;
+    cerr <<
+      idtr <<
+      "fMeasureLastHandledNote:" <<
+      endl <<
+      idtr <<
+      fMeasureLastHandledNote <<
+      endl;
+    idtr--;
+  }
+
+  for (
+    list<S_msrElement>::iterator i=
+      fMeasureElementsList.begin();
+    i!=fMeasureElementsList.end();
+    ++rit) {
+    if ((*i) == note) {
+      // found note, erase it
+      fMeasureElementsList.erase (i);
+      
+      // return from function
+      break;
+    }
+  } // for
+  
+  msrInternalError (
+    inputLineNumber,
+    "cannot removeNoteFromMeasure () " <<
+    " from measure " << fMeasureNumber <<
+    " since it has not been found");
+}
+
 S_msrElement msrMeasure::removeLastElementFromMeasure (
   int inputLineNumber)
 {
-
   // fetching measure last element
   S_msrElement
     measureLastElement =
@@ -8639,6 +8700,28 @@ S_msrElement msrSegment::removeLastElementFromSegment (
     msrInternalError (
       inputLineNumber,
       "cannot removeLastElementFromSegment () " <<
+      segmentAsString () <<
+      " since it is empty");
+  }
+}
+
+void msrSegment::removeNoteFromSegment (
+  int       inputLineNumber,
+  S_msrNote note)
+{
+  // this method is called when the second note of a chord is met
+  
+  if (fSegmentMeasuresList.size ()) {
+    fSegmentMeasuresList.back ()->
+      removeNoteFromMeasure (
+        inputLineNumber,
+        note);
+  }
+  
+  else {
+    msrInternalError (
+      inputLineNumber,
+      "cannot removeNoteFromSegment () " <<
       segmentAsString () <<
       " since it is empty");
   }
@@ -10106,11 +10189,28 @@ S_msrElement msrVoice::removeLastElementFromVoice (
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "Removing last note" <<
-      " from voice " << getVoiceName () << endl;
+      " from voice " << getVoiceName () <<
+      endl;
 
   return
     fVoiceLastSegment->
       removeLastElementFromSegment (inputLineNumber);
+}
+
+void msrVoice::removeNoteFromVoice (
+  int       inputLineNumber,
+  S_msrNote note)
+{
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "Removing note note " << note->noteAsShortString () <<
+      " from voice \"" << getVoiceName () << "\"" <<
+      endl;
+
+  fVoiceLastSegment->
+    removeNoteFromSegment (
+      inputLineNumber,
+      note);
 }
 
 void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
