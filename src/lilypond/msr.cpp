@@ -7429,8 +7429,7 @@ void msrMeasure::removeNoteFromMeasure (
     cerr <<
       endl <<
       idtr <<
-      " from measure '" <<
-      fMeasureNumber <<
+      " from measure '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -7453,7 +7452,7 @@ void msrMeasure::removeNoteFromMeasure (
     list<S_msrElement>::iterator i=
       fMeasureElementsList.begin();
     i!=fMeasureElementsList.end();
-    ++rit) {
+    ++i) {
     if ((*i) == note) {
       // found note, erase it
       fMeasureElementsList.erase (i);
@@ -7467,6 +7466,11 @@ void msrMeasure::removeNoteFromMeasure (
     inputLineNumber,
     "cannot removeNoteFromMeasure () " <<
     " from measure " << fMeasureNumber <<
+    "' in voice \"" <<
+    fMeasureSegmentUplink->
+      getSegmentVoiceUplink ()->
+        getVoiceName () <<
+    "\"," <<
     " since it has not been found");
 }
 

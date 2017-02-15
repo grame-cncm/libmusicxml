@@ -6314,103 +6314,24 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         currentVoice <<
         endl << endl;
 
-    // the last element in the voice is a note or tuplet
-    S_msrElement
-      lastElementFromVoice =
-        currentVoice->
-          removeLastElementFromVoice (inputLineNumber);
+    // remove lastHandledNoteInVoice from the current voice
+    currentVoice->
+      removeNoteFromVoice (
+        inputLineNumber,
+        lastHandledNoteInVoice);
 
-    if (lastElementFromVoice != lastHandledNoteInVoice) { // JMI
-    
-      bool lastElementFromVoiceIsANote = // JMI
-        dynamic_cast<S_msrNote *> (&(*lastElementFromVoice)) != 0;
-  
-      bool lastElementFromVoiceIsATuplet = // JMI
-        dynamic_cast<S_msrTuplet *> (&(*lastElementFromVoice)) != 0;
+    // add fCurrentChord to the voice instead
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> appending chord " << fCurrentChord <<
+        " to current voice \"" << "\"" <<
+        endl;
+        
+    currentVoice->
+      appendChordToVoice (fCurrentChord);
 
-      if (
-        S_msrNote*
-          lastNoteFromVoicePtr =
-            dynamic_cast<S_msrNote *> (&(*lastElementFromVoice))) {
-                    
-  //        if (gGeneralOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> lastElementFromVoice is note " <<
-            (*lastNoteFromVoicePtr)->noteAsString () <<
-            endl;
-            
-        // register note as a member of fCurrentChord
-      // JMI  if (gGeneralOptions->fDebug)
-          cerr << idtr <<
-            "--> registering " <<
-            newNote->noteAsString () <<
-            ", line " << inputLineNumber <<
-            " as a new member of current chord" <<
-            endl;
-            
-        fCurrentChord->
-          addNoteToChord (newNote);
-      }
-  
-      else if (
-        S_msrTuplet*
-          lastTupletFromVoicePtr =
-            dynamic_cast<S_msrTuplet *> (&(*lastElementFromVoice))) {
-                    
-  //        if (gGeneralOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> lastElementFromVoice is tuplet " <<
-            (*lastTupletFromVoicePtr)->tupletAsString () <<
-            endl;
-            
-        // register fCurrentChord as a member of tuplet
-      // JMI  if (gGeneralOptions->fDebug)
-          cerr << idtr <<
-            "--> registering " <<
-            (*lastTupletFromVoicePtr)->tupletAsString () <<
-            ", line " << inputLineNumber <<
-            " as a new member of current chord" <<
-            endl;
-            
-        fCurrentChord->
-          addNoteToChord (newNote);
-  
-        // add current to current tuplet
-        (*lastTupletFromVoicePtr)->
-          addChordToTuplet (fCurrentChord);
-      }
-  
-      else {
-        stringstream s;
-    
-        s <<
-          "last element just removed from voice is:" <<
-          endl <<
-          lastElementFromVoice << endl <<
-          " and it is not the note or tuplet:" <<
-          endl <<
-          lastHandledNoteInVoice <<
-          endl <<
-          endl;
-          
-        msrInternalError (
-          inputLineNumber,
-          s.str());
-      }
-    
-      // add fCurrentChord to the voice instead
-      if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> appending chord " << fCurrentChord <<
-          " to current voice \"" << "\"" <<
-          endl;
-          
-      currentVoice->
-        appendChordToVoice (fCurrentChord);
-  
-      // account for chord being built
-      fOnGoingChord = true;
-    }
+    // account for chord being built
+    fOnGoingChord = true;
   }
 
   // set new note kind as a chord member
@@ -7904,3 +7825,90 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
 
 
 } // namespace
+
+    /*
+    // the last element in the voice is a note or tuplet
+    S_msrElement
+      lastElementFromVoice =
+        currentVoice->
+          removeLastElementFromVoice (inputLineNumber);
+
+    if (lastElementFromVoice != lastHandledNoteInVoice) { // JMI
+    
+      bool lastElementFromVoiceIsANote = // JMI
+        dynamic_cast<S_msrNote *> (&(*lastElementFromVoice)) != 0;
+  
+      bool lastElementFromVoiceIsATuplet = // JMI
+        dynamic_cast<S_msrTuplet *> (&(*lastElementFromVoice)) != 0;
+
+      if (
+        S_msrNote*
+          lastNoteFromVoicePtr =
+            dynamic_cast<S_msrNote *> (&(*lastElementFromVoice))) {
+                    
+  //        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> lastElementFromVoice is note " <<
+            (*lastNoteFromVoicePtr)->noteAsString () <<
+            endl;
+            
+        // register note as a member of fCurrentChord
+      // JMI  if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> registering " <<
+            newNote->noteAsString () <<
+            ", line " << inputLineNumber <<
+            " as a new member of current chord" <<
+            endl;
+            
+        fCurrentChord->
+          addNoteToChord (newNote);
+      }
+  
+      else if (
+        S_msrTuplet*
+          lastTupletFromVoicePtr =
+            dynamic_cast<S_msrTuplet *> (&(*lastElementFromVoice))) {
+                    
+  //        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> lastElementFromVoice is tuplet " <<
+            (*lastTupletFromVoicePtr)->tupletAsString () <<
+            endl;
+            
+        // register fCurrentChord as a member of tuplet
+      // JMI  if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> registering " <<
+            (*lastTupletFromVoicePtr)->tupletAsString () <<
+            ", line " << inputLineNumber <<
+            " as a new member of current chord" <<
+            endl;
+            
+        fCurrentChord->
+          addNoteToChord (newNote);
+  
+        // add current to current tuplet
+        (*lastTupletFromVoicePtr)->
+          addChordToTuplet (fCurrentChord);
+      }
+  
+      else {
+        stringstream s;
+    
+        s <<
+          "last element just removed from voice is:" <<
+          endl <<
+          lastElementFromVoice << endl <<
+          " and it is not the note or tuplet:" <<
+          endl <<
+          lastHandledNoteInVoice <<
+          endl <<
+          endl;
+          
+        msrInternalError (
+          inputLineNumber,
+          s.str());
+      }
+    */
+
