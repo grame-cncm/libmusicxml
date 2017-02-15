@@ -1770,7 +1770,8 @@ class EXP msrSegment : public msrElement
                     int inputLineNumber);
 
     void          checkForIncompleteSegmentLastMeasure (
-                    int inputLineNumber);
+                    int                        inputLineNumber,
+                    msrMeasure::msrMeasureKind measureKind);
 
     void          finalizeLastMeasureOfSegment (int inputLineNumber);
 
