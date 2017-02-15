@@ -7448,9 +7448,13 @@ void msrMeasure::removeNoteFromMeasure (
     idtr--;
   }
 
+  // JMI  XXL
+  cerr << endl << endl;
+  print (cerr);
+  cerr << endl << endl;
+  
   for (
-    list<S_msrElement>::iterator i=
-      fMeasureElementsList.begin();
+    list<S_msrElement>::iterator i=fMeasureElementsList.begin();
     i!=fMeasureElementsList.end();
     ++i) {
     if ((*i) == note) {
@@ -7458,13 +7462,14 @@ void msrMeasure::removeNoteFromMeasure (
       fMeasureElementsList.erase (i);
       
       // return from function
-      break;
+      return;
     }
   } // for
   
   msrInternalError (
     inputLineNumber,
-    "cannot removeNoteFromMeasure () " <<
+    "cannot remove note " <<
+    note <<
     " from measure " << fMeasureNumber <<
     "' in voice \"" <<
     fMeasureSegmentUplink->

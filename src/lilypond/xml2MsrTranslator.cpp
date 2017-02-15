@@ -5272,7 +5272,7 @@ void xml2MsrTranslator::copyNoteDynamicsToChord (
 
     // JMI   if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "--> copying dymaics '" <<
+        "--> copying dynamics '" <<
         (*i)->dynamicsKindAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -6299,7 +6299,8 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
     // remove last handled (previous current) note from the current voice
 //    if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "--> removing last element" <<
+        "--> removing last handled note " <<
+        lastHandledNoteInVoice->noteAsShortString () <<
         ", line " << inputLineNumber <<
         ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
         endl;
@@ -6338,13 +6339,15 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   newNote->
     setNoteKind (msrNote::kChordMemberNote);
 
+  // register note as a member of fCurrentChord
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> adding new note " <<
       newNote->noteAsString() <<
       " to current chord" << endl;
 
- // JMI   cerr << "###### fOnGoingChord = " << fOnGoingChord << endl;
+  fCurrentChord->
+    addNoteToChord (newNote);
     
   // copy newNote's elements if any to the chord
   copyNoteElementsToChord (newNote, fCurrentChord);
