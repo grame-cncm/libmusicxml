@@ -85,6 +85,8 @@ class EXP xmlpart2guido :
     bool fGenerateTempo, directionPlacementAbove, directionWord;
     S_words wordPointer;
     
+    std::stack< std::pair<int, int> > fBeamStack; // first int: Internal num, 2nd int: XML num
+    
     Sguidoelement fLyricOpened;
     
     bool isProcessingChord;

@@ -188,7 +188,10 @@ namespace MusicXML2
             fCurrentVoicePosition.rationalise();
         }
         else if (diff.getNumerator() < 0)
-            cerr << "warning! checkVoiceTime: measure time behind voice time " << string(diff) << endl;
+        {
+            if (!fInCue)
+                cerr << "warning! checkVoiceTime: measure time behind voice time " << string(diff) << "(measure "<< fMeasNum<<")" << endl;
+        }
     }
     
     //______________________________________________________________________________
@@ -1017,7 +1020,35 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xmlpart2guido::checkBeamBegin ( const std::vector<S_beam>& beams )
     {
+        /// !IMPORTANT NOTE from MXML DOC: Note that the beam number does not distinguish sets of beams that overlap, as it does for slur and other elements.
+        ///             So we need to track them with s Stack
+        
         std::vector<S_beam>::const_iterator i = findValue(beams, "begin");
+        if (i != beams.end()) {
+            // There is a Beam Begin. Creat BeamBegin tag, and add its number to Stack
+            int lastBeamInternalNumber = 1;
+            if (!fBeamStack.empty()) {
+                std::pair<int, int> toto = fBeamStack.top();
+                lastBeamInternalNumber = toto.first + 1;
+            }
+            std::pair<int,int> toto2(lastBeamInternalNumber, (*i)->getAttributeIntValue("number", 0));
+            fBeamStack.push(toto2);
+            stringstream tagName;
+            tagName << "beamBegin" << ":"<< lastBeamInternalNumber;
+            
+            cout<<"Beam Begin "<<lastBeamInternalNumber<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<endl;
+            Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
+            add (tag);
+        }
+        
+        if (beams.empty() && fBeamStack.empty() && notevisitor::getType()!=kRest)
+        {
+            // Possible candidate for \beamsOff
+            Sguidoelement tag = guidotag::create("beamsOff");
+            add (tag);
+        }
+        
+        /*std::vector<S_beam>::const_iterator i = findValue(beams, "begin");
         if (i != beams.end()) {
             if (!fBeamOpened ) {
                 fCurrentBeamNumber = (*i)->getAttributeIntValue("number", 1);
@@ -1030,23 +1061,51 @@ namespace MusicXML2
         }else {
             if (!fBeamOpened && notevisitor::getType()!=kRest )
             {
-                // Possible candidate for \beamOff
+                // Possible candidate for \beamsOff
                 Sguidoelement tag = guidotag::create("beamsOff");
                 add (tag);
             }
-        }
+        }*/
     }
     
     void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
     {
-        std::vector<S_beam>::const_iterator i;
+        std::vector<S_beam>::const_reverse_iterator i ;
+        for (i = beams.rbegin(); (i != beams.rend() && (!fBeamStack.empty())); i++)
+        {
+            cout<<"\t Beam End Check: last stack "<<fBeamStack.top().first<<" "<< fBeamStack.top().second<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<" "<<(*i)->getValue() <<endl;
+
+            if (((*i)->getValue() == "end") && ((*i)->getAttributeIntValue("number", 1) == fBeamStack.top().second)) {
+                // There is a Beam End. create tag and pop from stack
+                int lastBeamInternalNumber = 0;
+                if (!fBeamStack.empty()) {
+                    lastBeamInternalNumber = fBeamStack.top().first;
+                }else {
+                    cerr<< "XML2Guido: Got Beam End without a beam in Stack. Skipping!"<<endl;
+                    return;
+                }
+                stringstream tagName;
+                tagName << "beamEnd" << ":"<< lastBeamInternalNumber;
+                
+                Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
+                add (tag);
+                
+                cout<<"Beam END "<<lastBeamInternalNumber<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<endl;
+
+                
+                fBeamStack.pop();
+            }
+        }
+        
+        
+        /*std::vector<S_beam>::const_iterator i;
         for (i = beams.begin(); (i != beams.end()) && fBeamOpened; i++) {
             if (((*i)->getValue() == "end") && ((*i)->getAttributeIntValue("number", 1) == fCurrentBeamNumber)) {
                 fCurrentBeamNumber = 0;
                 pop();
                 fBeamOpened = false;
             }
-        }
+        }*/
         /*
          std::vector<S_beam>::const_iterator i = findValue(beams, "end");
          if (i != beams.end()) {
@@ -1765,7 +1824,7 @@ namespace MusicXML2
         isProcessingChord = false;
         
         bool scanVoice = (notevisitor::getVoice() == fTargetVoice);
-        if (!isGrace() && !isCue()) {
+        if (!isGrace() ) {  
             moveMeasureTime (getDuration(), scanVoice);
             checkDelayed (getDuration());		// check for delayed elements (directions with offset)
         }
@@ -1777,7 +1836,7 @@ namespace MusicXML2
         
         if (notevisitor::getType() != notevisitor::kRest)
             checkStem (notevisitor::fStem);
-        checkCue(*this);    // inhibited due to poor support in guido (including crashes)
+        checkCue(*this);
         checkGrace(*this);
         checkSlurBegin (notevisitor::getSlur());
         checkTupletBegin(notevisitor::getTuplet(), *this, elt);
