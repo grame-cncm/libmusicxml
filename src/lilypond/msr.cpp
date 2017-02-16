@@ -2561,7 +2561,7 @@ void msrNote::print (ostream& os)
       " (" << fNoteData.fType << ")" <<
       ", line " << fInputLineNumber;
 
-  // display divisions
+  // print display divisions
   os <<
     ", " <<
     "(divs: ";
@@ -2594,19 +2594,15 @@ void msrNote::print (ostream& os)
 
   // print measure related information
   os <<
-    " meas: ";
+    " meas ";
     
   if (fNoteMeasureNumber < 0)
     os << "?";
   else
     os << fNoteMeasureNumber;
-    
+
   os <<
-    ":" <<
-    position.getNumerator () <<
-    "/" <<
-    position.getDenominator() <<
-    " (";
+    ":";
     
   if (fNotePositionInMeasure < 0)
     os << "?";
@@ -2615,10 +2611,20 @@ void msrNote::print (ostream& os)
     
   os <<
     "/" <<
-    fNoteDivisionsPerWholeNote <<
-    ")" <<
-    endl;
+    fNoteDivisionsPerWholeNote;
 
+  if (position.getNumerator () != fNotePositionInMeasure)
+    // print simplified rational view
+    os <<
+      " (" <<
+      position.getNumerator () <<
+      "/" <<
+      position.getDenominator() <<
+      ")";
+
+  os <<
+      endl;
+    
   // are there syllables associated to this note?
   if (fNoteSyllables.size ()) {
     idtr++;
