@@ -1154,7 +1154,8 @@ string booleanAsString (bool value)
 }
 
 //______________________________________________________________________________
-string singularOrPlural (int number, string singularName, string pluralName)
+string singularOrPlural (
+  int number, string singularName, string pluralName)
 {
   stringstream s;
 

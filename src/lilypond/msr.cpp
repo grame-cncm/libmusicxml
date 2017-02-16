@@ -1937,40 +1937,6 @@ msrNote::msrNote (
 msrNote::~msrNote()
 {}
 
-S_msrNote msrNote::createSkipNote (
-  int           inputLineNumber,
-  int           divisions,
-  int           divisionsPerWholeNote,
-  int           staffNumber,
-  int           externalVoiceNumber)
-{
-  msrNoteData noteData;
-
-  noteData.fStep = 's';
-  noteData.fStepIsARest = true;
-  
-  noteData.fDivisions = divisions;
-  noteData.fDisplayDivisions = divisions;
-    
-  noteData.fStaffNumber = staffNumber;
-  noteData.fVoiceNumber = externalVoiceNumber;
-
-  msrNote * o =
-    new msrNote (
-      inputLineNumber, noteData);
-  assert(o!=0);
-
-  // set skip's note kind
-  o->fNoteKind =
-    kSkipNote;
-  
-  // set skip's divisions per whole note
-  o->fNoteDivisionsPerWholeNote =
-    divisionsPerWholeNote;
-  
-  return o;
-}    
-
 S_msrNote msrNote::createNoteBareClone ()
 {
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
@@ -1992,13 +1958,23 @@ S_msrNote msrNote::createNoteBareClone ()
     fNoteOctaveShift;
   
   clone->fNoteStem =
-    fNoteStem;  
+    fNoteStem;
 
   clone->fNoteDivisionsPerWholeNote =
     fNoteDivisionsPerWholeNote;
   
   clone->fNoteSyllableExtendKind =
     fNoteSyllableExtendKind;
+
+  clone->fNoteMeasureNumber =
+    fNoteMeasureNumber;
+  clone->fNotePositionInMeasure =
+    fNotePositionInMeasure;
+  clone-> fNoteOccupiesAFullMeasure =
+    fNoteOccupiesAFullMeasure;
+
+  clone->fNoteHasATrill =
+    fNoteHasATrill;
 
   return clone;
 }
@@ -2135,6 +2111,40 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 
   fNoteSyllables.push_back (syllable);
 }
+
+S_msrNote msrNote::createSkipNote (
+  int           inputLineNumber,
+  int           divisions,
+  int           divisionsPerWholeNote,
+  int           staffNumber,
+  int           externalVoiceNumber)
+{
+  msrNoteData noteData;
+
+  noteData.fStep = 's';
+  noteData.fStepIsARest = true;
+  
+  noteData.fDivisions = divisions;
+  noteData.fDisplayDivisions = divisions;
+    
+  noteData.fStaffNumber = staffNumber;
+  noteData.fVoiceNumber = externalVoiceNumber;
+
+  msrNote * o =
+    new msrNote (
+      inputLineNumber, noteData);
+  assert(o!=0);
+
+  // set skip's note kind
+  o->fNoteKind =
+    kSkipNote;
+  
+  // set skip's divisions per whole note
+  o->fNoteDivisionsPerWholeNote =
+    divisionsPerWholeNote;
+  
+  return o;
+}    
 
 void msrNote::acceptIn (basevisitor* v)
 {
@@ -2447,7 +2457,7 @@ string msrNote::noteAsString () const
   stringstream s;
 
   s <<
-    "=== ";
+    "[=== ";
     
   switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
@@ -2522,7 +2532,7 @@ string msrNote::noteAsString () const
 */
 
   s <<
-    " ===";
+    " ===]";
   
   return s.str();
 }
@@ -2581,20 +2591,14 @@ void msrNote::print (ostream& os)
     fNoteDivisionsPerWholeNote <<
     ") @";
     
-  if (getNoteMeasureNumber () < 0)
+  if (fNoteMeasureNumber < 0)
     os << "?";
   else
-    os << getNoteMeasureNumber ();
+    os << fNoteMeasureNumber;
     
   os <<
-    ":";
-    
-  if (position.getNumerator () < 0)
-    os << "?";
-  else
-    position.getNumerator ();
-    
-  os <<
+    ":" <<
+    position.getNumerator () <<
     "/" <<
     position.getDenominator() <<
     " (";
@@ -5272,10 +5276,12 @@ string msrSyllable::syllableNoteUplinkAsString () const
 
   if (fSyllableNoteUplink)
     result =
+      "==> "
+        +
       fSyllableNoteUplink->noteAsString ();
   else
     result =
-      "syllable note uplink not yet set";
+      "no syllable note uplink";
 
   return result;
 }
@@ -5290,7 +5296,7 @@ string msrSyllable::syllableAsString () const
         "single" << ":" << syllableDivisionsAsString () <<
         " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
-        ", ==> " <<
+        ", " <<
         syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       s <<
@@ -5303,7 +5309,7 @@ string msrSyllable::syllableAsString () const
         "begin" << ":" << syllableDivisionsAsString () <<
         " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
-        ", ==> " <<
+        ", " <<
         syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       s <<
@@ -5316,7 +5322,7 @@ string msrSyllable::syllableAsString () const
         "middle" << ":" << syllableDivisionsAsString () <<
         " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
-        ", ==> " <<
+        ", " <<
         syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       s <<
@@ -5329,7 +5335,7 @@ string msrSyllable::syllableAsString () const
         "end" << ":" << syllableDivisionsAsString () <<
         " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
-        ", ==> " <<
+        ", " <<
         syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       s <<
@@ -5342,7 +5348,7 @@ string msrSyllable::syllableAsString () const
         "rest" << ":" << syllableDivisionsAsString () <<
         " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
-        ", ==> " <<
+        ", " <<
         syllableNoteUplinkAsString ();
       break;
       
@@ -5358,7 +5364,7 @@ string msrSyllable::syllableAsString () const
         "slur" << ":" << syllableDivisionsAsString () <<
         " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
-        ", ==> " <<
+        ", " <<
         syllableNoteUplinkAsString ();
       break;
       
@@ -5366,7 +5372,7 @@ string msrSyllable::syllableAsString () const
       s << 
         "slur beyond end" << ":" << syllableDivisionsAsString () <<
         ", line " << fInputLineNumber <<
-        ", ==> " <<
+        ", " <<
         syllableNoteUplinkAsString ();
       break;
       
@@ -5375,7 +5381,7 @@ string msrSyllable::syllableAsString () const
         "tied" << ":" << syllableDivisionsAsString () <<
         " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
-        ", ==> " <<
+        ", " <<
         syllableNoteUplinkAsString () <<
         " " << "\"" << fSyllableText << "\"";
       break;
@@ -6211,7 +6217,7 @@ S_msrChords msrChords::createChordsBareClone (S_msrPart clonedPart)
 {
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> Creating a bare clone of a chords" <<
+      "--> Creating a bare clone of a chord" <<
       endl;
 
   S_msrChords
@@ -6256,7 +6262,7 @@ void msrChords::appendHarmonyToChords (S_msrHarmony harmony)
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "--> Appending harmony " << harmony <<
-      " to chords" << getChordsName () << endl;
+      " to chord " << getChordsName () << endl;
       
   fChordsElements.push_back (harmony);
 
@@ -6331,7 +6337,9 @@ void msrChords::print (ostream& os)
 {  
  os <<
     "Chords" << " " << getChordsName () <<
-    " (" << fChordsElements.size () << " chords elements)";
+    " (" <<
+    singularOrPlural (
+      fChordsElements.size (), "chords element", "chords elements");
 
   if (! fChordsPresent)
     os << " (No actual chords)";
@@ -7788,10 +7796,12 @@ void msrMeasure::print (ostream& os)
       ", " << fMeasureTime->timeAsString () <<
       ", len: " << getMeasureLength () <<
       " (" << getMeasureLengthAsString () << ")" <<
-      ", pfm:" << fMeasureDivisionsPerFullMeasure <<
-      ", pwn:" << fMeasureDivisionsPerWholeNote <<
+      ", dpfm:" << fMeasureDivisionsPerFullMeasure <<
+      ", dpwn:" << fMeasureDivisionsPerWholeNote <<
       ", pos: " << fMeasurePosition << 
-      ", " << fMeasureElementsList.size () << " elems" <<
+      ", " <<
+      singularOrPlural (
+        fMeasureElementsList.size (), "elem", "elems") <<
       ", " << getMeasureKindAsString () <<
     endl;
 
@@ -9080,8 +9090,10 @@ void msrRepeat::setRepeatCommonPart (
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Setting repeat common part containing " <<
-      repeatCommonPart->getSegmentMeasuresList ().size () <<
-      " measures" <<
+      singularOrPlural (
+        repeatCommonPart->getSegmentMeasuresList ().size (),
+        "measure",
+        "measures") <<
       endl;
       
   fRepeatCommonPart = repeatCommonPart;

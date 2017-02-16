@@ -2511,8 +2511,6 @@ class EXP msrNote : public msrElement
     virtual void print (ostream& os);
 
   private:
-
-    // MusicXML informations
     
     msrNoteData               fNoteData;
 
@@ -2520,10 +2518,6 @@ class EXP msrNote : public msrElement
     msrSyllable::msrSyllableExtendKind
                               fNoteSyllableExtendKind; // MEGA
     
-    bool                      fNoteOccupiesAFullMeasure;
-
-    // LilyPond informations
-
     msrNoteKind               fNoteKind;
 
     S_msrOctaveShift          fNoteOctaveShift;
@@ -2536,11 +2530,6 @@ class EXP msrNote : public msrElement
 
     list<S_msrOrnament>       fNoteOrnaments;
 
-    int                       fNoteDivisionsPerWholeNote; // JMI
-
-    int                       fNoteMeasureNumber;
-    int                       fNotePositionInMeasure;
-
     S_msrTie                  fNoteTie;
     
     list<S_msrDynamics>       fNoteDynamics;
@@ -2548,6 +2537,12 @@ class EXP msrNote : public msrElement
     list<S_msrWedge>          fNoteWedges;
 
     list<S_msrSlur>           fNoteSlurs;
+
+    int                       fNoteDivisionsPerWholeNote; // JMI
+
+    int                       fNoteMeasureNumber;
+    int                       fNotePositionInMeasure;
+    bool                      fNoteOccupiesAFullMeasure;
 
     // this is useful to produce a nice \aftergrace in LilyPond 
     bool                      fNoteHasATrill;
