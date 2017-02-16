@@ -395,6 +395,7 @@ class lpsr2LilyPondTranslator :
     // stems
     msrStem::msrStemKind  fCurrentStemKind;
     S_msrStem             fCurrentStem;
+    bool                  fOnGoingStemNone;
 
     // chords
     // ------------------------------------------------------

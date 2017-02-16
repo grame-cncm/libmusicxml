@@ -53,6 +53,7 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
   fOnGoingScoreBlock = false;
 
   fCurrentStemKind = msrStem::k_NoStem;
+  fOnGoingStemNone = false;
 
   fCurrentRepeatEndingsNumber = 0;
   
@@ -2108,15 +2109,51 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
   if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
     fOstream << idtr;
 
+  // get note stem kind 
+  msrStem::msrStemKind
+    stemKind =
+      fCurrentStem->getStemKind ();
+    
+  // is there an unmetered (stemless) section?
+  if (stemKind != fCurrentStemKind) {
+    switch (stemKind) {
+      case msrStem::kStemNone:
+        if (! fOnGoingStemNone) {
+          fOstream <<
+            endl <<
+            "\\temporary\omit Stem" " "
+            "\\once\omit Staff.TimeSignature" " "
+            "\\cadenzaOn" <<
+            idtr;
+
+          fMusicOlec.reset ();
+
+          fOnGoingStemNone = true;
+        }
+        else {
+          fOstream <<
+            endl <<
+            "\\cadenzaOff" " "
+            "\\undo\omit Stem" " " <<
+            endl;
+
+          fMusicOlec.reset ();
+        }
+        break;
+        
+      case msrStem::k_NoStem:
+      case msrStem::kStemUp:
+      case msrStem::kStemDown:
+      case msrStem::kStemDouble:
+        break;
+    } // switch
+  }
+  fMusicOlec++;
+
   // should stem direction be generated?
   if (fLpsrOptions->fGenerateStems) {
 
     if (fCurrentStem) {
-      // get note stem kind 
-      msrStem::msrStemKind
-        stemKind =
-          fCurrentStem->getStemKind ();
-    
       // should stem direction be generated?
       if (stemKind != fCurrentStemKind) {
         switch (stemKind) {
@@ -2129,7 +2166,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
           case msrStem::kStemDown:
             fOstream << "\\stemDown" " ";
             break;
-          case msrStem::kStemNone: // JMI ???
+          case msrStem::kStemNone:
             break;
           case msrStem::kStemDouble: // JMI ???
             break;
@@ -2294,6 +2331,21 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
   fOstream << " ";
 
   fMusicOlec++;
+
+  // was there an unmetered (stemless) section?
+  if (stemKind != fCurrentStemKind) {
+    switch (stemKind) {
+      case msrStem::kStemNone:
+        break;
+        
+      case msrStem::k_NoStem:
+      case msrStem::kStemUp:
+      case msrStem::kStemDown:
+      case msrStem::kStemDouble:
+        fOnGoingStemNone =false;
+        break;
+    } // switch
+  }
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)

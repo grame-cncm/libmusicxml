@@ -6155,7 +6155,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     
     // note is the second, third, ..., member of a chord in a tuplet
     // that is a member of a tuplet
-    handleNoteBelongingToAChord (newNote); // JMI
+    handleNoteBelongingToAChordInATuplet (newNote);
   }
   
   else if (fNoteData.fNoteBelongsToAChord) {
@@ -6282,6 +6282,122 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
 
       s <<
         "handleNoteBelongingToAChord:" <<
+        endl <<
+        idtr <<
+          "lastHandledNoteInVoice is null on " <<
+          newChordNote->noteAsString ();
+        
+      msrInternalError (
+        inputLineNumber,
+        s.str());
+    }
+        
+    // create the chord from its first note
+    fCurrentChord =
+      createChordFromItsFirstNote (
+        currentVoice,
+        lastHandledNoteInVoice);
+
+    // remove last handled (previous current) note from the current voice
+//    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> removing last handled note " <<
+        lastHandledNoteInVoice->noteAsShortString () <<
+        ", line " << inputLineNumber <<
+        ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
+        endl;
+
+    if (false)
+      cerr <<
+        endl << endl <<
+        "&&&&&&&&&&&&&&&&&& currentVoice (" <<
+        currentVoice->getVoiceName () <<
+        ") contents &&&&&&&&&&&&&&&&&&" <<
+        endl <<
+        currentVoice <<
+        endl << endl;
+
+    // remove lastHandledNoteInVoice from the current voice
+    currentVoice->
+      removeFirstChordNoteVoice (
+        inputLineNumber,
+        lastHandledNoteInVoice);
+
+    // add fCurrentChord to the voice instead
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> appending chord " << fCurrentChord <<
+        " to current voice \"" << "\"" <<
+        endl;
+        
+    currentVoice->
+      appendChordToVoice (fCurrentChord);
+
+    // account for chord being built
+    fOnGoingChord = true;
+  }
+
+  // register note as another member of fCurrentChord
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> adding another note " <<
+      newChordNote->noteAsString() <<
+      ", line " << inputLineNumber <<
+      " to current chord" <<
+      endl;
+  
+  fCurrentChord->
+    addAnotherNoteToChord (newChordNote);
+
+  // set new note kind as a chord member
+  newChordNote->
+    setNoteKind (msrNote::kChordMemberNote);
+
+  // copy newChordNote's elements if any to the chord
+  copyNoteElementsToChord (newChordNote, fCurrentChord);
+}
+
+//______________________________________________________________________________
+void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
+  S_msrNote newChordNote)
+{
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "xml2MsrTranslator::handleNoteBelongingToAChordInATuplet " <<
+      newChordNote <<
+      endl;
+
+  int inputLineNumber =
+    newChordNote->getInputLineNumber ();
+    
+  if (fNoteData.fStepIsARest)
+    msrMusicXMLError (
+      inputLineNumber,
+      "a rest cannot belong to a chord");
+
+  // should a chord be created?
+  if (! fOnGoingChord) {
+    // this is the second note of the chord to be created,
+    // fLastHandledNote being the first one
+
+    // fetch current voice
+    S_msrVoice
+      currentVoice =
+        registerVoiceInStaffInCurrentPartIfNeeded (
+          inputLineNumber,
+          fCurrentNoteStaffNumber,
+          fCurrentVoiceNumber);
+
+    // fetch last handled note for this voice
+    S_msrNote
+      lastHandledNoteInVoice =
+        fLastHandledNoteInVoice [currentVoice];
+
+    if (! lastHandledNoteInVoice) {
+      stringstream s;
+
+      s <<
+        "handleNoteBelongingToAChordInATuplet:" <<
         endl <<
         idtr <<
           "lastHandledNoteInVoice is null on " <<

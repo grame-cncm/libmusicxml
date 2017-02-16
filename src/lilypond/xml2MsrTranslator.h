@@ -919,6 +919,8 @@ class EXP xml2MsrTranslator :
                                 S_msrNote  chordFirstNote);
     void                      handleNoteBelongingToAChord (
                                 S_msrNote newChordNote);
+    void                      handleNoteBelongingToAChordInATuplet (
+                                S_msrNote newChordNote);
     
     map<S_msrVoice, S_msrNote>
                               fLastHandledNoteInVoice;
