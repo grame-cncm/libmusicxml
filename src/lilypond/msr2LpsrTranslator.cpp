@@ -1206,7 +1206,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
     case msrNote::kChordMemberNote:
       if (fOnGoingChord)
         fCurrentChordClone->
-          addNoteToChord (fCurrentNoteClone);
+          addAnotherNoteToChord (fCurrentNoteClone);
       else {
         stringstream s;
 
@@ -1568,9 +1568,6 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
     fOstream << idtr <<
       "--> Start visiting msrRepeatending" << endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
 /* JMI
   S_msrRepeatending
     repeatending =
@@ -1887,7 +1884,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         fCurrentRepeatClone->
           addRepeatending (repeatEnding);
   
-  /*
+  / *
         if (fOnGoingRepeat) {
           // add the repeat to the new segment
      //     if (gGeneralOptions->fDebug)

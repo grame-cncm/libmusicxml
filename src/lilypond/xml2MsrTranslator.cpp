@@ -5172,23 +5172,24 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
   // chord's divisions per whole note is that of its first note
   chord->
     setChordDivisionsPerWholeNote (
-      chordFirstNote-> getNoteDivisionsPerWholeNote ());
+      chordFirstNote->
+        getNoteDivisionsPerWholeNote ());
 
   // chord's tie kind is that of its first note
   chord->
     setChordTie (
       chordFirstNote->getNoteTie ());
   
+  // register note as first member of fCurrentChord
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> adding first note " <<
       chordFirstNote->noteAsString() <<
       ", line " << inputLineNumber <<
       ", to new chord" << endl;
-    
-  // register firstNote as a member of chord
+      
   chord->
-    addNoteToChord (chordFirstNote);
+    addFirstNoteToChord (chordFirstNote);
 
   // copy firstNote's elements if any to the chord
   copyNoteElementsToChord (chordFirstNote, chord);
@@ -6336,20 +6337,24 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
     fOnGoingChord = true;
   }
 
+  else {
+    // register note as another member of fCurrentChord
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> adding another note " <<
+        newChordNote->noteAsString() <<
+        ", line " << inputLineNumber <<
+        " to current chord" <<
+        endl;
+    
+    fCurrentChord->
+      addAnotherNoteToChord (newChordNote);
+    }
+
   // set new note kind as a chord member
   newChordNote->
     setNoteKind (msrNote::kChordMemberNote);
 
-  // register note as a member of fCurrentChord
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> adding new note " <<
-      newChordNote->noteAsString() <<
-      " to current chord" << endl;
-
-  fCurrentChord->
-    addNoteToChord (newChordNote);
-    
   // copy newChordNote's elements if any to the chord
   copyNoteElementsToChord (newChordNote, fCurrentChord);
 }

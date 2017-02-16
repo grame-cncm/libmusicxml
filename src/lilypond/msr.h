@@ -2663,7 +2663,8 @@ class EXP msrChord : public msrElement
     // services
     // ------------------------------------------------------
 
-    void          addNoteToChord (S_msrNote note);
+    void          addFirstNoteToChord (S_msrNote note);
+    void          addAnotherNoteToChord (S_msrNote note);
 
     void          setChordFirstNotePositionInMeasure (
                     int position);

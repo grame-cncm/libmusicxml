@@ -2902,11 +2902,35 @@ S_msrChord msrChord::createChordBareClone ()
   return clone;
 }
     
-void msrChord::addNoteToChord (S_msrNote note)
+void msrChord::addFirstNoteToChord (S_msrNote note)
 {
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> adding note '" <<
+      "--> adding first note '" <<
+      note->noteAsString () <<
+      "' to chord '" <<
+      chordAsString () <<
+      "'" <<
+      endl;
+
+  fChordNotes.push_back (note);
+  
+  note->setNoteBelongsToAChord ();
+  
+  // populate note's measure number
+  note->setNoteMeasureNumber (
+    fChordMeasureNumber);
+
+  // populate note's position in measure
+  note->setNotePositionInMeasure (
+    fChordPositionInMeasure);
+}
+
+void msrChord::addAnotherNoteToChord (S_msrNote note)
+{
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> adding another note '" <<
       note->noteAsString () <<
       "' to chord '" <<
       chordAsString () <<
@@ -3181,8 +3205,7 @@ void msrChord::print (ostream& os)
     ":" <<
     fChordPositionInMeasure <<
     "/" <<
-    fChordDivisionsPerWholeNote <<
-    endl;
+    fChordDivisionsPerWholeNote;
 
   // print simplified position in measure if relevant
   rational
@@ -3201,6 +3224,9 @@ void msrChord::print (ostream& os)
       chordPosition.getDenominator() <<
       ")";
 
+  os <<
+    endl;
+    
   idtr++;
   
   // print the member notes if any
@@ -7343,7 +7369,8 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
     // copy measure position to first note, that was created beforehand
     chord->
       setChordFirstNotePositionInMeasure (fMeasurePosition);
-    
+
+   /* 
     // fetch chord divisions
     int chordDivisions =
       chord->getChordDivisions ();
@@ -7351,6 +7378,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
     // don't account for chord duration in measure position:
     // this has already be done upon its first note
  // JMI   fMeasurePosition += chordDivisions;
+  */
   
     // update part measure position high tide if need be
     fMeasurePartDirectUplink->
@@ -7518,6 +7546,7 @@ void msrMeasure::removeFirstChordNoteFromMeasure (
     " since it has not been found");
 }
 
+/*
 S_msrElement msrMeasure::removeLastElementFromMeasure (
   int inputLineNumber)
 {
@@ -7573,12 +7602,12 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
         // update position in measure
         fMeasurePosition -=
           fMeasureLastHandledNote->getNoteDivisions ();
-/*
+/ *
 // JMI
         // set note's measure position, needed for chord handling
         fMeasureLastHandledNote->
           setNotePositionInMeasure (fMeasurePosition);
-*/
+* /
       }
 
       else {
@@ -7606,6 +7635,7 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
 
   return measureLastElement;
 }
+*/
 
 void msrMeasure::finalizeMeasure (int inputLineNumber)
 {
@@ -8733,6 +8763,7 @@ void msrSegment::removeElementFromSegment (
 }
 */
 
+/*
 S_msrElement msrSegment::removeLastElementFromSegment (
   int inputLineNumber)
 {
@@ -8754,6 +8785,7 @@ S_msrElement msrSegment::removeLastElementFromSegment (
       " since it is empty");
   }
 }
+*/
 
 void msrSegment::removeFirstChordNoteSegment (
   int       inputLineNumber,
@@ -10233,6 +10265,7 @@ void msrVoice::appendOtherElementToVoice (S_msrElement elem)
 }
 */
 
+/*
 S_msrElement msrVoice::removeLastElementFromVoice (
   int inputLineNumber)
 {
@@ -10246,6 +10279,7 @@ S_msrElement msrVoice::removeLastElementFromVoice (
     fVoiceLastSegment->
       removeLastElementFromSegment (inputLineNumber);
 }
+*/
 
 void msrVoice::removeFirstChordNoteVoice (
   int       inputLineNumber,
