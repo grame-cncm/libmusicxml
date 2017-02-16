@@ -5146,15 +5146,15 @@ void xml2MsrTranslator::visitEnd ( S_unpitched& elt)
 //______________________________________________________________________________
 S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
   S_msrVoice voice,
-  S_msrNote firstNote)
+  S_msrNote  chordFirstNote)
 {
   int inputLineNumber =
-    firstNote->getInputLineNumber ();
+    chordFirstNote->getInputLineNumber ();
     
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating a chord from its first note " <<
-      firstNote <<
+      chordFirstNote <<
       ", line " << inputLineNumber <<
       ", in voice \"" << voice->getVoiceName () << "\"" <<
       endl;
@@ -5167,30 +5167,31 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
     chord =
       msrChord::create (
         inputLineNumber,
-        firstNote->getNoteDivisions ());
+        chordFirstNote->getNoteDivisions ());
 
   // chord's divisions per whole note is that of its first note
   chord->
     setChordDivisionsPerWholeNote (
-      firstNote-> getNoteDivisionsPerWholeNote ());
+      chordFirstNote-> getNoteDivisionsPerWholeNote ());
 
   // chord's tie kind is that of its first note
   chord->
     setChordTie (
-      firstNote->getNoteTie ());
+      chordFirstNote->getNoteTie ());
   
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> adding first note " << firstNote->noteAsString() <<
+      "--> adding first note " <<
+      chordFirstNote->noteAsString() <<
       ", line " << inputLineNumber <<
       ", to new chord" << endl;
     
   // register firstNote as a member of chord
   chord->
-    addNoteToChord (firstNote);
+    addNoteToChord (chordFirstNote);
 
   // copy firstNote's elements if any to the chord
-  copyNoteElementsToChord (firstNote, chord);
+  copyNoteElementsToChord (chordFirstNote, chord);
     
   return chord;
 }
@@ -6151,9 +6152,9 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   // handle note
   if (fNoteData.fNoteBelongsToAChord && fNoteData.fNoteBelongsToATuplet) {
     
-    // note is the second, third, ..., member of a chord
+    // note is the second, third, ..., member of a chord in a tuplet
     // that is a member of a tuplet
-    handleNoteBelongingToAChord (newNote);
+    handleNoteBelongingToAChord (newNote); // JMI
   }
   
   else if (fNoteData.fNoteBelongsToAChord) {
@@ -6232,7 +6233,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 
 //______________________________________________________________________________
 void xml2MsrTranslator::handleNoteBelongingToAChord (
-  S_msrNote newNote)
+  S_msrNote newChordNote)
 {
 /*
   The chord element indicates that this note is an additional
@@ -6246,11 +6247,11 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToAChord " <<
-      newNote <<
+      newChordNote <<
       endl;
 
   int inputLineNumber =
-    newNote->getInputLineNumber ();
+    newChordNote->getInputLineNumber ();
     
   if (fNoteData.fStepIsARest)
     msrMusicXMLError (
@@ -6283,7 +6284,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         endl <<
         idtr <<
           "lastHandledNoteInVoice is null on " <<
-          newNote->noteAsString ();
+          newChordNote->noteAsString ();
         
       msrInternalError (
         inputLineNumber,
@@ -6336,21 +6337,21 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   }
 
   // set new note kind as a chord member
-  newNote->
+  newChordNote->
     setNoteKind (msrNote::kChordMemberNote);
 
   // register note as a member of fCurrentChord
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> adding new note " <<
-      newNote->noteAsString() <<
+      newChordNote->noteAsString() <<
       " to current chord" << endl;
 
   fCurrentChord->
-    addNoteToChord (newNote);
+    addNoteToChord (newChordNote);
     
-  // copy newNote's elements if any to the chord
-  copyNoteElementsToChord (newNote, fCurrentChord);
+  // copy newChordNote's elements if any to the chord
+  copyNoteElementsToChord (newChordNote, fCurrentChord);
 }
 
 //______________________________________________________________________________
