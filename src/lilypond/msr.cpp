@@ -2545,13 +2545,6 @@ ostream& operator<< (ostream& os, const S_msrNote& elt)
 
 void msrNote::print (ostream& os)
 {
-  rational
-    position (
-      fNotePositionInMeasure,
-      fNoteDivisionsPerWholeNote);
-
-  position.rationalise ();
-  
   // print the note itself and its position
   os <<
     noteAsString ();
@@ -2613,13 +2606,21 @@ void msrNote::print (ostream& os)
     "/" <<
     fNoteDivisionsPerWholeNote;
 
-  if (position.getNumerator () != fNotePositionInMeasure)
+  // print simplified position in measure if relevant
+  rational
+    notePosition (
+      fNotePositionInMeasure,
+      fNoteDivisionsPerWholeNote);
+
+  notePosition.rationalise ();
+  
+  if (notePosition.getNumerator () != fNotePositionInMeasure)
     // print simplified rational view
     os <<
       " (" <<
-      position.getNumerator () <<
+      notePosition.getNumerator () <<
       "/" <<
-      position.getDenominator() <<
+      notePosition.getDenominator() <<
       ")";
 
   os <<
@@ -3171,17 +3172,34 @@ void msrChord::print (ostream& os)
 {
   os <<
     "Chord" <<
-    " (" <<
+    " divs: " <<
     chordDivisionsAsMSRString () <<
     "/" <<
     fChordDivisionsPerWholeNote <<
-    ") @"<<
+    ", meas "<<
     getChordMeasureNumber () <<
     ":" <<
     fChordPositionInMeasure <<
     "/" <<
     fChordDivisionsPerWholeNote <<
     endl;
+
+  // print simplified position in measure if relevant
+  rational
+    chordPosition (
+      fChordPositionInMeasure,
+      fChordDivisionsPerWholeNote);
+
+  chordPosition.rationalise ();
+  
+  if (chordPosition.getNumerator () != fChordPositionInMeasure)
+    // print simplified rational view
+    os <<
+      " (" <<
+      chordPosition.getNumerator () <<
+      "/" <<
+      chordPosition.getDenominator() <<
+      ")";
 
   idtr++;
   
