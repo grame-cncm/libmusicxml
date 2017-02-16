@@ -6337,19 +6337,17 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
     fOnGoingChord = true;
   }
 
-  else {
-    // register note as another member of fCurrentChord
-    if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "--> adding another note " <<
-        newChordNote->noteAsString() <<
-        ", line " << inputLineNumber <<
-        " to current chord" <<
-        endl;
-    
-    fCurrentChord->
-      addAnotherNoteToChord (newChordNote);
-    }
+  // register note as another member of fCurrentChord
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> adding another note " <<
+      newChordNote->noteAsString() <<
+      ", line " << inputLineNumber <<
+      " to current chord" <<
+      endl;
+  
+  fCurrentChord->
+    addAnotherNoteToChord (newChordNote);
 
   // set new note kind as a chord member
   newChordNote->

@@ -7512,11 +7512,6 @@ void msrMeasure::removeFirstChordNoteFromMeasure (
     idtr--;
   }
 
-  // JMI  XXL
-  cerr << endl << endl;
-  print (cerr);
-  cerr << endl << endl;
-  
   for (
     list<S_msrElement>::iterator i=fMeasureElementsList.begin();
     i!=fMeasureElementsList.end();
@@ -9811,11 +9806,6 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     idtr--;
   }
 
-  // JMI  XXL
-  cerr << endl << endl;
-  print (cerr);
-  cerr << endl << endl;
-  
   // register actual note
   fVoiceActualNotesCounter++;
   fMusicHasBeenInsertedInVoice = true;
@@ -9823,11 +9813,6 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   // append the note to the last segment
   fVoiceLastSegment->
     appendNoteToSegment (note);
-  
-  // JMI  XXL
-  cerr << endl << endl;
-  print (cerr);
-  cerr << endl << endl;
   
   // add a skip syllable of the same duration to the stanza master
   int
