@@ -2921,7 +2921,7 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
   note->setNoteMeasureNumber (
     fChordMeasureNumber);
 
-  // populate note's position in measure
+  // populate note's position in measure // JMI
   note->setNotePositionInMeasure (
     fChordPositionInMeasure);
 }
@@ -3141,7 +3141,7 @@ string msrChord::chordDivisionsAsMSRString () const
   string errorMessage;
 
   int inputSourceSuppliedNumberOfDots =
-    fChordNotes [0]-> 
+    fChordNotes [1]-> 
       getNoteDotsNumber (); // any chord member note is fine
     
   result =
@@ -7314,7 +7314,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       note->setNoteOccupiesAFullMeasure ();
   
     // append the note to the measure elements list
-    // only now to make it possible to remove it afterwards
+  // JMI  // only now to make it possible to remove it afterwards
     // if it happens to be the first note of a chord
     fMeasureElementsList.push_back (note);
 
@@ -7360,25 +7360,25 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
     
     // register chord measure position
     chord->
-      setChordPositionInMeasure (fMeasurePosition);
+      setChordPositionInMeasure (
+        fMeasurePosition);
 
     // copy measure number to first note, that was created beforehand
     chord->
-      setChordFirstNoteMeasureNumber (fMeasureNumber);
+      setChordFirstNoteMeasureNumber (
+        fMeasureNumber);
     
     // copy measure position to first note, that was created beforehand
     chord->
-      setChordFirstNotePositionInMeasure (fMeasurePosition);
+      setChordFirstNotePositionInMeasure (
+        fMeasurePosition);
 
-   /* 
     // fetch chord divisions
     int chordDivisions =
       chord->getChordDivisions ();
       
-    // don't account for chord duration in measure position:
-    // this has already be done upon its first note
- // JMI   fMeasurePosition += chordDivisions;
-  */
+    // account for chord duration in measure position
+    fMeasurePosition += chordDivisions;
   
     // update part measure position high tide if need be
     fMeasurePartDirectUplink->
@@ -7386,7 +7386,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
         inputLineNumber, fMeasurePosition);
   
     // determine if the chord occupies a full measure
-// XXL    if (chordDivisions == fMeasureDivisionsPerWholeMeasure)
+// XXL  JMI  if (chordDivisions == fMeasureDivisionsPerWholeMeasure)
       // chord->setChordOccupiesAFullMeasure ();
   
     // append the chord to the measure elements list
@@ -7525,8 +7525,12 @@ void msrMeasure::removeFirstChordNoteFromMeasure (
       // found note, erase it
       fMeasureElementsList.erase (i);
       
-      // dont update position in measure:
+      // dont update position in measure: // JMI
       // the chord will replace its first note
+
+      // update position in measure
+      fMeasurePosition -=
+        fMeasureLastHandledNote->getNoteDivisions ();
 
       // return from function
       return;
@@ -9807,6 +9811,11 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     idtr--;
   }
 
+  // JMI  XXL
+  cerr << endl << endl;
+  print (cerr);
+  cerr << endl << endl;
+  
   // register actual note
   fVoiceActualNotesCounter++;
   fMusicHasBeenInsertedInVoice = true;
@@ -9814,6 +9823,11 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   // append the note to the last segment
   fVoiceLastSegment->
     appendNoteToSegment (note);
+  
+  // JMI  XXL
+  cerr << endl << endl;
+  print (cerr);
+  cerr << endl << endl;
   
   // add a skip syllable of the same duration to the stanza master
   int
