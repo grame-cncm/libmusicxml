@@ -5058,6 +5058,44 @@ void xml2MsrTranslator::visitStart ( S_normal_type& elt )
   fCurrentNormalNoteType = elt->getValue();
 }
 
+/*
+   A tuplet element is present when a tuplet is to be displayed graphically, in addition to the sound data provided by the time-modification elements. The number attribute is used to distinguish nested tuplets. The bracket attribute is used to indicate the presence of a bracket. If unspecified, the results are implementation-dependent. The line-shape attribute is used to specify whether the bracket is straight or in the older curved or slurred style. It is straight by default.
+Whereas a time-modification element shows how the cumulative, sounding effect of tuplets and double-note tremolos compare to the written note type, the tuplet element describes how this is displayed. The tuplet element also provides more detailed representation information than the time-modification element, and is needed to represent nested tuplets and other complex tuplets accurately. 
+The show-number attribute is used to display either the number of actual notes, the number of both actual and normal notes, or neither. It is actual by default. The show-type attribute is used to display either the actual type, both the actual and normal types, or neither. It is none by default.
+
+tuplet-actual  
+
+The tuplet-actual element provides optional full control over how the actual part of the tuplet is displayed, including number and note type (with dots). If any of these elements are absent, their values are based on the time-modification element.
+
+tuplet-dot  
+
+The tuplet-dot type is used to specify dotted normal tuplet types.
+
+tuplet-normal   The tuplet-normal element provides optional full control over how the normal part of the tuplet is displayed, including number and note type (with dots). If any of these elements are absent, their values are based on the time-modification element.
+tuplet-number  
+
+The tuplet-number type indicates the number of notes for this portion of the tuplet.
+
+tuplet-type  
+
+The tuplet-type type indicates the graphical note type of the notes for this portion of the tuplet.
+
+From NestedTuplets.xml:
+
+          <tuplet bracket="no" number="2" placement="below" type="start">
+            <tuplet-actual>
+              <tuplet-number>3</tuplet-number>
+              <tuplet-type>16th</tuplet-type>
+              <tuplet-dot/>
+            </tuplet-actual>
+            <tuplet-normal>
+              <tuplet-number>2</tuplet-number>
+              <tuplet-type>16th</tuplet-type>
+              <tuplet-dot/>
+            </tuplet-normal>
+          </tuplet>
+*/
+
 void xml2MsrTranslator::visitStart ( S_tuplet& elt )
 {
   fCurrentTupletNumber =

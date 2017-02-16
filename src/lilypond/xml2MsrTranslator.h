@@ -274,6 +274,7 @@ class EXP xml2MsrTranslator :
   public visitor<S_actual_notes>,
   public visitor<S_normal_notes>,
   public visitor<S_normal_type>,
+
   public visitor<S_tuplet>,
   
   public visitor<S_rehearsal>
@@ -919,17 +920,12 @@ class EXP xml2MsrTranslator :
                                 S_msrNote  chordFirstNote);
     void                      handleNoteBelongingToAChord (
                                 S_msrNote newChordNote);
-    void                      handleNoteBelongingToAChordInATuplet (
-                                S_msrNote newChordNote);
     
     map<S_msrVoice, S_msrNote>
                               fLastHandledNoteInVoice;
-    map<S_msrVoice, S_msrTuplet>
-                              fLastHandledTupletInVoice;
+                                // may be the first note of a chord
                               
     void                      displayLastHandledNoteInVoice (
-                                string header);
-    void                      displayLastHandledTupletInVoice (
                                 string header);
 
     // tuplet handling
@@ -950,7 +946,16 @@ class EXP xml2MsrTranslator :
                                 S_msrNote newNote);
     void                      handleTupletsPendingOnTupletStack (
                                 int inputLineNumber);
-         
+
+    void                      handleNoteBelongingToAChordInATuplet (
+                                S_msrNote newChordNote);
+
+     map<S_msrVoice, S_msrTuplet>
+                              fLastHandledTupletInVoice;
+
+     void                     displayLastHandledTupletInVoice (
+                                string header);
+       
     // ties handling
     // ------------------------------------------------------
 // JMI    string                    fCurrentTiedType;
