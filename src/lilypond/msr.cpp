@@ -2558,11 +2558,13 @@ void msrNote::print (ostream& os)
 
   if (fNoteData.fType.size ())
     os <<
-      " (" << fNoteData.fType << ")";
-      
+      " (" << fNoteData.fType << ")" <<
+      ", line " << fInputLineNumber;
+
+  // display divisions
   os <<
-    ", line " << fInputLineNumber << ", " <<
-    "(";
+    ", " <<
+    "(divs: ";
     
   if (fNoteKind == kGraceNote) {
     os <<
@@ -2585,11 +2587,14 @@ void msrNote::print (ostream& os)
     }
   }
 
-  // print measure related information
   os <<
     "/" <<
     fNoteDivisionsPerWholeNote <<
-    ") @";
+    ")";
+
+  // print measure related information
+  os <<
+    " meas: ";
     
   if (fNoteMeasureNumber < 0)
     os << "?";
@@ -7319,8 +7324,9 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
     int chordDivisions =
       chord->getChordDivisions ();
       
-    // account for chord duration in measure position
-    fMeasurePosition += chordDivisions;
+    // don't account for chord duration in measure position:
+    // this has already be done upon its first note
+ // JMI   fMeasurePosition += chordDivisions;
   
     // update part measure position high tide if need be
     fMeasurePartDirectUplink->
@@ -7416,12 +7422,10 @@ void msrMeasure::appendOtherElementToMeasure  (S_msrElement elem)
   fMeasureElementsList.push_back (elem);
 }
 
-void msrMeasure::removeNoteFromMeasure (
+void msrMeasure::removeFirstChordNoteFromMeasure (
   int       inputLineNumber,
   S_msrNote note)
-{
-  // this method is called when the second note of a chord is met
-  
+{  
   if (true || gGeneralOptions->fDebug) {
 //  if (gGeneralOptions->fDebug) {
     cerr << idtr <<
@@ -7469,6 +7473,9 @@ void msrMeasure::removeNoteFromMeasure (
       // found note, erase it
       fMeasureElementsList.erase (i);
       
+      // dont update position in measure:
+      // the chord will replace its first note
+
       // return from function
       return;
     }
@@ -8724,15 +8731,13 @@ S_msrElement msrSegment::removeLastElementFromSegment (
   }
 }
 
-void msrSegment::removeNoteFromSegment (
+void msrSegment::removeFirstChordNoteSegment (
   int       inputLineNumber,
   S_msrNote note)
-{
-  // this method is called when the second note of a chord is met
-  
+{  
   if (fSegmentMeasuresList.size ()) {
     fSegmentMeasuresList.back ()->
-      removeNoteFromMeasure (
+      removeFirstChordNoteFromMeasure (
         inputLineNumber,
         note);
   }
@@ -8740,7 +8745,7 @@ void msrSegment::removeNoteFromSegment (
   else {
     msrInternalError (
       inputLineNumber,
-      "cannot removeNoteFromSegment () " <<
+      "cannot removeFirstChordNoteSegment () " <<
       segmentAsString () <<
       " since it is empty");
   }
@@ -10218,7 +10223,7 @@ S_msrElement msrVoice::removeLastElementFromVoice (
       removeLastElementFromSegment (inputLineNumber);
 }
 
-void msrVoice::removeNoteFromVoice (
+void msrVoice::removeFirstChordNoteVoice (
   int       inputLineNumber,
   S_msrNote note)
 {
@@ -10229,7 +10234,7 @@ void msrVoice::removeNoteFromVoice (
       endl;
 
   fVoiceLastSegment->
-    removeNoteFromSegment (
+    removeFirstChordNoteSegment (
       inputLineNumber,
       note);
 }

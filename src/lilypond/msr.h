@@ -1620,10 +1620,9 @@ class EXP msrMeasure : public msrElement
     S_msrElement  removeLastElementFromMeasure (
                     int inputLineNumber);
 
-    void          removeNoteFromMeasure (
+    void          removeFirstChordNoteFromMeasure (
                     int       inputLineNumber,
                     S_msrNote note);
-                      // for chords' first notes
 
     void          removeElementFromMeasure (S_msrElement elem); // JMI
 
@@ -1778,10 +1777,9 @@ class EXP msrSegment : public msrElement
     S_msrElement  removeLastElementFromSegment (
                     int inputLineNumber);
 
-    void          removeNoteFromSegment (
+    void          removeFirstChordNoteSegment (
                     int       inputLineNumber,
                     S_msrNote note);
-                      // for chords' first notes
 
     bool          checkForIncompleteSegmentLastMeasure (
                     int                        inputLineNumber,
@@ -4864,10 +4862,9 @@ class EXP msrVoice : public msrElement
     S_msrElement  removeLastElementFromVoice (
                     int inputLineNumber);
 
-    void          removeNoteFromVoice (
+    void          removeFirstChordNoteVoice (
                     int       inputLineNumber,
                     S_msrNote note);
-                      // for chords' first notes
 
     S_msrStanza   addStanzaToVoiceByItsNumber (
                     int inputLineNumber,
