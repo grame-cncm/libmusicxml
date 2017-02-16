@@ -6358,6 +6358,93 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
 }
 
 //______________________________________________________________________________
+void xml2MsrTranslator::handleNoteBelongingToATuplet (
+  S_msrNote note)
+{
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "xml2MsrTranslator::handleNoteBelongingToATuplet " <<
+      note <<
+      endl;
+
+  int inputLineNumber =
+    note->getInputLineNumber ();
+    
+  // register note as a tuplet member
+  note->
+    setNoteKind (msrNote::kTupletMemberNote);
+
+  // attach the pending elements, if any, to the note
+  attachPendingElementsToNote (note);
+
+  switch (fCurrentTupletKind) {
+    case msrTuplet::kStartTuplet:
+      {
+        createTupletWithItsFirstNote (note);
+      
+        // swith to continuation mode
+        // this is handy in case the forthcoming tuplet members
+        // are not explictly of the "continue" type
+        fCurrentTupletKind = msrTuplet::kContinueTuplet;
+      }
+      break;
+
+    case msrTuplet::kContinueTuplet:
+      {
+        if (fTupletsStack.size ()) {
+          S_msrTuplet
+            currentTuplet =
+              fTupletsStack.top ();
+              
+        // populate the tuplet at the top of the stack
+//        if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> adding note " << note <<
+            " to stack top tuplet " <<
+            currentTuplet->getTupletActualNotes () <<
+             "/" <<
+            currentTuplet->getTupletNormalNotes () <<
+            ", line " << inputLineNumber <<
+            endl;
+
+        fTupletsStack.top()->
+          addNoteToTuplet (note);
+/*
+        // set note display divisions
+        note->
+          applyTupletMemberDisplayFactor (
+            fTupletsStack.top ()->getTupletActualNotes (),
+            fTupletsStack.top ()->getTupletNormalNotes ());
+*/
+        }
+        else {
+          stringstream s;
+
+          s <<
+            "handleNoteBelongingToATuplet():" <<
+            endl <<
+            "tuplet member note " << note->noteAsString () <<
+            "cannot be added, tuplets stack is empty";
+
+          msrInternalError (
+            inputLineNumber,
+            s.str());
+        }
+      }
+      break;
+
+    case msrTuplet::kStopTuplet:
+      {
+        finalizeTuplet (note);
+      }
+      break;
+
+    case msrTuplet::k_NoTuplet:
+      break;
+  } // switch
+}
+
+//______________________________________________________________________________
 void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   S_msrNote newChordNote)
 {
@@ -6471,93 +6558,6 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
   // copy newChordNote's elements if any to the chord
   copyNoteElementsToChord (newChordNote, fCurrentChord);
-}
-
-//______________________________________________________________________________
-void xml2MsrTranslator::handleNoteBelongingToATuplet (
-  S_msrNote note)
-{
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "xml2MsrTranslator::handleNoteBelongingToATuplet " <<
-      note <<
-      endl;
-
-  int inputLineNumber =
-    note->getInputLineNumber ();
-    
-  // register note as a tuplet member
-  note->
-    setNoteKind (msrNote::kTupletMemberNote);
-
-  // attach the pending elements, if any, to the note
-  attachPendingElementsToNote (note);
-
-  switch (fCurrentTupletKind) {
-    case msrTuplet::kStartTuplet:
-      {
-        createTupletWithItsFirstNote (note);
-      
-        // swith to continuation mode
-        // this is handy in case the forthcoming tuplet members
-        // are not explictly of the "continue" type
-        fCurrentTupletKind = msrTuplet::kContinueTuplet;
-      }
-      break;
-
-    case msrTuplet::kContinueTuplet:
-      {
-        if (fTupletsStack.size ()) {
-          S_msrTuplet
-            currentTuplet =
-              fTupletsStack.top ();
-              
-        // populate the tuplet at the top of the stack
-//        if (gGeneralOptions->fDebug)
-          cerr << idtr <<
-            "--> adding note " << note <<
-            " to stack top tuplet " <<
-            currentTuplet->getTupletActualNotes () <<
-             "/" <<
-            currentTuplet->getTupletNormalNotes () <<
-            ", line " << inputLineNumber <<
-            endl;
-
-        fTupletsStack.top()->
-          addNoteToTuplet (note);
-/*
-        // set note display divisions
-        note->
-          applyTupletMemberDisplayFactor (
-            fTupletsStack.top ()->getTupletActualNotes (),
-            fTupletsStack.top ()->getTupletNormalNotes ());
-*/
-        }
-        else {
-          stringstream s;
-
-          s <<
-            "handleNoteBelongingToATuplet():" <<
-            endl <<
-            "tuplet member note " << note->noteAsString () <<
-            "cannot be added, tuplets stack is empty";
-
-          msrInternalError (
-            inputLineNumber,
-            s.str());
-        }
-      }
-      break;
-
-    case msrTuplet::kStopTuplet:
-      {
-        finalizeTuplet (note);
-      }
-      break;
-
-    case msrTuplet::k_NoTuplet:
-      break;
-  } // switch
 }
 
 //______________________________________________________________________________

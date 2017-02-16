@@ -2134,7 +2134,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
           fOstream <<
             endl <<
             "\\cadenzaOff" " "
-            "\\undo\omit Stem" " " <<
+            "\\undo\omit Stem" <<
             endl;
 
           fMusicOlec.reset ();
