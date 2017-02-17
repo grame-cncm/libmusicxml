@@ -283,6 +283,14 @@ namespace MusicXML2
                     fPendingBar = true;
             }
         }
+        
+        // Inhibit barline generation next time if bar-style of barline of this measure is "none"
+        ctree<xmlelement>::iterator barStyle = elt->find(k_bar_style);
+        if (barStyle != elt->end())
+        {
+            if (barStyle->getValue() == "none")
+                fPendingBar = false;
+        }
     }
     
     //______________________________________________________________________________
@@ -881,8 +889,8 @@ namespace MusicXML2
             tag->add (guidoparam::create(timesign));
             if (fGenerateBars) tag->add (guidoparam::create("autoBarlines=\"off\"", false));
             if (fGenerateAutoMeasureNum) tag->add (guidoparam::create("autoMeasuresNum=\"page\"", false));
-            //tag->print(cout);
-            add(tag);
+            if (iter->getAttributeValue("print-object")!="no")
+                add(tag);
         }
     }
     
@@ -1036,7 +1044,7 @@ namespace MusicXML2
             stringstream tagName;
             tagName << "beamBegin" << ":"<< lastBeamInternalNumber;
             
-            cout<<"Beam Begin "<<lastBeamInternalNumber<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<endl;
+            //cout<<"Beam Begin "<<lastBeamInternalNumber<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<endl;
             Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
             add (tag);
         }
@@ -1073,7 +1081,7 @@ namespace MusicXML2
         std::vector<S_beam>::const_reverse_iterator i ;
         for (i = beams.rbegin(); (i != beams.rend() && (!fBeamStack.empty())); i++)
         {
-            cout<<"\t Beam End Check: last stack "<<fBeamStack.top().first<<" "<< fBeamStack.top().second<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<" "<<(*i)->getValue() <<endl;
+            //cout<<"\t Beam End Check: last stack "<<fBeamStack.top().first<<" "<< fBeamStack.top().second<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<" "<<(*i)->getValue() <<endl;
 
             if (((*i)->getValue() == "end") && ((*i)->getAttributeIntValue("number", 1) == fBeamStack.top().second)) {
                 // There is a Beam End. create tag and pop from stack
@@ -1090,8 +1098,7 @@ namespace MusicXML2
                 Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
                 add (tag);
                 
-                cout<<"Beam END "<<lastBeamInternalNumber<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<endl;
-
+                //cout<<"Beam END "<<lastBeamInternalNumber<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<endl;
                 
                 fBeamStack.pop();
             }
