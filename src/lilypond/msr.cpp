@@ -7701,10 +7701,11 @@ void msrMeasure::finalizeMeasure (int inputLineNumber)
     fMeasurePosition += skipDuration;
   }
 
+  // CAUTION JMI : this is a potential incomplete left measure
   bool measureIsIncomplete =
     checkForIncompleteMeasure (
       inputLineNumber,
-        msrMeasure::kIncompleteRightMeasure);
+        msrMeasure::kIncompleteLeftMeasure);
 
   if (measureIsIncomplete)
     if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
@@ -8138,7 +8139,6 @@ bool msrSegment::checkForIncompleteSegmentLastMeasure (
       ", line " << inputLineNumber <<
       endl;
 
-  
   // fetch segment last measure
   S_msrMeasure
     lastMeasure =
@@ -8232,9 +8232,23 @@ void msrSegment::setSegmentMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
+  msrMeasure::msrMeasureKind measureKind;
+  
+  if (fSegmentMeasuresList.size () == 1) {
+    // this is the first measure in the segment
+    measureKind =
+      msrMeasure::kIncompleteLeftMeasure;
+  }
+  
+  else {
+    // this is the last measure in the segment
+    measureKind =
+      msrMeasure::kIncompleteRightMeasure;
+  }
+
   checkForIncompleteSegmentLastMeasure (
     inputLineNumber,
-    msrMeasure::kIncompleteLeftMeasure);
+    measureKind);
 
   // fetch segment last measure
   S_msrMeasure
