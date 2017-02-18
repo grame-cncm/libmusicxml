@@ -53,7 +53,7 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
   fOnGoingScoreBlock = false;
 
   fCurrentStemKind = msrStem::k_NoStem;
-  fOnGoingStemNone = false;
+//  fOnGoingStemNone = false;
 
   fCurrentRepeatEndingsNumber = 0;
   
@@ -2112,8 +2112,10 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
   // get note stem kind 
   msrStem::msrStemKind
     stemKind =
-      fCurrentStem->getStemKind ();
-    
+      fCurrentStem
+        ? fCurrentStem->getStemKind ()
+        : msrStem::k_NoStem;
+
   // is there an unmetered (stemless) section?
   if (stemKind != fCurrentStemKind) {
     switch (stemKind) {
@@ -2148,7 +2150,6 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
         break;
     } // switch
   }
-  fMusicOlec++;
 
   // should stem direction be generated?
   if (fLpsrOptions->fGenerateStems) {
@@ -2179,21 +2180,6 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
         fCurrentStemKind = stemKind;
     }
   }
-/*
-  if (++fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
-    fOstream <<
-      endl <<
-      idtr;
-    fMusicElementsCounter = 1;
-  }
-*/
-
-  /*
-  cerr <<
-    "#### fMusicElementsCounter = " << fMusicElementsCounter << endl <<
-    "#### fMaxMusicElementsOnOneLine = " << fMaxMusicElementsOnOneLine << endl <<
-    endl;
-  */
   
   switch (elt->getNoteKind ()) {
     

@@ -4220,8 +4220,6 @@ void xml2MsrTranslator::visitStart ( S_type& elt )
 
 void xml2MsrTranslator::visitStart ( S_stem& elt )
 {
-  //         <stem default-y="28.5">up</stem>
-
   string        stem = elt->getValue();
 
   msrStem::msrStemKind stemKind;
