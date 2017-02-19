@@ -5532,7 +5532,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
     setTupletDivisionsPerWholeNote (
       firstNote-> getNoteDivisionsPerWholeNote ());
   
-  // register it in this visitor
+  // register tuplet in this visitor
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "++> pushing tuplet " <<
@@ -5547,9 +5547,9 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
     cerr << idtr <<
       "==> adding first note " << firstNote->noteAsString() <<
       " to the " <<
-      fTupletsStack.top ()->getTupletActualNotes () <<
+      tuplet->getTupletActualNotes () <<
        "/" <<
-      fTupletsStack.top ()->getTupletNormalNotes () <<
+      tuplet->getTupletNormalNotes () <<
       " tuplet" <<
       endl;
   tuplet->addNoteToTuplet (firstNote);

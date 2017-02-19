@@ -3438,16 +3438,13 @@ class EXP msrTuplet : public msrElement
                       { return fTupletMeasureUplink; }
 
     // measure number
-    void          setTupletMeasureNumber (
-                    int measureNumber)
-                      { fTupletMeasureNumber = measureNumber; }
+    void          setTupletMeasureNumber (int measureNumber);
 
     int           getTupletMeasureNumber () const
                       { return fTupletMeasureNumber; }
  
     // position in measure
-    void          setTupletPositionInMeasure (int position)
-                      { fTupletPositionInMeasure = position; }
+    void          setTupletPositionInMeasure (int position);
 
     const int     getTupletPositionInMeasure () const
                       { return fTupletPositionInMeasure; }

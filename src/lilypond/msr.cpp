@@ -3782,6 +3782,34 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
     fTupletPositionInMeasure);
 }
 
+void msrTuplet::setTupletMeasureNumber (int measureNumber) // JMI
+{
+  fTupletMeasureNumber = measureNumber;
+
+  // propagate measure number to tuplets elements
+  for (
+    vector<S_msrElement>::const_iterator i = fTupletElements.begin();
+    i != fTupletElements.end();
+    i++ ) {
+    // set tuplet element measure number
+    ((*i));
+  } // for
+}
+
+void msrTuplet::setTupletPositionInMeasure (int position) // JMI
+{
+  fTupletPositionInMeasure = position;
+
+  // propagate position in measure to tuplets elements
+  for (
+    vector<S_msrElement>::const_iterator i = fTupletElements.begin();
+    i != fTupletElements.end();
+    i++ ) {
+    // set tuplet element position in measure
+    ((*i));
+  } // for
+}
+
 void msrTuplet::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
