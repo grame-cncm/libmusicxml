@@ -120,6 +120,7 @@ void guidoelement::print(ostream& os)
     bool isChord = dynamic_cast<const guidochord *>(this) != 0;
     bool prevNote = false;
     bool prevSeq = false;
+    bool prevEnclosedTag = false;
     // print the optional contained elements
     if (!fElements.empty()) {
         os << fStartList;
@@ -146,8 +147,9 @@ void guidoelement::print(ostream& os)
             // special treatment for Chord Separator
             if (isChord) {
                 if (note) {
-                    os << (prevNote ? ", " : " ");
+                    os << (prevEnclosedTag || prevNote ? ", " : " ");
                     prevNote = true;
+                    prevEnclosedTag = false;
                 }
                 else if (seq) {
                     os << (prevSeq ? ", " : " ");
@@ -165,8 +167,11 @@ void guidoelement::print(ostream& os)
                         // this happens AFTER a note. So it should be preceded by a " ". It should be followed by a ',' if next is note!
                         os << " ";
                             
-                    }else
+                    }else {
+                        // A regular enclosing tag like \tag(...) . This SHOULD be followed by a ',' if next is note!
                         os << ( (prevNote||prevSeq) ? ", " : " ");
+                        prevEnclosedTag = true;
+                    }
                 }
                 else os << " ";
                 
@@ -212,13 +217,14 @@ void guidonote::set (unsigned short voice, string name, char octave, guidonotedu
 			}
 		}
     }
-	if (!status || (*status != dur)) {
+    //// AC Note 20/02/2017: Not generating Durations, causes problems on multi-voice scores with Pickup measures!
+	//if (!status || (*status != dur)) {
         if (dur.fNum != 1) {
             s << "*" << (int)dur.fNum;
         }
         s << "/" << (int)dur.fDenom;
         if (status) *status = dur;
-    }
+    //}
     while (dots-- > 0)
         s << ".";
     s >> fName;
