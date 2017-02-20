@@ -51,7 +51,7 @@ namespace MusicXML2
         fCurrentBeamNumber = 0;
         fCurrentTupletNumber = 0;
         fMeasNum = 0;
-        fInCue = fInGrace = fInhibitNextBar = fPendingBar
+        fInCue = fInGrace = fInhibitNextBar = fPendingBar = fDoubleBar
         = fBeamOpened = fCrescPending = fSkipDirection = fTupletOpened = fWavyTrillOpened = fSingleScopeTrill = fNonStandardNoteHead = false;
         fCurrentStemDirection = kStemUndefined;
         fCurrentDivision = 1;
@@ -251,7 +251,15 @@ namespace MusicXML2
             ctree<xmlelement>::iterator repeat = elt->find(k_repeat);
             if ((repeat == elt->end()) || (repeat->getAttributeValue("direction") != "forward")) {
                 checkStaff (fTargetStaff);
-                Sguidoelement tag = guidotag::create("bar");
+                
+                Sguidoelement tag;
+                
+                // Check bar-style if doubleBar
+                if (fDoubleBar)
+                    tag = guidotag::create("doubleBar");
+                else
+                    tag = guidotag::create("bar");
+                
                 add (tag);
             }
         }
@@ -262,6 +270,7 @@ namespace MusicXML2
         fCurrentVoicePosition.set  (0, 1);
         fInhibitNextBar = false; // fNotesOnly;
         fPendingBar = false;
+        fDoubleBar = false;
         fPendingPops = 0;
         fMeasureEmpty = true;
         if (fGenerateComments) {
@@ -291,8 +300,12 @@ namespace MusicXML2
         ctree<xmlelement>::iterator barStyle = elt->find(k_bar_style);
         if (barStyle != elt->end())
         {
+            //cout<<"Measure "<<fMeasNum<<" has barstyle "<<barStyle->getValue()<<endl;
             if (barStyle->getValue() == "none")
                 fPendingBar = false;
+            else if (barStyle->getValue() == "light-light")
+                fDoubleBar = true;
+                
         }
     }
     
