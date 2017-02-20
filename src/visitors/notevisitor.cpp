@@ -53,7 +53,6 @@ void notevisitor::reset ()
 	fStaccato	= (void*)0;
     fTenuto		= (void*)0;
     fTrill		= (void*)0;
-    fWaveLine   = (void*)0;
 	fTurn		= (void*)0;
     fInvertedTurn = (void*)0;
     fAccidentalMark = (void*)0;
@@ -73,6 +72,7 @@ void notevisitor::reset ()
 	fSlur.clear();
 	fBeam.clear();
     fTuplet.clear();
+    fWaveLine.clear();
     
     fLyric.clear();
     fSyllabic = "";

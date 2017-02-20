@@ -1532,19 +1532,21 @@ namespace MusicXML2
             tag = guidotag::create("trill");
             
             // If there's a wavy-line AND the Trill is TIED, then add "<repeat="false">" attribute
-            if (nv.fWaveLine)
+            if (nv.getWavylines().size()>0)
             {
-                if (nv.fWaveLine->getAttributeValue("type")=="start")
-                {
-                    fWavyTrillOpened = true;
-
-                    if (nv.getTied().size()>0) {
+                std::vector<S_wavy_line>::const_iterator i;
+                for (i = nv.getWavylines().begin(); i != nv.getWavylines().end(); i++) {
+                    if ((*i)->getAttributeValue("type") == "start") {
+                        fWavyTrillOpened = true;
                         
-                        stringstream s;
-                        s << "repeat=\"false\"";
-                        tag->add (guidoparam::create(s.str(), false));
+                        if (nv.getTied().size()>0) {
+                            stringstream s;
+                            s << "repeat=\"false\"";
+                            tag->add (guidoparam::create(s.str(), false));
+                        }
                     }
                 }
+
             }else
             {
                 // if there is no wavy-line, then the Trill should be closed in this scope!
@@ -1556,14 +1558,15 @@ namespace MusicXML2
     
     void xmlpart2guido::checkWavyTrillEnd	 ( const notevisitor& nv )
     {
-        if (nv.fWaveLine)
-        {
-            std::string wavyType = nv.fWaveLine->getAttributeValue("type");
 
-            // if type is "stop", then pop the TRILL tag
-            if (wavyType=="stop") {
-                pop();
-                fWavyTrillOpened = false;
+        if (nv.getWavylines().size()>0)
+        {
+            std::vector<S_wavy_line>::const_iterator i;
+            for (i = nv.getWavylines().begin(); i != nv.getWavylines().end(); i++) {
+                if ((*i)->getAttributeValue("type") == "stop") {
+                    fWavyTrillOpened = false;
+                    pop();
+                }
             }
         }else
         if (fSingleScopeTrill) {
@@ -1799,9 +1802,9 @@ namespace MusicXML2
         
         Sguidoelement note = guidonote::create(fTargetVoice, name, octave, dur, accident);
         
-        /// Force Accidental if accidental XML tag is present and "alter" is not
+        /// Force Accidental if accidental XML tag is present
         bool forcedAccidental = false;
-        if (accident.empty() && !nv.fAccidental.empty())
+        if (!nv.fAccidental.empty())
         {
             Sguidoelement accForce = guidotag::create("acc");
             push(accForce);

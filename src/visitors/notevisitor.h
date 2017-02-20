@@ -84,7 +84,6 @@ class EXP notevisitor :
 		S_tenuto		fTenuto;
 		S_breath_mark	fBreathMark;
         S_trill_mark		fTrill;
-        S_wavy_line		fWaveLine;
         S_inverted_mordent		fInvertedMordent;
         S_mordent		fMordent;
         S_turn		fTurn;
@@ -141,6 +140,7 @@ class EXP notevisitor :
 		virtual const std::vector<S_tied>&	getTied() const	{ return fTied; }
 		virtual const std::vector<S_slur>&	getSlur() const	{ return fSlur; }
         virtual const std::vector<S_beam>&	getBeam() const	{ return fBeam; }
+        virtual const std::vector<S_wavy_line>&	getWavylines() const	{ return fWaveLine; }
 		virtual const std::vector<S_tuplet>&	getTuplet() const	{ return fTuplet; }
         virtual const std::vector<S_lyric>&	getLyric() const	{ return fLyric; }
         virtual const std::string&  getSyllabic() const		{ return fSyllabic; }
@@ -197,7 +197,7 @@ class EXP notevisitor :
         virtual void visitStart( S_lyric& elt );
         virtual void visitStart( S_turn& elt )    { fTurn = elt; }
         virtual void visitStart( S_trill_mark& elt )    { fTrill = elt; }
-        virtual void visitStart( S_wavy_line& elt )    { fWaveLine = elt; }
+        virtual void visitStart( S_wavy_line& elt )    { fWaveLine.push_back(elt); }
         virtual void visitStart( S_accidental_mark& elt )    { fAccidentalMark = elt; }
         virtual void visitStart( S_inverted_mordent& elt )    { fInvertedMordent = elt; }
         virtual void visitStart( S_inverted_turn& elt )    { fInvertedTurn = elt; }
@@ -221,6 +221,8 @@ class EXP notevisitor :
 		std::vector<S_slur>	fSlur;
         std::vector<S_beam>	fBeam;
         std::vector<S_tuplet>	fTuplet;
+        std::vector<S_wavy_line>	fWaveLine;
+
 		std::vector<S_lyric>	fLyric;
         std::string fSyllabic;
         std::string fLyricText;
