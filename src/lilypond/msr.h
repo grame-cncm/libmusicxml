@@ -3524,7 +3524,8 @@ class EXP msrTuplet : public msrElement
                       { return fTupletMeasureNumber; }
  
     // position in measure
-    void          setTupletPositionInMeasure (int position);
+    int           setTupletPositionInMeasure (int position);
+                    // returns the position after the tuplet
 
     const int     getTupletPositionInMeasure () const
                       { return fTupletPositionInMeasure; }

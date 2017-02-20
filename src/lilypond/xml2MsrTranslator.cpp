@@ -6484,6 +6484,12 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
 void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   S_msrNote newChordNote)
 {
+  /*
+   The first note of a chord belonging to a tuplet
+   is marked ins MusicXML as a tuplet member only,
+   and the following ones are marked as both a tuplet and a chord member
+  */
+  
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToAChordInATuplet " <<
@@ -6501,7 +6507,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   // should a chord be created?
   if (! fOnGoingChord) {
     // this is the second note of the chord to be created,
-    // fLastHandledNote being the first one
+    // fLastHandledNote being the first one and marked as a tuplet member
 
     // fetch current voice
     S_msrVoice

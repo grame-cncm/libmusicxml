@@ -4039,7 +4039,8 @@ void msrTuplet::setTupletMeasureNumber (int measureNumber) // JMI
   } // for
 }
 
-void msrTuplet::setTupletPositionInMeasure (int position) // JMI
+int msrTuplet::setTupletPositionInMeasure (int position)
+  // returns the position after the tuplet
 {
   fTupletPositionInMeasure = position;
 
@@ -4057,6 +4058,7 @@ void msrTuplet::setTupletPositionInMeasure (int position) // JMI
       ) {    
       note->
         setNotePositionInMeasure (currentPosition);
+        
       currentPosition +=
         note->getNoteDivisions ();
     }
@@ -4066,6 +4068,7 @@ void msrTuplet::setTupletPositionInMeasure (int position) // JMI
       ) {
       chord->
         setChordPositionInMeasure (currentPosition);
+        
       currentPosition +=
         chord->getChordDivisions ();
     }
@@ -4073,8 +4076,9 @@ void msrTuplet::setTupletPositionInMeasure (int position) // JMI
     else if (
       S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
       ) {
-      tuplet->
-        setTupletPositionInMeasure (currentPosition);
+      currentPosition =
+        tuplet->
+          setTupletPositionInMeasure (currentPosition);
     }
     
     else {
@@ -4084,6 +4088,8 @@ void msrTuplet::setTupletPositionInMeasure (int position) // JMI
     }
 
   } // for
+
+  return currentPosition;
 }
 
 void msrTuplet::acceptIn (basevisitor* v) {
@@ -7734,8 +7740,9 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
       setTupletMeasureNumber (fMeasureNumber);
     
     // register tuplet measure position
-    tuplet->
-      setTupletPositionInMeasure (fMeasurePosition);
+    int dummy =
+      tuplet->
+        setTupletPositionInMeasure (fMeasurePosition);
 
 /* JMI
     // copy measure number to first note, that was created beforehand
