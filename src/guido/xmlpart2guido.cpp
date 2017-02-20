@@ -391,7 +391,7 @@ namespace MusicXML2
             }else
             {
                 // declare rectangle by default
-                rehearsalValue += ", enclosure=\"rectangle\"";
+                rehearsalValue += ", enclosure=\"square\"";
             }
             if (font_size.size())
                 rehearsalValue += ", fsize="+font_size+"pt";
@@ -1798,6 +1798,16 @@ namespace MusicXML2
         
         Sguidoelement note = guidonote::create(fTargetVoice, name, octave, dur, accident);
         
+        /// Force Accidental if accidental XML tag is present and "alter" is not
+        bool forcedAccidental = false;
+        if (accident.empty() && !nv.fAccidental.empty())
+        {
+            Sguidoelement accForce = guidotag::create("acc");
+            push(accForce);
+            forcedAccidental = true;
+        }
+        
+        /// Add Note head if any
         bool notehead = false;
         if (nv.fNotehead)
         {
@@ -1817,6 +1827,9 @@ namespace MusicXML2
         add (note);
         
         if (notehead)
+            pop();
+        
+        if (forcedAccidental)
             pop();
         
         checkTiedEnd (nv.getTied());

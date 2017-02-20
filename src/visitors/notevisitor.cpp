@@ -78,6 +78,7 @@ void notevisitor::reset ()
     fSyllabic = "";
     fLyricText="";
     fGraphicType="";
+    fAccidental = "";
 }
 
 //________________________________________________________________________
@@ -197,6 +198,7 @@ void notevisitor::visitStart ( S_note& elt )
 	fInNote = true;
 	reset();
 	fDynamics = elt->getAttributeLongValue("dynamics", kUndefinedDynamics);
+    fAccidental = elt->getValue(k_accidental);
 }
 
 //________________________________________________________________________
