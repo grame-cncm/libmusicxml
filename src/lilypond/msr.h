@@ -3534,7 +3534,7 @@ class EXP msrTuplet : public msrElement
     void          addNoteToTuplet (S_msrNote note);
     void          addChordToTuplet (S_msrChord chord);
     void          addTupletToTuplet (S_msrTuplet tuplet);
-
+    
     string        tupletAsString () const;
 
     // visitors

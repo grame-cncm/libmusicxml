@@ -3661,29 +3661,6 @@ msrTupletMember::msrTupletMember (
   fTupletMemberKind = tupletMemberKind;
   
   fTupletMember = tupletMember;
-
-//  SMARTP<msrNote>* note = dynamic_cast<SMARTP<msrNote>*>(&(*tupletMember));
-  SMARTP<msrNote> note = dynamic_cast<msrNote*>(&(*tupletMember));
-
-  if (note) {    
-    cout << note->noteAsShortString () << endl;
- //   assert(false);
-  }
-  else {
-    cout << "dynamic_cast FAILED" << endl;
-    assert(false);
-  }
-
-  /*
-  if (note) {    
-    cout << (*note)->noteAsShortString () << endl;
-    assert(false);
-  }
-  else {
-    cout << "dynamic_cast FAILED" << endl;
-    assert(false);
-  }
-  */
 }
 
 msrTupletMember::~msrTupletMember() {}
@@ -3939,14 +3916,14 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
       "'" <<
       endl;
 
-
+/* JMI
   S_msrTupletMember
     tupletMember =
       msrTupletMember::create (
         note->getInputLineNumber (),
         msrTupletMember::kNoteTupletMember,
         note);
-
+*/
 
 
   fTupletElements.push_back (note);
@@ -4016,7 +3993,8 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   fTupletDisplayDivisions += // JMI
     tuplet->getTupletDisplayDivisions ();  
     */
-    
+
+  /* JMI
   // populate tuplet's measure number
   tuplet->setTupletMeasureNumber (
     fTupletMeasureNumber);
@@ -4024,19 +4002,47 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   // populate tuplet's position in measure
   tuplet->setTupletPositionInMeasure (
     fTupletPositionInMeasure);
+    */
 }
 
 void msrTuplet::setTupletMeasureNumber (int measureNumber) // JMI
 {
   fTupletMeasureNumber = measureNumber;
 
-  // propagate measure number to tuplets elements
+  // propagate measure number to the tuplets elements
   for (
     vector<S_msrElement>::const_iterator i = fTupletElements.begin();
     i != fTupletElements.end();
     i++ ) {
     // set tuplet element measure number
-    ((*i));
+
+  //  SMARTP<msrNote>* note = dynamic_cast<SMARTP<msrNote>*>(&(*tupletMember));
+
+  // BON   SMARTP<msrNote> note = dynamic_cast<msrNote*>(&(*tupletMember));
+
+    if (
+      S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+      ) {    
+      note->setNoteMeasureNumber (measureNumber);
+    }
+  
+    else if (
+      S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+      ) {
+      chord->setChordMeasureNumber (measureNumber);
+    }
+    
+    else if (
+      S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
+      ) {
+      tuplet->setTupletMeasureNumber (measureNumber);
+    }
+    
+    else {
+      msrInternalError (
+        fInputLineNumber,
+        "tuplet member should be a note, a chord or another tuplet");
+    }
   } // for
 }
 
@@ -4044,13 +4050,44 @@ void msrTuplet::setTupletPositionInMeasure (int position) // JMI
 {
   fTupletPositionInMeasure = position;
 
-  // propagate position in measure to tuplets elements
+  int currentPosition = position;
+  
+  // compute position in measure for the tuplets elements
   for (
     vector<S_msrElement>::const_iterator i = fTupletElements.begin();
     i != fTupletElements.end();
     i++ ) {
     // set tuplet element position in measure
-    ((*i));
+    
+    if (
+      S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+      ) {    
+      note->
+        setNotePositionInMeasure (currentPosition);
+      currentPosition +=
+        note->getNoteDivisions ();
+    }
+  
+    else if (
+      S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+      ) {
+      chord->
+        setChordPositionInMeasure (currentPosition);
+    }
+    
+    else if (
+      S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
+      ) {
+      tuplet->
+        setTupletPositionInMeasure (currentPosition);
+    }
+    
+    else {
+      msrInternalError (
+        fInputLineNumber,
+        "tuplet member should be a note, a chord or another tuplet");
+    }
+
   } // for
 }
 
