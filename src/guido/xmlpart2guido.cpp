@@ -39,6 +39,7 @@ namespace MusicXML2
         xmlpart2guido::reset();
         fHasLyrics = false;
         directionWord = false;
+        fGenerateTempo = false;
         fNonStandardNoteHead = false;
         fLyricsManualSpacing = false;
     }
@@ -58,6 +59,8 @@ namespace MusicXML2
         fPendingPops = 0;
         fMeasNum = 0;
         fLyricsManualSpacing = false;
+        directionWord = false;
+        fGenerateTempo = false;
     }
     
     //______________________________________________________________________________
@@ -426,7 +429,7 @@ namespace MusicXML2
             {
                 tag->add (guidoparam::create(tempoParams.c_str(), false));
                 if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
-                //cout<<"Added TEMPO tag \""<< tempoParams<<"\" at measure "<<fMeasNum<<" at position "<< fCurrentMeasurePosition.toDouble()<<endl;
+                //cout<<"\tAdded TEMPO tag \""<< tempoParams<<"\" at measure "<<fMeasNum<<" at position "<< fCurrentMeasurePosition.toDouble()<<endl;
                 add (tag);
             }
         }
@@ -437,7 +440,7 @@ namespace MusicXML2
             tag->add (guidoparam::create(wordParams.c_str(), false));
             xml2guidovisitor::addPosition(wordPointer, tag, 11);
             add (tag);
-            //cout<<"Added WORD tag "<< wordParams<<"at position "<< fCurrentMeasurePosition.toDouble()<<endl;
+            //cout<<"\tAdded WORD tag "<< wordParams<<"at position "<< fCurrentMeasurePosition.toDouble()<<endl;
             
             // add an additional SPACE<0> tag in case
             Sguidoelement tag2 = guidotag::create("space");
@@ -773,7 +776,6 @@ namespace MusicXML2
             
             /// Actions:
             int staffnum = iter->getAttributeIntValue("number", 0);
-            cout<<"\tCLEF VISIT number:"<<staffnum<<" fTargetStaff:"<<fTargetStaff<<endl;
             if ((staffnum != fTargetStaff) || fNotesOnly)
             {
                 /// Search again for other clefs:
