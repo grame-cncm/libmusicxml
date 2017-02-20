@@ -3661,6 +3661,29 @@ msrTupletMember::msrTupletMember (
   fTupletMemberKind = tupletMemberKind;
   
   fTupletMember = tupletMember;
+
+//  SMARTP<msrNote>* note = dynamic_cast<SMARTP<msrNote>*>(&(*tupletMember));
+  SMARTP<msrNote> note = dynamic_cast<msrNote*>(&(*tupletMember));
+
+  if (note) {    
+    cout << note->noteAsShortString () << endl;
+ //   assert(false);
+  }
+  else {
+    cout << "dynamic_cast FAILED" << endl;
+    assert(false);
+  }
+
+  /*
+  if (note) {    
+    cout << (*note)->noteAsShortString () << endl;
+    assert(false);
+  }
+  else {
+    cout << "dynamic_cast FAILED" << endl;
+    assert(false);
+  }
+  */
 }
 
 msrTupletMember::~msrTupletMember() {}
@@ -3915,6 +3938,16 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
       tupletAsString () <<
       "'" <<
       endl;
+
+
+  S_msrTupletMember
+    tupletMember =
+      msrTupletMember::create (
+        note->getInputLineNumber (),
+        msrTupletMember::kNoteTupletMember,
+        note);
+
+
 
   fTupletElements.push_back (note);
 
