@@ -1188,8 +1188,9 @@ namespace MusicXML2
                     // looking for the next note on the target voice
                     if ((nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice)) {
                         
-                        if (nextnote->getIntValue(k_duration, 0) != topNoteDur) {
+                        if ( abs( nextnote->getIntValue(k_duration, 0) - topNoteDur) > (fCurrentDivision/10) ) {
                             useDispNoteAttribute =  false;
+                            cout<<"TUPLET EVADED DISPNOTE Measure:"<<fMeasNum <<"Division:"<< fCurrentDivision <<"--> topBoteDur:"<<topNoteDur<<" this note dur="<<nextnote->getIntValue(k_duration, 0)<<endl;
                             break;
                         }
                         

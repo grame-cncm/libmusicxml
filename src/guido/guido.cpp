@@ -169,7 +169,7 @@ void guidoelement::print(ostream& os)
                             
                     }else {
                         // A regular enclosing tag like \tag(...) . This SHOULD be followed by a ',' if next is note!
-                        os << ( (prevNote||prevSeq) ? ", " : " ");
+                        os << ( (prevNote||prevSeq||prevEnclosedTag) ? ", " : " ");
                         prevEnclosedTag = true;
                     }
                 }
