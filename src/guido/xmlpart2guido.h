@@ -201,7 +201,7 @@ class EXP xmlpart2guido :
 		virtual void visitEnd  ( S_time& elt);
     
     rational durationInCue;
-
+    
     public:
 				 xmlpart2guido(bool generateComments, bool generateStem, bool generateBar=true);
 		virtual ~xmlpart2guido() {}
@@ -212,6 +212,9 @@ class EXP xmlpart2guido :
 		const rational& getTimeSign () const		{ return fCurrentTimeSign; }
         bool fHasLyrics;
         bool hasLyrics() const {return fHasLyrics;}
+    std::multimap<int, std::pair< rational, string > > staffClefMap;
+    
+    std::string getClef(int staffIndex, rational pos);
 
 };
 

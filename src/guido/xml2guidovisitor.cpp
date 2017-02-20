@@ -172,6 +172,8 @@ namespace MusicXML2
         bool notesOnly = false;
         rational currentTimeSign (0,1);
         
+        staffClefMap.clear();
+        
         // browse the parts voice by voice: allows to describe voices that spans over several staves
         for (unsigned int i = 0; i < voices->size(); i++) {
             int targetVoice = (*voices)[i];
@@ -260,10 +262,13 @@ namespace MusicXML2
             pv.generatePositions (fGeneratePositions);
             xml_tree_browser browser(&pv);
             pv.initialize(seq, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
+            pv.staffClefMap = staffClefMap;
+            //cout<<"Browing targetStaff="<<targetStaff<<" fCurrentStaffIndex:"<<fCurrentStaffIndex<<" targetVoice:"<<targetVoice<<endl;
             browser.browse(*elt);
             pop();
             currentTimeSign = pv.getTimeSign();
             previousStaffHasLyrics = pv.hasLyrics();
+            staffClefMap = pv.staffClefMap;
         }
     }
     

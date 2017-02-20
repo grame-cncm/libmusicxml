@@ -770,11 +770,17 @@ namespace MusicXML2
             string clefsign = iter->getValue(k_sign);
             int clefline = iter->getIntValue(k_line, 0);
             int clefoctavechange = iter->getIntValue(k_clef_octave_change, 0);
-            //cout << "\tS_attribute visitor: Got Clef "<<clefsign<<clefline<<endl;
             
             /// Actions:
             int staffnum = iter->getAttributeIntValue("number", 0);
-            if ((staffnum != fTargetStaff) || fNotesOnly) break;
+            cout<<"\tCLEF VISIT number:"<<staffnum<<" fTargetStaff:"<<fTargetStaff<<endl;
+            if ((staffnum != fTargetStaff) || fNotesOnly)
+            {
+                /// Search again for other clefs:
+                iter++;
+                iter = elt->find(k_clef, iter);
+                continue;
+            }
             
             stringstream s;
             if ( clefsign == "G")			s << "g";
@@ -801,6 +807,9 @@ namespace MusicXML2
             tag->add (guidoparam::create(param));
             //tag->print(cout);
             add(tag);
+            
+            staffClefMap.insert(std::pair<int, std::pair<rational, std::string> >(fCurrentStaffIndex,std::pair<rational, std::string>(fCurrentVoicePosition ,clefsign)) );
+            //cout<<"\t\tCreated clef "<<param <<" fCurrentStaffIndex="<<fCurrentStaffIndex<<" fCurrentVoicePosition="<<fCurrentVoicePosition.toString()<<" "<<staffClefMap.size()<<endl;
             
             /// Search again for other clefs:
             iter++;
@@ -1802,8 +1811,11 @@ namespace MusicXML2
     {
         if (nv.getStep().size())
         {
-            //cout<<"Rest measure="<<fMeasNum<<" voice="<<fTargetVoice<<" staff="<<fCurrentStaffIndex<<endl;
-            float restformatDy = nv.getRestFormatDy(clefvisitor::fSign);
+            // Check out clef for position and voice
+            std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition);
+            //cout<<"Rest measure="<<fMeasNum<<" voice="<<fTargetVoice<<" staff="<<fCurrentStaffIndex<<" clef: "<< thisClef<< " "<<staffClefMap.size()<<endl;
+            
+            float restformatDy = nv.getRestFormatDy(thisClef);
             //cout<<"\tcheckRestFormat with display-step:"<<nv.getStep()<<" octave:"<<nv.getOctave()<<" with current clef "<<clefvisitor::fSign<<" dy="<<restformatDy<<endl;
             
             if (restformatDy!=0.0)
@@ -1819,6 +1831,22 @@ namespace MusicXML2
         }
         
         return 0;
+    }
+    
+    std::string xmlpart2guido::getClef(int staffIndex, rational pos) {
+        std::string thisClef = "g";
+        if (staffClefMap.size()>0) {
+            auto eqRange = staffClefMap.equal_range(staffIndex);
+            
+            for (auto i = eqRange.first ; i != eqRange.second; i++ ) {
+                if ( (i->second).first <= pos )
+                {
+                    thisClef = (i->second).second;
+                }else
+                    break;
+            }
+        }
+        return thisClef;
     }
     
     //______________________________________________________________________________

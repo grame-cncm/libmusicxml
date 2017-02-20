@@ -23,6 +23,8 @@
 #include "typedefs.h"
 #include "visitor.h"
 #include "xml.h"
+#include "rational.h"
+
 
 #include "partlistvisitor.h"
 
@@ -92,6 +94,9 @@ class EXP xml2guidovisitor :
         bool previousStaffHasLyrics;
     
     int  fCurrentAccoladeIndex;
+    
+    std::multimap<int, std::pair< rational, string > > staffClefMap;
+
 
     public:
 				 xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar=true);
