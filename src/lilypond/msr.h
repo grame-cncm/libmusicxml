@@ -2559,8 +2559,8 @@ class EXP msrChord : public msrElement
   public:
 
     static SMARTP<msrChord> create (
-      int           inputLineNumber,
-      int           chordDivisions);
+      int inputLineNumber,
+      int chordDivisions);
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -2573,8 +2573,8 @@ class EXP msrChord : public msrElement
     // ------------------------------------------------------
 
     msrChord (
-      int           inputLineNumber,
-      int           chordDivisions);
+      int inputLineNumber,
+      int chordDivisions);
       
     virtual ~msrChord();
   
@@ -3358,6 +3358,7 @@ EXP ostream& operator<< (ostream& os, const S_msrBarnumberCheck& elt);
   played for the duration of 2 actual notes
 */
 //______________________________________________________________________________
+/*
 class EXP msrTupletMember : public msrElement
 {
   public:
@@ -3427,7 +3428,7 @@ class EXP msrTupletMember : public msrElement
 };
 typedef SMARTP<msrTupletMember> S_msrTupletMember;
 EXP ostream& operator<< (ostream& os, const S_msrTupletMember& elt);
-
+*/
 
 /*!
 \brief A msr tuplet representation.

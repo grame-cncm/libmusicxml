@@ -2855,8 +2855,8 @@ void msrNote::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrChord msrChord::create (
-  int           inputLineNumber,
-  int           chordDivisions)
+  int inputLineNumber,
+  int chordDivisions)
 {
   msrChord* o =
     new msrChord (
@@ -2866,8 +2866,8 @@ S_msrChord msrChord::create (
 }
 
 msrChord::msrChord (
-  int           inputLineNumber,
-  int           chordDivisions)
+  int inputLineNumber,
+  int chordDivisions)
     : msrElement (inputLineNumber)
 {
   fChordDivisions = chordDivisions;
@@ -3639,6 +3639,7 @@ void msrBarnumberCheck::print (ostream& os)
 }
 
 //______________________________________________________________________________
+/*
 S_msrTupletMember msrTupletMember::create (
   int                 inputLineNumber,
   msrTupletMemberKind tupletMemberKind,
@@ -3729,7 +3730,7 @@ ostream& operator<< (ostream& os, const S_msrTupletMember& elt)
   return os;
 }
 
-/* JMI
+/ * JMI
 string msrTupletMember::tupletMemberKindAsString (
   msrTupletMemberKind tupletMemberKind) const
 {
@@ -3754,7 +3755,7 @@ string msrTupletMember::tupletMemberKindAsString (
 
   return result;
 }
-*/
+* /
 
 string msrTupletMember::tupletMemberAsString () const
 {
@@ -3765,7 +3766,7 @@ string msrTupletMember::tupletMemberAsString () const
   // JMI  tupletMemberKindAsString (fTupletMemberKind) <<
   //  ", ";
 
-/*
+/ *
 
   switch (fTupletMemberKind) {
     case msrTupletMember::kNoteTupletMember:
@@ -3798,7 +3799,7 @@ string msrTupletMember::tupletMemberAsString () const
       }
       break;
   } // switch
-*/
+* /
 
   return s.str();
 }
@@ -3807,7 +3808,7 @@ void msrTupletMember::print (ostream& os)
 {
   os <<
     "TupletMember" " ";
-/*
+/ *
   switch (fTupletMemberKind) {
     case msrTupletMember::kNoteTupletMember:
       {
@@ -3839,7 +3840,7 @@ void msrTupletMember::print (ostream& os)
       }
       break;
   } // switch
- */
+ * /
     
 // JMI    tupletMemberKindAsString (fTupletMemberKind) <<
 
@@ -3848,6 +3849,7 @@ void msrTupletMember::print (ostream& os)
     fTupletMember <<
     endl;
 }
+*/
 
 //______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
@@ -3915,16 +3917,6 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
       tupletAsString () <<
       "'" <<
       endl;
-
-/* JMI
-  S_msrTupletMember
-    tupletMember =
-      msrTupletMember::create (
-        note->getInputLineNumber (),
-        msrTupletMember::kNoteTupletMember,
-        note);
-*/
-
 
   fTupletElements.push_back (note);
 
@@ -3994,8 +3986,9 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
     tuplet->getTupletDisplayDivisions ();  
     */
 
+  // don't populate tuplet's measure number nor position in measure,
+  // this will be done in setTupletMeasureNumber()
   /* JMI
-  // populate tuplet's measure number
   tuplet->setTupletMeasureNumber (
     fTupletMeasureNumber);
 
@@ -4073,6 +4066,8 @@ void msrTuplet::setTupletPositionInMeasure (int position) // JMI
       ) {
       chord->
         setChordPositionInMeasure (currentPosition);
+      currentPosition +=
+        chord->getChordDivisions ();
     }
     
     else if (
