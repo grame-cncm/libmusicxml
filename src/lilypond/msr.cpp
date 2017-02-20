@@ -3639,6 +3639,187 @@ void msrBarnumberCheck::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrTupletMember msrTupletMember::create (
+  int                 inputLineNumber,
+  msrTupletMemberKind tupletMemberKind,
+  S_msrElement        tupletMember)
+{
+  msrTupletMember* o =
+    new msrTupletMember (
+      inputLineNumber,
+      tupletMemberKind, tupletMember);
+  assert(o!=0);
+  return o;
+}
+
+msrTupletMember::msrTupletMember (
+  int                 inputLineNumber,
+  msrTupletMemberKind tupletMemberKind,
+  S_msrElement        tupletMember)
+  : msrElement (inputLineNumber)
+{  
+  fTupletMemberKind = tupletMemberKind;
+  
+  fTupletMember = tupletMember;
+}
+
+msrTupletMember::~msrTupletMember() {}
+
+S_msrTupletMember msrTupletMember::createTupletBareClone ()
+{
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating a bare clone of a tuplet member" <<
+      endl;
+
+  S_msrTupletMember
+    clone =
+      msrTupletMember::create (
+        fInputLineNumber,
+        fTupletMemberKind,
+        fTupletMember);
+  
+  return clone;
+}
+
+void msrTupletMember::acceptIn (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrTupletMember::acceptIn()" << endl;
+      
+  if (visitor<S_msrTupletMember>*
+    p =
+      dynamic_cast<visitor<S_msrTupletMember>*> (v)) {
+        S_msrTupletMember elem = this;
+        
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrTupletMember::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrTupletMember::acceptOut (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrTupletMember::acceptOut()" << endl;
+
+  if (visitor<S_msrTupletMember>*
+    p =
+      dynamic_cast<visitor<S_msrTupletMember>*> (v)) {
+        S_msrTupletMember elem = this;
+      
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrTupletMember::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrTupletMember::browseData (basevisitor* v)
+{
+  // browse tuplet member
+  msrBrowser<msrElement> browser (v);
+  browser.browse (*fTupletMember);
+}
+
+ostream& operator<< (ostream& os, const S_msrTupletMember& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrTupletMember::tupletMemberKindAsString () const
+{
+  string result;
+  
+  switch (fClefKind) {
+    case msrTupletMemberKind::kNoteTupletMember:
+      result =
+        "NoteTupletMember";
+      break;
+
+    case msrTupletMemberKind::kChordTupletMember:
+      result =
+        "ChordTupletMember";
+      break;
+
+    case msrTupletMemberKind::kTupletTupletMember:
+      result =
+        "TupletTupletMember";
+      break;
+  } // switch
+
+  return result;
+}
+  
+string msrTupletMember::tupletMemberAsString () const
+{
+  stringstream s;
+
+  s <<
+    "TupletMember " <<
+    tupletMemberKindAsString (fTupletMemberKind) <<
+    ", ";
+
+  switch (fClefKind) {
+    case msrTupletMemberKind::kNoteTupletMember:
+      {
+        S_msrNote note = fTupletMember;
+        
+        s <<
+          note->noteAsShortString ();
+      }
+      break;
+
+    case msrTupletMemberKind::kChordTupletMember:
+      {
+        S_msrChord chord = fTupletMember;
+        
+        s <<
+          chord->chordAsString ();
+      }
+      break;
+
+    case msrTupletMemberKind::kTupletTupletMember:
+      {
+        S_msrTuplet tuplet = fTupletMember;
+        
+        s <<
+          tuplet->tupletAsString ();
+      }
+      break;
+  } // switch
+
+  return s.str();
+}
+
+void msrTupletMember::print (ostream& os)
+{
+  os <<
+    "Tuplet " << fTupletActualNotes << "/" << fTupletNormalNotes <<
+    " (" << fTupletDivisions <<
+    "/" <<
+    fTupletDivisionsPerWholeNote <<
+    ") @"<<
+    fTupletMeasureNumber <<
+    ":" <<
+    fTupletPositionInMeasure <<
+    "/" <<
+    fTupletDivisionsPerWholeNote <<
+    endl;
+    
+  idtr++;
+
+  vector<S_msrElement>::const_iterator i;
+  for (i=fTupletElements.begin(); i!=fTupletElements.end(); i++) {
+    os << idtr << (*i);
+  } // for
+  
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
   int           inputLineNumber,
   int           number,
@@ -3847,7 +4028,7 @@ void msrTuplet::acceptOut (basevisitor* v) {
 
 void msrTuplet::browseData (basevisitor* v)
 {
- for (
+  for (
     vector<S_msrElement>::const_iterator i = fTupletElements.begin();
     i != fTupletElements.end();
     i++ ) {
