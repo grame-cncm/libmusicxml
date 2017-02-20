@@ -3729,22 +3729,24 @@ ostream& operator<< (ostream& os, const S_msrTupletMember& elt)
   return os;
 }
 
-string msrTupletMember::tupletMemberKindAsString () const
+/* JMI
+string msrTupletMember::tupletMemberKindAsString (
+  msrTupletMemberKind tupletMemberKind) const
 {
   string result;
   
-  switch (fClefKind) {
-    case msrTupletMemberKind::kNoteTupletMember:
+  switch (tupletMemberKind) {
+    case msrTupletMember::kNoteTupletMember:
       result =
         "NoteTupletMember";
       break;
 
-    case msrTupletMemberKind::kChordTupletMember:
+    case msrTupletMember::kChordTupletMember:
       result =
         "ChordTupletMember";
       break;
 
-    case msrTupletMemberKind::kTupletTupletMember:
+    case msrTupletMember::kTupletTupletMember:
       result =
         "TupletTupletMember";
       break;
@@ -3752,44 +3754,51 @@ string msrTupletMember::tupletMemberKindAsString () const
 
   return result;
 }
-  
+*/
+
 string msrTupletMember::tupletMemberAsString () const
 {
   stringstream s;
 
   s <<
-    "TupletMember " <<
-    tupletMemberKindAsString (fTupletMemberKind) <<
-    ", ";
+    "TupletMember" " ";
+  // JMI  tupletMemberKindAsString (fTupletMemberKind) <<
+  //  ", ";
 
-  switch (fClefKind) {
-    case msrTupletMemberKind::kNoteTupletMember:
+/*
+
+  switch (fTupletMemberKind) {
+    case msrTupletMember::kNoteTupletMember:
       {
         S_msrNote note = fTupletMember;
         
         s <<
+          "NoteTupletMember" << " " <<
           note->noteAsShortString ();
       }
       break;
 
-    case msrTupletMemberKind::kChordTupletMember:
+    case msrTupletMember::kChordTupletMember:
       {
         S_msrChord chord = fTupletMember;
         
         s <<
+          "ChordTupletMember" << " " <<
           chord->chordAsString ();
       }
       break;
 
-    case msrTupletMemberKind::kTupletTupletMember:
+    case msrTupletMember::kTupletTupletMember:
       {
         S_msrTuplet tuplet = fTupletMember;
         
         s <<
+          "TupletTupletMember" << " " <<
           tuplet->tupletAsString ();
       }
       break;
   } // switch
+*/
 
   return s.str();
 }
@@ -3797,26 +3806,47 @@ string msrTupletMember::tupletMemberAsString () const
 void msrTupletMember::print (ostream& os)
 {
   os <<
-    "Tuplet " << fTupletActualNotes << "/" << fTupletNormalNotes <<
-    " (" << fTupletDivisions <<
-    "/" <<
-    fTupletDivisionsPerWholeNote <<
-    ") @"<<
-    fTupletMeasureNumber <<
-    ":" <<
-    fTupletPositionInMeasure <<
-    "/" <<
-    fTupletDivisionsPerWholeNote <<
-    endl;
-    
-  idtr++;
+    "TupletMember" " ";
+/*
+  switch (fTupletMemberKind) {
+    case msrTupletMember::kNoteTupletMember:
+      {
+        S_msrNote note = fTupletMember;
+        
+        s <<
+          "NoteTupletMember" << " " <<
+          note->noteAsShortString ();
+      }
+      break;
 
-  vector<S_msrElement>::const_iterator i;
-  for (i=fTupletElements.begin(); i!=fTupletElements.end(); i++) {
-    os << idtr << (*i);
-  } // for
-  
-  idtr--;
+    case msrTupletMember::kChordTupletMember:
+      {
+        S_msrChord chord = fTupletMember;
+        
+        s <<
+          "ChordTupletMember" << " " <<
+          chord->chordAsString ();
+      }
+      break;
+
+    case msrTupletMember::kTupletTupletMember:
+      {
+        S_msrTuplet tuplet = fTupletMember;
+        
+        s <<
+          "TupletTupletMember" << " " <<
+          tuplet->tupletAsString ();
+      }
+      break;
+  } // switch
+ */
+    
+// JMI    tupletMemberKindAsString (fTupletMemberKind) <<
+
+  os <<
+    ", " <<
+    fTupletMember <<
+    endl;
 }
 
 //______________________________________________________________________________

@@ -3404,7 +3404,7 @@ class EXP msrTupletMember : public msrElement
     // services
     // ------------------------------------------------------
 
-    string        tupletMemberAsString () const;
+    string              tupletMemberAsString () const;
 
     // visitors
     // ------------------------------------------------------
