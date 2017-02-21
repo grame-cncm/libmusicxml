@@ -79,6 +79,8 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fOnGoingNote            = false;
 
   fOnGoingChord        = false;
+
+  fCurrentPendingTupletStop = false;
   
   fOnGoingSlur          = false;
   fOnGoingSlurHasStanza = false;
@@ -5577,19 +5579,19 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
 }
 
 //______________________________________________________________________________
-void xml2MsrTranslator::finalizeTuplet (S_msrNote lastNote)
+void xml2MsrTranslator::finalizeTuplet (/*S_msrNote lastNote*/)
 {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "xml2MsrTranslator::finalizeTuplet, " <<
-      lastNote->noteAsShortString () <<
+   // JMI   lastNote->noteAsShortString () <<
       endl;
       
   // fetch current voice
   S_msrVoice
     currentVoice =
       registerVoiceInStaffInCurrentPartIfNeeded (
-        lastNote->getInputLineNumber (),
+        7777, // JMI lastNote->getInputLineNumber (),
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
 
@@ -5604,6 +5606,7 @@ void xml2MsrTranslator::finalizeTuplet (S_msrNote lastNote)
       fCurrentActualNotes, fCurrentNormalNotes);
 */
 
+/* JMI
   // add lastNote to the tuplet
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -5612,6 +5615,7 @@ void xml2MsrTranslator::finalizeTuplet (S_msrNote lastNote)
       fTupletsStack.top ()->tupletAsString () <<
       endl;
   tuplet->addNoteToTuplet (lastNote);
+*/
 
   // pop from the tuplets stack
 //  if (gGeneralOptions->fDebug)
@@ -6413,6 +6417,14 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
   switch (fCurrentTupletKind) {
     case msrTuplet::kStartTuplet:
       {
+        if (fCurrentPendingTupletStop) {
+          // finalize the tuplet, only now in case the last element
+          // is actually a chord
+          finalizeTuplet ();
+
+          fCurrentPendingTupletStop = false;
+        }
+        
         createTupletWithItsFirstNote (note);
       
         // swith to continuation mode
@@ -6467,9 +6479,50 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
 
     case msrTuplet::kStopTuplet:
       {
-        // this should be delayed in case this note
+        if (fTupletsStack.size ()) {
+          S_msrTuplet
+            currentTuplet =
+              fTupletsStack.top ();
+              
+        // populate the tuplet at the top of the stack
+//        if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> adding tuplet member note " <<
+            note->noteAsShortString () <<
+            " to stack top tuplet '" <<
+            currentTuplet->tupletAsString () <<
+            "', line " << inputLineNumber <<
+            endl;
+
+        fTupletsStack.top()->
+          addNoteToTuplet (note);
+/* JMI
+        // set note display divisions
+        note->
+          applyTupletMemberDisplayFactor (
+            fTupletsStack.top ()->getTupletActualNotes (),
+            fTupletsStack.top ()->getTupletNormalNotes ());
+*/
+        }
+        else {
+          stringstream s;
+
+          s <<
+            "handleNoteBelongingToATuplet():" <<
+            endl <<
+            "tuplet member note " << note->noteAsString () <<
+            "cannot be added, tuplets stack is empty";
+
+          msrInternalError (
+            inputLineNumber,
+            s.str());
+        }
+
+        // finalizeTuplet() should be delayed in case this note
         // is the first one of a chord in a tuplet JMI XXL ???
-        finalizeTuplet (note);
+
+        fCurrentPendingTupletStop = true;
+   //     finalizeTuplet (note);
       }
       break;
 
@@ -6819,7 +6872,11 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
     S_msrTuplet
       pendingTuplet =
         fTupletsStack.top ();
-        
+
+    // finalize the tuplet, thus poppingit off the stack
+    finalizeTuplet ();
+
+    /* JMI
     // pop it from the tuplets stack
 //  if (gGeneralOptions->fDebug)
       cerr << idtr <<
@@ -6828,6 +6885,7 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
         "' from tuplets stack" <<
         endl;
       fTupletsStack.pop ();        
+    */
 
     if (fTupletsStack.size ()) {
       // tuplet is an embedded tuplet
