@@ -6545,15 +6545,6 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         currentVoice,
         lastHandledNoteInVoice);
 
-    // remove last handled (previous current) note from the current voice
-//    if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "--> removing last handled note " <<
-        lastHandledNoteInVoice->noteAsShortString () <<
-        ", line " << inputLineNumber <<
-        ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
-        endl;
-
     if (false)
       cerr <<
         endl << endl <<
@@ -6569,6 +6560,17 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         currentTuplet =
           fTupletsStack.top ();
           
+      // remove last handled (previous current) note from the current tuplet
+  //    if (gGeneralOptions->fDebug)
+        cerr << idtr <<
+          "--> removing last handled note " <<
+          lastHandledNoteInVoice->noteAsShortString () <<
+          ", line " << inputLineNumber <<
+          ", from tuplet '" <<
+          currentTuplet->tupletAsString () <<
+          "'" <<
+          endl;
+
       // remove lastHandledNoteInVoice from the current voice
       currentTuplet->
         removeFirstNoteFromTuplet (
@@ -6579,11 +6581,11 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 //        if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> adding chord " << fCurrentChord->chordAsString () <<
-        " to stack top tuplet " <<
+        " to stack top tuplet '" <<
         currentTuplet->getTupletActualNotes () <<
          "/" <<
-        currentTuplet->getTupletNormalNotes () <<
-        ", line " << inputLineNumber <<
+        currentTuplet->tupletAsString () <<
+        "', line " << inputLineNumber <<
         endl;
 
       currentTuplet->

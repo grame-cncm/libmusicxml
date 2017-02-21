@@ -10675,7 +10675,7 @@ void msrVoice::removeFirstChordNoteFromVoice (
 {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "Removing note note " << note->noteAsShortString () <<
+      "Removing first chord note " << note->noteAsShortString () <<
       " from voice \"" << getVoiceName () << "\"" <<
       endl;
 
