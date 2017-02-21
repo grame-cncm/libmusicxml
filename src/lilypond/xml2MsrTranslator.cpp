@@ -6404,14 +6404,20 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
   note->
     setNoteKind (msrNote::kTupletMemberNote);
 
-  if (gGeneralOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToATuplet " <<
-      note <<
+      note->noteAsShortString () <<
       endl;
 
   // attach the pending elements, if any, to the note
   attachPendingElementsToNote (note);
+
+  // is there an ongoing chord?
+  if (! fOnGoingChord) {
+    // this note is the first one after a chord in a tuplet,
+    // JMI
+  }
 
   switch (fCurrentTupletKind) {
     case msrTuplet::kStartTuplet:
@@ -6435,7 +6441,8 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
         // populate the tuplet at the top of the stack
 //        if (gGeneralOptions->fDebug)
           cerr << idtr <<
-            "--> adding note " << note <<
+            "--> adding tuplet member note " <<
+            note->noteAsShortString () <<
             " to stack top tuplet '" <<
             currentTuplet->tupletAsString () <<
             "', line " << inputLineNumber <<
@@ -6820,14 +6827,12 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
         fTupletsStack.top ();
         
     // pop it from the tuplets stack
-
 //  if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "--> popping tuplet " <<
-        pendingTuplet->getTupletActualNotes () <<
-         "/" <<
-        pendingTuplet->getTupletNormalNotes () <<
-        " from tuplets stack" << endl;
+        "--> popping tuplet '" <<
+        pendingTuplet->tupletAsString () <<
+        "' from tuplets stack" <<
+        endl;
       fTupletsStack.pop ();        
 
     if (fTupletsStack.size ()) {
@@ -6847,16 +6852,16 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
       fTupletsStack.top ()->
         addTupletToTuplet (pendingTuplet);
     }
+    
     else {
-      // tup is a top level tuplet
+      // pendingTuplet is a top level tuplet
   //    if (gGeneralOptions->fDebug)
         cerr << idtr <<
-          "=== adding top level tuplet " <<
-        pendingTuplet->getTupletActualNotes () <<
-         "/" <<
-        pendingTuplet->getTupletNormalNotes () <<
-        " to voice" <<
+          "=== adding top level tuplet '" <<
+        pendingTuplet->tupletAsString () <<
+        "' to voice \"" <<
         currentVoice->getVoiceName () <<
+        "\"" <<
         endl;
         
       currentVoice->

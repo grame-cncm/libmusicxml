@@ -4222,19 +4222,17 @@ string msrTuplet::tupletAsString () const
     fTupletMeasureNumber <<
     ":";
 
-  if (fTupletPositionInMeasure > 0)
-    s <<
-      fTupletPositionInMeasure;
+  if (fTupletPositionInMeasure < 0)
+    s << "?";
   else
-    s <<
-      "?";
+    s << fTupletPositionInMeasure;
   
   s <<
     "/" <<
     fTupletDivisionsPerWholeNote <<
     " ";
 
-  s << "<";
+  s << "[[";
 
   if (fTupletElements.size ()) {
     list<S_msrElement>::const_iterator
@@ -4274,7 +4272,7 @@ string msrTuplet::tupletAsString () const
     } // for
   }
 
-  s << ">";
+  s << "]]";
   
   return s.str();
 }
@@ -4290,12 +4288,10 @@ void msrTuplet::print (ostream& os)
     fTupletMeasureNumber <<
     ":";
     
-  if (fTupletPositionInMeasure > 0)
-    os <<
-      fTupletPositionInMeasure;
+  if (fTupletPositionInMeasure < 0)
+    os << "?";
   else
-    os <<
-      "?";
+    os << fTupletPositionInMeasure;
 
   os <<
     "/" <<
