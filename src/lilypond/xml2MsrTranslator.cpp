@@ -5616,7 +5616,7 @@ void xml2MsrTranslator::finalizeTuplet (S_msrNote lastNote)
   // pop from the tuplets stack
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> popping tuplet '" <<
+      "--> popping tuplet 2 '" <<
       fTupletsStack.top ()->tupletAsString () <<
       "' from tuplets stack" <<
       endl;
@@ -6467,6 +6467,8 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
 
     case msrTuplet::kStopTuplet:
       {
+        // this should be delayed in case this note
+        // is the first one of a chord in a tuplet JMI XXL ???
         finalizeTuplet (note);
       }
       break;
@@ -6821,7 +6823,7 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
     // pop it from the tuplets stack
 //  if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "--> popping tuplet '" <<
+        "--> popping tuplet 1 '" <<
         pendingTuplet->tupletAsString () <<
         "' from tuplets stack" <<
         endl;
