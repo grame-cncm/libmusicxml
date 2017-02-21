@@ -2423,8 +2423,10 @@ void xml2MsrTranslator::visitEnd ( S_forward& elt )
 
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Handling 'forward >>> " << fCurrentForwardDuration <<
-      "', thus switching to voice \"" << currentVoice->getVoiceName () <<
+      "Handling 'forward >>> " <<
+      fCurrentForwardDuration <<
+      "', thus switching to voice \"" <<
+      currentVoice->getVoiceName () <<
       "\" in staff \"" << staff->getStaffName () << "\"" <<
       endl;
 
@@ -5535,22 +5537,18 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
   // register tuplet in this visitor
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "++> pushing tuplet " <<
-      tuplet->getTupletActualNotes () <<
-      "/" <<
-      tuplet->getTupletNormalNotes () <<
-      " to tuplets stack" << endl;
+      "++> pushing tuplet '" <<
+      tuplet->tupletAsString () <<
+      "' to tuplets stack" << endl;
   fTupletsStack.push (tuplet);
 
   // add note as first note of the stack top tuplet
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "==> adding first note " << firstNote->noteAsString() <<
-      " to the " <<
-      tuplet->getTupletActualNotes () <<
-       "/" <<
-      tuplet->getTupletNormalNotes () <<
-      " tuplet" <<
+      " to tuplet '" <<
+      tuplet->tupletAsString () <<
+       "'" <<
       endl;
   tuplet->addNoteToTuplet (firstNote);
 
@@ -5583,8 +5581,8 @@ void xml2MsrTranslator::finalizeTuplet (S_msrNote lastNote)
 {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "xml2MsrTranslator::finalizeTuplet " <<
-      lastNote <<
+      "xml2MsrTranslator::finalizeTuplet, " <<
+      lastNote->noteAsShortString () <<
       endl;
       
   // fetch current voice
@@ -5611,35 +5609,29 @@ void xml2MsrTranslator::finalizeTuplet (S_msrNote lastNote)
     cerr << idtr <<
       "==> adding last note " << lastNote->noteAsString () <<
       " to tuplets stack top " <<
-      fTupletsStack.top ()->getTupletActualNotes () <<
-       "/" <<
-      fTupletsStack.top ()->getTupletNormalNotes () <<
+      fTupletsStack.top ()->tupletAsString () <<
       endl;
   tuplet->addNoteToTuplet (lastNote);
 
   // pop from the tuplets stack
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> popping tuplet " <<
-      fTupletsStack.top ()->getTupletActualNotes () <<
-       "/" <<
-      fTupletsStack.top ()->getTupletNormalNotes () <<
-      " from tuplets stack" << endl;
+      "--> popping tuplet '" <<
+      fTupletsStack.top ()->tupletAsString () <<
+      "' from tuplets stack" <<
+      endl;
   fTupletsStack.pop ();        
 
   if (fTupletsStack.size ()) {
     // tuplet is an embedded tuplet
 //    if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "=== adding embedded tuplet " <<
-      tuplet->getTupletActualNotes () <<
-       "/" <<
-      tuplet->getTupletNormalNotes () <<
-        " to " <<
-      fTupletsStack.top ()->getTupletActualNotes () <<
-       "/" <<
-      fTupletsStack.top ()->getTupletNormalNotes () <<
-      " current stack top tuplet" << endl;
+        "=== adding embedded tuplet '" <<
+      tuplet->tupletAsString () <<
+        "' to current stack top tuplet '" <<
+      fTupletsStack.top ()->tupletAsString () <<
+      "'" <<
+      endl;
     
     fTupletsStack.top ()->
       addTupletToTuplet (tuplet);
@@ -5649,12 +5641,11 @@ void xml2MsrTranslator::finalizeTuplet (S_msrNote lastNote)
     // tup is a top level tuplet
 //    if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "=== adding top level tuplet " <<
-      tuplet->getTupletActualNotes () <<
-       "/" <<
-      tuplet->getTupletNormalNotes () <<
-      " to voice" <<
+        "=== adding top level tuplet '" <<
+      tuplet->tupletAsString () <<
+      "' to voice \"" <<
       currentVoice->getVoiceName () <<
+      "\"" <<
       endl;
       
     currentVoice->
@@ -6761,7 +6752,8 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
         newNote->noteAsString () <<
         ", line " << newNote->getInputLineNumber () <<
         ", to voice \"" <<
-        currentVoice->getVoiceName () << "\"" <<
+        currentVoice->getVoiceName () <<
+        "\"" <<
         endl;
     }
     
@@ -6839,14 +6831,10 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
       // tuplet is an embedded tuplet
   //    if (gGeneralOptions->fDebug)
         cerr << idtr <<
-          "=== adding embedded tuplet " <<
-        pendingTuplet->getTupletActualNotes () <<
-         "/" <<
-        pendingTuplet->getTupletNormalNotes () <<
-          " to " <<
-        fTupletsStack.top ()->getTupletActualNotes () <<
-         "/" <<
-        fTupletsStack.top ()->getTupletNormalNotes () <<
+          "=== adding embedded tuplet '" <<
+        pendingTuplet->tupletAsString () <<
+        "' to " <<
+        fTupletsStack.top ()->tupletAsString () <<
         " current stack top tuplet" << endl;
       
       fTupletsStack.top ()->
@@ -7089,7 +7077,8 @@ void xml2MsrTranslator::handleRepeatStart (
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> appending the repeat to voice \"" <<
-      currentVoice->getVoiceName () << "\"" <<
+      currentVoice->getVoiceName () <<
+      "\"" <<
       endl;
 
   currentVoice->
@@ -7195,7 +7184,8 @@ void xml2MsrTranslator::handleRepeatEnd (
       if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "--> appending the repeat to voice \"" <<
-          currentVoice->getVoiceName () << "\"" <<
+          currentVoice->getVoiceName () <<
+          "\"" <<
           endl;
     
       currentVoice->
@@ -7309,7 +7299,8 @@ void xml2MsrTranslator::handleHookedEndingStart (
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> appending the repeat to voice \"" <<
-        currentVoice->getVoiceName () << "\"" <<
+        currentVoice->getVoiceName () <<
+        "\"" <<
         endl;
   
     currentVoice->
