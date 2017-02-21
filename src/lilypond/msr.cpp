@@ -3998,13 +3998,77 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
     */
 }
 
+void msrTuplet::removeFirstNoteFromTuplet (
+  int       inputLineNumber,
+  S_msrNote note)
+{
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> removing first note " <<
+      note->noteAsString () <<
+      " from tuplet '" <<
+      tupletAsString () <<
+      "'" <<
+      endl;
+
+  if (fTupletElements.size ()) {
+    S_msrElement
+      firstTupletElement =
+        fTupletElements.front ();
+
+    for (
+      list<S_msrElement>::iterator i=fTupletElements.begin();
+      i!=fTupletElements.end();
+      ++i) {
+      if ((*i) == note) {
+        // found note, erase it
+        fTupletElements.erase (i);
+        
+        // don't update measure number nor position in measure: // JMI
+        // they have not been set yet
+  
+        // return from function
+        return;
+      }
+    } // for
+    
+    msrInternalError (
+      inputLineNumber,
+      "cannot remove note " <<
+      note <<
+      " from tuplet " << tupletAsString () <<
+      "' in voice \"" <<
+      fTupletMeasureUplink->
+        getMeasureSegmentUplink ()->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+      "\"," <<
+      " since it has not been found");
+  }
+  
+  else {
+    msrInternalError (
+      inputLineNumber,
+      "cannot remove note " <<
+      note <<
+      " from empty tuplet " <<
+      "' in voice \"" <<
+      fTupletMeasureUplink->
+        getMeasureSegmentUplink ()->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+      "\"," <<
+      " since it has not been found");
+  }
+}
+
 void msrTuplet::setTupletMeasureNumber (int measureNumber) // JMI
 {
   fTupletMeasureNumber = measureNumber;
 
   // propagate measure number to the tuplets elements
   for (
-    vector<S_msrElement>::const_iterator i = fTupletElements.begin();
+    list<S_msrElement>::const_iterator i = fTupletElements.begin();
     i != fTupletElements.end();
     i++ ) {
     // set tuplet element measure number
@@ -4048,7 +4112,7 @@ int msrTuplet::setTupletPositionInMeasure (int position)
   
   // compute position in measure for the tuplets elements
   for (
-    vector<S_msrElement>::const_iterator i = fTupletElements.begin();
+    list<S_msrElement>::const_iterator i = fTupletElements.begin();
     i != fTupletElements.end();
     i++ ) {
     // set tuplet element position in measure
@@ -4130,7 +4194,7 @@ void msrTuplet::acceptOut (basevisitor* v) {
 void msrTuplet::browseData (basevisitor* v)
 {
   for (
-    vector<S_msrElement>::const_iterator i = fTupletElements.begin();
+    list<S_msrElement>::const_iterator i = fTupletElements.begin();
     i != fTupletElements.end();
     i++ ) {
     // browse tuplet element
@@ -4163,7 +4227,7 @@ string msrTuplet::tupletAsString () const
     " ";
 
   if (fTupletElements.size ()) {
-    vector<S_msrElement>::const_iterator
+    list<S_msrElement>::const_iterator
       iBegin = fTupletElements.begin(),
       iEnd   = fTupletElements.end(),
       i      = iBegin;
@@ -4206,7 +4270,7 @@ void msrTuplet::print (ostream& os)
     
   idtr++;
 
-  vector<S_msrElement>::const_iterator i;
+  list<S_msrElement>::const_iterator i;
   for (i=fTupletElements.begin(); i!=fTupletElements.end(); i++) {
     os << idtr << (*i);
   } // for
@@ -9111,7 +9175,7 @@ S_msrElement msrSegment::removeLastElementFromSegment (
 }
 */
 
-void msrSegment::removeFirstChordNoteSegment (
+void msrSegment::removeFirstChordNoteFromSegment (
   int       inputLineNumber,
   S_msrNote note)
 {  
@@ -9125,7 +9189,7 @@ void msrSegment::removeFirstChordNoteSegment (
   else {
     msrInternalError (
       inputLineNumber,
-      "cannot removeFirstChordNoteSegment () " <<
+      "cannot removeFirstChordNoteFromSegment () " <<
       segmentAsString () <<
       " since it is empty");
   }
@@ -10605,7 +10669,7 @@ S_msrElement msrVoice::removeLastElementFromVoice (
 }
 */
 
-void msrVoice::removeFirstChordNoteVoice (
+void msrVoice::removeFirstChordNoteFromVoice (
   int       inputLineNumber,
   S_msrNote note)
 {
@@ -10616,7 +10680,7 @@ void msrVoice::removeFirstChordNoteVoice (
       endl;
 
   fVoiceLastSegment->
-    removeFirstChordNoteSegment (
+    removeFirstChordNoteFromSegment (
       inputLineNumber,
       note);
 }

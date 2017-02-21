@@ -6355,7 +6355,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
 
     // remove lastHandledNoteInVoice from the current voice
     currentVoice->
-      removeFirstChordNoteVoice (
+      removeFirstChordNoteFromVoice (
         inputLineNumber,
         lastHandledNoteInVoice);
 
@@ -6486,7 +6486,9 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 {
   /*
    The first note of a chord belonging to a tuplet
-   is marked ins MusicXML as a tuplet member only,
+   is marked in MusicXML as a tuplet member only,
+   it has already been appended to the voice in
+   handleStandaloneOrGraceNoteOrRest (),
    and the following ones are marked as both a tuplet and a chord member
   */
   
@@ -6562,21 +6564,51 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         currentVoice <<
         endl << endl;
 
-    // remove lastHandledNoteInVoice from the current voice
-    currentVoice->
-      removeFirstChordNoteVoice (
-        inputLineNumber,
-        lastHandledNoteInVoice);
-
-    // add fCurrentChord to the voice instead
-    if (gGeneralOptions->fDebug)
+    if (fTupletsStack.size ()) {
+      S_msrTuplet
+        currentTuplet =
+          fTupletsStack.top ();
+          
+      // remove lastHandledNoteInVoice from the current voice
+      currentTuplet->
+        removeFirstNoteFromTuplet (
+          inputLineNumber,
+          lastHandledNoteInVoice);
+  
+      // add fCurrentChord to the current tuplet instead
+//        if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "--> appending chord " << fCurrentChord <<
-        " to current voice \"" << "\"" <<
+        "--> adding chord " << fCurrentChord->chordAsString () <<
+        " to stack top tuplet " <<
+        currentTuplet->getTupletActualNotes () <<
+         "/" <<
+        currentTuplet->getTupletNormalNotes () <<
+        ", line " << inputLineNumber <<
         endl;
-        
-    currentVoice->
-      appendChordToVoice (fCurrentChord);
+
+      currentTuplet->
+        addChordToTuplet (fCurrentChord);
+  /* JMI
+      // set note display divisions
+      note->
+        applyTupletMemberDisplayFactor (
+          fTupletsStack.top ()->getTupletActualNotes (),
+          fTupletsStack.top ()->getTupletNormalNotes ());
+  */
+    }
+    else {
+      stringstream s;
+
+      s <<
+        "handleNoteBelongingToAChordInATuplet():" <<
+        endl <<
+        "tuplet member chord " << fCurrentChord->chordAsString () <<
+        "cannot be added, tuplets stack is empty";
+
+      msrInternalError (
+        inputLineNumber,
+        s.str());
+    }
 
     // account for chord being built
     fOnGoingChord = true;

@@ -1777,7 +1777,7 @@ class EXP msrSegment : public msrElement
     S_msrElement  removeLastElementFromSegment (
                     int inputLineNumber);
 
-    void          removeFirstChordNoteSegment (
+    void          removeFirstChordNoteFromSegment (
                     int       inputLineNumber,
                     S_msrNote note);
 
@@ -3491,7 +3491,7 @@ class EXP msrTuplet : public msrElement
     int           getTupletNormalNotes () const
                       { return fTupletNormalNotes; }
     
-    const vector<S_msrElement>&
+    const list<S_msrElement>&
                   getTupletElements () const
                       { return fTupletElements; }
 
@@ -3537,6 +3537,10 @@ class EXP msrTuplet : public msrElement
     void          addChordToTuplet (S_msrChord chord);
     void          addTupletToTuplet (S_msrTuplet tuplet);
     
+    void          removeFirstNoteFromTuplet (
+                    int       inputLineNumber,
+                    S_msrNote note);
+
     string        tupletAsString () const;
 
     // visitors
@@ -3569,7 +3573,7 @@ class EXP msrTuplet : public msrElement
     int                  fTupletMeasureNumber;
     int                  fTupletPositionInMeasure;
     
-    vector<S_msrElement> fTupletElements;
+    list<S_msrElement>   fTupletElements;
 };
 typedef SMARTP<msrTuplet> S_msrTuplet;
 EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
@@ -4941,7 +4945,7 @@ class EXP msrVoice : public msrElement
     S_msrElement  removeLastElementFromVoice (
                     int inputLineNumber);
 
-    void          removeFirstChordNoteVoice (
+    void          removeFirstChordNoteFromVoice (
                     int       inputLineNumber,
                     S_msrNote note);
 
