@@ -81,6 +81,8 @@ class EXP xmlpart2guido :
 	// internal parsing state
 	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending, fTupletOpened,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar;
     
+    int fTextTagOpen;
+    
     string tempoWord, tempoMetronome, wordParams;
     bool fGenerateTempo, directionPlacementAbove, directionWord;
     S_words wordPointer;

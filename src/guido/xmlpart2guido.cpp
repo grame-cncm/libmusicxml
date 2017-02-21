@@ -61,6 +61,7 @@ namespace MusicXML2
         fLyricsManualSpacing = false;
         directionWord = false;
         fGenerateTempo = false;
+        fTextTagOpen = 0;
     }
     
     //______________________________________________________________________________
@@ -138,6 +139,12 @@ namespace MusicXML2
         if (fInGrace) {
             pop();
             fInGrace = false;
+        }
+        if (fTextTagOpen>0) {
+            while (fTextTagOpen>0) {
+                pop();
+                fTextTagOpen--;
+            }
         }
     }
     
@@ -452,13 +459,14 @@ namespace MusicXML2
             Sguidoelement tag = guidotag::create("text");
             tag->add (guidoparam::create(wordParams.c_str(), false));
             xml2guidovisitor::addPosition(wordPointer, tag, 11);
-            add (tag);
-            //cout<<"\tAdded WORD tag "<< wordParams<<"at position "<< fCurrentMeasurePosition.toDouble()<<endl;
+            //add (tag);
+            push(tag);
+            fTextTagOpen++;
             
-            // add an additional SPACE<0> tag in case
-            Sguidoelement tag2 = guidotag::create("space");
-            tag2->add (guidoparam::create(0, false));
-            add (tag2);
+            /// add an additional SPACE<0> tag in case
+            //Sguidoelement tag2 = guidotag::create("space");
+            //tag2->add (guidoparam::create(0, false));
+            //add (tag2);
         }
         
         
@@ -521,6 +529,21 @@ namespace MusicXML2
             tag = guidotag::create(fCrescPending ? "crescEnd" : "dimEnd");
         }
         if (tag) {
+            //// Also add SPREAD values (in mXML tenths - conversion: (X / 10) * 2)
+            //// Spread is present right away for a diminuendo, it'll be present for crescendo at its STOP type
+            if (type == "diminuendo") {
+                int spreadValue = elt->getAttributeIntValue("spread", 15);
+                if (spreadValue != 15) {
+                    stringstream s;
+                    s << "deltaY=" << (spreadValue/10)*2 << "hs";
+                    tag->add (guidoparam::create(s.str(), false));
+                }
+            }else if (type == "crescendo")
+            {
+                // search for wedge STOP in anticipation
+            }
+            
+            
             xml2guidovisitor::addPosY(elt, tag, 12, -1);    //addPosition(elt, tag, 18);
             if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
             else add (tag);
@@ -565,7 +588,8 @@ namespace MusicXML2
             if ((*iter)->getType() != k_other_dynamics) {
                 Sguidoelement tag = guidotag::create("intens");
                 tag->add (guidoparam::create((*iter)->getName()));
-                if (fGeneratePositions) xml2guidovisitor::addPosY(elt, tag, 12, 1);
+                //if (fGeneratePositions) xml2guidovisitor::addPosY(elt, tag, 12, 1);
+                if (fGeneratePositions) xml2guidovisitor::addPosition(elt, tag, 12, 1);
                 if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
                 else add (tag);
             }
@@ -1075,7 +1099,7 @@ namespace MusicXML2
             /// OR using \beam(...)
             Sguidoelement tag = guidotag::create("beam");
             push (tag);
-
+            
             //cout<<"Beam Begin "<<lastBeamInternalNumber<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<endl;
         }
         
@@ -1451,22 +1475,23 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xmlpart2guido::checkStem ( const S_stem& stem )
     {
+        // Should regenerate if in a Cue tag
         Sguidoelement tag;
         if (stem) {
             if (stem->getValue() == "down") {
-                if (fCurrentStemDirection != kStemDown) {
+                if (fCurrentStemDirection != kStemDown || fInCue) {
                     tag = guidotag::create("stemsDown");
                     fCurrentStemDirection = kStemDown;
                 }
             }
             else if (stem->getValue() == "up") {
-                if (fCurrentStemDirection != kStemUp) {
+                if (fCurrentStemDirection != kStemUp || fInCue) {
                     tag = guidotag::create("stemsUp");
                     fCurrentStemDirection = kStemUp;
                 }
             }
             else if (stem->getValue() == "none") {
-                if (fCurrentStemDirection != kStemNone) {
+                if (fCurrentStemDirection != kStemNone || fInCue) {
                     tag = guidotag::create("stemsOff");
                     fCurrentStemDirection = kStemNone;
                 }
@@ -1892,9 +1917,9 @@ namespace MusicXML2
         
         checkVoiceTime (fCurrentMeasurePosition, fCurrentVoicePosition);
         
+        checkCue(*this);
         if (notevisitor::getType() != notevisitor::kRest)
             checkStem (notevisitor::fStem);
-        checkCue(*this);
         checkGrace(*this);
         checkSlurBegin (notevisitor::getSlur());
         checkTupletBegin(notevisitor::getTuplet(), *this, elt);
