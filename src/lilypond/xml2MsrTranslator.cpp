@@ -5190,7 +5190,7 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating a chord from its first note " <<
-      chordFirstNote <<
+      chordFirstNote->noteAsShortString () <<
       ", line " << inputLineNumber <<
       ", in voice \"" << voice->getVoiceName () << "\"" <<
       endl;
@@ -6397,18 +6397,18 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
 void xml2MsrTranslator::handleNoteBelongingToATuplet (
   S_msrNote note)
 {
+  int inputLineNumber =
+    note->getInputLineNumber ();
+    
+ // register note as a tuplet member
+  note->
+    setNoteKind (msrNote::kTupletMemberNote);
+
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToATuplet " <<
       note <<
       endl;
-
-  int inputLineNumber =
-    note->getInputLineNumber ();
-    
-  // register note as a tuplet member
-  note->
-    setNoteKind (msrNote::kTupletMemberNote);
 
   // attach the pending elements, if any, to the note
   attachPendingElementsToNote (note);
@@ -6436,16 +6436,14 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
 //        if (gGeneralOptions->fDebug)
           cerr << idtr <<
             "--> adding note " << note <<
-            " to stack top tuplet " <<
-            currentTuplet->getTupletActualNotes () <<
-             "/" <<
-            currentTuplet->getTupletNormalNotes () <<
-            ", line " << inputLineNumber <<
+            " to stack top tuplet '" <<
+            currentTuplet->tupletAsString () <<
+            "', line " << inputLineNumber <<
             endl;
 
         fTupletsStack.top()->
           addNoteToTuplet (note);
-/*
+/* JMI
         // set note display divisions
         note->
           applyTupletMemberDisplayFactor (
@@ -6492,10 +6490,14 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
    and the following ones are marked as both a tuplet and a chord member
   */
   
+  // set new note kind as a chord member
+  newChordNote->
+    setNoteKind (msrNote::kChordMemberNote);
+
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToAChordInATuplet " <<
-      newChordNote <<
+      newChordNote->noteAsString () <<
       endl;
 
   int inputLineNumber =
@@ -6582,8 +6584,6 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       cerr << idtr <<
         "--> adding chord " << fCurrentChord->chordAsString () <<
         " to stack top tuplet '" <<
-        currentTuplet->getTupletActualNotes () <<
-         "/" <<
         currentTuplet->tupletAsString () <<
         "', line " << inputLineNumber <<
         endl;
@@ -6627,10 +6627,6 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   
   fCurrentChord->
     addAnotherNoteToChord (newChordNote);
-
-  // set new note kind as a chord member
-  newChordNote->
-    setNoteKind (msrNote::kChordMemberNote);
 
   // copy newChordNote's elements if any to the chord
   copyNoteElementsToChord (newChordNote, fCurrentChord);

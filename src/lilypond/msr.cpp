@@ -4220,11 +4220,21 @@ string msrTuplet::tupletAsString () const
     fTupletDivisionsPerWholeNote <<
     ") @"<<
     fTupletMeasureNumber <<
-    ":" <<
-    fTupletPositionInMeasure <<
+    ":";
+
+  if (fTupletPositionInMeasure > 0)
+    s <<
+      fTupletPositionInMeasure;
+  else
+    s <<
+      "?";
+  
+  s <<
     "/" <<
     fTupletDivisionsPerWholeNote <<
     " ";
+
+  s << "<";
 
   if (fTupletElements.size ()) {
     list<S_msrElement>::const_iterator
@@ -4232,17 +4242,33 @@ string msrTuplet::tupletAsString () const
       iEnd   = fTupletElements.end(),
       i      = iBegin;
     for ( ; ; ) {
-      S_msrElement
-        elem = (*i);
-
-        /* JMI
-      s <<
-        elem->notePitchAsString () <<
-        "[" << elem->getNoteOctave () << "]" <<
-        ":" <<
-        elem->noteDivisionsAsMSRString ();
-*/
-
+      if (
+        S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+        ) {    
+        s <<
+          note->noteAsShortString ();
+      }
+    
+      else if (
+        S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+        ) {
+        s <<
+          chord->chordAsString ();
+      }
+      
+      else if (
+        S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
+        ) {
+        s <<
+          tuplet->tupletAsString ();
+      }
+      
+      else {
+        msrInternalError (
+          fInputLineNumber,
+          "tuplet member should be a note, a chord or another tuplet");
+      }
+  
       if (++i == iEnd) break;
       s << " ";
     } // for
@@ -4262,20 +4288,35 @@ void msrTuplet::print (ostream& os)
     fTupletDivisionsPerWholeNote <<
     ") @"<<
     fTupletMeasureNumber <<
-    ":" <<
-    fTupletPositionInMeasure <<
+    ":";
+    
+  if (fTupletPositionInMeasure > 0)
+    os <<
+      fTupletPositionInMeasure;
+  else
+    os <<
+      "?";
+
+  os <<
     "/" <<
     fTupletDivisionsPerWholeNote <<
     endl;
     
-  idtr++;
+  if (fTupletElements.size ()) {
+    idtr++;
 
-  list<S_msrElement>::const_iterator i;
-  for (i=fTupletElements.begin(); i!=fTupletElements.end(); i++) {
-    os << idtr << (*i);
-  } // for
-  
-  idtr--;
+    list<S_msrElement>::const_iterator
+      iBegin = fTupletElements.begin(),
+      iEnd   = fTupletElements.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+    
+    idtr--;
+  }
 }
 
 //______________________________________________________________________________
