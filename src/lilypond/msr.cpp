@@ -1997,7 +1997,7 @@ void msrNote::applyTupletMemberDisplayFactor (
     cerr << idtr <<
       "--> applying tuplet display factor " <<
       actualNotes << "/" << normalNotes <<
-      " to note " << this <<
+      " to note " << noteAsShortString () <<
       ", line " << fInputLineNumber <<
       endl;
 
@@ -10276,7 +10276,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
 void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "Appending tuplet '" << tuplet <<
+      "Appending tuplet '" << tuplet->tupletAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 

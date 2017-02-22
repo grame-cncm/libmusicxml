@@ -952,6 +952,8 @@ string divisionsAsMSRDuration (
       }
   } // switch
 
+  debugMode = true;
+
   if (debugMode)
     cerr <<
       endl << endl <<
@@ -979,7 +981,10 @@ string divisionsAsMSRDuration (
           "% cumulatedWeight = " << cumulatedWeight <<
           ", currentWeight = " << currentWeight <<
           ", " << numberOfDots <<
-          endl;      
+          endl;
+
+      if (numberOfDots > 5) // JMI, safety
+        break;
     } // while
 /*
     if (debugMode)

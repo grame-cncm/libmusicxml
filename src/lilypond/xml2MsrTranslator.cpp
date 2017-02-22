@@ -3050,6 +3050,14 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
 
 void xml2MsrTranslator::visitEnd (S_measure& elt)
 {
+  if (fCurrentPendingTupletStop) {
+    // finalize the tuplet, only now in case the last element
+    // is actually a chord
+    finalizeTuplet ();
+
+    fCurrentPendingTupletStop = false;
+  }
+
   // finalize last part measure to update master voice
   fCurrentPart->
     finalizeLastMeasureOfPart (
@@ -5581,9 +5589,9 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
 //______________________________________________________________________________
 void xml2MsrTranslator::finalizeTuplet (/*S_msrNote lastNote*/)
 {
-  if (gGeneralOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "xml2MsrTranslator::finalizeTuplet, " <<
+      "xml2MsrTranslator::finalizeTuplet(), " <<
    // JMI   lastNote->noteAsShortString () <<
       endl;
       
@@ -5642,7 +5650,7 @@ void xml2MsrTranslator::finalizeTuplet (/*S_msrNote lastNote*/)
   }
   
   else {
-    // tup is a top level tuplet
+    // tuplet is a top level tuplet
 //    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "=== adding top level tuplet '" <<
@@ -6859,6 +6867,12 @@ xml2MsrTranslator.cpp:4249
 void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
   int inputLineNumber)
 {
+//    if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "=== handleTupletsPendingOnTupletStack()," <<
+      ", line = " << inputLineNumber <<
+      endl;
+
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -6888,6 +6902,7 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
     */
 
     if (fTupletsStack.size ()) {
+      
       // tuplet is an embedded tuplet
   //    if (gGeneralOptions->fDebug)
         cerr << idtr <<
@@ -6902,6 +6917,7 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
     }
     
     else {
+      
       // pendingTuplet is a top level tuplet
   //    if (gGeneralOptions->fDebug)
         cerr << idtr <<
