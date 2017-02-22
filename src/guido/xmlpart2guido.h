@@ -141,6 +141,7 @@ class EXP xmlpart2guido :
     void checkTupletEnd	 ( const std::vector<S_tuplet>& tuplets );
 	void checkCue		 ( const notevisitor& nv );
 	void checkGrace		 ( const notevisitor& nv );
+    void checkGraceEnd(const notevisitor& nv);
 	int  checkFermata	 ( const notevisitor& stem );
 	void checkSlurBegin	 ( const std::vector<S_slur>& slurs );
 	void checkSlurEnd	 ( const std::vector<S_slur>& slurs );

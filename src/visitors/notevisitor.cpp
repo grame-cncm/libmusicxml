@@ -60,6 +60,7 @@ void notevisitor::reset ()
     fNotehead	= (void*)0;
     fInvertedMordent = (void*)0;
 	fBreathMark = (void*)0;
+    fThisSNote = (void*)0;
 	fTimeModification.set(1,1);
 #ifdef VC6
 	fStep = "";
@@ -199,6 +200,7 @@ void notevisitor::visitStart ( S_note& elt )
 	reset();
 	fDynamics = elt->getAttributeLongValue("dynamics", kUndefinedDynamics);
     fAccidental = elt->getValue(k_accidental);
+    fThisSNote = elt;
 }
 
 //________________________________________________________________________

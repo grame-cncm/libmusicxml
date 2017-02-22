@@ -1764,6 +1764,32 @@ namespace MusicXML2
         }
     }
     
+    void xmlpart2guido::checkGraceEnd(const notevisitor& nv)
+    {
+        // End grace BEFORE the next non-grace note to avoid conflict with S_direction
+        if (fInGrace)
+        {
+            ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), nv.getSnote());
+            nextnote++;	// advance one step
+            while (nextnote != fCurrentMeasure->end()) {
+                if ((nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice)){
+                    ctree<xmlelement>::iterator iter = nextnote->find(k_grace);
+                    if (iter != nextnote->end())
+                    {
+                        // Next note has a grace.. do nothing.. we'll break anyway!
+                    }else {
+                        // Pop grace before disaster! :)
+                        pop();
+                        fInGrace = false;
+                    }
+                    
+                    break;
+                }
+                nextnote++;
+            }
+        }
+    }
+    
     //______________________________________________________________________________
     int xmlpart2guido::checkFermata (const notevisitor& nv)
     {
@@ -1981,6 +2007,8 @@ namespace MusicXML2
         }
         
         checkLyricEnd (notevisitor::getLyric());
+        
+        checkGraceEnd(*this);
         
         
         fMeasureEmpty = false;

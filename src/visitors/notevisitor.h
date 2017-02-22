@@ -109,6 +109,7 @@ class EXP notevisitor :
         int		getTie() const		{ return fTie; }
         int		getStaff() const	{ return fStaff; }
         int		getVoice() const	{ return fVoice; }
+        S_note	getSnote() const	{ return fThisSNote; }
         float getRestFormatDy(string fCurClef) const;
         std::string getNoteheadType() const;
 
@@ -227,6 +228,8 @@ class EXP notevisitor :
         std::string fSyllabic;
         std::string fLyricText;
         float fLyricsDy;
+    
+    S_note fThisSNote;
 };
 
 EXP std::ostream& operator<< (std::ostream& os, const notevisitor& elt);
