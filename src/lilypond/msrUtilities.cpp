@@ -952,7 +952,7 @@ string divisionsAsMSRDuration (
       }
   } // switch
 
-  debugMode = true;
+// TEST  debugMode = true;
 
   if (debugMode)
     cerr <<
@@ -983,7 +983,7 @@ string divisionsAsMSRDuration (
           ", " << numberOfDots <<
           endl;
 
-      if (numberOfDots > 5) // JMI, safety
+      if (numberOfDots > 1) // JMI, safety
         break;
     } // while
 /*

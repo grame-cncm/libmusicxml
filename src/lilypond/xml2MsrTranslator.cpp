@@ -80,7 +80,7 @@ xml2MsrTranslator::xml2MsrTranslator ()
 
   fOnGoingChord        = false;
 
-  fCurrentPendingTupletStop = false;
+  fCurrentATupletStopIsPending = false;
   
   fOnGoingSlur          = false;
   fOnGoingSlurHasStanza = false;
@@ -3050,12 +3050,12 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
 
 void xml2MsrTranslator::visitEnd (S_measure& elt)
 {
-  if (fCurrentPendingTupletStop) {
+  if (fCurrentATupletStopIsPending) {
     // finalize the tuplet, only now in case the last element
     // is actually a chord
     finalizeTuplet ();
 
-    fCurrentPendingTupletStop = false;
+    fCurrentATupletStopIsPending = false;
   }
 
   // finalize last part measure to update master voice
@@ -6425,12 +6425,12 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
   switch (fCurrentTupletKind) {
     case msrTuplet::kStartTuplet:
       {
-        if (fCurrentPendingTupletStop) {
+        if (fCurrentATupletStopIsPending) {
           // finalize the tuplet, only now in case the last element
           // is actually a chord
           finalizeTuplet ();
 
-          fCurrentPendingTupletStop = false;
+          fCurrentATupletStopIsPending = false;
         }
         
         createTupletWithItsFirstNote (note);
@@ -6529,7 +6529,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
         // finalizeTuplet() should be delayed in case this note
         // is the first one of a chord in a tuplet JMI XXL ???
 
-        fCurrentPendingTupletStop = true;
+        fCurrentATupletStopIsPending = true;
    //     finalizeTuplet (note);
       }
       break;

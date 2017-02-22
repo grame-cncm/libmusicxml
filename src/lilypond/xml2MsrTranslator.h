@@ -938,7 +938,7 @@ class EXP xml2MsrTranslator :
     msrTuplet::msrTupletKind  fCurrentTupletKind;
     stack<S_msrTuplet>        fTupletsStack;
 
-    bool                      fCurrentPendingTupletStop;
+    bool                      fCurrentATupletStopIsPending;
 
     void                      createTupletWithItsFirstNote (
                                 S_msrNote note);
