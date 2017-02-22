@@ -445,6 +445,9 @@ namespace MusicXML2
             else
                 tempoParams = "\""+tempoMetronome+"\"";
             
+            // add a dy=4 to avoid eventual collisions
+            tempoParams += ", dy=4";
+            
             if (tempoParams.size())
             {
                 tag->add (guidoparam::create(tempoParams.c_str(), false));
@@ -583,13 +586,16 @@ namespace MusicXML2
     {
         if (fSkipDirection) return;
         
+        /// MusicXML Note for default-x in S_direction: For these elements, the default-x attribute is measured from the start of the current measure.
+        ///         For other elements, it is measured from the left-hand side of the note or the musical position within the bar.)
+        
         ctree<xmlelement>::literator iter;
         for (iter = elt->lbegin(); iter != elt->lend(); iter++) {
             if ((*iter)->getType() != k_other_dynamics) {
                 Sguidoelement tag = guidotag::create("intens");
                 tag->add (guidoparam::create((*iter)->getName()));
-                //if (fGeneratePositions) xml2guidovisitor::addPosY(elt, tag, 12, 1);
-                if (fGeneratePositions) xml2guidovisitor::addPosition(elt, tag, 12, 1);
+                if (fGeneratePositions) xml2guidovisitor::addPosY(elt, tag, 12, 1);
+                //if (fGeneratePositions) xml2guidovisitor::addPosition(elt, tag, 12, 1);  // Avoid using default-x since it is measured from the beginning of the measure for S_direction!
                 if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
                 else add (tag);
             }
