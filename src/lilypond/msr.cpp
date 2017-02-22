@@ -3903,7 +3903,20 @@ S_msrTuplet msrTuplet::createTupletBareClone ()
         fTupletActualNotes,
         fTupletNormalNotes,
         fTupletPositionInMeasure);
-  
+
+  clone->fTupletDivisions =
+    fTupletDivisions;
+
+  clone->fTupletDisplayDivisions =
+    fTupletDisplayDivisions;
+
+  clone->fTupletDivisionsPerWholeNote =
+    fTupletDivisionsPerWholeNote;
+
+  clone->fTupletMeasureNumber =
+    fTupletMeasureNumber;
+
+    
   return clone;
 }
 

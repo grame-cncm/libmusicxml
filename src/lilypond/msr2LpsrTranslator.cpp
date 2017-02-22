@@ -1322,9 +1322,17 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
   fCurrentChordClone =
     elt->createChordBareClone ();
 
-  // appending the chord to the voice at once
-  fCurrentVoiceClone->
-    appendChordToVoice (fCurrentChordClone);
+  if (fTupletClonesStack.size ()) {
+    // a chord in a tuplet is handled as part of the tuplet JMI
+    fTupletClonesStack.top ()->
+      addChordToTuplet (fCurrentChordClone);
+  }
+
+  else {
+    // appending the chord to the voice at once
+    fCurrentVoiceClone->
+      appendChordToVoice (fCurrentChordClone);
+  }
 
   fOnGoingChord = true;
 }
@@ -1353,11 +1361,9 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
   // register it in this visitor
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "++> pushing tuplet " <<
-      tupletClone->getTupletActualNotes () <<
-      "/" <<
-      tupletClone->getTupletNormalNotes () <<
-      " to tuplets stack" << endl;
+      "++> pushing tuplet '" <<
+      tupletClone->tupletAsString () <<
+      "' to tuplets stack" << endl;
       
   fTupletClonesStack.push (tupletClone);
 }
@@ -1370,40 +1376,37 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
 
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> popping tuplet " <<
-      elt->getTupletActualNotes () <<
-       "/" <<
-      elt->getTupletNormalNotes () <<
-      " from tuplets stack" << endl;
+      "--> popping tuplet '" <<
+      elt->tupletAsString () <<
+      "' from tuplets stack" <<
+      endl;
       
     fTupletClonesStack.pop ();
 
   if (fTupletClonesStack.size ()) {
+    
     // tuplet is an embedded tuplet
 //    if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "=== adding embedded tuplet " <<
-      elt->getTupletActualNotes () <<
-       "/" <<
-      elt->getTupletNormalNotes () <<
-        " to " <<
-      fTupletClonesStack.top ()->getTupletActualNotes () <<
-       "/" <<
-      fTupletClonesStack.top ()->getTupletNormalNotes () <<
-      " current stack top tuplet" << endl;
+        "=== adding embedded tuplet '" <<
+      elt->tupletAsString () <<
+        "' to stack top tuplet '" <<
+      fTupletClonesStack.top ()->tupletAsString () <<
+      "'" <<
+      endl;
     
     fTupletClonesStack.top ()->
       addTupletToTuplet (elt);
   }
+  
   else {
-    // tup is a top level tuplet
+    // tuplet is a top level tuplet
+    
 //    if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "=== adding top level tuplet " <<
-      elt->getTupletActualNotes () <<
-       "/" <<
-      elt->getTupletNormalNotes () <<
-      " to voice" <<
+        "=== adding top level tuplet '" <<
+      elt->tupletAsString () <<
+      "' to voice" <<
       fCurrentVoiceClone->getVoiceName () <<
       endl;
       

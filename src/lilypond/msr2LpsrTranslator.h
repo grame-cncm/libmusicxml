@@ -357,7 +357,7 @@ class msr2LpsrTranslator :
     // tuplets
     // ------------------------------------------------------
 //    S_msrTuplet             fCurrentTupletClone;
-    bool                      fOnGoingTuplet;
+ //   bool                      fOnGoingTuplet;
     stack<S_msrTuplet>        fTupletClonesStack;
 };
 
