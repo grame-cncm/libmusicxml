@@ -3030,7 +3030,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
   // if the preceding item is a chord, the first note of the chord
   // is used as the reference point for the octave placement
   // of a following note or chord
-  fRelativeOctaveReference = elt->getChordNotes () [0];
+  fRelativeOctaveReference =
+    elt->getChordNotes () [0];
 }
 
 //________________________________________________________________________

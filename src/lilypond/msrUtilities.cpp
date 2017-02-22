@@ -1006,11 +1006,14 @@ string divisionsAsMSRDuration (
 
     if (numberOfDots != inputSourceSuppliedNumberOfDots) {
       s <<
-        " %{" <<
-        divisions << "/" << divisionsPerWholeNote <<
-        ", " << remainingDivisions <<
-        ", " << limit <<
+        " %{ ### " <<
+        "divs. " << divisions <<
+        "/" <<
+        "dpwn: " << divisionsPerWholeNote <<
+        ", rem. " << remainingDivisions <<
+        ", lim. " << limit <<
         ", " << numberOfDots <<
+        " != " << inputSourceSuppliedNumberOfDots <<
         " %} ";
         
       /*

@@ -3200,7 +3200,7 @@ void msrChord::print (ostream& os)
     chordDivisionsAsMSRString () <<
     "/" <<
     fChordDivisionsPerWholeNote <<
-    ", meas "<<
+    ", mea. "<<
     getChordMeasureNumber () <<
     ":" <<
     fChordPositionInMeasure <<
