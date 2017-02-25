@@ -3033,8 +3033,10 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
         
   if (it != gGeneralOptions->fDebugMeasureNumbersSet.end ()) {
     // yes, activate debug for it
-    gGeneralOptions->fSaveDebug = gGeneralOptions->fDebug;
-    gGeneralOptions->fSaveDebugDebug = gGeneralOptions->fDebugDebug;
+    gGeneralOptions->fSaveDebug =
+      gGeneralOptions->fDebug;
+    gGeneralOptions->fSaveDebugDebug =
+      gGeneralOptions->fDebugDebug;
   }
 
   if (gGeneralOptions->fTrace) {
@@ -3050,10 +3052,13 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
 
 void xml2MsrTranslator::visitEnd (S_measure& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   if (fCurrentATupletStopIsPending) {
     // finalize the tuplet, only now in case the last element
     // is actually a chord
-    finalizeTuplet ();
+    finalizeTuplet (inputLineNumber);
 
     fCurrentATupletStopIsPending = false;
   }
@@ -3061,11 +3066,13 @@ void xml2MsrTranslator::visitEnd (S_measure& elt)
   // finalize last part measure to update master voice
   fCurrentPart->
     finalizeLastMeasureOfPart (
-      elt->getInputLineNumber ());
+      inputLineNumber);
 
   // restore debug options in case they were set in visitStart()
-  gGeneralOptions->fDebug = gGeneralOptions->fSaveDebug;
-  gGeneralOptions->fDebugDebug = gGeneralOptions->fSaveDebugDebug;
+  gGeneralOptions->fDebug =
+    gGeneralOptions->fSaveDebug;
+  gGeneralOptions->fDebugDebug =
+    gGeneralOptions->fSaveDebugDebug;
 }
 
 //______________________________________________________________________________
@@ -5587,19 +5594,20 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
 }
 
 //______________________________________________________________________________
-void xml2MsrTranslator::finalizeTuplet (/*S_msrNote lastNote*/)
+void xml2MsrTranslator::finalizeTuplet (
+  int inputLineNumber)
 {
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "xml2MsrTranslator::finalizeTuplet(), " <<
-   // JMI   lastNote->noteAsShortString () <<
+      "line " << inputLineNumber <<
       endl;
       
   // fetch current voice
   S_msrVoice
     currentVoice =
       registerVoiceInStaffInCurrentPartIfNeeded (
-        7777, // JMI lastNote->getInputLineNumber (),
+        inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
 
@@ -5629,7 +5637,7 @@ void xml2MsrTranslator::finalizeTuplet (/*S_msrNote lastNote*/)
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> popping tuplet 2 '" <<
-      fTupletsStack.top ()->tupletAsString () <<
+      tuplet->tupletAsString () <<
       "' from tuplets stack" <<
       endl;
   fTupletsStack.pop ();        
@@ -5662,6 +5670,9 @@ void xml2MsrTranslator::finalizeTuplet (/*S_msrNote lastNote*/)
       
     currentVoice->
       appendTupletToVoice (tuplet);
+
+    // the tuplet stop is not to be handled later
+    fCurrentATupletStopIsPending = false;
   }  
 }          
 
@@ -6412,7 +6423,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToATuplet " <<
-      note->noteAsShortString () <<
+      note->noteAsString () << // JMI
       endl;
 
   // attach the pending elements, if any, to the note
@@ -6430,7 +6441,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
         if (fCurrentATupletStopIsPending) {
           // finalize the tuplet, only now in case the last element
           // is actually a chord
-          finalizeTuplet ();
+          finalizeTuplet (inputLineNumber);
 
           fCurrentATupletStopIsPending = false;
         }
@@ -6890,7 +6901,7 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
         fTupletsStack.top ();
 
     // finalize the tuplet, thus poppingit off the stack
-    finalizeTuplet ();
+    finalizeTuplet (inputLineNumber);
 
     /* JMI
     // pop it from the tuplets stack

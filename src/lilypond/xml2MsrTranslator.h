@@ -942,8 +942,10 @@ class EXP xml2MsrTranslator :
 
     void                      createTupletWithItsFirstNote (
                                 S_msrNote note);
-    void                      finalizeTuplet (/*
-                                S_msrNote note*/);
+                                
+    void                      finalizeTuplet (
+                                int inputLineNumber);
+                                
     void                      handleNoteBelongingToATuplet (
                                 S_msrNote newNote);
     void                      handleTupletsPendingOnTupletStack (
