@@ -1990,7 +1990,7 @@ void msrNote::setNoteBelongsToAChord () {
   fNoteKind = msrNote::kChordMemberNote;
 }
 
-void msrNote::applyTupletMemberDisplayFactor (
+void msrNote::applyTupletMemberDisplayFactorToNote (
   int actualNotes, int normalNotes)
 {
   if (gGeneralOptions->fDebug)
@@ -3161,6 +3161,19 @@ string msrChord::chordDivisionsAsMSRString () const
   return result;
 }
 
+void msrChord::applyTupletMemberDisplayFactorToChordMembers (
+  int actualNotes, int normalNotes)
+{
+  for (
+    vector<S_msrNote>::const_iterator i = fChordNotes.begin();
+    i != fChordNotes.end();
+    ++i) {
+    (*i)->
+      applyTupletMemberDisplayFactorToNote (
+        actualNotes, normalNotes);
+  } // for
+}
+
 string msrChord::chordAsString () const
 {
   stringstream s;
@@ -4167,6 +4180,46 @@ int msrTuplet::setTupletPositionInMeasure (int position)
   } // for
 
   return currentPosition;
+}
+
+void msrTuplet::applyDisplayFactorToTupletMembers ()
+{
+  for (
+    list<S_msrElement>::const_iterator i = fTupletElements.begin();
+    i != fTupletElements.end();
+    i++ ) {
+    // apply display factor to tuplet element
+    
+    if (
+      S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+      ) {    
+      note->
+        applyTupletMemberDisplayFactorToNote (
+          fTupletActualNotes, fTupletNormalNotes);
+     }
+  
+    else if (
+      S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+      ) {
+      chord->
+        applyTupletMemberDisplayFactorToChordMembers (
+          fTupletActualNotes, fTupletNormalNotes);
+    }
+    
+    else if (
+      S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
+      ) {
+      tuplet->
+        applyDisplayFactorToTupletMembers ();
+    }
+    
+    else {
+      msrInternalError (
+        fInputLineNumber,
+        "tuplet member should be a note, a chord or another tuplet");
+    }
+
+  } // for
 }
 
 void msrTuplet::acceptIn (basevisitor* v) {
@@ -7875,6 +7928,10 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     // account for tuplet duration in measure position
     fMeasurePosition += tupletDivisions;
   
+    // set tuplet members' display divisions
+    tuplet->
+      applyDisplayFactorToTupletMembers ();
+
     // update part measure position high tide if need be
     fMeasurePartDirectUplink->
       updatePartMeasurePositionHighTide (

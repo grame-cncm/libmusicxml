@@ -2458,7 +2458,7 @@ class EXP msrNote : public msrElement
     // ------------------------------------------------------
 
     // tuplet members
-    void          applyTupletMemberDisplayFactor (
+    void          applyTupletMemberDisplayFactorToNote (
                     int actualNotes, int normalNotes);
                     
     string        notePitchAsString () const;
@@ -2692,6 +2692,10 @@ class EXP msrChord : public msrElement
                       { fChordWedges.push_back (wedge); }
 
     string        chordDivisionsAsMSRString () const;
+
+    // tuplet members
+    void          applyTupletMemberDisplayFactorToChordMembers (
+                    int actualNotes, int normalNotes);
 
     string        chordAsString () const;
 
@@ -3540,6 +3544,8 @@ class EXP msrTuplet : public msrElement
     void          removeFirstNoteFromTuplet (
                     int       inputLineNumber,
                     S_msrNote note);
+
+    void          applyDisplayFactorToTupletMembers ();
 
     string        tupletAsString () const;
 

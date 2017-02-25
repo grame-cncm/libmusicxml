@@ -6182,12 +6182,14 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   which can belong to a tuplet,
   */
 
+/* JMI
   // are the display divisions different than the duration?
   if (fNoteData.fNoteBelongsToATuplet)
     // set tuplet member note display divisions
     newNote->
       applyTupletMemberDisplayFactor (
         fCurrentActualNotes, fCurrentNormalNotes);
+*/
 
   // handle note
   if (fNoteData.fNoteBelongsToAChord && fNoteData.fNoteBelongsToATuplet) {
