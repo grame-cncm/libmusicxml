@@ -5450,81 +5450,6 @@ void xml2MsrTranslator::copyNoteElementsToChord (
 }
 
 //______________________________________________________________________________
-/*
-void xml2MsrTranslator::moveNoteDynamicsToChord (
-  S_msrNote note, S_msrChord chord)
-{
-  // move note's dynamics if any from the first note to chord
-
-  // don't use a local copy of the dynamics list,
-  // but access it directly instead
-  
-  if (! note->getNoteDynamicsToModify ().empty ()) {
- // JMI   if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "--> moving dynamics from current note to chord" << endl;
-        
-    while (! note->getNoteDynamicsToModify ().empty ()) {
-      S_msrDynamics
-        dyn = note->getNoteDynamicsToModify ().front ();
-        
-      chord->addDynamicsToChord (dyn);
-      note->getNoteDynamicsToModify ().pop_front ();
-    } // while
-  }
-}
-
-//______________________________________________________________________________
-void xml2MsrTranslator::moveNoteWordsToChord (
-  S_msrNote note, S_msrChord chord)
-{
-  // move note's words if any from the first note to chord
-
-  // don't use a local copy of the words list,
-  // but access it directly instead
-  
-  if (! note->getNoteWordsToModify ().empty()) {
- // JMI   if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "--> moving words from current note to chord" << endl;
-        
-    while (! note->getNoteWordsToModify ().empty ()) {
-      S_msrWords
-        wrds = note->getNoteWordsToModify ().front ();
-        
-      chord->addWordsToChord (wrds);
-      note->getNoteWordsToModify ().pop_front ();
-      note->getNoteWordsToModify ().pop_front ();
-    } // while
-  }
-}
-
-//______________________________________________________________________________
-void xml2MsrTranslator::moveNoteWedgesToChord (
-  S_msrNote note, S_msrChord chord)
-{
-  // move note's wedges if any from the first note to chord
-
-  // don't use a local copy of the wedges list,
-  // but access it directly instead
-      
-  if (! note->getNoteWedgesToModify ().empty ()) {
- // JMI   if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "--> moving wedges from current note to chord" << endl;
-        
-    while (! note->getNoteWedgesToModify ().empty ()) {
-      S_msrWedge
-        wedge = note->getNoteWedgesToModify ().front ();
-        
-      chord->addWedgeToChord (wedge);
-      note->getNoteWedgesToModify ().pop_front ();
-    } // while
-  }
-}
-*/
-
-//______________________________________________________________________________
 void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
 {
   // firstNote is the first tuplet note,
@@ -5980,57 +5905,6 @@ void xml2MsrTranslator::attachPendingElementsToNote (
   // attach the pending wedges, if any, to the note
   attachPendingWedgesToNote (note);
 }
-
-//______________________________________________________________________________
-/*
-void xml2MsrTranslator::attachPendingDynamicsToChord (
-  S_msrChord chord)
-{
-  // attach the pending dynamics if any to the chord
-  if (! fPendingDynamics.empty()) {
-    while (! fPendingDynamics.empty ()) {
-      S_msrDynamics
-        dyn =
-          fPendingDynamics.front ();
-          
-      chord->addDynamicsToChord (dyn);
-      fPendingDynamics.pop_front ();
-    } // while
-  }
-}
-    
-void xml2MsrTranslator::attachPendingWordsToChord (
-  S_msrChord chord)
-{
-  // attach the pending words if any to the chord
-  if (! fPendingWords.empty()) {
-    while (! fPendingWords.empty ()) {
-      S_msrWords
-        wrds =
-          fPendingWords.front ();
-          
-      chord->addWordsToChord (wrds);
-      fPendingWords.pop_front ();
-    } // while
-  }
-}
-  
-void xml2MsrTranslator::attachPendingWedgesToChord (
-  S_msrChord chord)
-{
-  // attach the pending wedges if any to the chord
-  if (! fPendingWedges.empty ()) {
-    while (! fPendingWedges.empty ()) {
-      S_msrWedge
-        wedge =
-          fPendingWedges.front ();
-          
-      chord->addWedgeToChord (wedge);
-      fPendingWedges.pop_front ();
-    } // while
-  }
-}
-*/
 
 //______________________________________________________________________________
 void xml2MsrTranslator::visitEnd ( S_note& elt )
@@ -8191,4 +8065,130 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
           s.str());
       }
     */
+
+//______________________________________________________________________________
+/*
+void xml2MsrTranslator::moveNoteDynamicsToChord (
+  S_msrNote note, S_msrChord chord)
+{
+  // move note's dynamics if any from the first note to chord
+
+  // don't use a local copy of the dynamics list,
+  // but access it directly instead
+  
+  if (! note->getNoteDynamicsToModify ().empty ()) {
+ // JMI   if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> moving dynamics from current note to chord" << endl;
+        
+    while (! note->getNoteDynamicsToModify ().empty ()) {
+      S_msrDynamics
+        dyn = note->getNoteDynamicsToModify ().front ();
+        
+      chord->addDynamicsToChord (dyn);
+      note->getNoteDynamicsToModify ().pop_front ();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
+void xml2MsrTranslator::moveNoteWordsToChord (
+  S_msrNote note, S_msrChord chord)
+{
+  // move note's words if any from the first note to chord
+
+  // don't use a local copy of the words list,
+  // but access it directly instead
+  
+  if (! note->getNoteWordsToModify ().empty()) {
+ // JMI   if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> moving words from current note to chord" << endl;
+        
+    while (! note->getNoteWordsToModify ().empty ()) {
+      S_msrWords
+        wrds = note->getNoteWordsToModify ().front ();
+        
+      chord->addWordsToChord (wrds);
+      note->getNoteWordsToModify ().pop_front ();
+      note->getNoteWordsToModify ().pop_front ();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
+void xml2MsrTranslator::moveNoteWedgesToChord (
+  S_msrNote note, S_msrChord chord)
+{
+  // move note's wedges if any from the first note to chord
+
+  // don't use a local copy of the wedges list,
+  // but access it directly instead
+      
+  if (! note->getNoteWedgesToModify ().empty ()) {
+ // JMI   if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> moving wedges from current note to chord" << endl;
+        
+    while (! note->getNoteWedgesToModify ().empty ()) {
+      S_msrWedge
+        wedge = note->getNoteWedgesToModify ().front ();
+        
+      chord->addWedgeToChord (wedge);
+      note->getNoteWedgesToModify ().pop_front ();
+    } // while
+  }
+}
+*/
+
+//______________________________________________________________________________
+/*
+void xml2MsrTranslator::attachPendingDynamicsToChord (
+  S_msrChord chord)
+{
+  // attach the pending dynamics if any to the chord
+  if (! fPendingDynamics.empty()) {
+    while (! fPendingDynamics.empty ()) {
+      S_msrDynamics
+        dyn =
+          fPendingDynamics.front ();
+          
+      chord->addDynamicsToChord (dyn);
+      fPendingDynamics.pop_front ();
+    } // while
+  }
+}
+    
+void xml2MsrTranslator::attachPendingWordsToChord (
+  S_msrChord chord)
+{
+  // attach the pending words if any to the chord
+  if (! fPendingWords.empty()) {
+    while (! fPendingWords.empty ()) {
+      S_msrWords
+        wrds =
+          fPendingWords.front ();
+          
+      chord->addWordsToChord (wrds);
+      fPendingWords.pop_front ();
+    } // while
+  }
+}
+  
+void xml2MsrTranslator::attachPendingWedgesToChord (
+  S_msrChord chord)
+{
+  // attach the pending wedges if any to the chord
+  if (! fPendingWedges.empty ()) {
+    while (! fPendingWedges.empty ()) {
+      S_msrWedge
+        wedge =
+          fPendingWedges.front ();
+          
+      chord->addWedgeToChord (wedge);
+      fPendingWedges.pop_front ();
+    } // while
+  }
+}
+*/
 
