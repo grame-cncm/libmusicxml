@@ -287,6 +287,52 @@ namespace MusicXML2
             Sguidoelement elt = guidoelement ::create(comment);
             add (elt);
         }
+        
+        // Add STAFF Layout here, if any
+        //// MusicXML Note: Staff layout includes the vertical distance from the bottom line of the previous staff in this system to the top line of the staff specified by the number attribute. The optional number attribute refers to staff numbers within the part, from top to bottom on the system. A value of 1 is assumed if not present. When used in the defaults element, the values apply to all parts. This value is ignored for the first staff in a system.
+        if (!fNotesOnly) {
+            ctree<xmlelement>::iterator staffLayout = elt->find(k_staff_layout);
+            if (staffLayout != elt->end()) {
+                /// MusicXML Note: The optional number attribute refers to staff numbers within the part, from top to bottom on the system. A value of 1 is assumed if not present. When used in the defaults element, the values apply to all parts. This value is ignored for the first staff in a system.
+                /// Guido's default staff-distance seems to be 10HS or 50 tenths
+                // Check staff number and act accordingly
+                int staffNumber = staffLayout->getAttributeIntValue("number", 1);
+                if (staffNumber == fTargetStaff) {
+                    float xmlDistance = staffLayout->getFloatValue(k_staff_distance, 0.0) - 50.0;
+                    float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
+                    if (HalfSpaceDistance<0.0) {    // prefer increasing!
+                        Sguidoelement tag = guidotag::create("staffFormat");
+                        stringstream s;
+                        s << "dy=" << HalfSpaceDistance << "hs";
+                        tag->add (guidoparam::create(s.str(), false));
+                        add(tag);
+                        //cout<<"STAFFFORMAT for "<<fTargetStaff<<" measure:"<<fMeasNum<<" ";tag->print(cout);cout<<endl;
+                        fStaffDistance.insert(std::pair<int, float>(fTargetStaff, HalfSpaceDistance));
+                    }else {
+                        // Put it back to zero if it exists
+                        if (fStaffDistance.find(fTargetStaff) != fStaffDistance.end())
+                        {
+                            fStaffDistance.find(fTargetStaff)->second = 0.0;
+                            //cout<<"\tStaffFormat for "<<fTargetStaff<<" measure:"<<fMeasNum<<" set to zero "<<HalfSpaceDistance<<endl;
+                        }
+                    }
+                }
+            }else {
+                // Repeat StaffFormat (if any prior) so that it would propagate to all pages!
+                // Comment if you don't want this!
+                if (fStaffDistance.find(fTargetStaff) != fStaffDistance.end())
+                {
+                    Sguidoelement tag = guidotag::create("staffFormat");
+                    if (fStaffDistance.find(fTargetStaff)->second != 0.0) {
+                        stringstream s;
+                        s << "dy=" << fStaffDistance.find(fTargetStaff)->second << "hs";
+                        tag->add (guidoparam::create(s.str(), false));
+                        add(tag);
+                        //cout<<"STAFFFORMAT for "<<fTargetStaff<<" measure:"<<fMeasNum<<" ";tag->print(cout);cout<<endl;
+                    }
+                }
+            }
+        }
     }
     
     //______________________________________________________________________________
@@ -483,6 +529,16 @@ namespace MusicXML2
         wordPointer = NULL;
     }
     
+    /// Closing Guido TEXT tags; to be used once a NOTE/CHORD is embedded.
+    void xmlpart2guido::checkTextEnd() {
+        if (fTextTagOpen>0) {
+            while (fTextTagOpen>0) {
+                pop();
+                fTextTagOpen--;
+            }
+        }
+    }
+    
     void xmlpart2guido::visitEnd ( S_words& elt )
     {
         // Nothing to do here?
@@ -531,19 +587,29 @@ namespace MusicXML2
         else if (type == "stop") {
             tag = guidotag::create(fCrescPending ? "crescEnd" : "dimEnd");
         }
+        
         if (tag) {
             //// Also add SPREAD values (in mXML tenths - conversion: (X / 10) * 2)
             //// Spread is present right away for a diminuendo, it'll be present for crescendo at its STOP type
             if (type == "diminuendo") {
-                int spreadValue = elt->getAttributeIntValue("spread", 15);
-                if (spreadValue != 15) {
+                float spreadValue = elt->getAttributeFloatValue("spread", 15.0);
+                if (spreadValue != 15.0) {
                     stringstream s;
                     s << "deltaY=" << (spreadValue/10)*2 << "hs";
                     tag->add (guidoparam::create(s.str(), false));
                 }
+                
+                stringstream s;
+                s << "autopos=\"on\"";
+                tag->add (guidoparam::create(s.str(), false));
             }else if (type == "crescendo")
             {
                 // search for wedge STOP in anticipation
+                
+                // Add new AutoPos="on"
+                stringstream s;
+                s << "autopos=\"on\"";
+                tag->add (guidoparam::create(s.str(), false));
             }
             
             
@@ -1119,7 +1185,10 @@ namespace MusicXML2
     
     void xmlpart2guido::checkBeamEnd ( const std::vector<S_beam>& beams )
     {
+        /// IMPORTANT: Beam Numbering in MusicXML is not the same as in Slurs and are NOT incremental.
+        ///            The only assumption we make here is that the numbers are sorted. So we use a REVERSE iterator to close Beams in Order.
         std::vector<S_beam>::const_reverse_iterator i ;
+        int beamStackSizeBeforeClosing = fBeamStack.size();
         for (i = beams.rbegin(); (i != beams.rend() && (!fBeamStack.empty())); i++)
         {
             //cout<<"\t Beam End Check: last stack "<<fBeamStack.top().first<<" "<< fBeamStack.top().second<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<" "<<(*i)->getValue() <<endl;
@@ -1149,27 +1218,11 @@ namespace MusicXML2
             }
         }
         
-        
-        /*std::vector<S_beam>::const_iterator i;
-         for (i = beams.begin(); (i != beams.end()) && fBeamOpened; i++) {
-         if (((*i)->getValue() == "end") && ((*i)->getAttributeIntValue("number", 1) == fCurrentBeamNumber)) {
-         fCurrentBeamNumber = 0;
-         pop();
-         fBeamOpened = false;
-         }
-         }*/
-        /*
-         std::vector<S_beam>::const_iterator i = findValue(beams, "end");
-         if (i != beams.end()) {
-         if (fCurrentBeamNumber == (*i)->getAttributeIntValue("number", 1)) {
-         fCurrentBeamNumber = 0;
-         //			Sguidoelement tag = guidotag::create("beamEnd");	// poor support of the begin end form in guido
-         //			add (tag);
-         pop();
-         fBeamOpened = false;
-         }
-         }
-         */
+        // Experimental
+        if (beamStackSizeBeforeClosing > fBeamStack.size())
+        {
+            checkTextEnd();
+        }
     }
     
     //_______________________Tuplets___________________________________
@@ -2008,7 +2061,14 @@ namespace MusicXML2
         
         checkLyricEnd (notevisitor::getLyric());
         
-        checkGraceEnd(*this);
+        checkGraceEnd(*this);   // This will end GUIDO Grace tag, before any collision with a S_direction
+        
+        if (fBeamStack.size()==0)
+        {
+            // this is will close any ongoing Guido TEXT tag once a sequence is embedded
+            // In case of ongoing \Beam, do it after the \beam is closed! (Potential Guido parser issue)
+            checkTextEnd();
+        }
         
         
         fMeasureEmpty = false;
@@ -2023,4 +2083,3 @@ namespace MusicXML2
     }
     
 }
-

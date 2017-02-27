@@ -151,6 +151,7 @@ class EXP xmlpart2guido :
     int  checkRestFormat	 ( const notevisitor& nv );
     void checkWavyTrillBegin	 ( const notevisitor& nv );
     void checkWavyTrillEnd	 ( const notevisitor& nv );
+    void checkTextEnd();
 	void newNote		 ( const notevisitor& nv );
 
 	std::string			noteName		( const notevisitor& nv );
@@ -169,6 +170,9 @@ class EXP xmlpart2guido :
 
 	
 	static std::string alter2accident ( float alter );
+    
+    std::map<int, float> fStaffDistance;
+
 
 	protected:
 		enum { kStemUndefined, kStemUp, kStemDown, kStemNone };
