@@ -2463,6 +2463,7 @@ class EXP msrNote : public msrElement
                     
     string        notePitchAsString () const;
 
+    string        noteAsShortStringWithRawDivisions () const;
     string        noteAsShortString () const;
     string        noteAsString () const;
     

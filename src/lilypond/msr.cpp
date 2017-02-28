@@ -2386,6 +2386,97 @@ string msrNote::noteDiatonicPitchAsString () const
   } // switch
 }
 
+string msrNote::noteAsShortStringWithRawDivisions () const
+{
+  stringstream s;
+
+  switch (fNoteKind) {
+    case msrNote::k_NoNoteKind:
+      s <<
+        "???";
+      break;
+      
+    case msrNote::kStandaloneNote:
+      s <<
+        notePitchAsString () <<
+        "[" << fNoteData.fOctave << "]" <<
+        ":" <<
+        fNoteData.fDivisions;
+        
+      if (fNoteData.fDivisions != fNoteData.fDisplayDivisions)
+        s <<
+          "_" << fNoteData.fDisplayDivisions;
+          
+      s << " divs";
+      break;
+      
+    case msrNote::kGraceNote:
+      s <<
+        notePitchAsString () <<
+        "[" << fNoteData.fOctave << "]" <<
+        ":" <<
+        noteTypeAsMSRString ();
+      for (int i = 0; i < fNoteData.fDotsNumber; i++) {
+        s << ".";
+      } // for
+      break;
+      
+    case msrNote::kRestNote:
+      s <<
+        "R" <<
+        ":" <<
+        fNoteData.fDivisions << " divs";
+      break;
+      
+    case msrNote::kSkipNote:
+      s <<
+        "S" <<
+        ":" <<
+        fNoteData.fDivisions;
+        
+      if (fNoteData.fDivisions != fNoteData.fDisplayDivisions)
+        s <<
+          "_" << fNoteData.fDisplayDivisions;
+          
+      s << " divs";
+      break;
+      
+    case msrNote::kChordMemberNote:
+      s <<
+        notePitchAsString () <<
+        "[" << fNoteData.fOctave << "]" <<
+        ":" <<
+        fNoteData.fDivisions;
+        
+      if (fNoteData.fDivisions != fNoteData.fDisplayDivisions)
+        s <<
+          "_" << fNoteData.fDisplayDivisions;
+          
+      s << " divs";
+      break;
+      
+    case msrNote::kTupletMemberNote:
+      s <<
+        notePitchAsString ();
+
+      if (! fNoteData.fStepIsARest) {
+        s <<
+          "[" << fNoteData.fOctave << "]" <<
+          ":" <<
+          fNoteData.fDivisions;
+          
+        if (fNoteData.fDivisions != fNoteData.fDisplayDivisions)
+          s <<
+            "_" << fNoteData.fDisplayDivisions;
+            
+        s << " divs";
+      }
+      break;
+  } // switch
+
+  return s.str();
+}
+
 string msrNote::noteAsShortString () const
 {
   stringstream s;
@@ -3938,7 +4029,8 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> adding note '" <<
-      note->noteAsString () <<
+      note->noteAsShortStringWithRawDivisions () <<
+        // the information is missing to display it the normal way
       "' to tuplet '" <<
       tupletAsString () <<
       "'" <<
