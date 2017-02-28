@@ -5477,7 +5477,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
       firstNote-> getNoteDivisionsPerWholeNote ());
   
   // register tuplet in this visitor
-  if (gGeneralOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "++> pushing tuplet '" <<
       tuplet->tupletAsString () <<
@@ -6171,7 +6171,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   notes too.
 */
 
-  if (gGeneralOptions->fDebug)
+//  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToAChord " <<
       newChordNote <<
@@ -6587,6 +6587,21 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
   int inputLineNumber =
     newNote->getInputLineNumber ();
     
+  // register note/rest kind
+  if (fNoteData.fNoteIsAGraceNote) {
+    newNote->
+      setNoteKind (msrNote::kGraceNote);
+  }
+  else {
+    // standalone note or rest
+    if (fNoteData.fStepIsARest)
+      newNote->
+        setNoteKind (msrNote::kRestNote);
+    else
+      newNote->
+        setNoteKind (msrNote::kStandaloneNote);
+  }
+
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -6595,13 +6610,15 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
     
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
+    idtr++;
+
+  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
     cerr <<
       idtr <<
-        "--> handleStandaloneOrGraceNoteOrRest:" <<
+        "--> handleStandaloneOrGraceNoteOrRest: " <<
+        "newNote = " << newNote->noteAsString () <<
         endl;
-
-    idtr++;
 
     cerr <<
       idtr <<
@@ -6631,9 +6648,6 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
   }
 
   if (fNoteData.fNoteIsAGraceNote) {
-    newNote->
-      setNoteKind (msrNote::kGraceNote);
-  
     if (! fCurrentGracenotes) {
       // this is the first grace note in grace notes
 
@@ -6683,14 +6697,6 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
       // this is the first note after the grace notes,
       // forget about the latter
       fCurrentGracenotes = 0;
-
-    // register note/rest kind
-    if (fNoteData.fStepIsARest)
-      newNote->
-        setNoteKind (msrNote::kRestNote);
-    else
-      newNote->
-        setNoteKind (msrNote::kStandaloneNote);
   
     // attach the pending elements, if any, to the note
     attachPendingElementsToNote (newNote);
@@ -6774,7 +6780,7 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
       pendingTuplet =
         fTupletsStack.top ();
 
-    // finalize the tuplet, thus poppingit off the stack
+    // finalize the tuplet, thus popping it off the stack
     finalizeTuplet (inputLineNumber);
 
     /* JMI
