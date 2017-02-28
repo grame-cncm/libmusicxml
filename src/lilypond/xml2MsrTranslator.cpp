@@ -5480,7 +5480,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "++> pushing tuplet '" <<
-      tuplet->tupletAsString () <<
+      tuplet->tupletAsShortString () <<
       "' to tuplets stack" << endl;
   fTupletsStack.push (tuplet);
 
@@ -5489,7 +5489,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
     cerr << idtr <<
       "==> adding first note " << firstNote->noteAsString() <<
       " to tuplet '" <<
-      tuplet->tupletAsString () <<
+      tuplet->tupletAsShortString () <<
        "'" <<
       endl;
   tuplet->addNoteToTuplet (firstNote);
@@ -5553,7 +5553,7 @@ void xml2MsrTranslator::finalizeTuplet (
     cerr << idtr <<
       "==> adding last note " << lastNote->noteAsString () <<
       " to tuplets stack top " <<
-      fTupletsStack.top ()->tupletAsString () <<
+      fTupletsStack.top ()->tupletAsShortString () <<
       endl;
   tuplet->addNoteToTuplet (lastNote);
 */
@@ -5562,7 +5562,7 @@ void xml2MsrTranslator::finalizeTuplet (
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> popping tuplet 2 '" <<
-      tuplet->tupletAsString () <<
+      tuplet->tupletAsShortString () <<
       "' from tuplets stack" <<
       endl;
   fTupletsStack.pop ();        
@@ -5572,9 +5572,9 @@ void xml2MsrTranslator::finalizeTuplet (
 //    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "=== adding embedded tuplet '" <<
-      tuplet->tupletAsString () <<
+      tuplet->tupletAsShortString () <<
         "' to current stack top tuplet '" <<
-      fTupletsStack.top ()->tupletAsString () <<
+      fTupletsStack.top ()->tupletAsShortString () <<
       "'" <<
       endl;
     
@@ -6297,7 +6297,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToATuplet " <<
-      note->noteAsString () << // JMI
+      note->noteAsShortStringWithRawDivisions () <<
       endl;
 
   // attach the pending elements, if any, to the note
@@ -6339,10 +6339,10 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
         // populate the tuplet at the top of the stack
 //        if (gGeneralOptions->fDebug)
           cerr << idtr <<
-            "--> adding tuplet member note " <<
-            note->noteAsShortString () <<
-            " to stack top tuplet '" <<
-            currentTuplet->tupletAsString () <<
+            "--> adding tuplet member note '" <<
+            note->noteAsShortStringWithRawDivisions () <<
+            "' to stack top tuplet '" <<
+            currentTuplet->tupletAsShortString () <<
             "', line " << inputLineNumber <<
             endl;
 
@@ -6362,8 +6362,9 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
           s <<
             "handleNoteBelongingToATuplet():" <<
             endl <<
-            "tuplet member note " << note->noteAsString () <<
-            "cannot be added, tuplets stack is empty";
+            "tuplet member note '" <<
+            note->noteAsShortStringWithRawDivisions () <<
+            "' cannot be added, tuplets stack is empty";
 
           msrInternalError (
             inputLineNumber,
@@ -6382,10 +6383,10 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
         // populate the tuplet at the top of the stack
 //        if (gGeneralOptions->fDebug)
           cerr << idtr <<
-            "--> adding tuplet member note " <<
-            note->noteAsShortString () <<
-            " to stack top tuplet '" <<
-            currentTuplet->tupletAsString () <<
+            "--> adding tuplet member note '" <<
+            note->noteAsShortStringWithRawDivisions () <<
+            "' to stack top tuplet '" <<
+            currentTuplet->tupletAsShortString () <<
             "', line " << inputLineNumber <<
             endl;
 
@@ -6405,8 +6406,9 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
           s <<
             "handleNoteBelongingToATuplet():" <<
             endl <<
-            "tuplet member note " << note->noteAsString () <<
-            "cannot be added, tuplets stack is empty";
+            "tuplet member note '" <<
+            note->noteAsShortStringWithRawDivisions () <<
+            "' cannot be added, tuplets stack is empty";
 
           msrInternalError (
             inputLineNumber,
@@ -6517,7 +6519,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
           lastHandledNoteInVoice->noteAsShortString () <<
           ", line " << inputLineNumber <<
           ", from tuplet '" <<
-          currentTuplet->tupletAsString () <<
+          currentTuplet->tupletAsShortString () <<
           "'" <<
           endl;
 
@@ -6532,7 +6534,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       cerr << idtr <<
         "--> adding chord " << fCurrentChord->chordAsString () <<
         " to stack top tuplet '" <<
-        currentTuplet->tupletAsString () <<
+        currentTuplet->tupletAsShortString () <<
         "', line " << inputLineNumber <<
         endl;
 
@@ -6788,7 +6790,7 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
 //  if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> popping tuplet 1 '" <<
-        pendingTuplet->tupletAsString () <<
+        pendingTuplet->tupletAsShortString () <<
         "' from tuplets stack" <<
         endl;
       fTupletsStack.pop ();        
@@ -6800,9 +6802,9 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
   //    if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "=== adding embedded tuplet '" <<
-        pendingTuplet->tupletAsString () <<
+        pendingTuplet->tupletAsShortString () <<
         "' to " <<
-        fTupletsStack.top ()->tupletAsString () <<
+        fTupletsStack.top ()->tupletAsShortString () <<
         " current stack top tuplet" << endl;
       
       fTupletsStack.top ()->
@@ -6815,7 +6817,7 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
   //    if (gGeneralOptions->fDebug)
         cerr << idtr <<
           "=== adding top level tuplet '" <<
-        pendingTuplet->tupletAsString () <<
+        pendingTuplet->tupletAsShortString () <<
         "' to voice \"" <<
         currentVoice->getVoiceName () <<
         "\"" <<

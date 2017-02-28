@@ -3548,6 +3548,7 @@ class EXP msrTuplet : public msrElement
 
     void          applyDisplayFactorToTupletMembers ();
 
+    string        tupletAsShortString () const;
     string        tupletAsString () const;
 
     // visitors
