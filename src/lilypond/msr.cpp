@@ -4554,6 +4554,9 @@ void msrTuplet::print (ostream& os)
     } // for
     
     idtr--;
+    
+    os <<
+      endl;
   }
 }
 
@@ -7874,7 +7877,9 @@ S_msrMeasure msrMeasure::appendMeasureIfOverflow (
   
     // finalize this measure
     this->
-      finalizeMeasure (inputLineNumber);
+      finalizeMeasure (
+        inputLineNumber,
+        msrMeasure::kIncompleteRightMeasure);
       
     // create a new measure
     newMeasure =
@@ -8083,7 +8088,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
       setTupletMeasureNumber (fMeasureNumber);
     
     // register tuplet measure position
-    int dummy =
+    int dummy = // JMI
       tuplet->
         setTupletPositionInMeasure (fMeasurePosition);
 
@@ -8294,7 +8299,9 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
 }
 */
 
-void msrMeasure::finalizeMeasure (int inputLineNumber)
+void msrMeasure::finalizeMeasure (
+  int                        inputLineNumber,
+  msrMeasure::msrMeasureKind measureKind)
 {
   // fetch the voice
   S_msrVoice
@@ -8359,11 +8366,11 @@ void msrMeasure::finalizeMeasure (int inputLineNumber)
     fMeasurePosition += skipDuration;
   }
 
-  // CAUTION JMI : this is a potential incomplete left measure
+  // CAUTION JMI : this is a potential incomplete measure
   bool measureIsIncomplete =
     checkForIncompleteMeasure (
       inputLineNumber,
-        msrMeasure::kIncompleteLeftMeasure);
+      measureKind);
 
   if (measureIsIncomplete)
     if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
@@ -9082,7 +9089,9 @@ void msrSegment::setSegmentMeasureNumber (
   if (doCreateAMeasure) {
     // finalize last measure
     lastMeasure->
-      finalizeMeasure (inputLineNumber);
+      finalizeMeasure (
+        inputLineNumber,
+        measureKind);
       
     // create a new measure
     S_msrMeasure
@@ -9144,7 +9153,9 @@ void msrSegment::finalizeLastMeasureOfSegment (int inputLineNumber)
       endl;
 
   fSegmentMeasuresList.back ()->
-    finalizeMeasure (inputLineNumber);
+    finalizeMeasure (
+      inputLineNumber,
+      msrMeasure::kIncompleteRightMeasure);
 }
 
 void msrSegment::appendClefToSegment (S_msrClef clef)

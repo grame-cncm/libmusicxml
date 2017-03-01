@@ -2124,7 +2124,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
           fOstream <<
             endl <<
             "\\temporary\omit Stem" " "
-            "\\once\omit Staff.TimeSignature" " "
+            "\\once\\omit Staff.TimeSignature" " "
             "\\cadenzaOn" <<
             idtr;
 
@@ -2136,7 +2136,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
           fOstream <<
             endl <<
             "\\cadenzaOff" " "
-            "\\undo\omit Stem" <<
+            "\\undo\\omit Stem" <<
             endl;
 
           fMusicOlec.reset ();

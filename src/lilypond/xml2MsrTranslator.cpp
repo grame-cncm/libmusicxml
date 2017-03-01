@@ -6796,7 +6796,6 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
         "' from tuplets stack" <<
         endl;
       fTupletsStack.pop ();        
-    */
 
     if (fTupletsStack.size ()) {
       
@@ -6828,6 +6827,7 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
       currentVoice->
         appendTupletToVoice (pendingTuplet);
     }  
+    */
   } // while
 }
 

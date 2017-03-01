@@ -1630,7 +1630,9 @@ class EXP msrMeasure : public msrElement
                     int                        inputLineNumber,
                     msrMeasure::msrMeasureKind measureKind);
 
-    void          finalizeMeasure (int inputLineNumber);
+    void          finalizeMeasure (
+                    int                        inputLineNumber,
+                    msrMeasure::msrMeasureKind measureKind);
 
     // visitors
     // ------------------------------------------------------
