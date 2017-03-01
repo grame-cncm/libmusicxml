@@ -2280,6 +2280,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
       break;
       
     case msrNote::kTupletMemberNote:
+      fOstream <<
+        idtr; // JMI
+        
       // print the note name
       if (elt->getNoteIsARest ()) {
         fOstream <<
@@ -3045,7 +3048,12 @@ void lpsr2LilyPondTranslator::visitStart (S_msrTuplet& elt)
     "\\tuplet " <<
     elt->getTupletActualNotes () <<
     "/" <<
-    elt->getTupletNormalNotes() << " { ";
+    elt->getTupletNormalNotes() << " {" <<
+    endl;
+
+  fMusicOlec.reset ();
+
+  idtr++;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrTuplet& elt)
@@ -3054,7 +3062,13 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTuplet& elt)
     fOstream << idtr <<
       "% --> End visiting msrTuplet" << endl;
 
-  fOstream << " } ";
+  fOstream <<
+    "}" <<
+    endl;
+
+  fMusicOlec.reset ();
+
+  idtr--;
 }
 
 //________________________________________________________________________

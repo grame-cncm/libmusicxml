@@ -6316,10 +6316,8 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
       {
 //        if (gGeneralOptions->fDebug)
           cerr << idtr <<
-            "--> kStartTuplet: adding tuplet member note '" <<
+            "--> kStartTuplet: note = '" <<
             note->noteAsShortStringWithRawDivisions () <<
-            "' to stack top tuplet '" <<
-            currentTuplet->tupletAsShortString () <<
             "', line " << inputLineNumber <<
             endl;
 
@@ -6367,6 +6365,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
             fTupletsStack.top ()->getTupletNormalNotes ());
 */
         }
+        
         else {
           stringstream s;
 
@@ -6410,8 +6409,16 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
             fTupletsStack.top ()->getTupletActualNotes (),
             fTupletsStack.top ()->getTupletNormalNotes ());
 */
+          if (fCurrentATupletStopIsPending) {
+            // end of a tuplet forces handling of the pending one 
+            finalizeTuplet (inputLineNumber);
+
+            fCurrentATupletStopIsPending = false;
+          }
         }
+        
         else {
+          
           stringstream s;
 
           s <<
@@ -6430,7 +6437,6 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
         // is the first one of a chord in a tuplet JMI XXL ???
 
         fCurrentATupletStopIsPending = true;
-   //     finalizeTuplet (note);
       }
       break;
 

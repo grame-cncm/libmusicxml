@@ -1006,6 +1006,8 @@ string divisionsAsMSRDuration (
 
     if (numberOfDots != inputSourceSuppliedNumberOfDots) {
       s <<
+        endl <<
+        indenter::gIndenter <<
         " %{ ### " <<
         "divs. " << divisions <<
         "/" <<
@@ -1014,7 +1016,8 @@ string divisionsAsMSRDuration (
         ", lim. " << limit <<
         ", " << numberOfDots <<
         " != " << inputSourceSuppliedNumberOfDots <<
-        " %} ";
+        " %} " <<
+        endl;
         
       /*
       if (debugMode) {
