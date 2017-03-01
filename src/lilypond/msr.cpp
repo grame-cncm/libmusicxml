@@ -2459,18 +2459,19 @@ string msrNote::noteAsShortStringWithRawDivisions () const
       s <<
         notePitchAsString ();
 
-      if (! fNoteData.fStepIsARest) {
+      if (! fNoteData.fStepIsARest)
         s <<
-          "[" << fNoteData.fOctave << "]" <<
-          ":" <<
-          fNoteData.fDivisions;
-          
-        if (fNoteData.fDivisions != fNoteData.fDisplayDivisions)
-          s <<
-            "_" << fNoteData.fDisplayDivisions;
+          "[" << fNoteData.fOctave << "]";
+
+      s <<
+        ":" <<
+        fNoteData.fDivisions;
+        
+      if (fNoteData.fDivisions != fNoteData.fDisplayDivisions)
+        s <<
+          "_" << fNoteData.fDisplayDivisions;
             
         s << " divs";
-      }
       break;
   } // switch
 
@@ -2534,9 +2535,11 @@ string msrNote::noteAsShortString () const
 
       if (! fNoteData.fStepIsARest)
         s <<
-          "[" << fNoteData.fOctave << "]" <<
-          ":" <<
-          noteDivisionsAsMSRString ();
+          "[" << fNoteData.fOctave << "]";
+
+      s <<
+        ":" <<
+        noteDivisionsAsMSRString ();
       break;
   } // switch
 
@@ -2607,9 +2610,11 @@ string msrNote::noteAsString () const
 
       if (! fNoteData.fStepIsARest)
         s <<
-          "[" << fNoteData.fOctave << "]" <<
-          ":" <<
-          noteDivisionsAsMSRString ();
+          "[" << fNoteData.fOctave << "]";
+
+      s <<
+        ":" <<
+        noteDivisionsAsMSRString ();
       break;
   } // switch
 
@@ -3300,7 +3305,10 @@ void msrChord::print (ostream& os)
 {
   os <<
     "Chord" <<
-    " divs: " <<
+    ", " <<
+    singularOrPlural (
+      fChordNotes.size (), "note", "notes") <<
+    ", divs: " <<
     chordDivisionsAsMSRString () <<
     "/" <<
     fChordDivisionsPerWholeNote <<
@@ -4481,7 +4489,11 @@ string msrTuplet::tupletAsString () const
 void msrTuplet::print (ostream& os)
 {
   os <<
-    "Tuplet " << fTupletActualNotes << "/" << fTupletNormalNotes <<
+    "Tuplet " <<
+    fTupletActualNotes << "/" << fTupletNormalNotes <<
+    ", " <<
+    singularOrPlural (
+      fTupletElements.size (), "element", "elements") <<
     " (" << fTupletDivisions <<
     "/" <<
     fTupletDivisionsPerWholeNote <<
