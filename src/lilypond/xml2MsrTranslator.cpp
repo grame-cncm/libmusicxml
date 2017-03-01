@@ -2351,6 +2351,7 @@ void xml2MsrTranslator::visitStart (S_backup& elt )
       </backup>
 */
 
+  // handle the pending tuplets if any
   handleTupletsPendingOnTupletStack (
     elt->getInputLineNumber ());
   
@@ -2394,6 +2395,7 @@ void xml2MsrTranslator::visitStart ( S_forward& elt )
   // in case of a voice change
   fCurrentForwardVoiceNumber = fCurrentVoiceNumber;
   
+  // handle the pending tuplets if any
   handleTupletsPendingOnTupletStack (
     elt->getInputLineNumber ());
   
@@ -5586,7 +5588,7 @@ void xml2MsrTranslator::finalizeTuplet (
     // tuplet is a top level tuplet
 //    if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "=== adding top level tuplet '" <<
+        "=== adding top level tuplet 2 '" <<
       tuplet->tupletAsString () <<
       "' to voice \"" <<
       currentVoice->getVoiceName () <<
@@ -6649,6 +6651,10 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
     idtr--;
   }
 
+  // handle the pending tuplets if any
+  handleTupletsPendingOnTupletStack (
+    inputLineNumber);
+
   if (fNoteData.fNoteIsAGraceNote) {
     if (! fCurrentGracenotes) {
       // this is the first grace note in grace notes
@@ -6739,10 +6745,6 @@ xml2MsrTranslator.cpp:4249
         endl << endl;
   }
 
-  // handle the pending tuplets
-  handleTupletsPendingOnTupletStack (
-    inputLineNumber);
-
   // lyric has to be handled in all cases
   // in case they are empty at the beginning of the voice
   handleLyric (newNote);
@@ -6816,7 +6818,7 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
       // pendingTuplet is a top level tuplet
   //    if (gGeneralOptions->fDebug)
         cerr << idtr <<
-          "=== adding top level tuplet '" <<
+          "=== adding top level tuplet 1 '" <<
         pendingTuplet->tupletAsShortString () <<
         "' to voice \"" <<
         currentVoice->getVoiceName () <<
