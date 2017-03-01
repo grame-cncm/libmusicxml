@@ -5570,10 +5570,10 @@ void xml2MsrTranslator::finalizeTuplet (
   fTupletsStack.pop ();        
 
   if (fTupletsStack.size ()) {
-    // tuplet is an embedded tuplet
+    // tuplet is a nested tuplet
 //    if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "=== adding embedded tuplet '" <<
+        "=== adding nested tuplet '" <<
       tuplet->tupletAsShortString () <<
         "' to current stack top tuplet '" <<
       fTupletsStack.top ()->tupletAsShortString () <<
@@ -6314,6 +6314,15 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
   switch (fCurrentTupletKind) {
     case msrTuplet::kStartTuplet:
       {
+//        if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> kStartTuplet: adding tuplet member note '" <<
+            note->noteAsShortStringWithRawDivisions () <<
+            "' to stack top tuplet '" <<
+            currentTuplet->tupletAsShortString () <<
+            "', line " << inputLineNumber <<
+            endl;
+
         if (fCurrentATupletStopIsPending) {
           // finalize the tuplet, only now in case the last element
           // is actually a chord
@@ -6341,7 +6350,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
         // populate the tuplet at the top of the stack
 //        if (gGeneralOptions->fDebug)
           cerr << idtr <<
-            "--> adding tuplet member note '" <<
+            "--> kContinueTuplet: adding tuplet member note '" <<
             note->noteAsShortStringWithRawDivisions () <<
             "' to stack top tuplet '" <<
             currentTuplet->tupletAsShortString () <<
@@ -6385,7 +6394,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
         // populate the tuplet at the top of the stack
 //        if (gGeneralOptions->fDebug)
           cerr << idtr <<
-            "--> adding tuplet member note '" <<
+            "--> kStopTuplet: adding tuplet member note '" <<
             note->noteAsShortStringWithRawDivisions () <<
             "' to stack top tuplet '" <<
             currentTuplet->tupletAsShortString () <<
@@ -6766,7 +6775,7 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
 {
 //    if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "=== handleTupletsPendingOnTupletStack()," <<
+      "=== handleTupletsPendingOnTupletStack()" <<
       ", line = " << inputLineNumber <<
       endl;
 
@@ -6799,10 +6808,10 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
 
     if (fTupletsStack.size ()) {
       
-      // tuplet is an embedded tuplet
+      // tuplet is a nested tuplet
   //    if (gGeneralOptions->fDebug)
         cerr << idtr <<
-          "=== adding embedded tuplet '" <<
+          "=== adding nested tuplet '" <<
         pendingTuplet->tupletAsShortString () <<
         "' to " <<
         fTupletsStack.top ()->tupletAsShortString () <<
