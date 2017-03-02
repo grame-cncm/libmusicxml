@@ -4370,24 +4370,23 @@ void msrTuplet::unapplyDisplayFactorToTupletMembers (
   int containingTupletActualNotes,
   int containingTupletNormalNotes)
 {
-  if (true || gGeneralOptions->fDebugDebug) {
-//  if (gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fDebugDebug) {
     cerr <<
       idtr <<
-        "==> unapplyDisplayFactorToTupletMembers()" <<
+        "% ==> unapplyDisplayFactorToTupletMembers()" <<
         endl;
 
     idtr++;
     
     cerr <<
       idtr <<
-        "fTupletActualNotes = " <<
+        "% fTupletActualNotes = " <<
         fTupletActualNotes <<
         ", fTupletNormalNotes = " <<
         fTupletNormalNotes <<
         endl <<
       idtr <<
-        "containingTupletActualNotes = " <<
+        "% containingTupletActualNotes = " <<
         containingTupletActualNotes <<
         ", containingTupletNormalNotes = " <<
         containingTupletNormalNotes <<

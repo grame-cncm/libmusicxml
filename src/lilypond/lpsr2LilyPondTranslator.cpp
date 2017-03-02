@@ -2281,6 +2281,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
       
     case msrNote::kTupletMemberNote:
       fOstream <<
+        endl <<
         idtr; // JMI
         
       // print the note name
@@ -2296,12 +2297,12 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
           noteMsrPitchAsLilyPondString (elt);
       
       // print the note duration
-      if (elt->getNoteKind ().size ())
+      if (elt->getNoteType ().size ())
         fOstream <<
-          noteTypeAsMSRString ();
+          elt->noteTypeAsMSRString ();
       else
         fOstream <<
-          noteDivisionsAsMSRString ();
+          elt->noteDivisionsAsMSRString ();
 
       // print the tie if any
       {
@@ -3088,6 +3089,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTuplet& elt)
       "% --> End visiting msrTuplet" << endl;
 
   fOstream <<
+    endl <<
+    idtr <<
     "}" <<
     endl;
 

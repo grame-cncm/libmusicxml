@@ -2290,10 +2290,10 @@ class EXP msrNote : public msrElement
                       { fNoteKind = noteKind; }
 
     msrNoteKind   getNoteKind () const
-                      { return fNoteData.fType; }
+                      { return fNoteKind; }
 
     string        getNoteType () const
-                      { return fNoteKind; }
+                      { return fNoteData.fType; }
 
     int           getNoteDivisions () const
                       { return fNoteData.fDivisions; }
