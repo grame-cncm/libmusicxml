@@ -378,7 +378,7 @@ class lpsr2LilyPondTranslator :
 
     // segments
     // ------------------------------------------------------
-    // we need to handle embedded msrSegment's to indent notes
+    // we need to handle nested msrSegment's to indent notes
     // in a consistent way
     stack<int>            fSegmentNotesAndChordsCountersStack;
 
@@ -403,6 +403,7 @@ class lpsr2LilyPondTranslator :
     // tuplets
     // ------------------------------------------------------
 // JMI     S_msrTuplet          fCurrentMsrTupletClone;
+    stack<S_msrTuplet>    fTupletsStack;
 
     // header handling
     // ------------------------------------------------------

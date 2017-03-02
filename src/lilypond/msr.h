@@ -3544,11 +3544,17 @@ class EXP msrTuplet : public msrElement
     void          addChordToTuplet (S_msrChord chord);
     void          addTupletToTuplet (S_msrTuplet tuplet);
     
+    void          addTupletToTupletClone (S_msrTuplet tuplet);
+    
     void          removeFirstNoteFromTuplet (
                     int       inputLineNumber,
                     S_msrNote note);
 
     void          applyDisplayFactorToTupletMembers ();
+    
+    void          unapplyDisplayFactorToTupletMembers (
+                    int containingTupletActualNotes,
+                    int containingTupletNormalNotes);
 
     string        tupletAsShortString () const;
     string        tupletAsString () const;

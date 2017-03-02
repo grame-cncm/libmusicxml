@@ -4134,7 +4134,7 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
   fCurrentSyllabic = "";
   fCurrentText = "";
   fCurrentSyllableExtendKind =
-  msrSyllable::k_NoSyllableExtend;
+    msrSyllable::k_NoSyllableExtend;
   
   // assume this note hasn't got any stanzas until S_lyric is met
   fCurrentNoteHasStanza = false;
@@ -5115,6 +5115,20 @@ From NestedTuplets.xml:
               <tuplet-dot/>
             </tuplet-normal>
           </tuplet>
+
+        <notations>
+          <tuplet number="2" type="start">
+            <tuplet-actual>
+              <tuplet-number>3</tuplet-number>
+              <tuplet-type>eighth</tuplet-type>
+            </tuplet-actual>
+            <tuplet-normal>
+              <tuplet-number>2</tuplet-number>
+              <tuplet-type>eighth</tuplet-type>
+            </tuplet-normal>
+          </tuplet>
+        </notations>
+
 */
 
 void xml2MsrTranslator::visitStart ( S_tuplet& elt )
@@ -5149,6 +5163,23 @@ void xml2MsrTranslator::visitStart ( S_tuplet& elt )
       s.str());
   }
 }
+
+void xml2MsrTranslator::visitStart ( S_tuplet_number& elt )
+{
+  // not handled JMI
+  fCurrentTupletDisplayNumber = (int)(*elt);
+}
+
+void xml2MsrTranslator::visitStart ( S_tuplet_type& elt )
+{
+/*
+ Type indicates the graphic note type, Valid values (from shortest to longest) are 1024th, 512th, 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, long, and maxima. The size attribute indicates full, cue, or large size, with full the default for regular notes and cue the default for cue and grace notes.
+*/
+
+  // not handled JMI
+  fCurrentTupletDisplayType = elt->getValue();
+}
+
 
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_rest& elt)

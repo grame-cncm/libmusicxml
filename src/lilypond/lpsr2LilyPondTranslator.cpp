@@ -3044,12 +3044,33 @@ void lpsr2LilyPondTranslator::visitStart (S_msrTuplet& elt)
     fOstream << idtr <<
       "% --> Start visiting msrTuplet" << endl;
 
+  if (fTupletsStack.size ()) {
+    // elt is a nested tuplet
+
+    S_msrTuplet
+      containingTuplet =
+        fTupletsStack.top ();
+
+    // unapply containing tuplet factor,
+    // i.e 3/2 inside 5/4 becomes 15/8 in MusicXML...
+    elt->
+      unapplyDisplayFactorToTupletMembers (
+        containingTuplet->
+          getTupletActualNotes (),
+        containingTuplet->
+          getTupletNormalNotes ());
+  }
+  
   fOstream <<
+    endl <<
+    idtr <<
     "\\tuplet " <<
     elt->getTupletActualNotes () <<
     "/" <<
     elt->getTupletNormalNotes() << " {" <<
     endl;
+
+  fTupletsStack.push (elt);
 
   fMusicOlec.reset ();
 
@@ -3065,6 +3086,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTuplet& elt)
   fOstream <<
     "}" <<
     endl;
+
+  fTupletsStack.pop ();
 
   fMusicOlec.reset ();
 

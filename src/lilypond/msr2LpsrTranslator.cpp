@@ -1385,10 +1385,10 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
 
   if (fTupletClonesStack.size ()) {
     
-    // tuplet is an embedded tuplet
+    // tuplet is a nested tuplet
 //    if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "=== adding embedded tuplet '" <<
+        "=== adding nested tuplet '" <<
       elt->tupletAsString () <<
         "' to stack top tuplet '" <<
       fTupletClonesStack.top ()->tupletAsString () <<
@@ -1396,7 +1396,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
       endl;
     
     fTupletClonesStack.top ()->
-      addTupletToTuplet (elt);
+      addTupletToTupletClone (elt);
   }
   
   else {

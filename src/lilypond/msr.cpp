@@ -2613,8 +2613,15 @@ string msrNote::noteAsString () const
           "[" << fNoteData.fOctave << "]";
 
       s <<
-        ":" <<
-        noteDivisionsAsMSRString ();
+        ":";
+
+      if (fNoteData.fType.size ())
+        s <<
+          fNoteData.fType; // JMI
+      else
+        s <<
+          noteDivisionsAsMSRString ();
+
       break;
   } // switch
 
@@ -4102,11 +4109,22 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
       "'" <<
       endl;
 
+/* JMI
+  // unapply containing tuplet factor,
+  // i.e 3/2 inside 5/4 becomes 15/8 in MusicXML...
+  tuplet->
+    unapplyDisplayFactorToTupletMembers (
+      this->fTupletActualNotes,
+      this->fTupletNormalNotes);
+  */
+  
+  // register tuplet in elements list
   fTupletElements.push_back (tuplet);
     
   // account for tuplet duration
   fTupletDivisions +=
     tuplet->getTupletDivisions ();
+    
     /*
   fTupletDisplayDivisions += // JMI
     tuplet->getTupletDisplayDivisions ();  
@@ -4122,6 +4140,28 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   tuplet->setTupletPositionInMeasure (
     fTupletPositionInMeasure);
     */
+}
+
+void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
+{
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> adding tuplet '" <<
+      tuplet->tupletAsString () <<
+      "' to tuplet '" <<
+      tupletAsString () <<
+      "'" <<
+      endl;
+
+  // dont' unapply containing tuplet factor,
+  // this has been done when building the MSR from MusicXML
+  
+  // register tuplet in elements list
+  fTupletElements.push_back (tuplet);
+    
+  // account for tuplet duration
+  fTupletDivisions +=
+    tuplet->getTupletDivisions ();
 }
 
 void msrTuplet::removeFirstNoteFromTuplet (
@@ -4321,6 +4361,43 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
     }
 
   } // for
+}
+
+void msrTuplet::unapplyDisplayFactorToTupletMembers (
+  int containingTupletActualNotes,
+  int containingTupletNormalNotes)
+{
+  if (true || gGeneralOptions->fDebugDebug) {
+//  if (gGeneralOptions->fDebugDebug) {
+    cerr <<
+      idtr <<
+        "==> unapplyDisplayFactorToTupletMembers()" <<
+        endl;
+
+    idtr++;
+    
+    cerr <<
+      idtr <<
+        "fTupletActualNotes = " <<
+        fTupletActualNotes <<
+        ", fTupletNormalNotes = " <<
+        fTupletNormalNotes <<
+        endl <<
+      idtr <<
+        "containingTupletActualNotes = " <<
+        containingTupletActualNotes <<
+        ", containingTupletNormalNotes = " <<
+        containingTupletNormalNotes <<
+        endl <<
+      endl;
+
+    idtr--;
+  }
+
+  fTupletActualNotes /=
+    containingTupletActualNotes;
+  fTupletNormalNotes /=
+    containingTupletNormalNotes;
 }
 
 void msrTuplet::acceptIn (basevisitor* v) {

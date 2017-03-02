@@ -276,6 +276,8 @@ class EXP xml2MsrTranslator :
   public visitor<S_normal_type>,
 
   public visitor<S_tuplet>,
+  public visitor<S_tuplet_number>,
+  public visitor<S_tuplet_type>,
   
   public visitor<S_rehearsal>
 {
@@ -533,7 +535,9 @@ class EXP xml2MsrTranslator :
     virtual void visitStart ( S_normal_notes& elt);
     virtual void visitStart ( S_normal_type& elt);
     virtual void visitStart ( S_tuplet& elt);
-    
+    virtual void visitStart ( S_tuplet_number& elt);
+    virtual void visitStart ( S_tuplet_type& elt);
+
     virtual void visitStart ( S_rehearsal& elt);
 
   private:
@@ -933,8 +937,10 @@ class EXP xml2MsrTranslator :
     int                       fCurrentActualNotes;
     int                       fCurrentNormalNotes;
     string                    fCurrentNormalNoteType;
-    // embedded tuplets are numbered 1, 2, ...
+    // nested tuplets are numbered 1, 2, ...
     int                       fCurrentTupletNumber;
+    int                       fCurrentTupletDisplayNumber;
+    string                    fCurrentTupletDisplayType;
     msrTuplet::msrTupletKind  fCurrentTupletKind;
     stack<S_msrTuplet>        fTupletsStack;
 

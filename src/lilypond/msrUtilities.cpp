@@ -153,7 +153,7 @@ string int2EnglishWord (int n)
     assert(false); // JMI
   }
 
-  if      (n >= 1000) {
+  if     (n >= 1000) {
     int nDiv1000    = n / 1000;
     int nModulo1000 = n % 1000;
 
