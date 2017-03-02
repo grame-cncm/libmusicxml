@@ -5257,7 +5257,8 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
     chord =
       msrChord::create (
         inputLineNumber,
-        chordFirstNote->getNoteDivisions ());
+        chordFirstNote->getNoteDivisions (),
+        chordFirstNote->getNoteType ());
 
   // chord's divisions per whole note is that of its first note
   chord->

@@ -2961,22 +2961,26 @@ void msrNote::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrChord msrChord::create (
-  int inputLineNumber,
-  int chordDivisions)
+  int    inputLineNumber,
+  int    chordDivisions,
+  string chordNotesType)
 {
   msrChord* o =
     new msrChord (
-      inputLineNumber, chordDivisions);
+      inputLineNumber, chordDivisions, chordNotesType);
   assert(o!=0);
   return o;
 }
 
 msrChord::msrChord (
-  int inputLineNumber,
-  int chordDivisions)
+  int    inputLineNumber,
+  int    chordDivisions,
+  string chordNotesType)
     : msrElement (inputLineNumber)
 {
   fChordDivisions = chordDivisions;
+
+  fChordNotesType = chordNotesType;
 }
 
 msrChord::~msrChord() {}
@@ -2992,7 +2996,8 @@ S_msrChord msrChord::createChordBareClone ()
     clone =
       msrChord::create (
         fInputLineNumber,
-        fChordDivisions);
+        fChordDivisions,
+        fChordNotesType);
 
   clone->
     fChordDivisionsPerWholeNote =
@@ -3008,6 +3013,24 @@ S_msrChord msrChord::createChordBareClone ()
   return clone;
 }
     
+string msrChord::chordNotesTypeAsMSRString () const
+{
+  string result;
+  string errorMessage;
+
+  result =
+    noteTypeAsMSRDuration (
+      fChordNotesType,
+      errorMessage);
+
+  if (errorMessage.size ())
+    msrMusicXMLError (
+      fInputLineNumber,
+      errorMessage);
+
+  return result;
+}
+
 void msrChord::addFirstNoteToChord (S_msrNote note)
 {
 //  if (gGeneralOptions->fDebug)

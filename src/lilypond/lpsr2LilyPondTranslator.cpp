@@ -2808,8 +2808,19 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
       "% --> End visiting msrChord" << endl;
 
   fOstream <<
-    ">" <<
-    elt->chordDivisionsAsMSRString () << " ";
+    ">";
+
+  // print the chord notes duration
+  if (elt->getChordNotesType ().size ())
+    fOstream <<
+      elt->chordNotesTypeAsMSRString ();
+  else
+    fOstream <<
+      elt->chordDivisionsAsMSRString ();
+
+  fOstream <<
+    " ";
+    
   fMusicOlec++;
 
   // print the chord articulations if any
@@ -3092,7 +3103,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTuplet& elt)
     endl <<
     idtr <<
     "}" <<
-    endl;
+    endl <<
+    idtr;
 
   fTupletsStack.pop ();
 

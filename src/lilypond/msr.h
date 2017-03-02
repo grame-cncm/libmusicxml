@@ -2565,8 +2565,9 @@ class EXP msrChord : public msrElement
   public:
 
     static SMARTP<msrChord> create (
-      int inputLineNumber,
-      int chordDivisions);
+      int    inputLineNumber,
+      int    chordDivisions,
+      string chordNotesType);
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -2579,8 +2580,9 @@ class EXP msrChord : public msrElement
     // ------------------------------------------------------
 
     msrChord (
-      int inputLineNumber,
-      int chordDivisions);
+      int    inputLineNumber,
+      int    chordDivisions,
+      string chordNotesType);
       
     virtual ~msrChord();
   
@@ -2589,6 +2591,9 @@ class EXP msrChord : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    string        getChordNotesType () const
+                      { return fChordNotesType; }
+            
     const vector<S_msrNote>&
                   getChordNotes () const
                       { return fChordNotes; }
@@ -2669,6 +2674,8 @@ class EXP msrChord : public msrElement
     // services
     // ------------------------------------------------------
 
+    string        chordNotesTypeAsMSRString () const;
+
     void          addFirstNoteToChord (S_msrNote note);
     void          addAnotherNoteToChord (S_msrNote note);
 
@@ -2719,7 +2726,9 @@ class EXP msrChord : public msrElement
     virtual void print (ostream& os);
 
   private:
-  
+
+    string                    fChordNotesType;
+    
     vector<S_msrNote>         fChordNotes;
 
     int                       fChordDivisionsPerWholeNote;
