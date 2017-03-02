@@ -4475,7 +4475,36 @@ string msrTuplet::tupletAsString () const
       iEnd   = fTupletElements.end(),
       i      = iBegin;
     for ( ; ; ) {
-      s << idtr << (*i);
+
+      s << idtr;
+      
+      if (
+        S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+        ) {    
+        s <<
+          note->noteAsShortString ();
+      }
+    
+      else if (
+        S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+        ) {
+        s <<
+          chord->chordAsString ();
+      }
+      
+      else if (
+        S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
+        ) {
+        s <<
+          tuplet->tupletAsString ();
+      }
+      
+      else {
+        msrInternalError (
+          fInputLineNumber,
+          "tuplet member should be a note, a chord or another tuplet");
+      }
+  
       if (++i == iEnd) break;
       s << " ";
     } // for
@@ -4519,36 +4548,7 @@ void msrTuplet::print (ostream& os)
       iEnd   = fTupletElements.end(),
       i      = iBegin;
     for ( ; ; ) {
-
-      os << idtr;
-      
-      if (
-        S_msrNote note = dynamic_cast<msrNote*>(&(**i))
-        ) {    
-        os <<
-          note->noteAsShortString ();
-      }
-    
-      else if (
-        S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
-        ) {
-        os <<
-          chord->chordAsString ();
-      }
-      
-      else if (
-        S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
-        ) {
-        os <<
-          tuplet->tupletAsString ();
-      }
-      
-      else {
-        msrInternalError (
-          fInputLineNumber,
-          "tuplet member should be a note, a chord or another tuplet");
-      }
-  
+      os << idtr << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for

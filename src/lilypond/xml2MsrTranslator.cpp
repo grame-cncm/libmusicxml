@@ -3056,11 +3056,13 @@ void xml2MsrTranslator::visitEnd (S_measure& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
   if (fCurrentATupletStopIsPending) {
-    // finalize the tuplet, only now in case the last element
-    // is actually a chord
-    finalizeTuplet (inputLineNumber);
+
+    if (fTupletsStack.size ()) // JMI
+      // finalize the tuplet, only now in case the last element
+      // is actually a chord
+      finalizeTuplet (inputLineNumber);
 
     fCurrentATupletStopIsPending = false;
   }
