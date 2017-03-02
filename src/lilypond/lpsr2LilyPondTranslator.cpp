@@ -2296,8 +2296,12 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
           noteMsrPitchAsLilyPondString (elt);
       
       // print the note duration
-      fOstream <<
-        elt->noteDivisionsAsMSRString ();
+      if (elt->getNoteKind ().size ())
+        fOstream <<
+          noteTypeAsMSRString ();
+      else
+        fOstream <<
+          noteDivisionsAsMSRString ();
 
       // print the tie if any
       {

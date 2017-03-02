@@ -2416,6 +2416,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         "[" << fNoteData.fOctave << "]" <<
         ":" <<
         noteTypeAsMSRString ();
+        
       for (int i = 0; i < fNoteData.fDotsNumber; i++) {
         s << ".";
       } // for
@@ -2502,6 +2503,7 @@ string msrNote::noteAsShortString () const
         "[" << fNoteData.fOctave << "]" <<
         ":" <<
         noteTypeAsMSRString ();
+        
       for (int i = 0; i < fNoteData.fDotsNumber; i++) {
         s << ".";
       } // for
@@ -2575,6 +2577,7 @@ string msrNote::noteAsString () const
         "[" << fNoteData.fOctave << "]" <<
         ":" <<
         noteTypeAsMSRString ();
+        
       for (int i = 0; i < fNoteData.fDotsNumber; i++) {
         s << ".";
       } // for
@@ -2617,7 +2620,7 @@ string msrNote::noteAsString () const
 
       if (fNoteData.fType.size ())
         s <<
-          fNoteData.fType; // JMI
+          noteTypeAsMSRString ();
       else
         s <<
           noteDivisionsAsMSRString ();
