@@ -4309,8 +4309,9 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
     else if (
       S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
       ) {
-      tuplet->
-        applyDisplayFactorToTupletMembers ();
+      // don't apply the display factor to nested tuplets
+ // JMI     tuplet->
+       // applyDisplayFactorToTupletMembers ();
     }
     
     else {
@@ -4379,7 +4380,8 @@ string msrTuplet::tupletAsShortString () const
   stringstream s;
 
   s <<
-    "Tuplet " << fTupletActualNotes << "/" << fTupletNormalNotes <<
+    "Tuplet " <<
+    fTupletActualNotes << "/" << fTupletNormalNotes <<
     " (" << fTupletDivisions <<
     "/" <<
     fTupletDivisionsPerWholeNote <<
@@ -4449,7 +4451,8 @@ string msrTuplet::tupletAsString () const
   stringstream s;
 
   s <<
-    "Tuplet " << fTupletActualNotes << "/" << fTupletNormalNotes <<
+    "Tuplet " <<
+    fTupletActualNotes << "/" << fTupletNormalNotes <<
     " (" << fTupletDivisions <<
     "/" <<
     fTupletDivisionsPerWholeNote <<

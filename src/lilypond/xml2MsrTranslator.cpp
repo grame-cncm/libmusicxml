@@ -5459,13 +5459,17 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
   // firstNote is the first tuplet note,
   // and is currently at the end of the voice
 
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "xml2MsrTranslator::createTupletWithItsFirstNote " <<
-      firstNote <<
-      endl;
-
   // create a tuplet
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> creating a '" <<
+      fCurrentActualNotes <<
+      "/" <<
+      fCurrentNormalNotes <<
+      "' tuplet with first note " <<
+      firstNote->noteAsShortString () <<
+      endl;
+      
   S_msrTuplet
     tuplet =
       msrTuplet::create (
@@ -5486,6 +5490,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
       "++> pushing tuplet '" <<
       tuplet->tupletAsShortString () <<
       "' to tuplets stack" << endl;
+      
   fTupletsStack.push (tuplet);
 
   // add note as first note of the stack top tuplet
@@ -5496,6 +5501,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
       tuplet->tupletAsShortString () <<
        "'" <<
       endl;
+      
   tuplet->addNoteToTuplet (firstNote);
 
 /* JMI
