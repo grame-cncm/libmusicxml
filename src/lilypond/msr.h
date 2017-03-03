@@ -5804,16 +5804,16 @@ class EXP msrScore : public msrElement
     // ------------------------------------------------------
 
     S_msrIdentification
-                getIdentification () const
-                    { return fIdentification; }
+                  getIdentification () const
+                      { return fIdentification; }
 
     S_msrPageGeometry
-                getPageGeometry () const
-                    { return fPageGeometry; }
+                  getPageGeometry () const
+                      { return fPageGeometry; }
     
     const list<S_msrPartgroup>&
-                getPartgroupsList () const
-                    { return fPartgroupsList; }
+                  getPartgroupsList () const
+                      { return fPartgroupsList; }
 
     // services
     // ------------------------------------------------------

@@ -152,7 +152,18 @@ S_msrPartgroup xml2MsrTranslator::createImplicitMSRPartgroupIfNeeded (
         true,
         0); // the top level part group has an empty uplink
   
-    /*
+    // append it to the MSR score
+    if (gGeneralOptions->fTrace)
+      cerr << idtr <<
+        "Appending implicit part group " <<
+        fImplicitPartgroup->getPartgroupNumber () <<
+        " to MSR score" <<
+        endl;
+        
+    fMsrScore->
+      addPartgroupToScore (fImplicitPartgroup);
+      
+    /* JMI
       this implicit part group will be added to the MSR score
       in method 'visitEnd (S_part_list& elt)'
     */
@@ -506,9 +517,10 @@ void xml2MsrTranslator::visitEnd (S_part_list& elt)
   idtr--;
 
   if (fCurrentPartUsesImplicitPartgroup) {
-    // force an implicit part group "stop" on it
+    // force an implicit part group "stop" on it,
     // fCurrentPartgroupNumber holds the value 1
-    handlePartgroupStop (elt->getInputLineNumber ());
+    handlePartgroupStop (
+      elt->getInputLineNumber ());
     
  // JMI   fCurrentPartUsesImplicitPartgroup = false;
   }
@@ -809,63 +821,65 @@ void xml2MsrTranslator::handlePartgroupStop (int inputLineNumber)
   } // while
 
   showPartgroupsData ("AFTER REMOVAL FROM LIST");
-  
-  // take care of the part group to be stopped
-  // in the part groups list
-  if (! fPartgroupsList.size()) {
+
+  if (partgroupToBeStopped != fImplicitPartgroup) {
+    // take care of the part group to be stopped
+    // in the part groups list
     
-    // we're just removed the only part group in the list:
-    // append it to the MSR score
-    if (gGeneralOptions->fTrace)
-      cerr << idtr <<
-        "Appending part group " <<
-        partgroupToBeStopped->getPartgroupNumber () <<
-        " to MSR score" <<
-        endl;
-        
-    fMsrScore->
-      addPartgroupToScore (partgroupToBeStopped);
+    if (! fPartgroupsList.size()) {
       
-  }
-  
-  else {
-
-    // the front element in the part group list is
-    // the new current part group
-    S_msrPartgroup
-      newCurrentPartgroup = fPartgroupsList.front ();
-
-    if (
-        partgroupToBeStopped->getPartgroupNumber ()
-          ==
-        newCurrentPartgroup->getPartgroupNumber () ) {
-      cerr << idtr <<
-        "--> partgroupToBeStopped = " << partgroupToBeStopped <<
-        ", newCurrentPartgroup = " << newCurrentPartgroup <<
-        endl;
-
-      stringstream s;
-      s <<
-        "cannot append part group " <<
-        partgroupToBeStopped->getPartgroupNumber () <<
-        " as sub part group of itself";
-      msrInternalError (
-        inputLineNumber,
-        s.str());
+      // we're just removed the only part group in the list:
+      // append it to the MSR score
+      if (gGeneralOptions->fTrace)
+        cerr << idtr <<
+          "Appending part group " <<
+          partgroupToBeStopped->getPartgroupNumber () <<
+          " to MSR score" <<
+          endl;
+          
+      fMsrScore->
+        addPartgroupToScore (partgroupToBeStopped);
     }
-    
-    // insert current group into future current group
-    if (gGeneralOptions->fTrace)
-      cerr << idtr <<
-        "Preending (sub-)part group " <<
-        partgroupToBeStopped->getPartgroupNumber () <<
-        " at the beginning of part group " <<
-        newCurrentPartgroup->getPartgroupNumber () <<
-        endl;
-
-    newCurrentPartgroup->
-      prependSubPartgroupToPartgroup (
-        partgroupToBeStopped);
+  
+    else {
+  
+      // the front element in the part group list is
+      // the new current part group
+      S_msrPartgroup
+        newCurrentPartgroup = fPartgroupsList.front ();
+  
+      if (
+          partgroupToBeStopped->getPartgroupNumber ()
+            ==
+          newCurrentPartgroup->getPartgroupNumber () ) {
+        cerr << idtr <<
+          "--> partgroupToBeStopped = " << partgroupToBeStopped <<
+          ", newCurrentPartgroup = " << newCurrentPartgroup <<
+          endl;
+  
+        stringstream s;
+        s <<
+          "cannot append part group " <<
+          partgroupToBeStopped->getPartgroupNumber () <<
+          " as sub part group of itself";
+        msrInternalError (
+          inputLineNumber,
+          s.str());
+      }
+      
+      // insert current group into future current group
+      if (gGeneralOptions->fTrace)
+        cerr << idtr <<
+          "Preending (sub-)part group " <<
+          partgroupToBeStopped->getPartgroupNumber () <<
+          " at the beginning of part group " <<
+          newCurrentPartgroup->getPartgroupNumber () <<
+          endl;
+  
+      newCurrentPartgroup->
+        prependSubPartgroupToPartgroup (
+          partgroupToBeStopped);
+    }
   }
 
   // remove part group from the map
