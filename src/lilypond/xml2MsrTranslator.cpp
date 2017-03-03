@@ -619,8 +619,8 @@ void xml2MsrTranslator::visitStart ( S_group_barline& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::showPartgroupsData (string context)
 {    
-  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
+// JMI  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartgroupsMap contains:" <<
       endl;

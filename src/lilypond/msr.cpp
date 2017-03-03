@@ -1493,6 +1493,7 @@ msrGracenotes::msrGracenotes (
   fGracenotesVoiceUplink =
     gracenotesVoiceUplink;
 
+/* JMI
   // create the segment that will receive the notes
   fGracenotesSegment =
     msrSegment::create (
@@ -1500,6 +1501,7 @@ msrGracenotes::msrGracenotes (
       gracenotesVoiceUplink->
         getVoiceDivisionsPerWholeNote (),
       gracenotesVoiceUplink);
+      */
 }
 
 msrGracenotes::~msrGracenotes() {}
@@ -1527,8 +1529,12 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
 
 void msrGracenotes::appendNoteToGracenotes (S_msrNote note)
 {
+  /*
   fGracenotesSegment->
     appendNoteToSegment (note);
+    */
+
+  fGracenotesElementsList.push_back (note);
 
   // JMI
   cerr <<
@@ -1582,9 +1588,22 @@ void msrGracenotes::acceptOut (basevisitor* v) {
 
 void msrGracenotes::browseData (basevisitor* v)
 {
+  list<S_msrElement>::const_iterator i;
+
+  for (
+    i=fGracenotesElementsList.begin();
+    i!=fGracenotesElementsList.end();
+    i++) {
+    // browse the element
+    msrBrowser<S_msrElement> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  /* JMI
   // browse the segment
   msrBrowser<msrSegment> browser (v);
   browser.browse (*fGracenotesSegment);
+  */
 }
 
 ostream& operator<< (ostream& os, const S_msrGracenotes& elt)
@@ -1604,8 +1623,18 @@ void msrGracenotes::print (ostream& os)
   
   idtr++;
   
-  os << fGracenotesSegment;
-      
+ // JMI os << fGracenotesSegment;
+          
+  list<S_msrElement>::const_iterator
+    iBegin = fGracenotesElementsList.begin(),
+    iEnd   = fGracenotesElementsList.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    os << idtr << (*i);
+    if (++i == iEnd) break;
+    os << endl;
+  } // for
+
   idtr--;
 }
 
