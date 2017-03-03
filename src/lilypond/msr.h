@@ -1840,9 +1840,9 @@ class EXP msrGracenotes : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrGracenotes> create (
-      int             inputLineNumber,
-      bool            slashed,
-      S_msrVoice      gracenotesVoiceUplink);
+      int        inputLineNumber,
+      bool       slashed,
+      S_msrVoice gracenotesVoiceUplink);
     
     SMARTP<msrGracenotes> createGracenotesBareClone (
       S_msrVoice voiceClone);
@@ -1853,9 +1853,9 @@ class EXP msrGracenotes : public msrElement
     // ------------------------------------------------------
 
     msrGracenotes (
-      int             inputLineNumber,
-      bool            slashed,
-      S_msrVoice      gracenotesVoiceUplink);
+      int        inputLineNumber,
+      bool       slashed,
+      S_msrVoice gracenotesVoiceUplink);
       
     virtual ~msrGracenotes();
   
@@ -1864,18 +1864,16 @@ class EXP msrGracenotes : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    bool
-                getGracenotesIsSlashed () const
-                    { return fGracenotesIsSlashed; }
+    bool          getGracenotesIsSlashed () const
+                      { return fGracenotesIsSlashed; }
 
-    S_msrSegment
-                getGracenotesSegment () const
-                    { return fGracenotesSegment; }
+    S_msrSegment  getGracenotesSegment () const
+                      { return fGracenotesSegment; }
 
     // services
     // ------------------------------------------------------
 
-    void        appendNoteToGracenotes (S_msrNote note);
+    void          appendNoteToGracenotes (S_msrNote note);
     
     // visitors
     // ------------------------------------------------------
@@ -1892,11 +1890,11 @@ class EXP msrGracenotes : public msrElement
 
   private:
 
-    bool               fGracenotesIsSlashed;
+    bool            fGracenotesIsSlashed;
     
     S_msrSegment    fGracenotesSegment;
 
-    S_msrVoice         fGracenotesVoiceUplink;
+    S_msrVoice      fGracenotesVoiceUplink;
 };
 typedef SMARTP<msrGracenotes> S_msrGracenotes;
 EXP ostream& operator<< (ostream& os, const S_msrGracenotes& elt);

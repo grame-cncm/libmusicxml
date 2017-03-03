@@ -754,55 +754,58 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
   string partGroupContextName;
 
   // LPNR, page 567
+
+  // don't generate code for a 1-element part group block
+  if (elt->getPartgroupBlockElements ().size () > 1) {
+    switch (partgroupSymbolKind) {
+      case msrPartgroup::k_NoPartgroupSymbol:
+        partGroupContextName = "";
+        break;
+        
+      case msrPartgroup::kBracePartgroupSymbol: // JMI
+      /*
+       *
+       * check whether individual part have instrument names
+       * 
+        if (partgroupInstrumentName.size ())
+          partGroupContextName = "\\new PianoStaff";
+        else
+          partGroupContextName = "\\new GrandStaff";
+          */
+        partGroupContextName =
+          partgroupBarline // only partgroup has an instrument name
+            ? "\\new PianoStaff"
+            : "\\new GrandStaff";
+        break;
+        
+      case msrPartgroup::kBracketPartgroupSymbol:
+        partGroupContextName =
+          partgroupBarline
+            ? "\\new StaffGroup"
+            : "\\new ChoirStaff";
+        break;
+        
+      case msrPartgroup::kLinePartgroupSymbol:
+        partGroupContextName = "\\new StaffGroup";
+        break;
+        
+      case msrPartgroup::kSquarePartgroupSymbol:
+        partGroupContextName = "\\new StaffGroup";
+        break;
+    } // switch
   
-  switch (partgroupSymbolKind) {
-    case msrPartgroup::k_NoPartgroupSymbol:
-      partGroupContextName = "";
-      break;
+  
+    fOstream << idtr <<
+      setw(30) << partGroupContextName + " " "<<";
       
-    case msrPartgroup::kBracePartgroupSymbol: // JMI
-    /*
-     *
-     * check whether individual part have instrument names
-     * 
-      if (partgroupInstrumentName.size ())
-        partGroupContextName = "\\new PianoStaff";
-      else
-        partGroupContextName = "\\new GrandStaff";
-        */
-      partGroupContextName =
-        partgroupBarline // only partgroup has an instrument name
-          ? "\\new PianoStaff"
-          : "\\new GrandStaff";
-      break;
-      
-    case msrPartgroup::kBracketPartgroupSymbol:
-      partGroupContextName =
-        partgroupBarline
-          ? "\\new StaffGroup"
-          : "\\new ChoirStaff";
-      break;
-      
-    case msrPartgroup::kLinePartgroupSymbol:
-      partGroupContextName = "\\new StaffGroup";
-      break;
-      
-    case msrPartgroup::kSquarePartgroupSymbol:
-      partGroupContextName = "\\new StaffGroup";
-      break;
-  } // switch
-
-
-  fOstream << idtr <<
-    setw(30) << partGroupContextName + " " "<<";
-    
-  if (fLpsrOptions->fGenerateComments)
+    if (fLpsrOptions->fGenerateComments)
+      fOstream <<
+        "% part group " <<
+        partgroup->getPartgroupCombinedName ();
+        
     fOstream <<
-      "% part group " <<
-      partgroup->getPartgroupCombinedName ();
-      
-  fOstream <<
-    endl;
+      endl;
+  }
 
   if (partgroupInstrumentName.size ())
     fOstream << idtr <<
@@ -822,7 +825,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
   fOstream <<
     endl;
 
-  idtr++;
+  if (elt->getPartgroupBlockElements ().size () > 1)
+    idtr++;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
@@ -836,17 +840,21 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
     partgroup =
       elt->getPartgroup ();
       
-  idtr--;
+  if (elt->getPartgroupBlockElements ().size () > 1)
+    idtr--;
 
-  fOstream <<
-    idtr <<
-    setw(30) << ">>";
-  if (fLpsrOptions->fGenerateComments)
+  // don't generate code for a 1-element part group block
+  if (elt->getPartgroupBlockElements ().size () > 1) {
     fOstream <<
-       "% part group " <<
-      partgroup->getPartgroupCombinedName ();
-  fOstream <<
-    endl << endl;
+      idtr <<
+      setw(30) << ">>";
+    if (fLpsrOptions->fGenerateComments)
+      fOstream <<
+         "% part group " <<
+        partgroup->getPartgroupCombinedName ();
+    fOstream <<
+      endl << endl;
+  }
 }
 
 //________________________________________________________________________

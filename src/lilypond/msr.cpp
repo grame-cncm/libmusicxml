@@ -1470,9 +1470,9 @@ void msrSlur::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrGracenotes msrGracenotes::create (
-  int             inputLineNumber,
-  bool            slashed,
-  S_msrVoice      gracenotesVoiceUplink)
+  int        inputLineNumber,
+  bool       slashed,
+  S_msrVoice gracenotesVoiceUplink)
 {
   msrGracenotes* o =
     new msrGracenotes (
@@ -1483,9 +1483,9 @@ S_msrGracenotes msrGracenotes::create (
 }
 
 msrGracenotes::msrGracenotes (
-  int             inputLineNumber,
-  bool            slashed,
-  S_msrVoice      gracenotesVoiceUplink)
+  int        inputLineNumber,
+  bool       slashed,
+  S_msrVoice gracenotesVoiceUplink)
     : msrElement (inputLineNumber)
 {
   fGracenotesIsSlashed = slashed;
@@ -1518,7 +1518,10 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
         fInputLineNumber,
         fGracenotesIsSlashed,
         voiceClone);
-  
+
+  clone->fGracenotesIsSlashed =
+    fGracenotesIsSlashed;
+    
   return clone;
 }
 
