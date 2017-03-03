@@ -4139,6 +4139,10 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
   // assume this note hasn't got any stanzas until S_lyric is met
   fCurrentNoteHasStanza = false;
 
+  fCurrentStem = 0;
+
+  fCurrentSyllableExtendKind =
+    msrSyllable::k_NoSyllableExtend;
   fCurrentBeam = 0;
 
   fCurrentTie = 0;
@@ -4245,7 +4249,7 @@ void xml2MsrTranslator::visitStart ( S_stem& elt )
 {
   string        stem = elt->getValue();
 
-  msrStem::msrStemKind stemKind;
+  msrStem::msrStemKind stemKind = msrStem::k_NoStem;
   
   if      (stem == "up")
     stemKind = msrStem::kStemUp;
