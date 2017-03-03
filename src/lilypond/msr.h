@@ -1865,9 +1865,6 @@ class EXP msrGracenotes : public msrElement
     // ------------------------------------------------------
 
 /* JMI
-    bool          getGracenotesIsSlashed () const
-                      { return fGracenotesIsSlashed; }
-
     S_msrSegment  getGracenotesSegment () const
                       { return fGracenotesSegment; }
 */
@@ -1875,9 +1872,9 @@ class EXP msrGracenotes : public msrElement
     bool          getGracenotesIsSlashed () const
                       { return fGracenotesIsSlashed; }
 
-    list<S_msrElement> const
-                  getGracenotesElementsList () const
-                      { return fGracenotesElementsList; }
+    list<S_msrNote> const
+                  getGracenotesNotesList () const
+                      { return fGracenotesNotesList; }
 
     // services
     // ------------------------------------------------------
@@ -1899,13 +1896,13 @@ class EXP msrGracenotes : public msrElement
 
   private:
 
-    bool                fGracenotesIsSlashed;
+    bool            fGracenotesIsSlashed;
 
-    list<S_msrElement>  fGracenotesElementsList;
+    list<S_msrNote> fGracenotesNotesList;
     
 //    S_msrSegment    fGracenotesSegment; JMI
 
-    S_msrVoice          fGracenotesVoiceUplink;
+    S_msrVoice      fGracenotesVoiceUplink;
 };
 typedef SMARTP<msrGracenotes> S_msrGracenotes;
 EXP ostream& operator<< (ostream& os, const S_msrGracenotes& elt);

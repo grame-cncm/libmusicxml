@@ -836,7 +836,7 @@ class EXP xml2MsrTranslator :
     // ------------------------------------------------------
     string                    fCurrentBeamValue;
     int                       fCurrentBeamNumber;
-    S_msrBeam                 fCurrentBeam;
+    vector<S_msrBeam>         fCurrentBeams;
 
     // beam handling
     // ------------------------------------------------------

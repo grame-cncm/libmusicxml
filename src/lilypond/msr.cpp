@@ -1534,7 +1534,7 @@ void msrGracenotes::appendNoteToGracenotes (S_msrNote note)
     appendNoteToSegment (note);
     */
 
-  fGracenotesElementsList.push_back (note);
+  fGracenotesNotesList.push_back (note);
 
   // JMI
   cerr <<
@@ -1588,14 +1588,14 @@ void msrGracenotes::acceptOut (basevisitor* v) {
 
 void msrGracenotes::browseData (basevisitor* v)
 {
-  list<S_msrElement>::const_iterator i;
+  list<S_msrNote>::const_iterator i;
 
   for (
-    i=fGracenotesElementsList.begin();
-    i!=fGracenotesElementsList.end();
+    i=fGracenotesNotesList.begin();
+    i!=fGracenotesNotesList.end();
     i++) {
-    // browse the element
-    msrBrowser<S_msrElement> browser (v);
+    // browse the note
+    msrBrowser<msrNote> browser (v);
     browser.browse (*(*i));
   } // for
 
@@ -1625,9 +1625,9 @@ void msrGracenotes::print (ostream& os)
   
  // JMI os << fGracenotesSegment;
           
-  list<S_msrElement>::const_iterator
-    iBegin = fGracenotesElementsList.begin(),
-    iEnd   = fGracenotesElementsList.end(),
+  list<S_msrNote>::const_iterator
+    iBegin = fGracenotesNotesList.begin(),
+    iEnd   = fGracenotesNotesList.end(),
     i      = iBegin;
   for ( ; ; ) {
     os << idtr << (*i);

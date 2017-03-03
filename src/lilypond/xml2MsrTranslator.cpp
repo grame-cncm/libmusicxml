@@ -4168,7 +4168,6 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
 
   fCurrentSyllableExtendKind =
     msrSyllable::k_NoSyllableExtend;
-  fCurrentBeam = 0;
 
   fCurrentTie = 0;
   fCurrentTiedOrientation = "";
@@ -4356,11 +4355,14 @@ void xml2MsrTranslator::visitStart ( S_beam& elt )
   }
     
   if (beamIsOK) {
-    fCurrentBeam =
-      msrBeam::create (
-        inputLineNumber,
-        fCurrentBeamNumber,
-        beamKind);
+    S_msrBeam
+      beam =
+        msrBeam::create (
+          inputLineNumber,
+          fCurrentBeamNumber,
+          beamKind);
+
+    fCurrentBeams.push_back (beam);
   }
 }
 
@@ -6120,10 +6122,18 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     newNote->
       setNoteStem (fCurrentStem);
 
-  // add its beam if any
-  if (fCurrentBeam)
-    newNote->
-      addBeamToNote (fCurrentBeam);
+  // add its beams if any
+  if (fCurrentBeams.size ()) {
+    for (
+      vector<S_msrBeam>::const_iterator i=fCurrentBeams.begin();
+      i!=fCurrentBeams.end();
+      i++) {
+      newNote->
+        addBeamToNote ((*i));
+    } // for
+
+    fCurrentBeams.clear ();
+  }
 
   // attach the articulations if any to the note
   attachCurrentArticulationsToNote (newNote);

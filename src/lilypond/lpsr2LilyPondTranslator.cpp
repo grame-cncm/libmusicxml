@@ -279,15 +279,19 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
     case msrOrnament::kTrillMark:
       result = "\\trill";
       break;
+      
     case msrOrnament::kWavyLine:
       result = "\\wayvy line";
       break;
+      
     case msrOrnament::kTurn:
       result = "\\turn";
       break;
+      
     case msrOrnament::kInvertedTurn:
       result = "\\inverted turn";
       break;
+      
     case msrOrnament::kDelayedTurn:
       {
         stringstream s;
@@ -304,6 +308,7 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
         result = "\\turn %{ " + s.str () + " %}";
       }
       break;
+      
     case msrOrnament::kDelayedInvertedTurn:
       {
         string message =
@@ -316,6 +321,7 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
         result = "%{ " + message + " %}";
       }
       break;
+      
     case msrOrnament::kVerticalTurn:
       {
         string message =
@@ -328,15 +334,19 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
         result = "%{ " + message + " %}";
       }
       break;
+      
     case msrOrnament::kMordent:
       result = "\\mordent";
       break;
+      
     case msrOrnament::kInvertedMordent:
       result = "\\inverted mordent";
       break;
+      
     case msrOrnament::kSchleifer:
       result = "\\schleifer";
       break;
+      
     case msrOrnament::kShake:
       result = "\\shake";
       break;
@@ -2045,11 +2055,11 @@ void lpsr2LilyPondTranslator::visitStart (S_msrGracenotes& elt)
       "% --> Start visiting msrGracenotes" << endl;
 
   if (elt->getGracenotesIsSlashed ())
-    fOstream << idtr <<
+    fOstream <<
       "\\slashedGrace"; // JMI "\\grace";
   else
-    fOstream << idtr <<
-      "\\appoggiatura"; // JMI "\\acciaccatura";
+    fOstream <<
+      "\\grace"; // JMI "\\acciaccatura" \\appoggiatura;
   fOstream << " { ";
 }
 
@@ -2060,7 +2070,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrGracenotes& elt)
       "% --> End visiting msrGracenotes" << endl;
 
   fOstream <<
-    " } ";
+    "} ";
 }
 
 //________________________________________________________________________
@@ -2497,8 +2507,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       fOstream <<
         ornamentKindAsLilyPondString (
           (*i)->getInputLineNumber (), // some ornaments are not yet supported
-          (*i)->getOrnamentKind ()) <<
-        " ";
+          (*i)->getOrnamentKind ());
+          // <<
+        // JMI " ";
       fMusicOlec++;
 
       switch ((*i)->getOrnamentPlacementKind ()) {
