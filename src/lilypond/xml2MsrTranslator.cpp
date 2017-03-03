@@ -45,6 +45,8 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fMsrScore =
     msrScore::create (0);
 
+  fCurrentPartUsesImplicitPartgroup = false;
+  
   fOnGoingGroupNameDisplay = false;
   
   fOnGoingBarline = false;
@@ -118,7 +120,7 @@ S_msrScore xml2MsrTranslator::buildMsrScoreFromXMLElementTree (
 }
 
 //________________________________________________________________________
-S_msrPartgroup xml2MsrTranslator::createImplicitMSRPartgroup (
+S_msrPartgroup xml2MsrTranslator::createImplicitMSRPartgroupIfNeeded (
   int inputLineNumber)
 {
   /*
@@ -126,17 +128,18 @@ S_msrPartgroup xml2MsrTranslator::createImplicitMSRPartgroup (
   if none is specified in the MusicXML data.
   */
 
-  // create an implicit part group
-  fCurrentPartgroupNumber = 1;
+  if (! fImplicitPartgroup) {
+    // create an implicit part group
+    fCurrentPartgroupNumber = 1;
+    
+    if (gGeneralOptions->fTrace)
+      cerr << idtr <<
+        "Creating an implicit part group with number " <<
+        fCurrentPartgroupNumber <<
+        ", line " << inputLineNumber <<
+        endl;
   
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Creating an implicit part group with number " <<
-      fCurrentPartgroupNumber <<
-      endl;
-
-  S_msrPartgroup
-    partgroup =
+    fImplicitPartgroup =
       msrPartgroup::create (
         inputLineNumber,
         fCurrentPartgroupNumber,
@@ -148,12 +151,13 @@ S_msrPartgroup xml2MsrTranslator::createImplicitMSRPartgroup (
         0,
         true,
         0); // the top level part group has an empty uplink
-
-  /*
-    this implicit part group will be added to the MSR score
-    in method 'visitEnd (S_part_list& elt)'
-  */
   
+    /*
+      this implicit part group will be added to the MSR score
+      in method 'visitEnd (S_part_list& elt)'
+    */
+  }
+
   // add implicit part group to the map of this visitor
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
@@ -161,12 +165,12 @@ S_msrPartgroup xml2MsrTranslator::createImplicitMSRPartgroup (
       " to visitor's data" <<
       endl;
       
-  fPartgroupsMap [fCurrentPartgroupNumber] = partgroup;
-  fPartgroupsList.push_front (partgroup);
+  fPartgroupsMap [fCurrentPartgroupNumber] = fImplicitPartgroup;
+  fPartgroupsList.push_front (fImplicitPartgroup);
 
-  fImplicitPartgroup = partgroup;
+  fCurrentPartUsesImplicitPartgroup = true;
   
-  return partgroup;
+  return fImplicitPartgroup;
 }
 
 //______________________________________________________________________________
@@ -501,12 +505,12 @@ void xml2MsrTranslator::visitEnd (S_part_list& elt)
 {
   idtr--;
 
-  if (fImplicitPartgroup) {
+  if (fCurrentPartUsesImplicitPartgroup) {
     // force an implicit part group "stop" on it
     // fCurrentPartgroupNumber holds the value 1
     handlePartgroupStop (elt->getInputLineNumber ());
     
-    fImplicitPartgroup = 0;
+ // JMI   fCurrentPartUsesImplicitPartgroup = false;
   }
 }
 
@@ -603,7 +607,8 @@ void xml2MsrTranslator::visitStart ( S_group_barline& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::showPartgroupsData (string context)
 {    
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
+  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
       "==> " << context << ": fPartgroupsMap contains:" <<
       endl;
@@ -707,12 +712,15 @@ void xml2MsrTranslator::handlePartgroupStart (
       endl;
 
   if (! fPartgroupsList.size())
+  
     // insert first part group ahead of the list
     fPartgroupsList.push_front (partgroupToBeStarted);
+    
   else {
-    // place in the part groups list so as to
-    // have them ordered by increasing order
-    // (all of them they are negative)
+    
+    // place in the part groups list so as
+    // to have them ordered by increasing order
+    // (all of them are negative)
     list<S_msrPartgroup>::iterator
       iBegin = fPartgroupsList.begin(),
       iEnd   = fPartgroupsList.end(),
@@ -770,6 +778,7 @@ void xml2MsrTranslator::handlePartgroupStop (int inputLineNumber)
       "Removing part group " <<
       partgroupToBeStopped->getPartgroupNumber () <<
       " from visitor's part groups list" <<
+      ", line " << inputLineNumber <<
       endl;
 
   list<S_msrPartgroup>::iterator
@@ -1037,9 +1046,9 @@ void xml2MsrTranslator::visitEnd (S_score_part& elt)
 
   // is there a current part group?
   if (! fPartgroupsList.size()) {
-    // no, create an implicit one
+    // no, create an implicit one if needed
     partgroup =
-      createImplicitMSRPartgroup (
+      createImplicitMSRPartgroupIfNeeded (
         inputLineNumber);
   }
 
@@ -1083,14 +1092,16 @@ void xml2MsrTranslator::visitEnd (S_score_part& elt)
 
   if (fImplicitPartgroup) {
     // force an implicit part group "stop" on it
-    // fCurrentPartgroupNumber hold the value 1
+    // fCurrentPartgroupNumber holds the value 1
     handlePartgroupStop (
       inputLineNumber);
 
-    // forget the implicit group
-    fImplicitPartgroup = 0;
+    // forget the implicit group JNMI
+  //  fImplicitPartgroup = 0;
   }
-    
+
+  fCurrentPartUsesImplicitPartgroup = false;
+
   showPartgroupsData (
     "AFTER handling part \"" + partID + "\"");
 

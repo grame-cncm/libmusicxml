@@ -599,8 +599,9 @@ class EXP xml2MsrTranslator :
     // if none is specified in the MusicXML data,
     // in which case a part group "stop" has to be forced later
     S_msrPartgroup            fImplicitPartgroup;
-    S_msrPartgroup            createImplicitMSRPartgroup (
+    S_msrPartgroup            createImplicitMSRPartgroupIfNeeded (
                                 int inputLineNumber);
+    bool                      fCurrentPartUsesImplicitPartgroup;
     
     // part groups numbers can be re-used, they're no identifier
     // we use a map to access them by part group number
