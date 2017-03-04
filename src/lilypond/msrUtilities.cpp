@@ -34,14 +34,14 @@ namespace MusicXML2 {
 S_timingItem createTimingItem (
   string                     activity,
   timingItem::timingItemKind kind,
-  time_t                     startTime,
-  time_t                     endTime)
+  clock_t                    startClock,
+  clock_t                    endClock)
 {
   timingItem* o = new timingItem (
     activity,
     kind,
-    startTime,
-    endTime);
+    startClock,
+    endClock);
   assert(o!=0);
   return o;
 }
@@ -49,13 +49,13 @@ S_timingItem createTimingItem (
 timingItem::timingItem (
   string         activity,
   timingItemKind kind,
-  time_t         startTime,
-  time_t         endTime)
+  clock_t        startClock,
+  clock_t        endClock)
 {
-  fActivity  = activity;
-  fKind      = kind;
-  fStartTime = startTime;
-  fEndTime   = endTime;
+  fActivity   = activity;
+  fKind       = kind;
+  fStartClock = startClock;
+  fEndClock   = endClock;
 }
 
 timing::timing ()
@@ -64,19 +64,19 @@ timing::timing ()
 timing::~timing ()
 {}
 
-void timing::addTimingItem (
+void timing::appendTimingItem (
   string                     activity,
   timingItem::timingItemKind kind,
-  time_t                     startTime,
-  time_t                     endTime)
+  clock_t                    startClock,
+  clock_t                    endClock)
 {
   S_timingItem
     timingItem =
       createTimingItem (
         activity,
         kind,
-        startTime,
-        endTime);
+        startClock,
+        endClock);
     
   fTimingItemsList.push_back (timingItem);
 }
@@ -89,43 +89,88 @@ ostream& operator<< (ostream& os, const timing& tim) {
 void timing::print (ostream& os) const
 {
   const int
-    activityWidth = 42,
-    kindWidth     = 12,
-    secondsWidth  =  6;
+    activityWidth     = 42,
+    kindWidth         = 12,
+    secondsWidth      =  8,
+    secondsPrecision  =  6;
+
+  clock_t
+    totalClock          = 0.0,
+    totalMandatoryClock = 0.0,
+    totalOptionalClock  = 0.0;
     
   os <<
+    endl <<
     "Timing information:" <<
+// JMI    __FILE__ << ":" << __LINE__ <<
     endl << endl <<
     setw(activityWidth) << "Activity" <<
-    setw(kindWidth) << "Kind" <<
-    setw(secondsWidth) << "Seconds" <<
+    setw(kindWidth)     << "Kind" <<
+    setw(secondsWidth)  << "CPU (s)" <<
     endl <<
     setw(activityWidth) << "--------" <<
-    setw(kindWidth) << "----" <<
-    setw(secondsWidth) << "-------" <<
+    setw(kindWidth)     << "----" <<
+    setw(secondsWidth)  << "-------" <<
     endl << endl;
 
   for (
     list<S_timingItem>::const_iterator i=fTimingItemsList.begin();
     i!=fTimingItemsList.end();
     i++) {
+    clock_t
+      timingItemClock =
+        (*i)->fEndClock - (*i)->fStartClock;
+
+    totalClock += timingItemClock;
+    
     os << left <<
       setw(activityWidth) << (*i)->fActivity;
 
     switch ((*i)->fKind) {
       case timingItem::kMandatory:
+        totalMandatoryClock += timingItemClock;
         os << setw(kindWidth) <<"mandatory";
         break;
       case timingItem::kOptional:
+        totalOptionalClock += timingItemClock;
         os << setw(kindWidth) <<"optional";
         break;
     } // switch
 
     os <<
-      setw(secondsWidth) << setprecision(2) << right <<
-      difftime ((*i)->fEndTime, (*i)->fStartTime) <<
+      setw(secondsWidth) <<
+      setprecision(secondsPrecision) <<
+      right <<
+      float(timingItemClock) / CLOCKS_PER_SEC <<
       endl;
   } // for
+
+  const int
+    totalClockWidth          = 12,
+    totalMandatoryClockWidth = 12,
+    totalOptionalClockWidth  = 12,
+    totalsPrecision          =  6;
+
+  os <<
+    endl <<
+    left <<
+    setw(totalClockWidth)            << "Total" <<
+    setw(totalMandatoryClockWidth)   << "Mandatory" <<
+    setw(totalOptionalClockWidth)    << "Optional" <<
+    endl <<
+    setw(totalClockWidth) << "-----" <<
+    setw(totalMandatoryClockWidth)   << "---------" <<
+    setw(totalOptionalClockWidth)    << "--------" <<
+    endl <<
+    setprecision(totalsPrecision) <<
+    left <<
+    setw(totalClockWidth) <<
+    float(totalClock) / CLOCKS_PER_SEC <<
+    setw(totalMandatoryClockWidth) <<
+    float(totalMandatoryClock) / CLOCKS_PER_SEC <<
+    setw(totalOptionalClockWidth) <<
+    float(totalOptionalClock) / CLOCKS_PER_SEC <<
+    endl;
 }
 
 timing timing::gTiming;

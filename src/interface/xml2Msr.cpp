@@ -45,14 +45,17 @@ static S_msrScore xml2Msr (
   S_msrScore mScore;
   
   if (elemsTree) {
+    // build the MSR
     mScore =
-      buildMsrScoreFromElementsTree (msrOpts, elemsTree);
+      buildMSRFromElementsTree (msrOpts, elemsTree);
 
     if (msrOpts->fDisplayMSR)
-      displayMsrScore (msrOpts, mScore, cerr);
+      // display the MSR
+      displayMSR (msrOpts, mScore, cerr);
 
-    if (msrOpts->fDisplayMSRScoreSummary)
-      displayMsrScoreSummary (msrOpts, mScore, cerr);
+    if (msrOpts->fDisplayMSRSummary)
+      // display the MSR summary
+      displayMSRSummary (msrOpts, mScore, cerr);
   }
 
   return mScore;
@@ -64,8 +67,7 @@ EXP S_msrScore musicxmlFile2Msr (
   S_msrOptions& msrOpts,
   ostream&      os) 
 {
-  time_t starttime;
-  time (&starttime);
+  clock_t startClock = clock();
 
   if (gGeneralOptions->fTrace) {
     string separator =
@@ -85,21 +87,20 @@ EXP S_msrScore musicxmlFile2Msr (
   SXMLFile  xmlFile;
 
   xmlFile = r.read (file);
+
+  clock_t endClock = clock();
+
+  // register time spent
+  timing::gTiming.appendTimingItem (
+    "Pass 1: build xmlelement tree from file",
+    timingItem::kMandatory,
+    startClock,
+    endClock);
   
   S_msrScore mScore;
 
   if (xmlFile)
     mScore = xml2Msr (xmlFile, msrOpts, os, file);  
-
-  time_t endtime;
-  time (&endtime);
-
-  // register time spent
-  timing::gTiming.addTimingItem (
-    "Pass 1: build xmlelement tree from file",
-    timingItem::kMandatory,
-    starttime,
-    endtime);
 
   return mScore;
 }
@@ -110,8 +111,7 @@ EXP S_msrScore musicxmlFd2Msr (
   S_msrOptions& msrOpts,
   ostream&      os) 
 {
-  time_t starttime;
-  time (&starttime);
+  clock_t startClock = clock();
 
   if (gGeneralOptions->fTrace) {
     string separator =
@@ -131,22 +131,21 @@ EXP S_msrScore musicxmlFd2Msr (
   SXMLFile  xmlFile;
 
   xmlFile = r.read (fd);
+
+  clock_t endClock = clock();
+
+  // register time spent
+  timing::gTiming.appendTimingItem (
+    "Pass 1: build xmlelement tree from stdin",
+    timingItem::kMandatory,
+    startClock,
+    endClock);
   
   S_msrScore mScore;
 
   if (xmlFile) {
     mScore = xml2Msr (xmlFile, msrOpts, os, 0);
   }
-
-  time_t endtime;
-  time (&endtime);
-
-  // register time spent
-  timing::gTiming.addTimingItem (
-    "Pass 1: build xmlelement tree from stdin",
-    timingItem::kMandatory,
-    starttime,
-    endtime);
   
   return mScore;
 }
@@ -157,8 +156,7 @@ EXP S_msrScore musicxmlString2Msr (
   S_msrOptions& msrOpts,
   ostream&      os) 
 {
-  time_t starttime;
-  time (&starttime);
+  clock_t startClock = clock();
 
   if (gGeneralOptions->fTrace) {
     string separator =
@@ -178,33 +176,30 @@ EXP S_msrScore musicxmlString2Msr (
   SXMLFile  xmlFile;
   
   xmlFile = r.readbuff (buffer);
+
+  clock_t endClock = clock();
+
+  // register time spent
+  timing::gTiming.appendTimingItem (
+    "Pass 1: build xmlelement tree from buffer",
+    timingItem::kMandatory,
+    startClock,
+    endClock);
   
   S_msrScore mScore;
 
   if (xmlFile) {
     mScore = xml2Msr (xmlFile, msrOpts, os, 0);
   }
-
-  time_t endtime;
-  time (&endtime);
-
-  // register time spent
-  timing::gTiming.addTimingItem (
-    "Pass 1: build xmlelement tree from buffer",
-    timingItem::kMandatory,
-    starttime,
-    endtime);
-  
   return mScore;
 }
 
 //_______________________________________________________________________________
-S_msrScore buildMsrScoreFromElementsTree (
+S_msrScore buildMSRFromElementsTree (
   S_msrOptions& msrOpts,
   Sxmlelement   xmlTree)
 {
-  time_t starttime;
-  time (&starttime);
+  clock_t startClock = clock();
 
   if (gGeneralOptions->fTrace) {
     string separator =
@@ -228,27 +223,25 @@ S_msrScore buildMsrScoreFromElementsTree (
     mScore =
       translator.buildMsrScoreFromXMLElementTree (xmlTree);
 
-  time_t endtime;
-  time (&endtime);
+  clock_t endClock = clock();
 
   // register time spent
-  timing::gTiming.addTimingItem (
+  timing::gTiming.appendTimingItem (
     "Pass 2: build the MSR",
     timingItem::kMandatory,
-    starttime,
-    endtime);
+    startClock,
+    endClock);
 
   return mScore;
 }
 
 //_______________________________________________________________________________
-void displayMsrScore (
+void displayMSR (
   S_msrOptions& msrOpts,
   S_msrScore    mScore,
   ostream&      os)
 {
-  time_t starttime;
-  time (&starttime);
+  clock_t startClock = clock();
 
   if (gGeneralOptions->fTrace) {
     string separator =
@@ -268,25 +261,23 @@ void displayMsrScore (
   os << mScore;
   if (gGeneralOptions->fTrace) os << "%}" << endl;
 
-  time_t endtime;
-  time (&endtime);
+  clock_t endClock = clock();
 
   // register time spent
-  timing::gTiming.addTimingItem (
+  timing::gTiming.appendTimingItem (
     "        display the MSR",
     timingItem::kOptional,
-    starttime,
-    endtime);
+    startClock,
+    endClock);
 }
 
 //_______________________________________________________________________________
-void displayMsrScoreSummary (
+void displayMSRSummary (
   S_msrOptions& msrOpts,
   S_msrScore    mScore,
   ostream&      os)
 {
-  time_t starttime;
-  time (&starttime);
+  clock_t startClock = clock();
 
   if (gGeneralOptions->fTrace) {
     string separator =
@@ -311,15 +302,14 @@ void displayMsrScoreSummary (
   
   if (gGeneralOptions->fTrace) os << "%}" << std::endl;
 
-  time_t endtime;
-  time (&endtime);
+  clock_t endClock = clock();
 
   // register time spent
-  timing::gTiming.addTimingItem (
+  timing::gTiming.appendTimingItem (
     "        display MSR summary",
     timingItem::kOptional,
-    starttime,
-    endtime);
+    startClock,
+    endClock);
 }
 
 

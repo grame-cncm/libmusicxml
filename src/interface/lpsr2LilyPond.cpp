@@ -55,8 +55,7 @@ void generateLilyPondCodeFromLpsrScore (
   S_lpsrOptions&    lpsrOpts,
   ostream&          os)
 {
-  time_t starttime;
-  time (&starttime);
+  clock_t startClock = clock();
 
   string separator =
     "%--------------------------------------------------------------";
@@ -82,15 +81,14 @@ void generateLilyPondCodeFromLpsrScore (
   if (gGeneralOptions->fTrace)
     os << separator << endl;
 
-  time_t endtime;
-  time (&endtime);
+  clock_t endClock = clock();
 
   // register time spent
-  timing::gTiming.addTimingItem (
+  timing::gTiming.appendTimingItem (
     "Pass 4: translate LPSR to LilyPond",
     timingItem::kMandatory,
-    starttime,
-    endtime);
+    startClock,
+    endClock);
 }
 
 

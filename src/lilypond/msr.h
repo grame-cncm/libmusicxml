@@ -236,7 +236,7 @@ class EXP msrOptions : public smartable
     bool                  fDontDisplayMSRStanzas;
     
     // MSR score summary
-    bool                  fDisplayMSRScoreSummary;
+    bool                  fDisplayMSRSummary;
 
     // parts renaming
     map<string, string>   fPartsRenaming;

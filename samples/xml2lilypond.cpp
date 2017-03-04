@@ -125,8 +125,8 @@ void printUsage (int exitStatus)
     "          Write the contents of the MSR data to standard error." << endl <<
     endl <<
 
-    "    --sum, --displayMSRScoreSummary" << endl <<
-    "          Only write a summary of the MSR score to standard error." << endl <<
+    "    --sum, --displayMSRSummary" << endl <<
+    "          Only write a summary of the MSR to standard error." << endl <<
     "          This implies that no LilyPond code is generated." << endl <<
     endl <<
 
@@ -206,7 +206,7 @@ void analyzeOptions (
   
   gMsrOptions->fDisplayMSR                        = false;
 
-  gMsrOptions->fDisplayMSRScoreSummary            = false;
+  gMsrOptions->fDisplayMSRSummary                 = false;
 
   // LPSR options
   // ------------
@@ -258,7 +258,7 @@ void analyzeOptions (
   
   int displayMSRPresent                 = 0;
   
-  int displayMSRScoreSummaryPresent     = 0;
+  int displayMSRSummaryPresent          = 0;
   
   int partNamePresent                   = 0;
   
@@ -424,11 +424,11 @@ void analyzeOptions (
 
     {
       "sum",
-      no_argument, &displayMSRScoreSummaryPresent, 1
+      no_argument, &displayMSRSummaryPresent, 1
     },
     {
-      "displayMSRScoreSummary",
-      no_argument, &displayMSRScoreSummaryPresent, 1
+      "displayMSRSummary",
+      no_argument, &displayMSRSummaryPresent, 1
     },
 
     {
@@ -728,12 +728,12 @@ void analyzeOptions (
           displayMSRPresent = false;
         }
 
-        if (displayMSRScoreSummaryPresent) {
-          gMsrOptions->fDisplayMSRScoreSummary = true;
+        if (displayMSRSummaryPresent) {
+          gMsrOptions->fDisplayMSRSummary = true;
           gLpsrOptions->fDontGenerateLilyPondCode = true;
           gGeneralOptions->fCommandLineOptions +=
             "--displayScoreSummary ";
-          displayMSRScoreSummaryPresent = false;
+          displayMSRSummaryPresent = false;
         }
         
         if (partNamePresent) {
@@ -982,8 +982,8 @@ void printOptions ()
       booleanAsString (gMsrOptions->fDisplayMSR) <<
       endl <<
     
-    idtr << setw(fieldWidth) << "displayMSRScoreSummary" << " : " <<
-      booleanAsString (gMsrOptions->fDisplayMSRScoreSummary) <<
+    idtr << setw(fieldWidth) << "displayMSRSummary" << " : " <<
+      booleanAsString (gMsrOptions->fDisplayMSRSummary) <<
       endl <<
     
     idtr << setw(fieldWidth) << "partRenamingSpecifications" << " : ";
@@ -1152,43 +1152,6 @@ int main (int argc, char *argv[])
     outStream.open (outputFileName.c_str(), ofstream::out);
   }
       
-/* JMI
-  // extract parts informations from MusicXML contents
-  // ------------------------------------------------------
-
-  S_msrScore mScore;
-
-  if (inputFileName == "-") {
-    // input comes from standard input
-    if (outputFileName.size())
-      mScore =
-        musicxmlFd2PartsInfo (stdin, gMsrOptions, outStream);
-    else
-      mScore =
-        musicxmlFd2PartsInfo (stdin, gMsrOptions, outStream);
-  }
-  
-  else {
-    // input comes from a file
-    if (outputFileName.size())
-      mScore =
-        musicxmlFile2PartsInfo (
-          inputFileName.c_str(), gMsrOptions, outStream);
-    else
-      mScore =
-        musicxmlFile2PartsInfo (
-          inputFileName.c_str(), gMsrOptions, outStream);
-  }
-    
-  if (! mScore) {
-    cerr <<
-      "### Extraction of parts information from MusicCML data failed ###" <<
-      endl <<
-      endl;
-    return 1;
-  }
-*/
-
   // create MSR from MusicXML contents
   // ------------------------------------------------------
 
@@ -1206,7 +1169,7 @@ int main (int argc, char *argv[])
   
   else {
     // input comes from a file
-    if (outputFileName.size())
+    if (outputFileName.size()) // ??? JMI
       mScore =
         musicxmlFile2Msr (
           inputFileName.c_str(), gMsrOptions, outStream);
@@ -1224,16 +1187,13 @@ int main (int argc, char *argv[])
     return 1;
   }
 
-  time_t MusicXML2MSREndtime;
-  time (&MusicXML2MSREndtime);
-
   // create LPSR from MSR
   // ------------------------------------------------------
 
   S_lpsrScore lpScore;
         
   if (! gLpsrOptions->fDontGenerateLilyPondCode) {
-    if (outputFileName.size())
+    if (outputFileName.size()) // ??? JMI
       lpScore =
         msr2Lpsr (mScore, gMsrOptions, gLpsrOptions, outStream);
     else
@@ -1253,7 +1213,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   if (! gLpsrOptions->fDontGenerateLilyPondCode) {
-    if (outputFileName.size())
+    if (outputFileName.size()) // ??? JMI
       lpsr2LilyPond (lpScore, gMsrOptions, gLpsrOptions, cout);
     else
       lpsr2LilyPond (lpScore, gMsrOptions, gLpsrOptions, cout);

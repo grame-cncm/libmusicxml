@@ -48,19 +48,19 @@ class timingItem : public smartable {
     timingItem (
       string         activity,
       timingItemKind kind,
-      time_t         startTime,
-      time_t         endTime);
+      clock_t        startClock,
+      clock_t        endClock);
       
     static SMARTP<timingItem> createTimingItem (
       string                     activity,
       timingItem::timingItemKind kind,
-      time_t                     startTime,
-      time_t                     endTime);
+      clock_t                    startClock,
+      clock_t                    endClock);
 
     string          fActivity;
     timingItemKind  fKind;
-    time_t          fStartTime;
-    time_t          fEndTime;
+    clock_t         fStartClock;
+    clock_t         fEndClock;
 };
 
 typedef SMARTP<timingItem> S_timingItem;
@@ -76,11 +76,11 @@ class timing {
     static timing gTiming; 
 
     // add an item
-    void addTimingItem (
+    void appendTimingItem (
       string                     activity,
       timingItem::timingItemKind kind,
-      time_t                     startTime,
-      time_t                     endTime);
+      clock_t                    startClock,
+      clock_t                    endClock);
       
     // print
     void print (ostream& os) const;
