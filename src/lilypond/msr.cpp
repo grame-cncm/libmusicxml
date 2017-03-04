@@ -1527,6 +1527,57 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
   return clone;
 }
 
+S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
+  S_msrVoice voiceClone)
+{
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> creating a skip clone of grace notes" <<
+      endl;
+  
+  S_msrGracenotes
+    clone =
+      msrGracenotes::create (
+        fInputLineNumber,
+        fGracenotesIsSlashed,
+        voiceClone);
+
+  clone->fGracenotesIsSlashed =
+    fGracenotesIsSlashed;
+
+  // populating the clone with skips
+  for (
+    list<S_msrNote>::const_iterator i=fGracenotesNotesList.begin();
+    i!=fGracenotesNotesList.end();
+    i++) {
+    S_msrNote note = (*i);
+    
+  // create skip with same length as note
+    S_msrNote
+      skip =
+        msrNote::createSkipNote (
+          note->getInputLineNumber (),
+          note->getNoteDivisions (),
+          note->getNoteDivisionsPerWholeNote (),
+          voiceClone->getStaffRelativeVoiceNumber (), // JMI
+          voiceClone->getExternalVoiceNumber ());
+      
+      /*
+   static SMARTP<msrNote> createSkipNote (
+      int           inputLineNumber,
+      int           divisions,
+      int           divisionsPerWholeNote,
+      int           staffNumber,
+      int           externalVoiceNumber);
+      */
+
+    clone->
+      appendNoteToGracenotes (skip);
+  } // for
+    
+  return clone;
+}
+
 void msrGracenotes::appendNoteToGracenotes (S_msrNote note)
 {
   /*
@@ -8264,11 +8315,23 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   }
 }
 
+void msrMeasure::appendGracenotesToMeasure (
+  S_msrGracenotes gracenotes)
+{
+  fMeasureElementsList.push_back (gracenotes);
+}
+  
+void msrMeasure::prependGracenotesToMeasure (
+  S_msrGracenotes gracenotes)
+{
+  fMeasureElementsList.push_front (gracenotes);
+}
+  
 void msrMeasure::prependOtherElementToMeasure (S_msrElement elem)
 {
   fMeasureElementsList.push_front (elem);
 }
-  
+
 void msrMeasure::appendOtherElementToMeasure  (S_msrElement elem)
 {
   fMeasureElementsList.push_back (elem);
@@ -9557,6 +9620,21 @@ void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // XXL
     appendTupletToMeasure (tuplet);
 }
 
+void msrSegment::appendGracenotesToSegment (
+  S_msrGracenotes gracenotes)
+{
+  fSegmentMeasuresList.back ()->
+    appendGracenotesToMeasure (gracenotes);
+}
+
+void msrSegment::prependGracenotesToSegment (
+  S_msrGracenotes gracenotes)
+
+{
+  fSegmentMeasuresList.front ()->
+    appendGracenotesToMeasure (gracenotes); // JMI
+}
+
 void msrSegment::appendOtherElementToSegment (S_msrElement elem)
 {
   /*
@@ -10705,7 +10783,23 @@ void msrVoice::appendGracenotesToVoice (
       endl;
 
   fVoiceLastSegment->
-    appendOtherElementToSegment (gracenotes);
+    appendGracenotesToSegment (gracenotes);
+
+  fMusicHasBeenInsertedInVoice = true;
+}
+
+void msrVoice::prependGracenotesToVoice (
+  S_msrGracenotes gracenotes)
+{
+  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug)
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "Prepending grace notes " << // JMI gracenotes <<
+      " to voice \"" << getVoiceName () << "\"" <<
+      endl;
+
+  fVoiceLastSegment->
+    prependGracenotesToSegment (gracenotes);
 
   fMusicHasBeenInsertedInVoice = true;
 }

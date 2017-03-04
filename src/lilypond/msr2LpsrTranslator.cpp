@@ -1118,10 +1118,24 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
     // bug 34 in LilyPond should be worked aroud by creating
     // skip grance notes in the other voices of the part
 
-    createSkipGracenotesInPartOtherVoices (
+    // create skip gracenotes clone
+  //  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> creating a skip clone of grace notes " <<
+        elt <<
+        endl;
+  
+    S_msrGracenotes
+      skipGracenotes =
+        elt->
+          createSkipGracenotesClone (
+            fCurrentVoiceClone);
+
+    // prepend it to the other voices in the part
+    prependSkipGracenotesToPartOtherVoices (
       fCurrentPartClone,
       fCurrentVoiceClone,
-      elt);
+      skipGracenotes);
   }
 }
 
@@ -1135,11 +1149,21 @@ void msr2LpsrTranslator::visitEnd (S_msrGracenotes& elt)
   fCurrentGracenotesClone = 0;
 }
 
-void msr2LpsrTranslator::createSkipGracenotesInPartOtherVoices (
+void msr2LpsrTranslator::prependSkipGracenotesToPartOtherVoices (
   S_msrPart       fCurrentPartClone,
   S_msrVoice      fCurrentVoiceClone,
-  S_msrGracenotes elt)
+  S_msrGracenotes skipGracenotes)
 {
+  //  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> prepending a skip gracenotes clone " <<
+        skipGracenotes <<
+        " to voices other than \"" <<
+        fCurrentVoiceClone->getVoiceName () << "\"" <<
+        " in part " <<
+        fCurrentPartClone->getPartCombinedName () <<
+        endl;
+  
   map<int, S_msrStaff>
     partStavesMap =
       fCurrentPartClone->
@@ -1159,6 +1183,15 @@ void msr2LpsrTranslator::createSkipGracenotesInPartOtherVoices (
       map<int, S_msrVoice>::iterator j=staffVoicesMap.begin();
       j!=staffVoicesMap.end();
       j++) {
+
+      S_msrVoice voice = (*j).second;
+      
+      if (voice != fCurrentVoiceClone) {
+        // prepend skip grace notes to voice
+        voice->
+          prependGracenotesToVoice (
+            skipGracenotes);
+      }
     } // for
 
   } // for

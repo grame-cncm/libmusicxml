@@ -57,6 +57,9 @@ typedef SMARTP<msrBarCheck> S_msrBarCheck;
 class msrNote;
 typedef SMARTP<msrNote> S_msrNote;
 
+class msrGracenotes;
+typedef SMARTP<msrGracenotes> S_msrGracenotes;
+
 class msrChord;
 typedef SMARTP<msrChord> S_msrChord;
 
@@ -1611,6 +1614,9 @@ class EXP msrMeasure : public msrElement
     void          appendChordToMeasure (S_msrChord chord);
     void          appendTupletToMeasure (S_msrTuplet tuplet);
 
+    void          appendGracenotesToMeasure (S_msrGracenotes gracenotes);
+    void          prependGracenotesToMeasure (S_msrGracenotes gracenotes);
+    
     void          prependOtherElementToMeasure (S_msrElement elem);
                       
     void          appendOtherElementToMeasure  (S_msrElement elem);
@@ -1773,6 +1779,9 @@ class EXP msrSegment : public msrElement
     void          appendBarlineToSegment (S_msrBarline barline);
     void          appendBarCheckToSegment (S_msrBarCheck barCheck);
     
+    void          appendGracenotesToSegment (S_msrGracenotes gracenotes);
+    void          prependGracenotesToSegment (S_msrGracenotes gracenotes);
+    
     void          appendOtherElementToSegment (S_msrElement elem);
         
     void          prependBarlineToSegment (S_msrBarline barline);
@@ -1846,6 +1855,9 @@ class EXP msrGracenotes : public msrElement
       S_msrVoice gracenotesVoiceUplink);
     
     SMARTP<msrGracenotes> createGracenotesBareClone (
+      S_msrVoice voiceClone);
+
+    SMARTP<msrGracenotes> createSkipGracenotesClone (
       S_msrVoice voiceClone);
 
   protected:
@@ -4909,6 +4921,8 @@ class EXP msrVoice : public msrElement
     void          appendTupletToVoice (S_msrTuplet tuplet);
 
     void          appendGracenotesToVoice (
+                    S_msrGracenotes gracenotes);
+    void          prependGracenotesToVoice (
                     S_msrGracenotes gracenotes);
     
     S_msrSyllable
