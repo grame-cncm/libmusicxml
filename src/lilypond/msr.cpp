@@ -8016,7 +8016,7 @@ S_msrMeasure msrMeasure::appendMeasureIfOverflow (
     this->
       finalizeMeasure (
         inputLineNumber,
-        msrMeasure::kIncompleteRightMeasure);
+        msrMeasure::kOverfullMeasure); // JMI see cadenzas
       
     // create a new measure
     newMeasure =
@@ -8640,6 +8640,9 @@ string msrMeasure::getMeasureKindAsString () const
       break;
     case kIncompleteRightMeasure:
       result = "incomplete right";
+      break;
+    case kOverfullMeasure:
+      result = "over full";
       break;
   } // switch
 

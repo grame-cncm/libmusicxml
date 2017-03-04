@@ -1853,7 +1853,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrClef& elt)
   
   fOstream <<
     "\"" <<
-    endl;
+    endl <<
+    idtr;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrClef& elt)
@@ -2154,6 +2155,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
           fOstream <<
             endl <<
             "\\cadenzaOff" " "
+            "\\bar \"|\""
             "\\undo\\omit Stem" <<
             endl;
 
@@ -3321,11 +3323,13 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarCheck& elt)
   if (fMusicOlec > 0) // JMI
     fOstream <<
       "| % " << nextBarNumber <<
-      endl;
+      endl <<
+      idtr;
   else
     fOstream << idtr <<
       "| % " << nextBarNumber <<
-      endl;
+      endl <<
+      idtr;
 
   fMusicOlec.reset ();
 }

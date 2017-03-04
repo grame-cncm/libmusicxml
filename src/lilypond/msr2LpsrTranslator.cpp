@@ -1081,7 +1081,18 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
     fOstream << idtr <<
       "--> Start visiting msrGracenotes" << endl;
 
-  bool doCreateAGraceNoteClone = false;
+  // create a clone of this gracenotes
+  fCurrentGracenotesClone =
+    elt->
+      createGracenotesBareClone (
+        fCurrentVoiceClone);
+
+  // append it to the current voice clone
+  fCurrentVoiceClone->
+    appendGracenotesToVoice (
+      fCurrentGracenotesClone);
+
+  bool createSkipGracenotesInOtherVoices = false;
   
   if (fCurrentNoteClone) {
     // there is a note before these grace notes
@@ -1092,30 +1103,25 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
           "### msrGracenotes on a TRILLED note" <<
           endl;
 
-      doCreateAGraceNoteClone = true; // JMI
+    //  doCreateAGraceNoteClone = true; // JMI
     }
   
     else {
-      doCreateAGraceNoteClone = true;
+  //    doCreateAGraceNoteClone = true;
     }
   }
 
   else {
     // these grace notes are at the beginning of a segment JMI
-    doCreateAGraceNoteClone = true; // JMI    
-  }
+//    doCreateAGraceNoteClone = true; // JMI
 
-  if (doCreateAGraceNoteClone) {
-    // create a clone of this grace note
-    fCurrentGracenotesClone =
-      elt->
-        createGracenotesBareClone (
-          fCurrentVoiceClone);
-  
-    // append it to the current voice clone
-    fCurrentVoiceClone->
-      appendGracenotesToVoice (
-        fCurrentGracenotesClone);
+    // bug 34 in LilyPond should be worked aroud by creating
+    // skip grance notes in the other voices of the part
+
+    createSkipGracenotesInPartOtherVoices (
+      fCurrentPartClone,
+      fCurrentVoiceClone,
+      elt);
   }
 }
 
@@ -1127,6 +1133,35 @@ void msr2LpsrTranslator::visitEnd (S_msrGracenotes& elt)
 
   // forget about this grace notes
   fCurrentGracenotesClone = 0;
+}
+
+void msr2LpsrTranslator::createSkipGracenotesInPartOtherVoices (
+  S_msrPart       fCurrentPartClone,
+  S_msrVoice      fCurrentVoiceClone,
+  S_msrGracenotes elt)
+{
+  map<int, S_msrStaff>
+    partStavesMap =
+      fCurrentPartClone->
+        getPartStavesMap ();
+
+  for (
+    map<int, S_msrStaff>::const_iterator i=partStavesMap.begin();
+    i!=partStavesMap.end();
+    i++) {
+
+    map<int, S_msrVoice>
+      staffVoicesMap =
+        (*i).second->
+          getStaffVoicesMap ();
+          
+    for (
+      map<int, S_msrVoice>::iterator j=staffVoicesMap.begin();
+      j!=staffVoicesMap.end();
+      j++) {
+    } // for
+
+  } // for
 }
 
 //________________________________________________________________________

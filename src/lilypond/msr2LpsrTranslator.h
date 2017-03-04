@@ -306,6 +306,11 @@ class msr2LpsrTranslator :
     bool                      fOnGoingStaff;
     S_msrStafftuning          fCurrentStafftuningClone;
 
+    // voices
+    // ------------------------------------------------------    
+    S_msrVoice                fCurrentVoiceClone;
+    map<S_msrNote, S_msrNote> fVoiceNotesMap;
+    
     // repeats
     // ------------------------------------------------------
     S_msrRepeat               fCurrentRepeatClone;
@@ -320,11 +325,6 @@ class msr2LpsrTranslator :
     // segments
     // ------------------------------------------------------
     S_msrSegment              fCurrentSegmentClone;
-    
-    // voices
-    // ------------------------------------------------------    
-    S_msrVoice                fCurrentVoiceClone;
-    map<S_msrNote, S_msrNote> fVoiceNotesMap;
     
     // stanzas
     // ------------------------------------------------------
@@ -348,6 +348,10 @@ class msr2LpsrTranslator :
     // grace notes
     // ------------------------------------------------------
     S_msrGracenotes           fCurrentGracenotesClone;
+    void                      createSkipGracenotesInPartOtherVoices (
+                                S_msrPart       fCurrentPartClone,
+                                S_msrVoice      fCurrentVoiceClone,
+                                S_msrGracenotes elt);
     
     // chords
     // ------------------------------------------------------
