@@ -31,31 +31,31 @@ namespace MusicXML2 {
 
 
 //______________________________________________________________________________
-timingItem::timingItem (
-  string activity,
-  bool   mandatory,
-  time_t startTime,
-  time_t endTime)
-{
-  fActivity  = activity;
-  fMandatory = mandatory;
-  fStartTime = startTime;
-  fEndTime   = endTime;
-}
-
 S_timingItem createTimingItem (
-  string activity,
-  bool   mandatory,
-  time_t startTime,
-  time_t endTime)
+  string                     activity,
+  timingItem::timingItemKind kind,
+  time_t                     startTime,
+  time_t                     endTime)
 {
   timingItem* o = new timingItem (
     activity,
-    mandatory,
+    kind,
     startTime,
     endTime);
   assert(o!=0);
   return o;
+}
+
+timingItem::timingItem (
+  string         activity,
+  timingItemKind kind,
+  time_t         startTime,
+  time_t         endTime)
+{
+  fActivity  = activity;
+  fKind      = kind;
+  fStartTime = startTime;
+  fEndTime   = endTime;
 }
 
 timing::timing ()
@@ -65,16 +65,16 @@ timing::~timing ()
 {}
 
 void timing::addTimingItem (
-  string activity,
-  bool   mandatory,
-  time_t startTime,
-  time_t endTime)
+  string                     activity,
+  timingItem::timingItemKind kind,
+  time_t                     startTime,
+  time_t                     endTime)
 {
   S_timingItem
     timingItem =
       createTimingItem (
         activity,
-        mandatory,
+        kind,
         startTime,
         endTime);
     
@@ -88,9 +88,11 @@ ostream& operator<< (ostream& os, const timing& tim) {
 
 void timing::print (ostream& os) const
 { 
-  cout <<
-    setw(15) << "Activity" <<
-    setw(15) << "Mandatory" <<
+  os <<
+    "Timing information:" <<
+    endl << endl <<
+    setw(20) << "Activity" <<
+    setw(15) << "Kind" <<
     setw(15) << "Time spent" <<
     endl;
 
@@ -98,9 +100,19 @@ void timing::print (ostream& os) const
     list<S_timingItem>::const_iterator i=fTimingItemsList.begin();
     i!=fTimingItemsList.end();
     i++) {
-    cout <<
-      setw(15) << (*i)->fActivity <<
-      setw(15) << (*i)->fMandatory <<
+    os <<
+      setw(20) << (*i)->fActivity;
+
+    switch ((*i)->fKind) {
+      case timingItem::kMandatory:
+        os << setw(15) <<"mandatory";
+        break;
+      case timingItem::kOptional:
+        os << setw(15) <<"optional";
+        break;
+    } // switch
+
+    os <<
       setw(15) << (*i)->fEndTime - (*i)->fStartTime <<
       endl;
   } // for

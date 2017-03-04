@@ -1231,6 +1231,11 @@ int main (int argc, char *argv[])
   time (&readInputEndtime);
 
   // register time spent
+  timing::gTiming.addTimingItem (
+    "MusicXML to MSR",
+    timingItem::kMandatory,
+    readInputStarttime,
+    readInputEndtime);
 
   // create LPSR from MSR
   // ------------------------------------------------------
@@ -1272,7 +1277,13 @@ int main (int argc, char *argv[])
       outStream.close ();
     }
   }
+
+  // print timing information
+  // ------------------------------------------------------
+
+  timing::gTiming.print (cerr);
   
+
   if (! true) { // JMI
     cerr <<
       "### Conversion from LPSR to LilyPond code failed ###" <<

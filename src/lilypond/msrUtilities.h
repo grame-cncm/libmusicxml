@@ -42,22 +42,25 @@ namespace MusicXML2
 class timingItem : public smartable {
   public:
 
+    enum timingItemKind {
+      kMandatory, kOptional};
+      
     timingItem (
-      string activity,
-      bool   mandatory,
-      time_t startTime,
-      time_t endTime);
+      string         activity,
+      timingItemKind kind,
+      time_t         startTime,
+      time_t         endTime);
       
     static SMARTP<timingItem> createTimingItem (
-      string activity,
-      bool   mandatory,
-      time_t startTime,
-      time_t endTime);
+      string                     activity,
+      timingItem::timingItemKind kind,
+      time_t                     startTime,
+      time_t                     endTime);
 
-    string fActivity;
-    bool   fMandatory;
-    time_t fStartTime;
-    time_t fEndTime;
+    string          fActivity;
+    timingItemKind  fKind;
+    time_t          fStartTime;
+    time_t          fEndTime;
 };
 
 typedef SMARTP<timingItem> S_timingItem;
@@ -74,10 +77,10 @@ class timing {
 
     // add an item
     void addTimingItem (
-      string activity,
-      bool   mandatory,
-      time_t startTime,
-      time_t endTime);
+      string                     activity,
+      timingItem::timingItemKind kind,
+      time_t                     startTime,
+      time_t                     endTime);
       
     // print
     void print (ostream& os) const;
