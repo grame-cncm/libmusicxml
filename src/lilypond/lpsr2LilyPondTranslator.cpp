@@ -1473,6 +1473,16 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrVoice& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondTranslator::visitStart (S_msrHarmony& elt)
+{
+  if (gGeneralOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrHarmony" << endl;
+
+// JMI
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrSegment& elt)
 {
   if (gGeneralOptions->fDebug)

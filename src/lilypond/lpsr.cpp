@@ -2730,17 +2730,14 @@ lpsrScore::lpsrScore (
   
   s <<
     "Command line used:" <<
-    endl;
-
-  idtr++;
+    endl <<
+    idtr;
 
   s <<
-    "%   " <<
+    "%" "   " <<
       gGeneralOptions->fProgramName << " " <<
       gGeneralOptions->fCommandLineOptions <<
       gGeneralOptions->fInputSourceName;
-
-  idtr--;
   
   fCommandLineOptionsComment =
     lpsrComment::create (

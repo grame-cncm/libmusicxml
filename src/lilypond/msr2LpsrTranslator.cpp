@@ -668,6 +668,18 @@ void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
+{
+  if (gGeneralOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrHarmony" << endl;
+
+  // append the harmony to the current part clone
+  fCurrentPartClone->
+    appendHarmonyToPart (elt);
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 {
   if (gGeneralOptions->fDebug)
@@ -1111,6 +1123,8 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
   }
 
   else {
+ // JMI XXL find good criterion for this
+
     // these grace notes are at the beginning of a segment JMI
 //    doCreateAGraceNoteClone = true; // JMI
 

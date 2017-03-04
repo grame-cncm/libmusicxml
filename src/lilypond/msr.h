@@ -4904,6 +4904,8 @@ class EXP msrVoice : public msrElement
     void          appendKeyToVoice  (S_msrKey  key);
     void          appendTimeToVoice (S_msrTime time);
     
+    void          appendHarmonyToVoice (S_msrHarmony harmony);
+
     void          appendTransposeToVoice (
                     S_msrTranspose transpose);
 
@@ -5315,6 +5317,8 @@ class EXP msrStaff : public msrElement
     void          appendKeyToAllStaffVoices  (S_msrKey   key);
     void          appendTimeToAllStaffVoices (S_msrTime time);
     
+    void          appendHarmonyToStaff (S_msrHarmony harmony);
+
     void          appendTransposeToAllStaffVoices (S_msrTranspose transpose);
 
     void          addStafftuningToStaff (

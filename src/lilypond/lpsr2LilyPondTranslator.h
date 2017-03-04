@@ -73,6 +73,8 @@ class lpsr2LilyPondTranslator :
   
   public visitor<S_msrVoice>,
   
+  public visitor<S_msrHarmony>,
+
   public visitor<S_msrSegment>,
   public visitor<S_msrMeasure>,
 
@@ -228,6 +230,8 @@ class lpsr2LilyPondTranslator :
     virtual void visitStart (S_msrVoice& elt);
     virtual void visitEnd   (S_msrVoice& elt);
 
+    virtual void visitStart (S_msrHarmony& elt);
+    
     virtual void visitStart (S_msrSegment& elt);
     virtual void visitEnd   (S_msrSegment& elt);
 

@@ -56,6 +56,8 @@ class msr2LpsrTranslator :
   
   public visitor<S_msrSegment>,
   
+  public visitor<S_msrHarmony>,
+
   public visitor<S_msrMeasure>,
     
   public visitor<S_msrArticulation>,
@@ -166,6 +168,8 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrSegment& elt);
     virtual void visitEnd   (S_msrSegment& elt);
 
+    virtual void visitStart (S_msrHarmony& elt);
+    
     virtual void visitStart (S_msrMeasure& elt);
     virtual void visitEnd   (S_msrMeasure& elt);
 

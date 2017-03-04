@@ -174,7 +174,6 @@ class EXP xml2MsrTranslator :
   public visitor<S_degree_alter>,
   public visitor<S_degree_type>,
 
-
   public visitor<S_measure>,
   public visitor<S_print>,
   

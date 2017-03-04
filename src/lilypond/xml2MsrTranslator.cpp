@@ -6710,8 +6710,8 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
     
     idtr++;
 
-  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
+ // if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
     cerr <<
       idtr <<
         "--> handleStandaloneOrGraceNoteOrRest: " <<
@@ -6858,7 +6858,7 @@ xml2MsrTranslator.cpp:4249
 void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
   int inputLineNumber)
 {
-//    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "=== handleTupletsPendingOnTupletStack()" <<
       ", line = " << inputLineNumber <<
