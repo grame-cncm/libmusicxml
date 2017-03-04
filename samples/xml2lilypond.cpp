@@ -1192,9 +1192,6 @@ int main (int argc, char *argv[])
   // create MSR from MusicXML contents
   // ------------------------------------------------------
 
-  time_t readInputStarttime;
-  time (&readInputStarttime);
-
   S_msrScore mScore;
 
   if (inputFileName == "-") {
@@ -1227,15 +1224,8 @@ int main (int argc, char *argv[])
     return 1;
   }
 
-  time_t readInputEndtime;
-  time (&readInputEndtime);
-
-  // register time spent
-  timing::gTiming.addTimingItem (
-    "MusicXML to MSR",
-    timingItem::kMandatory,
-    readInputStarttime,
-    readInputEndtime);
+  time_t MusicXML2MSREndtime;
+  time (&MusicXML2MSREndtime);
 
   // create LPSR from MSR
   // ------------------------------------------------------

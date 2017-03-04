@@ -87,33 +87,43 @@ ostream& operator<< (ostream& os, const timing& tim) {
 }
 
 void timing::print (ostream& os) const
-{ 
+{
+  const int
+    activityWidth = 42,
+    kindWidth     = 12,
+    secondsWidth  =  6;
+    
   os <<
     "Timing information:" <<
     endl << endl <<
-    setw(20) << "Activity" <<
-    setw(15) << "Kind" <<
-    setw(15) << "Time spent" <<
-    endl;
+    setw(activityWidth) << "Activity" <<
+    setw(kindWidth) << "Kind" <<
+    setw(secondsWidth) << "Seconds" <<
+    endl <<
+    setw(activityWidth) << "--------" <<
+    setw(kindWidth) << "----" <<
+    setw(secondsWidth) << "-------" <<
+    endl << endl;
 
   for (
     list<S_timingItem>::const_iterator i=fTimingItemsList.begin();
     i!=fTimingItemsList.end();
     i++) {
-    os <<
-      setw(20) << (*i)->fActivity;
+    os << left <<
+      setw(activityWidth) << (*i)->fActivity;
 
     switch ((*i)->fKind) {
       case timingItem::kMandatory:
-        os << setw(15) <<"mandatory";
+        os << setw(kindWidth) <<"mandatory";
         break;
       case timingItem::kOptional:
-        os << setw(15) <<"optional";
+        os << setw(kindWidth) <<"optional";
         break;
     } // switch
 
     os <<
-      setw(15) << (*i)->fEndTime - (*i)->fStartTime <<
+      setw(secondsWidth) << setprecision(2) << right <<
+      difftime ((*i)->fEndTime, (*i)->fStartTime) <<
       endl;
   } // for
 }

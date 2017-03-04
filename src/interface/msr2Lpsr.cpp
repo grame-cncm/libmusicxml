@@ -63,6 +63,9 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   S_lpsrOptions&   lpsrOpts,
   ostream&         os)
 {
+  time_t starttime;
+  time (&starttime);
+
   if (gGeneralOptions->fTrace) {
     string separator =
       "%--------------------------------------------------------------";
@@ -86,6 +89,16 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   // build the LPSR score
   translator.buildLpsrScoreFromMsrScore ();
 
+  time_t endtime;
+  time (&endtime);
+
+  // register time spent
+  timing::gTiming.addTimingItem (
+    "Pass 3: translate MSR to LPSR",
+    timingItem::kMandatory,
+    starttime,
+    endtime);
+
   return translator.getLpsrScore ();
 }
 
@@ -96,6 +109,9 @@ void displayLpsrScore (
   S_lpsrOptions&    lpsrOpts,
   ostream&          os)
 {
+  time_t starttime;
+  time (&starttime);
+
   string separator =
     "%--------------------------------------------------------------";
 
@@ -115,6 +131,16 @@ void displayLpsrScore (
   if (gGeneralOptions->fTrace) os << "%}" << endl;
   
   os << separator << endl;
+
+  time_t endtime;
+  time (&endtime);
+
+  // register time spent
+  timing::gTiming.addTimingItem (
+    "        display the LPSR",
+    timingItem::kOptional,
+    starttime,
+    endtime);
 }
 
 
