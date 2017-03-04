@@ -19,6 +19,7 @@
 #include <stdlib.h>     /* abort, NULL */
 #include <cassert>
 #include <vector>
+#include <iomanip>      // setw, ...
 
 #include "rational.h"
 
@@ -28,6 +29,84 @@ using namespace std;
 
 namespace MusicXML2 {
 
+
+//______________________________________________________________________________
+timingItem::timingItem (
+  string activity,
+  bool   mandatory,
+  time_t startTime,
+  time_t endTime)
+{
+  fActivity  = activity;
+  fMandatory = mandatory;
+  fStartTime = startTime;
+  fEndTime   = endTime;
+}
+
+S_timingItem createTimingItem (
+  string activity,
+  bool   mandatory,
+  time_t startTime,
+  time_t endTime)
+{
+  timingItem* o = new timingItem (
+    activity,
+    mandatory,
+    startTime,
+    endTime);
+  assert(o!=0);
+  return o;
+}
+
+timing::timing ()
+{}
+
+timing::~timing ()
+{}
+
+void timing::addTimingItem (
+  string activity,
+  bool   mandatory,
+  time_t startTime,
+  time_t endTime)
+{
+  S_timingItem
+    timingItem =
+      createTimingItem (
+        activity,
+        mandatory,
+        startTime,
+        endTime);
+    
+  fTimingItemsList.push_back (timingItem);
+}
+
+ostream& operator<< (ostream& os, const timing& tim) {
+  tim.print(os);
+  return os;
+}
+
+void timing::print (ostream& os) const
+{ 
+  cout <<
+    setw(15) << "Activity" <<
+    setw(15) << "Mandatory" <<
+    setw(15) << "Time spent" <<
+    endl;
+
+  for (
+    list<S_timingItem>::const_iterator i=fTimingItemsList.begin();
+    i!=fTimingItemsList.end();
+    i++) {
+    cout <<
+      setw(15) << (*i)->fActivity <<
+      setw(15) << (*i)->fMandatory <<
+      setw(15) << (*i)->fEndTime - (*i)->fStartTime <<
+      endl;
+  } // for
+}
+
+timing timing::gTiming;
 
 //______________________________________________________________________________
 indenter::indenter (string spacer)

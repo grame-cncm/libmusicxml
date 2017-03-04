@@ -20,6 +20,8 @@
 #include <list>
 #include <algorithm> 
 
+#include "smartpointer.h"
+
 #include "basevisitor.h"
 
 using namespace std;
@@ -31,6 +33,60 @@ namespace MusicXML2
 @{
 */
 
+
+//______________________________________________________________________________
+/*!
+\internal
+\brief Provides easy indentation of text output.
+*/
+class timingItem : public smartable {
+  public:
+
+    timingItem (
+      string activity,
+      bool   mandatory,
+      time_t startTime,
+      time_t endTime);
+      
+    static SMARTP<timingItem> createTimingItem (
+      string activity,
+      bool   mandatory,
+      time_t startTime,
+      time_t endTime);
+
+    string fActivity;
+    bool   fMandatory;
+    time_t fStartTime;
+    time_t fEndTime;
+};
+
+typedef SMARTP<timingItem> S_timingItem;
+
+class timing {
+  public:
+
+    timing ();
+      
+    virtual ~timing();
+
+    // global variable for general use
+    static timing gTiming; 
+
+    // add an item
+    void addTimingItem (
+      string activity,
+      bool   mandatory,
+      time_t startTime,
+      time_t endTime);
+      
+    // print
+    void print (ostream& os) const;
+
+  private:
+
+    list<S_timingItem>  fTimingItemsList;
+};
+ostream& operator<< (ostream& os, const timing& tim);
 
 //______________________________________________________________________________
 /*!
@@ -60,7 +116,7 @@ class indenter {
     int    fIndent;
     string fSpacer;
 };
-ostream& operator<< (ostream& os, const indenter& number);
+ostream& operator<< (ostream& os, const indenter& idtr);
 
 //______________________________________________________________________________
 /*!

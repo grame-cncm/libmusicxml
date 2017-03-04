@@ -1096,14 +1096,14 @@ int main (int argc, char *argv[])
   // translation date
   // ------------------------------------------------------
 
-  time_t      rawtime;
-  struct tm*  timeinfo;
+  time_t      translationRawtime;
+  struct tm*  translationTimeinfo;
   char buffer [80];
 
-  time (&rawtime);
-  timeinfo = localtime (&rawtime);
+  time (&translationRawtime);
+  translationTimeinfo = localtime (&translationRawtime);
 
-  strftime (buffer, 80, "%A %F @ %T %Z", timeinfo);
+  strftime (buffer, 80, "%A %F @ %T %Z", translationTimeinfo);
   gGeneralOptions->fTranslationDate = buffer;
   
   // trace
@@ -1137,7 +1137,7 @@ int main (int argc, char *argv[])
     
     printOptions ();
   }
-    
+
   // open output file if need be
   // ------------------------------------------------------
 
@@ -1192,6 +1192,9 @@ int main (int argc, char *argv[])
   // create MSR from MusicXML contents
   // ------------------------------------------------------
 
+  time_t readInputStarttime;
+  time (&readInputStarttime);
+
   S_msrScore mScore;
 
   if (inputFileName == "-") {
@@ -1223,6 +1226,11 @@ int main (int argc, char *argv[])
       endl;
     return 1;
   }
+
+  time_t readInputEndtime;
+  time (&readInputEndtime);
+
+  // register time spent
 
   // create LPSR from MSR
   // ------------------------------------------------------
