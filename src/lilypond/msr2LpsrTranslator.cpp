@@ -1095,7 +1095,7 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
   bool createSkipGracenotesInOtherVoices = false;
   
   if (fCurrentNoteClone) {
-    // there is a note before these grace notes
+    // there is at least a note before these grace notes
     
     if (fCurrentNoteClone->noteHasATrill ()) {
   //    if (gGeneralOptions->fForceDebug || gMsrOptions->fDebug)
@@ -1103,7 +1103,6 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
           "### msrGracenotes on a TRILLED note" <<
           endl;
 
-    //  doCreateAGraceNoteClone = true; // JMI
     }
   
     else {
@@ -1122,7 +1121,7 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
   //  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> creating a skip clone of grace notes " <<
-        elt <<
+        elt->gracenotesAsShortString () <<
         endl;
   
     S_msrGracenotes
@@ -1157,7 +1156,7 @@ void msr2LpsrTranslator::prependSkipGracenotesToPartOtherVoices (
   //  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> prepending a skip gracenotes clone " <<
-        skipGracenotes <<
+        skipGracenotes->gracenotesAsShortString () <<
         " to voices other than \"" <<
         fCurrentVoiceClone->getVoiceName () << "\"" <<
         " in part " <<

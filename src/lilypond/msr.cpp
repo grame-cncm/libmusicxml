@@ -1512,6 +1512,7 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
 //  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating a bare clone of grace notes" <<
+      gracenotesAsShortString () <<
       endl;
   
   S_msrGracenotes
@@ -1533,6 +1534,7 @@ S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
 //  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating a skip clone of grace notes" <<
+      gracenotesAsShortString () <<
       endl;
   
   S_msrGracenotes
@@ -1663,11 +1665,34 @@ ostream& operator<< (ostream& os, const S_msrGracenotes& elt)
   return os;
 }
 
+string msrGracenotes::gracenotesAsShortString ()
+{
+  stringstream s;
+
+  s <<
+    "Gracenotes" " ";
+
+  list<S_msrNote>::const_iterator
+    iBegin = fGracenotesNotesList.begin(),
+    iEnd   = fGracenotesNotesList.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    s << (*i)->noteAsShortString ();
+    if (++i == iEnd) break;
+    s << " ";
+  } // for
+
+  return s.str();
+}
+
 void msrGracenotes::print (ostream& os)
 {
   os <<
     "Gracenotes" <<
     ", line " << fInputLineNumber <<
+    ", " <<
+    singularOrPlural (
+      fGracenotesNotesList.size (), "note", "notes") <<
     ", slashed: " <<
     booleanAsString (fGracenotesIsSlashed) <<
     endl;
@@ -1683,7 +1708,7 @@ void msrGracenotes::print (ostream& os)
   for ( ; ; ) {
     os << idtr << (*i);
     if (++i == iEnd) break;
-    os << endl;
+ // JMI   os << endl;
   } // for
 
   idtr--;

@@ -1893,6 +1893,8 @@ class EXP msrGracenotes : public msrElement
     // ------------------------------------------------------
 
     void          appendNoteToGracenotes (S_msrNote note);
+
+    string        gracenotesAsShortString ();
     
     // visitors
     // ------------------------------------------------------
