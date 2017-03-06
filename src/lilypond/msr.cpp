@@ -7111,7 +7111,9 @@ void msrHarmony::print (ostream& os)
   os << left <<
     idtr <<
       setw(15) << "HarmonyRoot" << " = " <<
-      fHarmonyRootStep << fHarmonyRootAlter <<
+      fHarmonyRootStep <<
+      msrNoteData::alterationKindAsString (
+        fHarmonyRootAlter) <<
       endl <<
     idtr <<
       setw(15) << "HarmonyKind" << " = " <<
@@ -7123,7 +7125,9 @@ void msrHarmony::print (ostream& os)
       endl <<
     idtr <<
       setw(15) << "HarmonyBass" << " = " <<
-      fHarmonyBassStep << fHarmonyBassAlter <<
+      fHarmonyBassStep <<
+      msrNoteData::alterationKindAsString (
+        fHarmonyBassAlter) <<
       endl;
 
   idtr--;

@@ -87,6 +87,15 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fOnGoingSlur          = false;
   fOnGoingSlurHasStanza = false;
 
+  fCurrentHarmonyRootStep    = '_';
+  fCurrentHarmonyRootAlter   = 0.0; // natural note
+  fCurrentHarmonyKind        = msrHarmony::k_NoHarmony;
+  fCurrentHarmonyKindText    = "";
+  fCurrentHarmonyBassStep    = '_';
+  fCurrentHarmonyBassAlter   = 0.0; // natural note
+  fCurrentHarmonyDegreeValue = -1;
+  fCurrentHarmonyDegreeAlter = 0.0; // natural note
+
   fOnGoingDirection     = true;
   fOnGoingDirectionType = false;
 
