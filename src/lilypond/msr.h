@@ -2280,11 +2280,13 @@ class EXP msrHarmony : public msrElement
     static SMARTP<msrHarmony> create (
       int                   inputLineNumber,
       char                  harmonyRootStep,
-      float                 harmonyRootAlter,
+      msrNoteData::msrAlterationKind
+                            harmonyRootAlteration,
       msrHarmonyKind        harmonyKind,
       string                harmonyKindText,
       char                  harmonyBassStep,
-      float                 harmonyBassAlter,
+      msrNoteData::msrAlterationKind
+                            harmonyBassAlteration,
       S_msrPart             harmonyPartUplink);
     
     SMARTP<msrHarmony> createHarmonyBareClone (
@@ -2298,11 +2300,13 @@ class EXP msrHarmony : public msrElement
     msrHarmony (
       int                   inputLineNumber,
       char                  harmonyRootStep,
-      float                 harmonyRootAlter,
+      msrNoteData::msrAlterationKind
+                            harmonyRootAlteration,
       msrHarmonyKind        harmonyKind,
       string                harmonyKindText,
       char                  harmonyBassStep,
-      float                 harmonyBassAlter,
+      msrNoteData::msrAlterationKind
+                            harmonyBassAlteration,
       S_msrPart             harmonyPartUplink);
 
     virtual ~msrHarmony();
@@ -2315,8 +2319,9 @@ class EXP msrHarmony : public msrElement
     char            getHarmonyRootStep () const
                         { return fHarmonyRootStep; }
                 
-    float           getHarmonyRootAlter () const
-                        { return fHarmonyRootAlter; }
+    msrNoteData::msrAlterationKind
+                    getHarmonyRootAlteration () const
+                        { return fHarmonyRootAlteration; }
                 
     msrHarmonyKind  getHarmonyKind () const
                         { return fHarmonyKind; }
@@ -2324,12 +2329,12 @@ class EXP msrHarmony : public msrElement
     string          getHarmonyKindText () const
                         { return fHarmonyKindText; }
                 
-                
     char            getHarmonyBassStep () const
                         { return fHarmonyBassStep; }
                 
-    float           getHarmonyBassAlter () const
-                        { return fHarmonyBassAlter; }
+    msrNoteData::msrAlterationKind
+                    getHarmonyBassAlteration () const
+                        { return fHarmonyBassAlteration; }
                 
     S_msrPart       getHarmonyVoiceUplink () const
                         { return fHarmonyPartUplink; }
@@ -2358,13 +2363,15 @@ class EXP msrHarmony : public msrElement
   private:
 
     char                      fHarmonyRootStep;
-    float                     fHarmonyRootAlter;
+    msrNoteData::msrAlterationKind
+                              fHarmonyRootAlteration;
 
     msrHarmonyKind            fHarmonyKind;
     string                    fHarmonyKindText;
 
     char                      fHarmonyBassStep;
-    float                     fHarmonyBassAlter;
+    msrNoteData::msrAlterationKind
+                              fHarmonyBassAlteration;
     
     S_msrPart                 fHarmonyPartUplink;
 };

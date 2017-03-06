@@ -6995,19 +6995,21 @@ void msrStanza::print (ostream& os)
 S_msrHarmony msrHarmony::create (
   int                   inputLineNumber,
   char                  harmonyRootStep,
-  float                 harmonyRootAlter,
+  msrNoteData::msrAlterationKind
+                        harmonyRootAlteration,
   msrHarmonyKind        harmonyKind,
   string                harmonyKindText,
   char                  harmonyBassStep,
-  float                 harmonyBassAlter,
+  msrNoteData::msrAlterationKind
+                        harmonyBassAlteration,
   S_msrPart             harmonyPartUplink)
 {
   msrHarmony* o =
     new msrHarmony (
       inputLineNumber,
-      harmonyRootStep, harmonyRootAlter,
+      harmonyRootStep, harmonyRootAlteration,
       harmonyKind, harmonyKindText,
-      harmonyBassStep, harmonyBassAlter,
+      harmonyBassStep, harmonyBassAlteration,
       harmonyPartUplink);
   assert(o!=0);
   return o;
@@ -7016,22 +7018,24 @@ S_msrHarmony msrHarmony::create (
 msrHarmony::msrHarmony (
   int                   inputLineNumber,
   char                  harmonyRootStep,
-  float                 harmonyRootAlter,
+  msrNoteData::msrAlterationKind
+                        harmonyRootAlteration,
   msrHarmonyKind        harmonyKind,
   string                harmonyKindText,
   char                  harmonyBassStep,
-  float                 harmonyBassAlter,
+  msrNoteData::msrAlterationKind
+                        harmonyBassAlteration,
   S_msrPart             harmonyPartUplink)
     : msrElement (inputLineNumber)
 {
-  fHarmonyRootStep   = harmonyRootStep;
-  fHarmonyRootAlter  = harmonyRootAlter;
+  fHarmonyRootStep       = harmonyRootStep;
+  fHarmonyRootAlteration = harmonyRootAlteration;
  
-  fHarmonyKind       = harmonyKind;
-  fHarmonyKindText   = harmonyKindText;
+  fHarmonyKind           = harmonyKind;
+  fHarmonyKindText       = harmonyKindText;
  
-  fHarmonyBassStep   = harmonyBassStep;
-  fHarmonyBassAlter  = harmonyBassAlter;
+  fHarmonyBassStep       = harmonyBassStep;
+  fHarmonyBassAlteration = harmonyBassAlteration;
  
   fHarmonyPartUplink = harmonyPartUplink;
 }
@@ -7049,9 +7053,9 @@ S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
     clone =
       msrHarmony::create (
         fInputLineNumber,
-        fHarmonyRootStep, fHarmonyRootAlter,
+        fHarmonyRootStep, fHarmonyRootAlteration,
         fHarmonyKind, fHarmonyKindText,
-        fHarmonyBassStep, fHarmonyBassAlter,
+        fHarmonyBassStep, fHarmonyBassAlteration,
         clonedPart);
   
   return clone;
@@ -7105,9 +7109,16 @@ string msrHarmony::harmonyAsString () const
   stringstream s;
 
   s <<
-    fHarmonyRootStep << fHarmonyRootAlter <<
-    harmonyKindAsString () << fHarmonyKindText <<
-    fHarmonyBassStep << fHarmonyBassAlter;
+    "Harmony" " "<<
+    fHarmonyRootStep <<
+    msrNoteData::alterationKindAsString (
+      fHarmonyRootAlteration) <<
+    harmonyKindAsString () <<
+    " (" <<fHarmonyKindText << ")" <<
+    "/" <<
+    fHarmonyBassStep <<
+    msrNoteData::alterationKindAsString (
+      fHarmonyBassAlteration);
 
   return s.str();
 }
@@ -7167,9 +7178,8 @@ void msrHarmony::print (ostream& os)
     idtr <<
       setw(15) << "HarmonyRoot" << " = " <<
       fHarmonyRootStep <<
-      msrNoteData::alterationFromAlter (
-        fInputLineNumber,
-        fHarmonyRootAlter) <<
+      msrNoteData::alterationKindAsString (
+        fHarmonyRootAlteration) <<
       endl <<
     idtr <<
       setw(15) << "HarmonyKind" << " = " <<
@@ -7182,9 +7192,8 @@ void msrHarmony::print (ostream& os)
     idtr <<
       setw(15) << "HarmonyBass" << " = " <<
       fHarmonyBassStep <<
-      msrNoteData::alterationFromAlter (
-        fInputLineNumber,
-        fHarmonyBassAlter) <<
+      msrNoteData::alterationKindAsString (
+        fHarmonyBassAlteration) <<
       endl;
 
   idtr--;
