@@ -5494,6 +5494,31 @@ void xml2MsrTranslator::copyNoteWedgesToChord (
 }
 
 //______________________________________________________________________________
+void xml2MsrTranslator::copyNoteHarmonyToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's harmony if any from the first note to chord
+  
+  S_msrHarmony
+    harmony =
+      note->
+        getNoteHarmony ();
+                          
+  if (harmony) {
+    // JMI   if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> copying harmony '" <<
+        harmony->harmonyAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord '" << chord->chordAsString () <<
+        "'" <<
+        endl;
+
+    chord->addHarmonyToChord (harmony);
+  }    
+}
+
+//______________________________________________________________________________
 void xml2MsrTranslator::copyNoteElementsToChord (
   S_msrNote note, S_msrChord chord)
 {  
@@ -5739,7 +5764,7 @@ void xml2MsrTranslator::attachCurrentOrnamentsToNote (
 }
 
 //______________________________________________________________________________
-void xml2MsrTranslator::attachCurrentArticulationsToChord (
+void xml2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
   S_msrChord chord)
 {
   if (! fCurrentArticulations.empty()) {
@@ -5768,7 +5793,7 @@ void xml2MsrTranslator::attachCurrentArticulationsToChord (
 }
 
 //______________________________________________________________________________
-void xml2MsrTranslator::attachCurrentOrnamentsToChord (
+void xml2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
   S_msrChord chord)
 {
   if (! fCurrentOrnamentsList.empty()) {
@@ -6141,6 +6166,14 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   // attach the ornaments if any to the note
   attachCurrentOrnamentsToNote (newNote);
 
+  // attach the harmony if any to the note
+  if (fCurrentHarmony) {
+    newNote->
+      setNoteHarmony (fCurrentHarmony);
+    
+    fCurrentHarmony = 0;
+  }
+  
   /*
   A rest can be standalone or belong to a tuplet
 
@@ -7903,8 +7936,7 @@ void xml2MsrTranslator::visitStart ( S_rehearsal& elt )
 
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_harmony& elt )
-{
-}
+{}
 
 void xml2MsrTranslator::visitStart ( S_root_step& elt )
 {
@@ -8038,18 +8070,21 @@ void xml2MsrTranslator::visitStart ( S_degree_type& elt )
 void xml2MsrTranslator::visitEnd ( S_harmony& elt )
 {
   // create the harmony
-  S_msrHarmony
-    harmony =
-      msrHarmony::create (
-        elt->getInputLineNumber (),
-        fCurrentHarmonyRootStep, fCurrentHarmonyRootStep,
-        fCurrentHarmonyKind, fCurrentHarmonyKindText,
-        fCurrentHarmonyBassStep, fCurrentHarmonyBassAlter,
-        fCurrentPart);
+  fCurrentHarmony =
+    msrHarmony::create (
+      elt->getInputLineNumber (),
+      fCurrentHarmonyRootStep, fCurrentHarmonyRootStep,
+      fCurrentHarmonyKind, fCurrentHarmonyKindText,
+      fCurrentHarmonyBassStep, fCurrentHarmonyBassAlter,
+      fCurrentPart);
 
+  // it will be attached to the next note
+
+  /* JMI
   // append it to current part
   fCurrentPart->
     appendHarmonyToPart (harmony);
+    */
 }
 
 /*

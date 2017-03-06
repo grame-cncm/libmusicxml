@@ -2242,6 +2242,132 @@ typedef SMARTP<msrSyllable> S_msrSyllable;
 EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
 
 /*!
+\brief A msr harmony representation.
+
+  A harmony is represented by a list of syllables,
+*/
+//______________________________________________________________________________
+class EXP msrHarmony : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrHarmonyKind {
+      kMajor, kMinor, kDominant,
+      kAugmented, kDiminished,
+      kSuspendedFourth,
+      kMajorSeventh,kMinorSeventh,
+      kMajorNinth, kMinorNinth};
+
+    static string harmonyKindAsString (
+      msrHarmonyKind harmonyKind);
+      
+    enum msrHarmonyDegreeTypeKind {
+      kAdd, kAlter, kSubstract};
+
+    static string harmonyDegreeTypeKindAsString (
+      msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrHarmony> create (
+      int                   inputLineNumber,
+      char                  harmonyRootStep,
+      float                 harmonyRootAlter,
+      msrHarmonyKind        harmonyKind,
+      string                harmonyKindText,
+      char                  harmonyBassStep,
+      float                 harmonyBassAlter,
+      S_msrPart             harmonyPartUplink);
+    
+    SMARTP<msrHarmony> createHarmonyBareClone (
+      S_msrPart clonedPart);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrHarmony (
+      int                   inputLineNumber,
+      char                  harmonyRootStep,
+      float                 harmonyRootAlter,
+      msrHarmonyKind        harmonyKind,
+      string                harmonyKindText,
+      char                  harmonyBassStep,
+      float                 harmonyBassAlter,
+      S_msrPart             harmonyPartUplink);
+
+    virtual ~msrHarmony();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    char            getHarmonyRootStep () const
+                        { return fHarmonyRootStep; }
+                
+    float           getHarmonyRootAlter () const
+                        { return fHarmonyRootAlter; }
+                
+    msrHarmonyKind  getHarmonyKind () const
+                        { return fHarmonyKind; }
+                
+    string          getHarmonyKindText () const
+                        { return fHarmonyKindText; }
+                
+                
+    char            getHarmonyBassStep () const
+                        { return fHarmonyBassStep; }
+                
+    float           getHarmonyBassAlter () const
+                        { return fHarmonyBassAlter; }
+                
+    S_msrPart       getHarmonyVoiceUplink () const
+                        { return fHarmonyPartUplink; }
+                
+
+    // services
+    // ------------------------------------------------------
+
+    string      harmonyKindAsString () const;
+    
+    string      harmonyAsString () const;
+   
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    char                      fHarmonyRootStep;
+    float                     fHarmonyRootAlter;
+
+    msrHarmonyKind            fHarmonyKind;
+    string                    fHarmonyKindText;
+
+    char                      fHarmonyBassStep;
+    float                     fHarmonyBassAlter;
+    
+    S_msrPart                 fHarmonyPartUplink;
+};
+typedef SMARTP<msrHarmony> S_msrHarmony;
+EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
+
+/*!
 \brief A msr note representation.
 
   A note is represented by its name, optional accidentals,
@@ -2456,6 +2582,13 @@ class EXP msrNote : public msrElement
                   getNoteSyllableExtendKind () const
                       { return fNoteSyllableExtendKind; }              
 
+    // harmony
+    void          setNoteHarmony (S_msrHarmony harmony)
+                      { fNoteHarmony = harmony; }
+    const S_msrHarmony&
+                  getNoteHarmony () const
+                      { return fNoteHarmony; };
+    
     // measure uplink
     void          setNoteMeasureUplink (
                     const S_msrMeasure& measure)
@@ -2572,6 +2705,8 @@ class EXP msrNote : public msrElement
     // this is useful to produce a nice \aftergrace in LilyPond 
     bool                      fNoteHasATrill;
 
+    S_msrHarmony              fNoteHarmony;
+
     S_msrMeasure              fNoteMeasureUplink;
 };
 typedef SMARTP<msrNote> S_msrNote;
@@ -2619,6 +2754,48 @@ class EXP msrChord : public msrElement
                   getChordNotes () const
                       { return fChordNotes; }
 
+    // ties
+    void          setChordTie (
+                    const S_msrTie tie)
+                      { fChordTie = tie; }
+
+    S_msrTie
+                  getChordTie () const
+                      { return fChordTie; }
+
+    const list<S_msrArticulation>&
+                  getChordArticulations () const
+                      { return fChordArticulations; }
+
+    const list<S_msrOrnament>&
+                  getChordOrnaments () const
+                      { return fChordOrnaments; }
+
+    const list<S_msrDynamics>&
+                  getChordDynamics () const
+                      { return fChordDynamics; }
+                      
+    const list<S_msrWords>&
+                  getChordWords () const
+                      { return fChordWords; }
+                      
+    const list<S_msrSlur>&
+                  getChordSlurs () const
+                      { return fChordSlurs; }
+                      
+    const list<S_msrWedge>&
+                  getChordWedges () const
+                      { return fChordWedges; }
+
+    // harmony
+    void          setChordHarmony (S_msrHarmony harmony)
+                      { fChordHarmony = harmony; }
+                      
+    const S_msrHarmony&
+                  getChordHarmony () const
+                      { return fChordHarmony; };
+                      
+     // divisions
     void          setChordDivisions (int divisions)
                       { fChordDivisions = divisions; }
             
@@ -2658,40 +2835,7 @@ class EXP msrChord : public msrElement
 
     const int     getChordPositionInMeasure () const
                       { return fChordPositionInMeasure; }
-                      
-    // ties
-    void          setChordTie (
-                    const S_msrTie tie)
-                      { fChordTie = tie; }
-
-    S_msrTie
-                  getChordTie () const
-                      { return fChordTie; }
-
-    const list<S_msrArticulation>&
-                  getChordArticulations () const
-                      { return fChordArticulations; }
-
-    const list<S_msrOrnament>&
-                  getChordOrnaments () const
-                      { return fChordOrnaments; }
-
-    const list<S_msrDynamics>&
-                  getChordDynamics () const
-                      { return fChordDynamics; }
-                      
-    const list<S_msrWords>&
-                  getChordWords () const
-                      { return fChordWords; }
-                      
-    const list<S_msrSlur>&
-                  getChordSlurs () const
-                      { return fChordSlurs; }
-                      
-    const list<S_msrWedge>&
-                  getChordWedges () const
-                      { return fChordWedges; }
-
+                         
     // services
     // ------------------------------------------------------
 
@@ -2775,6 +2919,7 @@ class EXP msrChord : public msrElement
 
     list<S_msrWedge>          fChordWedges;
 
+    S_msrHarmony              fChordHarmony;
 };
 typedef SMARTP<msrChord> S_msrChord;
 EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
@@ -3917,133 +4062,6 @@ typedef SMARTP<msrStanza> S_msrStanza;
 EXP ostream& operator<< (ostream& os, const S_msrStanza& elt);
 
 /*!
-\brief A msr harmony representation.
-
-  A harmony is represented by a list of syllables,
-*/
-//______________________________________________________________________________
-class EXP msrHarmony : public msrElement
-{
-  public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum msrHarmonyKind {
-      kMajor, kMinor, kDominant,
-      kAugmented, kDiminished,
-      kSuspendedFourth,
-      kMajorSeventh,kMinorSeventh,
-      kMajorNinth, kMinorNinth};
-
-    static string harmonyKindAsString (
-      msrHarmonyKind harmonyKind);
-      
-    enum msrHarmonyDegreeTypeKind {
-      kAdd, kAlter, kSubstract};
-
-    static string harmonyDegreeTypeKindAsString (
-      msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
-      
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrHarmony> create (
-      int                   inputLineNumber,
-      char                  harmonyRootStep,
-      float                 harmonyRootAlter,
-      msrHarmonyKind        harmonyKind,
-      string                harmonyKindText,
-      char                  harmonyBassStep,
-      float                 harmonyBassAlter,
-      S_msrPart             harmonyPartUplink);
-    
-    SMARTP<msrHarmony> createHarmonyBareClone (
-      S_msrPart clonedPart);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrHarmony (
-      int                   inputLineNumber,
-      char                  harmonyRootStep,
-      float                 harmonyRootAlter,
-      msrHarmonyKind        harmonyKind,
-      string                harmonyKindText,
-      char                  harmonyBassStep,
-      float                 harmonyBassAlter,
-      S_msrPart             harmonyPartUplink);
-
-    virtual ~msrHarmony();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    char        getHarmonyRootStep () const
-                  { return fHarmonyRootStep; }
-                
-    float       getHarmonyRootAlter () const
-                  { return fHarmonyRootAlter; }
-                
-    msrHarmonyKind
-                getHarmonyKind () const
-                  { return fHarmonyKind; }
-                
-    string      getHarmonyKindText () const
-                  { return fHarmonyKindText; }
-                
-                
-    char        getHarmonyBassStep () const
-                  { return fHarmonyBassStep; }
-                
-    float       getHarmonyBassAlter () const
-                  { return fHarmonyBassAlter; }
-                
-    S_msrPart   getHarmonyVoiceUplink () const
-                  { return fHarmonyPartUplink; }
-                
-
-    // services
-    // ------------------------------------------------------
-
-    string      harmonyKindAsString () const;
-    
-    string      harmonyAsString () const;
-   
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void print (ostream& os);
-
-  private:
-
-    char                      fHarmonyRootStep;
-    float                     fHarmonyRootAlter;
-
-    msrHarmonyKind            fHarmonyKind;
-    string                    fHarmonyKindText;
-
-    char                      fHarmonyBassStep;
-    float                     fHarmonyBassAlter;
-    
-    S_msrPart                 fHarmonyPartUplink;
-};
-typedef SMARTP<msrHarmony> S_msrHarmony;
-EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
-
-/*!
 \brief A msr chords representation.
 
   A stanza is represented by a list of syllables,
@@ -5039,7 +5057,7 @@ class EXP msrVoice : public msrElement
 
   private:
 
-    // voice number in MusicXML may be greater than 4
+    // voice numbers in MusicXML may be greater than 4
     // while there can only be 4 in a staff
     // we thus have to cope with that
     int                       fExternalVoiceNumber;

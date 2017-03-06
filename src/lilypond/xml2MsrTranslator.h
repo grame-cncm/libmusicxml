@@ -766,7 +766,8 @@ class EXP xml2MsrTranslator :
 
     int                       fCurrentHarmonyDegreeValue;
     float                     fCurrentHarmonyDegreeAlter;
-    
+    S_msrHarmony              fCurrentHarmony;
+
 
     // barline handling
     // ------------------------------------------------------
@@ -859,7 +860,7 @@ class EXP xml2MsrTranslator :
     void                      attachCurrentArticulationsToNote (
                                 S_msrNote note);
                                 
-    void                      attachCurrentArticulationsToChord (
+    void                      attachCurrentArticulationsToChord ( // JMI
                                 S_msrChord chord);
                                 
     void                      copyNoteArticulationsToChord (
@@ -895,6 +896,9 @@ class EXP xml2MsrTranslator :
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteWedgesToChord (
                                 S_msrNote note, S_msrChord chord);
+                                
+    void                      copyNoteHarmonyToChord (
+                                S_msrNote note, S_msrChord chord);
        
     // ------------------------------------------------------
     // ornaments handling
@@ -908,7 +912,7 @@ class EXP xml2MsrTranslator :
     void                      attachCurrentOrnamentsToNote (
                                 S_msrNote note);
 
-    void                      attachCurrentOrnamentsToChord (
+    void                      attachCurrentOrnamentsToChord ( // JMI
                                 S_msrChord chord);
 
     void                      copyNoteOrnamentsToChord (

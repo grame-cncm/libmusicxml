@@ -7,7 +7,7 @@
   <identification>
     <encoding>
       <software>MuseScore 2.0.3.1</software>
-      <encoding-date>2017-01-20</encoding-date>
+      <encoding-date>2017-03-06</encoding-date>
       <supports element="accidental" type="yes"/>
       <supports element="beam" type="yes"/>
       <supports element="print" attribute="new-page" type="yes" value="yes"/>
@@ -59,12 +59,12 @@
       </score-part>
     </part-list>
   <part id="P1">
-    <measure number="1" width="629.31">
+    <measure number="1" width="620.15">
       <print>
         <system-layout>
           <system-margins>
             <left-margin>0.00</left-margin>
-            <right-margin>-0.00</right-margin>
+            <right-margin>0.00</right-margin>
             </system-margins>
           <top-system-distance>170.00</top-system-distance>
           </system-layout>
@@ -105,7 +105,7 @@
           </root>
         <kind text="m7">minor-seventh</kind>
         </harmony>
-      <note default-x="205.18" default-y="-40.00">
+      <note default-x="203.03" default-y="-40.00">
         <pitch>
           <step>E</step>
           <octave>4</octave>
@@ -116,7 +116,7 @@
         <stem>up</stem>
         <beam number="1">begin</beam>
         </note>
-      <note default-x="286.44" default-y="-50.00">
+      <note default-x="282.94" default-y="-50.00">
         <pitch>
           <step>C</step>
           <octave>4</octave>
@@ -133,7 +133,7 @@
           </root>
         <kind text="Maj7">major-seventh</kind>
         </harmony>
-      <note default-x="367.69" default-y="-45.00">
+      <note default-x="362.85" default-y="-45.00">
         <pitch>
           <step>D</step>
           <octave>4</octave>
@@ -149,7 +149,7 @@
           </root>
         <kind use-symbols="yes">augmented</kind>
         </harmony>
-      <note default-x="497.70" default-y="-30.00">
+      <note default-x="490.70" default-y="-30.00">
         <pitch>
           <step>G</step>
           <octave>4</octave>
@@ -160,12 +160,12 @@
         <stem>up</stem>
         </note>
       </measure>
-    <measure number="2" width="448.19">
+    <measure number="2" width="457.34">
       <harmony print-frame="no">
         <root>
-          <root-step>D</root-step>
+          <root-step>A</root-step>
           </root>
-        <kind use-symbols="yes">diminished</kind>
+        <kind text="m7">minor-seventh</kind>
         </harmony>
       <note default-x="12.00" default-y="-25.00">
         <pitch>
@@ -175,7 +175,29 @@
         <duration>4</duration>
         <voice>1</voice>
         <type>half</type>
-        <stem>up</stem>
+        <stem>down</stem>
+        </note>
+      <note default-x="12.00" default-y="-15.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+          </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem>down</stem>
+        </note>
+      <note default-x="12.00" default-y="-5.00">
+        <chord/>
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+          </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem>down</stem>
         </note>
       <harmony print-frame="no">
         <root>
@@ -183,7 +205,7 @@
           </root>
         <kind>major</kind>
         </harmony>
-      <note default-x="224.61" default-y="-25.00">
+      <note default-x="229.19" default-y="-25.00">
         <pitch>
           <step>A</step>
           <octave>4</octave>
