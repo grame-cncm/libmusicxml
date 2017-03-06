@@ -624,6 +624,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 
   // clear the voice notes map
   fVoiceNotesMap.clear ();
+
+  fFirstNoteCloneInVoice = 0;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
@@ -1112,8 +1114,8 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
 
   bool createSkipGracenotesInOtherVoices = false;
   
-  if (fCurrentNoteClone) {
-    // there is at least a note before these grace notes
+  if (fFirstNoteCloneInVoice) {
+    // there is at least a note before these grace notes in the voice
     
     if (fCurrentNoteClone->noteHasATrill ()) {
   //    if (gGeneralOptions->fForceDebug || gMsrOptions->fDebug)
@@ -1142,6 +1144,7 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
       cerr << idtr <<
         "--> creating a skip clone of grace notes " <<
         elt->gracenotesAsShortString () <<
+        " to work around LilyPond issue 34" <<
         endl;
   
     S_msrGracenotes
@@ -1169,8 +1172,8 @@ void msr2LpsrTranslator::visitEnd (S_msrGracenotes& elt)
 }
 
 void msr2LpsrTranslator::prependSkipGracenotesToPartOtherVoices (
-  S_msrPart       fCurrentPartClone,
-  S_msrVoice      fCurrentVoiceClone,
+  S_msrPart       partClone,
+  S_msrVoice      voiceClone,
   S_msrGracenotes skipGracenotes)
 {
   //  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
@@ -1178,14 +1181,14 @@ void msr2LpsrTranslator::prependSkipGracenotesToPartOtherVoices (
         "--> prepending a skip gracenotes clone " <<
         skipGracenotes->gracenotesAsShortString () <<
         " to voices other than \"" <<
-        fCurrentVoiceClone->getVoiceName () << "\"" <<
+        voiceClone->getVoiceName () << "\"" <<
         " in part " <<
-        fCurrentPartClone->getPartCombinedName () <<
+        partClone->getPartCombinedName () <<
         endl;
   
   map<int, S_msrStaff>
     partStavesMap =
-      fCurrentPartClone->
+      partClone->
         getPartStavesMap ();
 
   for (
@@ -1205,7 +1208,7 @@ void msr2LpsrTranslator::prependSkipGracenotesToPartOtherVoices (
 
       S_msrVoice voice = (*j).second;
       
-      if (voice != fCurrentVoiceClone) {
+      if (voice != voiceClone) {
         // prepend skip grace notes to voice
         voice->
           prependGracenotesToVoice (
@@ -1234,6 +1237,10 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
   fVoiceNotesMap [elt] = fCurrentNoteClone; // JMI XXL
   
   fOnGoingNote = true;
+
+  if (! fFirstNoteCloneInVoice)
+    fFirstNoteCloneInVoice =
+      fCurrentNoteClone;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrNote& elt)

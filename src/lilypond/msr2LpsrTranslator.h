@@ -344,6 +344,8 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     bool                      fOnGoingNote;
     S_msrNote                 fCurrentNoteClone;
+    S_msrNote                 fFirstNoteCloneInVoice;
+                                // to help workaround LilyPond issue 34
 
     // stems
     // ------------------------------------------------------

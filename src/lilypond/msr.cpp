@@ -1623,6 +1623,8 @@ S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
     i++) {
     S_msrNote note = (*i);
     
+    cerr << "FAA" << endl;
+
   // create skip with same length as note
     S_msrNote
       skip =
@@ -1632,7 +1634,8 @@ S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
           note->getNoteDivisionsPerWholeNote (),
           voiceClone->getStaffRelativeVoiceNumber (), // JMI
           voiceClone->getExternalVoiceNumber ());
-      
+
+    cerr << "FOO" << endl;
       /*
    static SMARTP<msrNote> createSkipNote (
       int           inputLineNumber,
@@ -1658,6 +1661,7 @@ void msrGracenotes::appendNoteToGracenotes (S_msrNote note)
 
   fGracenotesNotesList.push_back (note);
 
+/*
   // JMI
   cerr <<
     endl <<
@@ -1672,6 +1676,7 @@ void msrGracenotes::appendNoteToGracenotes (S_msrNote note)
   fGracenotesVoiceUplink->print (cerr);
   cerr <<
     endl << endl;
+    */
 }
 
 void msrGracenotes::acceptIn (basevisitor* v) {
