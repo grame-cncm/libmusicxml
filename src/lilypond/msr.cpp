@@ -3626,7 +3626,7 @@ void msrChord::print (ostream& os)
   if (fChordHarmony) {
     idtr++;
     os <<
-      idtr << fChordHarmony;
+      idtr << fChordHarmony->harmonyAsString ();
     idtr--;
   }
 

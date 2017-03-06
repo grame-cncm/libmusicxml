@@ -1480,6 +1480,12 @@ void lpsr2LilyPondTranslator::visitStart (S_msrHarmony& elt)
       "% --> Start visiting msrHarmony" << endl;
 
 // JMI
+    fOstream <<
+      endl <<
+      idtr <<
+      "%{ " << elt->harmonyAsString () << " %}" <<
+      endl <<
+      idtr;
 }
 
 //________________________________________________________________________

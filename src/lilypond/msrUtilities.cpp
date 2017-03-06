@@ -140,7 +140,7 @@ void timing::print (ostream& os) const
     os <<
       setw(secondsWidth) <<
       setprecision(secondsPrecision) <<
-      right <<
+      left <<
       float(timingItemClock) / CLOCKS_PER_SEC <<
       endl;
   } // for

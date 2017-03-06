@@ -5536,7 +5536,7 @@ void xml2MsrTranslator::copyNoteHarmonyToChord (
         endl;
 
     chord->setChordHarmony (harmony);
-  }    
+  }   
 }
 
 //______________________________________________________________________________

@@ -674,9 +674,15 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
     fOstream << idtr <<
       "--> Start visiting msrHarmony" << endl;
 
-  // append the harmony to the current part clone
-  fCurrentPartClone->
-    appendHarmonyToPart (elt);
+  if (fOnGoingNote)
+    // register the harmony in the current note clone
+    fCurrentNoteClone->
+      setNoteHarmony (elt);
+
+  else if (fOnGoingChord)
+    // register the harmony in the current chord clone
+    fCurrentChordClone->
+      setChordHarmony (elt);
 }
 
 //________________________________________________________________________
