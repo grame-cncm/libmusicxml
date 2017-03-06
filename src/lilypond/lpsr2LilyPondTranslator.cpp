@@ -851,11 +851,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
   if (doConnectArpeggios)
     fOstream << idtr <<
       "\\set PianoStaff.connectArpeggios = ##t" <<
-      "\"" <<
       endl;
-
-
-      \set PianoStaff.connectArpeggios = ##t
 
   if (partgroupSymbolKind == msrPartgroup::kSquarePartgroupSymbol) {
     idtr++;
