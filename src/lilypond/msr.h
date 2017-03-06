@@ -383,6 +383,10 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
       kNatural,
       kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
 
+    static msrAlterationKind alterationFromAlter (
+        int   inputLineNumber,
+        float alter);
+
     static string alterationKindAsString (
       msrAlterationKind alterationKind);
       
@@ -5121,7 +5125,8 @@ class EXP msrStafftuning : public msrElement
       int           stafftuningLineNumber,
       char          stafftuningStep,
       int           stafftuningOctave,
-      float         staffTuningAlter);
+      msrNoteData::msrAlterationKind
+                    staffTuningAlteration);
     
     SMARTP<msrStafftuning> createStafftuningBareClone ();
 
@@ -5135,7 +5140,8 @@ class EXP msrStafftuning : public msrElement
       int           stafftuningLineNumber,
       char          stafftuningStep,
       int           stafftuningOctave,
-      float         staffTuningAlter);
+      msrNoteData::msrAlterationKind
+                    staffTuningAlteration);
          
     ~ msrStafftuning ();
   
@@ -5144,22 +5150,23 @@ class EXP msrStafftuning : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int         getStafftuningLineNumber () const
-                    { return fStafftuningLineNumber; }
+    int             getStafftuningLineNumber () const
+                        { return fStafftuningLineNumber; }
 
-    char        getStafftuningStep () const
-                    { return fStafftuningStep; }
+    char            getStafftuningStep () const
+                        { return fStafftuningStep; }
 
-    int         getStafftuningOctave () const
-                    { return fStafftuningOctave; }
+    int             getStafftuningOctave () const
+                        { return fStafftuningOctave; }
 
-    float       getCurrentStaffTuningAlter () const
-                    { return fStaffTuningAlter; }
+    msrNoteData::msrAlterationKind
+                    getCurrentStaffTuningAlteration () const
+                        { return fStaffTuningAlteration; }
 
     // services
     // ------------------------------------------------------
 
-    string      stafftuningAsString () const;
+    string          stafftuningAsString () const;
          
     // visitors
     // ------------------------------------------------------
@@ -5179,10 +5186,11 @@ class EXP msrStafftuning : public msrElement
     // data
     // ------------------------------------------------------
     
-    int       fStafftuningLineNumber;
-    char      fStafftuningStep;
-    int       fStafftuningOctave;
-    float     fStaffTuningAlter;
+    int               fStafftuningLineNumber;
+    char              fStafftuningStep;
+    int               fStafftuningOctave;
+    msrNoteData::msrAlterationKind
+                      fStaffTuningAlteration;
 };
 typedef SMARTP<msrStafftuning> S_msrStafftuning;
 EXP ostream& operator<< (ostream& os, const S_msrStafftuning& elt);

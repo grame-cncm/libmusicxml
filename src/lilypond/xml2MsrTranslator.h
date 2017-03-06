@@ -72,7 +72,7 @@ class EXP xml2MsrTranslator :
   public visitor<S_millimeters>,
   public visitor<S_tenths>,
   public visitor<S_scaling>,
-  
+ 
   public visitor<S_system_distance>,
   public visitor<S_top_system_distance>,
   
@@ -660,7 +660,8 @@ class EXP xml2MsrTranslator :
     int                       fCurrentStaffTuningLine;
     char                      fCurrentStaffTuningStep;
     int                       fCurrentStaffTuningOctave;
-    float                     fCurrentStaffTuningAlter;
+    msrNoteData::msrAlterationKind
+                              fCurrentStaffTuningAlteration;
     
     int                       fCurrentStaffDetailsCapo;
     int                       fCurrentStaffDetailsStaffSize;
@@ -757,15 +758,18 @@ class EXP xml2MsrTranslator :
     // harmony handling
     // ------------------------------------------------------
     char                      fCurrentHarmonyRootStep;
-    float                     fCurrentHarmonyRootAlter;
+    msrNoteData::msrAlterationKind
+                              fCurrentHarmonyRootAlteration;
     msrHarmony::msrHarmonyKind
                               fCurrentHarmonyKind;
     string                    fCurrentHarmonyKindText;
     char                      fCurrentHarmonyBassStep;
-    float                     fCurrentHarmonyBassAlter;
+    msrNoteData::msrAlterationKind
+                              fCurrentHarmonyBassAlteration;
 
     int                       fCurrentHarmonyDegreeValue;
-    float                     fCurrentHarmonyDegreeAlter;
+    msrNoteData::msrAlterationKind
+                              fCurrentHarmonyDegreeAlteration;
     S_msrHarmony              fCurrentHarmony;
 
 

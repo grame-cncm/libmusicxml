@@ -182,6 +182,73 @@ string msrNoteData::diatonicPitchAsString (
   return result;
 }
 
+msrNoteData::msrAlterationKind msrNoteData::alterationFromAlter (
+  int   inputLineNumber,
+  float alter)
+{
+
+/*
+  The alter element represents chromatic alteration
+  in number of semitones (e.g., -1 for flat, 1 for sharp).
+  Decimal values like 0.5 (quarter tone sharp) are used for microtones:
+
+  semi-sharp semi-flat sesqui-sharp sesqui-flat double-sharp double-flat
+      +0.5      -0.5        +1.5       -1.5         +2.0        -2.0
+*/
+
+  msrNoteData::msrAlterationKind result;
+  
+  if      (alter == 0 ) {
+    result = msrNoteData::kNatural;
+  }
+  
+  else if (alter == -1 ) {
+    result = msrNoteData::kFlat;
+  }
+  
+  else if (alter == 1 ) {
+    result = msrNoteData::kSharp;
+  }
+  
+  else if (alter == -0.5 ) {
+    result = msrNoteData::kSemiFlat;
+  }
+  
+  else if (alter == +0.5 ) {
+    result = msrNoteData::kSemiSharp;
+  }
+  
+  else if (alter == -1.5 ) {
+    result = msrNoteData::kSesquiFlat;
+  }
+  
+  else if (alter == +1.5 ) {
+    result = msrNoteData::kSesquiSharp;
+  }
+  
+  else if (alter == -2 ) {
+    result = msrNoteData::kDoubleFlat;
+  }
+  
+  else if (alter == +2 ) {
+    result = msrNoteData::kDoubleSharp;
+  }
+  
+  else {
+    stringstream s;
+    
+    s <<
+      " alter '" << alter <<
+      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());
+  }
+
+  return result;
+}
+
 string msrNoteData::alterationKindAsString (
   msrAlterationKind alterationKind)
 {
@@ -190,21 +257,24 @@ string msrNoteData::alterationKindAsString (
     in number of semitones (e.g., -1 for flat, 1 for sharp).
     Decimal values like 0.5 (quarter tone sharp) are used for microtones.
   
+    We use dutch pitches names for the enumeration below.
+
+    The following is a series of Cs with increasing pitches:
+      \relative c'' { ceseh ces ceh c cih cis cisih }
+
     The following table lists note names for quarter-tone accidentals
     in various languages; here the pre- fixes semi- and sesqui-
     respectively mean ‘half’ and ‘one and a half’.
     
-    Languages that do not appear in this table do not provide special note names yet.
-    Language
-                semi-sharp semi-flat sesqui-sharp sesqui-flat
-                   +0.5      -0.5        +1.5       -1.5
-      nederlands   -ih       -eh        -isih       -eseh
-
-    Double flat is -2.0, and double sharp is +2.0.
+    Languages that do not appear in this table do not provide
+    special note names yet.
     
-    We use dutch pitches names for the enumeration below.
-    The following is a series of Cs with increasing pitches:
-      \relative c'' { ceseh ces ceh c cih cis cisih }
+  semi-sharp semi-flat sesqui-sharp sesqui-flat double-sharp double-flat
+      +0.5      -0.5        +1.5       -1.5         +2.0        -2.0
+
+nederlands
+      -ih        -eh        -isih      -eseh       -isih        -eses
+    
   */
 
   string result;
@@ -1950,26 +2020,15 @@ msrNote::msrNote (
       endl;
   }
 
+
+//foo
+
+  fNoteData.fAlteration =
+    msrNoteData::alterationFromAlter (
+    fInputLineNumber,
+    fNoteData.fAlter);
+
 /*
-  The alter element represents chromatic alteration
-  in number of semitones (e.g., -1 for flat, 1 for sharp).
-  Decimal values like 0.5 (quarter tone sharp) are used for microtones.
-
-  The following table lists note names for quarter-tone accidentals
-  in various languages; here the pre- fixes semi- and sesqui-
-  respectively mean ‘half’ and ‘one and a half’.
-  
-  Languages that do not appear in this table do not provide special note names yet.
-  Language
-              semi-sharp semi-flat sesqui-sharp sesqui-flat
-                 +0.5      -0.5        +1.5       -1.5
-    nederlands   -ih       -eh        -isih       -eseh
-
-  We use dutch pitches names for the enumeration below.
-  The following is a series of Cs with increasing pitches:
-    \relative c'' { ceseh ces ceh c cih cis cisih }
-*/
-
   if      (fNoteData.fAlter == 0 ) {
     fNoteData.fAlteration = msrNoteData::kNatural;
   }
@@ -2033,6 +2092,7 @@ msrNote::msrNote (
       fInputLineNumber,
       s.str());
   }
+*/
 
 /* JMI
   if (gGeneralOptions->fDebugDebug)
@@ -7112,7 +7172,8 @@ void msrHarmony::print (ostream& os)
     idtr <<
       setw(15) << "HarmonyRoot" << " = " <<
       fHarmonyRootStep <<
-      msrNoteData::alterationKindAsString (
+      msrNoteData::alterationFromAlter (
+        fInputLineNumber,
         fHarmonyRootAlter) <<
       endl <<
     idtr <<
@@ -7126,7 +7187,8 @@ void msrHarmony::print (ostream& os)
     idtr <<
       setw(15) << "HarmonyBass" << " = " <<
       fHarmonyBassStep <<
-      msrNoteData::alterationKindAsString (
+      msrNoteData::alterationFromAlter (
+        fInputLineNumber,
         fHarmonyBassAlter) <<
       endl;
 
@@ -11479,7 +11541,8 @@ S_msrStafftuning msrStafftuning::create (
   int           stafftuningLineNumber,
   char          stafftuningStep,
   int           stafftuningOctave,
-  float         staffTuningAlter)
+  msrNoteData::msrAlterationKind
+                staffTuningAlteration)
 {
   msrStafftuning* o =
     new msrStafftuning (
@@ -11487,7 +11550,7 @@ S_msrStafftuning msrStafftuning::create (
       stafftuningLineNumber,
       stafftuningStep,
       stafftuningOctave,
-      staffTuningAlter);
+      staffTuningAlteration);
   assert(o!=0);
   return o;
 }
@@ -11497,13 +11560,14 @@ msrStafftuning::msrStafftuning (
   int           stafftuningLineNumber,
   char          stafftuningStep,
   int           stafftuningOctave,
-  float         staffTuningAlter)
+  msrNoteData::msrAlterationKind
+                staffTuningAlteration)
     : msrElement (inputLineNumber)
 {
   fStafftuningLineNumber = stafftuningLineNumber;
   fStafftuningStep       = stafftuningStep;
   fStafftuningOctave     = stafftuningOctave;
-  fStaffTuningAlter      = staffTuningAlter;
+  fStaffTuningAlteration = staffTuningAlteration;
 }
 
 msrStafftuning::~ msrStafftuning ()
@@ -11523,7 +11587,7 @@ S_msrStafftuning msrStafftuning::createStafftuningBareClone ()
         fStafftuningLineNumber,
         fStafftuningStep,
         fStafftuningOctave,
-        fStaffTuningAlter);
+        fStaffTuningAlteration);
   
   return clone;
 }
@@ -11579,7 +11643,9 @@ string msrStafftuning::stafftuningAsString () const
     "line " << fStafftuningLineNumber <<
     ", " << fStafftuningStep <<
     ", octave " << fStafftuningOctave <<
-    ", alter " << fStaffTuningAlter;
+    ", alteration " <<
+    msrNoteData::alterationKindAsString (
+      fStaffTuningAlteration);
     
   return s.str();
 }
@@ -11606,8 +11672,9 @@ void msrStafftuning::print (ostream& os)
       fStafftuningOctave <<
       endl <<
     idtr <<
-      setw(21) << "StaffTuningAlter" << " = " <<
-      fStaffTuningAlter <<
+      setw(21) << "StaffTuningAlteration" << " = " <<
+      msrNoteData::alterationKindAsString (
+        fStaffTuningAlteration) <<
       endl;
 
   idtr--;

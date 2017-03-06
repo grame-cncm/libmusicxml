@@ -87,14 +87,14 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fOnGoingSlur          = false;
   fOnGoingSlurHasStanza = false;
 
-  fCurrentHarmonyRootStep    = '_';
-  fCurrentHarmonyRootAlter   = 0.0; // natural note
-  fCurrentHarmonyKind        = msrHarmony::k_NoHarmony;
-  fCurrentHarmonyKindText    = "";
-  fCurrentHarmonyBassStep    = '_';
-  fCurrentHarmonyBassAlter   = 0.0; // natural note
-  fCurrentHarmonyDegreeValue = -1;
-  fCurrentHarmonyDegreeAlter = 0.0; // natural note
+  fCurrentHarmonyRootStep         = '_';
+  fCurrentHarmonyRootAlteration   = msrNoteData::kNatural;
+  fCurrentHarmonyKind             = msrHarmony::k_NoHarmony;
+  fCurrentHarmonyKindText         = "";
+  fCurrentHarmonyBassStep         = '_';
+  fCurrentHarmonyBassAlteration   = msrNoteData::kNatural;
+  fCurrentHarmonyDegreeValue      = -1;
+  fCurrentHarmonyDegreeAlteration = msrNoteData::kNatural;
 
   fOnGoingDirection     = true;
   fOnGoingDirectionType = false;
@@ -103,6 +103,8 @@ xml2MsrTranslator::xml2MsrTranslator ()
   
   fOnGoingBackup  = false;
   fOnGoingForward = false;
+
+  fCurrentStaffTuningAlteration = msrNoteData::kNatural;
 }
 
 xml2MsrTranslator::~xml2MsrTranslator ()
@@ -2152,8 +2154,8 @@ void xml2MsrTranslator::visitStart (S_staff_tuning& elt )
   fCurrentStaffTuningLine =
     elt->getAttributeIntValue ("line", 0);
 
-  fCurrentStaffTuningAlter = 0.0;
-  /*
+  fCurrentStaffTuningAlteration = msrNoteData::kNatural;
+  /* JMI
           <staff-tuning line="1">
             <tuning-step>E</tuning-step>
             <tuning-octave>2</tuning-octave>
@@ -2186,7 +2188,12 @@ void xml2MsrTranslator::visitStart (S_tuning_octave& elt )
 
 void xml2MsrTranslator::visitStart (S_tuning_alter& elt )
 {
-  fCurrentStaffTuningAlter = (float)(*elt);
+  float tuningAlter = (float)(*elt);
+
+  fCurrentStaffTuningAlteration =
+    msrNoteData::alterationFromAlter (
+      elt->getInputLineNumber (),
+      tuningAlter);
 }
 
 void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
@@ -2232,7 +2239,7 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
         fCurrentStaffTuningLine,
         fCurrentStaffTuningStep,
         fCurrentStaffTuningOctave,
-        fCurrentStaffTuningAlter);
+        fCurrentStaffTuningAlteration);
         
   // add it to the staff
   staff->
@@ -7971,7 +7978,12 @@ void xml2MsrTranslator::visitStart ( S_root_step& elt )
 
 void xml2MsrTranslator::visitStart ( S_root_alter& elt )
 {
-  fCurrentHarmonyRootAlter = (float)(*elt);
+  float rootAlter = (float)(*elt);
+
+  fCurrentHarmonyRootAlteration =
+    msrNoteData::alterationFromAlter (
+      elt->getInputLineNumber (),
+      rootAlter);
 }
 
 void xml2MsrTranslator::visitStart ( S_kind& elt )
@@ -8042,7 +8054,12 @@ void xml2MsrTranslator::visitStart ( S_bass_step& elt )
 
 void xml2MsrTranslator::visitStart ( S_bass_alter& elt )
 {
-  fCurrentHarmonyBassAlter = (float)(*elt);
+  float bassAlter = (float)(*elt);
+
+  fCurrentHarmonyBassAlteration =
+    msrNoteData::alterationFromAlter (
+      elt->getInputLineNumber (),
+      bassAlter);
 }
 
 void xml2MsrTranslator::visitStart ( S_degree_value& elt )
@@ -8052,7 +8069,12 @@ void xml2MsrTranslator::visitStart ( S_degree_value& elt )
 
 void xml2MsrTranslator::visitStart ( S_degree_alter& elt )
 {
-  fCurrentHarmonyDegreeAlter = (float)(*elt);
+  float degreeAlter = (float)(*elt);
+
+  fCurrentHarmonyDegreeAlteration =
+    msrNoteData::alterationFromAlter (
+      elt->getInputLineNumber (),
+      degreeAlter);
 }
 
 void xml2MsrTranslator::visitStart ( S_degree_type& elt )
@@ -8085,10 +8107,22 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
   fCurrentHarmony =
     msrHarmony::create (
       elt->getInputLineNumber (),
-      fCurrentHarmonyRootStep, fCurrentHarmonyRootStep,
-      fCurrentHarmonyKind, fCurrentHarmonyKindText,
-      fCurrentHarmonyBassStep, fCurrentHarmonyBassAlter,
+      fCurrentHarmonyRootStep, fCurrentHarmonyRootAlteration,
+      fCurrentHarmonyKind,     fCurrentHarmonyKindText,
+      fCurrentHarmonyBassStep, fCurrentHarmonyBassAlteration,
       fCurrentPart);
+
+/*
+    static SMARTP<msrHarmony> create (
+      int                   inputLineNumber,
+      char                  harmonyRootStep,
+      float                 harmonyRootAlter,
+      msrHarmonyKind        harmonyKind,
+      string                harmonyKindText,
+      char                  harmonyBassStep,
+      float                 harmonyBassAlter,
+      S_msrPart             harmonyPartUplink);
+*/
 
   // it will be attached to the next note
 
