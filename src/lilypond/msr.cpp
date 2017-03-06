@@ -129,7 +129,6 @@ void msrNoteData::init ()
   fStepIsARest = false;;
   fStepIsUnpitched = false;;
   
-  fAlter = 0.0;
   fAlteration = kNatural;
   
   fOctave = -1;
@@ -2015,18 +2014,11 @@ msrNote::msrNote (
 //   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
   if (gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
-      "--> fNoteData.fAlter = " <<
-      fNoteData.fAlter <<
+      "--> fNoteData.fAlteration = " <<
+      msrNoteData::alterationKindAsString (
+        fNoteData.fAlteration) <<
       endl;
   }
-
-
-//foo
-
-  fNoteData.fAlteration =
-    msrNoteData::alterationFromAlter (
-    fInputLineNumber,
-    fNoteData.fAlter);
 
 /*
   if      (fNoteData.fAlter == 0 ) {
@@ -7099,6 +7091,9 @@ string msrHarmony::harmonyKindAsString () const
       break;
     case msrHarmony::kMinorNinth:
       result = "MinorNinth";
+      break;
+    case msrHarmony::k_NoHarmony:
+      result = "Harmony???";
       break;
   } // switch
 

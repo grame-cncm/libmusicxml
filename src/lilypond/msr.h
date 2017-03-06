@@ -384,8 +384,8 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
       kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
 
     static msrAlterationKind alterationFromAlter (
-        int   inputLineNumber,
-        float alter);
+      int   inputLineNumber,
+      float alter);
 
     static string alterationKindAsString (
       msrAlterationKind alterationKind);
@@ -415,7 +415,6 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
     // in number of semitones (e.g., -1 for flat, 1 for sharp).
     // Decimal values like 0.5 (quarter tone sharp) are used for microtones.
     msrDiatonicPitch          fDiatonicPitch;
-    float                     fAlter;
     msrAlterationKind         fAlteration;
                           
     int                       fOctave;

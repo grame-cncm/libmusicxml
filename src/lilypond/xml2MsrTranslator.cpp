@@ -4221,7 +4221,12 @@ void xml2MsrTranslator::visitStart ( S_step& elt )
 
 void xml2MsrTranslator::visitStart ( S_alter& elt)
 {
-  fNoteData.fAlter = (float)(*elt);
+  float alter = (float)(*elt);
+
+  fNoteData.fAlteration =
+    msrNoteData::alterationFromAlter (
+      elt->getInputLineNumber (),
+      alter);
 }
 
 void xml2MsrTranslator::visitStart ( S_octave& elt)
@@ -8103,26 +8108,53 @@ void xml2MsrTranslator::visitStart ( S_degree_type& elt )
 
 void xml2MsrTranslator::visitEnd ( S_harmony& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+  
+//   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fDebugDebug) {
+    cerr << idtr <<
+      "--> harmony" <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    idtr++;
+
+    cerr <<
+      idtr <<
+        "fCurrentHarmonyRootStep = " << fCurrentHarmonyRootStep <<
+        endl <<
+      idtr <<
+        "fCurrentHarmonyRootAlteration = " <<
+        msrNoteData::alterationKindAsString (
+          fCurrentHarmonyRootAlteration) <<
+        endl <<
+      idtr <<
+        "fCurrentHarmonyKind = " << fCurrentHarmonyKind <<
+        endl <<
+      idtr <<
+        "fCurrentHarmonyKindText = " << fCurrentHarmonyKindText <<
+        endl <<
+      idtr <<
+        "fCurrentHarmonyBassStep = " << fCurrentHarmonyBassStep <<
+        endl <<
+      idtr <<
+        "fCurrentHarmonyBassAlteration = " <<
+        msrNoteData::alterationKindAsString (
+          fCurrentHarmonyBassAlteration) <<
+        endl;
+        
+    idtr--;
+  }
+  
   // create the harmony
   fCurrentHarmony =
     msrHarmony::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       fCurrentHarmonyRootStep, fCurrentHarmonyRootAlteration,
       fCurrentHarmonyKind,     fCurrentHarmonyKindText,
       fCurrentHarmonyBassStep, fCurrentHarmonyBassAlteration,
       fCurrentPart);
-
-/*
-    static SMARTP<msrHarmony> create (
-      int                   inputLineNumber,
-      char                  harmonyRootStep,
-      float                 harmonyRootAlter,
-      msrHarmonyKind        harmonyKind,
-      string                harmonyKindText,
-      char                  harmonyBassStep,
-      float                 harmonyBassAlter,
-      S_msrPart             harmonyPartUplink);
-*/
 
   // it will be attached to the next note
 
