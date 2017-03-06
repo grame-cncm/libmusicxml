@@ -8499,12 +8499,43 @@ void msrMeasure::appendGracenotesToMeasure (
 void msrMeasure::prependGracenotesToMeasure (
   S_msrGracenotes gracenotes)
 {
-  fMeasureElementsList.push_front (gracenotes);
+  // in order to work around LilyPond issue 34,
+  // we need to insert the skip grace notes
+  // after clef, key and time signature if any
+
+  for (
+    list<S_msrElement>::iterator i = fMeasureElementsList.begin();
+    i != fMeasureElementsList.end();
+    i++ ) {
+
+    if (
+      S_msrClef clef = dynamic_cast<msrClef*>(&(**i))
+      ) {
+    }
+  
+    else if (
+      S_msrKey key = dynamic_cast<msrKey*>(&(**i))
+      ) {
+    }
+    
+    else if (
+      S_msrTime time = dynamic_cast<msrTime*>(&(**i))
+      ) {
+    }
+    
+    else {
+       // insert gracenotes before (*i) in the list
+      fMeasureElementsList.insert (
+        i, gracenotes);
+
+      break;
+    }
+  } // for
 }
   
 void msrMeasure::prependOtherElementToMeasure (S_msrElement elem)
 {
-  fMeasureElementsList.push_front (elem);
+  fMeasureElementsList.push_front (elem); // JMI
 }
 
 void msrMeasure::appendOtherElementToMeasure  (S_msrElement elem)
