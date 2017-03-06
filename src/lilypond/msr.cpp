@@ -9816,7 +9816,7 @@ void msrSegment::prependGracenotesToSegment (
 
 {
   fSegmentMeasuresList.front ()->
-    appendGracenotesToMeasure (gracenotes); // JMI
+    prependGracenotesToMeasure (gracenotes); // JMI
 }
 
 void msrSegment::appendOtherElementToSegment (S_msrElement elem)
@@ -10474,6 +10474,10 @@ msrVoice::msrVoice (
       fVoiceDivisionsPerWholeNote,
       this);
 
+  // register voice first segment for LilyPond issue 34
+  fVoiceFirstSegment =
+    fVoiceLastSegment;
+
   // get the initial clef from the staff if any
   {
     S_msrClef
@@ -10994,7 +10998,7 @@ void msrVoice::prependGracenotesToVoice (
       " to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  fVoiceLastSegment->
+  fVoiceFirstSegment->
     prependGracenotesToSegment (gracenotes);
 
   fMusicHasBeenInsertedInVoice = true;

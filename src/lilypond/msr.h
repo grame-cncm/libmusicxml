@@ -5096,6 +5096,10 @@ class EXP msrVoice : public msrElement
     // and is created implicitly for every voice,
     list<S_msrElement>        fVoiceRepeatsAndSegments;
     S_msrSegment              fVoiceLastSegment;
+
+    // fVoiceFirstSegment is used to work around LilyPond issue 34
+    S_msrSegment              fVoiceFirstSegment;
+
     // fVoiceCurrentRepeat is always null or
     // the last msrRepeat in fVoiceRepeatsAndSegments
     S_msrRepeat               fVoiceCurrentRepeat;
