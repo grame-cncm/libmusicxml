@@ -682,7 +682,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   else if (fOnGoingChord)
     // register the harmony in the current chord clone
     fCurrentChordClone->
-      setChordHarmony (elt);
+      setChordHarmony (elt); // JMI
 }
 
 //________________________________________________________________________

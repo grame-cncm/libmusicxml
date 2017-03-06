@@ -2343,10 +2343,10 @@ class EXP msrHarmony : public msrElement
     // services
     // ------------------------------------------------------
 
-    string      harmonyKindAsString () const;
-    string      harmonyKindAsShortString () const;
+    string          harmonyKindAsString () const;
+    string          harmonyKindAsShortString () const;
     
-    string      harmonyAsString () const;
+    string          harmonyAsString () const;
    
     // visitors
     // ------------------------------------------------------
@@ -5104,6 +5104,9 @@ class EXP msrVoice : public msrElement
     // to be used as a 'prelude' by actual stanzas
     // that start at later points
     S_msrStanza               fVoiceStanzaMaster;
+
+    // the harmony master, collecting harmonies and skips along the way
+    // JMI
     
     // the stanza map
     map<int, S_msrStanza>     fVoiceStanzasMap;
