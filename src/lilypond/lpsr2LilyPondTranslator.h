@@ -401,8 +401,13 @@ class lpsr2LilyPondTranslator :
     S_msrStem             fCurrentStem;
     bool                  fOnGoingStemNone;
 
+    // notes
+    // ------------------------------------------------------
+    bool                  fOnGoingNote;
+    
     // chords
     // ------------------------------------------------------
+    bool                  fOnGoingChord; // JMI
     
     // tuplets
     // ------------------------------------------------------

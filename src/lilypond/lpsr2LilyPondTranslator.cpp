@@ -50,13 +50,15 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
 
   fOngoingNonEmptyStanza = false;
 
-  fOnGoingScoreBlock = false;
+  fOnGoingNote = false;
 
   fCurrentStemKind = msrStem::k_NoStem;
 //  fOnGoingStemNone = false;
 
   fCurrentRepeatEndingsNumber = 0;
   
+  fOnGoingScoreBlock = false;
+
   fMusicOlec.setMaxElementsPerLine (
     fLpsrOptions->fGenerateInputLineNumbers
       ?  5
@@ -1479,13 +1481,17 @@ void lpsr2LilyPondTranslator::visitStart (S_msrHarmony& elt)
     fOstream << idtr <<
       "% --> Start visiting msrHarmony" << endl;
 
-// JMI
+  if (fOnGoingNote) {
     fOstream <<
-      endl <<
-      idtr <<
       "%{ " << elt->harmonyAsString () << " %}" <<
       endl <<
       idtr;
+  }
+
+  else if (fOnGoingChord) {
+    // don't generate code for the code harmony,
+    // this will be done after the chord itself JMI
+  }
 }
 
 //________________________________________________________________________
@@ -2376,6 +2382,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
         break;
     } // switch
   }
+
+  fOnGoingNote = true;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
@@ -2724,6 +2732,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       break;
   } // switch
   */
+
+  fOnGoingNote = true;
 }
 
 //________________________________________________________________________

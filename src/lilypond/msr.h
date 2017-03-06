@@ -2344,6 +2344,7 @@ class EXP msrHarmony : public msrElement
     // ------------------------------------------------------
 
     string      harmonyKindAsString () const;
+    string      harmonyKindAsShortString () const;
     
     string      harmonyAsString () const;
    

@@ -7104,21 +7104,68 @@ string msrHarmony::harmonyKindAsString () const
   return result;
 }
 
+string msrHarmony::harmonyKindAsShortString () const
+{
+  string result;
+  
+  switch (fHarmonyKind) {
+    case msrHarmony::kMajor:
+      break;
+    case msrHarmony::kMinor:
+      result = "m";
+      break;
+    case msrHarmony::kDominant:
+      result = "7";
+      break;
+    case msrHarmony::kAugmented:
+      result = "+";
+      break;
+    case msrHarmony::kDiminished:
+      result = "dim";
+      break;
+    case msrHarmony::kSuspendedFourth:
+      result = "sus4";
+      break;
+    case msrHarmony::kMajorSeventh:
+      result = "∆7";
+      break;
+    case msrHarmony::kMinorSeventh:
+      result = "m7";
+      break;
+    case msrHarmony::kMajorNinth:
+      result = "9";
+      break;
+    case msrHarmony::kMinorNinth:
+      result = "-9";
+      break;
+    case msrHarmony::k_NoHarmony:
+      result = "Harmony???";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrHarmony::harmonyAsString () const
 {
   stringstream s;
 
   s <<
-    "Harmony" " "<<
     fHarmonyRootStep <<
     msrNoteData::alterationKindAsString (
       fHarmonyRootAlteration) <<
-    harmonyKindAsString () <<
-    " (" <<fHarmonyKindText << ")" <<
-    "/" <<
-    fHarmonyBassStep <<
-    msrNoteData::alterationKindAsString (
-      fHarmonyBassAlteration);
+    harmonyKindAsShortString ();
+
+  if (fHarmonyKindText.size ())
+    s <<
+      " (" <<fHarmonyKindText << ") ";
+
+  if (fHarmonyBassStep != '_')
+    s <<
+      "/" <<
+      fHarmonyBassStep <<
+      msrNoteData::alterationKindAsString (
+        fHarmonyBassAlteration);
 
   return s.str();
 }
