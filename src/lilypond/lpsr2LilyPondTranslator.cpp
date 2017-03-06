@@ -846,20 +846,20 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
       "\"" <<
       endl;
 
-  bool doConnectArpeggios = true; // JMI
+    bool doConnectArpeggios = true; // JMI
+    
+    if (doConnectArpeggios)
+      fOstream << idtr <<
+        "\\set PianoStaff.connectArpeggios = ##t" <<
+        endl;
   
-  if (doConnectArpeggios)
-    fOstream << idtr <<
-      "\\set PianoStaff.connectArpeggios = ##t" <<
-      endl;
-
-  if (partgroupSymbolKind == msrPartgroup::kSquarePartgroupSymbol) {
-    idtr++;
-    fOstream << idtr <<
-      "\\set StaffGroup.systemStartDelimiter = #'SystemStartSquare" <<
-      endl;
-    idtr--;
-  }
+    if (partgroupSymbolKind == msrPartgroup::kSquarePartgroupSymbol) {
+      idtr++;
+      fOstream << idtr <<
+        "\\set StaffGroup.systemStartDelimiter = #'SystemStartSquare" <<
+        endl;
+      idtr--;
+    }
        
   fOstream <<
     endl;
@@ -954,6 +954,14 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
         endl;
     }
 
+    bool doConnectArpeggios = true; // JMI
+    
+    if (doConnectArpeggios) {
+      fOstream << idtr <<
+        "\\set PianoStaff.connectArpeggios = ##t" <<
+        endl;
+    }
+       
     fOstream <<
       endl;
   }
