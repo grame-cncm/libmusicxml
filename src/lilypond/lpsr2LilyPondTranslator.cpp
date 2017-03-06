@@ -656,6 +656,27 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrLayout& elt)
     fOstream << idtr <<
       "% --> End visiting lpsrLayout" << endl;
 
+// JMI XXL
+  fOstream <<
+    idtr <<
+    "\\context" " " "{" <<
+    endl;
+
+  idtr++;
+
+  fOstream <<
+    idtr <<
+      "\\Staff" <<
+      endl <<
+    idtr <<
+      "\\consists \" Span_arpeggio_engraver\"" <<
+      endl <<
+    idtr <<
+      "}" <<
+      endl;
+      
+  idtr--;
+  
   fOstream << idtr <<
     "}" <<
     endl << endl;
@@ -806,7 +827,6 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
         break;
     } // switch
   
-  
     fOstream << idtr <<
       setw(30) << partGroupContextName + " " "<<";
       
@@ -825,6 +845,17 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
       partgroupInstrumentName <<
       "\"" <<
       endl;
+
+  bool doConnectArpeggios = true; // JMI
+  
+  if (doConnectArpeggios)
+    fOstream << idtr <<
+      "\\set PianoStaff.connectArpeggios = ##t" <<
+      "\"" <<
+      endl;
+
+
+      \set PianoStaff.connectArpeggios = ##t
 
   if (partgroupSymbolKind == msrPartgroup::kSquarePartgroupSymbol) {
     idtr++;
