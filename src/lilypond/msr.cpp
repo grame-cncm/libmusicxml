@@ -2405,6 +2405,12 @@ void msrNote::browseData (basevisitor* v)
     } // for
     idtr--;
   }
+
+  if (fNoteHarmony) {
+    // browse the harmony
+    msrBrowser<msrHarmony> browser (v);
+    browser.browse (*fNoteHarmony);
+  }
 }
 
 string msrNote::notePitchAsString () const
@@ -3065,6 +3071,14 @@ void msrNote::print (ostream& os)
     
     idtr--;
   }
+
+  // print the harmony if any
+  if (fNoteHarmony) {
+    idtr++;
+    os <<
+      idtr << fNoteHarmony;
+    idtr--;
+  }
 }
 
 //______________________________________________________________________________
@@ -3363,6 +3377,12 @@ void msrChord::browseData (basevisitor* v)
     msrBrowser<msrWedge> browser (v);
     browser.browse (*(*i));
   } // for
+
+  if (fChordHarmony) {
+    // browse the harmony
+    msrBrowser<msrHarmony> browser (v);
+    browser.browse (*fChordHarmony);
+  }
 }
 
 ostream& operator<< (ostream& os, const S_msrChord& elt)
@@ -3548,6 +3568,14 @@ void msrChord::print (ostream& os)
     for (i=fChordWedges.begin(); i!=fChordWedges.end(); i++) {
       os << idtr << (*i);
     } // for
+  }
+
+  // print the harmony if any
+  if (fChordHarmony) {
+    idtr++;
+    os <<
+      idtr << fChordHarmony;
+    idtr--;
   }
 
   idtr--;

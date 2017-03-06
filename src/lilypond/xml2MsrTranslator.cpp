@@ -5514,7 +5514,7 @@ void xml2MsrTranslator::copyNoteHarmonyToChord (
         "'" <<
         endl;
 
-    chord->addHarmonyToChord (harmony);
+    chord->setChordHarmony (harmony);
   }    
 }
 
@@ -5522,23 +5522,26 @@ void xml2MsrTranslator::copyNoteHarmonyToChord (
 void xml2MsrTranslator::copyNoteElementsToChord (
   S_msrNote note, S_msrChord chord)
 {  
-  // copy newNote's articulations if any to the chord
+  // copy note's articulations if any to the chord
   copyNoteArticulationsToChord (note, chord);
 
-  // copy newNote's ornaments if any to the chord
+  // copy note's ornaments if any to the chord
   copyNoteOrnamentsToChord (note, chord);
 
-  // copy newNote's dynamics if any to the chord
+  // copy note's dynamics if any to the chord
   copyNoteDynamicsToChord (note, chord);
 
-  // copy newNote's words if any to the chord
+  // copy note's words if any to the chord
   copyNoteWordsToChord (note, chord);
 
-  // copy newNote's slurs if any to the chord
+  // copy note's slurs if any to the chord
   copyNoteSlursToChord (note, chord);
 
-  // copy newNote's wedges if any to the chord
+  // copy note's wedges if any to the chord
   copyNoteWedgesToChord (note, chord);
+
+  // copy note's harmony if any to the chord
+  copyNoteHarmonyToChord (note, chord);
 }
 
 //______________________________________________________________________________
