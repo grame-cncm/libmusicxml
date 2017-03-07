@@ -168,7 +168,7 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
-    void xmlpart2guido::moveMeasureTime (int duration, bool moveVoiceToo)
+    void xmlpart2guido::moveMeasureTime (int duration, bool moveVoiceToo, int x_default)
     {
         rational r(duration, fCurrentDivision*4);
         r.rationalise();
@@ -324,11 +324,11 @@ namespace MusicXML2
                 {
                     Sguidoelement tag = guidotag::create("staffFormat");
                     if (fStaffDistance.find(fTargetStaff)->second != 0.0) {
-                        stringstream s;
-                        s << "dy=" << fStaffDistance.find(fTargetStaff)->second << "hs";
-                        tag->add (guidoparam::create(s.str(), false));
-                        add(tag);
-                        //cout<<"STAFFFORMAT for "<<fTargetStaff<<" measure:"<<fMeasNum<<" ";tag->print(cout);cout<<endl;
+                    stringstream s;
+                    s << "dy=" << fStaffDistance.find(fTargetStaff)->second << "hs";
+                    tag->add (guidoparam::create(s.str(), false));
+                    add(tag);
+                    //cout<<"STAFFFORMAT for "<<fTargetStaff<<" measure:"<<fMeasNum<<" ";tag->print(cout);cout<<endl;
                     }
                 }
             }
@@ -587,7 +587,6 @@ namespace MusicXML2
         else if (type == "stop") {
             tag = guidotag::create(fCrescPending ? "crescEnd" : "dimEnd");
         }
-        
         if (tag) {
             //// Also add SPREAD values (in mXML tenths - conversion: (X / 10) * 2)
             //// Spread is present right away for a diminuendo, it'll be present for crescendo at its STOP type
@@ -1892,7 +1891,7 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
-    void xmlpart2guido::newNote ( const notevisitor& nv )
+    void xmlpart2guido::newNote ( const notevisitor& nv, rational posInMeasure )
     {
         checkTiedBegin (nv.getTied());
         
@@ -1912,32 +1911,93 @@ namespace MusicXML2
             forcedAccidental = true;
         }
         
-        /// Add Note head if any
-        bool notehead = false;
-        if (nv.fNotehead)
+        /// Add Note head of X offset for note if necessary
+        bool noteFormat = false;
+        int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
+        auto timePos4measure = timePositions.find(measureNum);
+        if (nv.fNotehead ||
+            ( (timePos4measure != timePositions.end()) )              // if we need to infer default-x
+            )
         {
-            std::string noteFormatType = nv.getNoteheadType();
+            Sguidoelement noteFormatTag = guidotag::create("noteFormat");
             
-            if (noteFormatType.size())
+            if (nv.fNotehead) {
+                std::string noteFormatType = nv.getNoteheadType();
+                
+                if (noteFormatType.size())
+                {
+                    stringstream s;
+                    s << "\"" << noteFormatType << "\"";
+                    noteFormatTag->add (guidoparam::create(s.str(), false));
+                    noteFormat = true;
+                }
+            }
+            
+            /// check for dx inference from default_x but avoid doing this for Chords as Guido handles this automatically!
+            if (timePos4measure != timePositions.end() && (isProcessingChord==false)) {
+                auto voiceInTimePosition = timePos4measure->second.find(posInMeasure);
+                if (voiceInTimePosition != timePos4measure->second.end()) {
+                    auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
+                    if (nv.x_default != *minXPos) {
+                        int noteDx = ( (nv.x_default - *minXPos)/ 10 ) * 2;   // convert to half spaces
+                        
+                        stringstream s;
+                        s << "dx=" << noteDx ;
+                        noteFormatTag->add (guidoparam::create(s.str(), false));
+                        noteFormat = true;
+                    }
+                    //cout<<"\t Measure "<<measureNum<<" noteFormat - timePosition size "<<voiceInTimePosition->second.size()<<" default-x="<<nv.x_default<<" minXPos="<<*minXPos <<endl;
+                }
+            }
+            
+            
+            if (noteFormat == true)
             {
-                Sguidoelement noteFormatTag = guidotag::create("noteFormat");
-                stringstream s;
-                s << "\"" << noteFormatType << "\"";
-                noteFormatTag->add (guidoparam::create(s.str(), false));
                 push(noteFormatTag);
-                notehead = true;
+                //cout<<"Adding noteFormat: "; noteFormatTag->print(cout);cout<<endl;
             }
         }
         
         add (note);
         
-        if (notehead)
+        if (noteFormat)
             pop();
         
         if (forcedAccidental)
             pop();
         
         checkTiedEnd (nv.getTied());
+    }
+    
+    int xmlpart2guido::checkNoteFormatDx	 ( const notevisitor& nv , rational posInMeasure)
+    {
+        int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
+        auto timePos4measure = timePositions.find(measureNum);
+        
+        if ( timePos4measure != timePositions.end())
+        {
+            Sguidoelement noteFormatTag = guidotag::create("noteFormat");
+            
+            /// check for dx inference from default_x but avoid doing this for Chords as Guido handles this automatically!
+            if (timePos4measure != timePositions.end() ) {
+                auto voiceInTimePosition = timePos4measure->second.find(posInMeasure);
+                if (voiceInTimePosition != timePos4measure->second.end()) {
+                    auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
+                    if (nv.x_default != *minXPos) {
+                        int noteDx = ( (nv.x_default - *minXPos)/ 10 ) * 2;   // convert to half spaces
+                        
+                        stringstream s;
+                        s << "dx=" << noteDx ;
+                        noteFormatTag->add (guidoparam::create(s.str(), false));
+                        push(noteFormatTag);
+                    }else
+                        return 0;
+                }else
+                    return 0;
+            }
+        }
+        
+        return 1;
     }
     
     int xmlpart2guido::checkRestFormat	 ( const notevisitor& nv )
@@ -1991,8 +2051,32 @@ namespace MusicXML2
         
         isProcessingChord = false;
         
+        rational thisNoteHeadPosition = fCurrentVoicePosition;
+        
         bool scanVoice = (notevisitor::getVoice() == fTargetVoice);
         if (!isGrace() ) {
+            //////// Track all voice default-x parameters, as positions in measures
+            int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
+            auto timePos4measure = timePositions.find(measureNum);
+            if ( timePos4measure !=  timePositions.end())
+            {
+                
+                if (timePos4measure->second.find(fCurrentVoicePosition) != timePos4measure->second.end())
+                {
+                    // Exists.. push it to vector
+                    timePos4measure->second.find(fCurrentVoicePosition)->second.push_back(notevisitor::x_default);
+                }else {
+                    // Doesn't exist.. insert with this element's x_default
+                    timePos4measure->second.insert(std::pair<rational, std::vector<int> >
+                                                   (fCurrentVoicePosition, std::vector<int>(1, notevisitor::x_default)) );
+                }
+            }else {
+                std::map<rational, std::vector<int>> inner;
+                inner.insert(std::make_pair(fCurrentVoicePosition, std::vector<int>(1, notevisitor::x_default)));
+                timePositions.insert(std::make_pair(measureNum, inner));
+            }
+            //////////
+            
             moveMeasureTime (getDuration(), scanVoice);
             checkDelayed (getDuration());		// check for delayed elements (directions with offset)
         }
@@ -2026,12 +2110,13 @@ namespace MusicXML2
         if (chord.size() || (chordOrnaments>0) || fWavyTrillOpened || fSingleScopeTrill)     // also enforce chord creation in case of Guido Ornaments Trill, Turn and Mord
         {
             Sguidoelement chord = guidochord::create();
+            pendingPops += checkNoteFormatDx(*this, thisNoteHeadPosition);
             push (chord);
             pendingPops++;
             isProcessingChord = true;
         }
         
-        newNote (*this);
+        newNote (*this, thisNoteHeadPosition);
         // Add chord notes (in case of a real chord)
         for (vector<Sxmlelement>::const_iterator iter = chord.begin(); iter != chord.end(); iter++) {
             notevisitor nv;
@@ -2039,7 +2124,7 @@ namespace MusicXML2
             Sxmlelement note = *iter;
             browser.browse(*note);
             checkStaff(nv.getStaff());
-            newNote (nv);
+            newNote (nv, thisNoteHeadPosition);
         }
         // generate Guido Ornaments in case of checkChordOrnaments
         if (chordOrnaments>0) {

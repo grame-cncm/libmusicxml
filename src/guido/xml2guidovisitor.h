@@ -95,7 +95,11 @@ class EXP xml2guidovisitor :
     
     int  fCurrentAccoladeIndex;
     
+    /// multimap containing <staff-num, position, clef type>
     std::multimap<int, std::pair< rational, string > > staffClefMap;
+    
+    /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
+    std::map< int, std::map< rational, std::vector<int> > > timePositions;
 
 
     public:

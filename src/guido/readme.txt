@@ -74,6 +74,8 @@ slur
 sound
 staccato
 staff
+staff-distance
+staff-layout
 stem
 step
 strong-accent
@@ -86,6 +88,7 @@ type
 unpitched
 voice
 wedge
+wavy-line
 
 
 -----------------------------------------------------------
@@ -324,8 +327,6 @@ source
 spiccato
 staccatissimo
 staff-details
-staff-distance
-staff-layout
 staff-lines
 staff-size
 staff-tuning
@@ -378,5 +379,4 @@ virtual-instrument
 virtual-library
 virtual-name
 volume
-wavy-line
 

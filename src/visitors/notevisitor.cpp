@@ -201,6 +201,7 @@ void notevisitor::visitStart ( S_note& elt )
 	fDynamics = elt->getAttributeLongValue("dynamics", kUndefinedDynamics);
     fAccidental = elt->getValue(k_accidental);
     fThisSNote = elt;
+    x_default = elt->getAttributeIntValue("default-x", -1);
 }
 
 //________________________________________________________________________

@@ -122,7 +122,7 @@ class EXP xmlpart2guido :
 	void push (Sguidoelement& elt)		{ add(elt); fStack.push(elt); }
 	void pop ()							{ fStack.pop(); }
 
-	void moveMeasureTime (int duration, bool moveVoiceToo=false);
+	void moveMeasureTime (int duration, bool moveVoiceToo=false, int x_default = 0);
 	void reset ();
 	void stackClean	();
 
@@ -149,10 +149,11 @@ class EXP xmlpart2guido :
 	void checkTiedEnd	 ( const std::vector<S_tied>& tied );
 	void checkVoiceTime	 ( const rational& currTime, const rational& voiceTime);
     int  checkRestFormat	 ( const notevisitor& nv );
+    int checkNoteFormatDx	 ( const notevisitor& nv , rational posInMeasure);
     void checkWavyTrillBegin	 ( const notevisitor& nv );
     void checkWavyTrillEnd	 ( const notevisitor& nv );
     void checkTextEnd();
-	void newNote		 ( const notevisitor& nv );
+	void newNote		 ( const notevisitor& nv, rational posInMeasure );
 
 	std::string			noteName		( const notevisitor& nv );
 	guidonoteduration	noteDuration	( const notevisitor& nv );
@@ -170,9 +171,6 @@ class EXP xmlpart2guido :
 
 	
 	static std::string alter2accident ( float alter );
-    
-    std::map<int, float> fStaffDistance;
-
 
 	protected:
 		enum { kStemUndefined, kStemUp, kStemDown, kStemNone };
@@ -209,6 +207,8 @@ class EXP xmlpart2guido :
     
     rational durationInCue;
     
+    std::map<int, float> fStaffDistance;
+    
     public:
 				 xmlpart2guido(bool generateComments, bool generateStem, bool generateBar=true);
 		virtual ~xmlpart2guido() {}
@@ -223,6 +223,9 @@ class EXP xmlpart2guido :
     
     std::string getClef(int staffIndex, rational pos);
 
+    /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
+    std::map< int, std::map< rational, std::vector<int> > > timePositions;
+    
 };
 
 
