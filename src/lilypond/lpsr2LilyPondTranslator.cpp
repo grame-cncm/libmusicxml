@@ -291,7 +291,7 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
       break;
       
     case msrOrnament::kInvertedTurn:
-      result = "\\inverted turn";
+      result = "\\reverseturn";
       break;
       
     case msrOrnament::kDelayedTurn:
@@ -313,21 +313,25 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
       
     case msrOrnament::kDelayedInvertedTurn:
       {
-        string message =
-          "verticalturn is not supported, ignored";
+        stringstream s;
+
+        s <<
+          "delayed inverted turn is not supported, replaced by inverted turn," <<
+          endl <<
+          "see http://lilypond.org/doc/v2.18/Documentation/snippets/expressive-marks";
         
         lpsrMusicXMLWarning (
           inputLineNumber,
-          message);
+          s.str ());
           
-        result = "%{ " + message + " %}";
+        result = "\\reverseturn %{ " + s.str () + " %}";
       }
       break;
       
     case msrOrnament::kVerticalTurn:
       {
         string message =
-          "delayed inverted turn is not supported, ignored";
+          "delayed vertical turn is not supported, ignored";
         
         lpsrMusicXMLWarning (
           inputLineNumber,
