@@ -296,9 +296,13 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
       
     case msrOrnament::kDelayedTurn:
       {
+        // c2*2/3 ( s2*1/3\turn
+        
         stringstream s;
 
         s <<
+          "s" <<
+          
           "delayed turn is not supported, replaced by turn," <<
           endl <<
           "see http://lilypond.org/doc/v2.18/Documentation/snippets/expressive-marks";
@@ -329,6 +333,9 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
       break;
       
     case msrOrnament::kVerticalTurn:
+      result =
+        "^\markup { \rotate #90 \musicglyph #\"scripts.turn\" }";
+          /* JMI
       {
         string message =
           "delayed vertical turn is not supported, ignored";
@@ -339,6 +346,7 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
           
         result = "%{ " + message + " %}";
       }
+        */
       break;
       
     case msrOrnament::kMordent:
@@ -348,7 +356,7 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
     case msrOrnament::kInvertedMordent:
       result = "\\inverted mordent";
       break;
-      
+      \
     case msrOrnament::kSchleifer:
       result = "\\schleifer";
       break;

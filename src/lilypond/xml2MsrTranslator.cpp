@@ -4588,8 +4588,7 @@ void xml2MsrTranslator::visitEnd ( S_articulations& elt )
 
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_ornaments& elt )
-{
-}
+{}
 
 void xml2MsrTranslator::visitStart ( S_trill_mark& elt )
 {
