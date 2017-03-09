@@ -311,6 +311,7 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
       
     case msrOrnament::kDelayedInvertedTurn:
       {
+/* JMI
         stringstream s;
 
         s <<
@@ -323,6 +324,16 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
           s.str ());
           
         result = "\\reverseturn %{ " + s.str () + " %}";
+*/
+        // c2*2/3 ( s2*1/3\turn
+        stringstream s;
+
+        s <<
+          "s" <<
+          noteUplinkDuration <<
+          "*1/3" "\\reverseturn";
+          
+        result = s.str ();
       }
       break;
       
