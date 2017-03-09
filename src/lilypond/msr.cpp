@@ -13209,15 +13209,24 @@ void msrPart::print (ostream& os)
 
   // print the harmonies if any
   if (fPartHarmoniesList.size()) {
-    os << endl;
-    for (
-      list<S_msrElement>::iterator i = fPartHarmoniesList.begin();
-      i != fPartHarmoniesList.end();
-      i++) {
-      os <<
-        idtr << (*i) <<
-        endl;
+    os <<
+      endl <<
+      idtr <<
+        "Harmonies list" <<
+      endl;
+      
+    list<S_msrElement>::const_iterator
+      iBegin = fPartHarmoniesList.begin(),
+      iEnd   = fPartHarmoniesList.end(),
+      i      = iBegin;
+      
+    idtr++;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+  // JMI    os << endl;
     } // for
+    idtr--;
   }
 
   // print the staves
@@ -13269,16 +13278,26 @@ void msrPart::printStructure (ostream& os)
       fPartInstrumentName << "\"" << endl;
 
   if (fPartHarmoniesList.size()) {
-    os << endl;
-    for (
-      list<S_msrElement>::iterator i = fPartHarmoniesList.begin();
-      i != fPartHarmoniesList.end();
-      i++) {
-      os <<
-        idtr << (*i) <<
-        endl;
+    os <<
+      endl <<
+      idtr <<
+        "Harmonies list" <<
+      endl;
+      
+    list<S_msrElement>::const_iterator
+      iBegin = fPartHarmoniesList.begin(),
+      iEnd   = fPartHarmoniesList.end(),
+      i      = iBegin;
+      
+    idtr++;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+  // JMI    os << endl;
     } // for
+    idtr--;
   }
+
   if (fPartStavesMap.size()) {
     os << endl;
     for (
