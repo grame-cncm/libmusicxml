@@ -170,7 +170,7 @@ void timing::print (ostream& os) const
     float(totalMandatoryClock) / CLOCKS_PER_SEC <<
     setw(totalOptionalClockWidth) <<
     float(totalOptionalClock) / CLOCKS_PER_SEC <<
-    endl;
+    endl << endl;
 }
 
 timing timing::gTiming;

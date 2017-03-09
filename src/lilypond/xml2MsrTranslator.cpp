@@ -652,12 +652,13 @@ void xml2MsrTranslator::showPartgroupsData (string context)
       idtr--;
     }
     cerr <<
-      idtr << "<== fPartgroupsMap" <<
-      endl << endl <<
-      
-    idtr <<
-      "==> " << context << ": fPartgroupsList contains:" <<
-      endl;
+      idtr <<
+        "<== fPartgroupsMap" <<
+        endl << endl <<
+        
+      idtr <<
+        "==> " << context << ": fPartgroupsList contains:" <<
+        endl;
       
     if (fPartgroupsList.size()) {
       list<S_msrPartgroup>::const_iterator
@@ -1958,14 +1959,17 @@ void xml2MsrTranslator::visitStart (S_staves& elt)
         cerr << idtr <<
           "There isn't any explicit staff (hence 1 by default)"; // JMI
         break;
+        
       case 1:
         cerr << idtr <<
           "There is 1 staff";
         break;
+        
       default:
         cerr << idtr <<
           "There are " << stavesNumber << " staves";
     } // switch
+    
     cerr <<
       " in part " << fCurrentPart->getPartCombinedName() <<
       endl;
@@ -2078,7 +2082,7 @@ void xml2MsrTranslator::visitStart (S_staff_details& elt )
   fStaffDetailsStaffNumber =
     elt->getAttributeIntValue ("number", 1);
 
-  // show-frets
+  // show-frets JMI
 
   idtr++;
 
@@ -5686,6 +5690,7 @@ void xml2MsrTranslator::finalizeTuplet (
       tuplet->tupletAsShortString () <<
       "' from tuplets stack" <<
       endl;
+      
   fTupletsStack.pop ();        
 
   if (fTupletsStack.size ()) {
@@ -6250,15 +6255,15 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         ", line " << inputLineNumber <<
         " we have:" <<
         endl <<
-      idtr << idtr <<
+      idtr <<
         setw(27) << "--> fCurrentNoteStaffNumber" << " = " <<
         fCurrentNoteStaffNumber <<
         endl <<
-      idtr << idtr <<
+      idtr <<
         setw(27) << "--> fCurrentNoteVoiceNumber" << " = " <<
         fCurrentNoteVoiceNumber <<
         endl <<
-      idtr << idtr <<
+      idtr <<
         setw(27) << "--> current voice" << " = \"" <<
         currentVoice->getVoiceName () << "\"" <<
         endl <<
@@ -6764,10 +6769,10 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
     
-    idtr++;
-
  // if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
+    idtr++; // JMI
+
     cerr <<
       idtr <<
         "--> handleStandaloneOrGraceNoteOrRest: " <<
@@ -7943,7 +7948,8 @@ void xml2MsrTranslator::visitStart ( S_rehearsal& elt )
     cerr << idtr <<
       "Creating rehearsal \"" << rehearsalValue << "\"" <<
       " in voice " <<
-      currentVoice->getVoiceName () << endl;
+      currentVoice->getVoiceName () <<
+      endl;
 
   S_msrRehearsal
     rehearsal =

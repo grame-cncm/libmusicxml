@@ -5569,6 +5569,12 @@ class EXP msrPart : public msrElement
     const int     getPartMeasurePositionHighTide () const
                       { return fPartMeasurePositionHighTide; }
 
+    const int     getPartMeasureNumberMin () const
+                      { return fPartMeasureNumberMin; }
+                      
+    const int     getPartMeasureNumberMax () const
+                      { return fPartMeasureNumberMax; }
+
 /* JMI
     // voice master
     const S_msrVoice
@@ -5648,6 +5654,9 @@ class EXP msrPart : public msrElement
     int                     fPartMeasureNumber;
     bool                    fMeasureZeroHasBeenMetInPart;
     int                     fPartMeasurePositionHighTide;
+
+    int                     fPartMeasureNumberMin;
+    int                     fPartMeasureNumberMax;
     
     S_msrClef               fPartClef;
     S_msrKey                fPartKey;

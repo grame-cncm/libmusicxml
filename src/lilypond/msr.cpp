@@ -10,6 +10,7 @@
   research@grame.fr
 */
 
+#include <climits>      /* INT_MIN, INT_MAX */
 #include <iostream>
 #include <list>
 #include <algorithm>
@@ -12716,6 +12717,9 @@ msrPart::msrPart (
   
   fPartMeasurePositionHighTide = 1;
 
+  fPartMeasureNumberMin = INT_MAX;
+  fPartMeasureNumberMax = INT_MIN;
+
 /* JMI
   // create a first staff for the part
   this->
@@ -12756,12 +12760,21 @@ S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
         fPartID,
         clonedPartgroup);
 
-  clone->fPartName           = fPartName;
-  clone->fPartAbbreviation   = fPartAbbreviation;
+  clone->fPartName =
+    fPartName;
+  clone->fPartAbbreviation =
+    fPartAbbreviation;
   
-  clone->fPartInstrumentName         = fPartInstrumentName;
-  clone->fPartInstrumentAbbreviation = fPartInstrumentAbbreviation;
-  
+  clone->fPartInstrumentName =
+    fPartInstrumentName;
+  clone->fPartInstrumentAbbreviation =
+    fPartInstrumentAbbreviation;
+
+  clone->fPartMeasureNumberMin =
+    fPartMeasureNumberMin;
+  clone->fPartMeasureNumberMax =
+    fPartMeasureNumberMax;
+    
   return clone;
 }
 
@@ -12848,7 +12861,13 @@ void msrPart::setPartMeasureNumber (
 
   // propagate it to all staves
   setAllPartStavesMeasureNumber (
-    inputLineNumber, measureNumber);  
+    inputLineNumber, measureNumber);
+
+  // compute min and max measure numbers
+  if (measureNumber < fPartMeasureNumberMin)
+    fPartMeasureNumberMin = measureNumber;
+  if (measureNumber > fPartMeasureNumberMax)
+    fPartMeasureNumberMax = measureNumber;
 }
 
 void msrPart::setPartClef (S_msrClef clef)
@@ -13162,6 +13181,8 @@ void msrPart::print (ostream& os)
     " (" <<
     singularOrPlural (
       fPartStavesMap.size(), "staff", "staves") <<
+    ", measures " <<
+      fPartMeasureNumberMin << ".." << fPartMeasureNumberMax <<
     ", position high tide " << fPartMeasurePositionHighTide <<
     ")" <<
     endl;
@@ -13207,6 +13228,8 @@ void msrPart::printStructure (ostream& os)
     " (" <<
     singularOrPlural (
       fPartStavesMap.size(), "staff", "staves") <<
+    ", measures " <<
+      fPartMeasureNumberMin << ".." << fPartMeasureNumberMax <<
     ", position high tide " << fPartMeasurePositionHighTide <<
     ")" <<
     endl;
