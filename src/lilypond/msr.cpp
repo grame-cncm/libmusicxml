@@ -11421,20 +11421,6 @@ void msrVoice::appendPedalToVoice (S_msrPedal pedal)
     appendOtherElementToSegment (pedal);
 }
 
-/* JMI
-void msrVoice::appendOtherElementToVoice (S_msrElement elem)
-{
-  if (gGeneralOptions->fDebugDebug)
-    cerr << idtr <<
-      "Appending element '" << elem <<
-      "' to voice \"" << getVoiceName () << "\"" <<
-      endl;
-
-  fVoiceLastSegment->
-    appendOtherElementToSegment (elem);
-}
-*/
-
 /*
 S_msrElement msrVoice::removeLastElementFromVoice (
   int inputLineNumber)
@@ -13074,12 +13060,27 @@ S_msrStaff msrPart::fetchStaffFromPart (
 
 void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
 {
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> appending harmony " <<
+      harmony->harmonyAsString () <<
+      " to part \"" <<
+      getPartName () <<
+      "\", line " << harmony->getInputLineNumber () <<
+      endl;
+
+  fPartHarmoniesList.push_back (harmony);
+  
+  /* JMI
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->appendHarmonyToStaff (harmony);
   } // for
+  */
+
+  
 }
 
 void msrPart:: handleBackup (int divisions)
@@ -13206,6 +13207,20 @@ void msrPart::print (ostream& os)
       setw(25) << "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" << endl;
 
+  // print the harmonies if any
+  if (fPartHarmoniesList.size()) {
+    os << endl;
+    for (
+      list<S_msrElement>::iterator i = fPartHarmoniesList.begin();
+      i != fPartHarmoniesList.end();
+      i++) {
+      os <<
+        idtr << (*i) <<
+        endl;
+    } // for
+  }
+
+  // print the staves
   if (fPartStavesMap.size()) {
     os << endl;
     for (
@@ -13253,6 +13268,17 @@ void msrPart::printStructure (ostream& os)
       setw(25) << "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" << endl;
 
+  if (fPartHarmoniesList.size()) {
+    os << endl;
+    for (
+      list<S_msrElement>::iterator i = fPartHarmoniesList.begin();
+      i != fPartHarmoniesList.end();
+      i++) {
+      os <<
+        idtr << (*i) <<
+        endl;
+    } // for
+  }
   if (fPartStavesMap.size()) {
     os << endl;
     for (

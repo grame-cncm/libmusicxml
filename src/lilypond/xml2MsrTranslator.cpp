@@ -8161,13 +8161,10 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
       fCurrentHarmonyBassStep, fCurrentHarmonyBassAlteration,
       fCurrentPart);
 
-  // it will be attached to the next note
-
-  /* JMI
   // append it to current part
+  // it will be attached to the next note
   fCurrentPart->
-    appendHarmonyToPart (harmony);
-    */
+    appendHarmonyToPart (fCurrentHarmony);
 }
 
 /*

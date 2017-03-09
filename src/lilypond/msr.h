@@ -5520,6 +5520,10 @@ class EXP msrPart : public msrElement
     S_msrPartgroup
                   getPartPartgroupUplink () const
                       { return fPartPartgroupUplink; }
+              
+    const list<S_msrElement>&
+                  getPartHarmoniesList ()
+                      { return fPartHarmoniesList; }
                 
     const map<int, S_msrStaff>&
                   getPartStavesMap ()
@@ -5663,6 +5667,8 @@ class EXP msrPart : public msrElement
     S_msrTime               fPartTime;
 
     S_msrTranspose          fPartTranspose;
+
+    list<S_msrElement>      fPartHarmoniesList;
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);
