@@ -334,7 +334,8 @@ class lpsr2LilyPondTranslator :
 
     string      ornamentKindAsLilyPondString (
                   int                          inputLineNumber,
-                  msrOrnament::msrOrnamentKind ornamentKind);
+                  msrOrnament::msrOrnamentKind ornamentKind,
+                  string                       noteUplinkDuration);
 
   private:
                      

@@ -273,7 +273,8 @@ string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
 //________________________________________________________________________
 string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
   int                          inputLineNumber,
-  msrOrnament::msrOrnamentKind ornamentKind)
+  msrOrnament::msrOrnamentKind ornamentKind,
+  string                       noteUplinkDuration)
 {
   string result;
   
@@ -297,21 +298,14 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
     case msrOrnament::kDelayedTurn:
       {
         // c2*2/3 ( s2*1/3\turn
-        
         stringstream s;
 
         s <<
           "s" <<
+          noteUplinkDuration <<
+          "*1/3" "\\turn";
           
-          "delayed turn is not supported, replaced by turn," <<
-          endl <<
-          "see http://lilypond.org/doc/v2.18/Documentation/snippets/expressive-marks";
-        
-        lpsrMusicXMLWarning (
-          inputLineNumber,
-          s.str ());
-          
-        result = "\\turn %{ " + s.str () + " %}";
+        result = s.str ();
       }
       break;
       
@@ -2283,6 +2277,11 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
       // print the note duration
       fOstream <<
         elt->noteDivisionsAsMSRString ();
+
+      // handle delayed ornaments if any
+      if (elt->getNoteHasADelayedOrnament ())
+        fOstream <<
+          "*" "2/3";
       
       // print the tie if any
       {
@@ -2577,10 +2576,15 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       i=noteOrnaments.begin();
       i!=noteOrnaments.end();
       i++) {
+      string noteDuration =
+        (*i)->getOrnamentNoteUplink ()->
+          noteDivisionsAsMSRString ();
+        
       fOstream <<
         ornamentKindAsLilyPondString (
           (*i)->getInputLineNumber (), // some ornaments are not yet supported
-          (*i)->getOrnamentKind ());
+          (*i)->getOrnamentKind (),
+          noteDuration);
           // <<
         // JMI " ";
       fMusicOlec++;
@@ -3011,7 +3015,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
       fOstream <<
         ornamentKindAsLilyPondString (
           (*i)->getInputLineNumber (), // some ornaments are not yet supported
-          (*i)->getOrnamentKind ()) <<
+          (*i)->getOrnamentKind (),
+          "") << // JMI
         " ";
       fMusicOlec++;
     } // for

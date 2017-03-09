@@ -1117,7 +1117,7 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
   if (fFirstNoteCloneInVoice) {
     // there is at least a note before these grace notes in the voice
     
-    if (fCurrentNoteClone->noteHasATrill ()) {
+    if (fCurrentNoteClone->getNoteHasATrill ()) { // JMI
   //    if (gGeneralOptions->fForceDebug || gMsrOptions->fDebug)
         fOstream <<
           "### msrGracenotes on a TRILLED note" <<

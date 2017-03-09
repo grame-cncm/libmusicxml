@@ -993,6 +993,7 @@ void msrOrnament::print (ostream& os)
     ", line " << fInputLineNumber <<
     ", placement" << " = " << ornamentPlacementKindAsString () <<
     ", accidental mark" << " = " << ornamentAccidentalMarkKindAsString () <<
+    ", note uplink" << " = " << fOrnamentNoteUplink->noteAsShortString () <<
     endl;
 }
 
@@ -1970,6 +1971,8 @@ msrNote::msrNote (
     
   fNoteHasATrill = false;
 
+  fNoteHasADelayedOrnament = false;
+  
   if (
     fNoteData.fStep < 'A'
       ||
@@ -2141,6 +2144,9 @@ S_msrNote msrNote::createNoteBareClone ()
   clone->fNoteHasATrill =
     fNoteHasATrill;
 
+  clone->fNoteHasADelayedOrnament =
+    fNoteHasADelayedOrnament;
+
   return clone;
 }
 
@@ -2184,12 +2190,28 @@ void msrNote::addArticulationToNote (S_msrArticulation art)
   fNoteArticulations.push_back (art);
 }
 
-void msrNote::addOrnamentToNote (S_msrOrnament art)
+void msrNote::addOrnamentToNote (S_msrOrnament ornament)
 {
-  fNoteOrnaments.push_back (art);
+  // append the ornament to the note ornaments list
+  fNoteOrnaments.push_back (ornament);
 
-  if (art->getOrnamentKind () == msrOrnament::kTrillMark)
-    fNoteHasATrill = true;
+  switch (ornament->getOrnamentKind ()) {
+    case msrOrnament::kTrillMark:
+      fNoteHasATrill = true;
+      break;
+
+    case msrOrnament::kDelayedTurn:
+    case msrOrnament::kDelayedInvertedTurn:
+      fNoteHasADelayedOrnament = true;
+      break;
+
+    default:
+      {}
+  } // switch
+
+  // set ornament's note uplink
+  ornament->
+    setOrnamentNoteUplink (this);
 }
 
 void msrNote::addDynamicsToNote (S_msrDynamics dynamics)

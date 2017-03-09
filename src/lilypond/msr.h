@@ -812,24 +812,34 @@ class EXP msrOrnament : public msrElement
     // ------------------------------------------------------
 
     msrOrnamentKind
-              getOrnamentKind () const
-                  { return fOrnamentKind; }
+                    getOrnamentKind () const
+                        { return fOrnamentKind; }
         
-    void      setOrnamentPlacementKind (
-                msrOrnamentPlacementKind ornamentPlacementKind)
-                  { fOrnamentPlacementKind = ornamentPlacementKind; }
+    void            setOrnamentPlacementKind (
+                      msrOrnamentPlacementKind ornamentPlacementKind)
+                        { fOrnamentPlacementKind = ornamentPlacementKind; }
         
     msrOrnamentPlacementKind
-              getOrnamentPlacementKind () const
-                  { return fOrnamentPlacementKind; }
+                    getOrnamentPlacementKind () const
+                        { return fOrnamentPlacementKind; }
         
-    void      setOrnamentAccidentalMarkKind (
-                msrOrnamentAccidentalMarkKind ornamentAccidentalMarkKind)
-                  { fOrnamentAccidentalMarkKind = ornamentAccidentalMarkKind; }
+    void            setOrnamentAccidentalMarkKind (
+                      msrOrnamentAccidentalMarkKind
+                        ornamentAccidentalMarkKind)
+                        {
+                          fOrnamentAccidentalMarkKind =
+                            ornamentAccidentalMarkKind;
+                        }
         
     msrOrnamentAccidentalMarkKind
-              getOrnamentAccidentalMarkKind () const
-                  { return fOrnamentAccidentalMarkKind; }
+                    getOrnamentAccidentalMarkKind () const
+                        { return fOrnamentAccidentalMarkKind; }
+
+    void            setOrnamentNoteUplink (S_msrNote note)
+                        { fOrnamentNoteUplink = note; }
+
+    S_msrNote       getOrnamentNoteUplink () const
+                        { return fOrnamentNoteUplink; }
         
     // services
     // ------------------------------------------------------
@@ -860,6 +870,8 @@ class EXP msrOrnament : public msrElement
     msrOrnamentPlacementKind      fOrnamentPlacementKind;
     
     msrOrnamentAccidentalMarkKind fOrnamentAccidentalMarkKind;
+
+    S_msrNote                     fOrnamentNoteUplink;
 };
 typedef SMARTP<msrOrnament> S_msrOrnament;
 EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);
@@ -2534,8 +2546,11 @@ class EXP msrNote : public msrElement
                   getNoteOrnamentsToModify ()
                       { return fNoteOrnaments; }
 
-    bool          noteHasATrill () const
+    bool          getNoteHasATrill () const
                       { return fNoteHasATrill; }
+                  
+    bool          getNoteHasADelayedOrnament () const
+                      { return fNoteHasADelayedOrnament; }
                   
     // ties
     void          setNoteTie (S_msrTie tie)
@@ -2716,6 +2731,9 @@ class EXP msrNote : public msrElement
 
     // this is useful to produce a nice \aftergrace in LilyPond 
     bool                      fNoteHasATrill;
+
+    // this is needed to produce a delayed turn/inverted-turn in LilyPond 
+    bool                      fNoteHasADelayedOrnament;
 
     S_msrHarmony              fNoteHarmony;
 
