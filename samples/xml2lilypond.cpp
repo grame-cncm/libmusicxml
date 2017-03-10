@@ -187,7 +187,7 @@ void printUsage (int exitStatus)
     "    --midiTempo 'duration = perSecond'" << endl <<
     "    --midiTempo \"duration = perSecond\"" << endl <<
     "          Generate a '\\tempo duration = perSecond' command in the \\midi block." << endl <<
-    "          'duration' is a string such as '8.', and 'perSecond' is an integer," <<
+    "          'duration' is a string such as '8.', and 'perSecond' is an integer," << endl <<
     "          and spaces can be used frely in the argument." << endl <<
     "          The default is '4 = 100'." << endl <<
     endl <<
@@ -207,13 +207,17 @@ void printUsage (int exitStatus)
 
 void optionError (string errorMessage)
 {
-  cerr << idtr <<
-    "### ERROR in the option:";
+  cerr <<
+    endl <<
+    idtr <<
+    "### ERROR in the options:" <<
+    endl;
 
   idtr++;
 
   cerr << idtr <<
     errorMessage <<
+    endl <<
     endl;
     
   idtr--;
@@ -713,6 +717,7 @@ void analyzeOptions (
         }
         
         if (debugMeasuresPresent) {
+          // optarg contains the measure numbers set specification
           gGeneralOptions->fTrace = true;
           gGeneralOptions->fDebug = true;
           
@@ -762,6 +767,7 @@ void analyzeOptions (
             gMsrOptions->fMsrNoteNamesLanguageAsString = "dutch";
             gMsrOptions->fMsrNoteNamesLanguage = kNederlands;
           }
+          
           gGeneralOptions->fCommandLineOptions +=
             "--language " +
             gMsrOptions->fMsrNoteNamesLanguageAsString +
@@ -806,6 +812,7 @@ void analyzeOptions (
         }
         
         if (partNamePresent) {
+          // optarg contains the part name
           char*        partNameSpec = optarg;
           stringstream s;
 
@@ -906,16 +913,28 @@ void analyzeOptions (
         }
         
         if (accidentalStylePresent) {
+          // optarg contains the accidental style name
+          stringstream s;
+
           if (! gLpsrOptions->setAccidentalStyle (optarg)) {
+            s <<
+              "--accidentalStyle argument '" << optarg <<
+              "' is not known";
+              
+            optionError (s.str());
           }
+
+          s <<
+            "--accidentalStyle " << optarg << " ";
           
           gGeneralOptions->fCommandLineOptions +=
-            "--generateInputLineNumbers ";
+            s.str();
           accidentalStylePresent = false;
         }
         
         if (midiTempoPresent) {
-          // decipher "optarg" to extract duration and perSecond
+          // optarg contains the midi tempo specification
+          // decipher it to extract duration and perSecond values
           string optargAsString;
           {
             stringstream s;
@@ -969,7 +988,6 @@ void analyzeOptions (
             s << sm [2];
             s >> gLpsrOptions->fMidiTempoPerSecond;
           }
-
           /*
           cerr <<
             "gLpsrOptions->fMidiTempoDuration = " <<
@@ -979,8 +997,13 @@ void analyzeOptions (
             endl;
           */
 
+          stringstream s;
+
+          s <<
+            "--midiTempo '" << optargAsString << "' ";
+          
           gGeneralOptions->fCommandLineOptions +=
-            "--midiTempo" " " + optargAsString;
+            s.str();
           midiTempoPresent = false;
         }
         

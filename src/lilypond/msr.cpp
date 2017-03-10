@@ -30,23 +30,23 @@ namespace MusicXML2
 //_______________________________________________________________________________
 void initializeStringToMsrNoteNamesLanguage ()
 {
-  gMsrNoteNamesLanguageMap["dutch"] =     kNederlands;
-  gMsrNoteNamesLanguageMap["catalan"] =   kCatalan;
-  gMsrNoteNamesLanguageMap["deutsch"] =   kDeutsch;
-  gMsrNoteNamesLanguageMap["english"] =   kEnglish;
-  gMsrNoteNamesLanguageMap["espanol"] =   kEspanol;
-  gMsrNoteNamesLanguageMap["italiano"] =  kItaliano;
-  gMsrNoteNamesLanguageMap["francais"] =  kFrancais;
-  gMsrNoteNamesLanguageMap["norsk"] =     kNorsk;
-  gMsrNoteNamesLanguageMap["portugues"] = kPortugues;
-  gMsrNoteNamesLanguageMap["suomi"] =     kSuomi;
-  gMsrNoteNamesLanguageMap["svenska"] =   kSvenska;
-  gMsrNoteNamesLanguageMap["vlaams"] =    kVlaams;
+  gMsrNoteNamesLanguageMap ["dutch"]     = kNederlands;
+  gMsrNoteNamesLanguageMap ["catalan"]   = kCatalan;
+  gMsrNoteNamesLanguageMap ["deutsch"]   = kDeutsch;
+  gMsrNoteNamesLanguageMap ["english"]   = kEnglish;
+  gMsrNoteNamesLanguageMap ["espanol"]   = kEspanol;
+  gMsrNoteNamesLanguageMap ["italiano"]  = kItaliano;
+  gMsrNoteNamesLanguageMap ["francais"]  = kFrancais;
+  gMsrNoteNamesLanguageMap ["norsk"]     = kNorsk;
+  gMsrNoteNamesLanguageMap ["portugues"] = kPortugues;
+  gMsrNoteNamesLanguageMap ["suomi"]     = kSuomi;
+  gMsrNoteNamesLanguageMap ["svenska"]   = kSvenska;
+  gMsrNoteNamesLanguageMap ["vlaams"]    = kVlaams;
 }
 
 msrNoteNamesLanguage getMsrNoteNamesLanguage (string lang)
 {
-  return gMsrNoteNamesLanguageMap[lang];
+  return gMsrNoteNamesLanguageMap [lang];
 }
 
 //_______________________________________________________________________________

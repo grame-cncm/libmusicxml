@@ -57,6 +57,15 @@ lpsrOptions::lpsrOptions()
   fLilyPondAccidentalStyles.insert ("teaching");
   fLilyPondAccidentalStyles.insert ("no-reset");
   fLilyPondAccidentalStyles.insert ("forget");
+
+  /*
+  for (
+    set<string>::const_iterator i=fLilyPondAccidentalStyles.begin();
+    i!=fLilyPondAccidentalStyles.end();
+    i++) {
+      cout << (*i) << endl;
+  } // for
+  */
 }
 lpsrOptions::~lpsrOptions() {}
 
@@ -67,9 +76,10 @@ bool lpsrOptions::setAccidentalStyle (string accidentalStyle)
     it =
       fLilyPondAccidentalStyles.find (accidentalStyle);
         
-  if (it == fLilyPondAccidentalStyles.end ())
-    // no
+  if (it == fLilyPondAccidentalStyles.end ()) {
+    // no, accidentalStyle is unknown
     return false;
+  }
 
   fAccidentalStyle = accidentalStyle;
   return true;
