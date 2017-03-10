@@ -10409,6 +10409,146 @@ void msrRepeat::print (ostream& os)
   idtr--;
 }
 
+//______________________________________________________________________________
+/*
+S_msrHarmonytrack msrHarmonytrack::create (
+  int       inputLineNumber,
+  S_msrPart harmonytrackPartUplink)
+{
+  msrHarmonytrack* o =
+    new msrHarmonytrack (
+      inputLineNumber, HarmonytrackPartUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrHarmonytrack::msrHarmonytrack (
+  int       inputLineNumber,
+  S_msrPart harmonytrackPartUplink)
+    : msrElement (inputLineNumber)
+{
+  fHarmonytrackPartUplink =
+    harmonytrackPartUplink;
+}
+
+msrHarmonytrack::~msrHarmonytrack() {}
+
+S_msrHarmonytrack msrHarmonytrack::createHarmonytrackBareClone (
+  S_msrPart partClone)
+{
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> creating a bare clone of harmony track" <<
+  // JMI    harmonytrackAsShortString () <<
+      endl;
+  
+  S_msrHarmonytrack
+    clone =
+      msrHarmonytrack::create (
+        fInputLineNumber,
+        partClone);
+    
+  return clone;
+}
+
+void msrHarmonytrack::appendNoteToHarmonytrack (S_msrNote note)
+{
+  / *
+  fHarmonytrackSegment->
+    appendNoteToSegment (note);
+    * /
+
+  fHarmonytrackElements.push_back (note);
+}
+
+void msrHarmonytrack::acceptIn (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrHarmonytrack::acceptIn()" << endl;
+      
+  if (visitor<S_msrHarmonytrack>*
+    p =
+      dynamic_cast<visitor<S_msrHarmonytrack>*> (v)) {
+        S_msrHarmonytrack elem = this;
+        
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrHarmonytrack::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrHarmonytrack::acceptOut (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrHarmonytrack::acceptOut()" << endl;
+
+  if (visitor<S_msrHarmonytrack>*
+    p =
+      dynamic_cast<visitor<S_msrHarmonytrack>*> (v)) {
+        S_msrHarmonytrack elem = this;
+      
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrHarmonytrack::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrHarmonytrack::browseData (basevisitor* v)
+{
+  list<S_msrNote>::const_iterator i;
+
+  for (
+    i=fHarmonytrackElements.begin();
+    i!=fHarmonytrackElements.end();
+    i++) {
+    // browse the note
+    msrBrowser<msrNote> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  / * JMI
+  // browse the segment
+  msrBrowser<msrSegment> browser (v);
+  browser.browse (*fHarmonytrackSegment);
+  * /
+}
+
+ostream& operator<< (ostream& os, const S_msrHarmonytrack& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrHarmonytrack::print (ostream& os)
+{
+  os <<
+    "Harmonytrack" <<
+    ", line " << fInputLineNumber <<
+    ", " <<
+    singularOrPlural (
+      fHarmonytrackElements.size (), "note", "notes") <<
+    endl;
+  
+  idtr++;
+  
+ // JMI os << fHarmonytrackSegment;
+          
+  list<S_msrNote>::const_iterator
+    iBegin = fHarmonytrackElements.begin(),
+    iEnd   = fHarmonytrackElements.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    os << idtr << (*i);
+    if (++i == iEnd) break;
+ // JMI   os << endl;
+  } // for
+
+  idtr--;
+}
+*/
+
 //______________________________________________________________________________ 
 S_msrVoice msrVoice::create (
   int           inputLineNumber,
@@ -11843,7 +11983,7 @@ msrStaff::msrStaff (
   fStaffVoiceMaster =
     fStaffVoicesMap [0];
 
-  // mark it as containing music, to prevent it being removed
+  // mark it as containing music, to prevent it from being removed
   fStaffVoiceMaster->
     setMusicHasBeenInsertedInVoice ();
 
@@ -12358,7 +12498,7 @@ void msrStaff::removeStaffEmptyVoices ()
     i++) {
  // JMI   if (! (*i).second->getVoiceActualNotesCounter ()) {
     if (! (*i).second->getMusicHasBeenInsertedInVoice ()) {
-      fStaffVoicesMap.erase (i);
+// XXL      fStaffVoicesMap.erase (i);
     }
   } // for
 }
