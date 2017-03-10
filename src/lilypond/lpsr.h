@@ -124,43 +124,52 @@ class EXP lpsrOptions : public smartable {
     lpsrOptions();
     
     virtual ~lpsrOptions();
+
+    // set and get
+    // ------------------------------------------------------
+
+    bool            setAccidentalStyle (string accidentalStyle);    
  
   public:
 
     // LPSR display
-    bool      fDisplayLPSR;
+    bool            fDisplayLPSR;
 
     // LilyPond code generation
-    bool      fGenerateAbsoluteOctaves;
+    bool            fGenerateAbsoluteOctaves;
 
-    bool      fDontKeepLineBreaks;
-    bool      fKeepStaffSize;
+    bool            fDontKeepLineBreaks;
+    bool            fKeepStaffSize;
 
-    bool      fShowAllBarNumbers; // JMI
+    bool            fShowAllBarNumbers; // JMI
     
-    bool      fGenerateNumericalTime;
-    bool      fGenerateComments;
-    bool      fGenerateStems;
-    bool      fNoAutoBeaming;
-    bool      fGenerateInputLineNumbers;
+    bool            fGenerateNumericalTime;
+    bool            fGenerateComments;
+    bool            fGenerateStems;
+    bool            fNoAutoBeaming;
+    bool            fGenerateInputLineNumbers;
 
-    bool      fCompressFullBarRests; // JMI
+    bool            fCompressFullBarRests; // JMI
 
-    string    fAccidentalStyle; // JMI
+    string          fAccidentalStyle; // JMI
 
-    int       fDelayedOrnamentFractionNumerator;
-    int       fDelayedOrnamentFractionDenominator;
+    int             fDelayedOrnamentFractionNumerator;
+    int             fDelayedOrnamentFractionDenominator;
 
-    bool      fGenerateMasterVoices; // JMI
+    bool            fGenerateMasterVoices; // JMI
     
-    bool      fDontGenerateLilyPondLyrics;
+    bool            fDontGenerateLilyPondLyrics;
 
-    bool      fDontGenerateLilyPondCode;
+    bool            fDontGenerateLilyPondCode;
     
-    bool      fDontGenerateMidiCommand;
+    bool            fDontGenerateMidiCommand;
 
-    string    fMidiTempoDuration;
-    int       fMidiTempoPerSecond;
+    string          fMidiTempoDuration;
+    int             fMidiTempoPerSecond;
+
+  private:
+
+    set<string>     fLilyPondAccidentalStyles;
 };
 typedef SMARTP<lpsrOptions> S_lpsrOptions;
 

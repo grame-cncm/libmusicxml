@@ -901,6 +901,7 @@ void xml2MsrTranslator::handlePartgroupStop (int inputLineNumber)
       "Removing part group " << fCurrentPartgroupNumber <<
       " from visitor's part group map" <<
       endl;
+      
   try {
     fPartgroupsMap.erase (fCurrentPartgroupNumber);
   }

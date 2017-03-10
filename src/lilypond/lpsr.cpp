@@ -38,8 +38,42 @@ S_lpsrOptions lpsrOptions::create()
   return o;
 }
 
-lpsrOptions::lpsrOptions() {}
+lpsrOptions::lpsrOptions()
+{
+  fLilyPondAccidentalStyles.insert ("voice");
+  fLilyPondAccidentalStyles.insert ("modern");
+  fLilyPondAccidentalStyles.insert ("modern-cautionary");
+  fLilyPondAccidentalStyles.insert ("modern-voice");
+  fLilyPondAccidentalStyles.insert ("modern-voice-cautionary");
+  fLilyPondAccidentalStyles.insert ("piano");
+  fLilyPondAccidentalStyles.insert ("piano-cautionary");
+  fLilyPondAccidentalStyles.insert ("neo-modern");
+  fLilyPondAccidentalStyles.insert ("neo-modern-cautionary");
+  fLilyPondAccidentalStyles.insert ("neo-modern-voice");
+  fLilyPondAccidentalStyles.insert ("neo-modern-voice-cautionary");
+  fLilyPondAccidentalStyles.insert ("dodecaphonic");
+  fLilyPondAccidentalStyles.insert ("dodecaphonic-no-repeat");
+  fLilyPondAccidentalStyles.insert ("dodecaphonic-first");
+  fLilyPondAccidentalStyles.insert ("teaching");
+  fLilyPondAccidentalStyles.insert ("no-reset");
+  fLilyPondAccidentalStyles.insert ("forget");
+}
 lpsrOptions::~lpsrOptions() {}
+
+bool lpsrOptions::setAccidentalStyle (string accidentalStyle)
+{
+  // is accidentalStyle in the accidental styles set?
+  set<string>::iterator
+    it =
+      fLilyPondAccidentalStyles.find (accidentalStyle);
+        
+  if (it == fLilyPondAccidentalStyles.end ())
+    // no
+    return false;
+
+  fAccidentalStyle = accidentalStyle;
+  return true;
+} 
 
 S_lpsrOptions gLpsrOptions;
 
