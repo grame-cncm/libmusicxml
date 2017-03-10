@@ -20,8 +20,6 @@
 #include <list>
 #include <algorithm> 
 
-#include "regex.h"
-
 #include "smartpointer.h"
 
 #include "basevisitor.h"
@@ -350,40 +348,6 @@ string booleanAsString (bool value);
 string singularOrPlural (
   int number, string singularName, string pluralName);
 
-//______________________________________________________________________________
-class regexHandling
-{
-  public:
-
-    regexHandling (
-      string regularExpression);
-
-    ~regexHandling ();
-
-    void compileRegularExpression ();
-    
-    string regexErrorMessage (
-      int     resultatFonction);
-  
-    string findMatch (
-      string     theString,
-      size_t     maxMatchesNumber,
-      regmatch_t matchesArray [],
-      int&       theMatchLength);
-  
-    string extractSubMatch (
-      string      theString,
-      size_t      maxMatchesNumber,
-      regmatch_t  matchesArray [],
-      int         wantedSubMatch,
-      int&        theSubMatchLength);
-  
-  private:
-
-    string      fRegularExpression;
-
-    regex_t*    fCompiledRegularExpression;
-};
 
 } // namespace MusicXML2
 

@@ -345,7 +345,7 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
       
     case msrOrnament::kVerticalTurn:
       result =
-        "^\markup { \rotate #90 \musicglyph #\"scripts.turn\" }";
+        "^\markup { \\rotate #90 \\musicglyph #\"scripts.turn\" }";
           /* JMI
       {
         string message =
@@ -1661,6 +1661,10 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
         endl;
       }
       break;
+
+    case msrMeasure::kOverfullMeasure:
+      // JMI
+      break;
   } // switch
 }
 
@@ -2236,7 +2240,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
         if (! fOnGoingStemNone) {
           fOstream <<
             endl <<
-            "\\temporary\omit Stem" " "
+            "\\temporary\\omit Stem" " "
             "\\once\\omit Staff.TimeSignature" " "
             "\\cadenzaOn" <<
             idtr;

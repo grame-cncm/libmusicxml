@@ -18,7 +18,7 @@
 
 #include <fstream>      // ofstream, ofstream::open(), ofstream::close()
 
-//#include <regex>
+#include <regex>
 
 #include "msrVersion.h"
 #include "msrUtilities.h"
@@ -172,10 +172,12 @@ void printUsage (int exitStatus)
     "          Generate after each note and barline a comment containing" << endl <<
     "          its MusicXML input line number." << endl <<
     endl <<
-    "    --midiTempo duration = perSecond" << endl <<
-    "          Generate '\\tempo duration = perSecond' command in the \\midi block." << endl <<
-    "          'duration' is a string such as '8.', and 'perSecond' is an integer." << endl <<
-    "          Default is '4 = 100'." << endl <<
+    "    --midiTempo 'duration = perSecond'" << endl <<
+    "    --midiTempo \"duration = perSecond\"" << endl <<
+    "          Generate a '\\tempo duration = perSecond' command in the \\midi block." << endl <<
+    "          'duration' is a string such as '8.', and 'perSecond' is an integer," <<
+    "          and spaces can be used frely in the argument." << endl <<
+    "          The default is '4 = 100'." << endl <<
     endl <<
     "    --nolpc, --dontGenerateLilyPondCode" << endl <<
     "          Don't generate LilyPond code." << endl <<
@@ -858,27 +860,56 @@ void analyzeOptions (
         
         if (midiTempoPresent) {
           // decipher "optarg" to extract duration and perSecond
-          regexHandling rgh ("(\d+\.+)=(\d+)");
-          
-          if (rgh.findMatch (optarg)) {
-            // argument matches regular expression
-            cout << "The " << cm.size() << " matches are: ";
-            
-            for (unsigned i = 0; i < cm.size (); ++i) {
-              cout << "[" << cm [i] << "] ";
-            }
+          string optargAsString;
+          {
+            stringstream s;
+            s << optarg;
+            s >> optargAsString;
           }
+
+          optargAsString = "4. = 90";
+          
+       //   regex  e ("(:digit:+\\.*)=(:digit:+)");
+          string regularExpression (
+            "[[:space:]]*([[:digit:]]+\\.*)[[:space:]]*"
+            "="
+            "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+            
+          regex  e (regularExpression);
+          smatch sm;
+
+          regex_match (optargAsString, sm, e);
+          
+          cout <<
+            "There are " << sm.size() << " matches" <<
+            " for string '" << optargAsString <<
+            "' with regex '" << regularExpression <<
+            "'" <<
+            endl;
+
+          if (sm.size ()) {
+            for (unsigned i = 0; i < sm.size (); ++i) {
+              cout << "[" << sm [i] << "] ";
+            } // for
+          }
+          
           else {
             cerr <<
-              "--midiTempo arguement" " " << optarg <<
+              "--midiTempo argument" " " << optarg <<
               " is ill-formed" <<
               endl;
           }
           
-          gLpsrOptions->fMidiTempoDuration =  cm [0];
-          gLpsrOptions->fMidiTempoPerSecond = cm [1];
+          gLpsrOptions->fMidiTempoDuration =  sm [1];
+
+          {
+            stringstream s;
+            s << sm [2];
+            s >> gLpsrOptions->fMidiTempoPerSecond;
+          }
+                    
           gGeneralOptions->fCommandLineOptions +=
-            "--midiTempo" " " + optarg;
+            "--midiTempo" " " + optargAsString;
           midiTempoPresent = false;
         }
         

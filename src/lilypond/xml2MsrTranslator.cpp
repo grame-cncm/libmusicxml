@@ -7602,7 +7602,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   }
   
   else {
-    /* JMI
+    // JMI
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Fetching barline from pending barlines stack top" <<

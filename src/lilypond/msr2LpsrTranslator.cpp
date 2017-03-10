@@ -740,6 +740,10 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       
     case msrMeasure::kIncompleteRightMeasure:
       break;
+      
+    case msrMeasure::kOverfullMeasure:
+      // JMI
+      break;
   } // switch
 
   if (doCreateABarCheck) {
