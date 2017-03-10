@@ -812,9 +812,8 @@ void analyzeOptions (
             stringstream s;
 
             s <<
-              "language name \"" << optargAsString <<
-              "\", is unknown" <<
-              endl;
+              "language name '" << optargAsString <<
+              "' is unknown";
               
             optionError (s.str());
           }
