@@ -72,7 +72,7 @@ lpsrOptions::~lpsrOptions() {}
 bool lpsrOptions::setAccidentalStyle (string accidentalStyle)
 {
   // is accidentalStyle in the accidental styles set?
-  set<string>::iterator
+  set<string>::const_iterator
     it =
       fLilyPondAccidentalStyles.find (accidentalStyle);
         
@@ -82,6 +82,7 @@ bool lpsrOptions::setAccidentalStyle (string accidentalStyle)
   }
 
   fAccidentalStyle = accidentalStyle;
+  
   return true;
 } 
 

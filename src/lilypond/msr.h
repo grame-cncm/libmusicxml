@@ -189,6 +189,7 @@ enum msrNoteNamesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
   kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
 
+/* JMI
 typedef map<string, msrNoteNamesLanguage>
   msrNoteNamesLanguageMap;
   
@@ -196,6 +197,7 @@ static msrNoteNamesLanguageMap gMsrNoteNamesLanguageMap;
 
 void initializeMsrNoteNamesLanguage ();
 msrNoteNamesLanguage getMsrNoteNamesLanguage (string lang);
+*/
 
 //______________________________________________________________________________
 /*!
@@ -209,9 +211,7 @@ class EXP msrOptions : public smartable
   public:
 
     static SMARTP<msrOptions> create ();
-    
-  protected:
-  
+      
     // constructors/destructor
     // ------------------------------------------------------
 
@@ -219,11 +219,16 @@ class EXP msrOptions : public smartable
   
     virtual ~msrOptions();
  
+    // set and get
+    // ------------------------------------------------------
+
+    bool                  setNoteNamesLanguage (string language);    
+ 
   public:
 
     // languages
-    string                fMsrNoteNamesLanguageAsString;
-    msrNoteNamesLanguage  fMsrNoteNamesLanguage;
+    string                fNoteNamesLanguageAsString;
+    msrNoteNamesLanguage  fNoteNamesLanguage;
     
     // advanced options
     bool                  fCreateStaffRelativeVoiceNumbers;
@@ -240,6 +245,11 @@ class EXP msrOptions : public smartable
 
     // parts renaming
     map<string, string>   fPartsRenaming;
+
+  private:
+
+    map<string, msrNoteNamesLanguage>
+                          fNoteNamesLanguageMap;
 };
 typedef SMARTP<msrOptions> S_msrOptions;
 

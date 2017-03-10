@@ -28,6 +28,7 @@ namespace MusicXML2
 
 
 //_______________________________________________________________________________
+/*
 void initializeStringToMsrNoteNamesLanguage ()
 {
   gMsrNoteNamesLanguageMap ["dutch"]     = kNederlands;
@@ -48,6 +49,7 @@ msrNoteNamesLanguage getMsrNoteNamesLanguage (string lang)
 {
   return gMsrNoteNamesLanguageMap [lang];
 }
+*/
 
 //_______________________________________________________________________________
 S_msrOptions msrOptions::create ()
@@ -57,9 +59,41 @@ S_msrOptions msrOptions::create ()
   return o;
 }
 
-msrOptions::msrOptions () {}
+msrOptions::msrOptions ()
+{
+  fNoteNamesLanguageMap ["dutch"]     = kNederlands;
+  fNoteNamesLanguageMap ["catalan"]   = kCatalan;
+  fNoteNamesLanguageMap ["deutsch"]   = kDeutsch;
+  fNoteNamesLanguageMap ["english"]   = kEnglish;
+  fNoteNamesLanguageMap ["espanol"]   = kEspanol;
+  fNoteNamesLanguageMap ["italiano"]  = kItaliano;
+  fNoteNamesLanguageMap ["francais"]  = kFrancais;
+  fNoteNamesLanguageMap ["norsk"]     = kNorsk;
+  fNoteNamesLanguageMap ["portugues"] = kPortugues;
+  fNoteNamesLanguageMap ["suomi"]     = kSuomi;
+  fNoteNamesLanguageMap ["svenska"]   = kSvenska;
+  fNoteNamesLanguageMap ["vlaams"]    = kVlaams;
+}
 
 msrOptions::~msrOptions () {}
+
+bool msrOptions::setNoteNamesLanguage (string language)
+{
+  // is language in the note names languages map?
+  map<string, msrNoteNamesLanguage>::const_iterator
+    it =
+      fNoteNamesLanguageMap.find (language);
+        
+  if (it == fNoteNamesLanguageMap.end ()) {
+    // no, language is unknown
+    return false;
+  }
+
+  fNoteNamesLanguageAsString = (*it).first;
+  fNoteNamesLanguage         = (*it).second;
+  
+  return true;
+}
 
 S_msrOptions gMsrOptions;
 

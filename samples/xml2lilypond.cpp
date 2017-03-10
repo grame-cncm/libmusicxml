@@ -247,8 +247,7 @@ void analyzeOptions (
   // MSR options
   // -----------
 
-  gMsrOptions->fMsrNoteNamesLanguageAsString        = "dutch";
-  gMsrOptions->fMsrNoteNamesLanguage                = kNederlands;
+  gMsrOptions->setNoteNamesLanguage                 ("dutch");
   
   gMsrOptions->fCreateStaffRelativeVoiceNumbers     = false;
   
@@ -801,20 +800,28 @@ void analyzeOptions (
         
         if (languagePresent) {
           // optarg contains the language name
-          if (gMsrNoteNamesLanguageMap.count(optarg)) {
-            gMsrOptions->fMsrNoteNamesLanguageAsString = optarg;
+          string optargAsString;
+          {
+            stringstream s;
+            s << optarg;
+            optargAsString = s.str();
           }
-          else {
-            cerr <<
-              "--> Unknown language name \"" << optarg <<
-              "\", using \"dutch\" instead" << endl;
-            gMsrOptions->fMsrNoteNamesLanguageAsString = "dutch";
-            gMsrOptions->fMsrNoteNamesLanguage = kNederlands;
+          
+          if (! gMsrOptions->setNoteNamesLanguage (
+            optargAsString)) {
+            stringstream s;
+
+            s <<
+              "language name \"" << optargAsString <<
+              "\", is unknown" <<
+              endl;
+              
+            optionError (s.str());
           }
           
           gGeneralOptions->fCommandLineOptions +=
             "--language " +
-            gMsrOptions->fMsrNoteNamesLanguageAsString +
+            optargAsString +
             " ";
           languagePresent = false;
           }
@@ -1275,7 +1282,7 @@ void printOptions ()
   
   cerr << left <<
     idtr << setw(fieldWidth) << "noteNamesLanguageName" << " : \"" <<
-      gMsrOptions->fMsrNoteNamesLanguageAsString << "\"" << endl <<
+      gMsrOptions->fNoteNamesLanguageAsString << "\"" << endl <<
     
     idtr << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
       booleanAsString (gMsrOptions->fCreateStaffRelativeVoiceNumbers) <<
