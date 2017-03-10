@@ -1330,4 +1330,134 @@ string singularOrPlural (
 }
 
 
+// -------------------------------------------------------------------------
+// Regular expressions
+// -------------------------------------------------------------------------
+//______________________________________________________________________________
+regexHandling::regexHandling (
+  string regularExpression,
+  size_t matchesArraySize)
+{
+  fRegularExpression = regularExpression;
+
+  fCompiledRegularExpression = 0;
+
+  regmatch_t    matchesArray [matchesArraySize];
+  */
+}
+
+string regexHandling::regexErrorMessage (
+  int     resultatFonction)
+{
+  const int TAILLE_TAMPON = 8192;
+  char      tampon [TAILLE_TAMPON];
+  
+  size_t resultatDeRegerror =
+    regerror (
+      resultatFonction,
+      fCompiledRegularExpression,
+      tampon, TAILLE_TAMPON );
+  
+  resultatDeRegerror = resultatDeRegerror;  // to avoid "unused" message
+
+  return string (tampon);
+}
+
+void regexHandling::compileRegularExpression ()
+{
+  fCompiledRegularExpression = new regex_t ();
+  
+  int resultatRegcomp =
+    regcomp (
+      fCompiledRegularExpression,
+      (char *) fRegularExpression.c_str (),
+      REG_EXTENDED);
+  
+  if (resultatRegcomp != 0) {
+//    std::cout << "resultatRegcomp = %d\n", resultatRegcomp);
+    stringstream s;
+    
+    s <<
+      "Couldn't compil de l'expression reguliere " <<
+//        fCompiledRegularExpression, JMI ???
+        regexErrorMessage (resultatRegcomp ) <<
+      endl;
+  }
+}
+
+string regexHandling::findMatch (
+  string     theString,
+  size_t     maxMatchesNumber,
+  regmatch_t matchesArray [],
+  int&       theMatchLength)
+{
+  string res;
+
+  int matchResult =
+    regexec (
+      fCompiledRegularExpression,
+      (char *) theString.c_str (),
+      maxMatchesNumber, matchesArray,
+      0);
+
+  if (matchResult == 0) {
+    int length =
+      matchesArray [0].rm_eo - matchesArray [0].rm_so;
+
+//    res = new char [length + 1];
+// 
+//    strncpy (
+//      res,
+//      (char *) theString.c_str () + matchesArray [0].rm_so,
+//      length );
+//    res [length] = '\0';
+// 
+//    //  std::cout << "%s", res);
+
+    res =
+      string (theString, matchesArray [0].rm_so, length);
+
+    theMatchLength = length;
+  }
+  
+  else {
+    theMatchLength = -1;
+  }
+
+  return res;
+}
+
+string regexHandling::extractSubMatch (
+  string      theString,
+  size_t      maxMatchesNumber,
+  regmatch_t  matchesArray [],
+  int         wantedSubMatch,
+  int&        theSubMatchLength)
+{
+  string res;
+  int length =
+    matchesArray [wantedSubMatch].rm_eo
+      -
+    matchesArray [wantedSubMatch].rm_so;
+
+//  res = new char [length + 1];
+// 
+//  strncpy (
+//    res,
+//    (char *) theString.c_str () + matchesArray [wantedSubMatch].rm_so,
+//    length );
+//  res [length] = '\0';
+// 
+//  //  std::cout << "%s", res);
+
+  res =
+    string (theString, matchesArray [wantedSubMatch].rm_so, length);
+
+  theSubMatchLength = length;
+
+  return res;
+}
+
+
+
 }

@@ -18,6 +18,8 @@
 
 #include <fstream>      // ofstream, ofstream::open(), ofstream::close()
 
+//#include <regex>
+
 #include "msrVersion.h"
 #include "msrUtilities.h"
 
@@ -170,6 +172,11 @@ void printUsage (int exitStatus)
     "          Generate after each note and barline a comment containing" << endl <<
     "          its MusicXML input line number." << endl <<
     endl <<
+    "    --midiTempo duration = perSecond" << endl <<
+    "          Generate '\\tempo duration = perSecond' command in the \\midi block." << endl <<
+    "          'duration' is a string such as '8.', and 'perSecond' is an integer." << endl <<
+    "          Default is '4 = 100'." << endl <<
+    endl <<
     "    --nolpc, --dontGenerateLilyPondCode" << endl <<
     "          Don't generate LilyPond code." << endl <<
     "          This can be useful if only a summary of the score is needed." << endl <<
@@ -177,7 +184,6 @@ void printUsage (int exitStatus)
     "    --nolpl, --dontGenerateLilyPondLyrics" << endl <<
     "          Don't generate lyrics in the LilyPond code." << endl <<
     endl <<
-
     endl <<
 
     endl;
@@ -224,10 +230,15 @@ void analyzeOptions (
   gLpsrOptions->fNoAutoBeaming                    = false;
   gLpsrOptions->fGenerateInputLineNumbers         = false;
   
+  gLpsrOptions->fDontGenerateMidiCommand          = false;
+  
+  gLpsrOptions->fMidiTempoDuration                = "4";
+  gLpsrOptions->fMidiTempoPerSecond               = 100;
+  
   gLpsrOptions->fAccidentalStyle                  = "reaching";
 
-  gLpsrOptions->fDelayedOrnamentFractionNumerator   = false;
-  gLpsrOptions->fDelayedOrnamentFractionDenominator = false;
+  gLpsrOptions->fDelayedOrnamentFractionNumerator   = 2;
+  gLpsrOptions->fDelayedOrnamentFractionDenominator = 3;
 
   gLpsrOptions->fCompressFullBarRests             = "true";
 
@@ -236,11 +247,6 @@ void analyzeOptions (
   gLpsrOptions->fDontGenerateLilyPondLyrics       = false;
   
   gLpsrOptions->fDontGenerateLilyPondCode         = false;
-  
-  gLpsrOptions->fDontGenerateMidiCommand          = false;
-  
-  gLpsrOptions->fMidiTempoDuration                = "4";
-  gLpsrOptions->fMidiTempoPerSecond               = 100;
 
    // General options
   // ---------------
@@ -293,6 +299,8 @@ void analyzeOptions (
   int noAutoBeamingPresent              = 0;
   int noteInputLineNumbersPresent       = 0;
   
+  int midiTempoPresent                  = 0;
+
   int dontGenerateLilyPondLyricsPresent = 0;
 
   int dontGenerateLilyPondCodePresent   = 0;
@@ -521,6 +529,11 @@ void analyzeOptions (
       no_argument, &noteInputLineNumbersPresent, 1
     },    
 
+    {
+      "midiTempo",
+      no_argument, &midiTempoPresent, 1
+    },
+    
     {
       "nolpc",
       no_argument, &dontGenerateLilyPondCodePresent, 1
@@ -841,6 +854,32 @@ void analyzeOptions (
           gGeneralOptions->fCommandLineOptions +=
             "--generateInputLineNumbers ";
           noteInputLineNumbersPresent = false;
+        }
+        
+        if (midiTempoPresent) {
+          // decipher "optarg" to extract duration and perSecond
+          regexHandling rgh ("(\d+\.+)=(\d+)");
+          
+          if (rgh.findMatch (optarg)) {
+            // argument matches regular expression
+            cout << "The " << cm.size() << " matches are: ";
+            
+            for (unsigned i = 0; i < cm.size (); ++i) {
+              cout << "[" << cm [i] << "] ";
+            }
+          }
+          else {
+            cerr <<
+              "--midiTempo arguement" " " << optarg <<
+              " is ill-formed" <<
+              endl;
+          }
+          
+          gLpsrOptions->fMidiTempoDuration =  cm [0];
+          gLpsrOptions->fMidiTempoPerSecond = cm [1];
+          gGeneralOptions->fCommandLineOptions +=
+            "--midiTempo" " " + optarg;
+          midiTempoPresent = false;
         }
         
         if (dontGenerateLilyPondLyricsPresent) {
