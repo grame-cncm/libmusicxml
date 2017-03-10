@@ -141,7 +141,8 @@ class EXP lpsrOptions : public smartable {
     bool            fDontKeepLineBreaks;
     bool            fKeepStaffSize;
 
-    bool            fShowAllBarNumbers; // JMI
+    bool            fShowAllBarNumbers;
+    bool            fCompressFullBarRests; 
     
     bool            fGenerateNumericalTime;
     bool            fGenerateComments;
@@ -149,9 +150,8 @@ class EXP lpsrOptions : public smartable {
     bool            fNoAutoBeaming;
     bool            fGenerateInputLineNumbers;
 
-    bool            fCompressFullBarRests; // JMI
 
-    string          fAccidentalStyle; // JMI
+    string          fAccidentalStyle;
 
     int             fDelayedOrnamentFractionNumerator;
     int             fDelayedOrnamentFractionDenominator;

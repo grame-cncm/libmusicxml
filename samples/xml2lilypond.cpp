@@ -152,6 +152,12 @@ void printUsage (int exitStatus)
     endl <<
 
 //    "    --indent" << endl <<
+    "    --sabn, --showAllBarNumbers" << endl <<
+    "          Generate LilyPond code to show all bar numbers." << endl <<
+    endl <<
+    "    --cfbr, --compressFullBarRests" << endl <<
+    "          Generate LilyPond code compress all full bar rests in the voices." << endl <<
+    endl <<
     "    --noBreaks, --dontKeepLineBreaks" << endl <<
     "          Don't keep the line breaks from the MusicXML input" << endl <<
     "          and let LilyPond decide about them." << endl <<
@@ -260,6 +266,9 @@ void analyzeOptions (
   gLpsrOptions->fDisplayLPSR                        = false;
 
   gLpsrOptions->fDontKeepLineBreaks                 = false;
+  gLpsrOptions->fShowAllBarNumbers                  = false;
+  gLpsrOptions->fCompressFullBarRests               = false;;
+  
   gLpsrOptions->fKeepStaffSize                      = false;
     
   gLpsrOptions->fGenerateAbsoluteOctaves            = false;
@@ -270,7 +279,7 @@ void analyzeOptions (
   gLpsrOptions->fNoAutoBeaming                      = false;
   gLpsrOptions->fGenerateInputLineNumbers           = false;
   
-  gLpsrOptions->fAccidentalStyle                    = "default";
+  gLpsrOptions->fAccidentalStyle                    = "";
 
   gLpsrOptions->fDelayedOrnamentFractionNumerator   = 2;
   gLpsrOptions->fDelayedOrnamentFractionDenominator = 3;
@@ -280,8 +289,6 @@ void analyzeOptions (
   gLpsrOptions->fMidiTempoDuration                  = "4";
   gLpsrOptions->fMidiTempoPerSecond                 = 100;
   
-  gLpsrOptions->fCompressFullBarRests               = "true";
-
   gLpsrOptions->fGenerateMasterVoices               = true;
   
   gLpsrOptions->fDontGenerateLilyPondLyrics         = false;
@@ -329,6 +336,8 @@ void analyzeOptions (
   int displayLPSRPresent                = 0;
 
   int dontKeepLineBreaksPresent         = 0;
+  int showAllBarNumbersPresent          = 0;
+  int compressFullBarRestsPresent       = 0;
 //  int fKeepStaffSizePresent             = 0; JMI
   
   int absolutePresent                   = 0;
@@ -525,6 +534,24 @@ void analyzeOptions (
     {
       "absolute",
       no_argument, &absolutePresent, 1
+    },
+    
+    {
+      "sabn",
+      no_argument, &showAllBarNumbersPresent, 1
+    },
+    {
+      "showAllBarNumbers",
+      no_argument, &showAllBarNumbersPresent, 1
+    },
+    
+    {
+      "cfbr",
+      no_argument, &compressFullBarRestsPresent, 1
+    },
+    {
+      "compressFullBarRests",
+      no_argument, &compressFullBarRestsPresent, 1
     },
     
     {
@@ -889,6 +916,20 @@ void analyzeOptions (
           gGeneralOptions->fCommandLineOptions +=
             "--absolute ";
           absolutePresent = false;
+        }
+
+        if (showAllBarNumbersPresent) {
+          gLpsrOptions->fShowAllBarNumbers = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--showAllBarNumbers ";
+          showAllBarNumbersPresent = false;
+        }
+
+        if (compressFullBarRestsPresent) {
+          gLpsrOptions->fCompressFullBarRests = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--compressFullBarRests ";
+          compressFullBarRestsPresent = false;
         }
 
         if (dontKeepLineBreaksPresent) {

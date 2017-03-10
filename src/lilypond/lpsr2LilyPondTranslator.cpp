@@ -1499,7 +1499,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
 
   idtr++;
 
- // if (gLpsrOptions->fShowAllBarNumbers) // JMI
+  if (gLpsrOptions->fShowAllBarNumbers)
     fOstream <<
       idtr <<
         "\\set Score.barNumberVisibility = #all-bar-numbers-visible" <<
@@ -1509,14 +1509,14 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
         endl <<
       endl;
 
- // if (gLpsrOptions->fCompressFullBarRests) // JMI
+  if (gLpsrOptions->fCompressFullBarRests)
     fOstream <<
       idtr <<
         "\\compressFullBarRests" <<
         endl <<
       endl;
 
- // if (gLpsrOptions->fAccidentalStyle.size ()) // JMI
+  if (gLpsrOptions->fAccidentalStyle.size ())
     fOstream <<
       idtr <<
         "\\accidentalStyle Score." << gLpsrOptions->fAccidentalStyle <<
