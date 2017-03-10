@@ -223,11 +223,26 @@ void analyzeOptions (
   gLpsrOptions->fGenerateStems                    = false;
   gLpsrOptions->fNoAutoBeaming                    = false;
   gLpsrOptions->fGenerateInputLineNumbers         = false;
+  
+  gLpsrOptions->fAccidentalStyle                  = "reaching";
 
+  gLpsrOptions->fDelayedOrnamentFractionNumerator   = false;
+  gLpsrOptions->fDelayedOrnamentFractionDenominator = false;
+
+  gLpsrOptions->fCompressFullBarRests             = "true";
+
+  gLpsrOptions->fGenerateMasterVoices             = true;
+  
+  gLpsrOptions->fDontGenerateLilyPondLyrics       = false;
+  
   gLpsrOptions->fDontGenerateLilyPondCode         = false;
+  
+  gLpsrOptions->fDontGenerateMidiCommand          = false;
+  
+  gLpsrOptions->fMidiTempoDuration                = "4";
+  gLpsrOptions->fMidiTempoPerSecond               = 100;
 
-
-  // General options
+   // General options
   // ---------------
 
   int helpPresent                       = 0;

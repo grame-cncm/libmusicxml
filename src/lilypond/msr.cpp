@@ -12498,7 +12498,8 @@ void msrStaff::removeStaffEmptyVoices ()
     i++) {
  // JMI   if (! (*i).second->getVoiceActualNotesCounter ()) {
     if (! (*i).second->getMusicHasBeenInsertedInVoice ()) {
-// XXL      fStaffVoicesMap.erase (i);
+// XXL
+      fStaffVoicesMap.erase (i);
     }
   } // for
 }

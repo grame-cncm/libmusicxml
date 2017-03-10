@@ -303,7 +303,13 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
         s <<
           "s" <<
           noteUplinkDuration <<
-          "*1/3" "\\turn";
+          "*" <<
+          gLpsrOptions->fDelayedOrnamentFractionDenominator
+            -
+          gLpsrOptions->fDelayedOrnamentFractionNumerator <<
+          "/" <<
+          gLpsrOptions->fDelayedOrnamentFractionDenominator <<
+          "\\turn";
           
         result = s.str ();
       }
@@ -1503,6 +1509,20 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
         endl <<
       endl;
 
+ // if (gLpsrOptions->fCompressFullBarRests) // JMI
+    fOstream <<
+      idtr <<
+        "\\compressFullBarRests" <<
+        endl <<
+      endl;
+
+ // if (gLpsrOptions->fAccidentalStyle.size ()) // JMI
+    fOstream <<
+      idtr <<
+        "\\accidentalStyle Score." << gLpsrOptions->fAccidentalStyle <<
+        endl <<
+      endl;
+
   fRelativeOctaveReference = 0;
 
   fMusicOlec.reset ();
@@ -2291,8 +2311,12 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
 
       // handle delayed ornaments if any
       if (elt->getNoteHasADelayedOrnament ())
+        // c2*2/3 ( s2*1/3\turn
         fOstream <<
-          "*" "2/3";
+          "*" <<
+          gLpsrOptions->fDelayedOrnamentFractionNumerator <<
+          "/" <<
+          gLpsrOptions->fDelayedOrnamentFractionDenominator;
       
       // print the tie if any
       {
@@ -3760,8 +3784,17 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMidi& elt)
   
   idtr++;
   
-  fOstream << idtr <<
-    "% to be completed" <<
+  fOstream << idtr;
+
+  if (! gLpsrOptions->fDontGenerateMidiCommand)
+    fOstream <<
+      "% ";
+  
+  fOstream <<
+    "\\tempo" " " <<
+    gLpsrOptions->fMidiTempoDuration <<
+    " = " <<
+    gLpsrOptions->fMidiTempoPerSecond <<
     endl;
   
   idtr--;
