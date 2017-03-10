@@ -176,13 +176,19 @@ void printUsage (int exitStatus)
     "          Comment the '\\compressFullBarRests' command at the beginning of voices" << endl <<
     endl <<
     "    --as, --accidentalStyle style" << endl <<
-    "          Choose one of LilyPond's accidental styles among " << endl <<
+    "          Choose the LilyPond accidental styles among " << endl <<
     "          'voice', 'modern', 'modern-cautionary', 'modern-voice', " <<  endl <<
     "          'modern-voice-cautionary', 'piano', 'piano-cautionary', " << endl <<
     "          'neo-modern', 'neo-modern-cautionary', 'neo-modern-voice'," << endl <<
     "          'neo-modern-voice-cautionary', 'dodecaphonic', 'dodecaphonic-no-repeat'," << endl <<
     "          'dodecaphonic-first', 'teaching', 'no-reset forget." << endl <<
     "          The default is... 'default'." << endl <<
+    endl <<
+    "    --dof, --delayedOrnamentsFraction 'num/denom'" << endl <<
+    "    --dof, --delayedOrnamentsFraction \"num/denom\"" << endl <<
+    "          Place the delayed turn/reverseturn at the given fraction" << endl <<
+    "          between the ornemented note and the next one." << endl <<
+    "          The default fraction is '2/3'." << endl <<
     endl <<
     "    --midiTempo 'duration = perSecond'" << endl <<
     "    --midiTempo \"duration = perSecond\"" << endl <<
@@ -235,52 +241,52 @@ void analyzeOptions (
   // MSR options
   // -----------
 
-  gMsrOptions->fMsrNoteNamesLanguageAsString      = "dutch";
-  gMsrOptions->fMsrNoteNamesLanguage              = kNederlands;
+  gMsrOptions->fMsrNoteNamesLanguageAsString        = "dutch";
+  gMsrOptions->fMsrNoteNamesLanguage                = kNederlands;
   
-  gMsrOptions->fCreateStaffRelativeVoiceNumbers   = false;
+  gMsrOptions->fCreateStaffRelativeVoiceNumbers     = false;
   
-  gMsrOptions->fDontDisplayMSRStanzas             = false;
+  gMsrOptions->fDontDisplayMSRStanzas               = false;
 
-  gMsrOptions->fDelayRestsDynamics                = false;
+  gMsrOptions->fDelayRestsDynamics                  = false;
   
-  gMsrOptions->fDisplayMSR                        = false;
+  gMsrOptions->fDisplayMSR                          = false;
 
-  gMsrOptions->fDisplayMSRSummary                 = false;
+  gMsrOptions->fDisplayMSRSummary                   = false;
 
   // LPSR options
   // ------------
 
-  gLpsrOptions->fDisplayLPSR                      = false;
+  gLpsrOptions->fDisplayLPSR                        = false;
 
-  gLpsrOptions->fDontKeepLineBreaks               = false;
-  gLpsrOptions->fKeepStaffSize                    = false;
+  gLpsrOptions->fDontKeepLineBreaks                 = false;
+  gLpsrOptions->fKeepStaffSize                      = false;
     
-  gLpsrOptions->fGenerateAbsoluteOctaves          = false;
+  gLpsrOptions->fGenerateAbsoluteOctaves            = false;
 
-  gLpsrOptions->fGenerateNumericalTime            = false;
-  gLpsrOptions->fGenerateComments                 = false;
-  gLpsrOptions->fGenerateStems                    = false;
-  gLpsrOptions->fNoAutoBeaming                    = false;
-  gLpsrOptions->fGenerateInputLineNumbers         = false;
+  gLpsrOptions->fGenerateNumericalTime              = false;
+  gLpsrOptions->fGenerateComments                   = false;
+  gLpsrOptions->fGenerateStems                      = false;
+  gLpsrOptions->fNoAutoBeaming                      = false;
+  gLpsrOptions->fGenerateInputLineNumbers           = false;
   
-  gLpsrOptions->fAccidentalStyle                  = "default";
+  gLpsrOptions->fAccidentalStyle                    = "default";
 
-  gLpsrOptions->fDontGenerateMidiCommand          = false;
-  
-  gLpsrOptions->fMidiTempoDuration                = "4";
-  gLpsrOptions->fMidiTempoPerSecond               = 100;
-  
   gLpsrOptions->fDelayedOrnamentFractionNumerator   = 2;
   gLpsrOptions->fDelayedOrnamentFractionDenominator = 3;
 
-  gLpsrOptions->fCompressFullBarRests             = "true";
+  gLpsrOptions->fDontGenerateMidiCommand            = false;
+  
+  gLpsrOptions->fMidiTempoDuration                  = "4";
+  gLpsrOptions->fMidiTempoPerSecond                 = 100;
+  
+  gLpsrOptions->fCompressFullBarRests               = "true";
 
-  gLpsrOptions->fGenerateMasterVoices             = true;
+  gLpsrOptions->fGenerateMasterVoices               = true;
   
-  gLpsrOptions->fDontGenerateLilyPondLyrics       = false;
+  gLpsrOptions->fDontGenerateLilyPondLyrics         = false;
   
-  gLpsrOptions->fDontGenerateLilyPondCode         = false;
+  gLpsrOptions->fDontGenerateLilyPondCode           = false;
 
    // General options
   // ---------------
@@ -334,6 +340,8 @@ void analyzeOptions (
   int noteInputLineNumbersPresent       = 0;
   
   int accidentalStylePresent            = 0;
+  
+  int delayedOrnamentFractionPresent    = 0;
   
   int midiTempoPresent                  = 0;
 
@@ -572,6 +580,15 @@ void analyzeOptions (
     {
       "accidentalStyle",
       required_argument, &accidentalStylePresent, 1
+    },
+    
+    {
+      "dof",
+      required_argument, &delayedOrnamentFractionPresent, 1
+    },
+    {
+      "delayedOrnamentFraction",
+      required_argument, &delayedOrnamentFractionPresent, 1
     },
     
     {
@@ -931,7 +948,83 @@ void analyzeOptions (
             s.str();
           accidentalStylePresent = false;
         }
+
+        if (delayedOrnamentFractionPresent) {
+          // optarg contains the midi tempo specification
+          // decipher it to extract numerator and denominator values
+          string optargAsString;
+          {
+            stringstream s;
+            s << optarg;
+            optargAsString = s.str();
+          }
+          
+          string regularExpression (
+            "[[:space:]]*([[:digit:]]+)[[:space:]]*"
+            "/"
+            "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+            
+          regex  e (regularExpression);
+          smatch sm;
+
+          regex_match (optargAsString, sm, e);
+
+          /*
+          cout <<
+            "There are " << sm.size() << " matches" <<
+            " for string '" << optargAsString <<
+            "' with regex '" << regularExpression <<
+            "'" <<
+            endl;
+          */
         
+          if (sm.size ()) {
+            for (unsigned i = 0; i < sm.size (); ++i) {
+              cout << "[" << sm [i] << "] ";
+            } // for
+            cout << endl;
+          }
+          
+          else {
+            stringstream s;
+
+            s <<
+              "--delayedOrnamentFraction argument '" << optarg <<
+              "' is ill-formed";
+              
+            optionError (s.str());
+          }
+          
+          {
+            stringstream s;
+            s << sm [1];
+            s >> gLpsrOptions->fDelayedOrnamentFractionNumerator;
+          }
+          {
+            stringstream s;
+            s << sm [2];
+            s >> gLpsrOptions->fDelayedOrnamentFractionDenominator;
+          }
+          /*
+          cerr <<
+            "gLpsrOptions->fDelayedOrnamentFractionNumerator = " <<
+            gLpsrOptions->fDelayedOrnamentFractionNumerator <<
+            endl <<
+            "gLpsrOptions->fDelayedOrnamentFractionDenominator = " <<
+            gLpsrOptions->fDelayedOrnamentFractionDenominator <<
+            endl;
+          */
+
+          stringstream s;
+
+          s <<
+            "--delayedOrnamentFraction '" << optargAsString << "' ";
+          
+          gGeneralOptions->fCommandLineOptions +=
+            s.str();
+          midiTempoPresent = false;
+        }
+
         if (midiTempoPresent) {
           // optarg contains the midi tempo specification
           // decipher it to extract duration and perSecond values
@@ -941,10 +1034,7 @@ void analyzeOptions (
             s << optarg;
             optargAsString = s.str();
           }
-
-      //    optargAsString = "4. = 90";
           
-       //   regex  e ("(:digit:+\\.*)=(:digit:+)");
           string regularExpression (
             "[[:space:]]*([[:digit:]]+\\.*)[[:space:]]*"
             "="
@@ -975,8 +1065,8 @@ void analyzeOptions (
             stringstream s;
 
             s <<
-              "--midiTempo argument" " " << optarg <<
-              " is ill-formed";
+              "--midiTempo argument '" << optarg <<
+              "' is ill-formed";
               
             optionError (s.str());
           }
@@ -992,7 +1082,8 @@ void analyzeOptions (
           cerr <<
             "gLpsrOptions->fMidiTempoDuration = " <<
             gLpsrOptions->fMidiTempoDuration <<
-            " gLpsrOptions->fMidiTempoPerSecond = " <<
+            endl <<
+            "gLpsrOptions->fMidiTempoPerSecond = " <<
             gLpsrOptions->fMidiTempoPerSecond <<
             endl;
           */
