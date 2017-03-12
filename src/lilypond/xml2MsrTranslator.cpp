@@ -3092,7 +3092,7 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
       endl <<
       idtr << 
       "<!--=== measure " << measureNumber <<
-      ", line = " << inputLineNumber << "===-->" <<
+      ", line = " << inputLineNumber << " ===-->" <<
       endl;
   }
 

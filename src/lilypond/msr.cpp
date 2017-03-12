@@ -10471,6 +10471,7 @@ S_msrVoice msrVoice::create (
   return o;
 }
 
+/*
 S_msrVoice msrVoice::createHarmonyTrack (
   int inputLineNumber)
 {
@@ -10492,6 +10493,7 @@ S_msrVoice msrVoice::createMasterVoice (
   assert(o!=0);
   return o;
 }
+*/
 
 // for regular voices
 msrVoice::msrVoice (
@@ -12038,8 +12040,8 @@ msrStaff::msrStaff (
 
   // create the staff voice master with relative number 0
   fStaffVoiceMaster =
-    addVoiceMasterToStaff (
-      fInputLineNumber);
+    addVoiceToStaffByItsRelativeNumber (
+      fInputLineNumber, 0);
 
   // mark it as containing music, to prevent it from being removed
   fStaffVoiceMaster->
@@ -12262,6 +12264,7 @@ void msrStaff::setStaffMeasureNumber (
     inputLineNumber, measureNumber);  
 }
 
+/* JMI
 S_msrVoice msrStaff::addVoiceMasterToStaff (
   int inputLineNumber)
 {
@@ -12278,6 +12281,7 @@ S_msrVoice msrStaff::addVoiceMasterToStaff (
   // return the voice
   return voice;
 }
+*/
 
 S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
   int inputLineNumber,
@@ -14607,20 +14611,29 @@ void msrScore::printStructure (ostream& os)
 
 //______________________________________________________________________________
 S_msrMidi msrMidi::create (
-  int                    inputLineNumber)
+  int    inputLineNumber,
+  string midiTempoDuration,
+  int    midiTempoPerSecond)
 {
   msrMidi* o =
     new msrMidi (
-      inputLineNumber);
+      inputLineNumber,
+      midiTempoDuration,
+      midiTempoPerSecond);
   assert(o!=0);
   return o;
 }
 
 msrMidi::msrMidi (
-  int                    inputLineNumber)
+  int    inputLineNumber,
+  string midiTempoDuration,
+  int    midiTempoPerSecond)
     : msrElement (inputLineNumber)
 {
+  fMidiTempoDuration = midiTempoDuration;
+  fMidiTempoPerSecond = midiTempoPerSecond;
 }
+
 msrMidi::~msrMidi() {}
 
 void msrMidi::acceptIn (basevisitor* v) {
@@ -14657,7 +14670,6 @@ void msrMidi::acceptOut (basevisitor* v) {
   }
 }
 
-
 void msrMidi::browseData (basevisitor* v)
 {}
 
@@ -14672,9 +14684,16 @@ void msrMidi::print (ostream& os)
   os << "Midi" << endl;
 
   idtr++;
-  
-  os << idtr << "% to be completed" << endl;
-  
+
+  os <<
+    idtr <<
+      "fMidiTempoDuration = " << fMidiTempoDuration <<
+      endl <<
+    idtr <<
+      "fMidiTempoPerSecond = " << fMidiTempoPerSecond <<
+      endl <<
+    endl;
+      
   idtr--;
 }
 

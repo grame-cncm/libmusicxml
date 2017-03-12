@@ -3796,9 +3796,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMidi& elt)
   
   fOstream <<
     "\\tempo" " " <<
-    gLpsrOptions->fMidiTempoDuration <<
+    elt->getMidiTempoDuration () <<
     " = " <<
-    gLpsrOptions->fMidiTempoPerSecond <<
+    elt->getMidiTempoPerSecond () <<
     endl;
   
   idtr--;

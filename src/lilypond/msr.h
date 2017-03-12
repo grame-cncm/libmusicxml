@@ -3009,13 +3009,13 @@ class EXP msrVarValAssoc : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void      changeAssocValue (string value)
-                  { fVariableValue = value; }
+    void          changeAssocValue (string value)
+                      { fVariableValue = value; }
 
-    string    getVariableName  () const
-                  { return fVariableName; };
-    string    getVariableValue () const
-                  { return fVariableValue; };
+    string        getVariableName  () const
+                      { return fVariableName; };
+    string        getVariableValue () const
+                      { return fVariableValue; };
 
     // services
     // ------------------------------------------------------
@@ -5485,8 +5485,10 @@ class EXP msrStaff : public msrElement
     // services
     // ------------------------------------------------------
 
+/*
     S_msrVoice      addVoiceMasterToStaff (
                       int inputLineNumber);
+  */
   
     S_msrVoice      addVoiceToStaffByItsRelativeNumber (
                       int inputLineNumber,
@@ -6111,7 +6113,9 @@ class EXP msrMidi : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMidi> create (
-      int                    inputLineNumber);
+      int    inputLineNumber,
+      string midiTempoDuration,
+      int    midiTempoPerSecond);
 
   protected:
 
@@ -6119,7 +6123,9 @@ class EXP msrMidi : public msrElement
     // ------------------------------------------------------
 
     msrMidi (
-      int                    inputLineNumber);
+      int    inputLineNumber,
+      string midiTempoDuration,
+      int    midiTempoPerSecond);
       
     virtual ~msrMidi();
   
@@ -6127,6 +6133,11 @@ class EXP msrMidi : public msrElement
 
     // set and get
     // ------------------------------------------------------
+    string        getMidiTempoDuration () const
+                      { return fMidiTempoDuration; }
+
+    int           getMidiTempoPerSecond () const
+                      { return fMidiTempoPerSecond; }
 
     // services
     // ------------------------------------------------------
@@ -6145,7 +6156,9 @@ class EXP msrMidi : public msrElement
     virtual void print (ostream& os);
 
   private:
-  
+
+    string          fMidiTempoDuration;
+    int             fMidiTempoPerSecond;
 };
 typedef SMARTP<msrMidi> S_msrMidi;
 EXP ostream& operator<< (ostream& os, const S_msrMidi& elt);

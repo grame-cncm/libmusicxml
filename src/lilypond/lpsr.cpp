@@ -2555,7 +2555,10 @@ lpsrScoreBlock::lpsrScoreBlock (
   
   // create the score command midi
   fScoreBlockMidi =
-    msrMidi::create (inputLineNumber);
+    msrMidi::create (
+      inputLineNumber,
+      gLpsrOptions->fMidiTempoDuration,
+      gLpsrOptions->fMidiTempoPerSecond);
 }
 
 lpsrScoreBlock::~lpsrScoreBlock() {}
