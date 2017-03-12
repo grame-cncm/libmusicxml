@@ -10720,6 +10720,7 @@ msrVoice::msrVoice (
   
   fVoiceStaffUplink = 0;
 
+/* ??? XXL
   fVoiceDivisionsPerWholeNote =
     fVoiceStaffUplink->
       getStaffDivisionsPerWholeNote ();
@@ -10730,6 +10731,7 @@ msrVoice::msrVoice (
       "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
       ", fVoiceDivisionsPerWholeNote = " << fVoiceDivisionsPerWholeNote <<
       endl;
+*/
 
   // initialize the voice
   init (inputLineNumber);
