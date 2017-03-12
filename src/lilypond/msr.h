@@ -408,11 +408,18 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
 
     msrNoteData ();
 
-    // services
+  public:
+
+    // initialisation
     // ------------------------------------------------------
 
     void          init ();
     
+  public:
+
+    // services
+    // ------------------------------------------------------
+
     // print
     // ------------------------------------------------------
 
@@ -4949,6 +4956,13 @@ class EXP msrVoice : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
+    enum msrVoiceKind {
+        kRegularVoice,
+        kHarmonyTrackVoice, kMasterVoice};
+          
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -4960,12 +4974,9 @@ class EXP msrVoice : public msrElement
     static SMARTP<msrVoice> createHarmonyTrack (
       int           inputLineNumber);
 
-                          /* JMI
-    static SMARTP<msrVoice> createRest (
-      int           inputLineNumber,
-      int           divisions,
-      int           externalVoiceNumber);
-    */
+    static SMARTP<msrVoice> createMasterVoice (
+      int        inputLineNumber,
+      S_msrStaff voiceStaffUplink);
     
     SMARTP<msrVoice> createVoiceBareClone (
       S_msrStaff clonedStaff);
@@ -4985,7 +4996,17 @@ class EXP msrVoice : public msrElement
     msrVoice (
       int        inputLineNumber);
 
+    // for master voices
+    msrVoice (
+      int        inputLineNumber,
+      S_msrStaff voiceStaffUplink);
+
     virtual ~msrVoice();
+
+  private:
+
+    // initialisation
+    // ------------------------------------------------------
 
     void          init (int inputLineNumber);
   
@@ -5196,6 +5217,8 @@ class EXP msrVoice : public msrElement
 
   private:
 
+    msrVoiceKind              fVoiceKind;
+    
     // voice numbers in MusicXML may be greater than 4
     // while there can only be 4 in a staff
     // we thus have to cope with that

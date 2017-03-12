@@ -10621,6 +10621,18 @@ S_msrVoice msrVoice::createHarmonyTrack (
   return o;
 }
 
+S_msrVoice msrVoice::createMasterVoice (
+  int        inputLineNumber,
+  S_msrStaff voiceStaffUplink)
+{
+  msrVoice* o =
+    new msrVoice (
+      inputLineNumber,
+      voiceStaffUplink);
+  assert(o!=0);
+  return o;
+}
+
 // for regular voices
 msrVoice::msrVoice (
   int        inputLineNumber,
@@ -10628,6 +10640,8 @@ msrVoice::msrVoice (
   S_msrStaff voiceStaffUplink)
     : msrElement (inputLineNumber)
 {
+  fVoiceKind = kRegularVoice;
+  
   fExternalVoiceNumber = externalVoiceNumber;
   
   fStaffRelativeVoiceNumber = externalVoiceNumber;
@@ -10667,6 +10681,38 @@ msrVoice::msrVoice (
   int        inputLineNumber)
     : msrElement (inputLineNumber)
 {
+  fVoiceKind = kHarmonyTrackVoice;
+  
+  fExternalVoiceNumber = 1000;
+  
+  fStaffRelativeVoiceNumber = 1000;
+    // may be changed afterwards
+  
+  fVoiceStaffUplink = 0;
+
+  fVoiceDivisionsPerWholeNote =
+    fVoiceStaffUplink->
+      getStaffDivisionsPerWholeNote ();
+    
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Creating harmony track \"" << getVoiceName () <<
+      "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
+      ", fVoiceDivisionsPerWholeNote = " << fVoiceDivisionsPerWholeNote <<
+      endl;
+
+  // initialize the voice
+  init (inputLineNumber);
+}
+
+// for master voices
+msrVoice::msrVoice (
+  int        inputLineNumber,
+  S_msrStaff voiceStaffUplink)
+    : msrElement (inputLineNumber)
+{
+  fVoiceKind = kMasterVoice;
+  
   fExternalVoiceNumber = 1000;
   
   fStaffRelativeVoiceNumber = 1000;
