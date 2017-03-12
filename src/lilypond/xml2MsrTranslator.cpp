@@ -99,7 +99,7 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fOnGoingDirection     = true;
   fOnGoingDirectionType = false;
 
-  fOnGoingRepeat = false;
+  fRepeatHasBeenCreatedForCurrentPart = false;
   
   fOnGoingBackup  = false;
   fOnGoingForward = false;
@@ -1170,7 +1170,7 @@ void xml2MsrTranslator::visitStart (S_part& elt)
   fCurrentStaffNumber = 1; // default if there are no <staff> element
   fCurrentVoiceNumber = 1; // default if there are no <voice> element
 
-  fOnGoingRepeat = false;
+  fRepeatHasBeenCreatedForCurrentPart = false;
 }
 
 void xml2MsrTranslator::visitEnd (S_part& elt)
@@ -7187,29 +7187,18 @@ void xml2MsrTranslator::handleRepeatStart (
       currentVoice->
         getVoiceLastSegment ();
 
-  if (! fCurrentRepeat) {
+  if (! fRepeatHasBeenCreatedForCurrentPart) {
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
-        "Creating a repeat in voice \"" <<
-        currentVoice->getVoiceName () << "\"" <<
+        "Appending a repeat to part " <<
+        fCurrentPart->getPartCombinedName () <<
         endl;
+  
+    fCurrentPart->
+      appendRepeatToPart (inputLineNumber);
 
-    // create the repeat
-    fCurrentRepeat =
-      msrRepeat::create (
-        inputLineNumber,
-        currentVoice);
+    fRepeatHasBeenCreatedForCurrentPart = true;  
   }
-
-  // append the repeat to the current part
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> appending the repeat to part " <<
-      fCurrentPart->getPartCombinedName () <<
-      endl;
-
-  fCurrentPart->
-    appendRepeatToPart (fCurrentRepeat);
 
   // append the bar line to the part
   fCurrentPart->
@@ -7289,7 +7278,21 @@ void xml2MsrTranslator::handleRepeatEnd (
     currentVoice->
       prependBarlineToVoice (implicitBarline);
             
-    if (! fCurrentRepeat) { // JMI
+    if (! fRepeatHasBeenCreatedForCurrentPart) {
+      if (gGeneralOptions->fTrace)
+        cerr << idtr <<
+          "Appending an implicit repeat to part " <<
+          fCurrentPart->getPartCombinedName () <<
+          endl;
+    
+      fCurrentPart->
+        appendRepeatToPart (inputLineNumber);
+  
+      fRepeatHasBeenCreatedForCurrentPart = true;  
+    }
+
+/*
+    if (! fRepeatHasBeenCreatedForCurrentPart) { // JMI
       // create the repeat
       if (gGeneralOptions->fTrace)
         cerr << idtr <<
@@ -7299,8 +7302,7 @@ void xml2MsrTranslator::handleRepeatEnd (
 
       fCurrentRepeat =
         msrRepeat::create (
-          inputLineNumber,
-          currentVoice);
+          inputLineNumber);
 
       // set current segment as the repeat common part
       fCurrentRepeat->
@@ -7315,9 +7317,12 @@ void xml2MsrTranslator::handleRepeatEnd (
           "\"" <<
           endl;
     
-      currentVoice->
-        appendRepeatToVoice (fCurrentRepeat);
+      fCurrentPart->
+        appendRepeatToPart (inputLineNumber);
+
+      fRepeatHasBeenCreatedForCurrentPart = true;
     }
+    */
   }
 
   else {
@@ -7341,6 +7346,7 @@ void xml2MsrTranslator::handleRepeatEnd (
     */
   }
 
+/* BOF
   // register current segment as current repeat's common part
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -7362,6 +7368,7 @@ void xml2MsrTranslator::handleRepeatEnd (
   currentVoice->
     createNewLastSegmentForVoice (
       inputLineNumber);
+      */
 }
 
 //______________________________________________________________________________
@@ -7405,7 +7412,21 @@ void xml2MsrTranslator::handleHookedEndingStart (
       currentVoice->
         getVoiceLastSegment ();
 
-  if (! fCurrentRepeat) { // JMI
+    if (! fRepeatHasBeenCreatedForCurrentPart) {
+      if (gGeneralOptions->fTrace)
+        cerr << idtr <<
+          "Appending an implicit repeat to part " <<
+          fCurrentPart->getPartCombinedName () <<
+          endl;
+    
+      fCurrentPart->
+        appendRepeatToPart (inputLineNumber);
+  
+      fRepeatHasBeenCreatedForCurrentPart = true;  
+    }
+
+/*
+  if (! fRepeatHasBeenCreatedForCurrentPart) { // JMI
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
         "Creating a repeat in voice \"" <<
@@ -7415,8 +7436,7 @@ void xml2MsrTranslator::handleHookedEndingStart (
     // create the repeat
     fCurrentRepeat =
       msrRepeat::create (
-        inputLineNumber,
-        currentVoice);
+        inputLineNumber);
 
     // set the repeat common part
     fCurrentRepeat->
@@ -7430,8 +7450,8 @@ void xml2MsrTranslator::handleHookedEndingStart (
         "\"" <<
         endl;
   
-    currentVoice->
-      appendRepeatToVoice (fCurrentRepeat);
+    fCurrentPart->
+      appendRepeatToPart (inputLineNumber);
 
     // create new segment for the just starting ending
     if (gGeneralOptions->fDebug)
@@ -7443,8 +7463,10 @@ void xml2MsrTranslator::handleHookedEndingStart (
     currentVoice->
       createNewLastSegmentForVoice (
         inputLineNumber);
-  }
 
+    fRepeatHasBeenCreatedForCurrentPart = true;
+  }
+*/
   // append the bar line to the voice
   currentVoice->
     appendBarlineToVoice (barline);
@@ -7490,23 +7512,6 @@ void xml2MsrTranslator::handleHookedEndingEnd (
     currentSegment =
       currentVoice->
         getVoiceLastSegment ();
-
-/* JMI
-  if (! fCurrentRepeat) { // JMI
-    // create the repeat
-    if (gGeneralOptions->fTrace)
-      cerr << idtr <<
-        "Creating a repeat for voice \"" <<
-        currentVoice->getVoiceName () << "\"" <<
-        endl;
-
-    fCurrentRepeat =
-      msrRepeat::create (
-        inputLineNumber,
-        currentSegment,
-        currentVoice);
-  }
-    */
     
   // create a hooked repeat ending from the current segment
   if (gGeneralOptions->fDebug)
@@ -7522,8 +7527,9 @@ void xml2MsrTranslator::handleHookedEndingEnd (
         fCurrentEndingNumber,
         msrRepeatending::kHookedEnding,
         currentSegment,
-        fCurrentRepeat);
+        0); // BOF fCurrentRepeat);
 
+/* BOF
   // add the repeat ending it to the current repeat
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -7545,6 +7551,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   currentVoice->
     createNewLastSegmentForVoice (
       inputLineNumber);
+      */
 }
 
 //______________________________________________________________________________
@@ -7657,8 +7664,9 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
         fCurrentEndingNumber,
         msrRepeatending::kHooklessEnding,
         currentSegment,
-        fCurrentRepeat);
+        0); // BOF fCurrentRepeat);
 
+/* BOF
   // add the repeat ending it to the current repeat
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -7679,6 +7687,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
   currentVoice->
     createNewLastSegmentForVoice (
       inputLineNumber);
+      */
 }
 
 //______________________________________________________________________________

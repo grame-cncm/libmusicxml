@@ -5120,7 +5120,9 @@ class EXP msrVoice : public msrElement
 
     void          appendBreakToVoice (S_msrBreak break_);
 
-    void          appendRepeatToVoice (S_msrRepeat repeat);
+    void          appendRepeatToVoice (int inputLineNumber);
+    
+    void          appendRepeatCloneToVoice (S_msrRepeat repeatCLone);
     
     void          prependBarlineToVoice (S_msrBarline barline);
     void          appendBarlineToVoice (S_msrBarline barline);
@@ -5399,7 +5401,7 @@ class EXP msrStaff : public msrElement
     void          setStaffKey  (S_msrKey  key);
     void          setStaffTime (S_msrTime time);
 
-    void          appendRepeatToStaff (S_msrRepeat repeat);
+    void          appendRepeatToStaff (int inputLineNumber);
     void          appendBarlineToStaff (S_msrBarline barline);
     
     void          setStaffTranspose (S_msrTranspose transpose);
@@ -5471,7 +5473,7 @@ class EXP msrStaff : public msrElement
     void          appendKeyToAllStaffVoices  (S_msrKey   key);
     void          appendTimeToAllStaffVoices (S_msrTime time);
     
-    void          appendRepeatToAllStaffVoices (S_msrRepeat repeat);
+    void          appendRepeatToAllStaffVoices (int inputLineNumber);
     
     void          appendHarmonyToStaff (S_msrHarmony harmony);
 
@@ -5697,7 +5699,7 @@ class EXP msrPart : public msrElement
     void          setAllPartStavesKey  (S_msrKey  key); // JMI
     void          setAllPartStavesTime (S_msrTime time); // JMI
               
-    void          appendRepeatToPart (S_msrRepeat repeat);
+    void          appendRepeatToPart (int inputLineNumber);
     void          appendBarlineToPart (S_msrBarline barline);
 
     void          setAllPartStavesTranspose (S_msrTranspose transpose); // JMI

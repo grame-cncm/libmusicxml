@@ -1643,7 +1643,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
 
 /* JMI
   fCurrentVoiceClone->
-    appendRepeatToVoice (fCurrentRepeatClone);
+    appendRepeatCloneToVoice (fCurrentRepeatClone);
 */
 
   fCurrentRepeatEndingsNumber = 0;
@@ -1776,7 +1776,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
               endl;
     
           fCurrentVoiceClone->
-            appendRepeatToVoice (fCurrentRepeatClone);
+            appendRepeatCloneToVoice (fCurrentRepeatClone);
         }
         
         // create a new segment for the voice
@@ -1839,7 +1839,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
                 endl;
       
             fCurrentVoiceClone->
-              appendRepeatToVoice (fCurrentRepeatClone);
+              appendRepeatCloneToVoice (fCurrentRepeatClone);
           }
 
           // create a new segment for the voice
@@ -1994,7 +1994,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
               fCurrentVoiceClone->getVoiceName () << endl;
     
           fCurrentVoiceClone->
-            appendRepeatToVoice (fCurrentRepeatClone);
+            appendRepeatCloneToVoice (fCurrentRepeatClone);
         }
         */
       }
@@ -2079,7 +2079,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
               fCurrentVoiceClone->getVoiceName () << endl;
     
           fCurrentVoiceClone->
-            appendRepeatToVoice (fCurrentRepeatClone);
+            appendRepeatCloneToVoice (fCurrentRepeatClone);
         }
         */
       }

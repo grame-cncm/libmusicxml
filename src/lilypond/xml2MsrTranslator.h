@@ -799,9 +799,8 @@ class EXP xml2MsrTranslator :
 
     // repeat handling
     // ------------------------------------------------------
-    S_msrRepeat               fCurrentRepeat;
     stack<S_msrBarline>       fPendingBarlines;
-    bool                      fOnGoingRepeat;
+    bool                      fRepeatHasBeenCreatedForCurrentPart;
     
     void                      handleRepeatStart (
                                 S_barline     elt,

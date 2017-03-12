@@ -11499,11 +11499,31 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
       break_->getNextBarNumber ());
 }
 
-void msrVoice::appendRepeatToVoice (S_msrRepeat repeat)
+void msrVoice::appendRepeatToVoice (int inputLineNumber)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Appending repeat to voice \"" << getVoiceName () <<  "\"" <<
+      "Appending a repeat to voice \"" << getVoiceName () <<  "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+
+  S_msrRepeat
+    repeat =
+      msrRepeat::create (
+        inputLineNumber,
+        this);
+
+  // set current segment as the repeat common part
+  repeat->
+    setRepeatCommonPart (
+      fVoiceLastSegment);
+    
+  // append the repeat to the current voice
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> appending the repeat to voice \"" <<
+      getVoiceName () <<
+      "\"" <<
       endl;
 
   // register repeat as the (new) current one
@@ -11513,6 +11533,22 @@ void msrVoice::appendRepeatToVoice (S_msrRepeat repeat)
   // append it to the list of repeats and segments
   fVoiceRepeatsAndSegments.push_back (
     repeat);
+}
+    
+void msrVoice::appendRepeatCloneToVoice (S_msrRepeat repeatCLone)
+{
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Appending repeat to voice clone \"" << getVoiceName () <<  "\"" <<
+      endl;
+
+  // register repeat as the (new) current one
+  fVoiceCurrentRepeat =
+    repeatCLone;
+
+  // append it to the list of repeats and segments
+  fVoiceRepeatsAndSegments.push_back (
+    repeatCLone);
 }
     
 void msrVoice::prependBarlineToVoice (S_msrBarline barline)
@@ -12436,7 +12472,7 @@ void msrStaff::setStaffTime (S_msrTime time)
   appendTimeToAllStaffVoices (time);
 }    
 
-void msrStaff::appendRepeatToStaff (S_msrRepeat repeat)
+void msrStaff::appendRepeatToStaff (int inputLineNumber)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
@@ -12448,7 +12484,7 @@ void msrStaff::appendRepeatToStaff (S_msrRepeat repeat)
     map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
     i != fStaffVoicesMap.end();
     i++) {
-    (*i).second->appendRepeatToVoice (repeat);
+    (*i).second->appendRepeatToVoice (inputLineNumber);
   } // for
 }
 
@@ -13198,13 +13234,13 @@ void msrPart::setAllPartStavesTime  (S_msrTime time)
   } // for
 }
 
-void msrPart::appendRepeatToPart (S_msrRepeat repeat)
+void msrPart::appendRepeatToPart (int inputLineNumber)
 {
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->appendRepeatToStaff (repeat);
+    (*i).second->appendRepeatToStaff (inputLineNumber);
   } // for
 }
 
