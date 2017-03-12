@@ -10560,7 +10560,7 @@ msrVoice::msrVoice (
       }
       break;
       
-    case msrVoice::kHarmonyTrackVoice:
+    case msrVoice::kHarmonyVoice:
       if (externalVoiceNumber != -1) {
         stringstream s;
     
@@ -11789,8 +11789,8 @@ string msrVoice::voiceKindAsString (
     case msrVoice::kRegularVoice:
       result = "Regular";
       break;
-    case msrVoice::kHarmonyTrackVoice:
-      result = "HarmonyTrackVoice";
+    case msrVoice::kHarmonyVoice:
+      result = "HarmonyVoice";
       break;
     case msrVoice::kMasterVoice:
       result = "MasterVoice";
@@ -12047,26 +12047,31 @@ void msrStafftuning::print (ostream& os)
 int msrStaff::gMaxStaffVoices = 4;
 
 S_msrStaff msrStaff::create (
-  int           inputLineNumber,
-  int           staffNumber,
-  S_msrPart     staffPartUplink)
+  int          inputLineNumber,
+  msrStaffKind staffKind,
+  int          staffNumber,
+  S_msrPart    staffPartUplink)
 {
   msrStaff* o =
     new msrStaff (
-      inputLineNumber, staffNumber, staffPartUplink);
+      inputLineNumber,
+      staffKind, staffNumber,
+      staffPartUplink);
   assert(o!=0);
   return o;
 }
 
 msrStaff::msrStaff (
-  int           inputLineNumber,
-  int           staffNumber,
-  S_msrPart     staffPartUplink)
+  int          inputLineNumber,
+  msrStaffKind staffKind,
+  int          staffNumber,
+  S_msrPart    staffPartUplink)
     : msrElement (inputLineNumber)
 {
-  fStaffKind = kRegularStaff;
+  fStaffKind = staffKind;
   
   fStaffNumber = staffNumber;
+  
   fStaffPartUplink   = staffPartUplink;
 
   fRegisteredVoicesCounter = 0;
@@ -12089,17 +12094,43 @@ msrStaff::msrStaff (
       "\" in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
-  // the staff number should not be negative
-  // (0 is used for hidden staff containing the part voice master) JMI
-  if (staffNumber < 0) {
-    stringstream s;
-
-    s <<
-      "staff number " << staffNumber <<
-      " is not positive";
+  // check the staff number
+  switch (fStaffKind) {
+    case msrStaff::kRegularStaff:
+      // the staff number should not be negative
+      // (0 is used for hidden staff containing the part voice master) JMI
+      if (staffNumber < 0) {
+        stringstream s;
+    
+        s <<
+          "regular staff number " << staffNumber <<
+          " is not positive";
+          
+        msrAssert (false, s.str());
+      }
+      break;
       
-    msrAssert (false, s.str());
-  }
+    case msrStaff::kTablatureStaff:
+      // JMI
+      break;
+      
+    case msrStaff::kPercussionStaff:
+      // JMI
+      break;
+      
+    case msrStaff::kHarmonyStaff:
+      if (staffNumber != -1) {
+        stringstream s;
+    
+        s <<
+          "harmony staff number " << staffNumber <<
+          " is not equal to -1";
+          
+        msrInternalError (
+          inputLineNumber, s.str());
+      }
+      break;
+  } // switch
 
   // populate the staff
   fStaffDivisionsPerWholeNote =
@@ -12264,6 +12295,7 @@ S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
     clone =
       msrStaff::create (
         fInputLineNumber,
+        fStaffKind,
         fStaffNumber,
         clonedPart);
 
@@ -12513,6 +12545,7 @@ void msrStaff::registerVoiceInStaff (
     voice;
 }
 
+/*
 void msrStaff::registerHarmonlyTrackInStaff (
   int inputLineNumber, S_msrVoice harmonyTrack)
 {
@@ -12535,6 +12568,7 @@ void msrStaff::registerHarmonlyTrackInStaff (
   fStaffVoicesCorrespondanceMap [harmonyTrackVoiceNumber] =
     harmonyTrack;
 }
+*/
 
 void msrStaff::setStaffClef (S_msrClef clef)
 {
@@ -12824,11 +12858,13 @@ ostream& operator<< (ostream& os, const S_msrStaff& elt)
   return os;
 }
 
-string msrStaff::staffKindAsString () const
+
+string msrStaff::staffKindAsString (
+  msrStaffKind staffKind)
 {
   string result;
   
-  switch (fStaffKind) {
+  switch (staffKind) {
     case msrStaff::kRegularStaff:
       result = "regular";
       break;
@@ -12838,9 +12874,17 @@ string msrStaff::staffKindAsString () const
     case msrStaff::kPercussionStaff:
       result = "percussion";
       break;
+    case msrStaff::kHarmonyStaff:
+      result = "harmony";
+      break;
   } // switch
 
   return result;
+}
+
+string msrStaff::staffKindAsString () const
+{
+  return staffKindAsString (fStaffKind);
 }
 
 void msrStaff::print (ostream& os)
@@ -13068,6 +13112,46 @@ msrPart::msrPart (
   fPartMeasureNumberMin = INT_MAX;
   fPartMeasureNumberMax = INT_MIN;
 
+  // create the part harmony staff
+  const int partHarmonyStaffNumber = -1;
+
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> creating a harmony staff " <<
+      " with number " << partHarmonyStaffNumber <<
+      " for part \"" <<
+      getPartName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+
+  fPartHarmonyStaff =
+    addStaffToPartByItsNumber (
+      inputLineNumber,
+      msrStaff::kHarmonyStaff,
+      partHarmonyStaffNumber);
+    
+  // create the part harmony voice
+  const int partHarmonyVoiceNumber = -1;
+  
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> creating a harmony track for part \"" <<
+      getPartName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+
+  fPartHarmonyVoice =
+    msrVoice::create (
+      inputLineNumber,
+      msrVoice::kHarmonyVoice,
+      partHarmonyVoiceNumber, // JMI
+      fPartHarmonyStaff);
+
+  fPartHarmonyStaff->
+    registerVoiceInStaff (
+      inputLineNumber,
+      fPartHarmonyVoice );
+
 /* JMI
   // create a first staff for the part
   this->
@@ -13229,6 +13313,10 @@ void msrPart::setPartClef (S_msrClef clef)
   // set part clef
   fPartClef = clef;
 
+  // propagate it to the part harmony staff
+  fPartHarmonyStaff->
+    setStaffClef (clef);
+
   // propagate it to all staves
   setAllPartStavesClef (clef);
 }
@@ -13244,6 +13332,10 @@ void msrPart::setPartKey  (S_msrKey  key)
   // set part key
   fPartKey = key;
 
+  // propagate it to the part harmony staff
+  fPartHarmonyStaff->
+    setStaffKey (key);
+
   // propagate it to all staves
   setAllPartStavesKey (key);
 }
@@ -13258,6 +13350,10 @@ void msrPart::setPartTime (S_msrTime time)
 
   // set part time
   fPartTime = time;
+
+  // propagate it to the part harmony staff
+  fPartHarmonyStaff->
+    setStaffTime (time);
 
   // propagate it to all staves
   setAllPartStavesTime (time);
@@ -13383,8 +13479,9 @@ void msrPart::setAllPartStavesTranspose (S_msrTranspose transpose)
 }
 
 S_msrStaff msrPart::addStaffToPartByItsNumber (
-  int inputLineNumber,
-  int staffNumber)
+  int                    inputLineNumber,
+  msrStaff::msrStaffKind staffKind,
+  int                    staffNumber)
 {
   if (fPartStavesMap.count (staffNumber)) {
     cerr << idtr <<
@@ -13397,7 +13494,9 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
 
 // JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Adding staff " << staffNumber <<
+      "Adding " <<
+      msrStaff::staffKindAsString (staffKind) <<
+      " staff " << staffNumber <<
       " to part " << getPartCombinedName () <<
       endl;
   
@@ -13406,6 +13505,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
     staff =
       msrStaff::create (
         inputLineNumber,
+        staffKind,
         staffNumber,
         this);
 
@@ -13454,38 +13554,6 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
       "\", line " << inputLineNumber <<
       endl;
 
-  if (! fPartHarmonyVoice) {
-    if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "--> creating a harmony staff for part \"" <<
-        getPartName () <<
-        "\", line " << inputLineNumber <<
-        endl;
-
-    fPartHarmonyStaff =
-      addStaffToPartByItsNumber (
-        inputLineNumber, 0);
-      
-    if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "--> creating a harmony track for part \"" <<
-        getPartName () <<
-        "\", line " << inputLineNumber <<
-        endl;
-
-    fPartHarmonyVoice =
-      msrVoice::create (
-        inputLineNumber,
-        msrVoice::kHarmonyTrackVoice,
-        -1, // JMI
-        fPartHarmonyStaff);
-
-    fPartHarmonyStaff->
-      registerHarmonlyTrackInStaff (
-        inputLineNumber,
-        fPartHarmonyVoice );
-  }
-    
   fPartHarmonyVoice->
     appendHarmonyToVoice (harmony);
 }

@@ -4961,7 +4961,7 @@ class EXP msrVoice : public msrElement
 
     enum msrVoiceKind {
         kRegularVoice,
-        kHarmonyTrackVoice, kMasterVoice};
+        kHarmonyVoice, kMasterVoice};
           
     static string voiceKindAsString (
       msrVoiceKind voiceKind);
@@ -5385,7 +5385,9 @@ class EXP msrStaff : public msrElement
   public:
 
     enum msrStaffKind {
-      kRegularStaff, kTablatureStaff, kPercussionStaff};
+      kRegularStaff,
+      kTablatureStaff, kPercussionStaff,
+      kHarmonyStaff};
 
     static string staffKindAsString (
       msrStaffKind staffKind);
@@ -5393,17 +5395,20 @@ class EXP msrStaff : public msrElement
     enum msrStaffTypeKind {
       kOssiaStaffType, kCueStaffType, kEditorialStaffType,
       kRegularStaffType, kAlternateStaffType};
-     
+
+     /*
     static string staffTypeKindAsString (
       msrStaffTypeKind staffTypeKind);
+      */
       
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrStaff> create (
-      int           inputLineNumber,
-      int           staffNumber,
-      S_msrPart     fStaffPartUplink);
+      int          inputLineNumber,
+      msrStaffKind staffKind,
+      int          staffNumber,
+      S_msrPart    staffPartUplink);
     
     SMARTP<msrStaff> createStaffBareClone (
       S_msrPart clonedPart);
@@ -5414,9 +5419,10 @@ class EXP msrStaff : public msrElement
     // ------------------------------------------------------
 
     msrStaff (
-      int           inputLineNumber,
-      int           staffNumber,
-      S_msrPart     fStaffPartUplink);
+      int          inputLineNumber,
+      msrStaffKind staffKind,
+      int          staffNumber,
+      S_msrPart    staffPartUplink);
       
     virtual ~msrStaff();
   
@@ -5520,9 +5526,11 @@ class EXP msrStaff : public msrElement
                       int inputLineNumber,
                       S_msrVoice voice);
 
+/*
     void            registerHarmonlyTrackInStaff (
                       int inputLineNumber,
                       S_msrVoice harmonyTrack);
+*/
 
     S_msrVoice      fetchVoiceFromStaff (
                       int inputLineNumber, int externalVoiceNumber);
@@ -5762,8 +5770,9 @@ class EXP msrPart : public msrElement
     void            setAllPartStavesTranspose (S_msrTranspose transpose); // JMI
               
     S_msrStaff      addStaffToPartByItsNumber (
-                      int inputLineNumber,
-                      int staffNumber);
+                      int                    inputLineNumber,
+                      msrStaff::msrStaffKind staffKind,
+                      int                    staffNumber);
     
     void            addStaffToPartClone (S_msrStaff staff);
 

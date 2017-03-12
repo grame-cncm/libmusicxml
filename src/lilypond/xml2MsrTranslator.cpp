@@ -249,7 +249,9 @@ S_msrStaff xml2MsrTranslator::createStaffInCurrentPartIfNeeded (
     staff =
       fCurrentPart->
         addStaffToPartByItsNumber (
-          inputLineNumber, staffNumber);
+          inputLineNumber,
+          msrStaff::kRegularStaff,
+          staffNumber);
 
   return staff;
 }  
@@ -1983,7 +1985,9 @@ void xml2MsrTranslator::visitStart (S_staves& elt)
     while (n <= stavesNumber) {
       fCurrentPart->
         addStaffToPartByItsNumber (
-          inputLineNumber, n);
+          inputLineNumber,
+          msrStaff::kRegularStaff,
+          n);
       n++;
     } // while
   }
