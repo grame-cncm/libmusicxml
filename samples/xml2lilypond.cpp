@@ -196,8 +196,8 @@ void printUsage (int exitStatus)
     "          between the ornemented note and the next one." << endl <<
     "          The default fraction is '2/3'." << endl <<
     endl <<
-    "    --midiTempo 'duration = perSecond'" << endl <<
-    "    --midiTempo \"duration = perSecond\"" << endl <<
+    "    --mt, --midiTempo 'duration = perSecond'" << endl <<
+    "    --mt, --midiTempo \"duration = perSecond\"" << endl <<
     "          Generate a '\\tempo duration = perSecond' command in the \\midi block." << endl <<
     "          'duration' is a string such as '8.', and 'perSecond' is an integer," << endl <<
     "          and spaces can be used frely in the argument." << endl <<
@@ -617,6 +617,10 @@ void analyzeOptions (
       required_argument, &delayedOrnamentFractionPresent, 1
     },
     
+    {
+      "mt",
+      required_argument, &midiTempoPresent, 1
+    },
     {
       "midiTempo",
       required_argument, &midiTempoPresent, 1

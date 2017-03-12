@@ -14687,10 +14687,10 @@ void msrMidi::print (ostream& os)
 
   os <<
     idtr <<
-      "fMidiTempoDuration = " << fMidiTempoDuration <<
+      setw(18) << "fMidiTempoDuration" << " = " << fMidiTempoDuration <<
       endl <<
     idtr <<
-      "fMidiTempoPerSecond = " << fMidiTempoPerSecond <<
+      setw(18) << "fMidiTempoPerSecond" << " = " << fMidiTempoPerSecond <<
       endl <<
     endl;
       

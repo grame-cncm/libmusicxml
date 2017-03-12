@@ -919,7 +919,7 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
   os << " afterwards";
   os << endl;
   
-  os << idtr << endl;
+ // JMI os << idtr << endl;
 
   idtr--;
 }
@@ -2592,7 +2592,7 @@ void lpsrScoreBlock::appendVoiceUseToParallelMusic (
   fScoreBlockParallelMusic->
     addElementToParallelMusic (voiceUse);
     
-//                  fScoreBlockElements.push_back(voiceUse);
+//     JMI             fScoreBlockElements.push_back(voiceUse);
 }
                   
 void lpsrScoreBlock::appendLyricsUseToParallelMusic (
@@ -2697,9 +2697,11 @@ void lpsrScoreBlock::print (ostream& os)
   os << idtr <<
     fScoreBlockParallelMusic <<
     endl;
+    
   os << idtr <<
     fScoreBlockLayout <<
     endl;
+  
   os << idtr <<
     fScoreBlockMidi <<
     endl;
