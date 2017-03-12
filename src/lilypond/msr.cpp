@@ -10598,9 +10598,9 @@ void msrHarmonytrack::print (ostream& os)
 
 //______________________________________________________________________________ 
 S_msrVoice msrVoice::create (
-  int           inputLineNumber,
-  int           externalVoiceNumber,
-  S_msrStaff    voiceStaffUplink)
+  int        inputLineNumber,
+  int        externalVoiceNumber,
+  S_msrStaff voiceStaffUplink)
 {
   msrVoice* o =
     new msrVoice (
@@ -10611,46 +10611,21 @@ S_msrVoice msrVoice::create (
   return o;
 }
 
-S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
+S_msrVoice msrVoice::createHarmonyTrack (
+  int inputLineNumber)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> Creating a bare clone of voice \"" <<
-      getVoiceName () <<
-      "\"" <<
-      endl;
-
-  S_msrVoice
-    clone =
-      msrVoice::create (
-        fInputLineNumber,
-        fExternalVoiceNumber,
-        clonedStaff);
-
-  // populate the voice clone
-  clone->fVoiceDivisionsPerWholeNote =
-    fVoiceDivisionsPerWholeNote;
-
-  clone->fExternalVoiceNumber =
-    fExternalVoiceNumber;
-
-  clone->fVoiceTime =
-    fVoiceTime;
-
-  clone->fMeasureZeroHasBeenMetInVoice =
-    fMeasureZeroHasBeenMetInVoice;
-  clone->fMeasureNumberHasBeenSetInVoice =
-    fMeasureNumberHasBeenSetInVoice;
-  clone->fMusicHasBeenInsertedInVoice =
-    fMusicHasBeenInsertedInVoice;
-  
-  return clone;
+  msrVoice* o =
+    new msrVoice (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
 }
 
+// for regular voices
 msrVoice::msrVoice (
-  int           inputLineNumber,
-  int           externalVoiceNumber,
-  S_msrStaff    voiceStaffUplink)
+  int        inputLineNumber,
+  int        externalVoiceNumber,
+  S_msrStaff voiceStaffUplink)
     : msrElement (inputLineNumber)
 {
   fExternalVoiceNumber = externalVoiceNumber;
@@ -10682,7 +10657,42 @@ msrVoice::msrVoice (
       
     msrAssert (false, s.str());
   }
+
+  // initialize the voice
+  init (inputLineNumber);
+}
+
+// for harmony tracks
+msrVoice::msrVoice (
+  int        inputLineNumber)
+    : msrElement (inputLineNumber)
+{
+  fExternalVoiceNumber = 1000;
   
+  fStaffRelativeVoiceNumber = 1000;
+    // may be changed afterwards
+  
+  fVoiceStaffUplink = 0;
+
+  fVoiceDivisionsPerWholeNote =
+    fVoiceStaffUplink->
+      getStaffDivisionsPerWholeNote ();
+    
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Creating harmony track \"" << getVoiceName () <<
+      "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
+      ", fVoiceDivisionsPerWholeNote = " << fVoiceDivisionsPerWholeNote <<
+      endl;
+
+  // initialize the voice
+  init (inputLineNumber);
+}
+
+msrVoice::~msrVoice() {}
+
+void msrVoice::init (int inputLineNumber)
+{
   // there may be an anacrusis, but let's start with 1 anyway
   fVoiceMeasureNumber = 1;
 
@@ -10773,7 +10783,41 @@ msrVoice::msrVoice (
   }
 }
 
-msrVoice::~msrVoice() {}
+S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
+{
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> Creating a bare clone of voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      endl;
+
+  S_msrVoice
+    clone =
+      msrVoice::create (
+        fInputLineNumber,
+        fExternalVoiceNumber,
+        clonedStaff);
+
+  // populate the voice clone
+  clone->fVoiceDivisionsPerWholeNote =
+    fVoiceDivisionsPerWholeNote;
+
+  clone->fExternalVoiceNumber =
+    fExternalVoiceNumber;
+
+  clone->fVoiceTime =
+    fVoiceTime;
+
+  clone->fMeasureZeroHasBeenMetInVoice =
+    fMeasureZeroHasBeenMetInVoice;
+  clone->fMeasureNumberHasBeenSetInVoice =
+    fMeasureNumberHasBeenSetInVoice;
+  clone->fMusicHasBeenInsertedInVoice =
+    fMusicHasBeenInsertedInVoice;
+  
+  return clone;
+}
 
 string msrVoice::getVoiceName () const
 {
@@ -13337,15 +13381,31 @@ S_msrStaff msrPart::fetchStaffFromPart (
 
 void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
 {
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+    
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> appending harmony " <<
       harmony->harmonyAsString () <<
       " to part \"" <<
       getPartName () <<
-      "\", line " << harmony->getInputLineNumber () <<
+      "\", line " << inputLineNumber <<
       endl;
 
+  if (! fPartHarmonyTrack) {
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> creating a harmony track for part \"" <<
+        getPartName () <<
+        "\", line " << inputLineNumber <<
+        endl;
+
+    fPartHarmonyTrack =
+      msrVoice::createHarmonyTrack (
+        inputLineNumber);
+  }
+    
   fPartHarmonyTrack->
     appendHarmonyToVoice (harmony);
 }
@@ -13421,6 +13481,12 @@ void msrPart::browseData (basevisitor* v)
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "==> msrPart::browseData()" << endl;
+
+  if (fPartHarmonyTrack) {
+    // browse the harmony track
+    msrBrowser<msrVoice> browser (v);
+    browser.browse (*fPartHarmonyTrack);
+  }
   
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();

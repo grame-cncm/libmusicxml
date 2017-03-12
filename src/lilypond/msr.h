@@ -4953,9 +4953,12 @@ class EXP msrVoice : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrVoice> create (
-      int           inputLineNumber,
-      int           externalVoiceNumber,
-      S_msrStaff    voiceStaffUplink);
+      int        inputLineNumber,
+      int        externalVoiceNumber,
+      S_msrStaff voiceStaffUplink);
+
+    static SMARTP<msrVoice> createHarmonyTrack (
+      int           inputLineNumber);
 
                           /* JMI
     static SMARTP<msrVoice> createRest (
@@ -4972,12 +4975,19 @@ class EXP msrVoice : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
+    // for regular voices
     msrVoice (
-      int           inputLineNumber,
-      int           externalVoiceNumber,
-      S_msrStaff    voiceStaffUplink);
-      
+      int        inputLineNumber,
+      int        externalVoiceNumber,
+      S_msrStaff voiceStaffUplink);
+
+    // for harmony tracks
+    msrVoice (
+      int        inputLineNumber);
+
     virtual ~msrVoice();
+
+    void          init (int inputLineNumber);
   
   public:
 
